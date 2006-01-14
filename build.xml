@@ -25,66 +25,14 @@
 		<jar jarfile="${ant.project.name}-${environment}.war" basedir="${war.directory}" compress="false"/>
     </target>
 	
-    <target name="test" depends="clean,make-tests" description="Run projects tests and format results">
-        <mkdir dir="${test.temp.directory}" />
-    	<mkdir dir="${test.xml.results.directory}" />
-        <junit printsummary="on" showoutput="true" fork="true" forkmode="once" tempdir="${test.temp.directory}">
-            <classpath>
-                <path refid="compile.tests.classpath" />
-                <pathelement location="${test.classes.directory}" />
-            </classpath>
-            <formatter type="xml" />
-            <batchtest todir="${test.xml.results.directory}">
-                <fileset dir="${test.source.directory}">
-                    <include name="**/*Test.java" />
-                    <exclude name="**/TransactionalDocumentRuleTest.java"/>
-                </fileset>
-            </batchtest>
-        </junit>
-        <mkdir dir="${test.html.results.directory}" />
-        <junitreport todir="${test.html.results.directory}">
-            <fileset dir="${test.xml.results.directory}">
-                <include name="TEST-*.xml" />
-            </fileset>
-            <report format="frames" todir="${test.html.results.directory}" />
-        </junitreport>
-        <echo message="Generated test results: ${test.html.results.directory}/index.html" />
-    </target>
+	<target name="test-all" depends="test" description="Run all project tests and format results">
+		<fileset id="test.fileset" refid="all.tests.fileset"/>
+		<antcall target="test"/>
+	</target>
 
-    <target name="fast-tests" depends="clean,make-tests" description="Run some tests and format results">
-        <mkdir dir="${test.temp.directory}" />
-    	<mkdir dir="${test.xml.results.directory}" />
-        <junit printsummary="on" showoutput="true" fork="true" forkmode="once" tempdir="${test.temp.directory}">
-            <classpath>
-                <path refid="compile.tests.classpath" />
-                <pathelement location="${test.classes.directory}" />
-            </classpath>
-            <formatter type="xml" />
-            <batchtest todir="${test.xml.results.directory}">
-                <fileset dir="${test.source.directory}">
-                    <include name="**/*Test.java" />
-                    <exclude name="**/DocumentServiceTest.java"/>
-                    <exclude name="**/GeneralErrorCorrectionDocumentTest.java"/>
-                    <exclude name="**/KualiRuleServiceTest.java"/>
-                    <exclude name="**/NonCheckDisbursementDocumentTest.java"/>
-                    <exclude name="**/ProjectCodeMaintenanceDocumentTest.java"/>
-                    <exclude name="**/YearEndGeneralErrorCorrectionDocumentTest.java"/>
-                    <exclude name="**/YearEndTransferOfFundsDocumentTest.java"/>
-                    <exclude name="**/BusinessObjectEntryMapperTest.java"/>
-                    <exclude name="**/TransferOfFundsDocumentTest.java"/>
-                    <exclude name="**/TransactionalDocumentRuleTest.java"/>
-                    <exclude name="**/TransferOfFundsDocumentRuleTest.java"/>
-                </fileset>
-            </batchtest>
-        </junit>
-        <mkdir dir="${test.html.results.directory}" />
-        <junitreport todir="${test.html.results.directory}">
-            <fileset dir="${test.xml.results.directory}">
-                <include name="TEST-*.xml" />
-            </fileset>
-            <report format="frames" todir="${test.html.results.directory}" />
-        </junitreport>
-        <echo message="Generated test results: ${test.html.results.directory}/index.html" />
+    <target name="test-fast" depends="test" description="Run fast project tests and format results">
+		<fileset id="test.fileset" refid="fast.tests.fileset"/>
+		<antcall target="test"/>
     </target>
 	
 	<target name="clean" depends="clean-local-deployment" description="Remove all build output">
@@ -141,54 +89,10 @@
     		<equals arg1="${is.local.build}" arg2="true"/>
 		</condition>
 		<property name="context.docbase" value=""/>
-		<condition property="institution.beans" value="${institution.beans.import}">
-			<available file="${institution.beans.overrides.file}"/>
-		</condition>
-		<property name="institution.beans" value=""/>
-		<loadfile property="modules.beans" srcFile="${user.home}/${ant.project.name}-build.properties">
-			<filterchain>
-				<linecontains>
-					<contains value="${module.list.prefix}"/>
-				</linecontains>
-				<replacestring from="${module.list.prefix}" to=""/>
-				<replacestring from="${module.name.prefix}" to="${module.beans.prefix}"/>
-				<replacestring from="${module.name.suffix}" to="${module.beans.suffix}"/>
-			</filterchain>
-		</loadfile>
-		<loadfile property="modules.descriptors" srcFile="${user.home}/${ant.project.name}-build.properties">
-			<filterchain>
-				<linecontains>
-					<contains value="${module.list.prefix}"/>
-				</linecontains>
-				<replacestring from="${module.list.prefix}" to=""/>
-				<replacestring from="${module.name.prefix}" to="${module.descriptors.prefix}"/>
-				<replacestring from="${module.name.suffix}" to="${module.descriptors.suffix}"/>
-			</filterchain>
-		</loadfile>
-		<loadfile property="modules.datadictionarys" srcFile="${user.home}/${ant.project.name}-build.properties">
-			<filterchain>
-				<linecontains>
-					<contains value="${module.list.prefix}"/>
-				</linecontains>
-				<replacestring from="${module.list.prefix}" to=""/>
-				<replacestring from="${module.name.prefix}" to="${module.datadictionarys.prefix}"/>
-				<replacestring from="${module.name.suffix}" to="${module.datadictionarys.suffix}"/>
-			</filterchain>
-		</loadfile>
-		<loadfile property="modules.institution.datadictionarys" srcFile="${user.home}/${ant.project.name}-build.properties">
-			<filterchain>
-				<linecontains>
-					<contains value="${module.list.prefix}"/>
-				</linecontains>
-				<replacestring from="${module.list.prefix}" to=""/>
-				<replacestring from="${module.name.prefix}" to="${module.datadictionarys.prefix}"/>
-				<replacestring from="${module.name.suffix}" to="${module.institution.datadictionarys.suffix}"/>
-			</filterchain>
-		</loadfile>
 		<filterset id="tokenReplacements">
         	<filter token="application" value="${ant.project.name}"/>
+			<filter token="institution" value="${institution}"/>
         	<filter token="environment" value="${environment}"/>
-        	<filter token="institution" value="${institution}"/>
     		<filter token="settings-directory" value="${settings.directory}/"/>
 			<filter token="log4j-settings-file" value="${settings.directory}/${log4j.settings.file}"/>
     		<filter token="security-directory" value="${security.directory}/"/>
@@ -199,31 +103,44 @@
 			<filter token="webservices-keystore-password" value="${webservices.keystore.password}"/>
 			<filter token="context-docbase" value="${context.docbase}"/>
 			<filter token="use-p6spy" value="${use.p6spy}"/>
-			<filter token="institution-beans" value="${institution.beans}"/>
-			<filter token="modules-beans" value="${modules.beans}"/>
-			<filter token="modules-descriptors" value="${modules.descriptors}"/>
-			<filter token="modules-datadictionarys" value="${modules.datadictionarys}"/>
-			<filter token="modules-institution-datadictionarys" value="${modules.institution.datadictionarys}"/>
-		</filterset>
+        </filterset>
         <echo message="Defined token filter sets"/>
    	</target>
 	
-    <target name="init-make-references" depends="filter">
+    <target name="init-paths-and-sets" depends="filter">
     	<path id="compile.source.classpath">
-            <fileset dir="${appserver.lib.directory}" includes="*.jar" />
-            <fileset dir="${lib.directory}" includes="*.jar" />
+            <fileset dir="${appserver.lib.directory}" includes="*.jar"/>
+            <fileset dir="${lib.directory}" includes="*.jar"/>
         </path>
         <path id="compile.tests.classpath">
             <path refid="compile.source.classpath"/>
             <fileset dir="${test.lib.directory}" includes="*.jar"/>
         </path>
+    	<fileset id="all.tests.fileset" dir="${test.source.directory}">
+            <include name="**/*Test.java"/>
+            <exclude name="**/TransactionalDocumentRuleTest.java"/>
+        </fileset>
+    	<fileset id="fast.tests.fileset" dir="${test.source.directory}">
+            <include name="**/*Test.java"/>
+            <exclude name="**/DocumentServiceTest.java"/>
+            <exclude name="**/GeneralErrorCorrectionDocumentTest.java"/>
+            <exclude name="**/KualiRuleServiceTest.java"/>
+            <exclude name="**/NonCheckDisbursementDocumentTest.java"/>
+            <exclude name="**/ProjectCodeMaintenanceDocumentTest.java"/>
+            <exclude name="**/YearEndGeneralErrorCorrectionDocumentTest.java"/>
+            <exclude name="**/YearEndTransferOfFundsDocumentTest.java"/>
+            <exclude name="**/BusinessObjectEntryMapperTest.java"/>
+            <exclude name="**/TransferOfFundsDocumentTest.java"/>
+            <exclude name="**/TransactionalDocumentRuleTest.java"/>
+            <exclude name="**/TransferOfFundsDocumentRuleTest.java"/>    		
+    	</fileset>
 		<patternset id="non.java.resources">
             <include name="**/*.properties"/>
             <include name="**/*.dtd"/>
             <include name="**/*.xml"/>
             <include name="**/*.html"/>
 		</patternset>
-		<echo message="Created classpaths and patternset for population of build/.../classes directories"/>
+		<echo message="Created classpaths, filsets, and patternsets for use by other targets"/>
     </target>
 	
 	<target name="filter-local" if="is.local.build" depends="init-filter-set">
@@ -267,7 +184,7 @@
 		</delete>
     </target>
 	
-    <target name="make-source" depends="init-make-references">
+    <target name="make-source" depends="init-paths-and-sets">
     	<mkdir dir="${war.classes.directory}"/>
     	<javac destdir="${war.classes.directory}" srcdir="${source.directory}" debug="true" deprecation="true" optimize="true">
             <classpath refid="compile.source.classpath"/>
@@ -279,7 +196,7 @@
         </copy>
     </target>
 
-    <target name="make-tests" depends="init-make-references">
+    <target name="make-tests" depends="init-paths-and-sets">
     	<mkdir dir="${test.classes.directory}"/>
         <javac destdir="${test.classes.directory}" debug="true" deprecation="true" optimize="true">
             <classpath refid="compile.tests.classpath"/>
@@ -296,6 +213,29 @@
             	<patternset refid="non.java.resources"/>
             </fileset>
         </copy>
+    </target>
+	
+    <target name="test" depends="clean,make-tests">
+        <mkdir dir="${test.temp.directory}" />
+    	<mkdir dir="${test.xml.results.directory}" />
+        <junit printsummary="on" showoutput="true" fork="true" forkmode="once" tempdir="${test.temp.directory}">
+            <classpath>
+                <path refid="compile.tests.classpath" />
+                <pathelement location="${test.classes.directory}" />
+            </classpath>
+            <formatter type="xml" />
+            <batchtest todir="${test.xml.results.directory}">
+                <fileset refid="test.fileset"/>
+            </batchtest>
+        </junit>
+        <mkdir dir="${test.html.results.directory}" />
+        <junitreport todir="${test.html.results.directory}">
+            <fileset dir="${test.xml.results.directory}">
+                <include name="TEST-*.xml" />
+            </fileset>
+            <report format="frames" todir="${test.html.results.directory}" />
+        </junitreport>
+        <echo message="Generated test results: ${test.html.results.directory}/index.html" />
     </target>
 
 	<target name="help" description="Describe public targets">
@@ -335,8 +275,9 @@
 	description:
 		prepares tokenized resources and deploys tomcat context file on development workstation
 	notes:
-		this target must be run once each time you get a clean copy of the project, or change property values in
-			${user.home}\${ant.project.name}-build.properties or build/institutionProperties/${institution}-build.properties
+		this target must be run once each time you get a clean copy of the project, change files in build/tokenizedResources, 
+			or change property values in ${user.home}\${ant.project.name}-build.properties or 
+			build/institutionProperties/${institution}-build.properties
 		tomcat should not be running when you are executing this target
 		</echo>
 		<echo message="."/>
@@ -345,9 +286,14 @@
 		builds war for remote deployment
 		</echo>
 		<echo message="."/>
-		<echo>test target
+		<echo>test-all target
 	description:
-		runs projects tests and generates results
+		runs all project tests and generates results
+		</echo>
+		<echo message="."/>
+		<echo>test-fast target
+	description:
+		runs fast project tests and generates results
 		</echo>
 		<echo message="."/>
 		<echo>clean target

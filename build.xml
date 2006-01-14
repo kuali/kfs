@@ -24,16 +24,10 @@
 		</copy>
 		<jar jarfile="${ant.project.name}-${environment}.war" basedir="${war.directory}" compress="false"/>
     </target>
-	
-	<target name="test-all" depends="test" description="Run all project tests and format results">
-		<fileset id="test.fileset" refid="all.tests.fileset"/>
-		<antcall target="test"/>
-	</target>
+			
+	<target name="test-all" depends="init-test-all,test" description="Run all project tests and format results"/>
 
-    <target name="test-fast" depends="test" description="Run fast project tests and format results">
-		<fileset id="test.fileset" refid="fast.tests.fileset"/>
-		<antcall target="test"/>
-    </target>
+    <target name="test-fast" depends="init-test-fast,test" description="Run fast project tests and format results"/>
 	
 	<target name="clean" depends="clean-local-deployment" description="Remove all build output">
     	<delete dir="${metainf.directory}"/>
@@ -107,7 +101,7 @@
         <echo message="Defined token filter sets"/>
    	</target>
 	
-    <target name="init-paths-and-sets" depends="filter">
+    <target name="init-make-references" depends="filter">
     	<path id="compile.source.classpath">
             <fileset dir="${appserver.lib.directory}" includes="*.jar"/>
             <fileset dir="${lib.directory}" includes="*.jar"/>
@@ -116,32 +110,38 @@
             <path refid="compile.source.classpath"/>
             <fileset dir="${test.lib.directory}" includes="*.jar"/>
         </path>
-    	<fileset id="all.tests.fileset" dir="${test.source.directory}">
-            <include name="**/*Test.java"/>
-            <exclude name="**/TransactionalDocumentRuleTest.java"/>
-        </fileset>
-    	<fileset id="fast.tests.fileset" dir="${test.source.directory}">
-            <include name="**/*Test.java"/>
-            <exclude name="**/DocumentServiceTest.java"/>
-            <exclude name="**/GeneralErrorCorrectionDocumentTest.java"/>
-            <exclude name="**/KualiRuleServiceTest.java"/>
-            <exclude name="**/NonCheckDisbursementDocumentTest.java"/>
-            <exclude name="**/ProjectCodeMaintenanceDocumentTest.java"/>
-            <exclude name="**/YearEndGeneralErrorCorrectionDocumentTest.java"/>
-            <exclude name="**/YearEndTransferOfFundsDocumentTest.java"/>
-            <exclude name="**/BusinessObjectEntryMapperTest.java"/>
-            <exclude name="**/TransferOfFundsDocumentTest.java"/>
-            <exclude name="**/TransactionalDocumentRuleTest.java"/>
-            <exclude name="**/TransferOfFundsDocumentRuleTest.java"/>    		
-    	</fileset>
 		<patternset id="non.java.resources">
             <include name="**/*.properties"/>
             <include name="**/*.dtd"/>
             <include name="**/*.xml"/>
             <include name="**/*.html"/>
 		</patternset>
-		<echo message="Created classpaths, filsets, and patternsets for use by other targets"/>
+		<echo message="Created classpaths and patternset for use by make targets"/>
     </target>
+	
+	<target name="init-test-all" depends="clean,make-tests">
+    	<fileset id="test.fileset" dir="${test.source.directory}">
+            <include name="**/*Test.java"/>
+            <exclude name="**/TransactionalDocumentRuleTest.java"/>
+        </fileset>
+	</target>
+	
+	<target name="init-test-fast" depends="clean,make-tests">
+		<fileset id="test.fileset" dir="${test.source.directory}">
+	        <include name="**/*Test.java"/>
+	        <exclude name="**/DocumentServiceTest.java"/>
+	        <exclude name="**/GeneralErrorCorrectionDocumentTest.java"/>
+	        <exclude name="**/KualiRuleServiceTest.java"/>
+	        <exclude name="**/NonCheckDisbursementDocumentTest.java"/>
+	        <exclude name="**/ProjectCodeMaintenanceDocumentTest.java"/>
+	        <exclude name="**/YearEndGeneralErrorCorrectionDocumentTest.java"/>
+	        <exclude name="**/YearEndTransferOfFundsDocumentTest.java"/>
+	        <exclude name="**/BusinessObjectEntryMapperTest.java"/>
+	        <exclude name="**/TransferOfFundsDocumentTest.java"/>
+	        <exclude name="**/TransactionalDocumentRuleTest.java"/>
+	        <exclude name="**/TransferOfFundsDocumentRuleTest.java"/>    		
+		</fileset>
+	</target>
 	
 	<target name="filter-local" if="is.local.build" depends="init-filter-set">
     	<copy file="${build.tokenized.resources.directory}/${log4j.settings.file}" tofile="${settings.directory}/${log4j.settings.file}">
@@ -184,7 +184,7 @@
 		</delete>
     </target>
 	
-    <target name="make-source" depends="init-paths-and-sets">
+    <target name="make-source" depends="init-make-references">
     	<mkdir dir="${war.classes.directory}"/>
     	<javac destdir="${war.classes.directory}" srcdir="${source.directory}" debug="true" deprecation="true" optimize="true">
             <classpath refid="compile.source.classpath"/>
@@ -196,7 +196,7 @@
         </copy>
     </target>
 
-    <target name="make-tests" depends="init-paths-and-sets">
+    <target name="make-tests" depends="init-make-references">
     	<mkdir dir="${test.classes.directory}"/>
         <javac destdir="${test.classes.directory}" debug="true" deprecation="true" optimize="true">
             <classpath refid="compile.tests.classpath"/>
@@ -215,10 +215,10 @@
         </copy>
     </target>
 	
-    <target name="test" depends="clean,make-tests">
+    <target name="test">
         <mkdir dir="${test.temp.directory}" />
     	<mkdir dir="${test.xml.results.directory}" />
-        <junit printsummary="on" showoutput="true" fork="true" forkmode="once" tempdir="${test.temp.directory}">
+        <junit printsummary="on" showoutput="true" fork="true" forkmode="once" failureproperty="tests.failed" tempdir="${test.temp.directory}">
             <classpath>
                 <path refid="compile.tests.classpath" />
                 <pathelement location="${test.classes.directory}" />
@@ -237,6 +237,10 @@
         </junitreport>
         <echo message="Generated test results: ${test.html.results.directory}/index.html" />
     </target>
+	
+	<target name="continuous-integration" depends="test-all">
+		<fail if="tests.failed" message="Tests failed"/>
+	</target>
 
 	<target name="help" description="Describe public targets">
 		<echo>build
@@ -295,8 +299,8 @@
 	description:
 		runs fast project tests and generates results
 	notes:
-		to exclude a new test that is taking a long time to run, add an entry to the fast.tests.fileset defined in the
-			init-paths-and-sets target
+		to exclude a new test that is taking a long time to run, add an entry to the test.fileset defined in the
+			init-test-fast target
 		</echo>
 		<echo message="."/>
 		<echo>clean target

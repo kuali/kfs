@@ -1,0 +1,72 @@
+<class-descriptor class="org.kuali.module.cg.bo.Security" table="CG_SECURITY_T">
+	<field-descriptor name="personUniversalIdentifier" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" index="true" />
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+	<reference-descriptor name="kualiUser" class-ref="org.kuali.core.bo.user.KualiUser" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="personUniversalIdentifier" />
+	</reference-descriptor>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.cg.bo.Agency" table="CG_AGENCY_T">
+	<field-descriptor name="agencyNumber" column="CG_AGENCY_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="reportingName" column="CG_AGENCY_RPT_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="fullName" column="CG_AGENCY_FULL_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="indirectAmount" column="CG_AGNCY_INDR_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="historicalIndicator" column="CG_AGENCY_HIST_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="inStateIndicator" column="CG_AGNCY_IN_ST_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="agencyTypeCode" column="CG_AGENCY_TYP_CD" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="reportsToAgencyNumber" column="CG_RPTTO_AGNCY_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<reference-descriptor name="agencyType" class-ref="org.kuali.module.cg.bo.AgencyType" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="agencyTypeCode" />
+	</reference-descriptor>
+	<reference-descriptor name="reportsToAgency" class-ref="org.kuali.module.cg.bo.Agency" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="reportsToAgencyNumber" />
+	</reference-descriptor>
+  <reference-descriptor name="agencyExtension" class-ref="org.kuali.module.kra.bo.AgencyExtension"  auto-retrieve="true" auto-update="object" auto-delete="object">
+    <foreignkey field-ref="agencyNumber"/>
+  </reference-descriptor>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.cg.bo.AgencyType" table="CG_AGENCY_TYP_T">
+	<field-descriptor name="code" column="CG_AGENCY_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="name" column="CG_AGENCY_TYP_DESC" jdbc-type="VARCHAR"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.cg.bo.ProjectDirector" table="CG_PRJDR_T">
+	<field-descriptor name="universalIdentifier" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<reference-descriptor name="universalUser" class-ref="org.kuali.core.bo.user.UniversalUser" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="universalIdentifier" />
+	</reference-descriptor>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.cg.bo.Subcontractor" table="CG_SUBCNR_T">
+	<field-descriptor name="number" column="CG_SUBCNR_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<field-descriptor name="name" column="CG_SUBCNR_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="addressLine1" column="CG_SUBCNR_LN1_ADDR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="addressLine2" column="CG_SUBCNR_LN2_ADDR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="city" column="CG_SUBCNR_CITY_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="stateCode" column="CG_SUBCNR_ST_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="zipCode" column="CG_SUBCNR_ZIP_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="countryCode" column="CGSUBCNR_CNTRY_CD" jdbc-type="VARCHAR"/>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.cg.bo.ContractsAndGrantsProjectDirectorView" table="CG_PRJDR_V">
+	<field-descriptor name="personUniversalIdentifier" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true"/>
+	<field-descriptor name="personUserIdentifier" column="PERSON_USER_ID" jdbc-type="VARCHAR"/>
+	<field-descriptor name="personName" column="PERSON_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="employeeStatusCode" column="EMP_STAT_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="employeeTypeCode" column="EMP_TYPE_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="deptid" column="DEPTID" jdbc-type="VARCHAR"/>
+	<reference-descriptor name="personUniversal" class-ref="org.kuali.core.bo.user.UniversalUser" auto-retrieve="true" auto-update="none" auto-delete="none">
+	    <foreignkey field-ref="personUniversalIdentifier" />
+	</reference-descriptor>
+</class-descriptor>
+

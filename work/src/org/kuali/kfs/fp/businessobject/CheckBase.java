@@ -1,0 +1,186 @@
+/*
+ * Copyright (c) 2004, 2005 The National Association of College and University Business Officers,
+ * Cornell University, Trustees of Indiana University, Michigan State University Board of Trustees,
+ * Trustees of San Joaquin Delta College, University of Hawai'i, The Arizona Board of Regents on
+ * behalf of the University of Arizona, and the r*smart group.
+ * 
+ * Licensed under the Educational Community License Version 1.0 (the "License"); By obtaining,
+ * using and/or copying this Original Work, you agree that you have read, understand, and will
+ * comply with the terms and conditions of the Educational Community License.
+ * 
+ * You may obtain a copy of the License at:
+ * 
+ * http://kualiproject.org/license.html
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
+ * BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE
+ * AND NONINFRINGEMENT.
+ * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES
+ * OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ *
+ */
+package org.kuali.module.financial.bo;
+
+import java.sql.Timestamp;
+import java.util.LinkedHashMap;
+
+import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.util.KualiDecimal;
+
+/**
+ * This class represents a check in the system.  It is a generalized check 
+ * business object that will be used by the Cash Receipts document, the Cashier 
+ * document, etc. 
+ * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
+ */
+
+public class CheckBase extends BusinessObjectBase {
+    private static final long serialVersionUID = -8776463282988510801L;
+    protected String checkNumber;
+    protected Timestamp checkDate;
+    protected String description;
+    protected boolean interimDepositAmount;
+    protected Integer nextCheckLineNumber;
+    protected KualiDecimal amount;
+    protected String financialDocumentNumber;
+    
+    /**
+     * Constructs a CheckBase business object.
+     */
+    public CheckBase() {
+        super();
+        this.nextCheckLineNumber = new Integer(1);
+        this.amount = new KualiDecimal(0);
+    }
+
+    /**
+     * Gets the checkDate attribute.
+     * @return Returns the checkDate.
+     */
+    public Timestamp getCheckDate() {
+        return checkDate;
+    }
+
+    /**
+     * Sets the checkDate attribute value.
+     * @param checkDate The checkDate to set.
+     */
+    public void setCheckDate(Timestamp checkDate) {
+        this.checkDate = checkDate;
+    }
+
+    /**
+     * Gets the checkNumber attribute.
+     * @return Returns the checkNumber.
+     */
+    public String getCheckNumber() {
+        return checkNumber;
+    }
+
+    /**
+     * Sets the checkNumber attribute value.
+     * @param checkNumber The checkNumber to set.
+     */
+    public void setCheckNumber(String checkNumber) {
+        this.checkNumber = checkNumber;
+    }
+
+    /**
+     * Gets the description attribute.
+     * @return Returns the description.
+     */
+    public String getDescription() {
+        return description;
+    }
+
+    /**
+     * Sets the description attribute value.
+     * @param description The description to set.
+     */
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    /**
+     * Gets the interimDepositAmount attribute.
+     * @return Returns the interimDepositAmount.
+     */
+    public boolean isInterimDepositAmount() {
+        return interimDepositAmount;
+    }
+
+    /**
+     * Sets the interimDepositAmount attribute value.
+     * @param interimDepositAmount The interimDepositAmount to set.
+     */
+    public void setInterimDepositAmount(boolean interimDepositAmount) {
+        this.interimDepositAmount = interimDepositAmount;
+    }
+
+    /**
+     * Gets the sequenceId attribute.
+     * @return Returns the sequenceId.
+     */
+    public Integer getNextCheckLineNumber() {
+        return nextCheckLineNumber;
+    }
+
+    /**
+     * Sets the sequenceId attribute value.
+     * @param sequenceId The sequenceId to set.
+     */
+    public void setNextCheckLineNumber(Integer sequenceId) {
+        this.nextCheckLineNumber = sequenceId;
+    }
+
+    /**
+     * Gets the amount attribute.
+     * @return Returns the amount.
+     */
+    public KualiDecimal getAmount() {
+        return amount;
+    }
+
+    /**
+     * Sets the amount attribute value.
+     * @param amount The amount to set.
+     */
+    public void setAmount(KualiDecimal amount) {
+        this.amount = amount;
+    }
+
+
+    /**
+     * Gets the financialDocumentNumber attribute. 
+     * @return Returns the financialDocumentNumber.
+     */
+    public String getFinancialDocumentNumber() {
+        return financialDocumentNumber;
+    }
+
+    /**
+     * Sets the financialDocumentNumber attribute value.
+     * @param financialDocumentNumber The financialDocumentNumber to set.
+     */
+    public void setFinancialDocumentNumber(String financialDocumentNumber) {
+        this.financialDocumentNumber = financialDocumentNumber;
+    }
+    
+    /**
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
+
+        m.put("lineNumber", this.nextCheckLineNumber);
+        m.put("amount", this.amount);
+        m.put("checkNumber", this.checkNumber);
+        m.put("checkData", this.checkDate);
+        m.put("interimDepositAmount", new Boolean(this.interimDepositAmount));
+        m.put("description", this.description);
+        m.put("documentHeaderId", this.financialDocumentNumber);
+
+        return m;
+    }    
+}

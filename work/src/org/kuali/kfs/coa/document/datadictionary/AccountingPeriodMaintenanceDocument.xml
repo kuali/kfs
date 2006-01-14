@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+
+<dictionaryEntry>
+	<maintenanceDocument>
+        <businessObjectClass>org.kuali.module.chart.bo.AccountingPeriod</businessObjectClass>
+        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+
+        <documentAuthorizerClass>org.kuali.core.document.DocumentAuthorizerBase</documentAuthorizerClass>
+        <authorizations>
+            <authorization action="initiate">
+                <workgroups>
+                    <workgroup>kualiUniversalGroup</workgroup>
+                </workgroups>
+            </authorization>
+        </authorizations>
+
+		<documentTypeName>KualiAccountingPeriodMaintenanceDocument</documentTypeName>
+		<documentTypeCode>AMD</documentTypeCode>
+
+		<label>Accounting Period Maintenance Document</label>
+		<shortLabel>AcctPeriodMaintDoc</shortLabel>
+		
+		<summary>Accounting Period maintenance document</summary>
+		<description>Document used to create or update Accounting Period objects</description>
+
+        <lockingKeys>
+			<field attributeName="universityFiscalYear" />
+			<field attributeName="universityFiscalPeriodCode" />	
+		</lockingKeys>	        
+
+	    <maintainableSections>
+	        <maintainableSection title="Edit Accounting Period">
+	        	<maintainableItems>
+	            	<maintainableField name="universityFiscalYear" required="true" />
+	            	<maintainableField name="universityFiscalPeriodCode" required="true" />
+	            	<maintainableField name="universityFiscalPeriodName" required="true" />
+	            	<maintainableField name="universityFiscalPeriodStatusCode" required="true" />	     	 
+	            	<maintainableField name="budgetRollover" required="true" />	     	 
+	            	<maintainableField name="universityFiscalPeriodEndDate" required="true" />	     	 
+	            </maintainableItems>         	                   
+	        </maintainableSection>
+	    </maintainableSections>
+	</maintenanceDocument>
+</dictionaryEntry>

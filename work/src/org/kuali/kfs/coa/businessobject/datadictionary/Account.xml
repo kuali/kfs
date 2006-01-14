@@ -1,0 +1,585 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../core/datadictionary/dataDictionary-1_0.dtd">
+<dictionaryEntry>
+	<businessObject businessObjectClass="org.kuali.module.chart.bo.Account">
+		<customAttributeEnabled>false</customAttributeEnabled>
+
+		<inquiry>
+			<title>Account Inquiry</title>
+
+			<inquiryFields>
+				<field attributeName="chartOfAccounts.chartOfAccountsCode" />			
+				<field attributeName="accountNumber" />
+				<field attributeName="accountName" />
+				<field attributeName="accountFiscalOfficerUser.personName" />
+				<field attributeName="organization.organizationCode" />
+				<field attributeName="accountType.accountTypeCode" />
+				<field attributeName="accountCreateDate" />
+				<field attributeName="accountExpirationDate" />
+				<field attributeName="accountClosedIndicator" />
+			</inquiryFields>
+		</inquiry>
+
+		<lookup>
+			<title>Account Lookup</title>
+
+			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.chart.bo.Account">Create New</a>]]></menubar>
+
+			<instructions>Lookup an Account</instructions>
+
+			<defaultSort attributeName="accountNumber" sortAscending="true" />
+
+			<lookupFields>
+    			<lookupField attributeName="accountNumber" required="false" noLookup="true"/>
+				<lookupField attributeName="chartOfAccounts.chartOfAccountsCode" required="false" />
+				<lookupField attributeName="accountName" required="false" />
+				<lookupField attributeName="organization.organizationCode" required="false" />
+				<lookupField attributeName="accountType.accountTypeCode" required="false" />
+				<lookupField attributeName="accountClosedIndicator" />			
+			</lookupFields>
+
+			<resultFields>
+				<field attributeName="accountNumber" />	
+				<field attributeName="accountFiscalOfficerUser.personName" forceInquiry="true"/>	
+				<field attributeName="accountManagerUser.personName" forceInquiry="true"/>	
+				<field attributeName="chartOfAccounts.chartOfAccountsCode" />			
+				<field attributeName="accountName" />
+				<field attributeName="organization.organizationCode" />
+				<field attributeName="accountType.accountTypeCode" />
+				<field attributeName="accountCreateDate" />
+				<field attributeName="accountExpirationDate" />
+				<field attributeName="accountClosedIndicator" />			
+			</resultFields>
+		</lookup>
+		
+		<titleAttribute>accountNumber</titleAttribute>
+
+		<attributes>
+			<attributeReference name="chartOfAccounts.chartOfAccountsCode" 
+								sourceClassName="org.kuali.module.chart.bo.Chart" 
+								sourceAttributeName="chartOfAccountsCode" />
+
+			<!--  ROOT REFERENCE FOR ACCOUNT NUMBER -->
+			<attribute name="accountNumber" forceUppercase="true">
+				<label>Account Number</label>
+				<shortLabel>Account</shortLabel>
+
+				<maxLength>7</maxLength>
+				<validationPattern><numeric exactLength="7" /></validationPattern>
+
+				<control>
+					<text size="10" />
+				</control>
+
+				<summary>Account Number</summary>
+				<description>
+					Account Number
+				</description>
+			</attribute>
+			<attribute name="accountName" forceUppercase="true">
+				<label>Account Name</label>
+				<shortLabel>AcctName</shortLabel>
+
+				<maxLength>40</maxLength>
+				<validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
+
+				<control>
+					<text size="40" />
+				</control>
+
+				<summary>Account Name</summary>
+				<description>The name assigned to this object Account.</description>
+			</attribute>	
+			<attributeReference name="organization.organizationCode" 
+								sourceClassName="org.kuali.module.chart.bo.Org" 
+								sourceAttributeName="organizationCode" />
+
+				<attributeReference name="accountType.accountTypeCode" 
+								sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
+								sourceAttributeName="twoDigitTextCode">
+				<label>Account Type Code</label>
+				<shortLabel>TypeCd</shortLabel>
+				<summary>Account Type Code</summary>
+				<description>Account Type Code</description>
+			</attributeReference>
+
+			<attributeReference name="accountPhysicalCampus.campusCode" 
+								sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
+								sourceAttributeName="twoDigitTextCode">
+				<label>Account Physical Campus Code</label>
+				<shortLabel>CampusCd</shortLabel>
+				<summary>Account Physical Campus Code</summary>
+				<description>Account Physical Campus Code</description>
+			</attributeReference>
+
+			<attributeReference name="subFundGroup.subFundGroupCode" 
+								sourceClassName="org.kuali.module.chart.bo.SubFundGroup" 
+								sourceAttributeName="subFundGroupCode" />
+								
+			<attributeReference name="accountsFringesBnftIndicator" 
+								sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
+								sourceAttributeName="oneDigitTextCode">
+				<label>Account Fringe Benefit</label>
+				<shortLabel>FringeBene</shortLabel>
+				<summary>Account Fringe Benefit</summary>
+				<description>Account Fringe Benefit</description>
+			</attributeReference>
+			
+			<attribute name="financialHigherEdFunction.financialHigherEdFunctionCd" forceUppercase="false">
+				<label>Financial Higher Education Function Code</label>
+				<shortLabel>HighEdFncCd</shortLabel>
+
+				<maxLength>4</maxLength>
+				<validationPattern><anyCharacter /></validationPattern>
+
+				<control>
+					<text size="4" />
+				</control>
+
+				<summary>Financial Higher Education Function Code</summary>
+				<description>Financial Higher Education Function Code</description>
+			</attribute>
+			
+			<attributeReference name="accountRestrictedStatus.accountRestrictedStatusCode" 
+								sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
+								sourceAttributeName="oneDigitTextCode">
+				<label>Account Restricted Status Code</label>
+				<shortLabel>RstrcStatCd</shortLabel>
+				<summary>Account Restricted Status Code</summary>
+				<description>Account Restricted Status Code</description>
+			</attributeReference>
+			
+			<attributeReference name="accountRestrictedStatusDate" 
+								sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
+								sourceAttributeName="genericTimestamp">
+				<label>Account Restricted Status Date</label>
+				<shortLabel>RstrcStatDt</shortLabel>
+				<summary>Account Restricted Status Date</summary>
+				<description>Account Restricted Status Date</description>
+			</attributeReference>
+			
+			<attribute name="accountCityName" forceUppercase="false">
+				<label>Account City Name</label>
+				<shortLabel>CityName</shortLabel>
+
+				<maxLength>25</maxLength>
+				<validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
+
+				<control>
+					<text size="25" />
+				</control>
+
+				<summary>Account City Name</summary>
+				<description>Account City Name</description>
+			</attribute>
+			
+			<attributeReference name="accountStateCode" 
+								sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
+								sourceAttributeName="twoDigitTextCode">
+				<label>Account State Code</label>
+				<shortLabel>StateCd</shortLabel>
+				<summary>Account State Code</summary>
+				<description>Account State Code</description>
+			</attributeReference>
+			
+			<attribute name="accountStreetAddress" forceUppercase="false">
+				<label>Account Street Address</label>
+				<shortLabel>StreetAddr</shortLabel>
+
+				<maxLength>30</maxLength>
+				<validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
+
+				<control>
+					<text size="30" />
+				</control>
+
+				<summary>Account Street Address</summary>
+				<description>Account Street Address</description>
+			</attribute>
+			
+			<attribute name="accountZipCode" forceUppercase="false">
+				<label>Account Zip Code</label>
+				<shortLabel>ZipCode</shortLabel>
+
+				<maxLength>11</maxLength>
+				<validationPattern><zipcode /></validationPattern>
+
+				<control>
+					<text size="11" />
+				</control>
+
+				<summary>Account Zip Code</summary>
+				<description>Account Zip Code</description>
+			</attribute>
+			
+			<attributeReference name="reportsToAccount.chartOfAccounts.chartOfAccountsCode" 
+								sourceClassName="org.kuali.module.chart.bo.Chart" 
+								sourceAttributeName="chartOfAccountsCode">
+				<label>Reports To Chart Of Accounts Code</label>
+				<shortLabel>RptsToChart</shortLabel>
+				<summary>Reports To Chart Of Accounts Code</summary>
+				<description>Reports To Chart Of Accounts Code</description>
+			</attributeReference>
+			
+			<attributeReference name="reportsToAccount.accountNumber" 
+								sourceClassName="org.kuali.module.chart.bo.Account" 
+								sourceAttributeName="accountNumber">
+				<label>Reports To Account Number</label>
+				<shortLabel>RptsToAcct</shortLabel>
+				<summary>Reports To Account Number</summary>
+				<description>Reports To Account Number</description>
+			</attributeReference>
+			
+			<attributeReference name="accountCreateDate" 
+								sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
+								sourceAttributeName="genericTimestamp">
+				<label>Account Create Date</label>
+				<shortLabel>CreateDate</shortLabel>
+				<summary>Account Create Date</summary>
+				<description>Account Create Date</description>
+			</attributeReference>
+			
+			<attributeReference name="accountEffectiveDate" 
+								sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
+								sourceAttributeName="genericTimestamp">
+				<label>Account Effective Date</label>
+				<shortLabel>EffDate</shortLabel>
+				<summary>Account Effective Date</summary>
+				<description>Account Effective Date</description>
+			</attributeReference>
+			
+			<attributeReference name="accountExpirationDate" 
+								sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
+								sourceAttributeName="genericTimestamp">
+				<label>Account Expiration Date</label>
+				<shortLabel>ExpDate</shortLabel>
+				<summary>Account Expiration Date</summary>
+				<description>Account Expiration Date</description>
+			</attributeReference>
+			
+			<attributeReference name="continuationAccount.chartOfAccounts.chartOfAccountsCode" 
+								sourceClassName="org.kuali.module.chart.bo.Chart" 
+								sourceAttributeName="chartOfAccountsCode">
+				<label>Continuation Chart Of Accounts Code</label>
+				<shortLabel>ContChartCd</shortLabel>
+				<summary>Continuation Chart Of Accounts Code</summary>
+				<description>Continuation Chart Of Accounts Code</description>
+			</attributeReference>
+			
+			<attributeReference name="continuationAccount.accountNumber" 
+								sourceClassName="org.kuali.module.chart.bo.Account" 
+								sourceAttributeName="accountNumber">
+				<label>Continuation Account Number</label>
+				<shortLabel>ContAcct</shortLabel>
+				<summary>Continuation Account Number</summary>
+				<description>Continuation Account Number</description>
+			</attributeReference>
+			
+			<attribute name="awardPeriodEndYear" forceUppercase="false">
+				<label>Award Period End Year</label>
+				<shortLabel>AwrdEndYear</shortLabel>
+
+				<maxLength>4</maxLength>
+				<validationPattern><year /></validationPattern>
+
+				<control>
+					<text size="4" />
+				</control>
+
+				<summary>Award Period End Year</summary>
+				<description>Award Period End Year</description>
+			</attribute>
+			
+			<attribute name="awardPeriodEndMonth" forceUppercase="false">
+				<label>Award Period End Month</label>
+				<shortLabel>AwrdEndMnth</shortLabel>
+
+				<maxLength>2</maxLength>
+				<validationPattern><month /></validationPattern>
+
+				<control>
+					<text size="2" />
+				</control>
+
+				<summary>Award Period End Month</summary>
+				<description>Award Period End Month</description>
+			</attribute>
+			
+			<attribute name="awardPeriodBeginYear" forceUppercase="false">
+				<label>Award Period Begin Year</label>
+				<shortLabel>AwrdBegnYear</shortLabel>
+
+				<maxLength>4</maxLength>
+				<validationPattern><year /></validationPattern>
+
+				<control>
+					<text size="4" />
+				</control>
+
+				<summary>Award Period Begin Year</summary>
+				<description>Award Period Begin Year</description>
+			</attribute>
+			
+			<attribute name="awardPeriodBeginMonth" forceUppercase="false">
+				<label>Award Period Begin Month</label>
+				<shortLabel>AwrdBegnMnth</shortLabel>
+
+				<maxLength>2</maxLength>
+				<validationPattern><month /></validationPattern>
+
+				<control>
+					<text size="2" />
+				</control>
+
+				<summary>Award Period Begin Month</summary>
+				<description>Award Period Begin Month</description>
+			</attribute>
+			
+			<attributeReference name="endowmentIncomeAccount.chartOfAccounts.chartOfAccountsCode" 
+								sourceClassName="org.kuali.module.chart.bo.Chart" 
+								sourceAttributeName="chartOfAccountsCode">
+				<label>Endowment Chart Of Accounts Code</label>
+				<shortLabel>EndowChart</shortLabel>
+				<summary>Endowment Chart Of Accounts Code</summary>
+				<description>Endowment Chart Of Accounts Code</description>
+			</attributeReference>
+			
+			<attributeReference name="endowmentIncomeAccount.accountNumber" 
+								sourceClassName="org.kuali.module.chart.bo.Account" 
+								sourceAttributeName="accountNumber">
+				<label>Endowment Account Number</label>
+				<shortLabel>EndowAcct</shortLabel>
+				<summary>Endowment Account Number</summary>
+				<description>Endowment Account Number</description>
+			</attributeReference>
+			
+			<attributeReference name="contractControlAccount.chartOfAccounts.chartOfAccountsCode" 
+								sourceClassName="org.kuali.module.chart.bo.Chart" 
+								sourceAttributeName="chartOfAccountsCode">
+				<label>Contract Control Chart of Accounts Code</label>
+				<shortLabel>CntrctChart</shortLabel>
+				<summary>Contract Control Chart of Accounts Code</summary>
+				<description>Contract Control Chart of Accounts Code</description>
+			</attributeReference>
+			
+			<attributeReference name="contractControlAccount.accountNumber" 
+								sourceClassName="org.kuali.module.chart.bo.Account" 
+								sourceAttributeName="accountNumber">
+				<label>Contract Control Account Number</label>
+				<shortLabel>CntrctAcct</shortLabel>
+				<summary>Contract Control Account Number</summary>
+				<description>Contract Control Account Number</description>
+			</attributeReference>
+			
+			<attributeReference name="incomeStreamAccount.chartOfAccounts.chartOfAccountsCode" 
+								sourceClassName="org.kuali.module.chart.bo.Chart" 
+								sourceAttributeName="chartOfAccountsCode">
+				<label>Income Stream Chart Of Accounts Code</label>
+				<shortLabel>IncStrChart</shortLabel>
+				<summary>Income Stream Chart Of Accounts Code</summary>
+				<description>Income Stream Chart Of Accounts Code</description>
+			</attributeReference>
+			
+			<attributeReference name="incomeStreamAccount.accountNumber" 
+								sourceClassName="org.kuali.module.chart.bo.Account" 
+								sourceAttributeName="accountNumber">
+				<label>Income Stream Account Number</label>
+				<shortLabel>IncStrAcct</shortLabel>
+				<summary>Income Stream Account Number</summary>
+				<description>Income Stream Account Number</description>
+			</attributeReference>
+			
+			<attributeReference name="acctIndirectCostRcvyTypeCd" 
+								sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
+								sourceAttributeName="twoDigitTextCode">
+				<label>Account Indirect Cost Recovery Type Code</label>
+				<shortLabel>IndCstTypCd</shortLabel>
+				<summary>Account Indirect Cost Recovery Type Code</summary>
+				<description>Account Indirect Cost Recovery Type Code</description>
+			</attributeReference>
+			
+			<attributeReference name="acctCustomIndCstRcvyExclCd" 
+								sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
+								sourceAttributeName="oneDigitTextCode">
+				<label>Account Customized Indirect Cost Exclusion Code</label>
+				<shortLabel>IndCstExclCd</shortLabel>
+				<summary>Account Customized Indirect Cost Exclusion Code</summary>
+				<description>Account Customized Indirect Cost Exclusion Code</description>
+			</attributeReference>
+			
+			<attribute name="financialIcrSeriesIdentifier" forceUppercase="false">
+				<label>Financial Series ID</label>
+				<shortLabel>FinSerId</shortLabel>
+
+				<maxLength>3</maxLength>
+				<validationPattern><anyCharacter /></validationPattern>
+
+				<control>
+					<text size="3" />
+				</control>
+
+				<summary>Financial Series ID</summary>
+				<description>Financial Series ID</description>
+			</attribute>
+			
+			<attributeReference name="indirectCostRecoveryAcct.chartOfAccounts.chartOfAccountsCode" 
+								sourceClassName="org.kuali.module.chart.bo.Chart" 
+								sourceAttributeName="chartOfAccountsCode">
+				<label>Indirect Cost Recovery Chart Of Accounts Code</label>
+				<shortLabel>IndCstChart</shortLabel>
+				<summary>Indirect Cost Recovery Chart Of Accounts Code</summary>
+				<description>Indirect Cost Recovery Chart Of Accounts Code</description>
+			</attributeReference>
+			
+			<attributeReference name="indirectCostRecoveryAcct.accountNumber" 
+								sourceClassName="org.kuali.module.chart.bo.Account" 
+								sourceAttributeName="accountNumber">
+				<label>Indirect Cost Recovery Account Number</label>
+				<shortLabel>IndCstAcct</shortLabel>
+				<summary>Indirect Cost Recovery Account Number</summary>
+				<description>Indirect Cost Recovery Account Number</description>
+			</attributeReference>
+			
+			<attributeReference name="accountInFinancialProcessingIndicator" 
+								sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
+								sourceAttributeName="oneDigitTextCode">
+				<label>Account In Financial Processing</label>
+				<shortLabel>AcctFinProc</shortLabel>
+				<summary>Account In Financial Processing</summary>
+				<description>Account In Financial Processing</description>
+			</attributeReference>
+			
+			<attributeReference name="budgetRecordingLevelCode" 
+								sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
+								sourceAttributeName="oneDigitTextCode">
+				<label>Budget Record Level Code</label>
+				<shortLabel>BdgLevelCd</shortLabel>
+				<summary>Budget Record Level Code</summary>
+				<description>Budget Record Level Code</description>
+			</attributeReference>
+			
+			<attributeReference name="accountSufficientFundsCode" 
+								sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
+								sourceAttributeName="oneDigitTextCode">
+				<label>Account Sufficient Funds Code</label>
+				<shortLabel>SuffFndsCd</shortLabel>
+				<summary>Account Sufficient Funds Code</summary>
+				<description>Account Sufficient Funds Code</description>
+			</attributeReference>
+			
+			<attributeReference name="pendingAcctSufficientFundsIndicator" 
+								sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
+								sourceAttributeName="oneDigitTextCode">
+				<label>Pending Account Sufficient Funds Code</label>
+				<shortLabel>PndSuffFnds</shortLabel>
+				<summary>Pending Account Sufficient Funds Code</summary>
+				<description>Pending Account Sufficient Funds Code</description>
+			</attributeReference>
+			
+			<attributeReference name="extrnlFinEncumSufficntFndIndicator" 
+								sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
+								sourceAttributeName="oneDigitTextCode">
+				<label>External Encumbrance Sufficient Funds Code</label>
+				<shortLabel>ExtEncSuffFndsCd</shortLabel>
+				<summary>External Encumbrance Sufficient Funds Code</summary>
+				<description>External Encumbrance Sufficient Funds Code</description>
+			</attributeReference>
+			
+			<attributeReference name="intrnlFinEncumSufficntFndIndicator" 
+								sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
+								sourceAttributeName="oneDigitTextCode">
+				<label>Internal Encumbrance Sufficient Funds Code</label>
+				<shortLabel>IntEncSuffFndsCd</shortLabel>
+				<summary>Internal Encumbrance Sufficient Funds Code</summary>
+				<description>Internal Encumbrance Sufficient Funds Code</description>
+			</attributeReference>
+			<attributeReference name="finPreencumSufficientFundIndicator" 
+								sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
+								sourceAttributeName="oneDigitTextCode">
+				<label>Pre-Encumbrance Sufficient Funds Code</label>
+				<shortLabel>PreEncSuffFndsCd</shortLabel>
+				<summary>Pre-Encumbrance Sufficient Funds Code</summary>
+				<description>Pre-Encumbrance Sufficient Funds Code</description>
+			</attributeReference>
+			
+			<attributeReference name="financialObjectivePrsctrlIndicator" 
+								sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
+								sourceAttributeName="oneDigitTextCode">
+				<label>Object Presence Control</label>
+				<shortLabel>ObjPrsCntrl</shortLabel>
+				<summary>Object Presence Control</summary>
+				<description>Object Presence Control</description>
+			</attributeReference>
+			
+			<attribute name="cgCatlfFedDomestcAssistNbr" forceUppercase="false">
+				<label>Code Of Federal Domestic Assistance Number</label>
+				<shortLabel>FedDomAssisNum</shortLabel>
+
+				<maxLength>6</maxLength>
+				<validationPattern><anyCharacter /></validationPattern>
+
+				<control>
+					<text size="6" />
+				</control>
+
+				<summary>Code Of Federal Domestic Assistance Number</summary>
+				<description>Code Of Federal Domestic Assistance Number</description>
+			</attribute>
+			
+			<attributeReference name="accountOffCampusIndicator" 
+								sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
+								sourceAttributeName="oneDigitTextCode">
+				<label>Account Off Campus Indicator</label>
+				<shortLabel>OffCmpsInd</shortLabel>
+				<summary>Account Off Campus Indicator</summary>
+				<description>Account Off Campus Indicator</description>
+			</attributeReference>
+			
+			<attribute name="accountClosedIndicator" forceUppercase="false">
+				<label>Account Closed Indicator</label>
+				<shortLabel>AcctClosed</shortLabel>
+				
+				<maxLength>1</maxLength>
+        		<control><checkbox /></control>
+
+				<summary>Account Closed Indicator</summary>
+				<description>Account Closed Indicator</description>
+				<formatterClass>org.kuali.core.web.format.BooleanFormatter</formatterClass>
+			</attribute>
+			
+			<attributeReference name="accountFiscalOfficerUser.personName" 
+								sourceClassName="org.kuali.core.bo.user.KualiUser" 
+								sourceAttributeName="personName">
+				<label>Fiscal Officer Name</label>
+			</attributeReference>
+			
+			<attributeReference name="accountSupervisoryUser.personName" 
+								sourceClassName="org.kuali.core.bo.user.KualiUser" 
+								sourceAttributeName="personName">
+				<label>Supervisor Name</label>
+			</attributeReference>
+			
+			<attributeReference name="accountManagerUser.personName" 
+								sourceClassName="org.kuali.core.bo.user.KualiUser" 
+								sourceAttributeName="personName">
+				<label>Manager Name</label>
+			</attributeReference>
+			
+			<attributeReference name="versionNumber" 
+								sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
+								sourceAttributeName="versionNumber" />
+		</attributes>
+
+		<collections>
+			<collection name="subAccounts">
+                <label>Sub Accounts</label>
+                <shortLabel>SubAccounts</shortLabel>
+                <summary>sub accounts</summary>
+                <description>accounts with some hierarchical subrelationship to this one</description>
+			</collection>
+		</collections>
+	</businessObject>
+</dictionaryEntry>
+

@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../core/datadictionary/dataDictionary-1_0.dtd">
+<dictionaryEntry>
+	<businessObject
+		businessObjectClass="org.kuali.module.chart.bo.SubAccount">
+		<customAttributeEnabled>false</customAttributeEnabled>
+
+		<inquiry>
+			<title>Sub-Account Code Inquiry</title>
+
+			<inquiryFields>
+				<field attributeName="chartOfAccounts.chartOfAccountsCode" />
+				<field attributeName="account.accountNumber" />			
+				<field attributeName="subAccountNumber" />
+				<field attributeName="subAccountName" />			
+				<field attributeName="financialReportingChart.chartOfAccountsCode" />
+				<field attributeName="finReportOrganization.organizationCode" />
+				<field attributeName="financialReporting.financialReportingCode" />				
+				<field attributeName="subAccountActiveIndicator" />
+			</inquiryFields>
+		</inquiry>	
+		
+		<lookup>
+			<title>Sub-Account Lookup</title>
+
+			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.chart.bo.SubAccount">Create New</a>]]></menubar>
+
+			<instructions>Lookup a Sub-Account</instructions>
+
+			<defaultSort attributeName="subAccountNumber" sortAscending="true" />
+
+			<lookupFields>
+				<lookupField attributeName="chartOfAccounts.chartOfAccountsCode" required="false" />
+				<lookupField attributeName="account.accountNumber" required="false" />
+				<lookupField attributeName="subAccountNumber" required="false" />
+				<lookupField attributeName="subAccountName" required="false" />
+				<lookupField attributeName="financialReportingChart.chartOfAccountsCode" required="false" />
+				<lookupField attributeName="finReportOrganization.organizationCode" required="false" />								
+				<lookupField attributeName="financialReporting.financialReportingCode" required="false" />				
+			</lookupFields>
+
+			<resultFields>
+				<field attributeName="chartOfAccounts.chartOfAccountsCode" />
+				<field attributeName="account.accountNumber" />
+				<field attributeName="subAccountNumber" />
+				<field attributeName="subAccountName" />				
+				<field attributeName="financialReportingChart.chartOfAccountsCode" />
+				<field attributeName="finReportOrganization.organizationCode" />								
+				<field attributeName="financialReporting.financialReportingCode" />				
+				<field attributeName="subAccountActiveIndicator" />				
+			</resultFields>
+		</lookup>
+		
+		<titleAttribute>subAccountNumber</titleAttribute>
+		
+		<attributes>
+			
+			<!--  
+			This should be an attributeReference, but this wont 
+			work until the actual BO uses objects rather than just 
+			string representations 
+			-->
+			<attributeReference name="chartOfAccounts.chartOfAccountsCode" 
+								sourceClassName="org.kuali.module.chart.bo.Chart" 
+								sourceAttributeName="chartOfAccountsCode" />
+
+			<!--  
+			This should be an attributeReference, but this wont 
+			work until the actual BO uses objects rather than just 
+			string representations 
+			-->
+			<attribute name="account.accountNumber"	forceUppercase="false">
+				<label>Account Number</label>
+				<shortLabel>
+					Acct
+				</shortLabel>
+
+				<maxLength>7</maxLength>
+				<validationPattern><anyCharacter /></validationPattern>
+
+				<control>
+					<text size="7" />
+				</control>
+
+				<summary>Account Number</summary>
+				<description>
+					Account Number
+				</description>
+			</attribute>
+			
+			<attribute name="subAccountNumber"	forceUppercase="false">
+				<label>Sub-Account Number</label>
+				<shortLabel>
+					SubAccount
+				</shortLabel>
+
+				<maxLength>5</maxLength>
+				<validationPattern><anyCharacter /></validationPattern>
+
+				<control>
+					<text size="5" />
+				</control>
+
+				<summary>sub-Account Number</summary>
+				<description>
+					Sub-Account Number
+				</description>
+			</attribute>
+		
+			<attribute name="subAccountName" forceUppercase="false">
+				<label>Sub-Account Name</label>
+				<shortLabel>Su-Acct Name</shortLabel>
+
+				<maxLength>40</maxLength>
+				<validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
+
+				<control>
+					<text size="40" />
+				</control>
+
+				<summary>Name</summary>
+				<description>Name</description>
+			</attribute>
+			
+			<!--  
+			This should be an attributeReference, but this wont 
+			work until the actual BO uses objects rather than just 
+			string representations 
+			-->
+			<attribute name="financialReportingChart.chartOfAccountsCode"
+				forceUppercase="true">
+				<label>Financial Reporting Chart Code</label>
+				<shortLabel>Fin. Rpt. Chart</shortLabel>
+				<maxLength>2</maxLength>
+				<validationPattern><alpha exactLength="2" /></validationPattern>
+				
+				<control>
+					<text size="2"/>				
+				</control>
+				
+				<summary>Financial Reporting Chart of Accounts Code</summary>
+				
+				<description>
+					Financial Reporting Chart of Accounts Code
+				</description>
+			</attribute>
+
+			<!--  
+			This should be an attributeReference, but this wont 
+			work until the actual BO uses objects rather than just 
+			string representations 
+			-->
+			<attribute name="finReportOrganization.organizationCode" forceUppercase="false">
+				<label>Financial Reporting Org Code</label>
+				<shortLabel>Org</shortLabel>
+
+				<maxLength>4</maxLength>
+				<validationPattern><alpha /></validationPattern>
+
+				<control>
+					<text size="4" />
+				</control>
+
+				<summary>Financial Reporting Organization Code</summary>
+				<description>
+					Financial Reporting Organization Code
+				</description>
+			</attribute>
+
+			<attribute name="financialReporting.financialReportingCode" forceUppercase="false">
+				<label>Financial Reporting Code</label>
+				<shortLabel>
+					Fin. Rpt. Code
+				</shortLabel>
+
+				<maxLength>10</maxLength>
+				<validationPattern><anyCharacter /></validationPattern>
+
+				<control>
+					<text size="10" />
+				</control>
+
+				<summary>Financial Reporting Code</summary>
+				<description>
+					Financial Reporting Code
+				</description>
+			</attribute>
+
+			<attributeReference name="subAccountActiveIndicator" 
+								sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
+								sourceAttributeName="activeIndicator" />
+		
+		    <attributeReference name="versionNumber" 
+								sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
+								sourceAttributeName="versionNumber" />
+								
+		</attributes>
+	</businessObject>
+</dictionaryEntry>
+			

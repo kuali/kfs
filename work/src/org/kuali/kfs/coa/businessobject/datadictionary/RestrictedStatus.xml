@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+     "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../core/datadictionary/dataDictionary-1_0.dtd">
+
+<dictionaryEntry>
+	<businessObject businessObjectClass="org.kuali.module.chart.bo.codes.RestrictedStatus">
+	
+        <customAttributeEnabled>false</customAttributeEnabled>
+
+	    <inquiry>
+	        <title>Restricted Status inquiry</title>
+	        <inquiryFields>
+	            <field attributeName="code" />
+	            <field attributeName="name" />
+	        </inquiryFields>
+	    </inquiry>
+
+	    <lookup>
+	        <title>Restricted Status lookup</title>
+	        <menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.chart.bo.codes.RestrictedStatus">Create New</a>]]></menubar>
+	        <instructions>Lookup an Restricted Status Code</instructions>
+	        <defaultSort attributeName="code" sortAscending="false" />
+
+	        <lookupFields>
+	            <lookupField attributeName="code" />
+	            <lookupField attributeName="name" />
+	        </lookupFields>
+	        <resultFields>
+	            <field attributeName="code" />
+	            <field attributeName="name" />
+	            </resultFields>
+	    </lookup>
+	    
+	    <attributes>
+	    
+	        <attribute name="code" forceUppercase="true" >
+	            <label>Restricted Status Code</label>
+	            <shortLabel>Code</shortLabel>
+	            <maxLength>1</maxLength>
+	            <validationPattern><alpha exactLength="1" /></validationPattern>
+	            <required>true</required>
+	            <control>
+	                <text size="1" />
+	            </control>
+	            <summary>Restricted Status Code</summary>
+	            <description>The Restricted Status  Codes are used to...TODO</description>
+	        </attribute>
+	        
+	        <attribute name="name" forceUppercase="true" >
+	            <label>Restricted Status Name</label>
+	            <shortLabel>Name</shortLabel>
+	            <maxLength>40</maxLength>
+	            <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
+	            <control>
+	                <text size="40" />
+	            </control>
+	            <summary>Restricted Status Name</summary>
+	            <description>Restricted Status Names are used to give short but meaningful names to the codes that they represent</description>
+	        </attribute>
+	        
+	        <attributeReference name="versionNumber" 
+								sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
+								sourceAttributeName="versionNumber" />
+			
+			<attributeReference name="objectId" 
+								sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
+								sourceAttributeName="objectId" />								
+	        
+	    </attributes>
+	</businessObject>
+</dictionaryEntry>

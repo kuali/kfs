@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+     "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../core/datadictionary/dataDictionary-1_0.dtd">
+
+<dictionaryEntry>
+	<businessObject businessObjectClass="org.kuali.module.financial.bo.DisbursementVoucherPayeeDetail">
+	
+        <customAttributeEnabled>false</customAttributeEnabled>
+	    
+	    <attributes>
+	    
+	          <attributeReference name="disbVchrPaymentReasonCode"
+                                  sourceClassName="org.kuali.module.financial.bo.PaymentReasonCode"
+                                  sourceAttributeName="code">
+                <control>
+	                <select valuesFinderClass="org.kuali.core.lookup.keyvalues.PaymentReasonValuesFinder"/>
+	            </control>                
+              </attributeReference>    
+	       
+	          <attributeReference name="disbVchrPayeeIdNumber"
+                                  sourceClassName="org.kuali.module.financial.bo.Payee"
+                                  sourceAttributeName="payeeIdNumber"/>
+                                  
+ 	          <attributeReference name="disbVchrPayeePersonName"
+                                  sourceClassName="org.kuali.module.financial.bo.Payee"
+                                  sourceAttributeName="payeePersonName">
+                                  <required>true</required>
+              </attributeReference>                    
+	       
+	          <attributeReference name="disbVchrPayeeLine1Addr"
+                                  sourceClassName="org.kuali.module.financial.bo.Payee"
+                                  sourceAttributeName="payeeLine1Addr">
+                                  <required>true</required>
+              </attributeReference>                    
+                                  
+              <attributeReference name="disbVchrPayeeLine2Addr"
+                                  sourceClassName="org.kuali.module.financial.bo.Payee"
+                                  sourceAttributeName="payeeLine2Addr"/>
+	       
+	          <attributeReference name="disbVchrPayeeCityName"
+                                  sourceClassName="org.kuali.module.financial.bo.Payee"
+                                  sourceAttributeName="payeeCityName"/>
+                                  
+              <attributeReference name="disbVchrPayeeStateCode"
+                                  sourceClassName="org.kuali.module.financial.bo.Payee"
+                                  sourceAttributeName="payeeStateCode"/>
+	       
+	          <attributeReference name="disbVchrPayeeZipCode"
+                                  sourceClassName="org.kuali.module.financial.bo.Payee"
+                                  sourceAttributeName="payeeZipCode"/>              
+
+	          <attributeReference name="disbVchrPayeeCountryName"
+                                  sourceClassName="org.kuali.module.financial.bo.Payee"
+                                  sourceAttributeName="payeeCountryName">
+                                  <required>true</required>
+              </attributeReference>                    
+                                  
+ 	          <attributeReference name="disbVchrRemitPersonName"
+                                  sourceClassName="org.kuali.module.financial.bo.Payee"
+                                  sourceAttributeName="payeePersonName">
+                                  <label>Remit Name</label>
+                                  <shortLabel>Remit Nm</shortLabel>
+                                  
+                                  <summary>Special Handling Remit Name</summary>
+                                  <description>...</description>
+              </attributeReference>                    
+	       
+	          <attributeReference name="disbVchrRemitLine1Addr"
+                                  sourceClassName="org.kuali.module.financial.bo.Payee"
+                                  sourceAttributeName="payeeLine1Addr">
+                                  <label>Remit Address 1</label>
+                                  <shortLabel>Remit Addr 1</shortLabel>
+                                  
+                                  <summary>Special Handling Remit Address Line 1</summary>
+                                  <description>...</description>
+              </attributeReference>         
+              
+	          <attributeReference name="disbVchrRemitLine2Addr"
+                                  sourceClassName="org.kuali.module.financial.bo.Payee"
+                                  sourceAttributeName="payeeLine2Addr">
+                                  <label>Remit Address 2</label>
+                                  <shortLabel>Remit Addr 2</shortLabel>
+                                  
+                                  <summary>Special Handling Remit Address Line 2</summary>
+                                  <description>...</description>
+              </attributeReference>   
+	       
+	          <attributeReference name="disbVchrRemitCityName"
+                                  sourceClassName="org.kuali.module.financial.bo.Payee"
+                                  sourceAttributeName="payeeCityName">
+                                  <label>Remit City</label>
+                                  <shortLabel>Remit City</shortLabel>
+                                  
+                                  <summary>Special Handling Remit City</summary>
+                                  <description>...</description>
+              </attributeReference>   
+              
+	          <attributeReference name="disbVchrRemitStateCode"
+                                  sourceClassName="org.kuali.module.financial.bo.Payee"
+                                  sourceAttributeName="payeeStateCode">
+                                  <label>Remit State</label>
+                                  <shortLabel>Remit State</shortLabel>
+                                  
+                                  <summary>Special Handling Remit State</summary>
+                                  <description>...</description>
+              </attributeReference>
+              
+	       
+	          <attributeReference name="disbVchrRemitZipCode"
+                                  sourceClassName="org.kuali.module.financial.bo.Payee"
+                                  sourceAttributeName="payeeZipCode">
+                                  <label>Remit Zip Code</label>
+                                  <shortLabel>Remit Zip</shortLabel>
+                                  
+                                  <summary>Special Handling Remit Zip Code</summary>
+                                  <description>...</description>
+              </attributeReference>   
+
+	          <attributeReference name="disbVchrRemitCountryName"
+                                  sourceClassName="org.kuali.module.financial.bo.Payee"
+                                  sourceAttributeName="payeeCountryName">
+                                  <label>Remit Country</label>
+                                  <shortLabel>Remit Cntry</shortLabel>
+                                  
+                                  <summary>Special Handling Remit Country</summary>
+                                  <description>...</description>
+              </attributeReference> 
+              
+              <attributeReference name="disbVchrPayeeEmployeeCode"
+                                  sourceClassName="org.kuali.module.financial.bo.Payee"
+                                  sourceAttributeName="payeeEmployeeCode"/> 
+                                  
+	          <attributeReference name="dvPayeeRevolvingFundCode"
+                                  sourceClassName="org.kuali.module.financial.bo.Payee"
+                                  sourceAttributeName="payeeRevolvingFundCode"/>
+                                  
+	          <attributeReference name="disbVchrAlienPaymentCode"
+                                  sourceClassName="org.kuali.module.financial.bo.Payee"
+                                  sourceAttributeName="alienPaymentCode"/>
+	    </attributes>
+	</businessObject>
+</dictionaryEntry>

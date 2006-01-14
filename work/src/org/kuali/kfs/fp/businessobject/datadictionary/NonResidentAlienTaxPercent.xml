@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../core/datadictionary/dataDictionary-1_0.dtd">
+<dictionaryEntry>
+	<businessObject businessObjectClass="org.kuali.module.financial.bo.NonResidentAlienTaxPercent">
+		<customAttributeEnabled>false</customAttributeEnabled>
+
+		<inquiry>
+			<title>Non Resident Alien Tax Percent Inquiry</title>
+
+			<inquiryFields>
+				<field attributeName="incomeClassCode" />
+				<field attributeName="incomeTaxTypeCode" />
+				<field attributeName="incomeTaxPercent" />
+			</inquiryFields>
+		</inquiry>
+
+		<lookup>
+			<title>Non Resident Alien Tax Percent Lookup</title>
+
+			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.financial.bo.NonResidentAlienTaxPercent">Create New</a>]]></menubar>
+
+			<instructions>Lookup a Non Resident Alien Tax Percent</instructions>
+
+			<defaultSort attributeName="incomeClassCode" sortAscending="true" />
+
+			<lookupFields>
+				<lookupField attributeName="incomeClassCode" required="false" />
+				<lookupField attributeName="incomeTaxTypeCode" required="false" />
+			</lookupFields>
+
+			<resultFields>
+				<field attributeName="incomeClassCode" />
+				<field attributeName="incomeTaxTypeCode" />
+				<field attributeName="incomeTaxPercent" />
+			</resultFields>
+		</lookup>
+
+		<attributes>
+		    <attribute name="incomeClassCode" forceUppercase="true">
+		       	<label>Income Class Code</label>
+				<shortLabel>Inc Code</shortLabel>
+
+				<maxLength>2</maxLength>
+				<validationPattern><alphaNumeric /></validationPattern>
+
+				<control>
+					<text size="2" />
+				</control>
+
+				<summary>Income Class Code</summary>
+				<description>...</description>
+		    </attribute>
+		    
+		    <attribute name="incomeTaxTypeCode" forceUppercase="true">
+		       	<label>Income Tax Type Code</label>
+				<shortLabel>Inc Tx Code</shortLabel>
+
+				<maxLength>1</maxLength>
+				<validationPattern><alphaNumeric /></validationPattern>
+
+				<control>
+					<text size="1" />
+				</control>
+
+				<summary>Income Tax Type Code</summary>
+				<description>...</description>
+		    </attribute>
+		    
+		    <attribute name="incomeTaxPercent" forceUppercase="false">
+		       	<label>Income Tax Percent</label>
+				<shortLabel>Inc Tx Pc</shortLabel>
+
+				<maxLength>22</maxLength>
+				<validationPattern><alphaNumeric /></validationPattern>
+
+				<control>
+					<text size="22" />
+				</control>
+
+				<summary>Income Tax Percent</summary>
+				<description>...</description>
+		    </attribute>
+		</attributes>
+	</businessObject>
+</dictionaryEntry>

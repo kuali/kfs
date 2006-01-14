@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../core/datadictionary/dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.cg.bo.AgencyType">
+        <customAttributeEnabled>true</customAttributeEnabled>
+
+        <inquiry>
+            <title>Contracts and Grants Agency Type Inquiry</title>
+
+            <inquiryFields>
+                <field attributeName="code" />
+                <field attributeName="name" />
+            </inquiryFields>
+        </inquiry>
+
+        <lookup>
+            <title>Contracts and Grants Agency Type Lookup</title>
+
+            <menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.cg.bo.AgencyType">Create New</a>]]></menubar>
+
+            <instructions>Lookup a Contracts and Grants Agency Type</instructions>
+
+            <defaultSort attributeName="code" sortAscending="false" />
+
+            <lookupFields>
+                <lookupField attributeName="code" required="false" />
+                <lookupField attributeName="name" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="code"  noInquiry="true" />
+                <field attributeName="name" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+            <attribute name="code" forceUppercase="true">
+                <label>Type Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>1</maxLength>
+
+				<validationPattern><alpha exactLength="1" /></validationPattern>
+
+				<control>
+					<text size="1" />
+				</control>
+
+				<summary>Contracts and Grants Agency Type Code</summary>
+				<description>Contracts and Grants Agency Type Code</description>
+            </attribute>
+            
+            <attribute name="name" forceUppercase="false">
+				<label>Type Description</label>
+				<shortLabel>description</shortLabel>
+
+				<maxLength>30</maxLength>
+				
+				<validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
+
+				<control>
+					<text size="32" />
+				</control>
+
+				<summary>Contracts and Grants Agency Type Description</summary>
+				<description>The description of the Contracts and Grants Agency Type.</description>
+			</attribute>
+			
+			<attributeReference name="versionNumber" 
+								sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
+								sourceAttributeName="versionNumber" />
+			
+			<attributeReference name="objectId" 
+								sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
+								sourceAttributeName="objectId" />	
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

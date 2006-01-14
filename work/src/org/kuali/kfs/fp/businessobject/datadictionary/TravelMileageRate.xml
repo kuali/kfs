@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../core/datadictionary/dataDictionary-1_0.dtd">
+<dictionaryEntry>
+	<businessObject businessObjectClass="org.kuali.module.financial.bo.TravelMileageRate">
+		<customAttributeEnabled>false</customAttributeEnabled>
+
+		<inquiry>
+			<title>Travel Mileage Rate Inquiry</title>
+
+			<inquiryFields>
+				<field attributeName="universityFiscalYear" />			
+				<field attributeName="mileageLimitAmount" />	
+				<field attributeName="mileageRate" />							
+			</inquiryFields>
+		</inquiry>
+
+		<lookup>
+			<title>Travel Milege Rate Lookup</title>
+
+			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.financial.bo.TravelMileageRate">Create New</a>]]></menubar>
+
+			<instructions>Lookup a Travel Mileage Rate</instructions>
+
+			<defaultSort attributeName="universityFiscalYear" sortAscending="true" />
+
+			<lookupFields>
+				<lookupField attributeName="universityFiscalYear" required="false" />
+			</lookupFields>
+
+			<resultFields>
+				<field attributeName="universityFiscalYear" />
+				<field attributeName="mileageLimitAmount" />
+				<field attributeName="mileageRate" />
+			</resultFields>
+		</lookup>
+
+		<attributes>
+		
+			<attributeReference name="universityFiscalYear" 
+								sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
+								sourceAttributeName="genericFiscalYear" />
+
+			<attributeReference name="mileageLimitAmount" 
+            					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
+            					sourceAttributeName="genericAmount">
+                <label>Travel Mileage Limit Amount</label>
+                <shortLabel>Limit Amount</shortLabel>
+                <summary>Travel Mileage Limit Amount</summary>
+                <description>Travel Mileage Limit Amount...</description>
+            </attributeReference>
+
+			<attributeReference name="mileageRate" 
+            					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
+            					sourceAttributeName="genericAmount">
+                <label>Travel Mileage Rate</label>
+                <shortLabel>Rate</shortLabel>
+                <summary>Travel Mileage Rate</summary>
+                <description>Travel Mileage Rate...</description>
+            </attributeReference>
+            
+		</attributes>
+	</businessObject>
+</dictionaryEntry>
+

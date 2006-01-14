@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+
+<dictionaryEntry>
+	<maintenanceDocument>
+        <businessObjectClass>org.kuali.module.chart.bo.Account</businessObjectClass>
+        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+        <businessRulesClass>org.kuali.module.chart.rules.AccountRule</businessRulesClass>
+
+        <documentAuthorizerClass>org.kuali.core.document.DocumentAuthorizerBase</documentAuthorizerClass>
+        <authorizations>
+            <authorization action="initiate">
+                <workgroups>
+                    <workgroup>kualiUniversalGroup</workgroup>
+                </workgroups>
+            </authorization>
+        </authorizations>
+
+		<documentTypeName>KualiAccountMaintenanceDocument</documentTypeName>
+		<documentTypeCode>AM</documentTypeCode>
+
+		<label>Account Maintenance Document</label>
+		<shortLabel>AcctMaintDoc</shortLabel>
+		
+		<summary>Account maintenance document</summary>
+		<description>Document used to create or update Account objects</description>
+
+        <lockingKeys>
+			<field attributeName="chartOfAccounts.chartOfAccountsCode" />
+			<field attributeName="accountNumber" />
+		</lockingKeys>		        
+<!-- required fields from rules:
+
+           account.getSubFundGroupCode().equals("") ||
+           account.getFinancialHigherEdFunctionCd().equals("") ||
+           account.getAccountRestrictedStatusCode().equals("") ||
+           account.getAcctIndirectCostRcvyTypeCd().equals("") ||
+           account.getFinancialIcrSeriesIdentifier().equals("") ||
+           account.getIndirectCostRcvyFinCoaCode().equals("") ||
+           account.getIndirectCostRecoveryAcctNbr().equals("") ||
+           account.getCgCatlfFedDomestcAssistNbr().equals("") ||
+           account.getAccountGuideline().getAccountExpenseGuidelineText().equals("") ||
+           account.getAccountGuideline().getAccountIncomeGuidelineText().equals("") ||
+           account.getAccountGuideline().getAccountPurposeText().equals("")
+           -->
+	    <maintainableSections>
+	        <maintainableSection title="Edit Account">
+                <maintainableItems>
+		            <maintainableField name="chartOfAccounts.chartOfAccountsCode" required="true" />
+		            <maintainableField name="accountNumber" required="true"/>
+		            <maintainableField name="accountName" required="true"/>
+		            <maintainableField name="organization.organizationCode" required="true"/>
+		            <maintainableField name="accountPhysicalCampus.campusCode" required="true"/>	     
+		            <maintainableField name="accountEffectiveDate" required="true"/>
+		            <maintainableField name="accountExpirationDate" />	
+		            <maintainableField name="accountZipCode" required="true"/>	  
+		            <maintainableField name="accountCityName" required="true"/>	     
+		            <maintainableField name="accountStateCode" required="true"/>
+		            <maintainableField name="accountStreetAddress" required="true"/>	
+		            <maintainableField name="accountOffCampusIndicator" />	  
+		            <maintainableField name="accountClosedIndicator" />
+		            <maintainableField name="versionNumber" />	       	                   
+                </maintainableItems>
+	        </maintainableSection>
+	        <maintainableSection title="Edit Account Responsibility">
+                <maintainableItems>
+		            <maintainableField name="accountFiscalOfficerUser.personName" required="true" />
+		            <maintainableField name="accountSupervisoryUser.personName" required="true" />
+		            <maintainableField name="accountManagerUser.personName" required="true"/>
+		            <maintainableField name="continuationAccount.chartOfAccounts.chartOfAccountsCode" />
+		            <maintainableField name="continuationAccount.accountNumber" />    
+		            <maintainableField name="incomeStreamAccount.chartOfAccounts.chartOfAccountsCode" />
+		            <maintainableField name="incomeStreamAccount.accountNumber" />	
+		            <maintainableField name="budgetRecordingLevelCode" required="true"/>	  
+		            <maintainableField name="accountSufficientFundsCode" required="true"/>	     
+		            <maintainableField name="pendingAcctSufficientFundsIndicator" />
+		            <maintainableField name="extrnlFinEncumSufficntFndIndicator" />	
+		            <maintainableField name="intrnlFinEncumSufficntFndIndicator" />	  
+		            <maintainableField name="finPreencumSufficientFundIndicator" />
+		            <maintainableField name="financialObjectivePrsctrlIndicator" />	       	                   
+                </maintainableItems>
+	        </maintainableSection>
+	    </maintainableSections>
+	</maintenanceDocument>
+</dictionaryEntry>

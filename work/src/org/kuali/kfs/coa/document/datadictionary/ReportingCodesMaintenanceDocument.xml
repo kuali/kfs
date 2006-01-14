@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+
+<dictionaryEntry>
+	<maintenanceDocument>
+		<businessObjectClass>org.kuali.module.chart.bo.ReportingCodes</businessObjectClass>
+		<maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+
+        <documentAuthorizerClass>org.kuali.core.document.DocumentAuthorizerBase</documentAuthorizerClass>
+        <authorizations>
+            <authorization action="initiate">
+                <workgroups>
+                    <workgroup>kualiUniversalGroup</workgroup>
+                </workgroups>
+            </authorization>
+        </authorizations>
+
+		<documentTypeName>KualiReportingCodesMaintenanceDocument</documentTypeName>
+		<documentTypeCode>RCM</documentTypeCode>
+		<label>Reporting Codes Maintenance Document</label>
+		<shortLabel>RptCdMaintDoc</shortLabel>
+		<summary>Reporting Codes Maintenance Document</summary>
+		<description>
+			Maintenance document which allows you to create, remove or modify Reporting Codes.
+		</description>
+		
+        <lockingKeys>
+			<field attributeName="chartOfAccountsCode" />
+			<field attributeName="organizationCode" />
+			<field attributeName="financialReportingCode" />			
+		</lockingKeys>			
+		
+		<maintainableSections>
+			<maintainableSection title="Edit Reporting Codes">
+                <maintainableItems>				
+					<maintainableField name="chartOfAccountsCode" required="true" />			
+					<maintainableField name="organizationCode" required="true" />
+					<maintainableField name="financialReportingCode" required="true" />			
+					<maintainableField name="financialReportingCodeDescription" required="true" />
+					<maintainableField name="financialReportingCodeMgrId" required="true" />
+					<maintainableField name="financialReportsToReportingCode" required="true" />
+					<maintainableField name="versionNumber" required="true" />
+					<maintainableField name="objectId" required="true" />
+					
+                </maintainableItems>
+			</maintainableSection>
+		</maintainableSections>
+	</maintenanceDocument>
+
+</dictionaryEntry>

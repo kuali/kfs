@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+
+<dictionaryEntry>
+	<maintenanceDocument>
+		<businessObjectClass>org.kuali.module.chart.bo.codes.BalanceTyp</businessObjectClass>
+		<maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+
+        <documentAuthorizerClass>org.kuali.core.document.DocumentAuthorizerBase</documentAuthorizerClass>
+        <authorizations>
+            <authorization action="initiate">
+                <workgroups>
+                    <workgroup>kualiUniversalGroup</workgroup>
+                </workgroups>
+            </authorization>
+        </authorizations>
+
+		<documentTypeName>KualiBalanceTypeMaintenanceDocument</documentTypeName>
+		<documentTypeCode>BTM</documentTypeCode>
+		<label>Balance Type Maintenance Document</label>
+		<shortLabel>BalanceTypeMaintDoc</shortLabel>
+		<summary>Balance Type Maintenance Document</summary>
+		<description>Maintenance document which allows you to create new Balance Types, or modify existing Balance Types.</description>
+		
+        <lockingKeys>
+			<field attributeName="code" />
+		</lockingKeys>				
+		
+		<maintainableSections>
+			<maintainableSection title="Edit Balance Type">
+                <maintainableItems>
+					<maintainableField name="code" required="true" />
+					<maintainableField name="name" required="true" />
+					<maintainableField name="financialBalanceTypeShortNm" required="true" />
+					<maintainableField name="financialOffsetGenerationIndicator" required="true" />
+					<maintainableField name="finBalanceTypeEncumIndicator" />
+                </maintainableItems>
+			</maintainableSection>
+		</maintainableSections>
+	</maintenanceDocument>
+
+</dictionaryEntry>

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../core/datadictionary/dataDictionary-1_0.dtd">
+<dictionaryEntry>
+	<businessObject businessObjectClass="org.kuali.module.financial.bo.WireCharge">
+		<customAttributeEnabled>false</customAttributeEnabled>
+
+		<inquiry>
+			<title>Wire Charge Inquiry</title>
+
+			<inquiryFields>
+				<field attributeName="universityFiscalYear" />
+				<field attributeName="chartOfAccountsCode" />
+				<field attributeName="accountNumber" />
+				<field attributeName="incomeFinancialObjectCode" />
+				<field attributeName="expenseFinancialObjectCode" />
+				<field attributeName="domesticChargeAmt" />
+				<field attributeName="foreignChargeAmt" />
+			</inquiryFields>
+		</inquiry>
+
+		<lookup>
+			<title>Wire Charge Lookup</title>
+
+			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.financial.bo.WireCharge">Create New</a>]]></menubar>
+
+			<instructions>Lookup a Wire Charge</instructions>
+
+			<defaultSort attributeName="accountNumber" sortAscending="true" />
+
+			<lookupFields>
+				<lookupField attributeName="universityFiscalYear" required="false" />
+				<lookupField attributeName="chartOfAccountsCode" required="false" />
+				<lookupField attributeName="accountNumber" required="false" />
+				<lookupField attributeName="incomeFinancialObjectCode" required="false" />
+                <lookupField attributeName="expenseFinancialObjectCode" required="false" />
+			</lookupFields>
+
+			<resultFields>
+				<field attributeName="universityFiscalYear" />
+				<field attributeName="chartOfAccountsCode" />
+				<field attributeName="accountNumber" />
+				<field attributeName="incomeFinancialObjectCode" />
+				<field attributeName="expenseFinancialObjectCode" />
+				<field attributeName="domesticChargeAmt" />
+				<field attributeName="foreignChargeAmt" />
+			</resultFields>
+		</lookup>
+
+		<attributes>
+			<attributeReference name="universityFiscalYear" 
+								sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
+								sourceAttributeName="genericFiscalYear"/>
+
+			<attributeReference name="chartOfAccountsCode" 
+				sourceClassName="org.kuali.module.chart.bo.Chart" 
+				sourceAttributeName="chartOfAccountsCode" />
+
+			<attributeReference name="accountNumber" 
+				sourceClassName="org.kuali.module.chart.bo.Account" 
+				sourceAttributeName="accountNumber" />
+				
+		    <attributeReference name="incomeFinancialObjectCode" 
+				sourceClassName="org.kuali.module.chart.bo.ObjectCode" 
+				sourceAttributeName="financialObjectCode" >
+				<label>Income Object Code</label>
+				<shortLabel>Inc Obj Cd</shortLabel>
+			</attributeReference>	
+			
+			<attributeReference name="expenseFinancialObjectCode" 
+				sourceClassName="org.kuali.module.chart.bo.ObjectCode" 
+				sourceAttributeName="financialObjectCode" >
+				<label>Expense Object Code</label>
+				<shortLabel>Exp Obj Cd</shortLabel>
+			</attributeReference>	
+			
+			<attributeReference name="domesticChargeAmt" 
+			    sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
+				sourceAttributeName="genericAmount">
+				<label>Domestic Charge Amount</label>
+				<shortLabel>Dom Amt</shortLabel>
+				
+				<summary>Domestic Charge Amount</summary>
+				<description>...</description>
+			</attributeReference>	
+			
+			<attributeReference name="foreignChargeAmt" 
+			    sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
+				sourceAttributeName="genericAmount">
+				<label>Foreign Charge Amount</label>
+				<shortLabel>For Amt</shortLabel>
+				
+				<summary>Foreign Charge Amount</summary>
+				<description>...</description>
+			</attributeReference>	
+		</attributes>
+	</businessObject>
+</dictionaryEntry>

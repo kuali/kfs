@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../core/datadictionary/dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.cg.bo.Security">
+        <customAttributeEnabled>false</customAttributeEnabled>
+
+        <inquiry>
+            <title>Contracts and Grants Security</title>
+
+            <inquiryFields>
+                <field attributeName="kualiUser.personUniversalIdentifier" />
+            </inquiryFields>
+        </inquiry>
+
+        <lookup>
+            <title>Contracts and Grants Security Lookup</title>
+
+            <menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.cg.bo.Security">Create New</a>]]></menubar>
+
+            <instructions>Lookup a Contracts and Grants Security Record</instructions>
+
+            <defaultSort attributeName="kualiUser.personUniversalIdentifier" sortAscending="true" />
+
+            <lookupFields>
+                <lookupField attributeName="kualiUser.personUniversalIdentifier" required="true" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="kualiUser.personUniversalIdentifier"  />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+        	<attribute name="kualiUser.personUniversalIdentifier" forceUppercase="false">
+        		<label>Kuali Universal User ID</label>
+        		<shortLabel>UniversalID</shortLabel>
+        		
+        		<maxLength>50</maxLength>
+        		<validationPattern><anyCharacter exactLength="50" /></validationPattern>
+        		
+				<control>
+					<text size="50" />
+				</control>
+
+        		<summary>Universal UserID.</summary>
+        		<description>
+        			Universal UserID.
+        		</description>
+        	</attribute>
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

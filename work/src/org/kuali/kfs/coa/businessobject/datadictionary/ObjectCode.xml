@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../core/datadictionary/dataDictionary-1_0.dtd">
+    
+<dictionaryEntry>
+	<businessObject
+		businessObjectClass="org.kuali.module.chart.bo.ObjectCode">
+		<customAttributeEnabled>false</customAttributeEnabled>
+
+		<inquiry>
+			<title>Object Code Inquiry</title>
+
+			<inquiryFields>
+				<field attributeName="universityFiscalYear" />
+				<field attributeName="chartOfAccountsCode" />			
+				<field attributeName="financialObjectCode" />
+				<field attributeName="financialObjectCodeName" />			
+				<field attributeName="financialObjectCodeShortName" />
+				<field attributeName="reportsToChartOfAccountsCode" />
+				<field attributeName="reportsToFinancialObjectCode" />
+				<field attributeName="financialObjectTypeCode" />
+				<field attributeName="financialObjectLevelCode" />
+				<field attributeName="financialObjectSubTypeCode" />
+				<field attributeName="historicalFinancialObjectCode" />
+				<field attributeName="financialObjectActiveCode" />
+				<field attributeName="financialBudgetAggregationCd" />
+				<field attributeName="finObjMandatoryTrnfrelimCd" />
+				<field attributeName="financialFederalFundedCode" />
+				<field attributeName="nextYearFinancialObjectCode" />
+			</inquiryFields>
+		</inquiry>
+
+		<lookup>
+			<title>Object Code Lookup</title>
+
+			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.chart.bo.ObjectCode">Create New</a>]]></menubar>
+
+			<instructions>Lookup an Object Code</instructions>
+
+			<defaultSort attributeName="financialObjectCode" sortAscending="true" />
+
+			<lookupFields>
+				<lookupField attributeName="universityFiscalYear" required="true" >
+				  <defaultValueFinderClass>org.kuali.core.lookup.valueFinder.FiscalYearFinder</defaultValueFinderClass>
+				</lookupField>
+				<lookupField attributeName="chartOfAccountsCode" required="false" />
+				<lookupField attributeName="financialObjectCode" required="false" />
+				<lookupField attributeName="financialObjectCodeName" required="false" />
+				<lookupField attributeName="financialObjectCodeShortName" required="false" />
+				<lookupField attributeName="financialObjectLevelCode" required="false" />
+				<lookupField attributeName="financialObjectTypeCode" required="false" />
+				<lookupField attributeName="financialObjectSubTypeCode" required="false" />
+				<lookupField attributeName="financialObjectActiveCode" required="false" />
+			</lookupFields>
+
+			<resultFields>
+				<field attributeName="universityFiscalYear" />
+				<field attributeName="chartOfAccountsCode" />
+				<field attributeName="financialObjectCode" />
+				<field attributeName="financialObjectCodeName" />
+				<field attributeName="financialObjectCodeShortName" />
+				<field attributeName="financialObjectLevelCode" />
+				<field attributeName="financialObjectTypeCode" />
+				<field attributeName="financialObjectSubTypeCode" />
+				<field attributeName="financialObjectActiveCode" />
+			</resultFields>
+		</lookup>
+
+	    <titleAttribute>financialObjectCode</titleAttribute>
+	    
+		<!--
+		Note that this has alot of items that should 
+		be converted to <attributeReference> tags, but until the 
+		underlying BO is updated to use real sub-objects rather 
+		than just strings, doing that will cause this DD to break.
+		-->
+		<attributes>
+			<attributeReference name="universityFiscalYear" 
+								sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
+								sourceAttributeName="genericFiscalYear">
+				<label>Fiscal Year</label>
+				<shortLabel>FY</shortLabel>
+				<summary>University Fiscal Year</summary>
+				<description>Indicates what fiscal year this offset applies to.</description>
+			</attributeReference>
+			
+			<attributeReference name="chartOfAccountsCode" 
+								sourceClassName="org.kuali.module.chart.bo.Chart" 
+								sourceAttributeName="chartOfAccountsCode" />
+
+			<attribute name="financialObjectCode" forceUppercase="false">
+				<label>Object Code</label>
+				<shortLabel>Object</shortLabel>
+
+				<maxLength>4</maxLength>
+				<validationPattern><numeric /></validationPattern>
+
+				<control>
+					<text size="4" />
+				</control>
+
+				<summary>Object Code value.</summary>
+				<description>
+					The Object Code value used.
+				</description>
+			</attribute>
+
+			<attribute name="financialObjectCodeName" forceUppercase="false">
+				<label>Object Code Name</label>
+				<shortLabel>ObjCodeName</shortLabel>
+
+				<maxLength>40</maxLength>
+				<validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
+
+				<control>
+					<text size="40" />
+				</control>
+
+				<summary>Object Code Name</summary>
+				<description>The name assigned to this object code.</description>
+			</attribute>	
+
+			<attribute name="financialObjectCodeShortName" forceUppercase="false">
+				<label>Object Code Short Name</label>
+				<shortLabel>ObjCodeShortName</shortLabel>
+
+				<maxLength>12</maxLength>
+				<validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
+
+				<control>
+					<text size="12" />
+				</control>
+
+				<summary>Object Code Short Name</summary>
+				<description>
+					Object Code Short Name
+				</description>
+			</attribute>
+			
+			<attribute name="financialObjectLevelCode" forceUppercase="true">
+				<label>Object Level Code</label>
+				<shortLabel>ObjLevlCde</shortLabel>
+
+				<maxLength>4</maxLength>
+				<validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
+
+				<control>
+					<text size="4" />
+				</control>
+
+				<summary>Object Level Code Value</summary>
+				<description>
+					Object Level Code
+				</description>
+			</attribute>
+			
+			<attribute name="reportsToChartOfAccountsCode"
+				forceUppercase="true">
+				<label>Reports to Chart Code</label>
+				<shortLabel>RptsToChart</shortLabel>
+
+				<maxLength>2</maxLength>
+				<validationPattern><alpha exactLength="2" /></validationPattern>
+
+				<control>
+					<select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder"/>					
+				</control>
+
+				<summary>Reports to Chart of Accounts Code</summary>
+				<description>
+					Reports to Chart of Accounts Code
+				</description>
+			</attribute>
+			
+			<attribute name="reportsToFinancialObjectCode" forceUppercase="false">
+				<label>Reports To Object Code</label>
+				<shortLabel>RptsToObjCode</shortLabel>
+
+				<maxLength>4</maxLength>
+				<validationPattern><numeric /></validationPattern>
+
+				<control>
+					<text size="4" />
+				</control>
+
+				<summary>Reports to Object Code value.</summary>
+				<description>
+					The Reports to Object Code value used.
+				</description>								
+			</attribute>
+			
+			<attribute name="financialObjectTypeCode" forceUppercase="true">
+				<label>Object Type Code</label>
+				<shortLabel>Object Type</shortLabel>
+
+				<maxLength>2</maxLength>
+				<validationPattern><anyCharacter /></validationPattern>
+
+				<control>
+					<text size="2" />
+				</control>
+
+				<summary>Object Type Code</summary>
+				<description>
+					Object Type Code
+				</description>
+			</attribute>
+
+			<attribute name="financialObjectSubTypeCode" forceUppercase="true">
+				<label>Object Sub Type Code</label>
+				<shortLabel>ObjSubTypCode</shortLabel>
+
+				<maxLength>2</maxLength>
+				<validationPattern><anyCharacter /></validationPattern>
+
+				<control>
+					<text size="2" />
+				</control>
+
+				<summary>Object Sub Type Code</summary>
+				<description>
+					Object Sub Type Code
+				</description>
+			</attribute>
+
+			<attribute name="historicalFinancialObjectCode" forceUppercase="false">
+				<label>Historical Financial Object Code</label>
+				<shortLabel>HistFinObjCde</shortLabel>
+
+				<maxLength>4</maxLength>
+				<validationPattern><anyCharacter /></validationPattern>
+
+				<control>
+					<text size="4" />
+				</control>
+
+				<summary>Historical Financial Object Code</summary>
+				<description>
+					Historical Financial Object Code
+				</description>
+			</attribute>
+
+			<attribute name="financialObjectActiveCode" forceUppercase="false">
+				<label>Active Code</label>
+				<shortLabel>Ac.</shortLabel>
+
+				<maxLength>1</maxLength>
+				
+				<control><checkbox/></control>
+
+				<summary>Active Indicator</summary>
+				<description>Indicates if code is active or inactive.</description>
+				<formatterClass>org.kuali.core.web.format.BooleanFormatter</formatterClass>
+			</attribute>
+
+			<attribute name="financialBudgetAggregationCd" forceUppercase="true">
+				<label>Budget Aggregation Code</label>
+				<shortLabel>BudgetAggCde</shortLabel>
+
+				<maxLength>1</maxLength>
+				
+				<control><text size="1" /></control>
+
+				<summary>Budget Aggregation Code</summary>
+				<description>Budget Aggregation Code</description>
+			</attribute>
+
+			<attribute name="finObjMandatoryTrnfrelimCd" forceUppercase="true">
+				<label>Mandatory Transfer Or Eliminations Code</label>
+				<shortLabel>ManTranOrElimCode</shortLabel>
+
+				<maxLength>1</maxLength>
+				
+				<control><text size="1" /></control>
+
+				<summary>Mandatory Transfer Or Eliminations Code</summary>
+				<description>Mandatory Transfer Or Eliminations Code</description>
+			</attribute>
+
+			<attribute name="financialFederalFundedCode" forceUppercase="true">
+				<label>Federally Funded Code</label>
+				<shortLabel>FedFundCde</shortLabel>
+
+				<maxLength>1</maxLength>
+				
+				<control>
+					<text size="1" />
+				</control>
+
+				<summary>Federally Funded Code</summary>
+				<description>Federally Funded Code</description>
+			</attribute>
+
+			<attribute name="nextYearFinancialObjectCode" forceUppercase="true">
+				<label>Next Year Object Code</label>
+				<shortLabel>NextYearObjCode</shortLabel>
+
+				<maxLength>4</maxLength>
+				<validationPattern><numeric /></validationPattern>
+
+				<control>
+					<text size="4" />
+				</control>
+
+				<summary>Next Year Object Code value.</summary>
+				<description>
+					The Next Year Object Code value used.
+				</description>
+			</attribute>
+
+		    <attributeReference name="versionNumber" 
+								sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
+								sourceAttributeName="versionNumber" />
+
+		</attributes>
+	</businessObject>
+</dictionaryEntry>

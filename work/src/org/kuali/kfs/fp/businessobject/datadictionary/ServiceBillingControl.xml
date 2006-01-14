@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../core/datadictionary/dataDictionary-1_0.dtd">
+<dictionaryEntry>
+	<businessObject
+		businessObjectClass="org.kuali.module.financial.bo.ServiceBillingControl">
+		<customAttributeEnabled>false</customAttributeEnabled>
+
+		<inquiry>
+			<title>Service Billing Control Inquiry</title>
+
+			<inquiryFields>
+				<field attributeName="chartOfAccountsCode" />
+				<field attributeName="accountNumber" />			
+			</inquiryFields>
+		</inquiry>	
+		
+		<lookup>
+			<title>Service Billing Control Lookup</title>
+
+			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.financial.bo.ServiceBillingControl">Create New</a>]]></menubar>
+
+			<instructions>Lookup a Service Billing Control</instructions>
+
+			<defaultSort attributeName="chartOfAccountsCode" sortAscending="true" />
+
+			<lookupFields>
+				<lookupField attributeName="chartOfAccountsCode" required="false" />
+				<lookupField attributeName="accountNumber" required="false" />	
+			</lookupFields>
+
+			<resultFields>
+				<field attributeName="chartOfAccountsCode" />
+				<field attributeName="accountNumber" />		
+			</resultFields>
+		</lookup>
+		
+		<attributes>
+			
+			<!--  
+			This should be an attributeReference, but this wont 
+			work until the actual BO uses objects rather than just 
+			string representations 
+			-->
+			<attributeReference name="chartOfAccountsCode" 
+								sourceClassName="org.kuali.module.chart.bo.Chart" 
+								sourceAttributeName="chartOfAccountsCode" />
+			
+
+			<!--  
+			This should be an attributeReference, but this wont 
+			work until the actual BO uses objects rather than just 
+			string representations 
+			-->
+			<attributeReference name="accountNumber" 
+								sourceClassName="org.kuali.module.chart.bo.Account" 
+								sourceAttributeName="accountNumber"/>
+				
+								
+		    <attributeReference name="versionNumber" 
+								sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
+								sourceAttributeName="versionNumber" />
+								
+			 <attributeReference name="objectId" 
+								sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
+								sourceAttributeName="objectId" />
+								
+		</attributes>
+	</businessObject>
+</dictionaryEntry>
+			

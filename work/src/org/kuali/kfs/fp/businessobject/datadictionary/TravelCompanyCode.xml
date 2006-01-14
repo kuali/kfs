@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../core/datadictionary/dataDictionary-1_0.dtd">
+<dictionaryEntry>
+	<businessObject businessObjectClass="org.kuali.module.financial.bo.TravelCompanyCode">
+		<customAttributeEnabled>false</customAttributeEnabled>
+
+		<inquiry>
+			<title>Travel Company Code Inquiry</title>
+
+			<inquiryFields>
+				<field attributeName="code" />
+				<field attributeName="name" />				
+			</inquiryFields>
+		</inquiry>
+
+		<lookup>
+			<title>Travel Company Code Lookup</title>
+
+			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.financial.bo.TravelCompanyCode">Create New</a>]]></menubar>
+
+			<instructions>Lookup a Travel Company Code</instructions>
+
+			<defaultSort attributeName="code" sortAscending="true" />
+
+			<lookupFields>
+				<lookupField attributeName="code" required="false" />
+				<lookupField attributeName="name" required="false" />
+			</lookupFields>
+
+			<resultFields>
+				<field attributeName="code" />
+				<field attributeName="name" />
+			</resultFields>
+		</lookup>
+
+		<attributes>
+
+			<attribute name="code" forceUppercase="true">
+				<label>Travel Company Code</label>
+				<shortLabel>Type Code</shortLabel>
+
+				<maxLength>2</maxLength>
+                <validationPattern><alphaNumeric /></validationPattern>
+
+				<control>
+					<text size="2" />
+				</control>
+
+				<summary>Travel Company Code</summary>
+				<description>The code uniquely identify a travel company.</description>
+			</attribute>
+			
+			<attribute name="name" forceUppercase="false">
+                <label>Travel Company Name</label>
+                <shortLabel>Name</shortLabel>
+
+                <maxLength>25</maxLength>
+
+                <control>
+                    <text size="25" />
+                </control>
+
+                <summary>Travel Company Name</summary>
+                <description>Travel Company Name</description>
+            </attribute>
+
+		</attributes>
+	</businessObject>
+</dictionaryEntry>
+

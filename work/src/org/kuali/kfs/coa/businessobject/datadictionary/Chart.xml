@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../core/datadictionary/dataDictionary-1_0.dtd">
+
+<dictionaryEntry>
+  <businessObject businessObjectClass="org.kuali.module.chart.bo.Chart">
+    <customAttributeEnabled>false</customAttributeEnabled>
+
+    <inquiry>
+      <title>Chart Inquiry</title>
+
+      <inquiryFields>
+        <field attributeName="chartOfAccountsCode" />
+        <field attributeName="finCoaManagerUniversal.personUniversalIdentifier" />
+        <field attributeName="finChartOfAcctOriginationCd" />
+        <field attributeName="finChartOfAccountDescription" />
+        <field attributeName="finChartOfAccountActiveIndicator" />
+        <field attributeName="financialCashObject.financialObjectCode" />
+        <field attributeName="finAccountsPayableObject.financialObjectCode" />
+        <field attributeName="incBdgtEliminationsFinObj.financialObjectCode" />
+        <field attributeName="expBdgtEliminationsFinObj.financialObjectCode" />
+        <field attributeName="reportsToChartOfAccounts.chartOfAccountsCode" />
+        <field attributeName="finAccountsReceivableObj.financialObjectCode" />
+        <field attributeName="finInternalEncumbranceObj.financialObjectCode" />
+        <field attributeName="finExternalEncumbranceObj.financialObjectCode" />
+        <field attributeName="finPreEncumbranceObject.financialObjectCode" />
+        <field attributeName="icrIncomeFinancialObject.financialObjectCode" />
+        <field attributeName="icrExpenseFinancialObject.financialObjectCode" />
+      </inquiryFields>
+    </inquiry>
+
+    <lookup>
+      <title>Chart Lookup</title>
+
+      <menubar>
+        <![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.chart.bo.Chart">Create New</a>]]>
+      </menubar>
+
+      <instructions>Lookup a Chart</instructions>
+
+      <defaultSort
+        attributeName="chartOfAccountsCode"
+        sortAscending="true" />
+
+      <lookupFields>
+        <lookupField attributeName="chartOfAccountsCode" required="false" />
+        <lookupField attributeName="finCoaManagerUniversal.personUniversalIdentifier" />
+        <lookupField attributeName="finChartOfAcctOriginationCd" />
+        <lookupField attributeName="finChartOfAccountDescription" />
+        <lookupField attributeName="finChartOfAccountActiveIndicator" />
+        <lookupField attributeName="financialCashObject.financialObjectCode" />
+        <lookupField attributeName="finAccountsPayableObject.financialObjectCode" />
+      </lookupFields>
+
+      <resultFields>
+        <field attributeName="chartOfAccountsCode" />
+        <field attributeName="finCoaManagerUniversal.personUniversalIdentifier" />
+        <field attributeName="finChartOfAcctOriginationCd" />
+        <field attributeName="finChartOfAccountDescription" />
+        <field attributeName="finChartOfAccountActiveIndicator" />
+        <field attributeName="financialCashObject.financialObjectCode" />
+        <field attributeName="finAccountsPayableObject.financialObjectCode" />
+      </resultFields>
+    </lookup>
+
+    <titleAttribute>chartOfAccountsCode</titleAttribute>
+
+    <!--
+      Note that this has alot of items that should 
+      be converted to <attributeReference> tags, but until the 
+      underlying BO is updated to use real sub-objects rather 
+      than just strings, doing that will cause this DD to break.
+    -->
+    <attributes>
+      <attribute
+        name="chartOfAccountsCode"
+        forceUppercase="true">
+        <label>Chart Code</label>
+        <shortLabel>Chart</shortLabel>
+
+        <maxLength>2</maxLength>
+        <validationPattern>
+          <alpha exactLength="2" />
+        </validationPattern>
+
+        <control>
+          <!-- text size="2" /-->
+          <!-- If we want to go back to the drop-down list, then use this:-->
+            <select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder"/>
+        </control>
+
+        <summary>Chart of Accounts Code</summary>
+        <description>Financial Chart of Accounts Code</description>
+      </attribute>
+
+      <attributeReference
+        name="finCoaManagerUniversal.personUniversalIdentifier"
+        sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
+        sourceAttributeName="genericSystemId">
+        <label>Chart Manager Employee Id</label>
+        <shortLabel>Chart Manager</shortLabel>
+        <summary>Chart Manager</summary>
+        <description>Chart Manager</description>
+      </attributeReference>
+
+      <attribute
+        name="finChartOfAcctOriginationCd"
+        forceUppercase="true">
+        <label>Origin Code</label>
+        <shortLabel>Origin</shortLabel>
+
+        <maxLength>2</maxLength>
+        <validationPattern>
+          <numeric />
+        </validationPattern>
+
+        <control>
+          <text size="2" />
+        </control>
+
+        <summary>Origin Code</summary>
+        <description>Origin Code</description>
+      </attribute>
+
+      <attribute
+        name="finChartOfAccountDescription"
+        forceUppercase="false">
+        <label>Chart Description</label>
+        <shortLabel>Description</shortLabel>
+
+        <maxLength>40</maxLength>
+
+        <control>
+          <text size="40" />
+        </control>
+
+        <summary>The chart's description</summary>
+        <description>The chart's description...</description>
+      </attribute>
+
+      <attributeReference
+        name="finChartOfAccountActiveIndicator"
+        sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
+        sourceAttributeName="activeIndicator" />
+
+      <attribute
+        name="financialCashObject.financialObjectCode"
+        forceUppercase="false">
+        <label>Cash Object Code</label>
+        <shortLabel>CashObjCode</shortLabel>
+
+        <maxLength>4</maxLength>
+        <validationPattern>
+          <numeric />
+        </validationPattern>
+
+        <control>
+          <text size="4" />
+        </control>
+
+        <summary>Cash Object Code value.</summary>
+        <description>The Cash Object Code value used.</description>
+      </attribute>
+
+      <attribute
+        name="finAccountsPayableObject.financialObjectCode"
+        forceUppercase="false">
+        <label>Accounts Payable Object Code</label>
+        <shortLabel>APObjectCode</shortLabel>
+
+        <maxLength>4</maxLength>
+        <validationPattern>
+          <numeric />
+        </validationPattern>
+
+        <control>
+          <text size="4" />
+        </control>
+
+        <summary>Accounts Payable Object Code value.</summary>
+        <description>The Accounts Payable Object Code value used.</description>
+      </attribute>
+
+      <attribute
+        name="incBdgtEliminationsFinObj.financialObjectCode"
+        forceUppercase="false">
+        <label>Income Budget Elimination Object Code</label>
+        <shortLabel>incBudgElimObjCode</shortLabel>
+
+        <maxLength>4</maxLength>
+        <validationPattern>
+          <numeric />
+        </validationPattern>
+
+        <control>
+          <text size="4" />
+        </control>
+
+        <summary>Income Budget Elimination Object Code value.</summary>
+        <description>
+          Income Budget Elimination Object Code value used.
+        </description>
+      </attribute>
+
+      <attribute
+        name="expBdgtEliminationsFinObj.financialObjectCode"
+        forceUppercase="false">
+        <label>Expense Budget Elimination Object Code</label>
+        <shortLabel>expBudgElimObjCode</shortLabel>
+
+        <maxLength>4</maxLength>
+        <validationPattern>
+          <numeric />
+        </validationPattern>
+
+        <control>
+          <text size="4" />
+        </control>
+
+        <summary>Expense Budget Elimination Object Code value.</summary>
+        <description>
+          Expense Budget Elimination Object Code value used.
+        </description>
+      </attribute>
+
+      <attribute
+        name="reportsToChartOfAccounts.chartOfAccountsCode"
+        forceUppercase="true">
+        <label>Reports To Chart of Accounts Code</label>
+        <shortLabel>rptsToChartCode</shortLabel>
+
+        <maxLength>2</maxLength>
+        <validationPattern>
+          <anyCharacter />
+        </validationPattern>
+
+        <control>
+          <select
+            valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" />
+        </control>
+
+        <summary>Origin Code</summary>
+        <description>Origin Code</description>
+      </attribute>
+
+      <attribute
+        name="finAccountsReceivableObj.financialObjectCode"
+        forceUppercase="false">
+        <label>Accounts Receivable Object Code</label>
+        <shortLabel>acctsReceivObjCode</shortLabel>
+
+        <maxLength>4</maxLength>
+        <validationPattern>
+          <numeric />
+        </validationPattern>
+
+        <control>
+          <text size="4" />
+        </control>
+
+        <summary>Accounts Receivable Object Code value.</summary>
+        <description>Accounts Receivable Object Code value used.</description>
+      </attribute>
+
+      <attribute
+        name="finInternalEncumbranceObj.financialObjectCode"
+        forceUppercase="false">
+        <label>Internal Encumbrances Object Code</label>
+        <shortLabel>intEncumObjCode</shortLabel>
+
+        <maxLength>4</maxLength>
+        <validationPattern>
+          <numeric />
+        </validationPattern>
+
+        <control>
+          <text size="4" />
+        </control>
+
+        <summary>Internal Encumbrances Object Code value.</summary>
+        <description>Internal Encumbrances Object Code value used.</description>
+      </attribute>
+
+      <attribute
+        name="finExternalEncumbranceObj.financialObjectCode"
+        forceUppercase="false">
+        <label>External Encumbrances Object Code</label>
+        <shortLabel>exEncumObjCode</shortLabel>
+
+        <maxLength>4</maxLength>
+        <validationPattern>
+          <numeric />
+        </validationPattern>
+
+        <control>
+          <text size="4" />
+        </control>
+
+        <summary>External Encumbrances Object Code value.</summary>
+        <description>External Encumbrances Object Code value used.</description>
+      </attribute>
+
+      <attribute
+        name="finPreEncumbranceObject.financialObjectCode"
+        forceUppercase="false">
+        <label>Pre Encumbrances Object Code</label>
+        <shortLabel>PreEncumObjCode</shortLabel>
+
+        <maxLength>4</maxLength>
+        <validationPattern>
+          <numeric />
+        </validationPattern>
+
+        <control>
+          <text size="4" />
+        </control>
+
+        <summary>Pre Encumbrances Object Code value.</summary>
+        <description>Pre Encumbrances Object Code value used.</description>
+      </attribute>
+
+      <attribute
+        name="icrIncomeFinancialObject.financialObjectCode"
+        forceUppercase="false">
+        <label>Indirect Cost Recovery Income Object Code</label>
+        <shortLabel>IndirecCostRecovIncObjCde</shortLabel>
+
+        <maxLength>4</maxLength>
+        <validationPattern>
+          <numeric />
+        </validationPattern>
+
+        <control>
+          <text size="4" />
+        </control>
+
+        <summary>Indirect Cost Recovery Income Object Code value.</summary>
+        <description>
+          Indirect Cost Recovery Income Object Code value used.
+        </description>
+      </attribute>
+
+      <attribute
+        name="icrExpenseFinancialObject.financialObjectCode"
+        forceUppercase="false">
+        <label>Indirect Cost Recovery Expense Object Code</label>
+        <shortLabel>IndirecCostRecovExpObjCde</shortLabel>
+
+        <maxLength>4</maxLength>
+        <validationPattern>
+          <numeric />
+        </validationPattern>
+
+        <control>
+          <text size="4" />
+        </control>
+
+        <summary>Indirect Cost Recovery Expense Object Code value.</summary>
+        <description>
+          Indirect Cost Recovery Expense Object Code value used.
+        </description>
+      </attribute>
+
+    </attributes>
+  </businessObject>
+</dictionaryEntry>
+

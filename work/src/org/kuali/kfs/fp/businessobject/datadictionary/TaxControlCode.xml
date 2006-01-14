@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../core/datadictionary/dataDictionary-1_0.dtd">
+<dictionaryEntry>
+	<businessObject businessObjectClass="org.kuali.module.financial.bo.TaxControlCode">
+		<customAttributeEnabled>false</customAttributeEnabled>
+
+		<inquiry>
+			<title>Tax Control Code Inquiry</title>
+
+			<inquiryFields>
+				<field attributeName="code" />
+				<field attributeName="name" />				
+			</inquiryFields>
+		</inquiry>
+
+		<lookup>
+			<title>Tax Control Code Lookup</title>
+
+			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.financial.bo.TaxControlCode">Create New</a>]]></menubar>
+
+			<instructions>Lookup a Tax Control Code</instructions>
+
+			<defaultSort attributeName="code" sortAscending="true" />
+
+			<lookupFields>
+				<lookupField attributeName="code" required="false" />
+				<lookupField attributeName="name" required="false" />
+			</lookupFields>
+
+			<resultFields>
+				<field attributeName="code" />
+				<field attributeName="name" />
+			</resultFields>
+		</lookup>
+
+		<attributes>
+
+			<attribute name="code" forceUppercase="true">
+				<label>Tax Control Code</label>
+				<shortLabel>Tax Code</shortLabel>
+
+				<maxLength>1</maxLength>
+                <validationPattern><alphaNumeric /></validationPattern>
+
+				<control>
+					<text size="1" />
+				</control>
+
+				<summary>Tax Control Code</summary>
+				<description>The code uniquely identify a tax control.</description>
+			</attribute>
+			
+			<attribute name="name" forceUppercase="false">
+                <label>Tax Control Name</label>
+                <shortLabel>Name</shortLabel>
+
+                <maxLength>25</maxLength>
+
+                <control>
+                    <text size="25" />
+                </control>
+
+                <summary>Tax Control Name</summary>
+                <description>Tax Control Name</description>
+            </attribute>
+
+		</attributes>
+	</businessObject>
+</dictionaryEntry>
+

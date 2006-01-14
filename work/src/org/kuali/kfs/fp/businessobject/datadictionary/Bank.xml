@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../core/datadictionary/dataDictionary-1_0.dtd">
+<dictionaryEntry>
+	<businessObject businessObjectClass="org.kuali.module.financial.bo.Bank">
+		<customAttributeEnabled>false</customAttributeEnabled>
+
+		<inquiry>
+			<title>Bank Inquiry</title>
+
+			<inquiryFields>
+				<field attributeName="financialDocumentBankCode" />
+				<field attributeName="financialDocumentBankName" />			
+				<field attributeName="financialDocumentBankShortNm" />		
+			</inquiryFields>
+		</inquiry>
+
+		<lookup>
+			<title>Bank Lookup</title>
+
+			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.financial.bo.Bank">Create New</a>]]></menubar>
+
+			<instructions>Lookup a Bank Account</instructions>
+
+			<defaultSort attributeName="financialDocumentBankCode" sortAscending="true" />
+
+			<lookupFields>
+				<lookupField attributeName="financialDocumentBankCode" required="false" />
+				<lookupField attributeName="financialDocumentBankName" required="false" />
+				<lookupField attributeName="financialDocumentBankShortNm" required="false" />
+			</lookupFields>
+
+			<resultFields>
+				<field attributeName="financialDocumentBankCode" />
+				<field attributeName="financialDocumentBankName" />
+				<field attributeName="financialDocumentBankShortNm" />
+			</resultFields>
+		</lookup>
+
+		<attributes>
+
+			<attribute name="financialDocumentBankCode" forceUppercase="true">
+				<label>Bank Code</label>
+				<shortLabel>Bank Code</shortLabel>
+
+				<maxLength>4</maxLength>
+				<validationPattern><alphaNumeric /></validationPattern>
+
+				<control>
+					<text size="4" />
+				</control>
+
+				<summary>Bank Code</summary>
+				<description>The bank code for the bank associated with this bank account.</description>
+			</attribute>
+			
+			<attribute name="financialDocumentBankName" forceUppercase="false">
+                <label>Bank Name</label>
+                <shortLabel>Name</shortLabel>
+
+                <maxLength>40</maxLength>
+
+                <control>
+                    <text size="40" />
+                </control>
+
+                <summary>Bank Name</summary>
+                <description>Bank Name...</description>
+                
+            </attribute>
+
+			<attribute name="financialDocumentBankShortNm" forceUppercase="false">
+                <label>Bank Short Name</label>
+                <shortLabel>Short Name</shortLabel>
+
+                <maxLength>12</maxLength>
+
+                <control>
+                    <text size="12" />
+                </control>
+
+                <summary>Bank Short Name</summary>
+                <description>Bank Short Name...</description>
+            </attribute>
+
+		</attributes>
+	</businessObject>
+</dictionaryEntry>
+

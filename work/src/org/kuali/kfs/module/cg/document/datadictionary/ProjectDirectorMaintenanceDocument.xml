@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+
+<dictionaryEntry>
+	<maintenanceDocument>
+        <businessObjectClass>org.kuali.module.cg.bo.ProjectDirector</businessObjectClass>
+        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+
+        <documentAuthorizerClass>org.kuali.core.document.DocumentAuthorizerBase</documentAuthorizerClass>
+        <authorizations>
+            <authorization action="initiate">
+                <workgroups>
+                    <workgroup>kualiUniversalGroup</workgroup>
+                </workgroups>
+            </authorization>
+        </authorizations>
+
+		<documentTypeName>KualiProjectDirectorMaintenanceDocument</documentTypeName>
+		<documentTypeCode>PDMD</documentTypeCode>
+
+		<label>Project Director Maintenance Document</label>
+		<shortLabel>PdMaintDoc</shortLabel>
+		
+		<summary>Project Director Maintenance Document</summary>
+		<description>Document used to create or update Project Director objects</description>
+
+        <lockingKeys>
+			<field attributeName="universalUser.personUniversalIdentifier" />
+		</lockingKeys> 
+		
+	    <maintainableSections>
+	        <maintainableSection title="Edit Project Director">  
+	        	<maintainableItems>         					
+					<maintainableField name="universalUser.personUniversalIdentifier" />
+				</maintainableItems>
+	        </maintainableSection>
+	    </maintainableSections>
+	</maintenanceDocument>
+</dictionaryEntry>

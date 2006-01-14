@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+
+<dictionaryEntry>
+	<maintenanceDocument>
+        <businessObjectClass>org.kuali.module.gl.bo.UniversityDate</businessObjectClass>
+        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+
+        <documentAuthorizerClass>org.kuali.core.document.DocumentAuthorizerBase</documentAuthorizerClass>
+        <authorizations>
+            <authorization action="initiate">
+                <workgroups>
+                    <workgroup>kualiUniversalGroup</workgroup>
+                </workgroups>
+            </authorization>
+        </authorizations>
+
+		<documentTypeName>KualiUniversityDateMaintenanceDocument</documentTypeName>
+		<documentTypeCode>UDM</documentTypeCode>
+
+		<label>University Date Maintenance Document</label>
+		<shortLabel>UnivDateMaintDoc</shortLabel>
+		
+		<summary>University Date maintenance document</summary>
+		<description>Document used to create or update University Date objects</description>
+
+        
+        <lockingKeys>
+			<field attributeName="universityDate" />
+		</lockingKeys>	          
+
+	    <maintainableSections>
+	        <maintainableSection title="Edit University Date">
+	        	<maintainableItems>
+	            	<maintainableField name="universityDate" required="true" />
+	            	<maintainableField name="universityFiscalYear" required="true" />
+	            	<maintainableField name="universityFiscalAccountingPeriod" required="true" />	            	
+	            </maintainableItems>          	                   
+	        </maintainableSection>
+	    </maintainableSections>
+	</maintenanceDocument>
+</dictionaryEntry>

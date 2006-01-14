@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+     "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../core/datadictionary/dataDictionary-1_0.dtd">
+
+<dictionaryEntry>
+	<businessObject businessObjectClass="org.kuali.module.financial.bo.DisbursementVoucherWireTransfer">
+	
+        <customAttributeEnabled>false</customAttributeEnabled>
+	    
+	    <attributes>
+	    
+	        <attribute name="disbursementVoucherBankName">
+	            <label>Bank Name</label>
+	            <shortLabel>Bnk Nm</shortLabel>
+	            
+	            <maxLength>22</maxLength>
+	            
+	            <required>false</required>
+	            
+	            <control>
+	                <text size="40"/>
+	            </control>
+	            
+	            <summary>Bank Name</summary>
+	            <description>...</description>
+	        </attribute>
+	        
+	        <attribute name="disbVchrBankRoutingNumber">
+	            <label>Bank ABA Routing #</label>
+	            <shortLabel>Bnk Rout</shortLabel>
+	            
+	            <maxLength>9</maxLength>
+	            
+	            <required>false</required>
+	            
+	            <control>
+	                <text size="9"/>
+	            </control>
+	            
+	            <summary>Bank ABA Routing #</summary>
+	            <description>...</description>
+	        </attribute>
+	        
+	        <attribute name="disbVchrBankCityName">
+	            <label>Bank City</label>
+	            <shortLabel>Bnk Cty</shortLabel>
+	            
+	            <maxLength>37</maxLength>
+	            
+	            <required>false</required>
+	            
+	            <control>
+	                <text size="37"/>
+	            </control>
+	            
+	            <summary>Bank City</summary>
+	            <description>...</description>
+	        </attribute>
+	        
+	        <attribute name="disbVchrBankStateCode">
+	            <label>Bank State</label>
+	            <shortLabel>Bnk St</shortLabel>
+	            
+	            <maxLength>2</maxLength>
+	            
+	            <required>false</required>
+	            
+	            <control>
+	                <text size="2"/>
+	            </control>
+	            
+	            <summary>Bank State</summary>
+	            <description>...</description>
+	        </attribute>
+	        
+	        <attribute name="disbVchrBankCountryName">
+	            <label>Bank Country</label>
+	            <shortLabel>Bnk Cntry</shortLabel>
+	            
+	            <maxLength>40</maxLength>
+	            
+	            <required>false</required>
+	            
+	            <control>
+	                <select valuesFinderClass="org.kuali.core.lookup.keyvalues.CountryValuesFinder"/>
+	            </control>
+	            
+	            <summary>Bank Country</summary>
+	            <description>...</description>
+	        </attribute>
+	        
+	        <attribute name="disbVchrAttentionLineText">
+	            <label>Addenda</label>
+	            <shortLabel>Addenda</shortLabel>
+	            
+	            <maxLength>70</maxLength>
+	            
+	            <required>false</required>
+	            
+	            <control>
+	                <text size="60"/>
+	            </control>
+	            
+	            <summary>Addenda</summary>
+	            <description>...</description>
+	        </attribute>
+	        
+	        <attribute name="disbVchrAdditionalWireText">
+	            <label>Additional Wire Information</label>
+	            <shortLabel>Wire Info</shortLabel>
+	            
+	            <maxLength>120</maxLength>
+	            
+	            <required>false</required>
+	            
+	            <control>
+	                <text size="60"/>
+	            </control>
+	            
+	            <summary>Additional Wire Information</summary>
+	            <description>...</description>
+	        </attribute>
+             
+	        <attribute name="disbVchrPayeeAccountNumber">
+	            <label>Bank Account #</label>
+	            <shortLabel>Bnk Cntry</shortLabel>
+	            
+	            <maxLength>40</maxLength>
+	            
+	            <required>false</required>
+	            
+	            <control>
+	                <text size="40"/>
+	            </control>
+	            
+	            <summary>Bank Account #</summary>
+	            <description>...</description>
+	        </attribute>
+	        
+	        <attribute name="disbVchrCurrencyTypeCode">
+	            <label>DV Amount Stated in</label>
+	            <shortLabel>DV State</shortLabel>
+	            
+	            <maxLength>1</maxLength>
+	            
+	            <required>false</required>
+	            
+	            <control>
+	                <select valuesFinderClass="org.kuali.core.lookup.keyvalues.CurrencyTypeValuesFinder"/>
+	            </control>
+	            
+	            <summary>DV Amount Stated in</summary>
+	            <description>...</description>
+	        </attribute>
+	        
+	        <attribute name="disbVchrForeignBankIndicator">
+	            <label>Wire To</label>
+	            <shortLabel>Wire To</shortLabel>
+	            
+	            <maxLength>40</maxLength>
+	            
+	            <required>false</required>
+	            
+	            <control>
+	                <radio valuesFinderClass="org.kuali.core.lookup.keyvalues.ForeignBankIndicatorValuesFinder"/>
+	            </control>
+	            
+	            <summary>Wire To</summary>
+	            <description>...</description>
+	        </attribute>
+	        
+	        <attribute name="disbVchrCurrencyTypeName">
+	            <label>Currency Type</label>
+	            <shortLabel>Curr Typ</shortLabel>
+	            
+	            <maxLength>20</maxLength>
+	            
+	            <required>false</required>
+	            
+	            <control>
+	                <text size="20"/>
+	            </control>
+	            
+	            <summary>Currency Type</summary>
+	            <description>...</description>
+	        </attribute>
+	        
+	        <attribute name="disbursementVoucherWireTransferFeeWaiverIndicator">
+	            <label>Waive wire transfer fee?</label>
+	            <shortLabel>Waive Fee</shortLabel>
+	            
+	            <maxLength>5</maxLength>
+	            
+	            <required>false</required>
+	            
+	            <control>
+	                <checkbox/>
+	            </control>
+	            
+	            <summary>Waive wire transfer fee?</summary>
+	            <description>...</description>
+	        </attribute>
+	        
+	        <attribute name="disbursementVoucherPayeeAccountName">
+	            <label>Bank Acct in the Name of</label>
+	            <shortLabel>Acct Nm</shortLabel>
+	            
+	            <maxLength>40</maxLength>
+	            
+	            <required>false</required>
+	            
+	            <control>
+	                <text size="40"/>
+	            </control>
+	            
+	            <summary>Bank Acct in the Name of</summary>
+	            <description>...</description>
+	        </attribute>
+	        
+	    	<attribute name="disbursementVoucherPayeeAccountTypeCode">
+	            <label>Bank Acct Type</label>
+	            <shortLabel>Acct Type</shortLabel>
+	            
+	            <maxLength>1</maxLength>
+	            
+	            <required>false</required>
+	            
+	            <control>
+	                <radio valuesFinderClass="org.kuali.core.lookup.keyvalues.BankAccountTypeValuesFinder"/>
+	            </control>
+	            
+	            <summary>Bank Acct Type</summary>
+	            <description>...</description>
+	        </attribute>  
+	        
+	    	<attribute name="disbursementVoucherAutomatedClearingHouseProfileNumber">
+	            <label>Recurring Profile No.</label>
+	            <shortLabel>Prof. No</shortLabel>
+	            
+	            <maxLength>3</maxLength>
+	            
+	            <required>false</required>
+	            
+	            <control>
+	                <text size="3"/>
+	            </control>
+	            
+	            <summary>Recurring Profile No.</summary>
+	            <description>...</description>
+	        </attribute>   
+
+	    </attributes>
+	</businessObject>
+</dictionaryEntry>

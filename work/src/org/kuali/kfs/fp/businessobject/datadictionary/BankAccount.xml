@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../core/datadictionary/dataDictionary-1_0.dtd">
+<dictionaryEntry>
+	<businessObject businessObjectClass="org.kuali.module.financial.bo.BankAccount">
+		<customAttributeEnabled>false</customAttributeEnabled>
+
+		<inquiry>
+			<title>Bank Account Inquiry</title>
+
+			<inquiryFields>
+				<field attributeName="bank.financialDocumentBankCode" />
+  				<field attributeName="finDocumentBankAccountNumber" />
+  				<field attributeName="finDocumentBankAccountDesc" />		
+				<field attributeName="organization.chartOfAccounts.chartOfAccountsCode" />
+				<field attributeName="organization.organizationCode" />				
+				<field attributeName="universityAccount.chartOfAccounts.chartOfAccountsCode" />				
+				<field attributeName="universityAccount.accountNumber" />				
+			</inquiryFields>
+		</inquiry>
+
+		<lookup>
+			<title>Bank Account Lookup</title>
+
+			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.financial.bo.BankAccount">Create New</a>]]></menubar>
+
+			<instructions>Lookup a Bank Account</instructions>
+
+			<defaultSort attributeName="bank.financialDocumentBankCode" sortAscending="true" />
+
+			<lookupFields>
+				<lookupField attributeName="bank.financialDocumentBankCode" required="false" />
+				<lookupField attributeName="finDocumentBankAccountNumber" required="false" />				
+				<lookupField attributeName="finDocumentBankAccountDesc" required="false" />
+				<lookupField attributeName="organization.chartOfAccounts.chartOfAccountsCode" required="false" />
+				<lookupField attributeName="organization.organizationCode" required="false" />
+				<lookupField attributeName="universityAccount.chartOfAccounts.chartOfAccountsCode" required="false" />
+				<lookupField attributeName="universityAccount.accountNumber" required="false" />
+			</lookupFields>
+
+			<resultFields>
+				<field attributeName="bank.financialDocumentBankCode" />
+				<field attributeName="finDocumentBankAccountNumber" />
+				<field attributeName="finDocumentBankAccountDesc" />
+				<field attributeName="organization.chartOfAccounts.chartOfAccountsCode" />
+				<field attributeName="organization.organizationCode" />
+				<field attributeName="universityAccount.chartOfAccounts.chartOfAccountsCode" />
+				<field attributeName="universityAccount.accountNumber" />		
+			</resultFields>
+		</lookup>
+
+		<attributes>
+
+			<attributeReference name="bank.financialDocumentBankCode" 
+				sourceClassName="org.kuali.module.financial.bo.Bank" 
+				sourceAttributeName="financialDocumentBankCode" />
+
+			<attribute name="finDocumentBankAccountNumber" forceUppercase="false">
+                <label>Bank Account Number</label>
+                <shortLabel>Bank Acct</shortLabel>
+
+                <maxLength>15</maxLength>
+
+                <control>
+                    <text size="15" />
+                </control>
+
+                <summary>Bank Account Number</summary>
+                <description>Bank Account Number...</description>
+            </attribute>
+
+			<attribute name="finDocumentBankAccountDesc" forceUppercase="false">
+                <label>Bank Account Description</label>
+                <shortLabel>Bank Acct Desc</shortLabel>
+
+                <maxLength>40</maxLength>
+
+                <control>
+                    <text size="40" />
+                </control>
+
+                <summary>Bank Account Description</summary>
+                <description>Bank Account Description...</description>
+            </attribute>
+            
+			<attributeReference name="organization.chartOfAccounts.chartOfAccountsCode" 
+					sourceClassName="org.kuali.module.chart.bo.Chart" 
+					sourceAttributeName="chartOfAccountsCode" >
+				<label>Chart Of Accounts</label>
+				<shortLabel>CoA</shortLabel>
+				<summary>Chart Of Accounts Code</summary>
+				<description>Chart Of Accounts Code</description>
+			</attributeReference>
+				
+			<attributeReference name="organization.organizationCode" 
+				sourceClassName="org.kuali.module.chart.bo.Org" 
+				sourceAttributeName="organizationCode" />
+				
+			<attributeReference name="universityAccount.chartOfAccounts.chartOfAccountsCode" 
+								sourceClassName="org.kuali.module.chart.bo.Chart" 
+								sourceAttributeName="chartOfAccountsCode">
+				<label>University Chart Of Accounts</label>
+				<shortLabel>Univ CoA</shortLabel>
+				<summary>University Chart Of Accounts Code</summary>
+				<description>University Chart Of Accounts Code</description>
+			</attributeReference>
+
+			<attributeReference name="universityAccount.accountNumber" 
+								sourceClassName="org.kuali.module.chart.bo.Account" 
+								sourceAttributeName="accountNumber">
+				<label>University Account Number</label>
+				<shortLabel>Univ. Acct. Num.</shortLabel>
+				<summary>Univ Account</summary>
+				<description>University Account Number</description>
+			</attributeReference>
+			
+		</attributes>
+	</businessObject>
+</dictionaryEntry>

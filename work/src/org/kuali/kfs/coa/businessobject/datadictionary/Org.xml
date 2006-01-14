@@ -1,0 +1,412 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../core/datadictionary/dataDictionary-1_0.dtd">
+<dictionaryEntry>
+  <businessObject businessObjectClass="org.kuali.module.chart.bo.Org">
+    <customAttributeEnabled>false</customAttributeEnabled>
+
+    <inquiry>
+      <title>Organization Inquiry</title>
+
+      <inquiryFields>
+        <field attributeName="organizationStateCode" />
+        <field attributeName="organizationActiveIndicator" />
+        <field attributeName="hrisOrganization.organizationCode" />
+        <field attributeName="organizationType.organizationTypeCode" />
+        <field
+          attributeName="chartOfAccounts.chartOfAccountsCode"
+          noInquiry="true" />
+        <field attributeName="organizationName" />
+        <field
+          attributeName="reportsToOrganization.chartOfAccounts.chartOfAccountsCode" />
+        <field attributeName="organizationZipCode" />
+        <field attributeName="organizationPlantChart.chartOfAccountsCode" />
+        <field attributeName="campusPlantAccount.accountNumber" />
+        <field attributeName="reportsToOrganization.organizationCode" />
+        <field
+          attributeName="organizationCode"
+          noInquiry="true" />
+        <field attributeName="campusPlantAccount.chartOfAccounts.chartOfAccountsCode" />
+        <field attributeName="organizationCityName" />
+        <field attributeName="responsibilityCenter.responsibilityCenterCode" />
+        <field attributeName="organizationBeginDate" />
+        <field
+          attributeName="organizationManagerUniversal.personUniversalIdentifier" />
+        <field attributeName="organizationStreetAddress" />
+      </inquiryFields>
+    </inquiry>
+
+    <lookup>
+      <title>Organization Lookup</title>
+
+      <menubar>
+        <![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.chart.bo.Org">Create New</a>]]>
+      </menubar>
+
+      <instructions>Lookup an Organization</instructions>
+
+      <defaultSort
+        attributeName="chartOfAccounts.chartOfAccountsCode"
+        sortAscending="false" />
+
+      <lookupFields>
+        <lookupField
+          attributeName="chartOfAccounts.chartOfAccountsCode"
+          required="false" />
+        <lookupField
+          attributeName="organizationCode"
+          required="false"
+          forceLookup="true" />
+        <lookupField
+          attributeName="responsibilityCenter.responsibilityCenterCode"
+          required="false" />
+        <lookupField
+          attributeName="organizationType.organizationTypeCode"
+          required="false" />
+        <lookupField
+          attributeName="organizationName"
+          required="false" />
+        <lookupField
+          attributeName="reportsToOrganization.chartOfAccounts.chartOfAccountsCode"
+          required="false"
+          noLookup="true" />
+        <lookupField
+          attributeName="reportsToOrganization.organizationCode"
+          required="false" />
+      </lookupFields>
+
+      <resultFields>
+        <field
+          attributeName="chartOfAccounts.chartOfAccountsCode"
+          noInquiry="true" />
+        <field attributeName="organizationCode" />
+        <field attributeName="responsibilityCenter.responsibilityCenterCode" />
+        <field attributeName="organizationType.organizationTypeCode" />
+        <field attributeName="organizationName" />
+        <field attributeName="organizationActiveIndicator" />
+      </resultFields>
+    </lookup>
+
+    <titleAttribute>organizationCode</titleAttribute>
+
+    <attributes>
+      <attributeReference
+        name="organizationEndDate"
+        sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
+        sourceAttributeName="genericTimestamp">
+        <label>Organization End Date</label>
+        <shortLabel>End Date</shortLabel>
+        <summary>Organization End Date</summary>
+        <description>Organization End Date</description>
+      </attributeReference>
+
+      <attributeReference
+        name="organizationPlantAccount.accountNumber"
+        sourceClassName="org.kuali.module.chart.bo.Account"
+        sourceAttributeName="accountNumber">
+        <label>Plant Account Number</label>
+        <shortLabel>Plant Acct</shortLabel>
+        <summary>Plant Account Number</summary>
+        <description>Plant Account Number</description>
+      </attributeReference>
+
+      <attribute
+        name="organizationStateCode"
+        forceUppercase="false">
+        <label>Organization State Code</label>
+        <shortLabel>St Cd</shortLabel>
+
+        <maxLength>2</maxLength>
+        <validationPattern>
+          <alpha exactLength="2" />
+        </validationPattern>
+
+        <control>
+          <text size="2" />
+        </control>
+
+        <summary>Organization State Code</summary>
+        <description>Organization State Code</description>
+      </attribute>
+
+      <attributeReference
+        name="organizationActiveIndicator"
+        sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
+        sourceAttributeName="genericBoolean">
+        <label>Active</label>
+        <shortLabel>Act.</shortLabel>
+        <summary>Active</summary>
+        <description>Action</description>
+      </attributeReference>
+
+      <attributeReference
+        name="hrisOrganization.organizationCode"
+        sourceClassName="org.kuali.module.chart.bo.Org"
+        sourceAttributeName="organizationCode">
+        <label>Human Resources Organization Code</label>
+        <shortLabel>HR Org Code</shortLabel>
+        <summary>Human Resources Organization Code</summary>
+        <description>Human Resources Organization Code</description>
+      </attributeReference>
+
+      <attribute
+        name="organizationType.organizationTypeCode"
+        forceUppercase="false">
+        <label>Organization Type</label>
+        <shortLabel>Type</shortLabel>
+
+        <maxLength>1</maxLength>
+        <validationPattern>
+          <alpha exactLength="1" />
+        </validationPattern>
+
+        <control>
+          <text size="1" />
+        </control>
+
+        <summary>Organization Type</summary>
+        <description>Organization Type</description>
+      </attribute>
+
+      <attributeReference
+        name="chartOfAccounts.chartOfAccountsCode"
+        sourceClassName="org.kuali.module.chart.bo.Chart"
+        sourceAttributeName="chartOfAccountsCode" />
+
+      <attribute
+        name="organizationName"
+        forceUppercase="false">
+        <label>Organization Name</label>
+        <shortLabel>Org Name</shortLabel>
+
+        <maxLength>40</maxLength>
+        <validationPattern>
+          <anyCharacter allowWhitespace="true" />
+        </validationPattern>
+
+        <control>
+          <text size="40" />
+        </control>
+
+        <summary>Organization Name</summary>
+        <description>Organization Name</description>
+      </attribute>
+
+      <attributeReference
+        name="organizationDefaultAccount.accountNumber"
+        sourceClassName="org.kuali.module.chart.bo.Account"
+        sourceAttributeName="accountNumber">
+        <label>Organization Default Account Number</label>
+        <shortLabel>Default Acct</shortLabel>
+        <summary>Organization Default Account Number</summary>
+        <description>Organization Default Account Number</description>
+      </attributeReference>
+
+      <attribute
+        name="organizationPhysicalCampus.campusCode"
+        forceUppercase="false">
+        <label>Organization Physical Campus Code</label>
+        <shortLabel>Physical Campus</shortLabel>
+
+        <maxLength>2</maxLength>
+        <validationPattern>
+          <alpha exactLength="2" />
+        </validationPattern>
+
+        <control>
+          <text size="2" />
+        </control>
+
+        <summary>Organization Physical Campus Code</summary>
+        <description>Organization Physical Campus Code</description>
+      </attribute>
+
+      <attributeReference
+        name="reportsToOrganization.organizationCode"
+        sourceClassName="org.kuali.module.chart.bo.Org"
+        sourceAttributeName="organizationCode">
+        <label>Reports to Organization</label>
+        <shortLabel>Rpts to Org</shortLabel>
+
+        <summary>Reports to Organization</summary>
+        <description>Reports to Organization</description>
+      </attributeReference>
+
+      <attributeReference
+        name="reportsToOrganization.chartOfAccounts.chartOfAccountsCode"
+        sourceClassName="org.kuali.module.chart.bo.Chart"
+        sourceAttributeName="chartOfAccountsCode">
+        <label>Reports to Chart Code</label>
+        <shortLabel>Rpts to Chart</shortLabel>
+
+        <summary>Reports to Chart Code</summary>
+        <description>Reports to Chart Code</description>
+      </attributeReference>
+
+      <attribute
+        name="organizationZipCode"
+        forceUppercase="false">
+        <label>Organization Zip Code</label>
+        <shortLabel>Zip</shortLabel>
+
+        <maxLength>11</maxLength>
+        <validationPattern>
+          <zipcode />
+        </validationPattern>
+
+        <control>
+          <text size="11" />
+        </control>
+
+        <summary>Organization Zip Code</summary>
+        <description>Organization Zip Code</description>
+      </attribute>
+
+      <attributeReference
+        name="organizationPlantChart.chartOfAccountsCode"
+        sourceClassName="org.kuali.module.chart.bo.Chart"
+        sourceAttributeName="chartOfAccountsCode">
+        <label>Organization Plant Chart</label>
+        <shortLabel>Plant Chart</shortLabel>
+        <summary>Organization Plant Chart</summary>
+        <description>Organization Plant Chart</description>
+      </attributeReference>
+
+      <attributeReference
+        name="campusPlantAccount.accountNumber"
+        sourceClassName="org.kuali.module.chart.bo.Account"
+        sourceAttributeName="accountNumber">
+        <label>Campus Plant Account Number</label>
+        <shortLabel>Plant Acct</shortLabel>
+        <summary>Campus Plant Account Number</summary>
+        <description>Campus Plant Account Number</description>
+      </attributeReference>
+
+      <attribute
+        name="organizationCode"
+        forceUppercase="true">
+        <label>Organization Code</label>
+        <shortLabel>Org</shortLabel>
+
+        <maxLength>4</maxLength>
+        <validationPattern>
+          <anyCharacter />
+        </validationPattern>
+
+        <control>
+          <text size="4" />
+        </control>
+
+        <summary>Organization Code</summary>
+        <description>Organization Code</description>
+      </attribute>
+
+      <attributeReference
+        name="campusPlantAccount.chartOfAccounts.chartOfAccountsCode"
+        sourceClassName="org.kuali.module.chart.bo.Chart"
+        sourceAttributeName="chartOfAccountsCode">
+        <label>Campus Plant Chart Code</label>
+        <shortLabel>Chart Code</shortLabel>
+        <summary>Campus Plant Chart Code</summary>
+        <description>Campus Plant Chart Code</description>
+      </attributeReference>
+
+      <attribute
+        name="organizationCityName"
+        forceUppercase="false">
+        <label>Organization City Name</label>
+        <shortLabel>City</shortLabel>
+
+        <maxLength>25</maxLength>
+        <validationPattern>
+          <anyCharacter allowWhitespace="true" />
+        </validationPattern>
+
+        <control>
+          <text size="25" />
+        </control>
+
+        <summary>Organization City Name</summary>
+        <description>Organization City Name</description>
+      </attribute>
+
+      <attribute
+        name="responsibilityCenter.responsibilityCenterCode"
+        forceUppercase="false">
+        <label>Responsibility Center Code</label>
+        <shortLabel>RC</shortLabel>
+
+        <maxLength>2</maxLength>
+        <validationPattern>
+          <anyCharacter exactLength="2" />
+        </validationPattern>
+
+        <control>
+          <text size="2" />
+        </control>
+
+        <summary>Responsibility Center Code</summary>
+        <description>Responsibility Center Code</description>
+      </attribute>
+
+      <attribute
+        name="organizationInFinancialProcessingIndicator"
+        forceUppercase="false">
+        <label>Organization In Financial Processing</label>
+        <shortLabel>In Fin Processing</shortLabel>
+
+        <maxLength>1</maxLength>
+
+        <control>
+          <checkbox />
+        </control>
+
+        <summary>Organization In Financial Processing</summary>
+        <description>Organization In Financial Processing</description>
+      </attribute>
+
+      <attributeReference
+        name="organizationBeginDate"
+        sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
+        sourceAttributeName="genericTimestamp">
+        <label>Organization Begin Date</label>
+        <shortLabel>Begin Date</shortLabel>
+        <summary>Organization Begin Date</summary>
+        <description>Organization Begin Date</description>
+        <formatterClass>org.kuali.core.web.format.DateFormatter</formatterClass>
+      </attributeReference>
+
+      <attributeReference
+        name="organizationManagerUniversal.personUniversalIdentifier"
+        sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
+        sourceAttributeName="genericSystemId">
+        <label>Manager Universal Id</label>
+        <shortLabel>Unvl Id</shortLabel>
+        <summary>Manager Universal Id</summary>
+        <description>Manager Universal Id</description>
+      </attributeReference>
+
+      <attribute
+        name="organizationStreetAddress"
+        forceUppercase="false">
+        <label>Organization Street</label>
+        <shortLabel>Street</shortLabel>
+
+        <maxLength>30</maxLength>
+        <validationPattern>
+          <anyCharacter allowWhitespace="true" />
+        </validationPattern>
+
+        <control>
+          <text size="30" />
+        </control>
+
+        <summary>Organization Street</summary>
+        <description>Organization Street</description>
+      </attribute>
+
+    </attributes>
+  </businessObject>
+</dictionaryEntry>
+

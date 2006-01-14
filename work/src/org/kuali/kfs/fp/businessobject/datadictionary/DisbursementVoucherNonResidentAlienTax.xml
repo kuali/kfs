@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+     "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../core/datadictionary/dataDictionary-1_0.dtd">
+
+<dictionaryEntry>
+	<businessObject businessObjectClass="org.kuali.module.financial.bo.DisbursementVoucherNonResidentAlienTax">
+	
+        <customAttributeEnabled>false</customAttributeEnabled>
+	    
+	    <attributes>
+	    
+	        <attribute name="federalIncomeTaxPercent">
+	            <label>Federal Tax Percent</label>
+	            <shortLabel>Fed Tax</shortLabel>
+	            
+	            <maxLength>22</maxLength>
+	            
+	            <required>true</required>
+	            
+	            <control>
+	                <select valuesFinderClass="org.kuali.core.lookup.keyvalues.IncomeFederalTaxValuesFinder"/>
+	            </control>
+	            
+	            <summary>Federal Tax Percent</summary>
+	            <description>...</description>
+	        </attribute>
+	        
+	        <attribute name="stateIncomeTaxPercent">
+	            <label>State Tax Percent</label>
+	            <shortLabel>St Tax</shortLabel>
+	            
+	            <maxLength>22</maxLength>
+	            
+	            <required>true</required>
+	            
+	            <control>
+	                <select valuesFinderClass="org.kuali.core.lookup.keyvalues.IncomeStateTaxValuesFinder"/>
+	            </control>
+	            
+	            <summary>State Tax Percent</summary>
+	            <description>...</description>
+	        </attribute>
+	        
+            <attributeReference name="incomeClassCode" 
+            					sourceClassName="org.kuali.module.financial.bo.TaxIncomeClassCode" 
+            					sourceAttributeName="code">
+                <control>
+                  <select valuesFinderClass="org.kuali.core.lookup.keyvalues.TaxIncomeClassValuesFinder"/>
+                </control>
+            </attributeReference>  
+            
+            <attributeReference name="postalCountryCode" 
+            					sourceClassName="org.kuali.core.bo.Country" 
+            					sourceAttributeName="postalCountryCode">
+                <control>
+                  <select valuesFinderClass="org.kuali.core.lookup.keyvalues.CountryValuesFinder"/>
+                </control>
+            </attributeReference>  
+	        
+	        <attribute name="incomeTaxTreatyExemptCode">
+	            <label>Treaty Exempt</label>
+	            <shortLabel>Treaty Exmt</shortLabel>
+	            
+	            <maxLength>1</maxLength>
+	            
+	            <required>false</required>
+	            
+	            <control>
+	                <checkbox/>
+	            </control>
+	            
+	            <summary>Treaty Exempt</summary>
+	            <description>...</description>
+	        </attribute>
+	        
+	        <attribute name="foreignSourceIncomeCode">
+	            <label>Foreign Source</label>
+	            <shortLabel>Frgn Src</shortLabel>
+	            
+	            <maxLength>1</maxLength>
+	            
+	            <required>false</required>
+	            
+	            <control>
+	                <checkbox/>
+	            </control>
+	            
+	            <summary>Foreign Source</summary>
+	            <description>...</description>
+	        </attribute>
+	        
+	        <attribute name="incomeTaxGrossUpCode">
+	            <label>Gross Up</label>
+	            <shortLabel>Grs</shortLabel>
+	            
+	            <maxLength>1</maxLength>
+	            
+	            <required>false</required>
+	            
+	            <control>
+	                <checkbox/>
+	            </control>
+	            
+	            <summary>Gross Up</summary>
+	            <description>...</description>
+	        </attribute>
+	        
+            <attributeReference name="financialDocumentReferenceNbr" 
+            					sourceClassName="org.kuali.core.document.DocumentHeader" 
+            					sourceAttributeName="financialDocumentNumber">
+                <label>Reference Doc</label>
+                <shortLabel>Ref Doc</shortLabel>
+            </attributeReference> 
+
+	    </attributes>
+	</businessObject>
+</dictionaryEntry>

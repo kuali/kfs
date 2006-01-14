@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.1//EN" "http://jakarta.apache.org/struts/dtds/struts-config_1_1.dtd">
+<struts-config>
+    <form-beans>
+       <!--  Core Bean Definitions -->
+       <form-bean name="QuestionPromptForm" type="org.kuali.core.web.struts.form.QuestionPromptForm" />
+       <form-bean name="LookupForm" type="org.kuali.core.web.struts.form.LookupForm" />
+       <form-bean name="InquiryForm" type="org.kuali.core.web.struts.form.InquiryForm" />
+       <form-bean name="KualiMaintenanceForm" type="org.kuali.core.web.struts.form.KualiMaintenanceForm" />
+       <form-bean name="KualiHelpForm" type="org.kuali.core.web.struts.form.KualiHelpForm" />
+       <form-bean name="KualiForm" type="org.kuali.core.web.struts.form.KualiForm" />
+       
+       <!--  Financial Module Bean Definitions -->
+       <form-bean name="CashReceiptForm" type="org.kuali.module.financial.web.struts.form.CashReceiptForm" />
+       <form-bean name="InternalBillingForm" type="org.kuali.module.financial.web.struts.form.InternalBillingForm" />
+       <form-bean name="ServiceBillingForm" type="org.kuali.module.financial.web.struts.form.ServiceBillingForm" />
+       <form-bean name="TransferOfFundsForm" type="org.kuali.module.financial.web.struts.form.TransferOfFundsForm" />
+       <form-bean name="YearEndTransferOfFundsForm" type="org.kuali.module.financial.web.struts.form.YearEndTransferOfFundsForm" />			 
+       <form-bean name="GeneralErrorCorrectionForm" type="org.kuali.module.financial.web.struts.form.GeneralErrorCorrectionForm" />
+       <form-bean name="YearEndGeneralErrorCorrectionForm" type="org.kuali.module.financial.web.struts.form.YearEndGeneralErrorCorrectionForm" />
+       <form-bean name="DistributionOfIncomeAndExpenseForm" type="org.kuali.module.financial.web.struts.form.DistributionOfIncomeAndExpenseForm" />
+       <form-bean name="YearEndDistributionOfIncomeAndExpenseForm" type="org.kuali.module.financial.web.struts.form.YearEndDistributionOfIncomeAndExpenseForm" />
+       <form-bean name="AuxiliaryVoucherForm" type="org.kuali.module.financial.web.struts.form.AuxiliaryVoucherForm" />
+       <form-bean name="BursarControlScreenForm" type="org.kuali.module.financial.web.struts.form.BursarControlScreenForm" />
+       <form-bean name="JournalVoucherForm" type="org.kuali.module.financial.web.struts.form.JournalVoucherForm" />
+       <form-bean name="IndirectCostAdjustmentForm" type="org.kuali.module.financial.web.struts.form.IndirectCostAdjustmentForm" />
+       <form-bean name="NonCheckDisbursementForm" type="org.kuali.module.financial.web.struts.form.NonCheckDisbursementForm" />
+       <form-bean name="PreEncumbranceForm" type="org.kuali.module.financial.web.struts.form.PreEncumbranceForm" />
+       <form-bean name="DisbursementVoucherForm" type="org.kuali.module.financial.web.struts.form.DisbursementVoucherForm" />
+
+       <!-- KRA Module Bean Definitions -->
+       <form-bean name="BudgetForm" type="org.kuali.module.kra.web.struts.form.BudgetForm" />
+       <form-bean name="BudgetParametersForm" type="org.kuali.module.kra.web.struts.form.BudgetForm" />
+       <form-bean name="BudgetMainPageForm" type="org.kuali.module.kra.web.struts.form.BudgetForm" />
+       <form-bean name="BudgetTemplateForm" type="org.kuali.module.kra.web.struts.form.BudgetForm" />
+       <form-bean name="BudgetNonpersonnelForm" type="org.kuali.module.kra.web.struts.form.BudgetForm" />
+       <form-bean name="BudgetPersonnelForm" type="org.kuali.module.kra.web.struts.form.BudgetForm" />
+       <form-bean name="BudgetNonpersonnelForm" type="org.kuali.module.kra.web.struts.form.BudgetForm" />
+       <form-bean name="BudgetPersonnelForm" type="org.kuali.module.kra.web.struts.form.BudgetForm" />
+       <form-bean name="BudgetCostShareForm" type="org.kuali.module.kra.web.struts.form.BudgetForm" />
+       <form-bean name="BudgetOutputForm" type="org.kuali.module.kra.web.struts.form.BudgetForm" />
+       <form-bean name="BudgetModularForm" type="org.kuali.module.kra.web.struts.form.BudgetForm" />
+       <form-bean name="BudgetIndirectCostForm" type="org.kuali.module.kra.web.struts.form.BudgetForm" />
+       
+       
+       <!-- General Ledger Bean Definitions -->
+       <form-bean name="GeneralLedgerErrorCorrectionForm" type="org.kuali.module.gl.web.struts.form.GeneralLedgerErrorCorrectionForm" />
+       
+    </form-beans>
+
+    <global-exceptions>
+        <!-- AuthorizationException handler -->
+        <exception type="org.kuali.core.exceptions.AuthorizationException" key="meaningless" path="/authorizationException.do" />
+    </global-exceptions>
+
+
+    <global-forwards>
+        <forward name="error" path="/jsp/core/KualiError.jsp" />
+        <forward name="save" path="/index.jsp" redirect="true" />
+        <forward name="cancel" path="/index.jsp" redirect="true" />
+        <forward name="close" path="/index.jsp" redirect="true" />
+    </global-forwards>
+
+    <action-mappings >
+        <!--  Core Action Mappings -->
+        <action path="/portal" name="KualiForm" type="org.kuali.core.web.struts.action.KualiSimpleAction">
+            <forward name="basic" path="/portal.jsp" />
+        </action>
+        
+        <action path="/index" name="KualiForm" type="org.kuali.core.web.struts.action.KualiSimpleAction">
+            <forward name="basic" path="/portal.jsp" />
+        </action>
+
+        <action path="/kualiError" name="KualiForm" type="org.kuali.core.web.struts.action.KualiSimpleAction">
+            <forward name="basic" path="/core/KualiError.jsp" />
+        </action>
+
+        <action path="/jstlTest" name="KualiForm" type="org.kuali.core.web.struts.action.KualiSimpleAction">
+            <forward name="basic" path="/jsp/core/jstlTest.jsp" />
+        </action>
+
+        <action path="/authorizationException" name="KualiForm" type="org.kuali.core.web.struts.action.KualiAuthorizationExceptionAction">
+            <forward name="basic" path="/jsp/core/authorizationException.jsp" />
+        </action>
+
+        <action path="/questionPrompt" name="QuestionPromptForm" scope="request" parameter="methodToCall" type="org.kuali.core.web.struts.action.QuestionPromptAction">
+          	<forward name="basic" path="/jsp/core/KualiQuestion.jsp" />
+        </action>
+
+        <action path="/lookup" name="LookupForm" scope="request" attribute="KualiForm" parameter="methodToCall" type="org.kuali.core.web.struts.action.KualiLookupAction">
+          	<forward name="basic" path="/jsp/core/KualiLookup.jsp" />
+				</action>
+
+        <action path="/inquiry" name="InquiryForm" scope="request" attribute="KualiForm" parameter="methodToCall" type="org.kuali.core.web.struts.action.KualiInquiryAction">
+          	<forward name="basic" path="/jsp/core/KualiInquiry.jsp" />
+        </action>
+
+        <action path="/maintenance" name="KualiMaintenanceForm" attribute="KualiForm" scope="request" parameter="methodToCall" validate="true" input="/jsp/core/KualiMaintenanceDocument.jsp" type="org.kuali.core.web.struts.action.KualiMaintenanceDocumentAction">
+          	<forward name="basic" path="/jsp/core/KualiMaintenanceDocument.jsp" />
+        </action>
+        
+        <action path="/help" name="KualiHelpForm" scope="request" attribute="KualiForm" parameter="methodToCall" type="org.kuali.core.web.struts.action.KualiHelpAction">
+          	<forward name="basic" path="/jsp/core/KualiHelp.jsp" />
+        </action>
+
+        <action path="/loadObjectInfo" parameter="methodToCall" scope="request" type="org.kuali.core.web.struts.action.LoadObjectInfoAction">
+          	<forward name="chart" path="/jsp/xmlhttp/chart.jsp" />
+          	<forward name="account" path="/jsp/xmlhttp/account.jsp" />
+          	<forward name="subAccount" path="/jsp/xmlhttp/subAccount.jsp" />
+          	<forward name="objectCode" path="/jsp/xmlhttp/object.jsp" />
+          	<forward name="subObjectCode" path="/jsp/xmlhttp/subObject.jsp" />
+          	<forward name="project" path="/jsp/xmlhttp/project.jsp" />
+          	<forward name="organization" path="/jsp/xmlhttp/organization.jsp" />
+          	<forward name="objectType" path="/jsp/xmlhttp/objectType.jsp" />
+        </action>        
+        
+        <!--  Module Action Mappings -->
+        <action path="/financial*" name="{1}Form" input="/jsp/modules/financial/{1}.jsp" type="org.kuali.module.financial.web.struts.action.{1}Action" scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+          	<forward name="basic" path="/jsp/modules/financial/{1}.jsp" />
+		    </action>
+
+		    <action path="/generalLedger*" name="GeneralLedger{1}Form" input="/jsp/modules/generalLedger/GeneralLedger{1}.jsp" type="org.kuali.module.gl.web.struts.action.GeneralLedger{1}Action" scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+			    <forward name="basic" path="/jsp/modules/generalLedger/GeneralLedger{1}.jsp" />
+		    </action>
+
+        <action path="/research*" name="{1}Form" input="/jsp/modules/research/{1}.jsp" type="org.kuali.module.kra.web.struts.action.{1}Action" scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+          	<forward name="basic" path="/jsp/modules/research/{1}.jsp" />
+            <forward name="parameters"  path="/jsp/modules/research/BudgetParameters.jsp" redirect="false" />
+            <forward name="mainPage"  path="/jsp/modules/research/BudgetMainPage.jsp" redirect="false" />
+          	<forward name="oldMainPage"  path="/jsp/modules/research/Budget.jsp" redirect="false" />
+            <forward name="template"  path="/jsp/modules/research/BudgetTemplate.jsp" redirect="false" />
+            <forward name="nonpersonnel"  path="/jsp/modules/research/BudgetNonpersonnel.jsp" redirect="false" />
+            <forward name="personnel"  path="/jsp/modules/research/BudgetPersonnel.jsp" redirect="false" />
+            <forward name="costshare"  path="/jsp/modules/research/BudgetCostShare.jsp" redirect="false" />
+            <forward name="output" path="/jsp/modules/research/BudgetOutput.jsp" redirect="false" />
+            <forward name="modular" path="/jsp/modules/research/BudgetModular.jsp" redirect="false" />
+            <forward name="indirectcost" path="/jsp/modules/research/BudgetIndirectCost.jsp" redirect="false"/>
+	    </action>
+
+    </action-mappings>
+
+    <controller processorClass="org.kuali.core.web.struts.action.KualiRequestProcessor" />
+
+    <message-resources parameter="ApplicationResources" />
+    <message-resources key="kraResources" parameter="org.kuali.module.kra.KraResources"/>
+
+	<plug-in className="org.kuali.core.web.struts.pojo.PojoPlugin"/>
+</struts-config>

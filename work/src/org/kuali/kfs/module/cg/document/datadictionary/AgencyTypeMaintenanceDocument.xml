@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+
+<dictionaryEntry>
+	<maintenanceDocument>
+        <businessObjectClass>org.kuali.module.cg.bo.AgencyType</businessObjectClass>
+        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+
+        <documentAuthorizerClass>org.kuali.core.document.DocumentAuthorizerBase</documentAuthorizerClass>
+        <authorizations>
+            <authorization action="initiate">
+                <workgroups>
+                    <workgroup>kualiUniversalGroup</workgroup>
+                </workgroups>
+            </authorization>
+        </authorizations>
+
+		<documentTypeName>KualiContractsAndGrantsAgencyTypeMaintenanceDocument</documentTypeName>
+		<documentTypeCode>CAT</documentTypeCode>
+
+		<label>Contracts and Grants Agency Type Maintenance Document</label>
+		<shortLabel>KualiContractsAndGrantsAgencyTypeMaintenanceDocument</shortLabel>
+		
+		<summary>Contracts and Grants Agency Type maintenance document</summary>
+		<description>Document used to create or update Contracts and Grants Agency Type objects</description>
+        
+        <lockingKeys>
+			<field attributeName="code" />
+		</lockingKeys>          
+
+	    <maintainableSections>
+	        <maintainableSection title="Edit CG Agency Type Code">
+                <maintainableItems>
+		            <maintainableField name="code" required="true" />
+		            <maintainableField name="name" required="true" />
+                </maintainableItems>
+	        </maintainableSection>
+	    </maintainableSections>
+	</maintenanceDocument>
+</dictionaryEntry>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+    
+<dictionaryEntry>
+	<maintenanceDocument>
+		<businessObjectClass>org.kuali.module.chart.bo.ObjectType</businessObjectClass>
+		<maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+
+    	<documentAuthorizerClass>org.kuali.core.document.DocumentAuthorizerBase</documentAuthorizerClass>
+
+        <authorizations>
+            <authorization action="initiate">
+                <workgroups>
+                    <workgroup>kualiUniversalGroup</workgroup>
+                </workgroups>
+            </authorization>
+        </authorizations>
+
+		<documentTypeName>KualiObjectTypeMaintenanceDocument</documentTypeName>
+		<documentTypeCode>OTM</documentTypeCode>
+		<label>Object Type Maintenance Document</label>
+		<shortLabel>ObjTypeMaintDoc</shortLabel>
+		<summary>Object Type Maintenance Document</summary>
+		<description>Maintenance document which allows you to create new Object Types, or modify existing Object Types.</description>
+		
+        <lockingKeys>
+			<field attributeName="code" />
+		</lockingKeys>	 		
+		
+		<maintainableSections>
+			<maintainableSection title="Edit Object Type">
+                <maintainableItems>
+					<maintainableField name="code" required="true" />
+					<maintainableField name="name" required="true" />
+					<maintainableField name="finObjectTypeDebitcreditCd"  />
+					<maintainableField name="finObjectTypeIcrSelectionIndicator" />
+					<maintainableField name="fundBalanceIndicator" />
+					<maintainableField name="financialReportingSortCode"  />
+                </maintainableItems>
+			</maintainableSection>
+		</maintainableSections>
+	</maintenanceDocument>
+</dictionaryEntry>

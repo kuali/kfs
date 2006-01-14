@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	<bean id="generalLedgerPendingEntryService" class="org.kuali.module.gl.service.impl.GeneralLedgerPendingEntryServiceImpl">
+        <property name="generalLedgerPendingEntryDao"><ref bean="generalLedgerPendingEntryDao"/></property>
+        <property name="documentService"><ref bean="documentService" /></property>
+        <property name="kualiRuleService"><ref bean="kualiRuleService" /></property>
+    </bean>
+
+	<bean id="glScrubberStep" class="org.kuali.module.gl.batch.ScrubberStep">
+		<property name="originEntryService"><ref bean="glOriginEntryService" /></property>
+		<property name="scrubberService"><ref bean="glScrubberService" /></property>
+	</bean>
+
+	<bean id="glPosterEntriesStep" class="org.kuali.module.gl.batch.PosterEntriesStep">
+		<property name="posterService"><ref bean="glPosterService" /></property>
+	</bean>
+
+	<bean id="glPosterReversalStep" class="org.kuali.module.gl.batch.PosterReversalStep">
+		<property name="posterService"><ref bean="glPosterService" /></property>
+	</bean>
+
+	<bean id="glScrubberService" class="org.kuali.module.gl.service.impl.ScrubberServiceImpl">
+		<property name="originEntryService"><ref bean="glOriginEntryService" /></property>
+		<property name="dateTimeService"><ref bean="dateTimeService" /></property>
+		<property name="offsetDefinitionService"><ref bean="offsetDefinitionService" /></property>
+		<property name="objectCodeService"><ref bean="objectCodeService" /></property>
+		<property name="chartService"><ref bean="chartService" /></property>
+		<property name="accountService"><ref bean="accountService" /></property>
+		<property name="kualiConfigurationService"><ref bean="kualiConfigurationService" /></property>
+		<property name="universityDateDao"><ref bean="universityDateDao" /></property>
+	</bean>
+
+	<bean id="glPosterService" class="org.kuali.module.gl.service.impl.PosterServiceImpl">
+		<property name="transactionPosters">
+			<list>
+				<ref bean="glPostGlEntry" />
+				<ref bean="glPostGlAccountBalance" />
+				<ref bean="glPostSufficientFundsBalance" />
+				<ref bean="glPostReversal" />
+				<ref bean="glPostEncumbrance" />
+				<ref bean="glPostExpenditureTransaction" />
+				<ref bean="glPostBalance" />
+			</list>
+		</property>
+		<property name="posterReportService"><ref bean="glPosterReportService" /></property>
+		<property name="verifyTransactionService"><ref bean="glVerifyTransactionService" /></property>
+		<property name="originEntryService"><ref bean="glOriginEntryService" /></property>
+		<property name="dateTimeService"><ref bean="dateTimeService" /></property>
+	</bean>
+
+	<bean id="glOriginEntryService" class="org.kuali.module.gl.service.impl.OriginEntryServiceImpl">
+		<property name="originEntryDao"><ref bean="glOriginEntryDao" /></property>
+	</bean>
+
+	<bean id="glPostGlEntry" class="org.kuali.module.gl.batch.poster.impl.PostGlEntry">
+		<property name="entryDao"><ref bean="glEntryDao" /></property>
+	</bean>
+
+	<bean id="glPostBalance" class="org.kuali.module.gl.batch.poster.impl.PostBalance">
+		<property name="balanceDao"><ref bean="glBalanceDao" /></property>
+	</bean>
+
+	<bean id="glPostGlAccountBalance" class="org.kuali.module.gl.batch.poster.impl.PostGlAccountBalance" />
+	<bean id="glPostSufficientFundsBalance" class="org.kuali.module.gl.batch.poster.impl.PostSufficientFundsBalance" />
+	<bean id="glPostReversal" class="org.kuali.module.gl.batch.poster.impl.PostReversal">
+		<property name="reversalEntryDao"><ref bean="glReversalEntryDao" /></property>
+	</bean>
+
+	<bean id="glPostEncumbrance" class="org.kuali.module.gl.batch.poster.impl.PostEncumbrance">
+		<property name="encumbranceDao"><ref bean="glEncumbranceDao" /></property>
+	</bean>
+
+	<bean id="glPostExpenditureTransaction" class="org.kuali.module.gl.batch.poster.impl.PostExpenditureTransaction">
+		<property name="indirectCostRecoveryExclusionAccountDao"><ref bean="glIndirectCostRecoveryExclusionAccountDao"/></property>
+		<property name="indirectCostRecoveryExclusionTypeDao"><ref bean="glIndirectCostRecoveryExclusionTypeDao"/></property>
+		<property name="a21SubAccountDao"><ref bean="glA21SubAccountDao"/></property>
+		<property name="expenditureTransactionDao"><ref bean="glExpenditureTransactionDao"/></property>
+	</bean>
+
+	<bean id="glPosterReportService" class="org.kuali.module.gl.service.impl.PosterReportServiceImpl">
+		<property name="destinationDirectory"><value>/opt/scratch</value></property>
+	</bean>
+
+	<bean id="glVerifyTransactionService" class="org.kuali.module.gl.service.impl.VerifyTransactionServiceImpl"/>
+
+	<bean id="glEntryDao" class="org.kuali.module.gl.dao.ojb.EntryDaoOjb">
+		<property name="jcdAlias"><value>dataSource</value></property>
+	</bean>
+
+	<bean id="glEncumbranceDao" class="org.kuali.module.gl.dao.ojb.EncumbranceDaoOjb">
+		<property name="jcdAlias"><value>dataSource</value></property>
+	</bean>
+
+	<bean id="generalLedgerPendingEntryDao" class="org.kuali.module.gl.dao.ojb.GeneralLedgerPendingEntryDaoOjb">
+		<property name="jcdAlias"><value>dataSource</value></property>
+	</bean>
+
+	<bean id="glOriginEntryDao" class="org.kuali.module.gl.dao.ojb.OriginEntryDaoOjb">
+		<property name="jcdAlias"><value>dataSource</value></property>
+	</bean>
+
+	<bean id="glBalanceDao" class="org.kuali.module.gl.dao.ojb.BalanceDaoOjb">
+		<property name="jcdAlias"><value>dataSource</value></property>
+	</bean>
+
+	<bean id="caObjectTypeCodeDao" class="org.kuali.module.chart.dao.ojb.ObjectTypeCodeDaoOjb">
+		<property name="jcdAlias"><value>dataSource</value></property>
+	</bean>
+
+	<bean id="caOptionDao" class="org.kuali.module.chart.dao.ojb.OptionDaoOjb">
+		<property name="jcdAlias"><value>dataSource</value></property>
+	</bean>
+
+	<bean id="universityDateDao" class="org.kuali.module.gl.dao.ojb.UniversityDateDaoOjb">
+		<property name="jcdAlias"><value>dataSource</value></property>
+	</bean>
+
+	<bean id="glIndirectCostRecoveryExclusionAccountDao" class="org.kuali.module.gl.dao.ojb.IndirectCostRecoveryExclusionAccountDaoOjb">
+		<property name="jcdAlias"><value>dataSource</value></property>
+	</bean>
+
+	<bean id="glIndirectCostRecoveryExclusionTypeDao" class="org.kuali.module.gl.dao.ojb.IndirectCostRecoveryExclusionTypeDaoOjb">
+		<property name="jcdAlias"><value>dataSource</value></property>
+	</bean>
+
+	<bean id="glA21SubAccountDao" class="org.kuali.module.gl.dao.ojb.A21SubAccountDaoOjb">
+		<property name="jcdAlias"><value>dataSource</value></property>
+	</bean>
+
+	<bean id="glExpenditureTransactionDao" class="org.kuali.module.gl.dao.ojb.ExpenditureTransactionDaoOjb">
+		<property name="jcdAlias"><value>dataSource</value></property>
+	</bean>
+
+	<bean id="glReversalEntryDao" class="org.kuali.module.gl.dao.ojb.ReversalEntryDaoOjb">
+		<property name="jcdAlias"><value>dataSource</value></property>
+	</bean>
+</beans>

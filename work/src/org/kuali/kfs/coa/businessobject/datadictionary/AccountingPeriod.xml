@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../core/datadictionary/dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.chart.bo.AccountingPeriod">
+        <customAttributeEnabled>false</customAttributeEnabled>
+
+        <inquiry>
+            <title>Accounting Period Inquiry</title>
+
+            <inquiryFields>
+                <field attributeName="universityFiscalYear" />
+                <field attributeName="universityFiscalPeriodCode" />
+                <field attributeName="universityFiscalPeriodName" />
+                <field attributeName="universityFiscalPeriodStatusCode" />
+                <field attributeName="universityFiscalPeriodEndDate" />
+                <field attributeName="budgetRollover" />
+            </inquiryFields>
+        </inquiry>
+
+        <lookup>
+            <title>Accounting Period Lookup</title>
+            
+			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.chart.bo.AccountingPeriod">Create New</a>]]></menubar>
+
+            <instructions>Lookup an Accounting Period</instructions>
+
+            <defaultSort sortAscending="false">
+                <sortAttributes>
+                    <sortAttribute attributeName="universityFiscalYear" />
+                    <sortAttribute attributeName="universityFiscalPeriodCode" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="universityFiscalYear" required="false" />
+                <lookupField attributeName="universityFiscalPeriodCode" required="false" />
+                <lookupField attributeName="universityFiscalPeriodName" required="false" />
+                <lookupField attributeName="universityFiscalPeriodEndDate" required="false" />
+                <lookupField attributeName="universityFiscalPeriodStatusCode" required="false" />
+            	<lookupField attributeName="budgetRollover" required="false" />
+            </lookupFields>
+
+            <resultFields>
+            	<field attributeName="universityFiscalYear" />
+                <field attributeName="universityFiscalPeriodCode" />
+                <field attributeName="universityFiscalPeriodName" />
+                <field attributeName="universityFiscalPeriodEndDate" />
+                <field attributeName="universityFiscalPeriodStatusCode" />
+                <field attributeName="budgetRollover" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+            <attribute name="budgetRollover" forceUppercase="true">
+                <label>Budget Rollover</label>
+                <shortLabel>Bdgt. Rollover</shortLabel>
+
+                <maxLength>$attribute.maxLength</maxLength>
+
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>Budget rollover summary...</summary>
+                <description>Budget rollover description...</description>
+            </attribute>
+            <attribute name="universityFiscalPeriodName" forceUppercase="true">
+                <label>University Fiscal Period Name</label>
+                <shortLabel>Name</shortLabel>
+
+                <maxLength>10</maxLength>
+
+                <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
+
+                <control>
+                    <text size="10" />
+                </control>
+
+                <summary>universityFiscalPeriodName summary...</summary>
+                <description>universityFiscalPeriodName description...</description>
+            </attribute>
+            <attribute name="universityFiscalPeriodStatusCode" forceUppercase="true">
+                <label>University Fiscal Period Status Code</label>
+                <shortLabel>Status</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <validationPattern><charset validChars="CO" /></validationPattern>
+
+                <control>
+                    <text size="2" />
+                </control>
+
+                <summary>universityFiscalPeriodStatusCode summary...</summary>
+                <description>universityFiscalPeriodStatusCode description...</description>
+            </attribute>
+            
+            <attribute name="universityFiscalPeriodCode" forceUppercase="true">
+                <label>University Fiscal Period Code</label>
+                <shortLabel>Fiscal Period Code</shortLabel>
+
+                <maxLength>2</maxLength>
+
+                <validationPattern><anyCharacter exactLength="2" /></validationPattern>
+
+                <control>
+                    <text size="2" />
+                </control>
+
+                <summary>universityFiscalPeriodCode summary...</summary>
+                <description>universityFiscalPeriodCode description...</description>
+            </attribute>
+            
+ 			<attributeReference name="universityFiscalPeriodEndDate" 
+								sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
+								sourceAttributeName="genericTimestamp">
+				<label>University Fiscal Period End Date</label>
+				<shortLabel>End Date</shortLabel>
+				<summary>University Fiscal Period End Date</summary>
+				<description>University Fiscal Period End Date...</description>
+			</attributeReference>           
+            
+            <attribute name="universityFiscalYear" forceUppercase="true">
+                <label>University Fiscal Year</label>
+                <shortLabel>Fiscal Year</shortLabel>
+
+                <maxLength>4</maxLength>
+
+                <validationPattern><year /></validationPattern>
+
+                <control>
+                    <text size="5" />
+                </control>
+
+                <summary>universityFiscalYear summary...</summary>
+                <description>universityFiscalYear description...</description>
+            </attribute>
+            <attributeReference name="versionNumber"
+        						sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
+        						sourceAttributeName="versionNumber" />
+        	<attributeReference name="objectId"
+        						sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
+        						sourceAttributeName="objectId" />
+        </attributes>
+
+        <collections>
+            <collection name="extendedAttributeValues">
+                <label>Extended Attribute Values</label>
+                <shortLabel>Values</shortLabel>
+                <summary>extendedAttributeValues</summary>
+                <description>extendedAttributeValues description...</description>
+            </collection>
+        </collections>
+    </businessObject>
+</dictionaryEntry>

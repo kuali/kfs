@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../core/datadictionary/dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.chart.bo.SubFundGroup">
+        <customAttributeEnabled>false</customAttributeEnabled>
+
+        <inquiry>
+            <title>Sub-Fund Group Inquiry</title>
+
+            <inquiryFields>
+                <field attributeName="subFundGroupCode" />
+                <field attributeName="subFundGroupDescription" />
+                <field attributeName="subFundGroupTypeCode" />
+                <field attributeName="fundGroup.code" />
+                <field attributeName="subFundGroupWagesIndicator" />
+                <field attributeName="financialReportingSortCode" />
+                <field attributeName="subfundgrpActivityIndicator" />
+            </inquiryFields>
+        </inquiry>
+
+        <lookup>
+            <title>Sub-Fund Group Lookup</title>
+
+            <menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.chart.bo.SubFundGroup">Create New</a>]]></menubar>
+
+            <instructions>Lookup an Sub-Fund Group</instructions>
+
+            <defaultSort attributeName="subFundGroupCode" sortAscending="false" />
+
+            <lookupFields>
+                <lookupField attributeName="subFundGroupCode" />
+                <lookupField attributeName="subFundGroupDescription" />
+                <lookupField attributeName="subFundGroupTypeCode" />
+                <lookupField attributeName="subFundGroupWagesIndicator" />
+                <lookupField attributeName="financialReportingSortCode" />
+                <lookupField attributeName="subfundgrpActivityIndicator" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="subFundGroupCode" />
+                <field attributeName="subFundGroupDescription" />
+                <field attributeName="subFundGroupTypeCode" />
+                <field attributeName="fundGroup.code" />
+                <field attributeName="subFundGroupWagesIndicator" />
+                <field attributeName="financialReportingSortCode" />
+                <field attributeName="subfundgrpActivityIndicator" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+            <attribute name="subFundGroupCode" forceUppercase="true">
+                <label>Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>6</maxLength>
+
+				<validationPattern><alpha exactLength="6" /></validationPattern>
+
+                <control>
+                    <text size="8" />
+                </control>
+
+                <summary>The Sub-Fund Group code.</summary>
+                <description>The Sub-Fund Group code is a unique identifier... </description>
+            </attribute>
+            
+            <attributeReference name="subfundgrpActivityIndicator" 
+								sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
+								sourceAttributeName="activeIndicator" />
+
+            <attributeReference name="subFundGroupWagesIndicator" 
+								sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
+								sourceAttributeName="activeIndicator">
+                <label>Wage Indicator</label>
+                <shortLabel>Indicator</shortLabel>
+                <summary>Indicator for whether this is a wage indicator.</summary>
+                <description>This is the indicator for whether this Sub-Fund Group is a wage indicator.</description>
+            </attributeReference>
+            
+            <attributeReference name="objectId" 
+								sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
+								sourceAttributeName="objectId" />
+
+            <attributeReference name="fundGroup.code" 
+            					sourceClassName="org.kuali.module.chart.bo.FundGroup" 
+            					sourceAttributeName="code" />
+
+            <attribute name="subFundGroupTypeCode" forceUppercase="true">
+                <label>Type Code</label>
+                <shortLabel>Type Code</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <control>
+                    <text size="3" />
+                </control>
+
+                <summary>The associated Type Code</summary>
+                <description>This is blah blah blah...</description>
+            </attribute>
+            
+            <attribute name="subFundGroupDescription" forceUppercase="true">
+                <label>Description</label>
+                <shortLabel>Desc.</shortLabel>
+
+                <maxLength>40</maxLength>
+
+				<validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
+
+                <control>
+                    <text size="42" />
+                </control>
+
+                <summary>The description.</summary>
+                <description>This is the description of this Sub-Fund Group.</description>
+            </attribute>
+            
+            <attribute name="financialReportingSortCode" forceUppercase="false">
+                <label>Financial Reporting Sort Code</label>
+                <shortLabel>Fin. Rpt. Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                
+                <validationPattern><numeric exactLength="2" /></validationPattern>
+
+                <control>
+                    <text size="4"/>
+                </control>
+
+                <summary>Financial Reporting Sort Code</summary>
+                <description>The Financial Reporting Sort Code represents...</description>
+            </attribute>
+            
+        </attributes>
+
+        <collections>
+            <collection name="extendedAttributeValues">
+                <label>Extended Attribute Values</label>
+                <shortLabel>Values</shortLabel>
+                <summary>extendedAttributeValues</summary>
+                <description>extendedAttributeValues description...</description>
+            </collection>
+        </collections>
+    </businessObject>
+</dictionaryEntry>

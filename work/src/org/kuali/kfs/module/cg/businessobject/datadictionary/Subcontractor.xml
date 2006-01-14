@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../core/datadictionary/dataDictionary-1_0.dtd">
+<dictionaryEntry>
+	<businessObject businessObjectClass="org.kuali.module.cg.bo.Subcontractor">
+		<customAttributeEnabled>true</customAttributeEnabled>
+
+		<inquiry>
+			<title>Contracts and Grants Subcontractor</title>
+
+			<inquiryFields>
+				<field attributeName="number" />
+				<field attributeName="name" />
+				<field attributeName="addressLine1" />
+				<field attributeName="addressLine2" />
+				<field attributeName="city" />
+				<field attributeName="stateCode" />
+				<field attributeName="zipCode" />
+				<field attributeName="countryCode" />
+			</inquiryFields>
+		</inquiry>
+
+		<lookup>
+			<title>Subcontractor</title>
+
+			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.cg.bo.Subcontractor">Create New</a>]]></menubar>
+
+			<instructions>Lookup an Subcontractor</instructions>
+
+			<defaultSort attributeName="name" sortAscending="true" />
+
+			<lookupFields>
+				<lookupField attributeName="number"  required="false" />
+				<lookupField attributeName="name" required="false" />
+				<lookupField attributeName="city" required="false"  />
+				<lookupField attributeName="stateCode" required="false" />
+				<lookupField attributeName="zipCode" required="false" />
+				<lookupField attributeName="countryCode" required="false" />
+			</lookupFields>
+
+			<resultFields>
+				<field attributeName="number" />
+				<field attributeName="name" />
+				<field attributeName="addressLine1" />
+				<field attributeName="addressLine2" />
+				<field attributeName="city" />
+				<field attributeName="stateCode" />
+				<field attributeName="zipCode" />
+				<field attributeName="countryCode" />
+			</resultFields>
+		</lookup>
+
+		<attributes>
+
+			<attribute name="number" forceUppercase="true">
+				<label>Subcontractor Number</label>
+				<shortLabel>Nbr</shortLabel>
+
+				<maxLength>5</maxLength>
+				<validationPattern><alphaNumeric exactLength="5" /></validationPattern>
+
+				<control>
+					<text size="5" />
+				</control>
+
+				<summary>Subcontractor Number</summary>
+				<description>Contracts and Grants Subcontractor Number.</description>
+			</attribute>
+			
+           <attribute name="name" forceUppercase="false">
+                <label>Subcontractor Name</label>
+                <shortLabel>Name</shortLabel>
+
+                <maxLength>50</maxLength>
+
+                <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
+
+                <control>
+                    <text size="50" />
+                </control>
+
+                <summary>Subcontractor Name</summary>
+                <description>Contracts and Grants Subcontractor Name</description>
+            </attribute>				
+
+			<attribute name="addressLine1" forceUppercase="false">
+                <label>Address Line 1</label>
+                <shortLabel>Address1</shortLabel>
+
+                <maxLength>25</maxLength>
+
+                <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
+
+                <control>
+                    <text size="25" />
+                </control>
+
+                <summary>Subcontractor Address Line 1</summary>
+                <description>Contracts And Grants Subcontractor Address Line 1</description>
+            </attribute>
+
+			<attribute name="addressLine2" forceUppercase="false">
+                <label>Address Line 2</label>
+                <shortLabel>Address2</shortLabel>
+
+                <maxLength>20</maxLength>
+
+                <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
+
+                <control>
+                    <text size="20" />
+                </control>
+
+                <summary>Subcontractor Address Line 2</summary>
+                <description>Contracts And Grants Subcontractor Address Line 2</description>
+            </attribute>
+
+			<attribute name="city" forceUppercase="false">
+                <label>Subcontractor City</label>
+                <shortLabel>City</shortLabel>
+
+                <maxLength>20</maxLength>
+
+                <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
+
+                <control>
+                    <text size="20" />
+                </control>
+
+                <summary>Subcontractor City</summary>
+                <description>Contracts And Grants Subcontractor City</description>
+            </attribute>
+
+			<attribute name="stateCode" forceUppercase="true">
+				<label>State Code</label>
+				<shortLabel>State</shortLabel>
+
+				<maxLength>2</maxLength>
+
+                <validationPattern><alpha /></validationPattern>
+
+                <control>
+                    <text size="2" />
+                </control>
+
+				<summary>State Code</summary>
+				<description>Subcontractor State Code</description>
+			</attribute>
+			
+	       	<attribute name="zipCode" forceUppercase="false">
+        		<label>ZIP Code</label>
+        		<shortLabel>ZIP</shortLabel>
+        		
+                <maxLength>10</maxLength>
+
+                <validationPattern><zipcode /></validationPattern>
+
+                <control>
+                    <text size="10" />
+                </control>
+
+        		<summary>ZIP Code</summary>
+        		<description>Subcontractor ZIP Code</description>
+        	</attribute>
+
+	       	<attribute name="countryCode" forceUppercase="false">
+        		<label>Country Code</label>
+        		<shortLabel>Country</shortLabel>
+        		
+                <maxLength>15</maxLength>
+
+                <validationPattern><alphaNumeric allowWhitespace="true" /></validationPattern>
+
+                <control>
+                    <text size="15" />
+                </control>
+
+        		<summary>Country Code</summary>
+        		<description>Subcontractor Country Code</description>
+        	</attribute>
+
+		</attributes>
+	</businessObject>
+</dictionaryEntry>
+

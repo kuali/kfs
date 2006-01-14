@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+
+<dictionaryEntry>
+	<maintenanceDocument>
+        <businessObjectClass>org.kuali.module.chart.bo.ObjectCode</businessObjectClass>
+        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+  		<businessRulesClass>org.kuali.module.chart.rules.ObjectCodeRule</businessRulesClass>
+		
+        <documentAuthorizerClass>org.kuali.core.document.DocumentAuthorizerBase</documentAuthorizerClass>
+        <authorizations>
+            <authorization action="initiate">
+                <workgroups>
+                    <workgroup>kualiUniversalGroup</workgroup>
+                </workgroups>
+            </authorization>
+        </authorizations>
+
+		<documentTypeName>KualiObjectCodeMaintenanceDocument</documentTypeName>
+		<documentTypeCode>OCD</documentTypeCode>
+
+		<label>Object Code Maintenance Document</label>
+		<shortLabel>OCMainDoc</shortLabel>
+		
+		<summary>Object Code maintenance document</summary>
+		<description>Document used to create or update Object Code objects</description>
+
+        <lockingKeys>
+			<field attributeName="universityFiscalYear" />
+			<field attributeName="chartOfAccountsCode" />
+			<field attributeName="financialObjectCode" />
+		</lockingKeys>	             
+
+	    <maintainableSections>
+	        <maintainableSection title="Edit Object Code">
+                <maintainableItems>
+					<maintainableField name="universityFiscalYear" required="true" />
+					<maintainableField name="chartOfAccountsCode" required="true" />			
+					<maintainableField name="financialObjectCode" required="true" />
+					<maintainableField name="financialObjectCodeName" required="true" />			
+					<maintainableField name="financialObjectCodeShortName" required="true" />
+					<maintainableField name="reportsToChartOfAccountsCode" />
+					<maintainableField name="reportsToFinancialObjectCode" required="true" />
+					<maintainableField name="financialObjectTypeCode" required="true" />
+					<maintainableField name="financialObjectLevelCode" required="true" />
+					<maintainableField name="financialObjectSubTypeCode" required="true" />
+					<maintainableField name="historicalFinancialObjectCode" />
+					<maintainableField name="financialObjectActiveCode" />
+					<maintainableField name="financialBudgetAggregationCd" required="true" />
+					<maintainableField name="finObjMandatoryTrnfrelimCd" required="true" />
+					<maintainableField name="financialFederalFundedCode" required="true" />
+					<maintainableField name="nextYearFinancialObjectCode" />
+		            <maintainableField name="versionNumber" />					
+                </maintainableItems>
+	        </maintainableSection>
+	    </maintainableSections>
+	</maintenanceDocument>
+</dictionaryEntry>

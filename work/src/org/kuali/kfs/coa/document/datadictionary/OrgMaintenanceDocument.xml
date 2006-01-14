@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+
+<dictionaryEntry>
+  <maintenanceDocument>
+    <businessObjectClass>org.kuali.module.chart.bo.Org</businessObjectClass>
+    <maintainableClass>
+      org.kuali.core.maintenance.KualiMaintainableImpl
+    </maintainableClass>
+
+    <documentAuthorizerClass>org.kuali.core.document.DocumentAuthorizerBase</documentAuthorizerClass>
+    <authorizations>
+      <authorization action="initiate">
+        <workgroups>
+          <workgroup>kualiUniversalGroup</workgroup>
+        </workgroups>
+      </authorization>
+    </authorizations>
+
+    <documentTypeName>KualiOrganizationMaintenanceDocument</documentTypeName>
+    <documentTypeCode>OMD</documentTypeCode>
+
+    <label>Organization Maintenance Document</label>
+    <shortLabel>OrgMainDoc</shortLabel>
+
+    <summary>Organization maintenance document</summary>
+    <description>
+      Document used to create or update Organization objects
+    </description>
+
+    <lockingKeys>
+      <field attributeName="chartOfAccounts.chartOfAccountsCode" />
+      <field attributeName="organizationCode" />
+    </lockingKeys>
+
+    <maintainableSections>
+      <maintainableSection title="Edit Organization">
+        <maintainableItems>
+          <maintainableField name="organizationStateCode" />
+          <maintainableField name="organizationActiveIndicator" />
+          <maintainableField name="hrisOrganization.organizationCode" />
+          <maintainableField name="organizationType.organizationTypeCode" />
+          <maintainableField
+            name="chartOfAccounts.chartOfAccountsCode"
+            required="true" />
+          <maintainableField name="organizationName" />
+          <maintainableField
+            name="reportsToOrganization.chartOfAccounts.chartOfAccountsCode" />
+          <maintainableField name="organizationZipCode" />
+          <maintainableField name="organizationPlantChart.chartOfAccountsCode" />
+          <maintainableField name="campusPlantAccount.accountNumber" />
+          <maintainableField name="reportsToOrganization.organizationCode" />
+          <maintainableField
+            name="organizationCode"
+            required="true" />
+          <maintainableField name="campusPlantAccount.chartOfAccounts.chartOfAccountsCode" />
+          <maintainableField name="organizationCityName" />
+          <maintainableField
+            name="responsibilityCenter.responsibilityCenterCode" />
+          <maintainableField name="organizationBeginDate" />
+          <maintainableField
+            name="organizationManagerUniversal.personUniversalIdentifier" />
+          <maintainableField name="organizationStreetAddress" />
+        </maintainableItems>
+      </maintainableSection>
+    </maintainableSections>
+  </maintenanceDocument>
+</dictionaryEntry>

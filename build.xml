@@ -294,6 +294,9 @@
 		<echo>test-fast target
 	description:
 		runs fast project tests and generates results
+	notes:
+		to exclude a new test that is taking a long time to run, add an entry to the fast.tests.fileset defined in the
+			init-paths-and-sets target
 		</echo>
 		<echo message="."/>
 		<echo>clean target

@@ -23,6 +23,8 @@
 package org.kuali.module.gl.bo;
 
 import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.BusinessObjectBase;
@@ -108,6 +110,112 @@ public class Entry extends BusinessObjectBase implements Transaction {
 	}
 
   public Entry() {
+  }
+
+  public Entry(String line) {
+    setFromTextFile(line);
+  }
+  
+  public void setFromTextFile(String line) {
+    // Just in case
+    line = line + "                                                                                           ";
+
+    // System.out.println(line.substring(0,4));
+    if ( ! "    ".equals(line.substring(0,4)) ) {
+      setUniversityFiscalYear(new Integer(line.substring(0,4)));
+    } else {
+      setUniversityFiscalYear(null);
+    }
+
+    // System.out.println(line.substring(4,6));
+    setChartOfAccountsCode(line.substring(4,6));
+
+    // System.out.println(line.substring(6,13));
+    setAccountNumber(line.substring(6,13));
+
+    // System.out.println(line.substring(13,18));
+    setSubAccountNumber(line.substring(13,18));
+
+    // System.out.println(line.substring(18,22));
+    setObjectCode(line.substring(18,22));
+
+    // System.out.println(line.substring(22,25));
+    setSubObjectCode(line.substring(22,25));
+
+    // System.out.println(line.substring(25,27));
+    setBalanceTypeCode(line.substring(25,27));
+
+    // System.out.println(line.substring(27,29));
+    setObjectTypeCode(line.substring(27,29));
+
+    // System.out.println(line.substring(29,31));
+    setUniversityFiscalAccountingPeriod(line.substring(29,31));
+
+    // System.out.println(line.substring(31,35));
+    setDocumentTypeCode(line.substring(31,35));
+
+    // System.out.println(line.substring(35,37));
+    setOriginCode(line.substring(35,37));
+
+    // System.out.println(line.substring(37,46));
+    setDocumentNumber(line.substring(37,46));
+
+    // System.out.println(line.substring(46,51));
+    if ( ! "     ".equals(line.substring(46,51)) ) {
+      setTransactionEntrySequenceId(new Integer(line.substring(46,51)));
+    } else {
+      setTransactionEntrySequenceId(null);
+    }
+
+    // System.out.println(line.substring(51,91));
+    setTransactionLedgerEntryDescription(line.substring(51,91));
+
+    // System.out.println(line.substring(91,108));
+    setTransactionLedgerEntryAmount(new KualiDecimal(line.substring(91,108)));
+
+    // System.out.println(line.substring(108,109));
+    setDebitOrCreditCode(line.substring(108,109));
+
+    // System.out.println(line.substring(109,119));
+    setTransactionDate(parseDate(line.substring(109,119)));
+
+    // System.out.println(line.substring(119,129));
+    setOrganizationDocumentNumber(line.substring(119,129));
+
+    // System.out.println(line.substring(129,139));
+    setProjectCode(line.substring(129,139));
+
+    // System.out.println(line.substring(139,147));
+    setOrganizationReferenceId(line.substring(139,147));
+
+    // System.out.println(line.substring(147,151));
+    setReferenceDocumentTypeCode(line.substring(147,151));
+
+    // System.out.println(line.substring(151,153));
+    setReferenceOriginCode(line.substring(151,153));
+
+    // System.out.println(line.substring(153,162));
+    setReferenceDocumentNumber(line.substring(153,162));
+
+    // System.out.println(line.substring(162,172));
+    setDocumentReversalDate(parseDate(line.substring(162,172)));
+
+    // System.out.println(line.substring(172,173));
+    setEncumbranceUpdateCode(line.substring(172,173));
+  }
+
+  private java.sql.Date parseDate(String sdate) {
+    if ( (sdate == null) || (sdate.trim().length() == 0) ) {
+      return null;
+    } else {
+      SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-DD");
+      try {
+        java.util.Date d = sdf.parse(sdate);
+        return new Date(d.getTime());
+      } catch (ParseException e) {
+        return null;
+      }
+    }
   }
 
   public Entry(Transaction t,java.util.Date postDate) {

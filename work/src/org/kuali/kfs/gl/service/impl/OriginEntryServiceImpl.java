@@ -22,12 +22,16 @@
  */
 package org.kuali.module.gl.service.impl;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.kuali.module.gl.bo.Entry;
 import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.bo.OriginEntrySource;
@@ -105,5 +109,31 @@ public class OriginEntryServiceImpl implements OriginEntryService {
 
   public void setOriginEntryDao(OriginEntryDao oed) {
     originEntryDao = oed;
+  }
+
+  public void loadFlatFile(String filename,String groupSourceCode,boolean valid,boolean processed,boolean scrub) {
+    LOG.debug("loadFlatFile() started");
+
+    java.util.Date groupDate = new java.util.Date();
+    OriginEntryGroup newGroup = createGroup(groupDate,groupSourceCode,valid,processed,scrub);
+
+    BufferedReader input = null;
+    try {
+      input = new BufferedReader( new FileReader(filename) );
+      String line = null;
+      while (( line = input.readLine()) != null) {
+        Entry entry = new Entry(line);
+        createEntry(entry,newGroup);
+      }
+    } catch (Exception ex) {
+      LOG.error("performStep() Error reading file", ex);
+      throw new IllegalArgumentException("Error reading file");
+    } finally {
+      try {
+        if ( input != null ) {
+          input.close();
+        }
+      } catch (IOException ex) { }
+    }
   }
 }

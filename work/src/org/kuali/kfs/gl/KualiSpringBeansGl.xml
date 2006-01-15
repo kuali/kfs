@@ -1,12 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
-	<bean id="generalLedgerPendingEntryService" class="org.kuali.module.gl.service.impl.GeneralLedgerPendingEntryServiceImpl">
-        <property name="generalLedgerPendingEntryDao"><ref bean="generalLedgerPendingEntryDao"/></property>
-        <property name="documentService"><ref bean="documentService" /></property>
-        <property name="kualiRuleService"><ref bean="kualiRuleService" /></property>
-    </bean>
-
 	<bean id="glScrubberStep" class="org.kuali.module.gl.batch.ScrubberStep">
 		<property name="originEntryService"><ref bean="glOriginEntryService" /></property>
 		<property name="scrubberService"><ref bean="glScrubberService" /></property>
@@ -18,6 +12,10 @@
 
 	<bean id="glPosterReversalStep" class="org.kuali.module.gl.batch.PosterReversalStep">
 		<property name="posterService"><ref bean="glPosterService" /></property>
+	</bean>
+
+	<bean id="glTextFileLoaderStep" class="org.kuali.module.gl.batch.TextFileLoaderStep">
+		<property name="originEntryService"><ref bean="glOriginEntryService"/></property>
 	</bean>
 
 	<bean id="glScrubberService" class="org.kuali.module.gl.service.impl.ScrubberServiceImpl">
@@ -48,6 +46,12 @@
 		<property name="originEntryService"><ref bean="glOriginEntryService" /></property>
 		<property name="dateTimeService"><ref bean="dateTimeService" /></property>
 	</bean>
+
+	<bean id="generalLedgerPendingEntryService" class="org.kuali.module.gl.service.impl.GeneralLedgerPendingEntryServiceImpl">
+        <property name="generalLedgerPendingEntryDao"><ref bean="generalLedgerPendingEntryDao"/></property>
+        <property name="documentService"><ref bean="documentService" /></property>
+        <property name="kualiRuleService"><ref bean="kualiRuleService" /></property>
+    </bean>
 
 	<bean id="glOriginEntryService" class="org.kuali.module.gl.service.impl.OriginEntryServiceImpl">
 		<property name="originEntryDao"><ref bean="glOriginEntryDao" /></property>

@@ -450,9 +450,9 @@
 	<field-descriptor name="subAccountNumber" column="SUB_ACCT_NBR" jdbc-type="VARCHAR" primarykey="true" />
 	<field-descriptor name="objectCode" column="FIN_OBJECT_CD" jdbc-type="VARCHAR" primarykey="true" />
 	<field-descriptor name="subObjectCode" column="FIN_SUB_OBJ_CD" jdbc-type="VARCHAR" primarykey="true" />
-	<field-descriptor name="currentBudgetLineBalanceAmount" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
-	<field-descriptor name="accountLineActualsBalanceAmount" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
-	<field-descriptor name="accountLineEncumbranceBalanceAmount" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
+	<field-descriptor name="currentBudgetLineBalanceAmount" column="CURR_BDLN_BAL_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
+	<field-descriptor name="accountLineActualsBalanceAmount" column="ACLN_ACTLS_BAL_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
+	<field-descriptor name="accountLineEncumbranceBalanceAmount" column="ACLN_ENCUM_BAL_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
 	<field-descriptor name="timestamp" column="TIMESTAMP" jdbc-type="TIMESTAMP" />
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />

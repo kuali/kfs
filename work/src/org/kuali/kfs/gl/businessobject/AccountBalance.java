@@ -35,6 +35,8 @@ import org.kuali.core.util.KualiDecimal;
 public class AccountBalance extends BusinessObjectBase {
   static final long serialVersionUID = 6873573726961704771L;
 
+  private static KualiDecimal ZERO = new KualiDecimal("0");
+
   private Integer universityFiscalYear;
   private String chartOfAccountsCode;
   private String accountNumber;
@@ -46,11 +48,21 @@ public class AccountBalance extends BusinessObjectBase {
   private KualiDecimal accountLineEncumbranceBalanceAmount;
   private Timestamp timestamp;
 
-  /**
-   * 
-   */
   public AccountBalance() {
     super();
+  }
+
+  public AccountBalance(Transaction t) {
+    super();
+    universityFiscalYear = t.getUniversityFiscalYear();
+    chartOfAccountsCode = t.getChartOfAccountsCode();
+    accountNumber = t.getAccountNumber();
+    subAccountNumber = t.getSubAccountNumber();
+    objectCode = t.getObjectCode();
+    subObjectCode = t.getSubObjectCode();
+    currentBudgetLineBalanceAmount = ZERO;
+    accountLineActualsBalanceAmount = ZERO;
+    accountLineEncumbranceBalanceAmount = ZERO;
   }
 
   /* (non-Javadoc)

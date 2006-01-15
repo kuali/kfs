@@ -28,6 +28,7 @@ import junit.framework.TestSuite;
 import org.kuali.module.gl.batch.poster.impl.PostBalanceTest;
 import org.kuali.module.gl.batch.poster.impl.PostEncumbranceTest;
 import org.kuali.module.gl.batch.poster.impl.PostExpenditureTransactionTest;
+import org.kuali.module.gl.batch.poster.impl.PostGlAccountBalanceTest;
 import org.kuali.module.gl.batch.poster.impl.PostGlEntryTest;
 import org.kuali.module.gl.batch.poster.impl.PostReversalTest;
 import org.kuali.module.gl.batch.poster.impl.PostSufficientFundsBalanceTest;
@@ -63,6 +64,7 @@ public class AllTests {
     suite.addTestSuite(PostGlEntryTest.class);
     suite.addTestSuite(PostReversalTest.class);
     suite.addTestSuite(PostSufficientFundsBalanceTest.class);
+    suite.addTestSuite(PostGlAccountBalanceTest.class);
 
     // org.kuali.module.gl.dao.ojb
     if ( ! fastTests ) {

@@ -61,8 +61,14 @@
 		<property name="balanceDao"><ref bean="glBalanceDao" /></property>
 	</bean>
 
-	<bean id="glPostGlAccountBalance" class="org.kuali.module.gl.batch.poster.impl.PostGlAccountBalance" />
-	<bean id="glPostSufficientFundsBalance" class="org.kuali.module.gl.batch.poster.impl.PostSufficientFundsBalance" />
+	<bean id="glPostGlAccountBalance" class="org.kuali.module.gl.batch.poster.impl.PostGlAccountBalance">
+		<property name="accountBalanceDao"><ref bean="glAccountBalanceDao"/></property>
+	</bean>
+
+	<bean id="glPostSufficientFundsBalance" class="org.kuali.module.gl.batch.poster.impl.PostSufficientFundsBalance">
+		<property name="sufficientFundsBalanceDao"><ref bean="glSufficientFundsBalanceDao"/></property>
+	</bean>
+
 	<bean id="glPostReversal" class="org.kuali.module.gl.batch.poster.impl.PostReversal">
 		<property name="reversalEntryDao"><ref bean="glReversalEntryDao" /></property>
 	</bean>
@@ -83,6 +89,14 @@
 	</bean>
 
 	<bean id="glVerifyTransactionService" class="org.kuali.module.gl.service.impl.VerifyTransactionServiceImpl"/>
+
+	<bean id="glAccountBalanceDao" class="org.kuali.module.gl.dao.ojb.AccountBalanceDaoOjb">
+		<property name="jcdAlias"><value>dataSource</value></property>
+	</bean>
+
+	<bean id="glSufficientFundsBalanceDao" class="org.kuali.module.gl.dao.ojb.SufficientFundsBalanceDaoOjb">
+		<property name="jcdAlias"><value>dataSource</value></property>
+	</bean>
 
 	<bean id="glEntryDao" class="org.kuali.module.gl.dao.ojb.EntryDaoOjb">
 		<property name="jcdAlias"><value>dataSource</value></property>

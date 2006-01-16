@@ -568,6 +568,10 @@
 	<field-descriptor name="transactionEntryOffsetIndicator" column="TRN_ENTR_OFST_CD" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanFieldTFConversion"/>
 	<field-descriptor name="transactionEntryProcessedTs" column="TRNENTR_PROCESS_TM" jdbc-type="TIMESTAMP"/>
 	<field-descriptor name="budgetYear" column="BDGT_YR" jdbc-type="VARCHAR"/>
+	
+	<reference-descriptor name="documentType" class-ref="org.kuali.core.document.DocumentType" auto-retrieve="true">
+		<foreignkey field-ref="financialDocumentTypeCode"/>
+	</reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.gl.bo.UniversityDate" table="KULUNT.SH_UNIV_DATE_T">

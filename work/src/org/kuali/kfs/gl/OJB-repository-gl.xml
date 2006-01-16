@@ -330,7 +330,7 @@
 	<field-descriptor name="transactionEncumbranceDescription" column="TRN_ENCUM_DESC" jdbc-type="VARCHAR" />
 	<field-descriptor name="transactionEncumbranceDate" column="TRN_ENCUM_DT" jdbc-type="DATE" />
 	<field-descriptor name="accountLineEncumbranceAmount" column="ACLN_ENCUM_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
-	<field-descriptor name="accountLineEncumbranceCloseedAmount" column="ACLN_ENCUM_CLS_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
+	<field-descriptor name="accountLineEncumbranceClosedAmount" column="ACLN_ENCUM_CLS_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
 	<!--  A space is a valid entry in this field so it can't be converted to boolean -->
 	<field-descriptor name="accountLineEncumbrancePurgeCode" column="ACLN_ENCUM_PRG_IND" jdbc-type="VARCHAR" />
 	<field-descriptor name="timestamp" column="TIMESTAMP" jdbc-type="TIMESTAMP" />

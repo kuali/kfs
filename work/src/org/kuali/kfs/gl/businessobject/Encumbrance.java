@@ -22,6 +22,7 @@
  */
 package org.kuali.module.gl.bo;
 
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.LinkedHashMap;
 
@@ -50,7 +51,7 @@ public class Encumbrance extends BusinessObjectBase {
   private KualiDecimal accountLineEncumbranceAmount;
   private KualiDecimal accountLineEncumbranceClosedAmount;
   private String accountLineEncumbrancePurgeCode;
-  private Date timestamp;
+  private Timestamp timestamp;
 
   public Encumbrance() {    
   }
@@ -236,13 +237,13 @@ public class Encumbrance extends BusinessObjectBase {
   /**
    * @return Returns the timestamp.
    */
-  public Date getTimestamp() {
+  public Timestamp getTimestamp() {
     return timestamp;
   }
   /**
    * @param timestamp The timestamp to set.
    */
-  public void setTimestamp(Date timestamp) {
+  public void setTimestamp(Timestamp timestamp) {
     this.timestamp = timestamp;
   }
   /**

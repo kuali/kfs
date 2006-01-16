@@ -4,9 +4,13 @@
  */
 package org.kuali.module.gl.batch.poster.impl;
 
+import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.kuali.module.gl.batch.poster.PostTransaction;
+import org.kuali.module.gl.batch.poster.VerifyTransaction;
 import org.kuali.module.gl.bo.Encumbrance;
 import org.kuali.module.gl.bo.Entry;
 import org.kuali.module.gl.bo.Transaction;
@@ -16,7 +20,7 @@ import org.kuali.module.gl.dao.EncumbranceDao;
  * @author jsissom
  *
  */
-public class PostEncumbrance implements PostTransaction {
+public class PostEncumbrance implements PostTransaction,VerifyTransaction {
   private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PostEncumbrance.class);
 
   private EncumbranceDao encumbranceDao;
@@ -30,6 +34,24 @@ public class PostEncumbrance implements PostTransaction {
    */
   public PostEncumbrance() {
     super();
+  }
+
+  /**
+   * Make sure the transaction is correct for posting.  If there is an error,
+   * this will stop the transaction from posting in all files.
+   */
+  public List verifyTransaction(Transaction t) {
+    LOG.debug("verifyTransaction() started");
+
+    List errors = new ArrayList();
+
+    // The encumbrance update code can only be space, N, R or D.  Nothing else    
+    if ( (! " ".equals(t.getEncumbranceUpdateCode())) && ( ! "N".equals(t.getEncumbranceUpdateCode())) && 
+        (! "R".equals(t.getEncumbranceUpdateCode())) && (! "D".equals(t.getEncumbranceUpdateCode())) ) {
+      errors.add("Invalid Encumbrance Update Code (" + t.getEncumbranceUpdateCode() + ")");
+    }
+
+    return errors;
   }
 
   /* (non-Javadoc)
@@ -53,11 +75,6 @@ public class PostEncumbrance implements PostTransaction {
       e.setDocumentNumber(t.getReferenceDocumentNumber());
       e.setOriginCode(t.getReferenceOriginCode());
       e.setDocumentTypeCode(t.getReferenceDocumentTypeCode());
-    } else if ( "D".equals(t.getEncumbranceUpdateCode()) ) {
-      // We don't need to do anything for this code
-    } else {
-      // This is an error.  R or D are the only valid codes for this field
-      return "E:Invalid Encumbrance Update Code (" + t.getEncumbranceUpdateCode() + ")";
     }
 
     Encumbrance enc = encumbranceDao.getEncumbranceByTransaction(e);
@@ -91,7 +108,7 @@ public class PostEncumbrance implements PostTransaction {
       }      
     }
 
-    enc.setTimestamp(postDate);
+    enc.setTimestamp(new Timestamp(postDate.getTime()));
 
     encumbranceDao.save(enc);
 

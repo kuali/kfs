@@ -32,14 +32,14 @@ import java.util.Map;
 
 import org.kuali.core.service.DateTimeService;
 import org.kuali.module.gl.batch.poster.PostTransaction;
+import org.kuali.module.gl.batch.poster.PosterReport;
+import org.kuali.module.gl.batch.poster.VerifyTransaction;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.bo.OriginEntrySource;
 import org.kuali.module.gl.bo.ReversalEntry;
 import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.service.OriginEntryService;
-import org.kuali.module.gl.service.PosterReportService;
 import org.kuali.module.gl.service.PosterService;
-import org.kuali.module.gl.service.VerifyTransactionService;
 
 /**
  * @author jsissom
@@ -49,8 +49,8 @@ public class PosterServiceImpl implements PosterService {
   private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PosterServiceImpl.class);
 
   private List transactionPosters;
-  private VerifyTransactionService verifyTransaction;
-  private PosterReportService posterReportService;
+  private VerifyTransaction verifyTransaction;
+  private PosterReport posterReportService;
   private OriginEntryService originEntryService;
   private DateTimeService dateTimeService;
 
@@ -181,21 +181,41 @@ public class PosterServiceImpl implements PosterService {
 
           originEntryService.createEntry(tran, invalidGroup);
         } else {
-          // No error so post it
+          // Now check each poster to see if it needs to verify the transaction.  If
+          // it returns errors, we won't post it
+          errors = new ArrayList();
           for (Iterator posterIter = transactionPosters.iterator(); posterIter.hasNext();) {
             PostTransaction poster = (PostTransaction) posterIter.next();
-            String actionCode = poster.post(tran, mode, runDate);
+            if ( poster instanceof VerifyTransaction ) {
+              VerifyTransaction vt = (VerifyTransaction)poster;
 
-            if (actionCode.startsWith("E") ) {
-              errors = new ArrayList();
-              errors.add(actionCode);
-              reportError.put(tran, errors);
-            } else if (actionCode.indexOf("I") >= 0) {
-              addReporting(reportSummary, poster.getDestinationName(), "I");
-            } else if (actionCode.indexOf("U") >= 0) {
-              addReporting(reportSummary, poster.getDestinationName(), "U");
-            } else if (actionCode.indexOf("D") >= 0) {
-              addReporting(reportSummary, poster.getDestinationName(), "D");
+              errors.addAll(verifyTransaction.verifyTransaction(tran));
+            }
+          }
+
+          if ( errors.size() > 0) {
+            // Error on this transaction
+            reportError.put(tran, errors);
+            addReporting(reportSummary, "~WARNING", "S");
+
+            originEntryService.createEntry(tran, invalidGroup);
+          } else {
+            // No error so post it
+            for (Iterator posterIter = transactionPosters.iterator(); posterIter.hasNext();) {
+              PostTransaction poster = (PostTransaction) posterIter.next();
+              String actionCode = poster.post(tran, mode, runDate);
+
+              if (actionCode.startsWith("E") ) {
+                errors = new ArrayList();
+                errors.add(actionCode);
+                reportError.put(tran, errors);
+              } else if (actionCode.indexOf("I") >= 0) {
+                addReporting(reportSummary, poster.getDestinationName(), "I");
+              } else if (actionCode.indexOf("U") >= 0) {
+                addReporting(reportSummary, poster.getDestinationName(), "U");
+              } else if (actionCode.indexOf("D") >= 0) {
+                addReporting(reportSummary, poster.getDestinationName(), "D");
+              }
             }
           }
 
@@ -218,7 +238,7 @@ public class PosterServiceImpl implements PosterService {
     }
   }
 
-  public void setVerifyTransactionService(VerifyTransactionService vt) {
+  public void setVerifyTransaction(VerifyTransaction vt) {
     verifyTransaction = vt;
   }
 
@@ -226,7 +246,7 @@ public class PosterServiceImpl implements PosterService {
     transactionPosters = p;
   }
 
-  public void setPosterReportService(PosterReportService prs) {
+  public void setPosterReport(PosterReport prs) {
     posterReportService = prs;
   }
 

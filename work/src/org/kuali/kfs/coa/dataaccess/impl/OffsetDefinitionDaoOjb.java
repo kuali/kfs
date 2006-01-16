@@ -50,24 +50,4 @@ public class OffsetDefinitionDaoOjb extends PersistenceBrokerTemplate
         return (OffsetDefinition) getObjectByQuery(QueryFactory.newQuery(OffsetDefinition.class,
                 criteria));
     }
-
-    /**
-     * Retrieves account business object by primary key
-     * @param chartOfAccountsCode - the FIN_COA_CD of the Chart Code that is part of the composite key of Account
-     * @param accountNumber - the ACCOUNT_NBR part of the composite key of Accont
-     * @return Account
-     * @see AccountDao
-     */
-/*    public Account getByPrimaryId(String chartOfAccountsCode,
-        String accountNumber) {
-        LOG.debug("getByPrimaryID() started ");
-
-        Criteria criteria = new Criteria();
-        criteria.addEqualTo("chartOfAccountsCode", chartOfAccountsCode);
-        criteria.addEqualTo("accountNumber", accountNumber);
-
-        return (Account) getObjectByQuery(new QueryByCriteria(Account.class,
-                criteria));
-    }
-    
-*/}
+}

@@ -38,8 +38,8 @@ public class PreEncumbranceDocumentTest extends TransactionalDocumentTestBase {
     public static final String COLLECTION_NAME = "PreEncumbranceDocumentTest.collection1";
     public static final String USER_NAME = "user1";
     public static final String DOCUMENT_PARAMETER = "preEncumbranceDocumentParameter1";
-    public static final String SOURCE_LINE1 = "sourceLine1";
-    public static final String TARGET_LINE1 = "targetLine1";
+    public static final String SOURCE_LINE6 = "sourceLine6";
+    public static final String TARGET_LINE6 = "targetLine6";
     public static final String SERIALIZED_LINE_PARAMTER = "serializedLine1";
 
     /**
@@ -55,7 +55,7 @@ public class PreEncumbranceDocumentTest extends TransactionalDocumentTestBase {
      */
     public List getTargetAccountingLineParametersFromFixtures() {
         ArrayList list = new ArrayList();
-        list.add(getFixtureEntryFromCollection(COLLECTION_NAME, TARGET_LINE1).createObject());
+        list.add(getFixtureEntryFromCollection(COLLECTION_NAME, TARGET_LINE6).createObject());
         return list;
     }
 
@@ -64,7 +64,7 @@ public class PreEncumbranceDocumentTest extends TransactionalDocumentTestBase {
      */
     public List getSourceAccountingLineParametersFromFixtures() {
         ArrayList list = new ArrayList();
-        list.add(getFixtureEntryFromCollection(COLLECTION_NAME, SOURCE_LINE1).createObject());
+        list.add(getFixtureEntryFromCollection(COLLECTION_NAME, SOURCE_LINE6).createObject());
         return list;
     }
 

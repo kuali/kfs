@@ -143,14 +143,16 @@ public class JournalVoucherDocumentRule extends TransactionalDocumentRuleBase {
         // set the debit/credit code appropriately
         jvDoc.refreshReferenceObject("balanceType");
         if (jvDoc.getBalanceType().isFinancialOffsetGenerationIndicator()) {
-            explicitEntry.setTransactionDebitCreditCode(accountingLine.getDebitCreditCode());
+            explicitEntry.setTransactionDebitCreditCode(getEntryValue(accountingLine.getDebitCreditCode(), 
+                    GENERAL_LEDGER_PENDING_ENTRY_CODE.BLANK_SPACE));
         }
         else {
-            explicitEntry.setTransactionDebitCreditCode(null);
+            explicitEntry.setTransactionDebitCreditCode(GENERAL_LEDGER_PENDING_ENTRY_CODE.BLANK_SPACE);
         }
 
         // set the encumbrance update code
-        explicitEntry.setTransactionEncumbranceUpdtCd(accountingLine.getEncumbranceUpdateCode());
+        explicitEntry.setTransactionEncumbranceUpdtCd(getEntryValue(accountingLine.getEncumbranceUpdateCode(), 
+                GENERAL_LEDGER_PENDING_ENTRY_CODE.BLANK_SPACE));
 
         // set the reversal date to what what specified at the document level
         explicitEntry.setFinancialDocumentReversalDate(jvDoc.getReversalDate());

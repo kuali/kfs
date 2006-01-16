@@ -26,9 +26,13 @@ import java.sql.Timestamp;
 
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
+import org.kuali.core.bo.AccountingLine;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.module.financial.document.JournalVoucherDocument;
 import org.kuali.module.financial.document.PreEncumbranceDocument;
+import org.kuali.module.financial.rules.TransactionalDocumentRuleBase.GENERAL_LEDGER_PENDING_ENTRY_CODE;
+import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 
 
 /**
@@ -37,7 +41,6 @@ import org.kuali.module.financial.document.PreEncumbranceDocument;
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class PreEncumbranceDocumentRule extends TransactionalDocumentRuleBase {
-
     /**
      * Pre Encumbrance document specific business rule checks for the "route document" event.
      *
@@ -61,7 +64,21 @@ public class PreEncumbranceDocumentRule extends TransactionalDocumentRuleBase {
         return TransactionalDocumentRuleUtil.isValidReversalDate(reversalDate, "document.reversalDate");
     }
 
-    
+    /**
+     * This method contains Pre Encumbrance document specific GLPE explicit entry attribute sets.
+     * 
+     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#customizeExplicitGeneralLedgerPendingEntry(org.kuali.core.document.TransactionalDocument,
+     *      org.kuali.core.bo.AccountingLine, org.kuali.module.gl.bo.GeneralLedgerPendingEntry)
+     */
+    protected void customizeExplicitGeneralLedgerPendingEntry(TransactionalDocument transactionalDocument,
+            AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry) {
+        //set the balance type code directly to the PRE_ENCUMBRANCE balance type code
+        explicitEntry.setFinancialBalanceTypeCode(BALANCE_TYPE_CODE.PRE_ENCUMBRANCE);
+        
+        //set the reversal date to what was chosen by the user in the interface
+        PreEncumbranceDocument peDoc = (PreEncumbranceDocument) transactionalDocument;
+        explicitEntry.setFinancialDocumentReversalDate(peDoc.getReversalDate());
+    }
 
     /**
      * PreEncumbrance documents require at least one accounting line in either section for routing.

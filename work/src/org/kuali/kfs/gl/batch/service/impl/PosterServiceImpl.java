@@ -31,6 +31,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.service.DateTimeService;
+import org.kuali.module.chart.bo.AccountingPeriod;
+import org.kuali.module.chart.service.AccountingPeriodService;
 import org.kuali.module.gl.batch.poster.PostTransaction;
 import org.kuali.module.gl.batch.poster.PosterReport;
 import org.kuali.module.gl.batch.poster.VerifyTransaction;
@@ -38,6 +40,9 @@ import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.bo.OriginEntrySource;
 import org.kuali.module.gl.bo.ReversalEntry;
 import org.kuali.module.gl.bo.Transaction;
+import org.kuali.module.gl.bo.UniversityDate;
+import org.kuali.module.gl.dao.ReversalEntryDao;
+import org.kuali.module.gl.dao.UniversityDateDao;
 import org.kuali.module.gl.service.OriginEntryService;
 import org.kuali.module.gl.service.PosterService;
 
@@ -53,6 +58,9 @@ public class PosterServiceImpl implements PosterService {
   private PosterReport posterReportService;
   private OriginEntryService originEntryService;
   private DateTimeService dateTimeService;
+  private ReversalEntryDao reversalEntryDao;
+  private UniversityDateDao universityDateDao;
+  private AccountingPeriodService accountingPeriodService;
 
   /**
    *  
@@ -98,8 +106,10 @@ public class PosterServiceImpl implements PosterService {
     OriginEntryGroup invalidGroup = null;
 
     Date runDate = dateTimeService.getCurrentDate();
+    UniversityDate runUniversityDate = universityDateDao.getByPrimaryKey(runDate);
 
     Collection groups = null;
+    Iterator reversalTransactions = null;
     switch (mode) {
       case PosterService.MODE_ENTRIES:
         validEntrySourceCode = OriginEntrySource.MAIN_POSTER_VALID;
@@ -109,9 +119,7 @@ public class PosterServiceImpl implements PosterService {
       case PosterService.MODE_REVERSAL:
         validEntrySourceCode = OriginEntrySource.REVERSAL_POSTER_VALID;
         invalidEntrySourceCode = OriginEntrySource.REVERSAL_POSTER_ERROR;
-
-        // TODO get the reversal entries from the reversal table
-        throw new IllegalArgumentException("Not implemented....");
+        reversalTransactions = reversalEntryDao.getByDate(runDate);
       case PosterService.MODE_ICR:
         validEntrySourceCode = OriginEntrySource.ICR_POSTER_VALID;
         invalidEntrySourceCode = OriginEntrySource.ICR_POSTER_ERROR;
@@ -138,94 +146,142 @@ public class PosterServiceImpl implements PosterService {
       reportSummary.put(poster.getDestinationName() + ",U", new Integer(0));
     }
 
-    for (Iterator iter = groups.iterator(); iter.hasNext();) {
-      OriginEntryGroup group = (OriginEntryGroup) iter.next();
+    // Process all the groups or reversalTransactions
+    if ( groups != null ) {
+      LOG.debug("postEntries() Processing groups");
+      for (Iterator iter = groups.iterator(); iter.hasNext();) {
+        OriginEntryGroup group = (OriginEntryGroup) iter.next();
 
-      Iterator entries = originEntryService.getEntriesByGroup(group);
-      while (entries.hasNext()) {
-        Transaction tran = (Transaction) entries.next();
+        Iterator entries = originEntryService.getEntriesByGroup(group);
+        while (entries.hasNext()) {
+          Transaction tran = (Transaction) entries.next();
 
-        if (mode == PosterService.MODE_ENTRIES) {
-          addReporting(reportSummary, " GL_ORIGIN_ENTRY_T", "S");
-        } else if (mode == PosterService.MODE_REVERSAL) {
-          addReporting(reportSummary, " GL_REVERSAL_T", "S");
-        } else {
-          addReporting(reportSummary, " GL_ORIGIN_ENTRY_T (ICR)", "S");
+          process(tran,mode,reportSummary,reportError,invalidGroup,validGroup,runUniversityDate);
         }
+      }
+    } else {
+      LOG.debug("postEntries() Processing reversal transactions");
+      while (reversalTransactions.hasNext()) {
+        Transaction tran = (Transaction)reversalTransactions.next();
 
-        // If these are reversal entries, we need to reverse the entry and
-        // modify a few fields
-        if (mode == PosterService.MODE_REVERSAL) {
-          if (!(tran instanceof ReversalEntry)) {
-            throw new IllegalArgumentException("Reversal transactions must be in the Reversal class, not " + tran.getClass().getName());
-          }
-
-          // Revese the debit/credit code
-          ReversalEntry reversal = (ReversalEntry) tran;
-          if ("D".equals(reversal.getDebitOrCreditCode())) {
-            reversal.setDebitOrCreditCode("C");
-          } else if ("C".equals(reversal.getDebitOrCreditCode())) {
-            reversal.setDebitOrCreditCode("D");
-          }
-          reversal.setReversalDate(null);
-
-          // TODO Look up univ_fiscal_yr & univ_fiscal_prd_cd in sh_unit_date_t,fatal if not found
-          // TODO Look up period in AccountingPeriod to see if it is open, if closed, use today's date & period & print warning
-        }
-
-        List errors = verifyTransaction.verifyTransaction(tran);
-        if (errors.size() > 0) {
-          // Error on this transaction
-          reportError.put(tran, errors);
-          addReporting(reportSummary, "~WARNING", "S");
-
-          originEntryService.createEntry(tran, invalidGroup);
-        } else {
-          // Now check each poster to see if it needs to verify the transaction.  If
-          // it returns errors, we won't post it
-          errors = new ArrayList();
-          for (Iterator posterIter = transactionPosters.iterator(); posterIter.hasNext();) {
-            PostTransaction poster = (PostTransaction) posterIter.next();
-            if ( poster instanceof VerifyTransaction ) {
-              VerifyTransaction vt = (VerifyTransaction)poster;
-
-              errors.addAll(verifyTransaction.verifyTransaction(tran));
-            }
-          }
-
-          if ( errors.size() > 0) {
-            // Error on this transaction
-            reportError.put(tran, errors);
-            addReporting(reportSummary, "~WARNING", "S");
-
-            originEntryService.createEntry(tran, invalidGroup);
-          } else {
-            // No error so post it
-            for (Iterator posterIter = transactionPosters.iterator(); posterIter.hasNext();) {
-              PostTransaction poster = (PostTransaction) posterIter.next();
-              String actionCode = poster.post(tran, mode, runDate);
-
-              if (actionCode.startsWith("E") ) {
-                errors = new ArrayList();
-                errors.add(actionCode);
-                reportError.put(tran, errors);
-              } else if (actionCode.indexOf("I") >= 0) {
-                addReporting(reportSummary, poster.getDestinationName(), "I");
-              } else if (actionCode.indexOf("U") >= 0) {
-                addReporting(reportSummary, poster.getDestinationName(), "U");
-              } else if (actionCode.indexOf("D") >= 0) {
-                addReporting(reportSummary, poster.getDestinationName(), "D");
-              }
-            }
-          }
-
-          originEntryService.createEntry(tran, validGroup);
-        }
+        process(tran,mode,reportSummary,reportError,invalidGroup,validGroup,runUniversityDate);
       }
     }
 
     // Generate the report
     posterReportService.generateReport(reportError, reportSummary, runDate, mode);
+  }
+
+  private void process(Transaction tran,int mode,Map reportSummary,Map reportError,OriginEntryGroup invalidGroup,OriginEntryGroup validGroup,UniversityDate runUniversityDate) {
+
+    List errors = new ArrayList();
+
+    ReversalEntry reversal = null;
+    Transaction originalTransaction = tran;
+
+    // Update select count in the report
+    if (mode == PosterService.MODE_ENTRIES) {
+      addReporting(reportSummary, " GL_ORIGIN_ENTRY_T", "S");
+    } else if (mode == PosterService.MODE_REVERSAL) {
+      addReporting(reportSummary, " GL_REVERSAL_T", "S");
+    } else {
+      addReporting(reportSummary, " GL_ORIGIN_ENTRY_T (ICR)", "S");
+    }
+
+    // If these are reversal entries, we need to reverse the entry and
+    // modify a few fields
+    if (mode == PosterService.MODE_REVERSAL) {
+      reversal = new ReversalEntry(tran);
+
+      // Revese the debit/credit code
+      if ("D".equals(reversal.getDebitOrCreditCode())) {
+        reversal.setDebitOrCreditCode("C");
+      } else if ("C".equals(reversal.getDebitOrCreditCode())) {
+        reversal.setDebitOrCreditCode("D");
+      }
+
+      UniversityDate udate = universityDateDao.getByPrimaryKey(reversal.getDocumentReversalDate());
+      if ( udate != null ) {
+        reversal.setUniversityFiscalYear(udate.getUniversityFiscalYear());
+        reversal.setUniversityFiscalAccountingPeriod(udate.getUniversityFiscalAccountingPeriod());
+
+        AccountingPeriod ap = accountingPeriodService.getByPeriod(reversal.getUniversityFiscalAccountingPeriod(),reversal.getUniversityFiscalYear());
+        if ( ap != null ) {
+          if ( "C".equals(ap.getUniversityFiscalPeriodStatusCode()) ) {
+            reversal.setUniversityFiscalYear(runUniversityDate.getUniversityFiscalYear());
+            reversal.setUniversityFiscalAccountingPeriod(runUniversityDate.getUniversityFiscalAccountingPeriod());
+          }
+          reversal.setDocumentReversalDate(null);
+          String newDescription = "AUTO REVERSAL-" + reversal.getTransactionLedgerEntryDescription();
+          if ( newDescription.length() > 40 ) {
+            newDescription = newDescription.substring(0,39);
+          }
+          reversal.setTransactionLedgerEntryDescription(newDescription);
+          tran = reversal;
+        } else {
+          errors.add("Date from university date not in AccountingPeriod table");
+        }
+      } else {
+        errors.add("Date from reversal not in UniversityDate table");
+      }
+    }
+
+    if ( errors.size() == 0 ) {
+      errors = verifyTransaction.verifyTransaction(tran);
+    }
+
+    if (errors.size() > 0) {
+      // Error on this transaction
+      reportError.put(tran, errors);
+      addReporting(reportSummary, "~WARNING", "S");
+
+      originEntryService.createEntry(tran, invalidGroup);
+    } else {
+      // Now check each poster to see if it needs to verify the transaction.  If
+      // it returns errors, we won't post it
+      errors = new ArrayList();
+      for (Iterator posterIter = transactionPosters.iterator(); posterIter.hasNext();) {
+        PostTransaction poster = (PostTransaction) posterIter.next();
+        if ( poster instanceof VerifyTransaction ) {
+          VerifyTransaction vt = (VerifyTransaction)poster;
+
+          errors.addAll(verifyTransaction.verifyTransaction(tran));
+        }
+      }
+
+      if ( errors.size() > 0) {
+        // Error on this transaction
+        reportError.put(tran, errors);
+        addReporting(reportSummary, "~WARNING", "S");
+
+        originEntryService.createEntry(tran, invalidGroup);
+      } else {
+        // No error so post it
+        for (Iterator posterIter = transactionPosters.iterator(); posterIter.hasNext();) {
+          PostTransaction poster = (PostTransaction) posterIter.next();
+          String actionCode = poster.post(tran, mode, runUniversityDate.getUniversityDate());
+
+          if (actionCode.startsWith("E") ) {
+            errors = new ArrayList();
+            errors.add(actionCode);
+            reportError.put(tran, errors);
+          } else if (actionCode.indexOf("I") >= 0) {
+            addReporting(reportSummary, poster.getDestinationName(), "I");
+          } else if (actionCode.indexOf("U") >= 0) {
+            addReporting(reportSummary, poster.getDestinationName(), "U");
+          } else if (actionCode.indexOf("D") >= 0) {
+            addReporting(reportSummary, poster.getDestinationName(), "D");
+          }
+        }
+      }
+
+      originEntryService.createEntry(tran, validGroup);
+
+      // Delete the reversal entry
+      if ( mode == PosterService.MODE_REVERSAL ) {
+        reversalEntryDao.delete( (ReversalEntry)originalTransaction );
+      }
+    }    
   }
 
   private void addReporting(Map reporting, String destination, String operation) {
@@ -256,5 +312,17 @@ public class PosterServiceImpl implements PosterService {
 
   public void setDateTimeService(DateTimeService dts) {
     dateTimeService = dts;
+  }
+
+  public void setReversalEntryDao(ReversalEntryDao red) {
+    reversalEntryDao = red;
+  }
+
+  public void setUniversityDateDao(UniversityDateDao udd) {
+    universityDateDao = udd;
+  }
+
+  public void setAccountingPeriodService(AccountingPeriodService aps) {
+    accountingPeriodService = aps;
   }
 }

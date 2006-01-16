@@ -219,7 +219,7 @@
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.gl.bo.ReversalEntry" table="KULUNT.GL_REVERSAL_T">
-	<field-descriptor name="documentReversalDate" column="FDOC_REVERSAL_DT" jdbc-type="TIMESTAMP" primarykey="true" />
+	<field-descriptor name="documentReversalDate" column="FDOC_REVERSAL_DT" jdbc-type="DATE" primarykey="true" />
 	<field-descriptor name="universityFiscalYear" column="UNIV_FISCAL_YR" jdbc-type="INTEGER" primarykey="true" />
 	<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" />
 	<field-descriptor name="accountNumber" column="ACCOUNT_NBR" jdbc-type="VARCHAR" primarykey="true" />
@@ -235,18 +235,16 @@
 	<field-descriptor name="transactionEntrySequenceId" column="TRN_ENTR_SEQ_NBR" jdbc-type="INTEGER" primarykey="true" />
 	<field-descriptor name="transactionLedgerEntryDescription" column="TRN_LDGR_ENTR_DESC" jdbc-type="VARCHAR" />
 	<field-descriptor name="transactionLedgerEntryAmount" column="TRN_LDGR_ENTR_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
-	<field-descriptor name="debitOrCreditCode" column="TRN_DEBIT_CRDT_CD" jdbc-type="VARCHAR" />
-	<field-descriptor name="transactionDate" column="TRANSACTION_DT" jdbc-type="TIMESTAMP" />
+	<field-descriptor name="debitOrCreditCode" column="TRN_DEBIT_CRDT_IND" jdbc-type="VARCHAR" />
+	<field-descriptor name="transactionDate" column="TRANSACTION_DT" jdbc-type="DATE" />
 	<field-descriptor name="organizationDocumentNumber" column="ORG_DOC_NBR" jdbc-type="VARCHAR" />
 	<field-descriptor name="projectCode" column="PROJECT_CD" jdbc-type="VARCHAR" />
 	<field-descriptor name="organizationReferenceId" column="ORG_REFERENCE_ID" jdbc-type="VARCHAR" />
 	<field-descriptor name="referenceDocumentTypeCode" column="FDOC_REF_TYP_CD" jdbc-type="VARCHAR" />
 	<field-descriptor name="referenceOriginCode" column="FS_REF_ORIGIN_CD" jdbc-type="VARCHAR" />
 	<field-descriptor name="referenceDocumentNumber" column="FDOC_REF_NBR" jdbc-type="VARCHAR" />
-	<field-descriptor name="documentReversalDate" column="FDOC_REVERSAL_DT" jdbc-type="TIMESTAMP" />
-	<field-descriptor name="encumbranceUpdateCode" column="TRN_ENCUM_UPDT_CD" jdbc-type="VARCHAR" />
-	<field-descriptor name="postDate" column="POST_DT" jdbc-type="TIMESTAMP" />
-	<field-descriptor name="timestamp" column="TIMESTAMP" jdbc-type="TIMESTAMP" />
+	<field-descriptor name="encumbranceUpdateCode" column="TRN_ENCUM_UPDT_IND" jdbc-type="VARCHAR" />
+	<field-descriptor name="postDate" column="TRN_POST_DT" jdbc-type="DATE" />
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 

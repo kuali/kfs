@@ -45,6 +45,9 @@
 		<property name="verifyTransaction"><ref bean="glVerifyTransaction" /></property>
 		<property name="originEntryService"><ref bean="glOriginEntryService" /></property>
 		<property name="dateTimeService"><ref bean="dateTimeService" /></property>
+		<property name="reversalEntryDao"><ref bean="glReversalEntryDao" /></property>
+		<property name="universityDateDao"><ref bean="universityDateDao" /></property>
+		<property name="accountingPeriodService"><ref bean="accountingPeriodService" /></property>
 	</bean>
 
 	<bean id="generalLedgerPendingEntryService" class="org.kuali.module.gl.service.impl.GeneralLedgerPendingEntryServiceImpl">

@@ -17,5 +17,29 @@
         <property name="jcdAlias">
             <value>dataSource</value>
         </property>
-     </bean>          
+     </bean>
+
+     <bean id="objectTypeCodeDao" class="org.kuali.module.chart.dao.ojb.ObjectTypeCodeDaoOjb">
+		<property name="jcdAlias">
+			<value>dataSource</value>
+		</property>
+	</bean>
+
+	<bean id="indirectCostRecoveryExclusionAccountDao" class="org.kuali.module.chart.dao.ojb.IndirectCostRecoveryExclusionAccountDaoOjb">
+		<property name="jcdAlias">
+			<value>dataSource</value>
+		</property>
+	</bean>
+
+	<bean id="indirectCostRecoveryExclusionTypeDao" class="org.kuali.module.chart.dao.ojb.IndirectCostRecoveryExclusionTypeDaoOjb">
+		<property name="jcdAlias">
+			<value>dataSource</value>
+		</property>
+	</bean>
+
+	<bean id="a21SubAccountDao" class="org.kuali.module.chart.dao.ojb.A21SubAccountDaoOjb">
+		<property name="jcdAlias">
+			<value>dataSource</value>
+		</property>
+	</bean>
 </beans>

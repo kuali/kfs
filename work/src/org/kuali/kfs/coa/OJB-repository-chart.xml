@@ -1592,3 +1592,47 @@
 	<field-descriptor name="versionNumber" column="VER_NBR"
 		jdbc-type="BIGINT" locking="true" />
 </class-descriptor>
+
+<class-descriptor class="org.kuali.module.chart.bo.A21SubAccount" table="CA_A21_SUB_ACCT_T">
+	<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" />
+	<field-descriptor name="accountNumber" column="ACCOUNT_NBR" jdbc-type="VARCHAR" primarykey="true" />
+	<field-descriptor name="subAccountNumber" column="SUB_ACCT_NBR" jdbc-type="VARCHAR" primarykey="true" />
+	<field-descriptor name="subAccountTypeCode" column="SUB_ACCT_TYP_CD" jdbc-type="VARCHAR" />
+	<field-descriptor name="indirectCostRecoveryTypeCode" column="ICR_TYP_CD" jdbc-type="VARCHAR" />
+	<field-descriptor name="seriesId" column="FIN_SERIES_ID" jdbc-type="VARCHAR" />
+	<field-descriptor name="indirectCostRecoveryChartOfAccountsCode" column="ICR_FIN_COA_CD" jdbc-type="VARCHAR" />
+	<field-descriptor name="indirectCostRecoveryAccountNumber" column="ICR_ACCOUNT_NBR" jdbc-type="VARCHAR" />
+	<field-descriptor name="offsetCampusCode" column="OFF_CMP_IND" jdbc-type="VARCHAR" />
+	<field-descriptor name="costSharingChartOfAccountsCode" column="CST_SHR_COA_CD" jdbc-type="VARCHAR" />
+	<field-descriptor name="costSharingAccountNumber" column="CST_SHRRCACCT_NBR" jdbc-type="VARCHAR" />
+	<field-descriptor name="costSharingSubAccountNumber" column="CST_SRCSUBACCT_NBR" jdbc-type="VARCHAR" />
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.chart.bo.IndirectCostRecoveryExclusionAccount" table="CA_ICR_EXCL_ACCT_T">
+	<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" />
+	<field-descriptor name="accountNumber" column="ACCOUNT_NBR" jdbc-type="VARCHAR" primarykey="true" />
+	<field-descriptor name="objectChartOfAccountsCode" column="FIN_OBJ_COA_CD" jdbc-type="VARCHAR" primarykey="true" />
+	<field-descriptor name="objectCode" column="FIN_OBJECT_CD" jdbc-type="VARCHAR" primarykey="true" />
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.chart.bo.IndirectCostRecoveryExclusionType" table="CA_ICR_EXCL_TYPE_T">
+	<field-descriptor name="accountIndirectCostRecoveryTypeCode" column="ACCT_ICR_TYP_CD" jdbctype="VARCHAR" primarykey="true" />
+	<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" />
+	<field-descriptor name="objectCode" column="FIN_OBJECT_CD" jdbc-type="VARCHAR" primarykey="true" />
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.chart.bo.IndirectCostRecoveryThreshold" table="CA_ICR_THRESHOLD_T">
+	<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" />
+	<field-descriptor name="accountNumber" column="ACCOUNT_NBR" jdbc-type="VARCHAR" primarykey="true" />
+	<field-descriptor name="awardThresholdAmount" column="AWRD_THRESHOLD_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" primarykey="true" />
+	<field-descriptor name="financialIcrSeriesIdentifier" column="FIN_SERIES_ID" jdbc-type="VARCHAR" />
+	<field-descriptor name="awardAccumulatedCostAmount" column="AWRD_ACCUMDCST_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+</class-descriptor>

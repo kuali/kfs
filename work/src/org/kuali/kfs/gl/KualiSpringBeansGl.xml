@@ -85,9 +85,9 @@
 	</bean>
 
 	<bean id="glPostExpenditureTransaction" class="org.kuali.module.gl.batch.poster.impl.PostExpenditureTransaction">
-		<property name="indirectCostRecoveryExclusionAccountDao"><ref bean="glIndirectCostRecoveryExclusionAccountDao"/></property>
-		<property name="indirectCostRecoveryExclusionTypeDao"><ref bean="glIndirectCostRecoveryExclusionTypeDao"/></property>
-		<property name="a21SubAccountDao"><ref bean="glA21SubAccountDao"/></property>
+		<property name="indirectCostRecoveryExclusionAccountDao"><ref bean="indirectCostRecoveryExclusionAccountDao"/></property>
+		<property name="indirectCostRecoveryExclusionTypeDao"><ref bean="indirectCostRecoveryExclusionTypeDao"/></property>
+		<property name="a21SubAccountDao"><ref bean="a21SubAccountDao"/></property>
 		<property name="expenditureTransactionDao"><ref bean="glExpenditureTransactionDao"/></property>
 	</bean>
 
@@ -125,27 +125,11 @@
 		<property name="jcdAlias"><value>dataSource</value></property>
 	</bean>
 
-	<bean id="caObjectTypeCodeDao" class="org.kuali.module.chart.dao.ojb.ObjectTypeCodeDaoOjb">
-		<property name="jcdAlias"><value>dataSource</value></property>
-	</bean>
-
-	<bean id="caOptionDao" class="org.kuali.module.chart.dao.ojb.OptionDaoOjb">
+	<bean id="optionDao" class="org.kuali.module.chart.dao.ojb.OptionDaoOjb">
 		<property name="jcdAlias"><value>dataSource</value></property>
 	</bean>
 
 	<bean id="universityDateDao" class="org.kuali.module.gl.dao.ojb.UniversityDateDaoOjb">
-		<property name="jcdAlias"><value>dataSource</value></property>
-	</bean>
-
-	<bean id="glIndirectCostRecoveryExclusionAccountDao" class="org.kuali.module.gl.dao.ojb.IndirectCostRecoveryExclusionAccountDaoOjb">
-		<property name="jcdAlias"><value>dataSource</value></property>
-	</bean>
-
-	<bean id="glIndirectCostRecoveryExclusionTypeDao" class="org.kuali.module.gl.dao.ojb.IndirectCostRecoveryExclusionTypeDaoOjb">
-		<property name="jcdAlias"><value>dataSource</value></property>
-	</bean>
-
-	<bean id="glA21SubAccountDao" class="org.kuali.module.gl.dao.ojb.A21SubAccountDaoOjb">
 		<property name="jcdAlias"><value>dataSource</value></property>
 	</bean>
 

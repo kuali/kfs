@@ -20,20 +20,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-package org.kuali.module.gl.dao;
+package org.kuali.module.chart.dao;
 
-import java.util.Iterator;
-
-import org.kuali.module.gl.bo.ExpenditureTransaction;
-import org.kuali.module.gl.bo.Transaction;
+import org.kuali.module.chart.bo.A21SubAccount;
 
 /**
  * @author jsissom
  *
  */
-public interface ExpenditureTransactionDao {
-  public ExpenditureTransaction getByTransaction(Transaction t);
-  public Iterator getAllExpenditureTransactions();
-  public void delete(ExpenditureTransaction et);
-  public void save(ExpenditureTransaction et);
+public interface A21SubAccountDao {
+  public A21SubAccount getByPrimaryKey(String chartOfAccountsCode,String accountNumber,String subAccountNumber);
 }

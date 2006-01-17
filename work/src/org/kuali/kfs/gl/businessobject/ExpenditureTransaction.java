@@ -26,6 +26,7 @@ import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.module.chart.bo.Account;
 
 /**
  * @author jsissom
@@ -46,6 +47,8 @@ public class ExpenditureTransaction extends BusinessObjectBase {
   private String projectCode;
   private String organizationReferenceId;
   private KualiDecimal accountObjectDirectCostAmount;
+
+  private Account account;
 
   /**
    * 
@@ -83,6 +86,13 @@ public class ExpenditureTransaction extends BusinessObjectBase {
     map.put("projectCode",getProjectCode());
     map.put("organizationReferenceId",getOrganizationReferenceId());
     return map;
+  }
+
+  public Account getAccount() {
+    return account;
+  }
+  public void setAccount(Account a) {
+    account = a;
   }
 
   public String getAccountNumber() {

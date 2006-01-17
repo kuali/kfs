@@ -1,4 +1,4 @@
-<class-descriptor class="org.kuali.module.gl.bo.OriginEntry" table="KULUNT.GL_ORIGIN_ENTRY_T">
+<class-descriptor class="org.kuali.module.gl.bo.OriginEntry" table="GL_ORIGIN_ENTRY_T">
 	<field-descriptor name="entryId" column="ORIGIN_ENTRY_ID" jdbc-type="INTEGER" primarykey="true" autoincrement="true" sequence-name="GL_ORIGIN_ENTRY_T_SEQ" />
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
@@ -128,7 +128,7 @@
 	</reference-descriptor>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.gl.bo.Entry" table="KULUNT.GL_ENTRY_T">
+<class-descriptor class="org.kuali.module.gl.bo.Entry" table="GL_ENTRY_T">
 	<field-descriptor name="universityFiscalYear" column="UNIV_FISCAL_YR" jdbc-type="INTEGER" primarykey="true" />
 	<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" />
 	<field-descriptor name="accountNumber" column="ACCOUNT_NBR" jdbc-type="VARCHAR" primarykey="true" />
@@ -218,7 +218,7 @@
 	</reference-descriptor>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.gl.bo.ReversalEntry" table="KULUNT.GL_REVERSAL_T">
+<class-descriptor class="org.kuali.module.gl.bo.ReversalEntry" table="GL_REVERSAL_T">
 	<field-descriptor name="documentReversalDate" column="FDOC_REVERSAL_DT" jdbc-type="DATE" primarykey="true" />
 	<field-descriptor name="universityFiscalYear" column="UNIV_FISCAL_YR" jdbc-type="INTEGER" primarykey="true" />
 	<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" />
@@ -306,15 +306,7 @@
 	</reference-descriptor>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.gl.bo.UniversityDate" table="KULUNT.SH_UNIV_DATE_T">
-	<field-descriptor name="universityDate" column="UNIV_DT" jdbc-type="DATE" primarykey="true" />
-	<field-descriptor name="universityFiscalYear" column="UNIV_FISCAL_YR" jdbc-type="INTEGER" />
-	<field-descriptor name="universityFiscalAccountingPeriod" column="UNIV_FISCAL_PRD_CD" jdbc-type="VARCHAR" />
-	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-</class-descriptor>
-
-<class-descriptor class="org.kuali.module.gl.bo.Encumbrance" table="KULUNT.GL_ENCUMBRANCE_T">
+<class-descriptor class="org.kuali.module.gl.bo.Encumbrance" table="GL_ENCUMBRANCE_T">
 	<field-descriptor name="universityFiscalYear" column="UNIV_FISCAL_YR" jdbc-type="INTEGER" primarykey="true" />
 	<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" />
 	<field-descriptor name="accountNumber" column="ACCOUNT_NBR" jdbc-type="VARCHAR" primarykey="true" />
@@ -336,7 +328,7 @@
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.gl.bo.Balance" table="KULUNT.GL_BALANCE_T">
+<class-descriptor class="org.kuali.module.gl.bo.Balance" table="GL_BALANCE_T">
 	<field-descriptor name="universityFiscalYear" column="UNIV_FISCAL_YR" jdbc-type="INTEGER" primarykey="true" />
 	<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" />
 	<field-descriptor name="accountNumber" column="ACCOUNT_NBR" jdbc-type="VARCHAR" primarykey="true" />
@@ -366,7 +358,7 @@
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.gl.bo.SufficientFundsBalance" table="KULUNT.GL_SF_BALANCES_T">
+<class-descriptor class="org.kuali.module.gl.bo.SufficientFundsBalance" table="GL_SF_BALANCES_T">
 	<field-descriptor name="universityFiscalYear" column="UNIV_FISCAL_YR" jdbc-type="INTEGER" primarykey="true" />
 	<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" />
 	<field-descriptor name="accountNumber" column="ACCOUNT_NBR" jdbc-type="VARCHAR" primarykey="true" />
@@ -380,7 +372,7 @@
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.gl.bo.ExpenditureTransaction" table="KULUNT.GL_EXPEND_TRN_T">
+<class-descriptor class="org.kuali.module.gl.bo.ExpenditureTransaction" table="GL_EXPEND_TRN_T">
 	<field-descriptor name="universityFiscalYear" column="UNIV_FISCAL_YR" jdbc-type="INTEGER" primarykey="true" />
 	<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" />
 	<field-descriptor name="accountNumber" column="ACCOUNT_NBR" jdbc-type="VARCHAR" primarykey="true" />
@@ -395,53 +387,14 @@
 	<field-descriptor name="accountObjectDirectCostAmount" column="ACCT_OBJ_DCST_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+
+	<reference-descriptor name="account" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="chartOfAccountsCode" />
+		<foreignkey field-ref="accountNumber" />
+	</reference-descriptor>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.gl.bo.IndirectCostRecoveryExclusionAccount" table="KULUNT.CA_ICR_EXCL_ACCT_T">
-	<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" />
-	<field-descriptor name="accountNumber" column="ACCOUNT_NBR" jdbc-type="VARCHAR" primarykey="true" />
-	<field-descriptor name="objectChartOfAccountsCode" column="FIN_OBJ_COA_CD" jdbc-type="VARCHAR" primarykey="true" />
-	<field-descriptor name="objectCode" column="FIN_OBJECT_CD" jdbc-type="VARCHAR" primarykey="true" />
-	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-</class-descriptor>
-
-<class-descriptor class="org.kuali.module.gl.bo.IndirectCostRecoveryExclusionType" table="KULUNT.CA_ICR_EXCL_TYPE_T">
-	<field-descriptor name="accountIndirectCostRecoveryTypeCode" column="ACCT_ICR_TYP_CD" jdbctype="VARCHAR" primarykey="true" />
-	<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" />
-	<field-descriptor name="objectCode" column="FIN_OBJECT_CD" jdbc-type="VARCHAR" primarykey="true" />
-	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-</class-descriptor>
-
-<class-descriptor class="org.kuali.module.gl.bo.Option" table="FS_OPTION_T">
-	<field-descriptor name="universityFiscalYear" column="UNIV_FISCAL_YR" jdbc-type="INTEGER" primarykey="true" />
-	<field-descriptor name="accountBalanceTypeCode" column="ACT_FIN_BAL_TYP_CD" jdbc-type="VARCHAR" />
-	<field-descriptor name="budgetCheckBalanceTypeCode" column="BDGT_CHK_BALTYP_CD" jdbc-type="VARCHAR" />
-	<field-descriptor name="budgetCheckOptionCode" column="BDGT_CHK_OPTN_CD" jdbc-type="VARCHAR" />
-	<field-descriptor name="universityFiscalYearStartYear" column="UNIV_FSCYR_STRT_YR" jdbc-type="INTEGER" />
-	<field-descriptor name="universityFiscalYearStartMonth" column="UNIV_FSCYR_STRT_MO" jdbc-type="VARCHAR" />
-	<field-descriptor name="objectTypeIncomeCashCode" column="FOBJTP_INC_CSH_CD" jdbc-type="VARCHAR" />
-	<field-descriptor name="objectTypeExpenditureExpenseCode" column="FOBJTP_XPND_EXP_CD" jdbc-type="VARCHAR" />
-	<field-descriptor name="objectTypeExpenditureNonExpenseCode" column="FOBJTP_XPNDNEXP_CD" jdbc-type="VARCHAR" />
-	<field-descriptor name="objectTypeExpenseExpenditureCode" column="FOBJTP_EXPNXPND_CD" jdbc-type="VARCHAR" />
-	<field-descriptor name="objectTypeAssetCode" column="FOBJ_TYP_ASSET_CD" jdbc-type="VARCHAR" />
-	<field-descriptor name="objectTypeLiabilityCode" column="FOBJ_TYP_LBLTY_CD" jdbc-type="VARCHAR" />
-	<field-descriptor name="objectTypeFundBalanceCode" column="FOBJ_TYP_FNDBAL_CD" jdbc-type="VARCHAR" />
-	<field-descriptor name="externalEncumbranceBalanceTypeCode" column="EXT_ENC_FBALTYP_CD" jdbc-type="VARCHAR" />
-	<field-descriptor name="internalEncumbranceBalanceTypeCode" column="INT_ENC_FBALTYP_CD" jdbc-type="VARCHAR" />
-	<field-descriptor name="preEncumbranceBalanceTypeCode" column="PRE_ENC_FBALTYP_CD" jdbc-type="VARCHAR" />
-	<field-descriptor name="eliminationBalanceTypeCode" column="ELIM_FINBAL_TYP_CD" jdbc-type="VARCHAR" />
-	<field-descriptor name="objectTypeIncomeNonCashCode" column="FOBJTP_INC_NCSH_CD" jdbc-type="VARCHAR" />
-	<field-descriptor name="objectTypeCashNonIncomeCode" column="FOBJTP_CSH_NINC_CD" jdbc-type="VARCHAR" />
-	<field-descriptor name="universityChartOfAccountsCode" column="UNIV_FIN_COA_CD" jdbc-type="VARCHAR" />
-	<field-descriptor name="universityFiscalYearName" column="UNIV_FISCAL_YR_NM" jdbc-type="VARCHAR" />
-	<field-descriptor name="beginningBalanceLoad" column="FIN_BEGBALLOAD_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
-	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-</class-descriptor>
-
-<class-descriptor class="org.kuali.module.gl.bo.AccountBalance" table="KULUNT.GL_ACCT_BALANCES_T">
+<class-descriptor class="org.kuali.module.gl.bo.AccountBalance" table="GL_ACCT_BALANCES_T">
 	<field-descriptor name="universityFiscalYear" column="UNIV_FISCAL_YR" jdbc-type="INTEGER" primarykey="true" />
 	<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" />
 	<field-descriptor name="accountNumber" column="ACCOUNT_NBR" jdbc-type="VARCHAR" primarykey="true" />
@@ -452,23 +405,6 @@
 	<field-descriptor name="accountLineActualsBalanceAmount" column="ACLN_ACTLS_BAL_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
 	<field-descriptor name="accountLineEncumbranceBalanceAmount" column="ACLN_ENCUM_BAL_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
 	<field-descriptor name="timestamp" column="TIMESTAMP" jdbc-type="TIMESTAMP" />
-	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-</class-descriptor>
-
-<class-descriptor class="org.kuali.module.gl.bo.A21SubAccount" table="KULUNT.CA_A21_SUB_ACCT_T">
-	<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" />
-	<field-descriptor name="accountNumber" column="ACCOUNT_NBR" jdbc-type="VARCHAR" primarykey="true" />
-	<field-descriptor name="subAccountNumber" column="SUB_ACCT_NBR" jdbc-type="VARCHAR" primarykey="true" />
-	<field-descriptor name="subAccountTypeCode" column="SUB_ACCT_TYP_CD" jdbc-type="VARCHAR" />
-	<field-descriptor name="indirectCostRecoveryTypeCode" column="ICR_TYP_CD" jdbc-type="VARCHAR" />
-	<field-descriptor name="seriesId" column="FIN_SERIES_ID" jdbc-type="VARCHAR" />
-	<field-descriptor name="indirectCostRecoveryChartOfAccountsCode" column="ICR_FIN_COA_CD" jdbc-type="VARCHAR" />
-	<field-descriptor name="indirectCostRecoveryAccountNumber" column="ICR_ACCOUNT_NBR" jdbc-type="VARCHAR" />
-	<field-descriptor name="offsetCampusCode" column="OFF_CMP_IND" jdbc-type="VARCHAR" />
-	<field-descriptor name="costSharingChartOfAccountsCode" column="CST_SHR_COA_CD" jdbc-type="VARCHAR" />
-	<field-descriptor name="costSharingAccountNumber" column="CST_SHRRCACCT_NBR" jdbc-type="VARCHAR" />
-	<field-descriptor name="costSharingSubAccountNumber" column="CST_SRCSUBACCT_NBR" jdbc-type="VARCHAR" />
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 </class-descriptor>
@@ -574,10 +510,38 @@
 	</reference-descriptor>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.gl.bo.UniversityDate" table="KULUNT.SH_UNIV_DATE_T">
+<class-descriptor class="org.kuali.module.gl.bo.UniversityDate" table="SH_UNIV_DATE_T">
 	<field-descriptor name="universityDate"  column="UNIV_DT" jdbc-type="DATE" primarykey="true"/>
 	<field-descriptor name="universityFiscalYear" column="UNIV_FISCAL_YR" jdbc-type="INTEGER"/>
 	<field-descriptor name="universityFiscalAccountingPeriod" column="UNIV_FISCAL_PRD_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 </class-descriptor>
+
+<class-descriptor class="org.kuali.module.gl.bo.Option" table="FS_OPTION_T">
+	<field-descriptor name="universityFiscalYear" column="UNIV_FISCAL_YR" jdbc-type="INTEGER" primarykey="true" />
+	<field-descriptor name="accountBalanceTypeCode" column="ACT_FIN_BAL_TYP_CD" jdbc-type="VARCHAR" />
+	<field-descriptor name="budgetCheckBalanceTypeCode" column="BDGT_CHK_BALTYP_CD" jdbc-type="VARCHAR" />
+	<field-descriptor name="budgetCheckOptionCode" column="BDGT_CHK_OPTN_CD" jdbc-type="VARCHAR" />
+	<field-descriptor name="universityFiscalYearStartYear" column="UNIV_FSCYR_STRT_YR" jdbc-type="INTEGER" />
+	<field-descriptor name="universityFiscalYearStartMonth" column="UNIV_FSCYR_STRT_MO" jdbc-type="VARCHAR" />
+	<field-descriptor name="objectTypeIncomeCashCode" column="FOBJTP_INC_CSH_CD" jdbc-type="VARCHAR" />
+	<field-descriptor name="objectTypeExpenditureExpenseCode" column="FOBJTP_XPND_EXP_CD" jdbc-type="VARCHAR" />
+	<field-descriptor name="objectTypeExpenditureNonExpenseCode" column="FOBJTP_XPNDNEXP_CD" jdbc-type="VARCHAR" />
+	<field-descriptor name="objectTypeExpenseExpenditureCode" column="FOBJTP_EXPNXPND_CD" jdbc-type="VARCHAR" />
+	<field-descriptor name="objectTypeAssetCode" column="FOBJ_TYP_ASSET_CD" jdbc-type="VARCHAR" />
+	<field-descriptor name="objectTypeLiabilityCode" column="FOBJ_TYP_LBLTY_CD" jdbc-type="VARCHAR" />
+	<field-descriptor name="objectTypeFundBalanceCode" column="FOBJ_TYP_FNDBAL_CD" jdbc-type="VARCHAR" />
+	<field-descriptor name="externalEncumbranceBalanceTypeCode" column="EXT_ENC_FBALTYP_CD" jdbc-type="VARCHAR" />
+	<field-descriptor name="internalEncumbranceBalanceTypeCode" column="INT_ENC_FBALTYP_CD" jdbc-type="VARCHAR" />
+	<field-descriptor name="preEncumbranceBalanceTypeCode" column="PRE_ENC_FBALTYP_CD" jdbc-type="VARCHAR" />
+	<field-descriptor name="eliminationBalanceTypeCode" column="ELIM_FINBAL_TYP_CD" jdbc-type="VARCHAR" />
+	<field-descriptor name="objectTypeIncomeNonCashCode" column="FOBJTP_INC_NCSH_CD" jdbc-type="VARCHAR" />
+	<field-descriptor name="objectTypeCashNonIncomeCode" column="FOBJTP_CSH_NINC_CD" jdbc-type="VARCHAR" />
+	<field-descriptor name="universityChartOfAccountsCode" column="UNIV_FIN_COA_CD" jdbc-type="VARCHAR" />
+	<field-descriptor name="universityFiscalYearName" column="UNIV_FISCAL_YR_NM" jdbc-type="VARCHAR" />
+	<field-descriptor name="beginningBalanceLoad" column="FIN_BEGBALLOAD_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+</class-descriptor>
+

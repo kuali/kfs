@@ -22,6 +22,8 @@
  */
 package org.kuali.module.gl.dao.ojb;
 
+import java.util.Iterator;
+
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
@@ -62,6 +64,22 @@ public class ExpenditureTransactionDaoOjb extends PersistenceBrokerDaoSupport im
 
     QueryByCriteria qbc = QueryFactory.newQuery(ExpenditureTransaction.class,crit);
     return (ExpenditureTransaction)getPersistenceBrokerTemplate().getObjectByQuery(qbc);
+  }
+
+  public Iterator getAllExpenditureTransactions() {
+    LOG.debug("getAllExpenditureTransactions() started");
+
+    Criteria crit = new Criteria();
+    // We want them all so no criteria is added
+
+    QueryByCriteria qbc = QueryFactory.newQuery(ExpenditureTransaction.class,crit);
+    return getPersistenceBrokerTemplate().getIteratorByQuery(qbc);
+  }
+
+  public void delete(ExpenditureTransaction et) {
+    LOG.debug("delete() started");
+
+    getPersistenceBrokerTemplate().delete(et);
   }
 
   /* (non-Javadoc)

@@ -472,7 +472,7 @@
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.gl.bo.GeneralLedgerPendingEntry" table="GL_PENDING_ENTRY_T">
+<class-descriptor class="org.kuali.module.gl.bo.GeneralLedgerPendingEntry" table="GL_PENDING_ENTRY_T" proxy="dynamic">
 	<field-descriptor name="financialDocumentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="trnEntryLedgerSequenceNumber" column="TRN_ENTR_SEQ_NBR" jdbc-type="INTEGER" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>

@@ -34,18 +34,30 @@ import org.kuali.core.service.DocumentService;
 public class DocumentWorkflowStatusMonitor extends ChangeMonitor {
     final DocumentService documentService;
     final private String docHeaderId;
-    final private String desiredWorkflowStatus;
+    final private String[] desiredWorkflowStates;
 
     public DocumentWorkflowStatusMonitor(DocumentService documentService, String docHeaderId, String desiredWorkflowStatus ) {
         this.documentService = documentService;
         this.docHeaderId = docHeaderId;
-        this.desiredWorkflowStatus = desiredWorkflowStatus;
+        this.desiredWorkflowStates = new String[] {desiredWorkflowStatus};
+    }
+    
+    public DocumentWorkflowStatusMonitor(DocumentService documentService, String docHeaderId, String[] desiredWorkflowStates ) {
+        this.documentService = documentService;
+        this.docHeaderId = docHeaderId;
+        this.desiredWorkflowStates = desiredWorkflowStates;
     }
 
     public boolean valueChanged() throws Exception {
         Document d = documentService.getByDocumentHeaderId(docHeaderId.toString());
 
         String currentStatus = d.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus();
-        return StringUtils.equals( desiredWorkflowStatus, currentStatus );
+        
+        for(int i=0;i < desiredWorkflowStates.length;i++) {
+            if(StringUtils.equals(desiredWorkflowStates[i], currentStatus)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

@@ -40,7 +40,6 @@ import org.kuali.test.parameters.DocumentParameter;
 import org.kuali.test.parameters.TransactionalDocumentParameter;
 
 import edu.iu.uis.eden.EdenConstants;
-import edu.iu.uis.eden.SpringServiceLocator;
 
 /**
  * This class is used to test JournalVoucherDocument.

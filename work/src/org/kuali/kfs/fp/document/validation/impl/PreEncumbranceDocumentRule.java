@@ -29,9 +29,7 @@ import org.kuali.KeyConstants;
 import org.kuali.core.bo.AccountingLine;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.module.financial.document.JournalVoucherDocument;
 import org.kuali.module.financial.document.PreEncumbranceDocument;
-import org.kuali.module.financial.rules.TransactionalDocumentRuleBase.GENERAL_LEDGER_PENDING_ENTRY_CODE;
 import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 
 

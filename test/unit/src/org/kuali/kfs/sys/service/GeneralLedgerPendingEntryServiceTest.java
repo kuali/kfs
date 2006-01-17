@@ -29,6 +29,8 @@ import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 import org.kuali.module.gl.service.GeneralLedgerPendingEntryService;
 import org.kuali.test.KualiTestBaseWithSpring;
+import java.util.Iterator;
+import java.util.Collection;
 
 /**
  * This class tests the GeneralLedgerPending service.
@@ -68,6 +70,21 @@ public class GeneralLedgerPendingEntryServiceTest extends KualiTestBaseWithSprin
         generalLedgerPendingEntryService.delete(docHeaderId);
         generalLedgerPendingEntry = generalLedgerPendingEntryService.getByPrimaryId(generalLedgerPendingEntry.getTrnEntryLedgerSequenceNumber(), docHeaderId);
         assertNull("Delete didn't delete this entry",generalLedgerPendingEntry);
+    }
+    
+    public void testFindAllGeneralLedgerPendingEntries() throws Exception {
+        GeneralLedgerPendingEntry generalLedgerPendingEntry = this.createGeneralLedgerPendingEntry(); 
+        generalLedgerPendingEntryService.save(generalLedgerPendingEntry);
+        
+        Iterator entries = generalLedgerPendingEntryService.findAllGeneralLedgerPendingEntries();
+        int counter = 0;
+        while(entries.hasNext()){
+            generalLedgerPendingEntry = (GeneralLedgerPendingEntry)(entries.next());
+            ++counter;
+        }
+        assertTrue("Failed to fetch all entries", counter > 0);
+        assertTrue("Failed to fetch all entries", counter > 3);
+        generalLedgerPendingEntryService.delete(docHeaderId);
     }
 
     private GeneralLedgerPendingEntry createGeneralLedgerPendingEntry() {

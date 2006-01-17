@@ -25,8 +25,6 @@ package org.kuali.module.gl.batch.poster.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.module.chart.dao.ObjectTypeCodeDao;
-import org.kuali.module.chart.dao.OptionDao;
 import org.kuali.module.gl.batch.poster.VerifyTransaction;
 import org.kuali.module.gl.bo.Transaction;
 
@@ -36,9 +34,6 @@ import org.kuali.module.gl.bo.Transaction;
  */
 public class VerifyTransactionImpl implements VerifyTransaction {
   private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(VerifyTransactionImpl.class);
-
-  private ObjectTypeCodeDao objectTypeCodeDao;
-  private OptionDao optionDao;
 
   public VerifyTransactionImpl() {
     super();

@@ -87,7 +87,7 @@
 		<foreignkey field-ref="transactionDate" />
 	</reference-descriptor>
 
-	<reference-descriptor name="option" class-ref="org.kuali.module.gl.bo.Option" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="option" class-ref="org.kuali.core.bo.user.Options" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="universityFiscalYear" />
 	</reference-descriptor>
 
@@ -204,7 +204,7 @@
 		<foreignkey field-ref="transactionDate" />
 	</reference-descriptor>
 
-	<reference-descriptor name="option" class-ref="org.kuali.module.gl.bo.Option" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="option" class-ref="org.kuali.core.bo.user.Options" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="universityFiscalYear" />
 	</reference-descriptor>
 
@@ -292,7 +292,7 @@
 		<foreignkey field-ref="transactionDate" />
 	</reference-descriptor>
 
-	<reference-descriptor name="option" class-ref="org.kuali.module.gl.bo.Option" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="option" class-ref="org.kuali.core.bo.user.Options" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="universityFiscalYear" />
 	</reference-descriptor>
 
@@ -517,31 +517,3 @@
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 </class-descriptor>
-
-<class-descriptor class="org.kuali.module.gl.bo.Option" table="FS_OPTION_T">
-	<field-descriptor name="universityFiscalYear" column="UNIV_FISCAL_YR" jdbc-type="INTEGER" primarykey="true" />
-	<field-descriptor name="accountBalanceTypeCode" column="ACT_FIN_BAL_TYP_CD" jdbc-type="VARCHAR" />
-	<field-descriptor name="budgetCheckBalanceTypeCode" column="BDGT_CHK_BALTYP_CD" jdbc-type="VARCHAR" />
-	<field-descriptor name="budgetCheckOptionCode" column="BDGT_CHK_OPTN_CD" jdbc-type="VARCHAR" />
-	<field-descriptor name="universityFiscalYearStartYear" column="UNIV_FSCYR_STRT_YR" jdbc-type="INTEGER" />
-	<field-descriptor name="universityFiscalYearStartMonth" column="UNIV_FSCYR_STRT_MO" jdbc-type="VARCHAR" />
-	<field-descriptor name="objectTypeIncomeCashCode" column="FOBJTP_INC_CSH_CD" jdbc-type="VARCHAR" />
-	<field-descriptor name="objectTypeExpenditureExpenseCode" column="FOBJTP_XPND_EXP_CD" jdbc-type="VARCHAR" />
-	<field-descriptor name="objectTypeExpenditureNonExpenseCode" column="FOBJTP_XPNDNEXP_CD" jdbc-type="VARCHAR" />
-	<field-descriptor name="objectTypeExpenseExpenditureCode" column="FOBJTP_EXPNXPND_CD" jdbc-type="VARCHAR" />
-	<field-descriptor name="objectTypeAssetCode" column="FOBJ_TYP_ASSET_CD" jdbc-type="VARCHAR" />
-	<field-descriptor name="objectTypeLiabilityCode" column="FOBJ_TYP_LBLTY_CD" jdbc-type="VARCHAR" />
-	<field-descriptor name="objectTypeFundBalanceCode" column="FOBJ_TYP_FNDBAL_CD" jdbc-type="VARCHAR" />
-	<field-descriptor name="externalEncumbranceBalanceTypeCode" column="EXT_ENC_FBALTYP_CD" jdbc-type="VARCHAR" />
-	<field-descriptor name="internalEncumbranceBalanceTypeCode" column="INT_ENC_FBALTYP_CD" jdbc-type="VARCHAR" />
-	<field-descriptor name="preEncumbranceBalanceTypeCode" column="PRE_ENC_FBALTYP_CD" jdbc-type="VARCHAR" />
-	<field-descriptor name="eliminationBalanceTypeCode" column="ELIM_FINBAL_TYP_CD" jdbc-type="VARCHAR" />
-	<field-descriptor name="objectTypeIncomeNonCashCode" column="FOBJTP_INC_NCSH_CD" jdbc-type="VARCHAR" />
-	<field-descriptor name="objectTypeCashNonIncomeCode" column="FOBJTP_CSH_NINC_CD" jdbc-type="VARCHAR" />
-	<field-descriptor name="universityChartOfAccountsCode" column="UNIV_FIN_COA_CD" jdbc-type="VARCHAR" />
-	<field-descriptor name="universityFiscalYearName" column="UNIV_FISCAL_YR_NM" jdbc-type="VARCHAR" />
-	<field-descriptor name="beginningBalanceLoad" column="FIN_BEGBALLOAD_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
-	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-</class-descriptor>
-

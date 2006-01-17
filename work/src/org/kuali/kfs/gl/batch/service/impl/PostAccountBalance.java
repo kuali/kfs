@@ -35,12 +35,12 @@ public class PostGlAccountBalance implements PostTransaction {
   public String post(Transaction t,int mode,Date postDate) {
     LOG.debug("post() started");
 
-    if ( (t.getBalanceTypeCode().equals(t.getOption().getAccountBalanceTypeCode()) ||
-        t.getBalanceTypeCode().equals(t.getOption().getBudgetCheckBalanceTypeCode()) || 
-        t.getBalanceTypeCode().equals(t.getOption().getExternalEncumbranceBalanceTypeCode()) ||
-        t.getBalanceTypeCode().equals(t.getOption().getInternalEncumbranceBalanceTypeCode()) ||
-        t.getBalanceTypeCode().equals(t.getOption().getPreEncumbranceBalanceTypeCode()) ||
-        t.getBalanceTypeCode().equals("CE")) && (! t.getObjectTypeCode().equals(t.getOption().getObjectTypeFundBalanceCode())) ){
+    if ( (t.getBalanceTypeCode().equals(t.getOption().getActualFinancialBalanceTypeCd()) ||
+        t.getBalanceTypeCode().equals(t.getOption().getBudgetCheckingBalanceTypeCd()) || 
+        t.getBalanceTypeCode().equals(t.getOption().getExtrnlEncumFinBalanceTypCd()) ||
+        t.getBalanceTypeCode().equals(t.getOption().getIntrnlEncumFinBalanceTypCd()) ||
+        t.getBalanceTypeCode().equals(t.getOption().getPreencumbranceFinBalTypeCd()) ||
+        t.getBalanceTypeCode().equals("CE")) && (! t.getObjectTypeCode().equals(t.getOption().getFinObjectTypeFundBalanceCd())) ){
       // We are posting this transaction
       String returnCode = "U";
 
@@ -54,18 +54,18 @@ public class PostGlAccountBalance implements PostTransaction {
 
       ab.setTimestamp(new Timestamp(postDate.getTime()));
 
-      if ( t.getBalanceTypeCode().equals(t.getOption().getBudgetCheckBalanceTypeCode()) ) {
+      if ( t.getBalanceTypeCode().equals(t.getOption().getBudgetCheckingBalanceTypeCd()) ) {
         ab.setCurrentBudgetLineBalanceAmount(ab.getCurrentBudgetLineBalanceAmount().add(t.getTransactionLedgerEntryAmount()));
-      } else if ( t.getBalanceTypeCode().equals(t.getOption().getAccountBalanceTypeCode()) ) {
+      } else if ( t.getBalanceTypeCode().equals(t.getOption().getActualFinancialBalanceTypeCd()) ) {
         if ( t.getObjectType().getFinObjectTypeDebitcreditCd().equals(t.getDebitOrCreditCode()) ||
             ( ( !t.getBalanceType().isFinancialOffsetGenerationIndicator()) && " ".equals(t.getDebitOrCreditCode()) ) ) {
           ab.setAccountLineActualsBalanceAmount(ab.getAccountLineActualsBalanceAmount().add(t.getTransactionLedgerEntryAmount()));
         } else {
           ab.setAccountLineActualsBalanceAmount(ab.getAccountLineActualsBalanceAmount().subtract(t.getTransactionLedgerEntryAmount()));          
         }
-      } else if ( t.getBalanceTypeCode().equals(t.getOption().getExternalEncumbranceBalanceTypeCode()) ||
-        t.getBalanceTypeCode().equals(t.getOption().getInternalEncumbranceBalanceTypeCode()) ||
-        t.getBalanceTypeCode().equals(t.getOption().getPreEncumbranceBalanceTypeCode()) ||
+      } else if ( t.getBalanceTypeCode().equals(t.getOption().getExtrnlEncumFinBalanceTypCd()) ||
+        t.getBalanceTypeCode().equals(t.getOption().getIntrnlEncumFinBalanceTypCd()) ||
+        t.getBalanceTypeCode().equals(t.getOption().getPreencumbranceFinBalTypeCd()) ||
         t.getBalanceTypeCode().equals("CE") ) {
         if ( t.getObjectType().getFinObjectTypeDebitcreditCd().equals(t.getDebitOrCreditCode()) ||
             ( (! t.getBalanceType().isFinancialOffsetGenerationIndicator()) &&

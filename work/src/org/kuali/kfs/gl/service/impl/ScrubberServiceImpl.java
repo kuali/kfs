@@ -282,7 +282,7 @@ public class ScrubberServiceImpl implements ScrubberService {
             }
         } else {
             // if balance type of originEntry is null, get it from option table
-            workingEntry.setBalanceTypeCode(originEntry.getOption().getAccountBalanceTypeCode());
+            workingEntry.setBalanceTypeCode(originEntry.getOption().getActualFinancialBalanceTypeCd());
 // TODO:           workingEntry.setBalanceType(originEntry.getOption().getAccountBalanceType());
             checkGLObject(originEntry.getBalanceType(), "Balance type code not found in table");
         }
@@ -684,7 +684,7 @@ public class ScrubberServiceImpl implements ScrubberService {
         boolean performLiability = true; // TODO: MOVE THIS TO PARAMETER
         boolean performPlant = true; // TODO: MOVE THIS TO PARAMETER
         
-        if ( workingEntry.getBalanceTypeCode().equalsIgnoreCase(workingEntry.getOption().getAccountBalanceTypeCode())
+        if ( workingEntry.getBalanceTypeCode().equalsIgnoreCase(workingEntry.getOption().getActualFinancialBalanceTypeCd())
                 && performCap
                 && !"TF".equalsIgnoreCase(workingEntry.getDocumentTypeCode())
                 && !"YETF".equalsIgnoreCase(workingEntry.getDocumentTypeCode())
@@ -786,7 +786,7 @@ public class ScrubberServiceImpl implements ScrubberService {
             createOutputEntry(workingEntry, validGroup);
         }
         
-        if ( workingEntry.getBalanceTypeCode().equalsIgnoreCase(workingEntry.getOption().getAccountBalanceTypeCode())
+        if ( workingEntry.getBalanceTypeCode().equalsIgnoreCase(workingEntry.getOption().getActualFinancialBalanceTypeCd())
                 && performLiability
                 && !"TF".equalsIgnoreCase(workingEntry.getDocumentTypeCode())
                 && !"YETF".equalsIgnoreCase(workingEntry.getDocumentTypeCode())
@@ -826,7 +826,7 @@ public class ScrubberServiceImpl implements ScrubberService {
         workingEntry.setAccountNumber(tmpAccountNumber);
         workingEntry.setSubAccountNumber(tmpSubAccountNumber);
 
-        if (workingEntry.getBalanceTypeCode().equalsIgnoreCase(workingEntry.getOption().getObjectTypeFundBalanceCode())
+        if (workingEntry.getBalanceTypeCode().equalsIgnoreCase(workingEntry.getOption().getFinObjectTypeFundBalanceCd())
                 && ("PFCMR".equalsIgnoreCase(workingEntry.getAccount().getSubFundGroupCode())
                         || "PFRI".equalsIgnoreCase(workingEntry.getAccount().getSubFundGroupCode()))
                 && "PI".equalsIgnoreCase(workingEntry.getFinancialObject().getFinancialObjectSubTypeCode())

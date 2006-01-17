@@ -125,10 +125,6 @@
 		<property name="jcdAlias"><value>dataSource</value></property>
 	</bean>
 
-	<bean id="optionDao" class="org.kuali.module.chart.dao.ojb.OptionDaoOjb">
-		<property name="jcdAlias"><value>dataSource</value></property>
-	</bean>
-
 	<bean id="universityDateDao" class="org.kuali.module.gl.dao.ojb.UniversityDateDaoOjb">
 		<property name="jcdAlias"><value>dataSource</value></property>
 	</bean>

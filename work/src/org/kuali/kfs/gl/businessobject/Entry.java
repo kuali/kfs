@@ -28,6 +28,7 @@ import java.text.SimpleDateFormat;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.user.Options;
 import org.kuali.core.document.DocumentType;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.chart.bo.Account;
@@ -87,7 +88,7 @@ public class Entry extends BusinessObjectBase implements Transaction {
   private ProjectCode project;
   private DocumentType documentType;
   private UniversityDate universityDate;
-  private Option option;
+  private Options option;
   private AccountingPeriod accountingPeriod;
   private UniversityDate reversalDate;
 
@@ -708,10 +709,10 @@ public class Entry extends BusinessObjectBase implements Transaction {
   public void setObjectType(ObjectType objectType) {
     this.objectType = objectType;
   }
-  public Option getOption() {
+  public Options getOption() {
     return option;
   }
-  public void setOption(Option option) {
+  public void setOption(Options option) {
     this.option = option;
   }
   public ProjectCode getProject() {

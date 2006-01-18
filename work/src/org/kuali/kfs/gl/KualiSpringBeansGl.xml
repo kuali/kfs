@@ -10,14 +10,22 @@
 		<property name="posterService"><ref bean="glPosterService" /></property>
 	</bean>
 
+	<bean id="glPosterIcrEntriesStep" class="org.kuali.module.gl.batch.PosterIcrEntriesStep">
+		<property name="posterService"><ref bean="glPosterService" /></property>
+	</bean>
+
 	<bean id="glPosterReversalStep" class="org.kuali.module.gl.batch.PosterReversalStep">
+		<property name="posterService"><ref bean="glPosterService" /></property>
+	</bean>
+
+	<bean id="glPosterIcrGenerationStep" class="org.kuali.module.gl.batch.PosterIcrGenerationStep">
 		<property name="posterService"><ref bean="glPosterService" /></property>
 	</bean>
 
 	<bean id="glNightlyOutStep" class="org.kuali.module.gl.batch.NightlyOutStep">
 		<property name="nightlyOutService"><ref bean="nightlyOutService" /></property>
 	</bean>
-	
+
 	<bean id="glTextFileLoaderStep" class="org.kuali.module.gl.batch.TextFileLoaderStep">
 		<property name="originEntryService"><ref bean="glOriginEntryService"/></property>
 	</bean>
@@ -52,6 +60,9 @@
 		<property name="reversalEntryDao"><ref bean="glReversalEntryDao" /></property>
 		<property name="universityDateDao"><ref bean="universityDateDao" /></property>
 		<property name="accountingPeriodService"><ref bean="accountingPeriodService" /></property>
+		<property name="expenditureTransactionDao"><ref bean="glExpenditureTransactionDao" /></property>
+		<property name="icrAutomatedEntryDao"><ref bean="icrAutomatedEntryDao" /></property>
+		<property name="indirectCostRecoveryThresholdDao"><ref bean="indirectCostRecoveryThresholdDao" /></property>
 	</bean>
 
 	<bean id="generalLedgerPendingEntryService" class="org.kuali.module.gl.service.impl.GeneralLedgerPendingEntryServiceImpl">

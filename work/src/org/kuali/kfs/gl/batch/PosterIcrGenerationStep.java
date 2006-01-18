@@ -20,35 +20,43 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-package org.kuali.module.gl.service;
+package org.kuali.module.gl.batch;
+
+import org.kuali.core.batch.Step;
+import org.kuali.module.gl.service.PosterService;
 
 /**
  * @author jsissom
  *
  */
-public interface PosterService {
-  public static int MODE_ENTRIES = 1;
-  public static int MODE_REVERSAL = 2;
-  public static int MODE_ICR = 3;
+public class PosterIcrGenerationStep implements Step {
+  private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PosterIcrGenerationStep.class);
 
-  /**
-   * Post scrubbed GL entries to GL tables.
-   */
-  public void postMainEntries();
-  
-  /**
-   * Post reversal GL entries to GL tables.
-   */
-  public void postReversalEntries();
-  
-  /**
-   * Post ICR GL entries to GL tables.
-   */
-  public void postIcrEntries();
+  private PosterService posterService;
 
-  /**
-   * Generate ICR GL entries.
-   *
+  public PosterIcrGenerationStep() {
+    super();
+  }
+
+  /* (non-Javadoc)
+   * @see org.kuali.core.batch.Step#performStep()
    */
-  public void generateIcrTransactions();
+  public boolean performStep() {
+    LOG.debug("performStep() started");
+
+    posterService.generateIcrTransactions();
+
+    return true;
+  }
+
+  /* (non-Javadoc)
+   * @see org.kuali.core.batch.Step#getName()
+   */
+  public String getName() {
+    return "Generate ICR Entries";
+  }
+
+  public void setPosterService(PosterService ps) {
+    posterService = ps;
+  }
 }

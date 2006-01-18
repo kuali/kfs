@@ -32,6 +32,8 @@ import java.util.Map;
 
 import org.kuali.core.service.DateTimeService;
 import org.kuali.module.chart.bo.AccountingPeriod;
+import org.kuali.module.chart.dao.IcrAutomatedEntryDao;
+import org.kuali.module.chart.dao.IndirectCostRecoveryThresholdDao;
 import org.kuali.module.chart.service.AccountingPeriodService;
 import org.kuali.module.gl.batch.poster.PostTransaction;
 import org.kuali.module.gl.batch.poster.PosterReport;
@@ -41,6 +43,7 @@ import org.kuali.module.gl.bo.OriginEntrySource;
 import org.kuali.module.gl.bo.ReversalEntry;
 import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.bo.UniversityDate;
+import org.kuali.module.gl.dao.ExpenditureTransactionDao;
 import org.kuali.module.gl.dao.ReversalEntryDao;
 import org.kuali.module.gl.dao.UniversityDateDao;
 import org.kuali.module.gl.service.OriginEntryService;
@@ -61,6 +64,9 @@ public class PosterServiceImpl implements PosterService {
   private ReversalEntryDao reversalEntryDao;
   private UniversityDateDao universityDateDao;
   private AccountingPeriodService accountingPeriodService;
+  private ExpenditureTransactionDao expenditureTransactionDao;
+  private IcrAutomatedEntryDao icrAutomatedEntryDao;
+  private IndirectCostRecoveryThresholdDao indirectCostRecoveryThresholdDao;
 
   /**
    *  
@@ -284,6 +290,10 @@ public class PosterServiceImpl implements PosterService {
     }    
   }
 
+  public void generateIcrTransactions() {
+    LOG.debug("generateIcrTransactions() started");
+  }
+
   private void addReporting(Map reporting, String destination, String operation) {
     String key = destination + "," + operation;
     if (reporting.containsKey(key)) {
@@ -324,5 +334,17 @@ public class PosterServiceImpl implements PosterService {
 
   public void setAccountingPeriodService(AccountingPeriodService aps) {
     accountingPeriodService = aps;
+  }
+
+  public void setExpenditureTransactionDao(ExpenditureTransactionDao etd) {
+    expenditureTransactionDao = etd;
+  }
+
+  public void setIcrAutomatedEntryDao(IcrAutomatedEntryDao iaed) {
+    icrAutomatedEntryDao = iaed;
+  }
+
+  public void setIndirectCostRecoveryThresholdDao(IndirectCostRecoveryThresholdDao icrtd) {
+      indirectCostRecoveryThresholdDao = icrtd;
   }
 }

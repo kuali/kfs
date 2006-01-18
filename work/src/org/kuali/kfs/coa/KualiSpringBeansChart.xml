@@ -25,6 +25,12 @@
 		</property>
 	</bean>
 
+	<bean id="icrAutomatedEntryDao" class="org.kuali.module.chart.dao.ojb.IcrAutomatedEntryDaoOjb">
+		<property name="jcdAlias">
+			<value>dataSource</value>
+		</property>
+	</bean>
+
 	<bean id="indirectCostRecoveryExclusionAccountDao" class="org.kuali.module.chart.dao.ojb.IndirectCostRecoveryExclusionAccountDaoOjb">
 		<property name="jcdAlias">
 			<value>dataSource</value>
@@ -32,6 +38,12 @@
 	</bean>
 
 	<bean id="indirectCostRecoveryExclusionTypeDao" class="org.kuali.module.chart.dao.ojb.IndirectCostRecoveryExclusionTypeDaoOjb">
+		<property name="jcdAlias">
+			<value>dataSource</value>
+		</property>
+	</bean>
+
+	<bean id="indirectCostRecoveryThresholdDao" class="org.kuali.module.chart.dao.ojb.IndirectCostRecoveryThresholdDaoOjb">
 		<property name="jcdAlias">
 			<value>dataSource</value>
 		</property>

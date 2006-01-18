@@ -20,35 +20,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-package org.kuali.module.gl.service;
+package org.kuali.module.chart.dao;
 
 /**
  * @author jsissom
  *
  */
-public interface PosterService {
-  public static int MODE_ENTRIES = 1;
-  public static int MODE_REVERSAL = 2;
-  public static int MODE_ICR = 3;
-
-  /**
-   * Post scrubbed GL entries to GL tables.
-   */
-  public void postMainEntries();
-  
-  /**
-   * Post reversal GL entries to GL tables.
-   */
-  public void postReversalEntries();
-  
-  /**
-   * Post ICR GL entries to GL tables.
-   */
-  public void postIcrEntries();
-
-  /**
-   * Generate ICR GL entries.
-   *
-   */
-  public void generateIcrTransactions();
+public interface IcrAutomatedEntryDao {
+  public Long getCount(Integer universityFiscalYear,String financialSeriesId,String balanceTypeCode);
 }

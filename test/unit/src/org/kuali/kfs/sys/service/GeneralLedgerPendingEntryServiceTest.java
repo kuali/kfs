@@ -23,14 +23,12 @@
 package org.kuali.module.gl.service;
 
 import java.sql.Timestamp;
+import java.util.Iterator;
 
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
-import org.kuali.module.gl.service.GeneralLedgerPendingEntryService;
 import org.kuali.test.KualiTestBaseWithSpring;
-import java.util.Iterator;
-import java.util.Collection;
 
 /**
  * This class tests the GeneralLedgerPending service.

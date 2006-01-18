@@ -14,6 +14,10 @@
 		<property name="posterService"><ref bean="glPosterService" /></property>
 	</bean>
 
+	<bean id="glNightlyOutStep" class="org.kuali.module.gl.batch.NightlyOutStep">
+		<property name="nightlyOutService"><ref bean="nightlyOutService" /></property>
+	</bean>
+	
 	<bean id="glTextFileLoaderStep" class="org.kuali.module.gl.batch.TextFileLoaderStep">
 		<property name="originEntryService"><ref bean="glOriginEntryService"/></property>
 	</bean>

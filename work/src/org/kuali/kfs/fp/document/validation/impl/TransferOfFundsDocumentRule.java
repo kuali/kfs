@@ -129,10 +129,9 @@ public class TransferOfFundsDocumentRule extends TransactionalDocumentRuleBase {
         KualiDecimal nonMandatoryTransferToAmount = new KualiDecimal(0);
 
         for (Iterator i = lines.iterator(); i.hasNext();) {
-            AccountingLine line = 
-                fullyPopulateAccountingLineCopy( ( AccountingLine )i.next() );
-            String objectSubTypeCode = 
-                line.getObjectCode().getFinancialObjectSubTypeCode();
+            AccountingLine line = (AccountingLine) i.next();
+            line.refreshReferenceObject("objectCode");  //refresh b/c of proxying in OJB
+            String objectSubTypeCode = line.getObjectCode().getFinancialObjectSubTypeCode();
 
             if ( isNonMandatoryTransfersSubType(objectSubTypeCode) ) {
                 if( line.isSourceAccountingLine() ) {

@@ -34,6 +34,7 @@ import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.module.chart.bo.ObjectCode;
 
 /**
  * This class...
@@ -114,25 +115,19 @@ public class DistributionOfIncomeAndExpenseDocumentRule extends TransactionalDoc
      * @param accountingLine
      */
     private boolean checkAccountingLine(TransactionalDocument document, AccountingLine accountingLine) {
-        // get a new instance so we don't affect the original accounting line's values if we call retrieveNonKeyFields
-        AccountingLine accountingLineCopy = fullyPopulateAccountingLineCopy(accountingLine);
+        accountingLine.refreshReferenceObject("objectCode");
 
         ErrorMap errorMap = GlobalVariables.getErrorMap();
-        if (accountingLineCopy.getAmount().isNegative() && document.getDocumentHeader().getFinancialDocumentInErrorNumber() == null) {
-            errorMap.put(Constants.ACCOUNTING_LINE_ERRORS, KeyConstants.ERROR_INVALID_NEGATIVE_AMOUNT, "Amount");
-            return false;
-        }
-
+        
         boolean result = true;
-        String consolidatedObjectCode = accountingLineCopy.getObjectCode().getFinancialObjectLevel().getConsolidatedObjectCode();
+        String consolidatedObjectCode = accountingLine.getObjectCode().getFinancialObjectLevel().getConsolidatedObjectCode();
         if ("FDBL".equals(consolidatedObjectCode)) {
             errorMap.put(Constants.ACCOUNTING_LINE_ERRORS, KeyConstants.ERROR_NUMBER, "Consolidated Object Code");
             result = false;
         }
         
         //object type code check
-        //TODO - move into proper method
-        String objectTypeCode = accountingLineCopy.getObjectCode().getFinancialObjectTypeCode();
+        String objectTypeCode = accountingLine.getObjectCode().getFinancialObjectTypeCode();
         if ("IC".equals(objectTypeCode) || "TF".equals(objectTypeCode)) {
             errorMap.put(Constants.ACCOUNTING_LINE_ERRORS, KeyConstants.ERROR_NUMBER, "Object Type Code");
             result = false;
@@ -148,10 +143,9 @@ public class DistributionOfIncomeAndExpenseDocumentRule extends TransactionalDoc
      * @return True if the object code's object sub-type code is allowed; false otherwise.
      */
     protected boolean isObjectCodeObjectSubTypeCodeAllowd(TransactionalDocument document, AccountingLine accountingLine) {
-        // get a new instance so we don't affect the original accounting line's values if we call retrieveNonKeyFields
-        AccountingLine accountingLineCopy = fullyPopulateAccountingLineCopy(accountingLine);
+        accountingLine.refreshReferenceObject("objectCode");
 
-        String objectSubTypeCode = accountingLineCopy.getObjectCode().getFinancialObjectSubTypeCode();
+        String objectSubTypeCode = accountingLine.getObjectCode().getFinancialObjectSubTypeCode();
 
         if ("CA".equals(objectSubTypeCode) || "HW".equals(objectSubTypeCode) || OBJECT_SUB_TYPE_CODE.MANDATORY_TRANSFER.equals(objectSubTypeCode)
                 || "PL".equals(objectSubTypeCode) || "SW".equals(objectSubTypeCode) || "SA".equals(objectSubTypeCode)

@@ -43,7 +43,7 @@ import org.kuali.module.financial.bo.Payee;
  * Checks warnings and prompt conditions for payee document.
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
-public class DisbursementVoucherDocumentPreRules implements PreRulesCheck, DisbursementVoucherConstants {
+public class DisbursementVoucherDocumentPreRules implements PreRulesCheck, DisbursementVoucherRuleConstants {
     private String buttonClicked;
     private String question;
     private KualiConfigurationService kualiConfiguration;

@@ -45,7 +45,7 @@ import org.kuali.module.financial.document.DisbursementVoucherDocument;
  * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
-public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBase implements DisbursementVoucherConstants {
+public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBase implements DisbursementVoucherRuleConstants {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherDocumentRule.class);
 
     private KualiParameterRule paymentReasonObjectLevelRule;

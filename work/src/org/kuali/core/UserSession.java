@@ -87,6 +87,16 @@ public class UserSession implements Serializable {
     }
     
     /**
+     * This returns who is logged in.  If the backdoor is in use, this will return the 
+     * network id of the person that is standing in as the backdoor user.
+     * 
+     * @return String
+     */
+    public String getLoggedInUserNetworkId() {
+        return kualiUser.getPersonUserIdentifier();
+    }
+    
+    /**
      * @return the KualiUser which is the current user in the system, backdoor if backdoor is set
      */
     public KualiUser getKualiUser() {

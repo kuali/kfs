@@ -7,7 +7,7 @@
           <tbody>
             <tr>
               <td><img src="images-portal/topleftcorner.gif" alt="" width="6" height="9"></td>
-              <td width="100%" colspan="2" class="uportal-channel-topborderimmute"><img src="images-portal/transparent_002.gif" alt="" width="1" height="1"></td>
+              <td width="100%" colspan="3" class="uportal-channel-topborderimmute"><img src="images-portal/transparent_002.gif" alt="" width="1" height="1"></td>
               <td><img src="images-portal/toprightcorner.gif" alt="" width="6" height="9"></td>
             </tr>
             <tr>
@@ -18,7 +18,17 @@
                   <portal:portalLink displayTitle="false" title='Document Search' url='${ConfigProperties.workflow.base.url}/DocumentSearch.do'><img src="images-portal/icon-port-docsearch.gif" width="96" height="19" border="0"></portal:portalLink>
                   <portal:portalLink displayTitle="false" title='Workflow Services' url='${ConfigProperties.workflow.base.url}/Backdoor.do'><img src="images-portal/icon-port-wfservices.gif" width="141" height="19" border="0"></portal:portalLink>
                 </div>
+              </td>
+              <td valign="middle" nowrap="nowrap" class="uportal-background-light">
                 <div align="right">
+                  <c:choose>
+	                  <c:when test="${empty UserSession.loggedInUserNetworkId}" >
+	                  	<strong>You are not logged in.</strong>
+	                  </c:when>
+	                  <c:otherwise>
+		                <strong>Logged in User:&nbsp;${UserSession.loggedInUserNetworkId}</strong>
+		              </c:otherwise>
+		          </c:choose>
                 </div>
               </td>
               <td valign="middle" nowrap="nowrap" class="uportal-background-light">
@@ -32,7 +42,7 @@
               </td>
             </tr>
             <tr>
-              <td><img src="images-portal/bottomleftcorner.gif" alt="" width="6" height="6"></td><td colspan="2" class="uportal-channel-bottomborder"><img src="images-portal/transparent_002.gif" alt="" width="1" height="1"></td><td><img src="images-portal/bottomrightcorner.gif" alt="" width="6" height="6"></td>
+              <td><img src="images-portal/bottomleftcorner.gif" alt="" width="6" height="6"></td><td colspan="3" class="uportal-channel-bottomborder"><img src="images-portal/transparent_002.gif" alt="" width="1" height="1"></td><td><img src="images-portal/bottomrightcorner.gif" alt="" width="6" height="6"></td>
             </tr>
           </tbody>
         </table>

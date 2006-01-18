@@ -22,6 +22,7 @@
  */
 package org.kuali.module.financial.rules;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -116,63 +117,61 @@ public class TransferOfFundsDocumentRule extends TransactionalDocumentRuleBase {
      * @return True if they balance; false otherwise.
      */
     private boolean isMandatoryTransferTotalAndNonMandatoryTransferTotalBalanceValid(TransferOfFundsDocument tofDoc) {
-        List fromLines = tofDoc.getSourceAccountingLines(); // from lines on interface correspond to source lines
-        List toLines = tofDoc.getTargetAccountingLines(); // to lines on interface correspond to target lines
+        List lines = new ArrayList();
+        
+        lines.addAll( tofDoc.getSourceAccountingLines() );
+        lines.addAll( tofDoc.getTargetAccountingLines() );
 
         // sum the from lines.
         KualiDecimal mandatoryTransferFromAmount = new KualiDecimal(0);
         KualiDecimal nonMandatoryTransferFromAmount = new KualiDecimal(0);
-
-        for (Iterator i = fromLines.iterator(); i.hasNext();) {
-            SourceAccountingLine sourceAccountingLine = (SourceAccountingLine) i.next();
-
-            SourceAccountingLine fromLine = (SourceAccountingLine) fullyPopulateAccountingLineCopy(sourceAccountingLine);
-
-            String objectSubTypeCode = fromLine.getObjectCode().getFinancialObjectSubTypeCode();
-
-            if (isNonMandatoryTransfersSubType(objectSubTypeCode)) {
-                nonMandatoryTransferFromAmount = nonMandatoryTransferFromAmount.add(fromLine.getAmount());
-            }
-            else {
-                if (isMandatoryTransfersSubType(objectSubTypeCode)) {
-                    mandatoryTransferFromAmount = mandatoryTransferFromAmount.add(fromLine.getAmount());
-                }
-            }
-        }
-
-        // sum the to lines.
         KualiDecimal mandatoryTransferToAmount = new KualiDecimal(0);
         KualiDecimal nonMandatoryTransferToAmount = new KualiDecimal(0);
 
-        for (Iterator i = toLines.iterator(); i.hasNext();) {
-            TargetAccountingLine targetAccountingLine = (TargetAccountingLine) i.next();
+        for (Iterator i = lines.iterator(); i.hasNext();) {
+            AccountingLine line = 
+                fullyPopulateAccountingLineCopy( ( AccountingLine )i.next() );
+            String objectSubTypeCode = 
+                line.getObjectCode().getFinancialObjectSubTypeCode();
 
-            TargetAccountingLine toLine = (TargetAccountingLine) fullyPopulateAccountingLineCopy(targetAccountingLine);
-
-            String objectSubTypeCode = toLine.getObjectCode().getFinancialObjectSubTypeCode();
-
-            if (isNonMandatoryTransfersSubType(objectSubTypeCode)) {
-                nonMandatoryTransferToAmount = nonMandatoryTransferToAmount.add(toLine.getAmount());
+            if ( isNonMandatoryTransfersSubType(objectSubTypeCode) ) {
+                if( line.isSourceAccountingLine() ) {
+                    nonMandatoryTransferFromAmount = 
+                        nonMandatoryTransferFromAmount.add( line.getAmount() );
+                }
+                else {
+                    nonMandatoryTransferToAmount = 
+                        nonMandatoryTransferToAmount.add(line.getAmount());
+                }
             }
-            else {
-                if (isMandatoryTransfersSubType(objectSubTypeCode)) {
-                    mandatoryTransferToAmount = mandatoryTransferToAmount.add(toLine.getAmount());
+            else if (isMandatoryTransfersSubType(objectSubTypeCode)) {
+                if( line.isSourceAccountingLine() ) {
+                    mandatoryTransferFromAmount =
+                        mandatoryTransferFromAmount.add(line.getAmount());
+                }
+                else {
+                    mandatoryTransferToAmount = 
+                        mandatoryTransferToAmount.add(line.getAmount());
                 }
             }
         }
 
-        // check that the amounts balance across mandatory transfers and non-mandatory transfers
+        // check that the amounts balance across mandatory transfers and 
+        // non-mandatory transfers
         boolean isValid = true;
-        if (mandatoryTransferFromAmount.compareTo(mandatoryTransferToAmount) != 0) {
+
+        if( mandatoryTransferFromAmount
+            .compareTo( mandatoryTransferToAmount ) != 0 ) {
             isValid = false;
             GlobalVariables.getErrorMap().put("document.sourceAccountingLines",
-                    KeyConstants.ERROR_DOCUMENT_TOF_MANDATORY_TRANSFERS_DO_NOT_BALANCE);
+                                              KeyConstants.ERROR_DOCUMENT_TOF_MANDATORY_TRANSFERS_DO_NOT_BALANCE);
         }
 
-        if (nonMandatoryTransferFromAmount.compareTo(nonMandatoryTransferToAmount) != 0) {
+        if( nonMandatoryTransferFromAmount
+            .compareTo( nonMandatoryTransferToAmount ) != 0 ) {
             isValid = false;
             GlobalVariables.getErrorMap().put("document.sourceAccountingLines",
-                    KeyConstants.ERROR_DOCUMENT_TOF_NON_MANDATORY_TRANSFERS_DO_NOT_BALANCE);
+                                              KeyConstants.ERROR_DOCUMENT_TOF_NON_MANDATORY_TRANSFERS_DO_NOT_BALANCE);
         }
 
         return isValid;

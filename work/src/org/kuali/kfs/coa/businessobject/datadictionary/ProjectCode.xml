@@ -12,8 +12,8 @@
 			<inquiryFields>
 				<field attributeName="code" />
 				<field attributeName="name" />			
-				<field attributeName="chartOfAccounts.chartOfAccountsCode" />
-				<field attributeName="organization.organizationCode" />			
+				<field attributeName="chartOfAccountsCode" />
+				<field attributeName="organizationCode" />			
 				<field attributeName="projectManagerUniversal.personName" forceInquiry="true"/>
 				<field attributeName="projectDescription" />
 				<field attributeName="active" />
@@ -33,16 +33,16 @@
 				<lookupField attributeName="code" required="false" />
 				<lookupField attributeName="projectManagerUniversal.personName" required="false" />
 				<lookupField attributeName="name" required="false" />
-				<lookupField attributeName="organization.chartOfAccounts.chartOfAccountsCode" required="false" />
-				<lookupField attributeName="organization.organizationCode" required="false" />				
+				<lookupField attributeName="chartOfAccountsCode" required="false" />
+				<lookupField attributeName="organizationCode" required="false" />				
 			</lookupFields>
 
 			<resultFields>
 				<field attributeName="code" />
 				<field attributeName="projectManagerUniversal.personName" forceInquiry="true"/>
 				<field attributeName="name" />
-				<field attributeName="chartOfAccounts.chartOfAccountsCode" />
-				<field attributeName="organization.organizationCode" />
+				<field attributeName="chartOfAccountsCode" />
+				<field attributeName="organizationCode" />
 			</resultFields>
 		</lookup>
 
@@ -53,20 +53,16 @@
 								sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
 								sourceAttributeName="activeIndicator" />
 
-			<attributeReference name="chartOfAccounts.chartOfAccountsCode" 
+			<attributeReference name="chartOfAccountsCode" 
 								sourceClassName="org.kuali.module.chart.bo.Chart" 
 								sourceAttributeName="chartOfAccountsCode"/>
 			
 
-			<attributeReference name="organization.organizationCode" 
+			<attributeReference name="organizationCode" 
 								sourceClassName="org.kuali.module.chart.bo.Org" 
 								sourceAttributeName="organizationCode"/>
 								
-	        <attributeReference name="organization.chartOfAccounts.chartOfAccountsCode" 
-								sourceClassName="org.kuali.module.chart.bo.Chart" 
-								sourceAttributeName="chartOfAccountsCode"/>
-								
-			<attributeReference name="projectManagerUniversal.personUniversalIdentifier" 
+			<attributeReference name="projectManagerUniversalId" 
 								sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
 								sourceAttributeName="genericSystemId">
 								<label>Project Manager Univ</label>

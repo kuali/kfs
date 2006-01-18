@@ -35,11 +35,13 @@
                 <maintainableItems>
 		            <maintainableField name="code" required="true" />
 		            <maintainableField name="name" />
-		            <maintainableField name="projectManagerUniversal.personUniversalIdentifier" required="true"/>
-		            <maintainableField name="organization.chartOfAccounts.chartOfAccountsCode" />
-		            <maintainableField name="organization.organizationCode" />	     
+		            <maintainableField name="projectManagerUniversalId" required="true"/>
+		            <maintainableField name="chartOfAccountsCode" />
+		            <maintainableField name="organizationCode" />	     
 		            <maintainableField name="projectDescription" />
-		            <maintainableField name="active" />	
+		            <maintainableField name="active" >
+		              <defaultValue>true</defaultValue>	
+		            </maintainableField>  
 		            <maintainableField name="versionNumber" />
                 </maintainableItems>
 	        </maintainableSection>

@@ -188,14 +188,14 @@ public class TransferOfFundsDocumentRule extends TransactionalDocumentRuleBase {
      * @see org.kuali.core.rule.AccountingLineRule#isObjectSubTypeAllowed(org.kuali.core.bo.AccountingLine)
      */
     public boolean isObjectSubTypeAllowed(AccountingLine accountingLine) {
+        accountingLine.refreshReferenceObject("objectCode");
         String objectSubTypeCode = accountingLine.getObjectCode().getFinancialObjectSubTypeCode();
 
         if (!isMandatoryTransfersSubType(objectSubTypeCode) && !isNonMandatoryTransfersSubType(objectSubTypeCode)) {
-            GlobalVariables.getErrorMap().put(
-                    Constants.ACCOUNTING_LINE_ERRORS,
+            GlobalVariables.getErrorMap().put("financialObjectCode",
                     KeyConstants.ERROR_DOCUMENT_TOF_OBJECT_SUB_TYPE_NOT_MANDATORY_OR_NON_MANDATORY_TRANSFER,
                     new String[] { accountingLine.getObjectCode().getFinancialObjectSubType().getFinancialObjectSubTypeName(),
-                            accountingLine.getObjectCode().getFinancialObjectCode() });
+                            accountingLine.getFinancialObjectCode() });
             return false;
         }
 

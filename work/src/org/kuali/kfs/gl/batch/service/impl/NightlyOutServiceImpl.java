@@ -22,20 +22,18 @@
  */
 package org.kuali.module.gl.service.impl;
 
-import org.kuali.module.gl.service.NightlyOutService;
-import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
-import org.kuali.module.gl.service.GeneralLedgerPendingEntryService;
-import org.kuali.module.gl.bo.OriginEntry;
-import org.kuali.module.gl.service.OriginEntryService;
-import org.kuali.module.gl.bo.OriginEntryGroup;
-import org.kuali.module.gl.service.OriginEntryGroupService;
-
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.service.DateTimeService;
-
-import java.util.Iterator;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.Iterator;
+
+import org.kuali.core.service.DateTimeService;
+import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
+import org.kuali.module.gl.bo.OriginEntry;
+import org.kuali.module.gl.bo.OriginEntryGroup;
+import org.kuali.module.gl.service.GeneralLedgerPendingEntryService;
+import org.kuali.module.gl.service.NightlyOutService;
+import org.kuali.module.gl.service.OriginEntryGroupService;
+import org.kuali.module.gl.service.OriginEntryService;
 
 /**
  * This class implements the nightly out batch job.

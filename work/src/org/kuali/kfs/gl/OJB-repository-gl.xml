@@ -508,6 +508,10 @@
 	<reference-descriptor name="documentType" class-ref="org.kuali.core.document.DocumentType" auto-retrieve="true">
 		<foreignkey field-ref="financialDocumentTypeCode"/>
 	</reference-descriptor>
+	
+	<reference-descriptor name="documentHeader" class-ref="org.kuali.core.document.DocumentHeader" auto-retrieve="true">
+		<foreignkey field-ref="financialDocumentNumber"/>
+	</reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.gl.bo.UniversityDate" table="SH_UNIV_DATE_T">

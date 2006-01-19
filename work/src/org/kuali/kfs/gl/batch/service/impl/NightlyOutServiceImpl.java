@@ -46,7 +46,8 @@ public class NightlyOutServiceImpl implements NightlyOutService {
     OriginEntryService originEntryService;
     DateTimeService dateTimeService;
     OriginEntryGroupService originEntryGroupService;
-    int counter = 0;
+
+    int counter;
 
     /**
      * Constructs a NightlyOutServiceImpl.java.
@@ -59,111 +60,171 @@ public class NightlyOutServiceImpl implements NightlyOutService {
      * @see org.kuali.module.gl.service.NightlyOutService#copyPendingLedgerEntry()
      */
     public void copyPendingLedgerEntry() {
+        
         Iterator pendingEntries = generalLedgerPendingEntryService
                 .findAllGeneralLedgerPendingEntries();
 
+        // create a new group for the entries fetch above
+        OriginEntryGroup group = createGroupForCurrentProcessing();
+
         counter = 0;
         while (pendingEntries.hasNext()) {
-            GeneralLedgerPendingEntry pendingEntry = (GeneralLedgerPendingEntry) pendingEntries.next();
-            saveAsOriginEntry(pendingEntry);
+            // get one pending entry
+            GeneralLedgerPendingEntry pendingEntry = (GeneralLedgerPendingEntry) pendingEntries
+                    .next();
+
+            // copy the pending entry to origin entry table
+            saveAsOriginEntry(pendingEntry, group);
+
+            // update the pending entry to indicate it has been copied
+            updatePendingEntryAfterCopy(pendingEntry);
+
+            // increase the counter of processing
             counter++;
         }
     }
-    
+
+    /**
+     * create a new group for the entries to be processing
+     */
+    private OriginEntryGroup createGroupForCurrentProcessing() {
+        Date today = new Date(dateTimeService.getCurrentTimestamp().getTime());
+        OriginEntryGroup group = originEntryService.createGroup(today, "EDOC", true,
+                true, true);
+        return group;
+    }
+
     /*
      * save pending ledger entry as origin entry
      */
-    private void saveAsOriginEntry(GeneralLedgerPendingEntry pendingEntry){
+    private void saveAsOriginEntry(GeneralLedgerPendingEntry pendingEntry,
+            OriginEntryGroup group) {
         OriginEntry originEntry = new OriginEntry();
-        
+
+        // Map the pending entry into origin entry
         originEntry.setAccountNumber(pendingEntry.getAccountNumber());
         originEntry.setBalanceTypeCode(pendingEntry.getFinancialBalanceTypeCode());
         originEntry.setBudgetYear(pendingEntry.getBudgetYear());
         originEntry.setChartOfAccountsCode(pendingEntry.getChartOfAccountsCode());
         originEntry.setDebitOrCreditCode(pendingEntry.getTransactionDebitCreditCode());
         originEntry.setDocumentNumber(pendingEntry.getFinancialDocumentNumber());
-        
+
         Timestamp reversalDate = pendingEntry.getFinancialDocumentReversalDate();
-        if(reversalDate != null){
+        if (reversalDate != null) {
             originEntry.setDocumentReversalDate(new Date(reversalDate.getTime()));
         }
         originEntry.setDocumentTypeCode(pendingEntry.getFinancialDocumentTypeCode());
-        originEntry.setEncumbranceUpdateCode(pendingEntry.getTransactionEncumbranceUpdtCd());
+        originEntry.setEncumbranceUpdateCode(pendingEntry
+                .getTransactionEncumbranceUpdtCd());
         originEntry.setObjectCode(pendingEntry.getFinancialObjectCode());
         originEntry.setObjectTypeCode(pendingEntry.getFinancialObjectTypeCode());
-        originEntry.setOrganizationDocumentNumber(pendingEntry.getOrganizationDocumentNumber());
+        originEntry.setOrganizationDocumentNumber(pendingEntry
+                .getOrganizationDocumentNumber());
         originEntry.setOrganizationReferenceId(pendingEntry.getOrganizationReferenceId());
         originEntry.setOriginCode(pendingEntry.getOriginCode());
         originEntry.setProjectCode(pendingEntry.getProjectCode());
-        originEntry.setReferenceDocumentNumber(pendingEntry.getFinancialDocumentReferenceNbr());
-        originEntry.setReferenceDocumentTypeCode(pendingEntry.getReferenceFinDocumentTypeCode());
+        originEntry.setReferenceDocumentNumber(pendingEntry
+                .getFinancialDocumentReferenceNbr());
+        originEntry.setReferenceDocumentTypeCode(pendingEntry
+                .getReferenceFinDocumentTypeCode());
         originEntry.setReferenceOriginCode(pendingEntry.getFinSystemRefOriginationCode());
         originEntry.setSubAccountNumber(pendingEntry.getSubAccountNumber());
         originEntry.setSubObjectCode(pendingEntry.getFinancialSubObjectCode());
-        originEntry.setTransactionDate(new Date(pendingEntry.getTransactionDate().getTime()));
-        originEntry.setTransactionEntrySequenceId(pendingEntry.getTrnEntryLedgerSequenceNumber());
-        originEntry.setTransactionLedgerEntryAmount(pendingEntry.getTransactionLedgerEntryAmount());
-        originEntry.setTransactionLedgerEntryDescription(pendingEntry.getTransactionLedgerEntryDesc());
-        originEntry.setUniversityFiscalAccountingPeriod(pendingEntry.getUniversityFiscalPeriodCode());
+        originEntry.setTransactionDate(new Date(pendingEntry.getTransactionDate()
+                .getTime()));
+        originEntry.setTransactionEntrySequenceId(pendingEntry
+                .getTrnEntryLedgerSequenceNumber());
+        originEntry.setTransactionLedgerEntryAmount(pendingEntry
+                .getTransactionLedgerEntryAmount());
+        originEntry.setTransactionLedgerEntryDescription(pendingEntry
+                .getTransactionLedgerEntryDesc());
+        originEntry.setUniversityFiscalAccountingPeriod(pendingEntry
+                .getUniversityFiscalPeriodCode());
         originEntry.setUniversityFiscalYear(pendingEntry.getUniversityFiscalYear());
-        
-        Date today = new Date(dateTimeService.getCurrentTimestamp().getTime());
-        OriginEntryGroup group = originEntryService.createGroup(today, "EDOC", true, true, true);
+
         originEntryService.createEntry(originEntry, group);
     }
 
     /**
-     * Gets the generalLedgerPendingEntryService attribute. 
+     * After it is copied to origin entry table, this method updates the pending entry in
+     * order to indicate it has been proceesed.
+     * 
+     * @param pendingEntry the given pending entry
+     */
+    private void updatePendingEntryAfterCopy(GeneralLedgerPendingEntry pendingEntry) {
+        pendingEntry.setFinancialDocumentApprovedCode("X");
+        pendingEntry.setTransactionDate(dateTimeService.getCurrentTimestamp());
+        generalLedgerPendingEntryService.update(pendingEntry);
+    }
+
+    /**
+     * Gets the generalLedgerPendingEntryService attribute.
+     * 
      * @return Returns the generalLedgerPendingEntryService.
      */
     public GeneralLedgerPendingEntryService getGeneralLedgerPendingEntryService() {
         return generalLedgerPendingEntryService;
     }
+
     /**
      * Sets the generalLedgerPendingEntryService attribute value.
-     * @param generalLedgerPendingEntryService The generalLedgerPendingEntryService to set.
+     * 
+     * @param generalLedgerPendingEntryService The generalLedgerPendingEntryService to
+     *        set.
      */
     public void setGeneralLedgerPendingEntryService(
             GeneralLedgerPendingEntryService generalLedgerPendingEntryService) {
         this.generalLedgerPendingEntryService = generalLedgerPendingEntryService;
     }
+
     /**
-     * Gets the originEntryService attribute. 
+     * Gets the originEntryService attribute.
+     * 
      * @return Returns the originEntryService.
      */
     public OriginEntryService getOriginEntryService() {
         return originEntryService;
     }
+
     /**
      * Sets the originEntryService attribute value.
+     * 
      * @param originEntryService The originEntryService to set.
      */
     public void setOriginEntryService(OriginEntryService originEntryService) {
         this.originEntryService = originEntryService;
     }
+
     /**
-     * Gets the dateTimeService attribute. 
+     * Gets the dateTimeService attribute.
+     * 
      * @return Returns the dateTimeService.
      */
     public DateTimeService getDateTimeService() {
         return dateTimeService;
     }
+
     /**
      * Sets the dateTimeService attribute value.
+     * 
      * @param dateTimeService The dateTimeService to set.
      */
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
     }
+
     /**
-     * Gets the originEntryGroupService attribute. 
+     * Gets the originEntryGroupService attribute.
+     * 
      * @return Returns the originEntryGroupService.
      */
     public OriginEntryGroupService getOriginEntryGroupService() {
         return originEntryGroupService;
     }
+
     /**
      * Sets the originEntryGroupService attribute value.
+     * 
      * @param originEntryGroupService The originEntryGroupService to set.
      */
     public void setOriginEntryGroupService(OriginEntryGroupService originEntryGroupService) {
@@ -176,5 +237,4 @@ public class NightlyOutServiceImpl implements NightlyOutService {
     public int getCounter() {
         return this.counter;
     }
-    
 }

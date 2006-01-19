@@ -80,8 +80,21 @@ public class GeneralLedgerPendingEntryServiceTest extends KualiTestBaseWithSprin
             generalLedgerPendingEntry = (GeneralLedgerPendingEntry)(entries.next());
             ++counter;
         }
+        // this is NOT a good test case
         assertTrue("Failed to fetch all entries", counter > 0);
-        assertTrue("Failed to fetch all entries", counter > 3);
+        generalLedgerPendingEntryService.delete(docHeaderId);
+    }
+    
+    public void testUpdate() throws Exception {
+        GeneralLedgerPendingEntry testEntry = this.createGeneralLedgerPendingEntry();
+        generalLedgerPendingEntryService.save(testEntry);
+        
+        testEntry.setFinancialDocumentApprovedCode("X");
+        generalLedgerPendingEntryService.update(testEntry);
+        
+        GeneralLedgerPendingEntry generalLedgerPendingEntry = generalLedgerPendingEntryService.getByPrimaryId(testEntry.getTrnEntryLedgerSequenceNumber(), docHeaderId);
+        assertNotNull("Fail to update pending entry", generalLedgerPendingEntry);
+        
         generalLedgerPendingEntryService.delete(docHeaderId);
     }
 

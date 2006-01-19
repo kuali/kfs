@@ -80,7 +80,7 @@ public class AccountPreRules implements PreRulesCheck {
         if(account.getAccountZipCode() != null || !account.getAccountZipCode().equals("")) {
             //TODO - lookup state and city from populated zip
             HashMap primaryKeys = new HashMap();
-            primaryKeys.put("zipCode", account.getAccountZipCode());
+            primaryKeys.put("postalZipCode", account.getAccountZipCode());
             PostalZipCode zip = (PostalZipCode)SpringServiceLocator.getBusinessObjectService().findByPrimaryKey(PostalZipCode.class, primaryKeys);
             //TODO- now what do i do with this exactly?
         }

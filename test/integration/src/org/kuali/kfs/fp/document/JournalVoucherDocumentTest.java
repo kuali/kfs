@@ -66,6 +66,7 @@ public class JournalVoucherDocumentTest extends TransactionalDocumentTestBase {
     
     /**
      * Override to set the balance type on the document.
+     *
      * @see org.kuali.core.document.DocumentTestBase#buildDocument()
      */
     protected Document buildDocument( TransactionalDocumentParameter param ) 

@@ -70,6 +70,15 @@ public class TransferOfFundsDocumentTest extends TransactionalDocumentTestBase {
         list.add(getFixtureEntryFromCollection(COLLECTION_NAME, SOURCE_LINE1).createObject());
         return list;
     }
+    
+    /**
+     * User name fixture to be used for this test.
+     *
+     * @param String name of user to use.
+     */
+    protected String getTestUserName() {
+        return getUserName();
+    }
 
     /**
      * 

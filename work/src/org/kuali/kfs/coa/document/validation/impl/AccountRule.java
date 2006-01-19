@@ -28,15 +28,17 @@ import java.util.HashMap;
 import java.util.Set;
 import java.util.TreeSet;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.KeyConstants;
-import org.kuali.core.bo.State;
 import org.kuali.core.bo.PostalZipCode;
+import org.kuali.core.bo.State;
 import org.kuali.core.bo.user.KualiUser;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.Maintainable;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Campus;
@@ -96,113 +98,56 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         Maintainable newMaintainable = maintenanceDocument.getNewMaintainableObject();
         Account account = (Account) newMaintainable.getBusinessObject();
         
-        if(maintenanceDocument.getDocumentHeader().getFinancialDocumentDescription() == null ||
-                maintenanceDocument.getDocumentHeader().getFinancialDocumentDescription().equals("")) {
-            //TODO errormessage
-            success &= false;
-        }
+        success &= checkEmptyValue("Financial Document Description", 
+                	maintenanceDocument.getDocumentHeader().getFinancialDocumentDescription());
+
+        success &= checkEmptyValue("Chart of Accounts Code", account.getChartOfAccountsCode());
         
-        if(account.getChartOfAccountsCode().equals("")) {
-            //TODO errormessage
-            success &= false;
-        }
+        success &= checkEmptyValue("Account Number", account.getAccountNumber());
         
-        if(account.getAccountNumber().equals("")) {
-            //TODO errormessage
-            success &= false;
-        }
+        success &= checkEmptyValue("Account Name", account.getAccountName());
         
-        if(account.getAccountName().equals("")) {
-            //TODO errormessage
-            success &= false;
-        }
+        success &= checkEmptyValue("Organization", account.getOrganizationCode());
         
-        if(account.getOrganizationCode().equals("")) {
-            //TODO errormessage
-            success &= false;
-        }
+        success &= checkEmptyValue("Campus Code", account.getAccountPhysicalCampusCode());
         
-        if(account.getAccountPhysicalCampusCode().equals("")) {
-            //TODO errormessage
-            success &= false;
-        }
-        if(account.getAccountEffectiveDate() == null) {
-            //TODO errormessage
-            success &= false;
-        }
-        if(account.getAccountCityName().equals("")) {
-            //TODO errormessage
-            success &= false;
-        }
-        if(account.getAccountStateCode().equals("")) {
-            //TODO errormessage
-            success &= false;
-        }
-        if(account.getAccountStreetAddress().equals("")) {
-            //TODO errormessage
-            success &= false;
-        }
-        if(account.getAccountZipCode().equals("")) {
-            //TODO errormessage
-            success &= false;
-        }
-        if(account.getAccountManagerUser().getPersonUniversalIdentifier().equals("")) {
-            //TODO errormessage
-            success &= false;
-        }
-        if(account.getAccountSupervisoryUser().getPersonUniversalIdentifier().equals("")) {
-            //TODO errormessage
-            success &= false;
-        }
-        if(account.getBudgetRecordingLevelCode().equals("")) {
-            //TODO errormessage
-            success &= false;
-        }
-        if(account.getAccountSufficientFundsCode().equals("")) {
-            //TODO errormessage
-            success &= false;
-        }
-        if(account.getSubFundGroupCode().equals("")) {
-            //TODO errormessage
-            success &= false;
-        }
-        if(account.getFinancialHigherEdFunctionCd().equals("")) {
-            //TODO errormessage
-            success &= false;
-        }
-        if(account.getAccountRestrictedStatusCode().equals("")) {
-            //TODO errormessage
-            success &= false;
-        }
-        if(account.getAcctIndirectCostRcvyTypeCd().equals("")) {
-            //TODO errormessage
-            success &= false;
-        }
-        if(account.getFinancialIcrSeriesIdentifier().equals("")) {
-            //TODO errormessage
-            success &= false;
-        }
-        if(account.getIndirectCostRecoveryAcctNbr().equals("")) {
-            //TODO errormessage
-            success &= false;
-        }
-        if(account.getCgCatlfFedDomestcAssistNbr().equals("")) {
-            //TODO errormessage
-            success &= false;
-        }
-        if(account.getAccountGuideline().getAccountExpenseGuidelineText().equals("")) {
-            //TODO errormessage
-            success &= false;
-        }
-        if(account.getAccountGuideline().getAccountIncomeGuidelineText().equals("")) {
-            //TODO errormessage
-            success &= false;
-        }
+        success &= checkEmptyValue("Effective Date", account.getAccountEffectiveDate());
         
-        if(account.getAccountGuideline().getAccountPurposeText().equals("")) {
-            //TODO errormessage
-            success &= false;
-        }
+        success &= checkEmptyValue("City Name", account.getAccountCityName());
+        
+        success &= checkEmptyValue("State Code", account.getAccountStateCode());
+        
+        success &= checkEmptyValue("Address", account.getAccountStreetAddress());
+        
+        success &= checkEmptyValue("ZIP Code", account.getAccountZipCode());
+        
+        success &= checkEmptyValue("Account Manager", account.getAccountManagerUser().getPersonUniversalIdentifier());
+        
+        success &= checkEmptyValue("Account Supervisor", account.getAccountSupervisoryUser().getPersonUniversalIdentifier());
+        
+        success &= checkEmptyValue("Budget Recording Level", account.getBudgetRecordingLevelCode());
+        
+        success &= checkEmptyValue("Sufficient Funds Code", account.getAccountSufficientFundsCode());
+        
+        success &= checkEmptyValue("Sub Fund Group", account.getSubFundGroupCode());
+        
+        success &= checkEmptyValue("Higher Ed Function Code", account.getFinancialHigherEdFunctionCd());
+        
+        success &= checkEmptyValue("Restricted Status Code", account.getAccountRestrictedStatusCode());
+        
+        success &= checkEmptyValue("ICR Type Code", account.getAcctIndirectCostRcvyTypeCd());
+        
+        success &= checkEmptyValue("ICR Series Identifier", account.getFinancialIcrSeriesIdentifier());
+        
+        success &= checkEmptyValue("ICR Cost Recovery Account", account.getIndirectCostRecoveryAcctNbr());
+        
+        success &= checkEmptyValue("C&G Domestic Assistance Number", account.getCgCatlfFedDomestcAssistNbr());
+        
+        success &= checkEmptyValue("Expense Guideline", account.getAccountGuideline().getAccountExpenseGuidelineText());
+        
+        success &= checkEmptyValue("Income Guideline", account.getAccountGuideline().getAccountIncomeGuidelineText());
+        
+        success &= checkEmptyValue("Account Purpose", account.getAccountGuideline().getAccountPurposeText());
         
         return success;
     }
@@ -233,9 +178,21 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
             putFieldError("accountNumber", KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_NMBR_NOT_ALLOWED, account.getAccountNumber());
         }
         
-        //only an FIS supervisor can reopen a closed account. (This is the central super user, not an account supervisor).
+        //only a FIS supervisor can reopen a closed account. (This is the central super user, not an account supervisor).
         //we need to get the old maintanable doc here
-        
+        if (maintenanceDocument.isEdit()) {
+            Account oldAccount = (Account) maintenanceDocument.getOldMaintainableObject().getBusinessObject();
+            Account newAccount = (Account) maintenanceDocument.getNewMaintainableObject().getBusinessObject();
+            if (oldAccount.isAccountClosedIndicator()) {
+                if (!newAccount.isAccountClosedIndicator()) {
+                    KualiUser thisUser = GlobalVariables.getUserSession().getKualiUser();
+                    if (!thisUser.isSupervisorUser()) {
+                        success &= false;
+                        putFieldError("accountClosedIndicator", KeyConstants.ERROR_DOCUMENT_ACCMAINT_ONLY_SUPERVISORS_CAN_REOPEN);
+                    }
+                }
+            }
+        }
         
         //when a restricted status code of 'T' (temporarily restricted) is selected, a restricted status date must be supplied.
         if(account.getAccountRestrictedStatusCode().equalsIgnoreCase("T") && account.getAccountRestrictedStatusDate() == null) {
@@ -243,10 +200,22 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
             putFieldError("accountNumber", KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_NMBR_NOT_ALLOWED, account.getAccountNumber());
         }
         
-        //the fringe benefit account is required if the fringe benefit code is set to N. 
-        //The fringe benefit code of the account designated to accept the fringes must be Y.
+        // the fringe benefit account (otherwise known as the reportsToAccount) is required if 
+        // the fringe benefit code is set to N. 
+        // The fringe benefit code of the account designated to accept the fringes must be Y.
         if(!account.isAccountsFringesBnftIndicator()) {
-            //TODO not sure i understand this one
+            if (StringUtils.isEmpty(account.getReportsToAccountNumber()) || 
+                	ObjectUtils.isNull(account.getReportsToAccount())) { // proxy-safe null test
+                success &= false;
+                putFieldError("reportsToAccountNumber", KeyConstants.ERROR_DOCUMENT_ACCMAINT_RPTS_TO_ACCT_REQUIRED_IF_FRINGEBENEFIT_FALSE);
+            }
+            else {
+                Account reportsToAccount = account.getReportsToAccount();
+                if (!reportsToAccount.isAccountsFringesBnftIndicator()) {
+                    success &= false;
+                    putFieldError("reportsToAccountNumber", KeyConstants.ERROR_DOCUMENT_ACCMAINT_RPTS_TO_ACCT_MUST_BE_FLAGGED_FRINGEBENEFIT, account.getReportsToAccountNumber());
+                }
+            }
         }
         
         //the employee type for fiscal officer, account manager, and account supervisor must be 'P' – professional.

@@ -34,7 +34,6 @@ import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.module.chart.bo.ObjectCode;
 
 /**
  * This class...

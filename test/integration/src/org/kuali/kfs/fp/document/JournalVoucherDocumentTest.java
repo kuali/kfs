@@ -68,8 +68,10 @@ public class JournalVoucherDocumentTest extends TransactionalDocumentTestBase {
      * Override to set the balance type on the document.
      * @see org.kuali.core.document.DocumentTestBase#buildDocument()
      */
-    protected Document buildDocument() throws Exception {
-        JournalVoucherDocument jvDoc = (JournalVoucherDocument) super.buildDocument();
+    protected Document buildDocument( TransactionalDocumentParameter param ) 
+        throws Exception {
+        JournalVoucherDocument jvDoc = 
+            ( JournalVoucherDocument )super.buildDocument( param );
         jvDoc.setBalanceTypeCode(getFixtureEntryFromCollection(COLLECTION_NAME, ACTUAL_BAL_TYPE).getValue());
         return jvDoc;
     }

@@ -215,8 +215,6 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         //only a FIS supervisor can reopen a closed account. (This is the central super user, not an account supervisor).
         //we need to get the old maintanable doc here
         if (maintenanceDocument.isEdit()) {
-            Account oldAccount = (Account) maintenanceDocument.getOldMaintainableObject().getBusinessObject();
-            Account newAccount = (Account) maintenanceDocument.getNewMaintainableObject().getBusinessObject();
             if (oldAccount.isAccountClosedIndicator()) {
                 if (!newAccount.isAccountClosedIndicator()) {
                     KualiUser thisUser = GlobalVariables.getUserSession().getKualiUser();

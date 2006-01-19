@@ -83,7 +83,8 @@ public class JournalVoucherDocumentTest extends TransactionalDocumentTestBase {
     public void testConvertIntoCopy() throws Exception {
         // save the original doc, wait for status change
         TransactionalDocument document = (TransactionalDocument) buildDocument();
-        documentService.route(document, "saving copy source document", null);
+        getDocumentService()
+            .route(document, "saving copy source document", null);
         // collect some preCopy data
         String preCopyId = document.getFinancialDocumentNumber();
         String preCopyCopiedFromId = document.getDocumentHeader().getFinancialDocumentTemplateNumber();
@@ -150,11 +151,12 @@ public class JournalVoucherDocumentTest extends TransactionalDocumentTestBase {
         TransactionalDocument document = (TransactionalDocument) buildDocument();
         String documentHeaderId = document.getFinancialDocumentNumber();
         // route the original doc, wait for status change
-        documentService.route(document, "saving errorCorrection source document", null);
+        getDocumentService()
+            .route(document, "saving errorCorrection source document", null);
         //jv docs go straight to final
-        DocumentWorkflowStatusMonitor routeMonitor = new DocumentWorkflowStatusMonitor(documentService, documentHeaderId, "F");
+        DocumentWorkflowStatusMonitor routeMonitor = new DocumentWorkflowStatusMonitor(getDocumentService(), documentHeaderId, "F");
         assertTrue(ChangeMonitor.waitUntilChange(routeMonitor, 240, 5));
-        document = (TransactionalDocument) documentService.getByDocumentHeaderId(documentHeaderId);
+        document = (TransactionalDocument)getDocumentService().getByDocumentHeaderId(documentHeaderId);
         // collect some preCorrect data
         String preCorrectId = document.getFinancialDocumentNumber();
         String preCorrectCorrectsId = document.getDocumentHeader().getFinancialDocumentInErrorNumber();
@@ -220,13 +222,18 @@ public class JournalVoucherDocumentTest extends TransactionalDocumentTestBase {
         // save the original doc, wait for status change
         Document document = buildDocument();
         assertFalse("R".equals(document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus()));
-        documentService.route(document, "saving copy source document", null);
+        getDocumentService()
+            .route(document, "saving copy source document", null);
         // jv docs go straight to final
-        DocumentWorkflowStatusMonitor routeMonitor = new DocumentWorkflowStatusMonitor(documentService, 
+        DocumentWorkflowStatusMonitor routeMonitor = 
+            new DocumentWorkflowStatusMonitor(getDocumentService(), 
                 document.getDocumentHeader().getFinancialDocumentNumber(), EdenConstants.ROUTE_HEADER_FINAL_CD);
         assertTrue(ChangeMonitor.waitUntilChange(routeMonitor, 240, 5));
-        DocumentStatusMonitor statusMonitor = new DocumentStatusMonitor(documentService, 
-                document.getDocumentHeader().getFinancialDocumentNumber(), Constants.DOCUMENT_STATUS_CD_APPROVED_PROCESSED);
+        DocumentStatusMonitor statusMonitor = 
+            new DocumentStatusMonitor( getDocumentService(), 
+                                       document.getDocumentHeader()
+                                       .getFinancialDocumentNumber(), 
+                                       Constants.DOCUMENT_STATUS_CD_APPROVED_PROCESSED);
         assertTrue(ChangeMonitor.waitUntilChange(statusMonitor, 240, 5));
     }
     

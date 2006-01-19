@@ -49,11 +49,13 @@ public class NonCheckDisbursementDocumentTest extends TransactionalDocumentTestB
 
     public final void testGetCreditTotal() throws Exception {
         KualiDecimal total = new KualiDecimal(0);
-        NonCheckDisbursementDocument document = (NonCheckDisbursementDocument) documentParameter.createDocument(documentService);
+        NonCheckDisbursementDocument document = 
+            (NonCheckDisbursementDocument)getDocumentParameterFixture()
+            .createDocument( getDocumentService() );
         for (Iterator i = getSourceAccountingLineParametersFromFixtures().iterator(); i.hasNext();) {
             AccountingLineParameter parameter = (AccountingLineParameter) i.next();
             parameter.setDebitCreditCode(Constants.GL_CREDIT_CODE);
-            document.addSourceAccountingLine((SourceAccountingLine) (parameter.createLine(documentParameter.getDocumentNumber())));
+            document.addSourceAccountingLine( ( SourceAccountingLine )( parameter.createLine( getDocumentParameterFixture().getDocumentNumber() ) ) );
             total = total.add(parameter.getLineAmount());
             // add 1 line of debit
             if (!i.hasNext()) {
@@ -67,11 +69,13 @@ public class NonCheckDisbursementDocumentTest extends TransactionalDocumentTestB
 
     public final void testGetDebitTotal() throws Exception {
         KualiDecimal total = new KualiDecimal(0);
-        NonCheckDisbursementDocument document = (NonCheckDisbursementDocument) documentParameter.createDocument(documentService);
+        NonCheckDisbursementDocument document = 
+            (NonCheckDisbursementDocument)getDocumentParameterFixture()
+            .createDocument( getDocumentService() );
         for (Iterator i = getSourceAccountingLineParametersFromFixtures().iterator(); i.hasNext();) {
             AccountingLineParameter parameter = (AccountingLineParameter) i.next();
             parameter.setDebitCreditCode(Constants.GL_DEBIT_CODE);
-            document.addSourceAccountingLine((SourceAccountingLine) (parameter.createLine(documentParameter.getDocumentNumber())));
+            document.addSourceAccountingLine( ( SourceAccountingLine )( parameter.createLine( getDocumentParameterFixture().getDocumentNumber() ) ) );
             total = total.add(parameter.getLineAmount());
             // add 1 line of debit
             if (!i.hasNext()) {

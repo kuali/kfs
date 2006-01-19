@@ -1,7 +1,6 @@
 configuration.properties
 KualiSpringBeans.xml
 KualiSpringBeansDataDictionaryService.xml
-OJB-repository.xml
 SpringDataSource.xml
 workflow-config.properties
 workflow-crypto.properties

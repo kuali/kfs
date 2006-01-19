@@ -67,7 +67,6 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
     
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
         boolean success = true;
-        newAccountDefaults(document);
         success &= checkEmptyValues(document);
         return success;
     }
@@ -468,40 +467,9 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
                 }
             }
         }
-        
-        //acct_zip_cd, acct_state_cd, acct_city_nm all are populated by looking up the zip code and getting the state and city from that
-        if(account.getAccountZipCode() != null || !account.getAccountZipCode().equals("")) {
-            //TODO - lookup state and city from populated zip
-            HashMap primaryKeys = new HashMap();
-            primaryKeys.put("zipCode", account.getAccountZipCode());
-            PostalZipCode zip = (PostalZipCode)SpringServiceLocator.getBusinessObjectService().findByPrimaryKey(PostalZipCode.class, primaryKeys);
-            //TODO- now what do i do with this exactly?
-        }
 
         return success;
     }
     
-    /**
-     * 
-     * This method sets up some defaults for new Account
-     * @param maintenanceDocument
-     */
-    private void newAccountDefaults(MaintenanceDocument maintenanceDocument) {
-        Maintainable newMaintainable = maintenanceDocument.getNewMaintainableObject();
-        Account account = (Account) newMaintainable.getBusinessObject();
-        //On new Accounts acct_effect_date is defaulted to the doc creation date
-        if(account.getAccountEffectiveDate() == null) {
-            Timestamp ts = maintenanceDocument.getDocumentHeader().getWorkflowDocument().getCreateDate();
-            if (ts != null) {
-                account.setAccountEffectiveDate(ts);
-            }
-        }
-        
-        //On new Accounts acct_state_cd is defaulted to the value of "IN"
-        if(account.getAccountStateCode() == null) {
-            account.setAccountStateCode("IN");
-        }
-
-    }
 
 }

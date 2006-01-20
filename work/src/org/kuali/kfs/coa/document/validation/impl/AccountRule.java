@@ -187,7 +187,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         GlobalVariables.getErrorMap().addToErrorPath("newMaintainableObject");
         
            
-        //TODO: IU-specific rule? Move to ACP
+        //TODO: IU-specific rule? Move to ACP? (add new functionality to support startsWith)
         //the account number cannot begin with a 3, or with 00.
         if(newAccount.getAccountNumber().startsWith("3") || newAccount.getAccountNumber().startsWith("00")) {
             success &= false;
@@ -273,10 +273,6 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         // the current account is locked for editing
         //TODO: do it
         
-        //If acct_off_cmp_ind is not set when they route the document then default it to "N"
-        //if(account.isAccountOffCampusIndicator())
-        //removed - no longer a valid rule as it can only be one of two values True or False, not null
-        
         //org_cd must be a valid org and active in the ca_org_t table
         if(!newAccount.getOrganization().isOrganizationActiveIndicator()) {
             success &= false;
@@ -332,56 +328,40 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
     private boolean checkCloseAccount(MaintenanceDocument maintenanceDocument) {
         boolean success = true;
         
-        //TODO - should we move this up to the calling method?
-        boolean isClosed = newAccount.isAccountClosedIndicator();
-        if(!isClosed) {
+        boolean isOpenToClosed = false;
+        if(!oldAccount.isAccountClosedIndicator() && newAccount.isAccountClosedIndicator()) {
+            isOpenToClosed = true;
+        } else {
             return true;
         }
         //when closing an account, the account expiration date must be the current date or earlier
         Timestamp closeDate = newAccount.getAccountExpirationDate();
         Timestamp today = new Timestamp(Calendar.getInstance().getTimeInMillis());
-        if(isClosed && !closeDate.before(today)) {
+        if(!closeDate.before(today)) {
             putGlobalError("Expiration date is later than today's date");
             success &= false;
         }
         
         //when closing an account, a continuation account is required error message - "When closing an Account a Continuation Account Number entered on the Responsibility screen is required."
-        if(isClosed && newAccount.getContinuationAccountNumber().equals("") ){
+        if(newAccount.getContinuationAccountNumber().equals("") ){
             putGlobalError("When closing an Account a Continuation Account Number entered on the Responsibility screen is required.");
             success &= false;
         }
         
         //TODO: Need to add a new method to GeneralLedgerPendingEntryService to find GLPE by Account
         
-        //in order to close an account, the account must either expire today or already be expired, 
-        //must have no base budget, must have no pending ledger entries or pending labor ledger entries, 
+        //TODO: in order to close an account, the account must either expire today or already be expired, 
+        //DEFERRED: must have no base budget, must have no pending ledger entries or pending labor ledger entries, 
         //must have no open encumbrances, must have no asset, liability or fund balance balances other than object code 9899 
         //(9899 is fund balance for us), and the process of closing income and expense into 9899 must take the 9899 balance to zero.
         
         
+        //NOTES:
         //budget first - no idea (maybe through Options? AccountBalance?)
         //definitely looks like we need to pull AccountBalance
-        /*<field-descriptor name="universityFiscalYear" column="UNIV_FISCAL_YR" jdbc-type="INTEGER" primarykey="true"/>
-        <field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" />
-        <field-descriptor name="accountNumber" column="ACCOUNT_NBR" jdbc-type="VARCHAR" primarykey="true" />
-        <field-descriptor name="subAccountNumber" column="SUB_ACCT_NBR" jdbc-type="VARCHAR" primarykey="true" />
-        <field-descriptor name="objectCode" column="FIN_OBJECT_CD" jdbc-type="VARCHAR" primarykey="true" />
-        <field-descriptor name="subObjectCode" column="FIN_SUB_OBJ_CD" jdbc-type="VARCHAR" primarykey="true" />
-        */
-        String fiscalYear = "2005";
-        String coaCode = newAccount.getChartOfAccountsCode();
-        String acctNumber = newAccount.getAccountNumber();
-        String subAcctNumber = "";
-        String objectCode = ""; //not sure which object code it wants
-        String subObjectCode = "";
-        BusinessObjectService busObjService = SpringServiceLocator.getBusinessObjectService();
-        
         //pending ledger entries or pending labor ledger entries
         //possibly use GeneralLedgerPendingEntryService to find, but what keys are used?
-        
         //no clue on how to check for balances in the other areas (encumbrances, asset, liability, fund balance [other than 9899])
-        
-       
         //accounts can only be closed if they dont have balances or any pending ledger entries
 
         return true;
@@ -448,10 +428,10 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
             
         }
         
-        //if the expiration date is earlier than today, guidelines are not required.
+        //TODO: if the expiration date is earlier than today, guidelines are not required.
         
         //If creating a new account if acct_expiration_dt is set and the fund_group is not "CG" then the acct_expiration_dt must be changed to a date that is today or later
-        if(maintenanceDocument.isNew()) {
+        if(maintenanceDocument.isNew() && newExpDate != null ) {
             if(!ObjectUtils.isNull(newAccount.getSubFundGroup())) {
                 if(!newAccount.getSubFundGroup().getFundGroupCode().equalsIgnoreCase("CG")) {
                     if(!newExpDate.after(today) || newExpDate.equals(today) ) {
@@ -480,14 +460,13 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
     private boolean checkFundGroup(MaintenanceDocument maintenanceDocument) {
         boolean success = true;
 
-        //on the account screen, if the fund group of the account is CG (contracts & grants) or 
+        //TODO: on the account screen, if the fund group of the account is CG (contracts & grants) or 
         //RF (restricted funds), the restricted status code is set to 'R'. 
         //If the fund group is EN (endowment) or PF (plant fund) the value is not set by the system and 
         //must be set by the user, for all other fund groups the value is set to 'U'. R being restricted, 
         //U being unrestricted.
-        //TODO - not sure how to get the Fund Group
         
-        //an account in the general fund fund group cannot have a budget recording level of mixed.
+        //TODO:an account in the general fund fund group cannot have a budget recording level of mixed.
 
         return success;
     }
@@ -501,11 +480,11 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
     private boolean checkSubFundGroup(MaintenanceDocument maintenanceDocument) {
         boolean success = true;
         
-        //sub_fund_grp_cd on the account must be set to a valid sub_fund_grp_cd that exists in the ca_sub_fund_grp_t table
-        newAccount.getSubFundGroupCode();
+        //TODO:sub_fund_grp_cd on the account must be set to a valid sub_fund_grp_cd that exists in the ca_sub_fund_grp_t table
         
-        //if the sub fund group code is plant fund, construction and major remodeling (PFCMR), the campus and building are required on the description screen for CAMS.
-        newAccount.getSubFundGroupCode();
+        
+        //TODO:if the sub fund group code is plant fund, construction and major remodeling (PFCMR), the campus and building are required on the description screen for CAMS.
+        
                 
         //if sub_fund_grp_cd is 'PFCMR' then campus_cd must be entered
         //if sub_fund_grp_cd is 'PFCMR' then bldg_cd must be entered

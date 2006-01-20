@@ -34,6 +34,7 @@ import org.kuali.module.gl.batch.poster.impl.PostReversalTest;
 import org.kuali.module.gl.batch.poster.impl.PostSufficientFundsBalanceTest;
 import org.kuali.module.gl.dao.ojb.TestUniversityDateDao;
 import org.kuali.module.gl.service.GeneralLedgerPendingEntryServiceTest;
+import org.kuali.module.gl.service.NightlyOutServiceTest;
 
 /**
  * @author jsissom
@@ -65,6 +66,7 @@ public class AllTests {
     suite.addTestSuite(PostReversalTest.class);
     suite.addTestSuite(PostSufficientFundsBalanceTest.class);
     suite.addTestSuite(PostGlAccountBalanceTest.class);
+    suite.addTestSuite(NightlyOutServiceTest.class);
 
     // org.kuali.module.gl.dao.ojb
     if ( ! fastTests ) {

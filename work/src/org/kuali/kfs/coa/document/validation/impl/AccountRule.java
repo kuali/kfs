@@ -25,8 +25,6 @@ package org.kuali.module.chart.rules;
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.Set;
-import java.util.TreeSet;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.KeyConstants;
@@ -34,6 +32,7 @@ import org.kuali.core.bo.PostalZipCode;
 import org.kuali.core.bo.State;
 import org.kuali.core.bo.user.KualiUser;
 import org.kuali.core.document.MaintenanceDocument;
+import org.kuali.core.maintenance.Maintainable;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.GlobalVariables;
@@ -204,9 +203,6 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
 
         GlobalVariables.getErrorMap().addToErrorPath("newMaintainableObject");
         
-        Maintainable newMaintainable = maintenanceDocument.getNewMaintainableObject();
-        Account account = (Account) newMaintainable.getBusinessObject();
-        
            
         //TODO: IU-specific rule?
         //the account number cannot begin with a 3, or with 00.
@@ -285,7 +281,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         }
         
         //valid values for the budget code are account, consolidation, level, object code, mixed, sub-account and no budget.
-        if (validBudgetRule.failsRule(account.getBudgetRecordingLevelCode())) {
+        if (validBudgetRule.failsRule(newAccount.getBudgetRecordingLevelCode())) {
             success &= false;
             putFieldError("accountNumber", "GenericError", newAccount.getAccountNumber());
         }

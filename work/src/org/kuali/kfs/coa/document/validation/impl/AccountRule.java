@@ -140,47 +140,26 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         //      ie:  Chart of Accounts Code -> chartOfAccountsCode
         success &= checkEmptyValue("Financial Document Description", 
                 	maintenanceDocument.getDocumentHeader().getFinancialDocumentDescription());
-
         success &= checkEmptyValue("Chart of Accounts Code", newAccount.getChartOfAccountsCode());
-        
         success &= checkEmptyValue("Account Number", newAccount.getAccountNumber());
-        
         success &= checkEmptyValue("Account Name", newAccount.getAccountName());
-        
         success &= checkEmptyValue("OrganizationFromRules", newAccount.getOrganizationCode());
-        
         success &= checkEmptyValue("Campus Code", newAccount.getAccountPhysicalCampusCode());
-        
         success &= checkEmptyValue("Effective Date", newAccount.getAccountEffectiveDate());
-        
         success &= checkEmptyValue("City Name", newAccount.getAccountCityName());
-        
         success &= checkEmptyValue("State Code", newAccount.getAccountStateCode());
-        
         success &= checkEmptyValue("Address", newAccount.getAccountStreetAddress());
-        
         success &= checkEmptyValue("ZIP Code", newAccount.getAccountZipCode());
-        
         success &= checkEmptyValue("Account Manager", newAccount.getAccountManagerUser().getPersonUniversalIdentifier());
-        
         success &= checkEmptyValue("Account Supervisor", newAccount.getAccountSupervisoryUser().getPersonUniversalIdentifier());
-        
         success &= checkEmptyValue("Budget Recording Level", newAccount.getBudgetRecordingLevelCode());
-        
         success &= checkEmptyValue("Sufficient Funds Code", newAccount.getAccountSufficientFundsCode());
-        
         success &= checkEmptyValue("Sub Fund Group", newAccount.getSubFundGroupCode());
-        
         success &= checkEmptyValue("Higher Ed Function Code", newAccount.getFinancialHigherEdFunctionCd());
-        
         success &= checkEmptyValue("Restricted Status Code", newAccount.getAccountRestrictedStatusCode());
-        
         success &= checkEmptyValue("ICR Type Code", newAccount.getAcctIndirectCostRcvyTypeCd());
-        
         success &= checkEmptyValue("ICR Series Identifier", newAccount.getFinancialIcrSeriesIdentifier());
-        
         success &= checkEmptyValue("ICR Cost Recovery Account", newAccount.getIndirectCostRecoveryAcctNbr());
-        
         success &= checkEmptyValue("C&G Domestic Assistance Number", newAccount.getCgCatlfFedDomestcAssistNbr());
         
         //	Guidelines are only required on a 'new' maint doc

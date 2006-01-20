@@ -1604,10 +1604,79 @@
 	<field-descriptor name="indirectCostRecoveryAccountNumber" column="ICR_ACCOUNT_NBR" jdbc-type="VARCHAR" />
 	<field-descriptor name="offsetCampusCode" column="OFF_CMP_IND" jdbc-type="VARCHAR" />
 	<field-descriptor name="costSharingChartOfAccountsCode" column="CST_SHR_COA_CD" jdbc-type="VARCHAR" />
-	<field-descriptor name="costSharingAccountNumber" column="CST_SHRRCACCT_NBR" jdbc-type="VARCHAR" />
+	<field-descriptor name="costSharingAccountNumber" column="CST_SHRSRCACCT_NBR" jdbc-type="VARCHAR" />
 	<field-descriptor name="costSharingSubAccountNumber" column="CST_SRCSUBACCT_NBR" jdbc-type="VARCHAR" />
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+	
+	<reference-descriptor name="chartOfAccounts"
+		class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true"
+		auto-update="none" auto-delete="none" proxy="true">
+		<foreignkey field-ref="chartOfAccountsCode" />
+	</reference-descriptor>
+
+	<reference-descriptor name="account"
+		class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true"
+		auto-update="none" auto-delete="none" proxy="true">
+		<foreignkey field-ref="chartOfAccountsCode" />
+		<foreignkey field-ref="accountNumber" />
+	</reference-descriptor>
+	
+	<reference-descriptor name="subAccount"
+		class-ref="org.kuali.module.chart.bo.SubAccount" auto-retrieve="true"
+		auto-update="none" auto-delete="none" proxy="true">
+		<foreignkey field-ref="chartOfAccountsCode" />
+		<foreignkey field-ref="accountNumber" />
+		<foreignkey field-ref="subAccountNumber" />
+	</reference-descriptor>
+	
+	<reference-descriptor name="icrTypeCode"
+		class-ref="org.kuali.module.chart.bo.codes.ICRTypeCode"
+		auto-retrieve="true" auto-update="none" auto-delete="none"
+		proxy="true">
+		<foreignkey field-ref="indirectCostRecoveryTypeCode" />
+	</reference-descriptor>
+
+	<reference-descriptor name="indirectCostRecoveryChartOfAccounts"
+		class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true"
+		auto-update="none" auto-delete="none" proxy="true">
+		<foreignkey field-ref="indirectCostRecoveryChartOfAccountsCode" />
+	</reference-descriptor>
+
+	<reference-descriptor name="indirectCostRecoveryAccount"
+		class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true"
+		auto-update="none" auto-delete="none" proxy="true">
+		<foreignkey field-ref="indirectCostRecoveryChartOfAccountsCode" />
+		<foreignkey field-ref="indirectCostRecoveryAccountNumber" />
+	</reference-descriptor>
+	
+	<reference-descriptor name="offsetCampus"
+		class-ref="org.kuali.module.chart.bo.Campus" auto-retrieve="true"
+		auto-update="none" auto-delete="none" proxy="true">
+		<foreignkey field-ref="offsetCampusCode" />
+	</reference-descriptor>
+	
+	<reference-descriptor name="costSharingChartOfAccounts"
+		class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true"
+		auto-update="none" auto-delete="none" proxy="true">
+		<foreignkey field-ref="costSharingChartOfAccountsCode" />
+	</reference-descriptor>
+
+	<reference-descriptor name="costSharingAccount"
+		class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true"
+		auto-update="none" auto-delete="none" proxy="true">
+		<foreignkey field-ref="costSharingChartOfAccountsCode" />
+		<foreignkey field-ref="costSharingAccountNumber" />
+	</reference-descriptor>
+	
+	<reference-descriptor name="costSharingSubAccount"
+		class-ref="org.kuali.module.chart.bo.SubAccount" auto-retrieve="true"
+		auto-update="none" auto-delete="none" proxy="true">
+		<foreignkey field-ref="costSharingChartOfAccountsCode" />
+		<foreignkey field-ref="costSharingAccountNumber" />
+		<foreignkey field-ref="costSharingSubAccountNumber" />
+	</reference-descriptor>
+	
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.chart.bo.IndirectCostRecoveryExclusionAccount" table="CA_ICR_EXCL_ACCT_T">

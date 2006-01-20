@@ -29,6 +29,7 @@ import org.kuali.Constants;
 import org.kuali.KeyConstants;
 import org.kuali.core.bo.AccountingLine;
 import org.kuali.core.bo.user.AuthenticationUserId;
+import org.kuali.core.bo.user.KualiGroup;
 import org.kuali.core.bo.user.KualiUser;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.exceptions.UserNotFoundException;
@@ -118,17 +119,30 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
         DisbursementVoucherDocument dvDocument = (DisbursementVoucherDocument) document;
         DisbursementVoucherPayeeDetail payeeDetail = dvDocument.getDvPayeeDetail();
 
-        initializeRuleValues(document);
+//        initializeRuleValues(document);
+//
+//        validateRequiredFields(dvDocument);
+//        validatePaymentReason(dvDocument);
+//
+//        if (payeeDetail.isPayee()) {
+//            validatePayeeInformation(dvDocument);
+//        }
+//
+//        if (payeeDetail.isEmployee()) {
+//            validateEmployeeInformation(dvDocument);
+//        }
+//
+//        /* specific validation depending on payment method */
+//        if (PAYMENT_METHOD_WIRE.equals(dvDocument.getDisbVchrPaymentMethodCode())) {
+//            validateWireTransfer(dvDocument);
+//        }
+//        else if (PAYMENT_METHOD_DRAFT.equals(dvDocument.getDisbVchrPaymentMethodCode())) {
+//            validateForeignDraft(dvDocument);
+//        }
 
-        validateRequiredFields(dvDocument);
-        validatePaymentReason(dvDocument);
-
-        if (payeeDetail.isPayee()) {
-            validatePayeeInformation(dvDocument);
-        }
-
-        if (payeeDetail.isEmployee()) {
-            validateEmployeeInformation(dvDocument);
+        /* if nra payment and user is in tax group, check nra tab */
+        if (dvDocument.getDvPayeeDetail().isDisbVchrAlienPaymentCode() && isUserInTaxGroup()) {
+            validateNonResidentAlienInformation(dvDocument);
         }
 
         validateDocumentAmounts(dvDocument);
@@ -183,14 +197,6 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
                 && StringUtils.isBlank(document.getDvPayeeDetail().getDisbVchrPayeeCountryName())) {
             errors.put("dvPayeeDetail.disbVchrPayeeCountryNamee", KeyConstants.ERROR_REQUIRED, "Payee Country ");
         }
-
-        /* specific validation depending on payment method */
-        if (PAYMENT_METHOD_WIRE.equals(document.getDisbVchrPaymentMethodCode())) {
-            validateWireTransfer(document);
-        }
-        else if (PAYMENT_METHOD_DRAFT.equals(document.getDisbVchrPaymentMethodCode())) {
-            validateForeignDraft(document);
-        }
     }
 
     /**
@@ -200,6 +206,51 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
      */
     private void validateWireTransfer(DisbursementVoucherDocument document) {
         ErrorMap errors = GlobalVariables.getErrorMap();
+
+        if (StringUtils.isBlank(document.getDvWireTransfer().getDisbursementVoucherBankName())) {
+            errors.put("dvWireTransfer.disbursementVoucherBankName", KeyConstants.ERROR_REQUIRED, "Bank Name");
+        }
+
+        if (StringUtils.isBlank(document.getDvWireTransfer().getDisbVchrBankCityName())) {
+            errors.put("dvWireTransfer.disbVchrBankCityName", KeyConstants.ERROR_REQUIRED, "Bank City");
+        }
+
+        if (StringUtils.isBlank(document.getDvWireTransfer().getDisbVchrBankCountryName())) {
+            errors.put("dvWireTransfer.disbVchrBankCountryName", KeyConstants.ERROR_REQUIRED, "Bank Country");
+        }
+
+        if (StringUtils.isBlank(document.getDvWireTransfer().getDisbVchrPayeeAccountNumber())) {
+            errors.put("dvWireTransfer.disbVchrPayeeAccountNumber", KeyConstants.ERROR_REQUIRED, "Payee Account Number");
+        }
+
+        if (StringUtils.isBlank(document.getDvWireTransfer().getDisbursementVoucherPayeeAccountName())) {
+            errors.put("dvWireTransfer.disbursementVoucherPayeeAccountName", KeyConstants.ERROR_REQUIRED, "Payee Account Name");
+        }
+
+        if (!document.getDvWireTransfer().isDisbVchrForeignBankIndicator()
+                && StringUtils.isBlank(document.getDvWireTransfer().getDisbVchrBankRoutingNumber())) {
+            errors.put("dvWireTransfer.DisbVchrBankRoutingNumber", KeyConstants.ERROR_DV_BANK_ROUTING_NUMBER);
+        }
+
+        if (!document.getDvWireTransfer().isDisbVchrForeignBankIndicator()
+                && StringUtils.isBlank(document.getDvWireTransfer().getDisbVchrBankStateCode())) {
+            errors.put("dvWireTransfer.disbVchrBankStateCode", KeyConstants.ERROR_REQUIRED, "Bank State");
+        }
+
+        /* currenty type required */
+        if (StringUtils.isBlank(document.getDvWireTransfer().getDisbVchrCurrencyTypeCode())) {
+            errors.put("dvWireTransfer.disbVchrCurrencyTypeCode", KeyConstants.ERROR_DV_CURRENCY_TYPE_CODE);
+        }
+
+        /* currenty type required */
+        if (StringUtils.isBlank(document.getDvWireTransfer().getDisbVchrCurrencyTypeName())) {
+            errors.put("dvWireTransfer.disbVchrCurrencyTypeName", KeyConstants.ERROR_DV_CURRENCY_TYPE_NAME);
+        }
+
+        /* cannot have attachment checked for wire transfer */
+        if (document.isDisbVchrAttachmentCode()) {
+            errors.put("disbVchrAttachmentCode", KeyConstants.ERROR_DV_WIRE_ATTACHMENT);
+        }
 
         if (StringUtils.isBlank(document.getDvWireTransfer().getDisbursementVoucherBankName())) {
             errors.put("dvWireTransfer.disbursementVoucherBankName", KeyConstants.ERROR_REQUIRED, "Bank Name");
@@ -257,6 +308,60 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
         /* currenty type required */
         if (StringUtils.isBlank(document.getDvWireTransfer().getDisbVchrCurrencyTypeName())) {
             GlobalVariables.getErrorMap().put("dvWireTransfer.disbVchrCurrencyTypeName", KeyConstants.ERROR_DV_CURRENCY_TYPE_NAME);
+        }
+    }
+
+    /**
+     * Validates fields for an alien payment.
+     * @param document
+     */
+    public void validateNonResidentAlienInformation(DisbursementVoucherDocument document) {
+        ErrorMap errors = GlobalVariables.getErrorMap();
+
+        /* income class code required */
+        if (StringUtils.isBlank(document.getDvNonResidentAlienTax().getIncomeClassCode())) {
+            errors.put("dvNonResidentAlienTax.incomeClassCode", KeyConstants.ERROR_REQUIRED, "Income class code ");
+        }
+        else {
+            /* for foreign source or treaty exempt, non reportable, tax percents must be 0 and gross indicator can not be checked */
+            if (document.getDvNonResidentAlienTax().isForeignSourceIncomeCode()
+                    || document.getDvNonResidentAlienTax().isIncomeTaxTreatyExemptCode()
+                    || NRA_TAX_INCOME_CLASS_NON_REPORTABLE.equals(document.getDvNonResidentAlienTax().getIncomeClassCode())) {
+
+                if ((document.getDvNonResidentAlienTax().getFederalIncomeTaxPercent() != null && !(new Integer(0).equals(document
+                        .getDvNonResidentAlienTax().getFederalIncomeTaxPercent())))) {
+                    errors.put("dvNonResidentAlienTax.federalIncomeTaxPercent", KeyConstants.ERROR_DV_FEDERAL_TAX_NOT_ZERO);
+                }
+
+                if ((document.getDvNonResidentAlienTax().getStateIncomeTaxPercent() != null && !(new Integer(0).equals(document
+                        .getDvNonResidentAlienTax().getStateIncomeTaxPercent())))) {
+                    errors.put("dvNonResidentAlienTax.stateIncomeTaxPercent", KeyConstants.ERROR_DV_STATE_TAX_NOT_ZERO);
+                }
+
+                if (document.getDvNonResidentAlienTax().isIncomeTaxGrossUpCode()) {
+                    errors.put("dvNonResidentAlienTax.incomeTaxGrossUpCode", KeyConstants.ERROR_DV_GROSS_UP_INDICATOR);
+                }
+
+                if (NRA_TAX_INCOME_CLASS_NON_REPORTABLE.equals(document.getDvNonResidentAlienTax().getIncomeClassCode())
+                        && StringUtils.isNotBlank(document.getDvNonResidentAlienTax().getPostalCountryCode())) {
+                    errors.put("dvNonResidentAlienTax.postalCountryCode", KeyConstants.ERROR_DV_POSTAL_COUNTRY_CODE);
+                }
+            }
+            else {
+                if (document.getDvNonResidentAlienTax().getFederalIncomeTaxPercent() == null) {
+                    errors
+                            .put("dvNonResidentAlienTax.federalIncomeTaxPercent", KeyConstants.ERROR_REQUIRED,
+                                    "Federal tax percent ");
+                }
+
+                if (document.getDvNonResidentAlienTax().getStateIncomeTaxPercent() == null) {
+                    errors.put("dvNonResidentAlienTax.stateIncomeTaxPercent", KeyConstants.ERROR_REQUIRED, "State tax percent ");
+                }
+
+                if (StringUtils.isBlank(document.getDvNonResidentAlienTax().getPostalCountryCode())) {
+                    errors.put("dvNonResidentAlienTax.postalCountryCode", KeyConstants.ERROR_REQUIRED, "Country code ");
+                }
+            }
         }
     }
 
@@ -461,5 +566,9 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
      */
     protected boolean isDocumentBalanceValid(TransactionalDocument transactionalDocument) {
         return true;
+    }
+
+    private boolean isUserInTaxGroup() {
+        return GlobalVariables.getUserSession().getKualiUser().isMember(new KualiGroup(KualiGroup.KUALI_DV_TAX_GROUP));
     }
 }

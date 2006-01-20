@@ -32,29 +32,9 @@ import org.kuali.module.financial.document.DisbursementVoucherDocument;
 public class DisbursementVoucherForm extends KualiTransactionalDocumentFormBase {
     private static final long serialVersionUID = 1L;
     
-    private boolean exceptionIndicator;
-
     public DisbursementVoucherForm() {
     	super();
-    	
         setDocument(new DisbursementVoucherDocument());
-        this.exceptionIndicator = false;
-    }
-    
-    
-    /**
-     * @return Returns the exceptionIndicator.
-     */
-    public boolean isExceptionIndicator() {
-        return exceptionIndicator;
-    }
-    
-    
-    /**
-     * @param exceptionIndicator The exceptionIndicator to set.
-     */
-    public void setExceptionIndicator(boolean exceptionIndicator) {
-        this.exceptionIndicator = exceptionIndicator;
     }
 }
 

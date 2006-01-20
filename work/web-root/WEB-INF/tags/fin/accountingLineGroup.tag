@@ -10,10 +10,11 @@
               description="4 less than the total number of columns in the
               accounting lines table.  The total depends on the number
               of optional fields and whether there is an action button column." %>
-<%@ attribute name="editingMode" required="true" %>
+<%@ attribute name="editingMode" required="true" type="java.util.Map"%>
 <%@ attribute name="editableAccounts" required="true" type="java.util.Map"
               description="Map of Accounts which this user is allowed to edit; only used if editingMode != fullEntry " %>
-
+<%@ attribute name="editableFields" required="false" type="java.util.Map"
+              description="Map of accounting line fields which this user is allowed to edit" %>
 <%@ attribute name="optionalFields" required="false"
               description="A comma separated list of names of accounting line fields
               to be appended to the required field columns, before the amount column.
@@ -82,7 +83,7 @@
         <th class="bord-l-b">Actions</th>
     </c:if>
 </tr>
-<c:if test="${editingMode != 'viewOnly'}">
+<c:if test="${empty editingMode['viewOnly']}">
     <fin:accountingLineRow
         accountingLine="new${capitalSourceOrTarget}Line"
         accountingLineAttributes="${accountingLineAttributes}"
@@ -106,10 +107,10 @@
 <logic:iterate indexId="ctr" name="KualiForm" property="document.${sourceOrTarget}AccountingLines" id="currentLine">
     <%-- readonlyness of accountingLines depends on editingMode and user's account-list --%>
     <c:choose>
-        <c:when test="${editingMode == 'fullEntry'}">
+        <c:when test="${!empty editingMode['fullEntry']}">
             <c:set var="accountIsEditable" value="true" />
         </c:when>
-        <c:when test="${editingMode == 'viewOnly'}">
+        <c:when test="${!empty editingMode['viewOnly']||!empty editingMode['expenseSpecialEntry']}">
             <c:set var="accountIsEditable" value="false" />
         </c:when>
         <c:otherwise>
@@ -129,6 +130,7 @@
         extraRowFields="${extraRowFields}"
         extraRowLabelFontWeight="normal"
         readOnly="${!accountIsEditable}"
+        editableFields="${editableFields}"
         debitCreditAmount="${debitCreditAmount}"
         hiddenFields="postingYear,sequenceNumber,versionNumber,financialDocumentNumber${extraHiddenFields}"
         rightColumnCount="${rightColumnCount}"

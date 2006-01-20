@@ -21,6 +21,8 @@
 <%@ attribute name="actionAlt" required="true"
               description="The alternate text of the action button." %>
 <%@ attribute name="readOnly" required="true" %>
+<%@ attribute name="editableFields" required="false" type="java.util.Map"
+              description="Map of accounting line fields which this user is allowed to edit" %>
 <%@ attribute name="hiddenFields" required="true"
               description="A comma separated list of names of accounting line fields
               to be put in hidden fields on this form." %>
@@ -74,7 +76,7 @@
     detailFunction="loadChartInfo"
     detailField="chart.finChartOfAccountDescription"
     attributes="${accountingLineAttributes}"
-    readOnly="${readOnly}"
+    readOnly="${readOnly&&(empty editableFields['chartOfAccountsCode'])}"
     />
 <fin:accountingLineDataCell
     dataCellCssClass="${dataCellCssClass}"
@@ -87,7 +89,7 @@
     boClassName="Account"
     briefLookupParameters="chartOfAccountsCode:chartOfAccounts.chartOfAccountsCode"
     conversionField="accountNumber"
-    readOnly="${readOnly}"
+    readOnly="${readOnly&&(empty editableFields['accountNumber'])}"
     />
 <fin:accountingLineDataCell
     dataCellCssClass="${dataCellCssClass}"
@@ -100,7 +102,7 @@
     boClassName="SubAccount"
     briefLookupParameters="chartOfAccountsCode:chartOfAccounts.chartOfAccountsCode,accountNumber:account.accountNumber"
     conversionField="subAccountNumber"
-    readOnly="${readOnly}"
+    readOnly="${readOnly&&(empty editableFields['subAccountNumber'])}"
     />
 <fin:accountingLineDataCell
     dataCellCssClass="${dataCellCssClass}"
@@ -114,7 +116,7 @@
     boClassName="ObjectCode"
     briefLookupParameters="chartOfAccountsCode:chartOfAccounts.chartOfAccountsCode"
     conversionField="financialObjectCode"
-    readOnly="${readOnly}"
+    readOnly="${readOnly&&(empty editableFields['financialObjectCode'])}"
     />
 <fin:accountingLineDataCell
     dataCellCssClass="${dataCellCssClass}"
@@ -128,7 +130,7 @@
     boClassName="SubObjCd"
     briefLookupParameters="chartOfAccountsCode:chartOfAccounts.chartOfAccountsCode,accountNumber:account.accountNumber,financialObjectCode:financialObject.financialObjectCode"
     conversionField="financialSubObjectCode"
-    readOnly="${readOnly}"
+    readOnly="${readOnly&&(empty editableFields['financialSubObjectCode'])}"
     />
 <fin:accountingLineDataCell
     dataCellCssClass="${dataCellCssClass}"
@@ -141,7 +143,7 @@
     boClassName="ProjectCode"
     briefLookupParameters=""
     conversionField="code"
-    readOnly="${readOnly}"
+    readOnly="${readOnly&&(empty editableFields['projectCode'])}"
     />
 <c:if test="${includeObjectTypeCode}">
     <fin:accountingLineDataCell
@@ -192,7 +194,7 @@
             accountingLine="${accountingLine}"
             field="amount"
             attributes="${accountingLineAttributes}"
-            readOnly="${readOnly}"
+            readOnly="${readOnly&&(empty editableFields['amount'])}"
             />
     </c:when>
     <c:otherwise>
@@ -202,7 +204,7 @@
             cellProperty="${debitCellProperty}"
             attributes="${accountingLineAttributes}"
             field="amount"
-            readOnly="${readOnly}"
+            readOnly="${readOnly&&(empty editableFields['amount'])}"
             />
         <fin:accountingLineDataCell
             dataCellCssClass="${dataCellCssClass}"
@@ -210,7 +212,7 @@
             cellProperty="${creditCellProperty}"
             attributes="${accountingLineAttributes}"
             field="amount"
-            readOnly="${readOnly}"
+            readOnly="${readOnly&&(empty editableFields['amount'])}"
             />
     </c:otherwise>
 </c:choose>

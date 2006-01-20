@@ -16,10 +16,10 @@
 	            
 	            <maxLength>22</maxLength>
 	            
-	            <required>true</required>
+	            <required>false</required>
 	            
 	            <control>
-	                <select valuesFinderClass="org.kuali.core.lookup.keyvalues.IncomeFederalTaxValuesFinder"/>
+	                <text size="10"/>
 	            </control>
 	            
 	            <summary>Federal Tax Percent</summary>
@@ -32,10 +32,10 @@
 	            
 	            <maxLength>22</maxLength>
 	            
-	            <required>true</required>
+	            <required>false</required>
 	            
 	            <control>
-	                <select valuesFinderClass="org.kuali.core.lookup.keyvalues.IncomeStateTaxValuesFinder"/>
+	                <text size="10"/>
 	            </control>
 	            
 	            <summary>State Tax Percent</summary>

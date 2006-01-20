@@ -25,10 +25,12 @@ package org.kuali.module.financial.web.struts.action;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.Constants;
+import org.kuali.core.bo.user.UniversityUser;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.module.financial.bo.Payee;
@@ -50,9 +52,12 @@ public class DisbursementVoucherAction extends KualiTransactionalDocumentActionB
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         DisbursementVoucherForm dvForm = (DisbursementVoucherForm) form;
+        DisbursementVoucherDocument document = (DisbursementVoucherDocument) dvForm.getDocument();
 
+        /* refresh from dv payee lookup */
         if (Constants.KUALI_LOOKUPABLE_IMPL.equals(dvForm.getRefreshCaller())
-                && request.getParameter("document.dvPayeeDetail.disbVchrPayeeIdNumber") != null) {
+                && request.getParameter("document.dvPayeeDetail.disbVchrPayeeIdNumber") != null
+                && document.getDvPayeeDetail().isPayee()) {
             String payeeIdNumber = ((DisbursementVoucherDocument) dvForm.getDocument()).getDvPayeeDetail()
                     .getDisbVchrPayeeIdNumber();
             Payee refreshPayee = new Payee();
@@ -60,6 +65,17 @@ public class DisbursementVoucherAction extends KualiTransactionalDocumentActionB
             refreshPayee = (Payee) SpringServiceLocator.getBusinessObjectService().retrieve(refreshPayee);
             ((DisbursementVoucherDocument) dvForm.getDocument()).templatePayee(refreshPayee);
         }
+        /* refresh from employee lookup */
+        else if (Constants.KUALI_LOOKUPABLE_IMPL.equals(dvForm.getRefreshCaller())
+                && request.getParameter("document.dvPayeeDetail.disbVchrPayeeIdNumber") != null
+                && document.getDvPayeeDetail().isEmployee()) {
+            String emplUuid = ((DisbursementVoucherDocument) dvForm.getDocument()).getDvPayeeDetail()
+            .getDisbVchrPayeeIdNumber();
+            UniversityUser employee = new UniversityUser();
+            employee.setUuId(emplUuid);
+            employee = (UniversityUser) SpringServiceLocator.getBusinessObjectService().retrieve(employee);
+        }
+        
 
         return super.refresh(mapping, form, request, response);
     }
@@ -97,6 +113,32 @@ public class DisbursementVoucherAction extends KualiTransactionalDocumentActionB
 
         return mapping.findForward(Constants.MAPPING_BASIC);
 
+    }
+
+
+    /**
+     * Hook into performLookup to switch the payee lookup based on the payee type selected.
+     * @see org.kuali.core.web.struts.action.KualiAction#performLookup(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    public ActionForward performLookup(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        // substitute bo class and mapping if the type is Employee, lookup already setup for Payee
+        DisbursementVoucherForm dvForm = (DisbursementVoucherForm) form;
+        DisbursementVoucherDocument document = (DisbursementVoucherDocument) dvForm.getDocument();
+
+        if (document.getDvPayeeDetail().isEmployee()) {
+            String fullParameter = (String) request.getAttribute(Constants.METHOD_TO_CALL_ATTRIBUTE);
+            String boClassName = StringUtils.substringBetween(fullParameter, Constants.METHOD_TO_CALL_BOPARM_LEFT_DEL,
+                    Constants.METHOD_TO_CALL_BOPARM_RIGHT_DEL);
+            String conversionFields = StringUtils.substringBetween(fullParameter, Constants.METHOD_TO_CALL_PARM1_LEFT_DEL,
+                    Constants.METHOD_TO_CALL_PARM1_RIGHT_DEL);
+            fullParameter = StringUtils.replace(fullParameter, boClassName, "org.kuali.core.bo.user.UniversityUser");
+            fullParameter = StringUtils.replace(fullParameter, conversionFields, "uuId:document.dvPayeeDetail.disbVchrPayeeIdNumber");
+            request.setAttribute(Constants.METHOD_TO_CALL_ATTRIBUTE, fullParameter);
+        }
+
+        return super.performLookup(mapping, form, request, response);
     }
 
 

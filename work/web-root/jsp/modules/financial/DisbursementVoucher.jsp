@@ -5,15 +5,26 @@
         <kul:dvMessages/>
 		
 		<html:hidden property="document.nextSourceLineNumber"/>
-		<html:hidden property="document.nextTargetLineNumber"/>
-		<html:hidden property="document.dvNonEmployeeExpense.financialDocumentNumber" value="document.financialDocumentNumber"/>
-		<html:hidden property="document.dvNonEmployeeTravel.financialDocumentNumber" value="document.financialDocumentNumber"/>
-	    <html:hidden property="document.dvNonResidentAlienTax.financialDocumentNumber" value="document.financialDocumentNumber"/>
-		<html:hidden property="document.dvPayeeDetail.financialDocumentNumber" value="document.financialDocumentNumber"/>
-		<html:hidden property="document.dvPreConferenceDetail.financialDocumentNumber" value="document.financialDocumentNumber"/>
-		<html:hidden property="document.dvPreConferenceRegistrant.financialDocumentNumber" value="document.financialDocumentNumber"/>
-		<html:hidden property="document.dvWireTransfer.financialDocumentNumber" value="document.financialDocumentNumber"/>
-		
+        
+        <c:if test="${!empty KualiForm.editingMode['fullEntry']}">
+          <c:set var="fullEntryMode" value="true" scope="request"/>
+        </c:if>
+        <c:if test="${!empty KualiForm.editingMode['frnEntry']}">
+          <c:set var="frnEntryMode" value="true" scope="request"/>
+        </c:if>
+        <c:if test="${!empty KualiForm.editingMode['travelEntry']}">
+          <c:set var="travelEntryMode" value="true" scope="request"/>
+        </c:if>
+        <c:if test="${!empty KualiForm.editingMode['wireEntry']}">
+          <c:set var="wireEntryMode" value="true" scope="request"/>
+        </c:if>
+        <c:if test="${!empty KualiForm.editingMode['taxEntry']}">
+          <c:set var="taxEntryMode" value="true" scope="request"/>
+        </c:if>
+        <c:if test="${!empty KualiForm.editingMode['adminEntry']}">
+          <c:set var="adminEntryMode" value="true" scope="request"/>
+        </c:if>
+        
 		<kul:hiddenDocumentFields />
 
         <kul:documentOverview editingMode="${KualiForm.editingMode}"/>
@@ -24,7 +35,7 @@
         
         <kul:dvPayment/>
 
-        <fin:accountingLines sourceAccountingLinesOnly="true" editingMode="${KualiForm.editingMode}" editableAccounts="${KualiForm.editableAccounts}"/>
+        <fin:accountingLines sourceAccountingLinesOnly="true" editingMode="${KualiForm.editingMode}" editableAccounts="${KualiForm.editableAccounts}" editableFields="${KualiForm.accountingLineEditableFields}"/>
 	    
 	    <kul:dvContact/>
 	    

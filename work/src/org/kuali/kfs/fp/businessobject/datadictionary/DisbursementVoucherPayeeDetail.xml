@@ -22,6 +22,22 @@
                                   sourceClassName="org.kuali.module.financial.bo.Payee"
                                   sourceAttributeName="payeeIdNumber"/>
                                   
+              <attribute name="dvPayeeType">
+	            <label>Payee Type</label>
+	            <shortLabel>Pay Type</shortLabel>
+	            
+	            <maxLength>25</maxLength>
+	            
+	            <required>true</required>
+	            
+	            <control>
+	                <select valuesFinderClass="org.kuali.core.lookup.keyvalues.PayeeTypeValuesFinder"/>
+	            </control>
+	            
+	            <summary>Payee Type - DV Payee, Employee, or Vendor</summary>
+	            <description>...</description>
+	          </attribute>
+                                  
  	          <attributeReference name="disbVchrPayeePersonName"
                                   sourceClassName="org.kuali.module.financial.bo.Payee"
                                   sourceAttributeName="payeePersonName">

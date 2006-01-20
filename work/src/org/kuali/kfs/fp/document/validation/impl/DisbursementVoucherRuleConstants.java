@@ -108,4 +108,6 @@ public interface DisbursementVoucherRuleConstants {
     public static String UNITED_STATES_COUNTRY_NAME = "USA";
 
     public static Set W9_OWN_TYPS = RulesUtils.makeSet(new String[] { "M", "I", "P", "S" });
+    
+    public static String NRA_TAX_INCOME_CLASS_NON_REPORTABLE = "N";
 }

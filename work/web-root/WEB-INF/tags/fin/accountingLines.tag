@@ -19,9 +19,11 @@
               description="A comma seperated list of names of any non-standard fields
               required on the target accounting lines of this eDoc.
               See accountingLineRow.tag for details." %>
-<%@ attribute name="editingMode" required="false" %>
+<%@ attribute name="editingMode" required="false" type="java.util.Map"%>
 <%@ attribute name="editableAccounts" required="true" type="java.util.Map"
               description="Map of Accounts which this user is allowed to edit" %>
+<%@ attribute name="editableFields" required="false" type="java.util.Map"
+              description="Map of accounting line fields which this user is allowed to edit" %>
 <%@ attribute name="useCurrencyFormattedTotal" required="false"
               description="boolean indicating that the form's currency formatted total
               should be displayed instead of the document's source or target total.
@@ -43,13 +45,13 @@
               for the existing (but not the new) accounting lines." %>
 
 <%-- default editingMode, to simplify later tests --%>
-<c:if test="${empty editingMode}" >
+<%--c:if test="${empty editingMode}" >
     <c:set var="editingMode" value="fullEntry" />
-</c:if>
+</c:if--%>
 
 <%-- add extra columns count for the "Action" button, objectTypeCode, and/or extra amount --%>
 <c:set var="rightColumnCount" value="${6
-                                        + (editingMode != 'viewOnly' ? 1 : 0)
+                                        + (empty editingMode['viewOnly'] ? 1 : 0)
                                         + (includeObjectTypeCode ? 1 : 0)
                                         + (debitCreditAmount ? 1 : 0)}" />
 
@@ -74,6 +76,7 @@
           extraRowFields="${extraSourceRowFields}"
           editingMode="${editingMode}"
           editableAccounts="${editableAccounts}"
+          editableFields="${editableFields}"
           debitCreditAmount="${debitCreditAmount}"
           extraHiddenFields="${extraHiddenFields}"
           useCurrencyFormattedTotal="${useCurrencyFormattedTotal}"
@@ -87,6 +90,7 @@
             extraRowFields="${extraTargetRowFields}"
             editingMode="${editingMode}"
             editableAccounts="${editableAccounts}"
+            editableFields="${editableFields}"
             debitCreditAmount="${debitCreditAmount}"
             extraHiddenFields="${extraHiddenFields}"
             useCurrencyFormattedTotal="${useCurrencyFormattedTotal}"

@@ -29,6 +29,7 @@ import java.sql.Date;
 import java.sql.Timestamp;
 
 import org.kuali.Constants;
+import org.kuali.core.bo.user.UniversityUser;
 import org.kuali.core.document.DocumentHeader;
 import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.core.util.KualiDecimal;
@@ -36,7 +37,6 @@ import org.kuali.module.financial.bo.DisbursementVoucherNonEmployeeTravel;
 import org.kuali.module.financial.bo.DisbursementVoucherNonResidentAlienTax;
 import org.kuali.module.financial.bo.DisbursementVoucherPayeeDetail;
 import org.kuali.module.financial.bo.DisbursementVoucherPreConferenceDetail;
-import org.kuali.module.financial.bo.DisbursementVoucherPreConferenceRegistrant;
 import org.kuali.module.financial.bo.DisbursementVoucherWireTransfer;
 import org.kuali.module.financial.bo.DocumentationLocation;
 import org.kuali.module.financial.bo.Payee;
@@ -73,15 +73,16 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
     private DisbursementVoucherNonResidentAlienTax dvNonResidentAlienTax;
     private DisbursementVoucherPayeeDetail dvPayeeDetail;
     private DisbursementVoucherPreConferenceDetail dvPreConferenceDetail;
-    private DisbursementVoucherPreConferenceRegistrant dvPreConferenceRegistrant;
     private DisbursementVoucherWireTransfer dvWireTransfer;
 
+    // dummy field
+    private boolean exceptionIndicator;
 
     /**
      * Default no-arg constructor.
      */
     public DisbursementVoucherDocument() {
-
+        exceptionIndicator = false;
     }
 
     /**
@@ -195,7 +196,7 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
      * @return - Returns the disbVchrAttachmentCode
      * 
      */
-    public boolean getDisbVchrAttachmentCode() {
+    public boolean isDisbVchrAttachmentCode() {
         return disbVchrAttachmentCode;
     }
 
@@ -583,20 +584,6 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
     }
 
     /**
-     * @return Returns the dvPreConferenceRegistrant.
-     */
-    public DisbursementVoucherPreConferenceRegistrant getDvPreConferenceRegistrant() {
-        return dvPreConferenceRegistrant;
-    }
-
-    /**
-     * @param dvPreConferenceRegistrant The dvPreConferenceRegistrant to set.
-     */
-    public void setDvPreConferenceRegistrant(DisbursementVoucherPreConferenceRegistrant dvPreConferenceRegistrant) {
-        this.dvPreConferenceRegistrant = dvPreConferenceRegistrant;
-    }
-
-    /**
      * @return Returns the dvWireTransfer.
      */
     public DisbursementVoucherWireTransfer getDvWireTransfer() {
@@ -611,16 +598,30 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
     }
 
     /**
+     * @return Returns the exceptionIndicator.
+     */
+    public boolean isExceptionIndicator() {
+        return exceptionIndicator;
+    }
+
+    /**
+     * @param exceptionIndicator The exceptionIndicator to set.
+     */
+    public void setExceptionIndicator(boolean exceptionIndicator) {
+        this.exceptionIndicator = exceptionIndicator;
+    }
+    
+    /**
      * @see org.kuali.core.document.Document#handleRouteStatusChange(java.lang.String)
      */
     public void handleRouteStatusChange(String newRouteStatus) {
         // TODO Auto-generated method stub
 
     }
+    
 
     /**
      * Convenience method to set dv payee detail fields based on a given Payee.
-     * 
      * @param payee
      */
     public void templatePayee(Payee payee) {
@@ -639,14 +640,39 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
         this.getDvPayeeDetail().setDisbVchrPayeeEmployeeCode(payee.isPayeeEmployeeCode());
         this.getDvPayeeDetail().setDisbVchrAlienPaymentCode(payee.isAlienPaymentCode());
         this.getDvPayeeDetail().setDvPayeeRevolvingFundCode(payee.isPayeeRevolvingFundCode());
-        this.getDvPayeeDetail().setDisbVchrPayeeEmployeeCode(payee.isPayeeEmployeeCode());
         this.getDvPayeeDetail().setDvTaxIdNumber(payee.getTaxIdNumber());
         this.getDvPayeeDetail().setDvTaxPayerTypeCode(payee.getTaxpayerTypeCode());
 
         this.disbVchrPayeeTaxControlCode = payee.getPayeeTaxControlCode();
         this.disbVchrPayeeW9CompleteCode = payee.isPayeeW9CompleteCode();
     }
-
+    
+    /**
+     * Convenience method to set dv payee detail fields based on a given Employee.
+     * @param payee
+     */
+    public void templateEmployee(UniversityUser employee) {
+        if (employee == null) {
+            return;
+        }
+        this.getDvPayeeDetail().setDvPayeeType(Constants.DV_PAYEE_TYPE_EMPLOYEE);
+        this.getDvPayeeDetail().setDisbVchrPayeeIdNumber(employee.getUuId());
+        this.getDvPayeeDetail().setDisbVchrPayeePersonName(employee.getDisplayName());
+       // this.getDvPayeeDetail().setDisbVchrPayeeLine1Addr(employee.getDepdId());
+        this.getDvPayeeDetail().setDisbVchrPayeeLine2Addr("");
+      //  this.getDvPayeeDetail().setDisbVchrPayeeCityName(employee.getCampusNm());
+//        this.getDvPayeeDetail().setDisbVchrPayeeStateCode("");
+//        this.getDvPayeeDetail().setDisbVchrPayeeZipCode("");
+//        this.getDvPayeeDetail().setDisbVchrPayeeCountryName("");
+//        this.getDvPayeeDetail().setDisbVchrPayeeEmployeeCode(false);
+//        this.getDvPayeeDetail().setDisbVchrAlienPaymentCode(false);
+//        this.getDvPayeeDetail().setDvPayeeRevolvingFundCode(false);
+//        this.getDvPayeeDetail().setDvTaxIdNumber(payee.getTaxIdNumber());
+//        this.getDvPayeeDetail().setDvTaxPayerTypeCode(payee.getTaxpayerTypeCode());
+//
+//        this.disbVchrPayeeTaxControlCode = payee.getPayeeTaxControlCode();
+//        this.disbVchrPayeeW9CompleteCode = payee.isPayeeW9CompleteCode();
+    }    
     /**
      * @see org.kuali.core.document.Document#prepareForSave()
      */
@@ -656,15 +682,25 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
                 && !DisbursementVoucherDocumentRule.PAYMENT_METHOD_DRAFT.equals(this.getDisbVchrPaymentMethodCode())) {
             dvWireTransfer = null;
         }
+        else {
+            dvWireTransfer.setFinancialDocumentNumber(this.financialDocumentNumber);
+            dvWireTransfer.setVersionNumber(this.versionNumber);
+        }
 
         if (!dvPayeeDetail.isDisbVchrAlienPaymentCode()) {
             dvNonResidentAlienTax = null;
         }
+        else {
+            dvNonResidentAlienTax.setFinancialDocumentNumber(this.financialDocumentNumber);
+            dvNonResidentAlienTax.setVersionNumber(this.versionNumber);
+        }
+        
+        dvPayeeDetail.setFinancialDocumentNumber(this.financialDocumentNumber);
+        dvPayeeDetail.setVersionNumber(this.versionNumber);
 
         /* Travel screens not implemented at this time */
         dvNonEmployeeTravel = null;
         dvPreConferenceDetail = null;
-        dvPreConferenceRegistrant = null;
 
         super.prepareForSave();
     }

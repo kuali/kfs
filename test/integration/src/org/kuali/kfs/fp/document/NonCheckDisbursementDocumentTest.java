@@ -47,6 +47,15 @@ public class NonCheckDisbursementDocumentTest extends TransactionalDocumentTestB
     public static final String TARGET_LINE4 = "targetLine4";
 
 
+    /**
+     * Get names of fixture collections test class is using.
+     *
+     * @return String[]
+     */
+    public String[] getFixtureCollectionNames() {
+        return new String[] { COLLECTION_NAME };
+    }
+
     public final void testGetCreditTotal() throws Exception {
         KualiDecimal total = new KualiDecimal(0);
         NonCheckDisbursementDocument document = 

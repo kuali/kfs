@@ -53,6 +53,14 @@ public class DisbursementVoucherDocumentTest extends TransactionalDocumentTestBa
         return 2;
     }
 
+    /**
+     * Get names of fixture collections test class is using.
+     *
+     * @return String[]
+     */
+    public String[] getFixtureCollectionNames() {
+        return new String[] { COLLECTION_NAME };
+    }
 
     /**
      * 

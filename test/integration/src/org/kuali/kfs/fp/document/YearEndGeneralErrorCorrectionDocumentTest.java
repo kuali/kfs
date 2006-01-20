@@ -42,6 +42,15 @@ public class YearEndGeneralErrorCorrectionDocumentTest extends TransactionalDocu
     public static final String SERIALIZED_LINE_PARAMTER = "serializedLine1";
     
     /**
+     * Get names of fixture collections test class is using.
+     *
+     * @return String[]
+     */
+    public String[] getFixtureCollectionNames() {
+        return new String[] { COLLECTION_NAME };
+    }
+
+    /**
      * 
      * @see org.kuali.core.document.DocumentTestBase#getDocumentParameterFixture()
      */

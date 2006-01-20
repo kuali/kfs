@@ -63,11 +63,35 @@ public class JournalVoucherDocumentTest extends TransactionalDocumentTestBase {
         super.setUp();
         super.changeCurrentUser(getUserName());
     }
-    
+
     /**
-     * Override to set the balance type on the document.
+     * Get names of fixture collections test class is using.
+     *
+     * @return String[]
+     */
+    public String[] getFixtureCollectionNames() {
+        return new String[] { COLLECTION_NAME };
+    }
+
+    /**
+     * Override to set the balance type on the document.<br/>
+     *
+     * <p>This is probably not the best way to do this. Matt suggested
+     * that a specific <code>{@link DocumentParameter}</code> definition 
+     * be made to handle the fixtures and the <code>{@link Document}</code> 
+     * creation if more fields are added and
+     * <code>{@link JournalVoucherDocument}</code> becomes more complex 
+     * and demanding. Something like a 
+     * <code>JournalVoucherDocumentParameter</code> would probably work to
+     * remedy this. For specific details look at the
+     * <code>{@link DisbursementVoucherDocumentTest}</code> that Matt 
+     * worked on.</p>
      *
      * @see org.kuali.core.document.DocumentTestBase#buildDocument()
+     * @see org.kuali.module.financial.document.DisbursementDocumentTest
+     * @see org.kuali.test.parameters.DisbursementVoucherDocumentParameter
+     * @return Document used in test methods that require a specific
+     * <code>{@link Document}</code> instance.
      */
     protected Document buildDocument( TransactionalDocumentParameter param ) 
         throws Exception {

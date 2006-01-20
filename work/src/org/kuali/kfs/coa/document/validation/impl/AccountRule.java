@@ -42,6 +42,7 @@ import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.AccountGuideline;
 import org.kuali.module.chart.bo.Campus;
+import org.kuali.module.financial.rules.KualiParameterRule;
 
 /**
  * Business rule(s) applicable to AccountMaintenance documents.
@@ -50,11 +51,11 @@ import org.kuali.module.chart.bo.Campus;
  */
 public class AccountRule extends MaintenanceDocumentRuleBase {
     
-    private static Set validBudgetCodes;
+    private KualiParameterRule validBudgetRule;
+    private boolean ruleValuesSetup;
     
-    static {
-        initializeBudgetCodes();
-    }
+    public static String CHART_MAINTENANCE_EDOC = "ChartMaintenanceEDoc";
+    public static String ACCT_BUDGET_CODES_RESTRICT = "Account.BudgetCodesRestriction";
     
     Account oldAccount;
     Account newAccount;
@@ -62,13 +63,15 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
     AccountGuideline newAccountGuideline;
     MaintenanceDocument maintenanceDocument;
     
-    private static void initializeBudgetCodes() {
-        validBudgetCodes = new TreeSet();
-        validBudgetCodes.add("A");
-        validBudgetCodes.add("C");
-        validBudgetCodes.add("L");
-        validBudgetCodes.add("N");
-        validBudgetCodes.add("O");
+    public AccountRule() {
+        ruleValuesSetup = false;
+    }
+    
+    private void initializeRuleValues(MaintenanceDocument document) {
+        if(!ruleValuesSetup) {
+            validBudgetRule = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterRule(
+                    CHART_MAINTENANCE_EDOC, ACCT_BUDGET_CODES_RESTRICT);
+        }
     }
     
     /**
@@ -100,7 +103,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         
         //	default to success
         boolean success = true;
-        
+        initializeRuleValues(document);
         success &= checkEmptyValues(document);
         return success;
     }
@@ -111,7 +114,8 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         
         //	default to success
         boolean success = true;
-
+        initializeRuleValues(document);
+        
         success &= checkEmptyValues(document);
         success &= checkGeneralRules(document);
         success &= checkCloseAccount(document);
@@ -200,11 +204,10 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
 
         GlobalVariables.getErrorMap().addToErrorPath("newMaintainableObject");
         
-        //if the account type code is left blank it will default to NA.
-        if(newAccount.getAccountTypeCode().equals("")) {
-            newAccount.setAccountTypeCode("NA");
-        }
+        Maintainable newMaintainable = maintenanceDocument.getNewMaintainableObject();
+        Account account = (Account) newMaintainable.getBusinessObject();
         
+           
         //TODO: IU-specific rule?
         //the account number cannot begin with a 3, or with 00.
         if(newAccount.getAccountNumber().startsWith("3") || newAccount.getAccountNumber().startsWith("00")) {
@@ -282,8 +285,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         }
         
         //valid values for the budget code are account, consolidation, level, object code, mixed, sub-account and no budget.
-        String budgetCode = newAccount.getBudgetRecordingLevelCode();
-        if (!validBudgetCodes.contains(budgetCode)) {
+        if (validBudgetRule.failsRule(account.getBudgetRecordingLevelCode())) {
             success &= false;
             putFieldError("accountNumber", "GenericError", newAccount.getAccountNumber());
         }
@@ -293,8 +295,8 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         //TODO: do it
         
         //If acct_off_cmp_ind is not set when they route the document then default it to "N"
-        if(newAccount.isAccountOffCampusIndicator())
-        //TODO: do it
+        //if(account.isAccountOffCampusIndicator())
+        //removed - no longer a valid rule as it can only be one of two values True or False, not null
         
         //org_cd must be a valid org and active in the ca_org_t table
         if(!newAccount.getOrganization().isOrganizationActiveIndicator()) {
@@ -328,21 +330,8 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         
         //acct_zip_cd must be a valid in the sh_zip_code_t table
         
-        //if acct_typ_cd is left empty it is defaulted to "NA"  
-        if(newAccount.getAccountTypeCode() == null) {
-            newAccount.setAccountTypeCode("NA");
-        }
 
         return success;
-        /*
-         * These should never be null as they are boolean
-         * account.getAccountsFringesBnftIndicator() == null ||
-         * account.isPendingAcctSufficientFundsIndicator() == null ||
-        account.isExtrnlFinEncumSufficntFndIndicator() == null ||
-        account.isIntrnlFinEncumSufficntFndIndicator() == null ||
-        account.isFinPreencumSufficientFundIndicator() == null ||
-        account.getFinancialObjectivePrsctrlIndicator() == null ||
-        */
     }
 
     /**

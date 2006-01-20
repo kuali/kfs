@@ -70,6 +70,11 @@ public class AccountPreRules implements PreRulesCheck {
         if(account.getAccountStateCode() == null) {
             account.setAccountStateCode("IN");
         }
+        
+        //if the account type code is left blank it will default to NA.
+        if(account.getAccountTypeCode().equals("")) {
+            account.setAccountTypeCode("NA");
+        }
     }
     
     private void setStateFromZip(MaintenanceDocument maintenanceDocument) {

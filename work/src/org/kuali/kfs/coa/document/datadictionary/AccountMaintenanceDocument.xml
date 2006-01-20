@@ -31,22 +31,9 @@
 			<field attributeName="chartOfAccounts.chartOfAccountsCode" />
 			<field attributeName="accountNumber" />
 		</lockingKeys>		        
-<!-- required fields from rules:
 
-           account.getSubFundGroupCode().equals("") ||
-           account.getFinancialHigherEdFunctionCd().equals("") ||
-           account.getAccountRestrictedStatusCode().equals("") ||
-           account.getAcctIndirectCostRcvyTypeCd().equals("") ||
-           account.getFinancialIcrSeriesIdentifier().equals("") ||
-           account.getIndirectCostRcvyFinCoaCode().equals("") ||
-           account.getIndirectCostRecoveryAcctNbr().equals("") ||
-           account.getCgCatlfFedDomestcAssistNbr().equals("") ||
-           account.getAccountGuideline().getAccountExpenseGuidelineText().equals("") ||
-           account.getAccountGuideline().getAccountIncomeGuidelineText().equals("") ||
-           account.getAccountGuideline().getAccountPurposeText().equals("")
-           -->
 	    <maintainableSections>
-	        <maintainableSection title="Edit Account">
+	        <maintainableSection title="Account Maintenance">
                 <maintainableItems>
 		            <maintainableField name="chartOfAccounts.chartOfAccountsCode" required="true" />
 		            <maintainableField name="accountNumber" required="true"/>
@@ -61,10 +48,19 @@
 		            <maintainableField name="accountStreetAddress" required="true"/>	
 		            <maintainableField name="accountOffCampusIndicator" />	  
 		            <maintainableField name="accountClosedIndicator" />
-		            <maintainableField name="versionNumber" />	       	                   
+		            <maintainableField name="accountType.accountTypeCode" required="true" />
+		            <maintainableField name="subFundGroup.subFundGroupCode" required="true" />
+		            <maintainableField name="accountsFringesBnftIndicator" />
+		            <maintainableField name="reportsToAccount.chartOfAccounts.chartOfAccountsCode" required="false" />
+		            <maintainableField name="reportsToAccount.accountNumber" required="false" />
+		            <maintainableField name="financialHigherEdFunction.financialHigherEdFunctionCd" required="true" />
+		            <maintainableField name="accountRestrictedStatus.accountRestrictedStatusCode" required="true" />
+		            <maintainableField name="accountRestrictedStatusDate" required="false" />
+		            <maintainableField name="endowmentIncomeAccount.chartOfAccounts.chartOfAccountsCode" required="false" />
+		            <maintainableField name="endowmentIncomeAccount.accountNumber" required="false" />
                 </maintainableItems>
 	        </maintainableSection>
-	        <maintainableSection title="Edit Account Responsibility">
+	        <maintainableSection title="Account Responsibility">
                 <maintainableItems>
 		            <maintainableField name="accountFiscalOfficerUser.personName" required="true" />
 		            <maintainableField name="accountSupervisoryUser.personName" required="true" />
@@ -80,6 +76,24 @@
 		            <maintainableField name="intrnlFinEncumSufficntFndIndicator" />	  
 		            <maintainableField name="finPreencumSufficientFundIndicator" />
 		            <maintainableField name="financialObjectivePrsctrlIndicator" />	       	                   
+                </maintainableItems>
+	        </maintainableSection>
+	        <maintainableSection title="Contracts And Grants">
+                <maintainableItems>
+		            <maintainableField name="contractControlAccount.chartOfAccounts.chartOfAccountsCode" required="false" />
+		            <maintainableField name="contractControlAccount.accountNumber" required="false" />
+		            <maintainableField name="acctIndirectCostRcvyTypeCd" required="false" />
+		            <maintainableField name="financialIcrSeriesIdentifier" required="false" />
+		            <maintainableField name="indirectCostRecoveryAcct.chartOfAccounts.chartOfAccountsCode" />    
+		            <maintainableField name="indirectCostRecoveryAcct.accountNumber" />
+		            <maintainableField name="cgCatlfFedDomestcAssistNbr" />	
+                </maintainableItems>
+	        </maintainableSection>
+	        <maintainableSection title="Guidelines And Purpose">
+                <maintainableItems>
+		            <maintainableField name="accountGuideline.accountExpenseGuidelineText" />
+		            <maintainableField name="accountGuideline.accountIncomeGuidelineText" />
+		            <maintainableField name="accountGuideline.accountPurposeText" />
                 </maintainableItems>
 	        </maintainableSection>
 	    </maintainableSections>

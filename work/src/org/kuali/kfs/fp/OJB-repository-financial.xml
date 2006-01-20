@@ -738,10 +738,6 @@
 	<reference-descriptor name="disbVchrDocumentationLoc" class-ref="org.kuali.module.financial.bo.DocumentationLocation" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="disbVchrDocumentationLocCode" />
 	</reference-descriptor>
-	
-    <reference-descriptor name="dvNonEmployeeExpense" class-ref="org.kuali.module.financial.bo.DisbursementVoucherNonEmployeeExpense" auto-retrieve="true" auto-update="object" auto-delete="object">
-		<foreignkey field-ref="financialDocumentNumber" />
-	</reference-descriptor>
 
     <reference-descriptor name="dvNonEmployeeTravel" class-ref="org.kuali.module.financial.bo.DisbursementVoucherNonEmployeeTravel" auto-retrieve="true" auto-update="object" auto-delete="object">
 		<foreignkey field-ref="financialDocumentNumber" />
@@ -756,10 +752,6 @@
 	</reference-descriptor>
 	
     <reference-descriptor name="dvPreConferenceDetail" class-ref="org.kuali.module.financial.bo.DisbursementVoucherPreConferenceDetail" auto-retrieve="true" auto-update="object" auto-delete="object">
-		<foreignkey field-ref="financialDocumentNumber" />
-	</reference-descriptor>
-	
-	<reference-descriptor name="dvPreConferenceRegistrant" class-ref="org.kuali.module.financial.bo.DisbursementVoucherPreConferenceRegistrant" auto-retrieve="true" auto-update="object" auto-delete="object">
 		<foreignkey field-ref="financialDocumentNumber" />
 	</reference-descriptor>
 	
@@ -928,6 +920,11 @@
 	<field-descriptor name="disbVchrConferenceTotalAmt" column="DV_CONF_TOT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="disbVchrExpenseCode" column="DV_EXP_CD" jdbc-type="VARCHAR"/>
 	
+   <collection-descriptor name="dvPreConferenceRegistrants" proxy="true" element-class-ref="org.kuali.module.financial.bo.DisbursementVoucherPreConferenceRegistrant" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <orderby name="financialDocumentLineNumber" sort="ASC"/>
+        <inverse-foreignkey field-ref="financialDocumentNumber"/>
+    </collection-descriptor>
+    
 	<reference-descriptor name="financialDocument" class-ref="org.kuali.module.financial.document.DisbursementVoucherDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="financialDocumentNumber" />
 	</reference-descriptor>
@@ -1031,10 +1028,16 @@
 	<field-descriptor name="disbVchrPerdiemRate" column="DV_DIEM_RT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="disbVchrPerdiemCategoryName" column="DV_DIEM_CTGRY_NM" jdbc-type="CHAR"/>
 	<field-descriptor name="disbVchrMileageCalculatedAmt" column="DV_MLG_CALC_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	
+	 
+
+  <collection-descriptor name="dvNonEmployeeExpenses" proxy="true" element-class-ref="org.kuali.module.financial.bo.DisbursementVoucherNonEmployeeExpense" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <orderby name="financialDocumentLineNumber" sort="ASC"/>
+        <inverse-foreignkey field-ref="financialDocumentNumber"/>
+  </collection-descriptor>
+    
 	<reference-descriptor name="financialDocument" class-ref="org.kuali.module.financial.document.DisbursementVoucherDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="financialDocumentNumber" />
-	</reference-descriptor>
+    <foreignkey field-ref="financialDocumentNumber" />
+  </reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.financial.bo.DisbursementVoucherNonEmployeeExpense" table="FP_DV_NONEMP_EXP_T">
@@ -1069,6 +1072,7 @@
 	<field-descriptor name="dvPreConferenceRequestNumber" column="DV_PRECONF_RQST_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="disbVchrExpenseAmount" column="DV_EXP_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
 	
+  
 	<reference-descriptor name="financialDocument" class-ref="org.kuali.module.financial.document.DisbursementVoucherDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="financialDocumentNumber" />
 	</reference-descriptor>

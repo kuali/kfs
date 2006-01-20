@@ -27,6 +27,7 @@ package org.kuali.module.financial.bo;
 
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
@@ -37,174 +38,193 @@ import org.kuali.module.financial.document.DisbursementVoucherDocument;
  */
 public class DisbursementVoucherPreConferenceDetail extends BusinessObjectBase {
 
-	private String financialDocumentNumber;
-	private String dvConferenceDestinationName;
-	private Timestamp disbVchrConferenceStartDate;
-	private Timestamp disbVchrConferenceEndDate;
-	private KualiDecimal disbVchrConferenceTotalAmt;
-	private String disbVchrExpenseCode;
-	private DisbursementVoucherDocument financialDocument;
+    private String financialDocumentNumber;
+    private String dvConferenceDestinationName;
+    private Timestamp disbVchrConferenceStartDate;
+    private Timestamp disbVchrConferenceEndDate;
+    private KualiDecimal disbVchrConferenceTotalAmt;
+    private String disbVchrExpenseCode;
+    private DisbursementVoucherDocument financialDocument;
+    private List dvPreConferenceRegistrants;
 
-	/**
-	 * Default no-arg constructor.
-	 */
-	public DisbursementVoucherPreConferenceDetail() {
+    /**
+     * Default no-arg constructor.
+     */
+    public DisbursementVoucherPreConferenceDetail() {
 
-	}
+    }
 
-	/**
-	 * Gets the financialDocumentNumber attribute.
-	 * 
-	 * @return - Returns the financialDocumentNumber
-	 * 
-	 */
-	public String getFinancialDocumentNumber() { 
-		return financialDocumentNumber;
-	}
-	
+    /**
+     * Gets the financialDocumentNumber attribute.
+     * 
+     * @return - Returns the financialDocumentNumber
+     * 
+     */
+    public String getFinancialDocumentNumber() {
+        return financialDocumentNumber;
+    }
 
-	/**
-	 * Sets the financialDocumentNumber attribute.
-	 * 
-	 * @param - financialDocumentNumber The financialDocumentNumber to set.
-	 * 
-	 */
-	public void setFinancialDocumentNumber(String financialDocumentNumber) {
-		this.financialDocumentNumber = financialDocumentNumber;
-	}
 
-	/**
-	 * Gets the dvConferenceDestinationName attribute.
-	 * 
-	 * @return - Returns the dvConferenceDestinationName
-	 * 
-	 */
-	public String getDvConferenceDestinationName() { 
-		return dvConferenceDestinationName;
-	}
-	
+    /**
+     * Gets the dvPreConferenceRegistrants attribute.
+     * 
+     * @return Returns the dvPreConferenceRegistrants.
+     */
+    public List getDvPreConferenceRegistrants() {
+        return dvPreConferenceRegistrants;
+    }
 
-	/**
-	 * Sets the dvConferenceDestinationName attribute.
-	 * 
-	 * @param - dvConferenceDestinationName The dvConferenceDestinationName to set.
-	 * 
-	 */
-	public void setDvConferenceDestinationName(String dvConferenceDestinationName) {
-		this.dvConferenceDestinationName = dvConferenceDestinationName;
-	}
+    /**
+     * Sets the dvPreConferenceRegistrants attribute value.
+     * 
+     * @param dvPreConferenceRegistrants The dvPreConferenceRegistrants to set.
+     */
+    public void setDvPreConferenceRegistrants(List dvPreConferenceRegistrants) {
+        this.dvPreConferenceRegistrants = dvPreConferenceRegistrants;
+    }
 
-	/**
-	 * Gets the disbVchrConferenceStartDate attribute.
-	 * 
-	 * @return - Returns the disbVchrConferenceStartDate
-	 * 
-	 */
-	public Timestamp getDisbVchrConferenceStartDate() { 
-		return disbVchrConferenceStartDate;
-	}
-	
+    /**
+     * Sets the financialDocumentNumber attribute.
+     * 
+     * @param - financialDocumentNumber The financialDocumentNumber to set.
+     * 
+     */
+    public void setFinancialDocumentNumber(String financialDocumentNumber) {
+        this.financialDocumentNumber = financialDocumentNumber;
+    }
 
-	/**
-	 * Sets the disbVchrConferenceStartDate attribute.
-	 * 
-	 * @param - disbVchrConferenceStartDate The disbVchrConferenceStartDate to set.
-	 * 
-	 */
-	public void setDisbVchrConferenceStartDate(Timestamp disbVchrConferenceStartDate) {
-		this.disbVchrConferenceStartDate = disbVchrConferenceStartDate;
-	}
+    /**
+     * Gets the dvConferenceDestinationName attribute.
+     * 
+     * @return - Returns the dvConferenceDestinationName
+     * 
+     */
+    public String getDvConferenceDestinationName() {
+        return dvConferenceDestinationName;
+    }
 
-	/**
-	 * Gets the disbVchrConferenceEndDate attribute.
-	 * 
-	 * @return - Returns the disbVchrConferenceEndDate
-	 * 
-	 */
-	public Timestamp getDisbVchrConferenceEndDate() { 
-		return disbVchrConferenceEndDate;
-	}
-	
 
-	/**
-	 * Sets the disbVchrConferenceEndDate attribute.
-	 * 
-	 * @param - disbVchrConferenceEndDate The disbVchrConferenceEndDate to set.
-	 * 
-	 */
-	public void setDisbVchrConferenceEndDate(Timestamp disbVchrConferenceEndDate) {
-		this.disbVchrConferenceEndDate = disbVchrConferenceEndDate;
-	}
+    /**
+     * Sets the dvConferenceDestinationName attribute.
+     * 
+     * @param - dvConferenceDestinationName The dvConferenceDestinationName to set.
+     * 
+     */
+    public void setDvConferenceDestinationName(String dvConferenceDestinationName) {
+        this.dvConferenceDestinationName = dvConferenceDestinationName;
+    }
 
-	/**
-	 * Gets the disbVchrConferenceTotalAmt attribute.
-	 * 
-	 * @return - Returns the disbVchrConferenceTotalAmt
-	 * 
-	 */
-	public KualiDecimal getDisbVchrConferenceTotalAmt() { 
-		return disbVchrConferenceTotalAmt;
-	}
-	
+    /**
+     * Gets the disbVchrConferenceStartDate attribute.
+     * 
+     * @return - Returns the disbVchrConferenceStartDate
+     * 
+     */
+    public Timestamp getDisbVchrConferenceStartDate() {
+        return disbVchrConferenceStartDate;
+    }
 
-	/**
-	 * Sets the disbVchrConferenceTotalAmt attribute.
-	 * 
-	 * @param - disbVchrConferenceTotalAmt The disbVchrConferenceTotalAmt to set.
-	 * 
-	 */
-	public void setDisbVchrConferenceTotalAmt(KualiDecimal disbVchrConferenceTotalAmt) {
-		this.disbVchrConferenceTotalAmt = disbVchrConferenceTotalAmt;
-	}
 
-	/**
-	 * Gets the disbVchrExpenseCode attribute.
-	 * 
-	 * @return - Returns the disbVchrExpenseCode
-	 * 
-	 */
-	public String getDisbVchrExpenseCode() { 
-		return disbVchrExpenseCode;
-	}
-	
+    /**
+     * Sets the disbVchrConferenceStartDate attribute.
+     * 
+     * @param - disbVchrConferenceStartDate The disbVchrConferenceStartDate to set.
+     * 
+     */
+    public void setDisbVchrConferenceStartDate(Timestamp disbVchrConferenceStartDate) {
+        this.disbVchrConferenceStartDate = disbVchrConferenceStartDate;
+    }
 
-	/**
-	 * Sets the disbVchrExpenseCode attribute.
-	 * 
-	 * @param - disbVchrExpenseCode The disbVchrExpenseCode to set.
-	 * 
-	 */
-	public void setDisbVchrExpenseCode(String disbVchrExpenseCode) {
-		this.disbVchrExpenseCode = disbVchrExpenseCode;
-	}
+    /**
+     * Gets the disbVchrConferenceEndDate attribute.
+     * 
+     * @return - Returns the disbVchrConferenceEndDate
+     * 
+     */
+    public Timestamp getDisbVchrConferenceEndDate() {
+        return disbVchrConferenceEndDate;
+    }
 
-	/**
-	 * Gets the financialDocument attribute.
-	 * 
-	 * @return - Returns the financialDocument
-	 * 
-	 */
-	public DisbursementVoucherDocument getFinancialDocument() { 
-		return financialDocument;
-	}
-	
 
-	/**
-	 * Sets the financialDocument attribute.
-	 * 
-	 * @param - financialDocument The financialDocument to set.
-	 * @deprecated
-	 */
-	public void setFinancialDocument(DisbursementVoucherDocument financialDocument) {
-		this.financialDocument = financialDocument;
-	}
+    /**
+     * Sets the disbVchrConferenceEndDate attribute.
+     * 
+     * @param - disbVchrConferenceEndDate The disbVchrConferenceEndDate to set.
+     * 
+     */
+    public void setDisbVchrConferenceEndDate(Timestamp disbVchrConferenceEndDate) {
+        this.disbVchrConferenceEndDate = disbVchrConferenceEndDate;
+    }
 
-	/**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();
-          m.put("financialDocumentNumber", this.financialDocumentNumber);
-  	    return m;
-	}
+    /**
+     * Gets the disbVchrConferenceTotalAmt attribute.
+     * 
+     * @return - Returns the disbVchrConferenceTotalAmt
+     * 
+     */
+    public KualiDecimal getDisbVchrConferenceTotalAmt() {
+        return disbVchrConferenceTotalAmt;
+    }
+
+
+    /**
+     * Sets the disbVchrConferenceTotalAmt attribute.
+     * 
+     * @param - disbVchrConferenceTotalAmt The disbVchrConferenceTotalAmt to set.
+     * 
+     */
+    public void setDisbVchrConferenceTotalAmt(KualiDecimal disbVchrConferenceTotalAmt) {
+        this.disbVchrConferenceTotalAmt = disbVchrConferenceTotalAmt;
+    }
+
+    /**
+     * Gets the disbVchrExpenseCode attribute.
+     * 
+     * @return - Returns the disbVchrExpenseCode
+     * 
+     */
+    public String getDisbVchrExpenseCode() {
+        return disbVchrExpenseCode;
+    }
+
+
+    /**
+     * Sets the disbVchrExpenseCode attribute.
+     * 
+     * @param - disbVchrExpenseCode The disbVchrExpenseCode to set.
+     * 
+     */
+    public void setDisbVchrExpenseCode(String disbVchrExpenseCode) {
+        this.disbVchrExpenseCode = disbVchrExpenseCode;
+    }
+
+    /**
+     * Gets the financialDocument attribute.
+     * 
+     * @return - Returns the financialDocument
+     * 
+     */
+    public DisbursementVoucherDocument getFinancialDocument() {
+        return financialDocument;
+    }
+
+
+    /**
+     * Sets the financialDocument attribute.
+     * 
+     * @param - financialDocument The financialDocument to set.
+     * @deprecated
+     */
+    public void setFinancialDocument(DisbursementVoucherDocument financialDocument) {
+        this.financialDocument = financialDocument;
+    }
+
+    /**
+     * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
+        m.put("financialDocumentNumber", this.financialDocumentNumber);
+        return m;
+    }
 }

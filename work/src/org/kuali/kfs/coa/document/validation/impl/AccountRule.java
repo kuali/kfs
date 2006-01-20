@@ -66,6 +66,10 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         ruleValuesSetup = false;
     }
     
+    /**
+     * This method initializes our rule values for Account Maintenance
+     * @param document
+     */
     private void initializeRuleValues(MaintenanceDocument document) {
         if(!ruleValuesSetup) {
             validBudgetRule = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterRule(
@@ -99,10 +103,10 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
         
         setupConvenienceObjects(document);
+        initializeRuleValues(document);
         
         //	default to success
         boolean success = true;
-        initializeRuleValues(document);
         success &= checkEmptyValues(document);
         return success;
     }
@@ -110,10 +114,10 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
 
         setupConvenienceObjects(document);
+        initializeRuleValues(document);
         
         //	default to success
         boolean success = true;
-        initializeRuleValues(document);
         
         success &= checkEmptyValues(document);
         success &= checkGeneralRules(document);
@@ -183,7 +187,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         GlobalVariables.getErrorMap().addToErrorPath("newMaintainableObject");
         
            
-        //TODO: IU-specific rule?
+        //TODO: IU-specific rule? Move to ACP
         //the account number cannot begin with a 3, or with 00.
         if(newAccount.getAccountNumber().startsWith("3") || newAccount.getAccountNumber().startsWith("00")) {
             success &= false;
@@ -237,7 +241,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
             SpringServiceLocator.getPersistenceService().retrieveNonKeyFields(newAccount);
             if(fiscalOfficer == null || acctMgr == null || acctSvr == null) {
                 success &= false;
-                putFieldError("accountNumber", KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_NMBR_NOT_ALLOWED, newAccount.getAccountNumber());
+                putGlobalError("Fiscal Officer, Account Manager, or Account Supervisor are null");
             }
             String fiscalOfficerEmpType = fiscalOfficer.getEmployeeTypeCode();
             String acctMgrEmpType = acctMgr.getEmployeeTypeCode();
@@ -246,7 +250,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
                     !acctMgrEmpType.equalsIgnoreCase("P") ||
                     !acctSvrEmpType.equalsIgnoreCase("P")) {
                 success &= false;
-                putFieldError("accountNumber", "GenericError", newAccount.getAccountNumber());
+                putGlobalError("Fiscal Officer, Account Manager, or Account Supervisor are not 'P' Professional class");
             
             }
         }
@@ -256,13 +260,13 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
                 fiscalOfficer.equals(acctSvr) ||
                 acctMgr.equals(acctSvr)) {
             success &= false;
-            putFieldError("accountNumber", "GenericError", newAccount.getAccountNumber());
+            putGlobalError("Fiscal Officer, Account Manager cannot be the same as Account Supervisor");
         }
         
         //valid values for the budget code are account, consolidation, level, object code, mixed, sub-account and no budget.
         if (validBudgetRule.failsRule(newAccount.getBudgetRecordingLevelCode())) {
             success &= false;
-            putFieldError("accountNumber", "GenericError", newAccount.getAccountNumber());
+            putGlobalError("Invalid Budget Recording Level Code");
         }
         
         //	If a document is enroute that affects the filled in account number then give the user an error indicating that 
@@ -276,7 +280,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         //org_cd must be a valid org and active in the ca_org_t table
         if(!newAccount.getOrganization().isOrganizationActiveIndicator()) {
             success &= false;
-            putFieldError("accountNumber", KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_NMBR_NOT_ALLOWED, newAccount.getAccountNumber());
+            putGlobalError("Organization must be valid and active");
         }
         
         //acct_phys_cmp_cd must be valid campus in the acct_phys_cmp_cd table
@@ -287,7 +291,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
             campus = newAccount.getAccountPhysicalCampus();
             if(campus == null) {
                 success &= false;
-                putFieldError("accountNumber", KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_NMBR_NOT_ALLOWED, newAccount.getAccountNumber());
+                putGlobalError("Physical Campus Code must be a valid campus");
             }
         }
         
@@ -299,13 +303,22 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
             state = newAccount.getAccountState();
             if(state == null) {
                 success &= false;
-                putFieldError("accountNumber", KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_NMBR_NOT_ALLOWED, newAccount.getAccountNumber());
+                putGlobalError("State Code must be a valid state");
             }
         }
         
         //acct_zip_cd must be a valid in the sh_zip_code_t table
+        String zipCode = newAccount.getAccountZipCode();
+        if(zipCode == null && !zipCode.equals("")) {
+            HashMap primaryKeys = new HashMap();
+            primaryKeys.put("postalZipCode", zipCode);
+            PostalZipCode zip = (PostalZipCode)SpringServiceLocator.getBusinessObjectService().findByPrimaryKey(PostalZipCode.class, primaryKeys);
+            if(zip == null) {
+                success &= false;
+                putGlobalError("Zip code cannot be null");
+            }
+        }
         
-
         return success;
     }
 
@@ -328,20 +341,23 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         Timestamp closeDate = newAccount.getAccountExpirationDate();
         Timestamp today = new Timestamp(Calendar.getInstance().getTimeInMillis());
         if(isClosed && !closeDate.before(today)) {
-            //TODO - error message
+            putGlobalError("Expiration date is later than today's date");
             success &= false;
         }
         
         //when closing an account, a continuation account is required error message - "When closing an Account a Continuation Account Number entered on the Responsibility screen is required."
         if(isClosed && newAccount.getContinuationAccountNumber().equals("") ){
-            //TODO - error message
+            putGlobalError("When closing an Account a Continuation Account Number entered on the Responsibility screen is required.");
             success &= false;
         }
+        
+        //TODO: Need to add a new method to GeneralLedgerPendingEntryService to find GLPE by Account
         
         //in order to close an account, the account must either expire today or already be expired, 
         //must have no base budget, must have no pending ledger entries or pending labor ledger entries, 
         //must have no open encumbrances, must have no asset, liability or fund balance balances other than object code 9899 
         //(9899 is fund balance for us), and the process of closing income and expense into 9899 must take the 9899 balance to zero.
+        
         
         //budget first - no idea (maybe through Options? AccountBalance?)
         //definitely looks like we need to pull AccountBalance
@@ -379,7 +395,21 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
      */
     private boolean checkContractsAndGrants(MaintenanceDocument maintenanceDocument) {
         boolean success = true;
-        
+        //an income stream account is required for accounts in the C&G (CG) and General Fund (GF) fund groups (except for the MPRACT sub-fund group in the general fund fund group).
+        if(!ObjectUtils.isNull(newAccount.getSubFundGroup())) {
+            if((newAccount.getSubFundGroup().getFundGroupCode().equalsIgnoreCase("CG") || 
+                    newAccount.getSubFundGroup().getFundGroupCode().equalsIgnoreCase("GF")) &&
+                    !newAccount.getSubFundGroupCode().equalsIgnoreCase("MPRACT")) {
+                if(StringUtils.isEmpty(newAccount.getIncomeStreamAccountNumber())) {
+                    putGlobalError("Income Stream Account cannot be null when Fund Groups are CG or GF");
+                    success &= false;
+                }
+                if(StringUtils.isEmpty(newAccount.getIncomeStreamFinancialCoaCode())) {
+                    putGlobalError("Income Stream Chart of Account Code cannot be null when Fund Groups are CG or GF");
+                    success &= false;
+                }
+            }
+        }
         return success;
     }
     
@@ -393,14 +423,51 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         boolean success = true;
 
         //When updating an account expiration date, the date must be today or later (except for C&G accounts).
+        Timestamp oldExpDate = oldAccount.getAccountExpirationDate();
+        Timestamp newExpDate = newAccount.getAccountExpirationDate();
+        Timestamp today = new Timestamp(Calendar.getInstance().getTimeInMillis());
+        
+        
+        if(maintenanceDocument.isEdit() && !oldExpDate.equals(newExpDate)) {
+            if(!ObjectUtils.isNull(newAccount.getSubFundGroup())) {
+                if(!newAccount.getSubFundGroup().getFundGroupCode().equalsIgnoreCase("CG")) {
+                    if(!newExpDate.after(today) || newExpDate.equals(today) ) {
+                        putGlobalError("Expiration date must be today or later (except for C&G accounts)");
+                        success &= false;
+                    }
+                }
+            }
+        }
         
         //a continuation account is required if the expiration date is completed.
+        if(newExpDate != null && 
+                (ObjectUtils.isNull(newAccount.getContinuationAccountNumber()) ||
+                 ObjectUtils.isNull(newAccount.getContinuationFinChrtOfAcctCd()))) {
+            putGlobalError("A continuation account is required if the expiration date is completed.");
+            success &= false;
+            
+        }
         
         //if the expiration date is earlier than today, guidelines are not required.
         
         //If creating a new account if acct_expiration_dt is set and the fund_group is not "CG" then the acct_expiration_dt must be changed to a date that is today or later
+        if(maintenanceDocument.isNew()) {
+            if(!ObjectUtils.isNull(newAccount.getSubFundGroup())) {
+                if(!newAccount.getSubFundGroup().getFundGroupCode().equalsIgnoreCase("CG")) {
+                    if(!newExpDate.after(today) || newExpDate.equals(today) ) {
+                        putGlobalError("Expiration date must be today or later (except for C&G accounts)");
+                        success &= false;
+                    }
+                }
+            }
+        }
         
         //acct_expiration_dt can not be before acct_effect_dt
+        Timestamp effectiveDate = newAccount.getAccountEffectiveDate();
+        if(newExpDate.before(effectiveDate)) {
+            putGlobalError("Account expiration date cannot be before account effective date");
+            success &= false;
+        }
 
         return success;
     }
@@ -445,7 +512,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         if(newAccount.getSubFundGroupCode().equalsIgnoreCase("PFCMR")) {
             if(newAccount.getAccountPhysicalCampusCode() == null ||
                     newAccount.getAccountPhysicalCampusCode().equals("")) {
-                //TODO - error message
+                putGlobalError("If Sub Fund Group 'PFCMR' then campus code must be entered");
                 success &= false;
             }
             if(newAccount.getAccountZipCode() != null && !newAccount.getAccountZipCode().equals("")) {
@@ -454,7 +521,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
                 PostalZipCode zip = (PostalZipCode)SpringServiceLocator.getBusinessObjectService().findByPrimaryKey(PostalZipCode.class, primaryKeys);
                 //now we can check the building code
                 if(zip.getBuildingCode() == null || zip.getBuildingCode().equals("")) {
-                    //TODO - error message
+                    putGlobalError("If Sub Fund Group 'PFCMR' then building code must be entered");
                     success &= false;
                 }
             }

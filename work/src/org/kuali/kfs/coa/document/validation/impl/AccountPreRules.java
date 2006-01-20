@@ -27,6 +27,7 @@ import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.kuali.core.bo.PostalZipCode;
 import org.kuali.core.document.MaintenanceDocument;
@@ -35,6 +36,7 @@ import org.kuali.core.rule.PreRulesCheck;
 import org.kuali.core.rule.event.PreRulesCheckEvent;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Account;
+import org.kuali.module.chart.bo.SubFundGroup;
 
 public class AccountPreRules implements PreRulesCheck {
 
@@ -47,7 +49,44 @@ public class AccountPreRules implements PreRulesCheck {
         MaintenanceDocument document = (MaintenanceDocument) event.getDocument();
         newAccountDefaults(document);
         setStateFromZip(document);
+        setRestrictedCodeDefaults(document);
         return true;
+    }
+    
+    /**
+     * 
+     * This method sets the default values for RestrictedStatusCode, based on the 
+     * FundGroups.
+     * 
+     * @param document - the MaintenanceDocument being evaluated
+     * 
+     */
+    private void setRestrictedCodeDefaults(MaintenanceDocument document) {
+        
+        Account newAccount = (Account) document.getNewMaintainableObject().getBusinessObject();
+        SubFundGroup subFundGroup = newAccount.getSubFundGroup();
+        String fundGroupCode = subFundGroup.getFundGroupCode();
+        String restrictedStatusCode = newAccount.getAccountRestrictedStatusCode();
+       
+        if (!StringUtils.isEmpty(fundGroupCode)) {
+            
+	        //	on the account screen, if the fund group of the account is CG (contracts & grants) or 
+	        // RF (restricted funds), the restricted status code is set to 'R'.
+	        if (fundGroupCode.equalsIgnoreCase("CG") || fundGroupCode.equalsIgnoreCase("RF")) {
+	            newAccount.setAccountRestrictedStatusCode("R");
+	        }
+	
+	        //	If the fund group is EN (endowment) or PF (plant fund) the value is not set by the system and 
+	        // must be set by the user 
+	        else if (fundGroupCode.equalsIgnoreCase("EN") || fundGroupCode.equalsIgnoreCase("PF")) {
+	            // do nothing, must be set by user
+	        }
+	        
+	        //	for all other fund groups the value is set to 'U'. R being restricted,U being unrestricted.
+	        else {
+	            newAccount.setAccountRestrictedStatusCode("U");
+	        }
+        }
     }
     
     /**
@@ -59,7 +98,7 @@ public class AccountPreRules implements PreRulesCheck {
         Maintainable newMaintainable = maintenanceDocument.getNewMaintainableObject();
         Account account = (Account) newMaintainable.getBusinessObject();
         //On new Accounts acct_effect_date is defaulted to the doc creation date
-        if(account.getAccountEffectiveDate() == null) {
+        if (account.getAccountEffectiveDate() == null) {
             Timestamp ts = maintenanceDocument.getDocumentHeader().getWorkflowDocument().getCreateDate();
             if (ts != null) {
                 account.setAccountEffectiveDate(ts);
@@ -67,12 +106,12 @@ public class AccountPreRules implements PreRulesCheck {
         }
         
         //On new Accounts acct_state_cd is defaulted to the value of "IN"
-        if(account.getAccountStateCode() == null) {
+        if (StringUtils.isEmpty(account.getAccountStateCode())) {
             account.setAccountStateCode("IN");
         }
         
         //if the account type code is left blank it will default to NA.
-        if(account.getAccountTypeCode().equals("")) {
+        if (StringUtils.isEmpty(account.getAccountTypeCode())) {
             account.setAccountTypeCode("NA");
         }
     }
@@ -82,7 +121,8 @@ public class AccountPreRules implements PreRulesCheck {
         Account account = (Account) newMaintainable.getBusinessObject();
         
         //acct_zip_cd, acct_state_cd, acct_city_nm all are populated by looking up the zip code and getting the state and city from that
-        if(account.getAccountZipCode() != null || !account.getAccountZipCode().equals("")) {
+        if (!StringUtils.isEmpty(account.getAccountZipCode())) {
+
             //TODO - lookup state and city from populated zip
             HashMap primaryKeys = new HashMap();
             primaryKeys.put("postalZipCode", account.getAccountZipCode());

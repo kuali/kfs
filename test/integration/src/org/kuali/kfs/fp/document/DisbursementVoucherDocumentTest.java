@@ -49,27 +49,6 @@ public class DisbursementVoucherDocumentTest extends TransactionalDocumentTestBa
         changeCurrentUser((String) getFixtureEntryFromCollection(COLLECTION_NAME, DV_USER_NAME).createObject());
     }
 
-
-    public void testConvertIntoErrorCorrection_documentAlreadyCorrected() throws Exception {
-        // overriden to prevent errors
-    }
-
-
-    public void testConvertIntoErrorCorrection_invalidRoutingStatus() throws Exception {
-        // overriden to prevent errors
-    }
-
-
-    public void testConvertIntoErrorCorrection_invalidYear() throws Exception {
-        // overriden to prevent errors
-    }
-
-
-    public void testConvertIntoErrorCorrection() throws Exception {
-        // overriden to prevent errors
-    }
-
-
     protected int getExpectedPrePeCount() {
         return 2;
     }

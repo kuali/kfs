@@ -7,7 +7,7 @@
               to be appended to the required field columns, before the amount column.
               The optional columns appear in both source and target groups
               of accounting lines." %>
-<%@ attribute name="editingMode" required="false" %>
+<%@ attribute name="editingMode" required="false" type="java.util.Map"%>
 <%@ attribute name="editableAccounts" required="true" type="java.util.Map"
               description="Map of Accounts which this user is allowed to edit" %>
 

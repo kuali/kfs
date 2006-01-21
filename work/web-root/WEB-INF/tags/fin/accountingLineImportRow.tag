@@ -9,7 +9,7 @@
     of optional fields and whether there is an action button column." %>
 <%@ attribute name="isSource" required="true"
     description="Boolean whether this group is of source or target lines." %>
-<%@ attribute name="editingMode" required="true" %>
+<%@ attribute name="editingMode" required="true" type="java.util.Map"%>
 
 <c:set var="sourceOrTarget" value="${isSource ? 'source' : 'target'}"/>
 <c:set var="capitalSourceOrTarget" value="${isSource ? 'Source' : 'Target'}"/>
@@ -23,14 +23,14 @@
 <c:set var="titleName" value="${sourceOrTarget}AccountingLinesSectionTitle"/>
 
 <c:set var="titleColSpan" value="4" />
-<c:if test="${editingMode != 'fullEntry'}" >
+<c:if test="${empty editingMode['fullEntry']}" >
     <c:set var="titleColSpan" value="${titleColSpan + rightColumnCount}" />
 </c:if>
 
 <tr>
     <td colspan="${titleColSpan}" class="tab-subhead">${KualiForm.document[titleName]}</td>
 
-    <c:if test="${editingMode == 'fullEntry'}">
+    <c:if test="${!empty editingMode['fullEntry']}">
         <td colspan="${rightColumnCount}" class="tab-subhead-import" align="right" nowrap="nowrap">
             <SCRIPT type="text/javascript">
                 <!--

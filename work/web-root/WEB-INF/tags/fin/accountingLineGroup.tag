@@ -49,7 +49,7 @@
 <c:set var="dataDictionaryEntryName" value="${capitalSourceOrTarget}AccountingLine"/>
 <c:set var="totalName" value="${sourceOrTarget}Total"/>
 <c:set var="accountingLineAttributes" value="${DataDictionary[dataDictionaryEntryName].attributes}" />
-<c:set var="hasActionsColumn" value="${KualiForm.editingMode != 'viewOnly'}"/>
+<c:set var="hasActionsColumn" value="${empty editingMode['viewOnly']}"/>
 
 <fin:accountingLineImportRow rightColumnCount="${rightColumnCount}" isSource="${isSource}" editingMode="${editingMode}"/>
 

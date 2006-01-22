@@ -35,7 +35,6 @@
 		<delete>
 			<fileset dir="${source.directory}" includes="${tokenized.source.files}"/>
     	</delete>
-		<delete file="${test.directory}/${test.spring.datasource.file}"/>
 		<delete dir="${war.directory}"/>
 		<delete dir="${test.directory}"/>
         <delete>

@@ -243,6 +243,13 @@
 		<foreignkey field-ref="accountZipCode" />
 	</reference-descriptor>
 	
+	<reference-descriptor name="budgetRecordingLevel" 
+		class-ref="org.kuali.module.chart.bo.codes.BudgetRecordingLevelCode" 
+		auto-retrieve="true" auto-update="none" auto-delete="none" 
+		proxy="true">
+		<foreignkey field-ref="budgetRecordingLevelCode" />
+	</reference-descriptor>
+	
 	<collection-descriptor name="subAccounts"
 		element-class-ref="org.kuali.module.chart.bo.SubAccount"
 		collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"

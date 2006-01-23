@@ -34,6 +34,7 @@ import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.core.bo.PostalZipCode;
 import org.kuali.core.bo.State;
 import org.kuali.core.bo.user.KualiUser;
+import org.kuali.module.chart.bo.codes.BudgetRecordingLevelCode;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -113,7 +114,7 @@ public class Account extends BusinessObjectBase {
     private KualiUser accountSupervisoryUser;
     private KualiUser accountManagerUser;
     private PostalZipCode postalZipCode;
-    
+    private BudgetRecordingLevelCode budgetRecordingLevel;
     private AccountGuideline accountGuideline;
     private List subAccounts;
 
@@ -1392,6 +1393,22 @@ public class Account extends BusinessObjectBase {
      */
     public void setPostalZipCode(PostalZipCode postalZipCode) {
         this.postalZipCode = postalZipCode;
+    }
+    
+    /**
+     * Gets the budgetRecordingLevel attribute. 
+     * @return Returns the budgetRecordingLevel.
+     */
+    public BudgetRecordingLevelCode getBudgetRecordingLevel() {
+        return budgetRecordingLevel;
+    }
+    
+    /**
+     * Sets the budgetRecordingLevel attribute value.
+     * @param budgetRecordingLevel The budgetRecordingLevel to set.
+     */
+    public void setBudgetRecordingLevel(BudgetRecordingLevelCode budgetRecordingLevel) {
+        this.budgetRecordingLevel = budgetRecordingLevel;
     }
     
     /**

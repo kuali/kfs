@@ -36,7 +36,9 @@
 	    <maintainableSections>
 	        <maintainableSection title="Edit Object Code">
                 <maintainableItems>
-					<maintainableField name="universityFiscalYear" required="true" />
+					<maintainableField name="universityFiscalYear" required="true">
+						<defaultValueFinderClass>org.kuali.core.lookup.valueFinder.FiscalYearFinder</defaultValueFinderClass>
+					</maintainableField>
 					<maintainableField name="chartOfAccountsCode" required="true" />			
 					<maintainableField name="financialObjectCode" required="true" />
 					<maintainableField name="financialObjectCodeName" required="true" />			
@@ -47,7 +49,9 @@
 					<maintainableField name="financialObjectLevelCode" required="true" />
 					<maintainableField name="financialObjectSubTypeCode" required="true" />
 					<maintainableField name="historicalFinancialObjectCode" />
-					<maintainableField name="financialObjectActiveCode" />
+					<maintainableField name="financialObjectActiveCode" required="true">
+  		                 <defaultValue>true</defaultValue>
+					</maintainableField >
 					<maintainableField name="financialBudgetAggregationCd" required="true" />
 					<maintainableField name="finObjMandatoryTrnfrelimCd" required="true" />
 					<maintainableField name="financialFederalFundedCode" required="true" />

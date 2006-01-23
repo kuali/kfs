@@ -51,7 +51,9 @@
 				<lookupField attributeName="financialObjectLevelCode" required="false" />
 				<lookupField attributeName="financialObjectTypeCode" required="false" />
 				<lookupField attributeName="financialObjectSubTypeCode" required="false" />
-				<lookupField attributeName="financialObjectActiveCode" required="false" />
+				<lookupField attributeName="financialObjectActiveCode" required="false">
+						<defaultValue>Yes</defaultValue>
+				</lookupField>
 			</lookupFields>
 
 			<resultFields>

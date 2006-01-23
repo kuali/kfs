@@ -62,11 +62,11 @@ public class ExpenditureTransaction extends BusinessObjectBase {
     chartOfAccountsCode = t.getChartOfAccountsCode();
     accountNumber = t.getAccountNumber();
     subAccountNumber = t.getSubAccountNumber();
-    objectCode = t.getObjectCode();
-    subObjectCode = t.getSubObjectCode();
-    balanceTypeCode = t.getBalanceTypeCode();
-    objectTypeCode = t.getObjectTypeCode();
-    universityFiscalAccountingPeriod = t.getUniversityFiscalAccountingPeriod();
+    objectCode = t.getFinancialObjectCode();
+    subObjectCode = t.getFinancialSubObjectCode();
+    balanceTypeCode = t.getFinancialBalanceTypeCode();
+    objectTypeCode = t.getFinancialObjectTypeCode();
+    universityFiscalAccountingPeriod = t.getUniversityFiscalPeriodCode();
     projectCode = t.getProjectCode();
     organizationReferenceId = t.getOrganizationReferenceId();
     accountObjectDirectCostAmount = new KualiDecimal("0");

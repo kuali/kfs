@@ -35,12 +35,12 @@ public class PostGlAccountBalance implements PostTransaction {
   public String post(Transaction t,int mode,Date postDate) {
     LOG.debug("post() started");
 
-    if ( (t.getBalanceTypeCode().equals(t.getOption().getActualFinancialBalanceTypeCd()) ||
-        t.getBalanceTypeCode().equals(t.getOption().getBudgetCheckingBalanceTypeCd()) || 
-        t.getBalanceTypeCode().equals(t.getOption().getExtrnlEncumFinBalanceTypCd()) ||
-        t.getBalanceTypeCode().equals(t.getOption().getIntrnlEncumFinBalanceTypCd()) ||
-        t.getBalanceTypeCode().equals(t.getOption().getPreencumbranceFinBalTypeCd()) ||
-        t.getBalanceTypeCode().equals("CE")) && (! t.getObjectTypeCode().equals(t.getOption().getFinObjectTypeFundBalanceCd())) ){
+    if ( (t.getFinancialBalanceTypeCode().equals(t.getOption().getActualFinancialBalanceTypeCd()) ||
+        t.getFinancialBalanceTypeCode().equals(t.getOption().getBudgetCheckingBalanceTypeCd()) || 
+        t.getFinancialBalanceTypeCode().equals(t.getOption().getExtrnlEncumFinBalanceTypCd()) ||
+        t.getFinancialBalanceTypeCode().equals(t.getOption().getIntrnlEncumFinBalanceTypCd()) ||
+        t.getFinancialBalanceTypeCode().equals(t.getOption().getPreencumbranceFinBalTypeCd()) ||
+        t.getFinancialBalanceTypeCode().equals("CE")) && (! t.getFinancialObjectTypeCode().equals(t.getOption().getFinObjectTypeFundBalanceCd())) ){
       // We are posting this transaction
       String returnCode = "U";
 
@@ -54,22 +54,22 @@ public class PostGlAccountBalance implements PostTransaction {
 
       ab.setTimestamp(new Timestamp(postDate.getTime()));
 
-      if ( t.getBalanceTypeCode().equals(t.getOption().getBudgetCheckingBalanceTypeCd()) ) {
+      if ( t.getFinancialBalanceTypeCode().equals(t.getOption().getBudgetCheckingBalanceTypeCd()) ) {
         ab.setCurrentBudgetLineBalanceAmount(ab.getCurrentBudgetLineBalanceAmount().add(t.getTransactionLedgerEntryAmount()));
-      } else if ( t.getBalanceTypeCode().equals(t.getOption().getActualFinancialBalanceTypeCd()) ) {
-        if ( t.getObjectType().getFinObjectTypeDebitcreditCd().equals(t.getDebitOrCreditCode()) ||
-            ( ( !t.getBalanceType().isFinancialOffsetGenerationIndicator()) && " ".equals(t.getDebitOrCreditCode()) ) ) {
+      } else if ( t.getFinancialBalanceTypeCode().equals(t.getOption().getActualFinancialBalanceTypeCd()) ) {
+        if ( t.getObjectType().getFinObjectTypeDebitcreditCd().equals(t.getTransactionDebitCreditCode()) ||
+            ( ( !t.getBalanceType().isFinancialOffsetGenerationIndicator()) && " ".equals(t.getTransactionDebitCreditCode()) ) ) {
           ab.setAccountLineActualsBalanceAmount(ab.getAccountLineActualsBalanceAmount().add(t.getTransactionLedgerEntryAmount()));
         } else {
           ab.setAccountLineActualsBalanceAmount(ab.getAccountLineActualsBalanceAmount().subtract(t.getTransactionLedgerEntryAmount()));          
         }
-      } else if ( t.getBalanceTypeCode().equals(t.getOption().getExtrnlEncumFinBalanceTypCd()) ||
-        t.getBalanceTypeCode().equals(t.getOption().getIntrnlEncumFinBalanceTypCd()) ||
-        t.getBalanceTypeCode().equals(t.getOption().getPreencumbranceFinBalTypeCd()) ||
-        t.getBalanceTypeCode().equals("CE") ) {
-        if ( t.getObjectType().getFinObjectTypeDebitcreditCd().equals(t.getDebitOrCreditCode()) ||
+      } else if ( t.getFinancialBalanceTypeCode().equals(t.getOption().getExtrnlEncumFinBalanceTypCd()) ||
+        t.getFinancialBalanceTypeCode().equals(t.getOption().getIntrnlEncumFinBalanceTypCd()) ||
+        t.getFinancialBalanceTypeCode().equals(t.getOption().getPreencumbranceFinBalTypeCd()) ||
+        t.getFinancialBalanceTypeCode().equals("CE") ) {
+        if ( t.getObjectType().getFinObjectTypeDebitcreditCd().equals(t.getTransactionDebitCreditCode()) ||
             ( (! t.getBalanceType().isFinancialOffsetGenerationIndicator()) &&
-                " ".equals(t.getDebitOrCreditCode()) ) ) {
+                " ".equals(t.getTransactionDebitCreditCode()) ) ) {
           ab.setAccountLineEncumbranceBalanceAmount(ab.getAccountLineEncumbranceBalanceAmount().add(t.getTransactionLedgerEntryAmount()));
         } else {
           ab.setAccountLineEncumbranceBalanceAmount(ab.getAccountLineEncumbranceBalanceAmount().subtract(t.getTransactionLedgerEntryAmount()));

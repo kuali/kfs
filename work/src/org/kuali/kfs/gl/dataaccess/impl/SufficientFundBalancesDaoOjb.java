@@ -25,46 +25,38 @@ package org.kuali.module.gl.dao.ojb;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
-import org.kuali.module.gl.bo.AccountBalance;
-import org.kuali.module.gl.bo.Transaction;
-import org.kuali.module.gl.dao.AccountBalanceDao;
+import org.kuali.module.gl.bo.SufficientFundBalances;
+import org.kuali.module.gl.dao.SufficientFundBalancesDao;
 import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 /**
  * @author jsissom
  *
  */
-public class AccountBalanceDaoOjb extends PersistenceBrokerDaoSupport implements AccountBalanceDao {
-  private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountBalanceDaoOjb.class);
+public class SufficientFundBalancesDaoOjb extends PersistenceBrokerDaoSupport implements SufficientFundBalancesDao {
+  private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SufficientFundBalancesDaoOjb.class);
 
-  public AccountBalanceDaoOjb() {
+  public SufficientFundBalancesDaoOjb() {
     super();
   }
 
-  /* (non-Javadoc)
-   * @see org.kuali.module.gl.dao.AccountBalanceDao#getByTransaction(org.kuali.module.gl.bo.Transaction)
-   */
-  public AccountBalance getByTransaction(Transaction t) {
-    LOG.debug("getByTransaction() started");
+  public SufficientFundBalances getByPrimaryId(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialObjectCode) {
+    LOG.debug("getByPrimaryId() started");
 
     Criteria crit = new Criteria();
-    crit.addEqualTo("universityFiscalYear",t.getUniversityFiscalYear());
-    crit.addEqualTo("chartOfAccountsCode",t.getChartOfAccountsCode());
-    crit.addEqualTo("accountNumber",t.getAccountNumber());
-    crit.addEqualTo("subAccountNumber",t.getSubAccountNumber());
-    crit.addEqualTo("objectCode",t.getFinancialObjectCode());
-    crit.addEqualTo("subObjectCode",t.getFinancialSubObjectCode());
+    crit.addEqualTo("universityFiscalYear",universityFiscalYear);
+    crit.addEqualTo("chartOfAccountsCode",chartOfAccountsCode);
+    crit.addEqualTo("accountNumber",accountNumber);
+    crit.addEqualTo("financialObjectCode",financialObjectCode);
 
-    QueryByCriteria qbc = QueryFactory.newQuery(AccountBalance.class,crit);
-    return (AccountBalance)getPersistenceBrokerTemplate().getObjectByQuery(qbc);
+    QueryByCriteria qbc = QueryFactory.newQuery(SufficientFundBalances.class,crit);
+    return (SufficientFundBalances)getPersistenceBrokerTemplate().getObjectByQuery(qbc);
   }
 
-  /* (non-Javadoc)
-   * @see org.kuali.module.gl.dao.AccountBalanceDao#save(org.kuali.module.gl.bo.AccountBalance)
-   */
-  public void save(AccountBalance ab) {
+  public void save(SufficientFundBalances sfb) {
     LOG.debug("save() started");
 
-    getPersistenceBrokerTemplate().store(ab);
+    getPersistenceBrokerTemplate().store(sfb);
   }
+
 }

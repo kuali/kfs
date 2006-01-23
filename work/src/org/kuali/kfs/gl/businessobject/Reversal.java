@@ -26,8 +26,6 @@
 package org.kuali.module.gl.bo;
 
 import java.sql.Date;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.BusinessObjectBase;
@@ -47,8 +45,9 @@ import org.kuali.module.chart.bo.codes.BalanceTyp;
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class Entry extends BusinessObjectBase implements Transaction {
+public class Reversal extends BusinessObjectBase implements Transaction {
 
+    private Date financialDocumentReversalDate;
     private Integer universityFiscalYear;
     private String chartOfAccountsCode;
     private String accountNumber;
@@ -72,11 +71,8 @@ public class Entry extends BusinessObjectBase implements Transaction {
     private String referenceFinDocumentTypeCode;
     private String finSystemRefOriginationCode;
     private String financialDocumentReferenceNbr;
-    private Date financialDocumentReversalDate;
     private String transactionEncumbranceUpdtCd;
     private Date transactionPostingDate;
-    private Date transactionDateTimeStamp;
-    private String budgetYear;
 
     // bo references
     private Account account;
@@ -96,11 +92,11 @@ public class Entry extends BusinessObjectBase implements Transaction {
     /**
      * Default constructor.
      */
-    public Entry() {
+    public Reversal() {
 
     }
 
-    public Entry(Transaction t, java.util.Date postDate) {
+    public Reversal(Transaction t) {
         setUniversityFiscalYear(t.getUniversityFiscalYear());
         setChartOfAccountsCode(t.getChartOfAccountsCode());
         setAccountNumber(t.getAccountNumber());
@@ -126,118 +122,28 @@ public class Entry extends BusinessObjectBase implements Transaction {
         setFinancialDocumentReferenceNbr(t.getFinancialDocumentReferenceNbr());
         setFinancialDocumentReversalDate(t.getFinancialDocumentReversalDate());
         setTransactionEncumbranceUpdtCd(t.getTransactionEncumbranceUpdtCd());
-        if (postDate != null) {
-            setTransactionPostingDate(new Date(postDate.getTime()));
+        if (transactionPostingDate != null) {
+            setTransactionPostingDate(new Date(transactionPostingDate.getTime()));
         }
-
-        java.util.Date now = new java.util.Date();
-        setTransactionDateTimeStamp(new Date(now.getTime()));
+    }    
+    
+    /**
+     * Gets the financialDocumentReversalDate attribute.
+     * 
+     * @return - Returns the financialDocumentReversalDate
+     */
+    public Date getFinancialDocumentReversalDate() {
+        return financialDocumentReversalDate;
     }
 
-    public Entry(String line) {
-        setFromTextFile(line);
-    }
-
-    public void setFromTextFile(String line) {
-        // Just in case
-        line = line + "                                                                                           ";
-
-        // System.out.println(line.substring(0,4));
-        if (!"    ".equals(line.substring(0, 4))) {
-            setUniversityFiscalYear(new Integer(line.substring(0, 4)));
-        } else {
-            setUniversityFiscalYear(null);
-        }
-
-        // System.out.println(line.substring(4,6));
-        setChartOfAccountsCode(line.substring(4, 6));
-
-        // System.out.println(line.substring(6,13));
-        setAccountNumber(line.substring(6, 13));
-
-        // System.out.println(line.substring(13,18));
-        setSubAccountNumber(line.substring(13, 18));
-
-        // System.out.println(line.substring(18,22));
-        setFinancialObjectCode(line.substring(18, 22));
-
-        // System.out.println(line.substring(22,25));
-        setFinancialSubObjectCode(line.substring(22, 25));
-
-        // System.out.println(line.substring(25,27));
-        setFinancialBalanceTypeCode(line.substring(25, 27));
-
-        // System.out.println(line.substring(27,29));
-        setFinancialObjectTypeCode(line.substring(27, 29));
-
-        // System.out.println(line.substring(29,31));
-        setUniversityFiscalPeriodCode(line.substring(29, 31));
-
-        // System.out.println(line.substring(31,35));
-        setFinancialDocumentTypeCode(line.substring(31, 35));
-
-        // System.out.println(line.substring(35,37));
-        setFinancialSystemOriginationCode(line.substring(35, 37));
-
-        // System.out.println(line.substring(37,46));
-        setFinancialDocumentNumber(line.substring(37, 46));
-
-        // System.out.println(line.substring(46,51));
-        if (!"     ".equals(line.substring(46, 51))) {
-            setTrnEntryLedgerSequenceNumber(new Integer(line.substring(46, 51)));
-        } else {
-            setTrnEntryLedgerSequenceNumber(null);
-        }
-
-        // System.out.println(line.substring(51,91));
-        setTransactionLedgerEntryDesc(line.substring(51, 91));
-
-        // System.out.println(line.substring(91,108));
-        setTransactionLedgerEntryAmount(new KualiDecimal(line.substring(91, 108)));
-
-        // System.out.println(line.substring(108,109));
-        setTransactionDebitCreditCode(line.substring(108, 109));
-
-        // System.out.println(line.substring(109,119));
-        setTransactionDate(parseDate(line.substring(109, 119)));
-
-        // System.out.println(line.substring(119,129));
-        setOrganizationDocumentNumber(line.substring(119, 129));
-
-        // System.out.println(line.substring(129,139));
-        setProjectCode(line.substring(129, 139));
-
-        // System.out.println(line.substring(139,147));
-        setOrganizationReferenceId(line.substring(139, 147));
-
-        // System.out.println(line.substring(147,151));
-        setReferenceFinDocumentTypeCode(line.substring(147, 151));
-
-        // System.out.println(line.substring(151,153));
-        setFinSystemRefOriginationCode(line.substring(151, 153));
-
-        // System.out.println(line.substring(153,162));
-        setFinancialDocumentReferenceNbr(line.substring(153, 162));
-
-        // System.out.println(line.substring(162,172));
-        setFinancialDocumentReversalDate(parseDate(line.substring(162, 172)));
-
-        // System.out.println(line.substring(172,173));
-        setTransactionEncumbranceUpdtCd(line.substring(172, 173));
-    }
-
-    private java.sql.Date parseDate(String sdate) {
-        if ((sdate == null) || (sdate.trim().length() == 0)) {
-            return null;
-        } else {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-DD");
-            try {
-                java.util.Date d = sdf.parse(sdate);
-                return new Date(d.getTime());
-            } catch (ParseException e) {
-                return null;
-            }
-        }
+    /**
+     * Sets the financialDocumentReversalDate attribute.
+     * 
+     * @param -
+     *            financialDocumentReversalDate The financialDocumentReversalDate to set.
+     */
+    public void setFinancialDocumentReversalDate(Date financialDocumentReversalDate) {
+        this.financialDocumentReversalDate = financialDocumentReversalDate;
     }
 
     /**
@@ -678,25 +584,6 @@ public class Entry extends BusinessObjectBase implements Transaction {
     }
 
     /**
-     * Gets the financialDocumentReversalDate attribute.
-     * 
-     * @return - Returns the financialDocumentReversalDate
-     */
-    public Date getFinancialDocumentReversalDate() {
-        return financialDocumentReversalDate;
-    }
-
-    /**
-     * Sets the financialDocumentReversalDate attribute.
-     * 
-     * @param -
-     *            financialDocumentReversalDate The financialDocumentReversalDate to set.
-     */
-    public void setFinancialDocumentReversalDate(Date financialDocumentReversalDate) {
-        this.financialDocumentReversalDate = financialDocumentReversalDate;
-    }
-
-    /**
      * Gets the transactionEncumbranceUpdtCd attribute.
      * 
      * @return - Returns the transactionEncumbranceUpdtCd
@@ -732,44 +619,6 @@ public class Entry extends BusinessObjectBase implements Transaction {
      */
     public void setTransactionPostingDate(Date transactionPostingDate) {
         this.transactionPostingDate = transactionPostingDate;
-    }
-
-    /**
-     * Gets the transactionDateTimeStamp attribute.
-     * 
-     * @return - Returns the transactionDateTimeStamp
-     */
-    public Date getTransactionDateTimeStamp() {
-        return transactionDateTimeStamp;
-    }
-
-    /**
-     * Sets the transactionDateTimeStamp attribute.
-     * 
-     * @param -
-     *            transactionDateTimeStamp The transactionDateTimeStamp to set.
-     */
-    public void setTransactionDateTimeStamp(Date transactionDateTimeStamp) {
-        this.transactionDateTimeStamp = transactionDateTimeStamp;
-    }
-
-    /**
-     * Gets the budgetYear attribute.
-     * 
-     * @return - Returns the budgetYear
-     */
-    public String getBudgetYear() {
-        return budgetYear;
-    }
-
-    /**
-     * Sets the budgetYear attribute.
-     * 
-     * @param -
-     *            budgetYear The budgetYear to set.
-     */
-    public void setBudgetYear(String budgetYear) {
-        this.budgetYear = budgetYear;
     }
 
     public Account getAccount() {
@@ -876,24 +725,21 @@ public class Entry extends BusinessObjectBase implements Transaction {
         this.universityDate = universityDate;
     }
 
-    /**
-     * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
-     */
     protected LinkedHashMap toStringMapper() {
-        LinkedHashMap m = new LinkedHashMap();
-        m.put("universityFiscalYear", this.universityFiscalYear.toString());
-        m.put("chartOfAccountsCode", this.chartOfAccountsCode);
-        m.put("accountNumber", this.accountNumber);
-        m.put("subAccountNumber", this.subAccountNumber);
-        m.put("financialObjectCode", this.financialObjectCode);
-        m.put("financialSubObjectCode", this.financialSubObjectCode);
-        m.put("financialBalanceTypeCode", this.financialBalanceTypeCode);
-        m.put("financialObjectTypeCode", this.financialObjectTypeCode);
-        m.put("universityFiscalPeriodCode", this.universityFiscalPeriodCode);
-        m.put("financialDocumentTypeCode", this.financialDocumentTypeCode);
-        m.put("financialSystemOriginationCode", this.financialSystemOriginationCode);
-        m.put("financialDocumentNumber", this.financialDocumentNumber);
-        m.put("trnEntryLedgerSequenceNumber", this.trnEntryLedgerSequenceNumber.toString());
-        return m;
+        LinkedHashMap map = new LinkedHashMap();
+        map.put("universityFiscalYear", getUniversityFiscalYear());
+        map.put("chartOfAccountsCode", getChartOfAccountsCode());
+        map.put("accountNumber", getAccountNumber());
+        map.put("subAccountNumber", getSubAccountNumber());
+        map.put("financialObjectCode", getFinancialObjectCode());
+        map.put("financialSubObjectCode", getFinancialSubObjectCode());
+        map.put("financialBalanceTypeCode", getFinancialBalanceTypeCode());
+        map.put("financialObjectTypeCode", getFinancialObjectTypeCode());
+        map.put("universityFiscalPeriodCode", getUniversityFiscalPeriodCode());
+        map.put("financialDocumentTypeCode", getFinancialDocumentTypeCode());
+        map.put("financialSystemOriginationCode", getFinancialSystemOriginationCode());
+        map.put("financialDocumentNumber", getFinancialDocumentNumber());
+        map.put("trnEntryLedgerSequenceNumber", getTrnEntryLedgerSequenceNumber());
+        return map;
     }
 }

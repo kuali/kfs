@@ -37,13 +37,13 @@ public class PostGlEntry implements PostTransaction {
     Entry e = new Entry(t,postDate);
 
     if ( mode == PosterService.MODE_REVERSAL ) {
-      e.setDocumentReversalDate(null);
+      e.setFinancialDocumentReversalDate(null);
     }
 
     // Make sure the row will be unique when adding to the entries table by
     // adjusting the transaction sequence id
     int maxSequenceId = entryDao.getMaxSequenceNumber(t);
-    e.setTransactionEntrySequenceId(new Integer(maxSequenceId + 1));
+    e.setTrnEntryLedgerSequenceNumber(new Integer(maxSequenceId + 1));
 
     entryDao.addEntry(e,postDate);
 

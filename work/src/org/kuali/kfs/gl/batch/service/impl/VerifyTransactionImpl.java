@@ -74,16 +74,16 @@ public class VerifyTransactionImpl implements VerifyTransaction {
     }
 
     // Check the debit/credit code (only if we have a valid balance type code)
-    if ( t.getDebitOrCreditCode() == null ) {
+    if ( t.getTransactionDebitCreditCode() == null ) {
       errors.add("trn_debit_crdt_cd cannot be null");
     } else {
       if ( t.getBalanceType() != null ) {
         if ( t.getBalanceType().isFinancialOffsetGenerationIndicator() ) {
-          if ( "DC".indexOf(t.getDebitOrCreditCode()) < 0 ) {
+          if ( "DC".indexOf(t.getTransactionDebitCreditCode()) < 0 ) {
             errors.add("trn_debit_crdt_cd must be D or C for this fin_balance_typ_cd");
           }
         } else {
-          if ( ! " ".equals(t.getDebitOrCreditCode()) ) {
+          if ( ! " ".equals(t.getTransactionDebitCreditCode()) ) {
             errors.add("trn_debit_crdt_cd must be a space for this fin_balance_typ_cd");
           }
         }

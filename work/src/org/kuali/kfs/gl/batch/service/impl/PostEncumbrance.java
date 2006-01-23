@@ -46,9 +46,9 @@ public class PostEncumbrance implements PostTransaction,VerifyTransaction {
     List errors = new ArrayList();
 
     // The encumbrance update code can only be space, N, R or D.  Nothing else    
-    if ( (! " ".equals(t.getEncumbranceUpdateCode())) && ( ! "N".equals(t.getEncumbranceUpdateCode())) && 
-        (! "R".equals(t.getEncumbranceUpdateCode())) && (! "D".equals(t.getEncumbranceUpdateCode())) ) {
-      errors.add("Invalid Encumbrance Update Code (" + t.getEncumbranceUpdateCode() + ")");
+    if ( (! " ".equals(t.getTransactionEncumbranceUpdtCd())) && ( ! "N".equals(t.getTransactionEncumbranceUpdtCd())) && 
+        (! "R".equals(t.getTransactionEncumbranceUpdtCd())) && (! "D".equals(t.getTransactionEncumbranceUpdtCd())) ) {
+      errors.add("Invalid Encumbrance Update Code (" + t.getTransactionEncumbranceUpdtCd() + ")");
     }
 
     return errors;
@@ -64,17 +64,17 @@ public class PostEncumbrance implements PostTransaction,VerifyTransaction {
 
     // If the encumbrance update code is space or N, or the object type code is FB 
     // we don't need to post an encumbrance
-    if ( " ".equals(t.getEncumbranceUpdateCode()) || "N".equals(t.getEncumbranceUpdateCode()) || "FB".equals(t.getObjectTypeCode()) ) {
+    if ( " ".equals(t.getTransactionEncumbranceUpdtCd()) || "N".equals(t.getTransactionEncumbranceUpdtCd()) || "FB".equals(t.getFinancialObjectTypeCode()) ) {
       LOG.debug("post() not posting encumbrance transaction");
       return "";
     }
 
     // Get the current encumbrance record if there is one
     Entry e = new Entry(t,null);
-    if ( "R".equals(t.getEncumbranceUpdateCode()) ) {
-      e.setDocumentNumber(t.getReferenceDocumentNumber());
-      e.setOriginCode(t.getReferenceOriginCode());
-      e.setDocumentTypeCode(t.getReferenceDocumentTypeCode());
+    if ( "R".equals(t.getTransactionEncumbranceUpdtCd()) ) {
+      e.setFinancialDocumentNumber(t.getFinancialDocumentReferenceNbr());
+      e.setFinancialSystemOriginationCode(t.getFinSystemRefOriginationCode());
+      e.setFinancialDocumentTypeCode(t.getReferenceFinDocumentTypeCode());
     }
 
     Encumbrance enc = encumbranceDao.getEncumbranceByTransaction(e);
@@ -92,16 +92,16 @@ public class PostEncumbrance implements PostTransaction,VerifyTransaction {
       returnCode = "U";
     }
 
-    if ( "R".equals(t.getEncumbranceUpdateCode()) ) {
+    if ( "R".equals(t.getTransactionEncumbranceUpdtCd()) ) {
       // If using referring doc number, add or subtract transaction amount from encumbrance closed amount
-      if ( "D".equals(t.getDebitOrCreditCode()) ) {
+      if ( "D".equals(t.getTransactionDebitCreditCode()) ) {
         enc.setAccountLineEncumbranceClosedAmount(enc.getAccountLineEncumbranceClosedAmount().subtract(t.getTransactionLedgerEntryAmount()));
       } else {
         enc.setAccountLineEncumbranceClosedAmount(enc.getAccountLineEncumbranceClosedAmount().add(t.getTransactionLedgerEntryAmount()));        
       }
     } else {
       // If not using referring doc number, add or subtract transaction amount from encumbrance amount
-      if ( "D".equals(t.getDebitOrCreditCode()) || " ".equals(t.getDebitOrCreditCode()) ) {
+      if ( "D".equals(t.getTransactionDebitCreditCode()) || " ".equals(t.getTransactionDebitCreditCode()) ) {
         enc.setAccountLineEncumbranceAmount(enc.getAccountLineEncumbranceAmount().add(t.getTransactionLedgerEntryAmount()));
       } else {
         enc.setAccountLineEncumbranceAmount(enc.getAccountLineEncumbranceAmount().subtract(t.getTransactionLedgerEntryAmount()));        

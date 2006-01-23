@@ -40,11 +40,11 @@ import org.kuali.module.gl.batch.poster.PosterReport;
 import org.kuali.module.gl.batch.poster.VerifyTransaction;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.bo.OriginEntrySource;
-import org.kuali.module.gl.bo.ReversalEntry;
+import org.kuali.module.gl.bo.Reversal;
 import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.bo.UniversityDate;
 import org.kuali.module.gl.dao.ExpenditureTransactionDao;
-import org.kuali.module.gl.dao.ReversalEntryDao;
+import org.kuali.module.gl.dao.ReversalDao;
 import org.kuali.module.gl.dao.UniversityDateDao;
 import org.kuali.module.gl.service.OriginEntryService;
 import org.kuali.module.gl.service.PosterService;
@@ -61,7 +61,7 @@ public class PosterServiceImpl implements PosterService {
   private PosterReport posterReportService;
   private OriginEntryService originEntryService;
   private DateTimeService dateTimeService;
-  private ReversalEntryDao reversalEntryDao;
+  private ReversalDao reversalDao;
   private UniversityDateDao universityDateDao;
   private AccountingPeriodService accountingPeriodService;
   private ExpenditureTransactionDao expenditureTransactionDao;
@@ -125,7 +125,7 @@ public class PosterServiceImpl implements PosterService {
       case PosterService.MODE_REVERSAL:
         validEntrySourceCode = OriginEntrySource.REVERSAL_POSTER_VALID;
         invalidEntrySourceCode = OriginEntrySource.REVERSAL_POSTER_ERROR;
-        reversalTransactions = reversalEntryDao.getByDate(runDate);
+        reversalTransactions = reversalDao.getByDate(runDate);
       case PosterService.MODE_ICR:
         validEntrySourceCode = OriginEntrySource.ICR_POSTER_VALID;
         invalidEntrySourceCode = OriginEntrySource.ICR_POSTER_ERROR;
@@ -182,7 +182,7 @@ public class PosterServiceImpl implements PosterService {
 
     List errors = new ArrayList();
 
-    ReversalEntry reversal = null;
+    Reversal reversal = null;
     Transaction originalTransaction = tran;
 
     // Update select count in the report
@@ -197,32 +197,32 @@ public class PosterServiceImpl implements PosterService {
     // If these are reversal entries, we need to reverse the entry and
     // modify a few fields
     if (mode == PosterService.MODE_REVERSAL) {
-      reversal = new ReversalEntry(tran);
+      reversal = new Reversal(tran);
 
       // Revese the debit/credit code
-      if ("D".equals(reversal.getDebitOrCreditCode())) {
-        reversal.setDebitOrCreditCode("C");
-      } else if ("C".equals(reversal.getDebitOrCreditCode())) {
-        reversal.setDebitOrCreditCode("D");
+      if ("D".equals(reversal.getTransactionDebitCreditCode())) {
+        reversal.setTransactionDebitCreditCode("C");
+      } else if ("C".equals(reversal.getTransactionDebitCreditCode())) {
+        reversal.setTransactionDebitCreditCode("D");
       }
 
-      UniversityDate udate = universityDateDao.getByPrimaryKey(reversal.getDocumentReversalDate());
+      UniversityDate udate = universityDateDao.getByPrimaryKey(reversal.getFinancialDocumentReversalDate());
       if ( udate != null ) {
         reversal.setUniversityFiscalYear(udate.getUniversityFiscalYear());
-        reversal.setUniversityFiscalAccountingPeriod(udate.getUniversityFiscalAccountingPeriod());
+        reversal.setUniversityFiscalPeriodCode(udate.getUniversityFiscalAccountingPeriod());
 
-        AccountingPeriod ap = accountingPeriodService.getByPeriod(reversal.getUniversityFiscalAccountingPeriod(),reversal.getUniversityFiscalYear());
+        AccountingPeriod ap = accountingPeriodService.getByPeriod(reversal.getUniversityFiscalPeriodCode(),reversal.getUniversityFiscalYear());
         if ( ap != null ) {
           if ( "C".equals(ap.getUniversityFiscalPeriodStatusCode()) ) {
             reversal.setUniversityFiscalYear(runUniversityDate.getUniversityFiscalYear());
-            reversal.setUniversityFiscalAccountingPeriod(runUniversityDate.getUniversityFiscalAccountingPeriod());
+            reversal.setUniversityFiscalPeriodCode(runUniversityDate.getUniversityFiscalAccountingPeriod());
           }
-          reversal.setDocumentReversalDate(null);
-          String newDescription = "AUTO REVERSAL-" + reversal.getTransactionLedgerEntryDescription();
+          reversal.setFinancialDocumentReversalDate(null);
+          String newDescription = "AUTO REVERSAL-" + reversal.getTransactionLedgerEntryDesc();
           if ( newDescription.length() > 40 ) {
             newDescription = newDescription.substring(0,39);
           }
-          reversal.setTransactionLedgerEntryDescription(newDescription);
+          reversal.setTransactionLedgerEntryDesc(newDescription);
           tran = reversal;
         } else {
           errors.add("Date from university date not in AccountingPeriod table");
@@ -285,7 +285,7 @@ public class PosterServiceImpl implements PosterService {
 
       // Delete the reversal entry
       if ( mode == PosterService.MODE_REVERSAL ) {
-        reversalEntryDao.delete( (ReversalEntry)originalTransaction );
+        reversalDao.delete( (Reversal)originalTransaction );
       }
     }    
   }
@@ -324,8 +324,8 @@ public class PosterServiceImpl implements PosterService {
     dateTimeService = dts;
   }
 
-  public void setReversalEntryDao(ReversalEntryDao red) {
-    reversalEntryDao = red;
+  public void setReversalDao(ReversalDao red) {
+    reversalDao = red;
   }
 
   public void setUniversityDateDao(UniversityDateDao udd) {

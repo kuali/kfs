@@ -38,29 +38,29 @@ import org.kuali.module.chart.bo.codes.BalanceTyp;
  */
 public interface Transaction {
   public String getAccountNumber();
-  public String getBalanceTypeCode();
+  public String getFinancialBalanceTypeCode();
   public String getChartOfAccountsCode();
-  public String getDebitOrCreditCode();
-  public String getDocumentNumber();
-  public Date getDocumentReversalDate();
-  public String getDocumentTypeCode();
-  public String getEncumbranceUpdateCode();
-  public String getObjectCode();
-  public String getObjectTypeCode();
+  public String getTransactionDebitCreditCode();
+  public String getFinancialDocumentNumber();
+  public Date getFinancialDocumentReversalDate();
+  public String getFinancialDocumentTypeCode();
+  public String getTransactionEncumbranceUpdtCd();
+  public String getFinancialObjectCode();
+  public String getFinancialObjectTypeCode();
   public String getOrganizationDocumentNumber();
   public String getOrganizationReferenceId();
-  public String getOriginCode();
+  public String getFinancialSystemOriginationCode();
   public String getProjectCode();
-  public String getReferenceDocumentNumber();
-  public String getReferenceDocumentTypeCode();
-  public String getReferenceOriginCode();
+  public String getFinancialDocumentReferenceNbr();
+  public String getReferenceFinDocumentTypeCode();
+  public String getFinSystemRefOriginationCode();
   public String getSubAccountNumber();
-  public String getSubObjectCode();
+  public String getFinancialSubObjectCode();
   public Date getTransactionDate();
-  public Integer getTransactionEntrySequenceId();
+  public Integer getTrnEntryLedgerSequenceNumber();
   public KualiDecimal getTransactionLedgerEntryAmount();
-  public String getTransactionLedgerEntryDescription();
-  public String getUniversityFiscalAccountingPeriod();
+  public String getTransactionLedgerEntryDesc();
+  public String getUniversityFiscalPeriodCode();
   public Integer getUniversityFiscalYear();
 
   // bo mappings

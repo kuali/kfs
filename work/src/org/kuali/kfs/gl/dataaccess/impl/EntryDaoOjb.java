@@ -55,7 +55,7 @@ public class EntryDaoOjb extends PersistenceBrokerDaoSupport implements EntryDao
   }
 
   /**
-   * Find the maximum transactionEntrySequenceId in the entry table
+   * Find the maximum trnEntryLedgerSequenceNumber in the entry table
    * for a specific transaction.  This is used to make sure that rows
    * added have a unique primary key.
    */
@@ -67,17 +67,17 @@ public class EntryDaoOjb extends PersistenceBrokerDaoSupport implements EntryDao
     crit.addEqualTo("chartOfAccountsCode",t.getChartOfAccountsCode());
     crit.addEqualTo("accountNumber",t.getAccountNumber());
     crit.addEqualTo("subAccountNumber",t.getSubAccountNumber());
-    crit.addEqualTo("objectCode",t.getObjectCode());
-    crit.addEqualTo("subObjectCode",t.getSubObjectCode());
-    crit.addEqualTo("balanceTypeCode",t.getBalanceTypeCode());
-    crit.addEqualTo("objectTypeCode",t.getObjectTypeCode());
-    crit.addEqualTo("universityFiscalAccountingPeriod",t.getUniversityFiscalAccountingPeriod());
-    crit.addEqualTo("documentTypeCode",t.getDocumentTypeCode());
-    crit.addEqualTo("originCode",t.getOriginCode());
-    crit.addEqualTo("documentNumber",t.getDocumentNumber());
+    crit.addEqualTo("financialObjectCode",t.getFinancialObjectCode());
+    crit.addEqualTo("financialSubObjectCode",t.getFinancialSubObjectCode());
+    crit.addEqualTo("financialBalanceTypeCode",t.getFinancialBalanceTypeCode());
+    crit.addEqualTo("financialObjectTypeCode",t.getFinancialObjectTypeCode());
+    crit.addEqualTo("universityFiscalPeriodCode",t.getUniversityFiscalPeriodCode());
+    crit.addEqualTo("financialDocumentTypeCode",t.getFinancialDocumentTypeCode());
+    crit.addEqualTo("financialSystemOriginationCode",t.getFinancialSystemOriginationCode());
+    crit.addEqualTo("financialDocumentNumber",t.getFinancialDocumentNumber());
 
     ReportQueryByCriteria q = QueryFactory.newReportQuery(Entry.class, crit);
-    q.setAttributes(new String[] { "max(transactionEntrySequenceId)" });
+    q.setAttributes(new String[] { "max(trnEntryLedgerSequenceNumber)" });
 
     Iterator iter = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(q);
     if ( iter.hasNext() ) {

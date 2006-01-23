@@ -54,11 +54,11 @@ public class ExpenditureTransactionDaoOjb extends PersistenceBrokerDaoSupport im
     crit.addEqualTo("chartOfAccountsCode",t.getChartOfAccountsCode());
     crit.addEqualTo("accountNumber",t.getAccountNumber());
     crit.addEqualTo("subAccountNumber",t.getSubAccountNumber());
-    crit.addEqualTo("objectCode",t.getObjectCode());
-    crit.addEqualTo("subObjectCode",t.getSubObjectCode());
-    crit.addEqualTo("balanceTypeCode",t.getBalanceTypeCode());
-    crit.addEqualTo("objectTypeCode",t.getObjectTypeCode());
-    crit.addEqualTo("universityFiscalAccountingPeriod",t.getUniversityFiscalAccountingPeriod());
+    crit.addEqualTo("objectCode",t.getFinancialObjectCode());
+    crit.addEqualTo("subObjectCode",t.getFinancialSubObjectCode());
+    crit.addEqualTo("balanceTypeCode",t.getFinancialBalanceTypeCode());
+    crit.addEqualTo("objectTypeCode",t.getFinancialObjectTypeCode());
+    crit.addEqualTo("universityFiscalAccountingPeriod",t.getUniversityFiscalPeriodCode());
     crit.addEqualTo("projectCode",t.getProjectCode());
     crit.addEqualTo("organizationReferenceId",t.getOrganizationReferenceId());
 

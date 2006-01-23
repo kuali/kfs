@@ -46,7 +46,7 @@
 			<list>
 				<ref bean="glPostGlEntry" />
 				<ref bean="glPostGlAccountBalance" />
-				<ref bean="glPostSufficientFundsBalance" />
+				<ref bean="glPostSufficientFundBalances" />
 				<ref bean="glPostReversal" />
 				<ref bean="glPostEncumbrance" />
 				<ref bean="glPostExpenditureTransaction" />
@@ -57,7 +57,7 @@
 		<property name="verifyTransaction"><ref bean="glVerifyTransaction" /></property>
 		<property name="originEntryService"><ref bean="glOriginEntryService" /></property>
 		<property name="dateTimeService"><ref bean="dateTimeService" /></property>
-		<property name="reversalEntryDao"><ref bean="glReversalEntryDao" /></property>
+		<property name="reversalDao"><ref bean="glReversalDao" /></property>
 		<property name="universityDateDao"><ref bean="universityDateDao" /></property>
 		<property name="accountingPeriodService"><ref bean="accountingPeriodService" /></property>
 		<property name="expenditureTransactionDao"><ref bean="glExpenditureTransactionDao" /></property>
@@ -98,12 +98,12 @@
 		<property name="accountBalanceDao"><ref bean="glAccountBalanceDao"/></property>
 	</bean>
 
-	<bean id="glPostSufficientFundsBalance" class="org.kuali.module.gl.batch.poster.impl.PostSufficientFundsBalance">
-		<property name="sufficientFundsBalanceDao"><ref bean="glSufficientFundsBalanceDao"/></property>
+	<bean id="glPostSufficientFundBalances" class="org.kuali.module.gl.batch.poster.impl.PostSufficientFundBalances">
+		<property name="sufficientFundBalancesDao"><ref bean="glSufficientFundBalancesDao"/></property>
 	</bean>
 
 	<bean id="glPostReversal" class="org.kuali.module.gl.batch.poster.impl.PostReversal">
-		<property name="reversalEntryDao"><ref bean="glReversalEntryDao" /></property>
+		<property name="reversalDao"><ref bean="glReversalDao" /></property>
 	</bean>
 
 	<bean id="glPostEncumbrance" class="org.kuali.module.gl.batch.poster.impl.PostEncumbrance">
@@ -127,7 +127,7 @@
 		<property name="jcdAlias"><value>dataSource</value></property>
 	</bean>
 
-	<bean id="glSufficientFundsBalanceDao" class="org.kuali.module.gl.dao.ojb.SufficientFundsBalanceDaoOjb">
+	<bean id="glSufficientFundBalancesDao" class="org.kuali.module.gl.dao.ojb.SufficientFundBalancesDaoOjb">
 		<property name="jcdAlias"><value>dataSource</value></property>
 	</bean>
 
@@ -159,7 +159,7 @@
 		<property name="jcdAlias"><value>dataSource</value></property>
 	</bean>
 
-	<bean id="glReversalEntryDao" class="org.kuali.module.gl.dao.ojb.ReversalEntryDaoOjb">
+	<bean id="glReversalDao" class="org.kuali.module.gl.dao.ojb.ReversalDaoOjb">
 		<property name="jcdAlias"><value>dataSource</value></property>
 	</bean>
 </beans>

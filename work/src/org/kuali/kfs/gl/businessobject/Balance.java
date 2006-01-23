@@ -86,10 +86,10 @@ public class Balance extends BusinessObjectBase {
     setChartOfAccountsCode(t.getChartOfAccountsCode());
     setAccountNumber(t.getAccountNumber());
     setSubAccountNumber(t.getSubAccountNumber());
-    setObjectCode(t.getObjectCode());
-    setSubObjectCode(t.getSubObjectCode());
-    setBalanceTypeCode(t.getBalanceTypeCode());
-    setObjectTypeCode(t.getObjectTypeCode());
+    setObjectCode(t.getFinancialObjectCode());
+    setSubObjectCode(t.getFinancialSubObjectCode());
+    setBalanceTypeCode(t.getFinancialBalanceTypeCode());
+    setObjectTypeCode(t.getFinancialObjectTypeCode());
   }
 
   protected LinkedHashMap toStringMapper() {

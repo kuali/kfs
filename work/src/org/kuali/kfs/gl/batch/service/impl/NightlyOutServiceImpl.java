@@ -108,42 +108,42 @@ public class NightlyOutServiceImpl implements NightlyOutService {
 
         // Map the pending entry into origin entry
         originEntry.setAccountNumber(pendingEntry.getAccountNumber());
-        originEntry.setBalanceTypeCode(pendingEntry.getFinancialBalanceTypeCode());
+        originEntry.setFinancialBalanceTypeCode(pendingEntry.getFinancialBalanceTypeCode());
         originEntry.setBudgetYear(pendingEntry.getBudgetYear());
         originEntry.setChartOfAccountsCode(pendingEntry.getChartOfAccountsCode());
-        originEntry.setDebitOrCreditCode(pendingEntry.getTransactionDebitCreditCode());
-        originEntry.setDocumentNumber(pendingEntry.getFinancialDocumentNumber());
+        originEntry.setTransactionDebitCreditCode(pendingEntry.getTransactionDebitCreditCode());
+        originEntry.setFinancialDocumentNumber(pendingEntry.getFinancialDocumentNumber());
 
         Timestamp reversalDate = pendingEntry.getFinancialDocumentReversalDate();
         if (reversalDate != null) {
-            originEntry.setDocumentReversalDate(new Date(reversalDate.getTime()));
+            originEntry.setFinancialDocumentReversalDate(new Date(reversalDate.getTime()));
         }
-        originEntry.setDocumentTypeCode(pendingEntry.getFinancialDocumentTypeCode());
-        originEntry.setEncumbranceUpdateCode(pendingEntry
+        originEntry.setFinancialDocumentTypeCode(pendingEntry.getFinancialDocumentTypeCode());
+        originEntry.setTransactionEncumbranceUpdtCd(pendingEntry
                 .getTransactionEncumbranceUpdtCd());
-        originEntry.setObjectCode(pendingEntry.getFinancialObjectCode());
-        originEntry.setObjectTypeCode(pendingEntry.getFinancialObjectTypeCode());
+        originEntry.setFinancialObjectCode(pendingEntry.getFinancialObjectCode());
+        originEntry.setFinancialObjectTypeCode(pendingEntry.getFinancialObjectTypeCode());
         originEntry.setOrganizationDocumentNumber(pendingEntry
                 .getOrganizationDocumentNumber());
         originEntry.setOrganizationReferenceId(pendingEntry.getOrganizationReferenceId());
-        originEntry.setOriginCode(pendingEntry.getOriginCode());
+        originEntry.setFinancialSystemOriginationCode(pendingEntry.getOriginCode());
         originEntry.setProjectCode(pendingEntry.getProjectCode());
-        originEntry.setReferenceDocumentNumber(pendingEntry
+        originEntry.setFinancialDocumentReferenceNbr(pendingEntry
                 .getFinancialDocumentReferenceNbr());
-        originEntry.setReferenceDocumentTypeCode(pendingEntry
+        originEntry.setReferenceFinDocumentTypeCode(pendingEntry
                 .getReferenceFinDocumentTypeCode());
-        originEntry.setReferenceOriginCode(pendingEntry.getFinSystemRefOriginationCode());
+        originEntry.setFinSystemRefOriginationCode(pendingEntry.getFinSystemRefOriginationCode());
         originEntry.setSubAccountNumber(pendingEntry.getSubAccountNumber());
-        originEntry.setSubObjectCode(pendingEntry.getFinancialSubObjectCode());
+        originEntry.setFinancialSubObjectCode(pendingEntry.getFinancialSubObjectCode());
         originEntry.setTransactionDate(new Date(pendingEntry.getTransactionDate()
                 .getTime()));
-        originEntry.setTransactionEntrySequenceId(pendingEntry
+        originEntry.setTrnEntryLedgerSequenceNumber(pendingEntry
                 .getTrnEntryLedgerSequenceNumber());
         originEntry.setTransactionLedgerEntryAmount(pendingEntry
                 .getTransactionLedgerEntryAmount());
-        originEntry.setTransactionLedgerEntryDescription(pendingEntry
+        originEntry.setTransactionLedgerEntryDesc(pendingEntry
                 .getTransactionLedgerEntryDesc());
-        originEntry.setUniversityFiscalAccountingPeriod(pendingEntry
+        originEntry.setUniversityFiscalPeriodCode(pendingEntry
                 .getUniversityFiscalPeriodCode());
         originEntry.setUniversityFiscalYear(pendingEntry.getUniversityFiscalYear());
 

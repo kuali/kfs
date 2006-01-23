@@ -63,7 +63,7 @@ public class PostBalance implements PostTransaction {
     // Subtract the amount if offset generation indicator & the debit/credit code isn't the same
     // as the one in the object type code table
     if ( t.getBalanceType().isFinancialOffsetGenerationIndicator() ) {
-      if ( ! t.getDebitOrCreditCode().equals(t.getObjectType().getFinObjectTypeDebitcreditCd()) ) {
+      if ( ! t.getTransactionDebitCreditCode().equals(t.getObjectType().getFinObjectTypeDebitcreditCd()) ) {
         amount = amount.multiply(new KualiDecimal(-1));
       }
     }
@@ -75,7 +75,7 @@ public class PostBalance implements PostTransaction {
     }
     b.setTimestamp(new java.sql.Date(postDate.getTime()));
 
-    String period = t.getUniversityFiscalAccountingPeriod();
+    String period = t.getUniversityFiscalPeriodCode();
     b.setAmount(period,b.getAmount(period).add(amount));
 
     balanceDao.save(b);

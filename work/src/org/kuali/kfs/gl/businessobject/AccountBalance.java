@@ -58,8 +58,8 @@ public class AccountBalance extends BusinessObjectBase {
     chartOfAccountsCode = t.getChartOfAccountsCode();
     accountNumber = t.getAccountNumber();
     subAccountNumber = t.getSubAccountNumber();
-    objectCode = t.getObjectCode();
-    subObjectCode = t.getSubObjectCode();
+    objectCode = t.getFinancialObjectCode();
+    subObjectCode = t.getFinancialSubObjectCode();
     currentBudgetLineBalanceAmount = ZERO;
     accountLineActualsBalanceAmount = ZERO;
     accountLineEncumbranceBalanceAmount = ZERO;

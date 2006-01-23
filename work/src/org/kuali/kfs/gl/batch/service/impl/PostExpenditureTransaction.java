@@ -84,8 +84,8 @@ public class PostExpenditureTransaction implements PostTransaction {
     // Is the ICR indicator set and the ICR Series identifier set?
     // Is the period code a non-balance period?  If so, continue, if not, we aren't posting this transaction
     if ( objectType.isFinObjectTypeIcrSelectionIndicator() && (account.getFinancialIcrSeriesIdentifier() != null) &&
-        ( ! "AB".equals(t.getUniversityFiscalAccountingPeriod()) ) &&  ( ! "BB".equals(t.getUniversityFiscalAccountingPeriod()) ) &&
-        ( ! "CB".equals(t.getUniversityFiscalAccountingPeriod()) ) ) {
+        ( ! "AB".equals(t.getUniversityFiscalPeriodCode()) ) &&  ( ! "BB".equals(t.getUniversityFiscalPeriodCode()) ) &&
+        ( ! "CB".equals(t.getUniversityFiscalPeriodCode()) ) ) {
       // Continue on the posting process
 
       // Check the sub account type code.  A21 subaccounts with the type of CS don't get posted
@@ -115,7 +115,7 @@ public class PostExpenditureTransaction implements PostTransaction {
 
         // If the type is excluded, don't post
         IndirectCostRecoveryExclusionType excType = indirectCostRecoveryExclusionTypeDao.getByPrimaryKey(account.getAcctIndirectCostRcvyTypeCd(),
-            t.getChartOfAccountsCode(),t.getObjectCode());
+            t.getChartOfAccountsCode(),t.getFinancialObjectCode());
         if ( excType != null ) {
           // No need to post this
           return "";
@@ -143,7 +143,7 @@ public class PostExpenditureTransaction implements PostTransaction {
       et.setOrganizationReferenceId("--------");
     }
 
-    if ( "D".equals(t.getDebitOrCreditCode()) || " ".equals(t.getDebitOrCreditCode()) ) {
+    if ( "D".equals(t.getTransactionDebitCreditCode()) || " ".equals(t.getTransactionDebitCreditCode()) ) {
       et.setAccountObjectDirectCostAmount(et.getAccountObjectDirectCostAmount().add(t.getTransactionLedgerEntryAmount()));
     } else {
       et.setAccountObjectDirectCostAmount(et.getAccountObjectDirectCostAmount().subtract(t.getTransactionLedgerEntryAmount()));

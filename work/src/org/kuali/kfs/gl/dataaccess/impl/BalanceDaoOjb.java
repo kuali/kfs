@@ -34,10 +34,10 @@ public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements Balanc
     crit.addEqualTo("chartOfAccountsCode",t.getChartOfAccountsCode());
     crit.addEqualTo("accountNumber",t.getAccountNumber());
     crit.addEqualTo("subAccountNumber",t.getSubAccountNumber());
-    crit.addEqualTo("objectCode",t.getObjectCode());
-    crit.addEqualTo("subObjectCode",t.getSubObjectCode());
-    crit.addEqualTo("balanceTypeCode",t.getBalanceTypeCode());
-    crit.addEqualTo("objectTypeCode",t.getObjectTypeCode());
+    crit.addEqualTo("objectCode",t.getFinancialObjectCode());
+    crit.addEqualTo("subObjectCode",t.getFinancialSubObjectCode());
+    crit.addEqualTo("balanceTypeCode",t.getFinancialBalanceTypeCode());
+    crit.addEqualTo("objectTypeCode",t.getFinancialObjectTypeCode());
 
     QueryByCriteria qbc = QueryFactory.newQuery(Balance.class,crit);
     return (Balance)getPersistenceBrokerTemplate().getObjectByQuery(qbc);

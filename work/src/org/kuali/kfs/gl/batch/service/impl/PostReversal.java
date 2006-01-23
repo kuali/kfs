@@ -10,9 +10,9 @@ import java.util.List;
 
 import org.kuali.module.gl.batch.poster.PostTransaction;
 import org.kuali.module.gl.batch.poster.VerifyTransaction;
-import org.kuali.module.gl.bo.ReversalEntry;
+import org.kuali.module.gl.bo.Reversal;
 import org.kuali.module.gl.bo.Transaction;
-import org.kuali.module.gl.dao.ReversalEntryDao;
+import org.kuali.module.gl.dao.ReversalDao;
 
 /**
  * @author jsissom
@@ -21,10 +21,10 @@ import org.kuali.module.gl.dao.ReversalEntryDao;
 public class PostReversal implements PostTransaction,VerifyTransaction {
   private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PostReversal.class);
 
-  private ReversalEntryDao reversalEntryDao;
+  private ReversalDao reversalDao;
 
-  public void setReversalEntryDao(ReversalEntryDao red) {
-    reversalEntryDao = red;
+  public void setReversalDao(ReversalDao red) {
+    reversalDao = red;
   }
 
   public PostReversal() {
@@ -40,7 +40,7 @@ public class PostReversal implements PostTransaction,VerifyTransaction {
 
     List errors = new ArrayList();
 
-    if ( (t.getDocumentReversalDate() != null) && (reversalEntryDao.getByTransaction(t) != null) ) {
+    if ( (t.getFinancialDocumentReversalDate() != null) && (reversalDao.getByTransaction(t) != null) ) {
       errors.add("Duplicate GL_REVERSAL_T record found");
     }
 
@@ -53,13 +53,13 @@ public class PostReversal implements PostTransaction,VerifyTransaction {
   public String post(Transaction t,int mode,Date postDate) {
     LOG.debug("post() started");
 
-    if ( t.getDocumentReversalDate() == null ) {
+    if ( t.getFinancialDocumentReversalDate() == null ) {
       // No need to post this
       return "";
     }
 
-    ReversalEntry re = new ReversalEntry(t);
-    reversalEntryDao.save(re);
+    Reversal re = new Reversal(t);
+    reversalDao.save(re);
     return "I";
   }
 

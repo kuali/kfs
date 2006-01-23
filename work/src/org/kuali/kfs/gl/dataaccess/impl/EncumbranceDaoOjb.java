@@ -52,12 +52,12 @@ public class EncumbranceDaoOjb extends PersistenceBrokerDaoSupport implements En
     crit.addEqualTo("chartOfAccountsCode",t.getChartOfAccountsCode());
     crit.addEqualTo("accountNumber",t.getAccountNumber());
     crit.addEqualTo("subAccountNumber",t.getSubAccountNumber());
-    crit.addEqualTo("objectCode",t.getObjectCode());
-    crit.addEqualTo("subObjectCode",t.getSubObjectCode());
-    crit.addEqualTo("balanceTypeCode",t.getBalanceTypeCode());
-    crit.addEqualTo("documentTypeCode",t.getDocumentTypeCode());
-    crit.addEqualTo("originCode",t.getOriginCode());
-    crit.addEqualTo("documentNumber",t.getDocumentNumber());
+    crit.addEqualTo("objectCode",t.getFinancialObjectCode());
+    crit.addEqualTo("subObjectCode",t.getFinancialSubObjectCode());
+    crit.addEqualTo("balanceTypeCode",t.getFinancialBalanceTypeCode());
+    crit.addEqualTo("documentTypeCode",t.getFinancialDocumentTypeCode());
+    crit.addEqualTo("originCode",t.getFinancialSystemOriginationCode());
+    crit.addEqualTo("documentNumber",t.getFinancialDocumentNumber());
 
     QueryByCriteria qbc = QueryFactory.newQuery(Encumbrance.class,crit);
     return (Encumbrance)getPersistenceBrokerTemplate().getObjectByQuery(qbc);

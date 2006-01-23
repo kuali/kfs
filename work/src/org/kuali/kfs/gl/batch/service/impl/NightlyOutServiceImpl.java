@@ -31,6 +31,7 @@ import org.kuali.core.service.DateTimeService;
 import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.bo.OriginEntryGroup;
+import org.kuali.module.gl.bo.OriginEntrySource;
 
 import org.kuali.module.gl.service.GeneralLedgerPendingEntryService;
 import org.kuali.module.gl.service.NightlyOutService;
@@ -91,7 +92,9 @@ public class NightlyOutServiceImpl implements NightlyOutService {
      */
     private OriginEntryGroup createGroupForCurrentProcessing() {
         Date today = new Date(dateTimeService.getCurrentTimestamp().getTime());
-        OriginEntryGroup group = originEntryService.createGroup(today, "EDOC", true,
+        String groupSourceCode = OriginEntrySource.GENERATE_BY_EDOC;
+        
+        OriginEntryGroup group = originEntryService.createGroup(today, groupSourceCode, true,
                 true, true);
         return group;
     }

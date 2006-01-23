@@ -26,7 +26,7 @@ import org.kuali.core.bo.KualiCodeBase;
 
 /**
  * @author jsissom
- * @version $Id: OriginEntrySource.java,v 1.1 2006-01-14 19:35:58 abyrne Exp $
+ * @version $Id: OriginEntrySource.java,v 1.2 2006-01-23 14:50:00 bgao Exp $
  * 
  */
 
@@ -41,6 +41,7 @@ public class OriginEntrySource extends KualiCodeBase {
   public static String ICR_TRANSACTIONS = "ICR";
   public static String ICR_POSTER_VALID = "ICRV";
   public static String ICR_POSTER_ERROR = "ICRE";
+  public static String GENERATE_BY_EDOC = "EDOC";
 
   // Code base has all the fields we need
 }

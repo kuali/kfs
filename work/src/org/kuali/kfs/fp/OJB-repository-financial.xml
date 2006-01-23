@@ -1301,3 +1301,24 @@
 		<foreignkey field-ref="subAccountNumber" />
 	</reference-descriptor>
 </class-descriptor>
+
+<class-descriptor class="org.kuali.module.financial.bo.DisbursementVoucherAutomatedClearingHouse" table="FP_DV_ACH_T">
+	<field-descriptor name="disbursementVoucherAutomatedClearingHouseProfileNumber" column="DV_ACH_PRFL_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<field-descriptor name="disbVchrPaymentMethodCode" column="DV_PMT_MTHD_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="disbursementVoucherBankName" column="DV_BNK_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="disbVchrBankRoutingNumber" column="DV_BNK_RTNG_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="disbVchrBankCityName" column="DV_BNK_CTY_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="disbVchrBankStateCode" column="DV_BNK_ST_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="disbVchrBankCountryName" column="DV_BNK_CNTRY_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="disbVchrAttentionLineText" column="DV_ATTN_LN_TXT" jdbc-type="VARCHAR"/>
+	<field-descriptor name="disbVchrAdditionalWireText" column="DV_ADDL_WIRE_TXT" jdbc-type="VARCHAR"/>
+	<field-descriptor name="disbVchrPayeeAccountNumber" column="DV_PAYEE_ACCT_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="disbursementVoucherPayeeAccountName" column="DV_PAYEE_ACCT_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="disbursementVoucherPayeeAccountTypeCode" column="DV_PAYEE_ACCT_TYP_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="disbursementVoucherWireTransferFeeWaiverIndicator" column="DV_WIRE_TRNFR_FEE_WVR_IND" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanField10Conversion"/>
+	<reference-descriptor name="account" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="disbVchrPayeeAccountNumber" />
+	</reference-descriptor>
+</class-descriptor>

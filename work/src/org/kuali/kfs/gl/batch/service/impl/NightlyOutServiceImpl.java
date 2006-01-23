@@ -27,9 +27,11 @@ import java.sql.Timestamp;
 import java.util.Iterator;
 
 import org.kuali.core.service.DateTimeService;
+
 import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.bo.OriginEntryGroup;
+
 import org.kuali.module.gl.service.GeneralLedgerPendingEntryService;
 import org.kuali.module.gl.service.NightlyOutService;
 import org.kuali.module.gl.service.OriginEntryGroupService;
@@ -47,8 +49,6 @@ public class NightlyOutServiceImpl implements NightlyOutService {
     DateTimeService dateTimeService;
     OriginEntryGroupService originEntryGroupService;
 
-    int counter;
-
     /**
      * Constructs a NightlyOutServiceImpl.java.
      *  
@@ -57,17 +57,17 @@ public class NightlyOutServiceImpl implements NightlyOutService {
     }
 
     /**
-     * @see org.kuali.module.gl.service.NightlyOutService#copyPendingLedgerEntry()
+     * @see org.kuali.module.gl.service.NightlyOutService#copyApprovedPendingLedgerEntries()
      */
-    public void copyPendingLedgerEntry() {
+    public int copyApprovedPendingLedgerEntries() {
         
         Iterator pendingEntries = generalLedgerPendingEntryService
-                .findAllGeneralLedgerPendingEntries();
+                .findApprovedPendingLedgerEntries();
 
         // create a new group for the entries fetch above
         OriginEntryGroup group = createGroupForCurrentProcessing();
 
-        counter = 0;
+        int counter = 0;      
         while (pendingEntries.hasNext()) {
             // get one pending entry
             GeneralLedgerPendingEntry pendingEntry = (GeneralLedgerPendingEntry) pendingEntries
@@ -78,10 +78,12 @@ public class NightlyOutServiceImpl implements NightlyOutService {
 
             // update the pending entry to indicate it has been copied
             updatePendingEntryAfterCopy(pendingEntry);
-
-            // increase the counter of processing
+            
+            // count the number of ledger entries that have been processed
             counter++;
         }
+        
+        return counter;
     }
 
     /**
@@ -154,16 +156,7 @@ public class NightlyOutServiceImpl implements NightlyOutService {
     private void updatePendingEntryAfterCopy(GeneralLedgerPendingEntry pendingEntry) {
         pendingEntry.setFinancialDocumentApprovedCode("X");
         pendingEntry.setTransactionDate(dateTimeService.getCurrentTimestamp());
-        generalLedgerPendingEntryService.update(pendingEntry);
-    }
-
-    /**
-     * Gets the generalLedgerPendingEntryService attribute.
-     * 
-     * @return Returns the generalLedgerPendingEntryService.
-     */
-    public GeneralLedgerPendingEntryService getGeneralLedgerPendingEntryService() {
-        return generalLedgerPendingEntryService;
+        generalLedgerPendingEntryService.save(pendingEntry);
     }
 
     /**
@@ -178,30 +171,12 @@ public class NightlyOutServiceImpl implements NightlyOutService {
     }
 
     /**
-     * Gets the originEntryService attribute.
-     * 
-     * @return Returns the originEntryService.
-     */
-    public OriginEntryService getOriginEntryService() {
-        return originEntryService;
-    }
-
-    /**
      * Sets the originEntryService attribute value.
      * 
      * @param originEntryService The originEntryService to set.
      */
     public void setOriginEntryService(OriginEntryService originEntryService) {
         this.originEntryService = originEntryService;
-    }
-
-    /**
-     * Gets the dateTimeService attribute.
-     * 
-     * @return Returns the dateTimeService.
-     */
-    public DateTimeService getDateTimeService() {
-        return dateTimeService;
     }
 
     /**
@@ -214,27 +189,11 @@ public class NightlyOutServiceImpl implements NightlyOutService {
     }
 
     /**
-     * Gets the originEntryGroupService attribute.
-     * 
-     * @return Returns the originEntryGroupService.
-     */
-    public OriginEntryGroupService getOriginEntryGroupService() {
-        return originEntryGroupService;
-    }
-
-    /**
      * Sets the originEntryGroupService attribute value.
      * 
      * @param originEntryGroupService The originEntryGroupService to set.
      */
     public void setOriginEntryGroupService(OriginEntryGroupService originEntryGroupService) {
         this.originEntryGroupService = originEntryGroupService;
-    }
-
-    /**
-     * @see org.kuali.module.gl.service.NightlyOutService#getCounter()
-     */
-    public int getCounter() {
-        return this.counter;
     }
 }

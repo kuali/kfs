@@ -38,7 +38,7 @@ public class NightlyOutStep implements Step {
      * @see org.kuali.core.batch.Step#performStep()
      */
     public boolean performStep() {
-        nightlyOutService.copyPendingLedgerEntry();
+        nightlyOutService.copyApprovedPendingLedgerEntries();
         return true;
     }
 

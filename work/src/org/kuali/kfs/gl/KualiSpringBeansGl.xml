@@ -23,7 +23,7 @@
 	</bean>
 
 	<bean id="glNightlyOutStep" class="org.kuali.module.gl.batch.NightlyOutStep">
-		<property name="nightlyOutService"><ref bean="nightlyOutService" /></property>
+		<property name="nightlyOutService"><ref bean="glNightlyOutService" /></property>
 	</bean>
 
 	<bean id="glTextFileLoaderStep" class="org.kuali.module.gl.batch.TextFileLoaderStep">
@@ -78,7 +78,7 @@
 	<bean id="glOriginEntryGroupService" class="org.kuali.module.gl.service.impl.OriginEntryGroupServiceImpl">
 	</bean>
 		
-	<bean id="nightlyOutService" class="org.kuali.module.gl.service.impl.NightlyOutServiceImpl">
+	<bean id="glNightlyOutService" class="org.kuali.module.gl.service.impl.NightlyOutServiceImpl">
         <property name="generalLedgerPendingEntryService"><ref bean="generalLedgerPendingEntryService" /></property>
         <property name="originEntryService"><ref bean="glOriginEntryService" /></property>
         <property name="dateTimeService"><ref bean="dateTimeService" /></property>

@@ -34,16 +34,9 @@ public interface NightlyOutService {
 
     /**
      * 
-     * This method copies the pending ledger entries to gl_origin_entry_t without any
-     * preprocessing.
+     * This method copies the approved pending ledger entries to orign entry table
+     * @return the number of ledger entries that have been copied
      *  
      */
-    public void copyPendingLedgerEntry();
-    
-    /**
-     * 
-     * This method gets the number of the entries being processed
-     * @return the number of the entries being processed
-     */
-    public int getCounter();
+    public int copyApprovedPendingLedgerEntries();
 }

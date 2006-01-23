@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
-    <bean id="taxIDNumberService" class="org.kuali.module.financial.service.impl.TaxIDNumberServiceImpl">
+    <bean id="disbursementVoucherTaxService" class="org.kuali.module.financial.service.impl.DisbursementVoucherTaxServiceImpl">
         <property name="kualiConfigurationService">
             <ref bean="kualiConfigurationService" />
         </property>

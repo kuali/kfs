@@ -31,10 +31,27 @@ import org.kuali.module.financial.document.DisbursementVoucherDocument;
  */
 public class DisbursementVoucherForm extends KualiTransactionalDocumentFormBase {
     private static final long serialVersionUID = 1L;
-    
+
+    private String nraTaxLineNumbers;
+
     public DisbursementVoucherForm() {
-    	super();
+        super();
         setDocument(new DisbursementVoucherDocument());
+    }
+
+
+    /**
+     * @return Returns the nraTaxLineNumbers.
+     */
+    public String getNraTaxLineNumbers() {
+        return nraTaxLineNumbers;
+    }
+
+    /**
+     * @param nraTaxLineNumbers The nraTaxLineNumbers to set.
+     */
+    public void setNraTaxLineNumbers(String nraTaxLineNumbers) {
+        this.nraTaxLineNumbers = nraTaxLineNumbers;
     }
 }
 

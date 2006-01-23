@@ -66,7 +66,8 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
     private Timestamp disbursementVoucherCheckDate;
     private boolean disbVchrPayeeW9CompleteCode;
     private String disbVchrPaymentMethodCode;
-
+    private boolean exceptionIndicator;
+    
     private DocumentHeader financialDocument;
     private DocumentationLocation disbVchrDocumentationLoc;
     private DisbursementVoucherNonEmployeeTravel dvNonEmployeeTravel;
@@ -74,9 +75,6 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
     private DisbursementVoucherPayeeDetail dvPayeeDetail;
     private DisbursementVoucherPreConferenceDetail dvPreConferenceDetail;
     private DisbursementVoucherWireTransfer dvWireTransfer;
-
-    // dummy field
-    private boolean exceptionIndicator;
 
     /**
      * Default no-arg constructor.

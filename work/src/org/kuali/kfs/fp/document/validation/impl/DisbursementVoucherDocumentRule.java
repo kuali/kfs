@@ -28,6 +28,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
 import org.kuali.core.bo.AccountingLine;
+import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.bo.user.AuthenticationUserId;
 import org.kuali.core.bo.user.KualiGroup;
 import org.kuali.core.bo.user.KualiUser;
@@ -35,8 +36,10 @@ import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.DisbursementVoucherPayeeDetail;
+import org.kuali.module.financial.bo.NonResidentAlienTaxPercent;
 import org.kuali.module.financial.bo.Payee;
 import org.kuali.module.financial.document.DisbursementVoucherDocument;
 
@@ -119,26 +122,26 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
         DisbursementVoucherDocument dvDocument = (DisbursementVoucherDocument) document;
         DisbursementVoucherPayeeDetail payeeDetail = dvDocument.getDvPayeeDetail();
 
-//        initializeRuleValues(document);
-//
-//        validateRequiredFields(dvDocument);
-//        validatePaymentReason(dvDocument);
-//
-//        if (payeeDetail.isPayee()) {
-//            validatePayeeInformation(dvDocument);
-//        }
-//
-//        if (payeeDetail.isEmployee()) {
-//            validateEmployeeInformation(dvDocument);
-//        }
-//
-//        /* specific validation depending on payment method */
-//        if (PAYMENT_METHOD_WIRE.equals(dvDocument.getDisbVchrPaymentMethodCode())) {
-//            validateWireTransfer(dvDocument);
-//        }
-//        else if (PAYMENT_METHOD_DRAFT.equals(dvDocument.getDisbVchrPaymentMethodCode())) {
-//            validateForeignDraft(dvDocument);
-//        }
+        //        initializeRuleValues(document);
+        //
+        //        validateRequiredFields(dvDocument);
+        //        validatePaymentReason(dvDocument);
+        //
+        //        if (payeeDetail.isPayee()) {
+        //            validatePayeeInformation(dvDocument);
+        //        }
+        //
+        //        if (payeeDetail.isEmployee()) {
+        //            validateEmployeeInformation(dvDocument);
+        //        }
+        //
+        //        /* specific validation depending on payment method */
+        //        if (PAYMENT_METHOD_WIRE.equals(dvDocument.getDisbVchrPaymentMethodCode())) {
+        //            validateWireTransfer(dvDocument);
+        //        }
+        //        else if (PAYMENT_METHOD_DRAFT.equals(dvDocument.getDisbVchrPaymentMethodCode())) {
+        //            validateForeignDraft(dvDocument);
+        //        }
 
         /* if nra payment and user is in tax group, check nra tab */
         if (dvDocument.getDvPayeeDetail().isDisbVchrAlienPaymentCode() && isUserInTaxGroup()) {
@@ -328,12 +331,12 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
                     || document.getDvNonResidentAlienTax().isIncomeTaxTreatyExemptCode()
                     || NRA_TAX_INCOME_CLASS_NON_REPORTABLE.equals(document.getDvNonResidentAlienTax().getIncomeClassCode())) {
 
-                if ((document.getDvNonResidentAlienTax().getFederalIncomeTaxPercent() != null && !(new Integer(0).equals(document
+                if ((document.getDvNonResidentAlienTax().getFederalIncomeTaxPercent() != null && !(new KualiDecimal(0).equals(document
                         .getDvNonResidentAlienTax().getFederalIncomeTaxPercent())))) {
                     errors.put("dvNonResidentAlienTax.federalIncomeTaxPercent", KeyConstants.ERROR_DV_FEDERAL_TAX_NOT_ZERO);
                 }
 
-                if ((document.getDvNonResidentAlienTax().getStateIncomeTaxPercent() != null && !(new Integer(0).equals(document
+                if ((document.getDvNonResidentAlienTax().getStateIncomeTaxPercent() != null && !(new KualiDecimal(0).equals(document
                         .getDvNonResidentAlienTax().getStateIncomeTaxPercent())))) {
                     errors.put("dvNonResidentAlienTax.stateIncomeTaxPercent", KeyConstants.ERROR_DV_STATE_TAX_NOT_ZERO);
                 }
@@ -353,14 +356,43 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
                             .put("dvNonResidentAlienTax.federalIncomeTaxPercent", KeyConstants.ERROR_REQUIRED,
                                     "Federal tax percent ");
                 }
+                else {
+                    // check tax percent is in nra tax pct table for income class code
+                    NonResidentAlienTaxPercent taxPercent = new NonResidentAlienTaxPercent();
+                    taxPercent.setIncomeClassCode(document.getDvNonResidentAlienTax().getIncomeClassCode());
+                    taxPercent.setIncomeTaxTypeCode(FEDERAL_TAX_TYPE_CODE);
+                    taxPercent.setIncomeTaxPercent(document.getDvNonResidentAlienTax().getFederalIncomeTaxPercent());
+
+                    BusinessObject retrievedPercent = SpringServiceLocator.getBusinessObjectService().retrieve(taxPercent);
+                    if (retrievedPercent == null) {
+                        errors.put("dvNonResidentAlienTax.federalIncomeTaxPercent", KeyConstants.ERROR_DV_INVALID_FED_TAX_PERCENT,
+                                new String[] { document.getDvNonResidentAlienTax().getFederalIncomeTaxPercent().toString(),
+                                        document.getDvNonResidentAlienTax().getIncomeClassCode() });
+                    }
+                }
 
                 if (document.getDvNonResidentAlienTax().getStateIncomeTaxPercent() == null) {
                     errors.put("dvNonResidentAlienTax.stateIncomeTaxPercent", KeyConstants.ERROR_REQUIRED, "State tax percent ");
+                }
+                else {
+                    NonResidentAlienTaxPercent taxPercent = new NonResidentAlienTaxPercent();
+                    taxPercent.setIncomeClassCode(document.getDvNonResidentAlienTax().getIncomeClassCode());
+                    taxPercent.setIncomeTaxTypeCode(STATE_TAX_TYPE_CODE);
+                    taxPercent.setIncomeTaxPercent(document.getDvNonResidentAlienTax().getStateIncomeTaxPercent());
+
+                    BusinessObject retrievedPercent = SpringServiceLocator.getBusinessObjectService().retrieve(taxPercent);
+                    if (retrievedPercent == null) {
+                        errors.put("dvNonResidentAlienTax.stateIncomeTaxPercent", KeyConstants.ERROR_DV_INVALID_STATE_TAX_PERCENT,
+                                new String[] { document.getDvNonResidentAlienTax().getStateIncomeTaxPercent().toString(),
+                                        document.getDvNonResidentAlienTax().getIncomeClassCode() });
+                    }
                 }
 
                 if (StringUtils.isBlank(document.getDvNonResidentAlienTax().getPostalCountryCode())) {
                     errors.put("dvNonResidentAlienTax.postalCountryCode", KeyConstants.ERROR_REQUIRED, "Country code ");
                 }
+
+
             }
         }
     }

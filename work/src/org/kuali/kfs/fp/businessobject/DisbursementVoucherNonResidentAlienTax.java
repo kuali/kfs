@@ -28,6 +28,7 @@ package org.kuali.module.financial.bo;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.financial.document.DisbursementVoucherDocument;
 
 /**
@@ -36,8 +37,8 @@ import org.kuali.module.financial.document.DisbursementVoucherDocument;
 public class DisbursementVoucherNonResidentAlienTax extends BusinessObjectBase {
 
 	private String financialDocumentNumber;
-	private Integer federalIncomeTaxPercent;
-	private Integer stateIncomeTaxPercent;
+	private KualiDecimal federalIncomeTaxPercent;
+	private KualiDecimal stateIncomeTaxPercent;
 	private String incomeClassCode;
 	private String postalCountryCode;
 	private boolean incomeTaxTreatyExemptCode;
@@ -83,7 +84,7 @@ public class DisbursementVoucherNonResidentAlienTax extends BusinessObjectBase {
 	 * @return - Returns the federalIncomeTaxPercent
 	 * 
 	 */
-	public Integer getFederalIncomeTaxPercent() { 
+	public KualiDecimal getFederalIncomeTaxPercent() { 
 		return federalIncomeTaxPercent;
 	}
 	
@@ -94,7 +95,7 @@ public class DisbursementVoucherNonResidentAlienTax extends BusinessObjectBase {
 	 * @param - federalIncomeTaxPercent The federalIncomeTaxPercent to set.
 	 * 
 	 */
-	public void setFederalIncomeTaxPercent(Integer federalIncomeTaxPercent) {
+	public void setFederalIncomeTaxPercent(KualiDecimal federalIncomeTaxPercent) {
 		this.federalIncomeTaxPercent = federalIncomeTaxPercent;
 	}
 
@@ -104,7 +105,7 @@ public class DisbursementVoucherNonResidentAlienTax extends BusinessObjectBase {
 	 * @return - Returns the stateIncomeTaxPercent
 	 * 
 	 */
-	public Integer getStateIncomeTaxPercent() { 
+	public KualiDecimal getStateIncomeTaxPercent() { 
 		return stateIncomeTaxPercent;
 	}
 	
@@ -115,7 +116,7 @@ public class DisbursementVoucherNonResidentAlienTax extends BusinessObjectBase {
 	 * @param - stateIncomeTaxPercent The stateIncomeTaxPercent to set.
 	 * 
 	 */
-	public void setStateIncomeTaxPercent(Integer stateIncomeTaxPercent) {
+	public void setStateIncomeTaxPercent(KualiDecimal stateIncomeTaxPercent) {
 		this.stateIncomeTaxPercent = stateIncomeTaxPercent;
 	}
 

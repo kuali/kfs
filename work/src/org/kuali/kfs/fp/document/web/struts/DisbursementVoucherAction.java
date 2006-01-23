@@ -22,6 +22,11 @@
  */
 package org.kuali.module.financial.web.struts.action;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -30,11 +35,15 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.Constants;
+import org.kuali.KeyConstants;
+import org.kuali.core.bo.user.KualiGroup;
 import org.kuali.core.bo.user.UniversityUser;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.module.financial.bo.Payee;
 import org.kuali.module.financial.document.DisbursementVoucherDocument;
+import org.kuali.module.financial.service.DisbursementVoucherTaxService;
 import org.kuali.module.financial.web.struts.form.DisbursementVoucherForm;
 
 /**
@@ -69,13 +78,12 @@ public class DisbursementVoucherAction extends KualiTransactionalDocumentActionB
         else if (Constants.KUALI_LOOKUPABLE_IMPL.equals(dvForm.getRefreshCaller())
                 && request.getParameter("document.dvPayeeDetail.disbVchrPayeeIdNumber") != null
                 && document.getDvPayeeDetail().isEmployee()) {
-            String emplUuid = ((DisbursementVoucherDocument) dvForm.getDocument()).getDvPayeeDetail()
-            .getDisbVchrPayeeIdNumber();
+            String emplUuid = ((DisbursementVoucherDocument) dvForm.getDocument()).getDvPayeeDetail().getDisbVchrPayeeIdNumber();
             UniversityUser employee = new UniversityUser();
             employee.setUuId(emplUuid);
             employee = (UniversityUser) SpringServiceLocator.getBusinessObjectService().retrieve(employee);
         }
-        
+
 
         return super.refresh(mapping, form, request, response);
     }
@@ -99,7 +107,8 @@ public class DisbursementVoucherAction extends KualiTransactionalDocumentActionB
 
 
     /**
-     * Calls service to generate tax accounting lines.
+     * Calls service to generate tax accounting lines and updates nra tax line string
+     * in action form.
      * @param mapping
      * @param form
      * @param request
@@ -110,10 +119,68 @@ public class DisbursementVoucherAction extends KualiTransactionalDocumentActionB
     public ActionForward generateNonResidentAlienTaxLines(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         DisbursementVoucherForm dvForm = (DisbursementVoucherForm) form;
+        DisbursementVoucherDocument document = (DisbursementVoucherDocument) dvForm.getDocument();
+
+        /* user should not have generate button if not in tax group, but check just to make sure */
+        if (!GlobalVariables.getUserSession().getKualiUser().isMember(new KualiGroup(KualiGroup.KUALI_DV_TAX_GROUP))) {
+            LOG.info("User requested generateNonResidentAlienTaxLines who is not in the kuali tax group.");
+            GlobalVariables.getErrorMap().put(Constants.DV_NRATAX_TAB_ERRORS, KeyConstants.ERROR_DV_NRA_PERMISSIONS_GENERATE);
+            return mapping.findForward(Constants.MAPPING_BASIC);
+        }
+
+        DisbursementVoucherTaxService taxService = SpringServiceLocator.getDisbursementVoucherTaxService();
+
+        /* call service to generate new tax lines */
+        GlobalVariables.getErrorMap().addToErrorPath("document");
+        List newTaxLineNumbers = taxService.processNonResidentAlienTax(document);
+
+        /* if process was successful, update new lines numbers in form */
+        if (GlobalVariables.getErrorMap().isEmpty()) {
+            dvForm.setNraTaxLineNumbers(StringUtils.join(newTaxLineNumbers.iterator(), ","));
+        }
 
         return mapping.findForward(Constants.MAPPING_BASIC);
-
     }
+    
+    /**
+     * Calls service to clear tax accounting lines and updates nra tax line string
+     * in action form.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward clearNonResidentAlienTaxLines(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        DisbursementVoucherForm dvForm = (DisbursementVoucherForm) form;
+        DisbursementVoucherDocument document = (DisbursementVoucherDocument) dvForm.getDocument();
+        
+        /* user should not have generate button if not in tax group, but check just to make sure */
+        if (!GlobalVariables.getUserSession().getKualiUser().isMember(new KualiGroup(KualiGroup.KUALI_DV_TAX_GROUP))) {
+            LOG.info("User requested generateNonResidentAlienTaxLines who is not in the kuali tax group.");
+            GlobalVariables.getErrorMap().put(Constants.DV_NRATAX_TAB_ERRORS, KeyConstants.ERROR_DV_NRA_PERMISSIONS_GENERATE);
+            return mapping.findForward(Constants.MAPPING_BASIC);
+        }
+
+        DisbursementVoucherTaxService taxService = SpringServiceLocator.getDisbursementVoucherTaxService();
+
+        List oldTaxLineNumbers = new ArrayList();
+        if (StringUtils.isNotBlank(dvForm.getNraTaxLineNumbers())) {
+             List oldTaxLineNumberStrings = Arrays.asList(StringUtils.split(dvForm.getNraTaxLineNumbers(), ","));
+             for (Iterator iter = oldTaxLineNumberStrings.iterator(); iter.hasNext();) {
+                String lineNumber = (String) iter.next();
+                oldTaxLineNumbers.add(Integer.valueOf(lineNumber));
+            }
+        }
+        
+        /* call service to clear previous lines  */
+        taxService.clearNRATaxLines(document, oldTaxLineNumbers);
+        dvForm.setNraTaxLineNumbers("");
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }    
 
 
     /**
@@ -134,7 +201,8 @@ public class DisbursementVoucherAction extends KualiTransactionalDocumentActionB
             String conversionFields = StringUtils.substringBetween(fullParameter, Constants.METHOD_TO_CALL_PARM1_LEFT_DEL,
                     Constants.METHOD_TO_CALL_PARM1_RIGHT_DEL);
             fullParameter = StringUtils.replace(fullParameter, boClassName, "org.kuali.core.bo.user.UniversityUser");
-            fullParameter = StringUtils.replace(fullParameter, conversionFields, "uuId:document.dvPayeeDetail.disbVchrPayeeIdNumber");
+            fullParameter = StringUtils.replace(fullParameter, conversionFields,
+                    "uuId:document.dvPayeeDetail.disbVchrPayeeIdNumber");
             request.setAttribute(Constants.METHOD_TO_CALL_ATTRIBUTE, fullParameter);
         }
 

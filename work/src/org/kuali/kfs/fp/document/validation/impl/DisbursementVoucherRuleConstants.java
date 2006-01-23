@@ -109,5 +109,19 @@ public interface DisbursementVoucherRuleConstants {
 
     public static Set W9_OWN_TYPS = RulesUtils.makeSet(new String[] { "M", "I", "P", "S" });
     
+    public static String NRA_TAX_INCOME_CLASS_FELLOWSHIP = "F";
+    public static String NRA_TAX_INCOME_CLASS_INDEPENDENT_CONTRACTOR = "I";
+    public static String NRA_TAX_INCOME_CLASS_ROYALTIES = "R";
     public static String NRA_TAX_INCOME_CLASS_NON_REPORTABLE = "N";
+    
+    public static String FEDERAL_TAX_TYPE_CODE = "F";
+    public static String STATE_TAX_TYPE_CODE = "S";
+    
+    public static String NRA_TAX_PARM_GROUP_NM = "DVNRATaxParameters";
+    public static String FEDERAL_TAX_ACCOUNT_PARM_NM = "FEDERAL_TAX_ACCOUNT";
+    public static String STATE_TAX_ACCOUNT_PARM_NM = "STATE_TAX_ACCOUNT";
+    public static String FEDERAL_TAX_CHART_PARM_NM = "FEDERAL_TAX_CHART";
+    public static String STATE_TAX_CHART_PARM_NM = "STATE_TAX_CHART";
+    public static String FEDERAL_OBJECT_CODE_PARM_PREFIX = "FEDERAL_OBJECT_CODE_";
+    public static String STATE_OBJECT_CODE_PARM_PREFIX = "STATE_OBJECT_CODE_";
 }

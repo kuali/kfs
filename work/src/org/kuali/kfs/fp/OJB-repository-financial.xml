@@ -902,7 +902,7 @@
 <class-descriptor class="org.kuali.module.financial.bo.NonResidentAlienTaxPercent" table="FP_NRA_TAX_PCT_T">
 	<field-descriptor name="incomeClassCode" column="INC_CLS_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="incomeTaxTypeCode" column="INC_TAX_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="incomeTaxPercent" column="INC_TAX_PCT" jdbc-type="INTEGER" primarykey="true" index="true"/>
+	<field-descriptor name="incomeTaxPercent" column="INC_TAX_PCT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<reference-descriptor name="incomeClass" class-ref="org.kuali.module.financial.bo.TaxIncomeClassCode" auto-retrieve="true" auto-update="none" auto-delete="none">
@@ -942,8 +942,8 @@
 	<field-descriptor name="financialDocumentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="federalIncomeTaxPercent" column="FED_INC_TAX_PCT" jdbc-type="INTEGER"/>
-	<field-descriptor name="stateIncomeTaxPercent" column="ST_INC_TAX_PCT" jdbc-type="INTEGER"/>
+	<field-descriptor name="federalIncomeTaxPercent" column="FED_INC_TAX_PCT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="stateIncomeTaxPercent" column="ST_INC_TAX_PCT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="incomeClassCode" column="INC_CLS_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="postalCountryCode" column="POSTAL_CNTRY_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="incomeTaxTreatyExemptCode" column="INC_TAX_TRTY_EXMPT_IND" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>

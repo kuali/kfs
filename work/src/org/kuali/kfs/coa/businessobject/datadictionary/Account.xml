@@ -199,20 +199,14 @@
 				<description>Account Street Address</description>
 			</attribute>
 			
-			<attribute name="accountZipCode" forceUppercase="false">
+			<attributeReference name="postalZipCode.postalZipCode" 
+								sourceClassName="org.kuali.core.bo.PostalZipCode" 
+								sourceAttributeName="postalZipCode">
 				<label>Account Zip Code</label>
 				<shortLabel>ZipCode</shortLabel>
-
-				<maxLength>11</maxLength>
-				<validationPattern><zipcode /></validationPattern>
-
-				<control>
-					<text size="11" />
-				</control>
-
 				<summary>Account Zip Code</summary>
 				<description>Account Zip Code</description>
-			</attribute>
+			</attributeReference>
 			
 			<attributeReference name="reportsToAccount.chartOfAccounts.chartOfAccountsCode" 
 								sourceClassName="org.kuali.module.chart.bo.Chart" 

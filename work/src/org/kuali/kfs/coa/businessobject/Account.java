@@ -31,6 +31,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PostalZipCode;
 import org.kuali.core.bo.State;
 import org.kuali.core.bo.user.KualiUser;
 
@@ -111,7 +112,8 @@ public class Account extends BusinessObjectBase {
     private KualiUser accountFiscalOfficerUser;
     private KualiUser accountSupervisoryUser;
     private KualiUser accountManagerUser;
-
+    private PostalZipCode postalZipCode;
+    
     private AccountGuideline accountGuideline;
     private List subAccounts;
 
@@ -1376,6 +1378,22 @@ public class Account extends BusinessObjectBase {
         this.subFundGroupCode = subFundGroupCode;
     }
 
+    /**
+     * Gets the postalZipCode attribute. 
+     * @return Returns the postalZipCode.
+     */
+    public PostalZipCode getPostalZipCode() {
+        return postalZipCode;
+    }
+    
+    /**
+     * Sets the postalZipCode attribute value.
+     * @param postalZipCode The postalZipCode to set.
+     */
+    public void setPostalZipCode(PostalZipCode postalZipCode) {
+        this.postalZipCode = postalZipCode;
+    }
+    
     /**
      * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
      */

@@ -236,6 +236,13 @@
 		<foreignkey field-ref="accountNumber" />
 	</reference-descriptor>
 
+	<reference-descriptor name="postalZipCode" 
+		class-ref="org.kuali.core.bo.PostalZipCode" 
+		auto-retrieve="true" auto-update="none" auto-delete="none" 
+		proxy="true">
+		<foreignkey field-ref="accountZipCode" />
+	</reference-descriptor>
+	
 	<collection-descriptor name="subAccounts"
 		element-class-ref="org.kuali.module.chart.bo.SubAccount"
 		collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"

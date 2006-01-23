@@ -39,10 +39,10 @@ public class A21SubAccount extends BusinessObjectBase {
   private String subAccountNumber;
   private String subAccountTypeCode;
   private String indirectCostRecoveryTypeCode;
-  private String seriesId;
+  private String financialIcrSeriesIdentifier;
   private String indirectCostRecoveryChartOfAccountsCode;
   private String indirectCostRecoveryAccountNumber;
-  private String offsetCampusCode;
+  private boolean offCampusIndicator;
   private String costSharingChartOfAccountsCode;
   private String costSharingAccountNumber;
   private String costSharingSubAccountNumber;
@@ -53,7 +53,6 @@ public class A21SubAccount extends BusinessObjectBase {
   private ICRTypeCode icrTypeCode;
   private Chart indirectCostRecoveryChartOfAccounts;
   private Account indirectCostRecoveryAccount;
-  private Campus offsetCampus;
   private Chart costSharingChartOfAccounts;
   private Account costSharingAccount;
   private SubAccount costSharingSubAccount;
@@ -296,47 +295,34 @@ public String getIndirectCostRecoveryTypeCode() {
 public void setIndirectCostRecoveryTypeCode(String indirectCostRecoveryTypeCode) {
     this.indirectCostRecoveryTypeCode = indirectCostRecoveryTypeCode;
 }
+
 /**
- * Gets the offsetCampus attribute. 
- * @return Returns the offsetCampus.
+ * Gets the offCampusIndicator attribute. 
+ * @return Returns the offCampusIndicator.
  */
-public Campus getOffsetCampus() {
-    return offsetCampus;
+public boolean getOffCampusIndicator() {
+    return offCampusIndicator;
 }
 /**
- * Sets the offsetCampus attribute value.
- * @param offsetCampus The offsetCampus to set.
+ * Sets the offCampusIndicator attribute value.
+ * @param offCampusIndicator The offCampusIndicator to set.
  */
-public void setOffsetCampus(Campus offsetCampus) {
-    this.offsetCampus = offsetCampus;
+public void setOffCampusIndicator(boolean offCampusIndicator ) {
+    this.offCampusIndicator = offCampusIndicator;
 }
 /**
- * Gets the offsetCampusCode attribute. 
- * @return Returns the offsetCampusCode.
+ * Gets the financialIcrSeriesIdentifier attribute. 
+ * @return Returns the financialIcrSeriesIdentifier.
  */
-public String getOffsetCampusCode() {
-    return offsetCampusCode;
+public String getFinancialIcrSeriesIdentifier() {
+    return financialIcrSeriesIdentifier;
 }
 /**
- * Sets the offsetCampusCode attribute value.
- * @param offsetCampusCode The offsetCampusCode to set.
+ * Sets the financialIcrSeriesIdentifier attribute value.
+ * @param financialIcrSeriesIdentifier The financialIcrSeriesIdentifier to set.
  */
-public void setOffsetCampusCode(String offsetCampusCode) {
-    this.offsetCampusCode = offsetCampusCode;
-}
-/**
- * Gets the seriesId attribute. 
- * @return Returns the seriesId.
- */
-public String getSeriesId() {
-    return seriesId;
-}
-/**
- * Sets the seriesId attribute value.
- * @param seriesId The seriesId to set.
- */
-public void setSeriesId(String seriesId) {
-    this.seriesId = seriesId;
+public void setFinancialIcrSeriesIdentifier(String financialIcrSeriesIdentifier) {
+    this.financialIcrSeriesIdentifier = financialIcrSeriesIdentifier;
 }
 /**
  * Gets the subAccount attribute. 

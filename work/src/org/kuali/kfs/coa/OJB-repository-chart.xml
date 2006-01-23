@@ -1606,10 +1606,11 @@
 	<field-descriptor name="subAccountNumber" column="SUB_ACCT_NBR" jdbc-type="VARCHAR" primarykey="true" />
 	<field-descriptor name="subAccountTypeCode" column="SUB_ACCT_TYP_CD" jdbc-type="VARCHAR" />
 	<field-descriptor name="indirectCostRecoveryTypeCode" column="ICR_TYP_CD" jdbc-type="VARCHAR" />
-	<field-descriptor name="seriesId" column="FIN_SERIES_ID" jdbc-type="VARCHAR" />
+	<field-descriptor name="financialIcrSeriesIdentifier" column="FIN_SERIES_ID" jdbc-type="VARCHAR" />
 	<field-descriptor name="indirectCostRecoveryChartOfAccountsCode" column="ICR_FIN_COA_CD" jdbc-type="VARCHAR" />
 	<field-descriptor name="indirectCostRecoveryAccountNumber" column="ICR_ACCOUNT_NBR" jdbc-type="VARCHAR" />
-	<field-descriptor name="offsetCampusCode" column="OFF_CMP_IND" jdbc-type="VARCHAR" />
+	<field-descriptor name="offCampusIndicator" column="OFF_CMP_IND" jdbc-type="VARCHAR" 
+				conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 	<field-descriptor name="costSharingChartOfAccountsCode" column="CST_SHR_COA_CD" jdbc-type="VARCHAR" />
 	<field-descriptor name="costSharingAccountNumber" column="CST_SHRSRCACCT_NBR" jdbc-type="VARCHAR" />
 	<field-descriptor name="costSharingSubAccountNumber" column="CST_SRCSUBACCT_NBR" jdbc-type="VARCHAR" />
@@ -1656,13 +1657,7 @@
 		<foreignkey field-ref="indirectCostRecoveryChartOfAccountsCode" />
 		<foreignkey field-ref="indirectCostRecoveryAccountNumber" />
 	</reference-descriptor>
-	
-	<reference-descriptor name="offsetCampus"
-		class-ref="org.kuali.module.chart.bo.Campus" auto-retrieve="true"
-		auto-update="none" auto-delete="none" proxy="true">
-		<foreignkey field-ref="offsetCampusCode" />
-	</reference-descriptor>
-	
+		
 	<reference-descriptor name="costSharingChartOfAccounts"
 		class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true"
 		auto-update="none" auto-delete="none" proxy="true">

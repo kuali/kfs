@@ -45,11 +45,14 @@
               As with all boolean tag attributes, if it is not provided, it defaults to false." %>
 
 <c:set var="sourceOrTarget" value="${isSource ? 'source' : 'target'}"/>
+<c:set var="baselineSourceOrTarget" value="${isSource ? 'baselineSource' : 'baselineTarget'}"/>
 <c:set var="capitalSourceOrTarget" value="${isSource ? 'Source' : 'Target'}"/>
 <c:set var="dataDictionaryEntryName" value="${capitalSourceOrTarget}AccountingLine"/>
 <c:set var="totalName" value="${sourceOrTarget}Total"/>
 <c:set var="accountingLineAttributes" value="${DataDictionary[dataDictionaryEntryName].attributes}" />
 <c:set var="hasActionsColumn" value="${empty editingMode['viewOnly']}"/>
+
+<c:set var="displayHiddenColumns" value="false" />
 
 <fin:accountingLineImportRow rightColumnCount="${rightColumnCount}" isSource="${isSource}" editingMode="${editingMode}"/>
 
@@ -102,6 +105,7 @@
         debitCellProperty="newSourceLineDebit"
         creditCellProperty="newSourceLineCredit"
         includeObjectTypeCode="${includeObjectTypeCode}"
+        displayHiddenColumns="${displayHiddenColumns}"
         />
 </c:if>
 <logic:iterate indexId="ctr" name="KualiForm" property="document.${sourceOrTarget}AccountingLines" id="currentLine">
@@ -137,13 +141,21 @@
         debitCellProperty="journalLineHelper[${ctr}].debit"
         creditCellProperty="journalLineHelper[${ctr}].credit"
         includeObjectTypeCode="${includeObjectTypeCode}"
+        displayHiddenColumns="${displayHiddenColumns}"
         />
 </logic:iterate>
 
 <%-- hidden accountingLines for comparison during updates --%>
-<c:set var="baselineSourceOrTarget" value="${isSource ? 'baselineSource' : 'baselineTarget'}"/>
 <logic:iterate indexId="ctr" name="KualiForm" property="${baselineSourceOrTarget}AccountingLines" id="currentLine">
-    <fin:hiddenAccountingLineRow accountingLine="${baselineSourceOrTarget}AccountingLine[${ctr}]" optionalFields="${optionalFields}" hiddenFields="postingYear,sequenceNumber,versionNumber,financialDocumentNumber${extraHiddenFields}" includeObjectTypeCode="${includeObjectTypeCode}" />
+    <fin:hiddenAccountingLineRow
+        accountingLine="${baselineSourceOrTarget}AccountingLine[${ctr}]"
+        debitCreditAmount="${debitCreditAmount}"
+        debitCellProperty="journalLineHelper[${ctr}].debit"
+        creditCellProperty="journalLineHelper[${ctr}].credit"
+        optionalFields="${optionalFields}"
+        hiddenFields="postingYear,sequenceNumber,versionNumber,financialDocumentNumber${extraHiddenFields}"
+        includeObjectTypeCode="${includeObjectTypeCode}"
+        displayHiddenColumns="${displayHiddenColumns}" />
 </logic:iterate>
 
 <tr>
@@ -162,7 +174,7 @@
                     <td  class="total-line"><strong>Total: $${KualiForm.currencyFormattedTotal}</strong></td>
                 </c:when>
                 <c:otherwise>
-    <td class="total-line"><strong>Total: $${KualiForm.document[totalName]}</strong></td>
+                <td class="total-line"><strong>Total: $${KualiForm.document[totalName]}</strong></td>
                 </c:otherwise>
             </c:choose>
         </c:otherwise>

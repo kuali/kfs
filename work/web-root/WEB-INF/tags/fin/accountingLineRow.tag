@@ -61,13 +61,23 @@
               description="boolean indicating that the object type code column should be displayed.
               As with all boolean tag attributes, if it is not provided, it defaults to false." %>
 
+<%@ attribute name="displayHiddenColumns" required="false" description="display values of hidden columns" %>
+
 <c:set var="rowCount" value="${empty extraRowFields ? 1 : 2}"/>
 
-<c:forTokens var="hiddenField" items="${hiddenFields}" delims=",">
-    <html:hidden property="${accountingLine}.${hiddenField}"/>
-</c:forTokens>
 <tr>
-<th scope="row" rowspan="${rowCount}" class="bord-l-b"><div align="center">${rowHeader}</div></th>
+<th scope="row" rowspan="${rowCount}" class="bord-l-b">
+    <div align="center">${rowHeader}</div>
+    <c:forTokens var="hiddenField" items="${hiddenFields}" delims=",">
+        <c:if test="${displayHiddenColumns}">
+            <c:out value="${hiddenField}"/>=
+        </c:if>
+        <html:hidden write="${displayHiddenColumns}" property="${accountingLine}.${hiddenField}"/>
+        <c:if test="${displayHiddenColumns}">
+            ;<br/>
+        </c:if>
+    </c:forTokens>
+</th>
 <fin:accountingLineDataCell
     dataCellCssClass="${dataCellCssClass}"
     cellAlign="center"

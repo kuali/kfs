@@ -58,15 +58,15 @@ public class BudgetAggregationCodeServiceTest extends KualiTestBaseWithSpring {
         bac = (BudgetAggregationCode) kualiCodeService.getByCode(BudgetAggregationCode.class,
                 TestConstants.Data5.BUDGET_AGGREGATION_CODE1);
         assertNotNull("Should be a valid object.", bac);
-        assertEquals("Known-good code results in expected returned Name.", TestConstants.Data5.BUDGET_AGGREGATION_NAME1, bac
-                .getName());
+        assertEquals("Known-good code results in expected returned Name.", TestConstants.Data5.BUDGET_AGGREGATION_NAME1, 
+                bac.getName());
     }
 
     public void testLookupByCode_code_unknown() {
         bac = null;
         bac = (BudgetAggregationCode) kualiCodeService.getByCode(BudgetAggregationCode.class,
                 TestConstants.Data5.FEDERAL_FUNDED_CODE_BAD);
-        assertNull("Known-bad code returns null object.", bac);
+        assertNull("Known-bad code should return null object.", bac);
     }
 
     public void testLookupByCode_code_blank() {

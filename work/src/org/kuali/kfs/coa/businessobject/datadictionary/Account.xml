@@ -199,7 +199,7 @@
 				<description>Account Street Address</description>
 			</attribute>
 			
-			<attributeReference name="postalZipCode.postalZipCode" 
+			<attributeReference name="accountZipCode" 
 								sourceClassName="org.kuali.core.bo.PostalZipCode" 
 								sourceAttributeName="postalZipCode">
 				<label>Account Zip Code</label>
@@ -455,8 +455,8 @@
 			</attributeReference>
 			
 			<attributeReference name="accountSufficientFundsCode" 
-								sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
-								sourceAttributeName="oneDigitTextCode">
+								sourceClassName="org.kuali.module.chart.bo.codes.SufficientFundsCode" 
+								sourceAttributeName="code">
 				<label>Account Sufficient Funds Code</label>
 				<shortLabel>SuffFndsCd</shortLabel>
 				<summary>Account Sufficient Funds Code</summary>
@@ -465,46 +465,46 @@
 			
 			<attributeReference name="pendingAcctSufficientFundsIndicator" 
 								sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
-								sourceAttributeName="oneDigitTextCode">
-				<label>Pending Account Sufficient Funds Code</label>
+								sourceAttributeName="activeIndicator">
+				<label>Pending Account Sufficient Funds Indicator</label>
 				<shortLabel>PndSuffFnds</shortLabel>
-				<summary>Pending Account Sufficient Funds Code</summary>
-				<description>Pending Account Sufficient Funds Code</description>
+				<summary>Pending Account Sufficient Funds Indicator</summary>
+				<description>Pending Account Sufficient Funds Indicator</description>
 			</attributeReference>
 			
 			<attributeReference name="extrnlFinEncumSufficntFndIndicator" 
 								sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
-								sourceAttributeName="oneDigitTextCode">
-				<label>External Encumbrance Sufficient Funds Code</label>
-				<shortLabel>ExtEncSuffFndsCd</shortLabel>
-				<summary>External Encumbrance Sufficient Funds Code</summary>
-				<description>External Encumbrance Sufficient Funds Code</description>
+								sourceAttributeName="activeIndicator">
+				<label>External Encumbrance Sufficient Funds Indicator</label>
+				<shortLabel>ExtEncSuffFndsInd</shortLabel>
+				<summary>External Encumbrance Sufficient Funds Indicator</summary>
+				<description>External Encumbrance Sufficient Funds Indicator</description>
 			</attributeReference>
 			
 			<attributeReference name="intrnlFinEncumSufficntFndIndicator" 
 								sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
-								sourceAttributeName="oneDigitTextCode">
-				<label>Internal Encumbrance Sufficient Funds Code</label>
-				<shortLabel>IntEncSuffFndsCd</shortLabel>
-				<summary>Internal Encumbrance Sufficient Funds Code</summary>
-				<description>Internal Encumbrance Sufficient Funds Code</description>
+								sourceAttributeName="activeIndicator">
+				<label>Internal Encumbrance Sufficient Funds Indicator</label>
+				<shortLabel>IntEncSuffFndsInd</shortLabel>
+				<summary>Internal Encumbrance Sufficient Funds Indicator</summary>
+				<description>Internal Encumbrance Sufficient Indicator Code</description>
 			</attributeReference>
 			<attributeReference name="finPreencumSufficientFundIndicator" 
 								sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
-								sourceAttributeName="oneDigitTextCode">
-				<label>Pre-Encumbrance Sufficient Funds Code</label>
-				<shortLabel>PreEncSuffFndsCd</shortLabel>
-				<summary>Pre-Encumbrance Sufficient Funds Code</summary>
-				<description>Pre-Encumbrance Sufficient Funds Code</description>
+								sourceAttributeName="activeIndicator">
+				<label>Pre-Encumbrance Sufficient Funds Indicator</label>
+				<shortLabel>PreEncSuffFndsInd</shortLabel>
+				<summary>Pre-Encumbrance Sufficient Funds Indicator</summary>
+				<description>Pre-Encumbrance Sufficient Funds Indicator</description>
 			</attributeReference>
 			
 			<attributeReference name="financialObjectivePrsctrlIndicator" 
 								sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
-								sourceAttributeName="oneDigitTextCode">
-				<label>Object Presence Control</label>
+								sourceAttributeName="activeIndicator">
+				<label>Object Presence Control Indicator</label>
 				<shortLabel>ObjPrsCntrl</shortLabel>
-				<summary>Object Presence Control</summary>
-				<description>Object Presence Control</description>
+				<summary>Object Presence Control Indicator</summary>
+				<description>Object Presence Control Indicator</description>
 			</attributeReference>
 			
 			<attribute name="cgCatlfFedDomestcAssistNbr" forceUppercase="false">

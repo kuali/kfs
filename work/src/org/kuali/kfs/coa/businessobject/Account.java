@@ -35,6 +35,7 @@ import org.kuali.core.bo.PostalZipCode;
 import org.kuali.core.bo.State;
 import org.kuali.core.bo.user.KualiUser;
 import org.kuali.module.chart.bo.codes.BudgetRecordingLevelCode;
+import org.kuali.module.chart.bo.codes.SufficientFundsCode;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -115,6 +116,8 @@ public class Account extends BusinessObjectBase {
     private KualiUser accountManagerUser;
     private PostalZipCode postalZipCode;
     private BudgetRecordingLevelCode budgetRecordingLevel;
+    private SufficientFundsCode sufficientFundsCode;
+    
     private AccountGuideline accountGuideline;
     private List subAccounts;
 
@@ -1409,6 +1412,22 @@ public class Account extends BusinessObjectBase {
      */
     public void setBudgetRecordingLevel(BudgetRecordingLevelCode budgetRecordingLevel) {
         this.budgetRecordingLevel = budgetRecordingLevel;
+    }
+    
+    /**
+     * Gets the sufficientFundsCode attribute. 
+     * @return Returns the sufficientFundsCode.
+     */
+    public SufficientFundsCode getSufficientFundsCode() {
+        return sufficientFundsCode;
+    }
+    
+    /**
+     * Sets the sufficientFundsCode attribute value.
+     * @param sufficientFundsCode The sufficientFundsCode to set.
+     */
+    public void setSufficientFundsCode(SufficientFundsCode sufficientFundsCode) {
+        this.sufficientFundsCode = sufficientFundsCode;
     }
     
     /**

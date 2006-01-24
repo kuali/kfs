@@ -42,7 +42,7 @@
 		            <maintainableField name="accountPhysicalCampus.campusCode" required="true"/>	     
 		            <maintainableField name="accountEffectiveDate" required="true"/>
 		            <maintainableField name="accountExpirationDate" />	
-		            <maintainableField name="postalZipCode.postalZipCode" required="true"/>	  
+		            <maintainableField name="accountZipCode" required="true"/>	  
 		            <maintainableField name="accountCityName" required="true"/>	     
 		            <maintainableField name="accountStateCode" required="true"/>
 		            <maintainableField name="accountStreetAddress" required="true"/>	

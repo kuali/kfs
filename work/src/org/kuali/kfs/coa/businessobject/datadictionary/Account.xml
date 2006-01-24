@@ -132,7 +132,7 @@
 				<description>Account Fringe Benefit</description>
 			</attributeReference>
 			
-			<attribute name="financialHigherEdFunction.financialHigherEdFunctionCd" forceUppercase="false">
+			<attribute name="financialHigherEdFunction.financialHigherEdFunctionCd" forceUppercase="true">
 				<label>Financial Higher Education Function Code</label>
 				<shortLabel>HighEdFncCd</shortLabel>
 

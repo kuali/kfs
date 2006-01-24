@@ -48,7 +48,7 @@
 		            <maintainableField name="accountStreetAddress" required="true"/>	
 		            <maintainableField name="accountOffCampusIndicator" />	  
 		            <maintainableField name="accountClosedIndicator" />
-		            <maintainableField name="accountType.accountTypeCode" required="true" />
+		            <maintainableField name="accountTypeCode" required="true" />
 		            <maintainableField name="subFundGroup.subFundGroupCode" required="true" />
 		            <maintainableField name="accountsFringesBnftIndicator" />
 		            <maintainableField name="reportsToAccount.chartOfAccounts.chartOfAccountsCode" required="false" />

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../core/datadictionary/dataDictionary-1_0.dtd">
+<dictionaryEntry>
+	<businessObject
+		businessObjectClass="org.kuali.module.chart.bo.AcctType">
+		<customAttributeEnabled>false</customAttributeEnabled>
+
+		<inquiry>
+			<title>Account Type</title>
+
+			<inquiryFields>
+				<field attributeName="accountTypeCode" />
+				<field attributeName="accountTypeName" />
+			</inquiryFields>
+		</inquiry>
+
+		<attributes>
+			<attribute name="accountTypeCode" forceUppercase="true">
+				<label>Account Type Code</label>
+				<shortLabel>AcctType</shortLabel>
+
+				<maxLength>2</maxLength>
+				<validationPattern><alpha exactLength="2" /></validationPattern>
+
+				<control>
+					<select valuesFinderClass="org.kuali.core.lookup.keyvalues.AcctTypeValuesFinder"/>					
+				</control>
+
+				<summary>Account Type Code</summary>
+				<description>
+					Account Code
+				</description>
+			</attribute>
+
+			<attribute name="accountTypeName" forceUppercase="false">
+				<label>Account Type Name</label>
+				<shortLabel>Name</shortLabel>
+
+				<maxLength>50</maxLength>
+				<validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
+
+				<control>
+					<text size="50" />
+				</control>
+
+				<summary>Account Type Name</summary>
+				<description>
+					Account Type Name
+				</description>
+			</attribute>
+	        
+		</attributes>
+	</businessObject>
+</dictionaryEntry>
+

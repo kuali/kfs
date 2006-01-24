@@ -1,6 +1,7 @@
 <%@ taglib prefix="c" uri="/tlds/c.tld" %>
 <%@ taglib prefix="kul" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="fin" tagdir="/WEB-INF/tags/fin" %>
+<%@ taglib uri="/tlds/struts-html.tld" prefix="html" %>
 
 <%@ attribute name="optionalFields" required="false"
               description="A comma separated list of names of accounting line fields
@@ -44,10 +45,9 @@
               that should be added to the list of normally hidden fields
               for the existing (but not the new) accounting lines." %>
 
-<%-- default editingMode, to simplify later tests --%>
-<%--c:if test="${empty editingMode}" >
-    <c:set var="editingMode" value="fullEntry" />
-</c:if--%>
+<c:forEach items="${editableAccounts}" var="account">
+  <html:hidden property="editableAccounts(${account.key})" value="${account.key}"/>
+</c:forEach>
 
 <%-- add extra columns count for the "Action" button, objectTypeCode, and/or extra amount --%>
 <c:set var="rightColumnCount" value="${6

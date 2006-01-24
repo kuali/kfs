@@ -116,11 +116,16 @@
 
 			<attributeReference name="subFundGroup.subFundGroupCode" 
 								sourceClassName="org.kuali.module.chart.bo.SubFundGroup" 
-								sourceAttributeName="subFundGroupCode" />
+								sourceAttributeName="subFundGroupCode">
+				<label>Sub-Fund Group Code</label>
+				<shortLabel>SubFundGrpCd</shortLabel>
+				<summary>Sub-Fund Group Code</summary>
+				<description>Sub-Fund Group Code</description>
+			</attributeReference>
 								
 			<attributeReference name="accountsFringesBnftIndicator" 
 								sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
-								sourceAttributeName="oneDigitTextCode">
+								sourceAttributeName="activeIndicator">
 				<label>Account Fringe Benefit</label>
 				<shortLabel>FringeBene</shortLabel>
 				<summary>Account Fringe Benefit</summary>
@@ -524,7 +529,7 @@
 			
 			<attributeReference name="accountOffCampusIndicator" 
 								sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
-								sourceAttributeName="oneDigitTextCode">
+								sourceAttributeName="activeIndicator">
 				<label>Account Off Campus Indicator</label>
 				<shortLabel>OffCmpsInd</shortLabel>
 				<summary>Account Off Campus Indicator</summary>

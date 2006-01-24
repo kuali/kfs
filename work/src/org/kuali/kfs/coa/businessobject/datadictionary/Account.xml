@@ -96,7 +96,7 @@
 								sourceClassName="org.kuali.module.chart.bo.Org" 
 								sourceAttributeName="organizationCode" />
 
-			<attributeReference name="accountTypeCode" 
+			<attributeReference name="accountType.accountTypeCode" 
 								sourceClassName="org.kuali.module.chart.bo.AcctType" 
 								sourceAttributeName="accountTypeCode">
 				<label>Account Type Code</label>
@@ -204,7 +204,7 @@
 				<description>Account Street Address</description>
 			</attribute>
 			
-			<attributeReference name="accountZipCode" 
+			<attributeReference name="postalZipCode.postalZipCode" 
 								sourceClassName="org.kuali.core.bo.PostalZipCode" 
 								sourceAttributeName="postalZipCode">
 				<label>Account Zip Code</label>
@@ -450,7 +450,7 @@
 				<description>Account In Financial Processing</description>
 			</attributeReference>
 			
-			<attributeReference name="budgetRecordingLevelCode" 
+			<attributeReference name="budgetRecordingLevel.code" 
 								sourceClassName="org.kuali.module.chart.bo.codes.BudgetRecordingLevelCode" 
 								sourceAttributeName="code">
 				<label>Budget Record Level Code</label>
@@ -459,7 +459,7 @@
 				<description>Budget Record Level Code</description>
 			</attributeReference>
 			
-			<attributeReference name="accountSufficientFundsCode" 
+			<attributeReference name="sufficientFundsCode.code" 
 								sourceClassName="org.kuali.module.chart.bo.codes.SufficientFundsCode" 
 								sourceAttributeName="code">
 				<label>Account Sufficient Funds Code</label>

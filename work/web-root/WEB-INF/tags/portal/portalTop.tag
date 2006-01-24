@@ -10,6 +10,11 @@
 <title>Kuali Portal Index</title>
 <link href="css/portal.css" rel="stylesheet" type="text/css" />
 <script language="javascript" src="scripts/my_common.js"></script>
+<script language="javascript" >
+if (top.location != self.location) {
+	top.location = self.location;
+}
+</script>
 </head>
 <body topmargin="0" leftmargin="0" marginheight="0" marginwidth="0">
 <table width="100%" border="0" cellpadding="0" cellspacing="0" class="uportal-background-content" summary="need a summary here">

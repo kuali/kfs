@@ -147,7 +147,7 @@
 				<description>Financial Higher Education Function Code</description>
 			</attribute>
 			
-			<attributeReference name="accountRestrictedStatusCode" 
+			<attributeReference name="accountRestrictedStatus.accountRestrictedStatusCode" 
 								sourceClassName="org.kuali.module.chart.bo.RestrictedStatus" 
 								sourceAttributeName="accountRestrictedStatusCode">
 				<label>Account Restricted Status Code</label>

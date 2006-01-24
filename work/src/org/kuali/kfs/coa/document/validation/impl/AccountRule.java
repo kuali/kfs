@@ -203,6 +203,10 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         
            
         //TODO: IU-specific rule? Move to ACP? (add new functionality to support startsWith)
+        //      This section is where any implementing institution (for now) would enter their restrictions on what 
+        //      disallowed account numbers or ranges are.  Eventually, this should be moved into the ACP, but currently 
+        //      the ACP does not support 'StartsWith'.
+        
         //the account number cannot begin with a 3, or with 00.
         if(newAccount.getAccountNumber().startsWith("3") || newAccount.getAccountNumber().startsWith("00")) {
             success &= false;

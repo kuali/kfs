@@ -91,12 +91,12 @@
 								sourceClassName="org.kuali.module.chart.bo.Chart" 
 								sourceAttributeName="chartOfAccountsCode" />
 
-			<attribute name="financialObjectCode" forceUppercase="false">
+			<attribute name="financialObjectCode" forceUppercase="true">
 				<label>Object Code</label>
 				<shortLabel>Object</shortLabel>
 
 				<maxLength>4</maxLength>
-				<validationPattern><numeric /></validationPattern>
+				<validationPattern><alphaNumeric /></validationPattern>
 
 				<control>
 					<text size="4" />
@@ -175,12 +175,12 @@
 				</description>
 			</attribute>
 			
-			<attribute name="reportsToFinancialObjectCode" forceUppercase="false">
+			<attribute name="reportsToFinancialObjectCode" forceUppercase="true">
 				<label>Reports To Object Code</label>
 				<shortLabel>RptsToObjCode</shortLabel>
 
 				<maxLength>4</maxLength>
-				<validationPattern><numeric /></validationPattern>
+				<validationPattern><alphaNumeric /></validationPattern>
 
 				<control>
 					<text size="4" />
@@ -226,7 +226,7 @@
 				</description>
 			</attribute>
 
-			<attribute name="historicalFinancialObjectCode" forceUppercase="false">
+			<attribute name="historicalFinancialObjectCode" forceUppercase="true">
 				<label>Historical Financial Object Code</label>
 				<shortLabel>HistFinObjCde</shortLabel>
 
@@ -243,7 +243,7 @@
 				</description>
 			</attribute>
 
-			<attribute name="financialObjectActiveCode" forceUppercase="false">
+			<attribute name="financialObjectActiveCode" forceUppercase="true">
 				<label>Active Code</label>
 				<shortLabel>Ac.</shortLabel>
 
@@ -299,7 +299,7 @@
 				<shortLabel>NextYearObjCode</shortLabel>
 
 				<maxLength>4</maxLength>
-				<validationPattern><numeric /></validationPattern>
+				<validationPattern><alphaNumeric /></validationPattern>
 
 				<control>
 					<text size="4" />

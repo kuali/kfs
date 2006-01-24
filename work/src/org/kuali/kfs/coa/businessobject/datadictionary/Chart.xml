@@ -146,13 +146,13 @@
 
       <attribute
         name="financialCashObject.financialObjectCode"
-        forceUppercase="false">
+        forceUppercase="true">
         <label>Cash Object Code</label>
         <shortLabel>CashObjCode</shortLabel>
 
         <maxLength>4</maxLength>
         <validationPattern>
-          <numeric />
+          <alphaNumeric />
         </validationPattern>
 
         <control>
@@ -165,13 +165,13 @@
 
       <attribute
         name="finAccountsPayableObject.financialObjectCode"
-        forceUppercase="false">
+        forceUppercase="true">
         <label>Accounts Payable Object Code</label>
         <shortLabel>APObjectCode</shortLabel>
 
         <maxLength>4</maxLength>
         <validationPattern>
-          <numeric />
+          <alphaNumeric />
         </validationPattern>
 
         <control>
@@ -184,13 +184,13 @@
 
       <attribute
         name="incBdgtEliminationsFinObj.financialObjectCode"
-        forceUppercase="false">
+        forceUppercase="true">
         <label>Income Budget Elimination Object Code</label>
         <shortLabel>incBudgElimObjCode</shortLabel>
 
         <maxLength>4</maxLength>
         <validationPattern>
-          <numeric />
+          <alphaNumeric />
         </validationPattern>
 
         <control>
@@ -205,13 +205,13 @@
 
       <attribute
         name="expBdgtEliminationsFinObj.financialObjectCode"
-        forceUppercase="false">
+        forceUppercase="true">
         <label>Expense Budget Elimination Object Code</label>
         <shortLabel>expBudgElimObjCode</shortLabel>
 
         <maxLength>4</maxLength>
         <validationPattern>
-          <numeric />
+          <alphaNumeric />
         </validationPattern>
 
         <control>
@@ -246,13 +246,13 @@
 
       <attribute
         name="finAccountsReceivableObj.financialObjectCode"
-        forceUppercase="false">
+        forceUppercase="true">
         <label>Accounts Receivable Object Code</label>
         <shortLabel>acctsReceivObjCode</shortLabel>
 
         <maxLength>4</maxLength>
         <validationPattern>
-          <numeric />
+          <alphaNumeric />
         </validationPattern>
 
         <control>
@@ -265,13 +265,13 @@
 
       <attribute
         name="finInternalEncumbranceObj.financialObjectCode"
-        forceUppercase="false">
+        forceUppercase="true">
         <label>Internal Encumbrances Object Code</label>
         <shortLabel>intEncumObjCode</shortLabel>
 
         <maxLength>4</maxLength>
         <validationPattern>
-          <numeric />
+          <alphaNumeric />
         </validationPattern>
 
         <control>
@@ -284,13 +284,13 @@
 
       <attribute
         name="finExternalEncumbranceObj.financialObjectCode"
-        forceUppercase="false">
+        forceUppercase="true">
         <label>External Encumbrances Object Code</label>
         <shortLabel>exEncumObjCode</shortLabel>
 
         <maxLength>4</maxLength>
         <validationPattern>
-          <numeric />
+          <alphaNumeric />
         </validationPattern>
 
         <control>
@@ -303,13 +303,13 @@
 
       <attribute
         name="finPreEncumbranceObject.financialObjectCode"
-        forceUppercase="false">
+        forceUppercase="true">
         <label>Pre Encumbrances Object Code</label>
         <shortLabel>PreEncumObjCode</shortLabel>
 
         <maxLength>4</maxLength>
         <validationPattern>
-          <numeric />
+          <alphaNumeric />
         </validationPattern>
 
         <control>
@@ -322,13 +322,13 @@
 
       <attribute
         name="icrIncomeFinancialObject.financialObjectCode"
-        forceUppercase="false">
+        forceUppercase="true">
         <label>Indirect Cost Recovery Income Object Code</label>
         <shortLabel>IndirecCostRecovIncObjCde</shortLabel>
 
         <maxLength>4</maxLength>
         <validationPattern>
-          <numeric />
+          <alphaNumeric />
         </validationPattern>
 
         <control>
@@ -343,13 +343,13 @@
 
       <attribute
         name="icrExpenseFinancialObject.financialObjectCode"
-        forceUppercase="false">
+        forceUppercase="true">
         <label>Indirect Cost Recovery Expense Object Code</label>
         <shortLabel>IndirecCostRecovExpObjCde</shortLabel>
 
         <maxLength>4</maxLength>
         <validationPattern>
-          <numeric />
+          <alphaNumeric />
         </validationPattern>
 
         <control>

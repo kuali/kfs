@@ -596,11 +596,11 @@ public class ScrubberServiceImpl implements ScrubberService {
     /**
      * The purpose of this method is to determine wether or not an offset entry should
      * be generated. It uses the "unit of work to make this decision. The unit of work
-     * is made up of the following fields document type code, orgin code, document number, 
+     * is made up of the following fields document type code, origin code, document number, 
      * chart of accounts code, accountnumber, subaccount number, balance type, dcoument 
      * reversal date, fiscal period. If the unit of work for the current transaction is
      * different than the unit of work of the previous transaction and the offset
-     * accumulator is not equla to zero then an offset should be generated. Note, offsets
+     * accumulator is not equal to zero then an offset should be generated. Note, offsets
      * will not be generated for journal vouchers or if there were document errors. The
      * actual offset transaction is built in the method 3000-offset and then written
      * to the database in this method.

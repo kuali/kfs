@@ -158,7 +158,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         success &= checkEmptyBOField("subFundGroupCode", newAccount.getSubFundGroupCode(), "Sub Fund Group");
         success &= checkEmptyBOField("financialHigherEdFunctionCd", newAccount.getFinancialHigherEdFunctionCd(), "Higher Ed Function Code");
         success &= checkEmptyBOField("accountRestrictedStatusCode", newAccount.getAccountRestrictedStatusCode(), "Restricted Status Code");
-        //Please see KULCOA-301 for details, but these need to go elsewhere
+        //TODO: Please see KULCOA-301 for details, but these need to go elsewhere
         //success &= checkEmptyValue(, newAccount.getAcctIndirectCostRcvyTypeCd(), "ICR Type Code");
         //success &= checkEmptyValue(, newAccount.getFinancialIcrSeriesIdentifier(), "ICR Series Identifier");
         //success &= checkEmptyValue(, newAccount.getIndirectCostRecoveryAcctNbr(), "ICR Cost Recovery Account");

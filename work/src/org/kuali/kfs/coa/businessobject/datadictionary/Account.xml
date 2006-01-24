@@ -471,10 +471,10 @@
 			<attributeReference name="pendingAcctSufficientFundsIndicator" 
 								sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
 								sourceAttributeName="activeIndicator">
-				<label>Pending Account Sufficient Funds Indicator</label>
-				<shortLabel>PndSuffFnds</shortLabel>
-				<summary>Pending Account Sufficient Funds Indicator</summary>
-				<description>Pending Account Sufficient Funds Indicator</description>
+				<label>TP Sufficient Funds Check</label>
+				<shortLabel>TPSuffChk</shortLabel>
+				<summary>TP Sufficient Funds Check</summary>
+				<description>TP Sufficient Funds Check</description>
 			</attributeReference>
 			
 			<attributeReference name="extrnlFinEncumSufficntFndIndicator" 

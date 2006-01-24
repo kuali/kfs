@@ -47,6 +47,7 @@ import org.kuali.module.financial.rules.KualiParameterRule;
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public class AccountRule extends MaintenanceDocumentRuleBase {
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountRule.class);
     
     private KualiParameterRule validBudgetRule;
     private boolean ruleValuesSetup;
@@ -58,6 +59,12 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
     Account newAccount;
     AccountGuideline oldAccountGuideline;
     AccountGuideline newAccountGuideline;
+    
+    private static String CONTRACTS_GRANTS_CD = "CG";
+    private static String GENERAL_FUND_CD = "GF";
+    private static String RESTRICTED_FUND_CD = "RF";
+    private static String ENDOWMENT_FUND_CD = "EN";
+    private static String PLANT_FUND_CD = "PF";
     
     public AccountRule() {
         ruleValuesSetup = false;
@@ -108,7 +115,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
     }
     
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
-
+        LOG.info("processCustomRouteDocumentBusinessRules called");
         setupConvenienceObjects(document);
         initializeRuleValues(document);
         
@@ -136,46 +143,43 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
     private boolean checkEmptyValues(MaintenanceDocument maintenanceDocument) {
         boolean success = true;
         
-        //TODO: all of these strings need to be changed to propertyNames, 
-        //      ie:  Chart of Accounts Code -> chartOfAccountsCode
-        success &= checkEmptyValue("Financial Document Description", 
-                	maintenanceDocument.getDocumentHeader().getFinancialDocumentDescription());
-        success &= checkEmptyValue("Chart of Accounts Code", newAccount.getChartOfAccountsCode());
-        success &= checkEmptyValue("Account Number", newAccount.getAccountNumber());
-        success &= checkEmptyValue("Account Name", newAccount.getAccountName());
-        success &= checkEmptyValue("OrganizationFromRules", newAccount.getOrganizationCode());
-        success &= checkEmptyValue("Campus Code", newAccount.getAccountPhysicalCampusCode());
-        success &= checkEmptyValue("Effective Date", newAccount.getAccountEffectiveDate());
-        success &= checkEmptyValue("City Name", newAccount.getAccountCityName());
-        success &= checkEmptyValue("State Code", newAccount.getAccountStateCode());
-        success &= checkEmptyValue("Address", newAccount.getAccountStreetAddress());
-        success &= checkEmptyValue("ZIP Code", newAccount.getAccountZipCode());
-        success &= checkEmptyValue("Budget Recording Level", newAccount.getBudgetRecordingLevelCode());
-        success &= checkEmptyValue("Sufficient Funds Code", newAccount.getAccountSufficientFundsCode());
-        success &= checkEmptyValue("Sub Fund Group", newAccount.getSubFundGroupCode());
-        success &= checkEmptyValue("Higher Ed Function Code", newAccount.getFinancialHigherEdFunctionCd());
-        success &= checkEmptyValue("Restricted Status Code", newAccount.getAccountRestrictedStatusCode());
-        success &= checkEmptyValue("ICR Type Code", newAccount.getAcctIndirectCostRcvyTypeCd());
-        success &= checkEmptyValue("ICR Series Identifier", newAccount.getFinancialIcrSeriesIdentifier());
-        success &= checkEmptyValue("ICR Cost Recovery Account", newAccount.getIndirectCostRecoveryAcctNbr());
-        success &= checkEmptyValue("C&G Domestic Assistance Number", newAccount.getCgCatlfFedDomestcAssistNbr());
+        success &= checkEmptyBOField("chartOfAccountsCode", newAccount.getChartOfAccountsCode(), "Chart of Accounts Code");
+        success &= checkEmptyBOField("accountNumber", newAccount.getAccountNumber(), "Account Number");
+        success &= checkEmptyBOField("accountName", newAccount.getAccountName(), "Account Name");
+        success &= checkEmptyBOField("organizationCode", newAccount.getOrganizationCode(), "Organization Code");
+        success &= checkEmptyBOField("accountPhysicalCampusCode", newAccount.getAccountPhysicalCampusCode(), "Campus Code");
+        success &= checkEmptyBOField("accountEffectiveDate", newAccount.getAccountEffectiveDate(), "Effective Date");
+        success &= checkEmptyBOField("accountCityName", newAccount.getAccountCityName(), "City Name");
+        success &= checkEmptyBOField("accountStateCode", newAccount.getAccountStateCode(), "State Code");
+        success &= checkEmptyBOField("accountStreetAddress", newAccount.getAccountStreetAddress(), "Address");
+        success &= checkEmptyBOField("accountZipCode", newAccount.getAccountZipCode(), "Zip Code");
+        success &= checkEmptyBOField("budgetRecordingLevelCode", newAccount.getBudgetRecordingLevelCode(), "Budget Recording Level");
+        success &= checkEmptyBOField("accountSufficientFundsCode", newAccount.getAccountSufficientFundsCode(), "Sufficient Funds Code");
+        success &= checkEmptyBOField("subFundGroupCode", newAccount.getSubFundGroupCode(), "Sub Fund Group");
+        success &= checkEmptyBOField("financialHigherEdFunctionCd", newAccount.getFinancialHigherEdFunctionCd(), "Higher Ed Function Code");
+        success &= checkEmptyBOField("accountRestrictedStatusCode", newAccount.getAccountRestrictedStatusCode(), "Restricted Status Code");
+        //Please see KULCOA-301 for details, but these need to go elsewhere
+        //success &= checkEmptyValue(, newAccount.getAcctIndirectCostRcvyTypeCd(), "ICR Type Code");
+        //success &= checkEmptyValue(, newAccount.getFinancialIcrSeriesIdentifier(), "ICR Series Identifier");
+        //success &= checkEmptyValue(, newAccount.getIndirectCostRecoveryAcctNbr(), "ICR Cost Recovery Account");
+        //success &= checkEmptyValue(, newAccount.getCgCatlfFedDomestcAssistNbr(), "C&G Domestic Assistance Number");
 
         //	ObjectUtils.isNull() avoids null sub-objects that may or may not be proxied
         if (!ObjectUtils.isNull(newAccount.getAccountFiscalOfficerUser())) {
-            success &= checkEmptyValue("Account Fiscal Officer", newAccount.getAccountFiscalOfficerUser().getPersonUniversalIdentifier());
+            success &= checkEmptyBOField("accountFiscalOfficerUser.personUniversalIdentifier", newAccount.getAccountFiscalOfficerUser().getPersonUniversalIdentifier(), "Account Fiscal Officer");
         }
         if (!ObjectUtils.isNull(newAccount.getAccountManagerUser())) {
-            success &= checkEmptyValue("Account Manager", newAccount.getAccountManagerUser().getPersonUniversalIdentifier());
+            success &= checkEmptyBOField("accountManagerUser.personUniversalIdentifier", newAccount.getAccountManagerUser().getPersonUniversalIdentifier(), "Account Manager");
         }
         if (!ObjectUtils.isNull(newAccount.getAccountSupervisoryUser())) {
-            success &= checkEmptyValue("Account Supervisor", newAccount.getAccountSupervisoryUser().getPersonUniversalIdentifier());
+            success &= checkEmptyBOField("accountSupervisoryUser.personUniversalIdentifier", newAccount.getAccountSupervisoryUser().getPersonUniversalIdentifier(), "Account Supervisor");
         }
         if (!ObjectUtils.isNull(newAccount.getAccountGuideline())) {
             //	if the expiration date is earlier than today, guidelines are not required.
             if (newAccount.getAccountExpirationDate().after(new Timestamp(Calendar.getInstance().getTimeInMillis()))) {
-	            success &= checkEmptyValue("Expense Guideline", newAccount.getAccountGuideline().getAccountExpenseGuidelineText());
-	            success &= checkEmptyValue("Income Guideline", newAccount.getAccountGuideline().getAccountIncomeGuidelineText());
-	            success &= checkEmptyValue("Account Purpose", newAccount.getAccountGuideline().getAccountPurposeText());
+	            success &= checkEmptyBOField("accountGuideline.accountExpenseGuidelineText", newAccount.getAccountGuideline().getAccountExpenseGuidelineText(), "Expense Guideline");
+	            success &= checkEmptyBOField("accountGuideline.accountIncomeGuidelineText", newAccount.getAccountGuideline().getAccountIncomeGuidelineText(), "Income Guideline");
+	            success &= checkEmptyBOField("accountGuideline.accountPurposeText", newAccount.getAccountGuideline().getAccountPurposeText(), "Account Purpose");
             }
         }
         return success;
@@ -224,7 +228,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
 	        if (newAccount.getAccountRestrictedStatusCode().equalsIgnoreCase("T")) {
 	            if (newAccount.getAccountRestrictedStatusDate() == null) {
 		            success &= false;
-		            putFieldError("accountNumber", KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_NMBR_NOT_ALLOWED, newAccount.getAccountNumber());
+		            putFieldError("accountRestrictedStatusDate", KeyConstants.ERROR_DOCUMENT_ACCMAINT_RESTRICTED_STATUS_DT_REQ, newAccount.getAccountNumber());
 	            }
 	        }
         }
@@ -236,36 +240,37 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
             if (StringUtils.isEmpty(newAccount.getReportsToAccountNumber()) || 
                 	ObjectUtils.isNull(newAccount.getReportsToAccount())) { // proxy-safe null test
                 success &= false;
-                putFieldError("reportsToAccountNumber", KeyConstants.ERROR_DOCUMENT_ACCMAINT_RPTS_TO_ACCT_REQUIRED_IF_FRINGEBENEFIT_FALSE);
+                putFieldError("reportsToAccount.accountNumber", KeyConstants.ERROR_DOCUMENT_ACCMAINT_RPTS_TO_ACCT_REQUIRED_IF_FRINGEBENEFIT_FALSE);
             }
             else {
                 Account reportsToAccount = newAccount.getReportsToAccount();
                 if (!reportsToAccount.isAccountsFringesBnftIndicator()) {
                     success &= false;
-                    putFieldError("reportsToAccountNumber", KeyConstants.ERROR_DOCUMENT_ACCMAINT_RPTS_TO_ACCT_MUST_BE_FLAGGED_FRINGEBENEFIT, newAccount.getReportsToAccountNumber());
+                    putFieldError("reportsToAccount.accountNumber", KeyConstants.ERROR_DOCUMENT_ACCMAINT_RPTS_TO_ACCT_MUST_BE_FLAGGED_FRINGEBENEFIT, newAccount.getReportsToAccountNumber());
                 }
             }
         }
         
         //the employee type for fiscal officer, account manager, and account supervisor must be 'P' – professional.
-        success &= checkUserType(fiscalOfficer, "P", "Fiscal Officer");
-        success &= checkUserType(accountManager, "P", "Account Manager");
-        success &= checkUserType(accountSupervisor, "P", "Account Supervisor");
+        success &= checkUserType("accountFiscalOfficerUser.personName", fiscalOfficer, "P", "Fiscal Officer");
+        success &= checkUserType("accountManagerUser.personName", accountManager, "P", "Account Manager");
+        success &= checkUserType("accountSupervisoryUser.personName", accountSupervisor, "P", "Account Supervisor");
         
         //the supervisor cannot be the same as the fiscal officer or account manager.
         if (accountSupervisor.equals(fiscalOfficer)) {
             success &= false;
-            putGlobalError("Account Supervisor cannot be the same person as the Fiscal Officer");
+            putGlobalError(KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_SUPER_CANNOT_BE_FISCAL_OFFICER);
         }
         if (accountSupervisor.equals(accountManager)) {
             success &= false;
-            putGlobalError("Account Supervisor cannot be the same person as the Account Manager");
+            putGlobalError(KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_SUPER_CANNOT_BE_ACCT_MGR);
         }
         
         //valid values for the budget code are account, consolidation, level, object code, mixed, sub-account and no budget.
         if (validBudgetRule.failsRule(newAccount.getBudgetRecordingLevelCode())) {
             success &= false;
-            putGlobalError("Invalid Budget Recording Level Code");
+            
+            putFieldError("budgetRecordingLevelCode", KeyConstants.ERROR_DOCUMENT_ACCMAINT_INVALID_BUDGET_RECORD_LVL_CD, newAccount.getBudgetRecordingLevelCode());
         }
         
         //TODO: If a document is enroute that affects the filled in account number then give the user an error indicating that 
@@ -283,29 +288,30 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         //org_cd must be a valid org and active in the ca_org_t table
         if (ObjectUtils.isNull(newAccount.getOrganization())) {
             success &= false;
-            putGlobalError("Organization entered must be a valid Organization that exists in the system.");
+            putFieldError("organization.organizationCode", KeyConstants.ERROR_DOCUMENT_ACCMAINT_INVALID_ORG);
         }
         else if (!newAccount.getOrganization().isOrganizationActiveIndicator()) {
             success &= false;
-            putGlobalError("Organization entered is not active. Only active Organizations can be used.");
+            putFieldError("organization.organizationCode", KeyConstants.ERROR_DOCUMENT_ACCMAINT_INACTIVE_ORG);
         }
         
         //acct_phys_cmp_cd must be valid campus in the acct_phys_cmp_cd table
         if (ObjectUtils.isNull(newAccount.getAccountPhysicalCampus())) {
             success &= false;
+            putFieldError("accountPhysicalCampus.campusCode", KeyConstants.ERROR_DOCUMENT_ACCMAINT_INVALID_CAMPUS_CD);
             putGlobalError("Physical Campus Code entered must be a valid Physical Campus Code that exists in the system.");
         } // campus doesnt have an Active code, so this isnt checked
         
         //acct_state_cd must be valid in the sh_state_t table
         if (ObjectUtils.isNull(newAccount.getAccountState())) {
             success &= false;
-            putGlobalError("State entered must be a valid State that exists in the system.");
+            putFieldError("accountStateCode", KeyConstants.ERROR_DOCUMENT_ACCMAINT_INVALID_STATE_CD);
         } // state doesnt have an Active code, so this isnt checked
         
         //acct_zip_cd must be a valid in the sh_zip_code_t table
         if (ObjectUtils.isNull(newAccount.getAccountZipCode())) {
             success &= false;
-            putGlobalError("ZipCode entered must be a valid ZipCode that exists in the system.");
+            putFieldError("accountZipCode", KeyConstants.ERROR_DOCUMENT_ACCMAINT_INVALID_ZIP_CD);
         } // zipcode doesnt have an Active code, so this isnt checked
         
         return success;
@@ -317,14 +323,14 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
      * 
      * If so, it returns true.  If not, it returns false, and adds an error to 
      * the GlobalErrors.
-     * 
      * @param user - KualiUser to be tested
      * @param employeeType - String value expected for Employee Type 
      * @param userRoleDescription - User Role being tested, to be passed into an error message
+     * 
      * @return - true if user is of the requested employee type, false if not
      * 
      */
-    private boolean checkUserType(KualiUser user, String employeeType, String userRoleDescription) {
+    private boolean checkUserType(String propertyName, KualiUser user, String employeeType, String userRoleDescription) {
         
         //	if the user isnt populated, it will fail
         if (user == null) {
@@ -340,7 +346,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
 	            return true;
         }
         else {
-            putGlobalError(userRoleDescription + " selected must be an Employee Type of: 'P - Professional class'");
+            putFieldError(propertyName, KeyConstants.ERROR_DOCUMENT_ACCMAINT_PRO_TYPE_REQD_FOR_EMPLOYEE, userRoleDescription);
             return false;
         }
     }
@@ -385,14 +391,14 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         
         //when closing an account, the account expiration date must be the current date or earlier
         if (closeDate.before(todaysDate) || closeDate.equals(todaysDate)) {
-            putGlobalError("Account cannot be closed unless Expiration Date is today or earlier");
+            putGlobalError(KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_CANNOT_BE_CLOSED_EXP_DATE_INVALID);
             success &= false;
         }
         
         // when closing an account, a continuation account is required 
         // error message - "When closing an Account a Continuation Account Number entered on the Responsibility screen is required."
         if (StringUtils.isEmpty(newAccount.getContinuationAccountNumber())) {
-            putGlobalError("When closing an Account a Continuation Account is required.");
+            putGlobalError(KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_CLOSE_CONTINUATION_ACCT_REQD);
             success &= false;
         }
         
@@ -426,15 +432,15 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         // (except for the MPRACT sub-fund group in the general fund fund group).
         if (!ObjectUtils.isNull(newAccount.getSubFundGroup())) {
             String fundGroupCode = newAccount.getSubFundGroup().getFundGroupCode();
-            if (fundGroupCode.equalsIgnoreCase("CG") || 
-               (fundGroupCode.equalsIgnoreCase("GF") && !fundGroupCode.equalsIgnoreCase("MPRACT"))) {
+            if (fundGroupCode.equalsIgnoreCase(CONTRACTS_GRANTS_CD) || 
+               (fundGroupCode.equalsIgnoreCase(GENERAL_FUND_CD) && !fundGroupCode.equalsIgnoreCase("MPRACT"))) {
                 
                 if(StringUtils.isEmpty(newAccount.getIncomeStreamAccountNumber())) {
-                    putGlobalError("Income Stream Account cannot be null when Fund Groups are CG or GF");
+                    putFieldError("incomeStreamAccount.accountNumber", KeyConstants.ERROR_DOCUMENT_ACCMAINT_INCOME_STREAM_ACCT_NBR_CANNOT_BE_NULL);
                     success &= false;
                 }
                 if(StringUtils.isEmpty(newAccount.getIncomeStreamFinancialCoaCode())) {
-                    putGlobalError("Income Stream Chart of Account Code cannot be null when Fund Groups are CG or GF");
+                    putFieldError("incomeStreamAccount.chartOfAccounts.chartOfAccountsCode", KeyConstants.ERROR_DOCUMENT_ACCMAINT_INCOME_STREAM_ACCT_COA_CANNOT_BE_NULL);
                     success &= false;
                 }
             }
@@ -460,9 +466,9 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         if (maintenanceDocument.isEdit() && !oldExpDate.equals(newExpDate)) {
             if (!ObjectUtils.isNull(newAccount.getSubFundGroup())) {
                 String fundGroupCode = newAccount.getSubFundGroup().getFundGroupCode();
-                if (!fundGroupCode.equalsIgnoreCase("CG")) {
+                if (!fundGroupCode.equalsIgnoreCase(CONTRACTS_GRANTS_CD)) {
                     if (!newExpDate.after(today) || newExpDate.equals(today)) {
-                        putGlobalError("Expiration date must be today or later (except for C&G accounts)");
+                        putGlobalError(KeyConstants.ERROR_DOCUMENT_ACCMAINT_EXP_DATE_TODAY_LATER_EXCEPT_CANDG_ACCT);
                         success &= false;
                     }
                 }
@@ -474,7 +480,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
             if (StringUtils.isEmpty(newAccount.getContinuationAccountNumber()) || 
                 StringUtils.isEmpty(newAccount.getContinuationFinChrtOfAcctCd())) {
                 
-                putGlobalError("A continuation account is required if the expiration date is completed.");
+                putGlobalError(KeyConstants.ERROR_DOCUMENT_ACCMAINT_CONTINUATION_ACCT_REQD_IF_EXP_DATE_COMPLETED);
                 success &= false;
             }
         }
@@ -485,7 +491,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
             if(!ObjectUtils.isNull(newAccount.getSubFundGroup())) {
                 if(!newAccount.getSubFundGroup().getFundGroupCode().equalsIgnoreCase("CG")) {
                     if(!newExpDate.after(today) || newExpDate.equals(today) ) {
-                        putGlobalError("Expiration date must be today or later (except for C&G accounts)");
+                        putGlobalError(KeyConstants.ERROR_DOCUMENT_ACCMAINT_EXP_DATE_TODAY_LATER_EXCEPT_CANDG_ACCT);
                         success &= false;
                     }
                 }
@@ -495,7 +501,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         //acct_expiration_dt can not be before acct_effect_dt
         Timestamp effectiveDate = newAccount.getAccountEffectiveDate();
         if(newExpDate.before(effectiveDate)) {
-            putGlobalError("Account expiration date cannot be before account effective date");
+            putGlobalError(KeyConstants.ERROR_DOCUMENT_ACCMAINT_EXP_DATE_CANNOT_BE_BEFORE_EFFECTIVE_DATE);
             success &= false;
         }
 
@@ -518,20 +524,20 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         
         //	on the account screen, if the fund group of the account is CG (contracts & grants) or 
         // RF (restricted funds), the restricted status code is set to 'R'.
-        if (fundGroupCode.equalsIgnoreCase("CG") || fundGroupCode.equalsIgnoreCase("RF")) {
+        if (fundGroupCode.equalsIgnoreCase(CONTRACTS_GRANTS_CD) || fundGroupCode.equalsIgnoreCase(RESTRICTED_FUND_CD)) {
             if (!restrictedStatusCode.equalsIgnoreCase("R")) {
-                putGlobalError("Account Restricted Code must be marked as 'R' if Account Fund Group is 'CG' or 'RF'");
+                putGlobalError(KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_RESTRICTED_STATUS_CD_MUST_BE_R);
                 success &= false;
             }
         }
 
         //	If the fund group is EN (endowment) or PF (plant fund) the value is not set by the system and 
         // must be set by the user 
-        else if (fundGroupCode.equalsIgnoreCase("EN") || fundGroupCode.equalsIgnoreCase("PF")) {
+        else if (fundGroupCode.equalsIgnoreCase(ENDOWMENT_FUND_CD) || fundGroupCode.equalsIgnoreCase(PLANT_FUND_CD)) {
             if (StringUtils.isEmpty(restrictedStatusCode) || 
                (!restrictedStatusCode.equalsIgnoreCase("R") && !restrictedStatusCode.equalsIgnoreCase("U"))) {
                
-                putGlobalError("Account Restricted Code must be set to 'U' or 'R' if Account Fund Group is 'EN' or 'PF'.");
+                putGlobalError(KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_RESTRICTED_STATUS_CD_MUST_BE_U_OR_R);
                 success &= false;
             }
         }
@@ -539,16 +545,15 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         //	for all other fund groups the value is set to 'U'. R being restricted,U being unrestricted.
         else {
             if (!restrictedStatusCode.equalsIgnoreCase("U")) {
-				putGlobalError("For all Fund Groups not in CG,RF,EN,PF, the Restricted Code must be set to 'U'.");
+				putGlobalError(KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_RESTRICTED_STATUS_CD_MUST_BE_U);
 				success &= false;
             }
         }
         
         //	an account in the general fund fund group cannot have a budget recording level of mixed.
-        if (fundGroupCode.equalsIgnoreCase("GF")) {
-            //TODO: Dont know the budget recording level code for MIXED!  need to track this down
-            if (newAccount.getBudgetRecordingLevelCode().equalsIgnoreCase("MIXED")) {
-                putGlobalError("An Account in the General Fund (GF) cannot have a Budget Recording Level of Mixed (MX).");
+        if (fundGroupCode.equalsIgnoreCase(GENERAL_FUND_CD)) {
+            if (newAccount.getBudgetRecordingLevelCode().equalsIgnoreCase("M")) {
+                putFieldError("budgetRecordingLevelCode", KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_GF_BUDGET_RECORD_LVL_MIXED);
                 success &= false;
             }
         }
@@ -570,7 +575,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         //	assuming here that since we did the PersistenceService.refreshNonKeyFields() at beginning of rule that if the 
         // SubFundGroup object would be populated.
         if (ObjectUtils.isNull(newAccount.getSubFundGroup())) {
-            putGlobalError("Sub-Fund Group entered must be a valid Sub-Fund Group present in the system.");
+            putFieldError("subFundGroup", KeyConstants.ERROR_DOCUMENT_ACCMAINT_INVALID_SUBFUNDGROUP);
             success &= false;
         }
         
@@ -583,13 +588,13 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
             
             //	if sub_fund_grp_cd is 'PFCMR' then campus_cd must be entered
             if (StringUtils.isEmpty(newAccount.getAccountPhysicalCampusCode())) {
-                putGlobalError("If Sub Fund Group 'PFCMR' then campus code must be entered");
+                putGlobalError(KeyConstants.ERROR_DOCUMENT_ACCMAINT_SUBFUNDGROUP_WITH_INVALID_CAMPUS_CD);
                 success &= false;
             }
         
         	//	if sub_fund_grp_cd is 'PFCMR' then bldg_cd must be entered
         	if (StringUtils.isEmpty(newAccount.getAccountZipCode())) {
-                putGlobalError("If Sub Fund Group 'PFCMR' then a ZipCode and Building Code must be entered.");
+                putGlobalError(KeyConstants.ERROR_DOCUMENT_ACCMAINT_SUBFUNDGROUP_WITH_INVALID_ZIP_AND_BUILDING_CD);
                 success &= false;
         	} 
         	else {
@@ -601,7 +606,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
                 
                 //	now we can check the building code
                 if (StringUtils.isEmpty(zip.getBuildingCode())) {
-                    putGlobalError("If Sub Fund Group 'PFCMR' then a ZipCode and Building Code must be entered.");
+                    putGlobalError(KeyConstants.ERROR_DOCUMENT_ACCMAINT_SUBFUNDGROUP_WITH_INVALID_ZIP_AND_BUILDING_CD);
                     success &= false;
                 }
             }

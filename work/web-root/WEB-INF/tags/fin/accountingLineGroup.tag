@@ -58,23 +58,23 @@
 
 <tr>
     <th class="bord-l-b">&nbsp;</th>
-    <th class="bord-l-b"><kul:htmlAttributeLabel attributeEntry="${accountingLineAttributes.chartOfAccountsCode}" useShortLabel="true" /></th>
-    <th class="bord-l-b"><kul:htmlAttributeLabel attributeEntry="${accountingLineAttributes.accountNumber}" useShortLabel="true" /></th>
-    <th class="bord-l-b"><kul:htmlAttributeLabel attributeEntry="${accountingLineAttributes.subAccountNumber}" useShortLabel="true" /></th>
-    <th class="bord-l-b"><kul:htmlAttributeLabel attributeEntry="${accountingLineAttributes.financialObjectCode}" useShortLabel="true" /></th>
-    <th class="bord-l-b"><kul:htmlAttributeLabel attributeEntry="${accountingLineAttributes.financialSubObjectCode}" useShortLabel="true" /></th>
-    <th class="bord-l-b"><kul:htmlAttributeLabel attributeEntry="${accountingLineAttributes.projectCode}" useShortLabel="true" /></th>
+    <th class="bord-l-b"><kul:htmlAttributeLabel attributeEntry="${accountingLineAttributes.chartOfAccountsCode}" useShortLabel="true" noColon="true" /></th>
+    <th class="bord-l-b"><kul:htmlAttributeLabel attributeEntry="${accountingLineAttributes.accountNumber}" useShortLabel="true" noColon="true" /></th>
+    <th class="bord-l-b"><kul:htmlAttributeLabel attributeEntry="${accountingLineAttributes.subAccountNumber}" useShortLabel="true" noColon="true" /></th>
+    <th class="bord-l-b"><kul:htmlAttributeLabel attributeEntry="${accountingLineAttributes.financialObjectCode}" useShortLabel="true" noColon="true" /></th>
+    <th class="bord-l-b"><kul:htmlAttributeLabel attributeEntry="${accountingLineAttributes.financialSubObjectCode}" useShortLabel="true" noColon="true" /></th>
+    <th class="bord-l-b"><kul:htmlAttributeLabel attributeEntry="${accountingLineAttributes.projectCode}" useShortLabel="true" noColon="true" /></th>
     <c:if test="${includeObjectTypeCode}">
-        <th class="bord-l-b"><font color="red">*</font>&nbsp;<kul:htmlAttributeLabel attributeEntry="${accountingLineAttributes.objectTypeCode}" useShortLabel="true" /></th>
+        <th class="bord-l-b"><font color="red">*</font>&nbsp;<kul:htmlAttributeLabel attributeEntry="${accountingLineAttributes.objectTypeCode}" useShortLabel="true" noColon="true" /></th>
     </c:if>
-    <th class="bord-l-b"><kul:htmlAttributeLabel attributeEntry="${accountingLineAttributes.organizationReferenceId}" useShortLabel="true" /></th>
-    <th class="bord-l-b"><kul:htmlAttributeLabel attributeEntry="${accountingLineAttributes.budgetYear}" useShortLabel="true" /></th>
+    <th class="bord-l-b"><kul:htmlAttributeLabel attributeEntry="${accountingLineAttributes.organizationReferenceId}" useShortLabel="true" noColon="true" /></th>
+    <th class="bord-l-b"><kul:htmlAttributeLabel attributeEntry="${accountingLineAttributes.budgetYear}" useShortLabel="true" noColon="true" /></th>
     <c:forTokens items="${optionalFields}" delims=" ," var="currentField">
-        <th class="bord-l-b"><kul:htmlAttributeLabel attributeEntry="${accountingLineAttributes[currentField]}" useShortLabel="true" /></th>
+        <th class="bord-l-b"><kul:htmlAttributeLabel attributeEntry="${accountingLineAttributes[currentField]}" useShortLabel="true" noColon="true" /></th>
     </c:forTokens>
     <c:choose>
         <c:when test="${!debitCreditAmount}" >
-            <th class="bord-l-b"><kul:htmlAttributeLabel attributeEntry="${accountingLineAttributes.amount}" useShortLabel="true" /></th>
+            <th class="bord-l-b"><kul:htmlAttributeLabel attributeEntry="${accountingLineAttributes.amount}" useShortLabel="true" noColon="true" /></th>
         </c:when>
         <c:otherwise>
             <th class="bord-l-b">${ConfigProperties.label.document.journalVoucher.accountingLine.debit}</th>

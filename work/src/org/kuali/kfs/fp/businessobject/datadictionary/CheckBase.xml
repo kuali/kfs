@@ -56,9 +56,6 @@
 					            sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
 					            sourceAttributeName="genericAmount">
 				<required>true</required>
-                <control>
-                    <text size="10" />
-                </control>
 			</attributeReference>		            
 
             <attributeReference name="nextCheckLineNumber" 

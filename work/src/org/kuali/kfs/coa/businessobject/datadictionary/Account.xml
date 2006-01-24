@@ -216,19 +216,19 @@
 			<attributeReference name="reportsToAccount.chartOfAccounts.chartOfAccountsCode" 
 								sourceClassName="org.kuali.module.chart.bo.Chart" 
 								sourceAttributeName="chartOfAccountsCode">
-				<label>Reports To Chart Of Accounts Code</label>
-				<shortLabel>RptsToChart</shortLabel>
-				<summary>Reports To Chart Of Accounts Code</summary>
-				<description>Reports To Chart Of Accounts Code</description>
+				<label>Fringe Benefit Chart Of Accounts Code</label>
+				<shortLabel>FringeChart</shortLabel>
+				<summary>Fringe Benefit Chart Of Accounts Code</summary>
+				<description>Fringe Benefit Chart Of Accounts Code</description>
 			</attributeReference>
 			
 			<attributeReference name="reportsToAccount.accountNumber" 
 								sourceClassName="org.kuali.module.chart.bo.Account" 
 								sourceAttributeName="accountNumber">
-				<label>Reports To Account Number</label>
-				<shortLabel>RptsToAcct</shortLabel>
-				<summary>Reports To Account Number</summary>
-				<description>Reports To Account Number</description>
+				<label>Fringe Benefit Account Number</label>
+				<shortLabel>FringeAcct</shortLabel>
+				<summary>Fringe Benefit Account Number</summary>
+				<description>Fringe Benefit Account Number</description>
 			</attributeReference>
 			
 			<attributeReference name="accountCreateDate" 

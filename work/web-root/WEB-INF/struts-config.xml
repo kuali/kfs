@@ -35,7 +35,6 @@
        <form-bean name="BudgetTemplateForm" type="org.kuali.module.kra.web.struts.form.BudgetForm" />
        <form-bean name="BudgetNonpersonnelForm" type="org.kuali.module.kra.web.struts.form.BudgetForm" />
        <form-bean name="BudgetPersonnelForm" type="org.kuali.module.kra.web.struts.form.BudgetForm" />
-       <form-bean name="BudgetNonpersonnelForm" type="org.kuali.module.kra.web.struts.form.BudgetForm" />
        <form-bean name="BudgetPersonnelForm" type="org.kuali.module.kra.web.struts.form.BudgetForm" />
        <form-bean name="BudgetCostShareForm" type="org.kuali.module.kra.web.struts.form.BudgetForm" />
        <form-bean name="BudgetOutputForm" type="org.kuali.module.kra.web.struts.form.BudgetForm" />

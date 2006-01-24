@@ -54,7 +54,7 @@
 		            <maintainableField name="reportsToAccount.chartOfAccounts.chartOfAccountsCode" required="false" />
 		            <maintainableField name="reportsToAccount.accountNumber" required="false" />
 		            <maintainableField name="financialHigherEdFunction.financialHigherEdFunctionCd" required="true" />
-		            <maintainableField name="accountRestrictedStatus.accountRestrictedStatusCode" required="true" />
+		            <maintainableField name="accountRestrictedStatusCode" required="true" />
 		            <maintainableField name="accountRestrictedStatusDate" required="false" />
 		            <maintainableField name="endowmentIncomeAccount.chartOfAccounts.chartOfAccountsCode" required="false" />
 		            <maintainableField name="endowmentIncomeAccount.accountNumber" required="false" />

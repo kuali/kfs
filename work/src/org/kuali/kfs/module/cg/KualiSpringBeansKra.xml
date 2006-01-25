@@ -8,6 +8,12 @@
         <property name="budgetGraduateAssistantRateService">
             <ref bean="budgetGraduateAssistantRateService" />
         </property>
+        <property name="budgetPeriodDao">
+            <ref bean="budgetPeriodDao"/>
+        </property>
+        <property name="budgetTaskDao">
+            <ref bean="budgetTaskDao" />
+        </property>
     </bean>
 
     <bean id="budgetFringeRateService" class="org.kuali.module.kra.service.impl.BudgetFringeRateServiceImpl">
@@ -49,6 +55,12 @@
     <bean id="budgetTaskService" class="org.kuali.module.kra.service.impl.BudgetTaskServiceImpl">
         <property name="budgetTaskDao">
             <ref bean="budgetTaskDao" />
+        </property>
+    </bean>
+    
+    <bean id="researchDocumentService" class="org.kuali.module.kra.service.impl.ResearchDocumentServiceImpl">
+        <property name="budgetService">
+            <ref bean="budgetService" />
         </property>
     </bean>
 </beans>

@@ -1,4 +1,4 @@
-    <class-descriptor class="org.kuali.module.kra.bo.NonpersonnelCategory" table="KULUNT.ER_NPRS_CTGRY_CD_T">
+    <class-descriptor class="org.kuali.module.kra.bo.NonpersonnelCategory" table="ER_NPRS_CTGRY_CD_T">
         <field-descriptor name="code" column="BDGT_NPRS_CTGRY_CD" jdbc-type="VARCHAR" primarykey="true"/>
         <field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
         <field-descriptor name="name" column="BDGT_NPRS_CTGRY_DESC" jdbc-type="VARCHAR" />
@@ -11,7 +11,7 @@
         </collection-descriptor>
     </class-descriptor>
         
-   <class-descriptor class="org.kuali.module.kra.bo.NonpersonnelSubCategory" table="KULUNT.ER_NPRS_SUB_CTGRY_CD_T">
+   <class-descriptor class="org.kuali.module.kra.bo.NonpersonnelSubCategory" table="ER_NPRS_SUB_CTGRY_CD_T">
         <field-descriptor name="code"          column="BDGT_NPRS_SUB_CTGRY_CD"   jdbc-type="VARCHAR" primarykey="true" />
         <field-descriptor name="name"          column="BDGT_NPRS_SUB_CTGRY_DESC" jdbc-type="VARCHAR" />
         <field-descriptor name="nonpersonnelMtdcExcludedIndicator"      column="BDGT_NPRS_MTDC_EXCL_IND"       jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
@@ -21,7 +21,7 @@
         <field-descriptor name="versionNumber" column="VER_NBR"                  jdbc-type="BIGINT"  locking="true"/>
     </class-descriptor>
 
-    <class-descriptor class="org.kuali.module.kra.bo.AppointmentType" table="KULUNT.ER_APPT_TYP_T">
+    <class-descriptor class="org.kuali.module.kra.bo.AppointmentType" table="ER_APPT_TYP_T">
     	<field-descriptor name="appointmentTypeCode"           column="UNIV_APPT_TYP_CD"           jdbc-type="VARCHAR" primarykey="true"></field-descriptor>
         <field-descriptor name="active"                        column="DOBJ_MAINT_CD_ACTV_IND"     jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
     	<field-descriptor name="appointmentTypeDescription"    column="UNIV_APPT_DESC_NM"          jdbc-type="VARCHAR"></field-descriptor>
@@ -34,7 +34,7 @@
         <field-descriptor name="versionNumber"                 column="VER_NBR"                    jdbc-type="BIGINT"  locking="true"/>
     </class-descriptor>
 
-<class-descriptor class="org.kuali.module.kra.bo.GraduateAssistantRate" table="KULUNT.ER_GRAD_ASST_RT_T">
+<class-descriptor class="org.kuali.module.kra.bo.GraduateAssistantRate" table="ER_GRAD_ASST_RT_T">
   <field-descriptor name="campusCode" column="CMP_CD" jdbc-type="VARCHAR" primarykey="true" />
 	<field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 	<field-descriptor name="campusFallMaximumFeeRemissionRate" column="CMP_FALL_MAX_FEE_RMSN_RT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
@@ -44,7 +44,7 @@
 	<field-descriptor name="versionNumber" locking="true" column="VER_NBR" jdbc-type="BIGINT" />
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.kra.bo.NonpersonnelObjectCode" table="KULUNT.ER_NPRS_OBJ_CD_T">
+<class-descriptor class="org.kuali.module.kra.bo.NonpersonnelObjectCode" table="ER_NPRS_OBJ_CD_T">
     <field-descriptor	name="budgetNonpersonnelCategoryCode" column="BDGT_NPRS_CTGRY_CD" jdbc-type="VARCHAR" primarykey="true" />
 	<field-descriptor name="budgetNonpersonnelSubCategoryCode" column="BDGT_NPRS_SUB_CTGRY_CD" jdbc-type="VARCHAR" primarykey="true" />
 	<field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
@@ -59,7 +59,7 @@
 	</reference-descriptor>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.kra.bo.OutputUrl" table="KULUNT.ER_OUT_URL_T">
+<class-descriptor class="org.kuali.module.kra.bo.OutputUrl" table="ER_OUT_URL_T">
 	<field-descriptor name="electronicResearchAdministrationUrlCode" column="ER_URL_CD" jdbc-type="VARCHAR" primary-key="true" />
 	<field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 	<field-descriptor name="electronicResearchAdministrationUrlDescription" column="ER_URL_DESC" jdbc-type="VARCHAR" />
@@ -70,7 +70,7 @@
 	<field-descriptor name="versionNumber" locking="true" column="VER_NBR" jdbc-type="BIGINT" />
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.kra.bo.ProtocolType" table="KULUNT.ER_PRTCL_TYP_T">
+<class-descriptor class="org.kuali.module.kra.bo.ProtocolType" table="ER_PRTCL_TYP_T">
 	<field-descriptor name="protocolTypeCode" column="PRTCL_TYP_CD" jdbc-type="VARCHAR" primary-key="true" />
 	<field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 	<field-descriptor name="protocolTypeDescription" column="PRTCL_TYP_DESC" jdbc-type="VARCHAR" />
@@ -80,7 +80,7 @@
 	<field-descriptor name="versionNumber" locking="true" column="VER_NBR" jdbc-type="BIGINT" />
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.kra.bo.Url" table="KULUNT.ER_URL_T">
+<class-descriptor class="org.kuali.module.kra.bo.Url" table="ER_URL_T">
 	<field-descriptor name="electronicResearchAdministrationUrlCode" column="ER_URL_CD" jdbc-type="VARCHAR" primary-key="true" />
 	<field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 	<field-descriptor name="electronicResearchAdministrationUrlDescription" column="ER_URL_DESC" jdbc-type="VARCHAR" />
@@ -89,7 +89,7 @@
 	<field-descriptor name="versionNumber" locking="true" column="VER_NBR" jdbc-type="BIGINT" />
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.kra.bo.Budget" table="KULUNT.ER_BDGT_T">
+<class-descriptor class="org.kuali.module.kra.bo.Budget" table="ER_BDGT_T">
   <field-descriptor id="1" name="documentHeaderId" column="ER_REF_TRACK_NBR" jdbc-type="VARCHAR" primarykey="true" />
   <field-descriptor name="budgetParentTrackNumber" column="BDGT_PARNT_TRK_NBR" jdbc-type="BIGINT" />
   <field-descriptor name="budgetAgencyNumber" column="BDGT_AGNCY_NBR" jdbc-type="VARCHAR"/>
@@ -161,7 +161,7 @@
   </collection-descriptor>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.kra.bo.BudgetTask" table="KULUNT.ER_BDGT_TSK_T">
+<class-descriptor class="org.kuali.module.kra.bo.BudgetTask" table="ER_BDGT_TSK_T">
 	<field-descriptor name="documentHeaderId" column="ER_REF_TRACK_NBR" jdbc-type="VARCHAR" primarykey="true" />
 	<field-descriptor name="budgetTaskSequenceNumber" column="BDGT_TSK_SEQ_NBR" jdbc-type="INTEGER" primarykey="true" />
 	<field-descriptor name="budgetTaskName" column="BDGT_TASK_NM" jdbc-type="VARCHAR" />
@@ -170,7 +170,7 @@
 	<field-descriptor name="versionNumber" locking="true" column="VER_NBR" jdbc-type="BIGINT" />
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.kra.bo.BudgetPeriod" table="KULUNT.ER_BDGT_PRD_T">
+<class-descriptor class="org.kuali.module.kra.bo.BudgetPeriod" table="ER_BDGT_PRD_T">
 	<field-descriptor name="documentHeaderId" column="ER_REF_TRACK_NBR" jdbc-type="VARCHAR" primarykey="true" />
 	<field-descriptor name="budgetPeriodSequenceNumber" column="BDGT_PRD_SEQ_NBR" jdbc-type="INTEGER" primarykey="true" />
 	<field-descriptor name="budgetPeriodEndDate" column="BDGT_PRD_END_DT" jdbc-type="DATE" />
@@ -179,7 +179,7 @@
 	<field-descriptor name="versionNumber" locking="true" column="VER_NBR" jdbc-type="BIGINT" />
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.kra.bo.BudgetFringeRate" table="KULUNT.ER_BDGT_FRNG_RT_T">
+<class-descriptor class="org.kuali.module.kra.bo.BudgetFringeRate" table="ER_BDGT_FRNG_RT_T">
 	<field-descriptor name="documentHeaderId" column="ER_REF_TRACK_NBR" jdbc-type="VARCHAR" primarykey="true" />
 	<field-descriptor name="universityAppointmentTypeCode" column="UNIV_APPT_TYP_CD" jdbc-type="VARCHAR" primarykey="true" />
 	<field-descriptor name="contractsAndGrantsFringeRateAmount" column="CG_FRNG_RT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbDecimalPercentageFieldConversion"/>
@@ -192,7 +192,7 @@
 	</reference-descriptor>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.kra.bo.BudgetGraduateAssistantRate" table="KULUNT.ER_BDGT_GRAD_ASST_RT_T">
+<class-descriptor class="org.kuali.module.kra.bo.BudgetGraduateAssistantRate" table="ER_BDGT_GRAD_ASST_RT_T">
 	<field-descriptor name="documentHeaderId" column="ER_REF_TRACK_NBR" jdbc-type="VARCHAR" primarykey="true" />
   	<field-descriptor name="campusCode" column="CMP_CD" jdbc-type="VARCHAR" primarykey="true" />
 	<field-descriptor name="campusFallMaximumFeeRemissionRate" column="CMP_FALL_MAX_FEE_RMSN_RT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
@@ -205,7 +205,7 @@
 	</reference-descriptor>	
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.kra.document.BudgetDocument" table="KULUNT.ER_BDGT_DOC_T">
+<class-descriptor class="org.kuali.module.kra.document.BudgetDocument" table="ER_BDGT_DOC_T">
 	<field-descriptor id="1" name="financialDocumentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" />
 	<field-descriptor name="budgetTaskNextSequenceNumber" column="BDGT_TSK_NXT_SEQ_NBR" jdbc-type="INTEGER" />
 	<field-descriptor name="budgetPeriodNextSequenceNumber" column="BDGT_PRD_NXT_SEQ_NBR" jdbc-type="INTEGER" />
@@ -231,7 +231,7 @@
 </class-descriptor>
 
 
-<class-descriptor class="org.kuali.module.kra.bo.BudgetNonpersonnel" table="KULUNT.ER_BDGT_NPRS_T">
+<class-descriptor class="org.kuali.module.kra.bo.BudgetNonpersonnel" table="ER_BDGT_NPRS_T">
 	<field-descriptor name="documentHeaderId" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true"/>
 	<field-descriptor name="budgetTaskSequenceNumber" column="BDGT_TSK_SEQ_NBR" jdbc-type="INTEGER" primarykey="true" />
 	<field-descriptor name="budgetPeriodSequenceNumber" column="BDGT_PRD_SEQ_NBR" jdbc-type="INTEGER" primarykey="true" />

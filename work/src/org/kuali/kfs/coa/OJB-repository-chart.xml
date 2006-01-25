@@ -949,7 +949,7 @@
 </class-descriptor>
 
 <!-- 
-	<class-descriptor class="org.kuali.module.chart.bo.codes.BudgetAggregationCode" table="KULUNT.CA_BDGT_AGGR_T" >
+	<class-descriptor class="org.kuali.module.chart.bo.codes.BudgetAggregationCode" table="CA_BDGT_AGGR_T" >
 	<field-descriptor name="code" column="FOBJ_BDGT_AGGR_CD" jdbc-type="VARCHAR" primarykey="true" />
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 	<field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
@@ -959,7 +959,7 @@
 
 <class-descriptor
 	class="org.kuali.module.chart.bo.codes.MandatoryTransferEliminationCode"
-	table="KULUNT.CA_MNXFR_ELIM_T">
+	table="CA_MNXFR_ELIM_T">
 	<field-descriptor name="code" column="FOBJ_MNXFR_ELIM_CD"
 		jdbc-type="VARCHAR" primarykey="true" />
 	<field-descriptor name="versionNumber" column="VER_NBR"
@@ -973,7 +973,7 @@
 
 <class-descriptor
 	class="org.kuali.module.chart.bo.codes.FederalFundedCode"
-	table="KULUNT.CA_FED_FND_T">
+	table="CA_FED_FND_T">
 	<field-descriptor name="code" column="FIN_FED_FUNDED_CD"
 		jdbc-type="VARCHAR" primarykey="true" />
 	<field-descriptor name="versionNumber" column="VER_NBR"
@@ -1333,7 +1333,7 @@
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.chart.bo.AccountingPeriod"
-	table="KULUNT.SH_ACCT_PERIOD_T">
+	table="SH_ACCT_PERIOD_T">
 	<field-descriptor name="budgetRollover" column="BDGT_ROLLOVER_IND"
 		jdbc-type="VARCHAR"
 		conversion="org.kuali.core.util.OjbCharBooleanConversion" />
@@ -1724,7 +1724,7 @@
 
 <class-descriptor
 	class="org.kuali.module.chart.bo.codes.ICRTypeCode"
-	table="KULUNT.CA_ICR_TYPE_T">
+	table="CA_ICR_TYPE_T">
 	<field-descriptor name="code" column="ACCT_ICR_TYP_CD"
 		jdbc-type="VARCHAR" primarykey="true" />
 	<field-descriptor name="name" column="ACCT_ICR_TYP_DESC"

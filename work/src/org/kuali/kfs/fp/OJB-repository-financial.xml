@@ -1,5 +1,5 @@
 <!--  INTERNAL BILLING DOCUMENT MAPPINGS -->
-<class-descriptor class="org.kuali.module.financial.document.InternalBillingDocument" table="KULUNT.FP_INT_BILL_DOC_T">
+<class-descriptor class="org.kuali.module.financial.document.InternalBillingDocument" table="FP_INT_BILL_DOC_T">
     <!--  common transactional document base attributes -->
     <field-descriptor name="financialDocumentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true"/>
     <field-descriptor name="explanation" column="FDOC_EXPLAIN_TXT" jdbc-type="VARCHAR" />
@@ -40,7 +40,7 @@
     </collection-descriptor>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.financial.bo.InternalBillingItem" table="KULUNT.FP_INT_BILL_ITM_T">
+<class-descriptor class="org.kuali.module.financial.bo.InternalBillingItem" table="FP_INT_BILL_ITM_T">
     <field-descriptor name="financialDocumentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true"/>
     <field-descriptor name="itemSequenceId" column="FDOC_ITM_NBR" jdbc-type="INTEGER" primarykey="true" autoincrement="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
@@ -53,7 +53,7 @@
 </class-descriptor>
 
 <!--  SERVICE BILLING DOCUMENT MAPPINGS -->
-<class-descriptor class="org.kuali.module.financial.document.ServiceBillingDocument" table="KULUNT.FP_SVC_BILL_DOC_T">
+<class-descriptor class="org.kuali.module.financial.document.ServiceBillingDocument" table="FP_SVC_BILL_DOC_T">
     <!--  common transactional document base attributes -->
     <field-descriptor name="financialDocumentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true"/>
     <field-descriptor name="explanation" column="FDOC_EXPLAIN_TXT" jdbc-type="VARCHAR" />
@@ -95,7 +95,7 @@
 </class-descriptor>
 
 <!-- AUXILIARY VOUCHER DOCUMENT -->
-<class-descriptor class="org.kuali.module.financial.document.AuxiliaryVoucherDocument" table="KULUNT.FP_ACRL_VCHR_DOC_T">
+<class-descriptor class="org.kuali.module.financial.document.AuxiliaryVoucherDocument" table="FP_ACRL_VCHR_DOC_T">
     <!--  common transactional document base attributes -->
     <field-descriptor name="financialDocumentNumber"       column="FDOC_NBR"         jdbc-type="VARCHAR" primarykey="true"/>
     <field-descriptor name="explanation"            column="FDOC_EXPLAIN_TXT"   jdbc-type="VARCHAR" />
@@ -132,7 +132,7 @@
 </class-descriptor>
 
 <!-- PRE-ENCUMBERANCE DOCUMENT -->
-<class-descriptor class="org.kuali.module.financial.document.PreEncumbranceDocument" table="KULUNT.FP_PRE_ENCUM_DOC_T">
+<class-descriptor class="org.kuali.module.financial.document.PreEncumbranceDocument" table="FP_PRE_ENCUM_DOC_T">
     <!--  common transactional document base attributes -->
     <field-descriptor name="financialDocumentNumber" column="FDOC_NBR" jdbc-type="VARCHAR"
 			primarykey="true"/>
@@ -179,7 +179,7 @@
 
 
 <!-- DIST OF INCOME AND EXPENSE MAPPINGS -->
-<class-descriptor class="org.kuali.module.financial.document.DistributionOfIncomeAndExpenseDocument" table="KULUNT.FP_DISTRIB_DOC_T">
+<class-descriptor class="org.kuali.module.financial.document.DistributionOfIncomeAndExpenseDocument" table="FP_DISTRIB_DOC_T">
     <field-descriptor name="financialDocumentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true"/>
     <field-descriptor name="explanation" column="FDOC_EXPLAIN_TXT" jdbc-type="VARCHAR" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
@@ -237,7 +237,7 @@
 </class-descriptor>
 
 <!-- GENERAL ERROR CORRECTION DOCUMENT MAPPINGS -->
-<class-descriptor class="org.kuali.module.financial.document.GeneralErrorCorrectionDocument" table="KULUNT.FP_ERROR_COR_DOC_T">
+<class-descriptor class="org.kuali.module.financial.document.GeneralErrorCorrectionDocument" table="FP_ERROR_COR_DOC_T">
 	<!--  common transactional document base attributes -->
     <field-descriptor name="financialDocumentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true"/>
     <field-descriptor name="explanation" column="FDOC_EXPLAIN_TXT" jdbc-type="VARCHAR" />
@@ -399,7 +399,7 @@
 </class-descriptor>
 
 <!-- JOURNAL VOUCHER DOCUMENT MAPPINGS -->
-<class-descriptor class="org.kuali.module.financial.document.JournalVoucherDocument" table="KULUNT.FP_JRNL_VCHR_DOC_T">
+<class-descriptor class="org.kuali.module.financial.document.JournalVoucherDocument" table="FP_JRNL_VCHR_DOC_T">
     <!--  common transactional document base attributes -->
     <field-descriptor name="financialDocumentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true"/>
     <field-descriptor name="explanation" column="FDOC_EXPLAIN_TXT" jdbc-type="VARCHAR" />
@@ -489,7 +489,7 @@
 </class-descriptor>
 
 <!--  CASH RECEIPT DOCUMENT MAPPINGS -->
-<class-descriptor class="org.kuali.module.financial.document.CashReceiptDocument" table="KULUNT.FP_CASH_RCPT_DOC_T">
+<class-descriptor class="org.kuali.module.financial.document.CashReceiptDocument" table="FP_CASH_RCPT_DOC_T">
     <!--   common transactional document base attributes -->
     <field-descriptor name="financialDocumentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true"/>
     <field-descriptor name="explanation" column="FDOC_EXPLAIN_TXT" jdbc-type="VARCHAR" />
@@ -549,7 +549,7 @@
     </collection-descriptor>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.financial.bo.CheckBase" table="KULUNT.FP_CHECKS_T">
+<class-descriptor class="org.kuali.module.financial.bo.CheckBase" table="FP_CHECKS_T">
 	<field-descriptor name="financialDocumentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true"/>
 	<field-descriptor name="amount" column="FDOC_CHCK_AMT" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" jdbc-type="DECIMAL" />
 	<field-descriptor name="description" column="FDOC_CHCK_DESC" jdbc-type="VARCHAR" />
@@ -601,7 +601,7 @@
 </class-descriptor>
 
 <!-- SERVICE BILLING CONTROL MAPPING -->
-<class-descriptor class="org.kuali.module.financial.bo.ServiceBillingControl" table="KULUNT.FP_SB_CTRL_T">
+<class-descriptor class="org.kuali.module.financial.bo.ServiceBillingControl" table="FP_SB_CTRL_T">
     <field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true"/>
     <field-descriptor name="accountNumber" column="ACCOUNT_NBR" jdbc-type="VARCHAR" primarykey="true"/>
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
@@ -648,7 +648,7 @@
 </class-descriptor>
 
 <!--  GENERATED MAPPING -->
-<class-descriptor class="org.kuali.module.financial.document.NonCheckDisbursementDocument" table="KULUNT.FP_NCHK_DSBRSDOC_T">
+<class-descriptor class="org.kuali.module.financial.document.NonCheckDisbursementDocument" table="FP_NCHK_DSBRSDOC_T">
     <field-descriptor name="financialDocumentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true"/>
 	<field-descriptor name="explanation" column="FDOC_EXPLAIN_TXT" jdbc-type="VARCHAR" />
     <field-descriptor name="nextSourceLineNumber" column="FDOC_NXT_LINE_NBR" jdbc-type="INTEGER" />

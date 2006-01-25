@@ -30,6 +30,7 @@
                 <td class="datacell-nowrap">
                     <c:if test="${readOnly}">
                         ${KualiForm.accountingPeriod.universityFiscalPeriodName}
+                        <html:hidden property="selectedAccountingPeriod" />
                     </c:if>
                     <c:if test="${!readOnly}">
                 	   	<SCRIPT type="text/javascript">
@@ -67,8 +68,12 @@
                   </div>
                 </th>
                 <td class="datacell-nowrap">
+                    <html:hidden property="originalBalanceType" value="${KualiForm.selectedBalanceType.code}" />
+                    <html:hidden property="selectedBalanceType.financialOffsetGenerationIndicator" />
                     <c:if test="${readOnly}">
                         ${KualiForm.selectedBalanceType.financialBalanceTypeName}
+						<html:hidden property="selectedBalanceType.code" />
+						<html:hidden property="selectedBalanceType.name" />
                     </c:if>
                     <c:if test="${!readOnly}">
                         <SCRIPT type="text/javascript">
@@ -78,8 +83,6 @@
 						    }
 						//-->
 						</SCRIPT>
-						<html:hidden property="originalBalanceType" value="${KualiForm.selectedBalanceType.code}" />
-						<html:hidden property="selectedBalanceType.financialOffsetGenerationIndicator" />
 		        		<select name="selectedBalanceType.code" onchange="submitForChangedBalanceType()">
 							<c:forEach items="${KualiForm.balanceTypes}" var="balanceType">
 							  <c:choose>
@@ -108,6 +111,7 @@
                 <td class="datacell-nowrap">
                     <c:if test="${readOnly}">
                         ${document.reversalDate}
+						<html:hidden property="document.reversalDate" />
                     </c:if>
                     <c:if test="${!readOnly}">
                         <kul:dateInputNoAttributeEntry property="document.reversalDate" maxLength="10" size="10" />

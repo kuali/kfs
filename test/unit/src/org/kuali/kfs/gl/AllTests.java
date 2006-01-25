@@ -66,7 +66,10 @@ public class AllTests {
     suite.addTestSuite(PostReversalTest.class);
     suite.addTestSuite(PostSufficientFundBalancesTest.class);
     suite.addTestSuite(PostGlAccountBalanceTest.class);
-    suite.addTestSuite(NightlyOutServiceTest.class);
+    
+    if ( ! fastTests ) {
+      suite.addTestSuite(NightlyOutServiceTest.class);
+    }
 
     // org.kuali.module.gl.dao.ojb
     if ( ! fastTests ) {

@@ -65,7 +65,7 @@
     <th class="bord-l-b" rowspan="2"><kul:htmlAttributeLabel attributeEntry="${accountingLineAttributes.financialSubObjectCode}" useShortLabel="true" noColon="true" /></th>
     <th class="bord-l-b" rowspan="2"><kul:htmlAttributeLabel attributeEntry="${accountingLineAttributes.projectCode}" useShortLabel="true" noColon="true" /></th>
     <c:if test="${includeObjectTypeCode}">
-        <th class="bord-l-b" rowspan="2"><font color="red">${Constants.REQUIRED_FIELD_SYMBOL}</font>&nbsp;<kul:htmlAttributeLabel attributeEntry="${accountingLineAttributes.objectTypeCode}" useShortLabel="true" noColon="true" /></th>
+        <th class="bord-l-b" rowspan="2"><kul:htmlAttributeLabel attributeEntry="${accountingLineAttributes.objectTypeCode}" useShortLabel="true" noColon="true" forceRequired="true" /></th>
     </c:if>
     <th class="bord-l-b" rowspan="2"><kul:htmlAttributeLabel attributeEntry="${accountingLineAttributes.organizationReferenceId}" useShortLabel="true" noColon="true" /></th>
     <th class="bord-l-b" rowspan="2"><kul:htmlAttributeLabel attributeEntry="${accountingLineAttributes.budgetYear}" useShortLabel="true" noColon="true" /></th>

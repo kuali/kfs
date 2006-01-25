@@ -66,7 +66,7 @@
 <c:set var="specialRequiredField" value="${(field eq 'referenceOriginCode') || (field eq 'referenceNumber') || (field eq 'referenceTypeCode')}" />
 <td class="${dataCellCssClass}" nowrap align="${cellAlign}" valign="top" colspan="${columnCount}">
     <c:if test="${!empty labelFontWeight}">
-        <span style="font-weight: ${labelFontWeight}"><c:if test="${specialRequiredField}"><font color="red">${Constants.REQUIRED_FIELD_SYMBOL}&nbsp;</font></c:if><kul:htmlAttributeLabel attributeEntry="${attributes[field]}" useShortLabel="true" /></span>
+        <span style="font-weight: ${labelFontWeight}"><kul:htmlAttributeLabel attributeEntry="${attributes[field]}" useShortLabel="true" forceRequired="${specialRequiredField}" /></span>
         &nbsp;
     </c:if>
 

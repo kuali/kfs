@@ -806,9 +806,11 @@ public class JournalVoucherAction extends KualiTransactionalDocumentActionBase {
         KualiConfigurationService kualiConfiguration = SpringServiceLocator.getKualiConfigurationService();
 
         if (question == null) { // question hasn't been asked
-            String currencyFormattedTotal = (String) new CurrencyFormatter().format(jvDoc.getTotal());
+            String currencyFormattedDebitTotal = (String) new CurrencyFormatter().format(jvDoc.getDebitTotal());
+            String currencyFormattedCreditTotal = (String) new CurrencyFormatter().format(jvDoc.getCreditTotal());
             String message = StringUtils.replace(kualiConfiguration
-                    .getPropertyString(KeyConstants.QUESTION_ROUTE_OUT_OF_BALANCE_JV_DOC), "{0}", currencyFormattedTotal);
+                    .getPropertyString(KeyConstants.QUESTION_ROUTE_OUT_OF_BALANCE_JV_DOC), "{0}", currencyFormattedDebitTotal);
+            message = StringUtils.replace(message, "{1}", currencyFormattedCreditTotal);
 
             // now transfer control over to the question component
             return this.performQuestion(mapping, form, request, response,

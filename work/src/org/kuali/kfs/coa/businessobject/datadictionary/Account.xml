@@ -36,7 +36,7 @@
 				<lookupField attributeName="chartOfAccounts.chartOfAccountsCode" required="false" />
 				<lookupField attributeName="accountName" required="false" />
 				<lookupField attributeName="organization.organizationCode" required="false" />
-				<lookupField attributeName="accountTypeCode" required="false" />
+				<lookupField attributeName="accountType.accountTypeCode" required="false" />
 				<lookupField attributeName="accountClosedIndicator" />			
 			</lookupFields>
 
@@ -47,7 +47,7 @@
 				<field attributeName="chartOfAccounts.chartOfAccountsCode" />			
 				<field attributeName="accountName" />
 				<field attributeName="organization.organizationCode" />
-				<field attributeName="accountTypeCode" />
+				<field attributeName="accountType.accountTypeCode" />
 				<field attributeName="accountCreateDate" />
 				<field attributeName="accountExpirationDate" />
 				<field attributeName="accountClosedIndicator" />			

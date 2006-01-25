@@ -84,55 +84,56 @@ public class JournalVoucherForm extends KualiTransactionalDocumentFormBase {
      */
     public void populate(HttpServletRequest request) {
         super.populate(request);
-        
+
         // populate the drop downs
         populateAccountingPeriodListForRendering();
         populateBalanceTypeListForRendering();
     }
-    
+
     /**
-     * Override the parent, to push the chosen accounting period and balance type down into the 
-     * source accounting line object.  In addition, check the balance type to see if it's the "External Encumbrance" 
-     * balance and alter the encumbrance update code on the accounting line appropriately. 
+     * Override the parent, to push the chosen accounting period and balance type down into the source accounting line object. In
+     * addition, check the balance type to see if it's the "External Encumbrance" balance and alter the encumbrance update code on
+     * the accounting line appropriately.
      * 
      * @see org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase#populateSourceAccountingLine(org.kuali.core.bo.SourceAccountingLine)
      */
     public void populateSourceAccountingLine(SourceAccountingLine sourceLine) {
         super.populateSourceAccountingLine(sourceLine);
-        
+
         // set the chosen accounting period into the line
         String selectedAccountingPeriod = getSelectedAccountingPeriod();
-        
-        if(StringUtils.isNotBlank(selectedAccountingPeriod)) {
+
+        if (StringUtils.isNotBlank(selectedAccountingPeriod)) {
             Integer postingYear = new Integer(StringUtils.right(selectedAccountingPeriod, 4));
             sourceLine.setPostingYear(postingYear);
             sourceLine.getObjectCode().setUniversityFiscalYear(postingYear);
             sourceLine.getSubObjectCode().setUniversityFiscalYear(postingYear);
         }
-        
+
         // set the chosen balance type into the line
         BalanceTyp selectedBalanceType = getSelectedBalanceType();
-        
-        if(selectedBalanceType != null && StringUtils.isNotBlank(selectedBalanceType.getCode())) {
+
+        if (selectedBalanceType != null && StringUtils.isNotBlank(selectedBalanceType.getCode())) {
             sourceLine.setBalanceTyp(selectedBalanceType);
             sourceLine.setBalanceTypeCode(selectedBalanceType.getCode());
-            
+
             // set the encumbrance update code appropriately
-            if(Constants.BALANCE_TYPE_EXTERNAL_ENCUMBRANCE.equals(selectedBalanceType.getCode())) {
-                sourceLine.setEncumbranceUpdateCode(Constants.JOURNAL_VOUCHER_ENCUMBRANCE_UPDATE_CODE_BALANCE_TYPE_EXTERNAL_ENCUMBRANCE);
+            if (Constants.BALANCE_TYPE_EXTERNAL_ENCUMBRANCE.equals(selectedBalanceType.getCode())) {
+                sourceLine
+                        .setEncumbranceUpdateCode(Constants.JOURNAL_VOUCHER_ENCUMBRANCE_UPDATE_CODE_BALANCE_TYPE_EXTERNAL_ENCUMBRANCE);
             }
             else {
                 sourceLine.setEncumbranceUpdateCode(null);
             }
         }
-        else { 
+        else {
             // it's the first time in, the form will be empty the first time in
             // set up default selection
             selectedBalanceType = SpringServiceLocator.getBalanceTypService().getBalanceTypByCode(Constants.BALANCE_TYPE_ACTUAL); // default
-                                                                                                                                    // value
+            // value
             setSelectedBalanceType(selectedBalanceType);
             setOriginalBalanceType(selectedBalanceType.getCode());
-            
+
             sourceLine.setEncumbranceUpdateCode(null);
         }
     }
@@ -216,6 +217,24 @@ public class JournalVoucherForm extends KualiTransactionalDocumentFormBase {
      */
     public String getSelectedAccountingPeriod() {
         return selectedAccountingPeriod;
+    }
+
+
+    /**
+     * @return AccountingPeriod associated with the currently selected period
+     */
+    public AccountingPeriod getAccountingPeriod() {
+        AccountingPeriod period = null;
+
+        String selectedPeriod = getSelectedAccountingPeriod();
+        if (!StringUtils.isBlank(selectedPeriod)) {
+            String periodCode = StringUtils.left(selectedPeriod, selectedPeriod.length() - 4);
+            Integer periodYear = new Integer(StringUtils.right(selectedPeriod, 4));
+
+            period = SpringServiceLocator.getAccountingPeriodService().getByPeriod(periodCode, periodYear);
+        }
+
+        return period;
     }
 
     /**
@@ -312,7 +331,7 @@ public class JournalVoucherForm extends KualiTransactionalDocumentFormBase {
     public void setOriginalBalanceType(String changedBalanceType) {
         this.originalBalanceType = changedBalanceType;
     }
-    
+
     /**
      * This method retrieves the JV's debit total formatted as currency.
      * 
@@ -321,7 +340,7 @@ public class JournalVoucherForm extends KualiTransactionalDocumentFormBase {
     public String getCurrencyFormattedDebitTotal() {
         return (String) new CurrencyFormatter().format(getJournalVoucherDocument().getDebitTotal());
     }
-    
+
     /**
      * This method retrieves the JV's credit total formatted as currency.
      * 
@@ -330,7 +349,7 @@ public class JournalVoucherForm extends KualiTransactionalDocumentFormBase {
     public String getCurrencyFormattedCreditTotal() {
         return (String) new CurrencyFormatter().format(getJournalVoucherDocument().getCreditTotal());
     }
-    
+
     /**
      * This method retrieves the JV's total formatted as currency.
      * 
@@ -347,13 +366,13 @@ public class JournalVoucherForm extends KualiTransactionalDocumentFormBase {
     private void populateBalanceTypeListForRendering() {
         // grab the list of valid balance types
         ArrayList balanceTypes = new ArrayList(SpringServiceLocator.getBalanceTypService().getAllBalanceTyps());
-        
+
         // set into the form for rendering
         this.setBalanceTypes(balanceTypes);
-        
+
         // set the chosen balance type into the form
         BalanceTyp selectedBalanceType = getSelectedBalanceType();
-        
+
         if (selectedBalanceType != null && StringUtils.isNotBlank(selectedBalanceType.getCode())) {
             selectedBalanceType = getPopulatedBalanceTypeInstance(selectedBalanceType.getCode());
             setSelectedBalanceType(selectedBalanceType);
@@ -362,7 +381,7 @@ public class JournalVoucherForm extends KualiTransactionalDocumentFormBase {
         else { // it's the first time in, the form will be empty the first time in
             // set up default selection
             selectedBalanceType = SpringServiceLocator.getBalanceTypService().getBalanceTypByCode(Constants.BALANCE_TYPE_ACTUAL); // default
-                                                                                                                                    // value
+            // value
             setSelectedBalanceType(selectedBalanceType);
             setOriginalBalanceType(selectedBalanceType.getCode());
         }
@@ -375,13 +394,13 @@ public class JournalVoucherForm extends KualiTransactionalDocumentFormBase {
     private void populateAccountingPeriodListForRendering() {
         // grab the list of valid accounting periods
         ArrayList accountingPeriods = new ArrayList(SpringServiceLocator.getAccountingPeriodService().getOpenAccountingPeriods());
-        
+
         // set into the form for rendering
         setAccountingPeriods(accountingPeriods);
-        
+
         // set the chosen accounting period into the form
         String selectedAccountingPeriod = getSelectedAccountingPeriod();
-        
+
         if (StringUtils.isNotBlank(selectedAccountingPeriod)) {
             AccountingPeriod ap = new AccountingPeriod();
             ap.setUniversityFiscalPeriodCode(StringUtils.left(selectedAccountingPeriod, 2));

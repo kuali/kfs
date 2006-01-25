@@ -5,6 +5,8 @@
 <%@ taglib tagdir="/WEB-INF/tags" prefix="kul"%>
 <%@ taglib tagdir="/WEB-INF/tags/dd" prefix="dd" %>
 <c:set var="journalVoucherAttributes" value="${DataDictionary['KualiJournalVoucherDocument'].attributes}" />
+<c:set var="readOnly" value="${!empty KualiForm.editingMode['viewOnly']}" />
+
 <kul:documentPage showDocumentInfo="true" 
 	documentTypeName="KualiJournalVoucherDocument" htmlFormAction="financialJournalVoucher" renderMultipart="true" showTabButtons="true">
 		<html:hidden property="document.nextSourceLineNumber"/>
@@ -26,6 +28,10 @@
                   </div>
                 </th>
                 <td class="datacell-nowrap">
+                    <c:if test="${readOnly}">
+                        ${KualiForm.accountingPeriod.universityFiscalPeriodName}
+                    </c:if>
+                    <c:if test="${!readOnly}">
                 	   	<SCRIPT type="text/javascript">
 						<!--
 						    function submitForChangedAccountingPeriod() {
@@ -50,6 +56,7 @@
 						<html:submit value="refresh" alt="press this button to refresh the page after changing the accounting period" />
 						</NOSCRIPT>
 						<kul:lookup boClassName="org.kuali.module.chart.bo.AccountingPeriod" hideReturnLink="true" />
+                    </c:if>
                 </td>
               </tr>
               <tr>
@@ -60,6 +67,10 @@
                   </div>
                 </th>
                 <td class="datacell-nowrap">
+                    <c:if test="${readOnly}">
+                        ${KualiForm.selectedBalanceType.financialBalanceTypeName}
+                    </c:if>
+                    <c:if test="${!readOnly}">
                         <SCRIPT type="text/javascript">
 						<!--
 						    function submitForChangedBalanceType() {
@@ -85,6 +96,7 @@
 						<html:submit value="refresh" alt="press this button to refresh the page after changing the balance type" />
 						</NOSCRIPT>
 						<kul:lookup boClassName="org.kuali.module.chart.bo.codes.BalanceTyp" fieldConversions="code:selectedBalanceType.code" lookupParameters="selectedBalanceType.code:code" />
+                    </c:if>
                 </td>
               </tr>
               <tr>
@@ -93,7 +105,14 @@
                     	<kul:htmlAttributeLabel attributeEntry="${journalVoucherAttributes.reversalDate}" useShortLabel="false" />
                   		&nbsp;
                   	</div></th>
-                <td class="datacell-nowrap"><kul:dateInputNoAttributeEntry property="document.reversalDate" maxLength="10" size="10" /></td>
+                <td class="datacell-nowrap">
+                    <c:if test="${readOnly}">
+                        ${document.reversalDate}
+                    </c:if>
+                    <c:if test="${!readOnly}">
+                        <kul:dateInputNoAttributeEntry property="document.reversalDate" maxLength="10" size="10" />
+                    </c:if>
+                </td>
               </tr>
             </tbody>
           </table>

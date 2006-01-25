@@ -76,7 +76,7 @@
         		<validationPattern><anyCharacter maxLength="2" /></validationPattern>
         		
 				<control>
-					<text size="2" />
+					<select valuesFinderClass="org.kuali.core.lookup.keyvalues.CampusValuesFinder" />
 				</control>
 
         		<summary>Campus Code that the Building belongs to.</summary>

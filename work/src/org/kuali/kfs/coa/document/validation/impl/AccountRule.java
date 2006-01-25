@@ -33,6 +33,7 @@ import org.kuali.core.bo.PostalZipCode;
 import org.kuali.core.bo.user.KualiUser;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
@@ -54,6 +55,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
     
     public static String CHART_MAINTENANCE_EDOC = "ChartMaintenanceEDoc";
     public static String ACCT_BUDGET_CODES_RESTRICT = "Account.BudgetCodesRestriction";
+    public static String ACCT_PREFIX_RESTRICTION = "Account.PrefixRestriction";
     
     Account oldAccount;
     Account newAccount;
@@ -65,9 +67,12 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
     private static String RESTRICTED_FUND_CD = "RF";
     private static String ENDOWMENT_FUND_CD = "EN";
     private static String PLANT_FUND_CD = "PF";
+
+    private KualiConfigurationService configService;
     
     public AccountRule() {
         ruleValuesSetup = false;
+        configService=SpringServiceLocator.getKualiConfigurationService();
     }
     
     /**
@@ -76,8 +81,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
      */
     private void initializeRuleValues(MaintenanceDocument document) {
         if(!ruleValuesSetup) {
-            validBudgetRule = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterRule(
-                    CHART_MAINTENANCE_EDOC, ACCT_BUDGET_CODES_RESTRICT);
+            validBudgetRule = configService.getApplicationParameterRule(CHART_MAINTENANCE_EDOC, ACCT_BUDGET_CODES_RESTRICT);
         }
     }
     
@@ -202,15 +206,20 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         GlobalVariables.getErrorMap().addToErrorPath("newMaintainableObject");
         
            
-        //TODO: IU-specific rule? Move to ACP? (add new functionality to support startsWith)
-        //      This section is where any implementing institution (for now) would enter their restrictions on what 
-        //      disallowed account numbers or ranges are.  Eventually, this should be moved into the ACP, but currently 
-        //      the ACP does not support 'StartsWith'.
+        // Enforce institutionally specified restrictions on account number prefixes
+        // (e.g. the account number cannot begin with a 3 or with 00.)
         
-        //the account number cannot begin with a 3, or with 00.
-        if(newAccount.getAccountNumber().startsWith("3") || newAccount.getAccountNumber().startsWith("00")) {
-            success &= false;
-            putFieldError("accountNumber", KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_NMBR_NOT_ALLOWED, newAccount.getAccountNumber());
+        String[] illegalValues=configService.getApplicationParameterValues(CHART_MAINTENANCE_EDOC,ACCT_PREFIX_RESTRICTION);
+        
+        if (illegalValues!=null) {
+            for (int i=0; i<illegalValues.length; i++) {
+                if(newAccount.getAccountNumber().startsWith(illegalValues[i])) {
+                    success &= false;
+                    putFieldError("accountNumber", KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_NMBR_NOT_ALLOWED+"("+illegalValues[i]+")", newAccount.getAccountNumber());
+                }
+            }
+        } else {
+            LOG.warn("No Financial System Parameter found for CHART_MAINTENANCE_EDOC/ACCT_PREFIX_RESTRICTION");
         }
         
         //only a FIS supervisor can reopen a closed account. (This is the central super user, not an account supervisor).

@@ -30,9 +30,9 @@ import org.kuali.Constants;
 import org.kuali.KeyConstants;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.rule.RouteDocumentRule;
-import org.kuali.core.rule.SaveDocumentRule;
+import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.service.DateTimeService;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.ObjLevel;
@@ -46,10 +46,22 @@ import org.kuali.module.chart.service.ObjectLevelService;
  *   http://fms.dfa.cornell.edu:8080/confluence/display/KULCOA/Object+Code
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class ObjectCodeRule implements RouteDocumentRule, SaveDocumentRule{
+public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
 
     DateTimeService dateTimeService;
     ObjectLevelService objectLevelService;
+
+    
+
+    
+    final static String OBJECT_CODE_ILLEGAL_VALUES="ObjectCodeIlegalValues";
+    final static String OBJECT_CODE_VALID_BUDGET_AGGREGATION_CODES="ObjectCodeValidBudgetAggregationCodes";
+    final static String OBJECT_CODE_VALID_YEAR_CODE_EXCEPTIONS="ObjectCodeValidYearCodeExceptions";
+    final static String OBJECT_CODE_VALID_MANDATORY_TRANSFER_ELIMINATION_CODES="ObjectCodeValidMandatoryTransferEliminationCodes";
+    final static String OBJECT_CODE_VALID_FEDERAL_FUNDED_CODES="ObjectCodevalidFederalFundedCodes";
+    
+    
+    private KualiConfigurationService configService;
     
     private static Set illegalValues;
     private static Set validYearCodeExceptions;
@@ -65,13 +77,15 @@ public class ObjectCodeRule implements RouteDocumentRule, SaveDocumentRule{
     //TODO how to WARN? how to suggest Consolidation account?
     
     public ObjectCodeRule() {
+        
+        configService = SpringServiceLocator.getKualiConfigurationService();
    
         //TODO institutional values should really be injected or something
-        illegalValues = makeSet("N/A,A/L");
-        validYearCodeExceptions=makeSet("IU");
-        validBudgetAggregationCodes=makeSet("C,L,O");
-        validMandatoryTransferEliminationCodes=makeSet("M,E,N");
-        validFederalFundedCodes=makeSet("N,F,O");
+        illegalValues = retrieveParameterSet(OBJECT_CODE_ILLEGAL_VALUES);
+        validYearCodeExceptions=retrieveParameterSet(OBJECT_CODE_VALID_YEAR_CODE_EXCEPTIONS);
+        validBudgetAggregationCodes=retrieveParameterSet(OBJECT_CODE_VALID_BUDGET_AGGREGATION_CODES);
+        validMandatoryTransferEliminationCodes=retrieveParameterSet(OBJECT_CODE_VALID_MANDATORY_TRANSFER_ELIMINATION_CODES);
+        validFederalFundedCodes=retrieveParameterSet(OBJECT_CODE_VALID_FEDERAL_FUNDED_CODES);
         
         dateTimeService = SpringServiceLocator.getDateTimeService();
         objectLevelService = SpringServiceLocator.getObjectLevelService();
@@ -79,18 +93,56 @@ public class ObjectCodeRule implements RouteDocumentRule, SaveDocumentRule{
     }
     
 
-    public boolean processRouteDocument(Document document) {
-        MaintenanceDocument doc = (MaintenanceDocument) document;
-        Object maintainableObject=doc.getNewMaintainableObject().getBusinessObject();
-        return processObjectCodeRules((ObjectCode)maintainableObject);
-    }
-
-    public boolean processSaveDocument(Document document) {
-        boolean result=processRouteDocument(document); //FIXME this makes it easier to test
-        return result;
-        //return isDocumentValidForSave(document);
+    
+    protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
+        
+        //setupConvenienceObjects(document);
+        //initializeRuleValues(document);
+        
+        //  default to success
+        boolean success = true;
+        success &= checkEmptyValues(document);
+        
+        Object maintainableObject=document.getNewMaintainableObject().getBusinessObject();
+        
+        success &= processObjectCodeRules((ObjectCode)maintainableObject);
+        
+        // Test the route rules, but do not "enforce" them during save (i.e. the result
+        // from this method is ignored)
+        processCustomRouteDocumentBusinessRules(document);
+        
+        return success;
+        
     }
     
+    protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
+        LOG.debug("processCustomRouteDocumentBusinessRules called");
+
+        boolean success = true;
+        
+        Object maintainableObject=document.getNewMaintainableObject().getBusinessObject();
+        success &= processObjectCodeRules((ObjectCode)maintainableObject);
+
+        
+        // setupConvenienceObjects(document);
+        // initializeRuleValues(document);
+        
+        //  default to success
+        
+        success &= checkEmptyValues(document);
+        
+        return success;
+    }
+
+    private boolean checkEmptyValues(MaintenanceDocument maintenanceDocument) {
+        boolean success = true;
+        
+        //success &= checkEmptyBOField("chartOfAccountsCode", newAccount.getChartOfAccountsCode(), "Chart of Accounts Code");
+        //success &= checkEmptyBOField("accountNumber", newAccount.getAccountNumber(), "Account Number");
+        
+        return success;
+    }
+
     private boolean processObjectCodeRules(ObjectCode objectCode) {
         
         boolean result=true;
@@ -392,11 +444,15 @@ If the Next Year Object has been entered, it must exist in the object code table
         return valid;
     }
     
-    private static Set makeSet(String elementString) {
+    private Set retrieveParameterSet(String parameterName) {
+        
+        String[] elements=configService.getApplicationParameterValues(CHART_MAINTENANCE_EDOC,parameterName);
+        
         Set result=new HashSet();
-        String[] elements=elementString.split(",");
-        for (int i=0; i<elements.length; i++) {
-            result.add(elements[i]);
+        if (elements!=null) {
+            for (int i=0; i<elements.length; i++) {
+                result.add(elements[i]);
+            }
         }
         return result;
     }

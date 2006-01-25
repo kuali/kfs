@@ -53,7 +53,6 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
     private KualiParameterRule validBudgetRule;
     private boolean ruleValuesSetup;
     
-    public static String CHART_MAINTENANCE_EDOC = "ChartMaintenanceEDoc";
     public static String ACCT_BUDGET_CODES_RESTRICT = "Account.BudgetCodesRestriction";
     public static String ACCT_PREFIX_RESTRICTION = "Account.PrefixRestriction";
     

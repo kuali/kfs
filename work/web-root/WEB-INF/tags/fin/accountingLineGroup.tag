@@ -57,35 +57,38 @@
 <fin:accountingLineImportRow rightColumnCount="${rightColumnCount}" isSource="${isSource}" editingMode="${editingMode}"/>
 
 <tr>
-    <th class="bord-l-b">&nbsp;</th>
-    <th class="bord-l-b"><kul:htmlAttributeLabel attributeEntry="${accountingLineAttributes.chartOfAccountsCode}" useShortLabel="true" noColon="true" /></th>
-    <th class="bord-l-b"><kul:htmlAttributeLabel attributeEntry="${accountingLineAttributes.accountNumber}" useShortLabel="true" noColon="true" /></th>
-    <th class="bord-l-b"><kul:htmlAttributeLabel attributeEntry="${accountingLineAttributes.subAccountNumber}" useShortLabel="true" noColon="true" /></th>
-    <th class="bord-l-b"><kul:htmlAttributeLabel attributeEntry="${accountingLineAttributes.financialObjectCode}" useShortLabel="true" noColon="true" /></th>
-    <th class="bord-l-b"><kul:htmlAttributeLabel attributeEntry="${accountingLineAttributes.financialSubObjectCode}" useShortLabel="true" noColon="true" /></th>
-    <th class="bord-l-b"><kul:htmlAttributeLabel attributeEntry="${accountingLineAttributes.projectCode}" useShortLabel="true" noColon="true" /></th>
+    <th class="bord-l-b" rowspan="2">&nbsp;</th>
+    <th class="bord-l-b" rowspan="2"><kul:htmlAttributeLabel attributeEntry="${accountingLineAttributes.chartOfAccountsCode}" useShortLabel="true" noColon="true" /></th>
+    <th class="bord-l-b" rowspan="2"><kul:htmlAttributeLabel attributeEntry="${accountingLineAttributes.accountNumber}" useShortLabel="true" noColon="true" /></th>
+    <th class="bord-l-b" rowspan="2"><kul:htmlAttributeLabel attributeEntry="${accountingLineAttributes.subAccountNumber}" useShortLabel="true" noColon="true" /></th>
+    <th class="bord-l-b" rowspan="2"><kul:htmlAttributeLabel attributeEntry="${accountingLineAttributes.financialObjectCode}" useShortLabel="true" noColon="true" /></th>
+    <th class="bord-l-b" rowspan="2"><kul:htmlAttributeLabel attributeEntry="${accountingLineAttributes.financialSubObjectCode}" useShortLabel="true" noColon="true" /></th>
+    <th class="bord-l-b" rowspan="2"><kul:htmlAttributeLabel attributeEntry="${accountingLineAttributes.projectCode}" useShortLabel="true" noColon="true" /></th>
     <c:if test="${includeObjectTypeCode}">
-        <th class="bord-l-b"><font color="red">${Constants.REQUIRED_FIELD_SYMBOL}</font>&nbsp;<kul:htmlAttributeLabel attributeEntry="${accountingLineAttributes.objectTypeCode}" useShortLabel="true" noColon="true" /></th>
+        <th class="bord-l-b" rowspan="2"><font color="red">${Constants.REQUIRED_FIELD_SYMBOL}</font>&nbsp;<kul:htmlAttributeLabel attributeEntry="${accountingLineAttributes.objectTypeCode}" useShortLabel="true" noColon="true" /></th>
     </c:if>
-    <th class="bord-l-b"><kul:htmlAttributeLabel attributeEntry="${accountingLineAttributes.organizationReferenceId}" useShortLabel="true" noColon="true" /></th>
-    <th class="bord-l-b"><kul:htmlAttributeLabel attributeEntry="${accountingLineAttributes.budgetYear}" useShortLabel="true" noColon="true" /></th>
+    <th class="bord-l-b" rowspan="2"><kul:htmlAttributeLabel attributeEntry="${accountingLineAttributes.organizationReferenceId}" useShortLabel="true" noColon="true" /></th>
+    <th class="bord-l-b" rowspan="2"><kul:htmlAttributeLabel attributeEntry="${accountingLineAttributes.budgetYear}" useShortLabel="true" noColon="true" /></th>
     <c:forTokens items="${optionalFields}" delims=" ," var="currentField">
-        <th class="bord-l-b"><kul:htmlAttributeLabel attributeEntry="${accountingLineAttributes[currentField]}" useShortLabel="true" noColon="true" /></th>
+        <th class="bord-l-b" rowspan="2"><kul:htmlAttributeLabel attributeEntry="${accountingLineAttributes[currentField]}" useShortLabel="true" noColon="true" /></th>
     </c:forTokens>
-    <c:choose>
-        <c:when test="${!debitCreditAmount}" >
-            <th class="bord-l-b"><kul:htmlAttributeLabel attributeEntry="${accountingLineAttributes.amount}" useShortLabel="true" noColon="true" /></th>
-        </c:when>
-        <c:otherwise>
-            <th class="bord-l-b">${ConfigProperties.label.document.journalVoucher.accountingLine.debit}</th>
-            <th class="bord-l-b">${ConfigProperties.label.document.journalVoucher.accountingLine.credit}</th>
-        </c:otherwise>
-    </c:choose>
+    <th class="bord-l-b" rowspan="${debitCreditAmount ? 1 : 2}" colspan="${debitCreditAmount ? 2 : 1}"><kul:htmlAttributeLabel attributeEntry="${accountingLineAttributes.amount}" useShortLabel="true" noColon="true" /></th>
 
     <c:if test="${hasActionsColumn}">
-        <th class="bord-l-b">Actions</th>
+        <th class="bord-l-b" rowspan="2">Actions</th>
     </c:if>
 </tr>
+<c:choose>
+    <c:when test="${debitCreditAmount}" >
+        <tr>
+            <th class="bord-l-b">${ConfigProperties.label.document.journalVoucher.accountingLine.debit}</th>
+            <th class="bord-l-b">${ConfigProperties.label.document.journalVoucher.accountingLine.credit}</th>
+        </tr>
+    </c:when>
+    <c:otherwise>
+        <tr></tr>
+    </c:otherwise>
+</c:choose>
 <c:if test="${empty editingMode['viewOnly']}">
     <fin:accountingLineRow
         accountingLine="new${capitalSourceOrTarget}Line"

@@ -119,6 +119,8 @@ public class Account extends BusinessObjectBase {
     private SufficientFundsCode sufficientFundsCode;
     
     private AccountGuideline accountGuideline;
+    private AccountDescription accountDescription;
+    
     private List subAccounts;
 
     /**
@@ -1056,6 +1058,22 @@ public class Account extends BusinessObjectBase {
     }
 
 
+    /**
+     * Gets the accountDescription attribute. 
+     * @return Returns the accountDescription.
+     */
+    public AccountDescription getAccountDescription() {
+        return accountDescription;
+    }
+    
+    /**
+     * Sets the accountDescription attribute value.
+     * @param accountDescription The accountDescription to set.
+     */
+    public void setAccountDescription(AccountDescription accountDescription) {
+        this.accountDescription = accountDescription;
+    }
+    
     /**
      * @return Returns the subAccounts.
      */

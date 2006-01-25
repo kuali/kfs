@@ -42,19 +42,19 @@
 		            <maintainableField name="accountPhysicalCampus.campusCode" required="true"/>	     
 		            <maintainableField name="accountEffectiveDate" required="true"/>
 		            <maintainableField name="accountExpirationDate" />	
-		            <maintainableField name="accountZipCode" required="true"/>	  
+		            <maintainableField name="postalZipCode.postalZipCode" required="true"/>	  
 		            <maintainableField name="accountCityName" required="true"/>	     
 		            <maintainableField name="accountStateCode" required="true"/>
 		            <maintainableField name="accountStreetAddress" required="true"/>	
 		            <maintainableField name="accountOffCampusIndicator" />	  
 		            <maintainableField name="accountClosedIndicator" />
-		            <maintainableField name="accountTypeCode" required="true" />
+		            <maintainableField name="accountType.accountTypeCode" required="true" />
 		            <maintainableField name="subFundGroup.subFundGroupCode" required="true" />
 		            <maintainableField name="accountsFringesBnftIndicator" />
 		            <maintainableField name="reportsToAccount.chartOfAccounts.chartOfAccountsCode" required="false" />
 		            <maintainableField name="reportsToAccount.accountNumber" required="false" />
 		            <maintainableField name="financialHigherEdFunction.financialHigherEdFunctionCd" required="true" />
-		            <maintainableField name="accountRestrictedStatusCode" required="true" />
+		            <maintainableField name="accountRestrictedStatus.accountRestrictedStatusCode" required="true" />
 		            <maintainableField name="accountRestrictedStatusDate" required="false" />
 		            <maintainableField name="endowmentIncomeAccount.chartOfAccounts.chartOfAccountsCode" required="false" />
 		            <maintainableField name="endowmentIncomeAccount.accountNumber" required="false" />
@@ -69,8 +69,8 @@
 		            <maintainableField name="continuationAccount.accountNumber" />    
 		            <maintainableField name="incomeStreamAccount.chartOfAccounts.chartOfAccountsCode" />
 		            <maintainableField name="incomeStreamAccount.accountNumber" />	
-		            <maintainableField name="budgetRecordingLevelCode" required="true"/>	  
-		            <maintainableField name="accountSufficientFundsCode" required="true"/>	     
+		            <maintainableField name="budgetRecordingLevel.code" required="true"/>	  
+		            <maintainableField name="sufficientFundsCode.code" required="true"/>	     
 		            <maintainableField name="pendingAcctSufficientFundsIndicator" />
 		            <maintainableField name="extrnlFinEncumSufficntFndIndicator" />	
 		            <maintainableField name="intrnlFinEncumSufficntFndIndicator" />	  
@@ -94,6 +94,15 @@
 		            <maintainableField name="accountGuideline.accountExpenseGuidelineText" />
 		            <maintainableField name="accountGuideline.accountIncomeGuidelineText" />
 		            <maintainableField name="accountGuideline.accountPurposeText" />
+                </maintainableItems>
+	        </maintainableSection>
+	        <maintainableSection title="Account Description">
+                <maintainableItems>
+		            <maintainableField name="accountDescription.campusDescription" />
+		            <maintainableField name="accountDescription.organizationDescription" />
+		            <maintainableField name="accountDescription.responsibilityCenterDesc" />
+		            <maintainableField name="accountDescription.campusCode" />
+		            <maintainableField name="accountDescription.buildingCode" />
                 </maintainableItems>
 	        </maintainableSection>
 	    </maintainableSections>

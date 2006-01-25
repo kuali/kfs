@@ -15,7 +15,7 @@
 				<field attributeName="accountName" />
 				<field attributeName="accountFiscalOfficerUser.personName" />
 				<field attributeName="organization.organizationCode" />
-				<field attributeName="accountTypeCode" />
+				<field attributeName="accountType.accountTypeCode" />
 				<field attributeName="accountCreateDate" />
 				<field attributeName="accountExpirationDate" />
 				<field attributeName="accountClosedIndicator" />
@@ -596,6 +596,26 @@
 				<summary>Account Purpose Text</summary>
 				<description>A textual description of the Account Purpose.</description>
 			</attributeReference>
+			
+			<attributeReference name="accountDescription.campusDescription" 
+								sourceClassName="org.kuali.module.chart.bo.AccountDescription" 
+								sourceAttributeName="campusDescription" />
+			
+			<attributeReference name="accountDescription.organizationDescription" 
+								sourceClassName="org.kuali.module.chart.bo.AccountDescription" 
+								sourceAttributeName="organizationDescription" />
+			
+			<attributeReference name="accountDescription.responsibilityCenterDesc" 
+								sourceClassName="org.kuali.module.chart.bo.AccountDescription" 
+								sourceAttributeName="responsibilityCenterDesc" />
+			
+			<attributeReference name="accountDescription.campusCode" 
+								sourceClassName="org.kuali.module.chart.bo.AccountDescription" 
+								sourceAttributeName="campusCode" />
+			
+			<attributeReference name="accountDescription.buildingCode" 
+								sourceClassName="org.kuali.module.chart.bo.AccountDescription" 
+								sourceAttributeName="buildingCode" />
 			
 		</attributes>
 

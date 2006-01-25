@@ -228,14 +228,6 @@
 		<foreignkey field-ref="accountManagerSystemIdentifier" />
 	</reference-descriptor>
 
-	<reference-descriptor name="accountGuideline"
-		class-ref="org.kuali.module.chart.bo.AccountGuideline"
-		auto-retrieve="true" auto-update="none" auto-delete="none"
-		proxy="true">
-		<foreignkey field-ref="chartOfAccountsCode" />
-		<foreignkey field-ref="accountNumber" />
-	</reference-descriptor>
-
 	<reference-descriptor name="postalZipCode" 
 		class-ref="org.kuali.core.bo.PostalZipCode" 
 		auto-retrieve="true" auto-update="none" auto-delete="none" 
@@ -257,6 +249,28 @@
 		<foreignkey field-ref="accountSufficientFundsCode" />
 	</reference-descriptor>
 	
+	<reference-descriptor 
+		name="accountGuideline"
+		class-ref="org.kuali.module.chart.bo.AccountGuideline" 
+		auto-retrieve="true"
+		auto-update="none" 
+		auto-delete="none" 
+		proxy="true">
+		<foreignkey field-ref="chartOfAccountsCode" />
+		<foreignkey field-ref="accountNumber" />
+	</reference-descriptor>
+
+	<reference-descriptor 
+		name="accountDescription"
+		class-ref="org.kuali.module.chart.bo.AccountDescription" 
+		auto-retrieve="true"
+		auto-update="none" 
+		auto-delete="none" 
+		proxy="true">
+		<foreignkey field-ref="chartOfAccountsCode" />
+		<foreignkey field-ref="accountNumber" />
+	</reference-descriptor>
+
 	<collection-descriptor name="subAccounts"
 		element-class-ref="org.kuali.module.chart.bo.SubAccount"
 		collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
@@ -1733,4 +1747,26 @@
 		jdbc-type="BIGINT" locking="true" />
 	<field-descriptor name="objectId" column="OBJ_ID"
 		jdbc-type="VARCHAR" index="true" />
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.chart.bo.AccountDescription" table="CA_ACCT_DESC_T">
+	<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="accountNumber" column="ACCOUNT_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="campusDescription" column="CAMPUS_DESC" jdbc-type="VARCHAR"/>
+	<field-descriptor name="organizationDescription" column="ORG_DESC" jdbc-type="VARCHAR"/>
+	<field-descriptor name="responsibilityCenterDesc" column="RC_DESC" jdbc-type="VARCHAR"/>
+	<field-descriptor name="campusCode" column="CAMPUS_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="buildingCode" column="BLDG_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	
+	<reference-descriptor name="building" 
+		class-ref="org.kuali.core.bo.Building" 
+		auto-retrieve="true" 
+		auto-update="none" 
+		auto-delete="none" 
+		proxy="true">
+		<foreignkey field-ref="campusCode" />
+		<foreignkey field-ref="buildingCode" />
+	</reference-descriptor>
 </class-descriptor>

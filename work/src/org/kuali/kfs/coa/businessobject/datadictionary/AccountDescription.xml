@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../core/datadictionary/dataDictionary-1_0.dtd">
+<dictionaryEntry>
+	<businessObject
+		businessObjectClass="org.kuali.module.chart.bo.AccountDescription">
+
+		<customAttributeEnabled>false</customAttributeEnabled>
+
+		<attributes>
+			<attributeReference name="chartOfAccountsCode" 
+								sourceClassName="org.kuali.module.chart.bo.Chart" 
+								sourceAttributeName="chartOfAccountsCode" />
+								
+			<attributeReference name="accountNumber" 
+								sourceClassName="org.kuali.module.chart.bo.Account" 
+								sourceAttributeName="accountNumber" />
+								
+			<attribute name="campusDescription" forceUppercase="false">
+        		<label>Campus Description</label>
+        		<shortLabel>CampusDesc</shortLabel>
+        		
+        		<maxLength>40</maxLength>
+        		<validationPattern><anyCharacter maxLength="40" /></validationPattern>
+        		
+				<control>
+					<text size="40" />
+				</control>
+
+        		<summary>Campus Description</summary>
+        		<description>
+        			Campus Description
+        		</description>
+			</attribute>
+			
+			<attribute name="organizationDescription" forceUppercase="false">
+        		<label>Organization Description</label>
+        		<shortLabel>OrgDesc</shortLabel>
+        		
+        		<maxLength>40</maxLength>
+        		<validationPattern><anyCharacter maxLength="40" /></validationPattern>
+        		
+				<control>
+					<text size="40" />
+				</control>
+
+        		<summary>Organization Description</summary>
+        		<description>
+        			Organization Description
+        		</description>
+			</attribute>
+			
+			<attribute name="responsibilityCenterDesc" forceUppercase="false">
+        		<label>Responsibility Center Description</label>
+        		<shortLabel>RespCtrDesc</shortLabel>
+        		
+        		<maxLength>40</maxLength>
+        		<validationPattern><anyCharacter maxLength="40" /></validationPattern>
+        		
+				<control>
+					<text size="40" />
+				</control>
+
+        		<summary>Responsibility Center Description</summary>
+        		<description>
+        			Responsibility Center Description
+        		</description>
+			</attribute>
+			
+			<attribute name="campusCode" forceUppercase="false">
+        		<label>Building Campus Code</label>
+        		<shortLabel>BldgCmpCd</shortLabel>
+        		
+        		<maxLength>2</maxLength>
+        		<validationPattern><anyCharacter maxLength="2" /></validationPattern>
+        		
+				<control>
+					<text size="2" />
+				</control>
+
+        		<summary>Campus Code that the Building belongs to.</summary>
+        		<description>
+        			Campus Code that the Building belongs to.
+        		</description>
+			</attribute>
+			
+			<attribute name="buildingCode" forceUppercase="false">
+        		<label>Building Code</label>
+        		<shortLabel>BldgCd</shortLabel>
+        		
+        		<maxLength>10</maxLength>
+        		<validationPattern><anyCharacter maxLength="10" /></validationPattern>
+        		
+				<control>
+					<text size="10" />
+				</control>
+
+        		<summary>Building Code</summary>
+        		<description>
+        			Building Code
+        		</description>
+			</attribute>
+			
+		</attributes>
+	</businessObject>
+</dictionaryEntry>
+

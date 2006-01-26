@@ -48,7 +48,7 @@
 <c:set var="baselineSourceOrTarget" value="${isSource ? 'baselineSource' : 'baselineTarget'}"/>
 <c:set var="capitalSourceOrTarget" value="${isSource ? 'Source' : 'Target'}"/>
 <c:set var="dataDictionaryEntryName" value="${capitalSourceOrTarget}AccountingLine"/>
-<c:set var="totalName" value="${sourceOrTarget}Total"/>
+<c:set var="totalName" value="currencyFormatted${capitalSourceOrTarget}Total"/>
 <c:set var="accountingLineAttributes" value="${DataDictionary[dataDictionaryEntryName].attributes}" />
 <c:set var="hasActionsColumn" value="${empty editingMode['viewOnly']}"/>
 
@@ -177,7 +177,7 @@
                     <td  class="total-line"><strong>Total: $${KualiForm.currencyFormattedTotal}</strong></td>
                 </c:when>
                 <c:otherwise>
-                <td class="total-line"><strong>Total: $${KualiForm.document[totalName]}</strong></td>
+                <td class="total-line"><strong>Total: $${KualiForm[totalName]}</strong></td>
                 </c:otherwise>
             </c:choose>
         </c:otherwise>

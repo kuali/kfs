@@ -372,6 +372,7 @@ public class ScrubberServiceImpl implements ScrubberService {
         // (BalanceTypeCode = "AC" or "EX" or "IE" or "PE") //todo: move to properties
         //  retrieve and validate that subFundGroup exists - "subFundGroup not in table"
         //  (put into working storage field)
+        // TODO: switch it to use the workingEntry, but "refresh" the option object first
         if ((originEntry.getFinancialObjectTypeCode().equals(originEntry.getOption().getFinObjTypeExpenditureexpCd()) ||
                 originEntry.getFinancialObjectTypeCode().equals(originEntry.getOption().getFinObjTypeExpNotExpendCode()) ||
                 originEntry.getFinancialObjectTypeCode().equals(originEntry.getOption().getFinObjTypeExpendNotExpCode()) ||
@@ -384,16 +385,9 @@ public class ScrubberServiceImpl implements ScrubberService {
                 wsFundGroupCode = originEntry.getAccount().getSubFundGroupCode();
             }
 
-            // if (workingSubFundGroupCode = "CG") //todo: move to properties
-            //  retrieve and validate that ca_a21_sub_acct_t exists else nulls it out
-            if ("CG".equals(originEntry.getAccount().getSubFundGroupCode())) { // TODO: move to constant
-/*                if (checkGLObject(originEntry.getA21(), "a21 not found in table")) {
-                    wsSubAcctTypeCode = originEntry.getA21().getSubAcctTypeCode();
-                    wsCostChareAcctCode = workingEntry.getAccountNumber();
-                } else {
-                    wsSubAcctTypeCode = null;
-                }
-*/          
+            if ("CG".equals(originEntry.getAccount().getSubFundGroupCode()) && checkGLObject(originEntry.getA21SubAccount(), "a21 not found in table")) { // TODO: move to constant
+                wsSubAcctTypeCode = originEntry.getA21SubAccount().getSubAccountTypeCode();
+// TODO                    wsCostChareAcctCode = workingEntry.getAccountNumber();
             } else {
                 wsSubAcctTypeCode = null;
             }

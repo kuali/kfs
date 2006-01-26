@@ -31,6 +31,7 @@ import org.kuali.core.bo.OriginationCode;
 import org.kuali.core.bo.user.Options;
 import org.kuali.core.document.DocumentType;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.module.chart.bo.A21SubAccount;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.chart.bo.Chart;
@@ -81,6 +82,7 @@ public class OriginEntry extends BusinessObjectBase implements Transaction {
     private OriginEntryGroup group;
     private Account account;
     private SubAccount subAccount;
+    private A21SubAccount a21SubAccount;
     private BalanceTyp balanceType;
     private Chart chart;
     private ObjectCode financialObject;
@@ -168,6 +170,12 @@ public class OriginEntry extends BusinessObjectBase implements Transaction {
       }
     }
 
+    public A21SubAccount getA21SubAccount() {
+      return a21SubAccount;
+    }
+    public void setA21SubAccount(A21SubAccount subAccount) {
+      a21SubAccount = subAccount;
+    }
     public String getAccountNumber() {
         return accountNumber;
     }

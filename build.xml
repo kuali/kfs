@@ -1,35 +1,19 @@
 <?xml version="1.0"?>
-<project name="kuali" default="prepare-local-deployment" basedir=".">
-	<!-- run the help task to view usage instructions -->
-	<target name="prepare-local-configuration" depends="clean-local-configuration" description="Prepare local configuration files for 'dev' environment on development workstation">
-		<copy file="${build.config.directory}/${oracle.library.file}" todir="${appserver.lib.directory}" overwrite="true"/>
-		<copy todir="${settings.directory}" overwrite="true">
-			<fileset dir="${build.settings.directory}"/>
-		</copy>
-		<copy todir="${security.directory}" overwrite="true">
-			<fileset dir="${build.security.directory}"/>
-		</copy>
-		<copy todir="${logs.directory}" overwrite="true">
-			<fileset dir="${build.logs.directory}"/>
-		</copy>
-	</target>
-	
-    <target name="prepare-local-deployment" if="is.local.build" depends="filter" description="Prepare tokenized resources and deploy tomcat context file on development workstation">
-    	<copy file="${metainf.directory}/${tomcat.context.file}" tofile="${appserver.config.directory}/${ant.project.name}-${environment}.xml" overwrite="true"/>
-	</target>
-	
-	<target name="dist" depends="clean,make-source" description="Build war and for remote deployment">
-		<copy todir="${war.directory}">
-			<fileset dir="${webroot.directory}" excludes="WEB-INF/classes/**/**"/>
-		</copy>
-		<jar jarfile="${ant.project.name}-${environment}.war" basedir="${war.directory}" compress="false"/>
+<project name="kuali" default="dist-local" basedir=".">
+	<!-- run the help task to view usage instructions -->	
+	<target name="dist-local" if="is.local.build" depends="clean,filter" description="Prepare local configuration files and tokenized resources and deploy tomcat context file on development workstation">
+    	<copy file="${metainf.directory}/${tomcat.context.file}" tofile="${appserver.config.dir}/${ant.project.name}-${build.environment}.xml" overwrite="true"/>
     </target>
-			
+
+	<target name="echo-properties" depends="init-filter-sets" description="Print all build properties that have been set">
+		<echoproperties/>
+	</target>
+
 	<target name="test-all" depends="init-test-all,test" description="Run all project tests and format results"/>
 
     <target name="test-fast" depends="init-test-fast,test" description="Run fast project tests and format results"/>
 	
-	<target name="clean" depends="clean-local-deployment" description="Remove all build output">
+	<target name="clean" depends="clean-config" description="Remove all build output">
     	<delete dir="${metainf.directory}"/>
 		<delete file="${webinf.directory}/${web.xml.file}"/>
 		<delete>
@@ -38,21 +22,17 @@
 		<delete dir="${war.directory}"/>
 		<delete dir="${test.directory}"/>
         <delete>
-			<fileset dir=".">
-				<include name="${ant.project.name}-*.war"/>
-			</fileset>
+			<fileset dir="." includes="*.war"/>
 		</delete>
 	</target>
 	
-	<target name="echo-properties" depends="init-filter-set" description="Execute ant echoproperties task, thereby printing out all the properties that have been set">
-		<echoproperties/>
-	</target>
-	
-	<target name="init-local-configuration">
-		<property name="environment" value="dev"/>
-		<echo message="Set environment property equal to 'dev'"/>
-	</target>
-
+	<target name="dist" depends="clean,make-source" description="Build war and for remote deployment">
+		<copy todir="${war.directory}">
+			<fileset dir="${webroot.directory}" excludes="WEB-INF/classes/**/**"/>
+		</copy>
+		<jar jarfile="${ant.project.name}-${build.environment}.war" basedir="${war.directory}" compress="false"/>
+    </target>
+			
 	<target name="init-user-properties">
     	<property file="${user.home}/${ant.project.name}-build.properties"/>
 		<echo message="Loaded properties in ${user.home}/${ant.project.name}-build.properties"/>
@@ -76,16 +56,15 @@
 		<echo message="Loaded properties in ${build.institution.defaults.file}"/>
 	</target>
 
-	<target name="init-filter-set" depends="init-institution-default-properties">
-		<loadfile property="webservices.keystore.password" srcFile="${webservices.keystore.passwordfile}"/>
+	<target name="init-filter-sets" depends="init-institution-default-properties">
 		<condition property="context.docbase" value=' docBase="${basedir}${file.separator}work${file.separator}web-root"'>
     		<equals arg1="${is.local.build}" arg2="true"/>
 		</condition>
 		<property name="context.docbase" value=""/>
-		<filterset id="tokenReplacements">
+		<filterset id="general.filterset">
         	<filter token="application" value="${ant.project.name}"/>
 			<filter token="institution" value="${institution}"/>
-        	<filter token="environment" value="${environment}"/>
+        	<filter token="environment" value="${build.environment}"/>
     		<filter token="settings-directory" value="${settings.directory}/"/>
 			<filter token="log4j-settings-file" value="${settings.directory}/${log4j.settings.file}"/>
     		<filter token="security-directory" value="${security.directory}/"/>
@@ -97,12 +76,65 @@
 			<filter token="context-docbase" value="${context.docbase}"/>
 			<filter token="use-p6spy" value="${use.p6spy}"/>
         </filterset>
-        <echo message="Defined token filter sets"/>
+		<filterset id="security.filterset">
+	    	<filter token="datasource-url" value="${datasource.url}"/>
+	    	<filter token="datasource-username" value="${datasource.username}"/>
+	    	<filter token="datasource-password" value="${datasource.password}"/>
+			<filter token="keystore-password" value="${keystore.password}"/>
+		</filterset>
    	</target>
+
+	<target name="clean-config" if="is.local.build" depends="init-project-properties">
+		<delete file="${appserver.lib.dir}/${oracle.library.file}"/>
+		<delete dir="${settings.directory}"/>
+		<delete dir="${security.directory}"/>
+		<delete dir="${logs.directory}"/>
+        <delete>
+			<fileset dir="." includes="*.zip"/>
+		</delete>
+        <delete>
+			<fileset dir="${appserver.config.dir}" includes="${ant.project.name}-*.xml"/>
+		</delete>
+	</target>
+	
+	<target name="filter" depends="init-filter-sets,filter-config">
+		<mkdir dir="${metainf.directory}"/>
+		<copy file="${build.tokenized.resources.directory}/${tomcat.context.file}" todir="${metainf.directory}" overwrite="true">
+            <filterset refid="general.filterset"/>
+        </copy>
+		<copy file="${build.tokenized.resources.directory}/${web.xml.file}" todir="${webinf.directory}" overwrite="true">
+            <filterset refid="general.filterset"/>
+        </copy>
+		<copy todir="${source.directory}" overwrite="true">
+			<fileset dir="${build.tokenized.resources.directory}" includes="${tokenized.source.files}"/>
+            <filterset refid="general.filterset"/>
+    	</copy>
+    	<copy file="${build.tokenized.resources.directory}/${test.spring.datasource.file}" todir="${test.source.directory}" overwrite="true">
+            <filterset refid="general.filterset"/>
+    	</copy>
+    </target>
+	
+	<target name="filter-config" if="is.local.build" depends="init-project-properties">
+		<copy file="${build.config.directory}/${oracle.library.file}" todir="${appserver.lib.dir}" overwrite="true"/>
+		<copy todir="${settings.directory}" overwrite="true">
+			<fileset dir="${build.settings.directory}"/>
+			<filterset refid="general.filterset"/>
+		</copy>
+		<copy todir="${security.directory}" overwrite="true">
+			<fileset dir="${build.security.directory}" excludes="${webservices.keystore.file}"/>
+			<filterset refid="security.filterset"/>
+		</copy>
+		<copy file="${build.security.directory}/${webservices.keystore.file}" todir="${security.directory}" overwrite="true"/>
+    	<copy todir="${logs.directory}" overwrite="true">
+			<fileset dir="${build.logs.directory}"/>
+		</copy>
+        <zip destfile="settings.zip" basedir="${settings.directory}"/>
+		<zip destfile="security.zip" basedir="${security.directory}"/>
+	</target>
 	
     <target name="init-make-references" depends="filter">
     	<path id="compile.source.classpath">
-            <fileset dir="${appserver.lib.directory}" includes="*.jar"/>
+            <fileset dir="${appserver.lib.dir}" includes="*.jar"/>
             <fileset dir="${lib.directory}" includes="*.jar"/>
         </path>
         <path id="compile.tests.classpath">
@@ -115,75 +147,9 @@
             <include name="**/*.xml"/>
             <include name="**/*.html"/>
 		</patternset>
-		<echo message="Created classpaths and patternset for use by make targets"/>
     </target>
-	
-	<target name="init-test-all" depends="clean,make-tests">
-    	<fileset id="test.fileset" dir="${test.source.directory}">
-            <include name="**/*Test.java"/>
-            <exclude name="**/TransactionalDocumentRuleTest.java"/>
-        </fileset>
-	</target>
-	
-	<target name="init-test-fast" depends="clean,make-tests">
-		<fileset id="test.fileset" dir="${test.source.directory}">
-	        <include name="**/*Test.java"/>
-	        <exclude name="**/DocumentServiceTest.java"/>
-	        <exclude name="**/GeneralErrorCorrectionDocumentTest.java"/>
-	        <exclude name="**/KualiRuleServiceTest.java"/>
-	        <exclude name="**/NonCheckDisbursementDocumentTest.java"/>
-	        <exclude name="**/ProjectCodeMaintenanceDocumentTest.java"/>
-	        <exclude name="**/YearEndGeneralErrorCorrectionDocumentTest.java"/>
-	        <exclude name="**/YearEndTransferOfFundsDocumentTest.java"/>
-	        <exclude name="**/BusinessObjectEntryMapperTest.java"/>
-	        <exclude name="**/TransferOfFundsDocumentTest.java"/>
-	        <exclude name="**/TransactionalDocumentRuleTest.java"/>
-	        <exclude name="**/TransferOfFundsDocumentRuleTest.java"/>    		
-		</fileset>
-	</target>
-	
-	<target name="filter-local" if="is.local.build" depends="init-filter-set">
-    	<copy file="${build.tokenized.resources.directory}/${log4j.settings.file}" tofile="${settings.directory}/${log4j.settings.file}">
-            <filterset refid="tokenReplacements"/>
-    	</copy>
-    </target>	
 
-	<target name="filter" depends="filter-local">
-		<mkdir dir="${metainf.directory}"/>
-		<copy file="${build.tokenized.resources.directory}/${tomcat.context.file}" todir="${metainf.directory}" overwrite="true">
-            <filterset refid="tokenReplacements"/>
-        </copy>
-		<copy file="${build.tokenized.resources.directory}/${web.xml.file}" todir="${webinf.directory}" overwrite="true">
-            <filterset refid="tokenReplacements"/>
-        </copy>
-		<copy todir="${source.directory}" overwrite="true">
-			<fileset dir="${build.tokenized.resources.directory}" includes="${tokenized.source.files}"/>
-            <filterset refid="tokenReplacements"/>
-    	</copy>
-    	<copy file="${build.tokenized.resources.directory}/${test.spring.datasource.file}" todir="${test.source.directory}" overwrite="true">
-            <filterset refid="tokenReplacements"/>
-    	</copy>
-		<echo message="Copied tokenized resources to appropriate locations and replaced tokens"/>
-    </target>	
-	
-	<target name="clean-local-configuration" depends="init-local-configuration,init-project-properties" description="Remove output of prepare-local-configuration">
-		<delete file="${appserver.lib.directory}/${oracle.library.file}"/>
-		<!-- todo: remove this and passwords once everyone has converted to the new build process -->
-		<delete file="${appserver.lib.directory}/p6spy.jar"/>
-		<delete dir="${settings.directory}"/>
-		<delete dir="${security.directory}"/>
-		<delete dir="${logs.directory}"/>
-	</target>
-	
-	<target name="clean-local-deployment" if="is.local.build" depends="init-project-properties">
-        <delete>
-			<fileset dir="${appserver.config.directory}">
-				<include name="${ant.project.name}-*.xml"/>
-			</fileset>
-		</delete>
-    </target>
-	
-    <target name="make-source" depends="init-make-references">
+	<target name="make-source" depends="init-make-references">
     	<mkdir dir="${war.classes.directory}"/>
     	<javac destdir="${war.classes.directory}" srcdir="${source.directory}" debug="true" deprecation="true" optimize="true">
             <classpath refid="compile.source.classpath"/>
@@ -214,7 +180,34 @@
         </copy>
     </target>
 	
-    <target name="test">
+	<target name="init-test-all" depends="init-project-properties">
+    	<fileset id="test.fileset" dir="${test.source.directory}">
+            <include name="**/*Test.java"/>
+            <exclude name="**/TransactionalDocumentRuleTest.java"/>
+    		<exclude name="**/${test.spring.shutdown}.java"/>
+        </fileset>
+	</target>
+	
+	<target name="init-test-fast" depends="init-project-properties">
+		<fileset id="test.fileset" dir="${test.source.directory}">
+	        <include name="**/*Test.java"/>
+			<exclude name="**/DocumentServiceTest.java"/>
+	        <exclude name="**/GeneralErrorCorrectionDocumentTest.java"/>
+	        <exclude name="**/KualiRuleServiceTest.java"/>
+	        <exclude name="**/NonCheckDisbursementDocumentTest.java"/>
+	        <exclude name="**/ProjectCodeMaintenanceDocumentTest.java"/>
+	        <exclude name="**/YearEndGeneralErrorCorrectionDocumentTest.java"/>
+	        <exclude name="**/YearEndTransferOfFundsDocumentTest.java"/>
+	        <exclude name="**/BusinessObjectEntryMapperTest.java"/>
+	        <exclude name="**/TransferOfFundsDocumentTest.java"/>
+	        <exclude name="**/TransactionalDocumentRuleTest.java"/>
+	        <exclude name="**/TransferOfFundsDocumentRuleTest.java"/>
+    		<exclude name="**/${test.spring.shutdown}.java"/>
+		</fileset>
+	</target>
+    	
+	<!-- please be careful if you muck with these settings - you can seriously hose the continuous integration process -->
+    <target name="test" depends="clean,make-tests">
         <mkdir dir="${test.temp.directory}" />
     	<mkdir dir="${test.xml.results.directory}" />
         <junit printsummary="on" showoutput="true" fork="true" forkmode="once" failureproperty="tests.failed" tempdir="${test.temp.directory}">
@@ -222,12 +215,13 @@
                 <path refid="compile.tests.classpath" />
                 <pathelement location="${test.classes.directory}" />
             </classpath>
-            <formatter type="xml" />
-            <batchtest todir="${test.xml.results.directory}">
-                <fileset refid="test.fileset"/>
-            </batchtest>
+            <formatter type="xml"/>
+			<batchtest todir="${test.xml.results.directory}">
+	            <fileset refid="test.fileset"/>
+	        </batchtest>
+        	<test name="org.kuali.${test.spring.shutdown}" todir="${test.xml.results.directory}"/>
         </junit>
-        <mkdir dir="${test.html.results.directory}" />
+    	<mkdir dir="${test.html.results.directory}" />
         <junitreport todir="${test.html.results.directory}">
             <fileset dir="${test.xml.results.directory}">
                 <include name="TEST-*.xml" />
@@ -236,57 +230,51 @@
         </junitreport>
         <echo message="Generated test results: ${test.html.results.directory}/index.html" />
     </target>
+
 	
 	<target name="continuous-integration" depends="test-all">
 		<fail if="tests.failed" message="Tests failed"/>
 	</target>
-
+	
 	<target name="help" description="Describe public targets">
 		<echo>build
-	the following configuration files are involved in the build process:
+	the following configuration files are involved in the build process
 			build.xml
 			build.properties
 			build/*
 			${user.home}\${ant.project.name}-build.properties
-		- copy build/configurationFiles/userHomeDirectory/${ant.project.name}-build.properties to ${user.home}
-			and override the default property values to permanently customize the build process for your machine
-			or temporarily customize the process for execution of a given build target
-		- create a build/institutionProperties/${institution}-build.properties file to permanently customize the
-			build process for ${institution}
-		- the other files that are involved in the build, the .project and .classpath files, and the jars in the
-			lib directories are only commitable by kuali admins.  if you would like to modify the existing files 
-			or add a new one, you should send a message describing the change to kualidev@oncourse.iu.edu.
-			you should discuss changes to a build/institutionProperties/${institution}-build.properties with the
-			other developers associated with your institution before committing them.
-	you should start using this build script as follows:
-			follow the instructions associated with the prepare-local-configuration target and run that target
-			run the echo-properties target and review the results
-			follow the instructions associated with the prepare-local-deployment target and run that target
+	you should start using this build script as follows
+			- copy build/configurationFiles/userHomeDirectory/${ant.project.name}-build.properties to ${user.home}
+			- obtain the values for ${datasource.username}, ${datasource.password}, and ${webservices.keystore.password}
+			  for the dev environment from someone on the project, and put them in
+			  ${user.home}\${ant.project.name}-build.properties
+			- override other property values in ${user.home}\${ant.project.name}-build.properties to permanently
+			  customize the build process for your machine or temporarily customize the process for execution of a
+			  given build target
+			- follow the instructions associated with the dist-local target and run that target
+			- run the echo-properties target and review the results
+	if you are interested in doing the following once you are more familiar with ${ant.project.name}, you should
+		bring the change up with your development manager, send a note to kualidev@oncourse.iu.edu, or ask that
+		the change be discussed at a developer meeting before committing
+			- create a build/institutionProperties/${institution}-build.properties file to permanently customize the
+			  build process for ${institution}
+			- modify the other files involved in the build, the .project file, the .classpath file, or the jars in the
+			  lib directories
 		</echo>
 		<echo message="."/>
-		<echo>prepare-local-configuration target
+		<echo>dist-local target
 	description:
-		deploys local configuration files for 'dev' environment on development workstation
+		prepares tokenized resources and local configuration files and deploys tomcat context file on development workstation
 	notes:
-		this target should be run when instructed via notices sent to kualidev@oncourse.iu.edu
-		tomcat should not be running when you are executing this target
-		you must copy build/configurationFiles/userHomeDirectory/${ant.project.name}-build.properties to
-			${user.home} and override the default values as needed before executing this target
-		</echo>
-		<echo message="."/>
-		<echo>prepare-local-deployment target
-	description:
-		prepares tokenized resources and deploys tomcat context file on development workstation
-	notes:
-		this target must be run once each time you get a clean copy of the project, change files in build/tokenizedResources, 
+		this target should be run once each time you get a clean copy of the project, change files in build/tokenizedResources, 
 			or change property values in ${user.home}\${ant.project.name}-build.properties or 
 			build/institutionProperties/${institution}-build.properties
 		tomcat should not be running when you are executing this target
 		</echo>
 		<echo message="."/>
-		<echo>dist target
+		<echo>echo-properties target
 	description:
-		builds war for remote deployment
+		executes ant echoproperties task, thereby printing out all the properties that have been set
 		</echo>
 		<echo message="."/>
 		<echo>test-all target
@@ -307,9 +295,9 @@
 		removes all build output
 		</echo>
 		<echo message="."/>
-		<echo>echo-properties target
+		<echo>dist target
 	description:
-		executes ant echoproperties task, thereby printing out all the properties that have been set
+		builds war for remote deployment
 		</echo>
 	</target>
 </project>

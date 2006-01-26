@@ -67,6 +67,9 @@
 <td class="${dataCellCssClass}" nowrap align="${cellAlign}" valign="top" colspan="${columnCount}">
     <c:if test="${!empty labelFontWeight}">
         <span style="font-weight: ${labelFontWeight}"><kul:htmlAttributeLabel attributeEntry="${attributes[field]}" useShortLabel="true" forceRequired="${specialRequiredField}" /></span>
+        <%-- The following nbsp has breakable space around it, but nevertheless it accomplishes something,
+            by preventing this label from touching its input control (consistent with the cellpadding for
+            labels that are not in the same cell as their input control).  --%>
         &nbsp;
     </c:if>
 

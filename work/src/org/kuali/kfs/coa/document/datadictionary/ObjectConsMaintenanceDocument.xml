@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+    
+<dictionaryEntry>
+	<maintenanceDocument>
+		<businessObjectClass>org.kuali.module.chart.bo.ObjectCons</businessObjectClass>
+		<maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+
+    	<documentAuthorizerClass>org.kuali.core.document.DocumentAuthorizerBase</documentAuthorizerClass>
+
+        <authorizations>
+            <authorization action="initiate">
+                <workgroups>
+                    <workgroup>kualiUniversalGroup</workgroup>
+                </workgroups>
+            </authorization>
+        </authorizations>
+
+		<documentTypeName>KualiObjectConsMaintenanceDocument</documentTypeName>
+		<documentTypeCode>OCM</documentTypeCode>
+		<label>Object Consolidation Maintenance Document</label>
+		<shortLabel>ObjConsMaintDoc</shortLabel>
+		<summary>Object Consolidation Maintenance Document</summary>
+		<description>Maintenance document which allows you to create new Object Consolidations, or modify existing Object Consolidations.</description>
+		
+        <lockingKeys>
+			<field attributeName="chartOfAccountsCode" />
+			<field attributeName="finConsolidationObjectCode" />					
+		</lockingKeys>	 		
+		
+		<maintainableSections>
+			<maintainableSection title="Object Consolitation">
+                <maintainableItems>
+					<maintainableField name="chartOfAccounts.chartOfAccountsCode" required="true" />
+					<maintainableField name="finConsolidationObjectCode" required="true" />
+					<maintainableField name="finConsolidationObjShortName" required="true"  />
+					<maintainableField name="finConsolidationObjectName" required="true" />
+					<maintainableField name="finConsolidationObjActiveIndicator" required="true" />
+					<maintainableField name="financialEliminationsObject.financialObjectCode" required="true" />
+					<maintainableField name="financialReportingSortCode" required="true" />				
+                </maintainableItems>
+			</maintainableSection>
+		</maintainableSections>
+	</maintenanceDocument>
+</dictionaryEntry>

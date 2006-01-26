@@ -34,10 +34,10 @@
                 <maintainableItems>
 					<maintainableField name="code" required="true" />
 					<maintainableField name="name" required="true" />
-					<maintainableField name="finObjectTypeDebitcreditCd"  />
-					<maintainableField name="finObjectTypeIcrSelectionIndicator" />
-					<maintainableField name="fundBalanceIndicator" />
-					<maintainableField name="financialReportingSortCode"  />
+					<maintainableField name="finObjectTypeDebitcreditCd" required="true"  />
+					<maintainableField name="finObjectTypeIcrSelectionIndicator" required="true" />
+					<maintainableField name="fundBalanceIndicator" required="true" />
+					<maintainableField name="financialReportingSortCode" required="true"  />
                 </maintainableItems>
 			</maintainableSection>
 		</maintainableSections>

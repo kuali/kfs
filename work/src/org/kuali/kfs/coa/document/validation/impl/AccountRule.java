@@ -40,7 +40,6 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Account;
-import org.kuali.module.chart.bo.AccountGuideline;
 import org.kuali.module.chart.bo.SubFundGroup;
 import org.kuali.module.financial.rules.KualiParameterRule;
 
@@ -50,30 +49,30 @@ import org.kuali.module.financial.rules.KualiParameterRule;
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public class AccountRule extends MaintenanceDocumentRuleBase {
+    
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountRule.class);
     
-    private KualiParameterRule validBudgetRule;
-    private boolean ruleValuesSetup;
-        public static String ACCT_BUDGET_CODES_RESTRICT = "Account.BudgetCodesRestriction";
-    public static String ACCT_PREFIX_RESTRICTION = "Account.PrefixRestriction";
-    public static String ACCT_CAPITAL_SUBFUNDGROUP = "Account.CapitalSubFundGroup";
-    
-    Account oldAccount;
-    Account newAccount;
-    AccountGuideline oldAccountGuideline;
-    AccountGuideline newAccountGuideline;
-    
+    private static String ACCT_BUDGET_CODES_RESTRICT = "Account.BudgetCodesRestriction";
+    private static String ACCT_PREFIX_RESTRICTION = "Account.PrefixRestriction";
+    private static String ACCT_CAPITAL_SUBFUNDGROUP = "Account.CapitalSubFundGroup";
+
     private static String CONTRACTS_GRANTS_CD = "CG";
     private static String GENERAL_FUND_CD = "GF";
     private static String RESTRICTED_FUND_CD = "RF";
     private static String ENDOWMENT_FUND_CD = "EN";
     private static String PLANT_FUND_CD = "PF";
-
+    
     private KualiConfigurationService configService;
+    private BusinessObjectService boService;
+    private KualiParameterRule validBudgetRule;
+    private Account oldAccount;
+    private Account newAccount;
+    private boolean ruleValuesSetup;
     
     public AccountRule() {
         ruleValuesSetup = false;
-        configService=SpringServiceLocator.getKualiConfigurationService();
+        configService = SpringServiceLocator.getKualiConfigurationService();
+        boService = SpringServiceLocator.getBusinessObjectService();
     }
     
     /**
@@ -92,31 +91,36 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
      * have short and easy handles to the new and old objects contained in the 
      * maintenance document.
      * 
+     * It also calls the BusinessObjectBase.refresh(), which will attempt to load 
+     * all sub-objects from the DB by their primary keys, if available.
+     * 
      * @param document - the maintenanceDocument being evaluated
      * 
      */
     private void setupConvenienceObjects(MaintenanceDocument document) {
         
-        //	setup oldAccount convenience objects
+        //	setup oldAccount convenience objects, make sure all possible sub-objects are populated
         oldAccount = (Account) document.getOldMaintainableObject().getBusinessObject();
-        SpringServiceLocator.getPersistenceService().retrieveNonKeyFields(oldAccount);
-        oldAccountGuideline = oldAccount.getAccountGuideline();
+        oldAccount.refresh();
 
-        //	setup newAccount convenience objects
+        //	setup newAccount convenience objects, make sure all possible sub-objects are populated
         newAccount = (Account) document.getNewMaintainableObject().getBusinessObject();
-        SpringServiceLocator.getPersistenceService().retrieveNonKeyFields(newAccount);
-        newAccountGuideline = newAccount.getAccountGuideline();
+        newAccount.refresh();
     }
     
+    /**
+     * 
+     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
+     */
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
         
         setupConvenienceObjects(document);
         initializeRuleValues(document);
         
-        //	default to success
-        boolean success = true;
-        success &= checkEmptyValues(document);
-        return success;
+        checkEmptyValues(document);
+        
+        //	Save always succeeds, even if there are business rule failures
+        return true;
     }
     
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
@@ -163,12 +167,18 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         success &= checkEmptyBOField("subFundGroupCode", newAccount.getSubFundGroupCode(), "Sub Fund Group");
         success &= checkEmptyBOField("financialHigherEdFunctionCd", newAccount.getFinancialHigherEdFunctionCd(), "Higher Ed Function Code");
         success &= checkEmptyBOField("accountRestrictedStatusCode", newAccount.getAccountRestrictedStatusCode(), "Restricted Status Code");
-        //TODO: Please see KULCOA-301 for details, but these need to go elsewhere
-        //success &= checkEmptyValue(, newAccount.getAcctIndirectCostRcvyTypeCd(), "ICR Type Code");
-        //success &= checkEmptyValue(, newAccount.getFinancialIcrSeriesIdentifier(), "ICR Series Identifier");
-        //success &= checkEmptyValue(, newAccount.getIndirectCostRecoveryAcctNbr(), "ICR Cost Recovery Account");
-        //success &= checkEmptyValue(, newAccount.getCgCatlfFedDomestcAssistNbr(), "C&G Domestic Assistance Number");
-
+        
+        
+        //	Certain C&G fields are required if the Account belongs to the CG Fund Group
+        if (!ObjectUtils.isNull(newAccount.getSubFundGroup())) {
+	        if (newAccount.getSubFundGroup().getFundGroupCode().equalsIgnoreCase(CONTRACTS_GRANTS_CD)) {
+		        success &= checkEmptyBOField("acctIndirectCostRcvyTypeCd", newAccount.getAcctIndirectCostRcvyTypeCd(), "ICR Type Code");
+		        success &= checkEmptyBOField("financialIcrSeriesIdentifier", newAccount.getFinancialIcrSeriesIdentifier(), "ICR Series Identifier");
+		        success &= checkEmptyBOField("indirectCostRecoveryAcct.accountNumber", newAccount.getIndirectCostRecoveryAcctNbr(), "ICR Cost Recovery Account");
+		        success &= checkEmptyBOField("cgCatlfFedDomestcAssistNbr", newAccount.getCgCatlfFedDomestcAssistNbr(), "C&G Domestic Assistance Number");
+	        }
+        }
+        
         //	ObjectUtils.isNull() avoids null sub-objects that may or may not be proxied
         if (!ObjectUtils.isNull(newAccount.getAccountFiscalOfficerUser())) {
             success &= checkEmptyBOField("accountFiscalOfficerUser.personUniversalIdentifier", newAccount.getAccountFiscalOfficerUser().getPersonUniversalIdentifier(), "Account Fiscal Officer");
@@ -179,8 +189,9 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         if (!ObjectUtils.isNull(newAccount.getAccountSupervisoryUser())) {
             success &= checkEmptyBOField("accountSupervisoryUser.personUniversalIdentifier", newAccount.getAccountSupervisoryUser().getPersonUniversalIdentifier(), "Account Supervisor");
         }
+
+        //	if the expiration date is earlier than today, account guidelines are not required.
         if (!ObjectUtils.isNull(newAccount.getAccountGuideline())) {
-            //	if the expiration date is earlier than today, guidelines are not required.
             if (newAccount.getAccountExpirationDate().after(new Timestamp(Calendar.getInstance().getTimeInMillis()))) {
 	            success &= checkEmptyBOField("accountGuideline.accountExpenseGuidelineText", newAccount.getAccountGuideline().getAccountExpenseGuidelineText(), "Expense Guideline");
 	            success &= checkEmptyBOField("accountGuideline.accountIncomeGuidelineText", newAccount.getAccountGuideline().getAccountIncomeGuidelineText(), "Income Guideline");
@@ -620,13 +631,12 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
                 success &= false;
         	} 
         	
-        	//TODO:	add an existence test, that the CampusCode/BuildingCode exists in the DB
+        	//	the building object (campusCode & buildingCode) must exist in the DB
         	if (!StringUtils.isEmpty(campusCode) && !StringUtils.isEmpty(buildingCode)) {
         	    Map pkMap = new HashMap();
         	    pkMap.put("campusCode", campusCode);
         	    pkMap.put("buildingCode", buildingCode);
 
-        	    BusinessObjectService boService = SpringServiceLocator.getBusinessObjectService();
         	    Building building = (Building) boService.findByPrimaryKey(Building.class, pkMap);
         	    if (building == null) {
         	        putFieldError("accountDescription.campusCode", KeyConstants.ERROR_EXISTENCE, campusCode);

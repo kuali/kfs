@@ -78,7 +78,8 @@ public class JournalVoucherForm extends KualiTransactionalDocumentFormBase {
 
     /**
      * Overrides the parent to call super.populate and then to call the two methods that are specific to loading the two select
-     * lists on the page.
+     * lists on the page.  In addition, this also makes sure that the credit and debit amounts are filled in for situations where 
+     * validation errors occur and the page reposts.
      * 
      * @see org.kuali.core.web.struts.pojo.PojoForm#populate(javax.servlet.http.HttpServletRequest)
      */
@@ -88,6 +89,9 @@ public class JournalVoucherForm extends KualiTransactionalDocumentFormBase {
         // populate the drop downs
         populateAccountingPeriodListForRendering();
         populateBalanceTypeListForRendering();
+        
+        // make sure the amount fields are populate appropriately when in debit/credit amount mode
+        populateCreditAndDebitAmounts();
     }
 
     /**
@@ -141,7 +145,7 @@ public class JournalVoucherForm extends KualiTransactionalDocumentFormBase {
     /**
      * This method retrieves the list of valid accounting periods to display.
      * 
-     * @return
+     * @return List
      */
     public List getAccountingPeriods() {
         return accountingPeriods;
@@ -159,7 +163,7 @@ public class JournalVoucherForm extends KualiTransactionalDocumentFormBase {
     /**
      * This method retrieves the list of valid balance types to display.
      * 
-     * @return
+     * @return List
      */
     public List getBalanceTypes() {
         return balanceTypes;
@@ -168,7 +172,7 @@ public class JournalVoucherForm extends KualiTransactionalDocumentFormBase {
     /**
      * This method sets the selected balance type.
      * 
-     * @return
+     * @return BalanceTyp
      */
     public BalanceTyp getSelectedBalanceType() {
         return selectedBalanceType;
@@ -213,7 +217,7 @@ public class JournalVoucherForm extends KualiTransactionalDocumentFormBase {
     /**
      * This method retrieves the selectedAccountingPeriod.
      * 
-     * @return
+     * @return String
      */
     public String getSelectedAccountingPeriod() {
         return selectedAccountingPeriod;
@@ -251,7 +255,7 @@ public class JournalVoucherForm extends KualiTransactionalDocumentFormBase {
      * the correct accounting line at that index.
      * 
      * @param index
-     * @return
+     * @return JournalVoucherAccountingLineHelper
      */
     public JournalVoucherAccountingLineHelper getJournalLineHelper(int index) {
         while (this.journalLineHelpers.size() <= index) {
@@ -263,7 +267,7 @@ public class JournalVoucherForm extends KualiTransactionalDocumentFormBase {
     /**
      * This method retrieves the list of helper line objects for the form.
      * 
-     * @return
+     * @return List
      */
     public List getJournalLineHelpers() {
         return journalLineHelpers;
@@ -281,7 +285,7 @@ public class JournalVoucherForm extends KualiTransactionalDocumentFormBase {
     /**
      * This method retrieves the credit amount of the new accounting line that was added.
      * 
-     * @return
+     * @return KualiDecimal
      */
     public KualiDecimal getNewSourceLineCredit() {
         return newSourceLineCredit;
@@ -299,7 +303,7 @@ public class JournalVoucherForm extends KualiTransactionalDocumentFormBase {
     /**
      * This method retrieves the debit amount of the new accounting line that was added.
      * 
-     * @return
+     * @return KualiDecimal
      */
     public KualiDecimal getNewSourceLineDebit() {
         return newSourceLineDebit;
@@ -317,7 +321,7 @@ public class JournalVoucherForm extends KualiTransactionalDocumentFormBase {
     /**
      * This method retrieves the originalBalanceType attribute.
      * 
-     * @return
+     * @return String
      */
     public String getOriginalBalanceType() {
         return originalBalanceType;
@@ -326,7 +330,7 @@ public class JournalVoucherForm extends KualiTransactionalDocumentFormBase {
     /**
      * This method sets the originalBalanceType attribute.
      * 
-     * @param originalBalanceType
+     * @param changedBalanceType
      */
     public void setOriginalBalanceType(String changedBalanceType) {
         this.originalBalanceType = changedBalanceType;
@@ -335,7 +339,7 @@ public class JournalVoucherForm extends KualiTransactionalDocumentFormBase {
     /**
      * This method retrieves the JV's debit total formatted as currency.
      * 
-     * @return
+     * @return String
      */
     public String getCurrencyFormattedDebitTotal() {
         return (String) new CurrencyFormatter().format(getJournalVoucherDocument().getDebitTotal());
@@ -344,7 +348,7 @@ public class JournalVoucherForm extends KualiTransactionalDocumentFormBase {
     /**
      * This method retrieves the JV's credit total formatted as currency.
      * 
-     * @return
+     * @return String
      */
     public String getCurrencyFormattedCreditTotal() {
         return (String) new CurrencyFormatter().format(getJournalVoucherDocument().getCreditTotal());
@@ -353,7 +357,7 @@ public class JournalVoucherForm extends KualiTransactionalDocumentFormBase {
     /**
      * This method retrieves the JV's total formatted as currency.
      * 
-     * @return
+     * @return String
      */
     public String getCurrencyFormattedTotal() {
         return (String) new CurrencyFormatter().format(getJournalVoucherDocument().getTotal());
@@ -414,12 +418,67 @@ public class JournalVoucherForm extends KualiTransactionalDocumentFormBase {
      * This method will fully populate a balance type given the passed in code, by calling the business object service that
      * retrieves the rest of the instances' information.
      * 
-     * @param oldBalType
-     * @param newBalType
+     * @param balanceTypeCode
+     * @return BalanceTyp
      */
     private BalanceTyp getPopulatedBalanceTypeInstance(String balanceTypeCode) {
         // now we have to get the code and the name of the original and new balance types
         BalanceTypService bts = SpringServiceLocator.getBalanceTypService();
         return bts.getBalanceTypByCode(balanceTypeCode);
+    }
+    
+    /**
+     * Populates the credit and debit amounts appropriately from the user input into the actual 
+     * document.
+     */
+    private void populateCreditAndDebitAmounts() {
+        KualiDecimal ZERO = new KualiDecimal("0");
+        
+        boolean debitAmountEntered = false;
+        
+        if(newSourceLineDebit != null && newSourceLineDebit.compareTo(ZERO) != 0) {
+            newSourceLine.setDebitCreditCode(Constants.GL_DEBIT_CODE);
+            newSourceLine.setAmount(newSourceLineDebit);
+            debitAmountEntered = true;
+        }
+        
+        if(newSourceLineCredit != null && newSourceLineCredit.compareTo(ZERO) != 0) {
+            if(debitAmountEntered) { // double amount entry, this is an error
+                newSourceLine.setDebitCreditCode(null);
+                newSourceLine.setAmount(ZERO);
+            } else {
+                newSourceLine.setDebitCreditCode(Constants.GL_CREDIT_CODE);
+                newSourceLine.setAmount(newSourceLineCredit);
+            }
+        }
+        
+        // now iterate through all existing lines and do the same thing
+        JournalVoucherDocument jvDoc = getJournalVoucherDocument();
+        List sourceInputLines = getJournalLineHelpers();
+        for(int i = 0; i < jvDoc.getSourceAccountingLines().size(); i++) {
+            JournalVoucherAccountingLineHelper helperLine = (JournalVoucherAccountingLineHelper) sourceInputLines.get(i);
+            SourceAccountingLine sourceLine = jvDoc.getSourceAccountingLine(i);
+            
+            KualiDecimal helperDebitAmount = helperLine.getDebit();
+            KualiDecimal helperCreditAmount = helperLine.getCredit();
+            
+            debitAmountEntered = false;
+            
+            if(helperDebitAmount != null && helperDebitAmount.compareTo(ZERO) != 0) {
+                sourceLine.setDebitCreditCode(Constants.GL_DEBIT_CODE);
+                sourceLine.setAmount(helperDebitAmount);
+                debitAmountEntered = true;
+            }
+            
+            if(helperCreditAmount != null && helperCreditAmount.compareTo(ZERO) != 0) {
+                if(debitAmountEntered) { // double amount entry, this is an error
+                    sourceLine.setDebitCreditCode(null);
+                    sourceLine.setAmount(ZERO);
+                } else {
+                    sourceLine.setDebitCreditCode(Constants.GL_CREDIT_CODE);
+                    sourceLine.setAmount(helperCreditAmount);
+                }
+            }
+        }
     }
 }

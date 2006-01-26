@@ -157,8 +157,7 @@ public class JournalVoucherAction extends KualiTransactionalDocumentActionBase {
     /**
      * Overrides parent to remove the associated helper line also, and then it call the parent's implementation.
      * 
-     * @see org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase#insertSourceLine(org.apache.struts.action.ActionMapping,
-     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * @see org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase#deleteSourceLine(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     public ActionForward deleteSourceLine(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
@@ -243,7 +242,7 @@ public class JournalVoucherAction extends KualiTransactionalDocumentActionBase {
      * @param form
      * @param request
      * @param response
-     * @return
+     * @return ActionForward
      * @throws Exception
      */
     public ActionForward changeBalanceType(ActionMapping mapping, ActionForm form, HttpServletRequest request,
@@ -288,7 +287,7 @@ public class JournalVoucherAction extends KualiTransactionalDocumentActionBase {
      * the next mode is.
      * 
      * @param journalVoucherForm
-     * @return int A non-negative int if there is a real mode change, -1 if there isn't.
+     * @throws Exception
      */
     private void determineBalanceTypeChangeModes(JournalVoucherForm journalVoucherForm) throws Exception {
         // retrieve fully populated balance type instances
@@ -338,7 +337,7 @@ public class JournalVoucherAction extends KualiTransactionalDocumentActionBase {
      * @param form
      * @param request
      * @param response
-     * @return
+     * @return ActionForward
      * @throws Exception
      */
     private ActionForward processChangeBalanceTypeConfirmationQuestion(ActionMapping mapping, ActionForm form,
@@ -454,6 +453,7 @@ public class JournalVoucherAction extends KualiTransactionalDocumentActionBase {
      * retrieves the rest of the instances' information.
      * 
      * @param balanceTypeCode
+     * @return BalanceTyp
      */
     private BalanceTyp getPopulatedBalanceTypeInstance(String balanceTypeCode) {
         // now we have to get the code and the name of the original and new balance types
@@ -685,7 +685,8 @@ public class JournalVoucherAction extends KualiTransactionalDocumentActionBase {
      * This populates a new helperLine instance with the one that was just added so that the new instance can be added to the
      * helperLines list.
      * 
-     * @param form
+     * @param journalVoucherForm
+     * @return JournalVoucherAccountingLineHelper
      */
     private JournalVoucherAccountingLineHelper populateNewJournalVoucherAccountingLineHelper(JournalVoucherForm journalVoucherForm) {
         JournalVoucherAccountingLineHelper helperLine = new JournalVoucherAccountingLineHelper();
@@ -737,6 +738,9 @@ public class JournalVoucherAction extends KualiTransactionalDocumentActionBase {
             KualiDecimal tmpCreditAmount = new KualiDecimal(creditAmount.toString());
             sourceLine.setDebitCreditCode(Constants.GL_CREDIT_CODE);
             sourceLine.setAmount(tmpCreditAmount);
+        } else {  //explicitly set to zero, let br eval framework pick it up
+            sourceLine.setDebitCreditCode(null);
+            sourceLine.setAmount(ZERO);
         }
 
         return true;
@@ -748,7 +752,7 @@ public class JournalVoucherAction extends KualiTransactionalDocumentActionBase {
      * code and then populateingLineHelpers a corresponding helper form instance with the amount in the appropriate amount field -
      * credit or debit.
      * 
-     * @param kualiDocumentFormBase
+     * @param journalVoucherForm
      */
     private void populateAllJournalVoucherAccountingLineHelpers(JournalVoucherForm journalVoucherForm) {
         // make sure the journal voucher accounting line helper form list is populated properly
@@ -794,7 +798,7 @@ public class JournalVoucherAction extends KualiTransactionalDocumentActionBase {
      * @param form
      * @param request
      * @param response
-     * @return
+     * @return ActionForward
      * @throws Exception
      */
     private ActionForward processRouteOutOfBalanceDocumentConfirmationQuestion(ActionMapping mapping, ActionForm form,
@@ -836,7 +840,7 @@ public class JournalVoucherAction extends KualiTransactionalDocumentActionBase {
      * @param form
      * @param request
      * @param response
-     * @return
+     * @return ActionForward
      * @throws FileNotFoundException
      * @throws IOException
      */
@@ -875,7 +879,7 @@ public class JournalVoucherAction extends KualiTransactionalDocumentActionBase {
     }
 
     /**
-     * Determines based on <code>{@link BalanceType}</code> criteria what template should have been used. This method is usually
+     * Determines based on <code>{@link BalanceTyp}</code> criteria what template should have been used. This method is usually
      * only called when criteria isn't met properly which is determined through the business rules.<br/>
      * 
      * <p>
@@ -912,6 +916,7 @@ public class JournalVoucherAction extends KualiTransactionalDocumentActionBase {
      * </p>
      * 
      * @param jv <code>{@link JournalVoucherDocument}</code> used to get
+     * @return String
      */
     private String getImportTemplateName(JournalVoucherDocument jv) {
         String retval = null;

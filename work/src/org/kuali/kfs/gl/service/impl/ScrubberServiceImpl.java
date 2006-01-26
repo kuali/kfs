@@ -566,7 +566,7 @@ public class ScrubberServiceImpl implements ScrubberService {
                 scrubberUtil.wsAccount.isAccountClosedIndicator()) {
             workingEntry.setAccountNumber(originEntry.getAccountNumber());
             wsAccountChange = workingEntry.getAccountNumber();
-            transactionErrors.add("ORIGIN CODE CANNOT HAVE A CLOSED ACCT");
+            transactionErrors.add(kualiConfigurationService.getPropertyString(KeyConstants.ERROR_ORIGIN_CODE_CANNOT_HAVE_CLOSED_ACCOUNT));
             return;
         }
 
@@ -856,7 +856,7 @@ public class ScrubberServiceImpl implements ScrubberService {
             workingEntry.setSubAccountNumber(tmpSubAccountNumber);
             
             // TODO: do we need to refresh this object first?
-            if (checkGLObject(workingEntry.getAccount().getOrganization(), "INVALID ORG CODE FOR PLANT FUND")) {
+            if (checkGLObject(workingEntry.getAccount().getOrganization(), kualiConfigurationService.getPropertyString(KeyConstants.ERROR_INVALID_ORG_CODE_FOR_PLANT_FUND))) {
                 workingEntry.setAccountNumber(workingEntry.getAccount().getOrganization().getCampusPlantAccountNumber());
                 workingEntry.setChartOfAccountsCode(workingEntry.getAccount().getOrganization().getCampusPlantChartCode());
             }
@@ -930,7 +930,7 @@ public class ScrubberServiceImpl implements ScrubberService {
             return;
         }
 
-        if (checkGLObject(scrubberUtil.wsAccount.getSubFundGroup(), "sub fund group not found in table")) {
+        if (checkGLObject(scrubberUtil.wsAccount.getSubFundGroup(), kualiConfigurationService.getPropertyString(KeyConstants.ERROR_SUB_FUND_GROUP_NOT_FOUND))) {
             if ("CG".equalsIgnoreCase(scrubberUtil.wsAccount.getSubFundGroupCode())) {
                 changeExpiration();
             }
@@ -959,7 +959,7 @@ public class ScrubberServiceImpl implements ScrubberService {
         int retValue = accountExpiration(originEntry);
 
         if (retValue == ScrubberUtil.ACCOUNT_LIMIT) {
-            transactionErrors.add("CONT ACCT LIMIT REACHED");
+            transactionErrors.add(kualiConfigurationService.getPropertyString(KeyConstants.ERROR_CONTINUATION_ACCOUNT_LIMIT_REACHED));
             return;
         }
 

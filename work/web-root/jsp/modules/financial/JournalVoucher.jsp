@@ -7,7 +7,7 @@
 <c:set var="journalVoucherAttributes" value="${DataDictionary['KualiJournalVoucherDocument'].attributes}" />
 <c:set var="readOnly" value="${!empty KualiForm.editingMode['viewOnly']}" />
 
-<kul:documentPage showDocumentInfo="true" 
+<kul:documentPage showDocumentInfo="true"
 	documentTypeName="KualiJournalVoucherDocument" htmlFormAction="financialJournalVoucher" renderMultipart="true" showTabButtons="true">
 		<html:hidden property="document.nextSourceLineNumber"/>
 		<kul:hiddenDocumentFields />
@@ -24,7 +24,6 @@
                 <th width="35%" class="bord-l-b">
                   <div align="right">
                     <kul:htmlAttributeLabel attributeEntry="${journalVoucherAttributes.accountingPeriod}" useShortLabel="false" />
-                    &nbsp;
                   </div>
                 </th>
                 <td class="datacell-nowrap">
@@ -64,7 +63,6 @@
                 <th width="35%" class="bord-l-b">
                   <div align="right">
                   	<kul:htmlAttributeLabel attributeEntry="${journalVoucherAttributes.balanceTypeCode}" useShortLabel="false" />
-                  	&nbsp;
                   </div>
                 </th>
                 <td class="datacell-nowrap">
@@ -106,7 +104,6 @@
                 <th width="35%" class="bord-l-b">
                     <div align="right">
                     	<kul:htmlAttributeLabel attributeEntry="${journalVoucherAttributes.reversalDate}" useShortLabel="false" />
-                  		&nbsp;
                   	</div></th>
                 <td class="datacell-nowrap">
                     <c:if test="${readOnly}">

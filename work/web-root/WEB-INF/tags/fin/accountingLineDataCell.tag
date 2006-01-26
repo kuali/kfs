@@ -64,7 +64,8 @@
 <c:set var="useXmlHttp" value="${(!readOnly) && (!empty detailFunction)}" />
 <%-- test to see if we are dealing with the extra JV fields here --%>
 <c:set var="specialRequiredField" value="${(field eq 'referenceOriginCode') || (field eq 'referenceNumber') || (field eq 'referenceTypeCode')}" />
-<td class="${dataCellCssClass}" nowrap align="${cellAlign}" valign="top" colspan="${columnCount}">
+<td class="${dataCellCssClass}" valign="top" colspan="${columnCount}">
+<span class="nowrap">
     <c:if test="${!empty labelFontWeight}">
         <span style="font-weight: ${labelFontWeight}"><kul:htmlAttributeLabel attributeEntry="${attributes[field]}" useShortLabel="true" forceRequired="${specialRequiredField}" /></span>
         <%-- The following nbsp has breakable space around it, but nevertheless it accomplishes something,
@@ -112,7 +113,7 @@
                 />
         </c:if>
     </c:if>
-
+</span>
     <c:if test="${empty labelFontWeight}">
         <fin:accountingLineDataCellDetail
             detailField="${detailField}"

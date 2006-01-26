@@ -31,7 +31,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.kuali.core.bo.PostalZipCode;
 import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.maintenance.Maintainable;
 import org.kuali.core.rule.PreRulesCheck;
 import org.kuali.core.rule.event.PreRulesCheckEvent;
 import org.kuali.core.util.ObjectUtils;
@@ -41,6 +40,9 @@ import org.kuali.module.chart.bo.SubFundGroup;
 
 public class AccountPreRules implements PreRulesCheck {
 
+    private Account oldAccount;
+    private Account newAccount;
+    
     /**
      * This processes certain rules that need to occur at the UI level or actually need to modify the Account object
      * before being passed on down the rules chain
@@ -56,6 +58,29 @@ public class AccountPreRules implements PreRulesCheck {
     
     /**
      * 
+     * This method sets the convenience objects like newAccount and oldAccount, so you
+     * have short and easy handles to the new and old objects contained in the 
+     * maintenance document.
+     * 
+     * It also calls the BusinessObjectBase.refresh(), which will attempt to load 
+     * all sub-objects from the DB by their primary keys, if available.
+     * 
+     * @param document - the maintenanceDocument being evaluated
+     * 
+     */
+    private void setupConvenienceObjects(MaintenanceDocument document) {
+        
+        //	setup oldAccount convenience objects, make sure all possible sub-objects are populated
+        oldAccount = (Account) document.getOldMaintainableObject().getBusinessObject();
+        oldAccount.refresh();
+
+        //	setup newAccount convenience objects, make sure all possible sub-objects are populated
+        newAccount = (Account) document.getNewMaintainableObject().getBusinessObject();
+        newAccount.refresh();
+    }
+    
+    /**
+     * 
      * This method sets the default values for RestrictedStatusCode, based on the 
      * FundGroups.
      * 
@@ -64,12 +89,10 @@ public class AccountPreRules implements PreRulesCheck {
      */
     private void setRestrictedCodeDefaults(MaintenanceDocument document) {
         
-        Account newAccount;
         SubFundGroup subFundGroup;
         String fundGroupCode = "";
         String restrictedStatusCode;
         
-        newAccount = (Account) document.getNewMaintainableObject().getBusinessObject();
         if (!ObjectUtils.isNull(newAccount.getSubFundGroup())) {
             fundGroupCode = newAccount.getSubFundGroup().getFundGroupCode();
         }
@@ -102,37 +125,34 @@ public class AccountPreRules implements PreRulesCheck {
      * @param maintenanceDocument
      */
     private void newAccountDefaults(MaintenanceDocument maintenanceDocument) {
-        Maintainable newMaintainable = maintenanceDocument.getNewMaintainableObject();
-        Account account = (Account) newMaintainable.getBusinessObject();
+        
         //On new Accounts acct_effect_date is defaulted to the doc creation date
-        if (account.getAccountEffectiveDate() == null) {
+        if (newAccount.getAccountEffectiveDate() == null) {
             Timestamp ts = maintenanceDocument.getDocumentHeader().getWorkflowDocument().getCreateDate();
             if (ts != null) {
-                account.setAccountEffectiveDate(ts);
+                newAccount.setAccountEffectiveDate(ts);
             }
         }
         
         //On new Accounts acct_state_cd is defaulted to the value of "IN"
-        if (StringUtils.isEmpty(account.getAccountStateCode())) {
-            account.setAccountStateCode("IN");
+        if (StringUtils.isEmpty(newAccount.getAccountStateCode())) {
+            newAccount.setAccountStateCode("IN");
         }
         
         //if the account type code is left blank it will default to NA.
-        if (StringUtils.isEmpty(account.getAccountTypeCode())) {
-            account.setAccountTypeCode("NA");
+        if (StringUtils.isEmpty(newAccount.getAccountTypeCode())) {
+            newAccount.setAccountTypeCode("NA");
         }
     }
     
+    //TODO - lookup state and city from populated zip
     private void setStateFromZip(MaintenanceDocument maintenanceDocument) {
-        Maintainable newMaintainable = maintenanceDocument.getNewMaintainableObject();
-        Account account = (Account) newMaintainable.getBusinessObject();
         
         //acct_zip_cd, acct_state_cd, acct_city_nm all are populated by looking up the zip code and getting the state and city from that
-        if (!StringUtils.isEmpty(account.getAccountZipCode())) {
+        if (!StringUtils.isEmpty(newAccount.getAccountZipCode())) {
 
-            //TODO - lookup state and city from populated zip
             HashMap primaryKeys = new HashMap();
-            primaryKeys.put("postalZipCode", account.getAccountZipCode());
+            primaryKeys.put("postalZipCode", newAccount.getAccountZipCode());
             PostalZipCode zip = (PostalZipCode)SpringServiceLocator.getBusinessObjectService().findByPrimaryKey(PostalZipCode.class, primaryKeys);
             //TODO- now what do i do with this exactly?
         }

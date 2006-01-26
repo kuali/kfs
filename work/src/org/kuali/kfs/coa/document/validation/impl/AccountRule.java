@@ -300,10 +300,6 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
             putFieldError("budgetRecordingLevelCode", KeyConstants.ERROR_DOCUMENT_ACCMAINT_INVALID_BUDGET_RECORD_LVL_CD, newAccount.getBudgetRecordingLevelCode());
         }
         
-        //TODO: If a document is enroute that affects the filled in account number then give the user an error indicating that 
-        //      the current account is locked for editing
-        //      DEFERRED - must consult workflow folks for best way to accomplish this
-        
         //	In this whole stretch of tests which follows where we're testing to make sure that subObject X 
         // is valid (ie, present in the its table) and active, we're cheating a little bit, to 
         // simplify the code.  This assumes that we've run the PersistenceService.retrieveNonKeyFields() 
@@ -429,8 +425,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
             success &= false;
         }
         
-        //TODO: DEFERRED - Need to add a new method to GeneralLedgerPendingEntryService to find GLPE by Account
-        //TODO: DEFERRED - must have no base budget, must have no pending ledger entries or pending labor ledger entries, 
+        //TODO: KULCOA-310 - must have no base budget, must have no pending ledger entries or pending labor ledger entries, 
         //      must have no open encumbrances, must have no asset, liability or fund balance balances other than object code 9899 
         //      (9899 is fund balance for us), and the process of closing income and expense into 9899 must take the 9899 balance to zero.
         //

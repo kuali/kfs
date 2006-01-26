@@ -196,6 +196,7 @@ public class ScrubberServiceImpl implements ScrubberService {
             workingEntry.setUniversityFiscalYear(tmpDate.getUniversityFiscalYear());
             workingEntry.setUniversityFiscalPeriodCode(tmpDate.getUniversityFiscalAccountingPeriod());
             wsPreviousCal = workingCal;
+            // TODO: refresh option table for workingEntry
         } // TODO: what should the else do?
 
         if (originEntry.getUniversityFiscalYear() == null) {
@@ -224,7 +225,7 @@ public class ScrubberServiceImpl implements ScrubberService {
         checkGLObject(originEntry.getAccount(), kualiConfigurationService.getPropertyString(KeyConstants.ERROR_ACCOUNT_NOT_FOUND));
 
         
-        if (originEntry.getFinancialDocumentTypeCode() != "ANNUAL_CLOSING") { // TODO: CHECK against cobol! and/or move to properties
+        if ("ACLO".equals(originEntry.getFinancialDocumentTypeCode())) { // TODO: move to properties ANNUAL_CLOSING
             resolveAccount(originEntry, workingEntry);
         } else {
             wsAccountChange = originEntry.getAccountNumber(); 
@@ -244,7 +245,7 @@ public class ScrubberServiceImpl implements ScrubberService {
             checkGLObject(originEntry.getSubAccount(), kualiConfigurationService.getPropertyString(KeyConstants.ERROR_SUB_ACCOUNT_NOT_FOUND));
         }
 
-        if (workingEntry.getSubAccount() != null && originEntry.getFinancialDocumentTypeCode() != "ANNUAL_CLOSING"
+        if (workingEntry.getSubAccount() != null && "ACLO".equals(originEntry.getFinancialDocumentTypeCode())
                 && !workingEntry.getSubAccount().isSubAccountActiveIndicator()) {
             transactionErrors.add(kualiConfigurationService.getPropertyString(KeyConstants.ERROR_SUB_ACCOUNT_NOT_ACTIVE));
         }
@@ -276,8 +277,9 @@ public class ScrubberServiceImpl implements ScrubberService {
             // if balance type of originEntry is null, get it from option table
             workingEntry.setFinancialBalanceTypeCode(originEntry.getOption().getActualFinancialBalanceTypeCd());
             // TODO: need option object to have objects not just primitives
-            // workingEntry.setBalanceType(originEntry.getOption().getAccountBalanceType());
-            checkGLObject(originEntry.getBalanceType(), kualiConfigurationService.getPropertyString(KeyConstants.ERROR_BALANCE_TYPE_NOT_FOUND));
+            workingEntry.getBalanceType().setCode(originEntry.getOption().getActualFinancialBalanceTypeCd());
+            workingEntry.getBalanceType().refreshReferenceObject("balanceType");
+            checkGLObject(workingEntry.getBalanceType(), kualiConfigurationService.getPropertyString(KeyConstants.ERROR_BALANCE_TYPE_NOT_FOUND));
         }
 
         // validate fiscalperiod against sh_acct_period_t (free)
@@ -300,7 +302,7 @@ public class ScrubberServiceImpl implements ScrubberService {
         // if offsetGenerationCode = "Y" and debitCreditCode == null then error
         // "debit or credit indicator must be 'D' or 'C'"
         if(!originEntry.getBalanceType().isFinancialOffsetGenerationIndicator()) {
-            if(originEntry.getTransactionDebitCreditCode() != null) {
+            if(!" ".equals(originEntry.getTransactionDebitCreditCode())) { // todo: move space to constant
                 transactionErrors.add(kualiConfigurationService.getPropertyString(KeyConstants.ERROR_DC_INDICATOR_MUST_BE_EMPTY));
             }
         } else {
@@ -324,21 +326,19 @@ public class ScrubberServiceImpl implements ScrubberService {
         // validate documentReferenceTypeCode - "reference document type is not
         // in document type table"
         // validate FSRefOriginCode - "FS origin code is not in DB"
-        if (StringUtils.hasText(originEntry.getFinancialDocumentNumber())) {
+        if (StringUtils.hasText(originEntry.getFinancialDocumentReferenceNbr())) {
             if (checkGLObject(originEntry.getReferenceDocumentType(), kualiConfigurationService.getPropertyString(KeyConstants.ERROR_REFERENCE_DOCUMENT_TYPE_NOT_FOUND))) {
                 workingEntry.setReferenceFinDocumentTypeCode(originEntry.getReferenceFinDocumentTypeCode());
                 workingEntry.setReferenceDocumentType(originEntry.getReferenceDocumentType());
             }
-            if (checkGLObject(originEntry.getOrigination(), kualiConfigurationService.getPropertyString(KeyConstants.ERROR_REFERENCE_ORIGINATION_CODE_NOT_FOUND))) {
-                workingEntry.setFinancialSystemOriginationCode(originEntry.getFinancialSystemOriginationCode());
-                workingEntry.setOrigination(originEntry.getOrigination());
+            if (checkGLObject(originEntry.getFinSystemRefOriginationCode(), kualiConfigurationService.getPropertyString(KeyConstants.ERROR_REFERENCE_ORIGINATION_CODE_NOT_FOUND))) {
+                workingEntry.setFinSystemRefOriginationCode(originEntry.getFinancialSystemOriginationCode());
             }
         } else {
-            workingEntry.setFinancialDocumentNumber(null);
-            workingEntry.setFinancialDocumentTypeCode(null);
-            workingEntry.setDocumentType(null);
-            workingEntry.setFinancialSystemOriginationCode(null);
-            workingEntry.setOrigination(null);
+            workingEntry.setFinancialDocumentReferenceNbr(null);
+            workingEntry.setReferenceFinDocumentTypeCode(null);
+            workingEntry.setReferenceDocumentType(null);
+            workingEntry.setFinSystemRefOriginationCode(null);
 
             if (originEntry.getTransactionEncumbranceUpdtCd().equals("R")) { // TODO: change to constant
                 transactionErrors.add(kualiConfigurationService.getPropertyString(KeyConstants.ERROR_REFERENCE_DOC_NUMBER_CANNOT_BE_NULL_IF_UPDATE_CODE_IS_R));
@@ -357,7 +357,6 @@ public class ScrubberServiceImpl implements ScrubberService {
         // if balanceTypeEncumberanceCode = "Y" AND fundBalanceCode != "Y" AND
         // (encumberanceUpdateCode != "D" and "R" and "N")
         // "The encumberance update code is not equal D R or N"
-        // TODO: D or R???!!! (AAP couldnt find these in database at all!)
         if (originEntry.getBalanceType() != null && originEntry.getBalanceType().isFinBalanceTypeEncumIndicator() &&
                 !originEntry.getObjectType().isFundBalanceIndicator()) {
             if (originEntry.getTransactionEncumbranceUpdtCd().equals("D") ||
@@ -373,14 +372,14 @@ public class ScrubberServiceImpl implements ScrubberService {
         // (BalanceTypeCode = "AC" or "EX" or "IE" or "PE") //todo: move to properties
         //  retrieve and validate that subFundGroup exists - "subFundGroup not in table"
         //  (put into working storage field)
-        if ((originEntry.getFinancialObjectTypeCode().equals("EE") ||
-                originEntry.getFinancialObjectTypeCode().equals("EX") ||
-                originEntry.getFinancialObjectTypeCode().equals("ES") ||
+        if ((originEntry.getFinancialObjectTypeCode().equals(originEntry.getOption().getFinObjTypeExpenditureexpCd()) ||
+                originEntry.getFinancialObjectTypeCode().equals(originEntry.getOption().getFinObjTypeExpNotExpendCode()) ||
+                originEntry.getFinancialObjectTypeCode().equals(originEntry.getOption().getFinObjTypeExpendNotExpCode()) ||
                 originEntry.getFinancialObjectTypeCode().equals("TE")) &&
-                (originEntry.getFinancialBalanceTypeCode().equals("AC") ||
-                originEntry.getFinancialBalanceTypeCode().equals("EX") ||
-                originEntry.getFinancialBalanceTypeCode().equals("IE") ||
-                originEntry.getFinancialBalanceTypeCode().equals("PE"))) {
+                (originEntry.getFinancialBalanceTypeCode().equals(originEntry.getOption().getActualFinancialBalanceTypeCd()) ||
+                originEntry.getFinancialBalanceTypeCode().equals(originEntry.getOption().getExtrnlEncumFinBalanceTypCd()) ||
+                originEntry.getFinancialBalanceTypeCode().equals(originEntry.getOption().getIntrnlEncumFinBalanceTypCd()) ||
+                originEntry.getFinancialBalanceTypeCode().equals(originEntry.getOption().getPreencumbranceFinBalTypeCd()))) {
             if (checkGLObject(originEntry.getAccount().getSubFundGroup(), kualiConfigurationService.getPropertyString(KeyConstants.ERROR_SUB_FUND_GROUP_NOT_FOUND))) {
                 wsFundGroupCode = originEntry.getAccount().getSubFundGroupCode();
             }
@@ -436,9 +435,9 @@ public class ScrubberServiceImpl implements ScrubberService {
         //  (beginning balance) AND UniversityFiscalPeriod != "CB" (contract
         //  balance) AND DocumentTypeCD != "JV" and != "AA" //todo: move to properties
         //      DO COST SHARING! (move into separate method)
-        if (("EE".equals(workingEntry.getFinancialObjectTypeCode()) ||
-                "EX".equals(workingEntry.getFinancialObjectTypeCode()) ||
-                "ES".equals(workingEntry.getFinancialObjectTypeCode()) ||
+        if ((originEntry.getOption().getFinObjTypeExpenditureexpCd().equals(workingEntry.getFinancialObjectTypeCode()) ||
+        		originEntry.getOption().getFinObjTypeExpNotExpendCode().equals(workingEntry.getFinancialObjectTypeCode()) ||
+        		originEntry.getOption().getFinObjTypeExpendNotExpCode().equals(workingEntry.getFinancialObjectTypeCode()) ||
                 "TE".equals(workingEntry.getFinancialObjectTypeCode())) &&
                 "CG".equals(wsFundGroupCode) &&
                 "CS".equals(wsSubAcctTypeCode) &&
@@ -446,9 +445,9 @@ public class ScrubberServiceImpl implements ScrubberService {
                 !"CB".equals(originEntry.getUniversityFiscalPeriodCode()) &&
                 !"JV".equals(originEntry.getFinancialDocumentTypeCode()) &&
                 !"AA".equals(originEntry.getFinancialDocumentTypeCode())) {
-            if ("EX".equals(workingEntry.getFinancialBalanceTypeCode()) ||
-                    "IE".equals(workingEntry.getFinancialBalanceTypeCode()) ||
-                    "PE".equals(workingEntry.getFinancialBalanceTypeCode())) {
+            if (originEntry.getOption().getExtrnlEncumFinBalanceTypCd().equals(workingEntry.getFinancialBalanceTypeCode()) ||
+            		originEntry.getOption().getIntrnlEncumFinBalanceTypCd().equals(workingEntry.getFinancialBalanceTypeCode()) ||
+            		originEntry.getOption().getPreencumbranceFinBalTypeCd().equals(workingEntry.getFinancialBalanceTypeCode())) {
                 // Do cost sharing!
                 costShareEncumbrance(originEntry);
             }
@@ -461,7 +460,7 @@ public class ScrubberServiceImpl implements ScrubberService {
             //      subtract amount from costSharingAccumulator
             //  else
             //      add amount to costSharingAccumulator
-            if ("AC".equals(workingEntry.getFinancialBalanceTypeCode())) {
+            if (originEntry.getOption().getActualFinancialBalanceTypeCd().equals(workingEntry.getFinancialBalanceTypeCode())) {
                 if (workingEntry.isDebit()) {
                     scrubberUtil.costSharingAccumulator.subtract(originEntry.getTransactionLedgerEntryAmount());
                 } else {
@@ -561,9 +560,9 @@ public class ScrubberServiceImpl implements ScrubberService {
         if ((org.apache.commons.lang.StringUtils.isNumeric(workingEntry.getFinancialSystemOriginationCode()) ||
                 "EU".equals(workingEntry.getFinancialSystemOriginationCode()) ||
                 "PL".equals(workingEntry.getFinancialSystemOriginationCode()) ||
-                "EX".equals(workingEntry.getFinancialBalanceTypeCode()) ||
-                "IE".equals(workingEntry.getFinancialBalanceTypeCode()) ||
-                "PE".equals(workingEntry.getFinancialBalanceTypeCode()) ||
+                originEntry.getOption().getExtrnlEncumFinBalanceTypCd().equals(workingEntry.getFinancialBalanceTypeCode()) ||
+                originEntry.getOption().getIntrnlEncumFinBalanceTypCd().equals(workingEntry.getFinancialBalanceTypeCode()) ||
+                originEntry.getOption().getPreencumbranceFinBalTypeCd().equals(workingEntry.getFinancialBalanceTypeCode()) ||
                 "TOPS".equals(workingEntry.getFinancialDocumentTypeCode()) ||
                 "CD".equals(workingEntry.getFinancialDocumentTypeCode().trim()) ||
                 "LOCR".equals(workingEntry.getFinancialDocumentTypeCode())) &&

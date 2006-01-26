@@ -26,13 +26,15 @@ import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.KeyConstants;
-import org.kuali.core.bo.PostalZipCode;
+import org.kuali.core.bo.Building;
 import org.kuali.core.bo.user.KualiUser;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
@@ -52,9 +54,9 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
     
     private KualiParameterRule validBudgetRule;
     private boolean ruleValuesSetup;
-    
-    public static String ACCT_BUDGET_CODES_RESTRICT = "Account.BudgetCodesRestriction";
+        public static String ACCT_BUDGET_CODES_RESTRICT = "Account.BudgetCodesRestriction";
     public static String ACCT_PREFIX_RESTRICTION = "Account.PrefixRestriction";
+    public static String ACCT_CAPITAL_SUBFUNDGROUP = "Account.CapitalSubFundGroup";
     
     Account oldAccount;
     Account newAccount;
@@ -591,37 +593,47 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
             success &= false;
         }
         
-        //TODO: DEFERRED - if the sub fund group code is plant fund, construction and major remodeling (PFCMR), 
-        //      the campus and building are required on the description screen for CAMS.
-        //      NOTE:  we dont have any description fields associated with the Account ... dont know what to do here
-        
+        //	Attempt to get the right SubFundGroup code to check the following logic with.  If the value isnt available, go ahead 
+        // and die, as this indicates a misconfigured app, and important business rules wont be implemented without it.
+        String capitalSubFundGroup = configService.getApplicationParameterValue(CHART_MAINTENANCE_EDOC, ACCT_CAPITAL_SUBFUNDGROUP);
+        if (StringUtils.isEmpty(capitalSubFundGroup)) {
+            throw new RuntimeException("Expected ConfigurationService.ApplicationParameterValue was not found " + 
+                    					"for ScriptName = '" + CHART_MAINTENANCE_EDOC + "' and " + 
+                    					"Parameter = '" + ACCT_CAPITAL_SUBFUNDGROUP + "'");
+        }
+
         //	PFCMD (Plant Fund, Construction and Major Remodeling) SubFundCode checks
-        if(newAccount.getSubFundGroupCode().equalsIgnoreCase("PFCMR")) {
+        if (newAccount.getSubFundGroupCode().equalsIgnoreCase(capitalSubFundGroup)) {
+            
+            String campusCode = newAccount.getAccountDescription().getCampusCode();
+            String buildingCode = newAccount.getAccountDescription().getBuildingCode();
             
             //	if sub_fund_grp_cd is 'PFCMR' then campus_cd must be entered
-            if (StringUtils.isEmpty(newAccount.getAccountPhysicalCampusCode())) {
-                putGlobalError(KeyConstants.ERROR_DOCUMENT_ACCMAINT_SUBFUNDGROUP_WITH_INVALID_CAMPUS_CD);
+            if (StringUtils.isEmpty(campusCode)) {
+    	        putFieldError("accountDescription.campusCode", KeyConstants.ERROR_DOCUMENT_ACCMAINT_CAMS_SUBFUNDGROUP_WITH_MISSING_CAMPUS_CD_FOR_BLDG);
                 success &= false;
             }
         
         	//	if sub_fund_grp_cd is 'PFCMR' then bldg_cd must be entered
-        	if (StringUtils.isEmpty(newAccount.getAccountZipCode())) {
-                putGlobalError(KeyConstants.ERROR_DOCUMENT_ACCMAINT_SUBFUNDGROUP_WITH_INVALID_ZIP_AND_BUILDING_CD);
+        	if (StringUtils.isEmpty(buildingCode)) {
+    	        putFieldError("accountDescription.campusCode", KeyConstants.ERROR_DOCUMENT_ACCMAINT_CAMS_SUBFUNDGROUP_WITH_MISSING_BUILDING_CD);
                 success &= false;
         	} 
-        	else {
-        	    
-        	    //	get a reference to the ZipCode bo
-                HashMap primaryKeys = new HashMap();
-                primaryKeys.put("postalZipCode", newAccount.getAccountZipCode());
-                PostalZipCode zip = (PostalZipCode) SpringServiceLocator.getBusinessObjectService().findByPrimaryKey(PostalZipCode.class, primaryKeys);
-                
-                //	now we can check the building code
-                if (StringUtils.isEmpty(zip.getBuildingCode())) {
-                    putGlobalError(KeyConstants.ERROR_DOCUMENT_ACCMAINT_SUBFUNDGROUP_WITH_INVALID_ZIP_AND_BUILDING_CD);
-                    success &= false;
-                }
-            }
+        	
+        	//TODO:	add an existence test, that the CampusCode/BuildingCode exists in the DB
+        	if (!StringUtils.isEmpty(campusCode) && !StringUtils.isEmpty(buildingCode)) {
+        	    Map pkMap = new HashMap();
+        	    pkMap.put("campusCode", campusCode);
+        	    pkMap.put("buildingCode", buildingCode);
+
+        	    BusinessObjectService boService = SpringServiceLocator.getBusinessObjectService();
+        	    Building building = (Building) boService.findByPrimaryKey(Building.class, pkMap);
+        	    if (building == null) {
+        	        putFieldError("accountDescription.campusCode", KeyConstants.ERROR_EXISTENCE, campusCode);
+        	        putFieldError("accountDescription.buildingCode", KeyConstants.ERROR_EXISTENCE, buildingCode);
+        	        success &= false;
+        	    }
+        	}
         }
 
         return success;

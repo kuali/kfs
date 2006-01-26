@@ -22,7 +22,7 @@
         		<shortLabel>CampusDesc</shortLabel>
         		
         		<maxLength>40</maxLength>
-        		<validationPattern><anyCharacter maxLength="40" /></validationPattern>
+        		<validationPattern><anyCharacter maxLength="40" allowWhitespace="true" /></validationPattern>
         		
 				<control>
 					<text size="40" />
@@ -39,7 +39,7 @@
         		<shortLabel>OrgDesc</shortLabel>
         		
         		<maxLength>40</maxLength>
-        		<validationPattern><anyCharacter maxLength="40" /></validationPattern>
+        		<validationPattern><anyCharacter maxLength="40" allowWhitespace="true" /></validationPattern>
         		
 				<control>
 					<text size="40" />
@@ -56,7 +56,7 @@
         		<shortLabel>RespCtrDesc</shortLabel>
         		
         		<maxLength>40</maxLength>
-        		<validationPattern><anyCharacter maxLength="40" /></validationPattern>
+        		<validationPattern><anyCharacter maxLength="40" allowWhitespace="true" /></validationPattern>
         		
 				<control>
 					<text size="40" />

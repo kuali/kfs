@@ -34,6 +34,7 @@ import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.Maintainable;
 import org.kuali.core.rule.PreRulesCheck;
 import org.kuali.core.rule.event.PreRulesCheckEvent;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.SubFundGroup;
@@ -63,10 +64,16 @@ public class AccountPreRules implements PreRulesCheck {
      */
     private void setRestrictedCodeDefaults(MaintenanceDocument document) {
         
-        Account newAccount = (Account) document.getNewMaintainableObject().getBusinessObject();
-        SubFundGroup subFundGroup = newAccount.getSubFundGroup();
-        String fundGroupCode = subFundGroup.getFundGroupCode();
-        String restrictedStatusCode = newAccount.getAccountRestrictedStatusCode();
+        Account newAccount;
+        SubFundGroup subFundGroup;
+        String fundGroupCode = "";
+        String restrictedStatusCode;
+        
+        newAccount = (Account) document.getNewMaintainableObject().getBusinessObject();
+        if (!ObjectUtils.isNull(newAccount.getSubFundGroup())) {
+            fundGroupCode = newAccount.getSubFundGroup().getFundGroupCode();
+        }
+        restrictedStatusCode = newAccount.getAccountRestrictedStatusCode();
        
         if (!StringUtils.isEmpty(fundGroupCode)) {
             

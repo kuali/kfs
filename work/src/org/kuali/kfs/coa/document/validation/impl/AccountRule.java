@@ -192,10 +192,12 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
 
         //	if the expiration date is earlier than today, account guidelines are not required.
         if (!ObjectUtils.isNull(newAccount.getAccountGuideline())) {
-            if (newAccount.getAccountExpirationDate().after(new Timestamp(Calendar.getInstance().getTimeInMillis()))) {
-	            success &= checkEmptyBOField("accountGuideline.accountExpenseGuidelineText", newAccount.getAccountGuideline().getAccountExpenseGuidelineText(), "Expense Guideline");
-	            success &= checkEmptyBOField("accountGuideline.accountIncomeGuidelineText", newAccount.getAccountGuideline().getAccountIncomeGuidelineText(), "Income Guideline");
-	            success &= checkEmptyBOField("accountGuideline.accountPurposeText", newAccount.getAccountGuideline().getAccountPurposeText(), "Account Purpose");
+            if (newAccount.getAccountExpirationDate() != null) {
+	            if (newAccount.getAccountExpirationDate().after(new Timestamp(Calendar.getInstance().getTimeInMillis()))) {
+		            success &= checkEmptyBOField("accountGuideline.accountExpenseGuidelineText", newAccount.getAccountGuideline().getAccountExpenseGuidelineText(), "Expense Guideline");
+		            success &= checkEmptyBOField("accountGuideline.accountIncomeGuidelineText", newAccount.getAccountGuideline().getAccountIncomeGuidelineText(), "Income Guideline");
+		            success &= checkEmptyBOField("accountGuideline.accountPurposeText", newAccount.getAccountGuideline().getAccountPurposeText(), "Account Purpose");
+	            }
             }
         }
         return success;

@@ -6,9 +6,12 @@ package org.kuali.module.gl.batch.poster.impl;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
+import org.kuali.module.gl.batch.poster.EncumbranceCalculator;
 import org.kuali.module.gl.batch.poster.PostTransaction;
 import org.kuali.module.gl.batch.poster.VerifyTransaction;
 import org.kuali.module.gl.bo.Encumbrance;
@@ -20,7 +23,7 @@ import org.kuali.module.gl.dao.EncumbranceDao;
  * @author jsissom
  *
  */
-public class PostEncumbrance implements PostTransaction,VerifyTransaction {
+public class PostEncumbrance implements PostTransaction,VerifyTransaction, EncumbranceCalculator {
   private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PostEncumbrance.class);
 
   private EncumbranceDao encumbranceDao;
@@ -92,6 +95,62 @@ public class PostEncumbrance implements PostTransaction,VerifyTransaction {
       returnCode = "U";
     }
 
+    updateEncumbrance(t, enc);
+
+    enc.setTimestamp(new Timestamp(postDate.getTime()));
+
+    encumbranceDao.save(enc);
+
+    return returnCode;
+  }
+
+  public Encumbrance findEncumbrance(Collection encumbranceList,Transaction t) {
+
+    // If it isn't an encumbrance transaction, skip it
+    if ( (! "D".equals(t.getTransactionEncumbranceUpdtCd())) && (! "R".equals(t.getTransactionEncumbranceUpdtCd())) ) {
+      return null;
+    }
+
+    // Try to find one that already exists
+    for (Iterator iter = encumbranceList.iterator(); iter.hasNext();) {
+      Encumbrance e = (Encumbrance)iter.next();
+
+      if ( "D".equals(t.getTransactionEncumbranceUpdtCd()) && e.getUniversityFiscalYear().equals(t.getUniversityFiscalYear()) && e.getChartOfAccountsCode().equals(t.getChartOfAccountsCode()) &&
+          e.getAccountNumber().equals(t.getAccountNumber()) && e.getSubAccountNumber().equals(t.getSubAccountNumber()) &&
+          e.getObjectCode().equals(t.getFinancialObjectCode()) && e.getSubObjectCode().equals(t.getFinancialSubObjectCode()) && 
+          e.getBalanceTypeCode().equals(t.getFinancialBalanceTypeCode()) && e.getDocumentTypeCode().equals(t.getFinancialDocumentTypeCode()) &&
+          e.getOriginCode().equals(t.getFinancialSystemOriginationCode()) && e.getDocumentNumber().equals(t.getFinancialDocumentNumber()) ) {
+        return e;
+      }
+
+      if ( "R".equals(t.getTransactionEncumbranceUpdtCd()) && e.getUniversityFiscalYear().equals(t.getUniversityFiscalYear()) && e.getChartOfAccountsCode().equals(t.getChartOfAccountsCode()) &&
+          e.getAccountNumber().equals(t.getAccountNumber()) && e.getSubAccountNumber().equals(t.getSubAccountNumber()) &&
+          e.getObjectCode().equals(t.getFinancialObjectCode()) && e.getSubObjectCode().equals(t.getFinancialSubObjectCode()) && 
+          e.getBalanceTypeCode().equals(t.getFinancialBalanceTypeCode()) && e.getDocumentTypeCode().equals(t.getReferenceFinDocumentTypeCode()) &&
+          e.getOriginCode().equals(t.getFinSystemRefOriginationCode()) && e.getDocumentNumber().equals(t.getFinancialDocumentReferenceNbr()) ) {
+        return e;
+      }
+    }
+    
+    // If we couldn't find one that exists, create a new one
+    
+    // NOTE: the date doesn't matter so there is no need to call the date service
+    Entry e = new Entry(t, new Date());
+    if ( "R".equals(t.getTransactionEncumbranceUpdtCd()) ) {
+      e.setFinancialDocumentNumber(t.getFinancialDocumentReferenceNbr());
+      e.setFinancialSystemOriginationCode(t.getFinSystemRefOriginationCode());
+      e.setFinancialDocumentTypeCode(t.getReferenceFinDocumentTypeCode());
+    }
+
+    return new Encumbrance(e);
+  }
+
+  /**
+   * 
+   * @param t
+   * @param enc
+   */
+  public void updateEncumbrance(Transaction t, Encumbrance enc) {
     if ( "R".equals(t.getTransactionEncumbranceUpdtCd()) ) {
       // If using referring doc number, add or subtract transaction amount from encumbrance closed amount
       if ( "D".equals(t.getTransactionDebitCreditCode()) ) {
@@ -107,12 +166,6 @@ public class PostEncumbrance implements PostTransaction,VerifyTransaction {
         enc.setAccountLineEncumbranceAmount(enc.getAccountLineEncumbranceAmount().subtract(t.getTransactionLedgerEntryAmount()));        
       }      
     }
-
-    enc.setTimestamp(new Timestamp(postDate.getTime()));
-
-    encumbranceDao.save(enc);
-
-    return returnCode;
   }
 
   public String getDestinationName() {

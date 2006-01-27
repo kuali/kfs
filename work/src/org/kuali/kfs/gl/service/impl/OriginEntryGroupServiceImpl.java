@@ -36,7 +36,7 @@ import org.kuali.module.gl.service.OriginEntryGroupService;
 
 /**
  * @author Laran Evans <lc278@cs.cornell.edu>
- * @version $Id: OriginEntryGroupServiceImpl.java,v 1.3 2006-01-27 20:13:19 jsissom Exp $
+ * @version $Id: OriginEntryGroupServiceImpl.java,v 1.4 2006-01-27 21:14:14 jsissom Exp $
  * 
  */
 public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
@@ -58,7 +58,7 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
 	 */
 	public Collection getOriginEntryGroupsPendingProcessing() {
 		Map criteria = new HashMap();
-		criteria.put("processed", Boolean.FALSE);
+		criteria.put("process", Boolean.FALSE);
 		OriginEntryGroupDao dao = new OriginEntryGroupDaoOjb();
 		return Collections.unmodifiableCollection(dao.getMatchingGroups(criteria));
 	}
@@ -71,7 +71,7 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
 	public OriginEntryGroup getOriginEntryGroup(String groupId) {
 		OriginEntryGroupDao dao = new OriginEntryGroupDaoOjb();
 		Map criteria = new HashMap();
-		criteria.put("ORIGIN_ENTRY_GRP_ID", groupId);
+		criteria.put("entryGroupId", groupId);
 		Collection matches = dao.getMatchingGroups(criteria);
 		if(null != matches) {
 			return (OriginEntryGroup) matches.iterator().next();
@@ -80,12 +80,12 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
 	}
 
 
-	  public OriginEntryGroup createGroup(java.util.Date date,String sourceCode, boolean valid, boolean processed, boolean scrub) {
+	  public OriginEntryGroup createGroup(java.util.Date date,String sourceCode, boolean valid, boolean process, boolean scrub) {
 	    LOG.debug("createGroup() started");
 
 	    OriginEntryGroup oeg = new OriginEntryGroup();
 	    oeg.setDate(new java.sql.Date(date.getTime()));
-	    oeg.setProcess(new Boolean(processed));
+	    oeg.setProcess(new Boolean(process));
 	    oeg.setScrub(new Boolean(scrub));
 	    oeg.setSourceCode(sourceCode);
 	    oeg.setValid(new Boolean(valid));
@@ -113,4 +113,9 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
 	    return originEntryGroupDao.getScrubberGroups(scrubDate);
 	  }
 
+    public void save(OriginEntryGroup group) {
+      LOG.debug("save() started");
+
+      originEntryGroupDao.saveGroup(group);
+    }
 }

@@ -49,7 +49,6 @@ import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.bo.OriginEntrySource;
 import org.kuali.module.gl.bo.UniversityDate;
-import org.kuali.module.gl.dao.OriginEntryGroupDao;
 import org.kuali.module.gl.dao.UniversityDateDao;
 import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.gl.service.OriginEntryService;
@@ -58,14 +57,13 @@ import org.springframework.util.StringUtils;
 
 /**
  * @author Anthony Potts
- * @version $Id: ScrubberServiceImpl.java,v 1.17 2006-01-27 17:36:09 aapotts Exp $
+ * @version $Id: ScrubberServiceImpl.java,v 1.18 2006-01-27 21:13:48 jsissom Exp $
  */
 
 public class ScrubberServiceImpl implements ScrubberService {
 
     private OriginEntryService originEntryService;
     private OriginEntryGroupService originEntryGroupService;
-    private OriginEntryGroupDao groupDao;
     private DateTimeService dateTimeService;
     private OffsetDefinitionService offsetDefinitionService;
     private ObjectCodeService objectCodeService;
@@ -98,7 +96,7 @@ public class ScrubberServiceImpl implements ScrubberService {
     private ScrubberUtil scrubberUtil = new ScrubberUtil();
 
     public ScrubberServiceImpl() {
-    	super();
+      super();
     	originEntryGroupService = new OriginEntryGroupServiceImpl();
     }
     
@@ -140,7 +138,7 @@ public class ScrubberServiceImpl implements ScrubberService {
 
             if (documentError.size() == 0) {
                 grp.setProcess(new Boolean(false));
-                groupDao.saveGroup(grp);
+                originEntryGroupService.save(grp);
             }
         }
 
@@ -1568,8 +1566,8 @@ public class ScrubberServiceImpl implements ScrubberService {
         this.originEntryService = oes;
     }
 
-    public void setOriginEntryGroupDao(OriginEntryGroupDao groupDao) {
-        this.groupDao = groupDao;
+    public void setOriginEntryGroupService(OriginEntryGroupService groupService) {
+        this.originEntryGroupService = groupService;
     }
 
     public void setDateTimeService(DateTimeService dts) {

@@ -33,6 +33,6 @@ public interface OriginEntryGroupService {
 	public Collection getGroupsToPost(Date postDate);
 	public Collection getIcrGroupsToPost(Date postDate);
 	public Collection getGroupsToScrub(Date scrubDate);
-	public OriginEntryGroup createGroup(Date date,String sourceCode,boolean valid,boolean processed,boolean scrub);
-
+	public OriginEntryGroup createGroup(Date date,String sourceCode,boolean valid,boolean process,boolean scrub);
+  public void save(OriginEntryGroup group);
 }

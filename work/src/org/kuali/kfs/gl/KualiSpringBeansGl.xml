@@ -38,7 +38,7 @@
 		<property name="accountService"><ref bean="accountService" /></property>
 		<property name="kualiConfigurationService"><ref bean="kualiConfigurationService" /></property>
 		<property name="universityDateDao"><ref bean="universityDateDao" /></property>
-		<property name="originEntryGroupDao"><ref bean="glOriginEntryGroupDao" /></property>
+		<property name="originEntryGroupService"><ref bean="glOriginEntryGroupService" /></property>
 	</bean>
 
 	<bean id="glPosterService" class="org.kuali.module.gl.service.impl.PosterServiceImpl">

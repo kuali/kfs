@@ -125,16 +125,18 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
      */
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
         
+        LOG.info("processCustomSaveDocumentBusinessRules called");
         setupConvenienceObjects(document);
         initializeRuleValues(document);
         
-        //checkEmptyValues(document);
+        checkEmptyValues(document);
         
         //	Save always succeeds, even if there are business rule failures
         return true;
     }
     
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
+
         LOG.info("processCustomRouteDocumentBusinessRules called");
         setupConvenienceObjects(document);
         initializeRuleValues(document);
@@ -161,6 +163,9 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
      * @return
      */
     private boolean checkEmptyValues(MaintenanceDocument maintenanceDocument) {
+        
+        LOG.info("checkEmptyValues called");
+
         boolean success = true;
         
         success &= checkEmptyBOField("chartOfAccountsCode", newAccount.getChartOfAccountsCode(), "Chart of Accounts Code");
@@ -229,6 +234,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
      */
     private boolean checkGeneralRules(MaintenanceDocument maintenanceDocument) {
 
+        LOG.info("checkGeneralRules called");
         KualiUser fiscalOfficer = newAccount.getAccountFiscalOfficerUser();
         KualiUser accountManager = newAccount.getAccountManagerUser();
         KualiUser accountSupervisor = newAccount.getAccountSupervisoryUser();
@@ -427,6 +433,8 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
      */
     private boolean checkCloseAccount(MaintenanceDocument maintenanceDocument) {
 
+        LOG.info("checkCloseAccount called");
+
         boolean success = true;
         boolean isBeingClosed;
 
@@ -494,6 +502,8 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
      */
     private boolean checkContractsAndGrants(MaintenanceDocument maintenanceDocument) {
 
+        LOG.info("checkContractsAndGrants called");
+
         boolean success = true;
         
         //	an income stream account is required for accounts in the C&G (CG) and General Fund (GF) fund groups 
@@ -524,6 +534,8 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
      * @return false on rules violation
      */
     private boolean checkExpirationDate(MaintenanceDocument maintenanceDocument) {
+
+        LOG.info("checkExpirationDate called");
 
         boolean success = true;
 
@@ -618,6 +630,8 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
      */
     private boolean checkFundGroup(MaintenanceDocument maintenanceDocument) {
         
+        LOG.info("checkFundGroup called");
+
         boolean success = true;
         SubFundGroup subFundGroup = newAccount.getSubFundGroup();
         
@@ -680,6 +694,8 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
      */
     private boolean checkSubFundGroup(MaintenanceDocument maintenanceDocument) {
         
+        LOG.info("checkSubFundGroup called");
+
         boolean success = true;
         
         //	sub_fund_grp_cd on the account must be set to a valid sub_fund_grp_cd that exists in the ca_sub_fund_grp_t table

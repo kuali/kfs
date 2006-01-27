@@ -36,9 +36,11 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
 import org.kuali.core.authorization.DocumentAuthorizer;
+import org.kuali.core.bo.AccountingLine;
 import org.kuali.core.bo.SourceAccountingLine;
 import org.kuali.core.document.Document;
 import org.kuali.core.question.ConfirmationQuestion;
+import org.kuali.core.rule.event.RouteDocumentEvent;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
@@ -114,6 +116,13 @@ public class JournalVoucherAction extends KualiTransactionalDocumentActionBase {
     }
     
     /**
+     * We want to keep the bad data for the JV.
+     */
+    protected void revertAccountingLine(AccountingLine originalLine, AccountingLine brokenLine) {
+        brokenLine.copyFrom(brokenLine);
+    }
+    
+    /**
      * Overrides parent to first populate the new source line with the correct debit or credit value, then it calls the parent's
      * implementation.
      * 
@@ -173,10 +182,9 @@ public class JournalVoucherAction extends KualiTransactionalDocumentActionBase {
             throws Exception {
         JournalVoucherForm journalVoucherForm = (JournalVoucherForm) form;
 
-        // process the question if the document isn't balanced and it has one or more accounting lines
+        // process the question but we need to make sure there are lines and then check to see if it's not balanced
         JournalVoucherDocument jvDoc = journalVoucherForm.getJournalVoucherDocument();
-        KualiDecimal ZERO = new KualiDecimal(0);
-        if (jvDoc.getTotal().compareTo(ZERO) != 0 && jvDoc.getSourceAccountingLines().size() > 0) { // document's total is not zero,
+        if (jvDoc.getSourceAccountingLines().size() > 0 && jvDoc.getTotal().compareTo(Constants.ZERO) != 0) {
             // it's not in "balance"
             ActionForward returnForward = processRouteOutOfBalanceDocumentConfirmationQuestion(mapping, form, request, response);
 
@@ -637,9 +645,17 @@ public class JournalVoucherAction extends KualiTransactionalDocumentActionBase {
         if (question == null) { // question hasn't been asked
             String currencyFormattedDebitTotal = (String) new CurrencyFormatter().format(jvDoc.getDebitTotal());
             String currencyFormattedCreditTotal = (String) new CurrencyFormatter().format(jvDoc.getCreditTotal());
-            String message = StringUtils.replace(kualiConfiguration
-                    .getPropertyString(KeyConstants.QUESTION_ROUTE_OUT_OF_BALANCE_JV_DOC), "{0}", currencyFormattedDebitTotal);
-            message = StringUtils.replace(message, "{1}", currencyFormattedCreditTotal);
+            String currencyFormattedTotal = (String) new CurrencyFormatter().format(jvDoc.getTotal());
+            String message = "";
+            jvDoc.refreshReferenceObject("balanceType");
+            if(jvDoc.getBalanceType().isFinancialOffsetGenerationIndicator()) {
+                message = StringUtils.replace(kualiConfiguration
+                        .getPropertyString(KeyConstants.QUESTION_ROUTE_OUT_OF_BALANCE_JV_DOC), "{0}", currencyFormattedDebitTotal);
+                message = StringUtils.replace(message, "{1}", currencyFormattedCreditTotal);
+            } else {
+                message = StringUtils.replace(kualiConfiguration
+                        .getPropertyString(KeyConstants.QUESTION_ROUTE_OUT_OF_BALANCE_JV_DOC_SINGLE_AMT_MODE), "{0}", currencyFormattedTotal);
+            }
 
             // now transfer control over to the question component
             return this.performQuestion(mapping, form, request, response,

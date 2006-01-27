@@ -232,7 +232,7 @@
     </target>
 
 	
-	<target name="continuous-integration" depends="echo-properties,test-all">
+	<target name="continuous-integration" depends="test-all">
 		<fail if="tests.failed" message="Tests failed"/>
 	</target>
 	

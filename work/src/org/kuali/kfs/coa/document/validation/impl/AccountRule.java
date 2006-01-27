@@ -128,7 +128,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         setupConvenienceObjects(document);
         initializeRuleValues(document);
         
-        checkEmptyValues(document);
+        //checkEmptyValues(document);
         
         //	Save always succeeds, even if there are business rule failures
         return true;
@@ -286,25 +286,33 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         // the fringe benefit code is set to N. 
         // The fringe benefit code of the account designated to accept the fringes must be Y.
         if (!newAccount.isAccountsFringesBnftIndicator()) {
-            if (StringUtils.isEmpty(newAccount.getReportsToAccountNumber())) {
+            if (StringUtils.isEmpty(newAccount.getReportsToAccountNumber()) || StringUtils.isEmpty(newAccount.getReportsToChartOfAccountsCode())) {
                 success &= false;
-                putFieldError("reportsToAccount.accountNumber", KeyConstants.ERROR_DOCUMENT_ACCMAINT_RPTS_TO_ACCT_REQUIRED_IF_FRINGEBENEFIT_FALSE);
+                putFieldError("reportsToAccountNumber", KeyConstants.ERROR_DOCUMENT_ACCMAINT_RPTS_TO_ACCT_REQUIRED_IF_FRINGEBENEFIT_FALSE);
             }
             else {
                 Account reportsToAccount = newAccount.getReportsToAccount();
-                if (ObjectUtils.isNotNull(reportsToAccount)) {
+                //	if the reportsToChartCode and reportsToAccountNbr dont map to any in the db
+                if (ObjectUtils.isNull(reportsToAccount)) {
+                    success &= false;
+                    putFieldError("reportsToAccountNumber", KeyConstants.ERROR_EXISTENCE, 
+                            		"Fringe Benefit Account: " + newAccount.getReportsToChartOfAccountsCode() + "-" + 
+                            		newAccount.getReportsToAccountNumber());
+                }
+                else {
+                    //	otherwise, make sure this account is flagged as a fringe benefits acct
                     if (!reportsToAccount.isAccountsFringesBnftIndicator()) {
                         success &= false;
-                        putFieldError("reportsToAccount.accountNumber", KeyConstants.ERROR_DOCUMENT_ACCMAINT_RPTS_TO_ACCT_MUST_BE_FLAGGED_FRINGEBENEFIT, newAccount.getReportsToAccountNumber());
+                        putFieldError("reportsToAccountNumber", KeyConstants.ERROR_DOCUMENT_ACCMAINT_RPTS_TO_ACCT_MUST_BE_FLAGGED_FRINGEBENEFIT, newAccount.getReportsToAccountNumber());
                     }
                 }
             }
         }
         
         //the employee type for fiscal officer, account manager, and account supervisor must be 'P' – professional.
-        success &= checkUserType("accountFiscalOfficerUser.personName", fiscalOfficer, EMPLOYEE_TYPE_PROFESSIONAL, "Fiscal Officer");
-        success &= checkUserType("accountManagerUser.personName", accountManager, EMPLOYEE_TYPE_PROFESSIONAL, "Account Manager");
-        success &= checkUserType("accountSupervisoryUser.personName", accountSupervisor, EMPLOYEE_TYPE_PROFESSIONAL, "Account Supervisor");
+        success &= checkUserType("accountFiscalOfficerSystemIdentifier", fiscalOfficer, EMPLOYEE_TYPE_PROFESSIONAL, "Fiscal Officer");
+        success &= checkUserType("accountManagerSystemIdentifier", accountManager, EMPLOYEE_TYPE_PROFESSIONAL, "Account Manager");
+        success &= checkUserType("accountsSupervisorySystemsIdentifier", accountSupervisor, EMPLOYEE_TYPE_PROFESSIONAL, "Account Supervisor");
         
         //the supervisor cannot be the same as the fiscal officer or account manager.
         if (ObjectUtils.isNotNull(accountSupervisor)) {
@@ -341,17 +349,17 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         //org_cd must be a valid org and active in the ca_org_t table
         if (ObjectUtils.isNull(newAccount.getOrganization())) {
             success &= false;
-            putFieldError("organization.organizationCode", KeyConstants.ERROR_DOCUMENT_ACCMAINT_INVALID_ORG);
+            putFieldError("organizationCode", KeyConstants.ERROR_DOCUMENT_ACCMAINT_INVALID_ORG);
         }
         else if (!newAccount.getOrganization().isOrganizationActiveIndicator()) {
             success &= false;
-            putFieldError("organization.organizationCode", KeyConstants.ERROR_DOCUMENT_ACCMAINT_INACTIVE_ORG);
+            putFieldError("organizationCode", KeyConstants.ERROR_DOCUMENT_ACCMAINT_INACTIVE_ORG);
         }
         
         //acct_phys_cmp_cd must be valid campus in the acct_phys_cmp_cd table
         if (ObjectUtils.isNull(newAccount.getAccountPhysicalCampus())) {
             success &= false;
-            putFieldError("accountPhysicalCampus.campusCode", KeyConstants.ERROR_DOCUMENT_ACCMAINT_INVALID_CAMPUS_CD);
+            putFieldError("accountPhysicalCampusCode", KeyConstants.ERROR_DOCUMENT_ACCMAINT_INVALID_CAMPUS_CD);
             putGlobalError("Physical Campus Code entered must be a valid Physical Campus Code that exists in the system.");
         } // campus doesnt have an Active code, so this isnt checked
         
@@ -497,11 +505,11 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
                !newAccount.getSubFundGroupCode().equalsIgnoreCase(SUB_FUND_GROUP_MEDICAL_PRACTICE_FUNDS))) {
                 
                 if(StringUtils.isEmpty(newAccount.getIncomeStreamAccountNumber())) {
-                    putFieldError("incomeStreamAccount.accountNumber", KeyConstants.ERROR_DOCUMENT_ACCMAINT_INCOME_STREAM_ACCT_NBR_CANNOT_BE_NULL);
+                    putFieldError("incomeStreamAccountNumber", KeyConstants.ERROR_DOCUMENT_ACCMAINT_INCOME_STREAM_ACCT_NBR_CANNOT_BE_NULL);
                     success &= false;
                 }
                 if(StringUtils.isEmpty(newAccount.getIncomeStreamFinancialCoaCode())) {
-                    putFieldError("incomeStreamAccount.chartOfAccounts.chartOfAccountsCode", KeyConstants.ERROR_DOCUMENT_ACCMAINT_INCOME_STREAM_ACCT_COA_CANNOT_BE_NULL);
+                    putFieldError("incomeStreamFinancialCoaCode", KeyConstants.ERROR_DOCUMENT_ACCMAINT_INCOME_STREAM_ACCT_COA_CANNOT_BE_NULL);
                     success &= false;
                 }
             }
@@ -678,7 +686,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         //	assuming here that since we did the PersistenceService.refreshNonKeyFields() at beginning of rule that if the 
         // SubFundGroup object would be populated.
         if (StringUtils.isEmpty(newAccount.getSubFundGroupCode())) {
-            putFieldError("subFundGroup", KeyConstants.ERROR_DOCUMENT_ACCMAINT_INVALID_SUBFUNDGROUP);
+            putFieldError("subFundGroupCode", KeyConstants.ERROR_DOCUMENT_ACCMAINT_INVALID_SUBFUNDGROUP);
             success &= false;
         }
         

@@ -50,6 +50,7 @@ public class AccountPreRules implements PreRulesCheck {
      */
     public boolean processPreRuleChecks(ActionForm form, HttpServletRequest request, PreRulesCheckEvent event) {
         MaintenanceDocument document = (MaintenanceDocument) event.getDocument();
+        setupConvenienceObjects(document);
         newAccountDefaults(document);
         setStateFromZip(document);
         setRestrictedCodeDefaults(document);

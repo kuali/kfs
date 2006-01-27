@@ -112,7 +112,7 @@ public class JournalVoucherAction extends KualiTransactionalDocumentActionBase {
         }
         return returnForward;
     }
-
+    
     /**
      * Overrides parent to first populate the new source line with the correct debit or credit value, then it calls the parent's
      * implementation.
@@ -124,20 +124,6 @@ public class JournalVoucherAction extends KualiTransactionalDocumentActionBase {
             HttpServletResponse response) throws Exception {
         // cast the form to the right pojo
         JournalVoucherForm journalVoucherForm = (JournalVoucherForm) form;
-
-        // if the balance type is an offset generation balance type, then the user is able to enter the amount
-        // as either a debit or a credit, otherwise, they only need to deal with the amount field
-        if (isSelectedBalanceTypeFinancialOffsetGenerationIndicator(journalVoucherForm)) {
-            if (!processDebitAndCreditForNewSourceLine(journalVoucherForm)) {
-                return mapping.findForward(Constants.MAPPING_BASIC); // there was an error, so get out of this method now, we
-                // don't want to process anything else
-            }
-
-            // now make sure other lines have been updated appropriately in case a change was made before they added the line
-            if (!processDebitAndCreditForAllSourceLines(journalVoucherForm)) {
-                return mapping.findForward(Constants.MAPPING_BASIC); // get out of this method now, we don't want to save
-            }
-        }
 
         // call the super's method
         ActionForward actionForward = super.insertSourceLine(mapping, form, request, response);
@@ -180,41 +166,12 @@ public class JournalVoucherAction extends KualiTransactionalDocumentActionBase {
      * Overrides the parent to iterate through all source accounting lines and re-populate the credit and debit code appropriately
      * in case the user flip-flopped any of the debit/credit amounts or changed the amounts.
      * 
-     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#save(org.apache.struts.action.ActionMapping,
-     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
-    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
-            throws Exception {
-        JournalVoucherForm journalVoucherForm = (JournalVoucherForm) form;
-
-        // if the balance type is an offset generation balance type, then the user is able to enter the amount
-        // as either a debit or a credit, otherwise, they only need to deal with the amount field
-        if (isSelectedBalanceTypeFinancialOffsetGenerationIndicator(journalVoucherForm)) {
-            if (!processDebitAndCreditForAllSourceLines(journalVoucherForm)) {
-                return mapping.findForward(Constants.MAPPING_BASIC); // get out of this method now, we don't want to save
-            }
-        }
-        return super.save(mapping, form, request, response);
-    }
-
-    /**
-     * Overrides the parent to iterate through all source accounting lines and re-populate the credit and debit code appropriately
-     * in case the user flip-flopped any of the debit/credit amounts or changed the amounts.
-     * 
      * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#route(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         JournalVoucherForm journalVoucherForm = (JournalVoucherForm) form;
-
-        // if the balance type is an offset generation balance type, then the user is able to enter the amount
-        // as either a debit or a credit, otherwise, they only need to deal with the amount field
-        if (isSelectedBalanceTypeFinancialOffsetGenerationIndicator(journalVoucherForm)) {
-            if (!processDebitAndCreditForAllSourceLines(journalVoucherForm)) {
-                return mapping.findForward(Constants.MAPPING_BASIC); // get out of this method now, we don't want to route
-            }
-        }
 
         // process the question if the document isn't balanced and it has one or more accounting lines
         JournalVoucherDocument jvDoc = journalVoucherForm.getJournalVoucherDocument();
@@ -460,7 +417,6 @@ public class JournalVoucherAction extends KualiTransactionalDocumentActionBase {
         return SpringServiceLocator.getBalanceTypService().getBalanceTypByCode(balanceTypeCode);
     }
 
-
     /**
      * This method will clear out the source line values that aren't needed for the "Single Amount" mode.
      * 
@@ -546,6 +502,10 @@ public class JournalVoucherAction extends KualiTransactionalDocumentActionBase {
         JournalVoucherDocument journalVoucherDocument = (JournalVoucherDocument) journalVoucherForm.getTransactionalDocument();
         if (journalVoucherDocument.getBalanceType().isFinancialOffsetGenerationIndicator()) {
             populateAllJournalVoucherAccountingLineHelpers(journalVoucherForm);
+            journalVoucherForm.setNewSourceLine(new SourceAccountingLine());
+            KualiDecimal ZERO = new KualiDecimal("0.00");
+            journalVoucherForm.setNewSourceLineCredit(ZERO);
+            journalVoucherForm.setNewSourceLineDebit(ZERO);
         }
 
         // reload the balance type and accounting period selections since now we have data in the document bo
@@ -589,99 +549,6 @@ public class JournalVoucherAction extends KualiTransactionalDocumentActionBase {
     }
 
     /**
-     * This is a convenience helper method that is used several times throughout this action class to determine if the selected
-     * balance type contained within the form instance is a financial offset generation balance type or not.
-     * 
-     * @param journalVoucherForm
-     * @return boolean True if it is an offset generation balance type, false otherwise.
-     */
-    private boolean isSelectedBalanceTypeFinancialOffsetGenerationIndicator(JournalVoucherForm journalVoucherForm) {
-        return getPopulatedBalanceTypeInstance(journalVoucherForm.getSelectedBalanceType().getCode())
-                .isFinancialOffsetGenerationIndicator();
-    }
-
-    /**
-     * This method uses the newly entered debit and credit amounts to populate the new source line that is to be added to the JV
-     * document.
-     * 
-     * @param journalVoucherForm
-     * @return boolean True if the processing was successful, false otherwise.
-     */
-    private boolean processDebitAndCreditForNewSourceLine(JournalVoucherForm journalVoucherForm) {
-        // using debits and credits supplied, populate the new source accounting line's amount and debit/credit code appropriately
-        if (!processDebitAndCreditForSourceLine(journalVoucherForm.getNewSourceLine(), journalVoucherForm.getNewSourceLineDebit(),
-                journalVoucherForm.getNewSourceLineCredit(), Constants.NEGATIVE_ONE)) {
-            return false;
-        }
-        else {
-            return true;
-        }
-    }
-
-    /**
-     * This method checks to make sure that there isn't a value in both the credit and debit columns for a given accounting line.
-     * 
-     * @param creditAmount
-     * @param debitAmount
-     * @param index if -1, it's a new line, if not -1, then its an existing line
-     * @return boolean False if both the credit and debit fields have a value, true otherwise.
-     */
-    private boolean validateCreditAndDebitAmounts(KualiDecimal debitAmount, KualiDecimal creditAmount, int index) {
-        KualiDecimal ZERO = new KualiDecimal(0);
-        if (null != creditAmount && null != debitAmount) {
-            if (ZERO.compareTo(creditAmount) != 0 && ZERO.compareTo(debitAmount) != 0) { // there's a value in both fields
-                if(Constants.NEGATIVE_ONE == index) {  //it's a new line
-                    GlobalVariables.getErrorMap().putWithoutFullErrorPath(Constants.DEBIT_AMOUNT_PROPERTY_NAME, 
-                            KeyConstants.ERROR_DOCUMENT_JV_AMOUNTS_IN_CREDIT_AND_DEBIT_FIELDS);
-                    GlobalVariables.getErrorMap().putWithoutFullErrorPath(Constants.CREDIT_AMOUNT_PROPERTY_NAME, 
-                            KeyConstants.ERROR_DOCUMENT_JV_AMOUNTS_IN_CREDIT_AND_DEBIT_FIELDS);
-                } else {
-                    String errorKeyPath = Constants.JOURNAL_LINE_HELPER_PROPERTY_NAME + Constants.SQUARE_BRACKET_LEFT + Integer.toString(index) + Constants.SQUARE_BRACKET_RIGHT;
-                    GlobalVariables.getErrorMap().putWithoutFullErrorPath(errorKeyPath + Constants.JOURNAL_LINE_HELPER_DEBIT_PROPERTY_NAME, 
-                            KeyConstants.ERROR_DOCUMENT_JV_AMOUNTS_IN_CREDIT_AND_DEBIT_FIELDS);
-                    GlobalVariables.getErrorMap().putWithoutFullErrorPath(errorKeyPath + Constants.JOURNAL_LINE_HELPER_CREDIT_PROPERTY_NAME, 
-                            KeyConstants.ERROR_DOCUMENT_JV_AMOUNTS_IN_CREDIT_AND_DEBIT_FIELDS);
-                }
-                return false;
-            }
-            else {
-                return true;
-            }
-        } else {
-            return true;
-        }
-    }
-
-    /**
-     * This method iterates through all of the source accounting lines associated with the JV doc and accounts for any changes to
-     * the credit and debit amounts, populate the source lines' amount and debit/credit code fields appropriately, so that they can
-     * be persisted accurately. This accounts for the fact that users may change the amounts and/or flip-flop the credit debit
-     * amounts on any accounting line after the initial add of the accounting line.
-     * 
-     * @param journalVoucherForm
-     * @return boolean
-     */
-    private boolean processDebitAndCreditForAllSourceLines(JournalVoucherForm journalVoucherForm) {
-        JournalVoucherDocument jvDoc = (JournalVoucherDocument) journalVoucherForm.getTransactionalDocument();
-
-        // iterate through all of the source accounting lines
-        boolean validProcessing = true;
-        for (int i = 0; i < jvDoc.getSourceAccountingLines().size(); i++) {
-            // retrieve the proper business objects from the form
-            SourceAccountingLine sourceLine = jvDoc.getSourceAccountingLine(i);
-            JournalVoucherAccountingLineHelper journalLineHelper = journalVoucherForm.getJournalLineHelper(i);
-
-            // now process the amounts and the line
-            // we want to process all lines, some may be invalid b/c of dual amount values, but this method will handle
-            // only processing the valid ones, that way we are guaranteed that values in the valid lines carry over through the
-            // post and invalid ones do not alter the underlying business object
-            validProcessing = processDebitAndCreditForSourceLine(sourceLine, journalLineHelper.getDebit(), journalLineHelper
-                    .getCredit(), i);
-        }
-        return validProcessing;
-    }
-
-    /**
      * This populates a new helperLine instance with the one that was just added so that the new instance can be added to the
      * helperLines list.
      * 
@@ -702,48 +569,6 @@ public class JournalVoucherAction extends KualiTransactionalDocumentActionBase {
         }
 
         return helperLine;
-    }
-
-    /**
-     * This method checks the debit and credit attributes passed in, figures out which one has a value, and sets the source
-     * accounting line's amount and debit/credit attribute appropriately. It assumes that if it finds something in the debit field,
-     * it's a debit entry, otherwise it's a credit entry. If a user enters a value into both fields, it will assume the debit value,
-     * then when the br eval framework applies the "add" rule, it will bomb out. If first checks to make sure that there isn't a
-     * value in both the credit and debit columns.
-     * 
-     * @param sourceLine
-     * @param debitAmount
-     * @param creditAmount
-     * @param index if -1, then its a new line, if not -1 then it's an existing line
-     * @return boolean True if the processing was successful, false otherwise.
-     */
-    private boolean processDebitAndCreditForSourceLine(SourceAccountingLine sourceLine, KualiDecimal debitAmount,
-            KualiDecimal creditAmount, int index) {
-        // check to make sure that the
-        if (!validateCreditAndDebitAmounts(debitAmount, creditAmount, index)) {
-            return false;
-        }
-
-        // check to see which amount field has a value - credit or debit field?
-        // and set the values of the appropriate fields
-        KualiDecimal ZERO = new KualiDecimal("0.00");
-        if (debitAmount != null && debitAmount.compareTo(ZERO) != 0) { // a value entered into the debit field? if so it's a debit
-            // create a new instance w/out reference
-            KualiDecimal tmpDebitAmount = new KualiDecimal(debitAmount.toString());
-            sourceLine.setDebitCreditCode(Constants.GL_DEBIT_CODE);
-            sourceLine.setAmount(tmpDebitAmount);
-        }
-        else if (creditAmount != null && !creditAmount.equals(ZERO)) { // assume credit, if both are set the br eval framework will
-            // catch it
-            KualiDecimal tmpCreditAmount = new KualiDecimal(creditAmount.toString());
-            sourceLine.setDebitCreditCode(Constants.GL_CREDIT_CODE);
-            sourceLine.setAmount(tmpCreditAmount);
-        } else {  //explicitly set to zero, let br eval framework pick it up
-            sourceLine.setDebitCreditCode(null);
-            sourceLine.setAmount(ZERO);
-        }
-
-        return true;
     }
 
     /**

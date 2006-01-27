@@ -1063,19 +1063,16 @@ public class ScrubberServiceImpl implements ScrubberService {
         csEntry.setChartOfAccountsCode("");
 
         
-/*  WAITING FOR CHART TEAM TO FINISH THIS SERVICE
-        csEntry.setChartOfAccountsCode(a21SubAcct.getCstShrCoaCd());
-        costShare.SetAccountNbr(a21SubAcct.getCstShrsrcacctNbr());
- */
+        csEntry.setChartOfAccountsCode(csEntry.getA21SubAccount().getCostSharingChartOfAccountsCode());
+        csEntry.setAccountNumber(csEntry.getA21SubAccount().getCostSharingAccountNumber());
+
         lookupObjectCode(csEntry);
 
-/*
-        if(a21SubAcct.getCstScrsubacctNbr() == null) {
-            costShare.setSubAcctNbr(subAcctNbrDashes); // TODO: Dashes
+        if(csEntry.getA21SubAccount().getCostSharingAccountNumber() == null) {
+            csEntry.setSubAccountNumber(KeyConstants.DASHES_SUB_ACCOUNT_NUMBER);
         } else {
-            costShare.setSubAcctNbr(a21SubAcct.getCstScrsubacctNbr());
+            csEntry.setSubAccountNumber(csEntry.getA21SubAccount().getCostSharingSubAccountNumber());
         }
-*/
         
         csEntry.setFinancialSubObjectCode(KeyConstants.DASHES_SUB_OBJECT_CODE); //TODO: move into constants
         csEntry.setFinancialObjectTypeCode("TE"); //TODO: move into constants
@@ -1218,7 +1215,7 @@ public class ScrubberServiceImpl implements ScrubberService {
 
         checkGLObject(inputEntry.getFinancialObject(), "NO OBJECT FOR OBJECT ON OFSD");
 
-        String objectCode = "";
+        String objectCode = inputEntry.getFinancialObjectCode();
         String inputObjectLevelCode = inputEntry.getFinancialObject().getFinancialObjectLevelCode();
         String inputObjectCode = inputEntry.getFinancialObjectCode();
 

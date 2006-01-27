@@ -210,7 +210,7 @@
     <target name="test" depends="clean,make-tests">
         <mkdir dir="${test.temp.directory}" />
     	<mkdir dir="${test.xml.results.directory}" />
-        <junit printsummary="on" showoutput="true" fork="true" forkmode="once" failureproperty="tests.failed" tempdir="${test.temp.directory}">
+        <junit showoutput="true" fork="true" forkmode="once" failureproperty="tests.failed" tempdir="${test.temp.directory}">
             <classpath>
                 <path refid="compile.tests.classpath" />
                 <pathelement location="${test.classes.directory}" />

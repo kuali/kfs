@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="/tlds/c.tld" %>
 <%@ taglib prefix="html" uri="/tlds/struts-html.tld" %>
+<%@ taglib prefix="kul" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="fin" tagdir="/WEB-INF/tags/fin" %>
 
 <%@ attribute name="accountingLine" required="true"
@@ -66,8 +67,7 @@
 <c:set var="rowCount" value="${empty extraRowFields ? 1 : 2}"/>
 
 <tr>
-<th scope="row" rowspan="${rowCount}" class="bord-l-b">
-    <div align="center">${rowHeader}</div>
+<kul:htmlAttributeHeaderCell literalLabel="${rowHeader}" scope="row" rowspan="${rowCount}">
     <c:forTokens var="hiddenField" items="${hiddenFields}" delims=",">
         <c:if test="${displayHiddenColumns}">
             <c:out value="${hiddenField}"/>=
@@ -77,7 +77,7 @@
             ;<br/>
         </c:if>
     </c:forTokens>
-</th>
+</kul:htmlAttributeHeaderCell>
 <fin:accountingLineDataCell
     dataCellCssClass="${dataCellCssClass}"
     cellAlign="center"

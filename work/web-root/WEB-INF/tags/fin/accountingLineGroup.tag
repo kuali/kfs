@@ -57,32 +57,32 @@
 <fin:accountingLineImportRow rightColumnCount="${rightColumnCount}" isSource="${isSource}" editingMode="${editingMode}"/>
 
 <tr>
-    <th class="bord-l-b" rowspan="2">&nbsp;</th>
-    <th class="bord-l-b" rowspan="2"><kul:htmlAttributeLabel attributeEntry="${accountingLineAttributes.chartOfAccountsCode}" useShortLabel="true" noColon="true" /></th>
-    <th class="bord-l-b" rowspan="2"><kul:htmlAttributeLabel attributeEntry="${accountingLineAttributes.accountNumber}" useShortLabel="true" noColon="true" /></th>
-    <th class="bord-l-b" rowspan="2"><kul:htmlAttributeLabel attributeEntry="${accountingLineAttributes.subAccountNumber}" useShortLabel="true" noColon="true" /></th>
-    <th class="bord-l-b" rowspan="2"><kul:htmlAttributeLabel attributeEntry="${accountingLineAttributes.financialObjectCode}" useShortLabel="true" noColon="true" /></th>
-    <th class="bord-l-b" rowspan="2"><kul:htmlAttributeLabel attributeEntry="${accountingLineAttributes.financialSubObjectCode}" useShortLabel="true" noColon="true" /></th>
-    <th class="bord-l-b" rowspan="2"><kul:htmlAttributeLabel attributeEntry="${accountingLineAttributes.projectCode}" useShortLabel="true" noColon="true" /></th>
+    <kul:htmlAttributeHeaderCell literalLabel="&nbsp;" rowspan="2"/>
+    <kul:htmlAttributeHeaderCell attributeEntry="${accountingLineAttributes.chartOfAccountsCode}" rowspan="2"/>
+    <kul:htmlAttributeHeaderCell attributeEntry="${accountingLineAttributes.accountNumber}" rowspan="2"/>
+    <kul:htmlAttributeHeaderCell attributeEntry="${accountingLineAttributes.subAccountNumber}" rowspan="2"/>
+    <kul:htmlAttributeHeaderCell attributeEntry="${accountingLineAttributes.financialObjectCode}" rowspan="2"/>
+    <kul:htmlAttributeHeaderCell attributeEntry="${accountingLineAttributes.financialSubObjectCode}" rowspan="2"/>
+    <kul:htmlAttributeHeaderCell attributeEntry="${accountingLineAttributes.projectCode}" rowspan="2"/>
     <c:if test="${includeObjectTypeCode}">
-        <th class="bord-l-b" rowspan="2"><kul:htmlAttributeLabel attributeEntry="${accountingLineAttributes.objectTypeCode}" useShortLabel="true" noColon="true" forceRequired="true" /></th>
+        <kul:htmlAttributeHeaderCell attributeEntry="${accountingLineAttributes.objectTypeCode}" rowspan="2" forceRequired="true" />
     </c:if>
-    <th class="bord-l-b" rowspan="2"><kul:htmlAttributeLabel attributeEntry="${accountingLineAttributes.organizationReferenceId}" useShortLabel="true" noColon="true" /></th>
-    <th class="bord-l-b" rowspan="2"><kul:htmlAttributeLabel attributeEntry="${accountingLineAttributes.budgetYear}" useShortLabel="true" noColon="true" /></th>
+    <kul:htmlAttributeHeaderCell attributeEntry="${accountingLineAttributes.organizationReferenceId}" rowspan="2"/>
+    <kul:htmlAttributeHeaderCell attributeEntry="${accountingLineAttributes.budgetYear}" rowspan="2"/>
     <c:forTokens items="${optionalFields}" delims=" ," var="currentField">
-        <th class="bord-l-b" rowspan="2"><kul:htmlAttributeLabel attributeEntry="${accountingLineAttributes[currentField]}" useShortLabel="true" noColon="true" /></th>
+        <kul:htmlAttributeHeaderCell attributeEntry="${accountingLineAttributes[currentField]}" rowspan="2"/>
     </c:forTokens>
-    <th class="bord-l-b" rowspan="${debitCreditAmount ? 1 : 2}" colspan="${debitCreditAmount ? 2 : 1}"><kul:htmlAttributeLabel attributeEntry="${accountingLineAttributes.amount}" useShortLabel="true" noColon="true" /></th>
+    <kul:htmlAttributeHeaderCell attributeEntry="${accountingLineAttributes.amount}" rowspan="${debitCreditAmount ? 1 : 2}" colspan="${debitCreditAmount ? 2 : 1}"/>
 
     <c:if test="${hasActionsColumn}">
-        <th class="bord-l-b" rowspan="2">Actions</th>
+        <kul:htmlAttributeHeaderCell literalLabel="Actions" rowspan="2"/>
     </c:if>
 </tr>
 <c:choose>
     <c:when test="${debitCreditAmount}" >
         <tr>
-            <th class="bord-l-b">${ConfigProperties.label.document.journalVoucher.accountingLine.debit}</th>
-            <th class="bord-l-b">${ConfigProperties.label.document.journalVoucher.accountingLine.credit}</th>
+            <kul:htmlAttributeHeaderCell literalLabel="${ConfigProperties.label.document.journalVoucher.accountingLine.debit}"/>
+            <kul:htmlAttributeHeaderCell literalLabel="${ConfigProperties.label.document.journalVoucher.accountingLine.credit}"/>
         </tr>
     </c:when>
     <c:otherwise>

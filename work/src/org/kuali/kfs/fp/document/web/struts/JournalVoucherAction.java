@@ -137,15 +137,17 @@ public class JournalVoucherAction extends KualiTransactionalDocumentActionBase {
         // call the super's method
         ActionForward actionForward = super.insertSourceLine(mapping, form, request, response);
 
-        // since no exceptions were thrown, the add succeeded, so we have to re-init the new credit and debit
-        // attributes, and add a new instance of a helperLine to the helperLines list
-        JournalVoucherAccountingLineHelper helperLine = populateNewJournalVoucherAccountingLineHelper(journalVoucherForm);
-        journalVoucherForm.getJournalLineHelpers().add(helperLine);
-
-        // now reset the debit and credit fields for adds
-        journalVoucherForm.setNewSourceLineDebit(new KualiDecimal(0));
-        journalVoucherForm.setNewSourceLineCredit(new KualiDecimal(0));
-
+        if(GlobalVariables.getErrorMap().getErrorCount() == 0) {
+            // since no exceptions were thrown, the add succeeded, so we have to re-init the new credit and debit
+            // attributes, and add a new instance of a helperLine to the helperLines list
+            JournalVoucherAccountingLineHelper helperLine = populateNewJournalVoucherAccountingLineHelper(journalVoucherForm);
+            journalVoucherForm.getJournalLineHelpers().add(helperLine);
+    
+            // now reset the debit and credit fields for adds
+            journalVoucherForm.setNewSourceLineDebit(new KualiDecimal(0));
+            journalVoucherForm.setNewSourceLineCredit(new KualiDecimal(0));
+        }
+            
         return actionForward;
     }
 

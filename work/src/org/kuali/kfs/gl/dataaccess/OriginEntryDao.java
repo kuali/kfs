@@ -22,23 +22,16 @@
  */
 package org.kuali.module.gl.dao;
 
-import java.util.Collection;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.Map;
 
 import org.kuali.module.gl.bo.OriginEntry;
-import org.kuali.module.gl.bo.OriginEntryGroup;
 
 /**
  * @author jsissom
- *
+ * @version $Id: OriginEntryDao.java,v 1.2 2006-01-27 16:42:44 larevans Exp $
  */
 public interface OriginEntryDao {
-  public Collection getPosterGroups(Date groupDate,String groupSourceCode);
-  public Collection getScrubberGroups(Date groupDate);
-
-  public Iterator getMatchingEntries(Map searchCriteria);
-  public void saveGroup(OriginEntryGroup group);
-  public void saveOriginEntry(OriginEntry entry);
+	public Iterator getMatchingEntries(Map searchCriteria);
+	public void saveOriginEntry(OriginEntry entry);
 }

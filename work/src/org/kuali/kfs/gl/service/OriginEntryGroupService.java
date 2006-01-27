@@ -23,10 +23,16 @@
 package org.kuali.module.gl.service;
 
 import java.util.Collection;
+import java.util.Date;
 
 import org.kuali.module.gl.bo.OriginEntryGroup;
 
 public interface OriginEntryGroupService {
 	public OriginEntryGroup getOriginEntryGroup(String groupId);
 	public Collection getOriginEntryGroupsPendingProcessing();
+	public Collection getGroupsToPost(Date postDate);
+	public Collection getIcrGroupsToPost(Date postDate);
+	public Collection getGroupsToScrub(Date scrubDate);
+	public OriginEntryGroup createGroup(Date date,String sourceCode,boolean valid,boolean processed,boolean scrub);
+
 }

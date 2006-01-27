@@ -50,18 +50,20 @@ import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.bo.OriginEntrySource;
 import org.kuali.module.gl.bo.UniversityDate;
 import org.kuali.module.gl.dao.UniversityDateDao;
+import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.gl.service.OriginEntryService;
 import org.kuali.module.gl.service.ScrubberService;
 import org.springframework.util.StringUtils;
 
 /**
- * This class does all that and more... 
- * 
  * @author Anthony Potts
+ * @version $Id: ScrubberServiceImpl.java,v 1.14 2006-01-27 16:42:44 larevans Exp $
  */
+
 public class ScrubberServiceImpl implements ScrubberService {
 
     private OriginEntryService originEntryService;
+    private OriginEntryGroupService originEntryGroupService;
     private DateTimeService dateTimeService;
     private OffsetDefinitionService offsetDefinitionService;
     private ObjectCodeService objectCodeService;
@@ -93,6 +95,10 @@ public class ScrubberServiceImpl implements ScrubberService {
 
     private ScrubberUtil scrubberUtil = new ScrubberUtil();
 
+    public ScrubberServiceImpl() {
+    	super();
+    	originEntryGroupService = new OriginEntryGroupServiceImpl();
+    }
     
 //    MessageResources messages = getResources(SpringServiceLocator.KUALI_CONFIGURATION_SERVICE);
     
@@ -110,11 +116,11 @@ public class ScrubberServiceImpl implements ScrubberService {
         }
 
         // Create the groups that will store the valid and error entries that come out of the scrubber
-        validGroup = originEntryService.createGroup(runDate, OriginEntrySource.SCRUBBER_VALID, true, false, false);
-        errorGroup = originEntryService.createGroup(runDate, OriginEntrySource.SCRUBBER_ERROR, false, false, false);
-        expiredGroup = originEntryService.createGroup(runDate, OriginEntrySource.SCRUBBER_ERROR, false, false, false);
+        validGroup = originEntryGroupService.createGroup(runDate, OriginEntrySource.SCRUBBER_VALID, true, false, false);
+        errorGroup = originEntryGroupService.createGroup(runDate, OriginEntrySource.SCRUBBER_ERROR, false, false, false);
+        expiredGroup = originEntryGroupService.createGroup(runDate, OriginEntrySource.SCRUBBER_ERROR, false, false, false);
 
-        groupsToScrub = originEntryService.getGroupsToScrub(runDate);
+        groupsToScrub = originEntryGroupService.getGroupsToScrub(runDate);
 
         for (Iterator groupIterator = groupsToScrub.iterator(); groupIterator.hasNext();) {
             OriginEntryGroup grp = (OriginEntryGroup) groupIterator.next();

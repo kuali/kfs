@@ -24,19 +24,28 @@ package org.kuali.module.gl.service.impl;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.kuali.module.gl.bo.OriginEntryGroup;
+import org.kuali.module.gl.bo.OriginEntrySource;
 import org.kuali.module.gl.dao.OriginEntryGroupDao;
 import org.kuali.module.gl.dao.ojb.OriginEntryGroupDaoOjb;
 import org.kuali.module.gl.service.OriginEntryGroupService;
 
+/**
+ * @author Laran Evans <lc278@cs.cornell.edu>
+ * @version $Id: OriginEntryGroupServiceImpl.java,v 1.2 2006-01-27 16:42:44 larevans Exp $
+ * 
+ */
 public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
+	private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OriginEntryGroupServiceImpl.class);
+	private OriginEntryGroupDao groupDao;
 
 	public OriginEntryGroupServiceImpl() {
 		super();
-		// TODO Auto-generated constructor stub
+		groupDao = new OriginEntryGroupDaoOjb();
 	}
 	
 	/**
@@ -66,5 +75,39 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
 		}
 		return null;
 	}
+
+
+	  public OriginEntryGroup createGroup(java.util.Date date,String sourceCode, boolean valid, boolean processed, boolean scrub) {
+	    LOG.debug("createGroup() started");
+
+	    OriginEntryGroup oeg = new OriginEntryGroup();
+	    oeg.setDate(new java.sql.Date(date.getTime()));
+	    oeg.setProcess(new Boolean(processed));
+	    oeg.setScrub(new Boolean(scrub));
+	    oeg.setSourceCode(sourceCode);
+	    oeg.setValid(new Boolean(valid));
+
+	    groupDao.saveGroup(oeg);
+
+	    return oeg;
+	  }
+
+	  public Collection getGroupsToPost(Date postDate) {
+	    LOG.debug("getGroupsToPost() started");
+	    
+	    return groupDao.getPosterGroups(postDate,OriginEntrySource.SCRUBBER_VALID);
+	  }
+
+	  public Collection getIcrGroupsToPost(Date postDate) {
+	    LOG.debug("getIcrGroupsToPost() started");
+
+	    return groupDao.getPosterGroups(postDate,OriginEntrySource.ICR_POSTER_VALID);
+	  }
+
+	  public Collection getGroupsToScrub(Date scrubDate) {
+	    LOG.debug("getGroupsToScrub() started");
+
+	    return groupDao.getScrubberGroups(scrubDate);
+	  }
 
 }

@@ -94,7 +94,7 @@ public class NightlyOutServiceImpl implements NightlyOutService {
         Date today = new Date(dateTimeService.getCurrentTimestamp().getTime());
         String groupSourceCode = OriginEntrySource.GENERATE_BY_EDOC;
         
-        OriginEntryGroup group = originEntryService.createGroup(today, groupSourceCode, true,
+        OriginEntryGroup group = originEntryGroupService.createGroup(today, groupSourceCode, true,
                 true, true);
         return group;
     }

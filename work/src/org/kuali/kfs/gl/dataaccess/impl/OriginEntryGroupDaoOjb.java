@@ -23,6 +23,7 @@
 package org.kuali.module.gl.dao.ojb;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -35,7 +36,7 @@ import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 /**
  * @author Laran Evans <lc278@cornell.edu>
- * @version $Id: OriginEntryGroupDaoOjb.java,v 1.2 2006-01-27 16:28:17 jsissom Exp $
+ * @version $Id: OriginEntryGroupDaoOjb.java,v 1.3 2006-01-27 16:42:44 larevans Exp $
  * 
  */
 
@@ -61,5 +62,45 @@ public class OriginEntryGroupDaoOjb extends PersistenceBrokerDaoSupport implemen
 	    QueryByCriteria qbc = QueryFactory.newQuery(OriginEntryGroup.class, criteria);
 	    return getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
 	}
+
+	  /**
+	   * 
+	   */
+	  public Collection getPosterGroups(Date groupDate,String groupSourceCode) {
+	    LOG.debug("getPosterGroups() started");
+
+	    Criteria criteria = new Criteria();
+	    criteria.addEqualTo("sourceCode",groupSourceCode);
+	    criteria.addEqualTo("process",Boolean.TRUE);
+	    criteria.addEqualTo("valid",Boolean.TRUE);
+
+	    QueryByCriteria qbc = QueryFactory.newQuery(OriginEntryGroup.class,criteria);
+	    return getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
+	  }
+
+	  /**
+	   * 
+	   */
+	  public Collection getScrubberGroups(Date groupDate) {
+	    LOG.debug("getScrubberGroups() started");
+
+	    Criteria criteria = new Criteria();
+	    criteria.addLessOrEqualThan("date",groupDate);
+	    criteria.addEqualTo("scrub",Boolean.TRUE);
+	    criteria.addEqualTo("process",Boolean.TRUE);
+	    criteria.addEqualTo("valid",Boolean.TRUE);
+
+	    QueryByCriteria qbc = QueryFactory.newQuery(OriginEntryGroup.class,criteria);
+	    return getPersistenceBrokerTemplate().getCollectionByQuery(qbc);    
+	  }
+
+	  /**
+	   * 
+	   */
+	  public void saveGroup(OriginEntryGroup group) {
+	    LOG.debug("saveGroup() started");
+
+	    getPersistenceBrokerTemplate().store(group);
+	  }
 
 }

@@ -46,12 +46,13 @@ import org.kuali.module.gl.bo.UniversityDate;
 import org.kuali.module.gl.dao.ExpenditureTransactionDao;
 import org.kuali.module.gl.dao.ReversalDao;
 import org.kuali.module.gl.dao.UniversityDateDao;
+import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.gl.service.OriginEntryService;
 import org.kuali.module.gl.service.PosterService;
 
 /**
  * @author jsissom
- *  
+ * @version $Id: PosterServiceImpl.java,v 1.6 2006-01-27 16:42:44 larevans Exp $
  */
 public class PosterServiceImpl implements PosterService {
   private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PosterServiceImpl.class);
@@ -60,6 +61,7 @@ public class PosterServiceImpl implements PosterService {
   private VerifyTransaction verifyTransaction;
   private PosterReport posterReportService;
   private OriginEntryService originEntryService;
+  private OriginEntryGroupService originEntryGroupService;
   private DateTimeService dateTimeService;
   private ReversalDao reversalDao;
   private UniversityDateDao universityDateDao;
@@ -73,6 +75,7 @@ public class PosterServiceImpl implements PosterService {
    */
   public PosterServiceImpl() {
     super();
+    originEntryGroupService = new OriginEntryGroupServiceImpl();
   }
 
   /**
@@ -120,7 +123,7 @@ public class PosterServiceImpl implements PosterService {
       case PosterService.MODE_ENTRIES:
         validEntrySourceCode = OriginEntrySource.MAIN_POSTER_VALID;
         invalidEntrySourceCode = OriginEntrySource.MAIN_POSTER_ERROR;
-        groups = originEntryService.getGroupsToPost(runDate);
+        groups = originEntryGroupService.getGroupsToPost(runDate);
         break;
       case PosterService.MODE_REVERSAL:
         validEntrySourceCode = OriginEntrySource.REVERSAL_POSTER_VALID;
@@ -129,15 +132,15 @@ public class PosterServiceImpl implements PosterService {
       case PosterService.MODE_ICR:
         validEntrySourceCode = OriginEntrySource.ICR_POSTER_VALID;
         invalidEntrySourceCode = OriginEntrySource.ICR_POSTER_ERROR;
-        groups = originEntryService.getIcrGroupsToPost(runDate);
+        groups = originEntryGroupService.getIcrGroupsToPost(runDate);
         break;
       default:
         throw new IllegalArgumentException("Invalid poster mode " + mode);
     }
 
     // Create new Groups for output transactions
-    validGroup = originEntryService.createGroup(runDate, validEntrySourceCode, true, false, false);
-    invalidGroup = originEntryService.createGroup(runDate, invalidEntrySourceCode, false, false, false);
+    validGroup = originEntryGroupService.createGroup(runDate, validEntrySourceCode, true, false, false);
+    invalidGroup = originEntryGroupService.createGroup(runDate, invalidEntrySourceCode, false, false, false);
 
     Map reportError = new HashMap();
 
@@ -249,7 +252,7 @@ public class PosterServiceImpl implements PosterService {
       for (Iterator posterIter = transactionPosters.iterator(); posterIter.hasNext();) {
         PostTransaction poster = (PostTransaction) posterIter.next();
         if ( poster instanceof VerifyTransaction ) {
-          VerifyTransaction vt = (VerifyTransaction)poster;
+          //VerifyTransaction vt = (VerifyTransaction)poster;
 
           errors.addAll(verifyTransaction.verifyTransaction(tran));
         }

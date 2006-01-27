@@ -23,8 +23,14 @@
 package org.kuali.module.gl.dao;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.Map;
+
+import org.kuali.module.gl.bo.OriginEntryGroup;
 
 public interface OriginEntryGroupDao {
 	public Collection getMatchingGroups(Map searchCriteria); 
+	public Collection getPosterGroups(Date groupDate,String groupSourceCode);
+	public Collection getScrubberGroups(Date groupDate);
+	public void saveGroup(OriginEntryGroup group);
 }

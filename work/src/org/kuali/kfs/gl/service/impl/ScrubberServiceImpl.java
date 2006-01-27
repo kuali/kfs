@@ -57,7 +57,7 @@ import org.springframework.util.StringUtils;
 
 /**
  * @author Anthony Potts
- * @version $Id: ScrubberServiceImpl.java,v 1.15 2006-01-27 16:45:41 aapotts Exp $
+ * @version $Id: ScrubberServiceImpl.java,v 1.16 2006-01-27 17:13:36 aapotts Exp $
  */
 
 public class ScrubberServiceImpl implements ScrubberService {
@@ -117,8 +117,8 @@ public class ScrubberServiceImpl implements ScrubberService {
 
         // Create the groups that will store the valid and error entries that come out of the scrubber
         validGroup = originEntryGroupService.createGroup(runDate, OriginEntrySource.SCRUBBER_VALID, true, true, false);
-        errorGroup = originEntryGroupService.createGroup(runDate, OriginEntrySource.SCRUBBER_ERROR, false, false, false);
-        expiredGroup = originEntryGroupService.createGroup(runDate, OriginEntrySource.SCRUBBER_ERROR, false, false, false);
+        errorGroup = originEntryGroupService.createGroup(runDate, OriginEntrySource.SCRUBBER_ERROR, false, true, false);
+        expiredGroup = originEntryGroupService.createGroup(runDate, OriginEntrySource.SCRUBBER_EXPIRED, false, true, false);
 
         groupsToScrub = originEntryGroupService.getGroupsToScrub(runDate);
 

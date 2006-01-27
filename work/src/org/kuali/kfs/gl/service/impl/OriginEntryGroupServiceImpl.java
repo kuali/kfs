@@ -36,18 +36,21 @@ import org.kuali.module.gl.service.OriginEntryGroupService;
 
 /**
  * @author Laran Evans <lc278@cs.cornell.edu>
- * @version $Id: OriginEntryGroupServiceImpl.java,v 1.2 2006-01-27 16:42:44 larevans Exp $
+ * @version $Id: OriginEntryGroupServiceImpl.java,v 1.3 2006-01-27 20:13:19 jsissom Exp $
  * 
  */
 public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
 	private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OriginEntryGroupServiceImpl.class);
-	private OriginEntryGroupDao groupDao;
+	private OriginEntryGroupDao originEntryGroupDao;
 
 	public OriginEntryGroupServiceImpl() {
 		super();
-		groupDao = new OriginEntryGroupDaoOjb();
 	}
-	
+
+  public void setOriginEntryGroupDao(OriginEntryGroupDao oegd) {
+    originEntryGroupDao = oegd;
+  }
+
 	/**
 	 * 
 	 * @return the List of all origin entry groups that have a process indicator of false.
@@ -87,7 +90,7 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
 	    oeg.setSourceCode(sourceCode);
 	    oeg.setValid(new Boolean(valid));
 
-	    groupDao.saveGroup(oeg);
+	    originEntryGroupDao.saveGroup(oeg);
 
 	    return oeg;
 	  }
@@ -95,19 +98,19 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
 	  public Collection getGroupsToPost(Date postDate) {
 	    LOG.debug("getGroupsToPost() started");
 	    
-	    return groupDao.getPosterGroups(postDate,OriginEntrySource.SCRUBBER_VALID);
+	    return originEntryGroupDao.getPosterGroups(postDate,OriginEntrySource.SCRUBBER_VALID);
 	  }
 
 	  public Collection getIcrGroupsToPost(Date postDate) {
 	    LOG.debug("getIcrGroupsToPost() started");
 
-	    return groupDao.getPosterGroups(postDate,OriginEntrySource.ICR_POSTER_VALID);
+	    return originEntryGroupDao.getPosterGroups(postDate,OriginEntrySource.ICR_POSTER_VALID);
 	  }
 
 	  public Collection getGroupsToScrub(Date scrubDate) {
 	    LOG.debug("getGroupsToScrub() started");
 
-	    return groupDao.getScrubberGroups(scrubDate);
+	    return originEntryGroupDao.getScrubberGroups(scrubDate);
 	  }
 
 }

@@ -38,7 +38,7 @@
 		<property name="accountService"><ref bean="accountService" /></property>
 		<property name="kualiConfigurationService"><ref bean="kualiConfigurationService" /></property>
 		<property name="universityDateDao"><ref bean="universityDateDao" /></property>
-		<property name="originEntryGroupDao"><ref bean="originEntryGroupDao" /></property>
+		<property name="originEntryGroupDao"><ref bean="glOriginEntryGroupDao" /></property>
 	</bean>
 
 	<bean id="glPosterService" class="org.kuali.module.gl.service.impl.PosterServiceImpl">
@@ -76,6 +76,7 @@
 	</bean>
 
 	<bean id="glOriginEntryGroupService" class="org.kuali.module.gl.service.impl.OriginEntryGroupServiceImpl">
+		<property name="originEntryGroupDao"><ref bean="glOriginEntryGroupDao"/></property>
 	</bean>
 		
 	<bean id="glNightlyOutService" class="org.kuali.module.gl.service.impl.NightlyOutServiceImpl">
@@ -144,6 +145,10 @@
 	</bean>
 
 	<bean id="glOriginEntryDao" class="org.kuali.module.gl.dao.ojb.OriginEntryDaoOjb">
+		<property name="jcdAlias"><value>dataSource</value></property>
+	</bean>
+
+	<bean id="glOriginEntryGroupDao" class="org.kuali.module.gl.dao.ojb.OriginEntryGroupDaoOjb">
 		<property name="jcdAlias"><value>dataSource</value></property>
 	</bean>
 

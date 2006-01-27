@@ -50,7 +50,7 @@ public class ObjectCons extends BusinessObjectBase {
 	private String financialEliminationsObjectCode;
 	
 	private Chart chartOfAccounts;
-	private ObjectCode financialEliminationsObject;
+
 
     /**
      * Gets the chartOfAccountsCode attribute.
@@ -200,25 +200,6 @@ public class ObjectCons extends BusinessObjectBase {
 		this.chartOfAccounts = chartOfAccounts;
 	}
 
-	/**
-	 * Gets the financialEliminationsObject attribute.
-	 * 
-	 * @return - Returns the financialEliminationsObject
-	 * 
-	 */
-	public ObjectCode getFinancialEliminationsObject() { 
-		return financialEliminationsObject;
-	}
-	
-	/**
-	 * Sets the financialEliminationsObject attribute.
-	 * 
-	 * @param - financialEliminationsObject The financialEliminationsObject to set.
-	 * @deprecated
-	 */
-	public void setFinancialEliminationsObject(ObjectCode financialConsolidationObject) {
-		this.financialEliminationsObject = financialConsolidationObject;
-	}
 
 	/**
 	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()

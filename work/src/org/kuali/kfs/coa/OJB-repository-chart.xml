@@ -1099,13 +1099,6 @@
 		auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="chartOfAccountsCode" />
 	</reference-descriptor>
-	<reference-descriptor name="financialEliminationsObject"
-		class-ref="org.kuali.module.chart.bo.ObjectCodeCurrent"
-		auto-retrieve="true" auto-update="none" auto-delete="none"
-		proxy="true">
-		<foreignkey field-ref="chartOfAccountsCode" />
-		<foreignkey field-ref="financialEliminationsObjectCode" />
-	</reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.chart.bo.Org" table="CA_ORG_T">

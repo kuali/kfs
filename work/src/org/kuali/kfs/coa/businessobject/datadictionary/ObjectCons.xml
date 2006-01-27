@@ -14,7 +14,7 @@
 				<field attributeName="finConsolidationObjectName" />
 				<field attributeName="finConsolidationObjShortName" />
 				<field attributeName="finConsolidationObjActiveIndicator" />	
-				<field attributeName="financialEliminationsObject.financialObjectCode" />	
+				<field attributeName="financialEliminationsObjectCode" />	
 				<field attributeName="financialReportingSortCode" />	
 																					
 			</inquiryFields>
@@ -34,7 +34,7 @@
 				<lookupField attributeName="finConsolidationObjectCode" required="false" />
 				<lookupField attributeName="finConsolidationObjectName" required="false" />	
 				<lookupField attributeName="finConsolidationObjShortName" required="false" />	
-				<lookupField attributeName="financialEliminationsObject.financialObjectCode" required="false" />										
+				<lookupField attributeName="financialEliminationsObjectCode" required="false" />										
 			</lookupFields>
 
 			<resultFields>
@@ -43,7 +43,7 @@
 				<field attributeName="finConsolidationObjectName" />
 				<field attributeName="finConsolidationObjShortName" />
 				<field attributeName="finConsolidationObjActiveIndicator" />	
-				<field attributeName="financialEliminationsObject.financialObjectCode" />	
+				<field attributeName="financialEliminationsObjectCode" />	
 				<field attributeName="financialReportingSortCode" />														
 			</resultFields>
 		</lookup>
@@ -101,7 +101,7 @@
 				sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
 				sourceAttributeName="activeIndicator" />
 
-			<attribute name="financialEliminationsObject.financialObjectCode" forceUppercase="true">
+			<attribute name="financialEliminationsObjectCode" forceUppercase="true">
 				<label>Elimination Object Code</label>
 				<shortLabel>Elim Obj Code</shortLabel>
 

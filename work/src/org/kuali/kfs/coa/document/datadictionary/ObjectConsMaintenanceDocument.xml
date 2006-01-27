@@ -38,7 +38,7 @@
 					<maintainableField name="finConsolidationObjShortName" required="true"  />
 					<maintainableField name="finConsolidationObjectName" required="true" />
 					<maintainableField name="finConsolidationObjActiveIndicator" required="true" />
-					<maintainableField name="financialEliminationsObject.financialObjectCode" required="true" />
+					<maintainableField name="financialEliminationsObjectCode" required="true" />
 					<maintainableField name="financialReportingSortCode" required="true" />				
                 </maintainableItems>
 			</maintainableSection>

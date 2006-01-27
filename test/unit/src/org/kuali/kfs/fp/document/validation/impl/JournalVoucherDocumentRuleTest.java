@@ -31,23 +31,26 @@ import org.kuali.core.bo.AccountingLine;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.rule.TransactionalDocumentRuleTestBase;
-import org.kuali.module.financial.document.TransferOfFundsDocument;
+import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
+import org.kuali.module.financial.document.JournalVoucherDocument;
 import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 import org.kuali.test.parameters.AccountingLineParameter;
+import org.kuali.test.parameters.DocumentParameter;
 import org.kuali.test.parameters.TransactionalDocumentParameter;
 
 /**
- * This class tests the Transfer of Funds Document's persistence, routing, and PE generation.
+ * This class tests the JournalVoucherDocument's persistence, routing, 
+ * and PE generation.
  *
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class TransferOfFundsDocumentRuleTest
+public class JournalVoucherDocumentRuleTest 
     extends TransactionalDocumentRuleTestBase {
 
     private static final String COLLECTION_NAME =
-        "TransferOfFundsDocumentRuleTest.collection1";
+        "JournalVoucherDocumentRuleTest.collection1";
     private static final String KNOWN_DOCUMENT_TYPENAME =
-        "KualiTransferOfFundsDocument";
+        "KualiJournalVoucherDocument";
 
     private static final String[] FIXTURE_COLLECTION_NAMES =
         { COLLECTION_NAME };
@@ -65,14 +68,19 @@ public class TransferOfFundsDocumentRuleTest
     private AccountingLineParameter _targetLine1;
     private AccountingLineParameter _targetLine2;
     private AccountingLineParameter _targetLine3;
+    private GeneralLedgerPendingEntry _expectedExpSourceGlEntryE;
+    private GeneralLedgerPendingEntry _expectedExpTargetGlEntryE;
     private GeneralLedgerPendingEntry _expectedExpSourceGlEntry;
     private GeneralLedgerPendingEntry _expectedExpTargetGlEntry;
     private GeneralLedgerPendingEntry _expectedOffSourceGlEntry;
     private GeneralLedgerPendingEntry _expectedOffTargetGlEntry;
+    private String _balanceTypeCode;
+    private String _user;
 
 
     protected void setUp() throws Exception {
         super.setUp();
+        changeCurrentUser( getTestUserName() );
     }
 
     public String[] getFixtureCollectionNames() {
@@ -136,7 +144,10 @@ public class TransferOfFundsDocumentRuleTest
 
     protected final SourceAccountingLine getInvalidObjectTypeSourceLine()
         throws Exception {
-        return ( SourceAccountingLine )getSourceLineParameter3().createLine();
+        SourceAccountingLine retval =
+            ( SourceAccountingLine )getSourceLineParameter3().createLine();
+        retval.setObjectTypeCode( new String() );
+        return retval;
     }
 
     protected final SourceAccountingLine getInvalidObjectCodeSourceLine()
@@ -154,13 +165,16 @@ public class TransferOfFundsDocumentRuleTest
     }
 
     protected final Document createDocument() throws Exception {
-        return getDocumentParameter1().createDocument( getDocumentService() );
+        return buildDocument( getJournalVoucherDocumentParameter1() );
     }
 
     protected final TransactionalDocument createDocument5()
         throws Exception {
-        return (TransactionalDocument)getDocumentParameter5()
-            .createDocument( getDocumentService() );
+        
+        // return (TransactionalDocument)getDocumentParameter5()
+        // .createDocument( getDocumentService() );
+        return ( TransactionalDocument )
+            buildDocument( getJournalVoucherDocumentParameter1() );
     }
 
     protected final Document createDocumentValidForRouting()
@@ -170,14 +184,13 @@ public class TransferOfFundsDocumentRuleTest
 
     protected final Document createDocumentInvalidForSave()
         throws Exception {
-        return getDocumentParameterNoDescription()
-            .createDocument( getDocumentService() );
+        return createDocumentInvalidDescription();
     }
 
     protected final TransactionalDocument createDocumentWithInvalidObjectSubType()
         throws Exception {
-        TransferOfFundsDocument retval =
-            ( TransferOfFundsDocument )createDocument();
+        TransactionalDocument retval =
+            ( TransactionalDocument )createDocument();
         retval.setSourceAccountingLines
             ( getInvalidObjectSubTypeSourceLines() );
         retval.setTargetAccountingLines
@@ -185,25 +198,34 @@ public class TransferOfFundsDocumentRuleTest
         return retval;
     }
 
+    /**
+     * This is for unbalanced <code>{@link JournalVoucherDocument}</code>, 
+     * but <code>{@link JournalVoucherDocument}</code> doesn't need to be 
+     * balanced, so to substitute, I'm using a <code>{@link Document}</code> 
+     * without a balance at all because that's semantically the same.
+     *
+     * @return TransactionalDocument
+     * @see org.kuali.core.rule.TransactionalDocumentRuleBase#createDocumentUnbalanced()
+     */
     protected final TransactionalDocument createDocumentUnbalanced()
         throws Exception {
-        TransferOfFundsDocument retval =
-            ( TransferOfFundsDocument )createDocument();
-        retval.setSourceAccountingLines
-            ( getInvalidObjectSubTypeSourceLines() );
-        retval.addTargetAccountingLine( getValidObjectSubTypeTargetLine() );
+        TransactionalDocument retval =
+            ( TransactionalDocument )createDocument();
         return retval;
     }
 
     protected final Document createDocumentInvalidDescription() throws Exception {
-        return getDocumentParameterNoDescription()
+        Document retval = getJournalVoucherDocumentParameter1()
             .createDocument( getDocumentService() );
+        retval.getDocumentHeader()
+            .setFinancialDocumentDescription( new String() );
+        return retval;
     }
 
     protected final TransactionalDocument createDocumentWithValidObjectSubType()
         throws Exception {
-        TransferOfFundsDocument retval =
-            ( TransferOfFundsDocument )createDocument();
+        TransactionalDocument retval =
+            ( TransactionalDocument )createDocument();
         retval.setSourceAccountingLines( getValidObjectSubTypeSourceLines() );
         retval.setTargetAccountingLines( getValidObjectSubTypeTargetLines() );
         return retval;
@@ -389,11 +411,11 @@ public class TransferOfFundsDocumentRuleTest
         _targetLine3 = p;
     }
 
-    public final TransactionalDocumentParameter getDocumentParameter1() {
+    public final TransactionalDocumentParameter getJournalVoucherDocumentParameter1() {
         return _docParam1;
     }
 
-    public final void setDocumentParameter1( TransactionalDocumentParameter p ) {
+    public final void setJournalVoucherDocumentParameter1( TransactionalDocumentParameter p ) {
         _docParam1 = p;
     }
 
@@ -412,6 +434,35 @@ public class TransferOfFundsDocumentRuleTest
     public final void setDocumentParameter5(TransactionalDocumentParameter p) {
         _documentParameter5 = p;
     }
+    
+    /**
+     * Set the Username fixture set specifically for 
+     * <code>{@link JournalVoucherDocument}</code> instances
+     *
+     * @param u Username.
+     */
+    public final void setUser_jvdoc( String u ) {
+        _user = u;
+    }
+    
+    /**
+     * get the Username fixture set specifically for 
+     * <code>{@link JournalVoucherDocument}</code> instances
+     *
+     * @return String username
+     */
+    public final String getUser_jvdoc() {
+        return _user;
+    }
+    
+    /**
+     * Get the username fixture for the tests.
+     *
+     * @return String 
+     */
+    protected String getTestUserName() {
+        return getUser_jvdoc();
+    }
 
     /**
      * Accessor method for Explicit Source fixture used for
@@ -421,6 +472,17 @@ public class TransferOfFundsDocumentRuleTest
      * @return GeneralLedgerPendingEntry pending entry fixture
      */
     public final GeneralLedgerPendingEntry getExpectedExplicitSourcePendingEntry() {
+        return getExpectedJVExplicitSourcePendingEntry();
+    }
+
+    /**
+     * Accessor method for Explicit Source fixture used for
+     * <code>{@link testProcessGeneralLedgerPendingEntries}</code> test
+     * methods.
+     *
+     * @return GeneralLedgerPendingEntry pending entry fixture
+     */
+    public final GeneralLedgerPendingEntry getExpectedJVExplicitSourcePendingEntry() {
         return _expectedExpSourceGlEntry;
     }
 
@@ -431,7 +493,7 @@ public class TransferOfFundsDocumentRuleTest
      *
      * @param GeneralLedgerPendingEntry pending entry fixture
      */
-    public final void setExpectedExplicitSourcePendingEntry( GeneralLedgerPendingEntry e ) {
+    public final void setExpectedJVExplicitSourcePendingEntry( GeneralLedgerPendingEntry e ) {
         _expectedExpSourceGlEntry = e;
     }
 
@@ -443,6 +505,17 @@ public class TransferOfFundsDocumentRuleTest
      * @return GeneralLedgerPendingEntry pending entry fixture
      */
     public final GeneralLedgerPendingEntry getExpectedExplicitTargetPendingEntry() {
+        return getExpectedJVExplicitTargetPendingEntry();
+    }
+
+    /**
+     * Accessor method for Explicit Target fixture used for
+     * <code>{@link testProcessGeneralLedgerPendingEntries}</code> test
+     * methods.
+     *
+     * @return GeneralLedgerPendingEntry pending entry fixture
+     */
+    public final GeneralLedgerPendingEntry getExpectedJVExplicitTargetPendingEntry() {
         return _expectedExpTargetGlEntry;
     }
 
@@ -453,8 +526,74 @@ public class TransferOfFundsDocumentRuleTest
      *
      * @param GeneralLedgerPendingEntry pending entry fixture
      */
-    public final void setExpectedExplicitTargetPendingEntry( GeneralLedgerPendingEntry e ) {
+    public final void setExpectedJVExplicitTargetPendingEntry( GeneralLedgerPendingEntry e ) {
         _expectedExpTargetGlEntry = e;
+    }
+
+    /**
+     * Accessor method for Explicit Source fixture used for
+     * <code>{@link testProcessGeneralLedgerPendingEntries}</code> test
+     * methods.
+     *
+     * @return GeneralLedgerPendingEntry pending entry fixture
+     */
+    public final GeneralLedgerPendingEntry getExpectedExplicitSourcePendingEntryForExpense() {
+        return getExpectedJVExplicitSourcePendingEntryForExpense();
+    }
+
+    /**
+     * Accessor method for Explicit Source fixture used for
+     * <code>{@link testProcessGeneralLedgerPendingEntries}</code> test
+     * methods.
+     *
+     * @return GeneralLedgerPendingEntry pending entry fixture
+     */
+    public final GeneralLedgerPendingEntry getExpectedJVExplicitSourcePendingEntryForExpense() {
+        return _expectedExpSourceGlEntryE;
+    }
+
+    /**
+     * Accessor method for Explicit Source fixture used for
+     * <code>{@link testProcessGeneralLedgerPendingEntries}</code> test
+     * methods.
+     *
+     * @param GeneralLedgerPendingEntry pending entry fixture
+     */
+    public final void setExpectedJVExplicitSourcePendingEntryForExpense( GeneralLedgerPendingEntry e ) {
+        _expectedExpSourceGlEntryE = e;
+    }
+
+    /**
+     * Accessor method for Explicit Target fixture used for
+     * <code>{@link testProcessGeneralLedgerPendingEntries}</code> test
+     * methods.
+     *
+     * @return GeneralLedgerPendingEntry pending entry fixture
+     */
+    public final GeneralLedgerPendingEntry getExpectedExplicitTargetPendingEntryForExpense() {
+        return getExpectedJVExplicitTargetPendingEntryForExpense();
+    }
+
+    /**
+     * Accessor method for Explicit Target fixture used for
+     * <code>{@link testProcessGeneralLedgerPendingEntries}</code> test
+     * methods.
+     *
+     * @return GeneralLedgerPendingEntry pending entry fixture
+     */
+    public final GeneralLedgerPendingEntry getExpectedJVExplicitTargetPendingEntryForExpense() {
+        return _expectedExpTargetGlEntryE;
+    }
+
+    /**
+     * Accessor method for Explicit Target fixture used for
+     * <code>{@link testProcessGeneralLedgerPendingEntries}</code> test
+     * methods.
+     *
+     * @param GeneralLedgerPendingEntry pending entry fixture
+     */
+    public final void setExpectedJVExplicitTargetPendingEntryForExpense( GeneralLedgerPendingEntry e ) {
+        _expectedExpTargetGlEntryE = e;
     }
 
     /**
@@ -501,7 +640,64 @@ public class TransferOfFundsDocumentRuleTest
     public final GeneralLedgerPendingEntry getExpectedOffsetSourcePendingEntry() {
         return _expectedOffSourceGlEntry;
     }
+    
+    /**
+     * Accessor for ACTUAL balance type code.
+     *
+     * @param code
+     */
+    public void setActualBalanceTypeCode( String code ) {
+        _balanceTypeCode = code;
+    }
 
+    /**
+     * Accessor for ACTUAL balance type code.
+     *
+     * @return String
+     */
+    public String getActualBalanceTypeCode() {
+        return _balanceTypeCode;
+    }
+    
+    /**
+     * Obtain correct BalanceTypeCode for 
+     * <code>{@link JournalVoucheerDocument}</code>
+     * 
+     * @return String 
+     */
+    protected String getBalanceTypeCodeFixture() {
+        return getActualBalanceTypeCode();
+    }
+
+    /**
+     * Fixture method used to handle special case 
+     * <code>{@link TransactionalDocumentParameter}</code> instances. 
+     *
+     * <p>This is probably not the best way to do this. Matt suggested
+     * that a specific <code>{@link DocumentParameter}</code> definition
+     * be made to handle the fixtures and the <code>{@link Document}</code>
+     * creation if more fields are added and
+     * <code>{@link JournalVoucherDocument}</code> becomes more complex
+     * and demanding. Something like a
+     * <code>JournalVoucherDocumentParameter</code> would probably work to
+     * remedy this. For specific details look at the
+     * <code>{@link DisbursementVoucherDocumentTest}</code> that Matt
+     * worked on.</p>
+     *
+     * @param parameter <code>{@link DocumentParameter}</code> 
+     * instance to use.
+     * @return Document newly created <code>{@link Document}</code>
+     * @see org.kuali.core.document.DocumentTestBase#buildDocument()
+     * @see org.kuali.module.financial.document.DisbursementDocumentTest
+     * @see org.kuali.test.parameters.DisbursementVoucherDocumentParameter
+     */
+    protected Document buildDocument( DocumentParameter parameter )
+        throws Exception {
+        JournalVoucherDocument retval = ( JournalVoucherDocument )
+            super.buildDocument( parameter );
+        retval.setBalanceTypeCode( getBalanceTypeCodeFixture() );
+        return retval;
+    }
     ///////////////////////////////////////////////////////////////////////////
     // Fixture Methods End Here                                              //
     ///////////////////////////////////////////////////////////////////////////
@@ -510,27 +706,63 @@ public class TransferOfFundsDocumentRuleTest
     ///////////////////////////////////////////////////////////////////////////
     // Test Methods Start Here                                               //
     ///////////////////////////////////////////////////////////////////////////
+    /**
+     * method overridden from 
+     * <code>{@link TransactionalDocumentRuleTestBase}</code> because 
+     * all object codes are allowed in 
+     * <code>{@link JournalVoucherDocument}</code>
+     * 
+     */
+    public void testIsObjectCodeAllowed_InvalidObjectCode() {
+    }
 
-    private AccountingLine createLineFromFixture(String accountingLineFixtureName) {
-        AccountingLine retval = (AccountingLine)getFixtureEntry(accountingLineFixtureName).createObject();
-        retval.refresh();
-        return retval;
+    /**
+     * Tests ObjectSubType validation of <code>{@link AccountingLine}</code>
+     * from <code>{@link AddAccountingLineEvent}</code>
+     *
+     * method overridden from 
+     * <code>{@link TransactionalDocumentRuleTestBase}</code> because 
+     * all object sub type codes are allowed in 
+     * <code>{@link JournalVoucherDocument}</code>
+     */
+    public void testIsObjectSubTypeAllowed_InvalidSubType() {
+    }
+
+    /**
+     * This test is overriddden becaues 
+     * <code>{@link JournalVoucherDocumentRule}</code> doesn't add
+     * offset entries.
+     *
+     * @see org.kuali.core.rule.TransactionalDocumentRuleTestBase#testProcessGenerateGeneralLedgerPendingEntries()
+     */
+    protected void testProcessGenerateGeneralLedgerPendingEntries( AccountingLine line,
+                                                                   GeneralLedgerPendingEntry expectedExplicitEntry,
+                                                                   GeneralLedgerPendingEntry expectedOffsetEntry ) throws Exception {
+        TransactionalDocument document = createDocument5();
+        assertEquals( 0, document.getGeneralLedgerPendingEntries().size());
+        getGenerateGeneralLedgerPendingEntriesRule()
+            .processGenerateGeneralLedgerPendingEntries( document,
+                                                         line,
+                                                         new GeneralLedgerPendingEntrySequenceHelper() );
+        assertEquals( 1, document.getGeneralLedgerPendingEntries().size() );
+        assertSparselyEqualBean( expectedExplicitEntry,
+                                 document.getGeneralLedgerPendingEntry( 0 ) );
+
     }
 
     public void testProcessGenerateGeneralLedgerPendingEntries_validSourceExpense()
         throws Exception {
         testProcessGenerateGeneralLedgerPendingEntries(createLineFromFixture("expenseSourceLine"),
-            "expectedExplicitSourcePendingEntryForExpense",
-            "expectedOffsetSourcePendingEntry");
+                                                       getExpectedExplicitSourcePendingEntryForExpense(),
+                                                       getExpectedOffsetSourcePendingEntry() );
     }
 
     public void testProcessGenerateGeneralLedgerPendingEntries_validTargetExpense()
         throws Exception {
         testProcessGenerateGeneralLedgerPendingEntries(createLineFromFixture("expenseTargetLine"),
-            "expectedExplicitTargetPendingEntryForExpense",
-            "expectedOffsetTargetPendingEntry");
+                                                       getExpectedExplicitTargetPendingEntryForExpense(),
+                                                       getExpectedOffsetTargetPendingEntry() );
     }
-
     ///////////////////////////////////////////////////////////////////////////
     // Test Methods End Here                                                 //
     ///////////////////////////////////////////////////////////////////////////

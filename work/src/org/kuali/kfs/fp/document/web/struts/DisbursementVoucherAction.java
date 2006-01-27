@@ -41,6 +41,8 @@ import org.kuali.core.bo.user.UniversityUser;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
+import org.kuali.module.financial.bo.DisbursementVoucherNonEmployeeExpense;
+import org.kuali.module.financial.bo.DisbursementVoucherPreConferenceRegistrant;
 import org.kuali.module.financial.bo.Payee;
 import org.kuali.module.financial.document.DisbursementVoucherDocument;
 import org.kuali.module.financial.service.DisbursementVoucherTaxService;
@@ -104,6 +106,126 @@ public class DisbursementVoucherAction extends KualiTransactionalDocumentActionB
         return mapping.findForward(Constants.MAPPING_BASIC);
 
     }
+    
+    /**
+     * Calculates the travel per diem amount.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward calculateTravelPerDiem(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        DisbursementVoucherForm dvForm = (DisbursementVoucherForm) form;
+
+        return mapping.findForward(Constants.MAPPING_BASIC);
+
+    }
+    
+    /**
+     * Calculates the travel mileage amount.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward calculateTravelMileageAmount(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        DisbursementVoucherForm dvForm = (DisbursementVoucherForm) form;
+
+        return mapping.findForward(Constants.MAPPING_BASIC);
+
+    }
+    
+    /**
+     * Adds a new employee travel expense line.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward addNonEmployeeExpenseLine(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        DisbursementVoucherForm dvForm = (DisbursementVoucherForm) form;
+        DisbursementVoucherDocument dvDocument = (DisbursementVoucherDocument) dvForm.getDocument();
+        
+        DisbursementVoucherNonEmployeeExpense newExpenseLine = dvForm.getNewNonEmployeeExpenseLine();
+        dvDocument.getDvNonEmployeeTravel().addDvNonEmployeeExpenseLine(newExpenseLine);
+        dvForm.setNewNonEmployeeExpenseLine(new DisbursementVoucherNonEmployeeExpense());
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+
+    };
+    
+    /**
+     * Deletes a non employee travel expense line.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward deleteNonEmployeeExpenseLine(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        DisbursementVoucherForm dvForm = (DisbursementVoucherForm) form;
+        DisbursementVoucherDocument dvDocument = (DisbursementVoucherDocument) dvForm.getDocument();
+        
+        int deleteIndex = getLineToDelete(request);
+        dvDocument.getDvNonEmployeeTravel().getDvNonEmployeeExpenses().remove(deleteIndex);
+
+        return mapping.findForward(Constants.MAPPING_BASIC);
+
+    }
+    
+    /**
+     * Adds a new pre conference registrant line.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward addPreConfRegistrantLine(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        DisbursementVoucherForm dvForm = (DisbursementVoucherForm) form;
+        DisbursementVoucherDocument dvDocument = (DisbursementVoucherDocument) dvForm.getDocument();
+        
+        DisbursementVoucherPreConferenceRegistrant newRegistrantLine = dvForm.getNewPreConferenceRegistrantLine();
+        dvDocument.addDvPrePaidRegistrantLine(newRegistrantLine);
+        dvForm.setNewPreConferenceRegistrantLine(new DisbursementVoucherPreConferenceRegistrant());
+
+        return mapping.findForward(Constants.MAPPING_BASIC);
+
+    }
+    
+    /**
+     * Deletes a pre conference registrant line.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward deletePreConfRegistrantLine(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        DisbursementVoucherForm dvForm = (DisbursementVoucherForm) form;
+        DisbursementVoucherDocument dvDocument = (DisbursementVoucherDocument) dvForm.getDocument();
+        
+        int deleteIndex = getLineToDelete(request);
+        dvDocument.getDvPreConferenceDetail().getDvPreConferenceRegistrants().remove(deleteIndex);
+
+        return mapping.findForward(Constants.MAPPING_BASIC);
+
+    }   
 
 
     /**

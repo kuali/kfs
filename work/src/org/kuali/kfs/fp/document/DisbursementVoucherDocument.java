@@ -37,6 +37,7 @@ import org.kuali.module.financial.bo.DisbursementVoucherNonEmployeeTravel;
 import org.kuali.module.financial.bo.DisbursementVoucherNonResidentAlienTax;
 import org.kuali.module.financial.bo.DisbursementVoucherPayeeDetail;
 import org.kuali.module.financial.bo.DisbursementVoucherPreConferenceDetail;
+import org.kuali.module.financial.bo.DisbursementVoucherPreConferenceRegistrant;
 import org.kuali.module.financial.bo.DisbursementVoucherWireTransfer;
 import org.kuali.module.financial.bo.DocumentationLocation;
 import org.kuali.module.financial.bo.Payee;
@@ -81,6 +82,12 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
      */
     public DisbursementVoucherDocument() {
         exceptionIndicator = false;
+        finDocNextRegistrantLineNbr = new Integer(1);
+        dvNonEmployeeTravel = new DisbursementVoucherNonEmployeeTravel();
+        dvNonResidentAlienTax = new DisbursementVoucherNonResidentAlienTax();
+        dvPayeeDetail = new DisbursementVoucherPayeeDetail();
+        dvPreConferenceDetail = new DisbursementVoucherPreConferenceDetail();
+        dvWireTransfer = new DisbursementVoucherWireTransfer();
     }
 
     /**
@@ -607,6 +614,16 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
      */
     public void setExceptionIndicator(boolean exceptionIndicator) {
         this.exceptionIndicator = exceptionIndicator;
+    }
+    
+    /**
+     * Adds a dv pre paid registran line
+     * @param line
+     */
+    public void addDvPrePaidRegistrantLine(DisbursementVoucherPreConferenceRegistrant line) {
+        line.setFinancialDocumentLineNumber(getFinDocNextRegistrantLineNbr());
+        this.getDvPreConferenceDetail().getDvPreConferenceRegistrants().add(line);
+        this.finDocNextRegistrantLineNbr = new Integer(getFinDocNextRegistrantLineNbr().intValue() + 1);
     }
     
     /**

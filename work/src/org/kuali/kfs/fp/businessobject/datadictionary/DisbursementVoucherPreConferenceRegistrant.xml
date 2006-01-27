@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+     "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../core/datadictionary/dataDictionary-1_0.dtd">
+
+<dictionaryEntry>
+	<businessObject businessObjectClass="org.kuali.module.financial.bo.DisbursementVoucherPreConferenceRegistrant">
+	
+        <customAttributeEnabled>false</customAttributeEnabled>
+	    
+	    <attributes>
+	    
+	        <attribute name="dvConferenceRegistrantName">
+	            <label>Name</label>
+	            <shortLabel>Nm</shortLabel>
+	            
+	            <maxLength>40</maxLength>
+	            
+	            <required>false</required>
+	            
+	            <control>
+	                <text size="40"/>
+	            </control>
+	            
+	            <summary>Conference Registrant Name</summary>
+	            <description>...</description>
+	        </attribute>
+	        
+	        <attribute name="disbVchrPreConfDepartmentCd">
+	            <label>Department Code</label>
+	            <shortLabel>Dep Cd</shortLabel>
+	            
+	            <maxLength>4</maxLength>
+	            
+	            <required>false</required>
+	            
+	            <control>
+	                <text size="4"/>
+	            </control>
+	            
+	            <summary>Conference Department Code</summary>
+	            <description>...</description>
+	        </attribute>
+	        
+	        <attribute name="dvPreConferenceRequestNumber">
+	            <label>Req/Instate</label>
+	            <shortLabel>Req/Instate</shortLabel>
+	            
+	            <maxLength>6</maxLength>
+	            
+	            <required>false</required>
+	            
+	            <control>
+	                <text size="6"/>
+	            </control>
+	            
+	            <summary>Conference Req/Instate</summary>
+	            <description>...</description>
+	        </attribute>
+	        
+	        <attribute name="disbVchrExpenseAmount">
+	            <label>Amount</label>
+	            <shortLabel>Amt</shortLabel>
+	            
+	            <maxLength>22</maxLength>
+	            
+	            <required>false</required>
+	            
+	            <control>
+	                <text size="9"/>
+	            </control>
+	            
+	            <summary>Expense Amount</summary>
+	            <description>...</description>
+	        </attribute>
+	        
+	        <attributeReference name="financialDocumentNumber" 
+					            sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
+					            sourceAttributeName="transactionEntrySequenceId" />
+	    </attributes>
+	</businessObject>
+</dictionaryEntry>

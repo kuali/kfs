@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../core/datadictionary/dataDictionary-1_0.dtd">
+<dictionaryEntry>
+	<businessObject businessObjectClass="org.kuali.module.financial.bo.TravelPerDiem">
+		<customAttributeEnabled>false</customAttributeEnabled>
+
+		<inquiry>
+			<title>Travel Per Diem Inquiry</title>
+
+			<inquiryFields>
+				<field attributeName="fiscalYear" />
+				<field attributeName="perDiemCountryName" />
+				<field attributeName="perDiemCountryText" />				
+			</inquiryFields>
+		</inquiry>
+
+		<lookup>
+			<title>Travel Per Diem Lookup</title>
+
+			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.financial.bo.TravelPerDiem">Create New</a>]]></menubar>
+
+			<instructions>Lookup a Travel Per Diem Category</instructions>
+
+			<defaultSort attributeName="perDiemCountryName" sortAscending="true" />
+
+			<lookupFields>
+				<lookupField attributeName="fiscalYear" required="false">
+				  <defaultValueFinderClass>org.kuali.core.lookup.valueFinder.FiscalYearFinder</defaultValueFinderClass>
+				</lookupField>
+				<lookupField attributeName="perDiemCountryName" required="false" />
+			</lookupFields>
+
+			<resultFields>
+				<field attributeName="fiscalYear" />
+				<field attributeName="perDiemCountryName" />
+				<field attributeName="perDiemCountryText" />
+			</resultFields>
+		</lookup>
+
+		<attributes>
+
+			<attribute name="fiscalYear" forceUppercase="false">
+				<label>Fiscal Year</label>
+				<shortLabel>Year</shortLabel>
+
+				<maxLength>4</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+				<control>
+					<text size="4" />
+				</control>
+
+				<summary>Fiscal Year</summary>
+				<description>...</description>
+			</attribute>
+			
+			<attribute name="perDiemCountryName" forceUppercase="false">
+                <label>Per Diem Category/Country Name</label>
+                <shortLabel>Name</shortLabel>
+
+                <maxLength>10</maxLength>
+
+                <control>
+                    <text size="10" />
+                </control>
+
+                <summary>Per Diem Category/Country Name</summary>
+                <description>...</description>
+            </attribute>
+            
+            <attribute name="perDiemCountryText" forceUppercase="false">
+                <label>Per Diem Category/Country URL</label>
+                <shortLabel>URL</shortLabel>
+
+                <maxLength>255</maxLength>
+
+                <control>
+                    <text size="75" />
+                </control>
+
+                <summary>Per Diem Category/Country URL</summary>
+                <description>...</description>
+            </attribute>
+
+		</attributes>
+	</businessObject>
+</dictionaryEntry>
+

@@ -23,6 +23,8 @@
 package org.kuali.module.financial.web.struts.form;
 
 import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
+import org.kuali.module.financial.bo.DisbursementVoucherNonEmployeeExpense;
+import org.kuali.module.financial.bo.DisbursementVoucherPreConferenceRegistrant;
 import org.kuali.module.financial.document.DisbursementVoucherDocument;
 
 /**
@@ -32,13 +34,15 @@ import org.kuali.module.financial.document.DisbursementVoucherDocument;
 public class DisbursementVoucherForm extends KualiTransactionalDocumentFormBase {
     private static final long serialVersionUID = 1L;
 
+    private DisbursementVoucherNonEmployeeExpense newNonEmployeeExpenseLine;
+    private DisbursementVoucherPreConferenceRegistrant newPreConferenceRegistrantLine;
+
     private String nraTaxLineNumbers;
 
     public DisbursementVoucherForm() {
         super();
         setDocument(new DisbursementVoucherDocument());
     }
-
 
     /**
      * @return Returns the nraTaxLineNumbers.
@@ -52,6 +56,34 @@ public class DisbursementVoucherForm extends KualiTransactionalDocumentFormBase 
      */
     public void setNraTaxLineNumbers(String nraTaxLineNumbers) {
         this.nraTaxLineNumbers = nraTaxLineNumbers;
+    }
+
+    /**
+     * @return Returns the newNonEmployeeExpenseLine.
+     */
+    public DisbursementVoucherNonEmployeeExpense getNewNonEmployeeExpenseLine() {
+        return newNonEmployeeExpenseLine;
+    }
+
+    /**
+     * @param newNonEmployeeExpenseLine The newNonEmployeeExpenseLine to set.
+     */
+    public void setNewNonEmployeeExpenseLine(DisbursementVoucherNonEmployeeExpense newNonEmployeeExpenseLine) {
+        this.newNonEmployeeExpenseLine = newNonEmployeeExpenseLine;
+    }
+
+    /**
+     * @return Returns the newPreConferenceRegistrantLine.
+     */
+    public DisbursementVoucherPreConferenceRegistrant getNewPreConferenceRegistrantLine() {
+        return newPreConferenceRegistrantLine;
+    }
+
+    /**
+     * @param newPreConferenceRegistrantLine The newPreConferenceRegistrantLine to set.
+     */
+    public void setNewPreConferenceRegistrantLine(DisbursementVoucherPreConferenceRegistrant newPreConferenceRegistrantLine) {
+        this.newPreConferenceRegistrantLine = newPreConferenceRegistrantLine;
     }
 }
 

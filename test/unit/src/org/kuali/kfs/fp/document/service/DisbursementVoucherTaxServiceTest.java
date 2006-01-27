@@ -175,6 +175,10 @@ public class DisbursementVoucherTaxServiceTest extends KualiTestBaseWithSpring {
         runGrossUpTest(new KualiDecimal(100), new KualiDecimal(14), new KualiDecimal(3.4));   
         runGrossUpTest(new KualiDecimal(50.55), new KualiDecimal(14), new KualiDecimal(3.4));   
         runGrossUpTest(new KualiDecimal(10), new KualiDecimal(14), new KualiDecimal(3.4));   
+        runGrossUpTest(new KualiDecimal(12.82), new KualiDecimal(14), new KualiDecimal(3.4)); 
+        runGrossUpTest(new KualiDecimal(12.83), new KualiDecimal(14), new KualiDecimal(3.4)); 
+        runGrossUpTest(new KualiDecimal(12.84), new KualiDecimal(14), new KualiDecimal(3.4)); 
+        runGrossUpTest(new KualiDecimal(8456234.23), new KualiDecimal(14), new KualiDecimal(3.4)); 
     }
     
     

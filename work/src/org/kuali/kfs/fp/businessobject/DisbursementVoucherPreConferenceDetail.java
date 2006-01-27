@@ -25,13 +25,13 @@
 
 package org.kuali.module.financial.bo;
 
-import java.sql.Timestamp;
+import java.sql.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.module.financial.document.DisbursementVoucherDocument;
+import org.kuali.core.util.TypedArrayList;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -40,18 +40,19 @@ public class DisbursementVoucherPreConferenceDetail extends BusinessObjectBase {
 
     private String financialDocumentNumber;
     private String dvConferenceDestinationName;
-    private Timestamp disbVchrConferenceStartDate;
-    private Timestamp disbVchrConferenceEndDate;
+    private Date disbVchrConferenceStartDate;
+    private Date disbVchrConferenceEndDate;
     private KualiDecimal disbVchrConferenceTotalAmt;
     private String disbVchrExpenseCode;
-    private DisbursementVoucherDocument financialDocument;
+
+    
     private List dvPreConferenceRegistrants;
 
     /**
      * Default no-arg constructor.
      */
     public DisbursementVoucherPreConferenceDetail() {
-
+       dvPreConferenceRegistrants = new TypedArrayList(DisbursementVoucherPreConferenceRegistrant.class);
     }
 
     /**
@@ -120,7 +121,7 @@ public class DisbursementVoucherPreConferenceDetail extends BusinessObjectBase {
      * @return - Returns the disbVchrConferenceStartDate
      * 
      */
-    public Timestamp getDisbVchrConferenceStartDate() {
+    public Date getDisbVchrConferenceStartDate() {
         return disbVchrConferenceStartDate;
     }
 
@@ -131,7 +132,7 @@ public class DisbursementVoucherPreConferenceDetail extends BusinessObjectBase {
      * @param - disbVchrConferenceStartDate The disbVchrConferenceStartDate to set.
      * 
      */
-    public void setDisbVchrConferenceStartDate(Timestamp disbVchrConferenceStartDate) {
+    public void setDisbVchrConferenceStartDate(Date disbVchrConferenceStartDate) {
         this.disbVchrConferenceStartDate = disbVchrConferenceStartDate;
     }
 
@@ -141,7 +142,7 @@ public class DisbursementVoucherPreConferenceDetail extends BusinessObjectBase {
      * @return - Returns the disbVchrConferenceEndDate
      * 
      */
-    public Timestamp getDisbVchrConferenceEndDate() {
+    public Date getDisbVchrConferenceEndDate() {
         return disbVchrConferenceEndDate;
     }
 
@@ -152,7 +153,7 @@ public class DisbursementVoucherPreConferenceDetail extends BusinessObjectBase {
      * @param - disbVchrConferenceEndDate The disbVchrConferenceEndDate to set.
      * 
      */
-    public void setDisbVchrConferenceEndDate(Timestamp disbVchrConferenceEndDate) {
+    public void setDisbVchrConferenceEndDate(Date disbVchrConferenceEndDate) {
         this.disbVchrConferenceEndDate = disbVchrConferenceEndDate;
     }
 
@@ -196,27 +197,6 @@ public class DisbursementVoucherPreConferenceDetail extends BusinessObjectBase {
      */
     public void setDisbVchrExpenseCode(String disbVchrExpenseCode) {
         this.disbVchrExpenseCode = disbVchrExpenseCode;
-    }
-
-    /**
-     * Gets the financialDocument attribute.
-     * 
-     * @return - Returns the financialDocument
-     * 
-     */
-    public DisbursementVoucherDocument getFinancialDocument() {
-        return financialDocument;
-    }
-
-
-    /**
-     * Sets the financialDocument attribute.
-     * 
-     * @param - financialDocument The financialDocument to set.
-     * @deprecated
-     */
-    public void setFinancialDocument(DisbursementVoucherDocument financialDocument) {
-        this.financialDocument = financialDocument;
     }
 
     /**

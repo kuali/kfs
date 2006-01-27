@@ -1,8 +1,9 @@
 <%@ include file="/jsp/core/tldHeader.jsp" %>
+<%@ taglib tagdir="/WEB-INF/tags/dv" prefix="dv" %>
 
 <kul:documentPage showDocumentInfo="true" htmlFormAction="financialDisbursementVoucher" documentTypeName="KualiDisbursementVoucherDocument"  renderMultipart="true" showTabButtons="true">
 
-        <kul:dvMessages/>
+        <dv:dvMessages/>
 		
 		<html:hidden property="document.nextSourceLineNumber"/>
         
@@ -29,21 +30,25 @@
 
         <kul:documentOverview editingMode="${KualiForm.editingMode}"/>
         
-        <kul:dvPayee/>
+        <dv:dvPayee/>
         
-        <kul:dvSpecialHandling/>
+        <dv:dvSpecialHandling/>
         
-        <kul:dvPayment/>
+        <dv:dvPayment/>
 
         <fin:accountingLines sourceAccountingLinesOnly="true" editingMode="${KualiForm.editingMode}" editableAccounts="${KualiForm.editableAccounts}" editableFields="${KualiForm.accountingLineEditableFields}"/>
 	    
-	    <kul:dvContact/>
+	    <dv:dvContact/>
 	    
-	    <kul:dvNRATax/>
+	    <dv:dvNRATax/>
 	    
-	    <kul:dvWireTransfer/>
+	    <dv:dvWireTransfer/>
 	    
-	    <kul:dvForeignDraft/>
+	    <dv:dvForeignDraft/>
+	    
+	    <dv:dvNonEmployeeTravel/>
+	    
+	    <dv:dvPrePaidTravel/>	    
 		
 		<kul:generalLedgerPendingEntries/>
 

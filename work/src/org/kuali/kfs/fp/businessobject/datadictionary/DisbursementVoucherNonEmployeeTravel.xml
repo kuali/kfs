@@ -1,0 +1,494 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+     "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../core/datadictionary/dataDictionary-1_0.dtd">
+
+<dictionaryEntry>
+	<businessObject businessObjectClass="org.kuali.module.financial.bo.DisbursementVoucherNonEmployeeTravel">
+	
+        <customAttributeEnabled>false</customAttributeEnabled>
+	    
+	    <attributes>
+	    
+	        <attribute name="disbVchrNonEmpTravelerName">
+	            <label>Name</label>
+	            <shortLabel>Nm</shortLabel>
+	            
+	            <maxLength>40</maxLength>
+	            
+	            <required>false</required>
+	            
+	            <control>
+	                <text size="40"/>
+	            </control>
+	            
+	            <summary>Traveler Name</summary>
+	            <description>...</description>
+	        </attribute>
+	        
+	        <attribute name="disbVchrServicePerformedDesc">
+	            <label>Service Performed</label>
+	            <shortLabel>Service</shortLabel>
+	            
+	            <maxLength>50</maxLength>
+	            
+	            <required>false</required>
+	            
+	            <control>
+	                <text size="50"/>
+	            </control>
+	            
+	            <summary>Service Performed</summary>
+	            <description>...</description>
+	        </attribute>
+	        
+	        <attribute name="dvServicePerformedLocName">
+	            <label>Place of Performance</label>
+	            <shortLabel>Place</shortLabel>
+	            
+	            <maxLength>40</maxLength>
+	            
+	            <required>false</required>
+	            
+	            <control>
+	                <text size="40"/>
+	            </control>
+	            
+	            <summary>Place of Performance</summary>
+	            <description>...</description>
+	        </attribute>
+	        
+	        <attribute name="dvServiceRegularEmprName">
+	            <label>Regular Employer</label>
+	            <shortLabel>Employer</shortLabel>
+	            
+	            <maxLength>40</maxLength>
+	            
+	            <required>false</required>
+	            
+	            <control>
+	                <text size="40"/>
+	            </control>
+	            
+	            <summary>Regular Employer</summary>
+	            <description>...</description>
+	        </attribute>
+	        
+	        <attribute name="disbVchrTravelFromCityName">
+	            <label>City</label>
+	            <shortLabel>City</shortLabel>
+	            
+	            <maxLength>40</maxLength>
+	            
+	            <required>false</required>
+	            
+	            <control>
+	                <text size="40"/>
+	            </control>
+	            
+	            <summary>Travel From City</summary>
+	            <description>...</description>
+	        </attribute>
+
+	        <attribute name="disbVchrTravelFromStateCode">
+	            <label>State</label>
+	            <shortLabel>St</shortLabel>
+	            
+	            <maxLength>2</maxLength>
+	            
+	            <required>false</required>
+	            
+	            <control>
+	                <text size="2"/>
+	            </control>
+	            
+	            <summary>Travel From State</summary>
+	            <description>...</description>
+	        </attribute>
+	        
+	        <attribute name="dvTravelFromCountryName">
+	            <label>Country</label>
+	            <shortLabel>Country</shortLabel>
+	            
+	            <maxLength>10</maxLength>
+	            
+	            <required>false</required>
+	            
+	            <control>
+	                <select valuesFinderClass="org.kuali.core.lookup.keyvalues.CountryValuesFinder"/>
+	            </control>
+	            
+	            <summary>Travel From Country</summary>
+	            <description>...</description>
+	        </attribute>
+	        
+	        <attribute name="disbVchrTravelStartDate">
+	            <label>Date</label>
+	            <shortLabel>Dt</shortLabel>
+	            
+	            <maxLength>11</maxLength>
+	            
+	            <required>false</required>
+	            
+	            <control>
+	                <text size="10"/>
+	            </control>
+	            
+	            <summary>Travel Start Date</summary>
+	            <description>...</description>
+	        </attribute>
+	        
+	        <attribute name="disbVchrTravelStartTime">
+	            <label>Time</label>
+	            <shortLabel>Time</shortLabel>
+	            
+	            <maxLength>5</maxLength>
+	            
+	            <required>false</required>
+	            
+	            <control>
+	                <text size="5"/>
+	            </control>
+	            
+	            <summary>Travel Start Time</summary>
+	            <description>...</description>
+	        </attribute>
+	        
+	        <attribute name="disbVchrTravelStartPM">
+	            <label>AM/PM</label>
+	            <shortLabel>AM/PM</shortLabel>
+	            
+	            <maxLength>1</maxLength>
+	            
+	            <required>false</required>
+	            
+	            <control>
+	                <select valuesFinderClass="org.kuali.core.lookup.keyvalues.AMPMValuesFinder"/>
+	            </control>
+	            
+	            <summary>Travel Time AM/PM</summary>
+	            <description>...</description>
+	        </attribute>
+	        
+	        <attribute name="disbVchrTravelToCityName">
+	            <label>City</label>
+	            <shortLabel>City</shortLabel>
+	            
+	            <maxLength>40</maxLength>
+	            
+	            <required>false</required>
+	            
+	            <control>
+	                <text size="40"/>
+	            </control>
+	            
+	            <summary>Travel From City</summary>
+	            <description>...</description>
+	        </attribute>
+
+	        <attribute name="disbVchrTravelToStateCode">
+	            <label>State</label>
+	            <shortLabel>St</shortLabel>
+	            
+	            <maxLength>2</maxLength>
+	            
+	            <required>false</required>
+	            
+	            <control>
+	                <text size="2"/>
+	            </control>
+	            
+	            <summary>Travel From State</summary>
+	            <description>...</description>
+	        </attribute>
+	        
+	        <attribute name="disbVchrTravelToCountryName">
+	            <label>Country</label>
+	            <shortLabel>Country</shortLabel>
+	            
+	            <maxLength>10</maxLength>
+	            
+	            <required>false</required>
+	            
+	            <control>
+	                <select valuesFinderClass="org.kuali.core.lookup.keyvalues.CountryValuesFinder"/>
+	            </control>
+	            
+	            <summary>Travel From Country</summary>
+	            <description>...</description>
+	        </attribute>
+	        
+	        <attribute name="disbVchrTravelEndDate">
+	            <label>Date</label>
+	            <shortLabel>Dt</shortLabel>
+	            
+	            <maxLength>11</maxLength>
+	            
+	            <required>false</required>
+	            
+	            <control>
+	                <text size="10"/>
+	            </control>
+	            
+	            <summary>Travel Start Date</summary>
+	            <description>...</description>
+	        </attribute>
+	        
+	        <attribute name="disbVchrTravelEndTime">
+	            <label>Time</label>
+	            <shortLabel>Time</shortLabel>
+	            
+	            <maxLength>5</maxLength>
+	            
+	            <required>false</required>
+	            
+	            <control>
+	                <text size="5"/>
+	            </control>
+	            
+	            <summary>Travel Start Time</summary>
+	            <description>...</description>
+	        </attribute>
+	        
+	        <attribute name="disbVchrTravelEndPM">
+	            <label>AM/PM</label>
+	            <shortLabel>AM/PM</shortLabel>
+	            
+	            <maxLength>1</maxLength>
+	            
+	            <required>false</required>
+	            
+	            <control>
+	                <select valuesFinderClass="org.kuali.core.lookup.keyvalues.AMPMValuesFinder"/>
+	            </control>
+	            
+	            <summary>Travel Time AM/PM</summary>
+	            <description>...</description>
+	        </attribute>	        
+	        
+	        <attribute name="disbVchrPerdiemCategoryName">
+	            <label>Category</label>
+	            <shortLabel>Category</shortLabel>
+	            
+	            <maxLength>10</maxLength>
+	            
+	            <required>false</required>
+	            
+	            <control>
+	                <select valuesFinderClass="org.kuali.core.lookup.keyvalues.TravelPerDiemCategoryValuesFinder"/>
+	            </control>
+	            
+	            <summary>Per Diem Category</summary>
+	            <description>...</description>
+	        </attribute>
+	        
+	        <attribute name="disbVchrPerdiemRate">
+	            <label>Rate</label>
+	            <shortLabel>Rate</shortLabel>
+	            
+	            <maxLength>22</maxLength>
+	            
+	            <required>false</required>
+	            
+	            <control>
+	                <text size="6"/>
+	            </control>
+	            
+	            <summary>Per Diem Rate</summary>
+	            <description>...</description>
+	        </attribute>
+	        
+	        <attribute name="disbVchrPerdiemCalculatedAmt">
+	            <label>Calculated Amount</label>
+	            <shortLabel>Calc Amt</shortLabel>
+	            
+	            <maxLength>22</maxLength>
+	            
+	            <required>false</required>
+	            
+	            <control>
+	                <text size="9"/>
+	            </control>
+	            
+	            <summary>Per Diem Calculated Amount</summary>
+	            <description>...</description>
+	        </attribute>
+	        
+	        <attribute name="disbVchrPerdiemActualAmount">
+	            <label>Actual Amount</label>
+	            <shortLabel>Act Amt</shortLabel>
+	            
+	            <maxLength>22</maxLength>
+	            
+	            <required>false</required>
+	            
+	            <control>
+	                <text size="9"/>
+	            </control>
+	            
+	            <summary>Per Diem Actual Amount</summary>
+	            <description>...</description>
+	        </attribute>	        
+	        
+	        <attribute name="dvPerdiemChangeReasonText">
+	            <label>Justification for change</label>
+	            <shortLabel>Justification</shortLabel>
+	            
+	            <maxLength>200</maxLength>
+	            
+	            <required>false</required>
+	            
+	            <control>
+	                <textarea rows="3" cols="30"/>
+	            </control>
+	            
+	            <summary>Justification for per diem amount change</summary>
+	            <description>...</description>
+	        </attribute>
+	        
+	        <attribute name="disbVchrAutoFromCityName">
+	            <label>From (City/State)</label>
+	            <shortLabel>From</shortLabel>
+	            
+	            <maxLength>40</maxLength>
+	            
+	            <required>false</required>
+	            
+	            <control>
+	                <text size="40"/>
+	            </control>
+	            
+	            <summary>Travel From City</summary>
+	            <description>...</description>
+	        </attribute>
+	        
+	        <attribute name="disbVchrAutoFromStateCode">
+	            <label>From (City/State)</label>
+	            <shortLabel>St</shortLabel>
+	            
+	            <maxLength>2</maxLength>
+	            
+	            <required>false</required>
+	            
+	            <control>
+	                <text size="2"/>
+	            </control>
+	            
+	            <summary>Travel From State</summary>
+	            <description>...</description>
+	        </attribute>
+	        
+	        <attribute name="disbVchrAutoToCityName">
+	            <label>To (City/State)</label>
+	            <shortLabel>To</shortLabel>
+	            
+	            <maxLength>40</maxLength>
+	            
+	            <required>false</required>
+	            
+	            <control>
+	                <text size="40"/>
+	            </control>
+	            
+	            <summary>Travel To City</summary>
+	            <description>...</description>
+	        </attribute>
+	        
+	        <attribute name="disbVchrAutoToStateCode">
+	            <label>To (City/State)</label>
+	            <shortLabel>St</shortLabel>
+	            
+	            <maxLength>2</maxLength>
+	            
+	            <required>false</required>
+	            
+	            <control>
+	                <text size="2"/>
+	            </control>
+	            
+	            <summary>Travel To State</summary>
+	            <description>...</description>
+	        </attribute>
+	        
+	        <attribute name="disbVchrAutoRoundTripCode">
+	            <label>Round Trip</label>
+	            <shortLabel>Round Trip</shortLabel>
+	            
+	            <maxLength>1</maxLength>
+	            
+	            <required>false</required>
+	            
+	            <control>
+	                <checkbox/>
+	            </control>
+	            
+	            <summary>Round trip Indicator</summary>
+	            <description>...</description>
+	        </attribute>
+	        
+	        <attribute name="dvPersonalCarMileageAmount">
+	            <label>Mileage Amount</label>
+	            <shortLabel>Mileage</shortLabel>
+	            
+	            <maxLength>7</maxLength>
+	            
+	            <required>false</required>
+	            
+	            <control>
+	                <text size="7"/>
+	            </control>
+	            
+	            <summary>Auto Mileage Amount</summary>
+	            <description>...</description>
+	        </attribute>
+	        
+	        <attribute name="disbVchrMileageCalculatedAmt">
+	            <label>Calculated Amount</label>
+	            <shortLabel>Calc Amt</shortLabel>
+	            
+	            <maxLength>22</maxLength>
+	            
+	            <required>false</required>
+	            
+	            <control>
+	                <text size="9"/>
+	            </control>
+	            
+	            <summary>Calculated Mileage Amount</summary>
+	            <description>...</description>
+	        </attribute>
+	        
+	        <attribute name="disbVchrPersonalCarAmount">
+	            <label>Actual Amount</label>
+	            <shortLabel>Act Amount</shortLabel>
+	            
+	            <maxLength>22</maxLength>
+	            
+	            <required>false</required>
+	            
+	            <control>
+	                <text size="9"/>
+	            </control>
+	            
+	            <summary>Mileage Amount</summary>
+	            <description>...</description>
+	        </attribute>	        	        	        	        	        	        	        	        	        
+
+	        <attribute name="totalTravelAmount">
+	            <label>Grand Total</label>
+	            <shortLabel>Total</shortLabel>
+	            
+	            <maxLength>22</maxLength>
+	            
+	            <required>false</required>
+	            
+	            <control>
+	                <text size="9"/>
+	            </control>
+	            
+	            <summary>Total Travel Amount</summary>
+	            <description>...</description>
+	        </attribute>
+	    </attributes>
+	</businessObject>
+</dictionaryEntry>

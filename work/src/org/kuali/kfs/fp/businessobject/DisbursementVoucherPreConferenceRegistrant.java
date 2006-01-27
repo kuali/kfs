@@ -35,175 +35,155 @@ import org.kuali.core.util.KualiDecimal;
  */
 public class DisbursementVoucherPreConferenceRegistrant extends BusinessObjectBase {
 
-	private String financialDocumentNumber;
-	private Integer financialDocumentLineNumber;
-	private String disbVchrPreConfDepartmentCd;
-	private String dvConferenceRegistrantName;
-	private String dvPreConferenceRequestNumber;
-	private KualiDecimal disbVchrExpenseAmount;
-	private DisbursementVoucherPreConferenceDetail financialDocument;
+    private String financialDocumentNumber;
+    private Integer financialDocumentLineNumber;
+    private String disbVchrPreConfDepartmentCd;
+    private String dvConferenceRegistrantName;
+    private String dvPreConferenceRequestNumber;
+    private KualiDecimal disbVchrExpenseAmount;
 
-	/**
-	 * Default no-arg constructor.
-	 */
-	public DisbursementVoucherPreConferenceRegistrant() {
+    /**
+     * Default no-arg constructor.
+     */
+    public DisbursementVoucherPreConferenceRegistrant() {
 
-	}
+    }
 
-	/**
-	 * Gets the financialDocumentNumber attribute.
-	 * 
-	 * @return - Returns the financialDocumentNumber
-	 * 
-	 */
-	public String getFinancialDocumentNumber() { 
-		return financialDocumentNumber;
-	}
-	
+    /**
+     * Gets the financialDocumentNumber attribute.
+     * 
+     * @return - Returns the financialDocumentNumber
+     *  
+     */
+    public String getFinancialDocumentNumber() {
+        return financialDocumentNumber;
+    }
 
-	/**
-	 * Sets the financialDocumentNumber attribute.
-	 * 
-	 * @param - financialDocumentNumber The financialDocumentNumber to set.
-	 * 
-	 */
-	public void setFinancialDocumentNumber(String financialDocumentNumber) {
-		this.financialDocumentNumber = financialDocumentNumber;
-	}
 
-	/**
-	 * Gets the financialDocumentLineNumber attribute.
-	 * 
-	 * @return - Returns the financialDocumentLineNumber
-	 * 
-	 */
-	public Integer getFinancialDocumentLineNumber() { 
-		return financialDocumentLineNumber;
-	}
-	
+    /**
+     * Sets the financialDocumentNumber attribute.
+     * 
+     * @param - financialDocumentNumber The financialDocumentNumber to set.
+     *  
+     */
+    public void setFinancialDocumentNumber(String financialDocumentNumber) {
+        this.financialDocumentNumber = financialDocumentNumber;
+    }
 
-	/**
-	 * Sets the financialDocumentLineNumber attribute.
-	 * 
-	 * @param - financialDocumentLineNumber The financialDocumentLineNumber to set.
-	 * 
-	 */
-	public void setFinancialDocumentLineNumber(Integer financialDocumentLineNumber) {
-		this.financialDocumentLineNumber = financialDocumentLineNumber;
-	}
+    /**
+     * Gets the financialDocumentLineNumber attribute.
+     * 
+     * @return - Returns the financialDocumentLineNumber
+     *  
+     */
+    public Integer getFinancialDocumentLineNumber() {
+        return financialDocumentLineNumber;
+    }
 
-	/**
-	 * Gets the disbVchrPreConfDepartmentCd attribute.
-	 * 
-	 * @return - Returns the disbVchrPreConfDepartmentCd
-	 * 
-	 */
-	public String getDisbVchrPreConfDepartmentCd() { 
-		return disbVchrPreConfDepartmentCd;
-	}
-	
 
-	/**
-	 * Sets the disbVchrPreConfDepartmentCd attribute.
-	 * 
-	 * @param - disbVchrPreConfDepartmentCd The disbVchrPreConfDepartmentCd to set.
-	 * 
-	 */
-	public void setDisbVchrPreConfDepartmentCd(String disbVchrPreConfDepartmentCd) {
-		this.disbVchrPreConfDepartmentCd = disbVchrPreConfDepartmentCd;
-	}
+    /**
+     * Sets the financialDocumentLineNumber attribute.
+     * 
+     * @param - financialDocumentLineNumber The financialDocumentLineNumber to set.
+     *  
+     */
+    public void setFinancialDocumentLineNumber(Integer financialDocumentLineNumber) {
+        this.financialDocumentLineNumber = financialDocumentLineNumber;
+    }
 
-	/**
-	 * Gets the dvConferenceRegistrantName attribute.
-	 * 
-	 * @return - Returns the dvConferenceRegistrantName
-	 * 
-	 */
-	public String getDvConferenceRegistrantName() { 
-		return dvConferenceRegistrantName;
-	}
-	
+    /**
+     * Gets the disbVchrPreConfDepartmentCd attribute.
+     * 
+     * @return - Returns the disbVchrPreConfDepartmentCd
+     *  
+     */
+    public String getDisbVchrPreConfDepartmentCd() {
+        return disbVchrPreConfDepartmentCd;
+    }
 
-	/**
-	 * Sets the dvConferenceRegistrantName attribute.
-	 * 
-	 * @param - dvConferenceRegistrantName The dvConferenceRegistrantName to set.
-	 * 
-	 */
-	public void setDvConferenceRegistrantName(String dvConferenceRegistrantName) {
-		this.dvConferenceRegistrantName = dvConferenceRegistrantName;
-	}
 
-	/**
-	 * Gets the dvPreConferenceRequestNumber attribute.
-	 * 
-	 * @return - Returns the dvPreConferenceRequestNumber
-	 * 
-	 */
-	public String getDvPreConferenceRequestNumber() { 
-		return dvPreConferenceRequestNumber;
-	}
-	
+    /**
+     * Sets the disbVchrPreConfDepartmentCd attribute.
+     * 
+     * @param - disbVchrPreConfDepartmentCd The disbVchrPreConfDepartmentCd to set.
+     *  
+     */
+    public void setDisbVchrPreConfDepartmentCd(String disbVchrPreConfDepartmentCd) {
+        this.disbVchrPreConfDepartmentCd = disbVchrPreConfDepartmentCd;
+    }
 
-	/**
-	 * Sets the dvPreConferenceRequestNumber attribute.
-	 * 
-	 * @param - dvPreConferenceRequestNumber The dvPreConferenceRequestNumber to set.
-	 * 
-	 */
-	public void setDvPreConferenceRequestNumber(String dvPreConferenceRequestNumber) {
-		this.dvPreConferenceRequestNumber = dvPreConferenceRequestNumber;
-	}
+    /**
+     * Gets the dvConferenceRegistrantName attribute.
+     * 
+     * @return - Returns the dvConferenceRegistrantName
+     *  
+     */
+    public String getDvConferenceRegistrantName() {
+        return dvConferenceRegistrantName;
+    }
 
-	/**
-	 * Gets the disbVchrExpenseAmount attribute.
-	 * 
-	 * @return - Returns the disbVchrExpenseAmount
-	 * 
-	 */
-	public KualiDecimal getDisbVchrExpenseAmount() { 
-		return disbVchrExpenseAmount;
-	}
-	
 
-	/**
-	 * Sets the disbVchrExpenseAmount attribute.
-	 * 
-	 * @param - disbVchrExpenseAmount The disbVchrExpenseAmount to set.
-	 * 
-	 */
-	public void setDisbVchrExpenseAmount(KualiDecimal disbVchrExpenseAmount) {
-		this.disbVchrExpenseAmount = disbVchrExpenseAmount;
-	}
+    /**
+     * Sets the dvConferenceRegistrantName attribute.
+     * 
+     * @param - dvConferenceRegistrantName The dvConferenceRegistrantName to set.
+     *  
+     */
+    public void setDvConferenceRegistrantName(String dvConferenceRegistrantName) {
+        this.dvConferenceRegistrantName = dvConferenceRegistrantName;
+    }
 
-	/**
-	 * Gets the financialDocument attribute.
-	 * 
-	 * @return - Returns the financialDocument
-	 * 
-	 */
-	public DisbursementVoucherPreConferenceDetail getFinancialDocument() { 
-		return financialDocument;
-	}
-	
+    /**
+     * Gets the dvPreConferenceRequestNumber attribute.
+     * 
+     * @return - Returns the dvPreConferenceRequestNumber
+     *  
+     */
+    public String getDvPreConferenceRequestNumber() {
+        return dvPreConferenceRequestNumber;
+    }
 
-	/**
-	 * Sets the financialDocument attribute.
-	 * 
-	 * @param - financialDocument The financialDocument to set.
-	 * @deprecated
-	 */
-	public void setFinancialDocument(DisbursementVoucherPreConferenceDetail financialDocument) {
-		this.financialDocument = financialDocument;
-	}
 
-	/**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();
-          m.put("financialDocumentNumber", this.financialDocumentNumber);
+    /**
+     * Sets the dvPreConferenceRequestNumber attribute.
+     * 
+     * @param - dvPreConferenceRequestNumber The dvPreConferenceRequestNumber to set.
+     *  
+     */
+    public void setDvPreConferenceRequestNumber(String dvPreConferenceRequestNumber) {
+        this.dvPreConferenceRequestNumber = dvPreConferenceRequestNumber;
+    }
+
+    /**
+     * Gets the disbVchrExpenseAmount attribute.
+     * 
+     * @return - Returns the disbVchrExpenseAmount
+     *  
+     */
+    public KualiDecimal getDisbVchrExpenseAmount() {
+        return disbVchrExpenseAmount;
+    }
+
+
+    /**
+     * Sets the disbVchrExpenseAmount attribute.
+     * 
+     * @param - disbVchrExpenseAmount The disbVchrExpenseAmount to set.
+     *  
+     */
+    public void setDisbVchrExpenseAmount(KualiDecimal disbVchrExpenseAmount) {
+        this.disbVchrExpenseAmount = disbVchrExpenseAmount;
+    }
+
+    /**
+     * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
+        m.put("financialDocumentNumber", this.financialDocumentNumber);
+        if (financialDocumentLineNumber != null) {
             m.put("financialDocumentLineNumber", this.financialDocumentLineNumber.toString());
-  	    return m;
-	}
+        }
+        return m;
+    }
 }

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+
+<dictionaryEntry>
+	<maintenanceDocument>
+        <businessObjectClass>org.kuali.module.financial.bo.TravelPerDiem</businessObjectClass>
+        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+
+        <documentAuthorizerClass>org.kuali.core.document.DocumentAuthorizerBase</documentAuthorizerClass>
+        <authorizations>
+            <authorization action="initiate">
+                <workgroups>
+                    <workgroup>kualiUniversalGroup</workgroup>
+                </workgroups>
+            </authorization>
+        </authorizations>
+
+		<documentTypeName>KualiTravelPerDiemMaintenanceDocument</documentTypeName>
+		<documentTypeCode>TPD</documentTypeCode>
+
+		<label>Travel Per Diem Maintenance Document</label>
+		<shortLabel>Per Diem Maint Doc</shortLabel>
+		
+		<summary>Travel Per Diem Maintenance Document</summary>
+		<description>Document used to create or update Travel Per Diem objects</description>
+
+        <lockingKeys>
+			<field attributeName="fiscalYear" />
+			<field attributeName="perDiemCountryName" />
+		</lockingKeys>            
+
+	    <maintainableSections>
+	        <maintainableSection title="Edit Travel Per Diem Category">
+	        	<maintainableItems>
+	            	<maintainableField name="fiscalYear" required="true" />
+	            	<maintainableField name="perDiemCountryName" required="true" />
+	            	<maintainableField name="perDiemCountryText" required="false" />
+	            </maintainableItems>          	                   
+	        </maintainableSection>
+	    </maintainableSections>
+	</maintenanceDocument>
+</dictionaryEntry>

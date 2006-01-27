@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+     "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../core/datadictionary/dataDictionary-1_0.dtd">
+
+<dictionaryEntry>
+	<businessObject businessObjectClass="org.kuali.module.financial.bo.DisbursementVoucherPreConferenceDetail">
+	
+        <customAttributeEnabled>false</customAttributeEnabled>
+	    
+	    <attributes>
+	    
+	        <attribute name="dvConferenceDestinationName">
+	            <label>Location</label>
+	            <shortLabel>Loc</shortLabel>
+	            
+	            <maxLength>40</maxLength>
+	            
+	            <required>false</required>
+	            
+	            <control>
+	                <text size="40"/>
+	            </control>
+	            
+	            <summary>Pre Conference Location</summary>
+	            <description>...</description>
+	        </attribute>
+	        
+	        <attribute name="disbVchrExpenseCode">
+	            <label>Type</label>
+	            <shortLabel>Typ</shortLabel>
+	            
+	            <maxLength>2</maxLength>
+	            
+	            <required>false</required>
+	            
+	            <control>
+	                <select valuesFinderClass="org.kuali.core.lookup.keyvalues.TravelExpenseTypeValuesFinder"/>
+	            </control>
+	            
+	            <summary>Expense Type Code</summary>
+	            <description>...</description>
+	        </attribute>
+	        
+	        <attribute name="disbVchrConferenceStartDate">
+	            <label>Start Date</label>
+	            <shortLabel>Start Dt</shortLabel>
+	            
+	            <maxLength>11</maxLength>
+	            
+	            <required>false</required>
+	            
+	            <control>
+	                <text size="10"/>
+	            </control>
+	            
+	            <summary>Conference Start Date</summary>
+	            <description>...</description>
+	        </attribute>
+	        
+	        <attribute name="disbVchrConferenceEndDate">
+	            <label>End Date</label>
+	            <shortLabel>End Dt</shortLabel>
+	            
+	            <maxLength>11</maxLength>
+	            
+	            <required>false</required>
+	            
+	            <control>
+	                <text size="10"/>
+	            </control>
+	            
+	            <summary>Conference End Date</summary>
+	            <description>...</description>
+	        </attribute>	        
+	        
+	        <attribute name="disbVchrConferenceTotalAmt">
+	            <label>Grand Total</label>
+	            <shortLabel>Total</shortLabel>
+	            
+	            <maxLength>22</maxLength>
+	            
+	            <required>false</required>
+	            
+	            <control>
+	                <text size="9"/>
+	            </control>
+	            
+	            <summary>Conference Total Amount</summary>
+	            <description>...</description>
+	        </attribute>
+	    </attributes>
+	</businessObject>
+</dictionaryEntry>

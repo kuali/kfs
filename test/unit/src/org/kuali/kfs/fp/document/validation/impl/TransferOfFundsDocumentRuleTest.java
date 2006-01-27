@@ -511,7 +511,7 @@ public class TransferOfFundsDocumentRuleTest
     // Test Methods Start Here                                               //
     ///////////////////////////////////////////////////////////////////////////
 
-    private AccountingLine createLineFromFixture(String accountingLineFixtureName) {
+    protected AccountingLine createLineFromFixture(String accountingLineFixtureName) {
         AccountingLine retval = (AccountingLine)getFixtureEntry(accountingLineFixtureName).createObject();
         retval.refresh();
         return retval;

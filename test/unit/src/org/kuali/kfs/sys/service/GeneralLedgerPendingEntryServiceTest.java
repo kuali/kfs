@@ -106,6 +106,7 @@ public class GeneralLedgerPendingEntryServiceTest extends KualiTestBaseWithSprin
     private GeneralLedgerPendingEntry createGeneralLedgerPendingEntry() {
         GeneralLedgerPendingEntry generalLedgerPendingEntry = new GeneralLedgerPendingEntry();
 
+        generalLedgerPendingEntry.setFinancialSystemOriginationCode("01");
         generalLedgerPendingEntry.setFinancialDocumentNumber(docHeaderId);
         generalLedgerPendingEntry.setChartOfAccountsCode("BA");
         generalLedgerPendingEntry.setFinancialObjectCode("1130");

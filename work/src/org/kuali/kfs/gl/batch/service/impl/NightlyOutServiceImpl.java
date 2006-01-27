@@ -126,7 +126,7 @@ public class NightlyOutServiceImpl implements NightlyOutService {
         originEntry.setOrganizationDocumentNumber(pendingEntry
                 .getOrganizationDocumentNumber());
         originEntry.setOrganizationReferenceId(pendingEntry.getOrganizationReferenceId());
-        originEntry.setFinancialSystemOriginationCode(pendingEntry.getOriginCode());
+        originEntry.setFinancialSystemOriginationCode(pendingEntry.getFinancialSystemOriginationCode());
         originEntry.setProjectCode(pendingEntry.getProjectCode());
         originEntry.setFinancialDocumentReferenceNbr(pendingEntry
                 .getFinancialDocumentReferenceNbr());

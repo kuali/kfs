@@ -94,7 +94,7 @@
           	<forward name="basic" path="/jsp/core/KualiInquiry.jsp" />
         </action>
 
-        <action path="/maintenance" name="KualiMaintenanceForm" attribute="KualiForm" scope="request" parameter="methodToCall" validate="true" input="/jsp/core/KualiMaintenanceDocument.jsp" type="org.kuali.core.web.struts.action.KualiMaintenanceDocumentAction">
+        <action path="/maintenance" name="KualiMaintenanceForm" attribute="KualiForm" scope="request" parameter="methodToCall" validate="false" input="/jsp/core/KualiMaintenanceDocument.jsp" type="org.kuali.core.web.struts.action.KualiMaintenanceDocumentAction">
           	<forward name="basic" path="/jsp/core/KualiMaintenanceDocument.jsp" />
         </action>
         

@@ -616,7 +616,7 @@ public class JournalVoucherAction extends KualiTransactionalDocumentActionBase {
                 }
             }
             // add the populated helper form object to the list
-            journalLineHelpers.add(jvAcctLineHelperForm);
+            journalLineHelpers.set(i, jvAcctLineHelperForm);
         }
     }
 

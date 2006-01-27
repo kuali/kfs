@@ -88,12 +88,15 @@ public class JournalVoucherForm extends KualiTransactionalDocumentFormBase {
     public void populate(HttpServletRequest request) {
         super.populate(request);
 
-        // populate the drop downs
-        populateAccountingPeriodListForRendering();
-        populateBalanceTypeListForRendering();
-        
-        // make sure the amount fields are populate appropriately when in debit/credit amount mode
-        populateCreditAndDebitAmounts();
+        // we don't want to do all of this if we are just reloading the document
+        if(!getMethodToCall().equals(Constants.RELOAD_METHOD_TO_CALL)) {
+            // populate the drop downs
+            populateAccountingPeriodListForRendering();
+            populateBalanceTypeListForRendering();
+            
+            // make sure the amount fields are populate appropriately when in debit/credit amount mode
+            populateCreditAndDebitAmounts();
+        }
     }
 
     /**

@@ -88,7 +88,7 @@ public class OriginEntryServiceImpl implements OriginEntryService {
 
     OriginEntryGroup oeg = new OriginEntryGroup();
     oeg.setDate(new java.sql.Date(date.getTime()));
-    oeg.setProcessed(new Boolean(processed));
+    oeg.setProcess(new Boolean(processed));
     oeg.setScrub(new Boolean(scrub));
     oeg.setSourceCode(sourceCode);
     oeg.setValid(new Boolean(valid));

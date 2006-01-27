@@ -37,7 +37,7 @@ import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 /**
  * @author jsissom
- * @version $Id: OriginEntryDaoOjb.java,v 1.2 2006-01-16 16:47:35 jsissom Exp $
+ * @version $Id: OriginEntryDaoOjb.java,v 1.3 2006-01-27 16:28:17 jsissom Exp $
  * 
  */
 
@@ -58,8 +58,9 @@ public class OriginEntryDaoOjb extends PersistenceBrokerDaoSupport implements Or
     LOG.debug("getPosterGroups() started");
 
     Criteria criteria = new Criteria();
-//    criteria.addGreaterOrEqualThan("date",new java.sql.Date(groupDate.getTime()));
     criteria.addEqualTo("sourceCode",groupSourceCode);
+    criteria.addEqualTo("process",Boolean.TRUE);
+    criteria.addEqualTo("valid",Boolean.TRUE);
 
     QueryByCriteria qbc = QueryFactory.newQuery(OriginEntryGroup.class,criteria);
     return getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
@@ -74,6 +75,8 @@ public class OriginEntryDaoOjb extends PersistenceBrokerDaoSupport implements Or
     Criteria criteria = new Criteria();
     criteria.addLessOrEqualThan("date",groupDate);
     criteria.addEqualTo("scrub",Boolean.TRUE);
+    criteria.addEqualTo("process",Boolean.TRUE);
+    criteria.addEqualTo("valid",Boolean.TRUE);
 
     QueryByCriteria qbc = QueryFactory.newQuery(OriginEntryGroup.class,criteria);
     return getPersistenceBrokerTemplate().getCollectionByQuery(qbc);    

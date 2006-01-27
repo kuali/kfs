@@ -124,7 +124,7 @@
 	<field-descriptor name="date" column="ORIGIN_ENTRY_GRP_DT" jdbc-type="DATE" />
 	<field-descriptor name="sourceCode" column="ORIGIN_ENTRY_GRP_SRC_CD" jdbc-type="VARCHAR" />
 	<field-descriptor name="valid" column="ORIGIN_ENTRY_GRP_VLD_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
-	<field-descriptor name="processed" column="ORIGIN_ENTRY_PRCS_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
+	<field-descriptor name="process" column="ORIGIN_ENTRY_PRCS_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
 	<field-descriptor name="scrub" column="ORIGIN_ENTRY_SCRUB_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />

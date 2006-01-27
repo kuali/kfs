@@ -8,41 +8,6 @@
 
 		<customAttributeEnabled>false</customAttributeEnabled>
 
-		<inquiry>
-			<title>Account Guideline Inquiry</title>
-
-			<inquiryFields>
-				<field attributeName="chartOfAccountsCode" />			
-				<field attributeName="accountNumber" />
-				<field attributeName="accountExpenseGuidelineText" />			
-				<field attributeName="accountIncomeGuidelineText" />
-				<field attributeName="accountPurposeText" />
-			</inquiryFields>
-		</inquiry>
-
-		<lookup>
-			<title>Account Guideline Lookup</title>
-
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.chart.bo.AccountGuideline">Create New</a>]]></menubar>
-
-			<instructions>Lookup an Account Guideline</instructions>
-
-			<defaultSort attributeName="accountNumber" sortAscending="true" />
-
-			<lookupFields>
-				<lookupField attributeName="accountNumber" required="false" />
-				<lookupField attributeName="chartOfAccountsCode" required="false" />
-			</lookupFields>
-
-			<resultFields>
-			    <field attributeName="accountNumber" />
-				<field attributeName="chartOfAccountsCode" />
-				<field attributeName="accountExpenseGuidelineText" />
-				<field attributeName="accountIncomeGuidelineText" />
-				<field attributeName="accountPurposeText" />
-			</resultFields>
-		</lookup>
-
 		<attributes>
 			<attributeReference name="chartOfAccountsCode" 
 								sourceClassName="org.kuali.module.chart.bo.Chart" 

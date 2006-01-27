@@ -163,7 +163,7 @@ public class PostEncumbrance implements PostTransaction,VerifyTransaction, Encum
       }
     } else {
       // If not using referring doc number, add or subtract transaction amount from encumbrance amount
-      if ( Constants.GL_DEBIT_CODE.equals(t.getTransactionDebitCreditCode()) || " ".equals(t.getTransactionDebitCreditCode()) ) {
+      if ( Constants.GL_DEBIT_CODE.equals(t.getTransactionDebitCreditCode()) || Constants.GL_BUDGET_CODE.equals(t.getTransactionDebitCreditCode()) ) {
         enc.setAccountLineEncumbranceAmount(enc.getAccountLineEncumbranceAmount().add(t.getTransactionLedgerEntryAmount()));
       } else {
         enc.setAccountLineEncumbranceAmount(enc.getAccountLineEncumbranceAmount().subtract(t.getTransactionLedgerEntryAmount()));        

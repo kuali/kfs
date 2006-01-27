@@ -185,20 +185,27 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
 	        if (newAccount.getSubFundGroup().getFundGroupCode().equalsIgnoreCase(CONTRACTS_GRANTS_CD)) {
 		        success &= checkEmptyBOField("acctIndirectCostRcvyTypeCd", newAccount.getAcctIndirectCostRcvyTypeCd(), "ICR Type Code");
 		        success &= checkEmptyBOField("financialIcrSeriesIdentifier", newAccount.getFinancialIcrSeriesIdentifier(), "ICR Series Identifier");
-		        success &= checkEmptyBOField("indirectCostRecoveryAcct.accountNumber", newAccount.getIndirectCostRecoveryAcctNbr(), "ICR Cost Recovery Account");
+		        success &= checkEmptyBOField("indirectCostRcvyFinCoaCode", newAccount.getIndirectCostRcvyFinCoaCode(), "ICR Cost Recovery Chart of Accounts Code");
+		        success &= checkEmptyBOField("indirectCostRecoveryAcctNbr", newAccount.getIndirectCostRecoveryAcctNbr(), "ICR Cost Recovery Account");
 		        success &= checkEmptyBOField("cgCatlfFedDomestcAssistNbr", newAccount.getCgCatlfFedDomestcAssistNbr(), "C&G Domestic Assistance Number");
 	        }
         }
         
         //	ObjectUtils.isNull() avoids null sub-objects that may or may not be proxied
-        if (ObjectUtils.isNotNull(newAccount.getAccountFiscalOfficerUser())) {
-            success &= checkEmptyBOField("accountFiscalOfficerUser.personUniversalIdentifier", newAccount.getAccountFiscalOfficerUser().getPersonUniversalIdentifier(), "Account Fiscal Officer");
+        if (StringUtils.isEmpty(newAccount.getAccountFiscalOfficerSystemIdentifier())) {
+            success &= checkEmptyBOField("accountFiscalOfficerSystemIdentifier", 
+                    					newAccount.getAccountFiscalOfficerSystemIdentifier(), 
+                    					"Account Fiscal Officer");
         }
-        if (ObjectUtils.isNotNull(newAccount.getAccountManagerUser())) {
-            success &= checkEmptyBOField("accountManagerUser.personUniversalIdentifier", newAccount.getAccountManagerUser().getPersonUniversalIdentifier(), "Account Manager");
+        if (StringUtils.isEmpty(newAccount.getAccountManagerSystemIdentifier())) {
+            success &= checkEmptyBOField("accountManagerSystemIdentifier", 
+                    					newAccount.getAccountManagerSystemIdentifier(), 
+                    					"Account Manager");
         }
-        if (ObjectUtils.isNotNull(newAccount.getAccountSupervisoryUser())) {
-            success &= checkEmptyBOField("accountSupervisoryUser.personUniversalIdentifier", newAccount.getAccountSupervisoryUser().getPersonUniversalIdentifier(), "Account Supervisor");
+        if (ObjectUtils.isNotNull(newAccount.getAccountsSupervisorySystemsIdentifier())) {
+            success &= checkEmptyBOField("accountsSupervisorySystemsIdentifier", 
+                    					newAccount.getAccountsSupervisorySystemsIdentifier(), 
+                    					"Account Supervisor");
         }
 
         //	if the expiration date is earlier than today, account guidelines are not required.

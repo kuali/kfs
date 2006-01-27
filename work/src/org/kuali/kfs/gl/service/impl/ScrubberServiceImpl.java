@@ -34,11 +34,13 @@ import java.util.Map;
 
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
+import org.kuali.core.bo.user.Options;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.bo.OffsetDefinition;
+import org.kuali.module.chart.bo.codes.BalanceTyp;
 import org.kuali.module.chart.service.AccountService;
 import org.kuali.module.chart.service.ChartService;
 import org.kuali.module.chart.service.ObjectCodeService;
@@ -103,7 +105,9 @@ public class ScrubberServiceImpl implements ScrubberService {
         univRunDate = universityDateDao.getByPrimaryKey(runDate);
         runCal = Calendar.getInstance();
         runCal.setTime(runDate);
-        checkGLObject(univRunDate, kualiConfigurationService.getPropertyString(KeyConstants.ERROR_UNIV_DATE_NOT_FOUND));
+        if (univRunDate == null) {
+            throw new IllegalStateException(kualiConfigurationService.getPropertyString(KeyConstants.ERROR_UNIV_DATE_NOT_FOUND));
+        }
 
         // Create the groups that will store the valid and error entries that come out of the scrubber
         validGroup = originEntryService.createGroup(runDate, OriginEntrySource.SCRUBBER_VALID, true, false, false);
@@ -117,7 +121,7 @@ public class ScrubberServiceImpl implements ScrubberService {
 
             for (Iterator entryIterator = originEntryService.getEntriesByGroup(grp); entryIterator.hasNext();) {
                 ++scrubberUtil.originCount;
-                eof = entryIterator.hasNext();
+                eof = !entryIterator.hasNext();
                 OriginEntry entry = (OriginEntry) entryIterator.next();
                 processUnitOfWork(entry, previousEntry);
             }
@@ -146,25 +150,25 @@ public class ScrubberServiceImpl implements ScrubberService {
         // work (for performance reasons)
         checkUnitOfWork(originEntry, workingEntry);
 
-        /*
-         * //set base values set noErrors = true; set scrb_error_code = null;
-         */
         workingEntry = new OriginEntry();
 
-        workingEntry.setSubAccountNumber(replaceNullWithDashes(originEntry.getSubAccountNumber()));
+        if (StringUtils.hasText(originEntry.getSubAccountNumber())) {
+            workingEntry.setSubAccountNumber(originEntry.getSubAccountNumber());
+        } else {
+            workingEntry.setSubAccountNumber(KeyConstants.DASHES_SUB_ACCOUNT_NUMBER);
+        }
 
         if (StringUtils.hasText(originEntry.getFinancialSubObjectCode()) && (checkGLObject(originEntry.getFinancialSubObject(), kualiConfigurationService.getPropertyString(KeyConstants.ERROR_SUB_OBJECT_CODE_NOT_FOUND)))) {
             workingEntry.setFinancialSubObjectCode(originEntry.getFinancialSubObjectCode());
             workingEntry.setFinancialSubObject(originEntry.getFinancialSubObject());
         } else {
-        	workingEntry.setFinancialSubObjectCode("---");
+        	workingEntry.setFinancialSubObjectCode(KeyConstants.DASHES_SUB_OBJECT_CODE);
         }
 
-//WORKING ENTRY REDO        
         if (StringUtils.hasText(originEntry.getProjectCode())) {
             checkGLObject(originEntry.getProject(), kualiConfigurationService.getPropertyString(KeyConstants.ERROR_PROJECT_CODE_NOT_FOUND));
         } else {
-        	workingEntry.setProjectCode("----------");
+        	workingEntry.setProjectCode(KeyConstants.DASHES_PROJECT_CODE);
         }
 
         if (originEntry.getTransactionDate() == null) {
@@ -190,13 +194,19 @@ public class ScrubberServiceImpl implements ScrubberService {
             workingEntry.setUniversityFiscalYear(tmpDate.getUniversityFiscalYear());
             workingEntry.setUniversityFiscalPeriodCode(tmpDate.getUniversityFiscalAccountingPeriod());
             wsPreviousCal = workingCal;
-            // TODO: refresh option table for workingEntry
         } // TODO: what should the else do?
 
+        if (workingEntry.getOption() == null) {
+            workingEntry.setOption(new Options());
+        }
         if (originEntry.getUniversityFiscalYear() == null) {
             workingEntry.setUniversityFiscalYear(univRunDate.getUniversityFiscalYear());
+            workingEntry.getOption().setUniversityFiscalYear(workingEntry.getUniversityFiscalYear());
+            workingEntry.getOption().refreshReferenceObject("option");
         } else {
             workingEntry.setUniversityFiscalYear(originEntry.getUniversityFiscalYear());
+            workingEntry.getOption().setUniversityFiscalYear(workingEntry.getUniversityFiscalYear());
+            workingEntry.getOption().refreshReferenceObject("option");
         }
 
         if (checkGLObject(originEntry.getDocumentType(), kualiConfigurationService.getPropertyString(KeyConstants.ERROR_DOCUMENT_TYPE_NOT_FOUND))) {
@@ -231,22 +241,23 @@ public class ScrubberServiceImpl implements ScrubberService {
             } else {
                 transactionErrors.add(kualiConfigurationService.getPropertyString(KeyConstants.ERROR_ACCOUNT_EXPIRED));
             }
-            
         }
 
         // TODO: need to specifically check for the correct number of dashes
-        if (originEntry.getSubAccountNumber().indexOf("-") == 0) { // TODO: define this in constants
+        if (!KeyConstants.DASHES_SUB_ACCOUNT_NUMBER.equals(originEntry.getSubAccountNumber())) {
             checkGLObject(originEntry.getSubAccount(), kualiConfigurationService.getPropertyString(KeyConstants.ERROR_SUB_ACCOUNT_NOT_FOUND));
         }
 
-        if (workingEntry.getSubAccount() != null && "ACLO".equals(originEntry.getFinancialDocumentTypeCode())
-                && !workingEntry.getSubAccount().isSubAccountActiveIndicator()) {
+        if (originEntry.getSubAccount() != null && "ACLO".equals(originEntry.getFinancialDocumentTypeCode())
+                && !originEntry.getSubAccount().isSubAccountActiveIndicator()) {
             transactionErrors.add(kualiConfigurationService.getPropertyString(KeyConstants.ERROR_SUB_ACCOUNT_NOT_ACTIVE));
         }
 
-        workingEntry.setFinancialObjectCode(replaceNullWithDashes(originEntry.getFinancialObjectCode()));
         if (StringUtils.hasText(originEntry.getFinancialObjectCode())) {
+            workingEntry.setFinancialObjectCode(originEntry.getFinancialObjectCode());
             checkGLObject(originEntry.getFinancialObject(), kualiConfigurationService.getPropertyString(KeyConstants.ERROR_OBJECT_CODE_NOT_FOUND));
+        } else {
+            workingEntry.setFinancialObjectCode(KeyConstants.DASHES_OBJECT_CODE);
         }
         
         if (originEntry.getFinancialObject() != null && StringUtils.hasText(originEntry.getFinancialObject().getFinancialObjectTypeCode())) {
@@ -257,7 +268,7 @@ public class ScrubberServiceImpl implements ScrubberService {
             checkGLObject(originEntry.getFinancialSubObject(),kualiConfigurationService.getPropertyString(KeyConstants.ERROR_SUB_OBJECT_CODE_NOT_FOUND));
             if (originEntry.getFinancialSubObject() != null && !originEntry.getFinancialSubObject().isFinancialSubObjectActiveIndicator()) {
                 // if NOT active, set it to dashes
-                workingEntry.setFinancialSubObjectCode("---"); // TODO: replace with constants
+                workingEntry.setFinancialSubObjectCode(KeyConstants.DASHES_SUB_OBJECT_CODE); // TODO: replace with constants
                 workingEntry.setFinancialSubObject(null);
             }
         }
@@ -271,6 +282,9 @@ public class ScrubberServiceImpl implements ScrubberService {
             // if balance type of originEntry is null, get it from option table
             workingEntry.setFinancialBalanceTypeCode(originEntry.getOption().getActualFinancialBalanceTypeCd());
             // TODO: need option object to have objects not just primitives
+            if (workingEntry.getBalanceType() == null) {
+                workingEntry.setBalanceType(new BalanceTyp());
+            }
             workingEntry.getBalanceType().setCode(originEntry.getOption().getActualFinancialBalanceTypeCd());
             workingEntry.getBalanceType().refreshReferenceObject("balanceType");
             checkGLObject(workingEntry.getBalanceType(), kualiConfigurationService.getPropertyString(KeyConstants.ERROR_BALANCE_TYPE_NOT_FOUND));
@@ -366,7 +380,6 @@ public class ScrubberServiceImpl implements ScrubberService {
         // (BalanceTypeCode = "AC" or "EX" or "IE" or "PE") //todo: move to properties
         //  retrieve and validate that subFundGroup exists - "subFundGroup not in table"
         //  (put into working storage field)
-        // TODO: switch it to use the workingEntry, but "refresh" the option object first
         if ((originEntry.getFinancialObjectTypeCode().equals(originEntry.getOption().getFinObjTypeExpenditureexpCd()) ||
                 originEntry.getFinancialObjectTypeCode().equals(originEntry.getOption().getFinObjTypeExpNotExpendCode()) ||
                 originEntry.getFinancialObjectTypeCode().equals(originEntry.getOption().getFinObjTypeExpendNotExpCode()) ||
@@ -502,11 +515,6 @@ public class ScrubberServiceImpl implements ScrubberService {
         return workingEntry;
     }// End of method
     
-    private String replaceNullWithDashes(String input) {
-        return (!StringUtils.hasText(input)) ? "---" : input;
-        // todo - get the dashes text from the settings file
-    }
-
     private boolean checkGLObject(Object glObject, String errorMessage) {
         if (glObject == null) {
             if (StringUtils.hasText(errorMessage)) {
@@ -592,6 +600,7 @@ public class ScrubberServiceImpl implements ScrubberService {
 
         if (previousEntry == null) {
             previousEntry = new OriginEntry();
+            return;
         }
         
         if(!eof && originEntry.getFinancialDocumentTypeCode().equals(previousEntry.getFinancialDocumentTypeCode()) &&
@@ -615,7 +624,7 @@ public class ScrubberServiceImpl implements ScrubberService {
         // TODO: Address claim on cash here
         
         // Check scrbOffsetAmount to see if an offset needs to be generated.
-        if(scrubberUtil.offsetAmountAccumulator.isNegative() && scrubberUtil.offsetAmountAccumulator.isPositive() &&
+        if(scrubberUtil.offsetAmountAccumulator.isNonZero() &&
                 documentError.size() == 0 &&
                 !"JV".equals(workingEntry.getFinancialDocumentTypeCode())) {
             generateOffset(workingEntry);
@@ -833,7 +842,7 @@ public class ScrubberServiceImpl implements ScrubberService {
                 workingEntry.setChartOfAccountsCode(workingEntry.getAccount().getOrganization().getCampusPlantChartCode());
             }
 
-            workingEntry.setSubAccountNumber("-----"); // TODO: constant
+            workingEntry.setSubAccountNumber(KeyConstants.DASHES_SUB_ACCOUNT_NUMBER); // TODO: constant
             workingEntry.setTransactionLedgerEntryDesc(tmpCOA + tmpAccountNumber + "GENERATED PLANT FUND TRANSFER");
             createOutputEntry(workingEntry, validGroup);
 
@@ -860,7 +869,7 @@ public class ScrubberServiceImpl implements ScrubberService {
     }// End of method
 
     private void plantFundAccountLookup(OriginEntry inputEntry, String tmpChart, String tmpAccount) { // 4000-PLANT_FUND_ACCOUNT
-        inputEntry.setSubAccountNumber("----"); //TODO: constant
+        inputEntry.setSubAccountNumber(KeyConstants.DASHES_SUB_ACCOUNT_NUMBER); //TODO: constant
         if (inputEntry.getChartOfAccountsCode().equals(inputEntry.getAccount().getOrganization().getChartOfAccountsCode())
                 && inputEntry.getAccount().getOrganizationCode() == inputEntry.getAccount().getOrganization().getOrganizationCode()
                 && tmpChart.equals(inputEntry.getAccount().getChartOfAccountsCode())
@@ -995,7 +1004,7 @@ public class ScrubberServiceImpl implements ScrubberService {
 
         this.writeSwitchStatusCD = ScrubberUtil.FROM_COST_SHARE;
         csEntry.setFinancialObjectCode("9915"); //TODO: TRSFRS_OF_FUNDS_REVENUE constant
-        csEntry.setFinancialSubObjectCode("---"); //TODO: constant
+        csEntry.setFinancialSubObjectCode(KeyConstants.DASHES_SUB_OBJECT_CODE); //TODO: constant
         csEntry.setFinancialObjectTypeCode("TE"); //TODO: constant
         csEntry.setTrnEntryLedgerSequenceNumber(new Integer(0));
         csEntry.setTransactionLedgerEntryDesc("COSTSHARE_DESCRIPTION" + "***" + runCal.get(Calendar.MONTH) + "/" + runCal.get(Calendar.DAY_OF_MONTH)); // TODO: change to constant
@@ -1008,7 +1017,7 @@ public class ScrubberServiceImpl implements ScrubberService {
         }
         csEntry.setTransactionDate(runDate);
         csEntry.setOrganizationDocumentNumber("");
-        csEntry.setProjectCode("----------");
+        csEntry.setProjectCode(KeyConstants.DASHES_PROJECT_CODE);
         csEntry.setOrganizationReferenceId(null);
         csEntry.setReferenceFinDocumentTypeCode(null);
         csEntry.setFinSystemRefOriginationCode(null);
@@ -1028,7 +1037,7 @@ public class ScrubberServiceImpl implements ScrubberService {
         } else {
             csEntry.setFinancialObjectCode(offset.getFinancialObjectCode());
             if(offset.getFinancialSubObjectCode() == null) {
-                csEntry.setFinancialSubObjectCode("---"); // TODO: constant
+                csEntry.setFinancialSubObjectCode(KeyConstants.DASHES_SUB_OBJECT_CODE); // TODO: constant
             } else {
                 csEntry.setFinancialSubObjectCode(offset.getFinancialSubObjectCode());
             }
@@ -1068,7 +1077,7 @@ public class ScrubberServiceImpl implements ScrubberService {
         }
 */
         
-        csEntry.setFinancialSubObjectCode("---"); //TODO: move into constants
+        csEntry.setFinancialSubObjectCode(KeyConstants.DASHES_SUB_OBJECT_CODE); //TODO: move into constants
         csEntry.setFinancialObjectTypeCode("TE"); //TODO: move into constants
         csEntry.setTrnEntryLedgerSequenceNumber(new Integer(0));
         csEntry.setTransactionLedgerEntryDesc("COSTSHARE_DESCRIPTION" + "***" + runCal.get(Calendar.MONTH) + "/" + runCal.get(Calendar.DAY_OF_MONTH)); // TODO: change to constant
@@ -1083,7 +1092,7 @@ public class ScrubberServiceImpl implements ScrubberService {
 
         csEntry.setTransactionDate(runDate);
         csEntry.setOrganizationDocumentNumber("");
-        csEntry.setProjectCode("----------");
+        csEntry.setProjectCode(KeyConstants.DASHES_PROJECT_CODE);
         csEntry.setOrganizationReferenceId(null);
         csEntry.setReferenceFinDocumentTypeCode(null);
         csEntry.setFinSystemRefOriginationCode(null);
@@ -1100,7 +1109,7 @@ public class ScrubberServiceImpl implements ScrubberService {
         } else {
             csEntry.setFinancialObjectCode(offset.getFinancialObjectCode());
             if(offset.getFinancialSubObjectCode() == null) {
-                csEntry.setFinancialSubObjectCode("---"); // TODO: constant
+                csEntry.setFinancialSubObjectCode(KeyConstants.DASHES_SUB_OBJECT_CODE); // TODO: constant
             } else {
                 csEntry.setFinancialSubObjectCode(offset.getFinancialSubObjectCode());
             }
@@ -1138,11 +1147,11 @@ public class ScrubberServiceImpl implements ScrubberService {
         csEntry.setSubAcctNbr(a21SubAcct.getCstSrcsubacctNbr());
 */
         if(!StringUtils.hasText(csEntry.getSubAccountNumber())) {
-            csEntry.setSubAccountNumber("-----"); // TODO: constant
+            csEntry.setSubAccountNumber(KeyConstants.DASHES_SUB_ACCOUNT_NUMBER);
         }
 
         csEntry.setFinancialBalanceTypeCode("CE"); // TODO: constant
-        csEntry.setFinancialSubObjectCode("---"); //TODO: constant
+        csEntry.setFinancialSubObjectCode(KeyConstants.DASHES_SUB_OBJECT_CODE);
         csEntry.setTrnEntryLedgerSequenceNumber(new Integer(0));
         
         if (StringUtils.hasText(inputEntry.getTransactionDebitCreditCode())) {
@@ -1169,7 +1178,7 @@ public class ScrubberServiceImpl implements ScrubberService {
         } else {
             csEntry.setFinancialObjectCode(offset.getFinancialObjectCode());
             if(offset.getFinancialSubObjectCode() == null) {
-                csEntry.setFinancialSubObjectCode("---"); // TODO: constant
+                csEntry.setFinancialSubObjectCode(KeyConstants.DASHES_SUB_OBJECT_CODE); // TODO: constant
             } else {
                 csEntry.setFinancialSubObjectCode(offset.getFinancialSubObjectCode());
             }
@@ -1191,7 +1200,7 @@ public class ScrubberServiceImpl implements ScrubberService {
 
         csEntry.setTransactionDate(runDate);
         csEntry.setOrganizationDocumentNumber("");
-        csEntry.setProjectCode("----------"); // constant
+        csEntry.setProjectCode(KeyConstants.DASHES_PROJECT_CODE); // constant
         csEntry.setOrganizationReferenceId(null);
         csEntry.setReferenceFinDocumentTypeCode(null);
         csEntry.setFinSystemRefOriginationCode(null);
@@ -1281,7 +1290,7 @@ public class ScrubberServiceImpl implements ScrubberService {
         if(checkGLObject(offsetDefinition, kualiConfigurationService.getPropertyString(KeyConstants.ERROR_OFFSET_DEFINITION_NOT_FOUND))) {
             workingEntry.setFinancialObjectCode(offsetDefinition.getFinancialObjectCode());
             if (offsetDefinition.getFinancialSubObject() == null) {
-                workingEntry.setFinancialSubObjectCode("---");
+                workingEntry.setFinancialSubObjectCode(KeyConstants.DASHES_SUB_OBJECT_CODE);
             } else {
                 workingEntry.setFinancialSubObjectCode(offsetDefinition.getFinancialSubObjectCode());
             }
@@ -1307,7 +1316,7 @@ public class ScrubberServiceImpl implements ScrubberService {
         workingEntry.setFinSystemRefOriginationCode(null);
         workingEntry.setFinancialDocumentReferenceNbr(null);
         workingEntry.setTransactionEncumbranceUpdtCd(null);
-        workingEntry.setProjectCode("----------");
+        workingEntry.setProjectCode(KeyConstants.DASHES_PROJECT_CODE);
         workingEntry.setTransactionDate(runDate);
     }// End of method
 

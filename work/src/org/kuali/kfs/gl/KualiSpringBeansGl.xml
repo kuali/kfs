@@ -2,7 +2,6 @@
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
 	<bean id="glScrubberStep" class="org.kuali.module.gl.batch.ScrubberStep">
-		<property name="originEntryService"><ref bean="glOriginEntryService" /></property>
 		<property name="scrubberService"><ref bean="glScrubberService" /></property>
 	</bean>
 

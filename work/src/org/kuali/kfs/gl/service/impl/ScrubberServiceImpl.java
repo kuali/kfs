@@ -57,7 +57,7 @@ import org.springframework.util.StringUtils;
 
 /**
  * @author Anthony Potts
- * @version $Id: ScrubberServiceImpl.java,v 1.14 2006-01-27 16:42:44 larevans Exp $
+ * @version $Id: ScrubberServiceImpl.java,v 1.15 2006-01-27 16:45:41 aapotts Exp $
  */
 
 public class ScrubberServiceImpl implements ScrubberService {
@@ -116,7 +116,7 @@ public class ScrubberServiceImpl implements ScrubberService {
         }
 
         // Create the groups that will store the valid and error entries that come out of the scrubber
-        validGroup = originEntryGroupService.createGroup(runDate, OriginEntrySource.SCRUBBER_VALID, true, false, false);
+        validGroup = originEntryGroupService.createGroup(runDate, OriginEntrySource.SCRUBBER_VALID, true, true, false);
         errorGroup = originEntryGroupService.createGroup(runDate, OriginEntrySource.SCRUBBER_ERROR, false, false, false);
         expiredGroup = originEntryGroupService.createGroup(runDate, OriginEntrySource.SCRUBBER_ERROR, false, false, false);
 
@@ -131,6 +131,7 @@ public class ScrubberServiceImpl implements ScrubberService {
                 OriginEntry entry = (OriginEntry) entryIterator.next();
                 processUnitOfWork(entry, previousEntry);
             }
+           // if no errors, set "process" of the incoming group to "N"
 
         }
 
@@ -533,6 +534,22 @@ public class ScrubberServiceImpl implements ScrubberService {
         return true;
     }
 
+    /**
+     * 2100-Edit Account
+     * 
+     * The purpose of this method is to see if an account is closed. If the account
+     * is closed then it tries to find a continuation account in which to post.
+     * 
+     * The user can select to ignore continuation account check, this is done by
+     * inputing a parameter to the Scrubber that says ingore this check.
+     * 
+     * An account is determined to be closed if its expiration date has been set
+     * and/or Account closed flag in the CA_ACCOUNT_T table has been set.
+     * If an account is closed then this method will call 2107-TEST-EXPIRED-CG.
+     * 
+     * @param originEntry
+     * @param workingEntry
+     */
     private void resolveAccount(OriginEntry originEntry, OriginEntry workingEntry) { /* (2100-edit-account) */
 
         scrubberUtil.wsAccount = originEntry.getAccount();
@@ -585,6 +602,8 @@ public class ScrubberServiceImpl implements ScrubberService {
     }// End of method
 
     /**
+     * 2510-CHECK-UOW
+     * 
      * The purpose of this method is to determine wether or not an offset entry should
      * be generated. It uses the "unit of work to make this decision. The unit of work
      * is made up of the following fields document type code, origin code, document number, 
@@ -650,6 +669,12 @@ public class ScrubberServiceImpl implements ScrubberService {
 
     }// End of method
 
+    /**
+     * Copies the primary fields only from one entry to another
+     * 
+     * @param fromEntry
+     * @param toEntry
+     */
     private void copyPrimaryFields(OriginEntry fromEntry, OriginEntry toEntry) {
         toEntry.setChartOfAccountsCode(fromEntry.getChartOfAccountsCode());
         toEntry.setFinancialDocumentTypeCode(fromEntry.getFinancialDocumentTypeCode());
@@ -662,6 +687,67 @@ public class ScrubberServiceImpl implements ScrubberService {
         toEntry.setUniversityFiscalPeriodCode(fromEntry.getUniversityFiscalPeriodCode());
     }
 
+    /**
+     * 3000-USER-PROCESSING
+     * 
+     * This method determines whether it should generate a "Capitalization Entry" and
+     * then will generate it and its corresponding offset.
+     * 
+     * The user can set a switch at start up time that indicates to the Scrubber
+     * whetehr or not to perform capitalization.
+     * 
+     * Capitalzation is not performed under the following conditions:
+     * 1. Document types of Transfer of Funds, Year End Transfer of Funds,
+     *    Auxiliary Voucher, Accrual Entry, Adjustment, or Recode.
+     * 2. A fiscal period of Beginning Balance or Contract beginning Balance
+     * 3. An Annual Closing document type.
+     * 4. Or certain Object Subtypes.
+     * 5. A subfund group of Enternal Agency
+     * 6. The hospital chart of account
+     * 
+     * The object code for capitalization is determined by looking at the object
+     * subtype for the current input object. The chart of accounts code and account
+     * number are determined by calling 4000-PLANT-FUND-ACCT.
+     * 
+     * Next this method will determine if it should generate a "Liability Entry" and
+     * then generate it and its corresponding offset.
+     * 
+     * The user can set a switch at start up time that indicates to the Scrubber
+     * whether or not to generate a liability.
+     * A liability is not generated under the following conditions:
+     * 1. Document types of Transfer of Funds, Year End Transfer of Funds,
+     *    Auxiliary Voucher, Accrual Entry, Adjustment, or Recode.
+     * 2. A fiscal period of Beginning Balance or Contract beginning Balance
+     * 3. An Annual Closing document type.
+     * 4. An object subtype of "CL"
+     * 5. A subfund group of Enternal Agency
+     * 6. The hospital chart of account
+     * 
+     * The object code is set to "9630" and then 4000-PLANT-FUND-ACCT is called to
+     * get the appropriate chart of accounts code and account number.
+     * Object code "9899" fund balance is used for the offset.
+     * 
+     * Next this method will determine if it should generate a "Plant Indebetedbess Entry"
+     * and then generate it and its corresponding offset.
+     * 
+     * The user can set a switch at start up time that indicates to the Scrubber
+     * whether or not to generate a plant indebetedness entry.
+     * 
+     * A plant indebetedness entry will be generated if the following conditions are true:
+     * 1. A subfund group of PFCMR or PFRI
+     * 2. Anobject subtype of PI
+     * 
+     * This is a "Generated Transfer to Net Plant" entry.
+     * It uses the original object code for the direct entry and "9899" fund balnace for
+     * the offset entry.
+     * 
+     * Now it needs to generate the "Generated Transfer From Entry"
+     * and its offset. The Campus Plant Fund Chart and Account Number are used for this
+     * entry. These values are obtaine from the CA_ORG_T table. "9899" fund balance is
+     * used for the offset object code.
+     * 
+     * @param workingEntry
+     */
     private void userProcessing(OriginEntry workingEntry) { // 3000-USER-PROCESSING
         String tmpObjectCode = workingEntry.getFinancialObjectCode();
         String tmpObjectTypeCode = workingEntry.getFinancialObjectTypeCode();
@@ -874,6 +960,11 @@ public class ScrubberServiceImpl implements ScrubberService {
         
     }// End of method
 
+    /**
+     * @param inputEntry
+     * @param tmpChart
+     * @param tmpAccount
+     */
     private void plantFundAccountLookup(OriginEntry inputEntry, String tmpChart, String tmpAccount) { // 4000-PLANT_FUND_ACCOUNT
         inputEntry.setSubAccountNumber(KeyConstants.DASHES_SUB_ACCOUNT_NUMBER); //TODO: constant
         if (inputEntry.getChartOfAccountsCode().equals(inputEntry.getAccount().getOrganization().getChartOfAccountsCode())
@@ -912,6 +1003,17 @@ public class ScrubberServiceImpl implements ScrubberService {
         // In COBOL, the CA_ORG_T table is read at this time to reset the org information. I dont think this is necessary
     }// End of method
     
+    /**
+     * 2115-CHECK-CG
+     * The purpose of this method is to get the fund group code, subfund group active
+     * code, and the subfund group type code from the CA_SUB_FUND_GRP_T table.
+     * 
+     * If the account from the input transaction is closed then this routine is never
+     * executed.
+     * 
+     * If the fund group code obtained is a "Contract & Grants" fund group then
+     * this method call 2117-CHANGE-EXPIRATION, otherwise it just returns.
+     */
     private void checkCg() {
         if(scrubberUtil.wsAccount.isAccountClosedIndicator()) {
             return;
@@ -924,6 +1026,16 @@ public class ScrubberServiceImpl implements ScrubberService {
         }
     }
     
+    /**
+     * 2107-TEST-EXPIRED-CG
+     * 
+     * This method calls 2115-CHECK-CG. When it returns from this call this method
+     * check to see the current entry from the CA_ACCOUNT_T is closed or expired. If
+     * it is not then this methods returns, otherwise it will call 2110-GET-UNXPRD-ACCT.
+     * 
+     * @param originEntry
+     * @param workingEntry
+     */
     private void testExpiredCg(OriginEntry originEntry, OriginEntry workingEntry) {
         checkCg();
 
@@ -937,6 +1049,20 @@ public class ScrubberServiceImpl implements ScrubberService {
         }
     }
 
+    /**
+     * 2110-GET-UNXPRD-ACCT
+     * 
+     * The puropse of this method is to call the method 2120-ACCT-EXPIRATION and
+     * check what this method return. If the account limit or an account error
+     * occurred in 2120-ACCT-EXPIRATION this method will generate the appropriate message
+     * and return.
+     * 
+     * If a continuation account was found then this method will call the
+     * 2130-READ-NEW-COAT method. (handled by OJB for us)
+     * 
+     * @param originEntry
+     * @param workingEntry
+     */
     private void getUnexpiredAccount(OriginEntry originEntry, OriginEntry workingEntry) {
         if (scrubberUtil.wsAccount != null) {
             wsExpiredChart = scrubberUtil.wsAccount.getChartOfAccountsCode(); 
@@ -967,6 +1093,25 @@ public class ScrubberServiceImpl implements ScrubberService {
         
      }
     
+    /**
+     * 2120-ACCT-EXPIRATION
+     * 
+     * The purpose of this method is to look for a continuation account. It accomplishes
+     * this by reading the CA_ACCOUNT_T table with the most recent continuation account
+     * from the current account table entry. This method will continue to read the
+     * CA_ACCOUNT_T table until one of the following conditions is met:
+     * 
+     * 1. An account with an expiration date not set or is active.
+     * 2. An error occurs while reading the CA_ACCOUNT_T table or an account
+     *    is not found.
+     * 3. The user limit has been reached, in the case of IU the limit is 10 reads.
+     * 
+     * Note while reading the CA_ACCOUNT_T a continuation account is found and its
+     * expiration date is not null or spaces then this method will 2115-CHECK-CG.
+     * 
+     * @param originEntry
+     * @return
+     */
     private int accountExpiration(OriginEntry originEntry) {
         String wsContinuationChart = originEntry.getAccount().getContinuationFinChrtOfAcctCd();
         String wsContinuationAccount = originEntry.getAccount().getContinuationAccountNumber();
@@ -997,6 +1142,15 @@ public class ScrubberServiceImpl implements ScrubberService {
         return ScrubberUtil.ACCOUNT_LIMIT;
     }
     
+    /**
+     * 2117-CHANGE-EXPIRATION
+     * 
+     * This method is called because the account being processed is in the "Contract
+     * and Grants" fund group.
+     * 
+     * The purpose of the method is to extend the "Contract and Grants" expiration
+     * date by three months.
+     */
     private void changeExpiration() {
         Calendar tempCal = Calendar.getInstance();
         tempCal.setTimeInMillis(scrubberUtil.wsAccount.getAccountExpirationDate().getTime());
@@ -1004,6 +1158,29 @@ public class ScrubberServiceImpl implements ScrubberService {
         scrubberUtil.wsAccount.setAccountExpirationDate(new Timestamp(tempCal.getTimeInMillis()));
     }
 
+    /**
+     * 3000-COST-SHARE
+     * 
+     * The purpose of this method is to generate a "Cost Share Entry" and its
+     * corresponding offset.
+     * 
+     * Object code "9915" is used for the cost share object code. The offset object code
+     * is determined by reading the GL_OFFSET_DEFN_T table based on the fiscal year,
+     * chart of accounts, document type, and balance type code. The object type code
+     * is obtained from CA_OBJECT_CODE_T based on fiscal year, chart of accounts code,
+     * and object code.
+     * 
+     * Next it generates an entry based on the cost share chart of accounts and
+     * cost share account number from in the CA_A21_SUB_ACCT_T table for the original
+     * transaction chart and account number. the object code for this entry is obtained
+     * by call the method SET-OBJECT-2400. The offset object code for this entry is
+     * obtained by reading the GL_OFFSET_DEFN_T table based on fiscal year, chart,
+     * document type, balance type from the original input transaction. The object type code
+     * is obtained from the CA_OBJECT_CODE_T table for the object code from the
+     * original input transaction.
+     * 
+     * @param workingEntry
+     */
     private void costShare(OriginEntry workingEntry) {
 
         OriginEntry csEntry = new OriginEntry();
@@ -1068,7 +1245,6 @@ public class ScrubberServiceImpl implements ScrubberService {
         csEntry.setTransactionLedgerEntryDesc("COSTSHARE_DESCRIPTION" + "***" + runCal.get(Calendar.MONTH) + "/" + runCal.get(Calendar.DAY_OF_MONTH)); // TODO: change to constant
         csEntry.setChartOfAccountsCode("");
 
-        
         csEntry.setChartOfAccountsCode(csEntry.getA21SubAccount().getCostSharingChartOfAccountsCode());
         csEntry.setAccountNumber(csEntry.getA21SubAccount().getCostSharingAccountNumber());
 
@@ -1136,6 +1312,24 @@ public class ScrubberServiceImpl implements ScrubberService {
         scrubberUtil.costSharingAccumulator = KualiDecimal.ZERO;
     }// End of method
 
+    /**
+     * 3200-COST-SHARE-ENC
+     * 
+     * The purpose of this method is to generate a "Cost Share Encumbrance" transaction
+     * for the current transaction and its offset.
+     * 
+     * The cost share chart and account for current transaction are obtained from the
+     * CA_A21_SUB_ACCT_T table. This method calls the method SET-OBJECT-2004 to get
+     * the Cost Share Object Code. It then writes out the cost share transaction.
+     * Next it read the GL_OFFSET_DEFN_T table for the offset object code that
+     * corresponds to the cost share object code. In addition to the object code it
+     * needs to get subobject code. It then reads the CA_OBJECT_CODE_T table to make
+     * sure the offset object code found in the GL_OFFSET_DEFN_T is valid  and to
+     * get the object type code associated with this object code. It writes out the
+     * offset transaction and returns.
+     * 
+     * @param inputEntry
+     */
     private void costShareEncumbrance(OriginEntry inputEntry) {
 
         OriginEntry csEntry = new OriginEntry(inputEntry);
@@ -1144,11 +1338,10 @@ public class ScrubberServiceImpl implements ScrubberService {
         csEntry.setTransactionLedgerEntryDesc(csEntry.getTransactionLedgerEntryDesc().substring(0, 29) +
                 "FR" + csEntry.getChartOfAccountsCode()+ csEntry.getAccountNumber());
 
-        //TODO: a21 service call here
-/*        csEntry.setChartOfAccountsCode(a21SubAcct.getCstShrCoaCd());
-        csEntry.setAccountNbr(a21SubAcct.getCstShrsrcacctNbr());
-        csEntry.setSubAcctNbr(a21SubAcct.getCstSrcsubacctNbr());
-*/
+        csEntry.setChartOfAccountsCode(csEntry.getA21SubAccount().getCostSharingChartOfAccountsCode());
+        csEntry.setAccountNumber(csEntry.getA21SubAccount().getCostSharingAccountNumber());
+        csEntry.setSubAccountNumber(csEntry.getA21SubAccount().getCostSharingSubAccountNumber());
+
         if(!StringUtils.hasText(csEntry.getSubAccountNumber())) {
             csEntry.setSubAccountNumber(KeyConstants.DASHES_SUB_ACCOUNT_NUMBER);
         }
@@ -1214,6 +1407,22 @@ public class ScrubberServiceImpl implements ScrubberService {
         createOutputEntry(csEntry, validGroup); // TODO: is this created if there have been errors?!
     }// End of method
 
+    /**
+     * SET-OBJECT-2004
+     * 
+     * The purpose of this method is to find a cost share object code. It accomplishes
+     * this by reading the CA_OBJECT_CODE_T based on input transaction's object code,
+     * fiscal year, and chart of accounts code. It then checks the object level code
+     * for the object it just read to determine what the cost share object code should be.
+     * 
+     * As an example if the object level of the object code on the input transaction is
+     * "Travel" then this methods sets the cost share object code to "9960".
+     * 
+     * This method will then verify the cost share object code against the CA_OBJECT_CODE_T
+     * table and obtain the corresponding object type to put into the output transaction.
+     * 
+     * @param inputEntry
+     */
     private void lookupObjectCode(OriginEntry inputEntry) { // SET-OBECT-2004
 
         // TODO: cant we just do an inputEntry
@@ -1282,6 +1491,18 @@ public class ScrubberServiceImpl implements ScrubberService {
         }
     }// End of method
 
+    /**
+     * 3000-Offset.
+     * 
+     * The purpose of this method is to build the actual offset transaction.
+     * It does this by performing the following steps:
+     * 1. Getting the offset object code and offset subobject code from the
+     *    GL Offset Definition Table.
+     * 2. For the offset object code it needs to get the associated object type,
+     *    object subtype, and object active code.
+     *    
+     * @param workingEntry
+     */
     private void generateOffset(OriginEntry workingEntry) {
         workingEntry.setTransactionLedgerEntryDesc("OFFSET_DESCRIPTION"); // TODO: get from property
 
@@ -1323,7 +1544,10 @@ public class ScrubberServiceImpl implements ScrubberService {
         workingEntry.setTransactionDate(runDate);
     }// End of method
 
-    private void initScrubberValues() { /* 2520-init-SRCbArea */
+    /**
+     * 2520-init-SRCbArea
+     */
+    private void initScrubberValues() {
         wsExpiredAccount = null;
         wsExpiredChart = null;
         scrubberUtil.offsetAmountAccumulator = new KualiDecimal(0.0);

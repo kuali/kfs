@@ -198,7 +198,7 @@ public class AuxiliaryVoucherDocumentRule extends TransactionalDocumentRuleBase 
             
             GeneralLedgerPendingEntry avrcEntry = new GeneralLedgerPendingEntry();
             populateExplicitGeneralLedgerPendingEntry(document, line, sequenceHelper, avrcEntry);
-            avrcEntry.setFinancialDocumentReversalDate(auxVoucher.getReversalDate());
+            avrcEntry.setFinancialDocumentReversalDate(new java.sql.Date(auxVoucher.getReversalDate().getTime()));
             avrcEntry.setFinancialDocumentTypeCode(AUX_VOUCHER_RECODE_DOC_TYPE);
             avrcEntry.setFinancialObjectTypeCode(objectType);
             document.addGeneralLedgerPendingEntry(avrcEntry);
@@ -213,12 +213,12 @@ public class AuxiliaryVoucherDocumentRule extends TransactionalDocumentRuleBase 
             sequenceHelper.increment();
             
         } else if (AUX_VOUCHER_ADJUSTMENT_DOC_TYPE.equals(voucherType)) {
-            explicitEntry.setFinancialDocumentReversalDate(auxVoucher.getReversalDate());
+            explicitEntry.setFinancialDocumentReversalDate(new java.sql.Date(auxVoucher.getReversalDate().getTime()));
             explicitEntry.setFinancialDocumentTypeCode(AUX_VOUCHER_ADJUSTMENT_DOC_TYPE);
             explicitEntry.setFinancialObjectTypeCode(objectType);
             return true;
         } else if (AUX_VOUCHER_ACCRUAL_DOC_TYPE.equals(voucherType)) {
-            explicitEntry.setFinancialDocumentReversalDate(auxVoucher.getReversalDate());
+            explicitEntry.setFinancialDocumentReversalDate(new java.sql.Date(auxVoucher.getReversalDate().getTime()));
             explicitEntry.setFinancialDocumentTypeCode(AUX_VOUCHER_ACCRUAL_DOC_TYPE);
             explicitEntry.setFinancialObjectTypeCode(objectType);
             return true;

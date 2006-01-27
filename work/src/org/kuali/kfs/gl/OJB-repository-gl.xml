@@ -163,7 +163,7 @@
 	<field-descriptor name="financialDocumentReversalDate" column="FDOC_REVERSAL_DT" jdbc-type="DATE"/>
 	<field-descriptor name="transactionEncumbranceUpdtCd" column="TRN_ENCUM_UPDT_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="transactionPostingDate" column="TRN_POST_DT" jdbc-type="DATE"/>
-	<field-descriptor name="transactionDateTimeStamp" column="TIMESTAMP" jdbc-type="DATE" index="true"/>
+	<field-descriptor name="transactionDateTimeStamp" column="DATE" jdbc-type="DATE" index="true"/>
 	<field-descriptor name="budgetYear" column="BDGT_YR" jdbc-type="VARCHAR"/>
 
 	<reference-descriptor name="account" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="none">
@@ -339,7 +339,7 @@
 	<field-descriptor name="accountLineEncumbranceClosedAmount" column="ACLN_ENCUM_CLS_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
 	<!--  A space is a valid entry in this field so it can't be converted to boolean -->
 	<field-descriptor name="accountLineEncumbrancePurgeCode" column="ACLN_ENCUM_PRG_IND" jdbc-type="VARCHAR" />
-	<field-descriptor name="timestamp" column="TIMESTAMP" jdbc-type="TIMESTAMP" />
+	<field-descriptor name="timestamp" column="TIMESTAMP" jdbc-type="DATE" />
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 </class-descriptor>
@@ -507,7 +507,7 @@
 	<field-descriptor name="currentBudgetLineBalanceAmount" column="CURR_BDLN_BAL_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
 	<field-descriptor name="accountLineActualsBalanceAmount" column="ACLN_ACTLS_BAL_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
 	<field-descriptor name="accountLineEncumbranceBalanceAmount" column="ACLN_ENCUM_BAL_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
-	<field-descriptor name="timestamp" column="TIMESTAMP" jdbc-type="TIMESTAMP" />
+	<field-descriptor name="timestamp" column="TIMESTAMP" jdbc-type="DATE" />
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 </class-descriptor>
@@ -593,7 +593,7 @@
 	<field-descriptor name="transactionLedgerEntryDesc" column="TRN_LDGR_ENTR_DESC" jdbc-type="VARCHAR"/>
 	<field-descriptor name="transactionLedgerEntryAmount" column="TRN_LDGR_ENTR_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="transactionDebitCreditCode" column="TRN_DEBIT_CRDT_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="transactionDate" column="TRANSACTION_DT" jdbc-type="TIMESTAMP"/>
+	<field-descriptor name="transactionDate" column="TRANSACTION_DT" jdbc-type="DATE"/>
 	<field-descriptor name="financialDocumentTypeCode" column="FDOC_TYP_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="organizationDocumentNumber" column="ORG_DOC_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="projectCode" column="PROJECT_CD" jdbc-type="VARCHAR"/>
@@ -601,12 +601,12 @@
 	<field-descriptor name="referenceFinDocumentTypeCode" column="FDOC_REF_TYP_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="finSystemRefOriginationCode" column="FS_REF_ORIGIN_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="financialDocumentReferenceNbr" column="FDOC_REF_NBR" jdbc-type="VARCHAR"/>
-	<field-descriptor name="financialDocumentReversalDate" column="FDOC_REVERSAL_DT" jdbc-type="TIMESTAMP"/>
+	<field-descriptor name="financialDocumentReversalDate" column="FDOC_REVERSAL_DT" jdbc-type="DATE"/>
 	<field-descriptor name="transactionEncumbranceUpdtCd" column="TRN_ENCUM_UPDT_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="financialDocumentApprovedCode" column="FDOC_APPROVED_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="acctSufficientFundsFinObjCd" column="ACCT_SF_FINOBJ_CD" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="transactionEntryOffsetIndicator" column="TRN_ENTR_OFST_CD" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanFieldTFConversion"/>
-	<field-descriptor name="transactionEntryProcessedTs" column="TRNENTR_PROCESS_TM" jdbc-type="TIMESTAMP"/>
+	<field-descriptor name="transactionEntryProcessedTs" column="TRNENTR_PROCESS_TM" jdbc-type="DATE"/>
 	<field-descriptor name="budgetYear" column="BDGT_YR" jdbc-type="VARCHAR"/>
 	
 	<reference-descriptor name="documentType" class-ref="org.kuali.core.document.DocumentType" auto-retrieve="true">

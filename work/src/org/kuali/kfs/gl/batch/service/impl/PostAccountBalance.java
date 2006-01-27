@@ -4,7 +4,6 @@
  */
 package org.kuali.module.gl.batch.poster.impl;
 
-import java.sql.Timestamp;
 import java.util.Date;
 
 import org.kuali.module.gl.batch.poster.PostTransaction;
@@ -52,7 +51,7 @@ public class PostGlAccountBalance implements PostTransaction {
         ab = new AccountBalance(t);
       }
 
-      ab.setTimestamp(new Timestamp(postDate.getTime()));
+      ab.setTimestamp(new java.sql.Date(postDate.getTime()));
 
       if ( t.getFinancialBalanceTypeCode().equals(t.getOption().getBudgetCheckingBalanceTypeCd()) ) {
         ab.setCurrentBudgetLineBalanceAmount(ab.getCurrentBudgetLineBalanceAmount().add(t.getTransactionLedgerEntryAmount()));

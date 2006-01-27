@@ -75,7 +75,7 @@ public class PreEncumbranceDocumentRule extends TransactionalDocumentRuleBase {
         
         //set the reversal date to what was chosen by the user in the interface
         PreEncumbranceDocument peDoc = (PreEncumbranceDocument) transactionalDocument;
-        explicitEntry.setFinancialDocumentReversalDate(peDoc.getReversalDate());
+        explicitEntry.setFinancialDocumentReversalDate(new java.sql.Date(peDoc.getReversalDate().getTime()));
     }
 
     /**

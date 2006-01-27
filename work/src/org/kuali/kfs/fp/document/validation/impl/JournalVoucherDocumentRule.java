@@ -155,7 +155,7 @@ public class JournalVoucherDocumentRule extends TransactionalDocumentRuleBase {
                 GENERAL_LEDGER_PENDING_ENTRY_CODE.BLANK_SPACE));
 
         // set the reversal date to what what specified at the document level
-        explicitEntry.setFinancialDocumentReversalDate(jvDoc.getReversalDate());
+        explicitEntry.setFinancialDocumentReversalDate(new java.sql.Date(jvDoc.getReversalDate().getTime()));
     }
     
     /**

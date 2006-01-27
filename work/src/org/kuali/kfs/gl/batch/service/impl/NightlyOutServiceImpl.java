@@ -23,16 +23,13 @@
 package org.kuali.module.gl.service.impl;
 
 import java.sql.Date;
-import java.sql.Timestamp;
 import java.util.Iterator;
 
 import org.kuali.core.service.DateTimeService;
-
 import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.bo.OriginEntrySource;
-
 import org.kuali.module.gl.service.GeneralLedgerPendingEntryService;
 import org.kuali.module.gl.service.NightlyOutService;
 import org.kuali.module.gl.service.OriginEntryGroupService;
@@ -114,7 +111,7 @@ public class NightlyOutServiceImpl implements NightlyOutService {
         originEntry.setTransactionDebitCreditCode(pendingEntry.getTransactionDebitCreditCode());
         originEntry.setFinancialDocumentNumber(pendingEntry.getFinancialDocumentNumber());
 
-        Timestamp reversalDate = pendingEntry.getFinancialDocumentReversalDate();
+        Date reversalDate = pendingEntry.getFinancialDocumentReversalDate();
         if (reversalDate != null) {
             originEntry.setFinancialDocumentReversalDate(new Date(reversalDate.getTime()));
         }
@@ -158,7 +155,7 @@ public class NightlyOutServiceImpl implements NightlyOutService {
      */
     private void updatePendingEntryAfterCopy(GeneralLedgerPendingEntry pendingEntry) {
         pendingEntry.setFinancialDocumentApprovedCode("X");
-        pendingEntry.setTransactionDate(dateTimeService.getCurrentTimestamp());
+        pendingEntry.setTransactionDate(new Date(dateTimeService.getCurrentDate().getTime()));
         generalLedgerPendingEntryService.save(pendingEntry);
     }
 

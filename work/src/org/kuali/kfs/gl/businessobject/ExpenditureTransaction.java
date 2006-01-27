@@ -25,6 +25,7 @@ package org.kuali.module.gl.bo;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.user.Options;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.chart.bo.Account;
 
@@ -49,6 +50,7 @@ public class ExpenditureTransaction extends BusinessObjectBase {
   private KualiDecimal accountObjectDirectCostAmount;
 
   private Account account;
+  private Options option;
 
   /**
    * 
@@ -88,6 +90,12 @@ public class ExpenditureTransaction extends BusinessObjectBase {
     return map;
   }
 
+  public Options getOption() {
+    return option;
+  }
+  public void setOption(Options option) {
+    this.option = option;
+  }
   public Account getAccount() {
     return account;
   }

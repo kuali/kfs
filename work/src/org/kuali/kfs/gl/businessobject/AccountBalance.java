@@ -22,7 +22,7 @@
  */
 package org.kuali.module.gl.bo;
 
-import java.sql.Timestamp;
+import java.sql.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.BusinessObjectBase;
@@ -46,7 +46,7 @@ public class AccountBalance extends BusinessObjectBase {
   private KualiDecimal currentBudgetLineBalanceAmount;
   private KualiDecimal accountLineActualsBalanceAmount;
   private KualiDecimal accountLineEncumbranceBalanceAmount;
-  private Timestamp timestamp;
+  private Date timestamp;
 
   public AccountBalance() {
     super();
@@ -127,10 +127,10 @@ public class AccountBalance extends BusinessObjectBase {
   public void setSubObjectCode(String subObjectCode) {
     this.subObjectCode = subObjectCode;
   }
-  public Timestamp getTimestamp() {
+  public Date getTimestamp() {
     return timestamp;
   }
-  public void setTimestamp(Timestamp timestamp) {
+  public void setTimestamp(Date timestamp) {
     this.timestamp = timestamp;
   }
   public Integer getUniversityFiscalYear() {

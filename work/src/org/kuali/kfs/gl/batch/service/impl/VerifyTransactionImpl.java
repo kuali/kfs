@@ -25,6 +25,7 @@ package org.kuali.module.gl.batch.poster.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.Constants;
 import org.kuali.module.gl.batch.poster.VerifyTransaction;
 import org.kuali.module.gl.bo.Transaction;
 
@@ -79,12 +80,12 @@ public class VerifyTransactionImpl implements VerifyTransaction {
     } else {
       if ( t.getBalanceType() != null ) {
         if ( t.getBalanceType().isFinancialOffsetGenerationIndicator() ) {
-          if ( "DC".indexOf(t.getTransactionDebitCreditCode()) < 0 ) {
-            errors.add("trn_debit_crdt_cd must be D or C for this fin_balance_typ_cd");
+          if ( (! Constants.GL_DEBIT_CODE.equals(t.getTransactionDebitCreditCode())) && (! Constants.GL_CREDIT_CODE.equals(t.getTransactionDebitCreditCode())) ) {
+            errors.add("trn_debit_crdt_cd must be " + Constants.GL_DEBIT_CODE + " or " + Constants.GL_CREDIT_CODE + " for this fin_balance_typ_cd");
           }
         } else {
-          if ( ! " ".equals(t.getTransactionDebitCreditCode()) ) {
-            errors.add("trn_debit_crdt_cd must be a space for this fin_balance_typ_cd");
+          if ( ! Constants.GL_BUDGET_CODE.equals(t.getTransactionDebitCreditCode()) ) {
+            errors.add("trn_debit_crdt_cd must be '" + Constants.GL_BUDGET_CODE + "' for this fin_balance_typ_cd");
           }
         }
       }

@@ -23,9 +23,11 @@
 package org.kuali.module.chart.dao.ojb;
 
 import java.math.BigDecimal;
+import java.util.Collection;
 import java.util.Iterator;
 
 import org.apache.ojb.broker.query.Criteria;
+import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.module.chart.bo.IcrAutomatedEntry;
@@ -72,5 +74,19 @@ public class IcrAutomatedEntryDaoOjb extends PersistenceBrokerDaoSupport impleme
     }
 
     return nextNumber;
+  }
+
+  public Collection getEntriesBySeries(Integer universityFiscalYear,String financialIcrSeriesIdentifier,String balanceTypeCode) {
+    LOG.debug("getEntriesBySeries() started");
+
+    Criteria crit = new Criteria();
+    crit.addEqualTo("universityFiscalYear",universityFiscalYear);
+    crit.addEqualTo("financialIcrSeriesIdentifier",financialIcrSeriesIdentifier);
+    crit.addEqualTo("balanceTypeCode",balanceTypeCode);
+
+    QueryByCriteria qbc = QueryFactory.newQuery(IcrAutomatedEntry.class, crit);
+    qbc.addOrderByAscending("awardIndrCostRcvyEntryNbr");
+
+    return getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
   }
 }

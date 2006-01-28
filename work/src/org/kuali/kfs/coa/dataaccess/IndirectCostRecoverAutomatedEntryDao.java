@@ -22,10 +22,13 @@
  */
 package org.kuali.module.chart.dao;
 
+import java.util.Collection;
+
 /**
  * @author jsissom
  *
  */
 public interface IcrAutomatedEntryDao {
   public Long getCount(Integer universityFiscalYear,String financialSeriesId,String balanceTypeCode);
+  public Collection getEntriesBySeries(Integer universityFiscalYear,String financialSeriesId,String balanceTypeCode);
 }

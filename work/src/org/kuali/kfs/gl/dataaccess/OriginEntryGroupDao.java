@@ -32,5 +32,5 @@ public interface OriginEntryGroupDao {
 	public Collection getMatchingGroups(Map searchCriteria); 
 	public Collection getPosterGroups(Date groupDate,String groupSourceCode);
 	public Collection getScrubberGroups(Date groupDate);
-	public void saveGroup(OriginEntryGroup group);
+	public void save(OriginEntryGroup group);
 }

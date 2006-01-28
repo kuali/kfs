@@ -56,6 +56,7 @@
 		<property name="posterReport"><ref bean="glPosterReport" /></property>
 		<property name="verifyTransaction"><ref bean="glVerifyTransaction" /></property>
 		<property name="originEntryService"><ref bean="glOriginEntryService" /></property>
+		<property name="originEntryGroupService"><ref bean="glOriginEntryGroupService" /></property>
 		<property name="dateTimeService"><ref bean="dateTimeService" /></property>
 		<property name="reversalDao"><ref bean="glReversalDao" /></property>
 		<property name="universityDateDao"><ref bean="universityDateDao" /></property>

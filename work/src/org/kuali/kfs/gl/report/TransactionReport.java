@@ -29,6 +29,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -54,6 +55,16 @@ import com.lowagie.text.pdf.PdfWriter;
  */
 public class TransactionReport {
   private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(TransactionReport.class);
+
+  private static Map operations = null;
+
+  static {
+    operations = new HashMap();
+    operations.put("I","inserted");
+    operations.put("U","updated");
+    operations.put("S","selected");
+    operations.put("D","deleted");
+  }
 
   class PageHelper extends PdfPageEventHelper {
     public Date runDate;
@@ -153,14 +164,12 @@ public class TransactionReport {
           msg.append(pieces[0]);
         }
         msg.append(" records ");
-        if ( "I".equals(pieces[1]) ) {
-          msg.append("inserted");
-        } else if ( "U".equals(pieces[1]) ) {
-          msg.append("updated");
-        } else if ( "D".equals(pieces[1]) ) {
-          msg.append("deleted");
+
+        String word = (String)operations.get(pieces[1]);
+        if ( word == null ) {
+          msg.append("processed");
         } else {
-          msg.append("selected");
+          msg.append(word);
         }
         msg.append(":");
 

@@ -36,7 +36,7 @@ import org.kuali.module.gl.service.OriginEntryGroupService;
 
 /**
  * @author Laran Evans <lc278@cs.cornell.edu>
- * @version $Id: OriginEntryGroupServiceImpl.java,v 1.6 2006-01-28 16:03:34 jsissom Exp $
+ * @version $Id: OriginEntryGroupServiceImpl.java,v 1.7 2006-01-28 22:27:10 jsissom Exp $
  * 
  */
 public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
@@ -89,14 +89,14 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
 	    oeg.setSourceCode(sourceCode);
 	    oeg.setValid(new Boolean(valid));
 
-	    originEntryGroupDao.saveGroup(oeg);
+	    originEntryGroupDao.save(oeg);
 
 	    return oeg;
 	  }
 
 	  public Collection getGroupsToPost(Date postDate) {
 	    LOG.debug("getGroupsToPost() started");
-	    
+
 	    return originEntryGroupDao.getPosterGroups(postDate,OriginEntrySource.SCRUBBER_VALID);
 	  }
 
@@ -115,6 +115,6 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
     public void save(OriginEntryGroup group) {
       LOG.debug("save() started");
 
-      originEntryGroupDao.saveGroup(group);
+      originEntryGroupDao.save(group);
     }
 }

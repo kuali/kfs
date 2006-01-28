@@ -36,7 +36,7 @@ import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 /**
  * @author Laran Evans <lc278@cornell.edu>
- * @version $Id: OriginEntryGroupDaoOjb.java,v 1.3 2006-01-27 16:42:44 larevans Exp $
+ * @version $Id: OriginEntryGroupDaoOjb.java,v 1.4 2006-01-28 22:26:56 jsissom Exp $
  * 
  */
 
@@ -97,8 +97,8 @@ public class OriginEntryGroupDaoOjb extends PersistenceBrokerDaoSupport implemen
 	  /**
 	   * 
 	   */
-	  public void saveGroup(OriginEntryGroup group) {
-	    LOG.debug("saveGroup() started");
+	  public void save(OriginEntryGroup group) {
+	    LOG.debug("save() started");
 
 	    getPersistenceBrokerTemplate().store(group);
 	  }

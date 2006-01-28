@@ -26,6 +26,7 @@ import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
@@ -36,9 +37,11 @@ import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.util.ErrorMessage;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.core.util.TypedArrayList;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.SubFundGroup;
 import org.kuali.module.financial.rules.KualiParameterRule;
@@ -155,6 +158,32 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         return success;
     }
 
+    private void showErrorMap() {
+        
+        if (GlobalVariables.getErrorMap().isEmpty()) {
+            return;
+        }
+
+        for (Iterator i = GlobalVariables.getErrorMap().entrySet().iterator(); i.hasNext();) {
+            Map.Entry e = (Map.Entry) i.next();
+
+            boolean first = true;
+            
+            TypedArrayList errorList = (TypedArrayList) e.getValue();
+            for (Iterator j = errorList.iterator(); j.hasNext();) {
+                ErrorMessage em = (ErrorMessage) j.next();
+
+                if (em.getMessageParameters() == null) {
+                    LOG.error(e.getKey().toString() + " = " + em.getErrorKey());
+                }
+                else {
+                    LOG.error(e.getKey().toString() + " = " + em.getErrorKey() +  " : " + em.getMessageParameters().toString());
+                }
+            }
+        }
+
+    }
+
     /**
      * 
      * This method checks the basic rules for empty values in an account and associated
@@ -241,9 +270,6 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         
         boolean success = true;
 
-        GlobalVariables.getErrorMap().addToErrorPath("newMaintainableObject");
-        
-           
         // Enforce institutionally specified restrictions on account number prefixes
         // (e.g. the account number cannot begin with a 3 or with 00.)
         // Only bother trying if there is an account string to test
@@ -366,7 +392,6 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         if (ObjectUtils.isNull(newAccount.getAccountPhysicalCampus())) {
             success &= false;
             putFieldError("accountPhysicalCampusCode", KeyConstants.ERROR_DOCUMENT_ACCMAINT_INVALID_CAMPUS_CD);
-            putGlobalError("Physical Campus Code entered must be a valid Physical Campus Code that exists in the system.");
         } // campus doesnt have an Active code, so this isnt checked
         
         //acct_state_cd must be valid in the sh_state_t table

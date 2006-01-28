@@ -26,17 +26,17 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.bo.OriginEntrySource;
 import org.kuali.module.gl.dao.OriginEntryGroupDao;
-import org.kuali.module.gl.dao.ojb.OriginEntryGroupDaoOjb;
 import org.kuali.module.gl.service.OriginEntryGroupService;
 
 /**
  * @author Laran Evans <lc278@cs.cornell.edu>
- * @version $Id: OriginEntryGroupServiceImpl.java,v 1.4 2006-01-27 21:14:14 jsissom Exp $
+ * @version $Id: OriginEntryGroupServiceImpl.java,v 1.5 2006-01-28 16:00:52 jsissom Exp $
  * 
  */
 public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
@@ -59,8 +59,7 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
 	public Collection getOriginEntryGroupsPendingProcessing() {
 		Map criteria = new HashMap();
 		criteria.put("process", Boolean.FALSE);
-		OriginEntryGroupDao dao = new OriginEntryGroupDaoOjb();
-		return Collections.unmodifiableCollection(dao.getMatchingGroups(criteria));
+		return Collections.unmodifiableCollection(originEntryGroupDao.getMatchingGroups(criteria));
 	}
 
 	/**
@@ -69,12 +68,12 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
 	 * @return
 	 */
 	public OriginEntryGroup getOriginEntryGroup(String groupId) {
-		OriginEntryGroupDao dao = new OriginEntryGroupDaoOjb();
 		Map criteria = new HashMap();
 		criteria.put("entryGroupId", groupId);
-		Collection matches = dao.getMatchingGroups(criteria);
-		if(null != matches) {
-			return (OriginEntryGroup) matches.iterator().next();
+		Collection matches = originEntryGroupDao.getMatchingGroups(criteria);
+    Iterator i = matches.iterator();
+    if ( i.hasNext() ) {
+			return (OriginEntryGroup)i.next();
 		}
 		return null;
 	}
@@ -90,6 +89,9 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
 	    oeg.setSourceCode(sourceCode);
 	    oeg.setValid(new Boolean(valid));
 
+      if ( originEntryGroupDao == null ) {
+        System.out.println("SHIT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+      }
 	    originEntryGroupDao.saveGroup(oeg);
 
 	    return oeg;

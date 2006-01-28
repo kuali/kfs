@@ -23,7 +23,6 @@
 package org.kuali.module.gl.util;
 
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -37,7 +36,6 @@ import java.util.Map;
 import org.kuali.module.gl.bo.Transaction;
 
 import com.lowagie.text.Document;
-import com.lowagie.text.DocumentException;
 import com.lowagie.text.ExceptionConverter;
 import com.lowagie.text.Font;
 import com.lowagie.text.FontFactory;
@@ -64,6 +62,9 @@ public class TransactionReport {
     operations.put("U","updated");
     operations.put("S","selected");
     operations.put("D","deleted");
+    operations.put("K","kept due to errors");
+    operations.put("G","generated");
+    operations.put("R","read");
   }
 
   class PageHelper extends PdfPageEventHelper {
@@ -107,6 +108,11 @@ public class TransactionReport {
    */
   public void generateReport(Map reportErrors, Map reportSummary, Date runDate, String title, String fileprefix, String destinationDirectory) {
     LOG.debug("generateReport() started");
+
+    for (Iterator iter = reportSummary.keySet().iterator(); iter.hasNext();) {
+      String key = (String)iter.next();
+      System.out.println(key + " = " + reportSummary.get(key));
+    }
 
     Font headerFont = FontFactory.getFont(FontFactory.COURIER,8,Font.BOLD);
     Font textFont = FontFactory.getFont(FontFactory.COURIER,8,Font.NORMAL);
@@ -279,12 +285,8 @@ public class TransactionReport {
         }
         document.add(warnings);
       }
-    } catch(DocumentException de) {
-      // TODO Fix this
-      System.err.println(de.getMessage());
-    } catch(IOException ioe) {
-      // TODO Fix this
-      System.err.println(ioe.getMessage());
+    } catch(Exception de) {
+      LOG.error("generateReport() Error creating PDF report", de);
     }
 
     document.close();

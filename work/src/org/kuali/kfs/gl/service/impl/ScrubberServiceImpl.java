@@ -32,6 +32,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import oracle.jdbc.Const;
+
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
 import org.kuali.core.bo.user.Options;
@@ -57,7 +59,7 @@ import org.springframework.util.StringUtils;
 
 /**
  * @author Anthony Potts
- * @version $Id: ScrubberServiceImpl.java,v 1.18 2006-01-27 21:13:48 jsissom Exp $
+ * @version $Id: ScrubberServiceImpl.java,v 1.19 2006-01-28 00:02:17 aapotts Exp $
  */
 
 public class ScrubberServiceImpl implements ScrubberService {
@@ -166,20 +168,22 @@ public class ScrubberServiceImpl implements ScrubberService {
 
         workingEntry = new OriginEntry();
 
-        if (StringUtils.hasText(originEntry.getSubAccountNumber())) {
+        if (StringUtils.hasText(originEntry.getSubAccountNumber()) && !Constants.DASHES_SUB_ACCOUNT_NUMBER.equals(originEntry.getSubAccountNumber())) {
             workingEntry.setSubAccountNumber(originEntry.getSubAccountNumber());
         } else {
             workingEntry.setSubAccountNumber(Constants.DASHES_SUB_ACCOUNT_NUMBER);
         }
 
-        if (StringUtils.hasText(originEntry.getFinancialSubObjectCode()) && (checkGLObject(originEntry.getFinancialSubObject(), kualiConfigurationService.getPropertyString(KeyConstants.ERROR_SUB_OBJECT_CODE_NOT_FOUND)))) {
+        if (StringUtils.hasText(originEntry.getFinancialSubObjectCode()) && !Constants.DASHES_SUB_OBJECT_CODE.equals(originEntry.getFinancialSubObjectCode())) {
             workingEntry.setFinancialSubObjectCode(originEntry.getFinancialSubObjectCode());
-            workingEntry.setFinancialSubObject(originEntry.getFinancialSubObject());
+            if (checkGLObject(originEntry.getFinancialSubObject(), kualiConfigurationService.getPropertyString(KeyConstants.ERROR_SUB_OBJECT_CODE_NOT_FOUND))) {
+                workingEntry.setFinancialSubObject(originEntry.getFinancialSubObject());
+            }
         } else {
         	workingEntry.setFinancialSubObjectCode(Constants.DASHES_SUB_OBJECT_CODE);
         }
 
-        if (StringUtils.hasText(originEntry.getProjectCode())) {
+        if (StringUtils.hasText(originEntry.getProjectCode()) && !Constants.DASHES_PROJECT_CODE.equals(originEntry.getProjectCode())) {
             checkGLObject(originEntry.getProject(), kualiConfigurationService.getPropertyString(KeyConstants.ERROR_PROJECT_CODE_NOT_FOUND));
         } else {
         	workingEntry.setProjectCode(Constants.DASHES_PROJECT_CODE);
@@ -216,11 +220,11 @@ public class ScrubberServiceImpl implements ScrubberService {
         if (originEntry.getUniversityFiscalYear() == null) {
             workingEntry.setUniversityFiscalYear(univRunDate.getUniversityFiscalYear());
             workingEntry.getOption().setUniversityFiscalYear(workingEntry.getUniversityFiscalYear());
-            workingEntry.getOption().refreshReferenceObject("option");
+            workingEntry.refreshReferenceObject("option");
         } else {
             workingEntry.setUniversityFiscalYear(originEntry.getUniversityFiscalYear());
             workingEntry.getOption().setUniversityFiscalYear(workingEntry.getUniversityFiscalYear());
-            workingEntry.getOption().refreshReferenceObject("option");
+            workingEntry.refreshReferenceObject("option");
         }
 
         if (checkGLObject(originEntry.getDocumentType(), kualiConfigurationService.getPropertyString(KeyConstants.ERROR_DOCUMENT_TYPE_NOT_FOUND))) {
@@ -300,7 +304,7 @@ public class ScrubberServiceImpl implements ScrubberService {
                 workingEntry.setBalanceType(new BalanceTyp());
             }
             workingEntry.getBalanceType().setCode(originEntry.getOption().getActualFinancialBalanceTypeCd());
-            workingEntry.getBalanceType().refreshReferenceObject("balanceType");
+            workingEntry.refreshReferenceObject("balanceType");
             checkGLObject(workingEntry.getBalanceType(), kualiConfigurationService.getPropertyString(KeyConstants.ERROR_BALANCE_TYPE_NOT_FOUND));
         }
 
@@ -314,7 +318,7 @@ public class ScrubberServiceImpl implements ScrubberService {
             transactionErrors.add(kualiConfigurationService.getPropertyString(KeyConstants.ERROR_FISCAL_PERIOD_CLOSED));
         }
 
-        if(originEntry.getBalanceType().isFinancialOffsetGenerationIndicator() &&
+        if(originEntry.getBalanceType() != null && originEntry.getBalanceType().isFinancialOffsetGenerationIndicator() &&
                 originEntry.getTransactionLedgerEntryAmount().isNegative()) {
             transactionErrors.add(kualiConfigurationService.getPropertyString(KeyConstants.ERROR_TRANS_CANNOT_BE_NEGATIVE_IF_OFFSET));
         }
@@ -362,7 +366,7 @@ public class ScrubberServiceImpl implements ScrubberService {
             workingEntry.setReferenceDocumentType(null);
             workingEntry.setFinSystemRefOriginationCode(null);
 
-            if (originEntry.getTransactionEncumbranceUpdtCd().equals("R")) { // TODO: change to constant
+            if ("R".equals(originEntry.getTransactionEncumbranceUpdtCd())) { // TODO: change to constant
                 transactionErrors.add(kualiConfigurationService.getPropertyString(KeyConstants.ERROR_REFERENCE_DOC_NUMBER_CANNOT_BE_NULL_IF_UPDATE_CODE_IS_R));
             }
         }
@@ -381,9 +385,9 @@ public class ScrubberServiceImpl implements ScrubberService {
         // "The encumberance update code is not equal D R or N"
         if (originEntry.getBalanceType() != null && originEntry.getBalanceType().isFinBalanceTypeEncumIndicator() &&
                 !originEntry.getObjectType().isFundBalanceIndicator()) {
-            if (originEntry.getTransactionEncumbranceUpdtCd().equals("D") ||
-                        originEntry.getTransactionEncumbranceUpdtCd().equals("R") ||
-                        originEntry.getTransactionEncumbranceUpdtCd().equals("N")) {
+            if ("D".equals(originEntry.getTransactionEncumbranceUpdtCd()) ||
+                    "R".equals(originEntry.getTransactionEncumbranceUpdtCd()) ||
+                    "N".equals(originEntry.getTransactionEncumbranceUpdtCd())) {
                 workingEntry.setTransactionEncumbranceUpdtCd(originEntry.getTransactionEncumbranceUpdtCd());
             } else {
                 transactionErrors.add(kualiConfigurationService.getPropertyString(KeyConstants.ERROR_ENC_UPDATE_CODE_NOT_DRN));
@@ -394,14 +398,15 @@ public class ScrubberServiceImpl implements ScrubberService {
         // (BalanceTypeCode = "AC" or "EX" or "IE" or "PE") //todo: move to properties
         //  retrieve and validate that subFundGroup exists - "subFundGroup not in table"
         //  (put into working storage field)
-        if ((originEntry.getFinancialObjectTypeCode().equals(originEntry.getOption().getFinObjTypeExpenditureexpCd()) ||
+        if (originEntry.getFinancialObjectTypeCode() != null &&
+                ((originEntry.getFinancialObjectTypeCode().equals(originEntry.getOption().getFinObjTypeExpenditureexpCd()) ||
                 originEntry.getFinancialObjectTypeCode().equals(originEntry.getOption().getFinObjTypeExpNotExpendCode()) ||
                 originEntry.getFinancialObjectTypeCode().equals(originEntry.getOption().getFinObjTypeExpendNotExpCode()) ||
                 originEntry.getFinancialObjectTypeCode().equals("TE")) &&
                 (originEntry.getFinancialBalanceTypeCode().equals(originEntry.getOption().getActualFinancialBalanceTypeCd()) ||
                 originEntry.getFinancialBalanceTypeCode().equals(originEntry.getOption().getExtrnlEncumFinBalanceTypCd()) ||
                 originEntry.getFinancialBalanceTypeCode().equals(originEntry.getOption().getIntrnlEncumFinBalanceTypCd()) ||
-                originEntry.getFinancialBalanceTypeCode().equals(originEntry.getOption().getPreencumbranceFinBalTypeCd()))) {
+                originEntry.getFinancialBalanceTypeCode().equals(originEntry.getOption().getPreencumbranceFinBalTypeCd())))) {
             if (checkGLObject(originEntry.getAccount().getSubFundGroup(), kualiConfigurationService.getPropertyString(KeyConstants.ERROR_SUB_FUND_GROUP_NOT_FOUND))) {
                 wsFundGroupCode = originEntry.getAccount().getSubFundGroupCode();
             }
@@ -1433,7 +1438,7 @@ public class ScrubberServiceImpl implements ScrubberService {
     private void lookupObjectCode(OriginEntry inputEntry) { // SET-OBECT-2004
 
         // TODO: cant we just do an inputEntry
-        inputEntry.getFinancialObject().refreshReferenceObject("financialObject");
+        inputEntry.refreshReferenceObject("financialObject");
 
         checkGLObject(inputEntry.getFinancialObject(), "NO OBJECT FOR OBJECT ON OFSD");
 
@@ -1489,7 +1494,7 @@ public class ScrubberServiceImpl implements ScrubberService {
         }
         
         inputEntry.setFinancialObjectCode(objectCode);
-        inputEntry.getFinancialObject().refreshReferenceObject("financialObject"); // TODO: this needs to be checked!
+        inputEntry.refreshReferenceObject("financialObject"); // TODO: this needs to be checked!
 
         if (inputEntry.getFinancialObject() == null) {
             transactionErrors.add(kualiConfigurationService.getPropertyString(KeyConstants.ERROR_COST_SHARE_OBJECT_NOT_FOUND));

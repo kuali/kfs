@@ -34,25 +34,32 @@ import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.dao.OriginEntryDao;
-import org.kuali.module.gl.dao.ojb.OriginEntryDaoOjb;
 import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.gl.service.OriginEntryService;
 
 /**
  * @author jsissom
- * @version $Id: OriginEntryServiceImpl.java,v 1.4 2006-01-27 16:42:44 larevans Exp $
+ * @version $Id: OriginEntryServiceImpl.java,v 1.5 2006-01-28 16:01:04 jsissom Exp $
  */
 public class OriginEntryServiceImpl implements OriginEntryService {
   private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OriginEntryServiceImpl.class);
 
   private OriginEntryDao originEntryDao;
+  private OriginEntryGroupService originEntryGroupService;
+
+  public void setOriginEntryDao(OriginEntryDao oed) {
+    originEntryDao = oed;
+  }
+
+  public void setOriginEntryGroupService(OriginEntryGroupService oegs) {
+    originEntryGroupService = oegs;
+  }
 
   /**
    * 
    */
   public OriginEntryServiceImpl() {
     super();
-    originEntryDao = new OriginEntryDaoOjb();
   }
 
   public Iterator getEntriesByGroup(OriginEntryGroup oeg) {
@@ -72,16 +79,11 @@ public class OriginEntryServiceImpl implements OriginEntryService {
     originEntryDao.saveOriginEntry(e);
   }
 
-  public void setOriginEntryDao(OriginEntryDao oed) {
-    originEntryDao = oed;
-  }
-
   public void loadFlatFile(String filename,String groupSourceCode,boolean valid,boolean processed,boolean scrub) {
     LOG.debug("loadFlatFile() started");
 
     java.util.Date groupDate = new java.util.Date();
-    OriginEntryGroupService groupService = new OriginEntryGroupServiceImpl();
-    OriginEntryGroup newGroup = groupService.createGroup(groupDate,groupSourceCode,valid,processed,scrub);
+    OriginEntryGroup newGroup = originEntryGroupService.createGroup(groupDate,groupSourceCode,valid,processed,scrub);
 
     BufferedReader input = null;
     try {

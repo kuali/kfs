@@ -36,7 +36,7 @@ import org.kuali.module.gl.service.OriginEntryGroupService;
 
 /**
  * @author Laran Evans <lc278@cs.cornell.edu>
- * @version $Id: OriginEntryGroupServiceImpl.java,v 1.5 2006-01-28 16:00:52 jsissom Exp $
+ * @version $Id: OriginEntryGroupServiceImpl.java,v 1.6 2006-01-28 16:03:34 jsissom Exp $
  * 
  */
 public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
@@ -89,9 +89,6 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
 	    oeg.setSourceCode(sourceCode);
 	    oeg.setValid(new Boolean(valid));
 
-      if ( originEntryGroupDao == null ) {
-        System.out.println("SHIT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-      }
 	    originEntryGroupDao.saveGroup(oeg);
 
 	    return oeg;

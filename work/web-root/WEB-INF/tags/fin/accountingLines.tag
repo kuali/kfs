@@ -102,9 +102,5 @@
   <SCRIPT type="text/javascript">
     var kualiForm = document.forms['KualiForm'];
     var kualiElements = kualiForm.elements;
-
-    for (var i = 0; i < kualiElements.length; i++) {
-      kualiElements[i].focus();
-    }
   </SCRIPT>
 </kul:tab>

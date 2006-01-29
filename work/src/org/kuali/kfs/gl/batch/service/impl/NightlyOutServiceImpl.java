@@ -54,6 +54,10 @@ public class NightlyOutServiceImpl implements NightlyOutService {
     public NightlyOutServiceImpl() {
     }
 
+    public void deleteCopiedPendingLedgerEntries() {
+      // TODO Write this
+    }
+
     /**
      * @see org.kuali.module.gl.service.NightlyOutService#copyApprovedPendingLedgerEntries()
      */

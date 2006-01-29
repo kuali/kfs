@@ -57,7 +57,7 @@ import org.kuali.module.gl.service.PosterService;
 
 /**
  * @author jsissom
- * @version $Id: PosterServiceImpl.java,v 1.7 2006-01-28 23:18:42 jsissom Exp $
+ * @version $Id: PosterServiceImpl.java,v 1.8 2006-01-29 03:16:08 jsissom Exp $
  */
 public class PosterServiceImpl implements PosterService {
   private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PosterServiceImpl.class);
@@ -328,15 +328,12 @@ public class PosterServiceImpl implements PosterService {
         }
       }
 
-
-
       // TODO Create entry to move the money
 
       Collection icrEntries = icrAutomatedEntryDao.getEntriesBySeries(et.getUniversityFiscalYear(),et.getAccount().getFinancialIcrSeriesIdentifier(),et.getBalanceTypeCode());
       int count = icrEntries.size();
       for (Iterator icrIter = icrEntries.iterator(); icrIter.hasNext();) {
         IcrAutomatedEntry icrEntry = (IcrAutomatedEntry)icrIter.next();
-
         
         // TODO Calculate percentage
         // TODO Create entry for destination

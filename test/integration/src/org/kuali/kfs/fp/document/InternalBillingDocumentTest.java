@@ -30,6 +30,7 @@ import org.kuali.core.bo.SourceAccountingLine;
 import org.kuali.core.bo.TargetAccountingLine;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.document.TransactionalDocumentTestBase;
+import org.kuali.core.exceptions.DocumentAuthorizationException;
 import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
@@ -146,6 +147,11 @@ public class InternalBillingDocumentTest extends TransactionalDocumentTestBase {
         catch( ValidationException e ) {
             failedAsExpected = true;
         }
+        catch( DocumentAuthorizationException dae) {
+            // this means that the workflow status didn't change in time for the check, so this is
+            // an expected exception
+            failedAsExpected = false;
+        }
         assertTrue( failedAsExpected );
     }
 
@@ -185,6 +191,11 @@ public class InternalBillingDocumentTest extends TransactionalDocumentTestBase {
         catch( ValidationException e ) {
             failedAsExpected = true;
         }
+        catch( DocumentAuthorizationException dae) {
+            // this means that the workflow status didn't change in time for the check, so this is
+            // an expected exception
+            failedAsExpected = false;
+        }
         assertTrue( failedAsExpected );
     }
 
@@ -217,6 +228,11 @@ public class InternalBillingDocumentTest extends TransactionalDocumentTestBase {
         }
         catch (ValidationException e) {
             failedAsExpected = true;
+        } 
+        catch( DocumentAuthorizationException dae) {
+            // this means that the workflow status didn't change in time for the check, so this is
+            // an expected exception
+            failedAsExpected = false;
         }
         assertTrue(failedAsExpected);
     }
@@ -249,6 +265,11 @@ public class InternalBillingDocumentTest extends TransactionalDocumentTestBase {
         }
         catch (ValidationException e) {
             failedAsExpected = true;
+        }
+        catch( DocumentAuthorizationException dae) {
+            // this means that the workflow status didn't change in time for the check, so this is
+            // an expected exception
+            failedAsExpected = false;
         }
         assertTrue(failedAsExpected);
     }
@@ -284,6 +305,11 @@ public class InternalBillingDocumentTest extends TransactionalDocumentTestBase {
             failedAsExpected = GlobalVariables.getErrorMap().containsMessageKey(
                     KeyConstants.ERROR_ACCOUNTINGLINE_INACCESSIBLE_DELETE);
         }
+        catch( DocumentAuthorizationException dae) {
+            // this means that the workflow status didn't change in time for the check, so this is
+            // an expected exception
+            failedAsExpected = false;
+        }
         assertTrue(failedAsExpected);
     }
 
@@ -316,6 +342,11 @@ public class InternalBillingDocumentTest extends TransactionalDocumentTestBase {
         catch (ValidationException e) {
             failedAsExpected = GlobalVariables.getErrorMap().containsMessageKey(
                     KeyConstants.ERROR_ACCOUNTINGLINE_INACCESSIBLE_DELETE);
+        }
+        catch( DocumentAuthorizationException dae) {
+            // this means that the workflow status didn't change in time for the check, so this is
+            // an expected exception
+            failedAsExpected = false;
         }
         assertTrue(failedAsExpected);
     }
@@ -351,6 +382,11 @@ public class InternalBillingDocumentTest extends TransactionalDocumentTestBase {
         catch (ValidationException e) {
             failedAsExpected = GlobalVariables.getErrorMap().containsMessageKey(
                     KeyConstants.ERROR_ACCOUNTINGLINE_LASTACCESSIBLE_DELETE);
+        }
+        catch( DocumentAuthorizationException dae) {
+            // this means that the workflow status didn't change in time for the check, so this is
+            // an expected exception
+            failedAsExpected = false;
         }
         assertTrue(failedAsExpected);
     }
@@ -427,6 +463,11 @@ public class InternalBillingDocumentTest extends TransactionalDocumentTestBase {
             failedAsExpected = GlobalVariables.getErrorMap().containsMessageKey(
                     KeyConstants.ERROR_ACCOUNTINGLINE_INACCESSIBLE_UPDATE);
         }
+        catch( DocumentAuthorizationException dae) {
+            // this means that the workflow status didn't change in time for the check, so this is
+            // an expected exception
+            failedAsExpected = false;
+        }
         assertTrue(failedAsExpected);
     }
 
@@ -460,6 +501,11 @@ public class InternalBillingDocumentTest extends TransactionalDocumentTestBase {
         catch (ValidationException e) {
             failedAsExpected = GlobalVariables.getErrorMap().containsMessageKey(
                     KeyConstants.ERROR_ACCOUNTINGLINE_INACCESSIBLE_UPDATE);
+        }
+        catch( DocumentAuthorizationException dae) {
+            // this means that the workflow status didn't change in time for the check, so this is
+            // an expected exception
+            failedAsExpected = false;
         }
         assertTrue(failedAsExpected);
     }

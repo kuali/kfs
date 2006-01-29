@@ -71,10 +71,6 @@ public class TransferOfFundsDocumentRuleTest
     private GeneralLedgerPendingEntry _expectedOffTargetGlEntry;
 
 
-    protected void setUp() throws Exception {
-        super.setUp();
-    }
-
     public String[] getFixtureCollectionNames() {
         return FIXTURE_COLLECTION_NAMES;
     }
@@ -510,26 +506,6 @@ public class TransferOfFundsDocumentRuleTest
     ///////////////////////////////////////////////////////////////////////////
     // Test Methods Start Here                                               //
     ///////////////////////////////////////////////////////////////////////////
-
-    protected AccountingLine createLineFromFixture(String accountingLineFixtureName) {
-        AccountingLine retval = (AccountingLine)getFixtureEntry(accountingLineFixtureName).createObject();
-        retval.refresh();
-        return retval;
-    }
-
-    public void testProcessGenerateGeneralLedgerPendingEntries_validSourceExpense()
-        throws Exception {
-        testProcessGenerateGeneralLedgerPendingEntries(createLineFromFixture("expenseSourceLine"),
-            "expectedExplicitSourcePendingEntryForExpense",
-            "expectedOffsetSourcePendingEntry");
-    }
-
-    public void testProcessGenerateGeneralLedgerPendingEntries_validTargetExpense()
-        throws Exception {
-        testProcessGenerateGeneralLedgerPendingEntries(createLineFromFixture("expenseTargetLine"),
-            "expectedExplicitTargetPendingEntryForExpense",
-            "expectedOffsetTargetPendingEntry");
-    }
 
     ///////////////////////////////////////////////////////////////////////////
     // Test Methods End Here                                                 //

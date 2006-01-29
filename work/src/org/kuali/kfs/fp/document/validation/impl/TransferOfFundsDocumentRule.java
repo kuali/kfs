@@ -47,9 +47,9 @@ public class TransferOfFundsDocumentRule extends TransactionalDocumentRuleBase {
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#customizeOffsetGeneralLedgerPendingEntry(org.kuali.core.document.TransactionalDocument,
      *      org.kuali.core.bo.AccountingLine, org.kuali.module.gl.bo.GeneralLedgerPendingEntry)
      */
-    protected void customizeOffsetGeneralLedgerPendingEntry(TransactionalDocument transactionalDocument,
-            AccountingLine accountingLine, GeneralLedgerPendingEntry offsetEntry) {
-        offsetEntry.setFinancialBalanceTypeCode(BALANCE_TYPE_CODE.ACTUAL);
+      protected void customizeOffsetGeneralLedgerPendingEntry(TransactionalDocument transactionalDocument,
+            AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry, GeneralLedgerPendingEntry offsetEntry) {
+          offsetEntry.setFinancialBalanceTypeCode(BALANCE_TYPE_CODE.ACTUAL);
     }
 
     /**

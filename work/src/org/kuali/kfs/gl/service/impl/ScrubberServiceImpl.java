@@ -45,7 +45,6 @@ import org.kuali.module.chart.service.AccountService;
 import org.kuali.module.chart.service.ChartService;
 import org.kuali.module.chart.service.ObjectCodeService;
 import org.kuali.module.chart.service.OffsetDefinitionService;
-import org.kuali.module.gl.batch.poster.impl.PostGlAccountBalanceTest;
 import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.bo.OriginEntrySource;
@@ -58,7 +57,7 @@ import org.springframework.util.StringUtils;
 
 /**
  * @author Anthony Potts
- * @version $Id: ScrubberServiceImpl.java,v 1.20 2006-01-30 17:31:20 aapotts Exp $
+ * @version $Id: ScrubberServiceImpl.java,v 1.21 2006-01-30 18:05:50 wesprice Exp $
  */
 
 public class ScrubberServiceImpl implements ScrubberService {

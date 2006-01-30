@@ -34,7 +34,6 @@
 		<property name="dateTimeService"><ref bean="dateTimeService" /></property>
 		<property name="offsetDefinitionService"><ref bean="offsetDefinitionService" /></property>
 		<property name="objectCodeService"><ref bean="objectCodeService" /></property>
-		<property name="chartService"><ref bean="chartService" /></property>
 		<property name="accountService"><ref bean="accountService" /></property>
 		<property name="kualiConfigurationService"><ref bean="kualiConfigurationService" /></property>
 		<property name="universityDateDao"><ref bean="universityDateDao" /></property>

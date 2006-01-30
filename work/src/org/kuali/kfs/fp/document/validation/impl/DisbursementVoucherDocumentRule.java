@@ -107,8 +107,8 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
             AccountingLine accountingLine) {
         boolean allow = true;
 
-        initializeRuleValues(transactionalDocument);
-        allow = validateObjectCode(transactionalDocument, accountingLine);
+//        initializeRuleValues(transactionalDocument);
+//        allow = validateObjectCode(transactionalDocument, accountingLine);
 
         return allow;
     }
@@ -122,33 +122,33 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
         DisbursementVoucherDocument dvDocument = (DisbursementVoucherDocument) document;
         DisbursementVoucherPayeeDetail payeeDetail = dvDocument.getDvPayeeDetail();
 
-        //        initializeRuleValues(document);
-        //
-        //        validateRequiredFields(dvDocument);
-        //        validatePaymentReason(dvDocument);
-        //
-        //        if (payeeDetail.isPayee()) {
-        //            validatePayeeInformation(dvDocument);
-        //        }
-        //
-        //        if (payeeDetail.isEmployee()) {
-        //            validateEmployeeInformation(dvDocument);
-        //        }
-        //
-        //        /* specific validation depending on payment method */
-        //        if (PAYMENT_METHOD_WIRE.equals(dvDocument.getDisbVchrPaymentMethodCode())) {
-        //            validateWireTransfer(dvDocument);
-        //        }
-        //        else if (PAYMENT_METHOD_DRAFT.equals(dvDocument.getDisbVchrPaymentMethodCode())) {
-        //            validateForeignDraft(dvDocument);
-        //        }
-
-        /* if nra payment and user is in tax group, check nra tab */
-        if (dvDocument.getDvPayeeDetail().isDisbVchrAlienPaymentCode() && isUserInTaxGroup()) {
-            validateNonResidentAlienInformation(dvDocument);
-        }
-
-        validateDocumentAmounts(dvDocument);
+//        initializeRuleValues(document);
+//
+//        validateRequiredFields(dvDocument);
+//        validatePaymentReason(dvDocument);
+//
+//        if (payeeDetail.isPayee()) {
+//            validatePayeeInformation(dvDocument);
+//        }
+//
+//        if (payeeDetail.isEmployee()) {
+//            validateEmployeeInformation(dvDocument);
+//        }
+//
+//        /* specific validation depending on payment method */
+//        if (PAYMENT_METHOD_WIRE.equals(dvDocument.getDisbVchrPaymentMethodCode())) {
+//            validateWireTransfer(dvDocument);
+//        }
+//        else if (PAYMENT_METHOD_DRAFT.equals(dvDocument.getDisbVchrPaymentMethodCode())) {
+//            validateForeignDraft(dvDocument);
+//        }
+//
+//        /* if nra payment and user is in tax group, check nra tab */
+//        if (dvDocument.getDvPayeeDetail().isDisbVchrAlienPaymentCode() && isUserInTaxGroup()) {
+//            validateNonResidentAlienInformation(dvDocument);
+//        }
+//
+//        validateDocumentAmounts(dvDocument);
 
         return GlobalVariables.getErrorMap().isEmpty();
     }
@@ -331,13 +331,13 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
                     || document.getDvNonResidentAlienTax().isIncomeTaxTreatyExemptCode()
                     || NRA_TAX_INCOME_CLASS_NON_REPORTABLE.equals(document.getDvNonResidentAlienTax().getIncomeClassCode())) {
 
-                if ((document.getDvNonResidentAlienTax().getFederalIncomeTaxPercent() != null && !(new KualiDecimal(0).equals(document
-                        .getDvNonResidentAlienTax().getFederalIncomeTaxPercent())))) {
+                if ((document.getDvNonResidentAlienTax().getFederalIncomeTaxPercent() != null && !(new KualiDecimal(0)
+                        .equals(document.getDvNonResidentAlienTax().getFederalIncomeTaxPercent())))) {
                     errors.put("dvNonResidentAlienTax.federalIncomeTaxPercent", KeyConstants.ERROR_DV_FEDERAL_TAX_NOT_ZERO);
                 }
 
-                if ((document.getDvNonResidentAlienTax().getStateIncomeTaxPercent() != null && !(new KualiDecimal(0).equals(document
-                        .getDvNonResidentAlienTax().getStateIncomeTaxPercent())))) {
+                if ((document.getDvNonResidentAlienTax().getStateIncomeTaxPercent() != null && !(new KualiDecimal(0)
+                        .equals(document.getDvNonResidentAlienTax().getStateIncomeTaxPercent())))) {
                     errors.put("dvNonResidentAlienTax.stateIncomeTaxPercent", KeyConstants.ERROR_DV_STATE_TAX_NOT_ZERO);
                 }
 
@@ -467,7 +467,7 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
         }
 
         /* check payment reason is allowed for payee type */
-        if (payeePaymentRule.failsRule(payeeDetail.getDisbVchrPaymentReasonCode())) {
+        if (payeePaymentRule != null && payeePaymentRule.failsRule(payeeDetail.getDisbVchrPaymentReasonCode())) {
             errors.put(" dvPayeeDetail.disbVchrPaymentReasonCode", KeyConstants.ERROR_PAYMENT_REASON_PAYEE, payeeDetail
                     .getDisbVchrPaymentReasonCode());
         }
@@ -490,7 +490,7 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
         ErrorMap errors = GlobalVariables.getErrorMap();
 
         /* check payment reason is allowed for employee type */
-        if (payeePaymentRule.failsRule(payeeDetail.getDisbVchrPaymentReasonCode())) {
+        if (payeePaymentRule != null && payeePaymentRule.failsRule(payeeDetail.getDisbVchrPaymentReasonCode())) {
             errors.put("dvPayeeDetail.disbVchrPaymentReasonCode", KeyConstants.ERROR_PAYMENT_REASON_EMPLOYEE, payeeDetail
                     .getDisbVchrPaymentReasonCode());
         }
@@ -540,28 +540,26 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
         }
 
         /* check object type is valid */
-        // if (objectCodeTypeRule != null &&
-        // objectCodeTypeRule.failsRule(accountingLine.getObjectCode().getFinancialObjectTypeCode())) {
-        // errors.put(errorKey, KeyConstants.ERROR_DV_OBJECT_TYPE_CODE, accountingLine.getObjectCode()
-        // .getFinancialObjectTypeCode());
-        // objectCodeAllowed = false;
-        // }
-        //
-        // /* check object sub type is valid */
-        // if (objectCodeSubTypeRule != null &&
-        // objectCodeSubTypeRule.failsRule(accountingLine.getObjectCode().getFinancialObjectSubTypeCode())) {
-        // errors.put(errorKey, KeyConstants.ERROR_DV_OBJECT_SUB_TYPE_CODE, accountingLine.getObjectCode()
-        // .getFinancialObjectSubTypeCode());
-        // objectCodeAllowed = false;
-        // }
+        if (objectCodeTypeRule != null && objectCodeTypeRule.failsRule(accountingLine.getObjectCode().getFinancialObjectTypeCode())) {
+            errors.put(errorKey, KeyConstants.ERROR_DV_OBJECT_TYPE_CODE, accountingLine.getObjectCode()
+                    .getFinancialObjectTypeCode());
+            objectCodeAllowed = false;
+        }
+
+        /* check object sub type is valid */
+        if (objectCodeSubTypeRule != null && objectCodeSubTypeRule.failsRule(accountingLine.getObjectCode().getFinancialObjectSubTypeCode())) {
+            errors.put(errorKey, KeyConstants.ERROR_DV_OBJECT_SUB_TYPE_CODE, accountingLine.getObjectCode()
+                    .getFinancialObjectSubTypeCode());
+            objectCodeAllowed = false;
+        }
+        
         String documentPaymentReason = dvDocument.getDvPayeeDetail().getDisbVchrPaymentReasonCode();
         if (StringUtils.isBlank(documentPaymentReason)) {
             return objectCodeAllowed;
         }
 
         /* check object level is in permitted list for payment reason */
-        if (paymentReasonObjectLevelRule != null
-                && paymentReasonObjectLevelRule.failsRule(accountingLine.getObjectCode().getFinancialObjectLevelCode())) {
+        if (paymentReasonObjectLevelRule != null && paymentReasonObjectLevelRule.failsRule(accountingLine.getObjectCode().getFinancialObjectLevelCode())) {
             errors.put(errorKey, KeyConstants.ERROR_DV_PAYMENT_OBJECT_LEVEL, new String[] {
                     accountingLine.getFinancialObjectCode(), accountingLine.getObjectCode().getFinancialObjectLevelCode(),
                     documentPaymentReason });

@@ -150,7 +150,7 @@ public class InternalBillingDocumentTest extends TransactionalDocumentTestBase {
         catch( DocumentAuthorizationException dae) {
             // this means that the workflow status didn't change in time for the check, so this is
             // an expected exception
-            failedAsExpected = false;
+            failedAsExpected = true;
         }
         assertTrue( failedAsExpected );
     }
@@ -194,7 +194,7 @@ public class InternalBillingDocumentTest extends TransactionalDocumentTestBase {
         catch( DocumentAuthorizationException dae) {
             // this means that the workflow status didn't change in time for the check, so this is
             // an expected exception
-            failedAsExpected = false;
+            failedAsExpected = true;
         }
         assertTrue( failedAsExpected );
     }
@@ -232,7 +232,7 @@ public class InternalBillingDocumentTest extends TransactionalDocumentTestBase {
         catch( DocumentAuthorizationException dae) {
             // this means that the workflow status didn't change in time for the check, so this is
             // an expected exception
-            failedAsExpected = false;
+            failedAsExpected = true;
         }
         assertTrue(failedAsExpected);
     }
@@ -269,7 +269,7 @@ public class InternalBillingDocumentTest extends TransactionalDocumentTestBase {
         catch( DocumentAuthorizationException dae) {
             // this means that the workflow status didn't change in time for the check, so this is
             // an expected exception
-            failedAsExpected = false;
+            failedAsExpected = true;
         }
         assertTrue(failedAsExpected);
     }
@@ -308,7 +308,7 @@ public class InternalBillingDocumentTest extends TransactionalDocumentTestBase {
         catch( DocumentAuthorizationException dae) {
             // this means that the workflow status didn't change in time for the check, so this is
             // an expected exception
-            failedAsExpected = false;
+            failedAsExpected = true;
         }
         assertTrue(failedAsExpected);
     }
@@ -346,7 +346,7 @@ public class InternalBillingDocumentTest extends TransactionalDocumentTestBase {
         catch( DocumentAuthorizationException dae) {
             // this means that the workflow status didn't change in time for the check, so this is
             // an expected exception
-            failedAsExpected = false;
+            failedAsExpected = true;
         }
         assertTrue(failedAsExpected);
     }
@@ -386,7 +386,7 @@ public class InternalBillingDocumentTest extends TransactionalDocumentTestBase {
         catch( DocumentAuthorizationException dae) {
             // this means that the workflow status didn't change in time for the check, so this is
             // an expected exception
-            failedAsExpected = false;
+            failedAsExpected = true;
         }
         assertTrue(failedAsExpected);
     }
@@ -429,7 +429,12 @@ public class InternalBillingDocumentTest extends TransactionalDocumentTestBase {
         retrieved.addTargetAccountingLine(newTargetLine);
         retrieved.addSourceAccountingLine(newSourceLine);
 
-        approveDocument( retrieved );
+        try {
+            approveDocument( retrieved );
+        } catch(DocumentAuthorizationException dae) {
+            // this means that the workflow status didn't change in time for the check, so this is
+            // an expected exception
+        }
     }
 
     public final void testApprove_updateInaccessibleAccount_sourceLine() 
@@ -466,7 +471,7 @@ public class InternalBillingDocumentTest extends TransactionalDocumentTestBase {
         catch( DocumentAuthorizationException dae) {
             // this means that the workflow status didn't change in time for the check, so this is
             // an expected exception
-            failedAsExpected = false;
+            failedAsExpected = true;
         }
         assertTrue(failedAsExpected);
     }
@@ -505,7 +510,7 @@ public class InternalBillingDocumentTest extends TransactionalDocumentTestBase {
         catch( DocumentAuthorizationException dae) {
             // this means that the workflow status didn't change in time for the check, so this is
             // an expected exception
-            failedAsExpected = false;
+            failedAsExpected = true;
         }
         assertTrue(failedAsExpected);
     }

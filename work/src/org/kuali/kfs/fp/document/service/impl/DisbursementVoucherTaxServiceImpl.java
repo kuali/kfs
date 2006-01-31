@@ -46,7 +46,6 @@ import org.kuali.module.financial.bo.Payee;
 import org.kuali.module.financial.document.DisbursementVoucherDocument;
 import org.kuali.module.financial.rules.DisbursementVoucherDocumentRule;
 import org.kuali.module.financial.rules.DisbursementVoucherRuleConstants;
-import org.kuali.module.financial.rules.TransactionalDocumentRuleBase;
 import org.kuali.module.financial.service.DisbursementVoucherTaxService;
 
 /**

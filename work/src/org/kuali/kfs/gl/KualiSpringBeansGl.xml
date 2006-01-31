@@ -169,4 +169,9 @@
 	<bean id="glReversalDao" class="org.kuali.module.gl.dao.ojb.ReversalDaoOjb">
 		<property name="jcdAlias"><value>dataSource</value></property>
 	</bean>
+<!-- Can't run project right now, so this is commented out.  When I can run it, I'll uncomment it.
+   <bean id="glUnitTestSqlDao" class="org.kuali.module.gl.dao.jdbc.UnitTestSqlDaoJdbc">
+      <property name="dataSource"><ref bean="dataSource"/></property>
+   </bean>
+-->
 </beans>

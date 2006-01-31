@@ -93,7 +93,7 @@ public class JournalVoucherForm extends KualiTransactionalDocumentFormBase {
         populateBalanceTypeListForRendering();
         
         // we don't want to do this if we are just reloading the document
-        if(!getMethodToCall().equals(Constants.RELOAD_METHOD_TO_CALL)) {
+        if(StringUtils.isBlank(getMethodToCall()) || !getMethodToCall().equals(Constants.RELOAD_METHOD_TO_CALL)) {
             // make sure the amount fields are populated appropriately when in debit/credit amount mode
             populateCreditAndDebitAmounts();
         }

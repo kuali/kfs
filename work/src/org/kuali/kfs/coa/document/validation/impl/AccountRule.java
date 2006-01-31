@@ -26,7 +26,6 @@ import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
@@ -37,11 +36,9 @@ import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.util.ErrorMessage;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
-import org.kuali.core.util.TypedArrayList;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.SubFundGroup;
 import org.kuali.module.financial.rules.KualiParameterRule;
@@ -156,32 +153,6 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         success &= checkSubFundGroup(document);
         
         return success;
-    }
-
-    private void showErrorMap() {
-        
-        if (GlobalVariables.getErrorMap().isEmpty()) {
-            return;
-        }
-
-        for (Iterator i = GlobalVariables.getErrorMap().entrySet().iterator(); i.hasNext();) {
-            Map.Entry e = (Map.Entry) i.next();
-
-            boolean first = true;
-            
-            TypedArrayList errorList = (TypedArrayList) e.getValue();
-            for (Iterator j = errorList.iterator(); j.hasNext();) {
-                ErrorMessage em = (ErrorMessage) j.next();
-
-                if (em.getMessageParameters() == null) {
-                    LOG.error(e.getKey().toString() + " = " + em.getErrorKey());
-                }
-                else {
-                    LOG.error(e.getKey().toString() + " = " + em.getErrorKey() +  " : " + em.getMessageParameters().toString());
-                }
-            }
-        }
-
     }
 
     /**

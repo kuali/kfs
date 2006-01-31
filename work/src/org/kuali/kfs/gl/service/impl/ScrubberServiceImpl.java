@@ -37,6 +37,7 @@ import org.kuali.KeyConstants;
 import org.kuali.core.bo.user.Options;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.bo.OffsetDefinition;
@@ -56,7 +57,7 @@ import org.springframework.util.StringUtils;
 
 /**
  * @author Anthony Potts
- * @version $Id: ScrubberServiceImpl.java,v 1.22 2006-01-30 21:42:20 aapotts Exp $
+ * @version $Id: ScrubberServiceImpl.java,v 1.23 2006-01-31 03:02:33 jsissom Exp $
  */
 
 public class ScrubberServiceImpl implements ScrubberService {
@@ -70,6 +71,7 @@ public class ScrubberServiceImpl implements ScrubberService {
     private AccountService accountService;
     private KualiConfigurationService kualiConfigurationService;
     private UniversityDateDao universityDateDao;
+    private PersistenceService persistenceService;
     private Date runDate;
     private Calendar runCal;
     UniversityDate univRunDate;
@@ -229,7 +231,7 @@ public class ScrubberServiceImpl implements ScrubberService {
         if (originEntry.getUniversityFiscalYear() == null || originEntry.getUniversityFiscalYear().intValue() == 0) {
             workingEntry.setUniversityFiscalYear(univRunDate.getUniversityFiscalYear());
             workingEntry.getOption().setUniversityFiscalYear(workingEntry.getUniversityFiscalYear());
-            workingEntry.refreshReferenceObject("option");
+            persistenceService.retrieveReferenceObject(workingEntry,"option");
             checkGLObject(workingEntry.getOption(), kualiConfigurationService.getPropertyString(KeyConstants.ERROR_UNIV_DATE_NOT_FOUND));
         } else {
             workingEntry.setUniversityFiscalYear(originEntry.getUniversityFiscalYear());
@@ -238,7 +240,7 @@ public class ScrubberServiceImpl implements ScrubberService {
                 workingEntry.setOption(new Options());
                 workingEntry.setUniversityFiscalYear(univRunDate.getUniversityFiscalYear());
                 workingEntry.getOption().setUniversityFiscalYear(workingEntry.getUniversityFiscalYear());
-                workingEntry.refreshReferenceObject("option");
+                persistenceService.retrieveReferenceObject(workingEntry,"option");
                 if (workingEntry.getOption() == null) {
                     throw new IllegalStateException(kualiConfigurationService.getPropertyString(KeyConstants.ERROR_UNIV_DATE_NOT_FOUND));
                 }
@@ -323,7 +325,7 @@ public class ScrubberServiceImpl implements ScrubberService {
                 workingEntry.setBalanceType(new BalanceTyp());
             }
             workingEntry.getBalanceType().setCode(originEntry.getOption().getActualFinancialBalanceTypeCd());
-            workingEntry.refreshReferenceObject("balanceType");
+            persistenceService.retrieveReferenceObject(workingEntry,"balanceType");
             checkGLObject(workingEntry.getBalanceType(), kualiConfigurationService.getPropertyString(KeyConstants.ERROR_BALANCE_TYPE_NOT_FOUND));
         }
 
@@ -928,7 +930,7 @@ public class ScrubberServiceImpl implements ScrubberService {
             workingEntry.setTransactionLedgerEntryDesc(tmpDescription);
             workingEntry.setAccountNumber(tmpAccountNumber);
             workingEntry.setSubAccountNumber(tmpSubAccountNumber);
-            
+
             // TODO: do we need to refresh this object first?
             if (checkGLObject(workingEntry.getAccount().getOrganization(), kualiConfigurationService.getPropertyString(KeyConstants.ERROR_INVALID_ORG_CODE_FOR_PLANT_FUND))) {
                 workingEntry.setAccountNumber(workingEntry.getAccount().getOrganization().getCampusPlantAccountNumber());
@@ -1090,7 +1092,7 @@ public class ScrubberServiceImpl implements ScrubberService {
         if (!originEntry.getChartOfAccountsCode().equals(workingEntry.getChartOfAccountsCode())) {
             workingEntry.setChartOfAccountsCode(scrubberUtil.wsAccount.getChartOfAccountsCode());
             workingEntry.getChart().setChartOfAccountsCode(scrubberUtil.wsAccount.getChartOfAccountsCode());
-            workingEntry.refreshReferenceObject("chart");
+            persistenceService.retrieveReferenceObject(workingEntry,"chart");
             checkGLObject(workingEntry.getChart(), "Contiunation chart not found in table");
         }
         
@@ -1429,7 +1431,7 @@ public class ScrubberServiceImpl implements ScrubberService {
     private void lookupObjectCode(OriginEntry inputEntry) { // SET-OBECT-2004
 
         // TODO: cant we just do an inputEntry
-        inputEntry.refreshReferenceObject("financialObject");
+        persistenceService.retrieveReferenceObject(inputEntry,"financialObject");
 
         checkGLObject(inputEntry.getFinancialObject(), "NO OBJECT FOR OBJECT ON OFSD");
 
@@ -1485,7 +1487,7 @@ public class ScrubberServiceImpl implements ScrubberService {
         }
         
         inputEntry.setFinancialObjectCode(objectCode);
-        inputEntry.refreshReferenceObject("financialObject"); // TODO: this needs to be checked!
+        persistenceService.retrieveReferenceObject(inputEntry,"financialObject"); // TODO: this needs to be checked!
 
         if (inputEntry.getFinancialObject() == null) {
             transactionErrors.add(kualiConfigurationService.getPropertyString(KeyConstants.ERROR_COST_SHARE_OBJECT_NOT_FOUND));
@@ -1572,6 +1574,10 @@ public class ScrubberServiceImpl implements ScrubberService {
 
     public void setUniversityDateDao(UniversityDateDao universityDateDao) {
         this.universityDateDao = universityDateDao;
+    }
+
+    public void setPersistenceService(PersistenceService ps) {
+        persistenceService = ps;
     }
 
     /**

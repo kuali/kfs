@@ -28,49 +28,49 @@
 		<description>Document used to create or update Account objects</description>
 
         <lockingKeys>
-			<field attributeName="chartOfAccounts.chartOfAccountsCode" />
+			<field attributeName="chartOfAccountsCode" />
 			<field attributeName="accountNumber" />
 		</lockingKeys>		        
 
 	    <maintainableSections>
 	        <maintainableSection title="Account Maintenance">
                 <maintainableItems>
-		            <maintainableField name="chartOfAccounts.chartOfAccountsCode" required="true" />
-		            <maintainableField name="accountNumber" required="true"/>
-		            <maintainableField name="accountName" required="true"/>
-		            <maintainableField name="organization.organizationCode" required="true"/>
-		            <maintainableField name="accountPhysicalCampus.campusCode" required="true"/>	     
-		            <maintainableField name="accountEffectiveDate" required="true"/>
+		            <maintainableField name="chartOfAccountsCode" required="true" />
+		            <maintainableField name="accountNumber" required="true" />
+		            <maintainableField name="accountName" required="true" />
+		            <maintainableField name="organizationCode" required="true" />
+		            <maintainableField name="accountPhysicalCampusCode" required="true" />	     
+		            <maintainableField name="accountEffectiveDate" required="true" />
 		            <maintainableField name="accountExpirationDate" />	
-		            <maintainableField name="postalZipCode.postalZipCode" required="true"/>	  
-		            <maintainableField name="accountCityName" required="true"/>	     
-		            <maintainableField name="accountStateCode" required="true"/>
-		            <maintainableField name="accountStreetAddress" required="true"/>	
+		            <maintainableField name="accountZipCode" required="true" />	  
+		            <maintainableField name="accountCityName" required="true" />	     
+		            <maintainableField name="accountStateCode" required="true" />
+		            <maintainableField name="accountStreetAddress" required="true" />	
 		            <maintainableField name="accountOffCampusIndicator" />	  
 		            <maintainableField name="accountClosedIndicator" />
-		            <maintainableField name="accountType.accountTypeCode" required="true" />
-		            <maintainableField name="subFundGroup.subFundGroupCode" required="true" />
+		            <maintainableField name="accountTypeCode" required="true" />
+		            <maintainableField name="subFundGroupCode" required="true" />
 		            <maintainableField name="accountsFringesBnftIndicator" />
-		            <maintainableField name="reportsToAccount.chartOfAccounts.chartOfAccountsCode" required="false" />
-		            <maintainableField name="reportsToAccount.accountNumber" required="false" />
-		            <maintainableField name="financialHigherEdFunction.financialHigherEdFunctionCd" required="true" />
-		            <maintainableField name="accountRestrictedStatus.accountRestrictedStatusCode" required="true" />
+		            <maintainableField name="reportsToChartOfAccountsCode" required="false" />
+		            <maintainableField name="reportsToAccountNumber" required="false" />
+		            <maintainableField name="financialHigherEdFunctionCd" required="true" />
+		            <maintainableField name="accountRestrictedStatusCode" required="true" />
 		            <maintainableField name="accountRestrictedStatusDate" required="false" />
-		            <maintainableField name="endowmentIncomeAccount.chartOfAccounts.chartOfAccountsCode" required="false" />
-		            <maintainableField name="endowmentIncomeAccount.accountNumber" required="false" />
+		            <maintainableField name="endowmentIncomeAcctFinCoaCd" required="false" />
+		            <maintainableField name="endowmentIncomeAccountNumber" required="false" />
                 </maintainableItems>
 	        </maintainableSection>
 	        <maintainableSection title="Account Responsibility">
                 <maintainableItems>
-		            <maintainableField name="accountFiscalOfficerUser.personName" required="true" />
-		            <maintainableField name="accountSupervisoryUser.personName" required="true" />
-		            <maintainableField name="accountManagerUser.personName" required="true"/>
-		            <maintainableField name="continuationAccount.chartOfAccounts.chartOfAccountsCode" />
-		            <maintainableField name="continuationAccount.accountNumber" />    
-		            <maintainableField name="incomeStreamAccount.chartOfAccounts.chartOfAccountsCode" />
-		            <maintainableField name="incomeStreamAccount.accountNumber" />	
-		            <maintainableField name="budgetRecordingLevel.code" required="true"/>	  
-		            <maintainableField name="sufficientFundsCode.code" required="true"/>	     
+		            <maintainableField name="accountFiscalOfficerSystemIdentifier" required="true" />
+		            <maintainableField name="accountsSupervisorySystemsIdentifier" required="true" />
+		            <maintainableField name="accountManagerSystemIdentifier" required="true" />
+		            <maintainableField name="continuationFinChrtOfAcctCd" />
+		            <maintainableField name="continuationAccountNumber" />    
+		            <maintainableField name="incomeStreamFinancialCoaCode" />
+		            <maintainableField name="incomeStreamAccountNumber" />	
+		            <maintainableField name="budgetRecordingLevelCode" />	  
+		            <maintainableField name="accountSufficientFundsCode" />	     
 		            <maintainableField name="pendingAcctSufficientFundsIndicator" />
 		            <maintainableField name="extrnlFinEncumSufficntFndIndicator" />	
 		            <maintainableField name="intrnlFinEncumSufficntFndIndicator" />	  
@@ -80,12 +80,12 @@
 	        </maintainableSection>
 	        <maintainableSection title="Contracts And Grants">
                 <maintainableItems>
-		            <maintainableField name="contractControlAccount.chartOfAccounts.chartOfAccountsCode" required="false" />
-		            <maintainableField name="contractControlAccount.accountNumber" required="false" />
+		            <maintainableField name="contractControlFinCoaCode" required="false" />
+		            <maintainableField name="contractControlAccountNumber" required="false" />
 		            <maintainableField name="acctIndirectCostRcvyTypeCd" required="false" />
 		            <maintainableField name="financialIcrSeriesIdentifier" required="false" />
-		            <maintainableField name="indirectCostRecoveryAcct.chartOfAccounts.chartOfAccountsCode" />    
-		            <maintainableField name="indirectCostRecoveryAcct.accountNumber" />
+		            <maintainableField name="indirectCostRcvyFinCoaCode" />    
+		            <maintainableField name="indirectCostRecoveryAcctNbr" />
 		            <maintainableField name="cgCatlfFedDomestcAssistNbr" />	
                 </maintainableItems>
 	        </maintainableSection>

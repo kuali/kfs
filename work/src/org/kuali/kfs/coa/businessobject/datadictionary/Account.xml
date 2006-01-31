@@ -10,12 +10,12 @@
 			<title>Account Inquiry</title>
 
 			<inquiryFields>
-				<field attributeName="chartOfAccounts.chartOfAccountsCode" />			
+				<field attributeName="chartOfAccountsCode" />			
 				<field attributeName="accountNumber" />
 				<field attributeName="accountName" />
 				<field attributeName="accountFiscalOfficerUser.personName" />
-				<field attributeName="organization.organizationCode" />
-				<field attributeName="accountType.accountTypeCode" />
+				<field attributeName="organizationCode" />
+				<field attributeName="accountTypeCode" />
 				<field attributeName="accountCreateDate" />
 				<field attributeName="accountExpirationDate" />
 				<field attributeName="accountClosedIndicator" />
@@ -33,10 +33,10 @@
 
 			<lookupFields>
     			<lookupField attributeName="accountNumber" required="false" noLookup="true"/>
-				<lookupField attributeName="chartOfAccounts.chartOfAccountsCode" required="false" />
+				<lookupField attributeName="chartOfAccountsCode" required="false" />
 				<lookupField attributeName="accountName" required="false" />
-				<lookupField attributeName="organization.organizationCode" required="false" />
-				<lookupField attributeName="accountType.accountTypeCode" required="false" />
+				<lookupField attributeName="organizationCode" required="false" />
+				<lookupField attributeName="accountTypeCode" required="false" />
 				<lookupField attributeName="accountClosedIndicator" />			
 			</lookupFields>
 
@@ -44,10 +44,10 @@
 				<field attributeName="accountNumber" />	
 				<field attributeName="accountFiscalOfficerUser.personName" forceInquiry="true"/>	
 				<field attributeName="accountManagerUser.personName" forceInquiry="true"/>	
-				<field attributeName="chartOfAccounts.chartOfAccountsCode" />			
+				<field attributeName="chartOfAccountsCode" />			
 				<field attributeName="accountName" />
-				<field attributeName="organization.organizationCode" />
-				<field attributeName="accountType.accountTypeCode" />
+				<field attributeName="organizationCode" />
+				<field attributeName="accountTypeCode" />
 				<field attributeName="accountCreateDate" />
 				<field attributeName="accountExpirationDate" />
 				<field attributeName="accountClosedIndicator" />			
@@ -57,7 +57,7 @@
 		<titleAttribute>accountNumber</titleAttribute>
 
 		<attributes>
-			<attributeReference name="chartOfAccounts.chartOfAccountsCode" 
+			<attributeReference name="chartOfAccountsCode" 
 								sourceClassName="org.kuali.module.chart.bo.Chart" 
 								sourceAttributeName="chartOfAccountsCode" />
 
@@ -92,11 +92,11 @@
 				<summary>Account Name</summary>
 				<description>The name assigned to this object Account.</description>
 			</attribute>	
-			<attributeReference name="organization.organizationCode" 
+			<attributeReference name="organizationCode" 
 								sourceClassName="org.kuali.module.chart.bo.Org" 
 								sourceAttributeName="organizationCode" />
 
-			<attributeReference name="accountType.accountTypeCode" 
+			<attributeReference name="accountTypeCode" 
 								sourceClassName="org.kuali.module.chart.bo.AcctType" 
 								sourceAttributeName="accountTypeCode">
 				<label>Account Type Code</label>
@@ -105,12 +105,12 @@
 				<description>Account Type Code</description>
 			</attributeReference>
 
-			<attributeReference name="accountPhysicalCampus.campusCode" 
+			<attributeReference name="accountPhysicalCampusCode" 
 								sourceClassName="org.kuali.module.chart.bo.Campus" 
 								sourceAttributeName="campusCode">
 			</attributeReference>
 
-			<attributeReference name="subFundGroup.subFundGroupCode" 
+			<attributeReference name="subFundGroupCode" 
 								sourceClassName="org.kuali.module.chart.bo.SubFundGroup" 
 								sourceAttributeName="subFundGroupCode">
 				<label>Sub-Fund Group Code</label>
@@ -128,7 +128,7 @@
 				<description>Account Fringe Benefit</description>
 			</attributeReference>
 			
-			<attribute name="financialHigherEdFunction.financialHigherEdFunctionCd" forceUppercase="true">
+			<attribute name="financialHigherEdFunctionCd" forceUppercase="true">
 				<label>Financial Higher Education Function Code</label>
 				<shortLabel>HighEdFncCd</shortLabel>
 
@@ -143,7 +143,7 @@
 				<description>Financial Higher Education Function Code</description>
 			</attribute>
 			
-			<attributeReference name="accountRestrictedStatus.accountRestrictedStatusCode" 
+			<attributeReference name="accountRestrictedStatusCode" 
 								sourceClassName="org.kuali.module.chart.bo.RestrictedStatus" 
 								sourceAttributeName="accountRestrictedStatusCode">
 				<label>Account Restricted Status Code</label>
@@ -200,7 +200,7 @@
 				<description>Account Street Address</description>
 			</attribute>
 			
-			<attributeReference name="postalZipCode.postalZipCode" 
+			<attributeReference name="accountZipCode" 
 								sourceClassName="org.kuali.core.bo.PostalZipCode" 
 								sourceAttributeName="postalZipCode">
 				<label>Account Zip Code</label>
@@ -209,7 +209,7 @@
 				<description>Account Zip Code</description>
 			</attributeReference>
 			
-			<attributeReference name="reportsToAccount.chartOfAccounts.chartOfAccountsCode" 
+			<attributeReference name="reportsToChartOfAccountsCode" 
 								sourceClassName="org.kuali.module.chart.bo.Chart" 
 								sourceAttributeName="chartOfAccountsCode">
 				<label>Fringe Benefit Chart Of Accounts Code</label>
@@ -218,7 +218,7 @@
 				<description>Fringe Benefit Chart Of Accounts Code</description>
 			</attributeReference>
 			
-			<attributeReference name="reportsToAccount.accountNumber" 
+			<attributeReference name="reportsToAccountNumber" 
 								sourceClassName="org.kuali.module.chart.bo.Account" 
 								sourceAttributeName="accountNumber">
 				<label>Fringe Benefit Account Number</label>
@@ -254,7 +254,7 @@
 				<description>Account Expiration Date</description>
 			</attributeReference>
 			
-			<attributeReference name="continuationAccount.chartOfAccounts.chartOfAccountsCode" 
+			<attributeReference name="continuationFinChrtOfAcctCd" 
 								sourceClassName="org.kuali.module.chart.bo.Chart" 
 								sourceAttributeName="chartOfAccountsCode">
 				<label>Continuation Chart Of Accounts Code</label>
@@ -263,7 +263,7 @@
 				<description>Continuation Chart Of Accounts Code</description>
 			</attributeReference>
 			
-			<attributeReference name="continuationAccount.accountNumber" 
+			<attributeReference name="continuationAccountNumber" 
 								sourceClassName="org.kuali.module.chart.bo.Account" 
 								sourceAttributeName="accountNumber">
 				<label>Continuation Account Number</label>
@@ -332,7 +332,7 @@
 				<description>Award Period Begin Month</description>
 			</attribute>
 			
-			<attributeReference name="endowmentIncomeAccount.chartOfAccounts.chartOfAccountsCode" 
+			<attributeReference name="endowmentIncomeAcctFinCoaCd" 
 								sourceClassName="org.kuali.module.chart.bo.Chart" 
 								sourceAttributeName="chartOfAccountsCode">
 				<label>Endowment Chart Of Accounts Code</label>
@@ -341,7 +341,7 @@
 				<description>Endowment Chart Of Accounts Code</description>
 			</attributeReference>
 			
-			<attributeReference name="endowmentIncomeAccount.accountNumber" 
+			<attributeReference name="endowmentIncomeAccountNumber" 
 								sourceClassName="org.kuali.module.chart.bo.Account" 
 								sourceAttributeName="accountNumber">
 				<label>Endowment Account Number</label>
@@ -350,7 +350,7 @@
 				<description>Endowment Account Number</description>
 			</attributeReference>
 			
-			<attributeReference name="contractControlAccount.chartOfAccounts.chartOfAccountsCode" 
+			<attributeReference name="contractControlFinCoaCode" 
 								sourceClassName="org.kuali.module.chart.bo.Chart" 
 								sourceAttributeName="chartOfAccountsCode">
 				<label>Contract Control Chart of Accounts Code</label>
@@ -359,7 +359,7 @@
 				<description>Contract Control Chart of Accounts Code</description>
 			</attributeReference>
 			
-			<attributeReference name="contractControlAccount.accountNumber" 
+			<attributeReference name="contractControlAccountNumber" 
 								sourceClassName="org.kuali.module.chart.bo.Account" 
 								sourceAttributeName="accountNumber">
 				<label>Contract Control Account Number</label>
@@ -368,7 +368,7 @@
 				<description>Contract Control Account Number</description>
 			</attributeReference>
 			
-			<attributeReference name="incomeStreamAccount.chartOfAccounts.chartOfAccountsCode" 
+			<attributeReference name="incomeStreamFinancialCoaCode" 
 								sourceClassName="org.kuali.module.chart.bo.Chart" 
 								sourceAttributeName="chartOfAccountsCode">
 				<label>Income Stream Chart Of Accounts Code</label>
@@ -377,7 +377,7 @@
 				<description>Income Stream Chart Of Accounts Code</description>
 			</attributeReference>
 			
-			<attributeReference name="incomeStreamAccount.accountNumber" 
+			<attributeReference name="incomeStreamAccountNumber" 
 								sourceClassName="org.kuali.module.chart.bo.Account" 
 								sourceAttributeName="accountNumber">
 				<label>Income Stream Account Number</label>
@@ -419,7 +419,7 @@
 				<description>Financial Series ID</description>
 			</attribute>
 			
-			<attributeReference name="indirectCostRecoveryAcct.chartOfAccounts.chartOfAccountsCode" 
+			<attributeReference name="indirectCostRcvyFinCoaCode" 
 								sourceClassName="org.kuali.module.chart.bo.Chart" 
 								sourceAttributeName="chartOfAccountsCode">
 				<label>Indirect Cost Recovery Chart Of Accounts Code</label>
@@ -428,7 +428,7 @@
 				<description>Indirect Cost Recovery Chart Of Accounts Code</description>
 			</attributeReference>
 			
-			<attributeReference name="indirectCostRecoveryAcct.accountNumber" 
+			<attributeReference name="indirectCostRecoveryAcctNbr" 
 								sourceClassName="org.kuali.module.chart.bo.Account" 
 								sourceAttributeName="accountNumber">
 				<label>Indirect Cost Recovery Account Number</label>
@@ -446,7 +446,7 @@
 				<description>Account In Financial Processing</description>
 			</attributeReference>
 			
-			<attributeReference name="budgetRecordingLevel.code" 
+			<attributeReference name="budgetRecordingLevelCode" 
 								sourceClassName="org.kuali.module.chart.bo.codes.BudgetRecordingLevelCode" 
 								sourceAttributeName="code">
 				<label>Budget Record Level Code</label>
@@ -455,7 +455,7 @@
 				<description>Budget Record Level Code</description>
 			</attributeReference>
 			
-			<attributeReference name="sufficientFundsCode.code" 
+			<attributeReference name="accountSufficientFundsCode" 
 								sourceClassName="org.kuali.module.chart.bo.codes.SufficientFundsCode" 
 								sourceAttributeName="code">
 				<label>Account Sufficient Funds Code</label>
@@ -544,21 +544,21 @@
 				<formatterClass>org.kuali.core.web.format.BooleanFormatter</formatterClass>
 			</attribute>
 			
-			<attributeReference name="accountFiscalOfficerUser.personName" 
+			<attributeReference name="accountFiscalOfficerSystemIdentifier" 
 								sourceClassName="org.kuali.core.bo.user.KualiUser" 
-								sourceAttributeName="personName">
+								sourceAttributeName="personUniversalIdentifier">
 				<label>Fiscal Officer Name</label>
 			</attributeReference>
 			
-			<attributeReference name="accountSupervisoryUser.personName" 
+			<attributeReference name="accountsSupervisorySystemsIdentifier" 
 								sourceClassName="org.kuali.core.bo.user.KualiUser" 
-								sourceAttributeName="personName">
+								sourceAttributeName="personUniversalIdentifier">
 				<label>Supervisor Name</label>
 			</attributeReference>
 			
-			<attributeReference name="accountManagerUser.personName" 
+			<attributeReference name="accountManagerSystemIdentifier" 
 								sourceClassName="org.kuali.core.bo.user.KualiUser" 
-								sourceAttributeName="personName">
+								sourceAttributeName="personUniversalIdentifier">
 				<label>Manager Name</label>
 			</attributeReference>
 			

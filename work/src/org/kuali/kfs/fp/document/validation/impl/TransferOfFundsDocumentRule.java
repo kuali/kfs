@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.kuali.Constants;
 import org.kuali.KeyConstants;
 import org.kuali.core.bo.AccountingLine;
 import org.kuali.core.document.TransactionalDocument;
@@ -83,10 +84,10 @@ public class TransferOfFundsDocumentRule extends TransactionalDocumentRuleBase {
     protected boolean isDebit(AccountingLine accountingLine) throws IllegalStateException {
         if (isExpenseOrAsset(accountingLine) || isIncomeOrLiability(accountingLine)) {
             if (isSourceAccountingLine(accountingLine)) {
-                return accountingLine.getAmount().isGreaterThan(ZERO);
+                return accountingLine.getAmount().isGreaterThan(Constants.ZERO);
             }
             else {
-                return accountingLine.getAmount().isLessEqual(ZERO);
+                return accountingLine.getAmount().isLessEqual(Constants.ZERO);
             }
         }
         throw new IllegalStateException(objectTypeCodeIllegalStateExceptionMessage);

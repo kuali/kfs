@@ -503,12 +503,12 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
         ErrorMap errors = GlobalVariables.getErrorMap();
 
         /* check total cannot be negative */
-        if (ZERO.compareTo(document.getDisbVchrCheckTotalAmount()) == 1) {
+        if (Constants.ZERO.compareTo(document.getDisbVchrCheckTotalAmount()) == 1) {
             errors.put("document.disbVchrCheckTotalAmount", KeyConstants.ERROR_NEGATIVE_CHECK_TOTAL);
         }
 
         /* total accounting lines cannot be negative */
-        if (ZERO.compareTo(document.getSourceTotal()) == 1) {
+        if (Constants.ZERO.compareTo(document.getSourceTotal()) == 1) {
             errors.put(Constants.ACCOUNTING_LINE_ERRORS, KeyConstants.ERROR_NEGATIVE_ACCOUNTING_TOTAL);
         }
 

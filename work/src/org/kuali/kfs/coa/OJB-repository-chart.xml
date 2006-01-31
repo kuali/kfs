@@ -253,8 +253,8 @@
 		name="accountGuideline"
 		class-ref="org.kuali.module.chart.bo.AccountGuideline" 
 		auto-retrieve="true"
-		auto-update="none" 
-		auto-delete="none" 
+		auto-update="object" 
+		auto-delete="object" 
 		proxy="true">
 		<foreignkey field-ref="chartOfAccountsCode" />
 		<foreignkey field-ref="accountNumber" />
@@ -264,8 +264,8 @@
 		name="accountDescription"
 		class-ref="org.kuali.module.chart.bo.AccountDescription" 
 		auto-retrieve="true"
-		auto-update="none" 
-		auto-delete="none" 
+		auto-update="object" 
+		auto-delete="object" 
 		proxy="true">
 		<foreignkey field-ref="chartOfAccountsCode" />
 		<foreignkey field-ref="accountNumber" />

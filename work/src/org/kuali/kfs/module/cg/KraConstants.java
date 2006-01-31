@@ -25,21 +25,14 @@ package org.kuali.module.kra;
 import java.util.Calendar;
 
 import org.kuali.core.JstlConstants;
-import org.kuali.core.util.KualiDecimal;
 
 public class KraConstants extends JstlConstants {
     private static final long serialVersionUID = 5725060921632498564L;
-    public static final int maximumPeriodLength = 1;
+
     public static final int maximumPeriodLengthUnits = Calendar.YEAR;
-    public static final int minimumNumberOfPeriods = 1;
-    public static final int maximumNumberOfPeriods = 20;
+    public static final int maximumNumberOfPeriods = 20; // used on budgetPeriods.tag
     
-    public static final int minimumNumberOfTasks = 1;
-    public static final int maximumNumberOfTasks = 20;
+    public static final int maximumNumberOfTasks = 20; // used on budgetTasks.tag
     
-    public static final KualiDecimal DEFAULT_NONPERSONNEL_INFLATION_RATE = new KualiDecimal(3.0);
-    public static final KualiDecimal DEFAULT_PERSONNEL_INFLATION_RATE = new KualiDecimal(3.0);
-    
-    public static final String SUBCONTRACTOR_CATEGORY_CODE = "SC";
-    
+    public static final String SUBCONTRACTOR_CATEGORY_CODE = "SC"; // used on budgetCostShare*.tag and budgetNonpersonnel.tag
 }

@@ -33,10 +33,13 @@ import org.kuali.KeyConstants;
 import org.kuali.core.bo.SourceAccountingLine;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.format.CurrencyFormatter;
 import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
 import org.kuali.module.chart.bo.AccountingPeriod;
+import org.kuali.module.chart.bo.ObjectCode;
+import org.kuali.module.chart.bo.SubObjCd;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
 import org.kuali.module.chart.service.BalanceTypService;
 import org.kuali.module.financial.bo.JournalVoucherAccountingLineHelper;
@@ -115,7 +118,15 @@ public class JournalVoucherForm extends KualiTransactionalDocumentFormBase {
         if (StringUtils.isNotBlank(selectedAccountingPeriod)) {
             Integer postingYear = new Integer(StringUtils.right(selectedAccountingPeriod, 4));
             sourceLine.setPostingYear(postingYear);
+            
+            if(ObjectUtils.isNull(sourceLine.getObjectCode())) {
+                sourceLine.setObjectCode(new ObjectCode());
+            }
             sourceLine.getObjectCode().setUniversityFiscalYear(postingYear);
+            
+            if(ObjectUtils.isNull(sourceLine.getSubObjectCode())) {
+                sourceLine.setSubObjectCode(new SubObjCd());
+            }
             sourceLine.getSubObjectCode().setUniversityFiscalYear(postingYear);
         }
 

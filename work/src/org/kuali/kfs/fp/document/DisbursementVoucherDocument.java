@@ -33,13 +33,13 @@ import org.kuali.core.bo.user.UniversityUser;
 import org.kuali.core.document.DocumentHeader;
 import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.module.financial.bo.DisbursementVoucherDocumentationLocation;
 import org.kuali.module.financial.bo.DisbursementVoucherNonEmployeeTravel;
 import org.kuali.module.financial.bo.DisbursementVoucherNonResidentAlienTax;
 import org.kuali.module.financial.bo.DisbursementVoucherPayeeDetail;
 import org.kuali.module.financial.bo.DisbursementVoucherPreConferenceDetail;
 import org.kuali.module.financial.bo.DisbursementVoucherPreConferenceRegistrant;
 import org.kuali.module.financial.bo.DisbursementVoucherWireTransfer;
-import org.kuali.module.financial.bo.DocumentationLocation;
 import org.kuali.module.financial.bo.Payee;
 import org.kuali.module.financial.rules.DisbursementVoucherDocumentRule;
 
@@ -57,7 +57,7 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
     private boolean disbVchrSpecialHandlingCode;
     private KualiDecimal disbVchrCheckTotalAmount;
     private boolean disbVchrForeignCurrencyInd;
-    private String disbVchrDocumentationLocCode;
+    private String disbursementVoucherDocumentationLocationCode;
     private String disbVchrCheckStubText;
     private String dvCheckStubOverflowCode;
     private String campusCode;
@@ -70,7 +70,7 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
     private boolean exceptionIndicator;
     
     private DocumentHeader financialDocument;
-    private DocumentationLocation disbVchrDocumentationLoc;
+    private DisbursementVoucherDocumentationLocation disbVchrDocumentationLoc;
     private DisbursementVoucherNonEmployeeTravel dvNonEmployeeTravel;
     private DisbursementVoucherNonResidentAlienTax dvNonResidentAlienTax;
     private DisbursementVoucherPayeeDetail dvPayeeDetail;
@@ -280,24 +280,24 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
     }
 
     /**
-     * Gets the disbVchrDocumentationLocCode attribute.
+     * Gets the disbursementVoucherDocumentationLocationCode attribute.
      * 
-     * @return - Returns the disbVchrDocumentationLocCode
+     * @return - Returns the disbursementVoucherDocumentationLocationCode
      * 
      */
-    public String getDisbVchrDocumentationLocCode() {
-        return disbVchrDocumentationLocCode;
+    public String getDisbursementVoucherDocumentationLocationCode() {
+        return disbursementVoucherDocumentationLocationCode;
     }
 
 
     /**
-     * Sets the disbVchrDocumentationLocCode attribute.
+     * Sets the disbursementVoucherDocumentationLocationCode attribute.
      * 
-     * @param - disbVchrDocumentationLocCode The disbVchrDocumentationLocCode to set.
+     * @param - disbursementVoucherDocumentationLocationCode The disbursementVoucherDocumentationLocationCode to set.
      * 
      */
-    public void setDisbVchrDocumentationLocCode(String disbVchrDocumentationLocCode) {
-        this.disbVchrDocumentationLocCode = disbVchrDocumentationLocCode;
+    public void setDisbursementVoucherDocumentationLocationCode(String disbursementVoucherDocumentationLocationCode) {
+        this.disbursementVoucherDocumentationLocationCode = disbursementVoucherDocumentationLocationCode;
     }
 
     /**
@@ -516,7 +516,7 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
      * @return - Returns the disbVchrDocumentationLoc
      * 
      */
-    public DocumentationLocation getDisbVchrDocumentationLoc() {
+    public DisbursementVoucherDocumentationLocation getDisbVchrDocumentationLoc() {
         return disbVchrDocumentationLoc;
     }
 
@@ -527,7 +527,7 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
      * @param - disbVchrDocumentationLoc The disbVchrDocumentationLoc to set.
      * @deprecated
      */
-    public void setDisbVchrDocumentationLoc(DocumentationLocation disbVchrDocumentationLoc) {
+    public void setDisbVchrDocumentationLoc(DisbursementVoucherDocumentationLocation disbVchrDocumentationLoc) {
         this.disbVchrDocumentationLoc = disbVchrDocumentationLoc;
     }
 

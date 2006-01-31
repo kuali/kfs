@@ -444,11 +444,12 @@
 </class-descriptor>
 
 <!--  DISBURSEMENT VOUCHER  DOCUMENT MAPPINGS -->
-<class-descriptor class="org.kuali.module.financial.bo.DocumentationLocation" table="FP_DV_DOC_LOC_T">
-	<field-descriptor name="code" column="DV_DOC_LOC_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+<class-descriptor class="org.kuali.module.financial.bo.DisbursementVoucherDocumentationLocation" table="FP_DV_DOC_LOC_T">
+	<field-descriptor name="disbursementVoucherDocumentationLocationCode" column="DV_DOC_LOC_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="name" column="DV_DOC_LOC_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="disbursementVoucherDocumentationLocationName" column="DV_DOC_LOC_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="disbursementVoucherDocumentationLocationAddress" column="DV_DOC_LOC_ADDR" jdbc-type="VARCHAR"/>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.financial.bo.TravelExpenseTypeCode" table="FP_DV_EXP_TYP_T">
@@ -720,7 +721,7 @@
 	<field-descriptor name="disbVchrSpecialHandlingCode" column="DV_SPCL_HANDLG_IND" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 	<field-descriptor name="disbVchrCheckTotalAmount" column="DV_CHK_TOT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="disbVchrForeignCurrencyInd" column="DV_FRGN_CRNCY_IND" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanField10Conversion"/>
-	<field-descriptor name="disbVchrDocumentationLocCode" column="DV_DOC_LOC_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="disbursementVoucherDocumentationLocationCode" column="DV_DOC_LOC_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="disbVchrCheckStubText" column="DV_CHK_STUB_TXT" jdbc-type="VARCHAR"/>
 	<field-descriptor name="dvCheckStubOverflowCode" column="DV_CHKSTUBOVFL_IND" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 	<field-descriptor name="campusCode" column="CAMPUS_CD" jdbc-type="VARCHAR"/>
@@ -735,8 +736,8 @@
 		<foreignkey field-ref="financialDocumentNumber" />
 	</reference-descriptor>
 	
-	<reference-descriptor name="disbVchrDocumentationLoc" class-ref="org.kuali.module.financial.bo.DocumentationLocation" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="disbVchrDocumentationLocCode" />
+	<reference-descriptor name="disbVchrDocumentationLoc" class-ref="org.kuali.module.financial.bo.DisbursementVoucherDocumentationLocation" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="disbursementVoucherDocumentationLocationCode" />
 	</reference-descriptor>
 
     <reference-descriptor name="dvNonEmployeeTravel" class-ref="org.kuali.module.financial.bo.DisbursementVoucherNonEmployeeTravel" auto-retrieve="true" auto-update="object" auto-delete="object">

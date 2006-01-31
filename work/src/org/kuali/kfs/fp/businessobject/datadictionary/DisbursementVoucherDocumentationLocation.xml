@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../core/datadictionary/dataDictionary-1_0.dtd">
+<dictionaryEntry>
+	<businessObject businessObjectClass="org.kuali.module.financial.bo.DisbursementVoucherDocumentationLocation">
+		<customAttributeEnabled>false</customAttributeEnabled>
+
+		<inquiry>
+			<title>Documentation Location Inquiry</title>
+
+			<inquiryFields>
+				<field attributeName="disbursementVoucherDocumentationLocationCode" />
+				<field attributeName="disbursementVoucherDocumentationLocationName" />				
+				<field attributeName="disbursementVoucherDocumentationLocationAddress" />
+			</inquiryFields>
+		</inquiry>
+
+		<lookup>
+			<title>Documentation Location Lookup</title>
+
+			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.financial.bo.DisbursementVoucherDocumentationLocation">Create New</a>]]></menubar>
+
+			<instructions>Lookup a Disbursement Voucher Documentation Location</instructions>
+
+			<defaultSort attributeName="disbursementVoucherDocumentationLocationCode" sortAscending="true" />
+
+			<lookupFields>
+				<lookupField attributeName="disbursementVoucherDocumentationLocationCode" required="false" />
+				<lookupField attributeName="disbursementVoucherDocumentationLocationName" required="false" />
+				<lookupField attributeName="disbursementVoucherDocumentationLocationAddress" required="false" />
+			</lookupFields>
+
+			<resultFields>
+				<field attributeName="disbursementVoucherDocumentationLocationCode" />
+				<field attributeName="disbursementVoucherDocumentationLocationName" />
+				<field attributeName="disbursementVoucherDocumentationLocationAddress" />
+			</resultFields>
+		</lookup>
+
+		<attributes>
+
+			<attribute name="disbursementVoucherDocumentationLocationCode" forceUppercase="true">
+				<label>Documentation Location Code</label>
+				<shortLabel>Location Code</shortLabel>
+
+				<maxLength>2</maxLength>
+				<validationPattern><alphaNumeric /></validationPattern>
+
+				<control>
+					<text size="2" />
+				</control>
+
+				<summary>Documentation Location Code</summary>
+				<description>The code uniquely identify a documentation location.</description>
+			</attribute>
+			
+			<attribute name="disbursementVoucherDocumentationLocationName" forceUppercase="false">
+                <label>Documentation Location Name</label>
+                <shortLabel>Name</shortLabel>
+
+                <maxLength>25</maxLength>
+
+                <control>
+                    <text size="25" />
+                </control>
+
+                <summary>Documentation Location Name</summary>
+                <description>Documentation Location Name</description>
+            </attribute>
+
+			<attribute name="disbursementVoucherDocumentationLocationAddress" forceUppercase="false">
+                <label>Documentation Location Address</label>
+                <shortLabel>Address</shortLabel>
+
+                <maxLength>255</maxLength>
+
+                <control>
+                    <textarea rows="4" cols="60" />
+                </control>
+
+                <summary>Documentation Location Address</summary>
+                <description>Documentation Location Address</description>
+            </attribute>
+
+		</attributes>
+	</businessObject>
+</dictionaryEntry>
+

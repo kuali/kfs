@@ -176,9 +176,9 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
         }
 
         /* if no documentation is selected, must be a note explaining why */
-        if (NO_DOCUMENTATION_LOCATION.equals(document.getDisbVchrDocumentationLocCode())
+        if (NO_DOCUMENTATION_LOCATION.equals(document.getDisbursementVoucherDocumentationLocationCode())
                 && (document.getDocumentHeader().getNotes() == null || document.getDocumentHeader().getNotes().size() == 0)) {
-            errors.put("disbVchrDocumentationLocCode", KeyConstants.ERROR_DV_NO_DOCUMENTATION_NOTE);
+            errors.put("disbursementVoucherDocumentationLocationCode", KeyConstants.ERROR_DV_NO_DOCUMENTATION_NOTE);
         }
 
         /* if special handling indicated, must be a note exlaining why */

@@ -511,11 +511,13 @@ public class JournalVoucherAction extends KualiTransactionalDocumentActionBase {
         JournalVoucherDocument journalVoucherDocument = (JournalVoucherDocument) journalVoucherForm.getTransactionalDocument();
         if (journalVoucherDocument.getBalanceType().isFinancialOffsetGenerationIndicator()) {
             populateAllJournalVoucherAccountingLineHelpers(journalVoucherForm);
-            journalVoucherForm.setNewSourceLine(new SourceAccountingLine());
             KualiDecimal ZERO = new KualiDecimal("0.00");
             journalVoucherForm.setNewSourceLineCredit(ZERO);
             journalVoucherForm.setNewSourceLineDebit(ZERO);
         }
+
+        //always wipe out the new source line
+        journalVoucherForm.setNewSourceLine(new SourceAccountingLine());
 
         // reload the balance type and accounting period selections since now we have data in the document bo
         populateSelectedJournalBalanceType(journalVoucherDocument, journalVoucherForm);
@@ -603,7 +605,7 @@ public class JournalVoucherAction extends KualiTransactionalDocumentActionBase {
             SourceAccountingLine sourceAccountingLine = jvDoc.getSourceAccountingLine(i);
 
             // instantiate a new helper form to use for populating the helper form list
-            JournalVoucherAccountingLineHelper jvAcctLineHelperForm = new JournalVoucherAccountingLineHelper();
+            JournalVoucherAccountingLineHelper jvAcctLineHelperForm = journalVoucherForm.getJournalLineHelper(i);
 
             // figure whether we need to set the credit amount or the debit amount
             if (StringUtils.isNotBlank(sourceAccountingLine.getDebitCreditCode())) {
@@ -614,8 +616,6 @@ public class JournalVoucherAction extends KualiTransactionalDocumentActionBase {
                     jvAcctLineHelperForm.setCredit(sourceAccountingLine.getAmount());
                 }
             }
-            // add the populated helper form object to the list
-            journalLineHelpers.set(i, jvAcctLineHelperForm);
         }
     }
 

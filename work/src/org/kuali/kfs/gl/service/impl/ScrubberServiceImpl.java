@@ -57,7 +57,7 @@ import org.springframework.util.StringUtils;
 
 /**
  * @author Anthony Potts
- * @version $Id: ScrubberServiceImpl.java,v 1.23 2006-01-31 03:02:33 jsissom Exp $
+ * @version $Id: ScrubberServiceImpl.java,v 1.24 2006-01-31 23:00:53 aapotts Exp $
  */
 
 public class ScrubberServiceImpl implements ScrubberService {
@@ -850,7 +850,7 @@ public class ScrubberServiceImpl implements ScrubberService {
                 workingEntry.setFinancialObjectCode("8619"); // EQUIP_UNDER_CONST_FED_FUNDE
             }
             workingEntry.setFinancialObjectTypeCode("AS"); // TODO: constant 
-            workingEntry.setTransactionLedgerEntryDesc("GENERATED CAPITALIZATION"); // TODO: move to parameter 
+            workingEntry.setTransactionLedgerEntryDesc(kualiConfigurationService.getPropertyString(KeyConstants.MSG_GENERATED_CAPITALIZATION)); 
             plantFundAccountLookup(workingEntry, tmpCOA, tmpAccountNumber);
             createOutputEntry(workingEntry, validGroup);
             
@@ -882,7 +882,7 @@ public class ScrubberServiceImpl implements ScrubberService {
             this.writeSwitchStatusCD = ScrubberUtil.FROM_LIAB;
             workingEntry.setFinancialObjectTypeCode("LI"); // LIABILITY TODO: constant
             workingEntry.setTransactionDebitCreditCode(tmpDebitOrCreditCode);
-            workingEntry.setTransactionLedgerEntryDesc("GENERATED LIABILITY"); // TODO: constant
+            workingEntry.setTransactionLedgerEntryDesc(kualiConfigurationService.getPropertyString(KeyConstants.MSG_GENERATED_LIABILITY));
             plantFundAccountLookup(workingEntry, tmpCOA, tmpAccountNumber);
             createOutputEntry(workingEntry, validGroup);
             
@@ -1093,7 +1093,7 @@ public class ScrubberServiceImpl implements ScrubberService {
             workingEntry.setChartOfAccountsCode(scrubberUtil.wsAccount.getChartOfAccountsCode());
             workingEntry.getChart().setChartOfAccountsCode(scrubberUtil.wsAccount.getChartOfAccountsCode());
             persistenceService.retrieveReferenceObject(workingEntry,"chart");
-            checkGLObject(workingEntry.getChart(), "Contiunation chart not found in table");
+            checkGLObject(workingEntry.getChart(), kualiConfigurationService.getPropertyString(KeyConstants.ERROR_CONTINUATION_ACCOUNT_NOT_FOUND));
         }
         
      }
@@ -1221,7 +1221,7 @@ public class ScrubberServiceImpl implements ScrubberService {
                 csEntry.getUniversityFiscalYear(), csEntry.getChartOfAccountsCode(),
                 "TF", csEntry.getFinancialBalanceTypeCode());
         if (offset == null) {
-            transactionErrors.add("OFFSET DEFINITION NOT FOUND");
+            transactionErrors.add(kualiConfigurationService.getPropertyString(KeyConstants.ERROR_OFFSET_DEFINITION_NOT_FOUND));
         } else {
             csEntry.setFinancialObjectCode(offset.getFinancialObjectCode());
             if(offset.getFinancialSubObjectCode() == null) {
@@ -1235,7 +1235,7 @@ public class ScrubberServiceImpl implements ScrubberService {
                 csEntry.getUniversityFiscalYear(), csEntry.getChartOfAccountsCode(),
                 csEntry.getFinancialObjectCode());
         if (objectCode == null) {
-            transactionErrors.add("NO OBJECT FOR OBJECT ON OFSD");
+            transactionErrors.add(kualiConfigurationService.getPropertyString(KeyConstants.ERROR_NO_OBJECT_FOR_OBJECT_ON_OFSD));
         } else {
             csEntry.setFinancialObjectTypeCode(objectCode.getFinancialObjectTypeCode());
             if(csEntry.isCredit()) {
@@ -1289,7 +1289,7 @@ public class ScrubberServiceImpl implements ScrubberService {
         csEntry.setTransactionLedgerEntryDesc("OFFSET_DESCRIPTION" + "***" + runCal.get(Calendar.MONTH) + "/" + runCal.get(Calendar.DAY_OF_MONTH)); // TODO: change to constant
 
         if (offset == null) {
-            transactionErrors.add("OFFSET DEFINITION NOT FOUND");
+            transactionErrors.add(kualiConfigurationService.getPropertyString(KeyConstants.ERROR_OFFSET_DEFINITION_NOT_FOUND));
         } else {
             csEntry.setFinancialObjectCode(offset.getFinancialObjectCode());
             if(offset.getFinancialSubObjectCode() == null) {
@@ -1303,7 +1303,7 @@ public class ScrubberServiceImpl implements ScrubberService {
                 csEntry.getUniversityFiscalYear(), csEntry.getChartOfAccountsCode(),
                 csEntry.getFinancialObjectCode());
         if (objectCode == null) {
-            transactionErrors.add("NO OBJECT FOR OBJECT ON OFSD");
+            transactionErrors.add(kualiConfigurationService.getPropertyString(KeyConstants.ERROR_NO_OBJECT_FOR_OBJECT_ON_OFSD));
         } else {
             csEntry.setFinancialObjectTypeCode(objectCode.getFinancialObjectTypeCode());
             if(csEntry.isCredit()) {
@@ -1375,7 +1375,7 @@ public class ScrubberServiceImpl implements ScrubberService {
                 csEntry.getUniversityFiscalYear(), csEntry.getChartOfAccountsCode(),
                 csEntry.getFinancialDocumentTypeCode(), csEntry.getFinancialBalanceTypeCode());
         if (offset == null) {
-            transactionErrors.add("OFFSET DEFINITION NOT FOUND");
+            transactionErrors.add(kualiConfigurationService.getPropertyString(KeyConstants.ERROR_OFFSET_DEFINITION_NOT_FOUND));
         } else {
             csEntry.setFinancialObjectCode(offset.getFinancialObjectCode());
             if(offset.getFinancialSubObjectCode() == null) {
@@ -1389,7 +1389,7 @@ public class ScrubberServiceImpl implements ScrubberService {
                 csEntry.getUniversityFiscalYear(), csEntry.getChartOfAccountsCode(),
                 csEntry.getFinancialObjectCode());
         if (objectCode == null) {
-            transactionErrors.add("NO OBJECT FOR OBJECT ON OFSD");
+            transactionErrors.add(kualiConfigurationService.getPropertyString(KeyConstants.ERROR_NO_OBJECT_FOR_OBJECT_ON_OFSD));
         } else {
             csEntry.setFinancialObjectTypeCode(objectCode.getFinancialObjectTypeCode());
             if(csEntry.isCredit()) {
@@ -1433,7 +1433,7 @@ public class ScrubberServiceImpl implements ScrubberService {
         // TODO: cant we just do an inputEntry
         persistenceService.retrieveReferenceObject(inputEntry,"financialObject");
 
-        checkGLObject(inputEntry.getFinancialObject(), "NO OBJECT FOR OBJECT ON OFSD");
+        checkGLObject(inputEntry.getFinancialObject(), kualiConfigurationService.getPropertyString(KeyConstants.ERROR_NO_OBJECT_FOR_OBJECT_ON_OFSD));
 
         String objectCode = inputEntry.getFinancialObjectCode();
         String inputObjectLevelCode = inputEntry.getFinancialObject().getFinancialObjectLevelCode();

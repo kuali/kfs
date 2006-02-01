@@ -58,7 +58,7 @@ import org.kuali.module.gl.service.PosterService;
 
 /**
  * @author jsissom
- * @version $Id: PosterServiceImpl.java,v 1.9 2006-02-01 01:38:57 jsissom Exp $
+ * @version $Id: PosterServiceImpl.java,v 1.10 2006-02-01 03:04:27 jsissom Exp $
  */
 public class PosterServiceImpl implements PosterService {
   private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PosterServiceImpl.class);
@@ -74,6 +74,7 @@ public class PosterServiceImpl implements PosterService {
   private AccountingPeriodService accountingPeriodService;
   private ExpenditureTransactionDao expenditureTransactionDao;
   private IcrAutomatedEntryDao icrAutomatedEntryDao;
+
   // private IndirectCostRecoveryThresholdDao indirectCostRecoveryThresholdDao;
 
   /**
@@ -375,7 +376,6 @@ public class PosterServiceImpl implements PosterService {
   private void generateTransaction(ExpenditureTransaction et,IcrAutomatedEntry icrEntry,KualiDecimal generatedTransactionAmount,Date runDate,OriginEntryGroup group) {
     OriginEntry e = new OriginEntry();
 
-    NumberFormat nf = NumberFormat.getInstance();
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-DD");
 
     // @ means we use the field from the expenditure entry, # means we use the ICR field from the account record, otherwise, use
@@ -410,41 +410,9 @@ public class PosterServiceImpl implements PosterService {
     e.setFinancialSystemOriginationCode("MF");
     e.setFinancialDocumentNumber(sdf.format(runDate));
     if ( Constants.GL_DEBIT_CODE.equals(icrEntry.getTransactionDebitIndicator()) ) {
-      StringBuffer desc = new StringBuffer("CHG ");
-      nf.setMaximumFractionDigits(3);
-      nf.setMinimumFractionDigits(3);
-      nf.setMaximumIntegerDigits(2);
-      nf.setMinimumIntegerDigits(1);
-      desc.append(nf.format(icrEntry.getAwardIndrCostRcvyRatePct()));
-      desc.append("% ON ");
-      desc.append(et.getObjectCode());
-      desc.append(" (");
-      desc.append(et.getAccount().getAcctIndirectCostRcvyTypeCd());
-      desc.append(") ");
-      nf.setMaximumFractionDigits(2);
-      nf.setMinimumFractionDigits(2);
-      nf.setMaximumIntegerDigits(11);
-      nf.setMinimumIntegerDigits(1);
-      desc.append(nf.format(et.getAccountObjectDirectCostAmount().doubleValue()));
-      e.setTransactionLedgerEntryDesc(desc.toString());
+      e.setTransactionLedgerEntryDesc(getChargeDescription(icrEntry.getAwardIndrCostRcvyRatePct(),et.getObjectCode(),et.getAccount().getAcctIndirectCostRcvyTypeCd(),et.getAccountObjectDirectCostAmount()));
     } else {
-      StringBuffer desc = new StringBuffer("RCV ");
-      nf.setMaximumFractionDigits(3);
-      nf.setMinimumFractionDigits(3);
-      nf.setMaximumIntegerDigits(2);
-      nf.setMinimumIntegerDigits(1);
-      desc.append(nf.format(icrEntry.getAwardIndrCostRcvyRatePct()));
-      desc.append("% ON ");
-      nf.setMaximumFractionDigits(2);
-      nf.setMinimumFractionDigits(2);
-      nf.setMaximumIntegerDigits(11);
-      nf.setMinimumIntegerDigits(1);
-      desc.append(nf.format(et.getAccountObjectDirectCostAmount().doubleValue()));
-      desc.append(" FRM ");
-      desc.append(et.getChartOfAccountsCode());
-      desc.append("-");
-      desc.append(et.getAccountNumber());
-      e.setTransactionLedgerEntryDesc(desc.toString());
+      e.setTransactionLedgerEntryDesc(getOffsetDescription(icrEntry.getAwardIndrCostRcvyRatePct(),et.getAccountObjectDirectCostAmount(),et.getChartOfAccountsCode(),et.getAccountNumber()));
     }
     e.setTransactionDate(new java.sql.Date(runDate.getTime()));
     e.setTransactionDebitCreditCode(icrEntry.getTransactionDebitIndicator());
@@ -468,6 +436,30 @@ public class PosterServiceImpl implements PosterService {
     }
 
     originEntryService.createEntry(e,group);
+
+    // Now generate Offset
+    e = new OriginEntry(e);
+    if ( Constants.GL_DEBIT_CODE.equals(e.getTransactionDebitCreditCode()) ) {
+      e.setTransactionDebitCreditCode(Constants.GL_CREDIT_CODE);
+    } else {
+      e.setTransactionDebitCreditCode(Constants.GL_DEBIT_CODE);
+    }
+    e.setFinancialSubObjectCode(Constants.DASHES_SUB_OBJECT_CODE);
+    e.setFinancialObjectCode(icrEntry.getOffsetBalanceSheetObjectCodeNumber());
+
+    if ( icrEntry.getOffsetBalanceSheetObjectCode() == null ) {
+      // TODO Warning because offset object code not valid
+    } else {
+      e.setFinancialObjectTypeCode(icrEntry.getOffsetBalanceSheetObjectCode().getFinancialObjectTypeCode());
+    }
+
+    if ( Constants.GL_DEBIT_CODE.equals(icrEntry.getTransactionDebitIndicator()) ) {
+      e.setTransactionLedgerEntryDesc(getChargeDescription(icrEntry.getAwardIndrCostRcvyRatePct(),et.getObjectCode(),et.getAccount().getAcctIndirectCostRcvyTypeCd(),et.getAccountObjectDirectCostAmount()));
+    } else {
+      e.setTransactionLedgerEntryDesc(getOffsetDescription(icrEntry.getAwardIndrCostRcvyRatePct(),et.getAccountObjectDirectCostAmount(),et.getChartOfAccountsCode(),et.getAccountNumber()));
+    }
+
+    originEntryService.createEntry(e,group);
   }
 
 // I don't understand thresholds so I removed this code.
@@ -487,6 +479,50 @@ public class PosterServiceImpl implements PosterService {
 //      // 1656 - 1687
 //    }
 //  }
+
+  private String getChargeDescription(KualiDecimal rate,String objectCode,String type,KualiDecimal amount) {
+    NumberFormat nf = NumberFormat.getInstance();
+
+    StringBuffer desc = new StringBuffer("CHG ");
+    nf.setMaximumFractionDigits(3);
+    nf.setMinimumFractionDigits(3);
+    nf.setMaximumIntegerDigits(2);
+    nf.setMinimumIntegerDigits(1);
+    desc.append(nf.format(rate));
+    desc.append("% ON ");
+    desc.append(objectCode);
+    desc.append(" (");
+    desc.append(type);
+    desc.append(") ");
+    nf.setMaximumFractionDigits(2);
+    nf.setMinimumFractionDigits(2);
+    nf.setMaximumIntegerDigits(11);
+    nf.setMinimumIntegerDigits(1);
+    desc.append(nf.format(amount));
+    return desc.toString();
+  }
+
+  private String getOffsetDescription(KualiDecimal rate,KualiDecimal amount,String chartOfAccountsCode,String accountNumber) {
+    NumberFormat nf = NumberFormat.getInstance();
+
+    StringBuffer desc = new StringBuffer("RCV ");
+    nf.setMaximumFractionDigits(3);
+    nf.setMinimumFractionDigits(3);
+    nf.setMaximumIntegerDigits(2);
+    nf.setMinimumIntegerDigits(1);
+    desc.append(nf.format(rate));
+    desc.append("% ON ");
+    nf.setMaximumFractionDigits(2);
+    nf.setMinimumFractionDigits(2);
+    nf.setMaximumIntegerDigits(11);
+    nf.setMinimumIntegerDigits(1);
+    desc.append(nf.format(amount));
+    desc.append(" FRM ");
+    desc.append(chartOfAccountsCode);
+    desc.append("-");
+    desc.append(accountNumber);
+    return desc.toString();
+  }
 
   private void addReporting(Map reporting, String destination, String operation) {
     String key = destination + "," + operation;

@@ -109,11 +109,6 @@ public class TransactionReport {
   public void generateReport(Map reportErrors, Map reportSummary, Date runDate, String title, String fileprefix, String destinationDirectory) {
     LOG.debug("generateReport() started");
 
-    for (Iterator iter = reportSummary.keySet().iterator(); iter.hasNext();) {
-      String key = (String)iter.next();
-      System.out.println(key + " = " + reportSummary.get(key));
-    }
-
     Font headerFont = FontFactory.getFont(FontFactory.COURIER,8,Font.BOLD);
     Font textFont = FontFactory.getFont(FontFactory.COURIER,8,Font.NORMAL);
 

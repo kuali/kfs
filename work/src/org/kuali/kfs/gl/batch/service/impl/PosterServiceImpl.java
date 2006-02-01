@@ -58,7 +58,7 @@ import org.kuali.module.gl.service.PosterService;
 
 /**
  * @author jsissom
- * @version $Id: PosterServiceImpl.java,v 1.10 2006-02-01 03:04:27 jsissom Exp $
+ * @version $Id: PosterServiceImpl.java,v 1.11 2006-02-01 03:22:06 jsissom Exp $
  */
 public class PosterServiceImpl implements PosterService {
   private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PosterServiceImpl.class);
@@ -66,6 +66,7 @@ public class PosterServiceImpl implements PosterService {
   private List transactionPosters;
   private VerifyTransaction verifyTransaction;
   private PosterReport posterReportService;
+  private PosterReport icrGenerationReportService;
   private OriginEntryService originEntryService;
   private OriginEntryGroupService originEntryGroupService;
   private DateTimeService dateTimeService;
@@ -316,12 +317,24 @@ public class PosterServiceImpl implements PosterService {
 
     OriginEntryGroup group = originEntryGroupService.createGroup(runDate,OriginEntrySource.ICR_TRANSACTIONS,true,true,false);
 
+    Map reportErrors = new HashMap();
+
+    // Build the summary map so all the possible combinations of destination &
+    // operation
+    // are included in the summary part of the report.
+    Map reportSummary = new HashMap();
+    reportSummary.put("GL_EXPEND_TRAN_T,R",new Integer(0));
+    reportSummary.put("GL_EXPEND_TRAN_T,D",new Integer(0));
+    reportSummary.put("GL_EXPEND_TRAN_T,K",new Integer(0));
+    reportSummary.put("GL_ORIGIN_ENTRY_T,G",new Integer(0));
+
     KualiDecimal onehundred = new KualiDecimal("100");
     KualiDecimal warningMaxDifference = new KualiDecimal("0.05"); // TODO Put this in APC
 
     Iterator expenditureTransactions = expenditureTransactionDao.getAllExpenditureTransactions();
     while ( expenditureTransactions.hasNext() ) {
       ExpenditureTransaction et = (ExpenditureTransaction)expenditureTransactions.next();
+      addReporting(reportSummary,"GL_EXPEND_TRAN_T","R");
 
       KualiDecimal transactionAmount = et.getAccountObjectDirectCostAmount();
       KualiDecimal distributionPercent = KualiDecimal.ZERO;
@@ -362,15 +375,18 @@ public class PosterServiceImpl implements PosterService {
           }
 
           generateTransaction(et,icrEntry,generatedTransactionAmount,runDate,group);
+          addReporting(reportSummary,"GL_ORIGIN_ENTRY_T","G");
+          addReporting(reportSummary,"GL_ORIGIN_ENTRY_T","G");
         }
       }
 
       // Delete expenditure record
-      // expenditureTransactionDao.delete(et);
+      expenditureTransactionDao.delete(et);
+      addReporting(reportSummary,"GL_EXPEND_TRAN_T","D");
     }
 
     // TODO Print report
-    // String title = "Poster ICR Transaction Generation Report";
+    icrGenerationReportService.generateReport(reportErrors,reportSummary,runDate,0);
   }
 
   private void generateTransaction(ExpenditureTransaction et,IcrAutomatedEntry icrEntry,KualiDecimal generatedTransactionAmount,Date runDate,OriginEntryGroup group) {
@@ -544,6 +560,10 @@ public class PosterServiceImpl implements PosterService {
 
   public void setPosterReport(PosterReport prs) {
     posterReportService = prs;
+  }
+
+  public void setIcrGenerationReport(PosterReport prs) {
+    icrGenerationReportService = prs;
   }
 
   public void setOriginEntryService(OriginEntryService oes) {

@@ -54,6 +54,7 @@
 			</list>
 		</property>
 		<property name="posterReport"><ref bean="glPosterReport" /></property>
+		<property name="icrGenerationReport"><ref bean="glIcrGenerationReport" /></property>
 		<property name="verifyTransaction"><ref bean="glVerifyTransaction" /></property>
 		<property name="originEntryService"><ref bean="glOriginEntryService" /></property>
 		<property name="originEntryGroupService"><ref bean="glOriginEntryGroupService" /></property>
@@ -122,6 +123,10 @@
 	</bean>
 
 	<bean id="glPosterReport" class="org.kuali.module.gl.batch.poster.impl.PosterReportImpl">
+		<property name="destinationDirectory"><value>/opt/scratch</value></property>
+	</bean>
+
+	<bean id="glIcrGenerationReport" class="org.kuali.module.gl.batch.poster.impl.IcrGenerationReportImpl">
 		<property name="destinationDirectory"><value>/opt/scratch</value></property>
 	</bean>
 

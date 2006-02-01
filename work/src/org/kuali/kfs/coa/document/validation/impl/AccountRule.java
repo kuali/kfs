@@ -43,6 +43,7 @@ import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.SubFundGroup;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
 import org.kuali.module.financial.rules.KualiParameterRule;
+import org.kuali.module.gl.service.BalanceService;
 import org.kuali.module.gl.service.GeneralLedgerPendingEntryService;
 
 /**
@@ -84,6 +85,8 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
     private Account oldAccount;
     private Account newAccount;
     private boolean ruleValuesSetup;
+    private BalanceService balanceService;
+
     
     public AccountRule() {
         ruleValuesSetup = false;
@@ -92,6 +95,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         
         // inject some services myself: 
         this.setGeneralLedgerPendingEntryService(SpringServiceLocator.getGeneralLedgerPendingEntryService());
+        this.setBalanceService(SpringServiceLocator.getGeneralLedgerBalanceService());
     }
     
     /**
@@ -483,47 +487,30 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
             success &= false;
         }
         
-        //TODO: KULCOA-310 - must have no base budget,  
-        //      must have no open encumbrances, must have no asset, liability or fund balance balances other than object code 9899 
-        //      (9899 is fund balance for us), and the process of closing income and expense into 9899 must take the 9899 balance to zero.
-        //
-        
         // must have no pending ledger entries
-        if (generalLedgerPendingEntryService.hasPendingGeneralLedgerEntry(newAccount)) {
+        if (!generalLedgerPendingEntryService.hasPendingGeneralLedgerEntry(newAccount)) {
+            putGlobalError(KeyConstants.ERROR_DOCUMENT_ACCOUNT_BALANCE);
+            success &= false;
+        }
+
+        // beginning balance must be loaded in order to close account
+        if (!balanceService.beginningBalanceLoaded(newAccount)) {
+            putGlobalError(KeyConstants.ERROR_DOCUMENT_ACCOUNT_BALANCE);
             success &= false;
         }
         
-        //TODO: be sure to check beginningBalanceLoaded (no--> do not allow close)
-        
-        
-        BalanceTyp AC=new BalanceTyp("AC"); // or use configService.getApplicationParameterValues(CHART_MAINTENANCE_EDOC, PARAM_NAME)?
+        // must have no base budget,  must have no open encumbrances, must have no asset, liability or fund balance balances other than object code 9899 
+        //      (9899 is fund balance for us), and the process of closing income and expense into 9899 must take the 9899 balance to zero.
 
-        /*
-        univ_fiscal_yr   
-        
-        fin_coa_cd  
-        account_nbr 
-        
-        fin_object_cd != '9899' 
-        fin_obj_typ_cd IN ('AS', 'LI', 'FB') 
-        fin_balance_typ_cd = 'AC' 
-        */
-        
-        
-        
-        
-        // must have no pending labor ledger entries 
-        
-        
-        //NOTES:
-        //budget first - no idea (maybe through Options? AccountBalance?)
-        //definitely looks like we need to pull AccountBalance
-        //pending ledger entries or pending labor ledger entries
-        //possibly use GeneralLedgerPendingEntryService to find, but what keys are used?
-        //no clue on how to check for balances in the other areas (encumbrances, asset, liability, fund balance [other than 9899])
-        //accounts can only be closed if they dont have balances or any pending ledger entries
+        if (balanceService.hasAssetLiabilityFundBalanceBalances(newAccount)) {
+            putGlobalError(KeyConstants.ERROR_DOCUMENT_ACCOUNT_BALANCE);
+            success &= false;
+        }
 
-        return true;
+
+        // TODO:  must have no pending labor ledger entries (KULLAB-1) 
+
+        return success;
     }
     
     /**
@@ -788,6 +775,10 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
 
     public void setGeneralLedgerPendingEntryService(GeneralLedgerPendingEntryService generalLedgerPendingEntryService) {
         this.generalLedgerPendingEntryService = generalLedgerPendingEntryService;
+    }
+
+    public void setBalanceService(BalanceService balanceService) {
+        this.balanceService = balanceService;
     }
     
 

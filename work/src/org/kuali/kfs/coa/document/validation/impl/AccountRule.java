@@ -41,7 +41,9 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.SubFundGroup;
+import org.kuali.module.chart.bo.codes.BalanceTyp;
 import org.kuali.module.financial.rules.KualiParameterRule;
+import org.kuali.module.gl.service.GeneralLedgerPendingEntryService;
 
 /**
  * Business rule(s) applicable to AccountMaintenance documents.
@@ -74,6 +76,9 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
     private static final String BUDGET_RECORDING_LEVEL_MIXED = "M";
     
     private KualiConfigurationService configService;
+    
+    GeneralLedgerPendingEntryService generalLedgerPendingEntryService;
+    
     private BusinessObjectService boService;
     private KualiParameterRule validBudgetRule;
     private Account oldAccount;
@@ -84,6 +89,9 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         ruleValuesSetup = false;
         configService = SpringServiceLocator.getKualiConfigurationService();
         boService = SpringServiceLocator.getBusinessObjectService();
+        
+        // inject some services myself: 
+        this.setGeneralLedgerPendingEntryService(SpringServiceLocator.getGeneralLedgerPendingEntryService());
     }
     
     /**
@@ -475,10 +483,38 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
             success &= false;
         }
         
-        //TODO: KULCOA-310 - must have no base budget, must have no pending ledger entries or pending labor ledger entries, 
+        //TODO: KULCOA-310 - must have no base budget,  
         //      must have no open encumbrances, must have no asset, liability or fund balance balances other than object code 9899 
         //      (9899 is fund balance for us), and the process of closing income and expense into 9899 must take the 9899 balance to zero.
         //
+        
+        // must have no pending ledger entries
+        if (generalLedgerPendingEntryService.hasPendingGeneralLedgerEntry(newAccount)) {
+            success &= false;
+        }
+        
+        //TODO: be sure to check beginningBalanceLoaded (no--> do not allow close)
+        
+        
+        BalanceTyp AC=new BalanceTyp("AC"); // or use configService.getApplicationParameterValues(CHART_MAINTENANCE_EDOC, PARAM_NAME)?
+
+        /*
+        univ_fiscal_yr   
+        
+        fin_coa_cd  
+        account_nbr 
+        
+        fin_object_cd != '9899' 
+        fin_obj_typ_cd IN ('AS', 'LI', 'FB') 
+        fin_balance_typ_cd = 'AC' 
+        */
+        
+        
+        
+        
+        // must have no pending labor ledger entries 
+        
+        
         //NOTES:
         //budget first - no idea (maybe through Options? AccountBalance?)
         //definitely looks like we need to pull AccountBalance
@@ -748,6 +784,10 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         }
 
         return success;
+    }
+
+    public void setGeneralLedgerPendingEntryService(GeneralLedgerPendingEntryService generalLedgerPendingEntryService) {
+        this.generalLedgerPendingEntryService = generalLedgerPendingEntryService;
     }
     
 

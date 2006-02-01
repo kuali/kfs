@@ -20,21 +20,22 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-package org.kuali.module.gl.dao;
-
-import java.util.Collection;
-import java.util.Iterator;
+package org.kuali.module.gl.service;
 
 import org.kuali.module.chart.bo.Account;
-import org.kuali.module.gl.bo.Balance;
-import org.kuali.module.gl.bo.Transaction;
 
-/**
- * @author jsissom
- *
- */
-public interface BalanceDao {
-  public Balance getBalanceByTransaction(Transaction t);
-  public Iterator findBalances(Account account, Integer fiscalYear, Collection includedObjectCodes, Collection excludedObjectCodes, Collection objectTypeCodes, Collection balanceTypeCodes);
-  public void save(Balance b);
+
+public interface BalanceService {
+
+
+    public abstract boolean hasAssetLiabilityFundBalanceBalances(Account account);
+
+    public abstract boolean fundBalanceWillNetToZero(Account account);
+
+    public abstract boolean hasEncumbrancesOrBaseBudgets(Account account);
+
+    public abstract boolean beginningBalanceLoaded(Account account);
+
+    public abstract boolean hasAssetLiabilityOrFundBalance(Account account);
+
 }

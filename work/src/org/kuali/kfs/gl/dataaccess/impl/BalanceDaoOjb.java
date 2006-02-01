@@ -4,10 +4,16 @@
  */
 package org.kuali.module.gl.dao.ojb;
 
+import java.util.Collection;
+import java.util.Iterator;
+
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
+import org.apache.ojb.broker.query.ReportQueryByCriteria;
+import org.kuali.module.chart.bo.Account;
 import org.kuali.module.gl.bo.Balance;
+import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.dao.BalanceDao;
 import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
@@ -41,6 +47,80 @@ public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements Balanc
 
     QueryByCriteria qbc = QueryFactory.newQuery(Balance.class,crit);
     return (Balance)getPersistenceBrokerTemplate().getObjectByQuery(qbc);
+  }
+  
+  /**
+   * This method adds to the given criteria if the given collection is non-empty.
+   * It uses an EQUALS if there is exactly one element in the collection; otherwise,
+   * its uses an IN
+   * @param criteria - the criteria that might have a criterion appended
+   * @param name - name of the attribute
+   * @param collection - the collection to inspect
+   * 
+   */
+  private void criteriaBuilder(Criteria criteria,String name, Collection collection) {
+      criteriaBuilderHelper(criteria,name,collection,false);
+  }
+
+  /**
+   * Similar to criteriaBuilder, this adds a negative criterion (NOT EQUALS, NOT IN)
+   * 
+   */
+  private void negatedCriteriaBuilder(Criteria criteria,String name, Collection collection) {
+      criteriaBuilderHelper(criteria,name,collection,true);
+  }
+  
+  
+  /**
+   * This method provides the implementation for the conveniences methods criteriaBuilder &
+   * negatedCriteriaBuilder
+   * 
+   * @param negate - the criterion will be negated (NOT EQUALS, NOT IN) when this is true   
+   *
+   **/
+  private void criteriaBuilderHelper(Criteria criteria,String name, Collection collection, boolean negate) {
+      if (collection!=null) {
+          int size=collection.size();
+          if (size==1) {
+              if (negate) {
+                  criteria.addNotEqualTo("",collection.iterator().next());
+              } else {
+                  criteria.addEqualTo("",collection.iterator().next());
+              }
+          }
+          if (size>1) {
+              if (negate) {
+                  criteria.addNotIn("",collection);
+              } else {
+                  criteria.addIn("",collection);
+                  
+              }
+          }
+      }
+      
+  }
+  
+  public Iterator findBalances(Account account, Integer fiscalYear, Collection includedObjectCodes, Collection excludedObjectCodes, Collection objectTypeCodes, Collection balanceTypeCodes) {
+      
+      Criteria criteria = new Criteria();
+      
+      criteria.addEqualTo("accountNumber", account.getAccountNumber()); 
+      criteria.addEqualTo("chartOfAccountsCode", account.getChartOfAccountsCode()); 
+      
+      criteria.addEqualTo("universityFiscalYear", fiscalYear);
+
+      criteriaBuilder(criteria,"objectTypeCode",objectTypeCodes);
+      criteriaBuilder(criteria,"balanceTypeCode",balanceTypeCodes);
+      criteriaBuilder(criteria,"objectCode",includedObjectCodes);
+      negatedCriteriaBuilder(criteria,"objectCode",excludedObjectCodes);
+      
+      ReportQueryByCriteria query = new ReportQueryByCriteria(
+              GeneralLedgerPendingEntry.class, criteria);
+       
+      // returns an iterator of all matching balances
+      Iterator balances = getPersistenceBrokerTemplate().getIteratorByQuery(query);      
+      return balances;
+      
   }
 
   /* (non-Javadoc)

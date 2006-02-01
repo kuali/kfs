@@ -24,10 +24,14 @@ package org.kuali.module.gl.service.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.chart.bo.Account;
+import org.kuali.module.gl.bo.Balance;
 import org.kuali.module.gl.dao.BalanceDao;
 import org.kuali.module.gl.service.BalanceService;
 
@@ -45,7 +49,6 @@ public class BalanceServiceImpl implements BalanceService {
     
     String[] fundBalanceObjectCodes=new String[]{"9899"}; //TODO Bill suggested adding this to CHART
 
-    
     // TODO extract these from APC
     String[] assetLiabilityFundBalanceBalanceTypeCodes=new String[]{"AS","LI","FB"};
     String[] encumbranceBaseBudgetBalanceTypeCodes=new String[]{"EX","IE","PE","BB"};
@@ -58,7 +61,6 @@ public class BalanceServiceImpl implements BalanceService {
     
     private Collection wrap(String[] s) {
         
-        ArrayList foo;
         Collection c=new ArrayList();
         for (int i=0; i<s.length; i++) {
             c.add(s[i]);
@@ -84,6 +86,7 @@ public class BalanceServiceImpl implements BalanceService {
      HAVING ABS(SUM(fin_beg_bal_ln_amt + acln_annl_bal_amt)) > 0);
      
      
+     
      added absolute value function to sum--prevents
      the case of 2 entries (1 pos and 1 neg) from 
      canceling each other out and allowing the acct 
@@ -101,14 +104,67 @@ public class BalanceServiceImpl implements BalanceService {
     public boolean hasAssetLiabilityFundBalanceBalances(Account account) {
         
         Integer fiscalYear=dateTimeService.getCurrentFiscalYear();
-        balanceDao.findBalances(account,fiscalYear,null,wrap(fundBalanceObjectCodes),wrap(assetLiabilityFundBalanceBalanceTypeCodes),wrap(actualBalanceCodes));
-
-        // TODO implement body that summarizes query
+        Iterator balances=balanceDao.findBalances(account,fiscalYear,null,wrap(fundBalanceObjectCodes),wrap(assetLiabilityFundBalanceBalanceTypeCodes),wrap(actualBalanceCodes));
         
-        return true;
+        KualiDecimal begin;
+        KualiDecimal annual;
+     
+        //TODO KULCOA-335 - is absolute value necessary to prevent obscure sets of values from masking accounts that should remain open?
+
+        Map groups=new HashMap();
+        
+        while (balances.hasNext()) {
+            Balance balance=(Balance)balances.next();
+            begin=balance.getBeginningBalanceLineAmount();
+            annual=balance.getAccountLineAnnualBalanceAmount();
+            
+            String objectCode=balance.getObjectCode();
+            
+            KualiDecimal runningTotal=(KualiDecimal)groups.get(objectCode);
+            
+            if (runningTotal==null) {
+                runningTotal=new KualiDecimal(0);
+            }
+
+            runningTotal.add(begin);
+            runningTotal.add(annual);
+            
+            groups.put(objectCode,runningTotal);
+            
+            
+        }
+
+        boolean success=true;
+        
+        Iterator iter=groups.keySet().iterator();
+        while (iter.hasNext()) {
+            success &= ((KualiDecimal)iter.next()).isNonZero();
+        }
+
+        return success;
         
     }
 
+    
+    private KualiDecimal sumBalances(Iterator balances) {
+        KualiDecimal runningTotal = new KualiDecimal(0);
+        
+        KualiDecimal begin;
+        KualiDecimal annual;
+        
+        while (balances.hasNext()) {
+            Balance balance=(Balance)balances.next();
+            begin=balance.getBeginningBalanceLineAmount();
+            annual=balance.getAccountLineAnnualBalanceAmount();
+            
+            runningTotal.add(begin);
+            runningTotal.add(annual);
+        }
+        
+        return runningTotal;
+
+    }
+    
     /**
      * 
         SELECT   SUM(fin_beg_bal_ln_amt + acln_annl_bal_amt)
@@ -129,14 +185,11 @@ public class BalanceServiceImpl implements BalanceService {
 
      */
     protected KualiDecimal incomeBalances(Account account) {
-        
+
         Integer fiscalYear=dateTimeService.getCurrentFiscalYear();
-        balanceDao.findBalances(account,fiscalYear,wrap(fundBalanceObjectCodes),null,wrap(incomeObjectTypeCodes),wrap(actualBalanceCodes));
-
-        // TODO implement body that summarizes query
-
+        Iterator balances=balanceDao.findBalances(account,fiscalYear,wrap(fundBalanceObjectCodes),null,wrap(incomeObjectTypeCodes),wrap(actualBalanceCodes));
         
-        return new KualiDecimal(0);
+        return sumBalances(balances);
         
     }
     
@@ -163,13 +216,10 @@ public class BalanceServiceImpl implements BalanceService {
     protected KualiDecimal expenseBalances(Account account) {
         
         Integer fiscalYear=dateTimeService.getCurrentFiscalYear();
-        balanceDao.findBalances(account,fiscalYear,null,null,wrap(expenseObjectTypeCodes),wrap(actualBalanceCodes));
+        Iterator balances=balanceDao.findBalances(account,fiscalYear,null,null,wrap(expenseObjectTypeCodes),wrap(actualBalanceCodes));
 
-        // TODO implement body that summarizes query
-
-        
-        return new KualiDecimal(0);
-        
+        return sumBalances(balances);
+            
     }
 
     
@@ -204,11 +254,9 @@ public class BalanceServiceImpl implements BalanceService {
     public boolean hasEncumbrancesOrBaseBudgets(Account account) {
         
         Integer fiscalYear=dateTimeService.getCurrentFiscalYear();
-        balanceDao.findBalances(account,fiscalYear,null,null,null,wrap(encumbranceBaseBudgetBalanceTypeCodes));
+        Iterator balances=balanceDao.findBalances(account,fiscalYear,null,null,null,wrap(encumbranceBaseBudgetBalanceTypeCodes));
         
-        // TODO implement body that summarizes query
-        
-        return true;
+        return sumBalances(balances).isNonZero();
         
     }
     

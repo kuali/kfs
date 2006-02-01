@@ -443,15 +443,14 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         LOG.info("checkCloseAccount called");
 
         boolean success = true;
-        boolean isBeingClosed;
+        boolean isBeingClosed = false;
 
         //	if the account isnt being closed, then dont bother processing the rest of 
         // the method
         if(!oldAccount.isAccountClosedIndicator() && newAccount.isAccountClosedIndicator()) {
             isBeingClosed = true;
-        } else {
-            isBeingClosed = false;
-        }
+        } 
+
         if (!isBeingClosed) {
             return true;
         }
@@ -506,8 +505,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
             success &= false;
         }
 
-
-        // TODO:  must have no pending labor ledger entries (KULLAB-1) 
+        // TODO:  must have no pending labor ledger entries (depends on labor: KULLAB-1) 
 
         return success;
     }
@@ -727,7 +725,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         //	PFCMD (Plant Fund, Construction and Major Remodeling) SubFundCode checks
         else {
             
-            //	Attempt to get the right SubFundGroup code to check the following logic with.  If the value isnt available, go ahead 
+            //	Attempt to get the right SubFundGroup code to check the following logic with.  If the value isn't available, go ahead 
             // and die, as this indicates a misconfigured app, and important business rules wont be implemented without it.
             String capitalSubFundGroup = configService.getApplicationParameterValue(CHART_MAINTENANCE_EDOC, ACCT_CAPITAL_SUBFUNDGROUP);
             if (StringUtils.isEmpty(capitalSubFundGroup)) {

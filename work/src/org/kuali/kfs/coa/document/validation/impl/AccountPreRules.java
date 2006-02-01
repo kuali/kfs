@@ -49,6 +49,17 @@ public class AccountPreRules implements PreRulesCheck {
     private Account oldAccount;
     private Account newAccount;
     
+    private static final String CONTRACTS_GRANTS_CD = "CG";
+    private static final String GENERAL_FUND_CD = "GF";
+    private static final String RESTRICTED_FUND_CD = "RF";
+    private static final String ENDOWMENT_FUND_CD = "EN";
+    private static final String PLANT_FUND_CD = "PF";
+    
+    private static final String RESTRICTED_CD_RESTRICTED = "R";
+    private static final String RESTRICTED_CD_UNRESTRICTED = "U";
+    private static final String RESTRICTED_CD_TEMPORARILY_RESTRICTED = "T";
+    private static final String RESTRICTED_CD_NOT_APPLICABLE = "N";
+    
     public AccountPreRules() {
         configService = SpringServiceLocator.getKualiConfigurationService();
     }
@@ -100,7 +111,6 @@ public class AccountPreRules implements PreRulesCheck {
      */
     private void setRestrictedCodeDefaults(MaintenanceDocument document) {
         
-        SubFundGroup subFundGroup;
         String fundGroupCode = "";
         
         //	if subFundGroupCode was not entered, then we have nothing 
@@ -115,19 +125,19 @@ public class AccountPreRules implements PreRulesCheck {
             
 	        //	on the account screen, if the fund group of the account is CG (contracts & grants) or 
 	        // RF (restricted funds), the restricted status code is set to 'R'.
-	        if (fundGroupCode.equalsIgnoreCase("CG") || fundGroupCode.equalsIgnoreCase("RF")) {
-	            newAccount.setAccountRestrictedStatusCode("R");
+	        if (fundGroupCode.equalsIgnoreCase(CONTRACTS_GRANTS_CD) || fundGroupCode.equalsIgnoreCase(RESTRICTED_FUND_CD)) {
+	            newAccount.setAccountRestrictedStatusCode(RESTRICTED_CD_RESTRICTED);
 	        }
 	
 	        //	If the fund group is EN (endowment) or PF (plant fund) the value is not set by the system and 
 	        // must be set by the user 
-	        else if (fundGroupCode.equalsIgnoreCase("EN") || fundGroupCode.equalsIgnoreCase("PF")) {
+	        else if (fundGroupCode.equalsIgnoreCase(ENDOWMENT_FUND_CD) || fundGroupCode.equalsIgnoreCase(PLANT_FUND_CD)) {
 	            // do nothing, must be set by user
 	        }
 	        
 	        //	for all other fund groups the value is set to 'U'. R being restricted,U being unrestricted.
 	        else {
-	            newAccount.setAccountRestrictedStatusCode("U");
+	            newAccount.setAccountRestrictedStatusCode(RESTRICTED_CD_UNRESTRICTED);
 	        }
         }
     }

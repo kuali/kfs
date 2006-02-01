@@ -303,6 +303,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
             if (StringUtils.isEmpty(newAccount.getReportsToAccountNumber()) || StringUtils.isEmpty(newAccount.getReportsToChartOfAccountsCode())) {
                 success &= false;
                 putFieldError("reportsToAccountNumber", KeyConstants.ERROR_DOCUMENT_ACCMAINT_RPTS_TO_ACCT_REQUIRED_IF_FRINGEBENEFIT_FALSE);
+                putFieldError("reportsToChartOfAccountsCode", KeyConstants.ERROR_DOCUMENT_ACCMAINT_RPTS_TO_ACCT_REQUIRED_IF_FRINGEBENEFIT_FALSE);
             }
             else {
                 Account reportsToAccount = newAccount.getReportsToAccount();
@@ -312,12 +313,16 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
                     putFieldError("reportsToAccountNumber", KeyConstants.ERROR_EXISTENCE, 
                             		"Fringe Benefit Account: " + newAccount.getReportsToChartOfAccountsCode() + "-" + 
                             		newAccount.getReportsToAccountNumber());
+                    putFieldError("reportsToChartOfAccountsCode", KeyConstants.ERROR_EXISTENCE, 
+                                    "Fringe Benefit Account: " + newAccount.getReportsToChartOfAccountsCode() + "-" + 
+                                    newAccount.getReportsToAccountNumber());
                 }
                 else {
                     //	otherwise, make sure this account is flagged as a fringe benefits acct
                     if (!reportsToAccount.isAccountsFringesBnftIndicator()) {
                         success &= false;
                         putFieldError("reportsToAccountNumber", KeyConstants.ERROR_DOCUMENT_ACCMAINT_RPTS_TO_ACCT_MUST_BE_FLAGGED_FRINGEBENEFIT, newAccount.getReportsToAccountNumber());
+                        putFieldError("reportsToChartOfAccountsCode", KeyConstants.ERROR_DOCUMENT_ACCMAINT_RPTS_TO_ACCT_MUST_BE_FLAGGED_FRINGEBENEFIT, newAccount.getReportsToAccountNumber());
                     }
                 }
             }

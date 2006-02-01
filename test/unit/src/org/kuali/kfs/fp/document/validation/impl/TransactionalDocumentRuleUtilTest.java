@@ -23,17 +23,10 @@
 package org.kuali.module.financial.rules;
 
 import java.sql.Timestamp;
-import java.util.Calendar;
-import java.util.Date;
 
 import junit.framework.AssertionFailedError;
 
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.time.DateUtils;
 import org.kuali.Constants;
-import org.kuali.KeyConstants;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
 import org.kuali.test.KualiTestBaseWithSpring;

@@ -41,7 +41,6 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.SubFundGroup;
-import org.kuali.module.chart.bo.codes.BalanceTyp;
 import org.kuali.module.financial.rules.KualiParameterRule;
 import org.kuali.module.gl.service.BalanceService;
 import org.kuali.module.gl.service.GeneralLedgerPendingEntryService;

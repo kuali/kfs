@@ -45,6 +45,7 @@ import org.kuali.module.chart.bo.codes.BalanceTyp;
 import org.kuali.module.chart.service.AccountService;
 import org.kuali.module.chart.service.ObjectCodeService;
 import org.kuali.module.chart.service.OffsetDefinitionService;
+import org.kuali.module.gl.batch.scrubber.ScrubberReport;
 import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.bo.OriginEntrySource;
@@ -57,7 +58,7 @@ import org.springframework.util.StringUtils;
 
 /**
  * @author Anthony Potts
- * @version $Id: ScrubberServiceImpl.java,v 1.25 2006-02-01 04:46:13 aapotts Exp $
+ * @version $Id: ScrubberServiceImpl.java,v 1.26 2006-02-01 23:23:42 aapotts Exp $
  */
 
 public class ScrubberServiceImpl implements ScrubberService {
@@ -72,6 +73,7 @@ public class ScrubberServiceImpl implements ScrubberService {
     private KualiConfigurationService kualiConfigurationService;
     private UniversityDateDao universityDateDao;
     private PersistenceService persistenceService;
+    private ScrubberReport scrubberReportService;
     private Date runDate;
     private Calendar runCal;
     UniversityDate univRunDate;
@@ -80,7 +82,6 @@ public class ScrubberServiceImpl implements ScrubberService {
     OriginEntryGroup errorGroup;
     OriginEntryGroup expiredGroup;
     Map batchError;
-    Map groupError;
     Map reportSummary;
     List transactionErrors;
 
@@ -106,7 +107,7 @@ public class ScrubberServiceImpl implements ScrubberService {
      * @see org.kuali.module.gl.service.ScrubberService#scrubEntries()
      */
     public void scrubEntries() {
-        LOG.info("beginning scrubber process");
+        LOG.debug("beginning scrubber process");
         
         batchError = new HashMap();
         reportSummary = new HashMap();
@@ -127,35 +128,42 @@ public class ScrubberServiceImpl implements ScrubberService {
 
         groupsToScrub = originEntryGroupService.getGroupsToScrub(runDate);
 
-        LOG.info("number of groups to scrub: " + groupsToScrub.size());
+        LOG.debug("number of groups to scrub: " + groupsToScrub.size());
 
         for (Iterator groupIterator = groupsToScrub.iterator(); groupIterator.hasNext();) {
-            groupError = new HashMap();
             OriginEntryGroup grp = (OriginEntryGroup) groupIterator.next();
-
-            LOG.info("start group: " + grp.getId() + " - source: " + grp.getSourceCode());
+            
+            LOG.debug("start group: " + grp.getId() + " - source: " + grp.getSourceCode());
 
             for (Iterator entryIterator = originEntryService.getEntriesByGroup(grp); entryIterator.hasNext();) {
                 ++scrubberUtil.originCount;
                 eof = !entryIterator.hasNext();
                 OriginEntry entry = (OriginEntry) entryIterator.next();
-                LOG.info("group: " + grp.getId() + " - entry number: " + scrubberUtil.originCount + " - entry id: " + entry.getObjectId());
+                LOG.debug("group: " + grp.getId() + " - entry number: " + scrubberUtil.originCount + " - entry id: " + entry.getObjectId());
                 processUnitOfWork(entry, previousEntry);
             }
-
-            // if no errors, set "process" of the incoming group to "N"
-            if (groupError.size() == 0) {
-                grp.setProcess(new Boolean(false));
-                originEntryGroupService.save(grp);
-            } else {
-                batchError.put(grp, groupError);
-            }
+            scrubberUtil.recordsRead += scrubberUtil.originCount;
             
-            LOG.info("end group: " + grp.getId() + " - source: " + grp.getSourceCode());
+            grp.setProcess(new Boolean(false));
+            originEntryGroupService.save(grp);
+            
+            LOG.debug("end group: " + grp.getId() + " - source: " + grp.getSourceCode());
         }
 
         // write out report and errors
-        // PRINT_STATISTICS
+        reportSummary.put("UNSCRUBBED RECORDS READ", new Integer(scrubberUtil.recordsRead));
+        reportSummary.put("SCRUBBED RECORDS WRITTEN", new Integer(scrubberUtil.scrubbedRecordsWriteCount));
+        reportSummary.put("ERROR RECORDS WRITTEN", new Integer(scrubberUtil.errorWriteCount));
+        reportSummary.put("OFFSET ENTRIES GENERATED", new Integer(scrubberUtil.offsetCount));
+        reportSummary.put("ELIMINATION ENTRIES GENERATED", new Integer(scrubberUtil.eliminationCount));
+        reportSummary.put("CAPITALIZATION ENTRIES GENERATED", new Integer(scrubberUtil.camsCount));
+        reportSummary.put("LIABLITY ENTRIES GENERATED", new Integer(scrubberUtil.liabCount));
+        reportSummary.put("PLANT INDEBTEDNESS ENTRIES GENERATED", new Integer(scrubberUtil.plantIndebtednessCount));
+        reportSummary.put("COST SHARE ENTRIES GENERATED", new Integer(scrubberUtil.costShareCount));
+        reportSummary.put("COST SHARE ENC ENTRIES GENERATED", new Integer(scrubberUtil.costShareEncCount));
+        reportSummary.put("TOTAL OUTPUT RECORDS WRITTEN", new Integer(scrubberUtil.totalWriteCount));
+        reportSummary.put("EXPIRED ACCOUNTS FOUND", new Integer(scrubberUtil.expiredAccountCount));
+        scrubberReportService.generateReport(null, reportSummary, runDate, 0);
         
 /*      
  *      print out final error that says what errors were found:
@@ -165,8 +173,8 @@ public class ScrubberServiceImpl implements ScrubberService {
  *      
  *      if WS-WARNING-YES = yes then... "HIGHEST SEVERITY ERRORS WERE WARNINGS"
 */
-        LOG.info("exiting scrubber process");
-        }
+        LOG.debug("exiting scrubber process");
+    }
 
     private OriginEntry processUnitOfWork(OriginEntry originEntry, OriginEntry previousEntry) { /* 2500-process-unit-of-work */
         transactionErrors = new ArrayList();
@@ -495,7 +503,7 @@ public class ScrubberServiceImpl implements ScrubberService {
         this.writeSwitchStatusCD = ScrubberUtil.FROM_WRITE;
         if (transactionErrors.size() > 0) {
             // copy all the errors for this entry to the main error list
-            groupError.put(originEntry, transactionErrors);
+            batchError.put(originEntry, transactionErrors);
 
             // write this entry as a scrubber error
             createOutputEntry(originEntry, errorGroup);
@@ -505,7 +513,7 @@ public class ScrubberServiceImpl implements ScrubberService {
             // write this entry as a scrubber valid
             createOutputEntry(workingEntry, validGroup);
 
-            if (groupError.size() == 0 && !"JV".equals(workingEntry.getFinancialDocumentTypeCode())) {
+            if (batchError.size() == 0 && !"JV".equals(workingEntry.getFinancialDocumentTypeCode())) {
                 userProcessing(workingEntry);
             }
 
@@ -651,7 +659,7 @@ public class ScrubberServiceImpl implements ScrubberService {
         
         // Check scrbOffsetAmount to see if an offset needs to be generated.
         if(scrubberUtil.offsetAmountAccumulator.isNonZero() &&
-                groupError.size() == 0 &&
+                batchError.size() == 0 &&
                 !"JV".equals(workingEntry.getFinancialDocumentTypeCode())) {
             generateOffset(workingEntry);
             this.writeSwitchStatusCD = ScrubberUtil.FROM_OFFSET;
@@ -1601,13 +1609,26 @@ public class ScrubberServiceImpl implements ScrubberService {
     public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
     }
+
+    public void setScrubberReport(ScrubberReport srs) {
+        scrubberReportService = srs;
+    }
+
     
     private void createOutputEntry(OriginEntry inputEntry, OriginEntryGroup group) {
         originEntryService.createEntry(inputEntry, group);
 
+        ++scrubberUtil.totalWriteCount;
+        
+        if (group.equals(errorGroup)) {
+            ++scrubberUtil.errorWriteCount;
+        } else if (group.equals(expiredGroup)) {
+            ++scrubberUtil.expiredWriteCount;
+        }
+        
         switch (writeSwitchStatusCD) {
         case ScrubberUtil.FROM_WRITE:
-            ++scrubberUtil.writeCount;
+            ++scrubberUtil.scrubbedRecordsWriteCount;
             break;
         case ScrubberUtil.FROM_OFFSET:
             ++scrubberUtil.offsetCount;

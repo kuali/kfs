@@ -39,6 +39,7 @@
 		<property name="universityDateDao"><ref bean="universityDateDao" /></property>
 		<property name="originEntryGroupService"><ref bean="glOriginEntryGroupService" /></property>
 		<property name="persistenceService"><ref bean="persistenceService"/></property>
+		<property name="scrubberReport"><ref bean="glScrubberReport" /></property>
 	</bean>
 
 	<bean id="glPosterService" class="org.kuali.module.gl.service.impl.PosterServiceImpl">
@@ -120,6 +121,10 @@
 		<property name="indirectCostRecoveryExclusionTypeDao"><ref bean="indirectCostRecoveryExclusionTypeDao"/></property>
 		<property name="a21SubAccountDao"><ref bean="a21SubAccountDao"/></property>
 		<property name="expenditureTransactionDao"><ref bean="glExpenditureTransactionDao"/></property>
+	</bean>
+
+	<bean id="glScrubberReport" class="org.kuali.module.gl.batch.scrubber.impl.ScrubberReportImpl">
+		<property name="destinationDirectory"><value>/opt/scratch</value></property>
 	</bean>
 
 	<bean id="glPosterReport" class="org.kuali.module.gl.batch.poster.impl.PosterReportImpl">

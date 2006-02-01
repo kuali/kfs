@@ -67,13 +67,24 @@ public class JournalVoucherDocumentRule extends TransactionalDocumentRuleBase {
     }
 
     /**
-     * Performs additional Journal Voucher specific checks every time an accounting line is reviewed.
+     * Performs additional Journal Voucher specific checks every time an accounting line is updated.
      * 
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processCustomReviewAccountingLineBusinessRules(org.kuali.core.document.TransactionalDocument,
      *      org.kuali.core.bo.AccountingLine)
      */
     public boolean processCustomReviewAccountingLineBusinessRules(TransactionalDocument document, AccountingLine accountingLine) {
         return super.processCustomReviewAccountingLineBusinessRules( document, accountingLine) && validateAccountingLine(document, accountingLine);
+    }
+    
+    /**
+     * Performs additional Journal Voucher specific checks every time an accounting line is updated.
+     * 
+     * @see org.kuali.core.rule.UpdateAccountingLineRule#processCustomUpdateAccountingLineBusinessRules(org.kuali.core.document.TransactionalDocument, org.kuali.core.bo.AccountingLine, org.kuali.core.bo.AccountingLine)
+     */
+    public boolean processCustomUpdateAccountingLineBusinessRules(TransactionalDocument transactionalDocument,
+            AccountingLine originalAccountingLine, AccountingLine updatedAccountingLine) {
+        return super.processCustomUpdateAccountingLineBusinessRules( transactionalDocument, originalAccountingLine, updatedAccountingLine) && 
+            validateAccountingLine(transactionalDocument, updatedAccountingLine);
     }
 
     /**
@@ -104,17 +115,17 @@ public class JournalVoucherDocumentRule extends TransactionalDocumentRuleBase {
         // check the selected balance type
         jvDoc.refreshReferenceObject("balanceType");
         BalanceTyp balanceType = jvDoc.getBalanceType();
-        valid &= TransactionalDocumentRuleUtil.isValidBalanceType(balanceType, "document.selectedBalanceType.code");
+        valid &= TransactionalDocumentRuleUtil.isValidBalanceType(balanceType, Constants.JOURNAL_VOUCHER_BALANCE_TYPE_PROPERTY_NAME);
 
         // check the selected accounting period
         jvDoc.refreshReferenceObject("accountingPeriod");
         AccountingPeriod accountingPeriod = jvDoc.getAccountingPeriod();
-        valid &= TransactionalDocumentRuleUtil.isValidOpenAccountingPeriod(accountingPeriod, "document.selectedAccountingPeriod");
+        valid &= TransactionalDocumentRuleUtil.isValidOpenAccountingPeriod(accountingPeriod, Constants.JOURNAL_VOUCHER_SELECTED_ACCOUNTING_PERIOD_PROPERTY_NAME);
 
         // check the chosen reversal date, only if they entered a value
         if(null != jvDoc.getReversalDate()) {
             Timestamp reversalDate = jvDoc.getReversalDate();
-            valid &= TransactionalDocumentRuleUtil.isValidReversalDate(reversalDate, "document.reversalDate");
+            valid &= TransactionalDocumentRuleUtil.isValidReversalDate(reversalDate, Constants.JOURNAL_VOUCHER_REVERSAL_DATE_PROPERTY_NAME);
         }
 
         return valid;
@@ -359,17 +370,17 @@ public class JournalVoucherDocumentRule extends TransactionalDocumentRuleBase {
         // in the AddAccountingLineRule interface
         if (StringUtils.isEmpty(accountingLine.getReferenceOriginCode())) {
             String label = boe.getAttributeDefinition(Constants.REFERENCE_ORIGIN_CODE_PROPERTY_NAME).getLabel();
-            GlobalVariables.getErrorMap().put(Constants.REFERENCE_ORIGIN_CODE_PROPERTY_NAME, KeyConstants.ERROR_EXISTENCE, label);
+            GlobalVariables.getErrorMap().put(Constants.REFERENCE_ORIGIN_CODE_PROPERTY_NAME, KeyConstants.ERROR_REQUIRED, label);
             valid = false;
         }
         if (StringUtils.isEmpty(accountingLine.getReferenceNumber())) {
             String label = boe.getAttributeDefinition(Constants.REFERENCE_NUMBER_PROPERTY_NAME).getLabel();
-            GlobalVariables.getErrorMap().put(Constants.REFERENCE_NUMBER_PROPERTY_NAME, KeyConstants.ERROR_EXISTENCE, label);
+            GlobalVariables.getErrorMap().put(Constants.REFERENCE_NUMBER_PROPERTY_NAME, KeyConstants.ERROR_REQUIRED, label);
             valid = false;
         }
         if (StringUtils.isEmpty(accountingLine.getReferenceTypeCode())) {
             String label = boe.getAttributeDefinition(Constants.REFERENCE_TYPE_CODE_PROPERTY_NAME).getLabel();
-            GlobalVariables.getErrorMap().put(Constants.REFERENCE_TYPE_CODE_PROPERTY_NAME, KeyConstants.ERROR_EXISTENCE, label);
+            GlobalVariables.getErrorMap().put(Constants.REFERENCE_TYPE_CODE_PROPERTY_NAME, KeyConstants.ERROR_REQUIRED, label);
             valid = false;
         }
         return valid;

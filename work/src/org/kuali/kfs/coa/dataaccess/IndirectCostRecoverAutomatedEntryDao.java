@@ -29,6 +29,5 @@ import java.util.Collection;
  *
  */
 public interface IcrAutomatedEntryDao {
-  public Long getCount(Integer universityFiscalYear,String financialSeriesId,String balanceTypeCode);
   public Collection getEntriesBySeries(Integer universityFiscalYear,String financialSeriesId,String balanceTypeCode);
 }

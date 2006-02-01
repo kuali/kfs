@@ -29,6 +29,7 @@ import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.core.bo.user.Options;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
 
@@ -45,19 +46,18 @@ public class IcrAutomatedEntry extends BusinessObjectBase {
         universityFiscalYear = SpringServiceLocator.getDateTimeService().getCurrentFiscalYear();
     }
 
-    private Integer universityFiscalYear; // used to deal with mixed anonymous keys
+    private Integer universityFiscalYear;
     private String financialIcrSeriesIdentifier;
-    private String balanceTypeCode; // used to deal with mixed anonymous keys
+    private String balanceTypeCode;
     private Integer awardIndrCostRcvyEntryNbr;
     private String transactionDebitIndicator;
-    private Integer awardIndrCostRcvyRatePct;
+    private KualiDecimal awardIndrCostRcvyRatePct;
     private String chartOfAccountsCode;
     private String accountNumber;
     private String subAccountNumber;
     private String financialObjectCode;
     private String financialSubObjectCode;
     private String offsetBalanceSheetObjectCodeNumber;
-
 
     private Chart chartOfAccounts;
     private Account account;
@@ -67,369 +67,206 @@ public class IcrAutomatedEntry extends BusinessObjectBase {
     private Options universityFiscal;
     private BalanceTyp financialBalanceTyp;
     private ObjectCode offsetBalanceSheetObjectCode;
-
-    /**
-     * 
-     * This method gets the string representation of the fiscal year.
-     * @deprecated - Do not use, only here for OJB anonymous key issue
-     * @return
-     *  
-     */
-    private String getUniversityFiscalYear() {
-        return getUniversityFiscal().getUniversityFiscalYear().toString();
-    }
-
-    /**
-     * 
-     * This method gets the string represetnation of the BalanceTyp code
-     * 
-     * @return
-     *  
-     */
-    private String getBalanceTypeCode() {
-        return getFinancialBalanceTyp().getCode();
-    }
-
-    /**
-     * Gets the financialIcrSeriesIdentifier attribute.
-     * 
-     * @return - Returns the financialIcrSeriesIdentifier
-     *  
-     */
-    public String getFinancialIcrSeriesIdentifier() {
-        return financialIcrSeriesIdentifier;
-    }
-
-    /**
-     * Sets the financialIcrSeriesIdentifier attribute.
-     * 
-     * @param - financialIcrSeriesIdentifier The financialIcrSeriesIdentifier to set.
-     *  
-     */
-    public void setFinancialIcrSeriesIdentifier(String financialIcrSeriesIdentifier) {
-        this.financialIcrSeriesIdentifier = financialIcrSeriesIdentifier;
-    }
-
-    /**
-     * Gets the awardIndrCostRcvyEntryNbr attribute.
-     * 
-     * @return - Returns the awardIndrCostRcvyEntryNbr
-     *  
-     */
-    public Integer getAwardIndrCostRcvyEntryNbr() {
-        return awardIndrCostRcvyEntryNbr;
-    }
-
-    /**
-     * Sets the awardIndrCostRcvyEntryNbr attribute.
-     * 
-     * @param - awardIndrCostRcvyEntryNbr The awardIndrCostRcvyEntryNbr to set.
-     *  
-     */
-    public void setAwardIndrCostRcvyEntryNbr(Integer awardIndrCostRcvyEntryNbr) {
-        this.awardIndrCostRcvyEntryNbr = awardIndrCostRcvyEntryNbr;
-    }
-
-    /**
-     * Gets the financialObjectCode attribute.
-     * 
-     * @return - Returns the financialObjectCode
-     *  
-     */
-    public ObjectCode getFinancialObject() {
-        return financialObject;
-    }
-
-    /**
-     * Sets the financialObjectCode attribute.
-     * 
-     * @param - financialObjectCode The financialObjectCode to set.
-     * @deprecated
-     */
-    public void setFinancialObject(ObjectCode financialObjectCode) {
-        this.financialObject = financialObjectCode;
-    }
-
-    /**
-     * Gets the transactionDebitIndicator attribute.
-     * 
-     * @return - Returns the transactionDebitIndicator
-     *  
-     */
-    public String getTransactionDebitIndicator() {
-        return transactionDebitIndicator;
-    }
-
-    /**
-     * Sets the transactionDebitIndicator attribute.
-     * 
-     * @param - transactionDebitIndicator The transactionDebitIndicator to set.
-     *  
-     */
-    public void setTransactionDebitIndicator(String transactionDebitIndicator) {
-        this.transactionDebitIndicator = transactionDebitIndicator;
-    }
-
-    /**
-     * Gets the awardIndrCostRcvyRatePct attribute.
-     * 
-     * @return - Returns the awardIndrCostRcvyRatePct
-     *  
-     */
-    public Integer getAwardIndrCostRcvyRatePct() {
-        return awardIndrCostRcvyRatePct;
-    }
-
-    /**
-     * Sets the awardIndrCostRcvyRatePct attribute.
-     * 
-     * @param - awardIndrCostRcvyRatePct The awardIndrCostRcvyRatePct to set.
-     *  
-     */
-    public void setAwardIndrCostRcvyRatePct(Integer awardIndrCostRcvyRatePct) {
-        this.awardIndrCostRcvyRatePct = awardIndrCostRcvyRatePct;
-    }
-
-    /**
-     * Gets the universityFiscal attribute.
-     * 
-     * @return - Returns the universityFiscal
-     *  
-     */
-    public Options getUniversityFiscal() {
-        return universityFiscal;
-    }
-
-    /**
-     * Sets the universityFiscal attribute.
-     * 
-     * @param - universityFiscal The universityFiscal to set.
-     * @deprecated
-     */
-    public void setUniversityFiscal(Options universityFiscal) {
-        this.universityFiscal = universityFiscal;
-    }
-
-    /**
-     * Gets the financialBalanceTyp attribute.
-     * 
-     * @return - Returns the financialBalanceType
-     *  
-     */
-    public BalanceTyp getFinancialBalanceTyp() {
-        return financialBalanceTyp;
-    }
-
-    /**
-     * Sets the financialBalanceTyp attribute.
-     * 
-     * @param - financialBalanceTyp The financialBalanceTyp to set.
-     * @deprecated
-     */
-    public void setFinancialBalanceType(BalanceTyp financialBalanceTyp) {
-        this.financialBalanceTyp = financialBalanceTyp;
-    }
-
-    /**
-     * Gets the financialSubObjectCode attribute.
-     * 
-     * @return - Returns the financialSubObjectCode
-     *  
-     */
-    public SubObjCd getFinancialSubObject() {
-        return financialSubObject;
-    }
-
-    /**
-     * Sets the financialSubObjectCode attribute.
-     * 
-     * @param - financialSubObjectCode The financialSubObjectCode to set.
-     * @deprecated
-     */
-    public void setFinancialSubObject(SubObjCd financialSubObject) {
-        this.financialSubObject = financialSubObject;
-    }
-
-    /**
-     * Gets the chartOfAccounts attribute.
-     * 
-     * @return - Returns the chartOfAccounts
-     *  
-     */
-    public Chart getChartOfAccounts() {
-        return chartOfAccounts;
-    }
-
-    /**
-     * Sets the chartOfAccounts attribute.
-     * 
-     * @param - chartOfAccounts The chartOfAccounts to set.
-     * @deprecated
-     */
-    public void setChartOfAccounts(Chart chartOfAccounts) {
-        this.chartOfAccounts = chartOfAccounts;
-    }
-
-    /**
-     * Gets the account attribute.
-     * 
-     * @return - Returns the account
-     *  
-     */
+    
     public Account getAccount() {
-        return account;
+      return account;
     }
 
-    /**
-     * Sets the account attribute.
-     * 
-     * @param - account The account to set.
-     * @deprecated
-     */
+
     public void setAccount(Account account) {
-        this.account = account;
+      this.account = account;
     }
 
-    /**
-     * Gets the subAccount attribute.
-     * 
-     * @return - Returns the subAccount
-     *  
-     */
-    public SubAccount getSubAccount() {
-        return subAccount;
-    }
 
-    /**
-     * Sets the subAccount attribute.
-     * 
-     * @param - subAccount The subAccount to set.
-     * @deprecated
-     */
-    public void setSubAccount(SubAccount subAccount) {
-        this.subAccount = subAccount;
-    }
-
-    /**
-     * @return Returns the accountNumber.
-     */
     public String getAccountNumber() {
-        return accountNumber;
+      return accountNumber;
     }
 
-    /**
-     * @param accountNumber The accountNumber to set.
-     */
+
     public void setAccountNumber(String accountNumber) {
-        this.accountNumber = accountNumber;
+      this.accountNumber = accountNumber;
     }
 
-    /**
-     * @return Returns the chartOfAccountsCode.
-     */
-    public String getChartOfAccountsCode() {
-        return chartOfAccountsCode;
+
+    public Integer getAwardIndrCostRcvyEntryNbr() {
+      return awardIndrCostRcvyEntryNbr;
     }
 
-    /**
-     * @param chartOfAccountsCode The chartOfAccountsCode to set.
-     */
-    public void setChartOfAccountsCode(String chartOfAccountsCode) {
-        this.chartOfAccountsCode = chartOfAccountsCode;
+
+    public void setAwardIndrCostRcvyEntryNbr(Integer awardIndrCostRcvyEntryNbr) {
+      this.awardIndrCostRcvyEntryNbr = awardIndrCostRcvyEntryNbr;
     }
 
-    /**
-     * @return Returns the financialObjectCode.
-     */
-    public String getFinancialObjectCode() {
-        return financialObjectCode;
+
+    public KualiDecimal getAwardIndrCostRcvyRatePct() {
+      return awardIndrCostRcvyRatePct;
     }
 
-    /**
-     * @param financialObjectCode The financialObjectCode to set.
-     */
-    public void setFinancialObjectCode(String financialObjectCode) {
-        this.financialObjectCode = financialObjectCode;
+
+    public void setAwardIndrCostRcvyRatePct(KualiDecimal awardIndrCostRcvyRatePct) {
+      this.awardIndrCostRcvyRatePct = awardIndrCostRcvyRatePct;
     }
 
-    /**
-     * @return Returns the financialSubObjectCode.
-     */
-    public String getFinancialSubObjectCode() {
-        return financialSubObjectCode;
+
+    public String getBalanceTypeCode() {
+      return balanceTypeCode;
     }
 
-    /**
-     * @param financialSubObjectCode The financialSubObjectCode to set.
-     */
-    public void setFinancialSubObjectCode(String financialSubObjectCode) {
-        this.financialSubObjectCode = financialSubObjectCode;
-    }
 
-    /**
-     * @return Returns the offsetBalanceSheetObjectCode.
-     */
-    public ObjectCode getOffsetBalanceSheetObjectCode() {
-        return offsetBalanceSheetObjectCode;
-    }
-
-    /**
-     * @param offsetBalanceSheetObjectCode The offsetBalanceSheetObjectCode to set.
-     * @deprecated
-     */
-    public void setOffsetBalanceSheetObjectCode(ObjectCode offsetBalanceSheetObjectCode) {
-        this.offsetBalanceSheetObjectCode = offsetBalanceSheetObjectCode;
-    }
-
-    /**
-     * @return Returns the offsetBalanceSheetObjectCodeNumber.
-     */
-    public String getOffsetBalanceSheetObjectCodeNumber() {
-        return offsetBalanceSheetObjectCodeNumber;
-    }
-
-    /**
-     * @param offsetBalanceSheetObjectCodeNumber The offsetBalanceSheetObjectCodeNumber to set.
-     */
-    public void setOffsetBalanceSheetObjectCodeNumber(String offsetBalanceSheetObjectCodeNumber) {
-        this.offsetBalanceSheetObjectCodeNumber = offsetBalanceSheetObjectCodeNumber;
-    }
-
-    /**
-     * @return Returns the subAccountNumber.
-     */
-    public String getSubAccountNumber() {
-        return subAccountNumber;
-    }
-
-    /**
-     * @param subAccountNumber The subAccountNumber to set.
-     */
-    public void setSubAccountNumber(String subAccountNumber) {
-        this.subAccountNumber = subAccountNumber;
-    }
-
-    /**
-     * @param balanceTypeCode The balanceTypeCode to set.
-     */
     public void setBalanceTypeCode(String balanceTypeCode) {
-        this.balanceTypeCode = balanceTypeCode;
+      this.balanceTypeCode = balanceTypeCode;
     }
 
-    /**
-     * @param financialBalanceTyp The financialBalanceTyp to set.
-     * @deprecated
-     */
+
+    public Chart getChartOfAccounts() {
+      return chartOfAccounts;
+    }
+
+
+    public void setChartOfAccounts(Chart chartOfAccounts) {
+      this.chartOfAccounts = chartOfAccounts;
+    }
+
+
+    public String getChartOfAccountsCode() {
+      return chartOfAccountsCode;
+    }
+
+
+    public void setChartOfAccountsCode(String chartOfAccountsCode) {
+      this.chartOfAccountsCode = chartOfAccountsCode;
+    }
+
+
+    public BalanceTyp getFinancialBalanceTyp() {
+      return financialBalanceTyp;
+    }
+
+
     public void setFinancialBalanceTyp(BalanceTyp financialBalanceTyp) {
-        this.financialBalanceTyp = financialBalanceTyp;
+      this.financialBalanceTyp = financialBalanceTyp;
     }
 
-    /**
-     * @param universityFiscalYear The universityFiscalYear to set.
-     */
-    public void setUniversityFiscalYear(Integer universityFiscalYear) {
-        this.universityFiscalYear = universityFiscalYear;
+
+    public String getFinancialIcrSeriesIdentifier() {
+      return financialIcrSeriesIdentifier;
     }
+
+
+    public void setFinancialIcrSeriesIdentifier(String financialIcrSeriesIdentifier) {
+      this.financialIcrSeriesIdentifier = financialIcrSeriesIdentifier;
+    }
+
+
+    public ObjectCode getFinancialObject() {
+      return financialObject;
+    }
+
+
+    public void setFinancialObject(ObjectCode financialObject) {
+      this.financialObject = financialObject;
+    }
+
+
+    public String getFinancialObjectCode() {
+      return financialObjectCode;
+    }
+
+
+    public void setFinancialObjectCode(String financialObjectCode) {
+      this.financialObjectCode = financialObjectCode;
+    }
+
+
+    public SubObjCd getFinancialSubObject() {
+      return financialSubObject;
+    }
+
+
+    public void setFinancialSubObject(SubObjCd financialSubObject) {
+      this.financialSubObject = financialSubObject;
+    }
+
+
+    public String getFinancialSubObjectCode() {
+      return financialSubObjectCode;
+    }
+
+
+    public void setFinancialSubObjectCode(String financialSubObjectCode) {
+      this.financialSubObjectCode = financialSubObjectCode;
+    }
+
+
+    public ObjectCode getOffsetBalanceSheetObjectCode() {
+      return offsetBalanceSheetObjectCode;
+    }
+
+
+    public void setOffsetBalanceSheetObjectCode(ObjectCode offsetBalanceSheetObjectCode) {
+      this.offsetBalanceSheetObjectCode = offsetBalanceSheetObjectCode;
+    }
+
+
+    public String getOffsetBalanceSheetObjectCodeNumber() {
+      return offsetBalanceSheetObjectCodeNumber;
+    }
+
+
+    public void setOffsetBalanceSheetObjectCodeNumber(String offsetBalanceSheetObjectCodeNumber) {
+      this.offsetBalanceSheetObjectCodeNumber = offsetBalanceSheetObjectCodeNumber;
+    }
+
+
+    public SubAccount getSubAccount() {
+      return subAccount;
+    }
+
+
+    public void setSubAccount(SubAccount subAccount) {
+      this.subAccount = subAccount;
+    }
+
+
+    public String getSubAccountNumber() {
+      return subAccountNumber;
+    }
+
+
+    public void setSubAccountNumber(String subAccountNumber) {
+      this.subAccountNumber = subAccountNumber;
+    }
+
+
+    public String getTransactionDebitIndicator() {
+      return transactionDebitIndicator;
+    }
+
+
+    public void setTransactionDebitIndicator(String transactionDebitIndicator) {
+      this.transactionDebitIndicator = transactionDebitIndicator;
+    }
+
+
+    public Options getUniversityFiscal() {
+      return universityFiscal;
+    }
+
+
+    public void setUniversityFiscal(Options universityFiscal) {
+      this.universityFiscal = universityFiscal;
+    }
+
+
+    public Integer getUniversityFiscalYear() {
+      return universityFiscalYear;
+    }
+
+
+    public void setUniversityFiscalYear(Integer universityFiscalYear) {
+      this.universityFiscalYear = universityFiscalYear;
+    }
+
 
     /**
      * @see org.kuali.bo.BusinessObjectBase#toStringMapper()

@@ -63,7 +63,8 @@
 		<property name="accountingPeriodService"><ref bean="accountingPeriodService" /></property>
 		<property name="expenditureTransactionDao"><ref bean="glExpenditureTransactionDao" /></property>
 		<property name="icrAutomatedEntryDao"><ref bean="icrAutomatedEntryDao" /></property>
-		<property name="indirectCostRecoveryThresholdDao"><ref bean="indirectCostRecoveryThresholdDao" /></property>
+		<!--  This isn't implemented right now -->
+		<!--  <property name="indirectCostRecoveryThresholdDao"><ref bean="indirectCostRecoveryThresholdDao" /></property> -->
 	</bean>
 
 	<bean id="generalLedgerPendingEntryService" class="org.kuali.module.gl.service.impl.GeneralLedgerPendingEntryServiceImpl">

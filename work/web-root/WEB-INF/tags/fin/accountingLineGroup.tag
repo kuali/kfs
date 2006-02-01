@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="/tlds/c.tld" %>
+<%@ taglib prefix="bean" uri="/tlds/struts-bean.tld" %>
 <%@ taglib prefix="html" uri="/tlds/struts-html.tld" %>
 <%@ taglib prefix="logic" uri="/tlds/struts-logic.tld" %>
 <%@ taglib prefix="fin" tagdir="/WEB-INF/tags/fin" %>
@@ -95,9 +96,9 @@
         accountingLineAttributes="${accountingLineAttributes}"
         dataCellCssClass="infoline"
         rowHeader="add:"
-        actionMethodToCall="insert${capitalSourceOrTarget}Line"
-        actionAlt="insert"
-        actionImageSrc="images/tinybutton-add1.gif"
+        actionGroup="newLine"
+        actionInfix="${capitalSourceOrTarget}"
+        revertible="false"
         optionalFields="${optionalFields}"
         extraRowFields="${extraRowFields}"
         extraRowLabelFontWeight="bold"
@@ -121,18 +122,25 @@
             <c:set var="accountIsEditable" value="false" />
         </c:when>
         <c:otherwise>
-            <c:set var="accountIsEditable" value="${!empty editableAccounts[currentLine.accountKey]}" />
+            <%-- using accountKey of baseline accountingLine, so that when the user changes to an account they can't access,
+                 they'll be allowed to revert or update the line to something to which they do have access --%>
+            <c:set var="baselineAccountKey">
+                <bean:write name="KualiForm" property="${baselineSourceOrTarget}AccountingLine[${ctr}].accountKey" />
+            </c:set>
+
+            <c:set var="accountIsEditable" value="${!empty editableAccounts[baselineAccountKey]}" />
         </c:otherwise>
     </c:choose>
 
     <fin:accountingLineRow
         accountingLine="document.${sourceOrTarget}AccountingLine[${ctr}]"
+        accountingLineIndex="${ctr}"
         accountingLineAttributes="${accountingLineAttributes}"
         dataCellCssClass="datacell"
         rowHeader="${ctr+1}"
-        actionMethodToCall="delete${capitalSourceOrTarget}Line.line${ctr}"
-        actionAlt="delete"
-        actionImageSrc="images/tinybutton-delete1.gif"
+        actionGroup="existingLine"
+        actionInfix="${capitalSourceOrTarget}"
+        revertible="true"
         optionalFields="${optionalFields}"
         extraRowFields="${extraRowFields}"
         extraRowLabelFontWeight="normal"

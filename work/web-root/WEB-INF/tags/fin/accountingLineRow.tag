@@ -8,19 +8,19 @@
               being edited or displayed by this row." %>
 <%@ attribute name="accountingLineAttributes" required="true" type="java.util.Map"
               description="The DataDictionary entry containing attributes for this row's fields." %>
+<%@ attribute name="accountingLineIndex" required="false" description="index of this accountingLine in the corresponding form list" %>
+
 <%@ attribute name="dataCellCssClass" required="true"
               description="The name of the CSS class for this data cell.
               This is used to distinguish the look of the add row from the already-added rows." %>
 <%@ attribute name="rowHeader" required="true"
               description="The value of the header cell of this row.
               It would be 'add:' or the number of this row's accounting line within its group." %>
-<%@ attribute name="actionMethodToCall" required="true"
-              description="The name of the method to request of the server
-              when this row's action button is pressed, e.g., insert (i.e., add) or delete." %>
-<%@ attribute name="actionImageSrc" required="true"
-              description="The source file of the image to display for the action button." %>
-<%@ attribute name="actionAlt" required="true"
-              description="The alternate text of the action button." %>
+ 
+<%@ attribute name="actionGroup" required="true" description="The name of the group of action buttons to be displayed; valid values are newLine and existingLine." %>
+<%@ attribute name="actionInfix" required="true" description="Infix used to build method names which will be invoked by the buttons in this actionGroup" %>
+<%@ attribute name="revertible" required="true" description="If true, this row will show the 'revert' button" %>
+
 <%@ attribute name="readOnly" required="true" %>
 <%@ attribute name="editableFields" required="false" type="java.util.Map"
               description="Map of accounting line fields which this user is allowed to edit" %>
@@ -63,6 +63,7 @@
               As with all boolean tag attributes, if it is not provided, it defaults to false." %>
 
 <%@ attribute name="displayHiddenColumns" required="false" description="display values of hidden columns" %>
+
 
 <c:set var="rowCount" value="${empty extraRowFields ? 1 : 2}"/>
 
@@ -227,11 +228,30 @@
     </c:otherwise>
 </c:choose>
 <c:if test="${!readOnly}">
-    <td rowspan="${rowCount}" class="${dataCellCssClass}" nowrap><div align="center">
-        <html:image property="methodToCall.${actionMethodToCall}" src="${actionImageSrc}"
-                    alt="${actionAlt}" styleClass="tinybutton"/>
-        <fin:accountingLineDataCellDetail/></div>
-    </td>
+    <c:choose>
+        <c:when test="${actionGroup == 'newLine' }" >
+            <c:set var="insertMethod" value="insert${actionInfix}Line" />
+
+            <td rowspan="${rowCount}" class="${dataCellCssClass}" nowrap><div align="center">
+                <html:image property="methodToCall.${insertMethod}" src="images/tinybutton-add1.gif" alt="insert" styleClass="tinybutton"/>
+                <fin:accountingLineDataCellDetail/></div>
+            </td>
+        </c:when>
+
+        <c:when test="${actionGroup == 'existingLine'}" >
+            <c:set var="deleteMethod" value="delete${actionInfix}Line.line${accountingLineIndex}" />
+            <c:set var="revertMethod" value="revert${actionInfix}Line.line${accountingLineIndex}" />
+
+            <td rowspan="${rowCount}" class="${dataCellCssClass}" nowrap><div align="center">
+                <html:image property="methodToCall.${deleteMethod}" src="images/tinybutton-delete1.gif" alt="delete" styleClass="tinybutton"/>
+                <c:if test="${revertible}">
+                    <br>
+                    <html:image property="methodToCall.${revertMethod}" src="images/tinybutton-revert1.gif" alt="revert" styleClass="tinybutton"/>
+                </c:if>
+                <fin:accountingLineDataCellDetail/></div>
+            </td>
+        </c:when>
+    </c:choose>
 </c:if>
 </tr>
 <c:if test="${!empty extraRowFields}">

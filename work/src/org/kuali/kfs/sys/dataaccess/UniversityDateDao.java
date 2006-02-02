@@ -33,4 +33,6 @@ import org.kuali.module.gl.bo.UniversityDate;
 public interface UniversityDateDao {
   public UniversityDate getByPrimaryKey(Date date);
   public UniversityDate getByPrimaryKey(java.util.Date date);
+  public UniversityDate getLastFiscalYearDate(Integer fiscalYear);
+  public UniversityDate getFirstFiscalYearDate(Integer fiscalYear);
 }

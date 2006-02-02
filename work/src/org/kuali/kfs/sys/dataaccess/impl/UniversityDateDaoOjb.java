@@ -27,6 +27,7 @@ import java.sql.Date;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
+import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.module.gl.bo.UniversityDate;
 import org.kuali.module.gl.dao.UniversityDateDao;
 import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
@@ -59,6 +60,38 @@ public class UniversityDateDaoOjb extends PersistenceBrokerDaoSupport implements
   
   private java.sql.Date convertDate(java.util.Date date) {
       return new Date(date.getTime());
+  }
+  
+  public UniversityDate getLastFiscalYearDate(Integer fiscalYear) {
+      ReportQueryByCriteria subQuery;
+      Criteria subCrit = new Criteria();
+      Criteria crit = new Criteria();
+
+      subCrit.addEqualTo("universityFiscalYear", fiscalYear);
+      subQuery = QueryFactory.newReportQuery(UniversityDate.class, subCrit);
+      subQuery.setAttributes(new String[] { "max(univ_dt)" });
+
+      crit.addGreaterOrEqualThan("universityDate", subQuery);
+      
+      QueryByCriteria qbc = QueryFactory.newQuery(UniversityDate.class,crit);
+
+      return (UniversityDate)getPersistenceBrokerTemplate().getObjectByQuery(qbc);
+  }
+  
+  public UniversityDate getFirstFiscalYearDate(Integer fiscalYear) {
+      ReportQueryByCriteria subQuery;
+      Criteria subCrit = new Criteria();
+      Criteria crit = new Criteria();
+
+      subCrit.addEqualTo("universityFiscalYear", fiscalYear);
+      subQuery = QueryFactory.newReportQuery(UniversityDate.class, subCrit);
+      subQuery.setAttributes(new String[] { "min(univ_dt)" });
+
+      crit.addGreaterOrEqualThan("universityDate", subQuery);
+      
+      QueryByCriteria qbc = QueryFactory.newQuery(UniversityDate.class,crit);
+
+      return (UniversityDate)getPersistenceBrokerTemplate().getObjectByQuery(qbc);
   }
   
 }

@@ -402,6 +402,16 @@
   <reference-descriptor name="universityAppointmentType" class-ref="org.kuali.module.kra.bo.AppointmentType" auto-retrieve="true" auto-update="false" auto-delete="false">
     <foreignkey field-ref="universityAppointmentTypeCode" />
   </reference-descriptor>
+
+  <reference-descriptor name="task" class-ref="org.kuali.module.kra.bo.BudgetTask" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <foreignkey field-ref="documentHeaderId" />
+    <foreignkey field-ref="budgetTaskSequenceNumber" />
+  </reference-descriptor>
+
+  <reference-descriptor name="period" class-ref="org.kuali.module.kra.bo.BudgetPeriod" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <foreignkey field-ref="documentHeaderId" />
+    <foreignkey field-ref="budgetPeriodSequenceNumber" />
+  </reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.kra.bo.UserAppointmentTask" table="ER_USR_APPT_TSK_T">
@@ -414,6 +424,12 @@
   <reference-descriptor name="universityAppointmentType" class-ref="org.kuali.module.kra.bo.AppointmentType" auto-retrieve="true" auto-update="false" auto-delete="false">
     <foreignkey field-ref="universityAppointmentTypeCode" />
   </reference-descriptor>
+
+  <reference-descriptor name="task" class-ref="org.kuali.module.kra.bo.BudgetTask" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <foreignkey field-ref="documentHeaderId" />
+    <foreignkey field-ref="budgetTaskSequenceNumber" />
+  </reference-descriptor>
+
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.kra.bo.BudgetTaskPeriodIndirectCost" table="ER_BDGT_TSK_PRD_IDC_T">

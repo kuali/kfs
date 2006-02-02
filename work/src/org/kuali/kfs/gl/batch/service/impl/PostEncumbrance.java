@@ -123,51 +123,47 @@ public class PostEncumbrance implements PostTransaction, VerifyTransaction,
     public Encumbrance findEncumbrance(Collection encumbranceList, Transaction t) {
 
         // If it isn't an encumbrance transaction, skip it
-        /*
-         * if ( (!
-         * Constants.ENCUMB_UPDT_DOCUMENT_CD.equals(t.getTransactionEncumbranceUpdtCd())) && (!
-         * Constants.ENCUMB_UPDT_REFERENCE_DOCUMENT_CD.equals(t.getTransactionEncumbranceUpdtCd())) ) {
-         * return null; }
-         */
+        if ((!Constants.ENCUMB_UPDT_DOCUMENT_CD.equals(t
+                .getTransactionEncumbranceUpdtCd()))
+                && (!Constants.ENCUMB_UPDT_REFERENCE_DOCUMENT_CD.equals(t
+                        .getTransactionEncumbranceUpdtCd()))) {
+            return null;
+        }
+
 
         // Try to find one that already exists
         for (Iterator iter = encumbranceList.iterator(); iter.hasNext();) {
             Encumbrance e = (Encumbrance) iter.next();
 
-            /*
-             * if (
-             * Constants.ENCUMB_UPDT_DOCUMENT_CD.equals(t.getTransactionEncumbranceUpdtCd()) &&
-             * e.getUniversityFiscalYear().equals(t.getUniversityFiscalYear()) &&
-             * e.getChartOfAccountsCode().equals(t.getChartOfAccountsCode()) &&
-             * e.getAccountNumber().equals(t.getAccountNumber()) &&
-             * e.getSubAccountNumber().equals(t.getSubAccountNumber()) &&
-             * e.getObjectCode().equals(t.getFinancialObjectCode()) &&
-             * e.getSubObjectCode().equals(t.getFinancialSubObjectCode()) &&
-             * e.getBalanceTypeCode().equals(t.getFinancialBalanceTypeCode()) &&
-             * e.getDocumentTypeCode().equals(t.getFinancialDocumentTypeCode()) &&
-             * e.getOriginCode().equals(t.getFinancialSystemOriginationCode()) &&
-             * e.getDocumentNumber().equals(t.getFinancialDocumentNumber()) ) { return e; }
-             */
-
-            //Constants.ENCUMB_UPDT_REFERENCE_DOCUMENT_CD.equals(t.getTransactionEncumbranceUpdtCd())
-            // &&
-            /*
-             * if (e.getUniversityFiscalYear().equals(t.getUniversityFiscalYear()) &&
-             * e.getChartOfAccountsCode().equals(t.getChartOfAccountsCode()) &&
-             * e.getAccountNumber().equals(t.getAccountNumber()) &&
-             * e.getSubAccountNumber().equals(t.getSubAccountNumber()) &&
-             * e.getObjectCode().equals(t.getFinancialObjectCode()) &&
-             * e.getSubObjectCode().equals(t.getFinancialSubObjectCode()) &&
-             * e.getBalanceTypeCode().equals(t.getFinancialBalanceTypeCode()) &&
-             * e.getDocumentTypeCode().equals(t.getReferenceFinDocumentTypeCode()) &&
-             * e.getOriginCode().equals(t.getFinSystemRefOriginationCode()) &&
-             * e.getDocumentNumber().equals(t.getFinancialDocumentReferenceNbr()) ) {
-             * return e; }
-             */
-
-            if (e.getUniversityFiscalYear().equals(t.getUniversityFiscalYear())
+            if (Constants.ENCUMB_UPDT_DOCUMENT_CD.equals(t
+                    .getTransactionEncumbranceUpdtCd())
+                    && e.getUniversityFiscalYear().equals(t.getUniversityFiscalYear())
                     && e.getChartOfAccountsCode().equals(t.getChartOfAccountsCode())
-                    && e.getAccountNumber().equals(t.getAccountNumber())) {
+                    && e.getAccountNumber().equals(t.getAccountNumber())
+                    && e.getSubAccountNumber().equals(t.getSubAccountNumber())
+                    && e.getObjectCode().equals(t.getFinancialObjectCode())
+                    && e.getSubObjectCode().equals(t.getFinancialSubObjectCode())
+                    && e.getBalanceTypeCode().equals(t.getFinancialBalanceTypeCode())
+                    && e.getDocumentTypeCode().equals(t.getFinancialDocumentTypeCode())
+                    && e.getOriginCode().equals(t.getFinancialSystemOriginationCode())
+                    && e.getDocumentNumber().equals(t.getFinancialDocumentNumber())) {
+                return e;
+            }
+
+
+            if (Constants.ENCUMB_UPDT_REFERENCE_DOCUMENT_CD.equals(t
+                    .getTransactionEncumbranceUpdtCd())
+                    && e.getUniversityFiscalYear().equals(t.getUniversityFiscalYear())
+                    && e.getChartOfAccountsCode().equals(t.getChartOfAccountsCode())
+                    && e.getAccountNumber().equals(t.getAccountNumber())
+                    && e.getSubAccountNumber().equals(t.getSubAccountNumber())
+                    && e.getObjectCode().equals(t.getFinancialObjectCode())
+                    && e.getSubObjectCode().equals(t.getFinancialSubObjectCode())
+                    && e.getBalanceTypeCode().equals(t.getFinancialBalanceTypeCode())
+                    && e.getDocumentTypeCode()
+                            .equals(t.getReferenceFinDocumentTypeCode())
+                    && e.getOriginCode().equals(t.getFinSystemRefOriginationCode())
+                    && e.getDocumentNumber().equals(t.getFinancialDocumentReferenceNbr())) {
                 return e;
             }
         }
@@ -194,25 +190,6 @@ public class PostEncumbrance implements PostTransaction, VerifyTransaction,
      * @param enc
      */
     public void updateEncumbrance(Transaction t, Encumbrance enc) {
-
-        if (Constants.GL_DEBIT_CODE.equals(t.getTransactionDebitCreditCode())) {
-            enc.setAccountLineEncumbranceClosedAmount(enc
-                    .getAccountLineEncumbranceClosedAmount().subtract(
-                            t.getTransactionLedgerEntryAmount()));
-        }
-        else {
-            enc.setAccountLineEncumbranceClosedAmount(enc
-                    .getAccountLineEncumbranceClosedAmount().add(
-                            t.getTransactionLedgerEntryAmount()));
-        }
-    }
-
-    /**
-     * 
-     * @param t
-     * @param enc
-     */
-    public void tempUpdateEncumbrance(Transaction t, Encumbrance enc) {
         if (Constants.ENCUMB_UPDT_REFERENCE_DOCUMENT_CD.equals(t
                 .getTransactionEncumbranceUpdtCd())) {
             // If using referring doc number, add or subtract transaction amount from

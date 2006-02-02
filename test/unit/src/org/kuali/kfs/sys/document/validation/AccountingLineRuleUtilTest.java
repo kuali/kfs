@@ -39,7 +39,7 @@ public class AccountingLineRuleUtilTest extends KualiTestBaseWithSpring implemen
     }
 
     public void testIsValidAccount_null() {
-        testIsValidAccount(null, null, KeyConstants.ERROR_ACCOUNT_NOT_FOUND);
+        testIsValidAccount(null, null, KeyConstants.ERROR_EXISTENCE);
     }
 
     public void testIsValidAccount_closed() {

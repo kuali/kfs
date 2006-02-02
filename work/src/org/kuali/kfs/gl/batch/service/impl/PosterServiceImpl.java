@@ -55,10 +55,11 @@ import org.kuali.module.gl.dao.UniversityDateDao;
 import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.gl.service.OriginEntryService;
 import org.kuali.module.gl.service.PosterService;
+import org.kuali.module.gl.util.Summary;
 
 /**
  * @author jsissom
- * @version $Id: PosterServiceImpl.java,v 1.11 2006-02-01 03:22:06 jsissom Exp $
+ * @version $Id: PosterServiceImpl.java,v 1.12 2006-02-02 15:40:31 jsissom Exp $
  */
 public class PosterServiceImpl implements PosterService {
   private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PosterServiceImpl.class);
@@ -189,7 +190,26 @@ public class PosterServiceImpl implements PosterService {
     }
 
     // Generate the report
-    posterReportService.generateReport(reportError, reportSummary, runDate, mode);
+
+    // Convert our summary to a list of items for the report
+    List summary = new ArrayList();
+    summary.add(new Summary(1,"Number of GL_ORIGIN_ENTRY_T records selected:",(Integer)reportSummary.get("GL_ORIGIN_ENTRY_T,S")));
+    summary.add(new Summary(2,"",0));
+
+    int count = 10;
+    for (Iterator posterIter = transactionPosters.iterator(); posterIter.hasNext();) {
+      PostTransaction poster = (PostTransaction) posterIter.next();
+      String table = poster.getDestinationName();
+      summary.add(new Summary(count++,"Number of " + table + " records deleted:",(Integer)reportSummary.get(table + ",D")));
+      summary.add(new Summary(count++,"Number of " + table + " records inserted:",(Integer)reportSummary.get(table + ",I")));
+      summary.add(new Summary(count++,"Number of " + table + " records updated:",(Integer)reportSummary.get(table + ",U")));
+      summary.add(new Summary(count++,"",0));
+    }
+
+    summary.add(new Summary(10000,"",0));
+    summary.add(new Summary(10001,"Number of WARNING records selected:",(Integer)reportSummary.get("WARNING,S")));
+
+    posterReportService.generateReport(reportError, summary, runDate, mode);
   }
 
   private void postTransaction(Transaction tran,int mode,Map reportSummary,Map reportError,OriginEntryGroup invalidGroup,OriginEntryGroup validGroup,UniversityDate runUniversityDate) {
@@ -201,11 +221,11 @@ public class PosterServiceImpl implements PosterService {
 
     // Update select count in the report
     if (mode == PosterService.MODE_ENTRIES) {
-      addReporting(reportSummary, " GL_ORIGIN_ENTRY_T", "S");
+      addReporting(reportSummary, "GL_ORIGIN_ENTRY_T", "S");
     } else if (mode == PosterService.MODE_REVERSAL) {
-      addReporting(reportSummary, " GL_REVERSAL_T", "S");
+      addReporting(reportSummary, "GL_REVERSAL_T", "S");
     } else {
-      addReporting(reportSummary, " GL_ORIGIN_ENTRY_T (ICR)", "S");
+      addReporting(reportSummary, "GL_ORIGIN_ENTRY_T (ICR)", "S");
     }
 
     // If these are reversal entries, we need to reverse the entry and
@@ -253,7 +273,7 @@ public class PosterServiceImpl implements PosterService {
     if (errors.size() > 0) {
       // Error on this transaction
       reportError.put(tran, errors);
-      addReporting(reportSummary, "~WARNING", "S");
+      addReporting(reportSummary, "WARNING", "S");
 
       originEntryService.createEntry(tran, invalidGroup);
     } else {
@@ -272,7 +292,7 @@ public class PosterServiceImpl implements PosterService {
       if ( errors.size() > 0) {
         // Error on this transaction
         reportError.put(tran, errors);
-        addReporting(reportSummary, "~WARNING", "S");
+        addReporting(reportSummary, "WARNING", "S");
 
         originEntryService.createEntry(tran, invalidGroup);
       } else {
@@ -319,14 +339,10 @@ public class PosterServiceImpl implements PosterService {
 
     Map reportErrors = new HashMap();
 
-    // Build the summary map so all the possible combinations of destination &
-    // operation
-    // are included in the summary part of the report.
-    Map reportSummary = new HashMap();
-    reportSummary.put("GL_EXPEND_TRAN_T,R",new Integer(0));
-    reportSummary.put("GL_EXPEND_TRAN_T,D",new Integer(0));
-    reportSummary.put("GL_EXPEND_TRAN_T,K",new Integer(0));
-    reportSummary.put("GL_ORIGIN_ENTRY_T,G",new Integer(0));
+    int reportExpendTranRetrieved = 0;
+    int reportExpendTranDeleted = 0;
+    int reportExpendTranKept = 0;
+    int reportOriginEntryGenerated = 0;
 
     KualiDecimal onehundred = new KualiDecimal("100");
     KualiDecimal warningMaxDifference = new KualiDecimal("0.05"); // TODO Put this in APC
@@ -334,7 +350,7 @@ public class PosterServiceImpl implements PosterService {
     Iterator expenditureTransactions = expenditureTransactionDao.getAllExpenditureTransactions();
     while ( expenditureTransactions.hasNext() ) {
       ExpenditureTransaction et = (ExpenditureTransaction)expenditureTransactions.next();
-      addReporting(reportSummary,"GL_EXPEND_TRAN_T","R");
+      reportExpendTranRetrieved++;
 
       KualiDecimal transactionAmount = et.getAccountObjectDirectCostAmount();
       KualiDecimal distributionPercent = KualiDecimal.ZERO;
@@ -375,18 +391,22 @@ public class PosterServiceImpl implements PosterService {
           }
 
           generateTransaction(et,icrEntry,generatedTransactionAmount,runDate,group);
-          addReporting(reportSummary,"GL_ORIGIN_ENTRY_T","G");
-          addReporting(reportSummary,"GL_ORIGIN_ENTRY_T","G");
+          reportOriginEntryGenerated = reportOriginEntryGenerated + 2;
         }
       }
 
       // Delete expenditure record
       expenditureTransactionDao.delete(et);
-      addReporting(reportSummary,"GL_EXPEND_TRAN_T","D");
+      reportExpendTranDeleted++;
     }
 
-    // TODO Print report
-    icrGenerationReportService.generateReport(reportErrors,reportSummary,runDate,0);
+    List summary = new ArrayList();
+    summary.add(new Summary(1,"Number of GL_EXPEND_TRAN_T records retrieved:",reportExpendTranRetrieved));
+    summary.add(new Summary(2,"Number of GL_EXPEND_TRAN_T records deleted:",reportExpendTranDeleted));
+    summary.add(new Summary(3,"Number of GL_EXPEND_TRAN_T records kept due to errors:",reportExpendTranKept));
+    summary.add(new Summary(4,"",0));
+    summary.add(new Summary(3,"Number of GL_ORIGIN_ENTRY_T records generated:",reportOriginEntryGenerated));
+    icrGenerationReportService.generateReport(reportErrors,summary,runDate,0);
   }
 
   private void generateTransaction(ExpenditureTransaction et,IcrAutomatedEntry icrEntry,KualiDecimal generatedTransactionAmount,Date runDate,OriginEntryGroup group) {

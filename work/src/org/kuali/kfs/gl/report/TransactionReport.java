@@ -133,11 +133,17 @@ public class TransactionReport {
         cell.setBorder(Rectangle.NO_BORDER);
         summary.addCell(cell);
 
-        DecimalFormat nf = new DecimalFormat("###,###,##0");
-        cell = new PdfPCell(new Phrase(nf.format(s.getCount()),textFont));
-        cell.setBorder(Rectangle.NO_BORDER);
-        cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
-        summary.addCell(cell);
+        if ( "".equals(s.getDescription()) ) {
+          cell = new PdfPCell(new Phrase("",textFont));
+          cell.setBorder(Rectangle.NO_BORDER);
+          summary.addCell(cell);          
+        } else {
+          DecimalFormat nf = new DecimalFormat("###,###,##0");
+          cell = new PdfPCell(new Phrase(nf.format(s.getCount()),textFont));
+          cell.setBorder(Rectangle.NO_BORDER);
+          cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+          summary.addCell(cell);
+        }
       }
       cell = new PdfPCell(new Phrase(""));
       cell.setColspan(2);

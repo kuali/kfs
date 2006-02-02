@@ -63,6 +63,16 @@ public class Summary implements Comparable {
 		this.count = count;
 	}
 
+	public Summary(int sortOrder,String description,Integer count) {
+	    this.sortOrder = sortOrder;
+        this.description = description;
+        if ( count == null ) {
+          this.count = 0;
+        } else {
+          this.count = count.longValue();
+        }
+    }
+
 	/**
 	 * (non-Javadoc)
 	 * @see java.lang.Comparable#compareTo(java.lang.Object)

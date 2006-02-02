@@ -179,21 +179,22 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
 
         boolean success = true;
         
-        success &= checkEmptyBOField("chartOfAccountsCode", newAccount.getChartOfAccountsCode(), "Chart of Accounts Code");
-        success &= checkEmptyBOField("accountNumber", newAccount.getAccountNumber(), "Account Number");
-        success &= checkEmptyBOField("accountName", newAccount.getAccountName(), "Account Name");
-        success &= checkEmptyBOField("organizationCode", newAccount.getOrganizationCode(), "Organization Code");
-        success &= checkEmptyBOField("accountPhysicalCampusCode", newAccount.getAccountPhysicalCampusCode(), "Campus Code");
-        success &= checkEmptyBOField("accountEffectiveDate", newAccount.getAccountEffectiveDate(), "Effective Date");
-        success &= checkEmptyBOField("accountCityName", newAccount.getAccountCityName(), "City Name");
-        success &= checkEmptyBOField("accountStateCode", newAccount.getAccountStateCode(), "State Code");
-        success &= checkEmptyBOField("accountStreetAddress", newAccount.getAccountStreetAddress(), "Address");
-        success &= checkEmptyBOField("accountZipCode", newAccount.getAccountZipCode(), "Zip Code");
-        success &= checkEmptyBOField("budgetRecordingLevelCode", newAccount.getBudgetRecordingLevelCode(), "Budget Recording Level");
-        success &= checkEmptyBOField("accountSufficientFundsCode", newAccount.getAccountSufficientFundsCode(), "Sufficient Funds Code");
-        success &= checkEmptyBOField("subFundGroupCode", newAccount.getSubFundGroupCode(), "Sub Fund Group");
-        success &= checkEmptyBOField("financialHigherEdFunctionCd", newAccount.getFinancialHigherEdFunctionCd(), "Higher Ed Function Code");
-        success &= checkEmptyBOField("accountRestrictedStatusCode", newAccount.getAccountRestrictedStatusCode(), "Restricted Status Code");
+//	Commented out because the DD validation should be doing this
+//        success &= checkEmptyBOField("chartOfAccountsCode", newAccount.getChartOfAccountsCode(), "Chart of Accounts Code");
+//        success &= checkEmptyBOField("accountNumber", newAccount.getAccountNumber(), "Account Number");
+//        success &= checkEmptyBOField("accountName", newAccount.getAccountName(), "Account Name");
+//        success &= checkEmptyBOField("organizationCode", newAccount.getOrganizationCode(), "Organization Code");
+//        success &= checkEmptyBOField("accountPhysicalCampusCode", newAccount.getAccountPhysicalCampusCode(), "Campus Code");
+//        success &= checkEmptyBOField("accountEffectiveDate", newAccount.getAccountEffectiveDate(), "Effective Date");
+//        success &= checkEmptyBOField("accountCityName", newAccount.getAccountCityName(), "City Name");
+//        success &= checkEmptyBOField("accountStateCode", newAccount.getAccountStateCode(), "State Code");
+//        success &= checkEmptyBOField("accountStreetAddress", newAccount.getAccountStreetAddress(), "Address");
+//        success &= checkEmptyBOField("accountZipCode", newAccount.getAccountZipCode(), "Zip Code");
+//        success &= checkEmptyBOField("budgetRecordingLevelCode", newAccount.getBudgetRecordingLevelCode(), "Budget Recording Level");
+//        success &= checkEmptyBOField("accountSufficientFundsCode", newAccount.getAccountSufficientFundsCode(), "Sufficient Funds Code");
+//        success &= checkEmptyBOField("subFundGroupCode", newAccount.getSubFundGroupCode(), "Sub Fund Group");
+//        success &= checkEmptyBOField("financialHigherEdFunctionCd", newAccount.getFinancialHigherEdFunctionCd(), "Higher Ed Function Code");
+//        success &= checkEmptyBOField("accountRestrictedStatusCode", newAccount.getAccountRestrictedStatusCode(), "Restricted Status Code");
         
         
         //	Certain C&G fields are required if the Account belongs to the CG Fund Group
@@ -207,22 +208,22 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
 	        }
         }
         
-        //	ObjectUtils.isNull() avoids null sub-objects that may or may not be proxied
-        if (StringUtils.isEmpty(newAccount.getAccountFiscalOfficerSystemIdentifier())) {
-            success &= checkEmptyBOField("accountFiscalOfficerSystemIdentifier", 
-                    					newAccount.getAccountFiscalOfficerSystemIdentifier(), 
-                    					"Account Fiscal Officer");
-        }
-        if (StringUtils.isEmpty(newAccount.getAccountManagerSystemIdentifier())) {
-            success &= checkEmptyBOField("accountManagerSystemIdentifier", 
-                    					newAccount.getAccountManagerSystemIdentifier(), 
-                    					"Account Manager");
-        }
-        if (ObjectUtils.isNotNull(newAccount.getAccountsSupervisorySystemsIdentifier())) {
-            success &= checkEmptyBOField("accountsSupervisorySystemsIdentifier", 
-                    					newAccount.getAccountsSupervisorySystemsIdentifier(), 
-                    					"Account Supervisor");
-        }
+//    	Commented out because the DD validation should be doing this
+//        if (StringUtils.isEmpty(newAccount.getAccountFiscalOfficerSystemIdentifier())) {
+//            success &= checkEmptyBOField("accountFiscalOfficerSystemIdentifier", 
+//                    					newAccount.getAccountFiscalOfficerSystemIdentifier(), 
+//                    					"Account Fiscal Officer");
+//        }
+//        if (StringUtils.isEmpty(newAccount.getAccountManagerSystemIdentifier())) {
+//            success &= checkEmptyBOField("accountManagerSystemIdentifier", 
+//                    					newAccount.getAccountManagerSystemIdentifier(), 
+//                    					"Account Manager");
+//        }
+//        if (ObjectUtils.isNotNull(newAccount.getAccountsSupervisorySystemsIdentifier())) {
+//            success &= checkEmptyBOField("accountsSupervisorySystemsIdentifier", 
+//                    					newAccount.getAccountsSupervisorySystemsIdentifier(), 
+//                    					"Account Supervisor");
+//        }
 
         //	if the expiration date is earlier than today, account guidelines are not required.
         if (ObjectUtils.isNotNull(newAccount.getAccountGuideline())) {
@@ -412,7 +413,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         if(StringUtils.isNotEmpty(newAccount.getReportsToAccountNumber()) && StringUtils.isNotEmpty(newAccount.getReportsToChartOfAccountsCode())) {
             if(ObjectUtils.isNull(newAccount.getReportsToAccount())) {
                 success &= false;
-                putFieldError("reportsToAccountNumber", "TODO error");
+                putFieldError("reportsToAccountNumber", KeyConstants.ERROR_DOCUMENT_ACCMAINT_INVALID_FRINGE_BENEFIT_ACCOUNT);
             }
         }
         
@@ -420,7 +421,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         if(StringUtils.isNotEmpty(newAccount.getContinuationAccountNumber()) && StringUtils.isNotEmpty(newAccount.getContinuationFinChrtOfAcctCd())) {
             if(ObjectUtils.isNull(newAccount.getContinuationAccount())) {
                 success &= false;
-                putFieldError("continuationAccountNumber", "TODO error");
+                putFieldError("continuationAccountNumber", KeyConstants.ERROR_DOCUMENT_ACCMAINT_INVALID_CONTINUATION_ACCOUNT);
             }
         }
         
@@ -428,7 +429,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         if(StringUtils.isNotEmpty(newAccount.getEndowmentIncomeAccountNumber()) && StringUtils.isNotEmpty(newAccount.getEndowmentIncomeAcctFinCoaCd())) {
             if(ObjectUtils.isNull(newAccount.getEndowmentIncomeAccount())) {
                 success &= false;
-                putFieldError("endowmentIncomeAccountNumber", "TODO error");
+                putFieldError("endowmentIncomeAccountNumber", KeyConstants.ERROR_DOCUMENT_ACCMAINT_INVALID_ENDOWMENT_ACCOUNT);
             }
         }
         
@@ -436,7 +437,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         if(StringUtils.isNotEmpty(newAccount.getContractControlAccountNumber()) && StringUtils.isNotEmpty(newAccount.getContractControlFinCoaCode())) {
             if(ObjectUtils.isNull(newAccount.getContractControlAccount())) {
                 success &= false;
-                putFieldError("contractControlAccountNumber", "TODO error");
+                putFieldError("contractControlAccountNumber", KeyConstants.ERROR_DOCUMENT_ACCMAINT_INVALID_CONTRACT_CONTROL_ACCOUNT);
             }
         }
         
@@ -444,7 +445,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         if(StringUtils.isNotEmpty(newAccount.getIncomeStreamAccountNumber()) && StringUtils.isNotEmpty(newAccount.getIncomeStreamFinancialCoaCode())) {
             if(ObjectUtils.isNull(newAccount.getIncomeStreamAccount())) {
                 success &= false;
-                putFieldError("incomeStreamAccountNumber", "TODO error");
+                putFieldError("incomeStreamAccountNumber", KeyConstants.ERROR_DOCUMENT_ACCMAINT_INVALID_INCOME_STREAM_ACCOUNT);
             }
         }
         
@@ -452,7 +453,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         if(StringUtils.isNotEmpty(newAccount.getIndirectCostRecoveryAcctNbr()) && StringUtils.isNotEmpty(newAccount.getIndirectCostRcvyFinCoaCode())) {
             if(ObjectUtils.isNull(newAccount.getIndirectCostRecoveryAcct())) {
                 success &= false;
-                putFieldError("indirectCostRecoveryAcctNbr", "TODO error");
+                putFieldError("indirectCostRecoveryAcctNbr", KeyConstants.ERROR_DOCUMENT_ACCMAINT_INVALID_ICR_ACCOUNT);
             }
         }
         
@@ -460,7 +461,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         if(StringUtils.isNotEmpty(newAccount.getAccountSufficientFundsCode())) {
             if(ObjectUtils.isNull(newAccount.getSufficientFundsCode())) {
                 success &= false;
-                putFieldError("accountSufficientFundsCode", "TODO error");
+                putFieldError("accountSufficientFundsCode", KeyConstants.ERROR_DOCUMENT_ACCMAINT_INVALID_SUFFICIENT_FUNDS_CODE);
             }
         }
         
@@ -468,7 +469,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         if(StringUtils.isNotEmpty(newAccount.getAccountFiscalOfficerSystemIdentifier())) {
             if(ObjectUtils.isNull(newAccount.getAccountFiscalOfficerUser())) {
                 success &= false;
-                putFieldError("accountFiscalOfficerSystemIdentifier", "TODO error");
+                putFieldError("accountFiscalOfficerSystemIdentifier", KeyConstants.ERROR_DOCUMENT_ACCMAINT_INVALID_PERSON_FISCAL_OFFICER);
             }
         }
         
@@ -476,7 +477,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         if(StringUtils.isNotEmpty(newAccount.getAccountsSupervisorySystemsIdentifier())) {
             if(ObjectUtils.isNull(newAccount.getAccountSupervisoryUser())) {
                 success &= false;
-                putFieldError("accountsSupervisorySystemsIdentifier", "TODO error");
+                putFieldError("accountsSupervisorySystemsIdentifier", KeyConstants.ERROR_DOCUMENT_ACCMAINT_INVALID_PERSON_SUPERVISOR);
             }
         }
         
@@ -484,7 +485,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         if(StringUtils.isNotEmpty(newAccount.getAccountManagerSystemIdentifier())) {
             if(ObjectUtils.isNull(newAccount.getAccountManagerUser())) {
                 success &= false;
-                putFieldError("accountManagerSystemIdentifier", "TODO error");
+                putFieldError("accountManagerSystemIdentifier", KeyConstants.ERROR_DOCUMENT_ACCMAINT_INVALID_PERSON_MANAGER);
             }
         }
         
@@ -492,7 +493,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         if(StringUtils.isNotEmpty(newAccount.getAccountRestrictedStatusCode())) {
             if(ObjectUtils.isNull(newAccount.getAccountRestrictedStatus())) {
                 success &= false;
-                putFieldError("accountRestrictedStatusCode", "TODO error");
+                putFieldError("accountRestrictedStatusCode", KeyConstants.ERROR_DOCUMENT_ACCMAINT_INVALID_RESTRICTED_STATUS_CODE);
             }
         }
         return success;

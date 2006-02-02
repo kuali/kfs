@@ -24,7 +24,8 @@
 
 				<maxLength>1</maxLength>
 				<validationPattern><alpha exactLength="1" /></validationPattern>
-
+				<required>true</required>
+				
 				<control>
 					<select valuesFinderClass="org.kuali.core.lookup.keyvalues.SufficientFundsCodeValuesFinder"/>					
 				</control>
@@ -41,6 +42,7 @@
 
 				<maxLength>50</maxLength>
 				<validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
+				<required>true</required>
 
 				<control>
 					<text size="50" />

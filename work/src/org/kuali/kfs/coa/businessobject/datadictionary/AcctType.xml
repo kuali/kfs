@@ -23,7 +23,8 @@
 
 				<maxLength>2</maxLength>
 				<validationPattern><alpha exactLength="2" /></validationPattern>
-
+				<required>true</required>
+				
 				<control>
 					<select valuesFinderClass="org.kuali.core.lookup.keyvalues.AcctTypeValuesFinder"/>					
 				</control>

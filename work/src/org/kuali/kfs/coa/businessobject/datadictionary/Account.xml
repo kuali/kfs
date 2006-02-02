@@ -68,7 +68,8 @@
 
 				<maxLength>7</maxLength>
 				<validationPattern><numeric exactLength="7" /></validationPattern>
-
+				<required>true</required>
+				
 				<control>
 					<text size="10" />
 				</control>
@@ -84,7 +85,8 @@
 
 				<maxLength>40</maxLength>
 				<validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
-
+				<required>true</required>
+				
 				<control>
 					<text size="40" />
 				</control>
@@ -124,6 +126,7 @@
 								sourceAttributeName="activeIndicator">
 				<label>Account Fringe Benefit</label>
 				<shortLabel>FringeBene</shortLabel>
+				<required>true</required>
 				<summary>Account Fringe Benefit</summary>
 				<description>Account Fringe Benefit</description>
 			</attributeReference>
@@ -134,7 +137,8 @@
 
 				<maxLength>4</maxLength>
 				<validationPattern><anyCharacter /></validationPattern>
-
+				<required>true</required>
+				
 				<control>
 					<text size="4" />
 				</control>
@@ -167,7 +171,8 @@
 
 				<maxLength>25</maxLength>
 				<validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
-
+				<required>true</required>
+				
 				<control>
 					<text size="25" />
 				</control>
@@ -181,6 +186,7 @@
 								sourceAttributeName="twoDigitTextCode">
 				<label>Account State Code</label>
 				<shortLabel>StateCd</shortLabel>
+				<required>true</required>
 				<summary>Account State Code</summary>
 				<description>Account State Code</description>
 			</attributeReference>
@@ -191,6 +197,7 @@
 
 				<maxLength>30</maxLength>
 				<validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
+				<required>true</required>
 
 				<control>
 					<text size="30" />
@@ -205,6 +212,7 @@
 								sourceAttributeName="postalZipCode">
 				<label>Account Zip Code</label>
 				<shortLabel>ZipCode</shortLabel>
+				<required>true</required>
 				<summary>Account Zip Code</summary>
 				<description>Account Zip Code</description>
 			</attributeReference>
@@ -214,6 +222,7 @@
 								sourceAttributeName="chartOfAccountsCode">
 				<label>Fringe Benefit Chart Of Accounts Code</label>
 				<shortLabel>FringeChart</shortLabel>
+				<required>false</required>
 				<summary>Fringe Benefit Chart Of Accounts Code</summary>
 				<description>Fringe Benefit Chart Of Accounts Code</description>
 			</attributeReference>
@@ -223,6 +232,7 @@
 								sourceAttributeName="accountNumber">
 				<label>Fringe Benefit Account Number</label>
 				<shortLabel>FringeAcct</shortLabel>
+				<required>false</required>
 				<summary>Fringe Benefit Account Number</summary>
 				<description>Fringe Benefit Account Number</description>
 			</attributeReference>
@@ -241,6 +251,7 @@
 								sourceAttributeName="genericTimestamp">
 				<label>Account Effective Date</label>
 				<shortLabel>EffDate</shortLabel>
+				<required>true</required>
 				<summary>Account Effective Date</summary>
 				<description>Account Effective Date</description>
 			</attributeReference>
@@ -259,6 +270,7 @@
 								sourceAttributeName="chartOfAccountsCode">
 				<label>Continuation Chart Of Accounts Code</label>
 				<shortLabel>ContChartCd</shortLabel>
+				<required>false</required>
 				<summary>Continuation Chart Of Accounts Code</summary>
 				<description>Continuation Chart Of Accounts Code</description>
 			</attributeReference>
@@ -268,6 +280,7 @@
 								sourceAttributeName="accountNumber">
 				<label>Continuation Account Number</label>
 				<shortLabel>ContAcct</shortLabel>
+				<required>false</required>
 				<summary>Continuation Account Number</summary>
 				<description>Continuation Account Number</description>
 			</attributeReference>
@@ -337,6 +350,7 @@
 								sourceAttributeName="chartOfAccountsCode">
 				<label>Endowment Chart Of Accounts Code</label>
 				<shortLabel>EndowChart</shortLabel>
+				<required>false</required>
 				<summary>Endowment Chart Of Accounts Code</summary>
 				<description>Endowment Chart Of Accounts Code</description>
 			</attributeReference>
@@ -346,6 +360,7 @@
 								sourceAttributeName="accountNumber">
 				<label>Endowment Account Number</label>
 				<shortLabel>EndowAcct</shortLabel>
+				<required>false</required>
 				<summary>Endowment Account Number</summary>
 				<description>Endowment Account Number</description>
 			</attributeReference>
@@ -355,6 +370,7 @@
 								sourceAttributeName="chartOfAccountsCode">
 				<label>Contract Control Chart of Accounts Code</label>
 				<shortLabel>CntrctChart</shortLabel>
+				<required>false</required>
 				<summary>Contract Control Chart of Accounts Code</summary>
 				<description>Contract Control Chart of Accounts Code</description>
 			</attributeReference>
@@ -364,6 +380,7 @@
 								sourceAttributeName="accountNumber">
 				<label>Contract Control Account Number</label>
 				<shortLabel>CntrctAcct</shortLabel>
+				<required>false</required>
 				<summary>Contract Control Account Number</summary>
 				<description>Contract Control Account Number</description>
 			</attributeReference>
@@ -373,6 +390,7 @@
 								sourceAttributeName="chartOfAccountsCode">
 				<label>Income Stream Chart Of Accounts Code</label>
 				<shortLabel>IncStrChart</shortLabel>
+				<required>false</required>
 				<summary>Income Stream Chart Of Accounts Code</summary>
 				<description>Income Stream Chart Of Accounts Code</description>
 			</attributeReference>
@@ -382,6 +400,7 @@
 								sourceAttributeName="accountNumber">
 				<label>Income Stream Account Number</label>
 				<shortLabel>IncStrAcct</shortLabel>
+				<required>false</required>
 				<summary>Income Stream Account Number</summary>
 				<description>Income Stream Account Number</description>
 			</attributeReference>
@@ -391,6 +410,7 @@
 								sourceAttributeName="twoDigitTextCode">
 				<label>Account Indirect Cost Recovery Type Code</label>
 				<shortLabel>IndCstTypCd</shortLabel>
+				<required>true</required>
 				<summary>Account Indirect Cost Recovery Type Code</summary>
 				<description>Account Indirect Cost Recovery Type Code</description>
 			</attributeReference>
@@ -400,6 +420,7 @@
 								sourceAttributeName="oneDigitTextCode">
 				<label>Account Customized Indirect Cost Exclusion Code</label>
 				<shortLabel>IndCstExclCd</shortLabel>
+				<required>false</required>
 				<summary>Account Customized Indirect Cost Exclusion Code</summary>
 				<description>Account Customized Indirect Cost Exclusion Code</description>
 			</attributeReference>
@@ -410,7 +431,8 @@
 
 				<maxLength>3</maxLength>
 				<validationPattern><anyCharacter /></validationPattern>
-
+				<required>true</required>
+				
 				<control>
 					<text size="3" />
 				</control>
@@ -424,6 +446,7 @@
 								sourceAttributeName="chartOfAccountsCode">
 				<label>Indirect Cost Recovery Chart Of Accounts Code</label>
 				<shortLabel>IndCstChart</shortLabel>
+				<required>false</required>
 				<summary>Indirect Cost Recovery Chart Of Accounts Code</summary>
 				<description>Indirect Cost Recovery Chart Of Accounts Code</description>
 			</attributeReference>
@@ -433,6 +456,7 @@
 								sourceAttributeName="accountNumber">
 				<label>Indirect Cost Recovery Account Number</label>
 				<shortLabel>IndCstAcct</shortLabel>
+				<required>false</required>
 				<summary>Indirect Cost Recovery Account Number</summary>
 				<description>Indirect Cost Recovery Account Number</description>
 			</attributeReference>
@@ -442,6 +466,7 @@
 								sourceAttributeName="oneDigitTextCode">
 				<label>Account In Financial Processing</label>
 				<shortLabel>AcctFinProc</shortLabel>
+				<required>true</required>
 				<summary>Account In Financial Processing</summary>
 				<description>Account In Financial Processing</description>
 			</attributeReference>
@@ -451,6 +476,7 @@
 								sourceAttributeName="code">
 				<label>Budget Record Level Code</label>
 				<shortLabel>BdgLevelCd</shortLabel>
+				<required>true</required>
 				<summary>Budget Record Level Code</summary>
 				<description>Budget Record Level Code</description>
 			</attributeReference>
@@ -460,6 +486,7 @@
 								sourceAttributeName="code">
 				<label>Account Sufficient Funds Code</label>
 				<shortLabel>SuffFndsCd</shortLabel>
+				<required>true</required>
 				<summary>Account Sufficient Funds Code</summary>
 				<description>Account Sufficient Funds Code</description>
 			</attributeReference>
@@ -469,6 +496,7 @@
 								sourceAttributeName="activeIndicator">
 				<label>TP Sufficient Funds Check</label>
 				<shortLabel>TPSuffChk</shortLabel>
+				<required>true</required>
 				<summary>TP Sufficient Funds Check</summary>
 				<description>TP Sufficient Funds Check</description>
 			</attributeReference>
@@ -478,6 +506,7 @@
 								sourceAttributeName="activeIndicator">
 				<label>External Encumbrance Sufficient Funds Indicator</label>
 				<shortLabel>ExtEncSuffFndsInd</shortLabel>
+				<required>true</required>
 				<summary>External Encumbrance Sufficient Funds Indicator</summary>
 				<description>External Encumbrance Sufficient Funds Indicator</description>
 			</attributeReference>
@@ -487,6 +516,7 @@
 								sourceAttributeName="activeIndicator">
 				<label>Internal Encumbrance Sufficient Funds Indicator</label>
 				<shortLabel>IntEncSuffFndsInd</shortLabel>
+				<required>true</required>
 				<summary>Internal Encumbrance Sufficient Funds Indicator</summary>
 				<description>Internal Encumbrance Sufficient Indicator Code</description>
 			</attributeReference>
@@ -495,6 +525,7 @@
 								sourceAttributeName="activeIndicator">
 				<label>Pre-Encumbrance Sufficient Funds Indicator</label>
 				<shortLabel>PreEncSuffFndsInd</shortLabel>
+				<required>true</required>
 				<summary>Pre-Encumbrance Sufficient Funds Indicator</summary>
 				<description>Pre-Encumbrance Sufficient Funds Indicator</description>
 			</attributeReference>
@@ -504,6 +535,7 @@
 								sourceAttributeName="activeIndicator">
 				<label>Object Presence Control Indicator</label>
 				<shortLabel>ObjPrsCntrl</shortLabel>
+				<required>true</required>
 				<summary>Object Presence Control Indicator</summary>
 				<description>Object Presence Control Indicator</description>
 			</attributeReference>
@@ -514,6 +546,7 @@
 
 				<maxLength>6</maxLength>
 				<validationPattern><anyCharacter /></validationPattern>
+				<required>true</required>
 
 				<control>
 					<text size="6" />
@@ -528,6 +561,7 @@
 								sourceAttributeName="activeIndicator">
 				<label>Account Off Campus Indicator</label>
 				<shortLabel>OffCmpsInd</shortLabel>
+				<required>true</required>
 				<summary>Account Off Campus Indicator</summary>
 				<description>Account Off Campus Indicator</description>
 			</attributeReference>
@@ -548,18 +582,21 @@
 								sourceClassName="org.kuali.core.bo.user.KualiUser" 
 								sourceAttributeName="personUniversalIdentifier">
 				<label>Fiscal Officer Name</label>
+				<required>true</required>
 			</attributeReference>
 			
 			<attributeReference name="accountsSupervisorySystemsIdentifier" 
 								sourceClassName="org.kuali.core.bo.user.KualiUser" 
 								sourceAttributeName="personUniversalIdentifier">
 				<label>Supervisor Name</label>
+				<required>true</required>
 			</attributeReference>
 			
 			<attributeReference name="accountManagerSystemIdentifier" 
 								sourceClassName="org.kuali.core.bo.user.KualiUser" 
 								sourceAttributeName="personUniversalIdentifier">
 				<label>Manager Name</label>
+				<required>true</required>
 			</attributeReference>
 			
 			<attributeReference name="versionNumber" 
@@ -571,6 +608,7 @@
 								sourceAttributeName="genericBigText">
 				<label>Account Expense Guideline Text</label>
 				<shortLabel>ExpGuideTxt</shortLabel>
+				<required>false</required>
 				<summary>Expense Guidelines</summary>
 				<description>A textual description of the Expense Guidelines.</description>
 			</attributeReference>
@@ -580,6 +618,7 @@
 								sourceAttributeName="genericBigText">
 				<label>Account Income Guideline Text</label>
 				<shortLabel>IncGuideTxt</shortLabel>
+				<required>false</required>
 				<summary>Income Guidelines</summary>
 				<description>A textual description of the Income Guidelines.</description>
 			</attributeReference>
@@ -589,6 +628,7 @@
 								sourceAttributeName="genericBigText">
 				<label>Account Purpose Text</label>
 				<shortLabel>AcctPurpTxt</shortLabel>
+				<required>false</required>
 				<summary>Account Purpose Text</summary>
 				<description>A textual description of the Account Purpose.</description>
 			</attributeReference>

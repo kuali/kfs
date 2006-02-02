@@ -83,7 +83,8 @@
         <validationPattern>
           <alpha exactLength="2" />
         </validationPattern>
-
+		<required>true</required>
+		
         <control>
           <!-- text size="2" /-->
           <!-- If we want to go back to the drop-down list, then use this:-->

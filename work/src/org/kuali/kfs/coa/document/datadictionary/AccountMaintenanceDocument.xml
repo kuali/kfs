@@ -41,16 +41,16 @@
 		            <maintainableField name="organizationCode" required="true" />
 		            <maintainableField name="accountPhysicalCampusCode" required="true" />	     
 		            <maintainableField name="accountEffectiveDate" required="true" />
-		            <maintainableField name="accountExpirationDate" />	
+		            <maintainableField name="accountExpirationDate" required="false" />	
 		            <maintainableField name="accountZipCode" required="true" />	  
 		            <maintainableField name="accountCityName" required="true" />	     
 		            <maintainableField name="accountStateCode" required="true" />
 		            <maintainableField name="accountStreetAddress" required="true" />	
-		            <maintainableField name="accountOffCampusIndicator" />	  
-		            <maintainableField name="accountClosedIndicator" />
+		            <maintainableField name="accountOffCampusIndicator" required="false" />	  
+		            <maintainableField name="accountClosedIndicator" required="false" />
 		            <maintainableField name="accountTypeCode" required="true" />
 		            <maintainableField name="subFundGroupCode" required="true" />
-		            <maintainableField name="accountsFringesBnftIndicator" />
+		            <maintainableField name="accountsFringesBnftIndicator" required="true" />
 		            <maintainableField name="reportsToChartOfAccountsCode" required="false" />
 		            <maintainableField name="reportsToAccountNumber" required="false" />
 		            <maintainableField name="financialHigherEdFunctionCd" required="true" />
@@ -65,17 +65,17 @@
 		            <maintainableField name="accountFiscalOfficerSystemIdentifier" required="true" />
 		            <maintainableField name="accountsSupervisorySystemsIdentifier" required="true" />
 		            <maintainableField name="accountManagerSystemIdentifier" required="true" />
-		            <maintainableField name="continuationFinChrtOfAcctCd" />
-		            <maintainableField name="continuationAccountNumber" />    
-		            <maintainableField name="incomeStreamFinancialCoaCode" />
-		            <maintainableField name="incomeStreamAccountNumber" />	
-		            <maintainableField name="budgetRecordingLevelCode" />	  
-		            <maintainableField name="accountSufficientFundsCode" />	     
-		            <maintainableField name="pendingAcctSufficientFundsIndicator" />
-		            <maintainableField name="extrnlFinEncumSufficntFndIndicator" />	
-		            <maintainableField name="intrnlFinEncumSufficntFndIndicator" />	  
-		            <maintainableField name="finPreencumSufficientFundIndicator" />
-		            <maintainableField name="financialObjectivePrsctrlIndicator" />	       	                   
+		            <maintainableField name="continuationFinChrtOfAcctCd" required="false" />
+		            <maintainableField name="continuationAccountNumber" required="false" />    
+		            <maintainableField name="incomeStreamFinancialCoaCode" required="false" />
+		            <maintainableField name="incomeStreamAccountNumber" required="false" />	
+		            <maintainableField name="budgetRecordingLevelCode" required="false" />	  
+		            <maintainableField name="accountSufficientFundsCode" required="false" />	     
+		            <maintainableField name="pendingAcctSufficientFundsIndicator" required="false" />
+		            <maintainableField name="extrnlFinEncumSufficntFndIndicator" required="false" />	
+		            <maintainableField name="intrnlFinEncumSufficntFndIndicator" required="false" />	  
+		            <maintainableField name="finPreencumSufficientFundIndicator" required="false" />
+		            <maintainableField name="financialObjectivePrsctrlIndicator" required="false" />	       	                   
                 </maintainableItems>
 	        </maintainableSection>
 	        <maintainableSection title="Contracts And Grants">
@@ -84,25 +84,25 @@
 		            <maintainableField name="contractControlAccountNumber" required="false" />
 		            <maintainableField name="acctIndirectCostRcvyTypeCd" required="false" />
 		            <maintainableField name="financialIcrSeriesIdentifier" required="false" />
-		            <maintainableField name="indirectCostRcvyFinCoaCode" />    
-		            <maintainableField name="indirectCostRecoveryAcctNbr" />
-		            <maintainableField name="cgCatlfFedDomestcAssistNbr" />	
+		            <maintainableField name="indirectCostRcvyFinCoaCode" required="false" />    
+		            <maintainableField name="indirectCostRecoveryAcctNbr" required="false" />
+		            <maintainableField name="cgCatlfFedDomestcAssistNbr" required="false" />	
                 </maintainableItems>
 	        </maintainableSection>
 	        <maintainableSection title="Guidelines And Purpose">
                 <maintainableItems>
-		            <maintainableField name="accountGuideline.accountExpenseGuidelineText" />
-		            <maintainableField name="accountGuideline.accountIncomeGuidelineText" />
-		            <maintainableField name="accountGuideline.accountPurposeText" />
+		            <maintainableField name="accountGuideline.accountExpenseGuidelineText" required="false" />
+		            <maintainableField name="accountGuideline.accountIncomeGuidelineText" required="false" />
+		            <maintainableField name="accountGuideline.accountPurposeText" required="false" />
                 </maintainableItems>
 	        </maintainableSection>
 	        <maintainableSection title="Account Description">
                 <maintainableItems>
-		            <maintainableField name="accountDescription.campusDescription" />
-		            <maintainableField name="accountDescription.organizationDescription" />
-		            <maintainableField name="accountDescription.responsibilityCenterDesc" />
-		            <maintainableField name="accountDescription.campusCode" />
-		            <maintainableField name="accountDescription.buildingCode" />
+		            <maintainableField name="accountDescription.campusDescription" required="false" />
+		            <maintainableField name="accountDescription.organizationDescription" required="false" />
+		            <maintainableField name="accountDescription.responsibilityCenterDesc" required="false" />
+		            <maintainableField name="accountDescription.campusCode" required="false" />
+		            <maintainableField name="accountDescription.buildingCode" required="false" />
                 </maintainableItems>
 	        </maintainableSection>
 	    </maintainableSections>

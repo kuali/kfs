@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../core/datadictionary/dataDictionary-1_0.dtd">
+<dictionaryEntry>
+	<businessObject businessObjectClass="org.kuali.module.chart.bo.IndirectCostRecoveryExclusionAccount">
+		<customAttributeEnabled>false</customAttributeEnabled>
+
+		<inquiry>
+			<title>Indirect Cost Recovery Exclusion by Account Inquiry</title>
+
+			<inquiryFields>
+				<field attributeName="chartOfAccounts.chartOfAccountsCode" />
+				<field attributeName="account.accountNumber" />			
+				<field attributeName="objectChartOfAccounts.chartOfAccountsCode" noInquiry="true" />
+				<field attributeName="object.financialObjectCode" noInquiry="true" />			
+			</inquiryFields>
+		</inquiry>
+
+		<lookup>
+			<title>Indirect Cost Recovery Exclusion by Account Lookup</title>
+
+			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.chart.bo.IndirectCostRecoveryExclusionAccount">Create New</a>]]></menubar>
+
+			<instructions>Lookup an Indirect Cost Recovery Exclusion by Account</instructions>
+
+			<defaultSort attributeName="account.accountNumber" sortAscending="true" />
+
+			<lookupFields>
+				<lookupField attributeName="chartOfAccounts.chartOfAccountsCode" required="false" />
+				<lookupField attributeName="account.accountNumber" required="false" />
+				<lookupField attributeName="objectChartOfAccounts.chartOfAccountsCode" required="false" />
+				<lookupField attributeName="object.financialObjectCode" required="false" />
+			</lookupFields>
+
+			<resultFields>
+				<field attributeName="chartOfAccounts.chartOfAccountsCode" />
+				<field attributeName="account.accountNumber" />			
+				<field attributeName="objectChartOfAccounts.chartOfAccountsCode" noInquiry="true" />
+				<field attributeName="object.financialObjectCode" noInquiry="true" />			
+			</resultFields>
+		</lookup>
+
+		<attributes>
+			<attributeReference name="chartOfAccounts.chartOfAccountsCode" 
+								sourceClassName="org.kuali.module.chart.bo.Chart" 
+								sourceAttributeName="chartOfAccountsCode" />
+
+			<attribute name="account.accountNumber"	forceUppercase="false">
+				<label>Account Number</label>
+				<shortLabel>
+					Acct
+				</shortLabel>
+
+				<maxLength>7</maxLength>
+				<validationPattern><anyCharacter /></validationPattern>
+
+				<control>
+					<text size="7" />
+				</control>
+
+				<summary>Account Number</summary>
+				<description>
+					Account Number
+				</description>
+			</attribute>
+
+			<attribute name="object.financialObjectCode" forceUppercase="true">
+                <label>Object Code</label>
+                <shortLabel>Object</shortLabel>
+
+                <maxLength>4</maxLength>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>Object Code</summary>
+                <description>Object Code...</description>
+            </attribute>
+
+
+			<attributeReference name="objectChartOfAccounts.chartOfAccountsCode" 
+								sourceClassName="org.kuali.module.chart.bo.Chart" 
+								sourceAttributeName="chartOfAccountsCode">
+								<label>Object Chart</label>
+				                <shortLabel>Object Chart</shortLabel>
+				                <summary>Object Chart</summary>
+								<description>Object Chart...</description>	                
+			</attributeReference>
+			
+		</attributes>
+	</businessObject>
+</dictionaryEntry>
+

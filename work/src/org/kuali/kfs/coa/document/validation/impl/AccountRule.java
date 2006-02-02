@@ -34,7 +34,6 @@ import org.kuali.core.bo.Building;
 import org.kuali.core.bo.user.KualiUser;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
@@ -79,7 +78,6 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
     
     GeneralLedgerPendingEntryService generalLedgerPendingEntryService;
     
-    private BusinessObjectService boService;
     private KualiParameterRule validBudgetRule;
     private Account oldAccount;
     private Account newAccount;
@@ -89,10 +87,14 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
     
     public AccountRule() {
         ruleValuesSetup = false;
-        configService = SpringServiceLocator.getKualiConfigurationService();
-        boService = SpringServiceLocator.getBusinessObjectService();
         
-        // inject some services myself: 
+        // Pseudo-inject some services.
+        //
+        // This approach is being used to make it simpler to convert the Rule classes 
+        // to spring-managed with these services injected by Spring at some later date.  
+        // When this happens, just remove these calls to the setters with 
+        // SpringServiceLocator, and configure the bean defs for spring.
+        this.setConfigService(SpringServiceLocator.getKualiConfigurationService());
         this.setGeneralLedgerPendingEntryService(SpringServiceLocator.getGeneralLedgerPendingEntryService());
         this.setBalanceService(SpringServiceLocator.getGeneralLedgerBalanceService());
     }
@@ -886,5 +888,12 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         this.balanceService = balanceService;
     }
     
-
+    /**
+     * Sets the configService attribute value.
+     * @param configService The configService to set.
+     */
+    public void setConfigService(KualiConfigurationService configService) {
+        this.configService = configService;
+    }
+    
 }

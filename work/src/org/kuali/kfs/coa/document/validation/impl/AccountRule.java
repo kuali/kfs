@@ -350,11 +350,14 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         }
         
         //valid values for the budget code are account, consolidation, level, object code, mixed, sub-account and no budget.
-        if (ObjectUtils.isNotNull(newAccount.getBudgetRecordingLevelCode())) {
+        if (ObjectUtils.isNull(newAccount.getBudgetRecordingLevel())) {
             if (validBudgetRule.failsRule(newAccount.getBudgetRecordingLevelCode())) {
                 success &= false;
                 putFieldError("budgetRecordingLevelCode", KeyConstants.ERROR_DOCUMENT_ACCMAINT_INVALID_BUDGET_RECORD_LVL_CD, newAccount.getBudgetRecordingLevelCode());
             }
+        } else if (!newAccount.getBudgetRecordingLevel().isActive()) { 
+            success &= false;
+            putFieldError("budgetRecordingLevelCode", KeyConstants.ERROR_DOCUMENT_ACCMAINT_INACTIVE_BUDGET_RECORD_LVL_CD, newAccount.getBudgetRecordingLevelCode());
         }
         
         // IMPORTANT NOTE: In this whole stretch of tests which follows where we're testing to make sure that subObject X 
@@ -393,6 +396,105 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
             putFieldError("accountZipCode", KeyConstants.ERROR_DOCUMENT_ACCMAINT_INVALID_ZIP_CD);
         } // zipcode doesnt have an Active code, so this isnt checked
         
+        //existence check on account type
+        if (ObjectUtils.isNull(newAccount.getAccountType())) {
+            success &= false;
+            putFieldError("accountTypeCode", KeyConstants.ERROR_DOCUMENT_ACCMAINT_INVALID_ACCT_TYPE);
+        } 
+        
+        // existence check on financial higher ed function
+        if (ObjectUtils.isNull(newAccount.getFinancialHigherEdFunction())) {
+            success &= false;
+            putFieldError("financialHigherEdFunctionCd", KeyConstants.ERROR_DOCUMENT_ACCMAINT_INVALID_HIGHER_ED_CD);
+        }
+        
+        // existence check on reports to account
+        if(StringUtils.isNotEmpty(newAccount.getReportsToAccountNumber()) && StringUtils.isNotEmpty(newAccount.getReportsToChartOfAccountsCode())) {
+            if(ObjectUtils.isNull(newAccount.getReportsToAccount())) {
+                success &= false;
+                putFieldError("reportsToAccountNumber", "TODO error");
+            }
+        }
+        
+        //existence check on continuation account
+        if(StringUtils.isNotEmpty(newAccount.getContinuationAccountNumber()) && StringUtils.isNotEmpty(newAccount.getContinuationFinChrtOfAcctCd())) {
+            if(ObjectUtils.isNull(newAccount.getContinuationAccount())) {
+                success &= false;
+                putFieldError("continuationAccountNumber", "TODO error");
+            }
+        }
+        
+        //existence check on endowment account
+        if(StringUtils.isNotEmpty(newAccount.getEndowmentIncomeAccountNumber()) && StringUtils.isNotEmpty(newAccount.getEndowmentIncomeAcctFinCoaCd())) {
+            if(ObjectUtils.isNull(newAccount.getEndowmentIncomeAccount())) {
+                success &= false;
+                putFieldError("endowmentIncomeAccountNumber", "TODO error");
+            }
+        }
+        
+        //existence check on contractControl account
+        if(StringUtils.isNotEmpty(newAccount.getContractControlAccountNumber()) && StringUtils.isNotEmpty(newAccount.getContractControlFinCoaCode())) {
+            if(ObjectUtils.isNull(newAccount.getContractControlAccount())) {
+                success &= false;
+                putFieldError("contractControlAccountNumber", "TODO error");
+            }
+        }
+        
+        //existence check on income stream
+        if(StringUtils.isNotEmpty(newAccount.getIncomeStreamAccountNumber()) && StringUtils.isNotEmpty(newAccount.getIncomeStreamFinancialCoaCode())) {
+            if(ObjectUtils.isNull(newAccount.getIncomeStreamAccount())) {
+                success &= false;
+                putFieldError("incomeStreamAccountNumber", "TODO error");
+            }
+        }
+        
+        //existence check on indirect cost recovery
+        if(StringUtils.isNotEmpty(newAccount.getIndirectCostRecoveryAcctNbr()) && StringUtils.isNotEmpty(newAccount.getIndirectCostRcvyFinCoaCode())) {
+            if(ObjectUtils.isNull(newAccount.getIndirectCostRecoveryAcct())) {
+                success &= false;
+                putFieldError("indirectCostRecoveryAcctNbr", "TODO error");
+            }
+        }
+        
+        //existence check on account sufficient funds code
+        if(StringUtils.isNotEmpty(newAccount.getAccountSufficientFundsCode())) {
+            if(ObjectUtils.isNull(newAccount.getSufficientFundsCode())) {
+                success &= false;
+                putFieldError("accountSufficientFundsCode", "TODO error");
+            }
+        }
+        
+        //existence check on fiscal officer
+        if(StringUtils.isNotEmpty(newAccount.getAccountFiscalOfficerSystemIdentifier())) {
+            if(ObjectUtils.isNull(newAccount.getAccountFiscalOfficerUser())) {
+                success &= false;
+                putFieldError("accountFiscalOfficerSystemIdentifier", "TODO error");
+            }
+        }
+        
+        //existence check on supervisory system manager
+        if(StringUtils.isNotEmpty(newAccount.getAccountsSupervisorySystemsIdentifier())) {
+            if(ObjectUtils.isNull(newAccount.getAccountSupervisoryUser())) {
+                success &= false;
+                putFieldError("accountsSupervisorySystemsIdentifier", "TODO error");
+            }
+        }
+        
+        //existence check on manager system
+        if(StringUtils.isNotEmpty(newAccount.getAccountManagerSystemIdentifier())) {
+            if(ObjectUtils.isNull(newAccount.getAccountManagerUser())) {
+                success &= false;
+                putFieldError("accountManagerSystemIdentifier", "TODO error");
+            }
+        }
+        
+        //existence check on account restricted status code
+        if(StringUtils.isNotEmpty(newAccount.getAccountRestrictedStatusCode())) {
+            if(ObjectUtils.isNull(newAccount.getAccountRestrictedStatus())) {
+                success &= false;
+                putFieldError("accountRestrictedStatusCode", "TODO error");
+            }
+        }
         return success;
     }
 
@@ -722,10 +824,10 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         //	sub_fund_grp_cd on the account must be set to a valid sub_fund_grp_cd that exists in the ca_sub_fund_grp_t table
         //	assuming here that since we did the PersistenceService.refreshNonKeyFields() at beginning of rule that if the 
         // SubFundGroup object would be populated.
-        if (StringUtils.isEmpty(newAccount.getSubFundGroupCode())) {
+        if (StringUtils.isEmpty(newAccount.getSubFundGroupCode()) || ObjectUtils.isNotNull(newAccount.getSubFundGroup())) {
             putFieldError("subFundGroupCode", KeyConstants.ERROR_DOCUMENT_ACCMAINT_INVALID_SUBFUNDGROUP);
             success &= false;
-        }
+        } //no active indicator
         
         //	PFCMD (Plant Fund, Construction and Major Remodeling) SubFundCode checks
         else {

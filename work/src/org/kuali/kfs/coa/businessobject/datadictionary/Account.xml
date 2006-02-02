@@ -37,6 +37,8 @@
 				<lookupField attributeName="accountName" required="false" />
 				<lookupField attributeName="organizationCode" required="false" />
 				<lookupField attributeName="accountTypeCode" required="false" />
+				<lookupField attributeName="subFundGroupCode" required="false" />
+				<lookupField attributeName="accountFiscalOfficerSystemIdentifier" required="false" />
 				<lookupField attributeName="accountClosedIndicator" />			
 			</lookupFields>
 
@@ -67,7 +69,7 @@
 				<shortLabel>Account</shortLabel>
 
 				<maxLength>7</maxLength>
-				<validationPattern><numeric exactLength="7" /></validationPattern>
+				<validationPattern><alpha exactLength="7" /></validationPattern>
 				<required>true</required>
 				
 				<control>
@@ -581,21 +583,21 @@
 			<attributeReference name="accountFiscalOfficerSystemIdentifier" 
 								sourceClassName="org.kuali.core.bo.user.KualiUser" 
 								sourceAttributeName="personUniversalIdentifier">
-				<label>Fiscal Officer Name</label>
+				<label>Fiscal Officer Unvl ID</label>
 				<required>true</required>
 			</attributeReference>
 			
 			<attributeReference name="accountsSupervisorySystemsIdentifier" 
 								sourceClassName="org.kuali.core.bo.user.KualiUser" 
 								sourceAttributeName="personUniversalIdentifier">
-				<label>Supervisor Name</label>
+				<label>Supervisor Unvl ID</label>
 				<required>true</required>
 			</attributeReference>
 			
 			<attributeReference name="accountManagerSystemIdentifier" 
 								sourceClassName="org.kuali.core.bo.user.KualiUser" 
 								sourceAttributeName="personUniversalIdentifier">
-				<label>Manager Name</label>
+				<label>Manager Unvl ID</label>
 				<required>true</required>
 			</attributeReference>
 			

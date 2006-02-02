@@ -69,7 +69,9 @@
 				<shortLabel>Account</shortLabel>
 
 				<maxLength>7</maxLength>
-				<validationPattern><alpha exactLength="7" /></validationPattern>
+				<validationPattern>
+					<alphaNumeric exactLength="7" allowWhitespace="false" allowUnderscore="false" />
+				</validationPattern>
 				<required>true</required>
 				
 				<control>

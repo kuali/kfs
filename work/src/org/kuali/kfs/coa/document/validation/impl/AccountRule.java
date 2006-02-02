@@ -799,7 +799,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
             //	an account in the general fund fund group cannot have a budget recording level of mixed.
             if (fundGroupCode.equalsIgnoreCase(GENERAL_FUND_CD)) {
                 String budgetRecordingLevelCode = newAccount.getBudgetRecordingLevelCode();
-                if (StringUtils.isEmpty(budgetRecordingLevelCode)) {
+                if (StringUtils.isNotEmpty(budgetRecordingLevelCode)) {
                     if (budgetRecordingLevelCode.equalsIgnoreCase(BUDGET_RECORDING_LEVEL_MIXED)) {
                         putFieldError("budgetRecordingLevelCode", KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_GF_BUDGET_RECORD_LVL_MIXED);
                         success &= false;

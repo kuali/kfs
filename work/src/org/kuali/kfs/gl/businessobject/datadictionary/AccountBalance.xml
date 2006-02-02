@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../core/datadictionary/dataDictionary-1_0.dtd">
+	
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.gl.bo.AccountBalance">
+        <customAttributeEnabled>false</customAttributeEnabled>
+        <inquiry>
+            <title>Cash Balance</title>
+            <inquiryFields>
+				<field attributeName="chartOfAccountsCode" forceInquiry="true"/>
+				<field attributeName="accountNumber" forceInquiry="true"/>
+				<field attributeName="objectCode"/>
+            </inquiryFields>
+        </inquiry>
+		
+        <lookup>
+			<title>Available Balance</title>
+			
+			<instructions>Lookup Available Balance for the specific account.</instructions>
+			
+			<defaultSort attributeName="objectCode" />
+			
+			<lookupFields>
+				<lookupField attributeName="universityFiscalYear" required="true"/>
+				<lookupField attributeName="chartOfAccountsCode" required="true"/>
+				<lookupField attributeName="accountNumber" required="true" noLookup="false"/>
+				<lookupField attributeName="subAccountNumber"/>
+				<lookupField attributeName="objectCode"/>
+				<lookupField attributeName="subObjectCode"/>
+			</lookupFields>
+			
+			<resultFields>
+				<field attributeName="universityFiscalYear"/>
+				<field attributeName="chartOfAccountsCode"/>
+				<field attributeName="accountNumber"/>
+				<field attributeName="subAccountNumber"/>
+				<field attributeName="objectCode"/>
+				<field attributeName="subObjectCode"/>             
+				<field attributeName="currentBudgetLineBalanceAmount"/>
+				<field attributeName="accountLineActualsBalanceAmount"/>
+				<field attributeName="accountLineEncumbranceBalanceAmount"/> 
+			</resultFields>
+		</lookup>
+		
+        <attributes>
+            <attributeReference name="universityFiscalYear" 
+            					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
+            					sourceAttributeName="genericFiscalYear" />
+										
+            <attributeReference name="chartOfAccountsCode" 
+            					sourceClassName="org.kuali.module.chart.bo.Chart" 
+            					sourceAttributeName="chartOfAccountsCode" />
+								
+            <attributeReference name="accountNumber" 
+            					sourceClassName="org.kuali.module.chart.bo.Account" 
+            					sourceAttributeName="accountNumber" />
+								
+            <attributeReference name="subAccountNumber" 
+            					sourceClassName="org.kuali.module.chart.bo.SubAccount" 
+            					sourceAttributeName="subAccountNumber"/>
+								
+            <attributeReference name="objectCode" 
+            					sourceClassName="org.kuali.module.chart.bo.ObjectCode" 
+            					sourceAttributeName="financialObjectCode"/>
+								
+            <attributeReference name="subObjectCode" 
+            					sourceClassName="org.kuali.module.chart.bo.SubObjCd" 
+            					sourceAttributeName="financialSubObjectCode" />            													
+
+			<attributeReference name="currentBudgetLineBalanceAmount" 
+            					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
+            					sourceAttributeName="genericAmount">
+                <label>Budget Line Balance Amount</label>
+                <shortLabel>Amount</shortLabel>
+                <summary>currentBudgetLineBalanceAmount</summary>
+                <description>currentBudgetLineBalanceAmount description...</description>
+            </attributeReference>
+			
+			<attributeReference name="accountLineActualsBalanceAmount" 
+            					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
+            					sourceAttributeName="genericAmount">
+                <label>Account Line Actuals Balance Amount</label>
+                <shortLabel>Actuals Balance Amount</shortLabel>
+                <summary>accountLineActualsBalanceAmount</summary>
+                <description>accountLineActualsBalanceAmount description...</description>
+            </attributeReference>
+
+			<attributeReference name="accountLineEncumbranceBalanceAmount" 
+            					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
+            					sourceAttributeName="genericAmount">
+                <label>Account Line Encumbrance Balance Amount</label>
+                <shortLabel>Encumbrance Balance</shortLabel>
+                <summary>accountLineEncumbranceBalanceAmount</summary>
+                <description>accountLineEncumbranceBalanceAmount description...</description>
+            </attributeReference>
+
+            <attributeReference name="timestamp" 
+            					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
+					            sourceAttributeName="genericTimestamp" >
+                <label>Transaction Entry Processed</label>
+                <shortLabel>Entry Processed</shortLabel>
+                <summary>transactionEntryProcessed</summary>
+                <description>transactionEntryProcessed description...</description>
+            </attributeReference>            					
+            					 
+        </attributes>
+		
+    </businessObject>
+</dictionaryEntry>

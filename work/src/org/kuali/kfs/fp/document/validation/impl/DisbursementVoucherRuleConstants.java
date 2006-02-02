@@ -88,21 +88,44 @@ public interface DisbursementVoucherRuleConstants {
             PAYMENT_REASON_ROYALTIES, PAYMENT_REASON_RENTAL_PAYMENT, PAYMENT_REASON_SUBSCRIPTIONS,
             PAYMENT_REASON_TRAVEL_HONORARIUM, PAYMENT_REASON_CLAIMS };
 
-    public static String PAYMENT_OBJECT_LEVEL_GROUP_NM = "DVPaymentObjectLevelRestrictions";
-    public static String PAYMENT_OBJECT_CODE_GROUP_NM = "DVPaymentObjectCodeRestrictions";
-    public static String PAYMENT_PARM_PREFIX = "PAYMENT_REASON_";
-    public static String OBJECT_CODE_GROUP_NM = "DVObjectCodeRestrictions";
-    public static String OBJECT_TYPE_PARM_NM = "OBJECT_TYPE_RESTRICTIONS";
-    public static String OBJECT_SUB_TYPE_PARM_NM = "OBJECT_SUB_TYPE_RESTRICTIONS";
-
     public static String INCLUSION_CHARACTER = "+";
     public static String EXCLUSION_CHARACTER = "-";
-
+    
+    // apc security group constants
+    public static String GLOBAL_FIELD_RESTRICTIONS_GROUP_NM = "DVGlobalFieldRestrictions";
+    public static String PAYMENT_OBJECT_LEVEL_GROUP_NM = "DVPaymentObjectLevelRestrictions";
+    public static String PAYMENT_OBJECT_CODE_GROUP_NM = "DVPaymentObjectCodeRestrictions";
+    public static String OBJECT_CODE_PAYMENT_GROUP_NM = "DVObjectCodePaymentRestrictions";
     public static String PAYEE_PAYMENT_GROUP_NM = "DVPayeePaymentTypeRestrictions";
+    public static String ALIEN_INDICATOR_DOC_LOCATION_GROUP_NM = "DVAlienIndicatorDocLocationRestrictions";
+    public static String ALIEN_INDICATOR_PAYMENT_GROUP_NM = "DVAlienIndicatorPaymentRestrictions";
+    public static String CAMPUS_DOC_LOCATION_GROUP_NM = "DVCampusDocLocationRestrictions";
+    public static String PAYMENT_DOC_LOCATION_GROUP_NM = "DVPaymentDocLocationRestrictions";
+    public static String PAYMENT_SUB_FUND_GROUP_NM = "DVPaymentSubFundRestrictions";
+    public static String SUB_FUND_OBJECT_SUB_TYPE_GROUP_NM = "DVSubFundObjectSubTypeRestrictions";
+    public static String NRA_TAX_PARM_GROUP_NM = "DVNRATaxParameters";
+    
+    
+    // apc parameter constants 
+    public static String OBJECT_CODE_PARM_PREFIX = "OBJECT_CODE_";
+    public static String PAYMENT_PARM_PREFIX = "PAYMENT_REASON_";
+    public static String OBJECT_TYPE_GLOBAL_RESTRICTION_PARM_NM = "OBJECT_TYPE_RESTRICTIONS";
+    public static String OBJECT_LEVEL_GLOBAL_RESTRICTION_PARM_NM = "OBJECT_LEVEL_RESTRICTIONS";
+    public static String SUB_FUND_GLOBAL_RESTRICTION_PARM_NM = "SUB_FUND_RESTRICTIONS";
+    public static String FUNCTION_CODE_GLOBAL_RESTRICTION_PARM_NM = "FUNCTION_CODE_RESTRICTIONS";
     public static String EMPLOYEE_PAYEE_PAYMENT_PARM = "PAYEE_TYPE_E";
     public static String DVPAYEE_PAYEE_PAYMENT_PARM = "PAYEE_TYPE_P";
     public static String VENDOR_PAYEE_PAYMENT_PARM = "PAYEE_TYPE_V";
-
+    public static String FEDERAL_TAX_ACCOUNT_PARM_NM = "FEDERAL_TAX_ACCOUNT";
+    public static String STATE_TAX_ACCOUNT_PARM_NM = "STATE_TAX_ACCOUNT";
+    public static String FEDERAL_TAX_CHART_PARM_NM = "FEDERAL_TAX_CHART";
+    public static String STATE_TAX_CHART_PARM_NM = "STATE_TAX_CHART";
+    public static String FEDERAL_OBJECT_CODE_PARM_PREFIX = "FEDERAL_OBJECT_CODE_";
+    public static String STATE_OBJECT_CODE_PARM_PREFIX = "STATE_OBJECT_CODE_";
+    public static String ALIEN_INDICATOR_CHECKED_PARM_NM = "ALIEN_INDICATOR_CHECKED";
+    public static String CAMPUS_CODE_PARM_PREFIX = "CAMPUS_CODE_";
+    public static String SUB_FUND_CODE_PARM_PREFIX = "SUB_FUND_";
+    
     public static String TAX_TYPE_SSN = "1";
     public static String TAX_TYPE_FEIN = "0";
     public static String UNITED_STATES_COUNTRY_NAME = "USA";
@@ -116,12 +139,4 @@ public interface DisbursementVoucherRuleConstants {
     
     public static String FEDERAL_TAX_TYPE_CODE = "F";
     public static String STATE_TAX_TYPE_CODE = "S";
-    
-    public static String NRA_TAX_PARM_GROUP_NM = "DVNRATaxParameters";
-    public static String FEDERAL_TAX_ACCOUNT_PARM_NM = "FEDERAL_TAX_ACCOUNT";
-    public static String STATE_TAX_ACCOUNT_PARM_NM = "STATE_TAX_ACCOUNT";
-    public static String FEDERAL_TAX_CHART_PARM_NM = "FEDERAL_TAX_CHART";
-    public static String STATE_TAX_CHART_PARM_NM = "STATE_TAX_CHART";
-    public static String FEDERAL_OBJECT_CODE_PARM_PREFIX = "FEDERAL_OBJECT_CODE_";
-    public static String STATE_OBJECT_CODE_PARM_PREFIX = "STATE_OBJECT_CODE_";
 }

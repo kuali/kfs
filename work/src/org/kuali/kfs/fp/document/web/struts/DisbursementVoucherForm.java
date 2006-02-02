@@ -35,6 +35,7 @@ public class DisbursementVoucherForm extends KualiTransactionalDocumentFormBase 
     private static final long serialVersionUID = 1L;
 
     private DisbursementVoucherNonEmployeeExpense newNonEmployeeExpenseLine;
+    private DisbursementVoucherNonEmployeeExpense newPrePaidNonEmployeeExpenseLine;
     private DisbursementVoucherPreConferenceRegistrant newPreConferenceRegistrantLine;
 
     private String nraTaxLineNumbers;
@@ -84,6 +85,20 @@ public class DisbursementVoucherForm extends KualiTransactionalDocumentFormBase 
      */
     public void setNewPreConferenceRegistrantLine(DisbursementVoucherPreConferenceRegistrant newPreConferenceRegistrantLine) {
         this.newPreConferenceRegistrantLine = newPreConferenceRegistrantLine;
+    }
+
+    /**
+     * @return Returns the newPrePaidNonEmployeeExpenseLine.
+     */
+    public DisbursementVoucherNonEmployeeExpense getNewPrePaidNonEmployeeExpenseLine() {
+        return newPrePaidNonEmployeeExpenseLine;
+    }
+
+    /**
+     * @param newPrePaidNonEmployeeExpenseLine The newPrePaidNonEmployeeExpenseLine to set.
+     */
+    public void setNewPrePaidNonEmployeeExpenseLine(DisbursementVoucherNonEmployeeExpense newPrePaidNonEmployeeExpenseLine) {
+        this.newPrePaidNonEmployeeExpenseLine = newPrePaidNonEmployeeExpenseLine;
     }
 }
 

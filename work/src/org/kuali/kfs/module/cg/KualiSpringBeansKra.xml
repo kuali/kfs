@@ -63,4 +63,10 @@
             <ref bean="budgetService" />
         </property>
     </bean>
+    
+    <bean id="budgetPersonnelService" class="org.kuali.module.kra.service.impl.BudgetPersonnelServiceImpl">
+        <property name="dateTimeService">
+            <ref bean="dateTimeService" />
+        </property>
+    </bean>
 </beans>

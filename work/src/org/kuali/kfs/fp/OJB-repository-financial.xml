@@ -1324,7 +1324,7 @@
 	</reference-descriptor>
 	<collection-descriptor name="depositCashReceiptControl" element-class-ref="org.kuali.module.financial.bo.DepositCashReceiptControl" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<orderby name="financialDocumentCashReceiptNumber" sort="ASC" />
-		<inverse-foreignkey field-ref="financialDocumentNumber" />
+		<inverse-foreignkey field-ref="financialDocumentDepositNumber" />
 	</collection-descriptor>
 </class-descriptor>
 
@@ -1360,7 +1360,7 @@
 		<foreignkey field-ref="financialDocumentNumber" />
 	</reference-descriptor>
 	<collection-descriptor name="depositCashReceiptControl" element-class-ref="org.kuali.module.financial.bo.DepositCashReceiptControl" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<orderby name="financialDocumentCashReceiptNumber" sort="ASC" />
-		<inverse-foreignkey field-ref="financialDocumentNumber" />
+		<orderby name="financialDocumentDepositNumber" sort="ASC" />
+		<inverse-foreignkey field-ref="financialDocumentCashReceiptNumber" />
 	</collection-descriptor>
 </class-descriptor>

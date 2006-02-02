@@ -47,6 +47,7 @@ import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.format.CurrencyFormatter;
 import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
+import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
 import org.kuali.module.financial.bo.JournalVoucherAccountingLineHelper;
 import org.kuali.module.financial.document.JournalVoucherDocument;
@@ -113,15 +114,33 @@ public class JournalVoucherAction extends KualiTransactionalDocumentActionBase {
         }
         return returnForward;
     }
-    
+
     /**
      * We want to keep the bad data for the JV.
      */
-    protected boolean revertAccountingLine(AccountingLine originalLine, AccountingLine brokenLine) {
-        brokenLine.copyFrom(brokenLine);
-        return false;
+    protected boolean revertAccountingLine(KualiTransactionalDocumentFormBase transForm, int revertIndex,
+            AccountingLine originalLine, AccountingLine brokenLine) {
+        boolean reverted = super.revertAccountingLine(transForm, revertIndex, originalLine, brokenLine);
+
+        if (reverted) {
+            JournalVoucherForm jvForm = (JournalVoucherForm) transForm;
+            JournalVoucherAccountingLineHelper helper = jvForm.getJournalLineHelper(revertIndex);
+
+            String debitCreditCode = originalLine.getDebitCreditCode();
+            if (StringUtils.equals(debitCreditCode, Constants.GL_DEBIT_CODE)) {
+                helper.setDebit(originalLine.getAmount());
+                helper.setCredit(Constants.ZERO);
+            }
+            else if (StringUtils.equals(debitCreditCode, Constants.GL_CREDIT_CODE)) {
+                helper.setDebit(Constants.ZERO);
+                helper.setCredit(originalLine.getAmount());
+            }
+            // intentionally ignoring the case where debitCreditCode is neither debit nor credir
+        }
+
+        return reverted;
     }
-    
+
     /**
      * Overrides parent to first populate the new source line with the correct debit or credit value, then it calls the parent's
      * implementation.
@@ -137,24 +156,25 @@ public class JournalVoucherAction extends KualiTransactionalDocumentActionBase {
         // call the super's method
         ActionForward actionForward = super.insertSourceLine(mapping, form, request, response);
 
-        if(GlobalVariables.getErrorMap().getErrorCount() == 0) {
+        if (GlobalVariables.getErrorMap().getErrorCount() == 0) {
             // since no exceptions were thrown, the add succeeded, so we have to re-init the new credit and debit
             // attributes, and add a new instance of a helperLine to the helperLines list
             JournalVoucherAccountingLineHelper helperLine = populateNewJournalVoucherAccountingLineHelper(journalVoucherForm);
             journalVoucherForm.getJournalLineHelpers().add(helperLine);
-    
+
             // now reset the debit and credit fields for adds
             journalVoucherForm.setNewSourceLineDebit(new KualiDecimal(0));
             journalVoucherForm.setNewSourceLineCredit(new KualiDecimal(0));
         }
-            
+
         return actionForward;
     }
 
     /**
      * Overrides parent to remove the associated helper line also, and then it call the parent's implementation.
      * 
-     * @see org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase#deleteSourceLine(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * @see org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase#deleteSourceLine(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     public ActionForward deleteSourceLine(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
@@ -517,7 +537,7 @@ public class JournalVoucherAction extends KualiTransactionalDocumentActionBase {
             journalVoucherForm.setNewSourceLineDebit(ZERO);
         }
 
-        //always wipe out the new source line
+        // always wipe out the new source line
         journalVoucherForm.setNewSourceLine(new SourceAccountingLine());
 
         // reload the balance type and accounting period selections since now we have data in the document bo
@@ -650,13 +670,15 @@ public class JournalVoucherAction extends KualiTransactionalDocumentActionBase {
             String currencyFormattedTotal = (String) new CurrencyFormatter().format(jvDoc.getTotal());
             String message = "";
             jvDoc.refreshReferenceObject("balanceType");
-            if(jvDoc.getBalanceType().isFinancialOffsetGenerationIndicator()) {
+            if (jvDoc.getBalanceType().isFinancialOffsetGenerationIndicator()) {
                 message = StringUtils.replace(kualiConfiguration
                         .getPropertyString(KeyConstants.QUESTION_ROUTE_OUT_OF_BALANCE_JV_DOC), "{0}", currencyFormattedDebitTotal);
                 message = StringUtils.replace(message, "{1}", currencyFormattedCreditTotal);
-            } else {
+            }
+            else {
                 message = StringUtils.replace(kualiConfiguration
-                        .getPropertyString(KeyConstants.QUESTION_ROUTE_OUT_OF_BALANCE_JV_DOC_SINGLE_AMT_MODE), "{0}", currencyFormattedTotal);
+                        .getPropertyString(KeyConstants.QUESTION_ROUTE_OUT_OF_BALANCE_JV_DOC_SINGLE_AMT_MODE), "{0}",
+                        currencyFormattedTotal);
             }
 
             // now transfer control over to the question component

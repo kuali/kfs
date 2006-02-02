@@ -25,10 +25,8 @@ package org.kuali.module.gl.util;
 import java.io.FileOutputStream;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -53,19 +51,6 @@ import com.lowagie.text.pdf.PdfWriter;
  */
 public class TransactionReport {
   private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(TransactionReport.class);
-
-  private static Map operations = null;
-
-  static {
-    operations = new HashMap();
-    operations.put("I","inserted");
-    operations.put("U","updated");
-    operations.put("S","selected");
-    operations.put("D","deleted");
-    operations.put("K","kept due to errors");
-    operations.put("G","generated");
-    operations.put("R","read");
-  }
 
   class PageHelper extends PdfPageEventHelper {
     public Date runDate;
@@ -106,7 +91,7 @@ public class TransactionReport {
   /* (non-Javadoc)
    * @see org.kuali.module.gl.service.PosterReportService#generateReport(java.util.Map, java.util.Map, java.util.Date, int)
    */
-  public void generateReport(Map reportErrors, Map reportSummary, Date runDate, String title, String fileprefix, String destinationDirectory) {
+  public void generateReport(Map reportErrors, List reportSummary, Date runDate, String title, String fileprefix, String destinationDirectory) {
     LOG.debug("generateReport() started");
 
     Font headerFont = FontFactory.getFont(FontFactory.COURIER,8,Font.BOLD);
@@ -130,9 +115,7 @@ public class TransactionReport {
       document.open();
 
       // Sort what we get
-      List keys = new ArrayList();
-      keys.addAll(reportSummary.keySet());
-      Collections.sort(keys);
+      Collections.sort(reportSummary);
 
       float[] summaryWidths = {90,10};
       PdfPTable summary = new PdfPTable(summaryWidths);
@@ -143,49 +126,18 @@ public class TransactionReport {
       cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
       summary.addCell(cell);
 
-      String last = "";
-      for (Iterator summaryIter = keys.iterator(); summaryIter.hasNext();) {
-        String key = (String) summaryIter.next();
-        String[] pieces = key.split(",");
+      for (Iterator iter = reportSummary.iterator(); iter.hasNext();) {
+        Summary s = (Summary)iter.next();
 
-        if ( ! last.equals(pieces[0]) ) {
-          cell = new PdfPCell(new Phrase(""));
-          cell.setColspan(2);
-          cell.setBorder(Rectangle.NO_BORDER);
-          summary.addCell(cell);
-        }
-
-        StringBuffer msg = new StringBuffer("Number of");
-        if ( ' ' != pieces[0].charAt(0) ) {
-          msg.append(" ");
-        }
-        if ( '~' == pieces[0].charAt(0) ) {
-          msg.append(pieces[0].substring(1));
-        } else {
-          msg.append(pieces[0]);
-        }
-        if (pieces.length > 1) {
-            msg.append(" records ");
-    
-            String word = (String)operations.get(pieces[1]);
-            if ( word == null ) {
-              msg.append("processed");
-            } else {
-              msg.append(word);
-            }
-        }
-        msg.append(":");
-
-        cell = new PdfPCell(new Phrase(msg.toString(),textFont));
+        cell = new PdfPCell(new Phrase(s.getDescription(),textFont));
         cell.setBorder(Rectangle.NO_BORDER);
         summary.addCell(cell);
 
         DecimalFormat nf = new DecimalFormat("###,###,##0");
-        cell = new PdfPCell(new Phrase(nf.format(reportSummary.get(key)),textFont));
+        cell = new PdfPCell(new Phrase(nf.format(s.getCount()),textFont));
         cell.setBorder(Rectangle.NO_BORDER);
         cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
         summary.addCell(cell);
-        last = pieces[0];
       }
       cell = new PdfPCell(new Phrase(""));
       cell.setColspan(2);

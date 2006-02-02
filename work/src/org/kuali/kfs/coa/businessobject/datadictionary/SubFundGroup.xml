@@ -56,7 +56,7 @@
 
                 <maxLength>6</maxLength>
 
-				<validationPattern><alpha exactLength="6" /></validationPattern>
+				<validationPattern><alpha maxLength="6" /></validationPattern>
 				<required>true</required>
 				
                 <control>

@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="/tlds/c.tld" %>
 <%@ taglib prefix="html" uri="/tlds/struts-html.tld" %>
+<%@ taglib prefix="bean" uri="/tlds/struts-bean.tld" %>
 <%@ taglib prefix="kul" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="fin" tagdir="/WEB-INF/tags/fin" %>
 
@@ -19,7 +20,6 @@
  
 <%@ attribute name="actionGroup" required="true" description="The name of the group of action buttons to be displayed; valid values are newLine and existingLine." %>
 <%@ attribute name="actionInfix" required="true" description="Infix used to build method names which will be invoked by the buttons in this actionGroup" %>
-<%@ attribute name="revertible" required="true" description="If true, this row will show the 'revert' button" %>
 
 <%@ attribute name="readOnly" required="true" %>
 <%@ attribute name="editableFields" required="false" type="java.util.Map"
@@ -63,7 +63,7 @@
               As with all boolean tag attributes, if it is not provided, it defaults to false." %>
 
 <%@ attribute name="displayHiddenColumns" required="false" description="display values of hidden columns" %>
-
+<%@ attribute name="decorator" required="false" description="propertyName of the AccountingLineDecorator associated with this accountingLine" %>
 
 <c:set var="rowCount" value="${empty extraRowFields ? 1 : 2}"/>
 
@@ -239,10 +239,16 @@
         </c:when>
 
         <c:when test="${actionGroup == 'existingLine'}" >
+            <c:set var="revertible">
+                <bean:write name="KualiForm" property="${decorator}.revertible" />
+            </c:set>
             <c:set var="deleteMethod" value="delete${actionInfix}Line.line${accountingLineIndex}" />
             <c:set var="revertMethod" value="revert${actionInfix}Line.line${accountingLineIndex}" />
 
             <td rowspan="${rowCount}" class="${dataCellCssClass}" nowrap><div align="center">
+                <%-- persist accountingLineDecorator --%>
+                <html:hidden name="KualiForm" property="${decorator}.revertible" />
+
                 <html:image property="methodToCall.${deleteMethod}" src="images/tinybutton-delete1.gif" alt="delete" styleClass="tinybutton"/>
                 <c:if test="${revertible}">
                     <br>

@@ -117,8 +117,9 @@ public class JournalVoucherAction extends KualiTransactionalDocumentActionBase {
     /**
      * We want to keep the bad data for the JV.
      */
-    protected void revertAccountingLine(AccountingLine originalLine, AccountingLine brokenLine) {
+    protected boolean revertAccountingLine(AccountingLine originalLine, AccountingLine brokenLine) {
         brokenLine.copyFrom(brokenLine);
+        return false;
     }
     
     /**

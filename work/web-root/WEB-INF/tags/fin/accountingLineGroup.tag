@@ -98,7 +98,6 @@
         rowHeader="add:"
         actionGroup="newLine"
         actionInfix="${capitalSourceOrTarget}"
-        revertible="false"
         optionalFields="${optionalFields}"
         extraRowFields="${extraRowFields}"
         extraRowLabelFontWeight="bold"
@@ -140,7 +139,6 @@
         rowHeader="${ctr+1}"
         actionGroup="existingLine"
         actionInfix="${capitalSourceOrTarget}"
-        revertible="true"
         optionalFields="${optionalFields}"
         extraRowFields="${extraRowFields}"
         extraRowLabelFontWeight="normal"
@@ -153,6 +151,7 @@
         creditCellProperty="journalLineHelper[${ctr}].credit"
         includeObjectTypeCode="${includeObjectTypeCode}"
         displayHiddenColumns="${displayHiddenColumns}"
+        decorator="${sourceOrTarget}LineDecorator[${ctr}]"
         />
 </logic:iterate>
 

@@ -54,11 +54,12 @@ import org.kuali.module.gl.dao.UniversityDateDao;
 import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.gl.service.OriginEntryService;
 import org.kuali.module.gl.service.ScrubberService;
+import org.kuali.module.gl.util.Summary;
 import org.springframework.util.StringUtils;
 
 /**
  * @author Anthony Potts
- * @version $Id: ScrubberServiceImpl.java,v 1.27 2006-02-02 16:22:41 larevans Exp $
+ * @version $Id: ScrubberServiceImpl.java,v 1.28 2006-02-02 21:08:27 aapotts Exp $
  */
 
 public class ScrubberServiceImpl implements ScrubberService {
@@ -82,7 +83,7 @@ public class ScrubberServiceImpl implements ScrubberService {
     OriginEntryGroup errorGroup;
     OriginEntryGroup expiredGroup;
     Map batchError;
-    Map reportSummary;
+    List reportSummary;
     List transactionErrors;
 
     private OriginEntry previousEntry;
@@ -91,6 +92,7 @@ public class ScrubberServiceImpl implements ScrubberService {
     private String wsExpiredChart;
     private String wsExpiredAccount;
     private boolean eof;
+    private boolean groupError;
     
     private int writeSwitchStatusCD = 0;
 
@@ -110,7 +112,7 @@ public class ScrubberServiceImpl implements ScrubberService {
         LOG.debug("beginning scrubber process");
         
         batchError = new HashMap();
-        reportSummary = new HashMap();
+        reportSummary = new ArrayList();
         
         // setup an object to hold the "default" date information
         runDate = new Date(dateTimeService.getCurrentDate().getTime());
@@ -134,19 +136,21 @@ public class ScrubberServiceImpl implements ScrubberService {
          */
         for (Iterator groupIterator = groupsToScrub.iterator(); groupIterator.hasNext();) {
             OriginEntryGroup grp = (OriginEntryGroup) groupIterator.next();
+            groupError = false;
+            ++scrubberUtil.groupsRead;
             
             LOG.debug("start group: " + grp.getId() + " - source: " + grp.getSourceCode());
 
             for (Iterator entryIterator = originEntryService.getEntriesByGroup(grp); entryIterator.hasNext();) {
-                ++scrubberUtil.originCount;
+                ++scrubberUtil.groupEntryCount;
                 eof = !entryIterator.hasNext();
                 OriginEntry entry = (OriginEntry) entryIterator.next();
-                LOG.debug("group: " + grp.getId() + " - entry number: " + scrubberUtil.originCount + " - entry id: " + entry.getObjectId());
+                LOG.debug("group: " + grp.getId() + " - entry number: " + scrubberUtil.groupEntryCount + " - entry id: " + entry.getObjectId());
                 
                 // Scrub the entry in the context of the previously scrubbed entry.
                 processUnitOfWork(entry, previousEntry);
             }
-            scrubberUtil.recordsRead += scrubberUtil.originCount;
+            scrubberUtil.recordsRead += scrubberUtil.groupEntryCount;
             
             grp.setProcess(new Boolean(false));
             originEntryGroupService.save(grp);
@@ -155,18 +159,19 @@ public class ScrubberServiceImpl implements ScrubberService {
         }
 
         // write out report and errors
-        reportSummary.put("UNSCRUBBED RECORDS READ", new Integer(scrubberUtil.recordsRead));
-        reportSummary.put("SCRUBBED RECORDS WRITTEN", new Integer(scrubberUtil.scrubbedRecordsWriteCount));
-        reportSummary.put("ERROR RECORDS WRITTEN", new Integer(scrubberUtil.errorWriteCount));
-        reportSummary.put("OFFSET ENTRIES GENERATED", new Integer(scrubberUtil.offsetCount));
-        reportSummary.put("ELIMINATION ENTRIES GENERATED", new Integer(scrubberUtil.eliminationCount));
-        reportSummary.put("CAPITALIZATION ENTRIES GENERATED", new Integer(scrubberUtil.camsCount));
-        reportSummary.put("LIABLITY ENTRIES GENERATED", new Integer(scrubberUtil.liabCount));
-        reportSummary.put("PLANT INDEBTEDNESS ENTRIES GENERATED", new Integer(scrubberUtil.plantIndebtednessCount));
-        reportSummary.put("COST SHARE ENTRIES GENERATED", new Integer(scrubberUtil.costShareCount));
-        reportSummary.put("COST SHARE ENC ENTRIES GENERATED", new Integer(scrubberUtil.costShareEncCount));
-        reportSummary.put("TOTAL OUTPUT RECORDS WRITTEN", new Integer(scrubberUtil.totalWriteCount));
-        reportSummary.put("EXPIRED ACCOUNTS FOUND", new Integer(scrubberUtil.expiredAccountCount));
+        reportSummary.add(new Summary(1, "UNSCRUBBED RECORDS READ", new Integer(scrubberUtil.recordsRead)));
+        reportSummary.add(new Summary(2, "GROUPS READ", new Integer(scrubberUtil.groupsRead)));
+        reportSummary.add(new Summary(3, "SCRUBBED RECORDS WRITTEN", new Integer(scrubberUtil.scrubbedRecordsWriteCount)));
+        reportSummary.add(new Summary(4, "ERROR RECORDS WRITTEN", new Integer(scrubberUtil.errorWriteCount)));
+        reportSummary.add(new Summary(5, "OFFSET ENTRIES GENERATED", new Integer(scrubberUtil.offsetCount)));
+        reportSummary.add(new Summary(6, "ELIMINATION ENTRIES GENERATED", new Integer(scrubberUtil.eliminationCount)));
+        reportSummary.add(new Summary(7, "CAPITALIZATION ENTRIES GENERATED", new Integer(scrubberUtil.camsCount)));
+        reportSummary.add(new Summary(8, "LIABLITY ENTRIES GENERATED", new Integer(scrubberUtil.liabCount)));
+        reportSummary.add(new Summary(9, "PLANT INDEBTEDNESS ENTRIES GENERATED", new Integer(scrubberUtil.plantIndebtednessCount)));
+        reportSummary.add(new Summary(10, "COST SHARE ENTRIES GENERATED", new Integer(scrubberUtil.costShareCount)));
+        reportSummary.add(new Summary(11, "COST SHARE ENC ENTRIES GENERATED", new Integer(scrubberUtil.costShareEncCount)));
+        reportSummary.add(new Summary(12, "TOTAL OUTPUT RECORDS WRITTEN", new Integer(scrubberUtil.totalWriteCount)));
+        reportSummary.add(new Summary(13, "EXPIRED ACCOUNTS FOUND", new Integer(scrubberUtil.expiredAccountCount)));
         scrubberReportService.generateReport(null, reportSummary, runDate, 0);
         
 /*      
@@ -288,25 +293,33 @@ public class ScrubberServiceImpl implements ScrubberService {
             workingEntry.setDocumentType(originEntry.getDocumentType());
         }
 
-        checkGLObject(originEntry.getOrigination(), kualiConfigurationService.getPropertyString(KeyConstants.ERROR_ORIGIN_CODE_NOT_FOUND));
+        if (checkGLObject(originEntry.getOrigination(), kualiConfigurationService.getPropertyString(KeyConstants.ERROR_ORIGIN_CODE_NOT_FOUND))) {
+            workingEntry.setOrigination(originEntry.getOrigination());
+        }
+        workingEntry.setFinancialSystemOriginationCode(originEntry.getFinancialSystemOriginationCode());
 
         if (!StringUtils.hasText(originEntry.getFinancialDocumentNumber())) {
             transactionErrors.add(kualiConfigurationService.getPropertyString(KeyConstants.ERROR_DOCUMENT_NUMBER_REQUIRED));
         }
 
-        checkGLObject(originEntry.getChart(), kualiConfigurationService.getPropertyString(KeyConstants.ERROR_CHART_NOT_FOUND));
+        if (checkGLObject(originEntry.getChart(), kualiConfigurationService.getPropertyString(KeyConstants.ERROR_CHART_NOT_FOUND))) {
+            workingEntry.setChart(originEntry.getChart());
+        }
+        workingEntry.setChartOfAccountsCode(originEntry.getChartOfAccountsCode());
 
         if (originEntry.getChart() != null && !originEntry.getChart().isFinChartOfAccountActiveIndicator()) {
             transactionErrors.add(kualiConfigurationService.getPropertyString(KeyConstants.ERROR_CHART_NOT_ACTIVE));
         }
 
-        checkGLObject(originEntry.getAccount(), kualiConfigurationService.getPropertyString(KeyConstants.ERROR_ACCOUNT_NOT_FOUND));
-
+        if (checkGLObject(originEntry.getAccount(), kualiConfigurationService.getPropertyString(KeyConstants.ERROR_ACCOUNT_NOT_FOUND))) {
+            workingEntry.setAccount(originEntry.getAccount());
+        }
+        workingEntry.setAccountNumber(originEntry.getAccountNumber());
         
         if ("ACLO".equals(originEntry.getFinancialDocumentTypeCode())) { // TODO: move to properties ANNUAL_CLOSING
             resolveAccount(originEntry, workingEntry);
         } else {
-            wsAccountChange = originEntry.getAccountNumber(); 
+            wsAccountChange = originEntry.getAccountNumber();
         }
         
         if (!wsAccountChange.equals(workingEntry.getAccountNumber()) && originEntry.getAccount() != null) {
@@ -708,7 +721,7 @@ public class ScrubberServiceImpl implements ScrubberService {
             return;
         }
 
-        if (scrubberUtil.originCount == 1) {
+        if (scrubberUtil.groupEntryCount == 1) {
             copyPrimaryFields(originEntry, previousEntry);
             initScrubberValues();
             return;

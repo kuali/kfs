@@ -98,8 +98,8 @@
 	</reference-descriptor>
 
 	<reference-descriptor name="accountingPeriod" class-ref="org.kuali.module.chart.bo.AccountingPeriod" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="universityFiscalYear" />
 		<foreignkey field-ref="universityFiscalPeriodCode" />
+		<foreignkey field-ref="universityFiscalYear" />
 	</reference-descriptor>
 
 	<reference-descriptor name="reversalDate" class-ref="org.kuali.module.gl.bo.UniversityDate" auto-retrieve="true" auto-update="none" auto-delete="none">

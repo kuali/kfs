@@ -37,7 +37,6 @@ import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Account;
-import org.kuali.module.chart.bo.SubFundGroup;
 
 public class AccountPreRules implements PreRulesCheck {
 

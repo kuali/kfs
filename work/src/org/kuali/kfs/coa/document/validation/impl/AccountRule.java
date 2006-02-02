@@ -266,8 +266,8 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
                     if (newAccount.getAccountNumber().startsWith(illegalValues[i])) {
                         success &= false;
                         putFieldError("accountNumber", 
-                                KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_NMBR_NOT_ALLOWED + "(" + illegalValues[i] + ")", 
-                                newAccount.getAccountNumber());
+                                KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_NMBR_NOT_ALLOWED, 
+                                new String[] {newAccount.getAccountNumber(),illegalValues[i]});
                     }
                 }
             } else {

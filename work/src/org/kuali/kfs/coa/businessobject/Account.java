@@ -31,13 +31,10 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.time.DateUtils;
 import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.core.bo.PostalZipCode;
 import org.kuali.core.bo.State;
 import org.kuali.core.bo.user.KualiUser;
-import org.kuali.core.service.DateTimeService;
-import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.codes.BudgetRecordingLevelCode;
 import org.kuali.module.chart.bo.codes.SufficientFundsCode;
 
@@ -127,13 +124,13 @@ public class Account extends BusinessObjectBase {
     
     private List subAccounts;
 
-    private DateTimeService dateTimeService;
+    //private DateTimeService dateTimeService;
     
     /**
      * Default no-arg constructor.
      */
     public Account() {
-        dateTimeService = SpringServiceLocator.getDateTimeService();
+        //dateTimeService = SpringServiceLocator.getDateTimeService();
     }
 
 
@@ -373,7 +370,8 @@ public class Account extends BusinessObjectBase {
      * 
      */
     public boolean isExpired() {
-        return this.isExpired(dateTimeService.getCurrentCalendar());
+        //return this.isExpired(dateTimeService.getCurrentCalendar());
+        return false;
     }
     
     /**
@@ -392,23 +390,23 @@ public class Account extends BusinessObjectBase {
      * 
      */
     public boolean isExpired(Calendar testDate) {
-        
-        //	remove any time-components from the testDate
-        testDate = DateUtils.truncate(testDate, Calendar.DAY_OF_MONTH);
-        
-        //	get a calendar reference to the Account Expiration 
-        // date, and remove any time components
-        Calendar acctDate;
-        acctDate = dateTimeService.getCalendar(getAccountExpirationDate());
-        acctDate = DateUtils.truncate(acctDate, Calendar.DAY_OF_MONTH);
-        
-        //	if the Account Expiration Date is before the testDate
-        if (acctDate.before(testDate)) {
-            return true;
-        }
-        else {
-            return false;
-        }
+        return false;
+//        //	remove any time-components from the testDate
+//        testDate = DateUtils.truncate(testDate, Calendar.DAY_OF_MONTH);
+//        
+//        //	get a calendar reference to the Account Expiration 
+//        // date, and remove any time components
+//        Calendar acctDate;
+//        acctDate = dateTimeService.getCalendar(getAccountExpirationDate());
+//        acctDate = DateUtils.truncate(acctDate, Calendar.DAY_OF_MONTH);
+//        
+//        //	if the Account Expiration Date is before the testDate
+//        if (acctDate.before(testDate)) {
+//            return true;
+//        }
+//        else {
+//            return false;
+//        }
     }
     
     /**

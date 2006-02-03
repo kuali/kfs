@@ -24,6 +24,7 @@ package org.kuali.module.gl.dao;
 
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.Map;
 
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.gl.bo.Balance;
@@ -31,10 +32,24 @@ import org.kuali.module.gl.bo.Transaction;
 
 /**
  * @author jsissom
- *
+ *  
  */
 public interface BalanceDao {
-  public Balance getBalanceByTransaction(Transaction t);
-  public Iterator findBalances(Account account, Integer fiscalYear, Collection includedObjectCodes, Collection excludedObjectCodes, Collection objectTypeCodes, Collection balanceTypeCodes);
-  public void save(Balance b);
+    
+    public Balance getBalanceByTransaction(Transaction t);
+
+    public Iterator findBalances(Account account, Integer fiscalYear,
+            Collection includedObjectCodes, Collection excludedObjectCodes,
+            Collection objectTypeCodes, Collection balanceTypeCodes);
+
+    public void save(Balance b);
+
+    /**
+     * This method finds the summary records of balance entries according to input fields
+     * an values
+     * 
+     * @param fieldValues the input fields an values
+     * @return the summary records of balance entries
+     */
+    public Iterator findBalanceSummary(Map fieldValues);
 }

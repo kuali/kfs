@@ -17,16 +17,14 @@
         </inquiry>
 		
         <lookup>
-			<title>Cash Balance</title>
-			
+			<title>Cash Balance</title>			
 			<instructions>Lookup Cash Balance for the specific account.</instructions>
-			
 			<defaultSort attributeName="objectCode" />
 			
 			<lookupFields>
 				<lookupField attributeName="universityFiscalYear" required="true"/>
 				<lookupField attributeName="chartOfAccountsCode" required="true"/>
-				<lookupField attributeName="accountNumber" required="true" noLookup="false"/>
+				<lookupField attributeName="accountNumber" noLookup="false"/>
 				<lookupField attributeName="subAccountNumber"/>
 			</lookupFields>
 			

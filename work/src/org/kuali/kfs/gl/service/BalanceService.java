@@ -22,20 +22,28 @@
  */
 package org.kuali.module.gl.service;
 
+import java.util.Iterator;
+import java.util.Map;
+
 import org.kuali.module.chart.bo.Account;
 
 
 public interface BalanceService {
 
+    public boolean hasAssetLiabilityFundBalanceBalances(Account account);
 
-    public abstract boolean hasAssetLiabilityFundBalanceBalances(Account account);
+    public boolean fundBalanceWillNetToZero(Account account);
 
-    public abstract boolean fundBalanceWillNetToZero(Account account);
+    public boolean hasEncumbrancesOrBaseBudgets(Account account);
 
-    public abstract boolean hasEncumbrancesOrBaseBudgets(Account account);
+    public boolean beginningBalanceLoaded(Account account);
 
-    public abstract boolean beginningBalanceLoaded(Account account);
-
-    public abstract boolean hasAssetLiabilityOrFundBalance(Account account);
-
+    public boolean hasAssetLiabilityOrFundBalance(Account account);
+    
+    /**
+     * This method finds the summary records of balance entries according to input fields an values
+     * @param fieldValues the input fields an values
+     * @return the summary records of balance entries
+     */
+    public Iterator findBalanceSummary(Map fieldValues);
 }

@@ -52,8 +52,18 @@
 <c:set var="totalName" value="currencyFormatted${capitalSourceOrTarget}Total"/>
 <c:set var="accountingLineAttributes" value="${DataDictionary[dataDictionaryEntryName].attributes}" />
 <c:set var="hasActionsColumn" value="${empty editingMode['viewOnly']}"/>
+<c:set var="totalColumnWidth" value="${rightColumnCount + (hasActionsColumn ? 1 : 2)}" />
 
 <c:set var="displayHiddenColumns" value="false" />
+
+
+<kul:displayIfErrors keyMatch="${sourceOrTarget}AccountingLines">
+    <tr>
+        <td colspan="${totalColumnWidth}">
+            <kul:errors keyMatch="${sourceOrTarget}AccountingLines" />
+        </td>
+    </tr>    
+</kul:displayIfErrors>
 
 <fin:accountingLineImportRow rightColumnCount="${rightColumnCount}" isSource="${isSource}" editingMode="${editingMode}"/>
 
@@ -169,7 +179,7 @@
 </logic:iterate>
 
 <tr>
-    <td class="total-line" colspan="${rightColumnCount + (hasActionsColumn ? 1 : 2)}">&nbsp;</td>
+    <td class="total-line" colspan="${totalColumnWidth}">&nbsp;</td>
     <c:choose>
         <c:when test="${debitCreditAmount}" >
             <%-- from JournalVoucherForm --%>

@@ -36,6 +36,7 @@
 					<maintainableField name="financialBalanceTypeShortNm" required="true" />
 					<maintainableField name="financialOffsetGenerationIndicator" required="true" />
 					<maintainableField name="finBalanceTypeEncumIndicator" />
+					<maintainableField name="versionNumber" />
                 </maintainableItems>
 			</maintainableSection>
 		</maintainableSections>

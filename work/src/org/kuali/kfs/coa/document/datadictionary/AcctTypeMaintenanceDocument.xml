@@ -36,6 +36,7 @@
                 <maintainableItems>
 					<maintainableField name="accountTypeCode" required="true" />
 					<maintainableField name="accountTypeName" required="true" />
+               		<maintainableField name="versionNumber" />	 				
                 </maintainableItems>
 			</maintainableSection>
 		</maintainableSections>

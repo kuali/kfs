@@ -12,8 +12,8 @@
 			<inquiryFields>
 				<field attributeName="chartOfAccounts.chartOfAccountsCode" />
 				<field attributeName="account.accountNumber" />			
-				<field attributeName="objectChartOfAccounts.chartOfAccountsCode" noInquiry="true" />
-				<field attributeName="object.financialObjectCode" noInquiry="true" />			
+				<field attributeName="objectChartOfAccounts.chartOfAccountsCode"  />
+				<field attributeName="object.financialObjectCode" />			
 			</inquiryFields>
 		</inquiry>
 
@@ -36,8 +36,8 @@
 			<resultFields>
 				<field attributeName="chartOfAccounts.chartOfAccountsCode" />
 				<field attributeName="account.accountNumber" />			
-				<field attributeName="objectChartOfAccounts.chartOfAccountsCode" noInquiry="true" />
-				<field attributeName="object.financialObjectCode" noInquiry="true" />			
+				<field attributeName="objectChartOfAccounts.chartOfAccountsCode" />
+				<field attributeName="object.financialObjectCode"  />			
 			</resultFields>
 		</lookup>
 
@@ -88,6 +88,10 @@
 				                <summary>Object Chart</summary>
 								<description>Object Chart...</description>	                
 			</attributeReference>
+
+ 			<attributeReference name="versionNumber" 
+ 				sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
+ 				sourceAttributeName="versionNumber" />
 			
 		</attributes>
 	</businessObject>

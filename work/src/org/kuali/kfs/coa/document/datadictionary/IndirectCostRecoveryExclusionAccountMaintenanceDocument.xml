@@ -41,6 +41,7 @@
 					<maintainableField name="account.accountNumber" required="true" />
 					<maintainableField name="objectChartOfAccounts.chartOfAccountsCode" required="true" />
 					<maintainableField name="object.financialObjectCode" required="true" />
+					<maintainableField name="versionNumber" />
                 </maintainableItems>
 			</maintainableSection>
 		</maintainableSections>

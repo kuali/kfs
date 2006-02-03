@@ -830,7 +830,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
                 // RF (restricted funds), the restricted status code is set to 'R'.
                 if (fundGroupCode.equalsIgnoreCase(CONTRACTS_GRANTS_CD) || fundGroupCode.equalsIgnoreCase(RESTRICTED_FUND_CD)) {
                     if (!restrictedStatusCode.equalsIgnoreCase(RESTRICTED_CD_RESTRICTED)) {
-                        putGlobalError(KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_RESTRICTED_STATUS_CD_MUST_BE_R);
+                        putFieldError("accountRestrictedStatusCode", KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_RESTRICTED_STATUS_CD_MUST_BE_R);
                         success &= false;
                     }
                 }
@@ -841,7 +841,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
                     if (StringUtils.isEmpty(restrictedStatusCode) || 
                        (!restrictedStatusCode.equalsIgnoreCase(RESTRICTED_CD_RESTRICTED) && !restrictedStatusCode.equalsIgnoreCase(RESTRICTED_CD_UNRESTRICTED))) {
                        
-                        putGlobalError(KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_RESTRICTED_STATUS_CD_MUST_BE_U_OR_R);
+                        putFieldError("accountRestrictedStatusCode", KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_RESTRICTED_STATUS_CD_MUST_BE_U_OR_R);
                         success &= false;
                     }
                 }
@@ -849,7 +849,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
                 //	for all other fund groups the value is set to 'U'. R being restricted,U being unrestricted.
                 else {
                     if (!restrictedStatusCode.equalsIgnoreCase(RESTRICTED_CD_UNRESTRICTED)) {
-        				putGlobalError(KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_RESTRICTED_STATUS_CD_MUST_BE_U);
+                        putFieldError("accountRestrictedStatusCode", KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_RESTRICTED_STATUS_CD_MUST_BE_U);
         				success &= false;
                     }
                 }

@@ -45,7 +45,6 @@ public class AccountPreRules implements PreRulesCheck {
     private static final String DEFAULT_ACCOUNT_TYPE_CODE = "Account.Defaults.AccountType";
     
     private KualiConfigurationService configService;
-    private Account oldAccount;
     private Account newAccount;
     
     private static final String CONTRACTS_GRANTS_CD = "CG";
@@ -91,10 +90,6 @@ public class AccountPreRules implements PreRulesCheck {
      */
     private void setupConvenienceObjects(MaintenanceDocument document) {
         
-        //	setup oldAccount convenience objects, make sure all possible sub-objects are populated
-        oldAccount = (Account) document.getOldMaintainableObject().getBusinessObject();
-        oldAccount.refresh();
-
         //	setup newAccount convenience objects, make sure all possible sub-objects are populated
         newAccount = (Account) document.getNewMaintainableObject().getBusinessObject();
         newAccount.refresh();

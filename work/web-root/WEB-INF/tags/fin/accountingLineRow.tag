@@ -279,14 +279,23 @@
             <c:set var="revertMethod" value="revert${actionInfix}Line.line${accountingLineIndex}" />
 
             <td rowspan="${rowCount}" class="${dataCellCssClass}" nowrap><div align="center">
-                <%-- persist accountingLineDecorator --%>
-                <html:hidden name="KualiForm" property="${decorator}.revertible" />
-
-                <html:image property="methodToCall.${deleteMethod}" src="images/tinybutton-delete1.gif" alt="delete" styleClass="tinybutton"/>
-                <c:if test="${revertible}">
-                    <br>
-                    <html:image property="methodToCall.${revertMethod}" src="images/tinybutton-revert1.gif" alt="revert" styleClass="tinybutton"/>
-                </c:if>
+                <table align="center">
+                  <tr>
+                    <td>
+		                <%-- persist accountingLineDecorator --%>
+        		        <html:hidden name="KualiForm" property="${decorator}.revertible" />
+		
+        		        <html:image property="methodToCall.${deleteMethod}" src="images/tinybutton-delete1.gif" alt="delete" styleClass="tinybutton"/>
+                		<c:if test="${revertible}">
+                    		<br>
+                    		<html:image property="methodToCall.${revertMethod}" src="images/tinybutton-revert1.gif" alt="revert" styleClass="tinybutton"/>
+                		</c:if>
+                	</td>
+                	<td valign="middle">
+                	  <kul:balanceInquiry />
+                	</td>
+                  </tr>
+                </table>
                 <fin:accountingLineDataCellDetail/></div>
             </td>
         </c:when>

@@ -27,7 +27,6 @@ import java.sql.Timestamp;
 import junit.framework.AssertionFailedError;
 
 import org.kuali.Constants;
-import org.kuali.core.datadictionary.DataDictionary;
 import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
 import org.kuali.test.KualiTestBaseWithSpring;
@@ -55,6 +54,7 @@ public class TransactionalDocumentRuleUtilTest
     
     private String _balanceTypeActual;
     private String _btcAttrName;
+
     private String _annualBalancePeriodCode;
     private String _apcAttrName;
     private Integer _currentFiscalYear;
@@ -72,16 +72,6 @@ public class TransactionalDocumentRuleUtilTest
     ///////////////////////////////////////////////////////////////////////////
     // Fixture Methods Start Here                                            //
     ///////////////////////////////////////////////////////////////////////////
-    /**
-     * Helper method to get current <code>{@link DataDictionary}</code>
-     * instance
-     * 
-     * @return DataDictionary
-     */
-    protected DataDictionary getDataDictionary() {
-        return getDataDictionaryService().getDataDictionary();
-    }
-
     /**
      * Accessor method to </code>errorPropertyName</code>
      *
@@ -304,7 +294,6 @@ public class TransactionalDocumentRuleUtilTest
         
         assertEquals( new Boolean( TransactionalDocumentRuleUtil
                                    .isValidBalanceType( balanceType, 
-                                                        getDataDictionary(),
                                                         getBalanceTypeCodeAttributeName() ) ),
                       new Boolean( expected ) );
     }
@@ -351,7 +340,6 @@ public class TransactionalDocumentRuleUtilTest
                                                     boolean expected ) {
         assertEquals( new Boolean( TransactionalDocumentRuleUtil
                                    .isValidOpenAccountingPeriod( period, 
-                                                                 getDataDictionary(),
                                                                  getAccountingPeriodCodeAttributeName() ) ), 
                       new Boolean( expected ) );
     }

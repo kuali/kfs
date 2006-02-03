@@ -7,6 +7,10 @@
 <%@ attribute name="accountingLine" required="true"
               description="The name in the form of the accounting line
               being edited or displayed by this row." %>
+<%@ attribute name="baselineAccountingLine" required="false"
+              description="The name in the form of the baseline accounting line
+              from before the most recent edit of this row,
+              to put in hidden fields for comparison or reversion." %>
 <%@ attribute name="accountingLineAttributes" required="true" type="java.util.Map"
               description="The DataDictionary entry containing attributes for this row's fields." %>
 <%@ attribute name="accountingLineIndex" required="false" description="index of this accountingLine in the corresponding form list" %>
@@ -17,7 +21,7 @@
 <%@ attribute name="rowHeader" required="true"
               description="The value of the header cell of this row.
               It would be 'add:' or the number of this row's accounting line within its group." %>
- 
+
 <%@ attribute name="actionGroup" required="true" description="The name of the group of action buttons to be displayed; valid values are newLine and existingLine." %>
 <%@ attribute name="actionInfix" required="true" description="Infix used to build method names which will be invoked by the buttons in this actionGroup" %>
 
@@ -62,20 +66,27 @@
               description="boolean indicating that the object type code column should be displayed.
               As with all boolean tag attributes, if it is not provided, it defaults to false." %>
 
-<%@ attribute name="displayHiddenColumns" required="false" description="display values of hidden columns" %>
+<%@ attribute name="displayHidden" required="false" description="display values of hidden fields" %>
 <%@ attribute name="decorator" required="false" description="propertyName of the AccountingLineDecorator associated with this accountingLine" %>
 
 <c:set var="rowCount" value="${empty extraRowFields ? 1 : 2}"/>
 
 <tr>
 <kul:htmlAttributeHeaderCell literalLabel="${rowHeader}" scope="row" rowspan="${rowCount}">
+    <%-- these hidden fields are inside a table cell to keep the HTML valid --%>
     <c:forTokens var="hiddenField" items="${hiddenFields}" delims=",">
-        <c:if test="${displayHiddenColumns}">
-            <c:out value="${hiddenField}"/>=
-        </c:if>
-        <html:hidden write="${displayHiddenColumns}" property="${accountingLine}.${hiddenField}"/>
-        <c:if test="${displayHiddenColumns}">
-            ;<br/>
+        <fin:hiddenAccountingLineField
+            accountingLine="${accountingLine}"
+            hiddenField="${hiddenField}"
+            displayHidden="${displayHidden}"
+            />
+        <c:if test="${!empty baselineAccountingLine}">
+            <fin:hiddenAccountingLineField
+                accountingLine="${baselineAccountingLine}"
+                isBaseline="true"
+                hiddenField="${hiddenField}"
+                displayHidden="${displayHidden}"
+                />
         </c:if>
     </c:forTokens>
 </kul:htmlAttributeHeaderCell>
@@ -83,16 +94,19 @@
     dataCellCssClass="${dataCellCssClass}"
     cellAlign="center"
     accountingLine="${accountingLine}"
+    baselineAccountingLine="${baselineAccountingLine}"
     field="chartOfAccountsCode"
     detailFunction="loadChartInfo"
     detailField="chart.finChartOfAccountDescription"
     attributes="${accountingLineAttributes}"
     readOnly="${readOnly&&(empty editableFields['chartOfAccountsCode'])}"
+    displayHidden="${displayHidden}"
     />
 <fin:accountingLineDataCell
     dataCellCssClass="${dataCellCssClass}"
     cellAlign="center"
     accountingLine="${accountingLine}"
+    baselineAccountingLine="${baselineAccountingLine}"
     field="accountNumber"
     detailFunction="loadAccountInfo"
     detailField="account.accountName"
@@ -101,11 +115,13 @@
     briefLookupParameters="chartOfAccountsCode:chartOfAccounts.chartOfAccountsCode"
     conversionField="accountNumber"
     readOnly="${readOnly&&(empty editableFields['accountNumber'])}"
+    displayHidden="${displayHidden}"
     />
 <fin:accountingLineDataCell
     dataCellCssClass="${dataCellCssClass}"
     cellAlign="center"
     accountingLine="${accountingLine}"
+    baselineAccountingLine="${baselineAccountingLine}"
     field="subAccountNumber"
     detailFunction="loadSubAccountInfo"
     detailField="subAccount.subAccountName"
@@ -114,11 +130,13 @@
     briefLookupParameters="chartOfAccountsCode:chartOfAccounts.chartOfAccountsCode,accountNumber:account.accountNumber"
     conversionField="subAccountNumber"
     readOnly="${readOnly&&(empty editableFields['subAccountNumber'])}"
+    displayHidden="${displayHidden}"
     />
 <fin:accountingLineDataCell
     dataCellCssClass="${dataCellCssClass}"
     cellAlign="center"
     accountingLine="${accountingLine}"
+    baselineAccountingLine="${baselineAccountingLine}"
     field="financialObjectCode"
     detailFunction="loadObjectInfo"
     detailFunctionExtraParam="'${KualiForm.document.postingYear}', "
@@ -128,11 +146,13 @@
     briefLookupParameters="chartOfAccountsCode:chartOfAccounts.chartOfAccountsCode"
     conversionField="financialObjectCode"
     readOnly="${readOnly&&(empty editableFields['financialObjectCode'])}"
+    displayHidden="${displayHidden}"
     />
 <fin:accountingLineDataCell
     dataCellCssClass="${dataCellCssClass}"
     cellAlign="center"
     accountingLine="${accountingLine}"
+    baselineAccountingLine="${baselineAccountingLine}"
     field="financialSubObjectCode"
     detailFunction="loadSubObjectInfo"
     detailFunctionExtraParam="'${KualiForm.document.postingYear}', "
@@ -142,11 +162,13 @@
     briefLookupParameters="chartOfAccountsCode:chartOfAccounts.chartOfAccountsCode,accountNumber:account.accountNumber,financialObjectCode:financialObject.financialObjectCode"
     conversionField="financialSubObjectCode"
     readOnly="${readOnly&&(empty editableFields['financialSubObjectCode'])}"
+    displayHidden="${displayHidden}"
     />
 <fin:accountingLineDataCell
     dataCellCssClass="${dataCellCssClass}"
     cellAlign="center"
     accountingLine="${accountingLine}"
+    baselineAccountingLine="${baselineAccountingLine}"
     field="projectCode"
     detailFunction="loadProjectInfo"
     detailField="project.projectDescription"
@@ -155,12 +177,14 @@
     briefLookupParameters=""
     conversionField="code"
     readOnly="${readOnly&&(empty editableFields['projectCode'])}"
+    displayHidden="${displayHidden}"
     />
 <c:if test="${includeObjectTypeCode}">
     <fin:accountingLineDataCell
         dataCellCssClass="${dataCellCssClass}"
         cellAlign="center"
         accountingLine="${accountingLine}"
+        baselineAccountingLine="${baselineAccountingLine}"
         field="objectTypeCode"
         detailFunction="loadObjectTypeInfo"
         detailField="objectType.name"
@@ -169,32 +193,39 @@
         briefLookupParameters=""
         conversionField="code"
         readOnly="${readOnly}"
+        displayHidden="${displayHidden}"
         />
 </c:if>
 <fin:accountingLineDataCell
     dataCellCssClass="${dataCellCssClass}"
     cellAlign="center"
     accountingLine="${accountingLine}"
+    baselineAccountingLine="${baselineAccountingLine}"
     field="organizationReferenceId"
     attributes="${accountingLineAttributes}"
     readOnly="${readOnly}"
+    displayHidden="${displayHidden}"
     />
 <fin:accountingLineDataCell
     dataCellCssClass="${dataCellCssClass}"
     cellAlign="center"
     accountingLine="${accountingLine}"
+    baselineAccountingLine="${baselineAccountingLine}"
     field="budgetYear"
     attributes="${accountingLineAttributes}"
     readOnly="${readOnly}"
+    displayHidden="${displayHidden}"
     />
 <c:forTokens items="${optionalFields}" delims=" ," var="currentField">
     <fin:accountingLineDataCell
         dataCellCssClass="${dataCellCssClass}"
         cellAlign="right"
         accountingLine="${accountingLine}"
+        baselineAccountingLine="${baselineAccountingLine}"
         field="${currentField}"
         attributes="${accountingLineAttributes}"
         readOnly="${readOnly}"
+        displayHidden="${displayHidden}"
         />
 </c:forTokens>
 <c:choose>
@@ -203,9 +234,11 @@
             dataCellCssClass="${dataCellCssClass}"
             cellAlign="right"
             accountingLine="${accountingLine}"
+            baselineAccountingLine="${baselineAccountingLine}"
             field="amount"
             attributes="${accountingLineAttributes}"
             readOnly="${readOnly&&(empty editableFields['amount'])}"
+            displayHidden="${displayHidden}"
             />
     </c:when>
     <c:otherwise>
@@ -269,10 +302,12 @@
                 dataCellCssClass="${dataCellCssClass}"
                 cellAlign="center"
                 accountingLine="${accountingLine}"
+                baselineAccountingLine="${baselineAccountingLine}"
                 field="${extraField}"
                 attributes="${accountingLineAttributes}"
                 labelFontWeight="${extraRowLabelFontWeight}"
                 readOnly="${readOnly}"
+                displayHidden="${displayHidden}"
                 />
         </c:forTokens>
         <td class="${dataCellCssClass}"

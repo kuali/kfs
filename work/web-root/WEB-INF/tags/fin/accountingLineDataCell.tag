@@ -22,6 +22,14 @@
               Required if the cellProperty attribute is not given,
               or if detailField or boClassName is given." %>
 
+<%@ attribute name="baselineAccountingLine" required="false"
+              description="The name in the form of the baseline accounting line
+              from before the most recent edit of the row containing the field of this cell,
+              to put in a hidden field for comparison or reversion.
+              The add lines have no previously accepted version,
+              and the JournalVoucher debit and credit fields are in a helper object
+              just to display the amount from the AccountingLine, so no baseline for them." %>
+
 <%@ attribute name="cellProperty" required="false"
               description="This is the name in the form of the property
               being edited or displayed by this cell.
@@ -55,6 +63,9 @@
               attribute causes the cell to render a label for the field, span 2 columns,  and surpress
               the detail line.  This attribute is provided for cells on extra rows.  Changing the weight
               allows the labels in the 'add' row to correspond to the weight of the column headers." %>
+
+<%@ attribute name="displayHidden" required="false"
+              description="display hidden values (for debugging)." %>
 
 <c:set var="qualifiedField" value="${accountingLine}.${field}"/>
 <c:if test="${empty cellProperty}">
@@ -118,6 +129,14 @@
         <fin:accountingLineDataCellDetail
             detailField="${detailField}"
             accountingLine="${accountingLine}"
+            />
+    </c:if>
+    <c:if test="${!empty baselineAccountingLine}">
+        <fin:hiddenAccountingLineField
+            accountingLine="${baselineAccountingLine}"
+            isBaseline="true"
+            hiddenField="${field}"
+            displayHidden="${displayHidden}"
             />
     </c:if>
 </td>

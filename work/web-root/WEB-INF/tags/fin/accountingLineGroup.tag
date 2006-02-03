@@ -54,7 +54,7 @@
 <c:set var="hasActionsColumn" value="${empty editingMode['viewOnly']}"/>
 <c:set var="totalColumnWidth" value="${rightColumnCount + (hasActionsColumn ? 1 : 2)}" />
 
-<c:set var="displayHiddenColumns" value="false" />
+<c:set var="displayHidden" value="false" />
 
 
 <kul:displayIfErrors keyMatch="${sourceOrTarget}AccountingLines">
@@ -118,7 +118,7 @@
         debitCellProperty="newSourceLineDebit"
         creditCellProperty="newSourceLineCredit"
         includeObjectTypeCode="${includeObjectTypeCode}"
-        displayHiddenColumns="${displayHiddenColumns}"
+        displayHidden="${displayHidden}"
         />
 </c:if>
 <logic:iterate indexId="ctr" name="KualiForm" property="document.${sourceOrTarget}AccountingLines" id="currentLine">
@@ -143,6 +143,7 @@
 
     <fin:accountingLineRow
         accountingLine="document.${sourceOrTarget}AccountingLine[${ctr}]"
+        baselineAccountingLine="${baselineSourceOrTarget}AccountingLine[${ctr}]"
         accountingLineIndex="${ctr}"
         accountingLineAttributes="${accountingLineAttributes}"
         dataCellCssClass="datacell"
@@ -160,22 +161,9 @@
         debitCellProperty="journalLineHelper[${ctr}].debit"
         creditCellProperty="journalLineHelper[${ctr}].credit"
         includeObjectTypeCode="${includeObjectTypeCode}"
-        displayHiddenColumns="${displayHiddenColumns}"
+        displayHidden="${displayHidden}"
         decorator="${sourceOrTarget}LineDecorator[${ctr}]"
         />
-</logic:iterate>
-
-<%-- hidden accountingLines for comparison during updates --%>
-<logic:iterate indexId="ctr" name="KualiForm" property="${baselineSourceOrTarget}AccountingLines" id="currentLine">
-    <fin:hiddenAccountingLineRow
-        accountingLine="${baselineSourceOrTarget}AccountingLine[${ctr}]"
-        debitCreditAmount="${debitCreditAmount}"
-        debitCellProperty="journalLineHelper[${ctr}].debit"
-        creditCellProperty="journalLineHelper[${ctr}].credit"
-        optionalFields="${optionalFields}"
-        hiddenFields="postingYear,sequenceNumber,versionNumber,financialDocumentNumber${extraHiddenFields}"
-        includeObjectTypeCode="${includeObjectTypeCode}"
-        displayHiddenColumns="${displayHiddenColumns}" />
 </logic:iterate>
 
 <tr>

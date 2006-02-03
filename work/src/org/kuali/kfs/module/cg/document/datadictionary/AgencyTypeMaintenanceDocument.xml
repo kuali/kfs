@@ -18,7 +18,7 @@
         </authorizations>
 
 		<documentTypeName>KualiContractsAndGrantsAgencyTypeMaintenanceDocument</documentTypeName>
-		<documentTypeCode>CAT</documentTypeCode>
+		<documentTypeCode>AGTY</documentTypeCode>
 
 		<label>Contracts and Grants Agency Type Maintenance Document</label>
 		<shortLabel>KualiContractsAndGrantsAgencyTypeMaintenanceDocument</shortLabel>

@@ -18,7 +18,7 @@
         </authorizations>
 
 		<documentTypeName>KualiAccountingPeriodMaintenanceDocument</documentTypeName>
-		<documentTypeCode>AMD</documentTypeCode>
+		<documentTypeCode>APRD</documentTypeCode>
 
 		<label>Accounting Period Maintenance Document</label>
 		<shortLabel>AcctPeriodMaintDoc</shortLabel>

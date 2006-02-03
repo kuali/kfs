@@ -18,7 +18,7 @@
         </authorizations>
 
 		<documentTypeName>KualiServiceBillingControlMaintenanceDocument</documentTypeName>
-		<documentTypeCode>SBCM</documentTypeCode>
+		<documentTypeCode>SBC</documentTypeCode>
 
 		<label>Service Billing Control Maintenance Document</label>
 		<shortLabel>ServBillConMainDoc</shortLabel>

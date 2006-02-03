@@ -18,7 +18,7 @@
         </authorizations>
 
 		<documentTypeName>KualiDocumentationLocationMaintenanceDocument</documentTypeName>
-		<documentTypeCode>DLMD</documentTypeCode>
+		<documentTypeCode>DVDL</documentTypeCode>
 
 		<label>Documentation Location Maintenance Document</label>
 		<shortLabel>Doc Loc Maint Doc</shortLabel>

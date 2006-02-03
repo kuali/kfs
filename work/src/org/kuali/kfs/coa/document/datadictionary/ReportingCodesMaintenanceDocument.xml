@@ -18,7 +18,7 @@
         </authorizations>
 
 		<documentTypeName>KualiReportingCodesMaintenanceDocument</documentTypeName>
-		<documentTypeCode>RCM</documentTypeCode>
+		<documentTypeCode>RPTC</documentTypeCode>
 		<label>Reporting Codes Maintenance Document</label>
 		<shortLabel>RptCdMaintDoc</shortLabel>
 		<summary>Reporting Codes Maintenance Document</summary>

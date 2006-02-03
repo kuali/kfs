@@ -18,7 +18,7 @@
         </authorizations>
 
 		<documentTypeName>KualiBankAccountMaintenanceDocument</documentTypeName>
-		<documentTypeCode>BAM</documentTypeCode>
+		<documentTypeCode>BACC</documentTypeCode>
 
 		<label>Bank Account Maintenance Document</label>
 		<shortLabel>BankAcctMaintDoc</shortLabel>

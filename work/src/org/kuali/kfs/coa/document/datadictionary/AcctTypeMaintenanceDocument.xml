@@ -18,7 +18,7 @@
         </authorizations>
 
 		<documentTypeName>KualiAccountTypeMaintenanceDocument</documentTypeName>
-		<documentTypeCode>ATM</documentTypeCode>
+		<documentTypeCode>ATYP</documentTypeCode>
 		<label>Account Type Maintenance Document</label>
 		<shortLabel>AccountTypeMaintDoc</shortLabel>
 		<summary>Account Type Maintenance Document</summary>

@@ -19,7 +19,7 @@
         </authorizations>
 
 		<documentTypeName>KualiObjectSubTypeMaintenanceDocument</documentTypeName>
-		<documentTypeCode>OSM</documentTypeCode>
+		<documentTypeCode>OSTY</documentTypeCode>
 		<label>Object Sub Type Maintenance Document</label>
 		<shortLabel>ObjSubTypeMaintDoc</shortLabel>
 		<summary>Object Sub Type Maintenance Document</summary>

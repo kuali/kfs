@@ -18,7 +18,7 @@
         </authorizations>
 
 		<documentTypeName>KualiTaxControlCodeMaintenanceDocument</documentTypeName>
-		<documentTypeCode>TCCMD</documentTypeCode>
+		<documentTypeCode>DVCC</documentTypeCode>
 
 		<label>Tax Control Code Maintenance Document</label>
 		<shortLabel>Tax Control Maint Doc</shortLabel>

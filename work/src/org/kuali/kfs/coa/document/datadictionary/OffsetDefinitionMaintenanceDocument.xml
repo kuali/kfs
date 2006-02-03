@@ -18,7 +18,7 @@
         </authorizations>
 
 		<documentTypeName>KualiOffsetDefinitionMaintenanceDocument</documentTypeName>
-		<documentTypeCode>ODM</documentTypeCode>
+		<documentTypeCode>OFSD</documentTypeCode>
 		<label>Offset Definition Maintenance Document</label>
 		<shortLabel>OffsetDefMaintDoc</shortLabel>
 		<summary>Offset Definition Maintenance Document</summary>

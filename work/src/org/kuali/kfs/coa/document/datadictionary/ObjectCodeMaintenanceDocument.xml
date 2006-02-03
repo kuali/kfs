@@ -19,7 +19,7 @@
         </authorizations>
 
 		<documentTypeName>KualiObjectCodeMaintenanceDocument</documentTypeName>
-		<documentTypeCode>OCD</documentTypeCode>
+		<documentTypeCode>OBJT</documentTypeCode>
 
 		<label>Object Code Maintenance Document</label>
 		<shortLabel>OCMainDoc</shortLabel>

@@ -20,7 +20,7 @@
     </authorizations>
 
     <documentTypeName>KualiOrganizationMaintenanceDocument</documentTypeName>
-    <documentTypeCode>OMD</documentTypeCode>
+    <documentTypeCode>ORGN</documentTypeCode>
 
     <label>Organization Maintenance Document</label>
     <shortLabel>OrgMainDoc</shortLabel>

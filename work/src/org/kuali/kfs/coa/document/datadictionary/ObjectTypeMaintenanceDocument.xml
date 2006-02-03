@@ -19,7 +19,7 @@
         </authorizations>
 
 		<documentTypeName>KualiObjectTypeMaintenanceDocument</documentTypeName>
-		<documentTypeCode>OTM</documentTypeCode>
+		<documentTypeCode>OTYP</documentTypeCode>
 		<label>Object Type Maintenance Document</label>
 		<shortLabel>ObjTypeMaintDoc</shortLabel>
 		<summary>Object Type Maintenance Document</summary>

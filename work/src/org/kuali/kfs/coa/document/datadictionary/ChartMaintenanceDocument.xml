@@ -18,7 +18,7 @@
         </authorizations>
 
 		<documentTypeName>KualiChartMaintenanceDocument</documentTypeName>
-		<documentTypeCode>CMD</documentTypeCode>
+		<documentTypeCode>COAT</documentTypeCode>
 
 		<label>Chart Maintenance Document</label>
 		<shortLabel>ChMainDoc</shortLabel>

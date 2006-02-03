@@ -18,7 +18,7 @@
         </authorizations>
 
 		<documentTypeName>KualiBankMaintenanceDocument</documentTypeName>
-		<documentTypeCode>BKM</documentTypeCode>
+		<documentTypeCode>BANK</documentTypeCode>
 
 		<label>Bank Maintenance Document</label>
 		<shortLabel>BankMaintDoc</shortLabel>

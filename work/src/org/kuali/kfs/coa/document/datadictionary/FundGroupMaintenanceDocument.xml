@@ -18,7 +18,7 @@
         </authorizations>
 
 		<documentTypeName>KualiFundGroupMaintenanceDocument</documentTypeName>
-		<documentTypeCode>FGM</documentTypeCode>
+		<documentTypeCode>FGRP</documentTypeCode>
 
 		<label>Fund Group Maintenance Document</label>
 		<shortLabel>FundGroupMainDoc</shortLabel>

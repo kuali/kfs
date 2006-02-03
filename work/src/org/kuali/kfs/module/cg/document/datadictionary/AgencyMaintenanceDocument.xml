@@ -18,7 +18,7 @@
         </authorizations>
 
 		<documentTypeName>KualiContractsAndGrantsAgencyMaintenanceDocument</documentTypeName>
-		<documentTypeCode>AM</documentTypeCode>
+		<documentTypeCode>AGCY</documentTypeCode>
 
 		<label>Contracts And Grants Agency Maintenance Document</label>
 		<shortLabel>CGAgencyMaintDoc</shortLabel>

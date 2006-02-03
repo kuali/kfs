@@ -18,7 +18,7 @@
         </authorizations>
 
 		<documentTypeName>KualiProjectDirectorMaintenanceDocument</documentTypeName>
-		<documentTypeCode>PDMD</documentTypeCode>
+		<documentTypeCode>ADPD</documentTypeCode>
 
 		<label>Project Director Maintenance Document</label>
 		<shortLabel>PdMaintDoc</shortLabel>

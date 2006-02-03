@@ -18,7 +18,7 @@
         </authorizations>
 
 		<documentTypeName>KualiOwnershipTypeCodeMaintenanceDocument</documentTypeName>
-		<documentTypeCode>OTMD</documentTypeCode>
+		<documentTypeCode>DVOT</documentTypeCode>
 
 		<label>Ownership Type Code Maintenance Document</label>
 		<shortLabel>Ownership Type Maint Doc</shortLabel>

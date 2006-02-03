@@ -18,7 +18,7 @@
         </authorizations>
 
 		<documentTypeName>KualiOrganizationTypeMaintenanceDocument</documentTypeName>
-		<documentTypeCode>OTM</documentTypeCode>
+		<documentTypeCode>ORTY</documentTypeCode>
 		<label>Org Type Maintenance Document</label>
 		<shortLabel>OrgTypeMaintDoc</shortLabel>
 		<summary>Org Type Maintenance Document</summary>

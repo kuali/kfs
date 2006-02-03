@@ -19,7 +19,7 @@
         </authorizations>
 
 		<documentTypeName>KualiObjectConsMaintenanceDocument</documentTypeName>
-		<documentTypeCode>OCM</documentTypeCode>
+		<documentTypeCode>OBJC</documentTypeCode>
 		<label>Object Consolidation Maintenance Document</label>
 		<shortLabel>ObjConsMaintDoc</shortLabel>
 		<summary>Object Consolidation Maintenance Document</summary>

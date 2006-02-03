@@ -19,7 +19,7 @@
         </authorizations>
 
 		<documentTypeName>KualiAccountMaintenanceDocument</documentTypeName>
-		<documentTypeCode>AM</documentTypeCode>
+		<documentTypeCode>ACCT</documentTypeCode>
 
 		<label>Account Maintenance Document</label>
 		<shortLabel>AcctMaintDoc</shortLabel>

@@ -18,7 +18,7 @@
         </authorizations>
 
 		<documentTypeName>KualiTravelMileageRateMaintenanceDocument</documentTypeName>
-		<documentTypeCode>TMRMD</documentTypeCode>
+		<documentTypeCode>DVML</documentTypeCode>
 
 		<label>Travel Mileage Rate Maintenance Document</label>
 		<shortLabel>Travel Mileage Rate Maint Doc</shortLabel>

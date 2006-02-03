@@ -32,7 +32,9 @@ import org.kuali.core.document.Document;
 import org.kuali.core.document.DocumentNote;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.document.TransactionalDocumentTestBase;
+import org.kuali.core.rule.event.RouteDocumentEvent;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.test.monitor.ChangeMonitor;
 import org.kuali.test.monitor.DocumentStatusMonitor;
 import org.kuali.test.monitor.DocumentWorkflowStatusMonitor;
@@ -110,6 +112,8 @@ public class JournalVoucherDocumentTest extends TransactionalDocumentTestBase {
     public void testConvertIntoCopy() throws Exception {
         // save the original doc, wait for status change
         TransactionalDocument document = (TransactionalDocument) buildDocument();
+        //TODO: workflow-team change
+        getDocumentService().validateAndPersist(document, new RouteDocumentEvent(Constants.DOCUMENT_PROPERTY_NAME, document));
         getDocumentService()
             .route(document, "saving copy source document", null);
         // collect some preCopy data
@@ -178,6 +182,8 @@ public class JournalVoucherDocumentTest extends TransactionalDocumentTestBase {
         TransactionalDocument document = (TransactionalDocument) buildDocument();
         String documentHeaderId = document.getFinancialDocumentNumber();
         // route the original doc, wait for status change
+        //TODO: workflow-team change
+        getDocumentService().validateAndPersist(document, new RouteDocumentEvent(Constants.DOCUMENT_PROPERTY_NAME, document));
         getDocumentService()
             .route(document, "saving errorCorrection source document", null);
         //jv docs go straight to final
@@ -249,6 +255,8 @@ public class JournalVoucherDocumentTest extends TransactionalDocumentTestBase {
         // save the original doc, wait for status change
         Document document = buildDocument();
         assertFalse("R".equals(document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus()));
+        //TODO: workflow-team change
+        getDocumentService().validateAndPersist(document, new RouteDocumentEvent(Constants.DOCUMENT_PROPERTY_NAME, document));
         getDocumentService()
             .route(document, "saving copy source document", null);
         // jv docs go straight to final

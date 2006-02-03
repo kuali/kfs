@@ -70,6 +70,7 @@
     		<filter token="security-directory" value="${security.directory}/"/>
 			<filter token="logs-directory" value="${logs.directory}/"/>
 			<filter token="base-url" value="${test.environment.url}"/>
+			<filter token="workflow-url" value="${workflow.environment.url}" />			
 			<filter token="web-authentication-filter" value="${web.authentication.filter}"/>
 			<filter token="web-authentication-filtermapping" value="${web.authentication.filtermapping}"/>
 			<filter token="webservices-keystore-password" value="${webservices.keystore.password}"/>
@@ -95,8 +96,12 @@
         <delete>
 			<fileset dir="${appserver.config.dir}" includes="${ant.project.name}-*.xml"/>
 		</delete>
-	</target>
-	
+		<delete dir="${plugin.directory}" />
+		<delete failonerror="false">
+			<fileset dir="${plugin.deploy.directory}/kul" />
+		</delete>		
+	</target>	
+
 	<target name="filter" depends="init-filter-sets,filter-config">
 		<mkdir dir="${metainf.directory}"/>
 		<copy file="${build.tokenized.resources.directory}/${tomcat.context.file}" todir="${metainf.directory}" overwrite="true">
@@ -232,6 +237,68 @@
     </target>
 
 	
+
+
+	<target name="dist-plugin" depends="make-source">
+		<property name="plugin.build" value="${plugin.directory}/build" />
+		<mkdir dir="${plugin.build}" />
+		<mkdir dir="${plugin.build}/lib" />
+		<mkdir dir="${plugin.build}/classes" />
+		<mkdir dir="${plugin.build}/META-INF" />
+		<copy todir="${plugin.build}/lib">
+			<fileset dir="${lib.directory}">
+				<exclude name="workflow-client-2.1.jar" />
+				<exclude name="jta-1.0.1b.jar" />
+				<exclude name="axis.jar" />
+				<exclude name="jaxrpc.jar" />
+				<exclude name="kuali_workflow.jar" />
+				<exclude name="wss4j.jar" />
+				<exclude name="jdom.jar" />
+			</fileset>
+		</copy>
+		<copy todir="${plugin.build}/classes">
+			<fileset dir="${war.classes.directory}"/>
+		</copy>
+		<!-- overwrite the web app workflow-config.propertis this is necessary until we can figure out
+			how to get the web services running in the plugin -->
+		<copy todir="${plugin.build}/classes" overwrite="true">
+			<fileset file="${build.config.directory}/workflow/workflow-config.properties"/>
+		</copy>
+
+		<copy todir="${plugin.build}/META-INF">
+			<fileset file="${build.config.directory}/workflow/workflow.xml"/>
+		</copy>
+		<zip destfile="en-plugins.zip" basedir="${plugin.build}" />
+	</target>
+
+	<target name="dev-deploy-plugin" depends="make-source">
+
+		<copy todir="${plugin.deploy.directory}/kuali/lib">
+			<fileset dir="${lib.directory}">
+				<exclude name="workflow-client-2.1.jar" />
+				<exclude name="jta-1.0.1b.jar" />
+				<exclude name="axis.jar" />
+				<exclude name="jaxrpc.jar" />
+				<exclude name="kuali_workflow.jar" />
+				<exclude name="wss4j.jar" />
+				<exclude name="jdom.jar" />
+			</fileset>
+		</copy>
+		<copy todir="${plugin.deploy.directory}/kuali/classes">
+			<fileset dir="${war.classes.directory}" />
+		</copy>
+		<!-- overwrite the web app workflow-config.propertis this is necessary until we can figure out
+					how to get the web services running in the plugin -->
+		<copy todir="${plugin.deploy.directory}/kuali/classes" overwrite="true">
+			<fileset file="${build.config.directory}/workflow/workflow-config.properties" />
+		</copy>
+
+		<copy todir="${plugin.deploy.directory}/kuali/META-INF" overwrite="true">
+			<fileset file="${build.config.directory}/workflow/workflow.xml" />
+		</copy>
+	</target>
+
+
 	<target name="continuous-integration" depends="test-all">
 		<fail if="tests.failed" message="Tests failed"/>
 	</target>

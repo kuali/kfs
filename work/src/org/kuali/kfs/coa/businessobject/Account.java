@@ -26,14 +26,18 @@
 package org.kuali.module.chart.bo;
 
 import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.time.DateUtils;
 import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.core.bo.PostalZipCode;
 import org.kuali.core.bo.State;
 import org.kuali.core.bo.user.KualiUser;
+import org.kuali.core.service.DateTimeService;
+import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.codes.BudgetRecordingLevelCode;
 import org.kuali.module.chart.bo.codes.SufficientFundsCode;
 
@@ -123,11 +127,13 @@ public class Account extends BusinessObjectBase {
     
     private List subAccounts;
 
+    private DateTimeService dateTimeService;
+    
     /**
      * Default no-arg constructor.
      */
     public Account() {
-
+        dateTimeService = SpringServiceLocator.getDateTimeService();
     }
 
 
@@ -351,7 +357,60 @@ public class Account extends BusinessObjectBase {
         this.accountExpirationDate = accountExpirationDate;
     }
 
-
+    /**
+     * 
+     * This method determines whether the account is expired or not.
+     * 
+     * Note that if Expiration Date is the same as today, then this 
+     * will return false.  It will only return true if the account 
+     * expiration date is one day earlier than today or earlier.
+     * 
+     * Note that this logic ignores all time components when doing the 
+     * comparison.  It only does the before/after comparison based on 
+     * date values, not time-values.
+     * 
+     * @return - true or false based on the logic outlined above
+     * 
+     */
+    public boolean isExpired() {
+        return this.isExpired(dateTimeService.getCurrentCalendar());
+    }
+    
+    /**
+     * 
+     * This method determines whether the account is expired or not.
+     * 
+     * Note that if Expiration Date is the same date as testDate, then this 
+     * will return false.  It will only return true if the account 
+     * expiration date is one day earlier than testDate or earlier.
+     * 
+     * Note that this logic ignores all time components when doing the 
+     * comparison.  It only does the before/after comparison based on 
+     * date values, not time-values.
+     * 
+     * @return - true or false based on the logic outlined above
+     * 
+     */
+    public boolean isExpired(Calendar testDate) {
+        
+        //	remove any time-components from the testDate
+        testDate = DateUtils.truncate(testDate, Calendar.DAY_OF_MONTH);
+        
+        //	get a calendar reference to the Account Expiration 
+        // date, and remove any time components
+        Calendar acctDate;
+        acctDate = dateTimeService.getCalendar(getAccountExpirationDate());
+        acctDate = DateUtils.truncate(acctDate, Calendar.DAY_OF_MONTH);
+        
+        //	if the Account Expiration Date is before the testDate
+        if (acctDate.before(testDate)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+    
     /**
      * Gets the awardPeriodEndYear attribute.
      * 

@@ -24,16 +24,17 @@ package org.kuali.module.chart.rules;
 
 import java.sql.Timestamp;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.time.DateUtils;
 import org.kuali.KeyConstants;
 import org.kuali.core.bo.Building;
 import org.kuali.core.bo.user.KualiUser;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
@@ -83,7 +84,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
     private Account newAccount;
     private boolean ruleValuesSetup;
     private BalanceService balanceService;
-
+    private DateTimeService dateTimeService;
     
     public AccountRule() {
         ruleValuesSetup = false;
@@ -97,6 +98,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         this.setConfigService(SpringServiceLocator.getKualiConfigurationService());
         this.setGeneralLedgerPendingEntryService(SpringServiceLocator.getGeneralLedgerPendingEntryService());
         this.setBalanceService(SpringServiceLocator.getGeneralLedgerBalanceService());
+        this.setDateTimeService(SpringServiceLocator.getDateTimeService());
     }
     
     /**
@@ -230,7 +232,9 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         //	if the expiration date is earlier than today, account guidelines are not required.
         if (ObjectUtils.isNotNull(newAccount.getAccountGuideline())) {
             if (newAccount.getAccountExpirationDate() != null) {
-	            if (newAccount.getAccountExpirationDate().after(new Timestamp(Calendar.getInstance().getTimeInMillis()))) {
+                Timestamp today = dateTimeService.getCurrentTimestamp();
+                today.setTime(DateUtils.truncate(today, Calendar.DAY_OF_MONTH).getTime());
+	            if (newAccount.getAccountExpirationDate().after(today) || newAccount.getAccountExpirationDate().equals(today)) {
 		            success &= checkEmptyBOField("accountGuideline.accountExpenseGuidelineText", newAccount.getAccountGuideline().getAccountExpenseGuidelineText(), "Expense Guideline");
 		            success &= checkEmptyBOField("accountGuideline.accountIncomeGuidelineText", newAccount.getAccountGuideline().getAccountIncomeGuidelineText(), "Income Guideline");
 		            success &= checkEmptyBOField("accountGuideline.accountPurposeText", newAccount.getAccountGuideline().getAccountPurposeText(), "Account Purpose");
@@ -411,11 +415,22 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
             putFieldError("financialHigherEdFunctionCd", KeyConstants.ERROR_DOCUMENT_ACCMAINT_INVALID_HIGHER_ED_CD);
         }
         
-        // existence check on reports to account
+        // existence check on reportsTo/fringeBenefit account
+        // NOTE: that both FringeBenefit Account and ReportsTo Account are the same thing.
         if(StringUtils.isNotEmpty(newAccount.getReportsToAccountNumber()) && StringUtils.isNotEmpty(newAccount.getReportsToChartOfAccountsCode())) {
             if(ObjectUtils.isNull(newAccount.getReportsToAccount())) {
                 success &= false;
                 putFieldError("reportsToAccountNumber", KeyConstants.ERROR_DOCUMENT_ACCMAINT_INVALID_FRINGE_BENEFIT_ACCOUNT);
+            }
+            else {
+                Account fringeBenefitAccount = newAccount.getReportsToAccount();
+                if (fringeBenefitAccount.isAccountClosedIndicator()) {
+                    success &= false;
+                    putFieldError("reportsToAccountNumber", KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCOUNT_CLOSED_FRINGE_BENEFIT);
+                }
+                else if (fringeBenefitAccount.isExpired()) {
+                    //TODO: see KULCOA-337 - how to handle "asking the user if they want to use the Continuation Account"
+                }
             }
         }
         
@@ -425,6 +440,17 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
                 success &= false;
                 putFieldError("continuationAccountNumber", KeyConstants.ERROR_DOCUMENT_ACCMAINT_INVALID_CONTINUATION_ACCOUNT);
             }
+            else {
+                Account continuationAccount = newAccount.getContinuationAccount();
+                if (continuationAccount.isAccountClosedIndicator()) {
+                    success &= false;
+                    putFieldError("continuationAccountNumber", KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCOUNT_CLOSED_CONTINUATION);
+                }
+                else if (continuationAccount.isExpired()) {
+                    success &= false;
+                    putFieldError("continuationAccountNumber", KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCOUNT_EXPIRED_CONTINUATION);
+                }
+            }
         }
         
         //existence check on endowment account
@@ -432,6 +458,16 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
             if(ObjectUtils.isNull(newAccount.getEndowmentIncomeAccount())) {
                 success &= false;
                 putFieldError("endowmentIncomeAccountNumber", KeyConstants.ERROR_DOCUMENT_ACCMAINT_INVALID_ENDOWMENT_ACCOUNT);
+            }
+            else {
+                Account endowmentAccount = newAccount.getEndowmentIncomeAccount();
+                if (endowmentAccount.isAccountClosedIndicator()) {
+                    success &= false;
+                    putFieldError("endowmentIncomeAccountNumber", KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCOUNT_CLOSED_ENDOWMENT);
+                }
+                else if (endowmentAccount.isExpired()) {
+                    //TODO: see KULCOA-337 - how to handle "asking the user if they want to use the Continuation Account"
+                }
             }
         }
         
@@ -441,6 +477,16 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
                 success &= false;
                 putFieldError("contractControlAccountNumber", KeyConstants.ERROR_DOCUMENT_ACCMAINT_INVALID_CONTRACT_CONTROL_ACCOUNT);
             }
+            else {
+                Account contractControlAccount = newAccount.getContractControlAccount();
+                if (contractControlAccount.isAccountClosedIndicator()) {
+                    success &= false;
+                    putFieldError("contractControlAccountNumber", KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCOUNT_CLOSED_CONTRACT_CONTROL);
+                }
+                else if (contractControlAccount.isExpired()) {
+                    //TODO: see KULCOA-337 - how to handle "asking the user if they want to use the Continuation Account"
+                }
+            }
         }
         
         //existence check on income stream
@@ -449,6 +495,16 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
                 success &= false;
                 putFieldError("incomeStreamAccountNumber", KeyConstants.ERROR_DOCUMENT_ACCMAINT_INVALID_INCOME_STREAM_ACCOUNT);
             }
+            else {
+                Account incomeStreamAccount = newAccount.getIncomeStreamAccount();
+                if (incomeStreamAccount.isAccountClosedIndicator()) {
+                    success &= false;
+                    putFieldError("incomeStreamAccountNumber", KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCOUNT_CLOSED_INCOME_STREAM);
+                }
+                else if (incomeStreamAccount.isExpired()) {
+                    //TODO: see KULCOA-337 - how to handle "asking the user if they want to use the Continuation Account"
+                }
+            }
         }
         
         //existence check on indirect cost recovery
@@ -456,6 +512,16 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
             if(ObjectUtils.isNull(newAccount.getIndirectCostRecoveryAcct())) {
                 success &= false;
                 putFieldError("indirectCostRecoveryAcctNbr", KeyConstants.ERROR_DOCUMENT_ACCMAINT_INVALID_ICR_ACCOUNT);
+            }
+            else {
+                Account icrAccount = newAccount.getIndirectCostRecoveryAcct();
+                if (icrAccount.isAccountClosedIndicator()) {
+                    success &= false;
+                    putFieldError("indirectCostRecoveryAcctNbr", KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCOUNT_CLOSED_ICR);
+                }
+                else if (icrAccount.isExpired()) {
+                    //TODO: see KULCOA-337 - how to handle "asking the user if they want to use the Continuation Account"
+                }
             }
         }
         
@@ -565,24 +631,16 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
             return true;
         }
         
-        //	this business is to get two Calendar objects, one the current date (with no 
-        // time component) and one a Calendar version of AccountExpirationDate (with no 
-        // time component).
-        Timestamp closeTimestamp = newAccount.getAccountExpirationDate();
-        Calendar todaysDate = Calendar.getInstance();
-        Calendar closeDate = new GregorianCalendar();
+        //	get the two dates, and remove any time-components from the dates
+        Timestamp expirationDate = newAccount.getAccountExpirationDate();
+        Timestamp todaysDate = dateTimeService.getCurrentTimestamp();
+        expirationDate.setTime(DateUtils.truncate(expirationDate, Calendar.DAY_OF_MONTH).getTime());
+        todaysDate.setTime(DateUtils.truncate(todaysDate, Calendar.DAY_OF_MONTH).getTime());
         
-        if (ObjectUtils.isNotNull(closeTimestamp)) {
-            //	convert java.sql.Timestamp to java.util.Calendar, and make sure there is no time-component.
-            // there may be better ways to do this, but there appears to be a bit of an impedence mismatch 
-            // between java.sql.Timestamp (of which a bunch of stuff is deprecated) and java.util.Calendar.
-            // if there's a better way to do this, and still avoid contamination by time-components to the 
-            // date comparisons, feel free to fix it up
-            closeDate.setTimeInMillis(closeTimestamp.getTime() + (closeTimestamp.getNanos() / 1000000));
-            closeDate.set(closeDate.get(Calendar.YEAR), closeDate.get(Calendar.MONTH), closeDate.get(Calendar.DAY_OF_MONTH), 0, 0, 0);
-            
+        if (ObjectUtils.isNotNull(expirationDate)) {
+
             //when closing an account, the account expiration date must be the current date or earlier
-            if (closeDate.before(todaysDate) || closeDate.equals(todaysDate)) {
+            if (expirationDate.before(todaysDate) || expirationDate.equals(todaysDate)) {
                 putGlobalError(KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_CANNOT_BE_CLOSED_EXP_DATE_INVALID);
                 success &= false;
             }
@@ -667,7 +725,8 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
 
         Timestamp oldExpDate = oldAccount.getAccountExpirationDate();
         Timestamp newExpDate = newAccount.getAccountExpirationDate();
-        Timestamp today = new Timestamp(Calendar.getInstance().getTimeInMillis());
+        Timestamp today = dateTimeService.getCurrentTimestamp();
+        today.setTime(DateUtils.truncate(today, Calendar.DAY_OF_MONTH).getTime()); // remove any time components
         
         //	When updating an account expiration date, the date must be today or later 
         // (except for C&G accounts).  Only run this test if this maint doc 
@@ -827,7 +886,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         //	sub_fund_grp_cd on the account must be set to a valid sub_fund_grp_cd that exists in the ca_sub_fund_grp_t table
         //	assuming here that since we did the PersistenceService.refreshNonKeyFields() at beginning of rule that if the 
         // SubFundGroup object would be populated.
-        if (StringUtils.isEmpty(newAccount.getSubFundGroupCode()) || ObjectUtils.isNotNull(newAccount.getSubFundGroup())) {
+        if (StringUtils.isEmpty(newAccount.getSubFundGroupCode()) || ObjectUtils.isNull(newAccount.getSubFundGroup())) {
             putFieldError("subFundGroupCode", KeyConstants.ERROR_DOCUMENT_ACCMAINT_INVALID_SUBFUNDGROUP);
             success &= false;
         } //no active indicator
@@ -894,6 +953,14 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
      */
     public void setConfigService(KualiConfigurationService configService) {
         this.configService = configService;
+    }
+    
+    /**
+     * Sets the dateTimeService attribute value.
+     * @param dateTimeService The dateTimeService to set.
+     */
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
     }
     
 }

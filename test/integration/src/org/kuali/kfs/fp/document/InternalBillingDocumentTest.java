@@ -113,6 +113,23 @@ public class InternalBillingDocumentTest extends TransactionalDocumentTestBase {
     ///////////////////////////////////////////////////////////////////////////
     // Start of Test Methods                                                 //
     ///////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Overrides the parent to do nothing since the IB doesn't set the posting period in 
+     * the record it stores.  This test doesn't apply to this type of document.
+     */
+    public final void testConvertIntoCopy_invalidYear() throws Exception {
+        //do nothing to pass
+    }
+    
+    /**
+     * Overrides the parent to do nothing since the IB doesn't set the posting period in 
+     * the record it stores.  This test doesn't apply to this type of document.
+     */
+    public final void testConvertIntoErrorCorrection_invalidYear() throws Exception {
+        //do nothing to pass
+    }
+    
     /**
      * Tests authoriation by trying to approve a
      * <code>{@link Document}</code>

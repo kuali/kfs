@@ -87,6 +87,23 @@ public class DistributionOfIncomeAndExpenseDocumentTest extends TransactionalDoc
     public String getUserName() {
         return (String) getFixtureEntryFromCollection(COLLECTION_NAME, USER_NAME).createObject();
     }
+    
+    // START TEST METHODS
+    /**
+     * Overrides the parent to do nothing since the DofI&E doesn't set the posting period in 
+     * the record it stores.  This test doesn't apply to this type of document.
+     */
+    public final void testConvertIntoCopy_invalidYear() throws Exception {
+        //do nothing to pass
+    }
+    
+    /**
+     * Overrides the parent to do nothing since the DofI&E doesn't set the posting period in 
+     * the record it stores.  This test doesn't apply to this type of document.
+     */
+    public final void testConvertIntoErrorCorrection_invalidYear() throws Exception {
+        //do nothing to pass
+    }
 
     /*
      * THIS IS OLD TEST CODE THAT SHOULD BE CONSIDERED AND POSSIBLY IMPLEMENTED WHEN WE GET TO THIS DOCUMENT 

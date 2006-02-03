@@ -27,6 +27,7 @@ import java.sql.Timestamp;
 import junit.framework.AssertionFailedError;
 
 import org.kuali.Constants;
+import org.kuali.core.datadictionary.DataDictionary;
 import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
 import org.kuali.test.KualiTestBaseWithSpring;
@@ -53,8 +54,11 @@ public class TransactionalDocumentRuleUtilTest
     private static long ONE_DAY_MILLIS = 86400000;
     
     private String _balanceTypeActual;
+    private String _btcAttrName;
     private String _annualBalancePeriodCode;
+    private String _apcAttrName;
     private Integer _currentFiscalYear;
+    
 
     public void runTest() throws Throwable {
         try {
@@ -68,6 +72,16 @@ public class TransactionalDocumentRuleUtilTest
     ///////////////////////////////////////////////////////////////////////////
     // Fixture Methods Start Here                                            //
     ///////////////////////////////////////////////////////////////////////////
+    /**
+     * Helper method to get current <code>{@link DataDictionary}</code>
+     * instance
+     * 
+     * @return DataDictionary
+     */
+    protected DataDictionary getDataDictionary() {
+        return getDataDictionaryService().getDataDictionary();
+    }
+
     /**
      * Accessor method to </code>errorPropertyName</code>
      *
@@ -156,6 +170,46 @@ public class TransactionalDocumentRuleUtilTest
      */
     public void setAnnualBalancePeriodCode( String periodCode ) {
         _annualBalancePeriodCode = periodCode;
+    }
+    
+    /**
+     * Fixture method for getting the property name of a 
+     * <code>{@link BalanceTyp}</code> for displaying errors.
+     *
+     * @return String
+     */
+    public String getBalanceTypeCodeAttributeName() {
+        return _btcAttrName;
+    }
+
+    /**
+     * Fixture method for getting the property name of a 
+     * <code>{@link BalanceTyp}</code> for displaying errors.
+     *
+     * @param n 
+     */
+    public void setBalanceTypeCodeAttributeName( String n ) {
+        _btcAttrName = n;
+    }
+
+    /**
+     * Fixture method for getting the property name of an 
+     * <code>{@link AccountingPeriod}</code> for displaying errors.
+     *
+     * @return String
+     */
+    public String getAccountingPeriodCodeAttributeName() {
+        return _apcAttrName;
+    }
+
+    /**
+     * Fixture method for getting the property name of an 
+     * <code>{@link AccountingPeriod}</code> for displaying errors.
+     *
+     * @param n 
+     */
+    public void setAccountingPeriodCodeAttributeName( String n ) {
+        _apcAttrName = n;
     }
     
     /**
@@ -250,7 +304,8 @@ public class TransactionalDocumentRuleUtilTest
         
         assertEquals( new Boolean( TransactionalDocumentRuleUtil
                                    .isValidBalanceType( balanceType, 
-                                                        getErrorPropertyName() ) ),
+                                                        getDataDictionary(),
+                                                        getBalanceTypeCodeAttributeName() ) ),
                       new Boolean( expected ) );
     }
 
@@ -296,7 +351,8 @@ public class TransactionalDocumentRuleUtilTest
                                                     boolean expected ) {
         assertEquals( new Boolean( TransactionalDocumentRuleUtil
                                    .isValidOpenAccountingPeriod( period, 
-                                                                 getErrorPropertyName() ) ), 
+                                                                 getDataDictionary(),
+                                                                 getAccountingPeriodCodeAttributeName() ) ), 
                       new Boolean( expected ) );
     }
 

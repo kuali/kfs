@@ -41,6 +41,7 @@
 					<maintainableField name="stateCode" />
 					<maintainableField name="zipCode" />
 					<maintainableField name="countryCode" />
+					<maintainableField name="versionNumber" />
 				</maintainableItems>
 	        </maintainableSection>
 	    </maintainableSections>

@@ -41,6 +41,7 @@
 					<maintainableField name="inStateIndicator" />
 					<maintainableField name="indirectAmount" />
 					<maintainableField name="reportsToAgency.agencyNumber" />
+					<maintainableField name="versionNumber" />
 				</maintainableItems>
 	        </maintainableSection>
 	    </maintainableSections>

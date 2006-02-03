@@ -39,7 +39,8 @@
 	            	<maintainableField name="universityFiscalPeriodName" required="true" />
 	            	<maintainableField name="universityFiscalPeriodStatusCode" required="true" />	     	 
 	            	<maintainableField name="budgetRollover" required="true" />	     	 
-	            	<maintainableField name="universityFiscalPeriodEndDate" required="true" />	     	 
+	            	<maintainableField name="universityFiscalPeriodEndDate" required="true" />
+	            	<maintainableField name="versionNumber" />	     	 
 	            </maintainableItems>         	                   
 	        </maintainableSection>
 	    </maintainableSections>

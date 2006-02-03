@@ -179,6 +179,10 @@
         		<summary>Country Code</summary>
         		<description>Subcontractor Country Code</description>
         	</attribute>
+ 
+ 			<attributeReference name="versionNumber" 
+ 				sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
+ 				sourceAttributeName="versionNumber" />
 
 		</attributes>
 	</businessObject>

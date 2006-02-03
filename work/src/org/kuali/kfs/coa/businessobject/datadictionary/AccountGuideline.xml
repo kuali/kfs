@@ -44,6 +44,10 @@
 				<description>A textual description of the Account Purpose.</description>
 			</attributeReference>
 			
+ 			<attributeReference name="versionNumber" 
+ 				sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
+ 				sourceAttributeName="versionNumber" />
+			
 		</attributes>
 	</businessObject>
 </dictionaryEntry>

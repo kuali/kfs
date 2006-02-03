@@ -37,6 +37,7 @@
 		            <maintainableField name="name" required="true" />
 		            <maintainableField name="financialReportingSortCode" required="true" />
 		            <maintainableField name="active" required="false" />
+		            <maintainableField name="versionNumber" />
                 </maintainableItems>
 	        </maintainableSection>
 	    </maintainableSections>

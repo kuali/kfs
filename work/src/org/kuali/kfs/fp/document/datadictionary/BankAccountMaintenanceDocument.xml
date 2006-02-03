@@ -40,7 +40,8 @@
 	           		<maintainableField name="organization.chartOfAccounts.chartOfAccountsCode" />
 	            	<maintainableField name="organization.organizationCode" />	     
 	            	<maintainableField name="universityAccount.chartOfAccounts.chartOfAccountsCode" />
-	            	<maintainableField name="universityAccount.accountNumber" />	         	                   
+	            	<maintainableField name="universityAccount.accountNumber" />	
+	            	<maintainableField name="versionNumber" />         	                   
 	         	</maintainableItems>
 	        </maintainableSection>
 	    </maintainableSections>

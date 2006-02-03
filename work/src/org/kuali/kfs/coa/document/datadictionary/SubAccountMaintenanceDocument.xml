@@ -42,7 +42,8 @@
 		            <maintainableField name="finReportOrganization.organizationCode" />	     
 		            <maintainableField name="subAccountActiveIndicator" />
 		            <maintainableField name="subAccountNumber" required="true" />
-		            <maintainableField name="subAccountName" />	            	
+		            <maintainableField name="subAccountName" />	 
+		            <maintainableField name="versionNumber" />           	
                 </maintainableItems>
 	        </maintainableSection>
 	    </maintainableSections>

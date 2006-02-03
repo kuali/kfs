@@ -91,6 +91,9 @@
 				<description>The type of balance this offsetting definition is relevant for.</description>
 			</attribute>
 			
+ 			<attributeReference name="versionNumber" 
+ 				sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
+ 				sourceAttributeName="versionNumber" />
 
 		</attributes>
 	</businessObject>

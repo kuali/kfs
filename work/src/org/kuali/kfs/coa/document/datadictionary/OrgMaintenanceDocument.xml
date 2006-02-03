@@ -63,6 +63,7 @@
           <maintainableField
             name="organizationManagerUniversal.personUniversalIdentifier" />
           <maintainableField name="organizationStreetAddress" />
+          <maintainableField name="versionNumber" />
         </maintainableItems>
       </maintainableSection>
     </maintainableSections>

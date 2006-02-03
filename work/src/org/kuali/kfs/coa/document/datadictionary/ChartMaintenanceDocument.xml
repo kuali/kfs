@@ -49,6 +49,7 @@
 					<maintainableField name="finPreEncumbranceObject.financialObjectCode" />
 					<maintainableField name="icrIncomeFinancialObject.financialObjectCode" />
 					<maintainableField name="icrExpenseFinancialObject.financialObjectCode" />
+					<maintainableField name="versionNumber" />
                 </maintainableItems>
 	        </maintainableSection>
 	    </maintainableSections>

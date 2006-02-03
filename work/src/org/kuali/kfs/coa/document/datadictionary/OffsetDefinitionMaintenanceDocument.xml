@@ -42,6 +42,7 @@
 					<maintainableField name="financialDocumentTypeCode" required="true" />
 					<maintainableField name="financialBalanceTypeCode" required="true" />
 					<maintainableField name="financialObject.financialObjectCode" required="true" />
+					<maintainableField name="versionNumber" />
 
                 </maintainableItems>
 			</maintainableSection>

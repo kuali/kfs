@@ -38,6 +38,7 @@
 					<maintainableField name="finObjectTypeIcrSelectionIndicator" required="true" />
 					<maintainableField name="fundBalanceIndicator" required="true" />
 					<maintainableField name="financialReportingSortCode" required="true"  />
+					<maintainableField name="versionNumber" />
                 </maintainableItems>
 			</maintainableSection>
 		</maintainableSections>

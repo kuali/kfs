@@ -61,6 +61,10 @@
     		<equals arg1="${is.local.build}" arg2="true"/>
 		</condition>
 		<property name="context.docbase" value=""/>
+		<condition property="standard.out.appender" value='StdOut, '>
+    		<equals arg1="${is.local.build}" arg2="true"/>
+		</condition>
+		<property name="standard.out.appender" value=""/>
 		<filterset id="general.filterset">
         	<filter token="application" value="${ant.project.name}"/>
 			<filter token="institution" value="${institution}"/>
@@ -74,9 +78,10 @@
 			<filter token="web-authentication-filter" value="${web.authentication.filter}"/>
 			<filter token="web-authentication-filtermapping" value="${web.authentication.filtermapping}"/>
 			<filter token="webservices-keystore-password" value="${webservices.keystore.password}"/>
-			<filter token="context-docbase" value="${context.docbase}"/>
 			<filter token="use-p6spy" value="${use.p6spy}"/>
-        </filterset>
+			<filter token="context-docbase" value="${context.docbase}"/>
+			<filter token="standard-out-appender" value="${standard.out.appender}"/>
+		</filterset>
 		<filterset id="security.filterset">
 	    	<filter token="datasource-url" value="${datasource.url}"/>
 	    	<filter token="datasource-username" value="${datasource.username}"/>

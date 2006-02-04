@@ -60,8 +60,8 @@ public static final String MESSAGE="JUNIT test entry. If this exist after the te
         }
 
         public static class Data2 {
-            public final static String AUTHENTICATION_USER_ID = "bmcgough";
-            public final static String AUTHENTICATION_USER_ID_THAT_IS_SUPERVISOR = "sgeorge";
+            public final static String AUTHENTICATION_USER_ID = "KHUNTLEY";
+            public final static String AUTHENTICATION_USER_ID_THAT_IS_SUPERVISOR = "HEAGLE";
             public static final String KUALI_JV_USER_WORKGROUP = "KUALI_ROLE_JOURNAL_VOUCHER_DOCUMENT_USER";
             public static final String WORKFLOW_ADMIN_WORKGROUP = "WorkflowAdmin";
             public static final String KUALI_DV_ADMIN_WORKGROUP = "KUALI_ROLE_DV_ADMIN";
@@ -116,8 +116,8 @@ public static final String MESSAGE="JUNIT test entry. If this exist after the te
             public static final String REF_NUMBER = "123456789";
             public static final String REF_ORIGIN_CODE = "AB";
             public static final String REF_TYPE_CODE = "ABCD";
-            public static final String USER_ID1 = "PORTERJD";
-            public static final String USER_ID2 = "BMCGOUGH";
+            public static final String USER_ID1 = "VPUTMAN";
+            public static final String USER_ID2 = "KHUNTLEY";
         }
         public static class Data5{
             public static final String BUDGET_AGGREGATION_CODE1="O";

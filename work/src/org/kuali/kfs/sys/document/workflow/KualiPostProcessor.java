@@ -7,15 +7,9 @@
 package org.kuali.workflow.postprocessor;
 
 import java.rmi.RemoteException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-
-import javax.naming.Context;
 
 import org.apache.log4j.Logger;
 import org.kuali.Constants;
-import org.kuali.KualiSpringServiceLocator;
 import org.kuali.core.UserSession;
 import org.kuali.core.bo.DocumentStatusChange;
 import org.kuali.core.util.GlobalVariables;

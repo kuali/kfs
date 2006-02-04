@@ -56,14 +56,18 @@ import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.gl.service.OriginEntryService;
 import org.kuali.module.gl.service.PosterService;
 import org.kuali.module.gl.util.Summary;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.BeanFactoryAware;
 
 /**
  * @author jsissom
- * @version $Id: PosterServiceImpl.java,v 1.12 2006-02-02 15:40:31 jsissom Exp $
+ * @version $Id: PosterServiceImpl.java,v 1.13 2006-02-04 02:21:52 jsissom Exp $
  */
-public class PosterServiceImpl implements PosterService {
+public class PosterServiceImpl implements PosterService,BeanFactoryAware {
   private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PosterServiceImpl.class);
 
+  private BeanFactory beanFactory;
   private List transactionPosters;
   private VerifyTransaction verifyTransaction;
   private PosterReport posterReportService;
@@ -76,7 +80,6 @@ public class PosterServiceImpl implements PosterService {
   private AccountingPeriodService accountingPeriodService;
   private ExpenditureTransactionDao expenditureTransactionDao;
   private IcrAutomatedEntryDao icrAutomatedEntryDao;
-
   // private IndirectCostRecoveryThresholdDao indirectCostRecoveryThresholdDao;
 
   /**
@@ -390,7 +393,7 @@ public class PosterServiceImpl implements PosterService {
             }
           }
 
-          generateTransaction(et,icrEntry,generatedTransactionAmount,runDate,group);
+          generateTransaction(et,icrEntry,generatedTransactionAmount,runDate,group,reportErrors);
           reportOriginEntryGenerated = reportOriginEntryGenerated + 2;
         }
       }
@@ -409,7 +412,15 @@ public class PosterServiceImpl implements PosterService {
     icrGenerationReportService.generateReport(reportErrors,summary,runDate,0);
   }
 
-  private void generateTransaction(ExpenditureTransaction et,IcrAutomatedEntry icrEntry,KualiDecimal generatedTransactionAmount,Date runDate,OriginEntryGroup group) {
+  /**
+   * 
+   * @param et
+   * @param icrEntry
+   * @param generatedTransactionAmount
+   * @param runDate
+   * @param group
+   */
+  private void generateTransaction(ExpenditureTransaction et,IcrAutomatedEntry icrEntry,KualiDecimal generatedTransactionAmount,Date runDate,OriginEntryGroup group,Map reportErrors) {
     OriginEntry e = new OriginEntry();
 
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-DD");
@@ -484,7 +495,9 @@ public class PosterServiceImpl implements PosterService {
     e.setFinancialObjectCode(icrEntry.getOffsetBalanceSheetObjectCodeNumber());
 
     if ( icrEntry.getOffsetBalanceSheetObjectCode() == null ) {
-      // TODO Warning because offset object code not valid
+      List warnings = new ArrayList();
+      warnings.add("Offset Object Code is invalid");
+      reportErrors.put(e,warnings);
     } else {
       e.setFinancialObjectTypeCode(icrEntry.getOffsetBalanceSheetObjectCode().getFinancialObjectTypeCode());
     }
@@ -616,6 +629,22 @@ public class PosterServiceImpl implements PosterService {
 
   public void setIcrAutomatedEntryDao(IcrAutomatedEntryDao iaed) {
     icrAutomatedEntryDao = iaed;
+  }
+
+  /* (non-Javadoc)
+   * @see org.springframework.beans.factory.BeanFactoryAware#setBeanFactory(org.springframework.beans.factory.BeanFactory)
+   */
+  public void setBeanFactory(BeanFactory bf) throws BeansException {
+    beanFactory = bf;
+  }
+
+  public void init() {
+    LOG.debug("init() started");
+
+    // If we are in test mode
+    if ( beanFactory.containsBean("testDateTimeService") ) {
+      dateTimeService = (DateTimeService)beanFactory.getBean("testDateTimeService");
+    }
   }
 
 //  public void setIndirectCostRecoveryThresholdDao(IndirectCostRecoveryThresholdDao icrtd) {

@@ -471,7 +471,6 @@ public class TransferOfFundsDocumentRuleTest
      * @param GeneralLedgerPendingEntry pending entry fixture
      */
     public final void setExpectedOffsetTargetPendingEntry( GeneralLedgerPendingEntry e ) {
-        LOG().info( "Setting expectedOffsetTargetGlEntry: " + e );
         _expectedOffTargetGlEntry = e;
     }
 

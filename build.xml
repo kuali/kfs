@@ -337,7 +337,8 @@
 			  lib directories
 	you can override the default log4j settings for your local deployments by copying 
 		build/configurationFiles/externalConfigDirectory/settings/${log4j.settings.file} to
-		${user.home}/${log4j.settings.file} and modifying as desired
+		${user.home}/${log4j.settings.file} and modifying as desired.  you will also need to run the dist-local target for this
+		change to take effect.
 		</echo>
 		<echo message="."/>
 		<echo>dist-local target

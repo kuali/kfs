@@ -126,7 +126,10 @@
 	
 	<target name="filter-config" if="is.local.build" depends="init-project-properties">
 		<copy file="${build.config.directory}/${oracle.library.file}" todir="${appserver.lib.dir}" overwrite="true"/>
-		<copy todir="${settings.directory}" overwrite="true">
+		<copy file="${user.home}/${log4j.settings.file}" todir="${settings.directory}" failonerror="false">
+			<filterset refid="general.filterset"/>
+		</copy>
+		<copy todir="${settings.directory}">
 			<fileset dir="${build.settings.directory}"/>
 			<filterset refid="general.filterset"/>
 		</copy>
@@ -332,6 +335,9 @@
 			  build process for ${institution}
 			- modify the other files involved in the build, the .project file, the .classpath file, or the jars in the
 			  lib directories
+	you can override the default log4j settings for your local deployments by copying 
+		build/configurationFiles/externalConfigDirectory/settings/${log4j.settings.file} to
+		${user.home}/${log4j.settings.file} and modifying as desired
 		</echo>
 		<echo message="."/>
 		<echo>dist-local target

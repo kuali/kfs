@@ -336,7 +336,7 @@ public class JournalVoucherDocumentRule extends TransactionalDocumentRuleBase {
     private boolean isExternalEncumbranceSpecificBusinessRulesValid(AccountingLine accountingLine) {
         // make sure that the line contains a proper balance type like it should
         BalanceTyp balanceType = accountingLine.getBalanceTyp();
-        if (!TransactionalDocumentRuleUtil.isValidBalanceType(balanceType, Constants.DOCUMENT_ERRORS)) {
+        if (!TransactionalDocumentRuleUtil.isValidBalanceType(balanceType, Constants.GENERIC_CODE_PROPERTY_NAME)) {
             return false;
         }
         else if (BALANCE_TYPE_CODE.EXTERNAL_ENCUMBRANCE.equals(balanceType.getCode())) {

@@ -12,7 +12,7 @@
 
 			<inquiryFields>
 				<field attributeName="chartOfAccounts.chartOfAccountsCode" />			
-				<field attributeName="account.accountNumber" />
+				<field attributeName="accountNumber" />
 				<field attributeName="financialDocumentTypeCode" />			
 				<field attributeName="accountDelegateSystemId" />
 				<field attributeName="finDocApprovalFromThisAmt" />
@@ -30,18 +30,18 @@
 
 			<instructions>Lookup an Account Delegate</instructions>
 
-			<defaultSort attributeName="account.accountNumber" sortAscending="true" />
+			<defaultSort attributeName="accountNumber" sortAscending="true" />
 
 			<lookupFields>
-				<lookupField attributeName="chartOfAccounts.chartOfAccountsCode" required="false" />
-				<lookupField attributeName="account.accountNumber" required="false" />
+				<lookupField attributeName="chartOfAccountsCode" required="false" />
+				<lookupField attributeName="accountNumber" required="false" />
 				<lookupField attributeName="financialDocumentTypeCode" required="false" />
 				<lookupField attributeName="accountDelegateSystemId" required="false" />
 			</lookupFields>
 
 			<resultFields>
-				<field attributeName="chartOfAccounts.chartOfAccountsCode" />			
-				<field attributeName="account.accountNumber" />
+				<field attributeName="chartOfAccountsCode" />			
+				<field attributeName="accountNumber" />
 				<field attributeName="financialDocumentTypeCode" />			
 				<field attributeName="accountDelegateSystemId" />
 				<field attributeName="finDocApprovalFromThisAmt" />
@@ -53,11 +53,11 @@
 		</lookup>
 
 		<attributes>
-			<attributeReference name="chartOfAccounts.chartOfAccountsCode" 
+			<attributeReference name="chartOfAccountsCode" 
 								sourceClassName="org.kuali.module.chart.bo.Chart" 
 								sourceAttributeName="chartOfAccountsCode" />
 								
-			<attributeReference name="account.accountNumber" 
+			<attributeReference name="accountNumber" 
 								sourceClassName="org.kuali.module.chart.bo.Account" 
 								sourceAttributeName="accountNumber" />
 								
@@ -77,13 +77,13 @@
 			</attribute>
 			
 			<attributeReference name="accountDelegateSystemId" 
-								sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
-								sourceAttributeName="genericSystemId">
-				<label>Account Delegate System ID</label>
-				<shortLabel>SysID</shortLabel>
-				<summary>Account Delegate System ID</summary>
+								sourceClassName="org.kuali.core.bo.user.KualiUser" 
+								sourceAttributeName="personUniversalIdentifier">
+				<label>Account Delegate Universal ID</label>
+				<shortLabel>UnvlID</shortLabel>
+				<summary>Account Delegate Universal ID</summary>
 				<description>
-					The SystemID (ie, unique identifier) of the Account Delegate.
+					The Universal ID (ie, unique identifier) of the Account Delegate.
 				</description>
 			</attributeReference>
 			

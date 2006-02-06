@@ -23,18 +23,21 @@
 package org.kuali.module.financial.rules;
 
 import java.util.Date;
+import java.util.Iterator;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
 import org.kuali.core.bo.AccountingLine;
 import org.kuali.core.bo.BusinessObject;
+import org.kuali.core.bo.SourceAccountingLine;
 import org.kuali.core.bo.user.AuthenticationUserId;
 import org.kuali.core.bo.user.KualiGroup;
 import org.kuali.core.bo.user.KualiUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.exceptions.UserNotFoundException;
+import org.kuali.core.rules.RulesUtils;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
@@ -44,6 +47,7 @@ import org.kuali.module.financial.bo.DisbursementVoucherPayeeDetail;
 import org.kuali.module.financial.bo.NonResidentAlienTaxPercent;
 import org.kuali.module.financial.bo.Payee;
 import org.kuali.module.financial.document.DisbursementVoucherDocument;
+import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 
 
 /**
@@ -65,6 +69,23 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
             AccountingLine accountingLine) {
         boolean allow = true;
 
+        DisbursementVoucherDocument dvDocument = (DisbursementVoucherDocument) transactionalDocument;
+        ErrorMap errors = GlobalVariables.getErrorMap();
+
+        /* payment reason must be selected before an accounting line can be entered */
+        if (StringUtils.isBlank(dvDocument.getDvPayeeDetail().getDisbVchrPaymentReasonCode())) {
+            errors.putWithoutFullErrorPath("document.dvPayeeDetail.disbVchrPaymentReasonCode",
+                    KeyConstants.ERROR_DV_ADD_LINE_MISSING_PAYMENT_REASON);
+            return false;
+        }
+
+        /* payee must be selected before an accounting line can be entered */
+        if (StringUtils.isBlank(dvDocument.getDvPayeeDetail().getDisbVchrPayeeIdNumber())) {
+            errors.putWithoutFullErrorPath("document.dvPayeeDetail.disbVchrPayeeIdNumber",
+                    KeyConstants.ERROR_DV_ADD_LINE_MISSING_PAYEE);
+            return false;
+        }
+
         allow = validateObjectCode(transactionalDocument, accountingLine);
         allow = allow & validateAccountNumber(transactionalDocument, accountingLine);
 
@@ -79,6 +100,8 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
     public boolean processCustomRouteDocumentBusinessRules(TransactionalDocument document) {
         DisbursementVoucherDocument dvDocument = (DisbursementVoucherDocument) document;
         DisbursementVoucherPayeeDetail payeeDetail = dvDocument.getDvPayeeDetail();
+
+        GlobalVariables.getErrorMap().addToErrorPath("document");
 
         validateDocumentFields(dvDocument);
         validatePaymentReason(dvDocument);
@@ -104,22 +127,55 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
             validateNonResidentAlienInformation(dvDocument);
         }
 
-        // travel
+        // non-employee travel
+        if (RulesUtils.makeSet(TRAVEL_NON_EMPL_PAYMENT_REASON_CODES).contains(
+                dvDocument.getDvPayeeDetail().getDisbVchrPaymentReasonCode())) {
+            validateNonEmployeeTravel(dvDocument);
+        }
 
+        // pre-paid travel
+        if (PAYMENT_REASON_PREPAID_TRAVEL.equals(dvDocument.getDvPayeeDetail().getDisbVchrPaymentReasonCode())) {
+            validatePrePaidTravel(dvDocument);
+        }
 
         validateDocumentAmounts(dvDocument);
 
         validateDocumentationLocation(dvDocument);
 
+        GlobalVariables.getErrorMap().removeFromErrorPath("document");
+
         return GlobalVariables.getErrorMap().isEmpty();
     }
+
+    /**
+     * Override to change the doc type based on payment method. This is needed to pick up different offset definitions.
+     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#customizeExplicitGeneralLedgerPendingEntry(org.kuali.core.document.TransactionalDocument,
+     *      org.kuali.core.bo.AccountingLine, org.kuali.module.gl.bo.GeneralLedgerPendingEntry)
+     */
+    protected void customizeExplicitGeneralLedgerPendingEntry(TransactionalDocument transactionalDocument,
+            AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry) {
+        DisbursementVoucherDocument dvDocument = (DisbursementVoucherDocument) transactionalDocument;
+
+//        if (PAYMENT_METHOD_CHECK.equals(dvDocument.getDisbVchrPaymentMethodCode())) {
+//            explicitEntry.setFinancialDocumentTypeCode(DOCUMENT_TYPE_CHECKACH);
+//        }
+//        else {
+//            explicitEntry.setFinancialDocumentTypeCode(DOCUMENT_TYPE_WTFD);
+//        }
+    }
+
+
+    private void processGenerateWireChargeGeneralLedgerPendingEntries() {
+
+    }
+
 
     /**
      * Validates conditional required fields. Note fields that are always required are validated by the dictionary framework.
      * 
      * @param document
      */
-    public void validateDocumentFields(DisbursementVoucherDocument document) {
+    private void validateDocumentFields(DisbursementVoucherDocument document) {
         ErrorMap errors = GlobalVariables.getErrorMap();
 
         // validate document required fields, and payee fields, and formatting
@@ -310,7 +366,61 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
      * @param document
      */
     private void validateNonEmployeeTravel(DisbursementVoucherDocument document) {
+        ErrorMap errors = GlobalVariables.getErrorMap();
 
+        errors.addToErrorPath("dvNonEmployeeTravel");
+        SpringServiceLocator.getDictionaryValidationService().validateBusinessObjectsRecursively(document.getDvNonEmployeeTravel(),1);
+        if (!errors.isEmpty()) {
+            return;
+        }
+
+        /* travel to state required if country is us */
+        if (COUNTRY_UNITED_STATES.equals(document.getDvNonEmployeeTravel().getDisbVchrTravelToCountryName())
+                && StringUtils.isBlank(document.getDvNonEmployeeTravel().getDisbVchrTravelToStateCode())) {
+            errors.put("disbVchrTravelToStateCode", KeyConstants.ERROR_DV_TRAVEL_TO_STATE);
+        }
+
+        /* must have per diem change message if actual amount is different from calculated amount */
+        if (document.getDvNonEmployeeTravel().getDisbVchrPerdiemCalculatedAmt().compareTo(
+                document.getDvNonEmployeeTravel().getDisbVchrPerdiemActualAmount()) != 0) {
+            errors.put("dvPerdiemChangeReasonText", KeyConstants.ERROR_DV_PERDIEM_CHANGE_REQUIRED);
+        }
+
+        /* For payment reason N, total on nonemployee travel must equal Check Total */
+        /* if tax has been take out, need to add back in the tax amount for the check */
+        KualiDecimal paidAmount = document.getDisbVchrCheckTotalAmount();
+        paidAmount.add(SpringServiceLocator.getDisbursementVoucherTaxService().getNonResidentAlienTaxAmount(document));
+        if (PAYMENT_REASON_TRAVEL_NONEMPL.equals(document.getDvPayeeDetail().getDisbVchrPaymentReasonCode())) {
+            if (paidAmount.compareTo(document.getDvNonEmployeeTravel().getTotalTravelAmount()) != 0) {
+                errors.putWithoutFullErrorPath("DVNonEmployeeTravelErrors", KeyConstants.ERROR_DV_TRAVEL_CHECK_TOTAL);
+            }
+        }
+
+        /* For payment reason X, total of nonemployee travel must equal total of accounting lines using travel object codes */
+        if (PAYMENT_REASON_TRAVEL_HONORARIUM.equals(document.getDvPayeeDetail().getDisbVchrPaymentReasonCode())) {
+            if (getTravelAccountingLineTotal(document).compareTo(document.getDvNonEmployeeTravel().getTotalTravelAmount()) != 0) {
+                errors.putWithoutFullErrorPath("DVNonEmployeeTravelErrors", KeyConstants.ERROR_DV_TRAVEL_ACCOUNTING_TOTAL,
+                        TRAVEL_OBJECT_SUB_TYPE_CODE);
+            }
+        }
+
+        /* make sure per diem fields have not changed since the per diem amount calculation */
+        KualiDecimal calculatedPerDiem = SpringServiceLocator.getDisbursementVoucherTravelService().calculatePerDiemAmount(
+                document.getDvNonEmployeeTravel().getDvPerdiemStartDttmStamp(),
+                document.getDvNonEmployeeTravel().getDvPerdiemEndDttmStamp(),
+                document.getDvNonEmployeeTravel().getDisbVchrPerdiemRate());
+        if (calculatedPerDiem.compareTo(document.getDvNonEmployeeTravel().getDisbVchrPerdiemCalculatedAmt()) != 0) {
+            errors.putWithoutFullErrorPath("DVNonEmployeeTravelErrors", KeyConstants.ERROR_DV_PER_DIEM_CALC_CHANGE);
+        }
+
+        /* make sure mileage fields have not changed since the mileage amount calculation */
+        KualiDecimal calculatedMileageAmount = SpringServiceLocator.getDisbursementVoucherTravelService().calculateMileageAmount(
+                document.getDvNonEmployeeTravel().getDvPersonalCarMileageAmount());
+        if (calculatedMileageAmount.compareTo(document.getDvNonEmployeeTravel().getDisbVchrMileageCalculatedAmt()) != 0) {
+            errors.putWithoutFullErrorPath("DVNonEmployeeTravelErrors", KeyConstants.ERROR_DV_MILEAGE_CALC_CHANGE);
+        }
+
+        errors.removeFromErrorPath("dvNonEmployeeTravel");
     }
 
     /**
@@ -319,7 +429,30 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
      * @param document
      */
     private void validatePrePaidTravel(DisbursementVoucherDocument document) {
+        ErrorMap errors = GlobalVariables.getErrorMap();
 
+        errors.addToErrorPath("dvPreConferenceDetail");
+        SpringServiceLocator.getDictionaryValidationService().validateBusinessObjectsRecursively(
+                document.getDvPreConferenceDetail(),1);
+        if (!errors.isEmpty()) {
+            return;
+        }
+
+        /* check conference end date is not before conference start date */
+        if (document.getDvPreConferenceDetail().getDisbVchrConferenceEndDate().compareTo(
+                document.getDvPreConferenceDetail().getDisbVchrConferenceStartDate()) < 0) {
+            errors.put("disbVchrConferenceEndDate", KeyConstants.ERROR_DV_CONF_END_DATE);
+        }
+
+        /* total on prepaid travel must equal Check Total */
+        /* if tax has been take out, need to add back in the tax amount for the check */
+        KualiDecimal paidAmount = document.getDisbVchrCheckTotalAmount();
+        paidAmount.add(SpringServiceLocator.getDisbursementVoucherTaxService().getNonResidentAlienTaxAmount(document));
+        if (paidAmount.compareTo(document.getDvPreConferenceDetail().getDisbVchrConferenceTotalAmt()) != 0) {
+            errors.putWithoutFullErrorPath("DVPrePaidTravelErrors", KeyConstants.ERROR_DV_PREPAID_CHECK_TOTAL);
+        }
+
+        errors.removeFromErrorPath("dvPreConferenceDetail");
     }
 
     /**
@@ -454,9 +587,6 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
             errors.put(Constants.ACCOUNTING_LINE_ERRORS, KeyConstants.ERROR_CHECK_ACCOUNTING_TOTAL);
         }
 
-        /* For payment reason N, total on nonemployee travel must equal Check Total */
-        /* For payment reason X, total of nonemployee travel must equal total of accounting lines using travel object codes */
-        /* For payment reason P, total on prepaid travel must equal Check Total */
         /* Document total cannot change during account manager edits */
     }
 
@@ -573,17 +703,9 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
                 parameterGroupName, parameterName);
         if (rule != null) {
             if (rule.failsRule(restrictedFieldValue)) {
-                String errorMessage;
-                if ("A".equals(rule.getRuleOperator())) {
-                    errorMessage = KeyConstants.ERROR_APPLICATION_PARAMETERS_ALLOWED_RESTRICTION;
-                }
-                else {
-                    errorMessage = KeyConstants.ERROR_APPLICATION_PARAMETERS_DENIED_RESTRICTION;
-                }
-
                 GlobalVariables.getErrorMap().put(
                         errorField,
-                        errorMessage,
+                        rule.getErrorMessageKey(),
                         new String[] { errorParameter, restrictedFieldValue, parameterName, parameterGroupName,
                                 rule.getParameterText() });
                 rulePassed = false;
@@ -620,6 +742,20 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
 
     private boolean isUserInTaxGroup() {
         return GlobalVariables.getUserSession().getKualiUser().isMember(new KualiGroup(KualiGroup.KUALI_DV_TAX_GROUP));
+    }
+
+    private KualiDecimal getTravelAccountingLineTotal(DisbursementVoucherDocument dvDocument) {
+        KualiDecimal travelAccountingTotal = new KualiDecimal(0);
+
+        // sum up lines using travel object sub type code
+        for (Iterator iter = dvDocument.getSourceAccountingLines().iterator(); iter.hasNext();) {
+            SourceAccountingLine line = (SourceAccountingLine) iter.next();
+            if (TRAVEL_OBJECT_SUB_TYPE_CODE.equals(line.getObjectCode().getFinancialObjectSubTypeCode())) {
+                travelAccountingTotal.add(line.getAmount());
+            }
+        }
+
+        return travelAccountingTotal;
     }
 
     /**

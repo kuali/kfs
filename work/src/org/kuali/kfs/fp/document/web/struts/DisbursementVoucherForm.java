@@ -22,12 +22,21 @@
  */
 package org.kuali.module.financial.web.struts.form;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.format.SimpleBooleanFormatter;
 import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
 import org.kuali.module.financial.bo.DisbursementVoucherNonEmployeeExpense;
 import org.kuali.module.financial.bo.DisbursementVoucherPreConferenceRegistrant;
+import org.kuali.module.financial.bo.TravelPerDiem;
 import org.kuali.module.financial.document.DisbursementVoucherDocument;
 import org.kuali.module.financial.rules.DisbursementVoucherDocumentRule;
+import org.kuali.module.financial.rules.DisbursementVoucherRuleConstants;
 
 /**
  * This class is the action form for the Disbursement Voucher.
@@ -36,7 +45,6 @@ import org.kuali.module.financial.rules.DisbursementVoucherDocumentRule;
  */
 public class DisbursementVoucherForm extends KualiTransactionalDocumentFormBase {
     private static final long serialVersionUID = 1L;
-
 
     private DisbursementVoucherNonEmployeeExpense newNonEmployeeExpenseLine;
     private DisbursementVoucherNonEmployeeExpense newPrePaidNonEmployeeExpenseLine;
@@ -105,8 +113,8 @@ public class DisbursementVoucherForm extends KualiTransactionalDocumentFormBase 
     public void setNewPrePaidNonEmployeeExpenseLine(DisbursementVoucherNonEmployeeExpense newPrePaidNonEmployeeExpenseLine) {
         this.newPrePaidNonEmployeeExpenseLine = newPrePaidNonEmployeeExpenseLine;
     }
-
-    /**
+    
+   /**
      * 
      * determines if the DV document is in a state that allows printing of the cover sheet
      * 
@@ -116,5 +124,26 @@ public class DisbursementVoucherForm extends KualiTransactionalDocumentFormBase 
         DisbursementVoucherDocumentRule documentRule = new DisbursementVoucherDocumentRule();
 
         return documentRule.isCoverSheetPrintable(getDocument());
+    }
+
+    /**
+     * Returns list of available travel expense type codes for rendering per diem link page.
+     * @return
+     */
+    public List getTravelPerDiemCategoryCodes() {
+        Map criteria = new HashMap();
+        criteria.put("fiscalYear", SpringServiceLocator.getDateTimeService().getCurrentFiscalYear());
+
+        return (List) SpringServiceLocator.getBusinessObjectService().findMatching(TravelPerDiem.class, criteria);
+    }
+
+    /**
+     * Returns the per diem link message from the parameters table.
+     * @return
+     */
+    public String getTravelPerDiemLinkPageMessage() {
+        return SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(
+                DisbursementVoucherRuleConstants.DV_DOCUMENT_PARAMETERS_GROUP_NM,
+                DisbursementVoucherRuleConstants.TRAVEL_PER_DIEM_MESSAGE_PARM_NM);
     }
 }

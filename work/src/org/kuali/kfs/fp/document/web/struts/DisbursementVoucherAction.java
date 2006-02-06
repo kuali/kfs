@@ -41,6 +41,7 @@ import org.kuali.KeyConstants;
 import org.kuali.core.bo.user.KualiGroup;
 import org.kuali.core.bo.user.UniversityUser;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.module.financial.bo.DisbursementVoucherNonEmployeeExpense;
@@ -140,7 +141,7 @@ public class DisbursementVoucherAction extends KualiTransactionalDocumentActionB
         return mapping.findForward(Constants.MAPPING_BASIC);
 
     }
-    
+
     /**
      * Calculates the travel per diem amount.
      * @param mapping
@@ -153,11 +154,27 @@ public class DisbursementVoucherAction extends KualiTransactionalDocumentActionB
     public ActionForward calculateTravelPerDiem(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         DisbursementVoucherForm dvForm = (DisbursementVoucherForm) form;
+        DisbursementVoucherDocument dvDocument = (DisbursementVoucherDocument) dvForm.getDocument();
+
+        try {
+            // call service to calculate per diem
+            KualiDecimal perDiemAmount = SpringServiceLocator.getDisbursementVoucherTravelService().calculatePerDiemAmount(
+                    dvDocument.getDvNonEmployeeTravel().getDvPerdiemStartDttmStamp(),
+                    dvDocument.getDvNonEmployeeTravel().getDvPerdiemEndDttmStamp(),
+                    dvDocument.getDvNonEmployeeTravel().getDisbVchrPerdiemRate());
+
+            dvDocument.getDvNonEmployeeTravel().setDisbVchrPerdiemCalculatedAmt(perDiemAmount);
+            dvDocument.getDvNonEmployeeTravel().setDisbVchrPerdiemActualAmount(perDiemAmount);
+        }
+        catch (RuntimeException e) {
+            LOG.error("Error in calculating travel per diem: " + e.getMessage());
+            GlobalVariables.getErrorMap().put("DVNonEmployeeTravelErrors", KeyConstants.ERROR_CUSTOM, e.getMessage());
+        }
 
         return mapping.findForward(Constants.MAPPING_BASIC);
 
     }
-    
+
     /**
      * Calculates the travel mileage amount.
      * @param mapping
@@ -170,11 +187,25 @@ public class DisbursementVoucherAction extends KualiTransactionalDocumentActionB
     public ActionForward calculateTravelMileageAmount(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         DisbursementVoucherForm dvForm = (DisbursementVoucherForm) form;
+        DisbursementVoucherDocument dvDocument = (DisbursementVoucherDocument) dvForm.getDocument();
+
+        try {
+            // call service to calculate mileage amount
+            KualiDecimal mileageAmount = SpringServiceLocator.getDisbursementVoucherTravelService().calculateMileageAmount(
+                    dvDocument.getDvNonEmployeeTravel().getDvPersonalCarMileageAmount());
+            
+            dvDocument.getDvNonEmployeeTravel().setDisbVchrMileageCalculatedAmt(mileageAmount);
+            dvDocument.getDvNonEmployeeTravel().setDisbVchrPersonalCarAmount(mileageAmount);
+        }
+        catch (RuntimeException e) {
+            LOG.error("Error in calculating mileage amount: " + e.getMessage());
+            GlobalVariables.getErrorMap().put("DVNonEmployeeTravelErrors", KeyConstants.ERROR_CUSTOM, e.getMessage());
+        }
 
         return mapping.findForward(Constants.MAPPING_BASIC);
 
     }
-    
+
     /**
      * Adds a new employee travel expense line.
      * @param mapping
@@ -188,15 +219,35 @@ public class DisbursementVoucherAction extends KualiTransactionalDocumentActionB
             HttpServletResponse response) throws Exception {
         DisbursementVoucherForm dvForm = (DisbursementVoucherForm) form;
         DisbursementVoucherDocument dvDocument = (DisbursementVoucherDocument) dvForm.getDocument();
-        
+
         DisbursementVoucherNonEmployeeExpense newExpenseLine = dvForm.getNewNonEmployeeExpenseLine();
         dvDocument.getDvNonEmployeeTravel().addDvNonEmployeeExpenseLine(newExpenseLine);
         dvForm.setNewNonEmployeeExpenseLine(new DisbursementVoucherNonEmployeeExpense());
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
 
+        return mapping.findForward(Constants.MAPPING_BASIC);
     };
-    
+
+    /**
+     * Adds a new employee pre paid travel expense line.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward addPrePaidNonEmployeeExpenseLine(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        DisbursementVoucherForm dvForm = (DisbursementVoucherForm) form;
+        DisbursementVoucherDocument dvDocument = (DisbursementVoucherDocument) dvForm.getDocument();
+
+        DisbursementVoucherNonEmployeeExpense newExpenseLine = dvForm.getNewPrePaidNonEmployeeExpenseLine();
+        dvDocument.getDvNonEmployeeTravel().addDvPrePaidEmployeeExpenseLine(newExpenseLine);
+        dvForm.setNewPrePaidNonEmployeeExpenseLine(new DisbursementVoucherNonEmployeeExpense());
+
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    };
+
     /**
      * Deletes a non employee travel expense line.
      * @param mapping
@@ -210,14 +261,33 @@ public class DisbursementVoucherAction extends KualiTransactionalDocumentActionB
             HttpServletResponse response) throws Exception {
         DisbursementVoucherForm dvForm = (DisbursementVoucherForm) form;
         DisbursementVoucherDocument dvDocument = (DisbursementVoucherDocument) dvForm.getDocument();
-        
+
         int deleteIndex = getLineToDelete(request);
         dvDocument.getDvNonEmployeeTravel().getDvNonEmployeeExpenses().remove(deleteIndex);
 
         return mapping.findForward(Constants.MAPPING_BASIC);
-
     }
     
+    /**
+     * Deletes a pre paid travel expense line.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward deletePrePaidEmployeeExpenseLine(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        DisbursementVoucherForm dvForm = (DisbursementVoucherForm) form;
+        DisbursementVoucherDocument dvDocument = (DisbursementVoucherDocument) dvForm.getDocument();
+
+        int deleteIndex = getLineToDelete(request);
+        dvDocument.getDvNonEmployeeTravel().getDvPrePaidEmployeeExpenses().remove(deleteIndex);
+
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
     /**
      * Adds a new pre conference registrant line.
      * @param mapping
@@ -231,7 +301,7 @@ public class DisbursementVoucherAction extends KualiTransactionalDocumentActionB
             HttpServletResponse response) throws Exception {
         DisbursementVoucherForm dvForm = (DisbursementVoucherForm) form;
         DisbursementVoucherDocument dvDocument = (DisbursementVoucherDocument) dvForm.getDocument();
-        
+
         DisbursementVoucherPreConferenceRegistrant newRegistrantLine = dvForm.getNewPreConferenceRegistrantLine();
         dvDocument.addDvPrePaidRegistrantLine(newRegistrantLine);
         dvForm.setNewPreConferenceRegistrantLine(new DisbursementVoucherPreConferenceRegistrant());
@@ -239,7 +309,7 @@ public class DisbursementVoucherAction extends KualiTransactionalDocumentActionB
         return mapping.findForward(Constants.MAPPING_BASIC);
 
     }
-    
+
     /**
      * Deletes a pre conference registrant line.
      * @param mapping
@@ -253,18 +323,17 @@ public class DisbursementVoucherAction extends KualiTransactionalDocumentActionB
             HttpServletResponse response) throws Exception {
         DisbursementVoucherForm dvForm = (DisbursementVoucherForm) form;
         DisbursementVoucherDocument dvDocument = (DisbursementVoucherDocument) dvForm.getDocument();
-        
+
         int deleteIndex = getLineToDelete(request);
         dvDocument.getDvPreConferenceDetail().getDvPreConferenceRegistrants().remove(deleteIndex);
 
         return mapping.findForward(Constants.MAPPING_BASIC);
 
-    }   
+    }
 
 
     /**
      * Calls service to generate tax accounting lines and updates nra tax line string in action form.
-     * 
      * @param mapping
      * @param form
      * @param request
@@ -300,7 +369,6 @@ public class DisbursementVoucherAction extends KualiTransactionalDocumentActionB
 
     /**
      * Calls service to clear tax accounting lines and updates nra tax line string in action form.
-     * 
      * @param mapping
      * @param form
      * @param request
@@ -337,7 +405,6 @@ public class DisbursementVoucherAction extends KualiTransactionalDocumentActionB
 
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
-
 
     /**
      * Hook into performLookup to switch the payee lookup based on the payee type selected.

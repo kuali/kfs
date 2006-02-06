@@ -12,6 +12,7 @@
             <ref bean="maintenanceDocumentService" />
         </property>
     </bean>
+
     <bean id="disbursementVoucherCoverSheetService" class="org.kuali.module.financial.service.impl.DisbursementVoucherCoverSheetServiceImpl">
         <property name="kualiConfigurationService">
             <ref bean="kualiConfigurationService" />
@@ -23,4 +24,6 @@
             <ref bean="persistenceService" />
         </property>
     </bean>
+    
+    <bean id="disbursementVoucherTravelService" class="org.kuali.module.financial.service.impl.DisbursementVoucherTravelServiceImpl"/>
 </beans>

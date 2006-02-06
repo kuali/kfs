@@ -97,7 +97,7 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
      * 
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.TransactionalDocument)
      */
-    public boolean processCustomRouteDocumentBusinessRules(TransactionalDocument document) {
+    protected boolean processCustomRouteDocumentBusinessRules(Document document) {
         DisbursementVoucherDocument dvDocument = (DisbursementVoucherDocument) document;
         DisbursementVoucherPayeeDetail payeeDetail = dvDocument.getDvPayeeDetail();
 

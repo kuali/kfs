@@ -22,6 +22,7 @@
  */
 package org.kuali.module.financial.service.impl;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -72,7 +73,7 @@ public class DisbursementVoucherTravelServiceImpl implements DisbursementVoucher
         startCompare.set(Calendar.MINUTE, 0);
 
         Calendar endCompare = Calendar.getInstance();
-        endCompare.setTime(startDateTime);
+        endCompare.setTime(endDateTime);
         endCompare.set(Calendar.HOUR_OF_DAY, 0);
         endCompare.set(Calendar.MINUTE, 0);
 
@@ -87,7 +88,7 @@ public class DisbursementVoucherTravelServiceImpl implements DisbursementVoucher
                 perDiemAmount = perDiemRate.divide(new KualiDecimal(2));
 
                 // add in another 1/4 of a day if end time past 7:00
-                if (timeInPerDiemPeriod(startCalendar, 19, 0, 23, 59)) {
+                if (timeInPerDiemPeriod(endCalendar, 19, 0, 23, 59)) {
                     perDiemAmount = perDiemAmount.add(perDiemRate.divide(new KualiDecimal(4)));
                 }
             }
@@ -134,7 +135,8 @@ public class DisbursementVoucherTravelServiceImpl implements DisbursementVoucher
         int hour = cal.get(Calendar.HOUR_OF_DAY);
         int minute = cal.get(Calendar.MINUTE);
 
-        return (hour >= periodStartHour && minute >= periodStartMinute && hour <= periodEndHour && hour <= periodEndMinute);
+        return ( ((hour > periodStartHour) || (hour == periodStartHour && minute >= periodStartMinute)) &&
+                 ((hour < periodEndHour) || (hour == periodEndHour && minute <= periodEndMinute)));
     }
 
     /**
@@ -170,8 +172,8 @@ public class DisbursementVoucherTravelServiceImpl implements DisbursementVoucher
             TravelMileageRate rate = (TravelMileageRate) iter.next();
             int mileageLimitAmount = rate.getMileageLimitAmount().intValue();
             if (mileageRemaining > mileageLimitAmount) {
-                mileageAmount = mileageAmount.add(new KualiDecimal(mileageRemaining - mileageLimitAmount)
-                        .multiply(new KualiDecimal(rate.getMileageRate())));
+                BigDecimal numMiles = new BigDecimal(mileageRemaining-mileageLimitAmount);
+                mileageAmount = mileageAmount.add(new KualiDecimal(numMiles.multiply(rate.getMileageRate())));
                 mileageRemaining = mileageLimitAmount;
             }
 

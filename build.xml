@@ -61,6 +61,10 @@
     		<equals arg1="${is.local.build}" arg2="true"/>
 		</condition>
 		<property name="context.docbase" value=""/>
+		<condition property="workflow.url" value="${local.environment.url}">
+    		<equals arg1="${is.local.workflow.build}" arg2="true"/>
+		</condition>
+		<property name="workflow.url" value="${test.environment.url}"/>
 		<condition property="standard.out.appender" value='StdOut, '>
     		<equals arg1="${is.local.build}" arg2="true"/>
 		</condition>
@@ -74,7 +78,7 @@
     		<filter token="security-directory" value="${security.directory}/"/>
 			<filter token="logs-directory" value="${logs.directory}/"/>
 			<filter token="base-url" value="${test.environment.url}"/>
-			<filter token="workflow-url" value="${workflow.environment.url}" />			
+			<filter token="workflow-url" value="${workflow.url}" />			
 			<filter token="web-authentication-filter" value="${web.authentication.filter}"/>
 			<filter token="web-authentication-filtermapping" value="${web.authentication.filtermapping}"/>
 			<filter token="webservices-keystore-password" value="${webservices.keystore.password}"/>

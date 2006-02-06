@@ -32,12 +32,14 @@ import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.bo.user.AuthenticationUserId;
 import org.kuali.core.bo.user.KualiGroup;
 import org.kuali.core.bo.user.KualiUser;
+import org.kuali.core.document.Document;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.module.financial.bo.DisbursementVoucherPayeeDetail;
 import org.kuali.module.financial.bo.NonResidentAlienTaxPercent;
 import org.kuali.module.financial.bo.Payee;
@@ -220,6 +222,7 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
 
     /**
      * Validates fields for an alien payment.
+     * 
      * @param document
      */
     public void validateNonResidentAlienInformation(DisbursementVoucherDocument document) {
@@ -303,6 +306,7 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
 
     /**
      * Validates non employee travel information.
+     * 
      * @param document
      */
     private void validateNonEmployeeTravel(DisbursementVoucherDocument document) {
@@ -311,6 +315,7 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
 
     /**
      * Validates pre paid travel information.
+     * 
      * @param document
      */
     private void validatePrePaidTravel(DisbursementVoucherDocument document) {
@@ -319,6 +324,7 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
 
     /**
      * Validates the selected documentation location field.
+     * 
      * @param document
      */
     private void validateDocumentationLocation(DisbursementVoucherDocument document) {
@@ -343,6 +349,7 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
 
     /**
      * Validates the payment reason is valid with the other document attributes.
+     * 
      * @param document
      */
     public void validatePaymentReason(DisbursementVoucherDocument document) {
@@ -366,6 +373,7 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
 
     /**
      * Validate attributes of the payee for the document.
+     * 
      * @param document
      */
     public void validatePayeeInformation(DisbursementVoucherDocument document) {
@@ -412,6 +420,7 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
 
     /**
      * Validate attributes of an employee payee for the document.
+     * 
      * @param document
      */
     public void validateEmployeeInformation(DisbursementVoucherDocument document) {
@@ -548,6 +557,7 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
     /**
      * Checks the given field value against a restriction defined in the application parameters table. If the rule fails, an error
      * is added to the global error map.
+     * 
      * @param parameterGroupName - Security Group name
      * @param parameterName - Parameter Name
      * @param restrictedFieldValue - Value to check
@@ -574,7 +584,7 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
                 GlobalVariables.getErrorMap().put(
                         errorField,
                         errorMessage,
-                        new String[] { errorParameter, restrictedFieldValue, parameterName, parameterGroupName, 
+                        new String[] { errorParameter, restrictedFieldValue, parameterName, parameterGroupName,
                                 rule.getParameterText() });
                 rulePassed = false;
             }
@@ -614,6 +624,7 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
 
     /**
      * Returns the initiator of the document as a KualiUser
+     * 
      * @param document
      * @return
      */
@@ -629,5 +640,21 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
         }
 
         return initUser;
+    }
+
+    /**
+     * 
+     * checks the status of the document to see if the coversheet is printable
+     * 
+     * @param document
+     * @return
+     */
+
+    public boolean isCoverSheetPrintable(Document document) {
+        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+
+        return !(workflowDocument.stateIsCanceled() || workflowDocument.stateIsInitiated() || workflowDocument.stateIsDisapproved()
+                || workflowDocument.stateIsException() || workflowDocument.stateIsDisapproved() || workflowDocument.stateIsSaved());
+
     }
 }

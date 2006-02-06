@@ -22,17 +22,21 @@
  */
 package org.kuali.module.financial.web.struts.form;
 
+import org.kuali.core.web.format.SimpleBooleanFormatter;
 import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
 import org.kuali.module.financial.bo.DisbursementVoucherNonEmployeeExpense;
 import org.kuali.module.financial.bo.DisbursementVoucherPreConferenceRegistrant;
 import org.kuali.module.financial.document.DisbursementVoucherDocument;
+import org.kuali.module.financial.rules.DisbursementVoucherDocumentRule;
 
 /**
  * This class is the action form for the Disbursement Voucher.
+ * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class DisbursementVoucherForm extends KualiTransactionalDocumentFormBase {
     private static final long serialVersionUID = 1L;
+
 
     private DisbursementVoucherNonEmployeeExpense newNonEmployeeExpenseLine;
     private DisbursementVoucherNonEmployeeExpense newPrePaidNonEmployeeExpenseLine;
@@ -42,6 +46,7 @@ public class DisbursementVoucherForm extends KualiTransactionalDocumentFormBase 
 
     public DisbursementVoucherForm() {
         super();
+        setFormatterType("canPrintCoverSheet", SimpleBooleanFormatter.class);
         setDocument(new DisbursementVoucherDocument());
     }
 
@@ -100,5 +105,16 @@ public class DisbursementVoucherForm extends KualiTransactionalDocumentFormBase 
     public void setNewPrePaidNonEmployeeExpenseLine(DisbursementVoucherNonEmployeeExpense newPrePaidNonEmployeeExpenseLine) {
         this.newPrePaidNonEmployeeExpenseLine = newPrePaidNonEmployeeExpenseLine;
     }
-}
 
+    /**
+     * 
+     * determines if the DV document is in a state that allows printing of the cover sheet
+     * 
+     * @return
+     */
+    public boolean getCanPrintCoverSheet() {
+        DisbursementVoucherDocumentRule documentRule = new DisbursementVoucherDocumentRule();
+
+        return documentRule.isCoverSheetPrintable(getDocument());
+    }
+}

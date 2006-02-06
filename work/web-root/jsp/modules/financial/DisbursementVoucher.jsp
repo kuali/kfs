@@ -2,8 +2,10 @@
 <%@ taglib tagdir="/WEB-INF/tags/dv" prefix="dv" %>
 
 <kul:documentPage showDocumentInfo="true" htmlFormAction="financialDisbursementVoucher" documentTypeName="KualiDisbursementVoucherDocument"  renderMultipart="true" showTabButtons="true">
-
-        <dv:dvMessages/>
+		
+		<dv:dvPrintCoverSheet/>
+        
+		<dv:dvMessages/>
 		
 		<html:hidden property="document.nextSourceLineNumber"/>
         

@@ -22,11 +22,13 @@
  */
 package org.kuali.module.financial.web.struts.action;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -45,11 +47,14 @@ import org.kuali.module.financial.bo.DisbursementVoucherNonEmployeeExpense;
 import org.kuali.module.financial.bo.DisbursementVoucherPreConferenceRegistrant;
 import org.kuali.module.financial.bo.Payee;
 import org.kuali.module.financial.document.DisbursementVoucherDocument;
+import org.kuali.module.financial.service.DisbursementVoucherCoverSheetService;
 import org.kuali.module.financial.service.DisbursementVoucherTaxService;
+import org.kuali.module.financial.service.impl.DisbursementVoucherCoverSheetServiceImpl;
 import org.kuali.module.financial.web.struts.form.DisbursementVoucherForm;
 
 /**
  * This class handles Actions for the DisbursementVoucher.
+ * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class DisbursementVoucherAction extends KualiTransactionalDocumentActionBase {
@@ -92,6 +97,7 @@ public class DisbursementVoucherAction extends KualiTransactionalDocumentActionB
 
     /**
      * Calls service to generate the disbursement voucher cover sheet as a pdf.
+     * 
      * @param mapping
      * @param form
      * @param request
@@ -101,7 +107,35 @@ public class DisbursementVoucherAction extends KualiTransactionalDocumentActionB
      */
     public ActionForward printDisbursementVoucherCoverSheet(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        DisbursementVoucherForm dvForm = (DisbursementVoucherForm) form;
+        // get directory of tempate
+        String directory = getServlet().getServletConfig().getServletContext().getRealPath(
+                DisbursementVoucherCoverSheetServiceImpl.DV_COVERSHEET_TEMPLATE_RELATIVE_DIR);
+
+        // retrieve document
+        String documentHeaderId = request.getParameter(Constants.DOCUMENT_HEADER_ID);
+        DisbursementVoucherDocument document = (DisbursementVoucherDocument) SpringServiceLocator.getDocumentService()
+                .getByDocumentHeaderId(documentHeaderId);
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        DisbursementVoucherCoverSheetService coverSheetService = SpringServiceLocator.getDisbursementVoucherCoverSheetService();
+
+        coverSheetService.generateDisbursementVoucherCoverSheet(directory,
+                DisbursementVoucherCoverSheetServiceImpl.DV_COVERSHEET_TEMPLATE_NM, document, baos);
+        String fileName = document.getFinancialDocumentNumber() + "_cover_sheet.pdf";
+
+        // set response
+        response.setContentType("application/pdf");
+        response.setHeader("Content-disposition", "attachment; filename=" + fileName);
+        response.setHeader("Expires", "0");
+        response.setHeader("Cache-Control", "no-cache, no-store");
+        response.setHeader("Pragma", "no-cache");
+        response.setContentLength(baos.size());
+
+        // write to output
+        ServletOutputStream out = response.getOutputStream();
+        baos.writeTo(response.getOutputStream());
+        out.flush();
+        baos.close();
 
         return mapping.findForward(Constants.MAPPING_BASIC);
 
@@ -229,8 +263,8 @@ public class DisbursementVoucherAction extends KualiTransactionalDocumentActionB
 
 
     /**
-     * Calls service to generate tax accounting lines and updates nra tax line string
-     * in action form.
+     * Calls service to generate tax accounting lines and updates nra tax line string in action form.
+     * 
      * @param mapping
      * @param form
      * @param request
@@ -263,10 +297,10 @@ public class DisbursementVoucherAction extends KualiTransactionalDocumentActionB
 
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
-    
+
     /**
-     * Calls service to clear tax accounting lines and updates nra tax line string
-     * in action form.
+     * Calls service to clear tax accounting lines and updates nra tax line string in action form.
+     * 
      * @param mapping
      * @param form
      * @param request
@@ -278,7 +312,7 @@ public class DisbursementVoucherAction extends KualiTransactionalDocumentActionB
             HttpServletResponse response) throws Exception {
         DisbursementVoucherForm dvForm = (DisbursementVoucherForm) form;
         DisbursementVoucherDocument document = (DisbursementVoucherDocument) dvForm.getDocument();
-        
+
         /* user should not have generate button if not in tax group, but check just to make sure */
         if (!GlobalVariables.getUserSession().getKualiUser().isMember(new KualiGroup(KualiGroup.KUALI_DV_TAX_GROUP))) {
             LOG.info("User requested generateNonResidentAlienTaxLines who is not in the kuali tax group.");
@@ -290,23 +324,24 @@ public class DisbursementVoucherAction extends KualiTransactionalDocumentActionB
 
         List oldTaxLineNumbers = new ArrayList();
         if (StringUtils.isNotBlank(dvForm.getNraTaxLineNumbers())) {
-             List oldTaxLineNumberStrings = Arrays.asList(StringUtils.split(dvForm.getNraTaxLineNumbers(), ","));
-             for (Iterator iter = oldTaxLineNumberStrings.iterator(); iter.hasNext();) {
+            List oldTaxLineNumberStrings = Arrays.asList(StringUtils.split(dvForm.getNraTaxLineNumbers(), ","));
+            for (Iterator iter = oldTaxLineNumberStrings.iterator(); iter.hasNext();) {
                 String lineNumber = (String) iter.next();
                 oldTaxLineNumbers.add(Integer.valueOf(lineNumber));
             }
         }
-        
-        /* call service to clear previous lines  */
+
+        /* call service to clear previous lines */
         taxService.clearNRATaxLines(document, oldTaxLineNumbers);
         dvForm.setNraTaxLineNumbers("");
-        
+
         return mapping.findForward(Constants.MAPPING_BASIC);
-    }    
+    }
 
 
     /**
      * Hook into performLookup to switch the payee lookup based on the payee type selected.
+     * 
      * @see org.kuali.core.web.struts.action.KualiAction#performLookup(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */

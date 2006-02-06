@@ -38,8 +38,18 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Account;
 
+/**
+ * 
+ * PreRules checks for the Account that needs to occur while still in the 
+ * Struts processing.  This includes defaults, confirmations, etc.
+ * 
+ * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * 
+ */
 public class AccountPreRules implements PreRulesCheck {
 
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountPreRules.class);
+    
     private static final String CHART_MAINTENANCE_EDOC = "ChartMaintenanceEDoc";
     private static final String DEFAULT_STATE_CODE = "Account.Defaults.StateCode";
     private static final String DEFAULT_ACCOUNT_TYPE_CODE = "Account.Defaults.AccountType";

@@ -20,6 +20,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
+
 package org.kuali.workflow.attribute;
 
 import java.sql.Connection;
@@ -57,7 +58,8 @@ import edu.iu.uis.eden.util.Utilities;
 import edu.iu.uis.eden.util.XmlHelper;
 
 /**
- * This class is responsible for 
+ * KualiChartAttribute which should be used when using charts to do routing
+ * 
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public class KualiChartAttribute implements RoleAttribute, WorkflowAttribute {

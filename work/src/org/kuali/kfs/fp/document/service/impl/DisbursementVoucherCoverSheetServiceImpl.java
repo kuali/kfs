@@ -31,6 +31,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.Constants;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.lookup.keyvalues.KeyValuesFinder;
 import org.kuali.core.lookup.keyvalues.PaymentMethodValuesFinder;
@@ -54,7 +55,7 @@ import com.lowagie.text.pdf.PdfStamper;
  * Service used for manipulating disbursement voucher cover sheets.
  * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
- * @version $Id: DisbursementVoucherCoverSheetServiceImpl.java,v 1.1 2006-02-06 01:30:20 maynalem Exp $
+ * @version $Id: DisbursementVoucherCoverSheetServiceImpl.java,v 1.2 2006-02-06 19:50:40 maynalem Exp $
  */
 public class DisbursementVoucherCoverSheetServiceImpl implements DisbursementVoucherCoverSheetService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherCoverSheetServiceImpl.class);
@@ -83,8 +84,6 @@ public class DisbursementVoucherCoverSheetServiceImpl implements DisbursementVou
             DisbursementVoucherDocument document, OutputStream outputStream) throws DocumentException, IOException {
         DisbursementVoucherDocumentRule documentRule = new DisbursementVoucherDocumentRule();
         if (documentRule.isCoverSheetPrintable(document)) {
-            // MSA : remove hard coded value. constants or parameter values?
-            // MSA throw an exception when called by a document with an invalid status
             String attachment = "";
             String handling = "";
             String alien = "";
@@ -100,10 +99,9 @@ public class DisbursementVoucherCoverSheetServiceImpl implements DisbursementVou
                     .getDisbVchrPaymentReasonCode())).getName();
             String check_total = document.getDisbVchrCheckTotalAmount().toString();
 
-            // MSA: this should be changed to a retrieveObjectByKey() call once a table is created for this data.
             String currency = getValueForKey(new PaymentMethodValuesFinder(), document.getDisbVchrPaymentMethodCode());
 
-            String address = retrieveAddress(document.getDisbursementVoucherDocumentationLocationCode(), document.getCampusCode());
+            String address = retrieveAddress(document.getDisbursementVoucherDocumentationLocationCode());
 
             // retrieve attachment label
             if (document.isDisbVchrAttachmentCode()) {
@@ -118,15 +116,17 @@ public class DisbursementVoucherCoverSheetServiceImpl implements DisbursementVou
             // retrieve data for alien payment code
             if (document.getDvPayeeDetail().isDisbVchrAlienPaymentCode()) {
 
-                address = retrieveAddress("X", null);
+                address = retrieveAddress(Constants.DV_DOC_LOC_TAX_AREA);
                 alien = kualiConfigurationService.getApplicationParameterValue(DV_DOCUMENT_PARAMETERS_NM,
                         DV_COVER_SHEET_TEMPLATE_ALIEN_PARM_NM);
                 lines = kualiConfigurationService.getApplicationParameterValue(DV_DOCUMENT_PARAMETERS_NM,
                         DV_COVER_SHEET_TEMPLATE_LINES_PARM_NM);
             }
             // retrieve date for payment reasons:Travel Payment for a Nonemployee ,Travel Pmt for Nonemployee w/ Honorarium
-            if (StringUtils.equals("N", document.getDvPayeeDetail().getDisbVchrPaymentReasonCode())
-                    || StringUtils.equals("X", document.getDvPayeeDetail().getDisbVchrPaymentReasonCode())) {
+            if (StringUtils.equals(Constants.DV_PAYMENT_REASON_NONEMPLOYEE, document.getDvPayeeDetail()
+                    .getDisbVchrPaymentReasonCode())
+                    || StringUtils.equals(Constants.DV_PAYMENT_REASON_NONEMPLOYEE_HONORARIUM, document.getDvPayeeDetail()
+                            .getDisbVchrPaymentReasonCode())) {
                 bar = kualiConfigurationService.getApplicationParameterValue(DV_DOCUMENT_PARAMETERS_NM,
                         DV_COVER_SHEET_TEMPLATE_BAR_PARM_NM);
                 rlines = kualiConfigurationService.getApplicationParameterValue(DV_DOCUMENT_PARAMETERS_NM,
@@ -189,8 +189,7 @@ public class DisbursementVoucherCoverSheetServiceImpl implements DisbursementVou
     }
 
     /**
-     * 
-     * MSA temp method and should be removed once data is in database for objects that rely on this
+     * helper method to retrieve values from a list
      * 
      * @param keyValuesFinder
      * @param key
@@ -210,11 +209,9 @@ public class DisbursementVoucherCoverSheetServiceImpl implements DisbursementVou
      * contains logic to determine adress the cover sheet should be sent to
      * 
      * @param docLocCd
-     * @param campusCd
      * @return
      */
-    private String retrieveAddress(String docLocCd, String campusCd) {
-        // MSA ask about campus to doc mapping
+    private String retrieveAddress(String docLocCd) {
         String address = "";
         try {
             address = ((DisbursementVoucherDocumentationLocation) retrieveObjectByKey(
@@ -222,28 +219,6 @@ public class DisbursementVoucherCoverSheetServiceImpl implements DisbursementVou
         }
         catch (NullPointerException e) {
             // ignored
-        }
-        if (StringUtils.isBlank(address)) {
-            // determine address from campus code
-            if (StringUtils.equals("KO", campusCd)) {
-                docLocCd = "K";
-            }
-            else if (StringUtils.equals("SB", campusCd)) {
-                docLocCd = "S";
-            }
-            else if (StringUtils.equals("SE", campusCd)) {
-                docLocCd = "Z";
-            }
-            else if (StringUtils.equals("NW", campusCd)) {
-                docLocCd = "W";
-            }
-            else {
-                // default address
-                docLocCd = "F";
-            }
-
-            address = ((DisbursementVoucherDocumentationLocation) retrieveObjectByKey(
-                    DisbursementVoucherDocumentationLocation.class, docLocCd)).getDisbursementVoucherDocumentationLocationAddress();
         }
 
         return address;

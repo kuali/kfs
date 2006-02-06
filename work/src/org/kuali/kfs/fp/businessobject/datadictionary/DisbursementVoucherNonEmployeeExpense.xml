@@ -16,10 +16,26 @@
 	            
 	            <maxLength>2</maxLength>
 	            
-	            <required>false</required>
+	            <required>true</required>
 	            
 	            <control>
 	                <select valuesFinderClass="org.kuali.core.lookup.keyvalues.TravelExpenseTypeValuesFinder"/>
+	            </control>
+	            
+	            <summary>Expense Type Code</summary>
+	            <description>...</description>
+	        </attribute>
+	        
+	         <attribute name="disbVchrPrePaidExpenseCode">
+	            <label>Type</label>
+	            <shortLabel>Typ</shortLabel>
+	            
+	            <maxLength>2</maxLength>
+	            
+	            <required>true</required>
+	            
+	            <control>
+	                <select valuesFinderClass="org.kuali.core.lookup.keyvalues.TravelPrePaidExpenseTypeValuesFinder"/>
 	            </control>
 	            
 	            <summary>Expense Type Code</summary>
@@ -32,7 +48,7 @@
 	            
 	            <maxLength>40</maxLength>
 	            
-	            <required>false</required>
+	            <required>true</required>
 	            
 	            <control>
 	                <text size="40"/>
@@ -48,29 +64,13 @@
 	            
 	            <maxLength>22</maxLength>
 	            
-	            <required>false</required>
+	            <required>true</required>
 	            
 	            <control>
 	                <text size="9"/>
 	            </control>
 	            
 	            <summary>Expense Amount</summary>
-	            <description>...</description>
-	        </attribute>
-	        
-	        <attribute name="chargedToInstitution">
-	            <label>charged to institution</label>
-	            <shortLabel>charge to</shortLabel>
-	            
-	            <maxLength>3</maxLength>
-	            
-	            <required>false</required>
-	            
-	            <control>
-	                <radio valuesFinderClass="org.kuali.core.lookup.keyvalues.IndicatorYNOnlyValuesFinder"/>
-	            </control>
-	            
-	            <summary>charged to institution indicator</summary>
 	            <description>...</description>
 	        </attribute>
 	        

@@ -37,7 +37,7 @@ import org.kuali.test.KualiTestBaseWithSpring;
 /**
  * This class tests the DisbursementVoucherTax service.
  * 
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Financial Transactions (kualidev@oncourse.iu.edu)
  */
 public class DisbursementVoucherTaxServiceTest extends KualiTestBaseWithSpring {
     private DisbursementVoucherTaxService disbursementVoucherTaxService;

@@ -83,6 +83,30 @@ public class DisbursementVoucherDocumentPreRules implements PreRulesCheck, Disbu
 //            askmess "You cannot send an attachment with this payment method.","OK"
 //            dv_attch_ind.fp_dv_doc_t = $$false
 //        endif
+        
+        
+
+//        28-1      if ($totocc(fp_dv_nonemp_exp_t) > 10)
+//                  ;$totocc should be safe since there's a setocc *,-1 when a doc is retrieved
+//        29-1          $$message = "Please note that due to file transfer limitations, only 10 of the travel expense lines on this document will print in the check stub text."
+//        30-1          run "fp_g0055"
+//        31-1      endif
+        
+
+//        ******        Y73::
+//             1        if (dv_exp_cd = "PC")
+//           info:    1000 - Field reference 'DV_EXP_CD' is ambiguous; Cannot be optimized
+//             2-1          $$message = "If the registration fee is for out-of-state or foreign travel, a copy of the Department Travel Authorization form must be attached to the cover sheet."
+//             3-1          run "fp_g0055"
+//             4-1      endif
+//
+//
+//            10-1      endif
+//            11        if ($totocc(fp_dv_pre_conf_t) > 12)
+//            12-1      ;$totocc should be safe since there's a setocc *,-1 in exec trigger
+//            13-1          $$message = "Please note that due to file transfer limitations, only 12 of the individuals on this document will print in the check stub text."
+//            14-1          run "fp_g0055"
+//            15-1      endif
 
         return true;
     }

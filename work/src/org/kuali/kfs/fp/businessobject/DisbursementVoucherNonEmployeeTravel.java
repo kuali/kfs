@@ -25,19 +25,20 @@
 
 package org.kuali.module.financial.bo;
 
-import java.sql.Date;
 import java.sql.Timestamp;
-import java.util.Calendar;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.kuali.KeyConstants;
 import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.TypedArrayList;
+import org.kuali.core.web.format.TimestampAMPMFormatter;
 
 /**
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class DisbursementVoucherNonEmployeeTravel extends BusinessObjectBase {
 
@@ -70,23 +71,18 @@ public class DisbursementVoucherNonEmployeeTravel extends BusinessObjectBase {
     private KualiDecimal disbVchrPerdiemRate;
     private String disbVchrPerdiemCategoryName;
     private KualiDecimal disbVchrMileageCalculatedAmt;
+    
     private KualiDecimal totalTravelAmount;
 
-    private Date disbVchrTravelStartDate;
-    private String disbVchrTravelStartTime;
-    private boolean disbVchrTravelStartPM;
-    private Date disbVchrTravelEndDate;
-    private String disbVchrTravelEndTime;
-    private boolean disbVchrTravelEndPM;
-
-
     private List dvNonEmployeeExpenses;
+    private List dvPrePaidEmployeeExpenses;
 
     /**
      * Default no-arg constructor.
      */
     public DisbursementVoucherNonEmployeeTravel() {
         dvNonEmployeeExpenses = new TypedArrayList(DisbursementVoucherNonEmployeeExpense.class);
+        dvPrePaidEmployeeExpenses = new TypedArrayList(DisbursementVoucherNonEmployeeExpense.class);
         financialDocumentNextLineNbr = new Integer(1);
     }
 
@@ -718,6 +714,20 @@ public class DisbursementVoucherNonEmployeeTravel extends BusinessObjectBase {
     }
 
     /**
+     * @return Returns the dvPrePaidEmployeeExpenses.
+     */
+    public List getDvPrePaidEmployeeExpenses() {
+        return dvPrePaidEmployeeExpenses;
+    }
+    
+    /**
+     * @param dvPrePaidEmployeeExpenses The dvPrePaidEmployeeExpenses to set.
+     */
+    public void setDvPrePaidEmployeeExpenses(List dvPrePaidEmployeeExpenses) {
+        this.dvPrePaidEmployeeExpenses = dvPrePaidEmployeeExpenses;
+    }
+    
+    /**
      * Adds a dv non employee expense line
      * @param line
      */
@@ -726,120 +736,92 @@ public class DisbursementVoucherNonEmployeeTravel extends BusinessObjectBase {
         this.dvNonEmployeeExpenses.add(line);
         this.financialDocumentNextLineNbr = new Integer(getFinancialDocumentNextLineNbr().intValue() + 1);
     }
-
+    
     /**
-     * @return Returns the disbVchrTravelEndDate.
+     * Adds a dv pre paid expense line
+     * @param line
      */
-    public Date getDisbVchrTravelEndDate() {
-        return disbVchrTravelEndDate;
+    public void addDvPrePaidEmployeeExpenseLine(DisbursementVoucherNonEmployeeExpense line) {
+        line.setFinancialDocumentLineNumber(getFinancialDocumentNextLineNbr());
+        this.dvPrePaidEmployeeExpenses.add(line);
+        this.financialDocumentNextLineNbr = new Integer(getFinancialDocumentNextLineNbr().intValue() + 1);
     }
 
     /**
-     * @param disbVchrTravelEndDate The disbVchrTravelEndDate to set.
+     * Returns the per diem start date time as a string representation.
+     * @return
      */
-    public void setDisbVchrTravelEndDate(Date disbVchrTravelEndDate) {
-        this.disbVchrTravelEndDate = disbVchrTravelEndDate;
+    public String getPerDiemStartDateTime() {
+        return (String) new TimestampAMPMFormatter().format(dvPerdiemStartDttmStamp);
     }
 
     /**
-     * @return Returns the disbVchrTravelEndTime.
+     * Sets the per diem start timestamp from the string representation.
+     * @param perDiemStartDateTime
      */
-    public String getDisbVchrTravelEndTime() {
-        String endTime = "";
-
-        if (dvPerdiemEndDttmStamp != null) {
-            Calendar cal = Calendar.getInstance();
-            cal.setTime(dvPerdiemEndDttmStamp);
-            endTime = (new Integer(cal.get(Calendar.HOUR))).toString() + ":";
-            endTime += (new Integer(cal.get(Calendar.MINUTE))).toString();
+    public void setPerDiemStartDateTime(String perDiemStartDateTime) {
+        try {
+            this.dvPerdiemStartDttmStamp = (Timestamp) new TimestampAMPMFormatter()
+                    .convertFromPresentationFormat(perDiemStartDateTime);
         }
-        return endTime;
-    }
-
-    /**
-     * @param disbVchrTravelEndTime The disbVchrTravelEndTime to set.
-     */
-    public void setDisbVchrTravelEndTime(String disbVchrTravelEndTime) {
-        this.disbVchrTravelEndTime = disbVchrTravelEndTime;
-    }
-
-    /**
-     * @return Returns the disbVchrTravelStartDate.
-     */
-    public Date getDisbVchrTravelStartDate() {
-        return disbVchrTravelStartDate;
-    }
-
-    /**
-     * @param disbVchrTravelStartDate The disbVchrTravelStartDate to set.
-     */
-    public void setDisbVchrTravelStartDate(Date disbVchrTravelStartDate) {
-        this.disbVchrTravelStartDate = disbVchrTravelStartDate;
-    }
-
-    /**
-     * @return Returns the disbVchrTravelStartTime.
-     */
-    public String getDisbVchrTravelStartTime() {
-        String startTime = "";
-
-        if (dvPerdiemStartDttmStamp != null) {
-            Calendar cal = Calendar.getInstance();
-            cal.setTime(dvPerdiemStartDttmStamp);
-            startTime = (new Integer(cal.get(Calendar.HOUR))).toString() + ":";
-            startTime += (new Integer(cal.get(Calendar.MINUTE))).toString();
+        catch (RuntimeException e) {
+            GlobalVariables.getErrorMap().put("document.dvNonEmployeeTravel.dvPerDiemStartDateTime", KeyConstants.ERROR_CUSTOM,
+                    e.getMessage());
         }
-        return startTime;
     }
 
     /**
-     * @param disbVchrTravelStartTime The disbVchrTravelStartTime to set.
+     * Returns the per diem end date time as a string representation.
+     * @return
      */
-    public void setDisbVchrTravelStartTime(String disbVchrTravelStartTime) {
-        this.disbVchrTravelStartTime = disbVchrTravelStartTime;
+    public String getPerDiemEndDateTime() {
+        return (String) new TimestampAMPMFormatter().format(dvPerdiemEndDttmStamp);
     }
 
+    /**
+     * Sets the per diem start timestamp from the string representation.
+     * @param perDiemStartDateTime
+     */
+    public void setPerDiemEndDateTime(String perDiemEndDateTime) {
+        try {
+            this.dvPerdiemEndDttmStamp = (Timestamp) new TimestampAMPMFormatter()
+                    .convertFromPresentationFormat(perDiemEndDateTime);
+        }
+        catch (RuntimeException e) {
+            GlobalVariables.getErrorMap().put("document.dvNonEmployeeTravel.dvPerDiemEndDateTime", KeyConstants.ERROR_CUSTOM,
+                    e.getMessage());
+        }
+    }
 
     /**
-     * @return Returns the disbVchrTravelEndPM.
+     * Calculates the total pre paid expense amount
+     * @return
      */
-    public boolean isDisbVchrTravelEndPM() {
-        if (dvPerdiemEndDttmStamp != null) {
-            Calendar cal = Calendar.getInstance();
-            cal.setTime(dvPerdiemEndDttmStamp);
-            if (Calendar.PM == cal.get(Calendar.AM_PM)) {
-                return true;
+    public KualiDecimal getTotalPrePaidAmount() {
+        KualiDecimal totalPrePaidAmount = new KualiDecimal(0);
+        if (dvPrePaidEmployeeExpenses != null) {
+            for (Iterator iter = dvPrePaidEmployeeExpenses.iterator(); iter.hasNext();) {
+                DisbursementVoucherNonEmployeeExpense element = (DisbursementVoucherNonEmployeeExpense) iter.next();
+                totalPrePaidAmount = totalPrePaidAmount.add(element.getDisbVchrExpenseAmount());
             }
         }
-        return false;
+
+        return totalPrePaidAmount;
     }
 
     /**
-     * @param disbVchrTravelEndPM The disbVchrTravelEndPM to set.
+     * Calculates the total expense amount
+     * @return
      */
-    public void setDisbVchrTravelEndPM(boolean disbVchrTravelEndPM) {
-        this.disbVchrTravelEndPM = disbVchrTravelEndPM;
-    }
-
-    /**
-     * @return Returns the disbVchrTravelStartPM.
-     */
-    public boolean isDisbVchrTravelStartPM() {
-        if (dvPerdiemStartDttmStamp != null) {
-            Calendar cal = Calendar.getInstance();
-            cal.setTime(dvPerdiemStartDttmStamp);
-            if (Calendar.PM == cal.get(Calendar.AM_PM)) {
-                return true;
+    public KualiDecimal getTotalExpenseAmount() {
+        KualiDecimal totalExpenseAmount = new KualiDecimal(0);
+        if (dvNonEmployeeExpenses != null) {
+            for (Iterator iter = dvNonEmployeeExpenses.iterator(); iter.hasNext();) {
+                DisbursementVoucherNonEmployeeExpense element = (DisbursementVoucherNonEmployeeExpense) iter.next();
+                totalExpenseAmount = totalExpenseAmount.add(element.getDisbVchrExpenseAmount());
             }
         }
-        return false;
-    }
-
-    /**
-     * @param disbVchrTravelStartPM The disbVchrTravelStartPM to set.
-     */
-    public void setDisbVchrTravelStartPM(boolean disbVchrTravelStartPM) {
-        this.disbVchrTravelStartPM = disbVchrTravelStartPM;
+        return totalExpenseAmount;
     }
 
     /**
@@ -849,13 +831,8 @@ public class DisbursementVoucherNonEmployeeTravel extends BusinessObjectBase {
         KualiDecimal travelAmount = new KualiDecimal(0);
 
         // get non paid expenses first
-        if (dvNonEmployeeExpenses != null) {
-            for (Iterator iter = dvNonEmployeeExpenses.iterator(); iter.hasNext();) {
-                DisbursementVoucherNonEmployeeExpense element = (DisbursementVoucherNonEmployeeExpense) iter.next();
-                // don't add prepaid expenses to travel total
-                travelAmount = travelAmount.add(element.getDisbVchrExpenseAmount());
-            }
-        }
+        travelAmount = travelAmount.add(getTotalExpenseAmount());
+
         // add in per diem amount
         if (disbVchrPerdiemActualAmount != null) {
             travelAmount = travelAmount.add(disbVchrPerdiemActualAmount);

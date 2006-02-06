@@ -24,11 +24,12 @@ package org.kuali.module.financial.service;
 
 import java.util.List;
 
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.financial.document.DisbursementVoucherDocument;
 
 /**
  * Handles queries and validation on tax id numbers.
- * @author Nervous System Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public interface DisbursementVoucherTaxService {
     public static Integer TAX_NUMBER_NOT_FOUND = new Integer(0);
@@ -93,4 +94,11 @@ public interface DisbursementVoucherTaxService {
      * @return List of generated nra line numbers
      */
     public List processNonResidentAlienTax(DisbursementVoucherDocument document);
+    
+    /**
+     * Returns the accounting line tax amount (if any)
+     * @param document
+     * @return
+     */
+    public KualiDecimal getNonResidentAlienTaxAmount(DisbursementVoucherDocument document);
 }

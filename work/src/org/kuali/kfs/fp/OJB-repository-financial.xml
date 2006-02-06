@@ -457,6 +457,7 @@
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="name" column="DV_EXP_NM" jdbc-type="VARCHAR"/>
+    <field-descriptor name="prepaidExpense" column="DV_EXP_PRPY_IND" conversion="org.kuali.core.util.OjbCharBooleanConversion" jdbc-type="CHAR" />
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.financial.bo.TaxIncomeClassCode" table="FP_INC_CLS_T">
@@ -886,7 +887,7 @@
 
 <class-descriptor class="org.kuali.module.financial.bo.TravelCompanyCode" table="FP_DV_TRVL_CO_NM_T">
 	<field-descriptor name="code" column="DV_EXP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="name" column="DV_EXP_CO_NM" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="name" column="DV_EXP_CO_NM" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 </class-descriptor>
@@ -1003,7 +1004,7 @@
 	</reference-descriptor>
 
 	<reference-descriptor name="disbVchrExpenseCompany" class-ref="org.kuali.module.financial.bo.TravelCompanyCode" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="disbVchrExpenseCompanyName" />
+		<foreignkey field-ref="disbVchrExpenseCode" />
 	</reference-descriptor>
 </class-descriptor>
 

@@ -50,7 +50,7 @@ import org.kuali.module.financial.service.DisbursementVoucherTaxService;
 
 /**
  * Handles queries and validation on tax id numbers.
- * @author Nervous System Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class DisbursementVoucherTaxServiceImpl implements DisbursementVoucherTaxService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherTaxServiceImpl.class);
@@ -388,10 +388,60 @@ public class DisbursementVoucherTaxServiceImpl implements DisbursementVoucherTax
 
         // update check total if not grossed up (3 previous accounting lines)
         if (previousTaxLineNumbers.size() != 3) {
-          document.setDisbVchrCheckTotalAmount(document.getDisbVchrCheckTotalAmount().add(taxTotal));
+            document.setDisbVchrCheckTotalAmount(document.getDisbVchrCheckTotalAmount().add(taxTotal));
         }
     }
 
+    /**
+     * @see org.kuali.module.financial.service.DisbursementVoucherTaxService#getNonResidentAlienTaxAmount(org.kuali.module.financial.document.DisbursementVoucherDocument)
+     */
+    public KualiDecimal getNonResidentAlienTaxAmount(DisbursementVoucherDocument document) {
+        KualiDecimal taxAmount = new KualiDecimal(0);
+
+        // if not nra payment or gross has been done, no tax amount should have been taken out
+        if (!document.getDvPayeeDetail().isDisbVchrAlienPaymentCode()
+                || (document.getDvPayeeDetail().isDisbVchrAlienPaymentCode() && document.getDvNonResidentAlienTax()
+                        .isIncomeTaxGrossUpCode())) {
+            return taxAmount;
+        }
+
+        // get tax parameters for comparing against the accounting lines
+        String federalTaxChart = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(
+                DisbursementVoucherRuleConstants.NRA_TAX_PARM_GROUP_NM, DisbursementVoucherRuleConstants.FEDERAL_TAX_CHART_PARM_NM);
+        String federalTaxAccount = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(
+                DisbursementVoucherRuleConstants.NRA_TAX_PARM_GROUP_NM,
+                DisbursementVoucherRuleConstants.FEDERAL_TAX_ACCOUNT_PARM_NM);
+        String federalTaxObjectCode = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(
+                DisbursementVoucherRuleConstants.NRA_TAX_PARM_GROUP_NM,
+                DisbursementVoucherRuleConstants.FEDERAL_OBJECT_CODE_PARM_PREFIX
+                        + document.getDvNonResidentAlienTax().getIncomeClassCode());
+        String stateTaxChart = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(
+                DisbursementVoucherRuleConstants.NRA_TAX_PARM_GROUP_NM, DisbursementVoucherRuleConstants.STATE_TAX_CHART_PARM_NM);
+        String stateTaxAccount = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(
+                DisbursementVoucherRuleConstants.NRA_TAX_PARM_GROUP_NM, DisbursementVoucherRuleConstants.STATE_TAX_ACCOUNT_PARM_NM);
+        String stateTaxObjectCode = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(
+                DisbursementVoucherRuleConstants.NRA_TAX_PARM_GROUP_NM,
+                DisbursementVoucherRuleConstants.STATE_OBJECT_CODE_PARM_PREFIX
+                        + document.getDvNonResidentAlienTax().getIncomeClassCode());
+
+        for (Iterator iter = document.getSourceAccountingLines().iterator(); iter.hasNext();) {
+            SourceAccountingLine line = (SourceAccountingLine) iter.next();
+            
+            // check if line is federal tax line
+            if (federalTaxChart.equals(line.getChartOfAccountsCode()) && federalTaxAccount.equals(line.getAccountNumber())
+                    && federalTaxObjectCode.equals(line.getFinancialObjectCode())) {
+                taxAmount.add(line.getAmount().negated());
+            }
+            
+            // check if line is state tax line
+            if (stateTaxChart.equals(line.getChartOfAccountsCode()) && stateTaxAccount.equals(line.getAccountNumber())
+                    && stateTaxObjectCode.equals(line.getFinancialObjectCode())) {
+                taxAmount.add(line.getAmount().negated());
+            }
+        }
+
+        return taxAmount;
+    }
 
     /**
      * @see org.kuali.module.financial.service.DisbursementVoucherTaxService#validateNRATaxInformation(org.kuali.module.financial.document.DisbursementVoucherDocument)

@@ -32,6 +32,7 @@ import org.kuali.Constants;
 import org.kuali.core.bo.user.UniversityUser;
 import org.kuali.core.document.DocumentHeader;
 import org.kuali.core.document.TransactionalDocumentBase;
+import org.kuali.core.rules.RulesUtils;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.financial.bo.DisbursementVoucherDocumentationLocation;
 import org.kuali.module.financial.bo.DisbursementVoucherNonEmployeeTravel;
@@ -41,7 +42,7 @@ import org.kuali.module.financial.bo.DisbursementVoucherPreConferenceDetail;
 import org.kuali.module.financial.bo.DisbursementVoucherPreConferenceRegistrant;
 import org.kuali.module.financial.bo.DisbursementVoucherWireTransfer;
 import org.kuali.module.financial.bo.Payee;
-import org.kuali.module.financial.rules.DisbursementVoucherDocumentRule;
+import org.kuali.module.financial.rules.DisbursementVoucherRuleConstants;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -687,19 +688,19 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
 //
 //        this.disbVchrPayeeTaxControlCode = payee.getPayeeTaxControlCode();
 //        this.disbVchrPayeeW9CompleteCode = payee.isPayeeW9CompleteCode();
-    }    
+    }   
+    
     /**
      * @see org.kuali.core.document.Document#prepareForSave()
      */
     public void prepareForSave() {
-        // null out objects that are not required based on main document properties
-        if (!DisbursementVoucherDocumentRule.PAYMENT_METHOD_WIRE.equals(this.getDisbVchrPaymentMethodCode())
-                && !DisbursementVoucherDocumentRule.PAYMENT_METHOD_DRAFT.equals(this.getDisbVchrPaymentMethodCode())) {
+        // null out objects that are not required based on main document properties, and set document number in each child object
+        if (!DisbursementVoucherRuleConstants.PAYMENT_METHOD_WIRE.equals(this.getDisbVchrPaymentMethodCode())
+                && !DisbursementVoucherRuleConstants.PAYMENT_METHOD_DRAFT.equals(this.getDisbVchrPaymentMethodCode())) {
             dvWireTransfer = null;
         }
         else {
             dvWireTransfer.setFinancialDocumentNumber(this.financialDocumentNumber);
-            dvWireTransfer.setVersionNumber(this.versionNumber);
         }
 
         if (!dvPayeeDetail.isDisbVchrAlienPaymentCode()) {
@@ -707,16 +708,30 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
         }
         else {
             dvNonResidentAlienTax.setFinancialDocumentNumber(this.financialDocumentNumber);
-            dvNonResidentAlienTax.setVersionNumber(this.versionNumber);
         }
         
         dvPayeeDetail.setFinancialDocumentNumber(this.financialDocumentNumber);
-        dvPayeeDetail.setVersionNumber(this.versionNumber);
 
-        /* Travel screens not implemented at this time */
-        dvNonEmployeeTravel = null;
-        dvPreConferenceDetail = null;
-
-        super.prepareForSave();
+        /* Travel */
+        if (!RulesUtils.makeSet(DisbursementVoucherRuleConstants.TRAVEL_NON_EMPL_PAYMENT_REASON_CODES).contains(
+                dvPayeeDetail.getDisbVchrPaymentReasonCode())) {
+            dvNonEmployeeTravel = null;  
+        }
+        else {
+            dvNonEmployeeTravel.setFinancialDocumentNumber(this.financialDocumentNumber);
+            dvNonEmployeeTravel.setTotalTravelAmount(dvNonEmployeeTravel.getTotalTravelAmount());
+            if (dvNonEmployeeTravel.getDvNonEmployeeExpenses() != null) {
+              dvNonEmployeeTravel.getDvNonEmployeeExpenses().addAll(dvNonEmployeeTravel.getDvPrePaidEmployeeExpenses());
+            }
+        }
+        
+        if (!DisbursementVoucherRuleConstants.PAYMENT_REASON_PREPAID_TRAVEL.equals(dvPayeeDetail.getDisbVchrPaymentReasonCode())) {
+            dvPreConferenceDetail = null;
+        }
+        else {
+            dvPreConferenceDetail.setFinancialDocumentNumber(this.financialDocumentNumber);
+            dvPreConferenceDetail.setDisbVchrConferenceTotalAmt(dvPreConferenceDetail.getDisbVchrConferenceTotalAmt());
+        }    
     }
 }
+  

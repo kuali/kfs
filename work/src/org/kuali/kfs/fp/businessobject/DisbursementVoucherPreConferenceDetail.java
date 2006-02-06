@@ -26,6 +26,7 @@
 package org.kuali.module.financial.bo;
 
 import java.sql.Date;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -164,7 +165,16 @@ public class DisbursementVoucherPreConferenceDetail extends BusinessObjectBase {
      * 
      */
     public KualiDecimal getDisbVchrConferenceTotalAmt() {
-        return disbVchrConferenceTotalAmt;
+        KualiDecimal totalConferenceAmount = new KualiDecimal(0);
+        
+        if (dvPreConferenceRegistrants != null) {
+            for (Iterator iter = dvPreConferenceRegistrants.iterator(); iter.hasNext();) {
+                DisbursementVoucherPreConferenceRegistrant registrantLine = (DisbursementVoucherPreConferenceRegistrant) iter.next();
+                totalConferenceAmount.add(registrantLine.getDisbVchrExpenseAmount());
+            }
+        }
+        
+        return totalConferenceAmount;
     }
 
 

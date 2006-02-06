@@ -16,7 +16,7 @@
 	            
 	            <maxLength>40</maxLength>
 	            
-	            <required>false</required>
+	            <required>true</required>
 	            
 	            <control>
 	                <text size="40"/>
@@ -32,10 +32,10 @@
 	            
 	            <maxLength>2</maxLength>
 	            
-	            <required>false</required>
+	            <required>true</required>
 	            
 	            <control>
-	                <select valuesFinderClass="org.kuali.core.lookup.keyvalues.TravelExpenseTypeValuesFinder"/>
+	                <select valuesFinderClass="org.kuali.core.lookup.keyvalues.TravelPrePaidExpenseTypeValuesFinder"/>
 	            </control>
 	            
 	            <summary>Expense Type Code</summary>
@@ -48,7 +48,7 @@
 	            
 	            <maxLength>11</maxLength>
 	            
-	            <required>false</required>
+	            <required>true</required>
 	            
 	            <control>
 	                <text size="10"/>
@@ -64,7 +64,7 @@
 	            
 	            <maxLength>11</maxLength>
 	            
-	            <required>false</required>
+	            <required>true</required>
 	            
 	            <control>
 	                <text size="10"/>

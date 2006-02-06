@@ -32,6 +32,7 @@
 			<resultFields>
 				<field attributeName="code" />
 				<field attributeName="name" />
+				<field attributeName="prepaidExpense" />
 			</resultFields>
 		</lookup>
 
@@ -52,7 +53,21 @@
 				<description>The code uniquely identify a travel expense type.</description>
 			</attribute>
 			
-			<attribute name="name" forceUppercase="false">
+			<attribute name="prepaidExpense" forceUppercase="false">
+                <label>Prepaid Expense Indicator</label>
+                <shortLabel>Prepaid</shortLabel>
+
+                <maxLength>3</maxLength>
+
+                <control>
+                    <checkbox/>
+                </control>
+
+                <summary>Prepaid Expense Indicator</summary>
+                <description>Prepaid Expense Indicator</description>
+            </attribute>
+            
+            <attribute name="name" forceUppercase="false">
                 <label>Travel Expense Type Name</label>
                 <shortLabel>Name</shortLabel>
 
@@ -65,6 +80,10 @@
                 <summary>Travel Expense Type Name</summary>
                 <description>Travel Expense Type Name</description>
             </attribute>
+            
+            <attributeReference name="versionNumber" 
+	        					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
+	        					sourceAttributeName="versionNumber" />
 
 		</attributes>
 	</businessObject>

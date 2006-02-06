@@ -31,6 +31,7 @@ import org.kuali.core.bo.KualiCodeBase;
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public class TravelExpenseTypeCode extends KualiCodeBase {
+    boolean prepaidExpense;
 
     /**
 	 * Default no-arg constructor.
@@ -39,4 +40,17 @@ public class TravelExpenseTypeCode extends KualiCodeBase {
 
 	}
 
+    /**
+     * @return Returns the prepaidExpense.
+     */
+    public boolean isPrepaidExpense() {
+        return prepaidExpense;
+    }
+    
+    /**
+     * @param prepaidExpense The prepaidExpense to set.
+     */
+    public void setPrepaidExpense(boolean prepaidExpense) {
+        this.prepaidExpense = prepaidExpense;
+    }
 }

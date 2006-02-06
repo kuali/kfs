@@ -31,7 +31,7 @@ import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 
 /**
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class DisbursementVoucherNonEmployeeExpense extends BusinessObjectBase {
 
@@ -40,7 +40,6 @@ public class DisbursementVoucherNonEmployeeExpense extends BusinessObjectBase {
     private String disbVchrExpenseCode;
     private String disbVchrExpenseCompanyName;
     private KualiDecimal disbVchrExpenseAmount;
-    private boolean chargedToInstitution;
 
     private TravelExpenseTypeCode disbVchrExpense;
     private TravelCompanyCode disbVchrExpenseCompany;
@@ -103,6 +102,14 @@ public class DisbursementVoucherNonEmployeeExpense extends BusinessObjectBase {
     public String getDisbVchrExpenseCode() {
         return disbVchrExpenseCode;
     }
+    
+    /**
+     * Dummy field so we can have different select options.
+     * @return
+     */
+    public String getDisbVchrPrePaidExpenseCode() {
+        return disbVchrExpenseCode;
+    }
 
 
     /**
@@ -112,6 +119,15 @@ public class DisbursementVoucherNonEmployeeExpense extends BusinessObjectBase {
      *  
      */
     public void setDisbVchrExpenseCode(String disbVchrExpenseCode) {
+        this.disbVchrExpenseCode = disbVchrExpenseCode;
+        this.refresh();
+    }
+    
+    /**
+     * Dummy field so we can have different select options.
+     * @param disbVchrExpenseCode
+     */
+    public void setDisbVchrPrePaidExpenseCode(String disbVchrExpenseCode) {
         this.disbVchrExpenseCode = disbVchrExpenseCode;
     }
 
@@ -199,28 +215,15 @@ public class DisbursementVoucherNonEmployeeExpense extends BusinessObjectBase {
         this.disbVchrExpenseCompany = disbVchrExpenseCompany;
     }
 
-
-    /**
-     * @return Returns the chargedToInstitution.
-     */
-    public boolean isChargedToInstitution() {
-        return chargedToInstitution;
-    }
-
-    /**
-     * @param chargedToInstitution The chargedToInstitution to set.
-     */
-    public void setChargedToInstitution(boolean chargedToInstitution) {
-        this.chargedToInstitution = chargedToInstitution;
-    }
-
     /**
      * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("financialDocumentNumber", this.financialDocumentNumber);
-        m.put("financialDocumentLineNumber", this.financialDocumentLineNumber.toString());
+        if (this.financialDocumentLineNumber != null) {
+          m.put("financialDocumentLineNumber", this.financialDocumentLineNumber.toString());
+        }
         return m;
     }
 }

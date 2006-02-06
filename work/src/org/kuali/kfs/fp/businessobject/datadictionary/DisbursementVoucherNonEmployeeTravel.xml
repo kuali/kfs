@@ -16,7 +16,7 @@
 	            
 	            <maxLength>40</maxLength>
 	            
-	            <required>false</required>
+	            <required>true</required>
 	            
 	            <control>
 	                <text size="40"/>
@@ -32,7 +32,7 @@
 	            
 	            <maxLength>50</maxLength>
 	            
-	            <required>false</required>
+	            <required>true</required>
 	            
 	            <control>
 	                <text size="50"/>
@@ -48,7 +48,7 @@
 	            
 	            <maxLength>40</maxLength>
 	            
-	            <required>false</required>
+	            <required>true</required>
 	            
 	            <control>
 	                <text size="40"/>
@@ -64,7 +64,7 @@
 	            
 	            <maxLength>40</maxLength>
 	            
-	            <required>false</required>
+	            <required>true</required>
 	            
 	            <control>
 	                <text size="40"/>
@@ -80,7 +80,7 @@
 	            
 	            <maxLength>40</maxLength>
 	            
-	            <required>false</required>
+	            <required>true</required>
 	            
 	            <control>
 	                <text size="40"/>
@@ -96,7 +96,7 @@
 	            
 	            <maxLength>2</maxLength>
 	            
-	            <required>false</required>
+	            <required>true</required>
 	            
 	            <control>
 	                <text size="2"/>
@@ -112,7 +112,7 @@
 	            
 	            <maxLength>10</maxLength>
 	            
-	            <required>false</required>
+	            <required>true</required>
 	            
 	            <control>
 	                <select valuesFinderClass="org.kuali.core.lookup.keyvalues.CountryValuesFinder"/>
@@ -122,51 +122,35 @@
 	            <description>...</description>
 	        </attribute>
 	        
-	        <attribute name="disbVchrTravelStartDate">
-	            <label>Date</label>
+	        <attribute name="perDiemStartDateTime">
+	            <label>Start Date/Time</label>
 	            <shortLabel>Dt</shortLabel>
 	            
-	            <maxLength>11</maxLength>
+	            <maxLength>20</maxLength>
 	            
-	            <required>false</required>
+	            <required>true</required>
 	            
 	            <control>
-	                <text size="10"/>
+	                <text size="20"/>
 	            </control>
 	            
-	            <summary>Travel Start Date</summary>
+	            <summary>Travel Start Date Time</summary>
 	            <description>...</description>
 	        </attribute>
 	        
-	        <attribute name="disbVchrTravelStartTime">
-	            <label>Time</label>
-	            <shortLabel>Time</shortLabel>
+	        <attribute name="perDiemEndDateTime">
+	            <label>Start Date/Time</label>
+	            <shortLabel>Dt</shortLabel>
 	            
-	            <maxLength>5</maxLength>
+	            <maxLength>20</maxLength>
 	            
-	            <required>false</required>
-	            
-	            <control>
-	                <text size="5"/>
-	            </control>
-	            
-	            <summary>Travel Start Time</summary>
-	            <description>...</description>
-	        </attribute>
-	        
-	        <attribute name="disbVchrTravelStartPM">
-	            <label>AM/PM</label>
-	            <shortLabel>AM/PM</shortLabel>
-	            
-	            <maxLength>1</maxLength>
-	            
-	            <required>false</required>
+	            <required>true</required>
 	            
 	            <control>
-	                <select valuesFinderClass="org.kuali.core.lookup.keyvalues.AMPMValuesFinder"/>
+	                <text size="20"/>
 	            </control>
 	            
-	            <summary>Travel Time AM/PM</summary>
+	            <summary>Travel Start Date Time</summary>
 	            <description>...</description>
 	        </attribute>
 	        
@@ -176,7 +160,7 @@
 	            
 	            <maxLength>40</maxLength>
 	            
-	            <required>false</required>
+	            <required>true</required>
 	            
 	            <control>
 	                <text size="40"/>
@@ -208,7 +192,7 @@
 	            
 	            <maxLength>10</maxLength>
 	            
-	            <required>false</required>
+	            <required>true</required>
 	            
 	            <control>
 	                <select valuesFinderClass="org.kuali.core.lookup.keyvalues.CountryValuesFinder"/>
@@ -218,61 +202,13 @@
 	            <description>...</description>
 	        </attribute>
 	        
-	        <attribute name="disbVchrTravelEndDate">
-	            <label>Date</label>
-	            <shortLabel>Dt</shortLabel>
-	            
-	            <maxLength>11</maxLength>
-	            
-	            <required>false</required>
-	            
-	            <control>
-	                <text size="10"/>
-	            </control>
-	            
-	            <summary>Travel Start Date</summary>
-	            <description>...</description>
-	        </attribute>
-	        
-	        <attribute name="disbVchrTravelEndTime">
-	            <label>Time</label>
-	            <shortLabel>Time</shortLabel>
-	            
-	            <maxLength>5</maxLength>
-	            
-	            <required>false</required>
-	            
-	            <control>
-	                <text size="5"/>
-	            </control>
-	            
-	            <summary>Travel Start Time</summary>
-	            <description>...</description>
-	        </attribute>
-	        
-	        <attribute name="disbVchrTravelEndPM">
-	            <label>AM/PM</label>
-	            <shortLabel>AM/PM</shortLabel>
-	            
-	            <maxLength>1</maxLength>
-	            
-	            <required>false</required>
-	            
-	            <control>
-	                <select valuesFinderClass="org.kuali.core.lookup.keyvalues.AMPMValuesFinder"/>
-	            </control>
-	            
-	            <summary>Travel Time AM/PM</summary>
-	            <description>...</description>
-	        </attribute>	        
-	        
 	        <attribute name="disbVchrPerdiemCategoryName">
 	            <label>Category</label>
 	            <shortLabel>Category</shortLabel>
 	            
 	            <maxLength>10</maxLength>
 	            
-	            <required>false</required>
+	            <required>true</required>
 	            
 	            <control>
 	                <select valuesFinderClass="org.kuali.core.lookup.keyvalues.TravelPerDiemCategoryValuesFinder"/>
@@ -288,7 +224,7 @@
 	            
 	            <maxLength>22</maxLength>
 	            
-	            <required>false</required>
+	            <required>true</required>
 	            
 	            <control>
 	                <text size="6"/>
@@ -487,6 +423,38 @@
 	            </control>
 	            
 	            <summary>Total Travel Amount</summary>
+	            <description>...</description>
+	        </attribute>
+	        
+	        <attribute name="totalPrePaidAmount">
+	            <label>Pre Paid Sub Total</label>
+	            <shortLabel>Total</shortLabel>
+	            
+	            <maxLength>22</maxLength>
+	            
+	            <required>false</required>
+	            
+	            <control>
+	                <text size="9"/>
+	            </control>
+	            
+	            <summary>Pre Paid Amount</summary>
+	            <description>...</description>
+	        </attribute>
+	        
+	        <attribute name="totalExpenseAmount">
+	            <label>Expense Sub Total</label>
+	            <shortLabel>Total</shortLabel>
+	            
+	            <maxLength>22</maxLength>
+	            
+	            <required>false</required>
+	            
+	            <control>
+	                <text size="9"/>
+	            </control>
+	            
+	            <summary>Expense Sub Total</summary>
 	            <description>...</description>
 	        </attribute>
 	    </attributes>

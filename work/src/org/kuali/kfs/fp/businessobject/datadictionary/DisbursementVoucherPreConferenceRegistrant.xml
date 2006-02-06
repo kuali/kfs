@@ -16,7 +16,7 @@
 	            
 	            <maxLength>40</maxLength>
 	            
-	            <required>false</required>
+	            <required>true</required>
 	            
 	            <control>
 	                <text size="40"/>
@@ -32,7 +32,7 @@
 	            
 	            <maxLength>4</maxLength>
 	            
-	            <required>false</required>
+	            <required>true</required>
 	            
 	            <control>
 	                <text size="4"/>
@@ -48,7 +48,7 @@
 	            
 	            <maxLength>6</maxLength>
 	            
-	            <required>false</required>
+	            <required>true</required>
 	            
 	            <control>
 	                <text size="6"/>
@@ -64,7 +64,7 @@
 	            
 	            <maxLength>22</maxLength>
 	            
-	            <required>false</required>
+	            <required>true</required>
 	            
 	            <control>
 	                <text size="9"/>

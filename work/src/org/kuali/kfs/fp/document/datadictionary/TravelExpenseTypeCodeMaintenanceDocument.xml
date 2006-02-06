@@ -35,6 +35,8 @@
 	        	<maintainableItems>
 	            	<maintainableField name="code" required="true" />
 	            	<maintainableField name="name" required="true" />
+	            	<maintainableField name="prepaidExpense" required="true" />
+		            <maintainableField name="versionNumber" />
 	            </maintainableItems>          	                   
 	        </maintainableSection>
 	    </maintainableSections>

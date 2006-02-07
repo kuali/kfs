@@ -16,7 +16,6 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.gl.bo.Balance;
-import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.dao.BalanceDao;
 import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
@@ -93,18 +92,18 @@ public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements Balanc
             int size = collection.size();
             if (size == 1) {
                 if (negate) {
-                    criteria.addNotEqualTo("", collection.iterator().next());
+                    criteria.addNotEqualTo(name, collection.iterator().next());
                 }
                 else {
-                    criteria.addEqualTo("", collection.iterator().next());
+                    criteria.addEqualTo(name, collection.iterator().next());
                 }
             }
             if (size > 1) {
                 if (negate) {
-                    criteria.addNotIn("", collection);
+                    criteria.addNotIn(name, collection);
                 }
                 else {
-                    criteria.addIn("", collection);
+                    criteria.addIn(name, collection);
 
                 }
             }
@@ -123,13 +122,13 @@ public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements Balanc
 
         criteria.addEqualTo("universityFiscalYear", fiscalYear);
 
-        criteriaBuilder(criteria, "objectTypeCode", objectTypeCodes);
-        criteriaBuilder(criteria, "balanceTypeCode", balanceTypeCodes);
-        criteriaBuilder(criteria, "objectCode", includedObjectCodes);
-        negatedCriteriaBuilder(criteria, "objectCode", excludedObjectCodes);
+        criteriaBuilder(criteria, "FIN_OBJ_TYP_CD", objectTypeCodes);
+        criteriaBuilder(criteria, "FIN_BALANCE_TYP_CD", balanceTypeCodes);
+        criteriaBuilder(criteria, "FIN_OBJECT_CD", includedObjectCodes);
+        negatedCriteriaBuilder(criteria, "FIN_OBJECT_CD", excludedObjectCodes);
 
         ReportQueryByCriteria query = new ReportQueryByCriteria(
-            GeneralLedgerPendingEntry.class, criteria);
+            Balance.class, criteria);
 
         // returns an iterator of all matching balances
         Iterator balances = getPersistenceBrokerTemplate().getIteratorByQuery(query);

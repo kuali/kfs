@@ -154,8 +154,8 @@ public class BalanceServiceImpl implements BalanceService {
             begin = balance.getBeginningBalanceLineAmount();
             annual = balance.getAccountLineAnnualBalanceAmount();
 
-            runningTotal.add(begin);
-            runningTotal.add(annual);
+            runningTotal=runningTotal.add(begin);
+            runningTotal=runningTotal.add(annual);
         }
 
         return runningTotal;

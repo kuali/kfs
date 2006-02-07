@@ -148,25 +148,32 @@ public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements Balanc
 
             // if searchValue is empty and the key is not a valid property ignore
             if (StringUtils.isBlank(propertyValue)
-                    || !(PropertyUtils.isWriteable(Balance.class, propertyName))) {
+                    || !(PropertyUtils.isWriteable(new Balance(), propertyName))) {
                 continue;
             }
 
             criteria.addEqualTo(propertyName, propertyValue);
+            //System.out.println(propertyName + ":" + propertyValue);
         }
 
-        ReportQueryByCriteria query;
-        query = new ReportQueryByCriteria(Balance.class, criteria);
+        ReportQueryByCriteria query = new ReportQueryByCriteria(Balance.class, criteria);
 
         // set the selection attributes
-        query.setAttributes(new String[] { "universityFiscalYear", "chartOfAccountsCode",
-                "accountNumber", "subAccountNumber",
-                "sum(accountLineAnnualBalanceAmount)", "sum(beginningBalanceLineAmount)",
-                "sum(contractsGrantsBeginningBalanceAmount)" });
+        query.setAttributes(new String[] { 
+                "universityFiscalYear", 
+                "chartOfAccountsCode",
+                "accountNumber", 
+                "subAccountNumber",
+                "sum(accountLineAnnualBalanceAmount)", 
+                "sum(beginningBalanceLineAmount)",
+                "sum(contractsGrantsBeginningBalanceAmount)" }
+        );
 
         // add the group criteria into the selection statement
-        query.addGroupBy(new String[] { "universityFiscalYear", "chartOfAccountsCode",
-                "accountNumber" });
+        query.addGroupBy("universityFiscalYear");
+        query.addGroupBy("chartOfAccountsCode");
+        query.addGroupBy("accountNumber");
+        query.addGroupBy("subAccountNumber");
 
         Iterator balanceSummary = getPersistenceBrokerTemplate()
                 .getReportQueryIteratorByQuery(query);
@@ -184,5 +191,4 @@ public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements Balanc
 
         getPersistenceBrokerTemplate().store(b);
     }
-
 }

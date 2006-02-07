@@ -17,6 +17,7 @@
         </inquiry>
 		
         <lookup>
+	        <lookupableID>cashBalanceLookupable</lookupableID>
 			<title>Cash Balance</title>			
 			<instructions>Lookup Cash Balance for the specific account.</instructions>
 			<defaultSort attributeName="objectCode" />

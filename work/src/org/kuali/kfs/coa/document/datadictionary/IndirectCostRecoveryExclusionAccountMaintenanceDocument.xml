@@ -19,7 +19,7 @@
         </authorizations>
 
 		<documentTypeName>KualiIndirectCostRecoveryExclusionAccountMaintenanceDocument</documentTypeName>
-		<documentTypeCode>IRM</documentTypeCode>
+		<documentTypeCode>ICRA</documentTypeCode>
 		<label>Indirect Cost Recovery Exclusion Account Maintenance Document</label>
 		<shortLabel>ICRExclusionAccountMaintenanceDoc</shortLabel>
 		<summary>Indirect Cost Recovery Exclusion Account Maintenance Document</summary>

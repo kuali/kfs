@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../core/datadictionary/dataDictionary-1_0.dtd">
+<dictionaryEntry>
+	<businessObject businessObjectClass="org.kuali.module.chart.bo.IndirectCostRecoveryExclusionType">
+		<customAttributeEnabled>false</customAttributeEnabled>
+
+		<inquiry>
+			<title>Indirect Cost Recovery Exclusion by Type Inquiry</title>
+
+			<inquiryFields>	
+				<field attributeName="icrTypeCode.code" />		
+				<field attributeName="chartOfAccounts.chartOfAccountsCode" />
+				<field attributeName="object.financialObjectCode" />			
+			</inquiryFields>
+		</inquiry>
+
+		<lookup>
+			<title>Indirect Cost Recovery Exclusion by Type Lookup</title>
+
+			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.chart.bo.IndirectCostRecoveryExclusionType">Create New</a>]]></menubar>
+
+			<instructions>Lookup an Indirect Cost Recovery Exclusion by type</instructions>
+
+			<defaultSort attributeName="icrTypeCode.code" sortAscending="true" />
+
+			<lookupFields>
+				<lookupField attributeName="icrTypeCode.code" required="false" />
+				<lookupField attributeName="chartOfAccounts.chartOfAccountsCode" required="false" />
+				<lookupField attributeName="object.financialObjectCode" required="false" />
+			</lookupFields>
+
+			<resultFields>
+				<field attributeName="icrTypeCode.code" />		
+				<field attributeName="chartOfAccounts.chartOfAccountsCode" />
+				<field attributeName="object.financialObjectCode" />			
+			</resultFields>
+		</lookup>
+
+		<attributes>
+		
+			<attributeReference name="icrTypeCode.code" 
+				sourceClassName="org.kuali.module.chart.bo.codes.ICRTypeCode" 
+				sourceAttributeName="code" />
+		
+			<attributeReference name="chartOfAccounts.chartOfAccountsCode" 
+								sourceClassName="org.kuali.module.chart.bo.Chart" 
+								sourceAttributeName="chartOfAccountsCode" />
+
+
+			<attribute name="object.financialObjectCode" forceUppercase="true">
+                <label>Object Code</label>
+                <shortLabel>Object</shortLabel>
+
+                <maxLength>4</maxLength>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>Object Code</summary>
+                <description>Object Code...</description>
+            </attribute>
+
+
+
+ 			<attributeReference name="versionNumber" 
+ 				sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
+ 				sourceAttributeName="versionNumber" />
+			
+		</attributes>
+	</businessObject>
+</dictionaryEntry>
+

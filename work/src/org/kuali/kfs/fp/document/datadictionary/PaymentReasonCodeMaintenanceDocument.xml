@@ -18,7 +18,7 @@
         </authorizations>
 
 		<documentTypeName>KualiPaymentReasonCodeMaintenanceDocument</documentTypeName>
-		<documentTypeCode>PRMD</documentTypeCode>
+		<documentTypeCode>DVPR</documentTypeCode>
 
 		<label>Payment Reason Code Maintenance Document</label>
 		<shortLabel>PayReasonMaintDoc</shortLabel>

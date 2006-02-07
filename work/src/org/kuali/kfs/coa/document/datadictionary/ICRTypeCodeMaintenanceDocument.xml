@@ -19,7 +19,7 @@
         </authorizations>
 
 		<documentTypeName>KualiICRTypeCodeMaintenanceDocument</documentTypeName>
-		<documentTypeCode>ICM</documentTypeCode>
+		<documentTypeCode>ICRT</documentTypeCode>
 		<label>ICR Type Code Maintenance Document</label>
 		<shortLabel>ICRTypeCodeMaintDoc</shortLabel>
 		<summary>ICR Type Code Maintenance Document</summary>

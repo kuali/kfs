@@ -1708,6 +1708,28 @@
 	<field-descriptor name="objectCode" column="FIN_OBJECT_CD" jdbc-type="VARCHAR" primarykey="true" />
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+	
+	<reference-descriptor name="icrTypeCode"
+		class-ref="org.kuali.module.chart.bo.codes.ICRTypeCode"
+		auto-retrieve="true" auto-update="none" auto-delete="none"
+		proxy="true">
+		<foreignkey field-ref="accountIndirectCostRecoveryTypeCode" />
+	</reference-descriptor>
+	
+	<reference-descriptor name="chartOfAccounts"
+		class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true"
+		auto-update="none" auto-delete="none" proxy="true">
+		<foreignkey field-ref="chartOfAccountsCode" />
+	</reference-descriptor>
+	
+	<reference-descriptor name="object"
+		class-ref="org.kuali.module.chart.bo.ObjectCodeCurrent"
+		auto-retrieve="true" auto-update="none" auto-delete="none"
+		proxy="true">
+		<foreignkey field-ref="chartOfAccountsCode" />
+		<foreignkey field-ref="objectCode" />
+	</reference-descriptor>	
+	
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.chart.bo.IndirectCostRecoveryThreshold" table="CA_ICR_THRESHOLD_T">
@@ -1718,6 +1740,20 @@
 	<field-descriptor name="awardAccumulatedCostAmount" column="AWRD_ACCUMDCST_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+	
+	<reference-descriptor name="chartOfAccounts"
+		class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true"
+		auto-update="none" auto-delete="none" proxy="true">
+		<foreignkey field-ref="chartOfAccountsCode" />
+	</reference-descriptor>
+	
+	<reference-descriptor name="account"
+		class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true"
+		auto-update="none" auto-delete="none" proxy="true">
+		<foreignkey field-ref="chartOfAccountsCode" />
+		<foreignkey field-ref="accountNumber" />
+	</reference-descriptor>
+
 </class-descriptor>
 
 <class-descriptor

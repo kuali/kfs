@@ -18,7 +18,7 @@
         </authorizations>
 
 		<documentTypeName>KualiTravelPerDiemMaintenanceDocument</documentTypeName>
-		<documentTypeCode>TPD</documentTypeCode>
+		<documentTypeCode>DVPD</documentTypeCode>
 
 		<label>Travel Per Diem Maintenance Document</label>
 		<shortLabel>Per Diem Maint Doc</shortLabel>

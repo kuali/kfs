@@ -18,7 +18,7 @@
         </authorizations>
 
 		<documentTypeName>KualiContractsAndGrantsSubcontractorMaintenanceDocument</documentTypeName>
-		<documentTypeCode>CaGSM</documentTypeCode>
+		<documentTypeCode>SUBC</documentTypeCode>
 
 		<label>Contracts and Grants Subcontractor Maintenance Document</label>
 		<shortLabel>ContractsAndGrantsSubcontractorMainDoc</shortLabel>

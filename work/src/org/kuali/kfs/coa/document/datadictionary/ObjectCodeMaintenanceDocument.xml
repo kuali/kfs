@@ -8,6 +8,8 @@
         <businessObjectClass>org.kuali.module.chart.bo.ObjectCode</businessObjectClass>
         <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
   		<businessRulesClass>org.kuali.module.chart.rules.ObjectCodeRule</businessRulesClass>
+  		<preRulesCheckClass>org.kuali.module.chart.rules.ObjectCodePreRules</preRulesCheckClass>
+  		
 		
         <documentAuthorizerClass>org.kuali.core.document.DocumentAuthorizerBase</documentAuthorizerClass>
         <authorizations>

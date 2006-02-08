@@ -1473,122 +1473,104 @@
 	</reference-descriptor-->
 </class-descriptor>
 
-<!-- TODO: need to verify the match between variable name and column name -->
-<class-descriptor class="org.kuali.module.chart.bo.PriorYearAccount"
-	table="CA_PRIOR_YR_ACCT_T">
-	<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD"
-		jdbc-type="VARCHAR" primarykey="true" index="true" />
-	<field-descriptor name="accountNumber" column="ACCOUNT_NBR"
-		jdbc-type="VARCHAR" primarykey="true" index="true" />
-	<field-descriptor name="accountName" column="ACCOUNT_NM"
-		jdbc-type="VARCHAR" />
-	<field-descriptor name="accountsSupervisorySystemIdentifier"
-		column="ACCT_SPVSR_SYS_ID" jdbc-type="VARCHAR" />
-	<field-descriptor name="accountManagerSystemIdentifier"
-		column="ACCT_MGR_SYS_ID" jdbc-type="VARCHAR" />
-	<field-descriptor name="organizationCode" column="ORG_CD"
-		jdbc-type="VARCHAR" />
-	<field-descriptor name="accountTypeCode" column="ACCT_TYP_CD"
-		jdbc-type="VARCHAR" />
-	<field-descriptor name="accountPhysicalCampusCode"
-		column="ACCT_PHYS_CMP_CD" jdbc-type="VARCHAR" />
-	<field-descriptor name="subFundGroupCode" column="SUB_FUND_GRP_CD"
-		jdbc-type="VARCHAR" />
-	<field-descriptor name="accountFringesBenefitIndicator"
-		column="ACCT_FRNG_BNFT_CD" jdbc-type="VARCHAR"
-		conversion="org.kuali.core.util.OjbCharBooleanConversion" />
-	<field-descriptor name="financialHigherEducationFunctionCode"
-		column="FIN_HGH_ED_FUNC_CD" jdbc-type="VARCHAR" />
-	<field-descriptor name="accountRestrictedStatusCode"
-		column="ACCT_RSTRC_STAT_CD" jdbc-type="VARCHAR" />
-	<field-descriptor name="accountRestrictedStatusDate"
-		column="ACCT_RSTRC_STAT_DT" jdbc-type="TIMESTAMP" />
-	<field-descriptor name="accountCityName" column="ACCT_CITY_NM"
-		jdbc-type="VARCHAR" />
-	<field-descriptor name="accountStateCode" column="ACCT_STATE_CD"
-		jdbc-type="VARCHAR" />
-	<field-descriptor name="accountStreetAddress"
-		column="ACCT_STREET_ADDR" jdbc-type="VARCHAR" />
-	<field-descriptor name="accountZipCode" column="ACCT_ZIP_CD"
-		jdbc-type="VARCHAR" />
-	<field-descriptor name="reportsToChartOfAccountsCode"
-		column="RPTS_TO_FIN_COA_CD" jdbc-type="VARCHAR" />
-	<field-descriptor name="reportsToAccountNumber"
-		column="RPTS_TO_ACCT_NBR" jdbc-type="VARCHAR" />
-	<field-descriptor name="accountCreateDate" column="ACCT_CREATE_DT"
-		jdbc-type="TIMESTAMP" />
-	<field-descriptor name="accountEffectiveDate"
-		column="ACCT_EFFECT_DT" jdbc-type="TIMESTAMP" />
-	<field-descriptor name="accountExpirationDate"
-		column="ACCT_EXPIRATION_DT" jdbc-type="TIMESTAMP" />
-	<field-descriptor name="continuationFinancialChartOfAccountCode"
-		column="CONT_FIN_COA_CD" jdbc-type="VARCHAR" />
-	<field-descriptor name="continuationAccountNumber"
-		column="CONT_ACCOUNT_NBR" jdbc-type="VARCHAR" />
-	<field-descriptor name="awardPeriodEndYear"
-		column="AWRD_PERIOD_END_YR" jdbc-type="INTEGER" />
-	<field-descriptor name="awardPeriodEndMonth"
-		column="AWRD_PERIOD_END_MO" jdbc-type="VARCHAR" />
-	<field-descriptor name="awardPeriodBeginYear"
-		column="AWRD_PERIOD_BEG_YR" jdbc-type="INTEGER" />
-	<field-descriptor name="awardPeriodBeginMonth"
-		column="AWRD_PERIOD_BEG_MO" jdbc-type="VARCHAR" />
-	<field-descriptor name="endowmentIncomeAccountFinancialChartOfAccountCode"
-		column="ENDOW_FIN_COA_CD" jdbc-type="VARCHAR" />
-	<field-descriptor name="endowmentIncomeAccountNumber"
-		column="ENDOW_ACCOUNT_NBR" jdbc-type="VARCHAR" />
-	<field-descriptor name="contractControlFinCoaCode"
-		column="CONTR_CTRL_FCOA_CD" jdbc-type="VARCHAR" />
-	<field-descriptor name="contractControlAccountNumber"
-		column="CONTR_CTRLACCT_NBR" jdbc-type="VARCHAR" />
-	<field-descriptor name="incomeFinancialChartOfAccountCode"
-		column="INCOME_FIN_COA_CD" jdbc-type="VARCHAR" />
-	<field-descriptor name="incomeAccountNumber"
-		column="INCOME_ACCOUNT_NBR" jdbc-type="VARCHAR" />
-	<field-descriptor name="accountIndirectCostRcvyTypeCode"
-		column="ACCT_ICR_TYP_CD" jdbc-type="VARCHAR" />
-	<field-descriptor name="accountCustomIndCstRecoveryExclCode"
-		column="AC_CSTM_ICREXCL_CD" jdbc-type="VARCHAR" />
-	<field-descriptor name="financialIcrSeriesIdentifier"
-		column="FIN_SERIES_ID" jdbc-type="VARCHAR" />
-	<field-descriptor name="indirectCostRcvyFinCoaCode"
-		column="ICR_FIN_COA_CD" jdbc-type="VARCHAR" />
-	<field-descriptor name="indirectCostRecoveryAcctNbr"
-		column="ICR_ACCOUNT_NBR" jdbc-type="VARCHAR" />
-	<field-descriptor name="accountInFinancialProcessingIndicator"
-		column="ACCT_IN_FP_CD" jdbc-type="VARCHAR"
-		conversion="org.kuali.core.util.OjbCharBooleanConversion" />
-	<field-descriptor name="budgetRecordingLevelCode"
-		column="BDGT_REC_LVL_CD" jdbc-type="VARCHAR" />
-	<field-descriptor name="accountSufficientFundsCode"
-		column="ACCT_SF_CD" jdbc-type="VARCHAR" />
-	<field-descriptor name="pendingAcctSufficientFundsIndicator"
-		column="ACCT_PND_SF_CD" jdbc-type="VARCHAR"
-		conversion="org.kuali.core.util.OjbCharBooleanConversion" />
-	<field-descriptor name="extrnlFinEncumSufficntFndIndicator"
-		column="FIN_EXT_ENC_SF_CD" jdbc-type="VARCHAR"
-		conversion="org.kuali.core.util.OjbCharBooleanConversion" />
-	<field-descriptor name="intrnlFinEncumSufficntFndIndicator"
-		column="FIN_INT_ENC_SF_CD" jdbc-type="VARCHAR"
-		conversion="org.kuali.core.util.OjbCharBooleanConversion" />
-	<field-descriptor name="finPreencumSufficientFundIndicator"
-		column="FIN_PRE_ENC_SF_CD" jdbc-type="VARCHAR"
-		conversion="org.kuali.core.util.OjbCharBooleanConversion" />
-	<field-descriptor name="financialObjectivePrsctrlIndicator"
-		column="FIN_OBJ_PRSCTRL_CD" jdbc-type="VARCHAR"
-		conversion="org.kuali.core.util.OjbCharBooleanConversion" />
-	<field-descriptor name="cgCatlfFedDomestcAssistNbr"
-		column="CG_CFDA_NBR" jdbc-type="VARCHAR" />
-	<field-descriptor name="accountOffCampusIndicator"
-		column="ACCT_OFF_CMP_IND" jdbc-type="VARCHAR"
-		conversion="org.kuali.core.util.OjbCharBooleanConversion" />
-	<field-descriptor name="accountClosedIndicator"
-		column="ACCT_CLOSED_IND" jdbc-type="VARCHAR"
-		conversion="org.kuali.core.util.OjbCharBooleanConversion" />
-	<field-descriptor name="objectId" column="OBJ_ID"
-		jdbc-type="VARCHAR" index="true" />
-	<field-descriptor name="versionNumber" column="VER_NBR"
-		jdbc-type="BIGINT" locking="true" />
+<class-descriptor class="org.kuali.module.chart.bo.PriorYearAccount" table="CA_PRIOR_YR_ACCT_T">
+	<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="accountNumber" column="ACCOUNT_NBR" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<field-descriptor name="accountName" column="ACCOUNT_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="accountFiscalOfficerUniversalIdentifier" column="ACCT_FSC_OFC_UID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="accountSupervisorUniversalId" column="ACCT_SPVSR_UNVL_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="accountManagerUniversalId" column="ACCT_MGR_UNVL_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="organizationCode" column="ORG_CD" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="accountTypeCode" column="ACCT_TYP_CD" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="accountPhysicalCampusCode" column="ACCT_PHYS_CMP_CD" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="subFundGroupCode" column="SUB_FUND_GRP_CD" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="accountFringeBenefitCode" column="ACCT_FRNG_BNFT_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="financialHigherEdFunctionCd" column="FIN_HGH_ED_FUNC_CD" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="accountRestrictedStatusCode" column="ACCT_RSTRC_STAT_CD" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="accountRestrictedStatusDate" column="ACCT_RSTRC_STAT_DT" jdbc-type="DATE"/>
+	<field-descriptor name="accountCityName" column="ACCT_CITY_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="accountStateCode" column="ACCT_STATE_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="accountStreetAddress" column="ACCT_STREET_ADDR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="accountZipCode" column="ACCT_ZIP_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="reportsToChartOfAccountsCode" column="RPTS_TO_FIN_COA_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="reportsToAccountNumber" column="RPTS_TO_ACCT_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="accountCreateDate" column="ACCT_CREATE_DT" jdbc-type="DATE"/>
+	<field-descriptor name="accountEffectiveDate" column="ACCT_EFFECT_DT" jdbc-type="DATE"/>
+	<field-descriptor name="accountExpirationDate" column="ACCT_EXPIRATION_DT" jdbc-type="DATE"/>
+	<field-descriptor name="continuationFinChrtOfAcctCd" column="CONT_FIN_COA_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="continuationAccountNumber" column="CONT_ACCOUNT_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="awardPeriodEndYear" column="AWRD_PERIOD_END_YR" jdbc-type="INTEGER"/>
+	<field-descriptor name="awardPeriodEndMonth" column="AWRD_PERIOD_END_MO" jdbc-type="VARCHAR"/>
+	<field-descriptor name="awardPeriodBeginYear" column="AWRD_PERIOD_BEG_YR" jdbc-type="INTEGER"/>
+	<field-descriptor name="awardPeriodBeginMonth" column="AWRD_PERIOD_BEG_MO" jdbc-type="VARCHAR"/>
+	<field-descriptor name="endowmentIncomeAcctFinCoaCd" column="ENDOW_FIN_COA_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="endowmentIncomeAccountNumber" column="ENDOW_ACCOUNT_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="contractControlFinCoaCode" column="CONTR_CTRL_FCOA_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="contractControlAccountNumber" column="CONTR_CTRLACCT_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="incomeStreamFinancialCoaCode" column="INCOME_FIN_COA_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="incomeStreamAccountNumber" column="INCOME_ACCOUNT_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="acctIndirectCostRcvyTypeCd" column="ACCT_ICR_TYP_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="acctCustomIndCstRcvyExclCd" column="AC_CSTM_ICREXCL_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="financialIcrSeriesIdentifier" column="FIN_SERIES_ID" jdbc-type="VARCHAR"/>
+	<field-descriptor name="indirectCostRcvyFinCoaCode" column="ICR_FIN_COA_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="indirectCostRecoveryAcctNbr" column="ICR_ACCOUNT_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="accountInFinProcessingIndicator" column="ACCT_IN_FP_CD" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanFieldTFConversion"/>
+	<field-descriptor name="budgetRecordingLevelCode" column="BDGT_REC_LVL_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="accountSufficientFundsCode" column="ACCT_SF_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="pendingAcctSufficientFundsIndicator" column="ACCT_PND_SF_CD" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanFieldTFConversion"/>
+	<field-descriptor name="extrnlFinEncumSufficntFndIndicator" column="FIN_EXT_ENC_SF_CD" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanFieldTFConversion"/>
+	<field-descriptor name="intrnlFinEncumSufficntFndIndicator" column="FIN_INT_ENC_SF_CD" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanFieldTFConversion"/>
+	<field-descriptor name="finPreencumSufficientFundIndicator" column="FIN_PRE_ENC_SF_CD" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanFieldTFConversion"/>
+	<field-descriptor name="finObjectPresenceControlIndicator" column="FIN_OBJ_PRSCTRL_CD" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanFieldTFConversion"/>
+	<field-descriptor name="cgCatlfFedDomestcAssistNbr" column="CG_CFDA_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="accountOffCampusIndicator" column="ACCT_OFF_CMP_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanFieldConversion"/>
+	<field-descriptor name="accountClosedIndicator" column="ACCT_CLOSED_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanFieldTFConversion"/>
+	<reference-descriptor name="chart" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="chartOfAccountsCode" />
+	</reference-descriptor>
+	<reference-descriptor name="campus" class-ref="org.kuali.module.chart.bo.Campus" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="accountPhysicalCampusCode" />
+	</reference-descriptor>
+	<reference-descriptor name="reportsToChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="reportsToChartOfAccountsCode" />
+	</reference-descriptor>
+	<reference-descriptor name="account" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="reportsToChartOfAccountsCode" />
+		<foreignkey field-ref="reportsToAccountNumber" />
+	</reference-descriptor>
+	<reference-descriptor name="continuationFinChrtOfAcct" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="continuationFinChrtOfAcctCd" />
+	</reference-descriptor>
+	<reference-descriptor name="endowmentIncomeAcctFinCoa" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="endowmentIncomeAcctFinCoaCd" />
+	</reference-descriptor>
+	<reference-descriptor name="endowmentIncomeAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="endowmentIncomeAcctFinCoaCd" />
+		<foreignkey field-ref="endowmentIncomeAccountNumber" />
+	</reference-descriptor>
+	<reference-descriptor name="contractControlAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="contractControlFinCoaCode" />
+		<foreignkey field-ref="contractControlAccountNumber" />
+	</reference-descriptor>
+	<reference-descriptor name="contractControlFinCoa" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="contractControlFinCoaCode" />
+	</reference-descriptor>
+	<reference-descriptor name="incomeStreamFinancialCoa" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="incomeStreamFinancialCoaCode" />
+	</reference-descriptor>
+	<reference-descriptor name="incomeStreamAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="incomeStreamFinancialCoaCode" />
+		<foreignkey field-ref="incomeStreamAccountNumber" />
+	</reference-descriptor>
+	<reference-descriptor name="indirectCostRecoveryAcct" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="indirectCostRcvyFinCoaCode" />
+		<foreignkey field-ref="indirectCostRecoveryAcctNbr" />
+	</reference-descriptor>
+	<reference-descriptor name="indirectCostRcvyFinCoa" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="indirectCostRcvyFinCoaCode" />
+	</reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.chart.bo.A21SubAccount" table="CA_A21_SUB_ACCT_T">

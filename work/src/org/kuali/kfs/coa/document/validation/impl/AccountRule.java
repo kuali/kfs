@@ -34,7 +34,6 @@ import org.kuali.core.bo.Building;
 import org.kuali.core.bo.user.KualiUser;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
@@ -84,7 +83,6 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
     private Account newAccount;
     private boolean ruleValuesSetup;
     private BalanceService balanceService;
-    private DateTimeService dateTimeService;
     
     public AccountRule() {
         ruleValuesSetup = false;
@@ -98,7 +96,6 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         this.setConfigService(SpringServiceLocator.getKualiConfigurationService());
         this.setGeneralLedgerPendingEntryService(SpringServiceLocator.getGeneralLedgerPendingEntryService());
         this.setBalanceService(SpringServiceLocator.getGeneralLedgerBalanceService());
-        this.setDateTimeService(SpringServiceLocator.getDateTimeService());
     }
     
     /**
@@ -953,14 +950,6 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
      */
     public void setConfigService(KualiConfigurationService configService) {
         this.configService = configService;
-    }
-    
-    /**
-     * Sets the dateTimeService attribute value.
-     * @param dateTimeService The dateTimeService to set.
-     */
-    public void setDateTimeService(DateTimeService dateTimeService) {
-        this.dateTimeService = dateTimeService;
     }
     
 }

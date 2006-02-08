@@ -19,6 +19,8 @@
 
 package org.kuali.workflow.attribute;
 
+import java.io.BufferedReader;
+import java.io.StringReader;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -33,11 +35,19 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathFactory;
+
 import org.apache.log4j.Logger;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.kuali.KualiSpringServiceLocator;
 import org.kuali.workflow.KualiConstants;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
 
 import edu.iu.uis.eden.exception.EdenUserNotFoundException;
 import edu.iu.uis.eden.lookupable.Field;
@@ -82,7 +92,7 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
     private static final String FISCAL_OFFICER_SECONDARY_DELEGATE_ROLE_LABEL = "Fiscal Officer Secondary Delegate";
 
     private static final String ACCOUNT_ATTRIBUTE = "KUALI_ACCOUNT_ATTRIBUTE";
-
+    
     //TODO - here we need to integrate our AccountLookupable long term...
     //private static final String LOOKUPABLE_CLASS = "AccountLookupableImplService";
 
@@ -352,18 +362,40 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
      * @see edu.iu.uis.eden.routetemplate.RoleAttribute#getQualifiedRoleNames(java.lang.String, java.lang.String)
      */
     public List getQualifiedRoleNames(String roleName, DocumentContent docContent) throws EdenUserNotFoundException {
+        try {            
         Set qualifiedRoleNames = new HashSet();
         if (FISCAL_OFFICER_ROLE_KEY.equals(roleName) || FISCAL_OFFICER_PRIMARY_DELEGATE_ROLE_KEY.equals(roleName) || FISCAL_OFFICER_SECONDARY_DELEGATE_ROLE_KEY.equals(roleName)) {
             Document doc = null;
             //TODO: undo this so we're not dependent on a core workflow class
-            doc = XmlHelper.buildJDocument(docContent.getDocument());
-            List accountElements = XmlHelper.findElements(doc.getRootElement(), ACCOUNT_ATTRIBUTE);
-            for (Iterator iter = accountElements.iterator(); iter.hasNext();) {
-                Element accountElement = (Element) iter.next();
-                qualifiedRoleNames.add(getQualifiedRoleString(roleName, accountElement.getChild(FIN_COA_CD_KEY).getText(), accountElement.getChild(ACCOUNT_NBR_KEY).getText(), accountElement.getChild(FDOC_TOTAL_DOLLAR_AMOUNT_KEY).getText()));
+            /*
+             * //sourceAccountingLines/accountNumber
+             */
+            
+            XPath xpath = XPathFactory.newInstance().newXPath();
+            NodeList nodes = (NodeList) xpath.evaluate("//org.kuali.core.bo.SourceAccountingLine", docContent.getDocument(), XPathConstants.NODESET);
+//            return (NodeList) xpath.evaluate(findField.toString(), root, XPathConstants.NODESET);
+//            doc = XmlHelper.buildJDocument(docContent.getDocument());
+//            List accountElements = XmlHelper.findElements(doc.getRootElement(), ACCOUNT_ATTRIBUTE);
+            
+            
+            
+            for (int i = 0; i < nodes.getLength(); i++) {
+                Node accountingLineNode = nodes.item(i);
+                String amount = xpath.evaluate("amount/value", accountingLineNode);
+                String chart = xpath.evaluate("chartOfAccountsCode", accountingLineNode);
+                String accountNumber = xpath.evaluate("accountNumber", accountingLineNode);
+                qualifiedRoleNames.add(getQualifiedRoleString(roleName, chart, accountNumber, amount));
             }
+            
+//            for (Iterator iter = accountElements.iterator(); iter.hasNext();) {
+//                Element accountElement = (Element) iter.next();
+//                qualifiedRoleNames.add(getQualifiedRoleString(roleName, accountElement.getChild(FIN_COA_CD_KEY).getText(), accountElement.getChild(ACCOUNT_NBR_KEY).getText(), accountElement.getChild(FDOC_TOTAL_DOLLAR_AMOUNT_KEY).getText()));
+//            }
         }
         return new ArrayList(qualifiedRoleNames);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**

@@ -33,12 +33,18 @@ import java.util.Set;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathFactory;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.kuali.KualiSpringServiceLocator;
 import org.kuali.workflow.beans.KualiFiscalOrganization;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import edu.iu.uis.eden.WorkflowServiceErrorImpl;
 import edu.iu.uis.eden.lookupable.Field;
@@ -287,14 +293,23 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
      */
     private Set populateFromDocContent(DocumentContent docContent) {
         Set chartOrgValues = new HashSet();
-        Document doc = null;
-        doc = XmlHelper.buildJDocument(docContent.getDocument());
-        List chartOrgElements = XmlHelper.findElements(doc.getRootElement(), ORG_REVIEW_ATTRIBUTE);
-        for (Iterator iter = chartOrgElements.iterator(); iter.hasNext();) {
-            Element chartOrgElement = (Element) iter.next();
-            KualiOrgReviewAttribute addedAttribute = new KualiOrgReviewAttribute(chartOrgElement.getChild(FIN_COA_CD_KEY).getText(), chartOrgElement.getChild(ORG_CD_KEY).getText()); 
-            chartOrgValues.add(addedAttribute);
-            buildOrgReviewHierarchy(chartOrgValues, addedAttribute);
+        try {
+            XPath xpath = XPathFactory.newInstance().newXPath();
+            NodeList nodes = (NodeList) xpath.evaluate("//org.kuali.core.bo.SourceAccountingLine/account", docContent.getDocument(), XPathConstants.NODESET);
+            for (int i = 0; i < nodes.getLength(); i++) {
+                Node accountingLineNode = nodes.item(i);
+                String referenceString = xpath.evaluate("@reference", accountingLineNode);
+                if (!StringUtils.isEmpty(referenceString)) {
+                    accountingLineNode = (Node)xpath.evaluate(referenceString, accountingLineNode, XPathConstants.NODE);
+                }
+                String chart = xpath.evaluate("chartOfAccountsCode", accountingLineNode);
+                String org = xpath.evaluate("organizationCode", accountingLineNode);
+                KualiOrgReviewAttribute addedAttribute = new KualiOrgReviewAttribute(chart, org); 
+                chartOrgValues.add(addedAttribute);
+                buildOrgReviewHierarchy(chartOrgValues, addedAttribute);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
         return chartOrgValues;
     }

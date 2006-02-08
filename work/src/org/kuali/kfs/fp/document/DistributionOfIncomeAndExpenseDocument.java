@@ -46,10 +46,10 @@ public class DistributionOfIncomeAndExpenseDocument extends TransactionalDocumen
      * impl in the parent.
 	 * @see org.kuali.bo.Document#populateDocumentForRouting()
 	 */
-	public void populateDocumentForRouting() {
-		KualiWorkflowDocument workflowDocument = getDocumentHeader().getWorkflowDocument();
-    	addAttributeDefinitionsForAccountingLines(workflowDocument, targetAccountingLines);
-	}
+//	public void populateDocumentForRouting() {
+//		KualiWorkflowDocument workflowDocument = getDocumentHeader().getWorkflowDocument();
+//    	addAttributeDefinitionsForAccountingLines(workflowDocument, targetAccountingLines);
+//	}
 
     /**
      * Overrides the base implementation to return "From".

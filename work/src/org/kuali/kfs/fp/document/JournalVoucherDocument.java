@@ -126,13 +126,13 @@ public class JournalVoucherDocument extends TransactionalDocumentBase {
         return Constants.EMPTY_STRING;
     }
 
-    /**
-     * Override with nothing since the JV doesn't do org or account based routing.
-     * 
-     * @see org.kuali.core.document.Document#populateDocumentForRouting()
-     */
-    public void populateDocumentForRouting() {
-    }
+//    /**
+//     * Override with nothing since the JV doesn't do org or account based routing.
+//     * 
+//     * @see org.kuali.core.document.Document#populateDocumentForRouting()
+//     */
+//    public void populateDocumentForRouting() {
+//    }
 
     /**
      * This method calculates the debit total for a JV document keying off of the debit/debit code, only summing the accounting

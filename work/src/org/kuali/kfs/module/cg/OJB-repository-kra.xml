@@ -109,6 +109,7 @@
   <field-descriptor name="agencyModularIndicator" column="AGNCY_MOD_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
   <field-descriptor name="agencyToBeNamedIndicator" column="BDGT_AGNCY_TBN_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
   <field-descriptor name="projectDirectoryToBeNamedIndicator" column="BDGT_PRJDR_TBN_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+  <field-descriptor name="budgetTypeCodeText" column="BDGT_TYP_CD_TXT" jdbc-type="VARCHAR"/>
   <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
   <field-descriptor name="versionNumber" locking="true" column="VER_NBR" jdbc-type="BIGINT" />
   <reference-descriptor name="projectDirector" class-ref="org.kuali.module.cg.bo.ProjectDirector"  auto-retrieve="true" auto-update="none" auto-delete="none">
@@ -503,7 +504,7 @@
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.kra.bo.IndirectCostLookup" table="ER_IDC_LU_T">
-  <field-descriptor name="budgetOnOffCampusIndicator" column="BDGT_ON_OFF_CMP_IND" jdbc-type="VARCHAR" primarykey="true" index="true" conversion="org.kuali.core.util.OjbCharBooleanFieldConversion"/>
+  <field-descriptor name="budgetOnCampusIndicator" column="BDGT_ON_CMP_IND" jdbc-type="VARCHAR" primarykey="true" index="true" conversion="org.kuali.core.util.OjbCharBooleanFieldConversion"/>
   <field-descriptor name="budgetPurposeCode" column="BDGT_PRPS_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
   <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
   <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>

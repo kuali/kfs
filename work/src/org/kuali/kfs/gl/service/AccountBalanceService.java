@@ -20,25 +20,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-package org.kuali.module.gl.web;
+package org.kuali.module.gl.service;
 
 /**
  * This class...
  * @author Bin Gao from Michigan State University
  */
-public final class Constant {
-    public static final String PENDING_ENTRY_OPTION = "dummyBusinessObject.pendingEntryOption";
-    public static final String APPROVED_PENDING_ENTRY = "Approved";
-    public static final String ALL_PENDING_ENTRY = "All";
-    public static final String NO_PENDING_ENTRY = "No";
-    
-    public static final String CONSOLIDATION_OPTION = "dummyBusinessObject.consolidationOption";
-    public static final String CONSOLIDATION = "Consolidation";
-    public static final String DETAIL = "Detail";
-    
-    public static final String SUB_ACCOUNT_OPTION = "subAccountNumber";
-    
-    public static final String BALANCE_TYPE_IE = "IE";
-    public static final String BALANCE_TYPE_PE = "PE";
-    public static final String BALANCE_TYPE_EX = "EX";
+public interface AccountBalanceService {
+
 }

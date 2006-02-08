@@ -15,7 +15,7 @@
         </inquiry>
 		
         <lookup>
-	        <lookupableID>cashBalanceLookupable</lookupableID>
+	        <lookupableID>glCashBalanceLookupable</lookupableID>
 			<title>Cash Balance</title>			
 			<instructions>Lookup Cash Balance for the specific account.</instructions>
 			

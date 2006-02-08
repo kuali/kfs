@@ -82,6 +82,7 @@ public class Encumbrance extends BusinessObjectBase {
         accountLineEncumbranceAmount = new KualiDecimal("0");
         accountLineEncumbranceClosedAmount = new KualiDecimal("0");
         accountLineEncumbrancePurgeCode = " ";
+        this.dummyBusinessObject = new DummyBusinessObject();
     }
 
     protected LinkedHashMap toStringMapper() {

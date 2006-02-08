@@ -29,6 +29,7 @@ import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
+import org.kuali.module.chart.bo.ObjectCode;
 
 /**
  * @author jsissom
@@ -65,6 +66,7 @@ public class Balance extends BusinessObjectBase {
 
     private Chart chart;
     private Account account;
+    private ObjectCode financialObject;
     private DummyBusinessObject dummyBusinessObject;
 
     public Balance() {
@@ -622,5 +624,23 @@ public class Balance extends BusinessObjectBase {
      */
     public void setDummyBusinessObject(DummyBusinessObject dummyBusinessObject) {
         this.dummyBusinessObject = dummyBusinessObject;
+    }
+
+    /**
+     * Gets the financialObject attribute.
+     * 
+     * @return Returns the financialObject.
+     */
+    public ObjectCode getFinancialObject() {
+        return financialObject;
+    }
+
+    /**
+     * Sets the financialObject attribute value.
+     * 
+     * @param financialObject The financialObject to set.
+     */
+    public void setFinancialObject(ObjectCode financialObject) {
+        this.financialObject = financialObject;
     }
 }

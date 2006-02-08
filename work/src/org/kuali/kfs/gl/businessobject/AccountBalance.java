@@ -27,116 +27,221 @@ import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.module.chart.bo.Account;
+import org.kuali.module.chart.bo.Chart;
+import org.kuali.module.chart.bo.ObjectCode;
 
 /**
  * @author jsissom
- *
+ *  
  */
 public class AccountBalance extends BusinessObjectBase {
-  static final long serialVersionUID = 6873573726961704771L;
+    static final long serialVersionUID = 6873573726961704771L;
 
-  private static KualiDecimal ZERO = new KualiDecimal("0");
+    private static KualiDecimal ZERO = new KualiDecimal("0");
 
-  private Integer universityFiscalYear;
-  private String chartOfAccountsCode;
-  private String accountNumber;
-  private String subAccountNumber;
-  private String objectCode;
-  private String subObjectCode;
-  private KualiDecimal currentBudgetLineBalanceAmount;
-  private KualiDecimal accountLineActualsBalanceAmount;
-  private KualiDecimal accountLineEncumbranceBalanceAmount;
-  private Date timestamp;
+    private Integer universityFiscalYear;
+    private String chartOfAccountsCode;
+    private String accountNumber;
+    private String subAccountNumber;
+    private String objectCode;
+    private String subObjectCode;
+    private KualiDecimal currentBudgetLineBalanceAmount;
+    private KualiDecimal accountLineActualsBalanceAmount;
+    private KualiDecimal accountLineEncumbranceBalanceAmount;
+    private Date timestamp;
 
-  public AccountBalance() {
-    super();
-  }
+    private Chart chart;
+    private Account account;
+    private ObjectCode financialObject;
+    private DummyBusinessObject dummyBusinessObject;
 
-  public AccountBalance(Transaction t) {
-    super();
-    universityFiscalYear = t.getUniversityFiscalYear();
-    chartOfAccountsCode = t.getChartOfAccountsCode();
-    accountNumber = t.getAccountNumber();
-    subAccountNumber = t.getSubAccountNumber();
-    objectCode = t.getFinancialObjectCode();
-    subObjectCode = t.getFinancialSubObjectCode();
-    currentBudgetLineBalanceAmount = ZERO;
-    accountLineActualsBalanceAmount = ZERO;
-    accountLineEncumbranceBalanceAmount = ZERO;
-  }
+    public AccountBalance() {
+        super();
+        this.dummyBusinessObject = new DummyBusinessObject();
+    }
 
-  /* (non-Javadoc)
-   * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-   */
-  protected LinkedHashMap toStringMapper() {
-    LinkedHashMap map = new LinkedHashMap();
-    map.put("universityFiscalYear", getUniversityFiscalYear());
-    map.put("chartOfAccountsCode", getChartOfAccountsCode());
-    map.put("accountNumber", getAccountNumber());
-    map.put("subAccountNumber", getSubAccountNumber());
-    map.put("objectCode", getObjectCode());
-    map.put("subObjectCode", getSubObjectCode());
-    return map;
-  }
+    public AccountBalance(Transaction t) {
+        super();
+        universityFiscalYear = t.getUniversityFiscalYear();
+        chartOfAccountsCode = t.getChartOfAccountsCode();
+        accountNumber = t.getAccountNumber();
+        subAccountNumber = t.getSubAccountNumber();
+        objectCode = t.getFinancialObjectCode();
+        subObjectCode = t.getFinancialSubObjectCode();
+        currentBudgetLineBalanceAmount = ZERO;
+        accountLineActualsBalanceAmount = ZERO;
+        accountLineEncumbranceBalanceAmount = ZERO;
+    }
 
-  public KualiDecimal getAccountLineActualsBalanceAmount() {
-    return accountLineActualsBalanceAmount;
-  }
-  public void setAccountLineActualsBalanceAmount(KualiDecimal accountLineActualsBalanceAmount) {
-    this.accountLineActualsBalanceAmount = accountLineActualsBalanceAmount;
-  }
-  public KualiDecimal getAccountLineEncumbranceBalanceAmount() {
-    return accountLineEncumbranceBalanceAmount;
-  }
-  public void setAccountLineEncumbranceBalanceAmount(KualiDecimal accountLineEncumbranceBalanceAmount) {
-    this.accountLineEncumbranceBalanceAmount = accountLineEncumbranceBalanceAmount;
-  }
-  public String getAccountNumber() {
-    return accountNumber;
-  }
-  public void setAccountNumber(String accountNumber) {
-    this.accountNumber = accountNumber;
-  }
-  public String getChartOfAccountsCode() {
-    return chartOfAccountsCode;
-  }
-  public void setChartOfAccountsCode(String chartOfAccountsCode) {
-    this.chartOfAccountsCode = chartOfAccountsCode;
-  }
-  public KualiDecimal getCurrentBudgetLineBalanceAmount() {
-    return currentBudgetLineBalanceAmount;
-  }
-  public void setCurrentBudgetLineBalanceAmount(KualiDecimal currentBudgetLineBalanceAmount) {
-    this.currentBudgetLineBalanceAmount = currentBudgetLineBalanceAmount;
-  }
-  public String getObjectCode() {
-    return objectCode;
-  }
-  public void setObjectCode(String objectCode) {
-    this.objectCode = objectCode;
-  }
-  public String getSubAccountNumber() {
-    return subAccountNumber;
-  }
-  public void setSubAccountNumber(String subAccountNumber) {
-    this.subAccountNumber = subAccountNumber;
-  }
-  public String getSubObjectCode() {
-    return subObjectCode;
-  }
-  public void setSubObjectCode(String subObjectCode) {
-    this.subObjectCode = subObjectCode;
-  }
-  public Date getTimestamp() {
-    return timestamp;
-  }
-  public void setTimestamp(Date timestamp) {
-    this.timestamp = timestamp;
-  }
-  public Integer getUniversityFiscalYear() {
-    return universityFiscalYear;
-  }
-  public void setUniversityFiscalYear(Integer universityFiscalYear) {
-    this.universityFiscalYear = universityFiscalYear;
-  }
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap map = new LinkedHashMap();
+        map.put("universityFiscalYear", getUniversityFiscalYear());
+        map.put("chartOfAccountsCode", getChartOfAccountsCode());
+        map.put("accountNumber", getAccountNumber());
+        map.put("subAccountNumber", getSubAccountNumber());
+        map.put("objectCode", getObjectCode());
+        map.put("subObjectCode", getSubObjectCode());
+        return map;
+    }
+
+    public KualiDecimal getAccountLineActualsBalanceAmount() {
+        return accountLineActualsBalanceAmount;
+    }
+
+    public void setAccountLineActualsBalanceAmount(
+            KualiDecimal accountLineActualsBalanceAmount) {
+        this.accountLineActualsBalanceAmount = accountLineActualsBalanceAmount;
+    }
+
+    public KualiDecimal getAccountLineEncumbranceBalanceAmount() {
+        return accountLineEncumbranceBalanceAmount;
+    }
+
+    public void setAccountLineEncumbranceBalanceAmount(
+            KualiDecimal accountLineEncumbranceBalanceAmount) {
+        this.accountLineEncumbranceBalanceAmount = accountLineEncumbranceBalanceAmount;
+    }
+
+    public String getAccountNumber() {
+        return accountNumber;
+    }
+
+    public void setAccountNumber(String accountNumber) {
+        this.accountNumber = accountNumber;
+    }
+
+    public String getChartOfAccountsCode() {
+        return chartOfAccountsCode;
+    }
+
+    public void setChartOfAccountsCode(String chartOfAccountsCode) {
+        this.chartOfAccountsCode = chartOfAccountsCode;
+    }
+
+    public KualiDecimal getCurrentBudgetLineBalanceAmount() {
+        return currentBudgetLineBalanceAmount;
+    }
+
+    public void setCurrentBudgetLineBalanceAmount(
+            KualiDecimal currentBudgetLineBalanceAmount) {
+        this.currentBudgetLineBalanceAmount = currentBudgetLineBalanceAmount;
+    }
+
+    public String getObjectCode() {
+        return objectCode;
+    }
+
+    public void setObjectCode(String objectCode) {
+        this.objectCode = objectCode;
+    }
+
+    public String getSubAccountNumber() {
+        return subAccountNumber;
+    }
+
+    public void setSubAccountNumber(String subAccountNumber) {
+        this.subAccountNumber = subAccountNumber;
+    }
+
+    public String getSubObjectCode() {
+        return subObjectCode;
+    }
+
+    public void setSubObjectCode(String subObjectCode) {
+        this.subObjectCode = subObjectCode;
+    }
+
+    public Date getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(Date timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public Integer getUniversityFiscalYear() {
+        return universityFiscalYear;
+    }
+
+    public void setUniversityFiscalYear(Integer universityFiscalYear) {
+        this.universityFiscalYear = universityFiscalYear;
+    }
+
+    /**
+     * Gets the account attribute.
+     * 
+     * @return Returns the account.
+     */
+    public Account getAccount() {
+        return account;
+    }
+
+    /**
+     * Sets the account attribute value.
+     * 
+     * @param account The account to set.
+     */
+    public void setAccount(Account account) {
+        this.account = account;
+    }
+
+    /**
+     * Gets the chart attribute.
+     * 
+     * @return Returns the chart.
+     */
+    public Chart getChart() {
+        return chart;
+    }
+
+    /**
+     * Sets the chart attribute value.
+     * 
+     * @param chart The chart to set.
+     */
+    public void setChart(Chart chart) {
+        this.chart = chart;
+    }
+
+    /**
+     * Gets the financialObject attribute.
+     * 
+     * @return Returns the financialObject.
+     */
+    public ObjectCode getFinancialObject() {
+        return financialObject;
+    }
+
+    /**
+     * Sets the financialObject attribute value.
+     * 
+     * @param financialObject The financialObject to set.
+     */
+    public void setFinancialObject(ObjectCode financialObject) {
+        this.financialObject = financialObject;
+    }
+
+    /**
+     * Gets the dummyBusinessObject attribute.
+     * 
+     * @return Returns the dummyBusinessObject.
+     */
+    public DummyBusinessObject getDummyBusinessObject() {
+        return dummyBusinessObject;
+    }
+
+    /**
+     * Sets the dummyBusinessObject attribute value.
+     * 
+     * @param dummyBusinessObject The dummyBusinessObject to set.
+     */
+    public void setDummyBusinessObject(DummyBusinessObject dummyBusinessObject) {
+        this.dummyBusinessObject = dummyBusinessObject;
+    }
 }

@@ -27,6 +27,7 @@ import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 
 /**
@@ -63,6 +64,7 @@ public class Balance extends BusinessObjectBase {
     private Date timestamp;
 
     private Chart chart;
+    private Account account;
     private DummyBusinessObject dummyBusinessObject;
 
     public Balance() {
@@ -584,6 +586,24 @@ public class Balance extends BusinessObjectBase {
      */
     public void setChart(Chart chart) {
         this.chart = chart;
+    }
+
+    /**
+     * Gets the account attribute.
+     * 
+     * @return Returns the account.
+     */
+    public Account getAccount() {
+        return account;
+    }
+
+    /**
+     * Sets the account attribute value.
+     * 
+     * @param account The account to set.
+     */
+    public void setAccount(Account account) {
+        this.account = account;
     }
 
     /**

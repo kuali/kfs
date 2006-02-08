@@ -45,18 +45,14 @@ public class SubAccount extends BusinessObjectBase {
     private String finReportOrganizationCode;
     private String financialReportingCode;
 
-
-    private Chart chartOfAccounts;
     private Account account;
-    private Chart financialReportingChart;
-    private Org finReportOrganization;
-    private ReportingCodes financialReporting;
+    private ReportingCodes reportingCode;
 
     /**
      * Default no-arg constructor.
      */
     public SubAccount() {
-
+        subAccountActiveIndicator = true;
     }
 
     /**
@@ -95,8 +91,8 @@ public class SubAccount extends BusinessObjectBase {
      * @param financialReporting The financialReporting to set.
      * @deprecated
      */
-    public void setFinancialReporting(ReportingCodes financialReporting) {
-        this.financialReporting = financialReporting;
+    public void setReportingCode(ReportingCodes reportingCode) {
+        this.reportingCode = reportingCode;
     }
 
     /**
@@ -137,63 +133,6 @@ public class SubAccount extends BusinessObjectBase {
      */
     public void setSubAccountActiveIndicator(boolean subAccountActiveIndicator) {
         this.subAccountActiveIndicator = subAccountActiveIndicator;
-    }
-
-    /**
-     * Gets the financialReportingChart attribute.
-     * @return Returns the financialReportingChart.
-     */
-    public Chart getFinancialReportingChart() {
-        return financialReportingChart;
-    }
-
-    /**
-     * Sets the financialReportingChart attribute value.
-     * @param financialReportingChart The financialReportingChart to set.
-     * @deprecated
-     */
-    public void setFinancialReportingChart(Chart financialReportingChart) {
-        this.financialReportingChart = financialReportingChart;
-    }
-
-    /**
-     * Gets the finReportOrganization attribute.
-     * 
-     * @return - Returns the finReportOrganization
-     *  
-     */
-    public Org getFinReportOrganization() {
-        return finReportOrganization;
-    }
-
-    /**
-     * Sets the finReportOrganization attribute.
-     * 
-     * @param - finReportOrganization The finReportOrganization to set.
-     * @deprecated 
-     */
-    public void setFinReportOrganization(Org finReportOrganization) {
-        this.finReportOrganization = finReportOrganization;
-    }
-
-    /**
-     * Gets the chartOfAccounts attribute.
-     * 
-     * @return - Returns the chartOfAccounts
-     *  
-     */
-    public Chart getChartOfAccounts() {
-        return chartOfAccounts;
-    }
-
-    /**
-     * Sets the chartOfAccounts attribute.
-     * 
-     * @param - chartOfAccounts The chartOfAccounts to set.
-     * @deprecated 
-     */
-    public void setChartOfAccounts(Chart chartOfAccounts) {
-        this.chartOfAccounts = chartOfAccounts;
     }
 
     /**
@@ -241,8 +180,8 @@ public class SubAccount extends BusinessObjectBase {
      * @return - Returns the financialReporting
      *  
      */
-    public ReportingCodes getFinancialReporting() {
-        return financialReporting;
+    public ReportingCodes getReportingCode() {
+        return reportingCode;
     }
 
 

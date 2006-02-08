@@ -800,24 +800,14 @@
 		column="FIN_RPT_ORG_CD" jdbc-type="VARCHAR" />
 	<field-descriptor name="financialReportingCode" column="FIN_RPT_CD"
 		jdbc-type="VARCHAR" />
-	<reference-descriptor name="finReportOrganization"
-		class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true"
-		auto-update="none" auto-delete="none" proxy="true">
-		<foreignkey field-ref="chartOfAccountsCode" />
-		<foreignkey field-ref="finReportOrganizationCode" />
-	</reference-descriptor>
-	<reference-descriptor name="chartOfAccounts"
-		class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true"
-		auto-update="none" auto-delete="none" proxy="true">
-		<foreignkey field-ref="chartOfAccountsCode" />
-	</reference-descriptor>
+		
 	<reference-descriptor name="account"
 		class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true"
 		auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="chartOfAccountsCode" />
 		<foreignkey field-ref="accountNumber" />
 	</reference-descriptor>
-	<reference-descriptor name="financialReporting"
+	<reference-descriptor name="reportingCode"
 		class-ref="org.kuali.module.chart.bo.ReportingCodes"
 		auto-retrieve="true" auto-update="none" auto-delete="none"
 		proxy="true">

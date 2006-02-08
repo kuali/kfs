@@ -11,13 +11,13 @@
 			<title>Sub-Account Code Inquiry</title>
 
 			<inquiryFields>
-				<field attributeName="chartOfAccounts.chartOfAccountsCode" />
-				<field attributeName="account.accountNumber" />			
+				<field attributeName="chartOfAccountsCode" />
+				<field attributeName="accountNumber" />			
 				<field attributeName="subAccountNumber" />
 				<field attributeName="subAccountName" />			
-				<field attributeName="financialReportingChart.chartOfAccountsCode" />
-				<field attributeName="finReportOrganization.organizationCode" />
-				<field attributeName="financialReporting.financialReportingCode" />				
+				<field attributeName="financialReportChartCode" />
+				<field attributeName="finReportOrganizationCode" />
+				<field attributeName="financialReportingCode" />				
 				<field attributeName="subAccountActiveIndicator" />
 			</inquiryFields>
 		</inquiry>	
@@ -32,23 +32,23 @@
 			<defaultSort attributeName="subAccountNumber" sortAscending="true" />
 
 			<lookupFields>
-				<lookupField attributeName="chartOfAccounts.chartOfAccountsCode" required="false" />
-				<lookupField attributeName="account.accountNumber" required="false" />
+				<lookupField attributeName="chartOfAccountsCode" required="false" />
+				<lookupField attributeName="accountNumber" required="false" />
 				<lookupField attributeName="subAccountNumber" required="false" />
 				<lookupField attributeName="subAccountName" required="false" />
-				<lookupField attributeName="financialReportingChart.chartOfAccountsCode" required="false" />
-				<lookupField attributeName="finReportOrganization.organizationCode" required="false" />								
-				<lookupField attributeName="financialReporting.financialReportingCode" required="false" />				
+				<lookupField attributeName="financialReportChartCode" required="false" />
+				<lookupField attributeName="finReportOrganizationCode" required="false" />								
+				<lookupField attributeName="financialReportingCode" required="false" />				
 			</lookupFields>
 
 			<resultFields>
-				<field attributeName="chartOfAccounts.chartOfAccountsCode" />
-				<field attributeName="account.accountNumber" />
+				<field attributeName="chartOfAccountsCode" />
+				<field attributeName="accountNumber" />
 				<field attributeName="subAccountNumber" />
 				<field attributeName="subAccountName" />				
-				<field attributeName="financialReportingChart.chartOfAccountsCode" />
-				<field attributeName="finReportOrganization.organizationCode" />								
-				<field attributeName="financialReporting.financialReportingCode" />				
+				<field attributeName="financialReportChartCode" />
+				<field attributeName="finReportOrganizationCode" />								
+				<field attributeName="financialReportingCode" />				
 				<field attributeName="subAccountActiveIndicator" />				
 			</resultFields>
 		</lookup>
@@ -57,48 +57,28 @@
 		
 		<attributes>
 			
-			<!--  
-			This should be an attributeReference, but this wont 
-			work until the actual BO uses objects rather than just 
-			string representations 
-			-->
-			<attributeReference name="chartOfAccounts.chartOfAccountsCode" 
+			<attributeReference name="chartOfAccountsCode" 
 								sourceClassName="org.kuali.module.chart.bo.Chart" 
-								sourceAttributeName="chartOfAccountsCode" />
+								sourceAttributeName="chartOfAccountsCode">
+				<required>true</required>
+			</attributeReference>
 
-			<!--  
-			This should be an attributeReference, but this wont 
-			work until the actual BO uses objects rather than just 
-			string representations 
-			-->
-			<attribute name="account.accountNumber"	forceUppercase="false">
-				<label>Account Number</label>
-				<shortLabel>
-					Acct
-				</shortLabel>
-
-				<maxLength>7</maxLength>
-				<validationPattern><anyCharacter /></validationPattern>
-
-				<control>
-					<text size="7" />
-				</control>
-
-				<summary>Account Number</summary>
-				<description>
-					Account Number
-				</description>
-			</attribute>
+			<attributeReference name="accountNumber" 
+								sourceClassName="org.kuali.module.chart.bo.Account" 
+								sourceAttributeName="accountNumber">
+				<required>true</required>
+			</attributeReference>
 			
-			<attribute name="subAccountNumber"	forceUppercase="false">
+			<attribute name="subAccountNumber"	forceUppercase="true">
 				<label>Sub-Account Number</label>
 				<shortLabel>
 					SubAccount
 				</shortLabel>
 
 				<maxLength>5</maxLength>
-				<validationPattern><anyCharacter /></validationPattern>
-
+				<validationPattern><anyCharacter maxLength="5" /></validationPattern>
+				<required>true</required>
+				
 				<control>
 					<text size="5" />
 				</control>
@@ -115,7 +95,8 @@
 
 				<maxLength>40</maxLength>
 				<validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
-
+				<required>true</required>
+				
 				<control>
 					<text size="40" />
 				</control>
@@ -124,69 +105,43 @@
 				<description>Name</description>
 			</attribute>
 			
-			<!--  
-			This should be an attributeReference, but this wont 
-			work until the actual BO uses objects rather than just 
-			string representations 
-			-->
-			<attribute name="financialReportingChart.chartOfAccountsCode"
-				forceUppercase="true">
+			<attributeReference name="financialReportChartCode" 
+								sourceClassName="org.kuali.module.chart.bo.Chart" 
+								sourceAttributeName="chartOfAccountsCode">
 				<label>Financial Reporting Chart Code</label>
 				<shortLabel>Fin. Rpt. Chart</shortLabel>
-				<maxLength>2</maxLength>
-				<validationPattern><alpha exactLength="2" /></validationPattern>
-				
-				<control>
-					<text size="2"/>				
-				</control>
-				
+				<required>true</required>
 				<summary>Financial Reporting Chart of Accounts Code</summary>
-				
 				<description>
 					Financial Reporting Chart of Accounts Code
 				</description>
-			</attribute>
+			</attributeReference>
 
-			<!--  
-			This should be an attributeReference, but this wont 
-			work until the actual BO uses objects rather than just 
-			string representations 
-			-->
-			<attribute name="finReportOrganization.organizationCode" forceUppercase="false">
+			<attributeReference name="finReportOrganizationCode" 
+								sourceClassName="org.kuali.module.chart.bo.Org" 
+								sourceAttributeName="organizationCode">
 				<label>Financial Reporting Org Code</label>
 				<shortLabel>Org</shortLabel>
-
-				<maxLength>4</maxLength>
-				<validationPattern><alpha /></validationPattern>
-
-				<control>
-					<text size="4" />
-				</control>
-
+				<required>true</required>
 				<summary>Financial Reporting Organization Code</summary>
 				<description>
 					Financial Reporting Organization Code
 				</description>
-			</attribute>
+			</attributeReference>
 
-			<attribute name="financialReporting.financialReportingCode" forceUppercase="false">
+			<attributeReference name="financialReportingCode"
+								sourceClassName="org.kuali.module.chart.bo.ReportingCodes" 
+								sourceAttributeName="financialReportingCode">
 				<label>Financial Reporting Code</label>
 				<shortLabel>
 					Fin. Rpt. Code
 				</shortLabel>
-
-				<maxLength>10</maxLength>
-				<validationPattern><anyCharacter /></validationPattern>
-
-				<control>
-					<text size="10" />
-				</control>
-
+				<required>true</required>
 				<summary>Financial Reporting Code</summary>
 				<description>
 					Financial Reporting Code
 				</description>
-			</attribute>
+			</attributeReference>
 
 			<attributeReference name="subAccountActiveIndicator" 
 								sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 

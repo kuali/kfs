@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+
+<dictionaryEntry>
+	<maintenanceDocument>
+		<businessObjectClass>org.kuali.module.chart.bo.Delegate</businessObjectClass>
+		<maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+
+        <businessRulesClass>org.kuali.module.chart.rules.DelegateRule</businessRulesClass>
+		<preRulesCheckClass>org.kuali.module.chart.rules.DelegatePreRules</preRulesCheckClass>
+
+        <documentAuthorizerClass>org.kuali.core.document.DocumentAuthorizerBase</documentAuthorizerClass>
+        <authorizations>
+            <authorization action="initiate">
+                <workgroups>
+                    <workgroup>kualiUniversalGroup</workgroup>
+                </workgroups>
+            </authorization>
+        </authorizations>
+
+		<documentTypeName>KualiAccountDelegateMaintenanceDocument</documentTypeName>
+		<documentTypeCode>ADEL</documentTypeCode>
+		<label>Account Delegate Maintenance Document</label>
+		<shortLabel>AcctDelMaintDoc</shortLabel>
+		<summary>Account Delegate Maintenance Document</summary>
+		<description>
+			Maintenance document which allows you to create, remove or modify Account Delegates.
+		</description>
+		
+        <lockingKeys>
+			<field attributeName="chartOfAccountsCode" />
+			<field attributeName="accountNumber" />
+		</lockingKeys>		
+		
+		<maintainableSections>
+			<maintainableSection title="Edit Account Delegate">
+                <maintainableItems>
+					<maintainableField name="chartOfAccountsCode" required="true" />			
+					<maintainableField name="accountNumber" required="true" />
+					<maintainableField name="financialDocumentTypeCode" required="true" />			
+					<maintainableField name="accountDelegateSystemId" required="true" />
+					<maintainableField name="finDocApprovalFromThisAmt" required="false" />
+					<maintainableField name="finDocApprovalToThisAmount" required="false" />
+					<maintainableField name="accountsDelegatePrmrtIndicator" required="false" />
+					<maintainableField name="accountDelegateActiveIndicator" required="false" />
+					<maintainableField name="accountDelegateStartDate" required="true" />
+                </maintainableItems>
+			</maintainableSection>
+		</maintainableSections>
+	</maintenanceDocument>
+
+</dictionaryEntry>

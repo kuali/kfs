@@ -25,8 +25,12 @@ package org.kuali.module.chart.rules;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts.action.ActionForm;
+import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.rule.PreRulesCheck;
 import org.kuali.core.rule.event.PreRulesCheckEvent;
+import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.ObjectUtils;
+import org.kuali.module.chart.bo.Delegate;
 
 /**
  * This class...
@@ -49,7 +53,28 @@ public class DelegatePreRules implements PreRulesCheck {
      */
     public boolean processPreRuleChecks(ActionForm form, HttpServletRequest request, PreRulesCheckEvent event) {
         LOG.info("Entering processPreRuleChecks");
+        
+        //	create some references to the relevant objects being looked at
+        MaintenanceDocument document = (MaintenanceDocument) event.getDocument();
+        Delegate delegate = (Delegate) document.getNewMaintainableObject().getBusinessObject();
+        
+        //	set the defaults on the document
+        setUnconditionalDefaults(delegate);
+        
         return true;
     }
 
+    private void setUnconditionalDefaults(Delegate delegate) {
+        
+        //	FROM amount defaults to zero
+        if (ObjectUtils.isNull(delegate.getFinDocApprovalFromThisAmt())) {
+            delegate.setFinDocApprovalFromThisAmt(new KualiDecimal(0));
+        }
+
+        //	TO amount defaults to zero
+        if (ObjectUtils.isNull(delegate.getFinDocApprovalToThisAmount())) {
+            delegate.setFinDocApprovalToThisAmount(new KualiDecimal(0));
+        }
+    }
+    
 }

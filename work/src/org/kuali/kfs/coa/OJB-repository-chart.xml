@@ -1203,16 +1203,22 @@
 		jdbc-type="VARCHAR" index="true" />
 	<field-descriptor name="versionNumber" column="VER_NBR"
 		jdbc-type="BIGINT" locking="true" />
-	<reference-descriptor name="chartOfAccounts"
-		class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true"
-		auto-update="none" auto-delete="none" proxy="true">
-		<foreignkey field-ref="chartOfAccountsCode" />
-	</reference-descriptor>
+		
 	<reference-descriptor name="account"
 		class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true"
 		auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="chartOfAccountsCode" />
 		<foreignkey field-ref="accountNumber" />
+	</reference-descriptor>
+	<reference-descriptor name="documentType" 
+		class-ref="org.kuali.core.document.DocumentType" auto-retrieve="true" 
+		auto-update="none" auto-delete="none" proxy="true">
+		<foreignkey field-ref="financialDocumentTypeCode" />
+	</reference-descriptor>
+	<reference-descriptor name="accountDelegate" 
+		class-ref="org.kuali.core.bo.user.KualiUser" auto-retrieve="true" 
+		auto-update="none" auto-delete="none" proxy="true">
+		<foreignkey field-ref="accountDelegateSystemId" />
 	</reference-descriptor>
 </class-descriptor>
 

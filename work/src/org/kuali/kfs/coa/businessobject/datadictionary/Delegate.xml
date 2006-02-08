@@ -55,11 +55,15 @@
 		<attributes>
 			<attributeReference name="chartOfAccountsCode" 
 								sourceClassName="org.kuali.module.chart.bo.Chart" 
-								sourceAttributeName="chartOfAccountsCode" />
+								sourceAttributeName="chartOfAccountsCode">
+				<required>true</required>
+			</attributeReference>
 								
 			<attributeReference name="accountNumber" 
 								sourceClassName="org.kuali.module.chart.bo.Account" 
-								sourceAttributeName="accountNumber" />
+								sourceAttributeName="accountNumber">
+				<required>true</required>
+			</attributeReference>
 								
 			<attribute name="financialDocumentTypeCode" forceUppercase="true">
 				<label>Document Type Code</label>
@@ -67,7 +71,8 @@
 
 				<maxLength>4</maxLength>
 				<validationPattern><alphaNumeric /></validationPattern>
-
+				<required>true</required>
+				
 				<control>
 					<text size="4" />
 				</control>
@@ -81,6 +86,7 @@
 								sourceAttributeName="personUniversalIdentifier">
 				<label>Account Delegate Universal ID</label>
 				<shortLabel>UnvlID</shortLabel>
+				<required>true</required>
 				<summary>Account Delegate Universal ID</summary>
 				<description>
 					The Universal ID (ie, unique identifier) of the Account Delegate.
@@ -128,6 +134,7 @@
 								sourceAttributeName="genericTimestamp">
 				<label>Account Delegate Start Date</label>
 				<shortLabel>DelegateStartDt</shortLabel>
+				<required>true</required>
 				<summary>Account Delegate Start Date</summary>
 				<description>Account Delegate Start Date</description>
 			</attributeReference>

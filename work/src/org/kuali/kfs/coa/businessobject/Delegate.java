@@ -29,6 +29,8 @@ import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.user.KualiUser;
+import org.kuali.core.document.DocumentType;
 import org.kuali.core.util.KualiDecimal;
 
 /**
@@ -40,6 +42,10 @@ public class Delegate extends BusinessObjectBase {
 	 * Default no-arg constructor.
 	 */
 	public Delegate() {
+	    this.accountDelegateActiveIndicator = true;
+	    this.accountsDelegatePrmrtIndicator = false;
+	    this.finDocApprovalFromThisAmt = new KualiDecimal(0);
+	    this.finDocApprovalToThisAmount = new KualiDecimal(0);
 	}
 
 	private String chartOfAccountsCode;
@@ -52,9 +58,10 @@ public class Delegate extends BusinessObjectBase {
 	private Timestamp accountDelegateStartDate;
 	private KualiDecimal finDocApprovalToThisAmount;
 	
-	private Chart chartOfAccounts;
 	private Account account;
-
+	private DocumentType documentType;
+	private KualiUser accountDelegate;
+	
     /**
      * Gets the accountNumber attribute. 
      * @return Returns the accountNumber.
@@ -224,26 +231,6 @@ public class Delegate extends BusinessObjectBase {
 	}
 
 	/**
-	 * Gets the chartOfAccounts attribute.
-	 * 
-	 * @return - Returns the chartOfAccounts
-	 * 
-	 */
-	public Chart getChartOfAccounts() { 
-		return chartOfAccounts;
-	}
-	
-	/**
-	 * Sets the chartOfAccounts attribute.
-	 * 
-	 * @param - chartOfAccounts The chartOfAccounts to set.
-	 * @deprecated
-	 */
-	public void setChartOfAccounts(Chart chartOfAccounts) {
-		this.chartOfAccounts = chartOfAccounts;
-	}
-
-	/**
 	 * Gets the account attribute.
 	 * 
 	 * @return - Returns the account
@@ -263,6 +250,38 @@ public class Delegate extends BusinessObjectBase {
 		this.account = account;
 	}
 
+    /**
+     * Gets the documentType attribute. 
+     * @return Returns the documentType.
+     */
+    public DocumentType getDocumentType() {
+        return documentType;
+    }
+    
+    /**
+     * Sets the documentType attribute value.
+     * @param documentType The documentType to set.
+     */
+    public void setDocumentType(DocumentType documentType) {
+        this.documentType = documentType;
+    }
+    
+    /**
+     * Gets the accountDelegate attribute. 
+     * @return Returns the accountDelegate.
+     */
+    public KualiUser getAccountDelegate() {
+        return accountDelegate;
+    }
+    
+    /**
+     * Sets the accountDelegate attribute value.
+     * @param accountDelegate The accountDelegate to set.
+     */
+    public void setAccountDelegate(KualiUser accountDelegate) {
+        this.accountDelegate = accountDelegate;
+    }
+    
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */

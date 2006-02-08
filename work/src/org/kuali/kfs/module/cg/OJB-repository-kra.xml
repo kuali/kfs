@@ -488,6 +488,13 @@
   <field-descriptor name="budgetBaseDescription" column="BDGT_BASE_DESC" jdbc-type="VARCHAR"/>
 </class-descriptor>
 
+<class-descriptor class="org.kuali.module.kra.bo.BudgetTypeCode" table="ER_BDGT_TYP_CD_T">
+  <field-descriptor name="budgetTypeCode" column="BDGT_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+  <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
+  <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+  <field-descriptor name="budgetTypeDescription" column="BDGT_TYP_DESC" jdbc-type="VARCHAR"/>
+</class-descriptor>
+
 <class-descriptor class="org.kuali.module.kra.bo.BudgetPurposeCode" table="ER_BDGT_PRPS_CD_T">
   <field-descriptor name="budgetPurposeCode" column="BDGT_PRPS_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
   <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>

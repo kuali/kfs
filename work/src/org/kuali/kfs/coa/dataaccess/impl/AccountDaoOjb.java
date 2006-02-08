@@ -105,7 +105,7 @@ public class AccountDaoOjb extends PersistenceBrokerTemplate
         for (Iterator iter = accountDelegates.iterator(); iter.hasNext();) {
             Delegate accountDelegate = (Delegate) iter.next();
             if (accountDelegate.isAccountDelegateActiveIndicator() && !accountDelegate.getAccountDelegateStartDate().after(new Date())) {
-                Account account = getByPrimaryId(accountDelegate.getChartOfAccounts().getChartOfAccountsCode(), accountDelegate.getAccount().getAccountNumber());
+                Account account = getByPrimaryId(accountDelegate.getChartOfAccountsCode(), accountDelegate.getAccount().getAccountNumber());
                 AccountResponsibility accountResponsibility = new AccountResponsibility(AccountResponsibility.DELEGATED_RESPONSIBILITY, accountDelegate.getFinDocApprovalFromThisAmt(), accountDelegate.getFinDocApprovalToThisAmount(), accountDelegate.getFinancialDocumentTypeCode(), account );
                 delegatedResponsibilities.add(accountResponsibility);
             }

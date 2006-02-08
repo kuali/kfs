@@ -11,8 +11,6 @@
             <inquiryFields>
 				<field attributeName="chartOfAccountsCode" forceInquiry="true"/>
 				<field attributeName="accountNumber" forceInquiry="true"/>
-				<field attributeName="objectCode"/>
-				<field attributeName="balanceTypeCode"/>
             </inquiryFields>
         </inquiry>
 		
@@ -20,13 +18,19 @@
 	        <lookupableID>cashBalanceLookupable</lookupableID>
 			<title>Cash Balance</title>			
 			<instructions>Lookup Cash Balance for the specific account.</instructions>
-			<defaultSort attributeName="objectCode" />
+			
+			<defaultSort attributeName="accountNumber" />
 			
 			<lookupFields>
 				<lookupField attributeName="universityFiscalYear" required="true"/>
 				<lookupField attributeName="chartOfAccountsCode" required="true"/>
 				<lookupField attributeName="accountNumber" noLookup="false"/>
 				<lookupField attributeName="subAccountNumber"/>
+				<lookupField attributeName="dummyBusinessObject.consolidationOption">
+					<defaultValueFinderClass>
+						org.kuali.module.gl.web.GLConsolidationOptionFinder
+					</defaultValueFinderClass>
+				</lookupField>
 			</lookupFields>
 			
 			<resultFields>
@@ -34,13 +38,10 @@
 				<field attributeName="chartOfAccountsCode"/>
 				<field attributeName="accountNumber"/>
 				<field attributeName="subAccountNumber"/>
-				<field attributeName="objectCode"/>
-				<field attributeName="subObjectCode"/>
-				<field attributeName="objectTypeCode"/>
-				<field attributeName="balanceTypeCode"/>                 
 				<field attributeName="accountLineAnnualBalanceAmount"/>
 				<field attributeName="beginningBalanceLineAmount"/>
 				<field attributeName="contractsGrantsBeginningBalanceAmount"/> 
+				<field attributeName="dummyBusinessObject.genericAmount"/> 
 			</resultFields>
 		</lookup>
 		
@@ -179,7 +180,27 @@
                 <shortLabel>Entry Processed</shortLabel>
                 <summary>transactionEntryProcessed</summary>
                 <description>transactionEntryProcessed description...</description>
-            </attributeReference>            					
+            </attributeReference>
+            
+            <attribute name="dummyBusinessObject.consolidationOption">
+	            <label>Consolidation Option</label>
+	            <shortLabel>Consolidation Option</shortLabel>
+	            <maxLength>2</maxLength>
+	            <control>
+	                <radio valuesFinderClass="org.kuali.module.gl.web.GLConsolidationOptionFinder"/>
+	            </control>
+	            <summary>Consolidation Option</summary>
+	            <description>consolidationOption description...</description>
+	        </attribute> 
+	        
+			<attributeReference name="dummyBusinessObject.genericAmount"
+            					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
+            					sourceAttributeName="genericAmount"> 
+			    <label>Available Cash Balance</label>
+                <shortLabel>Available Cash Balance</shortLabel>
+                <summary>Available Cash Balance</summary>
+                <description>Available Cash Balance...</description>      					
+            </attributeReference>
             					 
         </attributes>
 		

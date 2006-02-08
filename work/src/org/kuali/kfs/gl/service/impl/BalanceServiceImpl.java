@@ -123,19 +123,19 @@ public class BalanceServiceImpl implements BalanceService {
                 runningTotal = new KualiDecimal(0);
             }
 
-            runningTotal=runningTotal.add(begin);
-            runningTotal=runningTotal.add(annual);
+            runningTotal.add(begin);
+            runningTotal.add(annual);
 
             groups.put(objectCode, runningTotal);
 
 
         }
 
-        boolean success = false;
+        boolean success = true;
 
         Iterator iter = groups.keySet().iterator();
         while (iter.hasNext()) {
-            success |= ((KualiDecimal) groups.get(iter.next())).isNonZero();
+            success &= ((KualiDecimal) iter.next()).isNonZero();
         }
 
         return success;
@@ -271,9 +271,9 @@ public class BalanceServiceImpl implements BalanceService {
     }
 
     /**
-     * @see org.kuali.module.gl.service.BalanceService#findBalanceSummary(java.util.Map)
+     * @see org.kuali.module.gl.service.BalanceService#findCashBalance(java.util.Map, boolean)
      */
-    public Iterator findBalanceSummary(Map fieldValues) {
-        return balanceDao.findBalanceSummary(fieldValues);
+    public Iterator findCashBalance(Map fieldValues, boolean isConsolidated) {
+        return balanceDao.findCashBalance(fieldValues, isConsolidated);
     }
 }

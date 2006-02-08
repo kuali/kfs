@@ -27,9 +27,14 @@ package org.kuali.module.gl.web;
  * @author Bin Gao from Michigan State University
  */
 public final class Constant {
+    public static final String PENDING_ENTRY_OPTION = "dummyBusinessObject.pendingEntryOption";
     public static final String APPROVED_PENDING_ENTRY = "Approved";
     public static final String ALL_PENDING_ENTRY = "All";
     public static final String NO_PENDING_ENTRY = "No";
     
-    public static final String PENDING_ENTRY_OPTION = "dummyBusinessObject.pendingEntryOption";
+    public static final String CONSOLIDATION_OPTION = "dummyBusinessObject.consolidationOption";
+    public static final String CONSOLIDATION = "Consolidation";
+    public static final String DETAIL = "Detail";
+    
+    public static final String SUB_ACCOUNT_OPTION = "subAccountNumber";
 }

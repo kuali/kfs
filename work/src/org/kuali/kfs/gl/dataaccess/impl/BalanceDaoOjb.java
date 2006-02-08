@@ -136,9 +136,9 @@ public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements Balanc
     }
 
     /**
-     * @see org.kuali.module.gl.dao.BalanceDao#findBalanceSummary(java.util.Map)
+     * @see org.kuali.module.gl.dao.BalanceDao#findCashBalance(java.util.Map, boolean)
      */
-    public Iterator findBalanceSummary(Map fieldValues) {
+    public Iterator findCashBalance(Map fieldValues, boolean isConsolidated) {
         Criteria criteria = new Criteria();
 
         Iterator propsIter = fieldValues.keySet().iterator();
@@ -151,29 +151,41 @@ public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements Balanc
                     || !(PropertyUtils.isWriteable(new Balance(), propertyName))) {
                 continue;
             }
-
             criteria.addEqualTo(propertyName, propertyValue);
-            //System.out.println(propertyName + ":" + propertyValue);
         }
+        criteria.addEqualTo("balanceTypeCode", "AC");
+        criteria.addEqualToField("chart.financialCashObjectCode", "objectCode");
 
         ReportQueryByCriteria query = new ReportQueryByCriteria(Balance.class, criteria);
-
+        
         // set the selection attributes
-        query.setAttributes(new String[] { 
-                "universityFiscalYear", 
-                "chartOfAccountsCode",
-                "accountNumber", 
-                "subAccountNumber",
-                "sum(accountLineAnnualBalanceAmount)", 
-                "sum(beginningBalanceLineAmount)",
-                "sum(contractsGrantsBeginningBalanceAmount)" }
-        );
+        // if consolidated, then ignore subaccount number
+        String [] attributes = null;
+        if(isConsolidated){
+	        attributes = new String[] 
+	               {"universityFiscalYear", "chartOfAccountsCode",
+	                "accountNumber",
+	                "sum(accountLineAnnualBalanceAmount)", 
+	                "sum(beginningBalanceLineAmount)",
+	                "sum(contractsGrantsBeginningBalanceAmount)" 
+	             	};
+        }
+        else{
+            attributes = new String[] 
+                   {"universityFiscalYear", "chartOfAccountsCode",
+                    "accountNumber", "subAccountNumber",
+                    "sum(accountLineAnnualBalanceAmount)", 
+                    "sum(beginningBalanceLineAmount)",
+                    "sum(contractsGrantsBeginningBalanceAmount)" 
+                 	};
+        }      
+        query.setAttributes(attributes);
 
         // add the group criteria into the selection statement
         query.addGroupBy("universityFiscalYear");
         query.addGroupBy("chartOfAccountsCode");
         query.addGroupBy("accountNumber");
-        query.addGroupBy("subAccountNumber");
+        if(!isConsolidated) query.addGroupBy("subAccountNumber");
 
         Iterator balanceSummary = getPersistenceBrokerTemplate()
                 .getReportQueryIteratorByQuery(query);

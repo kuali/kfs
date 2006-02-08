@@ -243,7 +243,6 @@
 	<field-descriptor name="budgetThirdPartyCostShareAmount" column="BDGT_3RD_PRTY_CST_SHR" jdbc-type="BIGINT" />
 	<field-descriptor name="budgetUniversityCostShareAmount" column="BDGT_UNIV_CST_SHR_AMT" jdbc-type="BIGINT" />
 	<field-descriptor name="budgetOriginSequenceNumber" column="BDGT_ORGN_SEQ_NBR" jdbc-type="INTEGER" />
-	<field-descriptor name="budgetOriginPeriodNumber" column="BDGT_ORGN_PRD_NBR" jdbc-type="INTEGER" />
 	<field-descriptor name="agencyCopyIndicator" column="AGNCY_CPY_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
 	<field-descriptor name="budgetUniversityCostShareCopyIndicator" column="BDGT_UNIV_CS_CPY_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 	<field-descriptor name="budgetThirdPartyCostShareCopyIndicator" column="BDGT_3RD_PRTY_CS_CPY_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>

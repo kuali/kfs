@@ -40,6 +40,8 @@ public class BalanceServiceTest extends KualiTestBaseWithSpring {
     private static String RAW_BALANCES="select * from GL_BALANCE_T where ";
     private static String INSERT_BALANCE="insert into GL_BALANCE_T(FIN_COA_CD,ACCOUNT_NBR,SUB_ACCT_NBR,UNIV_FISCAL_YR,FIN_SUB_OBJ_CD,FIN_OBJECT_CD,FIN_BALANCE_TYP_CD,FIN_OBJ_TYP_CD,FIN_BEG_BAL_LN_AMT,ACLN_ANNL_BAL_AMT) values('"+CHART+"','"+ACCOUNT_NUMBER+"','sub',";
 
+    private static boolean runOnce=true;
+    
     private static Account account=new Account(); 
     static {
         account.setAccountNumber(ACCOUNT_NUMBER);
@@ -55,10 +57,13 @@ public class BalanceServiceTest extends KualiTestBaseWithSpring {
         unitTestSqlDao = (UnitTestSqlDao)SpringServiceLocator.getBeanFactory().getBean("glUnitTestSqlDao");
         balanceService=SpringServiceLocator.getGeneralLedgerBalanceService();
         Integer fiscalYear=SpringServiceLocator.getDateTimeService().getCurrentFiscalYear();
-        
-        DELETE_BALANCES += "UNIV_FISCAL_YR="+fiscalYear+" AND ACCOUNT_NBR='"+ACCOUNT_NUMBER+"'"; 
-        RAW_BALANCES += "UNIV_FISCAL_YR="+fiscalYear+" AND ACCOUNT_NBR='"+ACCOUNT_NUMBER+"'";
-        INSERT_BALANCE += fiscalYear+",";
+
+        if (runOnce) {
+            DELETE_BALANCES += "UNIV_FISCAL_YR="+fiscalYear+" AND ACCOUNT_NBR='"+ACCOUNT_NUMBER+"'"; 
+            RAW_BALANCES += "UNIV_FISCAL_YR="+fiscalYear+" AND ACCOUNT_NBR='"+ACCOUNT_NUMBER+"'";
+            INSERT_BALANCE += fiscalYear+",";
+            runOnce=false; //do not run again
+        }
 
         
       }
@@ -97,6 +102,19 @@ public class BalanceServiceTest extends KualiTestBaseWithSpring {
         insertBalance("EE","AC","9899",new KualiDecimal(2),new KualiDecimal(2));
         assertTrue("should net to zero after adding corresponding expenses",balanceService.fundBalanceWillNetToZero(account));
         purgeTestData();
+    }
+
+    public void testHasAssetLiabilityFundBalanceBalances() {
+        List results;
+        purgeTestData();
+        assertFalse("no rows means no balances",balanceService.hasAssetLiabilityFundBalanceBalances(account));
+        String fundBalanceObjectCode="9899"; //TODO - get this from Service? Or System Options?
+        insertBalance("LI","AC","9899",new KualiDecimal(1.5),new KualiDecimal(2.5));
+        assertFalse("should ignore 9899 balance",balanceService.hasAssetLiabilityFundBalanceBalances(account));
+        insertBalance("LI","AC","1234",new KualiDecimal(1.5),new KualiDecimal(2.5));
+        assertTrue("expect nonzero balance for non-9899 balance",balanceService.hasAssetLiabilityFundBalanceBalances(account));
+        
+        
     }
     
 }

@@ -370,6 +370,12 @@ public class Account extends BusinessObjectBase {
      * 
      */
     public boolean isExpired() {
+
+        //	dont even bother trying to test if the accountExpirationDate is null
+        if (this.accountExpirationDate == null) {
+            return false;
+        }
+        
         return this.isExpired(SpringServiceLocator.getDateTimeService().getCurrentCalendar());
     }
     
@@ -392,13 +398,18 @@ public class Account extends BusinessObjectBase {
      */
      public boolean isExpired(Calendar testDate) {
 
+        //	dont even bother trying to test if the accountExpirationDate is null
+        if (this.accountExpirationDate == null) {
+            return false;
+        }
+        
         //	remove any time-components from the testDate
         testDate = DateUtils.truncate(testDate, Calendar.DAY_OF_MONTH);
         
         //	get a calendar reference to the Account Expiration 
         // date, and remove any time components
         Calendar acctDate = Calendar.getInstance();
-        acctDate.setTime(getAccountExpirationDate());
+        acctDate.setTime(this.accountExpirationDate);
         acctDate = DateUtils.truncate(acctDate, Calendar.DAY_OF_MONTH);
         
         //	if the Account Expiration Date is before the testDate
@@ -428,9 +439,15 @@ public class Account extends BusinessObjectBase {
       * 
       */
     public boolean isExpired(Date testDate) {
+
+        //	dont even bother trying to test if the accountExpirationDate is null
+        if (this.accountExpirationDate == null) {
+            return false;
+        }
+        
         Calendar acctDate = Calendar.getInstance();
         acctDate.setTime(testDate);
-        return this.isExpired(acctDate);
+        return isExpired(acctDate);
     }
     
     /**

@@ -32,6 +32,7 @@ import org.apache.commons.lang.time.DateUtils;
 import org.kuali.KeyConstants;
 import org.kuali.core.bo.Building;
 import org.kuali.core.bo.user.KualiUser;
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.service.KualiConfigurationService;
@@ -250,9 +251,9 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
     private boolean checkGeneralRules(MaintenanceDocument maintenanceDocument) {
 
         LOG.info("checkGeneralRules called");
-        KualiUser fiscalOfficer = newAccount.getAccountFiscalOfficerUser();
-        KualiUser accountManager = newAccount.getAccountManagerUser();
-        KualiUser accountSupervisor = newAccount.getAccountSupervisoryUser();
+        UniversalUser fiscalOfficer = newAccount.getAccountFiscalOfficerUser();
+        UniversalUser accountManager = newAccount.getAccountManagerUser();
+        UniversalUser accountSupervisor = newAccount.getAccountSupervisoryUser();
         
         boolean success = true;
 
@@ -570,7 +571,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
      * 
      * If so, it returns true.  If not, it returns false, and adds an error to 
      * the GlobalErrors.
-     * @param user - KualiUser to be tested
+     * @param user - UniversalUser to be tested
      * @param employeeType - String value expected for Employee Type 
      * @param userRoleDescription - User Role being tested, to be passed into an error message
      * 
@@ -578,23 +579,22 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
      *           user object is null
      * 
      */
-    private boolean checkUserType(String propertyName, KualiUser user, String employeeType, String userRoleDescription) {
+    private boolean checkUserType(String propertyName, UniversalUser user, String employeeType, String userRoleDescription) {
         
         //	if the user isnt populated, it will fail
+        // the actual existence check is performed in the general rules so leaving out a 
+        // specific error message on this one
         if (ObjectUtils.isNull(user)) {
             return false;
         }
         
-        //	if the KualiUser record is not properly setup with this value, this will fail
-        if (StringUtils.isEmpty(user.getEmployeeTypeCode())) {
-            return false;
-        }
-
-        if (!StringUtils.isEmpty(user.getEmployeeTypeCode())) {
+        //	if the UniversalUser record is not properly setup with this value, this will fail
+        if (StringUtils.isNotEmpty(user.getEmployeeTypeCode())) {
             if (user.getEmployeeTypeCode().equalsIgnoreCase(employeeType)) {
 	            return true;
             }
             else {
+                putFieldError(propertyName, KeyConstants.ERROR_DOCUMENT_ACCMAINT_PRO_TYPE_REQD_FOR_EMPLOYEE, userRoleDescription);
                 return false;
             }
         }

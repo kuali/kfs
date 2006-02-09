@@ -36,7 +36,7 @@ import org.apache.commons.lang.time.DateUtils;
 import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.core.bo.PostalZipCode;
 import org.kuali.core.bo.State;
-import org.kuali.core.bo.user.KualiUser;
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.codes.BudgetRecordingLevelCode;
 import org.kuali.module.chart.bo.codes.SufficientFundsCode;
@@ -116,9 +116,9 @@ public class Account extends BusinessObjectBase {
     private Account contractControlAccount;
     private Account incomeStreamAccount;
     private Account indirectCostRecoveryAcct;
-    private KualiUser accountFiscalOfficerUser;
-    private KualiUser accountSupervisoryUser;
-    private KualiUser accountManagerUser;
+    private UniversalUser accountFiscalOfficerUser;
+    private UniversalUser accountSupervisoryUser;
+    private UniversalUser accountManagerUser;
     private PostalZipCode postalZipCode;
     private BudgetRecordingLevelCode budgetRecordingLevel;
     private SufficientFundsCode sufficientFundsCode;
@@ -1078,7 +1078,7 @@ public class Account extends BusinessObjectBase {
     /**
      * @return Returns the accountFiscalOfficerUser.
      */
-    public KualiUser getAccountFiscalOfficerUser() {
+    public UniversalUser getAccountFiscalOfficerUser() {
         return accountFiscalOfficerUser;
     }
 
@@ -1087,7 +1087,7 @@ public class Account extends BusinessObjectBase {
      * @param accountFiscalOfficerUser The accountFiscalOfficerUser to set.
      * @deprecated
      */
-    public void setAccountFiscalOfficerUser(KualiUser accountFiscalOfficerUser) {
+    public void setAccountFiscalOfficerUser(UniversalUser accountFiscalOfficerUser) {
         this.accountFiscalOfficerUser = accountFiscalOfficerUser;
     }
 
@@ -1095,7 +1095,7 @@ public class Account extends BusinessObjectBase {
     /**
      * @return Returns the accountManagerUser.
      */
-    public KualiUser getAccountManagerUser() {
+    public UniversalUser getAccountManagerUser() {
         return accountManagerUser;
     }
 
@@ -1104,7 +1104,7 @@ public class Account extends BusinessObjectBase {
      * @param accountManagerUser The accountManagerUser to set.
      * @deprecated
      */
-    public void setAccountManagerUser(KualiUser accountManagerUser) {
+    public void setAccountManagerUser(UniversalUser accountManagerUser) {
         this.accountManagerUser = accountManagerUser;
     }
 
@@ -1112,7 +1112,7 @@ public class Account extends BusinessObjectBase {
     /**
      * @return Returns the accountSupervisoryUser.
      */
-    public KualiUser getAccountSupervisoryUser() {
+    public UniversalUser getAccountSupervisoryUser() {
         return accountSupervisoryUser;
     }
 
@@ -1121,7 +1121,7 @@ public class Account extends BusinessObjectBase {
      * @param accountSupervisoryUser The accountSupervisoryUser to set.
      * @deprecated
      */
-    public void setAccountSupervisoryUser(KualiUser accountSupervisoryUser) {
+    public void setAccountSupervisoryUser(UniversalUser accountSupervisoryUser) {
         this.accountSupervisoryUser = accountSupervisoryUser;
     }
 

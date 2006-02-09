@@ -490,7 +490,7 @@
 								sourceAttributeName="code">
 				<label>Account Sufficient Funds Code</label>
 				<shortLabel>SuffFndsCd</shortLabel>
-				<required>true</required>
+				<required>false</required>
 				<summary>Account Sufficient Funds Code</summary>
 				<description>Account Sufficient Funds Code</description>
 			</attributeReference>
@@ -550,7 +550,7 @@
 
 				<maxLength>6</maxLength>
 				<validationPattern><anyCharacter /></validationPattern>
-				<required>true</required>
+				<required>false</required>
 
 				<control>
 					<text size="6" />
@@ -583,21 +583,21 @@
 			</attribute>
 			
 			<attributeReference name="accountFiscalOfficerSystemIdentifier" 
-								sourceClassName="org.kuali.core.bo.user.KualiUser" 
+								sourceClassName="org.kuali.core.bo.user.UniversalUser" 
 								sourceAttributeName="personUniversalIdentifier">
 				<label>Fiscal Officer Unvl ID</label>
 				<required>true</required>
 			</attributeReference>
 			
 			<attributeReference name="accountsSupervisorySystemsIdentifier" 
-								sourceClassName="org.kuali.core.bo.user.KualiUser" 
+								sourceClassName="org.kuali.core.bo.user.UniversalUser" 
 								sourceAttributeName="personUniversalIdentifier">
 				<label>Supervisor Unvl ID</label>
 				<required>true</required>
 			</attributeReference>
 			
 			<attributeReference name="accountManagerSystemIdentifier" 
-								sourceClassName="org.kuali.core.bo.user.KualiUser" 
+								sourceClassName="org.kuali.core.bo.user.UniversalUser" 
 								sourceAttributeName="personUniversalIdentifier">
 				<label>Manager Unvl ID</label>
 				<required>true</required>

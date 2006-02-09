@@ -69,7 +69,7 @@
 		            <maintainableField name="continuationAccountNumber" required="false" />    
 		            <maintainableField name="incomeStreamFinancialCoaCode" required="false" />
 		            <maintainableField name="incomeStreamAccountNumber" required="false" />	
-		            <maintainableField name="budgetRecordingLevelCode" required="false" />	  
+		            <maintainableField name="budgetRecordingLevelCode" required="true" />	  
 		            <maintainableField name="accountSufficientFundsCode" required="false" />	     
 		            <maintainableField name="pendingAcctSufficientFundsIndicator" required="false" />
 		            <maintainableField name="extrnlFinEncumSufficntFndIndicator" required="false" />	
@@ -82,7 +82,7 @@
                 <maintainableItems>
 		            <maintainableField name="contractControlFinCoaCode" required="false" />
 		            <maintainableField name="contractControlAccountNumber" required="false" />
-		            <maintainableField name="acctIndirectCostRcvyTypeCd" required="false" />
+		            <maintainableField name="acctIndirectCostRcvyTypeCd" required="true" />
 		            <maintainableField name="financialIcrSeriesIdentifier" required="false" />
 		            <maintainableField name="indirectCostRcvyFinCoaCode" required="false" />    
 		            <maintainableField name="indirectCostRecoveryAcctNbr" required="false" />

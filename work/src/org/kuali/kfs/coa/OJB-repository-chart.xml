@@ -211,19 +211,19 @@
 	</reference-descriptor>
 
 	<reference-descriptor name="accountFiscalOfficerUser"
-		class-ref="org.kuali.core.bo.user.KualiUser" auto-retrieve="true"
+		class-ref="org.kuali.core.bo.user.UniversalUser" auto-retrieve="true"
 		auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="accountFiscalOfficerSystemIdentifier" />
 	</reference-descriptor>
 
 	<reference-descriptor name="accountSupervisoryUser"
-		class-ref="org.kuali.core.bo.user.KualiUser" auto-retrieve="true"
+		class-ref="org.kuali.core.bo.user.UniversalUser" auto-retrieve="true"
 		auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="accountsSupervisorySystemsIdentifier" />
 	</reference-descriptor>
 
 	<reference-descriptor name="accountManagerUser"
-		class-ref="org.kuali.core.bo.user.KualiUser" auto-retrieve="true"
+		class-ref="org.kuali.core.bo.user.UniversalUser" auto-retrieve="true"
 		auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="accountManagerSystemIdentifier" />
 	</reference-descriptor>

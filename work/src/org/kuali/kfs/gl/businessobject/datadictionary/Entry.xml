@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../core/datadictionary/dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.gl.bo.Entry">
+        <customAttributeEnabled>false</customAttributeEnabled>
+        <inquiry>
+            <title>Entry Inquiry</title>
+            <inquiryFields>
+                <field attributeName="universityFiscalYear" />
+                <field attributeName="chartOfAccountsCode" />                
+                <field attributeName="accountNumber" />
+                <field attributeName="subAccountNumber" />
+                <field attributeName="projectCode" noInquiry="true"/>
+                <!--
+                <field attributeName="financialObjectCode" />
+				<field attributeName="financialSubObjectCode" />                
+				<field attributeName="financialBalanceTypeCode" />  
+				<field attributeName="financialObjectTypeCode" />  
+                <field attributeName="universityFiscalPeriodCode" />
+                <field attributeName="financialSystemOriginationCode" />
+                <field attributeName="financialDocumentTypeCode" />                				                            
+                <field attributeName="financialDocumentNumber" />
+                <field attributeName="trnEntryLedgerSequenceNumber" />
+                <field attributeName="transactionLedgerEntryDesc" />
+                <field attributeName="transactionLedgerEntryAmount" />
+                <field attributeName="transactionDebitCreditCode" />    
+                <field attributeName="transactionDate" />
+                <field attributeName="organizationDocumentNumber" />
+                <field attributeName="projectCode" />
+                <field attributeName="organizationReferenceId" />
+                <field attributeName="referenceFinDocumentTypeCode" />
+                <field attributeName="finSystemRefOriginationCode" />
+				<field attributeName="financialDocumentReferenceNbr" />
+                <field attributeName="financialDocumentReversalDate" />               
+                <field attributeName="transactionEncumbranceUpdtCd" />
+                <field attributeName="transactionPostingDate" />
+                <field attributeName="transactionDateTimeStamp" />
+                <field attributeName="budgetYear" />
+                -->
+            </inquiryFields>
+        </inquiry>
+        
+        <lookup>
+			<title>General Ledger Entry Lookup</title>
+			<instructions>Lookup General Ledger Entries</instructions>
+			<defaultSort attributeName="financialObjectCode" sortAscending="true" />
+			
+			<lookupFields>
+                <lookupField attributeName="universityFiscalYear" required="true">
+                	<defaultValueFinderClass>
+						org.kuali.core.lookup.valueFinder.FiscalYearFinder
+					</defaultValueFinderClass>
+                </lookupField>
+                
+                <lookupField attributeName="chartOfAccountsCode" required="true"/>                
+                <lookupField attributeName="accountNumber" required="true"/>
+                <lookupField attributeName="subAccountNumber" />
+                <lookupField attributeName="financialObjectCode" />
+				<lookupField attributeName="financialSubObjectCode" />                
+				<lookupField attributeName="financialBalanceTypeCode" required="true"/> 
+				<lookupField attributeName="financialObjectTypeCode" />  
+                <lookupField attributeName="universityFiscalPeriodCode" required="true"/>
+                <lookupField attributeName="financialSystemOriginationCode" />
+                <lookupField attributeName="financialDocumentTypeCode" />                				                            
+                <lookupField attributeName="financialDocumentNumber" />
+                <lookupField attributeName="organizationDocumentNumber" />
+			</lookupFields>
+			
+			<resultFields>         
+                <field attributeName="accountNumber" />
+                <field attributeName="subAccountNumber" />
+                <field attributeName="financialObjectCode" />
+				<field attributeName="financialSubObjectCode" />                
+				<field attributeName="financialBalanceTypeCode" />  
+                <field attributeName="financialDocumentTypeCode" />                				                            
+                <field attributeName="financialDocumentNumber" />
+                <field attributeName="transactionLedgerEntryAmount" />
+                <field attributeName="transactionDebitCreditCode" />    
+                <field attributeName="transactionDate" />
+                <field attributeName="projectCode" />
+                <field attributeName="referenceFinDocumentTypeCode" />
+				<field attributeName="financialDocumentReferenceNbr" />
+			</resultFields>
+		</lookup>
+		
+        <attributes>
+            <attributeReference name="universityFiscalYear" 
+				sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
+				sourceAttributeName="genericFiscalYear"/>
+
+            <attributeReference name="chartOfAccountsCode" 
+				sourceClassName="org.kuali.module.chart.bo.Chart" 
+				sourceAttributeName="chartOfAccountsCode" />
+            					
+            <attributeReference name="accountNumber" 
+				sourceClassName="org.kuali.module.chart.bo.Account" 
+				sourceAttributeName="accountNumber" />
+				
+            <attributeReference name="subAccountNumber" 
+				sourceClassName="org.kuali.module.chart.bo.SubAccount" 
+				sourceAttributeName="subAccountNumber"/>
+				
+            <attributeReference name="financialObjectCode" 
+            	sourceClassName="org.kuali.module.chart.bo.ObjectCode" 
+            	sourceAttributeName="financialObjectCode"/>
+            	
+            <attributeReference name="financialSubObjectCode" 
+            	sourceClassName="org.kuali.module.chart.bo.SubObjCd" 
+            	sourceAttributeName="financialSubObjectCode" />
+            	
+            <attributeReference name="financialObjectTypeCode" 
+            	sourceClassName="org.kuali.module.chart.bo.ObjectType" 
+            	sourceAttributeName="code" />
+			               
+			<attributeReference name="financialBalanceTypeCode" 
+				sourceClassName="org.kuali.module.chart.bo.codes.BalanceTyp" 
+				sourceAttributeName="code">
+				<label>Balance Type</label>
+                <shortLabel>Balance Type</shortLabel>
+                <maxLength>2</maxLength>
+                <control>
+		            <select valuesFinderClass="org.kuali.core.lookup.keyvalues.BalanceTypeValuesFinder"/>
+                </control>
+                <summary>Balance Type</summary>
+                <description>Balance Type description...</description>
+            </attributeReference>
+				
+            <attributeReference name="universityFiscalPeriodCode" 
+            	sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
+            	sourceAttributeName="universityFiscalAccountingPeriod">
+            	<label>Accounting Period</label>
+                <shortLabel>University Fiscal Accounting Period</shortLabel>
+                <maxLength>2</maxLength>
+                <control>
+		            <text size="3" />
+                </control>
+                <summary>University Fiscal Accounting Period</summary>
+                <description>University Fiscal Accounting Period description...</description>
+            </attributeReference>            			
+            
+            <attribute name="financialDocumentTypeCode" forceUppercase="true">
+                <label>Document Type Code</label>
+                <shortLabel>Doc. Type Code</shortLabel>
+                <maxLength>4</maxLength>
+                <control>
+                    <text size="5" />
+                </control>
+                <summary>Financial document type code.</summary>
+                <description>documentTypeCode description...</description>
+            </attribute> 
+                
+            <attribute name="financialSystemOriginationCode" forceUppercase="false">
+                <label>Origin Code</label>
+                <shortLabel>Origin Code</shortLabel>
+                <maxLength>2</maxLength>
+                <control>
+                    <text size="3" />
+                </control>
+                <summary>originCode</summary>
+                <description>originCode description...</description>
+            </attribute>
+                           				                            
+            <attributeReference name="financialDocumentNumber" 
+            	sourceClassName="org.kuali.core.document.DocumentHeader" 
+				sourceAttributeName="financialDocumentNumber" />
+					            
+            <attributeReference name="trnEntryLedgerSequenceNumber"             	
+				sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
+				sourceAttributeName="transactionEntrySequenceId" />
+				       		       		
+            <attribute name="transactionLedgerEntryDesc" forceUppercase="false">
+                <label>Transaction Ledger Entry Description</label>
+                <shortLabel>Description</shortLabel>
+                <maxLength>40</maxLength>
+                <control>
+                    <text size="40" />
+                </control>
+                <summary>transactionLedgerEntryDescription</summary>
+                <description>transactionLedgerEntryDescription description...</description>
+            </attribute>
+            
+			<attributeReference name="transactionLedgerEntryAmount" 
+            					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
+            					sourceAttributeName="genericAmount">
+                <label>Transaction Ledger Entry Amount</label>
+                <shortLabel>Amount</shortLabel>
+                <summary>transactionLedgerEntryAmount</summary>
+                <description>transactionLedgerEntryAmount description...</description>
+            </attributeReference>
+
+            <attribute name="transactionDebitCreditCode" forceUppercase="true">
+                <label>Debit Or Credit Code</label>
+                <shortLabel>D/C</shortLabel>
+                <maxLength>1</maxLength>
+                <control>
+                    <text size="2" />
+                </control>
+                <summary>The debit/credit code.</summary>
+                <description>This flags a financial transaction as either a debit or credit.</description>
+            </attribute>
+                          
+            <attributeReference name="transactionDate"
+				sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
+				sourceAttributeName="genericTimestamp" >
+                <label>Transaction Date</label>
+                <shortLabel>Date</shortLabel>
+                <summary>transactionDate</summary>
+                <description>transactionDate description...</description>
+            </attributeReference>
+                        
+            <attribute name="organizationDocumentNumber" forceUppercase="false">
+                <label>Organization Document Number</label>
+                <shortLabel>Org. Doc. Nbr.</shortLabel>
+                <maxLength>10</maxLength>
+                <control>
+                    <text size="12" />
+                </control>
+                <summary>organizationDocumentNumber</summary>
+                <description>organizationDocumentNumber description...</description>
+            </attribute>
+            
+            <attributeReference name="projectCode" 
+	            sourceClassName="org.kuali.module.chart.bo.ProjectCode" 
+	            sourceAttributeName="code"/>
+            
+            <attribute name="organizationReferenceId" forceUppercase="false">
+                <label>Organization Reference Id</label>
+                <shortLabel>Org. Ref. Id</shortLabel>
+                <maxLength>8</maxLength>
+                <control>
+                    <text size="10" />
+                </control>
+                <summary>organizationReferenceId</summary>
+                <description>organizationReferenceId description...</description>
+            </attribute>
+            					
+            <attribute name="referenceFinDocumentTypeCode" forceUppercase="true">
+                <label>Reference Document Type Code</label>
+                <shortLabel>Ref Doc. Type Code</shortLabel>
+                <maxLength>4</maxLength>
+                <control>
+                    <text size="5" />
+                </control>
+                <summary>Financial document type code.</summary>
+                <description>documentTypeCode description...</description>
+            </attribute>        
+            
+            <attribute name="finSystemRefOriginationCode" forceUppercase="false">
+                <label>Reference Origin Code</label>
+                <shortLabel>Ref. Origin Code</shortLabel>
+                <maxLength>2</maxLength>
+                <control>
+                    <text size="3" />
+                </control>
+                <summary>referenceOriginCode</summary>
+                <description>referenceOriginCode description...</description>
+            </attribute>
+            			
+            <attribute name="financialDocumentReferenceNbr" forceUppercase="false">
+                <label>Reference Document Number</label>
+                <shortLabel>Number</shortLabel>
+                <maxLength>9</maxLength>
+                <control>
+                    <text size="11" />
+                </control>
+                <summary>referenceDocumentNumber</summary>
+                <description>referenceDocumentNumber description...</description>
+            </attribute>
+            			
+            <attributeReference name="financialDocumentReversalDate"
+                 sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
+            	 sourceAttributeName="genericDate"/>
+            	              
+            <attribute name="transactionEncumbranceUpdtCd" forceUppercase="true">
+                <label>Encumbrance Update Code</label>
+                <shortLabel>Encmbr. Updt. Code</shortLabel>
+                <maxLength>1</maxLength>
+                <control>
+                    <text size="3" />
+                </control>
+                <summary>encumbranceUpdateCode</summary>
+                <description>encumbranceUpdateCode description...</description>
+            </attribute>
+                        
+            <attributeReference name="transactionPostingDate"
+				sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
+				sourceAttributeName="genericDate"/>
+				
+            <attributeReference name="transactionDateTimeStamp"
+				sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
+				sourceAttributeName="genericDate"/>
+
+            <attribute name="budgetYear" forceUppercase="false">
+                <label>Budget Year</label>
+                <shortLabel>Bdgt. Year</shortLabel>
+                <maxLength>4</maxLength>
+                <control>
+                    <text size="6" />
+                </control>
+                <summary>The budget year for this transaction.</summary>
+                <description>This is the budget year associated with this pending ledger entry.</description>
+            </attribute>            					            
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

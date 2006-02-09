@@ -46,8 +46,8 @@ public interface BalanceDao {
 
     /**
      * This method finds the summary records of balance entries according to input fields
-     * an values
-     * @param fieldValues the input fields an values
+     * and values
+     * @param fieldValues the input fields and values
      * @param isConsolidated consolidation option is applied or not
      * 
      * @return the summary records of balance entries

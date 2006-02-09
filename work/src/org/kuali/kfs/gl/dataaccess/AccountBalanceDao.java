@@ -22,14 +22,29 @@
  */
 package org.kuali.module.gl.dao;
 
+import java.util.Iterator;
+import java.util.Map;
+
 import org.kuali.module.gl.bo.AccountBalance;
 import org.kuali.module.gl.bo.Transaction;
 
 /**
  * @author jsissom
- *
+ *  
  */
 public interface AccountBalanceDao {
-  public AccountBalance getByTransaction(Transaction t);
-  public void save(AccountBalance ab);
+    
+    public AccountBalance getByTransaction(Transaction t);
+
+    public void save(AccountBalance ab);
+
+    /**
+     * This method finds the available account balances according to input fields
+     * and values
+     * 
+     * @param fieldValues the input fields and values
+     * 
+     * @return the summary records of balance entries
+     */
+    public Iterator findAvailableBalance(Map fieldValues);
 }

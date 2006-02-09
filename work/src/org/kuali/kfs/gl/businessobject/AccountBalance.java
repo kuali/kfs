@@ -59,6 +59,7 @@ public class AccountBalance extends BusinessObjectBase {
     public AccountBalance() {
         super();
         this.dummyBusinessObject = new DummyBusinessObject();
+        this.financialObject = new ObjectCode();
     }
 
     public AccountBalance(Transaction t) {

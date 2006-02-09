@@ -187,10 +187,10 @@ public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements Balanc
         query.addGroupBy("accountNumber");
         if(!isConsolidated) query.addGroupBy("subAccountNumber");
 
-        Iterator balanceSummary = getPersistenceBrokerTemplate()
+        Iterator cashBalance = getPersistenceBrokerTemplate()
                 .getReportQueryIteratorByQuery(query);
 
-        return balanceSummary;
+        return cashBalance;
     }
 
     /*

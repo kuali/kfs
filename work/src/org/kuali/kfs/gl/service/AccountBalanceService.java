@@ -22,10 +22,22 @@
  */
 package org.kuali.module.gl.service;
 
+import java.util.Iterator;
+import java.util.Map;
+
 /**
  * This class...
  * @author Bin Gao from Michigan State University
  */
 public interface AccountBalanceService {
-
+    
+    /**
+     * This method finds the available account balances according to input fields
+     * and values
+     * 
+     * @param fieldValues the input fields and values
+     * 
+     * @return the summary records of balance entries
+     */
+    public Iterator findAvailableBalance(Map fieldValues);
 }

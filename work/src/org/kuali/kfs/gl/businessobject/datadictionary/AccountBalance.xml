@@ -23,7 +23,12 @@
 			<defaultSort attributeName="objectCode" />
 			
 			<lookupFields>
-				<lookupField attributeName="universityFiscalYear" required="true"/>
+				<lookupField attributeName="universityFiscalYear" required="true">
+                	<defaultValueFinderClass>
+						org.kuali.core.lookup.valueFinder.FiscalYearFinder
+					</defaultValueFinderClass>
+                </lookupField>
+                				
 				<lookupField attributeName="chartOfAccountsCode" required="true"/>
 				<lookupField attributeName="accountNumber" required="true" noLookup="false"/>
 				<lookupField attributeName="subAccountNumber"/>
@@ -40,6 +45,7 @@
 				<field attributeName="universityFiscalYear"/>
 				<field attributeName="chartOfAccountsCode"/>
 				<field attributeName="accountNumber"/>
+				<field attributeName="subAccountNumber"/>
 				<field attributeName="objectCode"/>
 				<field attributeName="subObjectCode"/>             
 				<field attributeName="currentBudgetLineBalanceAmount"/>

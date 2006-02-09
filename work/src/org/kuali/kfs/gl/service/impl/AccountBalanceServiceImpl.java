@@ -22,6 +22,9 @@
  */
 package org.kuali.module.gl.service.impl;
 
+import java.util.Iterator;
+import java.util.Map;
+
 import org.kuali.module.gl.service.AccountBalanceService;
 import org.kuali.module.gl.dao.AccountBalanceDao;
 
@@ -32,6 +35,13 @@ import org.kuali.module.gl.dao.AccountBalanceDao;
 public class AccountBalanceServiceImpl implements AccountBalanceService {
     AccountBalanceDao accountBalanceDao;
 
+    /**
+     * @see org.kuali.module.gl.service.AccountBalanceService#findAvailableBalance(java.util.Map)
+     */
+    public Iterator findAvailableBalance(Map fieldValues) {       
+        return accountBalanceDao.findAvailableBalance(fieldValues);
+    }
+    
     /**
      * Sets the accountBalanceDao attribute value.
      * @param accountBalanceDao The accountBalanceDao to set.

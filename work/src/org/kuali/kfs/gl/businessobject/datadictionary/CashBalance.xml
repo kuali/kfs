@@ -4,79 +4,90 @@
     "../../../core/datadictionary/dataDictionary-1_0.dtd">
 	
 <dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.gl.bo.ProxyBusinessObject">
+    <businessObject businessObjectClass="org.kuali.module.gl.bo.Balance">
         <customAttributeEnabled>false</customAttributeEnabled>
         <inquiry>
-            <title>General Ledger Balance</title>
+            <title>Cash Balance</title>
             <inquiryFields>
-				<field attributeName="balance.chartOfAccountsCode" forceInquiry="true"/>
-				<field attributeName="balance.accountNumber" forceInquiry="true"/>
+				<field attributeName="chartOfAccountsCode" forceInquiry="true"/>
+				<field attributeName="accountNumber" forceInquiry="true"/>
             </inquiryFields>
         </inquiry>
 		
         <lookup>
-			<title>General Ledger Balance</title>			
+	        <lookupableID>glCashBalanceLookupable</lookupableID>
+			<title>Cash Balance</title>			
 			<instructions>Lookup Cash Balance for the specific account.</instructions>
 			
-			<defaultSort attributeName="balance.accountNumber" />
+			<defaultSort attributeName="accountNumber" />
 			
 			<lookupFields>
-				<lookupField attributeName="balance.universityFiscalYear" required="true"/>
-				<lookupField attributeName="balance.chartOfAccountsCode" required="true"/>
-				<lookupField attributeName="balance.accountNumber" noLookup="false"/>
-				<lookupField attributeName="balance.subAccountNumber"/>
-				<lookupField attributeName="balance.objectCode"/>
-				<lookupField attributeName="balance.subObjectCode"/>
-				<!--
-				<lookupField attributeName="balance.dummyBusinessObject.consolidationOption">
+				<lookupField attributeName="universityFiscalYear" required="true">
+				    <defaultValueFinderClass>
+						org.kuali.core.lookup.valueFinder.FiscalYearFinder
+					</defaultValueFinderClass>
+                </lookupField>
+                
+				<lookupField attributeName="chartOfAccountsCode" required="true"/>
+				<lookupField attributeName="accountNumber" noLookup="false"/>
+				<lookupField attributeName="subAccountNumber"/>
+				
+				<lookupField attributeName="dummyBusinessObject.consolidationOption">
 					<defaultValueFinderClass>
 						org.kuali.module.gl.web.GLConsolidationOptionFinder
 					</defaultValueFinderClass>
 				</lookupField>
-				-->
 			</lookupFields>
 			
 			<resultFields>
-				<field attributeName="balance.universityFiscalYear"/>
-				<field attributeName="balance.chartOfAccountsCode"/>
-				<field attributeName="balance.accountNumber"/>
-				<field attributeName="balance.subAccountNumber"/>
-				<field attributeName="balance.accountLineAnnualBalanceAmount"/>
-				<field attributeName="balance.beginningBalanceLineAmount"/>
-				<field attributeName="balance.contractsGrantsBeginningBalanceAmount"/> 
+				<field attributeName="universityFiscalYear"/>
+				<field attributeName="chartOfAccountsCode"/>
+				<field attributeName="accountNumber"/>
+				<field attributeName="subAccountNumber"/>
+				<field attributeName="accountLineAnnualBalanceAmount"/>
+				<field attributeName="beginningBalanceLineAmount"/>
+				<field attributeName="contractsGrantsBeginningBalanceAmount"/> 
+				<field attributeName="dummyBusinessObject.genericAmount"/> 
 			</resultFields>
 		</lookup>
 		
         <attributes>
-            <attributeReference name="balance.universityFiscalYear" 
+            <attributeReference name="universityFiscalYear" 
             					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
             					sourceAttributeName="genericFiscalYear" />
 										
-            <attributeReference name="balance.chartOfAccountsCode" 
+            <attributeReference name="chartOfAccountsCode" 
             					sourceClassName="org.kuali.module.chart.bo.Chart" 
             					sourceAttributeName="chartOfAccountsCode" />
 								
-            <attributeReference name="balance.accountNumber" 
+            <attributeReference name="accountNumber" 
             					sourceClassName="org.kuali.module.chart.bo.Account" 
             					sourceAttributeName="accountNumber" />
 								
-            <attributeReference name="balance.subAccountNumber" 
+            <attributeReference name="subAccountNumber" 
             					sourceClassName="org.kuali.module.chart.bo.SubAccount" 
             					sourceAttributeName="subAccountNumber"/>
 								
-            <attributeReference name="balance.objectCode" 
+            <attributeReference name="objectCode" 
             					sourceClassName="org.kuali.module.chart.bo.ObjectCode" 
             					sourceAttributeName="financialObjectCode"/>
 								
-            <attributeReference name="balance.subObjectCode" 
+            <attributeReference name="subObjectCode" 
             					sourceClassName="org.kuali.module.chart.bo.SubObjCd" 
             					sourceAttributeName="financialSubObjectCode" />            													
 
-			<attributeReference name="balance.objectTypeCode"            		
-								sourceClassName="org.kuali.module.gl.bo.Balance" 
-            					sourceAttributeName="objectTypeCode" /> 
+			<attribute name="objectTypeCode">
+                <label>Object Type Code</label>
+                <shortLabel>Object Type Code</shortLabel>
+                <maxLength>2</maxLength>
+                <control>
+                    <text size="3" />
+                </control>
+                <summary>objectTypeCode</summary>
+                <description>objectTypeCode description...</description>
+            </attribute>
             
-			<attributeReference name="balance.balanceTypeCode" 
+			<attributeReference name="balanceTypeCode" 
             					sourceClassName="org.kuali.module.chart.bo.codes.BalanceTyp" 
             					sourceAttributeName="financialBalanceTypeShortNm">
                 <label>Balance Type Code</label>
@@ -89,7 +100,7 @@
                 <description>balanceTypeCode description...</description>
             </attributeReference>
 
-			<attributeReference name="balance.accountLineAnnualBalanceAmount" 
+			<attributeReference name="accountLineAnnualBalanceAmount" 
             					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
             					sourceAttributeName="genericAmount">
                 <label>Account Line Annual Balance Amount</label>
@@ -98,7 +109,7 @@
                 <description>accountLineAnnualBalanceAmount description...</description>
             </attributeReference>
 			
-			<attributeReference name="balance.beginningBalanceLineAmount" 
+			<attributeReference name="beginningBalanceLineAmount" 
             					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
             					sourceAttributeName="genericAmount">
                 <label>Beginning Balance Line Amount</label>
@@ -107,7 +118,7 @@
                 <description>beginningBalanceLineAmount description...</description>
             </attributeReference>
 
-			<attributeReference name="balance.contractsGrantsBeginningBalanceAmount" 
+			<attributeReference name="contractsGrantsBeginningBalanceAmount" 
             					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
             					sourceAttributeName="genericAmount">
                 <label>Contracts Grants Beginning Balance Amount</label>
@@ -116,59 +127,59 @@
                 <description>contractsGrantsBeginningBalanceAmount description...</description>
             </attributeReference>
             
-			<attributeReference name="balance.month1Amount" 
+			<attributeReference name="month1Amount" 
             					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
             					sourceAttributeName="genericAmount"/>
 
-			<attributeReference name="balance.month2Amount" 
+			<attributeReference name="month2Amount" 
             					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
             					sourceAttributeName="genericAmount"/>
             					
-			<attributeReference name="balance.month3Amount" 
+			<attributeReference name="month3Amount" 
             					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
             					sourceAttributeName="genericAmount"/>
             					
-			<attributeReference name="balance.month4Amount" 
+			<attributeReference name="month4Amount" 
             					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
             					sourceAttributeName="genericAmount"/>            					            					                                    	        
 
-			<attributeReference name="balance.month5Amount" 
+			<attributeReference name="month5Amount" 
             					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
             					sourceAttributeName="genericAmount"/>
 
-			<attributeReference name="balance.month6Amount" 
+			<attributeReference name="month6Amount" 
             					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
             					sourceAttributeName="genericAmount"/>
             					
-			<attributeReference name="balance.month7Amount" 
+			<attributeReference name="month7Amount" 
             					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
             					sourceAttributeName="genericAmount"/>
             					
-			<attributeReference name="balance.month8Amount" 
+			<attributeReference name="month8Amount" 
             					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
             					sourceAttributeName="genericAmount"/> 
             					
-			<attributeReference name="balance.month9Amount" 
+			<attributeReference name="month9Amount" 
             					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
             					sourceAttributeName="genericAmount"/>
 
-			<attributeReference name="balance.month10Amount" 
+			<attributeReference name="month10Amount" 
             					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
             					sourceAttributeName="genericAmount"/>
             					
-			<attributeReference name="balance.month11Amount" 
+			<attributeReference name="month11Amount" 
             					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
             					sourceAttributeName="genericAmount"/>
             					
-			<attributeReference name="balance.month12Amount" 
+			<attributeReference name="month12Amount" 
             					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
             					sourceAttributeName="genericAmount"/>             					
 
-			<attributeReference name="balance.month13Amount" 
+			<attributeReference name="month13Amount" 
             					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
             					sourceAttributeName="genericAmount"/>
 
-            <attributeReference name="balance.timestamp" 
+            <attributeReference name="timestamp" 
             					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
 					            sourceAttributeName="genericTimestamp" >
                 <label>Transaction Entry Processed</label>
@@ -177,10 +188,7 @@
                 <description>transactionEntryProcessed description...</description>
             </attributeReference>
             
-            <!--
-            <attributeReference name="balance.dummyBusinessObject.consolidationOption"
-								sourceClassName="org.kuali.module.gl.bo.DummyBusinessObject" 
-					            sourceAttributeName="consolidationOption" >
+            <attribute name="dummyBusinessObject.consolidationOption">
 	            <label>Consolidation Option</label>
 	            <shortLabel>Consolidation Option</shortLabel>
 	            <maxLength>2</maxLength>
@@ -189,8 +197,17 @@
 	            </control>
 	            <summary>Consolidation Option</summary>
 	            <description>consolidationOption description...</description>
-	        </attributeReference>  
-	        -->           					 
+	        </attribute> 
+	        
+			<attributeReference name="dummyBusinessObject.genericAmount"
+            					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
+            					sourceAttributeName="genericAmount"> 
+			    <label>Available Cash Balance</label>
+                <shortLabel>Available Cash Balance</shortLabel>
+                <summary>Available Cash Balance</summary>
+                <description>Available Cash Balance...</description>      					
+            </attributeReference>
+            					 
         </attributes>
 		
     </businessObject>

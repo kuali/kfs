@@ -25,7 +25,6 @@ package org.kuali.module.financial.document;
 
 import org.kuali.Constants;
 import org.kuali.core.document.TransactionalDocumentBase;
-import org.kuali.core.workflow.service.KualiWorkflowDocument;
 
 
 /**
@@ -41,16 +40,6 @@ public class DistributionOfIncomeAndExpenseDocument extends TransactionalDocumen
 	}
 
 	//workflow related methods
-	/**
-     * Passes in the target accounting lines list instead of the source which is the default 
-     * impl in the parent.
-	 * @see org.kuali.bo.Document#populateDocumentForRouting()
-	 */
-//	public void populateDocumentForRouting() {
-//		KualiWorkflowDocument workflowDocument = getDocumentHeader().getWorkflowDocument();
-//    	addAttributeDefinitionsForAccountingLines(workflowDocument, targetAccountingLines);
-//	}
-
     /**
      * Overrides the base implementation to return "From".
      */

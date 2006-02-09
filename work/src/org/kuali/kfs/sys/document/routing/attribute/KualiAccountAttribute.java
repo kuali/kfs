@@ -19,8 +19,6 @@
 
 package org.kuali.workflow.attribute;
 
-import java.io.BufferedReader;
-import java.io.StringReader;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -30,24 +28,20 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathFactory;
 
 import org.apache.log4j.Logger;
 import org.jdom.Document;
-import org.jdom.Element;
 import org.kuali.KualiSpringServiceLocator;
 import org.kuali.workflow.KualiConstants;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
 
 import edu.iu.uis.eden.exception.EdenUserNotFoundException;
 import edu.iu.uis.eden.lookupable.Field;
@@ -60,7 +54,6 @@ import edu.iu.uis.eden.routetemplate.Role;
 import edu.iu.uis.eden.routetemplate.RouteContext;
 import edu.iu.uis.eden.user.AuthenticationUserId;
 import edu.iu.uis.eden.util.Utilities;
-import edu.iu.uis.eden.util.XmlHelper;
 
 /**
  * KualiAccountAttribute which should be used when using Accounts to do routing

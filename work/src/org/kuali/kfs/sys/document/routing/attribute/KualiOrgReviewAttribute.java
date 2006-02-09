@@ -39,8 +39,6 @@ import javax.xml.xpath.XPathFactory;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.jdom.Document;
-import org.jdom.Element;
 import org.kuali.KualiSpringServiceLocator;
 import org.kuali.workflow.beans.KualiFiscalOrganization;
 import org.w3c.dom.Node;
@@ -54,7 +52,6 @@ import edu.iu.uis.eden.routeheader.DocumentContent;
 import edu.iu.uis.eden.routetemplate.RuleExtension;
 import edu.iu.uis.eden.routetemplate.RuleExtensionValue;
 import edu.iu.uis.eden.util.Utilities;
-import edu.iu.uis.eden.util.XmlHelper;
 
 
 /**

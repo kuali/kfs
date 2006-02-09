@@ -29,7 +29,6 @@ import org.kuali.Constants;
 import org.kuali.core.bo.AccountingLineBase;
 import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.workflow.service.KualiWorkflowDocument;
 
 /**
  * This is the business object that represents the NonCheckDisbursementDocument in Kuali.
@@ -46,15 +45,6 @@ public class NonCheckDisbursementDocument extends TransactionalDocumentBase {
      */
     public NonCheckDisbursementDocument() {
     }
-
-//    /**
-//     * Makes sure the document header is prepared for account and organization based routing. This overrides the parent to pass in
-//     * the target accounting lines list and not the source lines list.
-//     */
-//    public void populateDocumentForRouting() {
-//        KualiWorkflowDocument workflowDocument = getDocumentHeader().getWorkflowDocument();
-//        addAttributeDefinitionsForAccountingLines(workflowDocument, targetAccountingLines);
-//    }
 
     /**
      * This method calculates the debit total for a <code>NonCheckDisbursementDocument keying off of the </code> debit/debit code,

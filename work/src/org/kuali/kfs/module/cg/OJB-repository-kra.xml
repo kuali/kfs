@@ -546,7 +546,6 @@
   <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
   <field-descriptor name="budgetManualIndirectCostRate" column="BDGT_MAN_IDC_RT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
   <field-descriptor name="budgetManualMtdcAmount" column="BDGT_MAN_MTDC_AMT" jdbc-type="INTEGER"/>
-  <field-descriptor name="budgetOnOffCampusIndicator" column="BDGT_ON_OFF_CMP_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanFieldConversion"/>
   <field-descriptor name="budgetPurposeCode" column="BDGT_PRPS_CD" jdbc-type="VARCHAR"/>
   <reference-descriptor name="task" class-ref="org.kuali.module.kra.bo.BudgetTask" auto-retrieve="true" auto-update="false" auto-delete="false">
     <foreignkey field-ref="documentHeaderId" />

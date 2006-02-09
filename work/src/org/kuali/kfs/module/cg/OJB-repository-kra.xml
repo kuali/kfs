@@ -397,6 +397,7 @@
   <field-descriptor name="userAgencyHours"                             column="USR_AGNCY_HRS"                  jdbc-type="INTEGER"/>
   <field-descriptor name="userHourlyRate"                              column="USR_HRLY_RT"                    jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
   <field-descriptor name="userUniversityHours"                         column="USR_UNIV_HRS"                   jdbc-type="INTEGER"/>
+  <field-descriptor name="userBudgetPeriodSalaryAmount"                column="USR_BDGT_PRD_SLRY_AMT"          jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
   <reference-descriptor name="budgetFringeRate" class-ref="org.kuali.module.kra.bo.BudgetFringeRate" auto-retrieve="true" auto-update="false" auto-delete="false">
     <foreignkey field-ref="documentHeaderId" />
     <foreignkey field-ref="universityAppointmentTypeCode" />

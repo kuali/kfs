@@ -40,12 +40,13 @@ import org.kuali.core.bo.user.KualiUser;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.codes.BudgetRecordingLevelCode;
 import org.kuali.module.chart.bo.codes.SufficientFundsCode;
+import org.kuali.module.chart.rules.AccountPreRules;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public class Account extends BusinessObjectBase {
-
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(Account.class);
     private static final long serialVersionUID = -144120733742373200L;
 
     private String chartOfAccountsCode;
@@ -370,7 +371,7 @@ public class Account extends BusinessObjectBase {
      * 
      */
     public boolean isExpired() {
-
+        LOG.debug("entering isExpired()");
         //	dont even bother trying to test if the accountExpirationDate is null
         if (this.accountExpirationDate == null) {
             return false;
@@ -397,6 +398,9 @@ public class Account extends BusinessObjectBase {
      * 
      */
      public boolean isExpired(Calendar testDate) {
+         if (LOG.isDebugEnabled()) {
+             LOG.debug("entering isExpired("+testDate+")");
+         }
 
         //	dont even bother trying to test if the accountExpirationDate is null
         if (this.accountExpirationDate == null) {

@@ -25,18 +25,14 @@ package org.kuali.module.chart.rules;
 import java.sql.Timestamp;
 import java.util.HashMap;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.commons.lang.StringUtils;
-import org.apache.struts.action.ActionForm;
 import org.kuali.core.bo.PostalZipCode;
 import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.rule.PreRulesCheck;
-import org.kuali.core.rule.event.PreRulesCheckEvent;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Account;
+import org.kuali.module.chart.service.AccountService;
 
 /**
  * 
@@ -46,7 +42,7 @@ import org.kuali.module.chart.bo.Account;
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  * 
  */
-public class AccountPreRules implements PreRulesCheck {
+public class AccountPreRules extends PreRulesContinuationBase {
 
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountPreRules.class);
     
@@ -55,6 +51,7 @@ public class AccountPreRules implements PreRulesCheck {
     private static final String DEFAULT_ACCOUNT_TYPE_CODE = "Account.Defaults.AccountType";
     
     private KualiConfigurationService configService;
+    private AccountService accountService;
     private Account newAccount;
     
     private static final String CONTRACTS_GRANTS_CD = "CG";
@@ -68,7 +65,9 @@ public class AccountPreRules implements PreRulesCheck {
     private static final String RESTRICTED_CD_TEMPORARILY_RESTRICTED = "T";
     private static final String RESTRICTED_CD_NOT_APPLICABLE = "N";
     
+    
     public AccountPreRules() {
+        accountService=SpringServiceLocator.getAccountService();
         configService = SpringServiceLocator.getKualiConfigurationService();
     }
 
@@ -77,13 +76,63 @@ public class AccountPreRules implements PreRulesCheck {
      * before being passed on down the rules chain
      * @see org.kuali.core.rule.PreRulesCheck#processPreRuleChecks(org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, org.kuali.core.rule.event.PreRulesCheckEvent)
      */
-    public boolean processPreRuleChecks(ActionForm form, HttpServletRequest request, PreRulesCheckEvent event) {
-        MaintenanceDocument document = (MaintenanceDocument) event.getDocument();
+    public boolean doRules(MaintenanceDocument document) {
         setupConvenienceObjects(document);
+        checkForContinuationAccounts(); // run this first to avoid side effects
+
+        LOG.debug("done with continuation account, proceeeding with remaining pre rules");
+
         newAccountDefaults(document);
         setStateFromZip(document);
         setRestrictedCodeDefaults(document);
         return true;
+    }
+    
+    private void checkForContinuationAccounts() {
+        LOG.debug("entering checkForContinuationAccounts()");
+        Account account=checkForContinuationAccount(newAccount.getEndowmentIncomeAcctFinCoaCd(),newAccount.getEndowmentIncomeAccountNumber());
+        if (account!=null) { //override old user inputs
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("overriding original account with continuation account: "+account);
+            }
+            newAccount.setEndowmentIncomeAccountNumber(account.getAccountNumber());
+            newAccount.setEndowmentIncomeAcctFinCoaCd(account.getChartOfAccountsCode());
+            newAccount.setAccountCityName("elbonia");
+            this.abortRulesCheck();
+        }
+        
+    }
+
+    private Account checkForContinuationAccount(String chart, String accountNumber) {
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("entering checkForContinuationAccounts("+accountNumber+")");
+        }
+        if (accountNumber==null || accountNumber.length()==0) return null;
+        
+        Account account=accountService.getByPrimaryId(chart,accountNumber);
+        
+        if (account!=null && !account.isExpired()) { //no need for a continuation account
+            return null;
+        }
+        
+        boolean useContinuationAccount=true;
+        while (account!=null && account.isExpired() && useContinuationAccount) {
+            LOG.debug("Expired account: "+accountNumber);
+            String continuationAccountNumber=account.getContinuationAccountNumber();
+            useContinuationAccount=askOrAnalyzeYesNoQuestion("ContinuationAccount",
+                    accountNumber,"The account "+accountNumber+
+                    " is expired. Would you rather use its continuation Account ("+continuationAccountNumber+")?");
+            if (useContinuationAccount) {
+                accountNumber=continuationAccountNumber;
+                chart=account.getContinuationFinChrtOfAcctCd();
+                account=accountService.getByPrimaryId(chart,accountNumber);
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Selected continuation account: "+account);
+                }
+            }
+        }
+        return account;
+        
     }
     
     /**

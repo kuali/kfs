@@ -7,7 +7,7 @@
 	<maintenanceDocument>
         <businessObjectClass>org.kuali.module.financial.bo.BankAccount</businessObjectClass>
         <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
-
+		<businessRulesClass>org.kuali.module.financial.rules.BankAccountRule</businessRulesClass>
         <documentAuthorizerClass>org.kuali.core.document.DocumentAuthorizerBase</documentAuthorizerClass>
         <authorizations>
             <authorization action="initiate">
@@ -34,14 +34,13 @@
 	    <maintainableSections>
 	        <maintainableSection title="Edit Bank Account">
 	           	 <maintainableItems>
-	            	<maintainableField name="bank.financialDocumentBankCode" required="true" />
+	            	<maintainableField name="financialDocumentBankCode" required="true" />
 	           		<maintainableField name="finDocumentBankAccountNumber" required="true" />
 	           		<maintainableField name="finDocumentBankAccountDesc" required="true" />	           		
-	           		<maintainableField name="organization.chartOfAccounts.chartOfAccountsCode" />
-	            	<maintainableField name="organization.organizationCode" />	     
-	            	<maintainableField name="universityAccount.chartOfAccounts.chartOfAccountsCode" />
-	            	<maintainableField name="universityAccount.accountNumber" />	
-	            	<maintainableField name="versionNumber" />         	                   
+	           		<maintainableField name="chartOfAccountsCode" />
+	            	<maintainableField name="organizationCode" />	     
+	            	<maintainableField name="universityAcctChartOfAcctCd" />
+	            	<maintainableField name="universityAccountNumber" />	     	                   
 	         	</maintainableItems>
 	        </maintainableSection>
 	    </maintainableSections>

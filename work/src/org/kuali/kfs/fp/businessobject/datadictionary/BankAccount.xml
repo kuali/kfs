@@ -10,13 +10,13 @@
 			<title>Bank Account Inquiry</title>
 
 			<inquiryFields>
-				<field attributeName="bank.financialDocumentBankCode" />
+				<field attributeName="financialDocumentBankCode" />
   				<field attributeName="finDocumentBankAccountNumber" />
   				<field attributeName="finDocumentBankAccountDesc" />		
-				<field attributeName="organization.chartOfAccounts.chartOfAccountsCode" />
-				<field attributeName="organization.organizationCode" />				
-				<field attributeName="universityAccount.chartOfAccounts.chartOfAccountsCode" />				
-				<field attributeName="universityAccount.accountNumber" />				
+				<field attributeName="chartOfAccountsCode" />
+				<field attributeName="organizationCode" />				
+				<field attributeName="universityAcctChartOfAcctCd" />				
+				<field attributeName="universityAccountNumber" />				
 			</inquiryFields>
 		</inquiry>
 
@@ -30,38 +30,41 @@
 			<defaultSort attributeName="bank.financialDocumentBankCode" sortAscending="true" />
 
 			<lookupFields>
-				<lookupField attributeName="bank.financialDocumentBankCode" required="false" />
+				<lookupField attributeName="financialDocumentBankCode" required="false" />
 				<lookupField attributeName="finDocumentBankAccountNumber" required="false" />				
 				<lookupField attributeName="finDocumentBankAccountDesc" required="false" />
-				<lookupField attributeName="organization.chartOfAccounts.chartOfAccountsCode" required="false" />
-				<lookupField attributeName="organization.organizationCode" required="false" />
-				<lookupField attributeName="universityAccount.chartOfAccounts.chartOfAccountsCode" required="false" />
-				<lookupField attributeName="universityAccount.accountNumber" required="false" />
+				<lookupField attributeName="chartOfAccountsCode" required="false" />
+				<lookupField attributeName="organizationCode" required="false" />
+				<lookupField attributeName="universityAcctChartOfAcctCd" required="false" />
+				<lookupField attributeName="universityAccountNumber" required="false" />
 			</lookupFields>
 
 			<resultFields>
-				<field attributeName="bank.financialDocumentBankCode" />
+				<field attributeName="financialDocumentBankCode" />
 				<field attributeName="finDocumentBankAccountNumber" />
 				<field attributeName="finDocumentBankAccountDesc" />
-				<field attributeName="organization.chartOfAccounts.chartOfAccountsCode" />
-				<field attributeName="organization.organizationCode" />
-				<field attributeName="universityAccount.chartOfAccounts.chartOfAccountsCode" />
-				<field attributeName="universityAccount.accountNumber" />		
+				<field attributeName="chartOfAccountsCode" />
+				<field attributeName="organizationCode" />
+				<field attributeName="universityAcctChartOfAcctCd" />
+				<field attributeName="universityAccountNumber" />		
 			</resultFields>
 		</lookup>
 
 		<attributes>
 
-			<attributeReference name="bank.financialDocumentBankCode" 
+			<attributeReference name="financialDocumentBankCode" 
 				sourceClassName="org.kuali.module.financial.bo.Bank" 
-				sourceAttributeName="financialDocumentBankCode" />
+				sourceAttributeName="financialDocumentBankCode">
+				
+				<required>true</required>
+			</attributeReference>
 
 			<attribute name="finDocumentBankAccountNumber" forceUppercase="false">
                 <label>Bank Account Number</label>
                 <shortLabel>Bank Acct</shortLabel>
-
+				
                 <maxLength>15</maxLength>
-
+				<required>true</required>
                 <control>
                     <text size="15" />
                 </control>
@@ -73,9 +76,9 @@
 			<attribute name="finDocumentBankAccountDesc" forceUppercase="false">
                 <label>Bank Account Description</label>
                 <shortLabel>Bank Acct Desc</shortLabel>
-
+				
                 <maxLength>40</maxLength>
-
+				<required>true</required>
                 <control>
                     <text size="40" />
                 </control>
@@ -84,33 +87,39 @@
                 <description>Bank Account Description...</description>
             </attribute>
             
-			<attributeReference name="organization.chartOfAccounts.chartOfAccountsCode" 
+			<attributeReference name="chartOfAccountsCode" 
 					sourceClassName="org.kuali.module.chart.bo.Chart" 
 					sourceAttributeName="chartOfAccountsCode" >
 				<label>Chart Of Accounts</label>
 				<shortLabel>CoA</shortLabel>
+				<required>false</required>
 				<summary>Chart Of Accounts Code</summary>
 				<description>Chart Of Accounts Code</description>
 			</attributeReference>
 				
-			<attributeReference name="organization.organizationCode" 
+			<attributeReference name="organizationCode" 
 				sourceClassName="org.kuali.module.chart.bo.Org" 
-				sourceAttributeName="organizationCode" />
+				sourceAttributeName="organizationCode">
 				
-			<attributeReference name="universityAccount.chartOfAccounts.chartOfAccountsCode" 
+				<required>false</required>
+			</attributeReference>
+				
+			<attributeReference name="universityAcctChartOfAcctCd" 
 								sourceClassName="org.kuali.module.chart.bo.Chart" 
 								sourceAttributeName="chartOfAccountsCode">
 				<label>University Chart Of Accounts</label>
 				<shortLabel>Univ CoA</shortLabel>
+				<required>false</required>
 				<summary>University Chart Of Accounts Code</summary>
 				<description>University Chart Of Accounts Code</description>
 			</attributeReference>
 
-			<attributeReference name="universityAccount.accountNumber" 
+			<attributeReference name="universityAccountNumber" 
 								sourceClassName="org.kuali.module.chart.bo.Account" 
 								sourceAttributeName="accountNumber">
 				<label>University Account Number</label>
 				<shortLabel>Univ. Acct. Num.</shortLabel>
+				<required>false</required>
 				<summary>Univ Account</summary>
 				<description>University Account Number</description>
 			</attributeReference>

@@ -23,6 +23,9 @@
         <property name="budgetFringeRateDao">
             <ref bean="budgetFringeRateDao" />
         </property>
+        <property name="kualiConfigurationService">
+            <ref bean="kualiConfigurationService" />
+        </property>
     </bean>
     
     <bean id="budgetNonpersonnelService" class="org.kuali.module.kra.service.impl.BudgetNonpersonnelServiceImpl">
@@ -67,6 +70,9 @@
     <bean id="budgetPersonnelService" class="org.kuali.module.kra.service.impl.BudgetPersonnelServiceImpl">
         <property name="dateTimeService">
             <ref bean="dateTimeService" />
+        </property>
+        <property name="budgetFringeRateService">
+            <ref bean="budgetFringeRateService" />
         </property>
     </bean>
 </beans>

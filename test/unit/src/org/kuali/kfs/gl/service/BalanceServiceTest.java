@@ -31,6 +31,11 @@ import org.kuali.module.gl.dao.UnitTestSqlDao;
 import org.kuali.module.gl.service.BalanceService;
 import org.kuali.test.KualiTestBaseWithSpring;
 
+/**
+ * various tests for BalanceService, especially as it supports Account business rules; using hardcoded SQL for bootstrapping
+ *  
+ * @author Randall P. Embry (rpembry@indiana.edu)
+ */
 public class BalanceServiceTest extends KualiTestBaseWithSpring {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BalanceServiceTest.class);
     private final static String ACCOUNT_NUMBER="999test";
@@ -64,7 +69,6 @@ public class BalanceServiceTest extends KualiTestBaseWithSpring {
             INSERT_BALANCE += fiscalYear+",";
             runOnce=false; //do not run again
         }
-
         
       }
 

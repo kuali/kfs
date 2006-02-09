@@ -60,6 +60,7 @@ public class ResearchDocumentServiceImpl extends PersistenceBrokerTemplate imple
             list.add(((BudgetDocument)object).getBudget().getTasks());
             list.add(((BudgetDocument)object).getBudget().getPeriods());
             list.add(((BudgetDocument)object).getBudget().getNonpersonnelItems());
+            list.add(((BudgetDocument)object).getBudget().getPersonnel());
         }
         return list;
     }

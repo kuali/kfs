@@ -52,7 +52,7 @@ public class BudgetPersonnelServiceTest extends KualiTestBaseWithSpring {
     public void testPeriodFullFiscalYear() throws Exception {
         KualiDecimal periodSalary;
         BudgetUser dummyUser = new BudgetUser();
-        dummyUser.setBaseSalary(new KualiDecimal(100000));
+        dummyUser.setBaseSalary(new Long(100000));
         
         BudgetPeriod dummyPeriod = new BudgetPeriod();
         dummyPeriod.setBudgetPeriodBeginDate(new Date(sdf.parse("07/01/2006").getTime()));

@@ -246,13 +246,6 @@ public class CashReceiptDocument extends TransactionalDocumentBase {
     	return totalCoinAmount.add(totalCheckAmount).add(totalCashAmount);
     }
 
-//    /**
-//     * Override with nothing since CR doesn't do org or account based routing.
-//     * @see org.kuali.core.document.Document#populateDocumentForRouting()
-//     */
-//    public void populateDocumentForRouting() {
-//    }
-    
     /**
      * Overrides the base implementation to return an empty string.
      */

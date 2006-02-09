@@ -178,6 +178,7 @@
 	<field-descriptor name="budgetPeriodBeginDate" column="BDGT_PRD_BEG_DT" jdbc-type="DATE" />
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 	<field-descriptor name="versionNumber" locking="true" column="VER_NBR" jdbc-type="BIGINT" />
+  <field-descriptor name="budgetPeriodParticipantsNumber" column="BDGT_PRD_PTCPNTS_NBR" jdbc-type="INTEGER" />
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.kra.bo.BudgetFringeRate" table="ER_BDGT_FRNG_RT_T">

@@ -123,19 +123,19 @@ public class BalanceServiceImpl implements BalanceService {
                 runningTotal = new KualiDecimal(0);
             }
 
-            runningTotal.add(begin);
-            runningTotal.add(annual);
+            runningTotal=runningTotal.add(begin);
+            runningTotal=runningTotal.add(annual);
 
             groups.put(objectCode, runningTotal);
 
 
         }
 
-        boolean success = true;
+        boolean success = false;
 
         Iterator iter = groups.keySet().iterator();
         while (iter.hasNext()) {
-            success &= ((KualiDecimal) iter.next()).isNonZero();
+            success |= ((KualiDecimal) groups.get(iter.next())).isNonZero();
         }
 
         return success;

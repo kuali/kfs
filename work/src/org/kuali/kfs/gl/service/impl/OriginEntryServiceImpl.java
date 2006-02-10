@@ -39,7 +39,7 @@ import org.kuali.module.gl.service.OriginEntryService;
 
 /**
  * @author jsissom
- * @version $Id: OriginEntryServiceImpl.java,v 1.5 2006-01-28 16:01:04 jsissom Exp $
+ * @version $Id: OriginEntryServiceImpl.java,v 1.6 2006-02-10 20:34:13 aapotts Exp $
  */
 public class OriginEntryServiceImpl implements OriginEntryService {
   private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OriginEntryServiceImpl.class);
@@ -63,12 +63,21 @@ public class OriginEntryServiceImpl implements OriginEntryService {
   }
 
   public Iterator getEntriesByGroup(OriginEntryGroup oeg) {
-    LOG.debug("getEntriesByGroup() started");
+      LOG.debug("getEntriesByGroup() started");
 
-    Map criteria = new HashMap();
-    criteria.put("group.id",oeg.getId());
-    return originEntryDao.getMatchingEntries(criteria);
-  }
+      Map criteria = new HashMap();
+      criteria.put("group.id",oeg.getId());
+      return originEntryDao.getMatchingEntries(criteria);
+    }
+
+  public Iterator getEntriesByDocument(OriginEntryGroup oeg, String documentNumber) {
+      LOG.debug("getEntriesByGroup() started");
+
+      Map criteria = new HashMap();
+      criteria.put("group.id",oeg.getId());
+      criteria.put("document.number",documentNumber);
+      return originEntryDao.getMatchingEntries(criteria);
+    }
 
   public void createEntry(Transaction tran,OriginEntryGroup group) {
     LOG.debug("createEntry() started");
@@ -103,5 +112,20 @@ public class OriginEntryServiceImpl implements OriginEntryService {
         }
       } catch (IOException ex) { }
     }
+  }
+
+  public void removeScrubberDocumentEntries(OriginEntryGroup validGroup, OriginEntryGroup errorGroup, OriginEntryGroup expiredGroup, String documentNumber) {
+      Map criteria = new HashMap();
+      criteria.put("financialDocumentNumber", documentNumber);
+      criteria.put("entryGroupId", validGroup.getId());
+      originEntryDao.deleteMatchingEntries(criteria);
+      criteria = new HashMap();
+      criteria.put("financialDocumentNumber", documentNumber);
+      criteria.put("entryGroupId", errorGroup.getId());
+      originEntryDao.deleteMatchingEntries(criteria);
+      criteria = new HashMap();
+      criteria.put("financialDocumentNumber", documentNumber);
+      criteria.put("entryGroupId", expiredGroup.getId());
+      originEntryDao.deleteMatchingEntries(criteria);
   }
 }

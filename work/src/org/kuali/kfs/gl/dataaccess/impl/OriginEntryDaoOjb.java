@@ -34,7 +34,7 @@ import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 /**
  * @author jsissom
- * @version $Id: OriginEntryDaoOjb.java,v 1.4 2006-01-27 16:42:44 larevans Exp $
+ * @version $Id: OriginEntryDaoOjb.java,v 1.5 2006-02-10 20:34:14 aapotts Exp $
  * 
  */
 
@@ -72,5 +72,18 @@ public class OriginEntryDaoOjb extends PersistenceBrokerDaoSupport implements Or
     LOG.debug("saveOriginEntry() started");
 
     getPersistenceBrokerTemplate().store(entry);
+  }
+
+  public void deleteMatchingEntries(Map searchCriteria) {
+      LOG.debug("deleteMatchingEntries() started");
+      
+      Criteria criteria = new Criteria();
+      for (Iterator iter = searchCriteria.keySet().iterator(); iter.hasNext();) {
+        String element = (String)iter.next();
+        criteria.addEqualTo(element, searchCriteria.get(element));
+      }
+
+      QueryByCriteria qbc = QueryFactory.newQuery(OriginEntry.class,criteria);
+      getPersistenceBrokerTemplate().deleteByQuery(qbc);
   }
 }

@@ -29,9 +29,10 @@ import org.kuali.module.gl.bo.OriginEntry;
 
 /**
  * @author jsissom
- * @version $Id: OriginEntryDao.java,v 1.2 2006-01-27 16:42:44 larevans Exp $
+ * @version $Id: OriginEntryDao.java,v 1.3 2006-02-10 20:34:14 aapotts Exp $
  */
 public interface OriginEntryDao {
-	public Iterator getMatchingEntries(Map searchCriteria);
+    public Iterator getMatchingEntries(Map searchCriteria);
+    public void deleteMatchingEntries(Map searchCriteria);
 	public void saveOriginEntry(OriginEntry entry);
 }

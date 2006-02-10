@@ -60,7 +60,7 @@ import org.springframework.util.StringUtils;
 
 /**
  * @author Anthony Potts
- * @version $Id: ScrubberServiceImpl.java,v 1.29 2006-02-10 20:34:13 aapotts Exp $
+ * @version $Id: ScrubberServiceImpl.java,v 1.30 2006-02-10 21:06:12 wesprice Exp $
  */
 
 public class ScrubberServiceImpl implements ScrubberService {
@@ -1764,7 +1764,7 @@ public class ScrubberServiceImpl implements ScrubberService {
     private void performDemerger(String documentNumber, OriginEntryGroup oeg) {
         originEntryService.removeScrubberDocumentEntries(validGroup, errorGroup, expiredGroup, documentNumber); // DOES this need to have runDate!?
         for (Iterator entryIterator = originEntryService.getEntriesByDocument(oeg, documentNumber); entryIterator.hasNext();) {
-            OriginEntry entry = (OriginEntry) entryIterator;
+            OriginEntry entry = (OriginEntry) entryIterator.next();
             originEntryService.createEntry(entry, errorGroup);
         }
         //todo: add more here from cobol

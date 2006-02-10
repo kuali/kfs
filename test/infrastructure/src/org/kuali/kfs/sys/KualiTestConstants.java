@@ -53,7 +53,7 @@ public static final String MESSAGE="JUNIT test entry. If this exist after the te
             public final static String CHART_OF_ACCOUNTS_CODE = "BA";
             public final static String OBJECT_CODE = "9912";
             public final static String ORGANIZATION_CODE = "PARK";
-            public final static String PERSON_UNIVERSAL_IDENTIFIER = "1000050671";
+            public final static String PERSON_UNIVERSAL_IDENTIFIER = "4219606069";
             public final static Integer UNIVERSITY_FISCAL_YEAR = new Integer(2004);
 
             public static final String OBJECT_TYPE_CODE = "AS";

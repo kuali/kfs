@@ -40,7 +40,6 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.codes.BudgetRecordingLevelCode;
 import org.kuali.module.chart.bo.codes.SufficientFundsCode;
-import org.kuali.module.chart.rules.AccountPreRules;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)

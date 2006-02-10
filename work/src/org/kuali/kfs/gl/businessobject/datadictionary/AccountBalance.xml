@@ -45,8 +45,8 @@
 				<field attributeName="universityFiscalYear"/>
 				<field attributeName="chartOfAccountsCode"/>
 				<field attributeName="accountNumber"/>
-				<field attributeName="subAccountNumber"/>
 				<field attributeName="objectCode"/>
+				<field attributeName="subAccountNumber"/>
 				<field attributeName="subObjectCode"/>             
 				<field attributeName="currentBudgetLineBalanceAmount"/>
 				<field attributeName="accountLineActualsBalanceAmount"/>

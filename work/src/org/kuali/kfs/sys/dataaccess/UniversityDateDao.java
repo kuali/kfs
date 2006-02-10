@@ -23,6 +23,7 @@
 package org.kuali.module.gl.dao;
 
 import java.sql.Date;
+import java.util.Collection;
 
 import org.kuali.module.gl.bo.UniversityDate;
 
@@ -35,4 +36,5 @@ public interface UniversityDateDao {
   public UniversityDate getByPrimaryKey(java.util.Date date);
   public UniversityDate getLastFiscalYearDate(Integer fiscalYear);
   public UniversityDate getFirstFiscalYearDate(Integer fiscalYear);
+  public Collection getAccountingPeriodCode();
 }

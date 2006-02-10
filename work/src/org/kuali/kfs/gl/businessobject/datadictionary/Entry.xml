@@ -12,7 +12,8 @@
                 <field attributeName="chartOfAccountsCode" />                
                 <field attributeName="accountNumber" />
                 <field attributeName="subAccountNumber" />
-                <field attributeName="projectCode" noInquiry="true"/>
+                <field attributeName="projectCode" noInquiry="true"/>              
+
                 <!--
                 <field attributeName="financialObjectCode" />
 				<field attributeName="financialSubObjectCode" />                
@@ -203,7 +204,7 @@
                           
             <attributeReference name="transactionDate"
 				sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
-				sourceAttributeName="genericTimestamp" >
+				sourceAttributeName="genericDate" >
                 <label>Transaction Date</label>
                 <shortLabel>Date</shortLabel>
                 <summary>transactionDate</summary>
@@ -301,8 +302,7 @@
                 </control>
                 <summary>The budget year for this transaction.</summary>
                 <description>This is the budget year associated with this pending ledger entry.</description>
-            </attribute>            					            
-
+            </attribute>
         </attributes>
     </businessObject>
 </dictionaryEntry>

@@ -33,6 +33,7 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.core.AccountResponsibility;
 import org.kuali.core.bo.user.KualiUser;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Delegate;
 import org.kuali.module.chart.dao.AccountDao;
@@ -104,10 +105,16 @@ public class AccountDaoOjb extends PersistenceBrokerTemplate
         Collection accountDelegates = getCollectionByQuery(QueryFactory.newQuery(Delegate.class, criteria));
         for (Iterator iter = accountDelegates.iterator(); iter.hasNext();) {
             Delegate accountDelegate = (Delegate) iter.next();
-            if (accountDelegate.isAccountDelegateActiveIndicator() && !accountDelegate.getAccountDelegateStartDate().after(new Date())) {
-                Account account = getByPrimaryId(accountDelegate.getChartOfAccountsCode(), accountDelegate.getAccount().getAccountNumber());
-                AccountResponsibility accountResponsibility = new AccountResponsibility(AccountResponsibility.DELEGATED_RESPONSIBILITY, accountDelegate.getFinDocApprovalFromThisAmt(), accountDelegate.getFinDocApprovalToThisAmount(), accountDelegate.getFinancialDocumentTypeCode(), account );
-                delegatedResponsibilities.add(accountResponsibility);
+            if (accountDelegate.isAccountDelegateActiveIndicator()) {
+                //	the start_date should never be null in the real world, but there is some test data that 
+                // contains null startDates, therefore this check.
+                if (ObjectUtils.isNotNull(accountDelegate.getAccountDelegateStartDate())) {
+                    if (!accountDelegate.getAccountDelegateStartDate().after(new Date())) {
+    	                Account account = getByPrimaryId(accountDelegate.getChartOfAccountsCode(), accountDelegate.getAccount().getAccountNumber());
+    	                AccountResponsibility accountResponsibility = new AccountResponsibility(AccountResponsibility.DELEGATED_RESPONSIBILITY, accountDelegate.getFinDocApprovalFromThisAmt(), accountDelegate.getFinDocApprovalToThisAmount(), accountDelegate.getFinancialDocumentTypeCode(), account );
+    	                delegatedResponsibilities.add(accountResponsibility);
+                    }
+                }
             }
         }
         return delegatedResponsibilities;

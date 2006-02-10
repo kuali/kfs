@@ -39,7 +39,7 @@ import org.kuali.module.gl.service.OriginEntryService;
 
 /**
  * @author jsissom
- * @version $Id: OriginEntryServiceImpl.java,v 1.6 2006-02-10 20:34:13 aapotts Exp $
+ * @version $Id: OriginEntryServiceImpl.java,v 1.7 2006-02-10 21:05:50 wesprice Exp $
  */
 public class OriginEntryServiceImpl implements OriginEntryService {
   private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OriginEntryServiceImpl.class);
@@ -74,8 +74,8 @@ public class OriginEntryServiceImpl implements OriginEntryService {
       LOG.debug("getEntriesByGroup() started");
 
       Map criteria = new HashMap();
-      criteria.put("group.id",oeg.getId());
-      criteria.put("document.number",documentNumber);
+      criteria.put("entryGroupId",oeg.getId());
+      criteria.put("financialDocumentNumber",documentNumber);
       return originEntryDao.getMatchingEntries(criteria);
     }
 

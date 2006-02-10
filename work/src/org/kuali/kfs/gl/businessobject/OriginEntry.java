@@ -541,8 +541,11 @@ public class OriginEntry extends BusinessObjectBase implements Transaction {
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	public boolean equals(Object obj) {
-		OriginEntry entry = (OriginEntry) obj;
-		return getEntryId().equals(entry.getEntryId());
+        if (obj instanceof OriginEntry) {
+            OriginEntry entry = (OriginEntry) obj;
+            return getEntryId().equals(entry.getEntryId());    
+        }
+		return false;
 	}
 
     public boolean isDebit() {

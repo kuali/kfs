@@ -45,6 +45,8 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import edu.iu.uis.eden.WorkflowServiceErrorImpl;
+import edu.iu.uis.eden.clientapp.WorkflowInfo;
+import edu.iu.uis.eden.doctype.DocumentType;
 import edu.iu.uis.eden.lookupable.Field;
 import edu.iu.uis.eden.lookupable.Row;
 import edu.iu.uis.eden.plugin.attributes.WorkflowAttribute;
@@ -250,8 +252,8 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
                 }
             }
         }
-
-        Set chartOrgValues = populateFromDocContent(docContent);
+        
+        Set chartOrgValues = populateFromDocContent(docContent.getRouteContext().getDocument().getDocumentType(),docContent);
         for (Iterator iter = chartOrgValues.iterator(); iter.hasNext();) {
             KualiOrgReviewAttribute attribute = (KualiOrgReviewAttribute) iter.next();
             if (attribute.getFinCoaCd().equals(this.getFinCoaCd()) && attribute.getOrgCd().equals(this.getOrgCd())) {
@@ -279,6 +281,7 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
         chartOrgSet.add(parent);
         buildOrgReviewHierarchy(chartOrgSet, parent);
     }
+    
 
     /**
      * this method will take the document content, and populate a list of OrgReviewAttribute objects
@@ -288,11 +291,32 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
      * @return a list of OrgReviewAttribute objects that are contained in the doc, or roll up to able
      * by one that is contained in the document
      */
-    private Set populateFromDocContent(DocumentContent docContent) {
+    private Set populateFromDocContent(DocumentType docType, DocumentContent docContent) {
         Set chartOrgValues = new HashSet();
+        NodeList nodes = null;
         try {
+            String xpathExp = null;
+            do {
+                
+                if (docType.getName().equals("KualiMaintenanceDocument")) {
+                    xpathExp = "//kualiUser";
+                    break;
+                } else if (docType.getName().equals("KualiFinancialDocument")) {
+                    xpathExp = "//org.kuali.core.bo.SourceAccountingLine/account";
+                    break;
+                } else {
+                    docType = docType.getParentDocType();
+                }
+                
+            } while (docType != null);
+            
+            if (xpathExp == null) {
+                throw new RuntimeException("Did not find expected document type.  Doc type used = " + docType.getName());
+            }
+            
             XPath xpath = XPathFactory.newInstance().newXPath();
-            NodeList nodes = (NodeList) xpath.evaluate("//org.kuali.core.bo.SourceAccountingLine/account", docContent.getDocument(), XPathConstants.NODESET);
+            nodes = (NodeList) xpath.evaluate(xpathExp, docContent.getDocument(), XPathConstants.NODESET);    
+            
             for (int i = 0; i < nodes.getLength(); i++) {
                 Node accountingLineNode = nodes.item(i);
                 String referenceString = xpath.evaluate("@reference", accountingLineNode);

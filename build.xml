@@ -107,7 +107,7 @@
 		</delete>
 		<delete dir="${plugin.directory}" />
 		<delete failonerror="false">
-			<fileset dir="${plugin.deploy.directory}/kul" />
+			<fileset dir="${plugin.deploy.directory}/kuali" />
 		</delete>		
 	</target>	
 

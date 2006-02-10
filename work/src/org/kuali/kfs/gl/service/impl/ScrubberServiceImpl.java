@@ -24,7 +24,6 @@ package org.kuali.module.gl.service.impl;
 
 import java.sql.Date;
 import java.sql.Timestamp;
-import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
@@ -60,7 +59,7 @@ import org.springframework.util.StringUtils;
 
 /**
  * @author Anthony Potts
- * @version $Id: ScrubberServiceImpl.java,v 1.30 2006-02-10 21:06:12 wesprice Exp $
+ * @version $Id: ScrubberServiceImpl.java,v 1.31 2006-02-10 23:57:11 aapotts Exp $
  */
 
 public class ScrubberServiceImpl implements ScrubberService {
@@ -114,6 +113,7 @@ public class ScrubberServiceImpl implements ScrubberService {
         
         batchError = new HashMap();
         reportSummary = new ArrayList();
+        transactionErrors = new ArrayList();
         
         // setup an object to hold the "default" date information
         runDate = new Date(dateTimeService.getCurrentDate().getTime());
@@ -184,7 +184,7 @@ public class ScrubberServiceImpl implements ScrubberService {
         reportSummary.add(new Summary(11, "COST SHARE ENC ENTRIES GENERATED", new Integer(scrubberUtil.costShareEncCount)));
         reportSummary.add(new Summary(12, "TOTAL OUTPUT RECORDS WRITTEN", new Integer(scrubberUtil.totalWriteCount)));
         reportSummary.add(new Summary(13, "EXPIRED ACCOUNTS FOUND", new Integer(scrubberUtil.expiredAccountCount)));
-        scrubberReportService.generateReport(null, reportSummary, runDate, 0);
+        scrubberReportService.generateReport(batchError, reportSummary, runDate, 0);
         
 /*      
  *      print out final error that says what errors were found:
@@ -205,7 +205,6 @@ public class ScrubberServiceImpl implements ScrubberService {
      */
     private OriginEntry processUnitOfWork(OriginEntry originEntry, OriginEntry previousEntry) { /* 2500-process-unit-of-work */
     	// Errors are recorded on a per-entry basis.
-        transactionErrors = new ArrayList();
 
         OriginEntry workingEntry = null;
         
@@ -354,8 +353,10 @@ public class ScrubberServiceImpl implements ScrubberService {
         if (StringUtils.hasText(originEntry.getFinancialObjectCode())) {
             workingEntry.setFinancialObjectCode(originEntry.getFinancialObjectCode());
             checkGLObject(originEntry.getFinancialObject(), kualiConfigurationService.getPropertyString(KeyConstants.ERROR_OBJECT_CODE_NOT_FOUND), originEntry.getFinancialObjectCode());
+            workingEntry.setFinancialObject(originEntry.getFinancialObject());
         } else {
             workingEntry.setFinancialObjectCode(Constants.DASHES_OBJECT_CODE);
+            workingEntry.setFinancialObject(null);
         }
         
         if (originEntry.getFinancialObject() != null && StringUtils.hasText(originEntry.getFinancialObject().getFinancialObjectTypeCode())) {
@@ -363,7 +364,10 @@ public class ScrubberServiceImpl implements ScrubberService {
         }
 
         if (StringUtils.hasText(originEntry.getFinancialSubObjectCode())) {
-            checkGLObject(originEntry.getFinancialSubObject(),kualiConfigurationService.getPropertyString(KeyConstants.ERROR_SUB_OBJECT_CODE_NOT_FOUND), originEntry.getFinancialSubObjectCode());
+            if (!Constants.DASHES_SUB_OBJECT_CODE.equals(originEntry.getFinancialSubObjectCode())) {
+                checkGLObject(originEntry.getFinancialSubObject(),kualiConfigurationService.getPropertyString(KeyConstants.ERROR_SUB_OBJECT_CODE_NOT_FOUND), originEntry.getFinancialSubObjectCode()); 
+                workingEntry.setFinancialSubObject(originEntry.getFinancialSubObject());
+            }
             if (originEntry.getFinancialSubObject() != null && !originEntry.getFinancialSubObject().isFinancialSubObjectActiveIndicator()) {
                 // if NOT active, set it to dashes
                 workingEntry.setFinancialSubObjectCode(Constants.DASHES_SUB_OBJECT_CODE);
@@ -483,7 +487,7 @@ public class ScrubberServiceImpl implements ScrubberService {
         // else
         //  subtract amount from offsetAmountAccumulator
         //  add to creditAmountAccumulator
-        if (originEntry.getBalanceType().isFinancialOffsetGenerationIndicator() &&
+        if (originEntry.getBalanceType() != null && originEntry.getBalanceType().isFinancialOffsetGenerationIndicator() &&
                 !"BB".equals(originEntry.getUniversityFiscalPeriodCode()) &&
                 !"CB".equals(originEntry.getUniversityFiscalPeriodCode()) &&
                 !originEntry.getFinancialDocumentTypeCode().equals("ACLO")) {
@@ -505,7 +509,8 @@ public class ScrubberServiceImpl implements ScrubberService {
         //  (beginning balance) AND UniversityFiscalPeriod != "CB" (contract
         //  balance) AND DocumentTypeCD != "JV" and != "AA" //todo: move to properties
         //      DO COST SHARING! (move into separate method)
-        if ((workingEntry.getOption().getFinObjTypeExpenditureexpCd().equals(workingEntry.getFinancialObjectTypeCode()) ||
+        if (workingEntry.getOption() != null && 
+                (workingEntry.getOption().getFinObjTypeExpenditureexpCd().equals(workingEntry.getFinancialObjectTypeCode()) ||
                 workingEntry.getOption().getFinObjTypeExpNotExpendCode().equals(workingEntry.getFinancialObjectTypeCode()) ||
                 workingEntry.getOption().getFinObjTypeExpendNotExpCode().equals(workingEntry.getFinancialObjectTypeCode()) ||
                 "TE".equals(workingEntry.getFinancialObjectTypeCode())) &&
@@ -557,7 +562,8 @@ public class ScrubberServiceImpl implements ScrubberService {
         if (transactionErrors.size() > 0) {
             // copy all the errors for this entry to the main error list
             batchError.put(originEntry, transactionErrors);
-
+            transactionErrors = new ArrayList();
+            
             // write this entry as a scrubber error
             createOutputEntry(originEntry, errorGroup);
 
@@ -607,8 +613,7 @@ public class ScrubberServiceImpl implements ScrubberService {
      */
     private void addTransactionError(String errorMessage, String errorValue) {
         documentError = true;
-        ErrorEntry errorEntry = new ErrorEntry(errorMessage, errorValue);
-        transactionErrors.add(errorEntry);
+        transactionErrors.add(errorMessage + " (" + errorValue + ")");
     }
     
     /**
@@ -763,11 +768,11 @@ public class ScrubberServiceImpl implements ScrubberService {
             generateOffset(workingEntry);
             this.writeSwitchStatusCD = ScrubberUtil.FROM_OFFSET;
             
-            if (transactionErrors.size() == 0) {
-                createOutputEntry(workingEntry, validGroup);                
-            } else {
+            if (transactionErrors.size() > 0) {
                 createOutputEntry(workingEntry, errorGroup);
                 writeErrors();
+            } else {
+                createOutputEntry(workingEntry, validGroup);                
             }
             
             initScrubberValues();

@@ -203,7 +203,11 @@ public class TransactionReport {
             if ( first ) {
               first = false;
 
-              cell = new PdfPCell(new Phrase(tran.getUniversityFiscalYear().toString(),textFont));
+              if (tran.getUniversityFiscalYear() == null) {
+                  cell = new PdfPCell(new Phrase("NULL",textFont));
+              } else {
+                  cell = new PdfPCell(new Phrase(tran.getUniversityFiscalYear().toString(),textFont));
+              }
               warnings.addCell(cell);
               cell = new PdfPCell(new Phrase(tran.getChartOfAccountsCode(),textFont));
               warnings.addCell(cell);
@@ -227,7 +231,11 @@ public class TransactionReport {
               warnings.addCell(cell);
               cell = new PdfPCell(new Phrase(tran.getFinancialDocumentNumber(),textFont));
               warnings.addCell(cell);
-              cell = new PdfPCell(new Phrase(tran.getTrnEntryLedgerSequenceNumber().toString(),textFont));
+              if (tran.getTrnEntryLedgerSequenceNumber() == null) {
+                  cell = new PdfPCell(new Phrase("NULL",textFont));
+              } else {
+                  cell = new PdfPCell(new Phrase(tran.getTrnEntryLedgerSequenceNumber().toString(),textFont));
+              }
               warnings.addCell(cell);
             } else {
               cell = new PdfPCell(new Phrase("",textFont));

@@ -116,6 +116,7 @@
     conversionField="accountNumber"
     readOnly="${readOnly&&(empty editableFields['accountNumber'])}"
     displayHidden="${displayHidden}"
+    overrideField="accountExpiredOverride"
     />
 <fin:accountingLineDataCell
     dataCellCssClass="${dataCellCssClass}"

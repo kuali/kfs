@@ -26,47 +26,48 @@ import org.kuali.module.chart.bo.Account;
 import org.kuali.test.KualiTestBaseWithSpring;
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
+import org.kuali.core.bo.AccountingLineOverride;
 
 /**
  * This class tests some methods of AccountingLineRuleUtil.
  *
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
-public class AccountingLineRuleUtilTest extends KualiTestBaseWithSpring implements TransactionalDocumentRuleBaseConstants {
+public class AccountingLineRuleUtilTest extends KualiTestBaseWithSpring {
 
     public void testIsValidAccount_valid() {
-        testIsValidAccount(getAccountFromFixture("activeAccount"), null, null);
+        testIsValidAccount(getAccountFromFixture("activeAccount"), AccountingLineOverride.CODE.NONE, null);
     }
 
     public void testIsValidAccount_null() {
-        testIsValidAccount(null, null, KeyConstants.ERROR_EXISTENCE);
+        testIsValidAccount(null, AccountingLineOverride.CODE.NONE, KeyConstants.ERROR_EXISTENCE);
     }
 
     public void testIsValidAccount_closed() {
-        testIsValidAccount(getAccountFromFixture("closedAccount"), null,
+        testIsValidAccount(getAccountFromFixture("closedAccount"), AccountingLineOverride.CODE.NONE,
             KeyConstants.ERROR_DOCUMENT_ACCOUNT_CLOSED);
     }
 
     public void testIsValidAccount_expired() {
-        testIsValidAccount(getAccountFromFixture("expiredAccount"), null,
+        testIsValidAccount(getAccountFromFixture("expiredAccount"), AccountingLineOverride.CODE.NONE,
             KeyConstants.ERROR_DOCUMENT_ACCOUNT_EXPIRED);
     }
 
     public void testIsValidAccount_expiredNoContinuation() {
-        testIsValidAccount(getAccountFromFixture("expiredAccountNoContinuation"), null,
+        testIsValidAccount(getAccountFromFixture("expiredAccountNoContinuation"), AccountingLineOverride.CODE.NONE,
             KeyConstants.ERROR_DOCUMENT_ACCOUNT_EXPIRED_NO_CONTINUATION);
     }
 
     public void testIsValidAccount_expiredButOverridden() {
-        testIsValidAccount(getAccountFromFixture("expiredAccount"), OVERRIDE_CODE.EXPIRED_ACCOUNT, null);
+        testIsValidAccount(getAccountFromFixture("expiredAccount"), AccountingLineOverride.CODE.EXPIRED_ACCOUNT, null);
     }
 
     public void testIsValidAccount_expiredNoContinuationButOverridden() {
-        testIsValidAccount(getAccountFromFixture("expiredAccountNoContinuation"), OVERRIDE_CODE.EXPIRED_ACCOUNT, null);
+        testIsValidAccount(getAccountFromFixture("expiredAccountNoContinuation"), AccountingLineOverride.CODE.EXPIRED_ACCOUNT, null);
     }
 
     public void testIsValidAccount_expiredButMultipleOverridden() {
-        testIsValidAccount(getAccountFromFixture("expiredAccount"), OVERRIDE_CODE.EXPIRED_ACCOUNT_AND_NON_FRINGE_ACCOUNT_USED,
+        testIsValidAccount(getAccountFromFixture("expiredAccount"), AccountingLineOverride.CODE.EXPIRED_ACCOUNT_AND_NON_FRINGE_ACCOUNT_USED,
             null);
     }
 

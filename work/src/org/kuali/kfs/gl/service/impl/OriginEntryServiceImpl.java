@@ -29,7 +29,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.kuali.module.gl.bo.Entry;
 import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.bo.Transaction;
@@ -39,7 +38,7 @@ import org.kuali.module.gl.service.OriginEntryService;
 
 /**
  * @author jsissom
- * @version $Id: OriginEntryServiceImpl.java,v 1.7 2006-02-10 21:05:50 wesprice Exp $
+ * @version $Id: OriginEntryServiceImpl.java,v 1.8 2006-02-12 16:17:27 jsissom Exp $
  */
 public class OriginEntryServiceImpl implements OriginEntryService {
   private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OriginEntryServiceImpl.class);
@@ -99,7 +98,7 @@ public class OriginEntryServiceImpl implements OriginEntryService {
       input = new BufferedReader( new FileReader(filename) );
       String line = null;
       while (( line = input.readLine()) != null) {
-        Entry entry = new Entry(line);
+        OriginEntry entry = new OriginEntry(line);
         createEntry(entry,newGroup);
       }
     } catch (Exception ex) {

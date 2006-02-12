@@ -23,6 +23,8 @@
 package org.kuali.module.gl.bo;
 
 import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.LinkedHashMap;
 
 import org.kuali.Constants;
@@ -109,6 +111,10 @@ public class OriginEntry extends BusinessObjectBase implements Transaction {
         setTransaction(t);
     }
 
+    public OriginEntry(String line) {
+      setFromTextFile(line);
+    }
+
     public void setTransaction(Transaction t) {
         setAccountNumber(t.getAccountNumber());
         setFinancialDocumentNumber(t.getFinancialDocumentNumber());
@@ -136,6 +142,60 @@ public class OriginEntry extends BusinessObjectBase implements Transaction {
         setUniversityFiscalPeriodCode(t.getUniversityFiscalPeriodCode());
         setUniversityFiscalYear(t.getUniversityFiscalYear());
     }
+
+    private java.sql.Date parseDate(String sdate) {
+      if ((sdate == null) || (sdate.trim().length() == 0)) {
+        return null;
+      } else {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-DD");
+        try {
+          java.util.Date d = sdf.parse(sdate);
+          return new Date(d.getTime());
+        } catch (ParseException e) {
+          return null;
+        }
+      }
+    }
+
+    public void setFromTextFile(String line) {
+
+      // Just in case
+      line = line + "                                                                                           ";
+
+      if (!"    ".equals(line.substring(0, 4))) {
+          setUniversityFiscalYear(new Integer(line.substring(0, 4)));
+      } else {
+          setUniversityFiscalYear(null);
+      }
+      setChartOfAccountsCode(line.substring(4, 6).trim());
+      setAccountNumber(line.substring(6, 13).trim());
+      setSubAccountNumber(line.substring(13, 18).trim());
+      setFinancialObjectCode(line.substring(18, 22).trim());
+      setFinancialSubObjectCode(line.substring(22, 25).trim());
+      setFinancialBalanceTypeCode(line.substring(25, 27).trim());
+      setFinancialObjectTypeCode(line.substring(27, 29).trim());
+      setUniversityFiscalPeriodCode(line.substring(29, 31).trim());
+      setFinancialDocumentTypeCode(line.substring(31, 35).trim());
+      setFinancialSystemOriginationCode(line.substring(35, 37).trim());
+      setFinancialDocumentNumber(line.substring(37, 46).trim());
+      if (!"     ".equals(line.substring(46, 51))) {
+          setTrnEntryLedgerSequenceNumber(new Integer(line.substring(46, 51)));
+      } else {
+          setTrnEntryLedgerSequenceNumber(null);
+      }
+      setTransactionLedgerEntryDesc(line.substring(51, 91).trim());
+      setTransactionLedgerEntryAmount(new KualiDecimal(line.substring(91, 108)));
+      setTransactionDebitCreditCode(line.substring(108, 109).trim());
+      setTransactionDate(parseDate(line.substring(109, 119).trim()));
+      setOrganizationDocumentNumber(line.substring(119, 129).trim());
+      setProjectCode(line.substring(129, 139).trim());
+      setOrganizationReferenceId(line.substring(139, 147).trim());
+      setReferenceFinDocumentTypeCode(line.substring(147, 151).trim());
+      setFinSystemRefOriginationCode(line.substring(151, 153).trim());
+      setFinancialDocumentReferenceNbr(line.substring(153, 162).trim());
+      setFinancialDocumentReversalDate(parseDate(line.substring(162, 172)));
+      setTransactionEncumbranceUpdtCd(line.substring(172, 173).trim());
+  }
 
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap map = new LinkedHashMap();

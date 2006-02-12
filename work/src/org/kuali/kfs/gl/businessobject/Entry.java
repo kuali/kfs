@@ -26,8 +26,6 @@
 package org.kuali.module.gl.bo;
 
 import java.sql.Date;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.BusinessObjectBase;
@@ -48,6 +46,7 @@ import org.kuali.module.chart.bo.codes.BalanceTyp;
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public class Entry extends BusinessObjectBase implements Transaction {
+    static final long serialVersionUID = -24983129882357448L;
 
     private Integer universityFiscalYear;
     private String chartOfAccountsCode;
@@ -132,112 +131,6 @@ public class Entry extends BusinessObjectBase implements Transaction {
 
         java.util.Date now = new java.util.Date();
         setTransactionDateTimeStamp(new Date(now.getTime()));
-    }
-
-    public Entry(String line) {
-        setFromTextFile(line);
-    }
-
-    public void setFromTextFile(String line) {
-        // Just in case
-        line = line + "                                                                                           ";
-
-        // System.out.println(line.substring(0,4));
-        if (!"    ".equals(line.substring(0, 4))) {
-            setUniversityFiscalYear(new Integer(line.substring(0, 4)));
-        } else {
-            setUniversityFiscalYear(null);
-        }
-
-        // System.out.println(line.substring(4,6));
-        setChartOfAccountsCode(line.substring(4, 6));
-
-        // System.out.println(line.substring(6,13));
-        setAccountNumber(line.substring(6, 13));
-
-        // System.out.println(line.substring(13,18));
-        setSubAccountNumber(line.substring(13, 18));
-
-        // System.out.println(line.substring(18,22));
-        setFinancialObjectCode(line.substring(18, 22));
-
-        // System.out.println(line.substring(22,25));
-        setFinancialSubObjectCode(line.substring(22, 25));
-
-        // System.out.println(line.substring(25,27));
-        setFinancialBalanceTypeCode(line.substring(25, 27));
-
-        // System.out.println(line.substring(27,29));
-        setFinancialObjectTypeCode(line.substring(27, 29));
-
-        // System.out.println(line.substring(29,31));
-        setUniversityFiscalPeriodCode(line.substring(29, 31));
-
-        // System.out.println(line.substring(31,35));
-        setFinancialDocumentTypeCode(line.substring(31, 35));
-
-        // System.out.println(line.substring(35,37));
-        setFinancialSystemOriginationCode(line.substring(35, 37));
-
-        // System.out.println(line.substring(37,46));
-        setFinancialDocumentNumber(line.substring(37, 46));
-
-        // System.out.println(line.substring(46,51));
-        if (!"     ".equals(line.substring(46, 51))) {
-            setTrnEntryLedgerSequenceNumber(new Integer(line.substring(46, 51)));
-        } else {
-            setTrnEntryLedgerSequenceNumber(null);
-        }
-
-        // System.out.println(line.substring(51,91));
-        setTransactionLedgerEntryDesc(line.substring(51, 91));
-
-        // System.out.println(line.substring(91,108));
-        setTransactionLedgerEntryAmount(new KualiDecimal(line.substring(91, 108)));
-
-        // System.out.println(line.substring(108,109));
-        setTransactionDebitCreditCode(line.substring(108, 109));
-
-        // System.out.println(line.substring(109,119));
-        setTransactionDate(parseDate(line.substring(109, 119)));
-
-        // System.out.println(line.substring(119,129));
-        setOrganizationDocumentNumber(line.substring(119, 129));
-
-        // System.out.println(line.substring(129,139));
-        setProjectCode(line.substring(129, 139));
-
-        // System.out.println(line.substring(139,147));
-        setOrganizationReferenceId(line.substring(139, 147));
-
-        // System.out.println(line.substring(147,151));
-        setReferenceFinDocumentTypeCode(line.substring(147, 151));
-
-        // System.out.println(line.substring(151,153));
-        setFinSystemRefOriginationCode(line.substring(151, 153));
-
-        // System.out.println(line.substring(153,162));
-        setFinancialDocumentReferenceNbr(line.substring(153, 162));
-
-        // System.out.println(line.substring(162,172));
-        setFinancialDocumentReversalDate(parseDate(line.substring(162, 172)));
-
-        // System.out.println(line.substring(172,173));
-        setTransactionEncumbranceUpdtCd(line.substring(172, 173));
-    }
-
-    private java.sql.Date parseDate(String sdate) {
-        if ((sdate == null) || (sdate.trim().length() == 0)) {
-            return null;
-        } else {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-DD");
-            try {
-                java.util.Date d = sdf.parse(sdate);
-                return new Date(d.getTime());
-            } catch (ParseException e) {
-                return null;
-            }
-        }
     }
 
     /**

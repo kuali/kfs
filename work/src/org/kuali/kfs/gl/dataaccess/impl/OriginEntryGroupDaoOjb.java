@@ -36,7 +36,7 @@ import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 /**
  * @author Laran Evans <lc278@cornell.edu>
- * @version $Id: OriginEntryGroupDaoOjb.java,v 1.4 2006-01-28 22:26:56 jsissom Exp $
+ * @version $Id: OriginEntryGroupDaoOjb.java,v 1.5 2006-02-12 01:59:42 jsissom Exp $
  * 
  */
 
@@ -66,7 +66,7 @@ public class OriginEntryGroupDaoOjb extends PersistenceBrokerDaoSupport implemen
 	  /**
 	   * 
 	   */
-	  public Collection getPosterGroups(Date groupDate,String groupSourceCode) {
+	  public Collection getPosterGroups(String groupSourceCode) {
 	    LOG.debug("getPosterGroups() started");
 
 	    Criteria criteria = new Criteria();

@@ -30,8 +30,8 @@ import org.kuali.module.gl.bo.OriginEntryGroup;
 public interface OriginEntryGroupService {
 	public OriginEntryGroup getOriginEntryGroup(String groupId);
 	public Collection getOriginEntryGroupsPendingProcessing();
-	public Collection getGroupsToPost(Date postDate);
-	public Collection getIcrGroupsToPost(Date postDate);
+	public Collection getGroupsToPost();
+	public Collection getIcrGroupsToPost();
 	public Collection getGroupsToScrub(Date scrubDate);
 	public OriginEntryGroup createGroup(Date date,String sourceCode,boolean valid,boolean process,boolean scrub);
   public void save(OriginEntryGroup group);

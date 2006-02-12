@@ -36,7 +36,7 @@ import org.kuali.module.gl.service.OriginEntryGroupService;
 
 /**
  * @author Laran Evans <lc278@cs.cornell.edu>
- * @version $Id: OriginEntryGroupServiceImpl.java,v 1.8 2006-02-02 16:22:41 larevans Exp $
+ * @version $Id: OriginEntryGroupServiceImpl.java,v 1.9 2006-02-12 01:59:42 jsissom Exp $
  * 
  */
 public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
@@ -104,21 +104,19 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
 	/**
 	 * Get all non-ICR-related OriginEntryGroups waiting to be posted as of postDate.
 	 */
-	public Collection getGroupsToPost(Date postDate) {
+	public Collection getGroupsToPost() {
 		LOG.debug("getGroupsToPost() started");
 
-		return originEntryGroupDao.getPosterGroups(postDate,
-				OriginEntrySource.SCRUBBER_VALID);
+		return originEntryGroupDao.getPosterGroups(OriginEntrySource.SCRUBBER_VALID);
 	}
 
 	/**
 	 * Get all ICR-related OriginEntryGroups waiting to be posted as of postDate.
 	 */
-	public Collection getIcrGroupsToPost(Date postDate) {
+	public Collection getIcrGroupsToPost() {
 		LOG.debug("getIcrGroupsToPost() started");
 
-		return originEntryGroupDao.getPosterGroups(postDate,
-				OriginEntrySource.ICR_POSTER_VALID);
+		return originEntryGroupDao.getPosterGroups(OriginEntrySource.ICR_POSTER_VALID);
 	}
 
 	/**

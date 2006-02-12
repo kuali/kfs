@@ -30,7 +30,7 @@ import org.kuali.module.gl.bo.OriginEntryGroup;
 
 public interface OriginEntryGroupDao {
 	public Collection getMatchingGroups(Map searchCriteria); 
-	public Collection getPosterGroups(Date groupDate,String groupSourceCode);
+	public Collection getPosterGroups(String groupSourceCode);
 	public Collection getScrubberGroups(Date groupDate);
 	public void save(OriginEntryGroup group);
 }

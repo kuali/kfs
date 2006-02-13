@@ -227,7 +227,7 @@
     <target name="test" depends="clean,make-tests">
         <mkdir dir="${test.temp.directory}" />
     	<mkdir dir="${test.xml.results.directory}" />
-        <junit showoutput="true" fork="true" forkmode="once" failureproperty="tests.failed" tempdir="${test.temp.directory}">
+        <junit showoutput="true" fork="true" forkmode="once" failureproperty="tests.failed" errorproperty="tests.errored" tempdir="${test.temp.directory}">
             <classpath>
                 <path refid="compile.tests.classpath" />
                 <pathelement location="${test.classes.directory}" />
@@ -312,6 +312,7 @@
 
 
 	<target name="continuous-integration" depends="test-all">
+		<echo message="${tests.failed} / ${tests.errored}"/>
 		<fail if="tests.failed" message="Tests failed"/>
 	</target>
 	

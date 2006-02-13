@@ -270,6 +270,7 @@
   <field-descriptor name="personNamePrefixText" column="PRSN_NM_PRFX_TXT" jdbc-type="VARCHAR"/>
   <field-descriptor name="personNameSuffixText" column="PRSN_NM_SFX_TXT" jdbc-type="VARCHAR"/>
   <field-descriptor name="personSalaryJustificationText" column="PRSN_SLRY_JSTF_TXT" jdbc-type="VARCHAR"/>
+  <field-descriptor name="personProjectDirectoryIndicator" column="PRSN_PRJDR_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 	<reference-descriptor name="user" class-ref="org.kuali.core.bo.user.UniversalUser" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="personUniversalIdentifier" />
 	</reference-descriptor>

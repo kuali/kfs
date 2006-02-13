@@ -23,6 +23,7 @@
 package org.kuali.module.chart.rules;
 
 import org.kuali.core.document.MaintenanceDocument;
+import org.kuali.core.rules.PreRulesContinuationBase;
 
 
 public class ObjectCodePreRules extends PreRulesContinuationBase {
@@ -36,11 +37,11 @@ public class ObjectCodePreRules extends PreRulesContinuationBase {
         boolean answer2;
 
         // TODO - externalize a reasonable value into Constants.java
-        answer=askOrAnalyzeYesNoQuestion("ObjectCode1",Q1,"Do you like object codes?");
+        answer=askOrAnalyzeYesNoQuestion("ObjectCode1"+Q1,"Do you like object codes?");
         if (!answer) {
-            answer=askOrAnalyzeYesNoQuestion("ObjectCode3","objectCodeQuestion3","Are you sure?");
+            answer=askOrAnalyzeYesNoQuestion("ObjectCode3"+"objectCodeQuestion3","Are you sure?");
         }
-        answer2=askOrAnalyzeYesNoQuestion("ObjectCode2","objectCodeQuestion2","Do you really really like object codes?");
+        answer2=askOrAnalyzeYesNoQuestion("ObjectCode2"+"objectCodeQuestion2","Do you really really like object codes?");
 
         LOG.debug("You answered: "+answer+","+answer2);
     

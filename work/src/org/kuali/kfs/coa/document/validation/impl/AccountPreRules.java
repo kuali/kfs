@@ -28,6 +28,7 @@ import java.util.HashMap;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.PostalZipCode;
 import org.kuali.core.document.MaintenanceDocument;
+import org.kuali.core.rules.PreRulesContinuationBase;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
@@ -53,6 +54,7 @@ public class AccountPreRules extends PreRulesContinuationBase {
     private KualiConfigurationService configService;
     private AccountService accountService;
     private Account newAccount;
+    private Account copyAccount;
     
     private static final String CONTRACTS_GRANTS_CD = "CG";
     private static final String GENERAL_FUND_CD = "GF";
@@ -97,8 +99,6 @@ public class AccountPreRules extends PreRulesContinuationBase {
             }
             newAccount.setEndowmentIncomeAccountNumber(account.getAccountNumber());
             newAccount.setEndowmentIncomeAcctFinCoaCd(account.getChartOfAccountsCode());
-            newAccount.setAccountCityName("elbonia");
-            this.abortRulesCheck();
         }
         
     }
@@ -119,8 +119,8 @@ public class AccountPreRules extends PreRulesContinuationBase {
         while (account!=null && account.isExpired() && useContinuationAccount) {
             LOG.debug("Expired account: "+accountNumber);
             String continuationAccountNumber=account.getContinuationAccountNumber();
-            useContinuationAccount=askOrAnalyzeYesNoQuestion("ContinuationAccount",
-                    accountNumber,"The account "+accountNumber+
+            useContinuationAccount=askOrAnalyzeYesNoQuestion("ContinuationAccount"+accountNumber,
+                    "The account "+accountNumber+
                     " is expired. Would you rather use its continuation Account ("+continuationAccountNumber+")?");
             if (useContinuationAccount) {
                 accountNumber=continuationAccountNumber;
@@ -151,7 +151,8 @@ public class AccountPreRules extends PreRulesContinuationBase {
         
         //	setup newAccount convenience objects, make sure all possible sub-objects are populated
         newAccount = (Account) document.getNewMaintainableObject().getBusinessObject();
-        newAccount.refresh();
+        copyAccount = (Account) ObjectUtils.deepCopy(newAccount);
+        copyAccount.refresh();
     }
     
     /**
@@ -168,11 +169,11 @@ public class AccountPreRules extends PreRulesContinuationBase {
         
         //	if subFundGroupCode was not entered, then we have nothing 
         // to do here, so exit
-        if (ObjectUtils.isNull(newAccount.getSubFundGroup()) || 
-                StringUtils.isEmpty(newAccount.getSubFundGroupCode())) {
+        if (ObjectUtils.isNull(copyAccount.getSubFundGroup()) || 
+                StringUtils.isEmpty(copyAccount.getSubFundGroupCode())) {
             return;
         }
-        fundGroupCode = newAccount.getSubFundGroup().getFundGroupCode();
+        fundGroupCode = copyAccount.getSubFundGroup().getFundGroupCode();
        
         if (!StringUtils.isEmpty(fundGroupCode)) {
             
@@ -203,7 +204,7 @@ public class AccountPreRules extends PreRulesContinuationBase {
     private void newAccountDefaults(MaintenanceDocument maintenanceDocument) {
         
         //On new Accounts acct_effect_date is defaulted to the doc creation date
-        if (newAccount.getAccountEffectiveDate() == null) {
+        if (copyAccount.getAccountEffectiveDate() == null) {
             Timestamp ts = maintenanceDocument.getDocumentHeader().getWorkflowDocument().getCreateDate();
             if (ts != null) {
                 newAccount.setAccountEffectiveDate(ts);
@@ -211,7 +212,7 @@ public class AccountPreRules extends PreRulesContinuationBase {
         }
         
         //On new Accounts acct_state_cd is defaulted to the value of "IN"
-        if (StringUtils.isEmpty(newAccount.getAccountStateCode())) {
+        if (StringUtils.isEmpty(copyAccount.getAccountStateCode())) {
             String defaultStateCode = configService.getApplicationParameterValue(CHART_MAINTENANCE_EDOC, 
     				DEFAULT_STATE_CODE);
     		if (StringUtils.isEmpty(defaultStateCode)) {
@@ -223,7 +224,7 @@ public class AccountPreRules extends PreRulesContinuationBase {
         }
         
         //if the account type code is left blank it will default to NA.
-        if (StringUtils.isEmpty(newAccount.getAccountTypeCode())) {
+        if (StringUtils.isEmpty(copyAccount.getAccountTypeCode())) {
             String defaultAccountTypeCode = configService.getApplicationParameterValue(CHART_MAINTENANCE_EDOC, 
     				DEFAULT_ACCOUNT_TYPE_CODE);
     		if (StringUtils.isEmpty(defaultAccountTypeCode)) {
@@ -240,10 +241,10 @@ public class AccountPreRules extends PreRulesContinuationBase {
         
         //	acct_zip_cd, acct_state_cd, acct_city_nm all are populated by looking up 
         // the zip code and getting the state and city from that
-        if (!StringUtils.isEmpty(newAccount.getAccountZipCode())) {
+        if (!StringUtils.isEmpty(copyAccount.getAccountZipCode())) {
 
             HashMap primaryKeys = new HashMap();
-            primaryKeys.put("postalZipCode", newAccount.getAccountZipCode());
+            primaryKeys.put("postalZipCode", copyAccount.getAccountZipCode());
             PostalZipCode zip = (PostalZipCode) SpringServiceLocator.getBusinessObjectService()
             									.findByPrimaryKey(PostalZipCode.class, primaryKeys);
             

@@ -37,8 +37,10 @@ import org.kuali.core.bo.user.KualiUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.exceptions.UserNotFoundException;
+import org.kuali.core.rule.GenerateGeneralLedgerDocumentPendingEntriesRule;
 import org.kuali.core.rules.RulesUtils;
 import org.kuali.core.util.ErrorMap;
+import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
@@ -55,7 +57,7 @@ import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
  * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
-public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBase implements DisbursementVoucherRuleConstants {
+public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBase implements DisbursementVoucherRuleConstants, GenerateGeneralLedgerDocumentPendingEntriesRule {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherDocumentRule.class);
 
     public DisbursementVoucherDocumentRule() {
@@ -156,16 +158,27 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
             AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry) {
         DisbursementVoucherDocument dvDocument = (DisbursementVoucherDocument) transactionalDocument;
 
-//        if (PAYMENT_METHOD_CHECK.equals(dvDocument.getDisbVchrPaymentMethodCode())) {
-//            explicitEntry.setFinancialDocumentTypeCode(DOCUMENT_TYPE_CHECKACH);
-//        }
-//        else {
-//            explicitEntry.setFinancialDocumentTypeCode(DOCUMENT_TYPE_WTFD);
-//        }
+        /* change document type based on payment method to pick up different offsets */
+        if (PAYMENT_METHOD_CHECK.equals(dvDocument.getDisbVchrPaymentMethodCode())) {
+            explicitEntry.setFinancialDocumentTypeCode(DOCUMENT_TYPE_CHECKACH);
+        }
+        else {
+            explicitEntry.setFinancialDocumentTypeCode(DOCUMENT_TYPE_WTFD);
+        }
+    }
+    
+    
+    /**
+     * @see org.kuali.core.rule.GenerateGeneralLedgerDocumentPendingEntriesRule#processGenerateGeneralLedgerPendingEntries(org.kuali.core.document.TransactionalDocument, org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper)
+     */
+    public boolean processGenerateGeneralLedgerPendingEntries(TransactionalDocument transactionalDocument,
+            GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
+        // TODO Auto-generated method stub
+        return false;
     }
 
 
-    private void processGenerateWireChargeGeneralLedgerPendingEntries() {
+    private void processGenerateWireChargeGeneralLedgerPendingEntries(TransactionalDocument transactionalDocument, AccountingLine accountingLine) {
 
     }
 

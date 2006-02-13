@@ -79,9 +79,10 @@ public class DisbursementVoucherTravelServiceImpl implements DisbursementVoucher
 
         long diffDays = (endCompare.getTimeInMillis() - startCompare.getTimeInMillis()) / (24 * 60 * 60 * 1000);
 
+        long diffHours = (endCalendar.getTimeInMillis() - startCalendar.getTimeInMillis()) / (60 * 60 * 1000);
+
         // same day travel
         if (diffDays == 0) {
-            long diffHours = (endCalendar.getTimeInMillis() - startCalendar.getTimeInMillis()) / (60 * 60 * 1000);
             // no per diem for only 12 hours or less
             if (diffHours > 12) {
                 // half day of per diem
@@ -96,29 +97,32 @@ public class DisbursementVoucherTravelServiceImpl implements DisbursementVoucher
 
         // multiple days of travel
         else {
-            // per diem for whole days
-            perDiemAmount = perDiemRate.multiply(new KualiDecimal(diffDays - 1));
+            // must at least have 7 1/2 hours to get any per diem
+            if (diffHours >= 7.5) {
+                // per diem for whole days
+                perDiemAmount = perDiemRate.multiply(new KualiDecimal(diffDays - 1));
 
-            // per diem for first day
-            if (timeInPerDiemPeriod(startCalendar, 0, 0, 11, 59)) {
-                perDiemAmount = perDiemAmount.add(perDiemRate);
-            }
-            else if (timeInPerDiemPeriod(startCalendar, 12, 0, 17, 59)) {
-                perDiemAmount = perDiemAmount.add(perDiemRate.divide(new KualiDecimal(2)));
-            }
-            else if (timeInPerDiemPeriod(startCalendar, 18, 0, 23, 59)) {
-                perDiemAmount = perDiemAmount.add(perDiemRate.divide(new KualiDecimal(4)));
-            }
+                // per diem for first day
+                if (timeInPerDiemPeriod(startCalendar, 0, 0, 11, 59)) {
+                    perDiemAmount = perDiemAmount.add(perDiemRate);
+                }
+                else if (timeInPerDiemPeriod(startCalendar, 12, 0, 17, 59)) {
+                    perDiemAmount = perDiemAmount.add(perDiemRate.divide(new KualiDecimal(2)));
+                }
+                else if (timeInPerDiemPeriod(startCalendar, 18, 0, 23, 59)) {
+                    perDiemAmount = perDiemAmount.add(perDiemRate.divide(new KualiDecimal(4)));
+                }
 
-            // per diem for end day
-            if (timeInPerDiemPeriod(endCalendar, 0, 1, 6, 0)) {
-                perDiemAmount = perDiemAmount.add(perDiemRate.divide(new KualiDecimal(4)));
-            }
-            else if (timeInPerDiemPeriod(endCalendar, 6, 1, 12, 0)) {
-                perDiemAmount = perDiemAmount.add(perDiemRate.divide(new KualiDecimal(2)));
-            }
-            else if (timeInPerDiemPeriod(endCalendar, 12, 01, 23, 59)) {
-                perDiemAmount = perDiemAmount.add(perDiemRate);
+                // per diem for end day
+                if (timeInPerDiemPeriod(endCalendar, 0, 1, 6, 0)) {
+                    perDiemAmount = perDiemAmount.add(perDiemRate.divide(new KualiDecimal(4)));
+                }
+                else if (timeInPerDiemPeriod(endCalendar, 6, 1, 12, 0)) {
+                    perDiemAmount = perDiemAmount.add(perDiemRate.divide(new KualiDecimal(2)));
+                }
+                else if (timeInPerDiemPeriod(endCalendar, 12, 01, 23, 59)) {
+                    perDiemAmount = perDiemAmount.add(perDiemRate);
+                }
             }
         }
 
@@ -135,8 +139,7 @@ public class DisbursementVoucherTravelServiceImpl implements DisbursementVoucher
         int hour = cal.get(Calendar.HOUR_OF_DAY);
         int minute = cal.get(Calendar.MINUTE);
 
-        return ( ((hour > periodStartHour) || (hour == periodStartHour && minute >= periodStartMinute)) &&
-                 ((hour < periodEndHour) || (hour == periodEndHour && minute <= periodEndMinute)));
+        return (((hour > periodStartHour) || (hour == periodStartHour && minute >= periodStartMinute)) && ((hour < periodEndHour) || (hour == periodEndHour && minute <= periodEndMinute)));
     }
 
     /**
@@ -163,7 +166,7 @@ public class DisbursementVoucherTravelServiceImpl implements DisbursementVoucher
 
         int mileage = totalMileage.intValue();
         int mileageRemaining = mileage;
-        
+
         /**
          * Iterate over mileage rates sorted in descending order by the mileage limit amount. For all miles over the mileage limit
          * amount, the rate times those number of miles over is added to the mileage amount.
@@ -172,7 +175,7 @@ public class DisbursementVoucherTravelServiceImpl implements DisbursementVoucher
             TravelMileageRate rate = (TravelMileageRate) iter.next();
             int mileageLimitAmount = rate.getMileageLimitAmount().intValue();
             if (mileageRemaining > mileageLimitAmount) {
-                BigDecimal numMiles = new BigDecimal(mileageRemaining-mileageLimitAmount);
+                BigDecimal numMiles = new BigDecimal(mileageRemaining - mileageLimitAmount);
                 mileageAmount = mileageAmount.add(new KualiDecimal(numMiles.multiply(rate.getMileageRate())));
                 mileageRemaining = mileageLimitAmount;
             }

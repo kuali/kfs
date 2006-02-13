@@ -37,6 +37,7 @@
 	            	<maintainableField name="fiscalYear" required="true" />
 	            	<maintainableField name="perDiemCountryName" required="true" />
 	            	<maintainableField name="perDiemCountryText" required="false" />
+		            <maintainableField name="versionNumber" />
 	            </maintainableItems>          	                   
 	        </maintainableSection>
 	    </maintainableSections>

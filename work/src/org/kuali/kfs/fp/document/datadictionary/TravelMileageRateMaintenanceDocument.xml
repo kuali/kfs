@@ -37,6 +37,7 @@
 	            	<maintainableField name="universityFiscalYear" required="true" />	        	
 	            	<maintainableField name="mileageLimitAmount" required="true" />
 	            	<maintainableField name="mileageRate" required="true" />
+		            <maintainableField name="versionNumber" />
 	            </maintainableItems>          	                   
 	        </maintainableSection>
 	    </maintainableSections>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+
+<dictionaryEntry>
+	<maintenanceDocument>
+        <businessObjectClass>org.kuali.module.financial.bo.WireCharge</businessObjectClass>
+        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+
+        <documentAuthorizerClass>org.kuali.core.document.DocumentAuthorizerBase</documentAuthorizerClass>
+        <authorizations>
+            <authorization action="initiate">
+                <workgroups>
+                    <workgroup>kualiUniversalGroup</workgroup>
+                </workgroups>
+            </authorization>
+        </authorizations>
+
+		<documentTypeName>KualiWireChargeMaintenanceDocument</documentTypeName>
+		<documentTypeCode>KWC</documentTypeCode>
+
+		<label>Wire Charge Maintenance Document</label>
+		<shortLabel>Wire Charge Maint Doc</shortLabel>
+		
+		<summary>Wire Charge Maintenance Document</summary>
+		<description>Document used to create or update wire charges.</description>
+
+        <lockingKeys>
+			<field attributeName="universityFiscalYear" />
+		</lockingKeys>            
+
+	    <maintainableSections>
+	        <maintainableSection title="Edit Wire Charge">
+	        	<maintainableItems>
+	            	<maintainableField name="universityFiscalYear" required="true" />
+	            	<maintainableField name="chartOfAccountsCode" required="true" />
+	            	<maintainableField name="accountNumber" required="false" />
+	            	<maintainableField name="incomeFinancialObjectCode" required="true" />
+	            	<maintainableField name="expenseFinancialObjectCode" required="true" />
+	            	<maintainableField name="domesticChargeAmt" required="true" />
+	            	<maintainableField name="foreignChargeAmt" required="true" />
+		            <maintainableField name="versionNumber" />
+	            </maintainableItems>          	                   
+	        </maintainableSection>
+	    </maintainableSections>
+	</maintenanceDocument>
+</dictionaryEntry>

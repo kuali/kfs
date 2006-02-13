@@ -36,6 +36,7 @@
 	            	<maintainableField name="disbursementVoucherDocumentationLocationCode" required="true" />
 	            	<maintainableField name="disbursementVoucherDocumentationLocationName" required="true" />
 	            	<maintainableField name="disbursementVoucherDocumentationLocationAddress" required="true" />
+		            <maintainableField name="versionNumber" />
 	            </maintainableItems>          	                   
 	        </maintainableSection>
 	    </maintainableSections>

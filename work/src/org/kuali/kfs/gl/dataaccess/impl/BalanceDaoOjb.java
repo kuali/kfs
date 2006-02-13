@@ -164,7 +164,7 @@ public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements Balanc
         if(isConsolidated){
 	        attributes = new String[] 
 	               {"universityFiscalYear", "chartOfAccountsCode",
-	                "accountNumber",
+	                "accountNumber", "balanceTypeCode", "objectCode",
 	                "sum(accountLineAnnualBalanceAmount)", 
 	                "sum(beginningBalanceLineAmount)",
 	                "sum(contractsGrantsBeginningBalanceAmount)" 
@@ -174,6 +174,7 @@ public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements Balanc
             attributes = new String[] 
                    {"universityFiscalYear", "chartOfAccountsCode",
                     "accountNumber", "subAccountNumber",
+                    "balanceTypeCode", "objectCode",
                     "sum(accountLineAnnualBalanceAmount)", 
                     "sum(beginningBalanceLineAmount)",
                     "sum(contractsGrantsBeginningBalanceAmount)" 
@@ -185,6 +186,8 @@ public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements Balanc
         query.addGroupBy("universityFiscalYear");
         query.addGroupBy("chartOfAccountsCode");
         query.addGroupBy("accountNumber");
+        query.addGroupBy("balanceTypeCode");
+        query.addGroupBy("objectCode");
         if(!isConsolidated) query.addGroupBy("subAccountNumber");
 
         Iterator cashBalance = getPersistenceBrokerTemplate()

@@ -37,6 +37,12 @@
 						org.kuali.module.gl.web.GLConsolidationOptionFinder
 					</defaultValueFinderClass>
 				</lookupField>
+				
+				<lookupField attributeName="dummyBusinessObject.pendingEntryOption">
+					<defaultValueFinderClass>
+						org.kuali.module.gl.web.GLPendingEntryOptionFinder
+					</defaultValueFinderClass>
+				</lookupField>
 			</lookupFields>
 			
 			<resultFields>
@@ -188,16 +194,13 @@
                 <description>transactionEntryProcessed description...</description>
             </attributeReference>
             
-            <attribute name="dummyBusinessObject.consolidationOption">
-	            <label>Consolidation Option</label>
-	            <shortLabel>Consolidation Option</shortLabel>
-	            <maxLength>2</maxLength>
-	            <control>
-	                <radio valuesFinderClass="org.kuali.module.gl.web.GLConsolidationOptionFinder"/>
-	            </control>
-	            <summary>Consolidation Option</summary>
-	            <description>consolidationOption description...</description>
-	        </attribute> 
+            <attributeReference name="dummyBusinessObject.consolidationOption"
+					            sourceClassName="org.kuali.module.gl.bo.DummyBusinessObject" 
+					            sourceAttributeName="consolidationOption"/>
+					            
+            <attributeReference name="dummyBusinessObject.pendingEntryOption"
+					            sourceClassName="org.kuali.module.gl.bo.DummyBusinessObject" 
+					            sourceAttributeName="pendingEntryOption"/>	            					         
 	        
 			<attributeReference name="dummyBusinessObject.genericAmount"
             					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 

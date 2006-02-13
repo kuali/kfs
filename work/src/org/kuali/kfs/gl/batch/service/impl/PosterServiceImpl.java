@@ -62,7 +62,7 @@ import org.springframework.beans.factory.BeanFactoryAware;
 
 /**
  * @author jsissom
- * @version $Id: PosterServiceImpl.java,v 1.14 2006-02-12 01:59:42 jsissom Exp $
+ * @version $Id: PosterServiceImpl.java,v 1.15 2006-02-13 14:27:24 larevans Exp $
  */
 public class PosterServiceImpl implements PosterService,BeanFactoryAware {
   private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PosterServiceImpl.class);
@@ -167,6 +167,9 @@ public class PosterServiceImpl implements PosterService,BeanFactoryAware {
     }
 
     // Process all the groups or reversalTransactions
+    // NOTE (laran): this seems like a wierd check. I think what you're doing would
+    // be more clearly written as:
+    // if(PosterService.MODE_ENTRIES == mode || PosterService.MODE_ICR == mode) {
     if ( groups != null ) {
       LOG.debug("postEntries() Processing groups");
       for (Iterator iter = groups.iterator(); iter.hasNext();) {
@@ -236,7 +239,7 @@ public class PosterServiceImpl implements PosterService,BeanFactoryAware {
     if (mode == PosterService.MODE_REVERSAL) {
       reversal = new Reversal(tran);
 
-      // Revese the debit/credit code
+      // Reverse the debit/credit code
       if (Constants.GL_DEBIT_CODE.equals(reversal.getTransactionDebitCreditCode())) {
         reversal.setTransactionDebitCreditCode(Constants.GL_CREDIT_CODE);
       } else if (Constants.GL_CREDIT_CODE.equals(reversal.getTransactionDebitCreditCode())) {

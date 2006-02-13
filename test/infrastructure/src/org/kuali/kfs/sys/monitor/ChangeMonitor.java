@@ -24,7 +24,6 @@ package org.kuali.test.monitor;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.test.KualiTestBase;
 
 /**
  * Simplifies writing tests which have to iterate in place until something happens (or until some timeout occurs and lets the test
@@ -34,7 +33,7 @@ import org.kuali.test.KualiTestBase;
  */
 
 abstract public class ChangeMonitor {
-    private static final Log LOG = LogFactory.getLog(KualiTestBase.class);
+    private static final Log LOG = LogFactory.getLog(ChangeMonitor.class);
 
     /**
      * Iterates, with pauseSeconds seconds between iterations, until either the given ChangeMonitor's valueChanged method returns
@@ -54,10 +53,14 @@ abstract public class ChangeMonitor {
         long startTimeMs = System.currentTimeMillis();
         long endTimeMs = startTimeMs + maxWaitMs;
 
-        valueChanged = false;
+        Thread.sleep(pauseMs/10); // the first time through, sleep a fraction of the specified time
+        valueChanged = monitor.valueChanged();
         LOG.debug("starting wait loop");
         while (!interrupted && !valueChanged && (System.currentTimeMillis() < endTimeMs)) {
             try {
+                if (LOG.isDebugEnabled()) { 
+                    LOG.debug("sleeping for "+pauseMs+" ms");
+                }
                 Thread.sleep(pauseMs);
             }
             catch (InterruptedException e) {

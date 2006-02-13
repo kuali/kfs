@@ -59,15 +59,22 @@ public class IcrAutomatedEntry extends BusinessObjectBase {
     private String financialSubObjectCode;
     private String offsetBalanceSheetObjectCodeNumber;
 
+    private Options universityFiscal;
+    private BalanceTyp financialBalanceTyp;
+  
+/*  Don't use reference objects because Chart, Account, Sub-Account, etc. contain special characters.
+ *  RO 2/8/06
+ * 
     private Chart chartOfAccounts;
     private Account account;
     private SubAccount subAccount;
     private ObjectCode financialObject;
     private SubObjCd financialSubObject;
-    private Options universityFiscal;
-    private BalanceTyp financialBalanceTyp;
     private ObjectCode offsetBalanceSheetObjectCode;
     
+*/    
+
+/*   
     public Account getAccount() {
       return account;
     }
@@ -77,7 +84,7 @@ public class IcrAutomatedEntry extends BusinessObjectBase {
       this.account = account;
     }
 
-
+*/
     public String getAccountNumber() {
       return accountNumber;
     }
@@ -117,7 +124,7 @@ public class IcrAutomatedEntry extends BusinessObjectBase {
       this.balanceTypeCode = balanceTypeCode;
     }
 
-
+/*
     public Chart getChartOfAccounts() {
       return chartOfAccounts;
     }
@@ -127,7 +134,7 @@ public class IcrAutomatedEntry extends BusinessObjectBase {
       this.chartOfAccounts = chartOfAccounts;
     }
 
-
+*/
     public String getChartOfAccountsCode() {
       return chartOfAccountsCode;
     }
@@ -158,7 +165,7 @@ public class IcrAutomatedEntry extends BusinessObjectBase {
     }
 
 
-    public ObjectCode getFinancialObject() {
+/*    public ObjectCode getFinancialObject() {
       return financialObject;
     }
 
@@ -167,7 +174,7 @@ public class IcrAutomatedEntry extends BusinessObjectBase {
       this.financialObject = financialObject;
     }
 
-
+*/
     public String getFinancialObjectCode() {
       return financialObjectCode;
     }
@@ -177,7 +184,7 @@ public class IcrAutomatedEntry extends BusinessObjectBase {
       this.financialObjectCode = financialObjectCode;
     }
 
-
+/*
     public SubObjCd getFinancialSubObject() {
       return financialSubObject;
     }
@@ -186,7 +193,7 @@ public class IcrAutomatedEntry extends BusinessObjectBase {
     public void setFinancialSubObject(SubObjCd financialSubObject) {
       this.financialSubObject = financialSubObject;
     }
-
+*/
 
     public String getFinancialSubObjectCode() {
       return financialSubObjectCode;
@@ -197,7 +204,7 @@ public class IcrAutomatedEntry extends BusinessObjectBase {
       this.financialSubObjectCode = financialSubObjectCode;
     }
 
-
+/*
     public ObjectCode getOffsetBalanceSheetObjectCode() {
       return offsetBalanceSheetObjectCode;
     }
@@ -207,7 +214,7 @@ public class IcrAutomatedEntry extends BusinessObjectBase {
       this.offsetBalanceSheetObjectCode = offsetBalanceSheetObjectCode;
     }
 
-
+*/
     public String getOffsetBalanceSheetObjectCodeNumber() {
       return offsetBalanceSheetObjectCodeNumber;
     }
@@ -218,7 +225,7 @@ public class IcrAutomatedEntry extends BusinessObjectBase {
     }
 
 
-    public SubAccount getSubAccount() {
+/*    public SubAccount getSubAccount() {
       return subAccount;
     }
 
@@ -226,7 +233,7 @@ public class IcrAutomatedEntry extends BusinessObjectBase {
     public void setSubAccount(SubAccount subAccount) {
       this.subAccount = subAccount;
     }
-
+*/
 
     public String getSubAccountNumber() {
       return subAccountNumber;

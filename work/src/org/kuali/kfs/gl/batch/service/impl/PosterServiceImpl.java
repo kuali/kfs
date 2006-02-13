@@ -62,7 +62,7 @@ import org.springframework.beans.factory.BeanFactoryAware;
 
 /**
  * @author jsissom
- * @version $Id: PosterServiceImpl.java,v 1.15 2006-02-13 14:27:24 larevans Exp $
+ * @version $Id: PosterServiceImpl.java,v 1.16 2006-02-13 17:05:36 rolstad Exp $
  */
 public class PosterServiceImpl implements PosterService,BeanFactoryAware {
   private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PosterServiceImpl.class);
@@ -497,6 +497,9 @@ public class PosterServiceImpl implements PosterService,BeanFactoryAware {
     e.setFinancialSubObjectCode(Constants.DASHES_SUB_OBJECT_CODE);
     e.setFinancialObjectCode(icrEntry.getOffsetBalanceSheetObjectCodeNumber());
 
+/*  Cannot use icrEntry reference objects because Chart, Account,
+ * Sub Account, etc may have special values.
+ *   
     if ( icrEntry.getOffsetBalanceSheetObjectCode() == null ) {
       List warnings = new ArrayList();
       warnings.add("Offset Object Code is invalid");
@@ -505,6 +508,7 @@ public class PosterServiceImpl implements PosterService,BeanFactoryAware {
       e.setFinancialObjectTypeCode(icrEntry.getOffsetBalanceSheetObjectCode().getFinancialObjectTypeCode());
     }
 
+ */   
     if ( Constants.GL_DEBIT_CODE.equals(icrEntry.getTransactionDebitIndicator()) ) {
       e.setTransactionLedgerEntryDesc(getChargeDescription(icrEntry.getAwardIndrCostRcvyRatePct(),et.getObjectCode(),et.getAccount().getAcctIndirectCostRcvyTypeCd(),et.getAccountObjectDirectCostAmount()));
     } else {

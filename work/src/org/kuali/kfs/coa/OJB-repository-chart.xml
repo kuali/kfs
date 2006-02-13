@@ -1379,6 +1379,8 @@
 	<reference-descriptor name="financialBalanceTyp" class-ref="org.kuali.module.chart.bo.codes.BalanceTyp" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="balanceTypeCode" />
 	</reference-descriptor>
+
+<!-- Dont't use following reference objects because Chart, Account, Sub-Acct, etc. may contain special characters.  RO 2/8/06
  	<reference-descriptor name="financialObject" class-ref="org.kuali.module.chart.bo.ObjectCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="universityFiscalYear" />
 		<foreignkey field-ref="chartOfAccountsCode" />
@@ -1408,6 +1410,8 @@
 		<foreignkey field-ref="chartOfAccountsCode" />
 		<foreignkey field-ref="offsetBalanceSheetObjectCodeNumber" />
 	</reference-descriptor>
+-->
+
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.chart.bo.OffsetDefinition"

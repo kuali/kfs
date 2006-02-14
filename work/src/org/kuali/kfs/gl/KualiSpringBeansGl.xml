@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
-	<bean id="glSufficientFundsRebuildStep" class="org.kuali.module.gl.batch.SufficientFundsRebuildStep">
-		<property name="sufficientFundsRebuildService"><ref bean="glSufficientFundsRebuildService" /></property>
+	<bean id="glSufficientFundsRebuilderStep" class="org.kuali.module.gl.batch.SufficientFundsRebuilderStep">
+		<property name="sufficientFundsRebuilderService"><ref bean="glSufficientFundsRebuilderService" /></property>
 	</bean>
 
 	<bean id="glScrubberStep" class="org.kuali.module.gl.batch.ScrubberStep">
@@ -46,7 +46,7 @@
 		<property name="scrubberReport"><ref bean="glScrubberReport" /></property>
 	</bean>
 
-	<bean id="glSufficientFundsRebuildService" class="org.kuali.module.gl.service.impl.SufficientFundsRebuildServiceImpl">
+	<bean id="glSufficientFundsRebuilderService" class="org.kuali.module.gl.service.impl.SufficientFundsRebuilderServiceImpl">
 		<property name="originEntryService"><ref bean="glOriginEntryService" /></property><!--
 		<property name="dateTimeService"><ref bean="dateTimeService" /></property>
 		<property name="offsetDefinitionService"><ref bean="offsetDefinitionService" /></property>

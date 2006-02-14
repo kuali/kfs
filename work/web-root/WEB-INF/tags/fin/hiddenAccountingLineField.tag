@@ -13,11 +13,19 @@
 <%@ attribute name="isBaseline" required="false"
               description="if displayed, distinguish baseline values
               from normal values by background color." %>
+<%@ attribute name="value" required="false"
+              description="sets the hidden field to this value" %>
 
 <c:if test="${displayHidden}">
     <span style="background: ${isBaseline ? 'blue' : 'green'}">
         <c:out value="${hiddenField}"/> =</c:if
-><html:hidden write="${displayHidden}" property="${accountingLine}.${hiddenField}"
-/><c:if test="${displayHidden}">;<br/>
+><c:choose
+    ><c:when test="${empty value}"
+        ><html:hidden write="${displayHidden}" property="${accountingLine}.${hiddenField}"
+    /></c:when
+    ><c:otherwise
+        ><html:hidden write="${displayHidden}" property="${accountingLine}.${hiddenField}" value="${value}"
+    /></c:otherwise
+></c:choose><c:if test="${displayHidden}">;<br/>
     </span>
 </c:if>

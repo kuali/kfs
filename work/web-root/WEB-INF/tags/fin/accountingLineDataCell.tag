@@ -129,71 +129,28 @@
         </c:if>
     </c:if>
 </span>
-<c:if test="${!empty overrideField}">
-    <span class="nowrap">
-        <c:set var="overrideNeededField" value="${overrideField}Needed"/>
-        <bean:define
-            id="overrideNeeded"
-            property="${accountingLine}.${overrideNeededField}"
-            name="KualiForm"
-            />
-        <c:choose>
-            <c:when test="${overrideNeeded == 'Yes'}">  <%-- case sensitive.  Why is this attribute being String-ified? --%>
-                <br/>
-                <span style="font-weight: normal"><kul:htmlAttributeLabel
-                    attributeEntry="${attributes[overrideField]}"
-                    useShortLabel="true"
-                    forceRequired="true"
-                    /></span>&nbsp;<kul:htmlControlAttribute
-                    property="${accountingLine}.${overrideField}"
-                    attributeEntry="${attributes[overrideField]}"
-                    readOnly="${readOnly}"
-                    />
-            </c:when>
-            <c:otherwise>
-                <fin:hiddenAccountingLineField
-                    accountingLine="${accountingLine}"
-                    isBaseline="false"
-                    hiddenField="${overrideField}"
-                    displayHidden="${displayHidden}"
-                    />
-            </c:otherwise>
-        </c:choose>
-        <fin:hiddenAccountingLineField
-            accountingLine="${accountingLine}"
-            isBaseline="false"
-            hiddenField="${overrideNeededField}"
-            displayHidden="${displayHidden}"
-            />
-        <c:if test="${!empty baselineAccountingLine}">
-            <%-- Add lines have no baseline. --%>
-            <fin:hiddenAccountingLineField
-                accountingLine="${baselineAccountingLine}"
-                isBaseline="true"
-                hiddenField="${overrideNeededField}"
-                displayHidden="${displayHidden}"
-                />
-            <fin:hiddenAccountingLineField
-                accountingLine="${baselineAccountingLine}"
-                isBaseline="true"
-                hiddenField="${overrideField}"
-                displayHidden="${displayHidden}"
-                />
-        </c:if>
-    </span>
+<c:if test="${!empty baselineAccountingLine}">
+    <fin:hiddenAccountingLineField
+        accountingLine="${baselineAccountingLine}"
+        isBaseline="true"
+        hiddenField="${field}"
+        displayHidden="${displayHidden}"
+        />
 </c:if>
-    <c:if test="${empty labelFontWeight}">
-        <fin:accountingLineDataCellDetail
-            detailField="${detailField}"
-            accountingLine="${accountingLine}"
-            />
-    </c:if>
-    <c:if test="${!empty baselineAccountingLine}">
-        <fin:hiddenAccountingLineField
-            accountingLine="${baselineAccountingLine}"
-            isBaseline="true"
-            hiddenField="${field}"
-            displayHidden="${displayHidden}"
-            />
-    </c:if>
+<c:if test="${!empty overrideField}">
+    <fin:accountingLineOverrideField
+        overrideField="${overrideField}"
+        attributes="${attributes}"
+        readOnly="${readOnly}"
+        accountingLine="${accountingLine}"
+        baselineAccountingLine="${baselineAccountingLine}"
+        displayHidden="${displayHidden}"
+        />
+</c:if>
+<c:if test="${empty labelFontWeight}">
+    <fin:accountingLineDataCellDetail
+        detailField="${detailField}"
+        accountingLine="${accountingLine}"
+        />
+</c:if>
 </td>

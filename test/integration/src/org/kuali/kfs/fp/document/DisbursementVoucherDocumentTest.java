@@ -22,10 +22,14 @@
  */
 package org.kuali.module.financial.document;
 
+import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import org.kuali.core.document.TransactionalDocumentTestBase;
+import org.kuali.core.util.GlobalVariables;
+import org.kuali.test.parameters.DisbursementVoucherDocumentParameter;
 import org.kuali.test.parameters.DocumentParameter;
 import org.kuali.test.parameters.TransactionalDocumentParameter;
 
@@ -49,13 +53,61 @@ public class DisbursementVoucherDocumentTest extends TransactionalDocumentTestBa
         changeCurrentUser((String) getFixtureEntryFromCollection(COLLECTION_NAME, DV_USER_NAME).createObject());
     }
 
+
+    public void testConvertIntoCopy_clear_additionalCode() throws Exception {
+        GlobalVariables.setMessageList(new ArrayList());
+        DisbursementVoucherDocumentParameter dvParameter = (DisbursementVoucherDocumentParameter) getDocumentParameterFixture();
+        DisbursementVoucherDocument document = (DisbursementVoucherDocument) dvParameter.createDocument(getDocumentService());
+        document.getDvPayeeDetail().setDisbVchrPayeeIdNumber("1234");
+        document.convertIntoCopy();
+
+        // the dvParameter doc number needs to be resynced
+        dvParameter.setDocumentNumber(document.getFinancialDocumentNumber());
+        dvParameter.setDisbVchrContactPhoneNumber("");
+        dvParameter.setDisbVchrContactEmailId("");
+        dvParameter.getPayeeDetail().setDisbVchrPayeePersonName("");
+        dvParameter.getPayeeDetail().setDisbVchrPayeeLine1Addr("");
+        dvParameter.getPayeeDetail().setDisbVchrPayeeLine2Addr("");
+        dvParameter.getPayeeDetail().setDisbVchrPayeeCityName("");
+        dvParameter.getPayeeDetail().setDisbVchrPayeeStateCode("");
+        dvParameter.getPayeeDetail().setDisbVchrPayeeZipCode("");
+        dvParameter.getPayeeDetail().setDisbVchrPayeeCountryName("");
+        dvParameter.getPayeeDetail().setDisbVchrAlienPaymentCode(false);
+        dvParameter.getPayeeDetail().setDvTaxIdNumber("");
+        dvParameter.getPayeeDetail().setDvTaxPayerTypeCode("");
+        dvParameter.setDvNonResidentAlienTax(null);
+        dvParameter.setDisbVchrPayeeTaxControlCode("");
+
+        dvParameter.setDisbVchrContactPersonName(GlobalVariables.getUserSession().getKualiUser().getPersonName());
+        // set to tomorrow
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DAY_OF_MONTH, 1);
+        calendar.clear(Calendar.MILLISECOND);
+        calendar.clear(Calendar.SECOND);
+        calendar.clear(Calendar.MINUTE);
+        calendar.clear(Calendar.HOUR);
+        dvParameter.setDisbursementVoucherDueDate(new Date(calendar.getTimeInMillis()));
+
+        // clear document time since just want to compare dates
+        Calendar calendar2 = Calendar.getInstance();
+        calendar2.setTimeInMillis(document.getDisbursementVoucherDueDate().getTime());
+        calendar2.clear(Calendar.MILLISECOND);
+        calendar2.clear(Calendar.SECOND);
+        calendar2.clear(Calendar.MINUTE);
+        calendar2.clear(Calendar.HOUR);
+        document.setDisbursementVoucherDueDate(new Date(calendar2.getTimeInMillis()));
+
+        dvParameter.assertMatch(document);
+
+    }
+
     protected int getExpectedPrePeCount() {
         return 2;
     }
 
     /**
      * Get names of fixture collections test class is using.
-     *
+     * 
      * @return String[]
      */
     public String[] getFixtureCollectionNames() {
@@ -95,5 +147,6 @@ public class DisbursementVoucherDocumentTest extends TransactionalDocumentTestBa
     public String getUserName() {
         return (String) getFixtureEntryFromCollection(COLLECTION_NAME, USER_NAME).createObject();
     }
+
 
 }

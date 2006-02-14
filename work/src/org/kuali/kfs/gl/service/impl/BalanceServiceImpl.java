@@ -22,7 +22,7 @@
  */
 package org.kuali.module.gl.service.impl;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -59,13 +59,8 @@ public class BalanceServiceImpl implements BalanceService {
     String[] incomeObjectTypeCodes = new String[] { "CH", "IC", "IN", "TI" };
     String[] expenseObjectTypeCodes = new String[] { "EE", "ES", "EX", "TE" };
 
-    private Collection wrap(String[] s) {
-
-        Collection c = new ArrayList();
-        for (int i = 0; i < s.length; i++) {
-            c.add(s[i]);
-        }
-        return c;
+    private Collection wrap(String[] s) { 
+        return Arrays.asList(s);
     }
 
     /**

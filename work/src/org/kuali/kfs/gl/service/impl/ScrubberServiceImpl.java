@@ -59,7 +59,7 @@ import org.springframework.util.StringUtils;
 
 /**
  * @author Anthony Potts
- * @version $Id: ScrubberServiceImpl.java,v 1.32 2006-02-14 16:03:51 larevans Exp $
+ * @version $Id: ScrubberServiceImpl.java,v 1.33 2006-02-14 16:09:17 larevans Exp $
  */
 
 public class ScrubberServiceImpl implements ScrubberService {
@@ -231,7 +231,8 @@ public class ScrubberServiceImpl implements ScrubberService {
         // If the sub account number is empty, set it to dashes. 
         // Otherwise set the workingEntry sub account number to the
         // sub account number of the input origin entry.
-        if (StringUtils.hasText(originEntry.getSubAccountNumber()) && !Constants.DASHES_SUB_ACCOUNT_NUMBER.equals(originEntry.getSubAccountNumber())) {
+        if (StringUtils.hasText(originEntry.getSubAccountNumber()) 
+			&& !Constants.DASHES_SUB_ACCOUNT_NUMBER.equals(originEntry.getSubAccountNumber())) {
             workingEntry.setSubAccountNumber(originEntry.getSubAccountNumber());
         } else {
             workingEntry.setSubAccountNumber(Constants.DASHES_SUB_ACCOUNT_NUMBER);
@@ -288,11 +289,15 @@ public class ScrubberServiceImpl implements ScrubberService {
             workingEntry.setUniversityFiscalYear(univRunDate.getUniversityFiscalYear());
             workingEntry.getOption().setUniversityFiscalYear(workingEntry.getUniversityFiscalYear());
             persistenceService.retrieveReferenceObject(workingEntry,"option");
-            checkGLObject(workingEntry.getOption(), kualiConfigurationService.getPropertyString(KeyConstants.ERROR_UNIV_DATE_NOT_FOUND), workingEntry.getUniversityFiscalYear().toString());
+            checkGLObject(
+				workingEntry.getOption(), kualiConfigurationService.getPropertyString(KeyConstants.ERROR_UNIV_DATE_NOT_FOUND), 
+				workingEntry.getUniversityFiscalYear().toString());
         } else {
             workingEntry.setUniversityFiscalYear(originEntry.getUniversityFiscalYear());
             workingEntry.setOption(originEntry.getOption());
-            if (!checkGLObject(workingEntry.getOption(), kualiConfigurationService.getPropertyString(KeyConstants.ERROR_UNIV_DATE_NOT_FOUND), workingEntry.getUniversityFiscalYear().toString())) {
+            if (!checkGLObject(
+					workingEntry.getOption(), kualiConfigurationService.getPropertyString(KeyConstants.ERROR_UNIV_DATE_NOT_FOUND), 
+					workingEntry.getUniversityFiscalYear().toString())) {
                 workingEntry.setOption(new Options());
                 workingEntry.setUniversityFiscalYear(univRunDate.getUniversityFiscalYear());
                 workingEntry.getOption().setUniversityFiscalYear(workingEntry.getUniversityFiscalYear());

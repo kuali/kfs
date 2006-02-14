@@ -56,18 +56,14 @@ import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.gl.service.OriginEntryService;
 import org.kuali.module.gl.service.PosterService;
 import org.kuali.module.gl.util.Summary;
-import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.BeanFactory;
-import org.springframework.beans.factory.BeanFactoryAware;
 
 /**
  * @author jsissom
- * @version $Id: PosterServiceImpl.java,v 1.16 2006-02-13 17:05:36 rolstad Exp $
+ * @version $Id: PosterServiceImpl.java,v 1.17 2006-02-14 21:23:33 jsissom Exp $
  */
-public class PosterServiceImpl implements PosterService,BeanFactoryAware {
+public class PosterServiceImpl implements PosterService {
   private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PosterServiceImpl.class);
 
-  private BeanFactory beanFactory;
   private List transactionPosters;
   private VerifyTransaction verifyTransaction;
   private PosterReport posterReportService;
@@ -636,22 +632,6 @@ public class PosterServiceImpl implements PosterService,BeanFactoryAware {
 
   public void setIcrAutomatedEntryDao(IcrAutomatedEntryDao iaed) {
     icrAutomatedEntryDao = iaed;
-  }
-
-  /* (non-Javadoc)
-   * @see org.springframework.beans.factory.BeanFactoryAware#setBeanFactory(org.springframework.beans.factory.BeanFactory)
-   */
-  public void setBeanFactory(BeanFactory bf) throws BeansException {
-    beanFactory = bf;
-  }
-
-  public void init() {
-    LOG.debug("init() started");
-
-    // If we are in test mode
-    if ( beanFactory.containsBean("testDateTimeService") ) {
-      dateTimeService = (DateTimeService)beanFactory.getBean("testDateTimeService");
-    }
   }
 
 //  public void setIndirectCostRecoveryThresholdDao(IndirectCostRecoveryThresholdDao icrtd) {

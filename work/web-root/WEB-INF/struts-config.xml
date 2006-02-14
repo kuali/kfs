@@ -87,10 +87,10 @@
         <action path="/questionPrompt" name="QuestionPromptForm" scope="request" parameter="methodToCall" type="org.kuali.core.web.struts.action.QuestionPromptAction">
           	<forward name="basic" path="/jsp/core/KualiQuestion.jsp" />
         </action>
-
+		
         <action path="/lookup" name="LookupForm" scope="request" attribute="KualiForm" parameter="methodToCall" type="org.kuali.core.web.struts.action.KualiLookupAction">
           	<forward name="basic" path="/jsp/core/KualiLookup.jsp" />
-				</action>
+		</action>
 
         <action path="/inquiry" name="InquiryForm" scope="request" attribute="KualiForm" parameter="methodToCall" type="org.kuali.core.web.struts.action.KualiInquiryAction">
           	<forward name="basic" path="/jsp/core/KualiInquiry.jsp" />
@@ -99,7 +99,7 @@
         <action path="/balanceInquiry" name="KualiBalanceInquiryForm" scope="request" attribute="KualiForm" parameter="methodToCall" type="org.kuali.core.web.struts.action.KualiBalanceInquiryAction">
           	<forward name="basic" path="/jsp/core/KualiBalanceInquiry.jsp" />
         </action>
-
+        
         <action path="/maintenance" name="KualiMaintenanceForm" attribute="KualiForm" scope="request" parameter="methodToCall" validate="false" input="/jsp/core/KualiMaintenanceDocument.jsp" type="org.kuali.core.web.struts.action.KualiMaintenanceDocumentAction">
           	<forward name="basic" path="/jsp/core/KualiMaintenanceDocument.jsp" />
         </action>

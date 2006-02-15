@@ -118,26 +118,68 @@
        			<summary>Chart of Accounts Code</summary>
         		<description>Financial Chart of Accounts Code</description>
 			</attribute>
-					
-            <attributeReference name="accountNumber" 
-            					sourceClassName="org.kuali.module.chart.bo.Account" 
-            					sourceAttributeName="accountNumber" >						
-			</attributeReference>
 
-            <attributeReference name="subAccountNumber" 
-            					sourceClassName="org.kuali.module.chart.bo.SubAccount" 
-            					sourceAttributeName="subAccountNumber" >
-			</attributeReference>
-								
+			<attribute
+      			 	name="accountNumber"
+      	 			forceUppercase="true">
+       			<label>Account</label>
+       			<shortLabel>ACCT</shortLabel>
+
+       			<maxLength>7</maxLength>
+       	 		<validationPattern>
+        	  		<anyCharacter />
+				</validationPattern>
+
+				<control>
+					<text size="7" />
+				</control>
+
+       			<summary>Account Number</summary>
+        		<description>Account Number</description>
+			</attribute>
+
+			<attribute
+      			 	name="subAccountNumber"
+      	 			forceUppercase="true">
+       			<label>Sub-Account</label>
+       			<shortLabel>SubAcct</shortLabel>
+
+       			<maxLength>5</maxLength>
+       	 		<validationPattern>
+        	  		<anyCharacter />
+				</validationPattern>
+
+				<control>
+					<text size="5" />
+				</control>
+
+       			<summary>Sub-Account Number</summary>
+        		<description>Sub-Account Number</description>
+			</attribute>
+													
             <attributeReference name="financialObjectCode" 
             					sourceClassName="org.kuali.module.chart.bo.ObjectCode" 
             					sourceAttributeName="financialObjectCode"/>
-								
-            <attributeReference name="financialSubObjectCode" 
-            					sourceClassName="org.kuali.module.chart.bo.SubObjCd" 
-            					sourceAttributeName="financialSubObjectCode">
-			</attributeReference>        													
 
+			<attribute
+      			 	name="financialSubObjectCode"
+      	 			forceUppercase="true">
+       			<label>SubObject Code</label>
+       			<shortLabel>SubObject</shortLabel>
+
+       			<maxLength>3</maxLength>
+       	 		<validationPattern>
+        	  		<anyCharacter />
+				</validationPattern>
+
+				<control>
+					<text size="3" />
+				</control>
+
+       			<summary>SubObject Code</summary>
+        		<description>SubObject Code</description>
+			</attribute>
+								
             <attributeReference name="offsetBalanceSheetObjectCodeNumber" 
             					sourceClassName="org.kuali.module.chart.bo.ObjectCode" 
             					sourceAttributeName="financialObjectCode">

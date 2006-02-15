@@ -19,9 +19,9 @@
         </authorizations>
 
 		<documentTypeName>KualiIcrAutomatedEntryMaintenanceDocument</documentTypeName>
-		<documentTypeCode>ICRA</documentTypeCode>
+		<documentTypeCode>ICRE</documentTypeCode>
 		<label>Indirect Cost Recovery Automated Entry Maintenance Document</label>
-		<shortLabel>ICRThresholdMaintenanceDoc</shortLabel>
+		<shortLabel>ICRAutotomatedEntryMaintenanceDoc</shortLabel>
 		<summary>Indirect Cost Recovery Automated Entry Maintenance Document</summary>
 		<description>
 			Maintenance document which allows you to create new Indirect Cost Recovery Automated Entries, or modify existing Indirect Cost Recovery Automated Entries.
@@ -35,7 +35,7 @@
 		</lockingKeys>	 		
 		
 		<maintainableSections>
-			<maintainableSection title="Edit ICR Threshold">
+			<maintainableSection title="Edit ICR Automated Entry">
                 <maintainableItems>
 					<maintainableField name="universityFiscal.universityFiscalYear" required="true" />
 					<maintainableField name="financialIcrSeriesIdentifier" required="true" />

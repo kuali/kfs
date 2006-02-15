@@ -26,6 +26,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.test.KualiTestBaseWithSpring;
@@ -61,28 +62,28 @@ public class ObjectCodeServiceTest extends KualiTestBaseWithSpring {
     
     public void testObjectTypeRetrieval() {
         ObjectCode objectCode = objectCodeService.getByPrimaryId(new Integer(2004), CHART_CODE, "5000");
-        assertNotNull("ObjectType Object should be valid.", objectCode.getFinancialObjectType());
+        assertTrue("ObjectType Object should be valid.", ObjectUtils.isNotNull(objectCode.getFinancialObjectType()));
         assertEquals("Object Type should be EE",objectCode.getFinancialObjectType().getCode(),"EX");
     }
     
     public void testObjectSubTypeRetrieval() {
         ObjectCode objectCode = objectCodeService.getByPrimaryId(new Integer(2004), CHART_CODE, "5000");
-        assertNotNull("ObjSubTyp Object should be valid.", objectCode.getFinancialObjectSubType());
+        assertTrue("ObjSubTyp Object should be valid.", ObjectUtils.isNotNull(objectCode.getFinancialObjectSubType()));
         assertEquals("Object Type","NA",objectCode.getFinancialObjectSubType().getCode());
     }
     public void testBudgetAggregationCodeRetrieval() {
         ObjectCode objectCode = objectCodeService.getByPrimaryId(new Integer(2004), CHART_CODE, "5000");
-        assertNotNull("BudgetAggregationCode Object should be valid.", objectCode.getFinancialBudgetAggregation());
+        assertTrue("BudgetAggregationCode Object should be valid.", ObjectUtils.isNotNull(objectCode.getFinancialBudgetAggregation()));
         assertEquals("Budget Aggregation Code should be something",objectCode.getFinancialBudgetAggregation().getCode(),"O");
     }    
     public void testMandatoryTransferEliminationCodeRetrieval() {
       ObjectCode objectCode = objectCodeService.getByPrimaryId(new Integer(2004), CHART_CODE, "5000");
-      assertNotNull("MandatoryTransferEliminationCode Object should be valid.", objectCode.getFinObjMandatoryTrnfrelim());
+      assertTrue("MandatoryTransferEliminationCode Object should be valid.", ObjectUtils.isNotNull(objectCode.getFinObjMandatoryTrnfrelim()));
       assertEquals("Mandatory Transfer Elimination Code should be something",objectCode.getFinObjMandatoryTrnfrelim().getCode(),"N");
     }
     public void testFederalFundedCodeRetrieval() {
       ObjectCode objectCode = objectCodeService.getByPrimaryId(new Integer(2004), CHART_CODE, "5000");
-      assertNotNull("FederalFundedCode Object should be valid.", objectCode.getFinancialFederalFunded());
+      assertTrue("FederalFundedCode Object should be valid.", ObjectUtils.isNotNull(objectCode.getFinancialFederalFunded()));
       assertEquals("Federal Funded Code should be something",objectCode.getFinancialFederalFunded().getCode(),"N");
     }
 }

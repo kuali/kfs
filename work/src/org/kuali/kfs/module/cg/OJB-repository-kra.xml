@@ -127,6 +127,10 @@
   <reference-descriptor name="modularBudget" class-ref="org.kuali.module.kra.bo.BudgetModular"  auto-retrieve="true" auto-update="object" auto-delete="object">
     <foreignkey field-ref="documentHeaderId"/>
   </reference-descriptor>
+	
+  <reference-descriptor name="indirectCost" class-ref="org.kuali.module.kra.bo.BudgetIndirectCost"  auto-retrieve="true" auto-update="object" auto-delete="object">
+    <foreignkey field-ref="documentHeaderId"/>
+  </reference-descriptor>
   
   <collection-descriptor name="tasks" proxy="true" element-class-ref="org.kuali.module.kra.bo.BudgetTask" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
       <orderby name="budgetTaskSequenceNumber" sort="ASC"/>

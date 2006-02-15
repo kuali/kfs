@@ -84,6 +84,58 @@ public class ScrubberServiceTest extends KualiTestBaseWithSpring {
     originEntryGroupDao = (OriginEntryGroupDao)beanFactory.getBean("glOriginEntryGroupDao");
   }
 
+  public void testClosedFiscalYear() throws Exception {
+    // Setup
+    String[] inputTransactions = {
+      "2003BA6044906-----4100---ACEX07TOPSLGCLOSEFISC     CONCERTO OFFICE PRODUCTS                            48.53C2006-01-05          ----------                                                                          ",
+      "2003BA6044906-----9041---ACLI07TOPSLGCLOSEFISC     CONCERTO OFFICE PRODUCTS                            48.53D2006-01-05          ----------                                                                          "
+    };
+    String[] outputTransactions = {
+      "2003BA6044906-----4100---ACEX07TOPSLGCLOSEFISC     CONCERTO OFFICE PRODUCTS                            48.53C2006-01-05          ----------                                                                          ",
+      "2003BA6044906-----9041---ACLI07TOPSLGCLOSEFISC     CONCERTO OFFICE PRODUCTS                            48.53D2006-01-05          ----------                                                                          "
+    };
+
+    clearOriginEntryTables();
+    OriginEntryGroup group = createNewGroup(OriginEntrySource.EXTERNAL);
+    loadTransactions(inputTransactions,group);
+
+    // Scrub
+    scrubberService.scrubEntries();
+
+    // Check to see if we got the results we wanted
+    List groups = unitTestSqlDao.sqlSelect("select * from gl_origin_entry_grp_t order by origin_entry_grp_src_cd");
+    assertEquals("Number of groups is wrong",4,groups.size());
+
+    Collection c = originEntryDao.testingGetAllEntries();
+    Iterator iter = c.iterator();
+
+    // Transactions 1 & 2 are the entries we scrubbed
+    assertTrue("Not enough transactions 1",iter.hasNext());
+    iter.next();
+    assertTrue("Not enough transactions 2",iter.hasNext());
+    iter.next();
+
+    assertTrue("Not enough transactions 3",iter.hasNext());
+    OriginEntry entry = (OriginEntry)iter.next();
+    assertEquals("Transaction " + entry.getEntryId() + " wrong",outputTransactions[0].trim(),entry.getLine().trim());
+
+    assertTrue("Not enough transactions 4",iter.hasNext());
+    entry = (OriginEntry)iter.next();
+    assertEquals("Transaction " + entry.getEntryId() + " wrong",outputTransactions[1].trim(),entry.getLine().trim());
+
+    assertFalse("Too many transactions",iter.hasNext());
+
+    Map errors = scrubberReport.reportErrors;
+    for (Iterator i = errors.keySet().iterator(); i.hasNext();) {
+      Transaction key = (Transaction)i.next();
+      List msgs = (List)errors.get(key);
+      for (Iterator iterator = msgs.iterator(); iterator.hasNext();) {
+        String msg = (String)iterator.next();
+        System.err.println(msg);
+      }
+    }
+  }
+
   public void testDefaultFiscalYear() throws Exception {
     // Setup
     String[] inputTransactions = {
@@ -91,9 +143,9 @@ public class ScrubberServiceTest extends KualiTestBaseWithSpring {
       "    BA6044900-----8000---ACAS07CHKDPDBLANKFISC12345214090047 EVERETT J PRESCOTT INC.                 1445.00C2006-01-05ABCDEFGHIG----------12345678                                                                  "
     };
     String[] outputTransactions = {
-        "2004BA6044900-----5300---ACEE07CHKDPDBLANKFISC12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
-        "2004BA6044900-----8000---ACAS07CHKDPDBLANKFISC12345214090047 EVERETT J PRESCOTT INC.                 1445.00C2006-01-05ABCDEFGHIG----------12345678                                                                  "
-      };
+      "2004BA6044900-----5300---ACEE07CHKDPDBLANKFISC12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
+      "2004BA6044900-----8000---ACAS07CHKDPDBLANKFISC12345214090047 EVERETT J PRESCOTT INC.                 1445.00C2006-01-05ABCDEFGHIG----------12345678                                                                  "
+    };
 
     clearOriginEntryTables();
     OriginEntryGroup group = createNewGroup(OriginEntrySource.EXTERNAL);

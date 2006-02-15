@@ -7,78 +7,24 @@
 		businessObjectClass="org.kuali.module.chart.bo.A21SubAccount">
 		<customAttributeEnabled>false</customAttributeEnabled>
 
-		<inquiry>
-			<title>A21 Sub-Account Code Inquiry</title>
-
-			<inquiryFields>
-				<field attributeName="chart.chartOfAccountsCode" />
-				<field attributeName="account.accountNumber" />			
-				<field attributeName="subAccount.subAccountNumber" />
-				<field attributeName="subAccountTypeCode" />	
-				<field attributeName="indirectCostRecoveryType.code" />			
-				<field attributeName="financialIcrSeriesIdentifier" />
-				<field attributeName="indirectCostRecoveryChartOfAccounts.chartOfAccountsCode" />
-				<field attributeName="indirectCostRecoveryAccount.accountNumber" />				
-				<field attributeName="offCampusCode" />
-				<field attributeName="costShareChartOfAccount.chartOfAccountsCode" />
-				<field attributeName="costShareSourceAccount.accountNumber" />			
-				<field attributeName="costShareSourceSubAccount.subAccountNumber" />
-			</inquiryFields>
-		</inquiry>	
-		
-		<lookup>
-			<title>A21 Sub-Account Lookup</title>
-
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.chart.bo.A21SubAccount">Create New</a>]]></menubar>
-
-			<instructions>Lookup an A21 Sub-Account</instructions>
-
-			<defaultSort attributeName="subAccount.subAccountNumber" sortAscending="true" />
-
-			<lookupFields>
-			
-				<lookupField attributeName="chart.chartOfAccountsCode" required="false" />
-				<lookupField attributeName="account.accountNumber"  required="false" />			
-				<lookupField attributeName="subAccount.subAccountNumber"  required="false" />
-				<lookupField attributeName="subAccountTypeCode"  required="false" />				
-				<lookupField attributeName="indirectCostRecoveryType.code" required="false"  />			
-				<lookupField attributeName="financialIcrSeriesIdentifier" required="false"  />
-				<lookupField attributeName="indirectCostRecoveryChartOfAccounts.chartOfAccountsCode"  required="false" />
-				<lookupField attributeName="indirectCostRecoveryAccount.accountNumber"  required="false" />				
-				<lookupField attributeName="offCampusCode"  required="false" />
-				<lookupField attributeName="costShareChartOfAccount.chartOfAccountsCode"  required="false" />
-				<lookupField attributeName="costShareSourceAccount.accountNumber"  required="false" />			
-				<lookupField attributeName="costShareSourceSubAccount.subAccountNumber"  required="false" />
-			</lookupFields>
-
-			<resultFields>
-				<field attributeName="chart.chartOfAccountsCode" />
-				<field attributeName="account.accountNumber" />			
-				<field attributeName="subAccount.subAccountNumber" />
-				<field attributeName="subAccountTypeCode" />
-				<field attributeName="indirectCostRecoveryType.code" />			
-				<field attributeName="financialIcrSeriesIdentifier" />
-				<field attributeName="indirectCostRecoveryChartOfAccounts.chartOfAccountsCode" />
-				<field attributeName="indirectCostRecoveryAccount.accountNumber" />				
-				<field attributeName="offCampusCode" />
-				<field attributeName="costShareChartOfAccount.chartOfAccountsCode" />
-				<field attributeName="costShareSourceAccount.accountNumber" />			
-				<field attributeName="costShareSourceSubAccount.subAccountNumber" />
-			</resultFields>
-		</lookup>
+		<!--
+			This object has no Inquiry or Lookups intentionally.  It is never dealt with on its 
+			own, rather it is always accessed as part of SubAccount, so does not need an 
+			Inquiry or Lookup.
+		-->
 		
 		<titleAttribute>A21SubAccountNumber</titleAttribute>
 		
 		<attributes>
-			<attributeReference name="chart.chartOfAccountsCode" 
+			<attributeReference name="chartOfAccountsCode" 
 								sourceClassName="org.kuali.module.chart.bo.Chart" 
 								sourceAttributeName="chartOfAccountsCode" />
 
-			<attributeReference name="account.accountNumber" 
+			<attributeReference name="accountNumber" 
 								sourceClassName="org.kuali.module.chart.bo.Account" 
 								sourceAttributeName="accountNumber" />
 			
-			<attributeReference name="subAccount.subAccountNumber" 
+			<attributeReference name="subAccountNumber" 
 								sourceClassName="org.kuali.module.chart.bo.SubAccount" 
 								sourceAttributeName="subAccountNumber" />
 
@@ -88,7 +34,7 @@
 
 				<maxLength>2</maxLength>
 				<validationPattern><alphaNumeric /></validationPattern>
-
+				
 				<control>
 					<text size="2" />
 				</control>
@@ -97,10 +43,9 @@
 				<description>Sub-Account Type Code should be EX or CS indicating Indirect Cost Recovery or Cost Sharing respectively.</description>
 			</attribute>
 
-			<attributeReference name="indirectCostRecoveryType.code" 
+			<attributeReference name="indirectCostRecoveryTypeCode" 
 				sourceClassName="org.kuali.module.chart.bo.codes.ICRTypeCode" 
 				sourceAttributeName="code" />
-
 
 			<attribute name="financialIcrSeriesIdentifier" forceUppercase="true">
 				<label>Series Id</label>
@@ -117,7 +62,7 @@
 				<description>Series Id</description>
 			</attribute>
 
-			<attributeReference name="indirectCostRecoveryChartOfAccounts.chartOfAccountsCode" 
+			<attributeReference name="indirectCostRecoveryChartOfAccountsCode" 
 								sourceClassName="org.kuali.module.chart.bo.Chart" 
 								sourceAttributeName="chartOfAccountsCode">
 								<label>ICR Chart</label>
@@ -126,7 +71,7 @@
 								<description>ICR Chart...</description>	                
 			</attributeReference>					
 
-			<attributeReference name="indirectCostRecoveryAccount.accountNumber" 
+			<attributeReference name="indirectCostRecoveryAccountNumber" 
 								sourceClassName="org.kuali.module.chart.bo.Account" 
 								sourceAttributeName="accountNumber" >
 								<label>ICR Account</label>
@@ -144,7 +89,7 @@
 								<description>Off Campus Indicator</description>
 			</attributeReference>
 
-			<attributeReference name="costShareChartOfAccount.chartOfAccountsCode" 
+			<attributeReference name="costShareChartOfAccountCode" 
 								sourceClassName="org.kuali.module.chart.bo.Chart" 
 								sourceAttributeName="chartOfAccountsCode" >
 								<label>Cost Sharing Chart of Accounts Code</label>
@@ -154,7 +99,7 @@
 			</attributeReference>
 								
 
-			<attributeReference name="costShareSourceAccount.accountNumber" 
+			<attributeReference name="costShareSourceAccountNumber" 
 								sourceClassName="org.kuali.module.chart.bo.Account" 
 								sourceAttributeName="accountNumber" >
 								<label>Cost Sharing Account Number</label>
@@ -164,7 +109,7 @@
 			</attributeReference>
 
 			
-			<attributeReference name="costShareSourceSubAccount.subAccountNumber" 
+			<attributeReference name="costShareSourceSubAccountNumber" 
 								sourceClassName="org.kuali.module.chart.bo.SubAccount" 
 								sourceAttributeName="subAccountNumber" >
 								<label>Cost Sharing Sub-Account Number</label>

@@ -45,6 +45,7 @@ public class SubAccount extends BusinessObjectBase {
     private String finReportOrganizationCode;
     private String financialReportingCode;
 
+    private A21SubAccount a21SubAccount;
     private Account account;
     private ReportingCodes reportingCode;
 
@@ -227,6 +228,22 @@ public class SubAccount extends BusinessObjectBase {
         this.finReportOrganizationCode = finReportOrganizationCode;
     }
 
+    /**
+     * Gets the a21SubAccount attribute. 
+     * @return Returns the a21SubAccount.
+     */
+    public A21SubAccount getA21SubAccount() {
+        return a21SubAccount;
+    }
+
+    /**
+     * Sets the a21SubAccount attribute value.
+     * @param subAccount The a21SubAccount to set.
+     */
+    public void setA21SubAccount(A21SubAccount subAccount) {
+        a21SubAccount = subAccount;
+    }
+    
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */

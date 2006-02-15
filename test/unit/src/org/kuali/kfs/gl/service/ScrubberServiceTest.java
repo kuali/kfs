@@ -84,6 +84,943 @@ public class ScrubberServiceTest extends KualiTestBaseWithSpring {
     originEntryGroupDao = (OriginEntryGroupDao)beanFactory.getBean("glOriginEntryGroupDao");
   }
 
+  /*
+  public void testEncumbranceUpdateCodeOnNonEncumbrancePeriod() throws Exception {
+	    // Setup
+	    String[] inputTransactions = {
+	    };
+	    String[] outputTransactions = {
+	    };
+	    
+	    // Scrub
+	    scrub(inputTransactions);
+	    
+	    // Do assertions
+	    // ...
+	    
+	    // Report errors
+	    reportErrors();
+  }
+
+  public void testInvalidEncumbranceUpdateCode() throws Exception {
+	    // Setup
+	    String[] inputTransactions = {
+	    };
+	    String[] outputTransactions = {
+	    };
+	    
+	    // Scrub
+	    scrub(inputTransactions);
+	    
+	    // Do assertions
+	    // ...
+	    
+	    // Report errors
+	    reportErrors();
+  }
+
+  public void testBlankEncumbranceUpdateCodeOnEncumbranceRecord() throws Exception {
+	    // Setup
+	    String[] inputTransactions = {
+	    };
+	    String[] outputTransactions = {
+	    };
+	    
+	    // Scrub
+	    scrub(inputTransactions);
+	    
+	    // Do assertions
+	    // ...
+	    
+	    // Report errors
+	    reportErrors();
+  }
+
+  public void testInvalidReversalDate() throws Exception {
+	    // Setup
+	    String[] inputTransactions = {
+	    };
+	    String[] outputTransactions = {
+	    };
+	    
+	    // Scrub
+	    scrub(inputTransactions);
+	    
+	    // Do assertions
+	    // ...
+	    
+	    // Report errors
+	    reportErrors();
+  }
+
+  public void testBlankReferenceDocumentNumberWithEncumbranceUpdateCodeOfR() throws Exception {
+	    // Setup
+	    String[] inputTransactions = {
+	    };
+	    String[] outputTransactions = {
+	    };
+	    
+	    // Scrub
+	    scrub(inputTransactions);
+	    
+	    // Do assertions
+	    // ...
+	    
+	    // Report errors
+	    reportErrors();
+  }
+
+  public void testReferenceDocumentNumberPresentWithoutOtherFields() throws Exception {
+	    // Setup
+	    String[] inputTransactions = {
+	    };
+	    String[] outputTransactions = {
+	    };
+	    
+	    // Scrub
+	    scrub(inputTransactions);
+	    
+	    // Do assertions
+	    // ...
+	    
+	    // Report errors
+	    reportErrors();
+  }
+
+  public void testBlankReferenceOriginCodeWithEncumbranceUpdateCodeOfR() throws Exception {
+	    // Setup
+	    String[] inputTransactions = {
+	    };
+	    String[] outputTransactions = {
+	    };
+	    
+	    // Scrub
+	    scrub(inputTransactions);
+	    
+	    // Do assertions
+	    // ...
+	    
+	    // Report errors
+	    reportErrors();
+  }
+
+  public void testReferenceOriginCodePresentWithoutOtherReferenceFields() throws Exception {
+	    // Setup
+	    String[] inputTransactions = {
+	    };
+	    String[] outputTransactions = {
+	    };
+	    
+	    // Scrub
+	    scrub(inputTransactions);
+	    
+	    // Do assertions
+	    // ...
+	    
+	    // Report errors
+	    reportErrors();
+  }
+
+  public void testInvalidReferenceOriginCode() throws Exception {
+	    // Setup
+	    String[] inputTransactions = {
+	    };
+	    String[] outputTransactions = {
+	    };
+	    
+	    // Scrub
+	    scrub(inputTransactions);
+	    
+	    // Do assertions
+	    // ...
+	    
+	    // Report errors
+	    reportErrors();
+  }
+
+  public void testBlankReferenceDocumentTypeWithEncumbranceUpdateCodeOfR() throws Exception {
+	    // Setup
+	    String[] inputTransactions = {
+	    };
+	    String[] outputTransactions = {
+	    };
+	    
+	    // Scrub
+	    scrub(inputTransactions);
+	    
+	    // Do assertions
+	    // ...
+	    
+	    // Report errors
+	    reportErrors();
+  }
+
+  public void testReferenceDocumentTypePresentWithoutOtherReferenceFields() throws Exception {
+	    // Setup
+	    String[] inputTransactions = {
+	    };
+	    String[] outputTransactions = {
+	    };
+	    
+	    // Scrub
+	    scrub(inputTransactions);
+	    
+	    // Do assertions
+	    // ...
+	    
+	    // Report errors
+	    reportErrors();
+  }
+
+  public void testInvalidReferenceDocumentType() throws Exception {
+	    // Setup
+	    String[] inputTransactions = {
+	    };
+	    String[] outputTransactions = {
+	    };
+	    
+	    // Scrub
+	    scrub(inputTransactions);
+	    
+	    // Do assertions
+	    // ...
+	    
+	    // Report errors
+	    reportErrors();
+  }
+
+  public void testOrgReferenceId() throws Exception {
+	    // Setup
+	    String[] inputTransactions = {
+	    };
+	    String[] outputTransactions = {
+	    };
+	    
+	    // Scrub
+	    scrub(inputTransactions);
+	    
+	    // Do assertions
+	    // ...
+	    
+	    // Report errors
+	    reportErrors();
+  }
+
+  public void testInvalidProjectCode() throws Exception {
+	    // Setup
+	    String[] inputTransactions = {
+	    };
+	    String[] outputTransactions = {
+	    };
+	    
+	    // Scrub
+	    scrub(inputTransactions);
+	    
+	    // Do assertions
+	    // ...
+	    
+	    // Report errors
+	    reportErrors();
+  }
+
+  public void testInactiveProjectCode() throws Exception {
+	    // Setup
+	    String[] inputTransactions = {
+	    };
+	    String[] outputTransactions = {
+	    };
+	    
+	    // Scrub
+	    scrub(inputTransactions);
+	    
+	    // Do assertions
+	    // ...
+	    
+	    // Report errors
+	    reportErrors();
+  }
+
+  public void testBlankProjectCode() throws Exception {
+	    // Setup
+	    String[] inputTransactions = {
+	    };
+	    String[] outputTransactions = {
+	    };
+	    
+	    // Scrub
+	    scrub(inputTransactions);
+	    
+	    // Do assertions
+	    // ...
+	    
+	    // Report errors
+	    reportErrors();
+  }
+
+  public void testOrgDocumentNumber() throws Exception {
+	    // Setup
+	    String[] inputTransactions = {
+	    };
+	    String[] outputTransactions = {
+	    };
+	    
+	    // Scrub
+	    scrub(inputTransactions);
+	    
+	    // Do assertions
+	    // ...
+	    
+	    // Report errors
+	    reportErrors();
+  }
+
+  public void testInvalidTransactionDate() throws Exception {
+	    // Setup
+	    String[] inputTransactions = {
+	    };
+	    String[] outputTransactions = {
+	    };
+	    
+	    // Scrub
+	    scrub(inputTransactions);
+	    
+	    // Do assertions
+	    // ...
+	    
+	    // Report errors
+	    reportErrors();
+  }
+
+  public void testBlankTransactionDate() throws Exception {
+	    // Setup
+	    String[] inputTransactions = {
+	    };
+	    String[] outputTransactions = {
+	    };
+	    
+	    // Scrub
+	    scrub(inputTransactions);
+	    
+	    // Do assertions
+	    // ...
+	    
+	    // Report errors
+	    reportErrors();
+  }
+
+  public void testInvalidDebitCreditCode() throws Exception {
+	    // Setup
+	    String[] inputTransactions = {
+	    };
+	    String[] outputTransactions = {
+	    };
+	    
+	    // Scrub
+	    scrub(inputTransactions);
+	    
+	    // Do assertions
+	    // ...
+	    
+	    // Report errors
+	    reportErrors();
+  }
+
+  public void testDebitCreditCodeOnTransactionNotRequiringOffset() throws Exception {
+	    // Setup
+	    String[] inputTransactions = {
+	    };
+	    String[] outputTransactions = {
+	    };
+	    
+	    // Scrub
+	    scrub(inputTransactions);
+	    
+	    // Do assertions
+	    // ...
+	    
+	    // Report errors
+	    reportErrors();
+  }
+
+  public void testBlankDebitCreditCodeOnTransactionRequiringOffset() throws Exception {
+	    // Setup
+	    String[] inputTransactions = {
+	    };
+	    String[] outputTransactions = {
+	    };
+	    
+	    // Scrub
+	    scrub(inputTransactions);
+	    
+	    // Do assertions
+	    // ...
+	    
+	    // Report errors
+	    reportErrors();
+  }
+
+  public void testNegativeAmountOnNonBudgetTransaction() throws Exception {
+	    // Setup
+	    String[] inputTransactions = {
+	    };
+	    String[] outputTransactions = {
+	    };
+	    
+	    // Scrub
+	    scrub(inputTransactions);
+	    
+	    // Do assertions
+	    // ...
+	    
+	    // Report errors
+	    reportErrors();
+  }
+
+  public void testBlankTransactionsDescription() throws Exception {
+	    // Setup
+	    String[] inputTransactions = {
+	    };
+	    String[] outputTransactions = {
+	    };
+	    
+	    // Scrub
+	    scrub(inputTransactions);
+	    
+	    // Do assertions
+	    // ...
+	    
+	    // Report errors
+	    reportErrors();
+  }
+
+  public void testSequenceNumbers() throws Exception {
+	    // Setup
+	    String[] inputTransactions = {
+	    };
+	    String[] outputTransactions = {
+	    };
+	    
+	    // Scrub
+	    scrub(inputTransactions);
+	    
+	    // Do assertions
+	    // ...
+	    
+	    // Report errors
+	    reportErrors();
+  }
+
+  public void testBlankDocumentNumber() throws Exception {
+	    // Setup
+	    String[] inputTransactions = {
+	    };
+	    String[] outputTransactions = {
+	    };
+	    
+	    // Scrub
+	    scrub(inputTransactions);
+	    
+	    // Do assertions
+	    // ...
+	    
+	    // Report errors
+	    reportErrors();
+  }
+
+  public void testInvalidOriginCode() throws Exception {
+	    // Setup
+	    String[] inputTransactions = {
+	    };
+	    String[] outputTransactions = {
+	    };
+	    
+	    // Scrub
+	    scrub(inputTransactions);
+	    
+	    // Do assertions
+	    // ...
+	    
+	    // Report errors
+	    reportErrors();
+  }
+
+  public void testBlankOriginCode() throws Exception {
+	    // Setup
+	    String[] inputTransactions = {
+	    };
+	    String[] outputTransactions = {
+	    };
+	    
+	    // Scrub
+	    scrub(inputTransactions);
+	    
+	    // Do assertions
+	    // ...
+	    
+	    // Report errors
+	    reportErrors();
+  }
+
+  public void testInvalidDocumentType() throws Exception {
+	    // Setup
+	    String[] inputTransactions = {
+	    };
+	    String[] outputTransactions = {
+	    };
+	    
+	    // Scrub
+	    scrub(inputTransactions);
+	    
+	    // Do assertions
+	    // ...
+	    
+	    // Report errors
+	    reportErrors();
+  }
+
+  public void testBlankDocumentType() throws Exception {
+	    // Setup
+	    String[] inputTransactions = {
+	    };
+	    String[] outputTransactions = {
+	    };
+	    
+	    // Scrub
+	    scrub(inputTransactions);
+	    
+	    // Do assertions
+	    // ...
+	    
+	    // Report errors
+	    reportErrors();
+  }
+
+  public void testInvalidFiscalPeriod() throws Exception {
+	    // Setup
+	    String[] inputTransactions = {
+	    };
+	    String[] outputTransactions = {
+	    };
+	    
+	    // Scrub
+	    scrub(inputTransactions);
+	    
+	    // Do assertions
+	    // ...
+	    
+	    // Report errors
+	    reportErrors();
+  }
+  
+  public void testClosedFiscalPeriod() throws Exception {
+	    // Setup
+	    String[] inputTransactions = {
+	    };
+	    String[] outputTransactions = {
+	    };
+	    
+	    // Scrub
+	    scrub(inputTransactions);
+	    
+	    // Do assertions
+	    // ...
+	    
+	    // Report errors
+	    reportErrors();
+  }
+
+  public void testBlankFiscalPeriod() throws Exception {
+	    // Setup
+	    String[] inputTransactions = {
+	    };
+	    String[] outputTransactions = {
+	    };
+	    
+	    // Scrub
+	    scrub(inputTransactions);
+	    
+	    // Do assertions
+	    // ...
+	    
+	    // Report errors
+	    reportErrors();
+  }
+
+  public void testInvalidObjectType() throws Exception {
+	    // Setup
+	    String[] inputTransactions = {
+	    };
+	    String[] outputTransactions = {
+	    };
+	    
+	    // Scrub
+	    scrub(inputTransactions);
+	    
+	    // Do assertions
+	    // ...
+	    
+	    // Report errors
+	    reportErrors();
+  }
+
+  public void testBlankObjectType() throws Exception {
+	    // Setup
+	    String[] inputTransactions = {
+	    };
+	    String[] outputTransactions = {
+	    };
+	    
+	    // Scrub
+	    scrub(inputTransactions);
+	    
+	    // Do assertions
+	    // ...
+	    
+	    // Report errors
+	    reportErrors();
+  }
+
+  public void testInvalidBalanceType() throws Exception {
+	    // Setup
+	    String[] inputTransactions = {
+	    };
+	    String[] outputTransactions = {
+	    };
+	    
+	    // Scrub
+	    scrub(inputTransactions);
+	    
+	    // Do assertions
+	    // ...
+	    
+	    // Report errors
+	    reportErrors();
+  }
+
+  public void testBlankBalanceType() throws Exception {
+	    // Setup
+	    String[] inputTransactions = {
+	    };
+	    String[] outputTransactions = {
+	    };
+	    
+	    // Scrub
+	    scrub(inputTransactions);
+	    
+	    // Do assertions
+	    // ...
+	    
+	    // Report errors
+	    reportErrors();
+  }
+
+  public void testInvalidSubObjectCode() throws Exception {
+	    // Setup
+	    String[] inputTransactions = {
+	    };
+	    String[] outputTransactions = {
+	    };
+	    
+	    // Scrub
+	    scrub(inputTransactions);
+	    
+	    // Do assertions
+	    // ...
+	    
+	    // Report errors
+	    reportErrors();
+  }
+
+  public void testInactiveSubObjectCode() throws Exception {
+	    // Setup
+	    String[] inputTransactions = {
+	    };
+	    String[] outputTransactions = {
+	    };
+	    
+	    // Scrub
+	    scrub(inputTransactions);
+	    
+	    // Do assertions
+	    // ...
+	    
+	    // Report errors
+	    reportErrors();
+  }
+
+  public void testBlankInactiveSubObjectCode() throws Exception {
+	    // Setup
+	    String[] inputTransactions = {
+	    };
+	    String[] outputTransactions = {
+	    };
+	    
+	    // Scrub
+	    scrub(inputTransactions);
+	    
+	    // Do assertions
+	    // ...
+	    
+	    // Report errors
+	    reportErrors();
+  }
+
+  public void testBlankSubObjectCode() throws Exception {
+	    // Setup
+	    String[] inputTransactions = {
+	    };
+	    String[] outputTransactions = {
+	    };
+	    
+	    // Scrub
+	    scrub(inputTransactions);
+	    
+	    // Do assertions
+	    // ...
+	    
+	    // Report errors
+	    reportErrors();
+  }
+
+  public void testInvalidObjectCode() throws Exception {
+	    // Setup
+	    String[] inputTransactions = {
+	    };
+	    String[] outputTransactions = {
+	    };
+	    
+	    // Scrub
+	    scrub(inputTransactions);
+	    
+	    // Do assertions
+	    // ...
+	    
+	    // Report errors
+	    reportErrors();
+  }
+
+  public void testInactiveObjectCode() throws Exception {
+	    // Setup
+	    String[] inputTransactions = {
+	    };
+	    String[] outputTransactions = {
+	    };
+	    
+	    // Scrub
+	    scrub(inputTransactions);
+	    
+	    // Do assertions
+	    // ...
+	    
+	    // Report errors
+	    reportErrors();
+  }
+
+  public void testBlankObjectCode() throws Exception {
+	    // Setup
+	    String[] inputTransactions = {
+	    };
+	    String[] outputTransactions = {
+	    };
+	    
+	    // Scrub
+	    scrub(inputTransactions);
+	    
+	    // Do assertions
+	    // ...
+	    
+	    // Report errors
+	    reportErrors();
+  }
+
+  public void testInvalidSubAccountNumber() throws Exception {
+	    // Setup
+	    String[] inputTransactions = {
+	    };
+	    String[] outputTransactions = {
+	    };
+	    
+	    // Scrub
+	    scrub(inputTransactions);
+	    
+	    // Do assertions
+	    // ...
+	    
+	    // Report errors
+	    reportErrors();
+  }
+
+  public void testInactiveSubAccountNumber() throws Exception {
+	    // Setup
+	    String[] inputTransactions = {
+	    };
+	    String[] outputTransactions = {
+	    };
+	    
+	    // Scrub
+	    scrub(inputTransactions);
+	    
+	    // Do assertions
+	    // ...
+	    
+	    // Report errors
+	    reportErrors();
+  }
+
+  public void testBlankSubAccountNumber() throws Exception {
+	    // Setup
+	    String[] inputTransactions = {
+	    };
+	    String[] outputTransactions = {
+	    };
+	    
+	    // Scrub
+	    scrub(inputTransactions);
+	    
+	    // Do assertions
+	    // ...
+	    
+	    // Report errors
+	    reportErrors();
+  }
+
+  public void testInvalidAccountNumber() throws Exception {
+	    // Setup
+	    String[] inputTransactions = {
+	    };
+	    String[] outputTransactions = {
+	    };
+	    
+	    // Scrub
+	    scrub(inputTransactions);
+	    
+	    // Do assertions
+	    // ...
+	    
+	    // Report errors
+	    reportErrors();
+  }
+
+  public void testClosedAccountNumber() throws Exception {
+	    // Setup
+	    String[] inputTransactions = {
+	    };
+	    String[] outputTransactions = {
+	    };
+	    
+	    // Scrub
+	    scrub(inputTransactions);
+	    
+	    // Do assertions
+	    // ...
+	    
+	    // Report errors
+	    reportErrors();
+  }
+
+  public void testExpiredAccountNumber() throws Exception {
+	    // Setup
+	    String[] inputTransactions = {
+	    };
+	    String[] outputTransactions = {
+	    };
+	    
+	    // Scrub
+	    scrub(inputTransactions);
+	    
+	    // Do assertions
+	    // ...
+	    
+	    // Report errors
+	    reportErrors();
+  }
+
+  public void testBlankAccountNumber() throws Exception {
+	    // Setup
+	    String[] inputTransactions = {
+	    };
+	    String[] outputTransactions = {
+	    };
+	    
+	    // Scrub
+	    scrub(inputTransactions);
+	    
+	    // Do assertions
+	    // ...
+	    
+	    // Report errors
+	    reportErrors();
+  }
+  
+  public void testInvalidChart() throws Exception {
+	    // Setup
+	    String[] inputTransactions = {
+	    };
+	    String[] outputTransactions = {
+	    };
+	    
+	    // Scrub
+	    scrub(inputTransactions);
+	    
+	    // Do assertions
+	    // ...
+	    
+	    // Report errors
+	    reportErrors();
+  }
+
+  public void testInactiveChart() throws Exception {
+	    // Setup
+	    String[] inputTransactions = {
+	    };
+	    String[] outputTransactions = {
+	    };
+	    
+	    // Scrub
+	    scrub(inputTransactions);
+	    
+	    // Do assertions
+	    // ...
+	    
+	    // Report errors
+	    reportErrors();
+  }
+
+  public void testBlankChart() throws Exception {
+	    // Setup
+	    String[] inputTransactions = {
+	    };
+	    String[] outputTransactions = {
+	    };
+	    
+	    // Scrub
+	    scrub(inputTransactions);
+	    
+	    // Do assertions
+	    // ...
+	    
+	    // Report errors
+	    reportErrors();
+  }
+  
+  public void testInvalidFiscalYear() throws Exception {
+	    // Setup
+	    String[] inputTransactions = {
+	    };
+	    String[] outputTransactions = {
+	    };
+	    
+	    // Scrub
+	    scrub(inputTransactions);
+	    
+	    // Do assertions
+	    // ...
+	    
+	    // Report errors
+	    reportErrors();
+  }
+  */
+  
   public void testClosedFiscalYear() throws Exception {
     // Setup
     String[] inputTransactions = {
@@ -95,12 +1032,7 @@ public class ScrubberServiceTest extends KualiTestBaseWithSpring {
       "2003BA6044906-----9041---ACLI07TOPSLGCLOSEFISC     CONCERTO OFFICE PRODUCTS                            48.53D2006-01-05          ----------                                                                          "
     };
 
-    clearOriginEntryTables();
-    OriginEntryGroup group = createNewGroup(OriginEntrySource.EXTERNAL);
-    loadTransactions(inputTransactions,group);
-
-    // Scrub
-    scrubberService.scrubEntries();
+    scrub(inputTransactions);
 
     // Check to see if we got the results we wanted
     List groups = unitTestSqlDao.sqlSelect("select * from gl_origin_entry_grp_t order by origin_entry_grp_src_cd");
@@ -124,18 +1056,10 @@ public class ScrubberServiceTest extends KualiTestBaseWithSpring {
     assertEquals("Transaction " + entry.getEntryId() + " wrong",outputTransactions[1].trim(),entry.getLine().trim());
 
     assertFalse("Too many transactions",iter.hasNext());
-
-    Map errors = scrubberReport.reportErrors;
-    for (Iterator i = errors.keySet().iterator(); i.hasNext();) {
-      Transaction key = (Transaction)i.next();
-      List msgs = (List)errors.get(key);
-      for (Iterator iterator = msgs.iterator(); iterator.hasNext();) {
-        String msg = (String)iterator.next();
-        System.err.println(msg);
-      }
-    }
+    
+    reportErrors();
   }
-
+  
   public void testDefaultFiscalYear() throws Exception {
     // Setup
     String[] inputTransactions = {
@@ -147,12 +1071,7 @@ public class ScrubberServiceTest extends KualiTestBaseWithSpring {
       "2004BA6044900-----8000---ACAS07CHKDPDBLANKFISC12345214090047 EVERETT J PRESCOTT INC.                 1445.00C2006-01-05ABCDEFGHIG----------12345678                                                                  "
     };
 
-    clearOriginEntryTables();
-    OriginEntryGroup group = createNewGroup(OriginEntrySource.EXTERNAL);
-    loadTransactions(inputTransactions,group);
-
-    // Scrub
-    scrubberService.scrubEntries();
+    scrub(inputTransactions);
 
     // Check to see if we got the results we wanted
     List groups = unitTestSqlDao.sqlSelect("select * from gl_origin_entry_grp_t order by origin_entry_grp_src_cd");
@@ -177,17 +1096,28 @@ public class ScrubberServiceTest extends KualiTestBaseWithSpring {
 
     assertFalse("Too many transactions",iter.hasNext());
 
-//    Map errors = scrubberReport.reportErrors;
-//    for (Iterator i = errors.keySet().iterator(); i.hasNext();) {
-//      Transaction key = (Transaction)i.next();
-//      List msgs = (List)errors.get(key);
-//      for (Iterator iterator = msgs.iterator(); iterator.hasNext();) {
-//        String msg = (String)iterator.next();
-//        System.err.println(msg);
-//      }
-//    }
+//     reportErrors();
   }
 
+  private void reportErrors() {
+	Map errors = scrubberReport.reportErrors;
+	for (Iterator i = errors.keySet().iterator(); i.hasNext();) {
+	  Transaction key = (Transaction)i.next();
+	  List msgs = (List)errors.get(key);
+	  for (Iterator iterator = msgs.iterator(); iterator.hasNext();) {
+	    String msg = (String)iterator.next();
+	    System.err.println(msg);
+	  }
+	}
+  }
+
+  private void scrub(String[] inputTransactions) {
+	clearOriginEntryTables();
+	OriginEntryGroup group = createNewGroup(OriginEntrySource.EXTERNAL);
+	loadTransactions(inputTransactions,group);
+    scrubberService.scrubEntries();
+  }
+	  
   private void loadTransactions(String[] transactions,OriginEntryGroup group) {
     for (int i = 0; i < transactions.length; i++) {
       createEntry(transactions[i],group);

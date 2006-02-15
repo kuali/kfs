@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.module.kra.bo.Budget;
 import org.kuali.module.kra.document.BudgetDocument;
 import org.kuali.module.kra.document.ResearchDocument;
 import org.kuali.module.kra.service.BudgetService;
@@ -45,7 +46,9 @@ public class ResearchDocumentServiceImpl extends PersistenceBrokerTemplate imple
      */
     public void prepareResearchDocumentForSave(ResearchDocument researchDocument) {
         if (researchDocument instanceof BudgetDocument) {
-            budgetService.prepareBudgetForSave((BudgetDocument)researchDocument);
+            BudgetDocument budgetDocument = (BudgetDocument)researchDocument;
+            budgetService.prepareBudgetForSave(budgetDocument);
+            budgetDocument.setForceRefreshOfBOSubListsForSave(false);
         }
         SpringServiceLocator.getOjbCollectionHelper().processCollections(this,researchDocument.getFinancialDocumentNumber(),researchDocument);
     }
@@ -54,13 +57,16 @@ public class ResearchDocumentServiceImpl extends PersistenceBrokerTemplate imple
      * @see org.kuali.core.util.OjbCollectionAware#getListOfCollectionsToProcess(java.lang.Object)
      */
     public List getListOfCollectionsToProcess(Object object) {
-        List list=null;
+        List list = list=new ArrayList();
         if (object instanceof BudgetDocument) {
-            list=new ArrayList();
-            list.add(((BudgetDocument)object).getBudget().getTasks());
-            list.add(((BudgetDocument)object).getBudget().getPeriods());
-            list.add(((BudgetDocument)object).getBudget().getNonpersonnelItems());
-            list.add(((BudgetDocument)object).getBudget().getPersonnel());
+            BudgetDocument budgetDocument = ((BudgetDocument)object);
+            Budget budget = budgetDocument.getBudget();
+            list.add(budget.getTasks());
+            list.add(budget.getPeriods());
+            list.add(budget.getNonpersonnelItems());
+            list.add(budget.getAllUserAppointmentTaskPeriods(budgetDocument.isForceRefreshOfBOSubListsForSave()));
+            list.add(budget.getAllUserAppointmentTasks(budgetDocument.isForceRefreshOfBOSubListsForSave()));
+            list.add(budget.getPersonnel());
         }
         return list;
     }

@@ -505,15 +505,15 @@
     <!--   cash receipt specfic attributes -->
     <field-descriptor name="postingYear" column="FDOC_POST_YR" jdbc-type="INTEGER"/>
     <field-descriptor name="postingPeriodCode" column="FDOC_POST_PRD_CD" jdbc-type="VARCHAR"/>
-    <field-descriptor name="totalCashAmount" column="FDOC_CASH_AMT" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" jdbc-type="INTEGER" />
-    <field-descriptor name="totalCheckAmount" column="FDOC_TOTL_CHCK_AMT" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" jdbc-type="INTEGER" />
-    <field-descriptor name="totalCoinAmount" column="FDOC_TOTL_COIN_AMT" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" jdbc-type="INTEGER" />
+    <field-descriptor name="totalCashAmount" column="FDOC_CASH_AMT" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" jdbc-type="DECIMAL" />
+    <field-descriptor name="totalCheckAmount" column="FDOC_TOTL_CHCK_AMT" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" jdbc-type="DECIMAL" />
+    <field-descriptor name="totalCoinAmount" column="FDOC_TOTL_COIN_AMT" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" jdbc-type="DECIMAL" />
 	<!--
-    <field-descriptor name="totalChangeRequestOutAmount" column="FDOC_CHANGEOUT_AMT" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" jdbc-type="INTEGER" />
-    <field-descriptor name="totalCreditCardAmount" column="FDOC_CRDT_CARD_AMT" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" jdbc-type="INTEGER" />
-    <field-descriptor name="totalNonCashAmount" column="FDOC_NONCASH_AMT" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" jdbc-type="INTEGER" />
-    <field-descriptor name="totalRevolvingFundOutAmount" column="FDOC_REVOLVFND_AMT" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" jdbc-type="INTEGER" />
-    <field-descriptor name="totalAdvanceDepositAmount" column="FDOC_ADV_DPST_AMT" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" jdbc-type="INTEGER" />
+    <field-descriptor name="totalChangeRequestOutAmount" column="FDOC_CHANGEOUT_AMT" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" jdbc-type="DECIMAL" />
+    <field-descriptor name="totalCreditCardAmount" column="FDOC_CRDT_CARD_AMT" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" jdbc-type="DECIMAL" />
+    <field-descriptor name="totalNonCashAmount" column="FDOC_NONCASH_AMT" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" jdbc-type="DECIMAL" />
+    <field-descriptor name="totalRevolvingFundOutAmount" column="FDOC_REVOLVFND_AMT" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" jdbc-type="DECIMAL" />
+    <field-descriptor name="totalAdvanceDepositAmount" column="FDOC_ADV_DPST_AMT" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" jdbc-type="DECIMAL" />
     <field-descriptor name="nextCcCrLineNumber" column="FDC_NXTCC_CRLN_NBR" jdbc-type="INTEGER" />
     <field-descriptor name="nextRevolvingFundOutLineNumber" column="FDOC_NXT_RF_LN_NBR" jdbc-type="INTEGER" />
     <field-descriptor name="nextAdvanceDepositLineNumber" column="FDOC_NXT_AD_LN_NBR" jdbc-type="INTEGER" />

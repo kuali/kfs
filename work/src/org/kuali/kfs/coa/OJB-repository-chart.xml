@@ -1494,8 +1494,7 @@
 	<field-descriptor name="financialIcrSeriesIdentifier" column="FIN_SERIES_ID" jdbc-type="VARCHAR" />
 	<field-descriptor name="indirectCostRecoveryChartOfAccountsCode" column="ICR_FIN_COA_CD" jdbc-type="VARCHAR" />
 	<field-descriptor name="indirectCostRecoveryAccountNumber" column="ICR_ACCOUNT_NBR" jdbc-type="VARCHAR" />
-	<field-descriptor name="offCampusCode" column="OFF_CMP_IND" jdbc-type="VARCHAR" 
-				conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="offCampusCode" column="OFF_CMP_CD" jdbc-type="VARCHAR" />
 	<field-descriptor name="costShareChartOfAccountCode" column="CST_SHR_COA_CD" jdbc-type="VARCHAR" />
 	<field-descriptor name="costShareSourceAccountNumber" column="CST_SHRSRCACCT_NBR" jdbc-type="VARCHAR" />
 	<field-descriptor name="costShareSourceSubAccountNumber" column="CST_SRCSUBACCT_NBR" jdbc-type="VARCHAR" />

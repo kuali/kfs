@@ -64,8 +64,8 @@ public class KualiPostProcessor implements PostProcessorRemote {
                 SpringServiceLocator.getDocumentService().handleDocumentRouteStatusChangeEvent(docStatChange);
             }
         } catch (Exception e) {
-            LOG.error("Caught Exception handing StatusChangeEvent", e);
-            throw new RuntimeException("Caught Exception handing StatusChangeEvent in KualiPostProcessor: " + e.getMessage());
+            LOG.error("Caught Exception handling StatusChangeEvent", e);
+            throw new RuntimeException("Caught Exception handling StatusChangeEvent in KualiPostProcessor: " + e.getMessage());
         }
         return true;
     }

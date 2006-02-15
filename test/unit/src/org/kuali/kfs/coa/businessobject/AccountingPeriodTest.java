@@ -22,7 +22,7 @@
  */
 package org.kuali.bo;
 
-import java.sql.Timestamp;
+import java.sql.Date;
 import java.util.ArrayList;
 
 import org.kuali.module.chart.bo.AccountingPeriod;
@@ -37,7 +37,7 @@ public class AccountingPeriodTest extends KualiTestBase {
     public static final boolean BUDGET_ROLLOVER_IND = true;
     public static final String GUID = "123456789012345678901234567890123456";
     public static final String UNIV_FISC_PERD_CODE = "BB";
-    public static final Timestamp UNIV_FISC_PERD_END_DATE = new Timestamp(System.currentTimeMillis());
+    public static final Date UNIV_FISC_PERD_END_DATE = new java.sql.Date(System.currentTimeMillis()); 
     public static final Integer UNIV_FISC_YEAR = new Integer(2005);
     public static final String UNIV_FISC_PRD_NAME = "JAN. 1776";
     public static final String UNIV_FISC_PRD_STATUS_CODE = "C";
@@ -49,7 +49,7 @@ public class AccountingPeriodTest extends KualiTestBase {
     protected void setUp() throws Exception {
         super.setUp();
         ap = new AccountingPeriod();
-        ap.setBudgetRollover(BUDGET_ROLLOVER_IND);
+        ap.setBudgetRolloverIndicator(BUDGET_ROLLOVER_IND);
         ap.setExtendedAttributeValues(new ArrayList());
         ap.setObjectId(GUID);
         ap.setUniversityFiscalPeriodCode(UNIV_FISC_PERD_CODE);
@@ -75,7 +75,7 @@ public class AccountingPeriodTest extends KualiTestBase {
     }
 
     public void testAccountingPeriodPojo() {
-        assertEquals(BUDGET_ROLLOVER_IND, ap.isBudgetRollover());
+        assertEquals(BUDGET_ROLLOVER_IND, ap.isBudgetRolloverIndicator());
         assertEquals(0, ap.getExtendedAttributeValues().size());
         assertEquals(GUID, ap.getObjectId());
         assertEquals(UNIV_FISC_PERD_CODE, ap.getUniversityFiscalPeriodCode());

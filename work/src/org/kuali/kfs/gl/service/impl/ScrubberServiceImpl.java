@@ -62,7 +62,7 @@ import org.springframework.util.StringUtils;
 
 /**
  * @author Anthony Potts
- * @version $Id: ScrubberServiceImpl.java,v 1.34 2006-02-15 03:29:49 jsissom Exp $
+ * @version $Id: ScrubberServiceImpl.java,v 1.35 2006-02-15 14:20:26 larevans Exp $
  */
 
 public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {

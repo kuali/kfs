@@ -62,7 +62,7 @@ import org.springframework.beans.factory.BeanFactoryAware;
 
 /**
  * @author jsissom
- * @version $Id: PosterServiceImpl.java,v 1.18 2006-02-15 03:29:49 jsissom Exp $
+ * @version $Id: PosterServiceImpl.java,v 1.19 2006-02-15 14:20:26 larevans Exp $
  */
 public class PosterServiceImpl implements PosterService,BeanFactoryAware {
   private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PosterServiceImpl.class);
@@ -237,6 +237,9 @@ public class PosterServiceImpl implements PosterService,BeanFactoryAware {
     // If these are reversal entries, we need to reverse the entry and
     // modify a few fields
     if (mode == PosterService.MODE_REVERSAL) {
+    	// NOTE (laran): should this be a cast instead of a new Reversal?
+    	// Reversal implements Transaction and the Reversals coming from the Poster
+    	// are loaded just prior to this.
       reversal = new Reversal(tran);
 
       // Reverse the debit/credit code

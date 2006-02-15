@@ -22,6 +22,7 @@
  */
 package org.kuali.module.gl.dao.ojb;
 
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -34,7 +35,7 @@ import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 /**
  * @author jsissom
- * @version $Id: OriginEntryDaoOjb.java,v 1.5 2006-02-10 20:34:14 aapotts Exp $
+ * @version $Id: OriginEntryDaoOjb.java,v 1.6 2006-02-15 03:29:50 jsissom Exp $
  * 
  */
 
@@ -63,6 +64,21 @@ public class OriginEntryDaoOjb extends PersistenceBrokerDaoSupport implements Or
 
     QueryByCriteria qbc = QueryFactory.newQuery(OriginEntry.class,criteria);
     return getPersistenceBrokerTemplate().getIteratorByQuery(qbc);
+  }
+
+  /**
+   * This method should only be used in unit tests.  It loads all the 
+   * gl_origin_entry_t rows in memory into a collection.  This won't 
+   * sace for production.
+   * 
+   * @return
+   */
+  public Collection testingGetAllEntries() {
+    LOG.debug("testingGetAllEntries() started");
+
+    Criteria criteria = new Criteria();
+    QueryByCriteria qbc = QueryFactory.newQuery(OriginEntry.class,criteria);
+    return getPersistenceBrokerTemplate().getCollectionByQuery(qbc);    
   }
 
   /**

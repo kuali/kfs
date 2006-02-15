@@ -33,7 +33,7 @@
 		<property name="originEntryService"><ref bean="glOriginEntryService"/></property>
 	</bean>
 
-	<bean id="glScrubberService" class="org.kuali.module.gl.service.impl.ScrubberServiceImpl">
+	<bean id="glScrubberService" class="org.kuali.module.gl.service.impl.ScrubberServiceImpl" init-method="init">
 		<property name="originEntryService"><ref bean="glOriginEntryService" /></property>
 		<property name="dateTimeService"><ref bean="dateTimeService" /></property>
 		<property name="offsetDefinitionService"><ref bean="offsetDefinitionService" /></property>
@@ -59,7 +59,7 @@
 		<property name="scrubberReport"><ref bean="glScrubberReport" /></property>
 	--></bean>
 
-	<bean id="glPosterService" class="org.kuali.module.gl.service.impl.PosterServiceImpl">
+	<bean id="glPosterService" class="org.kuali.module.gl.service.impl.PosterServiceImpl" init-method="init">
 		<property name="transactionPosters">
 			<list>
 				<ref bean="glPostGlEntry" />

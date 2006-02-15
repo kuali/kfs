@@ -55,16 +55,20 @@ import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.gl.service.OriginEntryService;
 import org.kuali.module.gl.service.ScrubberService;
 import org.kuali.module.gl.util.Summary;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.util.StringUtils;
 
 /**
  * @author Anthony Potts
- * @version $Id: ScrubberServiceImpl.java,v 1.33 2006-02-14 16:09:17 larevans Exp $
+ * @version $Id: ScrubberServiceImpl.java,v 1.34 2006-02-15 03:29:49 jsissom Exp $
  */
 
-public class ScrubberServiceImpl implements ScrubberService {
+public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ScrubberServiceImpl.class);
 
+    private BeanFactory beanFactory;
     private OriginEntryService originEntryService;
     private OriginEntryGroupService originEntryGroupService;
     private DateTimeService dateTimeService;
@@ -104,7 +108,17 @@ public class ScrubberServiceImpl implements ScrubberService {
       super();
     	originEntryGroupService = new OriginEntryGroupServiceImpl();
     }
-    
+
+    public void init() {
+      LOG.debug("init() started");
+
+      // If we are in test mode
+      if ( beanFactory.containsBean("testDateTimeService") ) {
+        dateTimeService = (DateTimeService)beanFactory.getBean("testDateTimeService");
+        scrubberReportService = (ScrubberReport)beanFactory.getBean("testScrubberReport");
+      }
+    }
+
     /* (non-Javadoc)
      * @see org.kuali.module.gl.service.ScrubberService#scrubEntries()
      */
@@ -1799,7 +1813,10 @@ public class ScrubberServiceImpl implements ScrubberService {
         scrubberReportService = srs;
     }
 
-    
+    public void setBeanFactory(BeanFactory bf) throws BeansException {
+      beanFactory = bf;
+    }
+
     private void createOutputEntry(OriginEntry inputEntry, OriginEntryGroup group) {
         originEntryService.createEntry(inputEntry, group);
 

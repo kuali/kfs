@@ -157,6 +157,15 @@ public class OriginEntry extends BusinessObjectBase implements Transaction {
       }
     }
 
+    private String formatDate(Date date) {
+      if ( date == null ) {
+        return "          ";
+      } else {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-DD");
+        return sdf.format(date);
+      }
+    }
+ 
     public void setFromTextFile(String line) {
 
       // Just in case
@@ -184,7 +193,7 @@ public class OriginEntry extends BusinessObjectBase implements Transaction {
           setTrnEntryLedgerSequenceNumber(null);
       }
       setTransactionLedgerEntryDesc(line.substring(51, 91).trim());
-      setTransactionLedgerEntryAmount(new KualiDecimal(line.substring(91, 108)));
+      setTransactionLedgerEntryAmount(new KualiDecimal(line.substring(91, 108).trim()));
       setTransactionDebitCreditCode(line.substring(108, 109).trim());
       setTransactionDate(parseDate(line.substring(109, 119).trim()));
       setOrganizationDocumentNumber(line.substring(119, 129).trim());
@@ -196,6 +205,65 @@ public class OriginEntry extends BusinessObjectBase implements Transaction {
       setFinancialDocumentReversalDate(parseDate(line.substring(162, 172)));
       setTransactionEncumbranceUpdtCd(line.substring(172, 173).trim());
   }
+
+    private static String SPACES = "                                                                                                              ";
+
+    private String getField(int size,String value) {
+      if ( value == null ) {
+        return SPACES.substring(0,size);
+      } else {
+        if ( value.length() < size) {
+          return value + SPACES.substring(0,size - value.length());
+        } else {
+          return value;
+        }
+      }
+    }
+
+    public String getLine() {
+      StringBuffer sb = new StringBuffer();
+      if ( universityFiscalYear == null ) {
+        sb.append("    ");
+      } else {
+        sb.append(universityFiscalYear);
+      }
+
+      sb.append(getField(2,chartOfAccountsCode));
+      sb.append(getField(7,accountNumber));
+      sb.append(getField(5,subAccountNumber));
+      sb.append(getField(4,financialObjectCode));
+      sb.append(getField(3,financialSubObjectCode));
+      sb.append(getField(2,financialBalanceTypeCode));
+      sb.append(getField(2,financialObjectTypeCode));
+      sb.append(getField(2,universityFiscalPeriodCode));
+      sb.append(getField(4,financialDocumentTypeCode));
+      sb.append(getField(2,financialSystemOriginationCode));
+      sb.append(getField(9,financialDocumentNumber));
+      if ( trnEntryLedgerSequenceNumber == null ) {
+        sb.append("     ");
+      } else {
+        sb.append(getField(5,trnEntryLedgerSequenceNumber.toString().trim()));
+      }
+      sb.append(getField(40,transactionLedgerEntryDesc));
+      if ( transactionLedgerEntryAmount == null ) {
+        sb.append("                 ");
+      } else {
+        String a = transactionLedgerEntryAmount.toString();
+        sb.append("                 ".substring(0,17 - a.length()));
+        sb.append(a);
+      }
+      sb.append(getField(1,transactionDebitCreditCode));
+      sb.append(formatDate(transactionDate));
+      sb.append(getField(10,organizationDocumentNumber));
+      sb.append(getField(10,projectCode));
+      sb.append(getField(8,organizationReferenceId));
+      sb.append(getField(4,referenceFinDocumentTypeCode));
+      sb.append(getField(2,finSystemRefOriginationCode));
+      sb.append(getField(9,financialDocumentReferenceNbr));
+      sb.append(formatDate(financialDocumentReversalDate));
+      sb.append(getField(1,transactionEncumbranceUpdtCd));
+      return sb.toString();
+    }
 
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap map = new LinkedHashMap();

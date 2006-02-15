@@ -141,12 +141,10 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
     private void setupConvenienceObjects(MaintenanceDocument document) {
         
         //	setup oldAccount convenience objects, make sure all possible sub-objects are populated
-        oldDelegate = (Delegate) document.getOldMaintainableObject().getBusinessObject();
-        oldDelegate.refresh();
+        oldDelegate = (Delegate) super.oldBo;
 
         //	setup newAccount convenience objects, make sure all possible sub-objects are populated
-        newDelegate = (Delegate) document.getNewMaintainableObject().getBusinessObject();
-        newDelegate.refresh();
+        newDelegate = (Delegate) super.newBo;
     }
     
     private boolean checkExistenceAndActive() {

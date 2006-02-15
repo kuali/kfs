@@ -124,12 +124,10 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
     private void setupConvenienceObjects(MaintenanceDocument document) {
         
         //	setup oldAccount convenience objects, make sure all possible sub-objects are populated
-        oldAccount = (Account) document.getOldMaintainableObject().getBusinessObject();
-        oldAccount.refresh();
+        oldAccount = (Account) super.oldBo;
 
         //	setup newAccount convenience objects, make sure all possible sub-objects are populated
-        newAccount = (Account) document.getNewMaintainableObject().getBusinessObject();
-        newAccount.refresh();
+        newAccount = (Account) super.newBo;
     }
     
     /**

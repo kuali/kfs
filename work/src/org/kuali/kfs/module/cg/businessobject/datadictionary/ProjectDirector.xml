@@ -95,7 +95,7 @@
 								sourceAttributeName="employeeStatusCode">
 				<label>Employee Status</label>
 				<shortLabel>Employee Status</shortLabel>
-				<summary>Employee Statuse</summary>
+				<summary>Employee Status</summary>
 				<description>Employee Status</description>
 			</attributeReference>
 
@@ -103,7 +103,7 @@
 								sourceClassName="org.kuali.core.bo.user.UniversalUser" 
 								sourceAttributeName="employeeTypeCode">
 				<label>Employee Type</label>
-				<shortLabel>Employee Typee</shortLabel>
+				<shortLabel>Employee Type</shortLabel>
 				<summary>Employee Type</summary>
 				<description>Employee Type</description>
 			</attributeReference>

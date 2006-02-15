@@ -35,7 +35,9 @@ import org.kuali.core.bo.BusinessObjectBase;
  */
 public class AccountDescription extends BusinessObjectBase {
 
-	private String chartOfAccountsCode;
+    private static final long serialVersionUID = 6233459415790165510L;
+    
+    private String chartOfAccountsCode;
 	private String accountNumber;
 	private String campusDescription;
 	private String organizationDescription;
@@ -43,8 +45,6 @@ public class AccountDescription extends BusinessObjectBase {
 	private String campusCode;
 	private String buildingCode;
 
-    private Account account;
-	private Chart chart;
     private Building building;
     
 	/**
@@ -198,47 +198,6 @@ public class AccountDescription extends BusinessObjectBase {
 	 */
 	public void setBuildingCode(String buildingCode) {
 		this.buildingCode = buildingCode;
-	}
-
-
-	/**
-	 * Gets the account attribute.
-	 * 
-	 * @return - Returns the account
-	 * 
-	 */
-	public Account getAccount() { 
-		return account;
-	}
-
-	/**
-	 * Sets the account attribute.
-	 * 
-	 * @param - account The account to set.
-	 * @deprecated
-	 */
-	public void setAccount(Account account) {
-		this.account = account;
-	}
-
-	/**
-	 * Gets the chart attribute.
-	 * 
-	 * @return - Returns the chart
-	 * 
-	 */
-	public Chart getChart() { 
-		return chart;
-	}
-
-	/**
-	 * Sets the chart attribute.
-	 * 
-	 * @param - chart The chart to set.
-	 * @deprecated
-	 */
-	public void setChart(Chart chart) {
-		this.chart = chart;
 	}
 
     /**

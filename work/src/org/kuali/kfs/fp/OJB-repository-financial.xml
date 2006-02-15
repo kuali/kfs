@@ -576,32 +576,6 @@
     </collection-descriptor>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.financial.bo.BankAccount" table="FP_BANK_ACCOUNT_T">
-	<field-descriptor name="financialDocumentBankCode" column="FDOC_BANK_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="finDocumentBankAccountNumber" column="FDOC_BANK_ACCT_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
-	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="finDocumentBankAccountDesc" column="FDOC_BANKACCT_DESC" jdbc-type="VARCHAR"/>
-	<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="organizationCode" column="ORG_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="universityAcctChartOfAcctCd" column="UNIV_ACCT_COA_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="universityAccountNumber" column="UNIV_ACCOUNT_NBR" jdbc-type="VARCHAR"/>
-		
-	<reference-descriptor name="universityAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="universityAcctChartOfAcctCd" />
-		<foreignkey field-ref="universityAccountNumber" />
-	</reference-descriptor>
-	
-	<reference-descriptor name="bank" class-ref="org.kuali.module.financial.bo.Bank" auto-retrieve="true" auto-update="none" auto-delete="none">
-	        <foreignkey field-ref="financialDocumentBankCode" />
-	 </reference-descriptor>
-
-	<reference-descriptor name="organization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="none" auto-delete="none">
-        	<foreignkey field-ref="chartOfAccountsCode"/>
-        	<foreignkey field-ref="organizationCode"/>
-	</reference-descriptor>
-</class-descriptor>
-
 <!-- SERVICE BILLING CONTROL MAPPING -->
 <class-descriptor class="org.kuali.module.financial.bo.ServiceBillingControl" table="FP_SB_CTRL_T">
     <field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true"/>
@@ -1355,4 +1329,51 @@
 		<orderby name="financialDocumentDepositNumber" sort="ASC" />
 		<inverse-foreignkey field-ref="financialDocumentCashReceiptNumber" />
 	</collection-descriptor>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.financial.bo.BankAccount" table="FP_BANK_ACCOUNT_T">
+	<field-descriptor name="financialDocumentBankCode" column="FDOC_BANK_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="finDocumentBankAccountNumber" column="FDOC_BANK_ACCT_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<field-descriptor name="finDocumentBankAccountDesc" column="FDOC_BANKACCT_DESC" jdbc-type="VARCHAR"/>
+	<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="organizationCode" column="ORG_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="universityAcctChartOfAcctCd" column="UNIV_ACCT_COA_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="universityAccountNumber" column="UNIV_ACCOUNT_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="cashOffsetFinancialChartOfAccountCode" column="CSH_OFST_FIN_COA_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="cashOffsetAccountNumber" column="CSH_OFST_ACCT_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="cashOffsetObjectCode" column="CSH_OFST_OBJ_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="cashOffsetSubObjectCode" column="CSH_OFST_SUB_OBJ_CD" jdbc-type="VARCHAR"/>
+
+	<reference-descriptor name="universityAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="universityAcctChartOfAcctCd" />
+		<foreignkey field-ref="universityAccountNumber" />
+	</reference-descriptor>
+
+	<reference-descriptor name="bank" class-ref="org.kuali.module.financial.bo.Bank" auto-retrieve="true" auto-update="none" auto-delete="none">
+	        <foreignkey field-ref="financialDocumentBankCode" />
+    </reference-descriptor>
+
+	<reference-descriptor name="organization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="none" auto-delete="none">
+        	<foreignkey field-ref="chartOfAccountsCode"/>
+        	<foreignkey field-ref="organizationCode"/>
+	</reference-descriptor>
+
+	<reference-descriptor name="chart" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="chartOfAccountsCode" />
+	</reference-descriptor>
+
+	<reference-descriptor name="universityAcctChartOfAcct" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="universityAcctChartOfAcctCd" />
+	</reference-descriptor>
+
+	<reference-descriptor name="cashOffsetAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="cashOffsetFinancialChartOfAccountCode" />
+		<foreignkey field-ref="cashOffsetAccountNumber" />
+	</reference-descriptor>
+
+	<reference-descriptor name="cashOffsetFinancialChartOfAccount" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="cashOffsetFinancialChartOfAccountCode" />
+	</reference-descriptor>
 </class-descriptor>

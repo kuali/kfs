@@ -29,6 +29,7 @@ import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.module.chart.bo.Account;
+import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.Org;
 
 /**
@@ -45,8 +46,16 @@ public class BankAccount extends BusinessObjectBase {
     private String universityAcctChartOfAcctCd;
     private String universityAccountNumber;
     private String organizationCode;
-	
-	private Bank bank;
+    private String cashOffsetFinancialChartOfAccountCode;
+    private String cashOffsetAccountNumber;
+    private String cashOffsetObjectCode;
+    private String cashOffsetSubObjectCode;
+
+    private Chart chart;
+    private Chart universityAcctChartOfAcct;
+    private Account cashOffsetAccount;
+    private Chart cashOffsetFinancialChartOfAccount;
+    private Bank bank;
 	private Org organization;
 	private Account universityAccount;
 
@@ -221,6 +230,61 @@ public class BankAccount extends BusinessObjectBase {
 		this.finDocumentBankAccountNumber = finDocumentBankAccountNumber;
 	}
 
+    /**
+     * @return Returns the cashOffsetAccountNumber.
+     */
+    public String getCashOffsetAccountNumber() {
+        return cashOffsetAccountNumber;
+    }
+
+    /**
+     * @param cashOffsetAccountNumber The cashOffsetAccountNumber to set.
+     */
+    public void setCashOffsetAccountNumber(String cashOffsetAccountNumber) {
+        this.cashOffsetAccountNumber = cashOffsetAccountNumber;
+    }
+
+    /**
+     * @return Returns the cashOffsetFinancialChartOfAccountCode.
+     */
+    public String getCashOffsetFinancialChartOfAccountCode() {
+        return cashOffsetFinancialChartOfAccountCode;
+    }
+
+    /**
+     * @param cashOffsetFinancialChartOfAccountCode The cashOffsetFinancialChartOfAccountCode to set.
+     */
+    public void setCashOffsetFinancialChartOfAccountCode(String cashOffsetFinancialChartOfAccountCode) {
+        this.cashOffsetFinancialChartOfAccountCode = cashOffsetFinancialChartOfAccountCode;
+    }
+
+    /**
+     * @return Returns the cashOffsetObjectCode.
+     */
+    public String getCashOffsetObjectCode() {
+        return cashOffsetObjectCode;
+    }
+
+    /**
+     * @param cashOffsetObjectCode The cashOffsetObjectCode to set.
+     */
+    public void setCashOffsetObjectCode(String cashOffsetObjectCode) {
+        this.cashOffsetObjectCode = cashOffsetObjectCode;
+    }
+
+    /**
+     * @return Returns the cashOffsetSubObjectCode.
+     */
+    public String getCashOffsetSubObjectCode() {
+        return cashOffsetSubObjectCode;
+    }
+
+    /**
+     * @param cashOffsetSubObjectCode The cashOffsetSubObjectCode to set.
+     */
+    public void setCashOffsetSubObjectCode(String cashOffsetSubObjectCode) {
+        this.cashOffsetSubObjectCode = cashOffsetSubObjectCode;
+    }
 
 	/**
 	 * Gets the universityAccount attribute.
@@ -242,16 +306,96 @@ public class BankAccount extends BusinessObjectBase {
 		this.universityAccount = universityAccount;
 	}
 
+    /**
+     * Gets the chart attribute.
+     * 
+     * @return - Returns the chart
+     * 
+     */
+    public Chart getChart() { 
+        return chart;
+    }
+
+    /**
+     * Sets the chart attribute.
+     * 
+     * @param - chart The chart to set.
+     * @deprecated
+     */
+    public void setChart(Chart chart) {
+        this.chart = chart;
+    }
+
+    /**
+     * Gets the universityAcctChartOfAcct attribute.
+     * 
+     * @return - Returns the universityAcctChartOfAcct
+     * 
+     */
+    public Chart getUniversityAcctChartOfAcct() { 
+        return universityAcctChartOfAcct;
+    }
+
+    /**
+     * Sets the universityAcctChartOfAcct attribute.
+     * 
+     * @param - universityAcctChartOfAcct The universityAcctChartOfAcct to set.
+     * @deprecated
+     */
+    public void setUniversityAcctChartOfAcct(Chart universityAcctChartOfAcct) {
+        this.universityAcctChartOfAcct = universityAcctChartOfAcct;
+    }
+
+    /**
+     * Gets the cashOffsetAccount attribute.
+     * 
+     * @return - Returns the cashOffsetAccount
+     * 
+     */
+    public Account getCashOffsetAccount() { 
+        return cashOffsetAccount;
+    }
+
+    /**
+     * Sets the cashOffsetAccount attribute.
+     * 
+     * @param - cashOffsetAccount The cashOffsetAccount to set.
+     * @deprecated
+     */
+    public void setCashOffsetAccount(Account cashOffsetAccount) {
+        this.cashOffsetAccount = cashOffsetAccount;
+    }
+
+    /**
+     * Gets the cashOffsetFinancialChartOfAccount attribute.
+     * 
+     * @return - Returns the cashOffsetFinancialChartOfAccount
+     * 
+     */
+    public Chart getCashOffsetFinancialChartOfAccount() { 
+        return cashOffsetFinancialChartOfAccount;
+    }
+
+    /**
+     * Sets the cashOffsetFinancialChartOfAccount attribute.
+     * 
+     * @param - cashOffsetFinancialChartOfAccount The cashOffsetFinancialChartOfAccount to set.
+     * @deprecated
+     */
+    public void setCashOffsetFinancialChartOfAccount(Chart cashOffsetFinancialChartOfAccount) {
+        this.cashOffsetFinancialChartOfAccount = cashOffsetFinancialChartOfAccount;
+    }    
+    
 	/**
 	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {
-			LinkedHashMap m = new LinkedHashMap();
-
-			 m.put( "bankCode", getFinancialDocumentBankCode() );
-			 m.put( "bankAccountNumber", getFinDocumentBankAccountNumber() );
-
-			return m;
+	    LinkedHashMap m = new LinkedHashMap();
+	    m.put( "bankCode", getFinancialDocumentBankCode() );
+	    m.put( "bankAccountNumber", getFinDocumentBankAccountNumber() );
+	    return m;
 	}
+
+
 }
 

@@ -266,6 +266,8 @@
 				<exclude name="kuali_workflow.jar" />
 				<exclude name="wss4j.jar" />
 				<exclude name="jdom.jar" />
+				<exclude name="xalan.jar"/>
+				<exclude name="xml-apis.jar"/>
 			</fileset>
 		</copy>
 		<copy todir="${plugin.build}/classes">
@@ -294,6 +296,8 @@
 				<exclude name="kuali_workflow.jar" />
 				<exclude name="wss4j.jar" />
 				<exclude name="jdom.jar" />
+				<exclude name="xalan.jar" />
+				<exclude name="xml-apis.jar" />
 			</fileset>
 		</copy>
 		<copy todir="${plugin.deploy.directory}/kuali/classes">

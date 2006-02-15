@@ -52,8 +52,8 @@ public class IndirectCostRecoveryExclusionAccountDaoOjb extends PersistenceBroke
     Criteria crit = new Criteria();
     crit.addEqualTo("chartOfAccountsCode",chartOfAccountsCode);
     crit.addEqualTo("accountNumber",accountNumber);
-    crit.addEqualTo("objectChartOfAccountsCode",objectChartOfAccountsCode);
-    crit.addEqualTo("objectCode",objectCode);
+    crit.addEqualTo("financialObjectChartOfAccountCode",objectChartOfAccountsCode);
+    crit.addEqualTo("financialObjectCode",objectCode);
 
     QueryByCriteria qbc = QueryFactory.newQuery(IndirectCostRecoveryExclusionAccount.class,crit);
     return (IndirectCostRecoveryExclusionAccount)getPersistenceBrokerTemplate().getObjectByQuery(qbc);

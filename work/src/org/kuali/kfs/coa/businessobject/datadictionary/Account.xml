@@ -586,6 +586,7 @@
 								sourceClassName="org.kuali.core.bo.user.UniversalUser" 
 								sourceAttributeName="personUniversalIdentifier">
 				<label>Fiscal Officer Unvl ID</label>
+				<shortLabel>FiscOffId</shortLabel>
 				<required>true</required>
 			</attributeReference>
 			
@@ -593,6 +594,7 @@
 								sourceClassName="org.kuali.core.bo.user.UniversalUser" 
 								sourceAttributeName="personUniversalIdentifier">
 				<label>Supervisor Unvl ID</label>
+				<shortLabel>SprvsrId</shortLabel>
 				<required>true</required>
 			</attributeReference>
 			
@@ -600,6 +602,23 @@
 								sourceClassName="org.kuali.core.bo.user.UniversalUser" 
 								sourceAttributeName="personUniversalIdentifier">
 				<label>Manager Unvl ID</label>
+				<shortLabel>MgrId</shortLabel>
+				<required>true</required>
+			</attributeReference>
+	
+			<attributeReference name="accountFiscalOfficerUser.personName" 
+								sourceClassName="org.kuali.core.bo.user.UniversalUser" 
+								sourceAttributeName="personName">
+				<label>Fiscal Officer Name</label>
+				<shortLabel>FiscOffName</shortLabel>
+				<required>true</required>
+			</attributeReference>
+
+			<attributeReference name="accountManagerUser.personName" 
+								sourceClassName="org.kuali.core.bo.user.UniversalUser" 
+								sourceAttributeName="personName">
+				<label>Manager Name</label>
+				<shortLabel>MgrName</shortLabel>
 				<required>true</required>
 			</attributeReference>
 			
@@ -645,9 +664,9 @@
 								sourceClassName="org.kuali.module.chart.bo.AccountDescription" 
 								sourceAttributeName="organizationDescription" />
 			
-			<attributeReference name="accountDescription.responsibilityCenterDesc" 
+			<attributeReference name="accountDescription.responsibilityCenterDescription" 
 								sourceClassName="org.kuali.module.chart.bo.AccountDescription" 
-								sourceAttributeName="responsibilityCenterDesc" />
+								sourceAttributeName="responsibilityCenterDescription" />
 			
 			<attributeReference name="accountDescription.campusCode" 
 								sourceClassName="org.kuali.module.chart.bo.AccountDescription" 

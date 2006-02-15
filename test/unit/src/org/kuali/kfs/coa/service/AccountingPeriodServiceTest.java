@@ -22,7 +22,7 @@
  */
 package org.kuali.module.chart.service;
 
-import java.sql.Timestamp;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -44,7 +44,7 @@ public class AccountingPeriodServiceTest extends KualiTestBaseWithSpring {
     public static final boolean BUDGET_ROLLOVER_IND = true;
     public static final String GUID = "123456789012345678901234567890123456";
     public static final String UNIV_FISC_PERD_CODE = "01";
-    public static final Timestamp UNIV_FISC_PERD_END_DATE = new Timestamp(System.currentTimeMillis());
+    public static final Date UNIV_FISC_PERD_END_DATE = new java.sql.Date(System.currentTimeMillis());
     public static final Integer UNIV_FISC_YEAR = new Integer(1776);
     public static final String UNIV_FISC_PRD_NAME = "JUL. 1776";
     public static final String UNIV_FISC_PRD_STATUS_CODE = "C";
@@ -68,7 +68,7 @@ public class AccountingPeriodServiceTest extends KualiTestBaseWithSpring {
     
     public void testPersistence() {
         AccountingPeriod ap = new AccountingPeriod();
-        ap.setBudgetRollover(BUDGET_ROLLOVER_IND);
+        ap.setBudgetRolloverIndicator(BUDGET_ROLLOVER_IND);
         ap.setExtendedAttributeValues(new ArrayList());
         ap.setObjectId(GUID);
         ap.setUniversityFiscalPeriodCode(UNIV_FISC_PERD_CODE);
@@ -108,6 +108,7 @@ public class AccountingPeriodServiceTest extends KualiTestBaseWithSpring {
         Iterator i = acctPers.iterator();
         while(i.hasNext()) {
             assertTrue(!((AccountingPeriod) i.next()).getUniversityFiscalPeriodStatusCode().equals(Constants.ACCOUNTING_PERIOD_STATUS_CLOSED));
+            assertTrue("Expect an even number of accounting periods", i.hasNext());
             assertTrue(((AccountingPeriod) i.next()).getUniversityFiscalPeriodStatusCode().equals(Constants.ACCOUNTING_PERIOD_STATUS_OPEN));        
         }
     }

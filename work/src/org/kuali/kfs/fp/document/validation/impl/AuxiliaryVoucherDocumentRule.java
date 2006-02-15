@@ -410,9 +410,9 @@ public class AuxiliaryVoucherDocumentRule extends TransactionalDocumentRuleBase 
                 }
             } else {
                 //grab the actual date from the period
-                Timestamp endDate = postPeriod.getUniversityFiscalPeriodEndDate();
+                java.sql.Date endDate = postPeriod.getUniversityFiscalPeriodEndDate();
                 Calendar cal = Calendar.getInstance();
-                cal.setTime(new Date(endDate.getTime()));
+                cal.setTime(endDate);
                 cal.set(Calendar.DATE, 15);
                 ts = new Timestamp(cal.getTimeInMillis());
             }

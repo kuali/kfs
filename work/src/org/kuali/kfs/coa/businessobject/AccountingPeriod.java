@@ -25,146 +25,159 @@
 
 package org.kuali.module.chart.bo;
 
-import java.sql.Timestamp;
+import java.sql.Date;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.SpringServiceLocator;
 
-
 /**
- * This class represents the AccountingPeriod structure in Kuali. An accounting
- * period represents a finite amount of time that is used for timeboxing
- * financial transactions so that they can be grouped for posting to the GL.
- * 
- * @author Kuali Financial Transactions - Red Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public class AccountingPeriod extends BusinessObjectBase {
-    private static final long serialVersionUID = 8310310482182075948L;
-    private boolean budgetRollover;
-    private String universityFiscalPeriodCode;
-    private String universityFiscalPeriodName;
-    private Integer universityFiscalYear;
-    private Timestamp universityFiscalPeriodEndDate;
-    private String universityFiscalPeriodStatusCode; //TODO - should this be another bo?
 
-    /**
-     * Default no-arg constructor.
-     */
-    public AccountingPeriod() {
-    }
+	private Integer universityFiscalYear;
+	private String universityFiscalPeriodCode;
+	private String universityFiscalPeriodName;
+	private String universityFiscalPeriodStatusCode; //TODO - should this be another bo?
+	private boolean budgetRolloverIndicator;
+	private Date universityFiscalPeriodEndDate;
 
-    /**
-     * Gets the budgetRollover attribute.
-     * 
-     * @return Returns the budgetRollover.
-     */
-    public boolean isBudgetRollover() {
-        return budgetRollover;
-    }
+	/**
+	 * Default constructor.
+	 */
+	public AccountingPeriod() {
 
-    /**
-     * Sets the budgetRollover attribute value.
-     * 
-     * @param budgetRollover The budgetRollover to set.
-     */
-    public void setBudgetRollover(boolean budgetRollover) {
-        this.budgetRollover = budgetRollover;
-    }
+	}
 
-    /**
-     * Gets the universityFiscalPeriodCode attribute.
-     * 
-     * @return Returns the universityFiscalPeriodCode.
-     */
-    public String getUniversityFiscalPeriodCode() {
-        return universityFiscalPeriodCode;
-    }
+	/**
+	 * Gets the universityFiscalYear attribute.
+	 * 
+	 * @return - Returns the universityFiscalYear
+	 * 
+	 */
+	public Integer getUniversityFiscalYear() { 
+		return universityFiscalYear;
+	}
 
-    /**
-     * Sets the universityFiscalPeriodCode attribute value.
-     * 
-     * @param universityFiscalPeriodCode The universityFiscalPeriodCode to set.
-     */
-    public void setUniversityFiscalPeriodCode(String univFiscalPrdCd) {
-        this.universityFiscalPeriodCode = univFiscalPrdCd;
-    }
+	/**
+	 * Sets the universityFiscalYear attribute.
+	 * 
+	 * @param - universityFiscalYear The universityFiscalYear to set.
+	 * 
+	 */
+	public void setUniversityFiscalYear(Integer universityFiscalYear) {
+		this.universityFiscalYear = universityFiscalYear;
+	}
 
-    /**
-     * Gets the universityFiscalPeriodName attribute.
-     * 
-     * @return Returns the universityFiscalPeriodName.
-     */
-    public String getUniversityFiscalPeriodName() {
-        return universityFiscalPeriodName;
-    }
 
-    /**
-     * Sets the universityFiscalPeriodName attribute value.
-     * 
-     * @param universityFiscalPeriodName The universityFiscalPeriodName to set.
-     */
-    public void setUniversityFiscalPeriodName(String univFiscalPrdNm) {
-        this.universityFiscalPeriodName = univFiscalPrdNm;
-    }
+	/**
+	 * Gets the universityFiscalPeriodCode attribute.
+	 * 
+	 * @return - Returns the universityFiscalPeriodCode
+	 * 
+	 */
+	public String getUniversityFiscalPeriodCode() { 
+		return universityFiscalPeriodCode;
+	}
 
-    /**
-     * Gets the universityFiscalYear attribute.
-     * 
-     * @return Returns the universityFiscalYear.
-     */
-    public Integer getUniversityFiscalYear() {
-        return universityFiscalYear;
-    }
+	/**
+	 * Sets the universityFiscalPeriodCode attribute.
+	 * 
+	 * @param - universityFiscalPeriodCode The universityFiscalPeriodCode to set.
+	 * 
+	 */
+	public void setUniversityFiscalPeriodCode(String universityFiscalPeriodCode) {
+		this.universityFiscalPeriodCode = universityFiscalPeriodCode;
+	}
 
-    /**
-     * Sets the universityFiscalYear attribute value.
-     * 
-     * @param universityFiscalYear The universityFiscalYear to set.
-     */
-    public void setUniversityFiscalYear(Integer univFiscalYr) {
-        this.universityFiscalYear = univFiscalYr;
-    }
 
-    /**
-     * Gets the universityFiscalPeriodEndDate attribute.
-     * 
-     * @return Returns the universityFiscalPeriodEndDate.
-     */
-    public Timestamp getUniversityFiscalPeriodEndDate() {
-        return universityFiscalPeriodEndDate;
-    }
+	/**
+	 * Gets the universityFiscalPeriodName attribute.
+	 * 
+	 * @return - Returns the universityFiscalPeriodName
+	 * 
+	 */
+	public String getUniversityFiscalPeriodName() { 
+		return universityFiscalPeriodName;
+	}
 
-    /**
-     * Sets the universityFiscalPeriodEndDate attribute value.
-     * 
-     * @param universityFiscalPeriodEndDate The universityFiscalPeriodEndDate to set.
-     */
-    public void setUniversityFiscalPeriodEndDate(Timestamp univFscpdEndDt) {
-        this.universityFiscalPeriodEndDate = univFscpdEndDt;
-    }
+	/**
+	 * Sets the universityFiscalPeriodName attribute.
+	 * 
+	 * @param - universityFiscalPeriodName The universityFiscalPeriodName to set.
+	 * 
+	 */
+	public void setUniversityFiscalPeriodName(String universityFiscalPeriodName) {
+		this.universityFiscalPeriodName = universityFiscalPeriodName;
+	}
 
-    /**
-     * Gets the universityFiscalPeriodStatusCode attribute.
-     * 
-     * @return Returns the universityFiscalPeriodStatusCode.
-     */
-    public String getUniversityFiscalPeriodStatusCode() {
-        return universityFiscalPeriodStatusCode;
-    }
 
-    /**
-     * Sets the universityFiscalPeriodStatusCode attribute value.
-     * 
-     * @param universityFiscalPeriodStatusCode The universityFiscalPeriodStatusCode to set.
-     */
-    public void setUniversityFiscalPeriodStatusCode(String univFscpdStatCd) {
-        this.universityFiscalPeriodStatusCode = univFscpdStatCd;
-    }
-    
+	/**
+	 * Gets the universityFiscalPeriodStatusCode attribute.
+	 * 
+	 * @return - Returns the universityFiscalPeriodStatusCode
+	 * 
+	 */
+	public String getUniversityFiscalPeriodStatusCode() { 
+		return universityFiscalPeriodStatusCode;
+	}
+
+	/**
+	 * Sets the universityFiscalPeriodStatusCode attribute.
+	 * 
+	 * @param - universityFiscalPeriodStatusCode The universityFiscalPeriodStatusCode to set.
+	 * 
+	 */
+	public void setUniversityFiscalPeriodStatusCode(String universityFiscalPeriodStatusCode) {
+		this.universityFiscalPeriodStatusCode = universityFiscalPeriodStatusCode;
+	}
+
+
+	/**
+	 * Gets the budgetRolloverIndicator attribute.
+	 * 
+	 * @return - Returns the budgetRolloverIndicator
+	 * 
+	 */
+	public boolean isBudgetRolloverIndicator() { 
+		return budgetRolloverIndicator;
+	}
+	
+
+	/**
+	 * Sets the budgetRolloverIndicator attribute.
+	 * 
+	 * @param - budgetRolloverIndicator The budgetRolloverIndicator to set.
+	 * 
+	 */
+	public void setBudgetRolloverIndicator(boolean budgetRolloverIndicator) {
+		this.budgetRolloverIndicator = budgetRolloverIndicator;
+	}
+
+
+	/**
+	 * Gets the universityFiscalPeriodEndDate attribute.
+	 * 
+	 * @return - Returns the universityFiscalPeriodEndDate
+	 * 
+	 */
+	public Date getUniversityFiscalPeriodEndDate() { 
+		return universityFiscalPeriodEndDate;
+	}
+
+	/**
+	 * Sets the universityFiscalPeriodEndDate attribute.
+	 * 
+	 * @param - universityFiscalPeriodEndDate The universityFiscalPeriodEndDate to set.
+	 * 
+	 */
+	public void setUniversityFiscalPeriodEndDate(Date universityFiscalPeriodEndDate) {
+		this.universityFiscalPeriodEndDate = universityFiscalPeriodEndDate;
+	}
+
     /**
      * This method returns the month that this period represents
      * @return the actual month (1 - 12) that this period represents
@@ -175,15 +188,13 @@ public class AccountingPeriod extends BusinessObjectBase {
         return cal.get(Calendar.MONTH) + 1;
     }
 
-    /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-     */
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap m = new LinkedHashMap();
-
-        m.put("universityFiscalYear", universityFiscalYear);
-        m.put("universityFiscalPeriodCode", universityFiscalPeriodCode);
-
-        return m;
+	/**
+	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+	 */
+	protected LinkedHashMap toStringMapper() {
+	    LinkedHashMap m = new LinkedHashMap();	    
+        m.put("universityFiscalYear", this.universityFiscalYear.toString());
+        m.put("universityFiscalPeriodCode", this.universityFiscalPeriodCode);
+	    return m;
     }
 }

@@ -100,7 +100,7 @@
                 <maintainableItems>
 		            <maintainableField name="accountDescription.campusDescription" required="false" />
 		            <maintainableField name="accountDescription.organizationDescription" required="false" />
-		            <maintainableField name="accountDescription.responsibilityCenterDesc" required="false" />
+		            <maintainableField name="accountDescription.responsibilityCenterDescription" required="false" />
 		            <maintainableField name="accountDescription.campusCode" required="false" />
 		            <maintainableField name="accountDescription.buildingCode" required="false" />
                 </maintainableItems>

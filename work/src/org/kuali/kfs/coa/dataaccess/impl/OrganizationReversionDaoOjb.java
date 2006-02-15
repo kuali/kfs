@@ -40,7 +40,7 @@ public class OrganizationReversionDaoOjb extends PersistenceBrokerTemplate imple
     public OrganizationReversion getByPrimaryId(Integer universityFiscalYear, String financialChartOfAccountsCode, String organizationCode) {
         Criteria criteria = new Criteria();
         criteria.addEqualTo("universityFiscalYear", universityFiscalYear);        
-        criteria.addEqualTo("financialChartOfAccountsCode", financialChartOfAccountsCode);
+        criteria.addEqualTo("chartOfAccountsCode", financialChartOfAccountsCode);
         criteria.addEqualTo("organizationCode",organizationCode);
 
         return (OrganizationReversion)getObjectByQuery(QueryFactory.newQuery(OrganizationReversion.class,criteria));

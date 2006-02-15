@@ -28,19 +28,19 @@
 		</description>
 		
         <lockingKeys>
-			<field attributeName="chartOfAccounts.chartOfAccountsCode" />
+			<field attributeName="chart.chartOfAccountsCode" />
 			<field attributeName="account.accountNumber" />
-			<field attributeName="objectChartOfAccounts.chartOfAccountsCode" />
-			<field attributeName="object.financialObjectCode" />
+			<field attributeName="financialObjectChartOfAccount.chartOfAccountsCode" />
+			<field attributeName="objectCodeCurrent.financialObjectCode" />
 		</lockingKeys>	 		
 		
 		<maintainableSections>
 			<maintainableSection title="Edit ICR Exclusion Account">
                 <maintainableItems>
-					<maintainableField name="chartOfAccounts.chartOfAccountsCode" required="true" />
+					<maintainableField name="chart.chartOfAccountsCode" required="true" />
 					<maintainableField name="account.accountNumber" required="true" />
-					<maintainableField name="objectChartOfAccounts.chartOfAccountsCode" required="true" />
-					<maintainableField name="object.financialObjectCode" required="true" />
+					<maintainableField name="financialObjectChartOfAccount.chartOfAccountsCode" required="true" />
+					<maintainableField name="objectCodeCurrent.financialObjectCode" required="true" />
 					<maintainableField name="versionNumber" />
                 </maintainableItems>
 			</maintainableSection>

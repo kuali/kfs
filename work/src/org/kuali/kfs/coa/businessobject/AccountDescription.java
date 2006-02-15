@@ -39,12 +39,14 @@ public class AccountDescription extends BusinessObjectBase {
 	private String accountNumber;
 	private String campusDescription;
 	private String organizationDescription;
-	private String responsibilityCenterDesc;
+	private String responsibilityCenterDescription;
 	private String campusCode;
 	private String buildingCode;
 
-	private Building building;
-	
+    private Account account;
+	private Chart chart;
+    private Building building;
+    
 	/**
 	 * Default constructor.
 	 */
@@ -137,23 +139,23 @@ public class AccountDescription extends BusinessObjectBase {
 
 
 	/**
-	 * Gets the responsibilityCenterDesc attribute.
+	 * Gets the responsibilityCenterDescription attribute.
 	 * 
-	 * @return - Returns the responsibilityCenterDesc
+	 * @return - Returns the responsibilityCenterDescription
 	 * 
 	 */
-	public String getResponsibilityCenterDesc() { 
-		return responsibilityCenterDesc;
+	public String getResponsibilityCenterDescription() { 
+		return responsibilityCenterDescription;
 	}
 
 	/**
-	 * Sets the responsibilityCenterDesc attribute.
+	 * Sets the responsibilityCenterDescription attribute.
 	 * 
-	 * @param - responsibilityCenterDesc The responsibilityCenterDesc to set.
+	 * @param - responsibilityCenterDescription The responsibilityCenterDescription to set.
 	 * 
 	 */
-	public void setResponsibilityCenterDesc(String responsibilityCenterDesc) {
-		this.responsibilityCenterDesc = responsibilityCenterDesc;
+	public void setResponsibilityCenterDescription(String responsibilityCenterDescription) {
+		this.responsibilityCenterDescription = responsibilityCenterDescription;
 	}
 
 
@@ -198,6 +200,47 @@ public class AccountDescription extends BusinessObjectBase {
 		this.buildingCode = buildingCode;
 	}
 
+
+	/**
+	 * Gets the account attribute.
+	 * 
+	 * @return - Returns the account
+	 * 
+	 */
+	public Account getAccount() { 
+		return account;
+	}
+
+	/**
+	 * Sets the account attribute.
+	 * 
+	 * @param - account The account to set.
+	 * @deprecated
+	 */
+	public void setAccount(Account account) {
+		this.account = account;
+	}
+
+	/**
+	 * Gets the chart attribute.
+	 * 
+	 * @return - Returns the chart
+	 * 
+	 */
+	public Chart getChart() { 
+		return chart;
+	}
+
+	/**
+	 * Sets the chart attribute.
+	 * 
+	 * @param - chart The chart to set.
+	 * @deprecated
+	 */
+	public void setChart(Chart chart) {
+		this.chart = chart;
+	}
+
     /**
      * Gets the building attribute. 
      * @return Returns the building.
@@ -209,6 +252,7 @@ public class AccountDescription extends BusinessObjectBase {
     /**
      * Sets the building attribute value.
      * @param building The building to set.
+     * @deprecated
      */
     public void setBuilding(Building building) {
         this.building = building;

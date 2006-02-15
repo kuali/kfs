@@ -10,9 +10,9 @@
 			<title>Indirect Cost Recovery Exclusion by Type Inquiry</title>
 
 			<inquiryFields>	
-				<field attributeName="icrTypeCode.code" />		
-				<field attributeName="chartOfAccounts.chartOfAccountsCode" />
-				<field attributeName="object.financialObjectCode" />			
+				<field attributeName="indirectCostRecoveryType.code" />		
+				<field attributeName="chart.chartOfAccountsCode" />
+				<field attributeName="objectCodeCurrent.financialObjectCode" />			
 			</inquiryFields>
 		</inquiry>
 
@@ -23,33 +23,33 @@
 
 			<instructions>Lookup an Indirect Cost Recovery Exclusion by type</instructions>
 
-			<defaultSort attributeName="icrTypeCode.code" sortAscending="true" />
+			<defaultSort attributeName="indirectCostRecoveryType.code" sortAscending="true" />
 
 			<lookupFields>
-				<lookupField attributeName="icrTypeCode.code" required="false" />
-				<lookupField attributeName="chartOfAccounts.chartOfAccountsCode" required="false" />
-				<lookupField attributeName="object.financialObjectCode" required="false" />
+				<lookupField attributeName="indirectCostRecoveryType.code" required="false" />
+				<lookupField attributeName="chart.chartOfAccountsCode" required="false" />
+				<lookupField attributeName="objectCodeCurrent.financialObjectCode" required="false" />
 			</lookupFields>
 
 			<resultFields>
-				<field attributeName="icrTypeCode.code" />		
-				<field attributeName="chartOfAccounts.chartOfAccountsCode" />
-				<field attributeName="object.financialObjectCode" />			
+				<field attributeName="indirectCostRecoveryType.code" />		
+				<field attributeName="chart.chartOfAccountsCode" />
+				<field attributeName="objectCodeCurrent.financialObjectCode" />			
 			</resultFields>
 		</lookup>
 
 		<attributes>
 		
-			<attributeReference name="icrTypeCode.code" 
+			<attributeReference name="indirectCostRecoveryType.code" 
 				sourceClassName="org.kuali.module.chart.bo.codes.ICRTypeCode" 
 				sourceAttributeName="code" />
 		
-			<attributeReference name="chartOfAccounts.chartOfAccountsCode" 
+			<attributeReference name="chart.chartOfAccountsCode" 
 								sourceClassName="org.kuali.module.chart.bo.Chart" 
 								sourceAttributeName="chartOfAccountsCode" />
 
 
-			<attribute name="object.financialObjectCode" forceUppercase="true">
+			<attribute name="objectCodeCurrent.financialObjectCode" forceUppercase="true">
                 <label>Object Code</label>
                 <shortLabel>Object</shortLabel>
 

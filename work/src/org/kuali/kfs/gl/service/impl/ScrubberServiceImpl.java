@@ -62,7 +62,7 @@ import org.springframework.util.StringUtils;
 
 /**
  * @author Anthony Potts
- * @version $Id: ScrubberServiceImpl.java,v 1.35 2006-02-15 14:20:26 larevans Exp $
+ * @version $Id: ScrubberServiceImpl.java,v 1.36 2006-02-15 15:03:30 temay Exp $
  */
 
 public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
@@ -1449,15 +1449,15 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
 			+ runCal.get(Calendar.DAY_OF_MONTH)); // TODO: change to constant
         csEntry.setChartOfAccountsCode("");
 
-        csEntry.setChartOfAccountsCode(csEntry.getA21SubAccount().getCostSharingChartOfAccountsCode());
-        csEntry.setAccountNumber(csEntry.getA21SubAccount().getCostSharingAccountNumber());
+        csEntry.setChartOfAccountsCode(csEntry.getA21SubAccount().getCostShareChartOfAccountCode());
+        csEntry.setAccountNumber(csEntry.getA21SubAccount().getCostShareSourceAccountNumber());
 
         lookupObjectCode(csEntry);
 
-        if(csEntry.getA21SubAccount().getCostSharingAccountNumber() == null) {
+        if(csEntry.getA21SubAccount().getCostShareSourceAccountNumber() == null) {
             csEntry.setSubAccountNumber(Constants.DASHES_SUB_ACCOUNT_NUMBER);
         } else {
-            csEntry.setSubAccountNumber(csEntry.getA21SubAccount().getCostSharingSubAccountNumber());
+            csEntry.setSubAccountNumber(csEntry.getA21SubAccount().getCostShareSourceSubAccountNumber());
         }
         
         csEntry.setFinancialSubObjectCode(Constants.DASHES_SUB_OBJECT_CODE);
@@ -1543,9 +1543,9 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         csEntry.setTransactionLedgerEntryDesc(csEntry.getTransactionLedgerEntryDesc().substring(0, 29) +
                 "FR" + csEntry.getChartOfAccountsCode()+ csEntry.getAccountNumber());
 
-        csEntry.setChartOfAccountsCode(csEntry.getA21SubAccount().getCostSharingChartOfAccountsCode());
-        csEntry.setAccountNumber(csEntry.getA21SubAccount().getCostSharingAccountNumber());
-        csEntry.setSubAccountNumber(csEntry.getA21SubAccount().getCostSharingSubAccountNumber());
+        csEntry.setChartOfAccountsCode(csEntry.getA21SubAccount().getCostShareChartOfAccountCode());
+        csEntry.setAccountNumber(csEntry.getA21SubAccount().getCostShareSourceAccountNumber());
+        csEntry.setSubAccountNumber(csEntry.getA21SubAccount().getCostShareSourceSubAccountNumber());
 
         if(!StringUtils.hasText(csEntry.getSubAccountNumber())) {
             csEntry.setSubAccountNumber(Constants.DASHES_SUB_ACCOUNT_NUMBER);

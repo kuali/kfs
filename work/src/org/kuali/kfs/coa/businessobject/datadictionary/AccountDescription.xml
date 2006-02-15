@@ -51,7 +51,7 @@
         		</description>
 			</attribute>
 			
-			<attribute name="responsibilityCenterDesc" forceUppercase="false">
+			<attribute name="responsibilityCenterDescription" forceUppercase="false">
         		<label>Responsibility Center Description</label>
         		<shortLabel>RespCtrDesc</shortLabel>
         		

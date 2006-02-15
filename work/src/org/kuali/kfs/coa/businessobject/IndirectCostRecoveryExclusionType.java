@@ -1,25 +1,28 @@
 /*
- * Copyright (c) 2004, 2005 The National Association of College and University Business Officers,
- * Cornell University, Trustees of Indiana University, Michigan State University Board of Trustees,
- * Trustees of San Joaquin Delta College, University of Hawai'i, The Arizona Board of Regents on
- * behalf of the University of Arizona, and the r*smart group.
+ * Copyright (c) 2004, 2005 The National Association of College and University 
+ * Business Officers, Cornell University, Trustees of Indiana University, 
+ * Michigan State University Board of Trustees, Trustees of San Joaquin Delta 
+ * College, University of Hawai'i, The Arizona Board of Regents on behalf of the 
+ * University of Arizona, and the r*smart group.
  * 
- * Licensed under the Educational Community License Version 1.0 (the "License"); By obtaining,
- * using and/or copying this Original Work, you agree that you have read, understand, and will
- * comply with the terms and conditions of the Educational Community License.
+ * Licensed under the Educational Community License Version 1.0 (the "License"); 
+ * By obtaining, using and/or copying this Original Work, you agree that you 
+ * have read, understand, and will comply with the terms and conditions of the 
+ * Educational Community License.
  * 
  * You may obtain a copy of the License at:
  * 
  * http://kualiproject.org/license.html
  * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
- * BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE
- * AND NONINFRINGEMENT.
- * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES
- * OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,  DAMAGES OR OTHER 
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN 
+ * THE SOFTWARE.
  */
+
 package org.kuali.module.chart.bo;
 
 import java.util.LinkedHashMap;
@@ -28,110 +31,144 @@ import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.module.chart.bo.codes.ICRTypeCode;
 
 /**
- * @author jsissom
- *  
+ * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public class IndirectCostRecoveryExclusionType extends BusinessObjectBase {
-    static final long serialVersionUID = -5958353188483465053L;
 
-    private String accountIndirectCostRecoveryTypeCode;
-    private String chartOfAccountsCode;
-    private String objectCode;
-
-    private ICRTypeCode icrTypeCode;
-    private Chart chartOfAccounts;
-    private ObjectCode object;
-
-
-    /**
-     *  
-     */
-    public IndirectCostRecoveryExclusionType() {
+	private String accountIndirectCostRecoveryTypeCode;
+	private String chartOfAccountsCode;
+	private String financialObjectCode;
+	private Chart chart;
+    private ICRTypeCode indirectCostRecoveryType;
+    private ObjectCode objectCodeCurrent;
+    
+	public IndirectCostRecoveryExclusionType() {
         super();
-    }
+	}
 
-    /*
-     * (non-Javadoc)
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+	/**
+	 * Gets the accountIndirectCostRecoveryTypeCode attribute.
+	 * 
+	 * @return - Returns the accountIndirectCostRecoveryTypeCode
+	 * 
+	 */
+	public String getAccountIndirectCostRecoveryTypeCode() { 
+		return accountIndirectCostRecoveryTypeCode;
+	}
+
+	/**
+	 * Sets the accountIndirectCostRecoveryTypeCode attribute.
+	 * 
+	 * @param - accountIndirectCostRecoveryTypeCode The accountIndirectCostRecoveryTypeCode to set.
+	 * 
+	 */
+	public void setAccountIndirectCostRecoveryTypeCode(String accountIndirectCostRecoveryTypeCode) {
+		this.accountIndirectCostRecoveryTypeCode = accountIndirectCostRecoveryTypeCode;
+	}
+
+
+	/**
+	 * Gets the chartOfAccountsCode attribute.
+	 * 
+	 * @return - Returns the chartOfAccountsCode
+	 * 
+	 */
+	public String getChartOfAccountsCode() { 
+		return chartOfAccountsCode;
+	}
+
+	/**
+	 * Sets the chartOfAccountsCode attribute.
+	 * 
+	 * @param - chartOfAccountsCode The chartOfAccountsCode to set.
+	 * 
+	 */
+	public void setChartOfAccountsCode(String chartOfAccountsCode) {
+		this.chartOfAccountsCode = chartOfAccountsCode;
+	}
+
+
+	/**
+	 * Gets the financialObjectCode attribute.
+	 * 
+	 * @return - Returns the financialObjectCode
+	 * 
+	 */
+	public String getFinancialObjectCode() { 
+		return financialObjectCode;
+	}
+
+	/**
+	 * Sets the financialObjectCode attribute.
+	 * 
+	 * @param - financialObjectCode The financialObjectCode to set.
+	 * 
+	 */
+	public void setFinancialObjectCode(String financialObjectCode) {
+		this.financialObjectCode = financialObjectCode;
+	}
+
+
+	/**
+	 * Gets the chart attribute.
+	 * 
+	 * @return - Returns the chart
+	 * 
+	 */
+	public Chart getChart() { 
+		return chart;
+	}
+
+	/**
+	 * Sets the chart attribute.
+	 * 
+	 * @param - chart The chart to set.
+	 * @deprecated
+	 */
+	public void setChart(Chart chart) {
+		this.chart = chart;
+	}
+
+    /**
+     * @return Returns the indirectCostRecoveryType.
      */
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap map = new LinkedHashMap();
-        map.put("accountIndirectCostRecoveryTypeCode", getAccountIndirectCostRecoveryTypeCode());
-        map.put("chartOfAccountsCode", getChartOfAccountsCode());
-        map.put("objectCode", getObjectCode());
-        return map;
-    }
-
-    public String getAccountIndirectCostRecoveryTypeCode() {
-        return accountIndirectCostRecoveryTypeCode;
-    }
-
-    public void setAccountIndirectCostRecoveryTypeCode(String accountIndirectCostRecoveryTypeCode) {
-        this.accountIndirectCostRecoveryTypeCode = accountIndirectCostRecoveryTypeCode;
-    }
-
-    public String getChartOfAccountsCode() {
-        return chartOfAccountsCode;
-    }
-
-    public void setChartOfAccountsCode(String chartOfAccountsCode) {
-        this.chartOfAccountsCode = chartOfAccountsCode;
-    }
-
-    public String getObjectCode() {
-        return objectCode;
-    }
-
-    public void setObjectCode(String objectCode) {
-        this.objectCode = objectCode;
+    public ICRTypeCode getIndirectCostRecoveryType() {
+        return indirectCostRecoveryType;
     }
 
     /**
-     * Gets the chartOfAccounts attribute.
-     * @return Returns the chartOfAccounts.
+     * @param indirectCostRecoveryType The indirectCostRecoveryType to set.
+     * @deprecated
      */
-    public Chart getChartOfAccounts() {
-        return chartOfAccounts;
+    public void setIndirectCostRecoveryType(ICRTypeCode indirectCostRecoveryType) {
+        this.indirectCostRecoveryType = indirectCostRecoveryType;
     }
 
     /**
-     * Sets the chartOfAccounts attribute value.
-     * @param chartOfAccounts The chartOfAccounts to set.
+     * @return Returns the objectCode.
      */
-    public void setChartOfAccounts(Chart chartOfAccounts) {
-        this.chartOfAccounts = chartOfAccounts;
+    public ObjectCode getObjectCodeCurrent() {
+        return objectCodeCurrent;
     }
 
     /**
-     * Gets the object attribute.
-     * @return Returns the object.
+     * @param objectCode The objectCode to set.
+     * @deprecated
      */
-    public ObjectCode getObject() {
-        return object;
+    public void setObjectCodeCurrent(ObjectCode objectCodeCurrent) {
+        this.objectCodeCurrent = objectCodeCurrent;
+    } 
+    
+	/**
+	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+	 */
+	protected LinkedHashMap toStringMapper() {
+	    LinkedHashMap m = new LinkedHashMap();	    
+        m.put("accountIndirectCostRecoveryTypeCode", this.accountIndirectCostRecoveryTypeCode);
+        m.put("chartOfAccountsCode", this.chartOfAccountsCode);
+        m.put("financialObjectCode", this.financialObjectCode);
+	    return m;
     }
 
-    /**
-     * Sets the object attribute value.
-     * @param object The object to set.
-     */
-    public void setObject(ObjectCode object) {
-        this.object = object;
-    }
 
-
-    /**
-     * Gets the icrTypeCode attribute.
-     * @return Returns the icrTypeCode.
-     */
-    public ICRTypeCode getIcrTypeCode() {
-        return icrTypeCode;
-    }
-
-    /**
-     * Sets the icrTypeCode attribute value.
-     * @param icrTypeCode The icrTypeCode to set.
-     */
-    public void setIcrTypeCode(ICRTypeCode icrTypeCode) {
-        this.icrTypeCode = icrTypeCode;
-    }
 }

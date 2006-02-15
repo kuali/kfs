@@ -23,7 +23,6 @@
 package org.kuali.module.gl.service.impl;
 
 import java.sql.Date;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;

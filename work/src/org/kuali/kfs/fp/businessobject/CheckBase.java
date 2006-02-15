@@ -29,14 +29,13 @@ import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 
 /**
- * This class represents a check in the system.  It is a generalized check 
- * business object that will be used by the Cash Receipts document, the Cashier 
- * document, etc. 
+ * This class represents a check in the system. It is a generalized check business object that will be used by the Cash Receipts
+ * document, the Cashier document, etc.
+ * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 
-public class CheckBase extends BusinessObjectBase {
-    private static final long serialVersionUID = -8776463282988510801L;
+public class CheckBase extends BusinessObjectBase implements Check {
     protected String checkNumber;
     protected Timestamp checkDate;
     protected String description;
@@ -44,7 +43,7 @@ public class CheckBase extends BusinessObjectBase {
     protected Integer nextCheckLineNumber;
     protected KualiDecimal amount;
     protected String financialDocumentNumber;
-    
+
     /**
      * Constructs a CheckBase business object.
      */
@@ -56,6 +55,7 @@ public class CheckBase extends BusinessObjectBase {
 
     /**
      * Gets the checkDate attribute.
+     * 
      * @return Returns the checkDate.
      */
     public Timestamp getCheckDate() {
@@ -64,6 +64,7 @@ public class CheckBase extends BusinessObjectBase {
 
     /**
      * Sets the checkDate attribute value.
+     * 
      * @param checkDate The checkDate to set.
      */
     public void setCheckDate(Timestamp checkDate) {
@@ -72,6 +73,7 @@ public class CheckBase extends BusinessObjectBase {
 
     /**
      * Gets the checkNumber attribute.
+     * 
      * @return Returns the checkNumber.
      */
     public String getCheckNumber() {
@@ -80,6 +82,7 @@ public class CheckBase extends BusinessObjectBase {
 
     /**
      * Sets the checkNumber attribute value.
+     * 
      * @param checkNumber The checkNumber to set.
      */
     public void setCheckNumber(String checkNumber) {
@@ -88,6 +91,7 @@ public class CheckBase extends BusinessObjectBase {
 
     /**
      * Gets the description attribute.
+     * 
      * @return Returns the description.
      */
     public String getDescription() {
@@ -96,6 +100,7 @@ public class CheckBase extends BusinessObjectBase {
 
     /**
      * Sets the description attribute value.
+     * 
      * @param description The description to set.
      */
     public void setDescription(String description) {
@@ -104,6 +109,7 @@ public class CheckBase extends BusinessObjectBase {
 
     /**
      * Gets the interimDepositAmount attribute.
+     * 
      * @return Returns the interimDepositAmount.
      */
     public boolean isInterimDepositAmount() {
@@ -112,6 +118,7 @@ public class CheckBase extends BusinessObjectBase {
 
     /**
      * Sets the interimDepositAmount attribute value.
+     * 
      * @param interimDepositAmount The interimDepositAmount to set.
      */
     public void setInterimDepositAmount(boolean interimDepositAmount) {
@@ -136,6 +143,7 @@ public class CheckBase extends BusinessObjectBase {
 
     /**
      * Gets the amount attribute.
+     * 
      * @return Returns the amount.
      */
     public KualiDecimal getAmount() {
@@ -144,6 +152,7 @@ public class CheckBase extends BusinessObjectBase {
 
     /**
      * Sets the amount attribute value.
+     * 
      * @param amount The amount to set.
      */
     public void setAmount(KualiDecimal amount) {
@@ -152,7 +161,8 @@ public class CheckBase extends BusinessObjectBase {
 
 
     /**
-     * Gets the financialDocumentNumber attribute. 
+     * Gets the financialDocumentNumber attribute.
+     * 
      * @return Returns the financialDocumentNumber.
      */
     public String getFinancialDocumentNumber() {
@@ -161,12 +171,13 @@ public class CheckBase extends BusinessObjectBase {
 
     /**
      * Sets the financialDocumentNumber attribute value.
+     * 
      * @param financialDocumentNumber The financialDocumentNumber to set.
      */
     public void setFinancialDocumentNumber(String financialDocumentNumber) {
         this.financialDocumentNumber = financialDocumentNumber;
     }
-    
+
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
@@ -182,5 +193,5 @@ public class CheckBase extends BusinessObjectBase {
         m.put("documentHeaderId", this.financialDocumentNumber);
 
         return m;
-    }    
+    }
 }

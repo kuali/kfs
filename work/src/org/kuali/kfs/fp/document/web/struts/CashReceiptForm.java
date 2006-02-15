@@ -22,37 +22,70 @@
  */
 package org.kuali.module.financial.web.struts.form;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.struts.util.LabelValueBean;
 import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
+import org.kuali.module.financial.bo.Check;
 import org.kuali.module.financial.bo.CheckBase;
 import org.kuali.module.financial.document.CashReceiptDocument;
 
 /**
  * This class is the action form for Cash Receipts.
+ * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 
 public class CashReceiptForm extends KualiTransactionalDocumentFormBase {
-	private static final long serialVersionUID = 1L;
-    private CheckBase newCheck;
-	
+    private static final long serialVersionUID = 1L;
+    private Check newCheck;
+
+    private String checkEntryMode;
+    private List checkEntryModes;
+
     public CashReceiptForm() {
-    	super();
+        super();
         setDocument(new CashReceiptDocument());
         setNewCheck(new CheckBase());
+
+        checkEntryMode = CashReceiptDocument.CHECK_ENTRY_INDIVIDUAL;
+
+        checkEntryModes = new ArrayList();
+        checkEntryModes.add(new LabelValueBean("Individual Checks/Batches", CashReceiptDocument.CHECK_ENTRY_INDIVIDUAL));
+        checkEntryModes.add(new LabelValueBean("Total Only", CashReceiptDocument.CHECK_ENTRY_TOTAL));
     }
-    
+
+
     /**
-     * @return Returns the serviceBillingDocument.
+     * @return CashReceiptDocument
      */
     public CashReceiptDocument getCashReceiptDocument() {
         return (CashReceiptDocument) getDocument();
     }
 
-	public CheckBase getNewCheck() {
-		return newCheck;
-	}
 
-	public void setNewCheck(CheckBase newCheck) {
-		this.newCheck = newCheck;
-	}
+    public Check getNewCheck() {
+        return newCheck;
+    }
+
+    public void setNewCheck(Check newCheck) {
+        this.newCheck = newCheck;
+    }
+
+
+    /**
+     * @return List of LabelValueBeans representing all available check entry modes
+     */
+    public List getCheckEntryModes() {
+        return checkEntryModes;
+    }
+
+    public String getCheckEntryMode() {
+        return checkEntryMode;
+    }
+
+    public void setCheckEntryMode(String checkEntryMode) {
+        this.checkEntryMode = checkEntryMode;
+    }
 }

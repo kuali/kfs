@@ -8,10 +8,11 @@
 
 		<attributes>
 			<attribute name="checkNumber" forceUppercase="false">
-                <label>Check Number</label>
-                <shortLabel>Check Number</shortLabel>
+                <label>Check/Batch #</label>
+                <shortLabel>Check/Batch #</shortLabel>
 
                 <maxLength>15</maxLength>
+				<required>true</required>
 
                 <control>
                     <text size="15" />

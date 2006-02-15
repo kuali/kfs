@@ -95,6 +95,10 @@
 	<bean id="glAccountBalanceService" class="org.kuali.module.gl.service.impl.AccountBalanceServiceImpl">
 		<property name="accountBalanceDao"><ref bean="glAccountBalanceDao" /></property>
 	</bean>
+
+	<bean id="glSufficientFundRebuildService" class="org.kuali.module.gl.service.impl.SufficientFundRebuildServiceImpl">
+		<property name="sufficientFundRebuildDao"><ref bean="glSufficientFundRebuildDao" /></property>
+	</bean>
 	
 	<bean id="glOriginEntryService" class="org.kuali.module.gl.service.impl.OriginEntryServiceImpl">
 		<property name="originEntryDao"><ref bean="glOriginEntryDao" /></property>
@@ -204,5 +208,9 @@
 
 	<bean id="glUnitTestSqlDao" class="org.kuali.module.gl.dao.jdbc.UnitTestSqlDaoJdbc">
 		<property name="dataSource"><ref bean="dataSource"/></property>
+	</bean>
+
+	<bean id="glSufficientFundRebuildDao" class="org.kuali.module.gl.dao.ojb.SufficientFundRebuildDaoOjb">
+		<property name="jcdAlias"><value>dataSource</value></property>
 	</bean>
 </beans>

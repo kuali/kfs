@@ -23,7 +23,7 @@
 package org.kuali.module.financial.bo;
 
 
-import java.sql.Timestamp;
+import java.sql.Date;
 import java.util.ArrayList;
 
 import org.kuali.core.util.KualiDecimal;
@@ -38,7 +38,7 @@ public class CheckBaseTest extends KualiTestBaseWithSpring {
     public static final KualiDecimal AMOUNT = new KualiDecimal("100.27");
     public static final String GUID = "123456789012345678901234567890123456";
     public static final Long VER_NBR = new Long(1);
-    public static final Timestamp DATE = new Timestamp(System.currentTimeMillis());
+    public static final Date DATE = new Date(System.currentTimeMillis());
     public static final String CHECK_NUMBER = "123456";
     public static final String DESCRIPTION = "Description 123.";
     public static final String DOC_HDR_ID = "999999";
@@ -58,7 +58,7 @@ public class CheckBaseTest extends KualiTestBaseWithSpring {
         crchk.setExtendedAttributeValues(new ArrayList());
         crchk.setInterimDepositAmount(false);
         crchk.setObjectId(GUID);
-        crchk.setNextCheckLineNumber(SEQ_ID);
+        crchk.setSequenceId(SEQ_ID);
         crchk.setVersionNumber(VER_NBR);
     }
 
@@ -79,7 +79,7 @@ public class CheckBaseTest extends KualiTestBaseWithSpring {
         assertEquals(0, crchk.getExtendedAttributeValues().size());
         assertEquals(false, crchk.isInterimDepositAmount());
         assertEquals(GUID, crchk.getObjectId());
-        assertEquals(SEQ_ID, crchk.getNextCheckLineNumber());
+        assertEquals(SEQ_ID, crchk.getSequenceId());
         assertEquals(VER_NBR, crchk.getVersionNumber());
     }
 }

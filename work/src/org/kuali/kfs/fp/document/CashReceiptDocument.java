@@ -24,7 +24,6 @@ package org.kuali.module.financial.document;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.Constants;
@@ -55,7 +54,7 @@ public class CashReceiptDocument extends TransactionalDocumentBase {
     private List checks = new ArrayList();
 
     // incrementers for detail lines
-    private Integer nextCheckLineNumber = new Integer(1);
+    private Integer nextCheckSequenceId = new Integer(1);
 
     // monetary attributes
     private KualiDecimal totalCashAmount = new KualiDecimal(0);
@@ -163,11 +162,11 @@ public class CashReceiptDocument extends TransactionalDocumentBase {
      * @param item
      */
     public void addCheck(Check check) {
-        check.setNextCheckLineNumber(this.nextCheckLineNumber);
+        check.setSequenceId(this.nextCheckSequenceId);
 
         this.checks.add(check);
 
-        this.nextCheckLineNumber = new Integer(this.nextCheckLineNumber.intValue() + 1);
+        this.nextCheckSequenceId = new Integer(this.nextCheckSequenceId.intValue() + 1);
         
         KualiDecimal tca = this.totalCheckAmount;
         this.totalCheckAmount = this.totalCheckAmount.add(check.getAmount());
@@ -220,21 +219,21 @@ public class CashReceiptDocument extends TransactionalDocumentBase {
     }
 
     /**
-     * Gets the nextCheckLineNumber attribute.
+     * Gets the nextCheckSequenceId attribute.
      * 
-     * @return Returns the nextCheckLineNumber.
+     * @return Returns the nextCheckSequenceId.
      */
-    public Integer getNextCheckLineNumber() {
-        return nextCheckLineNumber;
+    public Integer getNextCheckSequenceId() {
+        return nextCheckSequenceId;
     }
 
     /**
-     * Sets the nextCheckLineNumber attribute value.
+     * Sets the nextCheckSequenceId attribute value.
      * 
-     * @param nextCheckLineNumber The nextCheckLineNumber to set.
+     * @param nextCheckSequenceId The nextCheckSequenceId to set.
      */
-    public void setNextCheckLineNumber(Integer nextCheckLineNumber) {
-        this.nextCheckLineNumber = nextCheckLineNumber;
+    public void setNextCheckSequenceId(Integer nextCheckSequenceId) {
+        this.nextCheckSequenceId = nextCheckSequenceId;
     }
 
     /**
@@ -243,18 +242,20 @@ public class CashReceiptDocument extends TransactionalDocumentBase {
      * @return Returns the totalCheckAmount.
      */
     public KualiDecimal getTotalCheckAmount() {
-        KualiDecimal _amount = null;
-        if (getChecks().isEmpty()) {
-            _amount = totalCheckAmount;
-        }
-        else {
-            _amount = new KualiDecimal(0);
-            for (Iterator iterator = getChecks().iterator(); iterator.hasNext();) {
-                Check check = (Check) iterator.next();
-                _amount = _amount.add(check.getAmount());
-            }
-        }
-        return _amount;
+        return totalCheckAmount;
+
+//        KualiDecimal _amount = null;
+//        if (getChecks().isEmpty()) {
+//            _amount = totalCheckAmount;
+//        }
+//        else {
+//            _amount = new KualiDecimal(0);
+//            for (Iterator iterator = getChecks().iterator(); iterator.hasNext();) {
+//                Check check = (Check) iterator.next();
+//                _amount = _amount.add(check.getAmount());
+//            }
+//        }
+//        return _amount;
     }
 
     /**

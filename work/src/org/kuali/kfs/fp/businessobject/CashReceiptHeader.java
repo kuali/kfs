@@ -40,7 +40,7 @@ public class CashReceiptHeader extends BusinessObjectBase {
 
 	private String financialDocumentNumber;
 	private String financialDocumentExplanationText;
-	private Integer nextCheckLineNumber;
+	private Integer nextCheckSequenceId;
 	private Integer nextCreditCardCashReceiptLineNumber;
 	private Integer nextCreditCardCashieringDocumentLineNumber;
 	private Integer nextRevolvingFundLineNumber;
@@ -101,23 +101,23 @@ public class CashReceiptHeader extends BusinessObjectBase {
 
 
 	/**
-	 * Gets the nextCheckLineNumber attribute.
+	 * Gets the nextCheckSequenceId attribute.
 	 * 
-	 * @return - Returns the nextCheckLineNumber
+	 * @return - Returns the nextCheckSequenceId
 	 * 
 	 */
-	public Integer getNextCheckLineNumber() { 
-		return nextCheckLineNumber;
+	public Integer getNextCheckSequenceId() { 
+		return nextCheckSequenceId;
 	}
 
 	/**
-	 * Sets the nextCheckLineNumber attribute.
+	 * Sets the nextCheckSequenceId attribute.
 	 * 
-	 * @param - nextCheckLineNumber The nextCheckLineNumber to set.
+	 * @param - nextCheckSequenceId The nextCheckSequenceId to set.
 	 * 
 	 */
-	public void setNextCheckLineNumber(Integer nextCheckLineNumber) {
-		this.nextCheckLineNumber = nextCheckLineNumber;
+	public void setNextCheckSequenceId(Integer nextCheckSequenceId) {
+		this.nextCheckSequenceId = nextCheckSequenceId;
 	}
 
 

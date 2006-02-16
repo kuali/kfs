@@ -518,7 +518,7 @@
     <field-descriptor name="nextRevolvingFundOutLineNumber" column="FDOC_NXT_RF_LN_NBR" jdbc-type="INTEGER" />
     <field-descriptor name="nextAdvanceDepositLineNumber" column="FDOC_NXT_AD_LN_NBR" jdbc-type="INTEGER" />
     -->
-    <field-descriptor name="nextCheckLineNumber" column="FDOC_NXT_CK_LN_NBR" jdbc-type="INTEGER" />
+    <field-descriptor name="nextCheckSequenceId" column="FDOC_NXT_CK_LN_NBR" jdbc-type="INTEGER" />
     <field-descriptor name="campusLocationCode" column="CAMPUS_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="depositDate" column="FDOC_DEPOSIT_DT" jdbc-type="DATE" />
 
@@ -546,19 +546,19 @@
 
     <!--   cash receipt specific collections -->
     <collection-descriptor name="checks" proxy="true" element-class-ref="org.kuali.module.financial.bo.CheckBase" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
-        <orderby name="nextCheckLineNumber" sort="ASC"/>
+        <orderby name="sequenceId" sort="ASC"/>
         <inverse-foreignkey field-ref="financialDocumentNumber"/>
     </collection-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.financial.bo.CheckBase" table="FP_CHECKS_T">
 	<field-descriptor name="financialDocumentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true"/>
+	<field-descriptor name="sequenceId" column="FDOC_LINE_NBR" jdbc-type="INTEGER" primarykey="true" />
 	<field-descriptor name="amount" column="FDOC_CHCK_AMT" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" jdbc-type="DECIMAL" />
 	<field-descriptor name="description" column="FDOC_CHCK_DESC" jdbc-type="VARCHAR" />
 	<field-descriptor name="checkDate" column="FDOC_CHCK_DT" jdbc-type="DATE" />
 	<field-descriptor name="checkNumber" column="FDOC_CHCK_NBR" jdbc-type="VARCHAR" />
 	<field-descriptor name="interimDepositAmount" column="FDOC_INTRM_DPST_IND" conversion="org.kuali.core.util.OjbCharBooleanConversion" jdbc-type="VARCHAR" />
-	<field-descriptor name="nextCheckLineNumber" column="FDOC_LINE_NBR" jdbc-type="INTEGER" />
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 	<field-descriptor name="versionNumber" locking="true" column="VER_NBR" jdbc-type="BIGINT" />
 </class-descriptor>
@@ -1315,7 +1315,7 @@
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="financialDocumentExplanationText" column="FDOC_EXPLAIN_TXT" jdbc-type="VARCHAR"/>
-	<field-descriptor name="nextCheckLineNumber" column="FDOC_NXT_CK_LN_NBR" jdbc-type="INTEGER"/>
+	<field-descriptor name="nextCheckSequenceId" column="FDOC_NXT_CK_LN_NBR" jdbc-type="INTEGER"/>
 	<field-descriptor name="nextCreditCardCashReceiptLineNumber" column="FDC_NXTCC_CRLN_NBR" jdbc-type="INTEGER"/>
 	<field-descriptor name="nextCreditCardCashieringDocumentLineNumber" column="FDC_NXTCC_CDLN_NBR" jdbc-type="INTEGER"/>
 	<field-descriptor name="nextRevolvingFundLineNumber" column="FDOC_NXT_RF_LN_NBR" jdbc-type="INTEGER"/>
@@ -1330,7 +1330,6 @@
 		<inverse-foreignkey field-ref="financialDocumentCashReceiptNumber" />
 	</collection-descriptor>
 </class-descriptor>
-
 <class-descriptor class="org.kuali.module.financial.bo.BankAccount" table="FP_BANK_ACCOUNT_T">
 	<field-descriptor name="financialDocumentBankCode" column="FDOC_BANK_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="finDocumentBankAccountNumber" column="FDOC_BANK_ACCT_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>

@@ -7,11 +7,17 @@
 <%@ taglib tagdir="/WEB-INF/tags/cr" prefix="cr" %>
 <%@ taglib tagdir="/WEB-INF/tags/dd" prefix="dd" %>
 
+<c:set var="displayHidden" value="false" />
+
 <kul:documentPage showDocumentInfo="true" htmlFormAction="financialCashReceipt" documentTypeName="KualiCashReceiptDocument"  renderMultipart="true" showTabButtons="true">
 
-    <html:hidden property="document.nextSourceLineNumber"/>
-    <html:hidden property="document.checkEntryMode" />
     <kul:hiddenDocumentFields />
+
+    <html:hidden property="document.nextSourceLineNumber"/>
+
+    <html:hidden property="document.nextCheckSequenceId"/>
+    <html:hidden property="document.checkEntryMode" />
+
     <kul:documentOverview editingMode="${KualiForm.editingMode}"/>
         
     <kul:tab tabTitle="Cash Reconciliation" defaultOpen="true" tabErrorKey="${Constants.EDIT_CASH_RECEIPT_CASH_RECONCILIATION_ERRORS}" >	    
@@ -61,7 +67,7 @@
     </kul:tab>
 
     <%-- change from doc.totalCheckAmount to form.totalCheckAmount, once you get that introduced --%>
-    <cr:checkLines editingMode="${editingMode}" totalAmount="${KualiForm.cashReceiptDocument.totalCheckAmount}" />
+    <cr:checkLines editingMode="${editingMode}" totalAmount="${KualiForm.cashReceiptDocument.totalCheckAmount}" displayHidden="${displayHidden}" />
    		
     <fin:accountingLines editingMode="${KualiForm.editingMode}" editableAccounts="${KualiForm.editableAccounts}" sourceAccountingLinesOnly="true" />
 

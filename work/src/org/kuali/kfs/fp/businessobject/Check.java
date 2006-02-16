@@ -22,7 +22,7 @@
  */
 package org.kuali.module.financial.bo;
 
-import java.sql.Timestamp;
+import java.sql.Date;
 
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.util.KualiDecimal;
@@ -35,14 +35,14 @@ public interface Check extends BusinessObject {
      * 
      * @return Returns the checkDate.
      */
-    public Timestamp getCheckDate();
+    public Date getCheckDate();
 
     /**
      * Sets the checkDate attribute value.
      * 
      * @param checkDate The checkDate to set.
      */
-    public void setCheckDate(Timestamp checkDate);
+    public void setCheckDate(Date checkDate);
 
     /**
      * Gets the checkNumber attribute.
@@ -78,14 +78,14 @@ public interface Check extends BusinessObject {
      * 
      * @return Returns the sequenceId.
      */
-    public Integer getNextCheckLineNumber();
+    public Integer getSequenceId();
 
     /**
      * Sets the sequenceId attribute value.
      * 
      * @param sequenceId The sequenceId to set.
      */
-    public void setNextCheckLineNumber(Integer sequenceId);
+    public void setSequenceId(Integer sequenceId);
 
 
     /**

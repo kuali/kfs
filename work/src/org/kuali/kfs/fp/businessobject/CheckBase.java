@@ -22,7 +22,7 @@
  */
 package org.kuali.module.financial.bo;
 
-import java.sql.Timestamp;
+import java.sql.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.BusinessObjectBase;
@@ -36,20 +36,20 @@ import org.kuali.core.util.KualiDecimal;
  */
 
 public class CheckBase extends BusinessObjectBase implements Check {
-    protected String checkNumber;
-    protected Timestamp checkDate;
-    protected String description;
-    protected boolean interimDepositAmount;
-    protected Integer nextCheckLineNumber;
-    protected KualiDecimal amount;
-    protected String financialDocumentNumber;
+    private String checkNumber;
+    private Date checkDate;
+    private String description;
+    private boolean interimDepositAmount;
+    private Integer sequenceId;
+    private KualiDecimal amount;
+    private String financialDocumentNumber;
 
     /**
      * Constructs a CheckBase business object.
      */
     public CheckBase() {
         super();
-        this.nextCheckLineNumber = new Integer(1);
+        this.sequenceId = new Integer(1);
         this.amount = new KualiDecimal(0);
     }
 
@@ -58,7 +58,7 @@ public class CheckBase extends BusinessObjectBase implements Check {
      * 
      * @return Returns the checkDate.
      */
-    public Timestamp getCheckDate() {
+    public Date getCheckDate() {
         return checkDate;
     }
 
@@ -67,7 +67,7 @@ public class CheckBase extends BusinessObjectBase implements Check {
      * 
      * @param checkDate The checkDate to set.
      */
-    public void setCheckDate(Timestamp checkDate) {
+    public void setCheckDate(Date checkDate) {
         this.checkDate = checkDate;
     }
 
@@ -127,18 +127,20 @@ public class CheckBase extends BusinessObjectBase implements Check {
 
     /**
      * Gets the sequenceId attribute.
+     * 
      * @return Returns the sequenceId.
      */
-    public Integer getNextCheckLineNumber() {
-        return nextCheckLineNumber;
+    public Integer getSequenceId() {
+        return sequenceId;
     }
 
     /**
      * Sets the sequenceId attribute value.
+     * 
      * @param sequenceId The sequenceId to set.
      */
-    public void setNextCheckLineNumber(Integer sequenceId) {
-        this.nextCheckLineNumber = sequenceId;
+    public void setSequenceId(Integer sequenceId) {
+        this.sequenceId = sequenceId;
     }
 
     /**
@@ -184,11 +186,11 @@ public class CheckBase extends BusinessObjectBase implements Check {
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
 
-        m.put("lineNumber", this.nextCheckLineNumber);
+        m.put("sequenceId", this.sequenceId);
         m.put("amount", this.amount);
         m.put("checkNumber", this.checkNumber);
-        m.put("checkData", this.checkDate);
-        m.put("interimDepositAmount", new Boolean(this.interimDepositAmount));
+        m.put("checkDate", this.checkDate);
+        m.put("interimDepositAmount", Boolean.valueOf(this.interimDepositAmount));
         m.put("description", this.description);
         m.put("documentHeaderId", this.financialDocumentNumber);
 

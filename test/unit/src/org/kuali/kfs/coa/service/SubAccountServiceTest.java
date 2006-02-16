@@ -36,6 +36,9 @@ public class SubAccountServiceTest extends KualiTestBaseWithSpring {
   private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SubAccountServiceTest.class);
 
   private SubAccountServiceImpl subAccountService;
+  private final static String CHART="BL";
+  private final static String ACCOUNT="6044900";
+  private final static String SUB_ACCOUNT="ARREC";
   
   protected void setUp() throws Exception {
     super.setUp();
@@ -46,23 +49,23 @@ public class SubAccountServiceTest extends KualiTestBaseWithSpring {
   public void testA21SubAccount() {
       SubAccount sa;
       
-      sa=subAccountService.getByPrimaryId("BL","6044900","ARREC");
+      sa=subAccountService.getByPrimaryId(CHART,ACCOUNT,SUB_ACCOUNT);
       
       sa.getA21SubAccount().getIndirectCostRecoveryAccount();
   }
 
   public void testGetByPrimaryId() throws Exception {
     SubAccount sa = new SubAccount();
-    sa.setAccountNumber("1234567");
-    sa.setChartOfAccountsCode("XX");
-    sa.setSubAccountNumber("12345");
+    sa.setAccountNumber(ACCOUNT);
+    sa.setChartOfAccountsCode(CHART);
+    sa.setSubAccountNumber(SUB_ACCOUNT);
 
     
-    SubAccount retrieved = subAccountService.getByPrimaryId("XX","1234567","12345");
+    SubAccount retrieved = subAccountService.getByPrimaryId(CHART,ACCOUNT,SUB_ACCOUNT);
     assertNotNull("Didn't retrieve sub account",retrieved);
-    assertEquals("Wrong chart","XX",retrieved.getChartOfAccountsCode());
-    assertEquals("Wrong account","1234567",retrieved.getAccountNumber());
-    assertEquals("Wrong Sub account number","12345",retrieved.getSubAccountNumber());
+    assertEquals("Wrong chart",CHART,retrieved.getChartOfAccountsCode());
+    assertEquals("Wrong account",ACCOUNT,retrieved.getAccountNumber());
+    assertEquals("Wrong Sub account number",SUB_ACCOUNT,retrieved.getSubAccountNumber());
   }
 
     /**

@@ -169,11 +169,11 @@ public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements Balanc
         }   
         
         // set the selection attributes
-        String[] attributes = (String [])attributeList.toArray();
+        String[] attributes = (String[])attributeList.toArray(new String[attributeList.size()]);
         query.setAttributes(attributes);
         
         // add the group criteria into the selection statement
-        String[] groupBy = (String [])groupByList.toArray();
+        String[] groupBy = (String [])groupByList.toArray(new String[groupByList.size()]);
         query.addGroupBy(groupBy);
 
         Iterator cashBalance = getPersistenceBrokerTemplate()
@@ -200,11 +200,11 @@ public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements Balanc
         }   
         
         // set the selection attributes
-        String[] attributes = (String [])attributeList.toArray();
+        String[] attributes = (String[])attributeList.toArray(new String[attributeList.size()]);
         query.setAttributes(attributes);
         
         // add the group criteria into the selection statement
-        String[] groupBy = (String [])groupByList.toArray();
+        String[] groupBy = (String [])groupByList.toArray(new String[groupByList.size()]);
         query.addGroupBy(groupBy);
 
         Iterator balance = getPersistenceBrokerTemplate()

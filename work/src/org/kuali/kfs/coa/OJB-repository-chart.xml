@@ -1506,7 +1506,7 @@
 		<foreignkey field-ref="indirectCostRecoveryTypeCode" />
 	</reference-descriptor>
 
-	<reference-descriptor name="indirectCostRecoveryChart"
+	<reference-descriptor name="indirectCostRecoveryChartOfAccounts"
 		class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true"
 		auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="indirectCostRecoveryChartOfAccountsCode" />

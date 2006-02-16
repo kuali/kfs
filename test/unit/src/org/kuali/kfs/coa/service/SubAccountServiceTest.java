@@ -23,6 +23,7 @@
 package org.kuali.module.chart.service;
 
 import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.module.chart.bo.A21SubAccount;
 import org.kuali.module.chart.bo.SubAccount;
 import org.kuali.module.chart.service.impl.SubAccountServiceImpl;
 import org.kuali.test.KualiTestBaseWithSpring;
@@ -35,7 +36,7 @@ import org.kuali.test.KualiTestBaseWithSpring;
 public class SubAccountServiceTest extends KualiTestBaseWithSpring {
   private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SubAccountServiceTest.class);
 
-  private SubAccountServiceImpl subAccountService;
+  private SubAccountService subAccountService;
   private final static String CHART="BL";
   private final static String ACCOUNT="6044900";
   private final static String SUB_ACCOUNT="ARREC";
@@ -43,7 +44,7 @@ public class SubAccountServiceTest extends KualiTestBaseWithSpring {
   protected void setUp() throws Exception {
     super.setUp();
 
-    setSubAccountService((SubAccountServiceImpl) SpringServiceLocator.getSubAccountService());
+    setSubAccountService((SubAccountService) SpringServiceLocator.getSubAccountService());
   }
   
   public void testA21SubAccount() {
@@ -51,7 +52,10 @@ public class SubAccountServiceTest extends KualiTestBaseWithSpring {
       
       sa=subAccountService.getByPrimaryId(CHART,ACCOUNT,SUB_ACCOUNT);
       
-      sa.getA21SubAccount().getIndirectCostRecoveryAccount();
+      assertNotNull("expect to find this sub account: "+CHART+"/"+ACCOUNT+"/"+SUB_ACCOUNT,sa);
+      A21SubAccount a21=sa.getA21SubAccount();
+      assertNotNull("expect this to have a21subaccount",a21);
+      a21.getIndirectCostRecoveryAccount();
   }
 
   public void testGetByPrimaryId() throws Exception {
@@ -72,7 +76,7 @@ public class SubAccountServiceTest extends KualiTestBaseWithSpring {
      * Sets the subAccountService attribute value.
      * @param subAccountService The subAccountService to set.
      */
-    public void setSubAccountService(SubAccountServiceImpl subAccountService) {
+    public void setSubAccountService(SubAccountService subAccountService) {
         this.subAccountService = subAccountService;
     }
 

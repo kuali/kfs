@@ -65,7 +65,7 @@ public class KualiPostProcessor implements PostProcessorRemote {
             }
         } catch (Exception e) {
             LOG.error("Caught Exception handling StatusChangeEvent", e);
-            throw new RuntimeException("Caught Exception handling StatusChangeEvent in KualiPostProcessor: " + e.getMessage());
+            throw new RuntimeException("Caught Exception handling StatusChangeEvent in KualiPostProcessor: " + e.getMessage(), e);
         }
         return true;
     }

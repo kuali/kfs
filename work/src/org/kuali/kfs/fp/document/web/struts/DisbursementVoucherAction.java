@@ -23,6 +23,7 @@
 package org.kuali.module.financial.web.struts.action;
 
 import java.io.ByteArrayOutputStream;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -44,14 +45,18 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
+import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.module.financial.bo.DisbursementVoucherNonEmployeeExpense;
 import org.kuali.module.financial.bo.DisbursementVoucherPreConferenceRegistrant;
 import org.kuali.module.financial.bo.Payee;
+import org.kuali.module.financial.bo.WireCharge;
 import org.kuali.module.financial.document.DisbursementVoucherDocument;
 import org.kuali.module.financial.service.DisbursementVoucherCoverSheetService;
 import org.kuali.module.financial.service.DisbursementVoucherTaxService;
 import org.kuali.module.financial.service.impl.DisbursementVoucherCoverSheetServiceImpl;
 import org.kuali.module.financial.web.struts.form.DisbursementVoucherForm;
+
+import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * This class handles Actions for the DisbursementVoucher.
@@ -61,6 +66,18 @@ import org.kuali.module.financial.web.struts.form.DisbursementVoucherForm;
 public class DisbursementVoucherAction extends KualiTransactionalDocumentActionBase {
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherAction.class);
+
+    /**
+     * Do initialization for a new disbursement voucher
+     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#createDocument(org.kuali.core.web.struts.form.KualiDocumentFormBase)
+     */
+    protected void createDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
+        super.createDocument(kualiDocumentFormBase);
+        ((DisbursementVoucherDocument) kualiDocumentFormBase.getDocument()).initiateDocument();
+
+        // set wire charge message in form
+        ((DisbursementVoucherForm) kualiDocumentFormBase).setWireChargeMessage(retrieveWireChargeMessage());
+    }
 
     /**
      * @see org.kuali.core.web.struts.action.KualiAction#refresh(org.apache.struts.action.ActionMapping,
@@ -193,7 +210,7 @@ public class DisbursementVoucherAction extends KualiTransactionalDocumentActionB
             // call service to calculate mileage amount
             KualiDecimal mileageAmount = SpringServiceLocator.getDisbursementVoucherTravelService().calculateMileageAmount(
                     dvDocument.getDvNonEmployeeTravel().getDvPersonalCarMileageAmount());
-            
+
             dvDocument.getDvNonEmployeeTravel().setDisbVchrMileageCalculatedAmt(mileageAmount);
             dvDocument.getDvNonEmployeeTravel().setDisbVchrPersonalCarAmount(mileageAmount);
         }
@@ -267,7 +284,7 @@ public class DisbursementVoucherAction extends KualiTransactionalDocumentActionB
 
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
-    
+
     /**
      * Deletes a pre paid travel expense line.
      * @param mapping
@@ -433,5 +450,18 @@ public class DisbursementVoucherAction extends KualiTransactionalDocumentActionB
         return super.performLookup(mapping, form, request, response);
     }
 
+    /*
+     * Builds the wire charge message for the current fiscal year.
+     */
+    private String retrieveWireChargeMessage() {
+        String message = SpringServiceLocator.getKualiConfigurationService().getPropertyString(KeyConstants.MESSAGE_DV_WIRE_CHARGE);
+        WireCharge wireCharge = new WireCharge();
+        wireCharge.setUniversityFiscalYear(SpringServiceLocator.getDateTimeService().getCurrentFiscalYear());
+
+        wireCharge = (WireCharge) SpringServiceLocator.getBusinessObjectService().retrieve(wireCharge);
+        Object[] args = { wireCharge.getDomesticChargeAmt(), wireCharge.getForeignChargeAmt() };
+        
+        return MessageFormat.format(message, args);
+    }
 
 }

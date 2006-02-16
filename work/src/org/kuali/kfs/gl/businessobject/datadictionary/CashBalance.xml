@@ -4,7 +4,7 @@
     "../../../core/datadictionary/dataDictionary-1_0.dtd">
 	
 <dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.gl.bo.Balance">
+    <businessObject businessObjectClass="org.kuali.module.gl.bo.CashBalance">
         <customAttributeEnabled>false</customAttributeEnabled>
         <inquiry>
             <title>Cash Balance</title>

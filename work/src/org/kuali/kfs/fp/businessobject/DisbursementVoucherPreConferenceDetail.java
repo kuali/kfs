@@ -170,7 +170,7 @@ public class DisbursementVoucherPreConferenceDetail extends BusinessObjectBase {
         if (dvPreConferenceRegistrants != null) {
             for (Iterator iter = dvPreConferenceRegistrants.iterator(); iter.hasNext();) {
                 DisbursementVoucherPreConferenceRegistrant registrantLine = (DisbursementVoucherPreConferenceRegistrant) iter.next();
-                totalConferenceAmount.add(registrantLine.getDisbVchrExpenseAmount());
+                totalConferenceAmount = totalConferenceAmount.add(registrantLine.getDisbVchrExpenseAmount());
             }
         }
         

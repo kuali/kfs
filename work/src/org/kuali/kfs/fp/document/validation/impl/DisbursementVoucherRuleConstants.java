@@ -129,7 +129,9 @@ public interface DisbursementVoucherRuleConstants {
     public static String CAMPUS_CODE_PARM_PREFIX = "CAMPUS_CODE_";
     public static String SUB_FUND_CODE_PARM_PREFIX = "SUB_FUND_";
     public static String TRAVEL_PER_DIEM_MESSAGE_PARM_NM = "TRAVEL_PER_DIEM_LINK_PAGE_MESSAGE";
-
+    public static String DEFAULT_DOC_LOCATION_PARM_NM = "DEFAULT_DOCUMENTATION_LOCATION";
+    public static String ALLOW_OBJECT_CODE_EDITS = "ALLOW_ROUTE_OBJECT_CODE_EDITS";
+    
     public static String TAX_TYPE_SSN = "1";
     public static String TAX_TYPE_FEIN = "0";
     public static String UNITED_STATES_COUNTRY_NAME = "USA";

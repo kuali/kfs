@@ -22,7 +22,6 @@
  */
 package org.kuali.module.financial.rules;
 
-import java.util.Date;
 import java.util.Iterator;
 
 import org.apache.commons.lang.StringUtils;
@@ -43,11 +42,14 @@ import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
+import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.financial.bo.DisbursementVoucherPayeeDetail;
 import org.kuali.module.financial.bo.NonResidentAlienTaxPercent;
 import org.kuali.module.financial.bo.Payee;
+import org.kuali.module.financial.bo.WireCharge;
 import org.kuali.module.financial.document.DisbursementVoucherDocument;
 import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 
@@ -57,7 +59,8 @@ import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
  * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
-public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBase implements DisbursementVoucherRuleConstants, GenerateGeneralLedgerDocumentPendingEntriesRule {
+public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBase implements DisbursementVoucherRuleConstants,
+        GenerateGeneralLedgerDocumentPendingEntriesRule {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherDocumentRule.class);
 
     public DisbursementVoucherDocumentRule() {
@@ -70,6 +73,8 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
     public boolean processCustomAddAccountingLineBusinessRules(TransactionalDocument transactionalDocument,
             AccountingLine accountingLine) {
         boolean allow = true;
+
+        LOG.debug("validating accounting line # " + accountingLine.getSequenceNumber());
 
         DisbursementVoucherDocument dvDocument = (DisbursementVoucherDocument) transactionalDocument;
         ErrorMap errors = GlobalVariables.getErrorMap();
@@ -88,8 +93,13 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
             return false;
         }
 
+        LOG.debug("beginning object code validation ");
         allow = validateObjectCode(transactionalDocument, accountingLine);
+
+        LOG.debug("beginning account number validation ");
         allow = allow & validateAccountNumber(transactionalDocument, accountingLine);
+
+        LOG.debug("end validating accounting line, has errors: " + allow);
 
         return allow;
     }
@@ -105,46 +115,61 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
 
         GlobalVariables.getErrorMap().addToErrorPath("document");
 
+        LOG.debug("processing route rules for document " + document.getFinancialDocumentNumber());
+
         validateDocumentFields(dvDocument);
+
+        LOG.debug("validating payment reason");
         validatePaymentReason(dvDocument);
 
         if (payeeDetail.isPayee()) {
+            LOG.debug("validating payee information");
             validatePayeeInformation(dvDocument);
         }
 
         if (payeeDetail.isEmployee()) {
+            LOG.debug("validating employee information");
             validateEmployeeInformation(dvDocument);
         }
 
         /* specific validation depending on payment method */
         if (PAYMENT_METHOD_WIRE.equals(dvDocument.getDisbVchrPaymentMethodCode())) {
+            LOG.debug("validating wire transfer");
             validateWireTransfer(dvDocument);
         }
         else if (PAYMENT_METHOD_DRAFT.equals(dvDocument.getDisbVchrPaymentMethodCode())) {
+            LOG.debug("validating foreign draft");
             validateForeignDraft(dvDocument);
         }
 
         /* if nra payment and user is in tax group, check nra tab */
         if (dvDocument.getDvPayeeDetail().isDisbVchrAlienPaymentCode() && isUserInTaxGroup()) {
+            LOG.debug("validating non resident alien tax");
             validateNonResidentAlienInformation(dvDocument);
         }
 
         // non-employee travel
         if (RulesUtils.makeSet(TRAVEL_NON_EMPL_PAYMENT_REASON_CODES).contains(
                 dvDocument.getDvPayeeDetail().getDisbVchrPaymentReasonCode())) {
+            LOG.debug("validating non employee travel");
             validateNonEmployeeTravel(dvDocument);
         }
 
         // pre-paid travel
         if (PAYMENT_REASON_PREPAID_TRAVEL.equals(dvDocument.getDvPayeeDetail().getDisbVchrPaymentReasonCode())) {
+            LOG.debug("validating pre paid travel");
             validatePrePaidTravel(dvDocument);
         }
 
+        LOG.debug("validating document amounts");
         validateDocumentAmounts(dvDocument);
 
+        LOG.debug("validating documentaton location");
         validateDocumentationLocation(dvDocument);
 
         GlobalVariables.getErrorMap().removeFromErrorPath("document");
+
+        LOG.debug("finished route validation for document, has errors: " + !GlobalVariables.getErrorMap().isEmpty());
 
         return GlobalVariables.getErrorMap().isEmpty();
     }
@@ -160,26 +185,141 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
 
         /* change document type based on payment method to pick up different offsets */
         if (PAYMENT_METHOD_CHECK.equals(dvDocument.getDisbVchrPaymentMethodCode())) {
+            LOG.debug("changing doc type on pending entry " + explicitEntry.getTrnEntryLedgerSequenceNumber() + " to "
+                    + DOCUMENT_TYPE_CHECKACH);
             explicitEntry.setFinancialDocumentTypeCode(DOCUMENT_TYPE_CHECKACH);
         }
         else {
+            LOG.debug("changing doc type on pending entry " + explicitEntry.getTrnEntryLedgerSequenceNumber() + " to "
+                    + DOCUMENT_TYPE_CHECKACH);
             explicitEntry.setFinancialDocumentTypeCode(DOCUMENT_TYPE_WTFD);
         }
     }
-    
-    
+
+
     /**
-     * @see org.kuali.core.rule.GenerateGeneralLedgerDocumentPendingEntriesRule#processGenerateGeneralLedgerPendingEntries(org.kuali.core.document.TransactionalDocument, org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper)
+     * @see org.kuali.core.rule.GenerateGeneralLedgerDocumentPendingEntriesRule#processGenerateDocumentGeneralLedgerPendingEntries(org.kuali.core.document.TransactionalDocument,
+     *      org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper)
      */
-    public boolean processGenerateGeneralLedgerPendingEntries(TransactionalDocument transactionalDocument,
+    public boolean processGenerateDocumentGeneralLedgerPendingEntries(TransactionalDocument transactionalDocument,
             GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
-        // TODO Auto-generated method stub
-        return false;
+        DisbursementVoucherDocument dvDocument = (DisbursementVoucherDocument) transactionalDocument;
+        if (dvDocument.getGeneralLedgerPendingEntries() == null || dvDocument.getGeneralLedgerPendingEntries().size() < 2) {
+            LOG.error("No gl entries for accounting lines.");
+            throw new RuntimeException("No gl entries for accounting lines.");
+        }
+
+        /*
+         * only generate additonal charge entries for payment method wire charge, and if the fee has not been waived
+         */
+        if (PAYMENT_METHOD_WIRE.equals(dvDocument.getDisbVchrPaymentMethodCode())
+                && !dvDocument.getDvWireTransfer().isDisbursementVoucherWireTransferFeeWaiverIndicator()) {
+            LOG.debug("generating wire charge gl pending entries.");
+
+            // retrieve wire charge
+            WireCharge wireCharge = retrieveWireCharge();
+
+            // generate debits
+            GeneralLedgerPendingEntry chargeEntry = processWireChargeDebitEntries(dvDocument, sequenceHelper, wireCharge);
+
+            // generate credits
+            processWireChargeCreditEntries(dvDocument, sequenceHelper, wireCharge, chargeEntry);
+        }
+
+        return true;
     }
 
+    /**
+     * Builds an explicit and offset for the wire charge debit. The account associated with the first accounting is used for the
+     * debit. The explicit and offset entries for the first accounting line and copied and customized for the wire charge.
+     * @param transactionalDocument
+     * @param wireCharge
+     */
+    private GeneralLedgerPendingEntry processWireChargeDebitEntries(DisbursementVoucherDocument dvDocument,
+            GeneralLedgerPendingEntrySequenceHelper sequenceHelper, WireCharge wireCharge) {
 
-    private void processGenerateWireChargeGeneralLedgerPendingEntries(TransactionalDocument transactionalDocument, AccountingLine accountingLine) {
+        // increment the sequence counter
+        sequenceHelper.increment();
 
+        // grab the explicit entry for the first accounting line and adjust for wire charge entry
+        GeneralLedgerPendingEntry explicitEntry = (GeneralLedgerPendingEntry) ObjectUtils.deepCopy(dvDocument
+                .getGeneralLedgerPendingEntry(0));
+        explicitEntry.setTrnEntryLedgerSequenceNumber(new Integer(sequenceHelper.getSequenceCounter()));
+        explicitEntry.setFinancialObjectCode(wireCharge.getExpenseFinancialObjectCode());
+        explicitEntry.setFinancialSubObjectCode(GENERAL_LEDGER_PENDING_ENTRY_CODE.BLANK_SUB_OBJECT_CODE);
+        explicitEntry.setFinancialObjectTypeCode(OBJECT_TYPE_CODE.EXPENSE_EXPENDITURE);
+        explicitEntry.setTransactionDebitCreditCode(GENERAL_LEDGER_PENDING_ENTRY_CODE.DEBIT);
+
+        if (dvDocument.getDvWireTransfer().isDisbVchrForeignBankIndicator()) {
+            explicitEntry.setTransactionLedgerEntryAmount(wireCharge.getForeignChargeAmt());
+        }
+        else {
+            explicitEntry.setTransactionLedgerEntryAmount(wireCharge.getDomesticChargeAmt());
+        }
+
+        explicitEntry.setTransactionLedgerEntryDesc("Automatic debit for wire transfer fee");
+
+        dvDocument.getGeneralLedgerPendingEntries().add(explicitEntry);
+
+        // create offset
+        sequenceHelper.increment();
+
+        // handle the offset entry
+        GeneralLedgerPendingEntry offsetEntry = (GeneralLedgerPendingEntry) ObjectUtils.deepCopy(explicitEntry);
+        populateOffsetGeneralLedgerPendingEntry(dvDocument, explicitEntry, sequenceHelper, offsetEntry);
+
+        dvDocument.getGeneralLedgerPendingEntries().add(offsetEntry);
+
+        return explicitEntry;
+    }
+
+    /**
+     * Builds an explicit and offset for the wire charge credit. The account and income object code found in the wire charge table
+     * is used for the entry.
+     * @param transactionalDocument
+     * @param wireCharge
+     */
+    private void processWireChargeCreditEntries(DisbursementVoucherDocument dvDocument,
+            GeneralLedgerPendingEntrySequenceHelper sequenceHelper, WireCharge wireCharge, GeneralLedgerPendingEntry chargeEntry) {
+
+        // increment the sequence counter
+        sequenceHelper.increment();
+
+        // copy the charge entry and adjust for credit
+        GeneralLedgerPendingEntry explicitEntry = (GeneralLedgerPendingEntry) ObjectUtils.deepCopy(chargeEntry);
+        explicitEntry.setTrnEntryLedgerSequenceNumber(new Integer(sequenceHelper.getSequenceCounter()));
+        explicitEntry.setChartOfAccountsCode(wireCharge.getChartOfAccountsCode());
+        explicitEntry.setAccountNumber(wireCharge.getAccountNumber());
+        explicitEntry.setFinancialObjectCode(wireCharge.getIncomeFinancialObjectCode());
+
+        // retrieve object type
+        ObjectCode objectCode = new ObjectCode();
+        objectCode.setUniversityFiscalYear(explicitEntry.getUniversityFiscalYear());
+        objectCode.setChartOfAccountsCode(wireCharge.getChartOfAccountsCode());
+        objectCode.setFinancialObjectCode(wireCharge.getIncomeFinancialObjectCode());
+        objectCode = (ObjectCode) SpringServiceLocator.getBusinessObjectService().retrieve(objectCode);
+
+        explicitEntry.setFinancialObjectTypeCode(objectCode.getFinancialObjectTypeCode());
+        explicitEntry.setTransactionDebitCreditCode(GENERAL_LEDGER_PENDING_ENTRY_CODE.CREDIT);
+
+        // TODO: get sufficient funds object code
+
+        explicitEntry.setFinancialSubObjectCode(GENERAL_LEDGER_PENDING_ENTRY_CODE.BLANK_SUB_OBJECT_CODE);
+        explicitEntry.setSubAccountNumber(GENERAL_LEDGER_PENDING_ENTRY_CODE.BLANK_SUB_ACCOUNT_NUMBER);
+        explicitEntry.setProjectCode(GENERAL_LEDGER_PENDING_ENTRY_CODE.BLANK_PROJECT_STRING);
+
+        explicitEntry.setTransactionLedgerEntryDesc("Automatic credit for wire transfer fee");
+
+        dvDocument.getGeneralLedgerPendingEntries().add(explicitEntry);
+
+        // create offset
+        sequenceHelper.increment();
+
+        // handle the offset entry
+        GeneralLedgerPendingEntry offsetEntry = (GeneralLedgerPendingEntry) ObjectUtils.deepCopy(explicitEntry);
+        populateOffsetGeneralLedgerPendingEntry(dvDocument, explicitEntry, sequenceHelper, offsetEntry);
+
+        dvDocument.getGeneralLedgerPendingEntries().add(offsetEntry);
     }
 
 
@@ -198,12 +338,6 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
         errors.removeFromErrorPath("dvPayeeDetail");
         if (!errors.isEmpty()) {
             return;
-        }
-
-        /* make sure due date is not before today */
-        Date today = SpringServiceLocator.getDateTimeService().getCurrentDate();
-        if (document.getDisbursementVoucherDueDate().compareTo(today) < 0) {
-            errors.put("disbursementVoucherDueDate", KeyConstants.ERROR_DV_DUE_DATE);
         }
 
         /* remit name & address required if special handling is indicated */
@@ -252,13 +386,10 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
         errors.addToErrorPath("dvWireTransfer");
         SpringServiceLocator.getDictionaryValidationService().validateBusinessObject(document.getDvWireTransfer());
         errors.removeFromErrorPath("dvWireTransfer");
-        if (!errors.isEmpty()) {
-            return;
-        }
 
         if (!document.getDvWireTransfer().isDisbVchrForeignBankIndicator()
                 && StringUtils.isBlank(document.getDvWireTransfer().getDisbVchrBankRoutingNumber())) {
-            errors.put("dvWireTransfer.DisbVchrBankRoutingNumber", KeyConstants.ERROR_DV_BANK_ROUTING_NUMBER);
+            errors.put("dvWireTransfer.disbVchrBankRoutingNumber", KeyConstants.ERROR_DV_BANK_ROUTING_NUMBER);
         }
 
         if (!document.getDvWireTransfer().isDisbVchrForeignBankIndicator()
@@ -382,7 +513,8 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
         ErrorMap errors = GlobalVariables.getErrorMap();
 
         errors.addToErrorPath("dvNonEmployeeTravel");
-        SpringServiceLocator.getDictionaryValidationService().validateBusinessObjectsRecursively(document.getDvNonEmployeeTravel(),1);
+        SpringServiceLocator.getDictionaryValidationService().validateBusinessObjectsRecursively(document.getDvNonEmployeeTravel(),
+                1);
         if (!errors.isEmpty()) {
             return;
         }
@@ -446,7 +578,7 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
 
         errors.addToErrorPath("dvPreConferenceDetail");
         SpringServiceLocator.getDictionaryValidationService().validateBusinessObjectsRecursively(
-                document.getDvPreConferenceDetail(),1);
+                document.getDvPreConferenceDetail(), 1);
         if (!errors.isEmpty()) {
             return;
         }
@@ -789,6 +921,23 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
         }
 
         return initUser;
+    }
+
+    /**
+     * Retrieves the wire transfer information for the current fiscal year.
+     * @return
+     */
+    private WireCharge retrieveWireCharge() {
+        WireCharge wireCharge = new WireCharge();
+        wireCharge.setUniversityFiscalYear(SpringServiceLocator.getDateTimeService().getCurrentFiscalYear());
+
+        wireCharge = (WireCharge) SpringServiceLocator.getBusinessObjectService().retrieve(wireCharge);
+        if (wireCharge == null) {
+            LOG.error("Wire charge information not found for current fiscal year.");
+            throw new RuntimeException("Wire charge information not found for current fiscal year.");
+        }
+
+        return wireCharge;
     }
 
     /**

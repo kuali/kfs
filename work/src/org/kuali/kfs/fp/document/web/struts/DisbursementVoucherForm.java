@@ -49,6 +49,7 @@ public class DisbursementVoucherForm extends KualiTransactionalDocumentFormBase 
     private DisbursementVoucherPreConferenceRegistrant newPreConferenceRegistrantLine;
 
     private String nraTaxLineNumbers;
+    private String wireChargeMessage;
 
     public DisbursementVoucherForm() {
         super();
@@ -111,8 +112,22 @@ public class DisbursementVoucherForm extends KualiTransactionalDocumentFormBase 
     public void setNewPrePaidNonEmployeeExpenseLine(DisbursementVoucherNonEmployeeExpense newPrePaidNonEmployeeExpenseLine) {
         this.newPrePaidNonEmployeeExpenseLine = newPrePaidNonEmployeeExpenseLine;
     }
-    
-   /**
+
+    /**
+     * @return Returns the wireChargeMessage.
+     */
+    public String getWireChargeMessage() {
+        return wireChargeMessage;
+    }
+
+    /**
+     * @param wireChargeMessage The wireChargeMessage to set.
+     */
+    public void setWireChargeMessage(String wireChargeMessage) {
+        this.wireChargeMessage = wireChargeMessage;
+    }
+
+    /**
      * 
      * determines if the DV document is in a state that allows printing of the cover sheet
      * 
@@ -144,4 +159,5 @@ public class DisbursementVoucherForm extends KualiTransactionalDocumentFormBase 
                 DisbursementVoucherRuleConstants.DV_DOCUMENT_PARAMETERS_GROUP_NM,
                 DisbursementVoucherRuleConstants.TRAVEL_PER_DIEM_MESSAGE_PARM_NM);
     }
+
 }

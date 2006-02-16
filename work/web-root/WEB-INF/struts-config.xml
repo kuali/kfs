@@ -6,7 +6,7 @@
        <form-bean name="QuestionPromptForm" type="org.kuali.core.web.struts.form.QuestionPromptForm" />
        <form-bean name="LookupForm" type="org.kuali.core.web.struts.form.LookupForm" />
        <form-bean name="InquiryForm" type="org.kuali.core.web.struts.form.InquiryForm" />
-       <form-bean name="KualiBalanceInquiryForm" type="org.kuali.core.web.struts.form.KualiBalanceInquiryForm" />
+       <form-bean name="KualiBalanceInquiryReportMenuForm" type="org.kuali.core.web.struts.form.KualiBalanceInquiryReportMenuForm" />
        <form-bean name="KualiMaintenanceForm" type="org.kuali.core.web.struts.form.KualiMaintenanceForm" />
        <form-bean name="KualiHelpForm" type="org.kuali.core.web.struts.form.KualiHelpForm" />
        <form-bean name="KualiForm" type="org.kuali.core.web.struts.form.KualiForm" />
@@ -96,8 +96,8 @@
           	<forward name="basic" path="/jsp/core/KualiInquiry.jsp" />
         </action>
         
-        <action path="/balanceInquiry" name="KualiBalanceInquiryForm" scope="request" attribute="KualiForm" parameter="methodToCall" type="org.kuali.core.web.struts.action.KualiBalanceInquiryAction">
-          	<forward name="basic" path="/jsp/core/KualiBalanceInquiry.jsp" />
+        <action path="/balanceInquiryReportMenu" name="KualiBalanceInquiryReportMenuForm" scope="request" attribute="KualiForm" parameter="methodToCall" type="org.kuali.core.web.struts.action.KualiBalanceInquiryReportMenuAction">
+          	<forward name="basic" path="/jsp/core/KualiBalanceInquiryReportMenu.jsp" />
         </action>
         
         <action path="/maintenance" name="KualiMaintenanceForm" attribute="KualiForm" scope="request" parameter="methodToCall" validate="false" input="/jsp/core/KualiMaintenanceDocument.jsp" type="org.kuali.core.web.struts.action.KualiMaintenanceDocumentAction">

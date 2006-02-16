@@ -278,26 +278,21 @@
             </c:set>
             <c:set var="deleteMethod" value="delete${actionInfix}Line.line${accountingLineIndex}" />
             <c:set var="revertMethod" value="revert${actionInfix}Line.line${accountingLineIndex}" />
+            <c:set var="balanceInquiryMethod" value="performBalanceInquiryFor${actionInfix}Line.line${accountingLineIndex}" />
 
-            <td rowspan="${rowCount}" class="${dataCellCssClass}" nowrap><div align="center">
-                <table align="center">
-                  <tr>
-                    <td>
-		                <%-- persist accountingLineDecorator --%>
-        		        <html:hidden name="KualiForm" property="${decorator}.revertible" />
-		
-        		        <html:image property="methodToCall.${deleteMethod}" src="images/tinybutton-delete1.gif" alt="delete" styleClass="tinybutton"/>
-                		<c:if test="${revertible}">
-                    		<br>
-                    		<html:image property="methodToCall.${revertMethod}" src="images/tinybutton-revert1.gif" alt="revert" styleClass="tinybutton"/>
-                		</c:if>
-                	</td>
-                	<td valign="middle">
-                	  <kul:balanceInquiry />
-                	</td>
-                  </tr>
-                </table>
-                <fin:accountingLineDataCellDetail/></div>
+            <td rowspan="${rowCount}" class="${dataCellCssClass}" nowrap>
+                <div align="center">
+                <%-- persist accountingLineDecorator --%>
+		        <html:hidden name="KualiForm" property="${decorator}.revertible" />
+
+		        <html:image property="methodToCall.${deleteMethod}" src="images/tinybutton-delete1.gif" alt="delete" styleClass="tinybutton"/>
+        		<c:if test="${revertible}">
+            		<br>
+            		<html:image property="methodToCall.${revertMethod}" src="images/tinybutton-revert1.gif" alt="revert" styleClass="tinybutton"/>
+        		</c:if>
+        		<br>
+        		<html:image property="methodToCall.${balanceInquiryMethod}" src="images/tinybutton-balinquiry.gif" alt="balance inquiry" styleClass="tinybutton" />
+                </div>
             </td>
         </c:when>
     </c:choose>

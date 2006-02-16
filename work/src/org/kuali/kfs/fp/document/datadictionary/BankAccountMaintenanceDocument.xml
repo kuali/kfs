@@ -41,6 +41,10 @@
 	            	<maintainableField name="organizationCode" />	     
 	            	<maintainableField name="universityAcctChartOfAcctCd" />
 	            	<maintainableField name="universityAccountNumber" />	     	                   
+				    <maintainableField name="cashOffsetFinancialChartOfAccountCode" />
+				    <maintainableField name="cashOffsetAccountNumber" />				
+				    <maintainableField name="cashOffsetObjectCode" />				
+				    <maintainableField name="cashOffsetSubObjectCode" />
 	         	</maintainableItems>
 	        </maintainableSection>
 	    </maintainableSections>

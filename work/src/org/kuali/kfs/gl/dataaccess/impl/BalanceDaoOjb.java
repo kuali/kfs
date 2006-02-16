@@ -4,7 +4,9 @@
  */
 package org.kuali.module.gl.dao.ojb;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -30,6 +32,17 @@ public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements Balanc
 
     public BalanceDaoOjb() {
         super();
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.kuali.module.gl.dao.BalanceDao#save(org.kuali.module.gl.bo.Balance)
+     */
+    public void save(Balance b) {
+        LOG.debug("save() started");
+
+        getPersistenceBrokerTemplate().store(b);
     }
 
     /*
@@ -139,6 +152,74 @@ public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements Balanc
      * @see org.kuali.module.gl.dao.BalanceDao#findCashBalance(java.util.Map, boolean)
      */
     public Iterator findCashBalance(Map fieldValues, boolean isConsolidated) {
+        
+        Criteria criteria = buildCriteriaFromMap(fieldValues, new Balance());
+        criteria.addEqualTo("balanceTypeCode", "AC");
+        criteria.addEqualToField("chart.financialCashObjectCode", "objectCode");
+
+        ReportQueryByCriteria query = new ReportQueryByCriteria(Balance.class, criteria);
+        
+        List attributeList = buildAttributeList(false);
+        List groupByList   = buildGroupByList();
+        
+        // if consolidated, then ignore subaccount number
+        if(isConsolidated){
+            attributeList.remove("subAccountNumber");
+            groupByList.remove("subAccountNumber");
+        }   
+        
+        // set the selection attributes
+        String[] attributes = (String [])attributeList.toArray();
+        query.setAttributes(attributes);
+        
+        // add the group criteria into the selection statement
+        String[] groupBy = (String [])groupByList.toArray();
+        query.addGroupBy(groupBy);
+
+        Iterator cashBalance = getPersistenceBrokerTemplate()
+                .getReportQueryIteratorByQuery(query);
+
+        return cashBalance;
+    }
+
+    /**
+     * @see org.kuali.module.gl.dao.BalanceDao#findBalance(java.util.Map, boolean)
+     */
+    public Iterator findBalance(Map fieldValues, boolean isConsolidated) {
+        
+        Criteria criteria = buildCriteriaFromMap(fieldValues, new Balance());
+        ReportQueryByCriteria query = new ReportQueryByCriteria(Balance.class, criteria);
+        
+        List attributeList = buildAttributeList(false);
+        List groupByList   = buildGroupByList();
+        
+        // if consolidated, then ignore subaccount number
+        if(isConsolidated){
+            attributeList.remove("subAccountNumber");
+            groupByList.remove("subAccountNumber");
+        }   
+        
+        // set the selection attributes
+        String[] attributes = (String [])attributeList.toArray();
+        query.setAttributes(attributes);
+        
+        // add the group criteria into the selection statement
+        String[] groupBy = (String [])groupByList.toArray();
+        query.addGroupBy(groupBy);
+
+        Iterator balance = getPersistenceBrokerTemplate()
+                .getReportQueryIteratorByQuery(query);
+
+        return balance;
+    }
+    
+    /**
+     * This method builds the query criteria based on the input field map
+     * @param fieldValues
+     * @param balance
+     * @return a query criteria
+     */
+    private Criteria buildCriteriaFromMap(Map fieldValues, Balance balance){
         Criteria criteria = new Criteria();
 
         Iterator propsIter = fieldValues.keySet().iterator();
@@ -148,62 +229,65 @@ public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements Balanc
 
             // if searchValue is empty and the key is not a valid property ignore
             if (StringUtils.isBlank(propertyValue)
-                    || !(PropertyUtils.isWriteable(new Balance(), propertyName))) {
+                    || !(PropertyUtils.isWriteable(balance, propertyName))) {
                 continue;
             }
             criteria.addEqualTo(propertyName, propertyValue);
-        }
-        criteria.addEqualTo("balanceTypeCode", "AC");
-        criteria.addEqualToField("chart.financialCashObjectCode", "objectCode");
-
-        ReportQueryByCriteria query = new ReportQueryByCriteria(Balance.class, criteria);
-        
-        // set the selection attributes
-        // if consolidated, then ignore subaccount number
-        String [] attributes = null;
-        if(isConsolidated){
-	        attributes = new String[] 
-	               {"universityFiscalYear", "chartOfAccountsCode",
-	                "accountNumber", "balanceTypeCode", "objectCode",
-	                "sum(accountLineAnnualBalanceAmount)", 
-	                "sum(beginningBalanceLineAmount)",
-	                "sum(contractsGrantsBeginningBalanceAmount)" 
-	             	};
-        }
-        else{
-            attributes = new String[] 
-                   {"universityFiscalYear", "chartOfAccountsCode",
-                    "accountNumber", "subAccountNumber",
-                    "balanceTypeCode", "objectCode",
-                    "sum(accountLineAnnualBalanceAmount)", 
-                    "sum(beginningBalanceLineAmount)",
-                    "sum(contractsGrantsBeginningBalanceAmount)" 
-                 	};
-        }      
-        query.setAttributes(attributes);
-
-        // add the group criteria into the selection statement
-        query.addGroupBy("universityFiscalYear");
-        query.addGroupBy("chartOfAccountsCode");
-        query.addGroupBy("accountNumber");
-        query.addGroupBy("balanceTypeCode");
-        query.addGroupBy("objectCode");
-        if(!isConsolidated) query.addGroupBy("subAccountNumber");
-
-        Iterator cashBalance = getPersistenceBrokerTemplate()
-                .getReportQueryIteratorByQuery(query);
-
-        return cashBalance;
+        }     
+        return criteria;
     }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.kuali.module.gl.dao.BalanceDao#save(org.kuali.module.gl.bo.Balance)
+    
+    /**
+     * This method builds the atrribute list used by balance searching
+     * @param isExtended
+     * @return List an attribute list
      */
-    public void save(Balance b) {
-        LOG.debug("save() started");
-
-        getPersistenceBrokerTemplate().store(b);
+    private List buildAttributeList(boolean isExtended){
+        List attributeList = new ArrayList();
+        
+        attributeList.add("universityFiscalYear");
+        attributeList.add("chartOfAccountsCode");
+        attributeList.add("accountNumber");
+        attributeList.add("subAccountNumber");
+        attributeList.add("balanceTypeCode");
+        attributeList.add("objectCode");
+        attributeList.add("sum(accountLineAnnualBalanceAmount)");
+        attributeList.add("sum(contractsGrantsBeginningBalanceAmount)");
+        attributeList.add("sum(contractsGrantsBeginningBalanceAmount)");
+        
+        // add the entended elements into the list
+        if(isExtended){
+	        attributeList.add("sum(month1Amount)");
+	        attributeList.add("sum(month2Amount)");
+	        attributeList.add("sum(month3Amount)");
+	        attributeList.add("sum(month4Amount)");        
+	        attributeList.add("sum(month5Amount)");
+	        attributeList.add("sum(month6Amount)");
+	        attributeList.add("sum(month7Amount)");
+	        attributeList.add("sum(month8Amount)"); 
+	        attributeList.add("sum(month9Amount)");
+	        attributeList.add("sum(month10Amount)");
+	        attributeList.add("sum(month11Amount)");
+	        attributeList.add("sum(month12Amount)");
+	        attributeList.add("sum(month13Amount)");
+        }    
+        return attributeList;
+    }
+    
+    /**
+     * This method builds group by attribute list used by balance searching
+     * @return List an group by attribute list
+     */
+    private List buildGroupByList(){
+        List attributeList = new ArrayList();
+        
+        attributeList.add("universityFiscalYear");
+        attributeList.add("chartOfAccountsCode");
+        attributeList.add("accountNumber");
+        attributeList.add("balanceTypeCode");
+        attributeList.add("objectCode");
+        attributeList.add("subAccountNumber");
+        
+        return attributeList;
     }
 }

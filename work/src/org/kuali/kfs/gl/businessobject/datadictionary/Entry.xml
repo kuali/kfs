@@ -11,10 +11,7 @@
                 <field attributeName="universityFiscalYear" />
                 <field attributeName="chartOfAccountsCode" />                
                 <field attributeName="accountNumber" />
-                <field attributeName="subAccountNumber" />
-                <field attributeName="projectCode" noInquiry="true"/>              
-
-                <!--
+                <field attributeName="subAccountNumber" />              
                 <field attributeName="financialObjectCode" />
 				<field attributeName="financialSubObjectCode" />                
 				<field attributeName="financialBalanceTypeCode" />  
@@ -39,7 +36,6 @@
                 <field attributeName="transactionPostingDate" />
                 <field attributeName="transactionDateTimeStamp" />
                 <field attributeName="budgetYear" />
-                -->
             </inquiryFields>
         </inquiry>
         
@@ -118,7 +114,7 @@
 			<attributeReference name="financialBalanceTypeCode" 
 				sourceClassName="org.kuali.module.chart.bo.codes.BalanceTyp" 
 				sourceAttributeName="code">
-				<label>Balance Type</label>
+				<label>Balance Type Code</label>
                 <shortLabel>Balance Type</shortLabel>
                 <maxLength>2</maxLength>
                 <control>

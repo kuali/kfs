@@ -15,25 +15,37 @@
         </inquiry>
 		
         <lookup>
+	        <lookupableID>glBalanceLookupable</lookupableID>  	
 			<title>General Ledger Balance</title>			
-			<instructions>Lookup Cash Balance for the specific account.</instructions>
+			<instructions>Lookup General Ledger balance for the specific accounts.</instructions>
 			
 			<defaultSort attributeName="accountNumber" />
 			
 			<lookupFields>
-				<lookupField attributeName="universityFiscalYear" required="true"/>
+				<lookupField attributeName="universityFiscalYear" required="true">
+				    <defaultValueFinderClass>
+						org.kuali.core.lookup.valueFinder.FiscalYearFinder
+					</defaultValueFinderClass>
+                </lookupField>
+                
 				<lookupField attributeName="chartOfAccountsCode" required="true"/>
 				<lookupField attributeName="accountNumber" noLookup="false"/>
 				<lookupField attributeName="subAccountNumber"/>
 				<lookupField attributeName="objectCode"/>
-				<lookupField attributeName="subObjectCode"/>
-				<!--
-				<lookupField attributeName="balance.dummyBusinessObject.consolidationOption">
+				<lookupField attributeName="subObjectCode"/> 
+				<lookupField attributeName="balanceTypeCode" required="true"/> 
+						
+				<lookupField attributeName="dummyBusinessObject.consolidationOption">
 					<defaultValueFinderClass>
 						org.kuali.module.gl.web.GLConsolidationOptionFinder
 					</defaultValueFinderClass>
 				</lookupField>
-				-->
+				
+				<lookupField attributeName="dummyBusinessObject.amountViewOption">
+					<defaultValueFinderClass>
+						org.kuali.module.gl.web.GLAmountViewOptionFinder
+					</defaultValueFinderClass>
+				</lookupField>				
 			</lookupFields>
 			
 			<resultFields>
@@ -41,9 +53,27 @@
 				<field attributeName="chartOfAccountsCode"/>
 				<field attributeName="accountNumber"/>
 				<field attributeName="subAccountNumber"/>
+				<field attributeName="objectCode"/>
+				<field attributeName="subObjectCode"/>
+				<field attributeName="objectTypeCode"/>
+				<field attributeName="balanceTypeCode"/>				
 				<field attributeName="accountLineAnnualBalanceAmount"/>
 				<field attributeName="beginningBalanceLineAmount"/>
-				<field attributeName="contractsGrantsBeginningBalanceAmount"/> 
+				<field attributeName="contractsGrantsBeginningBalanceAmount"/>
+				<field attributeName="dummyBusinessObject.genericAmount"/>
+				  
+				<field attributeName="month1Amount"/>
+				<field attributeName="month2Amount"/>
+				<field attributeName="month3Amount"/>
+				<field attributeName="month4Amount"/>
+				<field attributeName="month5Amount"/>
+				<field attributeName="month6Amount"/>
+				<field attributeName="month7Amount"/>
+				<field attributeName="month8Amount"/>
+				<field attributeName="month9Amount"/>
+				<field attributeName="month10Amount"/>
+				<field attributeName="month11Amount"/>
+				<field attributeName="month12Amount"/>				
 			</resultFields>
 		</lookup>
 		
@@ -72,21 +102,28 @@
             					sourceClassName="org.kuali.module.chart.bo.SubObjCd" 
             					sourceAttributeName="financialSubObjectCode" />            													
 
-			<attributeReference name="objectTypeCode"            		
-								sourceClassName="org.kuali.module.gl.bo.CashBalance" 
-            					sourceAttributeName="objectTypeCode" /> 
-            
-			<attributeReference name="balanceTypeCode" 
-            					sourceClassName="org.kuali.module.chart.bo.codes.BalanceTyp" 
-            					sourceAttributeName="financialBalanceTypeShortNm">
-                <label>Balance Type Code</label>
-                <shortLabel>Balance Type Code</shortLabel>
+			<attribute name="objectTypeCode">
+                <label>Object Type Code</label>
+                <shortLabel>Object Type Code</shortLabel>
                 <maxLength>2</maxLength>
                 <control>
                     <text size="3" />
                 </control>
-                <summary>balanceTypeCode</summary>
-                <description>balanceTypeCode description...</description>
+                <summary>objectTypeCode</summary>
+                <description>objectTypeCode description...</description>
+            </attribute>
+            
+			<attributeReference name="balanceTypeCode" 
+								sourceClassName="org.kuali.module.chart.bo.codes.BalanceTyp" 
+								sourceAttributeName="code">
+				<label>Balance Type Code</label>
+                <shortLabel>Balance Type</shortLabel>
+                <maxLength>2</maxLength>
+                <control>
+		            <select valuesFinderClass="org.kuali.core.lookup.keyvalues.BalanceTypeValuesFinder"/>
+                </control>
+                <summary>Balance Type</summary>
+                <description>Balance Type description...</description>
             </attributeReference>
 
 			<attributeReference name="accountLineAnnualBalanceAmount" 
@@ -177,21 +214,26 @@
                 <description>transactionEntryProcessed description...</description>
             </attributeReference>
             
-            <!--
-            <attributeReference name="balance.dummyBusinessObject.consolidationOption"
-								sourceClassName="org.kuali.module.gl.bo.DummyBusinessObject" 
-					            sourceAttributeName="consolidationOption" >
-	            <label>Consolidation Option</label>
-	            <shortLabel>Consolidation Option</shortLabel>
-	            <maxLength>2</maxLength>
-	            <control>
-	                <radio valuesFinderClass="org.kuali.module.gl.web.GLConsolidationOptionFinder"/>
-	            </control>
-	            <summary>Consolidation Option</summary>
-	            <description>consolidationOption description...</description>
-	        </attributeReference>  
-	        -->           					 
+            <attributeReference name="dummyBusinessObject.consolidationOption"
+					            sourceClassName="org.kuali.module.gl.bo.DummyBusinessObject" 
+					            sourceAttributeName="consolidationOption"/>
+					            
+            <attributeReference name="dummyBusinessObject.pendingEntryOption"
+					            sourceClassName="org.kuali.module.gl.bo.DummyBusinessObject" 
+					            sourceAttributeName="pendingEntryOption"/>	            					         
+
+            <attributeReference name="dummyBusinessObject.amountViewOption"
+					            sourceClassName="org.kuali.module.gl.bo.DummyBusinessObject" 
+					            sourceAttributeName="amountViewOption"/>	    
+					            	        
+			<attributeReference name="dummyBusinessObject.genericAmount"
+            					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
+            					sourceAttributeName="genericAmount"> 
+			    <label>Year End Close</label>
+                <shortLabel>Year End Close</shortLabel>
+                <summary>Year End Close</summary>
+                <description>Year End Close Amount...</description>      					
+            </attributeReference>            					 
         </attributes>
-		
     </businessObject>
 </dictionaryEntry>

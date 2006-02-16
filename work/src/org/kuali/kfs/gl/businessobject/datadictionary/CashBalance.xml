@@ -9,8 +9,10 @@
         <inquiry>
             <title>Cash Balance</title>
             <inquiryFields>
-				<field attributeName="chartOfAccountsCode" forceInquiry="true"/>
-				<field attributeName="accountNumber" forceInquiry="true"/>
+				<field attributeName="universityFiscalYear"/>
+				<field attributeName="chartOfAccountsCode"/>
+				<field attributeName="accountNumber"/>
+				<field attributeName="subAccountNumber"/>
             </inquiryFields>
         </inquiry>
 		

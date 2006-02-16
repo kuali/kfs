@@ -1519,25 +1519,25 @@
 		<foreignkey field-ref="indirectCostRecoveryAccountNumber" />
 	</reference-descriptor>
 		
-	<reference-descriptor name="costShareChart"
+	<reference-descriptor name="costShareChartOfAccount"
 		class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true"
 		auto-update="none" auto-delete="none" proxy="true">
-		<foreignkey field-ref="costShareAccountNumber" />
+		<foreignkey field-ref="costShareSourceAccountNumber" />
 	</reference-descriptor>
 	
 	<reference-descriptor name="costShareAccount"
 		class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true"
 		auto-update="none" auto-delete="none" proxy="true">
-		<foreignkey field-ref="costShareChartOfAccountsCode" />
-		<foreignkey field-ref="costShareAccountNumber" />
+		<foreignkey field-ref="costShareChartOfAccountCode" />
+		<foreignkey field-ref="costShareSourceAccountNumber" />
 	</reference-descriptor>
 	
-	<reference-descriptor name="costShareSubAccount"
+	<reference-descriptor name="costShareSourceSubAccount"
 		class-ref="org.kuali.module.chart.bo.SubAccount" auto-retrieve="true"
 		auto-update="none" auto-delete="none" proxy="true">
-		<foreignkey field-ref="costShareChartOfAccountsCode" />
-		<foreignkey field-ref="costShareAccountNumber" />
-		<foreignkey field-ref="costShareSubAccountNumber" />
+		<foreignkey field-ref="costShareChartOfAccountCode" />
+		<foreignkey field-ref="costShareSourceAccountNumber" />
+		<foreignkey field-ref="costShareSourceSubAccountNumber" />
 	</reference-descriptor>
 	
 </class-descriptor>

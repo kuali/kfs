@@ -22,6 +22,7 @@
  */
 package org.kuali.module.chart.service;
 
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.A21SubAccount;
 import org.kuali.module.chart.bo.SubAccount;
@@ -36,7 +37,7 @@ public class SubAccountServiceTest extends KualiTestBaseWithSpring {
   private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SubAccountServiceTest.class);
 
   private SubAccountService subAccountService;
-  private final static String CHART="BL";
+  private final static String CHART="BA";
   private final static String ACCOUNT="6044900";
   private final static String SUB_ACCOUNT="ARREC";
   
@@ -49,11 +50,11 @@ public class SubAccountServiceTest extends KualiTestBaseWithSpring {
   public void testA21SubAccount() {
       SubAccount sa;
       
-      sa=subAccountService.getByPrimaryId(CHART,ACCOUNT,SUB_ACCOUNT);
+      sa = subAccountService.getByPrimaryId(CHART,ACCOUNT,SUB_ACCOUNT);
       
-      assertNotNull("expect to find this sub account: "+CHART+"/"+ACCOUNT+"/"+SUB_ACCOUNT,sa);
-      A21SubAccount a21=sa.getA21SubAccount();
-      assertNotNull("expect this to have a21subaccount",a21);
+      assertTrue("expect to find this sub account: " + CHART + "/" + ACCOUNT + "/" + SUB_ACCOUNT, ObjectUtils.isNotNull(sa));
+      A21SubAccount a21 = sa.getA21SubAccount();
+      assertTrue("expect this to have a21subaccount", ObjectUtils.isNotNull(a21));
       a21.getIndirectCostRecoveryAccount();
   }
 
@@ -64,11 +65,11 @@ public class SubAccountServiceTest extends KualiTestBaseWithSpring {
     sa.setSubAccountNumber(SUB_ACCOUNT);
 
     
-    SubAccount retrieved = subAccountService.getByPrimaryId(CHART,ACCOUNT,SUB_ACCOUNT);
-    assertNotNull("Didn't retrieve sub account",retrieved);
-    assertEquals("Wrong chart",CHART,retrieved.getChartOfAccountsCode());
-    assertEquals("Wrong account",ACCOUNT,retrieved.getAccountNumber());
-    assertEquals("Wrong Sub account number",SUB_ACCOUNT,retrieved.getSubAccountNumber());
+    SubAccount retrieved = subAccountService.getByPrimaryId(CHART, ACCOUNT, SUB_ACCOUNT);
+    assertTrue("Didn't retrieve sub account", ObjectUtils.isNotNull(retrieved));
+    assertEquals("Wrong chart", CHART, retrieved.getChartOfAccountsCode());
+    assertEquals("Wrong account", ACCOUNT, retrieved.getAccountNumber());
+    assertEquals("Wrong Sub account number", SUB_ACCOUNT, retrieved.getSubAccountNumber());
   }
 
     /**

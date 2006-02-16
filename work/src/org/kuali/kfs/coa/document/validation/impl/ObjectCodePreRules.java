@@ -22,18 +22,53 @@
  */
 package org.kuali.module.chart.rules;
 
+import java.util.Map;
+
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.rules.PreRulesContinuationBase;
+import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.module.chart.bo.ObjectCode;
+import org.kuali.module.chart.service.ChartService;
 
 
 public class ObjectCodePreRules extends PreRulesContinuationBase {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ObjectCodePreRules.class);
     
-    private final static String Q1="objectCodeQuestion";
-
+    private ChartService chartService;
+    private Map reportsTo;
+   
+    public ObjectCodePreRules() {
+        this.setChartService(SpringServiceLocator.getChartService());
+        reportsTo=chartService.getReportsToHierarchy();
+    }
+    
+    
     public boolean doRules(MaintenanceDocument maintenanceDocument) {
+        
+        LOG.debug("doRules");
+        
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("new maintainable is: "+maintenanceDocument.getNewMaintainableObject().getClass());
+        }
+        ObjectCode newObjectCode = (ObjectCode) maintenanceDocument.getNewMaintainableObject().getBusinessObject();
 
+        String chart=newObjectCode.getChartOfAccountsCode();
+        String reportsToChart=(String) reportsTo.get(chart);
+        
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Chart: "+chart);
+            LOG.debug("reportsTo: "+reportsToChart);
+            LOG.debug("User supplied reportsToChart: "+newObjectCode.getReportsToChartOfAccountsCode());
+        }
+        
+        // force reportsTo to the right value regardless of user input
+        newObjectCode.setReportsToChartOfAccountsCode(reportsToChart);
+        
         return true;
         
+    }
+
+    public void setChartService(ChartService chartService) {
+        this.chartService = chartService;
     }
 }

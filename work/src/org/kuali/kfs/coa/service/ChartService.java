@@ -23,6 +23,7 @@
 package org.kuali.module.chart.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.module.chart.bo.Chart;
 
@@ -43,5 +44,12 @@ public interface ChartService {
      * @return A List of chart objects.
      */
     public List getAllChartCodes();
+    
+    /**
+     * 
+     * Retrieves a map of reportsTo relationships (e.g. A reports to B, B reports to B, C reports to A)
+     * @return
+     */
+    public Map getReportsToHierarchy();
 
 }

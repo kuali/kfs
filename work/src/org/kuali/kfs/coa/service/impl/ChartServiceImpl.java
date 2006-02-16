@@ -24,8 +24,10 @@ package org.kuali.module.chart.service.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.dao.ChartDao;
@@ -37,6 +39,7 @@ import org.kuali.module.chart.service.ChartService;
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public class ChartServiceImpl implements ChartService {
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ChartServiceImpl.class);
 
     private ChartDao chartDao;
 
@@ -61,6 +64,28 @@ public class ChartServiceImpl implements ChartService {
         return chartCodes;
     }
 
+
+    /**
+     * @see org.kuali.module.chart.service.getReportsToHierarchy()
+     */
+    public Map getReportsToHierarchy() {
+     
+        LOG.debug("getReportsToHierarchy");
+        Map reportsToHierarchy=new HashMap();
+        
+        Iterator iter = getAllChartCodes().iterator();
+        while (iter.hasNext()) {
+            Chart chart = (Chart)getByPrimaryId((String)iter.next());
+
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("adding "+chart.getChartOfAccountsCode()+"-->"+chart.getReportsToChartOfAccountsCode());
+            }
+            reportsToHierarchy.put(chart.getChartOfAccountsCode(),chart.getReportsToChartOfAccountsCode());
+        }
+        
+        return reportsToHierarchy;
+    }
+    
     /**
      * @return Returns the chartDao.
      */
@@ -74,4 +99,6 @@ public class ChartServiceImpl implements ChartService {
     public void setChartDao(ChartDao chartDao) {
         this.chartDao = chartDao;
     }
+
+
 }

@@ -22,28 +22,33 @@
  */
 package org.kuali.module.chart.service;
 
+import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.SubAccount;
-import org.kuali.module.chart.dao.SubAccountDao;
 import org.kuali.module.chart.service.impl.SubAccountServiceImpl;
-import org.kuali.test.KualiTestBase;
+import org.kuali.test.KualiTestBaseWithSpring;
 
 /**
  * This class tests the SubAccount service.
  * 
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class SubAccountServiceTest extends KualiTestBase {
+public class SubAccountServiceTest extends KualiTestBaseWithSpring {
   private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SubAccountServiceTest.class);
 
   private SubAccountServiceImpl subAccountService;
-  private FakeSubAccountDao subAccountDao;
   
   protected void setUp() throws Exception {
     super.setUp();
 
-    subAccountDao = new FakeSubAccountDao();
-    subAccountService = new SubAccountServiceImpl();
-    subAccountService.setSubAccountDao(subAccountDao);
+    setSubAccountService((SubAccountServiceImpl) SpringServiceLocator.getSubAccountService());
+  }
+  
+  public void testA21SubAccount() {
+      SubAccount sa;
+      
+      sa=subAccountService.getByPrimaryId("BL","6044900","ARREC");
+      
+      sa.getA21SubAccount().getIndirectCostRecoveryAccount();
   }
 
   public void testGetByPrimaryId() throws Exception {
@@ -52,7 +57,6 @@ public class SubAccountServiceTest extends KualiTestBase {
     sa.setChartOfAccountsCode("XX");
     sa.setSubAccountNumber("12345");
 
-    subAccountDao.retrieved = sa;
     
     SubAccount retrieved = subAccountService.getByPrimaryId("XX","1234567","12345");
     assertNotNull("Didn't retrieve sub account",retrieved);
@@ -61,11 +65,13 @@ public class SubAccountServiceTest extends KualiTestBase {
     assertEquals("Wrong Sub account number","12345",retrieved.getSubAccountNumber());
   }
 
-  class FakeSubAccountDao implements SubAccountDao {
-    public SubAccount retrieved = null;
-
-    public SubAccount getByPrimaryId(String chartOfAccountsCode, String accountNumber, String subAccountNumber) {
-      return retrieved;
+    /**
+     * Sets the subAccountService attribute value.
+     * @param subAccountService The subAccountService to set.
+     */
+    public void setSubAccountService(SubAccountServiceImpl subAccountService) {
+        this.subAccountService = subAccountService;
     }
-  }
+
+  
 }

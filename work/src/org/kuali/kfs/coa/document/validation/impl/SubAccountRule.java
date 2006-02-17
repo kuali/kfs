@@ -22,6 +22,11 @@
  */
 package org.kuali.module.chart.rules;
 
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.KeyConstants;
 import org.kuali.core.bo.user.KualiGroup;
@@ -33,6 +38,7 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.A21SubAccount;
+import org.kuali.module.chart.bo.IcrAutomatedEntry;
 import org.kuali.module.chart.bo.SubAccount;
 import org.kuali.module.financial.rules.KualiParameterRule;
 
@@ -79,19 +85,18 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
     protected boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
 
         LOG.info("Entering processCustomApproveDocumentBusinessRules()");
-        setupConvenienceObjects(document);
     
         //  set whether the user is authorized to modify the CG fields
         cgAuthorized = isCgAuthorized(GlobalVariables.getUserSession().getKualiUser());
         
-        //  disallow any values entered or changed in CG fields if not authorized
-        checkCgFieldsNotAuthorized(document);
-        
         //	check that all sub-objects whose keys are specified have matching objects in the db
         checkExistenceAndActive();
 
-        //	check simple rules
-        checkSimpleRules();
+        //  disallow any values entered or changed in CG fields if not authorized
+        checkCgFieldsNotAuthorized(document);
+        
+        //  process CG rules if appropriate
+        checkCgRules(document);
         
         return true;
     }
@@ -104,19 +109,18 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
         boolean success = true;
         
         LOG.info("Entering processCustomRouteDocumentBusinessRules()");
-        setupConvenienceObjects(document);
 
         //  set whether the user is authorized to modify the CG fields
         cgAuthorized = isCgAuthorized(GlobalVariables.getUserSession().getKualiUser());
         
-        //  disallow any values entered or changed in CG fields if not authorized
-        success &= checkCgFieldsNotAuthorized(document);
-
         //	check that all sub-objects whose keys are specified have matching objects in the db
         success &= checkExistenceAndActive();
 
-        //	check simple rules
-        success &= checkSimpleRules();
+        //  disallow any values entered or changed in CG fields if not authorized
+        success &= checkCgFieldsNotAuthorized(document);
+
+        //  process CG rules if appropriate
+        success &= checkCgRules(document);
         
         return success;
     }
@@ -129,19 +133,18 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
         boolean success = true;
         
         LOG.info("Entering processCustomSaveDocumentBusinessRules()");
-        setupConvenienceObjects(document);
 
         //  set whether the user is authorized to modify the CG fields
         cgAuthorized = isCgAuthorized(GlobalVariables.getUserSession().getKualiUser());
         
-        //  disallow any values entered or changed in CG fields if not authorized
-        success &= checkCgFieldsNotAuthorized(document);
-
         //	check that all sub-objects whose keys are specified have matching objects in the db
         success &= checkExistenceAndActive();
 
-        //	check simple rules
-        success &= checkSimpleRules();
+        //  disallow any values entered or changed in CG fields if not authorized
+        success &= checkCgFieldsNotAuthorized(document);
+
+        //  process CG rules if appropriate
+        success &= checkCgRules(document);
         
         return success;
     }
@@ -158,7 +161,7 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
      * @param document - the maintenanceDocument being evaluated
      * 
      */
-    private void setupConvenienceObjects(MaintenanceDocument document) {
+    public void setupConvenienceObjects() {
         
         //	setup oldAccount convenience objects, make sure all possible sub-objects are populated
         oldSubAccount = (SubAccount) super.oldBo;
@@ -167,7 +170,7 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
         newSubAccount = (SubAccount) super.newBo;
     }
     
-    private boolean checkExistenceAndActive() {
+    protected boolean checkExistenceAndActive() {
         
         LOG.info("Entering checkExistenceAndActive()");
         
@@ -220,13 +223,6 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
         return success;
     }
     
-    private boolean checkSimpleRules() {
-        
-        boolean success = true;
-        
-        return success;
-    }
-    
     /**
      * 
      * This method checks to see if the user is authorized for the CG fields, 
@@ -238,7 +234,7 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
      * @return - false if any unauthorized changes are made, true otherwise
      * 
      */
-    private boolean checkCgFieldsNotAuthorized(MaintenanceDocument document) {
+    protected boolean checkCgFieldsNotAuthorized(MaintenanceDocument document) {
         
         boolean success = true;
         
@@ -255,11 +251,11 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
                 success &= disallowAnyValues(newA21SubAccount.getSubAccountTypeCode(), 
                                 "subAccountTypeCode");
                 success &= disallowAnyValues(newA21SubAccount.getCostShareChartOfAccountCode(), 
-                                "costSharingChartOfAccountsCode");
+                                "costShareChartOfAccountCode");
                 success &= disallowAnyValues(newA21SubAccount.getCostShareSourceAccountNumber(), 
-                                "costSharingAccountNumber");
+                                "costShareSourceAccountNumber");
                 success &= disallowAnyValues(newA21SubAccount.getCostShareSourceSubAccountNumber(), 
-                                "costSharingSubAccountNumber");
+                                "costShareSourceSubAccountNumber");
                 success &= disallowAnyValues(newA21SubAccount.getFinancialIcrSeriesIdentifier(), 
                                 "financialIcrSeriesIdentifier");
                 success &= disallowAnyValues(newA21SubAccount.getIndirectCostRecoveryChartOfAccountsCode(), 
@@ -292,10 +288,10 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
                                             "CostShareChartOfAccountsCode");
             success &= disallowChangedValues(oldA21SubAccount.getCostShareSourceAccountNumber(), 
                                             newA21SubAccount.getCostShareSourceAccountNumber(), 
-                                            "CostShareAccountNumber");
+                                            "CostShareSourceAccountNumber");
             success &= disallowChangedValues(oldA21SubAccount.getCostShareSourceSubAccountNumber(), 
                                             newA21SubAccount.getCostShareSourceSubAccountNumber(), 
-                                            "CostShareSubAccountNumber");
+                                            "CostShareSourceSubAccountNumber");
             success &= disallowChangedValues(oldA21SubAccount.getFinancialIcrSeriesIdentifier(), 
                                             newA21SubAccount.getFinancialIcrSeriesIdentifier(), 
                                             "financialIcrSeriesIdentifier");
@@ -313,7 +309,7 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
         return success;
     }
     
-    private boolean checkCgRules(MaintenanceDocument document) {
+    protected boolean checkCgRules(MaintenanceDocument document) {
     
         boolean success = true;
         
@@ -369,49 +365,46 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
         return success;
     }
     
-    private boolean checkCgCostSharingRules() {
+    protected boolean checkCgCostSharingRules() {
         
         boolean success = true;
-        boolean anyFieldSet = false;
         boolean allFieldsSet = false;
         
-        //  check to see if any fields are set
-        if (StringUtils.isNotEmpty(newSubAccount.getA21SubAccount().getCostShareChartOfAccountCode()) || 
-                StringUtils.isNotEmpty(newSubAccount.getA21SubAccount().getCostShareSourceAccountNumber())) {
-            anyFieldSet = true;
-        }
+        A21SubAccount a21 = newSubAccount.getA21SubAccount();
         
         //  check to see if all required fields are set
-        if (StringUtils.isNotEmpty(newSubAccount.getA21SubAccount().getCostShareChartOfAccountCode()) && 
-                StringUtils.isNotEmpty(newSubAccount.getA21SubAccount().getCostShareSourceAccountNumber())) {
+        if (StringUtils.isNotEmpty(a21.getCostShareChartOfAccountCode()) && 
+                StringUtils.isNotEmpty(a21.getCostShareSourceAccountNumber())) {
             allFieldsSet = true;
         }
         
-        //  if any required fields are filled out, then all required fields must be filled out
-        if (anyFieldSet && !allFieldsSet) {
-            putGlobalError(KeyConstants.ERROR_DOCUMENT_SUBACCTMAINT_COST_SHARING_ACCT_FIELDS_INCOMPLETE);
-            success &= false;
-        }
+        //  Cost Sharing COA Code and Cost Sharing Account Number are required
+        success &= checkEmptyBOField("a21SubAccount.costShareChartOfAccountCode", 
+                            a21.getCostShareChartOfAccountCode(), 
+                            "Cost Share Chart of Accounts Code");
+        success &= checkEmptyBOField("a21SubAccount.costShareSourceAccountNumber", 
+                            a21.getCostShareSourceAccountNumber(), 
+                            "Cost Share AccountNumber");
         
         //  existence test on Cost Share Account
         if (allFieldsSet) {
-            if (ObjectUtils.isNull(newSubAccount.getA21SubAccount().getCostShareAccount())) {
-                putFieldError("a21SubAccount.costShareAccountNumber", KeyConstants.ERROR_EXISTENCE, "Cost Sharing Account");
+            if (ObjectUtils.isNull(a21.getCostShareAccount())) {
+                putFieldError("a21SubAccount.costShareSourceAccountNumber", KeyConstants.ERROR_EXISTENCE, "Cost Sharing Account");
                 success &= false;
             }
         }
         
         //  Cost Sharing Account may not be a CG fund group
-        if (ObjectUtils.isNotNull(newSubAccount.getA21SubAccount().getCostShareAccount())) {
-            if (ObjectUtils.isNotNull(newSubAccount.getA21SubAccount().getCostShareAccount().getSubFundGroup())) {
+        if (ObjectUtils.isNotNull(a21.getCostShareAccount())) {
+            if (ObjectUtils.isNotNull(a21.getCostShareAccount().getSubFundGroup())) {
                 
                 //   get the cost sharing account's fund group code, and the forbidden fund group code
-                String costSharingAccountFundGroupCode = newSubAccount.getA21SubAccount().getCostShareAccount().getSubFundGroup().getFundGroupCode();
+                String costSharingAccountFundGroupCode = a21.getCostShareAccount().getSubFundGroup().getFundGroupCode();
                 String cgFundGroupCode = configService.getApplicationParameterValue(CHART_MAINTENANCE_EDOC, CG_FUND_GROUP_CODE);
                 
                 //  disallow them being the same
                 if (costSharingAccountFundGroupCode.trim().equalsIgnoreCase(cgFundGroupCode.trim())) {
-                    putFieldError("a21SubAccount.costShareAccountNumber", KeyConstants.ERROR_EXISTENCE);
+                    putFieldError("a21SubAccount.costShareSourceAccountNumber", KeyConstants.ERROR_EXISTENCE);
                     success &= false;
                 }
             }
@@ -419,9 +412,85 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
         return success;
     }
     
-    private boolean checkCgIcrRules() {
+    protected boolean checkCgIcrRules() {
         
         boolean success = true;
+        
+        A21SubAccount a21 = newSubAccount.getA21SubAccount();
+        
+        //  check required fields
+        success &= checkEmptyBOField("a21SubAccount.indirectCostRecoveryTypeCode", 
+                a21.getIndirectCostRecoveryTypeCode(), 
+                "ICR Type Code");
+        success &= checkEmptyBOField("a21SubAccount.indirectCostRecoveryChartOfAccountsCode", 
+                a21.getIndirectCostRecoveryChartOfAccountsCode(), 
+                "ICR Chart of Accounts Code");
+        success &= checkEmptyBOField("a21SubAccount.indirectCostRecoveryAccountNumber", 
+                a21.getIndirectCostRecoveryAccountNumber(), 
+                "ICR Account Number");
+        success &= checkEmptyBOField("a21SubAccount.financialIcrSeriesIdentifier", 
+                a21.getFinancialIcrSeriesIdentifier(), 
+                "Financial ICR Series ID");
+
+        //  existence check for ICR Type Code
+        if (StringUtils.isNotEmpty(a21.getIndirectCostRecoveryTypeCode())) {
+            if (ObjectUtils.isNull(a21.getIcrTypeCode())) {
+                putFieldError("a21SubAccount.indirectCostRecoveryTypeCode", 
+                                KeyConstants.ERROR_EXISTENCE, 
+                                "ICR Type Code: " + a21.getIndirectCostRecoveryTypeCode());
+            }
+        }
+        
+        //  existence check for Financial Series ID
+        if (StringUtils.isNotEmpty(a21.getFinancialIcrSeriesIdentifier())) {
+
+            Integer fiscalYear = dateTimeService.getCurrentFiscalYear();
+
+            Map fieldValues = new HashMap();
+            fieldValues.put("financialIcrSeriesIdentifier", a21.getFinancialIcrSeriesIdentifier());
+            Collection results = boService.findMatchingOrderBy(IcrAutomatedEntry.class, fieldValues, "universityFiscalYear", true);
+            
+            //  if there are any results, we need to see if there is a match on fiscal year
+            boolean anyFound = false;
+            boolean anyFoundInThisFy = false;
+            if (!results.isEmpty()) {
+                anyFound = true;
+                for (Iterator iter = results.iterator(); iter.hasNext();) {
+                    IcrAutomatedEntry icrAutomatedEntry = (IcrAutomatedEntry) iter.next();
+                    if (fiscalYear.equals(icrAutomatedEntry.getUniversityFiscalYear())) {
+                        anyFoundInThisFy = true;
+                        //TODO: does break exit out of a for loop?
+                        //break;
+                    }
+                }
+            }
+            
+            //  if there is one found, but not for this fiscal year, complain 
+            // about this to the user
+            if (anyFound && !anyFoundInThisFy) {
+                putFieldError("a21SubAccount.financialIcrSeriesIdentifier", 
+                        KeyConstants.ERROR_DOCUMENT_SUBACCTMAINT_ICR_FIN_SERIES_ID_EXISTS_BUT_NOT_FOR_THIS_FY, 
+                        new String[] { a21.getFinancialIcrSeriesIdentifier(), fiscalYear.toString() });
+            }
+            
+            //  if one isnt found at all, complain about that
+            if (!anyFound) {
+                putFieldError("a21SubAccount.financialIcrSeriesIdentifier", 
+                        KeyConstants.ERROR_EXISTENCE, 
+                        "ICR Financial Series ID: " + a21.getFinancialIcrSeriesIdentifier());
+            }
+        }
+        
+        //  existence check for ICR Account
+        if (StringUtils.isNotEmpty(a21.getIndirectCostRecoveryChartOfAccountsCode()) && 
+                    StringUtils.isNotEmpty(a21.getIndirectCostRecoveryAccountNumber())) {
+            if (ObjectUtils.isNull(a21.getIndirectCostRecoveryAccount())) {
+                putFieldError("a21SubAccount.indirectCostRecoveryAccountNumber", 
+                                KeyConstants.ERROR_EXISTENCE, 
+                                "ICR Account: " + 
+                                a21.getIndirectCostRecoveryChartOfAccountsCode() + "-" + a21.getIndirectCostRecoveryAccountNumber());
+            }
+        }
         
         return success;
     }
@@ -435,7 +504,7 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
      * @return - true if user is part of the group, false otherwise
      * 
      */
-    private boolean isCgAuthorized(KualiUser user) {
+    protected boolean isCgAuthorized(KualiUser user) {
         
         String allowedCgWorkgroup = configService.getApplicationParameterValue(CHART_MAINTENANCE_EDOC, CG_WORKGROUP_PARM_NAME);
         if (user.isMember(new KualiGroup(allowedCgWorkgroup))) {
@@ -456,7 +525,7 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
      * @return - false if there is any value in value, otherwise true
      * 
      */
-    private boolean disallowAnyValues(String value, String fieldName) {
+    protected boolean disallowAnyValues(String value, String fieldName) {
         if (StringUtils.isNotEmpty(value)) {
             putFieldError(fieldName, KeyConstants.ERROR_DOCUMENT_SUBACCTMAINT_NOT_AUTHORIZED_ENTER_CG_FIELDS);
             return false;
@@ -478,12 +547,34 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
      * @return - false if there is any difference between the old and new, true otherwise
      * 
      */
-    private boolean disallowChangedValues(String oldValue, String newValue, String fieldName) {
-        if (!oldValue.trim().equalsIgnoreCase(newValue.trim())) {
+    protected boolean disallowChangedValues(String oldValue, String newValue, String fieldName) {
+
+        if (isFieldValueChanged(oldValue, newValue)) {
             putFieldError(fieldName, KeyConstants.ERROR_DOCUMENT_SUBACCTMAINT_NOT_AUTHORIZED_CHANGE_CG_FIELDS);
             return false;
         }
         return true;
+    }
+    
+    protected boolean isFieldValueChanged(String oldValue, String newValue) {
+        
+        if (StringUtils.isEmpty(oldValue) && StringUtils.isEmpty(newValue)) {
+            return false;
+        }
+        
+        if (StringUtils.isEmpty(oldValue) && StringUtils.isNotEmpty(newValue)) {
+            return true;
+        }
+
+        if (StringUtils.isNotEmpty(oldValue) && StringUtils.isEmpty(newValue)) {
+            return true;
+        }
+
+        if (!oldValue.trim().equalsIgnoreCase(newValue.trim())) {
+            return true;
+        }
+        
+        return false;
     }
     
     /**

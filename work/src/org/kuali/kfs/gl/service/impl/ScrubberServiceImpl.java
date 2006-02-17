@@ -62,7 +62,7 @@ import org.springframework.util.StringUtils;
 
 /**
  * @author Anthony Potts
- * @version $Id: ScrubberServiceImpl.java,v 1.37 2006-02-17 17:54:15 larevans Exp $
+ * @version $Id: ScrubberServiceImpl.java,v 1.38 2006-02-17 18:56:13 jsissom Exp $
  */
 
 public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
@@ -296,17 +296,20 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
             wsPreviousCal = workingCal;
         } // TODO: what should the else do?
 
-        if (workingEntry.getOption() == null) {
-            workingEntry.setOption(new Options());
-        }
         if (originEntry.getUniversityFiscalYear() == null || originEntry.getUniversityFiscalYear().intValue() == 0) {
-        	// Fix for KULGL-48
+            // Fix for KULGL-48
             originEntry.setUniversityFiscalYear(univRunDate.getUniversityFiscalYear());
-            originEntry.getOption().setUniversityFiscalYear(workingEntry.getUniversityFiscalYear());
-        	
+            persistenceService.retrieveReferenceObject(originEntry,"option");
+
             workingEntry.setUniversityFiscalYear(univRunDate.getUniversityFiscalYear());
-            workingEntry.getOption().setUniversityFiscalYear(workingEntry.getUniversityFiscalYear());
+            workingEntry.setOption(originEntry.getOption());
             persistenceService.retrieveReferenceObject(workingEntry,"option");
+
+            // Retrieve these objects because the fiscal year is the primary key for them
+            persistenceService.retrieveReferenceObject(workingEntry,"financialSubObject");
+            persistenceService.retrieveReferenceObject(workingEntry,"financialObject");
+            persistenceService.retrieveReferenceObject(workingEntry,"accountingPeriod");
+
             checkGLObject(
 				workingEntry.getOption(), kualiConfigurationService.getPropertyString(KeyConstants.ERROR_UNIV_DATE_NOT_FOUND), 
 				workingEntry.getUniversityFiscalYear().toString());

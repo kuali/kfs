@@ -1,0 +1,40 @@
+<class-descriptor class="org.kuali.module.ar.bo.OrgOptions" table="AR_ORG_OPTION_T">
+	<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="organizationCode" column="ORG_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="processingFinChartOfAcctCd" column="PRCS_FIN_COA_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="processingOrganizationCode" column="PRCS_ORG_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="orgCreditCardOptionIndicator" column="ORG_CCRD_OPTN_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanFieldTFConversion"/>
+	<field-descriptor name="acctRcvbPrintInvoiceInd" column="AR_PRN_INV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanFieldConversion"/>
+	<field-descriptor name="organizationPaymentTermsText" column="ORG_PMT_TERMS_TXT" jdbc-type="VARCHAR"/>
+	<field-descriptor name="organizationMessageText" column="ORG_MSG_TXT" jdbc-type="VARCHAR"/>
+	<field-descriptor name="orgRemitToAddressName" column="ORG_REMIT_ADDR_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="orgRemitToLine1StreetAddr" column="ORG_REMIT_LN1_ADDR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="orgRemitToLine2StreetAddr" column="ORG_REMIT_LN2_ADDR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="organizationRemitToCityName" column="ORG_REMIT_CITY_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="organizationRemitToStateCode" column="ORG_REMIT_ST_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="organizationRemitToZipCode" column="ORG_REMIT_ZIP_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="organizationLateFeeIndicator" column="ORG_LATE_FEE_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanFieldTFConversion"/>
+	<field-descriptor name="orgLatePaymentChargeAmt" column="ORG_LTPMT_CHRG_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="acctReceivableAutoPayInd" column="AR_AUTO_PAY_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanFieldTFConversion"/>
+	<field-descriptor name="organizationPhoneNumber" column="ORG_PHONE_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="organization800PhoneNumber" column="ORG_800_PHONE_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="organizationFaxNumber" column="ORG_FAX_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="universityName" column="UNIV_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="orgCheckPayableToName" column="ORG_CHCK_PAY_TO_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<reference-descriptor name="chart" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="chartOfAccountsCode" />
+	</reference-descriptor>
+	<reference-descriptor name="processingFinChartOfAcct" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="processingFinChartOfAcctCd" />
+	</reference-descriptor>
+	<reference-descriptor name="org" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="processingFinChartOfAcctCd" />
+		<foreignkey field-ref="processingOrganizationCode" />
+	</reference-descriptor>
+		<reference-descriptor name="org" class-ref="org.kuali.core.bo.State" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="organizationRemitToStateCode" />
+	</reference-descriptor>
+	
+</class-descriptor>

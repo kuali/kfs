@@ -62,7 +62,7 @@ import org.springframework.util.StringUtils;
 
 /**
  * @author Anthony Potts
- * @version $Id: ScrubberServiceImpl.java,v 1.38 2006-02-17 18:56:13 jsissom Exp $
+ * @version $Id: ScrubberServiceImpl.java,v 1.39 2006-02-17 19:09:51 jsissom Exp $
  */
 
 public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
@@ -306,9 +306,9 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
             persistenceService.retrieveReferenceObject(workingEntry,"option");
 
             // Retrieve these objects because the fiscal year is the primary key for them
-            persistenceService.retrieveReferenceObject(workingEntry,"financialSubObject");
-            persistenceService.retrieveReferenceObject(workingEntry,"financialObject");
-            persistenceService.retrieveReferenceObject(workingEntry,"accountingPeriod");
+            persistenceService.retrieveReferenceObject(originEntry,"financialSubObject");
+            persistenceService.retrieveReferenceObject(originEntry,"financialObject");
+            persistenceService.retrieveReferenceObject(originEntry,"accountingPeriod");
 
             checkGLObject(
 				workingEntry.getOption(), kualiConfigurationService.getPropertyString(KeyConstants.ERROR_UNIV_DATE_NOT_FOUND), 

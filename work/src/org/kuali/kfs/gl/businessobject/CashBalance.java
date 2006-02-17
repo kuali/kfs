@@ -22,12 +22,6 @@
  */
 package org.kuali.module.gl.bo;
 
-import java.sql.Date;
-
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.module.chart.bo.Account;
-import org.kuali.module.chart.bo.Chart;
-import org.kuali.module.chart.bo.ObjectCode;
 
 /**
  * This class is an empty derived class of Balance for solving the conflict in lookup framework.

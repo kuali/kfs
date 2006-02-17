@@ -35,15 +35,50 @@ import org.kuali.core.rule.event.DeleteCheckEvent;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
+import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.module.financial.bo.Check;
 import org.kuali.module.financial.bo.CheckBase;
 import org.kuali.module.financial.document.CashReceiptDocument;
 import org.kuali.module.financial.web.struts.form.CashReceiptForm;
 
+import edu.iu.uis.eden.exception.WorkflowException;
+
 /**
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class CashReceiptAction extends KualiTransactionalDocumentActionBase {
+    /**
+     * @see org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase#createDocument(org.kuali.core.web.struts.form.KualiDocumentFormBase)
+     */
+    protected void createDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
+        super.createDocument(kualiDocumentFormBase);
+
+        initDerivedCheckValues((CashReceiptForm) kualiDocumentFormBase);
+    }
+
+    /**
+     * @see org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase#loadDocument(org.kuali.core.web.struts.form.KualiDocumentFormBase)
+     */
+    protected void loadDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
+        super.loadDocument(kualiDocumentFormBase);
+
+        initDerivedCheckValues((CashReceiptForm) kualiDocumentFormBase);
+    }
+
+    /**
+     * Initializes form values which must be derived form document contents (i.e. those which aren't directly available from the
+     * document)
+     * 
+     * @param cform
+     */
+    private void initDerivedCheckValues(CashReceiptForm cform) {
+        CashReceiptDocument cdoc = cform.getCashReceiptDocument();
+
+        cform.setCheckEntryMode(cdoc.getCheckEntryMode());
+        cform.setCheckTotal(cdoc.getTotalCheckAmount());
+    }
+
+
     /**
      * Adds Check instance created from the current "new check" line to the document
      * 
@@ -124,15 +159,28 @@ public class CashReceiptAction extends KualiTransactionalDocumentActionBase {
         String formMode = crForm.getCheckEntryMode();
         String docMode = crDoc.getCheckEntryMode();
 
-        if (CashReceiptDocument.CHECK_ENTRY_INDIVIDUAL.equals(formMode) || CashReceiptDocument.CHECK_ENTRY_TOTAL.equals(formMode)) {
+        if (CashReceiptDocument.CHECK_ENTRY_DETAIL.equals(formMode) || CashReceiptDocument.CHECK_ENTRY_TOTAL.equals(formMode)) {
             if (!formMode.equals(docMode)) {
 
-                if (formMode.equals(CashReceiptDocument.CHECK_ENTRY_INDIVIDUAL)) {
+                if (formMode.equals(CashReceiptDocument.CHECK_ENTRY_DETAIL)) {
+                    // save current checkTotal, for future restoration
+                    crForm.setCheckTotal(crDoc.getTotalCheckAmount());
+
+                    // change mode
                     crDoc.setCheckEntryMode(formMode);
+                    crDoc.setTotalCheckAmount(crDoc.calculateCheckTotal());
+
+                    // notify user
                     GlobalVariables.getMessageList().add(KeyConstants.CashReceipt.MSG_CHECK_ENTRY_INDIVIDUAL);
                 }
                 else {
+                    // restore saved checkTotal
+                    crDoc.setTotalCheckAmount(crForm.getCheckTotal());
+
+                    // change mode
                     crDoc.setCheckEntryMode(formMode);
+
+                    // notify user
                     GlobalVariables.getMessageList().add(KeyConstants.CashReceipt.MSG_CHECK_ENTRY_TOTAL);
                 }
             }

@@ -8,15 +8,17 @@
 <%@ taglib tagdir="/WEB-INF/tags/dd" prefix="dd" %>
 
 <c:set var="displayHidden" value="false" />
+<c:set var="checkDetailMode" value="${KualiForm.checkEntryDetailMode}" />
 
 <kul:documentPage showDocumentInfo="true" htmlFormAction="financialCashReceipt" documentTypeName="KualiCashReceiptDocument"  renderMultipart="true" showTabButtons="true">
 
     <kul:hiddenDocumentFields />
 
     <html:hidden property="document.nextSourceLineNumber"/>
-
     <html:hidden property="document.nextCheckSequenceId"/>
     <html:hidden property="document.checkEntryMode" />
+
+    <html:hidden property="checkTotal" />
 
     <kul:documentOverview editingMode="${KualiForm.editingMode}"/>
         
@@ -32,16 +34,22 @@
                             <tr>
                                 <td align=left valign=middle><div align="right"><strong>Checks:</strong></div></td>
 
-                                <%-- change from doc.totalCheckAmount to form.totalCheckAmount, once you get that introduced --%>
-                                <td align=left valign=middle class="right"><input type="text" size="10" class="right" name="document.totalCheckAmount" value="${KualiForm.cashReceiptDocument.totalCheckAmount}" /></td>
-                                
+                                <td align=left valign=middle class="right">
+                                    <c:if test="${!checkDetailMode}">
+                                        <input type="text" size="10" class="right" name="document.totalCheckAmount" value="${KualiForm.cashReceiptDocument.totalCheckAmount}" />
+                                    </c:if>
+                                    <c:if test="${checkDetailMode}">
+                                        <html:hidden write="true" property="document.totalCheckAmount" />
+                                    </c:if>
+                                </td>
+
                                 <td>
                                     <html:select property="checkEntryMode" > <%-- onblur="${onblur}" onchange="${onchange}" --%>
                                       <html:optionsCollection property="checkEntryModes" label="label" value="value" />
                                     </html:select>
 
                                     <%-- need code here to only show this button if javascript is off --%>
-                                    <html:image property="methodToCall.changeCheckEntryMode" src="images/tinybutton-verify1.gif" styleClass="tinybutton" alt="change check entry mode" />
+                                    <html:image property="methodToCall.changeCheckEntryMode" src="images/tinybutton-select.gif" styleClass="tinybutton" alt="change check entry mode" />
                                 </td>
                             </tr>
                             <tr>
@@ -66,8 +74,7 @@
         </div>
     </kul:tab>
 
-    <%-- change from doc.totalCheckAmount to form.totalCheckAmount, once you get that introduced --%>
-    <cr:checkLines editingMode="${editingMode}" totalAmount="${KualiForm.cashReceiptDocument.totalCheckAmount}" displayHidden="${displayHidden}" />
+    <cr:checkLines checkDetailMode="${checkDetailMode}" editingMode="${editingMode}" totalAmount="${KualiForm.cashReceiptDocument.totalCheckAmount}" displayHidden="${displayHidden}" />
    		
     <fin:accountingLines editingMode="${KualiForm.editingMode}" editableAccounts="${KualiForm.editableAccounts}" sourceAccountingLinesOnly="true" />
 

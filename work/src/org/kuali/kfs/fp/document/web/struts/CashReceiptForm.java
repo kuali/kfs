@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.struts.util.LabelValueBean;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
 import org.kuali.module.financial.bo.Check;
 import org.kuali.module.financial.bo.CheckBase;
@@ -41,6 +42,8 @@ public class CashReceiptForm extends KualiTransactionalDocumentFormBase {
     private static final long serialVersionUID = 1L;
     private Check newCheck;
 
+    private KualiDecimal checkTotal;
+
     private String checkEntryMode;
     private List checkEntryModes;
 
@@ -49,11 +52,11 @@ public class CashReceiptForm extends KualiTransactionalDocumentFormBase {
         setDocument(new CashReceiptDocument());
         setNewCheck(new CheckBase());
 
-        checkEntryMode = CashReceiptDocument.CHECK_ENTRY_INDIVIDUAL;
-
         checkEntryModes = new ArrayList();
-        checkEntryModes.add(new LabelValueBean("Individual Checks/Batches", CashReceiptDocument.CHECK_ENTRY_INDIVIDUAL));
+        checkEntryModes.add(new LabelValueBean("Individual Checks/Batches", CashReceiptDocument.CHECK_ENTRY_DETAIL));
         checkEntryModes.add(new LabelValueBean("Total Only", CashReceiptDocument.CHECK_ENTRY_TOTAL));
+
+        setCheckEntryMode(getCashReceiptDocument().getCheckEntryMode());
     }
 
 
@@ -74,6 +77,15 @@ public class CashReceiptForm extends KualiTransactionalDocumentFormBase {
     }
 
 
+    public void setCheckTotal(KualiDecimal checkTotal) {
+        this.checkTotal = checkTotal;
+    }
+
+    public KualiDecimal getCheckTotal() {
+        return checkTotal;
+    }
+
+
     /**
      * @return List of LabelValueBeans representing all available check entry modes
      */
@@ -87,5 +99,9 @@ public class CashReceiptForm extends KualiTransactionalDocumentFormBase {
 
     public void setCheckEntryMode(String checkEntryMode) {
         this.checkEntryMode = checkEntryMode;
+    }
+
+    public boolean isCheckEntryDetailMode() {
+        return CashReceiptDocument.CHECK_ENTRY_DETAIL.equals(getCheckEntryMode());
     }
 }

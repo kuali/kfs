@@ -24,11 +24,13 @@ package org.kuali.module.financial.document;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.Constants;
 import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.financial.bo.Check;
 import org.kuali.module.financial.bo.CheckBase;
@@ -42,7 +44,7 @@ import org.kuali.module.financial.bo.CheckBase;
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class CashReceiptDocument extends TransactionalDocumentBase {
-    public static final String CHECK_ENTRY_INDIVIDUAL = "individual";
+    public static final String CHECK_ENTRY_DETAIL = "individual";
     public static final String CHECK_ENTRY_TOTAL = "totals";
 
     private AccountingPeriod accountingPeriod; // represented by the posting year and posting period code
@@ -50,7 +52,7 @@ public class CashReceiptDocument extends TransactionalDocumentBase {
     private Timestamp depositDate;
 
     // child object containers - for all the different reconciliation detail sections
-    private String checkEntryMode = CHECK_ENTRY_INDIVIDUAL;
+    private String checkEntryMode = CHECK_ENTRY_DETAIL;
     private List checks = new ArrayList();
 
     // incrementers for detail lines
@@ -167,7 +169,7 @@ public class CashReceiptDocument extends TransactionalDocumentBase {
         this.checks.add(check);
 
         this.nextCheckSequenceId = new Integer(this.nextCheckSequenceId.intValue() + 1);
-        
+
         KualiDecimal tca = this.totalCheckAmount;
         this.totalCheckAmount = this.totalCheckAmount.add(check.getAmount());
     }
@@ -195,8 +197,8 @@ public class CashReceiptDocument extends TransactionalDocumentBase {
 
         // if the totalCheckAmount goes negative, bring back to zero.
         this.totalCheckAmount = this.totalCheckAmount.subtract(check.getAmount());
-        if(this.totalCheckAmount.isNegative()) {
-        	totalCheckAmount = KualiDecimal.ZERO;
+        if (this.totalCheckAmount.isNegative()) {
+            totalCheckAmount = KualiDecimal.ZERO;
         }
     }
 
@@ -244,18 +246,18 @@ public class CashReceiptDocument extends TransactionalDocumentBase {
     public KualiDecimal getTotalCheckAmount() {
         return totalCheckAmount;
 
-//        KualiDecimal _amount = null;
-//        if (getChecks().isEmpty()) {
-//            _amount = totalCheckAmount;
-//        }
-//        else {
-//            _amount = new KualiDecimal(0);
-//            for (Iterator iterator = getChecks().iterator(); iterator.hasNext();) {
-//                Check check = (Check) iterator.next();
-//                _amount = _amount.add(check.getAmount());
-//            }
-//        }
-//        return _amount;
+        // KualiDecimal _amount = null;
+        // if (getChecks().isEmpty()) {
+        // _amount = totalCheckAmount;
+        // }
+        // else {
+        // _amount = new KualiDecimal(0);
+        // for (Iterator iterator = getChecks().iterator(); iterator.hasNext();) {
+        // Check check = (Check) iterator.next();
+        // _amount = _amount.add(check.getAmount());
+        // }
+        // }
+        // return _amount;
     }
 
     /**
@@ -303,4 +305,52 @@ public class CashReceiptDocument extends TransactionalDocumentBase {
         return Constants.EMPTY_STRING;
     }
 
+
+    /**
+     * @return sum of the amounts of the current list of checks
+     */
+    public KualiDecimal calculateCheckTotal() {
+        KualiDecimal total = KualiDecimal.ZERO;
+        for (Iterator i = getChecks().iterator(); i.hasNext();) {
+            Check c = (Check) i.next();
+            total = total.add(c.getAmount());
+        }
+
+        return total;
+    }
+
+
+    /**
+     * @see org.kuali.core.document.DocumentBase#prepareForSave()
+     */
+    public void prepareForSave() {
+        super.prepareForSave();
+
+        // clear check list if mode is checkTotal
+        if (CHECK_ENTRY_TOTAL.equals(getCheckEntryMode())) {
+            getChecks().clear();
+        }
+        // update total if mode is checkDetail
+        else {
+            setTotalCheckAmount(calculateCheckTotal());
+        }
+    }
+
+    /**
+     * @see org.kuali.core.document.DocumentBase#processAfterRetrieve()
+     */
+    public void processAfterRetrieve() {
+        super.processAfterRetrieve();
+
+        // set to checkTotal mode if no checks
+        List checkList = getChecks();
+        if (ObjectUtils.isNull(checkList) || checkList.isEmpty()) {
+            setCheckEntryMode(CHECK_ENTRY_TOTAL);
+        }
+        // set to checkDetail mode if checks (and update the checkTotal, while you're here)
+        else {
+            setCheckEntryMode(CHECK_ENTRY_DETAIL);
+            setTotalCheckAmount(calculateCheckTotal());
+        }
+    }
 }

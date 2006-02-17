@@ -40,6 +40,8 @@
         </inquiry>
         
         <lookup>
+        	<lookupableID>glEntryLookupable</lookupableID>
+        	
 			<title>General Ledger Entry Lookup</title>
 			<instructions>Lookup General Ledger Entries</instructions>
 			<defaultSort attributeName="financialObjectCode" sortAscending="true" />

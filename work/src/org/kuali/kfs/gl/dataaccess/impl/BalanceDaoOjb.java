@@ -153,7 +153,7 @@ public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements Balanc
      */
     public Iterator findCashBalance(Map fieldValues, boolean isConsolidated) {
         
-        Criteria criteria = buildCriteriaFromMap(fieldValues, new Balance());
+        Criteria criteria = buildCriteriaFromMap(fieldValues, new Balance(), false);
         criteria.addEqualTo("balanceTypeCode", "AC");
         criteria.addEqualToField("chart.financialCashObjectCode", "objectCode");
 
@@ -187,25 +187,26 @@ public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements Balanc
      */
     public Iterator findBalance(Map fieldValues, boolean isConsolidated) {
         
-        Criteria criteria = buildCriteriaFromMap(fieldValues, new Balance());
+        Criteria criteria = buildCriteriaFromMap(fieldValues, new Balance(),false);
         ReportQueryByCriteria query = new ReportQueryByCriteria(Balance.class, criteria);
         
-        List attributeList = buildAttributeList(false);
-        List groupByList   = buildGroupByList();
-        
-        // if consolidated, then ignore subaccount number
+        // if consolidated, then ignore subaccount number and balance type code
         if(isConsolidated){
+            List attributeList = buildAttributeList(true);
+            List groupByList   = buildGroupByList();
+            
+            // ignore subaccount number
             attributeList.remove("subAccountNumber");
             groupByList.remove("subAccountNumber");
-        }   
-        
-        // set the selection attributes
-        String[] attributes = (String[])attributeList.toArray(new String[attributeList.size()]);
-        query.setAttributes(attributes);
-        
-        // add the group criteria into the selection statement
-        String[] groupBy = (String [])groupByList.toArray(new String[groupByList.size()]);
-        query.addGroupBy(groupBy);
+            
+            // set the selection attributes
+            String[] attributes = (String[])attributeList.toArray(new String[attributeList.size()]);
+            query.setAttributes(attributes);
+            
+            // add the group criteria into the selection statement
+            String[] groupBy = (String [])groupByList.toArray(new String[groupByList.size()]);
+            query.addGroupBy(groupBy);
+        }
 
         Iterator balance = getPersistenceBrokerTemplate()
                 .getReportQueryIteratorByQuery(query);
@@ -219,7 +220,7 @@ public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements Balanc
      * @param balance
      * @return a query criteria
      */
-    private Criteria buildCriteriaFromMap(Map fieldValues, Balance balance){
+    private Criteria buildCriteriaFromMap(Map fieldValues, Balance balance, boolean isBalanceTypeHandled){
         Criteria criteria = new Criteria();
 
         Iterator propsIter = fieldValues.keySet().iterator();
@@ -232,7 +233,19 @@ public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements Balanc
                     || !(PropertyUtils.isWriteable(balance, propertyName))) {
                 continue;
             }
-            criteria.addEqualTo(propertyName, propertyValue);
+            
+            // with this option, the method becomes specific and bad
+            if(isBalanceTypeHandled && propertyValue.equals("EN") && propertyName.equals("balanceTypeCode")){
+                List balanceTypeCodeList = new ArrayList();
+                balanceTypeCodeList.add("EX");
+                balanceTypeCodeList.add("IE");
+                balanceTypeCodeList.add("PE");
+                balanceTypeCodeList.add("CE");
+                criteria.addIn("balanceTypeCode", balanceTypeCodeList);  
+            }
+            else{
+                criteria.addEqualTo(propertyName, propertyValue);
+            }
         }     
         return criteria;
     }

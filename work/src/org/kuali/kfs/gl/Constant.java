@@ -36,9 +36,13 @@ public final class Constant {
     public static final String CONSOLIDATION = "Consolidation";
     public static final String DETAIL = "Detail";
     
-    public static final String AMOUNT_VIEW_OPTION = "dummyBusinessObject.consolidationOption";
+    public static final String AMOUNT_VIEW_OPTION = "dummyBusinessObject.amountViewOption";
     public static final String MONTHLY = "Monthly";
-    public static final String ACCUMULATE = "Accumulate";    
+    public static final String ACCUMULATE = "Accumulate"; 
+    
+    public static final String COST_SHARE_OPTION = "dummyBusinessObject.costShareOption";
+    public static final String EXCLUDE_COST_SHARE = "Exclude Cost Share";
+    public static final String INCLUDE_COST_SHARE  = "Include Cost Share";    
     
     public static final String SUB_ACCOUNT_OPTION = "subAccountNumber";
     

@@ -29,7 +29,7 @@
                 </lookupField>
                 
 				<lookupField attributeName="chartOfAccountsCode" required="true"/>
-				<lookupField attributeName="accountNumber" noLookup="false"/>
+				<lookupField attributeName="accountNumber" required="true" noLookup="false"/>
 				<lookupField attributeName="subAccountNumber"/>
 				<lookupField attributeName="objectCode"/>
 				<lookupField attributeName="subObjectCode"/> 
@@ -60,7 +60,7 @@
 				<field attributeName="accountLineAnnualBalanceAmount"/>
 				<field attributeName="beginningBalanceLineAmount"/>
 				<field attributeName="contractsGrantsBeginningBalanceAmount"/>
-				<field attributeName="dummyBusinessObject.genericAmount"/>
+				<field attributeName="month13Amount"/>
 				  
 				<field attributeName="month1Amount"/>
 				<field attributeName="month2Amount"/>
@@ -155,56 +155,82 @@
             
 			<attributeReference name="month1Amount" 
             					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
-            					sourceAttributeName="genericAmount"/>
+            					sourceAttributeName="genericAmount">
+       			<label>July</label>
+       		</attributeReference>
 
 			<attributeReference name="month2Amount" 
             					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
-            					sourceAttributeName="genericAmount"/>
+            					sourceAttributeName="genericAmount">
+       			<label>August</label>
+       		</attributeReference>
             					
 			<attributeReference name="month3Amount" 
             					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
-            					sourceAttributeName="genericAmount"/>
-            					
+            					sourceAttributeName="genericAmount">
+       			<label>September</label>
+       		</attributeReference>
+       		
 			<attributeReference name="month4Amount" 
             					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
-            					sourceAttributeName="genericAmount"/>            					            					                                    	        
-
+            					sourceAttributeName="genericAmount">
+       			<label>October</label>
+       		</attributeReference>
+       		
 			<attributeReference name="month5Amount" 
             					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
-            					sourceAttributeName="genericAmount"/>
-
+            					sourceAttributeName="genericAmount">
+       			<label>November</label>
+       		</attributeReference>
+       		
 			<attributeReference name="month6Amount" 
             					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
-            					sourceAttributeName="genericAmount"/>
-            					
+            					sourceAttributeName="genericAmount">
+       			<label>December</label>
+       		</attributeReference>
+       		
 			<attributeReference name="month7Amount" 
             					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
-            					sourceAttributeName="genericAmount"/>
-            					
+            					sourceAttributeName="genericAmount">
+       			<label>January</label>
+       		</attributeReference>
+       		
 			<attributeReference name="month8Amount" 
             					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
-            					sourceAttributeName="genericAmount"/> 
-            					
+            					sourceAttributeName="genericAmount">
+       			<label>February</label>
+       		</attributeReference>
+       		
 			<attributeReference name="month9Amount" 
             					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
-            					sourceAttributeName="genericAmount"/>
-
+            					sourceAttributeName="genericAmount">
+       			<label>March</label>
+       		</attributeReference>
+       		
 			<attributeReference name="month10Amount" 
             					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
-            					sourceAttributeName="genericAmount"/>
-            					
+            					sourceAttributeName="genericAmount">
+       			<label>April</label>
+       		</attributeReference>
+       		
 			<attributeReference name="month11Amount" 
             					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
-            					sourceAttributeName="genericAmount"/>
-            					
+            					sourceAttributeName="genericAmount">
+       			<label>May</label>
+       		</attributeReference>
+       		
 			<attributeReference name="month12Amount" 
             					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
-            					sourceAttributeName="genericAmount"/>             					
-
+            					sourceAttributeName="genericAmount">
+       			<label>June</label>
+       		</attributeReference>
+       		
 			<attributeReference name="month13Amount" 
             					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
-            					sourceAttributeName="genericAmount"/>
-
+            					sourceAttributeName="genericAmount">
+       			<label>Year End Close</label>
+       		</attributeReference>
+       		
             <attributeReference name="timestamp" 
             					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
 					            sourceAttributeName="genericTimestamp" >

@@ -271,4 +271,11 @@ public class BalanceServiceImpl implements BalanceService {
     public Iterator findCashBalance(Map fieldValues, boolean isConsolidated) {
         return balanceDao.findCashBalance(fieldValues, isConsolidated);
     }
+
+    /**
+     * @see org.kuali.module.gl.service.BalanceService#findBalance(java.util.Map, boolean)
+     */
+    public Iterator findBalance(Map fieldValues, boolean isConsolidated) {
+        return balanceDao.findBalance(fieldValues, isConsolidated);
+    }
 }

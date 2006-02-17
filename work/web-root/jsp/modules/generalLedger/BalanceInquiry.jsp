@@ -84,53 +84,62 @@
             </logic-el:present>
           </div>
           
-           <c:if test="${reqSearchResultsActualSize>0}" >
+          <c:if test="${reqSearchResultsActualSize>0}" >
           	<c:out value="${reqSearchResultsActualSize}" /> items found.  Please refine your search criteria to narrow down your search.
           </c:if>
-         
-       <display:table width="100%" class="datatable-100" cellspacing="0"
-		cellpadding="0" name="${reqSearchResults}" id="row" export="true" pagesize="100"
-		requestURI="lookup.do?methodToCall=viewResults&reqSearchResultsActualSize=${reqSearchResultsActualSize}&listKey=${listKey}">
-			 <display:column>
-			     <c:forEach items="${row.columns}" var="column">
-				      <c:if test="${column.propertyURL!=\"\" && param['d-16544-e'] == null}">
-		                <display:column class="infocell" sortable="${column.sortable}" title="${column.columnTitle}">
-		                  <a href="<c:out value="${column.propertyURL}"/>" target="blank">
-		                    <c:out value="${column.propertyValue}" />
-		                  </a>
-		                  &nbsp;
-		                </display:column>
-		                
-		              </c:if>
-		             
-		              <c:if test="${column.propertyURL==\"\" || param['d-16544-e'] != null}">
-		                <display:column class="infocell" sortable="${column.sortable}" title="${column.columnTitle}">
-		                  <c:out value="${column.propertyValue}" />
-		                </display:column>
-		              </c:if>
-	              </c:forEach>
-              </display:column>   
-              
-			 <display:column>
-			     <c:forEach items="${row.columns}" var="column">
-				      <c:if test="${column.propertyURL!=\"\" && param['d-16544-e'] == null}">
-		                <display:column class="infocell" sortable="${column.sortable}" title="${column.columnTitle}">
-		                  <a href="<c:out value="${column.propertyURL}"/>" target="blank">
-		                    <c:out value="${column.propertyValue}" />
-		                  </a>
-		                  &nbsp;
-		                </display:column>
-		                
-		              </c:if>
-		             
-		              <c:if test="${column.propertyURL==\"\" || param['d-16544-e'] != null}">
-		                <display:column class="infocell" sortable="${column.sortable}" title="${column.columnTitle}">
-		                  <c:out value="${column.propertyValue}" />
-		                </display:column>
-		              </c:if>
-	              </c:forEach>
-              </display:column>               
-	      </display:table>
+          
+          <display:table width="100%" class="datatable-100" cellspacing="0" cellpadding="0" 
+				name="${reqSearchResults[1]}" export="true" pagesize="100"
+				requestURI="lookup.do?methodToCall=viewResults&reqSearchResultsActualSize=${reqSearchResultsActualSize}&listKey=${listKey}">
+				
+			<display:column>      
+	          <table width="100%" class="datatable-100" cellspacing="0" cellpadding="0">
+	          	<c:forEach items="${reqSearchResults}" var="row" varStatus="status">
+	          		<c:if test="${status.count == 1}">
+		               	<tr>
+			          		<c:forEach items="${row.columns}" var="column" end="11">
+			          			<th class="infocell"><c:out value="${column.columnTitle}" /></td>
+			          		</c:forEach>
+			          	</tr>
+			        </c:if>
+	          		
+		          	<tr>
+		          		<c:forEach items="${row.columns}" var="column" end="11">
+			          		<c:if test="${column.propertyURL!=\"\" && param['d-16544-e'] == null}">
+			          			<td class="infocell">
+				          			<a href="<c:out value="${column.propertyURL}"/>" target="blank">
+										<c:out value="${column.propertyValue}" />
+									</a>
+								</td>
+							</c:if>	
+							<c:if test="${column.propertyURL==\"\" || param['d-16544-e'] != null}">
+			          			<td class="infocell">
+										<c:out value="${column.propertyValue}" />
+								</td>
+							</c:if>	               				          			
+		          		</c:forEach>
+		          	</tr>
+		          	
+		          	<tr>
+		          		<td></td>
+		          		<td colspan="11" class="infocell">
+			          		<table width="100%" class="datatable-100" cellspacing="0" cellpadding="0">
+				          		<c:forEach items="${row.columns}" var="column" begin="12" varStatus="columnStatus">
+				          			<c:if test="${columnStatus.count % 4 == 1}"><tr></c:if>
+				          			
+				          			<td class="infocell"><c:out value="${column.columnTitle}" /></td>
+				          			<td class="infocell"><c:out value="${column.propertyValue}" /></td>
+				          			
+				          			<c:if test="${columnStatus.count % 4 == 0}"></tr></c:if>
+				          		</c:forEach>
+				          	</table>
+			          	</td>
+		          	</tr>
+		        </c:forEach>
+		     </table>
+		</display:column>
+		</display:table>
+	           
         </td>
 
         <td width="20">

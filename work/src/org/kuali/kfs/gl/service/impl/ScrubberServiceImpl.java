@@ -62,7 +62,7 @@ import org.springframework.util.StringUtils;
 
 /**
  * @author Anthony Potts
- * @version $Id: ScrubberServiceImpl.java,v 1.36 2006-02-15 15:03:30 temay Exp $
+ * @version $Id: ScrubberServiceImpl.java,v 1.37 2006-02-17 17:54:15 larevans Exp $
  */
 
 public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
@@ -300,6 +300,10 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
             workingEntry.setOption(new Options());
         }
         if (originEntry.getUniversityFiscalYear() == null || originEntry.getUniversityFiscalYear().intValue() == 0) {
+        	// Fix for KULGL-48
+            originEntry.setUniversityFiscalYear(univRunDate.getUniversityFiscalYear());
+            originEntry.getOption().setUniversityFiscalYear(workingEntry.getUniversityFiscalYear());
+        	
             workingEntry.setUniversityFiscalYear(univRunDate.getUniversityFiscalYear());
             workingEntry.getOption().setUniversityFiscalYear(workingEntry.getUniversityFiscalYear());
             persistenceService.retrieveReferenceObject(workingEntry,"option");
@@ -386,13 +390,15 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         if (originEntry.getSubAccount() != null && "ACLO".equals(originEntry.getFinancialDocumentTypeCode())
                 && !originEntry.getSubAccount().isSubAccountActiveIndicator()) {
             addTransactionError(
-				kualiConfigurationService.getPropertyString(KeyConstants.ERROR_SUB_ACCOUNT_NOT_ACTIVE), originEntry.getSubAccountNumber());
+				kualiConfigurationService.getPropertyString(
+					KeyConstants.ERROR_SUB_ACCOUNT_NOT_ACTIVE), originEntry.getSubAccountNumber());
         }
 
         if (StringUtils.hasText(originEntry.getFinancialObjectCode())) {
             workingEntry.setFinancialObjectCode(originEntry.getFinancialObjectCode());
             checkGLObject(
-				originEntry.getFinancialObject(), kualiConfigurationService.getPropertyString(KeyConstants.ERROR_OBJECT_CODE_NOT_FOUND), 
+				originEntry.getFinancialObject(), 
+				kualiConfigurationService.getPropertyString(KeyConstants.ERROR_OBJECT_CODE_NOT_FOUND), 
 				originEntry.getFinancialObjectCode());
             workingEntry.setFinancialObject(originEntry.getFinancialObject());
         } else {
@@ -454,7 +460,8 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
 
         // validate that the fiscalperiod is open "fiscal period closed"
         if (originEntry.getAccountingPeriod() != null 
-				&& originEntry.getAccountingPeriod().getUniversityFiscalPeriodStatusCode() == Constants.ACCOUNTING_PERIOD_STATUS_CLOSED) {
+				&& originEntry.getAccountingPeriod().getUniversityFiscalPeriodStatusCode() 
+					== Constants.ACCOUNTING_PERIOD_STATUS_CLOSED) {
             addTransactionError(
 				kualiConfigurationService.getPropertyString(KeyConstants.ERROR_FISCAL_PERIOD_CLOSED), 
 				originEntry.getUniversityFiscalPeriodCode());
@@ -462,7 +469,8 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
 
         if(originEntry.getBalanceType() != null && originEntry.getBalanceType().isFinancialOffsetGenerationIndicator() &&
                 originEntry.getTransactionLedgerEntryAmount().isNegative()) {
-            addTransactionError(kualiConfigurationService.getPropertyString(KeyConstants.ERROR_TRANS_CANNOT_BE_NEGATIVE_IF_OFFSET), null);
+            addTransactionError(kualiConfigurationService.getPropertyString(
+            	KeyConstants.ERROR_TRANS_CANNOT_BE_NEGATIVE_IF_OFFSET), null);
         }
   
         // if offsetGenerationCode = "N" and debitCreditCode != null then error
@@ -486,7 +494,8 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         // if ProjectCode is inactive then error - "Project Code must be active"
         if (originEntry.getProject() != null && !originEntry.getProject().isActive()) {
             addTransactionError(
-				kualiConfigurationService.getPropertyString(KeyConstants.ERROR_PROJECT_CODE_MUST_BE_ACTIVE), originEntry.getProjectCode());
+				kualiConfigurationService.getPropertyString(KeyConstants.ERROR_PROJECT_CODE_MUST_BE_ACTIVE), 
+				originEntry.getProjectCode());
         }
 
         // if DocReferenceNumber == null then
@@ -530,7 +539,8 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         // validate it against sh_univ_date_t - error "reversal date not in table"
         if (originEntry.getFinancialDocumentReversalDate() != null) {
             if (checkGLObject(
-					originEntry.getReversalDate(), kualiConfigurationService.getPropertyString(KeyConstants.ERROR_REVERSAL_DATE_NOT_FOUND), 
+					originEntry.getReversalDate(), 
+					kualiConfigurationService.getPropertyString(KeyConstants.ERROR_REVERSAL_DATE_NOT_FOUND), 
 					originEntry.getFinancialDocumentReversalDate().toString())) {
                 workingEntry.setFinancialDocumentReversalDate(originEntry.getFinancialDocumentReversalDate());
                 workingEntry.setReversalDate(originEntry.getReversalDate());

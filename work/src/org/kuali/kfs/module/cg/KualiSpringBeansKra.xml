@@ -81,4 +81,13 @@
             <ref bean="budgetFringeRateService" />
         </property>
     </bean>
+    <bean id="budgetCostShareService" class="org.kuali.module.kra.service.impl.BudgetCostShareServiceImpl">
+        <property name="budgetNonpersonnelService">
+            <ref bean="budgetNonpersonnelService" />
+        </property>
+        <property name="budgetPersonnelService">
+            <ref bean="budgetPersonnelService" />
+        </property>
+    </bean>
+    
 </beans>

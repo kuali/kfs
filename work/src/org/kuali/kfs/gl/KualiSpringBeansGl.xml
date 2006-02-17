@@ -59,6 +59,7 @@
 		<property name="optionsDao"><ref bean="optionsDao" /></property>
 		<property name="persistenceService"><ref bean="persistenceService" /></property>
 		<property name="objectLevelDao"><ref bean="objectLevelDao" /></property>
+		<property name="sufficientFundsReport"><ref bean="glSufficientFundsReport" /></property>
 	</bean>
 
 	<bean id="glPosterService" class="org.kuali.module.gl.service.impl.PosterServiceImpl" init-method="init">
@@ -150,6 +151,10 @@
 	</bean>
 
 	<bean id="glScrubberReport" class="org.kuali.module.gl.batch.scrubber.impl.ScrubberReportImpl">
+		<property name="destinationDirectory"><value>/opt/scratch</value></property>
+	</bean>
+
+	<bean id="glSufficientFundsReport" class="org.kuali.module.gl.batch.sufficientFunds.impl.SufficientFundsReportImpl">
 		<property name="destinationDirectory"><value>/opt/scratch</value></property>
 	</bean>
 

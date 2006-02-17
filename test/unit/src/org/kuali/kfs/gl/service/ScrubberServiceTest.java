@@ -73,10 +73,9 @@ public class ScrubberServiceTest extends KualiTestBaseWithSpring {
                 .getBean("glScrubberService");
 
         // Get the test date time service so we can specify the date/time of the run
-        d = new Date();
         Calendar c = Calendar.getInstance();
         c.set(Calendar.DAY_OF_MONTH, 1);
-        c.set(Calendar.MONTH, 1);
+        c.set(Calendar.MONTH, Calendar.JANUARY);
         c.set(Calendar.YEAR, 2004);
         d = c.getTime();
         dateTimeService = (TestDateTimeService) beanFactory

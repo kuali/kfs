@@ -36,38 +36,61 @@ import org.kuali.core.bo.AccountingLineOverride;
 public class AccountingLineRuleUtilTest extends KualiTestBaseWithSpring {
 
     public void testIsValidAccount_valid() {
-        testIsValidAccount(getAccountFromFixture("activeAccount"), AccountingLineOverride.CODE.NONE, null);
+        testIsValidAccount(getAccountFromFixture("activeAccount"), null);
     }
 
     public void testIsValidAccount_null() {
-        testIsValidAccount(null, AccountingLineOverride.CODE.NONE, KeyConstants.ERROR_EXISTENCE);
+        testIsValidAccount(null, KeyConstants.ERROR_EXISTENCE);
     }
 
     public void testIsValidAccount_closed() {
-        testIsValidAccount(getAccountFromFixture("closedAccount"), AccountingLineOverride.CODE.NONE,
-            KeyConstants.ERROR_DOCUMENT_ACCOUNT_CLOSED);
+        testIsValidAccount(getAccountFromFixture("closedAccount"), KeyConstants.ERROR_DOCUMENT_ACCOUNT_CLOSED);
     }
 
-    public void testIsValidAccount_expired() {
-        testIsValidAccount(getAccountFromFixture("expiredAccount"), AccountingLineOverride.CODE.NONE,
+    private void testIsValidAccount(Account account, String expectedErrorKey) {
+        assertGlobalErrorMapEmpty();
+        boolean actual = AccountingLineRuleUtil.isValidAccount(account, getDataDictionaryService().getDataDictionary());
+        assertEquals("isValidAccount result", expectedErrorKey == null, actual);
+        if (expectedErrorKey == null) {
+            assertGlobalErrorMapEmpty();
+        }
+        else {
+            assertGlobalErrorMapContains(Constants.ACCOUNT_NUMBER_PROPERTY_NAME, expectedErrorKey);
+        }
+    }
+
+    public void testHasRequiredOverrides_valid() {
+        testHasRequiredOverrides(getAccountFromFixture("activeAccount"), AccountingLineOverride.CODE.NONE, null);
+    }
+
+    public void testHasRequiredOverrides_null() {
+        testHasRequiredOverrides(null, AccountingLineOverride.CODE.NONE, null);
+    }
+
+    public void testHasRequiredOverrides_closed() {
+        testHasRequiredOverrides(getAccountFromFixture("closedAccount"), AccountingLineOverride.CODE.NONE, null);
+    }
+
+    public void testHasRequiredOverrides_expired() {
+        testHasRequiredOverrides(getAccountFromFixture("expiredAccount"), AccountingLineOverride.CODE.NONE,
             KeyConstants.ERROR_DOCUMENT_ACCOUNT_EXPIRED);
     }
 
-    public void testIsValidAccount_expiredNoContinuation() {
-        testIsValidAccount(getAccountFromFixture("expiredAccountNoContinuation"), AccountingLineOverride.CODE.NONE,
+    public void testHasRequiredOverrides_expiredNoContinuation() {
+        testHasRequiredOverrides(getAccountFromFixture("expiredAccountNoContinuation"), AccountingLineOverride.CODE.NONE,
             KeyConstants.ERROR_DOCUMENT_ACCOUNT_EXPIRED_NO_CONTINUATION);
     }
 
-    public void testIsValidAccount_expiredButOverridden() {
-        testIsValidAccount(getAccountFromFixture("expiredAccount"), AccountingLineOverride.CODE.EXPIRED_ACCOUNT, null);
+    public void testHasRequiredOverrides_expiredButOverridden() {
+        testHasRequiredOverrides(getAccountFromFixture("expiredAccount"), AccountingLineOverride.CODE.EXPIRED_ACCOUNT, null);
     }
 
-    public void testIsValidAccount_expiredNoContinuationButOverridden() {
-        testIsValidAccount(getAccountFromFixture("expiredAccountNoContinuation"), AccountingLineOverride.CODE.EXPIRED_ACCOUNT, null);
+    public void testHasRequiredOverrides_expiredNoContinuationButOverridden() {
+        testHasRequiredOverrides(getAccountFromFixture("expiredAccountNoContinuation"), AccountingLineOverride.CODE.EXPIRED_ACCOUNT, null);
     }
 
-    public void testIsValidAccount_expiredButMultipleOverridden() {
-        testIsValidAccount(getAccountFromFixture("expiredAccount"), AccountingLineOverride.CODE.EXPIRED_ACCOUNT_AND_NON_FRINGE_ACCOUNT_USED,
+    public void testHasRequiredOverrides_expiredButMultipleOverridden() {
+        testHasRequiredOverrides(getAccountFromFixture("expiredAccount"), AccountingLineOverride.CODE.EXPIRED_ACCOUNT_AND_NON_FRINGE_ACCOUNT_USED,
             null);
     }
 
@@ -75,11 +98,10 @@ public class AccountingLineRuleUtilTest extends KualiTestBaseWithSpring {
         return (Account) getFixtureEntry(fixtureName).createObject();
     }
 
-    private void testIsValidAccount(Account account, String overrideCode, String expectedErrorKey) {
+    private void testHasRequiredOverrides(Account account, String overrideCode, String expectedErrorKey) {
         assertGlobalErrorMapEmpty();
-        boolean actual = AccountingLineRuleUtil.isValidAccount(account, overrideCode,
-            getDataDictionaryService().getDataDictionary());
-        assertEquals("isValidAccount result", expectedErrorKey == null, actual);
+        boolean actual = AccountingLineRuleUtil.hasRequiredOverrides(account, overrideCode);
+        assertEquals("hasRequiredOverrides result", expectedErrorKey == null, actual);
         if (expectedErrorKey == null) {
             assertGlobalErrorMapEmpty();
         }

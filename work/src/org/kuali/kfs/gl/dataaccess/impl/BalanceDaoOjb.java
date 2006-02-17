@@ -18,6 +18,7 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.gl.bo.Balance;
+import org.kuali.module.gl.bo.SufficientFundBalances;
 import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.dao.BalanceDao;
 import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
@@ -302,5 +303,17 @@ public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements Balanc
         attributeList.add("subAccountNumber");
         
         return attributeList;
+    }
+
+    public Balance getBalanceByPrimaryId(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber) {
+        LOG.debug("getBalanceByPrimaryId() started");
+
+        Criteria crit = new Criteria();
+        crit.addEqualTo("universityFiscalYear", universityFiscalYear);
+        crit.addEqualTo("chartOfAccountsCode", chartOfAccountsCode);
+        crit.addEqualTo("accountNumber", accountNumber);
+
+        QueryByCriteria qbc = QueryFactory.newQuery(SufficientFundBalances.class, crit);
+        return (Balance) getPersistenceBrokerTemplate().getObjectByQuery(qbc);
     }
 }

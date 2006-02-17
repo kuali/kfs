@@ -22,6 +22,8 @@
  */
 package org.kuali.module.gl.dao;
 
+import java.util.Collection;
+
 import org.kuali.module.gl.bo.SufficientFundBalances;
 
 /**
@@ -29,6 +31,8 @@ import org.kuali.module.gl.bo.SufficientFundBalances;
  *
  */
 public interface SufficientFundBalancesDao {
-  public SufficientFundBalances getByPrimaryId(Integer universityFiscalYr,String chartOfAccountsCode,String accountNumber,String financialObjectCode);
-  public void save(SufficientFundBalances sfb);
+    public Collection getByObjectCode(Integer universityFiscalYear, String chartOfAccountsCode, String financialObjectCode);
+    public void deleteByAccountNumber(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber);
+    public SufficientFundBalances getByPrimaryId(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialObjectCode);
+    public void save(SufficientFundBalances sfb);
 }

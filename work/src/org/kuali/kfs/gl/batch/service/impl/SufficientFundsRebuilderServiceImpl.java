@@ -23,8 +23,11 @@
 package org.kuali.module.gl.service.impl;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -33,8 +36,16 @@ import org.kuali.core.bo.user.Options;
 import org.kuali.core.dao.OptionsDao;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.service.PersistenceService;
+import org.kuali.module.chart.bo.Account;
+import org.kuali.module.chart.bo.ObjLevel;
+import org.kuali.module.chart.dao.ObjectLevelDao;
+import org.kuali.module.gl.bo.Balance;
+import org.kuali.module.gl.bo.SufficientFundBalances;
 import org.kuali.module.gl.bo.SufficientFundRebuild;
-import org.kuali.module.gl.service.OriginEntryService;
+import org.kuali.module.gl.dao.BalanceDao;
+import org.kuali.module.gl.dao.SufficientFundBalancesDao;
+import org.kuali.module.gl.dao.SufficientFundRebuildDao;
 import org.kuali.module.gl.service.SufficientFundsRebuilderService;
 
 /**
@@ -44,11 +55,14 @@ import org.kuali.module.gl.service.SufficientFundsRebuilderService;
 public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebuilderService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SufficientFundsRebuilderServiceImpl.class);
 
-    private OriginEntryService originEntryService;
     private DateTimeService dateTimeService;
     private KualiConfigurationService kualiConfigurationService;
-//    private SufficientFundsRebuildDao sufficientFundsRebuildDao;
+    private BalanceDao balanceDao;
+    private SufficientFundBalancesDao sufficientFundBalancesDao;
+    private SufficientFundRebuildDao sufficientFundRebuildDao;
     private OptionsDao optionsDao;
+    private PersistenceService persistenceService;
+    private ObjectLevelDao objectLevelDao;
 
     private Date runDate;
     private Calendar runCal;
@@ -56,26 +70,47 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
     
     Map batchError;
     List transactionErrors;
-    private int sfrbRecsConvertedCount;
+    private int sfrbRecordsConvertedCount;
+    private Integer universityFiscalYear;
+
+    private int sfrbRecordsReadCount;
+    private int warningCount;
+    private int sfrbNotDeletedCount;
+    private boolean isContractGrants;
+
+    private SufficientFundBalances currentSfb;
     
     public SufficientFundsRebuilderServiceImpl() {
       super();
     }
 
-    public void rebuildSufficientFunds() {
-        // TODO Auto-generated method stub
+    public void rebuildSufficientFunds(Integer fiscalYear) { // driver
         LOG.debug("beginning sufficient funds rebuild process");
+
+        universityFiscalYear = fiscalYear;
         initService();
-        
-/*
- *        sufficientFundsRebuildDao.getAllEntries();
-        iterate through above {
+
+        for (Iterator iter = sufficientFundRebuildDao.getAll().iterator(); iter.hasNext();) {
+            SufficientFundRebuild sfrb = (SufficientFundRebuild) iter.next();
             transactionErrors = new ArrayList();
-            convertSFRB(sfrb);
-        
+            convertSfrb(sfrb);
         }
         
-*/    }
+        for (Iterator iter = sufficientFundRebuildDao.getAll().iterator(); iter.hasNext();) {
+            SufficientFundRebuild sfrb = (SufficientFundRebuild) iter.next();
+
+            ++sfrbRecordsReadCount;
+        
+            if(!"A".equalsIgnoreCase(sfrb.getAccountFinancialObjectTypeCode())) {
+                addTransactionError("ACCOUNT/FINANCIAL OBJECT TYPE CODE MUST='A' OR 'O'", sfrb.getAccountFinancialObjectTypeCode());
+                ++warningCount;
+                ++sfrbNotDeletedCount;
+            } else {
+                processSfrb(sfrb);
+            }
+        }
+
+    }
 
     private void initService() {
         batchError = new HashMap();
@@ -83,225 +118,190 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
         runDate = new Date(dateTimeService.getCurrentDate().getTime());
         runCal = Calendar.getInstance();
         runCal.setTime(runDate);
-
-        options = optionsDao.getByPrimaryId(new Integer(2006));
+        
+        options = optionsDao.getByPrimaryId(universityFiscalYear);
         
         if (options == null) {
             throw new IllegalStateException(kualiConfigurationService.getPropertyString(KeyConstants.ERROR_UNIV_DATE_NOT_FOUND));
         }
     }
     
-    private void convertSFRB(SufficientFundRebuild sfrb) {
+    private void convertSfrb(SufficientFundRebuild sfrb) {
         if("A".equalsIgnoreCase(sfrb.getAccountFinancialObjectTypeCode())) {
             return;
         }
         if("O".equalsIgnoreCase(sfrb.getAccountFinancialObjectTypeCode())) {
             processSfrbObject(sfrb);
-            ++sfrbRecsConvertedCount;
+            ++sfrbRecordsConvertedCount;
         } else {
             addTransactionError("ACCOUNT/FINANCIAL OBJECT TYPE CODE MUST='A' OR 'O'", sfrb.getAccountFinancialObjectTypeCode());
         }
     }
 
     private void processSfrbObject(SufficientFundRebuild sfrb) {
-/*        endOfSfovSw = "N";
-        glsfovUnivFiscalYr = universityFiscalYear;
-        glsfovFinCoaCd = glsfrbFinCoaCd;
-        glsfovFinObjectCd = glsfrbAcctNbrFobjCd;
-        getFirstSfov();
-        if((glsfovUnivFiscalYr.equalsIgnoreCase(universityFiscalYear) &&
-            glsfovFinCoaCd.equalsIgnoreCase(glsfrbFinCoaCd) &&
-            glsfovFinObjectCd.equalsIgnoreCase(glsfrbAcctNbrFobjCd)) &&
-            endOfSfovSw.equalsIgnoreCase("N") && !stopRun) {
-                do {
-                    convertObjtToAcct();
-                }while(!glsfovUnivFiscalYr.equalsIgnoreCase(universityFiscalYear) ||
-                        !glsfovFinCoaCd.equalsIgnoreCase(glsfrbFinCoaCd) ||
-                        !glsfovFinObjectCd.equalsIgnoreCase(glsfrbAcctNbrFobjCd) ||
-                        endOfSfovSw.equalsIgnoreCase("Y") ||
-                        !stopRun);
+        Collection fundBalances = sufficientFundBalancesDao.getByObjectCode(universityFiscalYear, sfrb.getChartOfAccountsCode(), sfrb.getAccountNumberFinancialObjectCode());
+
+        for (Iterator fundBalancesIter = fundBalances.iterator(); fundBalancesIter.hasNext();) {
+            currentSfb = (SufficientFundBalances) fundBalancesIter.next();
+            convertObjtToAcct(sfrb, currentSfb);
         }
-        deleteSfrb();
-*/
     }
 
-    private void processSFRB(SufficientFundRebuild sfrb) {
-/*
- *         if(!"A".equalsIgnoreCase(sfrb.getAccountFinancialObjectTypeCode())) {
-//            wsWarningFlag = "y";
-//            warningCount++;
-//            sfrbNotDeletedCount++;
-            addTransactionError("ACCOUNT/FINANCIAL OBJECT TYPE CODE MUST='A' OR 'O'", sfrb.getAccountFinancialObjectTypeCode());
+    private void convertObjtToAcct(SufficientFundRebuild sfrb, SufficientFundBalances sfb) {
+        SufficientFundRebuild altSfrb = sufficientFundRebuildDao.get(sfb.getChartOfAccountsCode(), "A", sfb.getAccountNumber());
+        
+        if (altSfrb == null) {
+            sufficientFundRebuildDao.save(altSfrb);
+            sufficientFundRebuildDao.delete(sfrb);
+        }
+    }
+
+    private void processSfrb(SufficientFundRebuild sfrb) {
+        Balance balance = balanceDao.getBalanceByPrimaryId(universityFiscalYear, sfrb.getChartOfAccountsCode(), sfrb.getAccountNumberFinancialObjectCode());
+        
+        if (balance == null) {
+            addTransactionError("Balance not found in database", universityFiscalYear + " - " + sfrb.getChartOfAccountsCode() + " - " + sfrb.getAccountNumberFinancialObjectCode());
+            ++warningCount;
+            ++sfrbNotDeletedCount;
             return;
         }
-        cgAccountSw = "N";
-        sfblExistsSq = "N";
-        errorsFoundSw = "N";
-
-        if(!glsfrbFinCoaCd.equalsIgnoreCase(saveCoaCode)){
-            cacoatFinCoaCd = glsfrbFinCoaCd;
-            query = "SELECT FIN_COA_CD, FIN_COA_MGRUNVL_ID' FIN_COA_ORIGIN_CD, FIN_COA_DESC " +
-                    ",FIN_COA_ACTIVE_CD, FIN_CASH_OBJ_CD, FIN_AP_OBJ_CD, INCBDGT_ELIMOBJ_CD " +
-                    ",EXPBDGT_ELIMOBJ_CDR PTS_TO_FIN_COA_CD, FIN_AR_OBJ_CD, FIN_INT_ENC_OBJ_CD " +
-                    ",FIN_EXT_ENC_OBJ_CD, FIN_PRE_ENC_OBJ_CD,ICR_INC_FIN_OBJ_CD, ICR_EXP_FIN_OBJ_CD";
-            sqlcode = read(query);
-            if(sqlcode == 9999) {
-                sqlError();
-                abendProgram();
-            }
-            if(sqlcode == 100) {
-                checkNewPage();
-                //Error Message
-                wsWarningFlag = "Y";
-                warningCount++;
-                lineCount++;
-                sfrbNotDeletedCount++;
-            }
-            else {
-                saveCoaCode = cacoatFinCoaCd;
-            }
-        }
-        caacctFinCoaCd = glsfrbFinCoaCd;
-        caacctAccountNbr = glsfrbAcctNbrFobjCd;
-        query = "Select * from CA_ACCOUNT_T Where FIN_COA_CD = caacctFinCoaCd and ACCOUNT_NBR = caacctAccountNbr";
-        sqlcode = read(query);
-        if(sqlcode == 9999) {
-            sqlError();
-            abendProgram();
-        }
-        if(sqlcode == 100) {
-            checkNewPage();
-            //Error Message
-            wsWarningFlag = "Y";
-            warningCount++;
-            lineCount++;
-            sfrbNotDeletedCount++;
-            getNextSfrb();
-        }
-        casfgrSubFundGrpCd = caacctSubFundGrpCd;
-        query = "Select * from CA_SUB_FUND_CRP_T whereSUB_FUND_GRP_CD = casfgrSubFundGrpCD";
-        sqlcode = read(query);
-        if(sqlcode == 9999) {
-            sqlError();
-            abendProgram();
-        }
-        if(sqlcode == 100) {
-            checkNewPage();
-            //Error Message
-            wsWarningFlag = "Y";
-            warningCount++;
-            lineCount++;
-            sfrbNotDeletedCount++;
-            getNextSfrb();
-        }
-        if("CG".equalsIgnoreCase(casfgrFundGrpCd)) {
-            cgAccountSw = "Y";
-        }
-        glglblUnivFiscalYr = universityFiscalYear;
-        glglblFinCoaCd = glsfrbFinCoaCd;
-        glglblAccountNbr = glsfrbAcctNbrFobjCd;
-        endOfGlblSw = "N";
-        noGlblSw = "Y";
-        query = "Select * from GL_BALANCE_T where UNIV_FISCAL_YR = glglblUnivFiscalYr and FIN_COA_CD = glglblFinCoaCd and ACCOUNT_NBR = glglblAccountNbr";
-        sqlcode = read(query);
-        if(sqlcode == 9999) {
-            sqlError();
-            abendProgram();
-        }
-        if(glglblDtI == -1) {
-            glglblTimestamp = wsCompleteTimestamp;
-        }
-
-        if(universityFiscalYear.equalsIgnoreCase(glglblUnivFiscalYr) &&
-           glsfrbFinCoaCd.equalsIgnoreCase(glglblFinCoaCd) &&
-           glsfrbAcctNbrFobjCd.equalsIgnoreCase(glglblAccountNbr)) {}
-        else {
-            //Close Cursor
-            errorsFoundSw = "Y";
-            noGlblSw = "N";
-            checkNewPage();
-            //Error Message
-            wsWarningFlag = "Y";
-            warningCount++;
-            lineCount++;
-            sfrbNotDeletedCount++;
-        }
-        if("O".equalsIgnoreCase(caacctAcctSfCd) ||
-           "L".equalsIgnoreCase(caacctAcctSfCd) ||
-           "C".equalsIgnoreCase(caacctAcctSfCd) ||
-           "A".equalsIgnoreCase(caacctAcctSfCd) ||
-           "H".equalsIgnoreCase(caacctAcctSfCd)) {}
-        else {
-            //CLOSE GLBL_CURSOR
-            errorsFoundSw = "Y";
-            checkNewPage();
-            //Error Message
-            wsWarningFlag = "Y";
-            warningCount++;
-            lineCount++;
-            sfrbNotDeletedCount++;
-            getNextSfrb();
+        
+        balance.setTimestamp(new Date(dateTimeService.getCurrentTimestamp().getTime()));
+        
+        Account sfrbAccount = balance.getAccount();
+        
+        if (sfrbAccount == null) {
+            addTransactionError("Record not found in Account table", sfrb.getChartOfAccountsCode() + " - " + sfrb.getAccountNumberFinancialObjectCode());
+            ++warningCount;
+            ++sfrbNotDeletedCount;
             return;
         }
 
-        glsfblUnivFiscalYr = universityFiscalYear;
-        glsfblFinCoaCd = glsfrbFinCoaCd;
-        glsfblAccountNbr = glsfrbAcctNbrFobjCd;
-        endOfSfblSw = "N";
-        query = "Select * from GL_SF_BALANCES_T";
-        if(sqlcode == 9999) {
-            sqlError();
-            abendProgram();
+        if (sfrbAccount.getSubFundGroup() == null) {
+            addTransactionError("Sub Fund group for this Account not found", sfrb.getAccountNumberFinancialObjectCode());
+            ++warningCount;
+            ++sfrbNotDeletedCount;
+            return;
         }
+        
+        isContractGrants = "CG".equalsIgnoreCase(sfrbAccount.getSubFundGroupCode());
 
-        if("N".equalsIgnoreCase(errorsFoundSw) &&
-           universityFiscalYear.equalsIgnoreCase(glsfblUnivFiscalYr) &&
-           glsfrbFinCoaCd.equalsIgnoreCase(glsfblFinCoaCd) &&
-           glsfrbAcctNbrFobjCd.equalsIgnoreCase(glsfblAccountNbr) &&sqlcode == 0) {
-            do {
-                deleteSfblAccounts();
-            } while(!glsfblUnivFiscalYr.equalsIgnoreCase(universityFiscalYear) ||
-                    !glsfblFinCoaCd.equalsIgnoreCase(glsfrbFinCoaCd) ||
-                    !glsfblAccountNbr.equalsIgnoreCase(glsfrbAcctNbrFobjCd) ||
-                    "Y".equalsIgnoreCase(endOfSfblSw) || stopRun);
+        if ("OLCAH".indexOf(sfrbAccount.getAccountSufficientFundsCode()) == -1) {
+            addTransactionError("AccountSufficientFundsCode invalid for this Chart and Account", sfrb.getChartOfAccountsCode() + " - " + sfrb.getAccountNumberFinancialObjectCode() + " - " + sfrbAccount.getAccountSufficientFundsCode());
+            ++warningCount;
+            ++sfrbNotDeletedCount;
+            return;
         }
-        else {
-            //CLOSE SFBL_CURSOR
+  
+        sufficientFundBalancesDao.deleteByAccountNumber(universityFiscalYear, sfrb.getChartOfAccountsCode(), sfrbAccount.getAccountNumber());
+        
+        if ("N".equalsIgnoreCase(sfrbAccount.getAccountSufficientFundsCode())) {
+            // set a switch
+        } else {
+            processSfbl(sfrb, sfrbAccount, balance);
         }
+    }
 
-        if("N".equalsIgnoreCase(caacctAcctSfCd)) {
-            sfblExcluded = true;
+    private void processSfbl(SufficientFundRebuild sfrb, Account sfrbAccount, Balance balance) {
+        String tempFinObjectCd = "";
+        if("O".equalsIgnoreCase(sfrbAccount.getAccountSufficientFundsCode())) {
+            tempFinObjectCd = balance.getObjectCode();
+        } else if("L".equalsIgnoreCase(sfrbAccount.getAccountSufficientFundsCode())) {
+            tempFinObjectCd = balance.getFinancialObject().getFinancialObjectLevelCode();
+        } else if("C".equalsIgnoreCase(sfrbAccount.getAccountSufficientFundsCode())) {
+            ObjLevel objLevel = objectLevelDao.getByPrimaryId(sfrbAccount.getChartOfAccountsCode(), balance.getFinancialObject().getFinancialObjectLevelCode());
+            tempFinObjectCd = objLevel.getConsolidatedObjectCode();
+        } else if("H".equalsIgnoreCase(sfrbAccount.getAccountSufficientFundsCode()) ||
+                "A".equalsIgnoreCase(sfrbAccount.getAccountSufficientFundsCode())) {
+            tempFinObjectCd = "";
         }
-        else {
-            if("N".equalsIgnoreCase(errorsFoundSw)) {
-                do {
-                    processSfbl();
-                }while(!glglblUnivFiscalYr.equalsIgnoreCase(universityFiscalYear) ||
-                       !glglblFinCoaCd.equalsIgnoreCase(glsfrbFinCoaCd) ||
-                       !glglblAccountNbr.equalsIgnoreCase(glsfrbAcctNbrFobjCd) ||
-                       "Y".equalsIgnoreCase(endOfGlblSw)  || stopRun);
+        
+        currentSfb = sufficientFundBalancesDao.getByPrimaryId(universityFiscalYear, sfrbAccount.getChartOfAccountsCode(), sfrbAccount.getAccountNumber(), tempFinObjectCd);
+        
+        if (isContractGrants) {
+            balance.setAccountLineAnnualBalanceAmount(balance.getAccountLineAnnualBalanceAmount().add(balance.getContractsGrantsBeginningBalanceAmount()));
+        }
+        
+        if ("H".equalsIgnoreCase(sfrbAccount.getAccountSufficientFundsCode())) {
+            processCash(sfrbAccount, balance);
+        } else {
+            processObjectOrAccount(sfrbAccount, balance);
+        }
+        
+        persistenceService.getPersistenceBroker().store(balance);
+    }
+
+    private void processObjectOrAccount(Account sfrbAccount, Balance balance) {
+        if (options.getFinObjTypeExpenditureexpCd().equalsIgnoreCase(balance.getObjectTypeCode()) ||
+                "TE".equalsIgnoreCase(options.getFinObjTypeExpenditureexpCd()) ||
+                "ES".equalsIgnoreCase(options.getFinObjTypeExpenditureexpCd())) {
+            if (options.getActualFinancialBalanceTypeCd().equalsIgnoreCase(balance.getBalanceTypeCode())) {
+                processObjtAcctActual(balance);
+            } else if (options.getExtrnlEncumFinBalanceTypCd().equalsIgnoreCase(balance.getBalanceTypeCode()) ||
+                    options.getIntrnlEncumFinBalanceTypCd().equalsIgnoreCase(balance.getBalanceTypeCode()) ||
+                    options.getPreencumbranceFinBalTypeCd().equalsIgnoreCase(balance.getBalanceTypeCode()) ||
+                    "CE".equalsIgnoreCase(balance.getBalanceTypeCode())) {
+                processObjtAcctEncmbrnc(balance);
+            } else if (options.getBudgetCheckingBalanceTypeCd().equalsIgnoreCase(balance.getBalanceTypeCode())) {
+                processObjtAcctBudget(balance);
             }
         }
-        if("N".equalsIgnoreCase(errorsfoundSw)) {
-            deleteSfrb();
-            sfrbRecsDeletedCount++;
+    }
+
+    private void processObjtAcctActual(Balance balance) {
+        currentSfb.setAccountActualExpenditureAmt(currentSfb.getAccountActualExpenditureAmt().add(balance.getAccountLineAnnualBalanceAmount()));
+    }
+
+    private void processObjtAcctEncmbrnc(Balance balance) {
+        currentSfb.setAccountEncumbranceAmount(currentSfb.getAccountEncumbranceAmount().add(balance.getAccountLineAnnualBalanceAmount()));
+        currentSfb.setAccountEncumbranceAmount(currentSfb.getAccountEncumbranceAmount().add(balance.getBeginningBalanceLineAmount()));
+    }
+
+    private void processObjtAcctBudget(Balance balance) {
+        currentSfb.setCurrentBudgetBalanceAmount(currentSfb.getCurrentBudgetBalanceAmount().add(balance.getAccountLineAnnualBalanceAmount()));
+        currentSfb.setCurrentBudgetBalanceAmount(currentSfb.getCurrentBudgetBalanceAmount().add(balance.getBeginningBalanceLineAmount()));
+    }
+
+    private void processCash(Account sfrbAccount, Balance balance) {
+        if (balance.getBalanceTypeCode().equalsIgnoreCase(options.getActualFinancialBalanceTypeCd())) {
+            if (balance.getObjectCode().equalsIgnoreCase(sfrbAccount.getChartOfAccounts().getFinancialCashObjectCode()) ||
+                    balance.getObjectCode().equalsIgnoreCase(sfrbAccount.getChartOfAccounts().getFinAccountsPayableObjectCode())) {
+                processCashActual(sfrbAccount, balance);
+            }
+        } else if(balance.getBalanceTypeCode().equalsIgnoreCase(options.getExtrnlEncumFinBalanceTypCd()) ||
+                balance.getBalanceTypeCode().equalsIgnoreCase(options.getIntrnlEncumFinBalanceTypCd()) ||
+                balance.getBalanceTypeCode().equalsIgnoreCase(options.getPreencumbranceFinBalTypeCd()) ||
+                "CE".equalsIgnoreCase(balance.getBalanceTypeCode())) {
+            if (balance.getObjectTypeCode().equalsIgnoreCase(options.getFinObjTypeExpenditureexpCd()) ||
+                    balance.getObjectTypeCode().equalsIgnoreCase(options.getFinObjTypeExpendNotExpCode()) ||
+                    "TE".equalsIgnoreCase(balance.getObjectTypeCode()) ||
+                    "ES".equalsIgnoreCase(balance.getObjectTypeCode())) {
+                processCashEncumbrance(balance);
+            }
         }
-        if("N".equalsIgnoreCase(noGlblSw)) {
-            deleteSfrb();
-            sfrbRecsDeletedCount++;
+    }
+
+    private void processCashActual(Account sfrbAccount, Balance balance) {
+        if (balance.getObjectCode().equalsIgnoreCase(sfrbAccount.getChartOfAccounts().getFinancialCashObjectCode())) {
+            currentSfb.setCurrentBudgetBalanceAmount(currentSfb.getCurrentBudgetBalanceAmount().add(balance.getAccountLineAnnualBalanceAmount()));
+            currentSfb.setCurrentBudgetBalanceAmount(currentSfb.getCurrentBudgetBalanceAmount().add(balance.getBeginningBalanceLineAmount()));
         }
-        getNextSfrb();
-*/    }
+        if (balance.getObjectCode().equalsIgnoreCase(sfrbAccount.getChartOfAccounts().getFinAccountsPayableObjectCode())) {
+            currentSfb.setCurrentBudgetBalanceAmount(currentSfb.getCurrentBudgetBalanceAmount().subtract(balance.getAccountLineAnnualBalanceAmount()));
+            currentSfb.setCurrentBudgetBalanceAmount(currentSfb.getCurrentBudgetBalanceAmount().subtract(balance.getBeginningBalanceLineAmount()));
+        }
+    }
+
+    private void processCashEncumbrance(Balance balance) {
+        currentSfb.setAccountEncumbranceAmount(currentSfb.getAccountEncumbranceAmount().add(balance.getAccountLineAnnualBalanceAmount()));
+        currentSfb.setAccountEncumbranceAmount(currentSfb.getAccountEncumbranceAmount().add(balance.getBeginningBalanceLineAmount()));
+    }
 
     /**
      * @param errorMessage
      */
     private void addTransactionError(String errorMessage, String errorValue) {
         transactionErrors.add(errorMessage + " (" + errorValue + ")");
-    }
-
-    public void setOriginEntryService(OriginEntryService originEntryService) {
-        this.originEntryService = originEntryService;
     }
 
     public void setDateTimeService(DateTimeService dateTimeService) {
@@ -312,8 +312,28 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
         this.kualiConfigurationService = kualiConfigurationService;
     }
 
+    public void setBalanceDao(BalanceDao balanceDao) {
+        this.balanceDao = balanceDao;
+    }
+
+    public void setSufficientFundBalancesDao(SufficientFundBalancesDao sufficientFundBalancesDao) {
+        this.sufficientFundBalancesDao = sufficientFundBalancesDao;
+    }
+
+    public void setSufficientFundRebuildDao(SufficientFundRebuildDao sufficientFundRebuildDao) {
+        this.sufficientFundRebuildDao = sufficientFundRebuildDao;
+    }
+
     public void setOptionsDao(OptionsDao optionsDao) {
         this.optionsDao = optionsDao;
+    }
+
+    public void setPersistenceService(PersistenceService persistenceService) {
+        this.persistenceService = persistenceService;
+    }
+
+    public void setObjectLevelDao(ObjectLevelDao objectLevelDao) {
+        this.objectLevelDao = objectLevelDao;
     }
 
 }

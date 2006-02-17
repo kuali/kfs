@@ -51,17 +51,15 @@
 	</bean>
 
 	<bean id="glSufficientFundsRebuilderService" class="org.kuali.module.gl.service.impl.SufficientFundsRebuilderServiceImpl">
-		<property name="originEntryService"><ref bean="glOriginEntryService" /></property><!--
 		<property name="dateTimeService"><ref bean="dateTimeService" /></property>
-		<property name="offsetDefinitionService"><ref bean="offsetDefinitionService" /></property>
-		<property name="objectCodeService"><ref bean="objectCodeService" /></property>
-		<property name="accountService"><ref bean="accountService" /></property>
 		<property name="kualiConfigurationService"><ref bean="kualiConfigurationService" /></property>
-		<property name="universityDateDao"><ref bean="universityDateDao" /></property>
-		<property name="originEntryGroupService"><ref bean="glOriginEntryGroupService" /></property>
-		<property name="persistenceService"><ref bean="persistenceService"/></property>
-		<property name="scrubberReport"><ref bean="glScrubberReport" /></property>
-	--></bean>
+		<property name="balanceDao"><ref bean="glBalanceDao" /></property>
+		<property name="sufficientFundBalancesDao"><ref bean="glSufficientFundBalancesDao" /></property>
+		<property name="sufficientFundRebuildDao"><ref bean="glSufficientFundRebuildDao" /></property>
+		<property name="optionsDao"><ref bean="optionsDao" /></property>
+		<property name="persistenceService"><ref bean="persistenceService" /></property>
+		<property name="objectLevelDao"><ref bean="objectLevelDao" /></property>
+	</bean>
 
 	<bean id="glPosterService" class="org.kuali.module.gl.service.impl.PosterServiceImpl" init-method="init">
 		<property name="transactionPosters">

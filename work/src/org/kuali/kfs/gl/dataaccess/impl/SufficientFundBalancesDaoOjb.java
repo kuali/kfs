@@ -22,41 +22,69 @@
  */
 package org.kuali.module.gl.dao.ojb;
 
+import java.util.Collection;
+
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.module.gl.bo.SufficientFundBalances;
+import org.kuali.module.gl.bo.SufficientFundRebuild;
 import org.kuali.module.gl.dao.SufficientFundBalancesDao;
 import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 /**
  * @author jsissom
- *
+ * 
  */
 public class SufficientFundBalancesDaoOjb extends PersistenceBrokerDaoSupport implements SufficientFundBalancesDao {
-  private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SufficientFundBalancesDaoOjb.class);
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SufficientFundBalancesDaoOjb.class);
 
-  public SufficientFundBalancesDaoOjb() {
-    super();
-  }
+    public SufficientFundBalancesDaoOjb() {
+        super();
+    }
 
-  public SufficientFundBalances getByPrimaryId(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialObjectCode) {
-    LOG.debug("getByPrimaryId() started");
+    public SufficientFundBalances getByPrimaryId(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber,
+            String financialObjectCode) {
+        LOG.debug("getByPrimaryId() started");
 
-    Criteria crit = new Criteria();
-    crit.addEqualTo("universityFiscalYear",universityFiscalYear);
-    crit.addEqualTo("chartOfAccountsCode",chartOfAccountsCode);
-    crit.addEqualTo("accountNumber",accountNumber);
-    crit.addEqualTo("financialObjectCode",financialObjectCode);
+        Criteria crit = new Criteria();
+        crit.addEqualTo("universityFiscalYear", universityFiscalYear);
+        crit.addEqualTo("chartOfAccountsCode", chartOfAccountsCode);
+        crit.addEqualTo("accountNumber", accountNumber);
+        crit.addEqualTo("financialObjectCode", financialObjectCode);
 
-    QueryByCriteria qbc = QueryFactory.newQuery(SufficientFundBalances.class,crit);
-    return (SufficientFundBalances)getPersistenceBrokerTemplate().getObjectByQuery(qbc);
-  }
+        QueryByCriteria qbc = QueryFactory.newQuery(SufficientFundBalances.class, crit);
+        return (SufficientFundBalances) getPersistenceBrokerTemplate().getObjectByQuery(qbc);
+    }
 
-  public void save(SufficientFundBalances sfb) {
-    LOG.debug("save() started");
+    public void save(SufficientFundBalances sfb) {
+        LOG.debug("save() started");
 
-    getPersistenceBrokerTemplate().store(sfb);
-  }
+        getPersistenceBrokerTemplate().store(sfb);
+    }
+
+    public Collection getByObjectCode(Integer universityFiscalYear, String chartOfAccountsCode, String financialObjectCode) {
+        LOG.debug("getByObjectCode() started");
+
+        Criteria crit = new Criteria();
+        crit.addEqualTo("universityFiscalYear", universityFiscalYear);
+        crit.addEqualTo("chartOfAccountsCode", chartOfAccountsCode);
+        crit.addEqualTo("financialObjectCode", financialObjectCode);
+
+        QueryByCriteria qbc = QueryFactory.newQuery(SufficientFundRebuild.class, crit);
+        return getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
+    }
+
+    public void deleteByAccountNumber(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber) {
+        LOG.debug("deleteByAccountNumber() started");
+
+        Criteria crit = new Criteria();
+        crit.addEqualTo("universityFiscalYear", universityFiscalYear);
+        crit.addEqualTo("chartOfAccountsCode", chartOfAccountsCode);
+        crit.addEqualTo("accountNumber", accountNumber);
+
+        QueryByCriteria qbc = QueryFactory.newQuery(SufficientFundRebuild.class, crit);
+        getPersistenceBrokerTemplate().deleteByQuery(qbc);
+    }
 
 }

@@ -38,6 +38,8 @@ public interface BalanceDao {
     
     public Balance getBalanceByTransaction(Transaction t);
 
+    public Balance getBalanceByPrimaryId(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber);
+
     public Iterator findBalances(Account account, Integer fiscalYear,
             Collection includedObjectCodes, Collection excludedObjectCodes,
             Collection objectTypeCodes, Collection balanceTypeCodes);

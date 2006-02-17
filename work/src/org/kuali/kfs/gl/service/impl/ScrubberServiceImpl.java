@@ -62,7 +62,7 @@ import org.springframework.util.StringUtils;
 
 /**
  * @author Anthony Potts
- * @version $Id: ScrubberServiceImpl.java,v 1.39 2006-02-17 19:09:51 jsissom Exp $
+ * @version $Id: ScrubberServiceImpl.java,v 1.40 2006-02-17 20:31:12 aapotts Exp $
  */
 
 public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
@@ -1896,12 +1896,11 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
      */
     private void performDemerger(String documentNumber, OriginEntryGroup oeg) {
         originEntryService.removeScrubberDocumentEntries(
-			validGroup, errorGroup, expiredGroup, documentNumber); // DOES this need to have runDate!?
+			validGroup, errorGroup, expiredGroup, documentNumber);
         for (Iterator entryIterator = originEntryService.getEntriesByDocument(oeg, documentNumber); entryIterator.hasNext();) {
             OriginEntry entry = (OriginEntry) entryIterator.next();
             originEntryService.createEntry(entry, errorGroup);
         }
-        //todo: add more here from cobol
     }
 
     public class ErrorEntry implements Comparable {

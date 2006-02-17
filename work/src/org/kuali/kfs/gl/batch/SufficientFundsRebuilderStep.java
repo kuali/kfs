@@ -37,7 +37,7 @@ public class SufficientFundsRebuilderStep implements Step {
     }
 
     public boolean performStep() {
-        sufficientFundsRebuilderService.rebuildSufficientFunds();
+        sufficientFundsRebuilderService.rebuildSufficientFunds(new Integer(2006));
         return true;
     }
 

@@ -527,7 +527,7 @@
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.kra.bo.BudgetIndirectCost" table="ER_BDGT_IDC_T">
-  <field-descriptor name="documentHeaderId" column="ER_REF_TRACK_NBR" jdbc-type="BIGINT" primarykey="true" index="true"/>
+  <field-descriptor name="documentHeaderId" column="ER_REF_TRACK_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
   <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
   <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
   <field-descriptor name="budgetBaseCode" column="BDGT_BASE_CD" jdbc-type="VARCHAR"/>
@@ -544,7 +544,7 @@
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.kra.bo.BudgetTaskPeriodIndirectCost" table="ER_BDGT_TSK_PRD_IDC_T">
-  <field-descriptor name="documentHeaderId" column="ER_REF_TRACK_NBR" jdbc-type="BIGINT" primarykey="true" index="true"/>
+  <field-descriptor name="documentHeaderId" column="ER_REF_TRACK_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
   <field-descriptor name="budgetTaskSequenceNumber" column="BDGT_TSK_SEQ_NBR" jdbc-type="INTEGER" primarykey="true" index="true"/>
   <field-descriptor name="budgetPeriodSequenceNumber" column="BDGT_PRD_SEQ_NBR" jdbc-type="INTEGER" primarykey="true" index="true"/>
   <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>

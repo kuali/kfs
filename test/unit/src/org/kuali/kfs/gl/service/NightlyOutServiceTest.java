@@ -36,12 +36,16 @@ public class NightlyOutServiceTest extends KualiTestBaseWithSpring{
     protected void setUp() throws Exception {
         super.setUp();
 
-        if (nightlyOutService == null) {
-            nightlyOutService = SpringServiceLocator.getNightlyOutService();
-        }
+        nightlyOutService = SpringServiceLocator.getNightlyOutService();
     }
-    
+
+    /**
+     * This test just makes sure the code runs without throwing an exception.
+     * A better test will be written
+     * 
+     * @throws Exception
+     */
     public void testCopyPendingLedgerEntry() throws Exception {
-      int numberOfEntries = nightlyOutService.copyApprovedPendingLedgerEntries();
+      nightlyOutService.copyApprovedPendingLedgerEntries();
     }
 }

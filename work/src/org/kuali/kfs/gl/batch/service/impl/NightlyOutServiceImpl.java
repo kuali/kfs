@@ -41,6 +41,7 @@ import org.kuali.module.gl.service.OriginEntryService;
  * @author Bin Gao from Michigan State University
  */
 public class NightlyOutServiceImpl implements NightlyOutService {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(NightlyOutServiceImpl.class);
 
     GeneralLedgerPendingEntryService generalLedgerPendingEntryService;
     OriginEntryService originEntryService;
@@ -55,14 +56,17 @@ public class NightlyOutServiceImpl implements NightlyOutService {
     }
 
     public void deleteCopiedPendingLedgerEntries() {
-      // TODO Write this
+      LOG.debug("deleteCopiedPendingLedgerEntries() started");
+
+      generalLedgerPendingEntryService.deleteByFinancialDocumentApprovedCode("X");
     }
 
     /**
      * @see org.kuali.module.gl.service.NightlyOutService#copyApprovedPendingLedgerEntries()
      */
     public int copyApprovedPendingLedgerEntries() {
-        
+        LOG.debug("copyApprovedPendingLedgerEntries() started");
+
         Iterator pendingEntries = generalLedgerPendingEntryService
                 .findApprovedPendingLedgerEntries();
 

@@ -243,7 +243,7 @@
 		    
 			<attributeReference name="a21SubAccount.offCampusCode" 
 								sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
-								sourceAttributeName="oneDigitTextCode">
+								sourceAttributeName="activeIndicator">
 				<label>Off Campus Indicator</label>
 				<shortLabel>Off Campus</shortLabel>
 				<required>false</required>

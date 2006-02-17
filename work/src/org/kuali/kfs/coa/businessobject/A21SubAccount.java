@@ -45,7 +45,7 @@ public class A21SubAccount extends BusinessObjectBase {
 	private String financialIcrSeriesIdentifier;
 	private String indirectCostRecoveryChartOfAccountsCode;
 	private String indirectCostRecoveryAccountNumber;
-	private String offCampusCode;
+	private boolean offCampusCode;
 	private String costShareChartOfAccountCode;
 	private String costShareSourceAccountNumber;
 	private String costShareSourceSubAccountNumber;
@@ -329,7 +329,7 @@ public class A21SubAccount extends BusinessObjectBase {
      * Gets the offCampusCode attribute. 
      * @return Returns the offCampusCode.
      */
-    public String getOffCampusCode() {
+    public boolean getOffCampusCode() {
         return offCampusCode;
     }
 
@@ -337,7 +337,7 @@ public class A21SubAccount extends BusinessObjectBase {
      * Sets the offCampusCode attribute value.
      * @param offCampusCode The offCampusCode to set.
      */
-    public void setOffCampusCode(String offCampusCode) {
+    public void setOffCampusCode(boolean offCampusCode) {
         this.offCampusCode = offCampusCode;
     }
 

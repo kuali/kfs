@@ -35,7 +35,7 @@ import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 /**
  * @author jsissom
- * @version $Id: OriginEntryDaoOjb.java,v 1.6 2006-02-15 03:29:50 jsissom Exp $
+ * @version $Id: OriginEntryDaoOjb.java,v 1.7 2006-02-17 19:46:13 jsissom Exp $
  * 
  */
 
@@ -69,7 +69,8 @@ public class OriginEntryDaoOjb extends PersistenceBrokerDaoSupport implements Or
   /**
    * This method should only be used in unit tests.  It loads all the 
    * gl_origin_entry_t rows in memory into a collection.  This won't 
-   * sace for production.
+   * work for production because there would be too many rows to load
+   * into memory.
    * 
    * @return
    */
@@ -78,6 +79,7 @@ public class OriginEntryDaoOjb extends PersistenceBrokerDaoSupport implements Or
 
     Criteria criteria = new Criteria();
     QueryByCriteria qbc = QueryFactory.newQuery(OriginEntry.class,criteria);
+    qbc.addOrderByAscending("entryId");
     return getPersistenceBrokerTemplate().getCollectionByQuery(qbc);    
   }
 

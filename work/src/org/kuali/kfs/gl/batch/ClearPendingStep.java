@@ -25,36 +25,33 @@ package org.kuali.module.gl.batch;
 import org.kuali.core.batch.Step;
 import org.kuali.module.gl.service.NightlyOutService;
 
-/**
- * This class...
- * 
- * @author Bin Gao from Michigan State University
- */
-public class NightlyOutStep implements Step {
+public class ClearPendingStep implements Step {
+  private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ClearPendingStep.class);
 
-    private NightlyOutService nightlyOutService;
+  private NightlyOutService nightlyOutService;
 
-    /**
-     * @see org.kuali.core.batch.Step#performStep()
-     */
-    public boolean performStep() {
-        nightlyOutService.copyApprovedPendingLedgerEntries();
-        return true;
-    }
+  public ClearPendingStep() {
+    super();
+  }
 
-    /**
-     * @see org.kuali.core.batch.Step#getName()
-     */
-    public String getName() {
-        return "Nighly Out Job";
-    }
+  public boolean performStep() {
+    LOG.debug("performStep() started");
 
-    /**
-     * Sets the nightlyOutService attribute value.
-     * 
-     * @param nightlyOutService The nightlyOutService to set.
-     */
-    public void setNightlyOutService(NightlyOutService nightlyOutService) {
-        this.nightlyOutService = nightlyOutService;
-    }
+    nightlyOutService.deleteCopiedPendingLedgerEntries();
+
+    return true;
+  }
+
+  public String getName() {
+    return "Delete Copied Pending Entries";
+  }
+
+  /**
+   * Sets the nightlyOutService attribute value.
+   * 
+   * @param nightlyOutService The nightlyOutService to set.
+   */
+  public void setNightlyOutService(NightlyOutService nightlyOutService) {
+      this.nightlyOutService = nightlyOutService;
+  }
 }

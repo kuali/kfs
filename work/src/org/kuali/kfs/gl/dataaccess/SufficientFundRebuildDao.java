@@ -2,7 +2,6 @@ package org.kuali.module.gl.dao;
 
 import java.util.Collection;
 
-import org.kuali.module.gl.bo.SufficientFundBalances;
 import org.kuali.module.gl.bo.SufficientFundRebuild;
 
 public interface SufficientFundRebuildDao {

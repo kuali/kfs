@@ -62,7 +62,7 @@ import org.springframework.util.StringUtils;
 
 /**
  * @author Anthony Potts
- * @version $Id: ScrubberServiceImpl.java,v 1.41 2006-02-18 19:30:32 jsissom Exp $
+ * @version $Id: ScrubberServiceImpl.java,v 1.42 2006-02-18 19:49:19 jsissom Exp $
  */
 
 public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
@@ -420,6 +420,7 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
             workingEntry.setFinancialObject(null);
         }
 
+        // TODO This code is wrong...
         if (originEntry.getFinancialObjectTypeCode() != null 
             && StringUtils.hasText(originEntry.getFinancialObject().getFinancialObjectTypeCode())) {
             checkGLObject(

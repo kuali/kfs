@@ -1005,7 +1005,7 @@ public class ScrubberServiceTest extends KualiTestBaseWithSpring {
      * 
      * @throws Exception
      */
-    public void xtestClosedFiscalYear() throws Exception {
+    public void testClosedFiscalYear() throws Exception {
         String[] inputTransactions = {
                 "2003BA6044906-----4100---ACEX07TOPSLGCLOSEFISC     CONCERTO OFFICE PRODUCTS                            48.53C2006-01-05          ----------                                                                          ",
                 "2003BA6044906-----9041---ACLI07TOPSLGCLOSEFISC     CONCERTO OFFICE PRODUCTS                            48.53D2006-01-05          ----------                                                                          "
@@ -1045,7 +1045,6 @@ public class ScrubberServiceTest extends KualiTestBaseWithSpring {
         scrub(inputTransactions);
         reportErrors();
         assertOriginEntries(outputTransactions);
-        // Check report if necessary
     }
 
     /**
@@ -1069,10 +1068,11 @@ public class ScrubberServiceTest extends KualiTestBaseWithSpring {
           int group = getGroup(groups,requiredEntries[count].groupCode);
           assertEquals("Group for transaction " + foundTransaction.getEntryId() + " is wrong",group,foundTransaction.getEntryGroupId().intValue());
 
-          // Check transaction
+          // Check transaction - this is done this way so that Anthill prints the two transactions to make
+          // resolving the issue easier.
           if ( ! foundTransaction.getLine().trim().equals(requiredEntries[count].transactionLine.trim()) ) {
-            System.err.println(requiredEntries[count].transactionLine);
-            System.err.println(foundTransaction.getLine());
+            System.err.println("Expected transaction: " + requiredEntries[count].transactionLine);
+            System.err.println("Found transaction:    " + foundTransaction.getLine());
             fail("Transaction " + foundTransaction.getEntryId() + " doesn't match expected output");
           }
           count++;

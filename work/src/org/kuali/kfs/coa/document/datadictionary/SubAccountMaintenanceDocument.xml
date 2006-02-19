@@ -8,7 +8,7 @@
         <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
 
 		<businessRulesClass>org.kuali.module.chart.rules.SubAccountRule</businessRulesClass>
-
+		
         <documentAuthorizerClass>org.kuali.core.document.DocumentAuthorizerBase</documentAuthorizerClass>
         <authorizations>
             <authorization action="initiate">
@@ -33,6 +33,17 @@
 			<field attributeName="subAccountNumber" />
 		</lockingKeys>	        
 
+		<defaultExistenceChecks>
+			<reference  attributeName="account" 
+						activeIndicatorAttributeName="accountClosedIndicator" 
+						activeIndicatorReversed="true" 
+						attributeToHighlightOnFail="accountNumber" 
+						displayFieldName="Account" />
+			<reference  attributeName="reportingCode" 
+						attributeToHighlightOnFail="financialReportingCode" 
+						displayFieldName="Reporting Code" />
+		</defaultExistenceChecks>
+		
 	    <maintainableSections>
 	        <maintainableSection title="Edit Sub Account Code">
                 <maintainableItems>
@@ -40,7 +51,9 @@
 		            <maintainableField name="accountNumber" required="true" />
 		            <maintainableField name="subAccountNumber" required="true" />
 		            <maintainableField name="subAccountName" required="true" />	 
-		            <maintainableField name="subAccountActiveIndicator" required="false" />
+		            <maintainableField name="subAccountActiveIndicator" required="false">
+		            	<defaultValue>true</defaultValue>
+		            </maintainableField>
 		            <maintainableField name="a21SubAccount.subAccountTypeCode" required="false" />
                 </maintainableItems>
 	        </maintainableSection>
@@ -64,7 +77,9 @@
 		            <maintainableField name="a21SubAccount.indirectCostRecoveryChartOfAccountsCode" required="false" />
 		            <maintainableField name="a21SubAccount.indirectCostRecoveryAccountNumber" required="false" />
 		            <maintainableField name="a21SubAccount.indirectCostRecoveryTypeCode" required="false" />
-		            <maintainableField name="a21SubAccount.offCampusCode" required="false" />
+		            <maintainableField name="a21SubAccount.offCampusCode" required="false">
+		            	<defaultValue>false</defaultValue>
+		            </maintainableField>
                 </maintainableItems>
 	        </maintainableSection>
 	    </maintainableSections>

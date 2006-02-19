@@ -50,11 +50,11 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
 
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SubAccountRule.class);
     
-    private static final String CG_WORKGROUP_PARM_NAME = "SubAccount.CGWorkgroup";
-    private static final String CG_FUND_GROUP_CODE = "SubAccount.CG.FundGroupCode";
-    private static final String CG_ALLOWED_SUBACCOUNT_TYPE_CODES = "SubAccount.ValidSubAccountTypeCodes";
-    private static final String CG_A21_TYPE_COST_SHARING = "CS";
-    private static final String CG_A21_TYPE_ICR = "EX";
+    public static final String CG_WORKGROUP_PARM_NAME = "SubAccount.CGWorkgroup";
+    public static final String CG_FUND_GROUP_CODE = "SubAccount.CG.FundGroupCode";
+    public static final String CG_ALLOWED_SUBACCOUNT_TYPE_CODES = "SubAccount.ValidSubAccountTypeCodes";
+    public static final String CG_A21_TYPE_COST_SHARING = "CS";
+    public static final String CG_A21_TYPE_ICR = "EX";
     
     private SubAccount oldSubAccount;
     private SubAccount newSubAccount;
@@ -178,15 +178,6 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
         boolean allReportingFieldsEntered = false;
         boolean anyReportingFieldsEntered = false;
         
-        //	if both ChartCode and AccountNumber are filled in, validate that they map to real objects
-        if (StringUtils.isNotEmpty(newSubAccount.getChartOfAccountsCode()) && StringUtils.isNotEmpty(newSubAccount.getAccountNumber())) {
-            if (ObjectUtils.isNull(newSubAccount.getAccount())) {
-                putFieldError("accountNumber", KeyConstants.ERROR_EXISTENCE, 
-                        "Chart Code and Account Number (" + newSubAccount.getChartOfAccountsCode() + "-" + newSubAccount.getAccountNumber() + ")");
-                success &= false;
-            }
-        }
-        
         //	set a flag if all three reporting fields are filled (this is separated just for readability)
         if (StringUtils.isNotEmpty(newSubAccount.getFinancialReportChartCode()) &&
                 	StringUtils.isNotEmpty(newSubAccount.getFinReportOrganizationCode()) &&
@@ -206,18 +197,6 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
         if (anyReportingFieldsEntered && !allReportingFieldsEntered) {
             putGlobalError(KeyConstants.ERROR_DOCUMENT_SUBACCTMAINT_RPTCODE_ALL_FIELDS_IF_ANY_FIELDS);
             success &= false;
-        }
-        
-        //	if all three reporting code fields are filled out, check that the object exists in the db
-        if (allReportingFieldsEntered) {
-            if (ObjectUtils.isNull(newSubAccount.getReportingCode())) {
-                putFieldError("financialReportingCode", 
-                        		KeyConstants.ERROR_DOCUMENT_SUBACCTMAINT_RPTCODE_DOES_NOT_EXIST_IN_SYSTEM, 
-                        		newSubAccount.getFinancialReportChartCode() + "-" + 
-                        		newSubAccount.getFinReportOrganizationCode() + "-" + 
-                        		newSubAccount.getFinancialReportingCode());
-                success &= false;
-            }
         }
         
         return success;
@@ -506,11 +485,22 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
      */
     protected boolean isCgAuthorized(KualiUser user) {
         
+        //  attempt to get the group name that grants access to the CG fields
         String allowedCgWorkgroup = configService.getApplicationParameterValue(CHART_MAINTENANCE_EDOC, CG_WORKGROUP_PARM_NAME);
+        
+        //  if only a null was returned, then we must abort, and cannot continue processing this document
+        if (ObjectUtils.isNull(allowedCgWorkgroup)) {
+            throw new RuntimeException("CG Workgroup Name could not be retrieved from the configuration service.  Rule " + 
+                            "processing cannot continue.  scriptName='" + CHART_MAINTENANCE_EDOC + "'; " + 
+                            "parameter='" + CG_WORKGROUP_PARM_NAME + ";");
+        }
+        
         if (user.isMember(new KualiGroup(allowedCgWorkgroup))) {
+            LOG.info("User '" + user.getPersonUserIdentifier() + "' is a member of the group '" + allowedCgWorkgroup + "', which gives them access to the CG fields.");
             return true;
         }
         else {
+            LOG.info("User '" + user.getPersonUserIdentifier() + "' is not a member of the group '" + allowedCgWorkgroup + "', so they have no access to the CG fields.");
             return false;
         }
     }
@@ -558,15 +548,15 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
     
     protected boolean isFieldValueChanged(String oldValue, String newValue) {
         
-        if (StringUtils.isEmpty(oldValue) && StringUtils.isEmpty(newValue)) {
+        if (StringUtils.isBlank(oldValue) && StringUtils.isBlank(newValue)) {
             return false;
         }
         
-        if (StringUtils.isEmpty(oldValue) && StringUtils.isNotEmpty(newValue)) {
+        if (StringUtils.isBlank(oldValue) && StringUtils.isNotBlank(newValue)) {
             return true;
         }
 
-        if (StringUtils.isNotEmpty(oldValue) && StringUtils.isEmpty(newValue)) {
+        if (StringUtils.isNotBlank(oldValue) && StringUtils.isBlank(newValue)) {
             return true;
         }
 
@@ -575,6 +565,13 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
         }
         
         return false;
+    }
+    
+    protected boolean existenceCheck(String fieldName, String activeIndicatorFieldName) {
+        
+        boolean success = true;
+        
+        return success;
     }
     
     /**

@@ -170,12 +170,12 @@ public class AccountPreRules extends PreRulesContinuationBase {
         //	if subFundGroupCode was not entered, then we have nothing 
         // to do here, so exit
         if (ObjectUtils.isNull(copyAccount.getSubFundGroup()) || 
-                StringUtils.isEmpty(copyAccount.getSubFundGroupCode())) {
+                StringUtils.isBlank(copyAccount.getSubFundGroupCode())) {
             return;
         }
         fundGroupCode = copyAccount.getSubFundGroup().getFundGroupCode();
        
-        if (!StringUtils.isEmpty(fundGroupCode)) {
+        if (!StringUtils.isBlank(fundGroupCode)) {
             
 	        //	on the account screen, if the fund group of the account is CG (contracts & grants) or 
 	        // RF (restricted funds), the restricted status code is set to 'R'.
@@ -212,10 +212,10 @@ public class AccountPreRules extends PreRulesContinuationBase {
         }
         
         //On new Accounts acct_state_cd is defaulted to the value of "IN"
-        if (StringUtils.isEmpty(copyAccount.getAccountStateCode())) {
+        if (StringUtils.isBlank(copyAccount.getAccountStateCode())) {
             String defaultStateCode = configService.getApplicationParameterValue(CHART_MAINTENANCE_EDOC, 
     				DEFAULT_STATE_CODE);
-    		if (StringUtils.isEmpty(defaultStateCode)) {
+    		if (StringUtils.isBlank(defaultStateCode)) {
     			throw new RuntimeException("Expected ConfigurationService.ApplicationParameterValue was not found " + 
     										"for ScriptName = '" + CHART_MAINTENANCE_EDOC + "' and " + 
     										"Parameter = '" + DEFAULT_STATE_CODE + "'");
@@ -224,10 +224,10 @@ public class AccountPreRules extends PreRulesContinuationBase {
         }
         
         //if the account type code is left blank it will default to NA.
-        if (StringUtils.isEmpty(copyAccount.getAccountTypeCode())) {
+        if (StringUtils.isBlank(copyAccount.getAccountTypeCode())) {
             String defaultAccountTypeCode = configService.getApplicationParameterValue(CHART_MAINTENANCE_EDOC, 
     				DEFAULT_ACCOUNT_TYPE_CODE);
-    		if (StringUtils.isEmpty(defaultAccountTypeCode)) {
+    		if (StringUtils.isBlank(defaultAccountTypeCode)) {
     			throw new RuntimeException("Expected ConfigurationService.ApplicationParameterValue was not found " + 
     										"for ScriptName = '" + CHART_MAINTENANCE_EDOC + "' and " + 
     										"Parameter = '" + DEFAULT_ACCOUNT_TYPE_CODE + "'");
@@ -241,7 +241,7 @@ public class AccountPreRules extends PreRulesContinuationBase {
         
         //	acct_zip_cd, acct_state_cd, acct_city_nm all are populated by looking up 
         // the zip code and getting the state and city from that
-        if (!StringUtils.isEmpty(copyAccount.getAccountZipCode())) {
+        if (!StringUtils.isBlank(copyAccount.getAccountZipCode())) {
 
             HashMap primaryKeys = new HashMap();
             primaryKeys.put("postalZipCode", copyAccount.getAccountZipCode());

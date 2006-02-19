@@ -258,7 +258,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         // Enforce institutionally specified restrictions on account number prefixes
         // (e.g. the account number cannot begin with a 3 or with 00.)
         // Only bother trying if there is an account string to test
-        if (!StringUtils.isEmpty(newAccount.getAccountNumber())) {
+        if (!StringUtils.isBlank(newAccount.getAccountNumber())) {
             String[] illegalValues = configService.getApplicationParameterValues(CHART_MAINTENANCE_EDOC, ACCT_PREFIX_RESTRICTION);
             
             if (illegalValues != null) {
@@ -290,7 +290,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         }
         
         //when a restricted status code of 'T' (temporarily restricted) is selected, a restricted status date must be supplied.
-        if (!StringUtils.isEmpty(newAccount.getAccountRestrictedStatusCode())) {
+        if (!StringUtils.isBlank(newAccount.getAccountRestrictedStatusCode())) {
 	        if (newAccount.getAccountRestrictedStatusCode().equalsIgnoreCase(RESTRICTED_CD_TEMPORARILY_RESTRICTED)) {
 	            if (newAccount.getAccountRestrictedStatusDate() == null) {
 		            success &= false;
@@ -303,7 +303,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         // the fringe benefit code is set to N. 
         // The fringe benefit code of the account designated to accept the fringes must be Y.
         if (!newAccount.isAccountsFringesBnftIndicator()) {
-            if (StringUtils.isEmpty(newAccount.getReportsToAccountNumber()) || StringUtils.isEmpty(newAccount.getReportsToChartOfAccountsCode())) {
+            if (StringUtils.isBlank(newAccount.getReportsToAccountNumber()) || StringUtils.isBlank(newAccount.getReportsToChartOfAccountsCode())) {
                 success &= false;
                 putFieldError("reportsToAccountNumber", KeyConstants.ERROR_DOCUMENT_ACCMAINT_RPTS_TO_ACCT_REQUIRED_IF_FRINGEBENEFIT_FALSE);
                 putFieldError("reportsToChartOfAccountsCode", KeyConstants.ERROR_DOCUMENT_ACCMAINT_RPTS_TO_ACCT_REQUIRED_IF_FRINGEBENEFIT_FALSE);
@@ -643,7 +643,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         
         // when closing an account, a continuation account is required 
         // error message - "When closing an Account a Continuation Account Number entered on the Responsibility screen is required."
-        if (StringUtils.isEmpty(newAccount.getContinuationAccountNumber())) {
+        if (StringUtils.isBlank(newAccount.getContinuationAccountNumber())) {
             putGlobalError(KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_CLOSE_CONTINUATION_ACCT_REQD);
             success &= false;
         }
@@ -693,11 +693,11 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
                (fundGroupCode.equalsIgnoreCase(GENERAL_FUND_CD) && 
                !newAccount.getSubFundGroupCode().equalsIgnoreCase(SUB_FUND_GROUP_MEDICAL_PRACTICE_FUNDS))) {
                 
-                if(StringUtils.isEmpty(newAccount.getIncomeStreamAccountNumber())) {
+                if(StringUtils.isBlank(newAccount.getIncomeStreamAccountNumber())) {
                     putFieldError("incomeStreamAccountNumber", KeyConstants.ERROR_DOCUMENT_ACCMAINT_INCOME_STREAM_ACCT_NBR_CANNOT_BE_NULL);
                     success &= false;
                 }
-                if(StringUtils.isEmpty(newAccount.getIncomeStreamFinancialCoaCode())) {
+                if(StringUtils.isBlank(newAccount.getIncomeStreamFinancialCoaCode())) {
                     putFieldError("incomeStreamFinancialCoaCode", KeyConstants.ERROR_DOCUMENT_ACCMAINT_INCOME_STREAM_ACCT_COA_CANNOT_BE_NULL);
                     success &= false;
                 }
@@ -768,8 +768,8 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         
         //	a continuation account is required if the expiration date is completed.
         if (ObjectUtils.isNotNull(newExpDate)) {
-            if (StringUtils.isEmpty(newAccount.getContinuationAccountNumber()) || 
-                StringUtils.isEmpty(newAccount.getContinuationFinChrtOfAcctCd())) {
+            if (StringUtils.isBlank(newAccount.getContinuationAccountNumber()) || 
+                StringUtils.isBlank(newAccount.getContinuationFinChrtOfAcctCd())) {
                 
                 putGlobalError(KeyConstants.ERROR_DOCUMENT_ACCMAINT_CONTINUATION_ACCT_REQD_IF_EXP_DATE_COMPLETED);
                 success &= false;
@@ -833,7 +833,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
                 //	If the fund group is EN (endowment) or PF (plant fund) the value is not set by the system and 
                 // must be set by the user 
                 else if (fundGroupCode.equalsIgnoreCase(ENDOWMENT_FUND_CD) || fundGroupCode.equalsIgnoreCase(PLANT_FUND_CD)) {
-                    if (StringUtils.isEmpty(restrictedStatusCode) || 
+                    if (StringUtils.isBlank(restrictedStatusCode) || 
                        (!restrictedStatusCode.equalsIgnoreCase(RESTRICTED_CD_RESTRICTED) && !restrictedStatusCode.equalsIgnoreCase(RESTRICTED_CD_UNRESTRICTED))) {
                        
                         putFieldError("accountRestrictedStatusCode", KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_RESTRICTED_STATUS_CD_MUST_BE_U_OR_R);
@@ -881,7 +881,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         //	sub_fund_grp_cd on the account must be set to a valid sub_fund_grp_cd that exists in the ca_sub_fund_grp_t table
         //	assuming here that since we did the PersistenceService.refreshNonKeyFields() at beginning of rule that if the 
         // SubFundGroup object would be populated.
-        if (StringUtils.isEmpty(newAccount.getSubFundGroupCode()) || ObjectUtils.isNull(newAccount.getSubFundGroup())) {
+        if (StringUtils.isBlank(newAccount.getSubFundGroupCode()) || ObjectUtils.isNull(newAccount.getSubFundGroup())) {
             putFieldError("subFundGroupCode", KeyConstants.ERROR_DOCUMENT_ACCMAINT_INVALID_SUBFUNDGROUP);
             success &= false;
         } //no active indicator
@@ -892,7 +892,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
             //	Attempt to get the right SubFundGroup code to check the following logic with.  If the value isn't available, go ahead 
             // and die, as this indicates a misconfigured app, and important business rules wont be implemented without it.
             String capitalSubFundGroup = configService.getApplicationParameterValue(CHART_MAINTENANCE_EDOC, ACCT_CAPITAL_SUBFUNDGROUP);
-            if (StringUtils.isEmpty(capitalSubFundGroup)) {
+            if (StringUtils.isBlank(capitalSubFundGroup)) {
                 throw new RuntimeException("Expected ConfigurationService.ApplicationParameterValue was not found " + 
                         					"for ScriptName = '" + CHART_MAINTENANCE_EDOC + "' and " + 
                         					"Parameter = '" + ACCT_CAPITAL_SUBFUNDGROUP + "'");
@@ -904,19 +904,19 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
                 String buildingCode = newAccount.getAccountDescription().getBuildingCode();
                 
                 //	if sub_fund_grp_cd is 'PFCMR' then campus_cd must be entered
-                if (StringUtils.isEmpty(campusCode)) {
+                if (StringUtils.isBlank(campusCode)) {
         	        putFieldError("accountDescription.campusCode", KeyConstants.ERROR_DOCUMENT_ACCMAINT_CAMS_SUBFUNDGROUP_WITH_MISSING_CAMPUS_CD_FOR_BLDG);
                     success &= false;
                 }
             
             	//	if sub_fund_grp_cd is 'PFCMR' then bldg_cd must be entered
-            	if (StringUtils.isEmpty(buildingCode)) {
+            	if (StringUtils.isBlank(buildingCode)) {
         	        putFieldError("accountDescription.campusCode", KeyConstants.ERROR_DOCUMENT_ACCMAINT_CAMS_SUBFUNDGROUP_WITH_MISSING_BUILDING_CD);
                     success &= false;
             	} 
             	
             	//	the building object (campusCode & buildingCode) must exist in the DB
-            	if (!StringUtils.isEmpty(campusCode) && !StringUtils.isEmpty(buildingCode)) {
+            	if (!StringUtils.isBlank(campusCode) && !StringUtils.isBlank(buildingCode)) {
             	    Map pkMap = new HashMap();
             	    pkMap.put("campusCode", campusCode);
             	    pkMap.put("buildingCode", buildingCode);

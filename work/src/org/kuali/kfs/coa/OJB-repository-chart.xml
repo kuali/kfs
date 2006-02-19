@@ -255,7 +255,7 @@
 		auto-retrieve="true"
 		auto-update="object" 
 		auto-delete="object" 
-		proxy="true">
+		proxy="false">
 		<foreignkey field-ref="chartOfAccountsCode" />
 		<foreignkey field-ref="accountNumber" />
 	</reference-descriptor>
@@ -266,7 +266,7 @@
 		auto-retrieve="true"
 		auto-update="object" 
 		auto-delete="object" 
-		proxy="true">
+		proxy="false">
 		<foreignkey field-ref="chartOfAccountsCode" />
 		<foreignkey field-ref="accountNumber" />
 	</reference-descriptor>
@@ -817,8 +817,8 @@
 	</reference-descriptor>
 	<reference-descriptor name="a21SubAccount" 
 		class-ref="org.kuali.module.chart.bo.A21SubAccount" 
-		auto-retrieve="true" auto-update="none" auto-delete="none" 
-		proxy="true">
+		auto-retrieve="true" auto-update="object" auto-delete="object" 
+		proxy="false">
 		<foreignkey field-ref="chartOfAccountsCode" />
 		<foreignkey field-ref="accountNumber" />
 		<foreignkey field-ref="subAccountNumber" />

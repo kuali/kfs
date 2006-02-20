@@ -39,6 +39,7 @@ import org.kuali.core.web.uidraw.Row;
 
 /**
  * This class is the action form for balance inquiries.
+ * 
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public class BalanceInquiryForm extends LookupForm {
@@ -314,5 +315,5 @@ public class BalanceInquiryForm extends LookupForm {
      */
     public void setHideReturnLink(boolean hideReturnLink) {
         this.hideReturnLink = hideReturnLink;
-    }    
+    }
 }

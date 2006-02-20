@@ -665,6 +665,22 @@
 	<reference-descriptor name="documentHeader" class-ref="org.kuali.core.document.DocumentHeader" auto-retrieve="true">
 		<foreignkey field-ref="financialDocumentNumber"/>
 	</reference-descriptor>
+	
+	<reference-descriptor name="account" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true">
+		<foreignkey field-ref="chartOfAccountsCode" />
+		<foreignkey field-ref="accountNumber" />
+	</reference-descriptor>
+
+	<reference-descriptor name="chart" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true">
+		<foreignkey field-ref="chartOfAccountsCode" />
+	</reference-descriptor>
+
+	<reference-descriptor name="financialObject" class-ref="org.kuali.module.chart.bo.ObjectCode" auto-retrieve="true">
+		<foreignkey field-ref="universityFiscalYear" />
+		<foreignkey field-ref="chartOfAccountsCode" />
+		<foreignkey field-ref="financialObjectCode" />
+	</reference-descriptor>
+	
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.gl.bo.UniversityDate" table="SH_UNIV_DATE_T">

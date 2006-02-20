@@ -207,12 +207,10 @@ public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements Balanc
             // add the group criteria into the selection statement
             String[] groupBy = (String [])groupByList.toArray(new String[groupByList.size()]);
             query.addGroupBy(groupBy);
+            return getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
         }
-
-        Iterator balance = getPersistenceBrokerTemplate()
-                .getReportQueryIteratorByQuery(query);
-
-        return balance;
+        
+        return getPersistenceBrokerTemplate().getIteratorByQuery(query);
     }
     
     /**

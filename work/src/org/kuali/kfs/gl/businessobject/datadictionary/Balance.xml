@@ -9,8 +9,13 @@
         <inquiry>
             <title>General Ledger Balance</title>
             <inquiryFields>
-				<field attributeName="chartOfAccountsCode" forceInquiry="true"/>
-				<field attributeName="accountNumber" forceInquiry="true"/>
+            	<field attributeName="universityFiscalYear"/>
+				<field attributeName="chartOfAccountsCode"/>
+				<field attributeName="accountNumber"/>
+				<field attributeName="subAccountNumber"/>
+				<field attributeName="objectCode"/>
+				<field attributeName="subObjectCode"/> 
+				<field attributeName="balanceTypeCode"/> 
             </inquiryFields>
         </inquiry>
 		
@@ -28,12 +33,12 @@
 					</defaultValueFinderClass>
                 </lookupField>
                 
-				<lookupField attributeName="chartOfAccountsCode" required="true"/>
+				<lookupField attributeName="chartOfAccountsCode" required="true" noLookup="false"/>
 				<lookupField attributeName="accountNumber" required="true" noLookup="false"/>
-				<lookupField attributeName="subAccountNumber"/>
-				<lookupField attributeName="objectCode"/>
-				<lookupField attributeName="subObjectCode"/> 
-				<lookupField attributeName="balanceTypeCode" required="true"/> 
+				<lookupField attributeName="subAccountNumber" noLookup="false"/>
+				<lookupField attributeName="objectCode" noLookup="false"/>
+				<lookupField attributeName="subObjectCode" noLookup="false"/> 
+				<lookupField attributeName="balanceTypeCode" required="true" noLookup="false"/> 
 						
 				<lookupField attributeName="dummyBusinessObject.consolidationOption">
 					<defaultValueFinderClass>

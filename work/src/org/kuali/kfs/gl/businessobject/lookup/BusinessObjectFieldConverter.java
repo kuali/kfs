@@ -50,7 +50,7 @@ public class BusinessObjectFieldConverter {
                 pendingEntryFieldValue.put("accountNumber", propertyValue);
             }
             else if(propertyName.equals("subAccountNumber")){
-                pendingEntryFieldValue.put("chartOfAccountsCode", propertyValue);
+                pendingEntryFieldValue.put("subAccountNumber", propertyValue);
             }
             else if(propertyName.equals("objectCode")){
                 pendingEntryFieldValue.put("financialObjectCode", propertyValue);
@@ -67,6 +67,28 @@ public class BusinessObjectFieldConverter {
         }       
         return pendingEntryFieldValue;
     }
-    
 
+    public static Map convertToGLPendingEntryFromCashBalance(Map cashBalanceFieldValues){
+        Map pendingEntryFieldValue = new HashMap();
+        
+        Iterator propsIter = cashBalanceFieldValues.keySet().iterator();
+        while (propsIter.hasNext()) {
+            String propertyName = (String) propsIter.next();
+            String propertyValue = (String) cashBalanceFieldValues.get(propertyName);
+            
+            if(propertyName.equals("universityFiscalYear")){
+                pendingEntryFieldValue.put("universityFiscalYear", propertyValue);  
+            }
+            else if(propertyName.equals("chartOfAccountsCode")){
+                pendingEntryFieldValue.put("chartOfAccountsCode", propertyValue); 
+            }
+            else if(propertyName.equals("accountNumber")){
+                pendingEntryFieldValue.put("accountNumber", propertyValue);
+            }
+            else if(propertyName.equals("subAccountNumber")){
+                pendingEntryFieldValue.put("subAccountNumber", propertyValue);
+            }
+        }       
+        return pendingEntryFieldValue;
+    }
 }

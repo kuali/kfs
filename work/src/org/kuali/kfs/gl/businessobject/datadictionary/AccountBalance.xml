@@ -9,9 +9,16 @@
         <inquiry>
             <title>Available Account Balance</title>
             <inquiryFields>
-				<field attributeName="chartOfAccountsCode" forceInquiry="true"/>
-				<field attributeName="accountNumber" forceInquiry="true"/>
+				<field attributeName="universityFiscalYear"/>
+				<field attributeName="chartOfAccountsCode"/>
+				<field attributeName="accountNumber"/>
 				<field attributeName="objectCode"/>
+				<field attributeName="subAccountNumber"/>
+				<field attributeName="subObjectCode"/>             
+				<field attributeName="currentBudgetLineBalanceAmount"/>
+				<field attributeName="accountLineActualsBalanceAmount"/>
+				<field attributeName="accountLineEncumbranceBalanceAmount"/>
+				<field attributeName="dummyBusinessObject.genericAmount"/>
             </inquiryFields>
         </inquiry>
 		
@@ -23,17 +30,17 @@
 			<defaultSort attributeName="objectCode" />
 			
 			<lookupFields>
-				<lookupField attributeName="universityFiscalYear" required="true">
+				<lookupField attributeName="universityFiscalYear" required="true" noLookup="false">
                 	<defaultValueFinderClass>
 						org.kuali.core.lookup.valueFinder.FiscalYearFinder
 					</defaultValueFinderClass>
                 </lookupField>
                 				
-				<lookupField attributeName="chartOfAccountsCode" required="true"/>
+				<lookupField attributeName="chartOfAccountsCode" required="true" noLookup="false"/>
 				<lookupField attributeName="accountNumber" required="true" noLookup="false"/>
-				<lookupField attributeName="subAccountNumber"/>
-				<lookupField attributeName="objectCode"/>
-				<lookupField attributeName="subObjectCode"/>
+				<lookupField attributeName="subAccountNumber" noLookup="false"/>
+				<lookupField attributeName="objectCode" noLookup="false"/>
+				<lookupField attributeName="subObjectCode" noLookup="false"/>
 				<lookupField attributeName="dummyBusinessObject.consolidationOption">
 					<defaultValueFinderClass>
 						org.kuali.module.gl.web.GLConsolidationOptionFinder

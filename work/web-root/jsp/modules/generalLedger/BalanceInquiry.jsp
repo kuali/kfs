@@ -88,6 +88,15 @@
           	<c:out value="${reqSearchResultsActualSize}" /> items found.  Please refine your search criteria to narrow down your search.
           </c:if>
           
+		 <table>
+		 <c:forEach items="${KualiForm.fields}" var="fields">
+		 	<tr>
+		 		<td><c:out value="${fields.key}"/></td>
+		 		<td><c:out value="${fields.value}"/></td>
+		 	</tr>
+		 </c:forEach>
+		 </table>
+
           <display:table width="100%" class="datatable-100" cellspacing="0" cellpadding="0" 
 				name="${reqSearchResults[1]}" export="true" pagesize="100"
 				requestURI="lookup.do?methodToCall=viewResults&reqSearchResultsActualSize=${reqSearchResultsActualSize}&listKey=${listKey}">

@@ -48,7 +48,6 @@ public class ProjectCode extends KualiCodeBase {
      * Default no-arg constructor.
      */
     public ProjectCode() {
-
     }
 
     /**

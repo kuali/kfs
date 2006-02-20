@@ -51,22 +51,32 @@
 		<attributes>
 			<attributeReference name="active" 
 								sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
-								sourceAttributeName="activeIndicator" />
-
+								sourceAttributeName="activeIndicator">
+				<label>Active Indicator</label>
+				<shortLabel>Active</shortLabel>
+				<summary>Project Code Active Indicator</summary>
+				<description>Project Code Active Indicator</description>
+			</attributeReference>
+			
 			<attributeReference name="chartOfAccountsCode" 
 								sourceClassName="org.kuali.module.chart.bo.Chart" 
-								sourceAttributeName="chartOfAccountsCode"/>
+								sourceAttributeName="chartOfAccountsCode">
+				<required>true</required>
+			</attributeReference>
 			
 
 			<attributeReference name="organizationCode" 
 								sourceClassName="org.kuali.module.chart.bo.Org" 
-								sourceAttributeName="organizationCode"/>
+								sourceAttributeName="organizationCode">
+				<required>true</required>
+			</attributeReference>
 								
 			<attributeReference name="projectManagerUniversalId" 
 								sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
 								sourceAttributeName="genericSystemId">
-								<label>Project Manager Univ</label>
-				                <shortLabel>Proj</shortLabel>
+				<label>Project Manager Univ</label>
+	            <shortLabel>Proj</shortLabel>
+				<required>true</required>
 			</attributeReference>					
 
 
@@ -76,6 +86,7 @@
 
 				<maxLength>10</maxLength>
 				<validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
+				<required>true</required>
 
 				<control>
 					<text size="10" />
@@ -89,6 +100,8 @@
 								sourceClassName="org.kuali.core.bo.user.KualiUser" 
 								sourceAttributeName="personName">
 				<label>Project Manager Name</label>
+				<shortLabel>Mgr</shortLabel>
+				<required>true</required>
 			</attributeReference>
 			
 			<attribute name="projectDescription" forceUppercase="false">
@@ -97,7 +110,8 @@
 
 				<maxLength>400</maxLength>
 				<validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
-
+				<required>true</required>
+				
 				<control>
 					<textarea rows="3" cols="40"/>
 				</control>
@@ -112,7 +126,8 @@
 
 				<maxLength>40</maxLength>
 				<validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
-
+				<required>true</required>
+				
 				<control>
 					<text size="40" />
 				</control>

@@ -8,6 +8,8 @@
         <businessObjectClass>org.kuali.module.chart.bo.ProjectCode</businessObjectClass>
         <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
 
+		<businessRulesClass>org.kuali.module.chart.rules.ProjectCodeRule</businessRulesClass>
+		
         <documentAuthorizerClass>org.kuali.core.document.DocumentAuthorizerBase</documentAuthorizerClass>
         <authorizations>
             <authorization action="initiate">
@@ -30,15 +32,27 @@
 			<field attributeName="code" />
 		</lockingKeys>	         
 
+		<defaultExistenceChecks>
+			<reference  attributeName="chartOfAccounts" 
+						activeIndicatorAttributeName="finChartOfAccountActiveIndicator" 
+						attributeToHighlightOnFail="chartOfAccountsCode" />
+			<reference  attributeName="projectManagerUniversal" 
+						activeIndicatorAttributeName="personActiveIndicator" 
+						attributeToHighlightOnFail="projectManagerUniversalId" />
+			<reference  attributeName="organization" 
+						activeIndicatorAttributeName="organizationActiveIndicator" 
+						attributeToHighlightOnFail="organizationCode" />
+		</defaultExistenceChecks>
+		
 	    <maintainableSections>
 	        <maintainableSection title="Edit Project Code">
                 <maintainableItems>
 		            <maintainableField name="code" required="true" />
-		            <maintainableField name="name" />
+		            <maintainableField name="name" required="true" />
 		            <maintainableField name="projectManagerUniversalId" required="true"/>
-		            <maintainableField name="chartOfAccountsCode" />
-		            <maintainableField name="organizationCode" />	     
-		            <maintainableField name="projectDescription" />
+		            <maintainableField name="chartOfAccountsCode" required="true" />
+		            <maintainableField name="organizationCode" required="true" />	     
+		            <maintainableField name="projectDescription" required="true" />
 		            <maintainableField name="active" >
 		              <defaultValue>true</defaultValue>	
 		            </maintainableField>  

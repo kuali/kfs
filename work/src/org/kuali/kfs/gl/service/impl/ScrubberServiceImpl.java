@@ -62,7 +62,7 @@ import org.springframework.util.StringUtils;
 
 /**
  * @author Anthony Potts
- * @version $Id: ScrubberServiceImpl.java,v 1.44 2006-02-20 18:08:25 larevans Exp $
+ * @version $Id: ScrubberServiceImpl.java,v 1.45 2006-02-20 21:43:03 larevans Exp $
  */
 
 public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
@@ -420,13 +420,16 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
             workingEntry.setFinancialObject(null);
         }
 
-        // TODO This code is wrong...
-        if (originEntry.getFinancialObjectTypeCode() != null && null != originEntry.getFinancialObject()
-            && StringUtils.hasText(originEntry.getFinancialObject().getFinancialObjectTypeCode())) {
-            checkGLObject(
-                originEntry.getFinancialObject().getFinancialObjectType(), 
-                kualiConfigurationService.getPropertyString(KeyConstants.ERROR_OBJECT_TYPE_NOT_FOUND), 
-                originEntry.getFinancialObjectTypeCode());
+        // NOTE (laran) This code replaces lines 2386-2874 in glescrbb.txt
+        if(null == originEntry.getFinancialObjectTypeCode()
+        	|| !StringUtils.hasText(originEntry.getFinancialObjectTypeCode())
+        		|| null == originEntry.getFinancialObject()
+        			|| null == originEntry.getFinancialObject().getFinancialObjectType()
+        				|| !StringUtils.hasText(originEntry.getFinancialObject().getFinancialObjectTypeCode())) {
+        	addTransactionError(
+       			kualiConfigurationService.getPropertyString(KeyConstants.ERROR_OBJECT_TYPE_NOT_FOUND),
+       			originEntry.getFinancialObjectTypeCode());
+        } else {
             workingEntry.setFinancialObjectTypeCode(originEntry.getFinancialObjectTypeCode());
         }
 

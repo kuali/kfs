@@ -10,6 +10,8 @@
       org.kuali.core.maintenance.KualiMaintainableImpl
     </maintainableClass>
 
+	<businessRulesClass>org.kuali.module.chart.rules.OrgRule</businessRulesClass>
+		
     <documentAuthorizerClass>org.kuali.core.document.DocumentAuthorizerBase</documentAuthorizerClass>
     <authorizations>
       <authorization action="initiate">

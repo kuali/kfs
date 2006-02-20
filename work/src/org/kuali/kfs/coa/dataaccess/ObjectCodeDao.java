@@ -22,6 +22,8 @@
  */
 package org.kuali.module.chart.dao;
 
+import java.util.List;
+
 import org.kuali.module.chart.bo.ObjectCode;
 
 
@@ -41,4 +43,11 @@ public interface ObjectCodeDao {
      */
     public ObjectCode getByPrimaryId(Integer universityFiscalYear,
         String chartOfAccountsCode, String financialObjectCode);
+    
+   
+    
+    
+    
+    public List getYearList(String chartOfAccountsCode, String financialObjectCode);  
+    
 }

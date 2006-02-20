@@ -23,6 +23,7 @@
 package org.kuali.module.chart.service;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.beanutils.PropertyUtils;
@@ -50,6 +51,25 @@ public class ObjectCodeServiceTest extends KualiTestBaseWithSpring {
         ObjectCode objectCode = new ObjectCode();
         Map boProps = PropertyUtils.describe(objectCode);
     }
+    public void testGetYersList(){
+        ObjectCode objectCode = new ObjectCode();
+        //objectCode = ObjectCodeDao.
+        List list = objectCodeService.getYearList("BL", "5050");
+        assertNotNull("interface garuentee not returning Null", list);
+        
+        assertTrue("expect more than one result", list.size()>0);
+        
+    }
+    public void testGetYersListEmpty(){
+        ObjectCode objectCode = new ObjectCode();
+        //objectCode = ObjectCodeDao.
+        List list = objectCodeService.getYearList("BL", "asdfasdf");
+        assertNotNull("interface garuentee not returning Null", list);
+        assertTrue("expect more than one result", list.size()==0);
+        
+    }
+   
+    
     
     public void testFindById() {
         ObjectCode objectCode = objectCodeService.getByPrimaryId(new Integer(2004), CHART_CODE, "5000");

@@ -22,6 +22,8 @@
  */
 package org.kuali.module.chart.service;
 
+import java.util.List;
+
 import org.kuali.module.chart.bo.ObjectCode;
 /**
  * This interface defines methods that an ObjectCode Service must provide.
@@ -39,4 +41,16 @@ public interface ObjectCodeService {
      */
     public ObjectCode getByPrimaryId(Integer universityFiscalYear,
         String chartOfAccountsCode, String financialObjectCode);
+    /** 
+     * 
+     * 
+     * @param chartOfAccountsCode - Chart of Accounts Code 
+     * @param financialObjectCode - Financial Object Code   
+     * @return a list containing integer years, given object code. The list maybe empty, but will not be null.
+     */
+    
+    
+    public List getYearList(String chartOfAccountsCode, String financialObjectCode);
+    
+    
 }

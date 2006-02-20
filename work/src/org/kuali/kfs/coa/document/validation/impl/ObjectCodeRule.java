@@ -22,7 +22,9 @@
  */
 package org.kuali.module.chart.rules;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.apache.ojb.broker.PersistenceBrokerException;
@@ -38,6 +40,7 @@ import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.ObjLevel;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.bo.ObjectCons;
+import org.kuali.module.chart.service.ObjectCodeService;
 import org.kuali.module.chart.service.ObjectLevelService;
 
 /**
@@ -50,7 +53,8 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
 
     DateTimeService dateTimeService;
     ObjectLevelService objectLevelService;
-
+    ObjectCodeService objectCodeService;
+    
     
 
     
@@ -89,6 +93,8 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
         
         dateTimeService = SpringServiceLocator.getDateTimeService();
         objectLevelService = SpringServiceLocator.getObjectLevelService();
+        objectCodeService = SpringServiceLocator.getObjectCodeService();
+        
         //TODO may need Object Consolidation Service?
     }
     
@@ -157,9 +163,10 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
         Integer year=objectCode.getUniversityFiscalYear();
         String chartCode=objectCode.getChartOfAccountsCode();
         String reportsToChartCode=objectCode.getReportsToChartOfAccountsCode();
+        String reportsToObjectCode=objectCode.getReportsToFinancialObjectCode();
         
-        if (!verifyReportsToChartCode(reportsToChartCode,year,chartCode)) {
-            addIllegalValueError("reportsToChartCode have valid chart, year");
+        if (!verifyReportsToChartCode(reportsToChartCode,year,reportsToObjectCode)) {
+            addIllegalValueError("reportsToChartCode must have valid chart, year");
             return false;
         }
 
@@ -416,19 +423,32 @@ If the Next Year Object has been entered, it must exist in the object code table
 
     
     
-    protected boolean verifyYearChart(Integer year, String chart) {
-        return true; //TODO implement this
+    protected boolean verifyObjectCode(Integer year, String chart, String objectCode) {
+        ObjectCode o = objectCodeService.getByPrimaryId(year, chart, objectCode);
+        
+         return o != null;
+        
     }
     
-    protected boolean verifyReportsToChartCode(String reportsToChartCode, Integer year, String chartCode) {
+    protected boolean verifyReportsToChartCode(String reportsToChartCode, Integer year, String reportsToObjectCode) {
         // TODO: verify this ambiguously stated rule against the UNIFACE source
         // When the value of reportsToChartCode does not have an institutional exception, the Reports to Object 
         // (rpts_to_fin_obj_cd) fiscal year, and chart code must exist in the object code table
-        if (!verifyYearChart(year,chartCode)) {
+        if (!verifyObjectCode(year,reportsToChartCode, reportsToObjectCode)) {
             // Year must be valid, unless the rpts_to_fin_coa_cd is listed as an exclusion 
+            
             if (!permitted(validYearCodeExceptions,reportsToChartCode)) {
                 return false;
+            } else {
+                ObjectCode o;
+                List yearList = new ArrayList();
+                yearList = objectCodeService.getYearList(reportsToChartCode, reportsToObjectCode);
+                if (yearList !=null){
+                    return false;
+            
             }
+            }
+           
         }
         return true;
     }

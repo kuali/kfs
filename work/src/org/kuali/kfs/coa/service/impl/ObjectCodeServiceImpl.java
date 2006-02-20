@@ -22,6 +22,9 @@
  */
 package org.kuali.module.chart.service.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.dao.ObjectCodeDao;
 import org.kuali.module.chart.service.ObjectCodeService;
@@ -59,4 +62,10 @@ public class ObjectCodeServiceImpl implements ObjectCodeService {
     public void setObjectCodeDao(ObjectCodeDao objectCodeDao) {
         this.objectCodeDao = objectCodeDao;
     }
+    public List getYearList(String chartOfAccountsCode, String financialObjectCode){
+    return objectCodeDao.getYearList(chartOfAccountsCode, financialObjectCode);
+    } 
+ 
 }
+    
+    

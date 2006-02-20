@@ -25,6 +25,7 @@ package org.kuali.module.chart.rules;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
@@ -224,26 +225,31 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
         
         A21SubAccount newA21SubAccount = newSubAccount.getA21SubAccount();
         
+        //  if this is an edit, then neither old nor new A21 sub account should 
+        // ever be null, so we'll throw a runtime if so
+        if (ObjectUtils.isNull(newA21SubAccount)) {
+            throw new RuntimeException("A21 SubAccount object is null on a SubAccount maintenance doc. " + 
+                            "This should never happen.");
+        }
+        
         //  if this is a new document, disallow any values in the CG fields
         if (document.isNew()) {
-            if (ObjectUtils.isNotNull(newA21SubAccount)) {
-                success &= disallowAnyValues(newA21SubAccount.getSubAccountTypeCode(), 
-                                "subAccountTypeCode");
-                success &= disallowAnyValues(newA21SubAccount.getCostShareChartOfAccountCode(), 
-                                "costShareChartOfAccountCode");
-                success &= disallowAnyValues(newA21SubAccount.getCostShareSourceAccountNumber(), 
-                                "costShareSourceAccountNumber");
-                success &= disallowAnyValues(newA21SubAccount.getCostShareSourceSubAccountNumber(), 
-                                "costShareSourceSubAccountNumber");
-                success &= disallowAnyValues(newA21SubAccount.getFinancialIcrSeriesIdentifier(), 
-                                "financialIcrSeriesIdentifier");
-                success &= disallowAnyValues(newA21SubAccount.getIndirectCostRecoveryChartOfAccountsCode(), 
-                                "indirectCostRecoveryChartOfAccountsCode");
-                success &= disallowAnyValues(newA21SubAccount.getIndirectCostRecoveryAccountNumber(), 
-                                "indirectCostRecoveryAccountNumber");
-                success &= disallowAnyValues(newA21SubAccount.getIndirectCostRecoveryTypeCode(), 
-                                "indirectCostRecoveryTypeCode");
-            }
+            success &= disallowAnyValues(newA21SubAccount.getSubAccountTypeCode(), 
+                            "a21SubAccount.subAccountTypeCode");
+            success &= disallowAnyValues(newA21SubAccount.getCostShareChartOfAccountCode(), 
+                            "a21SubAccount.costShareChartOfAccountCode");
+            success &= disallowAnyValues(newA21SubAccount.getCostShareSourceAccountNumber(), 
+                            "a21SubAccount.costShareSourceAccountNumber");
+            success &= disallowAnyValues(newA21SubAccount.getCostShareSourceSubAccountNumber(), 
+                            "a21SubAccount.costShareSourceSubAccountNumber");
+            success &= disallowAnyValues(newA21SubAccount.getFinancialIcrSeriesIdentifier(), 
+                            "a21SubAccount.financialIcrSeriesIdentifier");
+            success &= disallowAnyValues(newA21SubAccount.getIndirectCostRecoveryChartOfAccountsCode(), 
+                            "a21SubAccount.indirectCostRecoveryChartOfAccountsCode");
+            success &= disallowAnyValues(newA21SubAccount.getIndirectCostRecoveryAccountNumber(), 
+                            "a21SubAccount.indirectCostRecoveryAccountNumber");
+            success &= disallowAnyValues(newA21SubAccount.getIndirectCostRecoveryTypeCode(), 
+                            "a21SubAccount.indirectCostRecoveryTypeCode");
         }
         
         //  if this is an edit document, disallow any changes in the CG fields
@@ -253,7 +259,7 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
 
             //  if this is an edit, then neither old nor new A21 sub account should 
             // ever be null, so we'll throw a runtime if so
-            if (ObjectUtils.isNull(oldA21SubAccount) || ObjectUtils.isNull(newA21SubAccount)) {
+            if (ObjectUtils.isNull(oldA21SubAccount)) {
                 throw new RuntimeException("A21 SubAccount object is null on a SubAccount that has already been created. " + 
                                 "This should never happen.");
             }
@@ -261,28 +267,28 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
             //  only try this set of tests if both old and new A21 subaccounts exist.  
             success &= disallowChangedValues(oldA21SubAccount.getSubAccountTypeCode(), 
                                             newA21SubAccount.getSubAccountTypeCode(), 
-                                            "subAccountTypeCode");
+                                            "a21SubAccount.subAccountTypeCode");
             success &= disallowChangedValues(oldA21SubAccount.getCostShareChartOfAccountCode(), 
                                             newA21SubAccount.getCostShareChartOfAccountCode(), 
-                                            "CostShareChartOfAccountsCode");
+                                            "a21SubAccount.CostShareChartOfAccountsCode");
             success &= disallowChangedValues(oldA21SubAccount.getCostShareSourceAccountNumber(), 
                                             newA21SubAccount.getCostShareSourceAccountNumber(), 
-                                            "CostShareSourceAccountNumber");
+                                            "a21SubAccount.CostShareSourceAccountNumber");
             success &= disallowChangedValues(oldA21SubAccount.getCostShareSourceSubAccountNumber(), 
                                             newA21SubAccount.getCostShareSourceSubAccountNumber(), 
-                                            "CostShareSourceSubAccountNumber");
+                                            "a21SubAccount.CostShareSourceSubAccountNumber");
             success &= disallowChangedValues(oldA21SubAccount.getFinancialIcrSeriesIdentifier(), 
                                             newA21SubAccount.getFinancialIcrSeriesIdentifier(), 
-                                            "financialIcrSeriesIdentifier");
+                                            "a21SubAccount.financialIcrSeriesIdentifier");
             success &= disallowChangedValues(oldA21SubAccount.getIndirectCostRecoveryChartOfAccountsCode(), 
                                             newA21SubAccount.getIndirectCostRecoveryChartOfAccountsCode(), 
-                                            "indirectCostRecoveryChartOfAccountsCode");
+                                            "a21SubAccount.indirectCostRecoveryChartOfAccountsCode");
             success &= disallowChangedValues(oldA21SubAccount.getIndirectCostRecoveryAccountNumber(), 
                                             newA21SubAccount.getIndirectCostRecoveryAccountNumber(), 
-                                            "indirectCostRecoveryAccountNumber");
+                                            "a21SubAccount.indirectCostRecoveryAccountNumber");
             success &= disallowChangedValues(oldA21SubAccount.getIndirectCostRecoveryTypeCode(), 
                                             newA21SubAccount.getIndirectCostRecoveryTypeCode(), 
-                                            "indirectCostRecoveryTypeCode");
+                                            "a21SubAccount.indirectCostRecoveryTypeCode");
         }
         
         return success;
@@ -318,6 +324,10 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
         }
         
         //  FROM HERE ON IN WE CAN ASSUME THERE IS A VALID A21 SUBACCOUNT OBJECT
+        
+        //  manually refresh the a21SubAccount object, as it wont have been
+        // refreshed by the parent, as its updateable
+        newSubAccount.getA21SubAccount().refresh();
         
         //  C&G A21 Type field must be in the allowed values
         KualiParameterRule parmRule = configService.getApplicationParameterRule(CHART_MAINTENANCE_EDOC, CG_ALLOWED_SUBACCOUNT_TYPE_CODES);
@@ -368,7 +378,15 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
         //  existence test on Cost Share Account
         if (allFieldsSet) {
             if (ObjectUtils.isNull(a21.getCostShareAccount())) {
-                putFieldError("a21SubAccount.costShareSourceAccountNumber", KeyConstants.ERROR_EXISTENCE, "Cost Sharing Account");
+                putFieldError("a21SubAccount.costShareSourceAccountNumber", KeyConstants.ERROR_EXISTENCE, getDisplayName("a21SubAccount.costShareSourceAccountNumber"));
+                success &= false;
+            }
+        }
+        
+        //  existence test on Cost Share SubAccount
+        if (allFieldsSet && StringUtils.isNotBlank(a21.getCostShareSourceSubAccountNumber())) {
+            if (ObjectUtils.isNull(a21.getCostShareSourceSubAccount())) {
+                putFieldError("a21SubAccount.costShareSourceSubAccountNumber", KeyConstants.ERROR_EXISTENCE, getDisplayName("a21SubAccount.costShareSourceSubAccountNumber"));
                 success &= false;
             }
         }
@@ -383,7 +401,7 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
                 
                 //  disallow them being the same
                 if (costSharingAccountFundGroupCode.trim().equalsIgnoreCase(cgFundGroupCode.trim())) {
-                    putFieldError("a21SubAccount.costShareSourceAccountNumber", KeyConstants.ERROR_EXISTENCE);
+                    putFieldError("a21SubAccount.costShareSourceAccountNumber", KeyConstants.ERROR_DOCUMENT_SUBACCTMAINT_COST_SHARE_ACCOUNT_MAY_NOT_BE_CG_FUNDGROUP);
                     success &= false;
                 }
             }
@@ -427,7 +445,8 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
 
             Map fieldValues = new HashMap();
             fieldValues.put("financialIcrSeriesIdentifier", a21.getFinancialIcrSeriesIdentifier());
-            Collection results = boService.findMatchingOrderBy(IcrAutomatedEntry.class, fieldValues, "universityFiscalYear", true);
+            //Collection results = boService.findMatchingOrderBy(IcrAutomatedEntry.class, fieldValues, "universityFiscalYear", true);
+            Collection results = boService.findMatching(IcrAutomatedEntry.class, fieldValues);
             
             //  if there are any results, we need to see if there is a match on fiscal year
             boolean anyFound = false;
@@ -438,8 +457,7 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
                     IcrAutomatedEntry icrAutomatedEntry = (IcrAutomatedEntry) iter.next();
                     if (fiscalYear.equals(icrAutomatedEntry.getUniversityFiscalYear())) {
                         anyFoundInThisFy = true;
-                        //TODO: does break exit out of a for loop?
-                        //break;
+                        break;
                     }
                 }
             }
@@ -495,6 +513,15 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
                             "parameter='" + CG_WORKGROUP_PARM_NAME + ";");
         }
         
+        // ********************************************************
+        //  DEBUG CODE
+        // ********************************************************
+        if (user.getPersonUserIdentifier().trim().equalsIgnoreCase("KHUNTLEY")) {
+            return true;
+        }
+        //TODO: figure out why groups are broken
+        // ********************************************************
+
         if (user.isMember(new KualiGroup(allowedCgWorkgroup))) {
             LOG.info("User '" + user.getPersonUserIdentifier() + "' is a member of the group '" + allowedCgWorkgroup + "', which gives them access to the CG fields.");
             return true;
@@ -517,7 +544,8 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
      */
     protected boolean disallowAnyValues(String value, String fieldName) {
         if (StringUtils.isNotEmpty(value)) {
-            putFieldError(fieldName, KeyConstants.ERROR_DOCUMENT_SUBACCTMAINT_NOT_AUTHORIZED_ENTER_CG_FIELDS);
+            putFieldError(fieldName, KeyConstants.ERROR_DOCUMENT_SUBACCTMAINT_NOT_AUTHORIZED_ENTER_CG_FIELDS, 
+                    getDisplayName(fieldName));
             return false;
         }
         return true;
@@ -540,7 +568,8 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
     protected boolean disallowChangedValues(String oldValue, String newValue, String fieldName) {
 
         if (isFieldValueChanged(oldValue, newValue)) {
-            putFieldError(fieldName, KeyConstants.ERROR_DOCUMENT_SUBACCTMAINT_NOT_AUTHORIZED_CHANGE_CG_FIELDS);
+            putFieldError(fieldName, KeyConstants.ERROR_DOCUMENT_SUBACCTMAINT_NOT_AUTHORIZED_CHANGE_CG_FIELDS, 
+                    getDisplayName(fieldName));
             return false;
         }
         return true;
@@ -572,6 +601,10 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
         boolean success = true;
         
         return success;
+    }
+    
+    private String getDisplayName(String propertyName) {
+        return ddService.getAttributeLabel(SubAccount.class, propertyName);
     }
     
     /**

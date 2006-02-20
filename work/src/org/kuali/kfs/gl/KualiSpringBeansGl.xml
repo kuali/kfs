@@ -151,19 +151,19 @@
 	</bean>
 
 	<bean id="glScrubberReport" class="org.kuali.module.gl.batch.scrubber.impl.ScrubberReportImpl">
-		<property name="destinationDirectory"><value>/opt/scratch</value></property>
+		<property name="destinationDirectory"><value>/usr/local/apache/htdocs/kuali/reports</value></property>
 	</bean>
 
 	<bean id="glSufficientFundsReport" class="org.kuali.module.gl.batch.sufficientFunds.impl.SufficientFundsReportImpl">
-		<property name="destinationDirectory"><value>/opt/scratch</value></property>
+		<property name="destinationDirectory"><value>/usr/local/apache/htdocs/kuali/reports</value></property>
 	</bean>
 
 	<bean id="glPosterReport" class="org.kuali.module.gl.batch.poster.impl.PosterReportImpl">
-		<property name="destinationDirectory"><value>/opt/scratch</value></property>
+		<property name="destinationDirectory"><value>/usr/local/apache/htdocs/kuali/reports</value></property>
 	</bean>
 
 	<bean id="glIcrGenerationReport" class="org.kuali.module.gl.batch.poster.impl.IcrGenerationReportImpl">
-		<property name="destinationDirectory"><value>/opt/scratch</value></property>
+		<property name="destinationDirectory"><value>/usr/local/apache/htdocs/kuali/reports</value></property>
 	</bean>
 
 	<bean id="glVerifyTransaction" class="org.kuali.module.gl.batch.poster.impl.VerifyTransactionImpl"/>

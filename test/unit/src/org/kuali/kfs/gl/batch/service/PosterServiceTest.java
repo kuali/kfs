@@ -23,6 +23,7 @@
 package org.kuali.module.gl.service;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
@@ -123,6 +124,62 @@ public class PosterServiceTest extends KualiTestBaseWithSpring {
     assertOriginEntries(outputTransactions);
   }
 
+  public void testGlEntryInsert() throws Exception {
+    LOG.debug("testGlEntryInsert() started");
+
+    String[] inputTransactions = {
+        "2004BA6044900-----5300---ACEX07CHKDPDBLANKFISC12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                  "
+    };
+
+    EntryHolder[] outputTransactions = {
+        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions[0]),
+        new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions[0])
+    };
+
+    clearOriginEntryTables();
+    clearGlEntryTable();
+    loadInputTransactions(inputTransactions);
+
+    posterService.postMainEntries();
+
+    assertOriginEntries(outputTransactions);
+
+    List glEntries = unitTestSqlDao.sqlSelect("select * from gl_entry_t");
+    assertEquals("Should be 1 GL entry",1,glEntries.size());
+    Map glEntry = (Map)glEntries.get(0);
+
+    BigDecimal ufy = (BigDecimal)glEntry.get("UNIV_FISCAL_YR");
+    assertEquals("univ_fiscal_yr wrong",2004,ufy.intValue());
+    assertEquals("fin_coa_cd wrong","BA",(String)glEntry.get("FIN_COA_CD"));
+    assertEquals("account_nbr wrong","6044900",(String)glEntry.get("ACCOUNT_NBR"));
+    assertEquals("sub_acct_nbr wrong","-----",(String)glEntry.get("SUB_ACCT_NBR"));
+    assertEquals("fin_object_cd wrong","5300",(String)glEntry.get("FIN_OBJECT_CD"));
+    assertEquals("fin_sub_obj_cd wrong","---",(String)glEntry.get("FIN_SUB_OBJ_CD"));
+    assertEquals("FIN_BALANCE_TYP_CD wrong","AC",(String)glEntry.get("FIN_BALANCE_TYP_CD"));
+    assertEquals("FIN_OBJ_TYP_CD wrong","EX",(String)glEntry.get("FIN_OBJ_TYP_CD"));
+    assertEquals("UNIV_FISCAL_PRD_CD wrong","07",(String)glEntry.get("UNIV_FISCAL_PRD_CD"));
+    assertEquals("FDOC_TYP_CD wrong","CHKD",(String)glEntry.get("FDOC_TYP_CD"));
+    assertEquals("FS_ORIGIN_CD wrong","PD",(String)glEntry.get("FS_ORIGIN_CD"));
+    assertEquals("FDOC_NBR wrong","BLANKFISC",(String)glEntry.get("FDOC_NBR"));
+    BigDecimal tesq = (BigDecimal)glEntry.get("TRN_ENTR_SEQ_NBR");
+    assertEquals("TRN_ENTR_SEQ_NBR wrong",1,tesq.intValue());
+    assertEquals("TRN_LDGR_ENTR_DESC wrong","214090047 EVERETT J PRESCOTT INC.",(String)glEntry.get("TRN_LDGR_ENTR_DESC"));
+    BigDecimal tlea = (BigDecimal)glEntry.get("TRN_LDGR_ENTR_AMT");
+    assertEquals("TRN_LDGR_ENTR_AMT wrong",1445.00,tlea.doubleValue(),0.01);
+    assertEquals("TRN_DEBIT_CRDT_CD wrong","D",(String)glEntry.get("TRN_DEBIT_CRDT_CD"));
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+    assertEquals("TRANSACTION_DT wrong","2006-01-05",sdf.format((Date)glEntry.get("TRANSACTION_DT")));
+    assertEquals("ORG_DOC_NBR wrong","ABCDEFGHIJ",(String)glEntry.get("ORG_DOC_NBR"));
+    assertEquals("PROJECT_CD wrong","----------",(String)glEntry.get("PROJECT_CD"));
+    assertEquals("ORG_REFERENCE_ID wrong","12345678",(String)glEntry.get("ORG_REFERENCE_ID"));
+    assertNull("FDOC_REF_TYP_CD wrong",glEntry.get("FDOC_REF_TYP_CD"));
+    assertNull("FS_REF_ORIGIN_CD wrong",glEntry.get("FS_REF_ORIGIN_CD"));
+    assertNull("FDOC_REF_NBR wrong",glEntry.get("FDOC_REF_NBR"));
+    assertNull("FDOC_REVERSAL_DT wrong",glEntry.get("FDOC_REVERSAL_DT"));
+    assertEquals("TRN_ENCUM_UPDT_CD wrong"," ",(String)glEntry.get("TRN_ENCUM_UPDT_CD"));
+    assertNull("BDGT_YR wrong",glEntry.get("BDGT_YR"));
+  }
+
   /**
    * Check all the entries in gl_origin_entry_t against the data passed in EntryHolder[].  If any of them
    * are different, assert an error.
@@ -186,6 +243,10 @@ public class PosterServiceTest extends KualiTestBaseWithSpring {
     for (int i = 0; i < transactions.length; i++) {
         createEntry(transactions[i], group);
     }
+  }
+
+  private void clearGlEntryTable() {
+    unitTestSqlDao.sqlCommand("delete from gl_entry_t");
   }
 
   private void clearOriginEntryTables() {

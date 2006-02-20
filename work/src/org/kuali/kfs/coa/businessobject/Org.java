@@ -29,18 +29,21 @@ import java.sql.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.BusinessObjectBase;
-import org.kuali.core.bo.user.KualiUser;
+import org.kuali.core.bo.PostalZipCode;
+import org.kuali.core.bo.user.UniversalUser;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public class Org extends BusinessObjectBase {
 
+    private static final long serialVersionUID = 121873645110037203L;
+
     /**
      * Default no-arg constructor.
      */
     public Org() {
-
+        organizationInFinancialProcessingIndicator = false;
     }
 
     private String organizationCode;
@@ -67,7 +70,7 @@ public class Org extends BusinessObjectBase {
     private Chart chartOfAccounts;
     private Org hrisOrganization;
     private Account organizationDefaultAccount;
-    private KualiUser organizationManagerUniversal;
+    private UniversalUser organizationManagerUniversal;
     private ResponsibilityCenter responsibilityCenter;
     private Campus organizationPhysicalCampus;
     private OrgType organizationType;
@@ -77,7 +80,8 @@ public class Org extends BusinessObjectBase {
     private Account campusPlantAccount;
     private Chart organizationPlantChart;
     private Chart campusPlantChart;
-
+    private PostalZipCode postalZip;
+    
     // fields for mixed anonymous keys
     private String hrisOrganizationCode;
     private String organizationDefaultAccountNumber;
@@ -349,7 +353,7 @@ public class Org extends BusinessObjectBase {
      * @return - Returns the organizationManagerUniversal
      *  
      */
-    public KualiUser getOrganizationManagerUniversal() {
+    public UniversalUser getOrganizationManagerUniversal() {
         return organizationManagerUniversal;
     }
 
@@ -359,7 +363,7 @@ public class Org extends BusinessObjectBase {
      * @param - organizationManagerUniversal The organizationManagerUniversal to set.
      * @deprecated
      */
-    public void setOrganizationManagerUniversal(KualiUser organizationManagerUniversal) {
+    public void setOrganizationManagerUniversal(UniversalUser organizationManagerUniversal) {
         this.organizationManagerUniversal = organizationManagerUniversal;
     }
 
@@ -735,6 +739,22 @@ public class Org extends BusinessObjectBase {
      */
     public void setResponsibilityCenterCode(String responsibilityCenterCode) {
         this.responsibilityCenterCode = responsibilityCenterCode;
+    }
+
+    /**
+     * Gets the postalZip attribute. 
+     * @return Returns the postalZip.
+     */
+    public PostalZipCode getPostalZip() {
+        return postalZip;
+    }
+
+    /**
+     * Sets the postalZip attribute value.
+     * @param postalZip The postalZip to set.
+     */
+    public void setPostalZip(PostalZipCode postalZip) {
+        this.postalZip = postalZip;
     }
 
     /**

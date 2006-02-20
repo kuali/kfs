@@ -31,39 +31,63 @@
     </description>
 
     <lockingKeys>
-      <field attributeName="chartOfAccounts.chartOfAccountsCode" />
+      <field attributeName="chartOfAccountsCode" />
       <field attributeName="organizationCode" />
     </lockingKeys>
 
+		<defaultExistenceChecks>
+			<reference  attributeName="chartOfAccounts" 
+						attributeToHighlightOnFail="chartOfAccountsCode" />
+			<reference  attributeName="organizationManagerUniversal" 
+						attributeToHighlightOnFail="organizationManagerUniversalId" />
+			<reference  attributeName="responsibilityCenter" 
+						activeIndicatorAttributeName="responsibilityCenterActiveIndicator" 
+						attributeToHighlightOnFail="responsibilityCenterCode" />
+			<reference  attributeName="organizationPhysicalCampus" 
+						attributeToHighlightOnFail="organizationPhysicalCampusCode" />
+			<reference  attributeName="organizationType" 
+						attributeToHighlightOnFail="organizationTypeCode" />
+			<reference  attributeName="organizationDefaultAccount" 
+						activeIndicatorAttributeName="accountClosedIndicator" 
+						activeIndicatorReversed="true" 
+						attributeToHighlightOnFail="organizationDefaultAccountNumber" />
+			<reference  attributeName="postalZip" 
+						attributeToHighlightOnFail="organizationZipCode" />
+			<reference  attributeName="reportsToOrganization" 
+						activeIndicatorAttributeName="organizationActiveIndicator" 
+						attributeToHighlightOnFail="reportsToOrganizationCode" />
+		</defaultExistenceChecks>
+		
     <maintainableSections>
       <maintainableSection title="Edit Organization">
         <maintainableItems>
-          <maintainableField name="organizationStateCode" />
-          <maintainableField name="organizationActiveIndicator" />
-          <maintainableField name="hrisOrganization.organizationCode" />
-          <maintainableField name="organizationType.organizationTypeCode" />
-          <maintainableField
-            name="chartOfAccounts.chartOfAccountsCode"
-            required="true" />
-          <maintainableField name="organizationName" />
-          <maintainableField
-            name="reportsToOrganization.chartOfAccounts.chartOfAccountsCode" />
-          <maintainableField name="organizationZipCode" />
-          <maintainableField name="organizationPlantChart.chartOfAccountsCode" />
-          <maintainableField name="campusPlantAccount.accountNumber" />
-          <maintainableField name="reportsToOrganization.organizationCode" />
-          <maintainableField
-            name="organizationCode"
-            required="true" />
-          <maintainableField name="campusPlantAccount.chartOfAccounts.chartOfAccountsCode" />
-          <maintainableField name="organizationCityName" />
-          <maintainableField
-            name="responsibilityCenter.responsibilityCenterCode" />
-          <maintainableField name="organizationBeginDate" />
-          <maintainableField
-            name="organizationManagerUniversal.personUniversalIdentifier" />
-          <maintainableField name="organizationStreetAddress" />
-          <maintainableField name="versionNumber" />
+          <maintainableField name="chartOfAccountsCode" required="true" />
+          <maintainableField name="organizationCode" required="true" />
+          <maintainableField name="organizationName" required="true" />
+          <maintainableField name="organizationManagerUniversalId" required="true" />
+          <maintainableField name="responsibilityCenterCode" required="true" />
+          <maintainableField name="organizationPhysicalCampusCode" required="true" />
+          <maintainableField name="organizationTypeCode" required="true" />
+          <maintainableField name="organizationDefaultAccountNumber" required="true" />
+          <maintainableField name="organizationZipCode" required="true" />
+	          <maintainableField name="organizationStreetAddress" required="true" />
+	          <maintainableField name="organizationCityName" required="true" />
+	          <maintainableField name="organizationStateCode" required="true" />
+          <maintainableField name="organizationBeginDate" required="true">
+          	<defaultValueFinderClass>
+          		org.kuali.core.lookup.valueFinder.CurrentDateMMDDYYYYFinder
+          	</defaultValueFinderClass>
+          </maintainableField>
+          <maintainableField name="organizationEndDate" />
+          <maintainableField name="reportsToChartOfAccountsCode" required="true" />
+          <maintainableField name="reportsToOrganizationCode" required="true" />
+          <maintainableField name="organizationActiveIndicator">
+          	<defaultValue>true</defaultValue>
+          </maintainableField>
+          <maintainableField name="organizationPlantChartCode" />
+          <maintainableField name="organizationPlantAccountNumber" />
+          <maintainableField name="campusPlantChartCode" />
+          <maintainableField name="campusPlantAccountNumber" />
         </maintainableItems>
       </maintainableSection>
     </maintainableSections>

@@ -51,7 +51,10 @@
 				<lookupField attributeName="financialObjectLevelCode" required="false" />
 				<lookupField attributeName="financialObjectTypeCode" required="false" />
 				<lookupField attributeName="financialObjectSubTypeCode" required="false" />
+			 	<lookupField attributeName="historicalFinancialObjectCode" required="false" />
+			 	<lookupField attributeName="financialBudgetAggregationCd" required="false" />
 				<lookupField attributeName="financialObjectActiveCode" required="false">
+
 						<defaultValue>Yes</defaultValue>
 				</lookupField>
 			</lookupFields>
@@ -66,6 +69,9 @@
 				<field attributeName="financialObjectTypeCode" />
 				<field attributeName="financialObjectSubTypeCode" />
 				<field attributeName="financialObjectActiveCode" />
+				<field attributeName="historicalFinancialObjectCode" />
+				<field attributeName="financialBudgetAggregationCd" />
+				
 			</resultFields>
 		</lookup>
 

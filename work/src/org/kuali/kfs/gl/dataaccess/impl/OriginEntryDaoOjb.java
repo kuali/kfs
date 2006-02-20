@@ -35,7 +35,7 @@ import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 /**
  * @author jsissom
- * @version $Id: OriginEntryDaoOjb.java,v 1.7 2006-02-17 19:46:13 jsissom Exp $
+ * @version $Id: OriginEntryDaoOjb.java,v 1.8 2006-02-20 16:50:41 jsissom Exp $
  * 
  */
 
@@ -63,6 +63,7 @@ public class OriginEntryDaoOjb extends PersistenceBrokerDaoSupport implements Or
     }
 
     QueryByCriteria qbc = QueryFactory.newQuery(OriginEntry.class,criteria);
+    qbc.addOrderByAscending("entryId");
     return getPersistenceBrokerTemplate().getIteratorByQuery(qbc);
   }
 

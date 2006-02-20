@@ -22,41 +22,192 @@
  */
 package org.kuali.module.gl.service;
 
+import java.math.BigDecimal;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.gl.TestDateTimeService;
+import org.kuali.module.gl.bo.OriginEntry;
+import org.kuali.module.gl.bo.OriginEntryGroup;
+import org.kuali.module.gl.bo.OriginEntrySource;
+import org.kuali.module.gl.dao.OriginEntryDao;
+import org.kuali.module.gl.dao.OriginEntryGroupDao;
+import org.kuali.module.gl.dao.UnitTestSqlDao;
 import org.kuali.test.KualiTestBaseWithSpring;
+import org.springframework.beans.factory.BeanFactory;
 
 public class PosterServiceTest extends KualiTestBaseWithSpring {
   private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PosterServiceTest.class);
 
+  private BeanFactory beanFactory;
   private PosterService posterService;
   private TestDateTimeService dateTimeService;
+  private UnitTestSqlDao unitTestSqlDao = null;
+  private OriginEntryDao originEntryDao = null;
+  private OriginEntryGroupDao originEntryGroupDao = null;
+  private Date d = null;
 
-  /* (non-Javadoc)
-   * @see org.kuali.test.KualiTestBaseWithSpring#setUp()
-   */
   protected void setUp() throws Exception {
     super.setUp();
 
-    Date d = new Date();
+    beanFactory = SpringServiceLocator.getBeanFactory();
+
     Calendar c = Calendar.getInstance();
     c.set(Calendar.DAY_OF_MONTH,1);
-    c.set(Calendar.MONTH,1);
+    c.set(Calendar.MONTH,Calendar.JANUARY);
     c.set(Calendar.YEAR,2004);
     d = c.getTime();
 
-    dateTimeService = (TestDateTimeService)SpringServiceLocator.getBeanFactory().getBean("testDateTimeService");
+    dateTimeService = (TestDateTimeService)beanFactory.getBean("testDateTimeService");
     dateTimeService.currentDate = d;
-    posterService = (PosterService)SpringServiceLocator.getBeanFactory().getBean("glPosterService");
+    posterService = (PosterService)beanFactory.getBean("glPosterService");
+
+    // get the sql DAO
+    unitTestSqlDao = (UnitTestSqlDao) beanFactory.getBean("glUnitTestSqlDao");
+
+    // Origin Entry DAO's
+    originEntryDao = (OriginEntryDao) beanFactory.getBean("glOriginEntryDao");
+    originEntryGroupDao = (OriginEntryGroupDao) beanFactory.getBean("glOriginEntryGroupDao");
   }
 
-  public void testSomething() throws Exception {
-    LOG.debug("testSomething() started");
+  public void testInvalidEntries() throws Exception {
+    LOG.debug("testInvalidEntries() started");
 
-    posterService.toString();
-    assertTrue("Just putting this test here so automated tests don't fail",true);
+    /*
+     *  These transactions are invalid for one reason or another:
+     *    0 - bad chartOfAccountsCode
+     *    1 - bad accountNumber
+     *    2 - bad objectTypeCode
+     *    3 - bad balanceTypeCode
+     *    4 - bad univFiscalYear
+     *    5 - bad debitCreditCode
+     *    6 - bad debitCreditCode
+     */
+    String[] inputTransactions = {
+        "2004XX6044900-----5300---ACEE07CHKDPDBLANKFISC12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
+        "2004BA9999999-----8000---ACAS07CHKDPDBLANKFISC12345214090047 EVERETT J PRESCOTT INC.                 1445.00C2006-01-05ABCDEFGHIG----------12345678                                                                  ",
+        "2004BA6044900-----8000---ACZZ07CHKDPDBLANKFISC12345214090047 EVERETT J PRESCOTT INC.                 1445.00C2006-01-05ABCDEFGHIG----------12345678                                                                  ",
+        "2004BA6044900-----8000---ZZEE07CHKDPDBLANKFISC12345214090047 EVERETT J PRESCOTT INC.                 1445.00C2006-01-05ABCDEFGHIG----------12345678                                                                  ",
+        "9999BA6044900-----5300---ACEE07CHKDPDBLANKFISC12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
+        "2004BA6044900-----5300---ACEE07CHKDPDBLANKFISC12345214090047 EVERETT J PRESCOTT INC.                 1445.00 2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
+        "2004BA6044900-----5300---ACEE07CHKDPDBLANKFISC12345214090047 EVERETT J PRESCOTT INC.                 1445.00X2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
+    };
+
+    EntryHolder[] outputTransactions = {
+        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions[0]),
+        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions[1]),
+        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions[2]),
+        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions[3]),
+        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions[4]),
+        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions[5]),
+        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions[6]),
+        new EntryHolder(OriginEntrySource.MAIN_POSTER_ERROR,inputTransactions[0]),
+        new EntryHolder(OriginEntrySource.MAIN_POSTER_ERROR,inputTransactions[1]),
+        new EntryHolder(OriginEntrySource.MAIN_POSTER_ERROR,inputTransactions[2]),
+        new EntryHolder(OriginEntrySource.MAIN_POSTER_ERROR,inputTransactions[3]),
+        new EntryHolder(OriginEntrySource.MAIN_POSTER_ERROR,inputTransactions[4]),
+        new EntryHolder(OriginEntrySource.MAIN_POSTER_ERROR,inputTransactions[5]),
+        new EntryHolder(OriginEntrySource.MAIN_POSTER_ERROR,inputTransactions[6]),
+    };
+
+    clearOriginEntryTables();
+    loadInputTransactions(inputTransactions);
+
+    posterService.postMainEntries();
+
+    assertOriginEntries(outputTransactions);
+  }
+
+  /**
+   * Check all the entries in gl_origin_entry_t against the data passed in EntryHolder[].  If any of them
+   * are different, assert an error.
+   * 
+   * @param requiredEntries
+   */
+  private void assertOriginEntries(EntryHolder[] requiredEntries) {
+      List groups = unitTestSqlDao.sqlSelect("select * from gl_origin_entry_grp_t order by origin_entry_grp_src_cd");
+      assertEquals("Number of groups is wrong", 3, groups.size());
+
+      Collection c = originEntryDao.testingGetAllEntries();
+      assertEquals("Wrong number of transactions in Origin Entry",requiredEntries.length,c.size());
+
+      int count = 0;
+      for (Iterator iter = c.iterator(); iter.hasNext();) {
+        OriginEntry foundTransaction = (OriginEntry)iter.next();
+
+        // Check group
+        int group = getGroup(groups,requiredEntries[count].groupCode);
+        assertEquals("Group for transaction " + foundTransaction.getEntryId() + " is wrong",group,foundTransaction.getEntryGroupId().intValue());
+
+        // Check transaction - this is done this way so that Anthill prints the two transactions to make
+        // resolving the issue easier.
+        if ( ! foundTransaction.getLine().trim().equals(requiredEntries[count].transactionLine.trim()) ) {
+          System.err.println("Expected transaction: " + requiredEntries[count].transactionLine);
+          System.err.println("Found transaction:    " + foundTransaction.getLine());
+          fail("Transaction " + foundTransaction.getEntryId() + " doesn't match expected output");
+        }
+        count++;
+      }
+  }
+
+  private int getGroup(List groups,String groupCode) {
+    for (Iterator iter = groups.iterator(); iter.hasNext();) {
+      Map element = (Map)iter.next();
+
+      String sourceCode = (String)element.get("ORIGIN_ENTRY_GRP_SRC_CD");
+      if ( groupCode.equals(sourceCode) ) {
+        BigDecimal groupId = (BigDecimal)element.get("ORIGIN_ENTRY_GRP_ID");
+        return groupId.intValue();
+      }
+    }
+    return -1;
+  }
+
+  class EntryHolder {
+    public String groupCode;
+    public String transactionLine;
+    public EntryHolder(String groupCode,String transactionLine) {
+      this.groupCode = groupCode;
+      this.transactionLine = transactionLine;
+    }
+  }
+
+  private void loadInputTransactions(String[] transactions) {
+    OriginEntryGroup group = createNewGroup(OriginEntrySource.SCRUBBER_VALID);
+    loadTransactions(transactions,group);
+  }
+
+  private void loadTransactions(String[] transactions, OriginEntryGroup group) {
+    for (int i = 0; i < transactions.length; i++) {
+        createEntry(transactions[i], group);
+    }
+  }
+
+  private void clearOriginEntryTables() {
+    unitTestSqlDao.sqlCommand("delete from gl_origin_entry_t");
+    unitTestSqlDao.sqlCommand("delete from gl_origin_entry_grp_t");
+  }
+
+  private OriginEntryGroup createNewGroup(String code) {
+    OriginEntryGroup group = new OriginEntryGroup();
+    group.setDate(new java.sql.Date(d.getTime()));
+    group.setProcess(Boolean.TRUE);
+    group.setScrub(Boolean.FALSE);
+    group.setValid(Boolean.TRUE);
+    group.setSourceCode(code);
+    originEntryGroupDao.save(group);
+    return group;
+  }
+
+  private OriginEntry createEntry(String line, OriginEntryGroup group) {
+    OriginEntry entry = new OriginEntry(line);
+    entry.setGroup(group);
+    originEntryDao.saveOriginEntry(entry);
+    return entry;
   }
 }

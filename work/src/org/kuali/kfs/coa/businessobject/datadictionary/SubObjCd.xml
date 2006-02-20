@@ -12,10 +12,10 @@
 			<title>Sub-Object Code Inquiry</title>
 
 			<inquiryFields>
-				<field attributeName="universityFiscal.universityFiscalYear" />
-				<field attributeName="account.accountNumber" />
-				<field attributeName="chartOfAccounts.chartOfAccountsCode" />			
-				<field attributeName="financialObject.financialObjectCode" />
+				<field attributeName="universityFiscalYear" />
+				<field attributeName="accountNumber" />
+				<field attributeName="chartOfAccountsCode" />			
+				<field attributeName="financialObjectCode" />
 				<field attributeName="financialSubObjectCode" />
 				<field attributeName="financialSubObjectCodeName" />
 				<field attributeName="financialSubObjectActiveIndicator" />			
@@ -33,21 +33,21 @@
             <defaultSort attributeName="financialSubObjectCode" sortAscending="true" /> 
 
 			<lookupFields>
-				<lookupField attributeName="universityFiscal.universityFiscalYear" required="false" >
+				<lookupField attributeName="universityFiscalYear" required="false" >
 				  <defaultValueFinderClass>org.kuali.core.lookup.valueFinder.FiscalYearFinder</defaultValueFinderClass>
 				</lookupField>
-				<lookupField attributeName="account.accountNumber" />
-				<lookupField attributeName="chartOfAccounts.chartOfAccountsCode" />			
-				<lookupField attributeName="financialObject.financialObjectCode" />
+				<lookupField attributeName="accountNumber" />
+				<lookupField attributeName="chartOfAccountsCode" />			
+				<lookupField attributeName="financialObjectCode" />
 				<lookupField attributeName="financialSubObjectCode" />
 				<lookupField attributeName="financialSubObjectCodeName" />
 			</lookupFields>
 
 			<resultFields>
-				<field attributeName="universityFiscal.universityFiscalYear" />
-				<field attributeName="account.accountNumber" />
-				<field attributeName="chartOfAccounts.chartOfAccountsCode" />			
-				<field attributeName="financialObject.financialObjectCode" />
+				<field attributeName="universityFiscalYear" />
+				<field attributeName="accountNumber" />
+				<field attributeName="chartOfAccountsCode" />			
+				<field attributeName="financialObjectCode" />
 				<field attributeName="financialSubObjectCode" />
 				<field attributeName="financialSubObjectCodeName" />
 				<field attributeName="financialSubObjectActiveIndicator" />			
@@ -55,24 +55,32 @@
 			</resultFields>
 		</lookup>
 		
-	    <titleAttribute>financialSubObjectCode</titleAttribute>
+	    <titleAttribute>Sub Object Code</titleAttribute>
 
 		<attributes>
-			<attributeReference name="universityFiscal.universityFiscalYear" 
+			<attributeReference name="universityFiscalYear" 
 								sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
-								sourceAttributeName="genericFiscalYear" />
+								sourceAttributeName="genericFiscalYear">
+				<required>true</required>
+			</attributeReference>
 
-			<attributeReference name="chartOfAccounts.chartOfAccountsCode" 
+			<attributeReference name="chartOfAccountsCode" 
 								sourceClassName="org.kuali.module.chart.bo.Chart" 
-								sourceAttributeName="chartOfAccountsCode" />
+								sourceAttributeName="chartOfAccountsCode">
+				<required>true</required>
+			</attributeReference>
 
-			<attributeReference name="financialObject.financialObjectCode" 
+			<attributeReference name="financialObjectCode" 
 								sourceClassName="org.kuali.module.chart.bo.ObjectCode" 
-								sourceAttributeName="financialObjectCode" />
+								sourceAttributeName="financialObjectCode">
+				<required>true</required>
+			</attributeReference>
 
-			<attributeReference name="account.accountNumber" 
+			<attributeReference name="accountNumber" 
 								sourceClassName="org.kuali.module.chart.bo.Account" 
-								sourceAttributeName="accountNumber" />
+								sourceAttributeName="accountNumber">
+				<required>true</required>
+			</attributeReference>
 
 			<attribute name="financialSubObjectCode" forceUppercase="true">
 				<label>SubObject Code</label>
@@ -80,7 +88,8 @@
 
 				<maxLength>3</maxLength>
 				<validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
-
+				<required>true</required>
+				
 				<control>
 					<text size="3" />
 				</control>
@@ -95,7 +104,8 @@
 
 				<maxLength>40</maxLength>
 				<validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
-
+				<required>true</required>
+				
 				<control>
 					<text size="40" />
 				</control>
@@ -112,7 +122,8 @@
 
 				<maxLength>12</maxLength>
 				<validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
-
+				<required>true</required>
+				
 				<control>
 					<text size="12" />
 				</control>
@@ -122,6 +133,10 @@
 					Sub-Object Code Short Name
 				</description>
 			</attribute>
+			
+			<attributeReference name="financialSubObjectActiveIndicator" 
+								sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
+								sourceAttributeName="activeIndicator" />
 			
  			<attributeReference name="versionNumber" 
  				sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 

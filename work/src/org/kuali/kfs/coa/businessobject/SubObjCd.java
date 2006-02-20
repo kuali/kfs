@@ -35,26 +35,28 @@ import org.kuali.core.bo.user.Options;
  */
 public class SubObjCd extends BusinessObjectBase {
 
-	/**
+    private static final long serialVersionUID = -5292158248714650271L;
+
+    /**
 	 * Default no-arg constructor.
 	 */
 	public SubObjCd() {
 
 	}
 
+    private String chartOfAccountsCode;
+    private String accountNumber;
 	private String financialObjectCode;
-	private ObjectCode financialObject;
+    private String financialSubObjectCode;
     private String financialSubObjectCodeName;
 	private String financialSubObjectCdshortNm;
 	private boolean financialSubObjectActiveIndicator;
-	private Options universityFiscal;
-	private Chart chartOfAccounts;
-	private Account account;
     private Integer universityFiscalYear;
-    private String chartOfAccountsCode;
-    private String accountNumber;
-    private String financialSubObjectCode;
     
+    private Chart chartOfAccounts;
+    private Account account;
+    private ObjectCode financialObject;
+    private Options universityFiscal;
     
     public String getFinancialSubObjectCode() { 
         return financialSubObjectCode;
@@ -215,21 +217,6 @@ public class SubObjCd extends BusinessObjectBase {
 		this.account = account;
 	}
 
-	/**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-			LinkedHashMap m = new LinkedHashMap();
-
-			m.put("universityFiscalYear", this.universityFiscalYear);
-			m.put("chartOfAccountsCode", this.chartOfAccountsCode);	
-			m.put("accountNumber", this.accountNumber);
-			m.put("financialObjectCode", this.financialObjectCode);
-			m.put("financialSubObjectCode", this.financialSubObjectCode);
-			
-			return m;
-	}
-    
     public String getAccountNumber() { 
         return accountNumber;
     }
@@ -254,4 +241,19 @@ public class SubObjCd extends BusinessObjectBase {
         this.universityFiscalYear = universityFiscalYear;
     }
 
+    /**
+     * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+            LinkedHashMap m = new LinkedHashMap();
+
+            m.put("universityFiscalYear", this.universityFiscalYear);
+            m.put("chartOfAccountsCode", this.chartOfAccountsCode); 
+            m.put("accountNumber", this.accountNumber);
+            m.put("financialObjectCode", this.financialObjectCode);
+            m.put("financialSubObjectCode", this.financialSubObjectCode);
+            
+            return m;
+    }
+    
 }

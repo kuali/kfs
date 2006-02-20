@@ -62,7 +62,7 @@ import org.springframework.util.StringUtils;
 
 /**
  * @author Anthony Potts
- * @version $Id: ScrubberServiceImpl.java,v 1.43 2006-02-20 14:21:32 larevans Exp $
+ * @version $Id: ScrubberServiceImpl.java,v 1.44 2006-02-20 18:08:25 larevans Exp $
  */
 
 public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
@@ -385,7 +385,7 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
             wsAccountChange = originEntry.getAccountNumber();
         }
 
-        if (!wsAccountChange.equals(workingEntry.getAccountNumber()) && originEntry.getAccount() != null) {
+        if (null != wsAccountChange && !wsAccountChange.equals(workingEntry.getAccountNumber()) && null != originEntry.getAccount()) {
             if (originEntry.getAccount().isAccountClosedIndicator()) {
                 addTransactionError(
                     kualiConfigurationService.getPropertyString(KeyConstants.ERROR_ACCOUNT_CLOSED), originEntry.getAccountNumber());
@@ -602,6 +602,7 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         if (originEntry.getBalanceType() != null && originEntry.getBalanceType().isFinancialOffsetGenerationIndicator() &&
                 !"BB".equals(originEntry.getUniversityFiscalPeriodCode()) &&
                 !"CB".equals(originEntry.getUniversityFiscalPeriodCode()) &&
+                null != originEntry.getFinancialDocumentTypeCode() &&
                 !originEntry.getFinancialDocumentTypeCode().equals("ACLO")) {
             if (originEntry.isDebit()) {
                 scrubberUtil.offsetAmountAccumulator.add(originEntry.getTransactionLedgerEntryAmount());
@@ -621,7 +622,7 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         //  (beginning balance) AND UniversityFiscalPeriod != "CB" (contract
         //  balance) AND DocumentTypeCD != "JV" and != "AA" //todo: move to properties
         //      DO COST SHARING! (move into separate method)
-        if (workingEntry.getOption() != null && 
+        if (workingEntry.getOption() != null && null != originEntry.getAccount() &&
                 (workingEntry.getOption().getFinObjTypeExpenditureexpCd().equals(workingEntry.getFinancialObjectTypeCode()) ||
                 workingEntry.getOption().getFinObjTypeExpNotExpendCode().equals(workingEntry.getFinancialObjectTypeCode()) ||
                 workingEntry.getOption().getFinObjTypeExpendNotExpCode().equals(workingEntry.getFinancialObjectTypeCode()) ||
@@ -848,15 +849,17 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         }
 
         // Check the key fields
-        if(!eof && originEntry.getFinancialDocumentTypeCode().equals(previousEntry.getFinancialDocumentTypeCode()) &&
-                    originEntry.getFinancialSystemOriginationCode().equals(previousEntry.getFinancialSystemOriginationCode()) &&
-                    originEntry.getFinancialDocumentNumber().equals(previousEntry.getFinancialDocumentNumber()) &&
-                    originEntry.getChartOfAccountsCode().equals(previousEntry.getChartOfAccountsCode()) &&
-                    originEntry.getAccountNumber().equals(previousEntry.getAccountNumber()) &&
-                    originEntry.getSubAccountNumber().equals(previousEntry.getSubAccountNumber()) &&
-                    originEntry.getFinancialBalanceTypeCode().equals(previousEntry.getFinancialBalanceTypeCode()) &&
-                    originEntry.getFinancialDocumentReversalDate().equals(previousEntry.getFinancialDocumentReversalDate()) &&
-                    originEntry.getUniversityFiscalPeriodCode().equals(previousEntry.getUniversityFiscalPeriodCode())) {
+        if(!eof && 
+        		null != originEntry.getFinancialDocumentTypeCode() && 
+        		originEntry.getFinancialDocumentTypeCode().equals(previousEntry.getFinancialDocumentTypeCode()) &&
+                originEntry.getFinancialSystemOriginationCode().equals(previousEntry.getFinancialSystemOriginationCode()) &&
+                originEntry.getFinancialDocumentNumber().equals(previousEntry.getFinancialDocumentNumber()) &&
+                originEntry.getChartOfAccountsCode().equals(previousEntry.getChartOfAccountsCode()) &&
+                originEntry.getAccountNumber().equals(previousEntry.getAccountNumber()) &&
+                originEntry.getSubAccountNumber().equals(previousEntry.getSubAccountNumber()) &&
+                originEntry.getFinancialBalanceTypeCode().equals(previousEntry.getFinancialBalanceTypeCode()) &&
+                originEntry.getFinancialDocumentReversalDate().equals(previousEntry.getFinancialDocumentReversalDate()) &&
+                originEntry.getUniversityFiscalPeriodCode().equals(previousEntry.getUniversityFiscalPeriodCode())) {
             return;
         }
 
@@ -997,7 +1000,8 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
                 && (!"BB".equals(workingEntry.getUniversityFiscalPeriodCode())
                         && !"CB".equals(workingEntry.getUniversityFiscalPeriodCode())
                         && !"ACLO".equals(workingEntry.getFinancialDocumentTypeCode()))
-                && ("AM".equals(workingEntry.getFinancialObject().getFinancialObjectSubTypeCode())
+                && (null != workingEntry.getFinancialObject() && 
+                		("AM".equals(workingEntry.getFinancialObject().getFinancialObjectSubTypeCode())
                         || "AF".equals(workingEntry.getFinancialObject().getFinancialObjectSubTypeCode())
                         || "BD".equals(workingEntry.getFinancialObject().getFinancialObjectSubTypeCode())
                         || "BF".equals(workingEntry.getFinancialObject().getFinancialObjectSubTypeCode())
@@ -1018,8 +1022,8 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
                         || "LI".equals(workingEntry.getFinancialObject().getFinancialObjectSubTypeCode())
                         || "LR".equals(workingEntry.getFinancialObject().getFinancialObjectSubTypeCode())
                         || "UC".equals(workingEntry.getFinancialObject().getFinancialObjectSubTypeCode())
-                        || "UF".equals(workingEntry.getFinancialObject().getFinancialObjectSubTypeCode()))
-                && !"EXTAGY".equals(workingEntry.getAccount().getSubFundGroupCode())) {
+                        || "UF".equals(workingEntry.getFinancialObject().getFinancialObjectSubTypeCode())))
+                && null != workingEntry.getAccount() && !"EXTAGY".equals(workingEntry.getAccount().getSubFundGroupCode())) {
             this.writeSwitchStatusCD = ScrubberUtil.FROM_CAMS;
             if ("AM".equals(workingEntry.getFinancialObject().getFinancialObjectSubTypeCode())) { // ART_AND_MUSEUM
                 workingEntry.setFinancialObjectCode("8615"); // ART_AND_MUSEUM_OBJECTS
@@ -1098,8 +1102,8 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
                 && (!"BB".equals(workingEntry.getUniversityFiscalPeriodCode())
                         && !"CB".equals(workingEntry.getUniversityFiscalPeriodCode())
                         && !"ACLO".equals(workingEntry.getFinancialDocumentTypeCode()))
-                && "CL".equals(workingEntry.getFinancialObject().getFinancialObjectSubTypeCode())
-                && !"EXTAGY".equals(workingEntry.getAccount().getSubFundGroupCode())) {
+                && null != workingEntry.getFinancialObject() && "CL".equals(workingEntry.getFinancialObject().getFinancialObjectSubTypeCode())
+                && null != workingEntry.getAccount() && !"EXTAGY".equals(workingEntry.getAccount().getSubFundGroupCode())) {
             workingEntry.setFinancialObjectCode("9603"); // NOTES_PAYABLE_CAPITAL_LEASE TODO: constant
             this.writeSwitchStatusCD = ScrubberUtil.FROM_LIAB;
             workingEntry.setFinancialObjectTypeCode("LI"); // LIABILITY TODO: constant

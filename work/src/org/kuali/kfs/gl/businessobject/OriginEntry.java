@@ -203,7 +203,7 @@ public class OriginEntry extends BusinessObjectBase implements Transaction {
       setFinSystemRefOriginationCode(line.substring(151, 153).trim());
       setFinancialDocumentReferenceNbr(line.substring(153, 162).trim());
       setFinancialDocumentReversalDate(parseDate(line.substring(162, 172)));
-      setTransactionEncumbranceUpdtCd(line.substring(172, 173).trim());
+      setTransactionEncumbranceUpdtCd(line.substring(172, 173));
   }
 
     private static String SPACES = "                                                                                                              ";

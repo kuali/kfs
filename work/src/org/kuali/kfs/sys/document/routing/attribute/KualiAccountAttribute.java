@@ -358,19 +358,9 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
         try {            
         Set qualifiedRoleNames = new HashSet();
         if (FISCAL_OFFICER_ROLE_KEY.equals(roleName) || FISCAL_OFFICER_PRIMARY_DELEGATE_ROLE_KEY.equals(roleName) || FISCAL_OFFICER_SECONDARY_DELEGATE_ROLE_KEY.equals(roleName)) {
-            Document doc = null;
-            //TODO: undo this so we're not dependent on a core workflow class
-            /*
-             * //sourceAccountingLines/accountNumber
-             */
-            
+
             XPath xpath = XPathFactory.newInstance().newXPath();
             NodeList nodes = (NodeList) xpath.evaluate("//org.kuali.core.bo.SourceAccountingLine", docContent.getDocument(), XPathConstants.NODESET);
-//            return (NodeList) xpath.evaluate(findField.toString(), root, XPathConstants.NODESET);
-//            doc = XmlHelper.buildJDocument(docContent.getDocument());
-//            List accountElements = XmlHelper.findElements(doc.getRootElement(), ACCOUNT_ATTRIBUTE);
-            
-            
             
             for (int i = 0; i < nodes.getLength(); i++) {
                 Node accountingLineNode = nodes.item(i);
@@ -380,10 +370,15 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
                 qualifiedRoleNames.add(getQualifiedRoleString(roleName, chart, accountNumber, amount));
             }
             
-//            for (Iterator iter = accountElements.iterator(); iter.hasNext();) {
-//                Element accountElement = (Element) iter.next();
-//                qualifiedRoleNames.add(getQualifiedRoleString(roleName, accountElement.getChild(FIN_COA_CD_KEY).getText(), accountElement.getChild(ACCOUNT_NBR_KEY).getText(), accountElement.getChild(FDOC_TOTAL_DOLLAR_AMOUNT_KEY).getText()));
-//            }
+            xpath = XPathFactory.newInstance().newXPath();
+            nodes = (NodeList) xpath.evaluate("//org.kuali.core.bo.TargetAccountingLine", docContent.getDocument(), XPathConstants.NODESET);
+            for (int i = 0; i < nodes.getLength(); i++) {
+                Node accountingLineNode = nodes.item(i);
+                String amount = xpath.evaluate("amount/value", accountingLineNode);
+                String chart = xpath.evaluate("chartOfAccountsCode", accountingLineNode);
+                String accountNumber = xpath.evaluate("accountNumber", accountingLineNode);
+                qualifiedRoleNames.add(getQualifiedRoleString(roleName, chart, accountNumber, amount));
+            }
         }
         return new ArrayList(qualifiedRoleNames);
         } catch (Exception e) {

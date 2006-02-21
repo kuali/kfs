@@ -29,9 +29,6 @@ import java.util.List;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
-import org.kuali.core.AccountResponsibility;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.dao.ObjectCodeDao;
 import org.springframework.orm.ojb.PersistenceBrokerTemplate;

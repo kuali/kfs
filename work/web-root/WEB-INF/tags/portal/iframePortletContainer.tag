@@ -42,7 +42,7 @@
                   <tbody>
                     <tr>
                       <td width="100%" valign="top"><uportal_xhtml_fragment> </uportal_xhtml_fragment>
-                        <iframe src="${channelUrl}" onload='javascript: setIframeHeight("iframeportlet", 900);' name="iframeportlet" id="iframeportlet" hspace="0" vspace="0" style="height: 900px;" title="E-Doc" frameborder="0" height="900" scrolling="auto" width="100%"></iframe>
+                        <iframe src="${channelUrl}" onload='javascript: setIframeHeight("iframeportlet", 200);' name="iframeportlet" id="iframeportlet" hspace="0" vspace="0" style="height: 200px;" title="E-Doc" frameborder="0" height="200" scrolling="auto" width="100%"></iframe>
                       </td>
                       <td>
                         <img src="images-portal/transparent_002.gif" alt="" width="1" height="1">

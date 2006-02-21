@@ -3,13 +3,13 @@
 <%@ taglib uri="/tlds/struts-logic.tld" prefix="logic" %>
 <%@ taglib tagdir="/WEB-INF/tags/portal" prefix="portal" %>
 
-
+ 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <title>Kuali Portal Index</title>
 <link href="css/portal.css" rel="stylesheet" type="text/css" />
-<!-- iframe resize <script language="javascript" src="scripts/my_common.js"></script> -->
+<script language="javascript" src="scripts/my_common.js"></script>
 <script language="javascript" >
 if (top.location != self.location) {
 	top.location = self.location;

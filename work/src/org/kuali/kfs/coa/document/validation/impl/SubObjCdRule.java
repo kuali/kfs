@@ -30,7 +30,6 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.SubObjCd;
-import org.kuali.module.financial.rules.KualiParameterRule;
 
 public class SubObjCdRule extends MaintenanceDocumentRuleBase {
 

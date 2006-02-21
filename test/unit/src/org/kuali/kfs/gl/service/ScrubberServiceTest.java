@@ -23,7 +23,6 @@
 package org.kuali.module.gl.service;
 
 import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;

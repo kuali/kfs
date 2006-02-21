@@ -44,6 +44,9 @@
         <property name="budgetNonpersonnelService">
         		<ref bean="budgetNonpersonnelService" />
         </property>
+        <property name="budgetPersonnelService">
+        		<ref bean="budgetPersonnelService" />
+        </property>
     </bean>
     
     <bean id="budgetGraduateAssistantRateService" class="org.kuali.module.kra.service.impl.BudgetGraduateAssistantRateServiceImpl">

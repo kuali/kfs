@@ -342,9 +342,9 @@ public class JournalVoucherAction extends KualiTransactionalDocumentActionBase {
                 String message = buildBalanceTypeChangeConfirmationMessage(jvForm, kualiConfiguration);
 
                 // now transfer control over to the question component
-                return this.performQuestion(mapping, form, request, response,
+                return this.performQuestionWithoutInput(mapping, form, request, response,
                         Constants.JOURNAL_VOUCHER_CHANGE_BALANCE_TYPE_QUESTION, message, Constants.CONFIRMATION_QUESTION,
-                        Constants.CHANGE_JOURNAL_VOUCHER_BALANCE_TYPE_METHOD);
+                        Constants.CHANGE_JOURNAL_VOUCHER_BALANCE_TYPE_METHOD, "");
             }
             else {
                 String buttonClicked = request.getParameter(Constants.QUESTION_CLICKED_BUTTON);
@@ -682,9 +682,9 @@ public class JournalVoucherAction extends KualiTransactionalDocumentActionBase {
             }
 
             // now transfer control over to the question component
-            return this.performQuestion(mapping, form, request, response,
+            return this.performQuestionWithoutInput(mapping, form, request, response,
                     Constants.JOURNAL_VOUCHER_ROUTE_OUT_OF_BALANCE_DOCUMENT_QUESTION, message, Constants.CONFIRMATION_QUESTION,
-                    Constants.ROUTE_METHOD);
+                    Constants.ROUTE_METHOD, "");
         }
         else {
             String buttonClicked = request.getParameter(Constants.QUESTION_CLICKED_BUTTON);

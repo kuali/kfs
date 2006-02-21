@@ -47,8 +47,7 @@ public class NightlyOutServiceTest extends KualiTestBaseWithSpring{
     }
 
     /**
-     * This test just makes sure the code runs without throwing an exception.
-     * A better test will be written
+     * This test validates that the correct data is copied into origin_entry
      * 
      * @throws Exception
      */
@@ -58,7 +57,7 @@ public class NightlyOutServiceTest extends KualiTestBaseWithSpring{
       unitTestSqlDao.sqlCommand("delete from gl_origin_entry_grp_t");
 
       // Empty out the pending entry table & doc header table
-      unitTestSqlDao.sqlCommand("delete from fp_doc_header_t");
+      unitTestSqlDao.sqlCommand("delete from fp_doc_header_t where fdoc_nbr in ('1','2','3')");
       unitTestSqlDao.sqlCommand("delete from gl_pending_entry_t");
 
       // Add a few documents

@@ -15,6 +15,31 @@
 				<field attributeName="accountTypeName" />
 			</inquiryFields>
 		</inquiry>
+		
+			<lookup>
+      <title>Account Type Lookup</title>
+
+      <menubar>
+        <![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.chart.bo.AcctType">Create New</a>]]>
+      </menubar>
+
+      <instructions>Lookup an Account Type</instructions>
+
+      <defaultSort
+        attributeName="accountTypeCode"
+        sortAscending="true" />
+
+		<lookupFields>
+			<lookupField attributeName="accountTypeCode" />
+			<lookupField attributeName="accountTypeName" />
+		</lookupFields>
+
+      <resultFields>
+        <field attributeName="accountTypeCode" />
+        <field attributeName="accountTypeName" />
+      </resultFields>
+    </lookup>
+		
 
 		<attributes>
 			<attribute name="accountTypeCode" forceUppercase="true">

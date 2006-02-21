@@ -22,11 +22,12 @@
  */
 package org.kuali.module.gl.batch.poster.impl;
 
+import java.util.Collection;
 import java.util.Date;
+import java.util.Iterator;
 
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.module.chart.dao.ObjectTypeCodeDao;
-import org.kuali.module.chart.service.BalanceTypService;
+import org.kuali.module.gl.batch.poster.BalanceCalculator;
 import org.kuali.module.gl.batch.poster.PostTransaction;
 import org.kuali.module.gl.bo.Balance;
 import org.kuali.module.gl.bo.Transaction;
@@ -36,12 +37,10 @@ import org.kuali.module.gl.dao.BalanceDao;
  * @author jsissom
  *
  */
-public class PostBalance implements PostTransaction {
+public class PostBalance implements PostTransaction,BalanceCalculator {
   private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PostBalance.class);
 
-  private ObjectTypeCodeDao objectTypeCodeDao;
   private BalanceDao balanceDao;
-  private BalanceTypService balanceTypService;
 
   /**
    * 
@@ -81,6 +80,52 @@ public class PostBalance implements PostTransaction {
     balanceDao.save(b);
 
     return postType;
+  }
+
+  public Balance findBalance(Collection balanceList, Transaction t) {
+
+    // Try to find one that already exists
+    for (Iterator iter = balanceList.iterator(); iter.hasNext();) {
+        Balance b = (Balance) iter.next();
+
+        if (b.getUniversityFiscalYear().equals(t.getUniversityFiscalYear())
+            && b.getChartOfAccountsCode().equals(t.getChartOfAccountsCode())
+            && b.getAccountNumber().equals(t.getAccountNumber())
+            && b.getSubAccountNumber().equals(t.getSubAccountNumber())
+            && b.getObjectCode().equals(t.getFinancialObjectCode())
+            && b.getSubObjectCode().equals(t.getFinancialSubObjectCode())
+            && b.getBalanceTypeCode().equals(t.getFinancialBalanceTypeCode())
+            && b.getObjectTypeCode().equals(t.getFinancialObjectTypeCode())) {
+          return b;
+        }
+    }
+
+    // If we couldn't find one that exists, create a new one
+    Balance b = new Balance(t);
+
+    balanceList.add(b);
+
+    return b;
+  }
+
+  /**
+   * 
+   * @param t
+   * @param enc
+   */
+  public void updateBalance(Transaction t, Balance b) {
+    KualiDecimal amount = t.getTransactionLedgerEntryAmount();
+
+    // Subtract the amount if offset generation indicator & the debit/credit code isn't the same
+    // as the one in the object type code table
+    if ( t.getBalanceType().isFinancialOffsetGenerationIndicator() ) {
+      if ( ! t.getTransactionDebitCreditCode().equals(t.getObjectType().getFinObjectTypeDebitcreditCd()) ) {
+        amount = amount.multiply(new KualiDecimal(-1));
+      }
+    }
+
+    String period = t.getUniversityFiscalPeriodCode();
+    b.setAmount(period,b.getAmount(period).add(amount));
   }
 
   public String getDestinationName() {

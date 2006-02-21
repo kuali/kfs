@@ -36,6 +36,7 @@ import org.kuali.module.gl.dao.ojb.TestUnitTestSqlDao;
 import org.kuali.module.gl.dao.ojb.TestUniversityDateDao;
 import org.kuali.module.gl.service.GeneralLedgerPendingEntryServiceTest;
 import org.kuali.module.gl.service.NightlyOutServiceTest;
+import org.kuali.module.gl.service.PosterServiceTest;
 import org.kuali.module.gl.service.ScrubberServiceTest;
 
 /**
@@ -69,11 +70,6 @@ public class AllTests {
     suite.addTestSuite(PostSufficientFundBalancesTest.class);
     suite.addTestSuite(PostGlAccountBalanceTest.class);
     
-    if ( ! fastTests ) {
-      suite.addTestSuite(NightlyOutServiceTest.class);
-      suite.addTestSuite(ScrubberServiceTest.class);
-    }
-
     // org.kuali.module.gl.dao.ojb
     if ( ! fastTests ) {
       suite.addTestSuite(TestUniversityDateDao.class);
@@ -82,6 +78,9 @@ public class AllTests {
 
     // org.kuali.module.gl.service
     if ( ! fastTests ) {
+      suite.addTestSuite(NightlyOutServiceTest.class);
+      suite.addTestSuite(ScrubberServiceTest.class);
+      suite.addTestSuite(PosterServiceTest.class);
       suite.addTestSuite(GeneralLedgerPendingEntryServiceTest.class);
     }
 

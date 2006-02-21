@@ -1353,6 +1353,7 @@
 		<inverse-foreignkey field-ref="financialDocumentCashReceiptNumber" />
 	</collection-descriptor>
 </class-descriptor>
+
 <class-descriptor class="org.kuali.module.financial.bo.BankAccount" table="FP_BANK_ACCOUNT_T">
 	<field-descriptor name="financialDocumentBankCode" column="FDOC_BANK_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="finDocumentBankAccountNumber" column="FDOC_BANK_ACCT_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
@@ -1397,5 +1398,29 @@
 
 	<reference-descriptor name="cashOffsetFinancialChartOfAccount" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="cashOffsetFinancialChartOfAccountCode" />
+	</reference-descriptor>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.financial.bo.OffsetAccount" table="FP_OFST_ACCT_T">
+	<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="accountNumber" column="ACCOUNT_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="financialOffsetObjectCode" column="FIN_OFST_OBJ_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<field-descriptor name="financialOffsetChartOfAccountCode" column="FIN_OFST_COA_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="financialOffsetAccountNumber" column="FIN_OFST_ACCT_NBR" jdbc-type="VARCHAR"/>
+	<reference-descriptor name="chart" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="chartOfAccountsCode" />
+	</reference-descriptor>
+	<reference-descriptor name="account" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="chartOfAccountsCode" />
+		<foreignkey field-ref="accountNumber" />
+	</reference-descriptor>
+	<reference-descriptor name="financialOffsetAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="financialOffsetChartOfAccountCode" />
+		<foreignkey field-ref="financialOffsetAccountNumber" />
+	</reference-descriptor>
+	<reference-descriptor name="financialOffsetChartOfAccount" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="financialOffsetChartOfAccountCode" />
 	</reference-descriptor>
 </class-descriptor>

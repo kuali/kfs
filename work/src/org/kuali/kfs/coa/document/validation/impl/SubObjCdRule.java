@@ -127,19 +127,8 @@ public class SubObjCdRule extends MaintenanceDocumentRuleBase {
             
             //  if the account is closed
             if (account.isAccountClosedIndicator()) {
-                
-                //  get a reference to the rule
-                KualiParameterRule rule;
-                rule = configService.getApplicationParameterRule(CHART_MAINTENANCE_EDOC, ACCOUNT_ORG_RULE_KEY);
-                
-                //  if the account doesnt belong to the special orgs
-                boolean ruleFails = rule.failsRule(account.getOrganizationCode());
-                if (ruleFails) {
-                    putFieldError("accountNumber", 
-                                    KeyConstants.ERROR_DOCUMEN_SUBOBJECTMAINT_ACCOUNT_MAY_NOT_BE_CLOSED, 
-                                    rule.getParameterText());
+                    putFieldError("accountNumber", KeyConstants.ERROR_DOCUMENT_SUBOBJECTMAINT_ACCOUNT_MAY_NOT_BE_CLOSED);
                     success &= false;
-                }
             }
         }
         return success;

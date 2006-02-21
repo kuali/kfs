@@ -629,12 +629,12 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         //	get the two dates, and remove any time-components from the dates
         Timestamp expirationDate = newAccount.getAccountExpirationDate();
         Timestamp todaysDate = dateTimeService.getCurrentTimestamp();
-        expirationDate.setTime(DateUtils.truncate(expirationDate, Calendar.DAY_OF_MONTH).getTime());
         todaysDate.setTime(DateUtils.truncate(todaysDate, Calendar.DAY_OF_MONTH).getTime());
         
         if (ObjectUtils.isNotNull(expirationDate)) {
 
             //when closing an account, the account expiration date must be the current date or earlier
+            expirationDate.setTime(DateUtils.truncate(expirationDate, Calendar.DAY_OF_MONTH).getTime());
             if (expirationDate.before(todaysDate) || expirationDate.equals(todaysDate)) {
                 putGlobalError(KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_CANNOT_BE_CLOSED_EXP_DATE_INVALID);
                 success &= false;
@@ -650,12 +650,14 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         
         // must have no pending ledger entries
         if (!generalLedgerPendingEntryService.hasPendingGeneralLedgerEntry(newAccount)) {
+            //TODO: add real error messages
             putGlobalError(KeyConstants.ERROR_DOCUMENT_ACCOUNT_BALANCE);
             success &= false;
         }
 
         // beginning balance must be loaded in order to close account
         if (!balanceService.beginningBalanceLoaded(newAccount)) {
+            //TODO: add real error messages
             putGlobalError(KeyConstants.ERROR_DOCUMENT_ACCOUNT_BALANCE);
             success &= false;
         }
@@ -664,6 +666,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         //      (9899 is fund balance for us), and the process of closing income and expense into 9899 must take the 9899 balance to zero.
 
         if (balanceService.hasAssetLiabilityFundBalanceBalances(newAccount)) {
+            //TODO: add real error messages
             putGlobalError(KeyConstants.ERROR_DOCUMENT_ACCOUNT_BALANCE);
             success &= false;
         }

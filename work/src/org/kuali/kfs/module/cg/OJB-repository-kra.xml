@@ -37,8 +37,8 @@
 <class-descriptor class="org.kuali.module.kra.bo.GraduateAssistantRate" table="ER_GRAD_ASST_RT_T">
   <field-descriptor name="campusCode" column="CMP_CD" jdbc-type="VARCHAR" primarykey="true" />
 	<field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
-	<field-descriptor name="campusFallMaximumFeeRemissionRate" column="CMP_FALL_MAX_FEE_RMSN_RT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="campusSpringMaximumFeeRemissionRate" column="CMP_SPR_MAX_FEE_RMSN_RT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<!-- field-descriptor name="campusFallMaximumFeeRemissionRate" column="CMP_FALL_MAX_FEE_RMSN_RT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="campusSpringMaximumFeeRemissionRate" column="CMP_SPR_MAX_FEE_RMSN_RT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/-->
  	<field-descriptor name="lastUpdateTimestamp" column="LST_UPDT_TS" jdbc-type="TIMESTAMP" />
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 	<field-descriptor name="versionNumber" locking="true" column="VER_NBR" jdbc-type="BIGINT" />
@@ -201,8 +201,8 @@
 <class-descriptor class="org.kuali.module.kra.bo.BudgetGraduateAssistantRate" table="ER_BDGT_GRAD_ASST_RT_T">
 	<field-descriptor name="documentHeaderId" column="ER_REF_TRACK_NBR" jdbc-type="VARCHAR" primarykey="true" />
   	<field-descriptor name="campusCode" column="CMP_CD" jdbc-type="VARCHAR" primarykey="true" />
-	<field-descriptor name="campusFallMaximumFeeRemissionRate" column="CMP_FALL_MAX_FEE_RMSN_RT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="campusSpringMaximumFeeRemissionRate" column="CMP_SPR_MAX_FEE_RMSN_RT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<!-- field-descriptor name="campusFallMaximumFeeRemissionRate" column="CMP_FALL_MAX_FEE_RMSN_RT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="campusSpringMaximumFeeRemissionRate" column="CMP_SPR_MAX_FEE_RMSN_RT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/-->
  	<field-descriptor name="lastUpdateTimestamp" column="LST_UPDT_TS" jdbc-type="TIMESTAMP" />
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 	<field-descriptor name="versionNumber" locking="true" column="VER_NBR" jdbc-type="BIGINT" />

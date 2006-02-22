@@ -115,7 +115,7 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
             ++sfrbRecordsReadCount;
         
             if(!"A".equalsIgnoreCase(sfrb.getAccountFinancialObjectTypeCode())) {
-                addTransactionError("ACCOUNT/FINANCIAL OBJECT TYPE CODE MUST='A' OR 'O'", sfrb.getAccountFinancialObjectTypeCode());
+                addTransactionError("ACCOUNT/FINANCIAL OBJECT TYPE CODE MUST='A' OR 'O'");
                 ++warningCount;
                 ++sfrbNotDeletedCount;
             } else {
@@ -160,7 +160,7 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
             processSfrbObject(sfrb);
             ++sfrbRecordsConvertedCount;
         } else {
-            addTransactionError("ACCOUNT/FINANCIAL OBJECT TYPE CODE MUST='A' OR 'O'", sfrb.getAccountFinancialObjectTypeCode());
+            addTransactionError("ACCOUNT/FINANCIAL OBJECT TYPE CODE MUST='A' OR 'O'");
         }
     }
 
@@ -185,7 +185,7 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
         Balance balance = balanceDao.getBalanceByPrimaryId(universityFiscalYear, sfrb.getChartOfAccountsCode(), sfrb.getAccountNumberFinancialObjectCode());
         
         if (balance == null) {
-            addTransactionError("Balance not found in database", universityFiscalYear + " - " + sfrb.getChartOfAccountsCode() + " - " + sfrb.getAccountNumberFinancialObjectCode());
+            addTransactionError("Balance not found in database for this COA/Account/fiscal year (" + universityFiscalYear + ")");
             ++warningCount;
             ++sfrbNotDeletedCount;
             return;
@@ -196,14 +196,14 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
         Account sfrbAccount = balance.getAccount();
         
         if (sfrbAccount == null) {
-            addTransactionError("Record not found in Account table", sfrb.getChartOfAccountsCode() + " - " + sfrb.getAccountNumberFinancialObjectCode());
+            addTransactionError("Record not found in Account table");
             ++warningCount;
             ++sfrbNotDeletedCount;
             return;
         }
 
         if (sfrbAccount.getSubFundGroup() == null) {
-            addTransactionError("Sub Fund group for this Account not found", sfrb.getAccountNumberFinancialObjectCode());
+            addTransactionError("Sub Fund group for this Account not found");
             ++warningCount;
             ++sfrbNotDeletedCount;
             return;
@@ -212,7 +212,7 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
         isContractGrants = "CG".equalsIgnoreCase(sfrbAccount.getSubFundGroupCode());
 
         if ("OLCAH".indexOf(sfrbAccount.getAccountSufficientFundsCode()) == -1) {
-            addTransactionError("AccountSufficientFundsCode invalid for this Chart and Account", sfrb.getChartOfAccountsCode() + " - " + sfrb.getAccountNumberFinancialObjectCode() + " - " + sfrbAccount.getAccountSufficientFundsCode());
+            addTransactionError("AccountSufficientFundsCode invalid for this Chart and Account");
             ++warningCount;
             ++sfrbNotDeletedCount;
             return;
@@ -340,8 +340,8 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
     /**
      * @param errorMessage
      */
-    private void addTransactionError(String errorMessage, String errorValue) {
-        transactionErrors.add(errorMessage + " (" + errorValue + ")");
+    private void addTransactionError(String errorMessage) {
+        transactionErrors.add(errorMessage);
     }
 
     public void setDateTimeService(DateTimeService dateTimeService) {

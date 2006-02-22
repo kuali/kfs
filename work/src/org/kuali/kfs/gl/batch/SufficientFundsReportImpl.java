@@ -125,23 +125,21 @@ public class SufficientFundsReportImpl extends PdfPageEventHelper implements Suf
       document.add(summary);
 
       if ( reportErrors != null && reportErrors.size() > 0 ) {
-        float[] warningWidths = {4,3,6,5,5,4,5,5,4,5,5,9,4,36};
+        float[] warningWidths = {5,12,12,53};
         PdfPTable warnings = new PdfPTable(warningWidths);
         warnings.setHeaderRows(2);
         warnings.setWidthPercentage(100);
         cell = new PdfPCell(new Phrase("W A R N I N G S",headerFont));
-        cell.setColspan(5);
+        cell.setColspan(4);
         cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         warnings.addCell(cell);
 
         // Add headers
-        cell = new PdfPCell(new Phrase("SFRB Record",headerFont));
-        warnings.addCell(cell);
         cell = new PdfPCell(new Phrase("COA",headerFont));
         warnings.addCell(cell);
-        cell = new PdfPCell(new Phrase("Account",headerFont));
+        cell = new PdfPCell(new Phrase("Account/Object Code",headerFont));
         warnings.addCell(cell);
-        cell = new PdfPCell(new Phrase("Account",headerFont));
+        cell = new PdfPCell(new Phrase("Account/Object Type",headerFont));
         warnings.addCell(cell);
         cell = new PdfPCell(new Phrase("Warning",headerFont));
         warnings.addCell(cell);
@@ -156,8 +154,6 @@ public class SufficientFundsReportImpl extends PdfPageEventHelper implements Suf
 
             if ( first ) {
               first = false;
-              cell = new PdfPCell(new Phrase(sfrb.getObjectId(),textFont));
-              warnings.addCell(cell);
               cell = new PdfPCell(new Phrase(sfrb.getChartOfAccountsCode(),textFont));
               warnings.addCell(cell);
               cell = new PdfPCell(new Phrase(sfrb.getAccountNumberFinancialObjectCode(),textFont));
@@ -166,7 +162,7 @@ public class SufficientFundsReportImpl extends PdfPageEventHelper implements Suf
               warnings.addCell(cell);
             } else {
               cell = new PdfPCell(new Phrase("",textFont));
-              cell.setColspan(4);
+              cell.setColspan(3);
               warnings.addCell(cell);
             }
             cell = new PdfPCell(new Phrase(msg,textFont));

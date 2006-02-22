@@ -22,6 +22,9 @@
  */
 package org.kuali.module.chart.service.impl;
 
+import java.util.List;
+
+import org.apache.commons.lang.StringUtils;
 import org.kuali.module.chart.bo.Org;
 import org.kuali.module.chart.dao.OrganizationDao;
 import org.kuali.module.chart.service.OrganizationService;
@@ -66,4 +69,37 @@ public class OrganizationServiceImpl implements OrganizationService {
     public void setOrganizationDao(OrganizationDao organizationDao) {
         this.organizationDao = organizationDao;
     }
+
+    /**
+     * 
+     * @see org.kuali.module.chart.service.OrganizationService#getActiveAccountsByOrg(java.lang.String, java.lang.String)
+     */
+    public List getActiveAccountsByOrg(String chartOfAccountsCode, String organizationCode) {
+        
+        if (StringUtils.isBlank(chartOfAccountsCode)) {
+            throw new IllegalArgumentException("String parameter chartOfAccountsCode was null or blank.");
+        }
+        if (StringUtils.isBlank(organizationCode)) {
+            throw new IllegalArgumentException("String parameter organizationCode was null or blank.");
+        }
+
+        return organizationDao.getActiveAccountsByOrg(chartOfAccountsCode, organizationCode);
+    }
+    
+    /**
+     * 
+     * @see org.kuali.module.chart.service.OrganizationService#getActiveChildOrgs(java.lang.String, java.lang.String)
+     */
+    public List getActiveChildOrgs(String chartOfAccountsCode, String organizationCode) {
+
+        if (StringUtils.isBlank(chartOfAccountsCode)) {
+            throw new IllegalArgumentException("String parameter chartOfAccountsCode was null or blank.");
+        }
+        if (StringUtils.isBlank(organizationCode)) {
+            throw new IllegalArgumentException("String parameter organizationCode was null or blank.");
+        }
+
+        return organizationDao.getActiveChildOrgs(chartOfAccountsCode, organizationCode);
+    }
+    
 }

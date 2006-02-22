@@ -22,8 +22,13 @@
  */
 package org.kuali.module.chart.dao.ojb;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
+import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Org;
 import org.kuali.module.chart.dao.OrganizationDao;
 import org.springframework.orm.ojb.PersistenceBrokerTemplate;
@@ -51,4 +56,46 @@ public class OrganizationDaoOjb extends PersistenceBrokerTemplate implements Org
         this.store(organization);
     }
 
+    /**
+     * 
+     * @see org.kuali.module.chart.dao.OrganizationDao#getActiveAccountsByOrg(java.lang.String, java.lang.String)
+     */
+    public List getActiveAccountsByOrg(String chartOfAccountsCode, String organizationCode) {
+        
+        List accounts = new ArrayList();
+        
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo("chartOfAccountsCode", chartOfAccountsCode);
+        criteria.addEqualTo("organizationCode", organizationCode);
+        criteria.addEqualTo("accountClosedIndicator", new Boolean(false));
+        
+        accounts = (List) getCollectionByQuery(QueryFactory.newQuery(Account.class, criteria));
+        
+        if (accounts.isEmpty() || accounts.size() == 0) {
+            return Collections.EMPTY_LIST;
+        }
+        return accounts;
+    }
+    
+    /**
+     * 
+     * @see org.kuali.module.chart.dao.OrganizationDao#getActiveChildOrgs(java.lang.String, java.lang.String)
+     */
+    public List getActiveChildOrgs(String chartOfAccountsCode, String organizationCode) {
+        
+        List orgs = new ArrayList();
+        
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo("reportsToChartOfAccountsCode", chartOfAccountsCode);
+        criteria.addEqualTo("reportsToOrganizationCode", organizationCode);
+        criteria.addEqualTo("organizationActiveIndicator", new Boolean(true));
+        
+        orgs = (List) getCollectionByQuery(QueryFactory.newQuery(Org.class, criteria));
+        
+        if (orgs.isEmpty() || orgs.size() == 0) {
+            return Collections.EMPTY_LIST;
+        }
+        return orgs;
+    }
+    
 }

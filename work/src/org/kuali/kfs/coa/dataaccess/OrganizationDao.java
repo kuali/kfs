@@ -22,6 +22,8 @@
  */
 package org.kuali.module.chart.dao;
 
+import java.util.List;
+
 import org.kuali.module.chart.bo.Org;
 
 /**
@@ -31,4 +33,6 @@ import org.kuali.module.chart.bo.Org;
 public interface OrganizationDao {
     public Org getByPrimaryId(String chartOfAccountsCode, String organizationCode);
     public void save(Org organization);
+    public List getActiveAccountsByOrg(String chartOfAccountsCode, String organizationCode);
+    public List getActiveChildOrgs(String chartOfAccountsCode, String organizationCode);
 }

@@ -22,6 +22,8 @@
  */
 package org.kuali.module.chart.service;
 
+import java.util.List;
+
 import org.kuali.module.chart.bo.Org;
 
 /**
@@ -29,6 +31,7 @@ import org.kuali.module.chart.bo.Org;
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
 */
 public interface OrganizationService {
+    
     /**
      * This method retrieves an organization instance by its composite primary keys (parameters 
      * passed in).
@@ -43,4 +46,33 @@ public interface OrganizationService {
      * @param organization
      */
     public void save(Org organization);
+    
+    /**
+     * 
+     * Retrieves a List of Accounts that are active, and are tied to this Org.
+     * 
+     * If there are no Accounts that meet this criteria, an empty list will 
+     * be returned.
+     * 
+     * @param chartOfAccountsCode - chartCode for the Org you want Accounts for
+     * @param organizationCode - orgCode for the Org you want Accounts for
+     * @return - A List of Accounts that are active, and tied to this Org
+     * 
+     */
+    public List getActiveAccountsByOrg(String chartOfAccountsCode, String organizationCode);
+    
+    /**
+     * 
+     * Retrieves a List of Orgs that are active, and that ReportTo this Org
+     * 
+     * If there are no Orgs that meet this criteria, an empty list will 
+     * be returned.
+     * 
+     * @param chartOfAccountsCode - chartCode for the Org you want Child Orgs for
+     * @param organizationCode - orgCode for the Org you want Child Orgs for
+     * @return - A List of Orgs that are active, and report to this Org
+     * 
+     */
+    public List getActiveChildOrgs(String chartOfAccountsCode, String organizationCode);
+    
 }

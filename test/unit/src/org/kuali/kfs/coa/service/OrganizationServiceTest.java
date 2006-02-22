@@ -22,6 +22,9 @@
  */
 package org.kuali.module.chart.service;
 
+import java.util.Collections;
+import java.util.List;
+
 import org.kuali.module.chart.bo.Org;
 import org.kuali.module.chart.dao.OrganizationDao;
 import org.kuali.module.chart.service.impl.OrganizationServiceImpl;
@@ -85,5 +88,14 @@ public class OrganizationServiceTest extends KualiTestBase {
     public void save(Org organization) {
       saved = organization;
     }
+    
+    public List getActiveAccountsByOrg(String chartOfAccountsCode, String organizationCode) {
+        return Collections.EMPTY_LIST;
+    }
+    
+    public List getActiveChildOrgs(String chartOfAccountsCode, String organizationCode) {
+        return Collections.EMPTY_LIST;
+    }
+    
   }
 }

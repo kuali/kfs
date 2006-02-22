@@ -325,7 +325,11 @@ If the Next Year Object has been entered, it must exist in the object code table
                 case OBJECT_LEVEL:
                     return objectCode.getFinancialObjectLevel().getFinancialObjectLevelCode().equals(objectCode.getFinancialObjectLevelCode());
                 case OBJECT_TYPE:
-                   return objectCode.getFinancialObjectType().getCode().equals(objectCode.getFinancialObjectSubTypeCode());
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("isValid: "+objectCode.getFinancialObjectType().getCode());
+                        LOG.debug("isValid: "+objectCode.getFinancialObjectTypeCode());
+                    }
+                   return objectCode.getFinancialObjectType().getCode().equals(objectCode.getFinancialObjectTypeCode());
                 case SUB_TYPE:
                     return objectCode.getFinancialObjectSubType().getCode().equals(objectCode.getFinancialObjectSubTypeCode());
                }

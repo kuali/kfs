@@ -128,12 +128,15 @@ public class PosterServiceTest extends KualiTestBaseWithSpring {
     LOG.debug("testGlEntryInsert() started");
 
     String[] inputTransactions = {
+        "2004BA6044900-----5300---ACEX07CHKDPDBLANKFISC12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
         "2004BA6044900-----5300---ACEX07CHKDPDBLANKFISC12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                  "
     };
 
     EntryHolder[] outputTransactions = {
         new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions[0]),
-        new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions[0])
+        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions[1]),
+        new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions[0]),
+        new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions[1])
     };
 
     clearOriginEntryTables();
@@ -145,7 +148,7 @@ public class PosterServiceTest extends KualiTestBaseWithSpring {
     assertOriginEntries(outputTransactions);
 
     List glEntries = unitTestSqlDao.sqlSelect("select * from gl_entry_t");
-    assertEquals("Should be 1 GL entry",1,glEntries.size());
+    assertEquals("Should be 2 GL entries",2,glEntries.size());
     Map glEntry = (Map)glEntries.get(0);
 
     BigDecimal ufy = (BigDecimal)glEntry.get("UNIV_FISCAL_YR");
@@ -178,6 +181,43 @@ public class PosterServiceTest extends KualiTestBaseWithSpring {
     assertNull("FDOC_REVERSAL_DT wrong",glEntry.get("FDOC_REVERSAL_DT"));
     assertEquals("TRN_ENCUM_UPDT_CD wrong"," ",(String)glEntry.get("TRN_ENCUM_UPDT_CD"));
     assertNull("BDGT_YR wrong",glEntry.get("BDGT_YR"));
+
+    // The 2nd one should have a different sequence number
+    glEntry = (Map)glEntries.get(1);
+    tesq = (BigDecimal)glEntry.get("TRN_ENTR_SEQ_NBR");
+    assertEquals("TRN_ENTR_SEQ_NBR wrong",2,tesq.intValue());
+  }
+
+  public void BADtestReversalPosting() throws Exception {
+    LOG.debug("testReversalPosting() started");
+
+    String[] inputTransactions = {
+        // 23456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
+        //         1         2         3         4         5         6         7         8         9         0         1         2         3         4         5         6         7
+        //                                                                                                   1
+        "2004BA6044900-----5300---ACEX07CHKDPDREVTEST0112345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678               2006-03-01    ",
+        "2004BA6044900-----5300---ACEX07CHKDPDREVTEST0112345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678               2006-03-01    ",
+        "2004BA6044900-----5300---ACEX07CHKDPDREVTEST0212345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                             "
+    };
+
+    EntryHolder[] outputTransactions = {
+        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions[0]),
+        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions[1]),
+        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions[2]),
+        new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions[0]),
+        new EntryHolder(OriginEntrySource.MAIN_POSTER_ERROR,inputTransactions[1]),
+        new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions[2])
+    };
+
+    clearOriginEntryTables();
+    clearGlEntryTable();
+    loadInputTransactions(inputTransactions);
+
+    posterService.postMainEntries();
+
+    assertOriginEntries(outputTransactions);
+
+    // Check reversal table
   }
 
   /**

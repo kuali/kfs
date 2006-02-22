@@ -62,7 +62,7 @@ import org.springframework.beans.factory.BeanFactoryAware;
 
 /**
  * @author jsissom
- * @version $Id: PosterServiceImpl.java,v 1.19 2006-02-15 14:20:26 larevans Exp $
+ * @version $Id: PosterServiceImpl.java,v 1.20 2006-02-22 20:11:57 jsissom Exp $
  */
 public class PosterServiceImpl implements PosterService,BeanFactoryAware {
   private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PosterServiceImpl.class);
@@ -292,9 +292,9 @@ public class PosterServiceImpl implements PosterService,BeanFactoryAware {
       for (Iterator posterIter = transactionPosters.iterator(); posterIter.hasNext();) {
         PostTransaction poster = (PostTransaction) posterIter.next();
         if ( poster instanceof VerifyTransaction ) {
-          //VerifyTransaction vt = (VerifyTransaction)poster;
+          VerifyTransaction vt = (VerifyTransaction)poster;
 
-          errors.addAll(verifyTransaction.verifyTransaction(tran));
+          errors.addAll(vt.verifyTransaction(tran));
         }
       }
 

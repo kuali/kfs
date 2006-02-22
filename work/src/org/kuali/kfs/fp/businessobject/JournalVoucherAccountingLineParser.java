@@ -38,25 +38,24 @@ import org.kuali.module.financial.document.JournalVoucherDocument;
  * <code>{@link TransactionalDocument}</code>.<br/>
  *
  * <p><code>{@link JournalVoucherAccountingLineParser}</code> requires a 
- * <code>{@link BalanceType}</code> to determine the number of expected
+ * <code>{@link BalanceTyp}</code> to determine the number of expected
  * fields it will parse from the serialized CSV input. This is a special
  * case requires <code>{@link JournalVoucherAccountingLineParser} use
- * accessor methods to handle passing a <code>{@link BalanceType}</code> 
+ * accessor methods to handle passing a <code>{@link BalanceTyp}</code>
  * around during a <code>{@link JournalVoucherAccountingLineParser}</code> 
  * instance.
  *
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class JournalVoucherAccountingLineParser extends AccountingLineParserBase {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(JournalVoucherAccountingLineParser.class);
 
     private static final KualiDecimal ZERO        = new KualiDecimal("0.00");
     private static final String EXTERNAL_ENCUMBRANCE = "EX";
 
+    private static final int EXTERNAL_ENCUMBRANCE_EXPECTED_FIELDS   = 14;
+    private static final int OFFSET_GENERATION_EXPECTED_FIELDS      = 12;
+    private static final int EXPECTED_FIELDS                        = 11;
 
-    private static final int EXTERNAL_ENCUMBRANCE_EXPECTED_FIELDS = 13;
-    private static final int OFFSET_GENERATION_EXPECTED_FIELDS = 11;
-    private static final int EXPECTED_FIELDS      = 10;
     private static final int CHART_IDX            = 0;
     private static final int ACCOUNT_IDX          = 1;
     private static final int SUBACCOUNT_IDX       = 2;
@@ -67,9 +66,10 @@ public class JournalVoucherAccountingLineParser extends AccountingLineParserBase
     private static final int ORGANIZATION_REFERENCE_ID_IDX = 7;
     private static final int DEBIT_AMOUNT_IDX     = 8;
     private static final int CREDIT_AMOUNT_IDX    = 9;
-    private static final int REF_ORIGIN_CODE_IDX  = 10;
-    private static final int REF_NUMBER_IDX       = 11;
-    private static final int REF_TYPE_CODE_IDX    = 12;
+    private static final int OVERRIDE_CODE_IDX    = 10;
+    private static final int REF_ORIGIN_CODE_IDX  = 11;
+    private static final int REF_NUMBER_IDX       = 12;
+    private static final int REF_TYPE_CODE_IDX    = 13;
     
     private JournalVoucherDocument _document;
 
@@ -113,6 +113,7 @@ public class JournalVoucherAccountingLineParser extends AccountingLineParserBase
         StringBuffer debitOrCredit = new StringBuffer();
         KualiDecimal amount   = 
             parseAmount( accountingLineData, debitOrCredit );
+        String overrideCode   = parseOverrideCode( accountingLineData);
         String refOriginCode  = null;
         String refNumber      = null;
         String refTypeCode    = null;
@@ -134,7 +135,8 @@ public class JournalVoucherAccountingLineParser extends AccountingLineParserBase
         retval.setObjectTypeCode( objectTypeCode );
         retval.setOrganizationReferenceId( orgRefId );
         retval.setProjectCode( projectCode );
-        retval.setAmount(amount);        
+        retval.setAmount(amount);
+        retval.setOverrideCode(overrideCode);
         retval.setDebitCreditCode( debitOrCredit.toString() );
         retval.setReferenceOriginCode( refOriginCode );
         retval.setReferenceTypeCode( refTypeCode );
@@ -143,7 +145,7 @@ public class JournalVoucherAccountingLineParser extends AccountingLineParserBase
         ((BusinessObject) retval).refresh();
 
         return retval;
-    }    
+    }
 
     /**
      * Extracts the Chart Code from the parsed CSV data.
@@ -268,6 +270,10 @@ public class JournalVoucherAccountingLineParser extends AccountingLineParserBase
         return amount;
     }
 
+    private String parseOverrideCode(String[] lineData) {
+        return parseField( lineData, OVERRIDE_CODE_IDX );
+    }
+
     /**
      * Extracts the Chart Code from the parsed CSV data.
      *
@@ -312,10 +318,10 @@ public class JournalVoucherAccountingLineParser extends AccountingLineParserBase
     }
     
     /**
-     * Accessor method to get the <code>{@link BalanceType} belonging to the
+     * Accessor method to get the <code>{@link BalanceTyp} belonging to the
      * contained <code>{@link JournalVoucherDocument}</code> instance.
      *
-     * @return <code>{@link BalanceType}</code> instance.
+     * @return <code>{@link BalanceTyp}</code> instance.
      */
     private BalanceTyp getBalanceType() {
         return getJournalVoucherDocument().getBalanceType();

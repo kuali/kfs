@@ -26,6 +26,7 @@ import java.sql.Timestamp;
 import java.util.HashMap;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.KeyConstants;
 import org.kuali.core.bo.PostalZipCode;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.rules.PreRulesContinuationBase;
@@ -120,8 +121,7 @@ public class AccountPreRules extends PreRulesContinuationBase {
             LOG.debug("Expired account: "+accountNumber);
             String continuationAccountNumber=account.getContinuationAccountNumber();
             useContinuationAccount=askOrAnalyzeYesNoQuestion("ContinuationAccount"+accountNumber,
-                    "The account "+accountNumber+
-                    " is expired. Would you rather use its continuation Account ("+continuationAccountNumber+")?");
+                    buildBudgetConfirmationQuestion(accountNumber,continuationAccountNumber));
             if (useContinuationAccount) {
                 accountNumber=continuationAccountNumber;
                 chart=account.getContinuationFinChrtOfAcctCd();
@@ -257,4 +257,12 @@ public class AccountPreRules extends PreRulesContinuationBase {
         }
     }
 
+    protected String buildBudgetConfirmationQuestion(String expiredAccount, String continuationAccount)  {
+        String result=configService.getPropertyString(KeyConstants.QUESTION_CONTINUATION_ACCOUNT_SELECTION);
+        result=StringUtils.replace(result, "{0}", expiredAccount);
+        result=StringUtils.replace(result, "{1}", continuationAccount);
+        return result;
+     }
+
+    
 }

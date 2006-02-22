@@ -33,7 +33,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
-import org.kuali.core.bo.user.UniversityUser;
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.DocumentHeader;
 import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.core.rules.RulesUtils;
@@ -655,6 +655,7 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
         if (payee == null) {
             return;
         }
+        
         this.getDvPayeeDetail().setDvPayeeType(Constants.DV_PAYEE_TYPE_PAYEE);
         this.getDvPayeeDetail().setDisbVchrPayeeIdNumber(payee.getPayeeIdNumber());
         this.getDvPayeeDetail().setDisbVchrPayeePersonName(payee.getPayeePersonName());
@@ -669,6 +670,7 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
         this.getDvPayeeDetail().setDvPayeeRevolvingFundCode(payee.isPayeeRevolvingFundCode());
         this.getDvPayeeDetail().setDvTaxIdNumber(payee.getTaxIdNumber());
         this.getDvPayeeDetail().setDvTaxPayerTypeCode(payee.getTaxpayerTypeCode());
+        this.getDvPayeeDetail().setDvPayeeOwnType(payee.getPayeeOwnershipTypCd());
 
         this.disbVchrPayeeTaxControlCode = payee.getPayeeTaxControlCode();
         this.disbVchrPayeeW9CompleteCode = payee.isPayeeW9CompleteCode();
@@ -679,27 +681,29 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
      * 
      * @param payee
      */
-    public void templateEmployee(UniversityUser employee) {
+    public void templateEmployee(UniversalUser employee) {
         if (employee == null) {
             return;
         }
+        
         this.getDvPayeeDetail().setDvPayeeType(Constants.DV_PAYEE_TYPE_EMPLOYEE);
-        this.getDvPayeeDetail().setDisbVchrPayeeIdNumber(employee.getUuId());
-        this.getDvPayeeDetail().setDisbVchrPayeePersonName(employee.getDisplayName());
-        // this.getDvPayeeDetail().setDisbVchrPayeeLine1Addr(employee.getDepdId());
+        this.getDvPayeeDetail().setDisbVchrPayeeIdNumber(employee.getPersonUniversalIdentifier());
+        this.getDvPayeeDetail().setDisbVchrPayeePersonName(employee.getPersonName());
+        this.getDvPayeeDetail().setDisbVchrPayeeLine1Addr(employee.getDeptid());
         this.getDvPayeeDetail().setDisbVchrPayeeLine2Addr("");
-        // this.getDvPayeeDetail().setDisbVchrPayeeCityName(employee.getCampusNm());
-        // this.getDvPayeeDetail().setDisbVchrPayeeStateCode("");
-        // this.getDvPayeeDetail().setDisbVchrPayeeZipCode("");
-        // this.getDvPayeeDetail().setDisbVchrPayeeCountryName("");
-        // this.getDvPayeeDetail().setDisbVchrPayeeEmployeeCode(false);
-        // this.getDvPayeeDetail().setDisbVchrAlienPaymentCode(false);
-        // this.getDvPayeeDetail().setDvPayeeRevolvingFundCode(false);
+        this.getDvPayeeDetail().setDisbVchrPayeeCityName("");
+        this.getDvPayeeDetail().setDisbVchrPayeeStateCode("");
+        this.getDvPayeeDetail().setDisbVchrPayeeZipCode("");
+        this.getDvPayeeDetail().setDisbVchrPayeeCountryName("");
+        this.getDvPayeeDetail().setDisbVchrPayeeEmployeeCode(false);
+        this.getDvPayeeDetail().setDisbVchrAlienPaymentCode(false);
+        this.getDvPayeeDetail().setDvPayeeRevolvingFundCode(false);
         // this.getDvPayeeDetail().setDvTaxIdNumber(payee.getTaxIdNumber());
-        // this.getDvPayeeDetail().setDvTaxPayerTypeCode(payee.getTaxpayerTypeCode());
-        //
-        // this.disbVchrPayeeTaxControlCode = payee.getPayeeTaxControlCode();
-        // this.disbVchrPayeeW9CompleteCode = payee.isPayeeW9CompleteCode();
+        this.getDvPayeeDetail().setDvTaxPayerTypeCode(DisbursementVoucherRuleConstants.TAX_TYPE_SSN);
+        this.getDvPayeeDetail().setDvPayeeOwnType("");
+        
+        this.disbVchrPayeeTaxControlCode = "";
+        this.disbVchrPayeeW9CompleteCode = true;
     }
 
     /**

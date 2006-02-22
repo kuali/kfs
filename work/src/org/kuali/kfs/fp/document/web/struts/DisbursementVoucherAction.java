@@ -40,7 +40,7 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
 import org.kuali.core.bo.user.KualiGroup;
-import org.kuali.core.bo.user.UniversityUser;
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
@@ -104,9 +104,10 @@ public class DisbursementVoucherAction extends KualiTransactionalDocumentActionB
                 && request.getParameter("document.dvPayeeDetail.disbVchrPayeeIdNumber") != null
                 && document.getDvPayeeDetail().isEmployee()) {
             String emplUuid = ((DisbursementVoucherDocument) dvForm.getDocument()).getDvPayeeDetail().getDisbVchrPayeeIdNumber();
-            UniversityUser employee = new UniversityUser();
-            employee.setUuId(emplUuid);
-            employee = (UniversityUser) SpringServiceLocator.getBusinessObjectService().retrieve(employee);
+            UniversalUser employee = new UniversalUser();
+            employee.setPersonUniversalIdentifier(emplUuid);
+            employee = (UniversalUser) SpringServiceLocator.getBusinessObjectService().retrieve(employee);
+            ((DisbursementVoucherDocument) dvForm.getDocument()).templateEmployee(employee);
         }
 
 
@@ -441,9 +442,9 @@ public class DisbursementVoucherAction extends KualiTransactionalDocumentActionB
                     Constants.METHOD_TO_CALL_BOPARM_RIGHT_DEL);
             String conversionFields = StringUtils.substringBetween(fullParameter, Constants.METHOD_TO_CALL_PARM1_LEFT_DEL,
                     Constants.METHOD_TO_CALL_PARM1_RIGHT_DEL);
-            fullParameter = StringUtils.replace(fullParameter, boClassName, "org.kuali.core.bo.user.UniversityUser");
+            fullParameter = StringUtils.replace(fullParameter, boClassName, "org.kuali.core.bo.user.UniversalUser");
             fullParameter = StringUtils.replace(fullParameter, conversionFields,
-                    "uuId:document.dvPayeeDetail.disbVchrPayeeIdNumber");
+                    "personUniversalIdentifier:document.dvPayeeDetail.disbVchrPayeeIdNumber");
             request.setAttribute(Constants.METHOD_TO_CALL_ATTRIBUTE, fullParameter);
         }
 

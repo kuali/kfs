@@ -810,17 +810,9 @@
 	<field-descriptor name="disbVchrRemitCountryName" column="DV_RMT_CNTRY_NM" jdbc-type="VARCHAR"/>
 	<field-descriptor name="disbVchrPayeeEmployeeCode" column="DV_PAYEE_EMP_IND" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanField10Conversion"/>
 	<field-descriptor name="dvPayeeRevolvingFundCode" column="DV_PAYEE_RVFND_IND" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanField10Conversion"/>
-	
-	<reference-descriptor name="financialDocument" class-ref="org.kuali.module.financial.document.DisbursementVoucherDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="financialDocumentNumber" />
-	</reference-descriptor>
-	
+
 	<reference-descriptor name="disbVchrPaymentReason" class-ref="org.kuali.module.financial.bo.PaymentReasonCode" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="disbVchrPaymentReasonCode" />
-	</reference-descriptor>
-	
-	<reference-descriptor name="disbVchrPayeeId" class-ref="org.kuali.core.bo.user.KualiUser" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="disbVchrPayeeIdNumber" />
 	</reference-descriptor>
 
 </class-descriptor>

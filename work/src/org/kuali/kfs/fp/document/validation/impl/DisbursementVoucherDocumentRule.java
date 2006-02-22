@@ -33,6 +33,7 @@ import org.kuali.core.bo.SourceAccountingLine;
 import org.kuali.core.bo.user.AuthenticationUserId;
 import org.kuali.core.bo.user.KualiGroup;
 import org.kuali.core.bo.user.KualiUser;
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.exceptions.UserNotFoundException;
@@ -670,20 +671,31 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
         else {
             dvPayee = (Payee) foundPayee;
         }
+        
+        /* DV Payee must be active */
+        if (!dvPayee.isPayeeActiveCode()) {
+            errors.put("dvPayeeDetail.disbVchrPayeeIdNumber", KeyConstants.ERROR_INACTIVE, "Payee ID ");
+            return;
+        }
 
         /* DV Payee cannot be same as initiator */
         KualiUser initUser = getInitiator(document);
+        
+//        if (dv_txpyr_typ_cd.fp_dv_pend_payee_t)
+//            activate "fp_sldap".get_uuid(dv_tax_id_nbr.fp_dv_pend_payee_t,$1)
+//            if ($procerror != 0)
+//              $$message = "Error activating fp_sldap (%%$procerror)."
+//              run "fp_g0055"
+//              return $$cancel
+//            endif
+//            if ($1 = $$universal_id)
 
         if (dvPayee.getPayeeIdNumber().equals(initUser.getPersonUniversalIdentifier())) {
             errors.put("dvPayeeDetail.disbVchrPayeeIdNumber", KeyConstants.ERROR_PAYEE_INITIATOR);
         }
 
 
-        /* DV Payee must be active */
-        if (!dvPayee.isPayeeActiveCode()) {
-            errors.put("dvPayeeDetail.disbVchrPayeeIdNumber", KeyConstants.ERROR_INACTIVE, "Payee ID ");
-            return;
-        }
+
 
         /* check payment reason is allowed for payee type */
         executeApplicationParameterRestriction(PAYEE_PAYMENT_GROUP_NM, DVPAYEE_PAYEE_PAYMENT_PARM, document.getDvPayeeDetail()
@@ -705,10 +717,25 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
         DisbursementVoucherPayeeDetail payeeDetail = document.getDvPayeeDetail();
 
         ErrorMap errors = GlobalVariables.getErrorMap();
-
+        
+        /* check existence of employee */
+        UniversalUser employee = new UniversalUser();
+        employee.setPersonUniversalIdentifier(payeeDetail.getDisbVchrPayeeIdNumber());
+        Object foundEmployee = (UniversalUser) SpringServiceLocator.getBusinessObjectService().retrieve(employee);
+        if (foundEmployee == null) {
+            errors.put("dvPayeeDetail.disbVchrPayeeIdNumber", KeyConstants.ERROR_EXISTENCE, "Payee ID ");
+            return;
+        }
+        
         /* check payment reason is allowed for employee type */
         executeApplicationParameterRestriction(PAYEE_PAYMENT_GROUP_NM, EMPLOYEE_PAYEE_PAYMENT_PARM, document.getDvPayeeDetail()
                 .getDisbVchrPaymentReasonCode(), "dvPayeeDetail.disbVchrPaymentReasonCode", "Payment reason code");
+        
+        /* DV Payee cannot be same as initiator */
+        KualiUser initUser = getInitiator(document);
+        if (document.getDvPayeeDetail().getDisbVchrPayeeIdNumber().equals(initUser.getPersonUniversalIdentifier())) {
+            errors.put("dvPayeeDetail.disbVchrPayeeIdNumber", KeyConstants.ERROR_PAYEE_INITIATOR);
+        }
     }
 
     /**

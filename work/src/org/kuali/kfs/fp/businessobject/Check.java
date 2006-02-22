@@ -24,11 +24,12 @@ package org.kuali.module.financial.bo;
 
 import java.sql.Date;
 
+import org.apache.ojb.broker.PersistenceBrokerAware;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.util.KualiDecimal;
 
 
-public interface Check extends BusinessObject {
+public interface Check extends BusinessObject, PersistenceBrokerAware {
 
     /**
      * Gets the checkDate attribute.
@@ -116,4 +117,23 @@ public interface Check extends BusinessObject {
      */
     public void setFinancialDocumentNumber(String financialDocumentNumber);
 
+
+    /**
+     * Sets the interimDepositAmount.
+     * 
+     * @param interimDepositAmount
+     */
+    public void setInterimDepositAmount(boolean interimDepositAmount);
+
+    /**
+     * @return interimDepositAmount value
+     */
+    public boolean isInterimDepositAmount();
+
+
+    /**
+     * @param other
+     * @return true if this Check has the same primitive field values as the given one
+     */
+    public boolean isLike(Check other);
 }

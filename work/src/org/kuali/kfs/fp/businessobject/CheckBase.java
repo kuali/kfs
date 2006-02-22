@@ -25,8 +25,11 @@ package org.kuali.module.financial.bo;
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.time.DateUtils;
 import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.NumberUtils;
 
 /**
  * This class represents a check in the system. It is a generalized check business object that will be used by the Cash Receipts
@@ -195,5 +198,32 @@ public class CheckBase extends BusinessObjectBase implements Check {
         m.put("documentHeaderId", this.financialDocumentNumber);
 
         return m;
+    }
+
+
+    /**
+     * @see org.kuali.module.financial.bo.Check#isLike(org.kuali.module.financial.bo.Check)
+     */
+    public boolean isLike(Check other) {
+        boolean like = false;
+
+        if (StringUtils.equals(checkNumber, other.getCheckNumber())) {
+            if (StringUtils.equals(description, other.getDescription())) {
+                if (StringUtils.equals(financialDocumentNumber, other.getFinancialDocumentNumber())) {
+                    if (NumberUtils.equals(sequenceId, other.getSequenceId())) {
+                        if (interimDepositAmount == other.isInterimDepositAmount()) {
+
+                            if (DateUtils.isSameDay(checkDate, other.getCheckDate())) {
+                                if ((amount != null) && amount.equals(other.getAmount())) {
+                                    like = true;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return like;
     }
 }

@@ -185,7 +185,7 @@
 		<required>true</required>
 		
         <control>
-          <text size="1" />
+          <select valuesFinderClass="org.kuali.core.lookup.keyvalues.OrgTypeValuesFinder" />
         </control>
 
         <summary>Organization Type</summary>

@@ -37,7 +37,6 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathFactory;
 
 import org.apache.log4j.Logger;
-import org.jdom.Document;
 import org.kuali.KualiSpringServiceLocator;
 import org.kuali.workflow.KualiConstants;
 import org.w3c.dom.Node;

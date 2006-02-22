@@ -24,18 +24,13 @@ package org.kuali.module.chart.rules;
 
 import java.sql.Timestamp;
 import java.util.Calendar;
-import java.util.Iterator;
-import java.util.Map;
 
 import org.apache.commons.lang.time.DateUtils;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.document.MaintenanceDocumentBase;
 import org.kuali.core.maintenance.KualiMaintainableImpl;
-import org.kuali.core.util.ErrorMessage;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.TypedArrayList;
 import org.kuali.module.chart.bo.Delegate;
-import org.kuali.test.KualiTestBaseWithSpring;
 
 /**
  * This class...

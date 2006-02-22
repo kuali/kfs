@@ -24,7 +24,6 @@ package org.kuali.module.chart.rules;
 
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.module.chart.bo.Org;
-import org.kuali.test.KualiTestBaseWithSpring;
 
 public class OrgRuleTest extends ChartRuleTestBase {
 

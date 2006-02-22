@@ -41,7 +41,7 @@ import org.kuali.test.KualiTestBaseWithSpring;
  * This class...
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class DelegateRuleTest extends KualiTestBaseWithSpring {
+public class DelegateRuleTest extends ChartRuleTestBase {
 
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DelegateRuleTest.class);
     
@@ -110,43 +110,6 @@ public class DelegateRuleTest extends KualiTestBaseWithSpring {
         return document;
     }
     
-    /**
-     * 
-     * This method is used during debugging to dump the contents of the error 
-     * map, including the key names.  It is not used by the application 
-     * in normal circumstances at all.
-     *
-     */
-    private void showErrorMap() {
-        
-        if (GlobalVariables.getErrorMap().isEmpty()) {
-            return;
-        }
-
-        for (Iterator i = GlobalVariables.getErrorMap().entrySet().iterator(); i.hasNext();) {
-            Map.Entry e = (Map.Entry) i.next();
-
-            boolean first = true;
-            
-            TypedArrayList errorList = (TypedArrayList) e.getValue();
-            for (Iterator j = errorList.iterator(); j.hasNext();) {
-                ErrorMessage em = (ErrorMessage) j.next();
-
-                if (em.getMessageParameters() == null) {
-                    LOG.error("[" + e.getKey().toString() + "] " + em.getErrorKey());
-                }
-                else {
-                    LOG.error("[" + e.getKey().toString() + "] " + em.getErrorKey());
-                    String[] parms = em.getMessageParameters();
-                    for (int k = 0; k < parms.length; k++) {
-                        LOG.error("     " + parms[k].toString());
-                    }
-                }
-            }
-        }
-
-    }
-
     /**
      * 
      * This method tests a Delegate that we have setup with all known 

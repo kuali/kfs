@@ -157,7 +157,7 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
         
         if (!isLegalObjectCode(objCode)) {
             this.addIllegalValueError("objCode must not be "+illegalValues.toArray());
-            return false;
+            result=false;
         }
 
         Integer year=objectCode.getUniversityFiscalYear();
@@ -167,27 +167,27 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
         
         if (!verifyReportsToChartCode(reportsToChartCode,year,reportsToObjectCode)) {
             addIllegalValueError("reportsToChartCode must have valid chart, year");
-            return false;
+            result=false;
         }
 
         String budgetAggregationCode=objectCode.getFinancialBudgetAggregationCd();
         
         if (!isLegalBudgetAggregationCode(budgetAggregationCode)) {
             addIllegalValueError("budgetAggregationCode must be one of "+validBudgetAggregationCodes);
-            return false;
+            result=false;
         }
 
         String mandatoryTransferEliminationCode=objectCode.getFinObjMandatoryTrnfrelimCd();
         
         if (!isLegalMandatoryTransferEliminationCode(mandatoryTransferEliminationCode)) {
             addIllegalValueError("mandatory transfer elim Code must be one of "+validMandatoryTransferEliminationCodes);
-            return false;
+            result=false;
         }
 
         //RULE: fiscal year must be valid
         if (!this.isValidYear(year)) {
             addIllegalValueError("fiscal year must be valid");
-            return false;
+            result=false;
         }
 
         objectCode.refresh();
@@ -195,35 +195,35 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
         // Chart code (fin_coa_cd) must be valid
         if (!isValid(objectCode,CHART_CODE)) {
             addIllegalValueError("Chart must be valid");
-            return false;
+            result=false;
         }
 
         // Object level (obj_level_code) must be valid
         if (!isValid(objectCode,OBJECT_LEVEL)) {
             addIllegalValueError("object level must be valid");
-            return false;
+            result=false;
         }
 
         // Object Type must be valid
         if (!isValid(objectCode,OBJECT_TYPE)) {
             addIllegalValueError("object type must be valid");
-            return false;
+            result=false;
         }
 
         // Sub type must be valid
         if (!isValid(objectCode,SUB_TYPE)) {
             addIllegalValueError("object sub type must be valid");
-            return false;
+            result=false;
         }
         
         if (!this.consolidationTableDoesNotHave(chartCode,objCode)) {
             addIllegalValueError("given value already exists in consolidation table");
-            return false;
+            result=false;
         }
 
         if (!this.objectLevelTableDoesNotHave(chartCode,objCode)) {
             addIllegalValueError("given value already exists in consolidation table");
-            return false;
+            result=false;
         }
         
         /*
@@ -318,41 +318,21 @@ If the Next Year Object has been entered, it must exist in the object code table
     // See Aaron's notes here: http://fms.dfa.cornell.edu:8080/confluence/display/KULEDOCS/Notes+on+Existence+Checking
     // and here: http://fms.dfa.cornell.edu:8080/confluence/display/KULEDOCS/Notes+on+Null+Checking+within+Business+Rule+Classes
     protected boolean isValid(ObjectCode objectCode, int field) {
-        
-        switch (field) {
-            case CHART_CODE:
-                try {
-                    objectCode.getChartOfAccounts().getChartOfAccountsCode().equals(objectCode.getChartOfAccountsCode());
-                } catch (PersistenceBrokerException e) {
-                    return false;
-                }
-                break;
-            case OBJECT_LEVEL:
-                try {
-                    objectCode.getFinancialObjectLevel().getFinancialObjectLevelCode().equals(objectCode.getFinancialObjectLevelCode());
-                } catch (PersistenceBrokerException e) {
-                    return false;
-                }
-                break;
-            case OBJECT_TYPE:
-                try {
-                    objectCode.getFinancialObjectType().getCode().equals(objectCode.getFinancialObjectSubTypeCode());
-                } catch (PersistenceBrokerException e) {
-                    return false;
-                } catch (NullPointerException e) {
-                    return false;
-                }
-                     
-                break;
-            case SUB_TYPE:
-                try {
-                    objectCode.getFinancialObjectSubType().getCode().equals(objectCode.getFinancialObjectSubTypeCode());
-                } catch (PersistenceBrokerException e) {
-                    return false;
-                } catch (NullPointerException e) {
-                    return false;
-                }
-                break;
+        try {
+            switch (field) {
+                case CHART_CODE:
+                    return objectCode.getChartOfAccounts().getChartOfAccountsCode().equals(objectCode.getChartOfAccountsCode());
+                case OBJECT_LEVEL:
+                    return objectCode.getFinancialObjectLevel().getFinancialObjectLevelCode().equals(objectCode.getFinancialObjectLevelCode());
+                case OBJECT_TYPE:
+                   return objectCode.getFinancialObjectType().getCode().equals(objectCode.getFinancialObjectSubTypeCode());
+                case SUB_TYPE:
+                    return objectCode.getFinancialObjectSubType().getCode().equals(objectCode.getFinancialObjectSubTypeCode());
+               }
+        } catch (PersistenceBrokerException e) {
+            return false;
+        } catch (NullPointerException e) {
+            return false;
         }
         
         return true;

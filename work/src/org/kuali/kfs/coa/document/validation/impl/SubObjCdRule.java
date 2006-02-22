@@ -34,21 +34,12 @@ import org.kuali.module.chart.bo.SubObjCd;
 public class SubObjCdRule extends MaintenanceDocumentRuleBase {
 
     private static final String ACCOUNT_ORG_RULE_KEY = "SubObjectCode.AccountOrgsAllowingClosedAccounts";
-    private KualiConfigurationService configService;
     
     private SubObjCd oldSubObjectCode;
     private SubObjCd newSubObjectCode;
     
     public SubObjCdRule() {
         super();
-        
-        // Pseudo-inject some services.
-        //
-        // This approach is being used to make it simpler to convert the Rule classes 
-        // to spring-managed with these services injected by Spring at some later date.  
-        // When this happens, just remove these calls to the setters with 
-        // SpringServiceLocator, and configure the bean defs for spring.
-        this.setConfigService(SpringServiceLocator.getKualiConfigurationService());
     }
 
     /**
@@ -133,12 +124,4 @@ public class SubObjCdRule extends MaintenanceDocumentRuleBase {
         return success;
     }
 
-    /**
-     * Sets the configService attribute value.
-     * @param configService The configService to set.
-     */
-    public void setConfigService(KualiConfigurationService configService) {
-        this.configService = configService;
-    }
-    
 }

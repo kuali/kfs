@@ -27,7 +27,8 @@ package org.kuali.module.chart.bo;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.BusinessObjectBase;
-import org.kuali.core.bo.user.KualiUser;
+import org.kuali.core.bo.OriginationCode;
+import org.kuali.core.bo.user.UniversalUser;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -53,6 +54,8 @@ public class Chart extends BusinessObjectBase {
     private String incBdgtEliminationsFinObjCd;
     private String expBdgtEliminationsFinObjCd;
 
+
+    private OriginationCode finChartOfAcctOrigination;
     private ObjectCode incBdgtEliminationsFinObj;
     private ObjectCode expBdgtEliminationsFinObj;
     private ObjectCode finAccountsPayableObject;
@@ -63,7 +66,7 @@ public class Chart extends BusinessObjectBase {
     private ObjectCode finAccountsReceivableObj;
     private ObjectCode finInternalEncumbranceObj;
     private ObjectCode icrExpenseFinancialObject;
-    private KualiUser finCoaManagerUniversal;
+    private UniversalUser finCoaManagerUniversal;
     private Chart reportsToChartOfAccounts;
 
 
@@ -260,7 +263,7 @@ public class Chart extends BusinessObjectBase {
      * @return - Returns the finCoaManagerUniversal
      *  
      */
-    public KualiUser getFinCoaManagerUniversal() {
+    public UniversalUser getFinCoaManagerUniversal() {
         return finCoaManagerUniversal;
     }
 
@@ -270,7 +273,7 @@ public class Chart extends BusinessObjectBase {
      * @param - finCoaManagerUniversal The finCoaManagerUniversal to set.
      * @deprecated
      */
-    public void setFinCoaManagerUniversal(KualiUser finCoaManagerUniversal) {
+    public void setFinCoaManagerUniversal(UniversalUser finCoaManagerUniversal) {
         this.finCoaManagerUniversal = finCoaManagerUniversal;
     }
 
@@ -349,6 +352,25 @@ public class Chart extends BusinessObjectBase {
      */
     public void setChartOfAccountsCode(String chartOfAccountsCode) {
         this.chartOfAccountsCode = chartOfAccountsCode;
+    }
+
+    /**
+     * 
+     * This method...
+     * @return
+     */
+    public OriginationCode getFinChartOfAcctOrigination() {
+        return finChartOfAcctOrigination;
+    }
+
+    /**
+     * 
+     * This method...
+     * @param finChartOfAcctOrigination
+     * @deprecated
+     */
+    public void setFinChartOfAcctOrigination(OriginationCode finChartOfAcctOrigination) {
+        this.finChartOfAcctOrigination = finChartOfAcctOrigination;
     }
 
     /**

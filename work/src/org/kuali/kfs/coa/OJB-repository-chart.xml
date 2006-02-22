@@ -557,7 +557,7 @@
 		<foreignkey field-ref="finAccountsReceivableObjCode" />
 	</reference-descriptor>
 	<reference-descriptor name="finCoaManagerUniversal"
-		class-ref="org.kuali.core.bo.user.KualiUser" auto-retrieve="true"
+		class-ref="org.kuali.core.bo.user.UniversalUser" auto-retrieve="true"
 		auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="finCoaManagerUniversalId" />
 	</reference-descriptor>
@@ -565,6 +565,11 @@
 		class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true"
 		auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="reportsToChartOfAccountsCode" />
+	</reference-descriptor>
+	<reference-descriptor name="finChartOfAcctOrigination"
+		class-ref="org.kuali.core.bo.OriginationCode" auto-retrieve="true"
+		auto-update="none" auto-delete="none" proxy="true">
+		<foreignkey field-ref="finChartOfAcctOriginationCd" />
 	</reference-descriptor>
 </class-descriptor>
 

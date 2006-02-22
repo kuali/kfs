@@ -62,7 +62,7 @@ import org.springframework.beans.factory.BeanFactoryAware;
 
 /**
  * @author jsissom
- * @version $Id: PosterServiceImpl.java,v 1.20 2006-02-22 20:11:57 jsissom Exp $
+ * @version $Id: PosterServiceImpl.java,v 1.21 2006-02-22 21:31:15 jsissom Exp $
  */
 public class PosterServiceImpl implements PosterService,BeanFactoryAware {
   private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PosterServiceImpl.class);
@@ -279,6 +279,18 @@ public class PosterServiceImpl implements PosterService,BeanFactoryAware {
       errors = verifyTransaction.verifyTransaction(tran);
     }
 
+    // Now check each poster to see if it needs to verify the transaction.  If
+    // it returns errors, we won't post it
+    errors = new ArrayList();
+    for (Iterator posterIter = transactionPosters.iterator(); posterIter.hasNext();) {
+      PostTransaction poster = (PostTransaction) posterIter.next();
+      if ( poster instanceof VerifyTransaction ) {
+        VerifyTransaction vt = (VerifyTransaction)poster;
+
+        errors.addAll(vt.verifyTransaction(tran));
+      }
+    }
+
     if (errors.size() > 0) {
       // Error on this transaction
       reportError.put(tran, errors);
@@ -286,51 +298,33 @@ public class PosterServiceImpl implements PosterService,BeanFactoryAware {
 
       originEntryService.createEntry(tran, invalidGroup);
     } else {
-      // Now check each poster to see if it needs to verify the transaction.  If
-      // it returns errors, we won't post it
-      errors = new ArrayList();
+      // No error so post it
       for (Iterator posterIter = transactionPosters.iterator(); posterIter.hasNext();) {
         PostTransaction poster = (PostTransaction) posterIter.next();
-        if ( poster instanceof VerifyTransaction ) {
-          VerifyTransaction vt = (VerifyTransaction)poster;
+        String actionCode = poster.post(tran, mode, runUniversityDate.getUniversityDate());
 
-          errors.addAll(vt.verifyTransaction(tran));
+        if (actionCode.startsWith("E") ) {
+          errors = new ArrayList();
+          errors.add(actionCode);
+          reportError.put(tran, errors);
+        } else if (actionCode.indexOf("I") >= 0) {
+          addReporting(reportSummary, poster.getDestinationName(), "I");
+        } else if (actionCode.indexOf("U") >= 0) {
+          addReporting(reportSummary, poster.getDestinationName(), "U");
+        } else if (actionCode.indexOf("D") >= 0) {
+          addReporting(reportSummary, poster.getDestinationName(), "D");
+        } else if (actionCode.indexOf("S") >= 0) {
+          addReporting(reportSummary, poster.getDestinationName(), "S");            
         }
       }
 
-      if ( errors.size() > 0) {
-        // Error on this transaction
-        reportError.put(tran, errors);
-        addReporting(reportSummary, "WARNING", "S");
+      if ( errors.size() == 0 ) {
+        originEntryService.createEntry(tran, validGroup);
 
-        originEntryService.createEntry(tran, invalidGroup);
-      } else {
-        // No error so post it
-        for (Iterator posterIter = transactionPosters.iterator(); posterIter.hasNext();) {
-          PostTransaction poster = (PostTransaction) posterIter.next();
-          String actionCode = poster.post(tran, mode, runUniversityDate.getUniversityDate());
-
-          if (actionCode.startsWith("E") ) {
-            errors = new ArrayList();
-            errors.add(actionCode);
-            reportError.put(tran, errors);
-          } else if (actionCode.indexOf("I") >= 0) {
-            addReporting(reportSummary, poster.getDestinationName(), "I");
-          } else if (actionCode.indexOf("U") >= 0) {
-            addReporting(reportSummary, poster.getDestinationName(), "U");
-          } else if (actionCode.indexOf("D") >= 0) {
-            addReporting(reportSummary, poster.getDestinationName(), "D");
-          } else if (actionCode.indexOf("S") >= 0) {
-            addReporting(reportSummary, poster.getDestinationName(), "S");            
-          }
+        // Delete the reversal entry
+        if ( mode == PosterService.MODE_REVERSAL ) {
+          reversalDao.delete( (Reversal)originalTransaction );
         }
-      }
-
-      originEntryService.createEntry(tran, validGroup);
-
-      // Delete the reversal entry
-      if ( mode == PosterService.MODE_REVERSAL ) {
-        reversalDao.delete( (Reversal)originalTransaction );
       }
     }
   }

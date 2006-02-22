@@ -39,10 +39,10 @@ import org.kuali.module.gl.bo.OriginEntrySource;
 import org.kuali.module.gl.dao.OriginEntryDao;
 import org.kuali.module.gl.dao.OriginEntryGroupDao;
 import org.kuali.module.gl.dao.UnitTestSqlDao;
-import org.kuali.test.KualiTestBaseWithSpring;
+import org.kuali.test.KualiTestBaseWithSpringOnly;
 import org.springframework.beans.factory.BeanFactory;
 
-public class PosterServiceTest extends KualiTestBaseWithSpring {
+public class PosterServiceTest extends KualiTestBaseWithSpringOnly {
   private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PosterServiceTest.class);
 
   private BeanFactory beanFactory;
@@ -210,7 +210,7 @@ public class PosterServiceTest extends KualiTestBaseWithSpring {
     };
 
     clearOriginEntryTables();
-    clearGlEntryTable();
+    clearReversalTable();
     loadInputTransactions(inputTransactions);
 
     posterService.postMainEntries();
@@ -289,6 +289,10 @@ public class PosterServiceTest extends KualiTestBaseWithSpring {
     unitTestSqlDao.sqlCommand("delete from gl_entry_t");
   }
 
+  private void clearReversalTable() {
+    unitTestSqlDao.sqlCommand("delete from gl_reversal_t");
+  }
+
   private void clearOriginEntryTables() {
     unitTestSqlDao.sqlCommand("delete from gl_origin_entry_t");
     unitTestSqlDao.sqlCommand("delete from gl_origin_entry_grp_t");
@@ -309,6 +313,7 @@ public class PosterServiceTest extends KualiTestBaseWithSpring {
     OriginEntry entry = new OriginEntry(line);
     entry.setGroup(group);
     originEntryDao.saveOriginEntry(entry);
+    System.err.println("createEntry: " + entry.getLine());
     return entry;
   }
 }

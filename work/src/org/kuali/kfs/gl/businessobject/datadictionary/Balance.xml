@@ -9,13 +9,15 @@
         <inquiry>
             <title>General Ledger Balance</title>
             <inquiryFields>
-            	<field attributeName="universityFiscalYear"/>
-				<field attributeName="chartOfAccountsCode"/>
-				<field attributeName="accountNumber"/>
-				<field attributeName="subAccountNumber"/>
-				<field attributeName="objectCode"/>
-				<field attributeName="subObjectCode"/> 
-				<field attributeName="balanceTypeCode"/> 
+            	<field attributeName="universityFiscalYear" forceInquiry="true"/>
+				<field attributeName="chartOfAccountsCode" forceInquiry="true"/>
+				<field attributeName="accountNumber" forceInquiry="true"/>
+				<field attributeName="subAccountNumber" forceInquiry="true"/>
+				<field attributeName="objectCode" forceInquiry="true"/>
+				<field attributeName="subObjectCode" forceInquiry="true"/> 
+				<field attributeName="balanceTypeCode" forceInquiry="true"/>
+				<field attributeName="dummyBusinessObject.consolidationOption" forceInquiry="true"/>
+				<field attributeName="dummyBusinessObject.amountViewOption" forceInquiry="true"/>
             </inquiryFields>
         </inquiry>
 		
@@ -27,7 +29,7 @@
 			<defaultSort attributeName="accountNumber" />
 			
 			<lookupFields>
-				<lookupField attributeName="universityFiscalYear" required="true">
+				<lookupField attributeName="universityFiscalYear" required="true" noLookup="false">
 				    <defaultValueFinderClass>
 						org.kuali.core.lookup.valueFinder.FiscalYearFinder
 					</defaultValueFinderClass>
@@ -40,13 +42,13 @@
 				<lookupField attributeName="subObjectCode" noLookup="false"/> 
 				<lookupField attributeName="balanceTypeCode" required="true" noLookup="false"/> 
 						
-				<lookupField attributeName="dummyBusinessObject.consolidationOption">
+				<lookupField attributeName="dummyBusinessObject.consolidationOption" noLookup="false">
 					<defaultValueFinderClass>
 						org.kuali.module.gl.web.GLConsolidationOptionFinder
 					</defaultValueFinderClass>
 				</lookupField>
 				
-				<lookupField attributeName="dummyBusinessObject.amountViewOption">
+				<lookupField attributeName="dummyBusinessObject.amountViewOption" noLookup="false">
 					<defaultValueFinderClass>
 						org.kuali.module.gl.web.GLAmountViewOptionFinder
 					</defaultValueFinderClass>

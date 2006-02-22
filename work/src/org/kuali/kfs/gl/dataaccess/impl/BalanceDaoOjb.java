@@ -167,6 +167,10 @@ public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements Balanc
         if(isConsolidated){
             attributeList.remove("subAccountNumber");
             groupByList.remove("subAccountNumber");
+            attributeList.remove("subObjectCode");
+            groupByList.remove("subObjectCode");
+            attributeList.remove("objectTypeCode");
+            groupByList.remove("objectTypeCode");
         }   
         
         // set the selection attributes
@@ -196,9 +200,13 @@ public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements Balanc
             List attributeList = buildAttributeList(true);
             List groupByList   = buildGroupByList();
             
-            // ignore subaccount number
+            // ignore subaccount number, sub object code and object type code
             attributeList.remove("subAccountNumber");
             groupByList.remove("subAccountNumber");
+            attributeList.remove("subObjectCode");
+            groupByList.remove("subObjectCode");
+            attributeList.remove("objectTypeCode");
+            groupByList.remove("objectTypeCode");
             
             // set the selection attributes
             String[] attributes = (String[])attributeList.toArray(new String[attributeList.size()]);
@@ -263,6 +271,8 @@ public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements Balanc
         attributeList.add("subAccountNumber");
         attributeList.add("balanceTypeCode");
         attributeList.add("objectCode");
+        attributeList.add("subObjectCode");
+        attributeList.add("objectTypeCode");
         attributeList.add("sum(accountLineAnnualBalanceAmount)");
         attributeList.add("sum(contractsGrantsBeginningBalanceAmount)");
         attributeList.add("sum(contractsGrantsBeginningBalanceAmount)");
@@ -296,9 +306,11 @@ public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements Balanc
         attributeList.add("universityFiscalYear");
         attributeList.add("chartOfAccountsCode");
         attributeList.add("accountNumber");
+        attributeList.add("subAccountNumber");
         attributeList.add("balanceTypeCode");
         attributeList.add("objectCode");
-        attributeList.add("subAccountNumber");
+        attributeList.add("subObjectCode");
+        attributeList.add("objectTypeCode");
         
         return attributeList;
     }

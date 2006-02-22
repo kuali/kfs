@@ -36,14 +36,16 @@
         <td width="20">
           <img src="images/pixel_clear.gif" alt="" width="20" height="20">
         </td>
+        
         <td>
+        <c:if test="${param.inquiryFlag != 'true'}">
           <div align="center">
             <table align="center" cellpadding=0 class="datatable-nowidth">
               <c:set var="FormName" value="KualiForm" scope="request" />
               <c:set var="FieldRows" value="${KualiForm.lookupable.rows}" scope="request" />
               <c:set var="ActionName" value="balanceInquiry.do" scope="request" />
               <c:set var="IsLookupDisplay" value="true" scope="request" />
-              
+                           
               <%@ include file="/jsp/core/RowDisplay.jsp" %>
           
               <tr align=center>
@@ -73,8 +75,10 @@
               </tr>
             </table>
           </div>
+          </c:if>
           
-          <br><br><div class="right">
+          <br/><br/>
+          <div class="right">
             <logic-el:present name="KualiForm" property="formKey">
               <c:if test="${KualiForm.formKey!='' && KualiForm.hideReturnLink != true}">
                 <a href='<c:out value="${KualiForm.backLocation}?methodToCall=refresh&docFormKey=${KualiForm.formKey}" />'>
@@ -87,18 +91,9 @@
           <c:if test="${reqSearchResultsActualSize>0}" >
           	<c:out value="${reqSearchResultsActualSize}" /> items found.  Please refine your search criteria to narrow down your search.
           </c:if>
-          
-		 <table>
-		 <c:forEach items="${KualiForm.fields}" var="fields">
-		 	<tr>
-		 		<td><c:out value="${fields.key}"/></td>
-		 		<td><c:out value="${fields.value}"/></td>
-		 	</tr>
-		 </c:forEach>
-		 </table>
-
+         
           <display:table width="100%" class="datatable-100" cellspacing="0" cellpadding="0" 
-				name="${reqSearchResults[1]}" export="true" pagesize="100"
+				name="${reqSearchResults[0]}" export="true" pagesize="100"
 				requestURI="lookup.do?methodToCall=viewResults&reqSearchResultsActualSize=${reqSearchResultsActualSize}&listKey=${listKey}">
 				
 			<display:column>      
@@ -107,7 +102,7 @@
 	          		<c:if test="${status.count == 1}">
 		               	<tr>
 			          		<c:forEach items="${row.columns}" var="column" end="11">
-			          			<th class="infocell"><c:out value="${column.columnTitle}" /></td>
+			          			<th class="infocell"><c:out value="${column.columnTitle}" /></th>
 			          		</c:forEach>
 			          	</tr>
 			        </c:if>
@@ -152,7 +147,7 @@
         </td>
 
         <td width="20">
-          <img src="images/pixel_clear.gif" alt="" width="20" height="20">
+          <img src="images/pixel_clear.gif" alt="" width="20" height="20" />
         </td>
       </tr>
     </table>

@@ -219,4 +219,9 @@
 	<bean id="glSufficientFundRebuildDao" class="org.kuali.module.gl.dao.ojb.SufficientFundRebuildDaoOjb">
 		<property name="jcdAlias"><value>dataSource</value></property>
 	</bean>
+	
+	<!--  GL Calculators -->	
+	<bean id="glEncumbranceCalculator" class="org.kuali.module.gl.batch.poster.impl.PostEncumbrance" />
+	<bean id="glBalanceCalculator" class="org.kuali.module.gl.batch.poster.impl.PostBalance" />
+	
 </beans>

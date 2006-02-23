@@ -73,6 +73,9 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
         //	check simple rules
         checkSimpleRules();
         
+        //  disallow more than one PrimaryRoute for a given Chart/Account/Doctype
+        checkOnlyOnePrimaryRoute();
+        
         return true;
     }
 

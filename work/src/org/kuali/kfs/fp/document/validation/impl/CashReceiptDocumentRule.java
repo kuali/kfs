@@ -24,7 +24,11 @@ package org.kuali.module.financial.rules;
 
 import org.kuali.core.bo.AccountingLine;
 import org.kuali.core.document.TransactionalDocument;
+import org.kuali.core.rule.AddCheckRule;
+import org.kuali.core.rule.DeleteCheckRule;
 import org.kuali.core.rule.GenerateGeneralLedgerPendingEntriesRule;
+import org.kuali.core.rule.UpdateCheckRule;
+import org.kuali.module.financial.bo.Check;
 import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 
 /**
@@ -32,7 +36,8 @@ import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
  * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
-public class CashReceiptDocumentRule extends TransactionalDocumentRuleBase implements GenerateGeneralLedgerPendingEntriesRule {
+public class CashReceiptDocumentRule extends TransactionalDocumentRuleBase implements GenerateGeneralLedgerPendingEntriesRule,
+        AddCheckRule, DeleteCheckRule, UpdateCheckRule {
     /**
      * 
      */
@@ -58,14 +63,16 @@ public class CashReceiptDocumentRule extends TransactionalDocumentRuleBase imple
      * 
      */
     public boolean processCustomAddAccountingLineBusinessRules(TransactionalDocument document, AccountingLine accountingLine) {
-        return super.processCustomAddAccountingLineBusinessRules( document, accountingLine ) && validateAccountingLine(document, accountingLine);
+        return super.processCustomAddAccountingLineBusinessRules(document, accountingLine)
+                && validateAccountingLine(document, accountingLine);
     }
 
     /**
      * 
      */
     public boolean processCustomReviewAccountingLineBusinessRules(TransactionalDocument document, AccountingLine accountingLine) {
-        return super.processCustomReviewAccountingLineBusinessRules( document, accountingLine ) && validateAccountingLine(document, accountingLine);
+        return super.processCustomReviewAccountingLineBusinessRules(document, accountingLine)
+                && validateAccountingLine(document, accountingLine);
     }
 
     /**
@@ -76,5 +83,36 @@ public class CashReceiptDocumentRule extends TransactionalDocumentRuleBase imple
     protected boolean validateAccountingLine(TransactionalDocument document, AccountingLine accountingLine) {
         boolean isOk = true;
         return isOk;
+    }
+
+
+    /**
+     * @see org.kuali.core.rule.DeleteCheckRule#processDeleteCheckBusinessRules(org.kuali.core.document.TransactionalDocument,
+     *      org.kuali.module.financial.bo.Check)
+     */
+    public boolean processDeleteCheckBusinessRules(TransactionalDocument transactionalDocument, Check check) {
+        boolean processed = true;
+
+        return processed;
+    }
+
+    /**
+     * @see org.kuali.core.rule.AddCheckRule#processAddCheckBusinessRules(org.kuali.core.document.TransactionalDocument,
+     *      org.kuali.module.financial.bo.Check)
+     */
+    public boolean processAddCheckBusinessRules(TransactionalDocument transactionalDocument, Check check) {
+        boolean processed = true;
+
+        return processed;
+    }
+
+    /**
+     * @see org.kuali.core.rule.UpdateCheckRule#processUpdateCheckRule(org.kuali.core.document.TransactionalDocument,
+     *      org.kuali.module.financial.bo.Check, org.kuali.module.financial.bo.Check)
+     */
+    public boolean processUpdateCheckRule(TransactionalDocument transactionalDocument, Check originalCheck, Check updatedCheck) {
+        boolean processed = true;
+
+        return processed;
     }
 }

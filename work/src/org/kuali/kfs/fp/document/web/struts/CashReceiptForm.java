@@ -47,6 +47,9 @@ public class CashReceiptForm extends KualiTransactionalDocumentFormBase {
     private String checkEntryMode;
     private List checkEntryModes;
 
+    private List baselineChecks;
+
+
     public CashReceiptForm() {
         super();
         setDocument(new CashReceiptDocument());
@@ -57,6 +60,8 @@ public class CashReceiptForm extends KualiTransactionalDocumentFormBase {
         checkEntryModes.add(new LabelValueBean("Total Only", CashReceiptDocument.CHECK_ENTRY_TOTAL));
 
         setCheckEntryMode(getCashReceiptDocument().getCheckEntryMode());
+        
+        baselineChecks = new ArrayList();
     }
 
 
@@ -103,5 +108,49 @@ public class CashReceiptForm extends KualiTransactionalDocumentFormBase {
 
     public boolean isCheckEntryDetailMode() {
         return CashReceiptDocument.CHECK_ENTRY_DETAIL.equals(getCheckEntryMode());
+    }
+    
+    
+    /**
+     * @return current List of baseline checks for use in update detection
+     */
+    public List getBaselineChecks() {
+        return baselineChecks;
+    }
+
+    /**
+     * Sets the current List of baseline checks to the given List
+     * 
+     * @param baselineChecks
+     */
+    public void setBaselineChecks(List baselineChecks) {
+        this.baselineChecks = baselineChecks;
+    }
+
+    /**
+     * @param index
+     * @return true if a baselineCheck with the given index exists
+     */
+    public boolean hasBaselineCheck(int index) {
+        boolean has = false;
+
+        if ((index >= 0) && (index <= baselineChecks.size())) {
+            has = true;
+        }
+
+        return has;
+    }
+
+    /**
+     * Implementation creates empty Checks as a side-effect, so that Struts' efforts to set fields of lines which
+     * haven't been created will succeed rather than causing a NullPointerException.
+     * 
+     * @return baseline Check at the given index
+     */
+    public Check getBaselineCheck(int index) {
+        while (baselineChecks.size() <= index) {
+            baselineChecks.add(new CheckBase());
+        }
+        return (Check) baselineChecks.get(index);
     }
 }

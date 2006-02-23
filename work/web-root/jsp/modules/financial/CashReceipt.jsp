@@ -13,7 +13,7 @@
 <kul:documentPage showDocumentInfo="true" htmlFormAction="financialCashReceipt" documentTypeName="KualiCashReceiptDocument"  renderMultipart="true" showTabButtons="true">
 
     <kul:hiddenDocumentFields />
-
+    
     <html:hidden property="document.nextSourceLineNumber"/>
     <html:hidden property="document.nextCheckSequenceId"/>
     <html:hidden property="document.checkEntryMode" />
@@ -21,7 +21,21 @@
     <html:hidden property="checkTotal" />
 
     <kul:documentOverview editingMode="${KualiForm.editingMode}"/>
-        
+
+    <SCRIPT type="text/javascript">
+    <!--
+        function submitForm(methodToCall) {
+            var hiddenField = document.createElement( 'input' );
+            hiddenField.type= 'hidden';
+            hiddenField.name= 'methodToCall';
+            hiddenField.value= methodToCall;
+
+            document.forms[0].appendChild( hiddenField );
+
+            document.forms[0].submit();
+        }
+    //-->
+    </SCRIPT>
     <kul:tab tabTitle="Cash Reconciliation" defaultOpen="true" tabErrorKey="${Constants.EDIT_CASH_RECEIPT_CASH_RECONCILIATION_ERRORS}" >	    
         <div class="tab-container" align=center>
             <table cellpadding=0 class="datatable" summary="view/edit document overview information">
@@ -44,11 +58,10 @@
                                 </td>
 
                                 <td>
-                                    <html:select property="checkEntryMode" > <%-- onblur="${onblur}" onchange="${onchange}" --%>
+                                    <html:select property="checkEntryMode" onchange="submitForm('changeCheckEntryMode')" >
                                       <html:optionsCollection property="checkEntryModes" label="label" value="value" />
                                     </html:select>
 
-                                    <%-- need code here to only show this button if javascript is off --%>
                                     <html:image property="methodToCall.changeCheckEntryMode" src="images/tinybutton-select.gif" styleClass="tinybutton" alt="change check entry mode" />
                                 </td>
                             </tr>

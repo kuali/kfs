@@ -190,8 +190,8 @@ public class CheckBase extends BusinessObjectBase implements Check {
         LinkedHashMap m = new LinkedHashMap();
 
         m.put("sequenceId", this.sequenceId);
-        m.put("amount", this.amount);
         m.put("checkNumber", this.checkNumber);
+        m.put("amount", this.amount);
         m.put("checkDate", this.checkDate);
         m.put("interimDepositAmount", Boolean.valueOf(this.interimDepositAmount));
         m.put("description", this.description);

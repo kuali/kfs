@@ -22,6 +22,11 @@
  */
 package org.kuali.module.financial.web.struts.action;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -32,6 +37,7 @@ import org.kuali.Constants;
 import org.kuali.KeyConstants;
 import org.kuali.core.rule.event.AddCheckEvent;
 import org.kuali.core.rule.event.DeleteCheckEvent;
+import org.kuali.core.rule.event.UpdateCheckEvent;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
@@ -48,34 +54,57 @@ import edu.iu.uis.eden.exception.WorkflowException;
  */
 public class CashReceiptAction extends KualiTransactionalDocumentActionBase {
     /**
-     * @see org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase#createDocument(org.kuali.core.web.struts.form.KualiDocumentFormBase)
-     */
-    protected void createDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
-        super.createDocument(kualiDocumentFormBase);
-
-        initDerivedCheckValues((CashReceiptForm) kualiDocumentFormBase);
-    }
-
-    /**
-     * @see org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase#loadDocument(org.kuali.core.web.struts.form.KualiDocumentFormBase)
-     */
-    protected void loadDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
-        super.loadDocument(kualiDocumentFormBase);
-
-        initDerivedCheckValues((CashReceiptForm) kualiDocumentFormBase);
-    }
-
-    /**
-     * Initializes form values which must be derived form document contents (i.e. those which aren't directly available from the
-     * document)
+     * Adds handling for check updates
      * 
-     * @param cform
+     * @see org.apache.struts.action.Action#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm,
+     *      javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
-    private void initDerivedCheckValues(CashReceiptForm cform) {
-        CashReceiptDocument cdoc = cform.getCashReceiptDocument();
+    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        CashReceiptForm cform = (CashReceiptForm) form;
 
-        cform.setCheckEntryMode(cdoc.getCheckEntryMode());
-        cform.setCheckTotal(cdoc.getTotalCheckAmount());
+        // handle changes to checks (but only if the checkEntryMode is 'detail')
+        if (cform.hasDocumentId()) {
+            CashReceiptDocument cdoc = cform.getCashReceiptDocument();
+
+            if (CashReceiptDocument.CHECK_ENTRY_DETAIL.equals(cdoc.getCheckEntryMode())) {
+                processChecks(cdoc, cform);
+            }
+        }
+
+        // proceed as usual
+        return super.execute(mapping, form, request, response);
+    }
+
+    private void processChecks(CashReceiptDocument cdoc, CashReceiptForm cform) {
+        List baseChecks = cform.getBaselineChecks();
+        List formChecks = cdoc.getChecks();
+
+        Map baseCheckMap = new HashMap();
+        for (Iterator i = baseChecks.iterator(); i.hasNext();) {
+            Check check = (Check) i.next();
+            baseCheckMap.put(check.getSequenceId(), check);
+        }
+
+        // find and process corresponding form and base checks
+        int index = 0;
+        for (Iterator i = formChecks.iterator(); i.hasNext(); index++) {
+            Check formCheck = (Check) i.next();
+            Check baseCheck = (Check) baseCheckMap.get(formCheck.getSequenceId());
+
+            // only generate update events for specific action methods
+            String methodToCall = cform.getMethodToCall();
+            if (UPDATE_EVENT_ACTIONS.contains(methodToCall)) {
+                handleUpdate(cdoc, "check[" + index + "]", formCheck, baseCheck);
+            }
+        }
+    }
+
+    private void handleUpdate(CashReceiptDocument cdoc, String errorPathPrefix, Check formCheck, Check baseCheck) {
+        if ((baseCheck != null) && !formCheck.isLike(baseCheck)) {
+            SpringServiceLocator.getKualiRuleService()
+                    .applyRules(new UpdateCheckEvent(errorPathPrefix, cdoc, baseCheck, formCheck));
+        }
     }
 
 
@@ -129,11 +158,22 @@ public class CashReceiptAction extends KualiTransactionalDocumentActionBase {
         int deleteIndex = getLineToDelete(request);
         Check oldCheck = crDoc.getCheck(deleteIndex);
 
+
         boolean rulePassed = SpringServiceLocator.getKualiRuleService().applyRules(
                 new DeleteCheckEvent(Constants.EXISTING_CHECK_PROPERTY_NAME, crDoc, oldCheck));
+
         if (rulePassed) {
             // delete check
             crDoc.removeCheck(deleteIndex);
+
+            // delete baseline check, if any
+            if (crForm.hasBaselineCheck(deleteIndex)) {
+                crForm.getBaselineChecks().remove(deleteIndex);
+            }
+        }
+        else {
+            GlobalVariables.getErrorMap().put("document.check[" + deleteIndex + "]", KeyConstants.Check.ERROR_CHECK_DELETERULE,
+                    Integer.toString(deleteIndex));
         }
 
         return mapping.findForward(Constants.MAPPING_BASIC);
@@ -187,5 +227,40 @@ public class CashReceiptAction extends KualiTransactionalDocumentActionBase {
         }
 
         return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+
+    /**
+     * @see org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase#createDocument(org.kuali.core.web.struts.form.KualiDocumentFormBase)
+     */
+    protected void createDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
+        super.createDocument(kualiDocumentFormBase);
+
+        initDerivedCheckValues((CashReceiptForm) kualiDocumentFormBase);
+    }
+
+    /**
+     * @see org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase#loadDocument(org.kuali.core.web.struts.form.KualiDocumentFormBase)
+     */
+    protected void loadDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
+        super.loadDocument(kualiDocumentFormBase);
+
+        initDerivedCheckValues((CashReceiptForm) kualiDocumentFormBase);
+    }
+
+    /**
+     * Initializes form values which must be derived form document contents (i.e. those which aren't directly available from the
+     * document)
+     * 
+     * @param cform
+     */
+    private void initDerivedCheckValues(CashReceiptForm cform) {
+        CashReceiptDocument cdoc = cform.getCashReceiptDocument();
+
+        cform.setCheckEntryMode(cdoc.getCheckEntryMode());
+        cform.setCheckTotal(cdoc.getTotalCheckAmount());
+
+        cform.getBaselineChecks().clear();
+        cform.getBaselineChecks().addAll(cform.getCashReceiptDocument().getChecks());
     }
 }

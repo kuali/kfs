@@ -10,10 +10,10 @@
 			<title>Indirect Cost Recovery Exclusion by Account Inquiry</title>
 
 			<inquiryFields>
-				<field attributeName="chart.chartOfAccountsCode" />
-				<field attributeName="account.accountNumber" />			
-				<field attributeName="financialObjectChartOfAccount.chartOfAccountsCode"  />
-				<field attributeName="objectCodeCurrent.financialObjectCode" />			
+				<field attributeName="chartOfAccountsCode" />
+				<field attributeName="accountNumber" />			
+				<field attributeName="financialObjectChartOfAccountCode"  />
+				<field attributeName="financialObjectCode" />			
 			</inquiryFields>
 		</inquiry>
 
@@ -24,29 +24,29 @@
 
 			<instructions>Lookup an Indirect Cost Recovery Exclusion by Account</instructions>
 
-			<defaultSort attributeName="account.accountNumber" sortAscending="true" />
+			<defaultSort attributeName="accountNumber" sortAscending="true" />
 
 			<lookupFields>
-				<lookupField attributeName="chart.chartOfAccountsCode" required="false" />
-				<lookupField attributeName="account.accountNumber" required="false" />
-				<lookupField attributeName="financialObjectChartOfAccount.chartOfAccountsCode" required="false" />
-				<lookupField attributeName="objectCodeCurrent.financialObjectCode" required="false" />
+				<lookupField attributeName="chartOfAccountsCode" required="false" />
+				<lookupField attributeName="accountNumber" required="false" />
+				<lookupField attributeName="financialObjectChartOfAccountCode" required="false" />
+				<lookupField attributeName="financialObjectCode" required="false" />
 			</lookupFields>
 
 			<resultFields>
-				<field attributeName="chart.chartOfAccountsCode" />
-				<field attributeName="account.accountNumber" />			
-				<field attributeName="financialObjectChartOfAccount.chartOfAccountsCode" />
-				<field attributeName="objectCodeCurrent.financialObjectCode"  />			
+				<field attributeName="chartOfAccountsCode" />
+				<field attributeName="accountNumber" />			
+				<field attributeName="financialObjectChartOfAccountCode" />
+				<field attributeName="financialObjectCode"  />			
 			</resultFields>
 		</lookup>
 
 		<attributes>
-			<attributeReference name="chart.chartOfAccountsCode" 
+			<attributeReference name="chartOfAccountsCode" 
 								sourceClassName="org.kuali.module.chart.bo.Chart" 
 								sourceAttributeName="chartOfAccountsCode" />
 
-			<attribute name="account.accountNumber"	forceUppercase="false">
+			<attribute name="accountNumber"	forceUppercase="false">
 				<label>Account Number</label>
 				<shortLabel>
 					Acct
@@ -65,7 +65,7 @@
 				</description>
 			</attribute>
 
-			<attribute name="objectCodeCurrent.financialObjectCode" forceUppercase="true">
+			<attribute name="financialObjectCode" forceUppercase="true">
                 <label>Object Code</label>
                 <shortLabel>Object</shortLabel>
 
@@ -80,7 +80,7 @@
             </attribute>
 
 
-			<attributeReference name="financialObjectChartOfAccount.chartOfAccountsCode" 
+			<attributeReference name="financialObjectChartOfAccountCode" 
 								sourceClassName="org.kuali.module.chart.bo.Chart" 
 								sourceAttributeName="chartOfAccountsCode">
 								<label>Object Chart</label>

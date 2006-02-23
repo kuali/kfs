@@ -28,19 +28,30 @@
 		</description>
 		
         <lockingKeys>
-			<field attributeName="chart.chartOfAccountsCode" />
-			<field attributeName="account.accountNumber" />
-			<field attributeName="financialObjectChartOfAccount.chartOfAccountsCode" />
-			<field attributeName="objectCodeCurrent.financialObjectCode" />
+			<field attributeName="chartOfAccountsCode" />
+			<field attributeName="accountNumber" />
+			<field attributeName="financialObjectChartOfAccountCode" />
+			<field attributeName="financialObjectCode" />
 		</lockingKeys>	 		
-		
+
+		<defaultExistenceChecks>
+			<reference  attributeName="chart" 
+						attributeToHighlightOnFail="chartOfAccountsCode" />
+			<reference  attributeName="account" 
+						attributeToHighlightOnFail="accountNumber" />
+			<reference  attributeName="financialObjectChartOfAccount" 
+						attributeToHighlightOnFail="financialObjectChartOfAccountCode" />
+			<reference  attributeName="objectCodeCurrent" 
+						attributeToHighlightOnFail="financialObjectCode" />			
+		</defaultExistenceChecks>	
+			
 		<maintainableSections>
 			<maintainableSection title="Edit ICR Exclusion Account">
                 <maintainableItems>
-					<maintainableField name="chart.chartOfAccountsCode" required="true" />
-					<maintainableField name="account.accountNumber" required="true" />
-					<maintainableField name="financialObjectChartOfAccount.chartOfAccountsCode" required="true" />
-					<maintainableField name="objectCodeCurrent.financialObjectCode" required="true" />
+					<maintainableField name="chartOfAccountsCode" required="true" />
+					<maintainableField name="accountNumber" required="true" />
+					<maintainableField name="financialObjectChartOfAccountCode" required="true" />
+					<maintainableField name="financialObjectCode" required="true" />
 					<maintainableField name="versionNumber" />
                 </maintainableItems>
 			</maintainableSection>

@@ -9,7 +9,7 @@
 		<inquiry>
 			<title>Object Code Restrictions Inquiry</title>
 			<inquiryFields>
-				<field attributeName="chartOfAccounts.chartOfAccountsCode" />
+				<field attributeName="chartOfAccountsCode" />
 				<field attributeName="finConsolidationObjectCode" />	
 				<field attributeName="finConsolidationObjectName" />
 				<field attributeName="finConsolidationObjShortName" />
@@ -30,7 +30,7 @@
 			<defaultSort attributeName="finConsolidationObjectCode" sortAscending="true" />
 
 			<lookupFields>
-				<lookupField attributeName="chartOfAccounts.chartOfAccountsCode" required="false" />
+				<lookupField attributeName="chartOfAccountsCode" required="false" />
 				<lookupField attributeName="finConsolidationObjectCode" required="false" />
 				<lookupField attributeName="finConsolidationObjectName" required="false" />	
 				<lookupField attributeName="finConsolidationObjShortName" required="false" />	
@@ -38,7 +38,7 @@
 			</lookupFields>
 
 			<resultFields>
-				<field attributeName="chartOfAccounts.chartOfAccountsCode" />
+				<field attributeName="chartOfAccountsCode" />
 				<field attributeName="finConsolidationObjectCode" />	
 				<field attributeName="finConsolidationObjectName" />
 				<field attributeName="finConsolidationObjShortName" />
@@ -50,7 +50,7 @@
 
 		<attributes>
 
-			<attributeReference name="chartOfAccounts.chartOfAccountsCode" 
+			<attributeReference name="chartOfAccountsCode" 
 								sourceClassName="org.kuali.module.chart.bo.Chart" 
 								sourceAttributeName="chartOfAccountsCode" />
 			

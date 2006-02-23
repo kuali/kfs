@@ -13,7 +13,7 @@
                 <field attributeName="subFundGroupCode" />
                 <field attributeName="subFundGroupDescription" />
                 <field attributeName="subFundGroupTypeCode" />
-                <field attributeName="fundGroup.code" />
+                <field attributeName="fundGroupCode" />
                 <field attributeName="subFundGroupWagesIndicator" />
                 <field attributeName="financialReportingSortCode" />
                 <field attributeName="subfundgrpActivityIndicator" />
@@ -42,7 +42,7 @@
                 <field attributeName="subFundGroupCode" />
                 <field attributeName="subFundGroupDescription" />
                 <field attributeName="subFundGroupTypeCode" />
-                <field attributeName="fundGroup.code" />
+                <field attributeName="fundGroupCode" />
                 <field attributeName="subFundGroupWagesIndicator" />
                 <field attributeName="financialReportingSortCode" />
                 <field attributeName="subfundgrpActivityIndicator" />
@@ -84,7 +84,7 @@
 								sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
 								sourceAttributeName="objectId" />
 
-            <attributeReference name="fundGroup.code" 
+            <attributeReference name="fundGroupCode" 
             					sourceClassName="org.kuali.module.chart.bo.FundGroup" 
             					sourceAttributeName="code" />
 

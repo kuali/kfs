@@ -35,6 +35,15 @@
 			<field attributeName="financialDocumentTypeCode" />
 			<field attributeName="accountDelegateSystemId" />
 		</lockingKeys>		
+
+		<defaultExistenceChecks>
+			<reference  attributeName="account" 
+						attributeToHighlightOnFail="accountNumber" />
+			<reference  attributeName="documentType" 
+						attributeToHighlightOnFail="financialDocumentTypeCode" />
+			<reference  attributeName="accountDelegate" 
+						attributeToHighlightOnFail="accountDelegateSystemId" />
+		</defaultExistenceChecks>						
 		
 		<maintainableSections>
 			<maintainableSection title="Edit Account Delegate">

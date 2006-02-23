@@ -28,16 +28,21 @@
 		</description>
 		
         <lockingKeys>
-				<field attributeName="universityFiscal.universityFiscalYear" />
+				<field attributeName="universityFiscalYear" />
 				<field attributeName="financialIcrSeriesIdentifier" />				
 				<field attributeName="financialBalanceTyp.code" />	
 				<field attributeName="awardIndrCostRcvyEntryNbr" />
-		</lockingKeys>	 		
-		
+		</lockingKeys>	
+		 		
+   		<defaultExistenceChecks>
+   			<reference  attributeName="universityFiscal" 
+   						attributeToHighlightOnFail="universityFiscalYear" />
+   		</defaultExistenceChecks>
+	
 		<maintainableSections>
 			<maintainableSection title="Edit ICR Automated Entry">
                 <maintainableItems>
-					<maintainableField name="universityFiscal.universityFiscalYear" required="true" />
+					<maintainableField name="universityFiscalYear" required="true" />
 					<maintainableField name="financialIcrSeriesIdentifier" required="true" />
 					<maintainableField name="financialBalanceTyp.code" required="true" />
 					<maintainableField name="awardIndrCostRcvyEntryNbr" required="true" />

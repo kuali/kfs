@@ -10,7 +10,7 @@
 			<title>Indirect Cost Recovery Automated Entry Inquiry</title>
  
 			<inquiryFields>
-				<field attributeName="universityFiscal.universityFiscalYear" />
+				<field attributeName="universityFiscalYear" />
 				<field attributeName="financialIcrSeriesIdentifier" />				
 				<field attributeName="financialBalanceTyp.code" />	
 				<field attributeName="awardIndrCostRcvyEntryNbr" />
@@ -35,7 +35,7 @@
 			<defaultSort attributeName="accountNumber" sortAscending="true" />
 
 			<lookupFields>
-				<lookupField attributeName="universityFiscal.universityFiscalYear" required="false" />
+				<lookupField attributeName="universityFiscalYear" required="false" />
 				<lookupField attributeName="financialIcrSeriesIdentifier" required="false" />
 				<lookupField attributeName="financialBalanceTyp.code" required="false" />
 				<lookupField attributeName="chartOfAccountsCode" required="false" />
@@ -45,7 +45,7 @@
 			</lookupFields>
 
 			<resultFields>
-				<field attributeName="universityFiscal.universityFiscalYear" />
+				<field attributeName="universityFiscalYear" />
 				<field attributeName="financialIcrSeriesIdentifier" />				
 				<field attributeName="financialBalanceTyp.code" />	
 				<field attributeName="awardIndrCostRcvyEntryNbr" />
@@ -62,7 +62,7 @@
 
 		<attributes>
 		
-			<attributeReference name="universityFiscal.universityFiscalYear" 
+			<attributeReference name="universityFiscalYear" 
 								sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
 								sourceAttributeName="genericFiscalYear" />
 								

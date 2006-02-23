@@ -27,9 +27,15 @@
 		<description>Document used to create or update Bank Account objects</description>
 
         <lockingKeys>
-			<field attributeName="bank.financialDocumentBankCode" />
+			<field attributeName="financialDocumentBankCode" />
 			<field attributeName="finDocumentBankAccountNumber" />
 		</lockingKeys>        
+
+		<defaultExistenceChecks>
+			<reference  attributeName="bank" 
+						attributeToHighlightOnFail="financialDocumentBankCode" />
+		</defaultExistenceChecks>
+		
 
 	    <maintainableSections>
 	        <maintainableSection title="Edit Bank Account">

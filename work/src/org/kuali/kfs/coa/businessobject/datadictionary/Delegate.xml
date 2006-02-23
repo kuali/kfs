@@ -11,7 +11,7 @@
 			<title>Account Delegate Inquiry</title>
 
 			<inquiryFields>
-				<field attributeName="chartOfAccounts.chartOfAccountsCode" />			
+				<field attributeName="chartOfAccountsCode" />			
 				<field attributeName="accountNumber" />
 				<field attributeName="financialDocumentTypeCode" />			
 				<field attributeName="accountDelegateSystemId" />

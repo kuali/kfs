@@ -29,11 +29,16 @@
 			<field attributeName="chartOfAccountsCode" />
 			<field attributeName="finConsolidationObjectCode" />					
 		</lockingKeys>	 		
+
+   		<defaultExistenceChecks>
+   			<reference  attributeName="chartOfAccounts" 
+   						attributeToHighlightOnFail="chartOfAccountsCode" />
+   		</defaultExistenceChecks>
 		
 		<maintainableSections>
 			<maintainableSection title="Object Consolitation">
                 <maintainableItems>
-					<maintainableField name="chartOfAccounts.chartOfAccountsCode" required="true" />
+					<maintainableField name="chartOfAccountsCode" required="true" />
 					<maintainableField name="finConsolidationObjectCode" required="true" />
 					<maintainableField name="finConsolidationObjShortName" required="true"  />
 					<maintainableField name="finConsolidationObjectName" required="true" />

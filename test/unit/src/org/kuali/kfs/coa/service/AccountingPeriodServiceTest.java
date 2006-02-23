@@ -39,6 +39,9 @@ import org.kuali.test.KualiTestBaseWithSpring;
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public class AccountingPeriodServiceTest extends KualiTestBaseWithSpring {
+
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountingPeriodServiceTest.class);
+    
     private BusinessObjectService bos = null;
     private AccountingPeriodService aps = null;
     public static final boolean BUDGET_ROLLOVER_IND = true;
@@ -106,10 +109,22 @@ public class AccountingPeriodServiceTest extends KualiTestBaseWithSpring {
     public void testGetOpenAccountingPeriods() {
         ArrayList acctPers = new ArrayList(aps.getOpenAccountingPeriods());
         Iterator i = acctPers.iterator();
+        LOG.info("Number of OpenAccountingPeriods found: " + acctPers.size());
+        
+        //  it appears that what this is trying to test is that:
+        //
+        //  1.  There will always be an even number of accounting periods
+        //  2.  All odd-numbered accounting periods will not have the closed status code
+        //  3.  All even-numbered accounting periods will have the open status code
+        //
+        AccountingPeriod ap;
         while(i.hasNext()) {
-            assertTrue(!((AccountingPeriod) i.next()).getUniversityFiscalPeriodStatusCode().equals(Constants.ACCOUNTING_PERIOD_STATUS_CLOSED));
+            ap = (AccountingPeriod) i.next();
+            assertTrue(!ap.getUniversityFiscalPeriodStatusCode().equals(Constants.ACCOUNTING_PERIOD_STATUS_CLOSED));
+            
             assertTrue("Expect an even number of accounting periods", i.hasNext());
-            assertTrue(((AccountingPeriod) i.next()).getUniversityFiscalPeriodStatusCode().equals(Constants.ACCOUNTING_PERIOD_STATUS_OPEN));        
+            ap = (AccountingPeriod) i.next();
+            assertTrue(ap.getUniversityFiscalPeriodStatusCode().equals(Constants.ACCOUNTING_PERIOD_STATUS_OPEN));        
         }
     }
 }

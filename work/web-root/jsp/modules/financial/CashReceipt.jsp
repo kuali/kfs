@@ -24,14 +24,7 @@
 
     <SCRIPT type="text/javascript">
     <!--
-        function submitForm(methodToCall) {
-            var hiddenField = document.createElement( 'input' );
-            hiddenField.type= 'hidden';
-            hiddenField.name= 'methodToCall';
-            hiddenField.value= methodToCall;
-
-            document.forms[0].appendChild( hiddenField );
-
+        function submitForm() {
             document.forms[0].submit();
         }
     //-->
@@ -58,11 +51,11 @@
                                 </td>
 
                                 <td>
-                                    <html:select property="checkEntryMode" onchange="submitForm('changeCheckEntryMode')" >
+                                    <html:select property="checkEntryMode" onchange="submitForm()" >
                                       <html:optionsCollection property="checkEntryModes" label="label" value="value" />
                                     </html:select>
 
-                                    <html:image property="methodToCall.changeCheckEntryMode" src="images/tinybutton-select.gif" styleClass="tinybutton" alt="change check entry mode" />
+                                    <html:image src="images/tinybutton-select.gif" styleClass="tinybutton" alt="change check entry mode" />
                                 </td>
                             </tr>
                             <tr>

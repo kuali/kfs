@@ -63,10 +63,13 @@ public class CashReceiptAction extends KualiTransactionalDocumentActionBase {
             throws Exception {
         CashReceiptForm cform = (CashReceiptForm) form;
 
-        // handle changes to checks (but only if the checkEntryMode is 'detail')
         if (cform.hasDocumentId()) {
             CashReceiptDocument cdoc = cform.getCashReceiptDocument();
 
+            // handle change of checkEntryMode
+            processCheckEntryMode(cform, cdoc);
+
+            // handle changes to checks (but only if current checkEntryMode is 'detail')
             if (CashReceiptDocument.CHECK_ENTRY_DETAIL.equals(cdoc.getCheckEntryMode())) {
                 processChecks(cdoc, cform);
             }
@@ -74,6 +77,37 @@ public class CashReceiptAction extends KualiTransactionalDocumentActionBase {
 
         // proceed as usual
         return super.execute(mapping, form, request, response);
+    }
+
+    private void processCheckEntryMode(CashReceiptForm crForm, CashReceiptDocument crDoc) {
+        String formMode = crForm.getCheckEntryMode();
+        String docMode = crDoc.getCheckEntryMode();
+
+        if (CashReceiptDocument.CHECK_ENTRY_DETAIL.equals(formMode) || CashReceiptDocument.CHECK_ENTRY_TOTAL.equals(formMode)) {
+            if (!formMode.equals(docMode)) {
+                if (formMode.equals(CashReceiptDocument.CHECK_ENTRY_DETAIL)) {
+                    // save current checkTotal, for future restoration
+                    crForm.setCheckTotal(crDoc.getTotalCheckAmount());
+
+                    // change mode
+                    crDoc.setCheckEntryMode(formMode);
+                    crDoc.setTotalCheckAmount(crDoc.calculateCheckTotal());
+
+                    // notify user
+                    GlobalVariables.getMessageList().add(KeyConstants.CashReceipt.MSG_CHECK_ENTRY_INDIVIDUAL);
+                }
+                else {
+                    // restore saved checkTotal
+                    crDoc.setTotalCheckAmount(crForm.getCheckTotal());
+
+                    // change mode
+                    crDoc.setCheckEntryMode(formMode);
+
+                    // notify user
+                    GlobalVariables.getMessageList().add(KeyConstants.CashReceipt.MSG_CHECK_ENTRY_TOTAL);
+                }
+            }
+        }
     }
 
     private void processChecks(CashReceiptDocument cdoc, CashReceiptForm cform) {

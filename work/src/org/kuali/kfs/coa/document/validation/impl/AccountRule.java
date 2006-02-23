@@ -196,18 +196,23 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
 	        }
         }
         
-        //	if the expiration date is earlier than today, account guidelines are not required.
-        if (ObjectUtils.isNotNull(newAccount.getAccountGuideline())) {
-            if (newAccount.getAccountExpirationDate() != null) {
-                Timestamp today = dateTimeService.getCurrentTimestamp();
-                today.setTime(DateUtils.truncate(today, Calendar.DAY_OF_MONTH).getTime());
-	            if (newAccount.getAccountExpirationDate().after(today) || newAccount.getAccountExpirationDate().equals(today)) {
-		            success &= checkEmptyBOField("accountGuideline.accountExpenseGuidelineText", newAccount.getAccountGuideline().getAccountExpenseGuidelineText(), "Expense Guideline");
-		            success &= checkEmptyBOField("accountGuideline.accountIncomeGuidelineText", newAccount.getAccountGuideline().getAccountIncomeGuidelineText(), "Income Guideline");
-		            success &= checkEmptyBOField("accountGuideline.accountPurposeText", newAccount.getAccountGuideline().getAccountPurposeText(), "Account Purpose");
-	            }
+        //	if the expiration date is set, and its earlier than today, account guidelines are not required.
+        boolean guidelinesRequired = true;
+        if (newAccount.getAccountExpirationDate() != null) {
+            Timestamp today = dateTimeService.getCurrentTimestamp();
+            today.setTime(DateUtils.truncate(today, Calendar.DAY_OF_MONTH).getTime());
+            if (newAccount.getAccountExpirationDate().before(today)) {
+                guidelinesRequired = false;
             }
         }
+
+        //  confirm that required guidelines are entered, if required
+        if (guidelinesRequired) {
+            success &= checkEmptyBOField("accountGuideline.accountExpenseGuidelineText", newAccount.getAccountGuideline().getAccountExpenseGuidelineText(), "Expense Guideline");
+            success &= checkEmptyBOField("accountGuideline.accountIncomeGuidelineText", newAccount.getAccountGuideline().getAccountIncomeGuidelineText(), "Income Guideline");
+            success &= checkEmptyBOField("accountGuideline.accountPurposeText", newAccount.getAccountGuideline().getAccountPurposeText(), "Account Purpose");
+        }
+
         return success;
     }
     

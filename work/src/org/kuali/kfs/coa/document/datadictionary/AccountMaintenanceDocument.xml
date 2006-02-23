@@ -50,7 +50,9 @@
 		            <maintainableField name="accountClosedIndicator" required="false" />
 		            <maintainableField name="accountTypeCode" required="true" />
 		            <maintainableField name="subFundGroupCode" required="true" />
-		            <maintainableField name="accountsFringesBnftIndicator" required="false" />
+		            <maintainableField name="accountsFringesBnftIndicator" required="false">
+		            	<defaultValue>true</defaultValue>
+		            </maintainableField>
 		            <maintainableField name="reportsToChartOfAccountsCode" required="false" />
 		            <maintainableField name="reportsToAccountNumber" required="false" />
 		            <maintainableField name="financialHigherEdFunctionCd" required="true" />

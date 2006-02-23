@@ -82,7 +82,7 @@
                 <maintainableItems>
 		            <maintainableField name="contractControlFinCoaCode" required="false" />
 		            <maintainableField name="contractControlAccountNumber" required="false" />
-		            <maintainableField name="acctIndirectCostRcvyTypeCd" required="true" />
+		            <maintainableField name="acctIndirectCostRcvyTypeCd" required="false" />
 		            <maintainableField name="financialIcrSeriesIdentifier" required="false" />
 		            <maintainableField name="indirectCostRcvyFinCoaCode" required="false" />    
 		            <maintainableField name="indirectCostRecoveryAcctNbr" required="false" />

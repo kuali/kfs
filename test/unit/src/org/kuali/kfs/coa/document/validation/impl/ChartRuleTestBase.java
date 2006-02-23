@@ -34,8 +34,11 @@ import org.kuali.core.maintenance.rules.MaintenanceDocumentRule;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.util.ErrorMessage;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.test.KualiTestBaseWithSpring;
+
+import edu.iu.uis.eden.exception.WorkflowException;
 
 public abstract class ChartRuleTestBase extends KualiTestBaseWithSpring {
 
@@ -69,7 +72,15 @@ public abstract class ChartRuleTestBase extends KualiTestBaseWithSpring {
      * 
      */
     protected MaintenanceDocument newMaintDoc(BusinessObject oldBo, BusinessObject newBo) {
-        MaintenanceDocument document = new MaintenanceDocumentBase("KualiSubAccountMaintenanceDocument");
+        
+        MaintenanceDocument document = null;
+        try {
+            document = (MaintenanceDocument) SpringServiceLocator.getDocumentService().getNewDocument(MaintenanceDocumentBase.class);
+        }
+        catch (WorkflowException e) {
+            throw new RuntimeException(e);
+        }
+        
         document.getDocumentHeader().setFinancialDocumentDescription("test");
         document.setOldMaintainableObject(new KualiMaintainableImpl(oldBo));
         document.setNewMaintainableObject(new KualiMaintainableImpl(newBo));

@@ -414,7 +414,7 @@
 								sourceAttributeName="twoDigitTextCode">
 				<label>Account Indirect Cost Recovery Type Code</label>
 				<shortLabel>IndCstTypCd</shortLabel>
-				<required>true</required>
+				<required>false</required>
 				<summary>Account Indirect Cost Recovery Type Code</summary>
 				<description>Account Indirect Cost Recovery Type Code</description>
 			</attributeReference>
@@ -435,7 +435,7 @@
 
 				<maxLength>3</maxLength>
 				<validationPattern><anyCharacter /></validationPattern>
-				<required>true</required>
+				<required>false</required>
 				
 				<control>
 					<text size="3" />

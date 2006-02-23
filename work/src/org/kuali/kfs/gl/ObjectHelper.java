@@ -1,0 +1,67 @@
+/*
+ * Copyright (c) 2004, 2005 The National Association of College and University Business Officers,
+ * Cornell University, Trustees of Indiana University, Michigan State University Board of Trustees,
+ * Trustees of San Joaquin Delta College, University of Hawai'i, The Arizona Board of Regents on
+ * behalf of the University of Arizona, and the r*smart group.
+ * 
+ * Licensed under the Educational Community License Version 1.0 (the "License"); By obtaining,
+ * using and/or copying this Original Work, you agree that you have read, understand, and will
+ * comply with the terms and conditions of the Educational Community License.
+ * 
+ * You may obtain a copy of the License at:
+ * 
+ * http://kualiproject.org/license.html
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
+ * BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE
+ * AND NONINFRINGEMENT.
+ * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES
+ * OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ *
+ */
+package org.kuali.module.gl.util;
+
+public class ObjectHelper {
+	protected ObjectHelper() {}
+	
+	/**
+	 * 
+	 * @param o
+	 * @return true if o is null
+	 */
+	static public boolean isNull(Object o) {
+		return null == o;
+	}
+
+	/**
+	 * 
+	 * @param lhs
+	 * @param rhs
+	 * @return true if both lhs and rhs are null or if lhs.equals(rhs)
+	 */
+	static public boolean isEqual(Object lhs, Object rhs) {
+		return (null == lhs && null == rhs) || (null != lhs && lhs.equals(rhs));
+	}
+	
+	/**
+	 * 
+	 * @param lhs
+	 * @param rhs
+	 * @return false if rhs is null. true if isEqual(lhs, rhs[i]) for any 
+	 *               ith element of rhs.
+	 */
+	static public boolean isOneOf(Object lhs, Object[] rhs) {
+		if(isNull(rhs)) return false;
+		
+		// simple linear search. Arrays.binarySearch isn't appropriate
+		// because the elements of rhs aren't in natural order.
+		for(int i = 0; i < rhs.length; i++) {
+			if(isEqual(lhs, rhs[i])) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+}

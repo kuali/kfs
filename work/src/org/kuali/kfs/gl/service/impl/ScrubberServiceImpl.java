@@ -55,7 +55,7 @@ import org.kuali.module.gl.dao.UniversityDateDao;
 import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.gl.service.OriginEntryService;
 import org.kuali.module.gl.service.ScrubberService;
-import org.kuali.module.gl.util.LogicHelper;
+import org.kuali.module.gl.util.ObjectHelper;
 import org.kuali.module.gl.util.Summary;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
@@ -64,7 +64,7 @@ import org.springframework.util.StringUtils;
 
 /**
  * @author Anthony Potts
- * @version $Id: ScrubberServiceImpl.java,v 1.46 2006-02-23 07:01:36 larevans Exp $
+ * @version $Id: ScrubberServiceImpl.java,v 1.47 2006-02-23 16:10:07 larevans Exp $
  */
 
 public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
@@ -246,7 +246,7 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
     		// first entry of the next unit of work has a different
     		// document number we're done with the document.
     		if(null == unitOfWorkInfo.getFirstEntryOfNextUnitOfWork()
-    				|| !LogicHelper.isEqual(
+    				|| !ObjectHelper.isEqual(
     						unitOfWorkInfo.getFirstEntryOfNextUnitOfWork().getFinancialDocumentNumber(),
     						documentInfo.getDocumentNumber())) {
     			documentInfo.setDocumentNumber(unitOfWorkInfo.getDocumentNumber());
@@ -349,7 +349,7 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
     		} else { // handle valid entries
     			
     			// handle capitalization
-    			if(!LogicHelper.isOneOf(workingEntryInfo.getOriginEntry().getFinancialDocumentTypeCode(), new String[] {"JV", "ACLO"})) {
+    			if(!ObjectHelper.isOneOf(workingEntryInfo.getOriginEntry().getFinancialDocumentTypeCode(), new String[] {"JV", "ACLO"})) {
     			    capitalization(workingEntryInfo);
     			}
     			
@@ -964,21 +964,21 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
      * @return
      */
     private boolean isSameUnitOfWork(OriginEntry currentEntry, OriginEntry nextEntry) {
-//    	if(LogicHelper.isNull(currentEntry) || LogicHelper.isNull(nextEntry)) {
+//    	if(ObjectHelper.isNull(currentEntry) || ObjectHelper.isNull(nextEntry)) {
 //    		return false;
 //    	}
     	
         // Check the key fields
         return null != currentEntry && null != nextEntry 
-        	&& LogicHelper.isEqual(currentEntry.getFinancialDocumentTypeCode(), nextEntry.getFinancialDocumentTypeCode()) 
-        	&& LogicHelper.isEqual(currentEntry.getFinancialSystemOriginationCode(), nextEntry.getFinancialSystemOriginationCode())
-        	&& LogicHelper.isEqual(currentEntry.getFinancialDocumentNumber(), nextEntry.getFinancialDocumentNumber()) 
-        	&& LogicHelper.isEqual(currentEntry.getChartOfAccountsCode(), nextEntry.getChartOfAccountsCode())
-        	&& LogicHelper.isEqual(currentEntry.getAccountNumber(), nextEntry.getAccountNumber())
-        	&& LogicHelper.isEqual(currentEntry.getSubAccountNumber(), nextEntry.getSubAccountNumber())
-            && LogicHelper.isEqual(currentEntry.getFinancialBalanceTypeCode(), nextEntry.getFinancialBalanceTypeCode())
-            && LogicHelper.isEqual(currentEntry.getFinancialDocumentReversalDate(), nextEntry.getFinancialDocumentReversalDate())
-            && LogicHelper.isEqual(currentEntry.getUniversityFiscalPeriodCode(), nextEntry.getUniversityFiscalPeriodCode());
+        	&& ObjectHelper.isEqual(currentEntry.getFinancialDocumentTypeCode(), nextEntry.getFinancialDocumentTypeCode()) 
+        	&& ObjectHelper.isEqual(currentEntry.getFinancialSystemOriginationCode(), nextEntry.getFinancialSystemOriginationCode())
+        	&& ObjectHelper.isEqual(currentEntry.getFinancialDocumentNumber(), nextEntry.getFinancialDocumentNumber()) 
+        	&& ObjectHelper.isEqual(currentEntry.getChartOfAccountsCode(), nextEntry.getChartOfAccountsCode())
+        	&& ObjectHelper.isEqual(currentEntry.getAccountNumber(), nextEntry.getAccountNumber())
+        	&& ObjectHelper.isEqual(currentEntry.getSubAccountNumber(), nextEntry.getSubAccountNumber())
+            && ObjectHelper.isEqual(currentEntry.getFinancialBalanceTypeCode(), nextEntry.getFinancialBalanceTypeCode())
+            && ObjectHelper.isEqual(currentEntry.getFinancialDocumentReversalDate(), nextEntry.getFinancialDocumentReversalDate())
+            && ObjectHelper.isEqual(currentEntry.getUniversityFiscalPeriodCode(), nextEntry.getUniversityFiscalPeriodCode());
     }
     
     /**

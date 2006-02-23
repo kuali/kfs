@@ -22,31 +22,31 @@ public class OriginEntryKey {
 		}
 		
 		OriginEntryKey key = (OriginEntryKey) obj;
-		return LogicHelper.isEqual(
+		return ObjectHelper.isEqual(
 				getAccountNumber(), key.getAccountNumber())
-			&& LogicHelper.isEqual(
+			&& ObjectHelper.isEqual(
 				getBalanceTypeCode(), key.getBalanceTypeCode())
-			&& LogicHelper.isEqual(
+			&& ObjectHelper.isEqual(
 				getChartCode(), key.getChartCode())
-			&& LogicHelper.isEqual(
+			&& ObjectHelper.isEqual(
 				getDocumentTypeCode(), key.getDocumentTypeCode())
-			&& LogicHelper.isEqual(
+			&& ObjectHelper.isEqual(
 				getEntrySequenceNumber(), key.getEntrySequenceNumber())
-			&& LogicHelper.isEqual(
+			&& ObjectHelper.isEqual(
 				getFinancialDocumentNumber(), key.getFinancialDocumentNumber())
-			&& LogicHelper.isEqual(
+			&& ObjectHelper.isEqual(
 				getFinancialObjectCode(), key.getFinancialObjectCode())
-			&& LogicHelper.isEqual(
+			&& ObjectHelper.isEqual(
 				getFiscalPeriodCode(), key.getFiscalPeriodCode())
-			&& LogicHelper.isEqual(
+			&& ObjectHelper.isEqual(
 				getFiscalYear(), key.getFiscalYear())
-			&& LogicHelper.isEqual(
+			&& ObjectHelper.isEqual(
 				getObjectTypeCode(), key.getObjectTypeCode())
-			&& LogicHelper.isEqual(
+			&& ObjectHelper.isEqual(
 				getSubAccountNumber(), key.getSubAccountNumber())
-			&& LogicHelper.isEqual(
+			&& ObjectHelper.isEqual(
 				getSubObjectCode(), key.getSubObjectCode())
-			&& LogicHelper.isEqual(
+			&& ObjectHelper.isEqual(
 				getSystemOriginationCode(), key.getSystemOriginationCode());
 	}
 	

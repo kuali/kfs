@@ -44,8 +44,14 @@
 					<maintainableField name="finDocApprovalFromThisAmt" required="false" />
 					<maintainableField name="finDocApprovalToThisAmount" required="false" />
 					<maintainableField name="accountsDelegatePrmrtIndicator" required="false" />
-					<maintainableField name="accountDelegateActiveIndicator" required="false" />
-					<maintainableField name="accountDelegateStartDate" required="true" />
+					<maintainableField name="accountDelegateActiveIndicator" required="false">
+						<defaultValue>true</defaultValue>
+					</maintainableField>
+					<maintainableField name="accountDelegateStartDate" required="true">
+			          	<defaultValueFinderClass>
+			          		org.kuali.core.lookup.valueFinder.CurrentDateMMDDYYYYFinder
+			          	</defaultValueFinderClass>
+					</maintainableField>
                 </maintainableItems>
 			</maintainableSection>
 		</maintainableSections>

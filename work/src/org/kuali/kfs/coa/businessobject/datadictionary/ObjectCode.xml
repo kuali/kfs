@@ -54,8 +54,7 @@
 			 	<lookupField attributeName="historicalFinancialObjectCode" required="false" />
 			 	<lookupField attributeName="financialBudgetAggregationCd" required="false" />
 				<lookupField attributeName="financialObjectActiveCode" required="false">
-
-						<defaultValue>Yes</defaultValue>
+						<defaultValue>Y</defaultValue>
 				</lookupField>
 			</lookupFields>
 

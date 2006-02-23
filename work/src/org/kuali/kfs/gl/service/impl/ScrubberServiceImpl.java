@@ -39,6 +39,7 @@ import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.bo.OffsetDefinition;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
@@ -54,6 +55,7 @@ import org.kuali.module.gl.dao.UniversityDateDao;
 import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.gl.service.OriginEntryService;
 import org.kuali.module.gl.service.ScrubberService;
+import org.kuali.module.gl.util.LogicHelper;
 import org.kuali.module.gl.util.Summary;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
@@ -62,7 +64,7 @@ import org.springframework.util.StringUtils;
 
 /**
  * @author Anthony Potts
- * @version $Id: ScrubberServiceImpl.java,v 1.45 2006-02-20 21:43:03 larevans Exp $
+ * @version $Id: ScrubberServiceImpl.java,v 1.46 2006-02-23 07:01:36 larevans Exp $
  */
 
 public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
@@ -88,22 +90,10 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
     OriginEntryGroup expiredGroup;
     Map batchError;
     List reportSummary;
-    List transactionErrors;
 
-    private OriginEntry previousEntry;
     private Calendar wsPreviousCal;
     private String wsAccountChange;
-    private String wsExpiredChart;
-    private String wsExpiredAccount;
-    private boolean eof;
-    private boolean documentError;
-    private String currentDocNumber = "";
-    private Integer currentGroupNumber = new Integer(0);
-
-    private int writeSwitchStatusCD = 0;
-
-    private ScrubberUtil scrubberUtil = new ScrubberUtil();
-
+    
     public ScrubberServiceImpl() {
       super();
     }
@@ -134,7 +124,6 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
 
         batchError = new HashMap();
         reportSummary = new ArrayList();
-        transactionErrors = new ArrayList();
 
         // setup an object to hold the "default" date information
         runDate = new Date(dateTimeService.getCurrentDate().getTime());
@@ -154,81 +143,253 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
 
         LOG.debug("scrubEntries() number of groups to scrub: " + groupsToScrub.size());
 
-        /* Scrub all of the OriginEntryGroups waiting to be scrubbed as of runDate.
+        BatchInfo batchInfo = new BatchInfo();
+        /* MAIN LOOP: -------------------------------------------------
+         * Scrub all of the OriginEntryGroups waiting to be scrubbed as
+         * of runDate.
          */
-        for (Iterator groupIterator = groupsToScrub.iterator(); groupIterator.hasNext();) {
-            OriginEntryGroup grp = (OriginEntryGroup) groupIterator.next();
-            documentError = false;
-            ++scrubberUtil.groupsRead;
+        for (Iterator iteratorOverGroups = groupsToScrub.iterator(); iteratorOverGroups.hasNext();) {
+            OriginEntryGroup originEntryGroup = (OriginEntryGroup) iteratorOverGroups.next();
 
-            LOG.debug("scrubEntries() start group: " + grp.getId() + " - source: " + grp.getSourceCode());
-
-            for (Iterator entryIterator = originEntryService.getEntriesByGroup(grp); entryIterator.hasNext();) {
-                ++scrubberUtil.groupEntryCount;
-                eof = !entryIterator.hasNext();
-                OriginEntry entry = (OriginEntry) entryIterator.next();
-                LOG.debug("scrubEntries() group: " + grp.getId() + " - entry number: " + scrubberUtil.groupEntryCount + " - entry id: " + entry.getObjectId());
-
-                if (!entry.getFinancialDocumentNumber().equals(currentDocNumber) ||
-                        entry.getEntryGroupId().compareTo(currentGroupNumber) != 0) {
-                    if (documentError) {
-                        // perform the "demerger" step
-                        performDemerger(currentDocNumber, grp);
-                        documentError = false;
-                    }
-                    currentDocNumber = entry.getFinancialDocumentNumber();
-                    currentGroupNumber = entry.getEntryGroupId();
-                }
-
-                // Scrub the entry in the context of the previously scrubbed entry.
-                processUnitOfWork(entry, previousEntry);
-            }
-            scrubberUtil.recordsRead += scrubberUtil.groupEntryCount;
-
-            grp.setProcess(new Boolean(false));
-            originEntryGroupService.save(grp);
-
-            LOG.debug("scrubEntries() end group: " + grp.getId() + " - source: " + grp.getSourceCode());
+            OriginEntryGroupInfo originEntryGroupInfo = 
+            	processDocuments(originEntryGroup, originEntryService.getEntriesByGroup(originEntryGroup), batchInfo);
+            
+            // Mark the origin entry group as being processed ...
+            originEntryGroup.setProcess(new Boolean(false));
+            // ... and save the origin entry group with the new process flag.
+            originEntryGroupService.save(originEntryGroup);
+            
+            // Update info about the batch.
+            batchInfo.setNumberOfOriginEntryGroups(batchInfo.getNumberOfOriginEntryGroups() + 1);
+            batchInfo.setNumberOfDocuments(batchInfo.getNumberOfDocuments() + originEntryGroupInfo.getNumberOfDocuments());
+            batchInfo.setNumberOfUnitsOfWork(batchInfo.getNumberOfUnitsOfWork() + originEntryGroupInfo.getNumberOfUnitsOfWork());
+            batchInfo.setNumberOfOriginEntries(batchInfo.getNumberOfOriginEntries() + originEntryGroupInfo.getNumberOfEntries());
+            batchInfo.setNumberOfErrors(batchInfo.getNumberOfErrors() + originEntryGroupInfo.getErrorCount());
         }
 
         // write out report and errors
-        reportSummary.add(new Summary(1, "UNSCRUBBED RECORDS READ", new Integer(scrubberUtil.recordsRead)));
-        reportSummary.add(new Summary(2, "GROUPS READ", new Integer(scrubberUtil.groupsRead)));
-        reportSummary.add(new Summary(3, "SCRUBBED RECORDS WRITTEN", new Integer(scrubberUtil.scrubbedRecordsWriteCount)));
-        reportSummary.add(new Summary(4, "ERROR RECORDS WRITTEN", new Integer(scrubberUtil.errorWriteCount)));
-        reportSummary.add(new Summary(5, "OFFSET ENTRIES GENERATED", new Integer(scrubberUtil.offsetCount)));
-        reportSummary.add(new Summary(6, "ELIMINATION ENTRIES GENERATED", new Integer(scrubberUtil.eliminationCount)));
-        reportSummary.add(new Summary(7, "CAPITALIZATION ENTRIES GENERATED", new Integer(scrubberUtil.camsCount)));
-        reportSummary.add(new Summary(8, "LIABLITY ENTRIES GENERATED", new Integer(scrubberUtil.liabCount)));
-        reportSummary.add(new Summary(9, "PLANT INDEBTEDNESS ENTRIES GENERATED", new Integer(scrubberUtil.plantIndebtednessCount)));
-        reportSummary.add(new Summary(10, "COST SHARE ENTRIES GENERATED", new Integer(scrubberUtil.costShareCount)));
-        reportSummary.add(new Summary(11, "COST SHARE ENC ENTRIES GENERATED", new Integer(scrubberUtil.costShareEncCount)));
-        reportSummary.add(new Summary(12, "TOTAL OUTPUT RECORDS WRITTEN", new Integer(scrubberUtil.totalWriteCount)));
-        reportSummary.add(new Summary(13, "EXPIRED ACCOUNTS FOUND", new Integer(scrubberUtil.expiredAccountCount)));
+        reportSummary.add(new Summary(1, "UNSCRUBBED RECORDS READ", new Integer(batchInfo.getNumberOfOriginEntries())));
+        reportSummary.add(new Summary(2, "GROUPS READ", new Integer(batchInfo.getNumberOfOriginEntryGroups())));
+        reportSummary.add(new Summary(3, "SCRUBBED RECORDS WRITTEN", new Integer(batchInfo.getNumberOfScrubbedRecordsWritten())));
+        reportSummary.add(new Summary(4, "ERROR RECORDS WRITTEN", new Integer(batchInfo.getNumberOfErrorRecordsWritten())));
+        reportSummary.add(new Summary(5, "OFFSET ENTRIES GENERATED", new Integer(batchInfo.getNumberOfOffsetEntriesGenerated())));
+        reportSummary.add(new Summary(6, "ELIMINATION ENTRIES GENERATED", new Integer(batchInfo.getNumberOfEliminationEntriesGenerated())));
+        reportSummary.add(new Summary(7, "CAPITALIZATION ENTRIES GENERATED", new Integer(batchInfo.getNumberOfCapitalizationEntriesGenerated())));
+        reportSummary.add(new Summary(8, "LIABLITY ENTRIES GENERATED", new Integer(batchInfo.getNumberOfLiabilityEntriesGenerated())));
+        reportSummary.add(new Summary(9, "PLANT INDEBTEDNESS ENTRIES GENERATED", new Integer(batchInfo.getNumberOfPlantIndebtednessEntriesGenerated())));
+        reportSummary.add(new Summary(10, "COST SHARE ENTRIES GENERATED", new Integer(batchInfo.getNumberOfCostShareEntriesGenerated())));
+        reportSummary.add(new Summary(11, "COST SHARE ENC ENTRIES GENERATED", new Integer(batchInfo.getNumberOfCostShareEncumbrancesGenerated())));
+        reportSummary.add(new Summary(12, "TOTAL OUTPUT RECORDS WRITTEN", new Integer(batchInfo.getTotalNumberOfRecordsWritten())));
+        reportSummary.add(new Summary(13, "EXPIRED ACCOUNTS FOUND", new Integer(batchInfo.getNumberOfExpiredAccountsFound())));
         scrubberReportService.generateReport(batchError, reportSummary, runDate, 0);
 
-/*      
- *      print out final error that says what errors were found:
- *      if WS-fatal-errors-yes = yes then... "HIGHEST SEVERITY ERRORS WERE FATAL"
- *      
- *      if WS-NON-FATAL-ERRORS-YES = yes then... "HIGHEST SEVERITY ERRORS WERE NON-FATAL"
- *      
- *      if WS-WARNING-YES = yes then... "HIGHEST SEVERITY ERRORS WERE WARNINGS"
-*/
         LOG.debug("scrubEntries() exiting scrubber process");
     }
+    
+    private OriginEntryGroupInfo processDocuments(OriginEntryGroup originEntryGroup, Iterator iteratorOverEntries, BatchInfo batchInfo) {
+    	OriginEntryGroupInfo originEntryGroupInfo = new OriginEntryGroupInfo(batchInfo);
+    	originEntryGroupInfo.setOriginEntryGroup(originEntryGroup);
+    	
+    	DocumentInfo documentInfo = null;
+    	while(true) {
+    		
+        	preProcessDocument(originEntryGroup);
+        	
+    		documentInfo = 
+    			processDocument(
+    				originEntryGroupInfo, iteratorOverEntries, 
+    				(null == documentInfo) ? null : documentInfo.getLastUnitOfWork().getFirstEntryOfNextUnitOfWork());
+    		
+    		postProcessDocument(documentInfo);
+    		
+    		//if(documentInfo.isLastDocumentInOriginEntryGroup() || loopCount > maxDocumentLoops) {
+    		if(null == documentInfo.getLastUnitOfWork().getFirstEntryOfNextUnitOfWork()) {
+    			break;
+    		}
+    	}
+    	
+    	return originEntryGroupInfo;
+    }
+    
+    private void preProcessDocument(OriginEntryGroup originEntryGroup) {
+    }
+    
+    private void postProcessDocument(DocumentInfo documentInfo) {
+    	OriginEntryGroupInfo originEntryGroupInfo = documentInfo.getOriginEntryGroupInfo();
+    	if(0 < documentInfo.getNumberOfErrors()) {
+    		performDemerger(documentInfo.getDocumentNumber(), originEntryGroupInfo.getOriginEntryGroup());
+    	}
+    	
+		originEntryGroupInfo.setErrorCount(originEntryGroupInfo.getErrorCount() + documentInfo.getNumberOfErrors());
+		originEntryGroupInfo.setNumberOfDocuments(originEntryGroupInfo.getNumberOfDocuments() + 1);
+		originEntryGroupInfo.setNumberOfEntries(originEntryGroupInfo.getNumberOfEntries() + documentInfo.getNumberOfEntries());
+		originEntryGroupInfo.setNumberOfUnitsOfWork(originEntryGroupInfo.getNumberOfUnitsOfWork() + documentInfo.getNumberOfUnitsOfWork());
+    }
+    
+    private DocumentInfo processDocument(OriginEntryGroupInfo originEntryGroupInfo, Iterator iteratorOverEntries, OriginEntry firstEntry) {
+    	OriginEntryGroup originEntryGroup = originEntryGroupInfo.getOriginEntryGroup();
+    	
+    	DocumentInfo documentInfo = new DocumentInfo(originEntryGroupInfo);
+    	OriginEntry firstEntryOfNextUnitOfWork = firstEntry;
+    	
+    	while(true) {
+        	preProcessUnitOfWork(originEntryGroup);
+        	
+    		UnitOfWorkInfo unitOfWorkInfo = 
+    			processUnitOfWork(originEntryGroup, iteratorOverEntries, firstEntryOfNextUnitOfWork, documentInfo);
+    		
+    		postProcessUnitOfWork(unitOfWorkInfo);
+    		
+    		documentInfo.setNumberOfErrors(documentInfo.getNumberOfErrors() + unitOfWorkInfo.getErrorCount());
+    		
+    		// If there are no more units of work to process, or the 
+    		// first entry of the next unit of work has a different
+    		// document number we're done with the document.
+    		if(null == unitOfWorkInfo.getFirstEntryOfNextUnitOfWork()
+    				|| !LogicHelper.isEqual(
+    						unitOfWorkInfo.getFirstEntryOfNextUnitOfWork().getFinancialDocumentNumber(),
+    						documentInfo.getDocumentNumber())) {
+    			documentInfo.setDocumentNumber(unitOfWorkInfo.getDocumentNumber());
+    			documentInfo.setLastUnitOfWork(unitOfWorkInfo);
+    			break;
+    		} else {
+    			firstEntryOfNextUnitOfWork = unitOfWorkInfo.getFirstEntryOfNextUnitOfWork();
+    		}
+    	}
+    	
+    	return documentInfo;
+    }
+    
+    /**
+     * 
+     * @param originEntryGroup
+     */
+    private void preProcessUnitOfWork(OriginEntryGroup originEntryGroup) {
+    }
+    
+    private void postProcessUnitOfWork(UnitOfWorkInfo unitOfWork) {
+    	DocumentInfo documentInfo = unitOfWork.getDocumentInfo();
+    	documentInfo.setNumberOfEntries(documentInfo.getNumberOfEntries() + unitOfWork.getNumberOfEntries());
+    	documentInfo.setNumberOfErrors(documentInfo.getNumberOfErrors() + unitOfWork.getErrorCount());
+    	documentInfo.setNumberOfUnitsOfWork(documentInfo.getNumberOfUnitsOfWork() + 1);
+    	documentInfo.setDocumentNumber(unitOfWork.getDocumentNumber());
+    }
+    
+    /**
+     * 
+     * @param originEntryGroup
+     */
+    private UnitOfWorkInfo processUnitOfWork(OriginEntryGroup originEntryGroup, Iterator iteratorOverEntries, OriginEntry firstEntry, 
+    		DocumentInfo documentInfo) {
+    	
+    	if(null == firstEntry) {
+    		if(iteratorOverEntries.hasNext()) {
+    			firstEntry = (OriginEntry) iteratorOverEntries.next();
+    		} else {
+    			return null;
+    		}
+    	}
+    	
+    	BatchInfo batchInfo = documentInfo.getOriginEntryGroupInfo().getBatchInfo();
+    	
+    	UnitOfWorkInfo unitOfWorkInfo = new UnitOfWorkInfo(documentInfo);
+    	unitOfWorkInfo.setOriginEntryGroup(originEntryGroup);
+    	
+        OriginEntry currentEntry = firstEntry;
+        
+        // FIXME handle the case where firstEntry is the only entry in the unit of work.
+        // What should be done with a unit of work with only one entry?
+        // The while() below assumes at least two entries per unit of work.
+        
+        // Indicates when we've hit the boundary between two units of work.
+        boolean isLastEntryOfCurrentUnitOfWork = false;
+        
+        while(!isLastEntryOfCurrentUnitOfWork) {
+            // ... look ahead to see if there are more entries in the same unit of work.
+            OriginEntry nextEntry = iteratorOverEntries.hasNext() ? (OriginEntry) iteratorOverEntries.next() : null;
 
+            // If we've hit the end of the unit of work, return 
+            // nextEntry, which will be the first entry of the 
+            // next unit of work.
+            if(!isSameUnitOfWork(currentEntry, nextEntry) || null == nextEntry) {
+            	isLastEntryOfCurrentUnitOfWork = true;
+            }
+            
+            // Scrub the entry in the context of the previously scrubbed entry.
+            OriginEntryInfo workingEntryInfo = 
+            	validateOriginEntryAndBuildWorkingEntry(currentEntry, unitOfWorkInfo);
+            
+            updateAmountsForUnitOfWork(currentEntry, unitOfWorkInfo);
+
+            handleCostSharing(currentEntry, workingEntryInfo);
+
+            unitOfWorkInfo.setErrorCount(unitOfWorkInfo.getErrorCount() + workingEntryInfo.getProcessingErrors().size());
+            unitOfWorkInfo.setDocumentNumber(workingEntryInfo.getOriginEntry().getFinancialDocumentNumber());
+
+            if (workingEntryInfo.getProcessingErrors().size() > 0) {
+            	// handle entries with errors
+            	
+        		// write this entry as a scrubber error
+        		createOutputEntry(currentEntry, errorGroup);
+        		batchInfo.errorRecordWritten();
+        		
+            } else if (workingEntryInfo.getAccount().isAccountClosedIndicator()) {
+            	// handle entries with expired accounts
+            	
+    		    OriginEntry expiredEntry = new OriginEntry(workingEntryInfo.getOriginEntry());
+    		    
+    		    Account expiredAccount = workingEntryInfo.getAccount();
+    		    expiredEntry.setAccountNumber(expiredAccount.getAccountNumber());
+    		    expiredEntry.setChartOfAccountsCode(expiredAccount.getChartOfAccountsCode());
+    		    
+    		    // write expiredEntry as expired
+    		    createOutputEntry(expiredEntry, expiredGroup);
+    		    batchInfo.expiredAccountFound();
+    		    
+    		} else { // handle valid entries
+    			
+    			// handle capitalization
+    			if(!LogicHelper.isOneOf(workingEntryInfo.getOriginEntry().getFinancialDocumentTypeCode(), new String[] {"JV", "ACLO"})) {
+    			    capitalization(workingEntryInfo);
+    			}
+    			
+    			// handle cost sharing
+    			if (workingEntryInfo.getCostSharingAmount().isNonZero()) {
+    			    costShare(workingEntryInfo);
+    			}
+    			
+    			// write this entry as a scrubber valid
+    			createOutputEntry(workingEntryInfo.getOriginEntry(), validGroup);
+    			
+    		}
+            
+            postProcessEntry(currentEntry, workingEntryInfo);
+            
+            currentEntry = nextEntry;
+        }
+        
+        unitOfWorkInfo.setFirstEntryOfNextUnitOfWork(currentEntry);
+        return unitOfWorkInfo;
+    }
+    
+    private void postProcessEntry(OriginEntry inputEntry, OriginEntryInfo workingEntryInfo) {
+        UnitOfWorkInfo unitOfWorkInfo = workingEntryInfo.getUnitOfWorkInfo();
+        
+		unitOfWorkInfo.setErrorCount(
+    			unitOfWorkInfo.getErrorCount() + workingEntryInfo.getProcessingErrors().size());
+        
+        unitOfWorkInfo.setNumberOfEntries(unitOfWorkInfo.getNumberOfEntries() + 1);
+    }
+    
     /**
      * 
      * @param originEntry
      * @param previousEntry
      * @return
      */
-    private OriginEntry processUnitOfWork(OriginEntry originEntry, OriginEntry previousEntry) { /* 2500-process-unit-of-work */
+    private OriginEntryInfo validateOriginEntryAndBuildWorkingEntry(OriginEntry originEntry, UnitOfWorkInfo unitOfWorkInfo) { /* 2500-process-unit-of-work */
         // Errors are recorded on a per-entry basis.
-
-        OriginEntry workingEntry = null;
-
+    	
         // First, need to see if the key fields are the same as last 
         // unit of work. This has historically been done for 
         // performance reasons dating back to FIS where instead of
@@ -244,10 +405,16 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         // the legacy text file implementation match the first 51 
         // characters of the entry processed immediately prior to this
         // one, fields are copied from the previous entry into the  
-        // entry currently being processed. 
-        checkUnitOfWork(originEntry, workingEntry);
-
-        workingEntry = new OriginEntry();
+        // entry currently being processed.
+        
+        // FIXME (laran) see if this needs to be added back in
+        //checkUnitOfWork(workingEntry);
+        
+    	OriginEntryInfo workingEntryInfo = new OriginEntryInfo(unitOfWorkInfo);
+    	workingEntryInfo.setAccount(originEntry.getAccount());
+    	
+    	OriginEntry workingEntry = new OriginEntry();
+    	workingEntryInfo.setOriginEntry(workingEntry);
         workingEntry.setFinancialDocumentNumber(originEntry.getFinancialDocumentNumber());
         workingEntry.setOrganizationDocumentNumber(originEntry.getOrganizationDocumentNumber());
         workingEntry.setOrganizationReferenceId(originEntry.getOrganizationReferenceId());
@@ -266,7 +433,9 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         if (StringUtils.hasText(originEntry.getFinancialSubObjectCode()) && 
                 !Constants.DASHES_SUB_OBJECT_CODE.equals(originEntry.getFinancialSubObjectCode())) {
             workingEntry.setFinancialSubObjectCode(originEntry.getFinancialSubObjectCode());
-            if (checkGLObject(originEntry.getFinancialSubObject(), kualiConfigurationService.getPropertyString(
+            if (ifNullAddTransactionError(originEntry.getFinancialSubObject(), 
+            		workingEntryInfo.getProcessingErrors(),
+            		kualiConfigurationService.getPropertyString(
                     KeyConstants.ERROR_SUB_OBJECT_CODE_NOT_FOUND), originEntry.getFinancialSubObjectCode())) {
                 workingEntry.setFinancialSubObject(originEntry.getFinancialSubObject());
             }
@@ -275,8 +444,9 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         }
 
         if (StringUtils.hasText(originEntry.getProjectCode()) && !Constants.DASHES_PROJECT_CODE.equals(originEntry.getProjectCode())) {
-            checkGLObject(
-                originEntry.getProject(), kualiConfigurationService.getPropertyString(KeyConstants.ERROR_PROJECT_CODE_NOT_FOUND), 
+            ifNullAddTransactionError(
+                originEntry.getProject(), workingEntryInfo.getProcessingErrors(),
+                kualiConfigurationService.getPropertyString(KeyConstants.ERROR_PROJECT_CODE_NOT_FOUND), 
                 originEntry.getProjectCode());
         } else {
             workingEntry.setProjectCode(Constants.DASHES_PROJECT_CODE);
@@ -321,14 +491,16 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
             persistenceService.retrieveReferenceObject(originEntry,"financialObject");
             persistenceService.retrieveReferenceObject(originEntry,"accountingPeriod");
 
-            checkGLObject(
-                workingEntry.getOption(), kualiConfigurationService.getPropertyString(KeyConstants.ERROR_UNIV_DATE_NOT_FOUND), 
+            ifNullAddTransactionError(
+                workingEntry.getOption(), workingEntryInfo.getProcessingErrors(),
+                kualiConfigurationService.getPropertyString(KeyConstants.ERROR_UNIV_DATE_NOT_FOUND), 
                 workingEntry.getUniversityFiscalYear().toString());
         } else {
             workingEntry.setUniversityFiscalYear(originEntry.getUniversityFiscalYear());
             workingEntry.setOption(originEntry.getOption());
-            if (!checkGLObject(
-                    workingEntry.getOption(), kualiConfigurationService.getPropertyString(KeyConstants.ERROR_UNIV_DATE_NOT_FOUND), 
+            if (!ifNullAddTransactionError(
+                    workingEntry.getOption(), workingEntryInfo.getProcessingErrors(),
+                    kualiConfigurationService.getPropertyString(KeyConstants.ERROR_UNIV_DATE_NOT_FOUND), 
                     workingEntry.getUniversityFiscalYear().toString())) {
                 workingEntry.setOption(new Options());
                 workingEntry.setUniversityFiscalYear(univRunDate.getUniversityFiscalYear());
@@ -340,15 +512,17 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
             }
         }
 
-        if (checkGLObject(
-                originEntry.getDocumentType(), kualiConfigurationService.getPropertyString(KeyConstants.ERROR_DOCUMENT_TYPE_NOT_FOUND), 
+        if (ifNullAddTransactionError(
+                originEntry.getDocumentType(), workingEntryInfo.getProcessingErrors(),
+                kualiConfigurationService.getPropertyString(KeyConstants.ERROR_DOCUMENT_TYPE_NOT_FOUND), 
                 originEntry.getFinancialDocumentTypeCode())) {
             workingEntry.setFinancialDocumentTypeCode(originEntry.getFinancialDocumentTypeCode());
             workingEntry.setDocumentType(originEntry.getDocumentType());
         }
 
-        if (checkGLObject(
-                originEntry.getOrigination(), kualiConfigurationService.getPropertyString(KeyConstants.ERROR_ORIGIN_CODE_NOT_FOUND), 
+        if (ifNullAddTransactionError(
+                originEntry.getOrigination(), workingEntryInfo.getProcessingErrors(),
+                kualiConfigurationService.getPropertyString(KeyConstants.ERROR_ORIGIN_CODE_NOT_FOUND), 
                 originEntry.getFinancialSystemOriginationCode())) {
             workingEntry.setOrigination(originEntry.getOrigination());
         }
@@ -357,11 +531,12 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         if (!StringUtils.hasText(originEntry.getFinancialDocumentNumber())) {
             addTransactionError(
                 kualiConfigurationService.getPropertyString(KeyConstants.ERROR_DOCUMENT_NUMBER_REQUIRED), 
-                originEntry.getFinancialDocumentNumber());
+                originEntry.getFinancialDocumentNumber(), workingEntryInfo.getProcessingErrors());
         }
 
-        if (checkGLObject(
-                originEntry.getChart(), kualiConfigurationService.getPropertyString(KeyConstants.ERROR_CHART_NOT_FOUND), 
+        if (ifNullAddTransactionError(
+                originEntry.getChart(), workingEntryInfo.getProcessingErrors(),
+                kualiConfigurationService.getPropertyString(KeyConstants.ERROR_CHART_NOT_FOUND), 
                 originEntry.getChartOfAccountsCode())) {
             workingEntry.setChart(originEntry.getChart());
         }
@@ -369,49 +544,56 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
 
         if (originEntry.getChart() != null && !originEntry.getChart().isFinChartOfAccountActiveIndicator()) {
             addTransactionError(
-                kualiConfigurationService.getPropertyString(KeyConstants.ERROR_CHART_NOT_ACTIVE), originEntry.getChartOfAccountsCode());
+                kualiConfigurationService.getPropertyString(KeyConstants.ERROR_CHART_NOT_ACTIVE), 
+                originEntry.getChartOfAccountsCode(), workingEntryInfo.getProcessingErrors());
         }
 
-        if (checkGLObject(
-                originEntry.getAccount(), kualiConfigurationService.getPropertyString(KeyConstants.ERROR_ACCOUNT_NOT_FOUND), 
+        if (ifNullAddTransactionError(
+                originEntry.getAccount(), workingEntryInfo.getProcessingErrors(),
+                kualiConfigurationService.getPropertyString(KeyConstants.ERROR_ACCOUNT_NOT_FOUND), 
                 originEntry.getAccountNumber())) {
             workingEntry.setAccount(originEntry.getAccount());
         }
         workingEntry.setAccountNumber(originEntry.getAccountNumber());
 
         if ("ACLO".equals(originEntry.getFinancialDocumentTypeCode())) { // TODO: move to properties ANNUAL_CLOSING
-            resolveAccount(originEntry, workingEntry);
+            resolveAccount(originEntry, workingEntryInfo);
         } else {
             wsAccountChange = originEntry.getAccountNumber();
         }
 
-        if (null != wsAccountChange && !wsAccountChange.equals(workingEntry.getAccountNumber()) && null != originEntry.getAccount()) {
+        if (null != wsAccountChange 
+        		&& !wsAccountChange.equals(workingEntry.getAccountNumber()) 
+        		&& null != originEntry.getAccount()) {
             if (originEntry.getAccount().isAccountClosedIndicator()) {
                 addTransactionError(
-                    kualiConfigurationService.getPropertyString(KeyConstants.ERROR_ACCOUNT_CLOSED), originEntry.getAccountNumber());
+                    kualiConfigurationService.getPropertyString(KeyConstants.ERROR_ACCOUNT_CLOSED), 
+                    originEntry.getAccountNumber(), workingEntryInfo.getProcessingErrors());
             } else {
                 addTransactionError(
-                    kualiConfigurationService.getPropertyString(KeyConstants.ERROR_ACCOUNT_EXPIRED), originEntry.getAccountNumber());
+                    kualiConfigurationService.getPropertyString(KeyConstants.ERROR_ACCOUNT_EXPIRED),
+                    originEntry.getAccountNumber(), workingEntryInfo.getProcessingErrors());
             }
         }
 
         if (!Constants.DASHES_SUB_ACCOUNT_NUMBER.equals(originEntry.getSubAccountNumber())) {
-            checkGLObject(
-                originEntry.getSubAccount(), kualiConfigurationService.getPropertyString(KeyConstants.ERROR_SUB_ACCOUNT_NOT_FOUND), 
+            ifNullAddTransactionError(
+                originEntry.getSubAccount(), workingEntryInfo.getProcessingErrors(),
+                kualiConfigurationService.getPropertyString(KeyConstants.ERROR_SUB_ACCOUNT_NOT_FOUND), 
                 originEntry.getSubAccountNumber());
         }
 
         if (originEntry.getSubAccount() != null && "ACLO".equals(originEntry.getFinancialDocumentTypeCode())
                 && !originEntry.getSubAccount().isSubAccountActiveIndicator()) {
             addTransactionError(
-                kualiConfigurationService.getPropertyString(
-                    KeyConstants.ERROR_SUB_ACCOUNT_NOT_ACTIVE), originEntry.getSubAccountNumber());
+                kualiConfigurationService.getPropertyString(KeyConstants.ERROR_SUB_ACCOUNT_NOT_ACTIVE), 
+                originEntry.getSubAccountNumber(), workingEntryInfo.getProcessingErrors());
         }
 
         if (StringUtils.hasText(originEntry.getFinancialObjectCode())) {
             workingEntry.setFinancialObjectCode(originEntry.getFinancialObjectCode());
-            checkGLObject(
-                originEntry.getFinancialObject(), 
+            ifNullAddTransactionError(
+                originEntry.getFinancialObject(), workingEntryInfo.getProcessingErrors(),
                 kualiConfigurationService.getPropertyString(KeyConstants.ERROR_OBJECT_CODE_NOT_FOUND), 
                 originEntry.getFinancialObjectCode());
             workingEntry.setFinancialObject(originEntry.getFinancialObject());
@@ -428,15 +610,15 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         				|| !StringUtils.hasText(originEntry.getFinancialObject().getFinancialObjectTypeCode())) {
         	addTransactionError(
        			kualiConfigurationService.getPropertyString(KeyConstants.ERROR_OBJECT_TYPE_NOT_FOUND),
-       			originEntry.getFinancialObjectTypeCode());
+       			originEntry.getFinancialObjectTypeCode(), workingEntryInfo.getProcessingErrors());
         } else {
             workingEntry.setFinancialObjectTypeCode(originEntry.getFinancialObjectTypeCode());
         }
 
         if (StringUtils.hasText(originEntry.getFinancialSubObjectCode())) {
             if (!Constants.DASHES_SUB_OBJECT_CODE.equals(originEntry.getFinancialSubObjectCode())) {
-                checkGLObject(
-                    originEntry.getFinancialSubObject(),
+                ifNullAddTransactionError(
+                    originEntry.getFinancialSubObject(),workingEntryInfo.getProcessingErrors(),
                     kualiConfigurationService.getPropertyString(KeyConstants.ERROR_SUB_OBJECT_CODE_NOT_FOUND), 
                     originEntry.getFinancialSubObjectCode()); 
                 workingEntry.setFinancialSubObject(originEntry.getFinancialSubObject());
@@ -450,8 +632,9 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
 
         if (StringUtils.hasText(originEntry.getFinancialBalanceTypeCode())) {
             // now validate balance type against balance type table (free)
-            if (checkGLObject(
-                    originEntry.getBalanceType(), kualiConfigurationService.getPropertyString(KeyConstants.ERROR_BALANCE_TYPE_NOT_FOUND), 
+            if (ifNullAddTransactionError(
+                    originEntry.getBalanceType(), workingEntryInfo.getProcessingErrors(),
+                    kualiConfigurationService.getPropertyString(KeyConstants.ERROR_BALANCE_TYPE_NOT_FOUND), 
                     originEntry.getFinancialBalanceTypeCode())) {
                 workingEntry.setFinancialBalanceTypeCode(originEntry.getFinancialBalanceTypeCode());
                 workingEntry.setBalanceType(originEntry.getBalanceType());
@@ -464,15 +647,16 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
             }
             workingEntry.getBalanceType().setCode(originEntry.getOption().getActualFinancialBalanceTypeCd());
             persistenceService.retrieveReferenceObject(workingEntry,"balanceType");
-            checkGLObject(
-                workingEntry.getBalanceType(), kualiConfigurationService.getPropertyString(KeyConstants.ERROR_BALANCE_TYPE_NOT_FOUND), 
+            ifNullAddTransactionError(
+                workingEntry.getBalanceType(), workingEntryInfo.getProcessingErrors(),
+                kualiConfigurationService.getPropertyString(KeyConstants.ERROR_BALANCE_TYPE_NOT_FOUND), 
                 originEntry.getFinancialBalanceTypeCode());
         }
 
         // validate fiscalperiod against sh_acct_period_t (free)
         if (StringUtils.hasText(originEntry.getUniversityFiscalPeriodCode())) {
-            checkGLObject(
-                originEntry.getAccountingPeriod(), 
+            ifNullAddTransactionError(
+                originEntry.getAccountingPeriod(), workingEntryInfo.getProcessingErrors(),
                 kualiConfigurationService.getPropertyString(KeyConstants.ERROR_ACCOUNTING_PERIOD_NOT_FOUND), 
                 originEntry.getUniversityFiscalPeriodCode());
 
@@ -481,7 +665,7 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
                 && originEntry.getAccountingPeriod().getUniversityFiscalPeriodStatusCode() 
                     == Constants.ACCOUNTING_PERIOD_STATUS_CLOSED) {
                 addTransactionError(kualiConfigurationService.getPropertyString(KeyConstants.ERROR_FISCAL_PERIOD_CLOSED), 
-                  originEntry.getUniversityFiscalPeriodCode());
+                  originEntry.getUniversityFiscalPeriodCode(), workingEntryInfo.getProcessingErrors());
             }
             workingEntry.setUniversityFiscalPeriodCode(originEntry.getUniversityFiscalPeriodCode());
         } else {
@@ -499,7 +683,7 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         if(originEntry.getBalanceType() != null && originEntry.getBalanceType().isFinancialOffsetGenerationIndicator() &&
                 originEntry.getTransactionLedgerEntryAmount().isNegative()) {
             addTransactionError(kualiConfigurationService.getPropertyString(
-                KeyConstants.ERROR_TRANS_CANNOT_BE_NEGATIVE_IF_OFFSET), null);
+                KeyConstants.ERROR_TRANS_CANNOT_BE_NEGATIVE_IF_OFFSET), null, workingEntryInfo.getProcessingErrors());
         }
 
         // if offsetGenerationCode = "N" and debitCreditCode != null then error
@@ -510,13 +694,13 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
             if(!" ".equals(originEntry.getTransactionDebitCreditCode())) { // todo: move space to constant
                 addTransactionError(
                     kualiConfigurationService.getPropertyString(KeyConstants.ERROR_DC_INDICATOR_MUST_BE_EMPTY), 
-                    originEntry.getTransactionDebitCreditCode());
+                    originEntry.getTransactionDebitCreditCode(), workingEntryInfo.getProcessingErrors());
             }
         } else {
             if(!originEntry.isCredit() && !originEntry.isDebit()) {
                 addTransactionError(
                     kualiConfigurationService.getPropertyString(KeyConstants.ERROR_DC_INDICATOR_MUST_BE_D_OR_C), 
-                    originEntry.getTransactionDebitCreditCode());
+                    originEntry.getTransactionDebitCreditCode(), workingEntryInfo.getProcessingErrors());
             }
         }
         workingEntry.setTransactionDebitCreditCode(originEntry.getTransactionDebitCreditCode());
@@ -525,7 +709,7 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         if (originEntry.getProject() != null && !originEntry.getProject().isActive()) {
             addTransactionError(
                 kualiConfigurationService.getPropertyString(KeyConstants.ERROR_PROJECT_CODE_MUST_BE_ACTIVE), 
-                originEntry.getProjectCode());
+                originEntry.getProjectCode(), workingEntryInfo.getProcessingErrors());
         }
 
         // if DocReferenceNumber == null then
@@ -539,15 +723,15 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         // in document type table"
         // validate FSRefOriginCode - "FS origin code is not in DB"
         if (StringUtils.hasText(originEntry.getFinancialDocumentReferenceNbr())) {
-            if (checkGLObject(
-                    originEntry.getReferenceDocumentType(), 
+            if (ifNullAddTransactionError(
+                    originEntry.getReferenceDocumentType(), workingEntryInfo.getProcessingErrors(),
                     kualiConfigurationService.getPropertyString(KeyConstants.ERROR_REFERENCE_DOCUMENT_TYPE_NOT_FOUND), 
                     originEntry.getFinancialDocumentReferenceNbr())) {
                 workingEntry.setReferenceFinDocumentTypeCode(originEntry.getReferenceFinDocumentTypeCode());
                 workingEntry.setReferenceDocumentType(originEntry.getReferenceDocumentType());
             }
-            if (checkGLObject(
-                    originEntry.getFinSystemRefOriginationCode(), 
+            if (ifNullAddTransactionError(
+                    originEntry.getFinSystemRefOriginationCode(), workingEntryInfo.getProcessingErrors(),
                     kualiConfigurationService.getPropertyString(KeyConstants.ERROR_REFERENCE_ORIGINATION_CODE_NOT_FOUND), 
                     originEntry.getFinancialSystemOriginationCode())) {
                 workingEntry.setFinSystemRefOriginationCode(originEntry.getFinancialSystemOriginationCode());
@@ -561,15 +745,15 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
             if ("R".equals(originEntry.getTransactionEncumbranceUpdtCd())) { // TODO: change to constant
                 addTransactionError(
                     kualiConfigurationService.getPropertyString(KeyConstants.ERROR_REFERENCE_DOC_NUMBER_CANNOT_BE_NULL_IF_UPDATE_CODE_IS_R), 
-                    originEntry.getTransactionEncumbranceUpdtCd());
+                    originEntry.getTransactionEncumbranceUpdtCd(), workingEntryInfo.getProcessingErrors());
             }
         }
 
         // if reversalDate != null
         // validate it against sh_univ_date_t - error "reversal date not in table"
         if (originEntry.getFinancialDocumentReversalDate() != null) {
-            if (checkGLObject(
-                    originEntry.getReversalDate(), 
+            if (ifNullAddTransactionError(
+                    originEntry.getReversalDate(), workingEntryInfo.getProcessingErrors(),
                     kualiConfigurationService.getPropertyString(KeyConstants.ERROR_REVERSAL_DATE_NOT_FOUND), 
                     originEntry.getFinancialDocumentReversalDate().toString())) {
                 workingEntry.setFinancialDocumentReversalDate(originEntry.getFinancialDocumentReversalDate());
@@ -589,37 +773,21 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
             } else {
                 addTransactionError(
                     kualiConfigurationService.getPropertyString(KeyConstants.ERROR_ENC_UPDATE_CODE_NOT_DRN), 
-                    originEntry.getTransactionEncumbranceUpdtCd());
+                    originEntry.getTransactionEncumbranceUpdtCd(), workingEntryInfo.getProcessingErrors());
             }
         }
 
-        // if offsetGenerationCode = "Y" AND DocumentType = "ACLO" (annual
-        // closing) AND UniversityFiscalPeriod != "BB" (beginning balance) AND
-        // UniversityFiscalPeriod != "CB" (contract balance)
-        // if TransactionDebitCreditCode = "D"
-        //  add amount to offsetAmountAccumulator
-        //  add to debitAmountAccumulator
-        // else
-        //  subtract amount from offsetAmountAccumulator
-        //  add to creditAmountAccumulator
-        if (originEntry.getBalanceType() != null && originEntry.getBalanceType().isFinancialOffsetGenerationIndicator() &&
-                !"BB".equals(originEntry.getUniversityFiscalPeriodCode()) &&
-                !"CB".equals(originEntry.getUniversityFiscalPeriodCode()) &&
-                null != originEntry.getFinancialDocumentTypeCode() &&
-                !originEntry.getFinancialDocumentTypeCode().equals("ACLO")) {
-            if (originEntry.isDebit()) {
-                scrubberUtil.offsetAmountAccumulator.add(originEntry.getTransactionLedgerEntryAmount());
-            } else {
-                scrubberUtil.offsetAmountAccumulator.subtract(originEntry.getTransactionLedgerEntryAmount());
-            }
-        }
-        if (originEntry.isDebit()) {
-            scrubberUtil.debitAmountAccumulator.add(originEntry.getTransactionLedgerEntryAmount());
-        } else {
-            scrubberUtil.creditAmountAccumulator.add(originEntry.getTransactionLedgerEntryAmount());
-        }
+        return workingEntryInfo;
+    }// End of method
 
-        // if (ObjectTypeCode = "EE" or "EX" or "ES" or "TE") AND
+	/**
+	 * @param originEntry
+	 * @param workingEntry
+	 */
+	private void handleCostSharing(OriginEntry originEntry, OriginEntryInfo workingEntryInfo) {
+		OriginEntry workingEntry = workingEntryInfo.getOriginEntry();
+		
+		// if (ObjectTypeCode = "EE" or "EX" or "ES" or "TE") AND
         //  (BalanceTypeCode = "EX" or "IE" or "PE") AND (holdFundGroupCD = "CG")
         //  AND (holdSubAccountTypeCD == "CS") AND UniversityFiscalPeriod != "BB"
         //  (beginning balance) AND UniversityFiscalPeriod != "CB" (contract
@@ -640,7 +808,7 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
                     originEntry.getOption().getIntrnlEncumFinBalanceTypCd().equals(workingEntry.getFinancialBalanceTypeCode()) ||
                     originEntry.getOption().getPreencumbranceFinBalTypeCd().equals(workingEntry.getFinancialBalanceTypeCode())) {
                 // Do cost sharing!
-                costShareEncumbrance(originEntry);
+                costShareEncumbrance(originEntry, workingEntryInfo);
             }
             // if (ObjectTypeCode = "EE" or "EX" or "ES" or "TE") AND
             // (BalanceTypeCode = "AC") AND (holdFundGroupCD = "CG") AND
@@ -653,57 +821,45 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
             //      add amount to costSharingAccumulator
             if (originEntry.getOption().getActualFinancialBalanceTypeCd().equals(workingEntry.getFinancialBalanceTypeCode())) {
                 if (workingEntry.isDebit()) {
-                    scrubberUtil.costSharingAccumulator.subtract(originEntry.getTransactionLedgerEntryAmount());
+                	workingEntryInfo.getCostSharingAmount().subtract(originEntry.getTransactionLedgerEntryAmount());
                 } else {
-                    scrubberUtil.costSharingAccumulator.add(originEntry.getTransactionLedgerEntryAmount());
+                	workingEntryInfo.getCostSharingAmount().add(originEntry.getTransactionLedgerEntryAmount());
                 }
             }
-
         }
+	}
 
-        // if no entry errors
-        //  write out the workingEntry to table
-        // if no document errors and DocumentTypeCd != "JV"
-        //  3000-user-processing
-        // if expiredFinCOACd != null //where is this from!?
-        // 
-        // if costSharingAccumulator != 0
-        //  3000-cost-share
+	/**
+	 * @param originEntry
+	 */
+	private void updateAmountsForUnitOfWork(OriginEntry originEntry, UnitOfWorkInfo unitOfWorkInfo) {
+		
+		// if offsetGenerationCode = "Y" AND DocumentType = "ACLO" (annual
+        // closing) AND UniversityFiscalPeriod != "BB" (beginning balance) AND
+        // UniversityFiscalPeriod != "CB" (contract balance)
+        // if TransactionDebitCreditCode = "D"
+        //  add amount to offsetAmountAccumulator
+        //  add to debitAmountAccumulator
         // else
-        //  write out errors
-        // return!
-
-        this.writeSwitchStatusCD = ScrubberUtil.FROM_WRITE;
-        if (transactionErrors.size() > 0) {
-            // copy all the errors for this entry to the main error list
-            batchError.put(originEntry, transactionErrors);
-            transactionErrors = new ArrayList();
-
-            // write this entry as a scrubber error
-            createOutputEntry(originEntry, errorGroup);
-
-            writeErrors();
-        } else {
-            // write this entry as a scrubber valid
-            createOutputEntry(workingEntry, validGroup);
-
-            if (batchError.size() == 0 && !"JV".equals(workingEntry.getFinancialDocumentTypeCode())) {
-                userProcessing(workingEntry);
-            }
-
-            if (wsExpiredAccount != null) {
-                OriginEntry expiredEntry = new OriginEntry(workingEntry);
-                expiredEntry.setChartOfAccountsCode(wsExpiredChart);
-                expiredEntry.setAccountNumber(wsExpiredAccount);
-                createOutputEntry(expiredEntry, expiredGroup);
-            }
-
-            if (scrubberUtil.costSharingAccumulator.isNonZero()) {
-                costShare(workingEntry);
+        //  subtract amount from offsetAmountAccumulator
+        //  add to creditAmountAccumulator
+        if (originEntry.getBalanceType() != null && originEntry.getBalanceType().isFinancialOffsetGenerationIndicator() &&
+                !"BB".equals(originEntry.getUniversityFiscalPeriodCode()) &&
+                !"CB".equals(originEntry.getUniversityFiscalPeriodCode()) &&
+                null != originEntry.getFinancialDocumentTypeCode() &&
+                !originEntry.getFinancialDocumentTypeCode().equals("ACLO")) {
+            if (originEntry.isDebit()) {
+                unitOfWorkInfo.getTotalOffsetAmount().add(originEntry.getTransactionLedgerEntryAmount());
+            } else {
+            	unitOfWorkInfo.getTotalOffsetAmount().subtract(originEntry.getTransactionLedgerEntryAmount());
             }
         }
-        return workingEntry;
-    }// End of method
+        if (originEntry.isDebit()) {
+            unitOfWorkInfo.getTotalDebitAmount().add(originEntry.getTransactionLedgerEntryAmount());
+        } else {
+        	unitOfWorkInfo.getTotalCreditAmount().add(originEntry.getTransactionLedgerEntryAmount());
+        }
+	}
 
     /**
      * 
@@ -711,12 +867,12 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
      * @param errorMessage
      * @return
      */
-    private boolean checkGLObject(Object glObject, String errorMessage, String errorValue) {
+    private boolean ifNullAddTransactionError(Object glObject, List errors, String errorMessage, String errorValue) {
         if (glObject == null) {
             if (StringUtils.hasText(errorMessage)) {
-                addTransactionError(errorMessage, errorValue);
+                addTransactionError(errorMessage, errorValue, errors);
             } else {
-                addTransactionError("Unexpected null object", glObject.getClass().getName());
+                addTransactionError("Unexpected null object", glObject.getClass().getName(), errors);
             }
             return false;
         }
@@ -726,9 +882,8 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
     /**
      * @param errorMessage
      */
-    private void addTransactionError(String errorMessage, String errorValue) {
-        documentError = true;
-        transactionErrors.add(errorMessage + " (" + errorValue + ")");
+    private void addTransactionError(String errorMessage, String errorValue, List errors) {
+        errors.add(errorMessage + " (" + errorValue + ")");
     }
 
     /**
@@ -747,16 +902,18 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
      * @param originEntry
      * @param workingEntry
      */
-    private void resolveAccount(OriginEntry originEntry, OriginEntry workingEntry) { /* (2100-edit-account) */
-
-        scrubberUtil.wsAccount = originEntry.getAccount();
+    private void resolveAccount(OriginEntry originEntry, OriginEntryInfo workingEntryInfo) { /* (2100-edit-account) */
+    	OriginEntry workingEntry = workingEntryInfo.getOriginEntry();
+    	
+    	Account account = originEntry.getAccount();
+    	workingEntryInfo.setAccount(account);
 
         // Assume we have the current CA_ACCOUNT_T row.
         // if(account.getAcctExpirationDt() == null &&
         //           !account.getAcctClosedInd.equals("Y")) {
-        if (scrubberUtil.wsAccount.getAccountExpirationDate() == null &&
-           !scrubberUtil.wsAccount.isAccountClosedIndicator()) {
-            workingEntry.setAccountNumber(scrubberUtil.wsAccount.getAccountNumber());
+        if (account.getAccountExpirationDate() == null &&
+           !account.isAccountClosedIndicator()) {
+            workingEntry.setAccountNumber(account.getAccountNumber());
             return;
         }
 
@@ -765,12 +922,12 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         if ((org.apache.commons.lang.StringUtils.isNumeric(workingEntry.getFinancialSystemOriginationCode()) ||
                 "EU".equals(workingEntry.getFinancialSystemOriginationCode()) ||
                 "PL".equals(workingEntry.getFinancialSystemOriginationCode())) &&
-                scrubberUtil.wsAccount.isAccountClosedIndicator()) {
+                account.isAccountClosedIndicator()) {
             workingEntry.setAccountNumber(originEntry.getAccountNumber());
             wsAccountChange = workingEntry.getAccountNumber();
             addTransactionError(
                 kualiConfigurationService.getPropertyString(KeyConstants.ERROR_ORIGIN_CODE_CANNOT_HAVE_CLOSED_ACCOUNT), 
-                scrubberUtil.wsAccount.getAccountNumber());
+                account.getAccountNumber(), workingEntryInfo.getProcessingErrors());
             return;
         }
 
@@ -784,22 +941,46 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
                 "TOPS".equals(workingEntry.getFinancialDocumentTypeCode()) ||
                 "CD".equals(workingEntry.getFinancialDocumentTypeCode().trim()) ||
                 "LOCR".equals(workingEntry.getFinancialDocumentTypeCode())) &&
-                !scrubberUtil.wsAccount.isAccountClosedIndicator()) {
+                !account.isAccountClosedIndicator()) {
             workingEntry.setAccountNumber(originEntry.getAccountNumber());
             return;
         }
 
         Calendar tmpCal = Calendar.getInstance();
-        tmpCal.setTimeInMillis(scrubberUtil.wsAccount.getAccountExpirationDate().getTime());
+        tmpCal.setTimeInMillis(account.getAccountExpirationDate().getTime());
 
-        if(tmpCal.get(Calendar.DAY_OF_YEAR) <= runCal.get(Calendar.DAY_OF_YEAR) ||
-                scrubberUtil.wsAccount.isAccountClosedIndicator()) {
-            testExpiredCg(originEntry, workingEntry);
+        if(tmpCal.get(Calendar.DAY_OF_YEAR) <= runCal.get(Calendar.DAY_OF_YEAR)
+        	|| account.isAccountClosedIndicator()) {
+            testExpiredCg(originEntry, workingEntryInfo);
         } else {
             workingEntry.setAccountNumber(originEntry.getAccountNumber());
         }
     }// End of method
 
+    /**
+     * 
+     * @param currentEntry
+     * @param nextEntry
+     * @return
+     */
+    private boolean isSameUnitOfWork(OriginEntry currentEntry, OriginEntry nextEntry) {
+//    	if(LogicHelper.isNull(currentEntry) || LogicHelper.isNull(nextEntry)) {
+//    		return false;
+//    	}
+    	
+        // Check the key fields
+        return null != currentEntry && null != nextEntry 
+        	&& LogicHelper.isEqual(currentEntry.getFinancialDocumentTypeCode(), nextEntry.getFinancialDocumentTypeCode()) 
+        	&& LogicHelper.isEqual(currentEntry.getFinancialSystemOriginationCode(), nextEntry.getFinancialSystemOriginationCode())
+        	&& LogicHelper.isEqual(currentEntry.getFinancialDocumentNumber(), nextEntry.getFinancialDocumentNumber()) 
+        	&& LogicHelper.isEqual(currentEntry.getChartOfAccountsCode(), nextEntry.getChartOfAccountsCode())
+        	&& LogicHelper.isEqual(currentEntry.getAccountNumber(), nextEntry.getAccountNumber())
+        	&& LogicHelper.isEqual(currentEntry.getSubAccountNumber(), nextEntry.getSubAccountNumber())
+            && LogicHelper.isEqual(currentEntry.getFinancialBalanceTypeCode(), nextEntry.getFinancialBalanceTypeCode())
+            && LogicHelper.isEqual(currentEntry.getFinancialDocumentReversalDate(), nextEntry.getFinancialDocumentReversalDate())
+            && LogicHelper.isEqual(currentEntry.getUniversityFiscalPeriodCode(), nextEntry.getUniversityFiscalPeriodCode());
+    }
+    
     /**
      * 2510-CHECK-UOW
      * 
@@ -843,62 +1024,42 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
      * @param originEntry
      * @param workingEntry
      */
-    private void checkUnitOfWork(OriginEntry originEntry, OriginEntry workingEntry) { /* 2510-check-uow */
-        //See if the unit of work has changed, if not return.
-
-        if (previousEntry == null) {
-            previousEntry = new OriginEntry();
-            return;
-        }
-
-        // Check the key fields
-        if(!eof && 
-        		null != originEntry.getFinancialDocumentTypeCode() && 
-        		originEntry.getFinancialDocumentTypeCode().equals(previousEntry.getFinancialDocumentTypeCode()) &&
-                originEntry.getFinancialSystemOriginationCode().equals(previousEntry.getFinancialSystemOriginationCode()) &&
-                originEntry.getFinancialDocumentNumber().equals(previousEntry.getFinancialDocumentNumber()) &&
-                originEntry.getChartOfAccountsCode().equals(previousEntry.getChartOfAccountsCode()) &&
-                originEntry.getAccountNumber().equals(previousEntry.getAccountNumber()) &&
-                originEntry.getSubAccountNumber().equals(previousEntry.getSubAccountNumber()) &&
-                originEntry.getFinancialBalanceTypeCode().equals(previousEntry.getFinancialBalanceTypeCode()) &&
-                originEntry.getFinancialDocumentReversalDate().equals(previousEntry.getFinancialDocumentReversalDate()) &&
-                originEntry.getUniversityFiscalPeriodCode().equals(previousEntry.getUniversityFiscalPeriodCode())) {
-            return;
-        }
-
-        if (scrubberUtil.groupEntryCount == 1) {
-            copyPrimaryFields(originEntry, previousEntry);
-            initScrubberValues();
-            return;
-        }
-
-        // TODO: Address claim on cash here
-
-        // Check scrbOffsetAmount to see if an offset needs to be generated.
-        if(scrubberUtil.offsetAmountAccumulator.isNonZero() &&
-                batchError.size() == 0 &&
-                !"JV".equals(workingEntry.getFinancialDocumentTypeCode())) {
-
-            // TODO FIXME: Need to implement logic to account for annual closing documents
-            // FIXME: here as well.
-            // FIXME: add the following line to the if statement above.
-            // FIXME: && !"ACLO".equals(workingEntry.getFinancialDocumentTypeCode())
-
-            generateOffset(workingEntry);
-            this.writeSwitchStatusCD = ScrubberUtil.FROM_OFFSET;
-
-            if (transactionErrors.size() > 0) {
-                createOutputEntry(workingEntry, errorGroup);
-                writeErrors();
-            } else {
-                createOutputEntry(workingEntry, validGroup);                
-            }
-
-            initScrubberValues();
-
-            return;
-        }
-    }// End of method
+//    private void checkUnitOfWork(OriginEntryInfo workingEntryInfo) {
+//    	OriginEntry workingEntry = workingEntryInfo.getOriginEntry();
+//        //See if the unit of work has changed, if not return.
+//
+//        // TODO: Address claim on cash here
+//
+//        // FIXME (laran) The code in the if block below generates output entries.
+//        // Should this happen in a method called checkUnitOfWork?
+//        // Shouldn't that be part of processUnitOfWork?
+//        // Additionally, the workingEntry is always null at this point.
+//        
+//        // Check scrbOffsetAmount to see if an offset needs to be generated.
+//        if(scrubberUtil.offsetAmountAccumulator.isNonZero() &&
+//                batchError.size() == 0 &&
+//                !"JV".equals(workingEntry.getFinancialDocumentTypeCode())) {
+//
+//            // TODO FIXME: Need to implement logic to account for annual closing documents
+//            // FIXME: here as well.
+//            // FIXME: add the following line to the if statement above.
+//            // FIXME: && !"ACLO".equals(workingEntry.getFinancialDocumentTypeCode())
+//
+//            generateOffset(workingEntryInfo);
+//            this.writeSwitchStatusCD = ScrubberUtil.FROM_OFFSET;
+//
+//            if (transactionErrors.size() > 0) {
+//                createOutputEntry(workingEntry, errorGroup);
+//                writeErrors();
+//            } else {
+//                createOutputEntry(workingEntry, validGroup);                
+//            }
+//
+//            initScrubberValues();
+//
+//            return;
+//        }
+//    }// End of method
 
     /**
      * Copies the primary fields only from one entry to another
@@ -906,17 +1067,17 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
      * @param fromEntry
      * @param toEntry
      */
-    private void copyPrimaryFields(OriginEntry fromEntry, OriginEntry toEntry) {
-        toEntry.setChartOfAccountsCode(fromEntry.getChartOfAccountsCode());
-        toEntry.setFinancialDocumentTypeCode(fromEntry.getFinancialDocumentTypeCode());
-        toEntry.setFinancialSystemOriginationCode(fromEntry.getFinancialSystemOriginationCode());
-        toEntry.setFinancialDocumentNumber(fromEntry.getFinancialDocumentNumber());
-        toEntry.setAccountNumber(fromEntry.getAccountNumber());
-        toEntry.setSubAccountNumber(fromEntry.getSubAccountNumber());
-        toEntry.setFinancialBalanceTypeCode(fromEntry.getFinancialBalanceTypeCode());
-        toEntry.setFinancialDocumentReversalDate(fromEntry.getFinancialDocumentReversalDate());
-        toEntry.setUniversityFiscalPeriodCode(fromEntry.getUniversityFiscalPeriodCode());
-    }
+//    private void copyPrimaryFields(OriginEntry fromEntry, OriginEntry toEntry) {
+//        toEntry.setChartOfAccountsCode(fromEntry.getChartOfAccountsCode());
+//        toEntry.setFinancialDocumentTypeCode(fromEntry.getFinancialDocumentTypeCode());
+//        toEntry.setFinancialSystemOriginationCode(fromEntry.getFinancialSystemOriginationCode());
+//        toEntry.setFinancialDocumentNumber(fromEntry.getFinancialDocumentNumber());
+//        toEntry.setAccountNumber(fromEntry.getAccountNumber());
+//        toEntry.setSubAccountNumber(fromEntry.getSubAccountNumber());
+//        toEntry.setFinancialBalanceTypeCode(fromEntry.getFinancialBalanceTypeCode());
+//        toEntry.setFinancialDocumentReversalDate(fromEntry.getFinancialDocumentReversalDate());
+//        toEntry.setUniversityFiscalPeriodCode(fromEntry.getUniversityFiscalPeriodCode());
+//    }
 
     /**
      * 3000-USER-PROCESSING
@@ -925,7 +1086,7 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
      * then will generate it and its corresponding offset.
      * 
      * The user can set a switch at start up time that indicates to the Scrubber
-     * whetehr or not to perform capitalization.
+     * whether or not to perform capitalization.
      * 
      * Capitalzation is not performed under the following conditions:
      * 1. Document types of Transfer of Funds, Year End Transfer of Funds,
@@ -979,7 +1140,8 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
      * 
      * @param workingEntry
      */
-    private void userProcessing(OriginEntry workingEntry) { // 3000-USER-PROCESSING
+    private void capitalization(OriginEntryInfo workingEntryInfo) { // 3000-USER-PROCESSING
+    	OriginEntry workingEntry = workingEntryInfo.getOriginEntry();
         String tmpObjectCode = workingEntry.getFinancialObjectCode();
         String tmpObjectTypeCode = workingEntry.getFinancialObjectTypeCode();
         String tmpDebitOrCreditCode = workingEntry.getTransactionDebitCreditCode();
@@ -992,6 +1154,9 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         boolean performLiability = true;
         boolean performPlant = true;
 
+        BatchInfo batchInfo = 
+        	workingEntryInfo.getUnitOfWorkInfo().getDocumentInfo().getOriginEntryGroupInfo().getBatchInfo();
+        
         if ( workingEntry.getFinancialBalanceTypeCode().equals(workingEntry.getOption().getActualFinancialBalanceTypeCd())
                 && performCap
                 && !"TF".equals(workingEntry.getFinancialDocumentTypeCode())
@@ -1027,16 +1192,8 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
                         || "UC".equals(workingEntry.getFinancialObject().getFinancialObjectSubTypeCode())
                         || "UF".equals(workingEntry.getFinancialObject().getFinancialObjectSubTypeCode())))
                 && null != workingEntry.getAccount() && !"EXTAGY".equals(workingEntry.getAccount().getSubFundGroupCode())) {
-            this.writeSwitchStatusCD = ScrubberUtil.FROM_CAMS;
             if ("AM".equals(workingEntry.getFinancialObject().getFinancialObjectSubTypeCode())) { // ART_AND_MUSEUM
                 workingEntry.setFinancialObjectCode("8615"); // ART_AND_MUSEUM_OBJECTS
-/*
- *      REMOVED PER STERLINGS OK
- *      
- *             } else if ("AF".equals(workingEntry.getFinancialObject().getFinancialObjectSubTypeCode())) {
-                workingEntry.setObjectCode("8616"); // ???
-
-*/
             } else if ("BD".equals(workingEntry.getFinancialObject().getFinancialObjectSubTypeCode())) { // BUILDING
                 workingEntry.setFinancialObjectCode("8601"); // INSTITUTIONAL_PLANT_BLDG
             } else if ("BF".equals(workingEntry.getFinancialObject().getFinancialObjectSubTypeCode())) { // BUILDING_AND_ATTACHED_FIXT_FEDERAL_FUNDED
@@ -1081,7 +1238,9 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
             workingEntry.setFinancialObjectTypeCode("AS"); // TODO: constant 
             workingEntry.setTransactionLedgerEntryDesc(kualiConfigurationService.getPropertyString(KeyConstants.MSG_GENERATED_CAPITALIZATION)); 
             plantFundAccountLookup(workingEntry, tmpCOA, tmpAccountNumber);
+            
             createOutputEntry(workingEntry, validGroup);
+            batchInfo.capitalizationEntryGenerated();
 
             workingEntry.setFinancialObjectCode("9899"); // FUND_BALANCE TODO: constant
             workingEntry.setFinancialObjectTypeCode("FB"); // FUND_BALANCE TODO: constant
@@ -1092,6 +1251,7 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
                 workingEntry.setTransactionDebitCreditCode(Constants.GL_DEBIT_CODE);
             }
             createOutputEntry(workingEntry, validGroup);
+            batchInfo.capitalizationEntryGenerated();
         }
 
         if ( workingEntry.getFinancialBalanceTypeCode().equals(workingEntry.getOption().getActualFinancialBalanceTypeCd())
@@ -1108,12 +1268,12 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
                 && null != workingEntry.getFinancialObject() && "CL".equals(workingEntry.getFinancialObject().getFinancialObjectSubTypeCode())
                 && null != workingEntry.getAccount() && !"EXTAGY".equals(workingEntry.getAccount().getSubFundGroupCode())) {
             workingEntry.setFinancialObjectCode("9603"); // NOTES_PAYABLE_CAPITAL_LEASE TODO: constant
-            this.writeSwitchStatusCD = ScrubberUtil.FROM_LIAB;
             workingEntry.setFinancialObjectTypeCode("LI"); // LIABILITY TODO: constant
             workingEntry.setTransactionDebitCreditCode(tmpDebitOrCreditCode);
             workingEntry.setTransactionLedgerEntryDesc(kualiConfigurationService.getPropertyString(KeyConstants.MSG_GENERATED_LIABILITY));
             plantFundAccountLookup(workingEntry, tmpCOA, tmpAccountNumber);
             createOutputEntry(workingEntry, validGroup);
+            batchInfo.liabilityEntryGenerated();
 
             workingEntry.setFinancialObjectCode("9899"); // FUND_BALANCE TODO: constant
             workingEntry.setFinancialObjectTypeCode("FB"); // FUND_BALANCE TODO: constant
@@ -1124,6 +1284,7 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
                 workingEntry.setTransactionDebitCreditCode(Constants.GL_DEBIT_CODE);
             }
             createOutputEntry(workingEntry, validGroup);
+            batchInfo.liabilityEntryGenerated();
         }
 
         workingEntry.setFinancialObjectCode(tmpObjectCode);
@@ -1138,7 +1299,6 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
                         || "PFRI".equals(workingEntry.getAccount().getSubFundGroupCode()))
                 && "PI".equals(workingEntry.getFinancialObject().getFinancialObjectSubTypeCode())
                 && performPlant) {
-            this.writeSwitchStatusCD = ScrubberUtil.FROM_PLANT_INDEBTEDNESS;
 
             workingEntry.setTransactionLedgerEntryDesc("GENERATED TRANSFER TO NET PLANT");
             if (workingEntry.isDebit()) {
@@ -1146,12 +1306,15 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
             } else {
                 workingEntry.setTransactionDebitCreditCode(Constants.GL_DEBIT_CODE);
             }
+            
             createOutputEntry(workingEntry, validGroup);
+            batchInfo.plantIndebtednessEntryGenerated();
 
             workingEntry.setFinancialObjectCode("9899"); // FUND_BALANCE TODO: constant
             workingEntry.setFinancialObjectTypeCode("FB"); // FUND_BALANCE TODO: constant
             workingEntry.setTransactionDebitCreditCode(tmpDebitOrCreditCode);
             createOutputEntry(workingEntry, validGroup);
+            batchInfo.plantIndebtednessEntryGenerated();
 
             workingEntry.setFinancialObjectCode(tmpObjectCode);
             workingEntry.setFinancialObjectTypeCode(tmpObjectTypeCode);
@@ -1161,8 +1324,8 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
             workingEntry.setSubAccountNumber(tmpSubAccountNumber);
 
             // TODO: do we need to refresh this object first?
-            if (checkGLObject(
-                    workingEntry.getAccount().getOrganization(), 
+            if (ifNullAddTransactionError(
+                    workingEntry.getAccount().getOrganization(), workingEntryInfo.getProcessingErrors(),
                     kualiConfigurationService.getPropertyString(KeyConstants.ERROR_INVALID_ORG_CODE_FOR_PLANT_FUND), 
                     workingEntry.getAccount().getOrganizationCode())) {
                 workingEntry.setAccountNumber(workingEntry.getAccount().getOrganization().getCampusPlantAccountNumber());
@@ -1172,6 +1335,7 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
             workingEntry.setSubAccountNumber(Constants.DASHES_SUB_ACCOUNT_NUMBER);
             workingEntry.setTransactionLedgerEntryDesc(tmpCOA + tmpAccountNumber + "GENERATED PLANT FUND TRANSFER");
             createOutputEntry(workingEntry, validGroup);
+            batchInfo.plantIndebtednessEntryGenerated();
 
             workingEntry.setFinancialObjectCode("9899"); // FUND_BALANCE TODO: constant
             workingEntry.setFinancialObjectTypeCode("FB"); // FUND_BALANCE TODO: constant
@@ -1182,6 +1346,7 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
                 workingEntry.setTransactionDebitCreditCode(Constants.GL_DEBIT_CODE);
             }
             createOutputEntry(workingEntry, validGroup);
+            batchInfo.plantIndebtednessEntryGenerated();
 
         }
 
@@ -1248,17 +1413,19 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
      * If the fund group code obtained is a "Contract & Grants" fund group then
      * this method call 2117-CHANGE-EXPIRATION, otherwise it just returns.
      */
-    private void checkCg() {
-        if(scrubberUtil.wsAccount.isAccountClosedIndicator()) {
+    private void checkCg(OriginEntryInfo workingEntryInfo) {
+    	Account account = workingEntryInfo.getAccount();
+    	
+        if(account.isAccountClosedIndicator()) {
             return;
         }
-
-        if (checkGLObject(
-                scrubberUtil.wsAccount.getSubFundGroup(), 
+        
+        if (ifNullAddTransactionError(
+        		account.getSubFundGroup(), workingEntryInfo.getProcessingErrors(),
                 kualiConfigurationService.getPropertyString(KeyConstants.ERROR_SUB_FUND_GROUP_NOT_FOUND), 
-                scrubberUtil.wsAccount.getSubFundGroupCode())) {
-            if ("CG".equals(scrubberUtil.wsAccount.getSubFundGroupCode())) {
-                changeExpiration();
+                account.getSubFundGroupCode())) {
+            if ("CG".equals(account.getSubFundGroupCode())) {
+                changeExpiration(workingEntryInfo);
             }
         }
     }
@@ -1273,16 +1440,19 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
      * @param originEntry
      * @param workingEntry
      */
-    private void testExpiredCg(OriginEntry originEntry, OriginEntry workingEntry) {
-        checkCg();
+    private void testExpiredCg(OriginEntry originEntry, OriginEntryInfo workingEntryInfo) {
+    	OriginEntry workingEntry = workingEntryInfo.getOriginEntry();
+        checkCg(workingEntryInfo);
+
+    	Account account = workingEntryInfo.getAccount();
 
         Calendar tmpCal = Calendar.getInstance();
-        tmpCal.setTimeInMillis(scrubberUtil.wsAccount.getAccountExpirationDate().getTime());
+        tmpCal.setTimeInMillis(account.getAccountExpirationDate().getTime());
         if(tmpCal.get(Calendar.DAY_OF_YEAR) > runCal.get(Calendar.DAY_OF_YEAR) &&
                 !workingEntry.getAccount().isAccountClosedIndicator()) {
-            workingEntry.setAccountNumber(scrubberUtil.wsAccount.getAccountNumber());
+            workingEntry.setAccountNumber(account.getAccountNumber());
         } else {
-            getUnexpiredAccount(originEntry, workingEntry);
+            getUnexpiredAccount(originEntry, workingEntryInfo);
         }
     }
 
@@ -1300,39 +1470,39 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
      * @param originEntry
      * @param workingEntry
      */
-    private void getUnexpiredAccount(OriginEntry originEntry, OriginEntry workingEntry) {
-        if (scrubberUtil.wsAccount != null) {
-            wsExpiredChart = scrubberUtil.wsAccount.getChartOfAccountsCode(); 
-            wsExpiredAccount = scrubberUtil.wsAccount.getAccountNumber(); 
-        }
-
-        int retValue = accountExpiration(originEntry);
+    private void getUnexpiredAccount(OriginEntry originEntry, OriginEntryInfo workingEntryInfo) {
+    	OriginEntry workingEntry = workingEntryInfo.getOriginEntry();
+    	Account account = workingEntryInfo.getAccount();
+    	
+        int retValue = accountExpiration(originEntry, workingEntryInfo);
 
         if (retValue == ScrubberUtil.ACCOUNT_LIMIT) {
             addTransactionError(
                 kualiConfigurationService.getPropertyString(KeyConstants.ERROR_CONTINUATION_ACCOUNT_LIMIT_REACHED), 
-                originEntry.getAccountNumber());
+                originEntry.getAccountNumber(), workingEntryInfo.getProcessingErrors());
             return;
         }
 
         if (retValue == ScrubberUtil.ACCOUNT_ERROR) {
-            addTransactionError("CONTINUATION ACCT NOT IN ACCT", originEntry.getAccountNumber());
+            addTransactionError("CONTINUATION ACCT NOT IN ACCT", originEntry.getAccountNumber(),
+            	workingEntryInfo.getProcessingErrors());
             return;
         }
 
         //FOUND
-        workingEntry.setChartOfAccountsCode(scrubberUtil.wsAccount.getChartOfAccountsCode());
-        workingEntry.setAccountNumber(scrubberUtil.wsAccount.getAccountNumber());
+        workingEntry.setChartOfAccountsCode(account.getChartOfAccountsCode());
+        workingEntry.setAccountNumber(account.getAccountNumber());
         originEntry.setTransactionLedgerEntryDesc(
             "AUTO FR " + originEntry.getChartOfAccountsCode() + " " + originEntry.getAccountNumber() + " " 
             + originEntry.getTransactionLedgerEntryDesc());
 
         if (!originEntry.getChartOfAccountsCode().equals(workingEntry.getChartOfAccountsCode())) {
-            workingEntry.setChartOfAccountsCode(scrubberUtil.wsAccount.getChartOfAccountsCode());
-            workingEntry.getChart().setChartOfAccountsCode(scrubberUtil.wsAccount.getChartOfAccountsCode());
+            workingEntry.setChartOfAccountsCode(account.getChartOfAccountsCode());
+            workingEntry.getChart().setChartOfAccountsCode(account.getChartOfAccountsCode());
             persistenceService.retrieveReferenceObject(workingEntry,"chart");
-            checkGLObject(
-                workingEntry.getChart(), kualiConfigurationService.getPropertyString(KeyConstants.ERROR_CONTINUATION_CHART_NOT_FOUND), 
+            ifNullAddTransactionError(
+                workingEntry.getChart(), workingEntryInfo.getProcessingErrors(),
+                kualiConfigurationService.getPropertyString(KeyConstants.ERROR_CONTINUATION_CHART_NOT_FOUND), 
                 originEntry.getChartOfAccountsCode());
         }
      }// End of method
@@ -1356,24 +1526,29 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
      * @param originEntry
      * @return
      */
-    private int accountExpiration(OriginEntry originEntry) {
+    private int accountExpiration(OriginEntry originEntry, OriginEntryInfo workingEntryInfo) {
         String wsContinuationChart = originEntry.getAccount().getContinuationFinChrtOfAcctCd();
         String wsContinuationAccount = originEntry.getAccount().getContinuationAccountNumber();
 
         for(int i = 0; i < 10; ++i) {
-            scrubberUtil.wsAccount = accountService.getByPrimaryId(wsContinuationChart, wsContinuationAccount);
+            workingEntryInfo.setAccount(
+            	accountService.getByPrimaryId(wsContinuationChart, wsContinuationAccount));
 
-            if(scrubberUtil.wsAccount != null) {
-                if(scrubberUtil.wsAccount.getAccountExpirationDate() == null) {
+            Account account = workingEntryInfo.getAccount();
+            if(account != null) {
+                if(account.getAccountExpirationDate() == null) {
                     return ScrubberUtil.ACCOUNT_FOUND;
                 } else {
-                    checkCg();
+                    checkCg(workingEntryInfo);
                     Calendar tmpCal = Calendar.getInstance();
-                    tmpCal.setTimeInMillis(scrubberUtil.wsAccount.getAccountExpirationDate().getTime());
+                    tmpCal.setTimeInMillis(
+                    		account.getAccountExpirationDate().getTime());
 
                     if(tmpCal.get(Calendar.DAY_OF_YEAR) <= runCal.get(Calendar.DAY_OF_YEAR)) {
-                        wsContinuationChart = scrubberUtil.wsAccount.getContinuationFinChrtOfAcctCd();
-                        wsContinuationAccount = scrubberUtil.wsAccount.getContinuationAccountNumber();
+                        wsContinuationChart = 
+                        	account.getContinuationFinChrtOfAcctCd();
+                        wsContinuationAccount = 
+                        	account.getContinuationAccountNumber();
                     } else {
                         return ScrubberUtil.ACCOUNT_FOUND;
                     }
@@ -1395,11 +1570,12 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
      * The purpose of the method is to extend the "Contract and Grants" expiration
      * date by three months.
      */
-    private void changeExpiration() {
+    private void changeExpiration(OriginEntryInfo workingEntryInfo) {
+    	Account account = workingEntryInfo.getAccount();
         Calendar tempCal = Calendar.getInstance();
-        tempCal.setTimeInMillis(scrubberUtil.wsAccount.getAccountExpirationDate().getTime());
+        tempCal.setTimeInMillis(account.getAccountExpirationDate().getTime());
         tempCal.add(Calendar.MONTH, 3); //TODO: make this configurable
-        scrubberUtil.wsAccount.setAccountExpirationDate(new Timestamp(tempCal.getTimeInMillis()));
+        account.setAccountExpirationDate(new Timestamp(tempCal.getTimeInMillis()));
     }
 
     /**
@@ -1425,11 +1601,10 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
      * 
      * @param workingEntry
      */
-    private void costShare(OriginEntry workingEntry) {
-
+    private void costShare(OriginEntryInfo workingEntryInfo) {
         OriginEntry csEntry = new OriginEntry();
-
-        this.writeSwitchStatusCD = ScrubberUtil.FROM_COST_SHARE;
+        KualiDecimal costSharingAmount = workingEntryInfo.getCostSharingAmount();
+        
         csEntry.setFinancialObjectCode("9915"); //TODO: TRSFRS_OF_FUNDS_REVENUE constant
         csEntry.setFinancialSubObjectCode(Constants.DASHES_SUB_OBJECT_CODE);
         csEntry.setFinancialObjectTypeCode("TE"); //TODO: constant
@@ -1437,12 +1612,12 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         csEntry.setTransactionLedgerEntryDesc(
             "COSTSHARE_DESCRIPTION" + "***" + runCal.get(Calendar.MONTH) + "/" 
             + runCal.get(Calendar.DAY_OF_MONTH)); // TODO: change to constant
-        if (scrubberUtil.costSharingAccumulator.isPositive()) {
+        if (costSharingAmount.isPositive()) {
             csEntry.setTransactionDebitCreditCode(Constants.GL_DEBIT_CODE);
-            csEntry.setTransactionLedgerEntryAmount(scrubberUtil.costSharingAccumulator);
+            csEntry.setTransactionLedgerEntryAmount(costSharingAmount);
         } else {
             csEntry.setTransactionDebitCreditCode(Constants.GL_CREDIT_CODE);
-            csEntry.setTransactionLedgerEntryAmount(scrubberUtil.costSharingAccumulator.negated());
+            csEntry.setTransactionLedgerEntryAmount(costSharingAmount.negated());
         }
         csEntry.setTransactionDate(runDate);
         csEntry.setOrganizationDocumentNumber("");
@@ -1455,6 +1630,8 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         csEntry.setTransactionEncumbranceUpdtCd("");
 
         createOutputEntry(csEntry, validGroup);
+        BatchInfo batchInfo = workingEntryInfo.getUnitOfWorkInfo().getDocumentInfo().getOriginEntryGroupInfo().getBatchInfo();
+        batchInfo.costShareEntryGenerated();
 
         csEntry.setTransactionLedgerEntryDesc(
             "OFFSET_DESCRIPTION" + "***" + runCal.get(Calendar.MONTH) + "/" + runCal.get(Calendar.DAY_OF_MONTH)); // TODO: change to constant
@@ -1462,7 +1639,8 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         OffsetDefinition offset = offsetDefinitionService.getByPrimaryId(
                 csEntry.getUniversityFiscalYear(), csEntry.getChartOfAccountsCode(),
                 "TF", csEntry.getFinancialBalanceTypeCode());
-        if (checkGLObject(offset, kualiConfigurationService.getPropertyString(KeyConstants.ERROR_OFFSET_DEFINITION_NOT_FOUND), null)) {
+        if (ifNullAddTransactionError(offset, workingEntryInfo.getProcessingErrors(),
+        		kualiConfigurationService.getPropertyString(KeyConstants.ERROR_OFFSET_DEFINITION_NOT_FOUND), null)) {
             csEntry.setFinancialObjectCode(offset.getFinancialObjectCode());
             if(offset.getFinancialSubObjectCode() == null) {
                 csEntry.setFinancialSubObjectCode(Constants.DASHES_SUB_OBJECT_CODE);
@@ -1474,8 +1652,9 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         ObjectCode objectCode = objectCodeService.getByPrimaryId(
                 csEntry.getUniversityFiscalYear(), csEntry.getChartOfAccountsCode(),
                 csEntry.getFinancialObjectCode());
-        if (checkGLObject(
-                objectCode, kualiConfigurationService.getPropertyString(KeyConstants.ERROR_NO_OBJECT_FOR_OBJECT_ON_OFSD), 
+        if (ifNullAddTransactionError(
+                objectCode, workingEntryInfo.getProcessingErrors(),
+                kualiConfigurationService.getPropertyString(KeyConstants.ERROR_NO_OBJECT_FOR_OBJECT_ON_OFSD), 
                 csEntry.getFinancialObjectCode())) {
             csEntry.setFinancialObjectTypeCode(objectCode.getFinancialObjectTypeCode());
             if(csEntry.isCredit()) {
@@ -1486,6 +1665,7 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         }
 
         createOutputEntry(csEntry, validGroup);
+        batchInfo.costShareEntryGenerated();
 
         csEntry.setTransactionLedgerEntryDesc(
             "COSTSHARE_DESCRIPTION" + "***" + runCal.get(Calendar.MONTH) + "/" 
@@ -1495,7 +1675,7 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         csEntry.setChartOfAccountsCode(csEntry.getA21SubAccount().getCostShareChartOfAccountCode());
         csEntry.setAccountNumber(csEntry.getA21SubAccount().getCostShareSourceAccountNumber());
 
-        lookupObjectCode(csEntry);
+        lookupObjectCode(csEntry, workingEntryInfo);
 
         if(csEntry.getA21SubAccount().getCostShareSourceAccountNumber() == null) {
             csEntry.setSubAccountNumber(Constants.DASHES_SUB_ACCOUNT_NUMBER);
@@ -1510,12 +1690,12 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
             "COSTSHARE_DESCRIPTION" + "***" + runCal.get(Calendar.MONTH) + "/" 
             + runCal.get(Calendar.DAY_OF_MONTH)); // TODO: change to constant
 
-        if (scrubberUtil.costSharingAccumulator.isPositive()) {
+        if (costSharingAmount.isPositive()) {
             csEntry.setTransactionDebitCreditCode(Constants.GL_CREDIT_CODE);
-            csEntry.setTransactionLedgerEntryAmount(scrubberUtil.costSharingAccumulator);
+            csEntry.setTransactionLedgerEntryAmount(costSharingAmount);
         } else {
             csEntry.setTransactionDebitCreditCode(Constants.GL_DEBIT_CODE);
-            csEntry.setTransactionLedgerEntryAmount(scrubberUtil.costSharingAccumulator.negated());
+            csEntry.setTransactionLedgerEntryAmount(costSharingAmount.negated());
         }
 
         csEntry.setTransactionDate(runDate);
@@ -1529,11 +1709,13 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         csEntry.setTransactionEncumbranceUpdtCd("");
 
         createOutputEntry(csEntry, validGroup);
+        batchInfo.costShareEntryGenerated();
 
         csEntry.setTransactionLedgerEntryDesc(
             "OFFSET_DESCRIPTION" + "***" + runCal.get(Calendar.MONTH) + "/" + runCal.get(Calendar.DAY_OF_MONTH)); // TODO: change to constant
 
-        if (checkGLObject(offset, kualiConfigurationService.getPropertyString(KeyConstants.ERROR_OFFSET_DEFINITION_NOT_FOUND), null)) {
+        if (ifNullAddTransactionError(offset,workingEntryInfo.getProcessingErrors(), 
+        		kualiConfigurationService.getPropertyString(KeyConstants.ERROR_OFFSET_DEFINITION_NOT_FOUND), null)) {
             csEntry.setFinancialObjectCode(offset.getFinancialObjectCode());
             if(offset.getFinancialSubObjectCode() == null) {
                 csEntry.setFinancialSubObjectCode(Constants.DASHES_SUB_OBJECT_CODE);
@@ -1545,8 +1727,8 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         objectCode = objectCodeService.getByPrimaryId(
                 csEntry.getUniversityFiscalYear(), csEntry.getChartOfAccountsCode(),
                 csEntry.getFinancialObjectCode());
-        if (checkGLObject(
-                objectCode, kualiConfigurationService.getPropertyString(KeyConstants.ERROR_NO_OBJECT_FOR_OBJECT_ON_OFSD), 
+        if (ifNullAddTransactionError(objectCode, workingEntryInfo.getProcessingErrors(),
+        		kualiConfigurationService.getPropertyString(KeyConstants.ERROR_NO_OBJECT_FOR_OBJECT_ON_OFSD), 
                 csEntry.getFinancialObjectCode())) {
             csEntry.setFinancialObjectTypeCode(objectCode.getFinancialObjectTypeCode());
             if(csEntry.isCredit()) {
@@ -1555,10 +1737,10 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
                 csEntry.setTransactionDebitCreditCode(Constants.GL_CREDIT_CODE);
             }
         }
-
+        
         createOutputEntry(csEntry, validGroup);
-        scrubberUtil.costSharingAccumulator = KualiDecimal.ZERO;
-    }// End of method
+        batchInfo.costShareEntryGenerated();
+    } // End of method
 
     /**
      * 3200-COST-SHARE-ENC
@@ -1578,10 +1760,9 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
      * 
      * @param inputEntry
      */
-    private void costShareEncumbrance(OriginEntry inputEntry) {
+    private void costShareEncumbrance(OriginEntry inputEntry, OriginEntryInfo workingEntryInfo) {
 
         OriginEntry csEntry = new OriginEntry(inputEntry);
-        this.writeSwitchStatusCD = ScrubberUtil.FROM_COST_SHARE_ENCUMBRANCE;
 
         csEntry.setTransactionLedgerEntryDesc(csEntry.getTransactionLedgerEntryDesc().substring(0, 29) +
                 "FR" + csEntry.getChartOfAccountsCode()+ csEntry.getAccountNumber());
@@ -1609,15 +1790,19 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
 
         csEntry.setTransactionDate(runDate);
 
-        lookupObjectCode(csEntry);
+        lookupObjectCode(csEntry, workingEntryInfo);
+        
+        BatchInfo batchInfo = workingEntryInfo.getUnitOfWorkInfo().getDocumentInfo().getOriginEntryGroupInfo().getBatchInfo();
         createOutputEntry(csEntry, validGroup);
+        batchInfo.costShareEncumbranceGenerated();
 
         csEntry.setTransactionLedgerEntryDesc(kualiConfigurationService.getPropertyString(KeyConstants.MSG_GENERATED_OFFSET));
 
         OffsetDefinition offset = offsetDefinitionService.getByPrimaryId(
                 csEntry.getUniversityFiscalYear(), csEntry.getChartOfAccountsCode(),
                 csEntry.getFinancialDocumentTypeCode(), csEntry.getFinancialBalanceTypeCode());
-        if (checkGLObject(offset, kualiConfigurationService.getPropertyString(KeyConstants.ERROR_OFFSET_DEFINITION_NOT_FOUND), null)) {
+        if (ifNullAddTransactionError(offset, workingEntryInfo.getProcessingErrors(),
+        		kualiConfigurationService.getPropertyString(KeyConstants.ERROR_OFFSET_DEFINITION_NOT_FOUND), null)) {
             csEntry.setFinancialObjectCode(offset.getFinancialObjectCode());
             if(offset.getFinancialSubObjectCode() == null) {
                 csEntry.setFinancialSubObjectCode(Constants.DASHES_SUB_OBJECT_CODE);
@@ -1629,8 +1814,8 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         ObjectCode objectCode = objectCodeService.getByPrimaryId(
                 csEntry.getUniversityFiscalYear(), csEntry.getChartOfAccountsCode(),
                 csEntry.getFinancialObjectCode());
-        if (checkGLObject(
-                objectCode, kualiConfigurationService.getPropertyString(KeyConstants.ERROR_NO_OBJECT_FOR_OBJECT_ON_OFSD), 
+        if (ifNullAddTransactionError(objectCode, workingEntryInfo.getProcessingErrors(),
+        		kualiConfigurationService.getPropertyString(KeyConstants.ERROR_NO_OBJECT_FOR_OBJECT_ON_OFSD), 
                 csEntry.getFinancialObjectCode())) {
             csEntry.setFinancialObjectTypeCode(objectCode.getFinancialObjectTypeCode());
             if(csEntry.isCredit()) {
@@ -1651,6 +1836,7 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         csEntry.setTransactionEncumbranceUpdtCd("");
 
         createOutputEntry(csEntry, validGroup); // TODO: is this created if there have been errors?!
+        batchInfo.costShareEncumbranceGenerated();
     }// End of method
 
     /**
@@ -1669,13 +1855,13 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
      * 
      * @param inputEntry
      */
-    private void lookupObjectCode(OriginEntry inputEntry) {
+    private void lookupObjectCode(OriginEntry inputEntry, OriginEntryInfo workingEntryInfo) {
 
         // TODO: cant we just do an inputEntry
         persistenceService.retrieveReferenceObject(inputEntry,"financialObject");
 
-        checkGLObject(
-            inputEntry.getFinancialObject(), kualiConfigurationService.getPropertyString(KeyConstants.ERROR_OBJECT_CODE_NOT_FOUND), 
+        ifNullAddTransactionError(inputEntry.getFinancialObject(), workingEntryInfo.getProcessingErrors(), 
+        		kualiConfigurationService.getPropertyString(KeyConstants.ERROR_OBJECT_CODE_NOT_FOUND), 
             inputEntry.getFinancialObjectCode());
 
         String objectCode = inputEntry.getFinancialObjectCode();
@@ -1732,8 +1918,8 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         inputEntry.setFinancialObjectCode(objectCode);
         persistenceService.retrieveReferenceObject(inputEntry,"financialObject"); // TODO: this needs to be checked!
 
-        if (checkGLObject(
-                inputEntry.getFinancialObject(), kualiConfigurationService.getPropertyString(KeyConstants.ERROR_COST_SHARE_OBJECT_NOT_FOUND), 
+        if (ifNullAddTransactionError(inputEntry.getFinancialObject(), workingEntryInfo.getProcessingErrors(),
+                kualiConfigurationService.getPropertyString(KeyConstants.ERROR_COST_SHARE_OBJECT_NOT_FOUND), 
                 inputEntry.getFinancialObjectCode())) {
             inputEntry.setFinancialObjectTypeCode(inputEntry.getFinancialObject().getFinancialObjectTypeCode());
         }
@@ -1751,7 +1937,8 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
      *    
      * @param workingEntry
      */
-    private void generateOffset(OriginEntry workingEntry) {
+    private void generateOffset(OriginEntryInfo workingEntryInfo) {
+    	OriginEntry workingEntry = workingEntryInfo.getOriginEntry();
         workingEntry.setTransactionLedgerEntryDesc("OFFSET_DESCRIPTION"); // TODO: get from property
 
         // See if we have the offset definition table assoicated with
@@ -1761,8 +1948,8 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
             workingEntry.getUniversityFiscalYear(), workingEntry.getChartOfAccountsCode(), workingEntry.getFinancialDocumentTypeCode(), 
             workingEntry.getFinancialBalanceTypeCode());
 
-        if(checkGLObject(
-                offsetDefinition, kualiConfigurationService.getPropertyString(KeyConstants.ERROR_OFFSET_DEFINITION_NOT_FOUND), null)) {
+        if(ifNullAddTransactionError(offsetDefinition, workingEntryInfo.getProcessingErrors(),
+        		kualiConfigurationService.getPropertyString(KeyConstants.ERROR_OFFSET_DEFINITION_NOT_FOUND), null)) {
             workingEntry.setFinancialObjectCode(offsetDefinition.getFinancialObjectCode());
             if (offsetDefinition.getFinancialSubObject() == null) {
                 workingEntry.setFinancialSubObjectCode(Constants.DASHES_SUB_OBJECT_CODE);
@@ -1770,17 +1957,17 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
                 workingEntry.setFinancialSubObjectCode(offsetDefinition.getFinancialSubObjectCode());
             }
 
-            if (checkGLObject(
-                    offsetDefinition.getFinancialObject(), 
+            if (ifNullAddTransactionError(offsetDefinition.getFinancialObject(), workingEntryInfo.getProcessingErrors(), 
                     kualiConfigurationService.getPropertyString(KeyConstants.ERROR_OFFSET_DEFINITION_OBJECT_CODE_NOT_FOUND), null)) {
                 workingEntry.setFinancialObjectTypeCode(offsetDefinition.getFinancialObject().getFinancialObjectTypeCode());
             }
 
         }
 
-        workingEntry.setTransactionLedgerEntryAmount(scrubberUtil.offsetAmountAccumulator);
+        UnitOfWorkInfo unitOfWorkInfo = workingEntryInfo.getUnitOfWorkInfo();
+        workingEntry.setTransactionLedgerEntryAmount(unitOfWorkInfo.getTotalOffsetAmount());
 
-        if (scrubberUtil.offsetAmountAccumulator.isPositive()) {
+        if (unitOfWorkInfo.getTotalOffsetAmount().isPositive()) {
             workingEntry.setTransactionDebitCreditCode(Constants.GL_CREDIT_CODE);
         } else {
             workingEntry.setTransactionDebitCreditCode(Constants.GL_DEBIT_CODE);
@@ -1796,17 +1983,17 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         workingEntry.setProjectCode(Constants.DASHES_PROJECT_CODE);
         workingEntry.setTransactionDate(runDate);
     }// End of method
-
-    /**
-     * 2520-init-SRCbArea
-     */
-    private void initScrubberValues() {
-        wsExpiredAccount = null;
-        wsExpiredChart = null;
-        scrubberUtil.offsetAmountAccumulator = new KualiDecimal(0.0);
-        scrubberUtil.creditAmountAccumulator = new KualiDecimal(0.0);
-        scrubberUtil.debitAmountAccumulator = new KualiDecimal(0.0);
-    }
+//
+//    /**
+//     * 2520-init-SRCbArea
+//     */
+//    private void initScrubberValues() {
+//        wsExpiredAccount = null;
+//        wsExpiredChart = null;
+//        scrubberUtil.offsetAmountAccumulator = new KualiDecimal(0.0);
+//        scrubberUtil.creditAmountAccumulator = new KualiDecimal(0.0);
+//        scrubberUtil.debitAmountAccumulator = new KualiDecimal(0.0);
+//    }
 
     public void setOriginEntryService(OriginEntryService oes) {
         this.originEntryService = oes;
@@ -1862,61 +2049,8 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
 
     private void createOutputEntry(OriginEntry inputEntry, OriginEntryGroup group) {
         originEntryService.createEntry(inputEntry, group);
-
-        ++scrubberUtil.totalWriteCount;
-
-        if (group.equals(errorGroup)) {
-            ++scrubberUtil.errorWriteCount;
-        } else if (group.equals(expiredGroup)) {
-            ++scrubberUtil.expiredWriteCount;
-        }
-
-        switch (writeSwitchStatusCD) {
-        case ScrubberUtil.FROM_WRITE:
-            ++scrubberUtil.scrubbedRecordsWriteCount;
-            break;
-        case ScrubberUtil.FROM_OFFSET:
-            ++scrubberUtil.offsetCount;
-            break;
-        case ScrubberUtil.FROM_CAMS:
-            ++scrubberUtil.camsCount;
-            break;
-        case ScrubberUtil.FROM_LIAB:
-            ++scrubberUtil.liabCount;
-            break;
-        case ScrubberUtil.FROM_PLANT_INDEBTEDNESS:
-            ++scrubberUtil.plantIndebtednessCount;
-            break;
-        case ScrubberUtil.FROM_COST_SHARE:
-            ++scrubberUtil.costShareCount;
-            break;
-        case ScrubberUtil.FROM_COST_SHARE_ENCUMBRANCE:
-            ++scrubberUtil.costShareEncCount;
-            break;
-        default:
-            break;
-        }
     }
-
-    private void writeErrors() { // 8220-WRITE-ERRORS
-        switch (writeSwitchStatusCD) {
-        case ScrubberUtil.FROM_WRITE:
-            ++scrubberUtil.errorCount;
-            break;
-        case ScrubberUtil.FROM_OFFSET:
-            ++scrubberUtil.errorCount;
-            break;
-        case ScrubberUtil.FROM_COST_SHARE:
-            ++scrubberUtil.errorCountCostShare;
-            break;
-        case ScrubberUtil.FROM_COST_SHARE_ENCUMBRANCE:
-            ++scrubberUtil.errorCountCostShareEnc;
-            break;
-        default:
-            break;
-        }
-    }
-
+    
     /**
      * The demerger process removes all the generated entries from the GL and then copies all the origin
      * entries for the given document directly into the error group. 
@@ -1968,4 +2102,661 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         }
 
     }
+
+    class BatchInfo {
+    	int numberOfErrors;
+    	int numberOfOriginEntryGroups;
+    	int numberOfDocuments;
+    	int numberOfUnitsOfWork;
+    	int numberOfOriginEntries;
+    	int numberOfScrubbedRecordsWritten;
+    	int numberOfErrorRecordsWritten;
+    	int numberOfOffsetEntriesGenerated;
+    	int numberOfEliminationEntriesGenerated;
+    	int numberOfCapitalizationEntriesGenerated;
+    	int numberOfLiabilityEntriesGenerated;
+    	int numberOfPlantIndebtednessEntriesGenerated;
+    	int numberOfCostShareEntriesGenerated;
+    	int numberOfCostShareEncumbrancesGenerated;
+    	int totalNumberOfRecordsWritten;
+    	int numberOfExpiredAccountsFound;
+    	
+    	public void recordGenerated() {
+    		totalNumberOfRecordsWritten++;
+    	}
+    	
+    	public void errorRecordWritten() {
+    		numberOfErrorRecordsWritten++;
+    	}
+    	public void expiredAccountFound() {
+    		numberOfExpiredAccountsFound++;
+    	}
+    	public void scrubbedRecordWritten() {
+    		numberOfScrubbedRecordsWritten++;
+    		recordGenerated();
+    	}
+    	public void offsetEntryGenerated() {
+    		numberOfOffsetEntriesGenerated++;
+    		recordGenerated();
+    	}
+    	public void eliminationEntryGenerated() {
+    		numberOfEliminationEntriesGenerated++;
+    		recordGenerated();
+    	}
+    	public void capitalizationEntryGenerated() {
+    		numberOfCapitalizationEntriesGenerated++;
+    		recordGenerated();
+    	}
+    	public void liabilityEntryGenerated() {
+    		numberOfLiabilityEntriesGenerated++;
+    		recordGenerated();
+    	}
+    	public void plantIndebtednessEntryGenerated() {
+    		numberOfPlantIndebtednessEntriesGenerated++;
+    		recordGenerated();
+    	}
+    	public void costShareEntryGenerated() {
+    		numberOfCostShareEntriesGenerated++;
+    		recordGenerated();
+    	}
+    	public void costShareEncumbranceGenerated() {
+    		numberOfCostShareEncumbrancesGenerated++;
+    		recordGenerated();
+    	}
+    	
+		/**
+		 * @return Returns the numberOfCapitalizationEntriesGenerated.
+		 */
+		public int getNumberOfCapitalizationEntriesGenerated() {
+			return numberOfCapitalizationEntriesGenerated;
+		}
+		/**
+		 * @return Returns the numberOfCostShareEncumbrancesGenerated.
+		 */
+		public int getNumberOfCostShareEncumbrancesGenerated() {
+			return numberOfCostShareEncumbrancesGenerated;
+		}
+		/**
+		 * @return Returns the numberOfCostShareEntriesGenerated.
+		 */
+		public int getNumberOfCostShareEntriesGenerated() {
+			return numberOfCostShareEntriesGenerated;
+		}
+		/**
+		 * @return Returns the numberOfEliminationEntriesGenerated.
+		 */
+		public int getNumberOfEliminationEntriesGenerated() {
+			return numberOfEliminationEntriesGenerated;
+		}
+		/**
+		 * @return Returns the numberOfErrorRecordsWritten.
+		 */
+		public int getNumberOfErrorRecordsWritten() {
+			return numberOfErrorRecordsWritten;
+		}
+		/**
+		 * @return Returns the numberOfExpiredAccountsFound.
+		 */
+		public int getNumberOfExpiredAccountsFound() {
+			return numberOfExpiredAccountsFound;
+		}
+		/**
+		 * @return Returns the numberOfLiabilityEntriesGenerated.
+		 */
+		public int getNumberOfLiabilityEntriesGenerated() {
+			return numberOfLiabilityEntriesGenerated;
+		}
+		/**
+		 * @return Returns the numberOfOffsetEntriesGenerated.
+		 */
+		public int getNumberOfOffsetEntriesGenerated() {
+			return numberOfOffsetEntriesGenerated;
+		}
+		/**
+		 * @return Returns the numberOfPlantIndebtednessEntriesGenerated.
+		 */
+		public int getNumberOfPlantIndebtednessEntriesGenerated() {
+			return numberOfPlantIndebtednessEntriesGenerated;
+		}
+		/**
+		 * @return Returns the numberOfScrubbedRecordsWritten.
+		 */
+		public int getNumberOfScrubbedRecordsWritten() {
+			return numberOfScrubbedRecordsWritten;
+		}
+		/**
+		 * @return Returns the totalNumberOfRecordsWritten.
+		 */
+		public int getTotalNumberOfRecordsWritten() {
+			return totalNumberOfRecordsWritten;
+		}
+		/**
+		 * @return Returns the numberOfDocuments.
+		 */
+		public int getNumberOfDocuments() {
+			return numberOfDocuments;
+		}
+		/**
+		 * @param numberOfDocuments The numberOfDocuments to set.
+		 */
+		public void setNumberOfDocuments(int numberOfDocuments) {
+			this.numberOfDocuments = numberOfDocuments;
+		}
+		/**
+		 * @return Returns the numberOfErrors.
+		 */
+		public int getNumberOfErrors() {
+			return numberOfErrors;
+		}
+		/**
+		 * @param numberOfErrors The numberOfErrors to set.
+		 */
+		public void setNumberOfErrors(int numberOfErrors) {
+			this.numberOfErrors = numberOfErrors;
+		}
+		/**
+		 * @return Returns the numberOfOriginEntries.
+		 */
+		public int getNumberOfOriginEntries() {
+			return numberOfOriginEntries;
+		}
+		/**
+		 * @param numberOfOriginEntries The numberOfOriginEntries to set.
+		 */
+		public void setNumberOfOriginEntries(int numberOfOriginEntries) {
+			this.numberOfOriginEntries = numberOfOriginEntries;
+		}
+		/**
+		 * @return Returns the numberOfOriginEntryGroups.
+		 */
+		public int getNumberOfOriginEntryGroups() {
+			return numberOfOriginEntryGroups;
+		}
+		/**
+		 * @param numberOfOriginEntryGroups The numberOfOriginEntryGroups to set.
+		 */
+		public void setNumberOfOriginEntryGroups(int numberOfOriginEntryGroups) {
+			this.numberOfOriginEntryGroups = numberOfOriginEntryGroups;
+		}
+		/**
+		 * @return Returns the numberOfUnitsOfWork.
+		 */
+		public int getNumberOfUnitsOfWork() {
+			return numberOfUnitsOfWork;
+		}
+		/**
+		 * @param numberOfUnitsOfWork The numberOfUnitsOfWork to set.
+		 */
+		public void setNumberOfUnitsOfWork(int numberOfUnitsOfWork) {
+			this.numberOfUnitsOfWork = numberOfUnitsOfWork;
+		}
+    }
+    
+    class OriginEntryGroupInfo {
+    	BatchInfo batchInfo;
+    	OriginEntryGroup originEntryGroup;
+    	int errorCount;
+    	int numberOfDocuments;
+    	int numberOfUnitsOfWork;
+    	int numberOfEntries;
+    	
+    	public OriginEntryGroupInfo (BatchInfo batchInfo) {
+    		this.batchInfo = batchInfo;
+    	}
+    	/**
+		 * @return Returns the batchInfo.
+		 */
+		public BatchInfo getBatchInfo() {
+			return batchInfo;
+		}
+		/**
+		 * @param batchInfo The batchInfo to set.
+		 */
+		public void setBatchInfo(BatchInfo batchInfo) {
+			this.batchInfo = batchInfo;
+		}
+		/**
+		 * @return Returns the numberOfDocuments.
+		 */
+		public int getNumberOfDocuments() {
+			return numberOfDocuments;
+		}
+		/**
+		 * @param numberOfDocuments The numberOfDocuments to set.
+		 */
+		public void setNumberOfDocuments(int numberOfDocuments) {
+			this.numberOfDocuments = numberOfDocuments;
+		}
+		/**
+		 * @return Returns the numberOfUnitsOfWork.
+		 */
+		public int getNumberOfUnitsOfWork() {
+			return numberOfUnitsOfWork;
+		}
+		/**
+		 * @param numberOfUnitsOfWork The numberOfUnitsOfWork to set.
+		 */
+		public void setNumberOfUnitsOfWork(int numberOfUnitsOfWork) {
+			this.numberOfUnitsOfWork = numberOfUnitsOfWork;
+		}
+		public void incrementNumberOfEntries() {
+    		numberOfEntries++;
+    	}
+		/**
+		 * @return Returns the numberOfEntries.
+		 */
+		public int getNumberOfEntries() {
+			return numberOfEntries;
+		}
+		/**
+		 * @param numberOfEntries The numberOfEntries to set.
+		 */
+		public void setNumberOfEntries(int numberOfEntries) {
+			this.numberOfEntries = numberOfEntries;
+		}
+		/**
+		 * @return Returns the numberOfErrors.
+		 */
+		public int getErrorCount() {
+			return errorCount;
+		}
+		/**
+		 * @param numberOfErrors The numberOfErrors to set.
+		 */
+		public void setErrorCount(int errorCount) {
+			this.errorCount = errorCount;
+		}
+		/**
+		 * @return Returns the originEntryGroup.
+		 */
+		public OriginEntryGroup getOriginEntryGroup() {
+			return originEntryGroup;
+		}
+		/**
+		 * @param originEntryGroup The originEntryGroup to set.
+		 */
+		public void setOriginEntryGroup(OriginEntryGroup originEntryGroup) {
+			this.originEntryGroup = originEntryGroup;
+		}
+    }
+
+    class DocumentInfo {
+    	OriginEntryGroupInfo originEntryGroupInfo;
+    	boolean isLastDocumentInOriginEntryGroup;
+    	UnitOfWorkInfo lastUnitOfWork;
+    	String documentNumber;
+    	int numberOfErrors;
+    	int numberOfUnitsOfWork;
+    	int numberOfEntries;
+    	
+    	public DocumentInfo(OriginEntryGroupInfo originEntryGroupInfo) {
+    		setOriginEntryGroupInfo(originEntryGroupInfo);
+    	}
+    	
+		/**
+		 * @return Returns the numberOfEntries.
+		 */
+		public int getNumberOfEntries() {
+			return numberOfEntries;
+		}
+
+		/**
+		 * @param numberOfEntries The numberOfEntries to set.
+		 */
+		public void setNumberOfEntries(int numberOfEntries) {
+			this.numberOfEntries = numberOfEntries;
+		}
+
+		/**
+		 * @return Returns the numberOfUnitsOfWork.
+		 */
+		public int getNumberOfUnitsOfWork() {
+			return numberOfUnitsOfWork;
+		}
+
+		/**
+		 * @param numberOfUnitsOfWork The numberOfUnitsOfWork to set.
+		 */
+		public void setNumberOfUnitsOfWork(int numberOfUnitsOfWork) {
+			this.numberOfUnitsOfWork = numberOfUnitsOfWork;
+		}
+
+		/**
+		 * @return Returns the numberOfErrors.
+		 */
+		public int getNumberOfErrors() {
+			return numberOfErrors;
+		}
+
+		/**
+		 * @param numberOfErrors The numberOfErrors to set.
+		 */
+		public void setNumberOfErrors(int errorCount) {
+			this.numberOfErrors = errorCount;
+		}
+
+		/**
+		 * @return Returns the originEntryGroupInfo.
+		 */
+		OriginEntryGroupInfo getOriginEntryGroupInfo() {
+			return originEntryGroupInfo;
+		}
+
+		/**
+		 * @param originEntryGroupInfo The originEntryGroupInfo to set.
+		 */
+		void setOriginEntryGroupInfo(OriginEntryGroupInfo originEntryGroupInfo) {
+			this.originEntryGroupInfo = originEntryGroupInfo;
+		}
+
+		/**
+		 * @return Returns the lastUnitOfWork.
+		 */
+		UnitOfWorkInfo getLastUnitOfWork() {
+			return lastUnitOfWork;
+		}
+
+		/**
+		 * @param lastUnitOfWork The lastUnitOfWork to set.
+		 */
+		void setLastUnitOfWork(UnitOfWorkInfo lastUnitOfWork) {
+			this.lastUnitOfWork = lastUnitOfWork;
+		}
+
+		/**
+		 * @return Returns the isLastDocumentInOriginEntryGroup.
+		 */
+		boolean isLastDocumentInOriginEntryGroup() {
+			return isLastDocumentInOriginEntryGroup;
+		}
+
+		/**
+		 * @param isLastDocumentInOriginEntryGroup The isLastDocumentInOriginEntryGroup to set.
+		 */
+		void setLastDocumentInOriginEntryGroup(boolean isLastDocumentInOriginEntryGroup) {
+			this.isLastDocumentInOriginEntryGroup = isLastDocumentInOriginEntryGroup;
+		}
+
+		/**
+		 * @return Returns the documentNumber.
+		 */
+		String getDocumentNumber() {
+			return documentNumber;
+		}
+
+		/**
+		 * @param documentNumber The documentNumber to set.
+		 */
+		void setDocumentNumber(String documentNumber) {
+			this.documentNumber = documentNumber;
+		}
+    }
+
+    class UnitOfWorkInfo {
+    	DocumentInfo documentInfo;
+    	OriginEntryGroup originEntryGroup;
+    	String documentNumber;
+    	int errorCountOffset;
+    	int errorCountWrite;
+    	int errorCountCostShare;
+    	int errorCountCostShareEncumbrances;
+    	OriginEntry firstEntryOfNextUnitOfWork;
+    	int errorCount;
+    	int numberOfEntries;
+    	
+        KualiDecimal totalOffsetAmount = new KualiDecimal(0.0);
+        KualiDecimal totalCreditAmount = new KualiDecimal(0.0);
+        KualiDecimal totalDebitAmount = new KualiDecimal(0.0);
+    	
+        public UnitOfWorkInfo (DocumentInfo documentInfo) {
+        	setDocumentInfo(documentInfo);
+        }
+        
+    	/**
+		 * @return Returns the documentInfo.
+		 */
+		public DocumentInfo getDocumentInfo() {
+			return documentInfo;
+		}
+
+		/**
+		 * @param documentInfo The documentInfo to set.
+		 */
+		public void setDocumentInfo(DocumentInfo documentInfo) {
+			this.documentInfo = documentInfo;
+		}
+
+		/**
+		 * @return Returns the totalCreditAmount.
+		 */
+		public KualiDecimal getTotalCreditAmount() {
+			return totalCreditAmount;
+		}
+		/**
+		 * @param totalCreditAmount The totalCreditAmount to set.
+		 */
+		public void setTotalCreditAmount(KualiDecimal totalCreditAmount) {
+			this.totalCreditAmount = totalCreditAmount;
+		}
+		/**
+		 * @return Returns the totalDebitAmount.
+		 */
+		public KualiDecimal getTotalDebitAmount() {
+			return totalDebitAmount;
+		}
+		/**
+		 * @param totalDebitAmount The totalDebitAmount to set.
+		 */
+		public void setTotalDebitAmount(KualiDecimal totalDebitAmount) {
+			this.totalDebitAmount = totalDebitAmount;
+		}
+		/**
+		 * @return Returns the totalOffsetAmount.
+		 */
+		public KualiDecimal getTotalOffsetAmount() {
+			return totalOffsetAmount;
+		}
+		/**
+		 * @param totalOffsetAmount The totalOffsetAmount to set.
+		 */
+		public void setTotalOffsetAmount(KualiDecimal totalOffsetAmount) {
+			this.totalOffsetAmount = totalOffsetAmount;
+		}
+		public void incrementNumberOfEntries() {
+    		numberOfEntries++;
+    	}
+		/**
+		 * @return Returns the numberOfEntries.
+		 */
+		public int getNumberOfEntries() {
+			return numberOfEntries;
+		}
+		/**
+		 * @param numberOfEntries The numberOfEntries to set.
+		 */
+		public void setNumberOfEntries(int numberOfEntries) {
+			this.numberOfEntries = numberOfEntries;
+		}
+		/**
+		 * @return Returns the numberOfErrors.
+		 */
+		public int getErrorCount() {
+			return errorCount;
+		}
+		/**
+		 * @param numberOfErrors The numberOfErrors to set.
+		 */
+		public void setErrorCount(int errorCount) {
+			this.errorCount = errorCount;
+		}
+		/**
+		 * @return Returns the originEntryGroup.
+		 */
+		OriginEntryGroup getOriginEntryGroup() {
+			return originEntryGroup;
+		}
+		/**
+		 * @param originEntryGroup The originEntryGroup to set.
+		 */
+		void setOriginEntryGroup(OriginEntryGroup originEntryGroup) {
+			this.originEntryGroup = originEntryGroup;
+		}
+		/**
+		 * @return Returns the documentNumber.
+		 */
+		String getDocumentNumber() {
+			return documentNumber;
+		}
+		/**
+		 * @param documentNumber The documentNumber to set.
+		 */
+		void setDocumentNumber(String documentNumber) {
+			this.documentNumber = documentNumber;
+		}
+		/**
+		 * @return Returns the errorCountCostShare.
+		 */
+		int getErrorCountCostShare() {
+			return errorCountCostShare;
+		}
+		/**
+		 * @param errorCountCostShare The errorCountCostShare to set.
+		 */
+		void setErrorCountCostShare(int errorCountCostShare) {
+			this.errorCountCostShare = errorCountCostShare;
+		}
+		/**
+		 * @return Returns the errorCountCostShareEncumbrances.
+		 */
+		int getErrorCountCostShareEncumbrances() {
+			return errorCountCostShareEncumbrances;
+		}
+		/**
+		 * @param errorCountCostShareEncumbrances The errorCountCostShareEncumbrances to set.
+		 */
+		void setErrorCountCostShareEncumbrances(int errorCountCostShareEncumbrances) {
+			this.errorCountCostShareEncumbrances = errorCountCostShareEncumbrances;
+		}
+		/**
+		 * @return Returns the errorCountOffset.
+		 */
+		int getErrorCountOffset() {
+			return errorCountOffset;
+		}
+		/**
+		 * @param errorCountOffset The errorCountOffset to set.
+		 */
+		void setErrorCountOffset(int errorCountOffset) {
+			this.errorCountOffset = errorCountOffset;
+		}
+		/**
+		 * @return Returns the errorCountWrite.
+		 */
+		int getErrorCountWrite() {
+			return errorCountWrite;
+		}
+		/**
+		 * @param errorCountWrite The errorCountWrite to set.
+		 */
+		void setErrorCountWrite(int errorCountWrite) {
+			this.errorCountWrite = errorCountWrite;
+		}
+		/**
+		 * @return Returns the firstEntryOfNextUnitOfWork.
+		 */
+		OriginEntry getFirstEntryOfNextUnitOfWork() {
+			return firstEntryOfNextUnitOfWork;
+		}
+		/**
+		 * @param firstEntryOfNextUnitOfWork The firstEntryOfNextUnitOfWork to set.
+		 */
+		void setFirstEntryOfNextUnitOfWork(OriginEntry firstEntryOfNextUnitOfWork) {
+			this.firstEntryOfNextUnitOfWork = firstEntryOfNextUnitOfWork;
+		}
+    }
+    
+    class OriginEntryInfo {
+    	UnitOfWorkInfo unitOfWorkInfo;
+    	OriginEntry originEntry;
+    	List processingErrors;
+    	Account account;
+    	KualiDecimal costSharingAmount;
+    	
+    	public OriginEntryInfo(UnitOfWorkInfo unitOfWork) {
+    		processingErrors = new ArrayList();
+    		costSharingAmount = new KualiDecimal(0);
+    		setUnitOfWorkInfo(unitOfWork);
+    	}
+
+		/**
+		 * @return Returns the costSharingAmount.
+		 */
+		public KualiDecimal getCostSharingAmount() {
+			return costSharingAmount;
+		}
+
+		/**
+		 * @param costSharingAmount The costSharingAmount to set.
+		 */
+		public void setCostSharingAmount(KualiDecimal costSharingAmount) {
+			this.costSharingAmount = costSharingAmount;
+		}
+
+		/**
+		 * @return Returns the unitOfWorkInfo.
+		 */
+		public UnitOfWorkInfo getUnitOfWorkInfo() {
+			return unitOfWorkInfo;
+		}
+
+		/**
+		 * @param unitOfWorkInfo The unitOfWorkInfo to set.
+		 */
+		public void setUnitOfWorkInfo(UnitOfWorkInfo unitOfWorkInfo) {
+			this.unitOfWorkInfo = unitOfWorkInfo;
+		}
+
+		/**
+		 * @return Returns the continuationAccountNumber.
+		 */
+		public Account getAccount() {
+			return account;
+		}
+
+		/**
+		 * @param account The account to set.
+		 */
+		public void setAccount(Account continuationAccount) {
+			this.account = continuationAccount;
+		}
+
+		/**
+		 * @return Returns the originEntry.
+		 */
+		public OriginEntry getOriginEntry() {
+			return originEntry;
+		}
+
+		/**
+		 * @param originEntry The originEntry to set.
+		 */
+		public void setOriginEntry(OriginEntry originEntry) {
+			this.originEntry = originEntry;
+		}
+
+		/**
+		 * @return Returns the processingErrors.
+		 */
+		public List getProcessingErrors() {
+			return processingErrors;
+		}
+
+		/**
+		 * @param processingErrors The processingErrors to set.
+		 */
+		public void setProcessingErrors(List processingErrors) {
+			this.processingErrors = processingErrors;
+		}
+    }
+    
 }

@@ -141,6 +141,12 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         initializeRuleValues(document);
         
         checkEmptyValues(document);
+        checkGeneralRules(document);
+        checkCloseAccount(document);
+        checkContractsAndGrants(document);
+        checkExpirationDate(document);
+        checkFundGroup(document);
+        checkSubFundGroup(document);
         
         //	Save always succeeds, even if there are business rule failures
         return true;
@@ -179,24 +185,6 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
 
         boolean success = true;
         
-//	Commented out because the DD validation should be doing this
-//        success &= checkEmptyBOField("chartOfAccountsCode", newAccount.getChartOfAccountsCode(), "Chart of Accounts Code");
-//        success &= checkEmptyBOField("accountNumber", newAccount.getAccountNumber(), "Account Number");
-//        success &= checkEmptyBOField("accountName", newAccount.getAccountName(), "Account Name");
-//        success &= checkEmptyBOField("organizationCode", newAccount.getOrganizationCode(), "Organization Code");
-//        success &= checkEmptyBOField("accountPhysicalCampusCode", newAccount.getAccountPhysicalCampusCode(), "Campus Code");
-//        success &= checkEmptyBOField("accountEffectiveDate", newAccount.getAccountEffectiveDate(), "Effective Date");
-//        success &= checkEmptyBOField("accountCityName", newAccount.getAccountCityName(), "City Name");
-//        success &= checkEmptyBOField("accountStateCode", newAccount.getAccountStateCode(), "State Code");
-//        success &= checkEmptyBOField("accountStreetAddress", newAccount.getAccountStreetAddress(), "Address");
-//        success &= checkEmptyBOField("accountZipCode", newAccount.getAccountZipCode(), "Zip Code");
-//        success &= checkEmptyBOField("budgetRecordingLevelCode", newAccount.getBudgetRecordingLevelCode(), "Budget Recording Level");
-//        success &= checkEmptyBOField("accountSufficientFundsCode", newAccount.getAccountSufficientFundsCode(), "Sufficient Funds Code");
-//        success &= checkEmptyBOField("subFundGroupCode", newAccount.getSubFundGroupCode(), "Sub Fund Group");
-//        success &= checkEmptyBOField("financialHigherEdFunctionCd", newAccount.getFinancialHigherEdFunctionCd(), "Higher Ed Function Code");
-//        success &= checkEmptyBOField("accountRestrictedStatusCode", newAccount.getAccountRestrictedStatusCode(), "Restricted Status Code");
-        
-        
         //	Certain C&G fields are required if the Account belongs to the CG Fund Group
         if (ObjectUtils.isNotNull(newAccount.getSubFundGroup())) {
 	        if (newAccount.getSubFundGroup().getFundGroupCode().equalsIgnoreCase(CONTRACTS_GRANTS_CD)) {
@@ -208,23 +196,6 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
 	        }
         }
         
-//    	Commented out because the DD validation should be doing this
-//        if (StringUtils.isEmpty(newAccount.getAccountFiscalOfficerSystemIdentifier())) {
-//            success &= checkEmptyBOField("accountFiscalOfficerSystemIdentifier", 
-//                    					newAccount.getAccountFiscalOfficerSystemIdentifier(), 
-//                    					"Account Fiscal Officer");
-//        }
-//        if (StringUtils.isEmpty(newAccount.getAccountManagerSystemIdentifier())) {
-//            success &= checkEmptyBOField("accountManagerSystemIdentifier", 
-//                    					newAccount.getAccountManagerSystemIdentifier(), 
-//                    					"Account Manager");
-//        }
-//        if (ObjectUtils.isNotNull(newAccount.getAccountsSupervisorySystemsIdentifier())) {
-//            success &= checkEmptyBOField("accountsSupervisorySystemsIdentifier", 
-//                    					newAccount.getAccountsSupervisorySystemsIdentifier(), 
-//                    					"Account Supervisor");
-//        }
-
         //	if the expiration date is earlier than today, account guidelines are not required.
         if (ObjectUtils.isNotNull(newAccount.getAccountGuideline())) {
             if (newAccount.getAccountExpirationDate() != null) {
@@ -820,12 +791,12 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         
         if (ObjectUtils.isNotNull(subFundGroup)) {
 
-            String fundGroupCode = subFundGroup.getFundGroupCode();
-            String restrictedStatusCode = newAccount.getAccountRestrictedStatusCode();
+            String fundGroupCode = subFundGroup.getFundGroupCode().trim();
+            String restrictedStatusCode = newAccount.getAccountRestrictedStatusCode().trim();
 
             if (ObjectUtils.isNotNull(restrictedStatusCode)) {
                 //	on the account screen, if the fund group of the account is CG (contracts & grants) or 
-                // RF (restricted funds), the restricted status code is set to 'R'.
+                // RF (restricted funds), the restricted status code must be 'R'.
                 if (fundGroupCode.equalsIgnoreCase(CONTRACTS_GRANTS_CD) || fundGroupCode.equalsIgnoreCase(RESTRICTED_FUND_CD)) {
                     if (!restrictedStatusCode.equalsIgnoreCase(RESTRICTED_CD_RESTRICTED)) {
                         putFieldError("accountRestrictedStatusCode", KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_RESTRICTED_STATUS_CD_MUST_BE_R);

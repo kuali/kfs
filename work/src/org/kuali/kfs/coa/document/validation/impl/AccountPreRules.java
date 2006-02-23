@@ -87,7 +87,7 @@ public class AccountPreRules extends PreRulesContinuationBase {
 
         newAccountDefaults(document);
         setStateFromZip(document);
-        setRestrictedCodeDefaults(document);
+        
         return true;
     }
     
@@ -165,6 +165,9 @@ public class AccountPreRules extends PreRulesContinuationBase {
      */
     private void setRestrictedCodeDefaults(MaintenanceDocument document) {
         
+        //  NOTE that this method is no longer used.  It was found to be confusing 
+        // to the users when the field was silently changed with no explanation.
+        
         String fundGroupCode = "";
         
         //	if subFundGroupCode was not entered, then we have nothing 
@@ -173,7 +176,7 @@ public class AccountPreRules extends PreRulesContinuationBase {
                 StringUtils.isBlank(copyAccount.getSubFundGroupCode())) {
             return;
         }
-        fundGroupCode = copyAccount.getSubFundGroup().getFundGroupCode();
+        fundGroupCode = copyAccount.getSubFundGroup().getFundGroupCode().trim();
        
         if (!StringUtils.isBlank(fundGroupCode)) {
             

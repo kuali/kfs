@@ -221,8 +221,8 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
         
         //  if this is a new document, disallow any values in the CG fields
         if (document.isNew()) {
-            success &= disallowAnyValues(newA21SubAccount.getSubAccountTypeCode(), 
-                            "a21SubAccount.subAccountTypeCode");
+//            success &= disallowAnyValues(newA21SubAccount.getSubAccountTypeCode(), 
+//                            "a21SubAccount.subAccountTypeCode");
             success &= disallowAnyValues(newA21SubAccount.getCostShareChartOfAccountCode(), 
                             "a21SubAccount.costShareChartOfAccountCode");
             success &= disallowAnyValues(newA21SubAccount.getCostShareSourceAccountNumber(), 
@@ -252,9 +252,9 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
             }
             
             //  only try this set of tests if both old and new A21 subaccounts exist.  
-            success &= disallowChangedValues(oldA21SubAccount.getSubAccountTypeCode(), 
-                                            newA21SubAccount.getSubAccountTypeCode(), 
-                                            "a21SubAccount.subAccountTypeCode");
+//            success &= disallowChangedValues(oldA21SubAccount.getSubAccountTypeCode(), 
+//                                            newA21SubAccount.getSubAccountTypeCode(), 
+//                                            "a21SubAccount.subAccountTypeCode");
             success &= disallowChangedValues(oldA21SubAccount.getCostShareChartOfAccountCode(), 
                                             newA21SubAccount.getCostShareChartOfAccountCode(), 
                                             "a21SubAccount.CostShareChartOfAccountsCode");

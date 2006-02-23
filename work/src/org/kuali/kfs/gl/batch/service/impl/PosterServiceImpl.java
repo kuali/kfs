@@ -62,7 +62,7 @@ import org.springframework.beans.factory.BeanFactoryAware;
 
 /**
  * @author jsissom
- * @version $Id: PosterServiceImpl.java,v 1.21 2006-02-22 21:31:15 jsissom Exp $
+ * @version $Id: PosterServiceImpl.java,v 1.22 2006-02-23 01:23:00 jsissom Exp $
  */
 public class PosterServiceImpl implements PosterService,BeanFactoryAware {
   private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PosterServiceImpl.class);
@@ -281,7 +281,6 @@ public class PosterServiceImpl implements PosterService,BeanFactoryAware {
 
     // Now check each poster to see if it needs to verify the transaction.  If
     // it returns errors, we won't post it
-    errors = new ArrayList();
     for (Iterator posterIter = transactionPosters.iterator(); posterIter.hasNext();) {
       PostTransaction poster = (PostTransaction) posterIter.next();
       if ( poster instanceof VerifyTransaction ) {

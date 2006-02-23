@@ -208,23 +208,6 @@ public class SubAccountRuleTest extends ChartRuleTestBase {
         
     }
     
-    public void testCheckExistenceAndActive_badChartAndAccount() {
-        
-        //  setup rule, document, and bo
-        newSubAccount = newSubAccount(BAD_CHART, BAD_ACCOUNT, NEW_SUBACCOUNT_NUMBER, NEW_SUBACCOUNT_NAME, true, null, null, null);
-        rule = (SubAccountRule) setupMaintDocRule(newSubAccount, rule.getClass());
-        
-        //  confirm that there are no errors to begin with
-        assertErrorCount(0);
-        
-        //  run the rule, should return true
-        boolean result = rule.checkExistenceAndActive();
-        showErrorMap();
-        assertEquals(false, result);
-        assertErrorCount(1);
-        assertFieldErrorExists("accountNumber", KeyConstants.ERROR_EXISTENCE);
-    }
-
     private void proveNotAllFinReportCodesEntered(SubAccount subAccount) {
         
         //  setup the rule, and inject the subaccount

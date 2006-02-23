@@ -108,23 +108,13 @@ public class AccountingPeriodServiceTest extends KualiTestBaseWithSpring {
     
     public void testGetOpenAccountingPeriods() {
         ArrayList acctPers = new ArrayList(aps.getOpenAccountingPeriods());
-        Iterator i = acctPers.iterator();
         LOG.info("Number of OpenAccountingPeriods found: " + acctPers.size());
         
-        //  it appears that what this is trying to test is that:
-        //
-        //  1.  There will always be an even number of accounting periods
-        //  2.  All odd-numbered accounting periods will not have the closed status code
-        //  3.  All even-numbered accounting periods will have the open status code
-        //
-        AccountingPeriod ap;
-        while(i.hasNext()) {
-            ap = (AccountingPeriod) i.next();
-            assertTrue(!ap.getUniversityFiscalPeriodStatusCode().equals(Constants.ACCOUNTING_PERIOD_STATUS_CLOSED));
-            
-            assertTrue("Expect an even number of accounting periods", i.hasNext());
-            ap = (AccountingPeriod) i.next();
-            assertTrue(ap.getUniversityFiscalPeriodStatusCode().equals(Constants.ACCOUNTING_PERIOD_STATUS_OPEN));        
+        //  all returned AccountingPeriod instances should be marked as OPEN
+        for (Iterator iter = acctPers.iterator(); iter.hasNext();) {
+            AccountingPeriod ap = (AccountingPeriod) iter.next();
+            String statusCode = ap.getUniversityFiscalPeriodStatusCode();
+            assertTrue(statusCode.equals(Constants.ACCOUNTING_PERIOD_STATUS_OPEN));        
         }
     }
 }

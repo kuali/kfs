@@ -78,11 +78,4 @@ public class AccountRuleTest extends ChartRuleTestBase {
         return account;
     }
     
-    public void testCgFieldsNotRequired_SubFundGrp_GENFND() {
-        
-        newAccount = account1();
-        maintDoc = newMaintDoc(newAccount);
-        rule = (AccountRule) setupMaintDocRule(newAccount, rule.getClass());
-        
-    }
 }

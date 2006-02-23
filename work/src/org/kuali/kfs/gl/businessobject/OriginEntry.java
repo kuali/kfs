@@ -655,27 +655,6 @@ public class OriginEntry extends BusinessObjectBase implements Transaction {
         this.budgetYear = budgetYear;
     }
     
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.lang.Object#clone()
-     */
-    public Object clone() throws CloneNotSupportedException {
-        // TODO Auto-generated method stub
-        return super.clone();
-    }
-
-	/* (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
-	public boolean equals(Object obj) {
-        if (obj instanceof OriginEntry) {
-            OriginEntry entry = (OriginEntry) obj;
-            return getEntryId().equals(entry.getEntryId());    
-        }
-		return false;
-	}
-
     public boolean isDebit() {
         return Constants.GL_DEBIT_CODE.equals(this.transactionDebitCreditCode);
     }

@@ -217,7 +217,12 @@ public class PosterServiceTest extends KualiTestBaseWithSpringOnly {
 
     assertOriginEntries(outputTransactions);
 
-    // TODO Check reversal table
+    List reversalEntries = unitTestSqlDao.sqlSelect("select * from gl_reversal_t");
+    assertEquals("Should be 1 reversal row",1,reversalEntries.size());
+    Map reversalEntry = (Map)reversalEntries.get(0);
+
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+    assertEquals("FDOC_REVERSAL_DT wrong","2006-03-01",sdf.format((Date)reversalEntry.get("FDOC_REVERSAL_DT")));
   }
 
   /**

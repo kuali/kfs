@@ -208,17 +208,16 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
             }
         }
         
+        if (ObjectUtils.isNotNull(fromAmount) && ObjectUtils.isNull(toAmount)) {
+            putFieldError("finDocApprovalToThisAmount", KeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_TO_AMOUNT_MORE_THAN_FROM_OR_ZERO);
+            success &= false;
+        }
+        
         //	TO amount must be >= FROM amount or Zero 
         if (ObjectUtils.isNotNull(toAmount)) {
             
             //	case if FROM amount is null then TO amount must be zero
             if (ObjectUtils.isNull(fromAmount) && !toAmount.equals(new KualiDecimal(0))) {
-                putFieldError("finDocApprovalToThisAmount", KeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_TO_AMOUNT_MORE_THAN_FROM_OR_ZERO);
-                success &= false;
-            }
-            
-            //	case if FROM amount is zero
-            else if (fromAmount.equals(new KualiDecimal(0)) && !toAmount.equals(new KualiDecimal(0))) {
                 putFieldError("finDocApprovalToThisAmount", KeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_TO_AMOUNT_MORE_THAN_FROM_OR_ZERO);
                 success &= false;
             }

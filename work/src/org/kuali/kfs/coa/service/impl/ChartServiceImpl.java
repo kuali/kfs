@@ -29,6 +29,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.core.bo.user.KualiUser;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.dao.ChartDao;
 import org.kuali.module.chart.service.ChartService;
@@ -87,6 +88,24 @@ public class ChartServiceImpl implements ChartService {
     }
     
     /**
+     * 
+     * @see org.kuali.module.chart.service.ChartService#getChartsThatUserIsResponsibleFor(org.kuali.core.bo.user.KualiUser)
+     */
+    public List getChartsThatUserIsResponsibleFor(KualiUser kualiUser) {
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("retrieving chartsResponsible list for user " + kualiUser.getPersonName());
+        }
+
+        // gets the list of accounts that the user is the Fiscal Officer of
+        List chartList = chartDao.getChartsThatUserIsResponsibleFor(kualiUser);
+
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("retrieved chartsResponsible list for user " + kualiUser.getPersonName());
+        }
+        return chartList;
+    }
+    
+    /**
      * @return Returns the chartDao.
      */
     public ChartDao getChartDao() {
@@ -99,6 +118,8 @@ public class ChartServiceImpl implements ChartService {
     public void setChartDao(ChartDao chartDao) {
         this.chartDao = chartDao;
     }
+    
+    
 
 
 }

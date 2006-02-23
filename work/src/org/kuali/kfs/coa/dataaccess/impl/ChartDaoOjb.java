@@ -22,11 +22,18 @@
  */
 package org.kuali.module.chart.dao.ojb;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
+import org.kuali.core.AccountResponsibility;
+import org.kuali.core.bo.user.KualiUser;
+import org.kuali.core.util.KualiDecimal;
+import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.dao.ChartDao;
 import org.springframework.orm.ojb.PersistenceBrokerTemplate;
@@ -60,5 +67,22 @@ public class ChartDaoOjb extends PersistenceBrokerTemplate implements ChartDao {
       criteria.addEqualTo("chartOfAccountsCode",chartOfAccountsCode);
 
       return (Chart) getObjectByQuery(QueryFactory.newQuery(Chart.class,criteria));
+  }
+  
+  /**
+   * fetch the charts that the user is manager for
+   * @param kualiUser
+   * @return a list of Charts that the user has responsibility for
+   */
+  public List getChartsThatUserIsResponsibleFor(KualiUser kualiUser) {
+      List chartResponsibilities = new ArrayList();
+      Criteria criteria = new Criteria();
+      criteria.addEqualTo("finCoaManagerUniversalId", kualiUser.getPersonUniversalIdentifier());
+      Collection charts = getCollectionByQuery(QueryFactory.newQuery(Chart.class, criteria));
+      for (Iterator iter = charts.iterator(); iter.hasNext();) {
+          Chart chart = (Chart)iter.next();
+          chartResponsibilities.add(chart);
+      }
+      return chartResponsibilities;
   }
 }

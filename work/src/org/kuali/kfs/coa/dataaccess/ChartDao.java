@@ -23,7 +23,9 @@
 package org.kuali.module.chart.dao;
 
 import java.util.Collection;
+import java.util.List;
 
+import org.kuali.core.bo.user.KualiUser;
 import org.kuali.module.chart.bo.Chart;
 
 /**
@@ -33,4 +35,5 @@ import org.kuali.module.chart.bo.Chart;
 public interface ChartDao {
   public Collection getAll();
   public Chart getByPrimaryId(String chartOfAccountsCode);
+  public List getChartsThatUserIsResponsibleFor(KualiUser kualiUser);
 }

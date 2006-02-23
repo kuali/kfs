@@ -54,7 +54,9 @@
 		            <maintainableField name="subAccountActiveIndicator" required="false">
 		            	<defaultValue>true</defaultValue>
 		            </maintainableField>
-		            <maintainableField name="a21SubAccount.subAccountTypeCode" required="false" />
+		            <maintainableField name="a21SubAccount.subAccountTypeCode" required="false">
+		            	<defaultValue>EX</defaultValue>
+		            </maintainableField>
                 </maintainableItems>
 	        </maintainableSection>
 	        <maintainableSection title="Edit Financial Reporting Code">

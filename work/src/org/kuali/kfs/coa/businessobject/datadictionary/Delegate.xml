@@ -74,7 +74,7 @@
 				<required>true</required>
 				
 				<control>
-					<text size="4" />
+					<select valuesFinderClass="org.kuali.core.lookup.keyvalues.DocumentTypeValueFinder" />
 				</control>
 
 				<summary>Document Type Code</summary>

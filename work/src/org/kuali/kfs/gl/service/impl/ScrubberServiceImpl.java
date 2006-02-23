@@ -64,7 +64,7 @@ import org.springframework.util.StringUtils;
 
 /**
  * @author Anthony Potts
- * @version $Id: ScrubberServiceImpl.java,v 1.47 2006-02-23 16:10:07 larevans Exp $
+ * @version $Id: ScrubberServiceImpl.java,v 1.48 2006-02-23 17:36:53 larevans Exp $
  */
 
 public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
@@ -202,7 +202,7 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
     		
     		postProcessDocument(documentInfo);
     		
-    		//if(documentInfo.isLastDocumentInOriginEntryGroup() || loopCount > maxDocumentLoops) {
+    		// If there are no more units of work to process, we're done!
     		if(null == documentInfo.getLastUnitOfWork().getFirstEntryOfNextUnitOfWork()) {
     			break;
     		}
@@ -267,7 +267,16 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
     private void preProcessUnitOfWork(OriginEntryGroup originEntryGroup) {
     }
     
+    /**
+     * 
+     * @param unitOfWork
+     */
     private void postProcessUnitOfWork(UnitOfWorkInfo unitOfWork) {
+    	// Generate offset first so that any errors and the total number of entries is reflected properly
+    	// when setting into the documentInfo below.
+    	generateOffset(unitOfWork);
+    	
+    	// Aggregate the information about the unit of work up to the document level.
     	DocumentInfo documentInfo = unitOfWork.getDocumentInfo();
     	documentInfo.setNumberOfEntries(documentInfo.getNumberOfEntries() + unitOfWork.getNumberOfEntries());
     	documentInfo.setNumberOfErrors(documentInfo.getNumberOfErrors() + unitOfWork.getErrorCount());
@@ -312,7 +321,12 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
             // nextEntry, which will be the first entry of the 
             // next unit of work.
             if(!isSameUnitOfWork(currentEntry, nextEntry) || null == nextEntry) {
+            	
+            	// Indicate that we should break out of the loop. We're at the end of the unit of work ...
             	isLastEntryOfCurrentUnitOfWork = true;
+            	
+            	// ... and setup offset generation.
+            	unitOfWorkInfo.setTemplateEntryForOffsetGeneration(currentEntry);
             }
             
             // Scrub the entry in the context of the previously scrubbed entry.
@@ -1937,43 +1951,57 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
      *    
      * @param workingEntry
      */
-    private void generateOffset(OriginEntryInfo workingEntryInfo) {
-    	OriginEntry workingEntry = workingEntryInfo.getOriginEntry();
-        workingEntry.setTransactionLedgerEntryDesc("OFFSET_DESCRIPTION"); // TODO: get from property
+    private void generateOffset(UnitOfWorkInfo unitOfWorkInfo) {
+    	
+    	// The template entry is set inside processUnitOfWork.
+    	OriginEntry workingEntry = unitOfWorkInfo.getTemplateEntryForOffsetGeneration();
+    	
+    	// Set the description to the standard description for offset entries.
+        workingEntry.setTransactionLedgerEntryDesc("Generated Offset");
 
-        // See if we have the offset definition table assoicated with
-        // this transaction. We need the offset object code from it.
-
+        // Lookup the offset definition appropriate for this entry.
+        // We need the offset object code from it.
         OffsetDefinition offsetDefinition = offsetDefinitionService.getByPrimaryId(
-            workingEntry.getUniversityFiscalYear(), workingEntry.getChartOfAccountsCode(), workingEntry.getFinancialDocumentTypeCode(), 
+            workingEntry.getUniversityFiscalYear(), 
+            workingEntry.getChartOfAccountsCode(), 
+            workingEntry.getFinancialDocumentTypeCode(), 
             workingEntry.getFinancialBalanceTypeCode());
-
-        if(ifNullAddTransactionError(offsetDefinition, workingEntryInfo.getProcessingErrors(),
+        
+        // Temporary storage for any errors.
+        ArrayList errors = new ArrayList();
+        
+        // If the offsetDefinition is not null ...
+        if(ifNullAddTransactionError(offsetDefinition, errors,
         		kualiConfigurationService.getPropertyString(KeyConstants.ERROR_OFFSET_DEFINITION_NOT_FOUND), null)) {
+        	
             workingEntry.setFinancialObjectCode(offsetDefinition.getFinancialObjectCode());
+            
             if (offsetDefinition.getFinancialSubObject() == null) {
+            	
                 workingEntry.setFinancialSubObjectCode(Constants.DASHES_SUB_OBJECT_CODE);
+                
             } else {
+            	
                 workingEntry.setFinancialSubObjectCode(offsetDefinition.getFinancialSubObjectCode());
+                
             }
 
-            if (ifNullAddTransactionError(offsetDefinition.getFinancialObject(), workingEntryInfo.getProcessingErrors(), 
+            if (ifNullAddTransactionError(offsetDefinition.getFinancialObject(), errors, 
                     kualiConfigurationService.getPropertyString(KeyConstants.ERROR_OFFSET_DEFINITION_OBJECT_CODE_NOT_FOUND), null)) {
                 workingEntry.setFinancialObjectTypeCode(offsetDefinition.getFinancialObject().getFinancialObjectTypeCode());
             }
-
         }
 
-        UnitOfWorkInfo unitOfWorkInfo = workingEntryInfo.getUnitOfWorkInfo();
-        workingEntry.setTransactionLedgerEntryAmount(unitOfWorkInfo.getTotalOffsetAmount());
-
+        // Give the amount of the offset the inverse sign of the total of the unitOfWork itself.
         if (unitOfWorkInfo.getTotalOffsetAmount().isPositive()) {
+            workingEntry.setTransactionLedgerEntryAmount(unitOfWorkInfo.getTotalOffsetAmount());
             workingEntry.setTransactionDebitCreditCode(Constants.GL_CREDIT_CODE);
         } else {
+            workingEntry.setTransactionLedgerEntryAmount(unitOfWorkInfo.getTotalOffsetAmount().multiply(new KualiDecimal(-1)));
             workingEntry.setTransactionDebitCreditCode(Constants.GL_DEBIT_CODE);
-            workingEntry.setTransactionLedgerEntryAmount(workingEntry.getTransactionLedgerEntryAmount().multiply(new KualiDecimal(-1)));
         }
 
+        // Null out key fields.
         workingEntry.setOrganizationDocumentNumber(null);
         workingEntry.setOrganizationReferenceId(null);
         workingEntry.setReferenceFinDocumentTypeCode(null);
@@ -1982,7 +2010,16 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         workingEntry.setTransactionEncumbranceUpdtCd(null);
         workingEntry.setProjectCode(Constants.DASHES_PROJECT_CODE);
         workingEntry.setTransactionDate(runDate);
-    }// End of method
+        
+        // FIXME Need to save the offset don't we?
+        
+        // Update the UnitOfWorkInfo to reflect the existence of the offset entry
+        // as well as any errors that may have occurred.
+        unitOfWorkInfo.setNumberOfEntries(unitOfWorkInfo.getNumberOfEntries() + 1);
+        unitOfWorkInfo.setErrorCount(unitOfWorkInfo.getErrorCount() + errors.size());
+        
+    }
+    
 //
 //    /**
 //     * 2520-init-SRCbArea
@@ -2503,6 +2540,7 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
     	OriginEntry firstEntryOfNextUnitOfWork;
     	int errorCount;
     	int numberOfEntries;
+    	OriginEntry templateEntryForOffsetGeneration;
     	
         KualiDecimal totalOffsetAmount = new KualiDecimal(0.0);
         KualiDecimal totalCreditAmount = new KualiDecimal(0.0);
@@ -2513,6 +2551,19 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         }
         
     	/**
+		 * @return Returns the templateEntryForOffsetGeneration.
+		 */
+		public OriginEntry getTemplateEntryForOffsetGeneration() {
+			return templateEntryForOffsetGeneration;
+		}
+		/**
+		 * @param templateEntryForOffsetGeneration The templateEntryForOffsetGeneration to set.
+		 */
+		public void setTemplateEntryForOffsetGeneration(
+				OriginEntry templateEntryForOffsetGeneration) {
+			this.templateEntryForOffsetGeneration = templateEntryForOffsetGeneration;
+		}
+		/**
 		 * @return Returns the documentInfo.
 		 */
 		public DocumentInfo getDocumentInfo() {

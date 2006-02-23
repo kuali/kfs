@@ -188,7 +188,7 @@ public class PosterServiceTest extends KualiTestBaseWithSpringOnly {
     assertEquals("TRN_ENTR_SEQ_NBR wrong",2,tesq.intValue());
   }
 
-  public void BADtestReversalPosting() throws Exception {
+  public void testReversalPosting() throws Exception {
     LOG.debug("testReversalPosting() started");
 
     String[] inputTransactions = {
@@ -217,7 +217,7 @@ public class PosterServiceTest extends KualiTestBaseWithSpringOnly {
 
     assertOriginEntries(outputTransactions);
 
-    // Check reversal table
+    // TODO Check reversal table
   }
 
   /**
@@ -313,7 +313,6 @@ public class PosterServiceTest extends KualiTestBaseWithSpringOnly {
     OriginEntry entry = new OriginEntry(line);
     entry.setGroup(group);
     originEntryDao.saveOriginEntry(entry);
-    System.err.println("createEntry: " + entry.getLine());
     return entry;
   }
 }

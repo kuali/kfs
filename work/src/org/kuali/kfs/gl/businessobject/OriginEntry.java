@@ -147,7 +147,7 @@ public class OriginEntry extends BusinessObjectBase implements Transaction {
       if ((sdate == null) || (sdate.trim().length() == 0)) {
         return null;
       } else {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-DD");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         try {
           java.util.Date d = sdf.parse(sdate);
           return new Date(d.getTime());
@@ -161,7 +161,7 @@ public class OriginEntry extends BusinessObjectBase implements Transaction {
       if ( date == null ) {
         return "          ";
       } else {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-DD");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         return sdf.format(date);
       }
     }

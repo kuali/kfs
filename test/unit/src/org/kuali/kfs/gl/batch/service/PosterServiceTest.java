@@ -76,6 +76,11 @@ public class PosterServiceTest extends KualiTestBaseWithSpringOnly {
     originEntryGroupDao = (OriginEntryGroupDao) beanFactory.getBean("glOriginEntryGroupDao");
   }
 
+  /**
+   * Check invalid entries
+   * 
+   * @throws Exception
+   */
   public void testInvalidEntries() throws Exception {
     LOG.debug("testInvalidEntries() started");
 
@@ -124,6 +129,11 @@ public class PosterServiceTest extends KualiTestBaseWithSpringOnly {
     assertOriginEntries(outputTransactions);
   }
 
+  /**
+   * Check GL Entry inserts
+   * 
+   * @throws Exception
+   */
   public void testGlEntryInsert() throws Exception {
     LOG.debug("testGlEntryInsert() started");
 
@@ -188,13 +198,15 @@ public class PosterServiceTest extends KualiTestBaseWithSpringOnly {
     assertEquals("TRN_ENTR_SEQ_NBR wrong",2,tesq.intValue());
   }
 
+  /**
+   * Check valid and invalid reversal posting
+   * 
+   * @throws Exception
+   */
   public void testReversalPosting() throws Exception {
     LOG.debug("testReversalPosting() started");
 
     String[] inputTransactions = {
-        // 23456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
-        //         1         2         3         4         5         6         7         8         9         0         1         2         3         4         5         6         7
-        //                                                                                                   1
         "2004BA6044900-----5300---ACEX07CHKDPDREVTEST0112345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678               2006-03-01    ",
         "2004BA6044900-----5300---ACEX07CHKDPDREVTEST0112345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678               2006-03-01    ",
         "2004BA6044900-----5300---ACEX07CHKDPDREVTEST0212345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                             "
@@ -224,6 +236,43 @@ public class PosterServiceTest extends KualiTestBaseWithSpringOnly {
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
     assertEquals("FDOC_REVERSAL_DT wrong","2006-03-01",sdf.format((Date)reversalEntry.get("FDOC_REVERSAL_DT")));
   }
+
+  public void xtestPostBalance() {
+    LOG.debug("testPostBalance() started");
+
+    String[] inputTransactions = {
+        // 23456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
+        //         1         2         3         4         5         6         7         8         9         0         1         2         3         4         5         6         7
+        //                                                                                                   1
+        "2004BA6044900-----5300---ACEX07CHKDPDREVTEST0112345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678               2006-03-01    ",
+        "2004BA6044900-----5300---ACEX07CHKDPDREVTEST0112345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678               2006-03-01    ",
+        "2004BA6044900-----5300---ACEX07CHKDPDREVTEST0212345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                             "
+    };
+
+    EntryHolder[] outputTransactions = {
+        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions[0]),
+        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions[1]),
+        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions[2]),
+        new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions[0]),
+        new EntryHolder(OriginEntrySource.MAIN_POSTER_ERROR,inputTransactions[1]),
+        new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions[2])
+    };
+
+    clearOriginEntryTables();
+    clearGlBalanceTable();
+    loadInputTransactions(inputTransactions);
+
+    posterService.postMainEntries();
+
+    assertOriginEntries(outputTransactions);
+  }
+
+  /**
+   *  PostEncumbrance
+   *  PostExpenditureTransaction
+   *  PostGlAccountBalance
+   *  PostSufficientFundBalances
+   **/
 
   /**
    * Check all the entries in gl_origin_entry_t against the data passed in EntryHolder[].  If any of them
@@ -296,6 +345,10 @@ public class PosterServiceTest extends KualiTestBaseWithSpringOnly {
 
   private void clearReversalTable() {
     unitTestSqlDao.sqlCommand("delete from gl_reversal_t");
+  }
+
+  private void clearGlBalanceTable() {
+    unitTestSqlDao.sqlCommand("delete from gl_balance_t");
   }
 
   private void clearOriginEntryTables() {

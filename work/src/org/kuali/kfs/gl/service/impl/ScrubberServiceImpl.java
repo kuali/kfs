@@ -71,7 +71,7 @@ import org.springframework.util.StringUtils;
 
 /**
  * @author Anthony Potts
- * @version $Id: ScrubberServiceImpl.java,v 1.49 2006-02-24 15:23:23 larevans Exp $
+ * @version $Id: ScrubberServiceImpl.java,v 1.50 2006-02-24 18:25:43 larevans Exp $
  */
 
 public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
@@ -389,10 +389,10 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
 
             handleCostSharing(currentEntry, workingEntryInfo);
 
-            unitOfWorkInfo.setErrorCount(unitOfWorkInfo.getErrorCount() + workingEntryInfo.getProcessingErrors().size());
+            unitOfWorkInfo.setErrorCount(unitOfWorkInfo.getErrorCount() + workingEntryInfo.getErrors().size());
             unitOfWorkInfo.setDocumentNumber(workingEntryInfo.getOriginEntry().getFinancialDocumentNumber());
 
-            if (workingEntryInfo.getProcessingErrors().size() > 0) {
+            if (workingEntryInfo.getErrors().size() > 0) {
             	// handle entries with errors
             	
         		// write this entry as a scrubber error
@@ -447,7 +447,7 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         UnitOfWorkInfo unitOfWorkInfo = workingEntryInfo.getUnitOfWorkInfo();
         
 		unitOfWorkInfo.setErrorCount(
-    			unitOfWorkInfo.getErrorCount() + workingEntryInfo.getProcessingErrors().size());
+    			unitOfWorkInfo.getErrorCount() + workingEntryInfo.getErrors().size());
         
         unitOfWorkInfo.setNumberOfEntries(unitOfWorkInfo.getNumberOfEntries() + 1);
     }
@@ -472,6 +472,15 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         workingEntry.setOrganizationReferenceId(originEntry.getOrganizationReferenceId());
         workingEntry.setFinancialDocumentReferenceNbr(originEntry.getFinancialDocumentReferenceNbr());
 
+        if (originEntry.getTrnEntryLedgerSequenceNumber() == null) {
+          workingEntry.setTrnEntryLedgerSequenceNumber(new Integer(0));
+        } else {
+          workingEntry.setTrnEntryLedgerSequenceNumber(originEntry.getTrnEntryLedgerSequenceNumber());
+        }
+        workingEntry.setTransactionLedgerEntryDesc(originEntry.getTransactionLedgerEntryDesc());
+        workingEntry.setTransactionLedgerEntryAmount(originEntry.getTransactionLedgerEntryAmount());
+        workingEntry.setTransactionDebitCreditCode(originEntry.getTransactionDebitCreditCode());
+
         // NOTE the validator WILL build set any fields in the workingEntry as appropriate
         // per the validation rules.
         validator.validateSubAccount(originEntry, workingEntryInfo);
@@ -480,7 +489,7 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         validator.validateTransactionDate(originEntry, workingEntryInfo, runDate, universityRunDate);
         validator.validateDocumentType(originEntry, workingEntryInfo);
         validator.validateOrigination(originEntry, workingEntryInfo);
-        validator.validateFinancialDocumentNumber(originEntry, workingEntryInfo);
+        validator.validateDocumentNumber(originEntry, workingEntryInfo);
         validator.validateChart(originEntry, workingEntryInfo);
         validator.validateAccount(originEntry, workingEntryInfo);
 
@@ -498,33 +507,20 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
             if (originEntry.getAccount().isAccountClosedIndicator()) {
             	ScrubberServiceErrorHandler.addTransactionError(
                     kualiConfigurationService.getPropertyString(KeyConstants.ERROR_ACCOUNT_CLOSED), 
-                    originEntry.getAccountNumber(), workingEntryInfo.getProcessingErrors());
+                    originEntry.getAccountNumber(), workingEntryInfo.getErrors());
             } else {
             	ScrubberServiceErrorHandler.addTransactionError(
                     kualiConfigurationService.getPropertyString(KeyConstants.ERROR_ACCOUNT_EXPIRED),
-                    originEntry.getAccountNumber(), workingEntryInfo.getProcessingErrors());
+                    originEntry.getAccountNumber(), workingEntryInfo.getErrors());
             }
         }
 
-        validator.validateFinancialObjectCode(originEntry, workingEntryInfo);
-        validator.validateFinancialObjectTypeCode(originEntry, workingEntryInfo);
+        validator.validateObjectCode(originEntry, workingEntryInfo);
+        validator.validateObjectTypeCode(originEntry, workingEntryInfo);
         validator.validateFinancialSubObjectCode(originEntry, workingEntryInfo);
-        validator.validateFinancialBalanceTypeCode(originEntry, workingEntryInfo);
-        validator.validateUniversityFiscalPeriodCode(originEntry, workingEntryInfo, universityRunDate);
-
-        if (originEntry.getTrnEntryLedgerSequenceNumber() == null) {
-          workingEntry.setTrnEntryLedgerSequenceNumber(new Integer(0));
-        } else {
-          workingEntry.setTrnEntryLedgerSequenceNumber(originEntry.getTrnEntryLedgerSequenceNumber());
-        }
-        workingEntry.setTransactionLedgerEntryDesc(originEntry.getTransactionLedgerEntryDesc());
-        workingEntry.setTransactionLedgerEntryAmount(originEntry.getTransactionLedgerEntryAmount());
-
         validator.validateBalanceType(originEntry, workingEntryInfo);
-        
-        workingEntry.setTransactionDebitCreditCode(originEntry.getTransactionDebitCreditCode());
-        
-        validator.validateFinancialDocumentReferenceNumber(originEntry, workingEntryInfo);
+        validator.validateUniversityFiscalPeriodCode(originEntry, workingEntryInfo, universityRunDate);
+        validator.validateDocumentReferenceNumber(originEntry, workingEntryInfo);
         validator.validateReversalDate(originEntry, workingEntryInfo);
         validator.validateEncumbranceUpdateCode(originEntry, workingEntryInfo);
         
@@ -654,7 +650,7 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
             wsAccountChange = workingEntry.getAccountNumber();
             ScrubberServiceErrorHandler.addTransactionError(
                 kualiConfigurationService.getPropertyString(KeyConstants.ERROR_ORIGIN_CODE_CANNOT_HAVE_CLOSED_ACCOUNT), 
-                account.getAccountNumber(), workingEntryInfo.getProcessingErrors());
+                account.getAccountNumber(), workingEntryInfo.getErrors());
             return;
         }
 
@@ -1052,7 +1048,7 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
 
             // TODO: do we need to refresh this object first?
             if (ScrubberServiceErrorHandler.ifNullAddTransactionError(
-                    workingEntry.getAccount().getOrganization(), workingEntryInfo.getProcessingErrors(),
+                    workingEntry.getAccount().getOrganization(), workingEntryInfo.getErrors(),
                     kualiConfigurationService.getPropertyString(KeyConstants.ERROR_INVALID_ORG_CODE_FOR_PLANT_FUND), 
                     workingEntry.getAccount().getOrganizationCode())) {
                 workingEntry.setAccountNumber(workingEntry.getAccount().getOrganization().getCampusPlantAccountNumber());
@@ -1148,7 +1144,7 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         }
         
         if (ScrubberServiceErrorHandler.ifNullAddTransactionError(
-        		account.getSubFundGroup(), workingEntryInfo.getProcessingErrors(),
+        		account.getSubFundGroup(), workingEntryInfo.getErrors(),
                 kualiConfigurationService.getPropertyString(KeyConstants.ERROR_SUB_FUND_GROUP_NOT_FOUND), 
                 account.getSubFundGroupCode())) {
             if ("CG".equals(account.getSubFundGroupCode())) {
@@ -1206,13 +1202,13 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         if (retValue == ScrubberUtil.ACCOUNT_LIMIT) {
         	ScrubberServiceErrorHandler.addTransactionError(
                 kualiConfigurationService.getPropertyString(KeyConstants.ERROR_CONTINUATION_ACCOUNT_LIMIT_REACHED), 
-                originEntry.getAccountNumber(), workingEntryInfo.getProcessingErrors());
+                originEntry.getAccountNumber(), workingEntryInfo.getErrors());
             return;
         }
 
         if (retValue == ScrubberUtil.ACCOUNT_ERROR) {
         	ScrubberServiceErrorHandler.addTransactionError("CONTINUATION ACCT NOT IN ACCT", originEntry.getAccountNumber(),
-            	workingEntryInfo.getProcessingErrors());
+            	workingEntryInfo.getErrors());
             return;
         }
 
@@ -1228,7 +1224,7 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
             workingEntry.getChart().setChartOfAccountsCode(account.getChartOfAccountsCode());
             persistenceService.retrieveReferenceObject(workingEntry,"chart");
             ScrubberServiceErrorHandler.ifNullAddTransactionError(
-                workingEntry.getChart(), workingEntryInfo.getProcessingErrors(),
+                workingEntry.getChart(), workingEntryInfo.getErrors(),
                 kualiConfigurationService.getPropertyString(KeyConstants.ERROR_CONTINUATION_CHART_NOT_FOUND), 
                 originEntry.getChartOfAccountsCode());
         }
@@ -1366,7 +1362,7 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         OffsetDefinition offset = offsetDefinitionService.getByPrimaryId(
                 csEntry.getUniversityFiscalYear(), csEntry.getChartOfAccountsCode(),
                 "TF", csEntry.getFinancialBalanceTypeCode());
-        if (ScrubberServiceErrorHandler.ifNullAddTransactionError(offset, workingEntryInfo.getProcessingErrors(),
+        if (ScrubberServiceErrorHandler.ifNullAddTransactionError(offset, workingEntryInfo.getErrors(),
         		kualiConfigurationService.getPropertyString(KeyConstants.ERROR_OFFSET_DEFINITION_NOT_FOUND), null)) {
             csEntry.setFinancialObjectCode(offset.getFinancialObjectCode());
             if(offset.getFinancialSubObjectCode() == null) {
@@ -1380,7 +1376,7 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
                 csEntry.getUniversityFiscalYear(), csEntry.getChartOfAccountsCode(),
                 csEntry.getFinancialObjectCode());
         if (ScrubberServiceErrorHandler.ifNullAddTransactionError(
-                objectCode, workingEntryInfo.getProcessingErrors(),
+                objectCode, workingEntryInfo.getErrors(),
                 kualiConfigurationService.getPropertyString(KeyConstants.ERROR_NO_OBJECT_FOR_OBJECT_ON_OFSD), 
                 csEntry.getFinancialObjectCode())) {
             csEntry.setFinancialObjectTypeCode(objectCode.getFinancialObjectTypeCode());
@@ -1441,7 +1437,7 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         csEntry.setTransactionLedgerEntryDesc(
             "OFFSET_DESCRIPTION" + "***" + runCal.get(Calendar.MONTH) + "/" + runCal.get(Calendar.DAY_OF_MONTH)); // TODO: change to constant
 
-        if (ScrubberServiceErrorHandler.ifNullAddTransactionError(offset,workingEntryInfo.getProcessingErrors(), 
+        if (ScrubberServiceErrorHandler.ifNullAddTransactionError(offset,workingEntryInfo.getErrors(), 
         		kualiConfigurationService.getPropertyString(KeyConstants.ERROR_OFFSET_DEFINITION_NOT_FOUND), null)) {
             csEntry.setFinancialObjectCode(offset.getFinancialObjectCode());
             if(offset.getFinancialSubObjectCode() == null) {
@@ -1454,7 +1450,7 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         objectCode = objectCodeService.getByPrimaryId(
                 csEntry.getUniversityFiscalYear(), csEntry.getChartOfAccountsCode(),
                 csEntry.getFinancialObjectCode());
-        if (ScrubberServiceErrorHandler.ifNullAddTransactionError(objectCode, workingEntryInfo.getProcessingErrors(),
+        if (ScrubberServiceErrorHandler.ifNullAddTransactionError(objectCode, workingEntryInfo.getErrors(),
         		kualiConfigurationService.getPropertyString(KeyConstants.ERROR_NO_OBJECT_FOR_OBJECT_ON_OFSD), 
                 csEntry.getFinancialObjectCode())) {
             csEntry.setFinancialObjectTypeCode(objectCode.getFinancialObjectTypeCode());
@@ -1528,7 +1524,7 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         OffsetDefinition offset = offsetDefinitionService.getByPrimaryId(
                 csEntry.getUniversityFiscalYear(), csEntry.getChartOfAccountsCode(),
                 csEntry.getFinancialDocumentTypeCode(), csEntry.getFinancialBalanceTypeCode());
-        if (ScrubberServiceErrorHandler.ifNullAddTransactionError(offset, workingEntryInfo.getProcessingErrors(),
+        if (ScrubberServiceErrorHandler.ifNullAddTransactionError(offset, workingEntryInfo.getErrors(),
         		kualiConfigurationService.getPropertyString(KeyConstants.ERROR_OFFSET_DEFINITION_NOT_FOUND), null)) {
             csEntry.setFinancialObjectCode(offset.getFinancialObjectCode());
             if(offset.getFinancialSubObjectCode() == null) {
@@ -1541,7 +1537,7 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         ObjectCode objectCode = objectCodeService.getByPrimaryId(
                 csEntry.getUniversityFiscalYear(), csEntry.getChartOfAccountsCode(),
                 csEntry.getFinancialObjectCode());
-        if (ScrubberServiceErrorHandler.ifNullAddTransactionError(objectCode, workingEntryInfo.getProcessingErrors(),
+        if (ScrubberServiceErrorHandler.ifNullAddTransactionError(objectCode, workingEntryInfo.getErrors(),
         		kualiConfigurationService.getPropertyString(KeyConstants.ERROR_NO_OBJECT_FOR_OBJECT_ON_OFSD), 
                 csEntry.getFinancialObjectCode())) {
             csEntry.setFinancialObjectTypeCode(objectCode.getFinancialObjectTypeCode());
@@ -1589,7 +1585,7 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
 
         ScrubberServiceErrorHandler.ifNullAddTransactionError(
         	inputEntry.getFinancialObject(), 
-        	workingEntryInfo.getProcessingErrors(), 
+        	workingEntryInfo.getErrors(), 
         	kualiConfigurationService.getPropertyString(KeyConstants.ERROR_OBJECT_CODE_NOT_FOUND), 
             inputEntry.getFinancialObjectCode());
 
@@ -1647,7 +1643,7 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         inputEntry.setFinancialObjectCode(objectCode);
         persistenceService.retrieveReferenceObject(inputEntry,"financialObject"); // TODO: this needs to be checked!
 
-        if (ScrubberServiceErrorHandler.ifNullAddTransactionError(inputEntry.getFinancialObject(), workingEntryInfo.getProcessingErrors(),
+        if (ScrubberServiceErrorHandler.ifNullAddTransactionError(inputEntry.getFinancialObject(), workingEntryInfo.getErrors(),
                 kualiConfigurationService.getPropertyString(KeyConstants.ERROR_COST_SHARE_OBJECT_NOT_FOUND), 
                 inputEntry.getFinancialObjectCode())) {
             inputEntry.setFinancialObjectTypeCode(inputEntry.getFinancialObject().getFinancialObjectTypeCode());

@@ -26,4 +26,10 @@
     </bean>
     
     <bean id="disbursementVoucherTravelService" class="org.kuali.module.financial.service.impl.DisbursementVoucherTravelServiceImpl"/>
+    
+    <bean id="depositDocumentService" class="org.kuali.module.financial.service.impl.DepositDocumentServiceImpl">
+        <property name="businessObjectService">
+            <ref bean="businessObjectService" />
+        </property>
+    </bean>
 </beans>

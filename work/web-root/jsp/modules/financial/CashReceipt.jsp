@@ -96,5 +96,5 @@
 
     <kul:panelFooter/>
 
-    <kul:documentControls transactionalDocument="false" />
+    <kul:documentControls transactionalDocument="${documentEntry.transactionalDocument}"/>
 </kul:documentPage>

@@ -155,8 +155,8 @@ public class ScrubberServiceTest extends KualiTestBaseWithSpringOnly {
             throws Exception {
         // Setup
         String[] inputTransactions = {
-                "2004BL1031420-----4110---ACEX07ID33EUCHECKENCC     NOV-05 IMU Business Office          2224           241.75C2005-11-30          ----------                                 D                                        ",
-                "2004BL1031420-----9892---ACFB07ID33EUCHECKENCC     NOV-05 IMU Business Office          2237           241.75D2005-11-30          ----------                                 D                                        "
+        		"2004BL1031420-----4110---ACEX07ID33EUCHECKENCC     NOV-05 IMU Business Office          2224           241.75C2005-11-30          ----------                                 D                                        ",
+        		"2004BL1031420-----9892---ACFB07ID33EUCHECKENCC     NOV-05 IMU Business Office          2237           241.75D2005-11-30          ----------                                 D                                        "
         };
         EntryHolder[] outputTransactions = {
             new EntryHolder(OriginEntrySource.EXTERNAL,inputTransactions[0]),
@@ -332,8 +332,8 @@ public class ScrubberServiceTest extends KualiTestBaseWithSpringOnly {
             throws Exception {
         // Setup
         String[] inputTransactions = {
-                "2004BA6044900-----8000---ACAS07IB  01LONERDTP      TP Generated Offset                               1650.00C2006-01-05          ----------        TOPS                                                              ",
-                "2004BL6044900-----4866---ACEX07IB  01LONERDTP      Correction to: 01-PU3355206                       1650.00D2006-01-05          ----------        TOPS                                                              "
+                "2004BL6044900-----4866---ACEX07IB  01LONERDTP      Correction to: 01-PU3355206                       1650.00D2006-01-05          ----------        TOPS                                                              ",
+                "2004BA6044900-----8000---ACAS07IB  01LONERDTP      TP Generated Offset                               1650.00C2006-01-05          ----------        TOPS                                                              "
         };
         EntryHolder[] outputTransactions = {
             new EntryHolder(OriginEntrySource.EXTERNAL,inputTransactions[0]),

@@ -34,7 +34,7 @@ import java.util.Map;
 
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
-import org.kuali.core.bo.user.Options;
+//import org.kuali.core.bo.user.Options;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.PersistenceService;
@@ -42,7 +42,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.bo.OffsetDefinition;
-import org.kuali.module.chart.bo.codes.BalanceTyp;
+//import org.kuali.module.chart.bo.codes.BalanceTyp;
 import org.kuali.module.chart.service.AccountService;
 import org.kuali.module.chart.service.ObjectCodeService;
 import org.kuali.module.chart.service.OffsetDefinitionService;
@@ -55,8 +55,15 @@ import org.kuali.module.gl.dao.UniversityDateDao;
 import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.gl.service.OriginEntryService;
 import org.kuali.module.gl.service.ScrubberService;
+import org.kuali.module.gl.service.impl.helper.BatchInfo;
+import org.kuali.module.gl.service.impl.helper.DocumentInfo;
+import org.kuali.module.gl.service.impl.helper.OriginEntryGroupInfo;
+import org.kuali.module.gl.service.impl.helper.OriginEntryInfo;
+import org.kuali.module.gl.service.impl.helper.ScrubberServiceErrorHandler;
+import org.kuali.module.gl.service.impl.helper.UnitOfWorkInfo;
 import org.kuali.module.gl.util.ObjectHelper;
 import org.kuali.module.gl.util.Summary;
+import org.kuali.module.gl.util.ScrubberServiceValidationHelper;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
@@ -64,7 +71,7 @@ import org.springframework.util.StringUtils;
 
 /**
  * @author Anthony Potts
- * @version $Id: ScrubberServiceImpl.java,v 1.48 2006-02-23 17:36:53 larevans Exp $
+ * @version $Id: ScrubberServiceImpl.java,v 1.49 2006-02-24 15:23:23 larevans Exp $
  */
 
 public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
@@ -83,16 +90,18 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
     private ScrubberReport scrubberReportService;
     private Date runDate;
     private Calendar runCal;
-    UniversityDate univRunDate;
+    UniversityDate universityRunDate;
     Collection groupsToScrub;
     OriginEntryGroup validGroup;
     OriginEntryGroup errorGroup;
     OriginEntryGroup expiredGroup;
     Map batchError;
-    List reportSummary;
+//    List reportSummary;
 
-    private Calendar wsPreviousCal;
+//    private Calendar wsPreviousCal;
     private String wsAccountChange;
+    
+    private ScrubberServiceValidationHelper validator;
     
     public ScrubberServiceImpl() {
       super();
@@ -121,16 +130,19 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
      */
     public void scrubEntries() {
         LOG.debug("scrubEntries() started");
-
+        
         batchError = new HashMap();
-        reportSummary = new ArrayList();
-
+        
+        // One validator per run is preferred. The validator is stateless. 
+    	validator = new ScrubberServiceValidationHelper(universityDateDao);
+    	
         // setup an object to hold the "default" date information
         runDate = new Date(dateTimeService.getCurrentDate().getTime());
-        univRunDate = universityDateDao.getByPrimaryKey(runDate);
         runCal = Calendar.getInstance();
         runCal.setTime(runDate);
-        if (univRunDate == null) {
+        
+        universityRunDate = universityDateDao.getByPrimaryKey(runDate);
+        if (universityRunDate == null) {
             throw new IllegalStateException(kualiConfigurationService.getPropertyString(KeyConstants.ERROR_UNIV_DATE_NOT_FOUND));
         }
 
@@ -168,6 +180,23 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         }
 
         // write out report and errors
+        List reportSummary = buildReportSummary(batchInfo);
+        
+        // FIXME reports probably won't look right because batchError doesn't currently
+        // keep in memory all of the entries in error.
+        scrubberReportService.generateReport(batchError, reportSummary, runDate, 0);
+        
+        LOG.debug("scrubEntries() exiting scrubber process");
+    }
+
+    /**
+     * 
+     * @param batchInfo
+     * @return
+     */
+    private List buildReportSummary(BatchInfo batchInfo) {
+        List reportSummary = new ArrayList();
+        
         reportSummary.add(new Summary(1, "UNSCRUBBED RECORDS READ", new Integer(batchInfo.getNumberOfOriginEntries())));
         reportSummary.add(new Summary(2, "GROUPS READ", new Integer(batchInfo.getNumberOfOriginEntryGroups())));
         reportSummary.add(new Summary(3, "SCRUBBED RECORDS WRITTEN", new Integer(batchInfo.getNumberOfScrubbedRecordsWritten())));
@@ -181,11 +210,17 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         reportSummary.add(new Summary(11, "COST SHARE ENC ENTRIES GENERATED", new Integer(batchInfo.getNumberOfCostShareEncumbrancesGenerated())));
         reportSummary.add(new Summary(12, "TOTAL OUTPUT RECORDS WRITTEN", new Integer(batchInfo.getTotalNumberOfRecordsWritten())));
         reportSummary.add(new Summary(13, "EXPIRED ACCOUNTS FOUND", new Integer(batchInfo.getNumberOfExpiredAccountsFound())));
-        scrubberReportService.generateReport(batchError, reportSummary, runDate, 0);
-
-        LOG.debug("scrubEntries() exiting scrubber process");
+    	
+        return reportSummary;
     }
     
+    /**
+     * 
+     * @param originEntryGroup
+     * @param iteratorOverEntries
+     * @param batchInfo
+     * @return
+     */
     private OriginEntryGroupInfo processDocuments(OriginEntryGroup originEntryGroup, Iterator iteratorOverEntries, BatchInfo batchInfo) {
     	OriginEntryGroupInfo originEntryGroupInfo = new OriginEntryGroupInfo(batchInfo);
     	originEntryGroupInfo.setOriginEntryGroup(originEntryGroup);
@@ -211,9 +246,17 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
     	return originEntryGroupInfo;
     }
     
+    /**
+     * 
+     * @param originEntryGroup
+     */
     private void preProcessDocument(OriginEntryGroup originEntryGroup) {
     }
     
+    /**
+     * 
+     * @param documentInfo
+     */
     private void postProcessDocument(DocumentInfo documentInfo) {
     	OriginEntryGroupInfo originEntryGroupInfo = documentInfo.getOriginEntryGroupInfo();
     	if(0 < documentInfo.getNumberOfErrors()) {
@@ -226,6 +269,13 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
 		originEntryGroupInfo.setNumberOfUnitsOfWork(originEntryGroupInfo.getNumberOfUnitsOfWork() + documentInfo.getNumberOfUnitsOfWork());
     }
     
+    /**
+     * 
+     * @param originEntryGroupInfo
+     * @param iteratorOverEntries
+     * @param firstEntry
+     * @return
+     */
     private DocumentInfo processDocument(OriginEntryGroupInfo originEntryGroupInfo, Iterator iteratorOverEntries, OriginEntry firstEntry) {
     	OriginEntryGroup originEntryGroup = originEntryGroupInfo.getOriginEntryGroup();
     	
@@ -272,9 +322,11 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
      * @param unitOfWork
      */
     private void postProcessUnitOfWork(UnitOfWorkInfo unitOfWork) {
-    	// Generate offset first so that any errors and the total number of entries is reflected properly
-    	// when setting into the documentInfo below.
-    	generateOffset(unitOfWork);
+    	if(0 == unitOfWork.getErrorCount()) {
+	    	// Generate offset first so that any errors and the total number of entries is reflected properly
+	    	// when setting into the documentInfo below.
+	    	generateOffset(unitOfWork);
+    	}
     	
     	// Aggregate the information about the unit of work up to the document level.
     	DocumentInfo documentInfo = unitOfWork.getDocumentInfo();
@@ -386,6 +438,11 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         return unitOfWorkInfo;
     }
     
+    /**
+     * 
+     * @param inputEntry
+     * @param workingEntryInfo
+     */
     private void postProcessEntry(OriginEntry inputEntry, OriginEntryInfo workingEntryInfo) {
         UnitOfWorkInfo unitOfWorkInfo = workingEntryInfo.getUnitOfWorkInfo();
         
@@ -402,25 +459,6 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
      * @return
      */
     private OriginEntryInfo validateOriginEntryAndBuildWorkingEntry(OriginEntry originEntry, UnitOfWorkInfo unitOfWorkInfo) { /* 2500-process-unit-of-work */
-        // Errors are recorded on a per-entry basis.
-    	
-        // First, need to see if the key fields are the same as last 
-        // unit of work. This has historically been done for 
-        // performance reasons dating back to FIS where instead of
-        // processing Objects or database rows (as we are essentially
-        // doing here), lines of a text file were processed. The lines
-        // in the file had to be sorted to group them together by the
-        // first 51 characters of the line. This is essentially the 
-        // same thing as grouping entries under a document. This 
-        // functionality may or may not have any impact on performance
-        // as it is implemented here. It is needed at this point to 
-        // allow individual entries to be grouped into a unit of work.
-        // If the equivalent of the first 51 characters of the line in
-        // the legacy text file implementation match the first 51 
-        // characters of the entry processed immediately prior to this
-        // one, fields are copied from the previous entry into the  
-        // entry currently being processed.
-        
         // FIXME (laran) see if this needs to be added back in
         //checkUnitOfWork(workingEntry);
         
@@ -434,142 +472,20 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         workingEntry.setOrganizationReferenceId(originEntry.getOrganizationReferenceId());
         workingEntry.setFinancialDocumentReferenceNbr(originEntry.getFinancialDocumentReferenceNbr());
 
-        // If the sub account number is empty, set it to dashes. 
-        // Otherwise set the workingEntry sub account number to the
-        // sub account number of the input origin entry.
-        if (StringUtils.hasText(originEntry.getSubAccountNumber()) 
-            && !Constants.DASHES_SUB_ACCOUNT_NUMBER.equals(originEntry.getSubAccountNumber())) {
-            workingEntry.setSubAccountNumber(originEntry.getSubAccountNumber());
-        } else {
-            workingEntry.setSubAccountNumber(Constants.DASHES_SUB_ACCOUNT_NUMBER);
-        }
+        // NOTE the validator WILL build set any fields in the workingEntry as appropriate
+        // per the validation rules.
+        validator.validateSubAccount(originEntry, workingEntryInfo);
+        validator.validateSubObjectCode(originEntry, workingEntryInfo);
+        validator.validateProjectCode(originEntry, workingEntryInfo);
+        validator.validateTransactionDate(originEntry, workingEntryInfo, runDate, universityRunDate);
+        validator.validateDocumentType(originEntry, workingEntryInfo);
+        validator.validateOrigination(originEntry, workingEntryInfo);
+        validator.validateFinancialDocumentNumber(originEntry, workingEntryInfo);
+        validator.validateChart(originEntry, workingEntryInfo);
+        validator.validateAccount(originEntry, workingEntryInfo);
 
-        if (StringUtils.hasText(originEntry.getFinancialSubObjectCode()) && 
-                !Constants.DASHES_SUB_OBJECT_CODE.equals(originEntry.getFinancialSubObjectCode())) {
-            workingEntry.setFinancialSubObjectCode(originEntry.getFinancialSubObjectCode());
-            if (ifNullAddTransactionError(originEntry.getFinancialSubObject(), 
-            		workingEntryInfo.getProcessingErrors(),
-            		kualiConfigurationService.getPropertyString(
-                    KeyConstants.ERROR_SUB_OBJECT_CODE_NOT_FOUND), originEntry.getFinancialSubObjectCode())) {
-                workingEntry.setFinancialSubObject(originEntry.getFinancialSubObject());
-            }
-        } else {
-            workingEntry.setFinancialSubObjectCode(Constants.DASHES_SUB_OBJECT_CODE);
-        }
-
-        if (StringUtils.hasText(originEntry.getProjectCode()) && !Constants.DASHES_PROJECT_CODE.equals(originEntry.getProjectCode())) {
-            ifNullAddTransactionError(
-                originEntry.getProject(), workingEntryInfo.getProcessingErrors(),
-                kualiConfigurationService.getPropertyString(KeyConstants.ERROR_PROJECT_CODE_NOT_FOUND), 
-                originEntry.getProjectCode());
-        } else {
-            workingEntry.setProjectCode(Constants.DASHES_PROJECT_CODE);
-        }
-
-        if (originEntry.getTransactionDate() == null) {
-            workingEntry.setTransactionDate(new Date(runDate.getTime()));
-        } else {
-            workingEntry.setTransactionDate(originEntry.getTransactionDate());
-        }
-
-        // Check transaction date against the date in univDate
-        // if not equal read the univDate table with this trnsaction date.
-        // if found:
-        //      workEntry.setTransactionDt(univDate.getUnivDt())
-        //      wsHoldPrevDate = univDate.getUnivDt();
-        Calendar workingCal = Calendar.getInstance();
-        workingCal.setTimeInMillis(workingEntry.getTransactionDate().getTime());
-        Calendar univDateCal = Calendar.getInstance();
-        univDateCal.setTimeInMillis(univRunDate.getUniversityDate().getTime());
-        if (!workingCal.equals(wsPreviousCal)) {
-            UniversityDate tmpDate = universityDateDao.getByPrimaryKey(workingEntry.getTransactionDate());
-            if (tmpDate == null) {
-                tmpDate = univRunDate;
-            }
-            workingEntry.setUniversityFiscalYear(tmpDate.getUniversityFiscalYear());
-            workingEntry.setUniversityFiscalPeriodCode(tmpDate.getUniversityFiscalAccountingPeriod());
-            wsPreviousCal = workingCal;
-        } // TODO: what should the else do?
-
-        if (originEntry.getUniversityFiscalYear() == null || originEntry.getUniversityFiscalYear().intValue() == 0) {
-            // Fix for KULGL-48
-            originEntry.setUniversityFiscalYear(univRunDate.getUniversityFiscalYear());
-            persistenceService.retrieveReferenceObject(originEntry,"option");
-
-            workingEntry.setUniversityFiscalYear(univRunDate.getUniversityFiscalYear());
-            workingEntry.setOption(originEntry.getOption());
-            persistenceService.retrieveReferenceObject(workingEntry,"option");
-
-            // Retrieve these objects because the fiscal year is the primary key for them
-            persistenceService.retrieveReferenceObject(originEntry,"financialSubObject");
-            persistenceService.retrieveReferenceObject(originEntry,"financialObject");
-            persistenceService.retrieveReferenceObject(originEntry,"accountingPeriod");
-
-            ifNullAddTransactionError(
-                workingEntry.getOption(), workingEntryInfo.getProcessingErrors(),
-                kualiConfigurationService.getPropertyString(KeyConstants.ERROR_UNIV_DATE_NOT_FOUND), 
-                workingEntry.getUniversityFiscalYear().toString());
-        } else {
-            workingEntry.setUniversityFiscalYear(originEntry.getUniversityFiscalYear());
-            workingEntry.setOption(originEntry.getOption());
-            if (!ifNullAddTransactionError(
-                    workingEntry.getOption(), workingEntryInfo.getProcessingErrors(),
-                    kualiConfigurationService.getPropertyString(KeyConstants.ERROR_UNIV_DATE_NOT_FOUND), 
-                    workingEntry.getUniversityFiscalYear().toString())) {
-                workingEntry.setOption(new Options());
-                workingEntry.setUniversityFiscalYear(univRunDate.getUniversityFiscalYear());
-                workingEntry.getOption().setUniversityFiscalYear(workingEntry.getUniversityFiscalYear());
-                persistenceService.retrieveReferenceObject(workingEntry,"option");
-                if (workingEntry.getOption() == null) {
-                    throw new IllegalStateException(kualiConfigurationService.getPropertyString(KeyConstants.ERROR_UNIV_DATE_NOT_FOUND));
-                }
-            }
-        }
-
-        if (ifNullAddTransactionError(
-                originEntry.getDocumentType(), workingEntryInfo.getProcessingErrors(),
-                kualiConfigurationService.getPropertyString(KeyConstants.ERROR_DOCUMENT_TYPE_NOT_FOUND), 
-                originEntry.getFinancialDocumentTypeCode())) {
-            workingEntry.setFinancialDocumentTypeCode(originEntry.getFinancialDocumentTypeCode());
-            workingEntry.setDocumentType(originEntry.getDocumentType());
-        }
-
-        if (ifNullAddTransactionError(
-                originEntry.getOrigination(), workingEntryInfo.getProcessingErrors(),
-                kualiConfigurationService.getPropertyString(KeyConstants.ERROR_ORIGIN_CODE_NOT_FOUND), 
-                originEntry.getFinancialSystemOriginationCode())) {
-            workingEntry.setOrigination(originEntry.getOrigination());
-        }
-        workingEntry.setFinancialSystemOriginationCode(originEntry.getFinancialSystemOriginationCode());
-
-        if (!StringUtils.hasText(originEntry.getFinancialDocumentNumber())) {
-            addTransactionError(
-                kualiConfigurationService.getPropertyString(KeyConstants.ERROR_DOCUMENT_NUMBER_REQUIRED), 
-                originEntry.getFinancialDocumentNumber(), workingEntryInfo.getProcessingErrors());
-        }
-
-        if (ifNullAddTransactionError(
-                originEntry.getChart(), workingEntryInfo.getProcessingErrors(),
-                kualiConfigurationService.getPropertyString(KeyConstants.ERROR_CHART_NOT_FOUND), 
-                originEntry.getChartOfAccountsCode())) {
-            workingEntry.setChart(originEntry.getChart());
-        }
-        workingEntry.setChartOfAccountsCode(originEntry.getChartOfAccountsCode());
-
-        if (originEntry.getChart() != null && !originEntry.getChart().isFinChartOfAccountActiveIndicator()) {
-            addTransactionError(
-                kualiConfigurationService.getPropertyString(KeyConstants.ERROR_CHART_NOT_ACTIVE), 
-                originEntry.getChartOfAccountsCode(), workingEntryInfo.getProcessingErrors());
-        }
-
-        if (ifNullAddTransactionError(
-                originEntry.getAccount(), workingEntryInfo.getProcessingErrors(),
-                kualiConfigurationService.getPropertyString(KeyConstants.ERROR_ACCOUNT_NOT_FOUND), 
-                originEntry.getAccountNumber())) {
-            workingEntry.setAccount(originEntry.getAccount());
-        }
-        workingEntry.setAccountNumber(originEntry.getAccountNumber());
-
+        // NOTE (laran) This code was left in here because I don't really understand how 
+        // wsAccountChange is being used.
         if ("ACLO".equals(originEntry.getFinancialDocumentTypeCode())) { // TODO: move to properties ANNUAL_CLOSING
             resolveAccount(originEntry, workingEntryInfo);
         } else {
@@ -580,113 +496,23 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         		&& !wsAccountChange.equals(workingEntry.getAccountNumber()) 
         		&& null != originEntry.getAccount()) {
             if (originEntry.getAccount().isAccountClosedIndicator()) {
-                addTransactionError(
+            	ScrubberServiceErrorHandler.addTransactionError(
                     kualiConfigurationService.getPropertyString(KeyConstants.ERROR_ACCOUNT_CLOSED), 
                     originEntry.getAccountNumber(), workingEntryInfo.getProcessingErrors());
             } else {
-                addTransactionError(
+            	ScrubberServiceErrorHandler.addTransactionError(
                     kualiConfigurationService.getPropertyString(KeyConstants.ERROR_ACCOUNT_EXPIRED),
                     originEntry.getAccountNumber(), workingEntryInfo.getProcessingErrors());
             }
         }
 
-        if (!Constants.DASHES_SUB_ACCOUNT_NUMBER.equals(originEntry.getSubAccountNumber())) {
-            ifNullAddTransactionError(
-                originEntry.getSubAccount(), workingEntryInfo.getProcessingErrors(),
-                kualiConfigurationService.getPropertyString(KeyConstants.ERROR_SUB_ACCOUNT_NOT_FOUND), 
-                originEntry.getSubAccountNumber());
-        }
+        validator.validateFinancialObjectCode(originEntry, workingEntryInfo);
+        validator.validateFinancialObjectTypeCode(originEntry, workingEntryInfo);
+        validator.validateFinancialSubObjectCode(originEntry, workingEntryInfo);
+        validator.validateFinancialBalanceTypeCode(originEntry, workingEntryInfo);
+        validator.validateUniversityFiscalPeriodCode(originEntry, workingEntryInfo, universityRunDate);
 
-        if (originEntry.getSubAccount() != null && "ACLO".equals(originEntry.getFinancialDocumentTypeCode())
-                && !originEntry.getSubAccount().isSubAccountActiveIndicator()) {
-            addTransactionError(
-                kualiConfigurationService.getPropertyString(KeyConstants.ERROR_SUB_ACCOUNT_NOT_ACTIVE), 
-                originEntry.getSubAccountNumber(), workingEntryInfo.getProcessingErrors());
-        }
-
-        if (StringUtils.hasText(originEntry.getFinancialObjectCode())) {
-            workingEntry.setFinancialObjectCode(originEntry.getFinancialObjectCode());
-            ifNullAddTransactionError(
-                originEntry.getFinancialObject(), workingEntryInfo.getProcessingErrors(),
-                kualiConfigurationService.getPropertyString(KeyConstants.ERROR_OBJECT_CODE_NOT_FOUND), 
-                originEntry.getFinancialObjectCode());
-            workingEntry.setFinancialObject(originEntry.getFinancialObject());
-        } else {
-            workingEntry.setFinancialObjectCode(Constants.DASHES_OBJECT_CODE);
-            workingEntry.setFinancialObject(null);
-        }
-
-        // NOTE (laran) This code replaces lines 2386-2874 in glescrbb.txt
-        if(null == originEntry.getFinancialObjectTypeCode()
-        	|| !StringUtils.hasText(originEntry.getFinancialObjectTypeCode())
-        		|| null == originEntry.getFinancialObject()
-        			|| null == originEntry.getFinancialObject().getFinancialObjectType()
-        				|| !StringUtils.hasText(originEntry.getFinancialObject().getFinancialObjectTypeCode())) {
-        	addTransactionError(
-       			kualiConfigurationService.getPropertyString(KeyConstants.ERROR_OBJECT_TYPE_NOT_FOUND),
-       			originEntry.getFinancialObjectTypeCode(), workingEntryInfo.getProcessingErrors());
-        } else {
-            workingEntry.setFinancialObjectTypeCode(originEntry.getFinancialObjectTypeCode());
-        }
-
-        if (StringUtils.hasText(originEntry.getFinancialSubObjectCode())) {
-            if (!Constants.DASHES_SUB_OBJECT_CODE.equals(originEntry.getFinancialSubObjectCode())) {
-                ifNullAddTransactionError(
-                    originEntry.getFinancialSubObject(),workingEntryInfo.getProcessingErrors(),
-                    kualiConfigurationService.getPropertyString(KeyConstants.ERROR_SUB_OBJECT_CODE_NOT_FOUND), 
-                    originEntry.getFinancialSubObjectCode()); 
-                workingEntry.setFinancialSubObject(originEntry.getFinancialSubObject());
-            }
-            if (originEntry.getFinancialSubObject() != null && !originEntry.getFinancialSubObject().isFinancialSubObjectActiveIndicator()) {
-                // if NOT active, set it to dashes
-                workingEntry.setFinancialSubObjectCode(Constants.DASHES_SUB_OBJECT_CODE);
-                workingEntry.setFinancialSubObject(null);
-            }
-        }
-
-        if (StringUtils.hasText(originEntry.getFinancialBalanceTypeCode())) {
-            // now validate balance type against balance type table (free)
-            if (ifNullAddTransactionError(
-                    originEntry.getBalanceType(), workingEntryInfo.getProcessingErrors(),
-                    kualiConfigurationService.getPropertyString(KeyConstants.ERROR_BALANCE_TYPE_NOT_FOUND), 
-                    originEntry.getFinancialBalanceTypeCode())) {
-                workingEntry.setFinancialBalanceTypeCode(originEntry.getFinancialBalanceTypeCode());
-                workingEntry.setBalanceType(originEntry.getBalanceType());
-            }
-        } else {
-            // if balance type of originEntry is null, get it from option table
-            workingEntry.setFinancialBalanceTypeCode(originEntry.getOption().getActualFinancialBalanceTypeCd());
-            if (workingEntry.getBalanceType() == null) {
-                workingEntry.setBalanceType(new BalanceTyp());
-            }
-            workingEntry.getBalanceType().setCode(originEntry.getOption().getActualFinancialBalanceTypeCd());
-            persistenceService.retrieveReferenceObject(workingEntry,"balanceType");
-            ifNullAddTransactionError(
-                workingEntry.getBalanceType(), workingEntryInfo.getProcessingErrors(),
-                kualiConfigurationService.getPropertyString(KeyConstants.ERROR_BALANCE_TYPE_NOT_FOUND), 
-                originEntry.getFinancialBalanceTypeCode());
-        }
-
-        // validate fiscalperiod against sh_acct_period_t (free)
-        if (StringUtils.hasText(originEntry.getUniversityFiscalPeriodCode())) {
-            ifNullAddTransactionError(
-                originEntry.getAccountingPeriod(), workingEntryInfo.getProcessingErrors(),
-                kualiConfigurationService.getPropertyString(KeyConstants.ERROR_ACCOUNTING_PERIOD_NOT_FOUND), 
-                originEntry.getUniversityFiscalPeriodCode());
-
-            // validate that the fiscalperiod is open "fiscal period closed"
-            if (originEntry.getAccountingPeriod() != null 
-                && originEntry.getAccountingPeriod().getUniversityFiscalPeriodStatusCode() 
-                    == Constants.ACCOUNTING_PERIOD_STATUS_CLOSED) {
-                addTransactionError(kualiConfigurationService.getPropertyString(KeyConstants.ERROR_FISCAL_PERIOD_CLOSED), 
-                  originEntry.getUniversityFiscalPeriodCode(), workingEntryInfo.getProcessingErrors());
-            }
-            workingEntry.setUniversityFiscalPeriodCode(originEntry.getUniversityFiscalPeriodCode());
-        } else {
-          workingEntry.setUniversityFiscalPeriodCode(univRunDate.getUniversityFiscalAccountingPeriod());
-        }
-
-        if ( originEntry.getTrnEntryLedgerSequenceNumber() == null ) {
+        if (originEntry.getTrnEntryLedgerSequenceNumber() == null) {
           workingEntry.setTrnEntryLedgerSequenceNumber(new Integer(0));
         } else {
           workingEntry.setTrnEntryLedgerSequenceNumber(originEntry.getTrnEntryLedgerSequenceNumber());
@@ -694,105 +520,16 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         workingEntry.setTransactionLedgerEntryDesc(originEntry.getTransactionLedgerEntryDesc());
         workingEntry.setTransactionLedgerEntryAmount(originEntry.getTransactionLedgerEntryAmount());
 
-        if(originEntry.getBalanceType() != null && originEntry.getBalanceType().isFinancialOffsetGenerationIndicator() &&
-                originEntry.getTransactionLedgerEntryAmount().isNegative()) {
-            addTransactionError(kualiConfigurationService.getPropertyString(
-                KeyConstants.ERROR_TRANS_CANNOT_BE_NEGATIVE_IF_OFFSET), null, workingEntryInfo.getProcessingErrors());
-        }
-
-        // if offsetGenerationCode = "N" and debitCreditCode != null then error
-        // "debit or credit indicator must be empty(space)"
-        // if offsetGenerationCode = "Y" and debitCreditCode == null then error
-        // "debit or credit indicator must be 'D' or 'C'"
-        if(originEntry.getBalanceType() != null && !originEntry.getBalanceType().isFinancialOffsetGenerationIndicator()) {
-            if(!" ".equals(originEntry.getTransactionDebitCreditCode())) { // todo: move space to constant
-                addTransactionError(
-                    kualiConfigurationService.getPropertyString(KeyConstants.ERROR_DC_INDICATOR_MUST_BE_EMPTY), 
-                    originEntry.getTransactionDebitCreditCode(), workingEntryInfo.getProcessingErrors());
-            }
-        } else {
-            if(!originEntry.isCredit() && !originEntry.isDebit()) {
-                addTransactionError(
-                    kualiConfigurationService.getPropertyString(KeyConstants.ERROR_DC_INDICATOR_MUST_BE_D_OR_C), 
-                    originEntry.getTransactionDebitCreditCode(), workingEntryInfo.getProcessingErrors());
-            }
-        }
+        validator.validateBalanceType(originEntry, workingEntryInfo);
+        
         workingEntry.setTransactionDebitCreditCode(originEntry.getTransactionDebitCreditCode());
-
-        // if ProjectCode is inactive then error - "Project Code must be active"
-        if (originEntry.getProject() != null && !originEntry.getProject().isActive()) {
-            addTransactionError(
-                kualiConfigurationService.getPropertyString(KeyConstants.ERROR_PROJECT_CODE_MUST_BE_ACTIVE), 
-                originEntry.getProjectCode(), workingEntryInfo.getProcessingErrors());
-        }
-
-        // if DocReferenceNumber == null then
-        // documentReferenceTypeCode = null
-        // FSReferenceOriginCode = null
-        // if transactionEncumbranceUpdateCode = "R" then
-        // error "reference document number cannot be null if update code is 'R'"
-        // else
-        // validate documentReferenceNumber - "documentreference number is not in DB"
-        // validate documentReferenceTypeCode - "reference document type is not
-        // in document type table"
-        // validate FSRefOriginCode - "FS origin code is not in DB"
-        if (StringUtils.hasText(originEntry.getFinancialDocumentReferenceNbr())) {
-            if (ifNullAddTransactionError(
-                    originEntry.getReferenceDocumentType(), workingEntryInfo.getProcessingErrors(),
-                    kualiConfigurationService.getPropertyString(KeyConstants.ERROR_REFERENCE_DOCUMENT_TYPE_NOT_FOUND), 
-                    originEntry.getFinancialDocumentReferenceNbr())) {
-                workingEntry.setReferenceFinDocumentTypeCode(originEntry.getReferenceFinDocumentTypeCode());
-                workingEntry.setReferenceDocumentType(originEntry.getReferenceDocumentType());
-            }
-            if (ifNullAddTransactionError(
-                    originEntry.getFinSystemRefOriginationCode(), workingEntryInfo.getProcessingErrors(),
-                    kualiConfigurationService.getPropertyString(KeyConstants.ERROR_REFERENCE_ORIGINATION_CODE_NOT_FOUND), 
-                    originEntry.getFinancialSystemOriginationCode())) {
-                workingEntry.setFinSystemRefOriginationCode(originEntry.getFinancialSystemOriginationCode());
-            }
-        } else {
-            workingEntry.setFinancialDocumentReferenceNbr(null);
-            workingEntry.setReferenceFinDocumentTypeCode(null);
-            workingEntry.setReferenceDocumentType(null);
-            workingEntry.setFinSystemRefOriginationCode(null);
-
-            if ("R".equals(originEntry.getTransactionEncumbranceUpdtCd())) { // TODO: change to constant
-                addTransactionError(
-                    kualiConfigurationService.getPropertyString(KeyConstants.ERROR_REFERENCE_DOC_NUMBER_CANNOT_BE_NULL_IF_UPDATE_CODE_IS_R), 
-                    originEntry.getTransactionEncumbranceUpdtCd(), workingEntryInfo.getProcessingErrors());
-            }
-        }
-
-        // if reversalDate != null
-        // validate it against sh_univ_date_t - error "reversal date not in table"
-        if (originEntry.getFinancialDocumentReversalDate() != null) {
-            if (ifNullAddTransactionError(
-                    originEntry.getReversalDate(), workingEntryInfo.getProcessingErrors(),
-                    kualiConfigurationService.getPropertyString(KeyConstants.ERROR_REVERSAL_DATE_NOT_FOUND), 
-                    originEntry.getFinancialDocumentReversalDate().toString())) {
-                workingEntry.setFinancialDocumentReversalDate(originEntry.getFinancialDocumentReversalDate());
-                workingEntry.setReversalDate(originEntry.getReversalDate());
-            }
-        }
-
-        // if balanceTypeEncumberanceCode = "Y" AND fundBalanceCode != "Y" AND
-        // (encumberanceUpdateCode != "D" and "R" and "N")
-        // "The encumberance update code is not equal D R or N"
-        if (originEntry.getBalanceType() != null && originEntry.getBalanceType().isFinBalanceTypeEncumIndicator() &&
-                !originEntry.getObjectType().isFundBalanceIndicator()) {
-            if ("D".equals(originEntry.getTransactionEncumbranceUpdtCd()) ||
-                    "R".equals(originEntry.getTransactionEncumbranceUpdtCd()) ||
-                    "N".equals(originEntry.getTransactionEncumbranceUpdtCd())) {
-                workingEntry.setTransactionEncumbranceUpdtCd(originEntry.getTransactionEncumbranceUpdtCd());
-            } else {
-                addTransactionError(
-                    kualiConfigurationService.getPropertyString(KeyConstants.ERROR_ENC_UPDATE_CODE_NOT_DRN), 
-                    originEntry.getTransactionEncumbranceUpdtCd(), workingEntryInfo.getProcessingErrors());
-            }
-        }
-
+        
+        validator.validateFinancialDocumentReferenceNumber(originEntry, workingEntryInfo);
+        validator.validateReversalDate(originEntry, workingEntryInfo);
+        validator.validateEncumbranceUpdateCode(originEntry, workingEntryInfo);
+        
         return workingEntryInfo;
-    }// End of method
+    }
 
 	/**
 	 * @param originEntry
@@ -857,11 +594,12 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         // else
         //  subtract amount from offsetAmountAccumulator
         //  add to creditAmountAccumulator
-        if (originEntry.getBalanceType() != null && originEntry.getBalanceType().isFinancialOffsetGenerationIndicator() &&
-                !"BB".equals(originEntry.getUniversityFiscalPeriodCode()) &&
-                !"CB".equals(originEntry.getUniversityFiscalPeriodCode()) &&
-                null != originEntry.getFinancialDocumentTypeCode() &&
-                !originEntry.getFinancialDocumentTypeCode().equals("ACLO")) {
+        if (null != originEntry.getBalanceType() 
+        		&& originEntry.getBalanceType().isFinancialOffsetGenerationIndicator()
+                && !"BB".equals(originEntry.getUniversityFiscalPeriodCode())
+                && !"CB".equals(originEntry.getUniversityFiscalPeriodCode())
+                && null != originEntry.getFinancialDocumentTypeCode()
+                && !originEntry.getFinancialDocumentTypeCode().equals("ACLO")) {
             if (originEntry.isDebit()) {
                 unitOfWorkInfo.getTotalOffsetAmount().add(originEntry.getTransactionLedgerEntryAmount());
             } else {
@@ -874,31 +612,6 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         	unitOfWorkInfo.getTotalCreditAmount().add(originEntry.getTransactionLedgerEntryAmount());
         }
 	}
-
-    /**
-     * 
-     * @param glObject
-     * @param errorMessage
-     * @return
-     */
-    private boolean ifNullAddTransactionError(Object glObject, List errors, String errorMessage, String errorValue) {
-        if (glObject == null) {
-            if (StringUtils.hasText(errorMessage)) {
-                addTransactionError(errorMessage, errorValue, errors);
-            } else {
-                addTransactionError("Unexpected null object", glObject.getClass().getName(), errors);
-            }
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * @param errorMessage
-     */
-    private void addTransactionError(String errorMessage, String errorValue, List errors) {
-        errors.add(errorMessage + " (" + errorValue + ")");
-    }
 
     /**
      * 2100-Edit Account
@@ -939,7 +652,7 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
                 account.isAccountClosedIndicator()) {
             workingEntry.setAccountNumber(originEntry.getAccountNumber());
             wsAccountChange = workingEntry.getAccountNumber();
-            addTransactionError(
+            ScrubberServiceErrorHandler.addTransactionError(
                 kualiConfigurationService.getPropertyString(KeyConstants.ERROR_ORIGIN_CODE_CANNOT_HAVE_CLOSED_ACCOUNT), 
                 account.getAccountNumber(), workingEntryInfo.getProcessingErrors());
             return;
@@ -1338,7 +1051,7 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
             workingEntry.setSubAccountNumber(tmpSubAccountNumber);
 
             // TODO: do we need to refresh this object first?
-            if (ifNullAddTransactionError(
+            if (ScrubberServiceErrorHandler.ifNullAddTransactionError(
                     workingEntry.getAccount().getOrganization(), workingEntryInfo.getProcessingErrors(),
                     kualiConfigurationService.getPropertyString(KeyConstants.ERROR_INVALID_ORG_CODE_FOR_PLANT_FUND), 
                     workingEntry.getAccount().getOrganizationCode())) {
@@ -1434,7 +1147,7 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
             return;
         }
         
-        if (ifNullAddTransactionError(
+        if (ScrubberServiceErrorHandler.ifNullAddTransactionError(
         		account.getSubFundGroup(), workingEntryInfo.getProcessingErrors(),
                 kualiConfigurationService.getPropertyString(KeyConstants.ERROR_SUB_FUND_GROUP_NOT_FOUND), 
                 account.getSubFundGroupCode())) {
@@ -1491,14 +1204,14 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         int retValue = accountExpiration(originEntry, workingEntryInfo);
 
         if (retValue == ScrubberUtil.ACCOUNT_LIMIT) {
-            addTransactionError(
+        	ScrubberServiceErrorHandler.addTransactionError(
                 kualiConfigurationService.getPropertyString(KeyConstants.ERROR_CONTINUATION_ACCOUNT_LIMIT_REACHED), 
                 originEntry.getAccountNumber(), workingEntryInfo.getProcessingErrors());
             return;
         }
 
         if (retValue == ScrubberUtil.ACCOUNT_ERROR) {
-            addTransactionError("CONTINUATION ACCT NOT IN ACCT", originEntry.getAccountNumber(),
+        	ScrubberServiceErrorHandler.addTransactionError("CONTINUATION ACCT NOT IN ACCT", originEntry.getAccountNumber(),
             	workingEntryInfo.getProcessingErrors());
             return;
         }
@@ -1514,7 +1227,7 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
             workingEntry.setChartOfAccountsCode(account.getChartOfAccountsCode());
             workingEntry.getChart().setChartOfAccountsCode(account.getChartOfAccountsCode());
             persistenceService.retrieveReferenceObject(workingEntry,"chart");
-            ifNullAddTransactionError(
+            ScrubberServiceErrorHandler.ifNullAddTransactionError(
                 workingEntry.getChart(), workingEntryInfo.getProcessingErrors(),
                 kualiConfigurationService.getPropertyString(KeyConstants.ERROR_CONTINUATION_CHART_NOT_FOUND), 
                 originEntry.getChartOfAccountsCode());
@@ -1653,7 +1366,7 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         OffsetDefinition offset = offsetDefinitionService.getByPrimaryId(
                 csEntry.getUniversityFiscalYear(), csEntry.getChartOfAccountsCode(),
                 "TF", csEntry.getFinancialBalanceTypeCode());
-        if (ifNullAddTransactionError(offset, workingEntryInfo.getProcessingErrors(),
+        if (ScrubberServiceErrorHandler.ifNullAddTransactionError(offset, workingEntryInfo.getProcessingErrors(),
         		kualiConfigurationService.getPropertyString(KeyConstants.ERROR_OFFSET_DEFINITION_NOT_FOUND), null)) {
             csEntry.setFinancialObjectCode(offset.getFinancialObjectCode());
             if(offset.getFinancialSubObjectCode() == null) {
@@ -1666,7 +1379,7 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         ObjectCode objectCode = objectCodeService.getByPrimaryId(
                 csEntry.getUniversityFiscalYear(), csEntry.getChartOfAccountsCode(),
                 csEntry.getFinancialObjectCode());
-        if (ifNullAddTransactionError(
+        if (ScrubberServiceErrorHandler.ifNullAddTransactionError(
                 objectCode, workingEntryInfo.getProcessingErrors(),
                 kualiConfigurationService.getPropertyString(KeyConstants.ERROR_NO_OBJECT_FOR_OBJECT_ON_OFSD), 
                 csEntry.getFinancialObjectCode())) {
@@ -1728,7 +1441,7 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         csEntry.setTransactionLedgerEntryDesc(
             "OFFSET_DESCRIPTION" + "***" + runCal.get(Calendar.MONTH) + "/" + runCal.get(Calendar.DAY_OF_MONTH)); // TODO: change to constant
 
-        if (ifNullAddTransactionError(offset,workingEntryInfo.getProcessingErrors(), 
+        if (ScrubberServiceErrorHandler.ifNullAddTransactionError(offset,workingEntryInfo.getProcessingErrors(), 
         		kualiConfigurationService.getPropertyString(KeyConstants.ERROR_OFFSET_DEFINITION_NOT_FOUND), null)) {
             csEntry.setFinancialObjectCode(offset.getFinancialObjectCode());
             if(offset.getFinancialSubObjectCode() == null) {
@@ -1741,7 +1454,7 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         objectCode = objectCodeService.getByPrimaryId(
                 csEntry.getUniversityFiscalYear(), csEntry.getChartOfAccountsCode(),
                 csEntry.getFinancialObjectCode());
-        if (ifNullAddTransactionError(objectCode, workingEntryInfo.getProcessingErrors(),
+        if (ScrubberServiceErrorHandler.ifNullAddTransactionError(objectCode, workingEntryInfo.getProcessingErrors(),
         		kualiConfigurationService.getPropertyString(KeyConstants.ERROR_NO_OBJECT_FOR_OBJECT_ON_OFSD), 
                 csEntry.getFinancialObjectCode())) {
             csEntry.setFinancialObjectTypeCode(objectCode.getFinancialObjectTypeCode());
@@ -1815,7 +1528,7 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         OffsetDefinition offset = offsetDefinitionService.getByPrimaryId(
                 csEntry.getUniversityFiscalYear(), csEntry.getChartOfAccountsCode(),
                 csEntry.getFinancialDocumentTypeCode(), csEntry.getFinancialBalanceTypeCode());
-        if (ifNullAddTransactionError(offset, workingEntryInfo.getProcessingErrors(),
+        if (ScrubberServiceErrorHandler.ifNullAddTransactionError(offset, workingEntryInfo.getProcessingErrors(),
         		kualiConfigurationService.getPropertyString(KeyConstants.ERROR_OFFSET_DEFINITION_NOT_FOUND), null)) {
             csEntry.setFinancialObjectCode(offset.getFinancialObjectCode());
             if(offset.getFinancialSubObjectCode() == null) {
@@ -1828,7 +1541,7 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         ObjectCode objectCode = objectCodeService.getByPrimaryId(
                 csEntry.getUniversityFiscalYear(), csEntry.getChartOfAccountsCode(),
                 csEntry.getFinancialObjectCode());
-        if (ifNullAddTransactionError(objectCode, workingEntryInfo.getProcessingErrors(),
+        if (ScrubberServiceErrorHandler.ifNullAddTransactionError(objectCode, workingEntryInfo.getProcessingErrors(),
         		kualiConfigurationService.getPropertyString(KeyConstants.ERROR_NO_OBJECT_FOR_OBJECT_ON_OFSD), 
                 csEntry.getFinancialObjectCode())) {
             csEntry.setFinancialObjectTypeCode(objectCode.getFinancialObjectTypeCode());
@@ -1874,8 +1587,10 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         // TODO: cant we just do an inputEntry
         persistenceService.retrieveReferenceObject(inputEntry,"financialObject");
 
-        ifNullAddTransactionError(inputEntry.getFinancialObject(), workingEntryInfo.getProcessingErrors(), 
-        		kualiConfigurationService.getPropertyString(KeyConstants.ERROR_OBJECT_CODE_NOT_FOUND), 
+        ScrubberServiceErrorHandler.ifNullAddTransactionError(
+        	inputEntry.getFinancialObject(), 
+        	workingEntryInfo.getProcessingErrors(), 
+        	kualiConfigurationService.getPropertyString(KeyConstants.ERROR_OBJECT_CODE_NOT_FOUND), 
             inputEntry.getFinancialObjectCode());
 
         String objectCode = inputEntry.getFinancialObjectCode();
@@ -1932,7 +1647,7 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         inputEntry.setFinancialObjectCode(objectCode);
         persistenceService.retrieveReferenceObject(inputEntry,"financialObject"); // TODO: this needs to be checked!
 
-        if (ifNullAddTransactionError(inputEntry.getFinancialObject(), workingEntryInfo.getProcessingErrors(),
+        if (ScrubberServiceErrorHandler.ifNullAddTransactionError(inputEntry.getFinancialObject(), workingEntryInfo.getProcessingErrors(),
                 kualiConfigurationService.getPropertyString(KeyConstants.ERROR_COST_SHARE_OBJECT_NOT_FOUND), 
                 inputEntry.getFinancialObjectCode())) {
             inputEntry.setFinancialObjectTypeCode(inputEntry.getFinancialObject().getFinancialObjectTypeCode());
@@ -1971,7 +1686,7 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         ArrayList errors = new ArrayList();
         
         // If the offsetDefinition is not null ...
-        if(ifNullAddTransactionError(offsetDefinition, errors,
+        if(ScrubberServiceErrorHandler.ifNullAddTransactionError(offsetDefinition, errors,
         		kualiConfigurationService.getPropertyString(KeyConstants.ERROR_OFFSET_DEFINITION_NOT_FOUND), null)) {
         	
             workingEntry.setFinancialObjectCode(offsetDefinition.getFinancialObjectCode());
@@ -1986,7 +1701,7 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
                 
             }
 
-            if (ifNullAddTransactionError(offsetDefinition.getFinancialObject(), errors, 
+            if (ScrubberServiceErrorHandler.ifNullAddTransactionError(offsetDefinition.getFinancialObject(), errors, 
                     kualiConfigurationService.getPropertyString(KeyConstants.ERROR_OFFSET_DEFINITION_OBJECT_CODE_NOT_FOUND), null)) {
                 workingEntry.setFinancialObjectTypeCode(offsetDefinition.getFinancialObject().getFinancialObjectTypeCode());
             }
@@ -2138,676 +1853,6 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
             return 0;
         }
 
-    }
-
-    class BatchInfo {
-    	int numberOfErrors;
-    	int numberOfOriginEntryGroups;
-    	int numberOfDocuments;
-    	int numberOfUnitsOfWork;
-    	int numberOfOriginEntries;
-    	int numberOfScrubbedRecordsWritten;
-    	int numberOfErrorRecordsWritten;
-    	int numberOfOffsetEntriesGenerated;
-    	int numberOfEliminationEntriesGenerated;
-    	int numberOfCapitalizationEntriesGenerated;
-    	int numberOfLiabilityEntriesGenerated;
-    	int numberOfPlantIndebtednessEntriesGenerated;
-    	int numberOfCostShareEntriesGenerated;
-    	int numberOfCostShareEncumbrancesGenerated;
-    	int totalNumberOfRecordsWritten;
-    	int numberOfExpiredAccountsFound;
-    	
-    	public void recordGenerated() {
-    		totalNumberOfRecordsWritten++;
-    	}
-    	
-    	public void errorRecordWritten() {
-    		numberOfErrorRecordsWritten++;
-    	}
-    	public void expiredAccountFound() {
-    		numberOfExpiredAccountsFound++;
-    	}
-    	public void scrubbedRecordWritten() {
-    		numberOfScrubbedRecordsWritten++;
-    		recordGenerated();
-    	}
-    	public void offsetEntryGenerated() {
-    		numberOfOffsetEntriesGenerated++;
-    		recordGenerated();
-    	}
-    	public void eliminationEntryGenerated() {
-    		numberOfEliminationEntriesGenerated++;
-    		recordGenerated();
-    	}
-    	public void capitalizationEntryGenerated() {
-    		numberOfCapitalizationEntriesGenerated++;
-    		recordGenerated();
-    	}
-    	public void liabilityEntryGenerated() {
-    		numberOfLiabilityEntriesGenerated++;
-    		recordGenerated();
-    	}
-    	public void plantIndebtednessEntryGenerated() {
-    		numberOfPlantIndebtednessEntriesGenerated++;
-    		recordGenerated();
-    	}
-    	public void costShareEntryGenerated() {
-    		numberOfCostShareEntriesGenerated++;
-    		recordGenerated();
-    	}
-    	public void costShareEncumbranceGenerated() {
-    		numberOfCostShareEncumbrancesGenerated++;
-    		recordGenerated();
-    	}
-    	
-		/**
-		 * @return Returns the numberOfCapitalizationEntriesGenerated.
-		 */
-		public int getNumberOfCapitalizationEntriesGenerated() {
-			return numberOfCapitalizationEntriesGenerated;
-		}
-		/**
-		 * @return Returns the numberOfCostShareEncumbrancesGenerated.
-		 */
-		public int getNumberOfCostShareEncumbrancesGenerated() {
-			return numberOfCostShareEncumbrancesGenerated;
-		}
-		/**
-		 * @return Returns the numberOfCostShareEntriesGenerated.
-		 */
-		public int getNumberOfCostShareEntriesGenerated() {
-			return numberOfCostShareEntriesGenerated;
-		}
-		/**
-		 * @return Returns the numberOfEliminationEntriesGenerated.
-		 */
-		public int getNumberOfEliminationEntriesGenerated() {
-			return numberOfEliminationEntriesGenerated;
-		}
-		/**
-		 * @return Returns the numberOfErrorRecordsWritten.
-		 */
-		public int getNumberOfErrorRecordsWritten() {
-			return numberOfErrorRecordsWritten;
-		}
-		/**
-		 * @return Returns the numberOfExpiredAccountsFound.
-		 */
-		public int getNumberOfExpiredAccountsFound() {
-			return numberOfExpiredAccountsFound;
-		}
-		/**
-		 * @return Returns the numberOfLiabilityEntriesGenerated.
-		 */
-		public int getNumberOfLiabilityEntriesGenerated() {
-			return numberOfLiabilityEntriesGenerated;
-		}
-		/**
-		 * @return Returns the numberOfOffsetEntriesGenerated.
-		 */
-		public int getNumberOfOffsetEntriesGenerated() {
-			return numberOfOffsetEntriesGenerated;
-		}
-		/**
-		 * @return Returns the numberOfPlantIndebtednessEntriesGenerated.
-		 */
-		public int getNumberOfPlantIndebtednessEntriesGenerated() {
-			return numberOfPlantIndebtednessEntriesGenerated;
-		}
-		/**
-		 * @return Returns the numberOfScrubbedRecordsWritten.
-		 */
-		public int getNumberOfScrubbedRecordsWritten() {
-			return numberOfScrubbedRecordsWritten;
-		}
-		/**
-		 * @return Returns the totalNumberOfRecordsWritten.
-		 */
-		public int getTotalNumberOfRecordsWritten() {
-			return totalNumberOfRecordsWritten;
-		}
-		/**
-		 * @return Returns the numberOfDocuments.
-		 */
-		public int getNumberOfDocuments() {
-			return numberOfDocuments;
-		}
-		/**
-		 * @param numberOfDocuments The numberOfDocuments to set.
-		 */
-		public void setNumberOfDocuments(int numberOfDocuments) {
-			this.numberOfDocuments = numberOfDocuments;
-		}
-		/**
-		 * @return Returns the numberOfErrors.
-		 */
-		public int getNumberOfErrors() {
-			return numberOfErrors;
-		}
-		/**
-		 * @param numberOfErrors The numberOfErrors to set.
-		 */
-		public void setNumberOfErrors(int numberOfErrors) {
-			this.numberOfErrors = numberOfErrors;
-		}
-		/**
-		 * @return Returns the numberOfOriginEntries.
-		 */
-		public int getNumberOfOriginEntries() {
-			return numberOfOriginEntries;
-		}
-		/**
-		 * @param numberOfOriginEntries The numberOfOriginEntries to set.
-		 */
-		public void setNumberOfOriginEntries(int numberOfOriginEntries) {
-			this.numberOfOriginEntries = numberOfOriginEntries;
-		}
-		/**
-		 * @return Returns the numberOfOriginEntryGroups.
-		 */
-		public int getNumberOfOriginEntryGroups() {
-			return numberOfOriginEntryGroups;
-		}
-		/**
-		 * @param numberOfOriginEntryGroups The numberOfOriginEntryGroups to set.
-		 */
-		public void setNumberOfOriginEntryGroups(int numberOfOriginEntryGroups) {
-			this.numberOfOriginEntryGroups = numberOfOriginEntryGroups;
-		}
-		/**
-		 * @return Returns the numberOfUnitsOfWork.
-		 */
-		public int getNumberOfUnitsOfWork() {
-			return numberOfUnitsOfWork;
-		}
-		/**
-		 * @param numberOfUnitsOfWork The numberOfUnitsOfWork to set.
-		 */
-		public void setNumberOfUnitsOfWork(int numberOfUnitsOfWork) {
-			this.numberOfUnitsOfWork = numberOfUnitsOfWork;
-		}
-    }
-    
-    class OriginEntryGroupInfo {
-    	BatchInfo batchInfo;
-    	OriginEntryGroup originEntryGroup;
-    	int errorCount;
-    	int numberOfDocuments;
-    	int numberOfUnitsOfWork;
-    	int numberOfEntries;
-    	
-    	public OriginEntryGroupInfo (BatchInfo batchInfo) {
-    		this.batchInfo = batchInfo;
-    	}
-    	/**
-		 * @return Returns the batchInfo.
-		 */
-		public BatchInfo getBatchInfo() {
-			return batchInfo;
-		}
-		/**
-		 * @param batchInfo The batchInfo to set.
-		 */
-		public void setBatchInfo(BatchInfo batchInfo) {
-			this.batchInfo = batchInfo;
-		}
-		/**
-		 * @return Returns the numberOfDocuments.
-		 */
-		public int getNumberOfDocuments() {
-			return numberOfDocuments;
-		}
-		/**
-		 * @param numberOfDocuments The numberOfDocuments to set.
-		 */
-		public void setNumberOfDocuments(int numberOfDocuments) {
-			this.numberOfDocuments = numberOfDocuments;
-		}
-		/**
-		 * @return Returns the numberOfUnitsOfWork.
-		 */
-		public int getNumberOfUnitsOfWork() {
-			return numberOfUnitsOfWork;
-		}
-		/**
-		 * @param numberOfUnitsOfWork The numberOfUnitsOfWork to set.
-		 */
-		public void setNumberOfUnitsOfWork(int numberOfUnitsOfWork) {
-			this.numberOfUnitsOfWork = numberOfUnitsOfWork;
-		}
-		public void incrementNumberOfEntries() {
-    		numberOfEntries++;
-    	}
-		/**
-		 * @return Returns the numberOfEntries.
-		 */
-		public int getNumberOfEntries() {
-			return numberOfEntries;
-		}
-		/**
-		 * @param numberOfEntries The numberOfEntries to set.
-		 */
-		public void setNumberOfEntries(int numberOfEntries) {
-			this.numberOfEntries = numberOfEntries;
-		}
-		/**
-		 * @return Returns the numberOfErrors.
-		 */
-		public int getErrorCount() {
-			return errorCount;
-		}
-		/**
-		 * @param numberOfErrors The numberOfErrors to set.
-		 */
-		public void setErrorCount(int errorCount) {
-			this.errorCount = errorCount;
-		}
-		/**
-		 * @return Returns the originEntryGroup.
-		 */
-		public OriginEntryGroup getOriginEntryGroup() {
-			return originEntryGroup;
-		}
-		/**
-		 * @param originEntryGroup The originEntryGroup to set.
-		 */
-		public void setOriginEntryGroup(OriginEntryGroup originEntryGroup) {
-			this.originEntryGroup = originEntryGroup;
-		}
-    }
-
-    class DocumentInfo {
-    	OriginEntryGroupInfo originEntryGroupInfo;
-    	boolean isLastDocumentInOriginEntryGroup;
-    	UnitOfWorkInfo lastUnitOfWork;
-    	String documentNumber;
-    	int numberOfErrors;
-    	int numberOfUnitsOfWork;
-    	int numberOfEntries;
-    	
-    	public DocumentInfo(OriginEntryGroupInfo originEntryGroupInfo) {
-    		setOriginEntryGroupInfo(originEntryGroupInfo);
-    	}
-    	
-		/**
-		 * @return Returns the numberOfEntries.
-		 */
-		public int getNumberOfEntries() {
-			return numberOfEntries;
-		}
-
-		/**
-		 * @param numberOfEntries The numberOfEntries to set.
-		 */
-		public void setNumberOfEntries(int numberOfEntries) {
-			this.numberOfEntries = numberOfEntries;
-		}
-
-		/**
-		 * @return Returns the numberOfUnitsOfWork.
-		 */
-		public int getNumberOfUnitsOfWork() {
-			return numberOfUnitsOfWork;
-		}
-
-		/**
-		 * @param numberOfUnitsOfWork The numberOfUnitsOfWork to set.
-		 */
-		public void setNumberOfUnitsOfWork(int numberOfUnitsOfWork) {
-			this.numberOfUnitsOfWork = numberOfUnitsOfWork;
-		}
-
-		/**
-		 * @return Returns the numberOfErrors.
-		 */
-		public int getNumberOfErrors() {
-			return numberOfErrors;
-		}
-
-		/**
-		 * @param numberOfErrors The numberOfErrors to set.
-		 */
-		public void setNumberOfErrors(int errorCount) {
-			this.numberOfErrors = errorCount;
-		}
-
-		/**
-		 * @return Returns the originEntryGroupInfo.
-		 */
-		OriginEntryGroupInfo getOriginEntryGroupInfo() {
-			return originEntryGroupInfo;
-		}
-
-		/**
-		 * @param originEntryGroupInfo The originEntryGroupInfo to set.
-		 */
-		void setOriginEntryGroupInfo(OriginEntryGroupInfo originEntryGroupInfo) {
-			this.originEntryGroupInfo = originEntryGroupInfo;
-		}
-
-		/**
-		 * @return Returns the lastUnitOfWork.
-		 */
-		UnitOfWorkInfo getLastUnitOfWork() {
-			return lastUnitOfWork;
-		}
-
-		/**
-		 * @param lastUnitOfWork The lastUnitOfWork to set.
-		 */
-		void setLastUnitOfWork(UnitOfWorkInfo lastUnitOfWork) {
-			this.lastUnitOfWork = lastUnitOfWork;
-		}
-
-		/**
-		 * @return Returns the isLastDocumentInOriginEntryGroup.
-		 */
-		boolean isLastDocumentInOriginEntryGroup() {
-			return isLastDocumentInOriginEntryGroup;
-		}
-
-		/**
-		 * @param isLastDocumentInOriginEntryGroup The isLastDocumentInOriginEntryGroup to set.
-		 */
-		void setLastDocumentInOriginEntryGroup(boolean isLastDocumentInOriginEntryGroup) {
-			this.isLastDocumentInOriginEntryGroup = isLastDocumentInOriginEntryGroup;
-		}
-
-		/**
-		 * @return Returns the documentNumber.
-		 */
-		String getDocumentNumber() {
-			return documentNumber;
-		}
-
-		/**
-		 * @param documentNumber The documentNumber to set.
-		 */
-		void setDocumentNumber(String documentNumber) {
-			this.documentNumber = documentNumber;
-		}
-    }
-
-    class UnitOfWorkInfo {
-    	DocumentInfo documentInfo;
-    	OriginEntryGroup originEntryGroup;
-    	String documentNumber;
-    	int errorCountOffset;
-    	int errorCountWrite;
-    	int errorCountCostShare;
-    	int errorCountCostShareEncumbrances;
-    	OriginEntry firstEntryOfNextUnitOfWork;
-    	int errorCount;
-    	int numberOfEntries;
-    	OriginEntry templateEntryForOffsetGeneration;
-    	
-        KualiDecimal totalOffsetAmount = new KualiDecimal(0.0);
-        KualiDecimal totalCreditAmount = new KualiDecimal(0.0);
-        KualiDecimal totalDebitAmount = new KualiDecimal(0.0);
-    	
-        public UnitOfWorkInfo (DocumentInfo documentInfo) {
-        	setDocumentInfo(documentInfo);
-        }
-        
-    	/**
-		 * @return Returns the templateEntryForOffsetGeneration.
-		 */
-		public OriginEntry getTemplateEntryForOffsetGeneration() {
-			return templateEntryForOffsetGeneration;
-		}
-		/**
-		 * @param templateEntryForOffsetGeneration The templateEntryForOffsetGeneration to set.
-		 */
-		public void setTemplateEntryForOffsetGeneration(
-				OriginEntry templateEntryForOffsetGeneration) {
-			this.templateEntryForOffsetGeneration = templateEntryForOffsetGeneration;
-		}
-		/**
-		 * @return Returns the documentInfo.
-		 */
-		public DocumentInfo getDocumentInfo() {
-			return documentInfo;
-		}
-
-		/**
-		 * @param documentInfo The documentInfo to set.
-		 */
-		public void setDocumentInfo(DocumentInfo documentInfo) {
-			this.documentInfo = documentInfo;
-		}
-
-		/**
-		 * @return Returns the totalCreditAmount.
-		 */
-		public KualiDecimal getTotalCreditAmount() {
-			return totalCreditAmount;
-		}
-		/**
-		 * @param totalCreditAmount The totalCreditAmount to set.
-		 */
-		public void setTotalCreditAmount(KualiDecimal totalCreditAmount) {
-			this.totalCreditAmount = totalCreditAmount;
-		}
-		/**
-		 * @return Returns the totalDebitAmount.
-		 */
-		public KualiDecimal getTotalDebitAmount() {
-			return totalDebitAmount;
-		}
-		/**
-		 * @param totalDebitAmount The totalDebitAmount to set.
-		 */
-		public void setTotalDebitAmount(KualiDecimal totalDebitAmount) {
-			this.totalDebitAmount = totalDebitAmount;
-		}
-		/**
-		 * @return Returns the totalOffsetAmount.
-		 */
-		public KualiDecimal getTotalOffsetAmount() {
-			return totalOffsetAmount;
-		}
-		/**
-		 * @param totalOffsetAmount The totalOffsetAmount to set.
-		 */
-		public void setTotalOffsetAmount(KualiDecimal totalOffsetAmount) {
-			this.totalOffsetAmount = totalOffsetAmount;
-		}
-		public void incrementNumberOfEntries() {
-    		numberOfEntries++;
-    	}
-		/**
-		 * @return Returns the numberOfEntries.
-		 */
-		public int getNumberOfEntries() {
-			return numberOfEntries;
-		}
-		/**
-		 * @param numberOfEntries The numberOfEntries to set.
-		 */
-		public void setNumberOfEntries(int numberOfEntries) {
-			this.numberOfEntries = numberOfEntries;
-		}
-		/**
-		 * @return Returns the numberOfErrors.
-		 */
-		public int getErrorCount() {
-			return errorCount;
-		}
-		/**
-		 * @param numberOfErrors The numberOfErrors to set.
-		 */
-		public void setErrorCount(int errorCount) {
-			this.errorCount = errorCount;
-		}
-		/**
-		 * @return Returns the originEntryGroup.
-		 */
-		OriginEntryGroup getOriginEntryGroup() {
-			return originEntryGroup;
-		}
-		/**
-		 * @param originEntryGroup The originEntryGroup to set.
-		 */
-		void setOriginEntryGroup(OriginEntryGroup originEntryGroup) {
-			this.originEntryGroup = originEntryGroup;
-		}
-		/**
-		 * @return Returns the documentNumber.
-		 */
-		String getDocumentNumber() {
-			return documentNumber;
-		}
-		/**
-		 * @param documentNumber The documentNumber to set.
-		 */
-		void setDocumentNumber(String documentNumber) {
-			this.documentNumber = documentNumber;
-		}
-		/**
-		 * @return Returns the errorCountCostShare.
-		 */
-		int getErrorCountCostShare() {
-			return errorCountCostShare;
-		}
-		/**
-		 * @param errorCountCostShare The errorCountCostShare to set.
-		 */
-		void setErrorCountCostShare(int errorCountCostShare) {
-			this.errorCountCostShare = errorCountCostShare;
-		}
-		/**
-		 * @return Returns the errorCountCostShareEncumbrances.
-		 */
-		int getErrorCountCostShareEncumbrances() {
-			return errorCountCostShareEncumbrances;
-		}
-		/**
-		 * @param errorCountCostShareEncumbrances The errorCountCostShareEncumbrances to set.
-		 */
-		void setErrorCountCostShareEncumbrances(int errorCountCostShareEncumbrances) {
-			this.errorCountCostShareEncumbrances = errorCountCostShareEncumbrances;
-		}
-		/**
-		 * @return Returns the errorCountOffset.
-		 */
-		int getErrorCountOffset() {
-			return errorCountOffset;
-		}
-		/**
-		 * @param errorCountOffset The errorCountOffset to set.
-		 */
-		void setErrorCountOffset(int errorCountOffset) {
-			this.errorCountOffset = errorCountOffset;
-		}
-		/**
-		 * @return Returns the errorCountWrite.
-		 */
-		int getErrorCountWrite() {
-			return errorCountWrite;
-		}
-		/**
-		 * @param errorCountWrite The errorCountWrite to set.
-		 */
-		void setErrorCountWrite(int errorCountWrite) {
-			this.errorCountWrite = errorCountWrite;
-		}
-		/**
-		 * @return Returns the firstEntryOfNextUnitOfWork.
-		 */
-		OriginEntry getFirstEntryOfNextUnitOfWork() {
-			return firstEntryOfNextUnitOfWork;
-		}
-		/**
-		 * @param firstEntryOfNextUnitOfWork The firstEntryOfNextUnitOfWork to set.
-		 */
-		void setFirstEntryOfNextUnitOfWork(OriginEntry firstEntryOfNextUnitOfWork) {
-			this.firstEntryOfNextUnitOfWork = firstEntryOfNextUnitOfWork;
-		}
-    }
-    
-    class OriginEntryInfo {
-    	UnitOfWorkInfo unitOfWorkInfo;
-    	OriginEntry originEntry;
-    	List processingErrors;
-    	Account account;
-    	KualiDecimal costSharingAmount;
-    	
-    	public OriginEntryInfo(UnitOfWorkInfo unitOfWork) {
-    		processingErrors = new ArrayList();
-    		costSharingAmount = new KualiDecimal(0);
-    		setUnitOfWorkInfo(unitOfWork);
-    	}
-
-		/**
-		 * @return Returns the costSharingAmount.
-		 */
-		public KualiDecimal getCostSharingAmount() {
-			return costSharingAmount;
-		}
-
-		/**
-		 * @param costSharingAmount The costSharingAmount to set.
-		 */
-		public void setCostSharingAmount(KualiDecimal costSharingAmount) {
-			this.costSharingAmount = costSharingAmount;
-		}
-
-		/**
-		 * @return Returns the unitOfWorkInfo.
-		 */
-		public UnitOfWorkInfo getUnitOfWorkInfo() {
-			return unitOfWorkInfo;
-		}
-
-		/**
-		 * @param unitOfWorkInfo The unitOfWorkInfo to set.
-		 */
-		public void setUnitOfWorkInfo(UnitOfWorkInfo unitOfWorkInfo) {
-			this.unitOfWorkInfo = unitOfWorkInfo;
-		}
-
-		/**
-		 * @return Returns the continuationAccountNumber.
-		 */
-		public Account getAccount() {
-			return account;
-		}
-
-		/**
-		 * @param account The account to set.
-		 */
-		public void setAccount(Account continuationAccount) {
-			this.account = continuationAccount;
-		}
-
-		/**
-		 * @return Returns the originEntry.
-		 */
-		public OriginEntry getOriginEntry() {
-			return originEntry;
-		}
-
-		/**
-		 * @param originEntry The originEntry to set.
-		 */
-		public void setOriginEntry(OriginEntry originEntry) {
-			this.originEntry = originEntry;
-		}
-
-		/**
-		 * @return Returns the processingErrors.
-		 */
-		public List getProcessingErrors() {
-			return processingErrors;
-		}
-
-		/**
-		 * @param processingErrors The processingErrors to set.
-		 */
-		public void setProcessingErrors(List processingErrors) {
-			this.processingErrors = processingErrors;
-		}
     }
     
 }

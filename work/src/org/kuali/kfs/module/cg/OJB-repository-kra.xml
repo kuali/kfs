@@ -112,7 +112,7 @@
   <field-descriptor name="budgetFringeRateDescription" column="BDGT_FRNG_RT_DESC" jdbc-type="VARCHAR" />
   <field-descriptor name="agencyModularIndicator" column="AGNCY_MOD_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
   <field-descriptor name="agencyToBeNamedIndicator" column="BDGT_AGNCY_TBN_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
-  <field-descriptor name="projectDirectoryToBeNamedIndicator" column="BDGT_PRJDR_TBN_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+  <field-descriptor name="projectDirectorToBeNamedIndicator" column="BDGT_PRJDR_TBN_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
   <field-descriptor name="budgetTypeCodeText" column="BDGT_TYP_CD_TXT" jdbc-type="VARCHAR"/>
   <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
   <field-descriptor name="versionNumber" locking="true" column="VER_NBR" jdbc-type="BIGINT" />
@@ -282,7 +282,7 @@
   <field-descriptor name="personNamePrefixText" column="PRSN_NM_PRFX_TXT" jdbc-type="VARCHAR"/>
   <field-descriptor name="personNameSuffixText" column="PRSN_NM_SFX_TXT" jdbc-type="VARCHAR"/>
   <field-descriptor name="personSalaryJustificationText" column="PRSN_SLRY_JSTF_TXT" jdbc-type="VARCHAR"/>
-  <field-descriptor name="personProjectDirectoryIndicator" column="PRSN_PRJDR_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+  <field-descriptor name="personProjectDirectorIndicator" column="PRSN_PRJDR_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 	<reference-descriptor name="user" class-ref="org.kuali.core.bo.user.UniversalUser" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="personUniversalIdentifier" />
 	</reference-descriptor>

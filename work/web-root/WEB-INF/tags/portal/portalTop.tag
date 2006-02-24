@@ -9,7 +9,7 @@
 <head>
 <title>Kuali Portal Index</title>
 <link href="css/portal.css" rel="stylesheet" type="text/css" />
-
+<script language="javascript" src="scripts/my_common.js"></script>
 <script language="javascript" >
 if (top.location != self.location) {
 	top.location = self.location;

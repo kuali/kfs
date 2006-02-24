@@ -35,173 +35,173 @@ import org.kuali.core.bo.BusinessObjectBase;
  */
 public class DepositCashReceiptControl extends BusinessObjectBase {
 
-	private String financialDocumentDepositNumber;
-	private String financialDocumentCashReceiptNumber;
-	private Timestamp financialSystemsCashReceiptProcessingTimestamp;
-	private String financialSystemsProcessingOperatorIdentifier;
-	private String financialDocumentDepositTypeCode;
-	private DepositHeader depositHeader;
-	private CashReceiptHeader cashReceiptHeader;
+    private String financialDocumentDepositNumber;
+    private String financialDocumentCashReceiptNumber;
+    private Timestamp financialSystemsCashReceiptProcessingTimestamp;
+    private String financialSystemsProcessingOperatorIdentifier;
+    private String financialDocumentDepositTypeCode;
+    private DepositHeader depositHeader;
+    private CashReceiptHeader cashReceiptHeader;
 
-	/**
-	 * Default constructor.
-	 */
-	public DepositCashReceiptControl() {
+    /**
+     * Default constructor.
+     */
+    public DepositCashReceiptControl() {
 
-	}
+    }
 
-	/**
-	 * Gets the financialDocumentDepositNumber attribute.
-	 * 
-	 * @return - Returns the financialDocumentDepositNumber
-	 * 
-	 */
-	public String getFinancialDocumentDepositNumber() { 
-		return financialDocumentDepositNumber;
-	}
+    /**
+     * Gets the financialDocumentDepositNumber attribute.
+     * 
+     * @return - Returns the financialDocumentDepositNumber
+     * 
+     */
+    public String getFinancialDocumentDepositNumber() {
+        return financialDocumentDepositNumber;
+    }
 
-	/**
-	 * Sets the financialDocumentDepositNumber attribute.
-	 * 
-	 * @param - financialDocumentDepositNumber The financialDocumentDepositNumber to set.
-	 * 
-	 */
-	public void setFinancialDocumentDepositNumber(String financialDocumentDepositNumber) {
-		this.financialDocumentDepositNumber = financialDocumentDepositNumber;
-	}
-
-
-	/**
-	 * Gets the financialDocumentCashReceiptNumber attribute.
-	 * 
-	 * @return - Returns the financialDocumentCashReceiptNumber
-	 * 
-	 */
-	public String getFinancialDocumentCashReceiptNumber() { 
-		return financialDocumentCashReceiptNumber;
-	}
-
-	/**
-	 * Sets the financialDocumentCashReceiptNumber attribute.
-	 * 
-	 * @param - financialDocumentCashReceiptNumber The financialDocumentCashReceiptNumber to set.
-	 * 
-	 */
-	public void setFinancialDocumentCashReceiptNumber(String financialDocumentCashReceiptNumber) {
-		this.financialDocumentCashReceiptNumber = financialDocumentCashReceiptNumber;
-	}
+    /**
+     * Sets the financialDocumentDepositNumber attribute.
+     * 
+     * @param - financialDocumentDepositNumber The financialDocumentDepositNumber to set.
+     * 
+     */
+    public void setFinancialDocumentDepositNumber(String financialDocumentDepositNumber) {
+        this.financialDocumentDepositNumber = financialDocumentDepositNumber;
+    }
 
 
-	/**
-	 * Gets the financialSystemsCashReceiptProcessingTimestamp attribute.
-	 * 
-	 * @return - Returns the financialSystemsCashReceiptProcessingTimestamp
-	 * 
-	 */
-	public Timestamp getFinancialSystemsCashReceiptProcessingTimestamp() { 
-		return financialSystemsCashReceiptProcessingTimestamp;
-	}
+    /**
+     * Gets the financialDocumentCashReceiptNumber attribute.
+     * 
+     * @return - Returns the financialDocumentCashReceiptNumber
+     * 
+     */
+    public String getFinancialDocumentCashReceiptNumber() {
+        return financialDocumentCashReceiptNumber;
+    }
 
-	/**
-	 * Sets the financialSystemsCashReceiptProcessingTimestamp attribute.
-	 * 
-	 * @param - financialSystemsCashReceiptProcessingTimestamp The financialSystemsCashReceiptProcessingTimestamp to set.
-	 * 
-	 */
-	public void setFinancialSystemsCashReceiptProcessingTimestamp(Timestamp financialSystemsCashReceiptProcessingTimestamp) {
-		this.financialSystemsCashReceiptProcessingTimestamp = financialSystemsCashReceiptProcessingTimestamp;
-	}
-
-
-	/**
-	 * Gets the financialSystemsProcessingOperatorIdentifier attribute.
-	 * 
-	 * @return - Returns the financialSystemsProcessingOperatorIdentifier
-	 * 
-	 */
-	public String getFinancialSystemsProcessingOperatorIdentifier() { 
-		return financialSystemsProcessingOperatorIdentifier;
-	}
-
-	/**
-	 * Sets the financialSystemsProcessingOperatorIdentifier attribute.
-	 * 
-	 * @param - financialSystemsProcessingOperatorIdentifier The financialSystemsProcessingOperatorIdentifier to set.
-	 * 
-	 */
-	public void setFinancialSystemsProcessingOperatorIdentifier(String financialSystemsProcessingOperatorIdentifier) {
-		this.financialSystemsProcessingOperatorIdentifier = financialSystemsProcessingOperatorIdentifier;
-	}
+    /**
+     * Sets the financialDocumentCashReceiptNumber attribute.
+     * 
+     * @param - financialDocumentCashReceiptNumber The financialDocumentCashReceiptNumber to set.
+     * 
+     */
+    public void setFinancialDocumentCashReceiptNumber(String financialDocumentCashReceiptNumber) {
+        this.financialDocumentCashReceiptNumber = financialDocumentCashReceiptNumber;
+    }
 
 
-	/**
-	 * Gets the financialDocumentDepositTypeCode attribute.
-	 * 
-	 * @return - Returns the financialDocumentDepositTypeCode
-	 * 
-	 */
-	public String getFinancialDocumentDepositTypeCode() { 
-		return financialDocumentDepositTypeCode;
-	}
+    /**
+     * Gets the financialSystemsCashReceiptProcessingTimestamp attribute.
+     * 
+     * @return - Returns the financialSystemsCashReceiptProcessingTimestamp
+     * 
+     */
+    public Timestamp getFinancialSystemsCashReceiptProcessingTimestamp() {
+        return financialSystemsCashReceiptProcessingTimestamp;
+    }
 
-	/**
-	 * Sets the financialDocumentDepositTypeCode attribute.
-	 * 
-	 * @param - financialDocumentDepositTypeCode The financialDocumentDepositTypeCode to set.
-	 * 
-	 */
-	public void setFinancialDocumentDepositTypeCode(String financialDocumentDepositTypeCode) {
-		this.financialDocumentDepositTypeCode = financialDocumentDepositTypeCode;
-	}
+    /**
+     * Sets the financialSystemsCashReceiptProcessingTimestamp attribute.
+     * 
+     * @param - financialSystemsCashReceiptProcessingTimestamp The financialSystemsCashReceiptProcessingTimestamp to set.
+     * 
+     */
+    public void setFinancialSystemsCashReceiptProcessingTimestamp(Timestamp financialSystemsCashReceiptProcessingTimestamp) {
+        this.financialSystemsCashReceiptProcessingTimestamp = financialSystemsCashReceiptProcessingTimestamp;
+    }
 
 
-	/**
-	 * Gets the depositHeader attribute.
-	 * 
-	 * @return - Returns the depositHeader
-	 * 
-	 */
-	public DepositHeader getDepositHeader() { 
-		return depositHeader;
-	}
+    /**
+     * Gets the financialSystemsProcessingOperatorIdentifier attribute.
+     * 
+     * @return - Returns the financialSystemsProcessingOperatorIdentifier
+     * 
+     */
+    public String getFinancialSystemsProcessingOperatorIdentifier() {
+        return financialSystemsProcessingOperatorIdentifier;
+    }
 
-	/**
-	 * Sets the depositHeader attribute.
-	 * 
-	 * @param - depositHeader The depositHeader to set.
-	 * @deprecated
-	 */
-	public void setDepositHeader(DepositHeader depositHeader) {
-		this.depositHeader = depositHeader;
-	}
+    /**
+     * Sets the financialSystemsProcessingOperatorIdentifier attribute.
+     * 
+     * @param - financialSystemsProcessingOperatorIdentifier The financialSystemsProcessingOperatorIdentifier to set.
+     * 
+     */
+    public void setFinancialSystemsProcessingOperatorIdentifier(String financialSystemsProcessingOperatorIdentifier) {
+        this.financialSystemsProcessingOperatorIdentifier = financialSystemsProcessingOperatorIdentifier;
+    }
 
-	/**
-	 * Gets the cashReceiptHeader attribute.
-	 * 
-	 * @return - Returns the cashReceiptHeader
-	 * 
-	 */
-	public CashReceiptHeader getCashReceiptHeader() { 
-		return cashReceiptHeader;
-	}
 
-	/**
-	 * Sets the cashReceiptHeader attribute.
-	 * 
-	 * @param - cashReceiptHeader The cashReceiptHeader to set.
-	 * @deprecated
-	 */
-	public void setCashReceiptHeader(CashReceiptHeader cashReceiptHeader) {
-		this.cashReceiptHeader = cashReceiptHeader;
-	}
+    /**
+     * Gets the financialDocumentDepositTypeCode attribute.
+     * 
+     * @return - Returns the financialDocumentDepositTypeCode
+     * 
+     */
+    public String getFinancialDocumentDepositTypeCode() {
+        return financialDocumentDepositTypeCode;
+    }
 
-	/**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
+    /**
+     * Sets the financialDocumentDepositTypeCode attribute.
+     * 
+     * @param - financialDocumentDepositTypeCode The financialDocumentDepositTypeCode to set.
+     * 
+     */
+    public void setFinancialDocumentDepositTypeCode(String financialDocumentDepositTypeCode) {
+        this.financialDocumentDepositTypeCode = financialDocumentDepositTypeCode;
+    }
+
+
+    /**
+     * Gets the depositHeader attribute.
+     * 
+     * @return - Returns the depositHeader
+     * 
+     */
+    public DepositHeader getDepositHeader() {
+        return depositHeader;
+    }
+
+    /**
+     * Sets the depositHeader attribute.
+     * 
+     * @param - depositHeader The depositHeader to set.
+     * @deprecated
+     */
+    public void setDepositHeader(DepositHeader depositHeader) {
+        this.depositHeader = depositHeader;
+    }
+
+    /**
+     * Gets the cashReceiptHeader attribute.
+     * 
+     * @return - Returns the cashReceiptHeader
+     * 
+     */
+    public CashReceiptHeader getCashReceiptHeader() {
+        return cashReceiptHeader;
+    }
+
+    /**
+     * Sets the cashReceiptHeader attribute.
+     * 
+     * @param - cashReceiptHeader The cashReceiptHeader to set.
+     * @deprecated
+     */
+    public void setCashReceiptHeader(CashReceiptHeader cashReceiptHeader) {
+        this.cashReceiptHeader = cashReceiptHeader;
+    }
+
+    /**
+     * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
         m.put("financialDocumentDepositNumber", this.financialDocumentDepositNumber);
         m.put("financialDocumentCashReceiptNumber", this.financialDocumentCashReceiptNumber);
-	    return m;
+        return m;
     }
 }

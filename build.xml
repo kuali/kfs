@@ -95,7 +95,7 @@
    	</target>
 
 	<target name="clean-config" if="is.local.build" depends="init-project-properties">
-		<!--<delete file="${appserver.lib.dir}/${oracle.library.file}"/>-->
+		<delete file="${appserver.lib.dir}/${oracle.library.file}"/>
 		<delete dir="${settings.directory}"/>
 		<delete dir="${security.directory}"/>
 		<delete dir="${logs.directory}"/>

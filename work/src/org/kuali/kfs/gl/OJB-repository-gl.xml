@@ -681,6 +681,14 @@
 		<foreignkey field-ref="financialObjectCode" />
 	</reference-descriptor>
 	
+	<reference-descriptor name="balanceType" class-ref="org.kuali.module.chart.bo.codes.BalanceTyp" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="financialBalanceTypeCode" />
+	</reference-descriptor>
+	
+	<reference-descriptor name="objectType" class-ref="org.kuali.module.chart.bo.ObjectType" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="financialObjectTypeCode" />
+	</reference-descriptor>
+	
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.gl.bo.UniversityDate" table="SH_UNIV_DATE_T">

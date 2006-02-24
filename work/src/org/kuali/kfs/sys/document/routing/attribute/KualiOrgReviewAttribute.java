@@ -78,6 +78,15 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
 
     private static final String ORG_REVIEW_ATTRIBUTE = "KUALI_ORG_REVIEW_ATTRIBUTE";
     private static Map ORGS = new HashMap();
+    
+    private static final String MAINTAINABLE_PREFIX = "//newMaintainableObject/businessObject/";
+    private static final String ACCOUNT_DOC_TYPE = "KualiAccountMaintenanceDocument";
+    private static final String ACCOUNT_DEL_DOC_TYPE = "KualiAccountDelegateMaintenanceDocument";
+    private static final String FIS_USER_DOC_TYPE = "KualiUserMaintenanceDocument";
+    private static final String GLOBAL_ACCOUNT_DEL_DOC_TYPE = "?";
+    private static final String ORGANIZATION_DOC_TYPE = "";
+    private static final String SUB_ACCOUNT_DOC_TYPE = "KualiSubAccountMaintenanceDocument";
+    private static final String SUB_OBJECT_DOC_TYPE = "KualiSubObjectMaintenanceDocument";
 
     private String finCoaCd;
     private String orgCd;
@@ -278,7 +287,7 @@ public boolean isMatch(DocumentContent docContent, List ruleExtensions) {
         this.finCoaCd = getRuleExtentionValue(FIN_COA_CD_KEY, ruleExtensions);
         this.orgCd = getRuleExtentionValue(ORG_CD_KEY, ruleExtensions);
         this.fromAmount = getRuleExtentionValue(FROM_AMOUNT_KEY, ruleExtensions);
-        this.toAmount = getRuleExtentionValue(ORG_CD_KEY, ruleExtensions);
+        this.toAmount = getRuleExtentionValue(TO_AMOUNT_KEY, ruleExtensions);
         this.overrideCd = getRuleExtentionValue(OVERRIDE_CD_KEY, ruleExtensions);
         DocumentType documentType = docContent.getRouteContext().getDocument().getDocumentType();
         Set chartOrgValues = populateFromDocContent(documentType, docContent);
@@ -360,47 +369,70 @@ public boolean isMatch(DocumentContent docContent, List ruleExtensions) {
     private Set populateFromDocContent(DocumentType docType, DocumentContent docContent) {
         Set chartOrgValues = new HashSet();
         NodeList nodes = null;
+        XPath xpath = XPathFactory.newInstance().newXPath();
         try {
-            String xpathExp = null;
-            do {
+        	String chart = null;
+        	String org = null;
+        	if (docType.getName().equals(ACCOUNT_DOC_TYPE) ||
+        			docType.getName().equals(FIS_USER_DOC_TYPE)) {
+        		chart = xpath.evaluate(MAINTAINABLE_PREFIX+"chartOfAccountsCode", docContent.getDocument());
+        		org = xpath.evaluate(MAINTAINABLE_PREFIX+"organizationCode", docContent.getDocument());
+        	} else if (docType.getName().equals(ORGANIZATION_DOC_TYPE)) {
+        		chart = xpath.evaluate(MAINTAINABLE_PREFIX+"finCoaCd", docContent.getDocument());
+        		org = xpath.evaluate(MAINTAINABLE_PREFIX+"orgCd", docContent.getDocument());
+        	} else if (docType.getName().equals(SUB_ACCOUNT_DOC_TYPE) ||
+        			docType.getName().equals(SUB_OBJECT_DOC_TYPE)) {
+        		chart = xpath.evaluate(MAINTAINABLE_PREFIX+"account/chartOfAccountsCode", docContent.getDocument());
+        		org = xpath.evaluate(MAINTAINABLE_PREFIX+"account/organizationCode", docContent.getDocument());
+        	} else if (docType.getName().equals(ACCOUNT_DEL_DOC_TYPE)) {
+        		// TODO how do we access the organization code?
+        	} else if (docType.getName().equals(GLOBAL_ACCOUNT_DEL_DOC_TYPE)) {
+        		// TODO not sure what this document is
+        	}
+        	if (!StringUtils.isEmpty(chart) && !StringUtils.isEmpty(org)) {
+            	KualiFiscalOrganization organization = new KualiFiscalOrganization();
+        		organization.setFinCoaCd(chart);
+        		organization.setOrgCd(org);
+        		chartOrgValues.add(organization);
+    			buildOrgReviewHierarchy(chartOrgValues, organization);
+        	} else {
+        		String xpathExp = null;
+        		do {
+        			if (docType.getName().equals("KualiMaintenanceDocument")) {
+        				xpathExp = "//kualiUser";
+        				break;
+        			} else if (docType.getName().equals("KualiInternalBillingDocument")) {
+        				xpathExp = "//org.kuali.core.bo.SourceAccountingLine/account";
+        				break;
+        			} else if (docType.getName().equals("KualiFinancialDocument")) {
+        				xpathExp = "//org.kuali.core.bo.SourceAccountingLine/account | //org.kuali.core.bo.TargetAccountingLine/account";
+        				break;
+        			} else {
+        				docType = docType.getParentDocType();
+        			}
+        		} while (docType != null);
 
-                if (docType.getName().equals("KualiMaintenanceDocument")) {
-                    xpathExp = "//kualiUser";
-                    break;
-                } else if (docType.getName().equals("KualiInternalBillingDocument")) {
-                    xpathExp = "//org.kuali.core.bo.SourceAccountingLine/account";
-                    break;
-                } else if (docType.getName().equals("KualiFinancialDocument")) {
-                    xpathExp = "//org.kuali.core.bo.SourceAccountingLine/account | //org.kuali.core.bo.TargetAccountingLine/account";
-                    break;
-                } else {
-                    docType = docType.getParentDocType();
-                }
+        		if (xpathExp == null) {
+        			throw new RuntimeException("Did not find expected document type.  Doc type used = " + docType.getName());
+        		}
+        		nodes = (NodeList) xpath.evaluate(xpathExp, docContent.getDocument(), XPathConstants.NODESET);
 
-            } while (docType != null);
+        		for (int i = 0; i < nodes.getLength(); i++) {
+        			Node accountingLineNode = nodes.item(i);
+        			String referenceString = xpath.evaluate("@reference", accountingLineNode);
+        			if (!StringUtils.isEmpty(referenceString)) {
+        				accountingLineNode = (Node) xpath.evaluate(referenceString, accountingLineNode, XPathConstants.NODE);
+        			}
+        			String finCoaCd = xpath.evaluate("chartOfAccountsCode", accountingLineNode);
+        			String orgCd = xpath.evaluate("organizationCode", accountingLineNode);
+        			KualiFiscalOrganization orgization = new KualiFiscalOrganization();
+        			orgization.setFinCoaCd(finCoaCd);
+        			orgization.setOrgCd(orgCd);
 
-            if (xpathExp == null) {
-                throw new RuntimeException("Did not find expected document type.  Doc type used = " + docType.getName());
-            }
-
-            XPath xpath = XPathFactory.newInstance().newXPath();
-            nodes = (NodeList) xpath.evaluate(xpathExp, docContent.getDocument(), XPathConstants.NODESET);
-
-            for (int i = 0; i < nodes.getLength(); i++) {
-                Node accountingLineNode = nodes.item(i);
-                String referenceString = xpath.evaluate("@reference", accountingLineNode);
-                if (!StringUtils.isEmpty(referenceString)) {
-                    accountingLineNode = (Node) xpath.evaluate(referenceString, accountingLineNode, XPathConstants.NODE);
-                }
-                String finCoaCd = xpath.evaluate("chartOfAccountsCode", accountingLineNode);
-                String orgCd = xpath.evaluate("organizationCode", accountingLineNode);
-                KualiFiscalOrganization orgization = new KualiFiscalOrganization();
-                orgization.setFinCoaCd(finCoaCd);
-                orgization.setOrgCd(orgCd);
-
-                chartOrgValues.add(orgization);
-                buildOrgReviewHierarchy(chartOrgValues, orgization);
-            }
+        			chartOrgValues.add(orgization);
+        			buildOrgReviewHierarchy(chartOrgValues, orgization);
+        		}
+        	}
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

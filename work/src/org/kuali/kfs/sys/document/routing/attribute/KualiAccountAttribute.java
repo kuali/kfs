@@ -89,6 +89,12 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
     // private static final String LOOKUPABLE_CLASS = "AccountLookupableImplService";
 
     private static final String ROLE_STRING_DELIMITER = "~!~!~";
+    
+    private static final String MAINTAINABLE_PREFIX = "//newMaintainableObject/businessObject/";
+    private static final String ACCOUNT_DOC_TYPE = "KualiAccountMaintenanceDocument";
+    private static final String ACCOUNT_DEL_DOC_TYPE = "KualiAccountDelegateMaintenanceDocument";
+    private static final String SUB_ACCOUNT_DOC_TYPE = "KualiSubAccountMaintenanceDocument";
+    private static final String SUB_OBJECT_DOC_TYPE = "KualiSubObjectMaintenanceDocument";
 
     private String finCoaCd;
 
@@ -308,7 +314,7 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
      * @return
      */
     private String getQualifiedRoleString(String roleName, String chart, String account, String totalDollarAmount) {
-        return roleName + ROLE_STRING_DELIMITER + chart + ROLE_STRING_DELIMITER + account + ROLE_STRING_DELIMITER + totalDollarAmount;
+        return roleName + ROLE_STRING_DELIMITER + chart + ROLE_STRING_DELIMITER + account + (totalDollarAmount == null ? "" : ROLE_STRING_DELIMITER + totalDollarAmount);
     }
 
     /**
@@ -348,7 +354,11 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
      * @return
      */
     private String getUnqualifiedTotalDollarAmountFromString(String qualifiedRole) {
-        return qualifiedRole.split(ROLE_STRING_DELIMITER)[3];
+    	String[] values = qualifiedRole.split(ROLE_STRING_DELIMITER);
+    	if (values.length > 3) {
+    		return qualifiedRole.split(ROLE_STRING_DELIMITER)[3];	
+    	}
+        return null;
     }
 
     /**
@@ -370,30 +380,39 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
     public List getQualifiedRoleNames(String roleName, DocumentContent docContent) throws EdenUserNotFoundException {
         try {
             Set qualifiedRoleNames = new HashSet();
+            XPath xpath = XPathFactory.newInstance().newXPath();
             if (FISCAL_OFFICER_ROLE_KEY.equals(roleName) || FISCAL_OFFICER_PRIMARY_DELEGATE_ROLE_KEY.equals(roleName) || FISCAL_OFFICER_SECONDARY_DELEGATE_ROLE_KEY.equals(roleName)) {
-                XPath xpath = null;
                 NodeList nodes = null;
-                if (!targetLinesOnlyDocs.contains(docContent.getRouteContext().getDocument().getDocumentType().getName())) {
-                    xpath = XPathFactory.newInstance().newXPath();
-                    nodes = (NodeList) xpath.evaluate("//org.kuali.core.bo.SourceAccountingLine", docContent.getDocument(), XPathConstants.NODESET);
+                String docTypeName = docContent.getRouteContext().getDocument().getDocumentType().getName();
+                if (docTypeName.equals(ACCOUNT_DOC_TYPE) || docTypeName.equals(SUB_ACCOUNT_DOC_TYPE) || docTypeName.equals(SUB_OBJECT_DOC_TYPE)) {
+                	String chart = xpath.evaluate(MAINTAINABLE_PREFIX+"chartOfAccountsCode", docContent.getDocument());
+                	String accountNumber = xpath.evaluate(MAINTAINABLE_PREFIX+"accountNumber", docContent.getDocument());
+                	qualifiedRoleNames.add(getQualifiedRoleString(roleName, chart, accountNumber, null));
+                } else if (docTypeName.equals(ACCOUNT_DEL_DOC_TYPE)) {
+                	String chart = xpath.evaluate(MAINTAINABLE_PREFIX+"finCoaCd", docContent.getDocument());
+                	String accountNumber = xpath.evaluate(MAINTAINABLE_PREFIX+"accountNbr", docContent.getDocument());
+                	qualifiedRoleNames.add(getQualifiedRoleString(roleName, chart, accountNumber, null));
+                } else {
+                	if (!targetLinesOnlyDocs.contains(docTypeName)) {
+                		nodes = (NodeList) xpath.evaluate("//org.kuali.core.bo.SourceAccountingLine", docContent.getDocument(), XPathConstants.NODESET);
+                		for (int i = 0; i < nodes.getLength(); i++) {
+                			Node accountingLineNode = nodes.item(i);
+                			String amount = xpath.evaluate("amount/value", accountingLineNode);
+                			String chart = xpath.evaluate("chartOfAccountsCode", accountingLineNode);
+                			String accountNumber = xpath.evaluate("accountNumber", accountingLineNode);
+                			qualifiedRoleNames.add(getQualifiedRoleString(roleName, chart, accountNumber, amount));
+                		}
+                	}
 
-                    for (int i = 0; i < nodes.getLength(); i++) {
-                        Node accountingLineNode = nodes.item(i);
-                        String amount = xpath.evaluate("amount/value", accountingLineNode);
-                        String chart = xpath.evaluate("chartOfAccountsCode", accountingLineNode);
-                        String accountNumber = xpath.evaluate("accountNumber", accountingLineNode);
-                        qualifiedRoleNames.add(getQualifiedRoleString(roleName, chart, accountNumber, amount));
-                    }
-                }
-
-                xpath = XPathFactory.newInstance().newXPath();
-                nodes = (NodeList) xpath.evaluate("//org.kuali.core.bo.TargetAccountingLine", docContent.getDocument(), XPathConstants.NODESET);
-                for (int i = 0; i < nodes.getLength(); i++) {
-                    Node accountingLineNode = nodes.item(i);
-                    String amount = xpath.evaluate("amount/value", accountingLineNode);
-                    String chart = xpath.evaluate("chartOfAccountsCode", accountingLineNode);
-                    String accountNumber = xpath.evaluate("accountNumber", accountingLineNode);
-                    qualifiedRoleNames.add(getQualifiedRoleString(roleName, chart, accountNumber, amount));
+                	xpath = XPathFactory.newInstance().newXPath();
+                	nodes = (NodeList) xpath.evaluate("//org.kuali.core.bo.TargetAccountingLine", docContent.getDocument(), XPathConstants.NODESET);
+                	for (int i = 0; i < nodes.getLength(); i++) {
+                		Node accountingLineNode = nodes.item(i);
+                		String amount = xpath.evaluate("amount/value", accountingLineNode);
+                		String chart = xpath.evaluate("chartOfAccountsCode", accountingLineNode);
+                		String accountNumber = xpath.evaluate("accountNumber", accountingLineNode);
+                		qualifiedRoleNames.add(getQualifiedRoleString(roleName, chart, accountNumber, amount));
+                	}
                 }
             }
             return new ArrayList(qualifiedRoleNames);
@@ -466,13 +485,15 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
                 members.add(new AuthenticationUserId(KualiConstants.getNetworkId(conn, kualiSystemId)));
             } else if (FISCAL_OFFICER_PRIMARY_DELEGATE_ROLE_KEY.equals(roleName)) {
                 String kualiSystemId = null;
-                String sql = "select ACCT_DLGT_UNVL_ID from CA_ACCT_DELEGATE_T " + "where FIN_COA_CD = ? and ACCOUNT_NBR = ? and FDOC_TYP_CD = ? and ACCT_DLGT_ACTV_IND = 'Y' " + "and ACCT_DLGT_START_DT <= SYSDATE and ACCT_DLGT_PRMRT_IND = 'Y' " + "and ((FDOC_APRV_FROM_AMT <= ? and FDOC_APRV_TO_AMT >= ?) " + "		OR FDOC_APRV_TO_AMT = 0)";
+                String sql = "select ACCT_DLGT_UNVL_ID from CA_ACCT_DELEGATE_T " + "where FIN_COA_CD = ? and ACCOUNT_NBR = ? and FDOC_TYP_CD = ? and ACCT_DLGT_ACTV_IND = 'Y' " + "and ACCT_DLGT_START_DT <= SYSDATE and ACCT_DLGT_PRMRT_IND = 'Y' " + (totalDollarAmount == null ? "" : "and ((FDOC_APRV_FROM_AMT <= ? and FDOC_APRV_TO_AMT >= ?) " + "		OR FDOC_APRV_TO_AMT = 0)");
                 PreparedStatement ps = conn.prepareStatement(sql);
                 ps.setString(1, chart);
                 ps.setString(2, account);
                 ps.setString(3, fisDocumentType);
-                ps.setString(4, totalDollarAmount);
-                ps.setString(5, totalDollarAmount);
+                if (totalDollarAmount != null) {
+                	ps.setString(4, totalDollarAmount);
+                	ps.setString(5, totalDollarAmount);
+                }
 
                 ResultSet rs = ps.executeQuery();
                 int counter = 0;
@@ -487,13 +508,19 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
             } else if (FISCAL_OFFICER_SECONDARY_DELEGATE_ROLE_KEY.equals(roleName)) {
                 String kualiSystemId = null;
 
-                String sql = "select ACCT_DLGT_UNVL_ID from CA_ACCT_DELEGATE_T " + "where FIN_COA_CD = ? and ACCOUNT_NBR = ? and FDOC_TYP_CD = ? and ACCT_DLGT_ACTV_IND = 'Y' " + "and ACCT_DLGT_START_DT <= SYSDATE and ACCT_DLGT_PRMRT_IND = 'N' " + "and ((FDOC_APRV_FROM_AMT <= ? and FDOC_APRV_TO_AMT >= ?) " + "		OR FDOC_APRV_TO_AMT = 0)";
+                String sql = "select ACCT_DLGT_UNVL_ID from CA_ACCT_DELEGATE_T " + 
+                	"where FIN_COA_CD = ? and ACCOUNT_NBR = ? and FDOC_TYP_CD = ? and ACCT_DLGT_ACTV_IND = 'Y' " + 
+                	"and ACCT_DLGT_START_DT <= SYSDATE and ACCT_DLGT_PRMRT_IND = 'N' " + 
+                	(totalDollarAmount == null ? "" : "and ((FDOC_APRV_FROM_AMT <= ? and FDOC_APRV_TO_AMT >= ?) " + 
+                	"		OR FDOC_APRV_TO_AMT = 0)");
                 PreparedStatement ps = conn.prepareStatement(sql);
                 ps.setString(1, chart);
                 ps.setString(2, account);
                 ps.setString(3, fisDocumentType);
-                ps.setString(4, totalDollarAmount);
-                ps.setString(5, totalDollarAmount);
+                if (totalDollarAmount != null) {
+                	ps.setString(4, totalDollarAmount);
+                	ps.setString(5, totalDollarAmount);
+                }
 
                 ResultSet rs = ps.executeQuery();
                 while (rs.next()) {

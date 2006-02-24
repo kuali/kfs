@@ -475,7 +475,7 @@
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.financial.bo.TravelMileageRate" table="FP_DV_MLG_T">
-	<field-descriptor name="universityFiscalYear" column="UNIV_FISCAL_YR" jdbc-type="INTEGER" primarykey="true" index="true"/>
+	<field-descriptor name="disbursementVoucherMileageEffectiveDate" column="DV_MLG_EFF_DT" jdbc-type="DATE" primarykey="true" index="true"/>
 	<field-descriptor name="mileageLimitAmount" column="DV_MLG_LMT_AMT" jdbc-type="INTEGER" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>

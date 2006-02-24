@@ -27,14 +27,14 @@
 		<description>Document used to create or update Travel Mileage Rate objects</description>
 
         <lockingKeys>
-			<field attributeName="universityFiscalYear" />        
+			<field attributeName="disbursementVoucherMileageEffectiveDate" />        
 			<field attributeName="mileageLimitAmount" />
 		</lockingKeys>         
 
 	    <maintainableSections>
 	        <maintainableSection title="Edit Travel Mileage Rate">
 	        	<maintainableItems>
-	            	<maintainableField name="universityFiscalYear" required="true" />	        	
+	            	<maintainableField name="disbursementVoucherMileageEffectiveDate" required="true" />	        	
 	            	<maintainableField name="mileageLimitAmount" required="true" />
 	            	<maintainableField name="mileageRate" required="true" />
 		            <maintainableField name="versionNumber" />

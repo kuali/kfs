@@ -26,6 +26,7 @@
 package org.kuali.module.financial.bo;
 
 import java.math.BigDecimal;
+import java.sql.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.BusinessObjectBase;
@@ -34,7 +35,7 @@ import org.kuali.core.bo.BusinessObjectBase;
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public class TravelMileageRate extends BusinessObjectBase {
-	private Integer universityFiscalYear;
+    private Date disbursementVoucherMileageEffectiveDate;
 	private Integer mileageLimitAmount;
 	private BigDecimal mileageRate;
 
@@ -43,27 +44,6 @@ public class TravelMileageRate extends BusinessObjectBase {
 	 */
 	public TravelMileageRate() {
 
-	}
-
-	/**
-	 * Gets the universityFiscalYear attribute.
-	 * 
-	 * @return - Returns the universityFiscalYear
-	 * 
-	 */
-	public Integer getUniversityFiscalYear() { 
-		return universityFiscalYear;
-	}
-	
-
-	/**
-	 * Sets the universityFiscalYear attribute.
-	 * 
-	 * @param - universityFiscalYear The universityFiscalYear to set.
-	 * 
-	 */
-	public void setUniversityFiscalYear(Integer universityFiscalYear) {
-		this.universityFiscalYear = universityFiscalYear;
 	}
 
 	/**
@@ -108,13 +88,29 @@ public class TravelMileageRate extends BusinessObjectBase {
 		this.mileageRate = mileageRate;
 	}
 
+    /**
+     * @return Returns the disbursementVoucherMileageEffectiveDate.
+     */
+    public Date getDisbursementVoucherMileageEffectiveDate() {
+        return disbursementVoucherMileageEffectiveDate;
+    }
+
+    /**
+     * @param disbursementVoucherMileageEffectiveDate The disbursementVoucherMileageEffectiveDate to set.
+     */
+    public void setDisbursementVoucherMileageEffectiveDate(Date disbursementVoucherMileageEffectiveDate) {
+        this.disbursementVoucherMileageEffectiveDate = disbursementVoucherMileageEffectiveDate;
+    }    
+    
 	/**
 	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();
-        m.put("universityFiscalYear", this.universityFiscalYear.toString());
+        m.put("disbursementVoucherMileageEffectiveDate", this.disbursementVoucherMileageEffectiveDate.toString());
         m.put("disbVchrMileageLimitAmount", this.mileageLimitAmount.toString());
   	    return m;
 	}
+
+
 }

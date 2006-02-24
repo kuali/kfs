@@ -313,6 +313,10 @@
   <field-descriptor name="budgetModularSbirFeesDescription" column="BDGT_MOD_SBIR_FEE_DESC" jdbc-type="VARCHAR"/>
   <field-descriptor name="budgetModularVariableAdjustmentDescription" column="BDGT_MOD_VAR_ADJ_DESC" jdbc-type="VARCHAR"/>
   <field-descriptor name="budgetPeriodMaximumAmount" column="BDGT_PRD_MAX_AMT" jdbc-type="INTEGER"/>
+  <collection-descriptor name="budgetModularPeriods" proxy="true" element-class-ref="org.kuali.module.kra.bo.BudgetModularPeriod" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+      <orderby name="budgetPeriodSequenceNumber" sort="ASC"/>
+      <inverse-foreignkey field-ref="documentHeaderId"/>
+  </collection-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.kra.bo.BudgetThirdPartyCostShare" table="ER_BDGT_3RD_PRTY_CST_SHR_T">
@@ -580,7 +584,7 @@
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.kra.bo.BudgetModularPeriod" table="ER_BDGT_MOD_PRD_T">
-  <field-descriptor name="documentHeaderId" column="ER_REF_TRACK_NBR" jdbc-type="BIGINT" primarykey="true" index="true"/>
+  <field-descriptor name="documentHeaderId" column="ER_REF_TRACK_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
   <field-descriptor name="budgetPeriodSequenceNumber" column="BDGT_PRD_SEQ_NBR" jdbc-type="INTEGER" primarykey="true" index="true"/>
   <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
   <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>

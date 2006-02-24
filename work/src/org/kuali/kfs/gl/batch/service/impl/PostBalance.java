@@ -118,7 +118,7 @@ public class PostBalance implements PostTransaction, BalanceCalculator {
         KualiDecimal amount = t.getTransactionLedgerEntryAmount();
 
         // Subtract the amount if offset generation indicator & the debit/credit code isn't the same
-        // as the one in the object type code table        
+        // as the one in the object type code table
         if (t.getBalanceType().isFinancialOffsetGenerationIndicator()) {
             if (!t.getTransactionDebitCreditCode().equals(t.getObjectType().getFinObjectTypeDebitcreditCd())) {
                 amount = amount.multiply(new KualiDecimal(-1));
@@ -127,9 +127,7 @@ public class PostBalance implements PostTransaction, BalanceCalculator {
 
         // update the balance amount of the cooresponding period
         String period = t.getUniversityFiscalPeriodCode();
-        if(period!=null){
-            b.setAmount(period, b.getAmount(period).add(amount));
-        }
+        b.setAmount(period, b.getAmount(period).add(amount));
     }
 
     public String getDestinationName() {

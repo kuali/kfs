@@ -55,7 +55,9 @@
                                       <html:optionsCollection property="checkEntryModes" label="label" value="value" />
                                     </html:select>
 
-                                    <html:image src="images/tinybutton-select.gif" styleClass="tinybutton" alt="change check entry mode" />
+                                    <noscript>
+                                        <html:image src="images/tinybutton-select.gif" styleClass="tinybutton" alt="change check entry mode" />
+                                    </noscript>
                                 </td>
                             </tr>
                             <tr>

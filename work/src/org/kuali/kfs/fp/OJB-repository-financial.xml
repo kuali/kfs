@@ -627,7 +627,7 @@
 	<field-descriptor name="workgroupName" column="WRKGRP_NM" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="financialDocumentOpenDepositCode" column="FDOC_OPEN_DPST_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="statusCode" column="FDOC_OPEN_DPST_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="cashDrawerTotalAmount" column="CSH_DRWR_TOT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="financialDocumentHundredDollarAmount" column="FDOC_100_DLR_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="financialDocumentFiftyDollarAmount" column="FDOC_50_DLR_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>

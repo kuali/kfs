@@ -28,20 +28,30 @@
 		</description>
 		
         <lockingKeys>
-			<field attributeName="universityFiscal.universityFiscalYear" />
-			<field attributeName="chartOfAccounts.chartOfAccountsCode" />
+			<field attributeName="universityFiscalYear" />
+			<field attributeName="chartOfAccountsCode" />
 			<field attributeName="financialDocumentTypeCode" />
 			<field attributeName="financialBalanceTypeCode" />				
 		</lockingKeys>	  		
+
+		<defaultExistenceChecks>
+			<reference  attributeName="chartOfAccounts" 
+						activeIndicatorAttributeName="finChartOfAccountActiveIndicator" 
+						attributeToHighlightOnFail="chartOfAccountsCode" />
+			<reference  attributeName="universityFiscal" 
+						attributeToHighlightOnFail="universityFiscalYear" />
+			<reference  attributeName="financialObject" 
+						attributeToHighlightOnFail="financialObjectCode" />						
+		</defaultExistenceChecks>
 		
 		<maintainableSections>
 			<maintainableSection title="Edit Offset Definition">
                 <maintainableItems>
-					<maintainableField name="universityFiscal.universityFiscalYear" required="true" />
-					<maintainableField name="chartOfAccounts.chartOfAccountsCode" required="true" />
+					<maintainableField name="universityFiscalYear" required="true" />
+					<maintainableField name="chartOfAccountsCode" required="true" />
 					<maintainableField name="financialDocumentTypeCode" required="true" />
 					<maintainableField name="financialBalanceTypeCode" required="true" />
-					<maintainableField name="financialObject.financialObjectCode" required="true" />
+					<maintainableField name="financialObjectCode" required="true" />
 					<maintainableField name="versionNumber" />
 
                 </maintainableItems>

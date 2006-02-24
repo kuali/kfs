@@ -10,11 +10,11 @@
 			<title>Offset Definition Inquiry</title>
 
 			<inquiryFields>
-				<field attributeName="universityFiscal.universityFiscalYear" />
-				<field attributeName="chartOfAccounts.chartOfAccountsCode" />			
+				<field attributeName="universityFiscalYear" />
+				<field attributeName="chartOfAccountsCode" />			
 				<field attributeName="financialDocumentTypeCode" noInquiry="true" />
 				<field attributeName="financialBalanceTypeCode" noInquiry="true" />			
-				<field attributeName="financialObject.financialObjectCode" />
+				<field attributeName="financialObjectCode" />
 			</inquiryFields>
 		</inquiry>
 
@@ -28,32 +28,32 @@
 			<defaultSort attributeName="financialDocumentTypeCode" sortAscending="true" />
 
 			<lookupFields>
-				<lookupField attributeName="universityFiscal.universityFiscalYear" required="false" />
-				<lookupField attributeName="chartOfAccounts.chartOfAccountsCode" required="false" />
-				<lookupField attributeName="financialObject.financialObjectCode" required="false" />
+				<lookupField attributeName="universityFiscalYear" required="false" />
+				<lookupField attributeName="chartOfAccountsCode" required="false" />
+				<lookupField attributeName="financialObjectCode" required="false" />
 				<lookupField attributeName="financialDocumentTypeCode" required="false" noLookup="true" />
 				<lookupField attributeName="financialBalanceTypeCode" required="false"  noLookup="true"/>
 			</lookupFields>
 
 			<resultFields>
-				<field attributeName="universityFiscal.universityFiscalYear" />
-				<field attributeName="chartOfAccounts.chartOfAccountsCode" />
-				<field attributeName="financialObject.financialObjectCode" />
+				<field attributeName="universityFiscalYear" />
+				<field attributeName="chartOfAccountsCode" />
+				<field attributeName="financialObjectCode" />
 				<field attributeName="financialDocumentTypeCode" noInquiry="true" />
 				<field attributeName="financialBalanceTypeCode" noInquiry="true" />
 			</resultFields>
 		</lookup>
 
 		<attributes>
-			<attributeReference name="universityFiscal.universityFiscalYear" 
+			<attributeReference name="universityFiscalYear" 
 								sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
 								sourceAttributeName="genericFiscalYear" />
 
-			<attributeReference name="chartOfAccounts.chartOfAccountsCode" 
+			<attributeReference name="chartOfAccountsCode" 
 								sourceClassName="org.kuali.module.chart.bo.Chart" 
 								sourceAttributeName="chartOfAccountsCode" />
 
-			<attributeReference name="financialObject.financialObjectCode" 
+			<attributeReference name="financialObjectCode" 
 								sourceClassName="org.kuali.module.chart.bo.ObjectCode" 
 								sourceAttributeName="financialObjectCode"/>
 

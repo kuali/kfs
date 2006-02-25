@@ -31,9 +31,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathFactory;
@@ -45,7 +42,6 @@ import org.kuali.workflow.beans.KualiFiscalOrganization;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import edu.iu.uis.eden.WorkflowServiceError;
 import edu.iu.uis.eden.WorkflowServiceErrorImpl;
 import edu.iu.uis.eden.doctype.DocumentType;
 import edu.iu.uis.eden.lookupable.Field;
@@ -54,7 +50,6 @@ import edu.iu.uis.eden.plugin.attributes.WorkflowAttribute;
 import edu.iu.uis.eden.routeheader.DocumentContent;
 import edu.iu.uis.eden.routetemplate.RuleExtension;
 import edu.iu.uis.eden.routetemplate.RuleExtensionValue;
-import edu.iu.uis.eden.routetemplate.WorkflowAttributeValidationError;
 import edu.iu.uis.eden.util.Utilities;
 
 /**

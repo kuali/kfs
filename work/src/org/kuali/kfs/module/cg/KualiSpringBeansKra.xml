@@ -104,5 +104,6 @@
             <ref bean="budgetPersonnelService" />
         </property>
     </bean>
+	<bean id="budgetIndirectCostService" class="org.kuali.module.kra.service.impl.BudgetIndirectCostServiceImpl"></bean>
     
 </beans>

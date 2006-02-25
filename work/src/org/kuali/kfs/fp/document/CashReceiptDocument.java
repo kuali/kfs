@@ -31,6 +31,7 @@ import org.kuali.Constants;
 import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.core.web.format.CurrencyFormatter;
 import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.financial.bo.Check;
 import org.kuali.module.financial.bo.CheckBase;
@@ -289,6 +290,15 @@ public class CashReceiptDocument extends TransactionalDocumentBase {
 
     public KualiDecimal getSumTotalAmount() {
         return totalCoinAmount.add(totalCheckAmount).add(totalCashAmount);
+    }
+    
+    /**
+     * Retrieves the summed total amount in a currency format with commas.
+     * 
+     * @return String
+     */
+    public String getCurrencyFormattedSumTotalAmount() {
+        return (String) new CurrencyFormatter().format(getSumTotalAmount());
     }
 
     /**

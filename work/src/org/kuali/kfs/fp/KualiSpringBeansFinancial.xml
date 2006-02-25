@@ -31,5 +31,8 @@
         <property name="businessObjectService">
             <ref bean="businessObjectService" />
         </property>
+        <property name="workflowDocumentService">
+            <ref bean="workflowDocumentService" />
+        </property>
     </bean>
 </beans>

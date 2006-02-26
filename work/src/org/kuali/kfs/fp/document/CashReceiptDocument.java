@@ -291,7 +291,7 @@ public class CashReceiptDocument extends TransactionalDocumentBase {
     public KualiDecimal getSumTotalAmount() {
         return totalCoinAmount.add(totalCheckAmount).add(totalCashAmount);
     }
-    
+
     /**
      * Retrieves the summed total amount in a currency format with commas.
      * 
@@ -362,5 +362,16 @@ public class CashReceiptDocument extends TransactionalDocumentBase {
             setCheckEntryMode(CHECK_ENTRY_DETAIL);
             setTotalCheckAmount(calculateCheckTotal());
         }
+    }
+
+
+    /**
+     * @see org.kuali.core.document.TransactionalDocumentBase#buildListOfDeletionAwareLists()
+     */
+    public List buildListOfDeletionAwareLists() {
+        List managedLists = super.buildListOfDeletionAwareLists();
+        managedLists.add(getChecks());
+
+        return managedLists;
     }
 }

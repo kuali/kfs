@@ -26,69 +26,62 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.HashMap;
 
+import org.kuali.PropertyConstants;
+
 /**
  * This class...
  * @author Bin Gao from Michigan State University
  */
 public class BusinessObjectFieldConverter {
     
-    public static Map convertToGLPendingEntryFromEncumbrance(Map encumbranceFieldValues){
+    /**
+     * This method converts the field values from normal GL business objects to GL transaction
+     * @param fieldValues the map of field values for normal GL business objects 
+     * @return the map of field values for GL transaction
+     */
+    public static Map convertToTransactionFieldValues(Map fieldValues){
         Map pendingEntryFieldValue = new HashMap();
         
-        Iterator propsIter = encumbranceFieldValues.keySet().iterator();
+        Iterator propsIter = fieldValues.keySet().iterator();
         while (propsIter.hasNext()) {
             String propertyName = (String) propsIter.next();
-            String propertyValue = (String) encumbranceFieldValues.get(propertyName);
+            String propertyValue = (String) fieldValues.get(propertyName);
             
-            if(propertyName.equals("universityFiscalYear")){
-                pendingEntryFieldValue.put("universityFiscalYear", propertyValue);  
-            }
-            else if(propertyName.equals("chartOfAccountsCode")){
-                pendingEntryFieldValue.put("chartOfAccountsCode", propertyValue); 
-            }
-            else if(propertyName.equals("accountNumber")){
-                pendingEntryFieldValue.put("accountNumber", propertyValue);
-            }
-            else if(propertyName.equals("subAccountNumber")){
-                pendingEntryFieldValue.put("subAccountNumber", propertyValue);
-            }
-            else if(propertyName.equals("objectCode")){
-                pendingEntryFieldValue.put("financialObjectCode", propertyValue);
-            }
-            else if(propertyName.equals("subObjectCode")){
-                pendingEntryFieldValue.put("financialSubObjectCode", propertyValue);
-            }
-            else if(propertyName.equals("balanceTypeCode")){
-                pendingEntryFieldValue.put("financialBalanceTypeCode", propertyValue);
-            }
-            else if(propertyName.equals("documentTypeCode")){
-                pendingEntryFieldValue.put("financialDocumentTypeCode", propertyValue);
-            }
+            // convert property name from normal BO to GL transaction
+            String transactionPropertyName = propertyName;            
+            transactionPropertyName = convertToTransactionPropertyName(propertyName);
+            
+            // create a new entry for current property
+            pendingEntryFieldValue.put(transactionPropertyName, propertyValue);
         }       
         return pendingEntryFieldValue;
     }
-
-    public static Map convertToGLPendingEntryFromCashBalance(Map cashBalanceFieldValues){
-        Map pendingEntryFieldValue = new HashMap();
-        
-        Iterator propsIter = cashBalanceFieldValues.keySet().iterator();
-        while (propsIter.hasNext()) {
-            String propertyName = (String) propsIter.next();
-            String propertyValue = (String) cashBalanceFieldValues.get(propertyName);
+    
+    /**
+     * This method converts the property name of a normal business object to GL transaction
+     * @param propertyName the property name of a normal business object
+     * @return the property name of GL transaction
+     */
+    public static String convertToTransactionPropertyName(String propertyName){
+        String transactionPropertyName = propertyName;
             
-            if(propertyName.equals("universityFiscalYear")){
-                pendingEntryFieldValue.put("universityFiscalYear", propertyValue);  
-            }
-            else if(propertyName.equals("chartOfAccountsCode")){
-                pendingEntryFieldValue.put("chartOfAccountsCode", propertyValue); 
-            }
-            else if(propertyName.equals("accountNumber")){
-                pendingEntryFieldValue.put("accountNumber", propertyValue);
-            }
-            else if(propertyName.equals("subAccountNumber")){
-                pendingEntryFieldValue.put("subAccountNumber", propertyValue);
-            }
-        }       
-        return pendingEntryFieldValue;
-    }
+        // Map property names
+        if(propertyName.equals(PropertyConstants.OBJECT_CODE)){
+            transactionPropertyName = PropertyConstants.FINANCIAL_OBJECT_CODE;
+        }
+        else if(propertyName.equals(PropertyConstants.SUB_OBJECT_CODE)){
+            transactionPropertyName = PropertyConstants.FINANCIAL_SUB_OBJECT_CODE;
+        }
+        else if(propertyName.equals(PropertyConstants.OBJECT_TYPE_CODE)){
+            transactionPropertyName = PropertyConstants.FINANCIAL_OBJECT_TYPE_CODE;
+        }
+        else if(propertyName.equals(PropertyConstants.BALANCE_TYPE_CODE)){
+            transactionPropertyName = PropertyConstants.FINANCIAL_BALANCE_TYPE_CODE;
+        }
+        else if(propertyName.equals(PropertyConstants.DOCUMENT_TYPE_CODE)){
+            transactionPropertyName = PropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE;
+        }
+    
+        return transactionPropertyName;
+    }    
 }

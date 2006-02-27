@@ -42,6 +42,7 @@ import org.kuali.core.lookup.Lookupable;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.struts.action.KualiAction;
+import org.kuali.core.web.struts.form.LookupForm;
 import org.kuali.core.web.uidraw.Field;
 import org.kuali.core.web.uidraw.Row;
 import org.kuali.module.gl.web.struts.form.BalanceInquiryForm;
@@ -55,13 +56,13 @@ public class BalanceInquiryAction extends KualiAction {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BalanceInquiryAction.class);
 
     /**
-     * Entry point to balance inquiry menu, forwards to jsp for render.
+     * Entry point to lookups, forwards to jsp for search render.
      */
     public ActionForward start(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
-
+    
     /**
      * search - sets the values of the data entered on the form on the jsp into
      * a map and then searches for the results.
@@ -82,7 +83,6 @@ public class BalanceInquiryAction extends KualiAction {
         kualiLookupable.validateSearchParameters(lookupForm.getFields());
         displayList =  SpringServiceLocator.getPersistenceService().performLookup(lookupForm, kualiLookupable, resultTable);
         
-//        request.getSession().setAttribute("reqSearchResultsActualSize", ((CollectionIncomplete)displayList).getActualSizeIfTruncated());  
         request.setAttribute("reqSearchResultsActualSize", ((CollectionIncomplete)displayList).getActualSizeIfTruncated());       
         request.setAttribute("reqSearchResults", resultTable);
         if (request.getParameter("listKey") != null) {
@@ -91,16 +91,14 @@ public class BalanceInquiryAction extends KualiAction {
         request.setAttribute("listKey", GlobalVariables.getUserSession().addObject(resultTable));
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
-
-
-
+    
     /**
      * refresh - is called when one quickFinder returns to the previous one.
      * Sets all the values and performs the new search.
      */
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-        BalanceInquiryForm lookupForm = (BalanceInquiryForm) form;
+        LookupForm lookupForm = (LookupForm) form;
         Lookupable kualiLookupable = lookupForm.getLookupable();
         if (kualiLookupable == null) {
             LOG.error("Lookupable is null.");
@@ -156,7 +154,7 @@ public class BalanceInquiryAction extends KualiAction {
      */
     public ActionForward cancel(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        BalanceInquiryForm lookupForm = (BalanceInquiryForm) form;
+        LookupForm lookupForm = (LookupForm) form;
         
         String backUrl = lookupForm.getBackLocation() + "?methodToCall=refresh&docFormKey=" +
                          lookupForm.getFormKey();
@@ -169,7 +167,7 @@ public class BalanceInquiryAction extends KualiAction {
      */
     public ActionForward clearValues(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws IOException, ServletException {
-        BalanceInquiryForm lookupForm = (BalanceInquiryForm) form;
+        LookupForm lookupForm = (LookupForm) form;
         Lookupable kualiLookupable = lookupForm.getLookupable();
         if (kualiLookupable == null) {
             LOG.error("Lookupable is null.");
@@ -197,5 +195,5 @@ public class BalanceInquiryAction extends KualiAction {
         request.setAttribute("reqSearchResults", GlobalVariables.getUserSession().retrieveObject(request.getParameter("listKey")));
         request.setAttribute("reqSearchResultsActualSize", request.getParameter("reqSearchResultsActualSize"));
         return mapping.findForward(Constants.MAPPING_BASIC);
-    }
+    }     
 }

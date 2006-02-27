@@ -41,14 +41,15 @@ import org.kuali.core.service.PersistenceStructureService;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.util.UrlFactory;
-import org.kuali.module.gl.bo.Balance;
+import org.kuali.module.gl.bo.Entry;
+import org.kuali.module.gl.util.BusinessObjectFieldConverter;
 
 /**
  * This class...
  * @author Bin Gao from Michigan State University
  */
-public class AccountBalanceInquirableImpl extends KualiInquirableImpl {
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountBalanceInquirableImpl.class);
+public class BalanceInquirableImpl extends KualiInquirableImpl {
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BalanceInquirableImpl.class);
 
     private BusinessObjectDictionaryService dataDictionary;
     private LookupService lookupService;
@@ -77,7 +78,7 @@ public class AccountBalanceInquirableImpl extends KualiInquirableImpl {
         Map userDefinedAttributeMap = getUserDefinedAttributeMap();
         boolean isUserDefinedAttribute = userDefinedAttributeMap.containsKey(attributeName);
         if (isUserDefinedAttribute || attributeName.equals(businessDictionary.getTitleAttribute(businessObject.getClass()))) {
-            inquiryBusinessObjectClass = (new Balance()).getClass();
+            inquiryBusinessObjectClass = (new Entry()).getClass();
             isPkReference = true;
         }
         else if (isUserDefinedAttribute || attributeName.equals(businessDictionary.getTitleAttribute(businessObject.getClass()))) {
@@ -114,7 +115,7 @@ public class AccountBalanceInquirableImpl extends KualiInquirableImpl {
         if(isUserDefinedAttribute){
             
             keys = buildUserDefinedAttributeKeyList(attributeName);
-            baseUrl = Constants.GL_BALANCE_INQUIRY_ACTION;
+            baseUrl = Constants.GL_ENTRY_INQUIRY_ACTION;
               
             //TODO: this is a pretty bad hardcoded value.
             parameters.put(Constants.RETURN_LOCATION_PARAMETER, "/kuali-dev");
@@ -122,10 +123,10 @@ public class AccountBalanceInquirableImpl extends KualiInquirableImpl {
             parameters.put(Constants.GL_BALANCE_INQUIRY_FLAG, "true");
             parameters.put(Constants.DISPATCH_REQUEST_PARAMETER, "search");
             parameters.put(Constants.DOC_FORM_KEY, "88888888");           
-            parameters.put(Constants.LOOKUPABLE_IMPL_ATTRIBUTE_NAME, "glBalanceLookupable");
+            parameters.put(Constants.LOOKUPABLE_IMPL_ATTRIBUTE_NAME, "glEntryLookupable");
             
-            String balanceTypeCode = (String)userDefinedAttributeMap.get(attributeName);
-            parameters.put(Constants.BALANCE_TYPE_PROPERTY_NAME, balanceTypeCode);
+            String periodCode = (String)userDefinedAttributeMap.get(attributeName);
+            parameters.put(Constants.UNIVERSITY_FISCAL_PERIOD_CODE_PROPERTY_NAME, periodCode);
         }
         else if (persistenceStructureService.isPersistable(inquiryBusinessObjectClass)) {
             keys = persistenceStructureService.listPrimaryKeyFieldNames(inquiryBusinessObjectClass);
@@ -146,14 +147,16 @@ public class AccountBalanceInquirableImpl extends KualiInquirableImpl {
                 else {
                     keyConversion = persistenceStructureService.getForeignKeyFieldName(businessObject.getClass(), attributeRefName, keyName);
                 }
-            }            
+            }  
+            
             Object keyValue = ObjectUtils.getPropertyValue(businessObject, keyConversion);
-            keyValue = (keyValue == null) ? "" : keyValue.toString();
+            keyValue = (keyValue == null) ? "" : keyValue.toString();  
             
             if(attributeName.equals(PropertyConstants.SUB_ACCOUNT_NUMBER) && keyValue.equals("*ALL*")){
                 keyValue = "";
             }
             
+            keyName = BusinessObjectFieldConverter.convertToTransactionPropertyName(keyName);
             parameters.put(keyName, keyValue);
         }
         return UrlFactory.paremeterizeUrl(baseUrl, parameters);
@@ -170,19 +173,33 @@ public class AccountBalanceInquirableImpl extends KualiInquirableImpl {
         keys.add(PropertyConstants.UNIVERSITY_FISCAL_YEAR);
         keys.add(PropertyConstants.ACCOUNT_NUMBER);
         keys.add(PropertyConstants.CHART_OF_ACCOUNTS_CODE);
+        keys.add(PropertyConstants.BALANCE_TYPE_CODE);
         keys.add(PropertyConstants.SUB_ACCOUNT_NUMBER);
         keys.add(PropertyConstants.OBJECT_CODE);
         keys.add(PropertyConstants.SUB_OBJECT_CODE);
-
+        keys.add(PropertyConstants.OBJECT_TYPE_CODE);
+        
         return keys;
     }
     
     private static Map getUserDefinedAttributeMap(){
         Map userDefinedAttributeMap = new HashMap();
         
-        userDefinedAttributeMap.put(PropertyConstants.CURRENT_BUDGET_LINE_BALANCE_AMOUNT, "CB"); 
-        userDefinedAttributeMap.put(PropertyConstants.ACCOUNT_LINE_ACTUALS_BALANCE_AMOUNT, "AC");
-        userDefinedAttributeMap.put(PropertyConstants.ACCOUNT_LINE_ENCUMBRANCE_BALANCE_AMOUNT, "EX");
+        userDefinedAttributeMap.put(PropertyConstants.MONTH1_AMOUNT, "01"); 
+        userDefinedAttributeMap.put(PropertyConstants.MONTH2_AMOUNT, "02");
+        userDefinedAttributeMap.put(PropertyConstants.MONTH3_AMOUNT, "03");
+        
+        userDefinedAttributeMap.put(PropertyConstants.MONTH4_AMOUNT, "04"); 
+        userDefinedAttributeMap.put(PropertyConstants.MONTH5_AMOUNT, "05");
+        userDefinedAttributeMap.put(PropertyConstants.MONTH6_AMOUNT, "06");
+        
+        userDefinedAttributeMap.put(PropertyConstants.MONTH7_AMOUNT, "07"); 
+        userDefinedAttributeMap.put(PropertyConstants.MONTH8_AMOUNT, "08");
+        userDefinedAttributeMap.put(PropertyConstants.MONTH9_AMOUNT, "09");
+        
+        userDefinedAttributeMap.put(PropertyConstants.MONTH10_AMOUNT, "10"); 
+        userDefinedAttributeMap.put(PropertyConstants.MONTH11_AMOUNT, "11");
+        userDefinedAttributeMap.put(PropertyConstants.MONTH12_AMOUNT, "12");
         
         return userDefinedAttributeMap;
     }    

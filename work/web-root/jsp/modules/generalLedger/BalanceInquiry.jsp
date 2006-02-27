@@ -43,10 +43,10 @@
             <table align="center" cellpadding=0 class="datatable-nowidth">
               <c:set var="FormName" value="KualiForm" scope="request" />
               <c:set var="FieldRows" value="${KualiForm.lookupable.rows}" scope="request" />
-              <c:set var="ActionName" value="balanceInquiry.do" scope="request" />
+              <c:set var="ActionName" value="glBalanceInquiry.do" scope="request" />
               <c:set var="IsLookupDisplay" value="true" scope="request" />
-                           
-              <%@ include file="/jsp/core/RowDisplay.jsp" %>
+                                       
+	          <%@ include file="/jsp/core/RowDisplay.jsp" %>
           
               <tr align=center>
                 <td height="30" colspan=2 class="infoline">
@@ -75,6 +75,29 @@
               </tr>
             </table>
           </div>
+          </c:if>
+          
+          <c:if test="${param.inquiryFlag == 'true'}">
+          	<c:set var="url" value="${pageContext.request.requestURL}"/>
+          	
+			<c:url value="${url}" var="switch">
+				<c:forEach items="${param}" var="params">
+					<c:if test="${params.key == 'dummyBusinessObject.amountViewOption'}" >
+						<c:if test="${params.value == 'Accumulate' }" >
+							<c:param name="${params.key}" value="Monthly"/>
+						</c:if>
+						<c:if test="${params.value != 'Accumulate' }" >
+							<c:param name="${params.key}" value="Accumulate"/>
+						</c:if>
+					</c:if>
+					
+					<c:if test="${params.key != 'viewAmountOption'}"> 
+						<c:param name="${params.key}" value="${params.value}"/>
+					</c:if>
+				</c:forEach>
+			</c:url>
+			
+			<a href="<c:out value='${switch}'/>">Test</a>
           </c:if>
           
           <br/><br/>
@@ -118,7 +141,7 @@
 							</c:if>	
 							<c:if test="${column.propertyURL==\"\" || param['d-16544-e'] != null}">
 			          			<td class="infocell">
-										<c:out value="${column.propertyValue}" />
+									<c:out value="${column.propertyValue}" />
 								</td>
 							</c:if>	               				          			
 		          		</c:forEach>
@@ -131,9 +154,20 @@
 				          		<c:forEach items="${row.columns}" var="column" begin="12" varStatus="columnStatus">
 				          			<c:if test="${columnStatus.count % 4 == 1}"><tr></c:if>
 				          			
-				          			<td class="infocell"><c:out value="${column.columnTitle}" /></td>
-				          			<td class="infocell"><c:out value="${column.propertyValue}" /></td>
-				          			
+				          			<td class="infocell"><c:out value="${column.columnTitle}" /></td>				          			
+				          			<c:if test="${column.propertyURL!=\"\" && param['d-16544-e'] == null}">
+					          			<td class="infocell">
+						          			<a href="<c:out value="${column.propertyURL}"/>" target="blank">
+												<c:out value="${column.propertyValue}" />
+											</a>
+										</td>
+									</c:if>	
+									<c:if test="${column.propertyURL==\"\" || param['d-16544-e'] != null}">
+					          			<td class="infocell">
+											<c:out value="${column.propertyValue}" />
+										</td>
+									</c:if>
+										          
 				          			<c:if test="${columnStatus.count % 4 == 0}"></tr></c:if>
 				          		</c:forEach>
 				          	</table>
@@ -144,10 +178,6 @@
 		</display:column>
 		</display:table>
 	           
-        </td>
-
-        <td width="20">
-          <img src="images/pixel_clear.gif" alt="" width="20" height="20" />
         </td>
       </tr>
     </table>

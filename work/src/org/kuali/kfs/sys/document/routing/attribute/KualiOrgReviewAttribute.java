@@ -38,6 +38,8 @@ import javax.xml.xpath.XPathFactory;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.KualiSpringServiceLocator;
+import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.module.chart.bo.Account;
 import org.kuali.workflow.beans.KualiFiscalOrganization;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -378,8 +380,10 @@ public boolean isMatch(DocumentContent docContent, List ruleExtensions) {
         	} else if (docType.getName().equals(SUB_ACCOUNT_DOC_TYPE) ||
         			docType.getName().equals(ACCOUNT_DEL_DOC_TYPE) ||
         			docType.getName().equals(SUB_OBJECT_DOC_TYPE)) {
-        		chart = xpath.evaluate(MAINTAINABLE_PREFIX+"account/chartOfAccountsCode", docContent.getDocument());
-        		org = xpath.evaluate(MAINTAINABLE_PREFIX+"account/organizationCode", docContent.getDocument());
+        		chart = xpath.evaluate(MAINTAINABLE_PREFIX+"chartOfAccountsCode", docContent.getDocument());
+        		String accountNumber = xpath.evaluate(MAINTAINABLE_PREFIX+"accountNumber", docContent.getDocument());
+        		Account account = SpringServiceLocator.getAccountService().getByPrimaryId(chart, accountNumber);
+        		org = account.getOrganizationCode();
         	} else if (docType.getName().equals(GLOBAL_ACCOUNT_DEL_DOC_TYPE)) {
         		// Not a Phase I document type
         	}

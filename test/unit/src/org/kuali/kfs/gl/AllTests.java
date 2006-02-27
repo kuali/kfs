@@ -25,7 +25,6 @@ package org.kuali.module.gl;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-import org.kuali.module.gl.batch.poster.impl.PostEncumbranceTest;
 import org.kuali.module.gl.batch.poster.impl.PostExpenditureTransactionTest;
 import org.kuali.module.gl.batch.poster.impl.PostGlAccountBalanceTest;
 import org.kuali.module.gl.batch.poster.impl.PostSufficientFundBalancesTest;
@@ -59,7 +58,6 @@ public class AllTests {
     // the test you are adding touches the database or workflow.
 
     // org.kuali.module.gl.batch.poster.impl
-    suite.addTestSuite(PostEncumbranceTest.class);
     suite.addTestSuite(PostExpenditureTransactionTest.class);
     suite.addTestSuite(PostSufficientFundBalancesTest.class);
     suite.addTestSuite(PostGlAccountBalanceTest.class);

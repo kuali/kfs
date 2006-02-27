@@ -450,8 +450,82 @@ public class PosterServiceTest extends KualiTestBaseWithSpringOnly {
     assertEquals("2 MO13_ACCT_LN_AMT is wrong",130.00,a.doubleValue(),0.01);
   }
 
+  public void testPostEcnumbrance() throws Exception {
+    LOG.debug("testPostEcnumbrance() started");
+
+    String[] inputTransactions = {
+        // 23456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
+        //         1         2         3         4         5         6         7         8         9         0         1         2         3         4         5         6         7
+        //                                                                                                   1
+        "2004BA6044900-----4166---IEEX06CHKDPDENCTEST0112345214090047 EVERETT J PRESCOTT INC.                  100.01D2006-01-05ABCDEFGHIJ----------12345678                         D    ",
+        "2004BA6044900-----5215---IEEX06CHKDPDENCTEST0112345214090047 EVERETT J PRESCOTT INC.                  200.02D2006-01-05ABCDEFGHIJ----------12345678                         D    ",
+        "2004BA6044900-----4166---IEEX06CHKDPDENCTEST0212345214090047 EVERETT J PRESCOTT INC.                   50.00C2006-01-05ABCDEFGHIJ----------12345678CHKDPDENCTEST01          R    ",
+        "2004BA6044900-----5215---IEEX06CHKDPDENCTEST0212345214090047 EVERETT J PRESCOTT INC.                   60.00C2006-01-05ABCDEFGHIJ----------12345678CHKDPDENCTEST01          R    ",
+        "2004BA6044900-----5215---ACEX06CHKDPDENCTEST0212345214090047 EVERETT J PRESCOTT INC.                   60.00C2006-01-05ABCDEFGHIJ----------12345678                              ",
+    };
+
+    EntryHolder[] outputTransactions = {
+        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions[0]),
+        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions[1]),
+        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions[2]),
+        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions[3]),
+        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions[4]),
+        new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions[0]),
+        new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions[1]),
+        new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions[2]),
+        new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions[3]),
+        new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions[4])        
+    };
+
+    clearOriginEntryTables();
+    clearEncumbranceTable();
+    loadInputTransactions(inputTransactions);
+
+    posterService.postMainEntries();
+
+    assertOriginEntries(outputTransactions);
+
+    List encumbrances = unitTestSqlDao.sqlSelect("select * from gl_encumbrance_t order by fin_object_cd");
+    assertEquals("Should be 2 encumbrances",2,encumbrances.size());
+    Map enc4166 = (Map)encumbrances.get(0);
+    Map enc5215 = (Map)encumbrances.get(1);
+
+    BigDecimal a = (BigDecimal)enc4166.get("UNIV_FISCAL_YR");
+    assertEquals("UNIV_FISCAL_YR is wrong",2004,a.intValue());
+    assertEquals("FIN_COA_CD is wrong","BA",enc4166.get("FIN_COA_CD"));
+    assertEquals("ACCOUNT_NBR is wrong","6044900",enc4166.get("ACCOUNT_NBR"));
+    assertEquals("SUB_ACCT_NBR is wrong","-----",enc4166.get("SUB_ACCT_NBR"));
+    assertEquals("FIN_OBJECT_CD is wrong","4166",enc4166.get("FIN_OBJECT_CD"));
+    assertEquals("FIN_SUB_OBJ_CD is wrong","---",enc4166.get("FIN_SUB_OBJ_CD"));
+    assertEquals("FIN_BALANCE_TYP_CD is wrong","IE",enc4166.get("FIN_BALANCE_TYP_CD"));
+    assertEquals("FDOC_TYP_CD is wrong","CHKD",enc4166.get("FDOC_TYP_CD"));
+    assertEquals("FS_ORIGIN_CD is wrong","PD",enc4166.get("FS_ORIGIN_CD"));
+    assertEquals("FDOC_NBR is wrong","ENCTEST01",enc4166.get("FDOC_NBR"));
+    assertEquals("TRN_ENCUM_DESC is wrong","214090047 EVERETT J PRESCOTT INC.",enc4166.get("TRN_ENCUM_DESC"));
+    a = (BigDecimal)enc4166.get("ACLN_ENCUM_AMT");
+    assertEquals("ACLN_ENCUM_AMT is wrong",100.01,a.doubleValue(),0.01);
+    a = (BigDecimal)enc4166.get("ACLN_ENCUM_CLS_AMT");
+    assertEquals("ACLN_ENCUM_CLS_AMT is wrong",50,a.doubleValue(),0.01);
+
+    a = (BigDecimal)enc5215.get("UNIV_FISCAL_YR");
+    assertEquals("UNIV_FISCAL_YR is wrong",2004,a.intValue());
+    assertEquals("FIN_COA_CD is wrong","BA",enc5215.get("FIN_COA_CD"));
+    assertEquals("ACCOUNT_NBR is wrong","6044900",enc5215.get("ACCOUNT_NBR"));
+    assertEquals("SUB_ACCT_NBR is wrong","-----",enc5215.get("SUB_ACCT_NBR"));
+    assertEquals("FIN_OBJECT_CD is wrong","5215",enc5215.get("FIN_OBJECT_CD"));
+    assertEquals("FIN_SUB_OBJ_CD is wrong","---",enc5215.get("FIN_SUB_OBJ_CD"));
+    assertEquals("FIN_BALANCE_TYP_CD is wrong","IE",enc5215.get("FIN_BALANCE_TYP_CD"));
+    assertEquals("FDOC_TYP_CD is wrong","CHKD",enc5215.get("FDOC_TYP_CD"));
+    assertEquals("FS_ORIGIN_CD is wrong","PD",enc5215.get("FS_ORIGIN_CD"));
+    assertEquals("FDOC_NBR is wrong","ENCTEST01",enc5215.get("FDOC_NBR"));
+    assertEquals("TRN_ENCUM_DESC is wrong","214090047 EVERETT J PRESCOTT INC.",enc5215.get("TRN_ENCUM_DESC"));
+    a = (BigDecimal)enc5215.get("ACLN_ENCUM_AMT");
+    assertEquals("ACLN_ENCUM_AMT is wrong",200.02,a.doubleValue(),0.01);
+    a = (BigDecimal)enc5215.get("ACLN_ENCUM_CLS_AMT");
+    assertEquals("ACLN_ENCUM_CLS_AMT is wrong",60,a.doubleValue(),0.01);
+  }
+
   /**
-   *  PostEncumbrance
    *  PostExpenditureTransaction
    *  PostGlAccountBalance
    *  PostSufficientFundBalances
@@ -532,6 +606,10 @@ public class PosterServiceTest extends KualiTestBaseWithSpringOnly {
 
   private void clearGlBalanceTable() {
     unitTestSqlDao.sqlCommand("delete from gl_balance_t");
+  }
+
+  private void clearEncumbranceTable() {
+    unitTestSqlDao.sqlCommand("delete from gl_encumbrance_t");    
   }
 
   private void clearOriginEntryTables() {

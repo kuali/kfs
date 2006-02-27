@@ -71,10 +71,8 @@ public class DisbursementVoucherDocumentTest extends TransactionalDocumentTestBa
         dvParameter.getPayeeDetail().setDisbVchrPayeeCityName("");
         dvParameter.getPayeeDetail().setDisbVchrPayeeStateCode("");
         dvParameter.getPayeeDetail().setDisbVchrPayeeZipCode("");
-        dvParameter.getPayeeDetail().setDisbVchrPayeeCountryName("");
+        dvParameter.getPayeeDetail().setDisbVchrPayeeCountryCode("");
         dvParameter.getPayeeDetail().setDisbVchrAlienPaymentCode(false);
-        dvParameter.getPayeeDetail().setDvTaxIdNumber("");
-        dvParameter.getPayeeDetail().setDvTaxPayerTypeCode("");
         dvParameter.setDvNonResidentAlienTax(null);
         dvParameter.setDisbVchrPayeeTaxControlCode("");
 

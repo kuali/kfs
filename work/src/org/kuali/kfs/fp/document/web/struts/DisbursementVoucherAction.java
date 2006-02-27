@@ -210,7 +210,7 @@ public class DisbursementVoucherAction extends KualiTransactionalDocumentActionB
         try {
             // call service to calculate mileage amount
             KualiDecimal mileageAmount = SpringServiceLocator.getDisbursementVoucherTravelService().calculateMileageAmount(
-                    dvDocument.getDvNonEmployeeTravel().getDvPersonalCarMileageAmount());
+                    dvDocument.getDvNonEmployeeTravel().getDvPersonalCarMileageAmount(), dvDocument.getDvNonEmployeeTravel().getDvPerdiemStartDttmStamp());
 
             dvDocument.getDvNonEmployeeTravel().setDisbVchrMileageCalculatedAmt(mileageAmount);
             dvDocument.getDvNonEmployeeTravel().setDisbVchrPersonalCarAmount(mileageAmount);

@@ -31,7 +31,6 @@ import java.util.Calendar;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.Constants;
 import org.kuali.KeyConstants;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.DocumentHeader;
@@ -655,8 +654,8 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
         if (payee == null) {
             return;
         }
-        
-        this.getDvPayeeDetail().setDvPayeeType(Constants.DV_PAYEE_TYPE_PAYEE);
+
+        this.getDvPayeeDetail().setDvPayeeType(DisbursementVoucherRuleConstants.DV_PAYEE_TYPE_PAYEE);
         this.getDvPayeeDetail().setDisbVchrPayeeIdNumber(payee.getPayeeIdNumber());
         this.getDvPayeeDetail().setDisbVchrPayeePersonName(payee.getPayeePersonName());
         this.getDvPayeeDetail().setDisbVchrPayeeLine1Addr(payee.getPayeeLine1Addr());
@@ -664,13 +663,10 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
         this.getDvPayeeDetail().setDisbVchrPayeeCityName(payee.getPayeeCityName());
         this.getDvPayeeDetail().setDisbVchrPayeeStateCode(payee.getPayeeStateCode());
         this.getDvPayeeDetail().setDisbVchrPayeeZipCode(payee.getPayeeZipCode());
-        this.getDvPayeeDetail().setDisbVchrPayeeCountryName(payee.getPayeeCountryName());
+        this.getDvPayeeDetail().setDisbVchrPayeeCountryCode(payee.getPayeeCountryCode());
         this.getDvPayeeDetail().setDisbVchrPayeeEmployeeCode(payee.isPayeeEmployeeCode());
         this.getDvPayeeDetail().setDisbVchrAlienPaymentCode(payee.isAlienPaymentCode());
         this.getDvPayeeDetail().setDvPayeeRevolvingFundCode(payee.isPayeeRevolvingFundCode());
-        this.getDvPayeeDetail().setDvTaxIdNumber(payee.getTaxIdNumber());
-        this.getDvPayeeDetail().setDvTaxPayerTypeCode(payee.getTaxpayerTypeCode());
-        this.getDvPayeeDetail().setDvPayeeOwnType(payee.getPayeeOwnershipTypCd());
 
         this.disbVchrPayeeTaxControlCode = payee.getPayeeTaxControlCode();
         this.disbVchrPayeeW9CompleteCode = payee.isPayeeW9CompleteCode();
@@ -685,8 +681,8 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
         if (employee == null) {
             return;
         }
-        
-        this.getDvPayeeDetail().setDvPayeeType(Constants.DV_PAYEE_TYPE_EMPLOYEE);
+
+        this.getDvPayeeDetail().setDvPayeeType(DisbursementVoucherRuleConstants.DV_PAYEE_TYPE_EMPLOYEE);
         this.getDvPayeeDetail().setDisbVchrPayeeIdNumber(employee.getPersonUniversalIdentifier());
         this.getDvPayeeDetail().setDisbVchrPayeePersonName(employee.getPersonName());
         this.getDvPayeeDetail().setDisbVchrPayeeLine1Addr(employee.getDeptid());
@@ -694,14 +690,11 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
         this.getDvPayeeDetail().setDisbVchrPayeeCityName("");
         this.getDvPayeeDetail().setDisbVchrPayeeStateCode("");
         this.getDvPayeeDetail().setDisbVchrPayeeZipCode("");
-        this.getDvPayeeDetail().setDisbVchrPayeeCountryName("");
+        this.getDvPayeeDetail().setDisbVchrPayeeCountryCode("");
         this.getDvPayeeDetail().setDisbVchrPayeeEmployeeCode(false);
         this.getDvPayeeDetail().setDisbVchrAlienPaymentCode(false);
         this.getDvPayeeDetail().setDvPayeeRevolvingFundCode(false);
-        // this.getDvPayeeDetail().setDvTaxIdNumber(payee.getTaxIdNumber());
-        this.getDvPayeeDetail().setDvTaxPayerTypeCode(DisbursementVoucherRuleConstants.TAX_TYPE_SSN);
-        this.getDvPayeeDetail().setDvPayeeOwnType("");
-        
+
         this.disbVchrPayeeTaxControlCode = "";
         this.disbVchrPayeeW9CompleteCode = true;
     }
@@ -729,8 +722,10 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
         dvPayeeDetail.setFinancialDocumentNumber(this.financialDocumentNumber);
 
         /* Travel */
-        if (!RulesUtils.makeSet(DisbursementVoucherRuleConstants.TRAVEL_NON_EMPL_PAYMENT_REASON_CODES).contains(
-                dvPayeeDetail.getDisbVchrPaymentReasonCode())) {
+        String[] travelNonEmplPaymentReasonCodes = SpringServiceLocator.getKualiConfigurationService()
+                .getApplicationParameterValues(DisbursementVoucherRuleConstants.DV_DOCUMENT_PARAMETERS_GROUP_NM,
+                        DisbursementVoucherRuleConstants.NONEMPLOYEE_TRAVEL_PAY_REASONS_PARM_NM);
+        if (!RulesUtils.makeSet(travelNonEmplPaymentReasonCodes).contains(dvPayeeDetail.getDisbVchrPaymentReasonCode())) {
             dvNonEmployeeTravel = null;
         }
         else {
@@ -738,7 +733,10 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
             dvNonEmployeeTravel.setTotalTravelAmount(dvNonEmployeeTravel.getTotalTravelAmount());
         }
 
-        if (!DisbursementVoucherRuleConstants.PAYMENT_REASON_PREPAID_TRAVEL.equals(dvPayeeDetail.getDisbVchrPaymentReasonCode())) {
+        String[] travelPrepaidPaymentReasonCodes = SpringServiceLocator.getKualiConfigurationService()
+                .getApplicationParameterValues(DisbursementVoucherRuleConstants.DV_DOCUMENT_PARAMETERS_GROUP_NM,
+                        DisbursementVoucherRuleConstants.PREPAID_TRAVEL_PAY_REASONS_PARM_NM);
+        if (!RulesUtils.makeSet(travelPrepaidPaymentReasonCodes).contains(dvPayeeDetail.getDisbVchrPaymentReasonCode())) {
             dvPreConferenceDetail = null;
         }
         else {
@@ -763,10 +761,8 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
         getDvPayeeDetail().setDisbVchrPayeeCityName("");
         getDvPayeeDetail().setDisbVchrPayeeStateCode("");
         getDvPayeeDetail().setDisbVchrPayeeZipCode("");
-        getDvPayeeDetail().setDisbVchrPayeeCountryName("");
+        getDvPayeeDetail().setDisbVchrPayeeCountryCode("");
         getDvPayeeDetail().setDisbVchrAlienPaymentCode(false);
-        getDvPayeeDetail().setDvTaxIdNumber("");
-        getDvPayeeDetail().setDvTaxPayerTypeCode("");
         setDisbVchrPayeeTaxControlCode("");
         // clear nra
         setDvNonResidentAlienTax(null);

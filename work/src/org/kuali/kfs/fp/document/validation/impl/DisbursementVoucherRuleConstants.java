@@ -22,9 +22,6 @@
  */
 package org.kuali.module.financial.rules;
 
-import java.util.Set;
-
-import org.kuali.core.rules.RulesUtils;
 
 
 /**
@@ -32,40 +29,17 @@ import org.kuali.core.rules.RulesUtils;
  * @author Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public interface DisbursementVoucherRuleConstants {
-
-    public static String GENERAL_PAYEE_TAB_ERRORS = "DVPayeeErrors";
-    public static String GENERAL_PAYMENT_TAB_ERRORS = "DVPaymentErrors";
-    public static String GENERAL_NRATAX_TAB_ERRORS = "DVNRATaxErrors";
-    public static String GENERAL_FOREIGNDRAFTS_TAB_ERRORS = "DVForeignDraftErrors";
-    public static String GENERAL_CONTACT_TAB_ERRORS = "DVContactErrors";
-    public static String GENERAL_SPECHAND_TAB_ERRORS = "DVSpecialHandlingErrors";
-    public static String GENERAL_WIRETRANSFER_TAB_ERRORS = "DVWireTransfersErrors";
-
+    
     // payment methods
     public static String PAYMENT_METHOD_CHECK = "P";
     public static String PAYMENT_METHOD_WIRE = "W";
     public static String PAYMENT_METHOD_DRAFT = "F";
-
-    // payment reasons
-    public static String PAYMENT_REASON_PRIZE_AWARD = "A";
-    public static String PAYMENT_REASON_OUT_OF_POCKET = "B";
-    public static String PAYMENT_REASON_RESEARCH = "C";
-    public static String PAYMENT_REASON_COMPENSATION_DECEDENT = "D";
-    public static String PAYMENT_REASON_COMP_SERVICES = "E";
-    public static String PAYMENT_REASON_REFUND_INDIVIDUAL = "F";
-    public static String PAYMENT_REASON_UTIL_POST = "G";
-    public static String PAYMENT_REASON_MEDICAL = "H";
-    public static String PAYMENT_REASON_REVL_FUND = "K";
-    public static String PAYMENT_REASON_CONTRACTS = "L";
-    public static String PAYMENT_REASON_MOVING = "M";
-    public static String PAYMENT_REASON_TRAVEL_NONEMPL = "N";
-    public static String PAYMENT_REASON_PREPAID_TRAVEL = "P";
-    public static String PAYMENT_REASON_ROYALTIES = "R";
-    public static String PAYMENT_REASON_RENTAL_PAYMENT = "T";
-    public static String PAYMENT_REASON_SUBSCRIPTIONS = "W";
-    public static String PAYMENT_REASON_TRAVEL_HONORARIUM = "X";
-    public static String PAYMENT_REASON_CLAIMS = "Z";
-
+    
+    // payee types
+    public static final String DV_PAYEE_TYPE_PAYEE = "P";
+    public static final String DV_PAYEE_TYPE_EMPLOYEE = "E";
+    public static final String DV_PAYEE_TYPE_VENDOR ="V";
+    
     // ownership type
     public static String OWNERSHIP_TYPE_CORPORATION = "C";
     public static String OWNERSHIP_TYPE_GOVERNMENT = "G";
@@ -76,22 +50,10 @@ public interface DisbursementVoucherRuleConstants {
     public static String OWNERSHIP_TYPE_NONPROFIT_TRUST = "T";
 
     // country
-    public static String COUNTRY_UNITED_STATES = "UNITED STATES";
+    public static String COUNTRY_CODE_UNITED_STATES = "US";
 
     // document location
     public static String NO_DOCUMENTATION_LOCATION = "N";
-
-    public static String[] PAYMENT_REASON_CODES = new String[] { PAYMENT_REASON_PRIZE_AWARD, PAYMENT_REASON_OUT_OF_POCKET,
-            PAYMENT_REASON_RESEARCH, PAYMENT_REASON_COMPENSATION_DECEDENT, PAYMENT_REASON_COMP_SERVICES,
-            PAYMENT_REASON_REFUND_INDIVIDUAL, PAYMENT_REASON_UTIL_POST, PAYMENT_REASON_MEDICAL, PAYMENT_REASON_REVL_FUND,
-            PAYMENT_REASON_CONTRACTS, PAYMENT_REASON_MOVING, PAYMENT_REASON_TRAVEL_NONEMPL, PAYMENT_REASON_PREPAID_TRAVEL,
-            PAYMENT_REASON_ROYALTIES, PAYMENT_REASON_RENTAL_PAYMENT, PAYMENT_REASON_SUBSCRIPTIONS,
-            PAYMENT_REASON_TRAVEL_HONORARIUM, PAYMENT_REASON_CLAIMS };
-
-    public static String[] TRAVEL_NON_EMPL_PAYMENT_REASON_CODES = new String[] { PAYMENT_REASON_TRAVEL_NONEMPL,
-            PAYMENT_REASON_TRAVEL_HONORARIUM, PAYMENT_REASON_MOVING };
-
-
 
     // apc security group constants
     public static String DV_DOCUMENT_PARAMETERS_GROUP_NM = "DVDocumentParameters";
@@ -107,7 +69,6 @@ public interface DisbursementVoucherRuleConstants {
     public static String PAYMENT_SUB_FUND_GROUP_NM = "DVPaymentSubFundRestrictions";
     public static String SUB_FUND_OBJECT_SUB_TYPE_GROUP_NM = "DVSubFundObjectSubTypeRestrictions";
     public static String NRA_TAX_PARM_GROUP_NM = "DVNRATaxParameters";
-
 
     // apc parameter constants
     public static String OBJECT_CODE_PARM_PREFIX = "OBJECT_CODE_";
@@ -131,12 +92,19 @@ public interface DisbursementVoucherRuleConstants {
     public static String TRAVEL_PER_DIEM_MESSAGE_PARM_NM = "TRAVEL_PER_DIEM_LINK_PAGE_MESSAGE";
     public static String DEFAULT_DOC_LOCATION_PARM_NM = "DEFAULT_DOCUMENTATION_LOCATION";
     public static String ALLOW_OBJECT_CODE_EDITS = "ALLOW_ROUTE_OBJECT_CODE_EDITS";
+    public static String TAX_DOCUMENTATION_LOCATION_CODE_PARM_NM = "TAX_DOCUMENTATION_LOCATION_CODE";
+    public static String W9_OWNERSHIP_TYPES_PARM_NM = "W9_OWNERSHIP_TYPES";
+    public static String NONEMPLOYEE_TRAVEL_PAY_REASONS_PARM_NM = "NONEMPLOYEE_TRAVEL_PAYMENT_REASONS";
+    public static String PREPAID_TRAVEL_PAY_REASONS_PARM_NM = "PREPAID_TRAVEL_PAYMENT_REASONS";
+    public static String REVOLVING_FUND_PAY_REASONS_PARM_NM = "REVOLVING_FUND_PAYMENT_REASONS";
+    public static String RESEARCH_PAY_REASONS_PARM_NM = "RESEARCH_PAYMENT_REASONS";
+    public static String RESEARCH_CHECK_LIMIT_AMOUNT_PARM_NM = "RESEARCH_NON_VENDOR_PAY_LIMIT_AMOUNT";
+    public static String PERFORM_PREPAID_EMPL_PARM_NM = "PERFORM_PREPAID_ACTIVE_EMPLOPYEE_IND";
+    public static String PERFORM_EMPL_OUTSIDE_PAYROLL_PARM_NM = "RFORM_EMPL_PAID_OUTSIDE_PAYROLL_IND";
+    public static String MOVING_PAY_REASONS_PARM_NM = "MOVING_PAYMENT_REASONS";
     
     public static String TAX_TYPE_SSN = "1";
     public static String TAX_TYPE_FEIN = "0";
-    public static String UNITED_STATES_COUNTRY_NAME = "USA";
-
-    public static Set W9_OWN_TYPS = RulesUtils.makeSet(new String[] { "M", "I", "P", "S" });
 
     public static String NRA_TAX_INCOME_CLASS_FELLOWSHIP = "F";
     public static String NRA_TAX_INCOME_CLASS_INDEPENDENT_CONTRACTOR = "I";
@@ -146,8 +114,7 @@ public interface DisbursementVoucherRuleConstants {
     public static String FEDERAL_TAX_TYPE_CODE = "F";
     public static String STATE_TAX_TYPE_CODE = "S";
     
-    public static String TRAVEL_OBJECT_SUB_TYPE_CODE = "TR";
-    
     public static String DOCUMENT_TYPE_CHECKACH = "DVCA";
     public static String DOCUMENT_TYPE_WTFD = "DVWF";
+
 }

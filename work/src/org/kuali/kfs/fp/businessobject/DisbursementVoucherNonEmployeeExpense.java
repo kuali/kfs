@@ -42,7 +42,6 @@ public class DisbursementVoucherNonEmployeeExpense extends BusinessObjectBase {
     private KualiDecimal disbVchrExpenseAmount;
 
     private TravelExpenseTypeCode disbVchrExpense;
-    private TravelCompanyCode disbVchrExpenseCompany;
 
     /**
      * Default no-arg constructor.
@@ -192,27 +191,6 @@ public class DisbursementVoucherNonEmployeeExpense extends BusinessObjectBase {
      */
     public void setDisbVchrExpense(TravelExpenseTypeCode disbVchrExpense) {
         this.disbVchrExpense = disbVchrExpense;
-    }
-
-    /**
-     * Gets the disbVchrExpenseCompany attribute.
-     * 
-     * @return - Returns the disbVchrExpenseCompany
-     *  
-     */
-    public TravelCompanyCode getDisbVchrExpenseCompany() {
-        return disbVchrExpenseCompany;
-    }
-
-
-    /**
-     * Sets the disbVchrExpenseCompany attribute.
-     * 
-     * @param - disbVchrExpenseCompany The disbVchrExpenseCompany to set.
-     * @deprecated
-     */
-    public void setDisbVchrExpenseCompany(TravelCompanyCode disbVchrExpenseCompany) {
-        this.disbVchrExpenseCompany = disbVchrExpenseCompany;
     }
 
     /**

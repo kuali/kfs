@@ -41,7 +41,7 @@ public class DisbursementVoucherWireTransfer extends BusinessObjectBase {
 	private String disbVchrBankRoutingNumber;
 	private String disbVchrBankCityName;
 	private String disbVchrBankStateCode;
-	private String disbVchrBankCountryName;
+	private String disbVchrBankCountryCode;
 	private String disbVchrAttentionLineText;
 	private String disbVchrAdditionalWireText;
 	private String disbVchrPayeeAccountNumber;
@@ -170,24 +170,24 @@ public class DisbursementVoucherWireTransfer extends BusinessObjectBase {
 	}
 
 	/**
-	 * Gets the disbVchrBankCountryName attribute.
+	 * Gets the disbVchrBankCountryCode attribute.
 	 * 
-	 * @return - Returns the disbVchrBankCountryName
+	 * @return - Returns the disbVchrBankCountryCode
 	 * 
 	 */
-	public String getDisbVchrBankCountryName() { 
-		return disbVchrBankCountryName;
+	public String getDisbVchrBankCountryCode() { 
+		return disbVchrBankCountryCode;
 	}
 	
 
 	/**
-	 * Sets the disbVchrBankCountryName attribute.
+	 * Sets the disbVchrBankCountryCode attribute.
 	 * 
-	 * @param - disbVchrBankCountryName The disbVchrBankCountryName to set.
+	 * @param - disbVchrBankCountryCode The disbVchrBankCountryCode to set.
 	 * 
 	 */
-	public void setDisbVchrBankCountryName(String disbVchrBankCountryName) {
-		this.disbVchrBankCountryName = disbVchrBankCountryName;
+	public void setDisbVchrBankCountryCode(String disbVchrBankCountryCode) {
+		this.disbVchrBankCountryCode = disbVchrBankCountryCode;
 	}
 
 	/**

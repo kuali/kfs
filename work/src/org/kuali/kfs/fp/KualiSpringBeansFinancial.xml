@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
+	<bean id="travelMileageRateDao" class="org.kuali.module.financial.dao.ojb.TravelMileageRateDaoOjb">
+		<property name="jcdAlias">
+			<value>dataSource</value>
+		</property>
+	</bean>
+	
     <bean id="disbursementVoucherTaxService" class="org.kuali.module.financial.service.impl.DisbursementVoucherTaxServiceImpl">
         <property name="kualiConfigurationService">
             <ref bean="kualiConfigurationService" />
@@ -25,7 +31,14 @@
         </property>
     </bean>
     
-    <bean id="disbursementVoucherTravelService" class="org.kuali.module.financial.service.impl.DisbursementVoucherTravelServiceImpl"/>
+    <bean id="disbursementVoucherTravelService" class="org.kuali.module.financial.service.impl.DisbursementVoucherTravelServiceImpl">
+        <property name="travelMileageRateDao">
+           <ref bean="travelMileageRateDao"/>
+        </property>
+        <property name="dateTimeService">
+           <ref bean="dateTimeService"/>
+        </property>
+    </bean>
     
     <bean id="depositDocumentService" class="org.kuali.module.financial.service.impl.DepositDocumentServiceImpl">
         <property name="businessObjectService">

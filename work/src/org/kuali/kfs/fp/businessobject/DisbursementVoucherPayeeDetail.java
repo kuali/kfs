@@ -27,8 +27,8 @@ package org.kuali.module.financial.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.Constants;
 import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.module.financial.rules.DisbursementVoucherRuleConstants;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -45,22 +45,19 @@ public class DisbursementVoucherPayeeDetail extends BusinessObjectBase {
     private String disbVchrPayeeCityName;
     private String disbVchrPayeeStateCode;
     private String disbVchrPayeeZipCode;
-    private String disbVchrPayeeCountryName;
+    private String disbVchrPayeeCountryCode;
     private String disbVchrRemitPersonName;
     private String disbVchrRemitLine1Addr;
     private String disbVchrRemitLine2Addr;
     private String disbVchrRemitCityName;
     private String disbVchrRemitStateCode;
     private String disbVchrRemitZipCode;
-    private String disbVchrRemitCountryName;
+    private String disbVchrRemitCountryCode;
     private boolean disbVchrPayeeEmployeeCode;
     private boolean dvPayeeRevolvingFundCode;
 
     // non-database fields
-    private String dvTaxIdNumber;
-    private String dvTaxPayerTypeCode;
     private String dvPayeeType;
-    private String dvPayeeOwnType;
 
     private PaymentReasonCode disbVchrPaymentReason;
 
@@ -282,24 +279,24 @@ public class DisbursementVoucherPayeeDetail extends BusinessObjectBase {
     }
 
     /**
-     * Gets the disbVchrPayeeCountryName attribute.
+     * Gets the disbVchrPayeeCountryCode attribute.
      * 
-     * @return - Returns the disbVchrPayeeCountryName
+     * @return - Returns the disbVchrPayeeCountryCode
      *  
      */
-    public String getDisbVchrPayeeCountryName() {
-        return disbVchrPayeeCountryName;
+    public String getDisbVchrPayeeCountryCode() {
+        return disbVchrPayeeCountryCode;
     }
 
 
     /**
-     * Sets the disbVchrPayeeCountryName attribute.
+     * Sets the disbVchrPayeeCountryCode attribute.
      * 
-     * @param - disbVchrPayeeCountryName The disbVchrPayeeCountryName to set.
+     * @param - disbVchrPayeeCountryCode The disbVchrPayeeCountryCode to set.
      *  
      */
-    public void setDisbVchrPayeeCountryName(String disbVchrPayeeCountryName) {
-        this.disbVchrPayeeCountryName = disbVchrPayeeCountryName;
+    public void setDisbVchrPayeeCountryCode(String disbVchrPayeeCountryCode) {
+        this.disbVchrPayeeCountryCode = disbVchrPayeeCountryCode;
     }
 
     /**
@@ -429,24 +426,24 @@ public class DisbursementVoucherPayeeDetail extends BusinessObjectBase {
     }
 
     /**
-     * Gets the disbVchrRemitCountryName attribute.
+     * Gets the disbVchrRemitCountryCode attribute.
      * 
-     * @return - Returns the disbVchrRemitCountryName
+     * @return - Returns the disbVchrRemitCountryCode
      *  
      */
-    public String getDisbVchrRemitCountryName() {
-        return disbVchrRemitCountryName;
+    public String getDisbVchrRemitCountryCode() {
+        return disbVchrRemitCountryCode;
     }
 
 
     /**
-     * Sets the disbVchrRemitCountryName attribute.
+     * Sets the disbVchrRemitCountryCode attribute.
      * 
-     * @param - disbVchrRemitCountryName The disbVchrRemitCountryName to set.
+     * @param - disbVchrRemitCountryCode The disbVchrRemitCountryCode to set.
      *  
      */
-    public void setDisbVchrRemitCountryName(String disbVchrRemitCountryName) {
-        this.disbVchrRemitCountryName = disbVchrRemitCountryName;
+    public void setDisbVchrRemitCountryCode(String disbVchrRemitCountryCode) {
+        this.disbVchrRemitCountryCode = disbVchrRemitCountryCode;
     }
 
     /**
@@ -527,58 +524,12 @@ public class DisbursementVoucherPayeeDetail extends BusinessObjectBase {
         this.dvPayeeType = dvPayeeType;
     }
 
-
-    /**
-     * @return Returns the dvTaxIdNumber.
-     */
-    public String getDvTaxIdNumber() {
-        return dvTaxIdNumber;
-    }
-
-
-    /**
-     * @param dvTaxIdNumber The dvTaxIdNumber to set.
-     */
-    public void setDvTaxIdNumber(String dvTaxIdNumber) {
-        this.dvTaxIdNumber = dvTaxIdNumber;
-    }
-
-
-    /**
-     * @return Returns the dvTaxPayerTypeCode.
-     */
-    public String getDvTaxPayerTypeCode() {
-        return dvTaxPayerTypeCode;
-    }
-
-
-    /**
-     * @param dvTaxPayerTypeCode The dvTaxPayerTypeCode to set.
-     */
-    public void setDvTaxPayerTypeCode(String dvTaxPayerTypeCode) {
-        this.dvTaxPayerTypeCode = dvTaxPayerTypeCode;
-    }
-
-    /**
-     * @return Returns the dvPayeeOwnType.
-     */
-    public String getDvPayeeOwnType() {
-        return dvPayeeOwnType;
-    }
-
-    /**
-     * @param dvPayeeOwnType The dvPayeeOwnType to set.
-     */
-    public void setDvPayeeOwnType(String dvPayeeOwnType) {
-        this.dvPayeeOwnType = dvPayeeOwnType;
-    }
-
     /**
      * Checks the payee type code for vendor type
      * @return
      */
     public boolean isVendor() {
-        return Constants.DV_PAYEE_TYPE_VENDOR.equals(dvPayeeType);
+        return DisbursementVoucherRuleConstants.DV_PAYEE_TYPE_VENDOR.equals(dvPayeeType);
     }
 
     /**
@@ -586,7 +537,7 @@ public class DisbursementVoucherPayeeDetail extends BusinessObjectBase {
      * @return
      */
     public boolean isPayee() {
-        return Constants.DV_PAYEE_TYPE_PAYEE.equals(dvPayeeType);
+        return DisbursementVoucherRuleConstants.DV_PAYEE_TYPE_PAYEE.equals(dvPayeeType);
     }
 
     /**
@@ -594,7 +545,7 @@ public class DisbursementVoucherPayeeDetail extends BusinessObjectBase {
      * @return
      */
     public boolean isEmployee() {
-        return Constants.DV_PAYEE_TYPE_EMPLOYEE.equals(dvPayeeType);
+        return DisbursementVoucherRuleConstants.DV_PAYEE_TYPE_EMPLOYEE.equals(dvPayeeType);
     }
 
     /**

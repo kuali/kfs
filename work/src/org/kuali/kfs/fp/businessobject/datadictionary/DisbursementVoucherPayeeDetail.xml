@@ -66,9 +66,9 @@
                                   sourceClassName="org.kuali.module.financial.bo.Payee"
                                   sourceAttributeName="payeeZipCode"/>              
 
-	          <attributeReference name="disbVchrPayeeCountryName"
+	          <attributeReference name="disbVchrPayeeCountryCode"
                                   sourceClassName="org.kuali.module.financial.bo.Payee"
-                                  sourceAttributeName="payeeCountryName">
+                                  sourceAttributeName="payeeCountryCode">
                                   <required>true</required>
               </attributeReference>                    
                                   
@@ -133,9 +133,9 @@
                                   <description>...</description>
               </attributeReference>   
 
-	          <attributeReference name="disbVchrRemitCountryName"
+	          <attributeReference name="disbVchrRemitCountryCode"
                                   sourceClassName="org.kuali.module.financial.bo.Payee"
-                                  sourceAttributeName="payeeCountryName">
+                                  sourceAttributeName="payeeCountryCode">
                                   <label>Remit Country</label>
                                   <shortLabel>Remit Cntry</shortLabel>
                                   

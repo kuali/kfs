@@ -40,7 +40,13 @@
 		
 			<attributeReference name="disbursementVoucherMileageEffectiveDate" 
 								sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
-								sourceAttributeName="genericDate" />
+								sourceAttributeName="genericDate" >
+								<label>Rate Effective Date</label>
+								<shortLabel>Effective Dt</shortLabel>
+								
+								<summary>Date mileage rate becomes effective.</summary>
+								<description>...</description>
+			</attributeReference>					
 
 			<attributeReference name="mileageLimitAmount" 
             					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
@@ -59,7 +65,10 @@
                 <summary>Travel Mileage Rate</summary>
                 <description>Travel Mileage Rate...</description>
             </attributeReference>
-            
+    		
+	    	<attributeReference name="versionNumber" 
+					            sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
+					            sourceAttributeName="versionNumber" />        
 		</attributes>
 	</businessObject>
 </dictionaryEntry>

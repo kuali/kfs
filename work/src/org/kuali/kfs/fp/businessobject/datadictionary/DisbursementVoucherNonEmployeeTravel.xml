@@ -106,7 +106,7 @@
 	            <description>...</description>
 	        </attribute>
 	        
-	        <attribute name="dvTravelFromCountryName">
+	        <attribute name="dvTravelFromCountryCode">
 	            <label>Country</label>
 	            <shortLabel>Country</shortLabel>
 	            
@@ -186,7 +186,7 @@
 	            <description>...</description>
 	        </attribute>
 	        
-	        <attribute name="disbVchrTravelToCountryName">
+	        <attribute name="disbVchrTravelToCountryCode">
 	            <label>Country</label>
 	            <shortLabel>Country</shortLabel>
 	            
@@ -240,7 +240,7 @@
 	            
 	            <maxLength>22</maxLength>
 	            
-	            <required>false</required>
+	            <required>true</required>
 	            
 	            <control>
 	                <text size="9"/>
@@ -256,7 +256,7 @@
 	            
 	            <maxLength>22</maxLength>
 	            
-	            <required>false</required>
+	            <required>true</required>
 	            
 	            <control>
 	                <text size="9"/>

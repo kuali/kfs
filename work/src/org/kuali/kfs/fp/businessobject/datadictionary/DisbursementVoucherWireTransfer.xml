@@ -74,7 +74,7 @@
 	            <description>...</description>
 	        </attribute>
 	        
-	        <attribute name="disbVchrBankCountryName">
+	        <attribute name="disbVchrBankCountryCode">
 	            <label>Bank Country</label>
 	            <shortLabel>Bnk Cntry</shortLabel>
 	            

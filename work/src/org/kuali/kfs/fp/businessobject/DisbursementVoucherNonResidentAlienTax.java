@@ -29,7 +29,6 @@ import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.module.financial.document.DisbursementVoucherDocument;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -47,7 +46,6 @@ public class DisbursementVoucherNonResidentAlienTax extends BusinessObjectBase {
 	private String finSystemRefOriginationCode;
 	private String financialDocumentReferenceNbr;
 	
-	private DisbursementVoucherDocument financialDocument;
 	private TaxIncomeClassCode incomeClass;
 
 	/**
@@ -265,27 +263,6 @@ public class DisbursementVoucherNonResidentAlienTax extends BusinessObjectBase {
 	 */
 	public void setFinancialDocumentReferenceNbr(String financialDocumentReferenceNbr) {
 		this.financialDocumentReferenceNbr = financialDocumentReferenceNbr;
-	}
-
-	/**
-	 * Gets the financialDocument attribute.
-	 * 
-	 * @return - Returns the financialDocument
-	 * 
-	 */
-	public DisbursementVoucherDocument getFinancialDocument() { 
-		return financialDocument;
-	}
-	
-
-	/**
-	 * Sets the financialDocument attribute.
-	 * 
-	 * @param - financialDocument The financialDocument to set.
-	 * @deprecated
-	 */
-	public void setFinancialDocument(DisbursementVoucherDocument financialDocument) {
-		this.financialDocument = financialDocument;
 	}
 
 	/**

@@ -23,16 +23,17 @@
 package org.kuali.module.financial.service.impl;
 
 import java.math.BigDecimal;
+import java.sql.Date;
 import java.sql.Timestamp;
+import java.text.ParseException;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
+import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.TravelMileageRate;
+import org.kuali.module.financial.dao.TravelMileageRateDao;
 import org.kuali.module.financial.service.DisbursementVoucherTravelService;
 
 /**
@@ -41,6 +42,9 @@ import org.kuali.module.financial.service.DisbursementVoucherTravelService;
  */
 public class DisbursementVoucherTravelServiceImpl implements DisbursementVoucherTravelService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherTravelServiceImpl.class);
+
+    private TravelMileageRateDao travelMileageRateDao;
+    private DateTimeService dateTimeService;
 
     /**
      * @see org.kuali.module.financial.service.DisbursementVoucherTravelService#calculatePerDiemAmount(org.kuali.module.financial.bo.DisbursementVoucherNonEmployeeTravel)
@@ -145,19 +149,26 @@ public class DisbursementVoucherTravelServiceImpl implements DisbursementVoucher
     /**
      * @see org.kuali.module.financial.service.DisbursementVoucherTravelService#calculateMileageAmount(org.kuali.module.financial.bo.DisbursementVoucherNonEmployeeTravel)
      */
-    public KualiDecimal calculateMileageAmount(Integer totalMileage) {
+    public KualiDecimal calculateMileageAmount(Integer totalMileage, Timestamp travelStartDate) {
         KualiDecimal mileageAmount = new KualiDecimal(0);
 
-        if (totalMileage == null) {
-            LOG.error("Total Mileage must be given");
-            throw new RuntimeException("Total Mileage must be given");
+        if (totalMileage == null || travelStartDate == null) {
+            LOG.error("Total Mileage and Travel Start Date must be given");
+            throw new RuntimeException("Total Mileage and Travel Start Date must be given");
         }
 
-        // retrieve mileage rates for this fiscal year
-        Map criteria = new HashMap();
-        criteria.put("universityFiscalYear", SpringServiceLocator.getDateTimeService().getCurrentFiscalYear());
-        List mileageRates = (List) SpringServiceLocator.getBusinessObjectService().findMatchingOrderBy(TravelMileageRate.class,
-                criteria, "mileageLimitAmount", false);
+        // convert timestamp to sql date
+        Date effectiveDate = null;
+        try {
+            effectiveDate = dateTimeService.convertToSqlDate(travelStartDate);
+        }
+        catch (ParseException e) {
+            LOG.error("Unable to parse travel start date into sql date " + e.getMessage());
+            throw new RuntimeException("Unable to parse travel start date into sql date " + e.getMessage());
+        }
+
+        // retrieve mileage rates
+        List mileageRates = (List) travelMileageRateDao.retrieveMostEffectiveMileageRates(effectiveDate);
 
         if (mileageRates == null || mileageRates.isEmpty()) {
             LOG.error("Unable to retreive mileage rates.");
@@ -185,4 +196,31 @@ public class DisbursementVoucherTravelServiceImpl implements DisbursementVoucher
         return mileageAmount;
     }
 
+    /**
+     * @return Returns the travelMileageRateDao.
+     */
+    public TravelMileageRateDao getTravelMileageRateDao() {
+        return travelMileageRateDao;
+    }
+
+    /**
+     * @param travelMileageRateDao The travelMileageRateDao to set.
+     */
+    public void setTravelMileageRateDao(TravelMileageRateDao travelMileageRateDao) {
+        this.travelMileageRateDao = travelMileageRateDao;
+    }
+
+    /**
+     * @return Returns the dateTimeService.
+     */
+    public DateTimeService getDateTimeService() {
+        return dateTimeService;
+    }
+
+    /**
+     * @param dateTimeService The dateTimeService to set.
+     */
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
+    }
 }

@@ -31,18 +31,20 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.Constants;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.lookup.keyvalues.KeyValuesFinder;
 import org.kuali.core.lookup.keyvalues.PaymentMethodValuesFinder;
+import org.kuali.core.rules.RulesUtils;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.PersistenceService;
+import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.uidraw.KeyLabelPair;
 import org.kuali.module.financial.bo.DisbursementVoucherDocumentationLocation;
 import org.kuali.module.financial.bo.PaymentReasonCode;
 import org.kuali.module.financial.document.DisbursementVoucherDocument;
 import org.kuali.module.financial.rules.DisbursementVoucherDocumentRule;
+import org.kuali.module.financial.rules.DisbursementVoucherRuleConstants;
 import org.kuali.module.financial.service.DisbursementVoucherCoverSheetService;
 
 import com.lowagie.text.DocumentException;
@@ -55,7 +57,7 @@ import com.lowagie.text.pdf.PdfStamper;
  * Service used for manipulating disbursement voucher cover sheets.
  * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
- * @version $Id: DisbursementVoucherCoverSheetServiceImpl.java,v 1.2 2006-02-06 19:50:40 maynalem Exp $
+ * @version $Id: DisbursementVoucherCoverSheetServiceImpl.java,v 1.3 2006-02-27 02:40:13 jkneal Exp $
  */
 public class DisbursementVoucherCoverSheetServiceImpl implements DisbursementVoucherCoverSheetService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherCoverSheetServiceImpl.class);
@@ -115,18 +117,22 @@ public class DisbursementVoucherCoverSheetServiceImpl implements DisbursementVou
             }
             // retrieve data for alien payment code
             if (document.getDvPayeeDetail().isDisbVchrAlienPaymentCode()) {
+                String taxDocumentationLocationCode = SpringServiceLocator.getKualiConfigurationService()
+                        .getApplicationParameterValue(DisbursementVoucherRuleConstants.DV_DOCUMENT_PARAMETERS_GROUP_NM,
+                                DisbursementVoucherRuleConstants.TAX_DOCUMENTATION_LOCATION_CODE_PARM_NM);
 
-                address = retrieveAddress(Constants.DV_DOC_LOC_TAX_AREA);
+                address = retrieveAddress(taxDocumentationLocationCode);
                 alien = kualiConfigurationService.getApplicationParameterValue(DV_DOCUMENT_PARAMETERS_NM,
                         DV_COVER_SHEET_TEMPLATE_ALIEN_PARM_NM);
                 lines = kualiConfigurationService.getApplicationParameterValue(DV_DOCUMENT_PARAMETERS_NM,
                         DV_COVER_SHEET_TEMPLATE_LINES_PARM_NM);
             }
-            // retrieve date for payment reasons:Travel Payment for a Nonemployee ,Travel Pmt for Nonemployee w/ Honorarium
-            if (StringUtils.equals(Constants.DV_PAYMENT_REASON_NONEMPLOYEE, document.getDvPayeeDetail()
-                    .getDisbVchrPaymentReasonCode())
-                    || StringUtils.equals(Constants.DV_PAYMENT_REASON_NONEMPLOYEE_HONORARIUM, document.getDvPayeeDetail()
-                            .getDisbVchrPaymentReasonCode())) {
+            // retrieve data for travel payment reasons
+            String travelNonEmplPaymentReasonCodes = SpringServiceLocator.getKualiConfigurationService()
+                    .getApplicationParameterValue(DisbursementVoucherRuleConstants.DV_DOCUMENT_PARAMETERS_GROUP_NM,
+                            DisbursementVoucherRuleConstants.NONEMPLOYEE_TRAVEL_PAY_REASONS_PARM_NM);
+            if (RulesUtils.makeSet(travelNonEmplPaymentReasonCodes).contains(
+                    document.getDvPayeeDetail().getDisbVchrPaymentReasonCode())) {
                 bar = kualiConfigurationService.getApplicationParameterValue(DV_DOCUMENT_PARAMETERS_NM,
                         DV_COVER_SHEET_TEMPLATE_BAR_PARM_NM);
                 rlines = kualiConfigurationService.getApplicationParameterValue(DV_DOCUMENT_PARAMETERS_NM,

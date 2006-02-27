@@ -65,7 +65,10 @@
                 <summary>Income Class Name</summary>
                 <description>Income Class Name</description>
             </attribute>
-
+		
+	    	<attributeReference name="versionNumber" 
+					            sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
+					            sourceAttributeName="versionNumber" />
 		</attributes>
 	</businessObject>
 </dictionaryEntry>

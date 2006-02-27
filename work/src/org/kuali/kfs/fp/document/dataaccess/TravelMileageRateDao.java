@@ -20,31 +20,25 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-package org.kuali.module.financial.service;
+package org.kuali.module.financial.dao;
 
-import java.sql.Timestamp;
-
-import org.kuali.core.util.KualiDecimal;
+import java.sql.Date;
+import java.util.Collection;
 
 
 /**
- * Performs calculations of travel per diem and mileage amounts.
- * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
+ * The data access interface retrieving mileage rate objects.
+ * 
+ * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public interface DisbursementVoucherTravelService {
+public interface TravelMileageRateDao {
     
-    /**
-     * Calculates the per diem travel amount.
-     * @param travel
-     * @return
-     */
-    public KualiDecimal calculatePerDiemAmount(Timestamp startDateTime, Timestamp endDateTime, KualiDecimal perDiemRate);
-    
-    /**
-     * Calculates the mileage travel amount.
-     * @param travel
-     * @return
-     */
-    public KualiDecimal calculateMileageAmount(Integer totalMileage, Timestamp travelStartDate);
-
+   /**
+    * Retrieves a list of TravelMileageRate objects whose effective dates
+    * are before or equal to the given effectiveDate and the greatest of
+    * effective dates before the date.
+    * @param effectiveDate
+    * @return
+    */
+   public Collection retrieveMostEffectiveMileageRates(Date effectiveDate);
 }

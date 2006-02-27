@@ -45,10 +45,10 @@ public class DisbursementVoucherNonEmployeeTravel extends BusinessObjectBase {
     private String financialDocumentNumber;
     private String disbVchrTravelFromCityName;
     private String disbVchrTravelFromStateCode;
-    private String dvTravelFromCountryName;
+    private String dvTravelFromCountryCode;
     private String disbVchrTravelToCityName;
     private String disbVchrTravelToStateCode;
-    private String disbVchrTravelToCountryName;
+    private String disbVchrTravelToCountryCode;
     private Timestamp dvPerdiemStartDttmStamp;
     private Timestamp dvPerdiemEndDttmStamp;
     private KualiDecimal disbVchrPerdiemCalculatedAmt;
@@ -150,24 +150,24 @@ public class DisbursementVoucherNonEmployeeTravel extends BusinessObjectBase {
     }
 
     /**
-     * Gets the dvTravelFromCountryName attribute.
+     * Gets the dvTravelFromCountryCode attribute.
      * 
-     * @return - Returns the dvTravelFromCountryName
+     * @return - Returns the dvTravelFromCountryCode
      *  
      */
-    public String getDvTravelFromCountryName() {
-        return dvTravelFromCountryName;
+    public String getDvTravelFromCountryCode() {
+        return dvTravelFromCountryCode;
     }
 
 
     /**
-     * Sets the dvTravelFromCountryName attribute.
+     * Sets the dvTravelFromCountryCode attribute.
      * 
-     * @param - dvTravelFromCountryName The dvTravelFromCountryName to set.
+     * @param - dvTravelFromCountryCode The dvTravelFromCountryCode to set.
      *  
      */
-    public void setDvTravelFromCountryName(String dvTravelFromCountryName) {
-        this.dvTravelFromCountryName = dvTravelFromCountryName;
+    public void setDvTravelFromCountryCode(String dvTravelFromCountryCode) {
+        this.dvTravelFromCountryCode = dvTravelFromCountryCode;
     }
 
     /**
@@ -213,24 +213,24 @@ public class DisbursementVoucherNonEmployeeTravel extends BusinessObjectBase {
     }
 
     /**
-     * Gets the disbVchrTravelToCountryName attribute.
+     * Gets the disbVchrTravelToCountryCode attribute.
      * 
-     * @return - Returns the disbVchrTravelToCountryName
+     * @return - Returns the disbVchrTravelToCountryCode
      *  
      */
-    public String getDisbVchrTravelToCountryName() {
-        return disbVchrTravelToCountryName;
+    public String getDisbVchrTravelToCountryCode() {
+        return disbVchrTravelToCountryCode;
     }
 
 
     /**
-     * Sets the disbVchrTravelToCountryName attribute.
+     * Sets the disbVchrTravelToCountryCode attribute.
      * 
-     * @param - disbVchrTravelToCountryName The disbVchrTravelToCountryName to set.
+     * @param - disbVchrTravelToCountryCode The disbVchrTravelToCountryCode to set.
      *  
      */
-    public void setDisbVchrTravelToCountryName(String disbVchrTravelToCountryName) {
-        this.disbVchrTravelToCountryName = disbVchrTravelToCountryName;
+    public void setDisbVchrTravelToCountryCode(String disbVchrTravelToCountryCode) {
+        this.disbVchrTravelToCountryCode = disbVchrTravelToCountryCode;
     }
 
     /**

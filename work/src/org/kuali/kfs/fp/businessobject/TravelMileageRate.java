@@ -36,57 +36,57 @@ import org.kuali.core.bo.BusinessObjectBase;
  */
 public class TravelMileageRate extends BusinessObjectBase {
     private Date disbursementVoucherMileageEffectiveDate;
-	private Integer mileageLimitAmount;
-	private BigDecimal mileageRate;
+    private Integer mileageLimitAmount;
+    private BigDecimal mileageRate;
 
-	/**
-	 * Default no-arg constructor.
-	 */
-	public TravelMileageRate() {
+    /**
+     * Default no-arg constructor.
+     */
+    public TravelMileageRate() {
 
-	}
+    }
 
-	/**
-	 * Gets the mileageLimitAmount attribute.
-	 * 
-	 * @return - Returns the mileageLimitAmount
-	 * 
-	 */
-	public Integer getMileageLimitAmount() { 
-		return mileageLimitAmount;
-	}
-	
+    /**
+     * Gets the mileageLimitAmount attribute.
+     * 
+     * @return - Returns the mileageLimitAmount
+     *  
+     */
+    public Integer getMileageLimitAmount() {
+        return mileageLimitAmount;
+    }
 
-	/**
-	 * Sets the mileageLimitAmount attribute.
-	 * 
-	 * @param - mileageLimitAmount The disbVchrMileageLimitAmount to set.
-	 * 
-	 */
-	public void setMileageLimitAmount(Integer mileageLimitAmount) {
-		this.mileageLimitAmount = mileageLimitAmount;
-	}
 
-	/**
-	 * Gets the mileageRate attribute.
-	 * 
-	 * @return - Returns the mileageRate
-	 * 
-	 */
-	public BigDecimal getMileageRate() { 
-		return mileageRate;
-	}
-	
+    /**
+     * Sets the mileageLimitAmount attribute.
+     * 
+     * @param - mileageLimitAmount The disbVchrMileageLimitAmount to set.
+     *  
+     */
+    public void setMileageLimitAmount(Integer mileageLimitAmount) {
+        this.mileageLimitAmount = mileageLimitAmount;
+    }
 
-	/**
-	 * Sets the mileageRate attribute.
-	 * 
-	 * @param - mileageRate The mileageRate to set.
-	 * 
-	 */
-	public void setMileageRate(BigDecimal mileageRate) {
-		this.mileageRate = mileageRate;
-	}
+    /**
+     * Gets the mileageRate attribute.
+     * 
+     * @return - Returns the mileageRate
+     *  
+     */
+    public BigDecimal getMileageRate() {
+        return mileageRate;
+    }
+
+
+    /**
+     * Sets the mileageRate attribute.
+     * 
+     * @param - mileageRate The mileageRate to set.
+     *  
+     */
+    public void setMileageRate(BigDecimal mileageRate) {
+        this.mileageRate = mileageRate;
+    }
 
     /**
      * @return Returns the disbursementVoucherMileageEffectiveDate.
@@ -100,17 +100,21 @@ public class TravelMileageRate extends BusinessObjectBase {
      */
     public void setDisbursementVoucherMileageEffectiveDate(Date disbursementVoucherMileageEffectiveDate) {
         this.disbursementVoucherMileageEffectiveDate = disbursementVoucherMileageEffectiveDate;
-    }    
-    
-	/**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();
-        m.put("disbursementVoucherMileageEffectiveDate", this.disbursementVoucherMileageEffectiveDate.toString());
-        m.put("disbVchrMileageLimitAmount", this.mileageLimitAmount.toString());
-  	    return m;
-	}
+    }
+
+    /**
+     * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
+        if (this.disbursementVoucherMileageEffectiveDate != null) {
+            m.put("disbursementVoucherMileageEffectiveDate", this.disbursementVoucherMileageEffectiveDate.toString());
+        }
+        if (this.mileageLimitAmount != null) {
+            m.put("disbVchrMileageLimitAmount", this.mileageLimitAmount.toString());
+        }
+        return m;
+    }
 
 
 }

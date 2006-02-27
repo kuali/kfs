@@ -36,13 +36,13 @@
 				
 				<lookupField attributeName="dummyBusinessObject.consolidationOption">
 					<defaultValueFinderClass>
-						org.kuali.module.gl.web.GLConsolidationOptionFinder
+						org.kuali.module.gl.web.optionfinder.GLConsolidationOptionFinder
 					</defaultValueFinderClass>
 				</lookupField>
 				
 				<lookupField attributeName="dummyBusinessObject.pendingEntryOption">
 					<defaultValueFinderClass>
-						org.kuali.module.gl.web.GLPendingEntryOptionFinder
+						org.kuali.module.gl.web.optionfinder.GLPendingEntryOptionFinder
 					</defaultValueFinderClass>
 				</lookupField>
 			</lookupFields>

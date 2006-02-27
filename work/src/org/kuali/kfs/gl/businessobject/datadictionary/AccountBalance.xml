@@ -43,7 +43,7 @@
 				<lookupField attributeName="subObjectCode" noLookup="false"/>
 				<lookupField attributeName="dummyBusinessObject.consolidationOption">
 					<defaultValueFinderClass>
-						org.kuali.module.gl.web.GLConsolidationOptionFinder
+						org.kuali.module.gl.web.optionfinder.GLConsolidationOptionFinder
 					</defaultValueFinderClass>
 				</lookupField>
 			</lookupFields>
@@ -128,7 +128,7 @@
 	            <shortLabel>Consolidation Option</shortLabel>
 	            <maxLength>2</maxLength>
 	            <control>
-	                <radio valuesFinderClass="org.kuali.module.gl.web.GLConsolidationOptionFinder"/>
+	                <radio valuesFinderClass="org.kuali.module.gl.web.optionfinder.GLConsolidationOptionFinder"/>
 	            </control>
 	            <summary>Consolidation Option</summary>
 	            <description>consolidationOption description...</description>

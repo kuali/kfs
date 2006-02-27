@@ -30,14 +30,15 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathFactory;
+
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.jdom.Document;
-import org.jdom.Element;
 import org.kuali.KualiSpringServiceLocator;
 import org.kuali.workflow.KualiConstants;
 import org.kuali.workflow.beans.KualiFiscalChart;
@@ -55,7 +56,6 @@ import edu.iu.uis.eden.routetemplate.RouteContext;
 import edu.iu.uis.eden.user.AuthenticationUserId;
 import edu.iu.uis.eden.util.KeyLabelPair;
 import edu.iu.uis.eden.util.Utilities;
-import edu.iu.uis.eden.util.XmlHelper;
 
 /**
  * KualiChartAttribute which should be used when using charts to do routing
@@ -84,6 +84,10 @@ public class KualiChartAttribute implements RoleAttribute, WorkflowAttribute {
 
     private static final String ROLE_STRING_DELIMITER = "~!~!~";
 
+    private static final String MAINTAINABLE_PREFIX = "//newMaintainableObject/businessObject/";
+    
+    private static final String ORGANIZATION_DOC_TYPE = "KualiOrganizationMaintenanceDocument";
+    
     private String finCoaCd;
 
     private boolean required;
@@ -287,13 +291,27 @@ public class KualiChartAttribute implements RoleAttribute, WorkflowAttribute {
     public List getQualifiedRoleNames(String roleName, DocumentContent docContent) throws EdenUserNotFoundException {
         Set qualifiedRoleNames = new HashSet();
         if (CHART_MANAGER_ROLE_KEY.equals(roleName)) {
-            Document doc = null;
+        	String chartXPath = MAINTAINABLE_PREFIX+"chartOfAccountsCode";
+        	if (docContent.getDocument().getDoctype().getName().equals(ORGANIZATION_DOC_TYPE)) {
+        		chartXPath = MAINTAINABLE_PREFIX+"finCoaCd";
+        	}
+        	XPath xpath = XPathFactory.newInstance().newXPath();
+        	String chart = null;
+        	try {
+        		chart = xpath.evaluate(chartXPath, docContent.getDocument());
+        	} catch (Exception e) {
+        		throw new RuntimeException("Error evaluating xpath expression to locate chart.", e);
+        	}
+        	if (!StringUtils.isEmpty(chart)) {
+        		qualifiedRoleNames.add(getQualifiedRoleString(roleName, chart));
+        	}
+            /*Document doc = null;
             doc = XmlHelper.buildJDocument(docContent.getDocument());
             List chartElements = XmlHelper.findElements(doc.getRootElement(), CHART_ATTRIBUTE);
             for (Iterator iter = chartElements.iterator(); iter.hasNext();) {
                 Element chartElement = (Element)iter.next();
                 qualifiedRoleNames.add(getQualifiedRoleString(roleName, chartElement.getChild(FIN_COA_CD_KEY).getText()));
-            }
+            }*/
         } else if (UNIVERSITY_CHART_MANAGER_ROLE_KEY.equals(roleName)) {
             qualifiedRoleNames.add(UNIVERSITY_CHART_MANAGER_ROLE_KEY);
         }

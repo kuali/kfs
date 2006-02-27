@@ -80,8 +80,7 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
     private static final String ACCOUNT_DOC_TYPE = "KualiAccountMaintenanceDocument";
     private static final String ACCOUNT_DEL_DOC_TYPE = "KualiAccountDelegateMaintenanceDocument";
     private static final String FIS_USER_DOC_TYPE = "KualiUserMaintenanceDocument";
-    private static final String GLOBAL_ACCOUNT_DEL_DOC_TYPE = "?";
-    private static final String ORGANIZATION_DOC_TYPE = "";
+    private static final String ORGANIZATION_DOC_TYPE = "KualiOrganizationMaintenanceDocument";
     private static final String SUB_ACCOUNT_DOC_TYPE = "KualiSubAccountMaintenanceDocument";
     private static final String SUB_OBJECT_DOC_TYPE = "KualiSubObjectMaintenanceDocument";
 
@@ -279,7 +278,7 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
     /**
      * @see edu.iu.uis.eden.plugin.attributes.WorkflowAttribute#isMatch(java.lang.String, java.util.List)
      */
-public boolean isMatch(DocumentContent docContent, List ruleExtensions) {
+    public boolean isMatch(DocumentContent docContent, List ruleExtensions) {
         
         this.finCoaCd = getRuleExtentionValue(FIN_COA_CD_KEY, ruleExtensions);
         this.orgCd = getRuleExtentionValue(ORG_CD_KEY, ruleExtensions);
@@ -384,8 +383,6 @@ public boolean isMatch(DocumentContent docContent, List ruleExtensions) {
         		String accountNumber = xpath.evaluate(MAINTAINABLE_PREFIX+"accountNumber", docContent.getDocument());
         		Account account = SpringServiceLocator.getAccountService().getByPrimaryId(chart, accountNumber);
         		org = account.getOrganizationCode();
-        	} else if (docType.getName().equals(GLOBAL_ACCOUNT_DEL_DOC_TYPE)) {
-        		// Not a Phase I document type
         	}
         	if (!StringUtils.isEmpty(chart) && !StringUtils.isEmpty(org)) {
             	KualiFiscalOrganization organization = new KualiFiscalOrganization();

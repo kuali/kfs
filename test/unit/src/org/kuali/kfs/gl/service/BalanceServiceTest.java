@@ -29,14 +29,14 @@ import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.gl.dao.UnitTestSqlDao;
 import org.kuali.module.gl.service.BalanceService;
-import org.kuali.test.KualiTestBaseWithSpring;
+import org.kuali.test.KualiTestBaseWithSpringOnly;
 
 /**
  * various tests for BalanceService, especially as it supports Account business rules; using hardcoded SQL for bootstrapping
  *  
  * @author Randall P. Embry (rpembry@indiana.edu)
  */
-public class BalanceServiceTest extends KualiTestBaseWithSpring {
+public class BalanceServiceTest extends KualiTestBaseWithSpringOnly {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BalanceServiceTest.class);
     private final static String ACCOUNT_NUMBER="999test";
     private final static String CHART="zx";

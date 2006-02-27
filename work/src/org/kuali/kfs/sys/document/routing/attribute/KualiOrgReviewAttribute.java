@@ -376,13 +376,12 @@ public boolean isMatch(DocumentContent docContent, List ruleExtensions) {
         		chart = xpath.evaluate(MAINTAINABLE_PREFIX+"finCoaCd", docContent.getDocument());
         		org = xpath.evaluate(MAINTAINABLE_PREFIX+"orgCd", docContent.getDocument());
         	} else if (docType.getName().equals(SUB_ACCOUNT_DOC_TYPE) ||
+        			docType.getName().equals(ACCOUNT_DEL_DOC_TYPE) ||
         			docType.getName().equals(SUB_OBJECT_DOC_TYPE)) {
         		chart = xpath.evaluate(MAINTAINABLE_PREFIX+"account/chartOfAccountsCode", docContent.getDocument());
         		org = xpath.evaluate(MAINTAINABLE_PREFIX+"account/organizationCode", docContent.getDocument());
-        	} else if (docType.getName().equals(ACCOUNT_DEL_DOC_TYPE)) {
-        		// TODO how do we access the organization code?
         	} else if (docType.getName().equals(GLOBAL_ACCOUNT_DEL_DOC_TYPE)) {
-        		// TODO not sure what this document is
+        		// Not a Phase I document type
         	}
         	if (!StringUtils.isEmpty(chart) && !StringUtils.isEmpty(org)) {
             	KualiFiscalOrganization organization = new KualiFiscalOrganization();

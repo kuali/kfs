@@ -98,6 +98,10 @@ public class ScrubberServiceTest extends KualiTestBaseWithSpringOnly {
                 .getBean("glOriginEntryGroupDao");
     }
 
+    public void testNothing() {
+      assertTrue(true);
+    }
+
     /*
     public void testOrgReferenceId() throws Exception {
         // FIXME found no input records to test this

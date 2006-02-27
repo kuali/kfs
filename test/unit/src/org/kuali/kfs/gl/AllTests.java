@@ -25,12 +25,9 @@ package org.kuali.module.gl;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-import org.kuali.module.gl.batch.poster.impl.PostBalanceTest;
 import org.kuali.module.gl.batch.poster.impl.PostEncumbranceTest;
 import org.kuali.module.gl.batch.poster.impl.PostExpenditureTransactionTest;
 import org.kuali.module.gl.batch.poster.impl.PostGlAccountBalanceTest;
-import org.kuali.module.gl.batch.poster.impl.PostGlEntryTest;
-import org.kuali.module.gl.batch.poster.impl.PostReversalTest;
 import org.kuali.module.gl.batch.poster.impl.PostSufficientFundBalancesTest;
 import org.kuali.module.gl.dao.ojb.TestUnitTestSqlDao;
 import org.kuali.module.gl.dao.ojb.TestUniversityDateDao;
@@ -54,7 +51,7 @@ public class AllTests {
     // NOTE:  Set this to true if you just want fast tests (tests that don't touch the database).
     // Set it to false if you want all tests
     // -------------------------------------------------------
-    boolean fastTests = true;
+    boolean fastTests = false;
 
     TestSuite suite = new TestSuite();
 
@@ -62,14 +59,11 @@ public class AllTests {
     // the test you are adding touches the database or workflow.
 
     // org.kuali.module.gl.batch.poster.impl
-    suite.addTestSuite(PostBalanceTest.class);
     suite.addTestSuite(PostEncumbranceTest.class);
     suite.addTestSuite(PostExpenditureTransactionTest.class);
-    suite.addTestSuite(PostGlEntryTest.class);
-    suite.addTestSuite(PostReversalTest.class);
     suite.addTestSuite(PostSufficientFundBalancesTest.class);
     suite.addTestSuite(PostGlAccountBalanceTest.class);
-    
+
     // org.kuali.module.gl.dao.ojb
     if ( ! fastTests ) {
       suite.addTestSuite(TestUniversityDateDao.class);

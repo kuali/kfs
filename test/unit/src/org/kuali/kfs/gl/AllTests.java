@@ -26,7 +26,6 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 import org.kuali.module.gl.batch.poster.impl.PostExpenditureTransactionTest;
-import org.kuali.module.gl.batch.poster.impl.PostGlAccountBalanceTest;
 import org.kuali.module.gl.batch.poster.impl.PostSufficientFundBalancesTest;
 import org.kuali.module.gl.dao.ojb.TestUnitTestSqlDao;
 import org.kuali.module.gl.dao.ojb.TestUniversityDateDao;
@@ -51,7 +50,6 @@ public class AllTests {
     // org.kuali.module.gl.batch.poster.impl
     suite.addTestSuite(PostExpenditureTransactionTest.class);
     suite.addTestSuite(PostSufficientFundBalancesTest.class);
-    suite.addTestSuite(PostGlAccountBalanceTest.class);
 
     // org.kuali.module.gl.dao.ojb
     suite.addTestSuite(TestUniversityDateDao.class);

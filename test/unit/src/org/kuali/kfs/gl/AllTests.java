@@ -46,16 +46,7 @@ public class AllTests {
   }
 
   public static Test suite() {
-    // -------------------------------------------------------
-    // NOTE:  Set this to true if you just want fast tests (tests that don't touch the database).
-    // Set it to false if you want all tests
-    // -------------------------------------------------------
-    boolean fastTests = false;
-
     TestSuite suite = new TestSuite();
-
-    // When you are adding tests, put the test in an if statement checking fastTests if
-    // the test you are adding touches the database or workflow.
 
     // org.kuali.module.gl.batch.poster.impl
     suite.addTestSuite(PostExpenditureTransactionTest.class);
@@ -63,18 +54,14 @@ public class AllTests {
     suite.addTestSuite(PostGlAccountBalanceTest.class);
 
     // org.kuali.module.gl.dao.ojb
-    if ( ! fastTests ) {
-      suite.addTestSuite(TestUniversityDateDao.class);
-      suite.addTestSuite(TestUnitTestSqlDao.class);
-    }
+    suite.addTestSuite(TestUniversityDateDao.class);
+    suite.addTestSuite(TestUnitTestSqlDao.class);
 
     // org.kuali.module.gl.service
-    if ( ! fastTests ) {
-      suite.addTestSuite(NightlyOutServiceTest.class);
-      suite.addTestSuite(ScrubberServiceTest.class);
-      suite.addTestSuite(PosterServiceTest.class);
-      suite.addTestSuite(GeneralLedgerPendingEntryServiceTest.class);
-    }
+    suite.addTestSuite(NightlyOutServiceTest.class);
+    suite.addTestSuite(ScrubberServiceTest.class);
+    suite.addTestSuite(PosterServiceTest.class);
+    suite.addTestSuite(GeneralLedgerPendingEntryServiceTest.class);
 
     return suite;
   }

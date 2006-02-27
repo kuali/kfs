@@ -194,7 +194,7 @@ public class OriginEntry extends BusinessObjectBase implements Transaction {
       }
       setTransactionLedgerEntryDesc(line.substring(51, 91).trim());
       setTransactionLedgerEntryAmount(new KualiDecimal(line.substring(91, 108).trim()));
-      setTransactionDebitCreditCode(line.substring(108, 109).trim());
+      setTransactionDebitCreditCode(line.substring(108, 109));
       setTransactionDate(parseDate(line.substring(109, 119).trim()));
       setOrganizationDocumentNumber(line.substring(119, 129).trim());
       setProjectCode(line.substring(129, 139).trim());

@@ -237,25 +237,64 @@ public class PosterServiceTest extends KualiTestBaseWithSpringOnly {
     assertEquals("FDOC_REVERSAL_DT wrong","2006-03-01",sdf.format((Date)reversalEntry.get("FDOC_REVERSAL_DT")));
   }
 
-  public void xtestPostBalance() {
+  public void testPostBalance() {
     LOG.debug("testPostBalance() started");
 
     String[] inputTransactions = {
         // 23456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
         //         1         2         3         4         5         6         7         8         9         0         1         2         3         4         5         6         7
         //                                                                                                   1
-        "2004BA6044900-----5300---ACEX07CHKDPDREVTEST0112345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678               2006-03-01    ",
-        "2004BA6044900-----5300---ACEX07CHKDPDREVTEST0112345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678               2006-03-01    ",
-        "2004BA6044900-----5300---ACEX07CHKDPDREVTEST0212345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                             "
+        "2004BA6044900-----4166---ACEX01CHKDPDBALTEST0112345214090047 EVERETT J PRESCOTT INC.                   10.01D2006-01-05ABCDEFGHIJ----------12345678                             ",
+        "2004BA6044900-----4166---ACEX02CHKDPDBALTEST0212345214090047 EVERETT J PRESCOTT INC.                   20.02D2006-01-05ABCDEFGHIJ----------12345678                             ",
+        "2004BA6044900-----4166---ACEX03CHKDPDBALTEST0312345214090047 EVERETT J PRESCOTT INC.                   30.03D2006-01-05ABCDEFGHIJ----------12345678                             ",
+        "2004BA6044900-----4166---ACEX04CHKDPDBALTEST0412345214090047 EVERETT J PRESCOTT INC.                   40.04D2006-01-05ABCDEFGHIJ----------12345678                             ",
+        "2004BA6044900-----4166---ACEX05CHKDPDBALTEST0512345214090047 EVERETT J PRESCOTT INC.                   50.05D2006-01-05ABCDEFGHIJ----------12345678                             ",
+        "2004BA6044900-----4166---ACEX06CHKDPDBALTEST0612345214090047 EVERETT J PRESCOTT INC.                   60.06D2006-01-05ABCDEFGHIJ----------12345678                             ",
+        "2004BA6044900-----4166---ACEX07CHKDPDBALTEST0712345214090047 EVERETT J PRESCOTT INC.                   70.07D2006-01-05ABCDEFGHIJ----------12345678                             ",
+        "2004BA6044900-----4166---ACEX08CHKDPDBALTEST0812345214090047 EVERETT J PRESCOTT INC.                   80.08D2006-01-05ABCDEFGHIJ----------12345678                             ",
+        "2004BA6044900-----4166---ACEX09CHKDPDBALTEST0912345214090047 EVERETT J PRESCOTT INC.                   90.09D2006-01-05ABCDEFGHIJ----------12345678                             ",
+        "2004BA6044900-----4166---ACEX10CHKDPDBALTEST1012345214090047 EVERETT J PRESCOTT INC.                  100.10D2006-01-05ABCDEFGHIJ----------12345678                             ",
+        "2004BA6044900-----4166---ACEX11CHKDPDBALTEST1112345214090047 EVERETT J PRESCOTT INC.                  110.11D2006-01-05ABCDEFGHIJ----------12345678                             ",
+        "2004BA6044900-----4166---ACEX12CHKDPDBALTEST1212345214090047 EVERETT J PRESCOTT INC.                  120.12D2006-01-05ABCDEFGHIJ----------12345678                             ",
+        "2004BA6044900-----4166---ACEX13CHKDPDBALTEST1212345214090047 EVERETT J PRESCOTT INC.                  130.13D2006-01-05ABCDEFGHIJ----------12345678                             ",
+        "2004BA6044900-----4166---ACEXABCHKDPDBALTEST1212345214090047 EVERETT J PRESCOTT INC.                  140.14D2006-01-05ABCDEFGHIJ----------12345678                             ",
+        "2004BA6044900-----4166---ACEXBBCHKDPDBALTEST1212345214090047 EVERETT J PRESCOTT INC.                  150.15D2006-01-05ABCDEFGHIJ----------12345678                             ",
+        "2004BA6044900-----4166---ACEXCBCHKDPDBALTEST1212345214090047 EVERETT J PRESCOTT INC.                  160.16D2006-01-05ABCDEFGHIJ----------12345678                             "
     };
 
     EntryHolder[] outputTransactions = {
         new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions[0]),
         new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions[1]),
         new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions[2]),
+        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions[3]),
+        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions[4]),
+        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions[5]),
+        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions[6]),
+        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions[7]),
+        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions[8]),
+        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions[9]),
+        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions[10]),
+        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions[11]),
+        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions[12]),
+        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions[13]),
+        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions[14]),
+        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions[15]),
         new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions[0]),
-        new EntryHolder(OriginEntrySource.MAIN_POSTER_ERROR,inputTransactions[1]),
-        new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions[2])
+        new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions[1]),
+        new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions[2]),
+        new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions[3]),
+        new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions[4]),
+        new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions[5]),
+        new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions[6]),
+        new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions[7]),
+        new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions[8]),
+        new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions[9]),
+        new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions[10]),
+        new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions[11]),
+        new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions[12]),
+        new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions[13]),
+        new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions[14]),
+        new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions[15])
     };
 
     clearOriginEntryTables();
@@ -265,6 +304,150 @@ public class PosterServiceTest extends KualiTestBaseWithSpringOnly {
     posterService.postMainEntries();
 
     assertOriginEntries(outputTransactions);
+
+    List balances = unitTestSqlDao.sqlSelect("select * from gl_balance_t");
+    assertEquals("Should be 1 row",1,balances.size());
+    Map balance = (Map)balances.get(0);
+
+    BigDecimal a = (BigDecimal)balance.get("UNIV_FISCAL_YR");
+    assertEquals("UNIV_FISCAL_YR is wrong",2004,a.intValue());
+    assertEquals("FIN_COA_CD is wrong","BA",balance.get("FIN_COA_CD"));
+    assertEquals("ACCOUNT_NBR is wrong","6044900",balance.get("ACCOUNT_NBR"));
+    assertEquals("SUB_ACCT_NBR is wrong","-----",balance.get("SUB_ACCT_NBR"));
+    assertEquals("FIN_OBJECT_CD is wrong","4166",balance.get("FIN_OBJECT_CD"));
+    assertEquals("FIN_SUB_OBJ_CD is wrong","---",balance.get("FIN_SUB_OBJ_CD"));
+    assertEquals("FIN_BALANCE_TYP_CD is wrong","AC",balance.get("FIN_BALANCE_TYP_CD"));
+    assertEquals("FIN_OBJ_TYP_CD is wrong","EX",balance.get("FIN_OBJ_TYP_CD"));
+    a = (BigDecimal)balance.get("ACLN_ANNL_BAL_AMT");
+    assertEquals("ACLN_ANNL_BAL_AMT is wrong",140.14,a.doubleValue(),0.01);
+    a = (BigDecimal)balance.get("FIN_BEG_BAL_LN_AMT");
+    assertEquals("FIN_BEG_BAL_LN_AMT is wrong",150.15,a.doubleValue(),0.01);
+    a = (BigDecimal)balance.get("CONTR_GR_BB_AC_AMT");
+    assertEquals("CONTR_GR_BB_AC_AMT is wrong",160.16,a.doubleValue(),0.01);    
+    a = (BigDecimal)balance.get("MO1_ACCT_LN_AMT");
+    assertEquals("MO1_ACCT_LN_AMT is wrong",10.01,a.doubleValue(),0.01);    
+    a = (BigDecimal)balance.get("MO2_ACCT_LN_AMT");
+    assertEquals("MO2_ACCT_LN_AMT is wrong",20.02,a.doubleValue(),0.01);    
+    a = (BigDecimal)balance.get("MO3_ACCT_LN_AMT");
+    assertEquals("MO3_ACCT_LN_AMT is wrong",30.03,a.doubleValue(),0.01);    
+    a = (BigDecimal)balance.get("MO4_ACCT_LN_AMT");
+    assertEquals("MO4_ACCT_LN_AMT is wrong",40.04,a.doubleValue(),0.01);    
+    a = (BigDecimal)balance.get("MO5_ACCT_LN_AMT");
+    assertEquals("MO5_ACCT_LN_AMT is wrong",50.05,a.doubleValue(),0.01);    
+    a = (BigDecimal)balance.get("MO6_ACCT_LN_AMT");
+    assertEquals("MO6_ACCT_LN_AMT is wrong",60.06,a.doubleValue(),0.01);    
+    a = (BigDecimal)balance.get("MO7_ACCT_LN_AMT");
+    assertEquals("MO7_ACCT_LN_AMT is wrong",70.07,a.doubleValue(),0.01);    
+    a = (BigDecimal)balance.get("MO8_ACCT_LN_AMT");
+    assertEquals("MO8_ACCT_LN_AMT is wrong",80.08,a.doubleValue(),0.01);    
+    a = (BigDecimal)balance.get("MO9_ACCT_LN_AMT");
+    assertEquals("MO9_ACCT_LN_AMT is wrong",90.09,a.doubleValue(),0.01);    
+    a = (BigDecimal)balance.get("MO10_ACCT_LN_AMT");
+    assertEquals("MO10_ACCT_LN_AMT is wrong",100.10,a.doubleValue(),0.01);    
+    a = (BigDecimal)balance.get("MO11_ACCT_LN_AMT");
+    assertEquals("MO11_ACCT_LN_AMT is wrong",110.11,a.doubleValue(),0.01);    
+    a = (BigDecimal)balance.get("MO12_ACCT_LN_AMT");
+    assertEquals("MO12_ACCT_LN_AMT is wrong",120.12,a.doubleValue(),0.01);    
+    a = (BigDecimal)balance.get("MO13_ACCT_LN_AMT");
+    assertEquals("MO13_ACCT_LN_AMT is wrong",130.13,a.doubleValue(),0.01);
+
+    String[] inputTransactions2 = {
+        "2004BA6044900-----4166---ACEX01CHKDPDBALTEST0112345214090047 EVERETT J PRESCOTT INC.                    0.01C2006-01-05ABCDEFGHIJ----------12345678                             ",
+        "2004BA6044900-----4166---ACEX02CHKDPDBALTEST0212345214090047 EVERETT J PRESCOTT INC.                    0.02C2006-01-05ABCDEFGHIJ----------12345678                             ",
+        "2004BA6044900-----4166---ACEX03CHKDPDBALTEST0312345214090047 EVERETT J PRESCOTT INC.                    0.03C2006-01-05ABCDEFGHIJ----------12345678                             ",
+        "2004BA6044900-----4166---ACEX04CHKDPDBALTEST0412345214090047 EVERETT J PRESCOTT INC.                    0.04C2006-01-05ABCDEFGHIJ----------12345678                             ",
+        "2004BA6044900-----4166---ACEX05CHKDPDBALTEST0512345214090047 EVERETT J PRESCOTT INC.                    0.05C2006-01-05ABCDEFGHIJ----------12345678                             ",
+        "2004BA6044900-----4166---ACEX06CHKDPDBALTEST0612345214090047 EVERETT J PRESCOTT INC.                    0.06C2006-01-05ABCDEFGHIJ----------12345678                             ",
+        "2004BA6044900-----4166---ACEX07CHKDPDBALTEST0712345214090047 EVERETT J PRESCOTT INC.                    0.07C2006-01-05ABCDEFGHIJ----------12345678                             ",
+        "2004BA6044900-----4166---ACEX08CHKDPDBALTEST0812345214090047 EVERETT J PRESCOTT INC.                    0.08C2006-01-05ABCDEFGHIJ----------12345678                             ",
+        "2004BA6044900-----4166---ACEX09CHKDPDBALTEST0912345214090047 EVERETT J PRESCOTT INC.                    0.09C2006-01-05ABCDEFGHIJ----------12345678                             ",
+        "2004BA6044900-----4166---ACEX10CHKDPDBALTEST1012345214090047 EVERETT J PRESCOTT INC.                    0.10C2006-01-05ABCDEFGHIJ----------12345678                             ",
+        "2004BA6044900-----4166---ACEX11CHKDPDBALTEST1112345214090047 EVERETT J PRESCOTT INC.                    0.11C2006-01-05ABCDEFGHIJ----------12345678                             ",
+        "2004BA6044900-----4166---ACEX12CHKDPDBALTEST1212345214090047 EVERETT J PRESCOTT INC.                    0.12C2006-01-05ABCDEFGHIJ----------12345678                             ",
+        "2004BA6044900-----4166---ACEX13CHKDPDBALTEST1212345214090047 EVERETT J PRESCOTT INC.                    0.13C2006-01-05ABCDEFGHIJ----------12345678                             ",
+    };
+
+    EntryHolder[] outputTransactions2 = {
+        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions2[0]),
+        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions2[1]),
+        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions2[2]),
+        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions2[3]),
+        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions2[4]),
+        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions2[5]),
+        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions2[6]),
+        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions2[7]),
+        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions2[8]),
+        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions2[9]),
+        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions2[10]),
+        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions2[11]),
+        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions2[12]),
+        new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions2[0]),
+        new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions2[1]),
+        new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions2[2]),
+        new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions2[3]),
+        new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions2[4]),
+        new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions2[5]),
+        new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions2[6]),
+        new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions2[7]),
+        new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions2[8]),
+        new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions2[9]),
+        new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions2[10]),
+        new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions2[11]),
+        new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions2[12])
+    };
+
+    clearOriginEntryTables();
+    loadInputTransactions(inputTransactions2);
+
+    posterService.postMainEntries();
+
+    assertOriginEntries(outputTransactions2);
+
+    balances = unitTestSqlDao.sqlSelect("select * from gl_balance_t");
+    assertEquals("Should be 1 row",1,balances.size());
+    balance = (Map)balances.get(0);
+
+    a = (BigDecimal)balance.get("UNIV_FISCAL_YR");
+    assertEquals("2 UNIV_FISCAL_YR is wrong",2004,a.intValue());
+    assertEquals("2 FIN_COA_CD is wrong","BA",balance.get("FIN_COA_CD"));
+    assertEquals("2 ACCOUNT_NBR is wrong","6044900",balance.get("ACCOUNT_NBR"));
+    assertEquals("2 SUB_ACCT_NBR is wrong","-----",balance.get("SUB_ACCT_NBR"));
+    assertEquals("2 FIN_OBJECT_CD is wrong","4166",balance.get("FIN_OBJECT_CD"));
+    assertEquals("2 FIN_SUB_OBJ_CD is wrong","---",balance.get("FIN_SUB_OBJ_CD"));
+    assertEquals("2 FIN_BALANCE_TYP_CD is wrong","AC",balance.get("FIN_BALANCE_TYP_CD"));
+    assertEquals("2 FIN_OBJ_TYP_CD is wrong","EX",balance.get("FIN_OBJ_TYP_CD"));
+    a = (BigDecimal)balance.get("ACLN_ANNL_BAL_AMT");
+    assertEquals("2 ACLN_ANNL_BAL_AMT is wrong",140.14,a.doubleValue(),0.01);
+    a = (BigDecimal)balance.get("FIN_BEG_BAL_LN_AMT");
+    assertEquals("2 FIN_BEG_BAL_LN_AMT is wrong",150.15,a.doubleValue(),0.01);
+    a = (BigDecimal)balance.get("CONTR_GR_BB_AC_AMT");
+    assertEquals("2 CONTR_GR_BB_AC_AMT is wrong",160.16,a.doubleValue(),0.01);    
+    a = (BigDecimal)balance.get("MO1_ACCT_LN_AMT");
+    assertEquals("2 MO1_ACCT_LN_AMT is wrong",10.00,a.doubleValue(),0.01);    
+    a = (BigDecimal)balance.get("MO2_ACCT_LN_AMT");
+    assertEquals("2 MO2_ACCT_LN_AMT is wrong",20.00,a.doubleValue(),0.01);    
+    a = (BigDecimal)balance.get("MO3_ACCT_LN_AMT");
+    assertEquals("2 MO3_ACCT_LN_AMT is wrong",30.00,a.doubleValue(),0.01);    
+    a = (BigDecimal)balance.get("MO4_ACCT_LN_AMT");
+    assertEquals("2 MO4_ACCT_LN_AMT is wrong",40.00,a.doubleValue(),0.01);    
+    a = (BigDecimal)balance.get("MO5_ACCT_LN_AMT");
+    assertEquals("2 MO5_ACCT_LN_AMT is wrong",50.00,a.doubleValue(),0.01);    
+    a = (BigDecimal)balance.get("MO6_ACCT_LN_AMT");
+    assertEquals("2 MO6_ACCT_LN_AMT is wrong",60.00,a.doubleValue(),0.01);    
+    a = (BigDecimal)balance.get("MO7_ACCT_LN_AMT");
+    assertEquals("2 MO7_ACCT_LN_AMT is wrong",70.00,a.doubleValue(),0.01);    
+    a = (BigDecimal)balance.get("MO8_ACCT_LN_AMT");
+    assertEquals("2 MO8_ACCT_LN_AMT is wrong",80.00,a.doubleValue(),0.01);    
+    a = (BigDecimal)balance.get("MO9_ACCT_LN_AMT");
+    assertEquals("2 MO9_ACCT_LN_AMT is wrong",90.00,a.doubleValue(),0.01);    
+    a = (BigDecimal)balance.get("MO10_ACCT_LN_AMT");
+    assertEquals("2 MO10_ACCT_LN_AMT is wrong",100.00,a.doubleValue(),0.01);    
+    a = (BigDecimal)balance.get("MO11_ACCT_LN_AMT");
+    assertEquals("2 MO11_ACCT_LN_AMT is wrong",110.00,a.doubleValue(),0.01);    
+    a = (BigDecimal)balance.get("MO12_ACCT_LN_AMT");
+    assertEquals("2 MO12_ACCT_LN_AMT is wrong",120.00,a.doubleValue(),0.01);    
+    a = (BigDecimal)balance.get("MO13_ACCT_LN_AMT");
+    assertEquals("2 MO13_ACCT_LN_AMT is wrong",130.00,a.doubleValue(),0.01);
   }
 
   /**

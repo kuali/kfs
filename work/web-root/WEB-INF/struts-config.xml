@@ -54,6 +54,7 @@
     <global-exceptions>
         <!-- AuthorizationException handler -->
         <exception type="org.kuali.core.exceptions.AuthorizationException" key="meaningless" path="/authorizationException.do" />
+        <exception type="org.kuali.core.exceptions.UnknownDocumentIdException" key="UnknownDocumentIdException" path="/Exception.do" />
     </global-exceptions>
 
 
@@ -74,8 +75,8 @@
             <forward name="basic" path="/portal.jsp" />
         </action>
 
-        <action path="/kualiError" name="KualiForm" type="org.kuali.core.web.struts.action.KualiSimpleAction">
-            <forward name="basic" path="/core/KualiError.jsp" />
+        <action path="/Exception" name="KualiForm" type="org.kuali.core.web.struts.action.KualiExceptionAction">
+            <forward name="basic" path="/jsp/core/Exception.jsp" />
         </action>
 
         <action path="/jstlTest" name="KualiForm" type="org.kuali.core.web.struts.action.KualiSimpleAction">

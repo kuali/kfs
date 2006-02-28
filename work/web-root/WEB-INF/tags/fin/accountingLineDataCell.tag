@@ -70,6 +70,16 @@
 
 <%@ attribute name="overrideField" required="false"
               description="base name of the accountingLine field to check and display if needed." %>
+  
+<%@ attribute name="renderInquiry" required="false"
+              description="boolean indicating whether or not to render an inquiry. Requires the inquiryBOClassName
+              and the inquiryKeyValues attributes." %>
+              
+<%@ attribute name="inquiryBOClassName" required="false"
+              description="The name of the business object class to perform a inquiry." %>
+                            
+<%@ attribute name="inquiryKeyValues" required="false"
+              description="inquiry key value pairs for inquiry url" %>
 
 <c:set var="qualifiedField" value="${accountingLine}.${field}"/>
 <c:if test="${empty cellProperty}">
@@ -95,6 +105,9 @@
             property="${cellProperty}"
             attributeEntry="${attributes[field]}"
             readOnly="${readOnly}"
+            inquiryBOClassName="org.kuali.module.chart.bo.${inquiryBOClassName}"
+            inquiryKeyValues="${inquiryKeyValues}"
+            renderInquiry="${renderInquiry}"
             />
     </c:if>
     <c:if test="${useXmlHttp}">
@@ -103,6 +116,9 @@
             attributeEntry="${attributes[field]}"
             onblur="${detailFunction}(${detailFunctionExtraParam} this.name, '${accountingLine}.${detailField}');"
             readOnly="${readOnly}"
+            inquiryBOClassName="org.kuali.module.chart.bo.${inquiryBOClassName}"
+            inquiryKeyValues="${inquiryKeyValues}"
+            renderInquiry="${renderInquiry}"
             />
     </c:if>
 

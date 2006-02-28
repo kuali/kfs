@@ -69,6 +69,9 @@
 <%@ attribute name="displayHidden" required="false" description="display values of hidden fields" %>
 <%@ attribute name="decorator" required="false" description="propertyName of the AccountingLineDecorator associated with this accountingLine" %>
 
+<%@ attribute name="accountingLineValuesMap" required="true" type="java.util.Map" 
+              description="map of the accounting line primitive fields and values" %>
+
 <c:set var="rowCount" value="${empty extraRowFields ? 1 : 2}"/>
 
 <tr>
@@ -90,6 +93,9 @@
         </c:if>
     </c:forTokens>
 </kul:htmlAttributeHeaderCell>
+
+<c:set var="renderChartInquiry" value="${!empty accountingLineValuesMap['chartOfAccountsCode']}"/>
+<c:set var="chartInquiryKeyValues" value="chartOfAccountsCode=${accountingLineValuesMap['chartOfAccountsCode']}"/>
 <fin:accountingLineDataCell
     dataCellCssClass="${dataCellCssClass}"
     cellAlign="center"
@@ -101,7 +107,13 @@
     attributes="${accountingLineAttributes}"
     readOnly="${readOnly&&(empty editableFields['chartOfAccountsCode'])}"
     displayHidden="${displayHidden}"
+    inquiryBOClassName="Chart"
+    inquiryKeyValues="${chartInquiryKeyValues}"
+    renderInquiry="${renderChartInquiry}"
     />
+
+<c:set var="renderAccountInquiry" value="${renderChartInquiry && !empty accountingLineValuesMap['accountNumber']}"/>  
+<c:set var="accountInquiryKeyValues" value="${chartInquiryKeyValues}&accountNumber=${accountingLineValuesMap['accountNumber']}"/>
 <fin:accountingLineDataCell
     dataCellCssClass="${dataCellCssClass}"
     cellAlign="center"
@@ -117,7 +129,13 @@
     readOnly="${readOnly&&(empty editableFields['accountNumber'])}"
     displayHidden="${displayHidden}"
     overrideField="accountExpiredOverride"
+    inquiryBOClassName="Account"
+    inquiryKeyValues="${accountInquiryKeyValues}"
+    renderInquiry="${renderAccountInquiry}"
     />
+    
+<c:set var="renderSubAccountInquiry" value="${renderAccountInquiry && !empty accountingLineValuesMap['subAccountNumber']}"/>      
+<c:set var="subAccountInquiryKeyValues" value="${accountInquiryKeyValues}&subAccountNumber=${accountingLineValuesMap['subAccountNumber']}"/>
 <fin:accountingLineDataCell
     dataCellCssClass="${dataCellCssClass}"
     cellAlign="center"
@@ -132,7 +150,13 @@
     conversionField="subAccountNumber"
     readOnly="${readOnly&&(empty editableFields['subAccountNumber'])}"
     displayHidden="${displayHidden}"
+    inquiryBOClassName="SubAccount"    
+    inquiryKeyValues="${subAccountInquiryKeyValues}"
+    renderInquiry="${renderSubAccountInquiry}"
     />
+    
+<c:set var="renderObjectCodeInquiry" value="${renderChartInquiry && !empty accountingLineValuesMap['financialObjectCode']}"/>          
+<c:set var="objectCodeInquiryKeyValues" value="${chartInquiryKeyValues}&financialObjectCode=${accountingLineValuesMap['financialObjectCode']}&universityFiscalYear=${KualiForm.document.postingYear}"/>
 <fin:accountingLineDataCell
     dataCellCssClass="${dataCellCssClass}"
     cellAlign="center"
@@ -148,7 +172,13 @@
     conversionField="financialObjectCode"
     readOnly="${readOnly&&(empty editableFields['financialObjectCode'])}"
     displayHidden="${displayHidden}"
+    inquiryBOClassName="ObjectCode"        
+    inquiryKeyValues="${objectCodeInquiryKeyValues}"
+    renderInquiry="${renderObjectCodeInquiry}"
     />
+    
+<c:set var="renderSubObjectCodeInquiry" value="${renderObjectInquiry && renderAccountInquiry && !empty accountingLineValuesMap['financialSubObjectCode']}"/>              
+<c:set var="subObjectCodeInquiryKeyValues" value="${objectCodeInquiryKeyValues}&financialSubObjectCode=${accountingLineValuesMap['financialSubObjectCode']}&accountNumber=${accountingLineValuesMap['accountNumber']}"/>
 <fin:accountingLineDataCell
     dataCellCssClass="${dataCellCssClass}"
     cellAlign="center"
@@ -164,7 +194,13 @@
     conversionField="financialSubObjectCode"
     readOnly="${readOnly&&(empty editableFields['financialSubObjectCode'])}"
     displayHidden="${displayHidden}"
+    inquiryBOClassName="SubObjCd"            
+    inquiryKeyValues="${subObjectCodeInquiryKeyValues}"
+    renderInquiry="${renderSubObjectCodeInquiry}"
     />
+  
+<c:set var="renderProjectCodeInquiry" value="${renderChartInquiry && !empty accountingLineValuesMap['projectCode']}"/>                  
+<c:set var="projectCodeInquiryKeyValues" value="${chartInquiryKeyValues}&code=${accountingLineValuesMap['projectCode']}"/>
 <fin:accountingLineDataCell
     dataCellCssClass="${dataCellCssClass}"
     cellAlign="center"
@@ -179,8 +215,14 @@
     conversionField="code"
     readOnly="${readOnly&&(empty editableFields['projectCode'])}"
     displayHidden="${displayHidden}"
+    inquiryBOClassName="ProjectCode"                
+    inquiryKeyValues="${projectCodeInquiryKeyValues}"
+    renderInquiry="${renderProjectCodeInquiry}"
     />
+    
 <c:if test="${includeObjectTypeCode}">
+    <c:set var="renderObjectTypeInquiry" value="${!empty accountingLineValuesMap['objectTypeCode']}"/>                  
+    <c:set var="objectTypeInquiryKeyValues" value="code=${accountingLineValuesMap['objectTypeCode']}"/>   
     <fin:accountingLineDataCell
         dataCellCssClass="${dataCellCssClass}"
         cellAlign="center"
@@ -195,6 +237,9 @@
         conversionField="code"
         readOnly="${readOnly}"
         displayHidden="${displayHidden}"
+        inquiryBOClassName="ObjectType"                
+        inquiryKeyValues="${objectTypeInquiryKeyValues}"   
+        renderInquiry="${renderObjectTypeInquiry}"     
         />
 </c:if>
 <fin:accountingLineDataCell

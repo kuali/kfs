@@ -101,6 +101,15 @@
     </c:otherwise>
 </c:choose>
 <c:if test="${empty editingMode['viewOnly']}">
+    <c:choose>
+      <c:when test="${isSource}">
+        <c:set var="valuesMap" value="${KualiForm.newSourceLine.valuesMap}"/>
+      </c:when>
+      <c:otherwise>
+        <c:set var="valuesMap" value="${KualiForm.newTargetLine.valuesMap}"/>
+      </c:otherwise>
+    </c:choose>  
+    
     <fin:accountingLineRow
         accountingLine="new${capitalSourceOrTarget}Line"
         accountingLineAttributes="${accountingLineAttributes}"
@@ -119,6 +128,7 @@
         creditCellProperty="newSourceLineCredit"
         includeObjectTypeCode="${includeObjectTypeCode}"
         displayHidden="${displayHidden}"
+        accountingLineValuesMap="${valuesMap}"
         />
 </c:if>
 <logic:iterate indexId="ctr" name="KualiForm" property="document.${sourceOrTarget}AccountingLines" id="currentLine">
@@ -163,6 +173,7 @@
         includeObjectTypeCode="${includeObjectTypeCode}"
         displayHidden="${displayHidden}"
         decorator="${sourceOrTarget}LineDecorator[${ctr}]"
+        accountingLineValuesMap="${currentLine.valuesMap}"
         />
 </logic:iterate>
 

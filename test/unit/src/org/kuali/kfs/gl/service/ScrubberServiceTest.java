@@ -334,11 +334,11 @@ public class ScrubberServiceTest extends KualiTestBaseWithSpringOnly {
 
     public void dontRunTestReferenceDocumentTypePresentWithoutOtherReferenceFields()
             throws Exception {
-        // Setup
         String[] inputTransactions = {
-                "2004BL6044900-----4866---ACEX07IB  01LONERDTP      Correction to: 01-PU3355206                       1650.00D2006-01-05          ----------        TOPS                                                              ",
-                "2004BA6044900-----8000---ACAS07IB  01LONERDTP      TP Generated Offset                               1650.00C2006-01-05          ----------        TOPS                                                              "
+                "2004BA6044900-----8000---ACAS07IB  01LONERDTP      TP Generated Offset                               1650.00C2006-01-05          ----------        TOPS                                                              ",
+                "2004BL6044900-----4866---ACEX07IB  01LONERDTP      Correction to: 01-PU3355206                       1650.00D2006-01-05          ----------        TOPS                                                              "
         };
+        
         EntryHolder[] outputTransactions = {
             new EntryHolder(OriginEntrySource.EXTERNAL,inputTransactions[0]),
             new EntryHolder(OriginEntrySource.EXTERNAL,inputTransactions[1]),
@@ -350,12 +350,12 @@ public class ScrubberServiceTest extends KualiTestBaseWithSpringOnly {
         assertOriginEntries(outputTransactions);
     }
 
-    public void dontRunTestInvalidReferenceDocumentType() throws Exception {
-        // Setup
+    public void testInvalidReferenceDocumentType() throws Exception {
         String[] inputTransactions = {
                 "2004BL1031497-----4190---ACEX07GEC 01INVALRDTP     THOMAS BUSEY/NEWEGG COMPUTERS                       40.72C2006-01-05          ----------        XXXXLG123456789                                                   ",
                 "2004BL1031497-----8000---ACAS07GEC 01INVALRDTP     TP Generated Offset                                 40.72D2006-01-05          ----------        XXXXLG123456789                                                   "
         };
+        
         EntryHolder[] outputTransactions = {
             new EntryHolder(OriginEntrySource.EXTERNAL,inputTransactions[0]),
             new EntryHolder(OriginEntrySource.EXTERNAL,inputTransactions[1]),

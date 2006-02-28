@@ -70,7 +70,7 @@ import org.springframework.util.StringUtils;
 
 /**
  * @author Anthony Potts
- * @version $Id: ScrubberServiceImpl.java,v 1.52 2006-02-28 15:01:23 larevans Exp $
+ * @version $Id: ScrubberServiceImpl.java,v 1.53 2006-02-28 15:21:41 larevans Exp $
  */
 
 public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
@@ -485,41 +485,15 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         workingEntry.setTransactionDebitCreditCode(originEntry.getTransactionDebitCreditCode());
         workingEntry.setOption(originEntry.getOption());
 
+        // NOTE the validator WILL set any fields in the workingEntry as appropriate
+        // per the validation rules.
+        
         // It's important that this check come before the checks for object, sub-object and accountingPeriod
         // because this validation method will set the fiscal year and reload those three objects if the fiscal
         // year was invalid. This will also set originEntry.getOption and workingEntry.getOption. So, it's 
-        // probably a good idea to validate the transaction date first thing.
-        validator.validateTransactionDate(originEntry, workingEntryInfo, runDate, universityRunDate, universityDateDao, persistenceService);
-        
-        // If the fiscal year of the origin entry isn't set, set the 
-        // originEntry's fiscal year to the fiscal year of the 
-        // universityRunDate and save the corrected originEntry.
-//        if (null == originEntry.getUniversityFiscalYear() 
-//                || 0 == originEntry.getUniversityFiscalYear().intValue()) {
-//            
-//            // Begin fix for KULGL-48
-////            originEntry.setUniversityFiscalYear(universityRunDate.getUniversityFiscalYear());
-////            persistenceService.retrieveReferenceObject(originEntry,"option");
-//
-//            workingEntry.setUniversityFiscalYear(universityRunDate.getUniversityFiscalYear());
-//            workingEntry.setOption(originEntry.getOption());
-//            persistenceService.retrieveReferenceObject(workingEntry,"option");
-//
-//            // Retrieve these objects because the fiscal year is the primary key for them
-//            persistenceService.retrieveReferenceObject(originEntry,"financialSubObject");
-//            persistenceService.retrieveReferenceObject(originEntry,"financialObject");
-//            persistenceService.retrieveReferenceObject(originEntry,"accountingPeriod");
-//            // End fix for KULGL-48
-//
-//            ScrubberServiceErrorHandler.ifNullAddTransactionError(
-//                workingEntry.getOption(), workingEntryInfo.getErrors(),
-//                kualiConfigurationService.getPropertyString(KeyConstants.ERROR_UNIV_DATE_NOT_FOUND), 
-//                workingEntry.getUniversityFiscalYear().toString());
-//            
-//        }
-
-        // NOTE the validator WILL build set any fields in the workingEntry as appropriate
-        // per the validation rules.
+        // probably a good idea to validate the fiscal year first thing.
+        validator.validateFiscalYear(originEntry, workingEntryInfo, universityRunDate, optionsDao, persistenceService);
+        validator.validateTransactionDate(originEntry, workingEntryInfo, runDate, universityDateDao);
         validator.validateSubAccount(originEntry, workingEntryInfo);
         validator.validateSubObjectCode(originEntry, workingEntryInfo);
         validator.validateProjectCode(originEntry, workingEntryInfo);
@@ -541,7 +515,6 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
             
         }
         
-//
 //        if (null != wsAccountChange 
 //        		&& !wsAccountChange.equals(workingEntry.getAccountNumber()) 
 //        		&& null != originEntry.getAccount()) {

@@ -26,8 +26,10 @@ import java.sql.Timestamp;
 
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
+import org.kuali.PropertyConstants;
 import org.kuali.core.bo.AccountingLine;
 import org.kuali.core.document.TransactionalDocument;
+import org.kuali.core.document.Document;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.module.financial.document.PreEncumbranceDocument;
 import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
@@ -46,7 +48,7 @@ public class PreEncumbranceDocumentRule extends TransactionalDocumentRuleBase {
      *
      * @return boolean True if the rules checks passed, false otherwise.
      */
-    protected boolean processCustomRouteDocumentBusinessRules(TransactionalDocument document) {
+    protected boolean processCustomRouteDocumentBusinessRules(Document document) {
         return isReversalDateValidForRouting((PreEncumbranceDocument) document);
     }
 
@@ -59,7 +61,7 @@ public class PreEncumbranceDocumentRule extends TransactionalDocumentRuleBase {
      */
     private boolean isReversalDateValidForRouting(PreEncumbranceDocument preEncumbranceDocument) {
         Timestamp reversalDate = preEncumbranceDocument.getReversalDate();
-        return TransactionalDocumentRuleUtil.isValidReversalDate(reversalDate, "document.reversalDate");
+        return TransactionalDocumentRuleUtil.isValidReversalDate(reversalDate,  DOCUMENT_ERROR_PREFIX + PropertyConstants.REVERSAL_DATE);
     }
 
     /**

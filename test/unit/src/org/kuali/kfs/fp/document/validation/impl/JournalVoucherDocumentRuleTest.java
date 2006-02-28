@@ -25,9 +25,11 @@ package org.kuali.module.financial.rules;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.KeyConstants;
+import org.kuali.PropertyConstants;
+import org.kuali.core.bo.AccountingLine;
 import org.kuali.core.bo.SourceAccountingLine;
 import org.kuali.core.bo.TargetAccountingLine;
-import org.kuali.core.bo.AccountingLine;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.rule.TransactionalDocumentRuleTestBase;
@@ -44,7 +46,7 @@ import org.kuali.test.parameters.TransactionalDocumentParameter;
  *
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class JournalVoucherDocumentRuleTest 
+public class JournalVoucherDocumentRuleTest
     extends TransactionalDocumentRuleTestBase {
 
     private static final String COLLECTION_NAME =
@@ -170,7 +172,7 @@ public class JournalVoucherDocumentRuleTest
 
     protected final TransactionalDocument createDocument5()
         throws Exception {
-        
+
         // return (TransactionalDocument)getDocumentParameter5()
         // .createDocument( getDocumentService() );
         return ( TransactionalDocument )
@@ -434,7 +436,7 @@ public class JournalVoucherDocumentRuleTest
     public final void setDocumentParameter5(TransactionalDocumentParameter p) {
         _documentParameter5 = p;
     }
-    
+
     /**
      * Set the Username fixture set specifically for 
      * <code>{@link JournalVoucherDocument}</code> instances
@@ -444,7 +446,7 @@ public class JournalVoucherDocumentRuleTest
     public final void setUser_jvdoc( String u ) {
         _user = u;
     }
-    
+
     /**
      * get the Username fixture set specifically for 
      * <code>{@link JournalVoucherDocument}</code> instances
@@ -454,11 +456,11 @@ public class JournalVoucherDocumentRuleTest
     public final String getUser_jvdoc() {
         return _user;
     }
-    
+
     /**
      * Get the username fixture for the tests.
      *
-     * @return String 
+     * @return String
      */
     protected String getTestUserName() {
         return getUser_jvdoc();
@@ -640,7 +642,7 @@ public class JournalVoucherDocumentRuleTest
     public final GeneralLedgerPendingEntry getExpectedOffsetSourcePendingEntry() {
         return _expectedOffSourceGlEntry;
     }
-    
+
     /**
      * Accessor for ACTUAL balance type code.
      *
@@ -658,12 +660,12 @@ public class JournalVoucherDocumentRuleTest
     public String getActualBalanceTypeCode() {
         return _balanceTypeCode;
     }
-    
+
     /**
      * Obtain correct BalanceTypeCode for 
      * <code>{@link JournalVoucheerDocument}</code>
      * 
-     * @return String 
+     * @return String
      */
     protected String getBalanceTypeCodeFixture() {
         return getActualBalanceTypeCode();
@@ -763,6 +765,88 @@ public class JournalVoucherDocumentRuleTest
                                                        getExpectedExplicitTargetPendingEntryForExpense(),
                                                        getExpectedOffsetTargetPendingEntry() );
     }
+
+    public void testProcessAddAccountingLineBusinessRules_irrelevantReferenceOriginCode()
+        throws Exception
+    {
+        testProcessAddAccountingLineBusinessRules( "expenseSourceLine2", null, null);
+    }
+
+    public void testProcessAddAccountingLineBusinessRules_emptyReferenceOriginCode()
+        throws Exception
+    {
+        AccountingLine line = (AccountingLine) getFixtureEntry("externalEncumbranceSourceLine").createObject();
+        line.setReferenceOriginCode("");
+        line.refresh();
+        testProcessAddAccountingLineBusinessRules(line, PropertyConstants.REFERENCE_ORIGIN_CODE, KeyConstants.ERROR_REQUIRED);
+    }
+
+    public void testProcessAddAccountingLineBusinessRules_emptyReferences()
+        throws Exception
+    {
+        AccountingLine line = (AccountingLine) getFixtureEntry("externalEncumbranceSourceLine").createObject();
+        line.setReferenceOriginCode("");
+        line.setReferenceNumber("");
+        line.setReferenceTypeCode("");
+        line.refresh();
+        testProcessAddAccountingLineBusinessRules(line, PropertyConstants.REFERENCE_ORIGIN_CODE, KeyConstants.ERROR_REQUIRED);
+        assertGlobalErrorMapContains( PropertyConstants.REFERENCE_NUMBER, KeyConstants.ERROR_REQUIRED);
+        assertGlobalErrorMapContains( PropertyConstants.REFERENCE_TYPE_CODE, KeyConstants.ERROR_REQUIRED);
+    }
+
+    public void testProcessAddAccountingLineBusinessRules_validReferences()
+        throws Exception
+    {
+        testProcessAddAccountingLineBusinessRules( "externalEncumbranceSourceLine", null, null);
+    }
+
+    public void testProcessAddAccountingLineBusinessRules_invalidReferenceOriginCode()
+        throws Exception
+    {
+        AccountingLine line = (AccountingLine) getFixtureEntry("externalEncumbranceSourceLine").createObject();
+        line.setReferenceOriginCode("42");
+        line.refresh();
+        testProcessAddAccountingLineBusinessRules(line, PropertyConstants.REFERENCE_ORIGIN_CODE, KeyConstants.ERROR_EXISTENCE);
+    }
+
+    public void testProcessAddAccountingLineBusinessRules_invalidReferenceTypeCode()
+        throws Exception
+    {
+        AccountingLine line = (AccountingLine) getFixtureEntry("externalEncumbranceSourceLine").createObject();
+        line.setReferenceTypeCode("42");
+        line.refresh();
+        testProcessAddAccountingLineBusinessRules(line, PropertyConstants.REFERENCE_TYPE_CODE, KeyConstants.ERROR_EXISTENCE);
+    }
+
+    private void testProcessAddAccountingLineBusinessRules(String fixtureName, String expectedErrorFieldName, String expectedErrorKey)
+        throws Exception
+    {
+        AccountingLine line = (AccountingLine) getFixtureEntry(fixtureName).createObject();
+        line.refresh();
+        testProcessAddAccountingLineBusinessRules(line, expectedErrorFieldName, expectedErrorKey);
+    }
+
+    private void testProcessAddAccountingLineBusinessRules(AccountingLine line, String expectedErrorFieldName, String expectedErrorKey)
+        throws Exception
+    {
+        assertGlobalErrorMapEmpty();
+        boolean wasValid = getAddAccountingLineRule().processAddAccountingLineBusinessRules(createDocumentUnbalanced(), line);
+        if (expectedErrorFieldName == null) {
+            assertGlobalErrorMapEmpty();  // fail printing error map for debugging before failing on simple result
+            assertEquals("wasValid", true, wasValid);
+        }
+        else {
+            assertGlobalErrorMapContains(expectedErrorFieldName, expectedErrorKey);
+            assertEquals("wasValid", false, wasValid);
+        }
+    }
+
+    public void testProcessSaveDocument_Valid()
+        throws Exception
+    {
+        super.testProcessSaveDocument_Valid();    //To change body of overridden methods use File | Settings | File Templates.
+    }
+
     ///////////////////////////////////////////////////////////////////////////
     // Test Methods End Here                                                 //
     ///////////////////////////////////////////////////////////////////////////

@@ -271,8 +271,8 @@
     </reference-descriptor>
 
     <reference-descriptor name="accountingPeriod" class-ref="org.kuali.module.chart.bo.AccountingPeriod" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="postingPeriodCode" />
 		<foreignkey field-ref="postingYear"/>
+        <foreignkey field-ref="postingPeriodCode" />
 	</reference-descriptor>
 </class-descriptor>
 
@@ -295,8 +295,8 @@
     </reference-descriptor>
 
     <reference-descriptor name="accountingPeriod" class-ref="org.kuali.module.chart.bo.AccountingPeriod" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="postingPeriodCode" />
 		<foreignkey field-ref="postingYear"/>
+        <foreignkey field-ref="postingPeriodCode" />
 	</reference-descriptor>
 
     <!--  collections -->
@@ -352,8 +352,8 @@
     </reference-descriptor>
 
     <reference-descriptor name="accountingPeriod" class-ref="org.kuali.module.chart.bo.AccountingPeriod" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="postingPeriodCode" />
 		<foreignkey field-ref="postingYear"/>
+        <foreignkey field-ref="postingPeriodCode" />
 	</reference-descriptor>
 </class-descriptor>
 
@@ -376,8 +376,8 @@
     </reference-descriptor>
 
 	<reference-descriptor name="accountingPeriod" class-ref="org.kuali.module.chart.bo.AccountingPeriod" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="postingPeriodCode" />
 		<foreignkey field-ref="postingYear"/>
+        <foreignkey field-ref="postingPeriodCode" />
 	</reference-descriptor>
 
     <!--  collections -->
@@ -434,8 +434,8 @@
 
     <!--  document specific object references -->
     <reference-descriptor name="accountingPeriod" class-ref="org.kuali.module.chart.bo.AccountingPeriod" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-		<foreignkey field-ref="postingPeriodCode" />
 		<foreignkey field-ref="postingYear"/>
+        <foreignkey field-ref="postingPeriodCode" />
 	</reference-descriptor>
 	
 	<reference-descriptor name="balanceType" class-ref="org.kuali.module.chart.bo.codes.BalanceTyp" auto-retrieve="true" auto-update="none" auto-delete="none" porxy="true">
@@ -528,8 +528,8 @@
     </reference-descriptor>
 
     <reference-descriptor name="accountingPeriod" class-ref="org.kuali.module.chart.bo.AccountingPeriod" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="postingPeriodCode" />
 		<foreignkey field-ref="postingYear"/>
+        <foreignkey field-ref="postingPeriodCode" />
 	</reference-descriptor>
 
     <!--   collections -->

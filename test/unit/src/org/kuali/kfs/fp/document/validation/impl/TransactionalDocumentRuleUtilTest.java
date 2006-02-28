@@ -27,20 +27,23 @@ import java.sql.Timestamp;
 import junit.framework.AssertionFailedError;
 
 import org.kuali.Constants;
+import org.kuali.PropertyConstants;
 import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
+import org.kuali.module.financial.document.JournalVoucherDocument;
 import org.kuali.test.KualiTestBaseWithSpring;
 import org.kuali.test.fixtures.FixtureEntryException;
 
 /**
  * Class for unit testing the functionality of 
- * <code>{@link TransactionalDocumentUtil}</code>
+ * <code>{@link TransactionalDocumentRuleUtil}</code>
  *
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public class TransactionalDocumentRuleUtilTest
     extends KualiTestBaseWithSpring  {
 
+    private static final String DOES_NOT_MATTER = "doesNotMatter";
     private static final String COLLECTION_NAME =
         "TransactionalDocumentRuleUtilTest.collection1";
 
@@ -183,26 +186,6 @@ public class TransactionalDocumentRuleUtilTest
     }
 
     /**
-     * Fixture method for getting the property name of an 
-     * <code>{@link AccountingPeriod}</code> for displaying errors.
-     *
-     * @return String
-     */
-    public String getAccountingPeriodCodeAttributeName() {
-        return _apcAttrName;
-    }
-
-    /**
-     * Fixture method for getting the property name of an 
-     * <code>{@link AccountingPeriod}</code> for displaying errors.
-     *
-     * @param n 
-     */
-    public void setAccountingPeriodCodeAttributeName( String n ) {
-        _apcAttrName = n;
-    }
-    
-    /**
      * Fixture accessor method for an open 
      * <code>{@link AccountingPeriod}</code> instance.
      *
@@ -251,7 +234,7 @@ public class TransactionalDocumentRuleUtilTest
      * test the <code>isValidBalanceType()</code> method of 
      * <code>{@link TransactionalDocumentRuleUtil}</code>
      *
-     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleUtil#isValidBalanceType()
+     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleUtil#isValidBalanceType
      */
     public void testIsValidBalanceType_Active() {
         testIsValidBalanceType( getActiveBalanceType(), true );
@@ -261,7 +244,7 @@ public class TransactionalDocumentRuleUtilTest
      * test the <code>isValidBalanceType()</code> method of 
      * <code>{@link TransactionalDocumentRuleUtil}</code>
      *
-     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleUtil#isValidBalanceType()
+     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleUtil#isValidBalanceType
      */
     public void testIsValidBalanceType_Inactive() {
         testIsValidBalanceType( getInactiveBalanceType(), true );
@@ -271,7 +254,7 @@ public class TransactionalDocumentRuleUtilTest
      * test the <code>isValidBalanceType()</code> method of 
      * <code>{@link TransactionalDocumentRuleUtil}</code>
      *
-     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleUtil#isValidBalanceType()
+     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleUtil#isValidBalanceType
      */
     public void testIsValidBalanceType_Null() {
         testIsValidBalanceType( null, false );
@@ -281,9 +264,9 @@ public class TransactionalDocumentRuleUtilTest
      * test the <code>isValidBalanceType()</code> method of 
      * <code>{@link TransactionalDocumentRuleUtil}</code>
      *
-     * @param balanceType
+     * @param btStr
      * @param expected
-     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleUtil#isValidBalanceType()
+     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleUtil#isValidBalanceType
      */
     protected void testIsValidBalanceType( String btStr, boolean expected ) {
         BalanceTyp balanceType = null;
@@ -291,18 +274,19 @@ public class TransactionalDocumentRuleUtilTest
         if( btStr != null ) {
             balanceType = getBalanceTypService().getBalanceTypByCode( btStr );
         }
-        
-        assertEquals( new Boolean( TransactionalDocumentRuleUtil
-                                   .isValidBalanceType( balanceType, 
-                                                        getBalanceTypeCodeAttributeName() ) ),
-                      new Boolean( expected ) );
+        assertGlobalErrorMapEmpty();
+        boolean result = TransactionalDocumentRuleUtil.isValidBalanceType( balanceType, getBalanceTypeCodeAttributeName() );
+        if (expected) {
+            assertGlobalErrorMapEmpty();
+        }
+        assertEquals("result", expected, result);
     }
 
     /**
      * test the <code>isValidOpenAccountingPeriod()</code> method of 
      * <code>{@link TransactionalDocumentRuleUtil}</code>
      *
-     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleUtil#isValidOpenAccountingPeriod()
+     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleUtil#isValidOpenAccountingPeriod
      */
     public void testIsValidOpenAccountingPeriod_Open() {
         testIsValidOpenAccountingPeriod( getOpenAccountingPeriod(), true );
@@ -312,7 +296,7 @@ public class TransactionalDocumentRuleUtilTest
      * test the <code>isValidOpenAccountingPeriod()</code> method of 
      * <code>{@link TransactionalDocumentRuleUtil}</code>
      *
-     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleUtil#isValidOpenAccountingPeriod()
+     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleUtil#isValidOpenAccountingPeriod
      */
     public void pendingTestIsValidOpenAccountingPeriod_Closed() {
         testIsValidOpenAccountingPeriod( getClosedAccountingPeriod(), false );
@@ -322,7 +306,7 @@ public class TransactionalDocumentRuleUtilTest
      * test the <code>isValidOpenAccountingPeriod()</code> method of 
      * <code>{@link TransactionalDocumentRuleUtil}</code>
      *
-     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleUtil#isValidOpenAccountingPeriod()
+     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleUtil#isValidOpenAccountingPeriod
      */
     public void testIsValidOpenAccountingPeriod_Null() {
         testIsValidOpenAccountingPeriod( null, false );
@@ -334,21 +318,23 @@ public class TransactionalDocumentRuleUtilTest
      *
      * @param period
      * @param expected
-     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleUtil#isValidOpenAccountingPeriod()
+     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleUtil#isValidOpenAccountingPeriod
      */
     protected void testIsValidOpenAccountingPeriod( AccountingPeriod period,
                                                     boolean expected ) {
-        assertEquals( new Boolean( TransactionalDocumentRuleUtil
-                                   .isValidOpenAccountingPeriod( period, 
-                                                                 getAccountingPeriodCodeAttributeName() ) ), 
-                      new Boolean( expected ) );
+        assertGlobalErrorMapEmpty();
+        boolean result = TransactionalDocumentRuleUtil.isValidOpenAccountingPeriod( period, JournalVoucherDocument.class, PropertyConstants.ACCOUNTING_PERIOD, DOES_NOT_MATTER);
+        if (expected) {
+            assertGlobalErrorMapEmpty();
+        }
+        assertEquals("result", expected, result);
     }
 
     /**
      * test the <code>isValidReversalDate()</code> method of 
      * <code>{@link TransactionalDocumentRuleUtil}</code>
      *
-     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleUtil#isValidReversalDate()
+     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleUtil#isValidReversalDate
      */
     public void testIsValidReversalDate_Null() {
         testIsValidReversalDate( null, true );
@@ -358,7 +344,7 @@ public class TransactionalDocumentRuleUtilTest
      * test the <code>isValidReversalDate()</code> method of 
      * <code>{@link TransactionalDocumentRuleUtil}</code>
      *
-     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleUtil#isValidReversalDate()
+     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleUtil#isValidReversalDate
      */
     public void testIsValidReversalDate_Past() {
         testIsValidReversalDate( getPastTimestamp(), false );
@@ -368,7 +354,7 @@ public class TransactionalDocumentRuleUtilTest
      * test the <code>isValidReversalDate()</code> method of 
      * <code>{@link TransactionalDocumentRuleUtil}</code>
      *
-     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleUtil#isValidReversalDate()
+     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleUtil#isValidReversalDate
      */
     public void testIsValidReversalDate_Future() {
         testIsValidReversalDate( getFutureTimestamp(), true );
@@ -380,16 +366,18 @@ public class TransactionalDocumentRuleUtilTest
      *
      * @param reversalDate
      * @param expected
-     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleUtil#isValidReversalDate()
+     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleUtil#isValidReversalDate
      */
     protected void testIsValidReversalDate( Timestamp reversalDate,
                                             boolean expected ) {
-        assertEquals( new Boolean( TransactionalDocumentRuleUtil
-                                   .isValidReversalDate( reversalDate, 
-                                                         getErrorPropertyName() ) ),
-                      new Boolean( expected ) );
-        
+        assertGlobalErrorMapEmpty();
+        boolean result = TransactionalDocumentRuleUtil.isValidReversalDate( reversalDate, getErrorPropertyName() );
+        if (expected) {
+            assertGlobalErrorMapEmpty();
+        }
+        assertEquals("result", expected, result);
     }
+
     ///////////////////////////////////////////////////////////////////////////
     // Test Methods End Here                                                 //
     ///////////////////////////////////////////////////////////////////////////

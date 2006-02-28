@@ -27,14 +27,17 @@ import java.sql.Timestamp;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
+import org.kuali.PropertyConstants;
 import org.kuali.core.bo.AccountingLine;
 import org.kuali.core.bo.SourceAccountingLine;
 import org.kuali.core.datadictionary.BusinessObjectEntry;
 import org.kuali.core.document.TransactionalDocument;
+import org.kuali.core.document.Document;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.chart.bo.ObjectType;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
@@ -48,6 +51,7 @@ import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class JournalVoucherDocumentRule extends TransactionalDocumentRuleBase {
+
     /**
      * Constructs a JournalVoucherDocumentRule instance and sets the logger.
      */
@@ -63,7 +67,7 @@ public class JournalVoucherDocumentRule extends TransactionalDocumentRuleBase {
      *      org.kuali.core.bo.AccountingLine)
      */
     public boolean processCustomAddAccountingLineBusinessRules(TransactionalDocument document, AccountingLine accountingLine) {
-        return super.processCustomAddAccountingLineBusinessRules( document, accountingLine) && validateAccountingLine(document, accountingLine);
+        return super.processCustomAddAccountingLineBusinessRules( document, accountingLine) && validateAccountingLine(accountingLine);
     }
 
     /**
@@ -73,7 +77,7 @@ public class JournalVoucherDocumentRule extends TransactionalDocumentRuleBase {
      *      org.kuali.core.bo.AccountingLine)
      */
     public boolean processCustomReviewAccountingLineBusinessRules(TransactionalDocument document, AccountingLine accountingLine) {
-        return super.processCustomReviewAccountingLineBusinessRules( document, accountingLine) && validateAccountingLine(document, accountingLine);
+        return super.processCustomReviewAccountingLineBusinessRules( document, accountingLine) && validateAccountingLine(accountingLine);
     }
     
     /**
@@ -84,20 +88,18 @@ public class JournalVoucherDocumentRule extends TransactionalDocumentRuleBase {
     public boolean processCustomUpdateAccountingLineBusinessRules(TransactionalDocument transactionalDocument,
             AccountingLine originalAccountingLine, AccountingLine updatedAccountingLine) {
         return super.processCustomUpdateAccountingLineBusinessRules( transactionalDocument, originalAccountingLine, updatedAccountingLine) && 
-            validateAccountingLine(transactionalDocument, updatedAccountingLine);
+            validateAccountingLine(updatedAccountingLine);
     }
 
     /**
      * Implements Journal Voucher specific accountingLine validity checks.  These include checking to make
      * sure that encumbrance reference fields are filled in under certain circumstances.
 
-     * @param document
      * @param accountingLine
      * @return true if the given accountingLine is valid
      */
-    public boolean validateAccountingLine(TransactionalDocument document, AccountingLine accountingLine) {
+    boolean validateAccountingLine(AccountingLine accountingLine) {
         // validate business rules specific to having the balance type set to EXTERNAL ENCUMBRANCE
-        // TODO - we may not need this when the two business objects get tied in properly
         return isExternalEncumbranceSpecificBusinessRulesValid(accountingLine);
     }
 
@@ -107,25 +109,26 @@ public class JournalVoucherDocumentRule extends TransactionalDocumentRuleBase {
      * 
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.TransactionalDocument)
      */
-    public boolean processCustomSaveDocumentBusinessRules(TransactionalDocument document) {
+    public boolean processCustomSaveDocumentBusinessRules(Document document) {
         JournalVoucherDocument jvDoc = (JournalVoucherDocument) document;
 
         boolean valid = true;
 
         // check the selected balance type
-        jvDoc.refreshReferenceObject("balanceType");
+        jvDoc.refreshReferenceObject(PropertyConstants.BALANCE_TYPE);
         BalanceTyp balanceType = jvDoc.getBalanceType();
-        valid &= TransactionalDocumentRuleUtil.isValidBalanceType(balanceType, Constants.JOURNAL_VOUCHER_BALANCE_TYPE_PROPERTY_NAME);
+        valid &= TransactionalDocumentRuleUtil.isValidBalanceType(balanceType, JournalVoucherDocument.class, PropertyConstants.BALANCE_TYPE_CODE, DOCUMENT_ERROR_PREFIX + PropertyConstants.BALANCE_TYPE_CODE);
 
         // check the selected accounting period
-        jvDoc.refreshReferenceObject("accountingPeriod");
+        jvDoc.refreshReferenceObject(PropertyConstants.ACCOUNTING_PERIOD);
         AccountingPeriod accountingPeriod = jvDoc.getAccountingPeriod();
-        valid &= TransactionalDocumentRuleUtil.isValidOpenAccountingPeriod(accountingPeriod, Constants.JOURNAL_VOUCHER_SELECTED_ACCOUNTING_PERIOD_PROPERTY_NAME);
+        // PropertyConstants.SELECTED_ACCOUNTING_PERIOD is on JournalVoucherForm, not JournalVoucherDocument
+        valid &= TransactionalDocumentRuleUtil.isValidOpenAccountingPeriod(accountingPeriod, JournalVoucherDocument.class, PropertyConstants.ACCOUNTING_PERIOD, DOCUMENT_ERROR_PREFIX + PropertyConstants.SELECTED_ACCOUNTING_PERIOD);
 
         // check the chosen reversal date, only if they entered a value
         if(null != jvDoc.getReversalDate()) {
             Timestamp reversalDate = jvDoc.getReversalDate();
-            valid &= TransactionalDocumentRuleUtil.isValidReversalDate(reversalDate, Constants.JOURNAL_VOUCHER_REVERSAL_DATE_PROPERTY_NAME);
+            valid &= TransactionalDocumentRuleUtil.isValidReversalDate(reversalDate, DOCUMENT_ERROR_PREFIX + PropertyConstants.REVERSAL_DATE);
         }
 
         return valid;
@@ -342,12 +345,7 @@ public class JournalVoucherDocumentRule extends TransactionalDocumentRuleBase {
         else if (BALANCE_TYPE_CODE.EXTERNAL_ENCUMBRANCE.equals(balanceType.getCode())) {
             // now check to make sure that the three extra fields (referenceOriginCode, referenceTypeCode, referenceNumber) have
             // values in them
-            if (!isRequiredReferenceFieldsValid(accountingLine)) {
-                return false;
-            }
-            else {
-                return true;
-            }
+            return isRequiredReferenceFieldsValid(accountingLine);
         }
         else {
             return true;
@@ -366,24 +364,24 @@ public class JournalVoucherDocumentRule extends TransactionalDocumentRuleBase {
 
         BusinessObjectEntry boe = SpringServiceLocator.getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(
                 SourceAccountingLine.class);
-        // TODO: Eventually these will be objects to check, not strings and these should be handled by "is" methods
-        // in the AddAccountingLineRule interface
-        if (StringUtils.isEmpty(accountingLine.getReferenceOriginCode())) {
-            String label = boe.getAttributeDefinition(Constants.REFERENCE_ORIGIN_CODE_PROPERTY_NAME).getLabel();
-            GlobalVariables.getErrorMap().put(Constants.REFERENCE_ORIGIN_CODE_PROPERTY_NAME, KeyConstants.ERROR_REQUIRED, label);
+        if (ObjectUtils.isNull(accountingLine.getReferenceOrigin())) {
+            putRequiredPropertyError(boe, PropertyConstants.REFERENCE_ORIGIN_CODE);
             valid = false;
         }
         if (StringUtils.isEmpty(accountingLine.getReferenceNumber())) {
-            String label = boe.getAttributeDefinition(Constants.REFERENCE_NUMBER_PROPERTY_NAME).getLabel();
-            GlobalVariables.getErrorMap().put(Constants.REFERENCE_NUMBER_PROPERTY_NAME, KeyConstants.ERROR_REQUIRED, label);
+            putRequiredPropertyError(boe, PropertyConstants.REFERENCE_NUMBER);
             valid = false;
         }
-        if (StringUtils.isEmpty(accountingLine.getReferenceTypeCode())) {
-            String label = boe.getAttributeDefinition(Constants.REFERENCE_TYPE_CODE_PROPERTY_NAME).getLabel();
-            GlobalVariables.getErrorMap().put(Constants.REFERENCE_TYPE_CODE_PROPERTY_NAME, KeyConstants.ERROR_REQUIRED, label);
+        if (ObjectUtils.isNull(accountingLine.getReferenceType())) {
+            putRequiredPropertyError(boe, PropertyConstants.REFERENCE_TYPE_CODE);
             valid = false;
         }
         return valid;
+    }
+
+    private static void putRequiredPropertyError(BusinessObjectEntry boe, String propertyName) {
+        String label = boe.getAttributeDefinition(propertyName).getLabel();
+        GlobalVariables.getErrorMap().put(propertyName, KeyConstants.ERROR_REQUIRED, label);
     }
 
     /**
@@ -402,7 +400,7 @@ public class JournalVoucherDocumentRule extends TransactionalDocumentRuleBase {
             GlobalVariables.getErrorMap().put(Constants.OBJECT_TYPE_CODE_PROPERTY_NAME, KeyConstants.ERROR_REQUIRED, label);
             return false;
         }
-        
+
     }
 
     /**

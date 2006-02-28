@@ -70,7 +70,7 @@ import org.springframework.util.StringUtils;
 
 /**
  * @author Anthony Potts
- * @version $Id: ScrubberServiceImpl.java,v 1.53 2006-02-28 15:21:41 larevans Exp $
+ * @version $Id: ScrubberServiceImpl.java,v 1.54 2006-02-28 22:03:22 larevans Exp $
  */
 
 public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
@@ -539,9 +539,9 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         validator.validateFinancialSubObjectCode(originEntry, workingEntryInfo);
         validator.validateBalanceType(originEntry, workingEntryInfo);
         validator.validateUniversityFiscalPeriodCode(originEntry, workingEntryInfo, universityRunDate);
-        validator.validateDocumentReferenceNumber(originEntry, workingEntryInfo);
-        validator.validateReversalDate(originEntry, workingEntryInfo);
         validator.validateEncumbranceUpdateCode(originEntry, workingEntryInfo);
+        validator.validateReferenceDocument(originEntry, workingEntryInfo);
+        validator.validateReversalDate(originEntry, workingEntryInfo, universityDateDao);
         
         return workingEntryInfo;
     }

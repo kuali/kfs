@@ -143,12 +143,13 @@ public class OriginEntry extends BusinessObjectBase implements Transaction {
         setUniversityFiscalYear(t.getUniversityFiscalYear());
     }
 
-    private java.sql.Date parseDate(String sdate) {
+    private java.sql.Date parseDate(String sdate, boolean beLenientWithDates) {
       if ((sdate == null) || (sdate.trim().length() == 0)) {
         return null;
       } else {
+          
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        sdf.setLenient(false);
+        sdf.setLenient(beLenientWithDates);
         
         try {
           java.util.Date d = sdf.parse(sdate);
@@ -197,14 +198,14 @@ public class OriginEntry extends BusinessObjectBase implements Transaction {
       setTransactionLedgerEntryDesc(line.substring(51, 91).trim());
       setTransactionLedgerEntryAmount(new KualiDecimal(line.substring(91, 108).trim()));
       setTransactionDebitCreditCode(line.substring(108, 109));
-      setTransactionDate(parseDate(line.substring(109, 119).trim()));
+      setTransactionDate(parseDate(line.substring(109, 119).trim(), false));
       setOrganizationDocumentNumber(line.substring(119, 129).trim());
       setProjectCode(line.substring(129, 139).trim());
       setOrganizationReferenceId(line.substring(139, 147).trim());
       setReferenceFinDocumentTypeCode(line.substring(147, 151).trim());
       setFinSystemRefOriginationCode(line.substring(151, 153).trim());
       setFinancialDocumentReferenceNbr(line.substring(153, 162).trim());
-      setFinancialDocumentReversalDate(parseDate(line.substring(162, 172)));
+      setFinancialDocumentReversalDate(parseDate(line.substring(162, 172), true));
       setTransactionEncumbranceUpdtCd(line.substring(172, 173));
   }
 

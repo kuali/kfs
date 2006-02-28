@@ -125,6 +125,7 @@
           	<forward name="project" path="/jsp/xmlhttp/project.jsp" />
           	<forward name="organization" path="/jsp/xmlhttp/organization.jsp" />
           	<forward name="objectType" path="/jsp/xmlhttp/objectType.jsp" />
+          	<forward name="user" path="/jsp/xmlhttp/user.jsp" />
         </action>        
         
         <!--  Module Action Mappings -->

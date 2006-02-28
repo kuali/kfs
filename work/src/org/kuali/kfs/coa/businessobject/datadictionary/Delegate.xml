@@ -14,7 +14,8 @@
 				<field attributeName="chartOfAccountsCode" />			
 				<field attributeName="accountNumber" />
 				<field attributeName="financialDocumentTypeCode" />			
-				<field attributeName="accountDelegateSystemId" />
+				<field attributeName="accountDelegate.personUserIdentifier" />
+				<field attributeName="accountDelegate.personName" />
 				<field attributeName="finDocApprovalFromThisAmt" />
 				<field attributeName="finDocApprovalToThisAmount" />
 				<field attributeName="accountsDelegatePrmrtIndicator" />
@@ -37,13 +38,15 @@
 				<lookupField attributeName="accountNumber" required="false" />
 				<lookupField attributeName="financialDocumentTypeCode" required="false" />
 				<lookupField attributeName="accountDelegateSystemId" required="false" />
+				<lookupField attributeName="accountDelegate.personUserIdentifier" required="false" />
+				<lookupField attributeName="accountDelegate.personName" required="false" />
 			</lookupFields>
 
 			<resultFields>
 				<field attributeName="chartOfAccountsCode" />			
 				<field attributeName="accountNumber" />
 				<field attributeName="financialDocumentTypeCode" />			
-				<field attributeName="accountDelegateSystemId" />
+				<field attributeName="accountDelegate.personUserIdentifier" />
 				<field attributeName="finDocApprovalFromThisAmt" />
 				<field attributeName="finDocApprovalToThisAmount" />
 				<field attributeName="accountsDelegatePrmrtIndicator" />
@@ -87,9 +90,40 @@
 				<label>Account Delegate Universal ID</label>
 				<shortLabel>UnvlID</shortLabel>
 				<required>true</required>
+				<control><hidden /></control>
 				<summary>Account Delegate Universal ID</summary>
 				<description>
 					The Universal ID (ie, unique identifier) of the Account Delegate.
+				</description>
+			</attributeReference>
+			
+			<attributeReference name="accountDelegate.personUserIdentifier" 
+								sourceClassName="org.kuali.core.bo.user.KualiUser" 
+								sourceAttributeName="personUserIdentifier">
+				<label>Account Delegate UserID</label>
+				<shortLabel>UserID</shortLabel>
+				<required>false</required>
+				<control>
+					<kualiUser universalIdAttributeName="accountDelegateSystemId" 
+								userIdAttributeName="accountDelegate.personUserIdentifier" 
+								personNameAttributeName="accountDelegate.personName" />
+				</control>
+				<summary>Account Delegate User ID</summary>
+				<description>
+					The UserID of the Account Delegate.
+				</description>
+			</attributeReference>
+			
+			<attributeReference name="accountDelegate.personName" 
+								sourceClassName="org.kuali.core.bo.user.KualiUser" 
+								sourceAttributeName="personName">
+				<label>Account Delegate Name</label>
+				<shortLabel>Name</shortLabel>
+				<required>false</required>
+				<control><hidden /></control>
+				<summary>Account Delegate Name</summary>
+				<description>
+					The Name of the Account Delegate.
 				</description>
 			</attributeReference>
 			

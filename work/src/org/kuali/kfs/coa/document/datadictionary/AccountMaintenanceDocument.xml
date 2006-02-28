@@ -64,9 +64,15 @@
 	        </maintainableSection>
 	        <maintainableSection title="Account Responsibility">
                 <maintainableItems>
-		            <maintainableField name="accountFiscalOfficerSystemIdentifier" required="true" />
-		            <maintainableField name="accountsSupervisorySystemsIdentifier" required="true" />
-		            <maintainableField name="accountManagerSystemIdentifier" required="true" />
+		            <maintainableField name="accountFiscalOfficerSystemIdentifier" required="true" readOnly="true" />
+					<maintainableField name="accountFiscalOfficerUser.personUserIdentifier" required="false" />	
+					<maintainableField name="accountFiscalOfficerUser.personName" required="false" readOnly="true" />	
+		            <maintainableField name="accountsSupervisorySystemsIdentifier" required="true" readOnly="true" />
+					<maintainableField name="accountSupervisoryUser.personUserIdentifier" required="false" />	
+					<maintainableField name="accountSupervisoryUser.personName" required="false" readOnly="true" />	
+		            <maintainableField name="accountManagerSystemIdentifier" required="true" readOnly="true" />
+					<maintainableField name="accountManagerUser.personUserIdentifier" required="false" />	
+					<maintainableField name="accountManagerUser.personName" required="false" readOnly="true" />	
 		            <maintainableField name="continuationFinChrtOfAcctCd" required="false" />
 		            <maintainableField name="continuationAccountNumber" required="false" />    
 		            <maintainableField name="incomeStreamFinancialCoaCode" required="false" />

@@ -13,7 +13,7 @@
 				<field attributeName="chartOfAccountsCode" />			
 				<field attributeName="accountNumber" />
 				<field attributeName="accountName" />
-				<field attributeName="accountFiscalOfficerUser.personName" />
+				<field attributeName="accountFiscalOfficerUser.personUserIdentifier" />
 				<field attributeName="organizationCode" />
 				<field attributeName="accountTypeCode" />
 				<field attributeName="accountCreateDate" />
@@ -39,6 +39,8 @@
 				<lookupField attributeName="accountTypeCode" required="false" />
 				<lookupField attributeName="subFundGroupCode" required="false" />
 				<lookupField attributeName="accountFiscalOfficerSystemIdentifier" required="false" />
+				<lookupField attributeName="accountFiscalOfficerUser.personUserIdentifier" required="false" />
+				<lookupField attributeName="accountFiscalOfficerUser.personName" required="false" />
 				<lookupField attributeName="accountClosedIndicator" />			
 			</lookupFields>
 
@@ -588,40 +590,117 @@
 				<label>Fiscal Officer Unvl ID</label>
 				<shortLabel>FiscOffId</shortLabel>
 				<required>true</required>
+				<control><hidden /></control>
 			</attributeReference>
 			
+			<attributeReference name="accountFiscalOfficerUser.personUserIdentifier" 
+								sourceClassName="org.kuali.core.bo.user.UniversalUser" 
+								sourceAttributeName="personUserIdentifier">
+				<label>Fiscal Officer UserID</label>
+				<shortLabel>UserID</shortLabel>
+				<required>false</required>
+				<control>
+					<kualiUser universalIdAttributeName="accountFiscalOfficerSystemIdentifier" 
+								userIdAttributeName="accountFiscalOfficerUser.personUserIdentifier" 
+								personNameAttributeName="accountFiscalOfficerUser.personName" />
+				</control>
+				<summary>Fiscal Officer User ID</summary>
+				<description>
+					The UserID of the Fiscal Officer.
+				</description>
+			</attributeReference>
+			
+			<attributeReference name="accountFiscalOfficerUser.personName" 
+								sourceClassName="org.kuali.core.bo.user.UniversalUser" 
+								sourceAttributeName="personName">
+				<label>Fiscal Officer Name</label>
+				<shortLabel>Name</shortLabel>
+				<required>false</required>
+				<control><hidden /></control>
+				<summary>Fiscal Officer Name</summary>
+				<description>
+					The Name of the Fiscal Officer.
+				</description>
+			</attributeReference>
+
 			<attributeReference name="accountsSupervisorySystemsIdentifier" 
 								sourceClassName="org.kuali.core.bo.user.UniversalUser" 
 								sourceAttributeName="personUniversalIdentifier">
 				<label>Supervisor Unvl ID</label>
 				<shortLabel>SprvsrId</shortLabel>
 				<required>true</required>
+				<control><hidden /></control>
 			</attributeReference>
 			
+			<attributeReference name="accountSupervisoryUser.personUserIdentifier" 
+								sourceClassName="org.kuali.core.bo.user.UniversalUser" 
+								sourceAttributeName="personUserIdentifier">
+				<label>Account Supervisor UserID</label>
+				<shortLabel>UserID</shortLabel>
+				<required>false</required>
+				<control>
+					<kualiUser universalIdAttributeName="accountsSupervisorySystemsIdentifier" 
+								userIdAttributeName="accountSupervisoryUser.personUserIdentifier" 
+								personNameAttributeName="accountSupervisoryUser.personName" />
+				</control>
+				<summary>Account Supervisor User ID</summary>
+				<description>
+					The UserID of the Account Supervisor.
+				</description>
+			</attributeReference>
+			
+			<attributeReference name="accountSupervisoryUser.personName" 
+								sourceClassName="org.kuali.core.bo.user.UniversalUser" 
+								sourceAttributeName="personName">
+				<label>Account Supervisor Name</label>
+				<shortLabel>Name</shortLabel>
+				<required>false</required>
+				<control><hidden /></control>
+				<summary>Account Supervisor Name</summary>
+				<description>
+					The Name of the Account Supervisor.
+				</description>
+			</attributeReference>
+
 			<attributeReference name="accountManagerSystemIdentifier" 
 								sourceClassName="org.kuali.core.bo.user.UniversalUser" 
 								sourceAttributeName="personUniversalIdentifier">
 				<label>Manager Unvl ID</label>
 				<shortLabel>MgrId</shortLabel>
 				<required>true</required>
+				<control><hidden /></control>
 			</attributeReference>
 	
-			<attributeReference name="accountFiscalOfficerUser.personName" 
+			<attributeReference name="accountManagerUser.personUserIdentifier" 
 								sourceClassName="org.kuali.core.bo.user.UniversalUser" 
-								sourceAttributeName="personName">
-				<label>Fiscal Officer Name</label>
-				<shortLabel>FiscOffName</shortLabel>
-				<required>true</required>
+								sourceAttributeName="personUserIdentifier">
+				<label>Account Manager UserID</label>
+				<shortLabel>UserID</shortLabel>
+				<required>false</required>
+				<control>
+					<kualiUser universalIdAttributeName="accountManagerSystemIdentifier" 
+								userIdAttributeName="accountManagerUser.personUserIdentifier" 
+								personNameAttributeName="accountManagerUser.personName" />
+				</control>
+				<summary>Account Manager User ID</summary>
+				<description>
+					The UserID of the Account Manager.
+				</description>
 			</attributeReference>
-
+			
 			<attributeReference name="accountManagerUser.personName" 
 								sourceClassName="org.kuali.core.bo.user.UniversalUser" 
 								sourceAttributeName="personName">
-				<label>Manager Name</label>
-				<shortLabel>MgrName</shortLabel>
-				<required>true</required>
+				<label>Account Manager Name</label>
+				<shortLabel>Name</shortLabel>
+				<required>false</required>
+				<control><hidden /></control>
+				<summary>Account Manager Name</summary>
+				<description>
+					The Name of the Account Manager.
+				</description>
 			</attributeReference>
-			
+
 			<attributeReference name="versionNumber" 
 								sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
 								sourceAttributeName="versionNumber" />

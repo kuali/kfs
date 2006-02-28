@@ -48,8 +48,9 @@
 		<property name="originEntryGroupService"><ref bean="glOriginEntryGroupService" /></property>
 		<property name="persistenceService"><ref bean="persistenceService"/></property>
 		<property name="scrubberReport"><ref bean="glScrubberReport" /></property>
+		<property name="optionsDao"><ref bean="optionsDao" /></property>
 	</bean>
-
+	
 	<bean id="glSufficientFundsRebuilderService" class="org.kuali.module.gl.service.impl.SufficientFundsRebuilderServiceImpl">
 		<property name="dateTimeService"><ref bean="dateTimeService" /></property>
 		<property name="kualiConfigurationService"><ref bean="kualiConfigurationService" /></property>
@@ -188,6 +189,10 @@
 		<property name="jcdAlias"><value>dataSource</value></property>
 	</bean>
 
+	<bean id="glOptionsDao" class="org.kuali.core.dao.ojb.OptionsDaoOjb">
+		<property name="jcdAlias"><value>dataSource</value></property>
+	</bean>
+	
 	<bean id="glOriginEntryDao" class="org.kuali.module.gl.dao.ojb.OriginEntryDaoOjb">
 		<property name="jcdAlias"><value>dataSource</value></property>
 	</bean>

@@ -148,6 +148,8 @@ public class OriginEntry extends BusinessObjectBase implements Transaction {
         return null;
       } else {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        sdf.setLenient(false);
+        
         try {
           java.util.Date d = sdf.parse(sdate);
           return new Date(d.getTime());

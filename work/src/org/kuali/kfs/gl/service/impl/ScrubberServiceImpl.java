@@ -34,7 +34,7 @@ import java.util.Map;
 
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
-//import org.kuali.core.bo.user.Options;
+import org.kuali.core.dao.OptionsDao;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.PersistenceService;
@@ -42,7 +42,6 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.bo.OffsetDefinition;
-//import org.kuali.module.chart.bo.codes.BalanceTyp;
 import org.kuali.module.chart.service.AccountService;
 import org.kuali.module.chart.service.ObjectCodeService;
 import org.kuali.module.chart.service.OffsetDefinitionService;
@@ -62,8 +61,8 @@ import org.kuali.module.gl.service.impl.helper.OriginEntryInfo;
 import org.kuali.module.gl.service.impl.helper.ScrubberServiceErrorHandler;
 import org.kuali.module.gl.service.impl.helper.UnitOfWorkInfo;
 import org.kuali.module.gl.util.ObjectHelper;
-import org.kuali.module.gl.util.Summary;
 import org.kuali.module.gl.util.ScrubberServiceValidationHelper;
+import org.kuali.module.gl.util.Summary;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
@@ -71,7 +70,7 @@ import org.springframework.util.StringUtils;
 
 /**
  * @author Anthony Potts
- * @version $Id: ScrubberServiceImpl.java,v 1.50 2006-02-24 18:25:43 larevans Exp $
+ * @version $Id: ScrubberServiceImpl.java,v 1.51 2006-02-28 14:44:16 larevans Exp $
  */
 
 public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
@@ -83,6 +82,7 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
     private DateTimeService dateTimeService;
     private OffsetDefinitionService offsetDefinitionService;
     private ObjectCodeService objectCodeService;
+    private OptionsDao optionsDao;
     private AccountService accountService;
     private KualiConfigurationService kualiConfigurationService;
     private UniversityDateDao universityDateDao;
@@ -322,10 +322,16 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
      * @param unitOfWork
      */
     private void postProcessUnitOfWork(UnitOfWorkInfo unitOfWork) {
-    	if(0 == unitOfWork.getErrorCount()) {
+    	// Generate an offset only if there have been no errors on either the current unit of work
+    	// or any of the previous units of work in the current document. Once an error has ocurred
+    	// we don't need to generate any more offsets because the demerger would just pull them out
+    	// anyway.
+    	if(0 == (unitOfWork.getErrorCount() + unitOfWork.getDocumentInfo().getNumberOfErrors())) {
+    		
 	    	// Generate offset first so that any errors and the total number of entries is reflected properly
 	    	// when setting into the documentInfo below.
 	    	generateOffset(unitOfWork);
+	    	
     	}
     	
     	// Aggregate the information about the unit of work up to the document level.
@@ -389,7 +395,7 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
 
             handleCostSharing(currentEntry, workingEntryInfo);
 
-            unitOfWorkInfo.setErrorCount(unitOfWorkInfo.getErrorCount() + workingEntryInfo.getErrors().size());
+            //unitOfWorkInfo.setErrorCount(unitOfWorkInfo.getErrorCount() + workingEntryInfo.getErrors().size());
             unitOfWorkInfo.setDocumentNumber(workingEntryInfo.getOriginEntry().getFinancialDocumentNumber());
 
             if (workingEntryInfo.getErrors().size() > 0) {
@@ -472,21 +478,51 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         workingEntry.setOrganizationReferenceId(originEntry.getOrganizationReferenceId());
         workingEntry.setFinancialDocumentReferenceNbr(originEntry.getFinancialDocumentReferenceNbr());
 
-        if (originEntry.getTrnEntryLedgerSequenceNumber() == null) {
-          workingEntry.setTrnEntryLedgerSequenceNumber(new Integer(0));
-        } else {
-          workingEntry.setTrnEntryLedgerSequenceNumber(originEntry.getTrnEntryLedgerSequenceNumber());
-        }
+        Integer transactionNumber = originEntry.getTrnEntryLedgerSequenceNumber();
+        workingEntry.setTrnEntryLedgerSequenceNumber(null == transactionNumber ? new Integer(0) : transactionNumber);
         workingEntry.setTransactionLedgerEntryDesc(originEntry.getTransactionLedgerEntryDesc());
         workingEntry.setTransactionLedgerEntryAmount(originEntry.getTransactionLedgerEntryAmount());
         workingEntry.setTransactionDebitCreditCode(originEntry.getTransactionDebitCreditCode());
+        workingEntry.setOption(originEntry.getOption());
+
+        // It's important that this check come before the checks for object, sub-object and accountingPeriod
+        // because this validation method will set the fiscal year and reload those three objects if the fiscal
+        // year was invalid. This will also set originEntry.getOption and workingEntry.getOption. So, it's 
+        // probably a good idea to validate the transaction date first thing.
+        validator.validateTransactionDate(originEntry, workingEntryInfo, runDate, universityRunDate, optionsDao, persistenceService);
+        
+        // If the fiscal year of the origin entry isn't set, set the 
+        // originEntry's fiscal year to the fiscal year of the 
+        // universityRunDate and save the corrected originEntry.
+//        if (null == originEntry.getUniversityFiscalYear() 
+//                || 0 == originEntry.getUniversityFiscalYear().intValue()) {
+//            
+//            // Begin fix for KULGL-48
+////            originEntry.setUniversityFiscalYear(universityRunDate.getUniversityFiscalYear());
+////            persistenceService.retrieveReferenceObject(originEntry,"option");
+//
+//            workingEntry.setUniversityFiscalYear(universityRunDate.getUniversityFiscalYear());
+//            workingEntry.setOption(originEntry.getOption());
+//            persistenceService.retrieveReferenceObject(workingEntry,"option");
+//
+//            // Retrieve these objects because the fiscal year is the primary key for them
+//            persistenceService.retrieveReferenceObject(originEntry,"financialSubObject");
+//            persistenceService.retrieveReferenceObject(originEntry,"financialObject");
+//            persistenceService.retrieveReferenceObject(originEntry,"accountingPeriod");
+//            // End fix for KULGL-48
+//
+//            ScrubberServiceErrorHandler.ifNullAddTransactionError(
+//                workingEntry.getOption(), workingEntryInfo.getErrors(),
+//                kualiConfigurationService.getPropertyString(KeyConstants.ERROR_UNIV_DATE_NOT_FOUND), 
+//                workingEntry.getUniversityFiscalYear().toString());
+//            
+//        }
 
         // NOTE the validator WILL build set any fields in the workingEntry as appropriate
         // per the validation rules.
         validator.validateSubAccount(originEntry, workingEntryInfo);
         validator.validateSubObjectCode(originEntry, workingEntryInfo);
         validator.validateProjectCode(originEntry, workingEntryInfo);
-        validator.validateTransactionDate(originEntry, workingEntryInfo, runDate, universityRunDate);
         validator.validateDocumentType(originEntry, workingEntryInfo);
         validator.validateOrigination(originEntry, workingEntryInfo);
         validator.validateDocumentNumber(originEntry, workingEntryInfo);
@@ -496,27 +532,37 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         // NOTE (laran) This code was left in here because I don't really understand how 
         // wsAccountChange is being used.
         if ("ACLO".equals(originEntry.getFinancialDocumentTypeCode())) { // TODO: move to properties ANNUAL_CLOSING
+            
             resolveAccount(originEntry, workingEntryInfo);
+            
         } else {
+            
             wsAccountChange = originEntry.getAccountNumber();
+            
         }
-
-        if (null != wsAccountChange 
-        		&& !wsAccountChange.equals(workingEntry.getAccountNumber()) 
-        		&& null != originEntry.getAccount()) {
-            if (originEntry.getAccount().isAccountClosedIndicator()) {
-            	ScrubberServiceErrorHandler.addTransactionError(
-                    kualiConfigurationService.getPropertyString(KeyConstants.ERROR_ACCOUNT_CLOSED), 
-                    originEntry.getAccountNumber(), workingEntryInfo.getErrors());
-            } else {
-            	ScrubberServiceErrorHandler.addTransactionError(
-                    kualiConfigurationService.getPropertyString(KeyConstants.ERROR_ACCOUNT_EXPIRED),
-                    originEntry.getAccountNumber(), workingEntryInfo.getErrors());
-            }
-        }
+        
+//
+//        if (null != wsAccountChange 
+//        		&& !wsAccountChange.equals(workingEntry.getAccountNumber()) 
+//        		&& null != originEntry.getAccount()) {
+//        	
+//            if (originEntry.getAccount().isAccountClosedIndicator()) {
+//            	
+//            	ScrubberServiceErrorHandler.addTransactionError(
+//                    kualiConfigurationService.getPropertyString(KeyConstants.ERROR_ACCOUNT_CLOSED), 
+//                    originEntry.getAccountNumber(), workingEntryInfo.getErrors());
+//            	
+//            } else {
+//            	
+//            	ScrubberServiceErrorHandler.addTransactionError(
+//                    kualiConfigurationService.getPropertyString(KeyConstants.ERROR_ACCOUNT_EXPIRED),
+//                    originEntry.getAccountNumber(), workingEntryInfo.getErrors());
+//            	
+//            }
+//        }
 
         validator.validateObjectCode(originEntry, workingEntryInfo);
-        validator.validateObjectTypeCode(originEntry, workingEntryInfo);
+        validator.validateObjectType(originEntry, workingEntryInfo);
         validator.validateFinancialSubObjectCode(originEntry, workingEntryInfo);
         validator.validateBalanceType(originEntry, workingEntryInfo);
         validator.validateUniversityFiscalPeriodCode(originEntry, workingEntryInfo, universityRunDate);
@@ -602,10 +648,15 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
             	unitOfWorkInfo.getTotalOffsetAmount().subtract(originEntry.getTransactionLedgerEntryAmount());
             }
         }
+        
         if (originEntry.isDebit()) {
+        	
             unitOfWorkInfo.getTotalDebitAmount().add(originEntry.getTransactionLedgerEntryAmount());
+            
         } else {
+        	
         	unitOfWorkInfo.getTotalCreditAmount().add(originEntry.getTransactionLedgerEntryAmount());
+        	
         }
 	}
 
@@ -636,7 +687,9 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         //           !account.getAcctClosedInd.equals("Y")) {
         if (account.getAccountExpirationDate() == null &&
            !account.isAccountClosedIndicator()) {
+        	
             workingEntry.setAccountNumber(account.getAccountNumber());
+            
             return;
         }
 
@@ -646,11 +699,15 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
                 "EU".equals(workingEntry.getFinancialSystemOriginationCode()) ||
                 "PL".equals(workingEntry.getFinancialSystemOriginationCode())) &&
                 account.isAccountClosedIndicator()) {
+        	
             workingEntry.setAccountNumber(originEntry.getAccountNumber());
+            
             wsAccountChange = workingEntry.getAccountNumber();
+            
             ScrubberServiceErrorHandler.addTransactionError(
                 kualiConfigurationService.getPropertyString(KeyConstants.ERROR_ORIGIN_CODE_CANNOT_HAVE_CLOSED_ACCOUNT), 
                 account.getAccountNumber(), workingEntryInfo.getErrors());
+            
             return;
         }
 
@@ -665,7 +722,9 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
                 "CD".equals(workingEntry.getFinancialDocumentTypeCode().trim()) ||
                 "LOCR".equals(workingEntry.getFinancialDocumentTypeCode())) &&
                 !account.isAccountClosedIndicator()) {
+        	
             workingEntry.setAccountNumber(originEntry.getAccountNumber());
+            
             return;
         }
 
@@ -674,9 +733,13 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
 
         if(tmpCal.get(Calendar.DAY_OF_YEAR) <= runCal.get(Calendar.DAY_OF_YEAR)
         	|| account.isAccountClosedIndicator()) {
+        	
             testExpiredCg(originEntry, workingEntryInfo);
+            
         } else {
+        	
             workingEntry.setAccountNumber(originEntry.getAccountNumber());
+            
         }
     }// End of method
 
@@ -1761,6 +1824,20 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
 
     public void setPersistenceService(PersistenceService ps) {
         persistenceService = ps;
+    }
+    
+    /**
+     * @return Returns the optionsDao.
+     */
+    public OptionsDao getOptionsDao() {
+        return optionsDao;
+    }
+
+    /**
+     * @param optionsDao The optionsDao to set.
+     */
+    public void setOptionsDao(OptionsDao optionsDao) {
+        this.optionsDao = optionsDao;
     }
 
     /**

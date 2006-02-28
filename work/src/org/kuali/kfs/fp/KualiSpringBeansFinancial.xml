@@ -48,4 +48,28 @@
             <ref bean="workflowDocumentService" />
         </property>
     </bean>
+    
+    <bean id="cashManagementDocumentService" class="org.kuali.module.financial.service.impl.CashManagementDocumentServiceImpl">
+        <property name="documentService">
+            <ref bean="documentService" />
+        </property>
+        <property name="depositDocumentService">
+            <ref bean="depositDocumentService" />
+        </property>
+        <property name="cashDrawerService">
+            <ref bean="cashDrawerService" />
+        </property>
+    </bean>
+    
+    <bean id="checkService" class="org.kuali.module.financial.service.impl.CheckServiceImpl">
+       <property name="checkDao">
+          <ref bean="checkDao"/>
+       </property>
+    </bean>
+
+    <bean id="cashDrawerService" class="org.kuali.module.financial.service.impl.CashDrawerServiceImpl">
+        <property name="cashDrawerDao">
+            <ref bean="cashDrawerDao" />
+        </property>
+     </bean>
 </beans>

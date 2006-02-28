@@ -47,6 +47,12 @@
         <property name="workflowDocumentService">
             <ref bean="workflowDocumentService" />
         </property>
+        <property name="documentService">
+            <ref bean="documentService" />
+        </property>
+        <property name="dateTimeService">
+            <ref bean="dateTimeService" />
+        </property>
     </bean>
     
     <bean id="cashManagementDocumentService" class="org.kuali.module.financial.service.impl.CashManagementDocumentServiceImpl">

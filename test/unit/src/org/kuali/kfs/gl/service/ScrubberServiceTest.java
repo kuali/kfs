@@ -404,7 +404,7 @@ public class ScrubberServiceTest extends KualiTestBaseWithSpringOnly {
     }
     */
     
-    public void dontRunTestInvalidTransactionDate() throws Exception {
+    public void testInvalidTransactionDate() throws Exception {
         String[] inputTransactions = {
                 "2004BL1031497-----4100---ACEX07PO  LGINVALDATE     Rite Quality Office Supplies Inc.                   43.42D2096-02-11          ----------                                                                          ",
                 "2004BL1031497-----9892---ACFB07PO  LGINVALDATE     Rite Quality Office Supplies Inc.                   43.42C1006-12-23          ----------                                                                          "

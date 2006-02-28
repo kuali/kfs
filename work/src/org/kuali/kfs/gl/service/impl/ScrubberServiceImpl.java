@@ -70,7 +70,7 @@ import org.springframework.util.StringUtils;
 
 /**
  * @author Anthony Potts
- * @version $Id: ScrubberServiceImpl.java,v 1.51 2006-02-28 14:44:16 larevans Exp $
+ * @version $Id: ScrubberServiceImpl.java,v 1.52 2006-02-28 15:01:23 larevans Exp $
  */
 
 public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
@@ -489,7 +489,7 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         // because this validation method will set the fiscal year and reload those three objects if the fiscal
         // year was invalid. This will also set originEntry.getOption and workingEntry.getOption. So, it's 
         // probably a good idea to validate the transaction date first thing.
-        validator.validateTransactionDate(originEntry, workingEntryInfo, runDate, universityRunDate, optionsDao, persistenceService);
+        validator.validateTransactionDate(originEntry, workingEntryInfo, runDate, universityRunDate, universityDateDao, persistenceService);
         
         // If the fiscal year of the origin entry isn't set, set the 
         // originEntry's fiscal year to the fiscal year of the 

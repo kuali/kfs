@@ -43,10 +43,10 @@ import org.kuali.module.gl.service.OriginEntryService;
 public class NightlyOutServiceImpl implements NightlyOutService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(NightlyOutServiceImpl.class);
 
-    GeneralLedgerPendingEntryService generalLedgerPendingEntryService;
-    OriginEntryService originEntryService;
-    DateTimeService dateTimeService;
-    OriginEntryGroupService originEntryGroupService;
+    private GeneralLedgerPendingEntryService generalLedgerPendingEntryService;
+    private OriginEntryService originEntryService;
+    private DateTimeService dateTimeService;
+    private OriginEntryGroupService originEntryGroupService;
 
     /**
      * Constructs a NightlyOutServiceImpl.java.

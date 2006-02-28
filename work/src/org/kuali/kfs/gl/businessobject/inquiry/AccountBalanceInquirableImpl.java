@@ -42,6 +42,7 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.util.UrlFactory;
 import org.kuali.module.gl.bo.Balance;
+import org.kuali.module.gl.web.Constant;
 
 /**
  * This class...
@@ -123,6 +124,7 @@ public class AccountBalanceInquirableImpl extends KualiInquirableImpl {
             parameters.put(Constants.DISPATCH_REQUEST_PARAMETER, "search");
             parameters.put(Constants.DOC_FORM_KEY, "88888888");           
             parameters.put(Constants.LOOKUPABLE_IMPL_ATTRIBUTE_NAME, "glBalanceLookupable");
+            parameters.put(Constant.AMOUNT_VIEW_OPTION, Constant.MONTHLY);
             
             String balanceTypeCode = (String)userDefinedAttributeMap.get(attributeName);
             parameters.put(Constants.BALANCE_TYPE_PROPERTY_NAME, balanceTypeCode);
@@ -150,7 +152,7 @@ public class AccountBalanceInquirableImpl extends KualiInquirableImpl {
             Object keyValue = ObjectUtils.getPropertyValue(businessObject, keyConversion);
             keyValue = (keyValue == null) ? "" : keyValue.toString();
             
-            if(attributeName.equals(PropertyConstants.SUB_ACCOUNT_NUMBER) && keyValue.equals("*ALL*")){
+            if(keyName.equals(PropertyConstants.SUB_ACCOUNT_NUMBER) && keyValue.equals("*ALL*")){
                 keyValue = "";
             }
             

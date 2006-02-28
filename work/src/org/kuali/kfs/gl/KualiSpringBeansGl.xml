@@ -50,7 +50,7 @@
 		<property name="scrubberReport"><ref bean="glScrubberReport" /></property>
 		<property name="optionsDao"><ref bean="optionsDao" /></property>
 	</bean>
-	
+
 	<bean id="glSufficientFundsRebuilderService" class="org.kuali.module.gl.service.impl.SufficientFundsRebuilderServiceImpl">
 		<property name="dateTimeService"><ref bean="dateTimeService" /></property>
 		<property name="kualiConfigurationService"><ref bean="kualiConfigurationService" /></property>
@@ -126,6 +126,7 @@
 
 	<bean id="glPostBalance" class="org.kuali.module.gl.batch.poster.impl.PostBalance">
 		<property name="balanceDao"><ref bean="glBalanceDao" /></property>
+		<property name="dateTimeService"><ref bean="dateTimeService" /></property>
 	</bean>
 
 	<bean id="glPostGlAccountBalance" class="org.kuali.module.gl.batch.poster.impl.PostGlAccountBalance">
@@ -224,9 +225,4 @@
 	<bean id="glSufficientFundRebuildDao" class="org.kuali.module.gl.dao.ojb.SufficientFundRebuildDaoOjb">
 		<property name="jcdAlias"><value>dataSource</value></property>
 	</bean>
-	
-	<!--  GL Calculators -->	
-	<bean id="glEncumbranceCalculator" class="org.kuali.module.gl.batch.poster.impl.PostEncumbrance" />
-	<bean id="glBalanceCalculator" class="org.kuali.module.gl.batch.poster.impl.PostBalance" />
-	
 </beans>

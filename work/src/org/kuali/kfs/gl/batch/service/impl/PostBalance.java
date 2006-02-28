@@ -26,11 +26,13 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 
+import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.gl.batch.poster.BalanceCalculator;
 import org.kuali.module.gl.batch.poster.PostTransaction;
 import org.kuali.module.gl.bo.Balance;
 import org.kuali.module.gl.bo.Transaction;
+import org.kuali.module.gl.bo.UniversityDate;
 import org.kuali.module.gl.dao.BalanceDao;
 
 /**
@@ -41,6 +43,7 @@ public class PostBalance implements PostTransaction, BalanceCalculator {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PostBalance.class);
 
     private BalanceDao balanceDao;
+    private DateTimeService dateTimeService;
 
     /**
      *  
@@ -92,7 +95,8 @@ public class PostBalance implements PostTransaction, BalanceCalculator {
 
             if (b.getUniversityFiscalYear().equals(t.getUniversityFiscalYear())
                     && b.getChartOfAccountsCode().equals(t.getChartOfAccountsCode())
-                    && b.getAccountNumber().equals(t.getAccountNumber()) && b.getSubAccountNumber().equals(t.getSubAccountNumber())
+                    && b.getAccountNumber().equals(t.getAccountNumber()) 
+                    && b.getSubAccountNumber().equals(t.getSubAccountNumber())
                     && b.getObjectCode().equals(t.getFinancialObjectCode())
                     && b.getSubObjectCode().equals(t.getFinancialSubObjectCode())
                     && b.getBalanceTypeCode().equals(t.getFinancialBalanceTypeCode())
@@ -103,7 +107,6 @@ public class PostBalance implements PostTransaction, BalanceCalculator {
 
         // If we couldn't find one that exists, create a new one
         Balance b = new Balance(t);
-
         balanceList.add(b);
 
         return b;
@@ -127,6 +130,11 @@ public class PostBalance implements PostTransaction, BalanceCalculator {
 
         // update the balance amount of the cooresponding period
         String period = t.getUniversityFiscalPeriodCode();
+        if(period == null){
+            UniversityDate currentUniversityDate = dateTimeService.getCurrentUniversityDate();
+            period = currentUniversityDate.getUniversityFiscalAccountingPeriod();
+        }
+        
         b.setAmount(period, b.getAmount(period).add(amount));
     }
 
@@ -136,5 +144,13 @@ public class PostBalance implements PostTransaction, BalanceCalculator {
 
     public void setBalanceDao(BalanceDao bd) {
         balanceDao = bd;
+    }
+    
+    /**
+     * Sets the dateTimeService attribute value.
+     * @param dateTimeService The dateTimeService to set.
+     */
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
     }
 }

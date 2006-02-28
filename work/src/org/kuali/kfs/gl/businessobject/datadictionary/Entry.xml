@@ -68,6 +68,8 @@
 			</lookupFields>
 			
 			<resultFields>         
+                <field attributeName="universityFiscalYear" />
+                <field attributeName="chartOfAccountsCode" />
                 <field attributeName="accountNumber" />
                 <field attributeName="subAccountNumber" />
                 <field attributeName="financialObjectCode" />
@@ -91,7 +93,11 @@
 
             <attributeReference name="chartOfAccountsCode" 
 				sourceClassName="org.kuali.module.chart.bo.Chart" 
-				sourceAttributeName="chartOfAccountsCode" />
+				sourceAttributeName="chartOfAccountsCode">
+				<control>
+					<select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder"/>					
+				</control>
+			</attributeReference>
             					
             <attributeReference name="accountNumber" 
 				sourceClassName="org.kuali.module.chart.bo.Account" 

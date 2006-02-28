@@ -52,7 +52,13 @@
 					<defaultValueFinderClass>
 						org.kuali.module.gl.web.optionfinder.GLAmountViewOptionFinder
 					</defaultValueFinderClass>
-				</lookupField>				
+				</lookupField>
+					
+				<lookupField attributeName="dummyBusinessObject.pendingEntryOption">
+					<defaultValueFinderClass>
+						org.kuali.module.gl.web.optionfinder.GLPendingEntryOptionFinder
+					</defaultValueFinderClass>
+				</lookupField>							
 			</lookupFields>
 			
 			<resultFields>
@@ -91,7 +97,11 @@
 										
             <attributeReference name="chartOfAccountsCode" 
             					sourceClassName="org.kuali.module.chart.bo.Chart" 
-            					sourceAttributeName="chartOfAccountsCode" />
+            					sourceAttributeName="chartOfAccountsCode">
+				<control>
+					<select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder"/>					
+				</control>
+			</attributeReference>
 								
             <attributeReference name="accountNumber" 
             					sourceClassName="org.kuali.module.chart.bo.Account" 
@@ -107,8 +117,13 @@
 								
             <attributeReference name="subObjectCode" 
             					sourceClassName="org.kuali.module.chart.bo.SubObjCd" 
-            					sourceAttributeName="financialSubObjectCode" />            													
-
+            					sourceAttributeName="financialSubObjectCode" />   
+            					
+            <attributeReference name="objectTypeCode" 
+            					sourceClassName="org.kuali.module.chart.bo.ObjectType" 
+            					sourceAttributeName="code" />  
+            					         													
+			<!-- 
 			<attribute name="objectTypeCode">
                 <label>Object Type Code</label>
                 <shortLabel>Object Type Code</shortLabel>
@@ -119,6 +134,7 @@
                 <summary>objectTypeCode</summary>
                 <description>objectTypeCode description...</description>
             </attribute>
+            -->
             
 			<attributeReference name="balanceTypeCode" 
 								sourceClassName="org.kuali.module.chart.bo.codes.BalanceTyp" 

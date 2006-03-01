@@ -60,6 +60,7 @@
 		            <maintainableField name="accountRestrictedStatusDate" required="false" />
 		            <maintainableField name="endowmentIncomeAcctFinCoaCd" required="false" />
 		            <maintainableField name="endowmentIncomeAccountNumber" required="false" />
+		            <maintainableField name="versionNumber" />
                 </maintainableItems>
 	        </maintainableSection>
 	        <maintainableSection title="Account Responsibility">

@@ -898,13 +898,13 @@
 	<field-descriptor name="payeeCityName" column="DV_PAYEE_CTY_NM" jdbc-type="VARCHAR"/>
 	<field-descriptor name="payeeStateCode" column="DV_PAYEE_ST_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="payeeZipCode" column="DV_PAYEE_ZIP_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="payeeCountryCode" column="DV_PAYEE_CNTRY_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="payeeCountryCode" column="DV_PAYEE_CNTRY_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="taxpayerLine1Addr" column="DV_TXPYR_LN1_ADDR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="taxpayerLine2Addr" column="DV_TXPYR_LN2_ADDR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="taxpayerCityName" column="DV_TXPYR_CTY_NM" jdbc-type="VARCHAR"/>
 	<field-descriptor name="taxpayerStateCode" column="DV_TXPYR_ST_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="taxpayerZipCode" column="DV_TXPYR_ZIP_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="taxpayerCountryCode" column="DV_TXPYR_CNTRY_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="taxpayerCountryCode" column="DV_TXPYR_CNTRY_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="payeeOwnershipTypCd" column="DV_PAYEE_OWNTYP_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="payeeTaxCode" column="DV_PAYEE_TAX_CD" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanField10Conversion"/>
 	<field-descriptor name="payeeTaxControlCode" column="DV_PAYEE_TXCTRL_CD" jdbc-type="VARCHAR"/>
@@ -916,7 +916,8 @@
 	<field-descriptor name="payeeLastPaidDate" column="DV_PAYEE_LST_PD_DT" jdbc-type="TIMESTAMP"/>
 	<field-descriptor name="payeeEmployeeCode" column="DV_PAYEE_EMP_IND" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanField10Conversion"/>
 	<field-descriptor name="payeeRevolvingFundCode" column="DV_PAYEE_RVFND_IND" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanField10Conversion"/>
-
+	<field-descriptor name="disbursementVoucherPayeeTypeCode" column="DV_PAYEE_TYP_CD" jdbc-type="VARCHAR"/>
+	
 	<reference-descriptor name="payeeOwnershipTyp" class-ref="org.kuali.module.financial.bo.OwnershipTypeCode" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="payeeOwnershipTypCd" />
 	</reference-descriptor>
@@ -940,14 +941,14 @@
 	<field-descriptor name="disbVchrPayeeCityName" column="DV_PAYEE_CTY_NM" jdbc-type="VARCHAR"/>
 	<field-descriptor name="disbVchrPayeeStateCode" column="DV_PAYEE_ST_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="disbVchrPayeeZipCode" column="DV_PAYEE_ZIP_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="disbVchrPayeeCountryCode" column="DV_PAYEE_CNTRY_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="disbVchrPayeeCountryCode" column="DV_PAYEE_CNTRY_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="disbVchrRemitPersonName" column="DV_RMT_PRSN_NM" jdbc-type="VARCHAR"/>
 	<field-descriptor name="disbVchrRemitLine1Addr" column="DV_RMT_LN1_ADDR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="disbVchrRemitLine2Addr" column="DV_RMT_LN2_ADDR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="disbVchrRemitCityName" column="DV_RMT_CTY_NM" jdbc-type="VARCHAR"/>
 	<field-descriptor name="disbVchrRemitStateCode" column="DV_RMT_ST_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="disbVchrRemitZipCode" column="DV_RMT_ZIP_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="disbVchrRemitCountryCode" column="DV_RMT_CNTRY_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="disbVchrRemitCountryCode" column="DV_RMT_CNTRY_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="disbVchrPayeeEmployeeCode" column="DV_PAYEE_EMP_IND" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanField10Conversion"/>
 	<field-descriptor name="dvPayeeRevolvingFundCode" column="DV_PAYEE_RVFND_IND" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanField10Conversion"/>
 
@@ -1058,10 +1059,10 @@
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="disbVchrTravelFromCityName" column="DV_TRVLFROM_CTY_NM" jdbc-type="VARCHAR"/>
 	<field-descriptor name="disbVchrTravelFromStateCode" column="DV_TRVL_FROM_ST_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="dvTravelFromCountryCode" column="DV_TRVLFRMCNTRY_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="dvTravelFromCountryCode" column="DV_TRVL_FRM_CNTRY_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="disbVchrTravelToCityName" column="DV_TRVL_TO_CTY_NM" jdbc-type="VARCHAR"/>
 	<field-descriptor name="disbVchrTravelToStateCode" column="DV_TRVL_TO_ST_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="disbVchrTravelToCountryCode" column="DV_TRVLTO_CNTRY_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="disbVchrTravelToCountryCode" column="DV_TRVL_TO_CNTRY_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="dvPerdiemStartDttmStamp" column="DV_DIEM_STRT_TS" jdbc-type="TIMESTAMP"/>
 	<field-descriptor name="dvPerdiemEndDttmStamp" column="DV_DIEM_END_TS" jdbc-type="TIMESTAMP"/>
 	<field-descriptor name="disbVchrPerdiemCalculatedAmt" column="DV_DIEM_CALC_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
@@ -1148,7 +1149,7 @@
 	<field-descriptor name="disbVchrBankRoutingNumber" column="DV_BNK_RTNG_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="disbVchrBankCityName" column="DV_BNK_CTY_NM" jdbc-type="VARCHAR"/>
 	<field-descriptor name="disbVchrBankStateCode" column="DV_BNK_ST_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="disbVchrBankCountryCode" column="DV_BNK_CNTRY_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="disbVchrBankCountryCode" column="DV_BNK_CNTRY_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="disbVchrAttentionLineText" column="DV_ATTN_LN_TXT" jdbc-type="VARCHAR"/>
 	<field-descriptor name="disbVchrAdditionalWireText" column="DV_ADDL_WIRE_TXT" jdbc-type="VARCHAR"/>
 	<field-descriptor name="disbVchrPayeeAccountNumber" column="DV_PAYEE_ACCT_NBR" jdbc-type="VARCHAR"/>
@@ -1407,4 +1408,11 @@
 	<reference-descriptor name="financialOffsetChartOfAccount" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="financialOffsetChartOfAccountCode" />
 	</reference-descriptor>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.financial.bo.MessageOfTheDay" table="FP_MOTD_T">
+	<field-descriptor name="financialSystemOriginationCode" column="FS_ORIGIN_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<field-descriptor name="financialSystemMessageOfTheDayText" column="FS_MOTD_TXT" jdbc-type="VARCHAR"/>
 </class-descriptor>

@@ -23,7 +23,7 @@
 package org.kuali.module.gl.web;
 
 /**
- * This class...
+ * This class contains the constants being used by balance inquiry screens of general ledger
  * @author Bin Gao from Michigan State University
  */
 public final class Constant {
@@ -49,4 +49,22 @@ public final class Constant {
     public static final String BALANCE_TYPE_IE = "IE";
     public static final String BALANCE_TYPE_PE = "PE";
     public static final String BALANCE_TYPE_EX = "EX";
+    public static final String BALANCE_TYPE_CB = "CB";
+    public static final String BALANCE_TYPE_AC = "AC";    
+    
+    public static final String OBJECT_TYPE_EE = "EE";
+    public static final String OBJECT_TYPE_ES = "ES";
+    public static final String OBJECT_TYPE_EX = "EX";    
+    
+    public static final String CONSOLIDATED_SUB_ACCOUNT_NUMBER = "*ALL*";
+    public static final String CONSOLIDATED_SUB_OBJECT_CODE = "---";
+    public static final String CONSOLIDATED_OBJECT_TYPE_CODE = "--"; 
+    
+    public static final String GL_LOOKUPABLE_ACCOUNT_BALANCE = "glAccountBalanceLookupable";
+    public static final String GL_LOOKUPABLE_BALANCE = "glBalanceLookupable";
+    public static final String GL_LOOKUPABLE_CASH_BALANCE = "glCashBalanceLookupable";
+    public static final String GL_LOOKUPABLE_ENCUMBRANCE = "glEncumbranceLookupable"; 
+    public static final String GL_LOOKUPABLE_ENTRY = "glEntryLookupable";
+    public static final String GL_LOOKUPABLE_PENDING_ENTRY = "glPendingEntryLookupable";
+    
 }

@@ -123,7 +123,7 @@ public class AccountBalanceInquirableImpl extends KualiInquirableImpl {
             parameters.put(Constants.GL_BALANCE_INQUIRY_FLAG, "true");
             parameters.put(Constants.DISPATCH_REQUEST_PARAMETER, "search");
             parameters.put(Constants.DOC_FORM_KEY, "88888888");           
-            parameters.put(Constants.LOOKUPABLE_IMPL_ATTRIBUTE_NAME, "glBalanceLookupable");
+            parameters.put(Constants.LOOKUPABLE_IMPL_ATTRIBUTE_NAME, Constant.GL_LOOKUPABLE_BALANCE);
             parameters.put(Constant.AMOUNT_VIEW_OPTION, Constant.MONTHLY);
             
             String balanceTypeCode = (String)userDefinedAttributeMap.get(attributeName);
@@ -152,7 +152,8 @@ public class AccountBalanceInquirableImpl extends KualiInquirableImpl {
             Object keyValue = ObjectUtils.getPropertyValue(businessObject, keyConversion);
             keyValue = (keyValue == null) ? "" : keyValue.toString();
             
-            if(keyName.equals(PropertyConstants.SUB_ACCOUNT_NUMBER) && keyValue.equals("*ALL*")){
+            if(keyName.equals(PropertyConstants.SUB_ACCOUNT_NUMBER) 
+                    && keyValue.equals(Constant.CONSOLIDATED_SUB_ACCOUNT_NUMBER)){
                 keyValue = "";
             }
             
@@ -182,9 +183,9 @@ public class AccountBalanceInquirableImpl extends KualiInquirableImpl {
     private static Map getUserDefinedAttributeMap(){
         Map userDefinedAttributeMap = new HashMap();
         
-        userDefinedAttributeMap.put(PropertyConstants.CURRENT_BUDGET_LINE_BALANCE_AMOUNT, "CB"); 
-        userDefinedAttributeMap.put(PropertyConstants.ACCOUNT_LINE_ACTUALS_BALANCE_AMOUNT, "AC");
-        userDefinedAttributeMap.put(PropertyConstants.ACCOUNT_LINE_ENCUMBRANCE_BALANCE_AMOUNT, "EX");
+        userDefinedAttributeMap.put(PropertyConstants.CURRENT_BUDGET_LINE_BALANCE_AMOUNT, Constant.BALANCE_TYPE_CB); 
+        userDefinedAttributeMap.put(PropertyConstants.ACCOUNT_LINE_ACTUALS_BALANCE_AMOUNT, Constant.BALANCE_TYPE_AC);
+        userDefinedAttributeMap.put(PropertyConstants.ACCOUNT_LINE_ENCUMBRANCE_BALANCE_AMOUNT, Constant.BALANCE_TYPE_EX);
         
         return userDefinedAttributeMap;
     }    

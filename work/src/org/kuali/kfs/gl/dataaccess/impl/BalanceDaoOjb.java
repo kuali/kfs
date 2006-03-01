@@ -163,7 +163,7 @@ public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements Balanc
         List attributeList = buildAttributeList(false);
         List groupByList   = buildGroupByList();
         
-        // if consolidated, then ignore subaccount number
+        // if consolidated, then ignore the following fields
         if(isConsolidated){
             attributeList.remove("subAccountNumber");
             groupByList.remove("subAccountNumber");

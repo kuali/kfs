@@ -43,6 +43,7 @@ import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.util.UrlFactory;
 import org.kuali.module.gl.bo.Entry;
 import org.kuali.module.gl.util.BusinessObjectFieldConverter;
+import org.kuali.module.gl.web.Constant;
 
 /**
  * This class...
@@ -124,7 +125,7 @@ public class BalanceInquirableImpl extends KualiInquirableImpl {
             parameters.put(Constants.GL_BALANCE_INQUIRY_FLAG, "true");
             parameters.put(Constants.DISPATCH_REQUEST_PARAMETER, "search");
             parameters.put(Constants.DOC_FORM_KEY, "88888888");
-            parameters.put(Constants.LOOKUPABLE_IMPL_ATTRIBUTE_NAME, "glEntryLookupable");
+            parameters.put(Constants.LOOKUPABLE_IMPL_ATTRIBUTE_NAME, Constant.GL_LOOKUPABLE_ENTRY);
 
             String periodCode = (String) userDefinedAttributeMap.get(attributeName);
             parameters.put(Constants.UNIVERSITY_FISCAL_PERIOD_CODE_PROPERTY_NAME, periodCode);
@@ -154,7 +155,7 @@ public class BalanceInquirableImpl extends KualiInquirableImpl {
             Object keyValue = ObjectUtils.getPropertyValue(businessObject, keyConversion);
             keyValue = (keyValue == null) ? "" : keyValue.toString();
 
-            if(excludeFields(keyName, keyValue)){
+            if(isExclusiveField(keyName, keyValue)){
                 keyValue = "";
             }
 
@@ -208,20 +209,24 @@ public class BalanceInquirableImpl extends KualiInquirableImpl {
     }
 
     /**
-     * This method...
-     * @param keyName
-     * @param keyValue
+     * This method determines whether the input name-value pair is exclusive from the processing
+     * @param keyName the name of the name-value pair
+     * @param keyValue the value of the name-value pair
      * @return true if the input key is in the exclusive list; otherwise, false
      */
-    private static boolean excludeFields(Object keyName, Object keyValue) {
+    private static boolean isExclusiveField(Object keyName, Object keyValue) {
+        
         if (keyName != null && keyValue != null) {
-            if (keyName.equals(PropertyConstants.SUB_ACCOUNT_NUMBER) && keyValue.equals("*ALL*")) {
+            if (keyName.equals(PropertyConstants.SUB_ACCOUNT_NUMBER) 
+                    && keyValue.equals(Constant.CONSOLIDATED_SUB_ACCOUNT_NUMBER)) {
                 return true;
             }
-            else if (keyName.equals(PropertyConstants.SUB_OBJECT_CODE) && keyValue.equals("---")) {
+            else if (keyName.equals(PropertyConstants.SUB_OBJECT_CODE) 
+                    && keyValue.equals(Constant.CONSOLIDATED_SUB_OBJECT_CODE)) {
                 return true;
             }
-            else if (keyName.equals(PropertyConstants.OBJECT_TYPE_CODE) && keyValue.equals("--")) {
+            else if (keyName.equals(PropertyConstants.OBJECT_TYPE_CODE) 
+                    && keyValue.equals(Constant.CONSOLIDATED_OBJECT_TYPE_CODE)) {
                 return true;
             }
         }

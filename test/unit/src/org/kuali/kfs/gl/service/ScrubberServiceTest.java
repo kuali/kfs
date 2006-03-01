@@ -155,13 +155,15 @@ public class ScrubberServiceTest extends KualiTestBaseWithSpringOnly {
 
     */
 
-    public void dontRunTestEncumbranceUpdateCodeOnNonEncumbrancePeriod()
+    /*
+    public void testEncumbranceUpdateCodeOnNonEncumbrancePeriod()
             throws Exception {
-        // Setup
+
         String[] inputTransactions = {
-        		"2004BL1031420-----4110---ACEX07ID33EUCHECKENCC     NOV-05 IMU Business Office          2224           241.75C2005-11-30          ----------                                 D                                        ",
-        		"2004BL1031420-----9892---ACFB07ID33EUCHECKENCC     NOV-05 IMU Business Office          2237           241.75D2005-11-30          ----------                                 D                                        "
+                "2004BL1031420-----4110---ACEX07ID33EUCHECKENCC     NOV-05 IMU Business Office          2224           241.75C2005-11-30          ----------                                 D                                        ",
+                "2004BL1031420-----9892---ACFB07ID33EUCHECKENCC     NOV-05 IMU Business Office          2237           241.75D2005-11-30          ----------                                 D                                        "
         };
+
         EntryHolder[] outputTransactions = {
             new EntryHolder(OriginEntrySource.EXTERNAL,inputTransactions[0]),
             new EntryHolder(OriginEntrySource.EXTERNAL,inputTransactions[1]),
@@ -172,31 +174,34 @@ public class ScrubberServiceTest extends KualiTestBaseWithSpringOnly {
         scrub(inputTransactions);
         assertOriginEntries(outputTransactions);
     }
+    */
 
-    public void dontRunTestInvalidEncumbranceUpdateCode() throws Exception {
-        // Setup
+    public void testInvalidEncumbranceUpdateCode() throws Exception {
+        
         String[] inputTransactions = {
                 "2004BL1031420-----4110---IEEX07PAYEEUINVALENCC     NOV-05 IMU Business Office          2224           241.75C2005-11-30          ----------                                 X                                        ",
                 "2004BL1031420-----9892---IEAS07PAYEEUINVALENCC     NOV-05 IMU Business Office          2237           241.75D2005-11-30          ----------                                 X                                        "
         };
+        
         EntryHolder[] outputTransactions = {
             new EntryHolder(OriginEntrySource.EXTERNAL,inputTransactions[0]),
             new EntryHolder(OriginEntrySource.EXTERNAL,inputTransactions[1]),
             new EntryHolder(OriginEntrySource.SCRUBBER_ERROR,inputTransactions[0]),
             new EntryHolder(OriginEntrySource.SCRUBBER_ERROR,inputTransactions[1])
         };
-
+        
         scrub(inputTransactions);
         assertOriginEntries(outputTransactions);
     }
 
-    public void dontRunTestBlankEncumbranceUpdateCodeOnEncumbranceRecord()
+    public void testBlankEncumbranceUpdateCodeOnEncumbranceRecord()
             throws Exception {
-        // Setup
+
         String[] inputTransactions = {
                 "2004BL1031400-----4100---PEEX07TF  01BLANKENCC     Rite Quality Office Supplies Inc.                   94.35D2006-01-05          ----------                                                                          ",
                 "2004BL1031400-----9891---PEFB07TF  01BLANKENCC     Rite Quality Office Supplies Inc.                   94.35C2006-01-05          ----------                                                                          "
         };
+        
         EntryHolder[] outputTransactions = {
             new EntryHolder(OriginEntrySource.EXTERNAL,inputTransactions[0]),
             new EntryHolder(OriginEntrySource.EXTERNAL,inputTransactions[1]),

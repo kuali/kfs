@@ -70,7 +70,7 @@ import org.springframework.util.StringUtils;
 
 /**
  * @author Anthony Potts
- * @version $Id: ScrubberServiceImpl.java,v 1.54 2006-02-28 22:03:22 larevans Exp $
+ * @version $Id: ScrubberServiceImpl.java,v 1.55 2006-03-01 16:10:48 larevans Exp $
  */
 
 public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
@@ -1116,7 +1116,8 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         workingEntry.setAccountNumber(tmpAccountNumber);
         workingEntry.setSubAccountNumber(tmpSubAccountNumber);
         workingEntry.setChartOfAccountsCode(tmpCOA);
-    }// End of method
+        
+    }
 
     /**
      * @param inputEntry

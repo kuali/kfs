@@ -775,20 +775,18 @@ public class JournalVoucherDocumentRuleTest
     public void testProcessAddAccountingLineBusinessRules_emptyReferenceOriginCode()
         throws Exception
     {
-        AccountingLine line = (AccountingLine) getFixtureEntry("externalEncumbranceSourceLine").createObject();
+        AccountingLine line = createLineFromFixture("externalEncumbranceSourceLine");
         line.setReferenceOriginCode("");
-        line.refresh();
         testProcessAddAccountingLineBusinessRules(line, PropertyConstants.REFERENCE_ORIGIN_CODE, KeyConstants.ERROR_REQUIRED);
     }
 
     public void testProcessAddAccountingLineBusinessRules_emptyReferences()
         throws Exception
     {
-        AccountingLine line = (AccountingLine) getFixtureEntry("externalEncumbranceSourceLine").createObject();
+        AccountingLine line = createLineFromFixture("externalEncumbranceSourceLine");
         line.setReferenceOriginCode("");
         line.setReferenceNumber("");
         line.setReferenceTypeCode("");
-        line.refresh();
         testProcessAddAccountingLineBusinessRules(line, PropertyConstants.REFERENCE_ORIGIN_CODE, KeyConstants.ERROR_REQUIRED);
         assertGlobalErrorMapContains( PropertyConstants.REFERENCE_NUMBER, KeyConstants.ERROR_REQUIRED);
         assertGlobalErrorMapContains( PropertyConstants.REFERENCE_TYPE_CODE, KeyConstants.ERROR_REQUIRED);
@@ -803,48 +801,41 @@ public class JournalVoucherDocumentRuleTest
     public void testProcessAddAccountingLineBusinessRules_invalidReferenceOriginCode()
         throws Exception
     {
-        AccountingLine line = (AccountingLine) getFixtureEntry("externalEncumbranceSourceLine").createObject();
+        AccountingLine line = createLineFromFixture("externalEncumbranceSourceLine");
         line.setReferenceOriginCode("42");
-        line.refresh();
         testProcessAddAccountingLineBusinessRules(line, PropertyConstants.REFERENCE_ORIGIN_CODE, KeyConstants.ERROR_EXISTENCE);
     }
 
     public void testProcessAddAccountingLineBusinessRules_invalidReferenceTypeCode()
         throws Exception
     {
-        AccountingLine line = (AccountingLine) getFixtureEntry("externalEncumbranceSourceLine").createObject();
+        AccountingLine line = createLineFromFixture("externalEncumbranceSourceLine");
         line.setReferenceTypeCode("42");
-        line.refresh();
         testProcessAddAccountingLineBusinessRules(line, PropertyConstants.REFERENCE_TYPE_CODE, KeyConstants.ERROR_EXISTENCE);
+        assertGlobalErrorMapNotContains(line.toString(), PropertyConstants.REFERENCE_TYPE_CODE, KeyConstants.ERROR_REQUIRED);
+        assertGlobalErrorMapSize(line.toString(), 1);
     }
 
     private void testProcessAddAccountingLineBusinessRules(String fixtureName, String expectedErrorFieldName, String expectedErrorKey)
         throws Exception
     {
-        AccountingLine line = (AccountingLine) getFixtureEntry(fixtureName).createObject();
-        line.refresh();
-        testProcessAddAccountingLineBusinessRules(line, expectedErrorFieldName, expectedErrorKey);
+        testProcessAddAccountingLineBusinessRules(createLineFromFixture(fixtureName), expectedErrorFieldName, expectedErrorKey);
     }
 
     private void testProcessAddAccountingLineBusinessRules(AccountingLine line, String expectedErrorFieldName, String expectedErrorKey)
         throws Exception
     {
+        line.refresh();
         assertGlobalErrorMapEmpty();
         boolean wasValid = getAddAccountingLineRule().processAddAccountingLineBusinessRules(createDocumentUnbalanced(), line);
         if (expectedErrorFieldName == null) {
-            assertGlobalErrorMapEmpty();  // fail printing error map for debugging before failing on simple result
-            assertEquals("wasValid", true, wasValid);
+            assertGlobalErrorMapEmpty(line.toString());  // fail printing error map for debugging before failing on simple result
+            assertEquals("wasValid " + line, true, wasValid);
         }
         else {
-            assertGlobalErrorMapContains(expectedErrorFieldName, expectedErrorKey);
-            assertEquals("wasValid", false, wasValid);
+            assertGlobalErrorMapContains(line.toString(), expectedErrorFieldName, expectedErrorKey);
+            assertEquals("wasValid " + line, false, wasValid);
         }
-    }
-
-    public void testProcessSaveDocument_Valid()
-        throws Exception
-    {
-        super.testProcessSaveDocument_Valid();    //To change body of overridden methods use File | Settings | File Templates.
     }
 
     ///////////////////////////////////////////////////////////////////////////

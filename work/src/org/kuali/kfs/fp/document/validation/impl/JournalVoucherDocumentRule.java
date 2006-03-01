@@ -31,13 +31,12 @@ import org.kuali.PropertyConstants;
 import org.kuali.core.bo.AccountingLine;
 import org.kuali.core.bo.SourceAccountingLine;
 import org.kuali.core.datadictionary.BusinessObjectEntry;
-import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.document.Document;
+import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.chart.bo.ObjectType;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
@@ -364,7 +363,7 @@ public class JournalVoucherDocumentRule extends TransactionalDocumentRuleBase {
 
         BusinessObjectEntry boe = SpringServiceLocator.getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(
                 SourceAccountingLine.class);
-        if (ObjectUtils.isNull(accountingLine.getReferenceOrigin())) {
+        if (StringUtils.isEmpty(accountingLine.getReferenceOriginCode())) {
             putRequiredPropertyError(boe, PropertyConstants.REFERENCE_ORIGIN_CODE);
             valid = false;
         }
@@ -372,7 +371,7 @@ public class JournalVoucherDocumentRule extends TransactionalDocumentRuleBase {
             putRequiredPropertyError(boe, PropertyConstants.REFERENCE_NUMBER);
             valid = false;
         }
-        if (ObjectUtils.isNull(accountingLine.getReferenceType())) {
+        if (StringUtils.isEmpty(accountingLine.getReferenceTypeCode())) {
             putRequiredPropertyError(boe, PropertyConstants.REFERENCE_TYPE_CODE);
             valid = false;
         }

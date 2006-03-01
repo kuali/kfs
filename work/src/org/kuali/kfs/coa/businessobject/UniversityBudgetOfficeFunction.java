@@ -25,19 +25,9 @@
 
 package org.kuali.module.chart.bo;
 
-import org.kuali.core.bo.user.*;
 import java.util.LinkedHashMap;
-import org.kuali.module.financial.bo.*;
-import org.kuali.module.cg.bo.*;
-import org.kuali.module.chart.bo.codes.*;
-import org.kuali.module.cams.bo.*;
-import org.kuali.module.chart.bo.*;
-import org.kuali.core.document.*;
+
 import org.kuali.core.bo.BusinessObjectBase;
-import org.kuali.module.ar.bo.*;
-import org.kuali.module.labor.bo.*;
-import org.kuali.module.kra.bo.*;
-import org.kuali.core.bo.*;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)

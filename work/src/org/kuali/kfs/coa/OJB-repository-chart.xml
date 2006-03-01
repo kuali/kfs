@@ -310,6 +310,13 @@
 		jdbc-type="VARCHAR" index="true" />
 	<field-descriptor name="versionNumber" column="VER_NBR"
 		jdbc-type="BIGINT" locking="true" />
+
+	<reference-descriptor name="universityBudgetOfficeFunction" 
+		class-ref="org.kuali.module.chart.bo.UniversityBudgetOfficeFunction" 
+		auto-retrieve="true" auto-update="none" auto-delete="none" 
+		proxy="true">
+		<foreignkey field-ref="finUnivBdgtOfficeFunctionCd" />
+	</reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.chart.bo.RestrictedStatus"
@@ -1812,4 +1819,11 @@
 	<field-descriptor name="universityFiscalPeriodStatusCode" column="UNIV_FSCPD_STAT_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="budgetRolloverIndicator" column="BDGT_ROLLOVER_CD" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanFieldTFConversion"/>
 	<field-descriptor name="universityFiscalPeriodEndDate" column="UNIV_FSCPD_END_DT" jdbc-type="DATE"/>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.chart.bo.UniversityBudgetOfficeFunction" table="CA_UBO_FUNC_T">
+	<field-descriptor name="financialUniversityBudgetOfficeFunctionCode" column="FIN_UBO_FUNC_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<field-descriptor name="financialUniversityBudgetOfficeFunctionName" column="FIN_UBO_FUNC_NM" jdbc-type="VARCHAR"/>
 </class-descriptor>

@@ -34,20 +34,21 @@ import org.kuali.core.bo.BusinessObjectBase;
  */
 public class HigherEdFunction extends BusinessObjectBase {
 
-	/**
-	 * Default no-arg constructor.
-	 */
-	public HigherEdFunction() {
-
-	}
-
 	private String financialHigherEdFunctionCd;
 	private String financialHigherEdFunctionNm;
 	private String finUnivBdgtOfficeFunctionCd;
 	private String finAicpaFunctionCode;
 	private String financialFederalFunctionCode;
+    private UniversityBudgetOfficeFunction universityBudgetOfficeFunction;
+    
+    /**
+     * Default no-arg constructor.
+     */
+    public HigherEdFunction() {
 
-	/**
+    }
+    
+    /**
 	 * Gets the financialHigherEdFunctionCd attribute.
 	 * 
 	 * @return - Returns the financialHigherEdFunctionCd
@@ -147,6 +148,21 @@ public class HigherEdFunction extends BusinessObjectBase {
 		this.financialFederalFunctionCode = financialFederalFunctionCode;
 	}
 
+    /**
+     * @return Returns the universityBudgetOfficeFunction.
+     */
+    public UniversityBudgetOfficeFunction getUniversityBudgetOfficeFunction() {
+        return universityBudgetOfficeFunction;
+    }
+
+    /**
+     * @param universityBudgetOfficeFunction The universityBudgetOfficeFunction to set.
+     * @deprecated
+     */
+    public void setUniversityBudgetOfficeFunction(UniversityBudgetOfficeFunction universityBudgetOfficeFunction) {
+        this.universityBudgetOfficeFunction = universityBudgetOfficeFunction;
+    }    
+    
 	/**
 	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
 	 */
@@ -157,4 +173,6 @@ public class HigherEdFunction extends BusinessObjectBase {
 
 			return m;
 	}
+
+
 }

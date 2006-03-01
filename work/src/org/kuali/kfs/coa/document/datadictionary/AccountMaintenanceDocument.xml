@@ -30,7 +30,14 @@
         <lockingKeys>
 			<field attributeName="chartOfAccountsCode" />
 			<field attributeName="accountNumber" />
-		</lockingKeys>		        
+		</lockingKeys>		 
+		
+		<applyApcRules>
+			<apcRule attributeName="budgetRecordingLevelCode"
+				     apcGroup="ChartMaintenanceEDoc"
+				     apcRule="Account.BudgetCodesRestriction"
+				     errorMessage="error.document.accountMaintenance.invalidBudgetRecordingLevel" />
+		</applyApcRules>       
 
 	    <maintainableSections>
 	        <maintainableSection title="Account Maintenance">

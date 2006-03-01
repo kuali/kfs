@@ -28,6 +28,7 @@ package org.kuali.module.financial.document;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
@@ -655,7 +656,7 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
             return;
         }
 
-        this.getDvPayeeDetail().setDvPayeeType(DisbursementVoucherRuleConstants.DV_PAYEE_TYPE_PAYEE);
+        this.getDvPayeeDetail().setDisbursementVoucherPayeeTypeCode(DisbursementVoucherRuleConstants.DV_PAYEE_TYPE_PAYEE);
         this.getDvPayeeDetail().setDisbVchrPayeeIdNumber(payee.getPayeeIdNumber());
         this.getDvPayeeDetail().setDisbVchrPayeePersonName(payee.getPayeePersonName());
         this.getDvPayeeDetail().setDisbVchrPayeeLine1Addr(payee.getPayeeLine1Addr());
@@ -682,12 +683,12 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
             return;
         }
 
-        this.getDvPayeeDetail().setDvPayeeType(DisbursementVoucherRuleConstants.DV_PAYEE_TYPE_EMPLOYEE);
+        this.getDvPayeeDetail().setDisbursementVoucherPayeeTypeCode(DisbursementVoucherRuleConstants.DV_PAYEE_TYPE_EMPLOYEE);
         this.getDvPayeeDetail().setDisbVchrPayeeIdNumber(employee.getPersonUniversalIdentifier());
         this.getDvPayeeDetail().setDisbVchrPayeePersonName(employee.getPersonName());
         this.getDvPayeeDetail().setDisbVchrPayeeLine1Addr(employee.getDeptid());
         this.getDvPayeeDetail().setDisbVchrPayeeLine2Addr("");
-        this.getDvPayeeDetail().setDisbVchrPayeeCityName("");
+        this.getDvPayeeDetail().setDisbVchrPayeeCityName(employee.getCampus().getCampusName());
         this.getDvPayeeDetail().setDisbVchrPayeeStateCode("");
         this.getDvPayeeDetail().setDisbVchrPayeeZipCode("");
         this.getDvPayeeDetail().setDisbVchrPayeeCountryCode("");
@@ -796,5 +797,23 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
         setDisbursementVoucherDocumentationLocationCode(SpringServiceLocator.getKualiConfigurationService()
                 .getApplicationParameterValue(DisbursementVoucherRuleConstants.DV_DOCUMENT_PARAMETERS_GROUP_NM,
                         DisbursementVoucherRuleConstants.DEFAULT_DOC_LOCATION_PARM_NM));
+    }
+    
+    /**
+     * @see org.kuali.core.document.DocumentBase#buildListOfDeletionAwareLists()
+     */
+    public List buildListOfDeletionAwareLists() {
+        List managedLists = super.buildListOfDeletionAwareLists();
+
+        if (dvNonEmployeeTravel != null) {
+          managedLists.add(dvNonEmployeeTravel.getDvNonEmployeeExpenses());
+          managedLists.add(dvNonEmployeeTravel.getDvPrePaidEmployeeExpenses());
+        }
+        
+        if (dvPreConferenceDetail != null) {
+            managedLists.add(dvPreConferenceDetail.getDvPreConferenceRegistrants());
+        }
+
+        return managedLists;
     }
 }

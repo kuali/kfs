@@ -22,7 +22,7 @@
                                   sourceClassName="org.kuali.module.financial.bo.Payee"
                                   sourceAttributeName="payeeIdNumber"/>
                                   
-              <attribute name="dvPayeeType">
+              <attribute name="disbursementVoucherPayeeTypeCode">
 	            <label>Payee Type</label>
 	            <shortLabel>Pay Type</shortLabel>
 	            

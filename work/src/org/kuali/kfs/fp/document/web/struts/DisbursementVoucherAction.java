@@ -435,13 +435,15 @@ public class DisbursementVoucherAction extends KualiTransactionalDocumentActionB
         // substitute bo class and mapping if the type is Employee, lookup already setup for Payee
         DisbursementVoucherForm dvForm = (DisbursementVoucherForm) form;
         DisbursementVoucherDocument document = (DisbursementVoucherDocument) dvForm.getDocument();
+   
+        String fullParameter = (String) request.getAttribute(Constants.METHOD_TO_CALL_ATTRIBUTE);
+        String boClassName = StringUtils.substringBetween(fullParameter, Constants.METHOD_TO_CALL_BOPARM_LEFT_DEL,
+                Constants.METHOD_TO_CALL_BOPARM_RIGHT_DEL);
 
-        if (document.getDvPayeeDetail().isEmployee()) {
-            String fullParameter = (String) request.getAttribute(Constants.METHOD_TO_CALL_ATTRIBUTE);
-            String boClassName = StringUtils.substringBetween(fullParameter, Constants.METHOD_TO_CALL_BOPARM_LEFT_DEL,
-                    Constants.METHOD_TO_CALL_BOPARM_RIGHT_DEL);
+        if ("org.kuali.module.financial.bo.Payee".equals(boClassName) && document.getDvPayeeDetail().isEmployee()) {
             String conversionFields = StringUtils.substringBetween(fullParameter, Constants.METHOD_TO_CALL_PARM1_LEFT_DEL,
                     Constants.METHOD_TO_CALL_PARM1_RIGHT_DEL);
+            
             fullParameter = StringUtils.replace(fullParameter, boClassName, "org.kuali.core.bo.user.UniversalUser");
             fullParameter = StringUtils.replace(fullParameter, conversionFields,
                     "personUniversalIdentifier:document.dvPayeeDetail.disbVchrPayeeIdNumber");

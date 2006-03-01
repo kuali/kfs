@@ -56,9 +56,6 @@ public class DisbursementVoucherPayeeDetail extends BusinessObjectBase {
     private boolean disbVchrPayeeEmployeeCode;
     private boolean dvPayeeRevolvingFundCode;
     private String disbursementVoucherPayeeTypeCode;
-    
-    // non-database fields
-    private String dvPayeeType;
 
     private PaymentReasonCode disbVchrPaymentReason;
 
@@ -511,26 +508,11 @@ public class DisbursementVoucherPayeeDetail extends BusinessObjectBase {
     }
 
     /**
-     * @return Returns the dvPayeeType.
-     */
-    public String getDvPayeeType() {
-        return dvPayeeType;
-    }
-
-
-    /**
-     * @param dvPayeeType The dvPayeeType to set.
-     */
-    public void setDvPayeeType(String dvPayeeType) {
-        this.dvPayeeType = dvPayeeType;
-    }
-
-    /**
      * Checks the payee type code for vendor type
      * @return
      */
     public boolean isVendor() {
-        return DisbursementVoucherRuleConstants.DV_PAYEE_TYPE_VENDOR.equals(dvPayeeType);
+        return DisbursementVoucherRuleConstants.DV_PAYEE_TYPE_VENDOR.equals(disbursementVoucherPayeeTypeCode);
     }
 
     /**
@@ -538,7 +520,7 @@ public class DisbursementVoucherPayeeDetail extends BusinessObjectBase {
      * @return
      */
     public boolean isPayee() {
-        return DisbursementVoucherRuleConstants.DV_PAYEE_TYPE_PAYEE.equals(dvPayeeType);
+        return DisbursementVoucherRuleConstants.DV_PAYEE_TYPE_PAYEE.equals(disbursementVoucherPayeeTypeCode);
     }
 
     /**
@@ -546,7 +528,7 @@ public class DisbursementVoucherPayeeDetail extends BusinessObjectBase {
      * @return
      */
     public boolean isEmployee() {
-        return DisbursementVoucherRuleConstants.DV_PAYEE_TYPE_EMPLOYEE.equals(dvPayeeType);
+        return DisbursementVoucherRuleConstants.DV_PAYEE_TYPE_EMPLOYEE.equals(disbursementVoucherPayeeTypeCode);
     }
 
     /**

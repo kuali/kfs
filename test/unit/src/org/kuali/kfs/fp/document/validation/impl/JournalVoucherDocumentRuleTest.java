@@ -113,7 +113,6 @@ public class JournalVoucherDocumentRuleTest
 
     protected final List getValidObjectSubTypeSourceLines() throws Exception {
         List retval = new ArrayList();
-        retval.add( getSourceLineParameter3().createLine() );
         retval.add( getSourceLineParameter6().createLine() );
         return retval;
     }

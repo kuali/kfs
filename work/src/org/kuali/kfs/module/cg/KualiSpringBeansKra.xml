@@ -49,6 +49,12 @@
         </property>
     </bean>
     
+    <bean id="budgetTypeCodeService" class="org.kuali.module.kra.service.impl.BudgetTypeCodeServiceImpl">
+    		<property name="budgetTypeCodeDao">
+    				<ref bean="budgetTypeCodeDao" />
+    		</property>
+    </bean>
+    
     <bean id="budgetGraduateAssistantRateService" class="org.kuali.module.kra.service.impl.BudgetGraduateAssistantRateServiceImpl">
         <property name="graduateAssistantRateDao">
             <ref bean="graduateAssistantRateDao" />

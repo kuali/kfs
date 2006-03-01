@@ -39,7 +39,10 @@ public class HigherEdFunction extends BusinessObjectBase {
 	private String finUnivBdgtOfficeFunctionCd;
 	private String finAicpaFunctionCode;
 	private String financialFederalFunctionCode;
+
     private UniversityBudgetOfficeFunction universityBudgetOfficeFunction;
+    private FederalFunction federalFunction;
+    private AicpaFunction aicpaFunction;     //American Institute of Certified Public Accountants
     
     /**
      * Default no-arg constructor.
@@ -162,17 +165,46 @@ public class HigherEdFunction extends BusinessObjectBase {
     public void setUniversityBudgetOfficeFunction(UniversityBudgetOfficeFunction universityBudgetOfficeFunction) {
         this.universityBudgetOfficeFunction = universityBudgetOfficeFunction;
     }    
+
+    /**
+     * @return Returns the federalFunction.
+     */
+    public FederalFunction getFederalFunction() {
+        return federalFunction;
+    }
+
+    /**
+     * @param federalFunction The federalFunction to set.
+     * @deprecated
+     */
+    public void setFederalFunction(FederalFunction federalFunction) {
+        this.federalFunction = federalFunction;
+    }    
+
+    /**
+     * @return Returns the aicpaFunction.
+     */
+    public AicpaFunction getAicpaFunction() {
+        return aicpaFunction;
+    }
+
+    /**
+     * @param aicpaFunction The aicpaFunction to set.
+     * @deprecated
+     */
+    public void setAicpaFunction(AicpaFunction aicpaFunction) {
+        this.aicpaFunction = aicpaFunction;
+    }    
     
 	/**
 	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {
 			LinkedHashMap m = new LinkedHashMap();
-
 			m.put("financialHigherEdFunctionCd", this.financialHigherEdFunctionCd);
-
 			return m;
 	}
+
 
 
 }

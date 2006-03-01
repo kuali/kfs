@@ -317,6 +317,20 @@
 		proxy="true">
 		<foreignkey field-ref="finUnivBdgtOfficeFunctionCd" />
 	</reference-descriptor>
+	
+	<reference-descriptor name="federalFunction" 
+		class-ref="org.kuali.module.chart.bo.FederalFunction" 
+		auto-retrieve="true" auto-update="none" auto-delete="none" 
+		proxy="true">
+		<foreignkey field-ref="financialFederalFunctionCode" />
+	</reference-descriptor>
+
+	<reference-descriptor name="aicpaFunction" 
+		class-ref="org.kuali.module.chart.bo.AicpaFunction" 
+		auto-retrieve="true" auto-update="none" auto-delete="none" 
+		proxy="true">
+		<foreignkey field-ref="finAicpaFunctionCode" />
+	</reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.chart.bo.RestrictedStatus"
@@ -1826,4 +1840,18 @@
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="financialUniversityBudgetOfficeFunctionName" column="FIN_UBO_FUNC_NM" jdbc-type="VARCHAR"/>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.chart.bo.FederalFunction" table="CA_FEDERAL_FUNC_T">
+	<field-descriptor name="financialFederalFunctionCode" column="FIN_FED_FUNC_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<field-descriptor name="financialFederalFunctionName" column="FIN_FED_FUNC_NM" jdbc-type="VARCHAR"/>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.chart.bo.AicpaFunction" table="CA_AICPA_FUNC_T">
+	<field-descriptor name="financialAicpaFunctionCode" column="FIN_AICPA_FUNC_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<field-descriptor name="financialAicpaFunctionName" column="FIN_AICPA_FUNC_NM" jdbc-type="VARCHAR"/>
 </class-descriptor>

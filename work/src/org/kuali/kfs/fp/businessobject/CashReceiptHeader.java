@@ -31,7 +31,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.core.bo.BusinessObjectBase;
-import org.kuali.core.document.DocumentHeader;
+import org.kuali.module.financial.document.CashReceiptDocument;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -47,7 +47,8 @@ public class CashReceiptHeader extends BusinessObjectBase {
 	private Integer nextAdvanceDepositLineNumber;
 	private String workgroupName;
 	private Date financialDocumentDepositDate;
-	private DocumentHeader documentHeader;
+	
+    private CashReceiptDocument document;
 	private List depositCashReceiptControl;
 
 	/**
@@ -248,23 +249,23 @@ public class CashReceiptHeader extends BusinessObjectBase {
 
 
 	/**
-	 * Gets the documentHeader attribute.
+	 * Gets the document attribute.
 	 * 
-	 * @return - Returns the documentHeader
+	 * @return - Returns the document
 	 * 
 	 */
-	public DocumentHeader getDocumentHeader() { 
-		return documentHeader;
+	public CashReceiptDocument getDocument() { 
+		return document;
 	}
 
 	/**
-	 * Sets the documentHeader attribute.
+	 * Sets the document attribute.
 	 * 
-	 * @param - documentHeader The documentHeader to set.
+	 * @param - document The document to set.
 	 * @deprecated
 	 */
-	public void setDocumentHeader(DocumentHeader documentHeader) {
-		this.documentHeader = documentHeader;
+	public void setDocument(CashReceiptDocument document) {
+		this.document = document;
 	}
 
 	/**

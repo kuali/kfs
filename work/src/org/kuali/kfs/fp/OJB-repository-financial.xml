@@ -272,7 +272,7 @@
 
     <reference-descriptor name="accountingPeriod" class-ref="org.kuali.module.chart.bo.AccountingPeriod" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="postingYear"/>
-        <foreignkey field-ref="postingPeriodCode" />
+		<foreignkey field-ref="postingPeriodCode" />
 	</reference-descriptor>
 </class-descriptor>
 
@@ -296,7 +296,7 @@
 
     <reference-descriptor name="accountingPeriod" class-ref="org.kuali.module.chart.bo.AccountingPeriod" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="postingYear"/>
-        <foreignkey field-ref="postingPeriodCode" />
+		<foreignkey field-ref="postingPeriodCode" />
 	</reference-descriptor>
 
     <!--  collections -->
@@ -353,7 +353,7 @@
 
     <reference-descriptor name="accountingPeriod" class-ref="org.kuali.module.chart.bo.AccountingPeriod" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="postingYear"/>
-        <foreignkey field-ref="postingPeriodCode" />
+		<foreignkey field-ref="postingPeriodCode" />
 	</reference-descriptor>
 </class-descriptor>
 
@@ -377,7 +377,7 @@
 
 	<reference-descriptor name="accountingPeriod" class-ref="org.kuali.module.chart.bo.AccountingPeriod" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="postingYear"/>
-        <foreignkey field-ref="postingPeriodCode" />
+		<foreignkey field-ref="postingPeriodCode" />
 	</reference-descriptor>
 
     <!--  collections -->
@@ -435,7 +435,7 @@
     <!--  document specific object references -->
     <reference-descriptor name="accountingPeriod" class-ref="org.kuali.module.chart.bo.AccountingPeriod" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="postingYear"/>
-        <foreignkey field-ref="postingPeriodCode" />
+		<foreignkey field-ref="postingPeriodCode" />
 	</reference-descriptor>
 	
 	<reference-descriptor name="balanceType" class-ref="org.kuali.module.chart.bo.codes.BalanceTyp" auto-retrieve="true" auto-update="none" auto-delete="none" porxy="true">
@@ -529,7 +529,7 @@
 
     <reference-descriptor name="accountingPeriod" class-ref="org.kuali.module.chart.bo.AccountingPeriod" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="postingYear"/>
-        <foreignkey field-ref="postingPeriodCode" />
+		<foreignkey field-ref="postingPeriodCode" />
 	</reference-descriptor>
 
     <!--   collections -->
@@ -649,15 +649,26 @@
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.financial.document.DepositDocument" table="FP_DEPOSIT_DOC_T">
+    <!--  common transactional document base attributes -->
 	<field-descriptor name="financialDocumentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="financialDocumentDepositTypeCode" column="FDOC_DPST_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="financialDocumentDepositTypeCode" column="FDOC_DPST_TYP_CD" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+
+    <!--
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+    -->
+
+    <!--   deposit specfic attributes -->
 	<field-descriptor name="financialDocumentDepositDate" column="FDOC_DPST_DT" jdbc-type="DATE"/>
 	<field-descriptor name="financialDocumentDepositBankCode" column="FDOC_DPST_BNK_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="financialDocumentBankAccountNumber" column="FDOC_BNK_ACCT_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="financialDocumentDepositNumber" column="FDOC_DPST_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="financialDocumentDepositAmount" column="FDOC_DPST_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+
+    <reference-descriptor name="documentHeader" class-ref="org.kuali.core.document.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <foreignkey field-ref="financialDocumentNumber"/>
+    </reference-descriptor>
+
 	<reference-descriptor name="account" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="financialDocumentBankAccountNumber" />
 	</reference-descriptor>
@@ -670,9 +681,11 @@
 	<field-descriptor name="financialDocumentReferenceNumber" column="FDOC_REF_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="workgroupName" column="WRKGRP_NM" jdbc-type="VARCHAR"/>
 	<field-descriptor name="financialDocumentExplanationText" column="FDOC_EXPLAIN_TXT" jdbc-type="VARCHAR"/>
-	<reference-descriptor name="documentHeader" class-ref="org.kuali.core.document.DocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none">
+
+	<reference-descriptor name="document" class-ref="org.kuali.module.financial.document.DepositDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="financialDocumentNumber" />
 	</reference-descriptor>
+
 	<collection-descriptor name="depositCashReceiptControl" element-class-ref="org.kuali.module.financial.bo.DepositCashReceiptControl" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<orderby name="financialDocumentCashReceiptNumber" sort="ASC" />
 		<inverse-foreignkey field-ref="financialDocumentDepositNumber" />
@@ -687,9 +700,11 @@
 	<field-descriptor name="financialSystemsCashReceiptProcessingTimestamp" column="FS_CSHRCPT_PRCS_TS" jdbc-type="TIMESTAMP"/>
 	<field-descriptor name="financialSystemsProcessingOperatorIdentifier" column="FS_PRCS_OPR_ID" jdbc-type="VARCHAR"/>
 	<field-descriptor name="financialDocumentDepositTypeCode" column="FDOC_DPST_TYP_CD" jdbc-type="VARCHAR"/>
+
 	<reference-descriptor name="depositHeader" class-ref="org.kuali.module.financial.bo.DepositHeader" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="financialDocumentDepositNumber" />
 	</reference-descriptor>
+
 	<reference-descriptor name="cashReceiptHeader" class-ref="org.kuali.module.financial.bo.CashReceiptHeader" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="financialDocumentCashReceiptNumber" />
 	</reference-descriptor>
@@ -707,9 +722,11 @@
 	<field-descriptor name="nextAdvanceDepositLineNumber" column="FDOC_NXT_AD_LN_NBR" jdbc-type="INTEGER"/>
 	<field-descriptor name="workgroupName" column="WRKGRP_NM" jdbc-type="VARCHAR"/>
 	<field-descriptor name="financialDocumentDepositDate" column="FDOC_DEPOSIT_DT" jdbc-type="DATE"/>
-	<reference-descriptor name="documentHeader" class-ref="org.kuali.core.document.DocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none">
+
+	<reference-descriptor name="document" class-ref="org.kuali.module.financial.document.CashReceiptDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="financialDocumentNumber" />
 	</reference-descriptor>
+
 	<collection-descriptor name="depositCashReceiptControl" element-class-ref="org.kuali.module.financial.bo.DepositCashReceiptControl" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<orderby name="financialDocumentDepositNumber" sort="ASC" />
 		<inverse-foreignkey field-ref="financialDocumentCashReceiptNumber" />
@@ -916,7 +933,7 @@
 	<field-descriptor name="payeeLastPaidDate" column="DV_PAYEE_LST_PD_DT" jdbc-type="TIMESTAMP"/>
 	<field-descriptor name="payeeEmployeeCode" column="DV_PAYEE_EMP_IND" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanField10Conversion"/>
 	<field-descriptor name="payeeRevolvingFundCode" column="DV_PAYEE_RVFND_IND" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanField10Conversion"/>
-	
+
 	<reference-descriptor name="payeeOwnershipTyp" class-ref="org.kuali.module.financial.bo.OwnershipTypeCode" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="payeeOwnershipTypCd" />
 	</reference-descriptor>
@@ -951,7 +968,7 @@
 	<field-descriptor name="disbVchrPayeeEmployeeCode" column="DV_PAYEE_EMP_IND" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanField10Conversion"/>
 	<field-descriptor name="dvPayeeRevolvingFundCode" column="DV_PAYEE_RVFND_IND" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanField10Conversion"/>
 	<field-descriptor name="disbursementVoucherPayeeTypeCode" column="DV_PAYEE_TYP_CD" jdbc-type="VARCHAR"/>
-	
+
 	<reference-descriptor name="disbVchrPaymentReason" class-ref="org.kuali.module.financial.bo.PaymentReasonCode" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="disbVchrPaymentReasonCode" />
 	</reference-descriptor>

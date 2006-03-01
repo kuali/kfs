@@ -25,6 +25,7 @@ import org.apache.log4j.Logger;
 import org.kuali.Constants;
 import org.kuali.core.UserSession;
 import org.kuali.core.bo.DocumentStatusChange;
+import org.kuali.core.bo.RouteNodeChange;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.SpringServiceLocator;
 
@@ -77,6 +78,20 @@ public class KualiPostProcessor implements PostProcessorRemote {
         return true;
     }
     public boolean doRouteLevelChange(DocumentRouteLevelChangeVO levelChangeEvent) throws RemoteException {
+    	// on route level change we'll serialize the XML for the document
+        LOG.debug("Invoking RouteLevelChange post processor");
+        try {
+                LOG.debug("passing document " + levelChangeEvent.getRouteHeaderId() + " to DocumentService");
+                RouteNodeChange routeNodeChange = new RouteNodeChange();
+                routeNodeChange.setFinancialDocumentNumber(levelChangeEvent.getRouteHeaderId().toString());
+                routeNodeChange.setOldNodeName(levelChangeEvent.getOldNodeName());
+                routeNodeChange.setNewNodeName(levelChangeEvent.getNewNodeName());
+                GlobalVariables.setUserSession(new UserSession(Constants.SCHEDULED_TASK_USER_ID));
+                SpringServiceLocator.getDocumentService().handleDocumentRouteNodeChangeEvent(routeNodeChange);
+        } catch (Exception e) {
+            LOG.error("Caught Exception handling StatusChangeEvent", e);
+            throw new RuntimeException("Caught Exception handling StatusChangeEvent in KualiPostProcessor: " + e.getMessage(), e);
+        }
         return true;
     }
 }

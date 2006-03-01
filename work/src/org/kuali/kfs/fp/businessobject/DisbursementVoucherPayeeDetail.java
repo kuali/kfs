@@ -55,7 +55,8 @@ public class DisbursementVoucherPayeeDetail extends BusinessObjectBase {
     private String disbVchrRemitCountryCode;
     private boolean disbVchrPayeeEmployeeCode;
     private boolean dvPayeeRevolvingFundCode;
-
+    private String disbursementVoucherPayeeTypeCode;
+    
     // non-database fields
     private String dvPayeeType;
 
@@ -548,6 +549,20 @@ public class DisbursementVoucherPayeeDetail extends BusinessObjectBase {
         return DisbursementVoucherRuleConstants.DV_PAYEE_TYPE_EMPLOYEE.equals(dvPayeeType);
     }
 
+    /**
+     * @return Returns the disbursementVoucherPayeeTypeCode.
+     */
+    public String getDisbursementVoucherPayeeTypeCode() {
+        return disbursementVoucherPayeeTypeCode;
+    }
+
+    /**
+     * @param disbursementVoucherPayeeTypeCode The disbursementVoucherPayeeTypeCode to set.
+     */
+    public void setDisbursementVoucherPayeeTypeCode(String disbursementVoucherPayeeTypeCode) {
+        this.disbursementVoucherPayeeTypeCode = disbursementVoucherPayeeTypeCode;
+    }      
+    
     /**
      * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
      */

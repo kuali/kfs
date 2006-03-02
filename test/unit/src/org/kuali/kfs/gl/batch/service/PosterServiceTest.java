@@ -81,7 +81,7 @@ public class PosterServiceTest extends KualiTestBaseWithSpringOnly {
    * 
    * @throws Exception
    */
-  public void xtestInvalidEntries() throws Exception {
+  public void testInvalidEntries() throws Exception {
     LOG.debug("testInvalidEntries() started");
 
     /*
@@ -134,7 +134,7 @@ public class PosterServiceTest extends KualiTestBaseWithSpringOnly {
    * 
    * @throws Exception
    */
-  public void xtestPostGlEntry() throws Exception {
+  public void testPostGlEntry() throws Exception {
     LOG.debug("testPostGlEntry() started");
 
     String[] inputTransactions = {
@@ -203,7 +203,7 @@ public class PosterServiceTest extends KualiTestBaseWithSpringOnly {
    * 
    * @throws Exception
    */
-  public void xtestPostReversal() throws Exception {
+  public void testPostReversal() throws Exception {
     LOG.debug("testPostReversalPosting() started");
 
     String[] inputTransactions = {
@@ -237,7 +237,7 @@ public class PosterServiceTest extends KualiTestBaseWithSpringOnly {
     assertEquals("FDOC_REVERSAL_DT wrong","2006-03-01",sdf.format((Date)reversalEntry.get("FDOC_REVERSAL_DT")));
   }
 
-  public void xtestPostBalance() {
+  public void testPostBalance() {
     LOG.debug("testPostBalance() started");
 
     String[] inputTransactions = {
@@ -450,7 +450,7 @@ public class PosterServiceTest extends KualiTestBaseWithSpringOnly {
     assertEquals("2 MO13_ACCT_LN_AMT is wrong",130.00,a.doubleValue(),0.01);
   }
 
-  public void xtestPostEcnumbrance() throws Exception {
+  public void testPostEcnumbrance() throws Exception {
     LOG.debug("testPostEcnumbrance() started");
 
     String[] inputTransactions = {

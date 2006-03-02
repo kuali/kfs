@@ -106,7 +106,13 @@
 <td class="${dataCellCssClass}" valign="top" colspan="${columnCount}">
 <span class="nowrap">
     <c:if test="${!empty labelFontWeight}">
-        <span style="font-weight: ${labelFontWeight}"><kul:htmlAttributeLabel attributeEntry="${attributes[field]}" useShortLabel="true" forceRequired="${specialRequiredField}" /></span>
+        <span style="font-weight: ${labelFontWeight}">
+            <kul:htmlAttributeLabel
+                attributeEntry="${attributes[field]}"
+                useShortLabel="true"
+                forceRequired="${specialRequiredField}"
+                />
+        </span>
         <%-- The following nbsp has breakable space around it, but nevertheless it accomplishes something,
             by preventing this label from touching its input control (consistent with the cellpadding for
             labels that are not in the same cell as their input control).  --%>
@@ -181,10 +187,8 @@
         displayHidden="${displayHidden}"
         />
 </c:if>
-<c:if test="${empty labelFontWeight}">
-    <fin:accountingLineDataCellDetail
-        detailField="${detailField}"
-        accountingLine="${accountingLine}"
-        />
-</c:if>
+<fin:accountingLineDataCellDetail
+    detailField="${detailField}"
+    accountingLine="${accountingLine}"
+    />
 </td>

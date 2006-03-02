@@ -126,7 +126,9 @@
           	<forward name="organization" path="/jsp/xmlhttp/organization.jsp" />
           	<forward name="objectType" path="/jsp/xmlhttp/objectType.jsp" />
           	<forward name="user" path="/jsp/xmlhttp/user.jsp" />
-        </action>        
+            <forward name="originationCode" path="/jsp/xmlhttp/originationCode.jsp" />
+            <forward name="documentType" path="/jsp/xmlhttp/documentType.jsp" />
+        </action>
         
         <!--  Module Action Mappings -->
         <action path="/financial*" name="{1}Form" input="/jsp/modules/financial/{1}.jsp" type="org.kuali.module.financial.web.struts.action.{1}Action" scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">

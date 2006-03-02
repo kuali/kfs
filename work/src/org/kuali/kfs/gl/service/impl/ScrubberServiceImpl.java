@@ -62,7 +62,6 @@ import org.kuali.module.gl.service.impl.helper.OriginEntryInfo;
 import org.kuali.module.gl.service.impl.helper.ScrubberServiceErrorHandler;
 import org.kuali.module.gl.service.impl.helper.UnitOfWorkInfo;
 import org.kuali.module.gl.util.LedgerEntry;
-import org.kuali.module.gl.util.LedgerReport;
 import org.kuali.module.gl.util.ObjectHelper;
 import org.kuali.module.gl.util.ScrubberServiceValidationHelper;
 import org.kuali.module.gl.util.Summary;
@@ -73,7 +72,7 @@ import org.springframework.util.StringUtils;
 
 /**
  * @author Anthony Potts
- * @version $Id: ScrubberServiceImpl.java,v 1.57 2006-03-02 18:46:13 aapotts Exp $
+ * @version $Id: ScrubberServiceImpl.java,v 1.58 2006-03-02 19:44:10 wesprice Exp $
  */
 
 public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {

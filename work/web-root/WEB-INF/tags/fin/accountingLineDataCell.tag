@@ -45,6 +45,13 @@
 <%@ attribute name="detailField" required="false"
               description="The name of the field in the business object containing the detail to be displayed." %>
 
+<%@ attribute name="lookup" required="false"
+              description="Boolean indicating whether this cell should have a lookup icon if it's writable.
+              If true, the boClassName and conversionField attributes at least are also required." %>
+<%@ attribute name="inquiry" required="false"
+              description="Boolean indicating whether this cell should have an inquiry link if it's writable.
+              If true, the boClassName and conversionField attributes at least are also required." %>
+
 <%@ attribute name="boClassName" required="false"
               description="The name of the business object class to perform a lookup.
               This attribute requires the briefLookupParameters and conversionField attributes." %>
@@ -55,9 +62,11 @@
               is the name of the corresponding field in the named business object.
               This attribute requires the boClassName and conversionField attributes." %>
 <%@ attribute name="conversionField" required="false"
-              description="The name of the field in the business object to be returned from the lookup.
-              The value of this data cell becomes the value of this field.
-              This attribute requires the boClassName and briefLookupParameters attributes." %>
+              description="The name of the field in the business object corresponding to
+              this cell's field  in the accounting line.
+              This may be used to return a lookup value from the BO, or generate an inquiry.
+              For a lookup, the value of this data cell becomes the value of this field.
+              This attribute requires the boClassName attribute." %>
 
 <%@ attribute name="labelFontWeight" required="false"
               description="The font weight for the in-cell label, e.g., bold or normal.  Providing this
@@ -71,15 +80,12 @@
 <%@ attribute name="overrideField" required="false"
               description="base name of the accountingLine field to check and display if needed." %>
   
-<%@ attribute name="renderInquiry" required="false"
-              description="boolean indicating whether or not to render an inquiry. Requires the inquiryBOClassName
-              and the inquiryKeyValues attributes." %>
-              
-<%@ attribute name="inquiryBOClassName" required="false"
-              description="The name of the business object class to perform a inquiry." %>
-                            
-<%@ attribute name="inquiryKeyValues" required="false"
-              description="inquiry key value pairs for inquiry url" %>
+<%@ attribute name="inquiryValueKeys" required="false"
+              description="comma separated list of inquiry key names in the accountingLineValuesMap" %>
+<%@ attribute name="accountingLineValuesMap" required="false" type="java.util.Map"
+              description="map of the accounting line primitive fields and values, for inquiry keys" %>
+<%@ attribute name="inquiryExtraKeyValues" required="false"
+              description="ampersand separated list of inquiry key=value pairs not in accountingLineValuesMap" %>
 
 <c:set var="qualifiedField" value="${accountingLine}.${field}"/>
 <c:if test="${empty cellProperty}">
@@ -105,10 +111,20 @@
             property="${cellProperty}"
             attributeEntry="${attributes[field]}"
             readOnly="${readOnly}"
-            inquiryBOClassName="org.kuali.module.chart.bo.${inquiryBOClassName}"
-            inquiryKeyValues="${inquiryKeyValues}"
-            renderInquiry="${renderInquiry}"
-            />
+            readOnlyBody="true"
+            >
+            <fin:accountingLineReadOnlyCellProperty
+                property="${cellProperty}"
+                textStyle="${textStyle}"
+                inquiry="${inquiry}"
+                boClassName="${boClassName}"
+                field="${field}"
+                conversionField="${conversionField}"
+                inquiryKeys="${inquiryValueKeys}"
+                accountingLineValuesMap="${accountingLineValuesMap}"
+                inquiryExtraKeyValues="${inquiryExtraKeyValues}"
+                />
+        </kul:htmlControlAttribute>
     </c:if>
     <c:if test="${useXmlHttp}">
         <kul:htmlControlAttribute
@@ -116,15 +132,25 @@
             attributeEntry="${attributes[field]}"
             onblur="${detailFunction}(${detailFunctionExtraParam} this.name, '${accountingLine}.${detailField}');"
             readOnly="${readOnly}"
-            inquiryBOClassName="org.kuali.module.chart.bo.${inquiryBOClassName}"
-            inquiryKeyValues="${inquiryKeyValues}"
-            renderInquiry="${renderInquiry}"
-            />
+            readOnlyBody="true"
+            >
+            <fin:accountingLineReadOnlyCellProperty
+                property="${cellProperty}"
+                textStyle="${textStyle}"
+                inquiry="${inquiry}"
+                boClassName="${boClassName}"
+                field="${field}"
+                conversionField="${conversionField}"
+                inquiryKeys="${inquiryValueKeys}"
+                accountingLineValuesMap="${accountingLineValuesMap}"
+                inquiryExtraKeyValues="${inquiryExtraKeyValues}"
+                />
+        </kul:htmlControlAttribute>
     </c:if>
 
     <%-- lookup control --%>
     <c:if test="${!readOnly}">
-        <c:if test="${!empty boClassName}">
+        <c:if test="${lookup}">
             <%-- todo: this lookup to field conversion swapping in performLookup() or lookup.tag --%>
             <c:set var="lookupParameters" value=""/>
             <c:set var="fieldConversions" value=""/>

@@ -72,7 +72,7 @@ import org.springframework.util.StringUtils;
 
 /**
  * @author Anthony Potts
- * @version $Id: ScrubberServiceImpl.java,v 1.58 2006-03-02 19:44:10 wesprice Exp $
+ * @version $Id: ScrubberServiceImpl.java,v 1.59 2006-03-02 21:00:32 wesprice Exp $
  */
 
 public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
@@ -213,7 +213,7 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
             	processDocuments(originEntryGroup, originEntryService.getEntriesByGroup(originEntryGroup), batchInfo);
             
             // Mark the origin entry group as being processed ...
-            originEntryGroup.setProcess(new Boolean(false));
+            originEntryGroup.setProcess(Boolean.FALSE);
             
             // ... and save the origin entry group with the new process flag.
             originEntryGroupService.save(originEntryGroup);

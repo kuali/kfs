@@ -67,7 +67,7 @@ public class OrganizationDaoOjb extends PersistenceBrokerTemplate implements Org
         Criteria criteria = new Criteria();
         criteria.addEqualTo("chartOfAccountsCode", chartOfAccountsCode);
         criteria.addEqualTo("organizationCode", organizationCode);
-        criteria.addEqualTo("accountClosedIndicator", new Boolean(false));
+        criteria.addEqualTo("accountClosedIndicator", Boolean.FALSE);
         
         accounts = (List) getCollectionByQuery(QueryFactory.newQuery(Account.class, criteria));
         
@@ -88,7 +88,7 @@ public class OrganizationDaoOjb extends PersistenceBrokerTemplate implements Org
         Criteria criteria = new Criteria();
         criteria.addEqualTo("reportsToChartOfAccountsCode", chartOfAccountsCode);
         criteria.addEqualTo("reportsToOrganizationCode", organizationCode);
-        criteria.addEqualTo("organizationActiveIndicator", new Boolean(true));
+        criteria.addEqualTo("organizationActiveIndicator", Boolean.TRUE);
         
         orgs = (List) getCollectionByQuery(QueryFactory.newQuery(Org.class, criteria));
         

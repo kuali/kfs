@@ -36,7 +36,7 @@ import org.kuali.module.gl.service.OriginEntryGroupService;
 
 /**
  * @author Laran Evans <lc278@cs.cornell.edu>
- * @version $Id: OriginEntryGroupServiceImpl.java,v 1.9 2006-02-12 01:59:42 jsissom Exp $
+ * @version $Id: OriginEntryGroupServiceImpl.java,v 1.10 2006-03-02 21:00:32 wesprice Exp $
  * 
  */
 public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
@@ -91,10 +91,10 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
 
 		OriginEntryGroup oeg = new OriginEntryGroup();
 		oeg.setDate(new java.sql.Date(date.getTime()));
-		oeg.setProcess(new Boolean(process));
-		oeg.setScrub(new Boolean(scrub));
+		oeg.setProcess(Boolean.valueOf(process));
+		oeg.setScrub(Boolean.valueOf(scrub));
 		oeg.setSourceCode(sourceCode);
-		oeg.setValid(new Boolean(valid));
+		oeg.setValid(Boolean.valueOf(valid));
 
 		originEntryGroupDao.save(oeg);
 

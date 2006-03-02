@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="/tlds/c.tld" %>
+<%@ taglib prefix="fn" uri="/tlds/fn.tld" %>
 <%@ taglib prefix="html" uri="/tlds/struts-html.tld" %>
 <%@ taglib prefix="bean" uri="/tlds/struts-bean.tld" %>
 <%@ taglib prefix="kul" tagdir="/WEB-INF/tags" %>
@@ -105,7 +106,7 @@
     attributes="${accountingLineAttributes}"
     lookup="false"
     inquiry="true"
-    boClassName="Chart"
+    boClassSimpleName="Chart"
     readOnly="${readOnly&&(empty editableFields['chartOfAccountsCode'])}"
     displayHidden="${displayHidden}"
     accountingLineValuesMap="${accountingLineValuesMap}"
@@ -122,7 +123,7 @@
     attributes="${accountingLineAttributes}"
     lookup="true"
     inquiry="true"
-    boClassName="Account"
+    boClassSimpleName="Account"
     readOnly="${readOnly&&(empty editableFields['accountNumber'])}"
     displayHidden="${displayHidden}"
     overrideField="accountExpiredOverride"
@@ -141,7 +142,7 @@
     attributes="${accountingLineAttributes}"
     lookup="true"
     inquiry="true"
-    boClassName="SubAccount"
+    boClassSimpleName="SubAccount"
     readOnly="${readOnly&&(empty editableFields['subAccountNumber'])}"
     displayHidden="${displayHidden}"
     lookupOrInquiryKeys="chartOfAccountsCode,accountNumber"
@@ -160,7 +161,7 @@
     attributes="${accountingLineAttributes}"
     lookup="true"
     inquiry="true"
-    boClassName="ObjectCode"
+    boClassSimpleName="ObjectCode"
     readOnly="${readOnly&&(empty editableFields['financialObjectCode'])}"
     displayHidden="${displayHidden}"
     overrideField="objectBudgetOverride"
@@ -181,7 +182,7 @@
     attributes="${accountingLineAttributes}"
     lookup="true"
     inquiry="true"
-    boClassName="SubObjCd"
+    boClassSimpleName="SubObjCd"
     readOnly="${readOnly&&(empty editableFields['financialSubObjectCode'])}"
     displayHidden="${displayHidden}"
     lookupOrInquiryKeys="chartOfAccountsCode,financialObjectCode,accountNumber"
@@ -200,7 +201,7 @@
     attributes="${accountingLineAttributes}"
     lookup="true"
     inquiry="true"
-    boClassName="ProjectCode"
+    boClassSimpleName="ProjectCode"
     conversionField="code"
     readOnly="${readOnly&&(empty editableFields['projectCode'])}"
     displayHidden="${displayHidden}"
@@ -220,7 +221,7 @@
         attributes="${accountingLineAttributes}"
         lookup="true"
         inquiry="true"
-        boClassName="ObjectType"
+        boClassSimpleName="ObjectType"
         conversionField="code"
         readOnly="${readOnly}"
         displayHidden="${displayHidden}"
@@ -331,19 +332,77 @@
 <c:if test="${!empty extraRowFields}">
     <tr>
         <c:set var="extraRowFieldCount" value="0"/>
-        <c:forTokens items="${extraRowFields}" delims="," var="extraField">
+        <c:set var="delimitedExtraRowFields" value=",${extraRowFields},"/>
+        <c:if test="${fn:contains(delimitedExtraRowFields, ',referenceOriginCode,')}" >
             <c:set var="extraRowFieldCount" value="${extraRowFieldCount + 1}"/>
             <fin:accountingLineDataCell
-                dataCellCssClass="${dataCellCssClass}"
+                field="referenceOriginCode"
                 cellAlign="center"
+                lookup="true"
+                inquiry="true"
+                boClassSimpleName="OriginationCode"
+                boPackageName="org.kuali.core.bo"
+                conversionField="financialSystemOriginationCode"
                 accountingLine="${accountingLine}"
                 baselineAccountingLine="${baselineAccountingLine}"
-                field="${extraField}"
                 attributes="${accountingLineAttributes}"
+                accountingLineValuesMap="${accountingLineValuesMap}"
+                dataCellCssClass="${dataCellCssClass}"
                 labelFontWeight="${extraRowLabelFontWeight}"
                 readOnly="${readOnly}"
                 displayHidden="${displayHidden}"
                 />
+        </c:if>
+        <c:if test="${fn:contains(delimitedExtraRowFields, ',referenceNumber,')}" >
+            <c:set var="extraRowFieldCount" value="${extraRowFieldCount + 1}"/>
+            <fin:accountingLineDataCell
+                field="referenceNumber"
+                cellAlign="center"
+                accountingLine="${accountingLine}"
+                baselineAccountingLine="${baselineAccountingLine}"
+                attributes="${accountingLineAttributes}"
+                dataCellCssClass="${dataCellCssClass}"
+                labelFontWeight="${extraRowLabelFontWeight}"
+                readOnly="${readOnly}"
+                displayHidden="${displayHidden}"
+                />
+        </c:if>
+        <c:if test="${fn:contains(delimitedExtraRowFields, ',referenceTypeCode,')}" >
+            <c:set var="extraRowFieldCount" value="${extraRowFieldCount + 1}"/>
+            <fin:accountingLineDataCell
+                field="referenceTypeCode"
+                cellAlign="center"
+                lookup="true"
+                inquiry="true"
+                boClassSimpleName="DocumentType"
+                boPackageName="org.kuali.core.document"
+                conversionField="financialDocumentTypeCode"
+                accountingLine="${accountingLine}"
+                baselineAccountingLine="${baselineAccountingLine}"
+                attributes="${accountingLineAttributes}"
+                accountingLineValuesMap="${accountingLineValuesMap}"
+                dataCellCssClass="${dataCellCssClass}"
+                labelFontWeight="${extraRowLabelFontWeight}"
+                readOnly="${readOnly}"
+                displayHidden="${displayHidden}"
+                />
+        </c:if>
+        <c:set var="knownExtraFields" value=",referenceOriginCode,referenceNumber,referenceTypeCode,"/>
+        <c:forTokens items="${extraRowFields}" delims="," var="extraField">
+            <c:if test="${not fn:contains(knownExtraFields, extraField)}" >
+                <c:set var="extraRowFieldCount" value="${extraRowFieldCount + 1}"/>
+                <fin:accountingLineDataCell
+                    field="${extraField}"
+                    cellAlign="center"
+                    accountingLine="${accountingLine}"
+                    baselineAccountingLine="${baselineAccountingLine}"
+                    attributes="${accountingLineAttributes}"
+                    dataCellCssClass="${dataCellCssClass}"
+                    labelFontWeight="${extraRowLabelFontWeight}"
+                    readOnly="${readOnly}"
+                    displayHidden="${displayHidden}"
+                    />
+            </c:if>
         </c:forTokens>
         <td class="${dataCellCssClass}"
             colspan="${rightColumnCount + 2 - (2 * extraRowFieldCount) - (readOnly ? 1 : 0)}">&nbsp;</td>

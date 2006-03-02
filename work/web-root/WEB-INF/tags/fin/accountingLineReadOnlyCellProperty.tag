@@ -33,7 +33,7 @@
 <c:set var="canRenderInquiry" value="${not empty keyValues && not aKeyIsMissing}"/>
 
 <kul:inquiry
-    boClassName="org.kuali.module.chart.bo.${boClassName}"
+    boClassName="${boClassName}"
     keyValues="${keyValues}"
     render="${inquiry && canRenderInquiry}"
     >

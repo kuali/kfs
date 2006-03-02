@@ -21,7 +21,7 @@
               being edited or displayed by the row containing this cell.
               Also it is always the key to the DataDictionary attributes entry for editing or displaying.
               Required if the cellProperty attribute is not given,
-              or if detailField or boClassName is given." %>
+              or if detailField or boClassSimpleName is given." %>
 
 <%@ attribute name="baselineAccountingLine" required="false"
               description="The name in the form of the baseline accounting line
@@ -47,13 +47,17 @@
 
 <%@ attribute name="lookup" required="false"
               description="Boolean indicating whether this cell should have a lookup icon if it's writable.
-              If true, the boClassName attribute at least is also required." %>
+              If true, the boClassSimpleName attribute at least is also required." %>
 <%@ attribute name="inquiry" required="false"
               description="Boolean indicating whether this cell should have an inquiry link if it's writable.
-              If true, the boClassName attribute at least is also required." %>
+              If true, the boClassSimpleName attribute at least is also required." %>
 
-<%@ attribute name="boClassName" required="false"
-              description="The name of the business object class to perform a lookup." %>
+<%@ attribute name="boClassSimpleName" required="false"
+              description="The simple name of the business object class to perform a lookup or inquiry.
+              This does not include the package name." %>
+<%@ attribute name="boPackageName" required="false"
+              description="The name of the package containing the business object class to perform a lookup or inquiry.
+              If this attribute is missing, it defaults to 'org.kuali.module.chart.bo'." %>
 <%@ attribute name="conversionField" required="false"
               description="The name of the field in the business object corresponding to
               this cell's field  in the accounting line.
@@ -87,6 +91,14 @@
 <c:if test="${empty conversionField}">
     <c:set var="conversionField" value="${field}"/>
 </c:if>
+<c:choose>
+    <c:when test="${empty boPackageName}">
+        <c:set var="boClassName" value="org.kuali.module.chart.bo.${boClassSimpleName}"/>
+    </c:when>
+    <c:otherwise>
+        <c:set var="boClassName" value="${boPackageName}.${boClassSimpleName}"/>
+    </c:otherwise>
+</c:choose>
 <c:set var="columnCount" value="${empty labelFontWeight ? 1 : 2}"/>
 <c:set var="useXmlHttp" value="${(!readOnly) && (!empty detailFunction)}" />
 <%-- test to see if we are dealing with the extra JV fields here --%>
@@ -144,7 +156,7 @@
                 <c:set var="fieldConversions" value="${fieldConversions}${key}:${withAccountingLine},"/>
             </c:forTokens>
             <kul:lookup
-                boClassName="org.kuali.module.chart.bo.${boClassName}"
+                boClassName="${boClassName}"
                 fieldConversions="${fieldConversions}${conversionField}:${qualifiedField}"
                 lookupParameters="${lookupParameters}"
                 />

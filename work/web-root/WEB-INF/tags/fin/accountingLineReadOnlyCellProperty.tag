@@ -23,14 +23,14 @@
 <%@ attribute name="inquiryExtraKeyValues" required="false"
               description="ampersand separated list of inquiry key=value pairs not in accountingLineValuesMap" %>
 
-<c:set var="missingKey" value="${empty accountingLineValuesMap[field]}"/>
+<c:set var="aKeyIsMissing" value="${empty accountingLineValuesMap[field]}"/>
 <c:set var="keyValues" value="${conversionField}=${accountingLineValuesMap[field]}"/>
 <c:forTokens var="key" items="${inquiryKeys}" delims=",">
-    <c:set var="missingKey" value="${missingKey || empty accountingLineValuesMap[key]}"/>
+    <c:set var="aKeyIsMissing" value="${missingKey || empty accountingLineValuesMap[key]}"/>
     <c:set var="keyValues" value="${keyValues}&${key}=${accountingLineValuesMap[key]}"/>
 </c:forTokens>
 <c:set var="keyValues" value="${keyValues}${empty inquiryExtraKeyValues ? '' : '&'}${inquiryExtraKeyValues}"/>
-<c:set var="canRenderInquiry" value="${not empty keyValues && not missingKey}"/>
+<c:set var="canRenderInquiry" value="${not empty keyValues && not aKeyIsMissing}"/>
 
 <kul:inquiry
     boClassName="org.kuali.module.chart.bo.${boClassName}"

@@ -53,14 +53,7 @@
               If true, the boClassName and conversionField attributes at least are also required." %>
 
 <%@ attribute name="boClassName" required="false"
-              description="The name of the business object class to perform a lookup.
-              This attribute requires the briefLookupParameters and conversionField attributes." %>
-<%@ attribute name="briefLookupParameters" required="false"
-              description="A comma-separated list of pairs of names for  generating the lookup request.
-              Each pair is separated by a colon. The left side of the pair is the name of a field in the
-              accounting line being edited by the row containing this cell. The right side of the pair
-              is the name of the corresponding field in the named business object.
-              This attribute requires the boClassName and conversionField attributes." %>
+              description="The name of the business object class to perform a lookup." %>
 <%@ attribute name="conversionField" required="false"
               description="The name of the field in the business object corresponding to
               this cell's field  in the accounting line.
@@ -80,7 +73,7 @@
 <%@ attribute name="overrideField" required="false"
               description="base name of the accountingLine field to check and display if needed." %>
   
-<%@ attribute name="inquiryValueKeys" required="false"
+<%@ attribute name="lookupOrInquiryKeys" required="false"
               description="comma separated list of inquiry key names in the accountingLineValuesMap" %>
 <%@ attribute name="accountingLineValuesMap" required="false" type="java.util.Map"
               description="map of the accounting line primitive fields and values, for inquiry keys" %>
@@ -127,7 +120,7 @@
             boClassName="${boClassName}"
             field="${field}"
             conversionField="${conversionField}"
-            inquiryKeys="${inquiryValueKeys}"
+            inquiryKeys="${lookupOrInquiryKeys}"
             accountingLineValuesMap="${accountingLineValuesMap}"
             inquiryExtraKeyValues="${inquiryExtraKeyValues}"
             />
@@ -136,17 +129,16 @@
     <%-- lookup control --%>
     <c:if test="${!readOnly}">
         <c:if test="${lookup}">
-            <%-- todo: this lookup to field conversion swapping in performLookup() or lookup.tag --%>
+            <%-- todo: this lookup to field conversion swapping in accountingLineLookup.tag --%>
             <c:set var="lookupParameters" value=""/>
             <c:set var="fieldConversions" value=""/>
-            <c:forTokens var="mappedPair" items="${briefLookupParameters}" delims=",">
-                <c:set var="split" value="${fn:split(mappedPair,':')}"/>
-                <c:set var="withAccountingLine" value="${accountingLine}.${split[0]}"/>
+            <c:forTokens var="key" items="${lookupOrInquiryKeys}" delims=",">
+                <c:set var="withAccountingLine" value="${accountingLine}.${key}"/>
                 <c:if test="${!empty lookupParameters}">
                     <c:set var="lookupParameters" value="${lookupParameters},"/>
                 </c:if>
-                <c:set var="lookupParameters" value="${lookupParameters}${withAccountingLine}:${split[1]}"/>
-                <c:set var="fieldConversions" value="${fieldConversions}${split[1]}:${withAccountingLine},"/>
+                <c:set var="lookupParameters" value="${lookupParameters}${withAccountingLine}:${key}"/>
+                <c:set var="fieldConversions" value="${fieldConversions}${key}:${withAccountingLine},"/>
             </c:forTokens>
             <kul:lookup
                 boClassName="org.kuali.module.chart.bo.${boClassName}"

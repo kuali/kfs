@@ -48,7 +48,10 @@ public class SubAccount extends BusinessObjectBase {
     private A21SubAccount a21SubAccount;
     private Account account;
     private ReportingCodes reportingCode;
-
+    private Chart chart;
+    private Org org;
+    private Chart financialReportChart;    
+    
     /**
      * Default no-arg constructor.
      */
@@ -243,17 +246,61 @@ public class SubAccount extends BusinessObjectBase {
     public void setA21SubAccount(A21SubAccount subAccount) {
         a21SubAccount = subAccount;
     }
+
+    /**
+     * @return Returns the chart.
+     */
+    public Chart getChart() {
+        return chart;
+    }
+
+    /**
+     * @param chart The chart to set.
+     * @deprecated
+     */
+    public void setChart(Chart chart) {
+        this.chart = chart;
+    }
+
+    /**
+     * @return Returns the financialReportChart.
+     */
+    public Chart getFinancialReportChart() {
+        return financialReportChart;
+    }
+
+    /**
+     * @param financialReportChart The financialReportChart to set.
+     * @deprecated
+     */
+    public void setFinancialReportChart(Chart financialReportChart) {
+        this.financialReportChart = financialReportChart;
+    }
+
+    /**
+     * @return Returns the org.
+     */
+    public Org getOrg() {
+        return org;
+    }
+
+    /**
+     * @param org The org to set.
+     * @deprecated
+     */
+    public void setOrg(Org org) {
+        this.org = org;
+    }    
     
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
-
         m.put("chartCode", this.chartOfAccountsCode);
         m.put("account", this.accountNumber);
         m.put("subAccountNumber", this.subAccountNumber);
-
         return m;
     }
+
 }

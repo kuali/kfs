@@ -47,10 +47,10 @@
 
 <%@ attribute name="lookup" required="false"
               description="Boolean indicating whether this cell should have a lookup icon if it's writable.
-              If true, the boClassName and conversionField attributes at least are also required." %>
+              If true, the boClassName attribute at least is also required." %>
 <%@ attribute name="inquiry" required="false"
               description="Boolean indicating whether this cell should have an inquiry link if it's writable.
-              If true, the boClassName and conversionField attributes at least are also required." %>
+              If true, the boClassName attribute at least is also required." %>
 
 <%@ attribute name="boClassName" required="false"
               description="The name of the business object class to perform a lookup." %>
@@ -59,7 +59,7 @@
               this cell's field  in the accounting line.
               This may be used to return a lookup value from the BO, or generate an inquiry.
               For a lookup, the value of this data cell becomes the value of this field.
-              This attribute requires the boClassName attribute." %>
+              If not provided, this attribute defaults to the same value as the field attribute." %>
 
 <%@ attribute name="labelFontWeight" required="false"
               description="The font weight for the in-cell label, e.g., bold or normal.  Providing this
@@ -83,6 +83,9 @@
 <c:set var="qualifiedField" value="${accountingLine}.${field}"/>
 <c:if test="${empty cellProperty}">
     <c:set var="cellProperty" value="${qualifiedField}"/>
+</c:if>
+<c:if test="${empty conversionField}">
+    <c:set var="conversionField" value="${field}"/>
 </c:if>
 <c:set var="columnCount" value="${empty labelFontWeight ? 1 : 2}"/>
 <c:set var="useXmlHttp" value="${(!readOnly) && (!empty detailFunction)}" />

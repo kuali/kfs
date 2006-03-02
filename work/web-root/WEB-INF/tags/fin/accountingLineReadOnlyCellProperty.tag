@@ -14,8 +14,7 @@
               that is being displayed by this cell." %>
 <%@ attribute name="conversionField" required="false"
               description="The name of the field in the business object corresponding to
-              this cell's field  in the accounting line. This may be used to generate an inquiry.
-              This attribute requires the boClassName attribute." %>
+              this cell's field  in the accounting line. This may be used to generate an inquiry." %>
 <%@ attribute name="inquiryKeys" required="false"
               description="comma separated list of inquiry key names in the accountingLineValuesMap,
               in addition to the field attribute" %>
@@ -25,14 +24,7 @@
               description="ampersand separated list of inquiry key=value pairs not in accountingLineValuesMap" %>
 
 <c:set var="missingKey" value="${empty accountingLineValuesMap[field]}"/>
-<c:choose>
-    <c:when test="${empty conversionField}">
-        <c:set var="keyValues" value="${field}=${accountingLineValuesMap[field]}"/>
-    </c:when>
-    <c:otherwise>
-        <c:set var="keyValues" value="${conversionField}=${accountingLineValuesMap[field]}"/>
-    </c:otherwise>
-</c:choose>
+<c:set var="keyValues" value="${conversionField}=${accountingLineValuesMap[field]}"/>
 <c:forTokens var="key" items="${inquiryKeys}" delims=",">
     <c:set var="missingKey" value="${missingKey || empty accountingLineValuesMap[key]}"/>
     <c:set var="keyValues" value="${keyValues}&${key}=${accountingLineValuesMap[key]}"/>

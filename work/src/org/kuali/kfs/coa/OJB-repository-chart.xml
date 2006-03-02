@@ -634,7 +634,11 @@
 		jdbc-type="VARCHAR" index="true" />
 	<field-descriptor name="versionNumber" column="VER_NBR"
 		jdbc-type="BIGINT" locking="true" />
-
+	<reference-descriptor name="objectCode" class-ref="org.kuali.module.chart.bo.ObjectCode" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="universityFiscalYear" />
+		<foreignkey field-ref="chartOfAccountsCode" />
+		<foreignkey field-ref="historicalFinancialObjectCode" />
+	</reference-descriptor>
 	<reference-descriptor name="financialBudgetAggregation"
 		class-ref="org.kuali.module.chart.bo.codes.BudgetAggregationCode"
 		auto-retrieve="true" auto-update="none" auto-delete="none"

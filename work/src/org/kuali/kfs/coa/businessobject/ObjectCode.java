@@ -67,7 +67,8 @@ public class ObjectCode extends BusinessObjectBase {
     private transient ObjectCode reportsToFinancialObject;
     private transient ObjectType financialObjectType;
     private transient ObjSubTyp financialObjectSubType;
-
+    private transient ObjectCode objectCode;
+    
     /**
      * Default no-arg constructor.
      */
@@ -544,7 +545,21 @@ public class ObjectCode extends BusinessObjectBase {
         this.finObjMandatoryTrnfrelimCd = finObjMandatoryTrnfrelimCd;
     }
 
+    /**
+     * @return Returns the objectCode.
+     */
+    public ObjectCode getObjectCode() {
+        return objectCode;
+    }
 
+    /**
+     * @param objectCode The objectCode to set.
+     * @deprecated
+     */
+    public void setObjectCode(ObjectCode objectCode) {
+        this.objectCode = objectCode;
+    }
+    
     /**
      * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
      */

@@ -32,16 +32,10 @@
 <c:set var="keyValues" value="${keyValues}${empty inquiryExtraKeyValues ? '' : '&'}${inquiryExtraKeyValues}"/>
 <c:set var="canRenderInquiry" value="${not empty keyValues && not missingKey}"/>
 
-<c:choose>
-    <c:when test="${inquiry && canRenderInquiry}" >
-        <kul:inquiry
-            boClassName="org.kuali.module.chart.bo.${boClassName}"
-            keyValues="${keyValues}"
-            >
-            <html:hidden write="true" property="${property}" style="${textStyle}" />
-        </kul:inquiry>
-    </c:when>
-    <c:otherwise>
-        <html:hidden write="true" property="${property}" style="${textStyle}" />
-    </c:otherwise>
-</c:choose>
+<kul:inquiry
+    boClassName="org.kuali.module.chart.bo.${boClassName}"
+    keyValues="${keyValues}"
+    render="${inquiry && canRenderInquiry}"
+    >
+    <html:hidden write="true" property="${property}" style="${textStyle}" />
+</kul:inquiry>

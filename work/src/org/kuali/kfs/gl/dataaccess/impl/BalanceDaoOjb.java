@@ -28,8 +28,7 @@ import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
  *  
  */
 public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements BalanceDao {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger
-            .getLogger(BalanceDaoOjb.class);
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BalanceDaoOjb.class);
 
     public BalanceDaoOjb() {
         super();
@@ -69,9 +68,8 @@ public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements Balanc
     }
 
     /**
-     * This method adds to the given criteria if the given collection is non-empty. It
-     * uses an EQUALS if there is exactly one element in the collection; otherwise, its
-     * uses an IN
+     * This method adds to the given criteria if the given collection is non-empty. It uses an EQUALS if there is exactly one
+     * element in the collection; otherwise, its uses an IN
      * 
      * @param criteria - the criteria that might have a criterion appended
      * @param name - name of the attribute
@@ -86,22 +84,18 @@ public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements Balanc
      * Similar to criteriaBuilder, this adds a negative criterion (NOT EQUALS, NOT IN)
      *  
      */
-    private void negatedCriteriaBuilder(Criteria criteria, String name,
-            Collection collection) {
+    private void negatedCriteriaBuilder(Criteria criteria, String name, Collection collection) {
         criteriaBuilderHelper(criteria, name, collection, true);
     }
 
 
     /**
-     * This method provides the implementation for the conveniences methods
-     * criteriaBuilder & negatedCriteriaBuilder
+     * This method provides the implementation for the conveniences methods criteriaBuilder & negatedCriteriaBuilder
      * 
-     * @param negate - the criterion will be negated (NOT EQUALS, NOT IN) when this is
-     *        true
+     * @param negate - the criterion will be negated (NOT EQUALS, NOT IN) when this is true
      *  
      */
-    private void criteriaBuilderHelper(Criteria criteria, String name,
-            Collection collection, boolean negate) {
+    private void criteriaBuilderHelper(Criteria criteria, String name, Collection collection, boolean negate) {
         if (collection != null) {
             int size = collection.size();
             if (size == 1) {
@@ -125,9 +119,8 @@ public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements Balanc
 
     }
 
-    public Iterator findBalances(Account account, Integer fiscalYear,
-            Collection includedObjectCodes, Collection excludedObjectCodes,
-            Collection objectTypeCodes, Collection balanceTypeCodes) {
+    public Iterator findBalances(Account account, Integer fiscalYear, Collection includedObjectCodes,
+            Collection excludedObjectCodes, Collection objectTypeCodes, Collection balanceTypeCodes) {
 
         Criteria criteria = new Criteria();
 
@@ -141,8 +134,7 @@ public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements Balanc
         criteriaBuilder(criteria, "FIN_OBJECT_CD", includedObjectCodes);
         negatedCriteriaBuilder(criteria, "FIN_OBJECT_CD", excludedObjectCodes);
 
-        ReportQueryByCriteria query = new ReportQueryByCriteria(
-            Balance.class, criteria);
+        ReportQueryByCriteria query = new ReportQueryByCriteria(Balance.class, criteria);
 
         // returns an iterator of all matching balances
         Iterator balances = getPersistenceBrokerTemplate().getIteratorByQuery(query);
@@ -153,36 +145,35 @@ public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements Balanc
      * @see org.kuali.module.gl.dao.BalanceDao#findCashBalance(java.util.Map, boolean)
      */
     public Iterator findCashBalance(Map fieldValues, boolean isConsolidated) {
-        
+
         Criteria criteria = buildCriteriaFromMap(fieldValues, new Balance(), false);
         criteria.addEqualTo("balanceTypeCode", "AC");
         criteria.addEqualToField("chart.financialCashObjectCode", "objectCode");
 
         ReportQueryByCriteria query = new ReportQueryByCriteria(Balance.class, criteria);
-        
+
         List attributeList = buildAttributeList(false);
-        List groupByList   = buildGroupByList();
-        
+        List groupByList = buildGroupByList();
+
         // if consolidated, then ignore the following fields
-        if(isConsolidated){
+        if (isConsolidated) {
             attributeList.remove("subAccountNumber");
             groupByList.remove("subAccountNumber");
             attributeList.remove("subObjectCode");
             groupByList.remove("subObjectCode");
             attributeList.remove("objectTypeCode");
             groupByList.remove("objectTypeCode");
-        }   
-        
+        }
+
         // set the selection attributes
-        String[] attributes = (String[])attributeList.toArray(new String[attributeList.size()]);
+        String[] attributes = (String[]) attributeList.toArray(new String[attributeList.size()]);
         query.setAttributes(attributes);
-        
+
         // add the group criteria into the selection statement
-        String[] groupBy = (String [])groupByList.toArray(new String[groupByList.size()]);
+        String[] groupBy = (String[]) groupByList.toArray(new String[groupByList.size()]);
         query.addGroupBy(groupBy);
 
-        Iterator cashBalance = getPersistenceBrokerTemplate()
-                .getReportQueryIteratorByQuery(query);
+        Iterator cashBalance = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
 
         return cashBalance;
     }
@@ -191,15 +182,15 @@ public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements Balanc
      * @see org.kuali.module.gl.dao.BalanceDao#findBalance(java.util.Map, boolean)
      */
     public Iterator findBalance(Map fieldValues, boolean isConsolidated) {
-        
-        Criteria criteria = buildCriteriaFromMap(fieldValues, new Balance(),false);
+
+        Criteria criteria = buildCriteriaFromMap(fieldValues, new Balance(), false);
         ReportQueryByCriteria query = new ReportQueryByCriteria(Balance.class, criteria);
-        
+
         // if consolidated, then ignore subaccount number and balance type code
-        if(isConsolidated){
+        if (isConsolidated) {
             List attributeList = buildAttributeList(true);
-            List groupByList   = buildGroupByList();
-            
+            List groupByList = buildGroupByList();
+
             // ignore subaccount number, sub object code and object type code
             attributeList.remove("subAccountNumber");
             groupByList.remove("subAccountNumber");
@@ -207,27 +198,28 @@ public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements Balanc
             groupByList.remove("subObjectCode");
             attributeList.remove("objectTypeCode");
             groupByList.remove("objectTypeCode");
-            
+
             // set the selection attributes
-            String[] attributes = (String[])attributeList.toArray(new String[attributeList.size()]);
+            String[] attributes = (String[]) attributeList.toArray(new String[attributeList.size()]);
             query.setAttributes(attributes);
-            
+
             // add the group criteria into the selection statement
-            String[] groupBy = (String [])groupByList.toArray(new String[groupByList.size()]);
+            String[] groupBy = (String[]) groupByList.toArray(new String[groupByList.size()]);
             query.addGroupBy(groupBy);
             return getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
         }
-        
+
         return getPersistenceBrokerTemplate().getIteratorByQuery(query);
     }
-    
+
     /**
      * This method builds the query criteria based on the input field map
+     * 
      * @param fieldValues
      * @param balance
      * @return a query criteria
      */
-    private Criteria buildCriteriaFromMap(Map fieldValues, Balance balance, boolean isBalanceTypeHandled){
+    private Criteria buildCriteriaFromMap(Map fieldValues, Balance balance, boolean isBalanceTypeHandled) {
         Criteria criteria = new Criteria();
 
         Iterator propsIter = fieldValues.keySet().iterator();
@@ -236,35 +228,35 @@ public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements Balanc
             String propertyValue = (String) fieldValues.get(propertyName);
 
             // if searchValue is empty and the key is not a valid property ignore
-            if (StringUtils.isBlank(propertyValue)
-                    || !(PropertyUtils.isWriteable(balance, propertyName))) {
+            if (StringUtils.isBlank(propertyValue) || !(PropertyUtils.isWriteable(balance, propertyName))) {
                 continue;
             }
-            
+
             // with this option, the method becomes specific and bad
-            if(isBalanceTypeHandled && propertyValue.equals("EN") && propertyName.equals("balanceTypeCode")){
+            if (isBalanceTypeHandled && propertyValue.equals("EN") && propertyName.equals("balanceTypeCode")) {
                 List balanceTypeCodeList = new ArrayList();
                 balanceTypeCodeList.add("EX");
                 balanceTypeCodeList.add("IE");
                 balanceTypeCodeList.add("PE");
                 balanceTypeCodeList.add("CE");
-                criteria.addIn("balanceTypeCode", balanceTypeCodeList);  
+                criteria.addIn("balanceTypeCode", balanceTypeCodeList);
             }
-            else{
+            else {
                 criteria.addEqualTo(propertyName, propertyValue);
             }
-        }     
+        }
         return criteria;
     }
-    
+
     /**
      * This method builds the atrribute list used by balance searching
+     * 
      * @param isExtended
      * @return List an attribute list
      */
-    private List buildAttributeList(boolean isExtended){
+    private List buildAttributeList(boolean isExtended) {
         List attributeList = new ArrayList();
-        
+
         attributeList.add("universityFiscalYear");
         attributeList.add("chartOfAccountsCode");
         attributeList.add("accountNumber");
@@ -276,33 +268,34 @@ public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements Balanc
         attributeList.add("sum(accountLineAnnualBalanceAmount)");
         attributeList.add("sum(beginningBalanceLineAmount)");
         attributeList.add("sum(contractsGrantsBeginningBalanceAmount)");
-        
+
         // add the entended elements into the list
-        if(isExtended){
-	        attributeList.add("sum(month1Amount)");
-	        attributeList.add("sum(month2Amount)");
-	        attributeList.add("sum(month3Amount)");
-	        attributeList.add("sum(month4Amount)");        
-	        attributeList.add("sum(month5Amount)");
-	        attributeList.add("sum(month6Amount)");
-	        attributeList.add("sum(month7Amount)");
-	        attributeList.add("sum(month8Amount)"); 
-	        attributeList.add("sum(month9Amount)");
-	        attributeList.add("sum(month10Amount)");
-	        attributeList.add("sum(month11Amount)");
-	        attributeList.add("sum(month12Amount)");
-	        attributeList.add("sum(month13Amount)");
-        }    
+        if (isExtended) {
+            attributeList.add("sum(month1Amount)");
+            attributeList.add("sum(month2Amount)");
+            attributeList.add("sum(month3Amount)");
+            attributeList.add("sum(month4Amount)");
+            attributeList.add("sum(month5Amount)");
+            attributeList.add("sum(month6Amount)");
+            attributeList.add("sum(month7Amount)");
+            attributeList.add("sum(month8Amount)");
+            attributeList.add("sum(month9Amount)");
+            attributeList.add("sum(month10Amount)");
+            attributeList.add("sum(month11Amount)");
+            attributeList.add("sum(month12Amount)");
+            attributeList.add("sum(month13Amount)");
+        }
         return attributeList;
     }
-    
+
     /**
      * This method builds group by attribute list used by balance searching
+     * 
      * @return List an group by attribute list
      */
-    private List buildGroupByList(){
+    private List buildGroupByList() {
         List attributeList = new ArrayList();
-        
+
         attributeList.add("universityFiscalYear");
         attributeList.add("chartOfAccountsCode");
         attributeList.add("accountNumber");
@@ -311,7 +304,7 @@ public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements Balanc
         attributeList.add("objectCode");
         attributeList.add("subObjectCode");
         attributeList.add("objectTypeCode");
-        
+
         return attributeList;
     }
 

@@ -27,6 +27,7 @@ import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.module.chart.bo.A21SubAccount;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.ObjectCode;
@@ -54,6 +55,7 @@ public class AccountBalance extends BusinessObjectBase {
     private Chart chart;
     private Account account;
     private ObjectCode financialObject;
+    private A21SubAccount a21SubAccount;    
     private DummyBusinessObject dummyBusinessObject;
 
     public AccountBalance() {

@@ -48,8 +48,8 @@ public class GLAmountViewOptionFinder extends KeyValuesBase implements ValueFind
      */
     public List getKeyValues() {       
         List labels = new ArrayList();
-        labels.add(new KeyLabelPair("Monthly", Constant.MONTHLY));
-        labels.add(new KeyLabelPair("Accumulate", Constant.ACCUMULATE));
+        labels.add(new KeyLabelPair(Constant.MONTHLY, Constant.MONTHLY));
+        labels.add(new KeyLabelPair( Constant.ACCUMULATE, Constant.ACCUMULATE));
         return labels;
     }
 }

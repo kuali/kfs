@@ -20,33 +20,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-package org.kuali.module.gl.service;
-
-import java.util.Iterator;
-import java.util.Map;
+package org.kuali.module.gl.bo;
 
 /**
- * This class...
+ * This class is an empty derived class of Balance for solving the conflict in lookup framework.
  * @author Bin Gao from Michigan State University
  */
-public interface AccountBalanceService {
-    
-    /**
-     * This method finds the available account balances according to input fields and values
-     * 
-     * @param fieldValues the input fields and values
-     * @param isConsolidated determine whether the search results are consolidated
-     * @return the summary records of account balance entries
-     */
-    public Iterator findAvailableAccountBalance(Map fieldValues, boolean isConsolidated);
-    
-    /**
-     * This method finds the available account balances according to input fields and values
-     * 
-     * @param fieldValues the input fields and values
-     * @param isCostShareInclusive determine whether the account balance entries with cost share is included
-     * @param isConsolidated determine whether the search results are consolidated
-     * @return the summary records of account balance entries
-     */
-    public Iterator findAccountBalanceByConsolidation(Map fieldValues, boolean isCostShareInclusive, boolean isConsolidated);    
+public class AccountBalanceByConsolidation extends AccountBalance {
+
 }

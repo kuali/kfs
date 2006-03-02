@@ -41,8 +41,8 @@ public class GLConsolidationOptionFinder extends KeyValuesBase implements ValueF
      */
     public List getKeyValues() {
         List labels = new ArrayList();
-        labels.add(new KeyLabelPair("Consolidation", Constant.CONSOLIDATION));
-        labels.add(new KeyLabelPair("Detail", Constant.DETAIL));
+        labels.add(new KeyLabelPair(Constant.CONSOLIDATION, Constant.CONSOLIDATION));
+        labels.add(new KeyLabelPair(Constant.DETAIL, Constant.DETAIL));
 
         return labels;
     }

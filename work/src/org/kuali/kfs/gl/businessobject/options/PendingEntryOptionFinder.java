@@ -42,9 +42,9 @@ public class GLPendingEntryOptionFinder extends KeyValuesBase implements ValueFi
     public List getKeyValues() {
         
         List labels = new ArrayList();
-        labels.add(new KeyLabelPair("No", Constant.NO_PENDING_ENTRY));
-        labels.add(new KeyLabelPair("Approved", Constant.APPROVED_PENDING_ENTRY));
-        labels.add(new KeyLabelPair("All", Constant.ALL_PENDING_ENTRY));
+        labels.add(new KeyLabelPair(Constant.NO_PENDING_ENTRY, Constant.NO_PENDING_ENTRY));
+        labels.add(new KeyLabelPair(Constant.APPROVED_PENDING_ENTRY, Constant.APPROVED_PENDING_ENTRY));
+        labels.add(new KeyLabelPair(Constant.ALL_PENDING_ENTRY, Constant.ALL_PENDING_ENTRY));
 
         return labels;
     }

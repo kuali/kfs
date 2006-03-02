@@ -33,18 +33,34 @@ import org.kuali.module.gl.bo.Transaction;
  *  
  */
 public interface AccountBalanceDao {
-    
+
     public AccountBalance getByTransaction(Transaction t);
 
     public void save(AccountBalance ab);
 
     /**
-     * This method finds the available account balances according to input fields
-     * and values
+     * This method finds the available account balances according to input fields and values
      * 
      * @param fieldValues the input fields and values
-     * 
+     * @param isConsolidated determine whether the search results are consolidated
      * @return the summary records of balance entries
      */
-    public Iterator findAvailableBalance(Map fieldValues);
+    public Iterator findAvailableAccountBalance(Map fieldValues, boolean isConsolidated);
+
+    /**
+     * This method finds the available account balances according to input fields and values
+     * 
+     * @param fieldValues the input fields and values
+     * @return the summary records of account balance entries
+     */
+
+    /**
+     * This method finds the available account balances according to input fields and values
+     * 
+     * @param fieldValues the input fields and values
+     * @param isCostShareInclusive determine whether the account balance entries with cost share is included
+     * @param isConsolidated determine whether the search results are consolidated
+     * @return the summary records of account balance entries
+     */
+    public Iterator findAccountBalanceByConsolidation(Map fieldValues, boolean isCostShareInclusive, boolean isConsolidated);
 }

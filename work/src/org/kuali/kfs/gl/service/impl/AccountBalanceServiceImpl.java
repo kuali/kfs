@@ -36,10 +36,17 @@ public class AccountBalanceServiceImpl implements AccountBalanceService {
     AccountBalanceDao accountBalanceDao;
 
     /**
-     * @see org.kuali.module.gl.service.AccountBalanceService#findAvailableBalance(java.util.Map)
+     * @see org.kuali.module.gl.service.AccountBalanceService#findAvailableAccountBalance(java.util.Map, boolean)
      */
-    public Iterator findAvailableBalance(Map fieldValues) {       
-        return accountBalanceDao.findAvailableBalance(fieldValues);
+    public Iterator findAvailableAccountBalance(Map fieldValues, boolean isConsolidated) {       
+        return accountBalanceDao.findAvailableAccountBalance(fieldValues, isConsolidated);
+    }
+    
+    /**
+     * @see org.kuali.module.gl.service.AccountBalanceService#findAccountBalanceByConsolidation(java.util.Map, boolean, boolean)
+     */
+    public Iterator findAccountBalanceByConsolidation(Map fieldValues, boolean isCostShareInclusive, boolean isConsolidated) {
+        return accountBalanceDao.findAccountBalanceByConsolidation(fieldValues, isCostShareInclusive, isConsolidated);
     }
     
     /**
@@ -48,5 +55,5 @@ public class AccountBalanceServiceImpl implements AccountBalanceService {
      */
     public void setAccountBalanceDao(AccountBalanceDao accountBalanceDao) {
         this.accountBalanceDao = accountBalanceDao;
-    }
+    }    
 }

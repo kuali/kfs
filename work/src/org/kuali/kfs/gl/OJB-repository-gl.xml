@@ -559,6 +559,12 @@
 		<foreignkey field-ref="chartOfAccountsCode" />
 		<foreignkey field-ref="objectCode" />
 	</reference-descriptor>	
+	
+	<reference-descriptor name="a21SubAccount" class-ref="org.kuali.module.chart.bo.A21SubAccount" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="chartOfAccountsCode" />
+		<foreignkey field-ref="accountNumber" />
+		<foreignkey field-ref="subAccountNumber" />		
+	</reference-descriptor>	
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.gl.document.GeneralLedgerErrorCorrectionDocument" table="GL_COR_DOC_T">

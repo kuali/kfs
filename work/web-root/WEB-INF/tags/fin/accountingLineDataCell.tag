@@ -105,48 +105,33 @@
         &nbsp;
     </c:if>
 
-    <%-- data cell (with and without XMLHTTP-invoking javascript) --%>
-    <c:if test="${!useXmlHttp}">
-        <kul:htmlControlAttribute
+    <c:choose>
+        <c:when test="${useXmlHttp}">
+            <c:set var="onblur" value="${detailFunction}(${detailFunctionExtraParam} this.name, '${accountingLine}.${detailField}');"/>
+        </c:when>
+        <c:otherwise>
+            <c:set var="onblur" value=""/>
+        </c:otherwise>
+    </c:choose>
+    <kul:htmlControlAttribute
+        property="${cellProperty}"
+        attributeEntry="${attributes[field]}"
+        onblur="${onblur}"
+        readOnly="${readOnly}"
+        readOnlyBody="true"
+        >
+        <fin:accountingLineReadOnlyCellProperty
             property="${cellProperty}"
-            attributeEntry="${attributes[field]}"
-            readOnly="${readOnly}"
-            readOnlyBody="true"
-            >
-            <fin:accountingLineReadOnlyCellProperty
-                property="${cellProperty}"
-                textStyle="${textStyle}"
-                inquiry="${inquiry}"
-                boClassName="${boClassName}"
-                field="${field}"
-                conversionField="${conversionField}"
-                inquiryKeys="${inquiryValueKeys}"
-                accountingLineValuesMap="${accountingLineValuesMap}"
-                inquiryExtraKeyValues="${inquiryExtraKeyValues}"
-                />
-        </kul:htmlControlAttribute>
-    </c:if>
-    <c:if test="${useXmlHttp}">
-        <kul:htmlControlAttribute
-            property="${cellProperty}"
-            attributeEntry="${attributes[field]}"
-            onblur="${detailFunction}(${detailFunctionExtraParam} this.name, '${accountingLine}.${detailField}');"
-            readOnly="${readOnly}"
-            readOnlyBody="true"
-            >
-            <fin:accountingLineReadOnlyCellProperty
-                property="${cellProperty}"
-                textStyle="${textStyle}"
-                inquiry="${inquiry}"
-                boClassName="${boClassName}"
-                field="${field}"
-                conversionField="${conversionField}"
-                inquiryKeys="${inquiryValueKeys}"
-                accountingLineValuesMap="${accountingLineValuesMap}"
-                inquiryExtraKeyValues="${inquiryExtraKeyValues}"
-                />
-        </kul:htmlControlAttribute>
-    </c:if>
+            textStyle="${textStyle}"
+            inquiry="${inquiry}"
+            boClassName="${boClassName}"
+            field="${field}"
+            conversionField="${conversionField}"
+            inquiryKeys="${inquiryValueKeys}"
+            accountingLineValuesMap="${accountingLineValuesMap}"
+            inquiryExtraKeyValues="${inquiryExtraKeyValues}"
+            />
+    </kul:htmlControlAttribute>
 
     <%-- lookup control --%>
     <c:if test="${!readOnly}">

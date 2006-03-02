@@ -50,9 +50,9 @@
 				<validationPattern><alpha exactLength="2" /></validationPattern>
 				<required>true</required>
 				
-				<control>
-					<select valuesFinderClass="org.kuali.core.lookup.keyvalues.AcctTypeValuesFinder"/>					
-				</control>
+                <control>
+                    <text size="2" />
+                </control>
 
 				<summary>Account Type Code</summary>
 				<description>

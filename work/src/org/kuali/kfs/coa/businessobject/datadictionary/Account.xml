@@ -107,8 +107,13 @@
 			<attributeReference name="accountTypeCode" 
 								sourceClassName="org.kuali.module.chart.bo.AcctType" 
 								sourceAttributeName="accountTypeCode">
+
 				<label>Account Type Code</label>
 				<shortLabel>AcctType</shortLabel>
+				<control>
+					<select valuesFinderClass="org.kuali.core.lookup.keyvalues.AcctTypeValuesFinder"/>					
+				</control>			
+				
 				<summary>Account Type Code</summary>
 				<description>Account Type Code</description>
 			</attributeReference>
@@ -116,6 +121,9 @@
 			<attributeReference name="accountPhysicalCampusCode" 
 								sourceClassName="org.kuali.module.chart.bo.Campus" 
 								sourceAttributeName="campusCode">
+								<control>
+									<select valuesFinderClass="org.kuali.core.lookup.keyvalues.CampusValuesFinder" />
+								</control>							
 			</attributeReference>
 
 			<attributeReference name="subFundGroupCode" 
@@ -158,6 +166,9 @@
 								sourceAttributeName="accountRestrictedStatusCode">
 				<label>Account Restricted Status Code</label>
 				<shortLabel>RstrcStatCd</shortLabel>
+	            <control>
+					<select valuesFinderClass="org.kuali.core.lookup.keyvalues.RestrictedStatusValuesFinder" />					
+	            </control>				
 				<summary>Account Restricted Status Code</summary>
 				<description>Account Restricted Status Code</description>
 			</attributeReference>
@@ -483,6 +494,9 @@
 				<label>Budget Record Level Code</label>
 				<shortLabel>BdgLevelCd</shortLabel>
 				<required>true</required>
+				<control>
+					<select valuesFinderClass="org.kuali.core.lookup.keyvalues.BudgetRecordingLevelCodeValuesFinder"/>					
+				</control>				
 				<summary>Budget Record Level Code</summary>
 				<description>Budget Record Level Code</description>
 			</attributeReference>
@@ -493,6 +507,9 @@
 				<label>Account Sufficient Funds Code</label>
 				<shortLabel>SuffFndsCd</shortLabel>
 				<required>false</required>
+				<control>
+					<select valuesFinderClass="org.kuali.core.lookup.keyvalues.SufficientFundsCodeValuesFinder"/>					
+				</control>				
 				<summary>Account Sufficient Funds Code</summary>
 				<description>Account Sufficient Funds Code</description>
 			</attributeReference>

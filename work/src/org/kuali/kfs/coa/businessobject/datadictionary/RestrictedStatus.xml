@@ -40,9 +40,9 @@
 	            <maxLength>1</maxLength>
 	            <validationPattern><alpha exactLength="1" /></validationPattern>
 	            <required>true</required>
-	            <control>
-					<select valuesFinderClass="org.kuali.core.lookup.keyvalues.RestrictedStatusValuesFinder" />					
-	            </control>
+                <control>
+                    <text size="1" />
+                </control>
 	            <summary>Restricted Status Code</summary>
 	            <description>Restricted Status Codes</description>
 	        </attribute>

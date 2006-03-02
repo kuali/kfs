@@ -26,9 +26,9 @@
 				<validationPattern><alpha exactLength="1" /></validationPattern>
 				<required>true</required>
 				
-				<control>
-					<select valuesFinderClass="org.kuali.core.lookup.keyvalues.SufficientFundsCodeValuesFinder"/>					
-				</control>
+                <control>
+                    <text size="1" />
+                </control>
 
 				<summary>Sufficient Funds Code</summary>
 				<description>

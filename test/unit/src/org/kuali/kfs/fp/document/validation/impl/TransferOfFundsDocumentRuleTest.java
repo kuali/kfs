@@ -98,7 +98,6 @@ public class TransferOfFundsDocumentRuleTest
 
     protected final List getValidObjectSubTypeSourceLines() throws Exception {
         List retval = new ArrayList();
-        retval.add( getSourceLineParameter3().createLine() );
         retval.add( getSourceLineParameter6().createLine() );
         return retval;
     }
@@ -504,6 +503,21 @@ public class TransferOfFundsDocumentRuleTest
     ///////////////////////////////////////////////////////////////////////////
     // Test Methods Start Here                                               //
     ///////////////////////////////////////////////////////////////////////////
+    public void testAddAccountingLine_InvalidObjectSubType() throws Exception {
+        TransactionalDocument doc = createDocumentWithInvalidObjectSubType();
+        // make sure we are using a valid object code for this type of doc
+        for(int i = 0; i < doc.getSourceAccountingLines().size(); i++) {
+            SourceAccountingLine sourceAccountingLine = (SourceAccountingLine) doc.getSourceAccountingLines().get(i);
+            sourceAccountingLine.setFinancialObjectCode(getFixtureEntry("nonMandatoryTransferObjectCodeForUAChart").getValue());
+        }
+        
+        for(int i = 0; i < doc.getTargetAccountingLines().size(); i++) {
+            TargetAccountingLine sourceAccountingLine = (TargetAccountingLine) doc.getTargetAccountingLines().get(i);
+            sourceAccountingLine.setFinancialObjectCode(getFixtureEntry("nonMandatoryTransferObjectCodeForUAChart").getValue());
+        }
+        
+        testAddAccountingLine( doc, true );
+    }
 
     ///////////////////////////////////////////////////////////////////////////
     // Test Methods End Here                                                 //

@@ -31,10 +31,13 @@ import org.kuali.Constants;
 import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.format.CurrencyFormatter;
 import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.financial.bo.Check;
 import org.kuali.module.financial.bo.CheckBase;
+
+import edu.iu.uis.eden.EdenConstants;
 
 /**
  * This is the business object that represents the CashReceiptDocument in Kuali. This is a transactional document that will
@@ -246,19 +249,6 @@ public class CashReceiptDocument extends TransactionalDocumentBase {
      */
     public KualiDecimal getTotalCheckAmount() {
         return totalCheckAmount;
-
-        // KualiDecimal _amount = null;
-        // if (getChecks().isEmpty()) {
-        // _amount = totalCheckAmount;
-        // }
-        // else {
-        // _amount = new KualiDecimal(0);
-        // for (Iterator iterator = getChecks().iterator(); iterator.hasNext();) {
-        // Check check = (Check) iterator.next();
-        // _amount = _amount.add(check.getAmount());
-        // }
-        // }
-        // return _amount;
     }
 
     /**
@@ -288,6 +278,12 @@ public class CashReceiptDocument extends TransactionalDocumentBase {
         this.totalCoinAmount = totalCoinAmount;
     }
 
+    /**
+     * This method returns the overall total of the document - coin plus check 
+     * plus cash.
+     * 
+     * @return KualiDecimal
+     */
     public KualiDecimal getSumTotalAmount() {
         return totalCoinAmount.add(totalCheckAmount).add(totalCashAmount);
     }
@@ -303,6 +299,8 @@ public class CashReceiptDocument extends TransactionalDocumentBase {
 
     /**
      * Overrides the base implementation to return an empty string.
+     * 
+     * @see org.kuali.core.document.TransactionalDocument#getSourceAccountingLinesSectionTitle()
      */
     public String getSourceAccountingLinesSectionTitle() {
         return Constants.EMPTY_STRING;
@@ -310,11 +308,12 @@ public class CashReceiptDocument extends TransactionalDocumentBase {
 
     /**
      * Overrides the base implementation to return an empty string.
+     * 
+     * @see org.kuali.core.document.TransactionalDocument#getTargetAccountingLinesSectionTitle()
      */
     public String getTargetAccountingLinesSectionTitle() {
         return Constants.EMPTY_STRING;
     }
-
 
     /**
      * @return sum of the amounts of the current list of checks
@@ -328,7 +327,24 @@ public class CashReceiptDocument extends TransactionalDocumentBase {
 
         return total;
     }
-
+    
+    /**
+     * Override to set the document status to VERIFIED ("V") when the document is FINAL. 
+     * When the Cash Management document that this is associated with is FINAL approved, 
+     * this status will be set to APPROVED ("A") to be picked up by the GL for processing. 
+     * That's done in the handleRouteStatusChange() method in the CashManagementDocument.
+     * 
+     * @see org.kuali.core.document.Document#handleRouteStatusChange(java.lang.String)
+     */
+    public void handleRouteStatusChange(String newRouteStatus) {
+        // Workflow Status of Final --> Kuali Doc Status of Verified
+        if (EdenConstants.ROUTE_HEADER_PROCESSED_CD.equals(newRouteStatus)
+                || EdenConstants.ROUTE_HEADER_APPROVED_CD.equals(newRouteStatus)
+                || EdenConstants.ROUTE_HEADER_FINAL_CD.equals(newRouteStatus)) {
+            this.getDocumentHeader().setFinancialDocumentStatusCode(Constants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED);
+            SpringServiceLocator.getDocumentService().updateDocument(this);
+        }
+    }
 
     /**
      * @see org.kuali.core.document.DocumentBase#prepareForSave()
@@ -363,7 +379,6 @@ public class CashReceiptDocument extends TransactionalDocumentBase {
             setTotalCheckAmount(calculateCheckTotal());
         }
     }
-
 
     /**
      * @see org.kuali.core.document.TransactionalDocumentBase#buildListOfDeletionAwareLists()

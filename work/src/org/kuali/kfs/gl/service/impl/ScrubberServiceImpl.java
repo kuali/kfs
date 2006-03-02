@@ -61,6 +61,8 @@ import org.kuali.module.gl.service.impl.helper.OriginEntryGroupInfo;
 import org.kuali.module.gl.service.impl.helper.OriginEntryInfo;
 import org.kuali.module.gl.service.impl.helper.ScrubberServiceErrorHandler;
 import org.kuali.module.gl.service.impl.helper.UnitOfWorkInfo;
+import org.kuali.module.gl.util.LedgerEntry;
+import org.kuali.module.gl.util.LedgerReport;
 import org.kuali.module.gl.util.ObjectHelper;
 import org.kuali.module.gl.util.ScrubberServiceValidationHelper;
 import org.kuali.module.gl.util.Summary;
@@ -71,7 +73,7 @@ import org.springframework.util.StringUtils;
 
 /**
  * @author Anthony Potts
- * @version $Id: ScrubberServiceImpl.java,v 1.56 2006-03-01 18:40:41 larevans Exp $
+ * @version $Id: ScrubberServiceImpl.java,v 1.57 2006-03-02 18:46:13 aapotts Exp $
  */
 
 public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
@@ -230,10 +232,48 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         
         // FIXME reports probably won't look right because batchError doesn't currently
         // keep in memory all of the entries in error.
-        scrubberReportService.generateReport(batchError, reportSummary, runDate, 0);
+        scrubberReportService.generateStatisticReport(batchError, reportSummary, runDate, 0);
+        generateBKUPLedgerReport();
         
         LOG.debug("scrubEntries() exiting scrubber process");
     }
+
+    private void generateBKUPLedgerReport() {
+        Map ledgerEntries = new HashMap();
+        for (Iterator iterator = originEntryService.getEntriesByGroup(validGroup); iterator.hasNext();) {
+            OriginEntry entry = (OriginEntry) iterator.next();
+            LedgerEntry ledgerEntry = new LedgerEntry();
+            ledgerEntry.balanceType = entry.getFinancialBalanceTypeCode();
+            ledgerEntry.originCode = entry.getFinancialSystemOriginationCode();
+            ledgerEntry.fiscalYear = entry.getUniversityFiscalYear();
+            ledgerEntry.period = entry.getUniversityFiscalPeriodCode();
+            String key = ledgerEntry.balanceType + ledgerEntry.originCode + ledgerEntry.fiscalYear + ledgerEntry.period;
+
+            boolean newLedgerEntry = !ledgerEntries.containsKey(key);
+            
+            if (!newLedgerEntry) {
+                ledgerEntry = (LedgerEntry) ledgerEntries.get(key);
+            }
+
+            ++ledgerEntry.recordCount;            
+            if (entry.isCredit()) {
+                ++ledgerEntry.creditCount;
+                ledgerEntry.creditAmount.add(entry.getTransactionLedgerEntryAmount());
+            } else if (entry.isDebit()) {
+                ++ledgerEntry.debitCount;
+                ledgerEntry.debitAmount.add(entry.getTransactionLedgerEntryAmount());
+            } else {
+                ++ledgerEntry.noDCCount;
+                ledgerEntry.noDCAmount.add(entry.getTransactionLedgerEntryAmount());
+            }
+
+            if (newLedgerEntry) {
+                ledgerEntries.put(key, ledgerEntry);
+            }
+        }
+        Map sortedLedgerEntries = new TreeMap(ledgerEntries);
+        scrubberReportService.generateLedgerStatReport(sortedLedgerEntries, runDate);
+}
 
     /**
      * 
@@ -538,8 +578,13 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
             
             postProcessEntry(currentEntry, workingEntryInfo);
             
+            if (workingEntryInfo.getErrors().size() > 0) {
+                batchError.put(currentEntry, workingEntryInfo.getErrors());
+            }
+
             currentEntry = nextEntry;
         }
+        
         
         // And queue up for the next iteration.
         unitOfWorkInfo.setFirstEntryOfNextUnitOfWork(currentEntry);
@@ -585,7 +630,6 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         workingEntry.setTransactionLedgerEntryDesc(originEntry.getTransactionLedgerEntryDesc());
         workingEntry.setTransactionLedgerEntryAmount(originEntry.getTransactionLedgerEntryAmount());
         workingEntry.setTransactionDebitCreditCode(originEntry.getTransactionDebitCreditCode());
-        workingEntry.setOption(originEntry.getOption());
 
         // NOTE the validator WILL set any fields in the workingEntry as appropriate
         // per the validation rules.
@@ -595,6 +639,7 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         // year was invalid. This will also set originEntry.getOption and workingEntry.getOption. So, it's 
         // probably a good idea to validate the fiscal year first thing.
         validator.validateFiscalYear(originEntry, workingEntryInfo, universityRunDate, optionsDao, persistenceService);
+        workingEntry.setOption(originEntry.getOption());
         validator.validateTransactionDate(originEntry, workingEntryInfo, runDate, universityDateDao);
         validator.validateSubAccount(originEntry, workingEntryInfo);
         validator.validateSubObjectCode(originEntry, workingEntryInfo);

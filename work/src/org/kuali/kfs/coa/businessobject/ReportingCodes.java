@@ -25,6 +25,7 @@ package org.kuali.module.chart.bo;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.user.UniversalUser;
 
 /**
  * Reporting Codes Business Object
@@ -41,6 +42,10 @@ public class ReportingCodes extends BusinessObjectBase {
     private String financialReportingCodeMgrId;
     private String financialReportsToReportingCode;
 
+    private Chart chart;
+    private Org org;
+    private UniversalUser universalUser;
+    
 	/**
 	 * @return Returns the chartOfAccountsCode.
 	 */
@@ -128,6 +133,51 @@ public class ReportingCodes extends BusinessObjectBase {
 			String financialReportsToReportingCode) {
 		this.financialReportsToReportingCode = financialReportsToReportingCode;
 	}
+
+    /**
+     * @return Returns the chart.
+     */
+    public Chart getChart() {
+        return chart;
+    }
+
+    /**
+     * @param chart The chart to set.
+     * @deprecated
+     */
+    public void setChart(Chart chart) {
+        this.chart = chart;
+    }
+
+    /**
+     * @return Returns the org.
+     */
+    public Org getOrg() {
+        return org;
+    }
+
+    /**
+     * @param org The org to set.
+     * @deprecated
+     */
+    public void setOrg(Org org) {
+        this.org = org;
+    }
+
+    /**
+     * @return Returns the universalUser.
+     */
+    public UniversalUser getUniversalUser() {
+        return universalUser;
+    }
+
+    /**
+     * @param universalUser The universalUser to set.
+     * @deprecated
+     */
+    public void setUniversalUser(UniversalUser universalUser) {
+        this.universalUser = universalUser;
+    }    
     
 	/**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
@@ -142,4 +192,6 @@ public class ReportingCodes extends BusinessObjectBase {
         m.put("financialReportsToReportingCode", this.financialReportsToReportingCode);
         return m;
     }
+
+
 }

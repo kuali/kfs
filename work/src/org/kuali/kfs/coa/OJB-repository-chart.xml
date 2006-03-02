@@ -1324,6 +1324,19 @@
 		column="FIN_RPTS_TO_RPT_CD" jdbc-type="VARCHAR" />
 	<field-descriptor name="versionNumber" column="VER_NBR"
 		jdbc-type="BIGINT" locking="true" />
+
+	<reference-descriptor name="chart" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="chartOfAccountsCode" />
+	</reference-descriptor>
+
+	<reference-descriptor name="org" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="chartOfAccountsCode" />
+		<foreignkey field-ref="organizationCode" />
+	</reference-descriptor>
+
+	<reference-descriptor name="universalUser" class-ref="org.kuali.core.bo.user.UniversalUser" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="financialReportingCodeMgrId" />
+	</reference-descriptor>
 </class-descriptor>
 
 <!-- class-descriptor class="org.kuali.module.chart.bo.RestrictedStatus" table="CA_RESTRICT_STAT_T">

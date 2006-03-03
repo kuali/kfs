@@ -191,7 +191,7 @@ public class OriginEntry extends BusinessObjectBase implements Transaction {
       setFinancialSystemOriginationCode(line.substring(35, 37).trim());
       setFinancialDocumentNumber(line.substring(37, 46).trim());
       if (!"     ".equals(line.substring(46, 51))) {
-          setTrnEntryLedgerSequenceNumber(new Integer(line.substring(46, 51)));
+          setTrnEntryLedgerSequenceNumber(new Integer(line.substring(46, 51).trim()));
       } else {
           setTrnEntryLedgerSequenceNumber(null);
       }
@@ -245,7 +245,12 @@ public class OriginEntry extends BusinessObjectBase implements Transaction {
       if ( trnEntryLedgerSequenceNumber == null ) {
         sb.append("     ");
       } else {
-        sb.append(getField(5,trnEntryLedgerSequenceNumber.toString().trim()));
+          // Format to a length of 5
+          String seqNum = trnEntryLedgerSequenceNumber.toString();
+          while(5 > seqNum.length()) {
+              seqNum = "0" + seqNum;
+          }
+          sb.append(seqNum);
       }
       sb.append(getField(40,transactionLedgerEntryDesc));
       if ( transactionLedgerEntryAmount == null ) {

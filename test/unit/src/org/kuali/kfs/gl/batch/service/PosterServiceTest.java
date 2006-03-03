@@ -23,6 +23,8 @@
 package org.kuali.module.gl.service;
 
 import java.math.BigDecimal;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Collection;
@@ -31,8 +33,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ojb.broker.query.Query;
+import org.apache.ojb.broker.query.QueryBySQL;
+import org.apache.ojb.broker.query.SqlCriteria;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.gl.TestDateTimeService;
+import org.kuali.module.gl.bo.Entry;
 import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.bo.OriginEntrySource;
@@ -136,6 +142,22 @@ public class PosterServiceTest extends KualiTestBaseWithSpringOnly {
 
     assertOriginEntries(outputTransactions);
   }
+  
+  public void testTrans() throws Exception {
+//	  String sql = "INSERT INTO KULDEV.EN_USR_OPTN_T(PRSN_EN_ID, PRSN_OPTN_ID, PRSN_OPTN_VAL, DB_LOCK_VER_NBR) VALUES('a', 'b', 'c', 0)";
+//	  Connection con = SpringServiceLocator.getPersistenceService().getPersistenceBroker().serviceConnectionManager().getConnection();
+//	  PreparedStatement ps = con.prepareStatement(sql);
+//	  int i = ps.executeUpdate(sql);
+//	  assertEquals(1, i);
+	  
+      Collection c = originEntryDao.testingGetAllEntries();
+
+      int count = 0;
+      for (Iterator iter = c.iterator(); iter.hasNext();) {
+        OriginEntry foundTransaction = (OriginEntry)iter.next();
+        foundTransaction.getFinancialDocumentNumber();
+      }	  
+  }
 
   /**
    * Check GL Entry inserts
@@ -165,7 +187,9 @@ public class PosterServiceTest extends KualiTestBaseWithSpringOnly {
 
     assertOriginEntries(outputTransactions);
 
-    List glEntries = unitTestSqlDao.sqlSelect("select * from gl_entry_t");
+//    List glEntries = unitTestSqlDao.sqlSelect("select * from gl_entry_t");
+    Query query = new QueryBySQL(Entry.class, "select * from gl_entry_t");
+    List glEntries = (List)SpringServiceLocator.getPersistenceService().getPersistenceBroker().getCollectionByQuery(query);
     assertEquals("Should be 2 GL entries",2,glEntries.size());
     Map glEntry = (Map)glEntries.get(0);
 

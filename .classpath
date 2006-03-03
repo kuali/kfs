@@ -65,5 +65,6 @@
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/xml-apis.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/workflow-client-2.1.jar"/>
 	<classpathentry kind="var" path="TOMCAT_LIB_HOME/servlet-api.jar"/>
+	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/spring-mock-1.1.5.jar"/>
 	<classpathentry kind="output" path="work/web-root/WEB-INF/classes"/>
 </classpath>

@@ -36,6 +36,14 @@ public class AccountBalanceServiceImpl implements AccountBalanceService {
     AccountBalanceDao accountBalanceDao;
 
     /**
+     * Sets the accountBalanceDao attribute value.
+     * @param accountBalanceDao The accountBalanceDao to set.
+     */
+    public void setAccountBalanceDao(AccountBalanceDao accountBalanceDao) {
+        this.accountBalanceDao = accountBalanceDao;
+    }
+    
+    /**
      * @see org.kuali.module.gl.service.AccountBalanceService#findAvailableAccountBalance(java.util.Map, boolean)
      */
     public Iterator findAvailableAccountBalance(Map fieldValues, boolean isConsolidated) {       
@@ -50,10 +58,16 @@ public class AccountBalanceServiceImpl implements AccountBalanceService {
     }
     
     /**
-     * Sets the accountBalanceDao attribute value.
-     * @param accountBalanceDao The accountBalanceDao to set.
+     * @see org.kuali.module.gl.service.AccountBalanceService#findAccountBalanceByLevel(java.util.Map, boolean, boolean)
      */
-    public void setAccountBalanceDao(AccountBalanceDao accountBalanceDao) {
-        this.accountBalanceDao = accountBalanceDao;
+    public Iterator findAccountBalanceByLevel(Map fieldValues, boolean isCostShareInclusive, boolean isConsolidated) {
+        return accountBalanceDao.findAccountBalanceByLevel(fieldValues, isCostShareInclusive, isConsolidated);
+    }
+
+    /**
+     * @see org.kuali.module.gl.service.AccountBalanceService#findAccountBalanceByObject(java.util.Map, boolean, boolean)
+     */
+    public Iterator findAccountBalanceByObject(Map fieldValues, boolean isCostShareInclusive, boolean isConsolidated) {
+        return accountBalanceDao.findAccountBalanceByObject(fieldValues, isCostShareInclusive, isConsolidated);
     }    
 }

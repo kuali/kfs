@@ -48,5 +48,25 @@ public interface AccountBalanceService {
      * @param isConsolidated determine whether the search results are consolidated
      * @return the summary records of account balance entries
      */
-    public Iterator findAccountBalanceByConsolidation(Map fieldValues, boolean isCostShareInclusive, boolean isConsolidated);    
+    public Iterator findAccountBalanceByConsolidation(Map fieldValues, boolean isCostShareInclusive, boolean isConsolidated); 
+    
+    /**
+     * This method finds the available account balances according to input fields and values
+     * 
+     * @param fieldValues the input fields and values
+     * @param isCostShareInclusive determine whether the account balance entries with cost share is included
+     * @param isConsolidated determine whether the search results are consolidated
+     * @return the summary records of account balance entries
+     */
+    public Iterator findAccountBalanceByLevel(Map fieldValues, boolean isCostShareInclusive, boolean isConsolidated); 
+    
+    /**
+     * This method finds the available account balances according to input fields and values
+     * 
+     * @param fieldValues the input fields and values
+     * @param isCostShareInclusive determine whether the account balance entries with cost share is included
+     * @param isConsolidated determine whether the search results are consolidated
+     * @return the summary records of account balance entries
+     */
+    public Iterator findAccountBalanceByObject(Map fieldValues, boolean isCostShareInclusive, boolean isConsolidated);        
 }

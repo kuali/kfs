@@ -4,10 +4,10 @@
     "../../../core/datadictionary/dataDictionary-1_0.dtd">
 	
 <dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.gl.bo.AccountBalanceByConsolidation">
+    <businessObject businessObjectClass="org.kuali.module.gl.bo.AccountBalanceByLevel">
         <customAttributeEnabled>false</customAttributeEnabled>
         <inquiry>
-            <title>Available Account Balance</title>
+            <title>Available Account Balance By Level</title>
             <inquiryFields>
 				<field attributeName="universityFiscalYear"/>
 				<field attributeName="chartOfAccountsCode"/>
@@ -23,22 +23,21 @@
         </inquiry>
 		
         <lookup>
-        	<lookupableID>glAccountBalanceByConsolidationLookupable</lookupableID>
-			<title>Available Account Balance By Consolidation</title>
+			<lookupableID>glAccountBalanceByLevelLookupable</lookupableID>
+			<title>Available Account Balance By Level</title>
 			
 			<instructions>Lookup Available Account Balance for the specific account.</instructions>			
-			<defaultSort attributeName="dummyBusinessObject.consolidationObjectCode" />
+			<defaultSort attributeName="account" />
 			
 			<lookupFields>
-				<lookupField attributeName="universityFiscalYear" required="true" noLookup="false">
-                	<defaultValueFinderClass>
-						org.kuali.core.lookup.valueFinder.FiscalYearFinder
-					</defaultValueFinderClass>
-                </lookupField>
-                				
+				<lookupField attributeName="universityFiscalYear" required="true" noLookup="false"/>               				
 				<lookupField attributeName="chartOfAccountsCode" required="true" noLookup="false"/>
-				<lookupField attributeName="accountNumber" required="true" noLookup="false"/>
+				<lookupField attributeName="accountNumber" required="true" noLookup="false"/>				
 				<lookupField attributeName="subAccountNumber" noLookup="false"/>
+				
+				<lookupField attributeName="financialObject.financialObjectLevel.financialConsolidationObjectCode" noLookup="false"/>
+				<lookupField attributeName="financialObject.financialObjectLevel.financialReportingSortCode" noLookup="false"/>
+				
 				<lookupField attributeName="dummyBusinessObject.consolidationOption">
 					<defaultValueFinderClass>
 						org.kuali.module.gl.web.optionfinder.GLConsolidationOptionFinder
@@ -58,9 +57,10 @@
 				<field attributeName="accountNumber"/>
 				<field attributeName="subAccountNumber"/>
 				
-	            <field attributeName="dummyBusinessObject.consolidationObjectCode"/>
-	            <field attributeName="dummyBusinessObject.consolidationReportingSortCode"/>
-	            <field attributeName="dummyBusinessObject.reportingSortCode"/> 
+				<field attributeName="financialObject.financialObjectLevel.financialConsolidationObjectCode"/>
+				<field attributeName="financialObject.financialObjectLevel.financialReportingSortCode"/>
+				<field attributeName="financialObject.financialObjectLevel.financialObjectLevelCode"/>
+				<field attributeName="dummyBusinessObject.reportingSortCode"/>
 	                       
 				<field attributeName="currentBudgetLineBalanceAmount"/>
 				<field attributeName="accountLineActualsBalanceAmount"/>
@@ -151,18 +151,22 @@
                 <description>Variance...</description>      					
             </attributeReference>
             
-            <attributeReference name="dummyBusinessObject.consolidationReportingSortCode"
-            					sourceClassName="org.kuali.module.chart.bo.ObjectCons" 
+            <attributeReference name="financialObject.financialObjectLevel.financialObjectLevelCode"
+            					sourceClassName="org.kuali.module.chart.bo.ObjLevel" 
+            					sourceAttributeName="financialObjectLevelCode"/> 
+            					
+	        <attributeReference name="financialObject.financialObjectLevel.financialReportingSortCode"
+	                    		sourceClassName="org.kuali.module.chart.bo.ObjLevel" 
             					sourceAttributeName="financialReportingSortCode"/> 
             					
+	        <attributeReference name="financialObject.financialObjectLevel.financialConsolidationObjectCode"
+            					sourceClassName="org.kuali.module.chart.bo.ObjLevel" 
+            					sourceAttributeName="financialConsolidationObjectCode"/> 	         
+
 	        <attributeReference name="dummyBusinessObject.reportingSortCode"
 	                    		sourceClassName="org.kuali.module.chart.bo.ObjectType" 
             					sourceAttributeName="financialReportingSortCode"/> 
-            					
-	        <attributeReference name="dummyBusinessObject.consolidationObjectCode"
-            					sourceClassName="org.kuali.module.chart.bo.ObjLevel" 
-            					sourceAttributeName="financialConsolidationObjectCode"/> 	      					        
-            					 
+            					            					 
         </attributes>
 		
     </businessObject>

@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../core/datadictionary/dataDictionary-1_0.dtd">
+<dictionaryEntry>
+	<businessObject businessObjectClass="org.kuali.module.chart.bo.HigherEdFunction">
+		<customAttributeEnabled>false</customAttributeEnabled>
+
+		<inquiry>
+			<title>Higher Education Function Inquiry</title>
+
+			<inquiryFields>
+				<field attributeName="financialHigherEdFunctionCd" />
+				<field attributeName="financialHigherEdFunctionNm" />			
+				<field attributeName="finUnivBdgtOfficeFunctionCd" />	
+				<field attributeName="finAicpaFunctionCode" />				
+				<field attributeName="financialFederalFunctionCode" />						
+			</inquiryFields>
+		</inquiry>
+
+		<lookup>
+			<title>Higher Education Function Lookup</title>
+
+			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.chart.bo.HigherEdFunction">Create New</a>]]></menubar>
+
+			<instructions>Lookup a Higher Education Function</instructions>
+
+			<defaultSort attributeName="financialHigherEdFunctionCd" sortAscending="true" />
+
+			<lookupFields>
+				<lookupField attributeName="financialHigherEdFunctionCd"  />
+				<lookupField attributeName="financialHigherEdFunctionNm"  />
+			</lookupFields>
+
+			<resultFields>
+				<field attributeName="financialHigherEdFunctionCd" />
+				<field attributeName="financialHigherEdFunctionNm" />			
+				<field attributeName="finUnivBdgtOfficeFunctionCd" />	
+				<field attributeName="finAicpaFunctionCode" />				
+				<field attributeName="financialFederalFunctionCode" />						
+			</resultFields>
+		</lookup>
+
+		<attributes>
+
+			<attribute name="financialHigherEdFunctionCd" forceUppercase="true">
+				<label>Higher Education Function Code</label>
+				<shortLabel>Code</shortLabel>
+
+				<maxLength>4</maxLength>
+				<validationPattern><alphaNumeric /></validationPattern>
+				<required>true</required>
+				
+                <control>
+                    <text size="4" />
+                </control>
+
+				<summary>Higher Education Function Code</summary>
+				<description>The code uniquely identifying a particular higher education function.</description>
+			</attribute>
+			
+			<attribute name="financialHigherEdFunctionNm" forceUppercase="false">
+                <label>Higher Education Function Name</label>
+                <shortLabel>Name</shortLabel>
+
+                <maxLength>40</maxLength>
+				<required>true</required>
+
+                <control>
+                    <text size="40" />
+                </control>
+
+                <summary>Higher Education Function Name</summary>
+                <description>Responsibility Center Name...</description>
+            </attribute>
+
+			<attribute name="finUnivBdgtOfficeFunctionCd" forceUppercase="true">
+                <label>University Budget Office Function Code</label>
+                <shortLabel>UBO</shortLabel>
+
+                <maxLength>3</maxLength>
+				<required>true</required>
+
+                <control>
+                    <text size="3" />
+                </control>
+
+                <summary>University Budget Office Function Code</summary>
+                <description>University Budget Office Function Code...</description>
+            </attribute>
+
+
+			<attribute name="finAicpaFunctionCode" forceUppercase="true">
+                <label>AICPA Function Code</label>
+                <shortLabel>AICPA</shortLabel>
+
+                <maxLength>3</maxLength>
+				<required>true</required>
+
+                <control>
+                    <text size="3" />
+                </control>
+
+                <summary>AICPA Function Code</summary>
+                <description>AICPA Function Code...</description>
+            </attribute>
+
+
+			<attribute name="financialFederalFunctionCode" forceUppercase="true">
+                <label>Federal Function Code</label>
+                <shortLabel>Fed</shortLabel>
+
+                <maxLength>3</maxLength>
+				<required>true</required>
+
+                <control>
+                    <text size="3" />
+                </control>
+
+                <summary>Federal Function Code</summary>
+                <description>Federal Function Code...</description>
+            </attribute>
+			
+			<attributeReference name="versionNumber" 
+					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
+					sourceAttributeName="versionNumber" />
+			
+		</attributes>
+	</businessObject>
+</dictionaryEntry>
+

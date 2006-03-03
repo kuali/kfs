@@ -72,7 +72,7 @@ import org.springframework.util.StringUtils;
 
 /**
  * @author Anthony Potts
- * @version $Id: ScrubberServiceImpl.java,v 1.59 2006-03-02 21:00:32 wesprice Exp $
+ * @version $Id: ScrubberServiceImpl.java,v 1.60 2006-03-03 15:55:03 larevans Exp $
  */
 
 public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
@@ -121,6 +121,10 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         "IF", "LA", "LE", "LF", "LI", "LR", "UC",
         "UF"
     };
+    static private String[] invalidDocumentTypesForLiabilities = new String[] {
+            "TF", "YETF", "AV", "AVAC", "AVAE", "AVRC"
+    };
+
     
     private BeanFactory beanFactory;
     private OriginEntryService originEntryService;
@@ -830,16 +834,17 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
             return;
         }
 
+        String[] continuationAccountOriginationCodes = new String[] {"EU", "PL"};
+        // String[] continuationAccountBalanceTypeCodes = new String[] {"EX", "IE", "PE"};
+        String[] continuationAccountDocumentTypeCodes = new String[] {"TOPS", "CD", "LOCR"};        
+        
         // TODO: move to APC?
         if ((org.apache.commons.lang.StringUtils.isNumeric(workingEntry.getFinancialSystemOriginationCode()) ||
-                "EU".equals(workingEntry.getFinancialSystemOriginationCode()) ||
-                "PL".equals(workingEntry.getFinancialSystemOriginationCode()) ||
+                ObjectHelper.isOneOf(workingEntry.getFinancialSystemOriginationCode(), continuationAccountOriginationCodes) ||
                 originEntry.getOption().getExtrnlEncumFinBalanceTypCd().equals(workingEntry.getFinancialBalanceTypeCode()) ||
                 originEntry.getOption().getIntrnlEncumFinBalanceTypCd().equals(workingEntry.getFinancialBalanceTypeCode()) ||
                 originEntry.getOption().getPreencumbranceFinBalTypeCd().equals(workingEntry.getFinancialBalanceTypeCode()) ||
-                "TOPS".equals(workingEntry.getFinancialDocumentTypeCode()) ||
-                "CD".equals(workingEntry.getFinancialDocumentTypeCode().trim()) ||
-                "LOCR".equals(workingEntry.getFinancialDocumentTypeCode())) &&
+                ObjectHelper.isOneOf(workingEntry.getFinancialDocumentTypeCode(), continuationAccountDocumentTypeCodes)) &&
                 !account.isAccountClosedIndicator()) {
         	
             workingEntry.setAccountNumber(originEntry.getAccountNumber());
@@ -847,11 +852,9 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
             return;
         }
 
-        Calendar tmpCal = Calendar.getInstance();
-        tmpCal.setTimeInMillis(account.getAccountExpirationDate().getTime());
-
-        if(tmpCal.get(Calendar.DAY_OF_YEAR) <= runCal.get(Calendar.DAY_OF_YEAR)
-        	|| account.isAccountClosedIndicator()) {
+        // This expiration logic occurs in two places. It's found both here and also in
+        // testExpiredCg.
+        if(isExpired(account) || account.isAccountClosedIndicator()) {
         	
             testExpiredCg(originEntry, workingEntryInfo);
             
@@ -860,6 +863,7 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
             workingEntry.setAccountNumber(originEntry.getAccountNumber());
             
         }
+        
     }// End of method
 
     /**
@@ -869,9 +873,6 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
      * @return
      */
     private boolean isSameUnitOfWork(OriginEntry currentEntry, OriginEntry nextEntry) {
-//    	if(ObjectHelper.isNull(currentEntry) || ObjectHelper.isNull(nextEntry)) {
-//    		return false;
-//    	}
     	
         // Check the key fields
         return null != currentEntry && null != nextEntry 
@@ -884,6 +885,7 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
             && ObjectHelper.isEqual(currentEntry.getFinancialBalanceTypeCode(), nextEntry.getFinancialBalanceTypeCode())
             && ObjectHelper.isEqual(currentEntry.getFinancialDocumentReversalDate(), nextEntry.getFinancialDocumentReversalDate())
             && ObjectHelper.isEqual(currentEntry.getUniversityFiscalPeriodCode(), nextEntry.getUniversityFiscalPeriodCode());
+        
     }
     
     /**
@@ -1138,10 +1140,6 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
     private void processLiabilities(OriginEntryInfo workingEntryInfo, String debitOrCreditCode, String accountNumber, String chartCode) {
         OriginEntry workingEntry = workingEntryInfo.getOriginEntry();
         
-        String[] invalidDocumentTypesForLiabilities = new String[] {
-                "TF", "YETF", "AV", "AVAC", "AVAE", "AVRC"
-        };
-
         if ( workingEntry.getFinancialBalanceTypeCode().equals(workingEntry.getOption().getActualFinancialBalanceTypeCd())
                 && !ObjectHelper.isOneOf(workingEntry.getFinancialDocumentTypeCode(), invalidDocumentTypesForLiabilities)
                 && (!"BB".equals(workingEntry.getUniversityFiscalPeriodCode())
@@ -1228,7 +1226,7 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
      * If the fund group code obtained is a "Contract & Grants" fund group then
      * this method call 2117-CHANGE-EXPIRATION, otherwise it just returns.
      */
-    private void checkCg(OriginEntryInfo workingEntryInfo) {
+    private void adjustForContractAndGrants(OriginEntryInfo workingEntryInfo) {
     	Account account = workingEntryInfo.getAccount();
     	
         if(account.isAccountClosedIndicator()) {
@@ -1242,7 +1240,7 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
             
             if ("CG".equals(account.getSubFundGroupCode())) {
                 
-                changeExpiration(workingEntryInfo);
+                adjustAccountExpirationDateForContractAndGrants(workingEntryInfo);
                 
             }
             
@@ -1262,17 +1260,19 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
      */
     private void testExpiredCg(OriginEntry originEntry, OriginEntryInfo workingEntryInfo) {
     	OriginEntry workingEntry = workingEntryInfo.getOriginEntry();
-        checkCg(workingEntryInfo);
+        
+        adjustForContractAndGrants(workingEntryInfo);
 
     	Account account = workingEntryInfo.getAccount();
 
-        Calendar tmpCal = Calendar.getInstance();
-        tmpCal.setTimeInMillis(account.getAccountExpirationDate().getTime());
-        if(tmpCal.get(Calendar.DAY_OF_YEAR) > runCal.get(Calendar.DAY_OF_YEAR) &&
-                !workingEntry.getAccount().isAccountClosedIndicator()) {
+        if(!isExpired(account) && !workingEntry.getAccount().isAccountClosedIndicator()) {
+            
             workingEntry.setAccountNumber(account.getAccountNumber());
+            
         } else {
+            
             getUnexpiredAccount(originEntry, workingEntryInfo);
+            
         }
     }
 
@@ -1294,7 +1294,7 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
     	OriginEntry workingEntry = workingEntryInfo.getOriginEntry();
     	Account account = workingEntryInfo.getAccount();
     	
-        int retValue = accountExpiration(originEntry, workingEntryInfo);
+        int retValue = lookupContinuationAccount(originEntry, workingEntryInfo);
 
         if (retValue == ScrubberUtil.ACCOUNT_LIMIT) {
         	ScrubberServiceErrorHandler.addTransactionError(
@@ -1346,7 +1346,7 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
      * @param originEntry
      * @return
      */
-    private int accountExpiration(OriginEntry originEntry, OriginEntryInfo workingEntryInfo) {
+    private int lookupContinuationAccount(OriginEntry originEntry, OriginEntryInfo workingEntryInfo) {
         String wsContinuationChart = originEntry.getAccount().getContinuationFinChrtOfAcctCd();
         String wsContinuationAccount = originEntry.getAccount().getContinuationAccountNumber();
 
@@ -1359,16 +1359,15 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
                 if(account.getAccountExpirationDate() == null) {
                     return ScrubberUtil.ACCOUNT_FOUND;
                 } else {
-                    checkCg(workingEntryInfo);
-                    Calendar tmpCal = Calendar.getInstance();
-                    tmpCal.setTimeInMillis(
-                    		account.getAccountExpirationDate().getTime());
-
-                    if(tmpCal.get(Calendar.DAY_OF_YEAR) <= runCal.get(Calendar.DAY_OF_YEAR)) {
+                    adjustForContractAndGrants(workingEntryInfo);
+                    
+                    if(isExpired(account)) {
+                        
                         wsContinuationChart = 
                         	account.getContinuationFinChrtOfAcctCd();
                         wsContinuationAccount = 
                         	account.getContinuationAccountNumber();
+                        
                     } else {
                         return ScrubberUtil.ACCOUNT_FOUND;
                     }
@@ -1379,8 +1378,24 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         }
 
         return ScrubberUtil.ACCOUNT_LIMIT;
-    }// End of method
+    } // End of method
 
+    private boolean isExpired(Account account) {
+        
+        Calendar expirationDate = Calendar.getInstance();
+        expirationDate.setTimeInMillis(account.getAccountExpirationDate().getTime());
+        
+        if((expirationDate.get(Calendar.YEAR) < runCal.get(Calendar.YEAR))
+                || (expirationDate.get(Calendar.YEAR) == runCal.get(Calendar.YEAR)
+                        && expirationDate.get(Calendar.DAY_OF_YEAR) < runCal.get(Calendar.DAY_OF_YEAR))) {
+            
+            return true;
+            
+        }
+        
+        return false;
+    }
+    
     /**
      * 2117-CHANGE-EXPIRATION
      * 
@@ -1390,7 +1405,7 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
      * The purpose of the method is to extend the "Contract and Grants" expiration
      * date by three months.
      */
-    private void changeExpiration(OriginEntryInfo workingEntryInfo) {
+    private void adjustAccountExpirationDateForContractAndGrants(OriginEntryInfo workingEntryInfo) {
     	Account account = workingEntryInfo.getAccount();
         Calendar tempCal = Calendar.getInstance();
         tempCal.setTimeInMillis(account.getAccountExpirationDate().getTime());

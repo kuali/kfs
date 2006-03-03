@@ -245,12 +245,7 @@ public class OriginEntry extends BusinessObjectBase implements Transaction {
       if ( trnEntryLedgerSequenceNumber == null ) {
         sb.append("     ");
       } else {
-          // Format to a length of 5
-          String seqNum = trnEntryLedgerSequenceNumber.toString();
-          for(int i = 0; i < 8 - seqNum.length(); i++) {
-              seqNum = "0" + seqNum;
-          }
-          sb.append(seqNum);
+        sb.append(getField(5,trnEntryLedgerSequenceNumber.toString().trim()));
       }
       sb.append(getField(40,transactionLedgerEntryDesc));
       if ( transactionLedgerEntryAmount == null ) {

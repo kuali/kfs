@@ -36,10 +36,10 @@ import org.kuali.core.bo.BusinessObjectBase;
 public class DepositCashReceiptControl extends BusinessObjectBase {
 
     private String financialDocumentDepositNumber;
+  	private Integer financialDocumentLineNumber;
     private String financialDocumentCashReceiptNumber;
     private Timestamp financialSystemsCashReceiptProcessingTimestamp;
     private String financialSystemsProcessingOperatorIdentifier;
-    private String financialDocumentDepositTypeCode;
     private DepositHeader depositHeader;
     private CashReceiptHeader cashReceiptHeader;
 
@@ -70,6 +70,26 @@ public class DepositCashReceiptControl extends BusinessObjectBase {
         this.financialDocumentDepositNumber = financialDocumentDepositNumber;
     }
 
+    /**
+     * Gets the financialDocumentLineNumber attribute.
+     * 
+     * @return Returns the financialDocumentLineNumber
+     * 
+     */
+    
+    public Integer getFinancialDocumentLineNumber() {
+        return financialDocumentLineNumber;
+    }
+    
+    /**
+     * Sets the financialDocumentLineNumber attribute.
+     * 
+     * @param - financialDocumentLineNumber The financialDocumentLineNumber to set.
+     * 
+     */
+    public void setFinancialDocumentLineNumber(Integer financialDocumentLineNumber) {
+        this.financialDocumentLineNumber = financialDocumentLineNumber;
+    }
 
     /**
      * Gets the financialDocumentCashReceiptNumber attribute.
@@ -132,28 +152,6 @@ public class DepositCashReceiptControl extends BusinessObjectBase {
     public void setFinancialSystemsProcessingOperatorIdentifier(String financialSystemsProcessingOperatorIdentifier) {
         this.financialSystemsProcessingOperatorIdentifier = financialSystemsProcessingOperatorIdentifier;
     }
-
-
-    /**
-     * Gets the financialDocumentDepositTypeCode attribute.
-     * 
-     * @return - Returns the financialDocumentDepositTypeCode
-     * 
-     */
-    public String getFinancialDocumentDepositTypeCode() {
-        return financialDocumentDepositTypeCode;
-    }
-
-    /**
-     * Sets the financialDocumentDepositTypeCode attribute.
-     * 
-     * @param - financialDocumentDepositTypeCode The financialDocumentDepositTypeCode to set.
-     * 
-     */
-    public void setFinancialDocumentDepositTypeCode(String financialDocumentDepositTypeCode) {
-        this.financialDocumentDepositTypeCode = financialDocumentDepositTypeCode;
-    }
-
 
     /**
      * Gets the depositHeader attribute.

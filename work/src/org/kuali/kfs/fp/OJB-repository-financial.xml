@@ -651,7 +651,7 @@
 <class-descriptor class="org.kuali.module.financial.document.DepositDocument" table="FP_DEPOSIT_DOC_T">
     <!--  common transactional document base attributes -->
 	<field-descriptor name="financialDocumentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="financialDocumentDepositTypeCode" column="FDOC_DPST_TYP_CD" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="financialDocumentLineNumber" column="FDOC_LINE_NBR" jdbc-type="INTEGER" primarykey="true" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 
     <!--
@@ -659,10 +659,11 @@
     -->
 
     <!--   deposit specfic attributes -->
+	<field-descriptor name="financialDocumentDepositTypeCode" column="FDOC_DPST_TYP_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="financialDocumentDepositDate" column="FDOC_DPST_DT" jdbc-type="DATE"/>
 	<field-descriptor name="financialDocumentDepositBankCode" column="FDOC_DPST_BNK_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="financialDocumentBankAccountNumber" column="FDOC_BNK_ACCT_NBR" jdbc-type="VARCHAR"/>
-	<field-descriptor name="financialDocumentDepositNumber" column="FDOC_DPST_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="financialDocumentDepositTicketNumber" column="FDOC_DPST_TKT_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="financialDocumentDepositAmount" column="FDOC_DPST_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
 
     <reference-descriptor name="documentHeader" class-ref="org.kuali.core.document.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
@@ -672,6 +673,12 @@
 	<reference-descriptor name="account" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="financialDocumentBankAccountNumber" />
 	</reference-descriptor>
+
+	<collection-descriptor name="depositCashReceiptControl" element-class-ref="org.kuali.module.financial.bo.DepositCashReceiptControl" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<orderby name="financialDocumentCashReceiptNumber" sort="ASC" />
+		<inverse-foreignkey field-ref="financialDocumentDepositNumber" />
+		<inverse-foreignkey field-ref="financialDocumentLineNumber" />
+	</collection-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.financial.bo.DepositHeader" table="FP_DEPOSIT_HDR_T">
@@ -685,21 +692,16 @@
 	<reference-descriptor name="document" class-ref="org.kuali.module.financial.document.DepositDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="financialDocumentNumber" />
 	</reference-descriptor>
-
-	<collection-descriptor name="depositCashReceiptControl" element-class-ref="org.kuali.module.financial.bo.DepositCashReceiptControl" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<orderby name="financialDocumentCashReceiptNumber" sort="ASC" />
-		<inverse-foreignkey field-ref="financialDocumentDepositNumber" />
-	</collection-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.financial.bo.DepositCashReceiptControl" table="FP_DEP_CSH_RCPT_T">
 	<field-descriptor name="financialDocumentDepositNumber" column="FDOC_DPST_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="financialDocumentLineNumber" column="FDOC_LINE_NBR" jdbc-type="INTEGER" primarykey="true" index="true"/>
 	<field-descriptor name="financialDocumentCashReceiptNumber" column="FDOC_CSH_RCPT_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="financialSystemsCashReceiptProcessingTimestamp" column="FS_CSHRCPT_PRCS_TS" jdbc-type="TIMESTAMP"/>
 	<field-descriptor name="financialSystemsProcessingOperatorIdentifier" column="FS_PRCS_OPR_ID" jdbc-type="VARCHAR"/>
-	<field-descriptor name="financialDocumentDepositTypeCode" column="FDOC_DPST_TYP_CD" jdbc-type="VARCHAR"/>
 
 	<reference-descriptor name="depositHeader" class-ref="org.kuali.module.financial.bo.DepositHeader" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="financialDocumentDepositNumber" />

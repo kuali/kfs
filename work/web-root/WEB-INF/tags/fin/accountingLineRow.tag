@@ -409,6 +409,6 @@
             </c:if>
         </c:forTokens>
         <td class="${dataCellCssClass}"
-            colspan="${rightColumnCount + 2 - (2 * extraRowFieldCount) - (readOnly ? 1 : 0)}">&nbsp;</td>
+            colspan="${rightColumnCount + 2 - (2 * extraRowFieldCount) + (readOnly ? 1 : 0)}">&nbsp;</td>
     </tr>
 </c:if>

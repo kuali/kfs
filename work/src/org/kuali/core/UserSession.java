@@ -103,7 +103,6 @@ public class UserSession implements Serializable {
         if (backdoorUser != null) {
             return backdoorUser;
         } else {
-            refreshUserGroups(kualiUser);
             return kualiUser;
         }
     }

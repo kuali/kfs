@@ -28,7 +28,7 @@
         default-connection="true"
         platform="Oracle9i"
         jdbc-level="3.0"
-        useAutoCommit="0">
+        useAutoCommit="1">
         <sequence-manager className="org.apache.ojb.broker.util.sequence.SequenceManagerNextValImpl"/>
         &cache;
     </jdbc-connection-descriptor>

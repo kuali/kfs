@@ -32,7 +32,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.util.SpringServiceLocator;
-import org.kuali.module.gl.PersistenceBrokerAbstractTransactionalDataSourceSpringContextTests;
 import org.kuali.module.gl.TestDateTimeService;
 import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.bo.OriginEntryGroup;
@@ -40,11 +39,12 @@ import org.kuali.module.gl.bo.OriginEntrySource;
 import org.kuali.module.gl.dao.OriginEntryDao;
 import org.kuali.module.gl.dao.OriginEntryGroupDao;
 import org.kuali.module.gl.dao.UnitTestSqlDao;
+import org.kuali.test.KualiTestBaseWithSpringOnly;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
 
-public class PosterServiceTest extends PersistenceBrokerAbstractTransactionalDataSourceSpringContextTests {
+public class PosterServiceTest extends KualiTestBaseWithSpringOnly {
   private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PosterServiceTest.class);
 
   private BeanFactory beanFactory;
@@ -61,8 +61,8 @@ public class PosterServiceTest extends PersistenceBrokerAbstractTransactionalDat
   /* (non-Javadoc)
    * @see org.springframework.test.AbstractTransactionalSpringContextTests#onSetUpInTransaction()
    */
-  protected void onSetUpInTransaction() throws Exception {
-    super.onSetUpInTransaction();
+  protected void setUp() throws Exception {
+    super.setUp();
 
     beanFactory = SpringServiceLocator.getBeanFactory();
 

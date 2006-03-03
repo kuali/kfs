@@ -75,6 +75,10 @@ public class ObjectCode extends BusinessObjectBase {
     public ObjectCode() {
         //	initialize the object fiscal year to the current fiscal year
         // universityFiscalYear = SpringServiceLocator.getDateTimeService().getCurrentFiscalYear();
+        
+        // construct the referenced objects for the calling of the referencing object
+        this.financialObjectLevel = new ObjLevel();
+        this.financialObjectType = new ObjectType();        
     }
 
     /**

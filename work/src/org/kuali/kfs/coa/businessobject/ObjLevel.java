@@ -34,13 +34,6 @@ import org.kuali.core.bo.BusinessObjectBase;
  */
 public class ObjLevel extends BusinessObjectBase {
 
-    /**
-     * Default no-arg constructor.
-     */
-    public ObjLevel() {
-
-    }
-
     private String chartOfAccountsCode;
     private String financialObjectLevelCode;
     private String financialObjectLevelName;
@@ -52,6 +45,16 @@ public class ObjLevel extends BusinessObjectBase {
     private ObjectCons financialConsolidationObject;
     private Chart chartOfAccounts;
 
+    
+    /**
+     * Constructs a ObjLevel.java.
+     * 
+     */
+    public ObjLevel() {
+        super();
+        this.financialConsolidationObject = new ObjectCons();
+    }
+    
     /**
      * Gets the financialObjectLevelCode attribute.
      * 

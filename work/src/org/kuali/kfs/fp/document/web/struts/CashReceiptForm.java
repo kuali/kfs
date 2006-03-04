@@ -27,6 +27,7 @@ import java.util.List;
 
 import org.apache.struts.util.LabelValueBean;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.web.format.CurrencyFormatter;
 import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
 import org.kuali.module.financial.bo.Check;
 import org.kuali.module.financial.bo.CheckBase;
@@ -63,8 +64,7 @@ public class CashReceiptForm extends KualiTransactionalDocumentFormBase {
         
         baselineChecks = new ArrayList();
     }
-
-
+    
     /**
      * @return CashReceiptDocument
      */
@@ -72,24 +72,33 @@ public class CashReceiptForm extends KualiTransactionalDocumentFormBase {
         return (CashReceiptDocument) getDocument();
     }
 
-
+    /**
+     * @return Check
+     */
     public Check getNewCheck() {
         return newCheck;
     }
 
+    /**
+     * @param newCheck
+     */
     public void setNewCheck(Check newCheck) {
         this.newCheck = newCheck;
     }
 
-
+    /**
+     * @param checkTotal
+     */
     public void setCheckTotal(KualiDecimal checkTotal) {
         this.checkTotal = checkTotal;
     }
 
+    /**
+     * @return KualiDecimal
+     */
     public KualiDecimal getCheckTotal() {
         return checkTotal;
     }
-
 
     /**
      * @return List of LabelValueBeans representing all available check entry modes
@@ -98,18 +107,26 @@ public class CashReceiptForm extends KualiTransactionalDocumentFormBase {
         return checkEntryModes;
     }
 
+    /**
+     * @return String
+     */
     public String getCheckEntryMode() {
         return checkEntryMode;
     }
 
+    /**
+     * @param checkEntryMode
+     */
     public void setCheckEntryMode(String checkEntryMode) {
         this.checkEntryMode = checkEntryMode;
     }
 
+    /**
+     * @return boolean
+     */
     public boolean isCheckEntryDetailMode() {
         return CashReceiptDocument.CHECK_ENTRY_DETAIL.equals(getCheckEntryMode());
     }
-    
     
     /**
      * @return current List of baseline checks for use in update detection

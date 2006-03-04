@@ -10,7 +10,7 @@
 <c:set var="displayHidden" value="false" />
 <c:set var="checkDetailMode" value="${KualiForm.checkEntryDetailMode}" />
 
-<c:set var="dummyAttributes" value="${DataDictionary.AttributeReferenceDummy.attributes}" />
+<c:set var="cashReceiptDocumentAttributes" value="${DataDictionary.KualiCashReceiptDocument.attributes}" />
 
 <kul:documentPage showDocumentInfo="true" htmlFormAction="financialCashReceipt" documentTypeName="KualiCashReceiptDocument"  renderMultipart="true" showTabButtons="true">
 
@@ -45,10 +45,11 @@
 
                                 <td align=left valign=middle class="right">
                                     <c:if test="${!checkDetailMode}">
-                                        <kul:htmlControlAttribute property="cashReceiptDocument.totalCheckAmount" attributeEntry="${dummyAttributes.genericAmount}" />
+                                        <kul:htmlControlAttribute property="totalCheckAmount" attributeEntry="${cashReceiptDocumentAttributes.genericAmount}" />
                                     </c:if>
                                     <c:if test="${checkDetailMode}">
-                                        <html:hidden write="true" property="document.totalCheckAmount" />
+                                    	$${KualiForm.document.currencyFormattedTotalCheckAmount}
+                                        <html:hidden write="false" property="document.totalCheckAmount" />
                                     </c:if>
                                 </td>
 
@@ -65,20 +66,20 @@
                             <tr>
                                 <td align=left valign=middle><div align="right"><strong>Currency:</strong></div></td>
                                 <td align=left valign=middle class="right">
-                                    <kul:htmlControlAttribute property="cashReceiptDocument.totalCashAmount" attributeEntry="${dummyAttributes.genericAmount}" />
+                                    <kul:htmlControlAttribute property="totalCashAmount" attributeEntry="${cashReceiptDocumentAttributes.genericAmount}" />
                                 </td>
                                 <td>&nbsp;</td>
                             </tr>
                             <tr>
                                 <td align=left valign=middle><div align="right"><strong>Coins:</strong></div></td>
                                 <td align=left valign=middle class="right">
-                                    <kul:htmlControlAttribute property="cashReceiptDocument.totalCoinAmount" attributeEntry="${dummyAttributes.genericAmount}" />
+                                    <kul:htmlControlAttribute property="totalCoinAmount" attributeEntry="${cashReceiptDocumentAttributes.genericAmount}" />
                                 </td>
                                 <td>&nbsp;</td>
                             </tr>
                             <tr>
-                                <td align=left valign=middle><div align="right"><strong>Total:</strong></div></td>
-                                <td align=left valign=middle class="right">${KualiForm.cashReceiptDocument.sumTotalAmount}</td>
+                                <td align=left valign=middle><div align="right"><strong>Cash Reconciliation Total:</strong></div></td>
+                                <td align=left valign=middle class="right">$${KualiForm.document.currencyFormattedSumTotalAmount}</td>
                                 <td>
                                     <html:image src="images/tinybutton-recalculate.gif" styleClass="tinybutton" alt="recalculate total" />
                                 </td>
@@ -90,7 +91,7 @@
         </div>
     </kul:tab>
 
-    <cr:checkLines checkDetailMode="${checkDetailMode}" editingMode="${editingMode}" totalAmount="${KualiForm.cashReceiptDocument.totalCheckAmount}" displayHidden="${displayHidden}" />
+    <cr:checkLines checkDetailMode="${checkDetailMode}" editingMode="${editingMode}" totalAmount="${KualiForm.cashReceiptDocument.currencyFormattedTotalCheckAmount}" displayHidden="${displayHidden}" />
    		
     <fin:accountingLines editingMode="${KualiForm.editingMode}" editableAccounts="${KualiForm.editableAccounts}" sourceAccountingLinesOnly="true" />
 

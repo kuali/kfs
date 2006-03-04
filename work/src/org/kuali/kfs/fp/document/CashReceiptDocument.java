@@ -250,6 +250,15 @@ public class CashReceiptDocument extends TransactionalDocumentBase {
     public KualiDecimal getTotalCheckAmount() {
         return totalCheckAmount;
     }
+    
+    /**
+     * This method returns the check total amount as a currency formatted string.
+     * 
+     * @return String
+     */
+    public String getCurrencyFormattedTotalCheckAmount() {
+        return (String) new CurrencyFormatter().format(totalCheckAmount);
+    }
 
     /**
      * Sets the totalCheckAmount attribute value.
@@ -296,7 +305,7 @@ public class CashReceiptDocument extends TransactionalDocumentBase {
     public String getCurrencyFormattedSumTotalAmount() {
         return (String) new CurrencyFormatter().format(getSumTotalAmount());
     }
-
+    
     /**
      * Overrides the base implementation to return an empty string.
      * 

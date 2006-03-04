@@ -24,7 +24,12 @@
           </c:when>
           <c:when test='${!empty channelTitle && !empty channelUrl}'>
             <td class="uportal-background-dark" valign="top" width="33%" colspan="2">
-              <portal:iframePortletContainer channelTitle="${channelTitle}" channelUrl="${channelUrl}" />
+              <c:if test="${!empty param.backdoorId}">
+                  <portal:iframePortletContainer channelTitle="${channelTitle}" channelUrl="${channelUrl}?backdoorId=${param.backdoorId}&methodToCall.login.x=1" />
+              </c:if>
+              <c:if test="${empty param.backdoorId}">
+                  <portal:iframePortletContainer channelTitle="${channelTitle}" channelUrl="${channelUrl}" />
+              </c:if>
             </td>
           </c:when>
           <c:otherwise>

@@ -128,7 +128,7 @@ public class UserSession implements Serializable {
      * @throws EdenUserNotFoundException
      */
     public void setBackdoorUser(String networkId) throws UserNotFoundException, WorkflowException {
-        // TODO - determine how we will get the environment configuration
+        // TODO - determine how we will get the environment configuration - KULCFG-17
         this.backdoorUser = SpringServiceLocator.getKualiUserService().getUser(new AuthenticationUserId(networkId));
         this.backdoorWorkflowUser = SpringServiceLocator.getWorkflowInfoService().getWorkflowUser(new NetworkIdVO(networkId));
         this.workflowDocMap = new HashMap();

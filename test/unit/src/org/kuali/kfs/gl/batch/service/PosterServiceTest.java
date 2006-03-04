@@ -23,8 +23,6 @@
 package org.kuali.module.gl.service;
 
 import java.math.BigDecimal;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Collection;
@@ -33,15 +31,14 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.ojb.broker.query.Query;
-import org.apache.ojb.broker.query.QueryBySQL;
-import org.apache.ojb.broker.query.SqlCriteria;
+import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.gl.TestDateTimeService;
-import org.kuali.module.gl.bo.Entry;
+import org.kuali.module.gl.TestPosterReport;
 import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.bo.OriginEntrySource;
+import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.dao.OriginEntryDao;
 import org.kuali.module.gl.dao.OriginEntryGroupDao;
 import org.kuali.module.gl.dao.UnitTestSqlDao;
@@ -55,7 +52,9 @@ public class PosterServiceTest extends KualiTestBaseWithSpringOnly {
 
   private BeanFactory beanFactory;
   private PosterService posterService;
+  private TestPosterReport posterReport;
   private TestDateTimeService dateTimeService;
+  private PersistenceService persistenceService;
   private UnitTestSqlDao unitTestSqlDao = null;
   private OriginEntryDao originEntryDao = null;
   private OriginEntryGroupDao originEntryGroupDao = null;
@@ -81,6 +80,9 @@ public class PosterServiceTest extends KualiTestBaseWithSpringOnly {
     dateTimeService = (TestDateTimeService)beanFactory.getBean("testDateTimeService");
     dateTimeService.currentDate = d;
     posterService = (PosterService)beanFactory.getBean("glPosterService");
+
+    posterReport = (TestPosterReport)beanFactory.getBean("testPosterReport");
+    persistenceService = (PersistenceService)beanFactory.getBean("persistenceService");
 
     // get the sql DAO
     unitTestSqlDao = (UnitTestSqlDao) beanFactory.getBean("glUnitTestSqlDao");
@@ -142,22 +144,6 @@ public class PosterServiceTest extends KualiTestBaseWithSpringOnly {
 
     assertOriginEntries(outputTransactions);
   }
-  
-  public void testTrans() throws Exception {
-//	  String sql = "INSERT INTO KULDEV.EN_USR_OPTN_T(PRSN_EN_ID, PRSN_OPTN_ID, PRSN_OPTN_VAL, DB_LOCK_VER_NBR) VALUES('a', 'b', 'c', 0)";
-//	  Connection con = SpringServiceLocator.getPersistenceService().getPersistenceBroker().serviceConnectionManager().getConnection();
-//	  PreparedStatement ps = con.prepareStatement(sql);
-//	  int i = ps.executeUpdate(sql);
-//	  assertEquals(1, i);
-	  
-      Collection c = originEntryDao.testingGetAllEntries();
-
-      int count = 0;
-      for (Iterator iter = c.iterator(); iter.hasNext();) {
-        OriginEntry foundTransaction = (OriginEntry)iter.next();
-        foundTransaction.getFinancialDocumentNumber();
-      }	  
-  }
 
   /**
    * Check GL Entry inserts
@@ -186,10 +172,8 @@ public class PosterServiceTest extends KualiTestBaseWithSpringOnly {
     posterService.postMainEntries();
 
     assertOriginEntries(outputTransactions);
-
-//    List glEntries = unitTestSqlDao.sqlSelect("select * from gl_entry_t");
-    Query query = new QueryBySQL(Entry.class, "select * from gl_entry_t");
-    List glEntries = (List)SpringServiceLocator.getPersistenceService().getPersistenceBroker().getCollectionByQuery(query);
+    
+    List glEntries = unitTestSqlDao.sqlSelect("select * from gl_entry_t");
     assertEquals("Should be 2 GL entries",2,glEntries.size());
     Map glEntry = (Map)glEntries.get(0);
 
@@ -482,8 +466,8 @@ public class PosterServiceTest extends KualiTestBaseWithSpringOnly {
     assertEquals("2 MO13_ACCT_LN_AMT is wrong",130.00,a.doubleValue(),0.01);
   }
 
-  public void testPostEcnumbrance() throws Exception {
-    LOG.debug("testPostEcnumbrance() started");
+  public void testPostEncumbrance() throws Exception {
+    LOG.debug("testPostEncumbrance() started");
 
     String[] inputTransactions = {
         // 23456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
@@ -722,7 +706,27 @@ public class PosterServiceTest extends KualiTestBaseWithSpringOnly {
   private OriginEntry createEntry(String line, OriginEntryGroup group) {
     OriginEntry entry = new OriginEntry(line);
     entry.setGroup(group);
+    
+    // This is being done to fool the caching.  If it isn't done, when
+    // we try to retrieve this entry later, none of the referenced tables will
+    // be loaded.
+    persistenceService.retrieveNonKeyFields(entry);
+
     originEntryDao.saveOriginEntry(entry);
     return entry;
+  }
+
+  private void printReport() {
+    System.err.println("Poster Report Errors:");
+    Map errors = posterReport.reportErrors;
+    for (Iterator i = errors.keySet().iterator(); i.hasNext();) {
+        Transaction key = (Transaction) i.next();
+        List msgs = (List) errors.get(key);
+        System.err.println(key);
+        for (Iterator iterator = msgs.iterator(); iterator.hasNext();) {
+            String msg = (String) iterator.next();
+            System.err.println("\t" + msg);
+        }
+    }
   }
 }

@@ -33,12 +33,9 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
-
 import org.kuali.module.gl.bo.AccountBalance;
-import org.kuali.module.gl.bo.Balance;
 import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.dao.AccountBalanceDao;
-
 import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 /**

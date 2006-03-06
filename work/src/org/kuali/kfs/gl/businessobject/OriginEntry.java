@@ -242,8 +242,21 @@ public class OriginEntry extends BusinessObjectBase implements Transaction {
       sb.append(getField(4,financialDocumentTypeCode));
       sb.append(getField(2,financialSystemOriginationCode));
       sb.append(getField(9,financialDocumentNumber));
+
+      // This is the cobol code for transaction sequence numbers.
+//      3025  019280     IF TRN-ENTR-SEQ-NBR OF GLEN-RECORD NOT NUMERIC
+//      3026  019290        MOVE ZEROES TO TRN-ENTR-SEQ-NBR OF GLEN-RECORD
+//      3027  019300     END-IF
+//      3028  019310     IF TRN-ENTR-SEQ-NBR OF GLEN-RECORD = SPACES
+//      3029  019320        MOVE ZEROES
+//      3030  019330          TO TRN-ENTR-SEQ-NBR OF ALT-GLEN-RECORD
+//      3031  019340     ELSE
+//      3032  019350        MOVE TRN-ENTR-SEQ-NBR OF GLEN-RECORD
+//      3033  019360          TO TRN-ENTR-SEQ-NBR OF ALT-GLEN-RECORD
+//      3034  019370     END-IF
+      
       if ( trnEntryLedgerSequenceNumber == null ) {
-        sb.append("     ");
+        sb.append("00000");
       } else {
           // Format to a length of 5
           String seqNum = trnEntryLedgerSequenceNumber.toString();

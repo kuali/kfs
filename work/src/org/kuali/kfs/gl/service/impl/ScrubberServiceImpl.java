@@ -72,7 +72,7 @@ import org.springframework.util.StringUtils;
 
 /**
  * @author Anthony Potts
- * @version $Id: ScrubberServiceImpl.java,v 1.60 2006-03-03 15:55:03 larevans Exp $
+ * @version $Id: ScrubberServiceImpl.java,v 1.61 2006-03-06 18:18:12 larevans Exp $
  */
 
 public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
@@ -183,7 +183,7 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         batchError = new HashMap();
         
         // One validator per run is preferred. The validator is stateless. 
-    	validator = new ScrubberServiceValidationHelper(universityDateDao);
+    	validator = new ScrubberServiceValidationHelper(universityDateDao, persistenceService);
     	
         // setup an object to hold the "default" date information
         runDate = new Date(dateTimeService.getCurrentDate().getTime());
@@ -581,10 +581,6 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
             
             postProcessEntry(currentEntry, workingEntryInfo);
             
-            if (workingEntryInfo.getErrors().size() > 0) {
-                batchError.put(currentEntry, workingEntryInfo.getErrors());
-            }
-
             currentEntry = nextEntry;
         }
         
@@ -606,6 +602,11 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
     			unitOfWorkInfo.getErrorCount() + workingEntryInfo.getErrors().size());
         
         unitOfWorkInfo.setNumberOfEntries(unitOfWorkInfo.getNumberOfEntries() + 1);
+        
+        if (workingEntryInfo.getErrors().size() > 0) {
+            batchError.put(inputEntry, workingEntryInfo.getErrors());
+        }
+        
     }
     
     /**
@@ -617,6 +618,8 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
     private OriginEntryInfo validateOriginEntryAndBuildWorkingEntry(OriginEntry originEntry, UnitOfWorkInfo unitOfWorkInfo) { /* 2500-process-unit-of-work */
         // FIXME (laran) see if this needs to be added back in
         //checkUnitOfWork(workingEntry);
+        
+        persistenceService.retrieveNonKeyFields(originEntry);
         
     	OriginEntryInfo workingEntryInfo = new OriginEntryInfo(unitOfWorkInfo);
     	workingEntryInfo.setAccount(originEntry.getAccount());
@@ -641,9 +644,13 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         // because this validation method will set the fiscal year and reload those three objects if the fiscal
         // year was invalid. This will also set originEntry.getOption and workingEntry.getOption. So, it's 
         // probably a good idea to validate the fiscal year first thing.
-        validator.validateFiscalYear(originEntry, workingEntryInfo, universityRunDate, optionsDao, persistenceService);
+        validator.validateFiscalYear(originEntry, workingEntryInfo, universityRunDate, optionsDao);
+        
+        // Must be called after validation of fiscal year as the option object may change in that method.
         workingEntry.setOption(originEntry.getOption());
+        
         validator.validateTransactionDate(originEntry, workingEntryInfo, runDate, universityDateDao);
+        validator.validateAccount(originEntry, workingEntryInfo, accountService, runCal);
         validator.validateSubAccount(originEntry, workingEntryInfo);
         validator.validateSubObjectCode(originEntry, workingEntryInfo);
         validator.validateProjectCode(originEntry, workingEntryInfo);
@@ -651,39 +658,6 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         validator.validateOrigination(originEntry, workingEntryInfo);
         validator.validateDocumentNumber(originEntry, workingEntryInfo);
         validator.validateChart(originEntry, workingEntryInfo);
-        validator.validateAccount(originEntry, workingEntryInfo);
-
-        // NOTE (laran) This code was left in here because I don't really understand how 
-        // wsAccountChange is being used.
-        if ("ACLO".equals(originEntry.getFinancialDocumentTypeCode())) { // TODO: move to properties ANNUAL_CLOSING
-            
-            resolveAccount(originEntry, workingEntryInfo);
-            
-        } else {
-            
-            wsAccountChange = originEntry.getAccountNumber();
-            
-        }
-        
-//        if (null != wsAccountChange 
-//        		&& !wsAccountChange.equals(workingEntry.getAccountNumber()) 
-//        		&& null != originEntry.getAccount()) {
-//        	
-//            if (originEntry.getAccount().isAccountClosedIndicator()) {
-//            	
-//            	ScrubberServiceErrorHandler.addTransactionError(
-//                    kualiConfigurationService.getPropertyString(KeyConstants.ERROR_ACCOUNT_CLOSED), 
-//                    originEntry.getAccountNumber(), workingEntryInfo.getErrors());
-//            	
-//            } else {
-//            	
-//            	ScrubberServiceErrorHandler.addTransactionError(
-//                    kualiConfigurationService.getPropertyString(KeyConstants.ERROR_ACCOUNT_EXPIRED),
-//                    originEntry.getAccountNumber(), workingEntryInfo.getErrors());
-//            	
-//            }
-//        }
-
         validator.validateObjectCode(originEntry, workingEntryInfo);
         validator.validateObjectType(originEntry, workingEntryInfo);
         validator.validateFinancialSubObjectCode(originEntry, workingEntryInfo);
@@ -692,7 +666,7 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         validator.validateEncumbranceUpdateCode(originEntry, workingEntryInfo);
         validator.validateReferenceDocument(originEntry, workingEntryInfo);
         validator.validateReversalDate(originEntry, workingEntryInfo, universityDateDao);
-        
+
         return workingEntryInfo;
     }
 
@@ -782,89 +756,88 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         	
         }
 	}
-
-    /**
-     * 2100-Edit Account
-     * 
-     * The purpose of this method is to see if an account is closed. If the account
-     * is closed then it tries to find a continuation account in which to post.
-     * 
-     * The user can select to ignore continuation account check, this is done by
-     * inputing a parameter to the Scrubber that says ingore this check.
-     * 
-     * An account is determined to be closed if its expiration date has been set
-     * and/or Account closed flag in the CA_ACCOUNT_T table has been set.
-     * If an account is closed then this method will call 2107-TEST-EXPIRED-CG.
-     * 
-     * @param originEntry
-     * @param workingEntry
-     */
-    private void resolveAccount(OriginEntry originEntry, OriginEntryInfo workingEntryInfo) { /* (2100-edit-account) */
-    	OriginEntry workingEntry = workingEntryInfo.getOriginEntry();
-    	
-    	Account account = originEntry.getAccount();
-    	workingEntryInfo.setAccount(account);
-
-        // Assume we have the current CA_ACCOUNT_T row.
-        // if(account.getAcctExpirationDt() == null &&
-        //           !account.getAcctClosedInd.equals("Y")) {
-        if (account.getAccountExpirationDate() == null &&
-           !account.isAccountClosedIndicator()) {
-        	
-            workingEntry.setAccountNumber(account.getAccountNumber());
-            
-            return;
-        }
-
-        // Check to see if the FS-ORIGIN-CD is numeric or equal to EU or equal to PL
-        // and the Account is not closed.
-        if ((org.apache.commons.lang.StringUtils.isNumeric(workingEntry.getFinancialSystemOriginationCode()) ||
-                "EU".equals(workingEntry.getFinancialSystemOriginationCode()) ||
-                "PL".equals(workingEntry.getFinancialSystemOriginationCode())) &&
-                account.isAccountClosedIndicator()) {
-        	
-            workingEntry.setAccountNumber(originEntry.getAccountNumber());
-            
-            wsAccountChange = workingEntry.getAccountNumber();
-            
-            ScrubberServiceErrorHandler.addTransactionError(
-                kualiConfigurationService.getPropertyString(KeyConstants.ERROR_ORIGIN_CODE_CANNOT_HAVE_CLOSED_ACCOUNT), 
-                account.getAccountNumber(), workingEntryInfo.getErrors());
-            
-            return;
-        }
-
-        String[] continuationAccountOriginationCodes = new String[] {"EU", "PL"};
-        // String[] continuationAccountBalanceTypeCodes = new String[] {"EX", "IE", "PE"};
-        String[] continuationAccountDocumentTypeCodes = new String[] {"TOPS", "CD", "LOCR"};        
-        
-        // TODO: move to APC?
-        if ((org.apache.commons.lang.StringUtils.isNumeric(workingEntry.getFinancialSystemOriginationCode()) ||
-                ObjectHelper.isOneOf(workingEntry.getFinancialSystemOriginationCode(), continuationAccountOriginationCodes) ||
-                originEntry.getOption().getExtrnlEncumFinBalanceTypCd().equals(workingEntry.getFinancialBalanceTypeCode()) ||
-                originEntry.getOption().getIntrnlEncumFinBalanceTypCd().equals(workingEntry.getFinancialBalanceTypeCode()) ||
-                originEntry.getOption().getPreencumbranceFinBalTypeCd().equals(workingEntry.getFinancialBalanceTypeCode()) ||
-                ObjectHelper.isOneOf(workingEntry.getFinancialDocumentTypeCode(), continuationAccountDocumentTypeCodes)) &&
-                !account.isAccountClosedIndicator()) {
-        	
-            workingEntry.setAccountNumber(originEntry.getAccountNumber());
-            
-            return;
-        }
-
-        // This expiration logic occurs in two places. It's found both here and also in
-        // testExpiredCg.
-        if(isExpired(account) || account.isAccountClosedIndicator()) {
-        	
-            testExpiredCg(originEntry, workingEntryInfo);
-            
-        } else {
-        	
-            workingEntry.setAccountNumber(originEntry.getAccountNumber());
-            
-        }
-        
-    }// End of method
+//
+//    /**
+//     * 2100-Edit Account
+//     * 
+//     * The purpose of this method is to see if an account is closed. If the account
+//     * is closed then it tries to find a continuation account in which to post.
+//     * 
+//     * The user can select to ignore continuation account check, this is done by
+//     * inputing a parameter to the Scrubber that says ingore this check.
+//     * 
+//     * An account is determined to be closed if its expiration date has been set
+//     * and/or Account closed flag in the CA_ACCOUNT_T table has been set.
+//     * If an account is closed then this method will call 2107-TEST-EXPIRED-CG.
+//     * 
+//     * @param originEntry
+//     * @param workingEntry
+//     */
+//    private void resolveAccount(OriginEntry originEntry, OriginEntryInfo workingEntryInfo) { /* (2100-edit-account) */
+//    	OriginEntry workingEntry = workingEntryInfo.getOriginEntry();
+//    	
+//    	Account account = originEntry.getAccount();
+//    	workingEntryInfo.setAccount(account);
+//
+//        // Assume we have the current CA_ACCOUNT_T row.
+//        // if(account.getAcctExpirationDt() == null &&
+//        //           !account.getAcctClosedInd.equals("Y")) {
+//        if (account.getAccountExpirationDate() == null &&
+//           !account.isAccountClosedIndicator()) {
+//        	
+//            workingEntry.setAccountNumber(account.getAccountNumber());
+//            
+//            return;
+//        }
+//
+//        String[] continuationAccountOriginationCodes = new String[] {"EU", "PL"};
+//        // String[] continuationAccountBalanceTypeCodes = new String[] {"EX", "IE", "PE"};
+//        String[] continuationAccountDocumentTypeCodes = new String[] {"TOPS", "CD", "LOCR"};        
+//        
+//        // Check to see if the FS-ORIGIN-CD is numeric or equal to EU or equal to PL
+//        // and the Account is not closed.
+//        if ((org.apache.commons.lang.StringUtils.isNumeric(workingEntry.getFinancialSystemOriginationCode()) ||
+//                ObjectHelper.isOneOf(workingEntry.getFinancialSystemOriginationCode(), continuationAccountOriginationCodes))
+//                && account.isAccountClosedIndicator()) {
+//        	
+//            workingEntry.setAccountNumber(originEntry.getAccountNumber());
+//            
+//            wsAccountChange = workingEntry.getAccountNumber();
+//            
+//            ScrubberServiceErrorHandler.addTransactionError(
+//                kualiConfigurationService.getPropertyString(KeyConstants.ERROR_ORIGIN_CODE_CANNOT_HAVE_CLOSED_ACCOUNT), 
+//                account.getAccountNumber(), workingEntryInfo.getErrors());
+//            
+//            return;
+//        }
+//
+//        // TODO: move to APC?
+//        if ((org.apache.commons.lang.StringUtils.isNumeric(workingEntry.getFinancialSystemOriginationCode()) ||
+//                ObjectHelper.isOneOf(workingEntry.getFinancialSystemOriginationCode(), continuationAccountOriginationCodes) ||
+//                originEntry.getOption().getExtrnlEncumFinBalanceTypCd().equals(workingEntry.getFinancialBalanceTypeCode()) ||
+//                originEntry.getOption().getIntrnlEncumFinBalanceTypCd().equals(workingEntry.getFinancialBalanceTypeCode()) ||
+//                originEntry.getOption().getPreencumbranceFinBalTypeCd().equals(workingEntry.getFinancialBalanceTypeCode()) ||
+//                ObjectHelper.isOneOf(workingEntry.getFinancialDocumentTypeCode(), continuationAccountDocumentTypeCodes)) &&
+//                !account.isAccountClosedIndicator()) {
+//        	
+//            workingEntry.setAccountNumber(originEntry.getAccountNumber());
+//            
+//            return;
+//        }
+//
+//        // This expiration logic occurs in two places. It's found both here and also in
+//        // testExpiredCg.
+//        if(isExpired(account) || account.isAccountClosedIndicator()) {
+//        	
+//            testExpiredCg(originEntry, workingEntryInfo);
+//            
+//        } else {
+//        	
+//            workingEntry.setAccountNumber(originEntry.getAccountNumber());
+//            
+//        }
+//        
+//    }// End of method
 
     /**
      * 
@@ -1213,204 +1186,6 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         }
         
         // In COBOL, the CA_ORG_T table is read at this time to reset the org information. I dont think this is necessary
-    }
-
-    /**
-     * 2115-CHECK-CG
-     * The purpose of this method is to get the fund group code, subfund group active
-     * code, and the subfund group type code from the CA_SUB_FUND_GRP_T table.
-     * 
-     * If the account from the input transaction is closed then this routine is never
-     * executed.
-     * 
-     * If the fund group code obtained is a "Contract & Grants" fund group then
-     * this method call 2117-CHANGE-EXPIRATION, otherwise it just returns.
-     */
-    private void adjustForContractAndGrants(OriginEntryInfo workingEntryInfo) {
-    	Account account = workingEntryInfo.getAccount();
-    	
-        if(account.isAccountClosedIndicator()) {
-            return;
-        }
-        
-        if (ScrubberServiceErrorHandler.ifNullAddTransactionErrorAndReturnFalse(
-        		account.getSubFundGroup(), workingEntryInfo.getErrors(),
-                kualiConfigurationService.getPropertyString(KeyConstants.ERROR_SUB_FUND_GROUP_NOT_FOUND), 
-                account.getSubFundGroupCode())) {
-            
-            if ("CG".equals(account.getSubFundGroupCode())) {
-                
-                adjustAccountExpirationDateForContractAndGrants(workingEntryInfo);
-                
-            }
-            
-        }
-        
-    }
-
-    /**
-     * 2107-TEST-EXPIRED-CG
-     * 
-     * This method calls 2115-CHECK-CG. When it returns from this call this method
-     * check to see the current entry from the CA_ACCOUNT_T is closed or expired. If
-     * it is not then this methods returns, otherwise it will call 2110-GET-UNXPRD-ACCT.
-     * 
-     * @param originEntry
-     * @param workingEntry
-     */
-    private void testExpiredCg(OriginEntry originEntry, OriginEntryInfo workingEntryInfo) {
-    	OriginEntry workingEntry = workingEntryInfo.getOriginEntry();
-        
-        adjustForContractAndGrants(workingEntryInfo);
-
-    	Account account = workingEntryInfo.getAccount();
-
-        if(!isExpired(account) && !workingEntry.getAccount().isAccountClosedIndicator()) {
-            
-            workingEntry.setAccountNumber(account.getAccountNumber());
-            
-        } else {
-            
-            getUnexpiredAccount(originEntry, workingEntryInfo);
-            
-        }
-    }
-
-    /**
-     * 2110-GET-UNXPRD-ACCT
-     * 
-     * The puropse of this method is to call the method 2120-ACCT-EXPIRATION and
-     * check what this method return. If the account limit or an account error
-     * occurred in 2120-ACCT-EXPIRATION this method will generate the appropriate message
-     * and return.
-     * 
-     * If a continuation account was found then this method will call the
-     * 2130-READ-NEW-COAT method. (handled by OJB for us)
-     * 
-     * @param originEntry
-     * @param workingEntry
-     */
-    private void getUnexpiredAccount(OriginEntry originEntry, OriginEntryInfo workingEntryInfo) {
-    	OriginEntry workingEntry = workingEntryInfo.getOriginEntry();
-    	Account account = workingEntryInfo.getAccount();
-    	
-        int retValue = lookupContinuationAccount(originEntry, workingEntryInfo);
-
-        if (retValue == ScrubberUtil.ACCOUNT_LIMIT) {
-        	ScrubberServiceErrorHandler.addTransactionError(
-                kualiConfigurationService.getPropertyString(KeyConstants.ERROR_CONTINUATION_ACCOUNT_LIMIT_REACHED), 
-                originEntry.getAccountNumber(), workingEntryInfo.getErrors());
-            return;
-        }
-
-        if (retValue == ScrubberUtil.ACCOUNT_ERROR) {
-        	ScrubberServiceErrorHandler.addTransactionError("CONTINUATION ACCT NOT IN ACCT", originEntry.getAccountNumber(),
-            	workingEntryInfo.getErrors());
-            return;
-        }
-
-        //FOUND
-        workingEntry.setChartOfAccountsCode(account.getChartOfAccountsCode());
-        workingEntry.setAccountNumber(account.getAccountNumber());
-        originEntry.setTransactionLedgerEntryDesc(
-            "AUTO FR " + originEntry.getChartOfAccountsCode() + " " + originEntry.getAccountNumber() + " " 
-            + originEntry.getTransactionLedgerEntryDesc());
-
-        if (!originEntry.getChartOfAccountsCode().equals(workingEntry.getChartOfAccountsCode())) {
-            workingEntry.setChartOfAccountsCode(account.getChartOfAccountsCode());
-            workingEntry.getChart().setChartOfAccountsCode(account.getChartOfAccountsCode());
-            persistenceService.retrieveReferenceObject(workingEntry,"chart");
-            ScrubberServiceErrorHandler.ifNullAddTransactionErrorAndReturnFalse(
-                workingEntry.getChart(), workingEntryInfo.getErrors(),
-                kualiConfigurationService.getPropertyString(KeyConstants.ERROR_CONTINUATION_CHART_NOT_FOUND), 
-                originEntry.getChartOfAccountsCode());
-        }
-     }// End of method
-
-    /**
-     * 2120-ACCT-EXPIRATION
-     * 
-     * The purpose of this method is to look for a continuation account. It accomplishes
-     * this by reading the CA_ACCOUNT_T table with the most recent continuation account
-     * from the current account table entry. This method will continue to read the
-     * CA_ACCOUNT_T table until one of the following conditions is met:
-     * 
-     * 1. An account with an expiration date not set or is active.
-     * 2. An error occurs while reading the CA_ACCOUNT_T table or an account
-     *    is not found.
-     * 3. The user limit has been reached, in the case of IU the limit is 10 reads.
-     * 
-     * Note while reading the CA_ACCOUNT_T a continuation account is found and its
-     * expiration date is not null or spaces then this method will 2115-CHECK-CG.
-     * 
-     * @param originEntry
-     * @return
-     */
-    private int lookupContinuationAccount(OriginEntry originEntry, OriginEntryInfo workingEntryInfo) {
-        String wsContinuationChart = originEntry.getAccount().getContinuationFinChrtOfAcctCd();
-        String wsContinuationAccount = originEntry.getAccount().getContinuationAccountNumber();
-
-        for(int i = 0; i < 10; ++i) {
-            workingEntryInfo.setAccount(
-            	accountService.getByPrimaryId(wsContinuationChart, wsContinuationAccount));
-
-            Account account = workingEntryInfo.getAccount();
-            if(account != null) {
-                if(account.getAccountExpirationDate() == null) {
-                    return ScrubberUtil.ACCOUNT_FOUND;
-                } else {
-                    adjustForContractAndGrants(workingEntryInfo);
-                    
-                    if(isExpired(account)) {
-                        
-                        wsContinuationChart = 
-                        	account.getContinuationFinChrtOfAcctCd();
-                        wsContinuationAccount = 
-                        	account.getContinuationAccountNumber();
-                        
-                    } else {
-                        return ScrubberUtil.ACCOUNT_FOUND;
-                    }
-                }
-            } else {
-                return ScrubberUtil.ACCOUNT_ERROR;
-            }
-        }
-
-        return ScrubberUtil.ACCOUNT_LIMIT;
-    } // End of method
-
-    private boolean isExpired(Account account) {
-        
-        Calendar expirationDate = Calendar.getInstance();
-        expirationDate.setTimeInMillis(account.getAccountExpirationDate().getTime());
-        
-        if((expirationDate.get(Calendar.YEAR) < runCal.get(Calendar.YEAR))
-                || (expirationDate.get(Calendar.YEAR) == runCal.get(Calendar.YEAR)
-                        && expirationDate.get(Calendar.DAY_OF_YEAR) < runCal.get(Calendar.DAY_OF_YEAR))) {
-            
-            return true;
-            
-        }
-        
-        return false;
-    }
-    
-    /**
-     * 2117-CHANGE-EXPIRATION
-     * 
-     * This method is called because the account being processed is in the "Contract
-     * and Grants" fund group.
-     * 
-     * The purpose of the method is to extend the "Contract and Grants" expiration
-     * date by three months.
-     */
-    private void adjustAccountExpirationDateForContractAndGrants(OriginEntryInfo workingEntryInfo) {
-    	Account account = workingEntryInfo.getAccount();
-        Calendar tempCal = Calendar.getInstance();
-        tempCal.setTimeInMillis(account.getAccountExpirationDate().getTime());
-        tempCal.add(Calendar.MONTH, 3); //TODO: make this configurable
-        account.setAccountExpirationDate(new Timestamp(tempCal.getTimeInMillis()));
     }
 
     /**
@@ -1935,9 +1710,12 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
     private void performDemerger(String documentNumber, OriginEntryGroup oeg) {
         originEntryService.removeScrubberDocumentEntries(
             validGroup, errorGroup, expiredGroup, documentNumber);
+        
         for (Iterator entryIterator = originEntryService.getEntriesByDocument(oeg, documentNumber); entryIterator.hasNext();) {
+            
             OriginEntry entry = (OriginEntry) entryIterator.next();
             originEntryService.createEntry(entry, errorGroup);
+            
         }
     }
 

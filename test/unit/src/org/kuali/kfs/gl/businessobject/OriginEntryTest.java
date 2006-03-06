@@ -12,6 +12,10 @@ public class OriginEntryTest extends TestCase {
         
         String line = null;
         
+        line = "2004BL4131407-----4100---ACEX07TOPSLGEXPIRCGAC     CONCERTO OFFICE PRODUCTS                            48.53C2006-01-05          ----------                                  ";
+        String convertedLine = "2004BL4131407-----4100---ACEX07TOPSLGEXPIRCGAC00000CONCERTO OFFICE PRODUCTS                            48.53C2006-01-05          ----------                                  ";
+        assertEquals(convertedLine, new OriginEntry(line).getLine());
+
         line = "2004BL4131407-----4100---ACEX07TOPSLGEXPIRCGAC00000CONCERTO OFFICE PRODUCTS                            48.53C2006-01-05          ----------                                  ";
         assertEquals(line, new OriginEntry(line).getLine());
         

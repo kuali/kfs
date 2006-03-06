@@ -877,6 +877,11 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
 
         String errorKey = PropertyConstants.FINANCIAL_OBJECT_LEVEL_CODE;
         boolean objectCodeAllowed = true;
+        
+        /* object code exist done in super, check we have a valid object */
+        if (ObjectUtils.isNull(accountingLine.getObjectCode())) {
+            return false;
+        }
 
         /* make sure object code is active */
         if (!accountingLine.getObjectCode().isFinancialObjectActiveCode()) {
@@ -930,6 +935,11 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
 
         String errorKey = PropertyConstants.ACCOUNT_NUMBER;
         boolean accountNumberAllowed = true;
+        
+        /* account exist done in super, check we have a valid object */
+        if (ObjectUtils.isNull(accountingLine.getAccount())) {
+            return false;
+        }
 
         /* global sub fund restrictions */
         accountNumberAllowed = accountNumberAllowed

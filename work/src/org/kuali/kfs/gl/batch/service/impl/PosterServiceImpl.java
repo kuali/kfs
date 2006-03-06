@@ -62,7 +62,7 @@ import org.springframework.beans.factory.BeanFactoryAware;
 
 /**
  * @author jsissom
- * @version $Id: PosterServiceImpl.java,v 1.22 2006-02-23 01:23:00 jsissom Exp $
+ * @version $Id: PosterServiceImpl.java,v 1.23 2006-03-06 13:42:19 jsissom Exp $
  */
 public class PosterServiceImpl implements PosterService,BeanFactoryAware {
   private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PosterServiceImpl.class);
@@ -647,6 +647,7 @@ public class PosterServiceImpl implements PosterService,BeanFactoryAware {
     // If we are in test mode
     if ( beanFactory.containsBean("testDateTimeService") ) {
       dateTimeService = (DateTimeService)beanFactory.getBean("testDateTimeService");
+      posterReportService = (PosterReport)beanFactory.getBean("testPosterReport");
     }
   }
 

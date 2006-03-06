@@ -253,7 +253,7 @@ public class PosterServiceTest extends KualiTestBaseWithSpringOnly {
     assertEquals("FDOC_REVERSAL_DT wrong","2006-03-01",sdf.format((Date)reversalEntry.get("FDOC_REVERSAL_DT")));
   }
 
-  public void xtestPostBalance() throws Exception {
+  public void testPostBalance() throws Exception {
     LOG.debug("testPostBalance() started");
 
     String[] inputTransactions = {

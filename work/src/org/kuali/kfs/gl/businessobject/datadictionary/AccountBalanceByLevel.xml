@@ -27,7 +27,7 @@
 			<title>Available Account Balance By Level</title>
 			
 			<instructions>Lookup Available Account Balance for the specific account.</instructions>			
-			<defaultSort attributeName="account" />
+			<defaultSort attributeName="accountNumber" />
 			
 			<lookupFields>
 				<lookupField attributeName="universityFiscalYear" required="true" noLookup="false"/>               				
@@ -57,10 +57,7 @@
 				<field attributeName="accountNumber"/>
 				<field attributeName="subAccountNumber"/>
 				
-				<field attributeName="financialObject.financialObjectLevel.financialConsolidationObjectCode"/>
-				<field attributeName="financialObject.financialObjectLevel.financialReportingSortCode"/>
 				<field attributeName="financialObject.financialObjectLevel.financialObjectLevelCode"/>
-				<field attributeName="dummyBusinessObject.reportingSortCode"/>
 	                       
 				<field attributeName="currentBudgetLineBalanceAmount"/>
 				<field attributeName="accountLineActualsBalanceAmount"/>

@@ -93,8 +93,9 @@ public class AccountBalanceDaoOjb extends PersistenceBrokerDaoSupport implements
         ReportQueryByCriteria query = QueryFactory.newReportQuery(AccountBalance.class, criteria);
 
         List attributeList = buildAttributeList(false, "");
-        List groupByList = buildGroupByList(false, "");
+        List groupByList = buildGroupList(false, "");
 
+        // consolidate the selected entries
         if (isConsolidated) {
             attributeList.remove("subAccountNumber");
             groupByList.remove("subAccountNumber");
@@ -151,14 +152,9 @@ public class AccountBalanceDaoOjb extends PersistenceBrokerDaoSupport implements
         ReportQueryByCriteria query = QueryFactory.newReportQuery(AccountBalance.class, criteria);
         
         List attributeList = buildAttributeList(true, this.BY_CONSOLIDATION);
-        List groupByList = buildGroupByList(true, this.BY_CONSOLIDATION);
+        List groupByList = buildGroupList(true, this.BY_CONSOLIDATION);
         
-        // remove the attributes and grouping attributes that will not be get involved into oncoming query
-        attributeList.remove("objectCode");
-        groupByList.remove("objectCode");        
-        attributeList.remove("financialObject.financialObjectTypeCode");
-        groupByList.remove("financialObject.financialObjectTypeCode");        
-        
+        // consolidate the selected entries
         if(isConsolidated){
             attributeList.remove("subAccountNumber");
             groupByList.remove("subAccountNumber");
@@ -204,14 +200,9 @@ public class AccountBalanceDaoOjb extends PersistenceBrokerDaoSupport implements
         ReportQueryByCriteria query = QueryFactory.newReportQuery(AccountBalance.class, criteria);
         
         List attributeList = buildAttributeList(true, this.BY_LEVEL);
-        List groupByList = buildGroupByList(true, this.BY_LEVEL);
+        List groupByList = buildGroupList(true, this.BY_LEVEL);
         
-        // remove the attributes and grouping attributes that will not be get involved into oncoming query
-        attributeList.remove("objectCode");
-        groupByList.remove("objectCode");        
-        attributeList.remove("financialObject.financialObjectTypeCode");
-        groupByList.remove("financialObject.financialObjectTypeCode");        
-        
+        // consolidate the selected entries
         if(isConsolidated){
             attributeList.remove("subAccountNumber");
             groupByList.remove("subAccountNumber");
@@ -251,14 +242,9 @@ public class AccountBalanceDaoOjb extends PersistenceBrokerDaoSupport implements
         ReportQueryByCriteria query = QueryFactory.newReportQuery(AccountBalance.class, criteria);
         
         List attributeList = buildAttributeList(true, this.BY_OBJECT);
-        List groupByList = buildGroupByList(true, this.BY_OBJECT);
+        List groupByList = buildGroupList(true, this.BY_OBJECT);    
         
-        // remove the attributes and grouping attributes that will not be get involved into oncoming query
-        attributeList.remove("objectCode");
-        groupByList.remove("objectCode");        
-        attributeList.remove("financialObject.financialObjectTypeCode");
-        groupByList.remove("financialObject.financialObjectTypeCode");        
-        
+        // consolidate the selected entries
         if(isConsolidated){
             attributeList.remove("subAccountNumber");
             groupByList.remove("subAccountNumber");
@@ -302,8 +288,8 @@ public class AccountBalanceDaoOjb extends PersistenceBrokerDaoSupport implements
 
     /**
      * This method builds the atrribute list used by balance searching
-     * @param isExtended
-     * @param type 
+     * @param isExtended determine whether the extended attributes will be used 
+     * @param type the type of selection. Its value may be BY_CONSOLIDATION, BY_LEVEL and BY_OBJECT 
      * 
      * @return List an attribute list
      */
@@ -315,13 +301,14 @@ public class AccountBalanceDaoOjb extends PersistenceBrokerDaoSupport implements
         attributeList.add("accountNumber");
         attributeList.add("subAccountNumber");
 
-        attributeList.add("objectCode");
-        attributeList.add("financialObject.financialObjectTypeCode");
-
-        if (isExtended) {
+		if(!isExtended){
+		    attributeList.add("objectCode");
+		    attributeList.add("financialObject.financialObjectTypeCode");
+		}
+        else {
             if(type.equals(this.BY_CONSOLIDATION)){
-	            attributeList.add("financialObject.financialObjectLevel.financialConsolidationObject.financialReportingSortCode");
-	            attributeList.add("financialObject.financialObjectType.financialReportingSortCode");
+                attributeList.add("financialObject.financialObjectType.financialReportingSortCode");
+	            attributeList.add("financialObject.financialObjectLevel.financialConsolidationObject.financialReportingSortCode");	            
 	            attributeList.add("financialObject.financialObjectLevel.financialConsolidationObjectCode");
             }
             else if(type.equals(this.BY_LEVEL)){
@@ -342,11 +329,12 @@ public class AccountBalanceDaoOjb extends PersistenceBrokerDaoSupport implements
 
     /**
      * This method builds group by attribute list used by balance searching
-     * @param type TODO
+     * @param isExtended determine whether the extended attributes will be used 
+     * @param type the type of selection. Its value may be BY_CONSOLIDATION, BY_LEVEL and BY_OBJECT
      * 
      * @return List an group by attribute list
      */
-    private List buildGroupByList(boolean isExtended, String type) {
+    private List buildGroupList(boolean isExtended, String type) {
         List attributeList = new ArrayList();
 
         attributeList.add("universityFiscalYear");
@@ -354,19 +342,20 @@ public class AccountBalanceDaoOjb extends PersistenceBrokerDaoSupport implements
         attributeList.add("accountNumber");
         attributeList.add("subAccountNumber");
 
-        attributeList.add("objectCode");
-        attributeList.add("financialObject.financialObjectTypeCode");
-
         // use the extended option and type
-        if (isExtended) {
+		if(!isExtended){
+		    attributeList.add("objectCode");
+		    attributeList.add("financialObject.financialObjectTypeCode");
+		}
+        else {
             if(type.equals(this.BY_CONSOLIDATION)){
-	            attributeList.add("financialObject.financialObjectLevel.financialConsolidationObject.financialReportingSortCode");
-	            attributeList.add("financialObject.financialObjectType.financialReportingSortCode");
+                attributeList.add("financialObject.financialObjectType.financialReportingSortCode");
+	            attributeList.add("financialObject.financialObjectLevel.financialConsolidationObject.financialReportingSortCode");	            
 	            attributeList.add("financialObject.financialObjectLevel.financialConsolidationObjectCode");
             }
             else if(type.equals(this.BY_LEVEL)){
 	            attributeList.add("financialObject.financialObjectLevel.financialReportingSortCode");
-	            attributeList.add("financialObject.financialObjectLevel.financialObjectLevelCode");                
+	            attributeList.add("financialObject.financialObjectLevel.financialObjectLevelCode");                	            
             }
             else if(type.equals(this.BY_OBJECT)){
                 attributeList.add("objectCode");

@@ -30,11 +30,13 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.Constants;
+import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.lookup.CollectionIncomplete;
 import org.kuali.core.util.BeanPropertyComparator;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.gl.bo.AccountBalance;
 import org.kuali.module.gl.web.Constant;
+import org.kuali.module.gl.web.inquirable.AccountBalanceByObjectInquirableImpl;
 
 /**
  * This class...
@@ -42,6 +44,17 @@ import org.kuali.module.gl.web.Constant;
  */
 public class AccountBalanceByLevelLookupableImpl extends AbstractGLLookupableImpl {
 
+    /**
+     * Returns the inquiry url for a field if one exist.
+     * 
+     * @param bo the business object instance to build the urls for
+     * @param propertyName the property which links to an inquirable
+     * @return String url to inquiry
+     */
+    public String getInquiryUrl(BusinessObject bo, String propertyName) {
+        return AccountBalanceByObjectInquirableImpl.getInquiryUrl(bo, propertyName, true);
+    }    
+    
     /**
      * Uses Lookup Service to provide a basic search.
      * 
@@ -95,11 +108,8 @@ public class AccountBalanceByLevelLookupableImpl extends AbstractGLLookupableImp
             String subAccountNumber = isConsolidated? Constant.CONSOLIDATED_SUB_ACCOUNT_NUMBER : array[i++].toString();
             accountBalance.setSubAccountNumber(subAccountNumber);
 
-            accountBalance.getFinancialObject().getFinancialObjectLevel().setFinancialConsolidationObjectCode(array[i++].toString());
-            accountBalance.getFinancialObject().getFinancialObjectLevel().setFinancialReportingSortCode(array[i++].toString());
-            
-            // TODO: haven't finished
-            accountBalance.getDummyBusinessObject().setReportingSortCode("TEST");
+            accountBalance.getFinancialObject().getFinancialObjectLevel().setFinancialReportingSortCode(array[i++].toString());           
+            accountBalance.getFinancialObject().getFinancialObjectLevel().setFinancialObjectLevelCode(array[i++].toString());
 
             KualiDecimal budgetAmount = new KualiDecimal(array[i++].toString());
             accountBalance.setCurrentBudgetLineBalanceAmount(budgetAmount);
@@ -131,7 +141,7 @@ public class AccountBalanceByLevelLookupableImpl extends AbstractGLLookupableImp
         KualiDecimal encumbranceAmount = accountBalance.getAccountLineEncumbranceBalanceAmount();
 
         // get the reporting sort code
-        String reportingSortCode = accountBalance.getDummyBusinessObject().getReportingSortCode();;
+        String reportingSortCode = accountBalance.getFinancialObject().getFinancialObjectLevel().getFinancialReportingSortCode();
 
         // calculate the variance based on the starting character of reporting sort code
         if (reportingSortCode.startsWith(Constant.START_CHAR_OF_REPORTING_SORT_CODE_B)) {

@@ -27,7 +27,7 @@
 			<title>Available Account Balance By Consolidation</title>
 			
 			<instructions>Lookup Available Account Balance for the specific account.</instructions>			
-			<defaultSort attributeName="dummyBusinessObject.consolidationObjectCode" />
+			<defaultSort attributeName="financialObject.financialObjectLevel.financialConsolidationObjectCode" />
 			
 			<lookupFields>
 				<lookupField attributeName="universityFiscalYear" required="true" noLookup="false">
@@ -39,6 +39,7 @@
 				<lookupField attributeName="chartOfAccountsCode" required="true" noLookup="false"/>
 				<lookupField attributeName="accountNumber" required="true" noLookup="false"/>
 				<lookupField attributeName="subAccountNumber" noLookup="false"/>
+				
 				<lookupField attributeName="dummyBusinessObject.consolidationOption">
 					<defaultValueFinderClass>
 						org.kuali.module.gl.web.optionfinder.GLConsolidationOptionFinder
@@ -56,11 +57,9 @@
 				<field attributeName="universityFiscalYear"/>
 				<field attributeName="chartOfAccountsCode"/>
 				<field attributeName="accountNumber"/>
-				<field attributeName="subAccountNumber"/>
-				
-	            <field attributeName="dummyBusinessObject.consolidationObjectCode"/>
-	            <field attributeName="dummyBusinessObject.consolidationReportingSortCode"/>
-	            <field attributeName="dummyBusinessObject.reportingSortCode"/> 
+				<field attributeName="subAccountNumber"/>                
+            		
+	            <field attributeName="financialObject.financialObjectLevel.financialConsolidationObjectCode"/>
 	                       
 				<field attributeName="currentBudgetLineBalanceAmount"/>
 				<field attributeName="accountLineActualsBalanceAmount"/>
@@ -150,16 +149,16 @@
                 <summary>Variance</summary>
                 <description>Variance...</description>      					
             </attributeReference>
-            
-            <attributeReference name="dummyBusinessObject.consolidationReportingSortCode"
+
+            <attributeReference name="financialObject.financialObjectLevel.financialConsolidationObject.financialReportingSortCode"
             					sourceClassName="org.kuali.module.chart.bo.ObjectCons" 
             					sourceAttributeName="financialReportingSortCode"/> 
             					
-	        <attributeReference name="dummyBusinessObject.reportingSortCode"
+	        <attributeReference name="financialObject.financialObjectType.financialReportingSortCode"
 	                    		sourceClassName="org.kuali.module.chart.bo.ObjectType" 
             					sourceAttributeName="financialReportingSortCode"/> 
             					
-	        <attributeReference name="dummyBusinessObject.consolidationObjectCode"
+	        <attributeReference name="financialObject.financialObjectLevel.financialConsolidationObjectCode"
             					sourceClassName="org.kuali.module.chart.bo.ObjLevel" 
             					sourceAttributeName="financialConsolidationObjectCode"/> 	      					        
             					 

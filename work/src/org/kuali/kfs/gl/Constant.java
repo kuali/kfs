@@ -61,6 +61,9 @@ public final class Constant {
     public static final String CONSOLIDATED_OBJECT_TYPE_CODE = "--"; 
     
     public static final String GL_LOOKUPABLE_ACCOUNT_BALANCE = "glAccountBalanceLookupable";
+    public static final String GL_LOOKUPABLE_ACCOUNT_BALANCE_BY_CONSOLIDATION = "glAccountBalanceByConsolidationLookupable";
+    public static final String GL_LOOKUPABLE_ACCOUNT_BALANCE_BY_LEVEL = "glAccountBalanceByLevelLookupable";
+    public static final String GL_LOOKUPABLE_ACCOUNT_BALANCE_BY_OBJECT = "glAccountBalanceByObjectLookupable";    
     public static final String GL_LOOKUPABLE_BALANCE = "glBalanceLookupable";
     public static final String GL_LOOKUPABLE_CASH_BALANCE = "glCashBalanceLookupable";
     public static final String GL_LOOKUPABLE_ENCUMBRANCE = "glEncumbranceLookupable"; 

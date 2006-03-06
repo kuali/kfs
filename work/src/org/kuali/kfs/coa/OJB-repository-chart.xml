@@ -1297,6 +1297,11 @@
 	<field-descriptor name="versionNumber" column="VER_NBR"
 		jdbc-type="BIGINT" locking="true" />
 		
+	<reference-descriptor name="chart"
+		class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true"
+		auto-update="none" auto-delete="none" proxy="true">
+		<foreignkey field-ref="chartOfAccountsCode" />
+	</reference-descriptor>
 	<reference-descriptor name="account"
 		class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true"
 		auto-update="none" auto-delete="none" proxy="true">

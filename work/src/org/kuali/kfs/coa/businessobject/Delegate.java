@@ -38,7 +38,9 @@ import org.kuali.core.util.KualiDecimal;
  */
 public class Delegate extends BusinessObjectBase {
 
-	/**
+    private static final long serialVersionUID = 6883162275377881235L;
+
+    /**
 	 * Default no-arg constructor.
 	 */
 	public Delegate() {
@@ -58,6 +60,7 @@ public class Delegate extends BusinessObjectBase {
 	private Timestamp accountDelegateStartDate;
 	private KualiDecimal finDocApprovalToThisAmount;
 	
+    private Chart chart;
 	private Account account;
 	private DocumentType documentType;
 	private KualiUser accountDelegate;
@@ -282,6 +285,22 @@ public class Delegate extends BusinessObjectBase {
         this.accountDelegate = accountDelegate;
     }
     
+    /**
+     * Gets the chart attribute. 
+     * @return Returns the chart.
+     */
+    public Chart getChart() {
+        return chart;
+    }
+
+    /**
+     * Sets the chart attribute value.
+     * @param chart The chart to set.
+     */
+    public void setChart(Chart chart) {
+        this.chart = chart;
+    }
+
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */

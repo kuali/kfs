@@ -416,11 +416,11 @@
   <field-descriptor name="userHourlyRate"                              column="USR_HRLY_RT"                    jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
   <field-descriptor name="userUniversityHours"                         column="USR_UNIV_HRS"                   jdbc-type="INTEGER"/>
   <field-descriptor name="userBudgetPeriodSalaryAmount"                column="USR_BDGT_PRD_SLRY_AMT"          jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-  <field-descriptor name="agencyFullTimeEquivalentPercent"             column="AGNCY_FTE_PCT"                  jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+  <field-descriptor name="agencyFullTimeEquivalentPercent"             column="AGNCY_FTE_PCT"                  jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbDecimalPercentageFieldConversion" />
   <field-descriptor name="agencyHealthInsuranceAmount"                 column="AGNCY_HLTH_INS_AMT"             jdbc-type="INTEGER"/>
   <field-descriptor name="agencyRequestedFeesAmount"                   column="AGNCY_RQST_FEE_AMT"             jdbc-type="INTEGER"/>
   <field-descriptor name="agencySalaryAmount"                          column="AGNCY_SLRY_AMT"                 jdbc-type="INTEGER"/>
-  <field-descriptor name="universityFullTimeEquivalentPercent"         column="UNIV_FTE_PCT"                   jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+  <field-descriptor name="universityFullTimeEquivalentPercent"         column="UNIV_FTE_PCT"                   jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbDecimalPercentageFieldConversion" />
   <field-descriptor name="universityHealthInsuranceAmount"             column="UNIV_HLTH_INS_AMT"              jdbc-type="INTEGER"/>
   <field-descriptor name="universityRequestedFeesAmount"               column="UNIV_RQST_FEE_AMT"              jdbc-type="INTEGER"/>
   <field-descriptor name="universitySalaryAmount"                      column="UNIV_SLRY_AMT"                  jdbc-type="INTEGER"/>

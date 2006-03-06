@@ -30,6 +30,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.gl.TestDateTimeService;
 import org.kuali.module.gl.TestScrubberReport;
@@ -61,6 +62,8 @@ public class ScrubberServiceTest extends KualiTestBaseWithSpringOnly {
 
     private OriginEntryGroupDao originEntryGroupDao = null;
 
+    private PersistenceService persistenceService = null;
+
     private Date d = null;
 
     protected void setUp() throws Exception {
@@ -71,6 +74,7 @@ public class ScrubberServiceTest extends KualiTestBaseWithSpringOnly {
         beanFactory = SpringServiceLocator.getBeanFactory();
         scrubberService = (ScrubberService) beanFactory
                 .getBean("glScrubberService");
+        persistenceService = (PersistenceService)beanFactory.getBean("persistenceService");
 
         // Get the test date time service so we can specify the date/time of the run
         Calendar c = Calendar.getInstance();
@@ -1185,6 +1189,7 @@ public class ScrubberServiceTest extends KualiTestBaseWithSpringOnly {
     private OriginEntry createEntry(String line, OriginEntryGroup group) {
         OriginEntry entry = new OriginEntry(line);
         entry.setGroup(group);
+        persistenceService.retrieveNonKeyFields(entry);
         originEntryDao.saveOriginEntry(entry);
         return entry;
     }

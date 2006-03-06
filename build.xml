@@ -271,8 +271,12 @@
 			</fileset>
 		</copy>
 		<copy todir="${plugin.build}/classes">
-			<fileset dir="${war.classes.directory}"/>
+			<fileset dir="${war.classes.directory}">
+				<exclude name="OJB.properties"/>
+			</fileset>
 		</copy>
+		<!-- overwrite the OJB.properties file with the OJB-workflow-plugin.properties -->
+		<copy file="${plugin.build}/classes/OJB-workflow-plugin.properties" tofile="${plugin.build}/classes/OJB.properties" overwrite="true"/>
 		<!-- overwrite the web app workflow-config.propertis this is necessary until we can figure out
 			how to get the web services running in the plugin -->
 		<copy todir="${plugin.build}/classes" overwrite="true">
@@ -303,6 +307,8 @@
 		<copy todir="${plugin.deploy.directory}/kuali/classes">
 			<fileset dir="${war.classes.directory}" />
 		</copy>
+		<!-- overwrite the OJB.properties file with the OJB-workflow-plugin.properties -->
+		<copy file="${plugin.deploy.directory}/kuali/classes/OJB-workflow-plugin.properties" tofile="${plugin.deploy.directory}/kuali/classes/OJB.properties" overwrite="true"/>
 		<!-- overwrite the web app workflow-config.propertis this is necessary until we can figure out
 					how to get the web services running in the plugin -->
 		<copy todir="${plugin.deploy.directory}/kuali/classes" overwrite="true">

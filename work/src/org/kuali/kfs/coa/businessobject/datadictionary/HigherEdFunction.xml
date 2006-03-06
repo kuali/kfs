@@ -71,7 +71,7 @@
                 </control>
 
                 <summary>Higher Education Function Name</summary>
-                <description>Responsibility Center Name...</description>
+                <description>Higher Education Function Name...</description>
             </attribute>
 
 			<attribute name="finUnivBdgtOfficeFunctionCd" forceUppercase="true">

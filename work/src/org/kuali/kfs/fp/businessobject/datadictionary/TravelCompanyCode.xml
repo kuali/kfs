@@ -38,7 +38,7 @@
 		<attributes>
 
 			<attribute name="code" forceUppercase="true">
-				<label>Travel Company Code</label>
+				<label>Company Type Code</label>
 				<shortLabel>Type Code</shortLabel>
 
 				<maxLength>2</maxLength>

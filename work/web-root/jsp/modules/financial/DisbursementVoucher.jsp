@@ -29,6 +29,17 @@
         </c:if>
         
 		<kul:hiddenDocumentFields />
+		
+		<html:hidden property="document.dvPayeeDetail.financialDocumentNumber" />
+        <html:hidden property="document.dvPayeeDetail.versionNumber" />
+        <html:hidden property="document.dvNonEmployeeTravel.financialDocumentNumber" />
+        <html:hidden property="document.dvNonEmployeeTravel.versionNumber" />
+        <html:hidden property="document.dvPreConferenceDetail.financialDocumentNumber" />
+        <html:hidden property="document.dvPreConferenceDetail.versionNumber" />     
+        <html:hidden property="document.dvWireTransfer.financialDocumentNumber" />
+        <html:hidden property="document.dvWireTransfer.versionNumber" />   
+        <html:hidden property="document.dvNonResidentAlienTax.financialDocumentNumber" />
+        <html:hidden property="document.dvNonResidentAlienTax.versionNumber" /> 
 
         <kul:documentOverview editingMode="${KualiForm.editingMode}"/>
         

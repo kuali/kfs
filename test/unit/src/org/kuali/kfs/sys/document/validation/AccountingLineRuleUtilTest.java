@@ -22,19 +22,30 @@
  */
 package org.kuali.module.financial.rules;
 
-import org.kuali.module.chart.bo.Account;
-import org.kuali.test.KualiTestBaseWithSpring;
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
+import org.kuali.core.bo.AccountingLine;
 import org.kuali.core.bo.AccountingLineOverride;
+import org.kuali.core.bo.SourceAccountingLine;
+import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.module.chart.bo.Account;
+import org.kuali.module.chart.bo.ObjectCode;
+import org.kuali.test.KualiTestBaseWithSpring;
 
 /**
  * This class tests some methods of AccountingLineRuleUtil.
- *
+ * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class AccountingLineRuleUtilTest extends KualiTestBaseWithSpring {
+    private BusinessObjectService businessObjectService;
 
+    protected void setUp() throws Exception {
+        super.setUp();
+        businessObjectService = SpringServiceLocator.getBusinessObjectService();
+    }
+    
     public void testIsValidAccount_valid() {
         testIsValidAccount(getAccountFromFixture("activeAccount"), null);
     }
@@ -73,12 +84,12 @@ public class AccountingLineRuleUtilTest extends KualiTestBaseWithSpring {
 
     public void testHasRequiredOverrides_expired() {
         testHasRequiredOverrides(getAccountFromFixture("expiredAccount"), AccountingLineOverride.CODE.NONE,
-            KeyConstants.ERROR_DOCUMENT_ACCOUNT_EXPIRED);
+                KeyConstants.ERROR_DOCUMENT_ACCOUNT_EXPIRED);
     }
 
     public void testHasRequiredOverrides_expiredNoContinuation() {
         testHasRequiredOverrides(getAccountFromFixture("expiredAccountNoContinuation"), AccountingLineOverride.CODE.NONE,
-            KeyConstants.ERROR_DOCUMENT_ACCOUNT_EXPIRED_NO_CONTINUATION);
+                KeyConstants.ERROR_DOCUMENT_ACCOUNT_EXPIRED_NO_CONTINUATION);
     }
 
     public void testHasRequiredOverrides_expiredButOverridden() {
@@ -86,21 +97,55 @@ public class AccountingLineRuleUtilTest extends KualiTestBaseWithSpring {
     }
 
     public void testHasRequiredOverrides_expiredNoContinuationButOverridden() {
-        testHasRequiredOverrides(getAccountFromFixture("expiredAccountNoContinuation"), AccountingLineOverride.CODE.EXPIRED_ACCOUNT, null);
+        testHasRequiredOverrides(getAccountFromFixture("expiredAccountNoContinuation"),
+                AccountingLineOverride.CODE.EXPIRED_ACCOUNT, null);
     }
 
     public void testHasRequiredOverrides_expiredButMultipleOverridden() {
-        testHasRequiredOverrides(getAccountFromFixture("expiredAccount"), AccountingLineOverride.CODE.EXPIRED_ACCOUNT_AND_NON_FRINGE_ACCOUNT_USED,
-            null);
+        testHasRequiredOverrides(getAccountFromFixture("expiredAccount"),
+                AccountingLineOverride.CODE.EXPIRED_ACCOUNT_AND_NON_FRINGE_ACCOUNT_USED, null);
     }
 
     private Account getAccountFromFixture(String fixtureName) {
         return (Account) getFixtureEntry(fixtureName).createObject();
     }
 
+    private ObjectCode getObjectCodeFromFixture(String fixtureName) {
+        return (ObjectCode) getFixtureEntry(fixtureName).createObject();
+    }
+
+    public void testHasRequiredOverrides_AccountPresenceBudgetedObject() {
+        testHasRequiredOverrides(getAccountWithPresenceControl(), getBudgetedObjectCode(),
+                AccountingLineOverride.CODE.NONE, null);
+    }
+
+    public void testHasRequiredOverrides_AccountPresenceNonBudgetObject() {
+        testHasRequiredOverrides(getAccountWithPresenceControl(), getNonBudgetedObjectCode(),
+                AccountingLineOverride.CODE.NON_BUDGETED_OBJECT,
+                KeyConstants.ERROR_DOCUMENT_ACCOUNT_PRESENCE_NON_BUDGETED_OBJECT_CODE);
+    }
+    
+    public void testHasRequiredOverrides_NoAccountPresenceBudgetedObject() {
+        testHasRequiredOverrides(getAccountWithoutPresenceControl(), getBudgetedObjectCode(),
+                AccountingLineOverride.CODE.NONE, null);
+    }
+    
+    public void testHasRequiredOverrides_NoAccountPresenceNonBudgetedObject() {
+        testHasRequiredOverrides(getAccountWithoutPresenceControl(), getNonBudgetedObjectCode(),
+                AccountingLineOverride.CODE.NONE, null);
+    }
+    
+    public void testHasRequiredOverrides_NoAccountPresenceNonBudgetedObjectAccountExpired() {
+        testHasRequiredOverrides(getAccountWithPresenceControlWithExpired(), getNonBudgetedObjectCode(),
+                AccountingLineOverride.CODE.EXPIRED_ACCOUNT_AND_NON_BUDGETED_OBJECT, null);
+    }
+
     private void testHasRequiredOverrides(Account account, String overrideCode, String expectedErrorKey) {
+        AccountingLine line = new SourceAccountingLine();
+        line.setAccount(account);
+
         assertGlobalErrorMapEmpty();
-        boolean actual = AccountingLineRuleUtil.hasRequiredOverrides(account, overrideCode);
+        boolean actual = AccountingLineRuleUtil.hasRequiredOverrides(line, overrideCode);
         assertEquals("hasRequiredOverrides result", expectedErrorKey == null, actual);
         if (expectedErrorKey == null) {
             assertGlobalErrorMapEmpty();
@@ -108,5 +153,46 @@ public class AccountingLineRuleUtilTest extends KualiTestBaseWithSpring {
         else {
             assertGlobalErrorMapContains(Constants.ACCOUNT_NUMBER_PROPERTY_NAME, expectedErrorKey);
         }
+    }
+
+    private void testHasRequiredOverrides(Account account, ObjectCode objectCode, String overrideCode, String expectedErrorKey) {
+        AccountingLine line = new SourceAccountingLine();
+        line.setAccount(account);
+        line.setObjectCode(objectCode);
+
+        assertGlobalErrorMapEmpty();
+        boolean actual = AccountingLineRuleUtil.hasRequiredOverrides(line, overrideCode);
+        assertEquals("hasRequiredOverrides result", expectedErrorKey == null, actual);
+        if (expectedErrorKey == null) {
+            assertGlobalErrorMapEmpty();
+        }
+        else {
+            assertGlobalErrorMapContains(Constants.ACCOUNT_NUMBER_PROPERTY_NAME, expectedErrorKey);
+        }
+    }
+    
+    private Account getAccountWithPresenceControl() {
+        Account account = getAccountFromFixture("accountPresenceAccount");
+        return (Account) businessObjectService.retrieve(account);
+    }
+    
+    private Account getAccountWithPresenceControlWithExpired() {
+        Account account = getAccountFromFixture("accountPresenceAccountWithExpired");
+        return (Account) businessObjectService.retrieve(account);
+    }
+
+    private Account getAccountWithoutPresenceControl() {
+        Account account = getAccountFromFixture("accountNonPresenceAccount");
+        return (Account) businessObjectService.retrieve(account);
+    }
+
+    private ObjectCode getNonBudgetedObjectCode() {
+        ObjectCode objectCode = getObjectCodeFromFixture("objectCodeNonBudgetedObjectCode");
+        return (ObjectCode) businessObjectService.retrieve(objectCode);
+    }
+
+    private ObjectCode getBudgetedObjectCode() {
+        ObjectCode objectCode = getObjectCodeFromFixture("objectCodeBudgetedObjectCode");
+        return (ObjectCode) businessObjectService.retrieve(objectCode);
     }
 }

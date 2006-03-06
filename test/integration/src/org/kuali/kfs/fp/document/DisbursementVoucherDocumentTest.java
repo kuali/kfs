@@ -54,7 +54,7 @@ public class DisbursementVoucherDocumentTest extends TransactionalDocumentTestBa
     }
 
 
-    public void testConvertIntoCopy_clear_additionalCode() throws Exception {
+    public void testConvertIntoCopy_clear_additionalCodeInvalidPayee() throws Exception {
         GlobalVariables.setMessageList(new ArrayList());
         DisbursementVoucherDocumentParameter dvParameter = (DisbursementVoucherDocumentParameter) getDocumentParameterFixture();
         DisbursementVoucherDocument document = (DisbursementVoucherDocument) dvParameter.createDocument(getDocumentService());

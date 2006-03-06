@@ -35,34 +35,44 @@ import org.kuali.module.gl.bo.Transaction;
  *  
  */
 public interface BalanceDao {
-    
+
     public Balance getBalanceByTransaction(Transaction t);
 
     public Balance getBalanceByPrimaryId(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber);
 
-    public Iterator findBalances(Account account, Integer fiscalYear,
-            Collection includedObjectCodes, Collection excludedObjectCodes,
-            Collection objectTypeCodes, Collection balanceTypeCodes);
+    public Iterator findBalances(Account account, Integer fiscalYear, Collection includedObjectCodes,
+            Collection excludedObjectCodes, Collection objectTypeCodes, Collection balanceTypeCodes);
 
     public void save(Balance b);
 
     /**
-     * This method finds the cash balance entries according to input fields
-     * and values
+     * This method finds the cash balance entries according to input fields and values
      * @param fieldValues the input fields and values
      * @param isConsolidated consolidation option is applied or not
      * 
      * @return the records of cash balance entries
      */
     public Iterator findCashBalance(Map fieldValues, boolean isConsolidated);
-    
+
     /**
-     * This method finds the summary records of balance entries according to input fields
-     * and values
+     * This method finds the summary records of balance entries according to input fields and values
      * @param fieldValues the input fields and values
      * @param isConsolidated consolidation option is applied or not
      * 
      * @return the summary records of balance entries
      */
-    public Iterator findBalance(Map fieldValues, boolean isConsolidated);    
+    public Iterator findBalance(Map fieldValues, boolean isConsolidated);
+
+
+    /**
+     * Returns the CB (current budget) record for the given year, chart, account, and
+     * object code if one is found.
+     * @param universityFiscalYear
+     * @param chartOfAccountsCode
+     * @param accountNumber
+     * @param objectCode
+     * @return the CB Balance record
+     */
+    public Balance getCurrentBudgetForObjectCode(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber,
+            String objectCode);
 }

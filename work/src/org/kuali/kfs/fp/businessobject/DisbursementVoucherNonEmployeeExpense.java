@@ -43,6 +43,8 @@ public class DisbursementVoucherNonEmployeeExpense extends BusinessObjectBase {
 
     private TravelExpenseTypeCode disbVchrExpense;
 
+    private boolean isPrepaid;
+    
     /**
      * Default no-arg constructor.
      */
@@ -107,7 +109,7 @@ public class DisbursementVoucherNonEmployeeExpense extends BusinessObjectBase {
      * @return
      */
     public String getDisbVchrPrePaidExpenseCode() {
-        return disbVchrExpenseCode;
+          return disbVchrExpenseCode;
     }
 
 
@@ -181,8 +183,7 @@ public class DisbursementVoucherNonEmployeeExpense extends BusinessObjectBase {
     public TravelExpenseTypeCode getDisbVchrExpense() {
         return disbVchrExpense;
     }
-
-
+    
     /**
      * Sets the disbVchrExpense attribute.
      * 

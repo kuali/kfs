@@ -704,45 +704,57 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
      * @see org.kuali.core.document.Document#prepareForSave()
      */
     public void prepareForSave() {
-        // null out objects that are not required based on main document properties, and set document number in each child object
-        if (!DisbursementVoucherRuleConstants.PAYMENT_METHOD_WIRE.equals(this.getDisbVchrPaymentMethodCode())
-                && !DisbursementVoucherRuleConstants.PAYMENT_METHOD_DRAFT.equals(this.getDisbVchrPaymentMethodCode())) {
-            dvWireTransfer = null;
-        }
-        else {
+        if (dvWireTransfer != null) {
             dvWireTransfer.setFinancialDocumentNumber(this.financialDocumentNumber);
         }
 
-        if (!dvPayeeDetail.isDisbVchrAlienPaymentCode()) {
-            dvNonResidentAlienTax = null;
-        }
-        else {
+        if (dvNonResidentAlienTax != null) {
             dvNonResidentAlienTax.setFinancialDocumentNumber(this.financialDocumentNumber);
         }
 
         dvPayeeDetail.setFinancialDocumentNumber(this.financialDocumentNumber);
 
-        /* Travel */
+        if (dvNonEmployeeTravel != null) {
+            dvNonEmployeeTravel.setFinancialDocumentNumber(this.financialDocumentNumber);
+            dvNonEmployeeTravel.setTotalTravelAmount(dvNonEmployeeTravel.getTotalTravelAmount());
+        }
+
+        if (dvPreConferenceDetail != null) {
+            dvPreConferenceDetail.setFinancialDocumentNumber(this.financialDocumentNumber);
+            dvPreConferenceDetail.setDisbVchrConferenceTotalAmt(dvPreConferenceDetail.getDisbVchrConferenceTotalAmt());
+        }
+    }
+
+    /**
+     * Clears information that might have been entered for sub tables, but because of changes to the document is longer needed and
+     * should not be persisted.
+     */
+    private void cleanDocumentData() {
+        if (!DisbursementVoucherRuleConstants.PAYMENT_METHOD_WIRE.equals(this.getDisbVchrPaymentMethodCode())
+                && !DisbursementVoucherRuleConstants.PAYMENT_METHOD_DRAFT.equals(this.getDisbVchrPaymentMethodCode())) {
+            SpringServiceLocator.getBusinessObjectService().delete(dvWireTransfer);
+            dvWireTransfer = null;
+        }
+
+        if (!dvPayeeDetail.isDisbVchrAlienPaymentCode()) {
+            SpringServiceLocator.getBusinessObjectService().delete(dvNonResidentAlienTax);
+            dvNonResidentAlienTax = null;
+        }
+
         String[] travelNonEmplPaymentReasonCodes = SpringServiceLocator.getKualiConfigurationService()
                 .getApplicationParameterValues(DisbursementVoucherRuleConstants.DV_DOCUMENT_PARAMETERS_GROUP_NM,
                         DisbursementVoucherRuleConstants.NONEMPLOYEE_TRAVEL_PAY_REASONS_PARM_NM);
         if (!RulesUtils.makeSet(travelNonEmplPaymentReasonCodes).contains(dvPayeeDetail.getDisbVchrPaymentReasonCode())) {
+            SpringServiceLocator.getBusinessObjectService().delete(dvNonEmployeeTravel);
             dvNonEmployeeTravel = null;
-        }
-        else {
-            dvNonEmployeeTravel.setFinancialDocumentNumber(this.financialDocumentNumber);
-            dvNonEmployeeTravel.setTotalTravelAmount(dvNonEmployeeTravel.getTotalTravelAmount());
         }
 
         String[] travelPrepaidPaymentReasonCodes = SpringServiceLocator.getKualiConfigurationService()
                 .getApplicationParameterValues(DisbursementVoucherRuleConstants.DV_DOCUMENT_PARAMETERS_GROUP_NM,
                         DisbursementVoucherRuleConstants.PREPAID_TRAVEL_PAY_REASONS_PARM_NM);
         if (!RulesUtils.makeSet(travelPrepaidPaymentReasonCodes).contains(dvPayeeDetail.getDisbVchrPaymentReasonCode())) {
+            SpringServiceLocator.getBusinessObjectService().delete(dvPreConferenceDetail);
             dvPreConferenceDetail = null;
-        }
-        else {
-            dvPreConferenceDetail.setFinancialDocumentNumber(this.financialDocumentNumber);
-            dvPreConferenceDetail.setDisbVchrConferenceTotalAmt(dvPreConferenceDetail.getDisbVchrConferenceTotalAmt());
         }
     }
 
@@ -768,17 +780,36 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
         // clear nra
         setDvNonResidentAlienTax(null);
 
-        // clear invalid payeeIdNumber
-        if (!StringUtils.isBlank(getDvPayeeDetail().getDisbVchrPayeeIdNumber())) {
+        // check payee id number to see if still valid, if so retrieve their last information and set in the detail inform.
+        if (getDvPayeeDetail().isPayee() && !StringUtils.isBlank(getDvPayeeDetail().getDisbVchrPayeeIdNumber())) {
             Payee payee = new Payee();
             payee.setPayeeIdNumber(getDvPayeeDetail().getDisbVchrPayeeIdNumber());
             Map keys = SpringServiceLocator.getPersistenceService().getPrimaryKeyFieldValues(payee);
-            boolean payeeExists = (null != SpringServiceLocator.getBusinessObjectService().findByPrimaryKey(Payee.class, keys));
-            if (!payeeExists) {
+            payee = (Payee) SpringServiceLocator.getBusinessObjectService().findByPrimaryKey(Payee.class, keys);
+            if (payee == null) {
                 getDvPayeeDetail().setDisbVchrPayeeIdNumber("");
                 GlobalVariables.getMessageList().add(KeyConstants.WARNING_DV_PAYEE_NONEXISTANT_CLEARED);
             }
+            else {
+                templatePayee(payee);
+            }
         }
+
+        // employee
+        if (getDvPayeeDetail().isEmployee() && !StringUtils.isBlank(getDvPayeeDetail().getDisbVchrPayeeIdNumber())) {
+            UniversalUser employee = new UniversalUser();
+            employee.setPersonUniversalIdentifier(getDvPayeeDetail().getDisbVchrPayeeIdNumber());
+            employee = (UniversalUser) SpringServiceLocator.getBusinessObjectService().retrieve(employee);
+            if (employee == null) {
+                getDvPayeeDetail().setDisbVchrPayeeIdNumber("");
+                GlobalVariables.getMessageList().add(KeyConstants.WARNING_DV_PAYEE_NONEXISTANT_CLEARED);
+            }
+            else {
+                templateEmployee(employee);
+            }
+        }
+
+
     }
 
     /**
@@ -798,7 +829,7 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
                 .getApplicationParameterValue(DisbursementVoucherRuleConstants.DV_DOCUMENT_PARAMETERS_GROUP_NM,
                         DisbursementVoucherRuleConstants.DEFAULT_DOC_LOCATION_PARM_NM));
     }
-    
+
     /**
      * @see org.kuali.core.document.DocumentBase#buildListOfDeletionAwareLists()
      */
@@ -806,10 +837,10 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
         List managedLists = super.buildListOfDeletionAwareLists();
 
         if (dvNonEmployeeTravel != null) {
-          managedLists.add(dvNonEmployeeTravel.getDvNonEmployeeExpenses());
-          managedLists.add(dvNonEmployeeTravel.getDvPrePaidEmployeeExpenses());
+            managedLists.add(dvNonEmployeeTravel.getDvNonEmployeeExpenses());
+            managedLists.add(dvNonEmployeeTravel.getDvPrePaidEmployeeExpenses());
         }
-        
+
         if (dvPreConferenceDetail != null) {
             managedLists.add(dvPreConferenceDetail.getDvPreConferenceRegistrants());
         }

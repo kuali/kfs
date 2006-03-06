@@ -57,7 +57,7 @@ import com.lowagie.text.pdf.PdfStamper;
  * Service used for manipulating disbursement voucher cover sheets.
  * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
- * @version $Id: DisbursementVoucherCoverSheetServiceImpl.java,v 1.3 2006-02-27 02:40:13 jkneal Exp $
+ * @version $Id: DisbursementVoucherCoverSheetServiceImpl.java,v 1.4 2006-03-06 00:46:59 jkneal Exp $
  */
 public class DisbursementVoucherCoverSheetServiceImpl implements DisbursementVoucherCoverSheetService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherCoverSheetServiceImpl.class);
@@ -128,8 +128,8 @@ public class DisbursementVoucherCoverSheetServiceImpl implements DisbursementVou
                         DV_COVER_SHEET_TEMPLATE_LINES_PARM_NM);
             }
             // retrieve data for travel payment reasons
-            String travelNonEmplPaymentReasonCodes = SpringServiceLocator.getKualiConfigurationService()
-                    .getApplicationParameterValue(DisbursementVoucherRuleConstants.DV_DOCUMENT_PARAMETERS_GROUP_NM,
+            String[] travelNonEmplPaymentReasonCodes = SpringServiceLocator.getKualiConfigurationService()
+                    .getApplicationParameterValues(DisbursementVoucherRuleConstants.DV_DOCUMENT_PARAMETERS_GROUP_NM,
                             DisbursementVoucherRuleConstants.NONEMPLOYEE_TRAVEL_PAY_REASONS_PARM_NM);
             if (RulesUtils.makeSet(travelNonEmplPaymentReasonCodes).contains(
                     document.getDvPayeeDetail().getDisbVchrPaymentReasonCode())) {

@@ -1110,7 +1110,7 @@
         <orderby name="financialDocumentLineNumber" sort="ASC"/>
         <inverse-foreignkey field-ref="financialDocumentNumber"/>
         
-        <query-customizer class="org.kuali.module.financial.OJBTravelExpenseQueryCustomizer">
+        <query-customizer class="org.kuali.module.financial.dao.ojb.OJBTravelExpenseQueryCustomizer">
           <attribute attribute-name="PREPAID" attribute-value="FALSE" />
         </query-customizer>
         
@@ -1120,7 +1120,7 @@
         <orderby name="financialDocumentLineNumber" sort="ASC"/>
         <inverse-foreignkey field-ref="financialDocumentNumber"/>
         
-        <query-customizer class="org.kuali.module.financial.OJBTravelExpenseQueryCustomizer">
+        <query-customizer class="org.kuali.module.financial.dao.ojb.OJBTravelExpenseQueryCustomizer">
           <attribute attribute-name="PREPAID" attribute-value="TRUE" />
         </query-customizer>
     </collection-descriptor>

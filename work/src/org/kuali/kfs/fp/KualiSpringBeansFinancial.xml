@@ -78,4 +78,10 @@
             <ref bean="cashDrawerDao" />
         </property>
      </bean>
+     
+     <bean id="accountPresenceService" class="org.kuali.module.financial.service.impl.AccountPresenceServiceImpl">
+        <property name="balanceDao">
+            <ref bean="glBalanceDao" />
+        </property>
+     </bean>
 </beans>

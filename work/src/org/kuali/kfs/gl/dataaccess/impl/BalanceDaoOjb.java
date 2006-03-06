@@ -16,6 +16,7 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
+import org.kuali.Constants;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.gl.bo.Balance;
 import org.kuali.module.gl.bo.SufficientFundBalances;
@@ -317,6 +318,24 @@ public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements Balanc
         crit.addEqualTo("accountNumber", accountNumber);
 
         QueryByCriteria qbc = QueryFactory.newQuery(SufficientFundBalances.class, crit);
+        return (Balance) getPersistenceBrokerTemplate().getObjectByQuery(qbc);
+    }
+    
+    
+    
+    /**
+     * @see org.kuali.module.gl.dao.BalanceDao#getCurrentBudgetForObjectCode(java.lang.Integer, java.lang.String, java.lang.String, java.lang.String)
+     */
+    public Balance getCurrentBudgetForObjectCode(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber,
+            String objectCode) {
+        Criteria crit = new Criteria();
+        crit.addEqualTo("universityFiscalYear", universityFiscalYear);
+        crit.addEqualTo("chartOfAccountsCode", chartOfAccountsCode);
+        crit.addEqualTo("accountNumber", accountNumber);
+        crit.addEqualTo("objectCode", objectCode);
+        crit.addEqualTo("balanceTypeCode", Constants.BALANCE_TYPE_BUDGET);
+        
+        QueryByCriteria qbc = QueryFactory.newQuery(Balance.class, crit);
         return (Balance) getPersistenceBrokerTemplate().getObjectByQuery(qbc);
     }
 }

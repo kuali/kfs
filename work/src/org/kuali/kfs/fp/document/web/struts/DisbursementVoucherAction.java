@@ -39,6 +39,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
+import org.kuali.PropertyConstants;
 import org.kuali.core.bo.user.KualiGroup;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.util.GlobalVariables;
@@ -210,7 +211,8 @@ public class DisbursementVoucherAction extends KualiTransactionalDocumentActionB
         try {
             // call service to calculate mileage amount
             KualiDecimal mileageAmount = SpringServiceLocator.getDisbursementVoucherTravelService().calculateMileageAmount(
-                    dvDocument.getDvNonEmployeeTravel().getDvPersonalCarMileageAmount(), dvDocument.getDvNonEmployeeTravel().getDvPerdiemStartDttmStamp());
+                    dvDocument.getDvNonEmployeeTravel().getDvPersonalCarMileageAmount(),
+                    dvDocument.getDvNonEmployeeTravel().getDvPerdiemStartDttmStamp());
 
             dvDocument.getDvNonEmployeeTravel().setDisbVchrMileageCalculatedAmt(mileageAmount);
             dvDocument.getDvNonEmployeeTravel().setDisbVchrPersonalCarAmount(mileageAmount);
@@ -239,8 +241,16 @@ public class DisbursementVoucherAction extends KualiTransactionalDocumentActionB
         DisbursementVoucherDocument dvDocument = (DisbursementVoucherDocument) dvForm.getDocument();
 
         DisbursementVoucherNonEmployeeExpense newExpenseLine = dvForm.getNewNonEmployeeExpenseLine();
-        dvDocument.getDvNonEmployeeTravel().addDvNonEmployeeExpenseLine(newExpenseLine);
-        dvForm.setNewNonEmployeeExpenseLine(new DisbursementVoucherNonEmployeeExpense());
+
+        // validate line
+        GlobalVariables.getErrorMap().addToErrorPath(PropertyConstants.NEW_NONEMPLOYEE_EXPENSE_LINE);
+        SpringServiceLocator.getDictionaryValidationService().validateBusinessObject(newExpenseLine);
+        GlobalVariables.getErrorMap().removeFromErrorPath(PropertyConstants.NEW_NONEMPLOYEE_EXPENSE_LINE);
+
+        if (GlobalVariables.getErrorMap().isEmpty()) {
+            dvDocument.getDvNonEmployeeTravel().addDvNonEmployeeExpenseLine(newExpenseLine);
+            dvForm.setNewNonEmployeeExpenseLine(new DisbursementVoucherNonEmployeeExpense());
+        }
 
         return mapping.findForward(Constants.MAPPING_BASIC);
     };
@@ -260,8 +270,16 @@ public class DisbursementVoucherAction extends KualiTransactionalDocumentActionB
         DisbursementVoucherDocument dvDocument = (DisbursementVoucherDocument) dvForm.getDocument();
 
         DisbursementVoucherNonEmployeeExpense newExpenseLine = dvForm.getNewPrePaidNonEmployeeExpenseLine();
-        dvDocument.getDvNonEmployeeTravel().addDvPrePaidEmployeeExpenseLine(newExpenseLine);
-        dvForm.setNewPrePaidNonEmployeeExpenseLine(new DisbursementVoucherNonEmployeeExpense());
+
+        // validate line
+        GlobalVariables.getErrorMap().addToErrorPath(PropertyConstants.NEW_PREPAID_EXPENSE_LINE);
+        SpringServiceLocator.getDictionaryValidationService().validateBusinessObject(newExpenseLine);
+        GlobalVariables.getErrorMap().removeFromErrorPath(PropertyConstants.NEW_PREPAID_EXPENSE_LINE);
+
+        if (GlobalVariables.getErrorMap().isEmpty()) {
+            dvDocument.getDvNonEmployeeTravel().addDvPrePaidEmployeeExpenseLine(newExpenseLine);
+            dvForm.setNewPrePaidNonEmployeeExpenseLine(new DisbursementVoucherNonEmployeeExpense());
+        }
 
         return mapping.findForward(Constants.MAPPING_BASIC);
     };
@@ -321,8 +339,16 @@ public class DisbursementVoucherAction extends KualiTransactionalDocumentActionB
         DisbursementVoucherDocument dvDocument = (DisbursementVoucherDocument) dvForm.getDocument();
 
         DisbursementVoucherPreConferenceRegistrant newRegistrantLine = dvForm.getNewPreConferenceRegistrantLine();
-        dvDocument.addDvPrePaidRegistrantLine(newRegistrantLine);
-        dvForm.setNewPreConferenceRegistrantLine(new DisbursementVoucherPreConferenceRegistrant());
+
+        // validate line
+        GlobalVariables.getErrorMap().addToErrorPath(PropertyConstants.NEW_PRECONF_REGISTRANT_LINE);
+        SpringServiceLocator.getDictionaryValidationService().validateBusinessObject(newRegistrantLine);
+        GlobalVariables.getErrorMap().removeFromErrorPath(PropertyConstants.NEW_PRECONF_REGISTRANT_LINE);
+
+        if (GlobalVariables.getErrorMap().isEmpty()) {
+            dvDocument.addDvPrePaidRegistrantLine(newRegistrantLine);
+            dvForm.setNewPreConferenceRegistrantLine(new DisbursementVoucherPreConferenceRegistrant());
+        }
 
         return mapping.findForward(Constants.MAPPING_BASIC);
 
@@ -435,7 +461,7 @@ public class DisbursementVoucherAction extends KualiTransactionalDocumentActionB
         // substitute bo class and mapping if the type is Employee, lookup already setup for Payee
         DisbursementVoucherForm dvForm = (DisbursementVoucherForm) form;
         DisbursementVoucherDocument document = (DisbursementVoucherDocument) dvForm.getDocument();
-   
+
         String fullParameter = (String) request.getAttribute(Constants.METHOD_TO_CALL_ATTRIBUTE);
         String boClassName = StringUtils.substringBetween(fullParameter, Constants.METHOD_TO_CALL_BOPARM_LEFT_DEL,
                 Constants.METHOD_TO_CALL_BOPARM_RIGHT_DEL);
@@ -443,7 +469,7 @@ public class DisbursementVoucherAction extends KualiTransactionalDocumentActionB
         if ("org.kuali.module.financial.bo.Payee".equals(boClassName) && document.getDvPayeeDetail().isEmployee()) {
             String conversionFields = StringUtils.substringBetween(fullParameter, Constants.METHOD_TO_CALL_PARM1_LEFT_DEL,
                     Constants.METHOD_TO_CALL_PARM1_RIGHT_DEL);
-            
+
             fullParameter = StringUtils.replace(fullParameter, boClassName, "org.kuali.core.bo.user.UniversalUser");
             fullParameter = StringUtils.replace(fullParameter, conversionFields,
                     "personUniversalIdentifier:document.dvPayeeDetail.disbVchrPayeeIdNumber");
@@ -463,7 +489,7 @@ public class DisbursementVoucherAction extends KualiTransactionalDocumentActionB
 
         wireCharge = (WireCharge) SpringServiceLocator.getBusinessObjectService().retrieve(wireCharge);
         Object[] args = { wireCharge.getDomesticChargeAmt(), wireCharge.getForeignChargeAmt() };
-        
+
         return MessageFormat.format(message, args);
     }
 

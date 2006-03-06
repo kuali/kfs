@@ -53,6 +53,9 @@ public class DisbursementVoucherWireTransfer extends BusinessObjectBase {
 	private String disbursementVoucherPayeeAccountTypeCode;
 	private String disbursementVoucherAutomatedClearingHouseProfileNumber;
 	
+	private String disbVchrFDCurrencyTypeName;
+	private String disbVchrFDCurrencyTypeCode;
+	
 	private DisbursementVoucherDocument financialDocument;
 	private Account disbVchrPayeeAccount;
 
@@ -273,6 +276,31 @@ public class DisbursementVoucherWireTransfer extends BusinessObjectBase {
 	public void setDisbVchrCurrencyTypeName(String disbVchrCurrencyTypeName) {
 		this.disbVchrCurrencyTypeName = disbVchrCurrencyTypeName;
 	}
+	
+	/**
+	 * Gets the disbVchrCurrencyTypeName attribute.
+	 * This field is here because the currency type field is presented in
+	 * different places on screen, and value conflicts occur unless we have
+	 * an alias.
+	 * @return - Returns the disbVchrCurrencyTypeName
+	 * 
+	 */
+	public String getDisbVchrFDCurrencyTypeName() { 
+		return disbVchrFDCurrencyTypeName;
+	}
+	
+
+	/**
+	 * Sets the disbVchrCurrencyTypeName attribute.
+	 * This field is here because the currency type field is presented in
+	 * different places on screen, and value conflicts occur unless we have
+	 * an alias.
+	 * @param - disbVchrCurrencyTypeName The disbVchrCurrencyTypeName to set.
+	 * 
+	 */
+	public void setDisbVchrFDCurrencyTypeName(String disbVchrCurrencyTypeName) {
+		this.disbVchrFDCurrencyTypeName = disbVchrCurrencyTypeName;
+	}
 
 	/**
 	 * Gets the disbVchrCurrencyTypeCode attribute.
@@ -294,6 +322,32 @@ public class DisbursementVoucherWireTransfer extends BusinessObjectBase {
 	public void setDisbVchrCurrencyTypeCode(String disbVchrCurrencyTypeCode) {
 		this.disbVchrCurrencyTypeCode = disbVchrCurrencyTypeCode;
 	}
+	
+	/**
+	 * Gets the disbVchrCurrencyTypeCode attribute.
+	 * This field is here because the currency type field is presented in
+	 * different places on screen, and value conflicts occur unless we have
+	 * an alias.
+	 * @return - Returns the disbVchrCurrencyTypeCode
+	 * 
+	 */
+	public String getDisbVchrFDCurrencyTypeCode() { 
+		return disbVchrFDCurrencyTypeCode;
+	}
+	
+
+	/**
+	 * Sets the disbVchrCurrencyTypeCode attribute.
+	 * This field is here because the currency type field is presented in
+	 * different places on screen, and value conflicts occur unless we have
+	 * an alias.
+	 * @param - disbVchrCurrencyTypeCode The disbVchrCurrencyTypeCode to set.
+	 * 
+	 */
+	public void setDisbVchrFDCurrencyTypeCode(String disbVchrCurrencyTypeCode) {
+		this.disbVchrFDCurrencyTypeCode = disbVchrCurrencyTypeCode;
+	}
+
 
 	/**
 	 * Gets the disbVchrForeignBankIndicator attribute.

@@ -216,8 +216,9 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
             GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         DisbursementVoucherDocument dvDocument = (DisbursementVoucherDocument) transactionalDocument;
         if (dvDocument.getGeneralLedgerPendingEntries() == null || dvDocument.getGeneralLedgerPendingEntries().size() < 2) {
-            LOG.error("No gl entries for accounting lines.");
-            throw new RuntimeException("No gl entries for accounting lines.");
+            LOG.warn("No gl entries for accounting lines.");
+            return true;
+           // throw new RuntimeException("No gl entries for accounting lines.");
         }
 
         /*
@@ -355,7 +356,7 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
         if (document.isDisbVchrSpecialHandlingCode()) {
             if (StringUtils.isBlank(document.getDvPayeeDetail().getDisbVchrRemitPersonName())
                     || StringUtils.isBlank(document.getDvPayeeDetail().getDisbVchrPayeeLine1Addr())) {
-                errors.put(PropertyConstants.DISB_VCHR_SPECIAL_HANDLING_CODE, KeyConstants.ERROR_DV_SPECIAL_HANDLING);
+                errors.putWithoutFullErrorPath(Constants.GENERAL_SPECHAND_TAB_ERRORS, KeyConstants.ERROR_DV_SPECIAL_HANDLING);
             }
         }
 
@@ -427,16 +428,12 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
     private void validateForeignDraft(DisbursementVoucherDocument document) {
         /* currency type code required */
         if (StringUtils.isBlank(document.getDvWireTransfer().getDisbVchrCurrencyTypeCode())) {
-            GlobalVariables.getErrorMap().put(
-                    PropertyConstants.DV_WIRE_TRANSFER + "." + PropertyConstants.DISB_VCHR_CURRENCY_TYPE_CODE,
-                    KeyConstants.ERROR_DV_CURRENCY_TYPE_CODE);
+            GlobalVariables.getErrorMap().put(Constants.GENERAL_FOREIGNDRAFTS_TAB_ERRORS, KeyConstants.ERROR_DV_CURRENCY_TYPE_CODE);
         }
 
         /* currency type name required */
         if (StringUtils.isBlank(document.getDvWireTransfer().getDisbVchrCurrencyTypeName())) {
-            GlobalVariables.getErrorMap().put(
-                    PropertyConstants.DV_WIRE_TRANSFER + "." + PropertyConstants.DISB_VCHR_CURRENCY_TYPE_NAME,
-                    KeyConstants.ERROR_DV_CURRENCY_TYPE_NAME);
+            GlobalVariables.getErrorMap().put(Constants.GENERAL_FOREIGNDRAFTS_TAB_ERRORS, KeyConstants.ERROR_DV_CURRENCY_TYPE_NAME);
         }
     }
 
@@ -754,6 +751,10 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
      */
     public void validatePayeeInformation(DisbursementVoucherDocument document) {
         DisbursementVoucherPayeeDetail payeeDetail = document.getDvPayeeDetail();
+        
+        if (StringUtils.isBlank(payeeDetail.getDisbVchrPayeeIdNumber())) {
+            return;
+        }
 
         ErrorMap errors = GlobalVariables.getErrorMap();
 
@@ -819,6 +820,10 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
      */
     public void validateEmployeeInformation(DisbursementVoucherDocument document) {
         DisbursementVoucherPayeeDetail payeeDetail = document.getDvPayeeDetail();
+        
+        if (StringUtils.isBlank(payeeDetail.getDisbVchrPayeeIdNumber())) {
+            return;
+        }
 
         ErrorMap errors = GlobalVariables.getErrorMap();
 

@@ -29,6 +29,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.gl.bo.OriginEntry;
@@ -48,6 +49,7 @@ public class OriginEntryTestBase extends KualiTestBaseWithSpringOnly {
   protected UnitTestSqlDao unitTestSqlDao = null;
   protected OriginEntryDao originEntryDao = null;
   protected OriginEntryGroupDao originEntryGroupDao = null;
+  protected KualiConfigurationService kualiConfigurationService = null;
   protected Date date = new Date();
 
   public OriginEntryTestBase() {
@@ -60,19 +62,21 @@ public class OriginEntryTestBase extends KualiTestBaseWithSpringOnly {
   protected void setUp() throws Exception {
     super.setUp();
 
+    LOG.debug("setUp() starting");
+
     beanFactory = SpringServiceLocator.getBeanFactory();
 
     dateTimeService = (TestDateTimeService)beanFactory.getBean("testDateTimeService");
 
-    // Get this for use in retrieving objects
+    // Other objects needed for the tests
     persistenceService = (PersistenceService)beanFactory.getBean("persistenceService");
+    unitTestSqlDao = (UnitTestSqlDao)beanFactory.getBean("glUnitTestSqlDao");
+    originEntryDao = (OriginEntryDao)beanFactory.getBean("glOriginEntryDao");
+    originEntryGroupDao = (OriginEntryGroupDao)beanFactory.getBean("glOriginEntryGroupDao");
+    kualiConfigurationService = (KualiConfigurationService)beanFactory.getBean("kualiConfigurationService");
 
-    // get the sql DAO
-    unitTestSqlDao = (UnitTestSqlDao) beanFactory.getBean("glUnitTestSqlDao");
-
-    // Origin Entry DAO's
-    originEntryDao = (OriginEntryDao) beanFactory.getBean("glOriginEntryDao");
-    originEntryGroupDao = (OriginEntryGroupDao) beanFactory.getBean("glOriginEntryGroupDao");
+    // Set all enhancements to off
+    resetAllEnhancementFlags();
   }
 
 
@@ -188,5 +192,25 @@ public class OriginEntryTestBase extends KualiTestBaseWithSpringOnly {
       }
     }
     return -1;
+  }
+
+  protected static String BUDGET_YEAR_ENABLED_FLAG = "BUDGET_YEAR_ENABLED_FLAG";
+  protected static String ICR_ENCUMBRANCE_ENABLED_FLAG = "ICR_ENCUMBRANCE_ENABLED_FLAG";
+  protected static String FLEXIBLE_OFFSET_ENABLED_FLAG = "FLEXIBLE_OFFSET_ENABLED_FLAG";
+  protected static String FLEXIBLE_CLAIM_ON_CASH_BANK_ENABLED_FLAG = "FLEXIBLE_CLAIM_ON_CASH_BANK_ENABLED_FLAG";    
+
+  protected void resetAllEnhancementFlags() {
+    setApplicationConfigurationFlag(OriginEntryTestBase.BUDGET_YEAR_ENABLED_FLAG,false);
+    setApplicationConfigurationFlag(OriginEntryTestBase.ICR_ENCUMBRANCE_ENABLED_FLAG,false);
+    setApplicationConfigurationFlag(OriginEntryTestBase.FLEXIBLE_OFFSET_ENABLED_FLAG,false);
+    setApplicationConfigurationFlag(OriginEntryTestBase.FLEXIBLE_CLAIM_ON_CASH_BANK_ENABLED_FLAG,false);    
+  }
+
+  protected boolean getApplicationConfigurationFlag(String name) {
+    return kualiConfigurationService.getRequiredApplicationParameterIndicator("SYSTEM",name);
+  }
+
+  protected void setApplicationConfigurationFlag(String name,boolean value) {
+    kualiConfigurationService.setRequiredApplicationParameterIndicator("SYSTEM",name,value);
   }
 }

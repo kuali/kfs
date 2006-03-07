@@ -519,6 +519,13 @@ public class TransferOfFundsDocumentRuleTest
         testAddAccountingLine( doc, true );
     }
 
+    public void testProcessGenerateGeneralLedgerPendingEntries_validSourceExpenseFlexibleOffset()
+        throws Exception {
+        testProcessGenerateGeneralLedgerPendingEntries(createLineFromFixture("flexibleExpenseSourceLine"),
+            "expectedFlexibleExplicitSourcePendingEntryForExpense",
+            "expectedFlexibleOffsetSourcePendingEntry");
+    }
+
     ///////////////////////////////////////////////////////////////////////////
     // Test Methods End Here                                                 //
     ///////////////////////////////////////////////////////////////////////////

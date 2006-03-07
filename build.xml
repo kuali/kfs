@@ -362,7 +362,7 @@
 	description:
 		prepares tokenized resources and local configuration files and deploys tomcat context file on development workstation
 	notes:
-		this target should be run once each time you get a clean copy of the project, change files in build/tokenizedResources, 
+		this target should be run once each time you update the project, change files in build/tokenizedResources, 
 			or change property values in ${user.home}\${ant.project.name}-build.properties or 
 			build/institutionProperties/${institution}-build.properties
 		tomcat should not be running when you are executing this target

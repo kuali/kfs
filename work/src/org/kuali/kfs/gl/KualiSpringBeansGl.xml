@@ -218,8 +218,8 @@
 		<property name="jcdAlias"><value>dataSource</value></property>
 	</bean>
 
-	<bean id="glUnitTestSqlDao" class="org.kuali.module.gl.dao.jdbc.UnitTestSqlDaoJdbc">
-		<property name="dataSource"><ref bean="dataSource"/></property>
+	<bean id="glUnitTestSqlDao" class="org.kuali.module.gl.dao.ojb.UnitTestSqlDaoOjb">
+		<property name="jcdAlias"><value>dataSource</value></property>
 	</bean>
 
 	<bean id="glSufficientFundRebuildDao" class="org.kuali.module.gl.dao.ojb.SufficientFundRebuildDaoOjb">

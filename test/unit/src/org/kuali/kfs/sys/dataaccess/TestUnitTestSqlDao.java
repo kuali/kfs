@@ -29,9 +29,9 @@ import java.util.Map;
 
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.gl.dao.UnitTestSqlDao;
-import org.kuali.test.KualiTestBaseWithSpring;
+import org.kuali.test.KualiTestBaseWithSpringOnly;
 
-public class TestUnitTestSqlDao extends KualiTestBaseWithSpring {
+public class TestUnitTestSqlDao extends KualiTestBaseWithSpringOnly {
   private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(TestUnitTestSqlDao.class);
 
   private UnitTestSqlDao unitTestSqlDao;

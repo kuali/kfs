@@ -159,8 +159,8 @@
             					sourceAttributeName="financialReportingSortCode"/> 
             					
 	        <attributeReference name="financialObject.financialObjectLevel.financialConsolidationObjectCode"
-            					sourceClassName="org.kuali.module.chart.bo.ObjLevel" 
-            					sourceAttributeName="financialConsolidationObjectCode"/> 	      					        
+            					sourceClassName="org.kuali.module.chart.bo.ObjectCons" 
+            					sourceAttributeName="finConsolidationObjectCode"/> 	      					        
             					 
         </attributes>
 		

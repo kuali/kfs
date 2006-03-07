@@ -52,14 +52,20 @@
 
 			<attributeReference name="chartOfAccountsCode" 
 								sourceClassName="org.kuali.module.chart.bo.Chart" 
-								sourceAttributeName="chartOfAccountsCode" />
+								sourceAttributeName="chartOfAccountsCode">
+								
+				<required>true</required>
+				<control>
+					<select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder"/>					
+				</control>
+			</attributeReference>
 			
 			<attribute name="finConsolidationObjectCode" forceUppercase="true">
                 <label>Consolidation Object Code</label>
                 <shortLabel>Cons Code</shortLabel>
 
                 <maxLength>4</maxLength>
-
+				<required>true</required>
                 <control>
                     <text size="4" />
                 </control>
@@ -73,7 +79,7 @@
                 <shortLabel>Long Name</shortLabel>
 
                 <maxLength>40</maxLength>
-
+				<required>true</required>
                 <control>
                     <text size="40" />
                 </control>
@@ -87,7 +93,7 @@
                 <shortLabel>Short Name</shortLabel>
 
                 <maxLength>12</maxLength>
-
+				<required>true</required>
                 <control>
                     <text size="12" />
                 </control>
@@ -107,7 +113,7 @@
 
 				<maxLength>4</maxLength>
 				<validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
-
+				<required>true</required>
 				<control>
 					<text size="4" />
 				</control>
@@ -124,7 +130,7 @@
         		
         		<maxLength>2</maxLength>
         		<validationPattern><numeric /></validationPattern>
-        		
+        		<required>true</required>
         		<control>
         			<text size="2" />
         		</control>

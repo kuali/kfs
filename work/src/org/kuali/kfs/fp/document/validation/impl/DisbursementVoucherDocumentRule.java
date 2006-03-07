@@ -374,7 +374,7 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
         }
 
         /* state & zip must be given for us */
-        if (COUNTRY_CODE_UNITED_STATES.equals(document.getDvPayeeDetail().getDisbVchrPayeeCountryCode())) {
+        if (Constants.COUNTRY_CODE_UNITED_STATES.equals(document.getDvPayeeDetail().getDisbVchrPayeeCountryCode())) {
             if (StringUtils.isBlank(document.getDvPayeeDetail().getDisbVchrPayeeStateCode())
                     || StringUtils.isBlank(document.getDvPayeeDetail().getDisbVchrPayeeZipCode())) {
                 errors.put(PropertyConstants.DV_PAYEE_DETAIL + "." + PropertyConstants.DISB_VCHR_PAYEE_STATE_CODE,
@@ -538,7 +538,7 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
         }
 
         /* travel to state required if country is us */
-        if (COUNTRY_CODE_UNITED_STATES.equals(document.getDvNonEmployeeTravel().getDisbVchrTravelToCountryCode())
+        if (Constants.COUNTRY_CODE_UNITED_STATES.equals(document.getDvNonEmployeeTravel().getDisbVchrTravelToCountryCode())
                 && StringUtils.isBlank(document.getDvNonEmployeeTravel().getDisbVchrTravelToStateCode())) {
             errors.put("disbVchrTravelToStateCode", KeyConstants.ERROR_DV_TRAVEL_TO_STATE);
         }

@@ -405,7 +405,7 @@ public class DisbursementVoucherAction extends KualiTransactionalDocumentActionB
 
         /* if process was successful, update new lines numbers in form */
         if (GlobalVariables.getErrorMap().isEmpty()) {
-            dvForm.setNraTaxLineNumbers(StringUtils.join(newTaxLineNumbers.iterator(), ","));
+              dvForm.setNraTaxLineNumbers(StringUtils.join(newTaxLineNumbers.iterator(), ","));
         }
 
         return mapping.findForward(Constants.MAPPING_BASIC);

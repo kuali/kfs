@@ -49,9 +49,6 @@ public interface DisbursementVoucherRuleConstants {
     public static String OWNERSHIP_TYPE_PARTNERSHIP = "P";
     public static String OWNERSHIP_TYPE_NONPROFIT_TRUST = "T";
 
-    // country
-    public static String COUNTRY_CODE_UNITED_STATES = "US";
-
     // document location
     public static String NO_DOCUMENTATION_LOCATION = "N";
 

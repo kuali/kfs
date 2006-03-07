@@ -52,7 +52,7 @@
 					<maintainableField name="accountNumber" required="true" />
 					<maintainableField name="financialDocumentTypeCode" required="true" />			
 					<maintainableField name="accountDelegateSystemId" required="true" readOnly="true" />
-					<maintainableField name="accountDelegate.personUserIdentifier" required="false" />
+					<maintainableField name="accountDelegate.personUserIdentifier" required="true" />
 					<maintainableField name="accountDelegate.personName" required="false" readOnly="true" />
 					<maintainableField name="finDocApprovalFromThisAmt" required="false" />
 					<maintainableField name="finDocApprovalToThisAmount" required="false" />

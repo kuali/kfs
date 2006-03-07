@@ -29,6 +29,7 @@ import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.core.bo.user.Options;
+import org.kuali.module.chart.bo.codes.BalanceTyp;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -48,6 +49,7 @@ public class OffsetDefinition extends BusinessObjectBase {
     private ObjectCode financialObject;
     private SubObjCd financialSubObject;
 	private Chart chartOfAccounts;
+    private BalanceTyp financialBalanceType;
 
 	/**
 	 * Default no-arg constructor.
@@ -136,8 +138,25 @@ public class OffsetDefinition extends BusinessObjectBase {
 	public void setFinancialBalanceTypeCode(String financialBalanceTypeCode) {
 		this.financialBalanceTypeCode = financialBalanceTypeCode;
 	}
+    
+    /**
+     * Returns the BalanceType object associated with this OffsetDefinition
+     * @return the balanceType
+     */
+    public BalanceTyp getFinancialBalanceType() {
+        return financialBalanceType;
+    }
 
-	/**
+    /**
+     * Sets the balanceType from the balanceTypeCode
+     * @param financialBalanceType
+     * @deprecated
+     */
+    public void setFinancialBalanceType(BalanceTyp financialBalanceType) {
+        this.financialBalanceType = financialBalanceType;
+    }
+
+    /**
 	 * Gets the financialObjectCode attribute.
 	 * 
 	 * @return - Returns the financialObjectCode

@@ -1485,6 +1485,11 @@
 		<foreignkey field-ref="financialObjectCode" />
 	</reference-descriptor>
 
+	<reference-descriptor name="financialBalanceType" 
+		class-ref="org.kuali.module.chart.bo.codes.BalanceTyp" auto-retrieve="true" 
+		auto-update="none" auto-delete="none" proxy="true">
+		<foreignkey field-ref="financialBalanceTypeCode" />
+	</reference-descriptor>
 	<!--reference-descriptor name="financialSubObject"
 		class-ref="org.kuali.module.chart.bo.SubObjCd" auto-retrieve="true"
 		auto-update="none" auto-delete="none" proxy="true">

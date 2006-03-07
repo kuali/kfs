@@ -7,7 +7,8 @@
 	<maintenanceDocument>
 		<businessObjectClass>org.kuali.module.chart.bo.OffsetDefinition</businessObjectClass>
 		<maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
-
+		<businessRulesClass>org.kuali.module.chart.rules.OffsetDefinitionRule</businessRulesClass>
+		
         <documentAuthorizerClass>org.kuali.core.document.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
         <authorizations>
             <authorization action="initiate">
@@ -41,9 +42,16 @@
 			<reference  attributeName="universityFiscal" 
 						attributeToHighlightOnFail="universityFiscalYear" />
 			<reference  attributeName="financialObject" 
-						attributeToHighlightOnFail="financialObjectCode" />						
+						attributeToHighlightOnFail="financialObjectCode" />	
+			<reference  attributeName="financialBalanceType" 
+						attributeToHighlightOnFail="financialBalanceTypeCode" />						
 		</defaultExistenceChecks>
-		
+		<applyApcRules>
+			<apcRule attributeName="financialObjectCode"
+				     apcGroup="ChartMaintenanceEDoc"
+				     apcRule="OffsetDefinition.FinancialObjectCode"
+				     errorMessage="error.document.offsetDefinitionMaintenance.invalidFinancialObjectCode" />
+		</applyApcRules> 
 		<maintainableSections>
 			<maintainableSection title="Edit Offset Definition">
                 <maintainableItems>

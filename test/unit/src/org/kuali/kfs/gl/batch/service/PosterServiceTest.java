@@ -25,43 +25,21 @@ package org.kuali.module.gl.service;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.service.PersistenceService;
-import org.kuali.core.util.SpringServiceLocator;
-import org.kuali.module.gl.TestDateTimeService;
+import org.kuali.module.gl.OriginEntryTestBase;
 import org.kuali.module.gl.TestPosterReport;
-import org.kuali.module.gl.bo.OriginEntry;
-import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.bo.OriginEntrySource;
 import org.kuali.module.gl.bo.Transaction;
-import org.kuali.module.gl.dao.OriginEntryDao;
-import org.kuali.module.gl.dao.OriginEntryGroupDao;
-import org.kuali.module.gl.dao.UnitTestSqlDao;
-import org.kuali.test.KualiTestBaseWithSpringOnly;
-import org.springframework.beans.factory.BeanFactory;
-import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.TransactionStatus;
 
-public class PosterServiceTest extends KualiTestBaseWithSpringOnly {
+public class PosterServiceTest extends OriginEntryTestBase {
   private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PosterServiceTest.class);
 
-  private BeanFactory beanFactory;
   private PosterService posterService;
   private TestPosterReport posterReport;
-  private TestDateTimeService dateTimeService;
-  private PersistenceService persistenceService;
-  private UnitTestSqlDao unitTestSqlDao = null;
-  private OriginEntryDao originEntryDao = null;
-  private OriginEntryGroupDao originEntryGroupDao = null;
-  private Date d = null;
-
-  protected PlatformTransactionManager transactionManager;
-  protected TransactionStatus transactionStatus;
 
   /* (non-Javadoc)
    * @see org.springframework.test.AbstractTransactionalSpringContextTests#onSetUpInTransaction()
@@ -69,27 +47,18 @@ public class PosterServiceTest extends KualiTestBaseWithSpringOnly {
   protected void setUp() throws Exception {
     super.setUp();
 
-    beanFactory = SpringServiceLocator.getBeanFactory();
-
     Calendar c = Calendar.getInstance();
     c.set(Calendar.DAY_OF_MONTH,1);
     c.set(Calendar.MONTH,Calendar.JANUARY);
     c.set(Calendar.YEAR,2004);
-    d = c.getTime();
+    date = c.getTime();
 
-    dateTimeService = (TestDateTimeService)beanFactory.getBean("testDateTimeService");
-    dateTimeService.currentDate = d;
+    // Set the run date of the job
+    dateTimeService.currentDate = date;
+
     posterService = (PosterService)beanFactory.getBean("glPosterService");
 
     posterReport = (TestPosterReport)beanFactory.getBean("testPosterReport");
-    persistenceService = (PersistenceService)beanFactory.getBean("persistenceService");
-
-    // get the sql DAO
-    unitTestSqlDao = (UnitTestSqlDao) beanFactory.getBean("glUnitTestSqlDao");
-
-    // Origin Entry DAO's
-    originEntryDao = (OriginEntryDao) beanFactory.getBean("glOriginEntryDao");
-    originEntryGroupDao = (OriginEntryGroupDao) beanFactory.getBean("glOriginEntryGroupDao");
   }
 
   /**
@@ -138,11 +107,11 @@ public class PosterServiceTest extends KualiTestBaseWithSpringOnly {
     };
 
     clearOriginEntryTables();
-    loadInputTransactions(inputTransactions);
+    loadInputTransactions(OriginEntrySource.SCRUBBER_VALID,inputTransactions);
 
     posterService.postMainEntries();
 
-    assertOriginEntries(outputTransactions);
+    assertOriginEntries(3,outputTransactions);
   }
 
   /**
@@ -167,11 +136,11 @@ public class PosterServiceTest extends KualiTestBaseWithSpringOnly {
 
     clearOriginEntryTables();
     clearGlEntryTable();
-    loadInputTransactions(inputTransactions);
+    loadInputTransactions(OriginEntrySource.SCRUBBER_VALID,inputTransactions);
 
     posterService.postMainEntries();
 
-    assertOriginEntries(outputTransactions);
+    assertOriginEntries(3,outputTransactions);
     
     List glEntries = unitTestSqlDao.sqlSelect("select * from gl_entry_t");
     assertEquals("Should be 2 GL entries",2,glEntries.size());
@@ -239,11 +208,11 @@ public class PosterServiceTest extends KualiTestBaseWithSpringOnly {
 
     clearOriginEntryTables();
     clearReversalTable();
-    loadInputTransactions(inputTransactions);
+    loadInputTransactions(OriginEntrySource.SCRUBBER_VALID,inputTransactions);
 
     posterService.postMainEntries();
 
-    assertOriginEntries(outputTransactions);
+    assertOriginEntries(3,outputTransactions);
 
     List reversalEntries = unitTestSqlDao.sqlSelect("select * from gl_reversal_t");
     assertEquals("Should be 1 reversal row",1,reversalEntries.size());
@@ -315,11 +284,11 @@ public class PosterServiceTest extends KualiTestBaseWithSpringOnly {
 
     clearOriginEntryTables();
     clearGlBalanceTable();
-    loadInputTransactions(inputTransactions);
+    loadInputTransactions(OriginEntrySource.SCRUBBER_VALID,inputTransactions);
 
     posterService.postMainEntries();
 
-    assertOriginEntries(outputTransactions);
+    assertOriginEntries(3,outputTransactions);
 
     List balances = unitTestSqlDao.sqlSelect("select * from gl_balance_t");
     assertEquals("Should be 1 row",1,balances.size());
@@ -413,11 +382,11 @@ public class PosterServiceTest extends KualiTestBaseWithSpringOnly {
     };
 
     clearOriginEntryTables();
-    loadInputTransactions(inputTransactions2);
+    loadInputTransactions(OriginEntrySource.SCRUBBER_VALID,inputTransactions2);
 
     posterService.postMainEntries();
 
-    assertOriginEntries(outputTransactions2);
+    assertOriginEntries(3,outputTransactions2);
 
     balances = unitTestSqlDao.sqlSelect("select * from gl_balance_t");
     assertEquals("Should be 1 row",1,balances.size());
@@ -495,11 +464,11 @@ public class PosterServiceTest extends KualiTestBaseWithSpringOnly {
 
     clearOriginEntryTables();
     clearEncumbranceTable();
-    loadInputTransactions(inputTransactions);
+    loadInputTransactions(OriginEntrySource.SCRUBBER_VALID,inputTransactions);
 
     posterService.postMainEntries();
 
-    assertOriginEntries(outputTransactions);
+    assertOriginEntries(3,outputTransactions);
 
     List encumbrances = unitTestSqlDao.sqlSelect("select * from gl_encumbrance_t order by fin_object_cd");
     assertEquals("Should be 2 encumbrances",2,encumbrances.size());
@@ -573,10 +542,10 @@ public class PosterServiceTest extends KualiTestBaseWithSpringOnly {
 
     clearOriginEntryTables();
     clearGlAccountBalanceTable();
-    loadInputTransactions(inputTransactions);
+    loadInputTransactions(OriginEntrySource.SCRUBBER_VALID,inputTransactions);
     posterService.postMainEntries();
 
-    assertOriginEntries(outputTransactions);
+    assertOriginEntries(3,outputTransactions);
 
     List balances = unitTestSqlDao.sqlSelect("select * from gl_acct_balances_t");
     assertEquals("Should be 1 balance",1,balances.size());
@@ -601,120 +570,6 @@ public class PosterServiceTest extends KualiTestBaseWithSpringOnly {
    *  PostExpenditureTransaction
    *  PostSufficientFundBalances
    **/
-
-  /**
-   * Check all the entries in gl_origin_entry_t against the data passed in EntryHolder[].  If any of them
-   * are different, assert an error.
-   * 
-   * @param requiredEntries
-   */
-  private void assertOriginEntries(EntryHolder[] requiredEntries) {
-      List groups = unitTestSqlDao.sqlSelect("select * from gl_origin_entry_grp_t order by origin_entry_grp_src_cd");
-      assertEquals("Number of groups is wrong", 3, groups.size());
-
-      Collection c = originEntryDao.testingGetAllEntries();
-      assertEquals("Wrong number of transactions in Origin Entry",requiredEntries.length,c.size());
-
-      int count = 0;
-      for (Iterator iter = c.iterator(); iter.hasNext();) {
-        OriginEntry foundTransaction = (OriginEntry)iter.next();
-
-        // Check group
-        int group = getGroup(groups,requiredEntries[count].groupCode);
-        assertEquals("Group for transaction " + foundTransaction.getEntryId() + " is wrong",group,foundTransaction.getEntryGroupId().intValue());
-
-        // Check transaction - this is done this way so that Anthill prints the two transactions to make
-        // resolving the issue easier.
-        if ( ! foundTransaction.getLine().trim().equals(requiredEntries[count].transactionLine.trim()) ) {
-          System.err.println("Expected transaction: " + requiredEntries[count].transactionLine);
-          System.err.println("Found transaction:    " + foundTransaction.getLine());
-          fail("Transaction " + foundTransaction.getEntryId() + " doesn't match expected output");
-        }
-        count++;
-      }
-  }
-
-  private int getGroup(List groups,String groupCode) {
-    for (Iterator iter = groups.iterator(); iter.hasNext();) {
-      Map element = (Map)iter.next();
-
-      String sourceCode = (String)element.get("ORIGIN_ENTRY_GRP_SRC_CD");
-      if ( groupCode.equals(sourceCode) ) {
-        BigDecimal groupId = (BigDecimal)element.get("ORIGIN_ENTRY_GRP_ID");
-        return groupId.intValue();
-      }
-    }
-    return -1;
-  }
-
-  class EntryHolder {
-    public String groupCode;
-    public String transactionLine;
-    public EntryHolder(String groupCode,String transactionLine) {
-      this.groupCode = groupCode;
-      this.transactionLine = transactionLine;
-    }
-  }
-
-  private void loadInputTransactions(String[] transactions) {
-    OriginEntryGroup group = createNewGroup(OriginEntrySource.SCRUBBER_VALID);
-    loadTransactions(transactions,group);
-  }
-
-  private void loadTransactions(String[] transactions, OriginEntryGroup group) {
-    for (int i = 0; i < transactions.length; i++) {
-        createEntry(transactions[i], group);
-    }
-  }
-
-  private void clearGlEntryTable() {
-    unitTestSqlDao.sqlCommand("delete from gl_entry_t");
-  }
-
-  private void clearReversalTable() {
-    unitTestSqlDao.sqlCommand("delete from gl_reversal_t");
-  }
-
-  private void clearGlBalanceTable() {
-    unitTestSqlDao.sqlCommand("delete from gl_balance_t");
-  }
-
-  private void clearEncumbranceTable() {
-    unitTestSqlDao.sqlCommand("delete from gl_encumbrance_t");    
-  }
-
-  private void clearGlAccountBalanceTable() {
-    unitTestSqlDao.sqlCommand("delete from gl_acct_balances_t");
-  }
-
-  private void clearOriginEntryTables() {
-    unitTestSqlDao.sqlCommand("delete from gl_origin_entry_t");
-    unitTestSqlDao.sqlCommand("delete from gl_origin_entry_grp_t");
-  }
-
-  private OriginEntryGroup createNewGroup(String code) {
-    OriginEntryGroup group = new OriginEntryGroup();
-    group.setDate(new java.sql.Date(d.getTime()));
-    group.setProcess(Boolean.TRUE);
-    group.setScrub(Boolean.FALSE);
-    group.setValid(Boolean.TRUE);
-    group.setSourceCode(code);
-    originEntryGroupDao.save(group);
-    return group;
-  }
-
-  private OriginEntry createEntry(String line, OriginEntryGroup group) {
-    OriginEntry entry = new OriginEntry(line);
-    entry.setGroup(group);
-    
-    // This is being done to fool the caching.  If it isn't done, when
-    // we try to retrieve this entry later, none of the referenced tables will
-    // be loaded.
-    persistenceService.retrieveNonKeyFields(entry);
-
-    originEntryDao.saveOriginEntry(entry);
-    return entry;
-  }
 
   private void printReport() {
     System.err.println("Poster Report Errors:");

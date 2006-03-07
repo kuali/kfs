@@ -4,12 +4,12 @@
     "../../../core/datadictionary/dataDictionary-1_0.dtd">
 <!-- 
 	NOTE!!!
-	ObjectCodeCurrent.xml is a copy of this, if you make any changes 
+	This is essentially a copy of ObjectCode.xml, if you make any changes 
 	they need to be made to both documents
 -->
 <dictionaryEntry>
 	<businessObject
-		businessObjectClass="org.kuali.module.chart.bo.ObjectCode">
+		businessObjectClass="org.kuali.module.chart.bo.ObjectCodeCurrent">
 		<customAttributeEnabled>false</customAttributeEnabled>
 
 		<inquiry>
@@ -36,7 +36,7 @@
 		</inquiry>
 <!-- 
 	NOTE!!!
-	ObjectCodeCurrent.xml is a copy of this, if you make any changes 
+	This is essentially a copy of ObjectCode.xml, if you make any changes 
 	they need to be made to both documents
 -->
 		<lookup>
@@ -92,7 +92,7 @@
 		-->
 		<!-- 
 		NOTE!!!
-		ObjectCodeCurrent.xml is a copy of this, if you make any changes 
+		This is essentially a copy of ObjectCode.xml, if you make any changes 
 		they need to be made to both documents
 		-->
 		<attributes>
@@ -163,11 +163,7 @@
 					Object Code Short Name
 				</description>
 			</attribute>
-			<!-- 
-			NOTE!!!
-			ObjectCodeCurrent.xml is a copy of this, if you make any changes 
-			they need to be made to both documents
-			-->
+			
 			<attribute name="financialObjectLevelCode" forceUppercase="true">
 				<label>Object Level Code</label>
 				<shortLabel>ObjLevlCde</shortLabel>
@@ -185,6 +181,11 @@
 				</description>
 			</attribute>
 			
+			<!-- 
+			NOTE!!!
+			This is essentially a copy of ObjectCode.xml, if you make any changes 
+			they need to be made to both documents
+			-->
 			<attribute name="reportsToChartOfAccountsCode"
 				forceUppercase="true">
 				<label>Reports to Chart Code</label>
@@ -219,11 +220,7 @@
 					The Reports to Object Code value used.
 				</description>								
 			</attribute>
-			<!-- 
-			NOTE!!!
-			ObjectCodeCurrent.xml is a copy of this, if you make any changes 
-			they need to be made to both documents
-			-->
+			
 			<attribute name="financialObjectTypeCode" forceUppercase="true">
 				<label>Object Type Code</label>
 				<shortLabel>Object Type</shortLabel>
@@ -257,7 +254,11 @@
 					Object Sub Type Code
 				</description>
 			</attribute>
-
+			<!-- 
+			NOTE!!!
+			This is essentially a copy of ObjectCode.xml, if you make any changes 
+			they need to be made to both documents
+			-->
 			<attribute name="historicalFinancialObjectCode" forceUppercase="true">
 				<label>Historical Financial Object Code</label>
 				<shortLabel>HistFinObjCde</shortLabel>
@@ -274,11 +275,7 @@
 					Historical Financial Object Code
 				</description>
 			</attribute>
-			<!-- 
-			NOTE!!!
-			ObjectCodeCurrent.xml is a copy of this, if you make any changes 
-			they need to be made to both documents
-			-->
+
 			<attribute name="financialObjectActiveCode" forceUppercase="false">
 				<label>Active Code</label>
 				<shortLabel>Ac.</shortLabel>
@@ -315,11 +312,7 @@
 				<summary>Mandatory Transfer Or Eliminations Code</summary>
 				<description>Mandatory Transfer Or Eliminations Code</description>
 			</attribute>
-			<!-- 
-			NOTE!!!
-			ObjectCodeCurrent.xml is a copy of this, if you make any changes 
-			they need to be made to both documents
-			-->
+
 			<attribute name="financialFederalFundedCode" forceUppercase="true">
 				<label>Federally Funded Code</label>
 				<shortLabel>FedFundCde</shortLabel>

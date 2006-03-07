@@ -7,7 +7,7 @@
 	<maintenanceDocument>
 		<businessObjectClass>org.kuali.module.chart.bo.ObjectCons</businessObjectClass>
 		<maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
-
+		<businessRulesClass>org.kuali.module.chart.rules.ObjectConsRule</businessRulesClass>
     	<documentAuthorizerClass>org.kuali.core.document.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
 
         <authorizations>
@@ -36,7 +36,7 @@
    		</defaultExistenceChecks>
 		
 		<maintainableSections>
-			<maintainableSection title="Object Consolitation">
+			<maintainableSection title="Object Consolidation">
                 <maintainableItems>
 					<maintainableField name="chartOfAccountsCode" required="true" />
 					<maintainableField name="finConsolidationObjectCode" required="true" />

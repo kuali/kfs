@@ -118,11 +118,20 @@ public class CashReceiptDocument extends TransactionalDocumentBase {
     public KualiDecimal getTotalCashAmount() {
         return totalCashAmount;
     }
+    
+    /**
+     * This method returns the cash total amount as a currency formatted string.
+     * 
+     * @return String
+     */
+    public String getCurrencyFormattedTotalCashAmount() {
+        return (String) new CurrencyFormatter().format(totalCashAmount);
+    }
 
     /**
      * Sets the totalCashAmount attribute value.
      * 
-     * @param totalCashAmount The totalCashAmount to set.
+     * @param cashAmount The totalCashAmount to set.
      */
     public void setTotalCashAmount(KualiDecimal cashAmount) {
         this.totalCashAmount = cashAmount;
@@ -165,7 +174,7 @@ public class CashReceiptDocument extends TransactionalDocumentBase {
     /**
      * Adds a new check to the list.
      * 
-     * @param item
+     * @param check
      */
     public void addCheck(Check check) {
         check.setSequenceId(this.nextCheckSequenceId);
@@ -276,6 +285,15 @@ public class CashReceiptDocument extends TransactionalDocumentBase {
      */
     public KualiDecimal getTotalCoinAmount() {
         return totalCoinAmount;
+    }
+    
+    /**
+     * This method returns the coin total amount as a currency formatted string.
+     * 
+     * @return String
+     */
+    public String getCurrencyFormattedTotalCoinAmount() {
+        return (String) new CurrencyFormatter().format(totalCoinAmount);
     }
 
     /**

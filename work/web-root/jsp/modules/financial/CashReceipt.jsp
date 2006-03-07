@@ -11,6 +11,7 @@
 <c:set var="checkDetailMode" value="${KualiForm.checkEntryDetailMode}" />
 
 <c:set var="cashReceiptAttributes" value="${DataDictionary['KualiCashReceiptDocument'].attributes}" />
+<c:set var="readOnly" value="${!empty KualiForm.editingMode['viewOnly']}" />
 
 <kul:documentPage showDocumentInfo="true" htmlFormAction="financialCashReceipt" documentTypeName="KualiCashReceiptDocument"  renderMultipart="true" showTabButtons="true">
 
@@ -42,38 +43,58 @@
                         <table cellpadding="4">
                             <tr>
                                 <td align=left valign=middle><div align="right"><strong><kul:htmlAttributeLabel attributeEntry="${cashReceiptAttributes.totalCheckAmount}" useShortLabel="false" /></strong></div></td>
-
-                                <td align=left valign=middle class="right">
-                                    <c:if test="${!checkDetailMode}">
-                                        <kul:htmlControlAttribute property="document.totalCheckAmount" attributeEntry="${cashReceiptAttributes.totalCheckAmount}" />
-                                    </c:if>
-                                    <c:if test="${checkDetailMode}">
-                                    	$${KualiForm.document.currencyFormattedTotalCheckAmount}
-                                        <html:hidden write="false" property="document.totalCheckAmount" />
-                                    </c:if>
-                                </td>
-
-                                <td>
-                                    <html:select property="checkEntryMode" onchange="submitForm()" >
-                                      <html:optionsCollection property="checkEntryModes" label="label" value="value" />
-                                    </html:select>
-
-                                    <noscript>
-                                        <html:image src="images/tinybutton-select.gif" styleClass="tinybutton" alt="change check entry mode" />
-                                    </noscript>
-                                </td>
+								<c:if test="${readOnly}">
+									<td align=left valign=middle class="right" colspan=2>
+										$${KualiForm.document.currencyFormattedTotalCheckAmount}
+										<html:hidden write="false" property="document.totalCheckAmount" />
+	                                </td>
+								</c:if>
+								<c:if test="${!readOnly}">
+	                                <td align=left valign=middle class="right">
+	                                    <c:if test="${!checkDetailMode}">
+	                                        <kul:htmlControlAttribute property="document.totalCheckAmount" attributeEntry="${cashReceiptAttributes.totalCheckAmount}" />
+	                                    </c:if>
+	                                    <c:if test="${checkDetailMode}">
+	                                    	$${KualiForm.document.currencyFormattedTotalCheckAmount}
+	                                        <html:hidden write="false" property="document.totalCheckAmount" />
+	                                    </c:if>
+	                                </td>
+                                </c:if>
+								<c:if test="${!readOnly}">
+	                                <td>
+	                                    <html:select property="checkEntryMode" onchange="submitForm()" >
+	                                      <html:optionsCollection property="checkEntryModes" label="label" value="value" />
+	                                    </html:select>
+	
+	                                    <noscript>
+	                                        <html:image src="images/tinybutton-select.gif" styleClass="tinybutton" alt="change check entry mode" />
+	                                    </noscript>
+	                                </td>
+	                            </c:if>
                             </tr>
                             <tr>
                                 <td align=left valign=middle><div align="right"><strong><kul:htmlAttributeLabel attributeEntry="${cashReceiptAttributes.totalCashAmount}" useShortLabel="false" /></strong></div></td>
                                 <td align=left valign=middle class="right">
-                                    <kul:htmlControlAttribute property="document.totalCashAmount" attributeEntry="${cashReceiptAttributes.totalCashAmount}" />
+                                    <c:if test="${readOnly}">
+                                    	$${KualiForm.document.currencyFormattedTotalCashAmount}
+                                    	<html:hidden write="false" property="document.totalCashAmount" />
+                                    </c:if>
+                                    <c:if test="${!readOnly}">
+                                    	<kul:htmlControlAttribute property="document.totalCashAmount" attributeEntry="${cashReceiptAttributes.totalCashAmount}" />
+                                	</c:if>
                                 </td>
                                 <td>&nbsp;</td>
                             </tr>
                             <tr>
                                 <td align=left valign=middle><div align="right"><strong><kul:htmlAttributeLabel attributeEntry="${cashReceiptAttributes.totalCoinAmount}" useShortLabel="false" /></strong></div></td>
                                 <td align=left valign=middle class="right">
-                                    <kul:htmlControlAttribute property="document.totalCoinAmount" attributeEntry="${cashReceiptAttributes.totalCoinAmount}" />
+									<c:if test="${readOnly}">
+                                    	$${KualiForm.document.currencyFormattedTotalCoinAmount}
+                                    	<html:hidden write="false" property="document.totalCoinAmount" />
+                                    </c:if>
+                                    <c:if test="${!readOnly}">
+                                    	<kul:htmlControlAttribute property="document.totalCoinAmount" attributeEntry="${cashReceiptAttributes.totalCoinAmount}" />
+                                	</c:if>
                                 </td>
                                 <td>&nbsp;</td>
                             </tr>
@@ -81,7 +102,12 @@
                                 <td align=left valign=middle><div align="right"><strong>Cash Reconciliation Total:</strong></div></td>
                                 <td align=left valign=middle class="right">$${KualiForm.document.currencyFormattedSumTotalAmount}</td>
                                 <td>
-                                    <html:image src="images/tinybutton-recalculate.gif" styleClass="tinybutton" alt="recalculate total" />
+                                	<c:if test="${!readOnly}">
+                                    	<html:image src="images/tinybutton-recalculate.gif" styleClass="tinybutton" alt="recalculate total" />
+                                	</c:if>
+                                	<c:if test="${readOnly}">
+                                	&nbsp;
+                                	</c:if>
                                 </td>
                             </tr>
                         </table><br>    
@@ -91,7 +117,7 @@
         </div>
     </kul:tab>
 
-    <cr:checkLines checkDetailMode="${checkDetailMode}" editingMode="${editingMode}" totalAmount="${KualiForm.cashReceiptDocument.currencyFormattedTotalCheckAmount}" displayHidden="${displayHidden}" />
+    <cr:checkLines checkDetailMode="${checkDetailMode}" editingMode="${KualiForm.editingMode}" totalAmount="${KualiForm.cashReceiptDocument.currencyFormattedTotalCheckAmount}" displayHidden="${displayHidden}" />
    		
     <fin:accountingLines editingMode="${KualiForm.editingMode}" editableAccounts="${KualiForm.editableAccounts}" sourceAccountingLinesOnly="true" />
 

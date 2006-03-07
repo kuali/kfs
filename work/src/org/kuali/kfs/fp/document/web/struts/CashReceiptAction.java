@@ -22,6 +22,7 @@
  */
 package org.kuali.module.financial.web.struts.action;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
@@ -34,6 +35,8 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
 import org.kuali.PropertyConstants;
+import org.kuali.core.authorization.AuthorizationConstants;
+import org.kuali.core.document.Document;
 import org.kuali.core.rule.event.AddCheckEvent;
 import org.kuali.core.rule.event.DeleteCheckEvent;
 import org.kuali.core.rule.event.UpdateCheckEvent;
@@ -61,7 +64,7 @@ public class CashReceiptAction extends KualiTransactionalDocumentActionBase {
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         CashReceiptForm cform = (CashReceiptForm) form;
-
+        
         if (cform.hasDocumentId()) {
             CashReceiptDocument cdoc = cform.getCashReceiptDocument();
 

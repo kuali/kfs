@@ -57,11 +57,13 @@
                 <shortLabel>Message</shortLabel>
 
                 <maxLength>2000</maxLength>
+                <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
 				<required>true</required>
 
-                <control>
-                    <text size="2000" />
-                </control>
+				<control>
+					<textarea rows="5" cols="40" />
+				</control>
+
 
                 <summary>Message Of The Day</summary>
                 <description>Message Of The Day...</description>

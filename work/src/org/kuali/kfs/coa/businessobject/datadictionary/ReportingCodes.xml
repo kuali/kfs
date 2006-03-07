@@ -57,13 +57,13 @@
          
 			<attribute name="financialReportingCode" forceUppercase="true">
 				<label>Financial Reporting Code</label>
-				<shortLabel>financialReportingCode</shortLabel>
+				<shortLabel>Report Code</shortLabel>
 
 				<maxLength>10</maxLength>
 				<validationPattern><alphaNumeric /></validationPattern>
 
 				<control>
-					<text size="4" />
+					<text size="10" />
 				</control>
 
 				<summary>financialReportingCode</summary>
@@ -78,7 +78,7 @@
 				<validationPattern><alphaNumeric /></validationPattern>
 
 				<control>
-					<text size="4" />
+					<text size="40" />
 				</control>
 
 				<summary>financialReportingCodeDescription</summary>
@@ -87,13 +87,13 @@
 			
 			<attribute name="financialReportingCodeMgrId" forceUppercase="true">
 				<label>Financial Reporting Code Manager Id</label>
-				<shortLabel>financialReportingCodeMgrId</shortLabel>
+				<shortLabel>Report Code Desc</shortLabel>
 
 				<maxLength>10</maxLength>
 				<validationPattern><alphaNumeric /></validationPattern>
 
 				<control>
-					<text size="4" />
+					<text size="10" />
 				</control>
 
 				<summary>financialReportingCodeMgrId</summary>
@@ -102,13 +102,13 @@
 			
 			<attribute name="financialReportsToReportingCode" forceUppercase="true">
 				<label>Financial Reports To Reporting Code</label>
-				<shortLabel>financialReportsToReportingCode</shortLabel>
+				<shortLabel>Reports To Code</shortLabel>
 
 				<maxLength>10</maxLength>
 				<validationPattern><alphaNumeric /></validationPattern>
 
 				<control>
-					<text size="4" />
+					<text size="10" />
 				</control>
 
 				<summary>Financial Reports To Reporting Code</summary>

@@ -30,7 +30,16 @@
 			<field attributeName="chartOfAccountsCode" />
 			<field attributeName="organizationCode" />
 			<field attributeName="financialReportingCode" />			
-		</lockingKeys>			
+		</lockingKeys>		
+			
+		<defaultExistenceChecks>
+		 	<reference  attributeName="chart" 
+ 						attributeToHighlightOnFail="chartOfAccountsCode" />	
+			<reference  attributeName="org" 
+						attributeToHighlightOnFail="organizationCode" />
+			<reference  attributeName="universalUser" 
+						attributeToHighlightOnFail="financialReportingCodeMgrId" />
+		</defaultExistenceChecks>
 		
 		<maintainableSections>
 			<maintainableSection title="Edit Reporting Codes">
@@ -42,7 +51,6 @@
 					<maintainableField name="financialReportingCodeMgrId" required="true" />
 					<maintainableField name="financialReportsToReportingCode" required="true" />
 					<maintainableField name="versionNumber" required="true" />
-					<maintainableField name="objectId" required="true" />
 					
                 </maintainableItems>
 			</maintainableSection>

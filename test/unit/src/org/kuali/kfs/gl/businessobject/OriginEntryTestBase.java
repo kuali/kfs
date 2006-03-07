@@ -211,6 +211,8 @@ public class OriginEntryTestBase extends KualiTestBaseWithSpringOnly {
   }
 
   protected void setApplicationConfigurationFlag(String name,boolean value) {
-    kualiConfigurationService.setRequiredApplicationParameterIndicator("SYSTEM",name,value);
+    unitTestSqlDao.sqlCommand("delete from fs_parm_t where fs_scr_nm = 'SYSTEM' and fs_parm_nm = '" + name + "'");
+    unitTestSqlDao.sqlCommand("insert into fs_parm_t (fs_scr_nm,fs_parm_nm,obj_id,ver_nbr,fs_parm_txt,fs_parm_desc,fs_mult_val_ind," +
+        "fs_parm_oper,fs_active_ind) values ('SYSTEM','" + name + "',SYS_GUID(),1,'" + (value ? "Y" : "N") + "','Y','N',null,'Y')");    
   }
 }

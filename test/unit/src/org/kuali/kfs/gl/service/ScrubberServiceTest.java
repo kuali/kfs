@@ -22,59 +22,31 @@
  */
 package org.kuali.module.gl.service;
 
-import java.math.BigDecimal;
 import java.util.Calendar;
-import java.util.Collection;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
 import org.kuali.core.service.PersistenceService;
-import org.kuali.core.util.SpringServiceLocator;
-import org.kuali.module.gl.TestDateTimeService;
+import org.kuali.module.gl.OriginEntryTestBase;
 import org.kuali.module.gl.TestScrubberReport;
-import org.kuali.module.gl.bo.OriginEntry;
-import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.bo.OriginEntrySource;
 import org.kuali.module.gl.bo.Transaction;
-import org.kuali.module.gl.dao.OriginEntryDao;
-import org.kuali.module.gl.dao.OriginEntryGroupDao;
-import org.kuali.module.gl.dao.UnitTestSqlDao;
-import org.kuali.test.KualiTestBaseWithSpringOnly;
-import org.springframework.beans.factory.BeanFactory;
 
-public class ScrubberServiceTest extends KualiTestBaseWithSpringOnly {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger
-            .getLogger(ScrubberServiceTest.class);
-
-    private BeanFactory beanFactory;
+public class ScrubberServiceTest extends OriginEntryTestBase {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ScrubberServiceTest.class);
 
     private ScrubberService scrubberService = null;
 
-    private TestDateTimeService dateTimeService = null;
-
     private TestScrubberReport scrubberReport = null;
-
-    private UnitTestSqlDao unitTestSqlDao = null;
-
-    private OriginEntryDao originEntryDao = null;
-
-    private OriginEntryGroupDao originEntryGroupDao = null;
-
-    private PersistenceService persistenceService = null;
-
-    private Date d = null;
 
     protected void setUp() throws Exception {
         super.setUp();
 
         LOG.debug("setUp() started");
 
-        beanFactory = SpringServiceLocator.getBeanFactory();
-        scrubberService = (ScrubberService) beanFactory
-                .getBean("glScrubberService");
+        scrubberService = (ScrubberService) beanFactory.getBean("glScrubberService");
         persistenceService = (PersistenceService)beanFactory.getBean("persistenceService");
 
         // Get the test date time service so we can specify the date/time of the run
@@ -82,33 +54,20 @@ public class ScrubberServiceTest extends KualiTestBaseWithSpringOnly {
         c.set(Calendar.DAY_OF_MONTH, 1);
         c.set(Calendar.MONTH, Calendar.JANUARY);
         c.set(Calendar.YEAR, 2004);
-        d = c.getTime();
-        dateTimeService = (TestDateTimeService) beanFactory
-                .getBean("testDateTimeService");
-        dateTimeService.currentDate = d;
+        date = c.getTime();
+        dateTimeService.currentDate = date;
 
         // get the test scrubber report so we can read the summary and error information
         // in the unit test
-        scrubberReport = (TestScrubberReport) beanFactory
-                .getBean("testScrubberReport");
-
-        // get the sql DAO
-        unitTestSqlDao = (UnitTestSqlDao) beanFactory
-                .getBean("glUnitTestSqlDao");
-
-        // get origin entry 
-        originEntryDao = (OriginEntryDao) beanFactory
-                .getBean("glOriginEntryDao");
-        originEntryGroupDao = (OriginEntryGroupDao) beanFactory
-                .getBean("glOriginEntryGroupDao");
+        scrubberReport = (TestScrubberReport) beanFactory.getBean("testScrubberReport");
     }
 
     public void testClosedAccount01() throws Exception {
         
         // Inputs.
         String[] stringInput = new String[] {
-            "2004BL2131401-----4100---ACEX07DI  01CLOSACT01     Rite Quality Office Supplies Inc.                   94.35D2006-01-05          ----------                                                                  ",
-            "2004BL2131401-----9041---ACLI07DI  01CLOSACT01     Rite Quality Office Supplies Inc.                   94.35C2006-01-05          ----------                                                                  "
+            "2004BL2131401-----4100---ACEX07DI  01CLOSACT0100000Rite Quality Office Supplies Inc.                   94.35D2006-01-05          ----------                                                                  ",
+            "2004BL2131401-----9041---ACLI07DI  01CLOSACT0100000Rite Quality Office Supplies Inc.                   94.35C2006-01-05          ----------                                                                  "
         };
         
         String[] convertedStringInput = new String[] {
@@ -130,15 +89,15 @@ public class ScrubberServiceTest extends KualiTestBaseWithSpringOnly {
 
         // ... and run the test.
         scrub(stringInput);
-        assertOriginEntries((EntryHolder[]) expectedOutput.toArray(new EntryHolder[0]));
+        assertOriginEntries(4,(EntryHolder[]) expectedOutput.toArray(new EntryHolder[0]));
     }
     
     public void dontRunTestClosedAccount() throws Exception {
 
         // Inputs.
         String[] stringInput = new String[] {
-                "2004BA6044909-----1800---ACIN07CR  UBCLOSACCT      Poplars Garage Fees                                 20.00C2006-01-05          ----------                                                                          ",
-                "2004BA6044909-----8000---ACAS07CR  UBCLOSACCT      TP Generated Offset                                 20.00D2006-01-05          ----------                                                                          "
+                "2004BA6044909-----1800---ACIN07CR  UBCLOSACCT 00000Poplars Garage Fees                                 20.00C2006-01-05          ----------                                                                          ",
+                "2004BA6044909-----8000---ACAS07CR  UBCLOSACCT 00000TP Generated Offset                                 20.00D2006-01-05          ----------                                                                          "
         };
         
         // Add inputs to expected output ...
@@ -159,16 +118,15 @@ public class ScrubberServiceTest extends KualiTestBaseWithSpringOnly {
                 
         // ... and run the test.
         scrub(stringInput);
-        assertOriginEntries((EntryHolder[]) expectedOutput.toArray(new EntryHolder[0]));
-        
+        assertOriginEntries(4,(EntryHolder[]) expectedOutput.toArray(new EntryHolder[0]));
     }
-    
+
     public void testExpiredAccountByDocumentType() throws Exception {
         
         // Inputs.
         String[] stringInput = new String[] {
-                "2004BL4631557-----4100---ACEX07LOCRLGEXPRACTLC     CONCERTO OFFICE PRODUCTS                            48.53C2006-01-05          ----------                                                                          ",
-                "2004BL4631557-----9041---ACLI07LOCRLGEXPRACTLC     CONCERTO OFFICE PRODUCTS                            48.53D2006-01-05          ----------                                                                          "
+                "2004BL4631557-----4100---ACEX07LOCRLGEXPRACTLC00000CONCERTO OFFICE PRODUCTS                            48.53C2006-01-05          ----------                                                                          ",
+                "2004BL4631557-----9041---ACLI07LOCRLGEXPRACTLC00000CONCERTO OFFICE PRODUCTS                            48.53D2006-01-05          ----------                                                                          "
         };
         
         // Add inputs to expected output ...
@@ -185,7 +143,7 @@ public class ScrubberServiceTest extends KualiTestBaseWithSpringOnly {
 
         // ... and run the test.
         scrub(stringInput);
-        assertOriginEntries((EntryHolder[]) expectedOutput.toArray(new EntryHolder[0]));
+        assertOriginEntries(4,(EntryHolder[]) expectedOutput.toArray(new EntryHolder[0]));
         
     }
     
@@ -211,7 +169,7 @@ public class ScrubberServiceTest extends KualiTestBaseWithSpringOnly {
 
         // ... and run the test.
         scrub(stringInput);
-        assertOriginEntries((EntryHolder[]) expectedOutput.toArray(new EntryHolder[0]));
+        assertOriginEntries(4,(EntryHolder[]) expectedOutput.toArray(new EntryHolder[0]));
 
     }
     
@@ -237,7 +195,7 @@ public class ScrubberServiceTest extends KualiTestBaseWithSpringOnly {
 
         // ... and run the test.
         scrub(stringInput);
-        assertOriginEntries((EntryHolder[]) expectedOutput.toArray(new EntryHolder[0]));
+        assertOriginEntries(4,(EntryHolder[]) expectedOutput.toArray(new EntryHolder[0]));
         
     }
     
@@ -252,8 +210,8 @@ public class ScrubberServiceTest extends KualiTestBaseWithSpringOnly {
         
         // Inputs.
         String[] stringInput = new String[] {
-            "2004BL4131407-----4100---ACEX07TOPSLGEXPIRCGAC     CONCERTO OFFICE PRODUCTS                            48.53C2006-01-05          ----------                                                                          ",
-            "2004BL4131407-----9041---ACLI07TOPSLGEXPIRCGAC     CONCERTO OFFICE PRODUCTS                            48.53D2006-01-05          ----------                                                                          "
+            "2004BL4131407-----4100---ACEX07TOPSLGEXPIRCGAC00000CONCERTO OFFICE PRODUCTS                            48.53C2006-01-05          ----------                                                                          ",
+            "2004BL4131407-----9041---ACLI07TOPSLGEXPIRCGAC00000CONCERTO OFFICE PRODUCTS                            48.53D2006-01-05          ----------                                                                          "
         };
         
         // Add inputs to expected output ...
@@ -270,7 +228,7 @@ public class ScrubberServiceTest extends KualiTestBaseWithSpringOnly {
 
         // ... and run the test.
         scrub(stringInput);
-        assertOriginEntries((EntryHolder[]) expectedOutput.toArray(new EntryHolder[0]));
+        assertOriginEntries(4,(EntryHolder[]) expectedOutput.toArray(new EntryHolder[0]));
 
     }
     
@@ -296,7 +254,7 @@ public class ScrubberServiceTest extends KualiTestBaseWithSpringOnly {
 
         // ... and run the test.
         scrub(stringInput);
-        assertOriginEntries((EntryHolder[]) expectedOutput.toArray(new EntryHolder[0]));
+        assertOriginEntries(4,(EntryHolder[]) expectedOutput.toArray(new EntryHolder[0]));
     }
     
     public void testOffsetGenerationAcrossMultipleDocumentTypes() throws Exception {
@@ -310,8 +268,8 @@ public class ScrubberServiceTest extends KualiTestBaseWithSpringOnly {
     public void testInvalidEncumbranceUpdateCode() throws Exception {
         
         String[] inputTransactions = {
-                "2004BL1031420-----4110---IEEX07PAYEEUINVALENCC     NOV-05 IMU Business Office          2224           241.75C2005-11-30          ----------                                 X                                        ",
-                "2004BL1031420-----9892---IEAS07PAYEEUINVALENCC     NOV-05 IMU Business Office          2237           241.75D2005-11-30          ----------                                 X                                        "
+                "2004BL1031420-----4110---IEEX07PAYEEUINVALENCC00000NOV-05 IMU Business Office          2224           241.75C2005-11-30          ----------                                 X                                        ",
+                "2004BL1031420-----9892---IEAS07PAYEEUINVALENCC00000NOV-05 IMU Business Office          2237           241.75D2005-11-30          ----------                                 X                                        "
         };
         
         EntryHolder[] outputTransactions = {
@@ -322,15 +280,15 @@ public class ScrubberServiceTest extends KualiTestBaseWithSpringOnly {
         };
         
         scrub(inputTransactions);
-        assertOriginEntries(outputTransactions);
+        assertOriginEntries(4,outputTransactions);
     }
 
     public void testBlankEncumbranceUpdateCodeOnEncumbranceRecord()
             throws Exception {
 
         String[] inputTransactions = {
-                "2004BL1031400-----4100---PEEX07TF  01BLANKENCC     Rite Quality Office Supplies Inc.                   94.35D2006-01-05          ----------                                                                          ",
-                "2004BL1031400-----9891---PEFB07TF  01BLANKENCC     Rite Quality Office Supplies Inc.                   94.35C2006-01-05          ----------                                                                          "
+                "2004BL1031400-----4100---PEEX07TF  01BLANKENCC00000Rite Quality Office Supplies Inc.                   94.35D2006-01-05          ----------                                                                          ",
+                "2004BL1031400-----9891---PEFB07TF  01BLANKENCC00000Rite Quality Office Supplies Inc.                   94.35C2006-01-05          ----------                                                                          "
         };
         
         EntryHolder[] outputTransactions = {
@@ -341,7 +299,7 @@ public class ScrubberServiceTest extends KualiTestBaseWithSpringOnly {
         };
 
         scrub(inputTransactions);
-        assertOriginEntries(outputTransactions);
+        assertOriginEntries(4,outputTransactions);
     }
 
     public void dontRunTestInvalidReversalDate() throws Exception {
@@ -359,15 +317,15 @@ public class ScrubberServiceTest extends KualiTestBaseWithSpringOnly {
         };
 
         scrub(inputTransactions);
-        assertOriginEntries(outputTransactions);
+        assertOriginEntries(4,outputTransactions);
     }
 
     public void testBlankReferenceDocumentNumberWithEncumbranceUpdateCodeOfR()
             throws Exception {
 
         String[] inputTransactions = {
-                "2004BA6044900-----1599---EXIN07TOPSLGBLANKRDOC     CONCERTO OFFICE PRODUCTS                            48.53C2006-01-05          ----------        CR  01                   R                                        ",
-                "2004BA6044900-----9041---EXLI07TOPSLDBLANKRDOC     CONCERTO OFFICE PRODUCTS                            48.53D2006-01-05          ----------        CR  01                   R                                        "
+                "2004BA6044900-----1599---EXIN07TOPSLGBLANKRDOC00000CONCERTO OFFICE PRODUCTS                            48.53C2006-01-05          ----------        CR  01                   R                                        ",
+                "2004BA6044900-----9041---EXLI07TOPSLDBLANKRDOC00000CONCERTO OFFICE PRODUCTS                            48.53D2006-01-05          ----------        CR  01                   R                                        "
         };
         
         EntryHolder[] outputTransactions = {
@@ -378,7 +336,7 @@ public class ScrubberServiceTest extends KualiTestBaseWithSpringOnly {
         };
 
         scrub(inputTransactions);
-        assertOriginEntries(outputTransactions);
+        assertOriginEntries(4,outputTransactions);
     }
 
     public void testReferenceDocumentNumberPresentWithoutOtherFields()
@@ -397,15 +355,15 @@ public class ScrubberServiceTest extends KualiTestBaseWithSpringOnly {
         };
 
         scrub(inputTransactions);
-        assertOriginEntries(outputTransactions);
+        assertOriginEntries(4,outputTransactions);
     }
 
     public void testBlankReferenceOriginCodeWithEncumbranceUpdateCodeOfR()
             throws Exception {
 
         String[] inputTransactions = {
-                "2004BL9120656-----5000---ACEX07INV EUBLANKRORG     BALDWIN WALLACE COLLEGE                           3375.00C2006-01-05          ----------        DI    123456789                                                   ",
-                "2004BL9120656-----8000---ACAS07INV EUBLANKRORG     TP Generated Offset                               3375.00D2006-01-05          ----------        DI    123456789                                                   "
+                "2004BL9120656-----5000---ACEX07INV EUBLANKRORG00000BALDWIN WALLACE COLLEGE                           3375.00C2006-01-05          ----------        DI    123456789                                                   ",
+                "2004BL9120656-----8000---ACAS07INV EUBLANKRORG00000TP Generated Offset                               3375.00D2006-01-05          ----------        DI    123456789                                                   "
         };
         
         EntryHolder[] outputTransactions = {
@@ -416,14 +374,14 @@ public class ScrubberServiceTest extends KualiTestBaseWithSpringOnly {
         };
 
         scrub(inputTransactions, true);
-        assertOriginEntries(outputTransactions);
+        assertOriginEntries(4,outputTransactions);
     }
 
     public void testInvalidReferenceOriginCode() throws Exception {
 
         String[] inputTransactions = {
-                "2004BL2231411-----2400---ACEX07ST  EUINVALRORG     PAYROLL EXPENSE TRANSFERS                          620.00C2006-01-05          ----------        CD  XX123456789                                                   ",
-                "2004BL2231411-----8000---ACAS07ST  EUINVALRORG     PAYROLL EXPENSE TRANSFERS                          620.00D2006-01-05          ----------        CD  XX123456789                                                   "
+                "2004BL2231411-----2400---ACEX07ST  EUINVALRORG00000PAYROLL EXPENSE TRANSFERS                          620.00C2006-01-05          ----------        CD  XX123456789                                                   ",
+                "2004BL2231411-----8000---ACAS07ST  EUINVALRORG00000PAYROLL EXPENSE TRANSFERS                          620.00D2006-01-05          ----------        CD  XX123456789                                                   "
         };
         
         EntryHolder[] outputTransactions = {
@@ -434,15 +392,15 @@ public class ScrubberServiceTest extends KualiTestBaseWithSpringOnly {
         };
 
         scrub(inputTransactions);
-        assertOriginEntries(outputTransactions);
+        assertOriginEntries(4,outputTransactions);
     }
 
     public void testBlankReferenceDocumentTypeWithEncumbranceUpdateCodeOfR()
             throws Exception {
 
         String[] inputTransactions = {
-                "2004BL2231408-----4035---ACEX07SB  01BLANKRDTP     Biology Stockroom                                   13.77D2006-01-05          ----------            LG123456789                                                   ",
-                "2004BL2231408-----8000---ACAS07SB  01BLANKRDTP     TP Generated Offset                                 13.77C2006-01-05          ----------            LG123456789                                                   "
+                "2004BL2231408-----4035---ACEX07SB  01BLANKRDTP00000Biology Stockroom                                   13.77D2006-01-05          ----------            LG123456789                                                   ",
+                "2004BL2231408-----8000---ACAS07SB  01BLANKRDTP00000TP Generated Offset                                 13.77C2006-01-05          ----------            LG123456789                                                   "
         };
         
         EntryHolder[] outputTransactions = {
@@ -453,13 +411,13 @@ public class ScrubberServiceTest extends KualiTestBaseWithSpringOnly {
         };
 
         scrub(inputTransactions);
-        assertOriginEntries(outputTransactions);
+        assertOriginEntries(4,outputTransactions);
     }
 
     public void testInvalidReferenceDocumentType() throws Exception {
         String[] inputTransactions = {
-                "2004BL1031497-----4190---ACEX07GEC 01INVALRDTP     THOMAS BUSEY/NEWEGG COMPUTERS                       40.72C2006-01-05          ----------        XXXXLG123456789                                                   ",
-                "2004BL1031497-----8000---ACAS07GEC 01INVALRDTP     TP Generated Offset                                 40.72D2006-01-05          ----------        XXXXLG123456789                                                   "
+                "2004BL1031497-----4190---ACEX07GEC 01INVALRDTP00000THOMAS BUSEY/NEWEGG COMPUTERS                       40.72C2006-01-05          ----------        XXXXLG123456789                                                   ",
+                "2004BL1031497-----8000---ACAS07GEC 01INVALRDTP00000TP Generated Offset                                 40.72D2006-01-05          ----------        XXXXLG123456789                                                   "
         };
         
         EntryHolder[] outputTransactions = {
@@ -470,13 +428,13 @@ public class ScrubberServiceTest extends KualiTestBaseWithSpringOnly {
         };
 
         scrub(inputTransactions);
-        assertOriginEntries(outputTransactions);
+        assertOriginEntries(4,outputTransactions);
     }
 
     public void testInvalidProjectCode() throws Exception {
         String[] inputTransactions = {
-                "2004BL9120656-----4035---ACEX07CR  01INVALPROJ     pymts recd 12/28/05                                 25.15C2006-01-05          XXXXXXXXX                                                                           ",
-                "2004BL9120656-----8000---ACAS07CR  01INVALPROJ     TP Generated Offset                                 25.15D2006-01-05          XXXXXXXXX                                                                           "
+                "2004BL9120656-----4035---ACEX07CR  01INVALPROJ00000pymts recd 12/28/05                                 25.15C2006-01-05          XXXXXXXXX                                                                           ",
+                "2004BL9120656-----8000---ACAS07CR  01INVALPROJ00000TP Generated Offset                                 25.15D2006-01-05          XXXXXXXXX                                                                           "
         };
         
         EntryHolder[] outputTransactions = {
@@ -487,13 +445,13 @@ public class ScrubberServiceTest extends KualiTestBaseWithSpringOnly {
         };
 
         scrub(inputTransactions, true);
-        assertOriginEntries(outputTransactions);
+        assertOriginEntries(4,outputTransactions);
     }
     
     public void testInvalidTransactionDate() throws Exception {
         String[] inputTransactions = {
-                "2004BL1031497-----4100---ACEX07PO  LGINVALDATE     Rite Quality Office Supplies Inc.                   43.42D2096-02-11          ----------                                                                          ",
-                "2004BL1031497-----9892---ACFB07PO  LGINVALDATE     Rite Quality Office Supplies Inc.                   43.42C1006-12-23          ----------                                                                          "
+                "2004BL1031497-----4100---ACEX07PO  LGINVALDATE00000Rite Quality Office Supplies Inc.                   43.42D2096-02-11          ----------                                                                          ",
+                "2004BL1031497-----9892---ACFB07PO  LGINVALDATE00000Rite Quality Office Supplies Inc.                   43.42C1006-12-23          ----------                                                                          "
         };
 
         EntryHolder[] outputTransactions = {
@@ -504,13 +462,13 @@ public class ScrubberServiceTest extends KualiTestBaseWithSpringOnly {
         };
 
         scrub(inputTransactions);
-        assertOriginEntries(outputTransactions);
+        assertOriginEntries(4,outputTransactions);
     }
     
     public void testInvalidDebitCreditCode() throws Exception {
         String[] inputTransactions = {
-                "2004BL1031420-----4110---ACEX07ID33EUINVALDBCR     NOV-05 IMU Business Office          2224           241.75X2005-11-30          ----------                                                                          ",
-                "2004BL1031420-----8000---ACAS07ID33EUINVALDBCR     NOV-05 IMU Business Office          2237           241.75X2005-11-30          ----------                                                                          "
+                "2004BL1031420-----4110---ACEX07ID33EUINVALDBCR00000NOV-05 IMU Business Office          2224           241.75X2005-11-30          ----------                                                                          ",
+                "2004BL1031420-----8000---ACAS07ID33EUINVALDBCR00000NOV-05 IMU Business Office          2237           241.75X2005-11-30          ----------                                                                          "
         };
         
         EntryHolder[] outputTransactions = {
@@ -521,14 +479,14 @@ public class ScrubberServiceTest extends KualiTestBaseWithSpringOnly {
         };
 
         scrub(inputTransactions);
-        assertOriginEntries(outputTransactions);
+        assertOriginEntries(4,outputTransactions);
     }
 
     public void testDebitCreditCodeOnTransactionNotRequiringOffset()
             throws Exception {
         String[] inputTransactions = {
-                "2004BL1031400-----4100---MBEX07BA  01WRONGDBCR     Rite Quality Office Supplies Inc.                   94.35D2006-01-05          ----------                                                                          ",
-                "2004BL1031400-----1800---MBLI07BA  01WRONGDBCR     Rite Quality Office Supplies Inc.                   94.35C2006-01-05          ----------                                                                          "
+                "2004BL1031400-----4100---MBEX07BA  01WRONGDBCR00000Rite Quality Office Supplies Inc.                   94.35D2006-01-05          ----------                                                                          ",
+                "2004BL1031400-----1800---MBLI07BA  01WRONGDBCR00000Rite Quality Office Supplies Inc.                   94.35C2006-01-05          ----------                                                                          "
         };
         
         EntryHolder[] outputTransactions = {
@@ -539,14 +497,14 @@ public class ScrubberServiceTest extends KualiTestBaseWithSpringOnly {
         };
 
         scrub(inputTransactions);
-        assertOriginEntries(outputTransactions);
+        assertOriginEntries(4,outputTransactions);
     }
 
     public void testBlankDebitCreditCodeOnTransactionRequiringOffset()
             throws Exception {
         String[] inputTransactions = {
-                "2004BA6044913-----1470---ACIN07CR  01BLANKDBCR     Poplars Garage Fees                                 20.00 2006-01-05          ----------                                                                          ",
-                "2004BA6044913-----8000---ACAS07CR  01BLANKDBCR     TP Generated Offset                                 20.00 2006-01-05          ----------                                                                          "
+                "2004BA6044913-----1470---ACIN07CR  01BLANKDBCR00000Poplars Garage Fees                                 20.00 2006-01-05          ----------                                                                          ",
+                "2004BA6044913-----8000---ACAS07CR  01BLANKDBCR00000TP Generated Offset                                 20.00 2006-01-05          ----------                                                                          "
         };
         EntryHolder[] outputTransactions = {
             new EntryHolder(OriginEntrySource.EXTERNAL,inputTransactions[0]),
@@ -556,13 +514,13 @@ public class ScrubberServiceTest extends KualiTestBaseWithSpringOnly {
         };
 
         scrub(inputTransactions);
-        assertOriginEntries(outputTransactions);
+        assertOriginEntries(4,outputTransactions);
     }
     
     public void testBlankDocumentNumber() throws Exception {
         String[] inputTransactions = {
-                "2004BL2231423-----1800---ACIN  CR  PL              FRICKA FRACKA                                    45995.84C2006-01-05          ----------                                                                          ",
-                "2004BL2231423-----8000---ACAS  CR  PL              TP Generated Offset                              45995.84D2006-01-05          ----------                                                                          "
+                "2004BL2231423-----1800---ACIN  CR  PL         00000FRICKA FRACKA                                    45995.84C2006-01-05          ----------                                                                          ",
+                "2004BL2231423-----8000---ACAS  CR  PL         00000TP Generated Offset                              45995.84D2006-01-05          ----------                                                                          "
         };
         
         EntryHolder[] outputTransactions = {
@@ -573,13 +531,13 @@ public class ScrubberServiceTest extends KualiTestBaseWithSpringOnly {
         };
 
         scrub(inputTransactions);
-        assertOriginEntries(outputTransactions);
+        assertOriginEntries(4,outputTransactions);
     }
 
     public void testInvalidOriginCode() throws Exception {
         String[] inputTransactions = {
-                "2004BA9120656-----5000---ACEX07INV XXINVALORIG     BALDWIN WALLACE COLLEGE                           3375.00C2006-01-05          ----------                                                                          ",
-                "2004BA9120656-----8000---ACAS07INV EUINVALORIG     TP Generated Offset                               3375.00D2006-01-05          ----------                                                                          "
+                "2004BA9120656-----5000---ACEX07INV XXINVALORIG00000BALDWIN WALLACE COLLEGE                           3375.00C2006-01-05          ----------                                                                          ",
+                "2004BA9120656-----8000---ACAS07INV EUINVALORIG00000TP Generated Offset                               3375.00D2006-01-05          ----------                                                                          "
         };
 
         EntryHolder[] outputTransactions = {
@@ -590,13 +548,13 @@ public class ScrubberServiceTest extends KualiTestBaseWithSpringOnly {
         };
 
         scrub(inputTransactions);
-        assertOriginEntries(outputTransactions);
+        assertOriginEntries(4,outputTransactions);
     }
 
     public void testBlankOriginCode() throws Exception {
         String[] inputTransactions = {
-                "2004BL2231411-----2400---ACEX07ST    BLANKORIG     PAYROLL EXPENSE TRANSFERS                          620.00C2006-01-05          ----------                                                                          ",
-                "2004BL2231411-----8000---ACAS07ST  01BLANKORIG     PAYROLL EXPENSE TRANSFERS                          620.00D2006-01-05          ----------                                                                          "
+                "2004BL2231411-----2400---ACEX07ST    BLANKORIG00000PAYROLL EXPENSE TRANSFERS                          620.00C2006-01-05          ----------                                                                          ",
+                "2004BL2231411-----8000---ACAS07ST  01BLANKORIG00000PAYROLL EXPENSE TRANSFERS                          620.00D2006-01-05          ----------                                                                          "
         };
 
         EntryHolder[] outputTransactions = {
@@ -607,13 +565,13 @@ public class ScrubberServiceTest extends KualiTestBaseWithSpringOnly {
         };
 
         scrub(inputTransactions);
-        assertOriginEntries(outputTransactions);
+        assertOriginEntries(4,outputTransactions);
     }
 
     public void testInvalidDocumentType() throws Exception {
         String[] inputTransactions = {
-                "2004BL2231408-----4035---ACEX07XXX 01INVALDTYP     Biology Stockroom                                   13.77D2006-01-05          ----------                                                                          ",
-                "2004BL2231408-----8000---ACAS07XXX 01INVALDTYP     TP Generated Offset                                 13.77C2006-01-05          ----------                                                                          "
+                "2004BL2231408-----4035---ACEX07XXX 01INVALDTYP00000Biology Stockroom                                   13.77D2006-01-05          ----------                                                                          ",
+                "2004BL2231408-----8000---ACAS07XXX 01INVALDTYP00000TP Generated Offset                                 13.77C2006-01-05          ----------                                                                          "
         };
         
         EntryHolder[] outputTransactions = {
@@ -624,13 +582,13 @@ public class ScrubberServiceTest extends KualiTestBaseWithSpringOnly {
         };
 
         scrub(inputTransactions);
-        assertOriginEntries(outputTransactions);
+        assertOriginEntries(4,outputTransactions);
     }
 
     public void testBlankDocumentType() throws Exception {
         String[] inputTransactions = {
-                "2004BA6044900-----8000---ACAS07    01BLANKDTYP     TP Generated Offset                               1650.00C2006-01-05          ----------                                                                          ",
-                "2004BL6044900-----4866---ACEX07    01BLANKDTYP     Correction to: 01-PU3355206                       1650.00D2006-01-05          ----------                                                                          "
+                "2004BA6044900-----8000---ACAS07    01BLANKDTYP00000TP Generated Offset                               1650.00C2006-01-05          ----------                                                                          ",
+                "2004BL6044900-----4866---ACEX07    01BLANKDTYP00000Correction to: 01-PU3355206                       1650.00D2006-01-05          ----------                                                                          "
         };
 
         EntryHolder[] outputTransactions = {
@@ -641,13 +599,13 @@ public class ScrubberServiceTest extends KualiTestBaseWithSpringOnly {
         };
 
         scrub(inputTransactions);
-        assertOriginEntries(outputTransactions);
+        assertOriginEntries(4,outputTransactions);
     }
 
     public void testInvalidFiscalPeriod() throws Exception {
         String[] inputTransactions = {
-                "2004BL1031497-----4190---ACEX14GEC 01INVALPER      THOMAS BUSEY/NEWEGG COMPUTERS                       40.72C2006-01-05          ----------                                                                          ",
-                "2004BL1031497-----8000---ACASXXGEC 01INVALPER      TP Generated Offset                                 40.72D2006-01-05          ----------                                                                          "
+                "2004BL1031497-----4190---ACEX14GEC 01INVALPER 00000THOMAS BUSEY/NEWEGG COMPUTERS                       40.72C2006-01-05          ----------                                                                          ",
+                "2004BL1031497-----8000---ACASXXGEC 01INVALPER 00000TP Generated Offset                                 40.72D2006-01-05          ----------                                                                          "
         };
 
         EntryHolder[] outputTransactions = {
@@ -658,13 +616,13 @@ public class ScrubberServiceTest extends KualiTestBaseWithSpringOnly {
         };
 
         scrub(inputTransactions);
-        assertOriginEntries(outputTransactions);
+        assertOriginEntries(4,outputTransactions);
     }
 
     public void testClosedFiscalPeriod() throws Exception {
         String[] inputTransactions = {
-                "2003BA9120656-----4035---ACEX01CR  01CLOSEPER      pymts recd 12/28/05                                 25.15C2006-01-05          ----------                                                                          ",
-                "2003BA9120656-----8000---ACAS01CR  01CLOSEPER      TP Generated Offset                                 25.15D2006-01-05          ----------                                                                          "
+                "2003BA9120656-----4035---ACEX01CR  01CLOSEPER 00000pymts recd 12/28/05                                 25.15C2006-01-05          ----------                                                                          ",
+                "2003BA9120656-----8000---ACAS01CR  01CLOSEPER 00000TP Generated Offset                                 25.15D2006-01-05          ----------                                                                          "
         };
 
         EntryHolder[] outputTransactions = {
@@ -675,13 +633,13 @@ public class ScrubberServiceTest extends KualiTestBaseWithSpringOnly {
         };
 
         scrub(inputTransactions);
-        assertOriginEntries(outputTransactions);
+        assertOriginEntries(4,outputTransactions);
     }
     
     public void testInvalidObjectType() throws Exception {
         String[] inputTransactions = {
-                "2004BL1031467-----4100---ACXX07PO  LGINVALOBTY     Rite Quality Office Supplies Inc.                   43.42D2006-01-05          ----------                                                                          ",
-                "2004BL1031467-----9892---ACFB07PO  LGINVALOBTY     Rite Quality Office Supplies Inc.                   43.42C2006-01-05          ----------                                                                          "
+                "2004BL1031467-----4100---ACXX07PO  LGINVALOBTY00000Rite Quality Office Supplies Inc.                   43.42D2006-01-05          ----------                                                                          ",
+                "2004BL1031467-----9892---ACFB07PO  LGINVALOBTY00000Rite Quality Office Supplies Inc.                   43.42C2006-01-05          ----------                                                                          "
         };
 
         EntryHolder[] outputTransactions = {
@@ -692,13 +650,13 @@ public class ScrubberServiceTest extends KualiTestBaseWithSpringOnly {
         };
 
         scrub(inputTransactions);
-        assertOriginEntries(outputTransactions);
+        assertOriginEntries(4,outputTransactions);
     }
     
     public void testInvalidBalanceType() throws Exception {
         String[] inputTransactions = {
-                "2004BL1031420-----4110---XXEX07ID33EUINVALBALT     NOV-05 IMU Business Office          2224           241.75D2005-11-30          ----------                                                                          ",
-                "2004BL1031420-----8000---ACAS07ID33EUINVALBALT     NOV-05 IMU Business Office          2237           241.75C2005-11-30          ----------                                                                          "
+                "2004BL1031420-----4110---XXEX07ID33EUINVALBALT00000NOV-05 IMU Business Office          2224           241.75D2005-11-30          ----------                                                                          ",
+                "2004BL1031420-----8000---ACAS07ID33EUINVALBALT00000NOV-05 IMU Business Office          2237           241.75C2005-11-30          ----------                                                                          "
         };
 
         EntryHolder[] outputTransactions = {
@@ -709,13 +667,13 @@ public class ScrubberServiceTest extends KualiTestBaseWithSpringOnly {
         };
 
         scrub(inputTransactions);
-        assertOriginEntries(outputTransactions);
+        assertOriginEntries(4,outputTransactions);
     }
     
     public void testInvalidObjectCode() throws Exception {
         String[] inputTransactions = {
-                "2004BL2231423-----XXXX---ACIN  CR  PLINVALOBJ      FRICKA FRACKA                                    45995.84C2006-01-05          ----------                                                                          ",
-                "2004BL2231423-----8000---ACAS  CR  PLINVALOBJ      TP Generated Offset                              45995.84D2006-01-05          ----------                                                                          "
+                "2004BL2231423-----XXXX---ACIN  CR  PLINVALOBJ 00000FRICKA FRACKA                                    45995.84C2006-01-05          ----------                                                                          ",
+                "2004BL2231423-----8000---ACAS  CR  PLINVALOBJ 00000TP Generated Offset                              45995.84D2006-01-05          ----------                                                                          "
         };
 
         EntryHolder[] outputTransactions = {
@@ -726,13 +684,13 @@ public class ScrubberServiceTest extends KualiTestBaseWithSpringOnly {
         };
 
         scrub(inputTransactions);
-        assertOriginEntries(outputTransactions);
+        assertOriginEntries(4,outputTransactions);
     }
 
     public void testInactiveObjectCode() throws Exception {
         String[] inputTransactions = {
-                "2004BL2231411-----2001---ACEX07INV EUINACTOBJ      BALDWIN WALLACE COLLEGE                           3375.00C2006-01-05          ----------                                                                          ",
-                "2004BL2231411-----8000---ACAS07INV EUINACTOBJ      TP Generated Offset                               3375.00D2006-01-05          ----------                                                                          "
+                "2004BL2231411-----2001---ACEX07INV EUINACTOBJ 00000BALDWIN WALLACE COLLEGE                           3375.00C2006-01-05          ----------                                                                          ",
+                "2004BL2231411-----8000---ACAS07INV EUINACTOBJ 00000TP Generated Offset                               3375.00D2006-01-05          ----------                                                                          "
         };
 
         EntryHolder[] outputTransactions = {
@@ -743,13 +701,13 @@ public class ScrubberServiceTest extends KualiTestBaseWithSpringOnly {
         };
 
         scrub(inputTransactions);
-        assertOriginEntries(outputTransactions);
+        assertOriginEntries(4,outputTransactions);
     }
 
     public void testBlankObjectCode() throws Exception {
         String[] inputTransactions = {
-                "2004BL2231411-----    ---ACEX07ST  01BLANKOBJ      PAYROLL EXPENSE TRANSFERS                          620.00C2006-01-05          ----------                                                                          ",
-                "2004BL2231411-----8000---ACAS07ST  01BLANKOBJ      PAYROLL EXPENSE TRANSFERS                          620.00D2006-01-05          ----------                                                                          "
+                "2004BL2231411-----    ---ACEX07ST  01BLANKOBJ 00000PAYROLL EXPENSE TRANSFERS                          620.00C2006-01-05          ----------                                                                          ",
+                "2004BL2231411-----8000---ACAS07ST  01BLANKOBJ 00000PAYROLL EXPENSE TRANSFERS                          620.00D2006-01-05          ----------                                                                          "
         };
 
         EntryHolder[] outputTransactions = {
@@ -760,13 +718,13 @@ public class ScrubberServiceTest extends KualiTestBaseWithSpringOnly {
         };
 
         scrub(inputTransactions, true);
-        assertOriginEntries(outputTransactions);
+        assertOriginEntries(4,outputTransactions);
     }
 
     public void testInvalidSubAccountNumber() throws Exception {
         String[] inputTransactions = {
-                "2004BL2231408XXXX 4035---ACEX07SB  01INVALSACT     Biology Stockroom                                   13.77D2006-01-05          ----------                                                                          ",
-                "2004BL2231408XXXX 8000---ACAS07SB  01INVALSACT     TP Generated Offset                                 13.77C2006-01-05          ----------                                                                          "
+                "2004BL2231408XXXX 4035---ACEX07SB  01INVALSACT00000Biology Stockroom                                   13.77D2006-01-05          ----------                                                                          ",
+                "2004BL2231408XXXX 8000---ACAS07SB  01INVALSACT00000TP Generated Offset                                 13.77C2006-01-05          ----------                                                                          "
         };
 
         EntryHolder[] outputTransactions = {
@@ -777,13 +735,13 @@ public class ScrubberServiceTest extends KualiTestBaseWithSpringOnly {
         };
 
         scrub(inputTransactions);
-        assertOriginEntries(outputTransactions);
+        assertOriginEntries(4,outputTransactions);
     }
     
     public void testInactiveSubAccountNumber() throws Exception {
         String[] inputTransactions = {
-                "2004BA6044900ARREC8000---ACAS07IB  01INACTSACT     TP Generated Offset                               1650.00C2006-01-05          ----------                                                                          ",
-                "2004BL6044900ARREC4866---ACEX07IB  01INACTSACT     Correction to: 01-PU3355206                       1650.00D2006-01-05          ----------                                                                          "
+                "2004BA6044900ARREC8000---ACAS07IB  01INACTSACT00000TP Generated Offset                               1650.00C2006-01-05          ----------                                                                          ",
+                "2004BL6044900ARREC4866---ACEX07IB  01INACTSACT00000Correction to: 01-PU3355206                       1650.00D2006-01-05          ----------                                                                          "
         };
 
         EntryHolder[] outputTransactions = {
@@ -794,13 +752,13 @@ public class ScrubberServiceTest extends KualiTestBaseWithSpringOnly {
         };
 
         scrub(inputTransactions, true);
-        assertOriginEntries(outputTransactions);
+        assertOriginEntries(4,outputTransactions);
     }
     
     public void testInvalidAccountNumber() throws Exception {
         String[] inputTransactions = {
-                "2004EA1234567-----4035---ACEX07CR  01INVALACCT     pymts recd 12/28/05                                 25.15C2006-01-05          ----------                                                                          ",
-                "2004EA1234567-----8000---ACAS07CR  01INVALACCT     TP Generated Offset                                 25.15D2006-01-05          ----------                                                                          "
+                "2004EA1234567-----4035---ACEX07CR  01INVALACCT00000pymts recd 12/28/05                                 25.15C2006-01-05          ----------                                                                          ",
+                "2004EA1234567-----8000---ACAS07CR  01INVALACCT00000TP Generated Offset                                 25.15D2006-01-05          ----------                                                                          "
         };
 
         EntryHolder[] outputTransactions = {
@@ -811,13 +769,13 @@ public class ScrubberServiceTest extends KualiTestBaseWithSpringOnly {
         };
 
         scrub(inputTransactions, true);
-        assertOriginEntries(outputTransactions);
+        assertOriginEntries(4,outputTransactions);
     }
     
     public void testBlankAccountNumber() throws Exception {
         String[] inputTransactions = {
-                "2004IN       -----5000---ACEX07PO  LGBLANKACCT     225050007 WILLIAMS DOTSON ASSOCIATES IN           1200.00D2006-01-05          ----------                                                                          ",
-                "2004IN       -----9041---ACLI07PO  LGBLANKACCT     225050007 WILLIAMS DOTSON ASSOCIATES IN           1200.00C2006-01-05          ----------                                                                          "
+                "2004IN       -----5000---ACEX07PO  LGBLANKACCT00000225050007 WILLIAMS DOTSON ASSOCIATES IN           1200.00D2006-01-05          ----------                                                                          ",
+                "2004IN       -----9041---ACLI07PO  LGBLANKACCT00000225050007 WILLIAMS DOTSON ASSOCIATES IN           1200.00C2006-01-05          ----------                                                                          "
         };
         
         EntryHolder[] outputTransactions = {
@@ -828,13 +786,13 @@ public class ScrubberServiceTest extends KualiTestBaseWithSpringOnly {
         };
 
         scrub(inputTransactions, true);
-        assertOriginEntries(outputTransactions);
+        assertOriginEntries(4,outputTransactions);
     }
     
     public void testInvalidChart() throws Exception {
         String[] inputTransactions = {
-                "2004XX1031420-----4110---ACEX07ID33EUINVALCHAR     NOV-05 IMU Business Office          2224           241.75D2005-11-30          ----------                                                                          ",
-                "2004XX1031420-----8000---ACAS07ID33EUINVALCHAR     NOV-05 IMU Business Office          2237           241.75C2005-11-30          ----------                                                                          "
+                "2004XX1031420-----4110---ACEX07ID33EUINVALCHAR00000NOV-05 IMU Business Office          2224           241.75D2005-11-30          ----------                                                                          ",
+                "2004XX1031420-----8000---ACAS07ID33EUINVALCHAR00000NOV-05 IMU Business Office          2237           241.75C2005-11-30          ----------                                                                          "
         };
 
         EntryHolder[] outputTransactions = {
@@ -845,13 +803,13 @@ public class ScrubberServiceTest extends KualiTestBaseWithSpringOnly {
         };
 
         scrub(inputTransactions);
-        assertOriginEntries(outputTransactions);
+        assertOriginEntries(4,outputTransactions);
     }
 
     public void testInvalidFiscalYear() throws Exception {
         String[] inputTransactions = {
-                "2020BA6044913-----1470---ACIN07CR  01INVALFISC     Poplars Garage Fees                                 20.00C2006-01-05          ----------                                                                          ",
-                "2020BA6044913-----8000---ACAS07CR  01INVALFISC     TP Generated Offset                                 20.00D2006-01-05          ----------                                                                          "
+                "2020BA6044913-----1470---ACIN07CR  01INVALFISC00000Poplars Garage Fees                                 20.00C2006-01-05          ----------                                                                          ",
+                "2020BA6044913-----8000---ACAS07CR  01INVALFISC00000TP Generated Offset                                 20.00D2006-01-05          ----------                                                                          "
         };
 
         EntryHolder[] outputTransactions = {
@@ -862,7 +820,7 @@ public class ScrubberServiceTest extends KualiTestBaseWithSpringOnly {
         };
 
         scrub(inputTransactions);
-        assertOriginEntries(outputTransactions);
+        assertOriginEntries(4,outputTransactions);
     }
 
     /**
@@ -872,8 +830,8 @@ public class ScrubberServiceTest extends KualiTestBaseWithSpringOnly {
      */
     public void testClosedFiscalYear() throws Exception {
         String[] inputTransactions = {
-                "2003BA6044906-----4100---ACEX07TOPSLGCLOSEFISC     CONCERTO OFFICE PRODUCTS                            48.53C2006-01-05          ----------                                                                          ",
-                "2003BA6044906-----9041---ACLI07TOPSLGCLOSEFISC     CONCERTO OFFICE PRODUCTS                            48.53D2006-01-05          ----------                                                                          "
+                "2003BA6044906-----4100---ACEX07TOPSLGCLOSEFISC00000CONCERTO OFFICE PRODUCTS                            48.53C2006-01-05          ----------                                                                          ",
+                "2003BA6044906-----9041---ACLI07TOPSLGCLOSEFISC00000CONCERTO OFFICE PRODUCTS                            48.53D2006-01-05          ----------                                                                          "
         };
 
         EntryHolder[] outputTransactions = {
@@ -884,7 +842,7 @@ public class ScrubberServiceTest extends KualiTestBaseWithSpringOnly {
         };
 
         scrub(inputTransactions);
-        assertOriginEntries(outputTransactions);
+        assertOriginEntries(4,outputTransactions);
     }
 
     /**
@@ -908,59 +866,7 @@ public class ScrubberServiceTest extends KualiTestBaseWithSpringOnly {
 
         scrub(inputTransactions);
         reportErrors();
-        assertOriginEntries(outputTransactions);
-    }
-
-    /**
-     * Check all the entries in gl_origin_entry_t against the data passed in EntryHolder[].  If any of them
-     * are different, assert an error.
-     * 
-     * @param requiredEntries
-     */
-    private void assertOriginEntries(EntryHolder[] requiredEntries) {
-        List groups = unitTestSqlDao.sqlSelect("select * from gl_origin_entry_grp_t order by origin_entry_grp_src_cd");
-        assertEquals("Number of groups is wrong", 4, groups.size());
-
-        Collection c = originEntryDao.testingGetAllEntries();
-        assertEquals("Wrong number of transactions in Origin Entry",requiredEntries.length,c.size());
-
-        int count = 0;
-        for (Iterator iter = c.iterator(); iter.hasNext();) {
-          OriginEntry foundTransaction = (OriginEntry)iter.next();
-
-          // Check group
-          int group = getGroup(groups,requiredEntries[count].groupCode);
-          assertEquals("Group for transaction " + foundTransaction.getEntryId() + " is wrong",group,foundTransaction.getEntryGroupId().intValue());
-
-          // Check transaction - this is done this way so that Anthill prints the two transactions to make
-          // resolving the issue easier.
-          
-          // NOTE this method of getting the expected output line is used to apply formatting,
-          // particularly of transaction sequence numbers performed within OriginEntry.getLine().
-          String expected = new OriginEntry(requiredEntries[count].transactionLine).getLine().trim();
-          String found    = foundTransaction.getLine().trim();
-          
-          if ( ! found.equals(expected) ) {
-            System.err.println("Expected transaction: " + expected);
-            System.err.println("Found transaction:    " + found);
-            fail("Transaction " + foundTransaction.getEntryId() + " doesn't match expected output");
-          }
-          count++;
-        }
-
-    }
-
-    private int getGroup(List groups,String groupCode) {
-      for (Iterator iter = groups.iterator(); iter.hasNext();) {
-        Map element = (Map)iter.next();
-
-        String sourceCode = (String)element.get("ORIGIN_ENTRY_GRP_SRC_CD");
-        if ( groupCode.equals(sourceCode) ) {
-          BigDecimal groupId = (BigDecimal)element.get("ORIGIN_ENTRY_GRP_ID");
-          return groupId.intValue();
-        }
-      }
-      return -1;
+        assertOriginEntries(4,outputTransactions);
     }
 
     private void reportErrors() {
@@ -975,22 +881,14 @@ public class ScrubberServiceTest extends KualiTestBaseWithSpringOnly {
         }
     }
 
-    class EntryHolder {
-      public String groupCode;
-      public String transactionLine;
-      public EntryHolder(String groupCode,String transactionLine) {
-        this.groupCode = groupCode;
-        this.transactionLine = transactionLine;
-      }
-    }
-
     private void scrub(String[] inputTransactions) {
-    	scrub(inputTransactions, false);
+        scrub(inputTransactions, false);
     }
     
     private void scrub(String[] inputTransactions, boolean makeTransactionDateCurrent) {
         clearOriginEntryTables();
-        OriginEntryGroup group = createNewGroup(OriginEntrySource.EXTERNAL);
+        loadInputTransactions(OriginEntrySource.EXTERNAL,inputTransactions);
+        scrubberService.scrubEntries();
 
         // TODO This code can be uncommented if needed once we figure out what's going on with the dates.
 //        if(makeTransactionDateCurrent) {
@@ -1010,41 +908,8 @@ public class ScrubberServiceTest extends KualiTestBaseWithSpringOnly {
 //        	}
 //        }
         
-        loadTransactions(inputTransactions, group);
-        scrubberService.scrubEntries();
     }
     
-    private void loadTransactions(String[] transactions, OriginEntryGroup group) {
-        for (int i = 0; i < transactions.length; i++) {
-            createEntry(transactions[i], group);
-        }
-    }
-
-    private void clearOriginEntryTables() {
-        unitTestSqlDao.sqlCommand("delete from gl_origin_entry_t");
-        unitTestSqlDao.sqlCommand("delete from gl_origin_entry_grp_t");
-    }
-
-    private OriginEntryGroup createNewGroup(String code) {
-        OriginEntryGroup group = new OriginEntryGroup();
-        group.setDate(new java.sql.Date(d.getTime()));
-        group.setProcess(Boolean.TRUE);
-        group.setScrub(Boolean.TRUE);
-        group.setValid(Boolean.TRUE);
-        group.setSourceCode(code);
-        originEntryGroupDao.save(group);
-        return group;
-    }
-
-    private OriginEntry createEntry(String line, OriginEntryGroup group) {
-        OriginEntry entry = new OriginEntry(line);
-        entry.setGroup(group);
-        persistenceService.retrieveNonKeyFields(entry);
-        originEntryDao.saveOriginEntry(entry);
-        return entry;
-    }
-    
-
     /*
     public void testOrgReferenceId() throws Exception {
         // FIXME found no input records to test this
@@ -1115,7 +980,7 @@ public class ScrubberServiceTest extends KualiTestBaseWithSpringOnly {
         };
 
         scrub(inputTransactions);
-        assertOriginEntries(outputTransactions);
+        assertOriginEntries(4,outputTransactions);
     }
 
     public void testBlankChart() throws Exception {
@@ -1339,7 +1204,7 @@ public class ScrubberServiceTest extends KualiTestBaseWithSpringOnly {
         };
 
         scrub(inputTransactions, true);
-        assertOriginEntries(outputTransactions);
+        assertOriginEntries(4,outputTransactions);
     }
 
     public void testBlankProjectCode() throws Exception {
@@ -1376,7 +1241,7 @@ public class ScrubberServiceTest extends KualiTestBaseWithSpringOnly {
         };
 
         scrub(inputTransactions);
-        assertOriginEntries(outputTransactions);
+        assertOriginEntries(4,outputTransactions);
     }
 
     */

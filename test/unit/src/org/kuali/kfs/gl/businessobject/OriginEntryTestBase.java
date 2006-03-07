@@ -125,7 +125,7 @@ public class OriginEntryTestBase extends KualiTestBaseWithSpringOnly {
     OriginEntryGroup group = new OriginEntryGroup();
     group.setDate(new java.sql.Date(date.getTime()));
     group.setProcess(Boolean.TRUE);
-    group.setScrub(Boolean.FALSE);
+    group.setScrub(Boolean.TRUE);
     group.setValid(Boolean.TRUE);
     group.setSourceCode(code);
     originEntryGroupDao.save(group);

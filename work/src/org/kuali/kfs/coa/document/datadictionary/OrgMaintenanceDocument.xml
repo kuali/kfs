@@ -12,7 +12,7 @@
 
 	<businessRulesClass>org.kuali.module.chart.rules.OrgRule</businessRulesClass>
 		
-    <documentAuthorizerClass>org.kuali.core.document.DocumentAuthorizerBase</documentAuthorizerClass>
+    <documentAuthorizerClass>org.kuali.module.chart.document.OrgDocumentAuthorizer</documentAuthorizerClass>
     <authorizations>
       <authorization action="initiate">
         <workgroups>
@@ -86,6 +86,10 @@
           <maintainableField name="organizationActiveIndicator">
           	<defaultValue>true</defaultValue>
           </maintainableField>
+        </maintainableItems>
+      </maintainableSection>
+      <maintainableSection title="Edit Plant Accounts">
+        <maintainableItems>
           <maintainableField name="organizationPlantChartCode" />
           <maintainableField name="organizationPlantAccountNumber" />
           <maintainableField name="campusPlantChartCode" />

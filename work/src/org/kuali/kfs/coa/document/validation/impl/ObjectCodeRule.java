@@ -450,7 +450,7 @@ If the Next Year Object has been entered, it must exist in the object code table
     
     private Set retrieveParameterSet(String parameterName) {
         
-        String[] elements=configService.getApplicationParameterValues(CHART_MAINTENANCE_EDOC,parameterName);
+        String[] elements=configService.getApplicationParameterValues(Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS,parameterName);
         
         Set result=new HashSet();
         if (elements!=null) {

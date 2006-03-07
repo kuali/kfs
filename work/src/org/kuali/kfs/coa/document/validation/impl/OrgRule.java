@@ -26,6 +26,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.Constants;
 import org.kuali.KeyConstants;
 import org.kuali.core.bo.user.KualiUser;
 import org.kuali.core.document.MaintenanceDocument;
@@ -480,10 +481,10 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
      */
     protected boolean isHrmsOrgActivated() {
         
-        String flag = configService.getApplicationParameterValue(CHART_MAINTENANCE_EDOC, APC_HRMS_ACTIVE_KEY);
+        String flag = configService.getApplicationParameterValue(Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, APC_HRMS_ACTIVE_KEY);
         if (StringUtils.isBlank(flag)) {
             throw new RuntimeException("Application Parameter Value did not return a value, and one is required. " + 
-                    "[" + CHART_MAINTENANCE_EDOC + "] '" + APC_HRMS_ACTIVE_KEY + "'");
+                    "[" + Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS + "] '" + APC_HRMS_ACTIVE_KEY + "'");
         }
         
         if (flag.trim().equalsIgnoreCase("Y")) {

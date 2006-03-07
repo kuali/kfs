@@ -10,7 +10,7 @@
 
 		<businessRulesClass>org.kuali.module.chart.rules.ProjectCodeRule</businessRulesClass>
 		
-        <documentAuthorizerClass>org.kuali.core.document.DocumentAuthorizerBase</documentAuthorizerClass>
+        <documentAuthorizerClass>org.kuali.core.document.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
         <authorizations>
             <authorization action="initiate">
                 <workgroups>

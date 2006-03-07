@@ -28,6 +28,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.Constants;
 import org.kuali.KeyConstants;
 import org.kuali.core.bo.user.KualiGroup;
 import org.kuali.core.bo.user.KualiUser;
@@ -296,7 +297,7 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
                 
                 //  get the fundgroupcode for this SubAccount, and the CG FundGroupcode
                 String thisFundGroupCode = newSubAccount.getAccount().getSubFundGroup().getFundGroupCode();
-                String cgFundGroupCode = configService.getApplicationParameterValue(CHART_MAINTENANCE_EDOC, CG_FUND_GROUP_CODE);
+                String cgFundGroupCode = configService.getApplicationParameterValue(Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, CG_FUND_GROUP_CODE);
                 
                 //  compare them, exit if this isnt a CG subaccount
                 if (!thisFundGroupCode.trim().equalsIgnoreCase(cgFundGroupCode.trim())) {
@@ -317,7 +318,7 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
         newSubAccount.getA21SubAccount().refresh();
         
         //  C&G A21 Type field must be in the allowed values
-        KualiParameterRule parmRule = configService.getApplicationParameterRule(CHART_MAINTENANCE_EDOC, CG_ALLOWED_SUBACCOUNT_TYPE_CODES);
+        KualiParameterRule parmRule = configService.getApplicationParameterRule(Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, CG_ALLOWED_SUBACCOUNT_TYPE_CODES);
         if (parmRule.failsRule(newSubAccount.getA21SubAccount().getSubAccountTypeCode())) {
             putFieldError("a21SubAccount.subAccountTypeCode", 
                             KeyConstants.ERROR_DOCUMENT_SUBACCTMAINT_INVALI_SUBACCOUNT_TYPE_CODES, 
@@ -384,7 +385,7 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
                 
                 //   get the cost sharing account's fund group code, and the forbidden fund group code
                 String costSharingAccountFundGroupCode = a21.getCostShareAccount().getSubFundGroup().getFundGroupCode();
-                String cgFundGroupCode = configService.getApplicationParameterValue(CHART_MAINTENANCE_EDOC, CG_FUND_GROUP_CODE);
+                String cgFundGroupCode = configService.getApplicationParameterValue(Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, CG_FUND_GROUP_CODE);
                 
                 //  disallow them being the same
                 if (costSharingAccountFundGroupCode.trim().equalsIgnoreCase(cgFundGroupCode.trim())) {
@@ -491,12 +492,12 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
     protected boolean isCgAuthorized(KualiUser user) {
         
         //  attempt to get the group name that grants access to the CG fields
-        String allowedCgWorkgroup = configService.getApplicationParameterValue(CHART_MAINTENANCE_EDOC, CG_WORKGROUP_PARM_NAME);
+        String allowedCgWorkgroup = configService.getApplicationParameterValue(Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, CG_WORKGROUP_PARM_NAME);
         
         //  if only a null was returned, then we must abort, and cannot continue processing this document
         if (ObjectUtils.isNull(allowedCgWorkgroup)) {
             throw new RuntimeException("CG Workgroup Name could not be retrieved from the configuration service.  Rule " + 
-                            "processing cannot continue.  scriptName='" + CHART_MAINTENANCE_EDOC + "'; " + 
+                            "processing cannot continue.  scriptName='" + Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS + "'; " + 
                             "parameter='" + CG_WORKGROUP_PARM_NAME + ";");
         }
         

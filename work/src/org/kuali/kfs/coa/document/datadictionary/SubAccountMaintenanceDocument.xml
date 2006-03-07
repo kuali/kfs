@@ -9,7 +9,7 @@
 
 		<businessRulesClass>org.kuali.module.chart.rules.SubAccountRule</businessRulesClass>
 		
-        <documentAuthorizerClass>org.kuali.core.document.DocumentAuthorizerBase</documentAuthorizerClass>
+        <documentAuthorizerClass>org.kuali.module.chart.document.SubAccountDocumentAuthorizer</documentAuthorizerClass>
         <authorizations>
             <authorization action="initiate">
                 <workgroups>

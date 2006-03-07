@@ -29,6 +29,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
+import org.kuali.Constants;
 import org.kuali.KeyConstants;
 import org.kuali.core.bo.Building;
 import org.kuali.core.bo.user.KualiUser;
@@ -105,7 +106,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
      */
     private void initializeRuleValues(MaintenanceDocument document) {
         if(!ruleValuesSetup) {
-            validBudgetRule = configService.getApplicationParameterRule(CHART_MAINTENANCE_EDOC, ACCT_BUDGET_CODES_RESTRICT);
+            validBudgetRule = configService.getApplicationParameterRule(Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, ACCT_BUDGET_CODES_RESTRICT);
         }
     }
     
@@ -235,7 +236,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         // (e.g. the account number cannot begin with a 3 or with 00.)
         // Only bother trying if there is an account string to test
         if (!StringUtils.isBlank(newAccount.getAccountNumber())) {
-            String[] illegalValues = configService.getApplicationParameterValues(CHART_MAINTENANCE_EDOC, ACCT_PREFIX_RESTRICTION);
+            String[] illegalValues = configService.getApplicationParameterValues(Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, ACCT_PREFIX_RESTRICTION);
             
             if (illegalValues != null) {
                 for (int i = 0; i < illegalValues.length; i++) {
@@ -870,10 +871,10 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
             
             //	Attempt to get the right SubFundGroup code to check the following logic with.  If the value isn't available, go ahead 
             // and die, as this indicates a misconfigured app, and important business rules wont be implemented without it.
-            String capitalSubFundGroup = configService.getApplicationParameterValue(CHART_MAINTENANCE_EDOC, ACCT_CAPITAL_SUBFUNDGROUP);
+            String capitalSubFundGroup = configService.getApplicationParameterValue(Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, ACCT_CAPITAL_SUBFUNDGROUP);
             if (StringUtils.isBlank(capitalSubFundGroup)) {
                 throw new RuntimeException("Expected ConfigurationService.ApplicationParameterValue was not found " + 
-                        					"for ScriptName = '" + CHART_MAINTENANCE_EDOC + "' and " + 
+                        					"for ScriptName = '" + Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS + "' and " + 
                         					"Parameter = '" + ACCT_CAPITAL_SUBFUNDGROUP + "'");
             }
 

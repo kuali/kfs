@@ -11,7 +11,7 @@
         <businessRulesClass>org.kuali.module.chart.rules.DelegateRule</businessRulesClass>
 		<preRulesCheckClass>org.kuali.module.chart.rules.DelegatePreRules</preRulesCheckClass>
 
-        <documentAuthorizerClass>org.kuali.core.document.DocumentAuthorizerBase</documentAuthorizerClass>
+        <documentAuthorizerClass>org.kuali.core.document.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
         <authorizations>
             <authorization action="initiate">
                 <workgroups>

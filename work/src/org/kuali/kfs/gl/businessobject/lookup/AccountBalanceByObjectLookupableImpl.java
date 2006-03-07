@@ -61,7 +61,7 @@ public class AccountBalanceByObjectLookupableImpl extends AbstractGLLookupableIm
         // get the search result collection
         Iterator availableBalanceIterator = accountBalanceService.findAccountBalanceByObject(fieldValues,
                 isCostShareInclusive, isConsolidated);
-        Collection searchResultsCollection = buildAvailableBalanceCollection(availableBalanceIterator, isConsolidated);
+        Collection searchResultsCollection = buildAvailableBalanceCollection(availableBalanceIterator, isCostShareInclusive, isConsolidated);
 
         // sort list if default sort column given
         List searchResults = (List) searchResultsCollection;
@@ -75,10 +75,11 @@ public class AccountBalanceByObjectLookupableImpl extends AbstractGLLookupableIm
     /**
      * This method builds the available account balance collection based on the input iterator
      * @param iterator
+     * @param isCostShareInclusive TODO
      * @param isConsolidated 
      * @return the account balance collection
      */
-    private Collection buildAvailableBalanceCollection(Iterator iterator, boolean isConsolidated) {
+    private Collection buildAvailableBalanceCollection(Iterator iterator, boolean isCostShareInclusive, boolean isConsolidated) {
         Collection balanceCollection = new ArrayList();
 
         // build available balance collection throught analyzing the input iterator
@@ -95,13 +96,10 @@ public class AccountBalanceByObjectLookupableImpl extends AbstractGLLookupableIm
             String subAccountNumber = isConsolidated? Constant.CONSOLIDATED_SUB_ACCOUNT_NUMBER : array[i++].toString();
             accountBalance.setSubAccountNumber(subAccountNumber);
 
-            String objectCode = array[i++].toString();
-            accountBalance.getFinancialObject().setFinancialObjectCode(objectCode);
-            accountBalance.setObjectCode(objectCode);
+            accountBalance.setObjectCode(array[i++].toString());
+            accountBalance.getFinancialObject().getFinancialObjectLevel().setFinancialReportingSortCode(array[i++].toString());
+            accountBalance.getFinancialObject().setFinancialObjectLevelCode(array[i++].toString());
             
-            // TODO: haven't finished
-            accountBalance.getDummyBusinessObject().setReportingSortCode("TEST");
-
             KualiDecimal budgetAmount = new KualiDecimal(array[i++].toString());
             accountBalance.setCurrentBudgetLineBalanceAmount(budgetAmount);
 
@@ -113,6 +111,12 @@ public class AccountBalanceByObjectLookupableImpl extends AbstractGLLookupableIm
 
             KualiDecimal variance = calculateVariance(accountBalance);
             accountBalance.getDummyBusinessObject().setGenericAmount(variance);
+
+            String consolidationOption = isConsolidated ? Constant.CONSOLIDATION : Constant.DETAIL;
+            accountBalance.getDummyBusinessObject().setConsolidationOption(consolidationOption);
+            
+            String costShareOption = isCostShareInclusive ? Constant.COST_SHARE_INCLUSIVE : Constant.COST_SHARE_EXCLUSIVE;
+            accountBalance.getDummyBusinessObject().setCostShareOption(costShareOption);            
 
             balanceCollection.add(accountBalance);
         }
@@ -132,7 +136,7 @@ public class AccountBalanceByObjectLookupableImpl extends AbstractGLLookupableIm
         KualiDecimal encumbranceAmount = accountBalance.getAccountLineEncumbranceBalanceAmount();
 
         // get the reporting sort code
-        String reportingSortCode = accountBalance.getDummyBusinessObject().getReportingSortCode();;
+        String reportingSortCode = accountBalance.getFinancialObject().getFinancialObjectLevel().getFinancialReportingSortCode();
 
         // calculate the variance based on the starting character of reporting sort code
         if (reportingSortCode.startsWith(Constant.START_CHAR_OF_REPORTING_SORT_CODE_B)) {

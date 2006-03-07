@@ -36,7 +36,7 @@ import org.kuali.core.util.BeanPropertyComparator;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.gl.bo.AccountBalance;
 import org.kuali.module.gl.web.Constant;
-import org.kuali.module.gl.web.inquirable.AccountBalanceByObjectInquirableImpl;
+import org.kuali.module.gl.web.inquirable.AccountBalanceByLevelInquirableImpl;
 
 /**
  * This class...
@@ -52,7 +52,7 @@ public class AccountBalanceByLevelLookupableImpl extends AbstractGLLookupableImp
      * @return String url to inquiry
      */
     public String getInquiryUrl(BusinessObject bo, String propertyName) {
-        return AccountBalanceByObjectInquirableImpl.getInquiryUrl(bo, propertyName, true);
+        return AccountBalanceByLevelInquirableImpl.getInquiryUrl(bo, propertyName, true);
     }    
     
     /**
@@ -74,7 +74,7 @@ public class AccountBalanceByLevelLookupableImpl extends AbstractGLLookupableImp
         // get the search result collection
         Iterator availableBalanceIterator = accountBalanceService.findAccountBalanceByLevel(fieldValues,
                 isCostShareInclusive, isConsolidated);
-        Collection searchResultsCollection = buildAvailableBalanceCollection(availableBalanceIterator, isConsolidated);
+        Collection searchResultsCollection = buildAvailableBalanceCollection(availableBalanceIterator, isCostShareInclusive, isConsolidated);
 
         // sort list if default sort column given
         List searchResults = (List) searchResultsCollection;
@@ -88,10 +88,11 @@ public class AccountBalanceByLevelLookupableImpl extends AbstractGLLookupableImp
     /**
      * This method builds the available account balance collection based on the input iterator
      * @param iterator
+     * @param isCostShareInclusive TODO
      * @param isConsolidated 
      * @return the account balance collection
      */
-    private Collection buildAvailableBalanceCollection(Iterator iterator, boolean isConsolidated) {
+    private Collection buildAvailableBalanceCollection(Iterator iterator, boolean isCostShareInclusive, boolean isConsolidated) {
         Collection balanceCollection = new ArrayList();
 
         // build available balance collection throught analyzing the input iterator
@@ -122,6 +123,12 @@ public class AccountBalanceByLevelLookupableImpl extends AbstractGLLookupableImp
 
             KualiDecimal variance = calculateVariance(accountBalance);
             accountBalance.getDummyBusinessObject().setGenericAmount(variance);
+
+            String consolidationOption = isConsolidated ? Constant.CONSOLIDATION : Constant.DETAIL;
+            accountBalance.getDummyBusinessObject().setConsolidationOption(consolidationOption);
+            
+            String costShareOption = isCostShareInclusive ? Constant.COST_SHARE_INCLUSIVE : Constant.COST_SHARE_EXCLUSIVE;
+            accountBalance.getDummyBusinessObject().setCostShareOption(costShareOption);
 
             balanceCollection.add(accountBalance);
         }

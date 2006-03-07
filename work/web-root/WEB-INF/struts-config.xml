@@ -147,9 +147,13 @@
           	<forward name="basic" path="/jsp/modules/generalLedger/BalanceInquiry.jsp" />
         </action>
 
-        <action path="/glEntryInquiry" name="BalanceInquiryForm" scope="request" attribute="KualiForm" parameter="methodToCall" type="org.kuali.module.gl.web.struts.action.BalanceInquiryAction">
-          	<forward name="basic" path="/jsp/modules/generalLedger/EntryInquiry.jsp" />
-        </action>        
+        <action path="/glModifiedInquiry" name="BalanceInquiryForm" scope="request" attribute="KualiForm" parameter="methodToCall" type="org.kuali.module.gl.web.struts.action.BalanceInquiryAction">
+          	<forward name="basic" path="/jsp/modules/generalLedger/ModifiedInquiry.jsp" />
+        </action> 
+        
+        <action path="/glAccountBalanceByConsolidationLookup" name="BalanceInquiryForm" scope="request" attribute="KualiForm" parameter="methodToCall" type="org.kuali.module.gl.web.struts.action.BalanceInquiryAction">
+          	<forward name="basic" path="/jsp/modules/generalLedger/AccountBalanceByConsolidationLookup.jsp" />
+        </action>           
 
         <action path="/research*" name="{1}Form" input="/jsp/modules/research/{1}.jsp" type="org.kuali.module.kra.web.struts.action.{1}Action" scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
           	<forward name="basic" path="/jsp/modules/research/{1}.jsp" />

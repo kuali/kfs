@@ -317,6 +317,8 @@ public class AccountBalanceDaoOjb extends PersistenceBrokerDaoSupport implements
             }
             else if(type.equals(this.BY_OBJECT)){
                 attributeList.add("objectCode");
+                attributeList.add("financialObject.financialObjectLevel.financialReportingSortCode");
+                attributeList.add("financialObject.financialObjectLevelCode");
             }
         }
 
@@ -359,6 +361,8 @@ public class AccountBalanceDaoOjb extends PersistenceBrokerDaoSupport implements
             }
             else if(type.equals(this.BY_OBJECT)){
                 attributeList.add("objectCode");
+                attributeList.add("financialObject.financialObjectLevel.financialReportingSortCode");
+                attributeList.add("financialObject.financialObjectLevelCode");
             }
         }
 

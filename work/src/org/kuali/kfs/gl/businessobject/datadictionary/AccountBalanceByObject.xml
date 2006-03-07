@@ -35,8 +35,9 @@
 				<lookupField attributeName="accountNumber" required="true" noLookup="false"/>				
 				<lookupField attributeName="subAccountNumber" noLookup="false"/>
 				
-				<lookupField attributeName="financialObject.financialObjectCode" noLookup="false"/>
-				
+				<lookupField attributeName="financialObject.financialObjectLevelCode" noLookup="false"/>
+				<lookupField attributeName="financialObject.financialObjectLevel.financialReportingSortCode" noLookup="false"/>
+								
 				<lookupField attributeName="dummyBusinessObject.consolidationOption">
 					<defaultValueFinderClass>
 						org.kuali.module.gl.web.optionfinder.GLConsolidationOptionFinder
@@ -57,6 +58,7 @@
 				<field attributeName="subAccountNumber"/>
 				
 				<field attributeName="objectCode"/>
+				<field attributeName="financialObject.financialObjectLevelCode"/>
 	                       
 				<field attributeName="currentBudgetLineBalanceAmount"/>
 				<field attributeName="accountLineActualsBalanceAmount"/>
@@ -147,9 +149,13 @@
                 <description>Variance...</description>      					
             </attributeReference>
             
-            <attributeReference name="financialObject.financialObjectCode"
-            					sourceClassName="org.kuali.module.chart.bo.ObjectCode" 
-            					sourceAttributeName="financialObjectCode"/> 
+            <attributeReference name="financialObject.financialObjectLevelCode"
+            					sourceClassName="org.kuali.module.chart.bo.ObjLevel" 
+            					sourceAttributeName="financialObjectLevelCode"/> 
+            					
+	        <attributeReference name="financialObject.financialObjectLevel.financialReportingSortCode"
+	                    		sourceClassName="org.kuali.module.chart.bo.ObjLevel" 
+            					sourceAttributeName="financialReportingSortCode"/>             					
             					            					 
         </attributes>
 		

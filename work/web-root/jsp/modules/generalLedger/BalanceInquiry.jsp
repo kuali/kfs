@@ -64,18 +64,19 @@
 							</tr>
 						</table>
 			    	</div>
-			    </c:if>
+			    
           
-		        <br/><br/>
-		        <div class="right">
-		            <logic-el:present name="KualiForm" property="formKey">
-		              <c:if test="${KualiForm.formKey!='' && KualiForm.hideReturnLink != true}">
-		                <a href='<c:out value="${KualiForm.backLocation}?methodToCall=refresh&docFormKey=${KualiForm.formKey}" />'>
-		                  return with no value
-		                </a>
-		              </c:if>
-		            </logic-el:present>
-		        </div>
+			        <br/><br/>
+			        <div class="right">
+			            <logic-el:present name="KualiForm" property="formKey">
+			              <c:if test="${KualiForm.formKey!='' && KualiForm.hideReturnLink != true}">
+			                <a href='<c:out value="${KualiForm.backLocation}?methodToCall=refresh&docFormKey=${KualiForm.formKey}" />'>
+			                  return with no value
+			                </a>
+			              </c:if>
+			            </logic-el:present>
+			        </div>
+			    </c:if>
           
           		<c:if test="${param.inquiryFlag == 'true'}">
 		          	<c:set var="url" value="${pageContext.request.requestURL}"/>

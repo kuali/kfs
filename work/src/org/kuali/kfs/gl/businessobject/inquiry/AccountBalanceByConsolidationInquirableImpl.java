@@ -49,7 +49,7 @@ import org.kuali.module.gl.web.Constant;
  * 
  * @author Bin Gao from Michigan State University
  */
-public class AccountBalanceByObjectInquirableImpl extends KualiInquirableImpl {
+public class AccountBalanceByConsolidationInquirableImpl extends KualiInquirableImpl {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountBalanceInquirableImpl.class);
 
     private BusinessObjectDictionaryService dataDictionary;
@@ -111,16 +111,14 @@ public class AccountBalanceByObjectInquirableImpl extends KualiInquirableImpl {
         List keys = new ArrayList();
         if (isUserDefinedAttribute) {
 
-            baseUrl = Constants.LOOKUP_ACTION;
+            baseUrl = Constants.GL_MODIFIED_INQUIRY_ACTION;
             keys = buildUserDefinedAttributeKeyList(attributeName);
 
-            //TODO: this is a pretty bad hardcoded value.
-            parameters.put(Constants.RETURN_LOCATION_PARAMETER, "/kuali-dev");
-
+            parameters.put(Constants.RETURN_LOCATION_PARAMETER, Constant.RETURN_LOCATION_VALUE);
             parameters.put(Constants.GL_BALANCE_INQUIRY_FLAG, "true");
             parameters.put(Constants.DISPATCH_REQUEST_PARAMETER, "search");
             parameters.put(Constants.DOC_FORM_KEY, "88888888");
-            parameters.put(Constants.LOOKUPABLE_IMPL_ATTRIBUTE_NAME, Constant.GL_LOOKUPABLE_ACCOUNT_BALANCE_BY_OBJECT);
+            parameters.put(Constants.LOOKUPABLE_IMPL_ATTRIBUTE_NAME, Constant.GL_LOOKUPABLE_ACCOUNT_BALANCE_BY_LEVEL);
         }
         else if (persistenceStructureService.isPersistable(inquiryBusinessObjectClass)) {
             keys = persistenceStructureService.listPrimaryKeyFieldNames(inquiryBusinessObjectClass);
@@ -156,6 +154,10 @@ public class AccountBalanceByObjectInquirableImpl extends KualiInquirableImpl {
                 keyValue = "";
             }
             
+            if(keyName.equals("financialObject.financialObjectType.financialReportingSortCode")){
+                keyName = "financialObject.financialObjectLevel.financialReportingSortCode";
+            }
+
             parameters.put(keyName, keyValue);
         }
         return UrlFactory.paremeterizeUrl(baseUrl, parameters);
@@ -174,8 +176,8 @@ public class AccountBalanceByObjectInquirableImpl extends KualiInquirableImpl {
         keys.add(PropertyConstants.ACCOUNT_NUMBER);
         keys.add(PropertyConstants.CHART_OF_ACCOUNTS_CODE);
         keys.add(PropertyConstants.SUB_ACCOUNT_NUMBER);
-        keys.add("financialObject.financialObjectLevel.financialObjectLevelCode");
-        keys.add("financialObject.financialObjectLevel.financialReportingSortCode");
+        keys.add("financialObject.financialObjectLevel.financialConsolidationObjectCode");
+        keys.add("financialObject.financialObjectType.financialReportingSortCode");
         keys.add(Constant.COST_SHARE_OPTION);
         keys.add(Constant.CONSOLIDATION_OPTION);
 
@@ -184,7 +186,7 @@ public class AccountBalanceByObjectInquirableImpl extends KualiInquirableImpl {
 
     private static Map getUserDefinedAttributeMap() {
         Map userDefinedAttributeMap = new HashMap();
-        userDefinedAttributeMap.put("financialObject.financialObjectLevel.financialObjectLevelCode", "");
+        userDefinedAttributeMap.put("financialObject.financialObjectLevel.financialConsolidationObjectCode", "");
         return userDefinedAttributeMap;
     }
 }

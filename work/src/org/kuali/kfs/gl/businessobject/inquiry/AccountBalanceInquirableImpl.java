@@ -117,9 +117,7 @@ public class AccountBalanceInquirableImpl extends KualiInquirableImpl {
             keys = buildUserDefinedAttributeKeyList(attributeName);
             baseUrl = Constants.GL_BALANCE_INQUIRY_ACTION;
               
-            //TODO: this is a pretty bad hardcoded value.
-            parameters.put(Constants.RETURN_LOCATION_PARAMETER, "/kuali-dev");
-            
+            parameters.put(Constants.RETURN_LOCATION_PARAMETER, Constant.RETURN_LOCATION_VALUE);
             parameters.put(Constants.GL_BALANCE_INQUIRY_FLAG, "true");
             parameters.put(Constants.DISPATCH_REQUEST_PARAMETER, "search");
             parameters.put(Constants.DOC_FORM_KEY, "88888888");           

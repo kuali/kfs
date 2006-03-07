@@ -56,11 +56,12 @@ public class CashReceiptDocumentRule extends TransactionalDocumentRuleBase imple
      */
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
         CashReceiptDocument cashReceiptDocument = (CashReceiptDocument) document;
+        String documentEntryName = document.getDocumentHeader().getWorkflowDocument().getDocumentType();
         
         boolean isValid = true;
         if(cashReceiptDocument.getTotalCheckAmount().compareTo(Constants.ZERO) < 0) {
             isValid = false;
-            String label = SpringServiceLocator.getDataDictionaryService().getAttributeLabel(CashReceiptDocument.class, 
+            String label = SpringServiceLocator.getDataDictionaryService().getAttributeLabel(documentEntryName, 
                     PropertyConstants.TOTAL_CHECK_AMOUNT);
             GlobalVariables.getErrorMap().put(DOCUMENT_ERROR_PREFIX + PropertyConstants.TOTAL_CHECK_AMOUNT, KeyConstants.ERROR_NEGATIVE_AMOUNT, 
                     label);
@@ -68,7 +69,7 @@ public class CashReceiptDocumentRule extends TransactionalDocumentRuleBase imple
         
         if(cashReceiptDocument.getTotalCashAmount().compareTo(Constants.ZERO) < 0) {
             isValid = false;
-            String label = SpringServiceLocator.getDataDictionaryService().getAttributeLabel(CashReceiptDocument.class, 
+            String label = SpringServiceLocator.getDataDictionaryService().getAttributeLabel(documentEntryName, 
                     PropertyConstants.TOTAL_CASH_AMOUNT);
             GlobalVariables.getErrorMap().put(DOCUMENT_ERROR_PREFIX + PropertyConstants.TOTAL_CASH_AMOUNT, KeyConstants.ERROR_NEGATIVE_AMOUNT, 
                     label);
@@ -76,7 +77,7 @@ public class CashReceiptDocumentRule extends TransactionalDocumentRuleBase imple
         
         if(cashReceiptDocument.getTotalCoinAmount().compareTo(Constants.ZERO) < 0) {
             isValid = false;
-            String label = SpringServiceLocator.getDataDictionaryService().getAttributeLabel(CashReceiptDocument.class, 
+            String label = SpringServiceLocator.getDataDictionaryService().getAttributeLabel(documentEntryName, 
                     PropertyConstants.TOTAL_COIN_AMOUNT);
             GlobalVariables.getErrorMap().put(DOCUMENT_ERROR_PREFIX + PropertyConstants.TOTAL_COIN_AMOUNT, KeyConstants.ERROR_NEGATIVE_AMOUNT, 
                     label);
@@ -273,22 +274,7 @@ public class CashReceiptDocumentRule extends TransactionalDocumentRuleBase imple
      *      org.kuali.module.financial.bo.Check)
      */
     public boolean processAddCheckBusinessRules(TransactionalDocument transactionalDocument, Check check) {
-        // start updating the error path name
-        //GlobalVariables.getErrorMap().addToErrorPath(Constants.DOCUMENT_PROPERTY_NAME);
-        
-        // validate the specific check coming in
-        SpringServiceLocator.getDictionaryValidationService().validateBusinessObject(check);
-        
-        boolean isValid = GlobalVariables.getErrorMap().isEmpty();
-        
-        if(isValid) {
-            // if bo validation for the check passed, then do the amount validation
-            isValid = check.getAmount().compareTo(Constants.ZERO) > 0;
-            if(!isValid) {
-                GlobalVariables.getErrorMap().put(PropertyConstants.CHECK_AMOUNT, KeyConstants.ERROR_ZERO_OR_NEGATIVE_AMOUNT, 
-                        PropertyConstants.CHECKS);
-            }
-        }
+        boolean isValid = validateCheck(check);
 
         return isValid;
     }
@@ -306,14 +292,36 @@ public class CashReceiptDocumentRule extends TransactionalDocumentRuleBase imple
     }
 
     /**
-     * Default implementation does nothing now.
+     * Checks to make sure that the check passed in passes all data dictionary validation and that the 
+     * amount is positive.
      * 
-     * @see org.kuali.core.rule.UpdateCheckRule#processUpdateCheckRule(org.kuali.core.document.TransactionalDocument,
-     *      org.kuali.module.financial.bo.Check, org.kuali.module.financial.bo.Check)
+     * @see org.kuali.core.rule.UpdateCheckRule#processUpdateCheckRule(org.kuali.core.document.TransactionalDocument, org.kuali.module.financial.bo.Check)
      */
-    public boolean processUpdateCheckRule(TransactionalDocument transactionalDocument, Check originalCheck, Check updatedCheck) {
-        boolean processed = true;
+    public boolean processUpdateCheckRule(TransactionalDocument transactionalDocument, Check check) {
+        boolean isValid = validateCheck(check);
 
-        return processed;
+        return isValid;
+    }
+    
+    /**
+     * This method validates checks for a CR document.
+     * @param check
+     * @return boolean
+     */
+    private boolean validateCheck(Check check) {
+        // validate the specific check coming in
+        SpringServiceLocator.getDictionaryValidationService().validateBusinessObject(check);
+        
+        boolean isValid = GlobalVariables.getErrorMap().isEmpty();
+        
+        if(isValid) {
+            // if bo validation for the check passed, then do the amount validation
+            isValid = check.getAmount().compareTo(Constants.ZERO) > 0;
+            if(!isValid) {
+                GlobalVariables.getErrorMap().put(PropertyConstants.CHECK_AMOUNT, KeyConstants.ERROR_ZERO_OR_NEGATIVE_AMOUNT, 
+                        PropertyConstants.CHECKS);
+            }
+        }
+        return isValid;
     }
 }

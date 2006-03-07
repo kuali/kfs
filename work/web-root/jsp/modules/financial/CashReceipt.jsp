@@ -10,7 +10,7 @@
 <c:set var="displayHidden" value="false" />
 <c:set var="checkDetailMode" value="${KualiForm.checkEntryDetailMode}" />
 
-<c:set var="cashReceiptDocumentAttributes" value="${DataDictionary.KualiCashReceiptDocument.attributes}" />
+<c:set var="cashReceiptAttributes" value="${DataDictionary['KualiCashReceiptDocument'].attributes}" />
 
 <kul:documentPage showDocumentInfo="true" htmlFormAction="financialCashReceipt" documentTypeName="KualiCashReceiptDocument"  renderMultipart="true" showTabButtons="true">
 
@@ -41,11 +41,11 @@
                     <td height="70" align=left valign=middle class="datacell"><div align="center"><br>
                         <table cellpadding="4">
                             <tr>
-                                <td align=left valign=middle><div align="right"><strong>Checks:</strong></div></td>
+                                <td align=left valign=middle><div align="right"><strong><kul:htmlAttributeLabel attributeEntry="${cashReceiptAttributes.totalCheckAmount}" useShortLabel="false" /></strong></div></td>
 
                                 <td align=left valign=middle class="right">
                                     <c:if test="${!checkDetailMode}">
-                                        <kul:htmlControlAttribute property="totalCheckAmount" attributeEntry="${cashReceiptDocumentAttributes.genericAmount}" />
+                                        <kul:htmlControlAttribute property="document.totalCheckAmount" attributeEntry="${cashReceiptAttributes.totalCheckAmount}" />
                                     </c:if>
                                     <c:if test="${checkDetailMode}">
                                     	$${KualiForm.document.currencyFormattedTotalCheckAmount}
@@ -64,16 +64,16 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td align=left valign=middle><div align="right"><strong>Currency:</strong></div></td>
+                                <td align=left valign=middle><div align="right"><strong><kul:htmlAttributeLabel attributeEntry="${cashReceiptAttributes.totalCashAmount}" useShortLabel="false" /></strong></div></td>
                                 <td align=left valign=middle class="right">
-                                    <kul:htmlControlAttribute property="totalCashAmount" attributeEntry="${cashReceiptDocumentAttributes.genericAmount}" />
+                                    <kul:htmlControlAttribute property="document.totalCashAmount" attributeEntry="${cashReceiptAttributes.totalCashAmount}" />
                                 </td>
                                 <td>&nbsp;</td>
                             </tr>
                             <tr>
-                                <td align=left valign=middle><div align="right"><strong>Coins:</strong></div></td>
+                                <td align=left valign=middle><div align="right"><strong><kul:htmlAttributeLabel attributeEntry="${cashReceiptAttributes.totalCoinAmount}" useShortLabel="false" /></strong></div></td>
                                 <td align=left valign=middle class="right">
-                                    <kul:htmlControlAttribute property="totalCoinAmount" attributeEntry="${cashReceiptDocumentAttributes.genericAmount}" />
+                                    <kul:htmlControlAttribute property="document.totalCoinAmount" attributeEntry="${cashReceiptAttributes.totalCoinAmount}" />
                                 </td>
                                 <td>&nbsp;</td>
                             </tr>

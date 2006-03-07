@@ -22,10 +22,8 @@
  */
 package org.kuali.module.financial.web.struts.action;
 
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -35,6 +33,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
+import org.kuali.PropertyConstants;
 import org.kuali.core.rule.event.AddCheckEvent;
 import org.kuali.core.rule.event.DeleteCheckEvent;
 import org.kuali.core.rule.event.UpdateCheckEvent;
@@ -79,6 +78,13 @@ public class CashReceiptAction extends KualiTransactionalDocumentActionBase {
         return super.execute(mapping, form, request, response);
     }
 
+    /**
+     * This method processes the check entry mode to determine if the user is entering checks or if they are 
+     * just entering the total.
+     * 
+     * @param crForm
+     * @param crDoc
+     */
     private void processCheckEntryMode(CashReceiptForm crForm, CashReceiptDocument crDoc) {
         String formMode = crForm.getCheckEntryMode();
         String docMode = crDoc.getCheckEntryMode();
@@ -109,38 +115,31 @@ public class CashReceiptAction extends KualiTransactionalDocumentActionBase {
             }
         }
     }
-
+    
+    /**
+     * This method handles iterating over the check list and generating check events to apply rules to.
+     * 
+     * @param cdoc
+     * @param cform
+     */
     private void processChecks(CashReceiptDocument cdoc, CashReceiptForm cform) {
-        List baseChecks = cform.getBaselineChecks();
         List formChecks = cdoc.getChecks();
 
-        Map baseCheckMap = new HashMap();
-        for (Iterator i = baseChecks.iterator(); i.hasNext();) {
-            Check check = (Check) i.next();
-            baseCheckMap.put(check.getSequenceId(), check);
-        }
-
-        // find and process corresponding form and base checks
         int index = 0;
-        for (Iterator i = formChecks.iterator(); i.hasNext(); index++) {
+        Iterator i = formChecks.iterator(); 
+        while(i.hasNext()) {
             Check formCheck = (Check) i.next();
-            Check baseCheck = (Check) baseCheckMap.get(formCheck.getSequenceId());
 
             // only generate update events for specific action methods
             String methodToCall = cform.getMethodToCall();
             if (UPDATE_EVENT_ACTIONS.contains(methodToCall)) {
-                handleUpdate(cdoc, "check[" + index + "]", formCheck, baseCheck);
+                SpringServiceLocator.getKualiRuleService()
+                    .applyRules(new UpdateCheckEvent(PropertyConstants.DOCUMENT + "." + PropertyConstants.CHECK + "[" + index + "]", 
+                    cdoc, formCheck));
             }
+            index++;
         }
     }
-
-    private void handleUpdate(CashReceiptDocument cdoc, String errorPathPrefix, Check formCheck, Check baseCheck) {
-        if ((baseCheck != null) && !formCheck.isLike(baseCheck)) {
-            SpringServiceLocator.getKualiRuleService()
-                    .applyRules(new UpdateCheckEvent(errorPathPrefix, cdoc, baseCheck, formCheck));
-        }
-    }
-
 
     /**
      * Adds Check instance created from the current "new check" line to the document
@@ -149,7 +148,7 @@ public class CashReceiptAction extends KualiTransactionalDocumentActionBase {
      * @param form
      * @param request
      * @param response
-     * @return
+     * @return ActionForward
      * @throws Exception
      */
     public ActionForward addCheck(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)

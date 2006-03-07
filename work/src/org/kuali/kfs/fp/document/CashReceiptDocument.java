@@ -331,7 +331,9 @@ public class CashReceiptDocument extends TransactionalDocumentBase {
         KualiDecimal total = KualiDecimal.ZERO;
         for (Iterator i = getChecks().iterator(); i.hasNext();) {
             Check c = (Check) i.next();
-            total = total.add(c.getAmount());
+            if(null != c.getAmount()) {
+                total = total.add(c.getAmount());
+            }
         }
 
         return total;

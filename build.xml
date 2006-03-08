@@ -123,16 +123,16 @@
 
 	<target name="clean-config" if="is.local.build" depends="init-project-properties">
 		<delete file="${appserver.lib.dir}/${oracle.library.file}" failonerror="false"/>
-		<delete dir="${settings.directory}"/>
-		<delete dir="${security.directory}"/>
-		<delete dir="${logs.directory}"/>
-		<delete>
+		<delete dir="${settings.directory}" failonerror="false"/>
+		<delete dir="${security.directory}" failonerror="false"/>
+		<delete dir="${logs.directory}" failonerror="false"/>
+		<delete failonerror="false">
 			<fileset dir="${plugin.deploy.directory}"/>
 		</delete>		
-        <delete>
+        <delete failonerror="false">
 			<fileset dir="." includes="*.zip"/>
 		</delete>
-        <delete>
+        <delete failonerror="false">
 			<fileset dir="${appserver.config.dir}" includes="${ant.project.name}-*.xml"/>
 		</delete>
 	</target>	

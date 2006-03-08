@@ -15,11 +15,12 @@
 		<!-- JOURNAL VOUCHER SPECIFIC FIELDS -->
 		<kul:tab tabTitle="Journal Voucher Details" defaultOpen="true" tabErrorKey="${Constants.EDIT_JOURNAL_VOUCHER_ERRORS}" >
 	    	<div class="tab-container" align=center>
+		<div class="h2-container">
+		<h2>Journal Voucher Details</h2>
+		</div>	    	
 	    	<table cellpadding=0 class="datatable" summary="view/edit ad hoc recipients">
             <tbody>
-              <tr>
-                <td colspan=2 class="subhead"><span class="subhead-left"> Journal Voucher Details</span></td>
-              </tr>
+
               <tr>
                 <th width="35%" class="bord-l-b">
                   <div align="right">

@@ -5,13 +5,13 @@
     tabErrorKey="${Constants.EDIT_PRE_ENCUMBRANCE_ERRORS}"
     >
     <div class="tab-container" align=center>
+    <div class="h2-container">
+<h2>Pre Encumbrance Details</h2>
+</div>
         <table cellpadding=0 class="datatable"
                summary="view/edit pre-encumbrance specific fields">
             <tbody>
-                <tr>
-                    <td colspan=2 class="subhead"><span
-                        class="subhead-left"> Pre Encumbrance Details</span></td>
-                </tr>
+                
                 <tr>
                     <th width="35%" class="bord-l-b"><div
                         align="right">${ConfigProperties.label.document.preEncumbrance.reversalDate}: </div>

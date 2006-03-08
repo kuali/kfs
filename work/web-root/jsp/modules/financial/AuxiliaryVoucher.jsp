@@ -11,11 +11,12 @@
 		<kul:tab tabTitle="Auxiliary Voucher Details" defaultOpen="true" tabErrorKey="${Constants.EDIT_AUXILIARY_VOUCHER_ERRORS}" >
 	    	
 	    	<div class="tab-container" align="center">
+		<div class="h2-container">
+		<h2>Auxiliary Voucher Details</h2>
+		</div>	    	
 	    	<table cellpadding="0" class="datatable" summary="view/edit ad hoc recipients">
             <tbody>
-              <tr>
-                <td colspan="2" class="subhead"><span class="subhead-left"> Auxiliary Voucher Details</span></td>
-              </tr>
+
               <tr>
                 <th width="35%" class="bord-l-b">
                 <div align="right">${ConfigProperties.label.document.auxiliaryVoucher.accountingPeriod}:</div></th>

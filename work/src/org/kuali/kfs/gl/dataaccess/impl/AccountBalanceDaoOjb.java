@@ -313,7 +313,8 @@ public class AccountBalanceDaoOjb extends PersistenceBrokerDaoSupport implements
             }
             else if(type.equals(this.BY_LEVEL)){
 	            attributeList.add("financialObject.financialObjectLevel.financialReportingSortCode");
-	            attributeList.add("financialObject.financialObjectLevel.financialObjectLevelCode");                
+	            attributeList.add("financialObject.financialObjectLevel.financialObjectLevelCode");  
+	            attributeList.add("financialObject.financialObjectLevel.financialConsolidationObjectCode");
             }
             else if(type.equals(this.BY_OBJECT)){
                 attributeList.add("objectCode");
@@ -357,7 +358,8 @@ public class AccountBalanceDaoOjb extends PersistenceBrokerDaoSupport implements
             }
             else if(type.equals(this.BY_LEVEL)){
 	            attributeList.add("financialObject.financialObjectLevel.financialReportingSortCode");
-	            attributeList.add("financialObject.financialObjectLevel.financialObjectLevelCode");                	            
+	            attributeList.add("financialObject.financialObjectLevel.financialObjectLevelCode"); 
+	            attributeList.add("financialObject.financialObjectLevel.financialConsolidationObjectCode");
             }
             else if(type.equals(this.BY_OBJECT)){
                 attributeList.add("objectCode");

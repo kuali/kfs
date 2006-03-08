@@ -78,7 +78,12 @@ public class AccountBalanceByConsolidationInquirableImpl extends KualiInquirable
         
         Map userDefinedAttributeMap = getUserDefinedAttributeMap();
         boolean isUserDefinedAttribute = userDefinedAttributeMap.containsKey(attributeName);
+
         if (isUserDefinedAttribute || attributeName.equals(businessDictionary.getTitleAttribute(businessObject.getClass()))) {
+            if(attributeName.equals("dummyBusinessObject.linkButtonOption")){
+                attributeName = "financialObject.financialObjectLevel.financialConsolidationObjectCode";               
+            }
+            
             inquiryBusinessObjectClass = (new AccountBalanceByLevel()).getClass();
             isPkReference = true;
         }
@@ -112,7 +117,7 @@ public class AccountBalanceByConsolidationInquirableImpl extends KualiInquirable
         if (isUserDefinedAttribute) {
 
             baseUrl = Constants.GL_MODIFIED_INQUIRY_ACTION;
-            keys = buildUserDefinedAttributeKeyList(attributeName);
+            keys = buildUserDefinedAttributeKeyList();
 
             parameters.put(Constants.RETURN_LOCATION_PARAMETER, Constant.RETURN_LOCATION_VALUE);
             parameters.put(Constants.GL_BALANCE_INQUIRY_FLAG, "true");
@@ -160,16 +165,16 @@ public class AccountBalanceByConsolidationInquirableImpl extends KualiInquirable
 
             parameters.put(keyName, keyValue);
         }
+        
         return UrlFactory.paremeterizeUrl(baseUrl, parameters);
     }
 
     /**
      * This method builds the inquiry url for user-defined attribute
      * 
-     * @param attributeName
      * @return key list
      */
-    private static List buildUserDefinedAttributeKeyList(String attributeName) {
+    private static List buildUserDefinedAttributeKeyList() {
         List keys = new ArrayList();
 
         keys.add(PropertyConstants.UNIVERSITY_FISCAL_YEAR);
@@ -187,6 +192,7 @@ public class AccountBalanceByConsolidationInquirableImpl extends KualiInquirable
     private static Map getUserDefinedAttributeMap() {
         Map userDefinedAttributeMap = new HashMap();
         userDefinedAttributeMap.put("financialObject.financialObjectLevel.financialConsolidationObjectCode", "");
+        userDefinedAttributeMap.put("dummyBusinessObject.linkButtonOption", "");
         return userDefinedAttributeMap;
     }
 }

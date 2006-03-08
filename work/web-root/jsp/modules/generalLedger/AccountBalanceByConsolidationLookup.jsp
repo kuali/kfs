@@ -87,75 +87,59 @@
 					cellpadding="0" name="${reqSearchResults}" id="row" export="true" pagesize="100" offset="${offset}"
 					requestURI="lookup.do?methodToCall=viewResults&reqSearchResultsActualSize=${reqSearchResultsActualSize}&listKey=${listKey}">
 	      
-	        <c:forEach items="${row.columns}" var="column">
+	        <c:forEach items="${row.columns}" var="column" varStatus="status">
 	        
 	          <c:if test="${column.propertyURL!=\"\" && param['d-16544-e'] == null}">
-	            <display:column class="infocell" sortable="${column.sortable}" title="${column.columnTitle}">
+	            <display:column class="infocell" title="${column.columnTitle}">
 	              <a href="<c:out value="${column.propertyURL}"/>" target="blank">
 	                <c:out value="${column.propertyValue}" />
 	              </a>
-	              &nbsp;
 	            </display:column>
 	          </c:if>
 	         
-	          <c:if test="${column.propertyURL==\"\" || param['d-16544-e'] != null}">
-	            <display:column class="infocell" sortable="${column.sortable}" title="${column.columnTitle}">
+	          <c:if test="${(column.propertyURL==\"\" || param['d-16544-e'] != null)}">
+	            <display:column class="infocell" title="${column.columnTitle}">
 	              <c:out value="${column.propertyValue}" />
 	            </display:column>
 	          </c:if>
+	          	          
 	        </c:forEach>
 	      </display:table>
-	      
-	      <c:if test="${reqSearchResultsActualSize>0}" >
-		      <br/><br/>  
-		      <div style="float: right; width: 70%;">
-		      <table width="100%" class="datatable-100">
-		      	<caption align="top" style="text-align: left; font-weight: bold;">Totals</caption>
-			      <c:forEach items="${reqSearchResults}" var="row" end="${offset-2}" varStatus="status">
-				      <c:if test="${status.count == 1 }" >
-					      <thead>
-						      <tr>
-							      <c:forEach items="${row.columns}" var="column" begin="4" varStatus="colStatus">
-							          <c:if test="${colStatus.count==1}">
-							            <td class="infocell"> </td>
-							          </c:if>
-							      	  				         
-							          <c:if test="${column.propertyValue!=\"\" && colStatus.count!=1}">
-							            <td class="infocell" title="${column.columnTitle}">
-							              Total <c:out value="${column.columnTitle}" />
-							            </td>
-							          </c:if>
-						          </c:forEach>
-						      </tr>
-						  </thead>
-				      </c:if>
-				      <c:if test="${status.count < 4}" >
-					      <tr>
-						      <c:forEach items="${row.columns}" var="column">
-						         
-						          <c:if test="${column.propertyValue!=\"\"}">
-						            <td class="infocell" title="${column.columnTitle}">
-						              <c:out value="${column.propertyValue}" />
-						            </td>
-						          </c:if>
-					          </c:forEach>
-					     </tr>
-				     </c:if>
-				     
-				     <c:if test="${status.count == 4}" >
-					      <tfoot>
-						      <tr>				      
-								   <td colspan="5" class="infocell" style="text-align: right">
-								   		Available Balance: <c:out value="${row.columns[8].propertyValue}"/>
-								   <td>
-						      </tr>
-						  </tfoot>
-				      </c:if>			     
-				     
-			     </c:forEach>
-			 </table>
-			 </div>
-		 </c:if>
+		  
+		  <c:if test="${reqSearchResultsActualSize>0}" >
+		  <div style="float: right; width: 70%;"><br/><br/>
+		      <display:table width="100%" class="datatable-100" cellspacing="0"
+						cellpadding="0" name="${reqSearchResults}" id="row" export="false" length="${offset-2}">
+						
+				<display:caption style="text-align: left; font-weight: bold;">Totals</display:caption>		
+		      
+		        <c:set var="indexOfbeginningColumn" value="4"/>
+		        <c:forEach items="${row.columns}" var="column" varStatus="status" 
+		        	begin="${indexOfbeginningColumn}" end="${indexOfbeginningColumn+4}">
+		        	
+		            <c:if test="${status.count == 1}">
+			            <display:column class="infocell">
+			                <c:out value="${column.propertyValue}" />
+			            </display:column>
+			        </c:if>
+		        	        
+		            <c:if test="${status.count != 1}">
+			            <display:column class="infocell" title="${column.columnTitle}">
+			                <c:out value="${column.propertyValue}" />
+			            </display:column>
+			        </c:if>
+		        </c:forEach>
+		        
+		        <display:footer>
+		        	<tr>
+		        		<td colspan="${indexOfbeginningColumn+1}" class="infocell" style="text-align: right">
+		        			Available Balance: <c:out value="${reqSearchResults[3].columns[8].propertyValue}"/>
+		        		</td>
+		        	</tr>
+		        </display:footer>          	          
+		      </display:table>
+	      </div>
+	      </c:if>
 	  </td>
     </tr>
 </table>

@@ -78,7 +78,12 @@ public class AccountBalanceByLevelInquirableImpl extends KualiInquirableImpl {
         
         Map userDefinedAttributeMap = getUserDefinedAttributeMap();
         boolean isUserDefinedAttribute = userDefinedAttributeMap.containsKey(attributeName);
-        if (isUserDefinedAttribute || attributeName.equals(businessDictionary.getTitleAttribute(businessObject.getClass()))) {
+        
+        if (isUserDefinedAttribute || attributeName.equals(businessDictionary.getTitleAttribute(businessObject.getClass()))) {            
+            if(attributeName.equals("dummyBusinessObject.linkButtonOption")){
+                attributeName = "financialObject.financialObjectLevel.financialObjectLevelCode";               
+            }
+            
             inquiryBusinessObjectClass = (new AccountBalanceByObject()).getClass();
             isPkReference = true;
         }
@@ -187,6 +192,7 @@ public class AccountBalanceByLevelInquirableImpl extends KualiInquirableImpl {
     private static Map getUserDefinedAttributeMap() {
         Map userDefinedAttributeMap = new HashMap();
         userDefinedAttributeMap.put("financialObject.financialObjectLevel.financialObjectLevelCode", "");
+        userDefinedAttributeMap.put("dummyBusinessObject.linkButtonOption", "");
         return userDefinedAttributeMap;
     }
 }

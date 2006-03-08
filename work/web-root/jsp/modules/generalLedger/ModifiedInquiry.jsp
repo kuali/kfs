@@ -94,7 +94,6 @@
               <a href="<c:out value="${column.propertyURL}"/>" target="blank">
                 <c:out value="${column.propertyValue}" />
               </a>
-              &nbsp;
             </display:column>
           </c:if>
          

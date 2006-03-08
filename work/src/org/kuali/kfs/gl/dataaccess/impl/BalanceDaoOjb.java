@@ -235,11 +235,7 @@ public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements Balanc
 
             // with this option, the method becomes specific and bad
             if (isBalanceTypeHandled && propertyValue.equals("EN") && propertyName.equals("balanceTypeCode")) {
-                List balanceTypeCodeList = new ArrayList();
-                balanceTypeCodeList.add("EX");
-                balanceTypeCodeList.add("IE");
-                balanceTypeCodeList.add("PE");
-                balanceTypeCodeList.add("CE");
+                List balanceTypeCodeList = buildBalanceTypeCodeList();
                 criteria.addIn("balanceTypeCode", balanceTypeCodeList);
             }
             else {
@@ -247,6 +243,22 @@ public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements Balanc
             }
         }
         return criteria;
+    }
+    
+    /**
+     * This method builds an balance type code list
+     * 
+     * @return List a balance type code list
+     */
+    private List buildBalanceTypeCodeList() {
+        List balanceTypeCodeList = new ArrayList();
+
+        balanceTypeCodeList.add("EX");
+        balanceTypeCodeList.add("IE");
+        balanceTypeCodeList.add("PE");
+        balanceTypeCodeList.add("CE");
+
+        return balanceTypeCodeList;
     }
 
     /**

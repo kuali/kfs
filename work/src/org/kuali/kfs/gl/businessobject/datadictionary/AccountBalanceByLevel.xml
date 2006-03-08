@@ -57,12 +57,16 @@
 				<field attributeName="accountNumber"/>
 				<field attributeName="subAccountNumber"/>
 				
+				<field attributeName="financialObject.financialObjectLevel.financialConsolidationObjectCode"/>
 				<field attributeName="financialObject.financialObjectLevel.financialObjectLevelCode"/>
 	                       
 				<field attributeName="currentBudgetLineBalanceAmount"/>
 				<field attributeName="accountLineActualsBalanceAmount"/>
 				<field attributeName="accountLineEncumbranceBalanceAmount"/>
 				<field attributeName="dummyBusinessObject.genericAmount"/>
+				
+				<field attributeName="dummyBusinessObject.linkButtonOption"/>
+				
 			</resultFields>
 		</lookup>
 		
@@ -159,6 +163,15 @@
 	        <attributeReference name="financialObject.financialObjectLevel.financialReportingSortCode"
 	                    		sourceClassName="org.kuali.module.chart.bo.ObjectType" 
             					sourceAttributeName="financialReportingSortCode"/> 
+            					
+			<attributeReference name="dummyBusinessObject.linkButtonOption"
+            					sourceClassName="org.kuali.module.gl.bo.DummyBusinessObject" 
+            					sourceAttributeName="linkButtonOption"> 
+			    <label>Lookup By Object</label>
+                <shortLabel>Lookup By Object</shortLabel>
+                <summary>Lookup By Object</summary>
+                <description>Lookup By Object ...</description>      					
+            </attributeReference>            					
             					            					 
         </attributes>
 		

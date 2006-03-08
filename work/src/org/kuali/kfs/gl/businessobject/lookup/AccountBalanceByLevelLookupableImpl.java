@@ -74,7 +74,8 @@ public class AccountBalanceByLevelLookupableImpl extends AbstractGLLookupableImp
         // get the search result collection
         Iterator availableBalanceIterator = accountBalanceService.findAccountBalanceByLevel(fieldValues,
                 isCostShareInclusive, isConsolidated);
-        Collection searchResultsCollection = buildAvailableBalanceCollection(availableBalanceIterator, isCostShareInclusive, isConsolidated);
+        Collection searchResultsCollection = buildAvailableBalanceCollection(availableBalanceIterator, 
+                isCostShareInclusive, isConsolidated);
 
         // sort list if default sort column given
         List searchResults = (List) searchResultsCollection;
@@ -111,6 +112,7 @@ public class AccountBalanceByLevelLookupableImpl extends AbstractGLLookupableImp
 
             accountBalance.getFinancialObject().getFinancialObjectLevel().setFinancialReportingSortCode(array[i++].toString());           
             accountBalance.getFinancialObject().getFinancialObjectLevel().setFinancialObjectLevelCode(array[i++].toString());
+            accountBalance.getFinancialObject().getFinancialObjectLevel().setFinancialConsolidationObjectCode(array[i++].toString());
 
             KualiDecimal budgetAmount = new KualiDecimal(array[i++].toString());
             accountBalance.setCurrentBudgetLineBalanceAmount(budgetAmount);
@@ -129,6 +131,8 @@ public class AccountBalanceByLevelLookupableImpl extends AbstractGLLookupableImp
             
             String costShareOption = isCostShareInclusive ? Constant.COST_SHARE_INCLUSIVE : Constant.COST_SHARE_EXCLUSIVE;
             accountBalance.getDummyBusinessObject().setCostShareOption(costShareOption);
+            
+            accountBalance.getDummyBusinessObject().setLinkButtonOption(Constant.LOOKUP_BUTTON_VALUE);
 
             balanceCollection.add(accountBalance);
         }

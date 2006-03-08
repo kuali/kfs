@@ -107,7 +107,7 @@
                   	</div></th>
                 <td class="datacell-nowrap">
                     <c:if test="${readOnly}">
-                        ${document.reversalDate}
+                        ${KualiForm.formattedReversalDate}
 						<html:hidden property="document.reversalDate" />
                     </c:if>
                     <c:if test="${!readOnly}">

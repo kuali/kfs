@@ -661,8 +661,7 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
 
         if (RulesUtils.makeSet(revolvingFundPaymentReasonCodes).contains(paymentReasonCode)
                 && !document.getDvPayeeDetail().isDvPayeeRevolvingFundCode() && !document.getDvPayeeDetail().isVendor()) {
-            errors.put(errorKey, KeyConstants.ERROR_DV_PAYMENT_REASON, new String[] { paymentReasonCode,
-                    "for revolving fund payees" });
+            errors.put(errorKey, KeyConstants.ERROR_DV_REVOLVING_PAYMENT_REASON, paymentReasonCode);
         }
 
         /* if payment reason is moving, payee must be an employee or have payee ownership type I (individual) */

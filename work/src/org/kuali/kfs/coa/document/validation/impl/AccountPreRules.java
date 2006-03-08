@@ -44,7 +44,7 @@ import org.kuali.module.chart.service.AccountService;
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  * 
  */
-public class AccountPreRules extends PreRulesContinuationBase {
+public class AccountPreRules extends MaintenancePreRulesBase {
 
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountPreRules.class);
     
@@ -74,12 +74,7 @@ public class AccountPreRules extends PreRulesContinuationBase {
         configService = SpringServiceLocator.getKualiConfigurationService();
     }
 
-    /**
-     * This processes certain rules that need to occur at the UI level or actually need to modify the Account object
-     * before being passed on down the rules chain
-     * @see org.kuali.core.rule.PreRulesCheck#processPreRuleChecks(org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, org.kuali.core.rule.event.PreRulesCheckEvent)
-     */
-    public boolean doRules(MaintenanceDocument document) {
+    protected boolean doCustomPreRules(MaintenanceDocument document) {
         setupConvenienceObjects(document);
         checkForContinuationAccounts(); // run this first to avoid side effects
 
@@ -94,56 +89,51 @@ public class AccountPreRules extends PreRulesContinuationBase {
     private void checkForContinuationAccounts() {
         LOG.debug("entering checkForContinuationAccounts()");
         
-        if (newAccount.getReportsToAccountNumber()!=null){
-            Account account=checkForContinuationAccount("Fringe Benefit Account", newAccount.getReportsToChartOfAccountsCode(),newAccount.getReportsToAccountNumber(), "");
-            if (account!=null) { //override old user inputs
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("overriding original account with continuation account: "+account);
-                }
+        if (StringUtils.isNotBlank(newAccount.getReportsToAccountNumber())){
+            Account account = checkForContinuationAccount("Fringe Benefit Account", 
+                    newAccount.getReportsToChartOfAccountsCode(),
+                    newAccount.getReportsToAccountNumber(), "");
+            if (ObjectUtils.isNotNull(account)) { //override old user inputs
                 newAccount.setReportsToAccountNumber(account.getAccountNumber());
                 newAccount.setReportsToChartOfAccountsCode(account.getChartOfAccountsCode());
             }
         }
         
-        if (newAccount.getEndowmentIncomeAccountNumber()!=null){
-            Account account=checkForContinuationAccount("Endowment Account", newAccount.getEndowmentIncomeAcctFinCoaCd(),newAccount.getEndowmentIncomeAccountNumber(), "");
-        	if (account!=null) { //override old user inputs
-        	    if (LOG.isDebugEnabled()) {
-        	        LOG.debug("overriding original account with continuation account: "+account);
-        	    }
+        if (StringUtils.isNotBlank(newAccount.getEndowmentIncomeAccountNumber())){
+            Account account = checkForContinuationAccount("Endowment Account", 
+                    newAccount.getEndowmentIncomeAcctFinCoaCd(),
+                    newAccount.getEndowmentIncomeAccountNumber(), "");
+        	if (ObjectUtils.isNotNull(account)) { //override old user inputs
         	    newAccount.setEndowmentIncomeAccountNumber(account.getAccountNumber());
         	    newAccount.setEndowmentIncomeAcctFinCoaCd(account.getChartOfAccountsCode());
         	}
         }
         
-        if (newAccount.getIncomeStreamAccountNumber()!=null){
-            Account account=checkForContinuationAccount("Income Stream Account", newAccount.getIncomeStreamFinancialCoaCode(),newAccount.getIncomeStreamAccountNumber(), "");
-            if (account!=null) { //override old user inputs
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("overriding original account with continuation account: "+account);
-                }
+        if (StringUtils.isNotBlank(newAccount.getIncomeStreamAccountNumber())){
+            Account account = checkForContinuationAccount("Income Stream Account", 
+                    newAccount.getIncomeStreamFinancialCoaCode(),
+                    newAccount.getIncomeStreamAccountNumber(), "");
+            if (ObjectUtils.isNotNull(account)) { //override old user inputs
                 newAccount.setIncomeStreamAccountNumber(account.getAccountNumber());
                 newAccount.setIncomeStreamFinancialCoaCode(account.getChartOfAccountsCode());
             }
         }
         
-        if (newAccount.getContractControlAccountNumber()!=null){
-            Account account=checkForContinuationAccount("Contract Control Account", newAccount.getContractControlFinCoaCode(),newAccount.getContractControlAccountNumber(), "");
-            if (account!=null) { //override old user inputs
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("overriding original account with continuation account: "+account);
-                }
+        if (StringUtils.isNotBlank(newAccount.getContractControlAccountNumber())){
+            Account account = checkForContinuationAccount("Contract Control Account", 
+                    newAccount.getContractControlFinCoaCode(),
+                    newAccount.getContractControlAccountNumber(), "");
+            if (ObjectUtils.isNotNull(account)) { //override old user inputs
                 newAccount.setContractControlFinCoaCode(account.getAccountNumber());
                 newAccount.setContractControlAccountNumber(account.getChartOfAccountsCode());
             }
         }
         
-        if (newAccount.getIndirectCostRecoveryAcctNbr()!=null){
-            Account account=checkForContinuationAccount("Indirect Cost Recovery Account", newAccount.getIndirectCostRcvyFinCoaCode(),newAccount.getIndirectCostRecoveryAcctNbr(), "");
-            if (account!=null) { //override old user inputs
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("overriding original account with continuation account: "+account);
-                }
+        if (StringUtils.isNotBlank(newAccount.getIndirectCostRecoveryAcctNbr())){
+            Account account = checkForContinuationAccount("Indirect Cost Recovery Account", 
+                    newAccount.getIndirectCostRcvyFinCoaCode(), 
+                    newAccount.getIndirectCostRecoveryAcctNbr(), "");
+            if (ObjectUtils.isNotNull(account)) { //override old user inputs
                 newAccount.setIndirectCostRcvyFinCoaCode(account.getAccountNumber());
                 newAccount.setIndirectCostRecoveryAcctNbr(account.getChartOfAccountsCode());
             }
@@ -154,39 +144,6 @@ public class AccountPreRules extends PreRulesContinuationBase {
         
     }
 
-    
-    private Account checkForContinuationAccount(String accName, String chart, String accountNumber, String accountName) {
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("entering checkForContinuationAccounts("+accountNumber+")");
-        }
-        if (accountNumber==null || accountNumber.length()==0) return null;
-        
-        Account account=accountService.getByPrimaryId(chart,accountNumber);
-        
-        if (account!=null && !account.isExpired()) { //no need for a continuation account
-            return null;
-        }
-        
-        boolean useContinuationAccount=true;
-        while (account!=null && account.isExpired() && useContinuationAccount) {
-            LOG.debug("Expired account: "+accountNumber);
-            String continuationAccountNumber=account.getContinuationAccountNumber();
-            
-            useContinuationAccount=askOrAnalyzeYesNoQuestion("ContinuationAccount"+accName+accountNumber,
-                    buildBudgetConfirmationQuestion(accName, accountNumber,continuationAccountNumber));
-            if (useContinuationAccount) {
-                accountNumber=continuationAccountNumber;
-                chart=account.getContinuationFinChrtOfAcctCd();
-                account=accountService.getByPrimaryId(chart,accountNumber);
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("Selected continuation account: "+account);
-                }
-            }
-        }
-        return account;
-        
-    }
-    
     /**
      * 
      * This method sets the convenience objects like newAccount and oldAccount, so you
@@ -312,13 +269,6 @@ public class AccountPreRules extends PreRulesContinuationBase {
         }
     }
 
-    protected String buildBudgetConfirmationQuestion(String accName, String expiredAccount, String continuationAccount)  {
-        String result=configService.getPropertyString(KeyConstants.QUESTION_CONTINUATION_ACCOUNT_SELECTION);
-        result=StringUtils.replace(result, "{0}", accName);
-        result=StringUtils.replace(result, "{1}", expiredAccount);
-        result=StringUtils.replace(result, "{2}", continuationAccount);
-        return result;
-     }
 
     
 }

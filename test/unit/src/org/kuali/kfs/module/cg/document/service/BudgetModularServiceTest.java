@@ -41,8 +41,20 @@ public class BudgetModularServiceTest extends KualiTestBaseWithSpring {
         budgetModularService = SpringServiceLocator.getBudgetModularService();
     }
     
-    public void testCalculateTotalDirectCostAmount() {
+    public void testDetermineModularDirectCost() {
         
     }
-
+    
+    public void testCalculateTotalModularDirectCostAmount() {
+        
+    }
+    
+    public void testCalculateTotalAdjustedModularDirectCostAmount() {
+        
+    }
+    
+    public void testSumKualiDecimalAmountAcrossPeriods() {
+        
+    }
+    
 }

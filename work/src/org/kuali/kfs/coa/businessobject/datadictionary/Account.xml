@@ -14,6 +14,7 @@
 				<field attributeName="accountNumber" />
 				<field attributeName="accountName" />
 				<field attributeName="accountFiscalOfficerUser.personUserIdentifier" />
+				<field attributeName="accountFiscalOfficerUser.personName" />
 				<field attributeName="organizationCode" />
 				<field attributeName="accountTypeCode" />
 				<field attributeName="accountCreateDate" />

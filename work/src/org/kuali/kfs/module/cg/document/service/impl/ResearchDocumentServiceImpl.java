@@ -33,6 +33,8 @@ import org.kuali.module.kra.service.BudgetService;
 import org.kuali.module.kra.service.ResearchDocumentService;
 import org.springframework.orm.ojb.PersistenceBrokerTemplate;
 
+import edu.iu.uis.eden.exception.WorkflowException;
+
 /**
  * This class...
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -44,7 +46,7 @@ public class ResearchDocumentServiceImpl extends PersistenceBrokerTemplate imple
     /**
      * @see org.kuali.module.kra.service.ResearchDocumentService#prepareResearchDocumentForSave(org.kuali.module.kra.document.ResearchDocument)
      */
-    public void prepareResearchDocumentForSave(ResearchDocument researchDocument) {
+    public void prepareResearchDocumentForSave(ResearchDocument researchDocument) throws WorkflowException {
         if (researchDocument instanceof BudgetDocument) {
             BudgetDocument budgetDocument = (BudgetDocument)researchDocument;
             budgetService.prepareBudgetForSave(budgetDocument);
@@ -64,7 +66,6 @@ public class ResearchDocumentServiceImpl extends PersistenceBrokerTemplate imple
             list.add(budget.getTasks());
             list.add(budget.getPeriods());
             list.add(budget.getNonpersonnelItems());
-//            list.add(budget.getAllGraduateAssistantTaskPeriods(budgetDocument.isForceRefreshOfBOSubListsForSave()));
             list.add(budget.getAllUserAppointmentTaskPeriods(budgetDocument.isForceRefreshOfBOSubListsForSave()));
             list.add(budget.getAllUserAppointmentTasks(budgetDocument.isForceRefreshOfBOSubListsForSave()));
             list.add(budget.getPersonnel());

@@ -93,18 +93,69 @@ public class AccountPreRules extends PreRulesContinuationBase {
     
     private void checkForContinuationAccounts() {
         LOG.debug("entering checkForContinuationAccounts()");
-        Account account=checkForContinuationAccount(newAccount.getEndowmentIncomeAcctFinCoaCd(),newAccount.getEndowmentIncomeAccountNumber());
-        if (account!=null) { //override old user inputs
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("overriding original account with continuation account: "+account);
+        
+        if (newAccount.getReportsToAccountNumber()!=null){
+            Account account=checkForContinuationAccount("Fringe Benefit Account", newAccount.getReportsToChartOfAccountsCode(),newAccount.getReportsToAccountNumber(), "");
+            if (account!=null) { //override old user inputs
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("overriding original account with continuation account: "+account);
+                }
+                newAccount.setReportsToAccountNumber(account.getAccountNumber());
+                newAccount.setReportsToChartOfAccountsCode(account.getChartOfAccountsCode());
             }
-            newAccount.setEndowmentIncomeAccountNumber(account.getAccountNumber());
-            newAccount.setEndowmentIncomeAcctFinCoaCd(account.getChartOfAccountsCode());
         }
+        
+        if (newAccount.getEndowmentIncomeAccountNumber()!=null){
+            Account account=checkForContinuationAccount("Endowment Account", newAccount.getEndowmentIncomeAcctFinCoaCd(),newAccount.getEndowmentIncomeAccountNumber(), "");
+        	if (account!=null) { //override old user inputs
+        	    if (LOG.isDebugEnabled()) {
+        	        LOG.debug("overriding original account with continuation account: "+account);
+        	    }
+        	    newAccount.setEndowmentIncomeAccountNumber(account.getAccountNumber());
+        	    newAccount.setEndowmentIncomeAcctFinCoaCd(account.getChartOfAccountsCode());
+        	}
+        }
+        
+        if (newAccount.getIncomeStreamAccountNumber()!=null){
+            Account account=checkForContinuationAccount("Income Stream Account", newAccount.getIncomeStreamFinancialCoaCode(),newAccount.getIncomeStreamAccountNumber(), "");
+            if (account!=null) { //override old user inputs
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("overriding original account with continuation account: "+account);
+                }
+                newAccount.setIncomeStreamAccountNumber(account.getAccountNumber());
+                newAccount.setIncomeStreamFinancialCoaCode(account.getChartOfAccountsCode());
+            }
+        }
+        
+        if (newAccount.getContractControlAccountNumber()!=null){
+            Account account=checkForContinuationAccount("Contract Control Account", newAccount.getContractControlFinCoaCode(),newAccount.getContractControlAccountNumber(), "");
+            if (account!=null) { //override old user inputs
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("overriding original account with continuation account: "+account);
+                }
+                newAccount.setContractControlFinCoaCode(account.getAccountNumber());
+                newAccount.setContractControlAccountNumber(account.getChartOfAccountsCode());
+            }
+        }
+        
+        if (newAccount.getIndirectCostRecoveryAcctNbr()!=null){
+            Account account=checkForContinuationAccount("Indirect Cost Recovery Account", newAccount.getIndirectCostRcvyFinCoaCode(),newAccount.getIndirectCostRecoveryAcctNbr(), "");
+            if (account!=null) { //override old user inputs
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("overriding original account with continuation account: "+account);
+                }
+                newAccount.setIndirectCostRcvyFinCoaCode(account.getAccountNumber());
+                newAccount.setIndirectCostRecoveryAcctNbr(account.getChartOfAccountsCode());
+            }
+        }
+        
+        
+        
         
     }
 
-    private Account checkForContinuationAccount(String chart, String accountNumber) {
+    
+    private Account checkForContinuationAccount(String accName, String chart, String accountNumber, String accountName) {
         if (LOG.isDebugEnabled()) {
             LOG.debug("entering checkForContinuationAccounts("+accountNumber+")");
         }
@@ -120,8 +171,9 @@ public class AccountPreRules extends PreRulesContinuationBase {
         while (account!=null && account.isExpired() && useContinuationAccount) {
             LOG.debug("Expired account: "+accountNumber);
             String continuationAccountNumber=account.getContinuationAccountNumber();
-            useContinuationAccount=askOrAnalyzeYesNoQuestion("ContinuationAccount"+accountNumber,
-                    buildBudgetConfirmationQuestion(accountNumber,continuationAccountNumber));
+            
+            useContinuationAccount=askOrAnalyzeYesNoQuestion("ContinuationAccount"+accName+accountNumber,
+                    buildBudgetConfirmationQuestion(accName, accountNumber,continuationAccountNumber));
             if (useContinuationAccount) {
                 accountNumber=continuationAccountNumber;
                 chart=account.getContinuationFinChrtOfAcctCd();
@@ -260,12 +312,14 @@ public class AccountPreRules extends PreRulesContinuationBase {
         }
     }
 
-    protected String buildBudgetConfirmationQuestion(String expiredAccount, String continuationAccount)  {
+    protected String buildBudgetConfirmationQuestion(String accName, String expiredAccount, String continuationAccount)  {
         String result=configService.getPropertyString(KeyConstants.QUESTION_CONTINUATION_ACCOUNT_SELECTION);
-        result=StringUtils.replace(result, "{0}", expiredAccount);
-        result=StringUtils.replace(result, "{1}", continuationAccount);
+        result=StringUtils.replace(result, "{0}", accName);
+        result=StringUtils.replace(result, "{1}", expiredAccount);
+        result=StringUtils.replace(result, "{2}", continuationAccount);
         return result;
      }
 
     
 }
+

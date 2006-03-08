@@ -30,10 +30,14 @@ import org.kuali.core.bo.TargetAccountingLine;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.rule.TransactionalDocumentRuleTestBase;
+import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.module.financial.document.TransferOfFundsDocument;
 import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 import org.kuali.test.parameters.AccountingLineParameter;
 import org.kuali.test.parameters.TransactionalDocumentParameter;
+import org.kuali.test.MockService;
+import org.kuali.Constants;
 
 /**
  * This class tests the Transfer of Funds Document's persistence, routing, and PE generation.
@@ -72,6 +76,18 @@ public class TransferOfFundsDocumentRuleTest
 
     public String[] getFixtureCollectionNames() {
         return FIXTURE_COLLECTION_NAMES;
+    }
+
+    private KualiConfigurationService originalConfigService;
+
+    protected void setUp() throws Exception {
+        super.setUp();
+         originalConfigService = SpringServiceLocator.getFlexibleOffsetAccountService().getKualiConfigurationService();
+    }
+
+    protected void tearDown() throws Exception {
+        SpringServiceLocator.getFlexibleOffsetAccountService().setKualiConfigurationService(originalConfigService);
+        super.tearDown();
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -510,20 +526,28 @@ public class TransferOfFundsDocumentRuleTest
             SourceAccountingLine sourceAccountingLine = (SourceAccountingLine) doc.getSourceAccountingLines().get(i);
             sourceAccountingLine.setFinancialObjectCode(getFixtureEntry("nonMandatoryTransferObjectCodeForUAChart").getValue());
         }
-        
+
         for(int i = 0; i < doc.getTargetAccountingLines().size(); i++) {
             TargetAccountingLine sourceAccountingLine = (TargetAccountingLine) doc.getTargetAccountingLines().get(i);
             sourceAccountingLine.setFinancialObjectCode(getFixtureEntry("nonMandatoryTransferObjectCodeForUAChart").getValue());
         }
-        
+
         testAddAccountingLine( doc, true );
     }
 
     public void testProcessGenerateGeneralLedgerPendingEntries_validSourceExpenseFlexibleOffset()
         throws Exception {
+        SpringServiceLocator.getFlexibleOffsetAccountService().setKualiConfigurationService(createMockConfigurationService(true));
         testProcessGenerateGeneralLedgerPendingEntries(createLineFromFixture("flexibleExpenseSourceLine"),
             "expectedFlexibleExplicitSourcePendingEntryForExpense",
             "expectedFlexibleOffsetSourcePendingEntry");
+    }
+
+    private KualiConfigurationService createMockConfigurationService(boolean flexibleOffsetEnabled) {
+        return (KualiConfigurationService) MockService.createProxy(
+            KualiConfigurationService.class, "getRequiredApplicationParameterValue",
+            new Object[]{Constants.ParameterGroups.SYSTEM, Constants.SystemGroupParameterNames.FLEXIBLE_OFFSET_ENABLED_FLAG},
+            flexibleOffsetEnabled ? Constants.ParameterValues.YES : Constants.ParameterValues.NO);
     }
 
     ///////////////////////////////////////////////////////////////////////////

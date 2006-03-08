@@ -25,8 +25,11 @@ package org.kuali.module.financial.service;
 import java.lang.reflect.InvocationTargetException;
 
 import org.kuali.core.util.SpringServiceLocator;
-import org.kuali.test.KualiTestBaseWithSpring;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.module.financial.bo.OffsetAccount;
+import org.kuali.test.KualiTestBaseWithSpring;
+import org.kuali.test.MockService;
+import org.kuali.Constants;
 
 /**
  * This class...
@@ -35,15 +38,23 @@ import org.kuali.module.financial.bo.OffsetAccount;
  */
 public class FlexibleOffsetAccountServiceTest extends KualiTestBaseWithSpring {
     private FlexibleOffsetAccountService service;
+    private KualiConfigurationService originalConfigService;
 
     protected void setUp() throws Exception {
         super.setUp();
         service = SpringServiceLocator.getFlexibleOffsetAccountService();
+        originalConfigService = service.getKualiConfigurationService();
+    }
+
+    protected void tearDown() throws Exception {
+        service.setKualiConfigurationService(originalConfigService);
+        super.tearDown();
     }
 
     public void testGetByPrimaryId_valid()
         throws NoSuchMethodException, InvocationTargetException
     {
+        service.setKualiConfigurationService(createMockConfigurationService(true));
         OffsetAccount offsetAccount = service.getByPrimaryIdIfEnabled(getFixtureString("blChartOfAccounts"), getFixtureString(
             "blFlexAccountNumber"), getFixtureString("tofOffsetObjectCode"));
         assertSparselyEqualFixture("offsetAccount1", offsetAccount);
@@ -54,10 +65,38 @@ public class FlexibleOffsetAccountServiceTest extends KualiTestBaseWithSpring {
         assertEquals(getFixtureString("uaAccountNumber1"), offsetAccount.getFinancialOffsetAccount().getAccountNumber());
     }
 
+    public void testGetByPrimaryId_validDisabled()
+        throws NoSuchMethodException, InvocationTargetException
+    {
+        service.setKualiConfigurationService(createMockConfigurationService(false));
+        assertNull(service.getByPrimaryIdIfEnabled(getFixtureString("blChartOfAccounts"), getFixtureString(
+            "blFlexAccountNumber"), getFixtureString("tofOffsetObjectCode")));
+    }
+
     public void testGetByPrimaryId_invalid() {
+        service.setKualiConfigurationService(createMockConfigurationService(true));
         assertNull(service.getByPrimaryIdIfEnabled("XX", "XX", "XX"));
     }
 
+    public void testSingletonService() {
+        assertSame(service, SpringServiceLocator.getFlexibleOffsetAccountService());
+        SpringServiceLocator.getFlexibleOffsetAccountService().setKualiConfigurationService(createMockConfigurationService(true));
+        assertEquals(true, SpringServiceLocator.getFlexibleOffsetAccountService().getEnabled());
+        SpringServiceLocator.getFlexibleOffsetAccountService().setKualiConfigurationService(createMockConfigurationService(false));
+        assertEquals(false, SpringServiceLocator.getFlexibleOffsetAccountService().getEnabled());
+    }
+
+    private KualiConfigurationService createMockConfigurationService(boolean enabled) {
+        return (KualiConfigurationService) MockService.createProxy(
+            KualiConfigurationService.class, "getRequiredApplicationParameterValue",
+            new Object[]{Constants.ParameterGroups.SYSTEM, Constants.SystemGroupParameterNames.FLEXIBLE_OFFSET_ENABLED_FLAG},
+            enabled ? Constants.ParameterValues.YES : Constants.ParameterValues.NO);
+    }
+
+    /**
+     * Integration test to the database parameter table.
+     * The expected value may be changed as the database is changed, or removed if the database changes too frequently.
+     */
     public void testGetEnabled() {
         assertEquals(true, service.getEnabled());
     }

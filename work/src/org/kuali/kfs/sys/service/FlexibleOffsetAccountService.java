@@ -23,6 +23,7 @@
 package org.kuali.module.financial.service;
 
 import org.kuali.module.financial.bo.OffsetAccount;
+import org.kuali.core.service.KualiConfigurationService;
 
 /**
  * This interface defines methods that a FlexibleOffsetAccount Service must provide.
@@ -49,4 +50,20 @@ public interface FlexibleOffsetAccountService {
      * @return whether the SYSTEM parameter FLEXIBLE_OFFSET_ENABLED_FLAG is true.
      */
     public boolean getEnabled();
+
+    /**
+     * Sets the configuration service that this service will use.
+     * This method is in the interface for tests to use mock objects.
+     * Callers should keep in mind that Spring services are singletons,
+     * so changes to one are global.
+     *
+     * @param kualiConfigurationService
+     */
+    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService);
+
+    /**
+     * Gets the configuration service that this service uses.
+     * This method is in the interface for tests to restore after using mock objects.
+     */
+    public KualiConfigurationService getKualiConfigurationService();
 }

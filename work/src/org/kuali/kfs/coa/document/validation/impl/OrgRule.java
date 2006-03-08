@@ -82,8 +82,6 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
         //  check that all sub-objects whose keys are specified have matching objects in the db
         success &= checkExistenceAndActive();
 
-        success &= checkPlantAccountRules(document);
-        
         success &= checkOrgClosureRules(document);
         
         return success;
@@ -107,8 +105,6 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
         //  check that all sub-objects whose keys are specified have matching objects in the db
         success &= checkExistenceAndActive();
 
-        success &= checkPlantAccountRules(document);
-        
         success &= checkOrgClosureRules(document);
         
         return success;
@@ -130,8 +126,6 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
         //  check that all sub-objects whose keys are specified have matching objects in the db
         checkExistenceAndActive();
 
-        checkPlantAccountRules(document);
-        
         checkOrgClosureRules(document);
         
         return true;
@@ -182,9 +176,9 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
                 "Campus Plant Chart of Accounts Code");
         
         //  require Org Plant ChartCode
-        success &= checkEmptyBOField("CampusPlantAccountNumber", 
+        success &= checkEmptyBOField("campusPlantAccountNumber", 
                 newOrg.getCampusPlantAccountNumber(), 
-                "Campus Plant Chart of Accounts Code");
+                "Campus Plant Account Number");
         
         //  validate Org Plant Account
         success &= dictionaryValidationService.validateReferenceExistsAndIsActive(newOrg, "organizationPlantAccount", 
@@ -336,82 +330,6 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
     
     /**
      * 
-     * This method disallows changes to any of the plant account fields if 
-     * the user is not a member of the correct chartManager role
-     * 
-     * @param document - Maintenance document being tested
-     * @return - true if no errors are found, false if any are found
-     * 
-     */
-    protected boolean checkPlantAccountRules(MaintenanceDocument document) {
-        
-        boolean success = true;
-        
-        //  shortcut out with no enforcement if this org is closed
-        if (!newOrg.isOrganizationActiveIndicator()) {
-            return success;
-        }
-
-        //  if user is not the IU chart manager, dont let them edit or change OrgPlantAccount 
-        // or CampusPlantAccount information
-        if (!isChartManager) {
-            
-            String oldOrgPlantChartCode;
-            String oldOrgPlantAccountNumber;
-            String oldCampusPlantChartCode;
-            String oldCampusPlantAccountNumber;
-            String newOrgPlantChartCode = newOrg.getOrganizationPlantChartCode();
-            String newOrgPlantAccountNumber = newOrg.getOrganizationPlantAccountNumber();
-            String newCampusPlantChartCode = newOrg.getCampusPlantChartCode();
-            String newCampusPlantAccountNumber = newOrg.getCampusPlantAccountNumber();
-            
-            if (document.isNew()) {
-                oldOrgPlantChartCode = null;
-                oldOrgPlantAccountNumber = null;
-                oldCampusPlantChartCode = null;
-                oldCampusPlantAccountNumber = null;
-            }
-            else {
-                oldOrgPlantChartCode = oldOrg.getOrganizationPlantChartCode();
-                oldOrgPlantAccountNumber = oldOrg.getOrganizationPlantAccountNumber();
-                oldCampusPlantChartCode = oldOrg.getCampusPlantChartCode();
-                oldCampusPlantAccountNumber = oldOrg.getCampusPlantAccountNumber();
-            }
-
-            //  test org plant chart code
-            if (fieldsHaveChanged(oldOrgPlantChartCode, newOrgPlantChartCode)) {
-                success &= false;
-                putFieldError("organizationPlantChartCode", 
-                        KeyConstants.ERROR_DOCUMENT_ORGMAINT_ONLY_CHART_MGRS_MAY_MODIFY_ORG_PLANT_ACCT_CHARTCODE);
-            }
-            
-            //  test org plant account number
-            if (fieldsHaveChanged(oldOrgPlantAccountNumber, newOrgPlantAccountNumber)) {
-                success &= false;
-                putFieldError("organizationPlantAccountNumber", 
-                        KeyConstants.ERROR_DOCUMENT_ORGMAINT_ONLY_CHART_MGRS_MAY_MODIFY_ORG_PLANT_ACCT_NUMBER);
-            }
-            
-            //  test campus plant chart code
-            if (fieldsHaveChanged(oldCampusPlantChartCode, newCampusPlantChartCode)) {
-                success &= false;
-                putFieldError("campusPlantChartCode", 
-                        KeyConstants.ERROR_DOCUMENT_ORGMAINT_ONLY_CHART_MGRS_MAY_MODIFY_CAMPUS_PLANT_ACCT_CHARTCODE);
-            }
-            
-            //  test campus plant account number
-            if (fieldsHaveChanged(oldCampusPlantAccountNumber, newCampusPlantAccountNumber)) {
-                success &= false;
-                putFieldError("campusPlantAccountNumber", 
-                        KeyConstants.ERROR_DOCUMENT_ORGMAINT_ONLY_CHART_MGRS_MAY_MODIFY_CAMPUS_PLANT_ACCT_NUMBER);
-            }
-        }
-        
-        return success;
-    }
-    
-    /**
-     * 
      * This method compares an old and new value, and determines if they've changed.
      * 
      * If the old was null/blank, and the new is not, return true.
@@ -439,8 +357,10 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
 
         //  at this point, we know that we had a value before, and we have a 
         // value now, so we need to test whether this value has changed
-        if (!oldValue.trim().equalsIgnoreCase(newValue.trim())) {
-            return true;
+        if (oldValue != null && newValue != null) {
+            if (!oldValue.trim().equalsIgnoreCase(newValue.trim())) {
+                return true;
+            }
         }
         
         //  if we've made it to here, then no changes have happened to the values
@@ -458,7 +378,8 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
      */
     protected boolean isChartManager(KualiUser user) {
         
-        boolean success = true;
+        //  see if this person is manager for the requested chart
+        boolean success = user.isManagerForChart(newOrg.getChartOfAccountsCode());
         
         if (success) {
             LOG.info("User: [" + user.getPersonUserIdentifier() + "] " + user.getPersonName() + 

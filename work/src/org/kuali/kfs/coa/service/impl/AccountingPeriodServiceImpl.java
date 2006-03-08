@@ -32,6 +32,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import org.kuali.Constants;
+import org.kuali.PropertyConstants;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.chart.service.AccountingPeriodService;
@@ -70,7 +71,8 @@ public class AccountingPeriodServiceImpl implements AccountingPeriodService {
         HashMap map = new HashMap();
         map.put(Constants.ACCOUNTING_PERIOD_STATUS_CODE_FIELD, Constants.ACCOUNTING_PERIOD_STATUS_OPEN);
         
-        return businessObjectService.findMatching(AccountingPeriod.class, map);
+        return businessObjectService.findMatchingOrderBy(AccountingPeriod.class, map, 
+                PropertyConstants.ACCTING_PERIOD_UNIV_FISCAL_PERIOD_END_DATE, true);
     }
         
     /**

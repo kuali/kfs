@@ -23,7 +23,6 @@
 package org.kuali.module.gl.service.impl;
 
 import java.sql.Date;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
@@ -72,7 +71,7 @@ import org.springframework.util.StringUtils;
 
 /**
  * @author Anthony Potts
- * @version $Id: ScrubberServiceImpl.java,v 1.63 2006-03-07 14:41:20 larevans Exp $
+ * @version $Id: ScrubberServiceImpl.java,v 1.64 2006-03-08 17:52:50 wesprice Exp $
  */
 
 public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {

@@ -29,7 +29,6 @@ import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.module.chart.bo.OffsetDefinition;
-import org.kuali.module.chart.bo.SubAccount;
 import org.kuali.module.financial.rules.KualiParameterRule;
 
 public class OffsetDefinitionRule extends MaintenanceDocumentRuleBase {

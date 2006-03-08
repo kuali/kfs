@@ -1,4 +1,4 @@
-kuali-*.war
+*.war
 dist
 .clover
 ${test.temp.directory}

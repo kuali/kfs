@@ -21,7 +21,8 @@
     	</delete>
 		<delete dir="${war.directory}"/>
 		<delete dir="${test.directory}"/>
-        <delete>
+		<delete dir="${plugin.directory}"/>
+		<delete>
 			<fileset dir="." includes="*.war"/>
 		</delete>
 	</target>
@@ -32,6 +33,27 @@
 		</copy>
 		<jar jarfile="${ant.project.name}-${build.environment}.war" basedir="${war.directory}" compress="false"/>
     </target>
+	
+	<target name="dist-plugin" depends="make-plugin" description="Build plugin zip for remote deployment">
+		<zip destfile="en-plugins.zip" basedir="${plugin.directory}"/>
+	</target>
+	
+	<target name="dist-batch" depends="clean,make-source" description="Build batch zip for remote deployment">
+		<copy todir="${batch.directory}">
+			<fileset dir="${batch.script.directory}"/>
+		</copy>
+		<jar jarfile="${batch.directory}/${ant.project.name}.jar" basedir="${war.classes.directory}" compress="false"/>
+		<copy todir="${batch.lib.directory}">
+			<fileset dir="${lib.directory}"/>
+			<fileset file="${appserver.lib.dir}/servlet-api.jar"/>
+			<fileset file="${appserver.lib.dir}/${oracle.library.file}"/>
+		</copy>
+		<zip basedir="${batch.directory}" destfile="${ant.project.name}-${build.environment}.zip"/>
+	</target>
+
+	<target name="continuous-integration" depends="test-all" description="Run all tests and fail if there are failures or errors">
+		<fail if="tests.failed" message="Tests failed"/>
+	</target>
 			
 	<target name="init-user-properties">
     	<property file="${user.home}/${ant.project.name}-build.properties"/>
@@ -86,6 +108,7 @@
 			<filter token="use-p6spy" value="${use.p6spy}"/>
 			<filter token="context-docbase" value="${context.docbase}"/>
 			<filter token="standard-out-appender" value="${standard.out.appender}"/>
+			<filter token="variable-ojb-properties" value="${application.ojb.properties}"/>
 		</filterset>
 		<filterset id="security.filterset">
 	    	<filter token="datasource-url" value="${datasource.url}"/>
@@ -93,6 +116,9 @@
 	    	<filter token="datasource-password" value="${datasource.password}"/>
 			<filter token="keystore-password" value="${keystore.password}"/>
 		</filterset>
+		<filterset id="plugin.filterset">
+			<filter token="variable-ojb-properties" value="${plugin.ojb.properties}"/>
+		</filterset>		
    	</target>
 
 	<target name="clean-config" if="is.local.build" depends="init-project-properties">
@@ -100,16 +126,15 @@
 		<delete dir="${settings.directory}"/>
 		<delete dir="${security.directory}"/>
 		<delete dir="${logs.directory}"/>
+		<delete>
+			<fileset dir="${plugin.deploy.directory}"/>
+		</delete>		
         <delete>
 			<fileset dir="." includes="*.zip"/>
 		</delete>
         <delete>
 			<fileset dir="${appserver.config.dir}" includes="${ant.project.name}-*.xml"/>
 		</delete>
-		<delete dir="${plugin.directory}" />
-		<delete failonerror="false">
-			<fileset dir="${plugin.deploy.directory}/kuali" />
-		</delete>		
 	</target>	
 
 	<target name="filter" depends="init-filter-sets,filter-config">
@@ -122,9 +147,6 @@
         </copy>
 		<copy todir="${source.directory}" overwrite="true">
 			<fileset dir="${build.tokenized.resources.directory}" includes="${tokenized.source.files}"/>
-            <filterset refid="general.filterset"/>
-    	</copy>
-    	<copy file="${build.tokenized.resources.directory}/${test.spring.datasource.file}" todir="${test.source.directory}" overwrite="true">
             <filterset refid="general.filterset"/>
     	</copy>
     </target>
@@ -209,7 +231,7 @@
 	
 	<target name="init-test-fast" depends="init-project-properties">
 		<fileset id="test.fileset" dir="${test.source.directory}">
-	        <include name="**/*Test.java"/>
+	        <include name="**/AccountingLineBaseTest.java"/>
 			<exclude name="**/DocumentServiceTest.java"/>
 	        <exclude name="**/GeneralErrorCorrectionDocumentTest.java"/>
 	        <exclude name="**/KualiRuleServiceTest.java"/>
@@ -249,87 +271,31 @@
         </junitreport>
         <echo message="Generated test results: ${test.html.results.directory}/index.html" />
     </target>
-
 	
-
-
-	<target name="dist-plugin" depends="make-source">
-		<property name="plugin.build" value="${plugin.directory}/build" />
-		<mkdir dir="${plugin.build}" />
-		<mkdir dir="${plugin.build}/lib" />
-		<mkdir dir="${plugin.build}/classes" />
-		<mkdir dir="${plugin.build}/META-INF" />
-		<copy todir="${plugin.build}/lib">
-			<fileset dir="${lib.directory}">
-				<exclude name="workflow-client-2.1.jar" />
-				<exclude name="jta-1.0.1b.jar" />
-				<exclude name="axis.jar" />
-				<exclude name="jaxrpc.jar" />
-				<exclude name="kuali_workflow.jar" />
-				<exclude name="wss4j.jar" />
-				<exclude name="jdom.jar" />
-				<exclude name="xalan.jar"/>
-				<exclude name="xml-apis.jar"/>
-			</fileset>
+	<target name="make-plugin" depends="clean,make-source">
+		<copy todir="${plugin.lib.directory}">
+			<fileset dir="${lib.directory}" excludes="${workflow.exclude.library.list}"/>
 		</copy>
-		<copy todir="${plugin.build}/classes">
-			<fileset dir="${war.classes.directory}">
-				<exclude name="OJB.properties"/>
-			</fileset>
+		<copy todir="${plugin.classes.directory}">
+			<fileset dir="${war.classes.directory}"/>
 		</copy>
-		<!-- overwrite the OJB.properties file with the OJB-workflow-plugin.properties -->
-		<copy file="${plugin.build}/classes/OJB-workflow-plugin.properties" tofile="${plugin.build}/classes/OJB.properties" overwrite="true"/>
-		<!-- overwrite the web app workflow-config.propertis this is necessary until we can figure out
-			how to get the web services running in the plugin -->
-		<copy todir="${plugin.build}/classes" overwrite="true">
-			<fileset file="${build.config.directory}/workflow/workflow-config.properties"/>
-		</copy>
-
-		<copy todir="${plugin.build}/META-INF">
-			<fileset file="${build.config.directory}/workflow/workflow.xml"/>
-		</copy>
-		<zip destfile="en-plugins.zip" basedir="${plugin.build}" />
-	</target>
-
-	<target name="dev-deploy-plugin" depends="make-source">
-
-		<copy todir="${plugin.deploy.directory}/kuali/lib">
-			<fileset dir="${lib.directory}">
-				<exclude name="workflow-client-2.1.jar" />
-				<exclude name="jta-1.0.1b.jar" />
-				<exclude name="axis.jar" />
-				<exclude name="jaxrpc.jar" />
-				<exclude name="kuali_workflow.jar" />
-				<exclude name="wss4j.jar" />
-				<exclude name="jdom.jar" />
-				<exclude name="xalan.jar" />
-				<exclude name="xml-apis.jar" />
-			</fileset>
-		</copy>
-		<copy todir="${plugin.deploy.directory}/kuali/classes">
-			<fileset dir="${war.classes.directory}" />
-		</copy>
-		<!-- overwrite the OJB.properties file with the OJB-workflow-plugin.properties -->
-		<copy file="${plugin.deploy.directory}/kuali/classes/OJB-workflow-plugin.properties" tofile="${plugin.deploy.directory}/kuali/classes/OJB.properties" overwrite="true"/>
-		<!-- overwrite the web app workflow-config.propertis this is necessary until we can figure out
-					how to get the web services running in the plugin -->
-		<copy todir="${plugin.deploy.directory}/kuali/classes" overwrite="true">
-			<fileset file="${build.config.directory}/workflow/workflow-config.properties" />
-		</copy>
-
-		<copy todir="${plugin.deploy.directory}/kuali/META-INF" overwrite="true">
-			<fileset file="${build.config.directory}/workflow/workflow.xml" />
+		<copy file="${build.tokenized.resources.directory}/OJB.properties" todir="${plugin.classes.directory}" overwrite="true">
+            <filterset refid="plugin.filterset"/>
+    	</copy>
+		<replaceregexp file="${plugin.classes.directory}/workflow-config.properties" flags="-s" match=".+" replace=""/>
+		<copy todir="${plugin.metainf.directory}">
+			<fileset file="${build.workflow.directory}/workflow.xml"/>
 		</copy>
 	</target>
 
-
-	<target name="continuous-integration" depends="test-all">
-		<echo message="${tests.failed} / ${tests.errored}"/>
-		<fail if="tests.failed" message="Tests failed"/>
+	<target name="dist-plugin-local" depends="make-plugin">
+		<copy todir="${plugin.deploy.directory}">
+			<fileset dir="${plugin.directory}"/>
+		</copy>
 	</target>
 	
 	<target name="help" description="Describe public targets">
-		<echo>build
+		<echo>overview
 	the following configuration files are involved in the build process
 			build.xml
 			build.properties
@@ -394,6 +360,21 @@
 		<echo>dist target
 	description:
 		builds war for remote deployment
+		</echo>
+		<echo message="."/>
+		<echo>dist-plugin target
+	description:
+		builds plugin zip for remote deployment
+		</echo>
+		<echo message="."/>
+		<echo>dist-batch target
+	description:
+		builds batch zip for remote deployment
+		</echo>
+		<echo message="."/>
+		<echo>continuous-integration target
+	description:
+		runs all project tests and fails if there are failures or errors
 		</echo>
 	</target>
 </project>

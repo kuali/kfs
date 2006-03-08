@@ -5,3 +5,5 @@ SpringDataSource.xml
 workflow-config.properties
 workflow-crypto.properties
 PluginSpringDataSource.xml
+JndiSpringDataSource.xml
+SpringDataSourceResources.xml

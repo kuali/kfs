@@ -1,7 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
+<!-- The following is temporary, only until SH_UNIV_DATE_T is corrected in the databse -->
+
+    <bean id="kraDateTimeService" class="org.kuali.module.kra.service.impl.DateTimeServiceImpl">
+        <property name="universityDateDao"><ref bean="kraUniversityDateDao"/></property>
+    </bean>
+
+    <bean id="kraUniversityDateDao" class="org.kuali.module.kra.dao.ojb.UniversityDateDaoOjb" />
+
     <bean id="budgetService" class="org.kuali.module.kra.service.impl.BudgetServiceImpl">
+        <property name="documentService">
+            <ref bean="documentService" />
+        </property>
         <property name="budgetFringeRateService">
             <ref bean="budgetFringeRateService" />
         </property>
@@ -87,7 +98,7 @@
     
     <bean id="budgetPersonnelService" class="org.kuali.module.kra.service.impl.BudgetPersonnelServiceImpl">
         <property name="dateTimeService">
-            <ref bean="dateTimeService" />
+            <ref bean="kraDateTimeService" />
         </property>
         <property name="budgetFringeRateService">
             <ref bean="budgetFringeRateService" />

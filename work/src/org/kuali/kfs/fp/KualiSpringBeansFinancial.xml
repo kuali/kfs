@@ -39,34 +39,7 @@
            <ref bean="dateTimeService"/>
         </property>
     </bean>
-    
-    <bean id="depositDocumentService" class="org.kuali.module.financial.service.impl.DepositDocumentServiceImpl">
-        <property name="businessObjectService">
-            <ref bean="businessObjectService" />
-        </property>
-        <property name="workflowDocumentService">
-            <ref bean="workflowDocumentService" />
-        </property>
-        <property name="documentService">
-            <ref bean="documentService" />
-        </property>
-        <property name="dateTimeService">
-            <ref bean="dateTimeService" />
-        </property>
-    </bean>
-    
-    <bean id="cashManagementDocumentService" class="org.kuali.module.financial.service.impl.CashManagementDocumentServiceImpl">
-        <property name="documentService">
-            <ref bean="documentService" />
-        </property>
-        <property name="depositDocumentService">
-            <ref bean="depositDocumentService" />
-        </property>
-        <property name="cashDrawerService">
-            <ref bean="cashDrawerService" />
-        </property>
-    </bean>
-    
+        
     <bean id="checkService" class="org.kuali.module.financial.service.impl.CheckServiceImpl">
        <property name="checkDao">
           <ref bean="checkDao"/>
@@ -82,6 +55,18 @@
      <bean id="accountPresenceService" class="org.kuali.module.financial.service.impl.AccountPresenceServiceImpl">
         <property name="balanceDao">
             <ref bean="glBalanceDao" />
+        </property>
+     </bean>
+     
+     <bean id="cashManagementService" class="org.kuali.module.financial.service.impl.CashManagementServiceImpl">
+        <property name="businessObjectService">
+            <ref bean="businessObjectService" />
+        </property>
+        <property name="workflowDocumentService">
+            <ref bean="workflowDocumentService" />
+        </property>
+        <property name="documentService">
+            <ref bean="documentService" />
         </property>
      </bean>
 

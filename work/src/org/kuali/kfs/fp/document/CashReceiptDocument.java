@@ -118,7 +118,7 @@ public class CashReceiptDocument extends TransactionalDocumentBase {
     public KualiDecimal getTotalCashAmount() {
         return totalCashAmount;
     }
-    
+
     /**
      * This method returns the cash total amount as a currency formatted string.
      * 
@@ -259,7 +259,7 @@ public class CashReceiptDocument extends TransactionalDocumentBase {
     public KualiDecimal getTotalCheckAmount() {
         return totalCheckAmount;
     }
-    
+
     /**
      * This method returns the check total amount as a currency formatted string.
      * 
@@ -286,7 +286,7 @@ public class CashReceiptDocument extends TransactionalDocumentBase {
     public KualiDecimal getTotalCoinAmount() {
         return totalCoinAmount;
     }
-    
+
     /**
      * This method returns the coin total amount as a currency formatted string.
      * 
@@ -306,8 +306,7 @@ public class CashReceiptDocument extends TransactionalDocumentBase {
     }
 
     /**
-     * This method returns the overall total of the document - coin plus check 
-     * plus cash.
+     * This method returns the overall total of the document - coin plus check plus cash.
      * 
      * @return KualiDecimal
      */
@@ -323,7 +322,7 @@ public class CashReceiptDocument extends TransactionalDocumentBase {
     public String getCurrencyFormattedSumTotalAmount() {
         return (String) new CurrencyFormatter().format(getSumTotalAmount());
     }
-    
+
     /**
      * Overrides the base implementation to return an empty string.
      * 
@@ -350,17 +349,16 @@ public class CashReceiptDocument extends TransactionalDocumentBase {
         for (Iterator i = getChecks().iterator(); i.hasNext();) {
             Check c = (Check) i.next();
             if(null != c.getAmount()) {
-                total = total.add(c.getAmount());
-            }
+            total = total.add(c.getAmount());
+        }
         }
 
         return total;
     }
-    
+
     /**
-     * Override to set the document status to VERIFIED ("V") when the document is FINAL. 
-     * When the Cash Management document that this is associated with is FINAL approved, 
-     * this status will be set to APPROVED ("A") to be picked up by the GL for processing. 
+     * Override to set the document status to VERIFIED ("V") when the document is FINAL. When the Cash Management document that this
+     * is associated with is FINAL approved, this status will be set to APPROVED ("A") to be picked up by the GL for processing.
      * That's done in the handleRouteStatusChange() method in the CashManagementDocument.
      * 
      * @see org.kuali.core.document.Document#handleRouteStatusChange(java.lang.String)
@@ -370,7 +368,8 @@ public class CashReceiptDocument extends TransactionalDocumentBase {
         if (EdenConstants.ROUTE_HEADER_PROCESSED_CD.equals(newRouteStatus)
                 || EdenConstants.ROUTE_HEADER_APPROVED_CD.equals(newRouteStatus)
                 || EdenConstants.ROUTE_HEADER_FINAL_CD.equals(newRouteStatus)) {
-            this.getDocumentHeader().setFinancialDocumentStatusCode(Constants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED);
+            this.getDocumentHeader().setFinancialDocumentStatusCode(
+                    Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED);
             SpringServiceLocator.getDocumentService().updateDocument(this);
         }
     }

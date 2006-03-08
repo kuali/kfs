@@ -39,7 +39,6 @@ import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.bo.OffsetDefinition;
 import org.kuali.module.chart.service.AccountService;
@@ -71,7 +70,7 @@ import org.springframework.util.StringUtils;
 
 /**
  * @author Anthony Potts
- * @version $Id: ScrubberServiceImpl.java,v 1.64 2006-03-08 17:52:50 wesprice Exp $
+ * @version $Id: ScrubberServiceImpl.java,v 1.65 2006-03-08 21:39:21 larevans Exp $
  */
 
 public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
@@ -123,7 +122,9 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
     static private String[] invalidDocumentTypesForLiabilities = new String[] {
             "TF", "YETF", "AV", "AVAC", "AVAE", "AVRC"
     };
-
+    static private String[] invalidFiscalPeriodCodesForOffsetGeneration = new String[] {
+        "BB", "CB"
+    };
     
     private BeanFactory beanFactory;
     private OriginEntryService originEntryService;
@@ -147,7 +148,7 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
     Map batchError;
 
 //    private Calendar wsPreviousCal;
-    private String wsAccountChange;
+    //private String wsAccountChange;
     
     private ScrubberServiceValidationHelper validator;
     
@@ -504,7 +505,11 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
             OriginEntryInfo workingEntryInfo = 
             	validateOriginEntryAndBuildWorkingEntry(currentEntry, unitOfWorkInfo);
             
-            updateAmountsForUnitOfWork(currentEntry, unitOfWorkInfo);
+            // TODO (laran) not sure if this should be the workingEntry or the originEntry that 
+            // gets fed to updateAmountsForUnitOfWork.
+            
+            // updateAmountsForUnitOfWork(currentEntry, unitOfWorkInfo);
+            updateAmountsForUnitOfWork(workingEntryInfo.getOriginEntry(), unitOfWorkInfo);
 
             // TODO (laran) figure out how and why processCostSharing and handleCostSharing are different?
             handleCostSharing(currentEntry, workingEntryInfo);
@@ -517,16 +522,16 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         		createOutputEntry(currentEntry, errorGroup);
         		batchInfo.errorRecordWritten();
         		
-            } else if (workingEntryInfo.getAccount().isAccountClosedIndicator()) { // Handle entries with expired accounts
+            } else if (workingEntryInfo.getAccount().isAccountClosedIndicator()) { // Handle entries with closed accounts
             	
-    		    OriginEntry expiredEntry = new OriginEntry(workingEntryInfo.getOriginEntry());
-    		    
-    		    Account expiredAccount = workingEntryInfo.getAccount();
-    		    expiredEntry.setAccountNumber(expiredAccount.getAccountNumber());
-    		    expiredEntry.setChartOfAccountsCode(expiredAccount.getChartOfAccountsCode());
+//    		    OriginEntry closedEntry = new OriginEntry(workingEntryInfo.getOriginEntry());
+//    		    
+//    		    Account closedAccount = workingEntryInfo.getAccount();
+//    		    closedEntry.setAccountNumber(closedAccount.getAccountNumber());
+//    		    closedEntry.setChartOfAccountsCode(closedAccount.getChartOfAccountsCode());
     		    
     		    // write expiredEntry as expired
-    		    createOutputEntry(expiredEntry, expiredGroup);
+    		    createOutputEntry(workingEntryInfo.getOriginEntry(), expiredGroup);
     		    batchInfo.expiredAccountFound();
     		    
     		} else {                                                               // Handle valid entries
@@ -660,6 +665,7 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         workingEntry.setOption(originEntry.getOption());
         
         validator.validateTransactionDate(originEntry, workingEntryInfo, runDate, universityDateDao);
+        validator.validateTransactionAmount(originEntry, workingEntryInfo);
         validator.validateAccount(originEntry, workingEntryInfo, accountService, runCal);
         validator.validateSubAccount(originEntry, workingEntryInfo);
         validator.validateSubObjectCode(originEntry, workingEntryInfo);
@@ -733,111 +739,58 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
 	 * @param originEntry
 	 */
 	private void updateAmountsForUnitOfWork(OriginEntry originEntry, UnitOfWorkInfo unitOfWorkInfo) {
-		
-//        3040  019470     IF TRN-LDGR-ENTR-AMT OF GLEN-RECORD NUMERIC
-//        3041  019480        IF CABTYP-FIN-OFFST-GNRTN-CD = 'Y' OR 'C'
-//        3042  019490           IF TRN-LDGR-ENTR-AMT OF GLEN-RECORD > ZEROES OR
-//        3043  019500              TRN-LDGR-ENTR-AMT OF GLEN-RECORD = ZEROES
-//        3044  019510              MOVE TRN-LDGR-ENTR-AMT OF GLEN-RECORD
-//        3045  019520                TO TRN-LDGR-ENTR-AMT OF ALT-GLEN-RECORD
-//        3046  019530           ELSE
-//        3047  019540              MOVE GLEN-RECORD (1:51) TO RP-TABLE-KEY
-//        3048  019550              MOVE CABTYP-FIN-OFFST-GNRTN-CD
-//        3049  019560                   TO RP-DATA-ERROR
-//        3050  019570              MOVE 'NEG AMT INV W/ OFFST GN CD=Y,C' TO
-//        3051  019580                      RP-MSG-ERROR
-//        3052  019590              PERFORM WRITE-ERROR-LINE THRU WRITE-ERROR-LINE-EXIT
-//        3053  019600           END-IF
-//        3054  019610        ELSE
-//        3055  019620           MOVE TRN-LDGR-ENTR-AMT OF GLEN-RECORD
-//        3056  019630             TO TRN-LDGR-ENTR-AMT OF ALT-GLEN-RECORD
-//        3057  019640        END-IF
-//        3058  019650     ELSE
-//        3059  019660              MOVE GLEN-RECORD (1:51) TO RP-TABLE-KEY
-//        3060  019670              MOVE ZEROS TO TRN-LDGR-ENTR-AMT OF GLEN-RECORD
-//        3061  019680                            TRN-LDGR-ENTR-AMT OF ALT-GLEN-RECORD
-//        3062                      MOVE SPACES TO RP-DATA-ERROR
-//        3063  019690              MOVE 'LEDGER AMOUNT IS NOT NUMERIC' TO RP-MSG-ERROR
-//        3064  019700              PERFORM WRITE-ERROR-LINE THRU WRITE-ERROR-LINE-EXIT
-//        3065  019710     END-IF
-//        3066  019750     IF CABTYP-FIN-OFFST-GNRTN-CD = 'N'
-//        3067  019760        IF TRN-DEBIT-CRDT-CD OF GLEN-RECORD =
-//        3068  019770           SPACES
-//        3069  019780           MOVE SPACES
-//        3070  019790             TO TRN-DEBIT-CRDT-CD OF ALT-GLEN-RECORD
-//        3071  019800        ELSE
-//        3072  019810              MOVE GLEN-RECORD (1:51) TO RP-TABLE-KEY
-//        3073  019820              MOVE TRN-DEBIT-CRDT-CD OF GLEN-RECORD
-//        3074  019830                   TO RP-DATA-ERROR
-//        3075  019840              MOVE 'DEBIT/CREDIT IND MUST BE SPACE' TO
-//        3076  019850                     RP-MSG-ERROR
-//        3077  019860              PERFORM WRITE-ERROR-LINE THRU WRITE-ERROR-LINE-EXIT
-//        3078  019870        END-IF
-//        3079  019880     ELSE
-//        3080  019890        IF TRN-DEBIT-CRDT-CD OF GLEN-RECORD = SPACES
-//        3081  019900              MOVE GLEN-RECORD (1:51) TO RP-TABLE-KEY
-//        3082  019910              MOVE TRN-DEBIT-CRDT-CD OF GLEN-RECORD
-//        3083  019920                   TO RP-DATA-ERROR
-//        3084  019930              MOVE 'DB/CR IND ON DTYP NOT D OR C ' TO
-//        3085  019940                     RP-MSG-ERROR
-//        3086  019950              PERFORM WRITE-ERROR-LINE THRU WRITE-ERROR-LINE-EXIT
-//        3087  019960        END-IF
-//        3088  019970        IF TRN-DEBIT-CRDT-CD OF GLEN-RECORD = DEBIT OR CREDIT
-//        3089  019980              MOVE TRN-DEBIT-CRDT-CD OF GLEN-RECORD
-//        3090  019990                TO TRN-DEBIT-CRDT-CD OF ALT-GLEN-RECORD
-//        3091  020000        ELSE
-//        3092  020010              MOVE GLEN-RECORD (1:51) TO RP-TABLE-KEY
-//        3093  020020              MOVE TRN-DEBIT-CRDT-CD OF GLEN-RECORD
-//        3094  020030                   TO RP-DATA-ERROR
-//        3095  020040              MOVE 'DB/CR IND ON OTYP NOT D OR C ' TO
-//        3096  020050                     RP-MSG-ERROR
-//        3097  020060              PERFORM WRITE-ERROR-LINE THRU WRITE-ERROR-LINE-EXIT
-//        3098  020070        END-IF
-//        3099  020080     END-IF        
+
+        //            3400  023200     IF CABTYP-FIN-OFFST-GNRTN-CD = 'Y'
+        //            3401  023210        AND (FDOC-TYP-CD OF GLEN-RECORD NOT = 'ACLO'
+        //            3402  023220             AND UNIV-FISCAL-PRD-CD OF GLEN-RECORD NOT
+        //            3403  023230             = 'BB' AND UNIV-FISCAL-PRD-CD OF GLEN-RECORD
+        //            3404  023240             NOT = 'CB')
+        //            3405  023250        IF TRN-DEBIT-CRDT-CD OF ALT-GLEN-RECORD = DEBIT
+        //            3406  023260           ADD      TRN-LDGR-ENTR-AMT OF GLEN-RECORD
+        //            3407  023270            TO      SCRB-OFFSET-AMOUNT
+        //            3408  023280        ELSE
+        //            3409  023290           SUBTRACT TRN-LDGR-ENTR-AMT OF GLEN-RECORD
+        //            3410  023300               FROM SCRB-OFFSET-AMOUNT
+        //            3411  023310        END-IF
+        //            3412  023320     END-IF
         
+        if(!ObjectHelper.isNull(originEntry.getBalanceType())
+                && originEntry.getBalanceType().isFinancialOffsetGenerationIndicator()
+                && !"ACLO".equals(originEntry.getFinancialDocumentTypeCode())
+                && !ObjectHelper.isOneOf(
+                        originEntry.getUniversityFiscalPeriodCode(), 
+                        invalidFiscalPeriodCodesForOffsetGeneration)) {
+            
+            if(originEntry.isDebit()) {
+                
+                unitOfWorkInfo.getTotalOffsetAmount().add(originEntry.getTransactionLedgerEntryAmount());
+                
+            } else {
+                
+                unitOfWorkInfo.getTotalOffsetAmount().subtract(originEntry.getTransactionLedgerEntryAmount());
+                
+            }
+            
+        }
         
-        // TODO PICK UP HERE ...
+        //      3413  023360     EVALUATE TRN-DEBIT-CRDT-CD OF ALT-GLEN-RECORD
+        //      3414  023370        WHEN 'D'
+        //      3415  023380           ADD TRN-LDGR-ENTR-AMT   OF GLEN-RECORD
+        //      3416  023390            TO SCRB-DEBIT-ACCUM-AMOUNT
+        //      3417  023400        WHEN 'C'
+        //      3418  023410           ADD TRN-LDGR-ENTR-AMT   OF GLEN-RECORD
+        //      3419  023420            TO SCRB-CREDIT-ACCUM-AMOUNT
+        //      3420  023430     END-EVALUATE
         
-        
-		// if offsetGenerationCode = "Y" AND DocumentType = "ACLO" (annual
-        // closing) AND UniversityFiscalPeriod != "BB" (beginning balance) AND
-        // UniversityFiscalPeriod != "CB" (contract balance)
-        // if TransactionDebitCreditCode = "D"
-        //  add amount to offsetAmountAccumulator
-        //  add to debitAmountAccumulator
-        // else
-        //  subtract amount from offsetAmountAccumulator
-        //  add to creditAmountAccumulator
-        
-        
-//        if (null != originEntry.getBalanceType() 
-//        		&& originEntry.getBalanceType().isFinancialOffsetGenerationIndicator()
-//                && !"BB".equals(originEntry.getUniversityFiscalPeriodCode())
-//                && !"CB".equals(originEntry.getUniversityFiscalPeriodCode())
-//                && null != originEntry.getFinancialDocumentTypeCode()
-//                && !originEntry.getFinancialDocumentTypeCode().equals("ACLO")) {
-//            
-//            if (originEntry.isDebit()) {
-//                
-//                unitOfWorkInfo.getTotalOffsetAmount().add(originEntry.getTransactionLedgerEntryAmount());
-//                
-//            } else {
-//                
-//            	unitOfWorkInfo.getTotalOffsetAmount().subtract(originEntry.getTransactionLedgerEntryAmount());
-//                
-//            }
-//            
-//        }
-//        
-//        if (originEntry.isDebit()) {
-//        	
-//            unitOfWorkInfo.getTotalDebitAmount().add(originEntry.getTransactionLedgerEntryAmount());
-//            
-//        } else {
-//        	
-//        	unitOfWorkInfo.getTotalCreditAmount().add(originEntry.getTransactionLedgerEntryAmount());
-//        	
-//        }
+        if("D".equals(originEntry.getTransactionDebitCreditCode())) {
+            
+            unitOfWorkInfo.getTotalDebitAmount().add(originEntry.getTransactionLedgerEntryAmount());
+            
+        } else if ("C".equals(originEntry.getTransactionDebitCreditCode())) {
+            
+            unitOfWorkInfo.getTotalCreditAmount().add(originEntry.getTransactionLedgerEntryAmount());
+            
+        }
         
 	}
 
@@ -862,104 +815,6 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
             && ObjectHelper.isEqual(currentEntry.getUniversityFiscalPeriodCode(), nextEntry.getUniversityFiscalPeriodCode());
         
     }
-    
-    /**
-     * 2510-CHECK-UOW
-     * 
-     * The purpose of this method is to determine wether or not an 
-     * offset entry should be generated. It uses the "unit of work" 
-     * to make this decision. 
-     * 
-     * The unit of work is made up of the following fields: 
-     * <ul>
-     *         <li>document type code</li>
-     *         <li>origin code</li>
-     *         <li>document number</li>
-     *         <li>chart of accounts code</li>
-     *         <li>account number</li>
-     *         <li>sub-account number</li>
-     *         <li>balance type</li>
-     *         <li>dcoument reversal date</li>
-     *         <li>fiscal period</li>
-     * </ul>
-     * 
-     * If the unit of work for the current transaction is different 
-     * than the unit of work of the previous transaction and the offset
-     * accumulator is not equal to zero then an offset should be 
-     * generated. 
-     * 
-     * Note, offsets will not be generated if:
-     * <ul>
-     *         <li>the document type of the entry corresponds to a journal 
-     *             voucher</li>
-     *         <li>the document type of the entry corresponds to an annual 
-     *             closing</li>
-     *         <li>there were any errors in processing to this point</li> 
-     * </ul>
-     * 
-     * The actual offset transaction is built in the method 3000-offset 
-     * and then written to the database in this method.
-     *  
-     * This method is also responsible for initializing any work field 
-     * used in the scrubber.
-     * 
-     * @param originEntry
-     * @param workingEntry
-     */
-//    private void checkUnitOfWork(OriginEntryInfo workingEntryInfo) {
-//    	OriginEntry workingEntry = workingEntryInfo.getOriginEntry();
-//        //See if the unit of work has changed, if not return.
-//
-//        // TODO: Address claim on cash here
-//
-//        // FIXME (laran) The code in the if block below generates output entries.
-//        // Should this happen in a method called checkUnitOfWork?
-//        // Shouldn't that be part of processUnitOfWork?
-//        // Additionally, the workingEntry is always null at this point.
-//        
-//        // Check scrbOffsetAmount to see if an offset needs to be generated.
-//        if(scrubberUtil.offsetAmountAccumulator.isNonZero() &&
-//                batchError.size() == 0 &&
-//                !"JV".equals(workingEntry.getFinancialDocumentTypeCode())) {
-//
-//            // TODO FIXME: Need to implement logic to account for annual closing documents
-//            // FIXME: here as well.
-//            // FIXME: add the following line to the if statement above.
-//            // FIXME: && !"ACLO".equals(workingEntry.getFinancialDocumentTypeCode())
-//
-//            generateOffset(workingEntryInfo);
-//            this.writeSwitchStatusCD = ScrubberUtil.FROM_OFFSET;
-//
-//            if (transactionErrors.size() > 0) {
-//                createOutputEntry(workingEntry, errorGroup);
-//                writeErrors();
-//            } else {
-//                createOutputEntry(workingEntry, validGroup);                
-//            }
-//
-//            initScrubberValues();
-//
-//            return;
-//        }
-//    }// End of method
-
-    /**
-     * Copies the primary fields only from one entry to another
-     * 
-     * @param fromEntry
-     * @param toEntry
-     */
-//    private void copyPrimaryFields(OriginEntry fromEntry, OriginEntry toEntry) {
-//        toEntry.setChartOfAccountsCode(fromEntry.getChartOfAccountsCode());
-//        toEntry.setFinancialDocumentTypeCode(fromEntry.getFinancialDocumentTypeCode());
-//        toEntry.setFinancialSystemOriginationCode(fromEntry.getFinancialSystemOriginationCode());
-//        toEntry.setFinancialDocumentNumber(fromEntry.getFinancialDocumentNumber());
-//        toEntry.setAccountNumber(fromEntry.getAccountNumber());
-//        toEntry.setSubAccountNumber(fromEntry.getSubAccountNumber());
-//        toEntry.setFinancialBalanceTypeCode(fromEntry.getFinancialBalanceTypeCode());
-//        toEntry.setFinancialDocumentReversalDate(fromEntry.getFinancialDocumentReversalDate());
-//        toEntry.setUniversityFiscalPeriodCode(fromEntry.getUniversityFiscalPeriodCode());
-//    }
 
     /**
      * @param workingEntryInfo
@@ -1585,8 +1440,18 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
 //        3991  030070             = RTRIM(:GLOFSD-FIN-BALANCE-TYP-CD)
 //        3992  030080     END-EXEC
 
-        // Lookup the offset definition appropriate for this entry.
+        // If the offset amount is zero, don't bother to lookup the offset definition ...
+        // NOTE (laran) this is a rule that Sterling suggested.
+        
+        if(unitOfWorkInfo.getTotalOffsetAmount().isZero()) {
+            
+            return;
+            
+        }
+        
+        // ... otherwise lookup the offset definition appropriate for this entry.
         // We need the offset object code from it.
+        
         OffsetDefinition offsetDefinition = offsetDefinitionService.getByPrimaryId(
             workingEntry.getUniversityFiscalYear(),
             workingEntry.getChartOfAccountsCode(),

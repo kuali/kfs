@@ -53,7 +53,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
         Calendar c = Calendar.getInstance();
         c.set(Calendar.DAY_OF_MONTH, 1);
         c.set(Calendar.MONTH, Calendar.JANUARY);
-        c.set(Calendar.YEAR, 2004);
+        c.set(Calendar.YEAR, 2006);
         date = c.getTime();
         dateTimeService.currentDate = date;
 
@@ -92,7 +92,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
         assertOriginEntries(4,(EntryHolder[]) expectedOutput.toArray(new EntryHolder[0]));
     }
     
-    public void dontRunTestClosedAccount() throws Exception {
+    public void testClosedAccount() throws Exception {
 
         // Inputs.
         String[] stringInput = new String[] {
@@ -107,14 +107,14 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
         }
         
         // ... add expected output ...
-        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_EXPIRED,
                 "2004BA6044900-----1800---ACIN07CR  UBCLOSACCT 00000AUTO FR BA6044909Poplars Garage Fees                20.00C2006-01-05          ----------                                                                          "));
-        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
-                "2004BA6044900-----8000---ACAS07CR  UBCLOSACCT 00000GENERATED OFFSET                                    20.00D2006-02-21          ----------                                                                          "));
-        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//                "2004BA6044900-----8000---ACAS07CR  UBCLOSACCT 00000GENERATED OFFSET                                    20.00D2006-02-21          ----------                                                                          "));
+        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_EXPIRED,
                 "2004BA6044900-----8000---ACAS07CR  UBCLOSACCT 00000AUTO FR BA6044909TP Generated Offset                20.00D2006-01-05          ----------                                                                          "));
-        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
-                "2004BA6044900-----8000---ACAS07CR  UBCLOSACCT 00000GENERATED OFFSET                                    20.00C2006-02-21          ----------                                                                          "));
+//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//                "2004BA6044900-----8000---ACAS07CR  UBCLOSACCT 00000GENERATED OFFSET                                    20.00C2006-02-21          ----------                                                                          "));
                 
         // ... and run the test.
         scrub(stringInput);

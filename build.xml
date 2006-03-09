@@ -231,7 +231,7 @@
 	
 	<target name="init-test-fast" depends="init-project-properties">
 		<fileset id="test.fileset" dir="${test.source.directory}">
-	        <include name="**/AccountingLineBaseTest.java"/>
+	        <include name="**/*Test.java"/>
 			<exclude name="**/DocumentServiceTest.java"/>
 	        <exclude name="**/GeneralErrorCorrectionDocumentTest.java"/>
 	        <exclude name="**/KualiRuleServiceTest.java"/>

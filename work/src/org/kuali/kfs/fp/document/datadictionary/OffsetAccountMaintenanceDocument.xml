@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+
+<dictionaryEntry>
+	<maintenanceDocument>
+        <businessObjectClass>org.kuali.module.financial.bo.OffsetAccount</businessObjectClass>
+        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+
+        <documentAuthorizerClass>org.kuali.core.document.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
+        <authorizations>
+            <authorization action="initiate">
+                <workgroups>
+                    <workgroup>kualiUniversalGroup</workgroup>
+                </workgroups>
+            </authorization>
+        </authorizations>
+
+		<documentTypeName>KualiOffsetAccountMaintenanceDocument</documentTypeName>
+		<documentTypeCode>OFAC</documentTypeCode>
+
+		<label>Offset Account Maintenance Document</label>
+		<shortLabel>OffsetAccountMaintenanceDocument</shortLabel>
+		
+		<summary>OffsetAccountMaintenanceDocument</summary>
+		<description>Document used to create or update Offset Accounts</description>
+
+        <lockingKeys>
+		    <field attributeName="chartOfAccountsCode" />
+		    <field attributeName="accountNumber" />   
+			<field attributeName="financialOffsetObjectCode" />
+		</lockingKeys>	        
+
+		<defaultExistenceChecks>
+			<reference  attributeName="chart" 
+						attributeToHighlightOnFail="chartOfAccountsCode" 
+						displayFieldName="Chart of Accounts" />
+			<reference  attributeName="account" 
+						attributeToHighlightOnFail="accountNumber" 
+						displayFieldName="Account" />
+			<reference  attributeName="objectCodeCurrent" 
+						attributeToHighlightOnFail="financialOffsetObjectCode" 
+						displayFieldName="Offset Object Code" />
+			<reference  attributeName="financialOffsetChartOfAccount" 
+						attributeToHighlightOnFail="financialOffsetChartOfAccountCode" 
+						displayFieldName="Offset Chart of Accounts" />
+			<reference  attributeName="financialOffsetAccount" 
+						attributeToHighlightOnFail="financialOffsetAccountNumber" 
+						displayFieldName="Offset Account" />
+		</defaultExistenceChecks>
+		
+	    <maintainableSections>
+	        <maintainableSection title="Edit Offset Account">
+                <maintainableItems>
+		            <maintainableField name="chartOfAccountsCode" required="true" />
+		            <maintainableField name="accountNumber" required="true" />
+		            <maintainableField name="financialOffsetObjectCode" required="true" />
+		            <maintainableField name="financialOffsetChartOfAccountCode" required="true" />
+		            <maintainableField name="financialOffsetAccountNumber" required="true" />
+		            <maintainableField name="versionNumber" />
+                </maintainableItems>
+	        </maintainableSection>
+	    </maintainableSections>
+	</maintenanceDocument>
+</dictionaryEntry>

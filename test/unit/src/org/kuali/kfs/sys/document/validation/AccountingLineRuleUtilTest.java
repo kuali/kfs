@@ -114,16 +114,16 @@ public class AccountingLineRuleUtilTest extends KualiTestBaseWithSpring {
         return (ObjectCode) getFixtureEntry(fixtureName).createObject();
     }
 
-    public void testHasRequiredOverrides_AccountPresenceBudgetedObject() {
-        testHasRequiredOverrides(getAccountWithPresenceControl(), getBudgetedObjectCode(),
-                AccountingLineOverride.CODE.NONE, null);
-    }
-
-    public void testHasRequiredOverrides_AccountPresenceNonBudgetObject() {
-        testHasRequiredOverrides(getAccountWithPresenceControl(), getNonBudgetedObjectCode(),
-                AccountingLineOverride.CODE.NON_BUDGETED_OBJECT,
-                KeyConstants.ERROR_DOCUMENT_ACCOUNT_PRESENCE_NON_BUDGETED_OBJECT_CODE);
-    }
+//    public void testHasRequiredOverrides_AccountPresenceBudgetedObject() {
+//        testHasRequiredOverrides(getAccountWithPresenceControl(), getBudgetedObjectCode(),
+//                AccountingLineOverride.CODE.NONE, null);
+//    }
+//
+//    public void testHasRequiredOverrides_AccountPresenceNonBudgetObject() {
+//        testHasRequiredOverrides(getAccountWithPresenceControl(), getNonBudgetedObjectCode(),
+//                AccountingLineOverride.CODE.NON_BUDGETED_OBJECT,
+//                KeyConstants.ERROR_DOCUMENT_ACCOUNT_PRESENCE_NON_BUDGETED_OBJECT_CODE);
+//    }
     
     public void testHasRequiredOverrides_NoAccountPresenceBudgetedObject() {
         testHasRequiredOverrides(getAccountWithoutPresenceControl(), getBudgetedObjectCode(),

@@ -58,11 +58,11 @@ public class AccountPresenceServiceTest extends KualiTestBaseWithSpring {
      * Tests budgeted object code for account with presence control passes service method.
      * @throws Exception
      */
-    public void testAccountPresenceBudgetedObject() throws Exception {
-        assertTrue("Budgeted object code failed ", accountPresenceService.isObjectCodeBudgetedForAccountPresence(getAccountWithPresenceControl(),
-                getBudgetedObjectCode()));
-
-    }
+//    public void testAccountPresenceBudgetedObject() throws Exception {
+//        assertTrue("Budgeted object code failed ", accountPresenceService.isObjectCodeBudgetedForAccountPresence(getAccountWithPresenceControl(),
+//                getBudgetedObjectCode()));
+//
+//    }
 
     /**
      * Tests non budgeted object code passes for account without presence control.

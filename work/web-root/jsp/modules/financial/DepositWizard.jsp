@@ -15,10 +15,10 @@ function checkAllOrNone() {
     	<kul:errors keyMatch="*" />
     </div>
     <div align="left">
-    	<h3>Please select the Cash Receipt documents that you would like to deposit.</h3>
+    	Please select the Cash Receipt documents that you would like to deposit.
     </div>
     <br>  
-    <br>
+    <div id="workarea">
 	<table cellpadding=0 class="datatable" summary="choose cash receipts to deposit">
 	  <tr>
       	<td colspan=6 class="tab-subhead">Cash Receipts Ready for Deposit</td>
@@ -79,10 +79,15 @@ function checkAllOrNone() {
 	    </td>
 	  </tr>
 	  </logic:iterate>
+	  
+	                  <tr>
+                  <td height="30" colspan="6" class="infoline"><div align="center" >
+                     <html:image property="methodToCall.cancel" src="images/buttonsmall_cancel.gif" alt="cancel" styleClass="tinybutton" />&nbsp;&nbsp;
+	                 <html:image property="methodToCall.createDeposit" src="images/buttonsmall_create.gif" alt="create the deposit" styleClass="tinybutton"  />
+                  </div></td>
+                </tr>
 	</table>
-	<br>
-	<br>
-	<html:image property="methodToCall.cancel" src="images/buttonsmall_cancel.gif" alt="cancel" styleClass="globalbuttons" />&nbsp;&nbsp;
-	<html:image property="methodToCall.createDeposit" src="images/buttonsmall_create.gif" alt="create the deposit" styleClass="globalbuttons" />
+	</div>
+	
 	</div>
 </kul:page>

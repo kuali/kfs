@@ -796,9 +796,14 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         SubFundGroup subFundGroup = newAccount.getSubFundGroup();
         
         if (ObjectUtils.isNotNull(subFundGroup)) {
-
-            String fundGroupCode = subFundGroup.getFundGroupCode().trim();
-            String restrictedStatusCode = newAccount.getAccountRestrictedStatusCode().trim();
+            String fundGroupCode = "";
+            String restrictedStatusCode = "";
+            if(StringUtils.isNotBlank(subFundGroup.getFundGroupCode())) {
+                fundGroupCode = subFundGroup.getFundGroupCode().trim();
+            }
+            if(StringUtils.isNotBlank(newAccount.getAccountRestrictedStatusCode())) {
+                restrictedStatusCode = newAccount.getAccountRestrictedStatusCode().trim();
+            }
 
             if (ObjectUtils.isNotNull(restrictedStatusCode)) {
                 //	on the account screen, if the fund group of the account is CG (contracts & grants) or 

@@ -45,6 +45,7 @@ public class ReportingCodes extends BusinessObjectBase {
     private Chart chart;
     private Org org;
     private UniversalUser universalUser;
+    private ReportingCodes reportingCodes;
     
 	/**
 	 * @return Returns the chartOfAccountsCode.
@@ -178,6 +179,21 @@ public class ReportingCodes extends BusinessObjectBase {
     public void setUniversalUser(UniversalUser universalUser) {
         this.universalUser = universalUser;
     }    
+
+    /**
+     * @return Returns the reportingCodes.
+     */
+    public ReportingCodes getReportingCodes() {
+        return reportingCodes;
+    }
+
+    /**
+     * @param reportingCodes The reportingCodes to set.
+     * @deprecated
+     */
+    public void setReportingCodes(ReportingCodes reportingCodes) {
+        this.reportingCodes = reportingCodes;
+    }    
     
 	/**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
@@ -192,6 +208,5 @@ public class ReportingCodes extends BusinessObjectBase {
         m.put("financialReportsToReportingCode", this.financialReportsToReportingCode);
         return m;
     }
-
 
 }

@@ -31,7 +31,7 @@
                 </lookupField>
                 
 				<lookupField attributeName="chartOfAccountsCode" required="true"/>
-				<lookupField attributeName="accountNumber" noLookup="false"/>
+				<lookupField attributeName="accountNumber"  required="true" noLookup="false"/>
 				<lookupField attributeName="subAccountNumber"/>
 				
 				<lookupField attributeName="dummyBusinessObject.consolidationOption">

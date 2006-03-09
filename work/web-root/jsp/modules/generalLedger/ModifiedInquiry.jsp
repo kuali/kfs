@@ -4,7 +4,7 @@
 	headerMenuBar="${KualiForm.lookupable.htmlMenuBar}" headerTitle="Lookup" 
 	docTitle="" transactionalDocument="false">
 
-	<div class="headerarea" id="headerarea">
+	<div  class="headerarea-small" id="headerarea-small">
 	  	<h1>
 	  		<c:out value="${KualiForm.lookupable.title}" />
 	  		<kul:help resourceKey="lookupHelpText" altText="lookup help" />

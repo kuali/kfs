@@ -35,8 +35,7 @@
 				<lookupField attributeName="accountNumber" required="true" noLookup="false"/>				
 				<lookupField attributeName="subAccountNumber" noLookup="false"/>
 				
-				<lookupField attributeName="financialObject.financialObjectLevel.financialConsolidationObjectCode" noLookup="false"/>
-				<lookupField attributeName="financialObject.financialObjectLevel.financialReportingSortCode" noLookup="false"/>
+				<lookupField attributeName="financialObject.financialObjectLevel.financialConsolidationObjectCode" required="true" noLookup="false"/>
 				
 				<lookupField attributeName="dummyBusinessObject.consolidationOption">
 					<defaultValueFinderClass>

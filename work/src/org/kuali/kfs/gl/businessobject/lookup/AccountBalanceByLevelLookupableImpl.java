@@ -132,8 +132,10 @@ public class AccountBalanceByLevelLookupableImpl extends AbstractGLLookupableImp
             String costShareOption = isCostShareInclusive ? Constant.COST_SHARE_INCLUSIVE : Constant.COST_SHARE_EXCLUSIVE;
             accountBalance.getDummyBusinessObject().setCostShareOption(costShareOption);
             
+            // add a button that can trigger lookup account balance by object
             accountBalance.getDummyBusinessObject().setLinkButtonOption(Constant.LOOKUP_BUTTON_VALUE);
 
+            // add the newly populated account balance object into a collection
             balanceCollection.add(accountBalance);
         }
         return new CollectionIncomplete(balanceCollection, new Long(balanceCollection.size()));

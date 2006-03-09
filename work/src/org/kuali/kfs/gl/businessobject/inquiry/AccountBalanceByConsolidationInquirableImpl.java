@@ -158,11 +158,6 @@ public class AccountBalanceByConsolidationInquirableImpl extends KualiInquirable
             if (keyName.equals(PropertyConstants.SUB_ACCOUNT_NUMBER) && keyValue.equals(Constant.CONSOLIDATED_SUB_ACCOUNT_NUMBER)) {
                 keyValue = "";
             }
-            
-            if(keyName.equals("financialObject.financialObjectType.financialReportingSortCode")){
-                keyName = "financialObject.financialObjectLevel.financialReportingSortCode";
-            }
-
             parameters.put(keyName, keyValue);
         }
         
@@ -182,7 +177,6 @@ public class AccountBalanceByConsolidationInquirableImpl extends KualiInquirable
         keys.add(PropertyConstants.CHART_OF_ACCOUNTS_CODE);
         keys.add(PropertyConstants.SUB_ACCOUNT_NUMBER);
         keys.add("financialObject.financialObjectLevel.financialConsolidationObjectCode");
-        keys.add("financialObject.financialObjectType.financialReportingSortCode");
         keys.add(Constant.COST_SHARE_OPTION);
         keys.add(Constant.CONSOLIDATION_OPTION);
 

@@ -30,11 +30,13 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.Constants;
+import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.lookup.CollectionIncomplete;
 import org.kuali.core.util.BeanPropertyComparator;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.gl.bo.AccountBalance;
 import org.kuali.module.gl.web.Constant;
+import org.kuali.module.gl.web.inquirable.AccountBalanceInquirableImpl;
 
 /**
  * This class...
@@ -42,6 +44,17 @@ import org.kuali.module.gl.web.Constant;
  */
 public class AccountBalanceByObjectLookupableImpl extends AbstractGLLookupableImpl {
 
+    /**
+     * Returns the inquiry url for a result field.
+     * 
+     * @param bo the business object instance to build the urls for
+     * @param propertyName the property which links to an inquirable
+     * @return String url to inquiry
+     */
+    public String getInquiryUrl(BusinessObject bo, String propertyName) {
+        return AccountBalanceInquirableImpl.getInquiryUrl(bo, propertyName, true);
+    }        
+    
     /**
      * Uses Lookup Service to provide a basic search.
      * 

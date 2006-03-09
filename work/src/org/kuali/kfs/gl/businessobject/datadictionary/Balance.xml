@@ -123,30 +123,12 @@
             					sourceClassName="org.kuali.module.chart.bo.ObjectType" 
             					sourceAttributeName="code" />  
             					         													
-			<!-- 
-			<attribute name="objectTypeCode">
-                <label>Object Type Code</label>
-                <shortLabel>Object Type Code</shortLabel>
-                <maxLength>2</maxLength>
-                <control>
-                    <text size="3" />
-                </control>
-                <summary>objectTypeCode</summary>
-                <description>objectTypeCode description...</description>
-            </attribute>
-            -->
-            
 			<attributeReference name="balanceTypeCode" 
 								sourceClassName="org.kuali.module.chart.bo.codes.BalanceTyp" 
 								sourceAttributeName="code">
-				<label>Balance Type Code</label>
-                <shortLabel>Balance Type</shortLabel>
-                <maxLength>2</maxLength>
                 <control>
 		            <select valuesFinderClass="org.kuali.core.lookup.keyvalues.BalanceTypeValuesFinder"/>
                 </control>
-                <summary>Balance Type</summary>
-                <description>Balance Type description...</description>
             </attributeReference>
 
 			<attributeReference name="accountLineAnnualBalanceAmount" 

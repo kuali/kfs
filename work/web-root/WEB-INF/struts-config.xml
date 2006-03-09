@@ -54,7 +54,8 @@
     <global-exceptions>
         <!-- AuthorizationException handler -->
         <exception type="org.kuali.core.exceptions.AuthorizationException" key="meaningless" path="/authorizationException.do" />
-        <exception type="org.kuali.core.exceptions.UnknownDocumentIdException" key="UnknownDocumentIdException" path="/Exception.do" />
+        <exception type="org.kuali.core.exceptions.UnknownDocumentIdException" key="error.document.noLongerExistsInKuali" path="/jsp/core/Exception.jsp" />
+        <exception type="org.kuali.core.exceptions.FileUploadLimitExceededException" key="error.document.attachmentMaximumFileSizeExceeded" path="/jsp/core/Exception.jsp" />
     </global-exceptions>
 
 
@@ -73,10 +74,6 @@
         
         <action path="/index" name="KualiForm" type="org.kuali.core.web.struts.action.KualiSimpleAction">
             <forward name="basic" path="/portal.jsp" />
-        </action>
-
-        <action path="/Exception" name="KualiForm" type="org.kuali.core.web.struts.action.KualiExceptionAction">
-            <forward name="basic" path="/jsp/core/Exception.jsp" />
         </action>
 
         <action path="/jstlTest" name="KualiForm" type="org.kuali.core.web.struts.action.KualiSimpleAction">
@@ -172,7 +169,7 @@
 
     </action-mappings>
 
-    <controller processorClass="org.kuali.core.web.struts.action.KualiRequestProcessor" />
+    <controller processorClass="org.kuali.core.web.struts.action.KualiRequestProcessor" maxFileSize="5M"/>
 
     <message-resources parameter="ApplicationResources" />
     <message-resources key="kraResources" parameter="org.kuali.module.kra.KraResources"/>

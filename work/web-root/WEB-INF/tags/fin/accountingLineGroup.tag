@@ -64,7 +64,7 @@
 <kul:displayIfErrors keyMatch="${errorPattern}">
     <tr>
         <td colspan="${totalColumnWidth}">
-            <kul:errors keyMatch="${errorPattern}" errorTitle="Errors found in ${sectionTitle} section:"/>
+            <kul:errors keyMatch="${errorPattern}" errorTitle='Errors found in "${sectionTitle}" section:'/>
         </td>
     </tr>    
 </kul:displayIfErrors>

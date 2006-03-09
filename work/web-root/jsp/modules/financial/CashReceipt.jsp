@@ -14,6 +14,12 @@
 <html:hidden property="document.nextCheckSequenceId"/>
 <html:hidden property="document.checkEntryMode" />
 <html:hidden property="checkTotal" />
+<c:if test="${!empty KualiForm.financialDocumentStatusMessage}">
+	<div align="left">
+		<b>${KualiForm.financialDocumentStatusMessage}</b>
+	</div>
+	<br>
+</c:if>
 <kul:documentOverview editingMode="${KualiForm.editingMode}"/>
 <SCRIPT type="text/javascript">
     <!--

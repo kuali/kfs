@@ -22,6 +22,7 @@
  */
 package org.kuali.module.financial.rules;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
 import org.kuali.PropertyConstants;
@@ -38,6 +39,7 @@ import org.kuali.module.chart.bo.ObjLevel;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.financial.bo.Check;
 import org.kuali.module.financial.document.CashReceiptDocument;
+import org.kuali.module.financial.service.CashManagementService;
 import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 
 /**
@@ -84,6 +86,16 @@ public class CashReceiptDocumentRule extends TransactionalDocumentRuleBase imple
         }
             
         return isValid;
+    }
+    
+    protected boolean processCustomRouteDocumentBusinessRules(Document document) {
+        boolean valid = super.processCustomRouteDocumentBusinessRules(document);
+
+//        if(valid) {
+//            ifSpringServiceLocator.getCashDrawerService().is
+//        }
+        
+        return valid;
     }
     
     /**
@@ -251,19 +263,16 @@ public class CashReceiptDocumentRule extends TransactionalDocumentRuleBase imple
     }
     
     /**
+     * Overrides to set the entry's description to the description from the accounting line, if a value exists.
      * 
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#customizeExplicitGeneralLedgerPendingEntry(org.kuali.core.document.TransactionalDocument, org.kuali.core.bo.AccountingLine, org.kuali.module.gl.bo.GeneralLedgerPendingEntry)
      */
     protected void customizeExplicitGeneralLedgerPendingEntry(TransactionalDocument transactionalDocument,
             AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry) {
-    }
-
-    /**
-     * 
-     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#customizeOffsetGeneralLedgerPendingEntry(org.kuali.core.document.TransactionalDocument, org.kuali.core.bo.AccountingLine, org.kuali.module.gl.bo.GeneralLedgerPendingEntry, org.kuali.module.gl.bo.GeneralLedgerPendingEntry)
-     */
-    protected void customizeOffsetGeneralLedgerPendingEntry(TransactionalDocument transactionalDocument,
-            AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry, GeneralLedgerPendingEntry offsetEntry) {
+        String accountingLineDescription = accountingLine.getFinancialDocumentLineDescription();
+        if(StringUtils.isNotBlank(accountingLineDescription)) {
+            explicitEntry.setTransactionLedgerEntryDesc(accountingLineDescription);
+        }
     }
     
     /**

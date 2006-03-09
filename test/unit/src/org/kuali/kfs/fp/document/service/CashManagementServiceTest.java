@@ -28,12 +28,15 @@ import java.util.List;
 
 import org.kuali.Constants;
 import org.kuali.core.document.DocumentHeader;
+import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.Deposit;
 import org.kuali.module.financial.document.CashManagementDocument;
 import org.kuali.module.financial.document.CashReceiptDocument;
+import org.kuali.module.financial.exceptions.InvalidCashDrawerState;
+import org.kuali.module.financial.exceptions.InvalidCashReceiptState;
 import org.kuali.test.KualiTestBaseWithSpring;
 
 import edu.iu.uis.eden.exception.WorkflowException;
@@ -53,16 +56,18 @@ public class CashManagementServiceTest extends KualiTestBaseWithSpring {
     private CashManagementService cashManagementService;
     private DocumentService docService;
     private BusinessObjectService boService;
+    private CashDrawerService cashDrawerService;
 
 
     protected void setUp() throws Exception {
         super.setUp();
 
-        changeCurrentUser("INEFF");
-
         cashManagementService = SpringServiceLocator.getCashManagementService();
         docService = SpringServiceLocator.getDocumentService();
         boService = SpringServiceLocator.getBusinessObjectService();
+        cashDrawerService = SpringServiceLocator.getCashDrawerService();
+
+        cashDrawerService.openCashDrawer(KNOWN_VERIFICATION_UNIT);
     }
 
 
@@ -70,6 +75,7 @@ public class CashManagementServiceTest extends KualiTestBaseWithSpring {
         boolean failedAsExpected = false;
 
         try {
+            changeCurrentUser("RJWEISS");
             cashManagementService.createCashManagementDocument("  ", new ArrayList(), KNOWN_VERIFICATION_UNIT);
         }
         catch (IllegalArgumentException e) {
@@ -83,7 +89,9 @@ public class CashManagementServiceTest extends KualiTestBaseWithSpring {
         boolean failedAsExpected = false;
 
         try {
-            cashManagementService.createCashManagementDocument("testCreateCashManagementDocument_null", null, KNOWN_VERIFICATION_UNIT);
+            changeCurrentUser("RJWEISS");
+            cashManagementService.createCashManagementDocument("testCreateCashManagementDocument_null", null,
+                    KNOWN_VERIFICATION_UNIT);
         }
         catch (IllegalArgumentException e) {
             failedAsExpected = true;
@@ -96,7 +104,9 @@ public class CashManagementServiceTest extends KualiTestBaseWithSpring {
         boolean failedAsExpected = false;
 
         try {
-            cashManagementService.createCashManagementDocument("testCreateCashManagementDocument_empty", new ArrayList(), KNOWN_VERIFICATION_UNIT);
+            changeCurrentUser("RJWEISS");
+            cashManagementService.createCashManagementDocument("testCreateCashManagementDocument_empty", new ArrayList(),
+                    KNOWN_VERIFICATION_UNIT);
         }
         catch (IllegalArgumentException e) {
             failedAsExpected = true;
@@ -113,12 +123,16 @@ public class CashManagementServiceTest extends KualiTestBaseWithSpring {
             boolean failedAsExpected = false;
 
             try {
+                changeCurrentUser("INEFF");
                 List crList = new ArrayList();
-                cr1 = buildCashReceiptDoc(KNOWN_VERIFICATION_UNIT, "cr1", Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED);
+                cr1 = buildCashReceiptDoc(KNOWN_VERIFICATION_UNIT, "cr1",
+                        Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED);
                 crList.add(cr1);
-                cr2 = buildCashReceiptDoc(KNOWN_VERIFICATION_UNIT, "cr2", Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED);
+                cr2 = buildCashReceiptDoc(KNOWN_VERIFICATION_UNIT, "cr2",
+                        Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED);
                 crList.add(cr2);
 
+                changeCurrentUser("RJWEISS");
                 cashManagementService.createCashManagementDocument("testCreateCashManagementDocument_blank", crList, "  ");
             }
             catch (IllegalArgumentException e) {
@@ -132,18 +146,92 @@ public class CashManagementServiceTest extends KualiTestBaseWithSpring {
         }
     }
 
+    public void testCreateCashManagementDocument_invalidReceiptState() throws Exception {
+        CashReceiptDocument cr1 = null;
+        CashReceiptDocument cr2 = null;
+
+        try {
+            boolean failedAsExpected = false;
+
+            try {
+                changeCurrentUser("INEFF");
+                List crList = new ArrayList();
+                cr1 = buildCashReceiptDoc(KNOWN_VERIFICATION_UNIT, "cr1",
+                        Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED);
+                crList.add(cr1);
+                cr2 = buildCashReceiptDoc(KNOWN_VERIFICATION_UNIT, "cr2", "Q");
+                crList.add(cr2);
+
+                changeCurrentUser("RJWEISS");
+                cashManagementService.createCashManagementDocument("testCreateCashManagementDocument_blank", crList,
+                        KNOWN_VERIFICATION_UNIT);
+            }
+            catch (InvalidCashReceiptState e) {
+                failedAsExpected = true;
+            }
+        }
+        finally {
+            // cleanup (hide CRs from future tests)
+            updateCRDocStatus(cr1, "Z");
+            updateCRDocStatus(cr2, "Z");
+        }
+    }
+
+    public void testCreateCashManagementDocument_invalidDrawerState() throws Exception {
+        String workgroupName = KNOWN_VERIFICATION_UNIT;
+        CashReceiptDocument cr1 = null;
+        CashReceiptDocument cr2 = null;
+
+        try {
+            boolean failedAsExpected = false;
+
+            try {
+                cashDrawerService.closeCashDrawer(workgroupName);
+
+                changeCurrentUser("INEFF");
+                List crList = new ArrayList();
+                cr1 = buildCashReceiptDoc(workgroupName, "cr1",
+                        Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED);
+                crList.add(cr1);
+                cr2 = buildCashReceiptDoc(workgroupName, "cr2",
+                        Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED);
+                crList.add(cr2);
+
+                changeCurrentUser("RJWEISS");
+                cashManagementService.createCashManagementDocument("testCreateCashManagementDocument_blank", crList, workgroupName);
+            }
+            catch (InvalidCashDrawerState e) {
+                failedAsExpected = true;
+            }
+        }
+        finally {
+            // cleanup (hide CRs from future tests, reopen the drawer)
+            updateCRDocStatus(cr1, "Z");
+            updateCRDocStatus(cr2, "Z");
+            cashDrawerService.openCashDrawer(workgroupName);
+        }
+    }
+
     public void testCreateCashManagementDocument() throws Exception {
+        String workgroupName = KNOWN_VERIFICATION_UNIT;
+
         // build the document
+        changeCurrentUser("INEFF");
         List crList = new ArrayList();
-        CashReceiptDocument cr1 = buildCashReceiptDoc(KNOWN_VERIFICATION_UNIT, "cr1", Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED);
+        CashReceiptDocument cr1 = buildCashReceiptDoc(workgroupName, "cr1",
+                Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED);
         crList.add(cr1);
-        CashReceiptDocument cr2 = buildCashReceiptDoc(KNOWN_VERIFICATION_UNIT, "cr2", Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED);
+        CashReceiptDocument cr2 = buildCashReceiptDoc(workgroupName, "cr2",
+                Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED);
         crList.add(cr2);
 
-        CashManagementDocument createdDoc = cashManagementService.createCashManagementDocument("testCreateCashManagementDocument", crList, KNOWN_VERIFICATION_UNIT);
+        changeCurrentUser("RJWEISS");
+        CashManagementDocument createdDoc = cashManagementService.createCashManagementDocument("testCreateCashManagementDocument",
+                crList, workgroupName);
 
         // retrieve it and look for components
-        CashManagementDocument retrievedDoc = (CashManagementDocument) docService.getByDocumentHeaderId(createdDoc.getFinancialDocumentNumber());
+        CashManagementDocument retrievedDoc = (CashManagementDocument) docService.getByDocumentHeaderId(createdDoc
+                .getFinancialDocumentNumber());
         assertNotNull(retrievedDoc);
         assertFalse(retrievedDoc.getDeposits().isEmpty());
 
@@ -151,11 +239,12 @@ public class CashManagementServiceTest extends KualiTestBaseWithSpring {
         List retrievedCRs = cashManagementService.retrieveCashReceipts(deposit);
         assertEquals(2, retrievedCRs.size());
 
-        // cleanup (hide CRs from future tests)
+        // cleanup (hide CRs from future tests, reopen the drawer)
         for (Iterator i = retrievedCRs.iterator(); i.hasNext();) {
             CashReceiptDocument cr = (CashReceiptDocument) i.next();
             updateCRDocStatus(cr, "Z");
         }
+        cashDrawerService.openCashDrawer(workgroupName);
     }
 
 
@@ -176,7 +265,8 @@ public class CashManagementServiceTest extends KualiTestBaseWithSpring {
         boolean failedAsExpected = false;
 
         try {
-            cashManagementService.createDeposit(buildCashManagementDoc("testCreateDeposit_nullLineNumber"), null, new ArrayList(), KNOWN_VERIFICATION_UNIT);
+            cashManagementService.createDeposit(buildCashManagementDoc("testCreateDeposit_nullLineNumber"), null, new ArrayList(),
+                    KNOWN_VERIFICATION_UNIT);
         }
         catch (IllegalArgumentException e) {
             failedAsExpected = true;
@@ -189,7 +279,8 @@ public class CashManagementServiceTest extends KualiTestBaseWithSpring {
         boolean failedAsExpected = false;
 
         try {
-            cashManagementService.createDeposit(buildCashManagementDoc("testCreateDeposit_nullLineNumber"), VALID_LINE_NUMBER, null, KNOWN_VERIFICATION_UNIT);
+            cashManagementService.createDeposit(buildCashManagementDoc("testCreateDeposit_nullLineNumber"), VALID_LINE_NUMBER,
+                    null, KNOWN_VERIFICATION_UNIT);
         }
         catch (IllegalArgumentException e) {
             failedAsExpected = true;
@@ -202,7 +293,8 @@ public class CashManagementServiceTest extends KualiTestBaseWithSpring {
         boolean failedAsExpected = false;
 
         try {
-            cashManagementService.createDeposit(buildCashManagementDoc("testCreateDeposit_nullLineNumber"), VALID_LINE_NUMBER, new ArrayList(), KNOWN_VERIFICATION_UNIT);
+            cashManagementService.createDeposit(buildCashManagementDoc("testCreateDeposit_nullLineNumber"), VALID_LINE_NUMBER,
+                    new ArrayList(), KNOWN_VERIFICATION_UNIT);
         }
         catch (IllegalArgumentException e) {
             failedAsExpected = true;
@@ -217,12 +309,16 @@ public class CashManagementServiceTest extends KualiTestBaseWithSpring {
         try {
             boolean failedAsExpected = false;
 
+            changeCurrentUser("INEFF");
             List crList = new ArrayList();
-            cr1 = buildCashReceiptDoc(KNOWN_VERIFICATION_UNIT, "foo", Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED);
+            cr1 = buildCashReceiptDoc(KNOWN_VERIFICATION_UNIT, "foo",
+                    Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED);
             crList.add(cr1);
 
             try {
-                cashManagementService.createDeposit(buildCashManagementDoc("testCreateDeposit_nullLineNumber"), VALID_LINE_NUMBER, crList, " ");
+                changeCurrentUser("RJWEISS");
+                cashManagementService.createDeposit(buildCashManagementDoc("testCreateDeposit_nullLineNumber"), VALID_LINE_NUMBER,
+                        crList, " ");
             }
             catch (IllegalArgumentException e) {
                 failedAsExpected = true;
@@ -241,14 +337,18 @@ public class CashManagementServiceTest extends KualiTestBaseWithSpring {
         try {
             boolean failedAsExpected = false;
 
+            changeCurrentUser("INEFF");
             List crList = new ArrayList();
-            cr1 = buildCashReceiptDoc(KNOWN_VERIFICATION_UNIT, "foo", Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED);
+            cr1 = buildCashReceiptDoc(KNOWN_VERIFICATION_UNIT, "foo",
+                    Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED);
             crList.add(cr1);
             CashReceiptDocument cr2 = buildCashReceiptDoc(KNOWN_VERIFICATION_UNIT, "foo", "Z");
             crList.add(cr2);
 
             try {
-                cashManagementService.createDeposit(buildCashManagementDoc("testCreateDeposit_nullLineNumber"), VALID_LINE_NUMBER, crList, " ");
+                changeCurrentUser("RJWEISS");
+                cashManagementService.createDeposit(buildCashManagementDoc("testCreateDeposit_nullLineNumber"), VALID_LINE_NUMBER,
+                        crList, " ");
             }
             catch (IllegalArgumentException e) {
                 failedAsExpected = true;
@@ -267,12 +367,16 @@ public class CashManagementServiceTest extends KualiTestBaseWithSpring {
         CashReceiptDocument cr2 = null;
 
         try {
+            changeCurrentUser("RJWEISS");
             CashManagementDocument cmDoc = buildCashManagementDoc("testCreateDeposit_nullLineNumber");
 
+            changeCurrentUser("INEFF");
             List crList = new ArrayList();
-            cr1 = buildCashReceiptDoc(KNOWN_VERIFICATION_UNIT, "cr1", Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED);
+            cr1 = buildCashReceiptDoc(KNOWN_VERIFICATION_UNIT, "cr1",
+                    Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED);
             crList.add(cr1);
-            cr2 = buildCashReceiptDoc(KNOWN_VERIFICATION_UNIT, "cr2", Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED);
+            cr2 = buildCashReceiptDoc(KNOWN_VERIFICATION_UNIT, "cr2",
+                    Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED);
             crList.add(cr2);
 
             // verify that it doesn't exist
@@ -322,16 +426,21 @@ public class CashManagementServiceTest extends KualiTestBaseWithSpring {
         CashReceiptDocument cr3 = null;
 
         try {
+            changeCurrentUser("RJWEISS");
             CashManagementDocument cmDoc = buildCashManagementDoc("testRetrieveDeposits");
 
+            changeCurrentUser("INEFF");
             List crList1 = new ArrayList();
-            cr1 = buildCashReceiptDoc(KNOWN_VERIFICATION_UNIT, "cr1", Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED);
+            cr1 = buildCashReceiptDoc(KNOWN_VERIFICATION_UNIT, "cr1",
+                    Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED);
             crList1.add(cr1);
-            cr2 = buildCashReceiptDoc(KNOWN_VERIFICATION_UNIT, "cr2", Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED);
+            cr2 = buildCashReceiptDoc(KNOWN_VERIFICATION_UNIT, "cr2",
+                    Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED);
             crList1.add(cr2);
 
             List crList2 = new ArrayList();
-            cr3 = buildCashReceiptDoc(KNOWN_VERIFICATION_UNIT, "cr2", Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED);
+            cr3 = buildCashReceiptDoc(KNOWN_VERIFICATION_UNIT, "cr2",
+                    Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED);
             crList2.add(cr3);
 
             cashManagementService.createDeposit(cmDoc, VALID_LINE_NUMBER, crList1, KNOWN_VERIFICATION_UNIT);
@@ -381,12 +490,16 @@ public class CashManagementServiceTest extends KualiTestBaseWithSpring {
 
         try {
             // create a deposit
+            changeCurrentUser("RJWEISS");
             CashManagementDocument cmDoc = buildCashManagementDoc("testRetrieveCashReceipts");
 
+            changeCurrentUser("INEFF");
             List createdCRList = new ArrayList();
-            cr1 = buildCashReceiptDoc(KNOWN_VERIFICATION_UNIT, "cr1", Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED);
+            cr1 = buildCashReceiptDoc(KNOWN_VERIFICATION_UNIT, "cr1",
+                    Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED);
             createdCRList.add(cr1);
-            cr2 = buildCashReceiptDoc(KNOWN_VERIFICATION_UNIT, "cr2", Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED);
+            cr2 = buildCashReceiptDoc(KNOWN_VERIFICATION_UNIT, "cr2",
+                    Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED);
             createdCRList.add(cr2);
 
             Deposit deposit = cashManagementService.createDeposit(cmDoc, VALID_LINE_NUMBER, createdCRList, KNOWN_VERIFICATION_UNIT);
@@ -430,12 +543,16 @@ public class CashManagementServiceTest extends KualiTestBaseWithSpring {
     }
 
     public void testCancelDeposit() throws Exception {
+        changeCurrentUser("RJWEISS");
         CashManagementDocument cmDoc = buildCashManagementDoc("testCreateDeposit_nullLineNumber");
 
+        changeCurrentUser("INEFF");
         List crList = new ArrayList();
-        CashReceiptDocument cr1 = buildCashReceiptDoc(KNOWN_VERIFICATION_UNIT, "cr1", Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED);
+        CashReceiptDocument cr1 = buildCashReceiptDoc(KNOWN_VERIFICATION_UNIT, "cr1",
+                Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED);
         crList.add(cr1);
-        CashReceiptDocument cr2 = buildCashReceiptDoc(KNOWN_VERIFICATION_UNIT, "cr2", Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED);
+        CashReceiptDocument cr2 = buildCashReceiptDoc(KNOWN_VERIFICATION_UNIT, "cr2",
+                Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED);
         crList.add(cr2);
 
         // verify that it doesn't exist
@@ -493,6 +610,7 @@ public class CashManagementServiceTest extends KualiTestBaseWithSpring {
         try {
             List crDocs = new ArrayList();
 
+            changeCurrentUser("INEFF");
             cr1 = buildCashReceiptDoc(KNOWN_VERIFICATION_UNIT, "cr1", "Q");
             crDocs.add(cr1);
             cr2 = buildCashReceiptDoc(KNOWN_VERIFICATION_UNIT, "cr1", "Q");
@@ -514,9 +632,12 @@ public class CashManagementServiceTest extends KualiTestBaseWithSpring {
         try {
             List crDocs = new ArrayList();
 
-            cr1 = buildCashReceiptDoc(KNOWN_VERIFICATION_UNIT, "cr1", Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED);
+            changeCurrentUser("INEFF");
+            cr1 = buildCashReceiptDoc(KNOWN_VERIFICATION_UNIT, "cr1",
+                    Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED);
             crDocs.add(cr1);
-            cr2 = buildCashReceiptDoc(KNOWN_VERIFICATION_UNIT, "cr1", Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED);
+            cr2 = buildCashReceiptDoc(KNOWN_VERIFICATION_UNIT, "cr1",
+                    Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED);
             crDocs.add(cr2);
 
             boolean succeeded = cashManagementService.validateVerifiedCashReceipts(crDocs);
@@ -554,7 +675,9 @@ public class CashManagementServiceTest extends KualiTestBaseWithSpring {
 
         try {
             // create a cashReceipt
-            cr1 = buildCashReceiptDoc(KNOWN_VERIFICATION_UNIT, "blah", Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED);
+            changeCurrentUser("INEFF");
+            cr1 = buildCashReceiptDoc(KNOWN_VERIFICATION_UNIT, "blah",
+                    Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED);
             cr1 = (CashReceiptDocument) docService.save(cr1, "saving", null);
 
             // retrieve it
@@ -594,7 +717,8 @@ public class CashManagementServiceTest extends KualiTestBaseWithSpring {
     }
 
     public void testGetCampusCodeByCashReceiptVerificationUnitWorkgroupName_noMatching() throws Exception {
-        String campusCode = cashManagementService.getCampusCodeByCashReceiptVerificationUnitWorkgroupName(UNKNOWN_VERIFICATION_UNIT);
+        String campusCode = cashManagementService
+                .getCampusCodeByCashReceiptVerificationUnitWorkgroupName(UNKNOWN_VERIFICATION_UNIT);
 
         assertNull(campusCode);
     }
@@ -608,20 +732,22 @@ public class CashManagementServiceTest extends KualiTestBaseWithSpring {
     // }
 
 
-    private CashReceiptDocument buildCashReceiptDoc(String workgroupName, String description, String status) throws WorkflowException {
+    private CashReceiptDocument buildCashReceiptDoc(String workgroupName, String description, String status)
+            throws WorkflowException, UserNotFoundException {
         CashReceiptDocument crDoc = (CashReceiptDocument) docService.getNewDocument(CashReceiptDocument.class);
 
         crDoc.getDocumentHeader().setFinancialDocumentDescription(description);
         crDoc.getDocumentHeader().setFinancialDocumentStatusCode(status);
 
-        crDoc.setCampusLocationCode(cashManagementService.getCampusCodeByCashReceiptVerificationUnitWorkgroupName(KNOWN_VERIFICATION_UNIT));
+        crDoc.setCampusLocationCode(cashManagementService
+                .getCampusCodeByCashReceiptVerificationUnitWorkgroupName(KNOWN_VERIFICATION_UNIT));
 
         docService.save(crDoc, "buildVerifiedCashReceiptDoc", null);
 
         return crDoc;
     }
 
-    private CashManagementDocument buildCashManagementDoc(String description) throws WorkflowException {
+    private CashManagementDocument buildCashManagementDoc(String description) throws WorkflowException, UserNotFoundException {
         CashManagementDocument cmDoc = (CashManagementDocument) docService.getNewDocument(CashManagementDocument.class);
 
         cmDoc.getDocumentHeader().setFinancialDocumentDescription(description);

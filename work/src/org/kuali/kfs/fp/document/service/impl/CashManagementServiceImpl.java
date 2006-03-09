@@ -41,11 +41,15 @@ import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.core.workflow.service.WorkflowDocumentService;
+import org.kuali.module.financial.bo.CashDrawer;
 import org.kuali.module.financial.bo.CashReceiptHeader;
 import org.kuali.module.financial.bo.Deposit;
 import org.kuali.module.financial.bo.DepositCashReceiptControl;
 import org.kuali.module.financial.document.CashManagementDocument;
 import org.kuali.module.financial.document.CashReceiptDocument;
+import org.kuali.module.financial.exceptions.InvalidCashDrawerState;
+import org.kuali.module.financial.exceptions.InvalidCashReceiptState;
+import org.kuali.module.financial.service.CashDrawerService;
 import org.kuali.module.financial.service.CashManagementService;
 
 import edu.iu.uis.eden.exception.DocumentNotFoundException;
@@ -61,35 +65,70 @@ public class CashManagementServiceImpl implements CashManagementService {
     private BusinessObjectService businessObjectService;
     private WorkflowDocumentService workflowDocumentService;
     private DocumentService documentService;
-
+    private CashDrawerService cashDrawerService;
 
     /**
      * @see org.kuali.module.financial.service.CashManagementService#createCashManagementDocument(java.util.List, java.lang.String)
      */
-    public CashManagementDocument createCashManagementDocument(String documentDescription, List verifiedCashReceipts, String workgroupName) throws WorkflowException {
-        // create the document
-        CashManagementDocument cmDoc = (CashManagementDocument) documentService.getNewDocument(CashManagementDocument.class);
-        cmDoc.getDocumentHeader().setFinancialDocumentDescription(documentDescription);
+    public CashManagementDocument createCashManagementDocument(String documentDescription, List verifiedCashReceipts,
+            String workgroupName) throws WorkflowException {
+        CashManagementDocument cmDoc = null;
 
-        // create and associate the Deposit
-        Deposit deposit = createDeposit(cmDoc, new Integer(0), verifiedCashReceipts, workgroupName);
+        // check and lock cash drawer
+        closeCashDrawer(workgroupName);
 
-        List depositList = new ArrayList();
-        depositList.add(deposit);
-        cmDoc.setDeposits(depositList);
+        try {
+            // create the document
+            cmDoc = (CashManagementDocument) documentService.getNewDocument(CashManagementDocument.class);
+            cmDoc.getDocumentHeader().setFinancialDocumentDescription(documentDescription);
+            cmDoc.setWorkgroupName(workgroupName);
 
-        // persist everything
-        documentService.save(cmDoc, "service-created CashManagementDocument", null);
+            // create and associate the Deposit
+            Deposit deposit = createDeposit(cmDoc, new Integer(0), verifiedCashReceipts, workgroupName);
+
+            List depositList = new ArrayList();
+            depositList.add(deposit);
+            cmDoc.setDeposits(depositList);
+
+            // persist everything
+            documentService.save(cmDoc, "service-created CashManagementDocument", null);
+        }
+        catch (RuntimeException e) {
+            // reopen the drawer if creation failed (without trapping the failure-to-close)
+            openCashDrawer(workgroupName);
+
+            throw e;
+        }
+        catch (WorkflowException e) {
+            // reopen the drawer if creation failed (without trapping the failure-to-close)
+            openCashDrawer(workgroupName);
+
+            throw e;
+        }
 
         return cmDoc;
-
     }
+
+    private void closeCashDrawer(String workgroupName) {
+        CashDrawer drawer = cashDrawerService.getByWorkgroupName(workgroupName);
+        if ((drawer != null) && StringUtils.equals(drawer.getStatusCode(), Constants.CashDrawerConstants.STATUS_CLOSED)) {
+            throw new InvalidCashDrawerState("cash drawer for workgroup '" + workgroupName + "' is already closed");
+        }
+
+        cashDrawerService.closeCashDrawer(workgroupName);
+    }
+
+    private void openCashDrawer(String workgroupName) {
+        cashDrawerService.openCashDrawer(workgroupName);
+    }
+
 
     /**
      * @see org.kuali.module.financial.service.CashManagementService#createDeposit(CashManagementDocument, java.util.List,
      *      java.lang.String)
      */
-    public Deposit createDeposit(CashManagementDocument cashManagementDoc, Integer lineNumber, List verifiedCashReceipts, String workgroupName) {
+    public Deposit createDeposit(CashManagementDocument cashManagementDoc, Integer lineNumber, List verifiedCashReceipts,
+            String workgroupName) {
         if (cashManagementDoc == null) {
             throw new IllegalArgumentException("invalid (null) cashManagementDoc");
         }
@@ -108,7 +147,7 @@ public class CashManagementServiceImpl implements CashManagementService {
 
         // verify CashReceipts
         if (!validateVerifiedCashReceipts(verifiedCashReceipts)) {
-            throw new IllegalArgumentException("one or more CashReceipts not in verified status");
+            throw new InvalidCashReceiptState("one or more CashReceipts not in verified status");
         }
 
         // create the deposit
@@ -227,7 +266,8 @@ public class CashManagementServiceImpl implements CashManagementService {
 
         Map criteriaMap = new LinkedHashMap();
         criteriaMap.put("depositCashReceiptControl.financialDocumentDepositNumber", deposit.getFinancialDocumentNumber());
-        criteriaMap.put("depositCashReceiptControl.financialDocumentDepositLineNumber", deposit.getFinancialDocumentDepositLineNumber());
+        criteriaMap.put("depositCashReceiptControl.financialDocumentDepositLineNumber", deposit
+                .getFinancialDocumentDepositLineNumber());
 
         Collection crHeaders = getBusinessObjectService().findMatching(CashReceiptHeader.class, criteriaMap);
 
@@ -244,7 +284,8 @@ public class CashManagementServiceImpl implements CashManagementService {
             }
 
             try {
-                cashReceiptDocuments = getDocumentService().getDocumentsByListOfDocumentHeaderIds(CashReceiptDocument.class, idList);
+                cashReceiptDocuments = getDocumentService()
+                        .getDocumentsByListOfDocumentHeaderIds(CashReceiptDocument.class, idList);
             }
             catch (WorkflowException e) {
                 throw new InfrastructureException("unable to retrieve cashReceipts", e);
@@ -288,7 +329,8 @@ public class CashManagementServiceImpl implements CashManagementService {
 
             // UNF: verify that the CRDoc workflow state is final
 
-            if (!StringUtils.equals(cr.getDocumentHeader().getFinancialDocumentStatusCode(), Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED)) {
+            if (!StringUtils.equals(cr.getDocumentHeader().getFinancialDocumentStatusCode(),
+                    Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED)) {
                 succeeded = false;
             }
         }
@@ -323,7 +365,8 @@ public class CashManagementServiceImpl implements CashManagementService {
         }
 
         Map queryCriteria = buildCriteriaMap(verificationUnitWorkgroupName);
-        List documents = new ArrayList(getBusinessObjectService().findMatchingOrderBy(CashReceiptDocument.class, queryCriteria, Constants.FINANCIAL_DOCUMENT_NUMBER_PROPERTY_NAME, true));
+        List documents = new ArrayList(getBusinessObjectService().findMatchingOrderBy(CashReceiptDocument.class, queryCriteria,
+                Constants.FINANCIAL_DOCUMENT_NUMBER_PROPERTY_NAME, true));
 
         // now populate each CR doc with its workflow document
         for (Iterator i = documents.iterator(); i.hasNext();) {
@@ -338,7 +381,8 @@ public class CashManagementServiceImpl implements CashManagementService {
                 workflowDocument = getWorkflowDocumentService().createWorkflowDocument(documentHeaderId, user);
             }
             catch (DocumentNotFoundException e) {
-                throw new UnknownDocumentIdException("no document found for documentHeaderId '" + docHeader.getFinancialDocumentNumber() + "'", e);
+                throw new UnknownDocumentIdException("no document found for documentHeaderId '"
+                        + docHeader.getFinancialDocumentNumber() + "'", e);
             }
 
             docHeader.setWorkflowDocument(workflowDocument);
@@ -351,7 +395,8 @@ public class CashManagementServiceImpl implements CashManagementService {
 
     private Map buildCriteriaMap(String workgroupName) {
         Map queryCriteria = new HashMap();
-        queryCriteria.put(Constants.DOCUMENT_HEADER_PROPERTY_NAME + "." + Constants.DOCUMENT_HEADER_DOCUMENT_STATUS_CODE_PROPERTY_NAME,
+        queryCriteria.put(Constants.DOCUMENT_HEADER_PROPERTY_NAME + "."
+                + Constants.DOCUMENT_HEADER_DOCUMENT_STATUS_CODE_PROPERTY_NAME,
                 Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED);
 
         // UNF: once getCampusCode... returns meaningful values, this if should probably short-circuit when no campusCode is
@@ -389,4 +434,14 @@ public class CashManagementServiceImpl implements CashManagementService {
     public DocumentService getDocumentService() {
         return documentService;
     }
+
+    public void setCashDrawerService(CashDrawerService cashDrawerService) {
+        this.cashDrawerService = cashDrawerService;
+    }
+
+    public CashDrawerService getCashDrawerService() {
+        return cashDrawerService;
+    }
+
+
 }

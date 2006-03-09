@@ -32,6 +32,16 @@ import org.kuali.module.financial.bo.CashDrawer;
  */
 public interface CashDrawerService {
     /**
+     * Closes the CashDrawer instance associated with the given workgroupName, creating one if necessary
+     */
+    public void closeCashDrawer(String workgroupName);
+
+    /**
+     * Opens the CashDrawer instance associated with the given workgroupName, creating one if necessary
+     */
+    public void openCashDrawer(String workgroupName);
+
+    /**
      * Retrieves the CashDrawer instance associated with the given workgroupName, if any.
      * 
      * @param workgroupName

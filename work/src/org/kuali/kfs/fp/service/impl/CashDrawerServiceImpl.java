@@ -23,6 +23,7 @@
 package org.kuali.module.financial.service.impl;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.Constants;
 import org.kuali.module.financial.bo.CashDrawer;
 import org.kuali.module.financial.dao.CashDrawerDao;
 import org.kuali.module.financial.service.CashDrawerService;
@@ -36,6 +37,32 @@ import org.kuali.module.financial.service.CashDrawerService;
 public class CashDrawerServiceImpl implements CashDrawerService {
     private CashDrawerDao cashDrawerDao;
 
+
+    /**
+     * @see org.kuali.module.financial.service.CashDrawerService#closeCashDrawer(java.lang.String)
+     */
+    public void closeCashDrawer(String workgroupName) {
+        CashDrawer drawer = getByWorkgroupName(workgroupName);
+        if (drawer == null) {
+            drawer = newCashDrawer(workgroupName);
+        }
+        drawer.setStatusCode(Constants.CashDrawerConstants.STATUS_CLOSED);
+
+        save(drawer);
+    }
+
+    /**
+     * @see org.kuali.module.financial.service.CashDrawerService#openCashDrawer(java.lang.String)
+     */
+    public void openCashDrawer(String workgroupName) {
+        CashDrawer drawer = getByWorkgroupName(workgroupName);
+        if (drawer == null) {
+            drawer = newCashDrawer(workgroupName);
+        }
+        drawer.setStatusCode(Constants.CashDrawerConstants.STATUS_OPEN);
+
+        save(drawer);
+    }
 
     /**
      * @see org.kuali.module.financial.service.CashDrawerService#findByWorkgroupName(java.lang.String)
@@ -68,6 +95,14 @@ public class CashDrawerServiceImpl implements CashDrawerService {
         }
 
         cashDrawerDao.delete(cashDrawer);
+    }
+
+    private CashDrawer newCashDrawer(String workgroupName) {
+        CashDrawer drawer = new CashDrawer();
+        drawer.setWorkgroupName(workgroupName);
+        drawer.setStatusCode(Constants.CashDrawerConstants.STATUS_OPEN);
+
+        return drawer;
     }
 
 

@@ -68,6 +68,9 @@
         <property name="documentService">
             <ref bean="documentService" />
         </property>
+        <property name="cashDrawerService">
+            <ref bean="cashDrawerService" />
+        </property>
      </bean>
 
     <bean id="flexibleOffsetAccountService" class="org.kuali.module.financial.service.impl.FlexibleOffsetAccountServiceImpl">

@@ -23,8 +23,11 @@
 package org.kuali.module.financial.service;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.kuali.Constants;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.CashDrawer;
 import org.kuali.test.KualiTestBaseWithSpring;
@@ -39,11 +42,103 @@ public class CashDrawerServiceTest extends KualiTestBaseWithSpring {
     private static final String UNKNOWN_WORKGROUP = "foo";
 
     private CashDrawerService cashDrawerService;
+    private BusinessObjectService boService;
 
 
     protected void setUp() throws Exception {
         super.setUp();
         cashDrawerService = SpringServiceLocator.getCashDrawerService();
+        boService = SpringServiceLocator.getBusinessObjectService();
+    }
+
+
+    public final void testOpenCashDrawer_blankWorkgroup() {
+        boolean failedAsExpected = false;
+
+        try {
+            cashDrawerService.openCashDrawer("  ");
+        }
+        catch (IllegalArgumentException e) {
+            failedAsExpected = true;
+        }
+
+        assertTrue(failedAsExpected);
+    }
+
+    private void deleteIfExists(String workgroupName) {
+        Map deleteCriteria = new HashMap();
+        deleteCriteria.put("workgroupName", workgroupName);
+        boService.deleteMatching(CashDrawer.class, deleteCriteria);
+    }
+
+    public final void testOpenCashDrawer_nonexistent() {
+        // make sure it doesn't exist
+        String nonexistentWorkgroup = "testNonWorkgroup";
+        deleteIfExists(nonexistentWorkgroup);
+
+        // open it
+        cashDrawerService.openCashDrawer(nonexistentWorkgroup);
+
+        // verify that it is open
+        CashDrawer drawer = cashDrawerService.getByWorkgroupName(nonexistentWorkgroup);
+        assertEquals(drawer.getStatusCode(), Constants.CashDrawerConstants.STATUS_OPEN);
+
+        // clean up
+        deleteIfExists(nonexistentWorkgroup);
+    }
+
+    public final void testOpenCashDrawer() {
+        String testWorkgroup = "testWorkgroup2";
+
+        // make sure it is open
+        cashDrawerService.openCashDrawer(testWorkgroup);
+        CashDrawer drawer = cashDrawerService.getByWorkgroupName(testWorkgroup);
+        assertEquals(drawer.getStatusCode(), Constants.CashDrawerConstants.STATUS_OPEN);
+
+        // clean up after yourself
+        deleteIfExists(testWorkgroup);
+    }
+
+
+    public final void testCloseCashDrawer_blankWorkgroup() {
+        boolean failedAsExpected = false;
+
+        try {
+            cashDrawerService.closeCashDrawer("  ");
+        }
+        catch (IllegalArgumentException e) {
+            failedAsExpected = true;
+        }
+
+        assertTrue(failedAsExpected);
+    }
+
+    public final void testCloseCashDrawer_nonexistent() {
+        // make sure it doesn't exist
+        String nonexistentWorkgroup = "testNonWorkgroup";
+        deleteIfExists(nonexistentWorkgroup);
+
+        // open it
+        cashDrawerService.closeCashDrawer(nonexistentWorkgroup);
+
+        // verify that it is closed
+        CashDrawer drawer = cashDrawerService.getByWorkgroupName(nonexistentWorkgroup);
+        assertEquals(drawer.getStatusCode(), Constants.CashDrawerConstants.STATUS_CLOSED);
+
+        // clean up
+        deleteIfExists(nonexistentWorkgroup);
+    }
+
+    public final void testCloseCashDrawer() {
+        String testWorkgroup = "testWorkgroup2";
+
+        // make sure it is closed
+        cashDrawerService.closeCashDrawer(testWorkgroup);
+        CashDrawer drawer = cashDrawerService.getByWorkgroupName(testWorkgroup);
+        assertEquals(drawer.getStatusCode(), Constants.CashDrawerConstants.STATUS_CLOSED);
+
+        // clean up after yourself
+        deleteIfExists(testWorkgroup);
     }
 
 

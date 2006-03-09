@@ -35,7 +35,7 @@ import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 /**
  * @author jsissom
- * @version $Id: OriginEntryDaoOjb.java,v 1.8 2006-02-20 16:50:41 jsissom Exp $
+ * @version $Id: OriginEntryDaoOjb.java,v 1.9 2006-03-09 15:22:53 larevans Exp $
  * 
  */
 
@@ -89,6 +89,14 @@ public class OriginEntryDaoOjb extends PersistenceBrokerDaoSupport implements Or
    */
   public void saveOriginEntry(OriginEntry entry) {
     LOG.debug("saveOriginEntry() started");
+    
+    if(null != entry 
+    && null != entry.getTransactionLedgerEntryDesc()
+    && 40 < entry.getTransactionLedgerEntryDesc().length()) {
+        
+        entry.setTransactionLedgerEntryDesc(entry.getTransactionLedgerEntryDesc().substring(0, 39));
+        
+    }
 
     getPersistenceBrokerTemplate().store(entry);
   }

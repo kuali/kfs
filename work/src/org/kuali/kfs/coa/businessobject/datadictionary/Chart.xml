@@ -13,7 +13,6 @@
       <inquiryFields>
         <field attributeName="chartOfAccountsCode" />
         <field attributeName="finCoaManagerUniversalId" />
-        <field attributeName="finChartOfAcctOriginationCd" />
         <field attributeName="finChartOfAccountDescription" />
         <field attributeName="finChartOfAccountActiveIndicator" />
         <field attributeName="financialCashObjectCode" />
@@ -46,7 +45,6 @@
       <lookupFields>
         <lookupField attributeName="chartOfAccountsCode" required="false" />
         <lookupField attributeName="finCoaManagerUniversalId" />
-        <lookupField attributeName="finChartOfAcctOriginationCd" />
         <lookupField attributeName="finChartOfAccountDescription" />
         <lookupField attributeName="finChartOfAccountActiveIndicator" />
         <lookupField attributeName="financialCashObjectCode" />
@@ -56,7 +54,6 @@
       <resultFields>
         <field attributeName="chartOfAccountsCode" />
         <field attributeName="finCoaManagerUniversalId" />
-        <field attributeName="finChartOfAcctOriginationCd" />
         <field attributeName="finChartOfAccountDescription" />
         <field attributeName="finChartOfAccountActiveIndicator" />
         <field attributeName="financialCashObjectCode" />
@@ -103,16 +100,6 @@
         <summary>Chart Manager</summary>
         <description>Chart Manager</description>
       </attributeReference>
-
-	<attributeReference name="finChartOfAcctOriginationCd"
-			                    sourceClassName="org.kuali.core.bo.OriginationCode" 
-								sourceAttributeName="financialSystemOriginationCode">
-		<label>Origin Code</label>
-        <shortLabel>Origin</shortLabel>
-		<required>false</required>
-        <summary>Origin Code</summary>
-        <description>Origin Code</description>
-	</attributeReference>
 
       <attribute
         	name="finChartOfAccountDescription"
@@ -227,8 +214,8 @@
           <select
             valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" />
         </control>
-        <summary>Origin Code</summary>
-        <description>Origin Code</description>
+        <summary>Reports To Chart of Accounts Code</summary>
+        <description>Reports To Chart of Accounts Code</description>
 	</attributeReference>
       
 	<attributeReference

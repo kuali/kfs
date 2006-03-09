@@ -37,7 +37,6 @@ public class Chart extends BusinessObjectBase {
 
     private static final long serialVersionUID = 4129020803214027609L;
 
-    private String finChartOfAcctOriginationCd;
     private String finChartOfAccountDescription;
     private boolean finChartOfAccountActiveIndicator;
     private String finCoaManagerUniversalId;
@@ -55,7 +54,6 @@ public class Chart extends BusinessObjectBase {
     private String expBdgtEliminationsFinObjCd;
 
 
-    private OriginationCode finChartOfAcctOrigination;
     private ObjectCode incBdgtEliminationsFinObj;
     private ObjectCode expBdgtEliminationsFinObj;
     private ObjectCode finAccountsPayableObject;
@@ -74,26 +72,6 @@ public class Chart extends BusinessObjectBase {
      * Default no-arg constructor.
      */
     public Chart() {
-    }
-
-    /**
-     * Gets the finChartOfAcctOriginationCd attribute.
-     * 
-     * @return - Returns the finChartOfAcctOriginationCd
-     *  
-     */
-    public String getFinChartOfAcctOriginationCd() {
-        return finChartOfAcctOriginationCd;
-    }
-
-    /**
-     * Sets the finChartOfAcctOriginationCd attribute.
-     * 
-     * @param - finChartOfAcctOriginationCd The finChartOfAcctOriginationCd to set.
-     *  
-     */
-    public void setFinChartOfAcctOriginationCd(String finChartOfAcctOriginationCd) {
-        this.finChartOfAcctOriginationCd = finChartOfAcctOriginationCd;
     }
 
     /**
@@ -352,25 +330,6 @@ public class Chart extends BusinessObjectBase {
      */
     public void setChartOfAccountsCode(String chartOfAccountsCode) {
         this.chartOfAccountsCode = chartOfAccountsCode;
-    }
-
-    /**
-     * 
-     * This method...
-     * @return
-     */
-    public OriginationCode getFinChartOfAcctOrigination() {
-        return finChartOfAcctOrigination;
-    }
-
-    /**
-     * 
-     * This method...
-     * @param finChartOfAcctOrigination
-     * @deprecated
-     */
-    public void setFinChartOfAcctOrigination(OriginationCode finChartOfAcctOrigination) {
-        this.finChartOfAcctOrigination = finChartOfAcctOrigination;
     }
 
     /**

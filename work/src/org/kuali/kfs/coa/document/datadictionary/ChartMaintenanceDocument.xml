@@ -34,8 +34,6 @@
 			<reference  attributeName="finCoaManagerUniversal" 
 						attributeToHighlightOnFail="finCoaManagerUniversalId" 
 						displayFieldName="Chart Manager" />
-			<reference  attributeName="finChartOfAcctOrigination" 
-						attributeToHighlightOnFail="finChartOfAcctOriginationCd" />
 			<reference  attributeName="financialCashObject" 
 						attributeToHighlightOnFail="financialCashObjectCode" />
 			<reference  attributeName="finAccountsPayableObject" 
@@ -65,7 +63,6 @@
                 <maintainableItems>
 					<maintainableField name="chartOfAccountsCode" required="true" />			   
 					<maintainableField name="finCoaManagerUniversalId" />
-					<maintainableField name="finChartOfAcctOriginationCd" />
 					<maintainableField name="finChartOfAccountDescription" />
 					<maintainableField name="finChartOfAccountActiveIndicator" />
 					<maintainableField name="financialCashObjectCode" />

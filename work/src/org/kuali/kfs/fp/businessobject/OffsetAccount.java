@@ -30,6 +30,7 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
+import org.kuali.module.chart.bo.ObjectCodeCurrent;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -41,10 +42,12 @@ public class OffsetAccount extends BusinessObjectBase {
 	private String financialOffsetObjectCode;
 	private String financialOffsetChartOfAccountCode;
 	private String financialOffsetAccountNumber;
-	private Chart chart;
+
+    private Chart chart;
 	private Account account;
 	private Chart financialOffsetChartOfAccount;
     private Account financialOffsetAccount;
+    private ObjectCodeCurrent objectCodeCurrent;
     
 	/**
 	 * Default constructor.
@@ -232,6 +235,21 @@ public class OffsetAccount extends BusinessObjectBase {
     public void setFinancialOffsetAccount(Account financialOffsetAccount) {
         this.financialOffsetAccount = financialOffsetAccount;
     }    
+
+    /**
+     * @return Returns the objectCodeCurrent.
+     */
+    public ObjectCodeCurrent getObjectCodeCurrent() {
+        return objectCodeCurrent;
+    }
+
+    /**
+     * @param objectCodeCurrent The objectCodeCurrent to set.
+     * @deprecated
+     */
+    public void setObjectCodeCurrent(ObjectCodeCurrent objectCodeCurrent) {
+        this.objectCodeCurrent = objectCodeCurrent;
+    }    
     
 	/**
 	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
@@ -243,6 +261,5 @@ public class OffsetAccount extends BusinessObjectBase {
         m.put("financialOffsetObjectCode", this.financialOffsetObjectCode);
         return m;
     }
-
 
 }

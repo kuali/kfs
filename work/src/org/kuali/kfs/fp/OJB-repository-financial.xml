@@ -1447,6 +1447,10 @@
 	<reference-descriptor name="financialOffsetChartOfAccount" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="financialOffsetChartOfAccountCode" />
 	</reference-descriptor>
+	<reference-descriptor name="objectCodeCurrent" class-ref="org.kuali.module.chart.bo.ObjectCodeCurrent" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+		<foreignkey field-ref="financialOffsetChartOfAccountCode" />
+		<foreignkey field-ref="financialOffsetObjectCode" />
+	</reference-descriptor>	
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.financial.bo.MessageOfTheDay" table="FP_MOTD_T">

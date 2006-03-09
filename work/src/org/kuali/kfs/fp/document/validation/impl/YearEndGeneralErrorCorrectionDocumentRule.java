@@ -44,16 +44,4 @@ public class YearEndGeneralErrorCorrectionDocumentRule extends GeneralErrorCorre
         super.customizeExplicitGeneralLedgerPendingEntry(transactionalDocument, accountingLine, explicitEntry);
         // also need to set the posting period and year to year end
     }
-
-    /**
-     * 
-     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#customizeOffsetGeneralLedgerPendingEntry(org.kuali.core.document.TransactionalDocument,
-     *      org.kuali.core.bo.AccountingLine, org.kuali.module.gl.bo.GeneralLedgerPendingEntry,
-     *      org.kuali.module.gl.bo.GeneralLedgerPendingEntry)
-     */
-    protected void customizeOffsetGeneralLedgerPendingEntry(TransactionalDocument transactionalDocument,
-            AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry, GeneralLedgerPendingEntry offsetEntry) {
-        super.customizeOffsetGeneralLedgerPendingEntry(transactionalDocument, accountingLine, explicitEntry, offsetEntry);
-        // may also need to set the posting period and year to year end
-    }
 }

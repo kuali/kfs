@@ -44,13 +44,4 @@ public class YearEndTransferOfFundsDocumentRule extends TransferOfFundsDocumentR
         super.customizeExplicitGeneralLedgerPendingEntry(transactionalDocument, accountingLine, explicitEntry);
         // also need to set the posting period and year to year end
     }
-
-    /**
-     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#customizeOffsetGeneralLedgerPendingEntry
-     */
-    protected void customizeOffsetGeneralLedgerPendingEntry(TransactionalDocument transactionalDocument,
-            AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry, GeneralLedgerPendingEntry offsetEntry) {
-        super.customizeOffsetGeneralLedgerPendingEntry(transactionalDocument, accountingLine, explicitEntry, offsetEntry);
-        // may also need to set the posting period and year to year end
-    }
 }

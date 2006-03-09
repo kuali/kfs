@@ -25,19 +25,22 @@ package org.kuali.module.financial.rules;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.Constants;
+import org.kuali.KeyConstants;
 import org.kuali.core.bo.SourceAccountingLine;
 import org.kuali.core.bo.TargetAccountingLine;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.rule.TransactionalDocumentRuleTestBase;
-import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.financial.document.TransferOfFundsDocument;
 import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
+import org.kuali.test.MockService;
 import org.kuali.test.parameters.AccountingLineParameter;
 import org.kuali.test.parameters.TransactionalDocumentParameter;
-import org.kuali.test.MockService;
-import org.kuali.Constants;
+
+import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * This class tests the Transfer of Funds Document's persistence, routing, and PE generation.
@@ -543,11 +546,30 @@ public class TransferOfFundsDocumentRuleTest
             "expectedFlexibleOffsetSourcePendingEntry");
     }
 
+    public void testProcessGenerateGeneralLedgerPendingEntries_validSourceExpenseMissingOffsetDefinition()
+        throws Exception
+    {
+        SpringServiceLocator.getFlexibleOffsetAccountService().setKualiConfigurationService(createMockConfigurationService(true));
+        testProcessGenerateGeneralLedgerPendingEntries(createDocumentFromParameter("tof2000documentParameter"),
+            createLineFromFixture("flexibleExpenseSourceLine"),
+            "expectedFlexibleExplicitSourcePendingEntryForExpense",
+            "expectedFlexibleOffsetSourcePendingEntryMissingOffsetDefinition", false);
+        assertGlobalErrorMapContains(Constants.ACCOUNTING_LINE_ERRORS, KeyConstants.ERROR_DOCUMENT_NO_OFFSET_DEFINITION);
+    }
+
     private KualiConfigurationService createMockConfigurationService(boolean flexibleOffsetEnabled) {
         return (KualiConfigurationService) MockService.createProxy(
             KualiConfigurationService.class, "getRequiredApplicationParameterValue",
             new Object[]{Constants.ParameterGroups.SYSTEM, Constants.SystemGroupParameterNames.FLEXIBLE_OFFSET_ENABLED_FLAG},
             flexibleOffsetEnabled ? Constants.ParameterValues.YES : Constants.ParameterValues.NO);
+    }
+
+    private TransactionalDocument createDocumentFromParameter(String transactionalDocumentParameterName)
+        throws WorkflowException
+    {
+        TransactionalDocumentParameter param = (TransactionalDocumentParameter) getFixtureEntry(transactionalDocumentParameterName)
+            .createObject();
+        return (TransactionalDocument) param.createDocument(getDocumentService());
     }
 
     ///////////////////////////////////////////////////////////////////////////

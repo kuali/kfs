@@ -142,21 +142,10 @@ public class DisbursementVoucherAction extends KualiTransactionalDocumentActionB
         coverSheetService.generateDisbursementVoucherCoverSheet(directory,
                 DisbursementVoucherCoverSheetServiceImpl.DV_COVERSHEET_TEMPLATE_NM, document, baos);
         String fileName = document.getFinancialDocumentNumber() + "_cover_sheet.pdf";
-
-        // set response
-        response.setContentType("application/pdf");
-        response.setHeader("Content-disposition", "attachment; filename=" + fileName);
-        response.setHeader("Expires", "0");
-        response.setHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
-        response.setHeader("Pragma", "public");
-        response.setContentLength(baos.size());
-
-        // write to output
-        ServletOutputStream out = response.getOutputStream();
-        baos.writeTo(response.getOutputStream());
-        out.flush();
-        baos.close();
-
+        WebUtils.saveMimeOutputStreamAsFile( response, 
+                                             "application/pdf",
+                                             baos, fileName );
+        
         return mapping.findForward(Constants.MAPPING_BASIC);
 
     }

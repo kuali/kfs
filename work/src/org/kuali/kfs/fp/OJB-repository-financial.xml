@@ -438,7 +438,7 @@
 		<foreignkey field-ref="postingPeriodCode" />
 	</reference-descriptor>
 	
-	<reference-descriptor name="balanceType" class-ref="org.kuali.module.chart.bo.codes.BalanceTyp" auto-retrieve="true" auto-update="none" auto-delete="none" porxy="true">
+	<reference-descriptor name="balanceType" class-ref="org.kuali.module.chart.bo.codes.BalanceTyp" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="balanceTypeCode"/>
     </reference-descriptor>
 </class-descriptor>

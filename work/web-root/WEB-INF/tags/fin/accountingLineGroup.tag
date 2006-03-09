@@ -56,16 +56,24 @@
 
 <c:set var="displayHidden" value="false" />
 
+<c:set var="errorPattern" value="${isSource ? Constants.SOURCE_ACCOUNTING_LINE_ERROR_PATTERN : Constants.TARGET_ACCOUNTING_LINE_ERROR_PATTERN}"/>
+<%-- need var titleName because the EL + operator is arithmetic only, not String concat --%>
+<c:set var="titleName" value="${sourceOrTarget}AccountingLinesSectionTitle"/>
+<c:set var="sectionTitle" value="${KualiForm.document[titleName]}"/>
 
-<kul:displayIfErrors keyMatch="${sourceOrTarget}AccountingLines">
+<kul:displayIfErrors keyMatch="${errorPattern}">
     <tr>
         <td colspan="${totalColumnWidth}">
-            <kul:errors keyMatch="${sourceOrTarget}AccountingLines" />
+            <kul:errors keyMatch="${errorPattern}" errorTitle="Errors found in ${sectionTitle} section:"/>
         </td>
     </tr>    
 </kul:displayIfErrors>
 
-<fin:accountingLineImportRow rightColumnCount="${rightColumnCount}" isSource="${isSource}" editingMode="${editingMode}"/>
+<fin:accountingLineImportRow
+    rightColumnCount="${rightColumnCount}"
+    isSource="${isSource}"
+    editingMode="${editingMode}"
+    sectionTitle="${sectionTitle}"/>
 
 <tr>
     <kul:htmlAttributeHeaderCell literalLabel="&nbsp;" rowspan="2"/>

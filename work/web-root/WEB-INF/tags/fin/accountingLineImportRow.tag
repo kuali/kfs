@@ -10,6 +10,8 @@
 <%@ attribute name="isSource" required="true"
     description="Boolean whether this group is of source or target lines." %>
 <%@ attribute name="editingMode" required="true" type="java.util.Map"%>
+<%@ attribute name="sectionTitle" required="true"
+    description="The document specific name of this group of accounting lines, e.g., 'To', 'Disencumbrance', etc." %>
 
 <c:set var="sourceOrTarget" value="${isSource ? 'source' : 'target'}"/>
 <c:set var="capitalSourceOrTarget" value="${isSource ? 'Source' : 'Target'}"/>
@@ -19,8 +21,6 @@
 <c:set var="showImport" value="show${capitalSourceOrTarget}Import"/>
 <c:set var="file" value="${sourceOrTarget}File"/>
 <c:set var="uploadLines" value="upload${capitalSourceOrTarget}Lines"/>
-<%-- need var titleName because EL + operator is arithmetic only, not String concat --%>
-<c:set var="titleName" value="${sourceOrTarget}AccountingLinesSectionTitle"/>
 
 <c:set var="titleColSpan" value="4" />
 <c:if test="${empty editingMode['fullEntry']}" >
@@ -28,7 +28,7 @@
 </c:if>
 
 <tr>
-    <td colspan="${titleColSpan}" class="tab-subhead">${KualiForm.document[titleName]}</td>
+    <td colspan="${titleColSpan}" class="tab-subhead">${sectionTitle}</td>
 
     <c:if test="${!empty editingMode['fullEntry']}">
         <td colspan="${rightColumnCount}" class="tab-subhead-import" align="right" nowrap="nowrap">

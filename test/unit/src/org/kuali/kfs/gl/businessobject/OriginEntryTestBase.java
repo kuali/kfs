@@ -181,7 +181,7 @@ public class OriginEntryTestBase extends KualiTestBaseWithSpringOnly {
         
         String desc = expected.substring(51, 92).trim();
         // If it's an offset entry, adjusted the expected entry to expect the runDate for the transactionDate.
-        if("GENERATED OFFSET".equals(desc)) {
+        if("GENERATED OFFSET".equals(desc) && null != runDateForOffsets) {
             
             StringBuffer modifiedExpectation = new StringBuffer();
             modifiedExpectation.append(expected.substring(0, 109));

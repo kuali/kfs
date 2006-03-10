@@ -27,10 +27,16 @@ import java.util.List;
 
 import org.kuali.core.bo.SourceAccountingLine;
 import org.kuali.core.bo.TargetAccountingLine;
+import org.kuali.core.document.Document;
 import org.kuali.core.document.TransactionalDocumentTestBase;
+import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.test.parameters.AccountingLineParameter;
 import org.kuali.test.parameters.DocumentParameter;
 import org.kuali.test.parameters.TransactionalDocumentParameter;
+import org.kuali.workflow.WorkflowTestUtils;
+
+import edu.iu.uis.eden.EdenConstants;
+import edu.iu.uis.eden.clientapp.vo.NetworkIdVO;
 
 /**
  * This class is used to test TransferOfFundsDocument.
@@ -48,6 +54,14 @@ public class TransferOfFundsDocumentTest extends TransactionalDocumentTestBase {
     private static final String USER_APPROVE1 = "user_accountSet1";
     private static final String USER_APPROVE2 = "user_accountSet2";
 
+    // The set of Route Nodes that the test document will progress through
+    
+	private static final String ADHOC = "Adhoc Routing";
+	private static final String ACCOUNT_REVIEW = "Account Review";
+	private static final String ORG_REVIEW = "Org Review";
+	private static final String SUB_FUND = "Sub Fund";
+
+    
     private static final String[] FIXTURE_COLLECTION_NAMES =
         { COLLECTION_NAME };
     
@@ -263,4 +277,57 @@ public class TransferOfFundsDocumentTest extends TransactionalDocumentTestBase {
     ///////////////////////////////////////////////////////////////////////////
     // Fixture Methods End Here                                              //
     ///////////////////////////////////////////////////////////////////////////
+
+    public void testWorkflowRouting() throws Exception {
+    	NetworkIdVO VPUTMAN = new NetworkIdVO("VPUTMAN");
+    	NetworkIdVO RORENFRO = new NetworkIdVO("RORENFRO");
+    	NetworkIdVO CSWINSON = new NetworkIdVO("CSWINSON");
+    	NetworkIdVO RRUFFNER = new NetworkIdVO("RRUFFNER");
+    	NetworkIdVO SEASON = new NetworkIdVO("SEASON");
+    	
+    	// save and route the document
+        Document document = buildDocument();
+        routeDocument(document);
+
+        WorkflowTestUtils.waitForNodeChange(document.getDocumentHeader().getWorkflowDocument(), ACCOUNT_REVIEW);
+        
+        // the document should now be routed to VPUTMAN and RORENFRO as Fiscal Officers
+        KualiWorkflowDocument wfDoc = WorkflowTestUtils.refreshDocument(document, VPUTMAN);
+        assertTrue("At incorrect node.", WorkflowTestUtils.isAtNode(document, ACCOUNT_REVIEW));
+        assertTrue("Document should be enroute.", wfDoc.stateIsEnroute());
+        assertTrue("VPUTMAN should have an approve request.", wfDoc.isApprovalRequested());
+        getDocumentService().approve(document, "Test approving as VPUTMAN", null);
+        
+        WorkflowTestUtils.waitForApproveRequest(wfDoc, RORENFRO.getNetworkId());
+        wfDoc = WorkflowTestUtils.refreshDocument(document, RORENFRO);
+        assertTrue("RORENFRO should have an approve request.", wfDoc.isApprovalRequested());
+        getDocumentService().approve(document, "Test approving as RORENFRO", null);
+        
+        WorkflowTestUtils.waitForNodeChange(document.getDocumentHeader().getWorkflowDocument(), ORG_REVIEW);
+        
+        // now doc should be in Org Review routing to CSWINSON, RRUFFNER, and SEASON
+        wfDoc = WorkflowTestUtils.refreshDocument(document, CSWINSON);
+        assertTrue("At incorrect node.", WorkflowTestUtils.isAtNode(document, ORG_REVIEW));
+        assertTrue("CSWINSON should have an approve request.", wfDoc.isApprovalRequested());
+        getDocumentService().approve(document, "Test approving as CSWINSON", null);
+        
+        WorkflowTestUtils.waitForApproveRequest(wfDoc, RRUFFNER.getNetworkId());
+        wfDoc = WorkflowTestUtils.refreshDocument(document, RRUFFNER);
+        assertTrue("RRUFFNER should have an approve request.", wfDoc.isApprovalRequested());
+        getDocumentService().approve(document, "Test approving as RRUFFNER", null);
+
+        WorkflowTestUtils.waitForApproveRequest(wfDoc, SEASON.getNetworkId());
+        wfDoc = WorkflowTestUtils.refreshDocument(document, SEASON);
+        assertTrue("SEASON should have an approve request.", wfDoc.isApprovalRequested());
+        getDocumentService().approve(document, "Test approving as SEASON", null);
+
+        
+        // TODO once the sub fund node has been added, add code here to test it... 
+                
+        WorkflowTestUtils.waitForStatusChange(wfDoc, EdenConstants.ROUTE_HEADER_FINAL_CD);
+        
+        wfDoc = WorkflowTestUtils.refreshDocument(document, VPUTMAN);
+        assertTrue("Document should now be final.", wfDoc.stateIsFinal());
+    }
+
 }

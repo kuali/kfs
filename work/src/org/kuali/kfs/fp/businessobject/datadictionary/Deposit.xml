@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../core/datadictionary/dataDictionary-1_0.dtd">
+<dictionaryEntry>
+	<businessObject businessObjectClass="org.kuali.module.financial.bo.Deposit">
+		<customAttributeEnabled>false</customAttributeEnabled>
+
+		<attributes>
+            <attributeReference name="financialDocumentNumber" sourceClassName="org.kuali.core.document.DocumentHeader" sourceAttributeName="financialDocumentNumber" />
+
+			<attribute name="financialDocumentDepositLineNumber" >
+                <label>Deposit Number</label>
+                <shortLabel>Deposit Number</shortLabel>
+
+                <maxLength>10</maxLength>
+				<required>true</required>
+
+                <control>
+                    <text size="2" />
+                </control>
+
+                <summary>Deposit number</summary>
+                <description>Deposit number</description>
+            </attribute>
+
+
+            <attribute name="depositTypeCode" >
+                <label>Deposit Type</label>
+                <shortLabel>Deposit Type</shortLabel>
+
+                <maxLength>10</maxLength>
+				<required>true</required>
+
+                <control>
+                    <text size="10" />
+                </control>
+
+                <summary>Deposit Type code</summary>
+                <description>Deposit Type code</description>
+            </attribute>
+
+			
+            <attributeReference name="depositDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
+                <label>Deposit Date</label>
+                <shortLabel>Deposit Date</shortLabel>
+				<required>true</required>
+                
+                <summary>Deposit Date</summary>
+                <description>Deposit Date</description>
+			</attributeReference>		            
+
+            <attributeReference name="depositAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
+				<required>true</required>
+			</attributeReference>
+            
+            <attribute name="depositTicketNumber" >
+                <label>Deposit Ticket #</label>
+                <shortLabel>Deposit #</shortLabel>
+
+                <maxLength>20</maxLength>
+
+                <control>
+                    <text size="10" />
+                </control>
+
+                <summary>Deposit Ticket number</summary>
+                <description>Deposit Ticket number</description>
+            </attribute>
+
+
+            <attributeReference name="depositBankCode" sourceClassName="org.kuali.module.financial.bo.Bank" sourceAttributeName="financialDocumentBankCode">
+				<required>true</required>
+			</attributeReference>
+            
+            <attributeReference name="depositBankAccountNumber" sourceClassName="org.kuali.module.financial.bo.BankAccount" sourceAttributeName="finDocumentBankAccountNumber">
+				<required>true</required>
+			</attributeReference>
+		</attributes>
+	</businessObject>
+</dictionaryEntry>
+

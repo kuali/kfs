@@ -71,6 +71,9 @@
         <property name="cashDrawerService">
             <ref bean="cashDrawerService" />
         </property>
+        <property name="dateTimeService">
+            <ref bean="dateTimeService" />
+        </property>
      </bean>
 
     <bean id="flexibleOffsetAccountService" class="org.kuali.module.financial.service.impl.FlexibleOffsetAccountServiceImpl">

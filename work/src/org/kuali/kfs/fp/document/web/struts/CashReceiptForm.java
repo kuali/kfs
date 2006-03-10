@@ -26,14 +26,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.util.LabelValueBean;
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
 import org.kuali.PropertyConstants;
-import org.kuali.core.document.DocumentHeader;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
@@ -43,9 +40,6 @@ import org.kuali.module.financial.bo.CheckBase;
 import org.kuali.module.financial.bo.Deposit;
 import org.kuali.module.financial.bo.DepositCashReceiptControl;
 import org.kuali.module.financial.document.CashReceiptDocument;
-import org.xml.sax.DocumentHandler;
-
-import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * This class is the action form for Cash Receipts.

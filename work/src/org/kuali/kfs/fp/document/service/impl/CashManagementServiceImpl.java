@@ -37,8 +37,10 @@ import org.kuali.core.document.DocumentHeader;
 import org.kuali.core.exceptions.InfrastructureException;
 import org.kuali.core.exceptions.UnknownDocumentIdException;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.core.workflow.service.WorkflowDocumentService;
 import org.kuali.module.financial.bo.CashDrawer;
@@ -66,6 +68,7 @@ public class CashManagementServiceImpl implements CashManagementService {
     private WorkflowDocumentService workflowDocumentService;
     private DocumentService documentService;
     private CashDrawerService cashDrawerService;
+    private DateTimeService dateTimeService;
 
     /**
      * @see org.kuali.module.financial.service.CashManagementService#createCashManagementDocument(java.util.List, java.lang.String)
@@ -155,8 +158,15 @@ public class CashManagementServiceImpl implements CashManagementService {
         deposit.setFinancialDocumentNumber(cashManagementDoc.getFinancialDocumentNumber());
         deposit.setCashManagementDocument(cashManagementDoc);
         deposit.setFinancialDocumentDepositLineNumber(lineNumber);
-        deposit.setFinancialDocumentDepositTypeCode(Constants.DepositConstants.DEPOSIT_TYPE_FINAL);
+        deposit.setDepositTypeCode(Constants.DepositConstants.DEPOSIT_TYPE_FINAL);
+        deposit.setDepositDate(dateTimeService.getCurrentSqlDate());
 
+        KualiDecimal total = KualiDecimal.ZERO;
+        for (Iterator i = verifiedCashReceipts.iterator(); i.hasNext();) {
+            CashReceiptDocument crDoc = (CashReceiptDocument) i.next();
+            total = total.add(crDoc.getSumTotalAmount());
+        }
+        deposit.setDepositAmount(total);
         businessObjectService.save(deposit);
 
         // attach the Cash Receipts
@@ -443,5 +453,11 @@ public class CashManagementServiceImpl implements CashManagementService {
         return cashDrawerService;
     }
 
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
+    }
 
+    public DateTimeService getDateTimeService() {
+        return dateTimeService;
+    }
 }

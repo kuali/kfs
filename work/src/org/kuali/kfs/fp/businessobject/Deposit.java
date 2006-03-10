@@ -43,13 +43,13 @@ public class Deposit extends BusinessObjectBase {
     private String financialDocumentNumber;
     private Integer financialDocumentDepositLineNumber;
     // attributes
-    private String financialDocumentDepositTypeCode;
-    private Date financialDocumentDepositDate;
-    private KualiDecimal financialDocumentDepositAmount;
-    private String financialDocumentDepositTicketNumber;
+    private String depositTypeCode;
+    private Date depositDate;
+    private KualiDecimal depositAmount;
+    private String depositTicketNumber;
     // related objects and foreign keys
-    private String financialDocumentDepositBankCode;
-    private String financialDocumentBankAccountNumber;
+    private String depositBankCode;
+    private String depositBankAccountNumber;
 
     private BankAccount bankAccount;
     private CashManagementDocument cashManagementDocument;
@@ -116,104 +116,104 @@ public class Deposit extends BusinessObjectBase {
 
 
     /**
-     * @return current value of financialDocumentBankAccountNumber.
+     * @return current value of depositBankAccountNumber.
      */
-    public String getFinancialDocumentBankAccountNumber() {
-        return financialDocumentBankAccountNumber;
+    public String getDepositBankAccountNumber() {
+        return depositBankAccountNumber;
     }
 
     /**
-     * Sets the financialDocumentBankAccountNumber attribute value.
+     * Sets the depositBankAccountNumber attribute value.
      * 
-     * @param financialDocumentBankAccountNumber The financialDocumentBankAccountNumber to set.
+     * @param depositBankAccountNumber The depositBankAccountNumber to set.
      */
-    public void setFinancialDocumentBankAccountNumber(String financialDocumentBankAccountNumber) {
-        this.financialDocumentBankAccountNumber = financialDocumentBankAccountNumber;
+    public void setDepositBankAccountNumber(String depositBankAccountNumber) {
+        this.depositBankAccountNumber = depositBankAccountNumber;
     }
 
 
     /**
-     * @return current value of financialDocumentDepositAmount.
+     * @return current value of depositAmount.
      */
-    public KualiDecimal getFinancialDocumentDepositAmount() {
-        return financialDocumentDepositAmount;
+    public KualiDecimal getDepositAmount() {
+        return depositAmount;
     }
 
     /**
-     * Sets the financialDocumentDepositAmount attribute value.
+     * Sets the depositAmount attribute value.
      * 
-     * @param financialDocumentDepositAmount The financialDocumentDepositAmount to set.
+     * @param depositAmount The depositAmount to set.
      */
-    public void setFinancialDocumentDepositAmount(KualiDecimal financialDocumentDepositAmount) {
-        this.financialDocumentDepositAmount = financialDocumentDepositAmount;
+    public void setDepositAmount(KualiDecimal depositAmount) {
+        this.depositAmount = depositAmount;
     }
 
 
     /**
-     * @return current value of financialDocumentDepositBankCode.
+     * @return current value of depositBankCode.
      */
-    public String getFinancialDocumentDepositBankCode() {
-        return financialDocumentDepositBankCode;
+    public String getDepositBankCode() {
+        return depositBankCode;
     }
 
     /**
-     * Sets the financialDocumentDepositBankCode attribute value.
+     * Sets the depositBankCode attribute value.
      * 
-     * @param financialDocumentDepositBankCode The financialDocumentDepositBankCode to set.
+     * @param depositBankCode The depositBankCode to set.
      */
-    public void setFinancialDocumentDepositBankCode(String financialDocumentDepositBankCode) {
-        this.financialDocumentDepositBankCode = financialDocumentDepositBankCode;
+    public void setDepositBankCode(String depositBankCode) {
+        this.depositBankCode = depositBankCode;
     }
 
 
     /**
-     * @return current value of financialDocumentDepositDate.
+     * @return current value of depositDate.
      */
-    public Date getFinancialDocumentDepositDate() {
-        return financialDocumentDepositDate;
+    public Date getDepositDate() {
+        return depositDate;
     }
 
     /**
-     * Sets the financialDocumentDepositDate attribute value.
+     * Sets the depositDate attribute value.
      * 
-     * @param financialDocumentDepositDate The financialDocumentDepositDate to set.
+     * @param depositDate The depositDate to set.
      */
-    public void setFinancialDocumentDepositDate(Date financialDocumentDepositDate) {
-        this.financialDocumentDepositDate = financialDocumentDepositDate;
+    public void setDepositDate(Date depositDate) {
+        this.depositDate = depositDate;
     }
 
 
     /**
-     * @return current value of financialDocumentDepositTicketNumber.
+     * @return current value of depositTicketNumber.
      */
-    public String getFinancialDocumentDepositTicketNumber() {
-        return financialDocumentDepositTicketNumber;
+    public String getDepositTicketNumber() {
+        return depositTicketNumber;
     }
 
     /**
-     * Sets the financialDocumentDepositTicketNumber attribute value.
+     * Sets the depositTicketNumber attribute value.
      * 
-     * @param financialDocumentDepositTicketNumber The financialDocumentDepositTicketNumber to set.
+     * @param depositTicketNumber The depositTicketNumber to set.
      */
-    public void setFinancialDocumentDepositTicketNumber(String financialDocumentDepositTicketNumber) {
-        this.financialDocumentDepositTicketNumber = financialDocumentDepositTicketNumber;
+    public void setDepositTicketNumber(String depositTicketNumber) {
+        this.depositTicketNumber = depositTicketNumber;
     }
 
 
     /**
-     * @return current value of financialDocumentDepositTypeCode.
+     * @return current value of depositTypeCode.
      */
-    public String getFinancialDocumentDepositTypeCode() {
-        return financialDocumentDepositTypeCode;
+    public String getDepositTypeCode() {
+        return depositTypeCode;
     }
 
     /**
-     * Sets the financialDocumentDepositTypeCode attribute value.
+     * Sets the depositTypeCode attribute value.
      * 
-     * @param financialDocumentDepositTypeCode The financialDocumentDepositTypeCode to set.
+     * @param depositTypeCode The depositTypeCode to set.
      */
-    public void setFinancialDocumentDepositTypeCode(String financialDocumentDepositTypeCode) {
-        this.financialDocumentDepositTypeCode = financialDocumentDepositTypeCode;
+    public void setDepositTypeCode(String depositTypeCode) {
+        this.depositTypeCode = depositTypeCode;
     }
 
 

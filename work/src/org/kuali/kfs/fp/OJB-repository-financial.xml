@@ -681,17 +681,17 @@
 	<field-descriptor name="financialDocumentDepositLineNumber" column="FDOC_LINE_NBR" jdbc-type="INTEGER" primarykey="true" index="true"/>
 
     <!-- attributes -->
-	<field-descriptor name="financialDocumentDepositTypeCode" column="FDOC_DPST_TYP_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="financialDocumentDepositDate" column="FDOC_DPST_DT" jdbc-type="DATE"/>
-	<field-descriptor name="financialDocumentDepositBankCode" column="FDOC_DPST_BNK_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="financialDocumentBankAccountNumber" column="FDOC_BNK_ACCT_NBR" jdbc-type="VARCHAR"/>
-	<field-descriptor name="financialDocumentDepositTicketNumber" column="FDOC_DPST_TKT_NBR" jdbc-type="VARCHAR"/>
-	<field-descriptor name="financialDocumentDepositAmount" column="FDOC_DPST_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="depositTypeCode" column="FDOC_DPST_TYP_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="depositDate" column="FDOC_DPST_DT" jdbc-type="DATE"/>
+	<field-descriptor name="depositBankCode" column="FDOC_DPST_BNK_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="depositBankAccountNumber" column="FDOC_BNK_ACCT_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="depositTicketNumber" column="FDOC_DPST_TKT_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="depositAmount" column="FDOC_DPST_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
 
     <!-- object references -->
 	<reference-descriptor name="bankAccount" class-ref="org.kuali.module.financial.bo.BankAccount" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="financialDocumentDepositBankCode" />
-		<foreignkey field-ref="financialDocumentBankAccountNumber" />
+		<foreignkey field-ref="depositBankCode" />
+		<foreignkey field-ref="depositBankAccountNumber" />
 	</reference-descriptor>
 
 	<reference-descriptor name="cashManagementDocument" class-ref="org.kuali.module.financial.document.CashManagementDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
@@ -743,7 +743,7 @@
 	<field-descriptor name="nextRevolvingFundLineNumber" column="FDOC_NXT_RF_LN_NBR" jdbc-type="INTEGER"/>
 	<field-descriptor name="nextAdvanceDepositLineNumber" column="FDOC_NXT_AD_LN_NBR" jdbc-type="INTEGER"/>
 	<field-descriptor name="workgroupName" column="WRKGRP_NM" jdbc-type="VARCHAR"/>
-	<field-descriptor name="financialDocumentDepositDate" column="FDOC_DEPOSIT_DT" jdbc-type="DATE"/>
+	<field-descriptor name="depositDate" column="FDOC_DEPOSIT_DT" jdbc-type="DATE"/>
 
 	<reference-descriptor name="cashReceiptDocument" class-ref="org.kuali.module.financial.document.CashReceiptDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="financialDocumentNumber" />

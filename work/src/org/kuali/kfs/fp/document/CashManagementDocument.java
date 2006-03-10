@@ -29,12 +29,15 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.core.document.TransactionalDocumentBase;
+import org.kuali.core.document.DocumentBase;
+import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.module.financial.bo.CashDrawer;
+import org.kuali.module.financial.bo.Deposit;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class CashManagementDocument extends TransactionalDocumentBase {
+public class CashManagementDocument extends DocumentBase {
     private String workgroupName;
     private String financialDocumentReferenceNumber;
 
@@ -46,23 +49,6 @@ public class CashManagementDocument extends TransactionalDocumentBase {
      */
     public CashManagementDocument() {
         deposits = new ArrayList();
-    }
-
-
-    /**
-     * @return current value of deposits.
-     */
-    public List getDeposits() {
-        return deposits;
-    }
-
-    /**
-     * Sets the deposits attribute value.
-     * 
-     * @param deposits The deposits to set.
-     */
-    public void setDeposits(List deposits) {
-        this.deposits = deposits;
     }
 
 
@@ -99,7 +85,65 @@ public class CashManagementDocument extends TransactionalDocumentBase {
         this.workgroupName = workgroupName;
     }
 
+    /**
+     * Derives and returns the cash drawer status for the document's workgroup
+     */
+    public String getCashDrawerStatus() {
+        CashDrawer drawer = SpringServiceLocator.getCashDrawerService().getByWorkgroupName(getWorkgroupName());
+        String statusCode = drawer.getStatusCode();
 
+        return statusCode;
+    }
+
+    /**
+     * @param cashDrawerStatus
+     */
+    public void setCashDrawerStatus(String cashDrawerStatus) {
+        // ignored, because that value is dynamically retrieved from the service
+    }
+
+    /* Deposit-list maintenance */
+    /**
+     * @return current List of Deposits
+     */
+    public List getDeposits() {
+        return deposits;
+    }
+
+    /**
+     * Sets the current List of Deposits
+     * 
+     * @param deposits
+     */
+    public void setDeposits(List deposits) {
+        this.deposits = deposits;
+    }
+
+    /**
+     * Implementation creates empty Deposits as a side-effect, so that Struts' efforts to set fields of lines which haven't been
+     * created will succeed rather than causing a NullPointerException.
+     * 
+     * @return Deposit at the given index
+     */
+    public Deposit getDeposit(int index) {
+        extendDeposits(index + 1);
+
+        return (Deposit) deposits.get(index);
+    }
+
+    /**
+     * Adds default AccountingLineDecorators to sourceAccountingLineDecorators until it contains at least minSize elements
+     * 
+     * @param minSize
+     */
+    private void extendDeposits(int minSize) {
+        while (deposits.size() < minSize) {
+            deposits.add(new Deposit());
+        }
+    }
+
+
+    /* utility methods */
     /**
      * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
      */

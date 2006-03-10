@@ -46,7 +46,7 @@ public class CashReceiptHeader extends BusinessObjectBase {
     private Integer nextRevolvingFundLineNumber;
     private Integer nextAdvanceDepositLineNumber;
     private String workgroupName;
-    private Date financialDocumentDepositDate;
+    private Date depositDate;
 
     private CashReceiptDocument cashReceiptDocument;
     private List depositCashReceiptControl;
@@ -228,23 +228,23 @@ public class CashReceiptHeader extends BusinessObjectBase {
 
 
     /**
-     * Gets the financialDocumentDepositDate attribute.
+     * Gets the depositDate attribute.
      * 
-     * @return - Returns the financialDocumentDepositDate
+     * @return - Returns the depositDate
      * 
      */
-    public Date getFinancialDocumentDepositDate() {
-        return financialDocumentDepositDate;
+    public Date getDepositDate() {
+        return depositDate;
     }
 
     /**
-     * Sets the financialDocumentDepositDate attribute.
+     * Sets the depositDate attribute.
      * 
-     * @param - financialDocumentDepositDate The financialDocumentDepositDate to set.
+     * @param - depositDate The depositDate to set.
      * 
      */
-    public void setFinancialDocumentDepositDate(Date financialDocumentDepositDate) {
-        this.financialDocumentDepositDate = financialDocumentDepositDate;
+    public void setDepositDate(Date depositDate) {
+        this.depositDate = depositDate;
     }
 
 

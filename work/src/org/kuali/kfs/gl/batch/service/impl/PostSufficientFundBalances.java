@@ -91,7 +91,7 @@ public class PostSufficientFundBalances implements PostTransaction {
       sfBalance.setCurrentBudgetBalanceAmount(KualiDecimal.ZERO);
     }
 
-    if ( "H".equals(t.getAccount().getAccountSufficientFundsCode()) ) {
+    if ( Constants.SF_TYPE_CASH_AT_ACCOUNT.equals(t.getAccount().getAccountSufficientFundsCode()) ) {
       // 2640-PROCESS-CASH
       if ( t.getFinancialBalanceTypeCode().equals(t.getOption().getActualFinancialBalanceTypeCd()) ) {
         if ( t.getFinancialObjectCode().equals(t.getChart().getFinancialCashObjectCode()) ||

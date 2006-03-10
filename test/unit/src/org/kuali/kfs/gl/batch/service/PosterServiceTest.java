@@ -566,10 +566,70 @@ public class PosterServiceTest extends OriginEntryTestBase {
     assertEquals("ACLN_ENCUM_BAL_AMT is wrong",340.00,a.doubleValue(),0.01);
   }
 
-  /**
-   *  PostExpenditureTransaction
-   *  PostSufficientFundBalances
-   **/
+  public void testPostExpenditureTransaction() throws Exception {
+    LOG.debug("testPostExpenditureTransaction() started");
+
+  }
+
+  public void testPostSufficientFundBalances() throws Exception {
+    LOG.debug("testPostSufficientFundBalances() started");
+
+    setRollback(false);
+
+//    N              BL             2231428 
+//    A              BL             2831410        
+//    C              BL             2931477    
+//    H              BL             2931409
+//    O              BL             2231429        
+//    L              BL             2231432        
+
+    String[] inputTransactions = {
+        // N code
+        "2004BL2231428-----4166---ACEX07CHKDPDSFN00001112345DESCRIPTION                                        123.45D2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
+
+        // A code
+        "2004BL2831410-----4166---ACEX07CHKDPDSFA00001112345DESCRIPTION                                        123.45D2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
+
+        // C code
+        "2004BL2931477-----4166---ACEX07CHKDPDSFC00001112345DESCRIPTION                                        123.45D2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
+
+        // H code?
+        "2004BL2931409-----8000---ACEX07CHKDPDSFH00001112345DESCRIPTION                                        123.45D2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
+
+        // O code
+        "2004BL2231429-----4166---ACEX07CHKDPDSFO00001112345DESCRIPTION                                        123.45D2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
+
+        // L code
+        "2004BL2231432-----4166---ACEX07CHKDPDSFL00001112345DESCRIPTION                                        123.45D2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
+    };
+
+    EntryHolder[] outputTransactions = {
+        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions[0]),
+        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions[1]),
+        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions[2]),
+        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions[3]),
+        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions[4]),
+        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions[5]),
+        new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions[0]),
+        new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions[1]),
+        new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions[2]),
+        new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions[3]),
+        new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions[4]),
+        new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions[5])
+    };
+
+    clearOriginEntryTables();
+    clearSufficientFundBalanceTable();
+    loadInputTransactions(OriginEntrySource.SCRUBBER_VALID,inputTransactions);
+    posterService.postMainEntries();
+
+    assertOriginEntries(3,outputTransactions);
+
+    List balances = unitTestSqlDao.sqlSelect("select * from gl_sf_balances_t");
+    assertEquals("Should be 5 balances",5,balances.size());
+
+
+  }
 
   private void printReport() {
     System.err.println("Poster Report Errors:");

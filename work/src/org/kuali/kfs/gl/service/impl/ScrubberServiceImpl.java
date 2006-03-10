@@ -70,7 +70,7 @@ import org.springframework.util.StringUtils;
 
 /**
  * @author Anthony Potts
- * @version $Id: ScrubberServiceImpl.java,v 1.65 2006-03-08 21:39:21 larevans Exp $
+ * @version $Id: ScrubberServiceImpl.java,v 1.66 2006-03-10 16:09:14 larevans Exp $
  */
 
 public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
@@ -505,12 +505,10 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
             OriginEntryInfo workingEntryInfo = 
             	validateOriginEntryAndBuildWorkingEntry(currentEntry, unitOfWorkInfo);
             
-            // TODO (laran) not sure if this should be the workingEntry or the originEntry that 
-            // gets fed to updateAmountsForUnitOfWork.
-            
-            // updateAmountsForUnitOfWork(currentEntry, unitOfWorkInfo);
             updateAmountsForUnitOfWork(workingEntryInfo.getOriginEntry(), unitOfWorkInfo);
 
+            KualiDecimal offsetAmount = workingEntryInfo.getUnitOfWorkInfo().getTotalOffsetAmount();
+            
             // TODO (laran) figure out how and why processCostSharing and handleCostSharing are different?
             handleCostSharing(currentEntry, workingEntryInfo);
 
@@ -524,12 +522,6 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         		
             } else if (workingEntryInfo.getAccount().isAccountClosedIndicator()) { // Handle entries with closed accounts
             	
-//    		    OriginEntry closedEntry = new OriginEntry(workingEntryInfo.getOriginEntry());
-//    		    
-//    		    Account closedAccount = workingEntryInfo.getAccount();
-//    		    closedEntry.setAccountNumber(closedAccount.getAccountNumber());
-//    		    closedEntry.setChartOfAccountsCode(closedAccount.getChartOfAccountsCode());
-    		    
     		    // write expiredEntry as expired
     		    createOutputEntry(workingEntryInfo.getOriginEntry(), expiredGroup);
     		    batchInfo.expiredAccountFound();
@@ -754,6 +746,9 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         //            3411  023310        END-IF
         //            3412  023320     END-IF
         
+        KualiDecimal amount = originEntry.getTransactionLedgerEntryAmount();
+        KualiDecimal currentOffsetAmount = unitOfWorkInfo.getTotalOffsetAmount();
+        
         if(!ObjectHelper.isNull(originEntry.getBalanceType())
                 && originEntry.getBalanceType().isFinancialOffsetGenerationIndicator()
                 && !"ACLO".equals(originEntry.getFinancialDocumentTypeCode())
@@ -763,11 +758,11 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
             
             if(originEntry.isDebit()) {
                 
-                unitOfWorkInfo.getTotalOffsetAmount().add(originEntry.getTransactionLedgerEntryAmount());
+                unitOfWorkInfo.setTotalOffsetAmount(currentOffsetAmount.add(amount));
                 
             } else {
                 
-                unitOfWorkInfo.getTotalOffsetAmount().subtract(originEntry.getTransactionLedgerEntryAmount());
+                unitOfWorkInfo.setTotalOffsetAmount(currentOffsetAmount.subtract(amount));
                 
             }
             
@@ -784,11 +779,13 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         
         if("D".equals(originEntry.getTransactionDebitCreditCode())) {
             
-            unitOfWorkInfo.getTotalDebitAmount().add(originEntry.getTransactionLedgerEntryAmount());
+            KualiDecimal currentDebitAmount = unitOfWorkInfo.getTotalDebitAmount();
+            unitOfWorkInfo.setTotalDebitAmount(currentDebitAmount.add(amount));
             
         } else if ("C".equals(originEntry.getTransactionDebitCreditCode())) {
             
-            unitOfWorkInfo.getTotalCreditAmount().add(originEntry.getTransactionLedgerEntryAmount());
+            KualiDecimal currentCreditAmount = unitOfWorkInfo.getTotalCreditAmount();
+            unitOfWorkInfo.setTotalCreditAmount(currentCreditAmount.add(amount));
             
         }
         
@@ -1207,6 +1204,7 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         
         createOutputEntry(csEntry, validGroup);
         batchInfo.costShareEntryGenerated();
+        
     } // End of method
 
     /**
@@ -1304,6 +1302,7 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
 
         createOutputEntry(csEntry, validGroup); // TODO: is this created if there have been errors?!
         batchInfo.costShareEncumbranceGenerated();
+        
     }// End of method
 
     /**
@@ -1411,7 +1410,7 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         // The template entry is set inside processUnitOfWork.
         OriginEntry workingEntry = unitOfWorkInfo.getTemplateEntryForOffsetGeneration();
     	
-        OriginEntry offsetEntry = new OriginEntry();
+        OriginEntry offsetEntry = new OriginEntry(workingEntry);
 
         // Temporary storage for any errors.
         ArrayList errors = new ArrayList();
@@ -1419,14 +1418,28 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
 //        3970  029760 3000-OFFSET.
 //        3971  029840     MOVE OFFSET-DESCRIPTION
 //        3972  029850       TO TRN-LDGR-ENTR-DESC OF ALT-GLEN-RECORD.
+        
+        offsetEntry.setTransactionLedgerEntryDesc("GENERATED OFFSET");
+        
 //        3973  029890     MOVE UNIV-FISCAL-YR     OF ALT-GLEN-RECORD
 //        3974  029900       TO GLOFSD-UNIV-FISCAL-YR.
+        
+        
+        
 //        3975  029910     MOVE FIN-COA-CD         OF ALT-GLEN-RECORD
 //        3976  029920       TO GLOFSD-FIN-COA-CD.
+        
+        
 //        3977  029930     MOVE FDOC-TYP-CD        OF ALT-GLEN-RECORD
 //        3978  029940       TO GLOFSD-FDOC-TYP-CD.
+        
+        
+        
 //        3979  029950     MOVE FIN-BALANCE-TYP-CD OF ALT-GLEN-RECORD
 //        3980  029960       TO GLOFSD-FIN-BALANCE-TYP-CD.
+        
+        
+        
 //        3981  029970     EXEC SQL
 //        3982  029980          SELECT FIN_OBJECT_CD,
 //        3983  029990                 FIN_SUB_OBJ_CD
@@ -1469,15 +1482,38 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         
 //        3999  030090     EVALUATE SQLCODE
 //        4000  030100          WHEN 0
+        
+        if(!ObjectHelper.isNull(offsetDefinition)) {
+
 //        4001  030110              MOVE GLOFSD-FIN-OBJECT-CD TO
 //        4002  030120                   FIN-OBJECT-CD OF ALT-GLEN-RECORD
+            
+            offsetEntry.setFinancialObject(offsetDefinition.getFinancialObject());
+            offsetEntry.setFinancialObjectCode(offsetDefinition.getFinancialObjectCode());
+
 //        4003  030130              IF GLOFSD-FIN-SUB-OBJ-CD = SPACES
 //        4004  030140                   MOVE FIN-SUB-OBJ-CD-DASHES
 //        4005  030150                       TO FIN-SUB-OBJ-CD OF ALT-GLEN-RECORD
+
+            if(ObjectHelper.isNull(offsetDefinition.getFinancialSubObjectCode())) {
+                
+                offsetEntry.setFinancialSubObject(null);
+                offsetEntry.setFinancialSubObjectCode(Constants.DASHES_SUB_OBJECT_CODE);
+            
 //        4006  030160              ELSE
 //        4007  030170                   MOVE GLOFSD-FIN-SUB-OBJ-CD TO
 //        4008  030180                          FIN-SUB-OBJ-CD OF ALT-GLEN-RECORD
 //        4009  030190              END-IF
+
+            } else {
+                
+                offsetEntry.setFinancialSubObject(workingEntry.getFinancialSubObject());
+                offsetEntry.setFinancialSubObjectCode(workingEntry.getFinancialSubObjectCode());
+                
+            }
+
+        } else {
+
 //        4010  030200          WHEN +100
 //        4011  030210          WHEN +1403
 //        4012  030220              MOVE ALT-GLEN-RECORD (1:51) TO RP-TABLE-KEY
@@ -1490,10 +1526,7 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
 //        4019  030280                      'SQL CODE IS ' SQLCODE
 //        4020  030290              MOVE 'Y' TO WS-FATAL-ERROR-FLAG
 //        4021  030300              GO TO 2000-ENTRY-EXIT
-//        4022  030310     END-EVALUATE
         
-        if(ObjectHelper.isNull(offsetDefinition)) {
-            
             StringBuffer sb = new StringBuffer();
             sb.append("Fiscal Year: ").append(workingEntry.getUniversityFiscalYear());
             sb.append(", Chart of Accounts: ").append(workingEntry.getChartOfAccountsCode());
@@ -1503,24 +1536,8 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
             ScrubberServiceErrorHandler.addTransactionError(
                     kualiConfigurationService.getPropertyString(KeyConstants.ERROR_OFFSET_DEFINITION_NOT_FOUND),
                     sb.toString(), errors);
-           
-        } else {
             
-            offsetEntry.setFinancialObject(workingEntry.getFinancialObject());
-            offsetEntry.setFinancialObjectCode(workingEntry.getFinancialObjectCode());
-            
-            if(ObjectHelper.isNull(offsetDefinition.getFinancialSubObjectCode())) {
-                
-                offsetEntry.setFinancialSubObject(null);
-                offsetEntry.setFinancialSubObjectCode(Constants.DASHES_SUB_OBJECT_CODE);
-                
-            } else {
-                
-                offsetEntry.setFinancialSubObject(workingEntry.getFinancialSubObject());
-                offsetEntry.setFinancialSubObjectCode(workingEntry.getFinancialSubObjectCode());
-                
-            }
-            
+//          4022  030310     END-EVALUATE
         }
         
 //        4023  030360     MOVE UNIV-FISCAL-YR OF ALT-GLEN-RECORD
@@ -1544,9 +1561,9 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
 //        4041  030540         AND     FIN_OBJECT_CD=  RTRIM(:CAOBJT-FIN-OBJECT-CD)
 //        4042  030550     END-EXEC
         
-        if(ObjectHelper.isNull(workingEntry.getFinancialObject())) {
+        if(ObjectHelper.isNull(offsetEntry.getFinancialObject())) {
             
-            persistenceService.retrieveReferenceObject(workingEntry, "financialObject");
+            persistenceService.retrieveReferenceObject(offsetEntry, "financialObject");
             
         }
         
@@ -1566,6 +1583,14 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
 //        4056  030570           WHEN 0
 //        4057  030580            MOVE CAOBJT-FIN-OBJ-TYP-CD TO FIN-OBJ-TYP-CD
 //        4058  030590              OF ALT-GLEN-RECORD
+        
+        if(null != offsetEntry.getFinancialObject()) {
+            
+            offsetEntry.setFinancialObjectTypeCode(
+                    offsetEntry.getFinancialObject().getFinancialObjectTypeCode());
+            
+        } else {
+        
 //        4059  030600           WHEN +100
 //        4060  030610           WHEN +1403
 //        4061  030620              MOVE GLEN-RECORD (1:51) TO RP-TABLE-KEY
@@ -1580,16 +1605,10 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
 //        4070  030710               MOVE 'Y' TO WS-FATAL-ERROR-FLAG
 //        4071  030720               GO TO 2000-ENTRY-EXIT
 //        4072  030730        END-EVALUATE
-        
-        if(ObjectHelper.isNull(workingEntry.getFinancialObject())) {
             
             ScrubberServiceErrorHandler.addTransactionError(
                     kualiConfigurationService.getPropertyString(KeyConstants.ERROR_OFFSET_DEFINITION_OBJECT_CODE_NOT_FOUND),
                     workingEntry.getFinancialObjectCode(), errors);
-            
-        } else {
-            
-            offsetEntry.setFinancialObjectTypeCode(workingEntry.getFinancialObjectTypeCode());
             
         }
         
@@ -1659,18 +1678,6 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         }
         
     }
-    
-//
-//    /**
-//     * 2520-init-SRCbArea
-//     */
-//    private void initScrubberValues() {
-//        wsExpiredAccount = null;
-//        wsExpiredChart = null;
-//        scrubberUtil.offsetAmountAccumulator = new KualiDecimal(0.0);
-//        scrubberUtil.creditAmountAccumulator = new KualiDecimal(0.0);
-//        scrubberUtil.debitAmountAccumulator = new KualiDecimal(0.0);
-//    }
 
     public void setOriginEntryService(OriginEntryService oes) {
         this.originEntryService = oes;

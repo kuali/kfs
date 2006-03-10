@@ -61,6 +61,51 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
         // in the unit test
         scrubberReport = (TestScrubberReport) beanFactory.getBean("testScrubberReport");
     }
+    
+    public void testOffsetGenerationAcrossMultipleDocumentTypes() throws Exception {
+        
+        setRollback(false);
+        
+        // Inputs.
+        String[] stringInput = new String[] {
+            "2004BL1031400-----4190---ACEX07PCDO01OFFSETDTP     SOM/MUSIC GENERAL/INSIGHT CABLE                     44.95C2006-01-05          ----------                                                                  ",
+            "2004BL1031400-----4190---ACEX07PCDO01OFFSETDTP     SOM/MUSIC GENERAL/SULLIVAN S FASHIONS FO           540.00C2006-01-05          ----------                                                                  ",
+            "2004BL1031400-----4021---ACEX07GEC 01OFFSETDTP     SOM/MUSIC GENERAL/INSIGHT CABLE                     44.95C2006-01-05          ----------                                                                  ",
+            "2004BL1031400-----1800---ACIN07GEC 01OFFSETDTP     SOM/MUSIC GENERAL/SULLIVAN S FASHIONS FO           547.00D2006-01-05          ----------                                                                  "
+        };
+        
+        String[] convertedStringInput = new String[] {
+                "2004BL1031400-----4190---ACEX07PCDO01OFFSETDTP00000SOM/MUSIC GENERAL/INSIGHT CABLE                     44.95C2006-01-05          ----------                                                                  ",
+                "2004BL1031400-----4190---ACEX07PCDO01OFFSETDTP00000SOM/MUSIC GENERAL/SULLIVAN S FASHIONS FO           540.00C2006-01-05          ----------                                                                  ",
+                "2004BL1031400-----4021---ACEX07GEC 01OFFSETDTP00000SOM/MUSIC GENERAL/INSIGHT CABLE                     44.95C2006-01-05          ----------                                                                  ",
+                "2004BL1031400-----1800---ACIN07GEC 01OFFSETDTP00000SOM/MUSIC GENERAL/SULLIVAN S FASHIONS FO           547.00D2006-01-05          ----------                                                                  "
+            };
+        
+        // Add inputs to expected output ...
+        Vector expectedOutput = new Vector();
+        for(int i = 0; i < stringInput.length; i++) {
+            expectedOutput.add(new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
+        }
+        
+        // ... add expected output ...
+        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+            "2004BL1031400-----4190---ACEX07PCDO01OFFSETDTP00000SOM/MUSIC GENERAL/INSIGHT CABLE                     44.95C2006-01-05          ----------                                                                  "));
+        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+            "2004BL1031400-----4190---ACEX07PCDO01OFFSETDTP00000SOM/MUSIC GENERAL/SULLIVAN S FASHIONS FO           540.00C2006-01-05          ----------                                                                  "));
+        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+            "2004BL1031400-----8000---ACAS07PCDO01OFFSETDTP00000GENERATED OFFSET                                   584.95D2006-02-21          ----------                                                                  "));
+        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+            "2004BL1031400-----4021---ACEX07GEC 01OFFSETDTP00000SOM/MUSIC GENERAL/INSIGHT CABLE                     44.95C2006-01-05          ----------                                                                  "));
+        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+            "2004BL1031400-----1800---ACIN07GEC 01OFFSETDTP00000SOM/MUSIC GENERAL/SULLIVAN S FASHIONS FO           547.00D2006-01-05          ----------                                                                  "));
+        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+            "2004BL1031400-----8000---ACAS07GEC 01OFFSETDTP00000GENERATED OFFSET                                   502.05C2006-02-21          ----------                                                                  "));
+        
+        // ... and run the test.
+        scrub(stringInput);
+        assertOriginEntries(4,(EntryHolder[]) expectedOutput.toArray(new EntryHolder[0]), dateTimeService.currentDate);
+        
+    }
 
     public void testClosedAccount01() throws Exception {
         
@@ -90,6 +135,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
         // ... and run the test.
         scrub(stringInput);
         assertOriginEntries(4,(EntryHolder[]) expectedOutput.toArray(new EntryHolder[0]));
+
     }
     
     public void testClosedAccount() throws Exception {
@@ -109,12 +155,8 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
         // ... add expected output ...
         expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_EXPIRED,
                 "2004BA6044900-----1800---ACIN07CR  UBCLOSACCT 00000AUTO FR BA6044909Poplars Garage Fees                20.00C2006-01-05          ----------                                                                          "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
-//                "2004BA6044900-----8000---ACAS07CR  UBCLOSACCT 00000GENERATED OFFSET                                    20.00D2006-02-21          ----------                                                                          "));
         expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_EXPIRED,
                 "2004BA6044900-----8000---ACAS07CR  UBCLOSACCT 00000AUTO FR BA6044909TP Generated Offset                20.00D2006-01-05          ----------                                                                          "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
-//                "2004BA6044900-----8000---ACAS07CR  UBCLOSACCT 00000GENERATED OFFSET                                    20.00C2006-02-21          ----------                                                                          "));
                 
         // ... and run the test.
         scrub(stringInput);
@@ -255,12 +297,6 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
         // ... and run the test.
         scrub(stringInput);
         assertOriginEntries(4,(EntryHolder[]) expectedOutput.toArray(new EntryHolder[0]));
-    }
-    
-    public void testOffsetGenerationAcrossMultipleDocumentTypes() throws Exception {
-    }
-    
-    public void testOffsetGenerationAcrossMultipleOriginCodes() throws Exception {
     }
     
     // ************************************************************** Tests for error conditions below.

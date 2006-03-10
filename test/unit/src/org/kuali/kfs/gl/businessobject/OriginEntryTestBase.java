@@ -23,6 +23,8 @@
 package org.kuali.module.gl;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
@@ -155,7 +157,8 @@ public class OriginEntryTestBase extends KualiTestBaseWithSpringOnly {
    * 
    * @param requiredEntries
    */
-  protected void assertOriginEntries(int groupCount,EntryHolder[] requiredEntries) {
+  protected void assertOriginEntries(int groupCount, EntryHolder[] requiredEntries, Date runDateForOffsets) {
+      
       List groups = unitTestSqlDao.sqlSelect("select * from gl_origin_entry_grp_t order by origin_entry_grp_src_cd");
       assertEquals("Number of groups is wrong", groupCount, groups.size());
 
@@ -172,15 +175,43 @@ public class OriginEntryTestBase extends KualiTestBaseWithSpringOnly {
 
         // Check transaction - this is done this way so that Anthill prints the two transactions to make
         // resolving the issue easier.
-        if ( ! foundTransaction.getLine().trim().equals(requiredEntries[count].transactionLine.trim()) ) {
-          System.err.println("Expected transaction: " + requiredEntries[count].transactionLine);
-          System.err.println("Found transaction:    " + foundTransaction.getLine());
+        
+        String expected = requiredEntries[count].transactionLine.trim();
+        String found    = foundTransaction.getLine().trim();
+        
+        String desc = expected.substring(51, 92).trim();
+        // If it's an offset entry, adjusted the expected entry to expect the runDate for the transactionDate.
+        if("GENERATED OFFSET".equals(desc)) {
+            
+            StringBuffer modifiedExpectation = new StringBuffer();
+            modifiedExpectation.append(expected.substring(0, 109));
+            
+            // Splice in the current runDate.
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            modifiedExpectation.append(simpleDateFormat.format(runDateForOffsets));
+            
+            modifiedExpectation.append(expected.substring(119));
+            
+            // .. and modify our expectations.
+            expected = modifiedExpectation.toString();
+        }
+        
+        if (!found.equals(expected)) {
+          
+          System.err.println("Expected transaction: " + expected);
+          System.err.println("Found transaction:    " + found);
+          
           fail("Transaction " + foundTransaction.getEntryId() + " doesn't match expected output");
+          
         }
         count++;
       }
   }
 
+  protected void assertOriginEntries(int groupCount, EntryHolder[] requiredEntries) {
+      assertOriginEntries(groupCount, requiredEntries, null);
+  }
+  
   protected int getGroup(List groups,String groupCode) {
     for (Iterator iter = groups.iterator(); iter.hasNext();) {
       Map element = (Map)iter.next();

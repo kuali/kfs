@@ -24,7 +24,6 @@ package org.kuali.module.financial.service.impl;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.Constants;
-import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.CashDrawer;
 import org.kuali.module.financial.dao.CashDrawerDao;
 import org.kuali.module.financial.document.CashReceiptDocument;

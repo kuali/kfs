@@ -294,34 +294,7 @@ public class AccountBalanceDaoOjb extends PersistenceBrokerDaoSupport implements
      * @return List an attribute list
      */
     private List buildAttributeList(boolean isExtended, String type) {
-        List attributeList = new ArrayList();
-
-        attributeList.add("universityFiscalYear");
-        attributeList.add("chartOfAccountsCode");
-        attributeList.add("accountNumber");
-        attributeList.add("subAccountNumber");
-
-		if(!isExtended){
-		    attributeList.add("objectCode");
-		    attributeList.add("financialObject.financialObjectTypeCode");
-		}
-        else {
-            if(type.equals(this.BY_CONSOLIDATION)){
-                attributeList.add("financialObject.financialObjectType.financialReportingSortCode");
-	            attributeList.add("financialObject.financialObjectLevel.financialConsolidationObject.financialReportingSortCode");	            
-	            attributeList.add("financialObject.financialObjectLevel.financialConsolidationObjectCode");
-            }
-            else if(type.equals(this.BY_LEVEL)){
-	            attributeList.add("financialObject.financialObjectLevel.financialReportingSortCode");
-	            attributeList.add("financialObject.financialObjectLevel.financialObjectLevelCode");  
-	            attributeList.add("financialObject.financialObjectLevel.financialConsolidationObjectCode");
-            }
-            else if(type.equals(this.BY_OBJECT)){
-                attributeList.add("objectCode");
-                attributeList.add("financialObject.financialObjectLevel.financialReportingSortCode");
-                attributeList.add("financialObject.financialObjectLevelCode");
-            }
-        }
+        List attributeList = buildGroupList(isExtended, type);
 
         attributeList.add("sum(currentBudgetLineBalanceAmount)");
         attributeList.add("sum(accountLineActualsBalanceAmount)");
@@ -367,7 +340,6 @@ public class AccountBalanceDaoOjb extends PersistenceBrokerDaoSupport implements
                 attributeList.add("financialObject.financialObjectLevelCode");
             }
         }
-
         return attributeList;
     }
 

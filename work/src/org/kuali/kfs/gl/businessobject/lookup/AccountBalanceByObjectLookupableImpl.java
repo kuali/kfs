@@ -109,7 +109,7 @@ public class AccountBalanceByObjectLookupableImpl extends AbstractGLLookupableIm
             String subAccountNumber = isConsolidated? Constant.CONSOLIDATED_SUB_ACCOUNT_NUMBER : array[i++].toString();
             accountBalance.setSubAccountNumber(subAccountNumber);
 
-            accountBalance.setObjectCode(array[i++].toString());
+            accountBalance.setObjectCode(array[i++].toString()); 
             accountBalance.getFinancialObject().getFinancialObjectLevel().setFinancialReportingSortCode(array[i++].toString());
             accountBalance.getFinancialObject().setFinancialObjectLevelCode(array[i++].toString());
             

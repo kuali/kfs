@@ -24,9 +24,12 @@ package org.kuali.module.financial.service.impl;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.Constants;
+import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.CashDrawer;
 import org.kuali.module.financial.dao.CashDrawerDao;
+import org.kuali.module.financial.document.CashReceiptDocument;
 import org.kuali.module.financial.service.CashDrawerService;
+import org.kuali.module.financial.service.CashManagementService;
 
 
 /**
@@ -36,6 +39,7 @@ import org.kuali.module.financial.service.CashDrawerService;
  */
 public class CashDrawerServiceImpl implements CashDrawerService {
     private CashDrawerDao cashDrawerDao;
+    private CashManagementService cashManagementService;
 
 
     /**
@@ -96,7 +100,22 @@ public class CashDrawerServiceImpl implements CashDrawerService {
 
         cashDrawerDao.delete(cashDrawer);
     }
+    
+    /**
+     * If the passed in cash receipt is not yet associated with a verification unit (via campus code), 
+     * then this method returns null.
+     * 
+     * @see org.kuali.module.financial.service.CashDrawerService#getByCashReceiptDocument(org.kuali.module.financial.document.CashReceiptDocument)
+     */
+    public CashDrawer getByCashReceiptDocument(CashReceiptDocument cashReceipt) {
+        return getByWorkgroupName(cashManagementService.getCashReceiptVerificationUnitWorkgroupNameByCampusCode(
+                cashReceipt.getCampusLocationCode()));
+    }
 
+    /**
+     * @param workgroupName
+     * @return CashDrawer
+     */
     private CashDrawer newCashDrawer(String workgroupName) {
         CashDrawer drawer = new CashDrawer();
         drawer.setWorkgroupName(workgroupName);
@@ -107,11 +126,35 @@ public class CashDrawerServiceImpl implements CashDrawerService {
 
 
     // Spring injection
+    /**
+     * @param cashDrawerDao
+     */
     public void setCashDrawerDao(CashDrawerDao cashDrawerDao) {
         this.cashDrawerDao = cashDrawerDao;
     }
 
+    /**
+     * @return CashDrawerDao
+     */
     public CashDrawerDao getCashDrawerDao() {
         return cashDrawerDao;
+    }
+
+    /**
+     * Gets the cashManagementService attribute. 
+     * 
+     * @return Returns the cashManagementService.
+     */
+    public CashManagementService getCashManagementService() {
+        return cashManagementService;
+    }
+
+    /**
+     * Sets the cashManagementService attribute value.
+     * 
+     * @param cashManagementService The cashManagementService to set.
+     */
+    public void setCashManagementService(CashManagementService cashManagementService) {
+        this.cashManagementService = cashManagementService;
     }
 }

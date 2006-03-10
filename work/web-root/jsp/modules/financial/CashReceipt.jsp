@@ -14,9 +14,17 @@
 <html:hidden property="document.nextCheckSequenceId"/>
 <html:hidden property="document.checkEntryMode" />
 <html:hidden property="checkTotal" />
-<c:if test="${!empty KualiForm.financialDocumentStatusMessage}">
+<c:set var="docStatusMessage" value="${KualiForm.financialDocumentStatusMessage}"/>
+<c:if test="${!empty docStatusMessage}">
 	<div align="left">
 		<b>${KualiForm.financialDocumentStatusMessage}</b>
+	</div>
+	<br>
+</c:if>
+<c:set var="cashDrawerStatusMessage" value="${KualiForm.cashDrawerStatusMessage}"/>
+<c:if test="${!empty cashDrawerStatusMessage}">
+	<div align="left">
+		<font color="red"><b>${KualiForm.cashDrawerStatusMessage}</b></font>
 	</div>
 	<br>
 </c:if>
@@ -40,7 +48,10 @@
         <th width="35%"><div align="right">
         <kul:htmlAttributeLabel attributeEntry="${cashReceiptAttributes.totalCheckAmount}" useShortLabel="false" /></div></th>
 	        <c:if test="${readOnly}">
-	        		<td>$${KualiForm.document.currencyFormattedTotalCheckAmount} <html:hidden write="false" property="document.totalCheckAmount" /> </td>
+	        		<td>$${KualiForm.document.currencyFormattedTotalCheckAmount}
+	        		<html:hidden write="false" property="document.totalCheckAmount" />
+	        		<html:hidden write="false" property="checkEntryMode"/>
+	        		</td>
 	        </c:if> 
 	        <c:if test="${!readOnly}">
 	        		<td>

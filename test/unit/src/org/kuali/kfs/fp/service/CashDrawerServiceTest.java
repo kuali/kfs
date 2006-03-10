@@ -30,6 +30,7 @@ import org.kuali.Constants;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.CashDrawer;
+import org.kuali.module.financial.document.CashReceiptDocument;
 import org.kuali.test.KualiTestBaseWithSpring;
 
 /**
@@ -40,6 +41,8 @@ import org.kuali.test.KualiTestBaseWithSpring;
 public class CashDrawerServiceTest extends KualiTestBaseWithSpring {
     private static final String KNOWN_WORKGROUP = "KUALI_BRSR_BL";
     private static final String UNKNOWN_WORKGROUP = "foo";
+    private static final String KNOWN_WORKGROUP2 = Constants.CashReceiptConstants.CASH_RECEIPT_VERIFICATION_UNIT;
+    private static final String KNOWN_WORKGROUP2_ASSOCIATED_CAMPUS_LOCATION_CODE = Constants.EMPTY_STRING;  //for now, we're only dealing with one verification unit
 
     private CashDrawerService cashDrawerService;
     private BusinessObjectService boService;
@@ -203,5 +206,14 @@ public class CashDrawerServiceTest extends KualiTestBaseWithSpring {
         // verify that the delete succeeded
         retrieved = cashDrawerService.getByWorkgroupName(RANDOM_WORKGROUP_NAME);
         assertNull(retrieved);
+    }
+    
+    public final void testGetByCashReceipt() {
+        CashReceiptDocument crd = new CashReceiptDocument();
+        crd.setCampusLocationCode(KNOWN_WORKGROUP2_ASSOCIATED_CAMPUS_LOCATION_CODE);
+        
+        CashDrawer cd = cashDrawerService.getByCashReceiptDocument(crd);
+        
+        assertEquals(cd.getWorkgroupName(), KNOWN_WORKGROUP2);
     }
 }

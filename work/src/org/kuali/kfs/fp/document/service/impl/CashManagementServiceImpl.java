@@ -32,6 +32,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.Constants;
+import org.kuali.PropertyConstants;
 import org.kuali.core.bo.user.KualiUser;
 import org.kuali.core.document.DocumentHeader;
 import org.kuali.core.exceptions.InfrastructureException;
@@ -71,7 +72,8 @@ public class CashManagementServiceImpl implements CashManagementService {
     private DateTimeService dateTimeService;
 
     /**
-     * @see org.kuali.module.financial.service.CashManagementService#createCashManagementDocument(java.util.List, java.lang.String)
+     * @see org.kuali.module.financial.service.CashManagementService#createCashManagementDocument(java.lang.String,
+     *      java.util.List, java.lang.String)
      */
     public CashManagementDocument createCashManagementDocument(String documentDescription, List verifiedCashReceipts,
             String workgroupName) throws WorkflowException {
@@ -97,13 +99,15 @@ public class CashManagementServiceImpl implements CashManagementService {
             documentService.save(cmDoc, "service-created CashManagementDocument", null);
         }
         catch (RuntimeException e) {
-            // reopen the drawer if creation failed (without trapping the failure-to-close)
+            // reopen the drawer if creation failed (without trapping the
+            // failure-to-close)
             openCashDrawer(workgroupName);
 
             throw e;
         }
         catch (WorkflowException e) {
-            // reopen the drawer if creation failed (without trapping the failure-to-close)
+            // reopen the drawer if creation failed (without trapping the
+            // failure-to-close)
             openCashDrawer(workgroupName);
 
             throw e;
@@ -112,6 +116,11 @@ public class CashManagementServiceImpl implements CashManagementService {
         return cmDoc;
     }
 
+    /**
+     * This method is a helper for the closeCashDrawer service.
+     * 
+     * @param workgroupName
+     */
     private void closeCashDrawer(String workgroupName) {
         CashDrawer drawer = cashDrawerService.getByWorkgroupName(workgroupName);
         if ((drawer != null) && StringUtils.equals(drawer.getStatusCode(), Constants.CashDrawerConstants.STATUS_CLOSED)) {
@@ -121,14 +130,19 @@ public class CashManagementServiceImpl implements CashManagementService {
         cashDrawerService.closeCashDrawer(workgroupName);
     }
 
+    /**
+     * This method is a helper for the openCashDrawer service.
+     * 
+     * @param workgroupName
+     */
     private void openCashDrawer(String workgroupName) {
         cashDrawerService.openCashDrawer(workgroupName);
     }
 
 
     /**
-     * @see org.kuali.module.financial.service.CashManagementService#createDeposit(CashManagementDocument, java.util.List,
-     *      java.lang.String)
+     * @see org.kuali.module.financial.service.CashManagementService#createDeposit(CashManagementDocument,
+     *      java.util.List, java.lang.String)
      */
     public Deposit createDeposit(CashManagementDocument cashManagementDoc, Integer lineNumber, List verifiedCashReceipts,
             String workgroupName) {
@@ -202,7 +216,7 @@ public class CashManagementServiceImpl implements CashManagementService {
 
 
     /**
-     * @see org.kuali.module.financial.service.CashManagementService#listDeposits(org.kuali.module.financial.document.CashManagementDocument)
+     * @see org.kuali.module.financial.service.CashManagementService#retrieveDeposits(org.kuali.module.financial.document.CashManagementDocument)
      */
     public List retrieveDeposits(CashManagementDocument cashManagementDoc) {
         if (cashManagementDoc == null) {
@@ -236,7 +250,8 @@ public class CashManagementServiceImpl implements CashManagementService {
             // retrieve CashReceipts, for later use
             List cashReceipts = retrieveCashReceipts(deposit);
             if (!cashReceipts.isEmpty()) {
-                // delete join records (which should auto-delete the related CRHeaders)
+                // delete join records (which should auto-delete the related
+                // CRHeaders)
                 Map controlCriteria = new HashMap();
                 controlCriteria.put("financialDocumentDepositNumber", deposit.getFinancialDocumentNumber());
                 controlCriteria.put("financialDocumentDepositLineNumber", deposit.getFinancialDocumentDepositLineNumber());
@@ -314,7 +329,8 @@ public class CashManagementServiceImpl implements CashManagementService {
             throw new IllegalArgumentException("invalid (blank) cashReceiptVerificationUnitWorkgroupName");
         }
 
-        // UNF: once this is doing an actual lookup somewhere, change the test to distinguish between a workgroup from which you can
+        // UNF: once this is doing an actual lookup somewhere, change the test
+        // to distinguish between a workgroup from which you can
         // derive a campusCode, and one which you cannot
 
         return null;
@@ -322,7 +338,7 @@ public class CashManagementServiceImpl implements CashManagementService {
 
 
     /**
-     * @see org.kuali.module.financial.service.CashManagementService#validateVerifiedCashReceipts(java.util.List, java.lang.String)
+     * @see org.kuali.module.financial.service.CashManagementService#validateVerifiedCashReceipts(java.util.List)
      */
     public boolean validateVerifiedCashReceipts(List cashReceipts) {
         if (cashReceipts == null) {
@@ -364,10 +380,8 @@ public class CashManagementServiceImpl implements CashManagementService {
         return count;
     }
 
-
     /**
-     * @see org.kuali.module.financial.service.CashManagementService#retrieveCashReceiptsByVerificationUnit(java.lang.String,
-     *      java.lang.String)
+     * @see org.kuali.module.financial.service.CashManagementService#retrieveVerifiedCashReceiptsByVerificationUnit(java.lang.String)
      */
     public List retrieveVerifiedCashReceiptsByVerificationUnit(String verificationUnitWorkgroupName) throws WorkflowException {
         if (StringUtils.isBlank(verificationUnitWorkgroupName)) {
@@ -403,13 +417,21 @@ public class CashManagementServiceImpl implements CashManagementService {
         return documents;
     }
 
+    /**
+     * This is a helper method for building the query criteria for several
+     * services.
+     * 
+     * @param workgroupName
+     * @return Map
+     */
     private Map buildCriteriaMap(String workgroupName) {
         Map queryCriteria = new HashMap();
         queryCriteria.put(Constants.DOCUMENT_HEADER_PROPERTY_NAME + "."
                 + Constants.DOCUMENT_HEADER_DOCUMENT_STATUS_CODE_PROPERTY_NAME,
                 Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED);
 
-        // UNF: once getCampusCode... returns meaningful values, this if should probably short-circuit when no campusCode is
+        // UNF: once getCampusCode... returns meaningful values, this if should
+        // probably short-circuit when no campusCode is
         // returned rather than selecting all CashReceipts
         String campusLocationCode = getCampusCodeByCashReceiptVerificationUnitWorkgroupName(workgroupName);
         if (StringUtils.isNotBlank(campusLocationCode)) {
@@ -419,6 +441,40 @@ public class CashManagementServiceImpl implements CashManagementService {
         return queryCriteria;
     }
 
+    /**
+     * If a CMD is found that is associated with the CR document, then that CMD
+     * is returned; otherwise null is returned.
+     * 
+     * @see org.kuali.module.financial.service.CashManagementService#getCashManagementDocumentByCashReceiptDocument(org.kuali.module.financial.document.CashReceiptDocument)
+     */
+    public CashManagementDocument getCashManagementDocumentByCashReceiptDocument(CashReceiptDocument cashReceiptDocument) {
+        // get at the CR header so that we can get at the Cash Mgmt doc nbr
+        HashMap primaryKeys = new HashMap();
+        primaryKeys.put(PropertyConstants.FINANCIAL_DOCUMENT_NUMBER, cashReceiptDocument.getFinancialDocumentNumber());
+        CashReceiptHeader crh = (CashReceiptHeader) businessObjectService.findByPrimaryKey(CashReceiptHeader.class, primaryKeys);
+        if (!crh.getDepositCashReceiptControl().isEmpty()) {
+            DepositCashReceiptControl dpcrc = (DepositCashReceiptControl) crh.getDepositCashReceiptControl().get(0); // retrieve
+                                                                                                                        // any
+                                                                                                                        // in
+                                                                                                                        // the
+                                                                                                                        // list
+            Deposit dp = dpcrc.getDeposit();
+            return dp.getCashManagementDocument();
+        }
+        else {
+            return null;
+        }
+    }
+
+    /**
+     * For now the default impl returns just the one verification unit that is
+     * in use - KUALI_ROLE_CASH_RECEIPT_VERIFICATION_UNIT.
+     * 
+     * @see org.kuali.module.financial.service.CashManagementService#getCashReceiptVerificationUnitWorkgroupNameByCampusCode(java.lang.String)
+     */
+    public String getCashReceiptVerificationUnitWorkgroupNameByCampusCode(String campusCode) {
+        return Constants.CashReceiptConstants.CASH_RECEIPT_VERIFICATION_UNIT;
+    }
 
     // injected dependencies
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {

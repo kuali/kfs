@@ -246,6 +246,37 @@ public class CashManagementServiceTest extends KualiTestBaseWithSpring {
         }
         cashDrawerService.openCashDrawer(workgroupName);
     }
+    
+    public void testGetCashManagementDocumentByCashReceiptDocument() throws Exception {
+        String workgroupName = KNOWN_VERIFICATION_UNIT;
+    
+        // build the document
+        changeCurrentUser("INEFF");
+        List crList = new ArrayList();
+        CashReceiptDocument cr1 = buildCashReceiptDoc(workgroupName, "cr1",
+                Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED);
+        crList.add(cr1);
+    
+        changeCurrentUser("RJWEISS");
+        CashManagementDocument createdDoc = cashManagementService.createCashManagementDocument("testCreateCashManagementDocument",
+                crList, workgroupName);
+    
+        // retrieve it and look for components
+        CashManagementDocument retrievedDoc = cashManagementService.getCashManagementDocumentByCashReceiptDocument(cr1);
+        assertNotNull(retrievedDoc);
+        assertFalse(retrievedDoc.getDeposits().isEmpty());
+    
+        Deposit deposit = (Deposit) retrievedDoc.getDeposits().get(0);
+        List retrievedCRs = cashManagementService.retrieveCashReceipts(deposit);
+        assertEquals(1, retrievedCRs.size());
+    
+        // cleanup (hide CRs from future tests, reopen the drawer)
+        for (Iterator i = retrievedCRs.iterator(); i.hasNext();) {
+            CashReceiptDocument cr = (CashReceiptDocument) i.next();
+            updateCRDocStatus(cr, "Z");
+        }
+        cashDrawerService.openCashDrawer(workgroupName);
+    }
 
 
     public void testCreateDeposit_nullDocument() throws Exception {
@@ -702,6 +733,14 @@ public class CashManagementServiceTest extends KualiTestBaseWithSpring {
         }
     }
 
+    /**
+     * This method tests the default return of the single verification unit for now.
+     */
+    public void testGetCashReceiptVerificationUnitByCampusCode() {
+        assertEquals(Constants.CashReceiptConstants.CASH_RECEIPT_VERIFICATION_UNIT, 
+                SpringServiceLocator.getCashManagementService().
+                getCashReceiptVerificationUnitWorkgroupNameByCampusCode(Constants.EMPTY_STRING));
+    }
 
     public void testGetCampusCodeByCashReceiptVerificationUnitWorkgroupName_blankWorkgroup() throws Exception {
         boolean failedAsExpected = false;
@@ -730,7 +769,6 @@ public class CashManagementServiceTest extends KualiTestBaseWithSpring {
     //        
     // assertNotNull( campusCode );
     // }
-
 
     private CashReceiptDocument buildCashReceiptDoc(String workgroupName, String description, String status)
             throws WorkflowException, UserNotFoundException {

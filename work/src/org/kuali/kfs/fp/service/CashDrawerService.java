@@ -23,6 +23,7 @@
 package org.kuali.module.financial.service;
 
 import org.kuali.module.financial.bo.CashDrawer;
+import org.kuali.module.financial.document.CashReceiptDocument;
 
 
 /**
@@ -63,4 +64,12 @@ public interface CashDrawerService {
      * @param line
      */
     public void delete(CashDrawer cashDrawer);
+    
+    /**
+     * Retrieves the cash drawer associated with a CashReceiptDocument.
+     * 
+     * @param cashReceipt
+     * @return
+     */
+    public CashDrawer getByCashReceiptDocument(CashReceiptDocument cashReceipt);
 }

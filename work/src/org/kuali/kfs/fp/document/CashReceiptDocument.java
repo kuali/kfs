@@ -275,7 +275,11 @@ public class CashReceiptDocument extends TransactionalDocumentBase {
      * @param totalCheckAmount The totalCheckAmount to set.
      */
     public void setTotalCheckAmount(KualiDecimal totalCheckAmount) {
-        this.totalCheckAmount = null == totalCheckAmount ? new KualiDecimal(0) : totalCheckAmount;
+        if(totalCheckAmount == null) {
+            this.totalCheckAmount = new KualiDecimal(0);
+        } else {
+            this.totalCheckAmount = totalCheckAmount;
+        }
     }
 
     /**

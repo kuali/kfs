@@ -26,6 +26,7 @@ import java.util.List;
 
 import org.kuali.module.financial.bo.Deposit;
 import org.kuali.module.financial.document.CashManagementDocument;
+import org.kuali.module.financial.document.CashReceiptDocument;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -116,4 +117,21 @@ public interface CashManagementService {
      * @return String
      */
     public String getCampusCodeByCashReceiptVerificationUnitWorkgroupName(String cashReceiptVerificationUnitWorkgroupName);
+    
+    /**
+     * This method will retrieve the verification unit workgroup for the CR's campus code.
+     * 
+     * @param campusCode
+     * @return String
+     */
+    public String getCashReceiptVerificationUnitWorkgroupNameByCampusCode(String campusCode);
+
+    /**
+     * This method will retrieve the CashManagementDocument that houses the deposit that the passed in 
+     * CashReceiptDocument is associated with.
+     * 
+     * @param cashReceiptDocument
+     * @return CashManagementDocument
+     */
+    public CashManagementDocument getCashManagementDocumentByCashReceiptDocument(CashReceiptDocument cashReceiptDocument);
 }

@@ -27,6 +27,7 @@ package org.kuali.module.financial.bo;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.Constants;
 import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 
@@ -60,12 +61,29 @@ public class CashDrawer extends BusinessObjectBase {
 
     private String financialDocumentReferenceNumber;
 
-
     /**
      * Default constructor.
      */
     public CashDrawer() {
 
+    }
+    
+    /**
+     * This method returns true if the cash drawer is open.
+     * 
+     * @return boolean
+     */
+    public boolean isOpen() {
+        return statusCode.equals(Constants.CashDrawerConstants.STATUS_OPEN);
+    }
+
+    /**
+     * This method returns true if the cash drawer is closed.
+     * 
+     * @return boolean
+     */
+    public boolean isClosed() {
+        return statusCode.equals(Constants.CashDrawerConstants.STATUS_CLOSED);
     }
 
     /**

@@ -50,7 +50,10 @@
         <property name="cashDrawerDao">
             <ref bean="cashDrawerDao" />
         </property>
-     </bean>
+        <property name="cashManagementService">
+            <ref bean="cashManagementService" />
+        </property>
+    </bean>
      
      <bean id="accountPresenceService" class="org.kuali.module.financial.service.impl.AccountPresenceServiceImpl">
         <property name="balanceDao">

@@ -23,22 +23,19 @@
 package org.kuali.module.financial.web.struts.form;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.util.LabelValueBean;
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
-import org.kuali.PropertyConstants;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
-import org.kuali.module.financial.bo.CashReceiptHeader;
+import org.kuali.module.financial.bo.CashDrawer;
 import org.kuali.module.financial.bo.Check;
 import org.kuali.module.financial.bo.CheckBase;
-import org.kuali.module.financial.bo.Deposit;
-import org.kuali.module.financial.bo.DepositCashReceiptControl;
+import org.kuali.module.financial.document.CashManagementDocument;
 import org.kuali.module.financial.document.CashReceiptDocument;
 
 /**
@@ -71,10 +68,10 @@ public class CashReceiptForm extends KualiTransactionalDocumentFormBase {
         checkEntryModes.add(new LabelValueBean("Total Only", CashReceiptDocument.CHECK_ENTRY_TOTAL));
 
         setCheckEntryMode(getCashReceiptDocument().getCheckEntryMode());
-        
+
         baselineChecks = new ArrayList();
     }
-    
+
     /**
      * @return CashReceiptDocument
      */
@@ -111,7 +108,8 @@ public class CashReceiptForm extends KualiTransactionalDocumentFormBase {
     }
 
     /**
-     * @return List of LabelValueBeans representing all available check entry modes
+     * @return List of LabelValueBeans representing all available check entry
+     *         modes
      */
     public List getCheckEntryModes() {
         return checkEntryModes;
@@ -137,7 +135,7 @@ public class CashReceiptForm extends KualiTransactionalDocumentFormBase {
     public boolean isCheckEntryDetailMode() {
         return CashReceiptDocument.CHECK_ENTRY_DETAIL.equals(getCheckEntryMode());
     }
-    
+
     /**
      * @return current List of baseline checks for use in update detection
      */
@@ -169,9 +167,11 @@ public class CashReceiptForm extends KualiTransactionalDocumentFormBase {
     }
 
     /**
-     * Implementation creates empty Checks as a side-effect, so that Struts' efforts to set fields of lines which
-     * haven't been created will succeed rather than causing a NullPointerException.
+     * Implementation creates empty Checks as a side-effect, so that Struts'
+     * efforts to set fields of lines which haven't been created will succeed
+     * rather than causing a NullPointerException.
      * 
+     * @param index
      * @return baseline Check at the given index
      */
     public Check getBaselineCheck(int index) {
@@ -182,7 +182,8 @@ public class CashReceiptForm extends KualiTransactionalDocumentFormBase {
     }
 
     /**
-     * Gets the financialDocumentStatusMessage attribute. 
+     * Gets the financialDocumentStatusMessage which is dependent upon document
+     * state.
      * 
      * @return Returns the financialDocumentStatusMessage.
      */
@@ -190,41 +191,59 @@ public class CashReceiptForm extends KualiTransactionalDocumentFormBase {
         String financialDocumentStatusMessage = "";
         CashReceiptDocument crd = getCashReceiptDocument();
         String financialDocumentStatusCode = crd.getDocumentHeader().getFinancialDocumentStatusCode();
-        if(financialDocumentStatusCode.equals(Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED)) {
-            financialDocumentStatusMessage = SpringServiceLocator.getKualiConfigurationService().getPropertyString(KeyConstants.CashReceipt.MSG_VERIFIED_BUT_NOT_AWAITING_DEPOSIT);
-        } else if(financialDocumentStatusCode.equals(Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_DEPOSITED)) {
-            // get at the CR header so that we can get at the Cash Mgmt doc nbr
-            HashMap primaryKeys = new HashMap();
-            primaryKeys.put(PropertyConstants.FINANCIAL_DOCUMENT_NUMBER, crd.getFinancialDocumentNumber());
-            CashReceiptHeader crh = (CashReceiptHeader) SpringServiceLocator.getBusinessObjectService().findByPrimaryKey(CashReceiptHeader.class, primaryKeys);
-            if(!crh.getDepositCashReceiptControl().isEmpty()) {
-                DepositCashReceiptControl dpcrc = (DepositCashReceiptControl) crh.getDepositCashReceiptControl().get(0);  //retrieve any in the list
-                Deposit dp = dpcrc.getDeposit();
-                String cmdFinancialDocNbr = dp.getCashManagementDocument().getFinancialDocumentNumber();
-                
-                String loadCMDocUrl = SpringServiceLocator.getKualiConfigurationService().getPropertyString(KeyConstants.CashManagement.URL_LOAD_DOCUMENT_CASH_MGMT);
+        if (financialDocumentStatusCode.equals(Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED)) {
+            financialDocumentStatusMessage = SpringServiceLocator.getKualiConfigurationService().getPropertyString(
+                    KeyConstants.CashReceipt.MSG_VERIFIED_BUT_NOT_AWAITING_DEPOSIT);
+        }
+        else if (financialDocumentStatusCode.equals(Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_DEPOSITED)) {
+            CashManagementDocument cmd = SpringServiceLocator.getCashManagementService()
+                    .getCashManagementDocumentByCashReceiptDocument(crd);
+            if (cmd != null) {
+                String cmdFinancialDocNbr = cmd.getFinancialDocumentNumber();
+
+                String loadCMDocUrl = SpringServiceLocator.getKualiConfigurationService().getPropertyString(
+                        KeyConstants.CashManagement.URL_LOAD_DOCUMENT_CASH_MGMT);
                 loadCMDocUrl = StringUtils.replace(loadCMDocUrl, "{0}", cmdFinancialDocNbr);
-                    
-                financialDocumentStatusMessage = SpringServiceLocator.getKualiConfigurationService().getPropertyString(KeyConstants.CashReceipt.MSG_VERIFIED_AND_AWAITING_DEPOSIT);
+
+                financialDocumentStatusMessage = SpringServiceLocator.getKualiConfigurationService().getPropertyString(
+                        KeyConstants.CashReceipt.MSG_VERIFIED_AND_AWAITING_DEPOSIT);
                 financialDocumentStatusMessage = StringUtils.replace(financialDocumentStatusMessage, "{0}", loadCMDocUrl);
             }
-        } else if(financialDocumentStatusCode.equals(Constants.DOCUMENT_STATUS_CD_APPROVED_PROCESSED)) {
-            // get at the CR header so that we can get at the Cash Mgmt doc nbr
-            HashMap primaryKeys = new HashMap();
-            primaryKeys.put(PropertyConstants.FINANCIAL_DOCUMENT_NUMBER, crd.getFinancialDocumentNumber());
-            CashReceiptHeader crh = (CashReceiptHeader) SpringServiceLocator.getBusinessObjectService().findByPrimaryKey(CashReceiptHeader.class, primaryKeys);
-            if(!crh.getDepositCashReceiptControl().isEmpty()) {
-                DepositCashReceiptControl dpcrc = (DepositCashReceiptControl) crh.getDepositCashReceiptControl().get(0);  //retrieve any in the list
-                Deposit dp = dpcrc.getDeposit();
-                String cmdFinancialDocNbr = dp.getCashManagementDocument().getFinancialDocumentNumber();
-                
-                String loadCMDocUrl = SpringServiceLocator.getKualiConfigurationService().getPropertyString(KeyConstants.CashManagement.URL_LOAD_DOCUMENT_CASH_MGMT);
+        }
+        else if (financialDocumentStatusCode.equals(Constants.DOCUMENT_STATUS_CD_APPROVED_PROCESSED)) {
+            CashManagementDocument cmd = SpringServiceLocator.getCashManagementService()
+                    .getCashManagementDocumentByCashReceiptDocument(crd);
+            if (cmd != null) {
+                String cmdFinancialDocNbr = cmd.getFinancialDocumentNumber();
+
+                String loadCMDocUrl = SpringServiceLocator.getKualiConfigurationService().getPropertyString(
+                        KeyConstants.CashManagement.URL_LOAD_DOCUMENT_CASH_MGMT);
                 loadCMDocUrl = StringUtils.replace(loadCMDocUrl, "{0}", cmdFinancialDocNbr);
-            
-                financialDocumentStatusMessage = SpringServiceLocator.getKualiConfigurationService().getPropertyString(KeyConstants.CashReceipt.MSG_VERIFIED_AND_DEPOSITED);
+
+                financialDocumentStatusMessage = SpringServiceLocator.getKualiConfigurationService().getPropertyString(
+                        KeyConstants.CashReceipt.MSG_VERIFIED_AND_DEPOSITED);
                 financialDocumentStatusMessage = StringUtils.replace(financialDocumentStatusMessage, "{0}", loadCMDocUrl);
             }
         }
         return financialDocumentStatusMessage;
+    }
+
+    /**
+     * This method will build out a message in the case the document is ENROUTE
+     * and the cash drawer is closed.
+     * 
+     * @return String
+     */
+    public String getCashDrawerStatusMessage() {
+        String cashDrawerStatusMessage = "";
+        CashReceiptDocument crd = getCashReceiptDocument();
+        CashDrawer cd = SpringServiceLocator.getCashDrawerService().getByCashReceiptDocument(crd);
+        if (cd != null && crd.getDocumentHeader().getWorkflowDocument().isApprovalRequested() && cd.isClosed()) {
+            cashDrawerStatusMessage = SpringServiceLocator.getKualiConfigurationService().getPropertyString(
+                    KeyConstants.CashReceipt.MSG_CASH_DRAWER_CLOSED_VERIFICATION_NOT_ALLOWED);
+            cashDrawerStatusMessage = StringUtils.replace(cashDrawerStatusMessage, "{0}",
+                    Constants.CashReceiptConstants.CASH_RECEIPT_VERIFICATION_UNIT);
+        }
+        return cashDrawerStatusMessage;
     }
 }

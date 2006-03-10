@@ -37,6 +37,7 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.ObjLevel;
 import org.kuali.module.chart.bo.ObjectCode;
+import org.kuali.module.financial.bo.CashDrawer;
 import org.kuali.module.financial.bo.Check;
 import org.kuali.module.financial.document.CashReceiptDocument;
 import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
@@ -87,12 +88,26 @@ public class CashReceiptDocumentRule extends TransactionalDocumentRuleBase imple
         return isValid;
     }
     
-    protected boolean processCustomRouteDocumentBusinessRules(Document document) {
-        boolean valid = super.processCustomRouteDocumentBusinessRules(document);
+    /**
+     * This overrides to call super, then to make sure that the cash drawer for the verification unit associated with 
+     * this CR doc is open.  If it's not, the the rule fails.
+     * 
+     * @see org.kuali.core.rule.DocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.core.document.Document)
+     */
+    protected boolean processCustomApproveDocumentBusinessRules(Document document) {
+        boolean valid = super.processCustomApproveDocumentBusinessRules(document);
 
-//        if(valid) {
-//            ifSpringServiceLocator.getCashDrawerService().is
-//        }
+        if(valid) {
+            CashReceiptDocument crd = (CashReceiptDocument) document;
+            CashDrawer cd = SpringServiceLocator.getCashDrawerService().getByCashReceiptDocument(crd);
+            if(cd == null) {
+                throw new IllegalStateException("There is no cash drawer associated with cash receipt: " + crd.getFinancialDocumentNumber());
+            } else if(cd.isClosed()) {
+                GlobalVariables.getErrorMap().put(Constants.GLOBAL_ERRORS, 
+                        KeyConstants.CashReceipt.MSG_CASH_DRAWER_CLOSED_VERIFICATION_NOT_ALLOWED, cd.getWorkgroupName());
+                valid = false;
+            }
+        }
         
         return valid;
     }

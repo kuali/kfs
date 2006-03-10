@@ -62,6 +62,41 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
         scrubberReport = (TestScrubberReport) beanFactory.getBean("testScrubberReport");
     }
     
+    public void testOffsetGenerationAcrossMultipleFiscalPeriods() throws Exception {
+        
+        // Inputs.
+        String[] stringInput = new String[] {
+                "2004BL1031497-----4190---ACEX07GEC 01OFFSETPER     THOMAS BUSEY/NEWEGG COMPUTERS                       40.72C2006-01-05          ----------                                                                  ",                                    
+                "2004BL1031497-----8000---ACAS08GEC 01OFFSETPER     TP Generated Offset                                 40.72D2006-01-05          ----------                                                                  "
+        };
+        
+        String[] convertedStringInput = new String[] {
+                "2004BL1031497-----4190---ACEX07GEC 01OFFSETPER00000THOMAS BUSEY/NEWEGG COMPUTERS                       40.72C2006-01-05          ----------                                                                  ",                                    
+                "2004BL1031497-----8000---ACAS08GEC 01OFFSETPER00000TP Generated Offset                                 40.72D2006-01-05          ----------                                                                  "
+        };
+        
+        // Add inputs to expected output ...
+        Vector expectedOutput = new Vector();
+        for(int i = 0; i < stringInput.length; i++) {
+            expectedOutput.add(new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
+        }
+        
+        // ... add expected output ...
+        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+                "2004BL1031497-----4190---ACEX07GEC 01OFFSETPER00000THOMAS BUSEY/NEWEGG COMPUTERS                       40.72C2006-01-05          ----------                                                                  "));
+        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+                "2004BL1031497-----8000---ACAS07GEC 01OFFSETPER00000GENERATED OFFSET                                    40.72D2006-02-21          ----------                                                                  "));
+        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+                "2004BL1031497-----8000---ACAS08GEC 01OFFSETPER00000TP Generated Offset                                 40.72D2006-01-05          ----------                                                                  "));
+        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+                "2004BL1031497-----8000---ACAS08GEC 01OFFSETPER00000GENERATED OFFSET                                    40.72C2006-02-21          ----------                                                                  "));
+
+        // ... and run the test.
+        scrub(stringInput);
+        assertOriginEntries(4,(EntryHolder[]) expectedOutput.toArray(new EntryHolder[0]), dateTimeService.currentDate);
+        
+    }
+    
     public void testOffsetGenerationAcrossMultipleReversalDates() throws Exception {
 
         // Inputs.
@@ -94,7 +129,6 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
         // ... and run the test.
         scrub(stringInput);
         assertOriginEntries(4,(EntryHolder[]) expectedOutput.toArray(new EntryHolder[0]), dateTimeService.currentDate);
-        
         
     }
     

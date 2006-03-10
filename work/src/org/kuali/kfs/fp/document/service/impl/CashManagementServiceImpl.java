@@ -72,8 +72,8 @@ public class CashManagementServiceImpl implements CashManagementService {
     private DateTimeService dateTimeService;
 
     /**
-     * @see org.kuali.module.financial.service.CashManagementService#createCashManagementDocument(java.lang.String,
-     *      java.util.List, java.lang.String)
+     * @see org.kuali.module.financial.service.CashManagementService#createCashManagementDocument(java.lang.String, java.util.List,
+     *      java.lang.String)
      */
     public CashManagementDocument createCashManagementDocument(String documentDescription, List verifiedCashReceipts,
             String workgroupName) throws WorkflowException {
@@ -141,8 +141,8 @@ public class CashManagementServiceImpl implements CashManagementService {
 
 
     /**
-     * @see org.kuali.module.financial.service.CashManagementService#createDeposit(CashManagementDocument,
-     *      java.util.List, java.lang.String)
+     * @see org.kuali.module.financial.service.CashManagementService#createDeposit(CashManagementDocument, java.util.List,
+     *      java.lang.String)
      */
     public Deposit createDeposit(CashManagementDocument cashManagementDoc, Integer lineNumber, List verifiedCashReceipts,
             String workgroupName) {
@@ -279,25 +279,9 @@ public class CashManagementServiceImpl implements CashManagementService {
      * @see org.kuali.module.financial.service.CashManagementService#retrieveCashReceipts(org.kuali.module.financial.bo.Deposit)
      */
     public List retrieveCashReceipts(Deposit deposit) {
-        if (deposit == null) {
-            throw new IllegalArgumentException("invalid (null) deposit");
-        }
-        if (StringUtils.isBlank(deposit.getFinancialDocumentNumber())) {
-            throw new IllegalArgumentException("invalid (blank) deposit.financialDocumentNumber");
-        }
-        if (deposit.getFinancialDocumentDepositLineNumber() == null) {
-            throw new IllegalArgumentException("invalid (null) deposit.financialDocumentDepositLineNumber");
-        }
-
-        Map criteriaMap = new LinkedHashMap();
-        criteriaMap.put("depositCashReceiptControl.financialDocumentDepositNumber", deposit.getFinancialDocumentNumber());
-        criteriaMap.put("depositCashReceiptControl.financialDocumentDepositLineNumber", deposit
-                .getFinancialDocumentDepositLineNumber());
-
-        Collection crHeaders = getBusinessObjectService().findMatching(CashReceiptHeader.class, criteriaMap);
-
         List cashReceiptDocuments = null;
 
+        List crHeaders = retrieveCashReceiptHeaders(deposit);
         if (crHeaders.isEmpty()) {
             cashReceiptDocuments = new ArrayList();
         }
@@ -318,6 +302,33 @@ public class CashManagementServiceImpl implements CashManagementService {
         }
 
         return cashReceiptDocuments;
+    }
+
+
+    /**
+     * @param deposit
+     * @return List of CashReceiptHeaders associated with the given Deposit
+     */
+    private List retrieveCashReceiptHeaders(Deposit deposit) {
+        if (deposit == null) {
+            throw new IllegalArgumentException("invalid (null) deposit");
+        }
+        if (StringUtils.isBlank(deposit.getFinancialDocumentNumber())) {
+            throw new IllegalArgumentException("invalid (blank) deposit.financialDocumentNumber");
+        }
+        if (deposit.getFinancialDocumentDepositLineNumber() == null) {
+            throw new IllegalArgumentException("invalid (null) deposit.financialDocumentDepositLineNumber");
+        }
+
+
+        Map criteriaMap = new LinkedHashMap();
+        criteriaMap.put("depositCashReceiptControl.financialDocumentDepositNumber", deposit.getFinancialDocumentNumber());
+        criteriaMap.put("depositCashReceiptControl.financialDocumentDepositLineNumber", deposit
+                .getFinancialDocumentDepositLineNumber());
+
+        Collection crHeaders = getBusinessObjectService().findMatching(CashReceiptHeader.class, criteriaMap);
+
+        return new ArrayList(crHeaders);
     }
 
 
@@ -418,8 +429,7 @@ public class CashManagementServiceImpl implements CashManagementService {
     }
 
     /**
-     * This is a helper method for building the query criteria for several
-     * services.
+     * This is a helper method for building the query criteria for several services.
      * 
      * @param workgroupName
      * @return Map
@@ -442,8 +452,7 @@ public class CashManagementServiceImpl implements CashManagementService {
     }
 
     /**
-     * If a CMD is found that is associated with the CR document, then that CMD
-     * is returned; otherwise null is returned.
+     * If a CMD is found that is associated with the CR document, then that CMD is returned; otherwise null is returned.
      * 
      * @see org.kuali.module.financial.service.CashManagementService#getCashManagementDocumentByCashReceiptDocument(org.kuali.module.financial.document.CashReceiptDocument)
      */
@@ -454,10 +463,10 @@ public class CashManagementServiceImpl implements CashManagementService {
         CashReceiptHeader crh = (CashReceiptHeader) businessObjectService.findByPrimaryKey(CashReceiptHeader.class, primaryKeys);
         if (!crh.getDepositCashReceiptControl().isEmpty()) {
             DepositCashReceiptControl dpcrc = (DepositCashReceiptControl) crh.getDepositCashReceiptControl().get(0); // retrieve
-                                                                                                                        // any
-                                                                                                                        // in
-                                                                                                                        // the
-                                                                                                                        // list
+            // any
+            // in
+            // the
+            // list
             Deposit dp = dpcrc.getDeposit();
             return dp.getCashManagementDocument();
         }
@@ -467,8 +476,7 @@ public class CashManagementServiceImpl implements CashManagementService {
     }
 
     /**
-     * For now the default impl returns just the one verification unit that is
-     * in use - KUALI_ROLE_CASH_RECEIPT_VERIFICATION_UNIT.
+     * For now the default impl returns just the one verification unit that is in use - KUALI_ROLE_CASH_RECEIPT_VERIFICATION_UNIT.
      * 
      * @see org.kuali.module.financial.service.CashManagementService#getCashReceiptVerificationUnitWorkgroupNameByCampusCode(java.lang.String)
      */

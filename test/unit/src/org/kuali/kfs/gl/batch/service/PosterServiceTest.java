@@ -574,8 +574,6 @@ public class PosterServiceTest extends OriginEntryTestBase {
   public void testPostSufficientFundBalances() throws Exception {
     LOG.debug("testPostSufficientFundBalances() started");
 
-    setRollback(false);
-
 //    N              BL             2231428 
 //    A              BL             2831410        
 //    C              BL             2931477    

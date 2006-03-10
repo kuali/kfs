@@ -333,4 +333,18 @@ public class CashReceiptDocumentRule extends TransactionalDocumentRuleBase imple
         }
         return isValid;
     }
+    
+    /**
+     * Method used by <code>{@link CashReceiptCoverPageService}</code> to
+     * determine of the <code>{@link CashReceiptDocument}</code> validates 
+     * business rules for generating a cover page.
+     * 
+     * @param document
+     * @return boolean
+     *
+     * @see org.kuali.core.module.financial.service.CashReceiptCoverSheetServiceImpl#generateCoverSheet( org.kuali.module.financial.documentCashReceiptDocument )
+     */
+    public boolean isCoverSheetPrintable( CashReceiptDocument document ) {
+        return true;
+    }
 }

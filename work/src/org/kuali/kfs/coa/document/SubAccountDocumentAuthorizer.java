@@ -57,6 +57,12 @@ public class SubAccountDocumentAuthorizer extends MaintenanceDocumentAuthorizerB
      */
     public MaintenanceDocumentAuthorizations getFieldAuthorizations(MaintenanceDocument document, KualiUser user) {
         
+        //  if the user is the system supervisor, then do nothing, dont apply 
+        // any restrictions
+        if (user.isSupervisorUser()) {
+            return new MaintenanceDocumentAuthorizations();
+        }
+        
         //  get the group name that we need here - CGSACCT
         KualiConfigurationService configService;
         configService = SpringServiceLocator.getKualiConfigurationService();

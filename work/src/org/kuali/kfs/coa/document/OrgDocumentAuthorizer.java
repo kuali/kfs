@@ -56,6 +56,12 @@ public class OrgDocumentAuthorizer extends MaintenanceDocumentAuthorizerBase {
         
         MaintenanceDocumentAuthorizations auths = new MaintenanceDocumentAuthorizations();
         
+        //  if the user is the system supervisor, then do nothing, dont apply 
+        // any restrictions
+        if (user.isSupervisorUser()) {
+            return auths;
+        }
+        
         //  get the chartCode for the Org being touched
         Org org = (Org) document.getNewMaintainableObject().getBusinessObject();
         String chartCode = org.getChartOfAccountsCode();

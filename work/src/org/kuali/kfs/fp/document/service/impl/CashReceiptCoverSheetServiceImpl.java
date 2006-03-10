@@ -25,13 +25,21 @@
 
 package org.kuali.module.financial.service.impl;
 
-import java.io.InputStream;
+import java.io.File;
 import java.io.IOException;
+import java.io.OutputStream;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import org.kuali.module.financial.document.CashReceiptDocument;
+import org.kuali.module.financial.rules.CashReceiptDocumentRule;
 import org.kuali.module.financial.service.CashReceiptCoverSheetService;
 
 import com.lowagie.text.DocumentException;
+import com.lowagie.text.pdf.AcroFields;
+import com.lowagie.text.pdf.PdfReader;
+import com.lowagie.text.pdf.PdfStamper;
 
 /**
  * Implementation of service for handling creation of the cover sheet of the 
@@ -41,22 +49,72 @@ import com.lowagie.text.DocumentException;
  */
 public class CashReceiptCoverSheetServiceImpl 
     implements CashReceiptCoverSheetService {
+    private static Log LOG = LogFactory.getLog(CashReceiptCoverSheetService.class);
+    
+    public static final String CR_COVERSHEET_TEMPLATE_RELATIVE_DIR = "templates/financial";
+    public static final String CR_COVERSHEET_TEMPLATE_NM = "CashReceiptCoverSheetTemplate.pdf";
+
+    private static final String DOCUMENT_NUMBER_FIELD = "DocumentNumber";
+    private static final String INITIATOR_FIELD       = "Initiator";
+    private static final String CREATED_DATE_FIELD    = "CreatedDate";
+    private static final String AMOUNT_FIELD          = "Amount";
+    private static final String ORG_DOC_NUMBER_FIELD  = "OrgDocNumber";
+    private static final String CAMPUS_FIELD          = "Campus";
+    private static final String DEPOSIT_DATE_FIELD    = "DepositDate";
+    private static final String DESCRIPTION_FIELD     = "Description";
+    private static final String EXPLANATION_FIELD     = "Explanation";
+    private static final String CHECKS_FIELD          = "Checks";
+    private static final String CURRENCY_FIELD        = "Currency";
+    private static final String COIN_FIELD            = "Coin";
+    private static final String CREDIT_CARD_FIELD     = "CreditCard";
+    private static final String ADV_DEPOSIT_FIELD     = "AdvancedDeposit";
+    private static final String CHANGE_OUT_FIELD      = "ChangeOut";
+    private static final String REVIV_FUND_OUT_FIELD  = "RevivFundOut";
     
     /**
      * Generate a cover sheet for the <code>{@link CashReceiptDocument}</code>.
-     * An <code>{@link InputStream}</code> is returned to handle the
+     * An <code>{@link OutputStream}</code> is written to for the
      * coversheet.
      * 
-     * @return document
-     * @return InputStream
+     * @param document
+     * @param OutputStream
      * @exception DocumentException
      * @exception IOException
      * @see org.kuali.core.module.financial.service.CashReceiptCoverSheetServiceImpl#generateCoverSheet( org.kuali.module.financial.documentCashReceiptDocument )
      */
-    public InputStream generateCoverSheet( CashReceiptDocument document ) 
+    public void generateCoverSheet( CashReceiptDocument document,
+                                    OutputStream outputStream ) 
         throws DocumentException, IOException {
-        InputStream retval = null;
+        String templateDirectory = CR_COVERSHEET_TEMPLATE_RELATIVE_DIR;
+        String templateName = CR_COVERSHEET_TEMPLATE_NM;
         
-        return retval;
+        if( new CashReceiptDocumentRule().isCoverSheetPrintable( document ) ) {
+            try {
+                PdfReader reader = 
+                    new PdfReader(templateDirectory 
+                                  + File.separator + templateName);
+
+                // populate form with document values
+                PdfStamper stamper = new PdfStamper(reader, outputStream);
+
+                AcroFields populatedCoverSheet = stamper.getAcroFields();
+                // populatedCoverSheet.setField("attachment", attachment);
+
+                stamper.setFormFlattening(true);
+                stamper.close();
+            }
+            catch (DocumentException e) {
+                LOG.error("Error creating coversheet for: " 
+                          + document.getFinancialDocumentNumber() 
+                          + ". ::" + e);
+                throw e;
+            }
+            catch (IOException e) {
+                LOG.error("Error creating coversheet for: " 
+                          + document.getFinancialDocumentNumber() 
+                          + ". ::" + e);
+                throw e;
+            }
+        }
     }
 }

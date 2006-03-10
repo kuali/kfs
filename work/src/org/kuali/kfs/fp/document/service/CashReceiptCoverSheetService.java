@@ -27,8 +27,8 @@ package org.kuali.module.financial.service;
 
 import com.lowagie.text.DocumentException;
 
-import java.io.InputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 
 import org.kuali.module.financial.document.CashReceiptDocument;
 
@@ -43,13 +43,14 @@ public interface CashReceiptCoverSheetService {
     
     /**
      * Generate a cover sheet for the <code>{@link CashReceiptDocument}</code>.
-     * An <code>{@link InputStream}</code> is returned to handle the
+     * An <code>{@link OutputStream}</code> is written to for the
      * coversheet.
      * 
-     * @return document
-     * @return InputStream
+     * @param document
+     * @param OutputStream
      * @exception DocumentException
      * @exception IOException
      */
-    public InputStream generateCoverSheet( CashReceiptDocument document ) throws DocumentException, IOException;
+    public void generateCoverSheet( CashReceiptDocument document,
+                                    OutputStream outputStream) throws DocumentException, IOException;
 }

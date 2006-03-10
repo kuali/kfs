@@ -70,7 +70,7 @@ import org.springframework.util.StringUtils;
 
 /**
  * @author Anthony Potts
- * @version $Id: ScrubberServiceImpl.java,v 1.66 2006-03-10 16:09:14 larevans Exp $
+ * @version $Id: ScrubberServiceImpl.java,v 1.67 2006-03-10 17:30:55 larevans Exp $
  */
 
 public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
@@ -1423,23 +1423,12 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         
 //        3973  029890     MOVE UNIV-FISCAL-YR     OF ALT-GLEN-RECORD
 //        3974  029900       TO GLOFSD-UNIV-FISCAL-YR.
-        
-        
-        
 //        3975  029910     MOVE FIN-COA-CD         OF ALT-GLEN-RECORD
 //        3976  029920       TO GLOFSD-FIN-COA-CD.
-        
-        
 //        3977  029930     MOVE FDOC-TYP-CD        OF ALT-GLEN-RECORD
 //        3978  029940       TO GLOFSD-FDOC-TYP-CD.
-        
-        
-        
 //        3979  029950     MOVE FIN-BALANCE-TYP-CD OF ALT-GLEN-RECORD
 //        3980  029960       TO GLOFSD-FIN-BALANCE-TYP-CD.
-        
-        
-        
 //        3981  029970     EXEC SQL
 //        3982  029980          SELECT FIN_OBJECT_CD,
 //        3983  029990                 FIN_SUB_OBJ_CD
@@ -1477,9 +1466,6 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
 //        3996             IF GLOFSD-FSOC-I < ZERO
 //        3997                MOVE SPACES TO GLOFSD-FIN-SUB-OBJ-CD
 //        3998             END-IF
-        
-        // done by default in java, fields just remain null.
-        
 //        3999  030090     EVALUATE SQLCODE
 //        4000  030100          WHEN 0
         
@@ -1646,7 +1632,13 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
 //        4088  030980                    FDOC-REF-NBR      OF ALT-GLEN-RECORD
 //        4089  030990                    TRN-ENCUM-UPDT-CD OF ALT-GLEN-RECORD.
         
-        // done by default. fields just stay null.
+        offsetEntry.setOrganizationDocumentNumber(null);
+        offsetEntry.setOrganizationReferenceId(null);
+        offsetEntry.setReferenceFinDocumentTypeCode(null);
+        offsetEntry.setReferenceDocumentType(null);
+        offsetEntry.setFinSystemRefOriginationCode(null);
+        offsetEntry.setFinancialDocumentReferenceNbr(null);
+        offsetEntry.setTransactionEncumbranceUpdtCd(null);
         
 //        4090  031010     MOVE PROJECT-CD-DASHES TO PROJECT-CD OF ALT-GLEN-RECORD.
         

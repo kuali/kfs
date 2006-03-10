@@ -95,10 +95,11 @@ public class FlexibleOffsetAccountServiceTest extends KualiTestBaseWithSpring {
 
     /**
      * Integration test to the database parameter table.
-     * The expected value may be changed as the database is changed, or removed if the database changes too frequently.
      */
     public void testGetEnabled() {
-        assertEquals(true, service.getEnabled());
+        // This tests that no RuntimeException is thrown because the parameter is missing from the database
+        // or contains a value other than Y or N.
+        service.getEnabled();
     }
 
     private String getFixtureString(String fixtureName) {

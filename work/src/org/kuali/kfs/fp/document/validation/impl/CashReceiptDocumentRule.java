@@ -39,7 +39,6 @@ import org.kuali.module.chart.bo.ObjLevel;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.financial.bo.Check;
 import org.kuali.module.financial.document.CashReceiptDocument;
-import org.kuali.module.financial.service.CashManagementService;
 import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 
 /**

@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <project name="kuali" default="dist-local" basedir=".">
+<!-- test -->
 	<!-- run the help task to view usage instructions -->	
 	<target name="dist-local" if="is.local.build" depends="clean,filter" description="Prepare local configuration files and tokenized resources and deploy tomcat context file on development workstation">
     	<copy file="${metainf.directory}/${tomcat.context.file}" tofile="${appserver.config.dir}/${ant.project.name}-${build.environment}.xml" overwrite="true"/>

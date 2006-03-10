@@ -41,7 +41,7 @@
                 <table width="100%" border="0" cellpadding="0" cellspacing="0" summary="need a summary here">
                   <tbody>
                     <tr>
-                      <td width="100%" valign="top"><uportal_xhtml_fragment> </uportal_xhtml_fragment>
+                      <td width="100%" valign="top">
                          <iframe src="${channelUrl}" onload='javascript: setFocusedIframeHeight("iframeportlet", 500);' name="iframeportlet" id="iframeportlet" hspace="0" vspace="0" style="height: 500px;" title="E-Doc" frameborder="0" height="500" scrolling="auto" width="100%"></iframe>
                       </td>
                       <td>

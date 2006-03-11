@@ -52,9 +52,9 @@ public class JournalVoucherAccountingLineParser extends AccountingLineParserBase
     private static final KualiDecimal ZERO        = new KualiDecimal("0.00");
     private static final String EXTERNAL_ENCUMBRANCE = "EX";
 
-    private static final int EXTERNAL_ENCUMBRANCE_EXPECTED_FIELDS   = 14;
+    private static final int EXTERNAL_ENCUMBRANCE_EXPECTED_FIELDS   = 15;
     private static final int OFFSET_GENERATION_EXPECTED_FIELDS      = 12;
-    private static final int EXPECTED_FIELDS                        = 11;
+    private static final int NON_OFFSET_GENERATION_EXPECTED_FIELDS  = 11;
 
     private static final int CHART_IDX            = 0;
     private static final int ACCOUNT_IDX          = 1;
@@ -64,12 +64,13 @@ public class JournalVoucherAccountingLineParser extends AccountingLineParserBase
     private static final int PROJECT_CODE_IDX     = 5;
     private static final int OBJECT_TYPE_CODE_IDX = 6;
     private static final int ORGANIZATION_REFERENCE_ID_IDX = 7;
-    private static final int DEBIT_AMOUNT_IDX     = 8;
-    private static final int CREDIT_AMOUNT_IDX    = 9;
-    private static final int OVERRIDE_CODE_IDX    = 10;
-    private static final int REF_ORIGIN_CODE_IDX  = 11;
-    private static final int REF_NUMBER_IDX       = 12;
-    private static final int REF_TYPE_CODE_IDX    = 13;
+    private static final int BUDGET_YEAR_IDX      = 8;
+    private static final int OVERRIDE_CODE_IDX    = 9;
+    private static final int DEBIT_AMOUNT_IDX     = 10;
+    private static final int CREDIT_AMOUNT_IDX    = 11;
+    private static final int REF_ORIGIN_CODE_IDX  = 12;
+    private static final int REF_NUMBER_IDX       = 13;
+    private static final int REF_TYPE_CODE_IDX    = 14;
     
     private JournalVoucherDocument _document;
 
@@ -96,7 +97,7 @@ public class JournalVoucherAccountingLineParser extends AccountingLineParserBase
         if (fieldCount < getExpectedFieldCount()) {
             throw new IllegalStateException
                 ("Number of fields in csv (" 
-                 + fieldCount + ") does not match EXPECTED_FIELDS ("
+                 + fieldCount + ") does not satisfy EXPECTED_FIELDS ("
                  + getExpectedFieldCount() + ")");
         }
 
@@ -108,17 +109,23 @@ public class JournalVoucherAccountingLineParser extends AccountingLineParserBase
         String subObjectCode  = parseSubObjectCode( accountingLineData );
         String projectCode    = parseProjectCode( accountingLineData );
         String objectTypeCode = parseObjectTypeCode( accountingLineData );
-        String orgRefId       = 
-            parseOrganizationReferenceId( accountingLineData );
-        StringBuffer debitOrCredit = new StringBuffer();
-        KualiDecimal amount   = 
-            parseAmount( accountingLineData, debitOrCredit );
-        String overrideCode   = parseOverrideCode( accountingLineData);
+        String orgRefId       = parseOrganizationReferenceId( accountingLineData );
+        String budgetYear     = parseBudgetYear( accountingLineData );
+        String overrideCode   = parseOverrideCode( accountingLineData );
+        KualiDecimal amount;
+        if( getExpectedFieldCount() > NON_OFFSET_GENERATION_EXPECTED_FIELDS ) {
+            StringBuffer debitOrCredit = new StringBuffer();
+            amount = parseDebitCreditAmount( accountingLineData, debitOrCredit );
+            retval.setDebitCreditCode( debitOrCredit.toString() );
+        }
+        else {
+            amount = parseDebitAmount(accountingLineData);
+        }
         String refOriginCode  = null;
         String refNumber      = null;
         String refTypeCode    = null;
         
-        if( getBalanceType().getCode().equals( EXTERNAL_ENCUMBRANCE ) ) {
+        if( EXTERNAL_ENCUMBRANCE_EXPECTED_FIELDS == getExpectedFieldCount()) {
             refOriginCode = parseRefOriginCode( accountingLineData );
             refNumber     = parseRefNumber( accountingLineData );
             refTypeCode   = parseRefTypeCode( accountingLineData );
@@ -135,9 +142,9 @@ public class JournalVoucherAccountingLineParser extends AccountingLineParserBase
         retval.setObjectTypeCode( objectTypeCode );
         retval.setOrganizationReferenceId( orgRefId );
         retval.setProjectCode( projectCode );
-        retval.setAmount(amount);
+        retval.setBudgetYear(budgetYear);
         retval.setOverrideCode(overrideCode);
-        retval.setDebitCreditCode( debitOrCredit.toString() );
+        retval.setAmount(amount);
         retval.setReferenceOriginCode( refOriginCode );
         retval.setReferenceTypeCode( refTypeCode );
         retval.setReferenceNumber( refNumber );
@@ -256,8 +263,8 @@ public class JournalVoucherAccountingLineParser extends AccountingLineParserBase
      * @param lineData <code>{@link String}[]</code> of parsed CSV data.
      * @return <code>{@link KualiDecimal}</code> instance of the amount.
      */
-    private KualiDecimal parseAmount( String[] lineData, 
-                                      StringBuffer debitOrCredit ) {
+    private KualiDecimal parseDebitCreditAmount( String[] lineData,
+                                                 StringBuffer debitOrCredit ) {
         KualiDecimal amount = null;
         if( parseDebitAmount( lineData ).compareTo( ZERO ) != 0 ) {
             amount = parseDebitAmount( lineData );
@@ -272,6 +279,10 @@ public class JournalVoucherAccountingLineParser extends AccountingLineParserBase
 
     private String parseOverrideCode(String[] lineData) {
         return parseField( lineData, OVERRIDE_CODE_IDX );
+    }
+
+    private String parseBudgetYear(String[] lineData) {
+        return parseField( lineData, BUDGET_YEAR_IDX );
     }
 
     /**
@@ -359,6 +370,6 @@ public class JournalVoucherAccountingLineParser extends AccountingLineParserBase
         else if( getBalanceType().isFinancialOffsetGenerationIndicator() ) {
             return OFFSET_GENERATION_EXPECTED_FIELDS;
         }
-        return EXPECTED_FIELDS;
+        return NON_OFFSET_GENERATION_EXPECTED_FIELDS;
     }
 }

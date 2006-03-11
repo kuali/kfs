@@ -61,10 +61,20 @@
 <c:set var="titleName" value="${sourceOrTarget}AccountingLinesSectionTitle"/>
 <c:set var="sectionTitle" value="${KualiForm.document[titleName]}"/>
 
+<c:choose>
+    <c:when test="${empty sectionTitle}">
+        <%-- JournalVoucher has only one group of accounting lines with an empty titleName. --%>
+        <c:set var="errorSectionTitle" value="this"/>
+    </c:when>
+    <c:otherwise>
+        <c:set var="errorSectionTitle" value='"${sectionTitle}"'/>
+    </c:otherwise>
+</c:choose>
+
 <kul:displayIfErrors keyMatch="${errorPattern}">
     <tr>
         <td class="error" colspan="${totalColumnWidth}">
-            <kul:errors keyMatch="${errorPattern}" errorTitle='Errors found in "${sectionTitle}" section:'/>
+            <kul:errors keyMatch="${errorPattern}" errorTitle='Errors found in ${errorSectionTitle} section:'/>
         </td>
     </tr>    
 </kul:displayIfErrors>

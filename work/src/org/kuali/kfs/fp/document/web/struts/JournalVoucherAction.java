@@ -35,6 +35,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
+import org.kuali.PropertyConstants;
 import org.kuali.core.authorization.DocumentAuthorizer;
 import org.kuali.core.bo.AccountingLine;
 import org.kuali.core.bo.SourceAccountingLine;
@@ -727,17 +728,17 @@ public class JournalVoucherAction extends KualiTransactionalDocumentActionBase {
      * @throws IOException
      */
     protected void uploadAccountingLines(boolean isSource, ActionForm form) throws FileNotFoundException, IOException {
-        super.uploadAccountingLines(isSource, form);
-
-
         JournalVoucherForm jvForm = (JournalVoucherForm) form;
+        // JournalVoucherAccountingLineParser needs a fresh BalanceType BO in the JournalVoucherDocument.
+        jvForm.getJournalVoucherDocument().refreshReferenceObject(PropertyConstants.BALANCE_TYPE);
+        super.uploadAccountingLines(isSource, jvForm);
 
         populateAllJournalVoucherAccountingLineHelpers(jvForm);
 
-        if (GlobalVariables.getErrorMap().containsKey(Constants.ACCOUNTING_LINE_ERRORS)) {
+        if (GlobalVariables.getErrorMap().containsKey(Constants.SOURCE_ACCOUNTING_LINE_ERRORS)) {
             JournalVoucherDocument jvDocument = jvForm.getJournalVoucherDocument();
 
-            GlobalVariables.getErrorMap().put(Constants.ACCOUNTING_LINE_ERRORS,
+            GlobalVariables.getErrorMap().put(Constants.SOURCE_ACCOUNTING_LINE_ERRORS,
                     KeyConstants.ERROR_DOCUMENT_JV_INVALID_ACCOUNTING_LINE_TEMPLATE,
                     new String[] { jvDocument.getBalanceTypeCode(), getImportTemplateName(jvDocument) });
         }

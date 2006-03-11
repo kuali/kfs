@@ -186,6 +186,9 @@ public class JournalVoucherForm extends KualiTransactionalDocumentFormBase {
      */
     public String getFormattedReversalDate() {
         Timestamp reversalDate = ((JournalVoucherDocument) getDocument()).getReversalDate();
+        if (reversalDate == null) {
+            return "";
+        }
         SimpleDateFormat sdf = new SimpleDateFormat("MMM d, yyyy");
         return sdf.format(new Date(reversalDate.getTime()));
     }
@@ -413,10 +416,11 @@ public class JournalVoucherForm extends KualiTransactionalDocumentFormBase {
         }
         else { // it's the first time in, the form will be empty the first time in
             // set up default selection
-            selectedBalanceType = SpringServiceLocator.getBalanceTypService().getBalanceTypByCode(Constants.BALANCE_TYPE_ACTUAL); // default
+            selectedBalanceType = getPopulatedBalanceTypeInstance(Constants.BALANCE_TYPE_ACTUAL); // default
             // value
             setSelectedBalanceType(selectedBalanceType);
             setOriginalBalanceType(selectedBalanceType.getCode());
+            getJournalVoucherDocument().setBalanceTypeCode(selectedBalanceType.getCode());
         }
     }
 

@@ -89,22 +89,11 @@ public class PosterServiceTest extends OriginEntryTestBase {
         "2004BA6044900-----5300---ACEE07CHKDPDBLANKFISC12345214090047 EVERETT J PRESCOTT INC.                 1445.00X2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
     };
 
-    EntryHolder[] outputTransactions = {
-        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions[0]),
-        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions[1]),
-        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions[2]),
-        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions[3]),
-        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions[4]),
-        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions[5]),
-        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions[6]),
-        new EntryHolder(OriginEntrySource.MAIN_POSTER_ERROR,inputTransactions[0]),
-        new EntryHolder(OriginEntrySource.MAIN_POSTER_ERROR,inputTransactions[1]),
-        new EntryHolder(OriginEntrySource.MAIN_POSTER_ERROR,inputTransactions[2]),
-        new EntryHolder(OriginEntrySource.MAIN_POSTER_ERROR,inputTransactions[3]),
-        new EntryHolder(OriginEntrySource.MAIN_POSTER_ERROR,inputTransactions[4]),
-        new EntryHolder(OriginEntrySource.MAIN_POSTER_ERROR,inputTransactions[5]),
-        new EntryHolder(OriginEntrySource.MAIN_POSTER_ERROR,inputTransactions[6]),
-    };
+    EntryHolder[] outputTransactions = new EntryHolder[inputTransactions.length * 2];
+    for (int i = 0; i < inputTransactions.length; i++) {
+      outputTransactions[i] = new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions[i]);
+      outputTransactions[i + inputTransactions.length] = new EntryHolder(OriginEntrySource.MAIN_POSTER_ERROR,inputTransactions[i]);
+    }
 
     clearOriginEntryTables();
     loadInputTransactions(OriginEntrySource.SCRUBBER_VALID,inputTransactions);
@@ -247,40 +236,11 @@ public class PosterServiceTest extends OriginEntryTestBase {
         "2004BA6044900-----4166---ACEXCBCHKDPDBALTEST1212345214090047 EVERETT J PRESCOTT INC.                  160.16D2006-01-05ABCDEFGHIJ----------12345678                             "
     };
 
-    EntryHolder[] outputTransactions = {
-        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions[0]),
-        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions[1]),
-        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions[2]),
-        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions[3]),
-        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions[4]),
-        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions[5]),
-        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions[6]),
-        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions[7]),
-        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions[8]),
-        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions[9]),
-        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions[10]),
-        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions[11]),
-        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions[12]),
-        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions[13]),
-        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions[14]),
-        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions[15]),
-        new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions[0]),
-        new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions[1]),
-        new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions[2]),
-        new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions[3]),
-        new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions[4]),
-        new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions[5]),
-        new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions[6]),
-        new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions[7]),
-        new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions[8]),
-        new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions[9]),
-        new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions[10]),
-        new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions[11]),
-        new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions[12]),
-        new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions[13]),
-        new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions[14]),
-        new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions[15])
-    };
+    EntryHolder[] outputTransactions = new EntryHolder[inputTransactions.length * 2];
+    for (int i = 0; i < inputTransactions.length; i++) {
+      outputTransactions[i] = new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions[i]);
+      outputTransactions[i + inputTransactions.length] = new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions[i]);
+    }
 
     clearOriginEntryTables();
     clearGlBalanceTable();
@@ -352,34 +312,11 @@ public class PosterServiceTest extends OriginEntryTestBase {
         "2004BA6044900-----4166---ACEX13CHKDPDBALTEST1212345214090047 EVERETT J PRESCOTT INC.                    0.13C2006-01-05ABCDEFGHIJ----------12345678                             ",
     };
 
-    EntryHolder[] outputTransactions2 = {
-        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions2[0]),
-        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions2[1]),
-        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions2[2]),
-        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions2[3]),
-        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions2[4]),
-        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions2[5]),
-        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions2[6]),
-        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions2[7]),
-        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions2[8]),
-        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions2[9]),
-        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions2[10]),
-        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions2[11]),
-        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions2[12]),
-        new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions2[0]),
-        new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions2[1]),
-        new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions2[2]),
-        new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions2[3]),
-        new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions2[4]),
-        new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions2[5]),
-        new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions2[6]),
-        new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions2[7]),
-        new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions2[8]),
-        new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions2[9]),
-        new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions2[10]),
-        new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions2[11]),
-        new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions2[12])
-    };
+    EntryHolder[] outputTransactions2 = new EntryHolder[inputTransactions2.length * 2];
+    for (int i = 0; i < inputTransactions2.length; i++) {
+      outputTransactions2[i] = new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions2[i]);
+      outputTransactions2[i + inputTransactions2.length] = new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions2[i]);
+    }
 
     clearOriginEntryTables();
     loadInputTransactions(OriginEntrySource.SCRUBBER_VALID,inputTransactions2);
@@ -449,18 +386,11 @@ public class PosterServiceTest extends OriginEntryTestBase {
         "2004BA6044900-----5215---ACEX06CHKDPDENCTEST0212345214090047 EVERETT J PRESCOTT INC.                   60.00C2006-01-05ABCDEFGHIJ----------12345678                              ",
     };
 
-    EntryHolder[] outputTransactions = {
-        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions[0]),
-        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions[1]),
-        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions[2]),
-        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions[3]),
-        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions[4]),
-        new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions[0]),
-        new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions[1]),
-        new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions[2]),
-        new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions[3]),
-        new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions[4])        
-    };
+    EntryHolder[] outputTransactions = new EntryHolder[inputTransactions.length * 2];
+    for (int i = 0; i < inputTransactions.length; i++) {
+      outputTransactions[i] = new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions[i]);
+      outputTransactions[i + inputTransactions.length] = new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions[i]);
+    }
 
     clearOriginEntryTables();
     clearEncumbranceTable();
@@ -523,22 +453,11 @@ public class PosterServiceTest extends OriginEntryTestBase {
         "2004BA6044900-----4166---CBEX07CHKDPDGLACCTBA112345DESCRIPTION                                         -2.00 2006-01-05ABCDEFGHIJ----------12345678                                                                  "
     };
 
-    EntryHolder[] outputTransactions = {
-        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions[0]),
-        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions[1]),
-        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions[2]),
-        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions[3]),
-        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions[4]),
-        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions[5]),
-        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions[6]),
-        new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions[0]),
-        new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions[1]),
-        new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions[2]),
-        new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions[3]),
-        new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions[4]),
-        new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions[5]),
-        new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions[6])
-    };
+    EntryHolder[] outputTransactions = new EntryHolder[inputTransactions.length * 2];
+    for (int i = 0; i < inputTransactions.length; i++) {
+      outputTransactions[i] = new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions[i]);
+      outputTransactions[i + inputTransactions.length] = new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions[i]);
+    }
 
     clearOriginEntryTables();
     clearGlAccountBalanceTable();
@@ -574,59 +493,143 @@ public class PosterServiceTest extends OriginEntryTestBase {
   public void testPostSufficientFundBalances() throws Exception {
     LOG.debug("testPostSufficientFundBalances() started");
 
-//    N              BL             2231428 
-//    A              BL             2831410        
-//    C              BL             2931477    
-//    H              BL             2931409
-//    O              BL             2231429        
-//    L              BL             2231432        
-
     String[] inputTransactions = {
         // N code
-        "2004BL2231428-----4166---ACEX07CHKDPDSFN00001112345DESCRIPTION                                        123.45D2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
+        "2004BL2231428-----4166---ACEX07CHKDPDSFN00001112345DESCRIPTION                                      11000.00D2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
 
         // A code
-        "2004BL2831410-----4166---ACEX07CHKDPDSFA00001112345DESCRIPTION                                        123.45D2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
+        "2004BL2831410-----4166---ACEX07CHKDPDSFA00001112345DESCRIPTION                                      12000.00D2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
+        "2004BL2831410-----4166---ACEX07CHKDPDSFA00001112345DESCRIPTION                                         15.00C2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
+        "2004BL2831410-----4166---EXEX07CHKDPDSFA00001112345DESCRIPTION                                      13000.00D2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
+        "2004BL2831410-----4166---EXEX07CHKDPDSFA00001112345DESCRIPTION                                         16.00C2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
 
         // C code
-        "2004BL2931477-----4166---ACEX07CHKDPDSFC00001112345DESCRIPTION                                        123.45D2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
+        "2004BL2931477-----4166---EXEX07CHKDPDSFC00001112345DESCRIPTION                                       1000.00D2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
+        "2004BL2931477-----2401---EXEX07CHKDPDSFC00001112345DESCRIPTION                                       2000.00D2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
+        "2004BL2931477-----4166---ACEX07CHKDPDSFC00001112345DESCRIPTION                                        200.00D2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
+        "2004BL2931477-----2401---ACEX07CHKDPDSFC00001112345DESCRIPTION                                        300.00D2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
+        "2004BL2931477-----4166---EXEX07CHKDPDSFC00001112345DESCRIPTION                                          1.00C2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
+        "2004BL2931477-----2401---EXEX07CHKDPDSFC00001112345DESCRIPTION                                          2.00C2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
+        "2004BL2931477-----4166---ACEX07CHKDPDSFC00001112345DESCRIPTION                                          3.00C2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
+        "2004BL2931477-----2401---ACEX07CHKDPDSFC00001112345DESCRIPTION                                          4.00C2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
 
         // H code?
-        "2004BL2931409-----8000---ACEX07CHKDPDSFH00001112345DESCRIPTION                                        123.45D2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
+        "2004BL2931409-----8000---ACEX07CHKDPDSFH00001112345DESCRIPTION                                       9000.00D2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
+        "2004BL2931409-----8000---ACEX07CHKDPDSFH00001112345DESCRIPTION                                         13.00C2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
+        "2004BL2931409-----4166---EXEX07CHKDPDSFH00001112345DESCRIPTION                                      10000.00D2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
+        "2004BL2931409-----4166---EXEX07CHKDPDSFH00001112345DESCRIPTION                                         14.00C2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
 
         // O code
-        "2004BL2231429-----4166---ACEX07CHKDPDSFO00001112345DESCRIPTION                                        123.45D2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
+        "2004BL2231429-----4166---EXEX07CHKDPDSFO00001112345DESCRIPTION                                       3000.00D2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
+        "2004BL2231429-----2401---EXEX07CHKDPDSFO00001112345DESCRIPTION                                       4000.00D2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
+        "2004BL2231429-----4166---ACEX07CHKDPDSFO00001112345DESCRIPTION                                        400.00D2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
+        "2004BL2231429-----2401---ACEX07CHKDPDSFO00001112345DESCRIPTION                                        500.00D2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
+        "2004BL2231429-----4166---EXEX07CHKDPDSFO00001112345DESCRIPTION                                          5.00C2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
+        "2004BL2231429-----2401---EXEX07CHKDPDSFO00001112345DESCRIPTION                                          6.00C2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
+        "2004BL2231429-----4166---ACEX07CHKDPDSFO00001112345DESCRIPTION                                          7.00C2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
+        "2004BL2231429-----2401---ACEX07CHKDPDSFO00001112345DESCRIPTION                                          8.00C2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
 
         // L code
-        "2004BL2231432-----4166---ACEX07CHKDPDSFL00001112345DESCRIPTION                                        123.45D2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
+        "2004BL2231432-----4166---ACEX07CHKDPDSFL00001112345DESCRIPTION                                       5000.00D2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
+        "2004BL2231432-----4166---ACEX07CHKDPDSFL00001112345DESCRIPTION                                          9.00C2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
+        "2004BL2231432-----2401---ACEX07CHKDPDSFO00001112345DESCRIPTION                                       6000.00D2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
+        "2004BL2231432-----2401---ACEX07CHKDPDSFO00001112345DESCRIPTION                                         10.00C2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
+        "2004BL2231432-----4166---EXEX07CHKDPDSFL00001112345DESCRIPTION                                       7000.00D2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
+        "2004BL2231432-----4166---EXEX07CHKDPDSFL00001112345DESCRIPTION                                         11.00C2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
+        "2004BL2231432-----2401---EXEX07CHKDPDSFO00001112345DESCRIPTION                                       8000.00D2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
+        "2004BL2231432-----2401---EXEX07CHKDPDSFO00001112345DESCRIPTION                                         12.00C2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
     };
 
-    EntryHolder[] outputTransactions = {
-        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions[0]),
-        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions[1]),
-        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions[2]),
-        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions[3]),
-        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions[4]),
-        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions[5]),
-        new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions[0]),
-        new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions[1]),
-        new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions[2]),
-        new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions[3]),
-        new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions[4]),
-        new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions[5])
-    };
+    EntryHolder[] outputTransactions = new EntryHolder[inputTransactions.length * 2];
+    for (int i = 0; i < inputTransactions.length; i++) {
+      outputTransactions[i] = new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions[i]);
+      outputTransactions[i + inputTransactions.length] = new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions[i]);
+    }
 
     clearOriginEntryTables();
     clearSufficientFundBalanceTable();
     loadInputTransactions(OriginEntrySource.SCRUBBER_VALID,inputTransactions);
     posterService.postMainEntries();
 
+    printReport();
     assertOriginEntries(3,outputTransactions);
 
-    List balances = unitTestSqlDao.sqlSelect("select * from gl_sf_balances_t");
-    assertEquals("Should be 5 balances",5,balances.size());
+    // Check N code accounts
+    List balances = unitTestSqlDao.sqlSelect("select * from gl_sf_balances_t where account_nbr = '2231428'");
+    assertEquals("Should be 0 balances for code N accounts",0,balances.size());
 
+    // Check A code accounts
+    balances = unitTestSqlDao.sqlSelect("select * from gl_sf_balances_t where account_nbr = '2831410'");
+    assertEquals("Should be 1 balance for code A accounts",1,balances.size());
+    Map bal0 = (Map)balances.get(0);
+    assertEquals("A Balance 0 budget amount",0.00,getAmount(bal0,"CURR_BDGT_BAL_AMT"),0.01);
+    assertEquals("A Balance 0 actual amount",11985.00,getAmount(bal0,"ACCT_ACTL_XPND_AMT"),0.01);
+    assertEquals("A Balance 0 encumbrance amount",12984.00,getAmount(bal0,"ACCT_ENCUM_AMT"),0.01);
 
+    // Check C code accounts
+    balances = unitTestSqlDao.sqlSelect("select * from gl_sf_balances_t where account_nbr = '2931477' order by fin_object_cd");
+    assertEquals("Should be 2 balances for code C accounts",2,balances.size());
+    bal0 = (Map)balances.get(0);
+    Map bal1 = (Map)balances.get(1);
+    assertEquals("C Balance 0 object code","CMPN",bal0.get("FIN_OBJECT_CD"));
+    assertEquals("C Balance 0 budget amount",0.00,getAmount(bal0,"CURR_BDGT_BAL_AMT"),0.01);
+    assertEquals("C Balance 0 actual amount",296.00,getAmount(bal0,"ACCT_ACTL_XPND_AMT"),0.01);
+    assertEquals("C Balance 0 encumbrance amount",1998.00,getAmount(bal0,"ACCT_ENCUM_AMT"),0.01);
+
+    assertEquals("C Balance 1 object code","GENX",bal1.get("FIN_OBJECT_CD"));
+    assertEquals("C Balance 1 budget amount",0.00,getAmount(bal1,"CURR_BDGT_BAL_AMT"),0.01);
+    assertEquals("C Balance 1 actual amount",197.00,getAmount(bal1,"ACCT_ACTL_XPND_AMT"),0.01);
+    assertEquals("C Balance 1 encumbrance amount",999.00,getAmount(bal1,"ACCT_ENCUM_AMT"),0.01);
+
+    // Check H code accounts
+    balances = unitTestSqlDao.sqlSelect("select * from gl_sf_balances_t where account_nbr = '2931409'");
+    assertEquals("Should be 1 balance for code H accounts",1,balances.size());
+    bal0 = (Map)balances.get(0);
+    assertEquals("H Balance 0 budget amount",8987.00,getAmount(bal0,"CURR_BDGT_BAL_AMT"),0.01);
+    assertEquals("H Balance 0 actual amount",0.00,getAmount(bal0,"ACCT_ACTL_XPND_AMT"),0.01);
+    assertEquals("H Balance 0 encumbrance amount",9986.00,getAmount(bal0,"ACCT_ENCUM_AMT"),0.01);
+
+    // Check O code accounts
+    balances = unitTestSqlDao.sqlSelect("select * from gl_sf_balances_t where account_nbr = '2231429' order by fin_object_cd");
+    assertEquals("Should be 2 balance for code O accounts",2,balances.size());
+    bal0 = (Map)balances.get(0);
+    bal1 = (Map)balances.get(1);
+    assertEquals("O Balance 0 object code","2401",bal0.get("FIN_OBJECT_CD"));
+    assertEquals("O Balance 0 budget amount",0.00,getAmount(bal0,"CURR_BDGT_BAL_AMT"),0.01);
+    assertEquals("O Balance 0 actual amount",492.00,getAmount(bal0,"ACCT_ACTL_XPND_AMT"),0.01);
+    assertEquals("O Balance 0 encumbrance amount",3994.00,getAmount(bal0,"ACCT_ENCUM_AMT"),0.01);
+
+    assertEquals("O Balance 1 object code","4166",bal1.get("FIN_OBJECT_CD"));
+    assertEquals("O Balance 1 budget amount",0.00,getAmount(bal1,"CURR_BDGT_BAL_AMT"),0.01);
+    assertEquals("O Balance 1 actual amount",393.00,getAmount(bal1,"ACCT_ACTL_XPND_AMT"),0.01);
+    assertEquals("O Balance 1 encumbrance amount",2995.00,getAmount(bal1,"ACCT_ENCUM_AMT"),0.01);
+
+    // Check L code accounts
+    balances = unitTestSqlDao.sqlSelect("select * from gl_sf_balances_t where account_nbr = '2231432'");
+    assertEquals("Should be 2 balance for code L accounts",2,balances.size());
+    bal0 = (Map)balances.get(0);
+    bal1 = (Map)balances.get(1);
+    assertEquals("L Balance 0 object code","PRIN",bal0.get("FIN_OBJECT_CD"));
+    assertEquals("L Balance 0 budget amount",0.00,getAmount(bal0,"CURR_BDGT_BAL_AMT"),0.01);
+    assertEquals("L Balance 0 actual amount",4991.00,getAmount(bal0,"ACCT_ACTL_XPND_AMT"),0.01);
+    assertEquals("L Balance 0 encumbrance amount",6989.00,getAmount(bal0,"ACCT_ENCUM_AMT"),0.01);
+
+    assertEquals("L Balance 1 object code","PRSA",bal1.get("FIN_OBJECT_CD"));
+    assertEquals("L Balance 1 budget amount",0.00,getAmount(bal1,"CURR_BDGT_BAL_AMT"),0.01);
+    assertEquals("L Balance 1 actual amount",5990.00,getAmount(bal1,"ACCT_ACTL_XPND_AMT"),0.01);
+    assertEquals("L Balance 1 encumbrance amount",7988.00,getAmount(bal1,"ACCT_ENCUM_AMT"),0.01);
+
+    balances = unitTestSqlDao.sqlSelect("select * from gl_sf_balances_t");
+    assertEquals("Wrong number of balances in the table",8,balances.size());
+  }
+
+  private double getAmount(Map map,String field) {
+    BigDecimal amt = (BigDecimal)map.get(field);
+    if ( amt == null ) {
+      return Double.NaN;
+    } else {
+      return amt.doubleValue();
+    }
   }
 
   private void printReport() {

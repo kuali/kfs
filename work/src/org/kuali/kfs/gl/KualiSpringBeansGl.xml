@@ -225,4 +225,22 @@
 	<bean id="glSufficientFundRebuildDao" class="org.kuali.module.gl.dao.ojb.SufficientFundRebuildDaoOjb">
 		<property name="jcdAlias"><value>dataSource</value></property>
 	</bean>
+
+	<!-- SUFFICIENT FUNDS SERVICE/DAO -->
+	  
+	<bean id="sufficientFundsService" class="org.kuali.module.gl.service.impl.SufficientFundsServiceImpl">
+		<property name="accountService"><ref bean="accountService" /></property>
+		<property name="businessObjectService"><ref bean="businessObjectService" /></property>
+		<property name="objectLevelService"><ref bean="objectLevelService" /></property>
+		<property name="kualiConfigurationService"><ref bean="kualiConfigurationService" /></property>
+		<property name="persistenceService" ><ref bean="persistenceService" /></property>
+		<property name="kualiRuleService" ><ref bean="kualiRuleService" /></property>
+		<property name="dataDictionaryService" ><ref bean="dataDictionaryService" /></property>
+	</bean>
+	
+	<bean id="sufficientFundsDao" class="org.kuali.module.gl.dao.ojb.SufficientFundsDaoOjb">
+		<property name="jcdAlias"><value>dataSource</value></property>
+	</bean>
+	
+	
 </beans>

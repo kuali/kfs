@@ -22,6 +22,8 @@
  */
 package org.kuali.module.financial.web.struts.action;
 
+import java.io.ByteArrayOutputStream;
+
 import java.util.Iterator;
 import java.util.List;
 
@@ -39,11 +41,14 @@ import org.kuali.core.rule.event.DeleteCheckEvent;
 import org.kuali.core.rule.event.UpdateCheckEvent;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.core.util.WebUtils;
 import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.module.financial.bo.Check;
 import org.kuali.module.financial.bo.CheckBase;
 import org.kuali.module.financial.document.CashReceiptDocument;
+import org.kuali.module.financial.service.CashReceiptCoverSheetService;
+import org.kuali.module.financial.service.impl.CashReceiptCoverSheetServiceImpl;
 import org.kuali.module.financial.web.struts.form.CashReceiptForm;
 
 import edu.iu.uis.eden.exception.WorkflowException;
@@ -76,6 +81,50 @@ public class CashReceiptAction extends KualiTransactionalDocumentActionBase {
 
         // proceed as usual
         return super.execute(mapping, form, request, response);
+    }
+
+    /**
+     * Prepares and streams CR PDF Cover Sheet
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward printCashReceiptCoverSheet(ActionMapping mapping, 
+                                                    ActionForm form, 
+                                                    HttpServletRequest request,
+                                                    
+                                                    HttpServletResponse response) 
+        throws Exception {
+
+        // get directory of tempate
+        String directory = getServlet()
+            .getServletConfig().getServletContext()
+            .getRealPath( CashReceiptCoverSheetServiceImpl
+                          .CR_COVERSHEET_TEMPLATE_RELATIVE_DIR );
+
+        // retrieve document
+        CashReceiptDocument document = 
+            ( CashReceiptDocument )SpringServiceLocator
+            .getDocumentService()
+            .getByDocumentHeaderId( request
+                                    .getParameter( Constants.DOCUMENT_HEADER_ID ) );
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        CashReceiptCoverSheetService coverSheetService = 
+            new CashReceiptCoverSheetServiceImpl();
+
+        coverSheetService.generateCoverSheet( document, baos );
+        String fileName = document
+            .getFinancialDocumentNumber() + "_cover_sheet.pdf";
+        WebUtils.saveMimeOutputStreamAsFile( response, 
+                                             "application/pdf",
+                                             baos, fileName );
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
     /**

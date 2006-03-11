@@ -22,66 +22,72 @@
  */
 package org.kuali.module.gl.bo;
 
-import java.util.Date;
+import java.sql.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.BusinessObjectBase;
 
 /**
  * @author jsissom
- *
+ * 
  */
 public class UniversityDate extends BusinessObjectBase {
-  static final long serialVersionUID = 2587833750168955556L;
+    static final long serialVersionUID = 2587833750168955556L;
 
-  private Date universityDate;
-  private Integer universityFiscalYear;
-  private String universityFiscalAccountingPeriod;
+    private Date universityDate;
+    private Integer universityFiscalYear;
+    private String universityFiscalAccountingPeriod;
 
-	/* (non-Javadoc)
-	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-    LinkedHashMap map = new LinkedHashMap();
-    map.put("universityDate", getUniversityDate());
-    return map;
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap map = new LinkedHashMap();
+        map.put("universityDate", getUniversityDate());
+        return map;
+    }
 
-  /**
-   * @return Returns the universityDate.
-   */
-  public Date getUniversityDate() {
-    return universityDate;
-  }
-  /**
-   * @param universityDate The universityDate to set.
-   */
-  public void setUniversityDate(Date universityDate) {
-    this.universityDate = universityDate;
-  }
-  /**
-   * @return Returns the universityFiscalAccountingPeriod.
-   */
-  public String getUniversityFiscalAccountingPeriod() {
-    return universityFiscalAccountingPeriod;
-  }
-  /**
-   * @param universityFiscalAccountingPeriod The universityFiscalAccountingPeriod to set.
-   */
-  public void setUniversityFiscalAccountingPeriod(
-    String universityFiscalAccountingPeriod) {
-    this.universityFiscalAccountingPeriod = universityFiscalAccountingPeriod;
-  }
-  /**
-   * @return Returns the universityFiscalYear.
-   */
-  public Integer getUniversityFiscalYear() {
-    return universityFiscalYear;
-  }
-  /**
-   * @param universityFiscalYear The universityFiscalYear to set.
-   */
-  public void setUniversityFiscalYear(Integer universityFiscalYear) {
-    this.universityFiscalYear = universityFiscalYear;
-  }
+    /**
+     * @return Returns the universityDate.
+     */
+    public Date getUniversityDate() {
+        return universityDate;
+    }
+
+    /**
+     * @param universityDate The universityDate to set.
+     */
+    public void setUniversityDate(Date universityDate) {
+        this.universityDate = universityDate;
+    }
+
+    /**
+     * @return Returns the universityFiscalAccountingPeriod.
+     */
+    public String getUniversityFiscalAccountingPeriod() {
+        return universityFiscalAccountingPeriod;
+    }
+
+    /**
+     * @param universityFiscalAccountingPeriod The universityFiscalAccountingPeriod to set.
+     */
+    public void setUniversityFiscalAccountingPeriod(String universityFiscalAccountingPeriod) {
+        this.universityFiscalAccountingPeriod = universityFiscalAccountingPeriod;
+    }
+
+    /**
+     * @return Returns the universityFiscalYear.
+     */
+    public Integer getUniversityFiscalYear() {
+        return universityFiscalYear;
+    }
+
+    /**
+     * @param universityFiscalYear The universityFiscalYear to set.
+     */
+    public void setUniversityFiscalYear(Integer universityFiscalYear) {
+        this.universityFiscalYear = universityFiscalYear;
+    }
 }

@@ -31,6 +31,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.web.struts.action.KualiDocumentActionBase;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
+import org.kuali.module.financial.web.struts.form.CashManagementForm;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -49,7 +50,12 @@ public class CashManagementAction extends KualiDocumentActionBase {
      * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return super.execute(mapping, form, request, response);
+        ActionForward dest = super.execute(mapping, form, request, response);
+        
+        CashManagementForm cmf = (CashManagementForm)form;
+        cmf.populateDepositHelpers();
+        
+        return dest;
     }
 
 
@@ -62,6 +68,4 @@ public class CashManagementAction extends KualiDocumentActionBase {
     protected void createDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
         throw new IllegalStateException("direct creation of CashManagementDocuments is not allowed");
     }
-
-
 }

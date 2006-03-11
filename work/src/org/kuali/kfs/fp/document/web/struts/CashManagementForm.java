@@ -22,12 +22,16 @@
  */
 package org.kuali.module.financial.web.struts.form;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
+import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
+import org.kuali.module.financial.bo.Deposit;
 import org.kuali.module.financial.document.CashManagementDocument;
+import org.kuali.module.financial.document.CashReceiptDocument;
+import org.kuali.module.financial.service.CashManagementService;
 
 /**
  * This class is the action form for Internal Billing.
@@ -36,7 +40,9 @@ import org.kuali.module.financial.document.CashManagementDocument;
  */
 
 public class CashManagementForm extends KualiDocumentFormBase {
-    private List depositSummaries;
+    // problem: I need one list of receiptSummaries foreach deposit
+    // ? create a DepositReceipts object which contains DepositSummaries, index 'em by depositLineNumber ?
+    private List depositHelpers;
 
     /**
      * Constructs a CashManagementForm.
@@ -45,6 +51,8 @@ public class CashManagementForm extends KualiDocumentFormBase {
         super();
 
         setDocument(new CashManagementDocument());
+        depositHelpers = new ArrayList();
+
         setFormatterType("document.cashDrawerStatus", CashDrawerStatusCodeFormatter.class);
         setFormatterType("document.deposit.depositTypeCode", CashReceiptDepositTypeFormatter.class);
     }
@@ -59,17 +67,58 @@ public class CashManagementForm extends KualiDocumentFormBase {
 
 
     /**
-     * @see org.kuali.core.web.struts.form.KualiDocumentFormBase#populate(javax.servlet.http.HttpServletRequest)
+     * Creates a DepositHelper foreach Deposit associated with this form's document
      */
-    public void populate(HttpServletRequest request) {
-        super.populate(request);
+    public void populateDepositHelpers() {
+        depositHelpers.clear();
 
-        populateCashReceipts();
+        List deposits = getCashManagementDocument().getDeposits();
+        for (Iterator i = deposits.iterator(); i.hasNext();) {
+            Deposit d = (Deposit) i.next();
+
+            DepositHelper dh = new DepositHelper(d);
+            depositHelpers.add(dh);
+        }
     }
 
-    private void populateCashReceipts() {
-        // load the associated
-        if (hasDocumentId()) {
+
+    public List getDepositHelpers() {
+        return depositHelpers;
+    }
+
+    public DepositHelper getDepositHelper(int i) {
+        DepositHelper dh = (DepositHelper) depositHelpers.get(i);
+
+        return dh;
+    }
+
+
+    public static final class DepositHelper {
+        private Integer depositLineNumber;
+        private List cashReceipts;
+
+        public DepositHelper(Deposit deposit) {
+            CashManagementService cmService = SpringServiceLocator.getCashManagementService();
+            cashReceipts = cmService.retrieveCashReceipts(deposit);
+            depositLineNumber = deposit.getFinancialDocumentDepositLineNumber();
+        }
+
+        public List getCashReceipts() {
+            return cashReceipts;
+        }
+        
+        public CashReceiptDocument getCashReceipt(int i) {
+            CashReceiptDocument cd = (CashReceiptDocument)cashReceipts.get( i );
+            
+            return cd;
+        }
+        
+        public Integer getDepositLineNumber() {
+            return depositLineNumber;
+        }
+        
+        public String toString() {
+            return "deposit " + depositLineNumber;
         }
     }
 }

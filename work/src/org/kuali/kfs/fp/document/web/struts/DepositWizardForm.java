@@ -26,7 +26,9 @@ import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.Constants;
+import org.kuali.KeyConstants;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.module.financial.bo.CashDrawer;
@@ -67,6 +69,7 @@ public class DepositWizardForm extends KualiForm {
             this.cashReceiptsReadyForDeposit.clear();
             this.cashReceiptsReadyForDeposit.addAll(SpringServiceLocator.getCashManagementService()
                     .retrieveVerifiedCashReceiptsByVerificationUnit(Constants.CashReceiptConstants.CASH_RECEIPT_VERIFICATION_UNIT));
+            this.cashDrawer = SpringServiceLocator.getCashDrawerService().getByWorkgroupName(Constants.CashReceiptConstants.CASH_RECEIPT_VERIFICATION_UNIT);
         }
         catch (WorkflowException we) {
             throw new RuntimeException(we);
@@ -115,6 +118,21 @@ public class DepositWizardForm extends KualiForm {
                                                                         // check
         }
         return (DepositWizardHelper) this.selectedCashReceipts.get(index);
+    }
+    
+    /**
+     * This method gets the cash drawer status message only if the cash drawer is closed though.
+     * 
+     * @return String
+     */
+    public String getCashDrawerStatusMessage() {
+        String cashDrawerStatusMessage = "";
+        if(cashDrawer.isClosed()) {
+            cashDrawerStatusMessage = SpringServiceLocator.getKualiConfigurationService().
+                getPropertyString(KeyConstants.CashManagement.MSG_DOCUMENT_CASH_MANAGEMENT_CASH_DRAWER_CLOSED_VERIFICATION_NOT_ALLOWED);
+            cashDrawerStatusMessage = StringUtils.replace(cashDrawerStatusMessage, "{0}", Constants.CashReceiptConstants.CASH_RECEIPT_VERIFICATION_UNIT);
+        }
+        return cashDrawerStatusMessage;
     }
 
     /**

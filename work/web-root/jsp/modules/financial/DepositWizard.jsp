@@ -1,5 +1,5 @@
 <%@ include file="/jsp/core/tldHeader.jsp" %>
-<kul:page showDocumentInfo="false" headerTitle="Create a New Deposit Document" docTitle="Create a New Deposit Document" transactionalDocument="false" htmlFormAction="depositWizard" >
+<kul:page showDocumentInfo="false" headerTitle="Create a New Cash Management Document" docTitle="Create a New Cash Management Document" transactionalDocument="false" htmlFormAction="depositWizard" >
 <script type="text/javascript">
 function checkAllOrNone() {
   for(var i = 0; i < document.KualiForm.elements.length; i++) {
@@ -14,6 +14,13 @@ function checkAllOrNone() {
     <div align="left">
     	<kul:errors keyMatch="*" />
     </div>
+    <c:if test="${KualiForm.cashDrawer.closed}">
+    <div align="left">
+    	<b><font color="red">${KualiForm.cashDrawerStatusMessage}</font></b>
+    	<br>
+    	<br>
+    </div>
+    </c:if>
     <div align="left">
     	Please select the Cash Receipt documents that you would like to deposit.
     </div>
@@ -83,7 +90,7 @@ function checkAllOrNone() {
 	                  <tr>
                   <td height="30" colspan="6" class="infoline"><div align="center" >
                      <html:image property="methodToCall.cancel" src="images/buttonsmall_cancel.gif" alt="cancel" styleClass="tinybutton" />&nbsp;&nbsp;
-	                 <html:image property="methodToCall.createDeposit" src="images/buttonsmall_create.gif" alt="create the deposit" styleClass="tinybutton"  />
+	                 <c:if test="${KualiForm.cashDrawer.open}"><html:image property="methodToCall.createDeposit" src="images/buttonsmall_create.gif" alt="create the deposit" styleClass="tinybutton"  /></c:if>
                   </div></td>
                 </tr>
 	</table>

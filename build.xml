@@ -20,6 +20,7 @@
 			<fileset dir="${source.directory}" includes="${tokenized.source.files}"/>
     	</delete>
 		<delete dir="${war.directory}"/>
+		<delete dir="${batch.directory}"/>
 		<delete dir="${test.directory}"/>
 		<delete dir="${plugin.directory}"/>
 		<delete>
@@ -42,7 +43,9 @@
 		<copy todir="${batch.directory}">
 			<fileset dir="${batch.script.directory}"/>
 		</copy>
-		<jar jarfile="${batch.directory}/${ant.project.name}.jar" basedir="${war.classes.directory}" compress="false"/>
+		<copy todir="${batch.classes.directory}">
+			<fileset dir="${war.classes.directory}"/>
+		</copy>
 		<copy todir="${batch.lib.directory}">
 			<fileset dir="${lib.directory}"/>
 			<fileset file="${appserver.lib.dir}/servlet-api.jar"/>

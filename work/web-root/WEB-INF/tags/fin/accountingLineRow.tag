@@ -97,7 +97,6 @@
 
 <fin:accountingLineDataCell
     dataCellCssClass="${dataCellCssClass}"
-    cellAlign="center"
     accountingLine="${accountingLine}"
     baselineAccountingLine="${baselineAccountingLine}"
     field="chartOfAccountsCode"
@@ -114,7 +113,6 @@
 
 <fin:accountingLineDataCell
     dataCellCssClass="${dataCellCssClass}"
-    cellAlign="center"
     accountingLine="${accountingLine}"
     baselineAccountingLine="${baselineAccountingLine}"
     field="accountNumber"
@@ -133,7 +131,6 @@
     
 <fin:accountingLineDataCell
     dataCellCssClass="${dataCellCssClass}"
-    cellAlign="center"
     accountingLine="${accountingLine}"
     baselineAccountingLine="${baselineAccountingLine}"
     field="subAccountNumber"
@@ -151,7 +148,6 @@
     
 <fin:accountingLineDataCell
     dataCellCssClass="${dataCellCssClass}"
-    cellAlign="center"
     accountingLine="${accountingLine}"
     baselineAccountingLine="${baselineAccountingLine}"
     field="financialObjectCode"
@@ -172,7 +168,6 @@
     
 <fin:accountingLineDataCell
     dataCellCssClass="${dataCellCssClass}"
-    cellAlign="center"
     accountingLine="${accountingLine}"
     baselineAccountingLine="${baselineAccountingLine}"
     field="financialSubObjectCode"
@@ -192,7 +187,6 @@
   
 <fin:accountingLineDataCell
     dataCellCssClass="${dataCellCssClass}"
-    cellAlign="center"
     accountingLine="${accountingLine}"
     baselineAccountingLine="${baselineAccountingLine}"
     field="projectCode"
@@ -212,7 +206,6 @@
 <c:if test="${includeObjectTypeCode}">
     <fin:accountingLineDataCell
         dataCellCssClass="${dataCellCssClass}"
-        cellAlign="center"
         accountingLine="${accountingLine}"
         baselineAccountingLine="${baselineAccountingLine}"
         field="objectTypeCode"
@@ -230,7 +223,6 @@
 </c:if>
 <fin:accountingLineDataCell
     dataCellCssClass="${dataCellCssClass}"
-    cellAlign="center"
     accountingLine="${accountingLine}"
     baselineAccountingLine="${baselineAccountingLine}"
     field="organizationReferenceId"
@@ -240,7 +232,6 @@
     />
 <fin:accountingLineDataCell
     dataCellCssClass="${dataCellCssClass}"
-    cellAlign="center"
     accountingLine="${accountingLine}"
     baselineAccountingLine="${baselineAccountingLine}"
     field="budgetYear"
@@ -251,7 +242,6 @@
 <c:forTokens items="${optionalFields}" delims=" ," var="currentField">
     <fin:accountingLineDataCell
         dataCellCssClass="${dataCellCssClass}"
-        cellAlign="right"
         accountingLine="${accountingLine}"
         baselineAccountingLine="${baselineAccountingLine}"
         field="${currentField}"
@@ -264,7 +254,6 @@
     <c:when test="${!debitCreditAmount}" >
         <fin:accountingLineDataCell
             dataCellCssClass="${dataCellCssClass}"
-            cellAlign="right"
             accountingLine="${accountingLine}"
             baselineAccountingLine="${baselineAccountingLine}"
             field="amount"
@@ -277,7 +266,6 @@
     <c:otherwise>
         <fin:accountingLineDataCell
             dataCellCssClass="${dataCellCssClass}"
-            cellAlign="right"
             cellProperty="${debitCellProperty}"
             attributes="${accountingLineAttributes}"
             field="amount"
@@ -286,7 +274,6 @@
             />
         <fin:accountingLineDataCell
             dataCellCssClass="${dataCellCssClass}"
-            cellAlign="right"
             cellProperty="${creditCellProperty}"
             attributes="${accountingLineAttributes}"
             field="amount"
@@ -342,7 +329,6 @@
         <c:if test="${fn:contains(delimitedExtraRowFields, ',referenceOriginCode,')}" >
             <fin:accountingLineDataCell
                 field="referenceOriginCode"
-                cellAlign="center"
                 lookup="true"
                 inquiry="true"
                 boClassSimpleName="OriginationCode"
@@ -364,7 +350,6 @@
         <c:if test="${fn:contains(delimitedExtraRowFields, ',referenceNumber,')}" >
             <fin:accountingLineDataCell
                 field="referenceNumber"
-                cellAlign="center"
                 accountingLine="${accountingLine}"
                 baselineAccountingLine="${baselineAccountingLine}"
                 attributes="${accountingLineAttributes}"
@@ -377,7 +362,6 @@
         <c:if test="${fn:contains(delimitedExtraRowFields, ',referenceTypeCode,')}" >
             <fin:accountingLineDataCell
                 field="referenceTypeCode"
-                cellAlign="center"
                 lookup="true"
                 inquiry="true"
                 boClassSimpleName="DocumentType"
@@ -400,7 +384,6 @@
             <c:if test="${not fn:contains(knownExtraFields, extraField)}" >
                 <fin:accountingLineDataCell
                     field="${extraField}"
-                    cellAlign="center"
                     accountingLine="${accountingLine}"
                     baselineAccountingLine="${baselineAccountingLine}"
                     attributes="${accountingLineAttributes}"
@@ -411,6 +394,8 @@
                     />
             </c:if>
         </c:forTokens>
+            <%-- use up the remaining space, to push the extra fields together --%>
+            <td class="${dataCellCssClass}" width="100%"/>
         </tr>
         </table>
     </td></tr>

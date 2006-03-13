@@ -7,8 +7,6 @@
 
 <%@ attribute name="dataCellCssClass" required="true"
               description="The name of the CSS class for this data cell." %>
-<%@ attribute name="cellAlign" required="true"
-              description="The alignment attribute for this data cell." %>
 <%@ attribute name="field" required="true"
               description="The name of the field of the accounting line being edited or displayed by this cell.
               Combined with the accountingLine, this identifies the value (i.e., the data) of this cell." %>

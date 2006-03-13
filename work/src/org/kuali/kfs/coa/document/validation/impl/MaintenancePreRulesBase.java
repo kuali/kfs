@@ -64,6 +64,16 @@ public class MaintenancePreRulesBase extends PreRulesContinuationBase {
         return true;
     }
     
+    protected Account checkForContinuationAccount(String accName, String chart, String accountNumber, String accountName,boolean allowExpiredAccount) {
+        Account result=checkForContinuationAccount(accName, chart, accountNumber, accountName);
+        if (!allowExpiredAccount) {
+            if (result.isExpired()) {
+                return null;
+            }
+        }
+        return result;
+    }
+    
     protected Account checkForContinuationAccount(String accName, String chart, String accountNumber, String accountName) {
         if (LOG.isDebugEnabled()) {
             LOG.debug("entering checkForContinuationAccounts(" + accountNumber + ")");

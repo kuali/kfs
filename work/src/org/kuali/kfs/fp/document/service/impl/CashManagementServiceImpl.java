@@ -184,13 +184,12 @@ public class CashManagementServiceImpl implements CashManagementService {
         businessObjectService.save(deposit);
 
         // attach the Cash Receipts
-        List docHeaders = new ArrayList();
         List dccList = new ArrayList();
         for (Iterator i = verifiedCashReceipts.iterator(); i.hasNext();) {
             CashReceiptDocument crDoc = (CashReceiptDocument) i.next();
             DocumentHeader dh = crDoc.getDocumentHeader();
             dh.setFinancialDocumentStatusCode(Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_DEPOSITED);
-            docHeaders.add(dh);
+            documentService.updateDocument(crDoc);
 
             CashReceiptHeader crHeader = new CashReceiptHeader();
             crHeader.setFinancialDocumentNumber(crDoc.getFinancialDocumentNumber());
@@ -207,7 +206,6 @@ public class CashManagementServiceImpl implements CashManagementService {
 
             dccList.add(dcc);
         }
-        businessObjectService.save(docHeaders);
         // crHeaders get saved as side-effect of saving dccs
         businessObjectService.save(dccList);
 
@@ -258,15 +256,13 @@ public class CashManagementServiceImpl implements CashManagementService {
                 businessObjectService.deleteMatching(DepositCashReceiptControl.class, controlCriteria);
 
                 // clean up CRDocs
-                List docHeaders = new ArrayList();
                 for (Iterator i = cashReceipts.iterator(); i.hasNext();) {
                     CashReceiptDocument crDoc = (CashReceiptDocument) i.next();
                     DocumentHeader dh = crDoc.getDocumentHeader();
                     dh.setFinancialDocumentStatusCode(Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED);
 
-                    docHeaders.add(dh);
+                    documentService.updateDocument(crDoc);
                 }
-                businessObjectService.save(docHeaders);
             }
 
             // delete the deposit

@@ -101,6 +101,10 @@ public class OriginEntryTestBase extends KualiTestBaseWithSpringOnly {
     }
   }
 
+  protected void clearExpenditureTable() {
+    unitTestSqlDao.sqlCommand("delete from gl_expend_trn_t");
+  }
+
   protected void clearSufficientFundBalanceTable() {
     unitTestSqlDao.sqlCommand("delete from gl_sf_balances_t");    
   }

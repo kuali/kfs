@@ -151,8 +151,7 @@ public class PosterServiceTest extends OriginEntryTestBase {
     BigDecimal tesq = (BigDecimal)glEntry.get("TRN_ENTR_SEQ_NBR");
     assertEquals("TRN_ENTR_SEQ_NBR wrong",1,tesq.intValue());
     assertEquals("TRN_LDGR_ENTR_DESC wrong","214090047 EVERETT J PRESCOTT INC.",(String)glEntry.get("TRN_LDGR_ENTR_DESC"));
-    BigDecimal tlea = (BigDecimal)glEntry.get("TRN_LDGR_ENTR_AMT");
-    assertEquals("TRN_LDGR_ENTR_AMT wrong",1445.00,tlea.doubleValue(),0.01);
+    assertEquals("TRN_LDGR_ENTR_AMT wrong",1445.00,getAmount(glEntry,"TRN_LDGR_ENTR_AMT"),0.01);
     assertEquals("TRN_DEBIT_CRDT_CD wrong","D",(String)glEntry.get("TRN_DEBIT_CRDT_CD"));
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
     assertEquals("TRANSACTION_DT wrong","2006-01-05",sdf.format((Date)glEntry.get("TRANSACTION_DT")));
@@ -263,38 +262,22 @@ public class PosterServiceTest extends OriginEntryTestBase {
     assertEquals("FIN_SUB_OBJ_CD is wrong","---",balance.get("FIN_SUB_OBJ_CD"));
     assertEquals("FIN_BALANCE_TYP_CD is wrong","AC",balance.get("FIN_BALANCE_TYP_CD"));
     assertEquals("FIN_OBJ_TYP_CD is wrong","EX",balance.get("FIN_OBJ_TYP_CD"));
-    a = (BigDecimal)balance.get("ACLN_ANNL_BAL_AMT");
-    assertEquals("ACLN_ANNL_BAL_AMT is wrong",140.14,a.doubleValue(),0.01);
-    a = (BigDecimal)balance.get("FIN_BEG_BAL_LN_AMT");
-    assertEquals("FIN_BEG_BAL_LN_AMT is wrong",150.15,a.doubleValue(),0.01);
-    a = (BigDecimal)balance.get("CONTR_GR_BB_AC_AMT");
-    assertEquals("CONTR_GR_BB_AC_AMT is wrong",160.16,a.doubleValue(),0.01);    
-    a = (BigDecimal)balance.get("MO1_ACCT_LN_AMT");
-    assertEquals("MO1_ACCT_LN_AMT is wrong",10.01,a.doubleValue(),0.01);    
-    a = (BigDecimal)balance.get("MO2_ACCT_LN_AMT");
-    assertEquals("MO2_ACCT_LN_AMT is wrong",20.02,a.doubleValue(),0.01);    
-    a = (BigDecimal)balance.get("MO3_ACCT_LN_AMT");
-    assertEquals("MO3_ACCT_LN_AMT is wrong",30.03,a.doubleValue(),0.01);    
-    a = (BigDecimal)balance.get("MO4_ACCT_LN_AMT");
-    assertEquals("MO4_ACCT_LN_AMT is wrong",40.04,a.doubleValue(),0.01);    
-    a = (BigDecimal)balance.get("MO5_ACCT_LN_AMT");
-    assertEquals("MO5_ACCT_LN_AMT is wrong",50.05,a.doubleValue(),0.01);    
-    a = (BigDecimal)balance.get("MO6_ACCT_LN_AMT");
-    assertEquals("MO6_ACCT_LN_AMT is wrong",60.06,a.doubleValue(),0.01);    
-    a = (BigDecimal)balance.get("MO7_ACCT_LN_AMT");
-    assertEquals("MO7_ACCT_LN_AMT is wrong",70.07,a.doubleValue(),0.01);    
-    a = (BigDecimal)balance.get("MO8_ACCT_LN_AMT");
-    assertEquals("MO8_ACCT_LN_AMT is wrong",80.08,a.doubleValue(),0.01);    
-    a = (BigDecimal)balance.get("MO9_ACCT_LN_AMT");
-    assertEquals("MO9_ACCT_LN_AMT is wrong",90.09,a.doubleValue(),0.01);    
-    a = (BigDecimal)balance.get("MO10_ACCT_LN_AMT");
-    assertEquals("MO10_ACCT_LN_AMT is wrong",100.10,a.doubleValue(),0.01);    
-    a = (BigDecimal)balance.get("MO11_ACCT_LN_AMT");
-    assertEquals("MO11_ACCT_LN_AMT is wrong",110.11,a.doubleValue(),0.01);    
-    a = (BigDecimal)balance.get("MO12_ACCT_LN_AMT");
-    assertEquals("MO12_ACCT_LN_AMT is wrong",120.12,a.doubleValue(),0.01);    
-    a = (BigDecimal)balance.get("MO13_ACCT_LN_AMT");
-    assertEquals("MO13_ACCT_LN_AMT is wrong",130.13,a.doubleValue(),0.01);
+    assertEquals("ACLN_ANNL_BAL_AMT is wrong",140.14,getAmount(balance,"ACLN_ANNL_BAL_AMT"),0.01);
+    assertEquals("FIN_BEG_BAL_LN_AMT is wrong",150.15,getAmount(balance,"FIN_BEG_BAL_LN_AMT"),0.01);
+    assertEquals("CONTR_GR_BB_AC_AMT is wrong",160.16,getAmount(balance,"CONTR_GR_BB_AC_AMT"),0.01);    
+    assertEquals("MO1_ACCT_LN_AMT is wrong",10.01,getAmount(balance,"MO1_ACCT_LN_AMT"),0.01);
+    assertEquals("MO2_ACCT_LN_AMT is wrong",20.02,getAmount(balance,"MO2_ACCT_LN_AMT"),0.01);
+    assertEquals("MO3_ACCT_LN_AMT is wrong",30.03,getAmount(balance,"MO3_ACCT_LN_AMT"),0.01);
+    assertEquals("MO4_ACCT_LN_AMT is wrong",40.04,getAmount(balance,"MO4_ACCT_LN_AMT"),0.01);
+    assertEquals("MO5_ACCT_LN_AMT is wrong",50.05,getAmount(balance,"MO5_ACCT_LN_AMT"),0.01);
+    assertEquals("MO6_ACCT_LN_AMT is wrong",60.06,getAmount(balance,"MO6_ACCT_LN_AMT"),0.01);
+    assertEquals("MO7_ACCT_LN_AMT is wrong",70.07,getAmount(balance,"MO7_ACCT_LN_AMT"),0.01);
+    assertEquals("MO8_ACCT_LN_AMT is wrong",80.08,getAmount(balance,"MO8_ACCT_LN_AMT"),0.01);
+    assertEquals("MO9_ACCT_LN_AMT is wrong",90.09,getAmount(balance,"MO9_ACCT_LN_AMT"),0.01);
+    assertEquals("MO10_ACCT_LN_AMT is wrong",100.10,getAmount(balance,"MO10_ACCT_LN_AMT"),0.01);
+    assertEquals("MO11_ACCT_LN_AMT is wrong",110.11,getAmount(balance,"MO11_ACCT_LN_AMT"),0.01);
+    assertEquals("MO12_ACCT_LN_AMT is wrong",120.12,getAmount(balance,"MO12_ACCT_LN_AMT"),0.01);
+    assertEquals("MO13_ACCT_LN_AMT is wrong",130.13,getAmount(balance,"MO13_ACCT_LN_AMT"),0.01);
 
     String[] inputTransactions2 = {
         "2004BA6044900-----4166---ACEX01CHKDPDBALTEST0112345214090047 EVERETT J PRESCOTT INC.                    0.01C2006-01-05ABCDEFGHIJ----------12345678                             ",
@@ -338,38 +321,22 @@ public class PosterServiceTest extends OriginEntryTestBase {
     assertEquals("2 FIN_SUB_OBJ_CD is wrong","---",balance.get("FIN_SUB_OBJ_CD"));
     assertEquals("2 FIN_BALANCE_TYP_CD is wrong","AC",balance.get("FIN_BALANCE_TYP_CD"));
     assertEquals("2 FIN_OBJ_TYP_CD is wrong","EX",balance.get("FIN_OBJ_TYP_CD"));
-    a = (BigDecimal)balance.get("ACLN_ANNL_BAL_AMT");
-    assertEquals("2 ACLN_ANNL_BAL_AMT is wrong",140.14,a.doubleValue(),0.01);
-    a = (BigDecimal)balance.get("FIN_BEG_BAL_LN_AMT");
-    assertEquals("2 FIN_BEG_BAL_LN_AMT is wrong",150.15,a.doubleValue(),0.01);
-    a = (BigDecimal)balance.get("CONTR_GR_BB_AC_AMT");
-    assertEquals("2 CONTR_GR_BB_AC_AMT is wrong",160.16,a.doubleValue(),0.01);    
-    a = (BigDecimal)balance.get("MO1_ACCT_LN_AMT");
-    assertEquals("2 MO1_ACCT_LN_AMT is wrong",10.00,a.doubleValue(),0.01);    
-    a = (BigDecimal)balance.get("MO2_ACCT_LN_AMT");
-    assertEquals("2 MO2_ACCT_LN_AMT is wrong",20.00,a.doubleValue(),0.01);    
-    a = (BigDecimal)balance.get("MO3_ACCT_LN_AMT");
-    assertEquals("2 MO3_ACCT_LN_AMT is wrong",30.00,a.doubleValue(),0.01);    
-    a = (BigDecimal)balance.get("MO4_ACCT_LN_AMT");
-    assertEquals("2 MO4_ACCT_LN_AMT is wrong",40.00,a.doubleValue(),0.01);    
-    a = (BigDecimal)balance.get("MO5_ACCT_LN_AMT");
-    assertEquals("2 MO5_ACCT_LN_AMT is wrong",50.00,a.doubleValue(),0.01);    
-    a = (BigDecimal)balance.get("MO6_ACCT_LN_AMT");
-    assertEquals("2 MO6_ACCT_LN_AMT is wrong",60.00,a.doubleValue(),0.01);    
-    a = (BigDecimal)balance.get("MO7_ACCT_LN_AMT");
-    assertEquals("2 MO7_ACCT_LN_AMT is wrong",70.00,a.doubleValue(),0.01);    
-    a = (BigDecimal)balance.get("MO8_ACCT_LN_AMT");
-    assertEquals("2 MO8_ACCT_LN_AMT is wrong",80.00,a.doubleValue(),0.01);    
-    a = (BigDecimal)balance.get("MO9_ACCT_LN_AMT");
-    assertEquals("2 MO9_ACCT_LN_AMT is wrong",90.00,a.doubleValue(),0.01);    
-    a = (BigDecimal)balance.get("MO10_ACCT_LN_AMT");
-    assertEquals("2 MO10_ACCT_LN_AMT is wrong",100.00,a.doubleValue(),0.01);    
-    a = (BigDecimal)balance.get("MO11_ACCT_LN_AMT");
-    assertEquals("2 MO11_ACCT_LN_AMT is wrong",110.00,a.doubleValue(),0.01);    
-    a = (BigDecimal)balance.get("MO12_ACCT_LN_AMT");
-    assertEquals("2 MO12_ACCT_LN_AMT is wrong",120.00,a.doubleValue(),0.01);    
-    a = (BigDecimal)balance.get("MO13_ACCT_LN_AMT");
-    assertEquals("2 MO13_ACCT_LN_AMT is wrong",130.00,a.doubleValue(),0.01);
+    assertEquals("2 ACLN_ANNL_BAL_AMT is wrong",140.14,getAmount(balance,"ACLN_ANNL_BAL_AMT"),0.01);
+    assertEquals("2 FIN_BEG_BAL_LN_AMT is wrong",150.15,getAmount(balance,"FIN_BEG_BAL_LN_AMT"),0.01);
+    assertEquals("2 CONTR_GR_BB_AC_AMT is wrong",160.16,getAmount(balance,"CONTR_GR_BB_AC_AMT"),0.01);
+    assertEquals("2 MO1_ACCT_LN_AMT is wrong",10.00,getAmount(balance,"MO1_ACCT_LN_AMT"),0.01);
+    assertEquals("2 MO2_ACCT_LN_AMT is wrong",20.00,getAmount(balance,"MO2_ACCT_LN_AMT"),0.01);
+    assertEquals("2 MO3_ACCT_LN_AMT is wrong",30.00,getAmount(balance,"MO3_ACCT_LN_AMT"),0.01);
+    assertEquals("2 MO4_ACCT_LN_AMT is wrong",40.00,getAmount(balance,"MO4_ACCT_LN_AMT"),0.01);
+    assertEquals("2 MO5_ACCT_LN_AMT is wrong",50.00,getAmount(balance,"MO5_ACCT_LN_AMT"),0.01);
+    assertEquals("2 MO6_ACCT_LN_AMT is wrong",60.00,getAmount(balance,"MO6_ACCT_LN_AMT"),0.01);
+    assertEquals("2 MO7_ACCT_LN_AMT is wrong",70.00,getAmount(balance,"MO7_ACCT_LN_AMT"),0.01);
+    assertEquals("2 MO8_ACCT_LN_AMT is wrong",80.00,getAmount(balance,"MO8_ACCT_LN_AMT"),0.01);
+    assertEquals("2 MO9_ACCT_LN_AMT is wrong",90.00,getAmount(balance,"MO9_ACCT_LN_AMT"),0.01);
+    assertEquals("2 MO10_ACCT_LN_AMT is wrong",100.00,getAmount(balance,"MO10_ACCT_LN_AMT"),0.01);
+    assertEquals("2 MO11_ACCT_LN_AMT is wrong",110.00,getAmount(balance,"MO11_ACCT_LN_AMT"),0.01);
+    assertEquals("2 MO12_ACCT_LN_AMT is wrong",120.00,getAmount(balance,"MO12_ACCT_LN_AMT"),0.01);
+    assertEquals("2 MO13_ACCT_LN_AMT is wrong",130.00,getAmount(balance,"MO13_ACCT_LN_AMT"),0.01);
   }
 
   public void testPostEncumbrance() throws Exception {
@@ -417,10 +384,8 @@ public class PosterServiceTest extends OriginEntryTestBase {
     assertEquals("FS_ORIGIN_CD is wrong","PD",enc4166.get("FS_ORIGIN_CD"));
     assertEquals("FDOC_NBR is wrong","ENCTEST01",enc4166.get("FDOC_NBR"));
     assertEquals("TRN_ENCUM_DESC is wrong","214090047 EVERETT J PRESCOTT INC.",enc4166.get("TRN_ENCUM_DESC"));
-    a = (BigDecimal)enc4166.get("ACLN_ENCUM_AMT");
-    assertEquals("ACLN_ENCUM_AMT is wrong",100.01,a.doubleValue(),0.01);
-    a = (BigDecimal)enc4166.get("ACLN_ENCUM_CLS_AMT");
-    assertEquals("ACLN_ENCUM_CLS_AMT is wrong",50,a.doubleValue(),0.01);
+    assertEquals("ACLN_ENCUM_AMT is wrong",100.01,getAmount(enc4166,"ACLN_ENCUM_AMT"),0.01);
+    assertEquals("ACLN_ENCUM_CLS_AMT is wrong",50,getAmount(enc4166,"ACLN_ENCUM_CLS_AMT"),0.01);
 
     a = (BigDecimal)enc5215.get("UNIV_FISCAL_YR");
     assertEquals("UNIV_FISCAL_YR is wrong",2004,a.intValue());
@@ -434,10 +399,8 @@ public class PosterServiceTest extends OriginEntryTestBase {
     assertEquals("FS_ORIGIN_CD is wrong","PD",enc5215.get("FS_ORIGIN_CD"));
     assertEquals("FDOC_NBR is wrong","ENCTEST01",enc5215.get("FDOC_NBR"));
     assertEquals("TRN_ENCUM_DESC is wrong","214090047 EVERETT J PRESCOTT INC.",enc5215.get("TRN_ENCUM_DESC"));
-    a = (BigDecimal)enc5215.get("ACLN_ENCUM_AMT");
-    assertEquals("ACLN_ENCUM_AMT is wrong",200.02,a.doubleValue(),0.01);
-    a = (BigDecimal)enc5215.get("ACLN_ENCUM_CLS_AMT");
-    assertEquals("ACLN_ENCUM_CLS_AMT is wrong",60,a.doubleValue(),0.01);
+    assertEquals("ACLN_ENCUM_AMT is wrong",200.02,getAmount(enc5215,"ACLN_ENCUM_AMT"),0.01);
+    assertEquals("ACLN_ENCUM_CLS_AMT is wrong",60,getAmount(enc5215,"ACLN_ENCUM_CLS_AMT"),0.01);
   }
 
   public void testPostGlAccountBalance() throws Exception {
@@ -477,17 +440,9 @@ public class PosterServiceTest extends OriginEntryTestBase {
     assertEquals("SUB_ACCT_NBR is wrong","-----",bal.get("SUB_ACCT_NBR"));
     assertEquals("FIN_OBJECT_CD is wrong","4166",bal.get("FIN_OBJECT_CD"));
     assertEquals("FIN_SUB_OBJ_CD is wrong","---",bal.get("FIN_SUB_OBJ_CD"));
-    a = (BigDecimal)bal.get("CURR_BDLN_BAL_AMT");
-    assertEquals("CURR_BDLN_BAL_AMT is wrong",220.00,a.doubleValue(),0.01);
-    a = (BigDecimal)bal.get("ACLN_ACTLS_BAL_AMT");
-    assertEquals("ACLN_ACTLS_BAL_AMT is wrong",1440.00,a.doubleValue(),0.01);
-    a = (BigDecimal)bal.get("ACLN_ENCUM_BAL_AMT");
-    assertEquals("ACLN_ENCUM_BAL_AMT is wrong",340.00,a.doubleValue(),0.01);
-  }
-
-  public void testPostExpenditureTransaction() throws Exception {
-    LOG.debug("testPostExpenditureTransaction() started");
-
+    assertEquals("CURR_BDLN_BAL_AMT is wrong",220.00,getAmount(bal,"CURR_BDLN_BAL_AMT"),0.01);
+    assertEquals("ACLN_ACTLS_BAL_AMT is wrong",1440.00,getAmount(bal,"ACLN_ACTLS_BAL_AMT"),0.01);
+    assertEquals("ACLN_ENCUM_BAL_AMT is wrong",340.00,getAmount(bal,"ACLN_ENCUM_BAL_AMT"),0.01);
   }
 
   public void testPostSufficientFundBalances() throws Exception {
@@ -621,6 +576,29 @@ public class PosterServiceTest extends OriginEntryTestBase {
 
     balances = unitTestSqlDao.sqlSelect("select * from gl_sf_balances_t");
     assertEquals("Wrong number of balances in the table",8,balances.size());
+  }
+
+  public void testPostExpenditureTransaction() throws Exception {
+    LOG.debug("testPostExpenditureTransaction() started");
+
+    String[] inputTransactions = {
+        "2004BL2231428-----4166---ACEX07CHKDPDSFN00001112345DESCRIPTION                                      11000.00D2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
+        "2004BL2831410-----4166---ACEX07CHKDPDSFA00001112345DESCRIPTION                                      12000.00D2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
+        "2004BL2231432-----2401---EXEX07CHKDPDSFO00001112345DESCRIPTION                                         12.00C2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
+    };
+
+    EntryHolder[] outputTransactions = new EntryHolder[inputTransactions.length * 2];
+    for (int i = 0; i < inputTransactions.length; i++) {
+      outputTransactions[i] = new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions[i]);
+      outputTransactions[i + inputTransactions.length] = new EntryHolder(OriginEntrySource.MAIN_POSTER_VALID,inputTransactions[i]);
+    }
+
+    clearOriginEntryTables();
+    clearExpenditureTable();
+    loadInputTransactions(OriginEntrySource.SCRUBBER_VALID,inputTransactions);
+    posterService.postMainEntries();
+
+    assertOriginEntries(3,outputTransactions);
   }
 
   private double getAmount(Map map,String field) {

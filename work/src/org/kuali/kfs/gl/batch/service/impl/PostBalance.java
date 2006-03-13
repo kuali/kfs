@@ -118,30 +118,41 @@ public class PostBalance implements PostTransaction, BalanceCalculator {
      * @param enc
      */
     public void updateBalance(Transaction t, Balance b) {
-        try {
-            KualiDecimal amount = t.getTransactionLedgerEntryAmount();
 
-            // Subtract the amount if offset generation indicator & the debit/credit code isn't the same
-            // as the one in the object type code table
-            if (t.getBalanceType().isFinancialOffsetGenerationIndicator()) {
-                if (!t.getTransactionDebitCreditCode().equals(t.getObjectType().getFinObjectTypeDebitcreditCd())) {
-                    amount = amount.multiply(new KualiDecimal(-1));
-                }
-            }
-
-            // update the balance amount of the cooresponding period
-            String period = t.getUniversityFiscalPeriodCode();
-            if (period == null){
-                UniversityDate currentUniversityDate = dateTimeService.getCurrentUniversityDate();
-                period = currentUniversityDate.getUniversityFiscalAccountingPeriod();
-            }
-        
-            b.setAmount(period, b.getAmount(period).add(amount));
-        } catch (Exception e) {
-            // This means there is bad data in the pending entry table, so
-            // don't update any balances.
-           LOG.error("updateBalance() Error updating balance from pending entry for balance inquiry", e);
+        // The pending entries haven't been scrubbed so there could be
+        // bad data.  This won't update a balance if the data it needs
+        // is invalid
+        KualiDecimal amount = t.getTransactionLedgerEntryAmount();
+        if ( amount == null ) {
+            amount = KualiDecimal.ZERO;
         }
+
+        if ( t.getObjectType() == null ) {
+            LOG.error("updateBalance() Invalid object type (" + t.getFinancialObjectTypeCode() + ") in pending table");
+            return;
+        }
+
+        if ( t.getBalanceType() == null ) {
+            LOG.error("updateBalance() Invalid balance type (" + t.getFinancialBalanceTypeCode() + ") in pending table");
+            return;
+        }
+
+        // Subtract the amount if offset generation indicator & the debit/credit code isn't the same
+        // as the one in the object type code table
+        if (t.getBalanceType().isFinancialOffsetGenerationIndicator()) {
+            if (!t.getTransactionDebitCreditCode().equals(t.getObjectType().getFinObjectTypeDebitcreditCd())) {
+                amount = amount.multiply(new KualiDecimal(-1));
+            }
+        }
+
+        // update the balance amount of the cooresponding period
+        String period = t.getUniversityFiscalPeriodCode();
+        if (period == null) {
+            UniversityDate currentUniversityDate = dateTimeService.getCurrentUniversityDate();
+            period = currentUniversityDate.getUniversityFiscalAccountingPeriod();
+        }
+
+        b.setAmount(period, b.getAmount(period).add(amount));
     }
 
     public String getDestinationName() {

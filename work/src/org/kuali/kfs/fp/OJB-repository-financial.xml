@@ -1051,6 +1051,15 @@
 	<field-descriptor name="incomeTaxGrossUpCode" column="INC_TAX_GRS_UP_IND" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 	<field-descriptor name="finSystemRefOriginationCode" column="FS_REF_ORIGIN_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="financialDocumentReferenceNbr" column="FDOC_REF_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="financialDocumentAccountingLineText" column="FDOC_ACCTG_LN_TXT" jdbc-type="VARCHAR"/>
+
+	<reference-descriptor name="disbursementVoucherDocument" class-ref="org.kuali.module.financial.document.DisbursementVoucherDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="financialDocumentNumber" />
+	</reference-descriptor>
+
+	<reference-descriptor name="documentHeader" class-ref="org.kuali.core.document.DocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="financialDocumentNumber" />
+	</reference-descriptor>
 
 	<reference-descriptor name="incomeClass" class-ref="org.kuali.module.financial.bo.TaxIncomeClassCode" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="incomeClassCode" />

@@ -28,7 +28,9 @@ package org.kuali.module.financial.bo;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.document.DocumentHeader;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.module.financial.document.DisbursementVoucherDocument;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -45,8 +47,11 @@ public class DisbursementVoucherNonResidentAlienTax extends BusinessObjectBase {
 	private boolean incomeTaxGrossUpCode;
 	private String finSystemRefOriginationCode;
 	private String financialDocumentReferenceNbr;
-	
-	private TaxIncomeClassCode incomeClass;
+    private String financialDocumentAccountingLineText;
+    
+    private DisbursementVoucherDocument disbursementVoucherDocument;
+    private DocumentHeader documentHeader;
+    private TaxIncomeClassCode incomeClass;
 
 	/**
 	 * Default no-arg constructor.
@@ -265,6 +270,20 @@ public class DisbursementVoucherNonResidentAlienTax extends BusinessObjectBase {
 		this.financialDocumentReferenceNbr = financialDocumentReferenceNbr;
 	}
 
+    /**
+     * @return Returns the financialDocumentAccountingLineText.
+     */
+    public String getFinancialDocumentAccountingLineText() {
+        return financialDocumentAccountingLineText;
+    }
+
+    /**
+     * @param financialDocumentAccountingLineText The financialDocumentAccountingLineText to set.
+     */
+    public void setFinancialDocumentAccountingLineText(String financialDocumentAccountingLineText) {
+        this.financialDocumentAccountingLineText = financialDocumentAccountingLineText;
+    }      
+    
 	/**
 	 * Gets the incomeClass attribute.
 	 * 
@@ -286,6 +305,36 @@ public class DisbursementVoucherNonResidentAlienTax extends BusinessObjectBase {
 		this.incomeClass = incomeClass;
 	}
 
+    /**
+     * @return Returns the disbursementVoucherDocument.
+     */
+    public DisbursementVoucherDocument getDisbursementVoucherDocument() {
+        return disbursementVoucherDocument;
+    }
+
+    /**
+     * @param disbursementVoucherDocument The disbursementVoucherDocument to set.
+     * @deprecated
+     */
+    public void setDisbursementVoucherDocument(DisbursementVoucherDocument disbursementVoucherDocument) {
+        this.disbursementVoucherDocument = disbursementVoucherDocument;
+    }
+
+    /**
+     * @return Returns the documentHeader.
+     */
+    public DocumentHeader getDocumentHeader() {
+        return documentHeader;
+    }
+
+    /**
+     * @param documentHeader The documentHeader to set.
+     * @deprecated
+     */
+    public void setDocumentHeader(DocumentHeader documentHeader) {
+        this.documentHeader = documentHeader;
+    }    
+    
 	/**
 	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
 	 */
@@ -294,4 +343,5 @@ public class DisbursementVoucherNonResidentAlienTax extends BusinessObjectBase {
           m.put("financialDocumentNumber", this.financialDocumentNumber);
   	    return m;
 	}
+
 }

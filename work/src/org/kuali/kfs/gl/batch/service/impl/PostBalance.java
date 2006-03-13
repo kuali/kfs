@@ -118,24 +118,30 @@ public class PostBalance implements PostTransaction, BalanceCalculator {
      * @param enc
      */
     public void updateBalance(Transaction t, Balance b) {
-        KualiDecimal amount = t.getTransactionLedgerEntryAmount();
+        try {
+            KualiDecimal amount = t.getTransactionLedgerEntryAmount();
 
-        // Subtract the amount if offset generation indicator & the debit/credit code isn't the same
-        // as the one in the object type code table
-        if (t.getBalanceType().isFinancialOffsetGenerationIndicator()) {
-            if (!t.getTransactionDebitCreditCode().equals(t.getObjectType().getFinObjectTypeDebitcreditCd())) {
-                amount = amount.multiply(new KualiDecimal(-1));
+            // Subtract the amount if offset generation indicator & the debit/credit code isn't the same
+            // as the one in the object type code table
+            if (t.getBalanceType().isFinancialOffsetGenerationIndicator()) {
+                if (!t.getTransactionDebitCreditCode().equals(t.getObjectType().getFinObjectTypeDebitcreditCd())) {
+                    amount = amount.multiply(new KualiDecimal(-1));
+                }
             }
-        }
 
-        // update the balance amount of the cooresponding period
-        String period = t.getUniversityFiscalPeriodCode();
-        if(period == null){
-            UniversityDate currentUniversityDate = dateTimeService.getCurrentUniversityDate();
-            period = currentUniversityDate.getUniversityFiscalAccountingPeriod();
-        }
+            // update the balance amount of the cooresponding period
+            String period = t.getUniversityFiscalPeriodCode();
+            if (period == null){
+                UniversityDate currentUniversityDate = dateTimeService.getCurrentUniversityDate();
+                period = currentUniversityDate.getUniversityFiscalAccountingPeriod();
+            }
         
-        b.setAmount(period, b.getAmount(period).add(amount));
+            b.setAmount(period, b.getAmount(period).add(amount));
+        } catch (Exception e) {
+            // This means there is bad data in the pending entry table, so
+            // don't update any balances.
+           LOG.error("updateBalance() Error updating balance from pending entry for balance inquiry", e);
+        }
     }
 
     public String getDestinationName() {

@@ -32,6 +32,10 @@
     	<field-descriptor name="lastUpdate"                    column="LST_UPDT_TS"                jdbc-type="TIMESTAMP"></field-descriptor>
       <field-descriptor name="objectId"                      column="OBJ_ID"                     jdbc-type="VARCHAR" />
       <field-descriptor name="versionNumber"                 column="VER_NBR"                    jdbc-type="BIGINT"  locking="true"/>
+
+		  <collection-descriptor name="appointmentTypeEffectiveDateItems" proxy="true" element-class-ref="org.kuali.module.kra.bo.AppointmentTypeEffectiveDate" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+		      <inverse-foreignkey field-ref="appointmentTypeCode"/>
+		  </collection-descriptor>
     </class-descriptor>
 
 <class-descriptor class="org.kuali.module.kra.bo.GraduateAssistantRate" table="ER_GRAD_ASST_RT_T">
@@ -590,3 +594,11 @@
   <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 </class-descriptor>
 
+<class-descriptor class="org.kuali.module.kra.bo.AppointmentTypeEffectiveDate" table="ER_APPT_TYP_EFF_DT_T">
+  <field-descriptor name="appointmentTypeCode" column="UNIV_APPT_TYP_CD" jdbc-type="VARCHAR" index="true"/>
+  <field-descriptor name="universityFiscalYear" column="UNIV_FISCAL_YR" jdbc-type="INTEGER" index="true"/>
+  <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+  <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+  <field-descriptor name="appointmentTypeBeginDate" column="APPT_TYP_BEG_DT" jdbc-type="DATE"/>
+  <field-descriptor name="appointmentTypeEndDate" column="APPT_TYP_END_DT" jdbc-type="DATE"/>
+</class-descriptor>

@@ -36,6 +36,7 @@ import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.module.gl.bo.AccountBalance;
 import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.dao.AccountBalanceDao;
+import org.kuali.module.gl.util.BusinessObjectHandler;
 import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 /**
@@ -89,7 +90,7 @@ public class AccountBalanceDaoOjb extends PersistenceBrokerDaoSupport implements
      */
     public Iterator findAvailableAccountBalance(Map fieldValues, boolean isConsolidated) {
 
-        Criteria criteria = buildCriteriaFromMap(fieldValues, new AccountBalance());
+        Criteria criteria = BusinessObjectHandler.buildCriteriaFromMap(fieldValues, new AccountBalance());
         ReportQueryByCriteria query = QueryFactory.newReportQuery(AccountBalance.class, criteria);
 
         List attributeList = buildAttributeList(false, "");
@@ -117,7 +118,7 @@ public class AccountBalanceDaoOjb extends PersistenceBrokerDaoSupport implements
      */
     public Iterator findAccountBalanceByConsolidation(Map fieldValues, boolean isCostShareInclusive, boolean isConsolidated) {
         
-        Criteria criteria = buildCriteriaFromMap(fieldValues, new AccountBalance());
+        Criteria criteria = BusinessObjectHandler.buildCriteriaFromMap(fieldValues, new AccountBalance());
         
         // join account balance and object code tables
         criteria.addEqualToField("universityFiscalYear", "financialObject.universityFiscalYear");
@@ -176,7 +177,7 @@ public class AccountBalanceDaoOjb extends PersistenceBrokerDaoSupport implements
      */
     public Iterator findAccountBalanceByLevel(Map fieldValues, boolean isCostShareInclusive, boolean isConsolidated) {
         
-        Criteria criteria = buildCriteriaFromMap(fieldValues, new AccountBalance());
+        Criteria criteria = BusinessObjectHandler.buildCriteriaFromMap(fieldValues, new AccountBalance());
         
         // join account balance and object code tables
         criteria.addEqualToField("universityFiscalYear", "financialObject.universityFiscalYear");
@@ -224,7 +225,7 @@ public class AccountBalanceDaoOjb extends PersistenceBrokerDaoSupport implements
      */
     public Iterator findAccountBalanceByObject(Map fieldValues, boolean isCostShareInclusive, boolean isConsolidated) {
         
-        Criteria criteria = buildCriteriaFromMap(fieldValues, new AccountBalance());
+        Criteria criteria = BusinessObjectHandler.buildCriteriaFromMap(fieldValues, new AccountBalance());
         
         // join account balance and object code tables
         criteria.addEqualToField("universityFiscalYear", "financialObject.universityFiscalYear");
@@ -262,31 +263,6 @@ public class AccountBalanceDaoOjb extends PersistenceBrokerDaoSupport implements
     }
     
     /**
-     * This method builds the query criteria based on the input field map
-     * 
-     * @param fieldValues
-     * @param accountBalance
-     * @return a query criteria
-     */
-    private Criteria buildCriteriaFromMap(Map fieldValues, AccountBalance accountBalance) {
-        Criteria criteria = new Criteria();
-
-        Iterator propsIter = fieldValues.keySet().iterator();
-        while (propsIter.hasNext()) {
-            String propertyName = (String) propsIter.next();
-            String propertyValue = (String) fieldValues.get(propertyName);
-
-            // if searchValue is empty and the key is not a valid property ignore
-            if (StringUtils.isBlank(propertyValue) || !(PropertyUtils.isWriteable(accountBalance, propertyName))) {
-                continue;
-            }
-
-            criteria.addEqualTo(propertyName, propertyValue);
-        }
-        return criteria;
-    }
-
-    /**
      * This method builds the atrribute list used by balance searching
      * @param isExtended determine whether the extended attributes will be used 
      * @param type the type of selection. Its value may be BY_CONSOLIDATION, BY_LEVEL and BY_OBJECT 
@@ -294,7 +270,7 @@ public class AccountBalanceDaoOjb extends PersistenceBrokerDaoSupport implements
      * @return List an attribute list
      */
     private List buildAttributeList(boolean isExtended, String type) {
-        List attributeList = buildGroupList(isExtended, type);
+        List attributeList = this.buildGroupList(isExtended, type);
 
         attributeList.add("sum(currentBudgetLineBalanceAmount)");
         attributeList.add("sum(accountLineActualsBalanceAmount)");

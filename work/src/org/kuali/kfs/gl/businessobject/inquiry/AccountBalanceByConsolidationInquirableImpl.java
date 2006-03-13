@@ -45,7 +45,8 @@ import org.kuali.module.gl.bo.AccountBalanceByLevel;
 import org.kuali.module.gl.web.Constant;
 
 /**
- * This class...
+ * This class is used to generate the URL for the user-defined attributes for the account balace by consolidation screen.
+ * It is entended the KualiInquirableImpl class, so it covers both the default implementation and customized implemetnation.  
  * 
  * @author Bin Gao from Michigan State University
  */

@@ -64,6 +64,8 @@
 				<field attributeName="accountLineActualsBalanceAmount"/>
 				<field attributeName="accountLineEncumbranceBalanceAmount"/>
 				<field attributeName="dummyBusinessObject.genericAmount"/>
+				
+				<field attributeName="dummyBusinessObject.linkButtonOption"/>
 			</resultFields>
 		</lookup>
 		
@@ -156,6 +158,15 @@
 	        <attributeReference name="financialObject.financialObjectLevel.financialReportingSortCode"
 	                    		sourceClassName="org.kuali.module.chart.bo.ObjLevel" 
             					sourceAttributeName="financialReportingSortCode"/>             					
+
+			<attributeReference name="dummyBusinessObject.linkButtonOption"
+            					sourceClassName="org.kuali.module.gl.bo.DummyBusinessObject" 
+            					sourceAttributeName="linkButtonOption"> 
+			    <label>See Pending Entry</label>
+                <shortLabel>See Pending Entry</shortLabel>
+                <summary>See Pending Entry</summary>
+                <description>See Pending Entry ...</description>      					
+            </attributeReference> 
             					            					 
         </attributes>
 		

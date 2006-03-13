@@ -45,7 +45,7 @@
 			<title>Account Balance Pending Entry Lookup</title>
 			
 			<instructions>Lookup General Ledger Pending Entries for Account Balance</instructions>
-			<defaultSort attributeName="dummyBusinessObject.genericText" sortAscending="true" />
+			<defaultSort attributeName = "dummyBusinessObject.genericText"/>
 			
 			<lookupFields>
                 <lookupField attributeName="universityFiscalYear" required="true" noLookup="true" />
@@ -73,6 +73,7 @@
 				<field attributeName="universityFiscalYear" />
                 <field attributeName="chartOfAccountsCode" />
                 <field attributeName="accountNumber" />	
+                <field attributeName="financialObjectCode"/>
                 <field attributeName="dummyBusinessObject.genericText"/>			
                 <field attributeName="transactionLedgerEntryAmount"/>
 			</resultFields>

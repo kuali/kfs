@@ -268,16 +268,8 @@ public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements Balanc
      * @return List an attribute list
      */
     private List buildAttributeList(boolean isExtended) {
-        List attributeList = new ArrayList();
-
-        attributeList.add("universityFiscalYear");
-        attributeList.add("chartOfAccountsCode");
-        attributeList.add("accountNumber");
-        attributeList.add("subAccountNumber");
-        attributeList.add("balanceTypeCode");
-        attributeList.add("objectCode");
-        attributeList.add("subObjectCode");
-        attributeList.add("objectTypeCode");
+        List attributeList = this.buildGroupByList();
+        
         attributeList.add("sum(accountLineAnnualBalanceAmount)");
         attributeList.add("sum(beginningBalanceLineAmount)");
         attributeList.add("sum(contractsGrantsBeginningBalanceAmount)");

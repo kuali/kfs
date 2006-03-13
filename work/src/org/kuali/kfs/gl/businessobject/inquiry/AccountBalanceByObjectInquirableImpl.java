@@ -42,16 +42,18 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.util.UrlFactory;
 import org.kuali.module.gl.bo.AccountBalanceByObject;
+import org.kuali.module.gl.bo.AccountBalancePendingEntry;
+import org.kuali.module.gl.util.BusinessObjectFieldConverter;
 import org.kuali.module.gl.web.Constant;
 
 /**
- * This class is used to generate the URL for the user-defined attributes for the account balace by level screen.
+ * This class is used to generate the URL for the user-defined attributes for the account balace by object screen.
  * It is entended the KualiInquirableImpl class, so it covers both the default implementation and customized implemetnation.  
  * 
  * @author Bin Gao from Michigan State University
  */
-public class AccountBalanceByLevelInquirableImpl extends KualiInquirableImpl {
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountBalanceInquirableImpl.class);
+public class AccountBalanceByObjectInquirableImpl extends KualiInquirableImpl {
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountBalanceByObjectInquirableImpl.class);
 
     private BusinessObjectDictionaryService dataDictionary;
     private LookupService lookupService;
@@ -76,16 +78,18 @@ public class AccountBalanceByLevelInquirableImpl extends KualiInquirableImpl {
         Class inquiryBusinessObjectClass = null;
         String attributeRefName = "";
         boolean isPkReference = false;
-        
+
         Map userDefinedAttributeMap = getUserDefinedAttributeMap();
         boolean isUserDefinedAttribute = userDefinedAttributeMap.containsKey(attributeName);
-        
-        if (isUserDefinedAttribute || attributeName.equals(businessDictionary.getTitleAttribute(businessObject.getClass()))) {            
+        if (isUserDefinedAttribute) {
             if(attributeName.equals("dummyBusinessObject.linkButtonOption")){
-                attributeName = "financialObject.financialObjectLevel.financialObjectLevelCode";               
+                attributeName = PropertyConstants.UNIVERSITY_FISCAL_YEAR;               
             }
-            
-            inquiryBusinessObjectClass = (new AccountBalanceByObject()).getClass();
+            inquiryBusinessObjectClass = (new AccountBalancePendingEntry()).getClass();
+            isPkReference = true;
+        }
+        else if (attributeName.equals(businessDictionary.getTitleAttribute(businessObject.getClass()))) {
+            inquiryBusinessObjectClass = businessObject.getClass();
             isPkReference = true;
         }
         else {
@@ -117,14 +121,14 @@ public class AccountBalanceByLevelInquirableImpl extends KualiInquirableImpl {
         List keys = new ArrayList();
         if (isUserDefinedAttribute) {
 
-            baseUrl = Constants.GL_MODIFIED_INQUIRY_ACTION;
             keys = buildUserDefinedAttributeKeyList(attributeName);
+            baseUrl = Constants.GL_MODIFIED_INQUIRY_ACTION;
 
             parameters.put(Constants.RETURN_LOCATION_PARAMETER, Constant.RETURN_LOCATION_VALUE);
             parameters.put(Constants.GL_BALANCE_INQUIRY_FLAG, "true");
             parameters.put(Constants.DISPATCH_REQUEST_PARAMETER, "search");
             parameters.put(Constants.DOC_FORM_KEY, "88888888");
-            parameters.put(Constants.LOOKUPABLE_IMPL_ATTRIBUTE_NAME, Constant.GL_LOOKUPABLE_ACCOUNT_BALANCE_BY_OBJECT);
+            parameters.put(Constants.LOOKUPABLE_IMPL_ATTRIBUTE_NAME, Constant.GL_LOOKUPABLE_ACCOUNT_BALANCE_PENDING_ENTRY);
         }
         else if (persistenceStructureService.isPersistable(inquiryBusinessObjectClass)) {
             keys = persistenceStructureService.listPrimaryKeyFieldNames(inquiryBusinessObjectClass);
@@ -136,12 +140,7 @@ public class AccountBalanceByLevelInquirableImpl extends KualiInquirableImpl {
             String keyConversion = keyName;
 
             if (ObjectUtils.isNestedAttribute(attributeName)) {
-                if(isUserDefinedAttribute){
-                    keyConversion = keyName;
-                }
-                else{
-                    keyConversion = ObjectUtils.getNestedAttributePrefix(attributeName) + "." + keyName;
-                }
+                keyConversion = ObjectUtils.getNestedAttributePrefix(attributeName) + "." + keyName;
             }
             else {
                 if (isPkReference) {
@@ -152,18 +151,15 @@ public class AccountBalanceByLevelInquirableImpl extends KualiInquirableImpl {
                             keyName);
                 }
             }
-            
+
             Object keyValue = ObjectUtils.getPropertyValue(businessObject, keyConversion);
             keyValue = (keyValue == null) ? "" : keyValue.toString();
 
-            if (keyName.equals(PropertyConstants.SUB_ACCOUNT_NUMBER) && keyValue.equals(Constant.CONSOLIDATED_SUB_ACCOUNT_NUMBER)) {
+            if(isExclusiveField(keyName, keyValue)){
                 keyValue = "";
             }
-            
-            if(keyName.equals("financialObject.financialObjectLevel.financialObjectLevelCode")){
-                keyName = "financialObject.financialObjectLevelCode";
-            }
-            
+
+            keyName = BusinessObjectFieldConverter.convertToTransactionPropertyName(keyName);
             parameters.put(keyName, keyValue);
         }
         return UrlFactory.paremeterizeUrl(baseUrl, parameters);
@@ -182,8 +178,8 @@ public class AccountBalanceByLevelInquirableImpl extends KualiInquirableImpl {
         keys.add(PropertyConstants.ACCOUNT_NUMBER);
         keys.add(PropertyConstants.CHART_OF_ACCOUNTS_CODE);
         keys.add(PropertyConstants.SUB_ACCOUNT_NUMBER);
-        keys.add("financialObject.financialObjectLevel.financialObjectLevelCode");
-        keys.add("financialObject.financialObjectLevel.financialReportingSortCode");
+        keys.add(PropertyConstants.OBJECT_CODE);
+        keys.add(PropertyConstants.SUB_OBJECT_CODE);
         keys.add(Constant.COST_SHARE_OPTION);
         keys.add(Constant.CONSOLIDATION_OPTION);
 
@@ -192,8 +188,32 @@ public class AccountBalanceByLevelInquirableImpl extends KualiInquirableImpl {
 
     private static Map getUserDefinedAttributeMap() {
         Map userDefinedAttributeMap = new HashMap();
-        userDefinedAttributeMap.put("financialObject.financialObjectLevel.financialObjectLevelCode", "");
         userDefinedAttributeMap.put("dummyBusinessObject.linkButtonOption", "");
         return userDefinedAttributeMap;
+    }
+
+    /**
+     * This method determines whether the input name-value pair is exclusive from the processing
+     * @param keyName the name of the name-value pair
+     * @param keyValue the value of the name-value pair
+     * @return true if the input key is in the exclusive list; otherwise, false
+     */
+    private static boolean isExclusiveField(Object keyName, Object keyValue) {
+        
+        if (keyName != null && keyValue != null) {
+            if (keyName.equals(PropertyConstants.SUB_ACCOUNT_NUMBER) 
+                    && keyValue.equals(Constant.CONSOLIDATED_SUB_ACCOUNT_NUMBER)) {
+                return true;
+            }
+            else if (keyName.equals(PropertyConstants.SUB_OBJECT_CODE) 
+                    && keyValue.equals(Constant.CONSOLIDATED_SUB_OBJECT_CODE)) {
+                return true;
+            }
+            else if (keyName.equals(PropertyConstants.OBJECT_TYPE_CODE) 
+                    && keyValue.equals(Constant.CONSOLIDATED_OBJECT_TYPE_CODE)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

@@ -47,18 +47,18 @@ public interface BalanceDao {
 
     /**
      * This method finds the cash balance entries according to input fields and values
+     * 
      * @param fieldValues the input fields and values
      * @param isConsolidated consolidation option is applied or not
-     * 
      * @return the records of cash balance entries
      */
     public Iterator findCashBalance(Map fieldValues, boolean isConsolidated);
 
     /**
      * This method finds the summary records of balance entries according to input fields and values
+     * 
      * @param fieldValues the input fields and values
      * @param isConsolidated consolidation option is applied or not
-     * 
      * @return the summary records of balance entries
      */
     public Iterator findBalance(Map fieldValues, boolean isConsolidated);

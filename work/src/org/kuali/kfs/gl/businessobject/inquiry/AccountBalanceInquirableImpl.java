@@ -45,7 +45,9 @@ import org.kuali.module.gl.bo.Balance;
 import org.kuali.module.gl.web.Constant;
 
 /**
- * This class...
+ * This class is used to generate the URL for the user-defined attributes for available account balace screen.
+ * It is entended the KualiInquirableImpl class, so it covers both the default implementation and customized implemetnation.  
+ * 
  * @author Bin Gao from Michigan State University
  */
 public class AccountBalanceInquirableImpl extends KualiInquirableImpl {

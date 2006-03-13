@@ -42,6 +42,7 @@ public interface BalanceService {
     
     /**
      * This method finds the summary records of balance entries according to input fields an values
+     * 
      * @param fieldValues the input fields an values
      * @param isConsolidated consolidation option is applied  or not
      * @return the summary records of balance entries
@@ -49,11 +50,10 @@ public interface BalanceService {
     public Iterator findCashBalance(Map fieldValues, boolean isConsolidated);
     
     /**
-     * This method finds the summary records of balance entries according to input fields
-     * and values
+     * This method finds the summary records of balance entries according to input fields and values
+     * 
      * @param fieldValues the input fields and values
      * @param isConsolidated consolidation option is applied or not
-     * 
      * @return the summary records of balance entries
      */
     public Iterator findBalance(Map fieldValues, boolean isConsolidated);

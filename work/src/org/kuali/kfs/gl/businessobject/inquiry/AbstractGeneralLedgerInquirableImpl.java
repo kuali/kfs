@@ -30,38 +30,29 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.kuali.Constants;
-import org.kuali.PropertyConstants;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.bo.KualiSystemCode;
 import org.kuali.core.inquiry.KualiInquirableImpl;
 import org.kuali.core.lookup.KualiLookupableImpl;
 import org.kuali.core.service.BusinessObjectDictionaryService;
-import org.kuali.core.service.LookupService;
 import org.kuali.core.service.PersistenceStructureService;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.util.UrlFactory;
-import org.kuali.module.gl.bo.AccountBalanceByObject;
 import org.kuali.module.gl.web.Constant;
 
 /**
- * This class is used to generate the URL for the user-defined attributes for the account balace by level screen.
- * It is entended the KualiInquirableImpl class, so it covers both the default implementation and customized implemetnation.  
+ * This class is the template class for the customized inqurable implementations used to generate balance inquiry screens
  * 
  * @author Bin Gao from Michigan State University
  */
-public class AccountBalanceByLevelInquirableImpl extends KualiInquirableImpl {
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountBalanceInquirableImpl.class);
-
-    private BusinessObjectDictionaryService dataDictionary;
-    private LookupService lookupService;
-    private Class businessObjectClass;
+public abstract class AbstractGLInquirableImpl extends KualiInquirableImpl {
 
     /**
      * Helper method to build an inquiry url for a result field.
      * 
      * @param businessObject the business object instance to build the urls for
-     * @param attributeName the property which links to an inquirable
+     * @param attributeName the attribute name which links to an inquirable
      * @return String url to inquiry
      */
     public static String getInquiryUrl(BusinessObject businessObject, String attributeName, boolean forceInquiry) {
@@ -76,16 +67,17 @@ public class AccountBalanceByLevelInquirableImpl extends KualiInquirableImpl {
         Class inquiryBusinessObjectClass = null;
         String attributeRefName = "";
         boolean isPkReference = false;
-        
+
         Map userDefinedAttributeMap = getUserDefinedAttributeMap();
         boolean isUserDefinedAttribute = userDefinedAttributeMap.containsKey(attributeName);
-        
-        if (isUserDefinedAttribute || attributeName.equals(businessDictionary.getTitleAttribute(businessObject.getClass()))) {            
-            if(attributeName.equals("dummyBusinessObject.linkButtonOption")){
-                attributeName = "financialObject.financialObjectLevel.financialObjectLevelCode";               
-            }
-            
-            inquiryBusinessObjectClass = (new AccountBalanceByObject()).getClass();
+
+        if (isUserDefinedAttribute) {
+            attributeName = getAttributeName(attributeName);
+            inquiryBusinessObjectClass = getInquiryBusinessObjectClass();
+            isPkReference = true;
+        }
+        else if (attributeName.equals(businessDictionary.getTitleAttribute(businessObject.getClass()))) {
+            inquiryBusinessObjectClass = businessObject.getClass();
             isPkReference = true;
         }
         else {
@@ -116,30 +108,33 @@ public class AccountBalanceByLevelInquirableImpl extends KualiInquirableImpl {
 
         List keys = new ArrayList();
         if (isUserDefinedAttribute) {
-
-            baseUrl = Constants.GL_MODIFIED_INQUIRY_ACTION;
-            keys = buildUserDefinedAttributeKeyList(attributeName);
+            baseUrl = getBaseUrl();
+            keys = buildUserDefinedAttributeKeyList();
 
             parameters.put(Constants.RETURN_LOCATION_PARAMETER, Constant.RETURN_LOCATION_VALUE);
             parameters.put(Constants.GL_BALANCE_INQUIRY_FLAG, "true");
             parameters.put(Constants.DISPATCH_REQUEST_PARAMETER, "search");
             parameters.put(Constants.DOC_FORM_KEY, "88888888");
-            parameters.put(Constants.LOOKUPABLE_IMPL_ATTRIBUTE_NAME, Constant.GL_LOOKUPABLE_ACCOUNT_BALANCE_BY_OBJECT);
+
+            // add more customized parameters into the current parameter map
+            addMoreParameters(parameters);
         }
         else if (persistenceStructureService.isPersistable(inquiryBusinessObjectClass)) {
             keys = persistenceStructureService.listPrimaryKeyFieldNames(inquiryBusinessObjectClass);
         }
 
         // build key value url parameters used to retrieve the business object
-        for (Iterator keyIterator = keys.iterator(); keyIterator.hasNext();) {
+        Iterator keyIterator = keys.iterator();
+        while (keyIterator.hasNext()) {
             String keyName = (String) keyIterator.next();
-            String keyConversion = keyName;
 
+            // convert the key names based on their formats and types
+            String keyConversion = keyName;
             if (ObjectUtils.isNestedAttribute(attributeName)) {
-                if(isUserDefinedAttribute){
+                if (isUserDefinedAttribute) {
                     keyConversion = keyName;
                 }
-                else{
+                else {
                     keyConversion = ObjectUtils.getNestedAttributePrefix(attributeName) + "." + keyName;
                 }
             }
@@ -148,52 +143,105 @@ public class AccountBalanceByLevelInquirableImpl extends KualiInquirableImpl {
                     keyConversion = keyName;
                 }
                 else {
-                    keyConversion = persistenceStructureService.getForeignKeyFieldName(businessObject.getClass(), attributeRefName,
-                            keyName);
+                    keyConversion = persistenceStructureService.
+                    	getForeignKeyFieldName(businessObject.getClass(), attributeRefName, keyName);
                 }
             }
-            
             Object keyValue = ObjectUtils.getPropertyValue(businessObject, keyConversion);
             keyValue = (keyValue == null) ? "" : keyValue.toString();
 
-            if (keyName.equals(PropertyConstants.SUB_ACCOUNT_NUMBER) && keyValue.equals(Constant.CONSOLIDATED_SUB_ACCOUNT_NUMBER)) {
-                keyValue = "";
-            }
-            
-            if(keyName.equals("financialObject.financialObjectLevel.financialObjectLevelCode")){
-                keyName = "financialObject.financialObjectLevelCode";
-            }
-            
+            // convert the key value and name into the given ones
+            keyValue = getKeyValue(keyValue);
+            keyName = getKeyName(keyName);
+
+            // add the key-value pair into the parameter map
             parameters.put(keyName, keyValue);
         }
+
         return UrlFactory.paremeterizeUrl(baseUrl, parameters);
     }
 
     /**
      * This method builds the inquiry url for user-defined attribute
      * 
-     * @param attributeName
      * @return key list
      */
-    private static List buildUserDefinedAttributeKeyList(String attributeName) {
-        List keys = new ArrayList();
-
-        keys.add(PropertyConstants.UNIVERSITY_FISCAL_YEAR);
-        keys.add(PropertyConstants.ACCOUNT_NUMBER);
-        keys.add(PropertyConstants.CHART_OF_ACCOUNTS_CODE);
-        keys.add(PropertyConstants.SUB_ACCOUNT_NUMBER);
-        keys.add("financialObject.financialObjectLevel.financialObjectLevelCode");
-        keys.add("financialObject.financialObjectLevel.financialReportingSortCode");
-        keys.add(Constant.COST_SHARE_OPTION);
-        keys.add(Constant.CONSOLIDATION_OPTION);
-
-        return keys;
+    private static List buildUserDefinedAttributeKeyList() {
+        return new ArrayList();
     }
 
+    /**
+     * This method defines the user-defined attribute map
+     * 
+     * @return the user-defined attribute map
+     */
     private static Map getUserDefinedAttributeMap() {
-        Map userDefinedAttributeMap = new HashMap();
-        userDefinedAttributeMap.put("financialObject.financialObjectLevel.financialObjectLevelCode", "");
-        userDefinedAttributeMap.put("dummyBusinessObject.linkButtonOption", "");
-        return userDefinedAttributeMap;
+        return new HashMap();
+    }
+
+    /**
+     * This method finds the matching attribute name of given one
+     * 
+     * @param attributeName the given attribute name
+     * @return the attribute name from the given one
+     */
+    private static String getAttributeName(String attributeName) {
+        return attributeName;
+    }
+
+    /**
+     * This method finds the matching the key value of the given one
+     * 
+     * @param keyValue the given key value
+     * @return the key value from the given key value
+     */
+    private static Object getKeyValue(Object keyValue) {
+        return keyValue;
+    }
+
+    /**
+     * This method finds the matching the key name of the given one
+     * 
+     * @param keyName the given key name
+     * @return the key value from the given key name
+     */
+    private static String getKeyName(String keyName) {
+        return keyName;
+    }
+
+    /**
+     * This method defines the lookupable implementation attribute name
+     * 
+     * @return the lookupable implementation attribute name
+     */
+    private static String getLookupableImplAttributeName() {
+        return Constants.LOOKUPABLE_IMPL_ATTRIBUTE_NAME;
+    }
+
+    /**
+     * This method defines the base inquiry url
+     * 
+     * @return the base inquiry url
+     */
+    private static String getBaseUrl() {
+        return Constants.INQUIRY_ACTION;
+    }
+
+    /**
+     * This method gets the class name of the inquiry business object
+     * 
+     * @return the class name of the inquiry business object
+     */
+    private static Class getInquiryBusinessObjectClass() {
+        return AbstractGLInquirableImpl.class;
+    }
+
+    /**
+     * This method adds more parameters into the curren parameter map
+     * 
+     * @param parameter the current parameter map
+     */
+    private static void addMoreParameters(Properties parameter) {
+        parameter.put(Constants.LOOKUPABLE_IMPL_ATTRIBUTE_NAME, getLookupableImplAttributeName());
     }
 }

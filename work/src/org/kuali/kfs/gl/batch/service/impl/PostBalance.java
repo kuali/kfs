@@ -126,7 +126,7 @@ public class PostBalance implements PostTransaction, BalanceCalculator {
         if ( amount == null ) {
             amount = KualiDecimal.ZERO;
         }
-
+        
         if ( t.getObjectType() == null ) {
             LOG.error("updateBalance() Invalid object type (" + t.getFinancialObjectTypeCode() + ") in pending table");
             return;
@@ -147,11 +147,11 @@ public class PostBalance implements PostTransaction, BalanceCalculator {
 
         // update the balance amount of the cooresponding period
         String period = t.getUniversityFiscalPeriodCode();
-        if (period == null) {
+        if(period == null){
             UniversityDate currentUniversityDate = dateTimeService.getCurrentUniversityDate();
             period = currentUniversityDate.getUniversityFiscalAccountingPeriod();
         }
-
+        
         b.setAmount(period, b.getAmount(period).add(amount));
     }
 

@@ -88,9 +88,10 @@ public class AccountBalanceByLevelLookupableImpl extends AbstractGLLookupableImp
 
     /**
      * This method builds the available account balance collection based on the input iterator
-     * @param iterator
-     * @param isCostShareInclusive TODO
-     * @param isConsolidated 
+     * 
+     * @param iterator the iterator of search results of account balance
+     * @param isCostShareInclusive determine whether the account balance entries with cost share is included     
+     * @param isConsolidated flag whether the results are consolidated or not
      * @return the account balance collection
      */
     private Collection buildAvailableBalanceCollection(Iterator iterator, boolean isCostShareInclusive, boolean isConsolidated) {

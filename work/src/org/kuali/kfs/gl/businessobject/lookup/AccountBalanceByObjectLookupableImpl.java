@@ -37,9 +37,11 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.gl.bo.AccountBalance;
 import org.kuali.module.gl.web.Constant;
 import org.kuali.module.gl.web.inquirable.AccountBalanceInquirableImpl;
+import org.kuali.module.gl.web.inquirable.AccountBalanceByObjectInquirableImpl;
 
 /**
  * This class...
+ * 
  * @author Bin Gao from Michigan State University
  */
 public class AccountBalanceByObjectLookupableImpl extends AbstractGLLookupableImpl {
@@ -52,9 +54,12 @@ public class AccountBalanceByObjectLookupableImpl extends AbstractGLLookupableIm
      * @return String url to inquiry
      */
     public String getInquiryUrl(BusinessObject bo, String propertyName) {
+        if (propertyName.equals("dummyBusinessObject.linkButtonOption")) {
+            return AccountBalanceByObjectInquirableImpl.getInquiryUrl(bo, propertyName, true);
+        }
         return AccountBalanceInquirableImpl.getInquiryUrl(bo, propertyName, true);
-    }        
-    
+    }
+
     /**
      * Uses Lookup Service to provide a basic search.
      * 
@@ -72,9 +77,10 @@ public class AccountBalanceByObjectLookupableImpl extends AbstractGLLookupableIm
         boolean isCostShareInclusive = isCostShareInclusive(fieldValues);
 
         // get the search result collection
-        Iterator availableBalanceIterator = accountBalanceService.findAccountBalanceByObject(fieldValues,
-                isCostShareInclusive, isConsolidated);
-        Collection searchResultsCollection = buildAvailableBalanceCollection(availableBalanceIterator, isCostShareInclusive, isConsolidated);
+        Iterator availableBalanceIterator = accountBalanceService.findAccountBalanceByObject(fieldValues, isCostShareInclusive,
+                isConsolidated);
+        Collection searchResultsCollection = buildAvailableBalanceCollection(availableBalanceIterator, isCostShareInclusive,
+                isConsolidated);
 
         // sort list if default sort column given
         List searchResults = (List) searchResultsCollection;
@@ -87,9 +93,10 @@ public class AccountBalanceByObjectLookupableImpl extends AbstractGLLookupableIm
 
     /**
      * This method builds the available account balance collection based on the input iterator
-     * @param iterator
-     * @param isCostShareInclusive TODO
-     * @param isConsolidated 
+     * 
+     * @param iterator the iterator of search results of account balance
+     * @param isCostShareInclusive determine whether the account balance entries with cost share is included     
+     * @param isConsolidated flag whether the results are consolidated or not
      * @return the account balance collection
      */
     private Collection buildAvailableBalanceCollection(Iterator iterator, boolean isCostShareInclusive, boolean isConsolidated) {
@@ -106,13 +113,13 @@ public class AccountBalanceByObjectLookupableImpl extends AbstractGLLookupableIm
             accountBalance.setChartOfAccountsCode(array[i++].toString());
             accountBalance.setAccountNumber(array[i++].toString());
 
-            String subAccountNumber = isConsolidated? Constant.CONSOLIDATED_SUB_ACCOUNT_NUMBER : array[i++].toString();
+            String subAccountNumber = isConsolidated ? Constant.CONSOLIDATED_SUB_ACCOUNT_NUMBER : array[i++].toString();
             accountBalance.setSubAccountNumber(subAccountNumber);
 
-            accountBalance.setObjectCode(array[i++].toString()); 
+            accountBalance.setObjectCode(array[i++].toString());
             accountBalance.getFinancialObject().getFinancialObjectLevel().setFinancialReportingSortCode(array[i++].toString());
             accountBalance.getFinancialObject().setFinancialObjectLevelCode(array[i++].toString());
-            
+
             KualiDecimal budgetAmount = new KualiDecimal(array[i++].toString());
             accountBalance.setCurrentBudgetLineBalanceAmount(budgetAmount);
 
@@ -127,10 +134,13 @@ public class AccountBalanceByObjectLookupableImpl extends AbstractGLLookupableIm
 
             String consolidationOption = isConsolidated ? Constant.CONSOLIDATION : Constant.DETAIL;
             accountBalance.getDummyBusinessObject().setConsolidationOption(consolidationOption);
-            
-            String costShareOption = isCostShareInclusive ? Constant.COST_SHARE_INCLUSIVE : Constant.COST_SHARE_EXCLUSIVE;
-            accountBalance.getDummyBusinessObject().setCostShareOption(costShareOption);            
 
+            String costShareOption = isCostShareInclusive ? Constant.COST_SHARE_INCLUSIVE : Constant.COST_SHARE_EXCLUSIVE;
+            accountBalance.getDummyBusinessObject().setCostShareOption(costShareOption);
+
+            // add a button that can trigger lookup account balance by object
+            accountBalance.getDummyBusinessObject().setLinkButtonOption(Constant.LOOKUP_BUTTON_VALUE);
+            
             balanceCollection.add(accountBalance);
         }
         return new CollectionIncomplete(balanceCollection, new Long(balanceCollection.size()));
@@ -161,7 +171,7 @@ public class AccountBalanceByObjectLookupableImpl extends AbstractGLLookupableIm
         }
         return variance;
     }
-    
+
     /**
      * @see org.kuali.module.gl.web.lookupable.AbstractGLLookupableImpl#updateEntryCollection(java.util.Collection, Map, boolean,
      *      boolean)

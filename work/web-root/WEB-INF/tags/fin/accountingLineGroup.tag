@@ -196,25 +196,28 @@
 </logic:iterate>
 
 <tr>
-    <td class="total-line" colspan="${totalColumnWidth}">&nbsp;</td>
+    <c:set var="titleColumnPad" value="${rightColumnCount}"/>
+    <c:if test="${debitCreditAmount}">
+      <c:set var="titleColumnPad" value="${rightColumnCount-1}"/>
+    </c:if>
+    <td class="total-line" colspan="${titleColumnPad}">&nbsp;</td>
     <c:choose>
         <c:when test="${debitCreditAmount}" >
             <%-- from JournalVoucherForm --%>
-            <td class="total-line"><strong>Debit Total: $${KualiForm.currencyFormattedDebitTotal}</strong></td>
-            <td class="total-line"><strong>Credit Total: $${KualiForm.currencyFormattedCreditTotal}</strong></td>
+            <td class="total-line" style="border-left: 0px;"><strong>Debit Total: $${KualiForm.currencyFormattedDebitTotal}</strong></td>
+            <td class="total-line" style="border-left: 0px;"><strong>Credit Total: $${KualiForm.currencyFormattedCreditTotal}</strong></td>
         </c:when>
         <c:otherwise>
-            <td  class="total-line" colspan="1">&nbsp;</td>
             <c:choose>
                 <c:when test="${useCurrencyFormattedTotal}" >
                     <%-- from JournalVoucherForm --%>
-                    <td  class="total-line"><strong>Total: $${KualiForm.currencyFormattedTotal}</strong></td>
+                    <td class="total-line" style="border-left: 0px;"><strong>Total: $${KualiForm.currencyFormattedTotal}</strong></td>
                 </c:when>
                 <c:otherwise>
-                <td class="total-line"><strong>Total: $${KualiForm[totalName]}</strong></td>
+                <td class="total-line" style="border-left: 0px;"><strong>Total: $${KualiForm[totalName]}</strong></td>
                 </c:otherwise>
             </c:choose>
         </c:otherwise>
     </c:choose>
-    <td class="total-line">&nbsp;</td>
+    <td class="total-line" style="border-left: 0px;">&nbsp;</td>
 </tr>

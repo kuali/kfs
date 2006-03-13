@@ -28,10 +28,10 @@
 </c:if>
 
 <tr>
-    <td colspan="${titleColSpan}" class="tab-subhead">${sectionTitle}</td>
+    <td colspan="${titleColSpan}" class="tab-subhead" style="border-right: none;">${sectionTitle}</td>
 
     <c:if test="${!empty editingMode['fullEntry']}">
-        <td colspan="${rightColumnCount}" class="tab-subhead-import" align="right" nowrap="nowrap">
+        <td colspan="${rightColumnCount}" class="tab-subhead-import" align="right" nowrap="nowrap" style="border-left: none;">
             <SCRIPT type="text/javascript">
                 <!--
                   function ${hideImport}() {

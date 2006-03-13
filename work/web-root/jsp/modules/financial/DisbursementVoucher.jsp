@@ -49,7 +49,7 @@
         
         <dv:dvPayment/>
 
-        <fin:accountingLines sourceAccountingLinesOnly="true" editingMode="${KualiForm.editingMode}" editableAccounts="${KualiForm.editableAccounts}" editableFields="${KualiForm.accountingLineEditableFields}"/>
+        <fin:accountingLines sourceAccountingLinesOnly="true" editingMode="${KualiForm.editingMode}" editableAccounts="${KualiForm.editableAccounts}" editableFields="${KualiForm.accountingLineEditableFields}" extraSourceRowFields="financialDocumentLineDescription"/>
 	    
 	    <dv:dvContact/>
 	    

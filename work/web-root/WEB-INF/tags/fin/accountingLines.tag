@@ -50,7 +50,7 @@
 </c:forEach>
 
 <%-- add extra columns count for the "Action" button, objectTypeCode, and/or extra amount --%>
-<c:set var="rightColumnCount" value="${6
+<c:set var="rightColumnCount" value="${8
                                         + (empty editingMode['viewOnly'] ? 1 : 0)
                                         + (includeObjectTypeCode ? 1 : 0)
                                         + (debitCreditAmount ? 1 : 0)}" />

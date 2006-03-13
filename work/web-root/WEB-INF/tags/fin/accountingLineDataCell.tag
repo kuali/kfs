@@ -84,6 +84,12 @@
 <%@ attribute name="inquiryExtraKeyValues" required="false"
               description="ampersand separated list of inquiry key=value pairs not in accountingLineValuesMap" %>
 
+<%@ attribute name="colSpan" required="false"
+              description="column span for the data cell" %>
+              
+<%@ attribute name="rowSpan" required="false"
+              description="row span for the data cell" %>
+
 <c:set var="qualifiedField" value="${accountingLine}.${field}"/>
 <c:if test="${empty cellProperty}">
     <c:set var="cellProperty" value="${qualifiedField}"/>
@@ -100,10 +106,12 @@
     </c:otherwise>
 </c:choose>
 <c:set var="columnCount" value="${empty labelFontWeight ? 1 : 2}"/>
+<c:set var="columnCount" value="${!empty colSpan ? colSpan : columnCount}"/>
+<c:set var="rowSpan" value="${empty rowSpan ? 1 : rowSpan}"/>
 <c:set var="useXmlHttp" value="${(!readOnly) && (!empty detailFunction)}" />
 <%-- test to see if we are dealing with the extra JV fields here --%>
 <c:set var="specialRequiredField" value="${(field eq 'referenceOriginCode') || (field eq 'referenceNumber') || (field eq 'referenceTypeCode')}" />
-<td class="${dataCellCssClass}" valign="top" colspan="${columnCount}">
+<td class="${dataCellCssClass}" valign="top" colspan="${columnCount}" rowspan="${rowSpan}">
 <span class="nowrap">
     <c:if test="${!empty labelFontWeight}">
         <span style="font-weight: ${labelFontWeight}">

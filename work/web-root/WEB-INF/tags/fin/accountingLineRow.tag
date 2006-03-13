@@ -271,6 +271,7 @@
             attributes="${accountingLineAttributes}"
             readOnly="${readOnly&&(empty editableFields['amount'])}"
             displayHidden="${displayHidden}"
+            rowSpan="${rowCount}"
             />
     </c:when>
     <c:otherwise>
@@ -281,6 +282,7 @@
             attributes="${accountingLineAttributes}"
             field="amount"
             readOnly="${readOnly&&(empty editableFields['amount'])}"
+            rowSpan="${rowCount}"
             />
         <fin:accountingLineDataCell
             dataCellCssClass="${dataCellCssClass}"
@@ -289,6 +291,7 @@
             attributes="${accountingLineAttributes}"
             field="amount"
             readOnly="${readOnly&&(empty editableFields['amount'])}"
+            rowSpan="${rowCount}"
             />
     </c:otherwise>
 </c:choose>
@@ -329,12 +332,18 @@
     </c:choose>
 </c:if>
 </tr>
+
+<%-- optional second row of accounting fields render, should stop at amount fields --%>
 <c:if test="${!empty extraRowFields}">
-    <tr>
-        <c:set var="extraRowFieldCount" value="0"/>
+    <c:set var="row2ColumnSpan" value="${rightColumnCount-1}"/>
+    <c:if test="${debitCreditAmount}">
+      <c:set var="row2ColumnSpan" value="${rightColumnCount-2}"/>
+    </c:if>
+    <tr><td colspan="${row2ColumnSpan}" style="padding: 0px;">
+        <table cellpadding="0" cellspacing="0" style="width: 100%;border: 0px;">
+        <tr>        
         <c:set var="delimitedExtraRowFields" value=",${extraRowFields},"/>
         <c:if test="${fn:contains(delimitedExtraRowFields, ',referenceOriginCode,')}" >
-            <c:set var="extraRowFieldCount" value="${extraRowFieldCount + 1}"/>
             <fin:accountingLineDataCell
                 field="referenceOriginCode"
                 cellAlign="center"
@@ -356,7 +365,6 @@
                 />
         </c:if>
         <c:if test="${fn:contains(delimitedExtraRowFields, ',referenceNumber,')}" >
-            <c:set var="extraRowFieldCount" value="${extraRowFieldCount + 1}"/>
             <fin:accountingLineDataCell
                 field="referenceNumber"
                 cellAlign="center"
@@ -370,7 +378,6 @@
                 />
         </c:if>
         <c:if test="${fn:contains(delimitedExtraRowFields, ',referenceTypeCode,')}" >
-            <c:set var="extraRowFieldCount" value="${extraRowFieldCount + 1}"/>
             <fin:accountingLineDataCell
                 field="referenceTypeCode"
                 cellAlign="center"
@@ -394,7 +401,6 @@
         <c:set var="knownExtraFields" value=",referenceOriginCode,referenceNumber,referenceTypeCode,"/>
         <c:forTokens items="${extraRowFields}" delims="," var="extraField">
             <c:if test="${not fn:contains(knownExtraFields, extraField)}" >
-                <c:set var="extraRowFieldCount" value="${extraRowFieldCount + 1}"/>
                 <fin:accountingLineDataCell
                     field="${extraField}"
                     cellAlign="center"
@@ -408,7 +414,7 @@
                     />
             </c:if>
         </c:forTokens>
-        <td class="${dataCellCssClass}"
-            colspan="${rightColumnCount + 2 - (2 * extraRowFieldCount) + (readOnly ? 1 : 0)}">&nbsp;</td>
-    </tr>
+        </tr>
+        </table>
+    </td></tr>
 </c:if>

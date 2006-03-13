@@ -41,7 +41,6 @@ import org.kuali.core.service.PersistenceStructureService;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.util.UrlFactory;
-import org.kuali.module.gl.bo.AccountBalanceByObject;
 import org.kuali.module.gl.bo.AccountBalancePendingEntry;
 import org.kuali.module.gl.util.BusinessObjectFieldConverter;
 import org.kuali.module.gl.web.Constant;

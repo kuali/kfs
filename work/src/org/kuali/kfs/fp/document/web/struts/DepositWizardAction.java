@@ -23,11 +23,13 @@
 package org.kuali.module.financial.web.struts.action;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -41,6 +43,7 @@ import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.struts.action.KualiDocumentActionBase;
+import org.kuali.module.financial.bo.DepositWizardHelper;
 import org.kuali.module.financial.document.CashManagementDocument;
 import org.kuali.module.financial.document.CashReceiptDocument;
 import org.kuali.module.financial.web.struts.form.DepositWizardForm;
@@ -104,21 +107,32 @@ public class DepositWizardAction extends KualiDocumentActionBase {
 
         // make sure something was selected
         if(depositDocumentWizardForm.getSelectedCashReceipts().isEmpty()) {
-            GlobalVariables.getErrorMap().put(KeyConstants.GLOBAL_ERRORS, 
+            GlobalVariables.getErrorMap().put(Constants.DepositConstants.DEPOSIT_WIZARD_ERRORS, 
                     KeyConstants.CashManagement.ERROR_DOCUMENT_CASH_MGMT_NO_CASH_RECEIPTS_SELECTED);
             return mapping.findForward(Constants.MAPPING_BASIC);
         }
         
         // retrieve information about all that were selected
-        Collection c = null;
+        // transfer selected document numbers into a new list
+        List cashReceipts = depositDocumentWizardForm.getSelectedCashReceipts();
+        ArrayList selectedCashReceiptIds = new ArrayList();
+        Iterator i = cashReceipts.iterator();
+        while(i.hasNext()) {
+            String checkValue = ((DepositWizardHelper) i.next()).getSelectedValue();
+            if(StringUtils.isNotBlank(checkValue) && !checkValue.equals(Constants.ParameterValues.YES) && 
+                    !checkValue.equals(Constants.ParameterValues.NO)) {
+                selectedCashReceiptIds.add(checkValue);
+            }
+        }
+        
+        List selectedCashReceipts = null;
         try {
-            c = SpringServiceLocator.getDocumentService().getDocumentsByListOfDocumentHeaderIds(CashReceiptDocument.class, 
-                    depositDocumentWizardForm.getSelectedCashReceipts());
+            selectedCashReceipts = SpringServiceLocator.getDocumentService().getDocumentsByListOfDocumentHeaderIds(CashReceiptDocument.class, 
+                    selectedCashReceiptIds);
         } catch(WorkflowException we) {
             throw new RuntimeException(we);
         }
-        ArrayList selectedCashReceipts = new ArrayList(c);
-        
+                
         CashManagementDocument cmd = null;
         try {
             cmd = SpringServiceLocator.getCashManagementService().createCashManagementDocument("Fill me in...", 

@@ -37,7 +37,7 @@ public class DepositWizardHelper {
      * Constructs a JournalVoucherAccountingLineHelper.java.
      */
     public DepositWizardHelper() {
-        this.selectedValue = Constants.ParameterValues.YES;
+        this.selectedValue = Constants.ParameterValues.NO;
     }
 
     /**

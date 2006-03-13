@@ -803,7 +803,7 @@ public class CashManagementServiceTest extends KualiTestBaseWithSpring {
             DocumentHeader dh = crDoc.getDocumentHeader();
             dh.setFinancialDocumentStatusCode(status);
 
-            boService.save(dh);
+            docService.updateDocument(crDoc);
         }
     }
 }

@@ -31,6 +31,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.module.gl.batch.sufficientFunds.SufficientFundsReport;
 import org.kuali.module.gl.bo.SufficientFundRebuild;
 import org.kuali.module.gl.util.Summary;
@@ -54,7 +55,7 @@ import com.lowagie.text.pdf.PdfWriter;
 public class SufficientFundsReportImpl extends PdfPageEventHelper implements SufficientFundsReport {
   private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SufficientFundsReportImpl.class);
 
-  private String destinationDirectory;
+  private KualiConfigurationService kualiConfigurationService;
 
   public SufficientFundsReportImpl() {
     super();
@@ -62,6 +63,8 @@ public class SufficientFundsReportImpl extends PdfPageEventHelper implements Suf
 
   public void generateReport(Map reportErrors, List reportSummary, Date runDate, int mode) {
     LOG.debug("generateReport() started");
+
+    String destinationDirectory = kualiConfigurationService.getPropertyString("htdocs.directory") + "/reports";
 
     String title = "Sufficient Funds Report ";
     String fileprefix = "sufficientFunds";
@@ -173,13 +176,14 @@ public class SufficientFundsReportImpl extends PdfPageEventHelper implements Suf
       }
     } catch(Exception de) {
       LOG.error("generateReport() Error creating PDF report", de);
+      throw new RuntimeException("Unable to create report: " + de.getMessage());
     }
 
     document.close();
   }
 
-  public void setDestinationDirectory(String dd) {
-    destinationDirectory = dd;
+  public void setKualiConfigurationService(KualiConfigurationService kcs) {
+    kualiConfigurationService = kcs;
   }
 
   class PageHelper extends PdfPageEventHelper {

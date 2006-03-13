@@ -187,6 +187,7 @@ public class LedgerReport {
             }
         } catch (Exception de) {
             LOG.error("generateReport() Error creating PDF report", de);
+            throw new RuntimeException("Unable to create report: " + de.getMessage());
         }
         document.close();
     }

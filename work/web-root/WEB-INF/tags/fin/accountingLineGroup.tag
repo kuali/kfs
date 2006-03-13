@@ -7,10 +7,12 @@
 
 <%@ attribute name="isSource" required="true"
               description="Boolean whether this group is of source or target lines." %>
-<%@ attribute name="rightColumnCount" required="true"
-              description="4 less than the total number of columns in the
-              accounting lines table.  The total depends on the number
-              of optional fields and whether there is an action button column." %>
+<%@ attribute name="columnCountUntilAmount" required="true"
+              description="the number of columns to the left of the amount column(s) in the
+              accounting lines table.  This depends on the number
+              of optional fields and whether there is an object type column." %>
+<%@ attribute name="columnCount" required="true"
+              description="the total number of columns in the accounting lines table." %>
 <%@ attribute name="editingMode" required="true" type="java.util.Map"%>
 <%@ attribute name="editableAccounts" required="true" type="java.util.Map"
               description="Map of Accounts which this user is allowed to edit; only used if editingMode != fullEntry " %>
@@ -52,7 +54,6 @@
 <c:set var="totalName" value="currencyFormatted${capitalSourceOrTarget}Total"/>
 <c:set var="accountingLineAttributes" value="${DataDictionary[dataDictionaryEntryName].attributes}" />
 <c:set var="hasActionsColumn" value="${empty editingMode['viewOnly']}"/>
-<c:set var="totalColumnWidth" value="${rightColumnCount + (hasActionsColumn ? 1 : 2)}" />
 
 <c:set var="displayHidden" value="false" />
 
@@ -73,14 +74,14 @@
 
 <kul:displayIfErrors keyMatch="${errorPattern}">
     <tr>
-        <td class="error" colspan="${totalColumnWidth}">
+        <td class="error" colspan="${columnCount}">
             <kul:errors keyMatch="${errorPattern}" errorTitle='Errors found in ${errorSectionTitle} section:'/>
         </td>
     </tr>    
 </kul:displayIfErrors>
 
 <fin:accountingLineImportRow
-    rightColumnCount="${rightColumnCount}"
+    columnCount="${columnCount}"
     isSource="${isSource}"
     editingMode="${editingMode}"
     sectionTitle="${sectionTitle}"/>
@@ -141,7 +142,7 @@
         readOnly="false"
         debitCreditAmount="${debitCreditAmount}"
         hiddenFields="postingYear,overrideCode"
-        rightColumnCount="${rightColumnCount}"
+        columnCountUntilAmount="${columnCountUntilAmount}"
         debitCellProperty="newSourceLineDebit"
         creditCellProperty="newSourceLineCredit"
         includeObjectTypeCode="${includeObjectTypeCode}"
@@ -185,7 +186,7 @@
         editableFields="${editableFields}"
         debitCreditAmount="${debitCreditAmount}"
         hiddenFields="postingYear,overrideCode,sequenceNumber,versionNumber,financialDocumentNumber${extraHiddenFields}"
-        rightColumnCount="${rightColumnCount}"
+        columnCountUntilAmount="${columnCountUntilAmount}"
         debitCellProperty="journalLineHelper[${ctr}].debit"
         creditCellProperty="journalLineHelper[${ctr}].credit"
         includeObjectTypeCode="${includeObjectTypeCode}"
@@ -196,11 +197,7 @@
 </logic:iterate>
 
 <tr>
-    <c:set var="titleColumnPad" value="${rightColumnCount}"/>
-    <c:if test="${debitCreditAmount}">
-      <c:set var="titleColumnPad" value="${rightColumnCount-1}"/>
-    </c:if>
-    <td class="total-line" colspan="${titleColumnPad}">&nbsp;</td>
+    <td class="total-line" colspan="${columnCountUntilAmount}">&nbsp;</td>
     <c:choose>
         <c:when test="${debitCreditAmount}" >
             <%-- from JournalVoucherForm --%>

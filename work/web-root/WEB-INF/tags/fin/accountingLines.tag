@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="/tlds/c.tld" %>
+<%@ taglib prefix="fn" uri="/tlds/fn.tld" %>
 <%@ taglib prefix="kul" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="fin" tagdir="/WEB-INF/tags/fin" %>
 <%@ taglib uri="/tlds/struts-html.tld" prefix="html" %>
@@ -49,29 +50,26 @@
   <html:hidden property="editableAccounts(${account.key})" value="${account.key}"/>
 </c:forEach>
 
-<%-- add extra columns count for the "Action" button, objectTypeCode, and/or extra amount --%>
-<c:set var="rightColumnCount" value="${8
-                                        + (empty editingMode['viewOnly'] ? 1 : 0)
+<c:set var="optionalFieldCount" value="${empty optionalFields ? 0 : fn:length(fn:split(optionalFields, ' ,'))}"/>
+<c:set var="columnCountUntilAmount" value="${9
                                         + (includeObjectTypeCode ? 1 : 0)
-                                        + (debitCreditAmount ? 1 : 0)}" />
-
-<%-- add 1 extra column foreach optionalField --%>
-<c:set var="optionalColumnCount" value="0"/>
-<c:forTokens items="${optionalFields}" delims=" ," var="currentField">
-  <c:set var="optionalColumnCount" value="${optionalColumnCount + 1}"/>
-</c:forTokens>
-<c:set var="rightColumnCount" value="${rightColumnCount + optionalColumnCount}"/>
+                                        + optionalFieldCount}" />
+<%-- add extra columns count for the "Action" button and/or dual amounts --%>
+<c:set var="columnCount" value="${columnCountUntilAmount
+                                        + (debitCreditAmount ? 2 : 1)
+                                        + (empty editingMode['viewOnly'] ? 1 : 0)}" />
 
 <kul:tab tabTitle="Accounting Lines" defaultOpen="true"
          tabErrorKey="${Constants.ACCOUNTING_LINE_ERRORS}">
   <div class="tab-container" align=center>
     <table width="100%" border="0" cellpadding="0" cellspacing="0" class="datatable">
       <fin:subheadingWithDetailToggleRow
-          columnCount="${rightColumnCount + 4}"
+          columnCount="${columnCount}"
           subheading="Accounting Lines"/>
       <fin:accountingLineGroup
           isSource="true"
-          rightColumnCount="${rightColumnCount}"
+          columnCountUntilAmount="${columnCountUntilAmount}"
+          columnCount="${columnCount}"
           optionalFields="${optionalFields}"
           extraRowFields="${extraSourceRowFields}"
           editingMode="${editingMode}"
@@ -85,7 +83,8 @@
       <c:if test="${!sourceAccountingLinesOnly}">
         <fin:accountingLineGroup
             isSource="false"
-            rightColumnCount="${rightColumnCount}"
+            columnCountUntilAmount="${columnCountUntilAmount}"
+            columnCount="${columnCount}"
             optionalFields="${optionalFields}"
             extraRowFields="${extraTargetRowFields}"
             editingMode="${editingMode}"

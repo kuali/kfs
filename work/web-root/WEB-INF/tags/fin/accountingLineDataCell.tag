@@ -67,7 +67,7 @@
 
 <%@ attribute name="labelFontWeight" required="false"
               description="The font weight for the in-cell label, e.g., bold or normal.  Providing this
-              attribute causes the cell to render a label for the field, span 2 columns,  and surpress
+              attribute causes the cell to render a label for the field and surpress
               the detail line.  This attribute is provided for cells on extra rows.  Changing the weight
               allows the labels in the 'add' row to correspond to the weight of the column headers." %>
 
@@ -84,9 +84,6 @@
 <%@ attribute name="inquiryExtraKeyValues" required="false"
               description="ampersand separated list of inquiry key=value pairs not in accountingLineValuesMap" %>
 
-<%@ attribute name="colSpan" required="false"
-              description="column span for the data cell" %>
-              
 <%@ attribute name="rowSpan" required="false"
               description="row span for the data cell" %>
 
@@ -105,13 +102,11 @@
         <c:set var="boClassName" value="${boPackageName}.${boClassSimpleName}"/>
     </c:otherwise>
 </c:choose>
-<c:set var="columnCount" value="${empty labelFontWeight ? 1 : 2}"/>
-<c:set var="columnCount" value="${!empty colSpan ? colSpan : columnCount}"/>
 <c:set var="rowSpan" value="${empty rowSpan ? 1 : rowSpan}"/>
 <c:set var="useXmlHttp" value="${(!readOnly) && (!empty detailFunction)}" />
 <%-- test to see if we are dealing with the extra JV fields here --%>
 <c:set var="specialRequiredField" value="${(field eq 'referenceOriginCode') || (field eq 'referenceNumber') || (field eq 'referenceTypeCode')}" />
-<td class="${dataCellCssClass}" valign="top" colspan="${columnCount}" rowspan="${rowSpan}">
+<td class="${dataCellCssClass}" valign="top" rowspan="${rowSpan}">
 <span class="nowrap">
     <c:if test="${!empty labelFontWeight}">
         <span style="font-weight: ${labelFontWeight}">

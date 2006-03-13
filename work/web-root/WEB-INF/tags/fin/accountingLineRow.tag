@@ -32,10 +32,10 @@
 <%@ attribute name="hiddenFields" required="true"
               description="A comma separated list of names of accounting line fields
               to be put in hidden fields on this form." %>
-<%@ attribute name="rightColumnCount" required="true"
-              description="4 less than the total number of columns in the
-              accounting lines table.  The total depends on the number
-              of optional fields and whether there is an action button column." %>
+<%@ attribute name="columnCountUntilAmount" required="true"
+              description="the number of columns to the left of the amount column(s) in the
+              accounting lines table.  This depends on the number
+              of optional fields and whether there is an object type column." %>
 
 <%@ attribute name="optionalFields" required="false"
               description="A comma separated list of names of accounting line fields
@@ -333,15 +333,11 @@
 </c:if>
 </tr>
 
-<%-- optional second row of accounting fields render, should stop at amount fields --%>
+<%-- optional second row of accounting fields, between index and amount columns --%>
 <c:if test="${!empty extraRowFields}">
-    <c:set var="row2ColumnSpan" value="${rightColumnCount-1}"/>
-    <c:if test="${debitCreditAmount}">
-      <c:set var="row2ColumnSpan" value="${rightColumnCount-2}"/>
-    </c:if>
-    <tr><td colspan="${row2ColumnSpan}" style="padding: 0px;">
+    <tr><td colspan="${columnCountUntilAmount - 1}" style="padding: 0px;">
         <table cellpadding="0" cellspacing="0" style="width: 100%;border: 0px;">
-        <tr>        
+        <tr>
         <c:set var="delimitedExtraRowFields" value=",${extraRowFields},"/>
         <c:if test="${fn:contains(delimitedExtraRowFields, ',referenceOriginCode,')}" >
             <fin:accountingLineDataCell
@@ -364,6 +360,7 @@
                 displayHidden="${displayHidden}"
                 />
         </c:if>
+        <%-- referenceNumber displays like an unknown field, but explicitly here to follow referenceOriginCode. --%>
         <c:if test="${fn:contains(delimitedExtraRowFields, ',referenceNumber,')}" >
             <fin:accountingLineDataCell
                 field="referenceNumber"

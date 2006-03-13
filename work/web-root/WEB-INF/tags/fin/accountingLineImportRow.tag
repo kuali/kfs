@@ -1,12 +1,7 @@
 <%@ taglib prefix="c" uri="/tlds/c.tld" %>
 <%@ taglib prefix="html" uri="/tlds/struts-html.tld" %>
-<%@ attribute name="rightColumnCount" required="true"
-    description="The number of columns spanned by the right side
-    of this row.  This row is divided into two sides, left and right.
-    The left side spans 4 columns and contains the title of this group
-    of accounting lines, e.g., 'From', 'Expense', 'Disencumbrance', etc.
-    The right side spans 5 or more columns, depending on the number
-    of optional fields and whether there is an action button column." %>
+<%@ attribute name="columnCount" required="true"
+    description="The total number of columns of this row." %>
 <%@ attribute name="isSource" required="true"
     description="Boolean whether this group is of source or target lines." %>
 <%@ attribute name="editingMode" required="true" type="java.util.Map"%>
@@ -21,6 +16,7 @@
 <c:set var="showImport" value="show${capitalSourceOrTarget}Import"/>
 <c:set var="file" value="${sourceOrTarget}File"/>
 <c:set var="uploadLines" value="upload${capitalSourceOrTarget}Lines"/>
+<c:set var="canUpload" value="${!empty editingMode['fullEntry']}"/>
 
 <c:set var="titleColSpan" value="4" />
 <c:if test="${empty editingMode['fullEntry']}" >
@@ -28,10 +24,10 @@
 </c:if>
 
 <tr>
-    <td colspan="${titleColSpan}" class="tab-subhead" style="border-right: none;">${sectionTitle}</td>
+    <td colspan="${canUpload ? 4 : columnCount}" class="tab-subhead" style="border-right: none;">${sectionTitle}</td>
 
-    <c:if test="${!empty editingMode['fullEntry']}">
-        <td colspan="${rightColumnCount}" class="tab-subhead-import" align="right" nowrap="nowrap" style="border-left: none;">
+    <c:if test="${canUpload}">
+        <td colspan="${columnCount - 4}" class="tab-subhead-import" align="right" nowrap="nowrap" style="border-left: none;">
             <SCRIPT type="text/javascript">
                 <!--
                   function ${hideImport}() {

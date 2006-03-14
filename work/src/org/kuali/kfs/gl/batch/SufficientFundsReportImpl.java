@@ -30,6 +30,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.module.gl.batch.sufficientFunds.SufficientFundsReport;
@@ -55,8 +56,6 @@ import com.lowagie.text.pdf.PdfWriter;
 public class SufficientFundsReportImpl extends PdfPageEventHelper implements SufficientFundsReport {
   private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SufficientFundsReportImpl.class);
 
-  private KualiConfigurationService kualiConfigurationService;
-
   public SufficientFundsReportImpl() {
     super();
   }
@@ -64,7 +63,8 @@ public class SufficientFundsReportImpl extends PdfPageEventHelper implements Suf
   public void generateReport(Map reportErrors, List reportSummary, Date runDate, int mode) {
     LOG.debug("generateReport() started");
 
-    String destinationDirectory = kualiConfigurationService.getPropertyString("htdocs.directory") + "/reports";
+    ResourceBundle rb = ResourceBundle.getBundle("configuration");
+    String destinationDirectory = rb.getString("htdocs.directory") + "/reports";
 
     String title = "Sufficient Funds Report ";
     String fileprefix = "sufficientFunds";
@@ -183,7 +183,7 @@ public class SufficientFundsReportImpl extends PdfPageEventHelper implements Suf
   }
 
   public void setKualiConfigurationService(KualiConfigurationService kcs) {
-    kualiConfigurationService = kcs;
+    // kualiConfigurationService = kcs;
   }
 
   class PageHelper extends PdfPageEventHelper {

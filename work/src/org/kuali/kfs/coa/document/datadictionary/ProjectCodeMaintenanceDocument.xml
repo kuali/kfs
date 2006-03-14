@@ -49,7 +49,9 @@
                 <maintainableItems>
 		            <maintainableField name="code" required="true" />
 		            <maintainableField name="name" required="true" />
-		            <maintainableField name="projectManagerUniversalId" required="true"/>
+		            <maintainableField name="projectManagerUniversalId" required="true" readOnly="true" />
+					<maintainableField name="projectManagerUniversal.personUserIdentifier" required="true" />
+					<maintainableField name="projectManagerUniversal.personName" required="false" readOnly="true" />
 		            <maintainableField name="chartOfAccountsCode" required="true" />
 		            <maintainableField name="organizationCode" required="true" />	     
 		            <maintainableField name="projectDescription" required="true" />

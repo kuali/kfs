@@ -77,9 +77,39 @@
 				<label>Project Manager Univ</label>
 	            <shortLabel>Proj</shortLabel>
 				<required>true</required>
+				<control><hidden /></control>
 			</attributeReference>					
 
-
+			<attributeReference name="projectManagerUniversal.personUserIdentifier" 
+								sourceClassName="org.kuali.core.bo.user.KualiUser" 
+								sourceAttributeName="personUserIdentifier">
+				<label>Project Manager UserID</label>
+				<shortLabel>UserID</shortLabel>
+				<required>false</required>
+				<control>
+					<kualiUser universalIdAttributeName="accountDelegateSystemId" 
+								userIdAttributeName="projectManagerUniversal.personUserIdentifier" 
+								personNameAttributeName="projectManagerUniversal.personName" />
+				</control>
+				<summary>Project Manager User ID</summary>
+				<description>
+					The UserID of the Project Manager.
+				</description>
+			</attributeReference>
+			
+			<attributeReference name="projectManagerUniversal.personName" 
+								sourceClassName="org.kuali.core.bo.user.KualiUser" 
+								sourceAttributeName="personName">
+				<label>Project Manager Name</label>
+				<shortLabel>Name</shortLabel>
+				<required>false</required>
+				<control><hidden /></control>
+				<summary>Project Manager Name</summary>
+				<description>
+					The Name of the Project Manager.
+				</description>
+			</attributeReference>
+			
 			<attribute name="code" forceUppercase="false">
 				<label>Project Code</label>
 				<shortLabel>Project</shortLabel>
@@ -96,14 +126,6 @@
 				<description>Project Code</description>
 			</attribute>
 		
-			<attributeReference name="projectManagerUniversal.personName" 
-								sourceClassName="org.kuali.core.bo.user.KualiUser" 
-								sourceAttributeName="personName">
-				<label>Project Manager Name</label>
-				<shortLabel>Mgr</shortLabel>
-				<required>true</required>
-			</attributeReference>
-			
 			<attribute name="projectDescription" forceUppercase="false">
 				<label>Project Description</label>
 				<shortLabel>Desc</shortLabel>

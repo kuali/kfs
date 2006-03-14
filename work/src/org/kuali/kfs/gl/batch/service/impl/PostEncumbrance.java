@@ -65,7 +65,7 @@ public class PostEncumbrance implements PostTransaction, VerifyTransaction, Encu
     List errors = new ArrayList();
 
     // The encumbrance update code can only be space, N, R or D. Nothing else
-    if ((!" ".equals(t.getTransactionEncumbranceUpdtCd())) && (!Constants.ENCUMB_UPDT_NO_ENCUMBRANCE_CD.equals(t.getTransactionEncumbranceUpdtCd()))
+    if ( (t.getTransactionEncumbranceUpdtCd() != null) && (!" ".equals(t.getTransactionEncumbranceUpdtCd())) && (!Constants.ENCUMB_UPDT_NO_ENCUMBRANCE_CD.equals(t.getTransactionEncumbranceUpdtCd()))
         && (!Constants.ENCUMB_UPDT_REFERENCE_DOCUMENT_CD.equals(t.getTransactionEncumbranceUpdtCd())) && (!Constants.ENCUMB_UPDT_DOCUMENT_CD.equals(t.getTransactionEncumbranceUpdtCd()))) {
       errors.add("Invalid Encumbrance Update Code (" + t.getTransactionEncumbranceUpdtCd() + ")");
     }
@@ -84,7 +84,7 @@ public class PostEncumbrance implements PostTransaction, VerifyTransaction, Encu
 
     // If the encumbrance update code is space or N, or the object type code is FB
     // we don't need to post an encumbrance
-    if (" ".equals(t.getTransactionEncumbranceUpdtCd()) || Constants.ENCUMB_UPDT_NO_ENCUMBRANCE_CD.equals(t.getTransactionEncumbranceUpdtCd()) || "FB".equals(t.getFinancialObjectTypeCode())) {
+    if ((t.getTransactionEncumbranceUpdtCd() == null) || " ".equals(t.getTransactionEncumbranceUpdtCd()) || Constants.ENCUMB_UPDT_NO_ENCUMBRANCE_CD.equals(t.getTransactionEncumbranceUpdtCd()) || "FB".equals(t.getFinancialObjectTypeCode())) {
       LOG.debug("post() not posting non-encumbrance transaction");
       return "";
     }

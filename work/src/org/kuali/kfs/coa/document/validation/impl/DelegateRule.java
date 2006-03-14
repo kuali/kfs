@@ -31,6 +31,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.kuali.KeyConstants;
+import org.kuali.core.bo.user.KualiUser;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.util.KualiDecimal;
@@ -44,6 +45,9 @@ import org.kuali.module.chart.bo.Delegate;
 public class DelegateRule extends MaintenanceDocumentRuleBase {
 
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DelegateRule.class);
+    
+    private static final String EMPLOYEE_TYPE_PROFESSIONAL = "P";
+    private static final String EMPLOYEE_STATUS_ACTIVE = "A";
     
     private Delegate oldDelegate;
     private Delegate newDelegate;
@@ -76,6 +80,9 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
         //  disallow more than one PrimaryRoute for a given Chart/Account/Doctype
         checkOnlyOnePrimaryRoute(document);
         
+        //  delegate user must be Active and Professional
+        checkDelegateUserRules(document);
+        
         return true;
     }
 
@@ -102,6 +109,9 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
         //	disallow more than one PrimaryRoute for a given Chart/Account/Doctype
         success &= checkOnlyOnePrimaryRoute(document);
         
+        //  delegate user must be Active and Professional
+        success &= checkDelegateUserRules(document);
+        
         return success;
     }
     
@@ -125,6 +135,9 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
         success &= checkSimpleRules();
         
         success &= checkOnlyOnePrimaryRoute(document);
+        
+        //  delegate user must be Active and Professional
+        success &= checkDelegateUserRules(document);
         
         return success;
     }
@@ -286,4 +299,27 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
 
         return success;
     }
+    
+    private boolean checkDelegateUserRules(MaintenanceDocument document) {
+        
+        boolean success = true;
+        
+        KualiUser user = newDelegate.getAccountDelegate();
+        
+        //  user must be A - Active
+        if (!EMPLOYEE_STATUS_ACTIVE.equalsIgnoreCase(user.getEmployeeStatusCode())) {
+            success &= false;
+            putFieldError("accountDelegate.personUserIdentifier", KeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_USER_NOT_ACTIVE);
+        }
+        
+        //  user must be of type P - Professional
+        if (!EMPLOYEE_TYPE_PROFESSIONAL.equalsIgnoreCase(user.getEmployeeTypeCode())) {
+            success &= false;
+            putFieldError("accountDelegate.personUserIdentifier", KeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_USER_NOT_PROFESSIONAL);
+        }
+        
+        //  user must be 
+        return success;
+    }
+    
 }

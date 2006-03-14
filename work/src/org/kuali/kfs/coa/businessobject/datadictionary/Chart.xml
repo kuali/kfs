@@ -108,7 +108,7 @@
 			<shortLabel>UserID</shortLabel>
 			<required>false</required>
 			<control>
-				<kualiUser universalIdAttributeName="accountDelegateSystemId" 
+				<kualiUser universalIdAttributeName="finCoaManagerUniversalId" 
 							userIdAttributeName="finCoaManagerUniversal.personUserIdentifier" 
 							personNameAttributeName="finCoaManagerUniversal.personName" />
 			</control>

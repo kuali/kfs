@@ -108,7 +108,7 @@
 				<shortLabel>UserID</shortLabel>
 				<required>false</required>
 				<control>
-					<kualiUser universalIdAttributeName="accountDelegateSystemId" 
+					<kualiUser universalIdAttributeName="financialReportingCodeMgrId" 
 								userIdAttributeName="universalUser.personUserIdentifier" 
 								personNameAttributeName="universalUser.personName" />
 				</control>

@@ -143,20 +143,20 @@ public class LedgerReport {
                 cell = new PdfPCell(new Phrase("No D/C Code Count", headerFont));
                 ledgerEntryTable.addCell(cell);
 
-                for (Iterator reportIter = ledgerEntries.entrySet().iterator(); reportIter.hasNext();) {
+                for (Iterator reportIter = ledgerEntries.values().iterator(); reportIter.hasNext();) {
                     LedgerEntry ledgerEntry = (LedgerEntry) reportIter.next();
 
-                    cell = new PdfPCell(new Phrase(ledgerEntry.originCode, textFont));
+                    cell = new PdfPCell(new Phrase(ledgerEntry.balanceType, textFont));
                     ledgerEntryTable.addCell(cell);
                     cell = new PdfPCell(new Phrase(ledgerEntry.originCode, textFont));
                     ledgerEntryTable.addCell(cell);
-                    if (ledgerEntry.fiscalYear == null) {
+                    if (ledgerEntry.fiscalYear != null) {
                         cell = new PdfPCell(new Phrase(ledgerEntry.fiscalYear.toString(), textFont));
                     } else {
                         cell = new PdfPCell(new Phrase("", textFont));
                     }
                     ledgerEntryTable.addCell(cell);
-                    if (ledgerEntry.period == null) {
+                    if (ledgerEntry.period != null) {
                         cell = new PdfPCell(new Phrase(ledgerEntry.period, textFont));
                     } else {
                         cell = new PdfPCell(new Phrase("", textFont));

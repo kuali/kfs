@@ -70,7 +70,7 @@ import org.springframework.util.StringUtils;
 
 /**
  * @author Kuali General Ledger Team <kualigltech@oncourse.iu.edu>
- * @version $Id: ScrubberServiceImpl.java,v 1.69 2006-03-14 17:52:12 larevans Exp $
+ * @version $Id: ScrubberServiceImpl.java,v 1.70 2006-03-14 18:11:51 aapotts Exp $
  */
 
 public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
@@ -342,7 +342,7 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
             ledgerEntry.originCode = entry.getFinancialSystemOriginationCode();
             ledgerEntry.fiscalYear = entry.getUniversityFiscalYear();
             ledgerEntry.period = entry.getUniversityFiscalPeriodCode();
-            String key = ledgerEntry.balanceType + ledgerEntry.originCode + ledgerEntry.fiscalYear + ledgerEntry.period;
+            String key = ledgerEntry.balanceType + ledgerEntry.originCode + ledgerEntry.fiscalYear.toString() + ledgerEntry.period;
 
             boolean newLedgerEntry = !ledgerEntries.containsKey(key);
             
@@ -353,13 +353,13 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
             ++ledgerEntry.recordCount;            
             if (entry.isCredit()) {
                 ++ledgerEntry.creditCount;
-                ledgerEntry.creditAmount.add(entry.getTransactionLedgerEntryAmount());
+                ledgerEntry.creditAmount = ledgerEntry.creditAmount.add(entry.getTransactionLedgerEntryAmount());
             } else if (entry.isDebit()) {
                 ++ledgerEntry.debitCount;
-                ledgerEntry.debitAmount.add(entry.getTransactionLedgerEntryAmount());
+                ledgerEntry.debitAmount = ledgerEntry.debitAmount.add(entry.getTransactionLedgerEntryAmount());
             } else {
                 ++ledgerEntry.noDCCount;
-                ledgerEntry.noDCAmount.add(entry.getTransactionLedgerEntryAmount());
+                ledgerEntry.noDCAmount = ledgerEntry.noDCAmount.add(entry.getTransactionLedgerEntryAmount());
             }
 
             if (newLedgerEntry) {

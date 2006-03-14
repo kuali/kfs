@@ -62,7 +62,9 @@
 	        <maintainableSection title="Edit Chart">
                 <maintainableItems>
 					<maintainableField name="chartOfAccountsCode" required="true" />			   
-					<maintainableField name="finCoaManagerUniversalId" />
+					<maintainableField name="finCoaManagerUniversalId" required="true" readOnly="true" />
+					<maintainableField name="finCoaManagerUniversal.personUserIdentifier" required="true" />
+					<maintainableField name="finCoaManagerUniversal.personName" required="false" readOnly="true" />
 					<maintainableField name="finChartOfAccountDescription" />
 					<maintainableField name="finChartOfAccountActiveIndicator" />
 					<maintainableField name="financialCashObjectCode" />

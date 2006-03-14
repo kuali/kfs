@@ -100,7 +100,59 @@ public class CashReceiptCoverSheetServiceImpl
                 PdfStamper stamper = new PdfStamper(reader, outputStream);
 
                 AcroFields populatedCoverSheet = stamper.getAcroFields();
-                // populatedCoverSheet.setField("attachment", attachment);
+                populatedCoverSheet.setField( DOCUMENT_NUMBER_FIELD, 
+                                              document.getFinancialDocumentNumber() );
+                populatedCoverSheet.setField( INITIATOR_FIELD, 
+                                              document.getDocumentHeader()
+                                              .getWorkflowDocument().
+                                              getInitiatorNetworkId() );
+                populatedCoverSheet.setField( CREATED_DATE_FIELD, 
+                                              document.getDocumentHeader()
+                                              .getWorkflowDocument()
+                                              .getCreateDate().toString() );
+                populatedCoverSheet.setField( AMOUNT_FIELD, 
+                                              document.getSumTotalAmount().toString() );
+                populatedCoverSheet.setField( ORG_DOC_NUMBER_FIELD, 
+                                              document.getDocumentHeader().
+                                              getOrganizationDocumentNumber() );
+                populatedCoverSheet.setField( CAMPUS_FIELD, 
+                                              document.getCampusLocationCode() );
+                if( document.getDepositDate() != null ) {
+                    // This value won't be set until the CR document is 
+                    // deposited. A CR document is desposited only when it has 
+                    // been associated with a Cash Management Document (CMD) 
+                    // and with a Deposit within that CMD. And only when the 
+                    // CMD is submitted and FINAL, will the CR documents 
+                    // associated with it, be "deposited." So this value will 
+                    // fill in at an arbitrarily later point in time. So your 
+                    // code shouldn't expect it, but if it's there, then 
+                    // display it.
+                    populatedCoverSheet.setField( DEPOSIT_DATE_FIELD, 
+                                                  document.getDepositDate().toString() );
+                }
+                populatedCoverSheet.setField( DESCRIPTION_FIELD, 
+                                              document.getDocumentHeader()
+                                              .getFinancialDocumentDescription() );
+                populatedCoverSheet.setField( EXPLANATION_FIELD, 
+                                              document.getExplanation() );
+                populatedCoverSheet.setField( CHECKS_FIELD, 
+                                              document.getTotalCheckAmount().toString() );
+                populatedCoverSheet.setField( CURRENCY_FIELD, 
+                                              document.getTotalCashAmount().toString() );
+                populatedCoverSheet.setField( COIN_FIELD, 
+                                              document.getTotalCoinAmount().toString() );
+                /* Fields currently not used. Pulling them out.
+                   These are advanced features of the CR which will come 
+                   during the post-3/31 timeframe
+                populatedCoverSheet.setField( CREDIT_CARD_FIELD, 
+                                              document.getFinancialDocumentNumber() );
+                populatedCoverSheet.setField( ADV_DEPOSIT_FIELD, 
+                                              document.getFinancialDocumentNumber() );
+                populatedCoverSheet.setField( CHANGE_OUT_FIELD, 
+                                              document.getFinancialDocumentNumber() );
+                populatedCoverSheet.setField( REVIV_FUND_OUT_FIELD, 
+                                              document.getFinancialDocumentNumber() );
+                */
 
                 stamper.setFormFlattening(true);
                 stamper.close();
@@ -112,11 +164,9 @@ public class CashReceiptCoverSheetServiceImpl
                 throw e;
             }
             catch (IOException e) {
-                /*
                 LOG.error("Error creating coversheet for: " 
                           + document.getFinancialDocumentNumber() 
                           + ". ::" + e);
-                */
                 throw e;
             }
         }

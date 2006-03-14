@@ -338,14 +338,13 @@ public class CashReceiptDocumentRule extends TransactionalDocumentRuleBase imple
         
         boolean isValid = GlobalVariables.getErrorMap().isEmpty();
         
-        if(isValid) {
-            // if bo validation for the check passed, then do the amount validation
-            isValid = check.getAmount().compareTo(Constants.ZERO) > 0;
-            if(!isValid) {
-                GlobalVariables.getErrorMap().put(PropertyConstants.CHECK_AMOUNT, KeyConstants.ERROR_ZERO_OR_NEGATIVE_AMOUNT, 
-                        PropertyConstants.CHECKS);
-            }
+        // check to make sure the amount is also valid
+        if(check.getAmount().compareTo(Constants.ZERO) <= 0) {
+            GlobalVariables.getErrorMap().put(PropertyConstants.CHECK_AMOUNT, KeyConstants.ERROR_ZERO_OR_NEGATIVE_AMOUNT, 
+                    PropertyConstants.CHECKS);
+            isValid = false;
         }
+        
         return isValid;
     }
     

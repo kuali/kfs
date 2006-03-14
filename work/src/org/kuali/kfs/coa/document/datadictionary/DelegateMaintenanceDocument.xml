@@ -54,8 +54,12 @@
 					<maintainableField name="accountDelegateSystemId" required="true" readOnly="true" />
 					<maintainableField name="accountDelegate.personUserIdentifier" required="true" />
 					<maintainableField name="accountDelegate.personName" required="false" readOnly="true" />
-					<maintainableField name="finDocApprovalFromThisAmt" required="false" />
-					<maintainableField name="finDocApprovalToThisAmount" required="false" />
+					<maintainableField name="finDocApprovalFromThisAmt" required="false">
+						<defaultValue>0.00</defaultValue>
+					</maintainableField>
+					<maintainableField name="finDocApprovalToThisAmount" required="false">
+						<defaultValue>0.00</defaultValue>
+					</maintainableField>
 					<maintainableField name="accountsDelegatePrmrtIndicator" required="false" />
 					<maintainableField name="accountDelegateActiveIndicator" required="false">
 						<defaultValue>true</defaultValue>

@@ -26,7 +26,8 @@
         <field attributeName="organizationCityName" />
         <field attributeName="responsibilityCenterCode" />
         <field attributeName="organizationBeginDate" />
-        <field attributeName="organizationManagerUniversalId" />
+        <field attributeName="organizationManagerUniversal.personUserIdentifier" />
+        <field attributeName="organizationManagerUniversal.personName" />
         <field attributeName="organizationStreetAddress" />
       </inquiryFields>
     </inquiry>
@@ -45,39 +46,22 @@
         sortAscending="false" />
 
       <lookupFields>
-        <lookupField
-          attributeName="chartOfAccountsCode"
-          required="false" />
-        <lookupField
-          attributeName="organizationCode"
-          required="false"
-          forceLookup="true" />
-        <lookupField
-          attributeName="responsibilityCenterCode"
-          required="false" />
-        <lookupField
-          attributeName="organizationTypeCode"
-          required="false" />
-        <lookupField
-          attributeName="organizationName"
-          required="false" />
-        <lookupField
-          attributeName="reportsToChartOfAccountsCode"
-          required="false"
-          noLookup="true" />
-        <lookupField
-          attributeName="reportsToOrganizationCode"
-          required="false" />
+        <lookupField attributeName="chartOfAccountsCode" required="false" />
+        <lookupField attributeName="organizationCode" required="false" forceLookup="true" />
+        <lookupField attributeName="responsibilityCenterCode" required="false" />
+        <lookupField attributeName="organizationTypeCode" required="false" />
+        <lookupField attributeName="organizationName" required="false" />
+        <lookupField attributeName="reportsToChartOfAccountsCode" required="false" noLookup="true" />
+        <lookupField attributeName="reportsToOrganizationCode" required="false" />
       </lookupFields>
 
       <resultFields>
-        <field
-          attributeName="chartOfAccountsCode"
-          noInquiry="true" />
+        <field attributeName="chartOfAccountsCode" noInquiry="true" />
         <field attributeName="organizationCode" />
         <field attributeName="responsibilityCenterCode" />
         <field attributeName="organizationTypeCode" />
         <field attributeName="organizationName" />
+        <field attributeName="organizationManagerUniversal.personName" />
         <field attributeName="organizationActiveIndicator" />
       </resultFields>
     </lookup>
@@ -134,10 +118,41 @@
         <label>Manager Universal Id</label>
         <shortLabel>Unvl Id</shortLabel>
         <required>true</required>
+        <control><hidden /></control>
         <summary>Manager Universal Id</summary>
         <description>Manager Universal Id</description>
       </attributeReference>
 
+	  <attributeReference name="organizationManagerUniversal.personUserIdentifier" 
+	  					  sourceClassName="org.kuali.core.bo.user.KualiUser" 
+	  					  sourceAttributeName="personUserIdentifier">
+			<label>Organization Manager UserID</label>
+			<shortLabel>OrgMgrUserId</shortLabel>
+			<required>false</required>
+			<control>
+				<kualiUser universalIdAttributeName="organizationManagerUniversalId" 
+							userIdAttributeName="organizationManagerUniversal.personUserIdentifier" 
+							personNameAttributeName="organizationManagerUniversal.personName" />
+			</control>
+			<summary>Organization Manager User ID</summary>
+			<description>
+				The UserID of the Organization Manager.
+			</description>
+	  </attributeReference>
+	  
+		<attributeReference name="organizationManagerUniversal.personName" 
+							sourceClassName="org.kuali.core.bo.user.UniversalUser" 
+							sourceAttributeName="personName">
+			<label>Organization Manager Name</label>
+			<shortLabel>Name</shortLabel>
+			<required>false</required>
+			<control><hidden /></control>
+			<summary>Organization Manager Name</summary>
+			<description>
+				The Name of the Organization Manager.
+			</description>
+		</attributeReference>
+		
       <attribute name="responsibilityCenterCode" forceUppercase="false">
         <label>Responsibility Center Code</label>
         <shortLabel>RC</shortLabel>

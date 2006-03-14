@@ -66,15 +66,19 @@
           <maintainableField name="chartOfAccountsCode" required="true" />
           <maintainableField name="organizationCode" required="true" />
           <maintainableField name="organizationName" required="true" />
-          <maintainableField name="organizationManagerUniversalId" required="true" />
+          
+          <maintainableField name="organizationManagerUniversalId" required="true" readOnly="true" />
+          <maintainableField name="organizationManagerUniversal.personUserIdentifier" required="true" />
+          <maintainableField name="organizationManagerUniversal.personName" required="false" readOnly="true" />
+          
           <maintainableField name="responsibilityCenterCode" required="true" />
           <maintainableField name="organizationPhysicalCampusCode" required="true" />
           <maintainableField name="organizationTypeCode" required="true" />
           <maintainableField name="organizationDefaultAccountNumber" required="true" />
           <maintainableField name="organizationZipCode" required="true" />
-	          <maintainableField name="organizationStreetAddress" required="true" />
-	          <maintainableField name="organizationCityName" required="true" />
-	          <maintainableField name="organizationStateCode" required="true" />
+          <maintainableField name="organizationStreetAddress" required="true" />
+          <maintainableField name="organizationCityName" required="true" />
+          <maintainableField name="organizationStateCode" required="true" />
           <maintainableField name="organizationBeginDate" required="true">
           	<defaultValueFinderClass>
           		org.kuali.core.lookup.valueFinder.CurrentDateMMDDYYYYFinder

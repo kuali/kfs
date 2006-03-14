@@ -26,32 +26,34 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
 import org.kuali.core.bo.AccountingLine;
+import org.kuali.core.bo.SourceAccountingLine;
+import org.kuali.core.bo.TargetAccountingLine;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.financial.document.TransferOfFundsDocument;
 import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
+import org.kuali.module.gl.util.SufficientFundsItemHelper.SufficientFundsItem;
 
 /**
  * Business rule(s) applicable to Transfer of Funds documents.
  * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
-public class TransferOfFundsDocumentRule extends TransactionalDocumentRuleBase {
+public class TransferOfFundsDocumentRule extends TransactionalDocumentRuleBase implements TransferOfFundsDocumentRuleConstants {
 
     /**
      * Set attributes of an offset pending entry according to rules specific to TransferOfFundsDocument.
-     *
+     * 
      * @see TransactionalDocumentRuleBase#customizeOffsetGeneralLedgerPendingEntry
      */
     protected boolean customizeOffsetGeneralLedgerPendingEntry(TransactionalDocument transactionalDocument,
-                                                               AccountingLine accountingLine,
-                                                               GeneralLedgerPendingEntry explicitEntry,
-                                                               GeneralLedgerPendingEntry offsetEntry)
-    {
+            AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry, GeneralLedgerPendingEntry offsetEntry) {
         offsetEntry.setFinancialBalanceTypeCode(BALANCE_TYPE_CODE.ACTUAL);
         return true;
     }
@@ -130,9 +132,9 @@ public class TransferOfFundsDocumentRule extends TransactionalDocumentRuleBase {
      */
     private boolean isMandatoryTransferTotalAndNonMandatoryTransferTotalBalanceValid(TransferOfFundsDocument tofDoc) {
         List lines = new ArrayList();
-        
-        lines.addAll( tofDoc.getSourceAccountingLines() );
-        lines.addAll( tofDoc.getTargetAccountingLines() );
+
+        lines.addAll(tofDoc.getSourceAccountingLines());
+        lines.addAll(tofDoc.getTargetAccountingLines());
 
         // sum the from lines.
         KualiDecimal mandatoryTransferFromAmount = new KualiDecimal(0);
@@ -142,47 +144,41 @@ public class TransferOfFundsDocumentRule extends TransactionalDocumentRuleBase {
 
         for (Iterator i = lines.iterator(); i.hasNext();) {
             AccountingLine line = (AccountingLine) i.next();
-            line.refreshReferenceObject("objectCode");  //refresh b/c of proxying in OJB
+            line.refreshReferenceObject("objectCode"); // refresh b/c of proxying in OJB
             String objectSubTypeCode = line.getObjectCode().getFinancialObjectSubTypeCode();
 
-            if ( isNonMandatoryTransfersSubType(objectSubTypeCode) ) {
-                if( line.isSourceAccountingLine() ) {
-                    nonMandatoryTransferFromAmount = 
-                        nonMandatoryTransferFromAmount.add( line.getAmount() );
+            if (isNonMandatoryTransfersSubType(objectSubTypeCode)) {
+                if (line.isSourceAccountingLine()) {
+                    nonMandatoryTransferFromAmount = nonMandatoryTransferFromAmount.add(line.getAmount());
                 }
                 else {
-                    nonMandatoryTransferToAmount = 
-                        nonMandatoryTransferToAmount.add(line.getAmount());
+                    nonMandatoryTransferToAmount = nonMandatoryTransferToAmount.add(line.getAmount());
                 }
             }
             else if (isMandatoryTransfersSubType(objectSubTypeCode)) {
-                if( line.isSourceAccountingLine() ) {
-                    mandatoryTransferFromAmount =
-                        mandatoryTransferFromAmount.add(line.getAmount());
+                if (line.isSourceAccountingLine()) {
+                    mandatoryTransferFromAmount = mandatoryTransferFromAmount.add(line.getAmount());
                 }
                 else {
-                    mandatoryTransferToAmount = 
-                        mandatoryTransferToAmount.add(line.getAmount());
+                    mandatoryTransferToAmount = mandatoryTransferToAmount.add(line.getAmount());
                 }
             }
         }
 
-        // check that the amounts balance across mandatory transfers and 
+        // check that the amounts balance across mandatory transfers and
         // non-mandatory transfers
         boolean isValid = true;
 
-        if( mandatoryTransferFromAmount
-            .compareTo( mandatoryTransferToAmount ) != 0 ) {
+        if (mandatoryTransferFromAmount.compareTo(mandatoryTransferToAmount) != 0) {
             isValid = false;
             GlobalVariables.getErrorMap().put("document.sourceAccountingLines",
-                                              KeyConstants.ERROR_DOCUMENT_TOF_MANDATORY_TRANSFERS_DO_NOT_BALANCE);
+                    KeyConstants.ERROR_DOCUMENT_TOF_MANDATORY_TRANSFERS_DO_NOT_BALANCE);
         }
 
-        if( nonMandatoryTransferFromAmount
-            .compareTo( nonMandatoryTransferToAmount ) != 0 ) {
+        if (nonMandatoryTransferFromAmount.compareTo(nonMandatoryTransferToAmount) != 0) {
             isValid = false;
             GlobalVariables.getErrorMap().put("document.sourceAccountingLines",
-                                              KeyConstants.ERROR_DOCUMENT_TOF_NON_MANDATORY_TRANSFERS_DO_NOT_BALANCE);
+                    KeyConstants.ERROR_DOCUMENT_TOF_NON_MANDATORY_TRANSFERS_DO_NOT_BALANCE);
         }
 
         return isValid;
@@ -202,7 +198,8 @@ public class TransferOfFundsDocumentRule extends TransactionalDocumentRuleBase {
         String objectSubTypeCode = accountingLine.getObjectCode().getFinancialObjectSubTypeCode();
 
         if (!isMandatoryTransfersSubType(objectSubTypeCode) && !isNonMandatoryTransfersSubType(objectSubTypeCode)) {
-            GlobalVariables.getErrorMap().put("financialObjectCode",
+            GlobalVariables.getErrorMap().put(
+                    "financialObjectCode",
                     KeyConstants.ERROR_DOCUMENT_TOF_OBJECT_SUB_TYPE_NOT_MANDATORY_OR_NON_MANDATORY_TRANSFER,
                     new String[] { accountingLine.getObjectCode().getFinancialObjectSubType().getFinancialObjectSubTypeName(),
                             accountingLine.getFinancialObjectCode() });
@@ -210,5 +207,89 @@ public class TransferOfFundsDocumentRule extends TransactionalDocumentRuleBase {
         }
 
         return true;
+    }
+
+    /**
+     * 
+     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processSourceAccountingLineSufficientFundsCheckingPreparation(org.kuali.core.bo.SourceAccountingLine)
+     */
+    protected SufficientFundsItem processSourceAccountingLineSufficientFundsCheckingPreparation(
+            SourceAccountingLine sourceAccountingLine) {
+
+        return processAccountingLineSufficientFundsCheckingPreparation(sourceAccountingLine);
+    }
+
+    /**
+     * 
+     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processTargetAccountingLineSufficientFundsCheckingPreparation(org.kuali.core.bo.TargetAccountingLine)
+     */
+    protected SufficientFundsItem processTargetAccountingLineSufficientFundsCheckingPreparation(
+            TargetAccountingLine targetAccountingLine) {
+        return processAccountingLineSufficientFundsCheckingPreparation(targetAccountingLine);
+    }
+
+    /**
+     * fi_dtf:lp_proc_frm_ln,lp_proc_to_ln conslidated
+     * 
+     * @param accountingLine
+     * @return
+     */
+    private final SufficientFundsItem processAccountingLineSufficientFundsCheckingPreparation(AccountingLine accountingLine) {
+        SufficientFundsItem item = null;
+        String objectType = accountingLine.getObjectTypeCode();
+        String offsetDebitCreditCode = null;
+        KualiDecimal lineAmount = accountingLine.getAmount();
+        if (lineAmount == null) {
+            throw new IllegalArgumentException("Invalid (null) line amount");
+        }
+        // expense object types
+        // fi_dtf:lp_proc_frm_ln.36-2...48-3,50-3...67-3;; lp_proc_to_ln.36-2...48-3,50-3...67-3
+        if (isExpense(accountingLine) || isIncome(accountingLine) || isAsset(accountingLine) || isLiability(accountingLine)) {
+            if (accountingLine.getAmount().isPositive()) {
+                if (accountingLine.isSourceAccountingLine()) {
+                    offsetDebitCreditCode = Constants.GL_CREDIT_CODE;
+                }
+                else {
+                    offsetDebitCreditCode = Constants.GL_DEBIT_CODE;
+                }
+            }
+            else {
+                lineAmount = lineAmount.multiply(new KualiDecimal(Constants.NEGATIVE_ONE));
+                if (accountingLine.isSourceAccountingLine()) {
+                    offsetDebitCreditCode = Constants.GL_DEBIT_CODE;
+                }
+                else {
+                    offsetDebitCreditCode = Constants.GL_CREDIT_CODE;
+                }
+            }
+
+            // fi_dtf:lp_proc_frm_ln.46-03...48-3,lp_proc_to_ln.46-03...48-3
+            if (isExpense(accountingLine)) {
+                objectType = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(
+                        KUALI_TRANSACTION_PROCESSING_TRANSFER_OF_FUNDS_SECURITY_GROUPING,
+                        TRANSFER_OF_FUNDS_EXPENSE_OBJECT_TYPE_CODE);
+            }
+            // fi_dtf:lp_proc_frm_ln.60-4...62-4,lp_proc_to_ln.60-4...62-4
+            else if (isIncome(accountingLine)) {
+                objectType = SpringServiceLocator.getKualiConfigurationService()
+                        .getApplicationParameterValue(KUALI_TRANSACTION_PROCESSING_TRANSFER_OF_FUNDS_SECURITY_GROUPING,
+                                TRANSFER_OF_FUNDS_INCOME_OBJECT_TYPE_CODE);
+            }
+            if (StringUtils.isBlank(objectType)) {
+                throw new IllegalArgumentException("Invalid (null) object type");
+            }
+            String chartOfAccountsCode = accountingLine.getChartOfAccountsCode();
+            String acocuntNumber = accountingLine.getAccountNumber();
+            String accountSufficientFundsCode = accountingLine.getAccount().getAccountSufficientFundsCode();
+            String financialObjectCode = accountingLine.getFinancialObjectCode();
+            String financialObjectLevelCode = accountingLine.getObjectCode().getFinancialObjectLevelCode();
+            String sufficientFundsObjectCode = SpringServiceLocator.getSufficientFundsService().getSufficientFundsObjectCode(
+                    chartOfAccountsCode, financialObjectCode, accountSufficientFundsCode, financialObjectLevelCode);
+
+            item = buildSufficentFundsItem(acocuntNumber, accountSufficientFundsCode, lineAmount, chartOfAccountsCode,
+                    sufficientFundsObjectCode, offsetDebitCreditCode, financialObjectCode, financialObjectLevelCode, accountingLine
+                            .getPostingYear(), objectType);
+        }
+        return item;
     }
 }

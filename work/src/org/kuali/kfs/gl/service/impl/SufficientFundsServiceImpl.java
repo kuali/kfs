@@ -110,7 +110,7 @@ public class SufficientFundsServiceImpl implements SufficientFundsService {
         for (Iterator i = event.getSufficientFundsItemHelper().iterator(); i.hasNext() && isSufficientFunds;) {
             SufficientFundsItem item = (SufficientFundsItem) i.next();
             if (item.getAmount().isPositive()) {
-                isSufficientFunds &= checkSufficientFunds(item.getPropertyName(), item.getFiscalYear(), item
+                isSufficientFunds &= checkSufficientFunds(item.getPropertyNames(), item.getFiscalYear(), item
                         .getChartOfAccountsCode(), item.getAccountNumber(), item.getSufficientFundsObjectCode(), item.getAmount(),
                         transactionalDocument.getClass());
             }
@@ -130,7 +130,7 @@ public class SufficientFundsServiceImpl implements SufficientFundsService {
      * @param documentClass
      * @return
      */
-    private boolean checkSufficientFunds(String propertyName, Integer universityFiscalYear, String chartOfAccountsCode,
+    private boolean checkSufficientFunds(List propertyNames, Integer universityFiscalYear, String chartOfAccountsCode,
             String accountNumber, String sufficientFundsObjectCode, KualiDecimal amount, Class documentClass) {
 
         if (universityFiscalYear == null) {
@@ -190,7 +190,7 @@ public class SufficientFundsServiceImpl implements SufficientFundsService {
 
         sfBalances.setUniversityFiscalYear(originalUniversityFiscalYear);
 
-        return calculatePLEBuckets(propertyName, isYearEndDocument, amount, sufficientFundsObjectCode, sfBalances);
+        return calculatePLEBuckets(propertyNames, isYearEndDocument, amount, sufficientFundsObjectCode, sfBalances);
     }
 
     /**
@@ -202,7 +202,7 @@ public class SufficientFundsServiceImpl implements SufficientFundsService {
      * @param sufficientFundBalances
      * @return
      */
-    private boolean calculatePLEBuckets(String propertyName, boolean isYearEndDocument, KualiDecimal lineAmount,
+    private boolean calculatePLEBuckets(List propertyNames, boolean isYearEndDocument, KualiDecimal lineAmount,
             String sufficientFundsObjectCode, SufficientFundBalances sufficientFundBalances) {
         Integer universityFiscalYear = sufficientFundBalances.getUniversityFiscalYear();
         String chartOfAccountsCode = sufficientFundBalances.getChartOfAccountsCode();
@@ -240,7 +240,7 @@ public class SufficientFundsServiceImpl implements SufficientFundsService {
                     chartOfAccountsCode, accountNumber, accountSufficientFundsCode, getExpenditureCodes());
         }
         //
-        return hasSufficientFunds(propertyName, options.isFinancialBeginBalanceLoadInd(), lineAmount, accountSufficientFundsCode,
+        return hasSufficientFunds(propertyNames, options.isFinancialBeginBalanceLoadInd(), lineAmount, accountSufficientFundsCode,
                 pfyrBudget, pfyrEncum, pendingActual, pendingBudget, pendingEncumb, sufficientFundBalances,
                 sufficientFundsObjectCode);
     }
@@ -257,7 +257,7 @@ public class SufficientFundsServiceImpl implements SufficientFundsService {
      * @param sufficientFundBalances
      * @return
      */
-    private boolean hasSufficientFunds(String propertyName, boolean financialBeginBalanceLoadInd, KualiDecimal lineAmount,
+    private boolean hasSufficientFunds(List propertyNames, boolean financialBeginBalanceLoadInd, KualiDecimal lineAmount,
             String sufficientFundsCode, KualiDecimal pfyrBudget, KualiDecimal pfyrEncum, KualiDecimal pendingActual,
             KualiDecimal pendingBudget, KualiDecimal pendingEncumb, SufficientFundBalances sufficientFundBalances,
             String sufficientFundsObjectCode) {
@@ -289,7 +289,10 @@ public class SufficientFundsServiceImpl implements SufficientFundsService {
             // create error message parameter list
             String[] errorParameters = { sufficientFundBalances.getAccountNumber(), sufficientFundsObjectCode,
                     sufficientFundBalances.getAccountSufficientFundsCode() };
-            GlobalVariables.getErrorMap().put(propertyName, KeyConstants.SufficientFunds.ERROR_INSUFFICIENT_FUNDS, errorParameters);
+            for (Iterator i = propertyNames.iterator(); i.hasNext();) {
+                GlobalVariables.getErrorMap().put((String) i.next(), KeyConstants.SufficientFunds.ERROR_INSUFFICIENT_FUNDS,
+                        errorParameters);
+            }
         }
         return isSufficient;
     }
@@ -321,7 +324,7 @@ public class SufficientFundsServiceImpl implements SufficientFundsService {
 
     // msa apc
     private List getExpenditureCodes() {
-        // msa apc
+        // msa apc ex;es;ee;te
         final List list = new ArrayList();
         list.add("EX");
         list.add("ES");

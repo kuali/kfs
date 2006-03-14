@@ -26,13 +26,20 @@
 package org.kuali.module.financial.document;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.Constants;
 import org.kuali.core.document.DocumentBase;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.CashDrawer;
 import org.kuali.module.financial.bo.Deposit;
+
+import edu.iu.uis.eden.EdenConstants;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -140,6 +147,78 @@ public class CashManagementDocument extends DocumentBase {
         while (deposits.size() < minSize) {
             deposits.add(new Deposit());
         }
+    }
+
+
+    private static final Set FAILURE_CODES;
+    static {
+        String[] FAILURE_CODE_ARRAY = { EdenConstants.ROUTE_HEADER_CANCEL_DISAPPROVE_CD, EdenConstants.ROUTE_HEADER_DISAPPROVED_CD,
+                EdenConstants.ROUTE_HEADER_CANCEL_CD,
+        // EdenConstants.ROUTE_HEADER_EXCEPTION_CD
+        };
+        FAILURE_CODES = new HashSet();
+        for (int i = 0; i < FAILURE_CODE_ARRAY.length; ++i) {
+            FAILURE_CODES.add(FAILURE_CODE_ARRAY[i]);
+        }
+    }
+
+    /**
+     * @see org.kuali.core.document.DocumentBase#handleRouteStatusChange(java.lang.String)
+     */
+    public void handleRouteStatusChange(String newRouteStatus) {
+        boolean docChanged = false;
+
+        // all approvals have been processed, complete everything
+        if (StringUtils.equals(newRouteStatus, EdenConstants.ROUTE_HEADER_PROCESSED_CD)) {
+            handleSuccess();
+            docChanged = true;
+        }
+        // document has been canceled or disapproved,
+        else if (FAILURE_CODES.contains(newRouteStatus)) {
+            handleFailure();
+            // docChanged = true;
+        }
+
+        if (docChanged) {
+            SpringServiceLocator.getDocumentService().updateDocument(this);
+        }
+    }
+
+    private void handleSuccess() {
+        // when CashManagementDocument goes to final
+        // 1. for each CashReceipt of each associated Deposit, change the CashReceipt's status to APPROVED "A"
+        for (Iterator eachDeposit = getDeposits().iterator(); eachDeposit.hasNext();) {
+            Deposit dep = (Deposit) eachDeposit.next();
+
+            List receipts = SpringServiceLocator.getCashManagementService().retrieveCashReceipts(dep);
+            for (Iterator eachReceipt = receipts.iterator(); eachReceipt.hasNext();) {
+                CashReceiptDocument receipt = (CashReceiptDocument) eachReceipt.next();
+
+                receipt.getDocumentHeader().setFinancialDocumentStatusCode(Constants.DOCUMENT_STATUS_CD_APPROVED_PROCESSED);
+                SpringServiceLocator.getDocumentService().updateDocument(receipt);
+            }
+        }
+
+        // 2. Open the cash drawer.
+        SpringServiceLocator.getCashDrawerService().openCashDrawer(getWorkgroupName());
+
+        // 3. Change the status of the CMD to APPROVED "A"
+        getDocumentHeader().setFinancialDocumentStatusCode(Constants.DOCUMENT_STATUS_CD_APPROVED_PROCESSED);
+    }
+
+    private void handleFailure() {
+        // when a CashManagementDocument meets with an untimely demise, unwind everything involved
+        // 1. cancel each deposit (which handles resetting the CashReceipt statii)
+        for (Iterator eachDeposit = getDeposits().iterator(); eachDeposit.hasNext();) {
+            Deposit dep = (Deposit) eachDeposit.next();
+            SpringServiceLocator.getCashManagementService().cancelDeposit(dep);
+        }
+
+        // 2. Open the cash drawer.
+        SpringServiceLocator.getCashDrawerService().openCashDrawer(getWorkgroupName());
+
+        // 3. Change the status of the CMD to something, probably
+        // getDocumentHeader().setFinancialDocumentStatusCode(Constants.DOCUMENT_STATUS_CD_APPROVED_PROCESSED);
     }
 
 

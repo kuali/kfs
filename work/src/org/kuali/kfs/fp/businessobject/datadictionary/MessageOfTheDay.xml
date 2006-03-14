@@ -58,7 +58,7 @@
 
                 <maxLength>2000</maxLength>
                 <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
-				<required>true</required>
+				<required>false</required>
 
 				<control>
 					<textarea rows="5" cols="40" />

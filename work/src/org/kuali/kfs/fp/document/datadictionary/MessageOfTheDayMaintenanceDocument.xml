@@ -34,7 +34,7 @@
 	        <maintainableSection title="Edit Message Of The Day">
 	        	<maintainableItems>
 	            	<maintainableField name="financialSystemOriginationCode" required="true" />
-	            	<maintainableField name="financialSystemMessageOfTheDayText" required="true" />
+	            	<maintainableField name="financialSystemMessageOfTheDayText" required="false" />
                  <maintainableField name="versionNumber" />	       	
 	            </maintainableItems>         	                   
 	        </maintainableSection>

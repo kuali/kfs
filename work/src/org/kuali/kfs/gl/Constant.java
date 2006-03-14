@@ -80,4 +80,18 @@ public final class Constant {
     public static final String TOTAL_ACCOUNT_BALANCE_EXPENSE_GROSS = "Expense(Gross)";
     public static final String TOTAL_ACCOUNT_BALANCE_EXPENSE_IN = "Expense(Net Transfer In)";
     public static final String TOTAL_ACCOUNT_BALANCE_AVAILABLE = "Avaliable Balance";
+    
+    public static final String MONTH1  = "01";
+    public static final String MONTH2  = "02";
+    public static final String MONTH3  = "03";
+    public static final String MONTH4  = "04";
+    public static final String MONTH5  = "05";
+    public static final String MONTH6  = "06";
+    public static final String MONTH7  = "07";
+    public static final String MONTH8  = "08";
+    public static final String MONTH9  = "09";
+    public static final String MONTH10 = "10";
+    public static final String MONTH11 = "11";
+    public static final String MONTH12 = "12";
+    public static final String MONTH13 = "13";
 }

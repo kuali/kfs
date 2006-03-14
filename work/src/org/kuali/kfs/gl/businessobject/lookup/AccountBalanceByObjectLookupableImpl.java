@@ -55,9 +55,9 @@ public class AccountBalanceByObjectLookupableImpl extends AbstractGLLookupableIm
      */
     public String getInquiryUrl(BusinessObject bo, String propertyName) {
         if (propertyName.equals("dummyBusinessObject.linkButtonOption")) {
-            return AccountBalanceByObjectInquirableImpl.getInquiryUrl(bo, propertyName, true);
+            return (new AccountBalanceByObjectInquirableImpl()).getInquiryUrl(bo, propertyName);
         }
-        return AccountBalanceInquirableImpl.getInquiryUrl(bo, propertyName, true);
+        return (new AccountBalanceInquirableImpl()).getInquiryUrl(bo, propertyName);
     }
 
     /**

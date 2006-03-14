@@ -30,6 +30,7 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.kuali.Constants;
+import org.kuali.PropertyConstants;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.bo.KualiSystemCode;
 import org.kuali.core.inquiry.KualiInquirableImpl;
@@ -42,7 +43,7 @@ import org.kuali.core.util.UrlFactory;
 import org.kuali.module.gl.web.Constant;
 
 /**
- * This class is the template class for the customized inqurable implementations used to generate balance inquiry screens
+ * This class is the template class for the customized inqurable implementations used to generate balance inquiry screens. 
  * 
  * @author Bin Gao from Michigan State University
  */
@@ -55,7 +56,7 @@ public abstract class AbstractGLInquirableImpl extends KualiInquirableImpl {
      * @param attributeName the attribute name which links to an inquirable
      * @return String url to inquiry
      */
-    public static String getInquiryUrl(BusinessObject businessObject, String attributeName, boolean forceInquiry) {
+    public String getInquiryUrl(BusinessObject businessObject, String attributeName) {
 
         BusinessObjectDictionaryService businessDictionary = SpringServiceLocator.getBusinessObjectDictionaryService();
         PersistenceStructureService persistenceStructureService = SpringServiceLocator.getPersistenceStructureService();
@@ -117,7 +118,7 @@ public abstract class AbstractGLInquirableImpl extends KualiInquirableImpl {
             parameters.put(Constants.DOC_FORM_KEY, "88888888");
 
             // add more customized parameters into the current parameter map
-            addMoreParameters(parameters);
+            addMoreParameters(parameters, attributeName);
         }
         else if (persistenceStructureService.isPersistable(inquiryBusinessObjectClass)) {
             keys = persistenceStructureService.listPrimaryKeyFieldNames(inquiryBusinessObjectClass);
@@ -151,7 +152,7 @@ public abstract class AbstractGLInquirableImpl extends KualiInquirableImpl {
             keyValue = (keyValue == null) ? "" : keyValue.toString();
 
             // convert the key value and name into the given ones
-            keyValue = getKeyValue(keyValue);
+            keyValue = getKeyValue(keyName, keyValue);
             keyName = getKeyName(keyName);
 
             // add the key-value pair into the parameter map
@@ -166,18 +167,14 @@ public abstract class AbstractGLInquirableImpl extends KualiInquirableImpl {
      * 
      * @return key list
      */
-    private static List buildUserDefinedAttributeKeyList() {
-        return new ArrayList();
-    }
+    protected abstract List buildUserDefinedAttributeKeyList();
 
     /**
      * This method defines the user-defined attribute map
      * 
      * @return the user-defined attribute map
      */
-    private static Map getUserDefinedAttributeMap() {
-        return new HashMap();
-    }
+    protected abstract Map getUserDefinedAttributeMap();
 
     /**
      * This method finds the matching attribute name of given one
@@ -185,63 +182,74 @@ public abstract class AbstractGLInquirableImpl extends KualiInquirableImpl {
      * @param attributeName the given attribute name
      * @return the attribute name from the given one
      */
-    private static String getAttributeName(String attributeName) {
-        return attributeName;
-    }
+    protected abstract String getAttributeName(String attributeName);
 
     /**
      * This method finds the matching the key value of the given one
      * 
+     * @param keyName the given key name
      * @param keyValue the given key value
      * @return the key value from the given key value
      */
-    private static Object getKeyValue(Object keyValue) {
-        return keyValue;
-    }
-
+    protected abstract Object getKeyValue(String keyName, Object keyValue);
+    
     /**
      * This method finds the matching the key name of the given one
      * 
      * @param keyName the given key name
      * @return the key value from the given key name
      */
-    private static String getKeyName(String keyName) {
-        return keyName;
-    }
+    protected abstract String getKeyName(String keyName);
 
     /**
      * This method defines the lookupable implementation attribute name
      * 
      * @return the lookupable implementation attribute name
      */
-    private static String getLookupableImplAttributeName() {
-        return Constants.LOOKUPABLE_IMPL_ATTRIBUTE_NAME;
-    }
+    protected abstract String getLookupableImplAttributeName();
 
     /**
      * This method defines the base inquiry url
      * 
      * @return the base inquiry url
      */
-    private static String getBaseUrl() {
-        return Constants.INQUIRY_ACTION;
-    }
+    protected abstract String getBaseUrl();
 
     /**
      * This method gets the class name of the inquiry business object
      * 
      * @return the class name of the inquiry business object
      */
-    private static Class getInquiryBusinessObjectClass() {
-        return AbstractGLInquirableImpl.class;
-    }
+    protected abstract Class getInquiryBusinessObjectClass();
 
     /**
      * This method adds more parameters into the curren parameter map
      * 
      * @param parameter the current parameter map
      */
-    private static void addMoreParameters(Properties parameter) {
-        parameter.put(Constants.LOOKUPABLE_IMPL_ATTRIBUTE_NAME, getLookupableImplAttributeName());
+    protected abstract void addMoreParameters(Properties parameter, String attributeName);
+    
+    
+    /**
+     * This method determines whether the input name-value pair is exclusive from the processing
+     * 
+     * @param keyName the name of the name-value pair
+     * @param keyValue the value of the name-value pair
+     * @return true if the input key is in the exclusive list; otherwise, false
+     */
+    protected boolean isExclusiveField(Object keyName, Object keyValue) {
+
+        if (keyName != null && keyValue != null) {
+            if (keyName.equals(PropertyConstants.SUB_ACCOUNT_NUMBER) && keyValue.equals(Constant.CONSOLIDATED_SUB_ACCOUNT_NUMBER)) {
+                return true;
+            }
+            else if (keyName.equals(PropertyConstants.SUB_OBJECT_CODE) && keyValue.equals(Constant.CONSOLIDATED_SUB_OBJECT_CODE)) {
+                return true;
+            }
+            else if (keyName.equals(PropertyConstants.OBJECT_TYPE_CODE) && keyValue.equals(Constant.CONSOLIDATED_OBJECT_TYPE_CODE)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

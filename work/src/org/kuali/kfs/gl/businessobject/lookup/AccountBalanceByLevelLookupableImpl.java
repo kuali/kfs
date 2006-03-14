@@ -52,7 +52,7 @@ public class AccountBalanceByLevelLookupableImpl extends AbstractGLLookupableImp
      * @return String url to inquiry
      */
     public String getInquiryUrl(BusinessObject bo, String propertyName) {
-        return AccountBalanceByLevelInquirableImpl.getInquiryUrl(bo, propertyName, true);
+        return (new AccountBalanceByLevelInquirableImpl()).getInquiryUrl(bo, propertyName);
     }    
     
     /**

@@ -208,7 +208,7 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
         if (Utilities.isEmpty(getFinCoaCd()) || Utilities.isEmpty(getAccountNbr())) {
             return "";
         }
-        return "<" + ACCOUNT_ATTRIBUTE + ">" + "<" + FIN_COA_CD_KEY + ">" + getFinCoaCd() + "</" + FIN_COA_CD_KEY + ">" + "<" + ACCOUNT_NBR_KEY + ">" + getAccountNbr() + "</" + ACCOUNT_NBR_KEY + ">" + "<" + FDOC_TOTAL_DOLLAR_AMOUNT_KEY + ">" + getTotalDollarAmount() + "</" + FDOC_TOTAL_DOLLAR_AMOUNT_KEY + ">" + "</" + ACCOUNT_ATTRIBUTE + ">";
+        return "<report><chart>" + getFinCoaCd() + "</chart><accountNumber>" + getAccountNbr() + "</accountNumber><totalDollarAmount>" + getTotalDollarAmount() + "</totalDollarAmount></report>";
     }
 
     public String getAttributeLabel() {
@@ -374,7 +374,16 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
             XPath xpath = XPathFactory.newInstance().newXPath();
             String docTypeName = docContent.getRouteContext().getDocument().getDocumentType().getName();
             if (FISCAL_OFFICER_ROLE_KEY.equals(roleName) || FISCAL_OFFICER_PRIMARY_DELEGATE_ROLE_KEY.equals(roleName) || FISCAL_OFFICER_SECONDARY_DELEGATE_ROLE_KEY.equals(roleName)) {
-                if (docTypeName.equals(ACCOUNT_DOC_TYPE)) {
+                if (((Boolean)xpath.evaluate("/report", docContent.getDocument(), XPathConstants.BOOLEAN)).booleanValue()) {
+                	String chart = xpath.evaluate("/report/chart", docContent.getDocument());
+                	String accountNumber = xpath.evaluate("/report/accountNumber", docContent.getDocument());
+                	String totalDollarAmount = xpath.evaluate("/report/totalDollarAmount", docContent.getDocument());
+                	FiscalOfficerRole role = new FiscalOfficerRole(roleName);
+                	role.chart = chart;
+                	role.accountNumber = accountNumber;
+                	role.totalDollarAmount = totalDollarAmount;
+                	qualifiedRoleNames.add(getQualifiedRoleString(role));
+                } else if (docTypeName.equals(ACCOUNT_DOC_TYPE)) {
                 	String newFiscalOfficerId = xpath.evaluate(NEW_MAINTAINABLE_PREFIX+PropertyConstants.ACCOUNT_FISCAL_OFFICER_SYSTEM_IDENTIFIER, docContent.getDocument());;
                 	String oldFiscalOfficerId = xpath.evaluate(OLD_MAINTAINABLE_PREFIX+PropertyConstants.ACCOUNT_FISCAL_OFFICER_SYSTEM_IDENTIFIER, docContent.getDocument());
                 	boolean isNewAccount = oldFiscalOfficerId == null;

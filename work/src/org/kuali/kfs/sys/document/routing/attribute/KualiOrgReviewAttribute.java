@@ -71,6 +71,7 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
     private static final String ORG_REVIEW_ORG_CD_KEY = "org_review_org_cd";
     private static final String FROM_AMOUNT_KEY = "fromAmount";
     private static final String TO_AMOUNT_KEY = "toAmount";
+    private static final String TOTAL_AMOUNT_KEY = "totalAmount";
     private static final String OVERRIDE_CD_KEY = "overrideCd";
 
     private static final String ORG_REVIEW_ATTRIBUTE = "KUALI_ORG_REVIEW_ATTRIBUTE";
@@ -89,6 +90,7 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
     private String toAmount;
     private String fromAmount;
     private String overrideCd;
+    private String totalDollarAmount;
     private boolean required;
     private List rows;
 
@@ -158,9 +160,11 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
 
         return extensions;
     }
-
-    public List validateRoutingData(Map paramMap) {
-
+    
+    /**
+     * @see edu.iu.uis.eden.plugin.attributes.WorkflowAttribute#validateRuleData(java.util.Map)
+     */
+    public List validateRuleData(Map paramMap) {
         List errors = new ArrayList();
         this.finCoaCd = (String) paramMap.get(ORG_REVIEW_FIN_COA_CD_KEY);
         this.orgCd = (String) paramMap.get(ORG_REVIEW_ORG_CD_KEY);
@@ -192,6 +196,37 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
             errors.add(new WorkflowServiceErrorImpl("From Amount is invalid.", ""));
         } else if (StringUtils.isNotBlank(fromAmount) && !StringUtils.isNumeric(fromAmount)) {
             errors.add(new WorkflowServiceErrorImpl("From Amount is invalid.", ""));
+        }
+        
+        return errors;
+    }    
+
+    public List validateRoutingData(Map paramMap) {
+
+        List errors = new ArrayList();
+        this.finCoaCd = (String) paramMap.get(ORG_REVIEW_FIN_COA_CD_KEY);
+        this.orgCd = (String) paramMap.get(ORG_REVIEW_ORG_CD_KEY);
+        this.totalDollarAmount = (String)paramMap.get(TOTAL_AMOUNT_KEY);
+        this.overrideCd = (String) paramMap.get(OVERRIDE_CD_KEY);
+
+        this.finCoaCd = (String) paramMap.get(ORG_REVIEW_FIN_COA_CD_KEY);
+        this.orgCd = (String) paramMap.get(ORG_REVIEW_ORG_CD_KEY);
+        if (isRequired() && (this.finCoaCd == null || "".equals(finCoaCd) || (this.orgCd == null || "".equals(orgCd)))) {
+            errors.add(new WorkflowServiceErrorImpl("Chart/org is required.", "routetemplate.chartorgattribute.chartorg.required"));
+        } else if ((this.finCoaCd != null && !"".equals(finCoaCd) && ((this.orgCd == null || "".equals(orgCd)))) || ((this.finCoaCd == null || "".equals(finCoaCd)) && this.orgCd != null && !"".equals(orgCd))) {
+            errors.add(new WorkflowServiceErrorImpl("Chart/org is invalid.", "routetemplate.chartorgattribute.chartorg.invalid"));
+        }
+        
+        if (this.finCoaCd != null && !"".equals(finCoaCd) && this.orgCd != null && !"".equals(orgCd)) {
+            if (!isValidOrg(finCoaCd, orgCd)) {
+                errors.add(new WorkflowServiceErrorImpl("Chart/org is invalid.", "routetemplate.chartorgattribute.chartorg.invalid"));
+            }
+        }
+
+        if (isRequired() && !StringUtils.isNumeric(totalDollarAmount)) {
+            errors.add(new WorkflowServiceErrorImpl("Total Amount is invalid.", ""));
+        } else if (StringUtils.isNotBlank(totalDollarAmount) && !StringUtils.isNumeric(totalDollarAmount)) {
+            errors.add(new WorkflowServiceErrorImpl("Total Amount is invalid.", ""));
         }
         
         return errors;
@@ -254,12 +289,7 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
         return kualiFiscalOrganization;
     }
 
-    /**
-     * @see edu.iu.uis.eden.plugin.attributes.WorkflowAttribute#validateRuleData(java.util.Map)
-     */
-    public List validateRuleData(Map paramMap) {
-        return validateRoutingData(paramMap);
-    }
+
 
     /**
      * @see edu.iu.uis.eden.plugin.attributes.WorkflowAttribute#getDocContent()
@@ -268,7 +298,9 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
         if (Utilities.isEmpty(getFinCoaCd()) || Utilities.isEmpty(getOrgCd())) {
             return "";
         }
-        return "<" + ORG_REVIEW_ATTRIBUTE + ">" + "<" + FIN_COA_CD_KEY + ">" + getFinCoaCd() + "</" + FIN_COA_CD_KEY + ">" + "<" + ORG_CD_KEY + ">" + getOrgCd() + "</" + ORG_CD_KEY + ">" + "</" + ORG_REVIEW_ATTRIBUTE + ">";
+        return "<report><chart>" + getFinCoaCd() + "</chart><org>" + getOrgCd() + 
+        	"</org><totalDollarAmount>" + getTotalDollarAmount() + "</totalDollarAmount>" +
+        	"<overrideCode>" + getOverrideCd() + "</overrideCode></report>";
     }
 
     public String getAttributeLabel() {
@@ -369,7 +401,11 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
         try {
         	String chart = null;
         	String org = null;
-        	if (docType.getName().equals(ACCOUNT_DOC_TYPE) ||
+        	boolean isReport = ((Boolean)xpath.evaluate("//report", docContent.getDocument(), XPathConstants.BOOLEAN)).booleanValue();
+        	if (isReport) {
+        		chart = xpath.evaluate("//chart", docContent.getDocument());
+        		org = xpath.evaluate("//org", docContent.getDocument());
+        	} else if (docType.getName().equals(ACCOUNT_DOC_TYPE) ||
         			docType.getName().equals(FIS_USER_DOC_TYPE)) {
         		chart = xpath.evaluate(MAINTAINABLE_PREFIX+"chartOfAccountsCode", docContent.getDocument());
         		org = xpath.evaluate(MAINTAINABLE_PREFIX+"organizationCode", docContent.getDocument());
@@ -436,6 +472,11 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
 
     private String getOverrideCd(DocumentType docType, DocumentContent docContent) {
         try {
+        	XPath xpath = XPathFactory.newInstance().newXPath();
+        	boolean isReport = ((Boolean)xpath.evaluate("//report", docContent.getDocument(), XPathConstants.BOOLEAN)).booleanValue();
+        	if (isReport) {
+        		return xpath.evaluate("//report/overrideCode", docContent.getDocument());
+        	}
             String xpathExp = null;
             do {
                 if (docType.getName().equals("KualiMaintenanceDocument")) {
@@ -452,7 +493,6 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
 
             } while (docType != null);
 
-            XPath xpath = XPathFactory.newInstance().newXPath();
             return xpath.evaluate(xpathExp, docContent.getDocument());
 
         } catch (Exception e) {
@@ -464,6 +504,16 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
 
     private Float getAmount(DocumentType docType, DocumentContent docContent) {
         try {
+        	XPath xpath = XPathFactory.newInstance().newXPath();
+        	boolean isReport = ((Boolean)xpath.evaluate("//report", docContent.getDocument(), XPathConstants.BOOLEAN)).booleanValue();
+        	if (isReport) {
+        		String floatVal = xpath.evaluate("//report/totalDollarAmount", docContent.getDocument());
+        		if (StringUtils.isNumeric(floatVal) && StringUtils.isNotEmpty(floatVal)) {
+        			return new Float(floatVal);	
+        		} else {
+        			return new Float(0);
+        		}
+        	}
             String xpathExp = null;
             do {
                 if (docType.getName().equals("KualiMaintenanceDocument")) {
@@ -480,7 +530,6 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
 
             } while (docType != null);
 
-            XPath xpath = XPathFactory.newInstance().newXPath();
             String value = xpath.evaluate(xpathExp, docContent.getDocument());
             if (value == null) {
                 throw new RuntimeException("Didn't find amount for document " + docContent.getRouteContext().getDocument().getRouteHeaderId());
@@ -503,7 +552,25 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
      * simple getter for the routing data rows
      */
     public List getRoutingDataRows() {
-        return rows;
+        List routingRows = new ArrayList();
+
+        List fields = new ArrayList();
+        fields.add(new Field("Chart", "", Field.TEXT, true, ORG_REVIEW_FIN_COA_CD_KEY, "", null, null, FIN_COA_CD_KEY));
+        routingRows.add(new Row(fields));
+
+        fields = new ArrayList();
+        fields.add(new Field("Org", "", Field.TEXT, true, ORG_REVIEW_ORG_CD_KEY, "", null, null, ORG_CD_KEY));
+        routingRows.add(new Row(fields));
+
+        fields = new ArrayList();
+        fields.add(new Field("Total Amount", "", Field.TEXT, true, TOTAL_AMOUNT_KEY, "", null, null, TOTAL_AMOUNT_KEY));
+        routingRows.add(new Row(fields));
+
+        fields = new ArrayList();
+        fields.add(new Field("Override Code", "", Field.TEXT, true, OVERRIDE_CD_KEY, "", null, null, OVERRIDE_CD_KEY));
+        routingRows.add(new Row(fields));
+        
+        return routingRows;
     }
 
     /**
@@ -542,7 +609,23 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
         this.orgCd = orgCd;
     }
 
-    /**
+    public String getTotalDollarAmount() {
+		return totalDollarAmount;
+	}
+
+	public void setTotalDollarAmount(String totalDollarAmount) {
+		this.totalDollarAmount = totalDollarAmount;
+	}
+
+	public String getOverrideCd() {
+		return overrideCd;
+	}
+
+	public void setOverrideCd(String overrideCd) {
+		this.overrideCd = overrideCd;
+	}
+
+	/**
      * simple getter for required
      */
     public boolean isRequired() {

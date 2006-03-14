@@ -218,6 +218,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         // object), must either be none filled out, or all filled out.
         success &= checkForPartiallyFilledOutReferenceForeignKeys("continuationAccount");
         success &= checkForPartiallyFilledOutReferenceForeignKeys("incomeStreamAccount");
+        success &= checkForPartiallyFilledOutReferenceForeignKeys("endowmentIncomeAccount");
         
         return success;
     }

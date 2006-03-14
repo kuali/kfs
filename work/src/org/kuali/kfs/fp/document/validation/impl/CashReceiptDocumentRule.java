@@ -35,6 +35,7 @@ import org.kuali.core.rule.UpdateCheckRule;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.module.chart.bo.ObjLevel;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.financial.bo.CashDrawer;
@@ -352,6 +353,9 @@ public class CashReceiptDocumentRule extends TransactionalDocumentRuleBase imple
      * Method used by <code>{@link CashReceiptCoverPageService}</code> to
      * determine of the <code>{@link CashReceiptDocument}</code> validates 
      * business rules for generating a cover page.
+     * <br/>
+     * <br/>
+     * Rule is the <code>{@link Document}</code> must be ENROUTE.
      * 
      * @param document
      * @return boolean
@@ -359,6 +363,17 @@ public class CashReceiptDocumentRule extends TransactionalDocumentRuleBase imple
      * @see org.kuali.core.module.financial.service.CashReceiptCoverSheetServiceImpl#generateCoverSheet( org.kuali.module.financial.documentCashReceiptDocument )
      */
     public boolean isCoverSheetPrintable( CashReceiptDocument document ) {
+        KualiWorkflowDocument workflowDocument = 
+            document.getDocumentHeader().getWorkflowDocument();
+        /*
+          Uncomment this when coversheet is finished being built correctly.
+        return !(workflowDocument.stateIsCanceled() 
+                 || workflowDocument.stateIsInitiated() 
+                 || workflowDocument.stateIsDisapproved()
+                 || workflowDocument.stateIsException() 
+                 || workflowDocument.stateIsDisapproved() 
+                 || workflowDocument.stateIsSaved());
+        */
         return true;
     }
 }

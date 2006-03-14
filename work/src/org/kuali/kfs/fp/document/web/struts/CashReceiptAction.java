@@ -93,11 +93,11 @@ public class CashReceiptAction extends KualiTransactionalDocumentActionBase {
      * @return
      * @throws Exception
      */
-    public ActionForward printCashReceiptCoverSheet(ActionMapping mapping, 
-                                                    ActionForm form, 
-                                                    HttpServletRequest request,
-                                                    
-                                                    HttpServletResponse response) 
+    public ActionForward printCoverSheet(ActionMapping mapping, 
+                                         ActionForm form, 
+                                         HttpServletRequest request,
+                                         
+                                         HttpServletResponse response) 
         throws Exception {
 
         // get directory of tempate
@@ -117,7 +117,7 @@ public class CashReceiptAction extends KualiTransactionalDocumentActionBase {
         CashReceiptCoverSheetService coverSheetService = 
             new CashReceiptCoverSheetServiceImpl();
 
-        coverSheetService.generateCoverSheet( document, baos );
+        coverSheetService.generateCoverSheet( document, directory, baos );
         String fileName = document
             .getFinancialDocumentNumber() + "_cover_sheet.pdf";
         WebUtils.saveMimeOutputStreamAsFile( response, 

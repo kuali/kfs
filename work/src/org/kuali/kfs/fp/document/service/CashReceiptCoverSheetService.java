@@ -47,10 +47,12 @@ public interface CashReceiptCoverSheetService {
      * coversheet.
      * 
      * @param document
+     * @param searchPath
      * @param OutputStream
      * @exception DocumentException
      * @exception IOException
      */
     public void generateCoverSheet( CashReceiptDocument document,
+                                    String searchPath,
                                     OutputStream outputStream) throws DocumentException, IOException;
 }

@@ -31,12 +31,14 @@ import org.kuali.Constants;
 import org.kuali.KeyConstants;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.core.web.format.SimpleBooleanFormatter;
 import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
 import org.kuali.module.financial.bo.CashDrawer;
 import org.kuali.module.financial.bo.Check;
 import org.kuali.module.financial.bo.CheckBase;
 import org.kuali.module.financial.document.CashManagementDocument;
 import org.kuali.module.financial.document.CashReceiptDocument;
+import org.kuali.module.financial.rules.CashReceiptDocumentRule;
 
 /**
  * This class is the action form for Cash Receipts.
@@ -46,6 +48,7 @@ import org.kuali.module.financial.document.CashReceiptDocument;
 
 public class CashReceiptForm extends KualiTransactionalDocumentFormBase {
     private static final long serialVersionUID = 1L;
+    private static final String CAN_PRINT_COVERSHEET_SIG_STR = "isCoverSheetPrintingAllowed";
     private Check newCheck;
 
     private KualiDecimal checkTotal;
@@ -60,6 +63,8 @@ public class CashReceiptForm extends KualiTransactionalDocumentFormBase {
      */
     public CashReceiptForm() {
         super();
+        setFormatterType( CAN_PRINT_COVERSHEET_SIG_STR, 
+                          SimpleBooleanFormatter.class );
         setDocument(new CashReceiptDocument());
         setNewCheck(new CheckBase());
 
@@ -245,5 +250,18 @@ public class CashReceiptForm extends KualiTransactionalDocumentFormBase {
                     Constants.CashReceiptConstants.CASH_RECEIPT_VERIFICATION_UNIT);
         }
         return cashDrawerStatusMessage;
+    }
+
+    /**
+     * determines if the <code>{@link CashReceiptDocument}</code> is in a 
+     * state that allows printing of the cover sheet.
+     * 
+     * @return
+     */
+    public boolean isCoverSheetPrintingAllowed() {
+        CashReceiptDocumentRule rule = new CashReceiptDocumentRule();
+
+        return rule
+            .isCoverSheetPrintable( ( CashReceiptDocument )getDocument());
     }
 }

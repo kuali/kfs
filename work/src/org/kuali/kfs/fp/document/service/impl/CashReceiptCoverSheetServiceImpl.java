@@ -77,12 +77,14 @@ public class CashReceiptCoverSheetServiceImpl
      * coversheet.
      * 
      * @param document
+     * @param searchPath
      * @param OutputStream
      * @exception DocumentException
      * @exception IOException
      * @see org.kuali.core.module.financial.service.CashReceiptCoverSheetServiceImpl#generateCoverSheet( org.kuali.module.financial.documentCashReceiptDocument )
      */
     public void generateCoverSheet( CashReceiptDocument document,
+                                    String searchPath,
                                     OutputStream outputStream ) 
         throws DocumentException, IOException {
         String templateDirectory = CR_COVERSHEET_TEMPLATE_RELATIVE_DIR;
@@ -91,8 +93,8 @@ public class CashReceiptCoverSheetServiceImpl
         if( new CashReceiptDocumentRule().isCoverSheetPrintable( document ) ) {
             try {
                 PdfReader reader = 
-                    new PdfReader(templateDirectory 
-                                  + File.separator + templateName);
+                    new PdfReader( searchPath 
+                                   + File.separator + templateName );
 
                 // populate form with document values
                 PdfStamper stamper = new PdfStamper(reader, outputStream);
@@ -110,9 +112,11 @@ public class CashReceiptCoverSheetServiceImpl
                 throw e;
             }
             catch (IOException e) {
+                /*
                 LOG.error("Error creating coversheet for: " 
                           + document.getFinancialDocumentNumber() 
                           + ". ::" + e);
+                */
                 throw e;
             }
         }

@@ -70,7 +70,7 @@ import org.springframework.util.StringUtils;
 
 /**
  * @author Anthony Potts
- * @version $Id: ScrubberServiceImpl.java,v 1.67 2006-03-10 17:30:55 larevans Exp $
+ * @version $Id: ScrubberServiceImpl.java,v 1.68 2006-03-14 16:02:27 aapotts Exp $
  */
 
 public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
@@ -327,7 +327,7 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
     		postProcessDocument(documentInfo);
     		
     		// If there are no more units of work to process, we're done!
-    		if(null == documentInfo.getLastUnitOfWork().getFirstEntryOfNextUnitOfWork()) {
+    		if(null == documentInfo.getLastUnitOfWork() || null == documentInfo.getLastUnitOfWork().getFirstEntryOfNextUnitOfWork()) {
     			break;
     		}
     	}
@@ -383,7 +383,10 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
     		UnitOfWorkInfo unitOfWorkInfo = 
     			processUnitOfWork(originEntryGroup, iteratorOverEntries, firstEntryOfNextUnitOfWork, documentInfo);
     		
-    		postProcessUnitOfWork(unitOfWorkInfo);
+    		if (unitOfWorkInfo == null) {
+    		    break;      
+            }
+            postProcessUnitOfWork(unitOfWorkInfo);
     		
     		documentInfo.setNumberOfErrors(documentInfo.getNumberOfErrors() + unitOfWorkInfo.getErrorCount());
     		

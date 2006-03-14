@@ -20,21 +20,34 @@ public class SufficientFundRebuildDaoOjb extends PersistenceBrokerDaoSupport imp
         QueryByCriteria qbc = QueryFactory.newQuery(SufficientFundRebuild.class, (Criteria)null);
         qbc.addOrderByAscending("chartOfAccountsCode");
         qbc.addOrderByAscending("accountFinancialObjectTypeCode");       
-        qbc.addOrderByAscending("accountNumberFinancialObjectCode");        
-     
+        qbc.addOrderByAscending("accountNumberFinancialObjectCode");
+
         return getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
     }
 
-    public SufficientFundRebuild get(String chartOfAccountsCode, String accountObjectIdentityCode, String AccountNumberObjectCode) {
-        QueryByCriteria qbc = QueryFactory.newQuery(SufficientFundRebuild.class, (Criteria)null);
-     //todo: add criteria!!!
+    public SufficientFundRebuild getByAccount(String chartOfAccountsCode, String accountNumberFinancialObjectCode) {
+      Criteria criteria = new Criteria();
+      criteria.addEqualTo("chartOfAccountsCode",chartOfAccountsCode);
+      criteria.addEqualTo("accountNumberFinancialObjectCode",accountNumberFinancialObjectCode);        
+
+      QueryByCriteria qbc = QueryFactory.newQuery(SufficientFundRebuild.class, criteria);
+      return (SufficientFundRebuild) getPersistenceBrokerTemplate().getObjectByQuery(qbc);      
+    }
+
+    public SufficientFundRebuild get(String chartOfAccountsCode, String accountFinancialObjectTypeCode, String accountNumberFinancialObjectCode) {
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo("chartOfAccountsCode",chartOfAccountsCode);
+        criteria.addEqualTo("accountFinancialObjectTypeCode",accountFinancialObjectTypeCode);
+        criteria.addEqualTo("accountNumberFinancialObjectCode",accountNumberFinancialObjectCode);        
+
+        QueryByCriteria qbc = QueryFactory.newQuery(SufficientFundRebuild.class, criteria);
         return (SufficientFundRebuild) getPersistenceBrokerTemplate().getObjectByQuery(qbc);
     }    
     
     public void save(SufficientFundRebuild sfrb) {
         LOG.debug("save() started");
         getPersistenceBrokerTemplate().store(sfrb);
-}
+    }
 
     public void delete(SufficientFundRebuild sfrb) {
         getPersistenceBrokerTemplate().delete(sfrb);

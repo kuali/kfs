@@ -20,43 +20,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-package org.kuali.module.chart.dao;
+package org.kuali.module.gl.service;
 
-import java.util.Iterator;
-import java.util.List;
-
-import org.kuali.core.bo.user.KualiUser;
-import org.kuali.module.chart.bo.Account;
-
-
-/**
- * This interface defines basic methods that Account Dao's must provide
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
- */
-public interface AccountDao {
-   
-    /**
-     * @param chartOfAccountsCode - part of composite key  
-     * @param accountNumber - part of composite key    
-     * @return   Account
-     * 
-     * Retrieves an Account object based on primary key.
-     */
-    public Account getByPrimaryId(String chartOfAccountsCode,
-        String accountNumber);
-
-    /**
-     * fetch the AccountResponsibility objects that the user
-     * has associated with them
-     * @param kualiUser
-     * @return a list of AccountResponsibility objects
-     */
-    public List getAccountsThatUserIsResponsibleFor(KualiUser kualiUser);
-
-    /**
-     * get all accounts in the system.  This is needed
-     * by a sufficient funds rebuilder job
-     * @return iterator of all accounts
-     */
-    public Iterator getAllAccounts();
+public interface SufficientFundsSyncService {
+    public void syncSufficientFunds();
 }

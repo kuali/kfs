@@ -22,6 +22,7 @@
  */
 package org.kuali.module.chart.service;
 
+import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.core.bo.user.KualiUser;
@@ -48,4 +49,11 @@ public interface AccountService {
      * @return a list of Accounts that the user has responsibility for
      */
     public List getAccountsThatUserIsResponsibleFor(KualiUser kualiUser);
+
+    /**
+     * get all accounts in the system.  This is needed
+     * by a sufficient funds rebuilder job
+     * @return iterator of all accounts
+     */
+    public Iterator getAllAccounts();
 }

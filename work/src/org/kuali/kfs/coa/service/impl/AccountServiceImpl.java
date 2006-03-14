@@ -22,6 +22,7 @@
  */
 package org.kuali.module.chart.service.impl;
 
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -37,7 +38,6 @@ import org.kuali.module.chart.service.AccountService;
  */
 public class AccountServiceImpl implements AccountService {
     private static final Logger LOG = Logger.getLogger(AccountServiceImpl.class);
-
 
     private AccountDao accountDao;
 
@@ -79,12 +79,15 @@ public class AccountServiceImpl implements AccountService {
         return accountList;
     }
 
-
     /**
-     * @return Returns the accountDao.
+     * get all accounts in the system.  This is needed
+     * by a sufficient funds rebuilder job
+     * @return iterator of all accounts
      */
-    public AccountDao getAccountDao() {
-        return accountDao;
+    public Iterator getAllAccounts() {
+        LOG.debug("getAllAccounts() started");
+
+        return accountDao.getAllAccounts();
     }
 
     /**

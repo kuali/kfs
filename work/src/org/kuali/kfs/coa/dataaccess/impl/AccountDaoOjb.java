@@ -58,6 +58,8 @@ public class AccountDaoOjb extends PersistenceBrokerTemplate
      */
     public Account getByPrimaryId(String chartOfAccountsCode,
         String accountNumber) {
+        LOG.debug("getByPrimaryId() started");
+
         Criteria criteria = new Criteria();
         criteria.addEqualTo("chartOfAccountsCode", chartOfAccountsCode);
         criteria.addEqualTo("accountNumber", accountNumber);
@@ -73,6 +75,8 @@ public class AccountDaoOjb extends PersistenceBrokerTemplate
      * @return a list of Accounts that the user has responsibility for
      */
     public List getAccountsThatUserIsResponsibleFor(KualiUser kualiUser) {
+        LOG.debug("getAccountsThatUserIsResponsibleFor() started");
+
         List accountResponsibilities = new ArrayList();
         accountResponsibilities.addAll(getFiscalOfficerResponsibilities(kualiUser));
         accountResponsibilities.addAll(getDelegatedResponsibilities(kualiUser));
@@ -118,5 +122,12 @@ public class AccountDaoOjb extends PersistenceBrokerTemplate
             }
         }
         return delegatedResponsibilities;
+    }
+
+    public Iterator getAllAccounts() {
+        LOG.debug("getAllAccounts() started");
+
+        Criteria criteria = new Criteria();
+        return getIteratorByQuery(QueryFactory.newQuery(Account.class, criteria));
     }
 }

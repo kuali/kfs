@@ -37,6 +37,10 @@
 		<property name="originEntryService"><ref bean="glOriginEntryService"/></property>
 	</bean>
 
+	<bean id="glSufficientFundsSyncStep" class="org.kuali.module.gl.batch.SufficientFundsSyncStep">
+		<property name="sufficientFundsSyncService"><ref bean="glSufficientFundsSyncService"/></property>
+	</bean>
+
 	<bean id="glScrubberService" class="org.kuali.module.gl.service.impl.ScrubberServiceImpl" init-method="init">
 		<property name="originEntryService"><ref bean="glOriginEntryService" /></property>
 		<property name="dateTimeService"><ref bean="dateTimeService" /></property>
@@ -49,6 +53,11 @@
 		<property name="persistenceService"><ref bean="persistenceService"/></property>
 		<property name="scrubberReport"><ref bean="glScrubberReport" /></property>
 		<property name="optionsDao"><ref bean="optionsDao" /></property>
+	</bean>
+
+	<bean id="glSufficientFundsSyncService" class="org.kuali.module.gl.service.impl.SufficientFundsSyncServiceImpl">
+		<property name="accountService"><ref bean="accountService"/></property>
+		<property name="sufficientFundRebuildDao"><ref bean="glSufficientFundRebuildDao"/></property>
 	</bean>
 
 	<bean id="glSufficientFundsRebuilderService" class="org.kuali.module.gl.service.impl.SufficientFundsRebuilderServiceImpl">

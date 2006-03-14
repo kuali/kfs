@@ -74,7 +74,7 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
         checkSimpleRules();
         
         //  disallow more than one PrimaryRoute for a given Chart/Account/Doctype
-        checkOnlyOnePrimaryRoute();
+        checkOnlyOnePrimaryRoute(document);
         
         return true;
     }
@@ -100,7 +100,7 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
         success &= checkSimpleRules();
         
         //	disallow more than one PrimaryRoute for a given Chart/Account/Doctype
-        success &= checkOnlyOnePrimaryRoute();
+        success &= checkOnlyOnePrimaryRoute(document);
         
         return success;
     }
@@ -124,7 +124,7 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
         //	check simple rules
         success &= checkSimpleRules();
         
-        success &= checkOnlyOnePrimaryRoute();
+        success &= checkOnlyOnePrimaryRoute(document);
         
         return success;
     }
@@ -233,12 +233,38 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
     }
     
     //	checks to see if there is already a record 
-    private boolean checkOnlyOnePrimaryRoute() {
+    private boolean checkOnlyOnePrimaryRoute(MaintenanceDocument document) {
         
         boolean success = true;
+        boolean checkDb = false;
+        boolean newPrimary;
+        
         
         //	exit out immediately if this doc is not requesting a primary route
-        if (!newDelegate.isAccountsDelegatePrmrtIndicator()) {
+        newPrimary = newDelegate.isAccountsDelegatePrmrtIndicator();
+        if (!newPrimary) {
+            return success;
+        }
+        
+        //  if its a new document, we are only interested if they have chosen this one 
+        // to be a primary route
+        if (document.isNew()) {
+            if (newPrimary) {
+                checkDb = true;
+            }
+        }
+        
+        //  handle an edit, where all we care about is that someone might change it 
+        // from NOT a primary TO a primary
+        if (document.isEdit()) {
+            boolean oldPrimary = oldDelegate.isAccountsDelegatePrmrtIndicator();
+            if (!oldPrimary && newPrimary) {
+                checkDb = true;
+            }
+        }
+        
+        //  if we dont want to check the db for another primary, then exit
+        if (!checkDb) {
             return success;
         }
         

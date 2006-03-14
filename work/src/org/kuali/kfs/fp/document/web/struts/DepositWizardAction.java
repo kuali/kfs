@@ -42,20 +42,23 @@ import org.kuali.core.question.ConfirmationQuestion;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.core.web.struts.action.KualiAction;
 import org.kuali.core.web.struts.action.KualiDocumentActionBase;
 import org.kuali.module.financial.bo.DepositWizardHelper;
 import org.kuali.module.financial.document.CashManagementDocument;
 import org.kuali.module.financial.document.CashReceiptDocument;
+import org.kuali.module.financial.exceptions.InvalidCashDrawerState;
 import org.kuali.module.financial.web.struts.form.DepositWizardForm;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
- * This class handles Actions for the deposit document.
+ * This class handles actions for the deposit wizard, which is used to create deposits that bundle groupings of Cash Receipt 
+ * documents.
  * 
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class DepositWizardAction extends KualiDocumentActionBase {
+public class DepositWizardAction extends KualiAction {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DepositWizardAction.class);
     
     /**
@@ -139,6 +142,8 @@ public class DepositWizardAction extends KualiDocumentActionBase {
                    selectedCashReceipts, Constants.CashReceiptConstants.CASH_RECEIPT_VERIFICATION_UNIT);  // for now it's just on verification unit
         } catch(WorkflowException we) {
             throw new RuntimeException(we);
+        } catch(InvalidCashDrawerState icds) {
+            return mapping.findForward(Constants.MAPPING_BASIC);
         }
         
         String cmDocUrl = Constants.CASH_MANAGEMENT_DOCUMENT_ACTION + 
@@ -150,7 +155,14 @@ public class DepositWizardAction extends KualiDocumentActionBase {
     }
     
     /**
-     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#cancel(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * This method handles canceling the deposit wizard.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return ActionForward
+     * @throws Exception
      */
     public ActionForward cancel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         Object question = request.getParameter(Constants.QUESTION_INST_ATTRIBUTE_NAME);

@@ -86,14 +86,16 @@
 
             <attributeReference name="fundGroupCode" 
             					sourceClassName="org.kuali.module.chart.bo.FundGroup" 
-            					sourceAttributeName="code" />
+            					sourceAttributeName="code" >
+            	<required>true</required>	
+            </attributeReference>
 
             <attribute name="subFundGroupTypeCode" forceUppercase="true">
                 <label>Type Code</label>
                 <shortLabel>Type Code</shortLabel>
 
                 <maxLength>1</maxLength>
-
+				<required>true</required>
                 <control>
                     <text size="3" />
                 </control>
@@ -107,9 +109,9 @@
                 <shortLabel>Desc.</shortLabel>
 
                 <maxLength>40</maxLength>
-
+				
 				<validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
-
+				<required>true</required>
                 <control>
                     <text size="42" />
                 </control>
@@ -125,7 +127,7 @@
                 <maxLength>2</maxLength>
                 
                 <validationPattern><numeric exactLength="2" /></validationPattern>
-
+				<required>true</required>
                 <control>
                     <text size="4"/>
                 </control>

@@ -71,7 +71,7 @@
 					<maintainableField name="finAccountsPayableObjectCode" />
 					<maintainableField name="incBdgtEliminationsFinObjCd" />
 					<maintainableField name="expBdgtEliminationsFinObjCd" />
-					<maintainableField name="reportsToChartOfAccountsCode" />
+					<maintainableField name="reportsToChartOfAccountsCode" required="true" />
 					<maintainableField name="finAccountsReceivableObjCode" />
 					<maintainableField name="finInternalEncumbranceObjCd" />
 					<maintainableField name="finExternalEncumbranceObjCd" />

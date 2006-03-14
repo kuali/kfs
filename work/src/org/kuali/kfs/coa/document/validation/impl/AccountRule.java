@@ -214,6 +214,11 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
             success &= checkEmptyBOField("accountGuideline.accountPurposeText", newAccount.getAccountGuideline().getAccountPurposeText(), "Account Purpose");
         }
 
+        //  this set confirms that all fields which are grouped (ie, foreign keys of a referenc 
+        // object), must either be none filled out, or all filled out.
+        success &= checkForPartiallyFilledOutReferenceForeignKeys("continuationAccount");
+        success &= checkForPartiallyFilledOutReferenceForeignKeys("incomeStreamAccount");
+        
         return success;
     }
     
@@ -407,7 +412,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
             }
         }
         
-        //existence check on continuation account
+        //  existence check on continuation account
         if(StringUtils.isNotEmpty(newAccount.getContinuationAccountNumber()) && StringUtils.isNotEmpty(newAccount.getContinuationFinChrtOfAcctCd())) {
             if(ObjectUtils.isNull(newAccount.getContinuationAccount())) {
                 success &= false;

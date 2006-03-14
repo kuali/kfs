@@ -238,7 +238,7 @@
         <shortLabel>rptsToChartCode</shortLabel>
 
         <maxLength>2</maxLength>
-		<required>false</required>
+		<required>true</required>
 
         <control>
           <select

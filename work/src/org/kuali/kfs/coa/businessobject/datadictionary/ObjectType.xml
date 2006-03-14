@@ -51,7 +51,8 @@
 
 				<maxLength>2</maxLength>
 				<validationPattern><alpha/></validationPattern>
-
+				<required>true</required>
+				
 				<control>
 					<text size="3" />
 				</control>
@@ -65,7 +66,8 @@
                 <shortLabel>Name</shortLabel>
 
                 <maxLength>40</maxLength>
-
+				<required>true</required>
+			
                 <control>
                     <text size="41" />
                 </control>
@@ -79,7 +81,8 @@
                 <shortLabel>Rpt Sort Code</shortLabel>
 
                 <maxLength>2</maxLength>
-
+				<required>true</required>
+				
                 <control>
                     <text size="3" />
                 </control>
@@ -94,7 +97,8 @@
 
 				<maxLength>1</maxLength>
 				<validationPattern><charset validChars="CD" /></validationPattern>
-
+				<required>true</required>
+				
 				<control>
 					<text size="1" />
 				</control>

@@ -42,7 +42,8 @@
 
 				<maxLength>1</maxLength>
 				<validationPattern><alphaNumeric /></validationPattern>
-
+				<required>true</required>
+				
 				<control>
 					<text size="2" />
 				</control>
@@ -56,7 +57,8 @@
                 <shortLabel>Name</shortLabel>
 
                 <maxLength>40</maxLength>
-
+				<required>true</required>
+				
                 <control>
                     <text size="40" />
                 </control>

@@ -68,6 +68,10 @@
 								sourceClassName="org.kuali.module.chart.bo.Chart" 
 								sourceAttributeName="chartOfAccountsCode">
 				<required>true</required>
+				<control>
+            		<select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder"/>
+       			</control>
+				
 			</attributeReference>
 
 			<attributeReference name="financialObjectCode" 

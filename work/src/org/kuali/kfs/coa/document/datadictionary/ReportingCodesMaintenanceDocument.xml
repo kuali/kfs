@@ -48,7 +48,9 @@
 					<maintainableField name="organizationCode" required="true" />
 					<maintainableField name="financialReportingCode" required="true" />			
 					<maintainableField name="financialReportingCodeDescription" required="true" />
-					<maintainableField name="financialReportingCodeMgrId" required="true" />
+					<maintainableField name="financialReportingCodeMgrId" required="true" readOnly="true" />
+					<maintainableField name="universalUser.personUserIdentifier" required="true" />
+					<maintainableField name="universalUser.personName" required="false" readOnly="true" />
 					<maintainableField name="financialReportsToReportingCode" required="true" />
 					<maintainableField name="versionNumber" required="true" />
 					

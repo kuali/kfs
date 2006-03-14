@@ -15,7 +15,7 @@
 				<field attributeName="organizationCode" />
 				<field attributeName="financialReportingCode" />			
 				<field attributeName="financialReportingCodeDescription" />
-				<field attributeName="financialReportingCodeMgrId" />
+				<field attributeName="universalUser.personName" />
 				<field attributeName="financialReportsToReportingCode" />
 			</inquiryFields>
 		</inquiry>
@@ -40,7 +40,7 @@
 				<field attributeName="organizationCode" />
 				<field attributeName="financialReportingCode" />			
 				<field attributeName="financialReportingCodeDescription" />
-				<field attributeName="financialReportingCodeMgrId" />
+				<field attributeName="universalUser.personName" />
 				<field attributeName="financialReportsToReportingCode" />
 			</resultFields>
 		</lookup>
@@ -92,13 +92,44 @@
 				<maxLength>10</maxLength>
 				<validationPattern><alphaNumeric /></validationPattern>
 
+				<required>true</required>
 				<control>
-					<text size="10" />
+					<hidden />
 				</control>
 
 				<summary>financialReportingCodeMgrId</summary>
 				<description>Financial Reporting Code Manager Id is a unique identifier of the type of a document.</description>
 			</attribute>
+			
+			<attributeReference name="universalUser.personUserIdentifier" 
+								sourceClassName="org.kuali.core.bo.user.UniversalUser" 
+								sourceAttributeName="personUserIdentifier">
+				<label>Reporting Code Manager UserID</label>
+				<shortLabel>UserID</shortLabel>
+				<required>false</required>
+				<control>
+					<kualiUser universalIdAttributeName="accountDelegateSystemId" 
+								userIdAttributeName="universalUser.personUserIdentifier" 
+								personNameAttributeName="universalUser.personName" />
+				</control>
+				<summary>Reporting Code Manager User ID</summary>
+				<description>
+					The UserID of the Reporting Code Manager.
+				</description>
+			</attributeReference>
+			
+			<attributeReference name="universalUser.personName" 
+								sourceClassName="org.kuali.core.bo.user.UniversalUser" 
+								sourceAttributeName="personName">
+				<label>Reporting Code Manager Name</label>
+				<shortLabel>Name</shortLabel>
+				<required>false</required>
+				<control><hidden /></control>
+				<summary>Reporting Code Manager Name</summary>
+				<description>
+					The Name of the Reporting Code Manager.
+				</description>
+			</attributeReference>
 			
 			<attribute name="financialReportsToReportingCode" forceUppercase="true">
 				<label>Financial Reports To Reporting Code</label>

@@ -128,7 +128,7 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
         
         // write out report and errors
         reportSummary.add(new Summary(1, "SFRB records converted from Object to Account", new Integer(sfrbRecordsConvertedCount)));
-        reportSummary.add(new Summary(2, "Post conersion SFRB records read", new Integer(sfrbRecordsReadCount)));
+        reportSummary.add(new Summary(2, "Post conversion SFRB records read", new Integer(sfrbRecordsReadCount)));
         reportSummary.add(new Summary(3, "SFRB records deleted", new Integer(sfrbRecordsDeletedCount)));
         reportSummary.add(new Summary(4, "SFRB records kept due to errors", new Integer(sfrbNotDeletedCount)));
 //        reportSummary.add(new Summary(5, "SFBL records deleted", new Integer(sfblRecordsDeletedCount)));

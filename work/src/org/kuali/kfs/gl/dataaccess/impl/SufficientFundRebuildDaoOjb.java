@@ -52,5 +52,23 @@ public class SufficientFundRebuildDaoOjb extends PersistenceBrokerDaoSupport imp
     public void delete(SufficientFundRebuild sfrb) {
         getPersistenceBrokerTemplate().delete(sfrb);
     }
-    
+
+    /**
+     * This method should only be used in unit tests.  It loads all the 
+     * gl_sf_rebuild_t rows in memory into a collection.  This won't 
+     * sace for production.
+     * 
+     * @return
+     */
+    public Collection testingGetAllEntries() {
+      LOG.debug("testingGetAllEntries() started");
+
+      Criteria criteria = new Criteria();
+      QueryByCriteria qbc = QueryFactory.newQuery(SufficientFundRebuild.class, criteria);
+      qbc.addOrderByAscending("chartOfAccountsCode");
+      qbc.addOrderByAscending("accountFinancialObjectTypeCode");       
+      qbc.addOrderByAscending("accountNumberFinancialObjectCode");        
+      return getPersistenceBrokerTemplate().getCollectionByQuery(qbc);    
+    }
+
 }

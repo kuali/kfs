@@ -20,28 +20,24 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-package org.kuali.module.gl.dao;
+package org.kuali.module.gl;
 
-import java.util.Collection;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
-import org.kuali.module.gl.bo.SufficientFundBalances;
+import org.kuali.module.gl.batch.sufficientFunds.SufficientFundsReport;
 
-/**
- * @author jsissom
- *
- */
-public interface SufficientFundBalancesDao {
-    public Collection getByObjectCode(Integer universityFiscalYear, String chartOfAccountsCode, String financialObjectCode);
-    public void deleteByAccountNumber(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber);
-    public SufficientFundBalances getByPrimaryId(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialObjectCode);
-    public void save(SufficientFundBalances sfb);
-    
-    /**
-     * This method should only be used in unit tests.  It loads all the 
-     * gl_sf_balances_t rows in memory into a collection.  This won't 
-     * sace for production.
-     * 
-     * @return
-     */
-    public Collection testingGetAllEntries();
+public class TestSufficientFundsReport implements SufficientFundsReport {
+    public Map reportErrors;
+    public List reportSummary;
+    public Date runDate;
+    public int mode;
+
+    public void generateReport(Map reportErrors, List reportSummary, Date runDate, int mode) {
+        this.reportErrors = reportErrors;
+        this.reportSummary = reportSummary;
+        this.runDate = runDate;
+        this.mode = mode;
+    }
 }

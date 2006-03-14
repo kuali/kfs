@@ -87,4 +87,19 @@ public class SufficientFundBalancesDaoOjb extends PersistenceBrokerDaoSupport im
         getPersistenceBrokerTemplate().deleteByQuery(qbc);
     }
 
+    /**
+     * This method should only be used in unit tests.  It loads all the 
+     * gl_sf_balances_t rows in memory into a collection.  This won't 
+     * sace for production.
+     * 
+     * @return
+     */
+    public Collection testingGetAllEntries() {
+      LOG.debug("testingGetAllEntries() started");
+
+      Criteria criteria = new Criteria();
+      QueryByCriteria qbc = QueryFactory.newQuery(SufficientFundBalances.class, criteria);
+      // TODO: what order should these be in?
+      return getPersistenceBrokerTemplate().getCollectionByQuery(qbc);    
+    }
 }

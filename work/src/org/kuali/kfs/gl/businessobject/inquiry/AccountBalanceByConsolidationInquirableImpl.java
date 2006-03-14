@@ -24,23 +24,14 @@ package org.kuali.module.gl.web.inquirable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
 import org.kuali.Constants;
 import org.kuali.PropertyConstants;
-import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.bo.KualiSystemCode;
-import org.kuali.core.inquiry.KualiInquirableImpl;
-import org.kuali.core.lookup.KualiLookupableImpl;
 import org.kuali.core.service.BusinessObjectDictionaryService;
 import org.kuali.core.service.LookupService;
-import org.kuali.core.service.PersistenceStructureService;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.util.SpringServiceLocator;
-import org.kuali.core.util.UrlFactory;
 import org.kuali.module.gl.bo.AccountBalanceByLevel;
 import org.kuali.module.gl.web.Constant;
 

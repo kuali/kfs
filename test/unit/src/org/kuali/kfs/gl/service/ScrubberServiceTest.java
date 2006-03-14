@@ -62,6 +62,682 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
         scrubberReport = (TestScrubberReport) beanFactory.getBean("testScrubberReport");
     }
     
+    public void testNoIndebtednessForObjectSubTypeP2() throws Exception {
+        
+        // Inputs.
+        String[] stringInput = new String[] {
+                "2004BA9120657-----9202---ACLI07INV EUNODEBTP2      BALDWIN WALLACE COLLEGE                           3375.00C2006-01-05          ----------                                                                  ",
+                "2004BA9120657-----8000---ACAS07INV EUNODEBTP2      TP Generated Offset                               3375.00D2006-01-05          ----------                                                                  "
+        };
+        
+        String[] convertedStringInput = new String[] {
+                "2004BA9120657-----9202---ACLI07INV EUNODEBTP2 00000BALDWIN WALLACE COLLEGE                           3375.00C2006-01-05          ----------                                                                  ",
+                "2004BA9120657-----8000---ACAS07INV EUNODEBTP2 00000TP Generated Offset                               3375.00D2006-01-05          ----------                                                                  "
+        };
+        
+        // Add inputs to expected output ...
+        Vector expectedOutput = new Vector();
+        for(int i = 0; i < stringInput.length; i++) {
+            expectedOutput.add(new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
+        }
+        
+        // ... add expected output ...
+        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+                "2004BA9120657-----8000---ACAS07INV EUNODEBTP2 00000TP Generated Offset                               3375.00D2006-01-05          ----------                                                                  "));
+        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+                "2004BA9120657-----9202---ACLI07INV EUNODEBTP2 00000BALDWIN WALLACE COLLEGE                           3375.00C2006-01-05          ----------                                                                  "));
+        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+                "2004BA9120657-----9202---ACLI07INV EUNODEBTP2 00000GENERATED TRANSFER TO NET PLANT                   3375.00D2006-01-05          ----------                                                                  "));
+        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+                "2004BA9120657-----9899---ACFB07INV EUNODEBTP2 00000GENERATED TRANSFER TO NET PLANT                   3375.00C2006-01-05          ----------                                                                  "));
+        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+                "2004BA9544900-----9202---ACLI07INV EUNODEBTP2 00000GENERATED TRANSFER FROM BA 9120657                3375.00C2006-01-05          ----------                                                                  "));
+        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+                "2004BA9544900-----9899---ACFB07INV EUNODEBTP2 00000GENERATED TRANSFER FROM BA 9120657                3375.00D2006-01-05          ----------                                                                  "));
+        
+        // ... and run the test.
+        scrub(stringInput);
+        assertOriginEntries(4,(EntryHolder[]) expectedOutput.toArray(new EntryHolder[0]), dateTimeService.currentDate);
+        
+    }
+    
+    public void testNoIndebtednessForObjectSubTypeP1() throws Exception {
+        
+        // Inputs.
+        String[] stringInput = new String[] {
+                "2004BL2231423-----9100---ACIN  CR  PLNODEBTP1      FRICKA FRACKA                                    45995.84C2006-01-05          ----------                                                                  ",
+                "2004BL2231423-----8000---ACAS  CR  PLNODEBTP1      TP Generated Offset                              45995.84D2006-01-05          ----------                                                                  "
+        };
+        
+        String[] convertedStringInput = new String[] {
+                "2004BL2231423-----9100---ACIN  CR  PLNODEBTP1 00000FRICKA FRACKA                                    45995.84C2006-01-05          ----------                                                                  ",
+                "2004BL2231423-----8000---ACAS  CR  PLNODEBTP1 00000TP Generated Offset                              45995.84D2006-01-05          ----------                                                                  "
+        };
+        
+        // Add inputs to expected output ...
+        Vector expectedOutput = new Vector();
+        for(int i = 0; i < stringInput.length; i++) {
+            expectedOutput.add(new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
+        }
+        
+        // ... add expected output ...
+        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+                "2004BL2231423-----9100---ACIN07CR  PLNODEBTP1 00000FRICKA FRACKA                                    45995.84C2006-01-05          ----------                                                                  "));
+        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+                "2004BL2231423-----8000---ACAS07CR  PLNODEBTP1 00000TP Generated Offset                              45995.84D2006-01-05          ----------                                                                  "));
+        
+        // ... and run the test.
+        scrub(stringInput);
+        assertOriginEntries(4,(EntryHolder[]) expectedOutput.toArray(new EntryHolder[0]), dateTimeService.currentDate);
+        
+    }
+    
+    public void testNoIndebtednessForEncumbranceEntries() throws Exception {
+        
+        // Inputs.
+        String[] stringInput = new String[] {
+                "2004BA9021004-----9120---EXLI07TOPSEUNODEBTEX      PAYROLL EXPENSE TRANSFERS                          620.00C2006-01-05          ----------                                 D                                ",
+                "2004BA9021004-----8000---EXAS07TOPSEUNODEBTEX      PAYROLL EXPENSE TRANSFERS                          620.00D2006-01-05          ----------                                 D                                "
+        };
+        
+        String[] convertedStringInput = new String[] {
+                "2004BA9021004-----9120---EXLI07TOPSEUNODEBTEX 00000PAYROLL EXPENSE TRANSFERS                          620.00C2006-01-05          ----------                                 D                                ",
+                "2004BA9021004-----8000---EXAS07TOPSEUNODEBTEX 00000PAYROLL EXPENSE TRANSFERS                          620.00D2006-01-05          ----------                                 D                                "
+        };
+        
+        // Add inputs to expected output ...
+        Vector expectedOutput = new Vector();
+        for(int i = 0; i < stringInput.length; i++) {
+            expectedOutput.add(new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
+        }
+        
+        // ... add expected output ...
+        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+                "2004BA9021004-----9120---EXLI07TOPSEUNODEBTEX 00000PAYROLL EXPENSE TRANSFERS                          620.00C2006-01-05          ----------                                 D                                "));
+        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+                "2004BA9021004-----8000---EXAS07TOPSEUNODEBTEX 00000PAYROLL EXPENSE TRANSFERS                          620.00D2006-01-05          ----------                                 D                                "));
+        
+        // ... and run the test.
+        scrub(stringInput);
+        assertOriginEntries(4,(EntryHolder[]) expectedOutput.toArray(new EntryHolder[0]), dateTimeService.currentDate);
+        
+    }
+    
+    public void testNoIndebtednessForBudgetTransactions() throws Exception {
+        
+        // Inputs.
+        String[] stringInput = new String[] {
+                "2004BA9020204-----9100---BBLI07SB  01NODEBTBB      Biology Stockroom                                   13.77 2006-01-05          ----------                                                                  ",
+                "2004BA9020204-----8000---BBAS07SB  01NODEBTBB      TP Generated Offset                                 13.77 2006-01-05          ----------                                                                  "
+        };
+        
+        String[] convertedStringInput = new String[] {
+                "2004BA9020204-----9100---BBLI07SB  01NODEBTBB 00000Biology Stockroom                                   13.77 2006-01-05          ----------                                                                  ",
+                "2004BA9020204-----8000---BBAS07SB  01NODEBTBB 00000TP Generated Offset                                 13.77 2006-01-05          ----------                                                                  "
+        };
+        
+        // Add inputs to expected output ...
+        Vector expectedOutput = new Vector();
+        for(int i = 0; i < stringInput.length; i++) {
+            expectedOutput.add(new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
+        }
+        
+        // ... add expected output ...
+        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+                "2004BA9020204-----9100---BBLI07SB  01NODEBTBB 00000Biology Stockroom                                   13.77 2006-01-05          ----------                                                                  "));
+        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+                "2004BA9020204-----8000---BBAS07SB  01NODEBTBB 00000TP Generated Offset                                 13.77 2006-01-05          ----------                                                                  "));
+        
+        // ... and run the test.
+        scrub(stringInput);
+        assertOriginEntries(4,(EntryHolder[]) expectedOutput.toArray(new EntryHolder[0]), dateTimeService.currentDate);
+        
+    }
+    
+    public void testCapitalizationForObjectSubTypeCL() throws Exception {
+        
+        // Inputs.
+        String[] stringInput = new String[] {
+                "2004BA6044900-----7099---ACEE07CD  PDCAPITALCL     214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05          ----------                                                                  ",
+                "2004BA6044900-----8000---ACAS07CD  PDCAPITALCL     214090047 EVERETT J PRESCOTT INC.                 1445.00C2006-01-05          ----------                                                                  "
+        };
+        
+        String[] convertedStringInput = new String[] {
+                "2004BA6044900-----7099---ACEE07CD  PDCAPITALCL00000214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05          ----------                                                                  ",
+                "2004BA6044900-----8000---ACAS07CD  PDCAPITALCL00000214090047 EVERETT J PRESCOTT INC.                 1445.00C2006-01-05          ----------                                                                  "
+        };
+        
+        // Add inputs to expected output ...
+        Vector expectedOutput = new Vector();
+        for(int i = 0; i < stringInput.length; i++) {
+            expectedOutput.add(new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
+        }
+        
+        // ... add expected output ...
+        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+                "2004BA9544900-----9603---ACLI07CD  PDCAPITALCL00000GENERATED LIABILITY                               1445.00D2006-01-05          ----------                                                                  "));
+        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+                "2004BA9544900-----9899---ACFB07CD  PDCAPITALCL00000GENERATED LIABILITY                               1445.00C2006-01-05          ----------                                                                  "));
+        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+                "2004BA6044900-----7099---ACEE07CD  PDCAPITALCL00000214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05          ----------                                                                  "));
+        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+                "2004BA6044900-----8000---ACAS07CD  PDCAPITALCL00000214090047 EVERETT J PRESCOTT INC.                 1445.00C2006-01-05          ----------                                                                  "));
+        
+        // ... and run the test.
+        scrub(stringInput);
+        assertOriginEntries(4,(EntryHolder[]) expectedOutput.toArray(new EntryHolder[0]), dateTimeService.currentDate);
+        
+    }
+    
+    public void testCapitalizationForObjectSubTypeLR() throws Exception {
+        
+        // Inputs.
+        String[] stringInput = new String[] {
+                "2004BA6044913-----7465---ACEE07GEC 01CAPITALLR     CONCERTO OFFICE PRODUCTS                            48.53C2006-01-05          ----------                                                                  ",
+                "2004BA6044913-----9041---ACLI07GEC 01CAPITALLR     CONCERTO OFFICE PRODUCTS                            48.53D2006-01-05          ----------                                                                  "
+        };
+        
+        String[] convertedStringInput = new String[] {
+                "2004BA6044913-----7465---ACEE07GEC 01CAPITALLR00000CONCERTO OFFICE PRODUCTS                            48.53C2006-01-05          ----------                                                                  ",
+                "2004BA6044913-----9041---ACLI07GEC 01CAPITALLR00000CONCERTO OFFICE PRODUCTS                            48.53D2006-01-05          ----------                                                                  "
+        };
+        
+        // Add inputs to expected output ...
+        Vector expectedOutput = new Vector();
+        for(int i = 0; i < stringInput.length; i++) {
+            expectedOutput.add(new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
+        }
+        
+        // ... add expected output ...
+        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+                "2004BA9544900-----8665---ACAS07GEC 01CAPITALLR00000GENERATED CAPITALIZATION                            48.53C2006-01-05          ----------                                                                  "));
+        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+                "2004BA9544900-----9899---ACFB07GEC 01CAPITALLR00000GENERATED CAPITALIZATION                            48.53D2006-01-05          ----------                                                                  "));
+        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+                "2004BA6044913-----7465---ACEE07GEC 01CAPITALLR00000CONCERTO OFFICE PRODUCTS                            48.53C2006-01-05          ----------                                                                  "));
+        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+                "2004BA6044913-----9041---ACLI07GEC 01CAPITALLR00000CONCERTO OFFICE PRODUCTS                            48.53D2006-01-05          ----------                                                                  "));
+        
+        // ... and run the test.
+        scrub(stringInput);
+        assertOriginEntries(4,(EntryHolder[]) expectedOutput.toArray(new EntryHolder[0]), dateTimeService.currentDate);
+
+    }
+    
+    public void testCapitalizationForObjectSubTypeLI() throws Exception {
+        
+        // Inputs.
+        String[] stringInput = new String[] {
+                "2004BA6044906-----7100---ACEE07TOPS01CAPITALLI     CONCERTO OFFICE PRODUCTS                            48.53C2006-01-05          ----------                                                                  ",
+                "2004BA6044906-----9041---ACLI07TOPS01CAPITALLI     CONCERTO OFFICE PRODUCTS                            48.53D2006-01-05          ----------                                                                  "
+        };
+        
+        String[] convertedStringInput = new String[] {
+                "2004BA6044906-----7100---ACEE07TOPS01CAPITALLI00000CONCERTO OFFICE PRODUCTS                            48.53C2006-01-05          ----------                                                                  ",
+                "2004BA6044906-----9041---ACLI07TOPS01CAPITALLI00000CONCERTO OFFICE PRODUCTS                            48.53D2006-01-05          ----------                                                                  "
+        };
+        
+        // Add inputs to expected output ...
+        Vector expectedOutput = new Vector();
+        for(int i = 0; i < stringInput.length; i++) {
+            expectedOutput.add(new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
+        }
+        
+        // ... add expected output ...
+        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+                "2004BA9544900-----8613---ACAS07TOPS01CAPITALLI00000GENERATED CAPITALIZATION                            48.53C2006-01-05          ----------                                                                  "));
+        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+                "2004BA9544900-----9899---ACFB07TOPS01CAPITALLI00000GENERATED CAPITALIZATION                            48.53D2006-01-05          ----------                                                                  "));
+        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+                "2004BA6044906-----7100---ACEE07TOPS01CAPITALLI00000CONCERTO OFFICE PRODUCTS                            48.53C2006-01-05          ----------                                                                  "));
+        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+                "2004BA6044906-----9041---ACLI07TOPS01CAPITALLI00000CONCERTO OFFICE PRODUCTS                            48.53D2006-01-05          ----------                                                                  "));
+        
+        // ... and run the test.
+        scrub(stringInput);
+        assertOriginEntries(4,(EntryHolder[]) expectedOutput.toArray(new EntryHolder[0]), dateTimeService.currentDate);
+        
+    }
+    
+    public void testCapitalizationForObjectSubTypeLE() throws Exception {
+
+        // Inputs.
+        String[] stringInput = new String[] {
+                "2004BA6044900-----7800---ACEE07CD  PDCAPITALLE     214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05          ----------                                                                  ",
+                "2004BA6044900-----8000---ACAS07CD  PDCAPITALLE     214090047 EVERETT J PRESCOTT INC.                 1445.00C2006-01-05          ----------                                                                  "
+        };
+        
+        String[] convertedStringInput = new String[] {
+                "2004BA6044900-----7800---ACEE07CD  PDCAPITALLE00000214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05          ----------                                                                  ",
+                "2004BA6044900-----8000---ACAS07CD  PDCAPITALLE00000214090047 EVERETT J PRESCOTT INC.                 1445.00C2006-01-05          ----------                                                                  "
+        };
+        
+        // Add inputs to expected output ...
+        Vector expectedOutput = new Vector();
+        for(int i = 0; i < stringInput.length; i++) {
+            expectedOutput.add(new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
+        }
+        
+        // ... add expected output ...
+        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+                "2004BA9544900-----8608---ACAS07CD  PDCAPITALLE00000GENERATED CAPITALIZATION                          1445.00D2006-01-05          ----------                                                                  "));
+        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+                "2004BA9544900-----9899---ACFB07CD  PDCAPITALLE00000GENERATED CAPITALIZATION                          1445.00C2006-01-05          ----------                                                                  "));
+        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+                "2004BA6044900-----7800---ACEE07CD  PDCAPITALLE00000214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05          ----------                                                                  "));
+        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+                "2004BA6044900-----8000---ACAS07CD  PDCAPITALLE00000214090047 EVERETT J PRESCOTT INC.                 1445.00C2006-01-05          ----------                                                                  "));
+        
+        // ... and run the test.
+        scrub(stringInput);
+        assertOriginEntries(4,(EntryHolder[]) expectedOutput.toArray(new EntryHolder[0]), dateTimeService.currentDate);
+        
+    }
+    
+    public void testCapitalizationForObjectSubTypeLA() throws Exception {
+        
+        // Inputs.
+        String[] stringInput = new String[] {
+                "2004BA6044913-----7200---ACEE07GEC 01CAPITALLA     CONCERTO OFFICE PRODUCTS                            48.53C2006-01-05          ----------                                                                  ",
+                "2004BA6044913-----9041---ACLI07GEC 01CAPITALLA     CONCERTO OFFICE PRODUCTS                            48.53D2006-01-05          ----------                                                                  "
+        };
+        
+        String[] convertedStringInput = new String[] {
+                "2004BA6044913-----7200---ACEE07GEC 01CAPITALLA00000CONCERTO OFFICE PRODUCTS                            48.53C2006-01-05          ----------                                                                  ",
+                "2004BA6044913-----9041---ACLI07GEC 01CAPITALLA00000CONCERTO OFFICE PRODUCTS                            48.53D2006-01-05          ----------                                                                  "
+        };
+        
+        // Add inputs to expected output ...
+        Vector expectedOutput = new Vector();
+        for(int i = 0; i < stringInput.length; i++) {
+            expectedOutput.add(new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
+        }
+        
+        // ... add expected output ...
+        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+                "2004BA9544900-----8603---ACAS07GEC 01CAPITALLA00000GENERATED CAPITALIZATION                            48.53C2006-01-05          ----------                                                                  "));
+        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+                "2004BA9544900-----9899---ACFB07GEC 01CAPITALLA00000GENERATED CAPITALIZATION                            48.53D2006-01-05          ----------                                                                  "));
+        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+                "2004BA6044913-----7200---ACEE07GEC 01CAPITALLA00000CONCERTO OFFICE PRODUCTS                            48.53C2006-01-05          ----------                                                                  "));
+        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+                "2004BA6044913-----9041---ACLI07GEC 01CAPITALLA00000CONCERTO OFFICE PRODUCTS                            48.53D2006-01-05          ----------                                                                  "));
+        
+        // ... and run the test.
+        scrub(stringInput);
+        assertOriginEntries(4,(EntryHolder[]) expectedOutput.toArray(new EntryHolder[0]), dateTimeService.currentDate);
+        
+    }
+    
+    public void testCapitalizationForObjectSubTypeEF() throws Exception {
+        
+        // Inputs.
+        String[] stringInput = new String[] {
+                "2004BA6044906-----7400---ACEE07TOPS01CAPITALIF     CONCERTO OFFICE PRODUCTS                            48.53C2006-01-05          ----------                                                                  ",
+                "2004BA6044906-----9041---ACLI07TOPS01CAPITALIF     CONCERTO OFFICE PRODUCTS                            48.53D2006-01-05          ----------                                                                  "
+        };
+        
+        String[] convertedStringInput = new String[] {
+                "2004BA6044906-----7400---ACEE07TOPS01CAPITALIF00000CONCERTO OFFICE PRODUCTS                            48.53C2006-01-05          ----------                                                                  ",
+                "2004BA6044906-----9041---ACLI07TOPS01CAPITALIF00000CONCERTO OFFICE PRODUCTS                            48.53D2006-01-05          ----------                                                                  "
+        };
+        
+        // Add inputs to expected output ...
+        Vector expectedOutput = new Vector();
+        for(int i = 0; i < stringInput.length; i++) {
+            expectedOutput.add(new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
+        }
+        
+        // ... add expected output ...
+        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+                "2004BA9544900-----8604---ACAS07TOPS01CAPITALIF00000GENERATED CAPITALIZATION                            48.53C2006-01-05          ----------                                                                  "));
+        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+                "2004BA9544900-----9899---ACFB07TOPS01CAPITALIF00000GENERATED CAPITALIZATION                            48.53D2006-01-05          ----------                                                                  "));
+        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+                "2004BA6044906-----7400---ACEE07TOPS01CAPITALIF00000CONCERTO OFFICE PRODUCTS                            48.53C2006-01-05          ----------                                                                  "));
+        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+                "2004BA6044906-----9041---ACLI07TOPS01CAPITALIF00000CONCERTO OFFICE PRODUCTS                            48.53D2006-01-05          ----------                                                                  "));
+        
+        // ... and run the test.
+        scrub(stringInput);
+        assertOriginEntries(4,(EntryHolder[]) expectedOutput.toArray(new EntryHolder[0]), dateTimeService.currentDate);
+        
+    }
+    
+    public void testCapitalizationForObjectSubTypeES() throws Exception {
+        
+        // Inputs.
+        String[] stringInput = new String[] {
+                "2004BA6044900-----7098---ACEE07CD  PDCAPITALES     214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05          ----------                                                                  ",
+                "2004BA6044900-----8000---ACAS07CD  PDCAPITALES     214090047 EVERETT J PRESCOTT INC.                 1445.00C2006-01-05          ----------                                                                  "
+        };
+        
+        String[] convertedStringInput = new String[] {
+                "2004BA6044900-----7098---ACEE07CD  PDCAPITALES00000214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05          ----------                                                                  ",
+                "2004BA6044900-----8000---ACAS07CD  PDCAPITALES00000214090047 EVERETT J PRESCOTT INC.                 1445.00C2006-01-05          ----------                                                                  "
+        };
+        
+        // Add inputs to expected output ...
+        Vector expectedOutput = new Vector();
+        for(int i = 0; i < stringInput.length; i++) {
+            expectedOutput.add(new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
+        }
+        
+        // ... add expected output ...
+        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+                "2004BA9544900-----8630---ACAS07CD  PDCAPITALES00000GENERATED CAPITALIZATION                          1445.00D2006-01-05          ----------                                                                  "));
+        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+                "2004BA9544900-----9899---ACFB07CD  PDCAPITALES00000GENERATED CAPITALIZATION                          1445.00C2006-01-05          ----------                                                                  "));
+        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+                "2004BA6044900-----7098---ACEE07CD  PDCAPITALES00000214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05          ----------                                                                  "));
+        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+                "2004BA6044900-----8000---ACAS07CD  PDCAPITALES00000214090047 EVERETT J PRESCOTT INC.                 1445.00C2006-01-05          ----------                                                                  "));
+        
+        // ... and run the test.
+        scrub(stringInput);
+        assertOriginEntries(4,(EntryHolder[]) expectedOutput.toArray(new EntryHolder[0]), dateTimeService.currentDate);
+        
+    }
+    
+    public void testCapitalizationForObjectSubTypeCF() throws Exception {
+        
+        // Inputs.
+        String[] stringInput = new String[] {
+                "2004BA6044913-----7030---ACEE07GEC 01CAPITALCF     CONCERTO OFFICE PRODUCTS                            48.53C2006-01-05          ----------                                                                  ",
+                "2004BA6044913-----9041---ACLI07GEC 01CAPITALCF     CONCERTO OFFICE PRODUCTS                            48.53D2006-01-05          ----------                                                                  "
+        };
+        
+        String[] convertedStringInput = new String[] {
+                "2004BA6044913-----7030---ACEE07GEC 01CAPITALCF00000CONCERTO OFFICE PRODUCTS                            48.53C2006-01-05          ----------                                                                  ",
+                "2004BA6044913-----9041---ACLI07GEC 01CAPITALCF00000CONCERTO OFFICE PRODUCTS                            48.53D2006-01-05          ----------                                                                  "
+        };
+        
+        // Add inputs to expected output ...
+        Vector expectedOutput = new Vector();
+        for(int i = 0; i < stringInput.length; i++) {
+            expectedOutput.add(new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
+        }
+        
+        // ... add expected output ...
+        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+                "2004BA9544900-----8611---ACAS07GEC 01CAPITALCF00000GENERATED CAPITALIZATION                            48.53C2006-01-05          ----------                                                                  "));
+        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+                "2004BA9544900-----9899---ACFB07GEC 01CAPITALCF00000GENERATED CAPITALIZATION                            48.53D2006-01-05          ----------                                                                  "));
+        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+                "2004BA6044913-----7030---ACEE07GEC 01CAPITALCF00000CONCERTO OFFICE PRODUCTS                            48.53C2006-01-05          ----------                                                                  "));
+        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+                "2004BA6044913-----9041---ACLI07GEC 01CAPITALCF00000CONCERTO OFFICE PRODUCTS                            48.53D2006-01-05          ----------                                                                  "));
+        
+        // ... and run the test.
+        scrub(stringInput);
+        assertOriginEntries(4,(EntryHolder[]) expectedOutput.toArray(new EntryHolder[0]), dateTimeService.currentDate);
+
+    }
+    
+    public void testCapitalizationForObjectSubTypeCM() throws Exception {
+
+        // Inputs.
+        String[] stringInput = new String[] {
+                "2004BA6044906-----7000---ACEE07TOPS01CAPITALCM     CONCERTO OFFICE PRODUCTS                            48.53C2006-01-05          ----------                                                                  ",
+                "2004BA6044906-----9041---ACLI07TOPS01CAPITALCM     CONCERTO OFFICE PRODUCTS                            48.53D2006-01-05          ----------                                                                  "
+        };
+        
+        String[] convertedStringInput = new String[] {
+                "2004BA6044906-----7000---ACEE07TOPS01CAPITALCM00000CONCERTO OFFICE PRODUCTS                            48.53C2006-01-05          ----------                                                                  ",
+                "2004BA6044906-----9041---ACLI07TOPS01CAPITALCM00000CONCERTO OFFICE PRODUCTS                            48.53D2006-01-05          ----------                                                                  "
+        };
+        
+        // Add inputs to expected output ...
+        Vector expectedOutput = new Vector();
+        for(int i = 0; i < stringInput.length; i++) {
+            expectedOutput.add(new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
+        }
+        
+        // ... add expected output ...
+        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+                "2004BA9544900-----8610---ACAS07TOPS01CAPITALCM00000GENERATED CAPITALIZATION                            48.53C2006-01-05          ----------                                                                  "));
+        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+                "2004BA9544900-----9899---ACFB07TOPS01CAPITALCM00000GENERATED CAPITALIZATION                            48.53D2006-01-05          ----------                                                                  "));
+        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+                "2004BA6044906-----7000---ACEE07TOPS01CAPITALCM00000CONCERTO OFFICE PRODUCTS                            48.53C2006-01-05          ----------                                                                  "));
+        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+                "2004BA6044906-----9041---ACLI07TOPS01CAPITALCM00000CONCERTO OFFICE PRODUCTS                            48.53D2006-01-05          ----------                                                                  "));
+        
+        // ... and run the test.
+        scrub(stringInput);
+        assertOriginEntries(4,(EntryHolder[]) expectedOutput.toArray(new EntryHolder[0]), dateTimeService.currentDate);
+        
+    }
+    
+    public void testCapitalizationForObjectSubTypeBF() throws Exception {
+        
+        // Inputs.
+        String[] stringInput = new String[] {
+                "2004BA6044913-----7305---ACEE07GEC 01CAPITALBF     CONCERTO OFFICE PRODUCTS                            48.53C2006-01-05          ----------                                                                  ",
+                "2004BA6044913-----9041---ACLI07GEC 01CAPITALBF     CONCERTO OFFICE PRODUCTS                            48.53D2006-01-05          ----------                                                                  "
+        };
+        
+        String[] convertedStringInput = new String[] {
+                "2004BA6044913-----7305---ACEE07GEC 01CAPITALBF00000CONCERTO OFFICE PRODUCTS                            48.53C2006-01-05          ----------                                                                  ",
+                "2004BA6044913-----9041---ACLI07GEC 01CAPITALBF00000CONCERTO OFFICE PRODUCTS                            48.53D2006-01-05          ----------                                                                  "
+        };
+        
+        // Add inputs to expected output ...
+        Vector expectedOutput = new Vector();
+        for(int i = 0; i < stringInput.length; i++) {
+            expectedOutput.add(new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
+        }
+        
+        // ... add expected output ...
+        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+                "2004BA9544900-----8605---ACAS07GEC 01CAPITALBF00000GENERATED CAPITALIZATION                            48.53C2006-01-05          ----------                                                                  "));
+        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+                "2004BA9544900-----9899---ACFB07GEC 01CAPITALBF00000GENERATED CAPITALIZATION                            48.53D2006-01-05          ----------                                                                  "));
+        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+                "2004BA6044913-----7305---ACEE07GEC 01CAPITALBF00000CONCERTO OFFICE PRODUCTS                            48.53C2006-01-05          ----------                                                                  "));
+        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+                "2004BA6044913-----9041---ACLI07GEC 01CAPITALBF00000CONCERTO OFFICE PRODUCTS                            48.53D2006-01-05          ----------                                                                  "));
+        
+        // ... and run the test.
+        scrub(stringInput);
+        assertOriginEntries(4,(EntryHolder[]) expectedOutput.toArray(new EntryHolder[0]), dateTimeService.currentDate);
+        
+    }
+    
+    public void testCapitalizationForObjectSubTypeBD() throws Exception {
+        
+        // Inputs.
+        String[] stringInput = new String[] {
+                "2004BA6044906-----7300---ACEE07TOPS01CAPITALBD     CONCERTO OFFICE PRODUCTS                            48.53C2006-01-05          ----------                                                                  ",
+                "2004BA6044906-----9041---ACLI07TOPS01CAPITALBD     CONCERTO OFFICE PRODUCTS                            48.53D2006-01-05          ----------                                                                  "
+        };
+        
+        String[] convertedStringInput = new String[] {
+                "2004BA6044906-----7300---ACEE07TOPS01CAPITALBD00000CONCERTO OFFICE PRODUCTS                            48.53C2006-01-05          ----------                                                                  ",
+                "2004BA6044906-----9041---ACLI07TOPS01CAPITALBD00000CONCERTO OFFICE PRODUCTS                            48.53D2006-01-05          ----------                                                                  "
+        };
+        
+        // Add inputs to expected output ...
+        Vector expectedOutput = new Vector();
+        for(int i = 0; i < stringInput.length; i++) {
+            expectedOutput.add(new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
+        }
+        
+        // ... add expected output ...
+        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+                "2004BA9544900-----8601---ACAS07TOPS01CAPITALBD00000GENERATED CAPITALIZATION                            48.53C2006-01-05          ----------                                                                  "));
+        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+                "2004BA9544900-----9899---ACFB07TOPS01CAPITALBD00000GENERATED CAPITALIZATION                            48.53D2006-01-05          ----------                                                                  "));
+        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+                "2004BA6044906-----7300---ACEE07TOPS01CAPITALBD00000CONCERTO OFFICE PRODUCTS                            48.53C2006-01-05          ----------                                                                  "));
+        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+                "2004BA6044906-----9041---ACLI07TOPS01CAPITALBD00000CONCERTO OFFICE PRODUCTS                            48.53D2006-01-05          ----------                                                                  "));
+        
+        // ... and run the test.
+        scrub(stringInput);
+        assertOriginEntries(4,(EntryHolder[]) expectedOutput.toArray(new EntryHolder[0]), dateTimeService.currentDate);
+
+    }
+    
+    public void testCapitalizationForObjectSubTypeAM() throws Exception {
+        
+        // Inputs.
+        String[] stringInput = new String[] {
+                "2004BA6044900-----7677---ACEE07CD  PDCAPITALAM     214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05          ----------                                                                  ",
+                "2004BA6044900-----8000---ACAS07CD  PDCAPITALAM     214090047 EVERETT J PRESCOTT INC.                 1445.00C2006-01-05          ----------                                                                  "
+        };
+        
+        String[] convertedStringInput = new String[] {
+                "2004BA6044900-----7677---ACEE07CD  PDCAPITALAM00000214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05          ----------                                                                  ",
+                "2004BA6044900-----8000---ACAS07CD  PDCAPITALAM00000214090047 EVERETT J PRESCOTT INC.                 1445.00C2006-01-05          ----------                                                                  "
+        };
+        
+        // Add inputs to expected output ...
+        Vector expectedOutput = new Vector();
+        for(int i = 0; i < stringInput.length; i++) {
+            expectedOutput.add(new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
+        }
+        
+        // ... add expected output ...
+        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+                "2004BA9544900-----8615---ACAS07CD  PDCAPITALAM00000GENERATED CAPITALIZATION                          1445.00D2006-01-05          ----------                                                                  "));
+        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+                "2004BA9544900-----9899---ACFB07CD  PDCAPITALAM00000GENERATED CAPITALIZATION                          1445.00C2006-01-05          ----------                                                                  "));
+        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+                "2004BA6044900-----7677---ACEE07CD  PDCAPITALAM00000214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05          ----------                                                                  "));
+        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+                "2004BA6044900-----8000---ACAS07CD  PDCAPITALAM00000214090047 EVERETT J PRESCOTT INC.                 1445.00C2006-01-05          ----------                                                                  "));
+        
+        // ... and run the test.
+        scrub(stringInput);
+        assertOriginEntries(4,(EntryHolder[]) expectedOutput.toArray(new EntryHolder[0]), dateTimeService.currentDate);
+        
+    }
+    
+    public void testNoCapitalizationForCertainFiscalPeriods() throws Exception {
+        
+        // Inputs.
+        String[] stringInput = new String[] {
+                "2004BA6044900-----7000---ACEECBCD  PDNOCAPCB       214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ACCDEFGHIJ----------12345678                                                          ",
+                "2004BA6044900-----8000---ACASCBCD  PDNOCAPCB       214090047 EVERETT J PRESCOTT INC.                 1445.00C2006-01-05ABCDEFGHIG----------12345679                                                          "
+        };
+        
+        String[] convertedStringInput = new String[] {
+                "2004BA6044900-----7000---ACEECBCD  PDNOCAPCB  00000214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ACCDEFGHIJ----------12345678                                                          ",
+                "2004BA6044900-----8000---ACASCBCD  PDNOCAPCB  00000214090047 EVERETT J PRESCOTT INC.                 1445.00C2006-01-05ABCDEFGHIG----------12345679                                                          "
+        };
+        
+        // Add inputs to expected output ...
+        Vector expectedOutput = new Vector();
+        for(int i = 0; i < stringInput.length; i++) {
+            expectedOutput.add(new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
+        }
+        
+        // ... add expected output ...
+        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+                "2004BA6044900-----7000---ACEECBCD  PDNOCAPCB  00000214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ACCDEFGHIJ----------12345678                                                          "));
+        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+                "2004BA6044900-----8000---ACASCBCD  PDNOCAPCB  00000214090047 EVERETT J PRESCOTT INC.                 1445.00C2006-01-05ABCDEFGHIG----------12345679                                                          "));
+        
+        // ... and run the test.
+        scrub(stringInput);
+        assertOriginEntries(4,(EntryHolder[]) expectedOutput.toArray(new EntryHolder[0]), dateTimeService.currentDate);
+        
+    }
+    
+    public void testNoCapitalizationForCertainDocumentTypes() throws Exception {
+        
+        // Inputs.
+        String[] stringInput = new String[] {
+                "2004BA6044913-----7300---ACEE07TF  LGNOCAPTF       CONCERTO OFFICE PRODUCTS                            48.53C2006-01-05          ----------                                                                  ",
+                "2004BA6044913-----9041---ACLI07TF  LGNOCAPTF       CONCERTO OFFICE PRODUCTS                            48.53D2006-01-05          ----------                                                                  "
+        };
+        
+        String[] convertedStringInput = new String[] {
+                "2004BA6044913-----7300---ACEE07TF  LGNOCAPTF  00000CONCERTO OFFICE PRODUCTS                            48.53C2006-01-05          ----------                                                                  ",
+                "2004BA6044913-----9041---ACLI07TF  LGNOCAPTF  00000CONCERTO OFFICE PRODUCTS                            48.53D2006-01-05          ----------                                                                  "
+        };
+        
+        // Add inputs to expected output ...
+        Vector expectedOutput = new Vector();
+        for(int i = 0; i < stringInput.length; i++) {
+            expectedOutput.add(new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
+        }
+        
+        // ... add expected output ...
+        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+                "2004BA6044913-----7300---ACEE07TF  LGNOCAPTF  00000CONCERTO OFFICE PRODUCTS                            48.53C2006-01-05          ----------                                                                  "));
+        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+                "2004BA6044913-----9041---ACLI07TF  LGNOCAPTF  00000CONCERTO OFFICE PRODUCTS                            48.53D2006-01-05          ----------                                                                  "));
+        
+        // ... and run the test.
+        scrub(stringInput);
+        assertOriginEntries(4,(EntryHolder[]) expectedOutput.toArray(new EntryHolder[0]), dateTimeService.currentDate);
+        
+    }
+    
+    public void testNoCapitalizationForEncumbranceEntry() throws Exception {
+
+        // Inputs.
+        String[] stringInput = new String[] {
+                "2004BA6044906-----7300---EXEE07TOPSLGNOCAPEX       CONCERTO OFFICE PRODUCTS                            48.53C2006-01-05          ----------                                 D                                ",
+                "2004BA6044906-----9041---EXLI07TOPSLGNOCAPEX       CONCERTO OFFICE PRODUCTS                            48.53D2006-01-05          ----------                                 D                                "
+        };
+        
+        String[] convertedStringInput = new String[] {
+                "2004BA6044906-----7300---EXEE07TOPSLGNOCAPEX  00000CONCERTO OFFICE PRODUCTS                            48.53C2006-01-05          ----------                                 D                                ",
+                "2004BA6044906-----9041---EXLI07TOPSLGNOCAPEX  00000CONCERTO OFFICE PRODUCTS                            48.53D2006-01-05          ----------                                 D                                "
+        };
+        
+        // Add inputs to expected output ...
+        Vector expectedOutput = new Vector();
+        for(int i = 0; i < stringInput.length; i++) {
+            expectedOutput.add(new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
+        }
+        
+        // ... add expected output ...
+        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+                "2004BA6044906-----7300---EXEE07TOPSLGNOCAPEX  00000CONCERTO OFFICE PRODUCTS                            48.53C2006-01-05          ----------                                 D                                "));
+        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+                "2004BA6044906-----9041---EXLI07TOPSLGNOCAPEX  00000CONCERTO OFFICE PRODUCTS                            48.53D2006-01-05          ----------                                 D                                "));
+        
+        // ... and run the test.
+        scrub(stringInput);
+        assertOriginEntries(4,(EntryHolder[]) expectedOutput.toArray(new EntryHolder[0]), dateTimeService.currentDate);
+        
+    }
+    
+    public void testNoCapitalizationForBudgetTransaction() throws Exception {
+        
+        // Inputs.
+        String[] stringInput = new String[] {
+                "2004BA6044900-----7000---BBEE07CD  PDNOCAPBB       214090047 EVERETT J PRESCOTT INC.                 1445.00 2006-01-05ACCDEFGHIJ----------12345678                                                          ",
+                "2004BA6044900-----8000---BBAS07CD  PDNOCAPBB       214090047 EVERETT J PRESCOTT INC.                 1445.00 2006-01-05ABCDEFGHIG----------12345679                                                          "
+        };
+        
+        String[] convertedStringInput = new String[] {
+                "2004BA6044900-----7000---BBEE07CD  PDNOCAPBB  00000214090047 EVERETT J PRESCOTT INC.                 1445.00 2006-01-05ACCDEFGHIJ----------12345678                                                          ",
+                "2004BA6044900-----8000---BBAS07CD  PDNOCAPBB  00000214090047 EVERETT J PRESCOTT INC.                 1445.00 2006-01-05ABCDEFGHIG----------12345679                                                          "
+        };
+        
+        // Add inputs to expected output ...
+        Vector expectedOutput = new Vector();
+        for(int i = 0; i < stringInput.length; i++) {
+            expectedOutput.add(new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
+        }
+        
+        // ... add expected output ...
+        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+                "2004BA6044900-----7000---BBEE07CD  PDNOCAPBB  00000214090047 EVERETT J PRESCOTT INC.                 1445.00 2006-01-05ACCDEFGHIJ----------12345678                                                          "));
+        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+                "2004BA6044900-----8000---BBAS07CD  PDNOCAPBB  00000214090047 EVERETT J PRESCOTT INC.                 1445.00 2006-01-05ABCDEFGHIG----------12345679                                                          "));
+        
+        // ... and run the test.
+        scrub(stringInput);
+        assertOriginEntries(4,(EntryHolder[]) expectedOutput.toArray(new EntryHolder[0]), dateTimeService.currentDate);
+        
+    }
+    
     public void testOffsetGenerationAcrossMultipleFiscalPeriods() throws Exception {
         
         // Inputs.

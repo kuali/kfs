@@ -295,7 +295,7 @@ public class BalanceInquiryForm extends LookupForm {
 
 
     /**
-     * @param kualiLookupable The kualiLookupable to set.
+     * @param lookupable The kualiLookupable to set.
      */
     public void setLookupable(Lookupable lookupable) {
         this.lookupable = lookupable;

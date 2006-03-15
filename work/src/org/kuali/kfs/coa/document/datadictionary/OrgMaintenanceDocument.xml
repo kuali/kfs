@@ -11,7 +11,7 @@
     </maintainableClass>
 
 	<businessRulesClass>org.kuali.module.chart.rules.OrgRule</businessRulesClass>
-		
+	<preRulesCheckClass>org.kuali.module.chart.rules.OrgPreRules</preRulesCheckClass>	
     <documentAuthorizerClass>org.kuali.module.chart.document.OrgDocumentAuthorizer</documentAuthorizerClass>
     <authorizations>
       <authorization action="initiate">

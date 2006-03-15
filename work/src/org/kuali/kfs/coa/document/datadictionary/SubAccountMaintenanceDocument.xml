@@ -6,8 +6,8 @@
 	<maintenanceDocument>
         <businessObjectClass>org.kuali.module.chart.bo.SubAccount</businessObjectClass>
         <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
-
 		<businessRulesClass>org.kuali.module.chart.rules.SubAccountRule</businessRulesClass>
+		<preRulesCheckClass>org.kuali.module.chart.rules.SubAccountPreRules</preRulesCheckClass>
 		
         <documentAuthorizerClass>org.kuali.module.chart.document.SubAccountDocumentAuthorizer</documentAuthorizerClass>
         <authorizations>
@@ -76,10 +76,10 @@
 	        </maintainableSection>
 	        <maintainableSection title="Edit CG ICR">
                 <maintainableItems>
-		            <maintainableField name="a21SubAccount.financialIcrSeriesIdentifier" required="false" />
-		            <maintainableField name="a21SubAccount.indirectCostRecoveryChartOfAccountsCode" required="false" />
-		            <maintainableField name="a21SubAccount.indirectCostRecoveryAccountNumber" required="false" />
-		            <maintainableField name="a21SubAccount.indirectCostRecoveryTypeCode" required="false" />
+		            <maintainableField name="a21SubAccount.financialIcrSeriesIdentifier" required="true" />
+		            <maintainableField name="a21SubAccount.indirectCostRecoveryChartOfAccountsCode" required="true" />
+		            <maintainableField name="a21SubAccount.indirectCostRecoveryAccountNumber" required="true" />
+		            <maintainableField name="a21SubAccount.indirectCostRecoveryTypeCode" required="true" />
 		            <maintainableField name="a21SubAccount.offCampusCode" required="false">
 		            	<defaultValue>false</defaultValue>
 		            </maintainableField>

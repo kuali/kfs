@@ -134,7 +134,7 @@
 				<required>false</required>
 				<control>
 					<select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" />
-				</control> 
+				</control>
 				<summary>Financial Reporting Chart of Accounts Code</summary>
 				<description>
 					Financial Reporting Chart of Accounts Code
@@ -175,6 +175,10 @@
 								sourceClassName="org.kuali.module.chart.bo.A21SubAccount" 
 								sourceAttributeName="subAccountTypeCode">
 				<required>false</required>
+				<control>
+		          <select
+		            valuesFinderClass="org.kuali.core.lookup.keyvalues.SubAccountTypeValuesFinder" />
+		        </control>
 			</attributeReference>
 		    
 			<attributeReference name="a21SubAccount.costShareChartOfAccountCode" 
@@ -183,6 +187,10 @@
 				<label>Cost Sharing Chart of Accounts Code</label>
 				<shortLabel>CostShareCOACode</shortLabel>
 				<required>false</required>
+				<control>
+		          <select
+		            valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" />
+		        </control>
 				<summary>Cost Sharing Chart of Accounts Code</summary>
 				<description>Cost Sharing Chart of Accounts Code</description>
 			</attributeReference>
@@ -225,7 +233,7 @@
 				<required>false</required>
 				<control>
 					<select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" />
-				</control> 
+				</control>
 				<summary>ICR Chart of Accounts Code</summary>
 				<description>ICR Chart of Accounts Code</description>
 			</attributeReference>
@@ -246,6 +254,10 @@
 				<label>ICR Type Code</label>
 				<shortLabel>ICRTypeCd</shortLabel>
 				<required>false</required>
+				<control>
+		          <select
+		            valuesFinderClass="org.kuali.core.lookup.keyvalues.ICRTypeValuesFinder" />
+		        </control>
 				<summary>ICR Type Code</summary>
 				<description>ICR Type Code</description>
 			</attributeReference>

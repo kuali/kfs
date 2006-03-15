@@ -322,7 +322,7 @@
 
 <%-- optional second row of accounting fields, between index and amount columns --%>
 <c:if test="${!empty extraRowFields}">
-    <tr><td colspan="${columnCountUntilAmount - 1}" style="padding: 0px;">
+    <tr><td colspan="${columnCountUntilAmount - 1}" style="padding: 0px;border: 0px none ;">
         <table cellpadding="0" cellspacing="0" style="width: 100%;border: 0px;">
         <tr>
         <c:set var="delimitedExtraRowFields" value=",${extraRowFields},"/>

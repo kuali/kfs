@@ -17,6 +17,8 @@
 <c:set var="file" value="${sourceOrTarget}File"/>
 <c:set var="uploadLines" value="upload${capitalSourceOrTarget}Lines"/>
 <c:set var="canUpload" value="${!empty editingMode['fullEntry']}"/>
+<%-- todo: get formatUrl from parameter database? --%>
+<c:set var="formatUrl" value="http://fms.dfa.cornell.edu:8080/confluence/display/KULEDOCS/Accounting+Line+Import"/>
 
 <c:set var="titleColSpan" value="4" />
 <c:if test="${empty editingMode['fullEntry']}" >
@@ -44,6 +46,7 @@
                       '     width=71 height=11 border=0 align="middle" class="det-button">' +
                     '<\/a>' +
                     '<div id="${uploadDiv}" style="display:none;" >' +
+                      '<a href="${formatUrl}" target="helpWindow">format<\/a>&nbsp;' +
                       '<html:file size="30" property="${file}" />' +
                       '<html:image property="methodToCall.${uploadLines}" src="images/imp-add.gif"
                                     styleClass="tinybutton" alt="insert ${sourceOrTarget} accounting lines" />' +
@@ -53,6 +56,7 @@
                 //-->
             </SCRIPT>
             <NOSCRIPT>
+                Import lines <a href="${formatUrl}" target="helpWindow">format</a>&nbsp;
                 <html:file size="30" property="${file}" style="font:10px;height:16px;"/>
                 <html:image property="methodToCall.${uploadLines}" src="images/imp-add.gif"
                             alt="insert ${sourceOrTarget} accounting lines"/>

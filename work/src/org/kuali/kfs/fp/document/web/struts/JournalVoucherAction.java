@@ -67,9 +67,9 @@ public class JournalVoucherAction extends KualiTransactionalDocumentActionBase {
     private static final String EXTERNAL_ENCUMBRANCE = "EX";
 
     // upload file format templates
-    private static final String ACCOUNTING_LINE_UPLOAD_EXTERNAL_ENCUMBRANCE = "JV-Accounting-Line-Upload-External-Encumbrance-Balance-Type.csv";
-    private static final String ACCOUNTING_LINE_UPLOAD_OFFSET_GENERATION = "JV-Accounting-Line-Upload-Offset-Generation-Balance-Type.csv";
-    private static final String ACCOUNTING_LINE_UPLOAD_NON_OFFSET_GENERATION = "JV-Accounting-Line-Upload-Non-Offset-Generation-Balance-Type.csv";
+    private static final String ACCOUNTING_LINE_IMPORT_EXTERNAL_ENCUMBRANCE = "JV-Accounting-Line-Import-External-Encumbrance-Balance-Type.csv";
+    private static final String ACCOUNTING_LINE_IMPORT_OFFSET_GENERATION = "JV-Accounting-Line-Import-Offset-Generation-Balance-Type.csv";
+    private static final String ACCOUNTING_LINE_IMPORT_NON_OFFSET_GENERATION = "JV-Accounting-Line-Import-Non-Offset-Generation-Balance-Type.csv";
 
     // used to determine which way the change balance type action is switching
     // these are local constants only used within this action class
@@ -735,7 +735,7 @@ public class JournalVoucherAction extends KualiTransactionalDocumentActionBase {
 
         populateAllJournalVoucherAccountingLineHelpers(jvForm);
 
-        if (GlobalVariables.getErrorMap().containsKey(Constants.SOURCE_ACCOUNTING_LINE_ERRORS)) {
+        if (GlobalVariables.getErrorMap().containsKeyMatchingPattern(Constants.SOURCE_ACCOUNTING_LINE_ERROR_PATTERN)) {
             JournalVoucherDocument jvDocument = jvForm.getJournalVoucherDocument();
 
             GlobalVariables.getErrorMap().put(Constants.SOURCE_ACCOUNTING_LINE_ERRORS,
@@ -785,18 +785,14 @@ public class JournalVoucherAction extends KualiTransactionalDocumentActionBase {
      * @return String
      */
     private String getImportTemplateName(JournalVoucherDocument jv) {
-        String retval = null;
-
-        if (jv.getBalanceType().isFinancialOffsetGenerationIndicator()) {
-            retval = ACCOUNTING_LINE_UPLOAD_EXTERNAL_ENCUMBRANCE;
+        if (jv.getBalanceType().getCode().equals(EXTERNAL_ENCUMBRANCE)) {
+            return ACCOUNTING_LINE_IMPORT_EXTERNAL_ENCUMBRANCE;
         }
-        else if (jv.getBalanceType().getCode().equals(EXTERNAL_ENCUMBRANCE)) {
-            retval = ACCOUNTING_LINE_UPLOAD_OFFSET_GENERATION;
+        else if (jv.getBalanceType().isFinancialOffsetGenerationIndicator()) {
+            return ACCOUNTING_LINE_IMPORT_OFFSET_GENERATION;
         }
         else {
-            retval = ACCOUNTING_LINE_UPLOAD_NON_OFFSET_GENERATION;
+            return ACCOUNTING_LINE_IMPORT_NON_OFFSET_GENERATION;
         }
-
-        return retval;
     }
 }

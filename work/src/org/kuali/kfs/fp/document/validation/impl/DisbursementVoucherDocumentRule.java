@@ -28,6 +28,8 @@ import org.kuali.KeyConstants;
 import org.kuali.PropertyConstants;
 import org.kuali.core.bo.AccountingLine;
 import org.kuali.core.bo.BusinessObject;
+import org.kuali.core.bo.SourceAccountingLine;
+import org.kuali.core.bo.TargetAccountingLine;
 import org.kuali.core.bo.user.AuthenticationUserId;
 import org.kuali.core.bo.user.KualiGroup;
 import org.kuali.core.bo.user.KualiUser;
@@ -51,6 +53,7 @@ import org.kuali.module.financial.bo.Payee;
 import org.kuali.module.financial.bo.WireCharge;
 import org.kuali.module.financial.document.DisbursementVoucherDocument;
 import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
+import org.kuali.module.gl.util.SufficientFundsItemHelper.SufficientFundsItem;
 
 
 /**
@@ -1161,4 +1164,48 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
                 || workflowDocument.stateIsException() || workflowDocument.stateIsDisapproved() || workflowDocument.stateIsSaved());
 
     }
+
+    /**
+     * 
+     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processSourceAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument,
+     *      org.kuali.core.bo.SourceAccountingLine)
+     */
+    protected SufficientFundsItem processSourceAccountingLineSufficientFundsCheckingPreparation(
+            TransactionalDocument transactionalDocument, SourceAccountingLine sourceAccountingLine) {
+        SufficientFundsItem item = null;
+        String chartOfAccountsCode = sourceAccountingLine.getChartOfAccountsCode();
+        String accountNumber = sourceAccountingLine.getAccountNumber();
+        String accountSufficientFundsCode = sourceAccountingLine.getAccount().getAccountSufficientFundsCode();
+        String financialObjectCode = sourceAccountingLine.getFinancialObjectCode();
+        String financialObjectLevelCode = sourceAccountingLine.getObjectCode().getFinancialObjectLevelCode();
+        KualiDecimal lineAmount = sourceAccountingLine.getAmount();
+        Integer fiscalYear = sourceAccountingLine.getPostingYear();
+        String financialObjectTypeCode = sourceAccountingLine.getObjectTypeCode();
+
+        // always credit
+        String debitCreditCode = Constants.GL_CREDIT_CODE;
+        String sufficientFundsObjectCode = SpringServiceLocator.getSufficientFundsService().getSufficientFundsObjectCode(
+                chartOfAccountsCode, financialObjectCode, accountSufficientFundsCode, financialObjectLevelCode);
+        item = buildSufficentFundsItem(accountNumber, accountSufficientFundsCode, lineAmount, chartOfAccountsCode,
+                sufficientFundsObjectCode, debitCreditCode, financialObjectCode, financialObjectLevelCode, fiscalYear,
+                financialObjectTypeCode);
+
+        return item;
+    }
+
+    /**
+     * 
+     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processTargetAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument,
+     *      org.kuali.core.bo.TargetAccountingLine)
+     */
+    protected SufficientFundsItem processTargetAccountingLineSufficientFundsCheckingPreparation(
+            TransactionalDocument transactionalDocument, TargetAccountingLine targetAccountingLine) {
+        if (targetAccountingLine != null) {
+            throw new IllegalArgumentException(
+                "DV document doesn't have target accounting lines. This method should have never been entered");
+        }
+        return null;
+    }
+
+
 }

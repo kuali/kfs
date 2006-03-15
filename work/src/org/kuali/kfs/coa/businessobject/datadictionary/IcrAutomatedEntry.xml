@@ -56,7 +56,7 @@
 				<field attributeName="financialSubObjectCode" />	
 				<field attributeName="offsetBalanceSheetObjectCodeNumber" />	
 				<field attributeName="transactionDebitIndicator" />	
-				<field attributeName="awardIndrCostRcvyRatePct" />								
+				<!--  <field attributeName="awardIndrCostRcvyRatePct" /> -->
 			</resultFields>
 		</lookup>
 
@@ -200,7 +200,8 @@
 				<description>The unique code indicating that the object type is a credit or a debit.</description>
 			</attribute>
 
-			<attributeReference name="awardIndrCostRcvyRatePct" 
+<!--
+ 			<attributeReference name="awardIndrCostRcvyRatePct" 
 								sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
 								sourceAttributeName="percent">
 				<label>ICR Percent</label>
@@ -209,6 +210,7 @@
 				<description>Award Indirect Cost Recovery Rate Percentt</description>
 				
 			</attributeReference>
+-->
 
  			<attributeReference name="versionNumber" 
  				sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 

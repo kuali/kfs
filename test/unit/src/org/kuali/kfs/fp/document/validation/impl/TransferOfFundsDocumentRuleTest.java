@@ -536,7 +536,7 @@ public class TransferOfFundsDocumentRuleTest extends TransactionalDocumentRuleTe
         line.setAmount(new KualiDecimal("3.0"));
         
         TransferOfFundsDocumentRule rule = new TransferOfFundsDocumentRule();
-        SufficientFundsItem item = rule.processSourceAccountingLineSufficientFundsCheckingPreparation(line);
+        SufficientFundsItem item = rule.processSourceAccountingLineSufficientFundsCheckingPreparation(null, line);
 
         assertEquals(SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(
                 TransferOfFundsDocumentRuleConstants.KUALI_TRANSACTION_PROCESSING_TRANSFER_OF_FUNDS_SECURITY_GROUPING,
@@ -551,7 +551,7 @@ public class TransferOfFundsDocumentRuleTest extends TransactionalDocumentRuleTe
         line.setAmount(new KualiDecimal("-3.0"));
 
         TransferOfFundsDocumentRule rule = new TransferOfFundsDocumentRule();
-        SufficientFundsItem item = rule.processSourceAccountingLineSufficientFundsCheckingPreparation(line);
+        SufficientFundsItem item = rule.processSourceAccountingLineSufficientFundsCheckingPreparation(null, line);
 
         assertEquals(line.getObjectTypeCode(), item.getFinancialObjectTypeCode());
         assertEquals(Constants.GL_DEBIT_CODE, item.getDebitCreditCode());
@@ -564,7 +564,7 @@ public class TransferOfFundsDocumentRuleTest extends TransactionalDocumentRuleTe
         line.setAmount(new KualiDecimal("3.0"));
         
         TransferOfFundsDocumentRule rule = new TransferOfFundsDocumentRule();
-        SufficientFundsItem item = rule.processSourceAccountingLineSufficientFundsCheckingPreparation(line);
+        SufficientFundsItem item = rule.processSourceAccountingLineSufficientFundsCheckingPreparation(null, line);
 
         assertEquals(SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(
                 TransferOfFundsDocumentRuleConstants.KUALI_TRANSACTION_PROCESSING_TRANSFER_OF_FUNDS_SECURITY_GROUPING,
@@ -579,7 +579,7 @@ public class TransferOfFundsDocumentRuleTest extends TransactionalDocumentRuleTe
         line.setAmount(new KualiDecimal("-3.0"));
 
         TransferOfFundsDocumentRule rule = new TransferOfFundsDocumentRule();
-        SufficientFundsItem item = rule.processSourceAccountingLineSufficientFundsCheckingPreparation(line);
+        SufficientFundsItem item = rule.processSourceAccountingLineSufficientFundsCheckingPreparation(null, line);
 
         assertEquals(line.getObjectTypeCode(), item.getFinancialObjectTypeCode());
         assertEquals(Constants.GL_DEBIT_CODE, item.getDebitCreditCode());
@@ -592,7 +592,7 @@ public class TransferOfFundsDocumentRuleTest extends TransactionalDocumentRuleTe
         line.setAmount(new KualiDecimal("3.0"));
         
         TransferOfFundsDocumentRule rule = new TransferOfFundsDocumentRule();
-        SufficientFundsItem item = rule.processTargetAccountingLineSufficientFundsCheckingPreparation(line);
+        SufficientFundsItem item = rule.processTargetAccountingLineSufficientFundsCheckingPreparation(null, line);
 
         assertEquals(SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(
                 TransferOfFundsDocumentRuleConstants.KUALI_TRANSACTION_PROCESSING_TRANSFER_OF_FUNDS_SECURITY_GROUPING,
@@ -607,7 +607,7 @@ public class TransferOfFundsDocumentRuleTest extends TransactionalDocumentRuleTe
         line.setAmount(new KualiDecimal("-3.0"));
 
         TransferOfFundsDocumentRule rule = new TransferOfFundsDocumentRule();
-        SufficientFundsItem item = rule.processTargetAccountingLineSufficientFundsCheckingPreparation(line);
+        SufficientFundsItem item = rule.processTargetAccountingLineSufficientFundsCheckingPreparation(null, line);
 
         assertEquals(line.getObjectTypeCode(), item.getFinancialObjectTypeCode());
         assertEquals(Constants.GL_CREDIT_CODE, item.getDebitCreditCode());
@@ -620,7 +620,7 @@ public class TransferOfFundsDocumentRuleTest extends TransactionalDocumentRuleTe
         line.setAmount(new KualiDecimal("3.0"));
         
         TransferOfFundsDocumentRule rule = new TransferOfFundsDocumentRule();
-        SufficientFundsItem item = rule.processTargetAccountingLineSufficientFundsCheckingPreparation(line);
+        SufficientFundsItem item = rule.processTargetAccountingLineSufficientFundsCheckingPreparation(null, line);
 
         assertEquals(SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(
                 TransferOfFundsDocumentRuleConstants.KUALI_TRANSACTION_PROCESSING_TRANSFER_OF_FUNDS_SECURITY_GROUPING,
@@ -635,7 +635,7 @@ public class TransferOfFundsDocumentRuleTest extends TransactionalDocumentRuleTe
         line.setAmount(new KualiDecimal("-3.0"));
 
         TransferOfFundsDocumentRule rule = new TransferOfFundsDocumentRule();
-        SufficientFundsItem item = rule.processTargetAccountingLineSufficientFundsCheckingPreparation(line);
+        SufficientFundsItem item = rule.processTargetAccountingLineSufficientFundsCheckingPreparation(null, line);
 
         assertEquals(line.getObjectTypeCode(), item.getFinancialObjectTypeCode());
         assertEquals(Constants.GL_CREDIT_CODE, item.getDebitCreditCode());

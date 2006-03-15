@@ -211,20 +211,20 @@ public class TransferOfFundsDocumentRule extends TransactionalDocumentRuleBase i
 
     /**
      * 
-     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processSourceAccountingLineSufficientFundsCheckingPreparation(org.kuali.core.bo.SourceAccountingLine)
+     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processSourceAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument, org.kuali.core.bo.SourceAccountingLine)
      */
     protected SufficientFundsItem processSourceAccountingLineSufficientFundsCheckingPreparation(
-            SourceAccountingLine sourceAccountingLine) {
+            TransactionalDocument transactionalDocument, SourceAccountingLine sourceAccountingLine) {
 
         return processAccountingLineSufficientFundsCheckingPreparation(sourceAccountingLine);
     }
 
     /**
      * 
-     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processTargetAccountingLineSufficientFundsCheckingPreparation(org.kuali.core.bo.TargetAccountingLine)
+     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processTargetAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument, org.kuali.core.bo.TargetAccountingLine)
      */
     protected SufficientFundsItem processTargetAccountingLineSufficientFundsCheckingPreparation(
-            TargetAccountingLine targetAccountingLine) {
+            TransactionalDocument transactionalDocument, TargetAccountingLine targetAccountingLine) {
         return processAccountingLineSufficientFundsCheckingPreparation(targetAccountingLine);
     }
 

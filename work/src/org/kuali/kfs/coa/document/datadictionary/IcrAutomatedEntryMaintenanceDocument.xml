@@ -7,7 +7,7 @@
 	<maintenanceDocument>
 		<businessObjectClass>org.kuali.module.chart.bo.IcrAutomatedEntry</businessObjectClass>
 		<maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
-
+		<businessRulesClass>org.kuali.module.chart.rules.IcrAutomatedEntryRule</businessRulesClass>
    		<documentAuthorizerClass>org.kuali.core.document.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
 
         <authorizations>

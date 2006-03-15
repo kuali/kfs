@@ -304,6 +304,10 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
         
         boolean success = true;
         
+        //  if the user doesnt exist, then do nothing, it'll fail the existence test elsewhere
+        if (ObjectUtils.isNull(newDelegate.getAccountDelegate())) {
+            return success;
+        }
         KualiUser user = newDelegate.getAccountDelegate();
         
         //  user must be A - Active

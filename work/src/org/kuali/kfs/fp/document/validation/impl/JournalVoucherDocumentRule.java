@@ -455,9 +455,9 @@ public class JournalVoucherDocumentRule extends TransactionalDocumentRuleBase {
             String debitCreditCode = null;
 
             // fi_djv:lp_proc_jrnl_ln.39-2...51-2
-            // msa apc 8000 same that suff funds uses
             if (StringUtils.equals(accountSufficientFundsCode, Constants.SF_TYPE_CASH_AT_ACCOUNT)
-                    && StringUtils.equals(financialObjectCode, "8000")) {
+                    && StringUtils.equals(financialObjectCode, SpringServiceLocator.getSufficientFundsService()
+                            .getFinancialObjectCodeForCashInBank())) {
                 // use debit credit code
                 debitCreditCode = sourceAccountingLine.getDebitCreditCode();
             }

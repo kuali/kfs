@@ -19,6 +19,7 @@
 package org.kuali.module.gl.service.impl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -40,12 +41,16 @@ import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.ObjLevel;
 import org.kuali.module.chart.service.AccountService;
 import org.kuali.module.chart.service.ObjectLevelService;
+import org.kuali.module.financial.rules.TransferOfFundsDocumentRuleConstants;
+import org.kuali.module.financial.rules.TransactionalDocumentRuleBaseConstants.APPLICATION_PARAMETER;
+import org.kuali.module.financial.rules.TransactionalDocumentRuleBaseConstants.APPLICATION_PARAMETER_SECURITY_GROUP;
 import org.kuali.module.gl.bo.SufficientFundBalances;
 import org.kuali.module.gl.dao.ojb.SufficientFundsDaoOjb;
 import org.kuali.module.gl.service.SufficientFundsService;
+import org.kuali.module.gl.service.SufficientFundsServiceConstants;
 import org.kuali.module.gl.util.SufficientFundsItemHelper.SufficientFundsItem;
 
-public class SufficientFundsServiceImpl implements SufficientFundsService {
+public class SufficientFundsServiceImpl implements SufficientFundsService, SufficientFundsServiceConstants {
     private AccountService accountService;
     private BusinessObjectService businessObjectService;
     private ObjectLevelService objectLevelService;
@@ -319,34 +324,46 @@ public class SufficientFundsServiceImpl implements SufficientFundsService {
         String documentTypeName = dataDictionaryService.getDocumentTypeNameByClass(documentClass);
         String documentTypeCode = dataDictionaryService.getDocumentTypeCodeByTypeName(documentTypeName);
         // msa apc ?
-        return StringUtils.defaultString(documentTypeCode).startsWith("YE");
+        boolean isYearEnd = StringUtils.defaultString(documentTypeCode).startsWith("YE");
+        return isYearEnd;
     }
 
-    // msa apc
-    private List getExpenditureCodes() {
-        // msa apc ex;es;ee;te
+    /**
+     * 
+     * @see org.kuali.module.gl.service.SufficientFundsService#getExpenditureCodes()
+     */
+    public List getExpenditureCodes() {
+        // msa verify ex;es;ee;te
         final List list = new ArrayList();
-        list.add("EX");
-        list.add("ES");
-        list.add("EE");
-        list.add("TE");
+        list.addAll(Arrays.asList(kualiConfigurationService.getApplicationParameterValues(
+                APPLICATION_PARAMETER_SECURITY_GROUP.KUALI_TRANSACTION_PROCESSING_GLOBAL_RULES_SECURITY_GROUPING,
+                APPLICATION_PARAMETER.EXPENSE_OBJECT_TYPE_CODES)));
+        list.add(kualiConfigurationService.getApplicationParameterValue(
+                TransferOfFundsDocumentRuleConstants.KUALI_TRANSACTION_PROCESSING_TRANSFER_OF_FUNDS_SECURITY_GROUPING,
+                TransferOfFundsDocumentRuleConstants.TRANSFER_OF_FUNDS_EXPENSE_OBJECT_TYPE_CODE));
         return list;
     }
 
-    // msa change this method name once it is clear what these actually do
-    private List getSpecialFinancialObjectCodes() {
-        // msa apc passed in from service
+    /**
+     * 
+     * @see org.kuali.module.gl.service.SufficientFundsService#getSpecialFinancialObjectCodes()
+     */
+    public List getSpecialFinancialObjectCodes() {
         final List list = new ArrayList();
-        list.add("9040");
-        list.add("9041");
-        list.add("9050");
+        list.addAll(Arrays.asList(kualiConfigurationService.getApplicationParameterValues(
+                KUALI_TRANSACTION_PROCESSING_SUFFICIENT_FUNDS_SECURITY_GROUPING, SUFFICIENT_FUNDS_OBJECT_CODE_SPECIALS)));
 
         return list;
     }
 
-    private String getFinancialObjectCodeForCashInBank() {
-        // msa apc passed in from service
-        return "8000";
+    /**
+     * 
+     * @see org.kuali.module.gl.service.SufficientFundsService#getFinancialObjectCodeForCashInBank()
+     */
+    public String getFinancialObjectCodeForCashInBank() {
+        String value = kualiConfigurationService.getApplicationParameterValue(
+                KUALI_TRANSACTION_PROCESSING_SUFFICIENT_FUNDS_SECURITY_GROUPING, SUFFICIENT_FUNDS_OBJECT_CODE_CASH_IN_BANK);
+        return value;
     }
 
     // spring injected services

@@ -28,6 +28,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.Constants;
 import org.kuali.core.bo.AccountingLine;
 import org.kuali.core.bo.SourceAccountingLine;
@@ -72,6 +73,20 @@ public class SufficientFundsServiceTest extends KualiTestBaseWithSpring {
         businessObjectService = SpringServiceLocator.getBusinessObjectService();
     }
 
+    public void testGetExpenditureCodes(){
+        List list = sufficientFundsService.getExpenditureCodes();
+        assertFalse(list.isEmpty());
+    }
+    
+    public void testGetSpecialFinancialObjectCodes(){
+        List list = sufficientFundsService.getSpecialFinancialObjectCodes();
+        assertFalse(list.isEmpty());
+    }
+    
+    public void testGetFinancialObjectCodeForCashInBank(){
+        String value= sufficientFundsService.getFinancialObjectCodeForCashInBank();
+        assertFalse(StringUtils.isBlank(value));
+    }
     public void testGetSufficientFundsObjectCode_level_checking_object() {
         String rv = sufficientFundsService.getSufficientFundsObjectCode(null, ARBITRARY_VALUE, Constants.SF_TYPE_OBJECT, null);
         assertEquals(ARBITRARY_VALUE, rv);

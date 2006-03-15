@@ -36,6 +36,7 @@ import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.rule.TransactionalDocumentRuleTestBase;
 import org.kuali.core.rule.event.AddAccountingLineEvent;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
+import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.financial.document.DisbursementVoucherDocumentTest;
 import org.kuali.module.financial.document.JournalVoucherDocument;
 import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
@@ -832,8 +833,7 @@ public class JournalVoucherDocumentRuleTest extends TransactionalDocumentRuleTes
         document.setBalanceTypeCode(Constants.BALANCE_TYPE_ACTUAL);
 
         SourceAccountingLine line = (SourceAccountingLine) getSourceLineParameter1().createLine();
-        // msa apc 8000
-        line.setFinancialObjectCode("8000");
+        line.setFinancialObjectCode(SpringServiceLocator.getSufficientFundsService().getFinancialObjectCodeForCashInBank());
         line.getAccount().setAccountSufficientFundsCode(Constants.SF_TYPE_CASH_AT_ACCOUNT);
         // used arbitrary value to ensure what goes in is what goes out. if the 'standard' C/D values were used there is now way of
         // knowing if the code changed it.

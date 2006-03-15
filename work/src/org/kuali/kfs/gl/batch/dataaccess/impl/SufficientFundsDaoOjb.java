@@ -20,8 +20,6 @@ public class SufficientFundsDaoOjb extends PersistenceBrokerDaoSupport implement
     public SufficientFundsDaoOjb() {
     }
 
-    // msa can these calls return an object instead of an iterator? i dont think so because ojb might try to materialize an object
-    // of type specified by reportquery
     /**
      * 
      * @see org.kuali.module.gl.dao.SufficientFundsDao#calculateM113PfyrBudget(java.lang.Integer, java.lang.String,

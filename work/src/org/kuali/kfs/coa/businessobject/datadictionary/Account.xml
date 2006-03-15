@@ -241,6 +241,9 @@
 				<label>Fringe Benefit Chart Of Accounts Code</label>
 				<shortLabel>FringeChart</shortLabel>
 				<required>false</required>
+				<control>
+					<select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" />
+				</control> 
 				<summary>Fringe Benefit Chart Of Accounts Code</summary>
 				<description>Fringe Benefit Chart Of Accounts Code</description>
 			</attributeReference>
@@ -289,6 +292,9 @@
 				<label>Continuation Chart Of Accounts Code</label>
 				<shortLabel>ContChartCd</shortLabel>
 				<required>false</required>
+				<control>
+					<select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" />
+				</control> 
 				<summary>Continuation Chart Of Accounts Code</summary>
 				<description>Continuation Chart Of Accounts Code</description>
 			</attributeReference>
@@ -369,6 +375,9 @@
 				<label>Endowment Chart Of Accounts Code</label>
 				<shortLabel>EndowChart</shortLabel>
 				<required>false</required>
+				<control>
+					<select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" />
+				</control> 
 				<summary>Endowment Chart Of Accounts Code</summary>
 				<description>Endowment Chart Of Accounts Code</description>
 			</attributeReference>
@@ -389,6 +398,9 @@
 				<label>Contract Control Chart of Accounts Code</label>
 				<shortLabel>CntrctChart</shortLabel>
 				<required>false</required>
+				<control>
+					<select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" />
+				</control> 
 				<summary>Contract Control Chart of Accounts Code</summary>
 				<description>Contract Control Chart of Accounts Code</description>
 			</attributeReference>
@@ -409,6 +421,9 @@
 				<label>Income Stream Chart Of Accounts Code</label>
 				<shortLabel>IncStrChart</shortLabel>
 				<required>false</required>
+				<control>
+					<select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" />
+				</control> 
 				<summary>Income Stream Chart Of Accounts Code</summary>
 				<description>Income Stream Chart Of Accounts Code</description>
 			</attributeReference>
@@ -465,6 +480,9 @@
 				<label>Indirect Cost Recovery Chart Of Accounts Code</label>
 				<shortLabel>IndCstChart</shortLabel>
 				<required>false</required>
+				<control>
+					<select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" />
+				</control> 
 				<summary>Indirect Cost Recovery Chart Of Accounts Code</summary>
 				<description>Indirect Cost Recovery Chart Of Accounts Code</description>
 			</attributeReference>

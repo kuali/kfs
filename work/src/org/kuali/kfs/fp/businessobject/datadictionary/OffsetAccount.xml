@@ -62,6 +62,9 @@
 								sourceAttributeName="chartOfAccountsCode">
 								<label>Offset Chart</label>
 				                <shortLabel>Offset Chart</shortLabel>
+				                <control>
+									<select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" />
+								</control> 
 				                <summary>Offset Chart</summary>
 								<description>Offset Chart...</description>	                
 			</attributeReference>					

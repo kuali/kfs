@@ -122,6 +122,9 @@
 				<label>University Chart Of Accounts</label>
 				<shortLabel>Univ CoA</shortLabel>
 				<required>false</required>
+				<control>
+					<select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" />
+				</control> 
 				<summary>University Chart Of Accounts Code</summary>
 				<description>University Chart Of Accounts Code</description>
 			</attributeReference>
@@ -142,6 +145,9 @@
                 <label>Cash Offset Chart Of Accounts</label>
                 <shortLabel>Cash Off CoA</shortLabel>
 				<required>false</required>
+				<control>
+					<select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" />
+				</control> 
                 <summary>Cash Offset Chart Of Accounts Code</summary>
                 <description>Cash Offset Chart Of Accounts Code</description>
             </attributeReference>

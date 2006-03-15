@@ -74,6 +74,9 @@
 				        sourceClassName="org.kuali.module.chart.bo.Chart"
 				        sourceAttributeName="chartOfAccountsCode">
 		<required>true</required>
+		<control>
+			<select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" />
+		</control> 
       </attributeReference>
 
       <attribute name="organizationCode" forceUppercase="true">
@@ -233,6 +236,9 @@
         <label>Organization Plant Chart</label>
         <shortLabel>Plant Chart</shortLabel>
         <required>false</required>
+        <control>
+			<select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" />
+		</control> 
         <summary>Organization Plant Chart</summary>
         <description>Organization Plant Chart</description>
       </attributeReference>
@@ -315,6 +321,9 @@
         <label>Reports to Chart Code</label>
         <shortLabel>Rpts to Chart</shortLabel>
 		<required>true</required>
+		<control>
+			<select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" />
+		</control> 
         <summary>Reports to Chart Code</summary>
         <description>Reports to Chart Code</description>
       </attributeReference>
@@ -387,6 +396,9 @@
         <label>Campus Plant Chart Code</label>
         <shortLabel>Chart Code</shortLabel>
         <required>false</required>
+        <control>
+			<select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" />
+		</control> 
         <summary>Campus Plant Chart Code</summary>
         <description>Campus Plant Chart Code</description>
       </attributeReference>

@@ -79,6 +79,9 @@
 								sourceClassName="org.kuali.module.chart.bo.Chart" 
 								sourceAttributeName="chartOfAccountsCode">
 				<required>true</required>
+				<control>
+					<select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" />
+				</control> 
 			</attributeReference>
 
 			<attributeReference name="accountNumber" 
@@ -129,6 +132,9 @@
 				<label>Financial Reporting Chart Code</label>
 				<shortLabel>Fin. Rpt. Chart</shortLabel>
 				<required>false</required>
+				<control>
+					<select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" />
+				</control> 
 				<summary>Financial Reporting Chart of Accounts Code</summary>
 				<description>
 					Financial Reporting Chart of Accounts Code
@@ -217,6 +223,9 @@
 				<label>ICR Chart of Accounts Code</label>
 				<shortLabel>IcrCoaCd</shortLabel>
 				<required>false</required>
+				<control>
+					<select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" />
+				</control> 
 				<summary>ICR Chart of Accounts Code</summary>
 				<description>ICR Chart of Accounts Code</description>
 			</attributeReference>

@@ -85,6 +85,9 @@
 								sourceAttributeName="chartOfAccountsCode">
 								<label>Object Chart</label>
 				                <shortLabel>Object Chart</shortLabel>
+				                <control>
+									<select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" />
+								</control> 
 				                <summary>Object Chart</summary>
 								<description>Object Chart...</description>	                
 			</attributeReference>

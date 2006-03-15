@@ -42,11 +42,15 @@
 		
 			<attributeReference name="accountIndirectCostRecoveryTypeCode" 
 				sourceClassName="org.kuali.module.chart.bo.codes.ICRTypeCode" 
-				sourceAttributeName="code" />
+				sourceAttributeName="code" >
+				<required>true</required>	
+			</attributeReference>
 		
 			<attributeReference name="chartOfAccountsCode" 
 								sourceClassName="org.kuali.module.chart.bo.Chart" 
-								sourceAttributeName="chartOfAccountsCode" />
+								sourceAttributeName="chartOfAccountsCode" >
+				<required>true</required>	
+			</attributeReference>
 
 
 			<attribute name="financialObjectCode" forceUppercase="true">
@@ -54,7 +58,7 @@
                 <shortLabel>Object</shortLabel>
 
                 <maxLength>4</maxLength>
-
+				<required>true</required>
                 <control>
                     <text size="4" />
                 </control>

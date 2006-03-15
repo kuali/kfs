@@ -52,6 +52,7 @@
 	            <shortLabel>Name</shortLabel>
 	            <maxLength>40</maxLength>
 	            <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
+	            <required>true</required>	 
 	            <control>
 	                <text size="40" />
 	            </control>

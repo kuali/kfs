@@ -38,24 +38,19 @@
 		
 		<attributes>
 			
-			<!--  
-			This should be an attributeReference, but this wont 
-			work until the actual BO uses objects rather than just 
-			string representations 
-			-->
 			<attributeReference name="chartOfAccountsCode" 
 								sourceClassName="org.kuali.module.chart.bo.Chart" 
-								sourceAttributeName="chartOfAccountsCode" />
+								sourceAttributeName="chartOfAccountsCode" >
+				<required>true</required>	
+			</attributeReference>
+
 			
 
-			<!--  
-			This should be an attributeReference, but this wont 
-			work until the actual BO uses objects rather than just 
-			string representations 
-			-->
 			<attributeReference name="accountNumber" 
 								sourceClassName="org.kuali.module.chart.bo.Account" 
-								sourceAttributeName="accountNumber"/>
+								sourceAttributeName="accountNumber">
+				<required>true</required>	
+			</attributeReference>
 				
 								
 		    <attributeReference name="versionNumber" 

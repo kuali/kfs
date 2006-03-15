@@ -49,11 +49,17 @@
 
 			<attributeReference name="chartOfAccountsCode" 
 								sourceClassName="org.kuali.module.chart.bo.Chart" 
-								sourceAttributeName="chartOfAccountsCode" />
+								sourceAttributeName="chartOfAccountsCode" >
+					<required>true</required>	
+			</attributeReference>
+								
 			
             <attributeReference name="organizationCode"
                                 sourceClassName="org.kuali.module.chart.bo.Org" 
-				                sourceAttributeName="organizationCode" />
+				                sourceAttributeName="organizationCode" >
+					<required>true</required>	
+			</attributeReference>
+
          
 			<attribute name="financialReportingCode" forceUppercase="true">
 				<label>Financial Reporting Code</label>
@@ -61,7 +67,7 @@
 
 				<maxLength>10</maxLength>
 				<validationPattern><anyCharacter /></validationPattern>
-
+				<required>true</required>	
 				<control>
 					<text size="10" />
 				</control>
@@ -76,7 +82,7 @@
 
 				<maxLength>40</maxLength>
 				<validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
-
+				<required>true</required>
 				<control>
 					<text size="40" />
 				</control>
@@ -137,7 +143,7 @@
 
 				<maxLength>10</maxLength>
 				<validationPattern><anyCharacter /></validationPattern>
-
+				<required>true</required>
 				<control>
 					<text size="10" />
 				</control>

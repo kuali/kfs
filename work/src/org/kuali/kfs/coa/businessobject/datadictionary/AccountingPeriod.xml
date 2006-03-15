@@ -60,7 +60,7 @@
                 <maxLength>$attribute.maxLength</maxLength>
 
                 <validationPattern><anyCharacter /></validationPattern>
-
+				<required>true</required>
                 <control>
                     <checkbox />
                 </control>
@@ -75,7 +75,7 @@
                 <maxLength>10</maxLength>
 
                 <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
-
+				<required>true</required>
                 <control>
                     <text size="10" />
                 </control>
@@ -90,7 +90,7 @@
                 <maxLength>1</maxLength>
 
                 <validationPattern><charset validChars="CO" /></validationPattern>
-
+				<required>true</required>
                 <control>
                     <text size="2" />
                 </control>
@@ -106,7 +106,7 @@
                 <maxLength>2</maxLength>
 
                 <validationPattern><anyCharacter exactLength="2" /></validationPattern>
-
+				<required>true</required>
                 <control>
                     <text size="2" />
                 </control>
@@ -120,6 +120,7 @@
 							sourceAttributeName="genericDate">
 				<label>University Fiscal Period End Date</label>
 				<shortLabel>End Date</shortLabel>
+				<required>true</required>
 				<summary>University Fiscal Period End Date</summary>
 				<description>University Fiscal Period End Date...</description>
 			</attributeReference>           
@@ -131,7 +132,7 @@
                 <maxLength>4</maxLength>
 
                 <validationPattern><year /></validationPattern>
-
+				<required>true</required>
                 <control>
                     <text size="5" />
                 </control>

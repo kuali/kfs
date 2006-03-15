@@ -44,7 +44,10 @@
 		<attributes>
 			<attributeReference name="chartOfAccountsCode" 
 								sourceClassName="org.kuali.module.chart.bo.Chart" 
-								sourceAttributeName="chartOfAccountsCode" />
+								sourceAttributeName="chartOfAccountsCode" >
+					<required>true</required>
+			</attributeReference>
+
 
 			<attribute name="accountNumber"	forceUppercase="false">
 				<label>Account Number</label>
@@ -54,7 +57,7 @@
 
 				<maxLength>7</maxLength>
 				<validationPattern><anyCharacter /></validationPattern>
-
+				<required>true</required>
 				<control>
 					<text size="7" />
 				</control>
@@ -70,7 +73,7 @@
                 <shortLabel>Object</shortLabel>
 
                 <maxLength>4</maxLength>
-
+				<required>true</required>
                 <control>
                     <text size="4" />
                 </control>
@@ -85,6 +88,7 @@
 								sourceAttributeName="chartOfAccountsCode">
 								<label>Object Chart</label>
 				                <shortLabel>Object Chart</shortLabel>
+				                <required>true</required>
 				                <control>
 									<select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" />
 								</control> 

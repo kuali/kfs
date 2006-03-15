@@ -66,7 +66,8 @@ public class JournalVoucherDocumentRule extends TransactionalDocumentRuleBase {
      *      org.kuali.core.bo.AccountingLine)
      */
     public boolean processCustomAddAccountingLineBusinessRules(TransactionalDocument document, AccountingLine accountingLine) {
-        return super.processCustomAddAccountingLineBusinessRules( document, accountingLine) && validateAccountingLine(accountingLine);
+        return super.processCustomAddAccountingLineBusinessRules(document, accountingLine)
+                && validateAccountingLine(accountingLine);
     }
 
     /**
@@ -76,24 +77,27 @@ public class JournalVoucherDocumentRule extends TransactionalDocumentRuleBase {
      *      org.kuali.core.bo.AccountingLine)
      */
     public boolean processCustomReviewAccountingLineBusinessRules(TransactionalDocument document, AccountingLine accountingLine) {
-        return super.processCustomReviewAccountingLineBusinessRules( document, accountingLine) && validateAccountingLine(accountingLine);
+        return super.processCustomReviewAccountingLineBusinessRules(document, accountingLine)
+                && validateAccountingLine(accountingLine);
     }
-    
+
     /**
      * Performs additional Journal Voucher specific checks every time an accounting line is updated.
      * 
-     * @see org.kuali.core.rule.UpdateAccountingLineRule#processCustomUpdateAccountingLineBusinessRules(org.kuali.core.document.TransactionalDocument, org.kuali.core.bo.AccountingLine, org.kuali.core.bo.AccountingLine)
+     * @see org.kuali.core.rule.UpdateAccountingLineRule#processCustomUpdateAccountingLineBusinessRules(org.kuali.core.document.TransactionalDocument,
+     *      org.kuali.core.bo.AccountingLine, org.kuali.core.bo.AccountingLine)
      */
     public boolean processCustomUpdateAccountingLineBusinessRules(TransactionalDocument transactionalDocument,
             AccountingLine originalAccountingLine, AccountingLine updatedAccountingLine) {
-        return super.processCustomUpdateAccountingLineBusinessRules( transactionalDocument, originalAccountingLine, updatedAccountingLine) && 
-            validateAccountingLine(updatedAccountingLine);
+        return super.processCustomUpdateAccountingLineBusinessRules(transactionalDocument, originalAccountingLine,
+                updatedAccountingLine)
+                && validateAccountingLine(updatedAccountingLine);
     }
 
     /**
-     * Implements Journal Voucher specific accountingLine validity checks.  These include checking to make
-     * sure that encumbrance reference fields are filled in under certain circumstances.
-
+     * Implements Journal Voucher specific accountingLine validity checks. These include checking to make sure that encumbrance
+     * reference fields are filled in under certain circumstances.
+     * 
      * @param accountingLine
      * @return true if the given accountingLine is valid
      */
@@ -116,18 +120,21 @@ public class JournalVoucherDocumentRule extends TransactionalDocumentRuleBase {
         // check the selected balance type
         jvDoc.refreshReferenceObject(PropertyConstants.BALANCE_TYPE);
         BalanceTyp balanceType = jvDoc.getBalanceType();
-        valid &= TransactionalDocumentRuleUtil.isValidBalanceType(balanceType, JournalVoucherDocument.class, PropertyConstants.BALANCE_TYPE_CODE, DOCUMENT_ERROR_PREFIX + PropertyConstants.BALANCE_TYPE_CODE);
+        valid &= TransactionalDocumentRuleUtil.isValidBalanceType(balanceType, JournalVoucherDocument.class,
+                PropertyConstants.BALANCE_TYPE_CODE, DOCUMENT_ERROR_PREFIX + PropertyConstants.BALANCE_TYPE_CODE);
 
         // check the selected accounting period
         jvDoc.refreshReferenceObject(PropertyConstants.ACCOUNTING_PERIOD);
         AccountingPeriod accountingPeriod = jvDoc.getAccountingPeriod();
         // PropertyConstants.SELECTED_ACCOUNTING_PERIOD is on JournalVoucherForm, not JournalVoucherDocument
-        valid &= TransactionalDocumentRuleUtil.isValidOpenAccountingPeriod(accountingPeriod, JournalVoucherDocument.class, PropertyConstants.ACCOUNTING_PERIOD, DOCUMENT_ERROR_PREFIX + PropertyConstants.SELECTED_ACCOUNTING_PERIOD);
+        valid &= TransactionalDocumentRuleUtil.isValidOpenAccountingPeriod(accountingPeriod, JournalVoucherDocument.class,
+                PropertyConstants.ACCOUNTING_PERIOD, DOCUMENT_ERROR_PREFIX + PropertyConstants.SELECTED_ACCOUNTING_PERIOD);
 
         // check the chosen reversal date, only if they entered a value
-        if(null != jvDoc.getReversalDate()) {
+        if (null != jvDoc.getReversalDate()) {
             Timestamp reversalDate = jvDoc.getReversalDate();
-            valid &= TransactionalDocumentRuleUtil.isValidReversalDate(reversalDate, DOCUMENT_ERROR_PREFIX + PropertyConstants.REVERSAL_DATE);
+            valid &= TransactionalDocumentRuleUtil.isValidReversalDate(reversalDate, DOCUMENT_ERROR_PREFIX
+                    + PropertyConstants.REVERSAL_DATE);
         }
 
         return valid;
@@ -146,17 +153,17 @@ public class JournalVoucherDocumentRule extends TransactionalDocumentRuleBase {
         // set the appropriate accounting period values according to the values chosen by the user
         explicitEntry.setUniversityFiscalPeriodCode(jvDoc.getPostingPeriodCode());
         explicitEntry.setUniversityFiscalYear(jvDoc.getPostingYear());
-        
-        //set the object type code directly from what was entered in the interface
+
+        // set the object type code directly from what was entered in the interface
         explicitEntry.setFinancialObjectTypeCode(accountingLine.getObjectTypeCode());
-        
-        //set the balance type code directly from what was entered in the interface
+
+        // set the balance type code directly from what was entered in the interface
         explicitEntry.setFinancialBalanceTypeCode(accountingLine.getBalanceTypeCode());
 
         // set the debit/credit code appropriately
         jvDoc.refreshReferenceObject("balanceType");
         if (jvDoc.getBalanceType().isFinancialOffsetGenerationIndicator()) {
-            explicitEntry.setTransactionDebitCreditCode(getEntryValue(accountingLine.getDebitCreditCode(), 
+            explicitEntry.setTransactionDebitCreditCode(getEntryValue(accountingLine.getDebitCreditCode(),
                     GENERAL_LEDGER_PENDING_ENTRY_CODE.BLANK_SPACE));
         }
         else {
@@ -164,17 +171,17 @@ public class JournalVoucherDocumentRule extends TransactionalDocumentRuleBase {
         }
 
         // set the encumbrance update code
-        explicitEntry.setTransactionEncumbranceUpdtCd(getEntryValue(accountingLine.getEncumbranceUpdateCode(), 
+        explicitEntry.setTransactionEncumbranceUpdtCd(getEntryValue(accountingLine.getEncumbranceUpdateCode(),
                 GENERAL_LEDGER_PENDING_ENTRY_CODE.BLANK_SPACE));
 
         // set the reversal date to what what specified at the document level
-        if ( jvDoc.getReversalDate() != null ) {
-          explicitEntry.setFinancialDocumentReversalDate(new java.sql.Date(jvDoc.getReversalDate().getTime()));
+        if (jvDoc.getReversalDate() != null) {
+            explicitEntry.setFinancialDocumentReversalDate(new java.sql.Date(jvDoc.getReversalDate().getTime()));
         }
     }
-    
+
     /**
-     * Needed to overrided to set the amount of the GLPE to the amount of the accounting line.  It's a straight mapping.
+     * Needed to overrided to set the amount of the GLPE to the amount of the accounting line. It's a straight mapping.
      * 
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#getGeneralLedgerPendingEntryAmountForAccountingLine(org.kuali.core.bo.AccountingLine)
      */
@@ -225,22 +232,24 @@ public class JournalVoucherDocumentRule extends TransactionalDocumentRuleBase {
         if (jvDoc.getBalanceType().isFinancialOffsetGenerationIndicator()) {
             // check for negative or zero amounts
             if (ZERO.compareTo(amount) == 0) { // if 0
-                GlobalVariables.getErrorMap().putWithoutFullErrorPath(buildErrorMapKeyPathForDebitCreditAmount(true), 
+                GlobalVariables.getErrorMap().putWithoutFullErrorPath(buildErrorMapKeyPathForDebitCreditAmount(true),
                         KeyConstants.ERROR_ZERO_OR_NEGATIVE_AMOUNT, "an accounting line");
-                GlobalVariables.getErrorMap().putWithoutFullErrorPath(buildErrorMapKeyPathForDebitCreditAmount(false), 
+                GlobalVariables.getErrorMap().putWithoutFullErrorPath(buildErrorMapKeyPathForDebitCreditAmount(false),
                         KeyConstants.ERROR_ZERO_OR_NEGATIVE_AMOUNT, "an accounting line");
-                
+
                 return false;
-            } else if(ZERO.compareTo(amount) == 1) {  //entered a negative number
+            }
+            else if (ZERO.compareTo(amount) == 1) { // entered a negative number
                 String debitCreditCode = accountingLine.getDebitCreditCode();
-                if(StringUtils.isNotBlank(debitCreditCode) && GENERAL_LEDGER_PENDING_ENTRY_CODE.DEBIT.equals(debitCreditCode)) {
-                    GlobalVariables.getErrorMap().putWithoutFullErrorPath(buildErrorMapKeyPathForDebitCreditAmount(true), 
-                            KeyConstants.ERROR_ZERO_OR_NEGATIVE_AMOUNT, "an accounting line");
-                } else {
-                    GlobalVariables.getErrorMap().putWithoutFullErrorPath(buildErrorMapKeyPathForDebitCreditAmount(false), 
+                if (StringUtils.isNotBlank(debitCreditCode) && GENERAL_LEDGER_PENDING_ENTRY_CODE.DEBIT.equals(debitCreditCode)) {
+                    GlobalVariables.getErrorMap().putWithoutFullErrorPath(buildErrorMapKeyPathForDebitCreditAmount(true),
                             KeyConstants.ERROR_ZERO_OR_NEGATIVE_AMOUNT, "an accounting line");
                 }
-                
+                else {
+                    GlobalVariables.getErrorMap().putWithoutFullErrorPath(buildErrorMapKeyPathForDebitCreditAmount(false),
+                            KeyConstants.ERROR_ZERO_OR_NEGATIVE_AMOUNT, "an accounting line");
+                }
+
                 return false;
             }
         }
@@ -255,11 +264,11 @@ public class JournalVoucherDocumentRule extends TransactionalDocumentRuleBase {
 
         return true;
     }
-    
+
     /**
-     * This method looks at the current full key path that exists in the ErrorMap structure to determine 
-     * how to build the error map for the special journal voucher credit and debit fields since they don't 
-     * conform to the standard pattern of accounting lines.
+     * This method looks at the current full key path that exists in the ErrorMap structure to determine how to build the error map
+     * for the special journal voucher credit and debit fields since they don't conform to the standard pattern of accounting lines.
+     * 
      * @param isDebit
      * @return String
      */
@@ -267,26 +276,30 @@ public class JournalVoucherDocumentRule extends TransactionalDocumentRuleBase {
         // determine if we are looking at a new line add or an update
         boolean isNewLineAdd = GlobalVariables.getErrorMap().getErrorPath().contains(Constants.NEW_SOURCE_ACCT_LINE_PROPERTY_NAME);
         isNewLineAdd |= GlobalVariables.getErrorMap().getErrorPath().contains(Constants.NEW_SOURCE_ACCT_LINE_PROPERTY_NAME);
-        
-        if(isNewLineAdd) {
-            if(isDebit) {
+
+        if (isNewLineAdd) {
+            if (isDebit) {
                 return Constants.DEBIT_AMOUNT_PROPERTY_NAME;
-            } else {
+            }
+            else {
                 return Constants.CREDIT_AMOUNT_PROPERTY_NAME;
             }
-        } else {
-            String index = StringUtils.substringBetween(GlobalVariables.getErrorMap().getKeyPath("", true), 
-                    Constants.SQUARE_BRACKET_LEFT,
-                    Constants.SQUARE_BRACKET_RIGHT);
-            String indexWithParams = Constants.SQUARE_BRACKET_LEFT + index + Constants.SQUARE_BRACKET_RIGHT;
-            if(isDebit) {
-                return Constants.JOURNAL_LINE_HELPER_PROPERTY_NAME + indexWithParams + Constants.JOURNAL_LINE_HELPER_DEBIT_PROPERTY_NAME;
-            } else {
-                return Constants.JOURNAL_LINE_HELPER_PROPERTY_NAME + indexWithParams + Constants.JOURNAL_LINE_HELPER_CREDIT_PROPERTY_NAME;
-            }
-            
         }
-        
+        else {
+            String index = StringUtils.substringBetween(GlobalVariables.getErrorMap().getKeyPath("", true),
+                    Constants.SQUARE_BRACKET_LEFT, Constants.SQUARE_BRACKET_RIGHT);
+            String indexWithParams = Constants.SQUARE_BRACKET_LEFT + index + Constants.SQUARE_BRACKET_RIGHT;
+            if (isDebit) {
+                return Constants.JOURNAL_LINE_HELPER_PROPERTY_NAME + indexWithParams
+                        + Constants.JOURNAL_LINE_HELPER_DEBIT_PROPERTY_NAME;
+            }
+            else {
+                return Constants.JOURNAL_LINE_HELPER_PROPERTY_NAME + indexWithParams
+                        + Constants.JOURNAL_LINE_HELPER_CREDIT_PROPERTY_NAME;
+            }
+
+        }
+
     }
 
     /**
@@ -384,18 +397,20 @@ public class JournalVoucherDocumentRule extends TransactionalDocumentRuleBase {
     }
 
     /**
-     * The JV allows any object type b/c it is up to the user to enter it into the interface, but it is 
-     * required.  The existence check is done for us automatically by the data dictionary validation if 
-     * a value exists; beforehand so we can assume that any value in that field is valid.
+     * The JV allows any object type b/c it is up to the user to enter it into the interface, but it is required. The existence
+     * check is done for us automatically by the data dictionary validation if a value exists; beforehand so we can assume that any
+     * value in that field is valid.
      * 
      * @see org.kuali.core.rule.AddAccountingLineRule#isObjectTypeAllowed(org.kuali.core.bo.AccountingLine)
      */
     public boolean isObjectTypeAllowed(AccountingLine accountingLine) {
         String objectTypeCode = accountingLine.getObjectTypeCode();
-        if(StringUtils.isNotBlank(objectTypeCode)) {
+        if (StringUtils.isNotBlank(objectTypeCode)) {
             return true;
-        } else {
-            String label = SpringServiceLocator.getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(ObjectType.class).getAttributeDefinition(Constants.GENERIC_CODE_PROPERTY_NAME).getLabel();
+        }
+        else {
+            String label = SpringServiceLocator.getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(
+                    ObjectType.class).getAttributeDefinition(Constants.GENERIC_CODE_PROPERTY_NAME).getLabel();
             GlobalVariables.getErrorMap().put(Constants.OBJECT_TYPE_CODE_PROPERTY_NAME, KeyConstants.ERROR_REQUIRED, label);
             return false;
         }
@@ -409,9 +424,10 @@ public class JournalVoucherDocumentRule extends TransactionalDocumentRuleBase {
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#isDebit(org.kuali.core.bo.AccountingLine)
      */
     protected boolean isDebit(AccountingLine accountingLine) throws IllegalStateException {
-        if(StringUtils.isNotBlank(accountingLine.getDebitCreditCode())) {
+        if (StringUtils.isNotBlank(accountingLine.getDebitCreditCode())) {
             return accountingLine.getDebitCreditCode().equals(GENERAL_LEDGER_PENDING_ENTRY_CODE.DEBIT);
-        } else {
+        }
+        else {
             return true;
         }
     }

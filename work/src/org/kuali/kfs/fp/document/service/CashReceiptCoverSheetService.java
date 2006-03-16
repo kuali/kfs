@@ -54,5 +54,5 @@ public interface CashReceiptCoverSheetService {
      */
     public void generateCoverSheet( CashReceiptDocument document,
                                     String searchPath,
-                                    OutputStream outputStream) throws DocumentException, IOException;
+                                    OutputStream outputStream) throws Exception;
 }

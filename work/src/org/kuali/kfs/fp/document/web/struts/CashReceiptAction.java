@@ -110,8 +110,7 @@ public class CashReceiptAction extends KualiTransactionalDocumentActionBase {
         CashReceiptDocument document = 
             ( CashReceiptDocument )SpringServiceLocator
             .getDocumentService()
-            .getByDocumentHeaderId( request
-                                    .getParameter( Constants.DOCUMENT_HEADER_ID ) );
+            .getByDocumentHeaderId( ( ( CashReceiptForm )form ).getDocument().getFinancialDocumentNumber() );
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         CashReceiptCoverSheetService coverSheetService = 

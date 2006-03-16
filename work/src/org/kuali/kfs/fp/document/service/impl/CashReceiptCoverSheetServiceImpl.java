@@ -25,21 +25,35 @@
 
 package org.kuali.module.financial.service.impl;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 
+import java.util.Iterator;
+
+import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import org.kuali.module.financial.bo.Check;
 import org.kuali.module.financial.document.CashReceiptDocument;
 import org.kuali.module.financial.rules.CashReceiptDocumentRule;
 import org.kuali.module.financial.service.CashReceiptCoverSheetService;
 
+import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
+import com.lowagie.text.Font;
+import com.lowagie.text.FontFactory;
+import com.lowagie.text.PageSize;
+import com.lowagie.text.Rectangle;
 import com.lowagie.text.pdf.AcroFields;
+import com.lowagie.text.pdf.PdfContentByte;
+import com.lowagie.text.pdf.PdfCopy;
+import com.lowagie.text.pdf.PdfImportedPage;
 import com.lowagie.text.pdf.PdfReader;
 import com.lowagie.text.pdf.PdfStamper;
+import com.lowagie.text.pdf.PdfWriter;
 
 /**
  * Implementation of service for handling creation of the cover sheet of the 
@@ -53,6 +67,10 @@ public class CashReceiptCoverSheetServiceImpl
     
     public static final String CR_COVERSHEET_TEMPLATE_RELATIVE_DIR = "templates/financial";
     public static final String CR_COVERSHEET_TEMPLATE_NM = "CashReceiptCoverSheetTemplate.pdf";
+
+    private static final float LEFT_MARGIN = 45;
+    private static final float TOP_MARGIN = 40;
+    private static final float TOP_FIRST_PAGE = 430;
 
     private static final String DOCUMENT_NUMBER_FIELD = "DocumentNumber";
     private static final String INITIATOR_FIELD       = "Initiator";
@@ -71,6 +89,39 @@ public class CashReceiptCoverSheetServiceImpl
     private static final String CHANGE_OUT_FIELD      = "ChangeOut";
     private static final String REVIV_FUND_OUT_FIELD  = "RevivFundOut";
     
+    private static final int FRONT_PAGE = 1;
+    private static final int CHECK_PAGE_NORMAL = 2;
+    private static final float CHECK_DETAIL_HEADING_HEIGHT = 14;
+    private static final float CHECK_LINE_SPACING = 12;
+    private static final float CHECK_FIELD_MARGIN = 12;
+    private static final float CHECK_NORMAL_FIELD_LENGTH = 100;
+    private static final float CHECK_FIELD_HEIGHT = 10;
+    private static final int MAX_CHECKS_FIRST_PAGE = 32;
+    private static final int MAX_CHECKS_NORMAL = 70;
+    
+    private static final float CHECK_HEADER_HEIGHT = 12;
+    private static final String CHECK_NUMBER_FIELD_PREFIX = "CheckNumber";
+    private static final float CHECK_NUMBER_FIELD_POSITION = LEFT_MARGIN;
+
+    private static final String CHECK_DATE_FIELD_PREFIX = "CheckDate";
+    private static final float CHECK_DATE_FIELD_POSITION = 
+        CHECK_NUMBER_FIELD_POSITION 
+        + CHECK_NORMAL_FIELD_LENGTH + CHECK_FIELD_MARGIN;
+
+    private static final String CHECK_DESCRIPTION_FIELD_PREFIX = 
+        "CheckDescription";
+    private static final float CHECK_DESCRIPTION_FIELD_POSITION =
+        CHECK_DATE_FIELD_POSITION 
+        + CHECK_NORMAL_FIELD_LENGTH + CHECK_FIELD_MARGIN;    
+    private static final float CHECK_DESCRIPTION_FIELD_LENGTH = 250;
+
+    private static final String CHECK_AMOUNT_FIELD_PREFIX = "CheckAmount";
+    private static final float CHECK_AMOUNT_FIELD_POSITION =
+        CHECK_DESCRIPTION_FIELD_POSITION 
+        + CHECK_DESCRIPTION_FIELD_LENGTH + CHECK_FIELD_MARGIN;
+    
+    private float _yPos;
+    
     /**
      * Generate a cover sheet for the <code>{@link CashReceiptDocument}</code>.
      * An <code>{@link OutputStream}</code> is written to for the
@@ -78,97 +129,304 @@ public class CashReceiptCoverSheetServiceImpl
      * 
      * @param document
      * @param searchPath
-     * @param OutputStream
+     * @param returnStream
      * @exception DocumentException
      * @exception IOException
      * @see org.kuali.core.module.financial.service.CashReceiptCoverSheetServiceImpl#generateCoverSheet( org.kuali.module.financial.documentCashReceiptDocument )
      */
     public void generateCoverSheet( CashReceiptDocument document,
                                     String searchPath,
-                                    OutputStream outputStream ) 
-        throws DocumentException, IOException {
-        String templateDirectory = CR_COVERSHEET_TEMPLATE_RELATIVE_DIR;
-        String templateName = CR_COVERSHEET_TEMPLATE_NM;
+                                    OutputStream returnStream ) 
+        throws Exception {
         
         if( new CashReceiptDocumentRule().isCoverSheetPrintable( document ) ) {
-            try {
-                PdfReader reader = 
-                    new PdfReader( searchPath 
-                                   + File.separator + templateName );
+            ByteArrayOutputStream stamperStream;
+            PdfWriter writer;
+            PdfReader reader;
+            Document pdfDoc;
+            
+            stamperStream = new ByteArrayOutputStream();
+            stampPdfFormValues( document, searchPath, stamperStream );
+            reader = new PdfReader( stamperStream.toByteArray() );
+            pdfDoc = new Document( reader.getPageSize( FRONT_PAGE ) );
+            writer = PdfWriter.getInstance( pdfDoc, returnStream );
+            pdfDoc.open();
 
-                // populate form with document values
-                PdfStamper stamper = new PdfStamper(reader, outputStream);
+            populateCheckDetail( document, writer, reader );
 
-                AcroFields populatedCoverSheet = stamper.getAcroFields();
-                populatedCoverSheet.setField( DOCUMENT_NUMBER_FIELD, 
-                                              document.getFinancialDocumentNumber() );
-                populatedCoverSheet.setField( INITIATOR_FIELD, 
-                                              document.getDocumentHeader()
-                                              .getWorkflowDocument().
-                                              getInitiatorNetworkId() );
-                populatedCoverSheet.setField( CREATED_DATE_FIELD, 
-                                              document.getDocumentHeader()
-                                              .getWorkflowDocument()
-                                              .getCreateDate().toString() );
-                populatedCoverSheet.setField( AMOUNT_FIELD, 
-                                              document.getSumTotalAmount().toString() );
-                populatedCoverSheet.setField( ORG_DOC_NUMBER_FIELD, 
-                                              document.getDocumentHeader().
-                                              getOrganizationDocumentNumber() );
-                populatedCoverSheet.setField( CAMPUS_FIELD, 
-                                              document.getCampusLocationCode() );
-                if( document.getDepositDate() != null ) {
-                    // This value won't be set until the CR document is 
-                    // deposited. A CR document is desposited only when it has 
-                    // been associated with a Cash Management Document (CMD) 
-                    // and with a Deposit within that CMD. And only when the 
-                    // CMD is submitted and FINAL, will the CR documents 
-                    // associated with it, be "deposited." So this value will 
-                    // fill in at an arbitrarily later point in time. So your 
-                    // code shouldn't expect it, but if it's there, then 
-                    // display it.
-                    populatedCoverSheet.setField( DEPOSIT_DATE_FIELD, 
-                                                  document.getDepositDate().toString() );
-                }
-                populatedCoverSheet.setField( DESCRIPTION_FIELD, 
-                                              document.getDocumentHeader()
-                                              .getFinancialDocumentDescription() );
-                populatedCoverSheet.setField( EXPLANATION_FIELD, 
-                                              document.getExplanation() );
-                populatedCoverSheet.setField( CHECKS_FIELD, 
-                                              document.getTotalCheckAmount().toString() );
-                populatedCoverSheet.setField( CURRENCY_FIELD, 
-                                              document.getTotalCashAmount().toString() );
-                populatedCoverSheet.setField( COIN_FIELD, 
-                                              document.getTotalCoinAmount().toString() );
-                /* Fields currently not used. Pulling them out.
-                   These are advanced features of the CR which will come 
-                   during the post-3/31 timeframe
-                populatedCoverSheet.setField( CREDIT_CARD_FIELD, 
-                                              document.getFinancialDocumentNumber() );
-                populatedCoverSheet.setField( ADV_DEPOSIT_FIELD, 
-                                              document.getFinancialDocumentNumber() );
-                populatedCoverSheet.setField( CHANGE_OUT_FIELD, 
-                                              document.getFinancialDocumentNumber() );
-                populatedCoverSheet.setField( REVIV_FUND_OUT_FIELD, 
-                                              document.getFinancialDocumentNumber() );
-                */
+            writer.close();
+        }
+    }
 
-                stamper.setFormFlattening(true);
-                stamper.close();
+    /**
+     * Use iText <code>{@link PdfStamper}</code> to stamp information
+     * from <code>{@link CashReceiptDocument}</code> into field values on a
+     * PDF Form Template.
+     *
+     * @param document
+     * @param searchPath
+     * @param returnStream
+     */
+    private void stampPdfFormValues( CashReceiptDocument document,
+                                           String searchPath,
+                                           OutputStream returnStream ) 
+        throws Exception {
+        String templateName = CR_COVERSHEET_TEMPLATE_NM;
+        
+        try {
+            // populate form with document values
+            PdfStamper stamper = 
+                new PdfStamper( new PdfReader( searchPath 
+                                               + File.separator 
+                                               + templateName ), returnStream );
+            AcroFields populatedCoverSheet = stamper.getAcroFields();
+            
+            populatedCoverSheet.setField( DOCUMENT_NUMBER_FIELD, 
+                                          document.getFinancialDocumentNumber() );
+            populatedCoverSheet.setField( INITIATOR_FIELD, 
+                                          document.getDocumentHeader()
+                                          .getWorkflowDocument().
+                                          getInitiatorNetworkId() );
+            populatedCoverSheet.setField( CREATED_DATE_FIELD, 
+                                          document.getDocumentHeader()
+                                          .getWorkflowDocument()
+                                          .getCreateDate().toString() );
+            populatedCoverSheet.setField( AMOUNT_FIELD, 
+                                          document.getSumTotalAmount().toString() );
+            populatedCoverSheet.setField( ORG_DOC_NUMBER_FIELD, 
+                                          document.getDocumentHeader().
+                                          getOrganizationDocumentNumber() );
+            populatedCoverSheet.setField( CAMPUS_FIELD, 
+                                          document.getCampusLocationCode() );
+            if( document.getDepositDate() != null ) {
+                // This value won't be set until the CR document is 
+                // deposited. A CR document is desposited only when it has 
+                // been associated with a Cash Management Document (CMD) 
+                // and with a Deposit within that CMD. And only when the 
+                // CMD is submitted and FINAL, will the CR documents 
+                // associated with it, be "deposited." So this value will 
+                // fill in at an arbitrarily later point in time. So your 
+                // code shouldn't expect it, but if it's there, then 
+                // display it.
+                populatedCoverSheet.setField( DEPOSIT_DATE_FIELD, 
+                                              document.getDepositDate().toString() );
             }
-            catch (DocumentException e) {
-                LOG.error("Error creating coversheet for: " 
-                          + document.getFinancialDocumentNumber() 
-                          + ". ::" + e);
-                throw e;
-            }
-            catch (IOException e) {
-                LOG.error("Error creating coversheet for: " 
-                          + document.getFinancialDocumentNumber() 
-                          + ". ::" + e);
-                throw e;
+            populatedCoverSheet.setField( DESCRIPTION_FIELD, 
+                                          document.getDocumentHeader()
+                                          .getFinancialDocumentDescription() );
+            populatedCoverSheet.setField( EXPLANATION_FIELD, 
+                                          document.getExplanation() );
+            populatedCoverSheet.setField( CHECKS_FIELD, 
+                                          document.getTotalCheckAmount().toString() );
+            populatedCoverSheet.setField( CURRENCY_FIELD, 
+                                          document.getTotalCashAmount().toString() );
+            populatedCoverSheet.setField( COIN_FIELD, 
+                                          document.getTotalCoinAmount().toString() );
+            /* Fields currently not used. Pulling them out.
+               These are advanced features of the CR which will come 
+               during the post-3/31 timeframe
+               populatedCoverSheet.setField( CREDIT_CARD_FIELD, 
+               document.getFinancialDocumentNumber() );
+               populatedCoverSheet.setField( ADV_DEPOSIT_FIELD, 
+               document.getFinancialDocumentNumber() );
+               populatedCoverSheet.setField( CHANGE_OUT_FIELD, 
+               document.getFinancialDocumentNumber() );
+               populatedCoverSheet.setField( REVIV_FUND_OUT_FIELD, 
+               document.getFinancialDocumentNumber() );
+            */
+            
+            stamper.setFormFlattening(true);
+            stamper.close();
+        }
+        catch (Exception e) {
+            LOG.error("Error creating coversheet for: " 
+                      + document.getFinancialDocumentNumber() 
+                      + ". ::" + e);
+            throw e;
+        }        
+    }
+    
+    private void writeCheckNumber( PdfContentByte output,
+                                   Check check ) {
+        writeCheckField( output, 
+                         CHECK_NUMBER_FIELD_POSITION, 
+                         check.getCheckNumber().toString() );
+    }
+    
+    private void writeCheckDate( PdfContentByte output,
+                                 Check check ) {
+        writeCheckField( output, 
+                         CHECK_DATE_FIELD_POSITION, 
+                         check.getCheckDate().toString() );
+    }
+
+    private void writeCheckDescription( PdfContentByte output,
+                                        Check check ) {
+        writeCheckField( output, 
+                         CHECK_DESCRIPTION_FIELD_POSITION, 
+                         check.getDescription() );
+    }
+
+    private void writeCheckAmount( PdfContentByte output,
+                                   Check check ) {
+        writeCheckField( output, 
+                         CHECK_AMOUNT_FIELD_POSITION, 
+                         check.getAmount().toString() );
+    }
+    
+    private void writeCheckField( PdfContentByte output,
+                                  float xPos,
+                                  String fieldValue ) {
+        output.moveTo( xPos, getCurrentRenderingYPosition() );
+        output.beginText();
+        output.moveText( xPos, getCurrentRenderingYPosition() );
+        output.newlineShowText( fieldValue );
+        output.endText();        
+    }
+    
+    private Font getHeaderFont() {
+        return FontFactory
+            .getFont( FontFactory.HELVETICA_BOLD, 20, Font.BOLD );
+    }
+    
+    private Font getTextFont() {
+        return FontFactory.getFont( FontFactory.HELVETICA, 8, Font.NORMAL );
+    }
+    
+    private void setCurrentRenderingYPosition( float y ) {
+        _yPos = y;
+    }
+    
+    private float getCurrentRenderingYPosition() {
+        return _yPos;
+    }
+    
+    /**
+     * Method responsible for producing Check Detail section of the cover
+     * sheet
+     *
+     * @param pdfDoc
+     * @param crDoc
+     */
+    private void populateCheckDetail( CashReceiptDocument crDoc,
+                                      PdfWriter writer,
+                                      PdfReader reader ) 
+        throws Exception {
+        
+        PdfContentByte content;
+        ModifiableInteger pageNumber;
+        Check repeat = null;
+        int checkCount = 0;
+        int maxCheckCount = MAX_CHECKS_FIRST_PAGE;
+        
+        for( int i = 0; i < 200; i++ ) {
+            crDoc.addCheck( crDoc.getCheck(1) );
+        }
+        
+        pageNumber = new ModifiableInteger( 0 );
+        content = startNewPage( writer, reader, pageNumber );;
+
+        for( Iterator check_it = crDoc.getChecks().iterator();
+             check_it.hasNext(); ) {
+            Check current = ( Check )check_it.next();
+            
+            writeCheckNumber( content, current );
+            writeCheckDate( content, current );
+            writeCheckDescription( content, current );
+            writeCheckAmount( content, current );
+            setCurrentRenderingYPosition( getCurrentRenderingYPosition() 
+                                          - CHECK_FIELD_HEIGHT );
+            
+            checkCount++;
+
+            if( checkCount > maxCheckCount ) {
+                checkCount = 0;
+                maxCheckCount = MAX_CHECKS_NORMAL;
+                content = startNewPage( writer, reader, pageNumber );
             }
         }
+    }
+    
+    private PdfContentByte startNewPage( PdfWriter writer,
+                                         PdfReader reader, 
+                                         ModifiableInteger pageNumber ) 
+        throws DocumentException, IOException {
+        PdfContentByte retval;
+        PdfContentByte under;
+        Rectangle pageSize;
+        Document pdfDoc;
+        PdfImportedPage newPage;
+        
+        pageNumber.increment();
+        pageSize = reader.getPageSize( FRONT_PAGE );
+        retval = writer.getDirectContent();
+        // under = writer.getDirectContentUnder();
+        
+        /*
+        if( pageNumber.getInt() > FRONT_PAGE ) {
+            newPage = writer.getImportedPage( reader, CHECK_PAGE_NORMAL );
+            setCurrentRenderingYPosition( pageSize.top( TOP_MARGIN + CHECK_DETAIL_HEADING_HEIGHT ) );
+        }
+        else {
+            newPage = writer.getImportedPage( reader, FRONT_PAGE );
+            setCurrentRenderingYPosition( pageSize.top( TOP_FIRST_PAGE ) );
+        }
+        
+        pdfDoc = retval.getPdfDocument();
+        pdfDoc.newPage();
+        retval.addTemplate( newPage, 0, 0 );
+        */
+
+        retval.setFontAndSize( getTextFont().getBaseFont(), 8 );
+        
+        return retval;
+    }     
+}
+
+class ModifiableInteger  {
+    int _value;
+
+    public ModifiableInteger( Integer val ) {
+        this( val.intValue() );
+    }
+    
+    public ModifiableInteger( int val ) {
+        setInt( val );
+    }
+    
+    public void setInt( int val ) {
+        _value = val;
+    }
+    
+    public int getInt() {
+        return _value;
+    }
+    
+    public ModifiableInteger increment() {
+        _value++;
+        return this;
+    }
+
+    public ModifiableInteger increment( int inc ) {
+        _value += inc;
+        return this;
+    }
+    
+    public ModifiableInteger decrement() {
+        _value--;
+        return this;
+    }
+
+    public ModifiableInteger decrement( int dec ) {
+        _value -= dec;
+        return this;
+    }
+    
+    public Integer getInteger() {
+        return new Integer( _value );
+    }
+    
+    public String toString() {
+        return getInteger().toString();
     }
 }

@@ -47,11 +47,19 @@
 		            <maintainableField name="accountName" required="true" />
 		            <maintainableField name="organizationCode" required="true" />
 		            <maintainableField name="accountPhysicalCampusCode" required="true" />	     
-		            <maintainableField name="accountEffectiveDate" required="true" />
+		            <maintainableField name="accountEffectiveDate" required="true">
+		            	<defaultValueFinderClass>
+		            		org.kuali.core.lookup.valueFinder.CurrentDateMMDDYYYYFinder
+		            	</defaultValueFinderClass>
+		            </maintainableField>
 		            <maintainableField name="accountExpirationDate" required="false" />	
 		            <maintainableField name="accountZipCode" required="true" />	  
 		            <maintainableField name="accountCityName" required="true" />	     
-		            <maintainableField name="accountStateCode" required="true" />
+		            <maintainableField name="accountStateCode" required="true">
+		            	<defaultValue>
+		            		IN
+		            	</defaultValue>
+		            </maintainableField>
 		            <maintainableField name="accountStreetAddress" required="true" />	
 		            <maintainableField name="accountOffCampusIndicator" required="false" />	  
 		            <maintainableField name="accountClosedIndicator" required="false" />

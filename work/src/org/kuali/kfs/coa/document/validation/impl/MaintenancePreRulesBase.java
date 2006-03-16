@@ -98,6 +98,11 @@ public class MaintenancePreRulesBase extends PreRulesContinuationBase {
             if (useContinuationAccount) {
                 String continuationChart = account.getContinuationFinChrtOfAcctCd();
                 account = accountService.getByPrimaryId(continuationChart, continuationAccountNumber);
+               
+                if (ObjectUtils.isNotNull(account)){
+                accountNumber = account.getAccountNumber();
+                }
+                
                 if (LOG.isDebugEnabled()) {
                     LOG.debug("Selected continuation account: " + account);
                 }

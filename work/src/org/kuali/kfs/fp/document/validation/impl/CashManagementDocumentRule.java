@@ -23,337 +23,121 @@
 package org.kuali.module.financial.rules;
 
 import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
 
 import org.apache.log4j.Logger;
-import org.kuali.Constants;
-import org.kuali.KeyConstants;
-import org.kuali.core.bo.AccountingLine;
-import org.kuali.core.bo.SourceAccountingLine;
-import org.kuali.core.bo.TargetAccountingLine;
-import org.kuali.core.document.TransactionalDocument;
-import org.kuali.core.util.ErrorMap;
-import org.kuali.core.util.ExceptionUtils;
+import org.kuali.core.bo.user.KualiUser;
+import org.kuali.core.document.Document;
+import org.kuali.core.rule.DocumentRuleBase;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.module.financial.bo.CashDrawer;
+import org.kuali.module.financial.bo.Deposit;
+import org.kuali.module.financial.document.CashManagementDocument;
+
+import edu.iu.uis.eden.EdenConstants;
 
 /**
- * Business rule(s) applicable to InternalBilling document.
+ * Business rule(s) applicable to Cash Management Document.
  * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
-public class CashManagementDocumentRule extends TransactionalDocumentRuleBase {
-    private static final Logger LOG = Logger.getLogger(TransactionalDocumentRuleBase.class);
-
-
-    // Set container for restricted capital object codes
-    protected static Set restrictedCapitalObjectCodes;
-
-    // Set container for restricted object sub type codes
-    protected static Set restrictedObjectSubTypeCodes;
-
-    // initialize some static data structures that will be used for business
-    // rule checks
-    static {
-        initializeRestrictedCapitalObjectCodes();
-        initializeRestrictedObjectSubTypeCodes();
-    }
-
+public class CashManagementDocumentRule extends DocumentRuleBase {
+    private static final Logger LOG = Logger.getLogger(CashManagementDocumentRule.class);
+    
     /**
-     * This method sets up the restricted capital object code set that will be checked against by business rules.
-     */
-    private static void initializeRestrictedCapitalObjectCodes() {
-        restrictedCapitalObjectCodes = new TreeSet();
-        restrictedCapitalObjectCodes.add(OBJECT_SUB_TYPE_CODE.CAP_MOVE_EQUIP);
-        restrictedCapitalObjectCodes.add(OBJECT_SUB_TYPE_CODE.CAP_MOVE_EQUIP_FED_FUND);
-        restrictedCapitalObjectCodes.add(OBJECT_SUB_TYPE_CODE.CAP_MOVE_EQUIP_OTHER_OWN);
-        restrictedCapitalObjectCodes.add(OBJECT_SUB_TYPE_CODE.CONSTRUCTION_IN_PROG);
-        restrictedCapitalObjectCodes.add(OBJECT_SUB_TYPE_CODE.UNIV_CONSTRUCTED);
-        restrictedCapitalObjectCodes.add(OBJECT_SUB_TYPE_CODE.UNIV_CONSTRUCTED_FED_FUND);
-        restrictedCapitalObjectCodes.add(OBJECT_SUB_TYPE_CODE.UNIV_CONSTRUCTED_FED_OWN);
-    }
-
-    /**
-     * This method sets up the restricted object sub type codes that will be checked against by business rules.
-     */
-    private static void initializeRestrictedObjectSubTypeCodes() {
-        restrictedObjectSubTypeCodes = new TreeSet();
-        restrictedObjectSubTypeCodes.add(OBJECT_SUB_TYPE_CODE.BUDGET_ONLY);
-        restrictedObjectSubTypeCodes.add(OBJECT_SUB_TYPE_CODE.CONSTRUCTION_IN_PROG);
-        restrictedObjectSubTypeCodes.add(OBJECT_SUB_TYPE_CODE.HOURLY_WAGES);
-        restrictedObjectSubTypeCodes.add(OBJECT_SUB_TYPE_CODE.MANDATORY_TRANSFER);
-        restrictedObjectSubTypeCodes.add(OBJECT_SUB_TYPE_CODE.RESERVES);
-        restrictedObjectSubTypeCodes.add(OBJECT_SUB_TYPE_CODE.WRITE_OFF);
-        restrictedObjectSubTypeCodes.add(OBJECT_SUB_TYPE_CODE.SALARIES_WAGES);
-        restrictedObjectSubTypeCodes.add(OBJECT_SUB_TYPE_CODE.STATE_APP);
-        restrictedObjectSubTypeCodes.add(OBJECT_SUB_TYPE_CODE.SALARIES);
-        restrictedObjectSubTypeCodes.add(OBJECT_SUB_TYPE_CODE.PLANT);
-        restrictedObjectSubTypeCodes.add(OBJECT_SUB_TYPE_CODE.INVEST);
-        restrictedObjectSubTypeCodes.add(OBJECT_SUB_TYPE_CODE.FRINGE_BEN);
-        restrictedObjectSubTypeCodes.add(OBJECT_SUB_TYPE_CODE.NON_MANDATORY_TRANSFER);
-        restrictedObjectSubTypeCodes.add(OBJECT_SUB_TYPE_CODE.ASSESSMENT);
-        restrictedObjectSubTypeCodes.add(OBJECT_SUB_TYPE_CODE.TRANSFER_OF_FUNDS);
-    }
-
-    /**
-     * @see org.kuali.core.rule.AddAccountingLineRule#processCustomAddAccountingLineBusinessRules(org.kuali.core.document.TransactionalDocument,
-     *      org.kuali.core.bo.AccountingLine)
-     */
-    public boolean processCustomAddAccountingLineBusinessRules(TransactionalDocument document, AccountingLine accountingLine) {
-        return super.processCustomAddAccountingLineBusinessRules( document, accountingLine ) && validateAccountingLine(document, accountingLine);
-    }
-
-    /**
-     * @see org.kuali.core.rule.ReviewAccountingLineRule#processCustomReviewAccountingLineBusinessRules(org.kuali.core.document.TransactionalDocument,
-     *      org.kuali.core.bo.AccountingLine)
-     */
-    public boolean processCustomReviewAccountingLineBusinessRules(TransactionalDocument document, AccountingLine accountingLine) {
-        return super.processCustomReviewAccountingLineBusinessRules( document, accountingLine ) && validateAccountingLine(document, accountingLine);
-    }
-
-    /**
-     * Note: This method implements an IU specific business rule.
+     * Overrides to validate that the person saving the document is the initiator, validates that the cash drawer is open 
+     * for initial creation, validates that the cash drawer for the specfic verification unit is closed for subsequent 
+     * saves, and validates that the associate cash receipts are still verified. 
      * 
-     * This method evaluates the accounting line's object sub type code for its object code in addition to the accounting line's sub
-     * fund group for the account. This didn't fit any of the interface methods, so this rule was programmed in the "custom rule"
-     * method.
-     * 
-     * @see org.kuali.core.rule.AddAccountingLineRule#processCustomAddAccountingLineBusinessRules(org.kuali.core.document.TransactionalDocument,
-     *      org.kuali.core.bo.AccountingLine)
+     * @see org.kuali.core.rule.DocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.Document)
      */
-    public boolean validateAccountingLine(TransactionalDocument document, AccountingLine accountingLine) {
-        String objectCode = accountingLine.getObjectCode().getFinancialObjectCode();
-        String objectSubTypeCode = accountingLine.getObjectCode().getFinancialObjectSubType().getCode();
-        String subFundGroupCode = accountingLine.getAccount().getSubFundGroup().getSubFundGroupCode();
-
-        // TODO - This is an Indiana only requirement based on the specification doc
-        if (OBJECT_SUB_TYPE_CODE.STUDENT_FEES.equals(objectSubTypeCode)
-                && !SUB_FUND_GROUP_CODE.CONTINUE_EDUC.equals(subFundGroupCode)) {
-            // objects
-            String errorObjects[] = { objectCode, objectSubTypeCode };
-            reportError(Constants.ACCOUNTING_LINE_ERRORS, KeyConstants.ERROR_DOCUMENT_INCORRECT_OBJ_CODE_WITH_SUB_TYPE,
-                    errorObjects);
-            return false;
-        }
-
-        return true;
-    }
-
-    public boolean processCustomRouteDocumentBusinessRules(TransactionalDocument document) {
-        // commented out super call, since the super method is the only way this method gets called
-        // super.processRouteDocument(doc);
-
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
-        // TODO: Fill this in when Tony finishes his Utility to apply all core business rules.
-
-        List sLines = document.getSourceAccountingLines();
-        List tLines = document.getTargetAccountingLines();
-
-        // First, validate the accounting lines
-        // then. check for expense/revenue balance
-        // finally, do object code restrictions checking
-        KualiDecimal sExpense = new KualiDecimal(0);
-        KualiDecimal sRevenue = new KualiDecimal(0);
-        KualiDecimal tExpense = new KualiDecimal(0);
-        KualiDecimal tRevenue = new KualiDecimal(0);
-
-        for (Iterator i = sLines.iterator(); i.hasNext();) {
-            SourceAccountingLine sal = (SourceAccountingLine) i.next();
-            if (isExpenseOrAsset(sal)) {
-                sExpense = sExpense.add(sal.getAmount());
-            }
-            else {
-                sRevenue = sRevenue.add(sal.getAmount());
-            }
-        }
-
-        for (Iterator i = tLines.iterator(); i.hasNext();) {
-            TargetAccountingLine tal = (TargetAccountingLine) i.next();
-            if (isExpenseOrAsset(tal)) {
-                tExpense = tExpense.add(tal.getAmount());
-            }
-            else {
-                tRevenue = tRevenue.add(tal.getAmount());
-            }
-        }
-
-        KualiDecimal sDiff = sRevenue.subtract(sExpense);
-        KualiDecimal tDiff = tRevenue.subtract(tExpense);
-        if (!sDiff.equals(tDiff)) {
-            reportError(Constants.DOCUMENT_ERRORS,
-                    "Document does not balance. (sourceRevenue minus sourceExpense) should be equal to (targetRevenue minus targetExpense)!", "Amount");
-            return false;
-        }
-
-        return errorMap.isEmpty();
-    }
-
-    /**
-     * Note: this is an IU specific business rule.
-     * 
-     * This implementation evaluates the object sub type code of the accounting line's object code to determine whether the object
-     * code is capital object code. If it is a capital object code, then this accounting line is not valid.
-     * 
-     * @see org.kuali.core.rule.AddAccountingLineRule#isObjectCodeAllowed(org.kuali.core.bo.AccountingLine)
-     */
-    public boolean isObjectCodeAllowed(AccountingLine accountingLine) {
-        int pendPurchaseCount = 0; // TODO need to do something with this but I have no idea what
-        String objectSubTypeCode = accountingLine.getObjectCode().getFinancialObjectSubType().getCode();
-        String subFundGroupCode = accountingLine.getAccount().getSubFundGroup().getSubFundGroupCode();
-
-        // TODO purchase count still needs to be entered in
-        if (!SUB_FUND_GROUP_CODE.CODE_EXTAGY.equals(subFundGroupCode) && restrictedCapitalObjectCodes.contains(objectSubTypeCode)
-                && (pendPurchaseCount <= 0)) {
-            String errorObjects[] = { objectSubTypeCode, subFundGroupCode };
-            reportError(Constants.ACCOUNTING_LINE_ERRORS, KeyConstants.ERROR_DOCUMENT_INCORRECT_OBJ_CODE_WITH_OBJ_LEVEL,
-                    errorObjects);
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * This method overrides the parent's to call the parent's isObjectTypeAllowed() method first, and then makes sure that it's not
-     * an Income Not Cash and a Expense Not Expenditure object type.
-     * 
-     * @see org.kuali.core.rule.AddAccountingLineRule#isObjectTypeAllowed(org.kuali.core.bo.AccountingLine)
-     */
-    public boolean isObjectTypeAllowed(AccountingLine accountingLine) {
-        boolean isValid = true;
-
-        isValid &= super.isObjectTypeAllowed(accountingLine);
-
-        // if this is being set behind the scenes automatically, as most documents do,
-        // this will not be set before the line is added
-        if (accountingLine.getObjectTypeCode() != null) {
-            // now check to make sure that the object type code is not an income not cash or expense not expenditure type code
-            String objectTypeCode = accountingLine.getObjectTypeCode();
-            if (OBJECT_TYPE_CODE.INCOME_NOT_CASH.equals(objectTypeCode)
-                    || OBJECT_TYPE_CODE.EXPENSE_NOT_EXPENDITURE.equals(objectTypeCode)) {
-                reportError(Constants.ACCOUNTING_LINE_ERRORS, KeyConstants.ERROR_DOCUMENT_INCORRECT_OBJ_TYPE,
-                        new String[] { objectTypeCode });
-                isValid &= false;
-            }
-        }
-
+    protected boolean processCustomSaveDocumentBusinessRules(Document document) {
+        boolean isValid = super.processCustomSaveDocumentBusinessRules(document);
+        
+        CashManagementDocument cmd = (CashManagementDocument) document;
+        
+        // verify user is initiator
+        //verifyUserIsDocumentInitiator(cmd);
+        
+        // verify the cash drawer for the verification unit is closed for post-initialized saves
+        //verifyCashDrawerForVerificationUnitIsClosedForPostInitiationSaves(cmd);
+        
+        // TODO - verify that CRs are still verified
+        
         return isValid;
     }
 
     /**
-     * Overrides the parent to make sure that the chosen object code's object sub-type code isn't restricted according to the above
-     * initialized restriction list.
+     * This method checks to make sure that the current system user is the person 
+     * that initiated this document in the first place.
      * 
-     * @see org.kuali.core.rule.AddAccountingLineRule#isObjectSubTypeAllowed(org.kuali.core.bo.AccountingLine)
+     * @param cmd
      */
-    public boolean isObjectSubTypeAllowed(AccountingLine accountingLine) {
-        String objectSubTypeCode = accountingLine.getObjectCode().getFinancialObjectSubType().getCode();
-
-        if (restrictedObjectSubTypeCodes.contains(objectSubTypeCode)) {
-            String errorObjects[] = { objectSubTypeCode };
-            reportError(Constants.ACCOUNTING_LINE_ERRORS, KeyConstants.ERROR_DOCUMENT_INCORRECT_OBJ_SUB_TYPE, errorObjects);
-            return false;
+    private void verifyUserIsDocumentInitiator(CashManagementDocument cmd) {
+        KualiUser currentUser = GlobalVariables.getUserSession().getKualiUser();
+        if(cmd.getDocumentHeader() != null && cmd.getDocumentHeader().getWorkflowDocument() != null) {
+            String cmdInitiatorNetworkId = cmd.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId();
+            if(!cmdInitiatorNetworkId.equals(currentUser.getPersonUniversalIdentifier())) {
+                throw new IllegalStateException("The current user (" + currentUser.getPersonUniversalIdentifier() + 
+                        ") is not the individual (" + cmdInitiatorNetworkId + ") that initiated this document.");
+            }
         }
-
-        return true;
     }
-
+    
     /**
-     * Overrides the parent's implementation to check to make sure that the provided object code's level isn't a contract and grants
-     * level.
+     * This method checks to make sure that the cash drawer is closed for the associated verification unit, 
+     * for post initiation saves.
      * 
-     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#isObjectLevelAllowed(org.kuali.core.bo.AccountingLine)
+     * @param cmd
      */
-    public boolean isObjectLevelAllowed(AccountingLine accountingLine) {
-        String objectLevel = accountingLine.getObjectCode().getFinancialObjectLevel().getFinancialObjectLevelCode();
-
-        if (OBJECT_LEVEL_CODE.CONTRACT_GRANTS.equals(objectLevel)) {
-            String errorObjects[] = { accountingLine.getObjectCode().getFinancialObjectCode(), objectLevel };
-            reportError(Constants.ACCOUNTING_LINE_ERRORS, KeyConstants.ERROR_DOCUMENT_INCORRECT_OBJ_CODE_WITH_OBJ_LEVEL,
-                    errorObjects);
-            return false;
+    private void verifyCashDrawerForVerificationUnitIsClosedForPostInitiationSaves(CashManagementDocument cmd) {
+        KualiUser currentUser = GlobalVariables.getUserSession().getKualiUser();
+        if(cmd.getDocumentHeader() != null && 
+                cmd.getDocumentHeader().getWorkflowDocument() != null && 
+                cmd.getDocumentHeader().getWorkflowDocument().getRouteHeader() != null) {
+            String workflowRouteStatusCode = cmd.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus();
+            if(EdenConstants.ROUTE_HEADER_SAVED_CD.equals(workflowRouteStatusCode)) {
+                // now verify that the associated cash drawer is closed
+                CashDrawer cd = SpringServiceLocator.getCashDrawerService().getByWorkgroupName(cmd.getWorkgroupName());
+                if(cd.isOpen()) {
+                    throw new IllegalStateException("The cash drawer for verification unit \"" + cd.getWorkgroupName() + 
+                        "\" is open.  It should be closed when a cash management document for that verification unit is open and being saved.");
+                }
+            }
         }
-
-        return true;
     }
-
+    
     /**
-     * Overrides the parent's implementation to check to make sure that the provided object code's consolidation isn't an asset of
-     * liability consolidation.
+     * Overrides parent to validate that the contained deposit business objects contain valid data 
+     * according to the data dictionary set up.
      * 
-     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#isObjectConsolidationAllowed(org.kuali.core.bo.AccountingLine)
+     * @see org.kuali.core.rule.DocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.Document)
      */
-    public boolean isObjectConsolidationAllowed(AccountingLine accountingLine) {
-        String consolidatedObjectCode = accountingLine.getObjectCode().getFinancialObjectLevel().getConsolidatedObjectCode();
-
-        if (CONSOLIDATED_OBJECT_CODE.ASSETS.equals(consolidatedObjectCode)
-                || CONSOLIDATED_OBJECT_CODE.LIABILITIES.equals(consolidatedObjectCode)) {
-            String errorObjects[] = { accountingLine.getObjectCode().getFinancialObjectCode(), consolidatedObjectCode };
-            reportError(Constants.ACCOUNTING_LINE_ERRORS,
-                    KeyConstants.ERROR_DOCUMENT_INCORRECT_OBJ_CODE_WITH_CONSOLIDATED_OBJ_CODE, errorObjects);
-            return false;
+    protected boolean processCustomRouteDocumentBusinessRules(Document document) {
+        boolean isValid = super.processCustomRouteDocumentBusinessRules(document);
+        
+        // iterate over all deposits contained within this cash management document and validate that 
+        // each is complete according to its DD file
+        CashManagementDocument cmd = (CashManagementDocument) document;
+        Iterator deposits = cmd.getDeposits().iterator();
+        while(deposits.hasNext()) {
+            Deposit deposit = (Deposit) deposits.next();
+            isValid &= validateDeposit(deposit);
         }
-
-        return true;
+        
+        return isValid;
     }
-
+    
     /**
-     * This implementation overrides the parent to check and make sure that the fund group is not a Loan fund group.
+     * This method validates a deposit business object using the data dictionary service.
      * 
-     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#isFundGroupAllowed(org.kuali.core.bo.AccountingLine)
+     * @param deposit
+     * @return boolean
      */
-    public boolean isFundGroupAllowed(AccountingLine accountingLine) {
-        String fundGroupCode = accountingLine.getAccount().getSubFundGroup().getFundGroup().getCode();
-
-        if (FUND_GROUP_CODE.LOAN_FUND.equals(fundGroupCode)) {
-            reportError(Constants.ACCOUNTING_LINE_ERRORS, KeyConstants.ERROR_CUSTOM, "Invalid Fund Group for this eDoc");
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * Overrides the parent's implementation to check and make sure that the sub fund group is not the Retire Indebt or the
-     * Investment Plant sub fund group.
-     * 
-     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#isSubFundGroupAllowed(org.kuali.core.bo.AccountingLine)
-     */
-    public boolean isSubFundGroupAllowed(AccountingLine accountingLine) {
-        String subFundGroupCode = accountingLine.getAccount().getSubFundGroup().getSubFundGroupCode();
-
-        if (SUB_FUND_GROUP_CODE.CODE_RETIRE_INDEBT.equals(subFundGroupCode)
-                || SUB_FUND_GROUP_CODE.CODE_INVESTMENT_PLANT.equals(subFundGroupCode)) {
-            reportError(Constants.ACCOUNTING_LINE_ERRORS, KeyConstants.ERROR_CUSTOM, "Invalid Sub Fund Group for this eDoc");
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * Wrapper around global errorMap.put call, to allow better logging
-     * 
-     * @param propertyName
-     * @param errorKey
-     * @param errorParam
-     */
-    private void reportError(String propertyName, String errorKey, String errorParam) {
-        GlobalVariables.getErrorMap().put(propertyName, errorKey, errorParam);
-        LOG.debug("InternalBillingDocument rule failure at " + ExceptionUtils.describeStackLevel(1));
-    }
-
-    /**
-     * Wrapper around global errorMap.put call, to allow better logging
-     * 
-     * @param propertyName
-     * @param errorKey
-     * @param errorParams
-     */
-    private void reportError(String propertyName, String errorKey, String[] errorParams) {
-        GlobalVariables.getErrorMap().put(propertyName, errorKey, errorParams);
-        LOG.debug("InternalBillingDocument rule failure at " + ExceptionUtils.describeStackLevel(1));
+    private boolean validateDeposit(Deposit deposit) {
+        // validate the specific deposit coming in
+        SpringServiceLocator.getDictionaryValidationService().validateBusinessObject(deposit);
+        
+        return GlobalVariables.getErrorMap().isEmpty();
     }
 }

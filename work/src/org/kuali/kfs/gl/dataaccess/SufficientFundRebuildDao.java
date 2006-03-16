@@ -6,6 +6,7 @@ import org.kuali.module.gl.bo.SufficientFundRebuild;
 
 public interface SufficientFundRebuildDao {
     public Collection getAll();
+    public Collection getByType(String accountFinancialObjectTypeCode);
     public SufficientFundRebuild getByAccount(String chartOfAccountsCode, String accountNumberFinancialObjectCode);
     public SufficientFundRebuild get(String chartOfAccountsCode, String accountFinancialObjectTypeCode, String accountNumberFinancialObjectCode);
     public void save(SufficientFundRebuild sfrb);

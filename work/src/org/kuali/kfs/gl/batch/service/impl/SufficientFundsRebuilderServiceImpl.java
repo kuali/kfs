@@ -46,7 +46,7 @@ import org.kuali.module.gl.bo.SufficientFundBalances;
 import org.kuali.module.gl.bo.SufficientFundRebuild;
 import org.kuali.module.gl.dao.BalanceDao;
 import org.kuali.module.gl.dao.SufficientFundBalancesDao;
-import org.kuali.module.gl.dao.SufficientFundRebuildDao;
+import org.kuali.module.gl.service.SufficientFundRebuildService;
 import org.kuali.module.gl.service.SufficientFundsRebuilderService;
 import org.kuali.module.gl.util.Summary;
 
@@ -61,7 +61,7 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
     private KualiConfigurationService kualiConfigurationService;
     private BalanceDao balanceDao;
     private SufficientFundBalancesDao sufficientFundBalancesDao;
-    private SufficientFundRebuildDao sufficientFundRebuildDao;
+    private SufficientFundRebuildService sufficientFundRebuildService;
     private OptionsDao optionsDao;
     private PersistenceService persistenceService;
     private ObjectLevelDao objectLevelDao;
@@ -98,35 +98,56 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
         universityFiscalYear = fiscalYear;
         initService();
 
-        for (Iterator iter = sufficientFundRebuildDao.getAll().iterator(); iter.hasNext();) {
+        // Get all the O types and convert them to A types
+        LOG.debug("rebuildSufficientFunds() Converting O types to A types");
+        for (Iterator iter = sufficientFundRebuildService.getAllObjectEntries().iterator(); iter.hasNext();) {
             SufficientFundRebuild sfrb = (SufficientFundRebuild) iter.next();
+            ++sfrbRecordsReadCount;
+
             transactionErrors = new ArrayList();
-            convertSfrb(sfrb);
+            convertOtypeToAtypes(sfrb);
+
             if(transactionErrors.size() > 0) {
                 batchError.put(sfrb, transactionErrors);
                 transactionErrors = new ArrayList();
+            } else {
+                sufficientFundRebuildService.delete(sfrb);
             }
         }
-        
-        for (Iterator iter = sufficientFundRebuildDao.getAll().iterator(); iter.hasNext();) {
-            SufficientFundRebuild sfrb = (SufficientFundRebuild) iter.next();
-            transactionErrors = new ArrayList();
 
+        // Get all the A types and process them
+        LOG.debug("rebuildSufficientFunds() Calculating SF balances for all A types");
+        for (Iterator iter = sufficientFundRebuildService.getAllAccountEntries().iterator(); iter.hasNext();) {
+            SufficientFundRebuild sfrb = (SufficientFundRebuild) iter.next();
             ++sfrbRecordsReadCount;
+
+            transactionErrors = new ArrayList();
         
-            if(!"A".equalsIgnoreCase(sfrb.getAccountFinancialObjectTypeCode())) {
-                addTransactionError("ACCOUNT/FINANCIAL OBJECT TYPE CODE MUST='A' OR 'O'");
-                ++warningCount;
-                ++sfrbNotDeletedCount;
-            } else {
-                processSfrb(sfrb);
-            }
+            calculateSufficientFundsByAccount(sfrb);
+
             if(transactionErrors.size() > 0) {
                 batchError.put(sfrb, transactionErrors);
             }
         }
-        
+
+        // Look at all the left over rows.  There shouldn't be any left if all are O's and A's without error.
+        // Write out error messages for any that aren't A or O
+        LOG.debug("rebuildSufficientFunds() Handle any non-A and non-O types");
+        for (Iterator iter = sufficientFundRebuildService.getAll().iterator(); iter.hasNext();) {
+          SufficientFundRebuild sfrb = (SufficientFundRebuild) iter.next();
+          ++sfrbRecordsReadCount;
+
+          if ( (! "A".equals(sfrb.getAccountFinancialObjectTypeCode())) && (! "O".equals(sfrb.getAccountFinancialObjectTypeCode())) ) {
+            transactionErrors = new ArrayList();
+            addTransactionError("ACCOUNT/FINANCIAL OBJECT TYPE CODE MUST='A' OR 'O'");
+            ++warningCount;
+            ++sfrbNotDeletedCount;
+            batchError.put(sfrb, transactionErrors);
+          }
+        }
+
         // write out report and errors
+        LOG.debug("rebuildSufficientFunds() Create report");
         reportSummary.add(new Summary(1, "SFRB records converted from Object to Account", new Integer(sfrbRecordsConvertedCount)));
         reportSummary.add(new Summary(2, "Post conversion SFRB records read", new Integer(sfrbRecordsReadCount)));
         reportSummary.add(new Summary(3, "SFRB records deleted", new Integer(sfrbRecordsDeletedCount)));
@@ -151,37 +172,32 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
             throw new IllegalStateException(kualiConfigurationService.getPropertyString(KeyConstants.ERROR_UNIV_DATE_NOT_FOUND));
         }
     }
-    
-    private void convertSfrb(SufficientFundRebuild sfrb) {
-        if("A".equalsIgnoreCase(sfrb.getAccountFinancialObjectTypeCode())) {
-            return;
-        }
-        if("O".equalsIgnoreCase(sfrb.getAccountFinancialObjectTypeCode())) {
-            processSfrbObject(sfrb);
-            ++sfrbRecordsConvertedCount;
-        } else {
-            addTransactionError("ACCOUNT/FINANCIAL OBJECT TYPE CODE MUST='A' OR 'O'");
-        }
-    }
 
-    private void processSfrbObject(SufficientFundRebuild sfrb) {
+    /**
+     * Given an O SF rebuild type, it will look up all of the matching balances
+     * in the table and add each account it finds as an A SF rebuild type.
+     * 
+     * @param sfrb
+     */
+    private void convertOtypeToAtypes(SufficientFundRebuild sfrb) {
+        ++sfrbRecordsConvertedCount;
         Collection fundBalances = sufficientFundBalancesDao.getByObjectCode(universityFiscalYear, sfrb.getChartOfAccountsCode(), sfrb.getAccountNumberFinancialObjectCode());
 
         for (Iterator fundBalancesIter = fundBalances.iterator(); fundBalancesIter.hasNext();) {
-            currentSfbl = (SufficientFundBalances) fundBalancesIter.next();
-            convertObjtToAcct(sfrb, currentSfbl);
+            SufficientFundBalances bal = (SufficientFundBalances) fundBalancesIter.next();
+
+            SufficientFundRebuild altSfrb = sufficientFundRebuildService.get(bal.getChartOfAccountsCode(), "A", bal.getAccountNumber());
+            if (altSfrb == null) {
+                altSfrb = new SufficientFundRebuild();
+                altSfrb.setAccountFinancialObjectTypeCode("A");
+                altSfrb.setAccountNumberFinancialObjectCode(bal.getAccountNumber());
+                altSfrb.setChartOfAccountsCode(bal.getChartOfAccountsCode());                
+                sufficientFundRebuildService.save(altSfrb);
+            }
         }
     }
 
-    private void convertObjtToAcct(SufficientFundRebuild sfrb, SufficientFundBalances sfb) {
-        SufficientFundRebuild altSfrb = sufficientFundRebuildDao.get(sfb.getChartOfAccountsCode(), "A", sfb.getAccountNumber());
-        if (altSfrb == null) {
-            sufficientFundRebuildDao.save(altSfrb);
-            sufficientFundRebuildDao.delete(sfrb);
-        }
-    }
-
-    private void processSfrb(SufficientFundRebuild sfrb) {
+    private void calculateSufficientFundsByAccount(SufficientFundRebuild sfrb) {
         Balance balance = balanceDao.getBalanceByPrimaryId(universityFiscalYear, sfrb.getChartOfAccountsCode(), sfrb.getAccountNumberFinancialObjectCode());
         
         if (balance == null) {
@@ -360,8 +376,8 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
         this.sufficientFundBalancesDao = sufficientFundBalancesDao;
     }
 
-    public void setSufficientFundRebuildDao(SufficientFundRebuildDao sufficientFundRebuildDao) {
-        this.sufficientFundRebuildDao = sufficientFundRebuildDao;
+    public void setSufficientFundRebuildService(SufficientFundRebuildService sufficientFundRebuildService) {
+        this.sufficientFundRebuildService = sufficientFundRebuildService;
     }
 
     public void setOptionsDao(OptionsDao optionsDao) {

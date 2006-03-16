@@ -25,6 +25,14 @@ public class SufficientFundRebuildDaoOjb extends PersistenceBrokerDaoSupport imp
         return getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
     }
 
+    public Collection getByType(String accountFinancialObjectTypeCode) {
+      Criteria criteria = new Criteria();
+      criteria.addEqualTo("accountFinancialObjectTypeCode",accountFinancialObjectTypeCode);
+
+      QueryByCriteria qbc = QueryFactory.newQuery(SufficientFundRebuild.class, criteria);
+      return getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
+    }
+
     public SufficientFundRebuild getByAccount(String chartOfAccountsCode, String accountNumberFinancialObjectCode) {
       Criteria criteria = new Criteria();
       criteria.addEqualTo("chartOfAccountsCode",chartOfAccountsCode);

@@ -18,7 +18,7 @@
 <c:set var="uploadLines" value="upload${capitalSourceOrTarget}Lines"/>
 <c:set var="canUpload" value="${!empty editingMode['fullEntry']}"/>
 <%-- todo: get formatUrl from parameter database? --%>
-<c:set var="formatUrl" value="http://fms.dfa.cornell.edu:8080/confluence/display/KULEDOCS/Accounting+Line+Import"/>
+<c:set var="formatUrl" value="http://fms.dfa.cornell.edu:8080/confluence/display/KULDOC/Accounting+Line+Import"/>
 
 <c:set var="titleColSpan" value="4" />
 <c:if test="${empty editingMode['fullEntry']}" >

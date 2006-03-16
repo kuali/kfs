@@ -26,6 +26,7 @@ import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
@@ -250,7 +251,6 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
         boolean checkDb = false;
         boolean newPrimary;
         
-        
         //	exit out immediately if this doc is not requesting a primary route
         newPrimary = newDelegate.isAccountsDelegatePrmrtIndicator();
         if (!newPrimary) {
@@ -292,14 +292,15 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
         
         //  **********************************************
         //      TESTING FOR AN ALL PRIMARY IN THE DB
-        
-        //	setup the query's WHERE criteria
+        //
+        //	WHERE = an ALL primary route for this account/chart
         Map whereMap;
         whereMap = new HashMap();
         whereMap.put("chartOfAccountsCode", newDelegate.getChartOfAccountsCode());
         whereMap.put("accountNumber", newDelegate.getAccountNumber());
         whereMap.put("financialDocumentTypeCode", "ALL");
         whereMap.put("accountsDelegatePrmrtIndicator", Boolean.valueOf(true));
+        whereMap.put("accountDelegateActiveIndicator", Boolean.valueOf(true));
         
         //	find all the matching records
         Collection primaryRoutes;
@@ -307,48 +308,70 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
         
         //	if there is at least one result, then this business rule is tripped
         if (primaryRoutes.size() > 0) {
-            //TODO: need a new error message here, to complain about the ALL particularly
-            //TODO: may need two error messages, one for ALL vs ALL, and one for X vs ALL
-            putGlobalError(KeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_PRIMARY_ROUTE_ALREADY_EXISTS);
+            putGlobalError(KeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_PRIMARY_ROUTE_ALL_TYPES_ALREADY_EXISTS);
             success &= false;
             return success;  // we're done, no sense in continuing
         }
-        
-        //  past this point, we know there's no conflicting ALL primary 
-        // route in the system, so we're doing to test for this same 
-        // primary route
-        
+        //
+        //  **********************************************
+
         //  **********************************************
         //      TESTING FOR ANY PRIMARY IF THIS IS ALL
+        //
         if ("ALL".equalsIgnoreCase(newDelegate.getFinancialDocumentTypeCode())) {
             
-            //  look for ANY other primaries, with no filter on docType
+            //  WHERE = any primary route for this account/chart 
+            whereMap = new HashMap();
+            whereMap.put("chartOfAccountsCode", newDelegate.getChartOfAccountsCode());
+            whereMap.put("accountNumber", newDelegate.getAccountNumber());
+            whereMap.put("accountsDelegatePrmrtIndicator", Boolean.valueOf(true));
+            whereMap.put("accountDelegateActiveIndicator", Boolean.valueOf(true));
             
+            //  find all the matching records
+            primaryRoutes = boService.findMatching(Delegate.class, whereMap);
+            
+            //  if there is at least one result, then this business rule is tripped
+            if (primaryRoutes.size() > 0) {
+                
+                //  get the docType of the primary route that is blocking this
+                String blockingDocType = "";
+                for (Iterator iter = primaryRoutes.iterator(); iter.hasNext();) {
+                    Delegate delegate = (Delegate) iter.next();
+                    blockingDocType = delegate.getFinancialDocumentTypeCode();
+                }
+                
+                //  add the error
+                putGlobalError(KeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_PRIMARY_ROUTE_ALREADY_EXISTS_FOR_NEW_ALL, 
+                                blockingDocType);
+                success &= false;
+                return success;  // we're done, no sense in continuing
+            }
         }
+        //
+        //  **********************************************
         
         //  **********************************************
         //      TESTING FOR SAME DOCTYPE PRIMARY IF THIS IS NOT ALL
         else {
             
-            //  look for a primary on this specific docType
+            //  WHERE = primary route for this docType for this account/chart 
+            whereMap = new HashMap();
+            whereMap.put("chartOfAccountsCode", newDelegate.getChartOfAccountsCode());
+            whereMap.put("accountNumber", newDelegate.getAccountNumber());
+            whereMap.put("accountsDelegatePrmrtIndicator", Boolean.valueOf(true));
+            whereMap.put("financialDocumentTypeCode", newDelegate.getFinancialDocumentTypeCode());
+            whereMap.put("accountDelegateActiveIndicator", Boolean.valueOf(true));
+            
+            //  find all the matching records
+            primaryRoutes = boService.findMatching(Delegate.class, whereMap);
+            
+            //  if there is at least one result, then this business rule is tripped
+            if (primaryRoutes.size() > 0) {
+                putGlobalError(KeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_PRIMARY_ROUTE_ALREADY_EXISTS_FOR_DOCTYPE);
+                success &= false;
+                return success;  // we're done, no sense in continuing
+            }
         }
-        
-        //  setup the query's WHERE criteria
-        whereMap = new HashMap();
-        whereMap.put("chartOfAccountsCode", newDelegate.getChartOfAccountsCode());
-        whereMap.put("accountNumber", newDelegate.getAccountNumber());
-        whereMap.put("financialDocumentTypeCode", newDelegate.getFinancialDocumentTypeCode());
-        whereMap.put("accountsDelegatePrmrtIndicator", Boolean.valueOf(true));
-        
-        //  find all the matching records
-        primaryRoutes = boService.findMatching(Delegate.class, whereMap);
-        
-        //  if there is at least one result, then this business rule is tripped
-        if (primaryRoutes.size() > 0) {
-            putGlobalError(KeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_PRIMARY_ROUTE_ALREADY_EXISTS);
-            success &= false;
-        }
-        
         return success;
     }
     

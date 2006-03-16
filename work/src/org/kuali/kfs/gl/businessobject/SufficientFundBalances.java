@@ -96,7 +96,7 @@ public class SufficientFundBalances extends BusinessObjectBase {
         sb.append(getField(2, chartOfAccountsCode));
         sb.append(getField(7, accountNumber));
         sb.append(getField(4, financialObjectCode));
-        sb.append(getField(7, accountSufficientFundsCode));
+        sb.append(getField(1, accountSufficientFundsCode));
         if (currentBudgetBalanceAmount == null) {
             sb.append("                 ");
         } else {
@@ -118,7 +118,6 @@ public class SufficientFundBalances extends BusinessObjectBase {
             sb.append("                 ".substring(0, 17 - a.length()));
             sb.append(a);
         }
-        sb.append(formatDate(transactionDateTimeStamp));
         return sb.toString();
     }
 

@@ -55,9 +55,6 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
     ObjectLevelService objectLevelService;
     ObjectCodeService objectCodeService;
     
-    
-
-    
     final static String OBJECT_CODE_ILLEGAL_VALUES="ObjectCodeIlegalValues";
     final static String OBJECT_CODE_VALID_BUDGET_AGGREGATION_CODES="ObjectCodeValidBudgetAggregationCodes";
     final static String OBJECT_CODE_VALID_YEAR_CODE_EXCEPTIONS="ObjectCodeValidYearCodeExceptions";
@@ -78,13 +75,10 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
     private final static int OBJECT_TYPE=3;
     private final static int SUB_TYPE=4;
 
-    //TODO how to WARN? how to suggest Consolidation account?
-    
     public ObjectCodeRule() {
         
         configService = SpringServiceLocator.getKualiConfigurationService();
    
-        //TODO institutional values should really be injected or something
         illegalValues = retrieveParameterSet(OBJECT_CODE_ILLEGAL_VALUES);
         validYearCodeExceptions=retrieveParameterSet(OBJECT_CODE_VALID_YEAR_CODE_EXCEPTIONS);
         validBudgetAggregationCodes=retrieveParameterSet(OBJECT_CODE_VALID_BUDGET_AGGREGATION_CODES);
@@ -95,15 +89,12 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
         objectLevelService = SpringServiceLocator.getObjectLevelService();
         objectCodeService = SpringServiceLocator.getObjectCodeService();
         
-        //TODO may need Object Consolidation Service?
+        
     }
     
 
     
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
-        
-        //setupConvenienceObjects(document);
-        //initializeRuleValues(document);
         
         //  default to success
         boolean success = true;
@@ -112,10 +103,6 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
         Object maintainableObject=document.getNewMaintainableObject().getBusinessObject();
         
         success &= processObjectCodeRules((ObjectCode)maintainableObject);
-        
-        // Test the route rules, but do not "enforce" them during save (i.e. the result
-        // from this method is ignored)
-        processCustomRouteDocumentBusinessRules(document);
         
         return success;
         
@@ -128,12 +115,6 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
         
         Object maintainableObject=document.getNewMaintainableObject().getBusinessObject();
         success &= processObjectCodeRules((ObjectCode)maintainableObject);
-
-        
-        // setupConvenienceObjects(document);
-        // initializeRuleValues(document);
-        
-        //  default to success
         
         success &= checkEmptyValues(document);
         
@@ -156,7 +137,7 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
         String objCode=objectCode.getFinancialObjectCode();
         
         if (!isLegalObjectCode(objCode)) {
-            this.addIllegalValueError("objCode must not be "+illegalValues.toArray());
+            this.putFieldError("financialObjectCode",KeyConstants.ERROR_DOCUMENT_OBJCODE_ILLEGAL,objCode);
             result=false;
         }
 
@@ -192,11 +173,7 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
 
         objectCode.refresh();
         
-        // Chart code (fin_coa_cd) must be valid
-        if (!isValid(objectCode,CHART_CODE)) {
-            addIllegalValueError("Chart must be valid");
-            result=false;
-        }
+        // Chart code (fin_coa_cd) must be valid - handled by dd
 
         // Object level (obj_level_code) must be valid
         if (!isValid(objectCode,OBJECT_LEVEL)) {
@@ -245,7 +222,7 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
          Object level (obj_level_code) must be entered
          The Reports to Object (rpts_to_fin_obj_cd) must be entered
 
-    It seems like this are Business Rules for other objects:
+    It seems like these are Business Rules for other objects:
     
     An Object code must be active when it is used as valid value in the Labor Object Code table
     An Object code must be active when it is used as valid value in the LD Benefits Calculation table
@@ -461,6 +438,10 @@ If the Next Year Object has been entered, it must exist in the object code table
         return result;
     }
 
+    /**
+     * 
+     * @deprecated use putFieldError or putGlobalError instead
+     */
     private void addIllegalValueError(String errorMessage)  {
         //TODO COA: be sure to externalize all messages in KeyConstants, Constants, etc. 
         GlobalVariables.getErrorMap().put(

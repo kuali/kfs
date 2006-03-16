@@ -30,6 +30,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
+import org.kuali.Constants;
 import org.kuali.KeyConstants;
 import org.kuali.core.bo.user.KualiUser;
 import org.kuali.core.document.MaintenanceDocument;
@@ -45,9 +46,6 @@ import org.kuali.module.chart.bo.Delegate;
 public class DelegateRule extends MaintenanceDocumentRuleBase {
 
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DelegateRule.class);
-    
-    private static final String EMPLOYEE_TYPE_PROFESSIONAL = "P";
-    private static final String EMPLOYEE_STATUS_ACTIVE = "A";
     
     private Delegate oldDelegate;
     private Delegate newDelegate;
@@ -281,22 +279,76 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
             return success;
         }
         
+        //  okay, so if we get here, then the new value wants to be a primary, 
+        // and if an edit, its changed from the old value.  in other words, 
+        // we need to check it.
+        
+        /*
+         *   check if there is an ALL primary, if so then the rule fails, we're done
+         *  
+         *   check if this doctype is already defined with a primary, if so then the rule fails, we're done
+         *   
+         */
+        
+        //  **********************************************
+        //      TESTING FOR AN ALL PRIMARY IN THE DB
+        
         //	setup the query's WHERE criteria
-        Map whereMap = new HashMap();
+        Map whereMap;
+        whereMap = new HashMap();
+        whereMap.put("chartOfAccountsCode", newDelegate.getChartOfAccountsCode());
+        whereMap.put("accountNumber", newDelegate.getAccountNumber());
+        whereMap.put("financialDocumentTypeCode", "ALL");
+        whereMap.put("accountsDelegatePrmrtIndicator", Boolean.valueOf(true));
+        
+        //	find all the matching records
+        Collection primaryRoutes;
+        primaryRoutes = boService.findMatching(Delegate.class, whereMap);
+        
+        //	if there is at least one result, then this business rule is tripped
+        if (primaryRoutes.size() > 0) {
+            //TODO: need a new error message here, to complain about the ALL particularly
+            //TODO: may need two error messages, one for ALL vs ALL, and one for X vs ALL
+            putGlobalError(KeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_PRIMARY_ROUTE_ALREADY_EXISTS);
+            success &= false;
+            return success;  // we're done, no sense in continuing
+        }
+        
+        //  past this point, we know there's no conflicting ALL primary 
+        // route in the system, so we're doing to test for this same 
+        // primary route
+        
+        //  **********************************************
+        //      TESTING FOR ANY PRIMARY IF THIS IS ALL
+        if ("ALL".equalsIgnoreCase(newDelegate.getFinancialDocumentTypeCode())) {
+            
+            //  look for ANY other primaries, with no filter on docType
+            
+        }
+        
+        //  **********************************************
+        //      TESTING FOR SAME DOCTYPE PRIMARY IF THIS IS NOT ALL
+        else {
+            
+            //  look for a primary on this specific docType
+        }
+        
+        //  setup the query's WHERE criteria
+        whereMap = new HashMap();
         whereMap.put("chartOfAccountsCode", newDelegate.getChartOfAccountsCode());
         whereMap.put("accountNumber", newDelegate.getAccountNumber());
         whereMap.put("financialDocumentTypeCode", newDelegate.getFinancialDocumentTypeCode());
         whereMap.put("accountsDelegatePrmrtIndicator", Boolean.valueOf(true));
         
-        //	find all the matching records
-        Collection primaryRoutes = boService.findMatching(Delegate.class, whereMap);
+        //  find all the matching records
+        primaryRoutes = boService.findMatching(Delegate.class, whereMap);
         
-        //	if there is at least one result, then this business rule is tripped
+        //  if there is at least one result, then this business rule is tripped
         if (primaryRoutes.size() > 0) {
             putGlobalError(KeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_PRIMARY_ROUTE_ALREADY_EXISTS);
             success &= false;
         }
-
+        
         return success;
     }
     
@@ -310,14 +362,18 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
         }
         KualiUser user = newDelegate.getAccountDelegate();
         
-        //  user must be A - Active
-        if (!EMPLOYEE_STATUS_ACTIVE.equalsIgnoreCase(user.getEmployeeStatusCode())) {
+        //  user must be of the allowable statuses (A - Active)
+        if (apcRuleFails(Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, 
+                Constants.ChartApcParms.DELEGATE_USER_EMP_STATUSES, 
+                user.getEmployeeStatusCode())) {
             success &= false;
             putFieldError("accountDelegate.personUserIdentifier", KeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_USER_NOT_ACTIVE);
         }
         
-        //  user must be of type P - Professional
-        if (!EMPLOYEE_TYPE_PROFESSIONAL.equalsIgnoreCase(user.getEmployeeTypeCode())) {
+        //  user must be of the allowable types (P - Professional)
+        if (apcRuleFails(Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, 
+                Constants.ChartApcParms.DELEGATE_USER_EMP_TYPES, 
+                user.getEmployeeTypeCode())) {
             success &= false;
             putFieldError("accountDelegate.personUserIdentifier", KeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_USER_NOT_PROFESSIONAL);
         }

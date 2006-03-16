@@ -36,7 +36,6 @@ import org.kuali.core.bo.user.KualiUser;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
@@ -68,15 +67,11 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
     private static final String RESTRICTED_CD_RESTRICTED = "R";
     private static final String RESTRICTED_CD_UNRESTRICTED = "U";
     private static final String RESTRICTED_CD_TEMPORARILY_RESTRICTED = "T";
-    private static final String RESTRICTED_CD_NOT_APPLICABLE = "N";
     
-    private static final String EMPLOYEE_TYPE_PROFESSIONAL = "P";
     
     private static final String SUB_FUND_GROUP_MEDICAL_PRACTICE_FUNDS = "MPRACT";
     
     private static final String BUDGET_RECORDING_LEVEL_MIXED = "M";
-    
-    private KualiConfigurationService configService;
     
     GeneralLedgerPendingEntryService generalLedgerPendingEntryService;
     
@@ -95,7 +90,6 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         // to spring-managed with these services injected by Spring at some later date.  
         // When this happens, just remove these calls to the setters with 
         // SpringServiceLocator, and configure the bean defs for spring.
-        this.setConfigService(SpringServiceLocator.getKualiConfigurationService());
         this.setGeneralLedgerPendingEntryService(SpringServiceLocator.getGeneralLedgerPendingEntryService());
         this.setBalanceService(SpringServiceLocator.getGeneralLedgerBalanceService());
     }
@@ -315,9 +309,9 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         }
         
         //the employee type for fiscal officer, account manager, and account supervisor must be 'P' – professional.
-        success &= checkUserType("accountFiscalOfficerSystemIdentifier", fiscalOfficer, EMPLOYEE_TYPE_PROFESSIONAL, "Fiscal Officer");
-        success &= checkUserType("accountManagerSystemIdentifier", accountManager, EMPLOYEE_TYPE_PROFESSIONAL, "Account Manager");
-        success &= checkUserType("accountsSupervisorySystemsIdentifier", accountSupervisor, EMPLOYEE_TYPE_PROFESSIONAL, "Account Supervisor");
+        success &= checkUserStatusAndType("accountFiscalOfficerUser.personUserIdentifier", fiscalOfficer);
+        success &= checkUserStatusAndType("accountSupervisoryUser.personUserIdentifier", accountManager);
+        success &= checkUserStatusAndType("accountManagerUser.personUserIdentifier", accountSupervisor);
         
         //the supervisor cannot be the same as the fiscal officer or account manager.
         if (ObjectUtils.isNotNull(accountSupervisor)) {
@@ -556,33 +550,41 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
      * @param employeeType - String value expected for Employee Type 
      * @param userRoleDescription - User Role being tested, to be passed into an error message
      * 
-     * @return - true if user is of the requested employee type, false if not or if 
+     * @return - true if user is of the requested employee type, false if not, true if the 
      *           user object is null
      * 
      */
-    private boolean checkUserType(String propertyName, UniversalUser user, String employeeType, String userRoleDescription) {
+    private boolean checkUserStatusAndType(String propertyName, UniversalUser user) {
         
-        //	if the user isnt populated, it will fail
-        // the actual existence check is performed in the general rules so leaving out a 
-        // specific error message on this one
+        boolean success = true;
+        
+        //	if the user isnt populated, exit with success
+        // the actual existence check is performed in the general rules so not testing here
         if (ObjectUtils.isNull(user)) {
-            return false;
+            return success;
         }
         
-        //	if the UniversalUser record is not properly setup with this value, this will fail
-        if (StringUtils.isNotEmpty(user.getEmployeeTypeCode())) {
-            if (user.getEmployeeTypeCode().equalsIgnoreCase(employeeType)) {
-	            return true;
-            }
-            else {
-                putFieldError(propertyName, KeyConstants.ERROR_DOCUMENT_ACCMAINT_PRO_TYPE_REQD_FOR_EMPLOYEE, userRoleDescription);
-                return false;
-            }
+        //  user must be of the allowable statuses (A - Active)
+        if (apcRuleFails(Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, 
+                Constants.ChartApcParms.ACCOUNT_USER_EMP_STATUSES, 
+                user.getEmployeeStatusCode())) {
+            success &= false;
+            putFieldError(propertyName, 
+                    KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACTIVE_REQD_FOR_EMPLOYEE, 
+                    ddService.getAttributeLabel(newAccount.getClass(), propertyName));
         }
-        else {
-            putFieldError(propertyName, KeyConstants.ERROR_DOCUMENT_ACCMAINT_PRO_TYPE_REQD_FOR_EMPLOYEE, userRoleDescription);
-            return false;
+        
+        //  user must be of the allowable types (P - Professional)
+        if (apcRuleFails(Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, 
+                Constants.ChartApcParms.ACCOUNT_USER_EMP_TYPES, 
+                user.getEmployeeTypeCode())) {
+            success &= false;
+            putFieldError(propertyName, 
+                    KeyConstants.ERROR_DOCUMENT_ACCMAINT_PRO_TYPE_REQD_FOR_EMPLOYEE, 
+                    ddService.getAttributeLabel(newAccount.getClass(), propertyName));
         }
+        
+        return success;
     }
     
     /**
@@ -931,14 +933,6 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
 
     public void setBalanceService(BalanceService balanceService) {
         this.balanceService = balanceService;
-    }
-    
-    /**
-     * Sets the configService attribute value.
-     * @param configService The configService to set.
-     */
-    public void setConfigService(KualiConfigurationService configService) {
-        this.configService = configService;
     }
     
 }

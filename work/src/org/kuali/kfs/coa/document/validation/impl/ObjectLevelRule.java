@@ -50,7 +50,7 @@ public class ObjectLevelRule extends MaintenanceDocumentRuleBase {
      * @param document
      * @return boolean
      */
-    protected boolean e(MaintenanceDocument document) {
+    protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
         boolean success = true;
         success &= checkObjConsCode();
         return success;

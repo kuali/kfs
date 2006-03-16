@@ -150,6 +150,18 @@ public class CashManagementDocument extends DocumentBase {
     }
 
 
+    /**
+     * @see org.kuali.core.document.DocumentBase#buildListOfDeletionAwareLists()
+     */
+    public List buildListOfDeletionAwareLists() {
+        List managedLists = super.buildListOfDeletionAwareLists();
+
+        managedLists.add(getDeposits());
+
+        return managedLists;
+    }
+
+    
     private static final Set FAILURE_CODES;
     static {
         String[] FAILURE_CODE_ARRAY = { EdenConstants.ROUTE_HEADER_CANCEL_DISAPPROVE_CD, EdenConstants.ROUTE_HEADER_DISAPPROVED_CD,

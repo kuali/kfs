@@ -28,8 +28,6 @@ package org.kuali.module.financial.bo;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.BusinessObjectBase;
-import org.kuali.module.chart.bo.Account;
-import org.kuali.module.financial.document.DisbursementVoucherDocument;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -55,9 +53,6 @@ public class DisbursementVoucherWireTransfer extends BusinessObjectBase {
 	
 	private String disbVchrFDCurrencyTypeName;
 	private String disbVchrFDCurrencyTypeCode;
-	
-	private DisbursementVoucherDocument financialDocument;
-	private Account disbVchrPayeeAccount;
 
 	/**
 	 * Default no-arg constructor.
@@ -452,48 +447,6 @@ public class DisbursementVoucherWireTransfer extends BusinessObjectBase {
 	 */
 	public void setDisbursementVoucherAutomatedClearingHouseProfileNumber(String disbursementVoucherAutomatedClearingHouseProfileNumber) {
 		this.disbursementVoucherAutomatedClearingHouseProfileNumber = disbursementVoucherAutomatedClearingHouseProfileNumber;
-	}
-
-	/**
-	 * Gets the financialDocument attribute.
-	 * 
-	 * @return - Returns the financialDocument
-	 * 
-	 */
-	public DisbursementVoucherDocument getFinancialDocument() { 
-		return financialDocument;
-	}
-	
-
-	/**
-	 * Sets the financialDocument attribute.
-	 * 
-	 * @param - financialDocument The financialDocument to set.
-	 * @deprecated
-	 */
-	public void setFinancialDocument(DisbursementVoucherDocument financialDocument) {
-		this.financialDocument = financialDocument;
-	}
-
-	/**
-	 * Gets the disbVchrPayeeAccount attribute.
-	 * 
-	 * @return - Returns the disbVchrPayeeAccount
-	 * 
-	 */
-	public Account getDisbVchrPayeeAccount() { 
-		return disbVchrPayeeAccount;
-	}
-	
-
-	/**
-	 * Sets the disbVchrPayeeAccount attribute.
-	 * 
-	 * @param - disbVchrPayeeAccount The disbVchrPayeeAccount to set.
-	 * @deprecated
-	 */
-	public void setDisbVchrPayeeAccount(Account disbVchrPayeeAccount) {
-		this.disbVchrPayeeAccount = disbVchrPayeeAccount;
 	}
 
 	/**

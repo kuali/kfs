@@ -22,6 +22,8 @@
  */
 package org.kuali.module.financial.rules;
 
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
@@ -384,7 +386,7 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
                 errors.put(PropertyConstants.DV_PAYEE_DETAIL + "." + PropertyConstants.DISB_VCHR_PAYEE_STATE_CODE,
                         KeyConstants.ERROR_DV_PAYEE_STATE_CODE);
             }
-            
+
             if (StringUtils.isBlank(document.getDvPayeeDetail().getDisbVchrPayeeZipCode())) {
                 errors.put(PropertyConstants.DV_PAYEE_DETAIL + "." + PropertyConstants.DISB_VCHR_PAYEE_ZIP_CODE,
                         KeyConstants.ERROR_DV_PAYEE_ZIP_CODE);
@@ -435,15 +437,22 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
      * @param document
      */
     private void validateForeignDraft(DisbursementVoucherDocument document) {
+        ErrorMap errors = GlobalVariables.getErrorMap();
+        errors.addToErrorPath(PropertyConstants.DV_WIRE_TRANSFER);
+
         /* currency type code required */
-        if (StringUtils.isBlank(document.getDvWireTransfer().getDisbVchrCurrencyTypeCode())) {
-            GlobalVariables.getErrorMap().put(Constants.GENERAL_FOREIGNDRAFTS_TAB_ERRORS, KeyConstants.ERROR_DV_CURRENCY_TYPE_CODE);
+        if (StringUtils.isBlank(document.getDvWireTransfer().getDisbVchrFDCurrencyTypeCode())) {
+            GlobalVariables.getErrorMap().put(PropertyConstants.DISB_VCHR_FD_CURRENCY_TYPE_CODE,
+                    KeyConstants.ERROR_DV_CURRENCY_TYPE_CODE);
         }
 
         /* currency type name required */
-        if (StringUtils.isBlank(document.getDvWireTransfer().getDisbVchrCurrencyTypeName())) {
-            GlobalVariables.getErrorMap().put(Constants.GENERAL_FOREIGNDRAFTS_TAB_ERRORS, KeyConstants.ERROR_DV_CURRENCY_TYPE_NAME);
+        if (StringUtils.isBlank(document.getDvWireTransfer().getDisbVchrFDCurrencyTypeName())) {
+            GlobalVariables.getErrorMap().put(PropertyConstants.DISB_VCHR_FD_CURRENCY_TYPE_NAME,
+                    KeyConstants.ERROR_DV_CURRENCY_TYPE_NAME);
         }
+
+        errors.removeFromErrorPath(PropertyConstants.DV_WIRE_TRANSFER);
     }
 
     /**
@@ -554,7 +563,7 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
 
         /* must have per diem change message if actual amount is different from calculated amount */
         if (document.getDvNonEmployeeTravel().getDisbVchrPerdiemCalculatedAmt().compareTo(
-                document.getDvNonEmployeeTravel().getDisbVchrPerdiemActualAmount()) != 0 
+                document.getDvNonEmployeeTravel().getDisbVchrPerdiemActualAmount()) != 0
                 && StringUtils.isBlank(document.getDvNonEmployeeTravel().getDvPerdiemChangeReasonText())) {
             errors.put(PropertyConstants.DV_PERDIEM_CHANGE_REASON_TEXT, KeyConstants.ERROR_DV_PERDIEM_CHANGE_REQUIRED);
         }
@@ -929,9 +938,10 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
 
         /* check payment reason is valid for object code */
         objectCodeAllowed = objectCodeAllowed
-               && executeApplicationParameterRestriction(OBJECT_CODE_PAYMENT_GROUP_NM, OBJECT_CODE_PARM_PREFIX
-                + accountingLine.getFinancialObjectCode(), dvDocument.getDvPayeeDetail().getDisbVchrPaymentReasonCode(),
-                PropertyConstants.DV_PAYEE_DETAIL + "." + PropertyConstants.DISB_VCHR_PAYMENT_REASON_CODE, "Payment reason code");
+                && executeApplicationParameterRestriction(OBJECT_CODE_PAYMENT_GROUP_NM, OBJECT_CODE_PARM_PREFIX
+                        + accountingLine.getFinancialObjectCode(), dvDocument.getDvPayeeDetail().getDisbVchrPaymentReasonCode(),
+                        PropertyConstants.DV_PAYEE_DETAIL + "." + PropertyConstants.DISB_VCHR_PAYMENT_REASON_CODE,
+                        "Payment reason code");
 
         return objectCodeAllowed;
     }
@@ -946,8 +956,8 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
         String errorKey = PropertyConstants.ACCOUNT_NUMBER;
         boolean accountNumberAllowed = true;
 
-        /* account exist done in super, check we have a valid object */
-        if (ObjectUtils.isNull(accountingLine.getAccount())) {
+        /* account exist and object exist done in super, check we have a valid object */
+        if (ObjectUtils.isNull(accountingLine.getAccount()) || ObjectUtils.isNull(accountingLine.getObjectCode())) {
             return false;
         }
 
@@ -1039,15 +1049,26 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
     }
 
     /**
-     * Override to check for tax accounting lines. These lines can have negative amounts which the
-     * super will reject.
-     * @see org.kuali.core.rule.AccountingLineRule#isAmountValid(org.kuali.core.document.TransactionalDocument, org.kuali.core.bo.AccountingLine)
+     * Override to check for tax accounting lines. These lines can have negative amounts which the super will reject.
+     * @see org.kuali.core.rule.AccountingLineRule#isAmountValid(org.kuali.core.document.TransactionalDocument,
+     *      org.kuali.core.bo.AccountingLine)
      */
     public boolean isAmountValid(TransactionalDocument document, AccountingLine accountingLine) {
-        // TODO Auto-generated method stub
+        if (((DisbursementVoucherDocument) document).getDvNonResidentAlienTax() != null) {
+            List taxLineNumbers = SpringServiceLocator.getDisbursementVoucherTaxService().getNRATaxLineNumbers(
+                    ((DisbursementVoucherDocument) document).getDvNonResidentAlienTax().getFinancialDocumentAccountingLineText());
+            if (taxLineNumbers.contains(accountingLine.getSequenceNumber())) {
+                return true;
+            }
+        }
         return super.isAmountValid(document, accountingLine);
     }
-    
+
+
+    /**
+     * Checks if the current user is a member of the dv tax workgroup.
+     * @return true if user is in group
+     */
     private boolean isUserInTaxGroup() {
         return GlobalVariables.getUserSession().getKualiUser().isMember(new KualiGroup(KualiGroup.KUALI_DV_TAX_GROUP));
     }

@@ -706,6 +706,14 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
     public void prepareForSave() {
         if (dvWireTransfer != null) {
             dvWireTransfer.setFinancialDocumentNumber(this.financialDocumentNumber);
+            
+            /* foreign draft shares currency fields with wire transfer, but need dummy field for jsp, so 
+             * this is setting the real fields before save.
+             */
+            if (DisbursementVoucherRuleConstants.PAYMENT_METHOD_DRAFT.equals(this.getDisbVchrPaymentMethodCode())){
+                dvWireTransfer.setDisbVchrCurrencyTypeCode(dvWireTransfer.getDisbVchrFDCurrencyTypeCode());
+                dvWireTransfer.setDisbVchrCurrencyTypeName(dvWireTransfer.getDisbVchrFDCurrencyTypeName());
+            }
         }
 
         if (dvNonResidentAlienTax != null) {
@@ -777,8 +785,9 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
         getDvPayeeDetail().setDisbVchrPayeeCountryCode("");
         getDvPayeeDetail().setDisbVchrAlienPaymentCode(false);
         setDisbVchrPayeeTaxControlCode("");
+        
         // clear nra
-        setDvNonResidentAlienTax(null);
+        setDvNonResidentAlienTax(new DisbursementVoucherNonResidentAlienTax());
 
         // check payee id number to see if still valid, if so retrieve their last information and set in the detail inform.
         if (getDvPayeeDetail().isPayee() && !StringUtils.isBlank(getDvPayeeDetail().getDisbVchrPayeeIdNumber())) {

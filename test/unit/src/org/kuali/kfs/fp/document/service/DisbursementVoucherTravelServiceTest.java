@@ -114,10 +114,15 @@ public class DisbursementVoucherTravelServiceTest extends KualiTestBaseWithSprin
         runPerDiemTest(dvDocument.getDvNonEmployeeTravel().getDvPerdiemStartDttmStamp(), dvDocument.getDvNonEmployeeTravel()
                 .getDvPerdiemEndDttmStamp(), new KualiDecimal(10), new KualiDecimal(0));
 
-        dvDocument.getDvNonEmployeeTravel().setPerDiemStartDateTime("04/21/2006 1:00 AM");
+        dvDocument.getDvNonEmployeeTravel().setPerDiemStartDateTime("04/21/2006 5:00 AM");
         dvDocument.getDvNonEmployeeTravel().setPerDiemEndDateTime("04/21/2006 5:00 PM");
         runPerDiemTest(dvDocument.getDvNonEmployeeTravel().getDvPerdiemStartDttmStamp(), dvDocument.getDvNonEmployeeTravel()
-                .getDvPerdiemEndDttmStamp(), new KualiDecimal(10), new KualiDecimal(5.00));
+                .getDvPerdiemEndDttmStamp(), new KualiDecimal(10), new KualiDecimal(0.00));
+        
+        dvDocument.getDvNonEmployeeTravel().setPerDiemStartDateTime("04/21/2006 4:59 AM");
+        dvDocument.getDvNonEmployeeTravel().setPerDiemEndDateTime("04/21/2006 5:00 PM");
+        runPerDiemTest(dvDocument.getDvNonEmployeeTravel().getDvPerdiemStartDttmStamp(), dvDocument.getDvNonEmployeeTravel()
+                .getDvPerdiemEndDttmStamp(), new KualiDecimal(10), new KualiDecimal(0.00));
 
         dvDocument.getDvNonEmployeeTravel().setPerDiemStartDateTime("04/21/2006 1:00 AM");
         dvDocument.getDvNonEmployeeTravel().setPerDiemEndDateTime("04/21/2006 7:01 PM");

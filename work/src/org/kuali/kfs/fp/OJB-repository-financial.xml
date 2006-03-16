@@ -945,16 +945,16 @@
 	<field-descriptor name="taxpayerZipCode" column="DV_TXPYR_ZIP_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="taxpayerCountryCode" column="DV_TXPYR_CNTRY_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="payeeOwnershipTypCd" column="DV_PAYEE_OWNTYP_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="payeeTaxCode" column="DV_PAYEE_TAX_CD" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanField10Conversion"/>
+	<field-descriptor name="payeeTaxCode" column="DV_PAYEE_TAX_CD" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 	<field-descriptor name="payeeTaxControlCode" column="DV_PAYEE_TXCTRL_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="payeeTaxCtrlMdfyDt" column="DV_TAXCTRL_MDFY_DT" jdbc-type="DATE"/>
 	<field-descriptor name="payeeEntryDate" column="DV_PAYEE_ENTRY_DT" jdbc-type="DATE"/>
-	<field-descriptor name="alienPaymentCode" column="DV_ALIEN_PMT_IND" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanField10Conversion"/>
-	<field-descriptor name="payeeW9CompleteCode" column="DV_W9_CMPLT_IND" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanField10Conversion"/>
-	<field-descriptor name="payeeActiveCode" column="DV_PAYEE_ACTV_IND" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanField10Conversion"/>
+	<field-descriptor name="alienPaymentCode" column="DV_ALIEN_PMT_IND" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="payeeW9CompleteCode" column="DV_W9_CMPLT_IND" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="payeeActiveCode" column="DV_PAYEE_ACTV_IND" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 	<field-descriptor name="payeeLastPaidDate" column="DV_PAYEE_LST_PD_DT" jdbc-type="TIMESTAMP"/>
-	<field-descriptor name="payeeEmployeeCode" column="DV_PAYEE_EMP_IND" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanField10Conversion"/>
-	<field-descriptor name="payeeRevolvingFundCode" column="DV_PAYEE_RVFND_IND" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanField10Conversion"/>
+	<field-descriptor name="payeeEmployeeCode" column="DV_PAYEE_EMP_IND" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="payeeRevolvingFundCode" column="DV_PAYEE_RVFND_IND" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 
 	<reference-descriptor name="payeeOwnershipTyp" class-ref="org.kuali.module.financial.bo.OwnershipTypeCode" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="payeeOwnershipTypCd" />
@@ -1052,14 +1052,6 @@
 	<field-descriptor name="finSystemRefOriginationCode" column="FS_REF_ORIGIN_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="financialDocumentReferenceNbr" column="FDOC_REF_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="financialDocumentAccountingLineText" column="FDOC_ACCTG_LN_TXT" jdbc-type="VARCHAR"/>
-
-	<reference-descriptor name="disbursementVoucherDocument" class-ref="org.kuali.module.financial.document.DisbursementVoucherDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="financialDocumentNumber" />
-	</reference-descriptor>
-
-	<reference-descriptor name="documentHeader" class-ref="org.kuali.core.document.DocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="financialDocumentNumber" />
-	</reference-descriptor>
 
 	<reference-descriptor name="incomeClass" class-ref="org.kuali.module.financial.bo.TaxIncomeClassCode" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="incomeClassCode" />
@@ -1208,14 +1200,6 @@
 	<field-descriptor name="disbursementVoucherPayeeAccountName" column="DV_PAYEE_ACCT_NM" jdbc-type="VARCHAR"/>
 	<field-descriptor name="disbursementVoucherPayeeAccountTypeCode" column="DV_PAYEE_ACCT_TYP_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="disbursementVoucherAutomatedClearingHouseProfileNumber" column="DV_ACH_PRFL_NBR" jdbc-type="VARCHAR"/>
-	
-	<reference-descriptor name="financialDocument" class-ref="org.kuali.module.financial.document.DisbursementVoucherDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="financialDocumentNumber" />
-	</reference-descriptor>
-	
-	<reference-descriptor name="disbVchrPayeeAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="disbVchrPayeeAccountNumber" />
-	</reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.financial.bo.ProcurementCardDefault" table="FP_PRCRMNT_DFLT_T">

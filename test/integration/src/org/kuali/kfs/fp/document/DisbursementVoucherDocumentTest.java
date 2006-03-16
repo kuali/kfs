@@ -29,6 +29,7 @@ import java.util.List;
 
 import org.kuali.core.document.TransactionalDocumentTestBase;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.module.financial.bo.DisbursementVoucherNonResidentAlienTax;
 import org.kuali.test.parameters.DisbursementVoucherDocumentParameter;
 import org.kuali.test.parameters.DocumentParameter;
 import org.kuali.test.parameters.TransactionalDocumentParameter;
@@ -43,7 +44,7 @@ public class DisbursementVoucherDocumentTest extends TransactionalDocumentTestBa
     public static final String USER_NAME = "user1";
     public static final String DV_USER_NAME = "dvUser1";
     public static final String DOCUMENT_PARAMETER = "disbursementVoucherDocumentParameter1";
-    public static final String SOURCE_LINE1 = "sourceLine1";
+    public static final String SOURCE_LINE7 = "sourceLine7";
 
     /**
      * @see org.kuali.core.document.TransactionalDocumentTestBase#setUp()
@@ -73,7 +74,7 @@ public class DisbursementVoucherDocumentTest extends TransactionalDocumentTestBa
         dvParameter.getPayeeDetail().setDisbVchrPayeeZipCode("");
         dvParameter.getPayeeDetail().setDisbVchrPayeeCountryCode("");
         dvParameter.getPayeeDetail().setDisbVchrAlienPaymentCode(false);
-        dvParameter.setDvNonResidentAlienTax(null);
+        dvParameter.setDvNonResidentAlienTax(new DisbursementVoucherNonResidentAlienTax());
         dvParameter.setDisbVchrPayeeTaxControlCode("");
 
         dvParameter.setDisbVchrContactPersonName(GlobalVariables.getUserSession().getKualiUser().getPersonName());
@@ -134,7 +135,7 @@ public class DisbursementVoucherDocumentTest extends TransactionalDocumentTestBa
      */
     public List getSourceAccountingLineParametersFromFixtures() {
         ArrayList list = new ArrayList();
-        list.add(getFixtureEntryFromCollection(COLLECTION_NAME, SOURCE_LINE1).createObject());
+        list.add(getFixtureEntryFromCollection(COLLECTION_NAME, SOURCE_LINE7).createObject());
         return list;
     }
 

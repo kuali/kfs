@@ -48,27 +48,12 @@ public class DisbursementVoucherForm extends KualiTransactionalDocumentFormBase 
     private DisbursementVoucherNonEmployeeExpense newPrePaidNonEmployeeExpenseLine;
     private DisbursementVoucherPreConferenceRegistrant newPreConferenceRegistrantLine;
 
-    private String nraTaxLineNumbers;
     private String wireChargeMessage;
 
     public DisbursementVoucherForm() {
         super();
         setFormatterType("canPrintCoverSheet", SimpleBooleanFormatter.class);
         setDocument(new DisbursementVoucherDocument());
-    }
-
-    /**
-     * @return Returns the nraTaxLineNumbers.
-     */
-    public String getNraTaxLineNumbers() {
-        return nraTaxLineNumbers;
-    }
-
-    /**
-     * @param nraTaxLineNumbers The nraTaxLineNumbers to set.
-     */
-    public void setNraTaxLineNumbers(String nraTaxLineNumbers) {
-        this.nraTaxLineNumbers = nraTaxLineNumbers;
     }
 
     /**

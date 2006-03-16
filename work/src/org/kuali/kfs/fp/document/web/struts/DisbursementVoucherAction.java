@@ -24,10 +24,6 @@ package org.kuali.module.financial.web.struts.action;
 
 import java.io.ByteArrayOutputStream;
 import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -390,12 +386,7 @@ public class DisbursementVoucherAction extends KualiTransactionalDocumentActionB
 
         /* call service to generate new tax lines */
         GlobalVariables.getErrorMap().addToErrorPath("document");
-        List newTaxLineNumbers = taxService.processNonResidentAlienTax(document);
-
-        /* if process was successful, update new lines numbers in form */
-        if (GlobalVariables.getErrorMap().isEmpty()) {
-              dvForm.setNraTaxLineNumbers(StringUtils.join(newTaxLineNumbers.iterator(), ","));
-        }
+        taxService.processNonResidentAlienTax(document);
 
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
@@ -423,18 +414,8 @@ public class DisbursementVoucherAction extends KualiTransactionalDocumentActionB
 
         DisbursementVoucherTaxService taxService = SpringServiceLocator.getDisbursementVoucherTaxService();
 
-        List oldTaxLineNumbers = new ArrayList();
-        if (StringUtils.isNotBlank(dvForm.getNraTaxLineNumbers())) {
-            List oldTaxLineNumberStrings = Arrays.asList(StringUtils.split(dvForm.getNraTaxLineNumbers(), ","));
-            for (Iterator iter = oldTaxLineNumberStrings.iterator(); iter.hasNext();) {
-                String lineNumber = (String) iter.next();
-                oldTaxLineNumbers.add(Integer.valueOf(lineNumber));
-            }
-        }
-
         /* call service to clear previous lines */
-        taxService.clearNRATaxLines(document, oldTaxLineNumbers);
-        dvForm.setNraTaxLineNumbers("");
+        taxService.clearNRATaxLines(document);
 
         return mapping.findForward(Constants.MAPPING_BASIC);
     }

@@ -83,17 +83,15 @@ public interface DisbursementVoucherTaxService {
     /**
      * Removes tax lines from the document's accounting lines and updates the check total.
      * @param document
-     * @param previousTaxLineNumbers
      */
-    public void clearNRATaxLines(DisbursementVoucherDocument document, List previousTaxLineNumbers);
+    public void clearNRATaxLines(DisbursementVoucherDocument document);
 
     /**
      * generates new tax lines based on nra tab infor, and
      * debits the check total
      * @param document
-     * @return List of generated nra line numbers
      */
-    public List processNonResidentAlienTax(DisbursementVoucherDocument document);
+    public void processNonResidentAlienTax(DisbursementVoucherDocument document);
     
     /**
      * Returns the accounting line tax amount (if any)
@@ -101,4 +99,11 @@ public interface DisbursementVoucherTaxService {
      * @return
      */
     public KualiDecimal getNonResidentAlienTaxAmount(DisbursementVoucherDocument document);
+    
+    /**
+     * Returns a List of Integer line numbers parsed from the line string.
+     * @param taxLineString
+     * @return
+     */
+    public List getNRATaxLineNumbers(String taxLineString);
 }

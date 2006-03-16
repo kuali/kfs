@@ -91,9 +91,9 @@
 
                 <validationPattern><charset validChars="CO" /></validationPattern>
 				<required>true</required>
-                <control>
-                    <text size="2" />
-                </control>
+				<control>
+					<select valuesFinderClass="org.kuali.core.lookup.keyvalues.OpenCloseValuesFinder" />
+				</control> 
 
                 <summary>universityFiscalPeriodStatusCode summary...</summary>
                 <description>universityFiscalPeriodStatusCode description...</description>
@@ -107,9 +107,9 @@
 
                 <validationPattern><anyCharacter exactLength="2" /></validationPattern>
 				<required>true</required>
-                <control>
-                    <text size="2" />
-                </control>
+				<control>
+					<select valuesFinderClass="org.kuali.core.lookup.keyvalues.FiscalPeriodValuesFinder" />
+				</control> 
 
                 <summary>universityFiscalPeriodCode summary...</summary>
                 <description>universityFiscalPeriodCode description...</description>
@@ -133,9 +133,9 @@
 
                 <validationPattern><year /></validationPattern>
 				<required>true</required>
-                <control>
-                    <text size="5" />
-                </control>
+				<control>
+					<select valuesFinderClass="org.kuali.core.lookup.keyvalues.FiscalYearValuesFinder" />
+				</control> 
 
                 <summary>universityFiscalYear summary...</summary>
                 <description>universityFiscalYear description...</description>

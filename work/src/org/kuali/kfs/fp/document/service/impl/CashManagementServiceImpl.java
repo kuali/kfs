@@ -397,7 +397,7 @@ public class CashManagementServiceImpl implements CashManagementService {
 
         Map queryCriteria = buildCriteriaMap(verificationUnitWorkgroupName);
         List documents = new ArrayList(getBusinessObjectService().findMatchingOrderBy(CashReceiptDocument.class, queryCriteria,
-                Constants.FINANCIAL_DOCUMENT_NUMBER_PROPERTY_NAME, true));
+                PropertyConstants.FINANCIAL_DOCUMENT_NUMBER, true));
 
         // now populate each CR doc with its workflow document
         for (Iterator i = documents.iterator(); i.hasNext();) {

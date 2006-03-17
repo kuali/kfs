@@ -23,7 +23,6 @@
 package org.kuali.module.financial.web.struts.action;
 
 import java.io.ByteArrayOutputStream;
-
 import java.util.Iterator;
 import java.util.List;
 
@@ -66,7 +65,7 @@ public class CashReceiptAction extends KualiTransactionalDocumentActionBase {
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         CashReceiptForm cform = (CashReceiptForm) form;
-        
+
         if (cform.hasDocumentId()) {
             CashReceiptDocument cdoc = cform.getCashReceiptDocument();
 
@@ -93,37 +92,32 @@ public class CashReceiptAction extends KualiTransactionalDocumentActionBase {
      * @return
      * @throws Exception
      */
-    public ActionForward printCoverSheet(ActionMapping mapping, 
-                                         ActionForm form, 
-                                         HttpServletRequest request,
-                                         
-                                         HttpServletResponse response) 
-        throws Exception {
+    public ActionForward printCoverSheet(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
 
         // get directory of tempate
-        String directory = getServlet()
-            .getServletConfig().getServletContext()
-            .getRealPath( CashReceiptCoverSheetServiceImpl
-                          .CR_COVERSHEET_TEMPLATE_RELATIVE_DIR );
+        String directory = getServlet().getServletConfig().getServletContext().
+            getRealPath(CashReceiptCoverSheetServiceImpl.CR_COVERSHEET_TEMPLATE_RELATIVE_DIR);
 
         // retrieve document
-        CashReceiptDocument document = 
-            ( CashReceiptDocument )SpringServiceLocator
-            .getDocumentService()
-            .getByDocumentHeaderId( ( ( CashReceiptForm )form ).getDocument().getFinancialDocumentNumber() );
+        String financialDocumentNumber = request.getParameter(PropertyConstants.FINANCIAL_DOCUMENT_NUMBER);
+
+        CashReceiptDocument document = (CashReceiptDocument) SpringServiceLocator.getDocumentService().
+            getByDocumentHeaderId(financialDocumentNumber);
+        
+        // since this action isn't triggered by a post, we don't have the normal document data
+        // so we have to set the document into the form manually so that later authz processing 
+        // has a document object instance to work with
+        CashReceiptForm crForm = (CashReceiptForm) form;
+        crForm.setDocument(document);
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        CashReceiptCoverSheetService coverSheetService = 
-            new CashReceiptCoverSheetServiceImpl();
+        CashReceiptCoverSheetService coverSheetService = new CashReceiptCoverSheetServiceImpl();
+        coverSheetService.generateCoverSheet(document, directory, baos);
+        String fileName = financialDocumentNumber + "_cover_sheet.pdf";
+        WebUtils.saveMimeOutputStreamAsFile(response, "application/pdf", baos, fileName);
 
-        coverSheetService.generateCoverSheet( document, directory, baos );
-        String fileName = document
-            .getFinancialDocumentNumber() + "_cover_sheet.pdf";
-        WebUtils.saveMimeOutputStreamAsFile( response, 
-                                             "application/pdf",
-                                             baos, fileName );
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return new ActionForward();
     }
 
     /**
@@ -163,7 +157,7 @@ public class CashReceiptAction extends KualiTransactionalDocumentActionBase {
             }
         }
     }
-    
+
     /**
      * This method handles iterating over the check list and generating check events to apply rules to.
      * 
@@ -174,16 +168,16 @@ public class CashReceiptAction extends KualiTransactionalDocumentActionBase {
         List formChecks = cdoc.getChecks();
 
         int index = 0;
-        Iterator i = formChecks.iterator(); 
-        while(i.hasNext()) {
+        Iterator i = formChecks.iterator();
+        while (i.hasNext()) {
             Check formCheck = (Check) i.next();
 
             // only generate update events for specific action methods
             String methodToCall = cform.getMethodToCall();
             if (UPDATE_EVENT_ACTIONS.contains(methodToCall)) {
-                SpringServiceLocator.getKualiRuleService()
-                    .applyRules(new UpdateCheckEvent(PropertyConstants.DOCUMENT + "." + PropertyConstants.CHECK + "[" + index + "]", 
-                    cdoc, formCheck));
+                SpringServiceLocator.getKualiRuleService().applyRules(
+                        new UpdateCheckEvent(PropertyConstants.DOCUMENT + "." + PropertyConstants.CHECK + "[" + index + "]", cdoc,
+                            formCheck));
             }
             index++;
         }

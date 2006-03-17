@@ -745,7 +745,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
                     //	If this is NOT a CG Fund Group account, then Expiration Date 
                     // must be later than today.  If its not, add a business rule error.
                     if (!fundGroupCode.equalsIgnoreCase(CONTRACTS_GRANTS_CD)) {
-                        if (!newExpDate.after(today) || newExpDate.equals(today)) {
+                        if (!newExpDate.after(today) && !newExpDate.equals(today)) {
                             putGlobalError(KeyConstants.ERROR_DOCUMENT_ACCMAINT_EXP_DATE_TODAY_LATER_EXCEPT_CANDG_ACCT);
                             success &= false;
                         }
@@ -769,7 +769,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         if(maintenanceDocument.isNew() && ObjectUtils.isNotNull(newExpDate) ) {
             if(ObjectUtils.isNotNull(newAccount.getSubFundGroup())) {
                 if(!newAccount.getSubFundGroup().getFundGroupCode().equalsIgnoreCase(CONTRACTS_GRANTS_CD)) {
-                    if(!newExpDate.after(today) || newExpDate.equals(today) ) {
+                    if(!newExpDate.after(today) && !newExpDate.equals(today) ) {
                         putGlobalError(KeyConstants.ERROR_DOCUMENT_ACCMAINT_EXP_DATE_TODAY_LATER_EXCEPT_CANDG_ACCT);
                         success &= false;
                     }

@@ -32,6 +32,7 @@ import org.kuali.KeyConstants;
 import org.kuali.core.bo.AccountingLine;
 import org.kuali.core.bo.SourceAccountingLine;
 import org.kuali.core.bo.TargetAccountingLine;
+import org.kuali.core.document.Document;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
@@ -112,13 +113,18 @@ public class TransferOfFundsDocumentRule extends TransactionalDocumentRuleBase i
      * This document specific routing business rule check calls the balance check that is done to make sure that totals between the
      * "From" and "To" section are balanced within the groupings of "Mandatory Transfers" and "Non-Mandatory Transfers".
      * 
-     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.TransactionalDocument)
+     * @see org.kuali.core.rule.DocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.Document)
      */
-    protected boolean processCustomRouteDocumentBusinessRules(TransactionalDocument document) {
-        TransferOfFundsDocument tofDoc = (TransferOfFundsDocument) document;
+    protected boolean processCustomRouteDocumentBusinessRules(Document document) {
+        boolean isValid = super.processCustomRouteDocumentBusinessRules(document);
 
-        // check the balance across mandatory and non-mandatory transfers
-        return isMandatoryTransferTotalAndNonMandatoryTransferTotalBalanceValid(tofDoc);
+        if(isValid) {
+            // check the balance across mandatory and non-mandatory transfers
+            TransferOfFundsDocument tofDoc = (TransferOfFundsDocument) document;
+            isValid = isMandatoryTransferTotalAndNonMandatoryTransferTotalBalanceValid(tofDoc);
+        }
+        
+        return isValid;
     }
 
     /**

@@ -101,6 +101,7 @@
 								sourceAttributeName="genericFiscalYear">
 				<label>Fiscal Year</label>
 				<shortLabel>FY</shortLabel>
+				<required>true</required>
 				<summary>University Fiscal Year</summary>
 				<description>Indicates what fiscal year this offset applies to.</description>
 			</attributeReference>
@@ -108,7 +109,7 @@
 			<attributeReference name="chartOfAccountsCode" 
 								sourceClassName="org.kuali.module.chart.bo.Chart" 
 								sourceAttributeName="chartOfAccountsCode" >
-								
+				<required>true</required>								
 				<control>
 					<select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" script="setReportsToChartCode();"/>					
 				</control>
@@ -121,7 +122,7 @@
 
 				<maxLength>4</maxLength>
 				<validationPattern><alphaNumeric /></validationPattern>
-
+				<required>true</required>
 				<control>
 					<text size="4" />
 				</control>
@@ -138,7 +139,7 @@
 
 				<maxLength>40</maxLength>
 				<validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
-
+				<required>true</required>
 				<control>
 					<text size="40" />
 				</control>
@@ -153,7 +154,7 @@
 
 				<maxLength>12</maxLength>
 				<validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
-
+				<required>true</required>
 				<control>
 					<text size="12" />
 				</control>
@@ -170,7 +171,7 @@
 
 				<maxLength>4</maxLength>
 				<validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
-
+				<required>true</required>
 				<control>
 					<text size="4" />
 				</control>
@@ -193,7 +194,7 @@
 
 				<maxLength>2</maxLength>
 				<validationPattern><alpha exactLength="2" /></validationPattern>
-
+				<required>true</required>
 				<control>
 					<select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" script="setReportsToChartCode();"/>					
 				</control>
@@ -210,7 +211,7 @@
 
 				<maxLength>4</maxLength>
 				<validationPattern><alphaNumeric /></validationPattern>
-
+				<required>true</required>
 				<control>
 					<text size="4" />
 				</control>
@@ -227,7 +228,7 @@
 
 				<maxLength>2</maxLength>
 				<validationPattern><anyCharacter /></validationPattern>
-
+				<required>true</required>
 				<control>
 					<text size="2" />
 				</control>
@@ -244,7 +245,7 @@
 
 				<maxLength>2</maxLength>
 				<validationPattern><anyCharacter /></validationPattern>
-
+				<required>true</required>
 				<control>
 					<text size="2" />
 				</control>
@@ -265,7 +266,7 @@
 
 				<maxLength>4</maxLength>
 				<validationPattern><anyCharacter /></validationPattern>
-
+				<required>true</required>
 				<control>
 					<text size="4" />
 				</control>
@@ -281,7 +282,7 @@
 				<shortLabel>Ac.</shortLabel>
 
 				<maxLength>1</maxLength>
-				
+				<required>true</required>				
 				<control><checkbox/></control>
 
 				<summary>Active Indicator</summary>
@@ -294,7 +295,7 @@
 				<shortLabel>BudgetAggCde</shortLabel>
 
 				<maxLength>1</maxLength>
-				
+				<required>true</required>				
 				<control><text size="1" /></control>
 
 				<summary>Budget Aggregation Code</summary>
@@ -306,7 +307,7 @@
 				<shortLabel>ManTranOrElimCode</shortLabel>
 
 				<maxLength>1</maxLength>
-				
+				<required>true</required>				
 				<control><text size="1" /></control>
 
 				<summary>Mandatory Transfer Or Eliminations Code</summary>

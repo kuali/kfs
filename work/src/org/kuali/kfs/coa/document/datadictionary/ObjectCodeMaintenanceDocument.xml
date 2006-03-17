@@ -45,7 +45,7 @@
 					<maintainableField name="financialObjectCode" required="true" />
 					<maintainableField name="financialObjectCodeName" required="true" />			
 					<maintainableField name="financialObjectCodeShortName" required="true" />
-					<maintainableField name="reportsToChartOfAccountsCode" />
+					<maintainableField name="reportsToChartOfAccountsCode" required="true" />
 					<maintainableField name="reportsToFinancialObjectCode" required="true" />
 					<maintainableField name="financialObjectTypeCode" required="true" />
 					<maintainableField name="financialObjectLevelCode" required="true" />
@@ -56,7 +56,7 @@
 					</maintainableField >
 					<maintainableField name="financialBudgetAggregationCd" required="true" />
 					<maintainableField name="finObjMandatoryTrnfrelimCd" required="true" />
-					<maintainableField name="financialFederalFundedCode" required="true" />
+					<maintainableField name="financialFederalFundedCode"  />
 					<maintainableField name="nextYearFinancialObjectCode" />
 		            <maintainableField name="versionNumber" />					
                 </maintainableItems>

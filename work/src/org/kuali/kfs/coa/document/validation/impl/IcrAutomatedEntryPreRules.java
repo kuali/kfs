@@ -27,7 +27,6 @@ import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.IcrAutomatedEntry;
-import org.kuali.module.chart.bo.IndirectCostRecoveryExclusionAccount;
 
 /**
  * This class...

@@ -25,9 +25,6 @@
 
 package org.kuali.module.financial.service;
 
-import com.lowagie.text.DocumentException;
-
-import java.io.IOException;
 import java.io.OutputStream;
 
 import org.kuali.module.financial.document.CashReceiptDocument;

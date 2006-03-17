@@ -27,13 +27,11 @@ package org.kuali.module.financial.document;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.Constants;
 import org.kuali.core.document.FinancialDocumentBase;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.CashDrawer;
@@ -166,7 +164,7 @@ public class CashManagementDocument extends FinancialDocumentBase {
         return managedLists;
     }
 
-    
+
     private static final Set FAILURE_CODES;
     static {
         String[] FAILURE_CODE_ARRAY = { EdenConstants.ROUTE_HEADER_CANCEL_DISAPPROVE_CD, EdenConstants.ROUTE_HEADER_DISAPPROVED_CD,
@@ -183,67 +181,16 @@ public class CashManagementDocument extends FinancialDocumentBase {
      * @see org.kuali.core.document.DocumentBase#handleRouteStatusChange(java.lang.String)
      */
     public void handleRouteStatusChange(String newRouteStatus) {
-        boolean docChanged = false;
-
-        // all approvals have been processed, complete everything
+        // all approvals have been processed, finalize  everything
         if (StringUtils.equals(newRouteStatus, EdenConstants.ROUTE_HEADER_PROCESSED_CD)) {
-            handleSuccess();
-            docChanged = true;
+            SpringServiceLocator.getCashManagementService().finalizeCashManagementDocument(this);
         }
         // document has been canceled or disapproved,
         else if (FAILURE_CODES.contains(newRouteStatus)) {
-            handleFailure();
-            // docChanged = true;
-        }
-
-        if (docChanged) {
-            SpringServiceLocator.getDocumentService().updateDocument(this);
+            SpringServiceLocator.getCashManagementService().cancelCashManagementDocument(this);
         }
     }
 
-    /**
-     * This method is a helper for processing CRs and the CMD when it goes to FINAL.
-     */
-    private void handleSuccess() {
-        // when CashManagementDocument goes to final
-        // 1. for each CashReceipt of each associated Deposit, change the CashReceipt's status to APPROVED "A"
-        for (Iterator eachDeposit = getDeposits().iterator(); eachDeposit.hasNext();) {
-            Deposit dep = (Deposit) eachDeposit.next();
-
-            List receipts = SpringServiceLocator.getCashManagementService().retrieveCashReceipts(dep);
-            for (Iterator eachReceipt = receipts.iterator(); eachReceipt.hasNext();) {
-                CashReceiptDocument receipt = (CashReceiptDocument) eachReceipt.next();
-
-                receipt.getDocumentHeader().setFinancialDocumentStatusCode(Constants.DOCUMENT_STATUS_CD_APPROVED_PROCESSED);
-                SpringServiceLocator.getDocumentService().updateDocument(receipt);
-            }
-        }
-
-        // 2. Open the cash drawer.
-        SpringServiceLocator.getCashDrawerService().openCashDrawer(getWorkgroupName());
-
-        // 3. Change the status of the CMD to APPROVED "A"
-        getDocumentHeader().setFinancialDocumentStatusCode(Constants.DOCUMENT_STATUS_CD_APPROVED_PROCESSED);
-    }
-
-    /**
-     * This method is a helper for processing CRs, deposits, and the CMD when the CMD is canceled or 
-     * disapproved.
-     */
-    private void handleFailure() {
-        // when a CashManagementDocument meets with an untimely demise, unwind everything involved
-        // 1. cancel each deposit (which handles resetting the CashReceipt statii)
-        for (Iterator eachDeposit = getDeposits().iterator(); eachDeposit.hasNext();) {
-            Deposit dep = (Deposit) eachDeposit.next();
-            SpringServiceLocator.getCashManagementService().cancelDeposit(dep);
-        }
-
-        // 2. Open the cash drawer.
-        SpringServiceLocator.getCashDrawerService().openCashDrawer(getWorkgroupName());
-
-        // 3. Change the status of the CMD to something, probably
-        // getDocumentHeader().setFinancialDocumentStatusCode(Constants.DOCUMENT_STATUS_CD_APPROVED_PROCESSED);
-    }
 
     /* utility methods */
     /**

@@ -26,7 +26,6 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.module.chart.bo.Account;
-import org.kuali.module.chart.bo.IndirectCostRecoveryExclusionAccount;
 import org.kuali.module.chart.bo.SubAccount;
 
 /**

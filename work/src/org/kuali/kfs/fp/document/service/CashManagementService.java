@@ -45,7 +45,26 @@ public interface CashManagementService {
      * @param workgroupName
      * @return new CashManagementDocument
      */
-    public CashManagementDocument createCashManagementDocument(String documentDescription, List verifiedCashReceipts, String workgroupName) throws WorkflowException;
+    public CashManagementDocument createCashManagementDocument(String documentDescription, List verifiedCashReceipts,
+            String workgroupName) throws WorkflowException;
+
+    /**
+     * Finalizes the given CashManagementDocument: updates all of the CashReceipts for all of its Deposits to "Approved" status,
+     * reopens the CashDrawer, and changes the CashManagementDocument's status to "Approved". Should be called because the
+     * document's workflow status changes to PROCESSED (i.e. should *not* invoke workflow directly).
+     * 
+     * @param cashManagementDoc
+     */
+    public void finalizeCashManagementDocument(CashManagementDocument cashManagementDoc);
+
+    /**
+     * Cancels the given CashManagementDocument: restores all of the CashhReceipts for all of its Deposits to "Verified" status, and
+     * reopens the CashDrawer. Should be called if the document's workflow status changes to CANCELLED or DISAPPROVED (i.e. should
+     * *not* invoke workflow directly).
+     * 
+     * @param cashManagementDoc
+     */
+    public void cancelCashManagementDocument(CashManagementDocument cashManagementDoc);
 
 
     /**
@@ -56,7 +75,8 @@ public interface CashManagementService {
      * @param workgroupName
      * @return new Deposit
      */
-    public Deposit createDeposit(CashManagementDocument cashManagementDoc, Integer lineNumber, List verifiedCashReceipts, String workgroupName);
+    public Deposit createDeposit(CashManagementDocument cashManagementDoc, Integer lineNumber, List verifiedCashReceipts,
+            String workgroupName);
 
 
     /**
@@ -117,7 +137,7 @@ public interface CashManagementService {
      * @return String
      */
     public String getCampusCodeByCashReceiptVerificationUnitWorkgroupName(String cashReceiptVerificationUnitWorkgroupName);
-    
+
     /**
      * This method will retrieve the verification unit workgroup for the CR's campus code.
      * 
@@ -127,8 +147,8 @@ public interface CashManagementService {
     public String getCashReceiptVerificationUnitWorkgroupNameByCampusCode(String campusCode);
 
     /**
-     * This method will retrieve the CashManagementDocument that houses the deposit that the passed in 
-     * CashReceiptDocument is associated with.
+     * This method will retrieve the CashManagementDocument that houses the deposit that the passed in CashReceiptDocument is
+     * associated with.
      * 
      * @param cashReceiptDocument
      * @return CashManagementDocument

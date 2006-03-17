@@ -27,10 +27,14 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.Constants;
+import org.kuali.core.bo.SourceAccountingLine;
 import org.kuali.core.document.DocumentHeader;
 import org.kuali.core.exceptions.UserNotFoundException;
+import org.kuali.core.rule.event.ApproveDocumentEvent;
+import org.kuali.core.rule.event.RouteDocumentEvent;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DocumentService;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.Deposit;
 import org.kuali.module.financial.document.CashManagementDocument;
@@ -38,7 +42,12 @@ import org.kuali.module.financial.document.CashReceiptDocument;
 import org.kuali.module.financial.exceptions.InvalidCashDrawerState;
 import org.kuali.module.financial.exceptions.InvalidCashReceiptState;
 import org.kuali.test.KualiTestBaseWithSpring;
+import org.kuali.test.monitor.ChangeMonitor;
+import org.kuali.test.monitor.DocumentStatusMonitor;
+import org.kuali.test.monitor.DocumentWorkflowStatusMonitor;
+import org.springframework.orm.ojb.OjbOperationException;
 
+import edu.iu.uis.eden.EdenConstants;
 import edu.iu.uis.eden.exception.WorkflowException;
 
 
@@ -247,6 +256,190 @@ public class CashManagementServiceTest extends KualiTestBaseWithSpring {
         cashDrawerService.openCashDrawer(workgroupName);
     }
 
+    public void testCashManagementDocumentLifecycle() throws Exception {
+        String workgroupName = KNOWN_VERIFICATION_UNIT;
+
+        // verify drawer pre-test status
+        assertTrue( cashDrawerService.getByWorkgroupName(workgroupName).isOpen() );
+
+        String docNumber1 = null;
+        String docNumber2 = null;
+        {
+            // build and route CR1
+            changeCurrentUser("INEFF");
+            CashReceiptDocument cr1 = buildCashReceiptDoc(workgroupName, "cr259", Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED);
+            completeCashReceiptDoc(cr1);
+            docService.validateAndPersist(cr1, new RouteDocumentEvent(cr1));
+            docService.route( cr1, "routing lifecycle cr1", null);
+            docNumber1 = cr1.getFinancialDocumentNumber();
+
+            // approve CR1
+            DocumentWorkflowStatusMonitor workflowMonitor1 = new DocumentWorkflowStatusMonitor( docService, docNumber1, EdenConstants.ROUTE_HEADER_ENROUTE_CD);
+            assertTrue(ChangeMonitor.waitUntilChange(workflowMonitor1, 240, 5));
+
+            changeCurrentUser("RJWEISS");
+            CashReceiptDocument cr1b = (CashReceiptDocument)docService.getByDocumentHeaderId( docNumber1 );
+            docService.approve( cr1b, "approving lifecycle cr1", null );
+
+            DocumentWorkflowStatusMonitor statusMonitor1 = new DocumentWorkflowStatusMonitor( docService, docNumber1, EdenConstants.ROUTE_HEADER_FINAL_CD);
+            assertTrue(ChangeMonitor.waitUntilChange(statusMonitor1, 240, 5));
+        }
+
+        {
+            // build and route CR2
+            changeCurrentUser("INEFF");
+            CashReceiptDocument cr2 = buildCashReceiptDoc(workgroupName, "cr266", Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED);
+            completeCashReceiptDoc(cr2);
+            docService.validateAndPersist(cr2, new RouteDocumentEvent(cr2));
+            docService.route( cr2, "routing lifecycle cr2", null);
+            docNumber2 = cr2.getFinancialDocumentNumber();
+    
+
+            // approve CR2
+            DocumentWorkflowStatusMonitor workflowMonitor2 = new DocumentWorkflowStatusMonitor( docService, docNumber2, EdenConstants.ROUTE_HEADER_ENROUTE_CD);
+            assertTrue(ChangeMonitor.waitUntilChange(workflowMonitor2, 240, 5));
+
+            changeCurrentUser("RJWEISS");
+            CashReceiptDocument cr2b = (CashReceiptDocument)docService.getByDocumentHeaderId( docNumber2 );
+            docService.approve( cr2b, "approving lifecycle cr2", null );
+
+            DocumentWorkflowStatusMonitor statusMonitor2 = new DocumentWorkflowStatusMonitor( docService, docNumber2, EdenConstants.ROUTE_HEADER_FINAL_CD);
+            assertTrue(ChangeMonitor.waitUntilChange(statusMonitor2, 240, 5));
+        }
+
+        {
+            // retrieve CRDocs
+            CashReceiptDocument cr1c = (CashReceiptDocument)docService.getByDocumentHeaderId( docNumber1 );
+            CashReceiptDocument cr2c = (CashReceiptDocument)docService.getByDocumentHeaderId( docNumber2 );
+            List crList = new ArrayList();        
+            crList.add(cr1c);
+            crList.add(cr2c);
+    
+            // build CMDoc
+            CashManagementDocument createdDoc = cashManagementService.createCashManagementDocument("testCashManagementDocumentLifecycle", crList, workgroupName);
+            Deposit d1 = createdDoc.getDeposit(0);
+            d1.setDepositBankCode("TEST");
+            d1.setDepositBankAccountNumber("1111");
+    
+            // route it
+            docService.validateAndPersist(createdDoc, new ApproveDocumentEvent(createdDoc));
+            docService.route( createdDoc, "routing lifecycle doc", null);
+            String cmDocNumber = createdDoc.getFinancialDocumentNumber();
+            
+            // wait for workflow
+            DocumentStatusMonitor cmStatusMonitor = new DocumentStatusMonitor( docService, cmDocNumber, Constants.DOCUMENT_STATUS_CD_APPROVED_PROCESSED);
+            assertTrue(ChangeMonitor.waitUntilChange(cmStatusMonitor, 240, 5));
+        }
+
+        // verify drawer post-test status
+        assertTrue( cashDrawerService.getByWorkgroupName(workgroupName).isOpen() );
+    }
+
+    /**
+     * Repdroducing the following manual test:
+     * . create 2 CRs
+     * . create CM with those CRs
+     * . cancel CM
+     * . create new CM with those CRs => crunch, presumably because the Deposit didn't get deleted when you 
+     */
+    public void testCashManagementDocumentReusingCashReceipts() throws Exception {
+        String workgroupName = KNOWN_VERIFICATION_UNIT;
+
+        // verify drawer pre-test status
+        assertTrue( cashDrawerService.getByWorkgroupName(workgroupName).isOpen() );
+
+        String docNumber1 = null;
+        String docNumber2 = null;
+        {
+            // build and route CR1
+            changeCurrentUser("INEFF");
+            CashReceiptDocument cr1 = buildCashReceiptDoc(workgroupName, "cr259", Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED);
+            completeCashReceiptDoc(cr1);
+            docService.validateAndPersist(cr1, new RouteDocumentEvent(cr1));
+            docService.route( cr1, "routing reuse-test cr1", null);
+            docNumber1 = cr1.getFinancialDocumentNumber();
+
+            // approve CR1
+            DocumentWorkflowStatusMonitor workflowMonitor1 = new DocumentWorkflowStatusMonitor( docService, docNumber1, EdenConstants.ROUTE_HEADER_ENROUTE_CD);
+            assertTrue(ChangeMonitor.waitUntilChange(workflowMonitor1, 240, 5));
+
+            changeCurrentUser("RJWEISS");
+            CashReceiptDocument cr1b = (CashReceiptDocument)docService.getByDocumentHeaderId( docNumber1 );
+            docService.approve( cr1b, "approving reuse-test cr1", null );
+
+            DocumentWorkflowStatusMonitor statusMonitor1 = new DocumentWorkflowStatusMonitor( docService, docNumber1, EdenConstants.ROUTE_HEADER_FINAL_CD);
+            assertTrue(ChangeMonitor.waitUntilChange(statusMonitor1, 240, 5));
+        }
+
+        {
+            // build and route CR2
+            changeCurrentUser("INEFF");
+            CashReceiptDocument cr2 = buildCashReceiptDoc(workgroupName, "cr266", Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED);
+            completeCashReceiptDoc(cr2);
+            docService.validateAndPersist(cr2, new RouteDocumentEvent(cr2));
+            docService.route( cr2, "routing reuse-test cr2", null);
+            docNumber2 = cr2.getFinancialDocumentNumber();
+    
+
+            // approve CR2
+            DocumentWorkflowStatusMonitor workflowMonitor2 = new DocumentWorkflowStatusMonitor( docService, docNumber2, EdenConstants.ROUTE_HEADER_ENROUTE_CD);
+            assertTrue(ChangeMonitor.waitUntilChange(workflowMonitor2, 240, 5));
+
+            changeCurrentUser("RJWEISS");
+            CashReceiptDocument cr2b = (CashReceiptDocument)docService.getByDocumentHeaderId( docNumber2 );
+            docService.approve( cr2b, "approving reuse-test cr2", null );
+
+            DocumentWorkflowStatusMonitor statusMonitor2 = new DocumentWorkflowStatusMonitor( docService, docNumber2, EdenConstants.ROUTE_HEADER_FINAL_CD);
+            assertTrue(ChangeMonitor.waitUntilChange(statusMonitor2, 240, 5));
+        }
+
+        {
+            // retrieve CRDocs
+            CashReceiptDocument cr1c = (CashReceiptDocument)docService.getByDocumentHeaderId( docNumber1 );
+            CashReceiptDocument cr2c = (CashReceiptDocument)docService.getByDocumentHeaderId( docNumber2 );
+            List crList = new ArrayList();        
+            crList.add(cr1c);
+            crList.add(cr2c);
+    
+            // build CMDoc1
+            CashManagementDocument initialDoc = cashManagementService.createCashManagementDocument("testCMDocReusingReceipts", crList, workgroupName);
+
+            // cancel it (workflow last, just to see)
+            cashManagementService.cancelCashManagementDocument(initialDoc);
+            docService.cancel( initialDoc, "canceling reuse-test doc" );
+        }
+        try {
+            // retrieve CRDocs
+            CashReceiptDocument cr1c = (CashReceiptDocument)docService.getByDocumentHeaderId( docNumber1 );
+            CashReceiptDocument cr2c = (CashReceiptDocument)docService.getByDocumentHeaderId( docNumber2 );
+            List crList = new ArrayList();        
+            crList.add(cr1c);
+            crList.add(cr2c);
+    
+            // build CMDoc2
+            CashManagementDocument reuseDoc = cashManagementService.createCashManagementDocument("testCMDocReusingReceipts", crList, workgroupName);
+            Deposit d1 = reuseDoc.getDeposit(0);
+            d1.setDepositBankCode("TEST");
+            d1.setDepositBankAccountNumber("1111");
+
+            // route it
+            docService.validateAndPersist(reuseDoc, new ApproveDocumentEvent(reuseDoc));
+            docService.route( reuseDoc, "routing reuse-test doc", null);
+            String cmDocNumber = reuseDoc.getFinancialDocumentNumber();
+
+            // wait for workflow
+            DocumentStatusMonitor cmStatusMonitor = new DocumentStatusMonitor( docService, cmDocNumber, Constants.DOCUMENT_STATUS_CD_APPROVED_PROCESSED);
+            assertTrue(ChangeMonitor.waitUntilChange(cmStatusMonitor, 240, 5));
+        } catch( OjbOperationException e ) {
+            cashDrawerService.openCashDrawer(workgroupName);
+            throw e;
+        }
+
+        // verify drawer post-test status
+        assertTrue( cashDrawerService.getByWorkgroupName(workgroupName).isOpen() );
+    }
+
+    
     public void testGetCashManagementDocumentByCashReceiptDocument() throws Exception {
         String workgroupName = KNOWN_VERIFICATION_UNIT;
 
@@ -788,6 +981,19 @@ public class CashManagementServiceTest extends KualiTestBaseWithSpring {
         docService.save(crDoc, "buildVerifiedCashReceiptDoc", null);
 
         return crDoc;
+    }
+    private static final KualiDecimal BALANCE_AMT = new KualiDecimal( "21.12" );
+    private void completeCashReceiptDoc( CashReceiptDocument crDoc ) {
+        crDoc.setTotalCashAmount( BALANCE_AMT );
+        
+        SourceAccountingLine sourceLine = new SourceAccountingLine();
+        sourceLine.setChartOfAccountsCode( "BL" );
+        sourceLine.setAccountNumber( "1031400" );
+        sourceLine.setFinancialObjectCode( "5000" );
+        sourceLine.setAmount( BALANCE_AMT );
+        sourceLine.refresh();
+        
+        crDoc.addSourceAccountingLine( sourceLine );
     }
 
     private CashManagementDocument buildCashManagementDoc(String description) throws WorkflowException, UserNotFoundException {

@@ -32,7 +32,10 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.CashDrawer;
 import org.kuali.module.financial.bo.Deposit;
+import org.kuali.module.financial.bo.DepositCashReceiptControl;
 import org.kuali.module.financial.document.CashManagementDocument;
+import org.kuali.module.financial.document.CashReceiptDocument;
+import org.kuali.Constants;
 
 import edu.iu.uis.eden.EdenConstants;
 
@@ -57,14 +60,39 @@ public class CashManagementDocumentRule extends DocumentRuleBase {
         CashManagementDocument cmd = (CashManagementDocument) document;
         
         // verify user is initiator
-        //verifyUserIsDocumentInitiator(cmd);
+        verifyUserIsDocumentInitiator(cmd);
         
         // verify the cash drawer for the verification unit is closed for post-initialized saves
-        //verifyCashDrawerForVerificationUnitIsClosedForPostInitiationSaves(cmd);
+        verifyCashDrawerForVerificationUnitIsClosedForPostInitiationSaves(cmd);
         
-        // TODO - verify that CRs are still verified
+        // verify that CRs are still verified
+        verifyAssociatedCashReceiptsAreVerified(cmd);
         
         return isValid;
+    }
+
+    /**
+     * This method double checks that the CRs that this cash management document's deposit, are 
+     * still verified.
+     * 
+     * @param cmd
+     */
+    private void verifyAssociatedCashReceiptsAreVerified(CashManagementDocument cmd) {
+        Iterator deposits = cmd.getDeposits().iterator();
+        while(deposits.hasNext()) {
+            Deposit deposit = (Deposit) deposits.next();
+            Iterator depositCashReceiptControls = deposit.getDepositCashReceiptControl().iterator();
+            while(depositCashReceiptControls.hasNext()) {
+                DepositCashReceiptControl depositCashReceiptControl = (DepositCashReceiptControl) depositCashReceiptControls.next();
+                CashReceiptDocument cashReceipt = depositCashReceiptControl.getCashReceiptHeader().getCashReceiptDocument();
+                if(!cashReceipt.getDocumentHeader().getFinancialDocumentStatusCode().
+                        equals(Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED)) {
+                    throw new IllegalStateException("Cash receipt document number " + 
+                            cashReceipt.getFinancialDocumentNumber() + " is not in a verified state.  It must be in " +
+                                    "order for the deposit/cash management document that it is associated to be submitted.");
+                }
+            }
+        }
     }
 
     /**
@@ -77,8 +105,8 @@ public class CashManagementDocumentRule extends DocumentRuleBase {
         KualiUser currentUser = GlobalVariables.getUserSession().getKualiUser();
         if(cmd.getDocumentHeader() != null && cmd.getDocumentHeader().getWorkflowDocument() != null) {
             String cmdInitiatorNetworkId = cmd.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId();
-            if(!cmdInitiatorNetworkId.equals(currentUser.getPersonUniversalIdentifier())) {
-                throw new IllegalStateException("The current user (" + currentUser.getPersonUniversalIdentifier() + 
+            if(!cmdInitiatorNetworkId.equals(currentUser.getPersonUserIdentifier())) {
+                throw new IllegalStateException("The current user (" + currentUser.getPersonUserIdentifier() + 
                         ") is not the individual (" + cmdInitiatorNetworkId + ") that initiated this document.");
             }
         }
@@ -91,7 +119,6 @@ public class CashManagementDocumentRule extends DocumentRuleBase {
      * @param cmd
      */
     private void verifyCashDrawerForVerificationUnitIsClosedForPostInitiationSaves(CashManagementDocument cmd) {
-        KualiUser currentUser = GlobalVariables.getUserSession().getKualiUser();
         if(cmd.getDocumentHeader() != null && 
                 cmd.getDocumentHeader().getWorkflowDocument() != null && 
                 cmd.getDocumentHeader().getWorkflowDocument().getRouteHeader() != null) {

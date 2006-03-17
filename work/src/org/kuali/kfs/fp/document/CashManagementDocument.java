@@ -34,7 +34,7 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.Constants;
-import org.kuali.core.document.DocumentBase;
+import org.kuali.core.document.FinancialDocumentBase;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.CashDrawer;
 import org.kuali.module.financial.bo.Deposit;
@@ -42,9 +42,13 @@ import org.kuali.module.financial.bo.Deposit;
 import edu.iu.uis.eden.EdenConstants;
 
 /**
+ * This class represents the CashManagementDocument.
+ * 
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class CashManagementDocument extends DocumentBase {
+public class CashManagementDocument extends FinancialDocumentBase {
+    private static final long serialVersionUID = 7475843770851900297L;
+
     private String workgroupName;
     private String financialDocumentReferenceNumber;
 
@@ -55,6 +59,7 @@ public class CashManagementDocument extends DocumentBase {
      * Default constructor.
      */
     public CashManagementDocument() {
+        super();
         deposits = new ArrayList();
     }
 
@@ -196,6 +201,9 @@ public class CashManagementDocument extends DocumentBase {
         }
     }
 
+    /**
+     * This method is a helper for processing CRs and the CMD when it goes to FINAL.
+     */
     private void handleSuccess() {
         // when CashManagementDocument goes to final
         // 1. for each CashReceipt of each associated Deposit, change the CashReceipt's status to APPROVED "A"
@@ -218,6 +226,10 @@ public class CashManagementDocument extends DocumentBase {
         getDocumentHeader().setFinancialDocumentStatusCode(Constants.DOCUMENT_STATUS_CD_APPROVED_PROCESSED);
     }
 
+    /**
+     * This method is a helper for processing CRs, deposits, and the CMD when the CMD is canceled or 
+     * disapproved.
+     */
     private void handleFailure() {
         // when a CashManagementDocument meets with an untimely demise, unwind everything involved
         // 1. cancel each deposit (which handles resetting the CashReceipt statii)
@@ -232,7 +244,6 @@ public class CashManagementDocument extends DocumentBase {
         // 3. Change the status of the CMD to something, probably
         // getDocumentHeader().setFinancialDocumentStatusCode(Constants.DOCUMENT_STATUS_CD_APPROVED_PROCESSED);
     }
-
 
     /* utility methods */
     /**

@@ -34,6 +34,7 @@ import org.kuali.KeyConstants;
 import org.kuali.core.bo.AccountingLine;
 import org.kuali.core.bo.SourceAccountingLine;
 import org.kuali.core.bo.TargetAccountingLine;
+import org.kuali.core.document.Document;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.ErrorMap;
@@ -77,50 +78,56 @@ public class ServiceBillingDocumentRule extends TransactionalDocumentRuleBase {
         _invalidObjectCodeSubTypes.add(OBJECT_SUB_TYPE_CODE.INVEST);
     }
     
-    public boolean processCustomRouteDocumentBusinessRules(TransactionalDocument document) {
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
-        List sLines = document.getSourceAccountingLines();
-        List tLines = document.getTargetAccountingLines();
-
-        // First, validate the accounting lines
-        // then. check for expense/revenue balance
-        // finally, do object code restrictions checking
-        KualiDecimal sExpense = KualiDecimal.ZERO;
-        KualiDecimal sRevenue = KualiDecimal.ZERO;
-        KualiDecimal tExpense = KualiDecimal.ZERO;
-        KualiDecimal tRevenue = KualiDecimal.ZERO;
-
-        for (Iterator i = sLines.iterator(); i.hasNext();) {
-            SourceAccountingLine sal = (SourceAccountingLine) i.next();
-            if (isExpenseOrAsset(sal)) {
-                sExpense = sExpense.add( sal.getAmount() );
+    public boolean processCustomRouteDocumentBusinessRules(Document document) {
+        boolean isValid = super.processCustomRouteDocumentBusinessRules(document);
+        
+        if(isValid) {
+            ErrorMap errorMap = GlobalVariables.getErrorMap();
+            TransactionalDocument tranDoc = (TransactionalDocument) document;
+            List sLines = tranDoc.getSourceAccountingLines();
+            List tLines = tranDoc.getTargetAccountingLines();
+    
+            // First, validate the accounting lines
+            // then. check for expense/revenue balance
+            // finally, do object code restrictions checking
+            KualiDecimal sExpense = KualiDecimal.ZERO;
+            KualiDecimal sRevenue = KualiDecimal.ZERO;
+            KualiDecimal tExpense = KualiDecimal.ZERO;
+            KualiDecimal tRevenue = KualiDecimal.ZERO;
+    
+            for (Iterator i = sLines.iterator(); i.hasNext();) {
+                SourceAccountingLine sal = (SourceAccountingLine) i.next();
+                if (isExpenseOrAsset(sal)) {
+                    sExpense = sExpense.add( sal.getAmount() );
+                }
+                else {
+                    sRevenue = sRevenue.add( sal.getAmount() );
+                }
+                checkAccountingLine(sal);
             }
-            else {
-                sRevenue = sRevenue.add( sal.getAmount() );
+    
+            for (Iterator i = tLines.iterator(); i.hasNext();) {
+                TargetAccountingLine tal = (TargetAccountingLine) i.next();
+                if (isExpenseOrAsset(tal)) {
+                    tExpense = tExpense.add( tal.getAmount() );
+                }
+                else {
+                    tRevenue = tRevenue.add( tal.getAmount() );
+                }
+                checkAccountingLine(tal);
             }
-            checkAccountingLine(sal);
+    
+            KualiDecimal sDiff = sRevenue.subtract( sExpense );
+            KualiDecimal tDiff = tRevenue.subtract( tExpense );
+            if (!sDiff.equals( tDiff )) {
+                errorMap.put(Constants.DOCUMENT_ERRORS,
+                        "Document does not balance. From revenue minus expense should equal To revenue minus expense!", "Amount");
+                return false;
+            }
+    
+            isValid = errorMap.isEmpty();
         }
-
-        for (Iterator i = tLines.iterator(); i.hasNext();) {
-            TargetAccountingLine tal = (TargetAccountingLine) i.next();
-            if (isExpenseOrAsset(tal)) {
-                tExpense = tExpense.add( tal.getAmount() );
-            }
-            else {
-                tRevenue = tRevenue.add( tal.getAmount() );
-            }
-            checkAccountingLine(tal);
-        }
-
-        KualiDecimal sDiff = sRevenue.subtract( sExpense );
-        KualiDecimal tDiff = tRevenue.subtract( tExpense );
-        if (!sDiff.equals( tDiff )) {
-            errorMap.put(Constants.DOCUMENT_ERRORS,
-                    "Document does not balance. From revenue minus expense should equal To revenue minus expense!", "Amount");
-            return false;
-        }
-
-        return errorMap.isEmpty();
+        return isValid;
     }
 
     public boolean processCustomAddAccountingLineBusinessRules(TransactionalDocument document, AccountingLine accountingLine) {

@@ -33,6 +33,7 @@ import org.kuali.KeyConstants;
 import org.kuali.core.bo.AccountingLine;
 import org.kuali.core.bo.SourceAccountingLine;
 import org.kuali.core.bo.TargetAccountingLine;
+import org.kuali.core.document.Document;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.ExceptionUtils;
@@ -141,53 +142,55 @@ public class InternalBillingDocumentRule extends TransactionalDocumentRuleBase {
         return true;
     }
 
-    public boolean processCustomRouteDocumentBusinessRules(TransactionalDocument document) {
-        // commented out super call, since the super method is the only way this method gets called
-        // super.processRouteDocument(doc);
+    public boolean processCustomRouteDocumentBusinessRules(Document document) {
+        boolean isValid = super.processCustomRouteDocumentBusinessRules(document);
 
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
-        // TODO: Fill this in when Tony finishes his Utility to apply all core business rules.
-
-        List sLines = document.getSourceAccountingLines();
-        List tLines = document.getTargetAccountingLines();
-
-        // First, validate the accounting lines
-        // then. check for expense/revenue balance
-        // finally, do object code restrictions checking
-        KualiDecimal sExpense = new KualiDecimal(0);
-        KualiDecimal sRevenue = new KualiDecimal(0);
-        KualiDecimal tExpense = new KualiDecimal(0);
-        KualiDecimal tRevenue = new KualiDecimal(0);
-
-        for (Iterator i = sLines.iterator(); i.hasNext();) {
-            SourceAccountingLine sal = (SourceAccountingLine) i.next();
-            if (isExpenseOrAsset(sal)) {
-                sExpense = sExpense.add(sal.getAmount());
+        if(isValid) {
+            ErrorMap errorMap = GlobalVariables.getErrorMap();
+            TransactionalDocument tranDoc = (TransactionalDocument) document;
+            List sLines = tranDoc.getSourceAccountingLines();
+            List tLines = tranDoc.getTargetAccountingLines();
+    
+            // First, validate the accounting lines
+            // then. check for expense/revenue balance
+            // finally, do object code restrictions checking
+            KualiDecimal sExpense = new KualiDecimal(0);
+            KualiDecimal sRevenue = new KualiDecimal(0);
+            KualiDecimal tExpense = new KualiDecimal(0);
+            KualiDecimal tRevenue = new KualiDecimal(0);
+    
+            for (Iterator i = sLines.iterator(); i.hasNext();) {
+                SourceAccountingLine sal = (SourceAccountingLine) i.next();
+                if (isExpenseOrAsset(sal)) {
+                    sExpense = sExpense.add(sal.getAmount());
+                }
+                else {
+                    sRevenue = sRevenue.add(sal.getAmount());
+                }
             }
-            else {
-                sRevenue = sRevenue.add(sal.getAmount());
+    
+            for (Iterator i = tLines.iterator(); i.hasNext();) {
+                TargetAccountingLine tal = (TargetAccountingLine) i.next();
+                if (isExpenseOrAsset(tal)) {
+                    tExpense = tExpense.add(tal.getAmount());
+                }
+                else {
+                    tRevenue = tRevenue.add(tal.getAmount());
+                }
             }
+    
+            KualiDecimal sDiff = sRevenue.subtract(sExpense);
+            KualiDecimal tDiff = tRevenue.subtract(tExpense);
+            if (!sDiff.equals(tDiff)) {
+                reportError(Constants.DOCUMENT_ERRORS,
+                        "Document does not balance. (sourceRevenue minus sourceExpense) should be equal to " +
+                        "(targetRevenue minus targetExpense)!", "Amount");
+                return false;
+            }
+            isValid = errorMap.isEmpty();
         }
 
-        for (Iterator i = tLines.iterator(); i.hasNext();) {
-            TargetAccountingLine tal = (TargetAccountingLine) i.next();
-            if (isExpenseOrAsset(tal)) {
-                tExpense = tExpense.add(tal.getAmount());
-            }
-            else {
-                tRevenue = tRevenue.add(tal.getAmount());
-            }
-        }
-
-        KualiDecimal sDiff = sRevenue.subtract(sExpense);
-        KualiDecimal tDiff = tRevenue.subtract(tExpense);
-        if (!sDiff.equals(tDiff)) {
-            reportError(Constants.DOCUMENT_ERRORS,
-                    "Document does not balance. (sourceRevenue minus sourceExpense) should be equal to (targetRevenue minus targetExpense)!", "Amount");
-            return false;
-        }
-
-        return errorMap.isEmpty();
+        return isValid;
     }
 
     /**

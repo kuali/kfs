@@ -30,6 +30,7 @@ import org.kuali.KeyConstants;
 import org.kuali.core.bo.AccountingLine;
 import org.kuali.core.bo.SourceAccountingLine;
 import org.kuali.core.bo.TargetAccountingLine;
+import org.kuali.core.document.Document;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
@@ -57,11 +58,12 @@ public class DistributionOfIncomeAndExpenseDocumentRule extends TransactionalDoc
     	}
 	}
 	
-    public boolean processCustomRouteDocumentBusinessRules(TransactionalDocument document) {
+    public boolean processCustomRouteDocumentBusinessRules(Document document) {
+        TransactionalDocument tranDoc = (TransactionalDocument) document;
         ErrorMap errorMap = GlobalVariables.getErrorMap();
         // TODO: Fill this in when Tony finishes his Utility to apply all core business rules.
-        List sLines = document.getSourceAccountingLines();
-        List tLines = document.getTargetAccountingLines();
+        List sLines = tranDoc.getSourceAccountingLines();
+        List tLines = tranDoc.getTargetAccountingLines();
 
         // First, validate the accounting lines
         // then. check for expense/revenue balance

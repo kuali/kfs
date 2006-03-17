@@ -86,7 +86,7 @@ public class IndirectCostAdjustmentDocumentRule extends TransactionalDocumentRul
         return retval;
     }
     
-    protected boolean processCustomRouteDocumentBusinessRules(TransactionalDocument document) {
+    protected boolean processCustomRouteDocumentBusinessRules(Document document) {
 		boolean retval = true;
 		
 		retval &= documentDescriptionExists(document);

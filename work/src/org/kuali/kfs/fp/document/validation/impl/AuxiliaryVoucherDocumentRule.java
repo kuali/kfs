@@ -31,6 +31,7 @@ import java.util.TreeSet;
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
 import org.kuali.core.bo.AccountingLine;
+import org.kuali.core.document.Document;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.GlobalVariables;
@@ -144,8 +145,7 @@ public class AuxiliaryVoucherDocumentRule extends TransactionalDocumentRuleBase 
      * title so that some documents that don't use this default implementation, can override just this method without having to
      * override the calling method.
      * 
-     * @param transactionalDocument
-     * @return boolean True if the document is balanced, false otherwise.
+     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#isDocumentBalanceValid(org.kuali.core.document.TransactionalDocument)
      */
     protected boolean isDocumentBalanceValid(TransactionalDocument transactionalDocument) {
         AuxiliaryVoucherDocument document = (AuxiliaryVoucherDocument)transactionalDocument;
@@ -373,8 +373,8 @@ public class AuxiliaryVoucherDocumentRule extends TransactionalDocumentRuleBase 
      * 
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.TransactionalDocument)
      */
-    protected boolean processCustomRouteDocumentBusinessRules(TransactionalDocument document) {
-        return isDocumentBalanceValid(document);
+    protected boolean processCustomRouteDocumentBusinessRules(Document document) {
+        return isDocumentBalanceValid((TransactionalDocument) document);
     }
     
     /**

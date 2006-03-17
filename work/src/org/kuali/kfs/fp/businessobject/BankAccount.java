@@ -30,6 +30,7 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
+import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.bo.Org;
 
 /**
@@ -50,15 +51,16 @@ public class BankAccount extends BusinessObjectBase {
     private String cashOffsetAccountNumber;
     private String cashOffsetObjectCode;
     private String cashOffsetSubObjectCode;
-
+    
     private Chart chart;
     private Chart universityAcctChartOfAcct;
-    private Account cashOffsetAccount;
-    private Chart cashOffsetFinancialChartOfAccount;
     private Bank bank;
 	private Org organization;
 	private Account universityAccount;
-
+    private Chart cashOffsetFinancialChartOfAccount;
+    private Account cashOffsetAccount;
+	private ObjectCode cashOffsetObject;
+    
 	/**
      * Gets the organizationCode attribute. 
      * @return Returns the organizationCode.
@@ -387,6 +389,23 @@ public class BankAccount extends BusinessObjectBase {
     }    
     
 	/**
+     * Gets the cashOffsetObject attribute. 
+     * @return Returns the cashOffsetObject.
+     */
+    public ObjectCode getCashOffsetObject() {
+        return cashOffsetObject;
+    }
+
+    /**
+     * Sets the cashOffsetObject attribute value.
+     * @param cashOffsetObject The cashOffsetObject to set.
+     * @deprecated
+     */
+    public void setCashOffsetObject(ObjectCode cashOffsetObject) {
+        this.cashOffsetObject = cashOffsetObject;
+    }
+
+    /**
 	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {

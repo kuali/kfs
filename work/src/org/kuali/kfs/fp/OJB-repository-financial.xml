@@ -590,7 +590,7 @@
 	<field-descriptor name="cashOffsetAccountNumber" column="CSH_OFST_ACCT_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="cashOffsetObjectCode" column="CSH_OFST_OBJ_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="cashOffsetSubObjectCode" column="CSH_OFST_SUB_OBJ_CD" jdbc-type="VARCHAR"/>
-
+	
 	<reference-descriptor name="universityAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="universityAcctChartOfAcctCd" />
 		<foreignkey field-ref="universityAccountNumber" />
@@ -621,6 +621,12 @@
 	<reference-descriptor name="cashOffsetFinancialChartOfAccount" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="cashOffsetFinancialChartOfAccountCode" />
 	</reference-descriptor>
+	
+	<reference-descriptor name="cashOffsetObject" class-ref="org.kuali.module.chart.bo.ObjectCodeCurrent" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+		<foreignkey field-ref="cashOffsetFinancialChartOfAccountCode" />
+		<foreignkey field-ref="cashOffsetObjectCode" />
+	</reference-descriptor>
+	
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.financial.bo.CashDrawer" table="FP_CSH_DRWR_T">

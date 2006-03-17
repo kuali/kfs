@@ -67,7 +67,6 @@
 			<attributeReference name="financialDocumentBankCode" 
 				sourceClassName="org.kuali.module.financial.bo.Bank" 
 				sourceAttributeName="financialDocumentBankCode">
-				
 				<required>true</required>
 			</attributeReference>
 
@@ -105,6 +104,9 @@
 				<label>Chart Of Accounts</label>
 				<shortLabel>CoA</shortLabel>
 				<required>false</required>
+				<control>
+					<select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" />
+				</control> 
 				<summary>Chart Of Accounts Code</summary>
 				<description>Chart Of Accounts Code</description>
 			</attributeReference>
@@ -112,7 +114,6 @@
 			<attributeReference name="organizationCode" 
 				sourceClassName="org.kuali.module.chart.bo.Org" 
 				sourceAttributeName="organizationCode">
-				
 				<required>false</required>
 			</attributeReference>
 				

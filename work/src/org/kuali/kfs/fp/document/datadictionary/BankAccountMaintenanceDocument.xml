@@ -34,9 +34,25 @@
 		<defaultExistenceChecks>
 			<reference  attributeName="bank" 
 						attributeToHighlightOnFail="financialDocumentBankCode" />
+			<reference  attributeName="chart" 
+						attributeToHighlightOnFail="chartOfAccountsCode" 
+						activeIndicatorAttributeName="finChartOfAccountActiveIndicator" />
+			<reference  attributeName="cashOffsetAccount" 
+						attributeToHighlightOnFail="cashOffsetAccountNumber" 
+						activeIndicatorAttributeName="accountClosedIndicator" 
+						activeIndicatorReversed="true" />
+			<reference  attributeName="organization" 
+						attributeToHighlightOnFail="organizationCode" 
+						activeIndicatorAttributeName="organizationActiveIndicator" />
+			<reference  attributeName="universityAccount" 
+						attributeToHighlightOnFail="universityAccountNumber" 
+						activeIndicatorAttributeName="accountClosedIndicator" 
+						activeIndicatorReversed="true" />
+			<reference  attributeName="cashOffsetObject" 
+						attributeToHighlightOnFail="cashOffsetObjectCode" 
+						activeIndicatorAttributeName="financialObjectActiveCode" />
 		</defaultExistenceChecks>
 		
-
 	    <maintainableSections>
 	        <maintainableSection title="Edit Bank Account">
 	           	 <maintainableItems>

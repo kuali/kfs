@@ -66,11 +66,13 @@ public class TestDataGeneratorTest extends KualiTestBase {
     public void testGenerateFieldValues() throws Exception {
         Map fieldValues = new HashMap();
 
+        // test business object implementing transaction
         fieldValues = testDataGenerator.generateLookupFieldValues(pendingEntry);
         assertEquals(testDataGenerator.getProperties().getProperty("accountNumber"), fieldValues.get("accountNumber"));
         assertNull(fieldValues.get("transactionDate"));
         assertNull(fieldValues.get("objectCode"));
 
+        // test business object not implementing transaction
         fieldValues = testDataGenerator.generateLookupFieldValues(accountBalance);
         assertEquals(testDataGenerator.getProperties().getProperty("accountNumber"), fieldValues.get("accountNumber"));
         assertEquals(testDataGenerator.getProperties().getProperty("dummyBusinessObject.consolidationOption"), fieldValues

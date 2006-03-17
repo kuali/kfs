@@ -26,6 +26,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -35,6 +36,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.gl.bo.Transaction;
+import org.kuali.module.gl.util.BusinessObjectFieldConverter;
 
 /**
  * This class...
@@ -100,17 +102,27 @@ public class TestDataGenerator {
     public Map generateLookupFieldValues(BusinessObjectBase businessObject, List lookupFields) throws Exception {
         Map fieldValues = new HashMap();
 
+        boolean isTransaction = (businessObject instanceof Transaction);
+        if (!isTransaction && lookupFields != null) {
+            lookupFields = BusinessObjectFieldConverter.convertToTransactionFields(lookupFields);
+        }
+
         Iterator propsIter = properties.keySet().iterator();
         while (propsIter.hasNext()) {
             String propertyName = (String) propsIter.next();
             String propertyValue = (String) properties.get(propertyName);
+
+            boolean isContains = (lookupFields == null) ? true : lookupFields.contains(propertyName);
+
+            if (!isTransaction) {
+                propertyName = BusinessObjectFieldConverter.convertFromTransactionPropertyName(propertyName);
+            }
 
             // ignore the property fields whose values are empty or not writable
             if (StringUtils.isBlank(propertyValue) || !(PropertyUtils.isWriteable(businessObject, propertyName))) {
                 continue;
             }
 
-            boolean isContains = (lookupFields == null) ? true : lookupFields.contains(propertyName);
             if (isContains) {
                 fieldValues.put(propertyName, propertyValue);
             }

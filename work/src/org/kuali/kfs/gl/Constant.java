@@ -47,6 +47,10 @@ public final class Constant {
     
     public static final String SUB_ACCOUNT_OPTION = "subAccountNumber";
     
+    public static final String DOCUMENT_APPROVED_CODE_APPROVED = "A";
+    public static final String DOCUMENT_APPROVED_CODE_PENDING = "N";
+    public static final String DOCUMENT_APPROVED_CODE_PROCESSED = "X";    
+    
     public static final String BALANCE_TYPE_IE = "IE";
     public static final String BALANCE_TYPE_PE = "PE";
     public static final String BALANCE_TYPE_EX = "EX";

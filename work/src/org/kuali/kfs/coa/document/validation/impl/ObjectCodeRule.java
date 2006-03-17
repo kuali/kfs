@@ -27,6 +27,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
@@ -147,27 +148,31 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
         String reportsToObjectCode=objectCode.getReportsToFinancialObjectCode();
         
         if (!verifyReportsToChartCode(reportsToChartCode,year,reportsToObjectCode)) {
-            addIllegalValueError("reportsToChartCode must have valid chart, year");
+            //addIllegalValueError("reportsToChartCode must have valid chart, year");
+            this.putFieldError("reportsToChartOfAccountsCode", KeyConstants.ERROR_DOCUMENT_OBJCODE_INVALID_CHART, "Reports to Chart Code");
             result=false;
         }
 
         String budgetAggregationCode=objectCode.getFinancialBudgetAggregationCd();
         
         if (!isLegalBudgetAggregationCode(budgetAggregationCode)) {
-            addIllegalValueError("budgetAggregationCode must be one of "+validBudgetAggregationCodes);
+            //addIllegalValueError("budgetAggregationCode must be one of "+validBudgetAggregationCodes);
+            this.putFieldError("financialBudgetAggregationCd", KeyConstants.ERROR_DOCUMENT_OBJCODE_MUST_ONEOF_VALID, "Budget Aggregation Code");
             result=false;
         }
 
         String mandatoryTransferEliminationCode=objectCode.getFinObjMandatoryTrnfrelimCd();
         
         if (!isLegalMandatoryTransferEliminationCode(mandatoryTransferEliminationCode)) {
-            addIllegalValueError("mandatory transfer elim Code must be one of "+validMandatoryTransferEliminationCodes);
+            //addIllegalValueError("mandatory transfer elim Code must be one of "+validMandatoryTransferEliminationCodes);
+            this.putFieldError("finObjMandatoryTrnfrelimCd", KeyConstants.ERROR_DOCUMENT_OBJCODE_MUST_ONEOF_VALID, "Mandatory Transfer Or Eliminations Code");
             result=false;
         }
-
+        
         //RULE: fiscal year must be valid
         if (!this.isValidYear(year)) {
-            addIllegalValueError("fiscal year must be valid");
+            //addIllegalValueError("fiscal year must be valid");
+            this.putFieldError("financialObjectLevelCode", KeyConstants.ERROR_DOCUMENT_OBJCODE_CONSOLIDATION_ERROR, "Object Level Code");
             result=false;
         }
 
@@ -177,29 +182,35 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
 
         // Object level (obj_level_code) must be valid
         if (!isValid(objectCode,OBJECT_LEVEL)) {
-            addIllegalValueError("object level must be valid");
+            //addIllegalValueError("object level must be valid");
+            this.putFieldError("financialObjectLevelCode", KeyConstants.ERROR_DOCUMENT_OBJCODE_MUST_BEVALID, "Object Level Code");
             result=false;
         }
 
         // Object Type must be valid
         if (!isValid(objectCode,OBJECT_TYPE)) {
-            addIllegalValueError("object type must be valid");
+            //addIllegalValueError("object type must be valid");
+            this.putFieldError("financialObjectTypeCode", KeyConstants.ERROR_DOCUMENT_OBJCODE_MUST_BEVALID, "Object Type Code");
+            
             result=false;
         }
 
         // Sub type must be valid
         if (!isValid(objectCode,SUB_TYPE)) {
-            addIllegalValueError("object sub type must be valid");
+            //addIllegalValueError("object sub type must be valid");
+            this.putFieldError("financialObjectSubTypeCode", KeyConstants.ERROR_DOCUMENT_OBJCODE_MUST_BEVALID, "Object Sub Type Code");
             result=false;
         }
         
         if (!this.consolidationTableDoesNotHave(chartCode,objCode)) {
-            addIllegalValueError("given value already exists in consolidation table");
+            //addIllegalValueError("given value already exists in consolidation table");
+            this.putFieldError("chartOfAccountsCode", KeyConstants.ERROR_DOCUMENT_OBJCODE_CONSOLIDATION_ERROR, "Chart Code");
             result=false;
         }
 
         if (!this.objectLevelTableDoesNotHave(chartCode,objCode)) {
-            addIllegalValueError("given value already exists in consolidation table");
+            //addIllegalValueError("given value already exists in consolidation table");
+            this.putFieldError("", KeyConstants.ERROR_DOCUMENT_OBJCODE_CONSOLIDATION_ERROR, "Chart Code");
             result=false;
         }
         

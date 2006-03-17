@@ -76,10 +76,10 @@
 	        </maintainableSection>
 	        <maintainableSection title="Edit CG ICR">
                 <maintainableItems>
-		            <maintainableField name="a21SubAccount.financialIcrSeriesIdentifier" required="true" />
-		            <maintainableField name="a21SubAccount.indirectCostRecoveryChartOfAccountsCode" required="true" />
-		            <maintainableField name="a21SubAccount.indirectCostRecoveryAccountNumber" required="true" />
-		            <maintainableField name="a21SubAccount.indirectCostRecoveryTypeCode" required="true" />
+		            <maintainableField name="a21SubAccount.financialIcrSeriesIdentifier"/>
+		            <maintainableField name="a21SubAccount.indirectCostRecoveryChartOfAccountsCode"/>
+		            <maintainableField name="a21SubAccount.indirectCostRecoveryAccountNumber"/>
+		            <maintainableField name="a21SubAccount.indirectCostRecoveryTypeCode"/>
 		            <maintainableField name="a21SubAccount.offCampusCode" required="false">
 		            	<defaultValue>false</defaultValue>
 		            </maintainableField>

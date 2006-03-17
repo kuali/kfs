@@ -28,7 +28,6 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.module.gl.bo.SufficientFundBalances;
-import org.kuali.module.gl.bo.SufficientFundRebuild;
 import org.kuali.module.gl.dao.SufficientFundBalancesDao;
 import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 

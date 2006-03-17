@@ -342,4 +342,16 @@ public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements Balanc
         QueryByCriteria qbc = QueryFactory.newQuery(Balance.class, crit);
         return (Balance) getPersistenceBrokerTemplate().getObjectByQuery(qbc);
     }
+
+    public Iterator findAccountBalances(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber) {
+        LOG.debug("findAccountBalances() started");
+
+        Criteria crit = new Criteria();
+        crit.addEqualTo("universityFiscalYear", universityFiscalYear);
+        crit.addEqualTo("chartOfAccountsCode", chartOfAccountsCode);
+        crit.addEqualTo("accountNumber", accountNumber);
+
+        QueryByCriteria qbc = QueryFactory.newQuery(Balance.class, crit);
+        return getPersistenceBrokerTemplate().getIteratorByQuery(qbc);
+    }
 }

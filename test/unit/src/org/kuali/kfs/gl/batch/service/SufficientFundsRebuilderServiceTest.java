@@ -75,15 +75,40 @@ public class SufficientFundsRebuilderServiceTest extends KualiTestBaseWithSpring
 
     // testAddedSFBLRecords
     public void testAddedSFBLRecords() throws Exception {
-        // TODO: what order should these be in?
-        String[] expectedOutput = new String[] {
-                "2004BL1031497GLEX1010101            10.10            10.10            10.102004-01-05",
-                "2004BL1031497GLEX1010101            10.10            10.10            10.102004-01-05"
-        };
+/* '6044913','1031420','2220090','2231406','2231407','2231408','2231415'
+2004    BL  2220090     0EFA9674A9ED5A54E043814FD8815A54    1   H   10756.57    0   503.5   3/14/2006 2:37 PM
+2004    BL  2220090     0EE633FE15DBF416E043814FD881F416    1   H   10756.57    0   503.5   6/29/2004 9:18 PM
+2004    BL  2231406 PRIN    0EFA9674A9EE5A54E043814FD8815A54    1   L   0   180.35  0   3/14/2006 2:37 PM
+2004    BL  2231406 S&E 0EFA9674A9EF5A54E043814FD8815A54    1   L   12000   9.55    0   3/14/2006 2:37 PM
+2004    BL  2231406     0EE633FE15B0F416E043814FD881F416    1   H   9258.67 0   0   6/7/2004 9:22 PM
+2004    BL  2231407     0EE633FE15B1F416E043814FD881F416    1   H   1631.64 0   0   6/25/2004 9:25 PM
+2004    BL  2231408     0EE633FE15B2F416E043814FD881F416    1   H   1520.19 0   0   6/8/2004 9:14 PM
+2004    BL  2231406 TRAV    0EFA9674A9F05A54E043814FD8815A54    1   L   0   2558.9  0   3/14/2006 2:37 PM
+2004    BL  2231407 GENX    0EFA9674A9F15A54E043814FD8815A54    1   C   0   -984.12 0   3/14/2006 2:37 PM
+2004    BL  2231408 4938    0EFA9674A9F25A54E043814FD8815A54    1   O   0   348.27  0   3/14/2006 2:37 PM
+2004    BL  2231408 5215    0EFA9674A9F35A54E043814FD8815A54    1   O   0   100 0   3/14/2006 2:37 PM
+2004    BL  2231415     0EE633FE15B6F416E043814FD881F416    1   H   1968.39 0   0   6/1/2004 9:15 PM
+*/        String[] expectedOutput = new String[] {
+            "2004BL2220090    H         10756.57                0            503.5",
+            "2004BL2231406PRINL                0           180.35                0",
+            "2004BL2231406S&E L            12000             9.55                0",
+            "2004BL2231406    H          9258.67                0                0",
+            "2004BL2931407    H          1631.64                0                0",
+            "2004BL2931408    H          1520.19                0                0",
+            "2004BL2931406TRAVL                0           2558.9                0",
+            "2004BL2931407GENXC                0          -984.12                0",
+            "2004BL29314084938O                0           348.27                0",
+            "2004BL29314085215O                0              100                0",
+            "2004BL2231415    H          1968.39                0                0"
+          };
 
+        clearSufficientFundBalanceTable();
+        clearSufficientFundRebuildTable();
+        populateGLSFRebuildTable();
+        prepareGLBalancesTable();
         rebuild();
         assertSFRBEmpty();
-//        assertSFBLEntries(expectedOutput);
+        assertSFBLEntries(expectedOutput);
     }
 
     private void reportErrors() {
@@ -99,19 +124,11 @@ public class SufficientFundsRebuilderServiceTest extends KualiTestBaseWithSpring
     }
 
     private void rebuild(String[] inputTransactions) {
-        clearSufficientFundBalanceTable();
-        clearSufficientFundRebuildTable();
-        populateGLSFRebuildTable();
-        prepareGLBalancesTable();
         loadInputTransactions(inputTransactions);
         sufficientFundsRebuilderService.rebuildSufficientFunds(new Integer(2004)); //TODO: where should this year come from?
     }
 
     private void rebuild() {
-        clearSufficientFundBalanceTable();
-        clearSufficientFundRebuildTable();
-        populateGLSFRebuildTable();
-        prepareGLBalancesTable();
         sufficientFundsRebuilderService.rebuildSufficientFunds(new Integer(2004)); //TODO: where should this year come from?
     }
 
@@ -180,12 +197,14 @@ public class SufficientFundsRebuilderServiceTest extends KualiTestBaseWithSpring
         Collection c = sufficientFundBalancesDao.testingGetAllEntries();
         assertEquals("Wrong number of SFBL", requiredSFBLs.length, c.size());
 
-        int count = 0;
-        for (Iterator iter = c.iterator(); iter.hasNext();) {
-            SufficientFundBalances foundSFBL = (SufficientFundBalances)iter.next();
-            // TODO: what else here?
-            assertEquals(requiredSFBLs[count], foundSFBL.getLine());
-            ++count;
+        if (requiredSFBLs.length == c.size()) {
+            int count = 0;
+            for (Iterator iter = c.iterator(); iter.hasNext();) {
+                SufficientFundBalances foundSFBL = (SufficientFundBalances)iter.next();
+                // TODO: what else here?
+                assertEquals(requiredSFBLs[count], foundSFBL.getLine());
+                ++count;
+            }
         }
     }
 

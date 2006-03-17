@@ -71,7 +71,7 @@ public class SufficientFundBalancesDaoOjb extends PersistenceBrokerDaoSupport im
         crit.addEqualTo("chartOfAccountsCode", chartOfAccountsCode);
         crit.addEqualTo("financialObjectCode", financialObjectCode);
 
-        QueryByCriteria qbc = QueryFactory.newQuery(SufficientFundRebuild.class, crit);
+        QueryByCriteria qbc = QueryFactory.newQuery(SufficientFundBalances.class, crit);
         return getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
     }
 
@@ -83,7 +83,7 @@ public class SufficientFundBalancesDaoOjb extends PersistenceBrokerDaoSupport im
         crit.addEqualTo("chartOfAccountsCode", chartOfAccountsCode);
         crit.addEqualTo("accountNumber", accountNumber);
 
-        QueryByCriteria qbc = QueryFactory.newQuery(SufficientFundRebuild.class, crit);
+        QueryByCriteria qbc = QueryFactory.newQuery(SufficientFundBalances.class, crit);
         getPersistenceBrokerTemplate().deleteByQuery(qbc);
     }
 

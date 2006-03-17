@@ -55,6 +55,15 @@ public interface BalanceDao {
     public Iterator findCashBalance(Map fieldValues, boolean isConsolidated);
 
     /**
+     * Returns the balance entries for the given year, chart, and account.
+     * @param universityFiscalYear
+     * @param chartOfAccountsCode
+     * @param accountNumber
+     * @return balance entries matching above
+     */
+    public Iterator findAccountBalances(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber);
+
+    /**
      * This method finds the summary records of balance entries according to input fields and values
      * 
      * @param fieldValues the input fields and values

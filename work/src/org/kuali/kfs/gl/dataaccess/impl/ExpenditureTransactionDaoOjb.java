@@ -60,7 +60,12 @@ public class ExpenditureTransactionDaoOjb extends PersistenceBrokerDaoSupport im
     crit.addEqualTo("objectTypeCode",t.getFinancialObjectTypeCode());
     crit.addEqualTo("universityFiscalAccountingPeriod",t.getUniversityFiscalPeriodCode());
     crit.addEqualTo("projectCode",t.getProjectCode());
-    crit.addEqualTo("organizationReferenceId",t.getOrganizationReferenceId());
+
+    if ( t.getOrganizationReferenceId() == null ) {
+      crit.addEqualTo("organizationReferenceId","--------");
+    } else {
+      crit.addEqualTo("organizationReferenceId",t.getOrganizationReferenceId());
+    }
 
     QueryByCriteria qbc = QueryFactory.newQuery(ExpenditureTransaction.class,crit);
     return (ExpenditureTransaction)getPersistenceBrokerTemplate().getObjectByQuery(qbc);

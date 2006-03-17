@@ -109,7 +109,7 @@
 			<attributeReference name="chartOfAccountsCode" 
 								sourceClassName="org.kuali.module.chart.bo.Chart" 
 								sourceAttributeName="chartOfAccountsCode" >
-				<required>true</required>								
+				<required>true</required>		
 				<control>
 					<select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" script="setReportsToChartCode();"/>					
 				</control>
@@ -285,7 +285,7 @@
 				<shortLabel>Ac.</shortLabel>
 
 				<maxLength>1</maxLength>
-				<required>true</required>				
+				<required>true</required>
 				<control><checkbox/></control>
 
 				<summary>Active Indicator</summary>
@@ -298,7 +298,7 @@
 				<shortLabel>BudgetAggCde</shortLabel>
 
 				<maxLength>1</maxLength>
-				<required>true</required>				
+				<required>true</required>
 				<control><text size="1" /></control>
 
 				<summary>Budget Aggregation Code</summary>
@@ -310,7 +310,7 @@
 				<shortLabel>ManTranOrElimCode</shortLabel>
 
 				<maxLength>1</maxLength>
-				<required>true</required>				
+				<required>true</required>
 				<control><text size="1" /></control>
 
 				<summary>Mandatory Transfer Or Eliminations Code</summary>
@@ -326,7 +326,7 @@
 				<shortLabel>FedFundCde</shortLabel>
 
 				<maxLength>1</maxLength>
-				
+				<required>true</required>
 				<control>
 					<text size="1" />
 				</control>

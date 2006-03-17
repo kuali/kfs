@@ -40,13 +40,12 @@ import edu.iu.uis.eden.exception.WorkflowException;
  * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
-
-
 public class CashManagementAction extends KualiDocumentActionBase {
     private static Logger LOG = Logger.getLogger(CashManagementAction.class);
-
-
+    
     /**
+     * Overrides to call super, but also make sure the helpers are populated.
+     * 
      * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -57,7 +56,6 @@ public class CashManagementAction extends KualiDocumentActionBase {
         
         return dest;
     }
-
 
     /**
      * Overrides the default document-creation code, since CMDocs will be created elsewhere, and only loaded by the action.

@@ -26,6 +26,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.module.financial.bo.Deposit;
@@ -38,8 +40,8 @@ import org.kuali.module.financial.service.CashManagementService;
  * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
-
 public class CashManagementForm extends KualiDocumentFormBase {
+    private static final long serialVersionUID = 1L;
     // problem: I need one list of receiptSummaries foreach deposit
     // ? create a DepositReceipts object which contains DepositSummaries, index 'em by depositLineNumber ?
     private List depositHelpers;
@@ -56,7 +58,16 @@ public class CashManagementForm extends KualiDocumentFormBase {
         setFormatterType("document.cashDrawerStatus", CashDrawerStatusCodeFormatter.class);
         setFormatterType("document.deposit.depositTypeCode", CashReceiptDepositTypeFormatter.class);
     }
-
+    
+    /**
+     * Overrides parent to call super and then make sure that the deposit helper list is populated.
+     * 
+     * @see org.kuali.core.web.struts.pojo.PojoForm#populate(javax.servlet.http.HttpServletRequest)
+     */
+    public void populate(HttpServletRequest request) {
+        super.populate(request);
+        populateDepositHelpers();
+    }
 
     /**
      * @return cashManagementDocument
@@ -70,53 +81,93 @@ public class CashManagementForm extends KualiDocumentFormBase {
      * Creates a DepositHelper foreach Deposit associated with this form's document
      */
     public void populateDepositHelpers() {
-        depositHelpers.clear();
-
-        List deposits = getCashManagementDocument().getDeposits();
-        for (Iterator i = deposits.iterator(); i.hasNext();) {
-            Deposit d = (Deposit) i.next();
-
-            DepositHelper dh = new DepositHelper(d);
-            depositHelpers.add(dh);
+        if(depositHelpers.isEmpty()) {
+            depositHelpers.clear();
+    
+            List deposits = getCashManagementDocument().getDeposits();
+            for (Iterator i = deposits.iterator(); i.hasNext();) {
+                Deposit d = (Deposit) i.next();
+    
+                DepositHelper dh = new DepositHelper(d);
+                depositHelpers.add(dh);
+            }
         }
     }
 
-
+    /**
+     * @return List
+     */
     public List getDepositHelpers() {
         return depositHelpers;
     }
 
+    /**
+     * @param i
+     * @return DepositHelper
+     */
     public DepositHelper getDepositHelper(int i) {
+        while (depositHelpers.size() <= i) {
+            depositHelpers.add(new DepositHelper());
+        }
         DepositHelper dh = (DepositHelper) depositHelpers.get(i);
 
         return dh;
     }
 
-
+    /**
+     * Inner helper class.
+     * 
+     * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+     */
     public static final class DepositHelper {
         private Integer depositLineNumber;
         private List cashReceipts;
+        
+        /**
+         * Constructs a DepositHelper - default constructor used by PojoProcessor.
+         */
+        public DepositHelper() {
+            cashReceipts = new ArrayList();
+            depositLineNumber = new Integer(1);
+        }
 
+        /**
+         * Constructs a CashManagementForm.java.
+         * @param deposit
+         */
         public DepositHelper(Deposit deposit) {
             CashManagementService cmService = SpringServiceLocator.getCashManagementService();
             cashReceipts = cmService.retrieveCashReceipts(deposit);
             depositLineNumber = deposit.getFinancialDocumentDepositLineNumber();
         }
 
+        /**
+         * @return List
+         */
         public List getCashReceipts() {
             return cashReceipts;
         }
         
+        /**
+         * @param i
+         * @return CashReceiptDocument
+         */
         public CashReceiptDocument getCashReceipt(int i) {
             CashReceiptDocument cd = (CashReceiptDocument)cashReceipts.get( i );
             
             return cd;
         }
         
+        /**
+         * @return Integer
+         */
         public Integer getDepositLineNumber() {
             return depositLineNumber;
         }
         
+        /**
+         * @see java.lang.Object#toString()
+         */
         public String toString() {
             return "deposit " + depositLineNumber;
         }

@@ -36,6 +36,7 @@ import org.kuali.module.financial.bo.DepositCashReceiptControl;
 import org.kuali.module.financial.document.CashManagementDocument;
 import org.kuali.module.financial.document.CashReceiptDocument;
 import org.kuali.Constants;
+import org.kuali.PropertyConstants;
 
 import edu.iu.uis.eden.EdenConstants;
 
@@ -147,11 +148,16 @@ public class CashManagementDocumentRule extends DocumentRuleBase {
         // each is complete according to its DD file
         CashManagementDocument cmd = (CashManagementDocument) document;
         Iterator deposits = cmd.getDeposits().iterator();
+        int index = 0;
+        GlobalVariables.getErrorMap().addToErrorPath(PropertyConstants.DOCUMENT);
         while(deposits.hasNext()) {
             Deposit deposit = (Deposit) deposits.next();
+            GlobalVariables.getErrorMap().addToErrorPath(PropertyConstants.DEPOSIT + "[" + index + "]");
             isValid &= validateDeposit(deposit);
+            GlobalVariables.getErrorMap().removeFromErrorPath(PropertyConstants.DEPOSIT + "[" + index + "]");
+            index++;
         }
-        
+        GlobalVariables.getErrorMap().removeFromErrorPath(PropertyConstants.DOCUMENT);
         return isValid;
     }
     

@@ -481,11 +481,13 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
     public ResolvedQualifiedRole resolveQualifiedRole(RouteContext context, String roleName, String qualifiedRole) throws EdenUserNotFoundException {
         List members = new ArrayList();
         String fisDocumentType = getFisDocumentTypeNameFromWorkflowDocumentTypeName(context.getDocument().getDocumentType().getName());
+        String annotation = "";
         Connection conn = null;
         try {
         	conn = KualiSpringServiceLocator.getDataSource().getConnection();
         	if (FISCAL_OFFICER_ROLE_KEY.equals(roleName)) {
         		FiscalOfficerRole role = getUnqualifiedFiscalOfficerRole(qualifiedRole);
+        		annotation = (role.accountNumber == null ? "" : "Routing to account number " + role.accountNumber);
         		UserId fiscalOfficerId = getFiscalOfficerId(conn, role);
         		if (fiscalOfficerId != null) {
         			members.add(fiscalOfficerId);
@@ -501,6 +503,7 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
         		members.addAll(getSecondaryDelegations(conn, role, fisDocumentType));
         	} else if (ACCOUNT_SUPERVISOR_ROLE_KEY.equals(roleName)) {
         		String accountSupervisorId = getUnqualifiedAccountSupervisorIdFromString(qualifiedRole);
+        		annotation = "Routing to Account Supervisor";
         		members.add(new AuthenticationUserId(KualiConstants.getNetworkId(conn, accountSupervisorId)));
         	}
     	} catch (Exception e) {
@@ -517,7 +520,7 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
     		}
     	}
 
-        return new ResolvedQualifiedRole(roleName, members);
+        return new ResolvedQualifiedRole(roleName, members, annotation);
     }
     
     private AuthenticationUserId getFiscalOfficerId(Connection connection, FiscalOfficerRole role) throws Exception {

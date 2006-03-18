@@ -26,15 +26,19 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.log4j.Logger;
 import org.kuali.KualiSpringServiceLocator;
 import org.kuali.PropertyConstants;
@@ -101,6 +105,11 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
     private static final String ACCOUNT_DEL_DOC_TYPE = "KualiAccountDelegateMaintenanceDocument";
     private static final String SUB_ACCOUNT_DOC_TYPE = "KualiSubAccountMaintenanceDocument";
     private static final String SUB_OBJECT_DOC_TYPE = "KualiSubObjectMaintenanceDocument";
+    private static final String INTERNAL_BILLING_DOC_TYPE = "KualiInternalBillingDocument";
+    private static final String PRE_ENCUMBRANCE_DOC_TYPE = "KualiPreEncumbranceDocument";
+    private static final String DISBURSEMENT_VOCHER_DOC_TYPE = "KualiDisbursementVoucherDocument";
+    private static final String NON_CHECK_DISBURSEMENT_DOC_TYPE = "KualiNonCheckDisbursementDocument";
+    private static final String PROCUREMENT_CARD_DOC_TYPE = "KualiProcurementCardDocument";
 
     private String finCoaCd;
 
@@ -113,7 +122,11 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
     private static Set targetLinesOnlyDocs = new HashSet();
 
     static {
-        targetLinesOnlyDocs.add("KualiInternalBillingDocument");
+        targetLinesOnlyDocs.add(INTERNAL_BILLING_DOC_TYPE);
+        targetLinesOnlyDocs.add(PRE_ENCUMBRANCE_DOC_TYPE);
+        targetLinesOnlyDocs.add(DISBURSEMENT_VOCHER_DOC_TYPE);
+        targetLinesOnlyDocs.add(NON_CHECK_DISBURSEMENT_DOC_TYPE);
+        targetLinesOnlyDocs.add(PROCUREMENT_CARD_DOC_TYPE);
     }
 
     /**
@@ -413,26 +426,17 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
                 	role.accountNumber = xpath.evaluate(NEW_MAINTAINABLE_PREFIX+"accountNbr", docContent.getDocument());
                 	qualifiedRoleNames.add(getQualifiedRoleString(role));
                 } else {
+                	NodeList targetLineNodes = (NodeList) xpath.evaluate("//org.kuali.core.bo.TargetAccountingLine", docContent.getDocument(), XPathConstants.NODESET);
+                	String totalDollarAmount = String.valueOf(calculateTotalDollarAmount(xpath, targetLineNodes));
+                	Set fiscalOfficers = getFiscalOfficers(xpath, targetLineNodes, roleName, totalDollarAmount);
                 	if (!targetLinesOnlyDocs.contains(docTypeName)) {
-                		NodeList nodes = (NodeList) xpath.evaluate("//org.kuali.core.bo.SourceAccountingLine", docContent.getDocument(), XPathConstants.NODESET);
-                		for (int i = 0; i < nodes.getLength(); i++) {
-                			Node accountingLineNode = nodes.item(i);
-                			FiscalOfficerRole role = new FiscalOfficerRole(roleName);
-                			role.chart = xpath.evaluate("chartOfAccountsCode", accountingLineNode);
-                			role.accountNumber = xpath.evaluate("accountNumber", accountingLineNode);
-                			role.totalDollarAmount = xpath.evaluate("amount/value", accountingLineNode);
-                			qualifiedRoleNames.add(getQualifiedRoleString(role));
-                		}
+                		NodeList sourceLineNodes = (NodeList) xpath.evaluate("//org.kuali.core.bo.SourceAccountingLine", docContent.getDocument(), XPathConstants.NODESET);
+                		fiscalOfficers.addAll(getFiscalOfficers(xpath, sourceLineNodes, roleName, totalDollarAmount));
                 	}
-                	NodeList nodes = (NodeList) xpath.evaluate("//org.kuali.core.bo.TargetAccountingLine", docContent.getDocument(), XPathConstants.NODESET);
-                	for (int i = 0; i < nodes.getLength(); i++) {
-                		Node accountingLineNode = nodes.item(i);
-                		FiscalOfficerRole role = new FiscalOfficerRole(roleName);
-                		role.chart = xpath.evaluate("chartOfAccountsCode", accountingLineNode);
-                		role.accountNumber = xpath.evaluate("accountNumber", accountingLineNode);
-                		role.totalDollarAmount = xpath.evaluate("amount/value", accountingLineNode);
-                		qualifiedRoleNames.add(getQualifiedRoleString(role));
-                	}
+                	for (Iterator iterator = fiscalOfficers.iterator(); iterator.hasNext();) {
+						FiscalOfficerRole role = (FiscalOfficerRole) iterator.next();
+						qualifiedRoleNames.add(getQualifiedRoleString(role));
+					}
                 }
             } else if (ACCOUNT_SUPERVISOR_ROLE_KEY.equals(roleName)) {
             	// only route to account supervisor on KualiAccountMaintenanceDocument
@@ -450,6 +454,27 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
         }
     }
 
+    private int calculateTotalDollarAmount(XPath xpath, NodeList targetAccountingLineNodes) throws XPathExpressionException {
+    	int sum = 0;
+    	for (int index = 0; index < targetAccountingLineNodes.getLength(); index++) {
+    		sum += ((Number)xpath.evaluate("amount/value", targetAccountingLineNodes.item(index), XPathConstants.NUMBER)).intValue();
+    	}
+    	return sum;
+    }
+    
+    private Set getFiscalOfficers(XPath xpath, NodeList accountingLineNodes, String roleName, String totalDollarAmount) throws XPathExpressionException {
+    	Set fiscalOfficers = new HashSet();
+    	for (int i = 0; i < accountingLineNodes.getLength(); i++) {
+    		Node accountingLineNode = accountingLineNodes.item(i);
+    		FiscalOfficerRole role = new FiscalOfficerRole(roleName);
+    		role.chart = xpath.evaluate("chartOfAccountsCode", accountingLineNode);
+    		role.accountNumber = xpath.evaluate("accountNumber", accountingLineNode);
+    		role.totalDollarAmount = totalDollarAmount;
+    		fiscalOfficers.add(role);
+    	}
+    	return fiscalOfficers;
+    }
+    
     /**
      * Resolves the qualified roles for Fiscal Officers, their delegates, and account supervisors.
      */
@@ -580,6 +605,12 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
     	return members;
     }
     
+    /**
+     * A helper class which defines a Fiscal Officer role.  Implements an equals() and hashCode() method so that it
+     * can be used in a Set to prevent the generation of needless duplicate requests.
+     * 
+     * @author ewestfal
+     */
     private static class FiscalOfficerRole {
     	
     	public String roleName;
@@ -591,6 +622,28 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
     	public FiscalOfficerRole(String roleName) {
     		this.roleName = roleName;
     	}
+
+		public boolean equals(Object object) {
+			if (object instanceof FiscalOfficerRole) {
+				FiscalOfficerRole role = (FiscalOfficerRole)object;
+				return new EqualsBuilder().append(roleName, role.roleName).
+					append(fiscalOfficerId, role.fiscalOfficerId).
+					append(chart, role.chart).
+					append(accountNumber, role.accountNumber).
+					append(totalDollarAmount, role.totalDollarAmount).isEquals();
+			}
+			return false;
+		}
+
+		public int hashCode() {
+			return new HashCodeBuilder().append(roleName).
+				append(fiscalOfficerId).
+				append(chart).
+				append(accountNumber).
+				append(totalDollarAmount).hashCode();
+		}
+    	
+    	
     	
     }
     

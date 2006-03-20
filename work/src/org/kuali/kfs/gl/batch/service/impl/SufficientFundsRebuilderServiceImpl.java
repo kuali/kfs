@@ -37,7 +37,6 @@ import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.chart.bo.Account;
-import org.kuali.module.chart.bo.ObjLevel;
 import org.kuali.module.chart.dao.ObjectLevelDao;
 import org.kuali.module.chart.service.AccountService;
 import org.kuali.module.gl.batch.sufficientFunds.SufficientFundsReport;

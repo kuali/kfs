@@ -77,7 +77,7 @@ public class SufficientFundsRebuilderServiceTest extends KualiTestBaseWithSpring
             "2004BL2231406    H          9258.67             0.00             0.00",
             "2004BL2231406PRINL             0.00           180.35             0.00",
             "2004BL2231406S&E L            12000             9.55             0.00",
-            "2004BL2931406TRAVL             0.00           2558.9             0.00",
+            "2004BL2231406TRAVL             0.00           2558.9             0.00",
             "2004BL2931407    H          1631.64             0.00             0.00",
             "2004BL2931407GENXC             0.00          -984.12             0.00",
             "2004BL29314084938O             0.00           348.27             0.00",

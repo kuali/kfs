@@ -581,10 +581,22 @@ public class PosterServiceTest extends OriginEntryTestBase {
   public void testPostExpenditureTransaction() throws Exception {
     LOG.debug("testPostExpenditureTransaction() started");
 
+    //  setRollback(false);
+
     String[] inputTransactions = {
-        "2004BL2231428-----4166---ACEX07CHKDPDSFN00001112345DESCRIPTION                                      11000.00D2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
-        "2004BL2831410-----4166---ACEX07CHKDPDSFA00001112345DESCRIPTION                                      12000.00D2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
-        "2004BL2231432-----2401---EXEX07CHKDPDSFO00001112345DESCRIPTION                                         12.00C2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
+        "2004BL2231499-----4166---ACEX07CHKDPDET000001112345DESCRIPTION                                      11000.00D2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
+
+        "2004BL4031407-----4166---ACEX07CHKDPDET000001112345DESCRIPTION                                      12000.00D2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
+        "2004BL4031407-----4166---ACEX07CHKDPDET000001112345DESCRIPTION                                          0.12C2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
+
+        "2004BL4131406-----2401---EXEX07CHKDPDET000001112345DESCRIPTION                                         12.00C2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
+        "2004BL4131406-----2401---EXEX07CHKDPDET000001112345DESCRIPTION                                          2.00D2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
+
+        "2004BL4131406-----2401---EXEX07CHKDPDET000001112345DESCRIPTION                                         12.00C2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
+        "2004BL4131406-----2401---EXEX07CHKDPDET000001112345DESCRIPTION                                          2.00D2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
+
+        // We need an account that has 2 sub acounts, one with type CS and one with type EX.  This doesn't exist in the chart so we need to make it.
+        "2004BL4631464CS0014166---ACEX07CHKDPDET000002112345DESCRIPTION                                         25.00D2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
     };
 
     EntryHolder[] outputTransactions = new EntryHolder[inputTransactions.length * 2];
@@ -599,6 +611,13 @@ public class PosterServiceTest extends OriginEntryTestBase {
     posterService.postMainEntries();
 
     assertOriginEntries(3,outputTransactions);
+
+    List trans = unitTestSqlDao.sqlSelect("select * from GL_EXPEND_TRN_T order by account_nbr");
+    assertEquals("Should be 2 transactions",2,trans.size());
+    Map acct4031407 = (Map)trans.get(0);
+    assertEquals("Amount wrong",11999.88,getAmount(acct4031407,"ACCT_OBJ_DCST_AMT"),0.01);
+    Map acct4131406 = (Map)trans.get(1);
+    assertEquals("Amount wrong",-10.00,getAmount(acct4131406,"ACCT_OBJ_DCST_AMT"),0.01);
   }
 
   private double getAmount(Map map,String field) {

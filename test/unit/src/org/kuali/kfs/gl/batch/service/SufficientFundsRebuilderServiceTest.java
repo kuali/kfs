@@ -68,20 +68,14 @@ public class SufficientFundsRebuilderServiceTest extends KualiTestBaseWithSpring
         testSufficientFundsReport = (TestSufficientFundsReport) beanFactory.getBean("testSufficientFundsReport");
     }
 
-    // testErrors
-    public void testErrors() throws Exception {
-
-    }
-
     // testAddedSFBLRecords
     public void testAddedSFBLRecords() throws Exception {
+        // setRollback(false);
+
         String[] expectedOutput = new String[] {
             "2004BL2220090    H         10756.57                0            503.5",
             "2004BL2231406PRINL                0           180.35                0",
             "2004BL2231406S&E L            12000             9.55                0",
-            "2004BL2231406    H          9258.67                0                0",
-            "2004BL2931407    H          1631.64                0                0",
-            "2004BL2931408    H          1520.19                0                0",
             "2004BL2931406TRAVL                0           2558.9                0",
             "2004BL2931407GENXC                0          -984.12                0",
             "2004BL29314084938O                0           348.27                0",

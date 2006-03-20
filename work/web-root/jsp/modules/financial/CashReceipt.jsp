@@ -88,4 +88,13 @@
     </tbody>
   </table>
 </div>
-</kul:tab> <cr:checkLines checkDetailMode="${checkDetailMode}" editingMode="${KualiForm.editingMode}" totalAmount="${KualiForm.cashReceiptDocument.currencyFormattedTotalCheckAmount}" displayHidden="${displayHidden}" /> <fin:accountingLines editingMode="${KualiForm.editingMode}" editableAccounts="${KualiForm.editableAccounts}" sourceAccountingLinesOnly="true" /> <kul:generalLedgerPendingEntries/> <kul:notes/> <kul:adHocRecipients/> <kul:routeLog/> <kul:panelFooter/> <kul:documentControls transactionalDocument="${documentEntry.transactionalDocument}"/> </kul:documentPage>
+</kul:tab>
+<cr:checkLines checkDetailMode="${checkDetailMode}" editingMode="${KualiForm.editingMode}" totalAmount="${KualiForm.cashReceiptDocument.currencyFormattedTotalCheckAmount}" displayHidden="${displayHidden}" />
+<fin:accountingLines editingMode="${KualiForm.editingMode}" editableAccounts="${KualiForm.editableAccounts}" sourceAccountingLinesOnly="true" extraSourceRowFields="financialDocumentLineDescription"/>
+<kul:generalLedgerPendingEntries/>
+<kul:notes/>
+<kul:adHocRecipients/>
+<kul:routeLog/>
+<kul:panelFooter/>
+<kul:documentControls transactionalDocument="${documentEntry.transactionalDocument}"/>
+</kul:documentPage>

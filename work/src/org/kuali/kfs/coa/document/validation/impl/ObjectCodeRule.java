@@ -147,7 +147,6 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
         String reportsToObjectCode=objectCode.getReportsToFinancialObjectCode();
         
         if (!verifyReportsToChartCode(reportsToChartCode,year,reportsToObjectCode)) {
-            //addIllegalValueError("reportsToChartCode must have valid chart, year");
             this.putFieldError("reportsToChartOfAccountsCode", KeyConstants.ERROR_DOCUMENT_OBJCODE_INVALID_CHART, "Reports to Chart Code");
             result=false;
         }
@@ -155,7 +154,6 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
         String budgetAggregationCode=objectCode.getFinancialBudgetAggregationCd();
         
         if (!isLegalBudgetAggregationCode(budgetAggregationCode)) {
-            //addIllegalValueError("budgetAggregationCode must be one of "+validBudgetAggregationCodes);
             this.putFieldError("financialBudgetAggregationCd", KeyConstants.ERROR_DOCUMENT_OBJCODE_MUST_ONEOF_VALID, "Budget Aggregation Code");
             result=false;
         }
@@ -163,14 +161,12 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
         String mandatoryTransferEliminationCode=objectCode.getFinObjMandatoryTrnfrelimCd();
         
         if (!isLegalMandatoryTransferEliminationCode(mandatoryTransferEliminationCode)) {
-            //addIllegalValueError("mandatory transfer elim Code must be one of "+validMandatoryTransferEliminationCodes);
             this.putFieldError("finObjMandatoryTrnfrelimCd", KeyConstants.ERROR_DOCUMENT_OBJCODE_MUST_ONEOF_VALID, "Mandatory Transfer Or Eliminations Code");
             result=false;
         }
         
         //RULE: fiscal year must be valid
         if (!this.isValidYear(year)) {
-            //addIllegalValueError("fiscal year must be valid");
             this.putFieldError("financialObjectLevelCode", KeyConstants.ERROR_DOCUMENT_OBJCODE_CONSOLIDATION_ERROR, "Object Level Code");
             result=false;
         }
@@ -181,14 +177,12 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
 
         // Object level (obj_level_code) must be valid
         if (!isValid(objectCode,OBJECT_LEVEL)) {
-            //addIllegalValueError("object level must be valid");
             this.putFieldError("financialObjectLevelCode", KeyConstants.ERROR_DOCUMENT_OBJCODE_MUST_BEVALID, "Object Level Code");
             result=false;
         }
 
         // Object Type must be valid
         if (!isValid(objectCode,OBJECT_TYPE)) {
-            //addIllegalValueError("object type must be valid");
             this.putFieldError("financialObjectTypeCode", KeyConstants.ERROR_DOCUMENT_OBJCODE_MUST_BEVALID, "Object Type Code");
             
             result=false;
@@ -196,19 +190,16 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
 
         // Sub type must be valid
         if (!isValid(objectCode,SUB_TYPE)) {
-            //addIllegalValueError("object sub type must be valid");
             this.putFieldError("financialObjectSubTypeCode", KeyConstants.ERROR_DOCUMENT_OBJCODE_MUST_BEVALID, "Object Sub Type Code");
             result=false;
         }
         
         if (!this.consolidationTableDoesNotHave(chartCode,objCode)) {
-            //addIllegalValueError("given value already exists in consolidation table");
             this.putFieldError("chartOfAccountsCode", KeyConstants.ERROR_DOCUMENT_OBJCODE_CONSOLIDATION_ERROR, "Chart Code");
             result=false;
         }
 
         if (!this.objectLevelTableDoesNotHave(chartCode,objCode)) {
-            //addIllegalValueError("given value already exists in consolidation table");
             this.putFieldError("", KeyConstants.ERROR_DOCUMENT_OBJCODE_CONSOLIDATION_ERROR, "Chart Code");
             result=false;
         }
@@ -452,12 +443,5 @@ If the Next Year Object has been entered, it must exist in the object code table
      * 
      * @deprecated use putFieldError or putGlobalError instead
      */
-    private void addIllegalValueError(String errorMessage)  {
-        //TODO COA: be sure to externalize all messages in KeyConstants, Constants, etc. 
-        GlobalVariables.getErrorMap().put(
-                Constants.DOCUMENT_ERRORS, 
-                KeyConstants.ERROR_CUSTOM,
-                new String[] {errorMessage});
-    }
-    
+   
 }

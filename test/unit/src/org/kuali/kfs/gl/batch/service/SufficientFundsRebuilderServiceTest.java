@@ -70,18 +70,21 @@ public class SufficientFundsRebuilderServiceTest extends KualiTestBaseWithSpring
 
     // testAddedSFBLRecords
     public void testAddedSFBLRecords() throws Exception {
-        setRollback(false);
+//        setRollback(false);
 
         String[] expectedOutput = new String[] {
-            "2004BL2220090    H         10756.57                0            503.5",
-            "2004BL2231406PRINL                0           180.35                0",
-            "2004BL2231406S&E L            12000             9.55                0",
-            "2004BL2231406TRAVL                0           2558.9                0",
-            "2004BL2231407GENXC                0          -984.12                0",
-            "2004BL22314084938O                0           348.27                0",
-            "2004BL22314085215O                0              100                0"
-            // "2004BL2231415    H          1968.39                0                0"
-        };
+            "2004BL2220090    H         10756.57             0.00            503.5",
+            "2004BL2231406    H          9258.67             0.00             0.00",
+            "2004BL2231406PRINL             0.00           180.35             0.00",
+            "2004BL2231406S&E L            12000             9.55             0.00",
+            "2004BL2931406TRAVL             0.00           2558.9             0.00",
+            "2004BL2931407    H          1631.64             0.00             0.00",
+            "2004BL2931407GENXC             0.00          -984.12             0.00",
+            "2004BL29314084938O             0.00           348.27             0.00",
+            "2004BL2931408    H          1520.19             0.00             0.00",
+            "2004BL29314085215O             0.00              100             0.00"//,
+//            "2004BL2231415    H          1968.39             0.00             0.00"
+          };
 
         clearSufficientFundBalanceTable();
         clearSufficientFundRebuildTable();

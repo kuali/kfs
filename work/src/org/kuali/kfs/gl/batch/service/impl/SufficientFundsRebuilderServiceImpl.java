@@ -247,6 +247,7 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
                           (currentSfbl.getAccountEncumbranceAmount().compareTo(KualiDecimal.ZERO) != 0) ||
                           (currentSfbl.getCurrentBudgetBalanceAmount().compareTo(KualiDecimal.ZERO) !=0) ) {
                         sufficientFundBalancesDao.save(currentSfbl);
+                        ++sfblInsertedCount;
                       }
                     }
 
@@ -279,6 +280,7 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
                 (currentSfbl.getAccountEncumbranceAmount().compareTo(KualiDecimal.ZERO) != 0) ||
                 (currentSfbl.getCurrentBudgetBalanceAmount().compareTo(KualiDecimal.ZERO) !=0) ) {
               sufficientFundBalancesDao.save(currentSfbl);
+            ++sfblInsertedCount;
             }
         } else {
             addTransactionError("AccountSufficientFundsCode invalid for this Chart and Account");

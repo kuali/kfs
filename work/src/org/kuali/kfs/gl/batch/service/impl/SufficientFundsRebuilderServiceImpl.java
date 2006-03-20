@@ -275,7 +275,11 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
             }
 
             // save the last one
-            sufficientFundBalancesDao.save(currentSfbl);
+            if ( (currentSfbl.getAccountActualExpenditureAmt().compareTo(KualiDecimal.ZERO) != 0) || 
+                (currentSfbl.getAccountEncumbranceAmount().compareTo(KualiDecimal.ZERO) != 0) ||
+                (currentSfbl.getCurrentBudgetBalanceAmount().compareTo(KualiDecimal.ZERO) !=0) ) {
+              sufficientFundBalancesDao.save(currentSfbl);
+            }
         } else {
             addTransactionError("AccountSufficientFundsCode invalid for this Chart and Account");
             ++warningCount;

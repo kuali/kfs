@@ -26,6 +26,7 @@
 package org.kuali.module.gl.bo;
 
 import java.sql.Date;
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.LinkedHashMap;
@@ -87,6 +88,12 @@ public class SufficientFundBalances extends BusinessObjectBase {
     }
 
     public String getLine() {
+        NumberFormat nf = NumberFormat.getInstance();
+        nf.setMaximumFractionDigits(2);
+        nf.setMinimumFractionDigits(0);
+        nf.setMinimumIntegerDigits(1);
+        nf.setGroupingUsed(false);
+
         StringBuffer sb = new StringBuffer();
         if ( universityFiscalYear == null ) {
             sb.append("    ");
@@ -100,21 +107,21 @@ public class SufficientFundBalances extends BusinessObjectBase {
         if (currentBudgetBalanceAmount == null) {
             sb.append("                 ");
         } else {
-            String a = currentBudgetBalanceAmount.toString();
+            String a = nf.format(currentBudgetBalanceAmount.doubleValue());
             sb.append("                 ".substring(0, 17 - a.length()));
             sb.append(a);
         }
         if (accountActualExpenditureAmt == null) {
             sb.append("                 ");
         } else {
-            String a = accountActualExpenditureAmt.toString();
+            String a = nf.format(accountActualExpenditureAmt.doubleValue());
             sb.append("                 ".substring(0, 17 - a.length()));
             sb.append(a);
         }
         if (accountEncumbranceAmount == null) {
             sb.append("                 ");
         } else {
-            String a = accountEncumbranceAmount.toString();
+            String a = nf.format(accountEncumbranceAmount.doubleValue());
             sb.append("                 ".substring(0, 17 - a.length()));
             sb.append(a);
         }

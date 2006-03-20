@@ -70,18 +70,18 @@ public class SufficientFundsRebuilderServiceTest extends KualiTestBaseWithSpring
 
     // testAddedSFBLRecords
     public void testAddedSFBLRecords() throws Exception {
-        // setRollback(false);
+        setRollback(false);
 
         String[] expectedOutput = new String[] {
             "2004BL2220090    H         10756.57                0            503.5",
             "2004BL2231406PRINL                0           180.35                0",
             "2004BL2231406S&E L            12000             9.55                0",
-            "2004BL2931406TRAVL                0           2558.9                0",
-            "2004BL2931407GENXC                0          -984.12                0",
-            "2004BL29314084938O                0           348.27                0",
-            "2004BL29314085215O                0              100                0",
-            "2004BL2231415    H          1968.39                0                0"
-          };
+            "2004BL2231406TRAVL                0           2558.9                0",
+            "2004BL2231407GENXC                0          -984.12                0",
+            "2004BL22314084938O                0           348.27                0",
+            "2004BL22314085215O                0              100                0"
+            // "2004BL2231415    H          1968.39                0                0"
+        };
 
         clearSufficientFundBalanceTable();
         clearSufficientFundRebuildTable();
@@ -182,8 +182,11 @@ public class SufficientFundsRebuilderServiceTest extends KualiTestBaseWithSpring
             int count = 0;
             for (Iterator iter = c.iterator(); iter.hasNext();) {
                 SufficientFundBalances foundSFBL = (SufficientFundBalances)iter.next();
-                // TODO: what else here?
-                assertEquals(requiredSFBLs[count], foundSFBL.getLine());
+                if ( ! requiredSFBLs[count].equals(foundSFBL.getLine()) ) {
+                  System.err.println("Found:     " + foundSFBL.getLine());
+                  System.err.println("Should be: " + requiredSFBLs[count]);
+                  fail("SF balance doesn't match");
+                }
                 ++count;
             }
         }

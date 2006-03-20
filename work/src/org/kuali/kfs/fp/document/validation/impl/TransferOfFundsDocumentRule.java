@@ -51,7 +51,7 @@ public class TransferOfFundsDocumentRule extends TransactionalDocumentRuleBase i
     /**
      * Set attributes of an offset pending entry according to rules specific to TransferOfFundsDocument.
      * 
-     * @see TransactionalDocumentRuleBase#customizeOffsetGeneralLedgerPendingEntry
+     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#customizeOffsetGeneralLedgerPendingEntry(org.kuali.core.document.TransactionalDocument, org.kuali.core.bo.AccountingLine, org.kuali.module.gl.bo.GeneralLedgerPendingEntry, org.kuali.module.gl.bo.GeneralLedgerPendingEntry)
      */
     protected boolean customizeOffsetGeneralLedgerPendingEntry(TransactionalDocument transactionalDocument,
             AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry, GeneralLedgerPendingEntry offsetEntry) {
@@ -85,7 +85,7 @@ public class TransferOfFundsDocumentRule extends TransactionalDocumentRuleBase i
      * The TOF spec says that all positive "From" section accounting line amounts are debits, and vice versa for the "To" section,
      * for GL pending entries.
      * 
-     * @see TransactionalDocumentRuleBase#isDebit
+     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#isDebit(org.kuali.core.bo.AccountingLine)
      */
     protected boolean isDebit(AccountingLine accountingLine) throws IllegalStateException {
         if (isExpenseOrAsset(accountingLine) || isIncomeOrLiability(accountingLine)) {
@@ -103,7 +103,7 @@ public class TransferOfFundsDocumentRule extends TransactionalDocumentRuleBase i
      * The TOF spec says that all GL pending entry amounts are positive. I.e., it says that the pending entry uses the absolute
      * value of non-positive accounting line amounts.
      * 
-     * @see TransactionalDocumentRuleBase#getGeneralLedgerPendingEntryAmountForAccountingLine
+     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#getGeneralLedgerPendingEntryAmountForAccountingLine(org.kuali.core.bo.AccountingLine)
      */
     protected KualiDecimal getGeneralLedgerPendingEntryAmountForAccountingLine(AccountingLine accountingLine) {
         return accountingLine.getAmount().abs();

@@ -81,7 +81,7 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
     private int sfrbNotDeletedCount;
     // private int sfblRecordsDeletedCount;
     private int sfblInsertedCount;
-    // private int sfblUpdatedCount;
+    private int sfblUpdatedCount;
     private int warningCount;
 
     private SufficientFundBalances currentSfbl = null;
@@ -133,9 +133,9 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
         LOG.debug("rebuildSufficientFunds() Handle any non-A and non-O types");
         for (Iterator iter = sufficientFundRebuildService.getAll().iterator(); iter.hasNext();) {
             SufficientFundRebuild sfrb = (SufficientFundRebuild) iter.next();
-            ++sfrbRecordsReadCount;
 
             if ((!"A".equals(sfrb.getAccountFinancialObjectTypeCode())) && (!"O".equals(sfrb.getAccountFinancialObjectTypeCode()))) {
+                ++sfrbRecordsReadCount;
                 transactionErrors = new ArrayList();
                 addTransactionError("ACCOUNT/FINANCIAL OBJECT TYPE CODE MUST='A' OR 'O'");
                 ++warningCount;
@@ -152,7 +152,7 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
         reportSummary.add(new Summary(4, "SFRB records kept due to errors", new Integer(sfrbNotDeletedCount)));
         // reportSummary.add(new Summary(5, "SFBL records deleted", new Integer(sfblRecordsDeletedCount)));
         reportSummary.add(new Summary(6, "SFBL records added", new Integer(sfblInsertedCount)));
-        // reportSummary.add(new Summary(7, "SFBL records updated", new Integer(sfblUpdatedCount)));
+        reportSummary.add(new Summary(7, "SFBL records updated", new Integer(sfblUpdatedCount)));
         sufficientFundsReportService.generateReport(batchError, reportSummary, runDate, 0);
     }
 
@@ -218,7 +218,7 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
             }
 
             String currentFinObjectCd = "";
-
+            
             while (balancesIterator.hasNext()) {
                 Balance balance = (Balance) balancesIterator.next();
 
@@ -238,15 +238,12 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
                         || "A".equalsIgnoreCase(sfrbAccount.getAccountSufficientFundsCode())) {
                     tempFinObjectCd = "    ";
                 }
-
+                 
                 if (!tempFinObjectCd.equals(currentFinObjectCd)) {
                     // we have a change or are on the last record, write out the data if there is any
                     currentFinObjectCd = tempFinObjectCd;
 
-                    if (currentSfbl != null) {
-                        sufficientFundBalancesDao.save(currentSfbl);
-                        ++sfblInsertedCount;
-                    }
+                    writeSfbl(currentSfbl);
 
                     currentSfbl = new SufficientFundBalances();
                     currentSfbl.setUniversityFiscalYear(universityFiscalYear);
@@ -272,17 +269,32 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
                 }
             }
             // save the last one
-            if (currentSfbl != null) {
-                sufficientFundBalancesDao.save(currentSfbl);
-                ++sfblInsertedCount;
-            }
+            writeSfbl(currentSfbl);
             
-        }
-        else {
+        } else {
             addTransactionError("AccountSufficientFundsCode invalid for this Chart and Account");
             ++warningCount;
             ++sfrbNotDeletedCount;
             return;
+        }
+    }
+
+    private void writeSfbl(SufficientFundBalances currentSfbl2) {
+        if (currentSfbl != null) {
+            SufficientFundBalances existingSfbl = sufficientFundBalancesDao.getByPrimaryId(universityFiscalYear, currentSfbl.getChartOfAccountsCode(), currentSfbl.getAccountNumber(), currentSfbl.getFinancialObjectCode());
+            boolean sfblExists = existingSfbl != null; 
+            if (sfblExists) {
+                currentSfbl.setAccountActualExpenditureAmt(currentSfbl.getAccountActualExpenditureAmt().add(
+                        existingSfbl.getAccountActualExpenditureAmt()));
+                currentSfbl.setAccountEncumbranceAmount(currentSfbl.getAccountEncumbranceAmount().add(
+                        existingSfbl.getAccountEncumbranceAmount()));
+                currentSfbl.setCurrentBudgetBalanceAmount(currentSfbl.getCurrentBudgetBalanceAmount().add(
+                        existingSfbl.getCurrentBudgetBalanceAmount()));
+                ++sfblUpdatedCount;                    
+            } else {
+                ++sfblInsertedCount;
+            }
+            sufficientFundBalancesDao.save(currentSfbl);
         }
     }
 

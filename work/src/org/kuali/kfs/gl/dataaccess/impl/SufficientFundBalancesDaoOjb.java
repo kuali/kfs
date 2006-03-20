@@ -98,6 +98,11 @@ public class SufficientFundBalancesDaoOjb extends PersistenceBrokerDaoSupport im
 
       Criteria criteria = new Criteria();
       QueryByCriteria qbc = QueryFactory.newQuery(SufficientFundBalances.class, criteria);
+      qbc.addOrderBy("universityFiscalYear", true);
+      qbc.addOrderBy("chartOfAccountsCode", true);
+      qbc.addOrderBy("accountNumber", true);
+      qbc.addOrderBy("financialObjectCode", true);
+      
       // TODO: what order should these be in?
       return getPersistenceBrokerTemplate().getCollectionByQuery(qbc);    
     }

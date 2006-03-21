@@ -67,7 +67,6 @@
 		<property name="sufficientFundBalancesDao"><ref bean="glSufficientFundBalancesDao" /></property>
 		<property name="sufficientFundRebuildService"><ref bean="glSufficientFundRebuildService" /></property>
 		<property name="optionsDao"><ref bean="optionsDao" /></property>
-		<property name="objectLevelDao"><ref bean="objectLevelDao" /></property>
 		<property name="sufficientFundsReport"><ref bean="glSufficientFundsReport" /></property>
 		<property name="accountService"><ref bean="accountService"/></property>
 	</bean>

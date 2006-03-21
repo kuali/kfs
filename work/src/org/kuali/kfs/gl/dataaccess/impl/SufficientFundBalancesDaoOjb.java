@@ -84,6 +84,12 @@ public class SufficientFundBalancesDaoOjb extends PersistenceBrokerDaoSupport im
 
         QueryByCriteria qbc = QueryFactory.newQuery(SufficientFundBalances.class, crit);
         getPersistenceBrokerTemplate().deleteByQuery(qbc);
+        
+        // This has to be done because deleteByQuery deletes the rows from the table,
+        // but it doesn't delete them from the cache.  If the cache isn't cleared, 
+        // later on, you could get an Optimistic Lock Exception because OJB thinks rows
+        // exist when they really don't.
+        getPersistenceBrokerTemplate().clearCache();
     }
 
     /**
@@ -103,7 +109,6 @@ public class SufficientFundBalancesDaoOjb extends PersistenceBrokerDaoSupport im
       qbc.addOrderBy("accountNumber", true);
       qbc.addOrderBy("financialObjectCode", true);
       
-      // TODO: what order should these be in?
       return getPersistenceBrokerTemplate().getCollectionByQuery(qbc);    
     }
 }

@@ -70,11 +70,10 @@ public class SufficientFundsRebuilderServiceTest extends KualiTestBaseWithSpring
 
     // testAddedSFBLRecords
     public void testConversion() throws Exception {
-        setRollback(false);
         String[] expectedOutput = new String[] {
             "2004BL2220090    H                1                1                1",
             "2004BL2231406PRINL                0           180.35                0",
-            "2004BL2231406S&E L            12000             9.55                1",
+            "2004BL2231406S&E L            12000             9.55                0",
             "2004BL2231406TRAVL                0           2558.9                0",
             "2004BL2231407GENXC                1                1                1",
             "2004BL22314084938O                0           348.27                0",
@@ -86,7 +85,7 @@ public class SufficientFundsRebuilderServiceTest extends KualiTestBaseWithSpring
         populateGLSFRebuildTableForConversion();
         populateGLSFBalanceTableForConversion();
         prepareGLBalancesTable();
-        rebuild();
+        sufficientFundsRebuilderService.rebuildSufficientFunds(new Integer(2004));
         assertSFRBEmpty();
         assertSFBLEntries(expectedOutput);
     }
@@ -108,7 +107,7 @@ public class SufficientFundsRebuilderServiceTest extends KualiTestBaseWithSpring
         clearSufficientFundRebuildTable();
         populateGLSFRebuildTable();
         prepareGLBalancesTable();
-        rebuild();
+        sufficientFundsRebuilderService.rebuildSufficientFunds(new Integer(2004));
         assertSFRBEmpty();
         assertSFBLEntries(expectedOutput);
     }
@@ -123,10 +122,6 @@ public class SufficientFundsRebuilderServiceTest extends KualiTestBaseWithSpring
                 System.err.println(msg);
             }
         }
-    }
-
-    private void rebuild() {
-        sufficientFundsRebuilderService.rebuildSufficientFunds(new Integer(2004));
     }
 
     protected void loadInputTransactions(String[] transactions) {
@@ -159,28 +154,8 @@ public class SufficientFundsRebuilderServiceTest extends KualiTestBaseWithSpring
      * Check that the SFRB table is empty.
      */
     protected void assertSFRBEmpty() {
-        Collection c = sufficientFundRebuildDao.testingGetAllEntries();
-        assertTrue("GL_SF_REBUILD_T is not empty", c == null || c.size() > 0);
-    }
-    
-    /**
-     * Check all the entries in gl_sf_rebuild_t against the data passed in.  If any of them
-     * are different, assert an error.
-     * 
-     * @param requiredSFRBs
-     */
-    protected void assertSFRBEntries(String[] requiredSFRBs) {
-        
-        Collection c = sufficientFundRebuildDao.testingGetAllEntries();
-        assertEquals("Wrong number of SFRB", requiredSFRBs.length, c.size());
-
-        int count = 0;
-        for (Iterator iter = c.iterator(); iter.hasNext();) {
-            SufficientFundRebuild foundSFRB = (SufficientFundRebuild)iter.next();
-            // TODO: what else here?
-            assertEquals(requiredSFRBs[count], foundSFRB.getLine());
-            ++count;
-        }
+        List l = unitTestSqlDao.sqlSelect("select * from GL_SF_REBUILD_T");
+        assertEquals("GL_SF_REBUILD_T should be empty",0,l.size());
     }
     
     /**
@@ -209,6 +184,7 @@ public class SufficientFundsRebuilderServiceTest extends KualiTestBaseWithSpring
     }
 
     private void populateGLSFRebuildTable() {
+        unitTestSqlDao.sqlCommand("delete from GL_SF_REBUILD_T");
         unitTestSqlDao.sqlCommand("insert into GL_SF_REBUILD_T (fin_coa_cd,acct_fobj_typ_cd,acct_nbr_fobj_cd,obj_id,ver_nbr) values ('BA','A','6044913',sys_guid(),1)");
         unitTestSqlDao.sqlCommand("insert into GL_SF_REBUILD_T (fin_coa_cd,acct_fobj_typ_cd,acct_nbr_fobj_cd,obj_id,ver_nbr) values ('BL','A','1031420',sys_guid(),1)");
         unitTestSqlDao.sqlCommand("insert into GL_SF_REBUILD_T (fin_coa_cd,acct_fobj_typ_cd,acct_nbr_fobj_cd,obj_id,ver_nbr) values ('BL','A','2220090',sys_guid(),1)");
@@ -219,19 +195,18 @@ public class SufficientFundsRebuilderServiceTest extends KualiTestBaseWithSpring
     }
 
     private void populateGLSFRebuildTableForConversion() {    
-        unitTestSqlDao.sqlCommand("delete from GL_SF_REBUILD_T where fin_coa_cd='BL' and acct_nbr_fobj_cd='PRIN'");
-        unitTestSqlDao.sqlCommand("delete from GL_SF_REBUILD_T where fin_coa_cd='BL' and acct_nbr_fobj_cd='4938'");
+        unitTestSqlDao.sqlCommand("delete from GL_SF_REBUILD_T");
         unitTestSqlDao.sqlCommand("insert into GL_SF_REBUILD_T (fin_coa_cd,acct_fobj_typ_cd,acct_nbr_fobj_cd,obj_id,ver_nbr) values ('BL','O','PRIN',sys_guid(),1)");
         unitTestSqlDao.sqlCommand("insert into GL_SF_REBUILD_T (fin_coa_cd,acct_fobj_typ_cd,acct_nbr_fobj_cd,obj_id,ver_nbr) values ('BL','O','4938',sys_guid(),1)");
     }
 
     private void populateGLSFBalanceTableForConversion() {    
-        unitTestSqlDao.sqlCommand("delete from GL_SF_BALANCES_T where account_nbr in ('2220090','2231406','2231407','2231408')");
+        unitTestSqlDao.sqlCommand("delete from GL_SF_BALANCES_T");
         unitTestSqlDao.sqlCommand("insert into GL_SF_BALANCES_T (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, FIN_OBJECT_CD, OBJ_ID, VER_NBR, ACCT_SF_CD, CURR_BDGT_BAL_AMT, ACCT_ACTL_XPND_AMT, ACCT_ENCUM_AMT) values ('2004','BL','2220090','    ',sys_guid(),1,'H',1,1,1)");
         unitTestSqlDao.sqlCommand("insert into GL_SF_BALANCES_T (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, FIN_OBJECT_CD, OBJ_ID, VER_NBR, ACCT_SF_CD, CURR_BDGT_BAL_AMT, ACCT_ACTL_XPND_AMT, ACCT_ENCUM_AMT) values ('2004','BL','2231406','PRIN',sys_guid(),1,'L',1,1,1)");
         unitTestSqlDao.sqlCommand("insert into GL_SF_BALANCES_T (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, FIN_OBJECT_CD, OBJ_ID, VER_NBR, ACCT_SF_CD, CURR_BDGT_BAL_AMT, ACCT_ACTL_XPND_AMT, ACCT_ENCUM_AMT) values ('2004','BL','2231406','S&E ',sys_guid(),1,'H',1,1,1)");
         unitTestSqlDao.sqlCommand("insert into GL_SF_BALANCES_T (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, FIN_OBJECT_CD, OBJ_ID, VER_NBR, ACCT_SF_CD, CURR_BDGT_BAL_AMT, ACCT_ACTL_XPND_AMT, ACCT_ENCUM_AMT) values ('2004','BL','2231406','TRAV',sys_guid(),1,'H',1,1,1)");
-        unitTestSqlDao.sqlCommand("insert into GL_SF_BALANCES_T (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, FIN_OBJECT_CD, OBJ_ID, VER_NBR, ACCT_SF_CD, CURR_BDGT_BAL_AMT, ACCT_ACTL_XPND_AMT, ACCT_ENCUM_AMT) values ('2004','BL','2231407','GENX',sys_guid(),1,'H',1,1,1)");
+        unitTestSqlDao.sqlCommand("insert into GL_SF_BALANCES_T (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, FIN_OBJECT_CD, OBJ_ID, VER_NBR, ACCT_SF_CD, CURR_BDGT_BAL_AMT, ACCT_ACTL_XPND_AMT, ACCT_ENCUM_AMT) values ('2004','BL','2231407','GENX',sys_guid(),1,'C',1,1,1)");
         unitTestSqlDao.sqlCommand("insert into GL_SF_BALANCES_T (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, FIN_OBJECT_CD, OBJ_ID, VER_NBR, ACCT_SF_CD, CURR_BDGT_BAL_AMT, ACCT_ACTL_XPND_AMT, ACCT_ENCUM_AMT) values ('2004','BL','2231408','4938',sys_guid(),1,'H',1,1,1)");
         unitTestSqlDao.sqlCommand("insert into GL_SF_BALANCES_T (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, FIN_OBJECT_CD, OBJ_ID, VER_NBR, ACCT_SF_CD, CURR_BDGT_BAL_AMT, ACCT_ACTL_XPND_AMT, ACCT_ENCUM_AMT) values ('2004','BL','2231408','5215',sys_guid(),1,'H',1,1,1)");
     }

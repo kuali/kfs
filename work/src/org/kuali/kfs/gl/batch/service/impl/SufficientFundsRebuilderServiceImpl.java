@@ -37,7 +37,6 @@ import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.chart.bo.Account;
-import org.kuali.module.chart.dao.ObjectLevelDao;
 import org.kuali.module.chart.service.AccountService;
 import org.kuali.module.gl.batch.sufficientFunds.SufficientFundsReport;
 import org.kuali.module.gl.bo.Balance;
@@ -62,7 +61,6 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
     private SufficientFundBalancesDao sufficientFundBalancesDao;
     private SufficientFundRebuildService sufficientFundRebuildService;
     private OptionsDao optionsDao;
-    private ObjectLevelDao objectLevelDao;
     private SufficientFundsReport sufficientFundsReportService;
     private AccountService accountService;
 
@@ -102,11 +100,11 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
             ++sfrbRecordsReadCount;
 
             transactionErrors = new ArrayList();
+
             convertOtypeToAtypes(sfrb);
 
             if (transactionErrors.size() > 0) {
                 batchError.put(sfrb, transactionErrors);
-                transactionErrors = new ArrayList();
             } else {
                 sufficientFundRebuildService.delete(sfrb);
             }
@@ -125,6 +123,9 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
             if (transactionErrors.size() > 0) {
                 batchError.put(sfrb, transactionErrors);
             }
+
+            sufficientFundRebuildService.delete(sfrb);
+
         }
 
         // Look at all the left over rows. There shouldn't be any left if all are O's and A's without error.
@@ -176,14 +177,12 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
      */
     private void convertOtypeToAtypes(SufficientFundRebuild sfrb) {
         ++sfrbRecordsConvertedCount;
-        Collection fundBalances = sufficientFundBalancesDao.getByObjectCode(universityFiscalYear, sfrb.getChartOfAccountsCode(),
-                sfrb.getAccountNumberFinancialObjectCode());
+        Collection fundBalances = sufficientFundBalancesDao.getByObjectCode(universityFiscalYear, sfrb.getChartOfAccountsCode(),sfrb.getAccountNumberFinancialObjectCode());
 
         for (Iterator fundBalancesIter = fundBalances.iterator(); fundBalancesIter.hasNext();) {
             SufficientFundBalances sfbl = (SufficientFundBalances) fundBalancesIter.next();
 
-            SufficientFundRebuild altSfrb = sufficientFundRebuildService.get(sfbl.getChartOfAccountsCode(), "A", sfbl
-                    .getAccountNumber());
+            SufficientFundRebuild altSfrb = sufficientFundRebuildService.get(sfbl.getChartOfAccountsCode(), "A", sfbl.getAccountNumber());
             if (altSfrb == null) {
                 altSfrb = new SufficientFundRebuild();
                 altSfrb.setAccountFinancialObjectTypeCode("A");
@@ -195,8 +194,8 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
     }
 
     private void calculateSufficientFundsByAccount(SufficientFundRebuild sfrb) {
-        Account sfrbAccount = accountService.getByPrimaryId(sfrb.getChartOfAccountsCode(), sfrb
-                .getAccountNumberFinancialObjectCode());
+        Account sfrbAccount = accountService.getByPrimaryId(sfrb.getChartOfAccountsCode(), sfrb.getAccountNumberFinancialObjectCode());
+
         if ("ALCOHN".indexOf(sfrbAccount.getAccountSufficientFundsCode()) > -1) {
             ++sfrbRecordsDeletedCount;
             sufficientFundBalancesDao.deleteByAccountNumber(universityFiscalYear, sfrb.getChartOfAccountsCode(), sfrbAccount.getAccountNumber());
@@ -206,8 +205,7 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
                 return;
             }
 
-            Iterator balancesIterator = balanceDao.findAccountBalances(universityFiscalYear, sfrb.getChartOfAccountsCode(), sfrb
-                    .getAccountNumberFinancialObjectCode());
+            Iterator balancesIterator = balanceDao.findAccountBalances(universityFiscalYear, sfrb.getChartOfAccountsCode(), sfrb.getAccountNumberFinancialObjectCode());
 
             if (balancesIterator == null) {
                 addTransactionError("Balances not found in database for this COA/Account/fiscal year (" + universityFiscalYear + ")");
@@ -279,7 +277,7 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
                 (currentSfbl.getAccountEncumbranceAmount().compareTo(KualiDecimal.ZERO) != 0) ||
                 (currentSfbl.getCurrentBudgetBalanceAmount().compareTo(KualiDecimal.ZERO) !=0) ) {
               sufficientFundBalancesDao.save(currentSfbl);
-            ++sfblInsertedCount;
+              ++sfblInsertedCount;
             }
         } else {
             addTransactionError("AccountSufficientFundsCode invalid for this Chart and Account");
@@ -397,10 +395,6 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
 
     public void setOptionsDao(OptionsDao optionsDao) {
         this.optionsDao = optionsDao;
-    }
-
-    public void setObjectLevelDao(ObjectLevelDao objectLevelDao) {
-        this.objectLevelDao = objectLevelDao;
     }
 
     public void setSufficientFundsReport(SufficientFundsReport sfrs) {

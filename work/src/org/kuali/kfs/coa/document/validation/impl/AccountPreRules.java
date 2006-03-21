@@ -26,6 +26,7 @@ import java.sql.Timestamp;
 import java.util.HashMap;
 
 import org.apache.commons.lang.StringUtils;
+
 import org.kuali.core.bo.PostalZipCode;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.service.KualiConfigurationService;
@@ -215,7 +216,12 @@ public class AccountPreRules extends MaintenancePreRulesBase {
         
         //On new Accounts acct_effect_date is defaulted to the doc creation date
         if (copyAccount.getAccountEffectiveDate() == null) {
+            
+            /*GlobalVariables.getErrorMap().put("document.newMaintainableObject.accountEffectiveDate"
+            	, "error.document.accountMaintenance.emptyAccountEffectiveDate", "Account Effective Date");*/
             Timestamp ts = maintenanceDocument.getDocumentHeader().getWorkflowDocument().getCreateDate();
+            // Set nano as zero, to prevent an error related on maximum character numbers. 
+            ts.setNanos(0); 
             if (ts != null) {
                 newAccount.setAccountEffectiveDate(ts);
             }

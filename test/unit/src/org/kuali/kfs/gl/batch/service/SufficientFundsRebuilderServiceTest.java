@@ -69,6 +69,29 @@ public class SufficientFundsRebuilderServiceTest extends KualiTestBaseWithSpring
     }
 
     // testAddedSFBLRecords
+    public void testConversion() throws Exception {
+        setRollback(false);
+        String[] expectedOutput = new String[] {
+            "2004BL2220090    H                1                1                1",
+            "2004BL2231406PRINL                0           180.35                0",
+            "2004BL2231406S&E L            12000             9.55                1",
+            "2004BL2231406TRAVL                0           2558.9                0",
+            "2004BL2231407GENXC                1                1                1",
+            "2004BL22314084938O                0           348.27                0",
+            "2004BL22314085215O                0              100                0"
+          };
+
+        clearSufficientFundBalanceTable();
+        clearSufficientFundRebuildTable();
+        populateGLSFRebuildTableForConversion();
+        populateGLSFBalanceTableForConversion();
+        prepareGLBalancesTable();
+        rebuild();
+        assertSFRBEmpty();
+        assertSFBLEntries(expectedOutput);
+    }
+
+    // testAddedSFBLRecords
     public void testAddedSFBLRecords() throws Exception {
         String[] expectedOutput = new String[] {
             "2004BL2220090    H         10756.57                0            503.5",
@@ -193,6 +216,24 @@ public class SufficientFundsRebuilderServiceTest extends KualiTestBaseWithSpring
         unitTestSqlDao.sqlCommand("insert into GL_SF_REBUILD_T (fin_coa_cd,acct_fobj_typ_cd,acct_nbr_fobj_cd,obj_id,ver_nbr) values ('BL','A','2231407',sys_guid(),1)");
         unitTestSqlDao.sqlCommand("insert into GL_SF_REBUILD_T (fin_coa_cd,acct_fobj_typ_cd,acct_nbr_fobj_cd,obj_id,ver_nbr) values ('BL','A','2231408',sys_guid(),1)");
         unitTestSqlDao.sqlCommand("insert into GL_SF_REBUILD_T (fin_coa_cd,acct_fobj_typ_cd,acct_nbr_fobj_cd,obj_id,ver_nbr) values ('BL','A','2231415',sys_guid(),1)");
+    }
+
+    private void populateGLSFRebuildTableForConversion() {    
+        unitTestSqlDao.sqlCommand("delete from GL_SF_REBUILD_T where fin_coa_cd='BL' and acct_nbr_fobj_cd='PRIN'");
+        unitTestSqlDao.sqlCommand("delete from GL_SF_REBUILD_T where fin_coa_cd='BL' and acct_nbr_fobj_cd='4938'");
+        unitTestSqlDao.sqlCommand("insert into GL_SF_REBUILD_T (fin_coa_cd,acct_fobj_typ_cd,acct_nbr_fobj_cd,obj_id,ver_nbr) values ('BL','O','PRIN',sys_guid(),1)");
+        unitTestSqlDao.sqlCommand("insert into GL_SF_REBUILD_T (fin_coa_cd,acct_fobj_typ_cd,acct_nbr_fobj_cd,obj_id,ver_nbr) values ('BL','O','4938',sys_guid(),1)");
+    }
+
+    private void populateGLSFBalanceTableForConversion() {    
+        unitTestSqlDao.sqlCommand("delete from GL_SF_BALANCES_T where account_nbr in ('2220090','2231406','2231407','2231408')");
+        unitTestSqlDao.sqlCommand("insert into GL_SF_BALANCES_T (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, FIN_OBJECT_CD, OBJ_ID, VER_NBR, ACCT_SF_CD, CURR_BDGT_BAL_AMT, ACCT_ACTL_XPND_AMT, ACCT_ENCUM_AMT) values ('2004','BL','2220090','    ',sys_guid(),1,'H',1,1,1)");
+        unitTestSqlDao.sqlCommand("insert into GL_SF_BALANCES_T (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, FIN_OBJECT_CD, OBJ_ID, VER_NBR, ACCT_SF_CD, CURR_BDGT_BAL_AMT, ACCT_ACTL_XPND_AMT, ACCT_ENCUM_AMT) values ('2004','BL','2231406','PRIN',sys_guid(),1,'L',1,1,1)");
+        unitTestSqlDao.sqlCommand("insert into GL_SF_BALANCES_T (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, FIN_OBJECT_CD, OBJ_ID, VER_NBR, ACCT_SF_CD, CURR_BDGT_BAL_AMT, ACCT_ACTL_XPND_AMT, ACCT_ENCUM_AMT) values ('2004','BL','2231406','S&E ',sys_guid(),1,'H',1,1,1)");
+        unitTestSqlDao.sqlCommand("insert into GL_SF_BALANCES_T (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, FIN_OBJECT_CD, OBJ_ID, VER_NBR, ACCT_SF_CD, CURR_BDGT_BAL_AMT, ACCT_ACTL_XPND_AMT, ACCT_ENCUM_AMT) values ('2004','BL','2231406','TRAV',sys_guid(),1,'H',1,1,1)");
+        unitTestSqlDao.sqlCommand("insert into GL_SF_BALANCES_T (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, FIN_OBJECT_CD, OBJ_ID, VER_NBR, ACCT_SF_CD, CURR_BDGT_BAL_AMT, ACCT_ACTL_XPND_AMT, ACCT_ENCUM_AMT) values ('2004','BL','2231407','GENX',sys_guid(),1,'H',1,1,1)");
+        unitTestSqlDao.sqlCommand("insert into GL_SF_BALANCES_T (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, FIN_OBJECT_CD, OBJ_ID, VER_NBR, ACCT_SF_CD, CURR_BDGT_BAL_AMT, ACCT_ACTL_XPND_AMT, ACCT_ENCUM_AMT) values ('2004','BL','2231408','4938',sys_guid(),1,'H',1,1,1)");
+        unitTestSqlDao.sqlCommand("insert into GL_SF_BALANCES_T (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, FIN_OBJECT_CD, OBJ_ID, VER_NBR, ACCT_SF_CD, CURR_BDGT_BAL_AMT, ACCT_ACTL_XPND_AMT, ACCT_ENCUM_AMT) values ('2004','BL','2231408','5215',sys_guid(),1,'H',1,1,1)");
     }
 
     private void prepareGLBalancesTable() {

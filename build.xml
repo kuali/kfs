@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <project name="kuali" default="dist-local" basedir=".">
 	<!-- run the help task to view usage instructions -->	
-	<target name="dist-local" if="is.local.build" depends="clean,filter" description="Prepare local configuration files and tokenized resources and deploy tomcat context file on development workstation">
+	<target name="dist-local" if="is.local.build" depends="clean,filter,dist-plugin-local" description="Prepare local configuration files and tokenized resources and deploy tomcat context file on development workstation">
     	<copy file="${metainf.directory}/${tomcat.context.file}" tofile="${appserver.config.dir}/${ant.project.name}-${build.environment}.xml" overwrite="true"/>
     </target>
 
@@ -292,7 +292,8 @@
 		</copy>
 	</target>
 
-	<target name="dist-plugin-local" depends="make-plugin,dist-local">
+	<target name="dist-plugin-local" if="is.local.workflow.build">
+		<ant dir="${basedir}" target="make-plugin"/>
 		<copy todir="${plugin.deploy.directory}">
 			<fileset dir="${plugin.directory}"/>
 		</copy>

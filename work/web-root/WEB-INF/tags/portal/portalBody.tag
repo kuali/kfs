@@ -10,7 +10,7 @@
 <table width="100%" border="0" cellpadding="0" cellspacing="9" cols="3" summary="need a summary here">
   <tbody>
     <tr>
-      <td class="uportal-background-dark" valign="top" colspan="2">
+      <td class="uportal-background-dark" valign="top" colspan="3">
       
         <portal:immutableBar />
               
@@ -18,12 +18,19 @@
     </tr>
     <tr>
         <c:choose>
-          <c:when test='${selectedTab == "edocs"}'>
-            <td class="uportal-background-dark" valign="top" width="33%">
-              <portal:portalEdocs />
+          <c:when test='${selectedTab == "portalMainMenuBody"}'>
+              <portal:portalMainMenuBody />
           </c:when>
+          <c:when test='${selectedTab == "portalAdministrationBody"}'>
+              <portal:portalAdministrationBody />
+          </c:when>
+          <c:when test='${selectedTab == "portalFutureModulesBody"}'>
+              <portal:portalFutureModulesBody />
+          </c:when>
+          
+          
           <c:when test='${!empty channelTitle && !empty channelUrl}'>
-            <td class="uportal-background-dark" valign="top" width="33%" colspan="2">
+            <td class="uportal-background-dark" valign="top" colspan="2">
               <c:if test="${!empty param.backdoorId}">
                   <portal:iframePortletContainer channelTitle="${channelTitle}" channelUrl="${channelUrl}?backdoorId=${param.backdoorId}&methodToCall.login.x=1" />
               </c:if>
@@ -33,8 +40,7 @@
             </td>
           </c:when>
           <c:otherwise>
-            <td class="uportal-background-dark" valign="top" width="33%">
-              <portal:portalEdocs />
+            <portal:portalMainMenuBody />
           </c:otherwise>
         </c:choose>
     </tr>

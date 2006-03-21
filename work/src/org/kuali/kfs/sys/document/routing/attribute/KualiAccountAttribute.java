@@ -19,6 +19,7 @@
 
 package org.kuali.workflow.attribute;
 
+import java.math.BigInteger;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -42,6 +43,9 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.log4j.Logger;
 import org.kuali.KualiSpringServiceLocator;
 import org.kuali.PropertyConstants;
+import org.kuali.core.bo.user.KualiUser;
+import org.kuali.core.bo.user.PersonSystemId;
+import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.workflow.KualiConstants;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -441,9 +445,8 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
             } else if (ACCOUNT_SUPERVISOR_ROLE_KEY.equals(roleName)) {
             	// only route to account supervisor on KualiAccountMaintenanceDocument
             	if (docTypeName.equals(ACCOUNT_DOC_TYPE)) {
-            		String activeIndicator = xpath.evaluate("//documentInitiator/kualiUser/personActiveIndicator", docContent.getDocument());
-            		if (!StringUtils.isEmpty(activeIndicator) && Boolean.valueOf(activeIndicator).booleanValue()) {
-            			String accountSupervisorId = xpath.evaluate(NEW_MAINTAINABLE_PREFIX+"accountsSupervisorySystemsIdentifier", docContent.getDocument());
+            		String accountSupervisorId = xpath.evaluate(NEW_MAINTAINABLE_PREFIX+"accountsSupervisorySystemsIdentifier", docContent.getDocument());
+            		if (!StringUtils.isEmpty(accountSupervisorId)) {
             			qualifiedRoleNames.add(getQualifiedAccountSupervisorRoleString(roleName, accountSupervisorId));
             		}
             	}
@@ -504,7 +507,12 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
         	} else if (ACCOUNT_SUPERVISOR_ROLE_KEY.equals(roleName)) {
         		String accountSupervisorId = getUnqualifiedAccountSupervisorIdFromString(qualifiedRole);
         		annotation = "Routing to Account Supervisor";
-        		members.add(new AuthenticationUserId(KualiConstants.getNetworkId(conn, accountSupervisorId)));
+        		String supervisorNetworkId = KualiConstants.getActiveNetworkId(conn, accountSupervisorId);
+        		if (!StringUtils.isEmpty(supervisorNetworkId)) {
+            		members.add(new AuthenticationUserId(supervisorNetworkId));
+        		} else {
+        			LOG.info("No active account supervisor found.");
+        		}
         	}
     	} catch (Exception e) {
     		LOG.error("Error getting connection", e);
@@ -543,7 +551,11 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
 					(role.accountNumber == null ? "fiscal officer id="+role.fiscalOfficerId : "account=" + role.accountNumber));
 			return null;
 		}
-    	return new AuthenticationUserId(KualiConstants.getNetworkId(connection, kualiSystemId));
+		String fiscalOfficerNetworkId = KualiConstants.getNetworkId(connection, kualiSystemId);
+		if (StringUtils.isEmpty(fiscalOfficerNetworkId)) {
+			throw new RuntimeException("Could not locate the fiscal officer for the given id " + kualiSystemId);
+		}
+    	return new AuthenticationUserId(fiscalOfficerNetworkId);
     }
 
     /**

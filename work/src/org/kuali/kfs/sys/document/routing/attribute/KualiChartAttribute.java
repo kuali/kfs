@@ -292,7 +292,7 @@ public class KualiChartAttribute implements RoleAttribute, WorkflowAttribute {
         Set qualifiedRoleNames = new HashSet();
         if (CHART_MANAGER_ROLE_KEY.equals(roleName)) {
         	String chartXPath = MAINTAINABLE_PREFIX+"chartOfAccountsCode";
-        	if (docContent.getDocument().getDoctype().getName().equals(ORGANIZATION_DOC_TYPE)) {
+        	if (docContent.getRouteContext().getDocument().getDocumentType().getName().equals(ORGANIZATION_DOC_TYPE)) {
         		chartXPath = MAINTAINABLE_PREFIX+"finCoaCd";
         	}
         	XPath xpath = XPathFactory.newInstance().newXPath();
@@ -351,7 +351,12 @@ public class KualiChartAttribute implements RoleAttribute, WorkflowAttribute {
                 } else {
                     LOG.warn("No Chart Manaqer retrieved for chart " + chart);
                 }
-                members.add(new AuthenticationUserId(KualiConstants.getNetworkId(conn, kualiSystemId)));
+                String networkId = KualiConstants.getNetworkId(conn, kualiSystemId);
+                if (StringUtils.isEmpty(networkId)) {
+                	LOG.warn("Could not determine user id for Chart Manager with system id " + kualiSystemId);
+                } else {
+                	members.add(new AuthenticationUserId());
+                }
             } else if (UNIVERSITY_CHART_MANAGER_ROLE_KEY.equals(roleName)) {
                 String kualiSystemId = null;
                 String sql = "select FIN_COA_MGRUNVL_ID from CA_CHART_T where RPTS_TO_FIN_COA_CD = FIN_COA_CD";
@@ -363,7 +368,12 @@ public class KualiChartAttribute implements RoleAttribute, WorkflowAttribute {
                 } else {
                     LOG.warn("No University Chart Manager found.");
                 }
-                members.add(new AuthenticationUserId(KualiConstants.getNetworkId(conn, kualiSystemId)));
+                String networkId = KualiConstants.getNetworkId(conn, kualiSystemId);
+                if (StringUtils.isEmpty(networkId)) {
+                	LOG.warn("Could not determine user id for university Chart Manager with system id " + kualiSystemId);
+                } else {
+                	members.add(new AuthenticationUserId());
+                }
             }
         } catch (Exception e) {
             LOG.error("Error getting connection", e);

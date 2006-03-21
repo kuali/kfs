@@ -29,6 +29,7 @@ import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.bo.SourceAccountingLine;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.exceptions.TooFewFieldsException;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
 import org.kuali.module.financial.document.JournalVoucherDocument;
 
@@ -75,30 +76,22 @@ public class JournalVoucherAccountingLineParser extends AccountingLineParserBase
     private JournalVoucherDocument _document;
 
     /**
-     * Parse <code>AccountingLine</code> information from a 
-     * serialized <code>String</code>
-     *
-     * @param currentLine Serialized <code>AccountingLine</code> data
-     * @param document <code>TransactionalDocument</code> used to retrieve 
-     * the sequence number and for other support purposes. 
-     *
-     * @return AccountingLine deserialized instance.
-    */
+     * @see AccountingLineParserBase#parseAccountingLine
+     */
     public AccountingLine parseAccountingLine( String currentLine,
                                                TransactionalDocument document,
-                                               boolean isSource ) {
+                                               boolean isSource )
+        throws TooFewFieldsException
+    {
         AccountingLine retval = new SourceAccountingLine();
         setJournalVoucherDocument( ( JournalVoucherDocument )document );
 
-        String[] accountingLineData = 
+        String[] accountingLineData =
             currentLine.split("\\\"?\\s*,\\s*\\\"?");
         int fieldCount = accountingLineData.length;
-        
+
         if (fieldCount < getExpectedFieldCount()) {
-            throw new IllegalStateException
-                ("Number of fields in csv (" 
-                 + fieldCount + ") does not satisfy EXPECTED_FIELDS ("
-                 + getExpectedFieldCount() + ")");
+            throw new TooFewFieldsException(getExpectedFieldCount(), fieldCount);
         }
 
         Integer fiscalYear    = document.getPostingYear();
@@ -124,13 +117,13 @@ public class JournalVoucherAccountingLineParser extends AccountingLineParserBase
         String refOriginCode  = null;
         String refNumber      = null;
         String refTypeCode    = null;
-        
+
         if( EXTERNAL_ENCUMBRANCE_EXPECTED_FIELDS == getExpectedFieldCount()) {
             refOriginCode = parseRefOriginCode( accountingLineData );
             refNumber     = parseRefNumber( accountingLineData );
             refTypeCode   = parseRefTypeCode( accountingLineData );
         }
-        
+
         retval.setBalanceTypeCode( getBalanceType().getCode() );
         retval.setFinancialDocumentNumber(document.getFinancialDocumentNumber());
         retval.setPostingYear(fiscalYear);

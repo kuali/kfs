@@ -291,7 +291,7 @@
 		</copy>
 	</target>
 
-	<target name="dist-plugin-local" depends="make-plugin">
+	<target name="dist-plugin-local" depends="make-plugin,dist-local">
 		<copy todir="${plugin.deploy.directory}">
 			<fileset dir="${plugin.directory}"/>
 		</copy>

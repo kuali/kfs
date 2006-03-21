@@ -25,6 +25,8 @@ package org.kuali.module.gl.service;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.kuali.module.gl.bo.AccountBalance;
+
 /**
  * This class...
  * @author Bin Gao from Michigan State University
@@ -68,5 +70,7 @@ public interface AccountBalanceService {
      * @param isConsolidated determine whether the search results are consolidated
      * @return the summary records of account balance entries
      */
-    public Iterator findAccountBalanceByObject(Map fieldValues, boolean isCostShareInclusive, boolean isConsolidated);        
+    public Iterator findAccountBalanceByObject(Map fieldValues, boolean isCostShareInclusive, boolean isConsolidated);
+    
+    public void save(AccountBalance ab);
 }

@@ -26,6 +26,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.kuali.module.gl.service.AccountBalanceService;
+import org.kuali.module.gl.bo.AccountBalance;
 import org.kuali.module.gl.dao.AccountBalanceDao;
 
 /**
@@ -69,5 +70,12 @@ public class AccountBalanceServiceImpl implements AccountBalanceService {
      */
     public Iterator findAccountBalanceByObject(Map fieldValues, boolean isCostShareInclusive, boolean isConsolidated) {
         return accountBalanceDao.findAccountBalanceByObject(fieldValues, isCostShareInclusive, isConsolidated);
+    }
+
+    /**
+     * @see org.kuali.module.gl.service.AccountBalanceService#save(org.kuali.module.gl.bo.AccountBalance)
+     */
+    public void save(AccountBalance ab) {
+       accountBalanceDao.save(ab);
     }    
 }

@@ -28,4 +28,20 @@ package org.kuali.module.gl.bo;
  * @author Bin Gao from Michigan State University
  */
 public class CashBalance extends Balance {
+    
+    /**
+     * Constructs a CashBalance.java.
+     * 
+     */
+    public CashBalance() {
+        super();
+    }
+    
+    /**
+     * Constructs a CashBalance.java.
+     * @param transaction
+     */
+    public CashBalance(Transaction transaction) {
+        super(transaction);
+    }
 }

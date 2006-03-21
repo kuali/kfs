@@ -85,7 +85,7 @@
 	      
 	      <display:table width="100%" class="datatable-100" cellspacing="0"
 					cellpadding="0" name="${reqSearchResults}" id="row" export="true" pagesize="100" offset="${offset}"
-					requestURI="lookup.do?methodToCall=viewResults&reqSearchResultsActualSize=${reqSearchResultsActualSize}&listKey=${listKey}">
+					requestURI="glAccountBalanceByConsolidationLookup.do?methodToCall=viewResults&reqSearchResultsActualSize=${reqSearchResultsActualSize}&listKey=${listKey}">
 	      
 	        <c:forEach items="${row.columns}" var="column" varStatus="status">
 	        

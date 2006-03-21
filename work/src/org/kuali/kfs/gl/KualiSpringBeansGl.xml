@@ -102,6 +102,11 @@
         <property name="generalLedgerPendingEntryDao"><ref bean="generalLedgerPendingEntryDao"/></property>
         <property name="kualiRuleService"><ref bean="kualiRuleService" /></property>
     </bean>
+    
+	<bean id="glBalanceService" class="org.kuali.module.gl.service.impl.BalanceServiceImpl">
+		<property name="balanceDao"><ref bean="glBalanceDao" /></property>
+		<property name="dateTimeService"><ref bean="dateTimeService" /></property>
+	</bean>    
 
 	<bean id="glAccountBalanceService" class="org.kuali.module.gl.service.impl.AccountBalanceServiceImpl">
 		<property name="accountBalanceDao"><ref bean="glAccountBalanceDao" /></property>

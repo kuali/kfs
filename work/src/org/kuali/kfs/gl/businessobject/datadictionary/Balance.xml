@@ -41,6 +41,7 @@
 				<lookupField attributeName="objectCode" noLookup="false"/>
 				<lookupField attributeName="subObjectCode" noLookup="false"/> 
 				<lookupField attributeName="balanceTypeCode" required="true" noLookup="false"/> 
+				<lookupField attributeName="objectTypeCode" noLookup="false"/>
 						
 				<lookupField attributeName="dummyBusinessObject.consolidationOption" noLookup="false">
 					<defaultValueFinderClass>

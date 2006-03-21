@@ -22,10 +22,13 @@
  */
 package org.kuali.module.gl.web;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.kuali.PropertyConstants;
 import org.kuali.module.gl.bo.AccountBalance;
 import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 import org.kuali.test.KualiTestBase;
@@ -81,4 +84,54 @@ public class TestDataGeneratorTest extends KualiTestBase {
         assertNull(fieldValues.get("timestamp"));
         assertNull(fieldValues.get("finacialObjectCode"));
     }
+    
+    // test case for generateTransactionDate method of TestDataGenerator class
+    public void testGenerateFieldValues(String test) throws Exception {
+        Map fieldValues = new HashMap();
+        
+        List lookupFields = getLookupFields(true); 
+
+        // test business object implementing transaction
+        fieldValues = testDataGenerator.generateLookupFieldValues(pendingEntry, lookupFields);
+        assertEquals(testDataGenerator.getProperties().getProperty("accountNumber"), fieldValues.get("accountNumber"));
+        assertEquals(testDataGenerator.getProperties().getProperty("dummyBusinessObject.consolidationOption"), fieldValues
+                .get("dummyBusinessObject.consolidationOption"));
+        assertNull(fieldValues.get("transactionDate"));
+        assertNull(fieldValues.get("objectCode"));
+
+        // test business object not implementing transaction
+        fieldValues = testDataGenerator.generateLookupFieldValues(accountBalance, lookupFields);
+        assertEquals(testDataGenerator.getProperties().getProperty("accountNumber"), fieldValues.get("accountNumber"));
+        assertEquals(testDataGenerator.getProperties().getProperty("dummyBusinessObject.consolidationOption"), fieldValues
+                .get("dummyBusinessObject.consolidationOption"));
+
+        assertNull(fieldValues.get("timestamp"));
+        assertNull(fieldValues.get("finacialObjectCode"));
+    } 
+    
+    protected List getLookupFields(boolean isExtended) {
+        List lookupFields = new ArrayList();
+
+        lookupFields.add(PropertyConstants.UNIVERSITY_FISCAL_YEAR);
+        lookupFields.add(PropertyConstants.CHART_OF_ACCOUNTS_CODE);
+        lookupFields.add(PropertyConstants.ACCOUNT_NUMBER);
+        lookupFields.add(PropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE);
+        lookupFields.add(PropertyConstants.FINANCIAL_BALANCE_TYPE_CODE);
+        lookupFields.add("dummyBusinessObject.consolidationOption");
+        lookupFields.add("dummyBusinessObject.pendingEntryOption");
+
+        // include the extended fields
+        if (isExtended) {
+            lookupFields.add(PropertyConstants.SUB_ACCOUNT_NUMBER);
+            lookupFields.add(PropertyConstants.FINANCIAL_OBJECT_CODE);
+            lookupFields.add(PropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
+
+            lookupFields.add(PropertyConstants.FINANCIAL_OBJECT_TYPE_CODE);
+            lookupFields.add(PropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE);
+            lookupFields.add(PropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE);
+            lookupFields.add(PropertyConstants.FINANCIAL_DOCUMENT_NUMBER);
+            lookupFields.add(PropertyConstants.ORGANIZATION_DOCUMENT_NUMBER);
+        }
+        return lookupFields;
+    }    
 }

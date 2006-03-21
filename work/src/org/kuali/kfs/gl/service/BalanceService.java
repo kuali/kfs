@@ -26,9 +26,12 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.kuali.module.chart.bo.Account;
+import org.kuali.module.gl.bo.Balance;
 
 
 public interface BalanceService {
+    
+    public void save(Balance b); 
 
     public boolean hasAssetLiabilityFundBalanceBalances(Account account);
 

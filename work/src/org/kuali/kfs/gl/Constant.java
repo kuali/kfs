@@ -64,6 +64,7 @@ public final class Constant {
     public static final String CONSOLIDATED_SUB_ACCOUNT_NUMBER = "*ALL*";
     public static final String CONSOLIDATED_SUB_OBJECT_CODE = "---";
     public static final String CONSOLIDATED_OBJECT_TYPE_CODE = "--"; 
+    public static final String DEFAULT_PROJECT_CODE = "----------";
     
     public static final String GL_LOOKUPABLE_ACCOUNT_BALANCE = "glAccountBalanceLookupable";
     public static final String GL_LOOKUPABLE_ACCOUNT_BALANCE_BY_CONSOLIDATION = "glAccountBalanceByConsolidationLookupable";

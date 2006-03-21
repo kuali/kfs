@@ -255,6 +255,13 @@ public class BalanceServiceImpl implements BalanceService {
                 || !fundBalanceWillNetToZero(account)
                 || hasEncumbrancesOrBaseBudgets(account);
     }
+    
+    /**
+     * @see org.kuali.module.gl.service.BalanceService#save(org.kuali.module.gl.bo.Balance)
+     */
+    public void save(Balance b) {
+        balanceDao.save(b);
+    }    
 
 
     public void setBalanceDao(BalanceDao balanceDao) {

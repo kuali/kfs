@@ -116,9 +116,9 @@ public class TestDataGenerator {
             if (!isTransaction) {
                 propertyName = BusinessObjectFieldConverter.convertFromTransactionPropertyName(propertyName);
             }
-
-            // ignore the property fields whose values are empty or not writable
-            if (StringUtils.isBlank(propertyValue) || !(PropertyUtils.isWriteable(businessObject, propertyName))) {
+            
+            // ignore the property fields whose values are empty
+            if (StringUtils.isBlank(propertyValue)) {
                 continue;
             }
 
@@ -200,5 +200,17 @@ public class TestDataGenerator {
      */
     public void setProperties(Properties properties) {
         this.properties = properties;
+    }
+    
+    /**
+     * This method obtains the value of the property with the given name
+     * @param propertyName the given property name
+     * @return the value of the property
+     */
+    public String getPropertyValue(String propertyName){
+        if(properties.containsKey(propertyName)){
+            return properties.getProperty(propertyName);
+        }
+        return "";
     }
 }

@@ -64,6 +64,7 @@ public abstract class AbstractGLInquirableImpl extends KualiInquirableImpl {
         Properties parameters = new Properties();
         parameters.put(Constants.DISPATCH_REQUEST_PARAMETER, "start");
 
+        Object attributeValue = null;
         Class inquiryBusinessObjectClass = null;
         String attributeRefName = "";
         boolean isPkReference = false;
@@ -71,6 +72,7 @@ public abstract class AbstractGLInquirableImpl extends KualiInquirableImpl {
         Map userDefinedAttributeMap = getUserDefinedAttributeMap();
         boolean isUserDefinedAttribute = userDefinedAttributeMap.containsKey(attributeName);
 
+        // determine the type of the given attribute: user-defined, regular or nested-refrenced
         if (isUserDefinedAttribute) {
             attributeName = getAttributeName(attributeName);
             inquiryBusinessObjectClass = getInquiryBusinessObjectClass();
@@ -90,13 +92,17 @@ public abstract class AbstractGLInquirableImpl extends KualiInquirableImpl {
                     attributeRefName = (String) primitiveReference.keySet().iterator().next();
                     inquiryBusinessObjectClass = (Class) primitiveReference.get(attributeRefName);
                 }
+                attributeValue = ObjectUtils.getPropertyValue(businessObject, attributeName);
+                attributeValue = (attributeValue == null) ? "" : attributeValue.toString();
             }
         }
 
         // process the business object class if the attribute name is not user-defined
         if (!isUserDefinedAttribute) {
-            if (inquiryBusinessObjectClass == null || businessDictionary.isInquirable(inquiryBusinessObjectClass) == null
-                    || !businessDictionary.isInquirable(inquiryBusinessObjectClass).booleanValue()) {
+            if (inquiryBusinessObjectClass == null 
+                    || businessDictionary.isInquirable(inquiryBusinessObjectClass) == null
+                    || !businessDictionary.isInquirable(inquiryBusinessObjectClass).booleanValue() 
+                    || isExclusiveField(attributeName, attributeValue)) {
                 return Constants.EMPTY_STRING;
             }
 
@@ -246,6 +252,9 @@ public abstract class AbstractGLInquirableImpl extends KualiInquirableImpl {
                 return true;
             }
             else if (keyName.equals(PropertyConstants.OBJECT_TYPE_CODE) && keyValue.equals(Constant.CONSOLIDATED_OBJECT_TYPE_CODE)) {
+                return true;
+            }
+            else if (keyName.equals(PropertyConstants.PROJECT_CODE) && keyValue.equals(Constant.DEFAULT_PROJECT_CODE)) {
                 return true;
             }
         }

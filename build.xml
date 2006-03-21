@@ -100,6 +100,7 @@
         	<filter token="environment" value="${build.environment}"/>
     		<filter token="settings-directory" value="${settings.directory}/"/>
 			<filter token="log4j-settings-file" value="${settings.directory}/${log4j.settings.file}"/>
+			<filter token="log4j-batch-settings-file" value="${settings.directory}/${log4j.batch.settings.file}"/>
     		<filter token="security-directory" value="${security.directory}/"/>
 			<filter token="logs-directory" value="${logs.directory}/"/>
         	<filter token="attachments-root-directory" value="${attachments.root.directory}"/>

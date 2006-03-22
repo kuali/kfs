@@ -441,13 +441,13 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
         errors.addToErrorPath(PropertyConstants.DV_WIRE_TRANSFER);
 
         /* currency type code required */
-        if (StringUtils.isBlank(document.getDvWireTransfer().getDisbVchrFDCurrencyTypeCode())) {
+        if (StringUtils.isBlank(document.getDvWireTransfer().getDisbursementVoucherForeignCurrencyTypeCode())) {
             GlobalVariables.getErrorMap().put(PropertyConstants.DISB_VCHR_FD_CURRENCY_TYPE_CODE,
                     KeyConstants.ERROR_DV_CURRENCY_TYPE_CODE);
         }
 
         /* currency type name required */
-        if (StringUtils.isBlank(document.getDvWireTransfer().getDisbVchrFDCurrencyTypeName())) {
+        if (StringUtils.isBlank(document.getDvWireTransfer().getDisbursementVoucherForeignCurrencyTypeName())) {
             GlobalVariables.getErrorMap().put(PropertyConstants.DISB_VCHR_FD_CURRENCY_TYPE_NAME,
                     KeyConstants.ERROR_DV_CURRENCY_TYPE_NAME);
         }

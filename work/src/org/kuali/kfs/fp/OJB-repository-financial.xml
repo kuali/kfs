@@ -1206,6 +1206,11 @@
 	<field-descriptor name="disbursementVoucherPayeeAccountName" column="DV_PAYEE_ACCT_NM" jdbc-type="VARCHAR"/>
 	<field-descriptor name="disbursementVoucherPayeeAccountTypeCode" column="DV_PAYEE_ACCT_TYP_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="disbursementVoucherAutomatedClearingHouseProfileNumber" column="DV_ACH_PRFL_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="disbursementVoucherForeignCurrencyTypeName" column="DV_FCRNCY_TYP_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="disbursementVoucherForeignCurrencyTypeCode" column="DV_FCRNCY_TYP_CD" jdbc-type="VARCHAR"/>
+	<reference-descriptor name="disbursementVoucherDocument" class-ref="org.kuali.module.financial.document.DisbursementVoucherDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="financialDocumentNumber" />
+	</reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.financial.bo.ProcurementCardDefault" table="FP_PRCRMNT_DFLT_T">

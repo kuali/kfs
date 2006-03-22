@@ -28,6 +28,7 @@ package org.kuali.module.financial.bo;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.module.financial.document.DisbursementVoucherDocument;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -50,9 +51,11 @@ public class DisbursementVoucherWireTransfer extends BusinessObjectBase {
 	private String disbursementVoucherPayeeAccountName;
 	private String disbursementVoucherPayeeAccountTypeCode;
 	private String disbursementVoucherAutomatedClearingHouseProfileNumber;
-	
-	private String disbVchrFDCurrencyTypeName;
-	private String disbVchrFDCurrencyTypeCode;
+    private String disbursementVoucherForeignCurrencyTypeName;
+    private String disbursementVoucherForeignCurrencyTypeCode;
+    
+    private DisbursementVoucherDocument disbursementVoucherDocument;
+   
 
 	/**
 	 * Default no-arg constructor.
@@ -273,28 +276,28 @@ public class DisbursementVoucherWireTransfer extends BusinessObjectBase {
 	}
 	
 	/**
-	 * Gets the disbVchrCurrencyTypeName attribute.
+	 * Gets the disbursementVoucherForeignCurrencyTypeName attribute.
 	 * This field is here because the currency type field is presented in
 	 * different places on screen, and value conflicts occur unless we have
 	 * an alias.
-	 * @return - Returns the disbVchrCurrencyTypeName
+	 * @return - Returns the disbursementVoucherForeignCurrencyTypeName
 	 * 
 	 */
-	public String getDisbVchrFDCurrencyTypeName() { 
-		return disbVchrFDCurrencyTypeName;
+	public String getDisbursementVoucherForeignCurrencyTypeName() { 
+		return disbursementVoucherForeignCurrencyTypeName;
 	}
 	
 
 	/**
-	 * Sets the disbVchrCurrencyTypeName attribute.
+	 * Sets the disbursementVoucherForeignCurrencyTypeName attribute.
 	 * This field is here because the currency type field is presented in
 	 * different places on screen, and value conflicts occur unless we have
 	 * an alias.
-	 * @param - disbVchrCurrencyTypeName The disbVchrCurrencyTypeName to set.
+	 * @param - disbursementVoucherForeignCurrencyTypeName The disbursementVoucherForeignCurrencyTypeName to set.
 	 * 
 	 */
-	public void setDisbVchrFDCurrencyTypeName(String disbVchrCurrencyTypeName) {
-		this.disbVchrFDCurrencyTypeName = disbVchrCurrencyTypeName;
+	public void setDisbursementVoucherForeignCurrencyTypeName(String disbursementVoucherForeignCurrencyTypeName) {
+		this.disbursementVoucherForeignCurrencyTypeName = disbursementVoucherForeignCurrencyTypeName;
 	}
 
 	/**
@@ -319,30 +322,28 @@ public class DisbursementVoucherWireTransfer extends BusinessObjectBase {
 	}
 	
 	/**
-	 * Gets the disbVchrCurrencyTypeCode attribute.
+	 * Gets the disbursementVoucherForeignCurrencyTypeCode attribute.
 	 * This field is here because the currency type field is presented in
 	 * different places on screen, and value conflicts occur unless we have
 	 * an alias.
-	 * @return - Returns the disbVchrCurrencyTypeCode
+	 * @return - Returns the disbursementVoucherForeignCurrencyTypeCode
 	 * 
 	 */
-	public String getDisbVchrFDCurrencyTypeCode() { 
-		return disbVchrFDCurrencyTypeCode;
+	public String getDisbursementVoucherForeignCurrencyTypeCode() { 
+		return disbursementVoucherForeignCurrencyTypeCode;
 	}
 	
-
 	/**
-	 * Sets the disbVchrCurrencyTypeCode attribute.
+	 * Sets the disbursementVoucherForeignCurrencyTypeCode attribute.
 	 * This field is here because the currency type field is presented in
 	 * different places on screen, and value conflicts occur unless we have
 	 * an alias.
-	 * @param - disbVchrCurrencyTypeCode The disbVchrCurrencyTypeCode to set.
+	 * @param - disbursementVoucherForeignCurrencyTypeCode The disbursementVoucherForeignCurrencyTypeCode to set.
 	 * 
 	 */
-	public void setDisbVchrFDCurrencyTypeCode(String disbVchrCurrencyTypeCode) {
-		this.disbVchrFDCurrencyTypeCode = disbVchrCurrencyTypeCode;
+	public void setDisbursementVoucherForeignCurrencyTypeCode(String disbursementVoucherForeignCurrencyTypeCode) {
+		this.disbursementVoucherForeignCurrencyTypeCode = disbursementVoucherForeignCurrencyTypeCode;
 	}
-
 
 	/**
 	 * Gets the disbVchrForeignBankIndicator attribute.
@@ -354,7 +355,6 @@ public class DisbursementVoucherWireTransfer extends BusinessObjectBase {
 		return disbVchrForeignBankIndicator;
 	}
 	
-
 	/**
 	 * Sets the disbVchrForeignBankIndicator attribute.
 	 * 
@@ -449,6 +449,21 @@ public class DisbursementVoucherWireTransfer extends BusinessObjectBase {
 		this.disbursementVoucherAutomatedClearingHouseProfileNumber = disbursementVoucherAutomatedClearingHouseProfileNumber;
 	}
 
+    /**
+     * @return Returns the disbursementVoucherDocument.
+     */
+    public DisbursementVoucherDocument getDisbursementVoucherDocument() {
+        return disbursementVoucherDocument;
+    }
+
+    /**
+     * @param disbursementVoucherDocument The disbursementVoucherDocument to set.
+     * @deprecated
+     */
+    public void setDisbursementVoucherDocument(DisbursementVoucherDocument disbursementVoucherDocument) {
+        this.disbursementVoucherDocument = disbursementVoucherDocument;
+    }
+    
 	/**
 	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
 	 */
@@ -457,4 +472,5 @@ public class DisbursementVoucherWireTransfer extends BusinessObjectBase {
           m.put("financialDocumentNumber", this.financialDocumentNumber);
   	    return m;
 	}
+
 }

@@ -711,8 +711,8 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
              * this is setting the real fields before save.
              */
             if (DisbursementVoucherRuleConstants.PAYMENT_METHOD_DRAFT.equals(this.getDisbVchrPaymentMethodCode())){
-                dvWireTransfer.setDisbVchrCurrencyTypeCode(dvWireTransfer.getDisbVchrFDCurrencyTypeCode());
-                dvWireTransfer.setDisbVchrCurrencyTypeName(dvWireTransfer.getDisbVchrFDCurrencyTypeName());
+                dvWireTransfer.setDisbVchrCurrencyTypeCode(dvWireTransfer.getDisbursementVoucherForeignCurrencyTypeCode());
+                dvWireTransfer.setDisbVchrCurrencyTypeName(dvWireTransfer.getDisbursementVoucherForeignCurrencyTypeName());
             }
         }
 

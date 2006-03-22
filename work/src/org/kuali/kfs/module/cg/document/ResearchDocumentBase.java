@@ -68,7 +68,6 @@ public abstract class ResearchDocumentBase extends DocumentBase implements Resea
 
         m.put("postingYear", getPostingYear());
         m.put("versionNumber", getVersionNumber());
-        m.put("level", getDocumentHeader().getWorkflowDocument().getDocRouteLevel());
         m.put("comp", Boolean.valueOf(getDocumentHeader().getWorkflowDocument().isCompletionRequested()));
         m.put("app", Boolean.valueOf(getDocumentHeader().getWorkflowDocument().isApprovalRequested()));
         m.put("ack", Boolean.valueOf(getDocumentHeader().getWorkflowDocument().isAcknowledgeRequested()));

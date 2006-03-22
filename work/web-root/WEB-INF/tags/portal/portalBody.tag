@@ -18,17 +18,7 @@
     </tr>
     <tr>
         <c:choose>
-          <c:when test='${selectedTab == "portalMainMenuBody"}'>
-              <portal:portalMainMenuBody />
-          </c:when>
-          <c:when test='${selectedTab == "portalAdministrationBody"}'>
-              <portal:portalAdministrationBody />
-          </c:when>
-          <c:when test='${selectedTab == "portalFutureModulesBody"}'>
-              <portal:portalFutureModulesBody />
-          </c:when>
-          
-          
+          <%-- first try to check if they are focusing in --%>
           <c:when test='${!empty channelTitle && !empty channelUrl}'>
             <td class="uportal-background-dark" valign="top" colspan="2">
               <c:if test="${!empty param.backdoorId}">
@@ -39,6 +29,18 @@
               </c:if>
             </td>
           </c:when>
+          <%-- then default to tab based actions if they are not focusing in --%>
+          <c:when test='${selectedTab == "portalMainMenuBody"}'>
+              <portal:portalMainMenuBody />
+          </c:when>
+          <c:when test='${selectedTab == "portalAdministrationBody"}'>
+              <portal:portalAdministrationBody />
+          </c:when>
+          <c:when test='${selectedTab == "portalFutureModulesBody"}'>
+              <portal:portalFutureModulesBody />
+          </c:when>
+          
+          <%-- as backup go to the main menu index --%>
           <c:otherwise>
             <portal:portalMainMenuBody />
           </c:otherwise>

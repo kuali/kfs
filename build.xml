@@ -68,6 +68,9 @@
 		<condition property="load.institution.override.properties" value="true">
 			<available file="${build.institution.overrides.file}"/>
 		</condition>
+		<condition property="dist.plugin.local" value="true">
+			<equals arg1="${is.local.workflow.build}" arg2="true"/>
+		</condition>
 		<echo message="Loaded properties in ./build.properties and set dependent properties"/>
 	</target>
 
@@ -292,7 +295,7 @@
 		</copy>
 	</target>
 
-	<target name="dist-plugin-local" if="is.local.workflow.build">
+	<target name="dist-plugin-local" if="dist.plugin.local">
 		<ant dir="${basedir}" target="make-plugin"/>
 		<copy todir="${plugin.deploy.directory}">
 			<fileset dir="${plugin.directory}"/>

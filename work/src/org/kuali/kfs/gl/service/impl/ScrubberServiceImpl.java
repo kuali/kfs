@@ -73,7 +73,7 @@ import org.springframework.util.StringUtils;
 
 /**
  * @author Kuali General Ledger Team <kualigltech@oncourse.iu.edu>
- * @version $Id: ScrubberServiceImpl.java,v 1.73 2006-03-22 21:29:46 larevans Exp $
+ * @version $Id: ScrubberServiceImpl.java,v 1.74 2006-03-22 21:35:23 larevans Exp $
  */
 
 public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
@@ -552,6 +552,11 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
                             unitOfWorkInfo.getFirstEntryOfNextUnitOfWork().getFinancialSystemOriginationCode(),
                             documentInfo.getOriginCode())) {
                 
+                // This functionality (setting the document ID fields) is duplicated at the beginning
+                // of processUnitOfWork(OriginEntryGroup originEntryGroup, Iterator, OriginEntry, DocumentInfo).
+                // That case handles the very first entry/document run through the scrubber, establishing the
+                // boundary for the first document. The code here establishes the boundary for every other
+                // document processed during a scrubber run.
     			documentInfo.setDocumentNumber(unitOfWorkInfo.getDocumentNumber());
                 documentInfo.setDocumentTypeCode(unitOfWorkInfo.getDocumentTypeCode());
                 documentInfo.setOriginCode(unitOfWorkInfo.getOriginCode());
@@ -612,8 +617,8 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
      * @param firstEntry
      * @param documentInfo
      */
-    private UnitOfWorkInfo processUnitOfWork(OriginEntryGroup originEntryGroup, Iterator iteratorOverEntries, OriginEntry firstEntry, 
-    		DocumentInfo documentInfo) {
+    private UnitOfWorkInfo processUnitOfWork(OriginEntryGroup originEntryGroup, 
+            Iterator iteratorOverEntries, OriginEntry firstEntry, DocumentInfo documentInfo) {
     	
         // Queue up the first entry or return if there's nothing to process.
     	if(null == firstEntry) {
@@ -622,6 +627,9 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
                 
     			firstEntry = (OriginEntry) iteratorOverEntries.next();
                 
+                // This is needed here to initialize the values in the documentInfo for the
+                // first entry processed during a scrubber run. Without this the values would
+                // be left as null in some cases and falsely indicate a document boundary.
                 documentInfo.setDocumentNumber(
                         firstEntry.getFinancialDocumentNumber());
                 documentInfo.setDocumentTypeCode(

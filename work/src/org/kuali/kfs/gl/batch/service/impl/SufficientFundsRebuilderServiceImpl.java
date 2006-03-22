@@ -87,10 +87,21 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
         super();
     }
 
-    public void rebuildSufficientFunds(Integer fiscalYear) { // driver
+    private Integer getFiscalYear() {
+      String val = kualiConfigurationService.getApplicationParameterValue("fis_sf_rebuild.sh", "UNIV_FISCAL_YR");
+      if ( val == null ) {
+        LOG.error("getFiscalYear() Unable to get UNIV_FISCAL_YR from kualiConfigurationService");
+        throw new RuntimeException("Unable to get fiscal year from kualiConfigurationService");
+      }
+
+      int yr = Integer.parseInt(val);
+      return new Integer(yr);
+    }
+
+    public void rebuildSufficientFunds() { // driver
         LOG.debug("beginning sufficient funds rebuild process");
 
-        universityFiscalYear = fiscalYear;
+        universityFiscalYear = getFiscalYear();
         initService();
 
         // Get all the O types and convert them to A types

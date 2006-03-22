@@ -85,7 +85,7 @@ public class SufficientFundsRebuilderServiceTest extends KualiTestBaseWithSpring
         populateGLSFRebuildTableForConversion();
         populateGLSFBalanceTableForConversion();
         prepareGLBalancesTable();
-        sufficientFundsRebuilderService.rebuildSufficientFunds(new Integer(2004));
+        sufficientFundsRebuilderService.rebuildSufficientFunds();
         assertSFRBEmpty();
         assertSFBLEntries(expectedOutput);
     }
@@ -107,7 +107,7 @@ public class SufficientFundsRebuilderServiceTest extends KualiTestBaseWithSpring
         clearSufficientFundRebuildTable();
         populateGLSFRebuildTable();
         prepareGLBalancesTable();
-        sufficientFundsRebuilderService.rebuildSufficientFunds(new Integer(2004));
+        sufficientFundsRebuilderService.rebuildSufficientFunds();
         assertSFRBEmpty();
         assertSFBLEntries(expectedOutput);
     }

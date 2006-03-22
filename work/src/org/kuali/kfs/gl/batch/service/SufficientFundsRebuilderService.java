@@ -32,5 +32,5 @@ public interface SufficientFundsRebuilderService {
 	/**
 	 * 
 	 */
-	public void rebuildSufficientFunds(Integer fiscalYear);
+	public void rebuildSufficientFunds();
 }

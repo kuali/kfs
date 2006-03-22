@@ -27,6 +27,8 @@ package org.kuali.module.gl.web;
  * @author Bin Gao from Michigan State University
  */
 public final class Constant {
+    public static final String EMPTY_STRING = "";    
+    
     public static final String PENDING_ENTRY_OPTION = "dummyBusinessObject.pendingEntryOption";
     public static final String APPROVED_PENDING_ENTRY = "Approved";
     public static final String ALL_PENDING_ENTRY = "All";
@@ -99,4 +101,7 @@ public final class Constant {
     public static final String MONTH11 = "11";
     public static final String MONTH12 = "12";
     public static final String MONTH13 = "13";
+    public static final String ANNUAL_BALNCE = "AB";
+    public static final String BEGINNING_BALNCE = "BB"; 
+    public static final String CG_BEGINNING_BALNCE = "CB"; 
 }

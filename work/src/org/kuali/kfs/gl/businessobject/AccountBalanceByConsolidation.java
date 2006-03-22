@@ -28,4 +28,18 @@ package org.kuali.module.gl.bo;
  */
 public class AccountBalanceByConsolidation extends AccountBalance {
 
+    /**
+     * Constructs a AccountBalanceByConsolidation.java.
+     * 
+     */
+    public AccountBalanceByConsolidation() {
+        super();
+    }
+    /**
+     * Constructs a AccountBalanceByConsolidation.java.
+     * @param t
+     */
+    public AccountBalanceByConsolidation(Transaction t) {
+        super(t);
+    }
 }

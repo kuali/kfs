@@ -60,7 +60,13 @@
 				<lookupField attributeName="financialSubObjectCode" />                
 				<lookupField attributeName="financialBalanceTypeCode" required="true"/> 
 				<lookupField attributeName="financialObjectTypeCode" />  
-                <lookupField attributeName="universityFiscalPeriodCode" required="true"/>
+				
+                <lookupField attributeName="universityFiscalPeriodCode" required="true">
+                	<defaultValueFinderClass>
+						org.kuali.module.gl.web.optionfinder.GLPeriodCodeOptionFinder
+					</defaultValueFinderClass>
+                </lookupField>
+                
                 <lookupField attributeName="financialSystemOriginationCode" />
                 <lookupField attributeName="financialDocumentTypeCode" />                				                            
                 <lookupField attributeName="financialDocumentNumber" />
@@ -137,9 +143,9 @@
             	sourceAttributeName="universityFiscalAccountingPeriod">
             	<label>Accounting Period</label>
                 <shortLabel>University Fiscal Accounting Period</shortLabel>
-                <maxLength>2</maxLength>
+                <maxLength>3</maxLength>
                 <control>
-		            <text size="3" />
+		            <select valuesFinderClass="org.kuali.module.gl.web.optionfinder.GLPeriodCodeOptionFinder"/>
                 </control>
                 <summary>University Fiscal Accounting Period</summary>
                 <description>University Fiscal Accounting Period description...</description>

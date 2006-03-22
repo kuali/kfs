@@ -55,8 +55,8 @@ public class OriginEntry extends BusinessObjectBase implements Transaction {
     private Integer entryGroupId;
     private String accountNumber;
     private String financialDocumentNumber;
-    private String financialDocumentReferenceNbr;
-    private String referenceFinDocumentTypeCode;
+    private String financialDocumentReferenceNumber;
+    private String financialDocumentReferenceDocumentTypeCode;
     private Date financialDocumentReversalDate;
     private String financialDocumentTypeCode;
     private String financialBalanceTypeCode;
@@ -65,17 +65,17 @@ public class OriginEntry extends BusinessObjectBase implements Transaction {
     private String financialObjectCode;
     private String financialSubObjectCode;
     private String financialSystemOriginationCode;
-    private String finSystemRefOriginationCode;
+    private String financialSystemReferenceOriginationCode;
     private String organizationDocumentNumber;
     private String organizationReferenceId;
     private String projectCode;
     private String subAccountNumber;
     private Date transactionDate;
     private String transactionDebitCreditCode;
-    private String transactionEncumbranceUpdtCd;
-    private Integer trnEntryLedgerSequenceNumber;
+    private String transactionEncumbranceUpdateCode;
+    private Integer transactionLedgerEntrySequenceNumber;
     private KualiDecimal transactionLedgerEntryAmount;
-    private String transactionLedgerEntryDesc;
+    private String transactionLedgerEntryDescription;
     private String universityFiscalPeriodCode;
     private Integer universityFiscalYear;
     private String budgetYear;
@@ -118,8 +118,8 @@ public class OriginEntry extends BusinessObjectBase implements Transaction {
     public void setTransaction(Transaction t) {
         setAccountNumber(t.getAccountNumber());
         setFinancialDocumentNumber(t.getFinancialDocumentNumber());
-        setFinancialDocumentReferenceNbr(t.getFinancialDocumentReferenceNbr());
-        setReferenceFinDocumentTypeCode(t.getReferenceFinDocumentTypeCode());
+        setFinancialDocumentReferenceNumber(t.getFinancialDocumentReferenceNbr());
+        setFinancialDocumentReferenceDocumentTypeCode(t.getReferenceFinDocumentTypeCode());
         setFinancialDocumentReversalDate(t.getFinancialDocumentReversalDate());
         setFinancialDocumentTypeCode(t.getFinancialDocumentTypeCode());
         setFinancialBalanceTypeCode(t.getFinancialBalanceTypeCode());
@@ -128,17 +128,17 @@ public class OriginEntry extends BusinessObjectBase implements Transaction {
         setFinancialObjectCode(t.getFinancialObjectCode());
         setFinancialSubObjectCode(t.getFinancialSubObjectCode());
         setFinancialSystemOriginationCode(t.getFinancialSystemOriginationCode());
-        setFinSystemRefOriginationCode(t.getFinSystemRefOriginationCode());
+        setFinancialSystemReferenceOriginationCode(t.getFinSystemRefOriginationCode());
         setOrganizationDocumentNumber(t.getOrganizationDocumentNumber());
         setOrganizationReferenceId(t.getOrganizationReferenceId());
         setProjectCode(t.getProjectCode());
         setSubAccountNumber(t.getSubAccountNumber());
         setTransactionDate(t.getTransactionDate());
         setTransactionDebitCreditCode(t.getTransactionDebitCreditCode());
-        setTransactionEncumbranceUpdtCd(t.getTransactionEncumbranceUpdtCd());
-        setTrnEntryLedgerSequenceNumber(t.getTrnEntryLedgerSequenceNumber());
+        setTransactionEncumbranceUpdateCode(t.getTransactionEncumbranceUpdtCd());
+        setTransactionLedgerEntrySequenceNumber(t.getTrnEntryLedgerSequenceNumber());
         setTransactionLedgerEntryAmount(t.getTransactionLedgerEntryAmount());
-        setTransactionLedgerEntryDesc(t.getTransactionLedgerEntryDesc());
+        setTransactionLedgerEntryDescription(t.getTransactionLedgerEntryDesc());
         setUniversityFiscalPeriodCode(t.getUniversityFiscalPeriodCode());
         setUniversityFiscalYear(t.getUniversityFiscalYear());
     }
@@ -191,22 +191,22 @@ public class OriginEntry extends BusinessObjectBase implements Transaction {
       setFinancialSystemOriginationCode(line.substring(35, 37).trim());
       setFinancialDocumentNumber(line.substring(37, 46).trim());
       if (! "     ".equals(line.substring(46, 51)) && ! "00000".equals(line.substring(46, 51)) ) {
-          setTrnEntryLedgerSequenceNumber(new Integer(line.substring(46, 51).trim()));
+          setTransactionLedgerEntrySequenceNumber(new Integer(line.substring(46, 51).trim()));
       } else {
-          setTrnEntryLedgerSequenceNumber(null);
+          setTransactionLedgerEntrySequenceNumber(null);
       }
-      setTransactionLedgerEntryDesc(line.substring(51, 91).trim());
+      setTransactionLedgerEntryDescription(line.substring(51, 91).trim());
       setTransactionLedgerEntryAmount(new KualiDecimal(line.substring(91, 108).trim()));
       setTransactionDebitCreditCode(line.substring(108, 109));
       setTransactionDate(parseDate(line.substring(109, 119).trim(), false));
       setOrganizationDocumentNumber(line.substring(119, 129).trim());
       setProjectCode(line.substring(129, 139).trim());
       setOrganizationReferenceId(line.substring(139, 147).trim());
-      setReferenceFinDocumentTypeCode(line.substring(147, 151).trim());
-      setFinSystemRefOriginationCode(line.substring(151, 153).trim());
-      setFinancialDocumentReferenceNbr(line.substring(153, 162).trim());
+      setFinancialDocumentReferenceDocumentTypeCode(line.substring(147, 151).trim());
+      setFinancialSystemReferenceOriginationCode(line.substring(151, 153).trim());
+      setFinancialDocumentReferenceNumber(line.substring(153, 162).trim());
       setFinancialDocumentReversalDate(parseDate(line.substring(162, 172), true));
-      setTransactionEncumbranceUpdtCd(line.substring(172, 173));
+      setTransactionEncumbranceUpdateCode(line.substring(172, 173));
   }
 
     private static String SPACES = "                                                                                                              ";
@@ -255,17 +255,17 @@ public class OriginEntry extends BusinessObjectBase implements Transaction {
 //      3033  019360          TO TRN-ENTR-SEQ-NBR OF ALT-GLEN-RECORD
 //      3034  019370     END-IF
       
-      if ( trnEntryLedgerSequenceNumber == null ) {
+      if ( transactionLedgerEntrySequenceNumber == null ) {
         sb.append("00000");
       } else {
           // Format to a length of 5
-          String seqNum = trnEntryLedgerSequenceNumber.toString();
+          String seqNum = transactionLedgerEntrySequenceNumber.toString();
           while(5 > seqNum.length()) {
               seqNum = "0" + seqNum;
           }
           sb.append(seqNum);
       }
-      sb.append(getField(40,transactionLedgerEntryDesc));
+      sb.append(getField(40,transactionLedgerEntryDescription));
       if ( transactionLedgerEntryAmount == null ) {
         sb.append("                 ");
       } else {
@@ -278,11 +278,11 @@ public class OriginEntry extends BusinessObjectBase implements Transaction {
       sb.append(getField(10,organizationDocumentNumber));
       sb.append(getField(10,projectCode));
       sb.append(getField(8,organizationReferenceId));
-      sb.append(getField(4,referenceFinDocumentTypeCode));
-      sb.append(getField(2,finSystemRefOriginationCode));
-      sb.append(getField(9,financialDocumentReferenceNbr));
+      sb.append(getField(4,financialDocumentReferenceDocumentTypeCode));
+      sb.append(getField(2,financialSystemReferenceOriginationCode));
+      sb.append(getField(9,financialDocumentReferenceNumber));
       sb.append(formatDate(financialDocumentReversalDate));
-      sb.append(getField(1,transactionEncumbranceUpdtCd));
+      sb.append(getField(1,transactionEncumbranceUpdateCode));
       return sb.toString();
     }
 
@@ -301,7 +301,7 @@ public class OriginEntry extends BusinessObjectBase implements Transaction {
         map.put("financialDocumentTypeCode", financialDocumentTypeCode);
         map.put("financialSystemOriginationCode", financialSystemOriginationCode);
         map.put("financialDocumentNumber", financialDocumentNumber);
-        map.put("trnEntryLedgerSequenceNumber", trnEntryLedgerSequenceNumber);
+        map.put("transactionLedgerEntrySequenceNumber", transactionLedgerEntrySequenceNumber);
         return map;
     }
 
@@ -382,11 +382,11 @@ public class OriginEntry extends BusinessObjectBase implements Transaction {
     }
 
     public String getTransactionEncumbranceUpdtCd() {
-        return transactionEncumbranceUpdtCd;
+        return transactionEncumbranceUpdateCode;
     }
 
-    public void setTransactionEncumbranceUpdtCd(String transactionEncumbranceUpdtCd) {
-        this.transactionEncumbranceUpdtCd = transactionEncumbranceUpdtCd;
+    public void setTransactionEncumbranceUpdateCode(String transactionEncumbranceUpdtCd) {
+        this.transactionEncumbranceUpdateCode = transactionEncumbranceUpdtCd;
     }
 
     public Integer getEntryGroupId() {
@@ -454,27 +454,27 @@ public class OriginEntry extends BusinessObjectBase implements Transaction {
     }
 
     public String getFinancialDocumentReferenceNbr() {
-        return financialDocumentReferenceNbr;
+        return financialDocumentReferenceNumber;
     }
 
-    public void setFinancialDocumentReferenceNbr(String financialDocumentReferenceNbr) {
-        this.financialDocumentReferenceNbr = financialDocumentReferenceNbr;
+    public void setFinancialDocumentReferenceNumber(String financialDocumentReferenceNbr) {
+        this.financialDocumentReferenceNumber = financialDocumentReferenceNbr;
     }
 
     public String getReferenceFinDocumentTypeCode() {
-        return referenceFinDocumentTypeCode;
+        return financialDocumentReferenceDocumentTypeCode;
     }
 
-    public void setReferenceFinDocumentTypeCode(String referenceFinDocumentTypeCode) {
-        this.referenceFinDocumentTypeCode = referenceFinDocumentTypeCode;
+    public void setFinancialDocumentReferenceDocumentTypeCode(String referenceFinDocumentTypeCode) {
+        this.financialDocumentReferenceDocumentTypeCode = referenceFinDocumentTypeCode;
     }
 
     public String getFinSystemRefOriginationCode() {
-        return finSystemRefOriginationCode;
+        return financialSystemReferenceOriginationCode;
     }
 
-    public void setFinSystemRefOriginationCode(String finSystemRefOriginationCode) {
-        this.finSystemRefOriginationCode = finSystemRefOriginationCode;
+    public void setFinancialSystemReferenceOriginationCode(String finSystemRefOriginationCode) {
+        this.financialSystemReferenceOriginationCode = finSystemRefOriginationCode;
     }
 
     public String getSubAccountNumber() {
@@ -502,11 +502,11 @@ public class OriginEntry extends BusinessObjectBase implements Transaction {
     }
 
     public Integer getTrnEntryLedgerSequenceNumber() {
-        return trnEntryLedgerSequenceNumber;
+        return transactionLedgerEntrySequenceNumber;
     }
 
-    public void setTrnEntryLedgerSequenceNumber(Integer trnEntryLedgerSequenceNumber) {
-        this.trnEntryLedgerSequenceNumber = trnEntryLedgerSequenceNumber;
+    public void setTransactionLedgerEntrySequenceNumber(Integer trnEntryLedgerSequenceNumber) {
+        this.transactionLedgerEntrySequenceNumber = trnEntryLedgerSequenceNumber;
     }
 
     public KualiDecimal getTransactionLedgerEntryAmount() {
@@ -518,11 +518,11 @@ public class OriginEntry extends BusinessObjectBase implements Transaction {
     }
 
     public String getTransactionLedgerEntryDesc() {
-        return transactionLedgerEntryDesc;
+        return transactionLedgerEntryDescription;
     }
 
-    public void setTransactionLedgerEntryDesc(String transactionLedgerEntryDesc) {
-        this.transactionLedgerEntryDesc = transactionLedgerEntryDesc;
+    public void setTransactionLedgerEntryDescription(String transactionLedgerEntryDesc) {
+        this.transactionLedgerEntryDescription = transactionLedgerEntryDesc;
     }
 
     public String getUniversityFiscalPeriodCode() {

@@ -164,7 +164,7 @@ public class OriginEntryTestBase extends KualiTestBaseWithSpringOnly {
    * 
    * @param requiredEntries
    */
-  protected void assertOriginEntries(int groupCount, EntryHolder[] requiredEntries, Date runDateForOffsets) {
+  protected void assertOriginEntries(int groupCount, EntryHolder[] requiredEntries, Date runDateForOffsets, boolean isCostSharing) {
       
       List groups = unitTestSqlDao.sqlSelect("select * from gl_origin_entry_grp_t order by origin_entry_grp_src_cd");
       assertEquals("Number of groups is wrong", groupCount, groups.size());
@@ -186,21 +186,55 @@ public class OriginEntryTestBase extends KualiTestBaseWithSpringOnly {
         String expected = requiredEntries[count].transactionLine.trim();
         String found    = foundTransaction.getLine().trim();
         
-        String desc = expected.substring(51, 92).trim();
+        String desc = expected.substring(51, 92);//.trim();
         // If it's an offset entry, adjusted the expected entry to expect the runDate for the transactionDate.
-        if("GENERATED OFFSET".equals(desc) && null != runDateForOffsets) {
+        if(null != runDateForOffsets) {
             
-            StringBuffer modifiedExpectation = new StringBuffer();
-            modifiedExpectation.append(expected.substring(0, 109));
-            
-            // Splice in the current runDate.
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            modifiedExpectation.append(simpleDateFormat.format(runDateForOffsets));
+            String formattedRunDate = simpleDateFormat.format(runDateForOffsets);
             
-            modifiedExpectation.append(expected.substring(119));
+            if("GENERATED OFFSET".equals(desc.trim())
+                    || (isCostSharing
+                            && (desc.startsWith("GENERATED ")
+                                && !desc.startsWith("GENERATED CAPITALIZATION")))
+                    || "FR-".equals(desc.substring(28, 31))
+               ) {
+                
+                StringBuffer modifiedExpectation = new StringBuffer();
+                modifiedExpectation.append(expected.substring(0, 109));
+                
+                // Splice in the current runDate.
+                modifiedExpectation.append(formattedRunDate);
+                
+                modifiedExpectation.append(expected.substring(119));
+                
+                // .. and modify our expectations.
+                expected = modifiedExpectation.toString();
+                
+            }
             
-            // .. and modify our expectations.
-            expected = modifiedExpectation.toString();
+            // Document number on generated cost share entries includes the run date as the last
+            // five characters of the document number.
+            if(isCostSharing 
+                    && desc.startsWith("GENERATED ") 
+                    && !desc.startsWith("GENERATED CAPITALIZATION")) {
+                
+                simpleDateFormat = new SimpleDateFormat("MM/dd");
+                formattedRunDate = simpleDateFormat.format(runDateForOffsets);
+                
+                StringBuffer modifiedExpectation = new StringBuffer();
+                modifiedExpectation.append(expected.substring(0, 41));
+                
+                // Splice in the current runDate.
+                modifiedExpectation.append(formattedRunDate);
+                
+                modifiedExpectation.append(expected.substring(46));
+                
+                // .. and modify our expectations.
+                expected = modifiedExpectation.toString();
+                
+            }
+            
         }
         
         if (!found.equals(expected)) {
@@ -216,7 +250,13 @@ public class OriginEntryTestBase extends KualiTestBaseWithSpringOnly {
   }
 
   protected void assertOriginEntries(int groupCount, EntryHolder[] requiredEntries) {
-      assertOriginEntries(groupCount, requiredEntries, null);
+      assertOriginEntries(groupCount, requiredEntries, null, false);
+  }
+  
+  protected void assertOriginEntries(int groupCount, EntryHolder[] requiredEntries, Date runDateForOffsets) {
+      
+      assertOriginEntries(groupCount, requiredEntries, runDateForOffsets, false);
+      
   }
   
   protected int getGroup(List groups,String groupCode) {

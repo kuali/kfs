@@ -62,7 +62,7 @@ import org.springframework.beans.factory.BeanFactoryAware;
 
 /**
  * @author jsissom
- * @version $Id: PosterServiceImpl.java,v 1.23 2006-03-06 13:42:19 jsissom Exp $
+ * @version $Id: PosterServiceImpl.java,v 1.24 2006-03-22 17:13:14 larevans Exp $
  */
 public class PosterServiceImpl implements PosterService,BeanFactoryAware {
   private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PosterServiceImpl.class);
@@ -456,9 +456,9 @@ public class PosterServiceImpl implements PosterService,BeanFactoryAware {
     e.setFinancialSystemOriginationCode("MF");
     e.setFinancialDocumentNumber(sdf.format(runDate));
     if ( Constants.GL_DEBIT_CODE.equals(icrEntry.getTransactionDebitIndicator()) ) {
-      e.setTransactionLedgerEntryDesc(getChargeDescription(icrEntry.getAwardIndrCostRcvyRatePct(),et.getObjectCode(),et.getAccount().getAcctIndirectCostRcvyTypeCd(),et.getAccountObjectDirectCostAmount()));
+      e.setTransactionLedgerEntryDescription(getChargeDescription(icrEntry.getAwardIndrCostRcvyRatePct(),et.getObjectCode(),et.getAccount().getAcctIndirectCostRcvyTypeCd(),et.getAccountObjectDirectCostAmount()));
     } else {
-      e.setTransactionLedgerEntryDesc(getOffsetDescription(icrEntry.getAwardIndrCostRcvyRatePct(),et.getAccountObjectDirectCostAmount(),et.getChartOfAccountsCode(),et.getAccountNumber()));
+      e.setTransactionLedgerEntryDescription(getOffsetDescription(icrEntry.getAwardIndrCostRcvyRatePct(),et.getAccountObjectDirectCostAmount(),et.getChartOfAccountsCode(),et.getAccountNumber()));
     }
     e.setTransactionDate(new java.sql.Date(runDate.getTime()));
     e.setTransactionDebitCreditCode(icrEntry.getTransactionDebitIndicator());
@@ -506,9 +506,9 @@ public class PosterServiceImpl implements PosterService,BeanFactoryAware {
 
  */   
     if ( Constants.GL_DEBIT_CODE.equals(icrEntry.getTransactionDebitIndicator()) ) {
-      e.setTransactionLedgerEntryDesc(getChargeDescription(icrEntry.getAwardIndrCostRcvyRatePct(),et.getObjectCode(),et.getAccount().getAcctIndirectCostRcvyTypeCd(),et.getAccountObjectDirectCostAmount()));
+      e.setTransactionLedgerEntryDescription(getChargeDescription(icrEntry.getAwardIndrCostRcvyRatePct(),et.getObjectCode(),et.getAccount().getAcctIndirectCostRcvyTypeCd(),et.getAccountObjectDirectCostAmount()));
     } else {
-      e.setTransactionLedgerEntryDesc(getOffsetDescription(icrEntry.getAwardIndrCostRcvyRatePct(),et.getAccountObjectDirectCostAmount(),et.getChartOfAccountsCode(),et.getAccountNumber()));
+      e.setTransactionLedgerEntryDescription(getOffsetDescription(icrEntry.getAwardIndrCostRcvyRatePct(),et.getAccountObjectDirectCostAmount(),et.getChartOfAccountsCode(),et.getAccountNumber()));
     }
 
     originEntryService.createEntry(e,group);

@@ -5,8 +5,8 @@
 	<field-descriptor name="entryGroupId" column="ORIGIN_ENTRY_GRP_ID" jdbc-type="INTEGER" />
 	<field-descriptor name="accountNumber" column="ACCOUNT_NBR" jdbc-type="VARCHAR" />
 	<field-descriptor name="financialDocumentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" />
-	<field-descriptor name="financialDocumentReferenceNbr" column="FDOC_REF_NBR" jdbc-type="VARCHAR" />
-	<field-descriptor name="referenceFinDocumentTypeCode" column="FDOC_REF_TYP_CD" jdbc-type="VARCHAR" />
+	<field-descriptor name="financialDocumentReferenceNumber" column="FDOC_REF_NBR" jdbc-type="VARCHAR" />
+	<field-descriptor name="financialDocumentReferenceDocumentTypeCode" column="FDOC_REF_TYP_CD" jdbc-type="VARCHAR" />
 	<field-descriptor name="financialDocumentReversalDate" column="FDOC_REVERSAL_DT" jdbc-type="DATE" />
 	<field-descriptor name="financialDocumentTypeCode" column="FDOC_TYP_CD" jdbc-type="VARCHAR" />
 	<field-descriptor name="financialBalanceTypeCode" column="FIN_BALANCE_TYP_CD" jdbc-type="VARCHAR" />
@@ -15,17 +15,17 @@
 	<field-descriptor name="financialObjectCode" column="FIN_OBJECT_CD" jdbc-type="VARCHAR" />
 	<field-descriptor name="financialSubObjectCode" column="FIN_SUB_OBJ_CD" jdbc-type="VARCHAR" />
 	<field-descriptor name="financialSystemOriginationCode" column="FS_ORIGIN_CD" jdbc-type="VARCHAR" />
-	<field-descriptor name="finSystemRefOriginationCode" column="FS_REF_ORIGIN_CD" jdbc-type="VARCHAR" />
+	<field-descriptor name="financialSystemReferenceOriginationCode" column="FS_REF_ORIGIN_CD" jdbc-type="VARCHAR" />
 	<field-descriptor name="organizationDocumentNumber" column="ORG_DOC_NBR" jdbc-type="VARCHAR" />
 	<field-descriptor name="organizationReferenceId" column="ORG_REFERENCE_ID" jdbc-type="VARCHAR" />
 	<field-descriptor name="projectCode" column="PROJECT_CD" jdbc-type="VARCHAR" />
 	<field-descriptor name="subAccountNumber" column="SUB_ACCT_NBR" jdbc-type="VARCHAR" />
 	<field-descriptor name="transactionDate" column="TRANSACTION_DT" jdbc-type="DATE" />
 	<field-descriptor name="transactionDebitCreditCode" column="TRN_DEBIT_CRDT_CD" jdbc-type="VARCHAR" />
-	<field-descriptor name="transactionEncumbranceUpdtCd" column="TRN_ENCUM_UPDT_CD" jdbc-type="VARCHAR" />
-	<field-descriptor name="trnEntryLedgerSequenceNumber" column="TRN_ENTR_SEQ_NBR" jdbc-type="INTEGER" />
+	<field-descriptor name="transactionEncumbranceUpdateCode" column="TRN_ENCUM_UPDT_CD" jdbc-type="VARCHAR" />
+	<field-descriptor name="transactionLedgerEntrySequenceNumber" column="TRN_ENTR_SEQ_NBR" jdbc-type="INTEGER" />
 	<field-descriptor name="transactionLedgerEntryAmount" column="TRN_LDGR_ENTR_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
-	<field-descriptor name="transactionLedgerEntryDesc" column="TRN_LDGR_ENTR_DESC" jdbc-type="VARCHAR" />
+	<field-descriptor name="transactionLedgerEntryDescription" column="TRN_LDGR_ENTR_DESC" jdbc-type="VARCHAR" />
 	<field-descriptor name="universityFiscalPeriodCode" column="UNIV_FISCAL_PRD_CD" jdbc-type="VARCHAR" />
 	<field-descriptor name="universityFiscalYear" column="UNIV_FISCAL_YR" jdbc-type="INTEGER" />
 	<field-descriptor name="budgetYear" column="BDGT_YR" jdbc-type="VARCHAR"/>
@@ -107,7 +107,7 @@
 	</reference-descriptor>
 
 	<reference-descriptor name="referenceDocumentType" class-ref="org.kuali.core.document.DocumentType" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="referenceFinDocumentTypeCode" />
+		<foreignkey field-ref="financialDocumentReferenceDocumentTypeCode" />
 	</reference-descriptor>
 </class-descriptor>
 

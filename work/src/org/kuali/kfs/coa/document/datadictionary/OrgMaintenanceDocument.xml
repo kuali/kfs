@@ -90,6 +90,7 @@
           <maintainableField name="organizationActiveIndicator">
           	<defaultValue>true</defaultValue>
           </maintainableField>
+          <maintainableField name="versionNumber" />
         </maintainableItems>
       </maintainableSection>
       <maintainableSection title="Edit Plant Accounts">

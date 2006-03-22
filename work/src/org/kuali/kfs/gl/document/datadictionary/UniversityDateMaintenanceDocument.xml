@@ -37,6 +37,7 @@
 	            	<maintainableField name="universityDate" required="true" />
 	            	<maintainableField name="universityFiscalYear" required="true" />
 	            	<maintainableField name="universityFiscalAccountingPeriod" required="true" />	            	
+		            <maintainableField name="versionNumber" />
 	            </maintainableItems>          	                   
 	        </maintainableSection>
 	    </maintainableSections>

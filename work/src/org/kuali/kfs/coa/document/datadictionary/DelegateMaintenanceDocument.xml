@@ -69,6 +69,7 @@
 			          		org.kuali.core.lookup.valueFinder.CurrentDateMMDDYYYYFinder
 			          	</defaultValueFinderClass>
 					</maintainableField>
+					<maintainableField name="versionNumber" />
                 </maintainableItems>
 			</maintainableSection>
 		</maintainableSections>

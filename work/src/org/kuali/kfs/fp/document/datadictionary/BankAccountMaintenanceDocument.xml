@@ -67,6 +67,7 @@
 				    <maintainableField name="cashOffsetAccountNumber" />				
 				    <maintainableField name="cashOffsetObjectCode" />				
 				    <maintainableField name="cashOffsetSubObjectCode" />
+				    <maintainableField name="versionNumber" />
 	         	</maintainableItems>
 	        </maintainableSection>
 	    </maintainableSections>

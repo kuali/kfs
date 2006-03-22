@@ -35,11 +35,15 @@ public interface OriginEntryService {
 
   public Iterator getEntriesByGroup(OriginEntryGroup oeg);
 
-  public Iterator getEntriesByDocument(OriginEntryGroup oeg, String documentNumber);
+  public Iterator getEntriesByDocument(OriginEntryGroup oeg, String documentNumber, 
+          String documentTypeCode, String originCode);
 
-  public void createEntry(Transaction tran,OriginEntryGroup group);
+  public void createEntry(Transaction tran, OriginEntryGroup group);
 
-  public void loadFlatFile(String filename,String groupSourceCode,boolean valid,boolean processed,boolean scrub);
+  public void loadFlatFile(String filename, String groupSourceCode, boolean valid, boolean processed, 
+          boolean scrub);
 
-  public void removeScrubberDocumentEntries(OriginEntryGroup validGroup, OriginEntryGroup errorGroup, OriginEntryGroup expiredGroup, String documentNumber);
+  public void removeScrubberDocumentEntries(OriginEntryGroup validGroup, OriginEntryGroup errorGroup, 
+          OriginEntryGroup expiredGroup, String documentNumber, String documentTypeCode, String originCode);
+
 }

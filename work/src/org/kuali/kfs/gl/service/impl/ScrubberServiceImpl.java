@@ -73,7 +73,7 @@ import org.springframework.util.StringUtils;
 
 /**
  * @author Kuali General Ledger Team <kualigltech@oncourse.iu.edu>
- * @version $Id: ScrubberServiceImpl.java,v 1.72 2006-03-22 17:13:14 larevans Exp $
+ * @version $Id: ScrubberServiceImpl.java,v 1.73 2006-03-22 21:29:46 larevans Exp $
  */
 
 public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
@@ -323,7 +323,8 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
             OriginEntryGroup originEntryGroup = (OriginEntryGroup) iteratorOverGroups.next();
 
             OriginEntryGroupInfo originEntryGroupInfo = 
-            	processDocuments(originEntryGroup, originEntryService.getEntriesByGroup(originEntryGroup), batchInfo);
+            	processDocuments(originEntryGroup, 
+                        originEntryService.getEntriesByGroup(originEntryGroup), batchInfo);
             
             // Mark the origin entry group as being processed ...
             originEntryGroup.setProcess(Boolean.FALSE);
@@ -439,9 +440,13 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
     		postProcessDocument(documentInfo);
     		
     		// If there are no more units of work to process, we're done!
-    		if(null == documentInfo.getLastUnitOfWork() || null == documentInfo.getLastUnitOfWork().getFirstEntryOfNextUnitOfWork()) {
+    		if(null == documentInfo.getLastUnitOfWork() 
+                    || null == documentInfo.getLastUnitOfWork().getFirstEntryOfNextUnitOfWork()) {
+                
     			break;
+                
     		}
+            
     	}
     	
     	return originEntryGroupInfo;
@@ -464,14 +469,21 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         
     	if(0 < documentInfo.getNumberOfErrors()) {
             
-    		performDemerger(documentInfo.getDocumentNumber(), originEntryGroupInfo.getOriginEntryGroup());
+    		performDemerger(documentInfo.getDocumentNumber(),
+                    documentInfo.getDocumentTypeCode(),
+                    documentInfo.getOriginCode(),
+                    originEntryGroupInfo.getOriginEntryGroup());
             
     	}
     	
-		originEntryGroupInfo.setErrorCount(originEntryGroupInfo.getErrorCount() + documentInfo.getNumberOfErrors());
-		originEntryGroupInfo.setNumberOfDocuments(originEntryGroupInfo.getNumberOfDocuments() + 1);
-		originEntryGroupInfo.setNumberOfEntries(originEntryGroupInfo.getNumberOfEntries() + documentInfo.getNumberOfEntries());
-		originEntryGroupInfo.setNumberOfUnitsOfWork(originEntryGroupInfo.getNumberOfUnitsOfWork() + documentInfo.getNumberOfUnitsOfWork());
+		originEntryGroupInfo.setErrorCount(
+                originEntryGroupInfo.getErrorCount() + documentInfo.getNumberOfErrors());
+		originEntryGroupInfo.setNumberOfDocuments(
+                originEntryGroupInfo.getNumberOfDocuments() + 1);
+		originEntryGroupInfo.setNumberOfEntries(
+                originEntryGroupInfo.getNumberOfEntries() + documentInfo.getNumberOfEntries());
+		originEntryGroupInfo.setNumberOfUnitsOfWork(
+                originEntryGroupInfo.getNumberOfUnitsOfWork() + documentInfo.getNumberOfUnitsOfWork());
     }
     
     /**
@@ -496,21 +508,54 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
     			processUnitOfWork(originEntryGroup, iteratorOverEntries, firstEntryOfNextUnitOfWork, documentInfo);
     		
     		if (unitOfWorkInfo == null) {
-    		    break;      
+                
+    		    break;
+                
             }
+            
             postProcessUnitOfWork(unitOfWorkInfo);
     		
-    		documentInfo.setNumberOfErrors(documentInfo.getNumberOfErrors() + unitOfWorkInfo.getErrorCount());
+    		documentInfo.setNumberOfErrors(
+                    documentInfo.getNumberOfErrors() + unitOfWorkInfo.getErrorCount());
     		
     		// If there are no more units of work to process, or the 
     		// first entry of the next unit of work has a different
-    		// document number we're done with the document.
+    		// document number, document type or origin code we're done with the document.
+            
+            // NOTE (laran) The FIS scrubber has no explicit notion of documents. Everything is processed
+            // at the unit of work level. However, the de-merger (glemergeb) does the a notion of a
+            // document and it defines a document as a list of entries with the same document number,
+            // document type code and origin code. Here is the COBOL code for that.
+            
+//          124  001350 100-READ-GOOD1.
+//          125  001360     IF WS-GOOD1-KEY = HIGH-VALUES
+//          126  001370         GO TO 100-READ-GOOD1-EXIT.
+//          127  001380     READ GOOD1-FILE
+//          128  001390         AT END
+//          129                 MOVE HIGH-VALUES TO WS-GOOD1-KEY
+//          130  001400         GO TO 100-READ-GOOD1-EXIT.
+//          131  001410     MOVE GOOD1-DOC-TYPE TO WS-GOOD1-DOC-TYPE.
+//          132  001420     MOVE GOOD1-ORIGIN TO WS-GOOD1-ORIGIN.
+//          133  001430     MOVE GOOD1-DOC-NBR TO WS-GOOD1-DOC-NBR.
+//          134  001440     ADD +1 TO GOOD1-CNT.
+//          135  001450 100-READ-GOOD1-EXIT.
+//          136  001460     EXIT.
+            
     		if(null == unitOfWorkInfo.getFirstEntryOfNextUnitOfWork()
     				|| !ObjectHelper.isEqual(
     						unitOfWorkInfo.getFirstEntryOfNextUnitOfWork().getFinancialDocumentNumber(),
-    						documentInfo.getDocumentNumber())) {
+    						documentInfo.getDocumentNumber())
+                    || !ObjectHelper.isEqual(
+                            unitOfWorkInfo.getFirstEntryOfNextUnitOfWork().getFinancialDocumentTypeCode(),
+                            documentInfo.getDocumentTypeCode())
+                    || !ObjectHelper.isEqual(
+                            unitOfWorkInfo.getFirstEntryOfNextUnitOfWork().getFinancialSystemOriginationCode(),
+                            documentInfo.getOriginCode())) {
                 
     			documentInfo.setDocumentNumber(unitOfWorkInfo.getDocumentNumber());
+                documentInfo.setDocumentTypeCode(unitOfWorkInfo.getDocumentTypeCode());
+                documentInfo.setOriginCode(unitOfWorkInfo.getOriginCode());
+                
     			documentInfo.setLastUnitOfWork(unitOfWorkInfo);
                 
     			break;
@@ -577,6 +622,13 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
                 
     			firstEntry = (OriginEntry) iteratorOverEntries.next();
                 
+                documentInfo.setDocumentNumber(
+                        firstEntry.getFinancialDocumentNumber());
+                documentInfo.setDocumentTypeCode(
+                        firstEntry.getFinancialDocumentTypeCode());
+                documentInfo.setOriginCode(
+                        firstEntry.getFinancialSystemOriginationCode());
+                
     		} else {
                 
     			return null;
@@ -621,8 +673,13 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
             	validateOriginEntryAndBuildWorkingEntry(currentEntry, unitOfWorkInfo);
             
             // This needs to be done, so we do it as soon as we have workingEntryInfo to work with.
+            // This information allows us to distinguish the boundary between two documents.
             unitOfWorkInfo.setDocumentNumber(
-                    workingEntryInfo.getOriginEntry().getFinancialDocumentNumber());
+                    currentEntry.getFinancialDocumentNumber());
+            unitOfWorkInfo.setDocumentTypeCode(
+                    currentEntry.getFinancialDocumentTypeCode());
+            unitOfWorkInfo.setOriginCode(
+                    currentEntry.getFinancialSystemOriginationCode());
             
             calculateCostSharing(currentEntry, workingEntryInfo);
             
@@ -1834,6 +1891,7 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         	&& ObjectHelper.isEqual(currentEntry.getSubAccountNumber(), nextEntry.getSubAccountNumber())
             && ObjectHelper.isEqual(currentEntry.getFinancialBalanceTypeCode(), nextEntry.getFinancialBalanceTypeCode())
             && ObjectHelper.isEqual(currentEntry.getFinancialDocumentReversalDate(), nextEntry.getFinancialDocumentReversalDate())
+            && ObjectHelper.isEqual(currentEntry.getUniversityFiscalYear(), nextEntry.getUniversityFiscalYear())
             && ObjectHelper.isEqual(currentEntry.getUniversityFiscalPeriodCode(), nextEntry.getUniversityFiscalPeriodCode());
         
     }
@@ -3308,16 +3366,21 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
      * @param documentNumber
      * @param oeg
      */
-    private void performDemerger(String documentNumber, OriginEntryGroup oeg) {
-        originEntryService.removeScrubberDocumentEntries(
-            validGroup, errorGroup, expiredGroup, documentNumber);
+    private void performDemerger(String documentNumber, String documentTypeCode, String originCode, OriginEntryGroup oeg) {
         
-        for (Iterator entryIterator = originEntryService.getEntriesByDocument(oeg, documentNumber); entryIterator.hasNext();) {
+        originEntryService.removeScrubberDocumentEntries(
+            validGroup, errorGroup, expiredGroup, documentNumber, documentTypeCode, originCode);
+        
+        Iterator entryIterator = 
+            originEntryService.getEntriesByDocument(oeg, documentNumber, documentTypeCode, originCode);
+        
+        while(entryIterator.hasNext()) {
             
             OriginEntry entry = (OriginEntry) entryIterator.next();
             originEntryService.createEntry(entry, errorGroup);
             
         }
+        
     }
 
     public class ErrorEntry implements Comparable {

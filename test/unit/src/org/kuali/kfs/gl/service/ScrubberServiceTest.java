@@ -2847,20 +2847,28 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
     }
 
     public void testBlankOriginCode() throws Exception {
+        
         String[] inputTransactions = {
                 "2004BL2231411-----2400---ACEX07ST    BLANKORIG00000PAYROLL EXPENSE TRANSFERS                          620.00C2006-01-05          ----------                                                                          ",
                 "2004BL2231411-----8000---ACAS07ST  01BLANKORIG00000PAYROLL EXPENSE TRANSFERS                          620.00D2006-01-05          ----------                                                                          "
         };
 
+        String[] outputs = {
+                "2004BL2231411-----2400---ACEX07ST    BLANKORIG00000PAYROLL EXPENSE TRANSFERS                          620.00C2006-01-05          ----------                                                                          ",
+                "2004BL2231411-----8000---ACAS07ST  01BLANKORIG00000PAYROLL EXPENSE TRANSFERS                          620.00D2006-01-05          ----------                                                                          ",
+                "2004BL2231411-----8000---ACAS07ST  01BLANKORIG00000GENERATED OFFSET                                   620.00C2006-02-21          ----------                                                                          "
+        };
+        
         EntryHolder[] outputTransactions = {
             new EntryHolder(OriginEntrySource.EXTERNAL,inputTransactions[0]),
             new EntryHolder(OriginEntrySource.EXTERNAL,inputTransactions[1]),
-            new EntryHolder(OriginEntrySource.SCRUBBER_ERROR,inputTransactions[0]),
-            new EntryHolder(OriginEntrySource.SCRUBBER_ERROR,inputTransactions[1])
+            new EntryHolder(OriginEntrySource.SCRUBBER_ERROR, outputs[0]),
+            new EntryHolder(OriginEntrySource.SCRUBBER_VALID, outputs[1]),
+            new EntryHolder(OriginEntrySource.SCRUBBER_VALID, outputs[2])
         };
 
         scrub(inputTransactions);
-        assertOriginEntries(4,outputTransactions);
+        assertOriginEntries(4,outputTransactions, dateTimeService.currentDate);
     }
 
     public void testInvalidDocumentType() throws Exception {
@@ -2949,6 +2957,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
     }
     
     public void testInvalidBalanceType() throws Exception {
+        
         String[] inputTransactions = {
                 "2004BL1031420-----4110---XXEX07ID33EUINVALBALT00000NOV-05 IMU Business Office          2224           241.75D2005-11-30          ----------                                                                          ",
                 "2004BL1031420-----8000---ACAS07ID33EUINVALBALT00000NOV-05 IMU Business Office          2237           241.75C2005-11-30          ----------                                                                          "

@@ -38,7 +38,7 @@ import org.kuali.module.gl.service.OriginEntryService;
 
 /**
  * @author jsissom
- * @version $Id: OriginEntryServiceImpl.java,v 1.8 2006-02-12 16:17:27 jsissom Exp $
+ * @version $Id: OriginEntryServiceImpl.java,v 1.9 2006-03-22 21:29:46 larevans Exp $
  */
 public class OriginEntryServiceImpl implements OriginEntryService {
   private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OriginEntryServiceImpl.class);
@@ -69,12 +69,15 @@ public class OriginEntryServiceImpl implements OriginEntryService {
       return originEntryDao.getMatchingEntries(criteria);
     }
 
-  public Iterator getEntriesByDocument(OriginEntryGroup oeg, String documentNumber) {
+  public Iterator getEntriesByDocument(OriginEntryGroup oeg, String documentNumber, String documentTypeCode, String originCode) {
       LOG.debug("getEntriesByGroup() started");
 
       Map criteria = new HashMap();
-      criteria.put("entryGroupId",oeg.getId());
-      criteria.put("financialDocumentNumber",documentNumber);
+      criteria.put("entryGroupId", oeg.getId());
+      criteria.put("financialDocumentNumber", documentNumber);
+      criteria.put("financialDocumentTypeCode", documentTypeCode);
+      criteria.put("financialSystemOriginationCode", originCode);
+      
       return originEntryDao.getMatchingEntries(criteria);
     }
 
@@ -113,18 +116,31 @@ public class OriginEntryServiceImpl implements OriginEntryService {
     }
   }
 
-  public void removeScrubberDocumentEntries(OriginEntryGroup validGroup, OriginEntryGroup errorGroup, OriginEntryGroup expiredGroup, String documentNumber) {
+  public void removeScrubberDocumentEntries(OriginEntryGroup validGroup, OriginEntryGroup errorGroup, 
+          OriginEntryGroup expiredGroup, String documentNumber, String documentTypeCode, String originCode) {
+      
       Map criteria = new HashMap();
+      
       criteria.put("financialDocumentNumber", documentNumber);
+      criteria.put("financialDocumentTypeCode", documentTypeCode);
+      criteria.put("financialSystemOriginationCode", originCode);
       criteria.put("entryGroupId", validGroup.getId());
       originEntryDao.deleteMatchingEntries(criteria);
+      
       criteria = new HashMap();
       criteria.put("financialDocumentNumber", documentNumber);
+      criteria.put("financialDocumentTypeCode", documentTypeCode);
+      criteria.put("financialSystemOriginationCode", originCode);
       criteria.put("entryGroupId", errorGroup.getId());
       originEntryDao.deleteMatchingEntries(criteria);
+      
       criteria = new HashMap();
       criteria.put("financialDocumentNumber", documentNumber);
+      criteria.put("financialDocumentTypeCode", documentTypeCode);
+      criteria.put("financialSystemOriginationCode", originCode);
       criteria.put("entryGroupId", expiredGroup.getId());
       originEntryDao.deleteMatchingEntries(criteria);
+      
   }
+  
 }

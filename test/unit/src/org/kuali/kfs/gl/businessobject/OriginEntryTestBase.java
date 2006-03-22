@@ -109,8 +109,8 @@ public class OriginEntryTestBase extends KualiTestBaseWithSpringOnly {
     unitTestSqlDao.sqlCommand("delete from gl_sf_balances_t");    
   }
 
-  protected void clearGlEntryTable() {
-    unitTestSqlDao.sqlCommand("delete from gl_entry_t");
+  protected void clearGlEntryTable(String fin_coa_cd,String account_nbr) {
+    unitTestSqlDao.sqlCommand("delete from gl_entry_t where fin_coa_cd = '" + fin_coa_cd + "' and account_nbr = '" + account_nbr + "'");
   }
 
   protected void clearReversalTable() {

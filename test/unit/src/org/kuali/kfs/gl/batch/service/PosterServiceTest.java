@@ -127,8 +127,8 @@ public class PosterServiceTest extends OriginEntryTestBase {
     LOG.debug("testPostGlEntry() started");
 
     String[] inputTransactions = {
-        "2004BA6044900-----5300---ACEX07CHKDPDBLANKFISC12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
-        "2004BA6044900-----5300---ACEX07CHKDPDBLANKFISC12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                  "
+        "2004BA6044909-----5300---ACEX07CHKDPDBLANKFISC12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
+        "2004BA6044909-----5300---ACEX07CHKDPDBLANKFISC12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                  "
     };
 
     EntryHolder[] outputTransactions = {
@@ -139,21 +139,21 @@ public class PosterServiceTest extends OriginEntryTestBase {
     };
 
     clearOriginEntryTables();
-    clearGlEntryTable();
+    clearGlEntryTable("BA","6044909");
     loadInputTransactions(OriginEntrySource.SCRUBBER_VALID,inputTransactions);
 
     posterService.postMainEntries();
 
     assertOriginEntries(3,outputTransactions);
     
-    List glEntries = unitTestSqlDao.sqlSelect("select * from gl_entry_t");
+    List glEntries = unitTestSqlDao.sqlSelect("select * from gl_entry_t where fin_coa_cd = 'BA' and account_nbr = '6044909'");
     assertEquals("Should be 2 GL entries",2,glEntries.size());
     Map glEntry = (Map)glEntries.get(0);
 
     BigDecimal ufy = (BigDecimal)glEntry.get("UNIV_FISCAL_YR");
     assertEquals("univ_fiscal_yr wrong",2004,ufy.intValue());
     assertEquals("fin_coa_cd wrong","BA",(String)glEntry.get("FIN_COA_CD"));
-    assertEquals("account_nbr wrong","6044900",(String)glEntry.get("ACCOUNT_NBR"));
+    assertEquals("account_nbr wrong","6044909",(String)glEntry.get("ACCOUNT_NBR"));
     assertEquals("sub_acct_nbr wrong","-----",(String)glEntry.get("SUB_ACCT_NBR"));
     assertEquals("fin_object_cd wrong","5300",(String)glEntry.get("FIN_OBJECT_CD"));
     assertEquals("fin_sub_obj_cd wrong","---",(String)glEntry.get("FIN_SUB_OBJ_CD"));
@@ -593,11 +593,10 @@ public class PosterServiceTest extends OriginEntryTestBase {
     assertEquals("Wrong number of balances in the table",8,balances.size());
   }
 
-  // TODO Commented out until I can fix it.
   public void xtestPostExpenditureTransaction() throws Exception {
     LOG.debug("testPostExpenditureTransaction() started");
 
-    //  setRollback(false);
+    setRollback(false);
 
     String[] inputTransactions = {
         "2004BL2231499-----4166---ACEX07CHKDPDET000001112345DESCRIPTION                                      11000.00D2006-01-05ABCDEFGHIJ----------12345678                                                                  ",

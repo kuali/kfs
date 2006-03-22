@@ -370,6 +370,5 @@ public class CashReceiptDocumentRule extends TransactionalDocumentRuleBase imple
                  || workflowDocument.stateIsException() 
                  || workflowDocument.stateIsDisapproved() 
                  || workflowDocument.stateIsSaved());
-        return true;
     }
 }

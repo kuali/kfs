@@ -63,8 +63,6 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
     }
 
     public void testCostShareEncumbrancesForPreEncumbrances() throws Exception {
-
-        setRollback(false);
         
         // Inputs.
         String[] stringInput = new String[] {

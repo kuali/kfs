@@ -364,15 +364,12 @@ public class CashReceiptDocumentRule extends TransactionalDocumentRuleBase imple
     public boolean isCoverSheetPrintable( CashReceiptDocument document ) {
         KualiWorkflowDocument workflowDocument = 
             document.getDocumentHeader().getWorkflowDocument();
-        /*
-          Uncomment this when coversheet is finished being built correctly.
         return !(workflowDocument.stateIsCanceled() 
                  || workflowDocument.stateIsInitiated() 
                  || workflowDocument.stateIsDisapproved()
                  || workflowDocument.stateIsException() 
                  || workflowDocument.stateIsDisapproved() 
                  || workflowDocument.stateIsSaved());
-        */
         return true;
     }
 }

@@ -69,7 +69,15 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
 
     public DisbursementVoucherDocumentRule() {
     }
-
+    
+    /**
+     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processCustomUpdateAccountingLineBusinessRules(org.kuali.core.document.TransactionalDocument, org.kuali.core.bo.AccountingLine, org.kuali.core.bo.AccountingLine)
+     */
+    protected boolean processCustomUpdateAccountingLineBusinessRules(TransactionalDocument transactionalDocument,
+            AccountingLine originalAccountingLine, AccountingLine updatedAccountingLine) {
+        return processCustomAddAccountingLineBusinessRules(transactionalDocument, updatedAccountingLine);
+    }
+    
     /**
      * @see org.kuali.core.rule.AddAccountingLineRule#processCustomAddAccountingLineBusinessRules(org.kuali.core.document.TransactionalDocument,
      *      org.kuali.core.bo.AccountingLine)
@@ -80,6 +88,8 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
 
         LOG.debug("validating accounting line # " + accountingLine.getSequenceNumber());
 
+        // don't validate generated tax lines
+        
         DisbursementVoucherDocument dvDocument = (DisbursementVoucherDocument) transactionalDocument;
         ErrorMap errors = GlobalVariables.getErrorMap();
 
@@ -377,7 +387,7 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
         /* if special handling indicated, must be a note exlaining why */
         if (document.isDisbVchrSpecialHandlingCode()
                 && (document.getDocumentHeader().getNotes() == null || document.getDocumentHeader().getNotes().size() == 0)) {
-            errors.put(PropertyConstants.DISB_VCHR_SPECIAL_HANDLING_CODE, KeyConstants.ERROR_DV_SPECIAL_HANDLING_NOTE);
+            errors.putWithoutFullErrorPath(Constants.GENERAL_SPECHAND_TAB_ERRORS, KeyConstants.ERROR_DV_SPECIAL_HANDLING_NOTE);
         }
 
         /* state & zip must be given for us */
@@ -912,6 +922,12 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
                 && executeApplicationParameterRestriction(GLOBAL_FIELD_RESTRICTIONS_GROUP_NM,
                         OBJECT_TYPE_GLOBAL_RESTRICTION_PARM_NM, accountingLine.getObjectCode().getFinancialObjectTypeCode(),
                         errorKey, "Object type");
+        
+        /* check object sub type global restrictions */
+        objectCodeAllowed = objectCodeAllowed
+                && executeApplicationParameterRestriction(GLOBAL_FIELD_RESTRICTIONS_GROUP_NM,
+                        OBJECT_SUB_TYPE_GLOBAL_RESTRICTION_PARM_NM, accountingLine.getObjectCode().getFinancialObjectSubTypeCode(),
+                        errorKey, "Object sub type");   
 
         /* check object level global restrictions */
         objectCodeAllowed = objectCodeAllowed
@@ -940,6 +956,13 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
         objectCodeAllowed = objectCodeAllowed
                 && executeApplicationParameterRestriction(OBJECT_CODE_PAYMENT_GROUP_NM, OBJECT_CODE_PARM_PREFIX
                         + accountingLine.getFinancialObjectCode(), dvDocument.getDvPayeeDetail().getDisbVchrPaymentReasonCode(),
+                        PropertyConstants.DV_PAYEE_DETAIL + "." + PropertyConstants.DISB_VCHR_PAYMENT_REASON_CODE,
+                        "Payment reason code");
+        
+        /* check payment reason is valid for object level */
+        objectCodeAllowed = objectCodeAllowed
+                && executeApplicationParameterRestriction(OBJECT_LEVEL_PAYMENT_GROUP_NM, OBJECT_LEVEL_PARM_PREFIX
+                        + accountingLine.getObjectCode().getFinancialObjectLevelCode(), dvDocument.getDvPayeeDetail().getDisbVchrPaymentReasonCode(),
                         PropertyConstants.DV_PAYEE_DETAIL + "." + PropertyConstants.DISB_VCHR_PAYMENT_REASON_CODE,
                         "Payment reason code");
 

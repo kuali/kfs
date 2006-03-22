@@ -58,6 +58,7 @@ public interface DisbursementVoucherRuleConstants {
     public static String PAYMENT_OBJECT_LEVEL_GROUP_NM = "DVPaymentObjectLevelRestrictions";
     public static String PAYMENT_OBJECT_CODE_GROUP_NM = "DVPaymentObjectCodeRestrictions";
     public static String OBJECT_CODE_PAYMENT_GROUP_NM = "DVObjectCodePaymentRestrictions";
+    public static String OBJECT_LEVEL_PAYMENT_GROUP_NM = "DVObjectLevelPaymentRestrictions";
     public static String PAYEE_PAYMENT_GROUP_NM = "DVPayeePaymentTypeRestrictions";
     public static String ALIEN_INDICATOR_DOC_LOCATION_GROUP_NM = "DVAlienIndicatorDocLocationRestrictions";
     public static String ALIEN_INDICATOR_PAYMENT_GROUP_NM = "DVAlienIndicatorPaymentRestrictions";
@@ -69,9 +70,11 @@ public interface DisbursementVoucherRuleConstants {
 
     // apc parameter constants
     public static String OBJECT_CODE_PARM_PREFIX = "OBJECT_CODE_";
+    public static String OBJECT_LEVEL_PARM_PREFIX = "OBJECT_LEVEL_";
     public static String PAYMENT_PARM_PREFIX = "PAYMENT_REASON_";
     public static String OBJECT_TYPE_GLOBAL_RESTRICTION_PARM_NM = "OBJECT_TYPE_RESTRICTIONS";
     public static String OBJECT_LEVEL_GLOBAL_RESTRICTION_PARM_NM = "OBJECT_LEVEL_RESTRICTIONS";
+    public static String OBJECT_SUB_TYPE_GLOBAL_RESTRICTION_PARM_NM = "OBJECT_SUB_TYPE_RESTRICTIONS";
     public static String SUB_FUND_GLOBAL_RESTRICTION_PARM_NM = "SUB_FUND_RESTRICTIONS";
     public static String FUNCTION_CODE_GLOBAL_RESTRICTION_PARM_NM = "FUNCTION_CODE_RESTRICTIONS";
     public static String EMPLOYEE_PAYEE_PAYMENT_PARM = "PAYEE_TYPE_E";

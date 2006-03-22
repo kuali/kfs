@@ -91,6 +91,32 @@ public class VerifyTransactionImpl implements VerifyTransaction {
       }
     }
 
+    // KULGL-58 Make sure all GL entry primary key fields are not null
+    if ( t.getSubAccountNumber() == null ) {
+      errors.add("sub_acct_nbr must not be null");
+    }
+    if ( t.getFinancialObjectCode() == null ) {
+      errors.add("fin_object_cd must not be null");      
+    }
+    if ( t.getFinancialSubObjectCode() == null ) {
+      errors.add("fin_sub_obj_cd must not be null");      
+    }
+    if ( t.getUniversityFiscalPeriodCode() == null ) {
+      errors.add("univ_fiscal_prd_cd must not be null");      
+    }
+    if ( t.getFinancialDocumentTypeCode() == null ) {
+      errors.add("fdoc_typ_cd must not be null");      
+    }
+    if ( t.getFinancialSystemOriginationCode() == null ) {
+      errors.add("fs_origin_cd must not be null");      
+    }
+    if ( t.getFinancialDocumentNumber() == null ) {
+      errors.add("fdoc_nbr must not be null");      
+    }
+    if ( t.getTrnEntryLedgerSequenceNumber() == null ) {
+      errors.add("trn_entr_seq_nbr must not be null");      
+    }
+
     return errors;
   }
 }

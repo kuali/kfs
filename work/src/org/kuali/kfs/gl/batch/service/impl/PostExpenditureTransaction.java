@@ -93,7 +93,7 @@ public class PostExpenditureTransaction implements PostTransaction {
       A21SubAccount a21SubAccount = a21SubAccountDao.getByPrimaryKey(t.getChartOfAccountsCode(),t.getAccountNumber(),t.getSubAccountNumber());
       if ( (a21SubAccount != null) && "CS".equals(a21SubAccount.getSubAccountTypeCode()) ) {
         // No need to post this
-        System.out.println("1");
+        LOG.debug("post() A21 subaccounts with type of CS - not posted");
         return "";
       }
 
@@ -102,7 +102,7 @@ public class PostExpenditureTransaction implements PostTransaction {
           t.getAccountNumber(),objectCode.getReportsToChartOfAccountsCode(),objectCode.getReportsToFinancialObjectCode());
       if ( excAccount != null ) {
         // No need to post this
-        System.out.println("2");
+        LOG.debug("post() ICR Excluded account - not posted");
         return "";
       }
 
@@ -113,7 +113,7 @@ public class PostExpenditureTransaction implements PostTransaction {
         // If the ICR type code is null or 10, don't post
         if ( (account.getAcctIndirectCostRcvyTypeCd() == null) || "10".equals(account.getAcctIndirectCostRcvyTypeCd()) ) {
           // No need to post this
-          System.out.println("3");
+          LOG.debug("post() ICR type is null or 10 - not posted");
           return "";
         }
 
@@ -122,14 +122,14 @@ public class PostExpenditureTransaction implements PostTransaction {
             t.getChartOfAccountsCode(),t.getFinancialObjectCode());
         if ( excType != null ) {
           // No need to post this
-          System.out.println("4");
+          LOG.debug("post() ICR Excluded type - not posted");
           return "";
         }
         return postTransaction(t,mode,postDate);
       }
     } else {
       // Don't need to post anything
-      System.out.println("5");
+      LOG.debug("post() Not ICR account or invalid period code - not posted");
       return "";
     }
   }

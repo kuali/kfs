@@ -92,19 +92,19 @@ public class VerifyTransactionImpl implements VerifyTransaction {
     }
 
     // KULGL-58 Make sure all GL entry primary key fields are not null
-    if ( t.getSubAccountNumber() == null ) {
+    if ( (t.getSubAccountNumber() == null) || (t.getSubAccountNumber().trim().length() == 0) ) {
       errors.add("sub_acct_nbr must not be null");
     }
-    if ( t.getFinancialObjectCode() == null ) {
+    if ( (t.getFinancialObjectCode() == null) || (t.getFinancialObjectCode().trim().length() == 0) ) {
       errors.add("fin_object_cd must not be null");
     }
-    if ( t.getFinancialSubObjectCode() == null ) {
+    if ( (t.getFinancialSubObjectCode() == null) || (t.getFinancialSubObjectCode().trim().length() == 0) ) {
       errors.add("fin_sub_obj_cd must not be null");
     }
-    if ( t.getUniversityFiscalPeriodCode() == null ) {
+    if ( (t.getUniversityFiscalPeriodCode() == null) || (t.getUniversityFiscalPeriodCode().trim().length() == 0) ) {
       errors.add("univ_fiscal_prd_cd must not be null");
     }
-    if ( t.getFinancialDocumentTypeCode() == null ) {
+    if ( (t.getFinancialDocumentTypeCode() == null) || (t.getFinancialDocumentTypeCode().trim().length() == 0) ) {
       errors.add("fdoc_typ_cd must not be null");
     }
     if ( (t.getFinancialSystemOriginationCode() == null) || (t.getFinancialSystemOriginationCode().trim().length() == 0) ) {

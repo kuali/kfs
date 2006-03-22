@@ -96,25 +96,25 @@ public class VerifyTransactionImpl implements VerifyTransaction {
       errors.add("sub_acct_nbr must not be null");
     }
     if ( t.getFinancialObjectCode() == null ) {
-      errors.add("fin_object_cd must not be null");      
+      errors.add("fin_object_cd must not be null");
     }
     if ( t.getFinancialSubObjectCode() == null ) {
-      errors.add("fin_sub_obj_cd must not be null");      
+      errors.add("fin_sub_obj_cd must not be null");
     }
     if ( t.getUniversityFiscalPeriodCode() == null ) {
-      errors.add("univ_fiscal_prd_cd must not be null");      
+      errors.add("univ_fiscal_prd_cd must not be null");
     }
     if ( t.getFinancialDocumentTypeCode() == null ) {
-      errors.add("fdoc_typ_cd must not be null");      
+      errors.add("fdoc_typ_cd must not be null");
     }
-    if ( t.getFinancialSystemOriginationCode() == null ) {
-      errors.add("fs_origin_cd must not be null");      
+    if ( (t.getFinancialSystemOriginationCode() == null) || (t.getFinancialSystemOriginationCode().trim().length() == 0) ) {
+      errors.add("fs_origin_cd must not be null");
     }
-    if ( t.getFinancialDocumentNumber() == null ) {
-      errors.add("fdoc_nbr must not be null");      
+    if ( (t.getFinancialDocumentNumber() == null) || (t.getFinancialDocumentNumber().trim().length() == 0) ) {
+      errors.add("fdoc_nbr must not be null");
     }
     if ( t.getTrnEntryLedgerSequenceNumber() == null ) {
-      errors.add("trn_entr_seq_nbr must not be null");      
+      errors.add("trn_entr_seq_nbr must not be null");
     }
 
     return errors;

@@ -172,7 +172,7 @@ public class OriginEntry extends BusinessObjectBase implements Transaction {
     public void setFromTextFile(String line) {
 
       // Just in case
-      line = line + "                                                                                           ";
+      line = line + SPACES;
 
       if (!"    ".equals(line.substring(0, 4))) {
           setUniversityFiscalYear(new Integer(line.substring(0, 4)));
@@ -190,7 +190,7 @@ public class OriginEntry extends BusinessObjectBase implements Transaction {
       setFinancialDocumentTypeCode(line.substring(31, 35).trim());
       setFinancialSystemOriginationCode(line.substring(35, 37).trim());
       setFinancialDocumentNumber(line.substring(37, 46).trim());
-      if (!"     ".equals(line.substring(46, 51))) {
+      if (! "     ".equals(line.substring(46, 51)) && ! "00000".equals(line.substring(46, 51)) ) {
           setTrnEntryLedgerSequenceNumber(new Integer(line.substring(46, 51).trim()));
       } else {
           setTrnEntryLedgerSequenceNumber(null);

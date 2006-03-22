@@ -268,15 +268,31 @@ public class CashReceiptCoverSheetServiceImpl
         output.endText();
     }
     
+    /**
+     * Read-only accessor for <code>{@link BaseFont}</code>. Used for
+     * creating the check detail information
+     *
+     * @return BaseFont
+     */
     private BaseFont getTextFont() throws DocumentException, IOException {
         return BaseFont.createFont( BaseFont.HELVETICA, 
                                     BaseFont.CP1252, BaseFont.NOT_EMBEDDED );
     }
     
+    /**
+     * Defines a state of Y positon for the text. 
+     * 
+     * @param y
+     */
     private void setCurrentRenderingYPosition(float y) {
         _yPos = y;
     }
     
+    /**
+     * Defines a state of Y positon for the text. 
+     * 
+     * @return float
+     */
     private float getCurrentRenderingYPosition() {
         return _yPos;
     }
@@ -295,12 +311,6 @@ public class CashReceiptCoverSheetServiceImpl
         ModifiableInteger pageNumber;
         int checkCount = 0;
         int maxCheckCount = MAX_CHECKS_FIRST_PAGE;
-        Check repeat = null;
-
-        for( int i = 0; i < 200; i++ ) {
-            crDoc.addCheck( crDoc.getCheck( 0 ) );
-        }
-        
 
         pageNumber = new ModifiableInteger(0);
         content = startNewPage(writer, reader, pageNumber);
@@ -326,6 +336,18 @@ public class CashReceiptCoverSheetServiceImpl
         }
     }
 
+    /**
+     * Responsible for creating a new PDF page and workspace through
+     * <code>{@link PdfContentByte}</code> for direct writing to the PDF.
+     * 
+     * @param writer
+     * @param reader
+     * @param pageNumber
+     * 
+     * @return PdfContentByte
+     * @exception DocumentException
+     * @exception IOException
+     */
     private PdfContentByte startNewPage( PdfWriter writer, 
                                          PdfReader reader, 
                                          ModifiableInteger pageNumber ) 
@@ -360,6 +382,11 @@ public class CashReceiptCoverSheetServiceImpl
     }
 }
 
+/**
+ * Utility class used to replace an <code>{@link Integer}</code> because
+ * an integer cannot be modified once it has been instantiated. 
+ *
+ */
 class ModifiableInteger {
     int _value;
 

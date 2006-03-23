@@ -76,7 +76,7 @@
 <c:set var="rowCount" value="${empty extraRowFields ? 1 : 2}"/>
 
 <tr>
-<kul:htmlAttributeHeaderCell literalLabel="${rowHeader}" scope="row" rowspan="${rowCount}">
+<kul:htmlAttributeHeaderCell literalLabel="${rowHeader}:" scope="row" rowspan="${rowCount}">
     <%-- these hidden fields are inside a table cell to keep the HTML valid --%>
     <c:forTokens var="hiddenField" items="${hiddenFields}" delims=",">
         <fin:hiddenAccountingLineField

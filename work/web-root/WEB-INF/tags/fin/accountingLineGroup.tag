@@ -133,7 +133,7 @@
         accountingLine="new${capitalSourceOrTarget}Line"
         accountingLineAttributes="${accountingLineAttributes}"
         dataCellCssClass="infoline"
-        rowHeader="add:"
+        rowHeader="add"
         actionGroup="newLine"
         actionInfix="${capitalSourceOrTarget}"
         optionalFields="${optionalFields}"

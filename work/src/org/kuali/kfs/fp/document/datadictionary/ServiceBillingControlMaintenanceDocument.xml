@@ -29,7 +29,15 @@
         <lockingKeys>
 			<field attributeName="chartOfAccountsCode" />
 			<field attributeName="accountNumber" />	
-		</lockingKeys>	        
+		</lockingKeys>
+		
+		<defaultExistenceChecks>
+			<reference  attributeName="account" 
+						activeIndicatorAttributeName="accountClosedIndicator" 
+						activeIndicatorReversed="true" 
+						attributeToHighlightOnFail="accountNumber" 
+						displayFieldName="Account" />
+		</defaultExistenceChecks>	        
 
 	    <maintainableSections>
 	        <maintainableSection title="Edit Service Billing Control">

@@ -58,35 +58,7 @@ public class CashReceiptDocumentRule extends TransactionalDocumentRuleBase imple
      * @see org.kuali.core.rule.DocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.Document)
      */
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
-        CashReceiptDocument cashReceiptDocument = (CashReceiptDocument) document;
-        String documentEntryName = document.getDocumentHeader().getWorkflowDocument().getDocumentType();
-        
-        boolean isValid = true;
-        if(cashReceiptDocument.getTotalCheckAmount().compareTo(Constants.ZERO) < 0) {
-            isValid = false;
-            String label = SpringServiceLocator.getDataDictionaryService().getAttributeLabel(documentEntryName, 
-                    PropertyConstants.TOTAL_CHECK_AMOUNT);
-            GlobalVariables.getErrorMap().put(DOCUMENT_ERROR_PREFIX + PropertyConstants.TOTAL_CHECK_AMOUNT, KeyConstants.ERROR_NEGATIVE_AMOUNT, 
-                    label);
-        }
-        
-        if(cashReceiptDocument.getTotalCashAmount().compareTo(Constants.ZERO) < 0) {
-            isValid = false;
-            String label = SpringServiceLocator.getDataDictionaryService().getAttributeLabel(documentEntryName, 
-                    PropertyConstants.TOTAL_CASH_AMOUNT);
-            GlobalVariables.getErrorMap().put(DOCUMENT_ERROR_PREFIX + PropertyConstants.TOTAL_CASH_AMOUNT, KeyConstants.ERROR_NEGATIVE_AMOUNT, 
-                    label);
-        }
-        
-        if(cashReceiptDocument.getTotalCoinAmount().compareTo(Constants.ZERO) < 0) {
-            isValid = false;
-            String label = SpringServiceLocator.getDataDictionaryService().getAttributeLabel(documentEntryName, 
-                    PropertyConstants.TOTAL_COIN_AMOUNT);
-            GlobalVariables.getErrorMap().put(DOCUMENT_ERROR_PREFIX + PropertyConstants.TOTAL_COIN_AMOUNT, KeyConstants.ERROR_NEGATIVE_AMOUNT, 
-                    label);
-        }
-            
-        return isValid;
+        return !CashReceiptDocumentRuleUtil.areCashTotalsNegative((CashReceiptDocument) document);
     }
     
     /**
@@ -114,26 +86,26 @@ public class CashReceiptDocumentRule extends TransactionalDocumentRuleBase imple
     }
     
     /**
-     * For Cash Receipt documents, the document is balanced if the sum total of checks and cash and coin 
-     * equals the sum total of the accounting lines.  In addition, the sum total of checks and cash and coin 
+     * For Cash Receipt documents, the document is balanced if the sum total of checks and cash and coin
+     * equals the sum total of the accounting lines.  In addition, the sum total of checks and cash and coin
      * must be greater than zero.
-     * 
+     *
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#isDocumentBalanceValid(org.kuali.core.document.TransactionalDocument)
      */
     protected boolean isDocumentBalanceValid(TransactionalDocument transactionalDocument) {
         CashReceiptDocument cr = (CashReceiptDocument) transactionalDocument;
-        
+
         // make sure that cash reconciliation total is greater than zero
         boolean isValid = cr.getSumTotalAmount().compareTo(Constants.ZERO) > 0;
         if(!isValid) {
-            GlobalVariables.getErrorMap().put(DOCUMENT_ERROR_PREFIX + PropertyConstants.SUM_TOTAL_AMOUNT, 
+            GlobalVariables.getErrorMap().put(DOCUMENT_ERROR_PREFIX + PropertyConstants.SUM_TOTAL_AMOUNT,
                     KeyConstants.CashReceipt.ERROR_DOCUMENT_CASH_RECEIPT_NO_CASH_RECONCILIATION_TOTAL);
         }
-        
+
         if(isValid) {
             // make sure the document is in balance
             isValid = cr.getSourceTotal().compareTo(cr.getSumTotalAmount()) == 0;
-    
+
             if (!isValid) {
                 GlobalVariables.getErrorMap().put(
                         DOCUMENT_ERROR_PREFIX + PropertyConstants.SUM_TOTAL_AMOUNT,

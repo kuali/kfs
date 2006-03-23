@@ -49,6 +49,7 @@ import org.kuali.module.financial.document.CashReceiptDocument;
 import org.kuali.module.financial.service.CashReceiptCoverSheetService;
 import org.kuali.module.financial.service.impl.CashReceiptCoverSheetServiceImpl;
 import org.kuali.module.financial.web.struts.form.CashReceiptForm;
+import org.kuali.module.financial.rules.CashReceiptDocumentRuleUtil;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -76,6 +77,9 @@ public class CashReceiptAction extends KualiTransactionalDocumentActionBase {
             if (CashReceiptDocument.CHECK_ENTRY_DETAIL.equals(cdoc.getCheckEntryMode())) {
                 processChecks(cdoc, cform);
             }
+
+            // generate errors for negative cash totals (especially for the recalculate button)
+            CashReceiptDocumentRuleUtil.areCashTotalsNegative(cdoc);
         }
 
         // proceed as usual

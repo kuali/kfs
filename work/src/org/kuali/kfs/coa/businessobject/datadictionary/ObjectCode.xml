@@ -133,7 +133,7 @@
 				</description>
 			</attribute>
 
-			<attribute name="financialObjectCodeName" forceUppercase="false">
+			<attribute name="financialObjectCodeName" forceUppercase="true">
 				<label>Object Code Name</label>
 				<shortLabel>ObjCodeName</shortLabel>
 
@@ -148,7 +148,7 @@
 				<description>The name assigned to this object code.</description>
 			</attribute>	
 
-			<attribute name="financialObjectCodeShortName" forceUppercase="false">
+			<attribute name="financialObjectCodeShortName" forceUppercase="true">
 				<label>Object Code Short Name</label>
 				<shortLabel>ObjCodeShortName</shortLabel>
 

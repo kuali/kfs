@@ -136,21 +136,20 @@
 					The Name of the Reporting Code Manager.
 				</description>
 			</attributeReference>
-			
-			<attribute name="financialReportsToReportingCode" forceUppercase="true">
+			<attributeReference name="financialReportsToReportingCode"
+								sourceClassName="org.kuali.module.chart.bo.ReportingCodes" 
+								sourceAttributeName="financialReportingCode">
 				<label>Financial Reports To Reporting Code</label>
 				<shortLabel>Reports To Code</shortLabel>
-
-				<maxLength>10</maxLength>
-				<validationPattern><anyCharacter /></validationPattern>
 				<required>true</required>
 				<control>
 					<text size="10" />
 				</control>
-
 				<summary>Financial Reports To Reporting Code</summary>
-				<description>Financial Reports To Reporting Code is a unique identifier of the type of a document.</description>
-			</attribute>
+				<description>
+					Financial Reports To Reporting Code is a unique identifier of the type of a document.
+				</description>
+			</attributeReference>
 
 		    <attributeReference name="versionNumber" 
 								sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 

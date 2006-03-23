@@ -7,7 +7,8 @@
 	<maintenanceDocument>
 		<businessObjectClass>org.kuali.module.chart.bo.ReportingCodes</businessObjectClass>
 		<maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
-
+		<businessRulesClass>org.kuali.module.chart.rules.ReportingCodesRule</businessRulesClass>
+		
         <documentAuthorizerClass>org.kuali.core.document.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
         <authorizations>
             <authorization action="initiate">

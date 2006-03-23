@@ -401,9 +401,6 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
                     success &= false;
                     putFieldError("reportsToAccountNumber", KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCOUNT_CLOSED_FRINGE_BENEFIT);
                 }
-                else if (fringeBenefitAccount.isExpired()) {
-                    //TODO: see KULCOA-337 - how to handle "asking the user if they want to use the Continuation Account"
-                }
             }
         }
         
@@ -438,9 +435,6 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
                     success &= false;
                     putFieldError("endowmentIncomeAccountNumber", KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCOUNT_CLOSED_ENDOWMENT);
                 }
-                else if (endowmentAccount.isExpired()) {
-                    //TODO: see KULCOA-337 - how to handle "asking the user if they want to use the Continuation Account"
-                }
             }
         }
         
@@ -455,9 +449,6 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
                 if (contractControlAccount.isAccountClosedIndicator()) {
                     success &= false;
                     putFieldError("contractControlAccountNumber", KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCOUNT_CLOSED_CONTRACT_CONTROL);
-                }
-                else if (contractControlAccount.isExpired()) {
-                    //TODO: see KULCOA-337 - how to handle "asking the user if they want to use the Continuation Account"
                 }
             }
         }
@@ -474,9 +465,6 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
                     success &= false;
                     putFieldError("incomeStreamAccountNumber", KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCOUNT_CLOSED_INCOME_STREAM);
                 }
-                else if (incomeStreamAccount.isExpired()) {
-                    //TODO: see KULCOA-337 - how to handle "asking the user if they want to use the Continuation Account"
-                }
             }
         }
         
@@ -491,9 +479,6 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
                 if (icrAccount.isAccountClosedIndicator()) {
                     success &= false;
                     putFieldError("indirectCostRecoveryAcctNbr", KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCOUNT_CLOSED_ICR);
-                }
-                else if (icrAccount.isExpired()) {
-                    //TODO: see KULCOA-337 - how to handle "asking the user if they want to use the Continuation Account"
                 }
             }
         }
@@ -635,24 +620,20 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         
         // must have no pending ledger entries
         if (!generalLedgerPendingEntryService.hasPendingGeneralLedgerEntry(newAccount)) {
-            //TODO: add real error messages
-            putGlobalError(KeyConstants.ERROR_DOCUMENT_ACCOUNT_BALANCE);
+            putGlobalError(KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCOUNT_CLOSED_PENDING_LEDGER_ENTRIES);
             success &= false;
         }
 
         // beginning balance must be loaded in order to close account
         if (!balanceService.beginningBalanceLoaded(newAccount)) {
-            //TODO: add real error messages
-            putGlobalError(KeyConstants.ERROR_DOCUMENT_ACCOUNT_BALANCE);
+            putGlobalError(KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCOUNT_CLOSED_NO_LOADED_BEGINNING_BALANCE);
             success &= false;
         }
         
         // must have no base budget,  must have no open encumbrances, must have no asset, liability or fund balance balances other than object code 9899 
         //      (9899 is fund balance for us), and the process of closing income and expense into 9899 must take the 9899 balance to zero.
-
         if (balanceService.hasAssetLiabilityFundBalanceBalances(newAccount)) {
-            //TODO: add real error messages
-            putGlobalError(KeyConstants.ERROR_DOCUMENT_ACCOUNT_BALANCE);
+            putGlobalError(KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCOUNT_CLOSED_NO_FUND_BALANCES);
             success &= false;
         }
 

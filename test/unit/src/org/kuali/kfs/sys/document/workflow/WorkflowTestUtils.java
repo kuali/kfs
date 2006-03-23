@@ -27,7 +27,7 @@ public class WorkflowTestUtils {
         document.getDocumentHeader().setWorkflowDocument(workflowDocument);
         return workflowDocument;
     }
-	
+		
 	public static boolean isAtNode(Document document, String nodeName) throws WorkflowException {
 		String[] nodeNames = document.getDocumentHeader().getWorkflowDocument().getNodeNames();
 		for (int index = 0; index < nodeNames.length; index++) {

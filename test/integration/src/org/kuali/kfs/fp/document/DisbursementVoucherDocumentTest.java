@@ -27,12 +27,19 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import org.kuali.core.document.Document;
 import org.kuali.core.document.TransactionalDocumentTestBase;
+import org.kuali.core.rule.event.RouteDocumentEvent;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.module.financial.bo.DisbursementVoucherNonResidentAlienTax;
 import org.kuali.test.parameters.DisbursementVoucherDocumentParameter;
 import org.kuali.test.parameters.DocumentParameter;
 import org.kuali.test.parameters.TransactionalDocumentParameter;
+import org.kuali.workflow.WorkflowTestUtils;
+
+import edu.iu.uis.eden.EdenConstants;
+import edu.iu.uis.eden.clientapp.vo.NetworkIdVO;
 
 /**
  * This class is used to test DisbursementVoucherDocument.
@@ -46,6 +53,20 @@ public class DisbursementVoucherDocumentTest extends TransactionalDocumentTestBa
     public static final String DOCUMENT_PARAMETER = "disbursementVoucherDocumentParameter1";
     public static final String SOURCE_LINE7 = "sourceLine7";
 
+// The set of Route Nodes that the test document will progress through
+    
+	private static final String ADHOC = "Adhoc Routing";
+	private static final String ACCOUNT_REVIEW = "Account Review";
+	private static final String ORG_REVIEW = "Org Review";
+	private static final String EMPLOYEE_INDICATOR = "Employee Indicator";
+	private static final String TAX_CONTROL_CODE = "Tax Control Code";
+	private static final String ALIEN_INDICATOR = "Alien Indicator";
+	private static final String PAYMENT_REASON = "Payment Reason";
+	private static final String PAYMENT_REASON_CAMPUS_CODE = "Payment Reason+Campus Code";
+	private static final String CAMPUS_CODE = "Campus Code";
+	private static final String ALIEN_INDICATOR_PAYMENT_REASON = "Alien Indicator+Payment Reason";	
+	private static final String PAYMENT_METHOD = "Payment Method";
+    
     /**
      * @see org.kuali.core.document.TransactionalDocumentTestBase#setUp()
      */
@@ -98,6 +119,48 @@ public class DisbursementVoucherDocumentTest extends TransactionalDocumentTestBa
 
         dvParameter.assertMatch(document);
 
+    }
+    
+    public void testWorkflowRouting() throws Exception {
+    	NetworkIdVO VPUTMAN = new NetworkIdVO("VPUTMAN");
+    	NetworkIdVO CSWINSON = new NetworkIdVO("CSWINSON");
+    	NetworkIdVO MYLARGE = new NetworkIdVO("MYLARGE");
+    	
+    	// save and route the document
+        Document document = buildDocument();
+        getDocumentService().validateAndPersist(document, new RouteDocumentEvent(document));
+        getDocumentService().route(document, "routing test doc", null);
+
+        WorkflowTestUtils.waitForNodeChange(document.getDocumentHeader().getWorkflowDocument(), ACCOUNT_REVIEW);
+        
+        // the document should now be routed to VPUTMAN as Fiscal Officer
+        KualiWorkflowDocument wfDoc = WorkflowTestUtils.refreshDocument(document, VPUTMAN);
+        assertTrue("At incorrect node.", WorkflowTestUtils.isAtNode(document, ACCOUNT_REVIEW));
+        assertTrue("Document should be enroute.", wfDoc.stateIsEnroute());
+        assertTrue("VPUTMAN should have an approve request.", wfDoc.isApprovalRequested());
+        getDocumentService().approve(document, "Test approving as VPUTMAN", null);
+        
+        WorkflowTestUtils.waitForNodeChange(document.getDocumentHeader().getWorkflowDocument(), ORG_REVIEW);
+        
+        // now doc should be in Org Review routing to CSWINSON
+        wfDoc = WorkflowTestUtils.refreshDocument(document, CSWINSON);
+        assertTrue("At incorrect node.", WorkflowTestUtils.isAtNode(document, ORG_REVIEW));
+        assertTrue("CSWINSON should have an approve request.", wfDoc.isApprovalRequested());
+        getDocumentService().approve(document, "Test approving as CSWINSON", null);
+                
+        // this is going to skip a bunch of other routing and end up at campus code
+        WorkflowTestUtils.waitForNodeChange(document.getDocumentHeader().getWorkflowDocument(), CAMPUS_CODE);
+        
+        // doc should be in "Campus Code" routing to MYLARGE
+        wfDoc = WorkflowTestUtils.refreshDocument(document, MYLARGE);
+        assertTrue("At incorrect node.", WorkflowTestUtils.isAtNode(document, CAMPUS_CODE));
+        assertTrue("Should have an approve request.", wfDoc.isApprovalRequested());
+        getDocumentService().approve(document, "Approve", null);
+        
+        WorkflowTestUtils.waitForStatusChange(wfDoc, EdenConstants.ROUTE_HEADER_FINAL_CD);
+        
+        wfDoc = WorkflowTestUtils.refreshDocument(document, VPUTMAN);
+        assertTrue("Document should now be final.", wfDoc.stateIsFinal());
     }
 
     protected int getExpectedPrePeCount() {

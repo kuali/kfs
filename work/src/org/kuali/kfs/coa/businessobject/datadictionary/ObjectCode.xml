@@ -265,7 +265,6 @@
 
 				<maxLength>4</maxLength>
 				<validationPattern><anyCharacter /></validationPattern>
-				<required>true</required>
 				<control>
 					<text size="4" />
 				</control>

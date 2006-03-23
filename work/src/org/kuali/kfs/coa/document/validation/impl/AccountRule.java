@@ -213,6 +213,9 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         success &= checkForPartiallyFilledOutReferenceForeignKeys("continuationAccount");
         success &= checkForPartiallyFilledOutReferenceForeignKeys("incomeStreamAccount");
         success &= checkForPartiallyFilledOutReferenceForeignKeys("endowmentIncomeAccount");
+        success &= checkForPartiallyFilledOutReferenceForeignKeys("reportsToAccount");
+        success &= checkForPartiallyFilledOutReferenceForeignKeys("contractControlAccount");
+        success &= checkForPartiallyFilledOutReferenceForeignKeys("indirectCostRecoveryAcct");
         
         return success;
     }

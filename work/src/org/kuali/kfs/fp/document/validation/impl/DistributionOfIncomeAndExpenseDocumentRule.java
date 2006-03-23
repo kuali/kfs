@@ -45,7 +45,7 @@ public class DistributionOfIncomeAndExpenseDocumentRule extends TransactionalDoc
     /**
      * 
      */
-    protected boolean isDebit(AccountingLine accountingLine) throws IllegalStateException {
+    public boolean isDebit(AccountingLine accountingLine) throws IllegalStateException {
     	// Negative amounts are not allowed.
     	if(accountingLine.getAmount().isNegative()) {
     		throw new IllegalStateException(objectTypeCodeIllegalStateExceptionMessage);

@@ -107,7 +107,7 @@ public class IndirectCostAdjustmentDocumentRule extends TransactionalDocumentRul
 	/**
 	 * 
 	 */
-	protected boolean isDebit(AccountingLine accountingLine) throws IllegalStateException {
+	public boolean isDebit(AccountingLine accountingLine) throws IllegalStateException {
 		KualiDecimal amount = accountingLine.getAmount();
 		if(!amount.isNegative()) {
 			return (!(isIncomeOrLiability(accountingLine) && isTargetAccountingLine(accountingLine)));

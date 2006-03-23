@@ -425,7 +425,7 @@ public class JournalVoucherDocumentRule extends TransactionalDocumentRuleBase {
      * 
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#isDebit(org.kuali.core.bo.AccountingLine)
      */
-    protected boolean isDebit(AccountingLine accountingLine) throws IllegalStateException {
+    public boolean isDebit(AccountingLine accountingLine) throws IllegalStateException {
         if (StringUtils.isNotBlank(accountingLine.getDebitCreditCode())) {
             return accountingLine.getDebitCreditCode().equals(GENERAL_LEDGER_PENDING_ENTRY_CODE.DEBIT);
         }

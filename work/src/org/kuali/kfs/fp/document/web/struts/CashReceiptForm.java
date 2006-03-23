@@ -242,6 +242,9 @@ public class CashReceiptForm extends KualiTransactionalDocumentFormBase {
     public String getCashDrawerStatusMessage() {
         String cashDrawerStatusMessage = "";
         CashReceiptDocument crd = getCashReceiptDocument();
+        
+        // TODO: first check to see if the document is in the appropriate state for this message
+        
         CashDrawer cd = SpringServiceLocator.getCashDrawerService().getByCashReceiptDocument(crd);
         if (cd != null && crd.getDocumentHeader().getWorkflowDocument().isApprovalRequested() && cd.isClosed()) {
             cashDrawerStatusMessage = SpringServiceLocator.getKualiConfigurationService().getPropertyString(

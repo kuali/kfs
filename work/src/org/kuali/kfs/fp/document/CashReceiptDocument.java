@@ -28,7 +28,10 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.Constants;
+import org.kuali.core.bo.AccountingLineBase;
 import org.kuali.core.document.TransactionalDocumentBase;
+import org.kuali.core.rule.AccountingLineRule;
+import org.kuali.core.rule.BusinessRule;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
@@ -36,6 +39,8 @@ import org.kuali.core.web.format.CurrencyFormatter;
 import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.financial.bo.Check;
 import org.kuali.module.financial.bo.CheckBase;
+import org.kuali.module.financial.rules.AccountingLineRuleUtil;
+import org.kuali.module.financial.rules.CashReceiptDocumentRule;
 
 import edu.iu.uis.eden.EdenConstants;
 
@@ -191,13 +196,51 @@ public class CashReceiptDocument extends TransactionalDocumentBase {
      * Retrieve a particular check at a given index in the list of checks.
      * 
      * @param index
-     * @return
+     * @return Check
      */
     public Check getCheck(int index) throws IllegalAccessException, InstantiationException {
         while (this.checks.size() <= index) {
             checks.add(new CheckBase());
         }
         return (Check) checks.get(index);
+    }
+    
+    /**
+     * Total for a Cash Receipt according to the spec should be the sum of the 
+     * amounts on accounting lines belonging to object codes having the 'income' object type, 
+     * less the sum of the amounts on accounting lines belonging to object codes 
+     * having the 'expense' object type.
+     * 
+     * @see org.kuali.core.document.TransactionalDocument#getSourceTotal()
+     */
+    public KualiDecimal getSourceTotal() {
+        CashReceiptDocumentRule crDocRule = (CashReceiptDocumentRule) SpringServiceLocator.getKualiRuleService().
+            getBusinessRulesInstance(this, AccountingLineRule.class);
+        KualiDecimal total = new KualiDecimal(0);
+        AccountingLineBase al = null;
+        Iterator iter = sourceAccountingLines.iterator();
+        while (iter.hasNext()) {
+            al = (AccountingLineBase) iter.next();
+            
+            KualiDecimal amount = al.getAmount();
+            if (amount != null) {
+                if(crDocRule.isDebit(al)) {
+                    total = total.subtract(amount);
+                } else if(crDocRule.isCredit(al)) {
+                    total = total.add(amount);
+                }
+            }
+        }
+        return total;
+    }
+
+    /**
+     * Cash Receipts only have source lines, so this should always return 0.
+     * 
+     * @see org.kuali.core.document.TransactionalDocument#getTargetTotal()
+     */
+    public KualiDecimal getTargetTotal() {
+        return new KualiDecimal(0);
     }
 
     /**

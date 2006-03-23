@@ -87,7 +87,7 @@ public class TransferOfFundsDocumentRule extends TransactionalDocumentRuleBase i
      * 
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#isDebit(org.kuali.core.bo.AccountingLine)
      */
-    protected boolean isDebit(AccountingLine accountingLine) throws IllegalStateException {
+    public boolean isDebit(AccountingLine accountingLine) throws IllegalStateException {
         if (isExpenseOrAsset(accountingLine) || isIncomeOrLiability(accountingLine)) {
             if (isSourceAccountingLine(accountingLine)) {
                 return accountingLine.getAmount().isGreaterThan(Constants.ZERO);

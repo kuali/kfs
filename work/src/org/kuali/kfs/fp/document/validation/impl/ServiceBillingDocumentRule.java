@@ -140,7 +140,7 @@ public class ServiceBillingDocumentRule extends TransactionalDocumentRuleBase {
     /**
      * 
      */
-    protected boolean isDebit(AccountingLine accountingLine) throws IllegalStateException {
+    public boolean isDebit(AccountingLine accountingLine) throws IllegalStateException {
         if (isSourceAccountingLine(accountingLine)) {
             return !super.isDebit(accountingLine);
         }

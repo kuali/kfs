@@ -66,6 +66,7 @@ public class DisbursementVoucherAction extends KualiTransactionalDocumentActionB
 
     /**
      * Do initialization for a new disbursement voucher
+     * 
      * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#createDocument(org.kuali.core.web.struts.form.KualiDocumentFormBase)
      */
     protected void createDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
@@ -127,29 +128,27 @@ public class DisbursementVoucherAction extends KualiTransactionalDocumentActionB
         String directory = getServlet().getServletConfig().getServletContext().getRealPath(
                 DisbursementVoucherCoverSheetServiceImpl.DV_COVERSHEET_TEMPLATE_RELATIVE_DIR);
 
-        DisbursementVoucherDocument document = 
-            ( DisbursementVoucherDocument )SpringServiceLocator
-            .getDocumentService()
-            .getByDocumentHeaderId( request
-                                    .getParameter( PropertyConstants.
-                                                   FINANCIAL_DOCUMENT_NUMBER ) );
+        DisbursementVoucherDocument document = (DisbursementVoucherDocument) SpringServiceLocator.getDocumentService()
+                .getByDocumentHeaderId(request.getParameter(PropertyConstants.FINANCIAL_DOCUMENT_NUMBER));
 
+        // set worflow document back into form to prevent document authorizer "invalid (null)
+        // document.documentHeader.workflowDocument" since we are bypassing form submit and just linking directly to the action
+        DisbursementVoucherForm dvForm = (DisbursementVoucherForm) form;
+        dvForm.getDocument().getDocumentHeader().setWorkflowDocument(document.getDocumentHeader().getWorkflowDocument());
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         DisbursementVoucherCoverSheetService coverSheetService = SpringServiceLocator.getDisbursementVoucherCoverSheetService();
 
         coverSheetService.generateDisbursementVoucherCoverSheet(directory,
                 DisbursementVoucherCoverSheetServiceImpl.DV_COVERSHEET_TEMPLATE_NM, document, baos);
         String fileName = document.getFinancialDocumentNumber() + "_cover_sheet.pdf";
-        WebUtils.saveMimeOutputStreamAsFile( response, 
-                                             "application/pdf",
-                                             baos, fileName );
-        
+        WebUtils.saveMimeOutputStreamAsFile(response, "application/pdf", baos, fileName);
         return mapping.findForward(Constants.MAPPING_BASIC);
 
     }
 
     /**
      * Calculates the travel per diem amount.
+     * 
      * @param mapping
      * @param form
      * @param request
@@ -183,6 +182,7 @@ public class DisbursementVoucherAction extends KualiTransactionalDocumentActionB
 
     /**
      * Calculates the travel mileage amount.
+     * 
      * @param mapping
      * @param form
      * @param request
@@ -215,6 +215,7 @@ public class DisbursementVoucherAction extends KualiTransactionalDocumentActionB
 
     /**
      * Adds a new employee travel expense line.
+     * 
      * @param mapping
      * @param form
      * @param request
@@ -244,6 +245,7 @@ public class DisbursementVoucherAction extends KualiTransactionalDocumentActionB
 
     /**
      * Adds a new employee pre paid travel expense line.
+     * 
      * @param mapping
      * @param form
      * @param request
@@ -273,6 +275,7 @@ public class DisbursementVoucherAction extends KualiTransactionalDocumentActionB
 
     /**
      * Deletes a non employee travel expense line.
+     * 
      * @param mapping
      * @param form
      * @param request
@@ -293,6 +296,7 @@ public class DisbursementVoucherAction extends KualiTransactionalDocumentActionB
 
     /**
      * Deletes a pre paid travel expense line.
+     * 
      * @param mapping
      * @param form
      * @param request
@@ -313,6 +317,7 @@ public class DisbursementVoucherAction extends KualiTransactionalDocumentActionB
 
     /**
      * Adds a new pre conference registrant line.
+     * 
      * @param mapping
      * @param form
      * @param request
@@ -343,6 +348,7 @@ public class DisbursementVoucherAction extends KualiTransactionalDocumentActionB
 
     /**
      * Deletes a pre conference registrant line.
+     * 
      * @param mapping
      * @param form
      * @param request
@@ -365,6 +371,7 @@ public class DisbursementVoucherAction extends KualiTransactionalDocumentActionB
 
     /**
      * Calls service to generate tax accounting lines and updates nra tax line string in action form.
+     * 
      * @param mapping
      * @param form
      * @param request
@@ -395,6 +402,7 @@ public class DisbursementVoucherAction extends KualiTransactionalDocumentActionB
 
     /**
      * Calls service to clear tax accounting lines and updates nra tax line string in action form.
+     * 
      * @param mapping
      * @param form
      * @param request

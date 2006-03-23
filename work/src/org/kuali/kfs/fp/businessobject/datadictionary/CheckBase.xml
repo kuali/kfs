@@ -11,11 +11,11 @@
                 <label>Check/Batch #</label>
                 <shortLabel>Check/Batch #</shortLabel>
 
-                <maxLength>15</maxLength>
+                <maxLength>10</maxLength>
 				<required>true</required>
 
                 <control>
-                    <text size="15" />
+                    <text size="10" />
                 </control>
 
                 <summary>Check Number</summary>

@@ -26,7 +26,10 @@
 package org.kuali.core;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
@@ -39,6 +42,8 @@ import org.kuali.core.workflow.service.KualiWorkflowDocument;
 
 import edu.iu.uis.eden.clientapp.vo.NetworkIdVO;
 import edu.iu.uis.eden.clientapp.vo.UserVO;
+import edu.iu.uis.eden.exception.EdenUserNotFoundException;
+import edu.iu.uis.eden.exception.ResourceUnavailableException;
 import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
@@ -152,6 +157,20 @@ public class UserSession implements Serializable {
      * @param object
      * @return
      */
+    public String addObject(Object object, String keyPrefix) {
+        String objectKey = keyPrefix + nextObjectKey++ + "";
+        objectMap.put(objectKey, object);
+        return objectKey;
+    }
+    
+    /**
+     * allows adding an arbitrary object to the session and returns a string key
+     * that can be used to later access this object from the session using the 
+     * retrieveObject method in this class
+     * 
+     * @param object
+     * @return
+     */
     public String addObject(Object object) {
         String objectKey = nextObjectKey++ + "";
         objectMap.put(objectKey, object);
@@ -177,6 +196,27 @@ public class UserSession implements Serializable {
      */
     public void removeObject(String objectKey) {
         this.objectMap.remove(objectKey);
+    }
+    
+    /**
+     * allows for removal of an object from session that has been put into the userSession
+     * based on a key that starts with the given prefix
+     * 
+     * @param objectKey
+     */
+    public void removeObjectsByPrefix(String objectKeyPrefix) {
+        List removeKeys = new ArrayList();
+        for (Iterator iter = objectMap.keySet().iterator(); iter.hasNext();) {
+            String key = (String) iter.next();
+            if (key.startsWith(objectKeyPrefix)) {
+                removeKeys.add(key);
+            }
+        }
+
+        for (Iterator iter = removeKeys.iterator(); iter.hasNext();) {
+            String key = (String) iter.next();
+            this.objectMap.remove(key);
+        }
     }
 
     /**

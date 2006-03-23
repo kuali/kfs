@@ -75,27 +75,36 @@
 			
 			<resultFields>         
                 <field attributeName="universityFiscalYear" />
+                <field attributeName="universityFiscalPeriodCode"/>
                 <field attributeName="chartOfAccountsCode" />
                 <field attributeName="accountNumber" />
+                
                 <field attributeName="subAccountNumber" />
                 <field attributeName="financialObjectCode" />
 				<field attributeName="financialSubObjectCode" />                
-				<field attributeName="financialBalanceTypeCode" />  
+				<field attributeName="financialBalanceTypeCode" /> 
+				<field attributeName="financialSystemOriginationCode" /> 
+
                 <field attributeName="financialDocumentTypeCode" />                				                            
                 <field attributeName="financialDocumentNumber" />
                 <field attributeName="transactionLedgerEntryAmount" />
                 <field attributeName="transactionDebitCreditCode" />    
                 <field attributeName="transactionDate" />
                 <field attributeName="projectCode" />
+				<field attributeName="transactionLedgerEntryDesc" />
+				                
                 <field attributeName="referenceFinDocumentTypeCode" />
 				<field attributeName="financialDocumentReferenceNbr" />
+				<field attributeName="finSystemRefOriginationCode" />
 			</resultFields>
 		</lookup>
 		
         <attributes>
             <attributeReference name="universityFiscalYear" 
 				sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
-				sourceAttributeName="genericFiscalYear"/>
+				sourceAttributeName="genericFiscalYear">
+				<label>Fiscal Year</label>
+			</attributeReference>
 
             <attributeReference name="chartOfAccountsCode" 
 				sourceClassName="org.kuali.module.chart.bo.Chart" 
@@ -111,7 +120,9 @@
 				
             <attributeReference name="subAccountNumber" 
 				sourceClassName="org.kuali.module.chart.bo.SubAccount" 
-				sourceAttributeName="subAccountNumber"/>
+				sourceAttributeName="subAccountNumber">
+				<label>Sub Account Number</label>
+			</attributeReference>
 				
             <attributeReference name="financialObjectCode" 
             	sourceClassName="org.kuali.module.chart.bo.ObjectCode" 
@@ -119,7 +130,9 @@
             	
             <attributeReference name="financialSubObjectCode" 
             	sourceClassName="org.kuali.module.chart.bo.SubObjCd" 
-            	sourceAttributeName="financialSubObjectCode" />
+            	sourceAttributeName="financialSubObjectCode">
+				<label>Sub Object Code</label>
+			</attributeReference>            	
             	
             <attributeReference name="financialObjectTypeCode" 
             	sourceClassName="org.kuali.module.chart.bo.ObjectType" 
@@ -141,7 +154,7 @@
             <attributeReference name="universityFiscalPeriodCode" 
             	sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
             	sourceAttributeName="universityFiscalAccountingPeriod">
-            	<label>Accounting Period</label>
+            	<label>Period</label>
                 <shortLabel>University Fiscal Accounting Period</shortLabel>
                 <maxLength>3</maxLength>
                 <control>
@@ -152,7 +165,7 @@
             </attributeReference>            			
             
             <attribute name="financialDocumentTypeCode" forceUppercase="true">
-                <label>Document Type Code</label>
+                <label>Doc Type Code</label>
                 <shortLabel>Doc. Type Code</shortLabel>
                 <maxLength>4</maxLength>
                 <control>
@@ -182,7 +195,7 @@
 				sourceAttributeName="transactionEntrySequenceId" />
 				       		       		
             <attribute name="transactionLedgerEntryDesc" forceUppercase="false">
-                <label>Transaction Ledger Entry Description</label>
+                <label>Description</label>
                 <shortLabel>Description</shortLabel>
                 <maxLength>40</maxLength>
                 <control>
@@ -195,14 +208,14 @@
 			<attributeReference name="transactionLedgerEntryAmount" 
             					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
             					sourceAttributeName="genericAmount">
-                <label>Transaction Ledger Entry Amount</label>
+                <label>Ledger Entry Amount</label>
                 <shortLabel>Amount</shortLabel>
                 <summary>transactionLedgerEntryAmount</summary>
                 <description>transactionLedgerEntryAmount description...</description>
             </attributeReference>
 
             <attribute name="transactionDebitCreditCode" forceUppercase="true">
-                <label>Debit Or Credit Code</label>
+                <label>D/C</label>
                 <shortLabel>D/C</shortLabel>
                 <maxLength>1</maxLength>
                 <control>
@@ -222,7 +235,7 @@
             </attributeReference>
                         
             <attribute name="organizationDocumentNumber" forceUppercase="false">
-                <label>Organization Document Number</label>
+                <label>Org. Doc. Number</label>
                 <shortLabel>Org. Doc. Nbr.</shortLabel>
                 <maxLength>10</maxLength>
                 <control>
@@ -237,7 +250,7 @@
 	            sourceAttributeName="code"/>
             
             <attribute name="organizationReferenceId" forceUppercase="false">
-                <label>Organization Reference Id</label>
+                <label>Org. Ref. Id</label>
                 <shortLabel>Org. Ref. Id</shortLabel>
                 <maxLength>8</maxLength>
                 <control>
@@ -248,7 +261,7 @@
             </attribute>
             					
             <attribute name="referenceFinDocumentTypeCode" forceUppercase="true">
-                <label>Reference Document Type Code</label>
+                <label>Ref. Doc. Type Code</label>
                 <shortLabel>Ref Doc. Type Code</shortLabel>
                 <maxLength>4</maxLength>
                 <control>
@@ -259,7 +272,7 @@
             </attribute>        
             
             <attribute name="finSystemRefOriginationCode" forceUppercase="false">
-                <label>Reference Origin Code</label>
+                <label>Ref. Origin Code</label>
                 <shortLabel>Ref. Origin Code</shortLabel>
                 <maxLength>2</maxLength>
                 <control>
@@ -270,7 +283,7 @@
             </attribute>
             			
             <attribute name="financialDocumentReferenceNbr" forceUppercase="false">
-                <label>Reference Document Number</label>
+                <label>Ref. Doc. Number</label>
                 <shortLabel>Number</shortLabel>
                 <maxLength>9</maxLength>
                 <control>

@@ -27,5 +27,20 @@ package org.kuali.module.gl.bo;
  * @author Bin Gao from Michigan State University
  */
 public class AccountBalanceByLevel extends AccountBalance {
-
+    
+    /**
+     * Constructs a AccountBalanceByLevel.java.
+     * 
+     */
+    public AccountBalanceByLevel() {
+        super();
+    }
+    
+    /**
+     * Constructs a AccountBalanceByLevel.java.
+     * @param t
+     */
+    public AccountBalanceByLevel(Transaction t) {
+        super(t);
+    }
 }

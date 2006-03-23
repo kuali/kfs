@@ -75,6 +75,9 @@ public class AccountBalance extends BusinessObjectBase {
         currentBudgetLineBalanceAmount = ZERO;
         accountLineActualsBalanceAmount = ZERO;
         accountLineEncumbranceBalanceAmount = ZERO;
+        
+        this.dummyBusinessObject = new DummyBusinessObject();
+        this.financialObject = new ObjectCode();
     }
 
     /*

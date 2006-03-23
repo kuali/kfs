@@ -29,4 +29,19 @@ package org.kuali.module.gl.bo;
  */
 public class AccountBalanceByObject extends AccountBalance {
 
+    /**
+     * Constructs a AccountBalanceByObject.java.
+     * 
+     */
+    public AccountBalanceByObject() {
+        super();
+    }
+    
+    /**
+     * Constructs a AccountBalanceByObject.java.
+     * @param t
+     */
+    public AccountBalanceByObject(Transaction t) {
+        super(t);
+    }
 }

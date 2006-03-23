@@ -355,7 +355,7 @@ public class KualiChartAttribute implements RoleAttribute, WorkflowAttribute {
                 if (StringUtils.isEmpty(networkId)) {
                 	LOG.warn("Could not determine user id for Chart Manager with system id " + kualiSystemId);
                 } else {
-                	members.add(new AuthenticationUserId());
+                	members.add(new AuthenticationUserId(networkId));
                 }
             } else if (UNIVERSITY_CHART_MANAGER_ROLE_KEY.equals(roleName)) {
                 String kualiSystemId = null;
@@ -372,7 +372,7 @@ public class KualiChartAttribute implements RoleAttribute, WorkflowAttribute {
                 if (StringUtils.isEmpty(networkId)) {
                 	LOG.warn("Could not determine user id for university Chart Manager with system id " + kualiSystemId);
                 } else {
-                	members.add(new AuthenticationUserId());
+                	members.add(new AuthenticationUserId(networkId));
                 }
             }
         } catch (Exception e) {

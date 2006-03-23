@@ -176,8 +176,9 @@
 								sourceAttributeName="subAccountTypeCode">
 				<required>false</required>
 				<control>
-		          <select
-		            valuesFinderClass="org.kuali.core.lookup.keyvalues.SubAccountTypeValuesFinder" />
+				  <apcSelect
+				    group="ChartMaintenanceEDoc"
+                    parameterName="SubAccount.ValidSubAccountTypeCodes" />
 		        </control>
 			</attributeReference>
 		    

@@ -416,6 +416,7 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
         	} else if (docType.getName().equals(SUB_ACCOUNT_DOC_TYPE) ||
         			docType.getName().equals(ACCOUNT_DEL_DOC_TYPE) ||
         			docType.getName().equals(SUB_OBJECT_DOC_TYPE)) {
+        		// these documents don't have the organization code on them so it must be looked up
         		chart = xpath.evaluate(MAINTAINABLE_PREFIX+"chartOfAccountsCode", docContent.getDocument());
         		String accountNumber = xpath.evaluate(MAINTAINABLE_PREFIX+"accountNumber", docContent.getDocument());
         		Account account = SpringServiceLocator.getAccountService().getByPrimaryId(chart, accountNumber);

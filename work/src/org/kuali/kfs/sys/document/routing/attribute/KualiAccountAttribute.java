@@ -379,6 +379,9 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
                 	role.totalDollarAmount = totalDollarAmount;
                 	fiscalOfficers.add(role);
                 } else if (docTypeName.equals(KualiConstants.ACCOUNT_DOC_TYPE)) {
+                	// 1) If this is a new account, it routes to the fiscal officer specified on the new account
+                	// 2) If this is an account edit and the fiscal officer hasn't changed, route to the fiscal officer on the account
+                	// 3) If this is an account edit and the fiscal officer HAS changed, route to the old fiscal officer and the new fiscal officer
                 	String newFiscalOfficerId = xpath.evaluate(NEW_MAINTAINABLE_PREFIX+PropertyConstants.ACCOUNT_FISCAL_OFFICER_SYSTEM_IDENTIFIER, docContent.getDocument());;
                 	String oldFiscalOfficerId = xpath.evaluate(OLD_MAINTAINABLE_PREFIX+PropertyConstants.ACCOUNT_FISCAL_OFFICER_SYSTEM_IDENTIFIER, docContent.getDocument());
                 	boolean isNewAccount = oldFiscalOfficerId == null;

@@ -42,8 +42,6 @@ import org.kuali.core.workflow.service.KualiWorkflowDocument;
 
 import edu.iu.uis.eden.clientapp.vo.NetworkIdVO;
 import edu.iu.uis.eden.clientapp.vo.UserVO;
-import edu.iu.uis.eden.exception.EdenUserNotFoundException;
-import edu.iu.uis.eden.exception.ResourceUnavailableException;
 import edu.iu.uis.eden.exception.WorkflowException;
 
 /**

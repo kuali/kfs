@@ -33,7 +33,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import org.apache.commons.lang.ObjectUtils;
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
 import org.kuali.core.dao.OptionsDao;
@@ -73,7 +72,7 @@ import org.springframework.util.StringUtils;
 
 /**
  * @author Kuali General Ledger Team <kualigltech@oncourse.iu.edu>
- * @version $Id: ScrubberServiceImpl.java,v 1.74 2006-03-22 21:35:23 larevans Exp $
+ * @version $Id: ScrubberServiceImpl.java,v 1.75 2006-03-23 23:45:40 wesprice Exp $
  */
 
 public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {

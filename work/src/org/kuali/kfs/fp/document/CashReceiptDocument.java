@@ -31,7 +31,6 @@ import org.kuali.Constants;
 import org.kuali.core.bo.AccountingLineBase;
 import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.core.rule.AccountingLineRule;
-import org.kuali.core.rule.BusinessRule;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
@@ -39,7 +38,6 @@ import org.kuali.core.web.format.CurrencyFormatter;
 import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.financial.bo.Check;
 import org.kuali.module.financial.bo.CheckBase;
-import org.kuali.module.financial.rules.AccountingLineRuleUtil;
 import org.kuali.module.financial.rules.CashReceiptDocumentRule;
 
 import edu.iu.uis.eden.EdenConstants;

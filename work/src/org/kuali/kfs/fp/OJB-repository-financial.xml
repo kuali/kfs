@@ -962,11 +962,11 @@
 	<field-descriptor name="payeeEmployeeCode" column="DV_PAYEE_EMP_IND" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 	<field-descriptor name="payeeRevolvingFundCode" column="DV_PAYEE_RVFND_IND" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 
-	<reference-descriptor name="payeeOwnershipTyp" class-ref="org.kuali.module.financial.bo.OwnershipTypeCode" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="payeeOwnershipTyp" class-ref="org.kuali.module.financial.bo.OwnershipTypeCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="payeeOwnershipTypCd" />
 	</reference-descriptor>
 	
-	<reference-descriptor name="payeeTaxControl" class-ref="org.kuali.module.financial.bo.TaxControlCode" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="payeeTaxControl" class-ref="org.kuali.module.financial.bo.TaxControlCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="payeeTaxControlCode" />
 	</reference-descriptor>
 
@@ -997,7 +997,7 @@
 	<field-descriptor name="dvPayeeRevolvingFundCode" column="DV_PAYEE_RVFND_IND" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanField10Conversion"/>
 	<field-descriptor name="disbursementVoucherPayeeTypeCode" column="DV_PAYEE_TYP_CD" jdbc-type="VARCHAR"/>
 
-	<reference-descriptor name="disbVchrPaymentReason" class-ref="org.kuali.module.financial.bo.PaymentReasonCode" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="disbVchrPaymentReason" class-ref="org.kuali.module.financial.bo.PaymentReasonCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="disbVchrPaymentReasonCode" />
 	</reference-descriptor>
 
@@ -1016,7 +1016,7 @@
 	<field-descriptor name="incomeTaxPercent" column="INC_TAX_PCT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<reference-descriptor name="incomeClass" class-ref="org.kuali.module.financial.bo.TaxIncomeClassCode" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="incomeClass" class-ref="org.kuali.module.financial.bo.TaxIncomeClassCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="incomeClassCode" />
 	</reference-descriptor>
 </class-descriptor>
@@ -1059,7 +1059,7 @@
 	<field-descriptor name="financialDocumentReferenceNbr" column="FDOC_REF_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="financialDocumentAccountingLineText" column="FDOC_ACCTG_LN_TXT" jdbc-type="VARCHAR"/>
 
-	<reference-descriptor name="incomeClass" class-ref="org.kuali.module.financial.bo.TaxIncomeClassCode" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="incomeClass" class-ref="org.kuali.module.financial.bo.TaxIncomeClassCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="incomeClassCode" />
 	</reference-descriptor>
 
@@ -1076,23 +1076,23 @@
 	<field-descriptor name="domesticChargeAmt" column="DV_DOMSTC_CHG_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="foreignChargeAmt" column="DV_FRGN_CHRG_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
 
-	<reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="chartOfAccountsCode" />
 	</reference-descriptor>
 
-	<reference-descriptor name="incomeFinancialObject" class-ref="org.kuali.module.chart.bo.ObjectCode" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="incomeFinancialObject" class-ref="org.kuali.module.chart.bo.ObjectCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 	    <foreignkey field-ref="universityFiscalYear" />
 		<foreignkey field-ref="chartOfAccountsCode" />
 		<foreignkey field-ref="incomeFinancialObjectCode" />
 	</reference-descriptor>
 
-	<reference-descriptor name="expenseFinancialObject" class-ref="org.kuali.module.chart.bo.ObjectCode" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="expenseFinancialObject" class-ref="org.kuali.module.chart.bo.ObjectCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="universityFiscalYear" />
 		<foreignkey field-ref="chartOfAccountsCode" />
 		<foreignkey field-ref="expenseFinancialObjectCode" />
 	</reference-descriptor>
 
-	<reference-descriptor name="account" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="account" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="chartOfAccountsCode" />
 		<foreignkey field-ref="accountNumber" />
 	</reference-descriptor>
@@ -1162,7 +1162,7 @@
 	<field-descriptor name="disbVchrExpenseCompanyName" column="DV_EXP_CO_NM" jdbc-type="VARCHAR"/>
 	<field-descriptor name="disbVchrExpenseAmount" column="DV_EXP_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
 	
-	<reference-descriptor name="disbVchrExpense" class-ref="org.kuali.module.financial.bo.TravelExpenseTypeCode" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="disbVchrExpense" class-ref="org.kuali.module.financial.bo.TravelExpenseTypeCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="disbVchrExpenseCode" />
 	</reference-descriptor>
 </class-descriptor>
@@ -1208,7 +1208,7 @@
 	<field-descriptor name="disbursementVoucherAutomatedClearingHouseProfileNumber" column="DV_ACH_PRFL_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="disbursementVoucherForeignCurrencyTypeName" column="DV_FCRNCY_TYP_NM" jdbc-type="VARCHAR"/>
 	<field-descriptor name="disbursementVoucherForeignCurrencyTypeCode" column="DV_FCRNCY_TYP_CD" jdbc-type="VARCHAR"/>
-	<reference-descriptor name="disbursementVoucherDocument" class-ref="org.kuali.module.financial.document.DisbursementVoucherDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="disbursementVoucherDocument" class-ref="org.kuali.module.financial.document.DisbursementVoucherDocument" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="financialDocumentNumber" />
 	</reference-descriptor>
 </class-descriptor>

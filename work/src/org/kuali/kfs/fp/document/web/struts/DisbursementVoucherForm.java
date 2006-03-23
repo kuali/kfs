@@ -124,16 +124,16 @@ public class DisbursementVoucherForm extends KualiTransactionalDocumentFormBase 
         return documentRule.isCoverSheetPrintable(getDocument());
     }
 
-    /**
-     * Returns list of available travel expense type codes for rendering per diem link page.
-     * @return
-     */
-    public List getTravelPerDiemCategoryCodes() {
-        Map criteria = new HashMap();
-        criteria.put("fiscalYear", SpringServiceLocator.getDateTimeService().getCurrentFiscalYear());
-
-        return (List) SpringServiceLocator.getBusinessObjectService().findMatching(TravelPerDiem.class, criteria);
-    }
+//    /**
+//     * Returns list of available travel expense type codes for rendering per diem link page.
+//     * @return
+//     */
+//    public List getTravelPerDiemCategoryCodes() {
+//        Map criteria = new HashMap();
+//        criteria.put("fiscalYear", SpringServiceLocator.getDateTimeService().getCurrentFiscalYear());
+//
+//        return (List) SpringServiceLocator.getBusinessObjectService().findMatching(TravelPerDiem.class, criteria);
+//    }
 
     /**
      * Returns the per diem link message from the parameters table.

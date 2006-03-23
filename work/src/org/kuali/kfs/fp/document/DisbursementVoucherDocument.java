@@ -706,14 +706,6 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
     public void prepareForSave() {
         if (dvWireTransfer != null) {
             dvWireTransfer.setFinancialDocumentNumber(this.financialDocumentNumber);
-            
-            /* foreign draft shares currency fields with wire transfer, but need dummy field for jsp, so 
-             * this is setting the real fields before save.
-             */
-            if (DisbursementVoucherRuleConstants.PAYMENT_METHOD_DRAFT.equals(this.getDisbVchrPaymentMethodCode())){
-                dvWireTransfer.setDisbVchrCurrencyTypeCode(dvWireTransfer.getDisbursementVoucherForeignCurrencyTypeCode());
-                dvWireTransfer.setDisbVchrCurrencyTypeName(dvWireTransfer.getDisbursementVoucherForeignCurrencyTypeName());
-            }
         }
 
         if (dvNonResidentAlienTax != null) {

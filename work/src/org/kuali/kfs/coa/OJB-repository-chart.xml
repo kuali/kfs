@@ -255,7 +255,7 @@
 		auto-retrieve="true"
 		auto-update="object" 
 		auto-delete="object" 
-		proxy="false">
+		proxy="true">
 		<foreignkey field-ref="chartOfAccountsCode" />
 		<foreignkey field-ref="accountNumber" />
 	</reference-descriptor>
@@ -266,7 +266,7 @@
 		auto-retrieve="true"
 		auto-update="object" 
 		auto-delete="object" 
-		proxy="false">
+		proxy="true">
 		<foreignkey field-ref="chartOfAccountsCode" />
 		<foreignkey field-ref="accountNumber" />
 	</reference-descriptor>

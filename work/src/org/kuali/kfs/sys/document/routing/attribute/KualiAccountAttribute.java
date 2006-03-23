@@ -537,7 +537,8 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
 		}
 		String fiscalOfficerNetworkId = KualiConstants.getNetworkId(connection, kualiSystemId);
 		if (StringUtils.isEmpty(fiscalOfficerNetworkId)) {
-			throw new RuntimeException("Could not locate the fiscal officer for the given id " + kualiSystemId);
+			LOG.warn("Could not locate the fiscal officer for the given id " + kualiSystemId);
+			return null;
 		}
     	return new AuthenticationUserId(fiscalOfficerNetworkId);
     }

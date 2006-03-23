@@ -40,6 +40,7 @@ import org.apache.log4j.Logger;
 import org.kuali.KualiSpringServiceLocator;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Account;
+import org.kuali.workflow.KualiConstants;
 import org.kuali.workflow.beans.KualiFiscalOrganization;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -432,7 +433,10 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
         			if (docType.getName().equals("KualiMaintenanceDocument")) {
         				xpathExp = "//kualiUser";
         				break;
-        			} else if (docType.getName().equals("KualiInternalBillingDocument")) {
+        			} else if (KualiConstants.isSourceLineOnly(docType.getName())) {
+        				xpathExp = "//org.kuali.core.bo.SourceAccountingLine/account";
+        				break;
+        			} else if (KualiConstants.isTargetLineOnly(docType.getName())) {
         				xpathExp = "//org.kuali.core.bo.TargetAccountingLine/account";
         				break;
         			} else if (docType.getName().equals("KualiFinancialDocument")) {
@@ -481,7 +485,10 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
             do {
                 if (docType.getName().equals("KualiMaintenanceDocument")) {
                     return null;
-                } else if (docType.getName().equals("KualiInternalBillingDocument")) {
+                } else if (KualiConstants.isSourceLineOnly(docType.getName())) {
+                	xpathExp = "//org.kuali.core.bo.SourceAccountingLine/overrideCode";
+                	break; 
+                } else if (KualiConstants.isTargetLineOnly(docType.getName())) {
                     xpathExp = "//org.kuali.core.bo.TargetAccountingLine/overrideCode";
                     break;
                 } else if (docType.getName().equals("KualiFinancialDocument")) {
@@ -518,9 +525,12 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
             do {
                 if (docType.getName().equals("KualiMaintenanceDocument")) {
                     return null;
-                } else if (docType.getName().equals("KualiInternalBillingDocument")) {
-                    xpathExp = "//org.kuali.core.bo.TargetAccountingLine/amount/value";
+                } else if (KualiConstants.isSourceLineOnly(docType.getName())) {
+                    xpathExp = "//org.kuali.core.bo.SourceAccountingLine/amount/value";
                     break;
+                } else if (KualiConstants.isTargetLineOnly(docType.getName())) {
+                	xpathExp = "//org.kuali.core.bo.TargetAccountingLine/amount/value";
+                	break; 
                 } else if (docType.getName().equals("KualiFinancialDocument")) {
                     xpathExp = "//org.kuali.core.bo.SourceAccountingLine/amount/value | //org.kuali.core.bo.TargetAccountingLine/amount/value";
                     break;
@@ -530,7 +540,7 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
 
             } while (docType != null);
 
-            String value = xpath.evaluate(xpathExp, docContent.getDocument());
+            String value = xpath.evaluate("sum("+xpathExp+")", docContent.getDocument());
             if (value == null) {
                 throw new RuntimeException("Didn't find amount for document " + docContent.getRouteContext().getDocument().getRouteHeaderId());
             }

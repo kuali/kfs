@@ -127,10 +127,12 @@ public class DisbursementVoucherAction extends KualiTransactionalDocumentActionB
         String directory = getServlet().getServletConfig().getServletContext().getRealPath(
                 DisbursementVoucherCoverSheetServiceImpl.DV_COVERSHEET_TEMPLATE_RELATIVE_DIR);
 
-        // retrieve document
-        String documentHeaderId = request.getParameter(Constants.DOCUMENT_HEADER_ID);
-        DisbursementVoucherDocument document = (DisbursementVoucherDocument) SpringServiceLocator.getDocumentService()
-                .getByDocumentHeaderId(documentHeaderId);
+        DisbursementVoucherDocument document = 
+            ( DisbursementVoucherDocument )SpringServiceLocator
+            .getDocumentService()
+            .getByDocumentHeaderId( request
+                                    .getParameter( PropertyConstants.
+                                                   FINANCIAL_DOCUMENT_NUMBER ) );
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         DisbursementVoucherCoverSheetService coverSheetService = SpringServiceLocator.getDisbursementVoucherCoverSheetService();

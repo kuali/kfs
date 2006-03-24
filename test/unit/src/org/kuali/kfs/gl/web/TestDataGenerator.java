@@ -46,12 +46,16 @@ public class TestDataGenerator {
 
     private final String propertiesFileName = "test/src/org/kuali/module/gl/web/data.properties";
     private Properties properties;
+    
+    private final String messageFileName = "test/src/org/kuali/module/gl/web/message.properties";
+    private Properties message;    
 
     /**
      * Constructs a TestDataGenerator.java.
      */
     public TestDataGenerator() {
-        properties = loadProperties();
+        properties = loadProperties(propertiesFileName);
+        message = loadProperties(messageFileName);
     }
 
     /**
@@ -65,7 +69,7 @@ public class TestDataGenerator {
         Iterator propsIter = properties.keySet().iterator();
         while (propsIter.hasNext()) {
             String propertyName = (String) propsIter.next();
-            String propertyValue = ((String) properties.get(propertyName)).trim();
+            String propertyValue = (String) properties.get(propertyName);
 
             // if searchValue is empty and the key is not a valid property ignore
             if (StringUtils.isBlank(propertyValue) || !(PropertyUtils.isWriteable(businessObject, propertyName))) {
@@ -132,9 +136,11 @@ public class TestDataGenerator {
     /**
      * This method loads the properties from the property file
      * 
+     * @param propertiesFileName the name of file containing the properties
+     * 
      * @return the properties that have been populated
      */
-    private Properties loadProperties() {
+    private Properties loadProperties(String propertiesFileName) {
         Properties properties = new Properties();
 
         try {
@@ -185,6 +191,30 @@ public class TestDataGenerator {
     }
 
     /**
+     * This method obtains the value of the message with the given name
+     * @param messageName the given message name
+     * @return the value of the message
+     */
+    public String getMessageValue(String messageName){
+        if(getMessage().containsKey(messageName)){
+            return getMessage().getProperty(messageName);
+        }
+        return "";
+    }        
+    
+    /**
+     * This method obtains the value of the property with the given name
+     * @param propertyName the given property name
+     * @return the value of the property
+     */
+    public String getPropertyValue(String propertyName){
+        if(getProperties().containsKey(propertyName)){
+            return getProperties().getProperty(propertyName);
+        }
+        return "";
+    }    
+
+    /**
      * Gets the properties attribute.
      * 
      * @return Returns the properties.
@@ -201,16 +231,19 @@ public class TestDataGenerator {
     public void setProperties(Properties properties) {
         this.properties = properties;
     }
-    
+
     /**
-     * This method obtains the value of the property with the given name
-     * @param propertyName the given property name
-     * @return the value of the property
+     * Gets the message attribute. 
+     * @return Returns the message.
      */
-    public String getPropertyValue(String propertyName){
-        if(properties.containsKey(propertyName)){
-            return properties.getProperty(propertyName);
-        }
-        return "";
+    public Properties getMessage() {
+        return message;
+    }
+    /**
+     * Sets the message attribute value.
+     * @param message The message to set.
+     */
+    public void setMessage(Properties message) {
+        this.message = message;
     }
 }

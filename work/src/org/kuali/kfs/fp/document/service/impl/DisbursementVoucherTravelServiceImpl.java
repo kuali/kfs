@@ -49,9 +49,10 @@ public class DisbursementVoucherTravelServiceImpl implements DisbursementVoucher
     /**
      * @see org.kuali.module.financial.service.DisbursementVoucherTravelService#calculatePerDiemAmount(org.kuali.module.financial.bo.DisbursementVoucherNonEmployeeTravel)
      */
-    public KualiDecimal calculatePerDiemAmount(Timestamp startDateTime, Timestamp endDateTime, KualiDecimal perDiemRate) {
+    public KualiDecimal calculatePerDiemAmount(Timestamp startDateTime, Timestamp endDateTime, KualiDecimal rate) {
         KualiDecimal perDiemAmount = new KualiDecimal(0);
-
+        KualiDecimal perDiemRate = new KualiDecimal(rate.doubleValue());
+        
         // make sure we have the fields neede
         if (perDiemAmount == null || startDateTime == null || endDateTime == null) {
             LOG.error("Per diem amount, Start date/time, and End date/time must all be given.");
@@ -81,9 +82,10 @@ public class DisbursementVoucherTravelServiceImpl implements DisbursementVoucher
         endCompare.set(Calendar.HOUR_OF_DAY, 0);
         endCompare.set(Calendar.MINUTE, 0);
 
-        long diffDays = (endCompare.getTimeInMillis() - startCompare.getTimeInMillis()) / (24 * 60 * 60 * 1000);
+        
+        double diffDays = (endCompare.getTimeInMillis() - startCompare.getTimeInMillis()) / (24 * 60 * 60 * 1000);
 
-        long diffHours = (endCalendar.getTimeInMillis() - startCalendar.getTimeInMillis()) / (60 * 60 * 1000);
+        double diffHours = (endCalendar.getTimeInMillis() - startCalendar.getTimeInMillis()) / (60.0000 * 60.0000 * 1000.0000);
 
         // same day travel
         if (diffDays == 0) {

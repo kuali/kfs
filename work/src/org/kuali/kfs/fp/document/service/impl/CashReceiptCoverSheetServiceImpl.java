@@ -65,7 +65,7 @@ public class CashReceiptCoverSheetServiceImpl
 
     private static final float LEFT_MARGIN    = 45;
     private static final float TOP_MARGIN     = 45;
-    private static final float TOP_FIRST_PAGE = 430;
+    private static final float TOP_FIRST_PAGE = 440;
 
     private static final String DOCUMENT_NUMBER_FIELD = "DocumentNumber";
     private static final String INITIATOR_FIELD       = "Initiator";
@@ -91,8 +91,8 @@ public class CashReceiptCoverSheetServiceImpl
     private static final float CHECK_FIELD_MARGIN  = 12;
     private static final float CHECK_NORMAL_FIELD_LENGTH = 100;
     private static final float CHECK_FIELD_HEIGHT  = 10;
-    private static final int MAX_CHECKS_FIRST_PAGE = 32;
-    private static final int MAX_CHECKS_NORMAL     = 67;
+    private static final int MAX_CHECKS_FIRST_PAGE = 30;
+    private static final int MAX_CHECKS_NORMAL     = 65;
 
     private static final float CHECK_HEADER_HEIGHT         = 12;
     private static final String CHECK_NUMBER_FIELD_PREFIX  = "CheckNumber";

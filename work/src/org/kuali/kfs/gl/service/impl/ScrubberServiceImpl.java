@@ -72,7 +72,7 @@ import org.springframework.util.StringUtils;
 
 /**
  * @author Kuali General Ledger Team <kualigltech@oncourse.iu.edu>
- * @version $Id: ScrubberServiceImpl.java,v 1.77 2006-03-24 19:40:50 larevans Exp $
+ * @version $Id: ScrubberServiceImpl.java,v 1.78 2006-03-24 21:50:31 larevans Exp $
  */
 
 public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
@@ -3043,7 +3043,8 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
 //        3971  029840     MOVE OFFSET-DESCRIPTION
 //        3972  029850       TO TRN-LDGR-ENTR-DESC OF ALT-GLEN-RECORD.
         
-        offsetEntry.setTransactionLedgerEntryDescription("GENERATED OFFSET");
+        offsetEntry.setTransactionLedgerEntryDescription(
+                kualiConfigurationService.getPropertyString(KeyConstants.MSG_GENERATED_OFFSET));
         
 //        3973  029890     MOVE UNIV-FISCAL-YR     OF ALT-GLEN-RECORD
 //        3974  029900       TO GLOFSD-UNIV-FISCAL-YR.

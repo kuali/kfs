@@ -72,7 +72,7 @@ import org.springframework.util.StringUtils;
 
 /**
  * @author Kuali General Ledger Team <kualigltech@oncourse.iu.edu>
- * @version $Id: ScrubberServiceImpl.java,v 1.75 2006-03-23 23:45:40 wesprice Exp $
+ * @version $Id: ScrubberServiceImpl.java,v 1.76 2006-03-24 16:09:17 larevans Exp $
  */
 
 public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
@@ -342,8 +342,6 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         // write out report and errors
         List reportSummary = buildReportSummary(batchInfo);
         
-        // FIXME reports probably won't look right because batchError doesn't currently
-        // keep in memory all of the entries in error.
         scrubberReportService.generateStatisticReport(batchError, reportSummary, runDate, 0);
         generateBKUPLedgerReport();
         
@@ -651,10 +649,6 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
     	
         OriginEntry currentEntry = firstEntry;
         
-        // FIXME handle the case where firstEntry is the only entry in the unit of work.
-        // What should be done with a unit of work with only one entry?
-        // The while() below assumes at least two entries per unit of work.
-        
         // Indicates when we've hit the boundary between two units of work.
         boolean isLastEntryOfCurrentUnitOfWork = false;
         
@@ -769,8 +763,6 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
      * @return
      */
     private OriginEntryInfo validateOriginEntryAndBuildWorkingEntry(OriginEntry originEntry, UnitOfWorkInfo unitOfWorkInfo) { /* 2500-process-unit-of-work */
-        // FIXME (laran) see if this needs to be added back in
-        //checkUnitOfWork(workingEntry);
         
         persistenceService.retrieveNonKeyFields(originEntry);
         
@@ -919,21 +911,24 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
 //              3386  023000             MOVE ACCOUNT-NBR OF ALT-GLEN-RECORD
 //              3387  023010               TO COSTSHARE-ACCOUNT
             
-            String wsSubAcctTypCd = null;
-            String costShareAccount = null;
+            // NOTE (laran) These working storage fields aren't needed in Java. The values
+            // are held by the originEntry.
             
-            if(!ObjectHelper.isNull(originEntry.getA21SubAccount())) {
-                
-                persistenceService.retrieveReferenceObject(originEntry, "a21SubAccount");
-                
-            }
-            
-            if(!ObjectHelper.isNull(originEntry.getA21SubAccount())) {
-                
-                wsSubAcctTypCd   = originEntry.getA21SubAccount().getSubAccountTypeCode();
-                costShareAccount = originEntry.getAccountNumber();
-                
-            } else {
+//            String wsSubAcctTypCd = null;
+//            String costShareAccount = null;
+//            
+//            if(!ObjectHelper.isNull(originEntry.getA21SubAccount())) {
+//                
+//                persistenceService.retrieveReferenceObject(originEntry, "a21SubAccount");
+//                
+//            }
+//            
+//            if(!ObjectHelper.isNull(originEntry.getA21SubAccount())) {
+//                
+//                wsSubAcctTypCd   = originEntry.getA21SubAccount().getSubAccountTypeCode();
+//                costShareAccount = originEntry.getAccountNumber();
+//                
+//            } else {
             
 //              3388  023020           WHEN +100
 //              3389  023030           WHEN +1403
@@ -945,7 +940,7 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
 //              3395  023090               GO TO 2000-ENTRY-EXIT
 //              3396  023100         END-EVALUATE
                 
-            }
+//            }
             
 //              3397  023110     ELSE
 //              3398  023120         MOVE SPACES TO WS-SUB-ACCT-TYP-CD
@@ -1158,8 +1153,20 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         OriginEntry workingEntry = workingEntryInfo.getOriginEntry();
         OriginEntry costShareEntry = new OriginEntry(workingEntry);
         
-        // TODO (laran) Don't know where the COBOL code for the following two lines of logic goes.
-        // But it seems to be required to make the tests pass.
+        // NOTE (laran) The cobol for this comes from the FIS de-merger (glemergeb) COBOL program.
+        // All the tests run to-date pass with this code here (which to me is a more intuitive place
+        // to put it -- do cost sharing with cost sharing, not as an afterthought, if possible.
+        // However, it may need to be moved into performDemerger(String, String, String, OriginEntryGroup)
+        // if tests start to fail. If this becomes the case then a flag will need to be introduced to
+        // indicate to the demerger which entries are related to cost-sharing. This was done in the FIS
+        // scrubber by inserting the String "***" to the description field of the ALT-GLEN-RECORD. A 
+        // boolean flag would be a better way to accomplish the desired effect. 
+        
+        // The COBOL for this functionality is as follows:
+//      193  002130 COST-SHARE-CHANGE.
+//      194  002140     MOVE 'TF' TO GOOD2-DOC-TYPE.
+//      195  002150     MOVE 'CS' TO GOOD2-ORIGIN.
+        
         costShareEntry.setFinancialDocumentTypeCode("TF");
         costShareEntry.setFinancialSystemOriginationCode("CS");
         
@@ -1220,8 +1227,9 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
 //        4106  031390     MOVE '***' TO TRN-LDGR-ENTR-DESC
 //        4107  031400          OF ALT-GLEN-RECORD (34:3).
         
-        // TODO (laran) not sure what these asterisks do, they don't show up 
-        //              anywhere in the output entries we have to test with.
+        // NOTE (laran) These asterisks flag an entry as cost-share related for the demerger which
+        //              strips out the asterisks. They never show up in the output written to 
+        //              GL_ORIGIN_ENTRY_T.
         
 //        4108  031410     MOVE CS-MONTH TO TRN-LDGR-ENTR-DESC
 //        4109  031420          OF ALT-GLEN-RECORD (37:2).
@@ -1459,18 +1467,14 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
 //        4224  032520        EVALUATE SQLCODE
 //        4225  032530           WHEN 0
         
-        if(!ObjectHelper.isNull(originEntry.getFinancialObject())) {
+        if(!ObjectHelper.isNull(offsetDefinition)
+                && !ObjectHelper.isNull(offsetDefinition.getFinancialObject())) {
         
 //        4226  032540            MOVE CAOBJT-FIN-OBJ-TYP-CD TO FIN-OBJ-TYP-CD
 //        4227  032550              OF ALT-GLEN-RECORD
             
-//            costShareOffsetEntry.setFinancialObjectTypeCode(
-//                    originEntry.getFinancialObjectTypeCode());
-            
-            // TODO (laran) Don't know where this functionality comes from. But it seems to 
-            // be required to make the tests pass.
-            
-            costShareOffsetEntry.setFinancialObjectTypeCode("AS");
+            costShareOffsetEntry.setFinancialObjectTypeCode(
+                    offsetDefinition.getFinancialObject().getFinancialObjectTypeCode());
             
         } else {
             

@@ -145,7 +145,7 @@
 				<description>Project Description</description>
 			</attribute>
 			
-			<attribute name="name" forceUppercase="false">
+			<attribute name="name" forceUppercase="true">
 				<label>Project Name</label>
 				<shortLabel>Name</shortLabel>
 

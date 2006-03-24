@@ -104,6 +104,10 @@ public class TransactionReport {
     helper.headerFont = headerFont;
     helper.title = title;
 
+    // This flag tells us whether or not an error was thrown before document.open() could be called 
+    // successfully.
+    boolean isDocumentOpen = false;
+    
     try {
       String filename = destinationDirectory + "/" + fileprefix + "_";
       SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
@@ -113,6 +117,9 @@ public class TransactionReport {
       writer.setPageEvent(helper);
 
       document.open();
+      
+      // Indicate that document.close() should be called.
+      isDocumentOpen = true;
 
       // Sort what we get
       Collections.sort(reportSummary);
@@ -253,6 +260,12 @@ public class TransactionReport {
       throw new RuntimeException("Report Generation Failed");
     }
 
-    document.close();
+    if(isDocumentOpen) {
+        
+        document.close();
+        
+    }
+    
   }
+  
 }

@@ -89,10 +89,20 @@
     		<equals arg1="${is.local.build}" arg2="true"/>
 		</condition>
 		<property name="context.docbase" value=""/>
-		<condition property="workflow.url" value="${local.environment.url}">
+		<condition property="cas.url" value="${local.environment.url}cas-${build.environment}">
+    		<equals arg1="${is.local.cas.build}" arg2="true"/>
+		</condition>
+		<condition property="cas.url" value="${prod.environment.url}cas-${build.environment}">
+			<equals arg1="${build.environment}" arg2="ptd"/>
+		</condition>
+		<property name="cas.url" value="${test.environment.url}cas-unt"/>
+		<condition property="workflow.url" value="${local.environment.url}en-${build.environment}">
     		<equals arg1="${is.local.workflow.build}" arg2="true"/>
 		</condition>
-		<property name="workflow.url" value="${test.environment.url}"/>
+		<condition property="workflow.url" value="${prod.environment.url}en-${build.environment}">
+			<equals arg1="${build.environment}" arg2="ptd"/>
+		</condition>
+		<property name="workflow.url" value="${test.environment.url}en-${build.environment}"/>
 		<condition property="standard.out.appender" value='StdOut, '>
     		<equals arg1="${is.local.build}" arg2="true"/>
 		</condition>
@@ -107,7 +117,7 @@
     		<filter token="security-directory" value="${security.directory}/"/>
 			<filter token="logs-directory" value="${logs.directory}/"/>
         	<filter token="attachments-root-directory" value="${attachments.root.directory}"/>
-			<filter token="base-url" value="${test.environment.url}"/>
+			<filter token="cas-url" value="${cas.url}"/>
 			<filter token="workflow-url" value="${workflow.url}" />			
 			<filter token="web-authentication-filter" value="${web.authentication.filter}"/>
 			<filter token="web-authentication-filtermapping" value="${web.authentication.filtermapping}"/>

@@ -72,7 +72,7 @@ import org.springframework.util.StringUtils;
 
 /**
  * @author Kuali General Ledger Team <kualigltech@oncourse.iu.edu>
- * @version $Id: ScrubberServiceImpl.java,v 1.76 2006-03-24 16:09:17 larevans Exp $
+ * @version $Id: ScrubberServiceImpl.java,v 1.77 2006-03-24 19:40:50 larevans Exp $
  */
 
 public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
@@ -3366,8 +3366,85 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
       beanFactory = bf;
     }
 
-    private void createOutputEntry(OriginEntry inputEntry, OriginEntryGroup group) {
-        originEntryService.createEntry(inputEntry, group);
+    private void checkForNullKeys(OriginEntry entry, OriginEntryGroup group) {
+        
+        if(Boolean.TRUE.equals(group.getValid())) {
+            
+            if(null != entry) {
+                
+                if(null == entry.getFinancialDocumentTypeCode()) {
+                    
+                    LOG.debug("DocumentTypeCode is NULL for ObjectID " + entry.getObjectId());
+                    
+                }
+                
+                if(null == entry.getFinancialSystemOriginationCode()) {
+                    
+                    LOG.debug("OriginationCode is NULL for ObjectID " + entry.getObjectId());
+                    
+                }
+                
+                if(null == entry.getFinancialDocumentNumber()) {
+                    
+                    LOG.debug("DocumentNumber is NULL for ObjectID " + entry.getObjectId());
+
+                }
+                
+                if(null == entry.getChartOfAccountsCode()) {
+                    
+                    LOG.debug("ChartCode is NULL for ObjectID " + entry.getObjectId());
+
+                }
+                
+                if(null == entry.getAccountNumber()) {
+                    
+                    LOG.debug("AccountNumber is NULL for ObjectID " + entry.getObjectId());
+
+                }
+                
+                if(null == entry.getSubAccountNumber()) {
+                
+                    LOG.debug("SubAccountNumber is NULL for ObjectID " + entry.getObjectId());
+
+                }
+                
+                if(null == entry.getFinancialBalanceTypeCode()) {
+
+                    LOG.debug("BalanceTypeCode is NULL for ObjectID " + entry.getObjectId());
+
+                }
+                
+                if(null == entry.getFinancialDocumentReversalDate()) {
+
+                    LOG.debug("DocumentReversalDate is NULL for ObjectID " + entry.getObjectId());
+
+                }
+                
+                if(null == entry.getUniversityFiscalYear()) {
+
+                    LOG.debug("UniversityFiscalYear is NULL for ObjectID " + entry.getObjectId());
+
+                }
+                
+                if(null == entry.getUniversityFiscalPeriodCode()) {
+
+                    LOG.debug("UniversityFiscalPeriodCode is NULL for ObjectID " + entry.getObjectId());
+
+                }
+                
+            }
+            
+        }
+        
+    }
+    
+    private void createOutputEntry(OriginEntry entry, OriginEntryGroup group) {
+        
+        // Guard for KULGL-54. Just logs cases in which primary key fields happen to be null for
+        // an entry being written to ScrubberValid.
+        checkForNullKeys(entry, group);
+        
+        originEntryService.createEntry(entry, group);
     }
     
     /**

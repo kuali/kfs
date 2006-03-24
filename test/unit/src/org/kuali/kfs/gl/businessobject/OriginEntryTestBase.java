@@ -183,10 +183,10 @@ public class OriginEntryTestBase extends KualiTestBaseWithSpringOnly {
         // Check transaction - this is done this way so that Anthill prints the two transactions to make
         // resolving the issue easier.
         
-        String expected = requiredEntries[count].transactionLine.trim();
-        String found    = foundTransaction.getLine().trim();
+        String expected = requiredEntries[count].transactionLine.substring(0, 173);//trim();
+        String found    = foundTransaction.getLine().substring(0, 173);//trim();
         
-        String desc = expected.substring(51, 92);//.trim();
+        String desc = expected.substring(51, 92);
         // If it's an offset entry, adjusted the expected entry to expect the runDate for the transactionDate.
         if(null != runDateForOffsets) {
             

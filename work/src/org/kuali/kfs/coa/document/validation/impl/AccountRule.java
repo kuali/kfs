@@ -283,9 +283,12 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         // the fringe benefit code is set to N. 
         // The fringe benefit code of the account designated to accept the fringes must be Y.
         if (!newAccount.isAccountsFringesBnftIndicator()) {
-            if (StringUtils.isBlank(newAccount.getReportsToAccountNumber()) || StringUtils.isBlank(newAccount.getReportsToChartOfAccountsCode())) {
+            if (StringUtils.isBlank(newAccount.getReportsToAccountNumber())) {
                 success &= false;
                 putFieldError("reportsToAccountNumber", KeyConstants.ERROR_DOCUMENT_ACCMAINT_RPTS_TO_ACCT_REQUIRED_IF_FRINGEBENEFIT_FALSE);
+            }
+            else if (StringUtils.isBlank(newAccount.getReportsToChartOfAccountsCode())) {
+                success &= false;
                 putFieldError("reportsToChartOfAccountsCode", KeyConstants.ERROR_DOCUMENT_ACCMAINT_RPTS_TO_ACCT_REQUIRED_IF_FRINGEBENEFIT_FALSE);
             }
             else {

@@ -243,15 +243,19 @@ public class CashReceiptForm extends KualiTransactionalDocumentFormBase {
         String cashDrawerStatusMessage = "";
         CashReceiptDocument crd = getCashReceiptDocument();
         
-        // TODO: first check to see if the document is in the appropriate state for this message
-        
-        CashDrawer cd = SpringServiceLocator.getCashDrawerService().getByCashReceiptDocument(crd);
-        if (cd != null && crd.getDocumentHeader().getWorkflowDocument().isApprovalRequested() && cd.isClosed()) {
-            cashDrawerStatusMessage = SpringServiceLocator.getKualiConfigurationService().getPropertyString(
-                    KeyConstants.CashReceipt.MSG_CASH_DRAWER_CLOSED_VERIFICATION_NOT_ALLOWED);
-            cashDrawerStatusMessage = StringUtils.replace(cashDrawerStatusMessage, "{0}",
-                    Constants.CashReceiptConstants.CASH_RECEIPT_VERIFICATION_UNIT);
+        // first check to see if the document is in the appropriate state for this message
+        if(crd != null && crd.getDocumentHeader() != null && crd.getDocumentHeader().getWorkflowDocument() != null) {
+            if(crd.getDocumentHeader().getWorkflowDocument().stateIsEnroute()) { 
+                CashDrawer cd = SpringServiceLocator.getCashDrawerService().getByCashReceiptDocument(crd);
+                if (cd != null && crd.getDocumentHeader().getWorkflowDocument().isApprovalRequested() && cd.isClosed()) {
+                    cashDrawerStatusMessage = SpringServiceLocator.getKualiConfigurationService().getPropertyString(
+                            KeyConstants.CashReceipt.MSG_CASH_DRAWER_CLOSED_VERIFICATION_NOT_ALLOWED);
+                    cashDrawerStatusMessage = StringUtils.replace(cashDrawerStatusMessage, "{0}",
+                            Constants.CashReceiptConstants.CASH_RECEIPT_VERIFICATION_UNIT);
+                }
+            }
         }
+        
         return cashDrawerStatusMessage;
     }
 
@@ -259,7 +263,7 @@ public class CashReceiptForm extends KualiTransactionalDocumentFormBase {
      * determines if the <code>{@link CashReceiptDocument}</code> is in a 
      * state that allows printing of the cover sheet.
      * 
-     * @return
+     * @return boolean
      */
     public boolean isCoverSheetPrintingAllowed() {
         CashReceiptDocumentRule rule = new CashReceiptDocumentRule();

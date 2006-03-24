@@ -40,7 +40,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
     private ScrubberService scrubberService = null;
 
     private TestScrubberReport scrubberReport = null;
-
+    
     protected void setUp() throws Exception {
         super.setUp();
 
@@ -62,6 +62,85 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
         scrubberReport = (TestScrubberReport) beanFactory.getBean("testScrubberReport");
     }
 
+    /*
+    public void testMiscellaneousBlankFields() throws Exception {
+        
+        setRollback(false);
+        
+        // Inputs.
+        String[] stringInput = new String[] {
+                "    BA6044900-----5300---ACEE07CHKDPDBLANKFISC12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
+                "2004  6044900-----5300---ACEE07CHKDPDBLANKCHAR12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
+                "2004BA       -----5300---ACEE07CHKDPDBLANKACCT12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
+                "2004BA6044900     5300---ACEE07CHKDPDBLANKSACT12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
+                "2004BA6044900-----    ---ACEE07CHKDPDBLANKOBJ 12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
+                "2004BA6044900-----5300   ACEE07CHKDPDBLANKSOBJ12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
+                "2004BA6044900-----5300---  EE07CHKDPDBLANKBAL 12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
+                "2004BA6044900-----5300---AC  07CHKDPDBLANKOBJT12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
+                "2004BA6044900-----5300---ACEE  CHKDPDBLANKPER 12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
+                "2004BA6044900-----5300---ACEE07    PDBLANKDOCT12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
+                "2004BA6044900-----5300---ACEE07CHKD  BLANKORIG12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
+                "2004BA6044900-----5300---ACEE07CHKDPD         12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
+                "2004BA6044900-----5300---ACEE07CHKDPDBLANKSEQ      214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                  "
+        };
+        
+        String[] convertedStringInput = new String[] {
+                "    BA6044900-----5300---ACEE07CHKDPDBLANKFISC12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
+                "2004  6044900-----5300---ACEE07CHKDPDBLANKCHAR12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
+                "2004BA       -----5300---ACEE07CHKDPDBLANKACCT12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
+                "2004BA6044900     5300---ACEE07CHKDPDBLANKSACT12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
+                "2004BA6044900-----    ---ACEE07CHKDPDBLANKOBJ 12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
+                "2004BA6044900-----5300   ACEE07CHKDPDBLANKSOBJ12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
+                "2004BA6044900-----5300---  EE07CHKDPDBLANKBAL 12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
+                "2004BA6044900-----5300---AC  07CHKDPDBLANKOBJT12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
+                "2004BA6044900-----5300---ACEE  CHKDPDBLANKPER 12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
+                "2004BA6044900-----5300---ACEE07    PDBLANKDOCT12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
+                "2004BA6044900-----5300---ACEE07CHKD  BLANKORIG12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
+                "2004BA6044900-----5300---ACEE07CHKDPD         12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
+                "2004BA6044900-----5300---ACEE07CHKDPDBLANKSEQ 00000214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                  "
+        };
+        
+        // Add inputs to expected output ...
+        Vector expectedOutput = new Vector();
+        for(int i = 0; i < stringInput.length; i++) {
+            expectedOutput.add(new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
+        }
+        
+        // ... add expected output ...
+        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_ERROR,
+                "    BA6044900-----5300---ACEE07CHKDPDBLANKFISC12345214090047 EVERETT J PRESCOTT INC.                    0.00D2006-01-05ABCDEFGHIJ----------12345678                                                          "));
+        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_ERROR,
+                "2004BA6044900-----5300---ACEE07    PDBLANKDOCT12345214090047 EVERETT J PRESCOTT INC.                    0.00D2006-01-05ABCDEFGHIJ----------12345678                                                          "));
+        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_ERROR,
+                "2004BA6044900-----5300---ACEE07CHKD  BLANKORIG12345214090047 EVERETT J PRESCOTT INC.                    0.00D2006-01-05ABCDEFGHIJ----------12345678                                                          "));
+        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_ERROR,
+                "2004BA6044900-----5300---ACEE07CHKDPD         12345214090047 EVERETT J PRESCOTT INC.                    0.00D2006-01-05ABCDEFGHIJ----------12345678                                                          "));
+        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_ERROR,
+                "2004BA       -----5300---ACEE07CHKDPDBLANKACCT12345214090047 EVERETT J PRESCOTT INC.                    0.00D2006-01-05ABCDEFGHIJ----------12345678                                                          "));
+        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_ERROR,
+                "2004BA6044900-----5300---ACEE07CHKDPDBLANKSOBJ12345214090047 EVERETT J PRESCOTT INC.                    0.00D2006-01-05ABCDEFGHIJ----------12345678                                                          "));
+        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_ERROR,
+                "2004BA6044900-----5300---  EE07CHKDPDBLANKBAL 12345214090047 EVERETT J PRESCOTT INC.                    0.00D2006-01-05ABCDEFGHIJ----------12345678                                                          "));
+        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_ERROR,
+                "2004BA6044900-----5300---ACEE07CHKDPDBLANKCHAR12345214090047 EVERETT J PRESCOTT INC.                    0.00D2006-01-05ABCDEFGHIJ----------12345678                                                          "));
+        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_ERROR,
+                "2004BA6044900-----    ---ACEE07CHKDPDBLANKOBJ 12345214090047 EVERETT J PRESCOTT INC.                    0.00D2006-01-05ABCDEFGHIJ----------12345678                                                          "));
+        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_ERROR,
+                "2004BA6044900-----5300---AC  07CHKDPDBLANKOBJT12345214090047 EVERETT J PRESCOTT INC.                    0.00D2006-01-05ABCDEFGHIJ----------12345678                                                          "));
+        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_ERROR,
+                "2004BA6044900-----5300---ACEE  CHKDPDBLANKPER 12345214090047 EVERETT J PRESCOTT INC.                    0.00D2006-01-05ABCDEFGHIJ----------12345678                                                          "));
+        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_ERROR,
+                "2004BA6044900-----5300---ACEE07CHKDPDBLANKSACT12345214090047 EVERETT J PRESCOTT INC.                    0.00D2006-01-05ABCDEFGHIJ----------12345678                                                          "));
+        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_ERROR,
+                "2004BA6044900-----5300---ACEE07CHKDPDBLANKSEQ 00000214090047 EVERETT J PRESCOTT INC.                    0.00D2006-01-05ABCDEFGHIJ----------12345678                                                          "));
+        
+        // ... and run the test.
+        scrub(stringInput);
+        assertOriginEntries(4,(EntryHolder[]) expectedOutput.toArray(new EntryHolder[0]), dateTimeService.currentDate);
+        
+    }
+    */
+    
     public void testCostShareEncumbrancesForPreEncumbrances() throws Exception {
         
         // Inputs.
@@ -3147,6 +3226,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
         scrub(inputTransactions);
         assertOriginEntries(4,outputTransactions);
+        
     }
 
     /**
@@ -3186,367 +3266,16 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
     }
 
     private void scrub(String[] inputTransactions) {
+        
         scrub(inputTransactions, false);
+        
     }
     
     private void scrub(String[] inputTransactions, boolean makeTransactionDateCurrent) {
+        
         clearOriginEntryTables();
         loadInputTransactions(OriginEntrySource.EXTERNAL,inputTransactions);
         scrubberService.scrubEntries();
-
-        // TODO This code can be uncommented if needed once we figure out what's going on with the dates.
-//        if(makeTransactionDateCurrent) {
-//        	// Get the rundate minus 1 day
-//        	Date validDate = new Date(dateTimeService.currentDate.getTime() - 86400000);
-//        	SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-//        	//String runDateFormatted = simpleDateFormat.format(dateTimeService.currentDate);
-//        	String currentDateFormatted = simpleDateFormat.format(validDate);
-//        	
-//        	for(int i = 0; i < inputTransactions.length; i++) {
-//        		
-//        		String pre = inputTransactions[i].substring(0, 109);
-//        		String post = inputTransactions[i].substring(119);
-//        		
-//        		// splice in the valid date
-//        		inputTransactions[i] = pre + currentDateFormatted + post;
-//        	}
-//        }
         
     }
-    
-    /*
-    public void testOrgReferenceId() throws Exception {
-        // FIXME found no input records to test this
-        // Setup
-        String[] inputTransactions = {};
-        String[] outputTransactions = {};
-
-        // Scrub
-        scrub(inputTransactions);
-
-        // Do assertions
-        // ...
-
-        // Report errors
-        reportErrors();
-    }
-
-    public void testOrgDocumentNumber() throws Exception {
-        // FIXME couldn't find input entries for this test
-        // Setup
-        String[] inputTransactions = {};
-        String[] outputTransactions = {};
-
-        // Scrub
-        scrub(inputTransactions);
-
-        // Do assertions
-        // ...
-
-        // Report errors
-        reportErrors();
-    }
-
-    public void testNegativeAmountOnNonBudgetTransaction() throws Exception {
-        // Setup
-        // FIXME negative amount in input line must be handled
-        String[] inputTransactions = {
-                "2004BA6044900-----1599---ACIN07TOPSLGNEGAMTNBT     CONCERTO OFFICE PRODUCTS                -0000000000048.53C2006-01-05          ----------                                                                          ",
-                "2004BA6044900-----9041---ACLI07TOPSLDNEGAMTNBT     CONCERTO OFFICE PRODUCTS                -0000000000048.53D2006-01-05          ----------                                                                          " };
-        String[] outputTransactions = {};
-
-        // Scrub
-        scrub(inputTransactions);
-
-        // Do assertions
-        // ...
-
-        // Report errors
-        reportErrors();
-    }
-
-    */
-
-    /*
-    public void testEncumbranceUpdateCodeOnNonEncumbrancePeriod()
-            throws Exception {
-
-        String[] inputTransactions = {
-                "2004BL1031420-----4110---ACEX07ID33EUCHECKENCC     NOV-05 IMU Business Office          2224           241.75C2005-11-30          ----------                                 D                                        ",
-                "2004BL1031420-----9892---ACFB07ID33EUCHECKENCC     NOV-05 IMU Business Office          2237           241.75D2005-11-30          ----------                                 D                                        "
-        };
-
-        EntryHolder[] outputTransactions = {
-            new EntryHolder(OriginEntrySource.EXTERNAL,inputTransactions[0]),
-            new EntryHolder(OriginEntrySource.EXTERNAL,inputTransactions[1]),
-            new EntryHolder(OriginEntrySource.SCRUBBER_ERROR,inputTransactions[0]),
-            new EntryHolder(OriginEntrySource.SCRUBBER_ERROR,inputTransactions[1])
-        };
-
-        scrub(inputTransactions);
-        assertOriginEntries(4,outputTransactions);
-    }
-
-    public void testBlankChart() throws Exception {
-        // Setup
-        String[] inputTransactions = {
-                "2004  1031400-----4100---ACEX07DI  01BLANKCHAR     Rite Quality Office Supplies Inc.                   94.35D2006-01-05          ----------                                                                          ",
-                "2004  1031400-----9041---ACLI07DI  01BLANKCHAR     Rite Quality Office Supplies Inc.                   94.35C2006-01-05          ----------                                                                          " };
-        String[] outputTransactions = {};
-
-        // Scrub
-        scrub(inputTransactions);
-
-        // Do assertions
-        // ...
-
-        // Report errors
-        reportErrors();
-    }
-
-    public void testClosedAccountNumber() throws Exception {
-        // Setup
-        String[] inputTransactions = {
-                "2004BA6044901-----5000---ACEX07ACHDPDCLOSEACCT     H P PRODUCTS CORPORATION        10252845           744.00D2006-01-05          ----------                                                                          ",
-                "2004BA6044901-----8000---ACAS07ACHDPDCLOSEACCT     H P PRODUCTS CORPORATION        10252882           744.00C2006-01-05          ----------                                                                          " };
-        String[] outputTransactions = {};
-
-        // Scrub
-        scrub(inputTransactions);
-
-        // Do assertions
-        // ...
-
-        // Report errors
-        reportErrors();
-    }
-
-    public void testExpiredAccountNumber() throws Exception {
-        // Setup
-        String[] inputTransactions = {
-                "2004BL1031467-----4100---ACEX07PO  LGEXPIRACCT     Rite Quality Office Supplies Inc.                   43.42D2006-01-05          ----------                                                                          ",
-                "2004BL1031467-----9892---ACFB07PO  LGEXPIRACCT     Rite Quality Office Supplies Inc.                   43.42C2006-01-05          ----------                                                                          " };
-        String[] outputTransactions = {};
-
-        // Scrub
-        scrub(inputTransactions);
-
-        // Do assertions
-        // ...
-
-        // Report errors
-        reportErrors();
-    }
-
-    public void testBlankSubAccountNumber() throws Exception {
-        // Setup
-        String[] inputTransactions = {
-                "2004BL1031497     4190---ACEX07GEC 01BLANKSACT     THOMAS BUSEY/NEWEGG COMPUTERS                       40.72C2006-01-05          ----------                                                                          ",
-                "2004BL1031497     8000---ACAS07GEC 01BLANKSACT     TP Generated Offset                                 40.72D2006-01-05          ----------                                                                          " };
-        String[] outputTransactions = {};
-
-        // Scrub
-        scrub(inputTransactions);
-
-        // Do assertions
-        // ...
-
-        // Report errors
-        reportErrors();
-    }
-    
-    public void testBlankBalanceType() throws Exception {
-        // Setup
-        String[] inputTransactions = {
-                "2004BL1031400-----4100---  EX07DI  01BLANKBALT     Rite Quality Office Supplies Inc.                   94.35D2006-01-05          ----------                                                                          ",
-                "2004BL1031400-----9041---ACLI07DI  01BLANKBALT     Rite Quality Office Supplies Inc.                   94.35C2006-01-05          ----------                                                                          " };
-        String[] outputTransactions = {};
-
-        // Scrub
-        scrub(inputTransactions);
-
-        // Do assertions
-        // ...
-
-        // Report errors
-        reportErrors();
-    }
-
-    public void testInvalidSubObjectCode() throws Exception {
-        // Setup
-        String[] inputTransactions = {
-                "2004BA6044913-----1470XXXACIN07CR  01INVALSOBJ     Poplars Garage Fees                                 20.00C2006-01-05          ----------                                                                          ",
-                "2004BA6044913-----8000---ACAS07CR  01INVALSOBJ     TP Generated Offset                                 20.00D2006-01-05          ----------                                                                          " };
-        String[] outputTransactions = {};
-
-        // Scrub
-        scrub(inputTransactions);
-
-        // Do assertions
-        // ...
-
-        // Report errors
-        reportErrors();
-    }
-
-    public void testInactiveSubObjectCode() throws Exception {
-        // Setup
-        String[] inputTransactions = {
-                "2004BA6044900-----1599LLBACIN07TOPSLGINACTSOBJ     CONCERTO OFFICE PRODUCTS                            48.53C2006-01-05          ----------                                                                          ",
-                "2004BA6044900-----9041---ACLI07TOPSLGINACTSOBJ     CONCERTO OFFICE PRODUCTS                            48.53D2006-01-05          ----------                                                                          " };
-        String[] outputTransactions = {};
-
-        // Scrub
-        scrub(inputTransactions);
-
-        // Do assertions
-        // ...
-
-        // Report errors
-        reportErrors();
-    }
-
-    public void testBlankSubObjectCode() throws Exception {
-        // Setup
-        String[] inputTransactions = {
-                "2004BA6044906-----5300   ACEE07CHKDPDBLANKSOBJ12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
-                "2004BA6044906-----8000   ACAS07CHKDPDBLANKSOBJ12345214090047 EVERETT J PRESCOTT INC.                 1445.00C2006-01-05ABCDEFGHIG----------12345678                                                                  " };
-        String[] outputTransactions = {};
-
-        // Scrub
-        scrub(inputTransactions);
-
-        // Do assertions
-        // ...
-
-        // Report errors
-        reportErrors();
-    }
-    
-    public void testBlankObjectType() throws Exception {
-        // Setup
-        String[] inputTransactions = {
-                "2004BL2231440-----5000---AC  07PO  LGBLANKOBTY     225050007 WILLIAMS DOTSON ASSOCIATES IN           1200.00D2006-01-05          ----------                                                                          ",
-                "2004BL2231440-----9041---AC  07PO  LGBLANKOBTY     225050007 WILLIAMS DOTSON ASSOCIATES IN           1200.00C2006-01-05          ----------                                                                          " };
-        String[] outputTransactions = {};
-
-        // Scrub
-        scrub(inputTransactions);
-
-        // Do assertions
-        // ...
-
-        // Report errors
-        reportErrors();
-    }
-
-    public void testBlankFiscalPeriod() throws Exception {
-        // Setup
-        String[] inputTransactions = {
-                "2004BA6044900-----5000---ACEX  ACHDPDBLANKPER      H P PRODUCTS CORPORATION        10252845           744.00D2006-01-05          ----------                                                                          ",
-                "2004BA6044900-----8000---ACAS  ACHDPDBLANKPER      H P PRODUCTS CORPORATION        10252882           744.00C2006-01-05          ----------                                                                          " };
-        String[] outputTransactions = {};
-
-        // Scrub
-        scrub(inputTransactions);
-
-        // Do assertions
-        // ...
-
-        // Report errors
-        reportErrors();
-    }
-    
-    public void testBlankTransactionsDescription() throws Exception {
-        // Setup
-        String[] inputTransactions = {
-                "2004BA6044906-----5300---ACEE07CHKDPDBLANKDESC12345                                                  1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
-                "2004BA6044906-----8000---ACAS07CHKDPDBLANKDESC12345                                                  1445.00C2006-01-05ABCDEFGHIG----------12345678                                                                  " };
-        String[] outputTransactions = {};
-
-        // Scrub
-        scrub(inputTransactions);
-
-        // Do assertions
-        // ...
-
-        // Report errors
-        reportErrors();
-    }
-    
-    public void testBlankTransactionDate() throws Exception {
-        // Setup
-        String[] inputTransactions = {
-                "2004BL2231440-----5000---ACEX07PO  LGBLANKDATE     225050007 WILLIAMS DOTSON ASSOCIATES IN           1200.00D                    ----------                                                                          ",
-                "2004BL2231440-----9041---ACLI07PO  LGBLANKDATE     225050007 WILLIAMS DOTSON ASSOCIATES IN           1200.00C                    ----------                                                                          "
-        };
-        String[] outputTransactions = {};
-
-        // Scrub
-        scrub(inputTransactions);
-
-        // Do assertions
-        // ...
-
-        // Report errors
-        reportErrors();
-    }
-    
-    public void testReferenceDocumentTypePresentWithoutOtherReferenceFields()
-            throws Exception {
-        
-        String[] inputTransactions = {
-                "2004BA6044900-----8000---ACAS07IB  01LONERDTP      TP Generated Offset                               1650.00C2006-01-05          ----------        TOPS                                                              ",
-                "2004BL6044900-----4866---ACEX07IB  01LONERDTP      Correction to: 01-PU3355206                       1650.00D2006-01-05          ----------        TOPS                                                              "
-        };
-        
-        EntryHolder[] outputTransactions = {
-            new EntryHolder(OriginEntrySource.EXTERNAL,inputTransactions[0]),
-            new EntryHolder(OriginEntrySource.EXTERNAL,inputTransactions[1]),
-            new EntryHolder(OriginEntrySource.SCRUBBER_ERROR,inputTransactions[0]),
-            new EntryHolder(OriginEntrySource.SCRUBBER_ERROR,inputTransactions[1])
-        };
-
-        scrub(inputTransactions, true);
-        assertOriginEntries(4,outputTransactions);
-    }
-
-    public void testBlankProjectCode() throws Exception {
-        // Setup
-        String[] inputTransactions = {
-                "2004BA6044900-----5000---ACEX07ACHDPDBLANKPROJ     H P PRODUCTS CORPORATION        10252845           744.00D2006-01-05                                                                                              ",          
-                "2004BA6044900-----8000---ACAS07ACHDPDBLANKPROJ     H P PRODUCTS CORPORATION        10252882           744.00C2006-01-05                                                                                              "
-        };
-        String[] outputTransactions = {};
-
-        // Scrub
-        scrub(inputTransactions);
-
-        // Do assertions
-        // ...
-
-        // Report errors
-        reportErrors();
-    }
-    
-    public void testReferenceOriginCodePresentWithoutOtherReferenceFields()
-            throws Exception {
-
-        String[] inputTransactions = {
-                "2004BL2231423-----1800---ACIN  CR  PLLONERORG      FRICKA FRACKA                                    45995.84C2006-01-05          ----------            01                                                            ",
-                "2004BL2231423-----8000---ACAS  CR  PLLONERORG      TP Generated Offset                              45995.84D2006-01-05          ----------            01                                                            "
-        };
-        
-        EntryHolder[] outputTransactions = {
-            new EntryHolder(OriginEntrySource.EXTERNAL,inputTransactions[0]),
-            new EntryHolder(OriginEntrySource.EXTERNAL,inputTransactions[1]),
-            new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions[0]),
-            new EntryHolder(OriginEntrySource.SCRUBBER_VALID,inputTransactions[1])
-        };
-
-        scrub(inputTransactions);
-        assertOriginEntries(4,outputTransactions);
-    }
-
-    */
 }

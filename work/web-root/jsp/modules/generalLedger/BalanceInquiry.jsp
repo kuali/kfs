@@ -3,7 +3,7 @@
 <kul:pageLookup showDocumentInfo="false" htmlFormAction="glBalanceInquiry" 
 	headerMenuBar="${KualiForm.lookupable.htmlMenuBar}" headerTitle="Lookup" 
 	docTitle="" transactionalDocument="false">
-
+ 
 	<div  class="headerarea-small" id="headerarea-small">
 	  	<h1>
 	  		<c:out value="${KualiForm.lookupable.title}" />
@@ -23,14 +23,16 @@
     
     <kul:errors errorTitle="Errors found in Search Criteria:" />
     
+
+    
     <table width="100%">
       	<tr>
         	<td width="1%"><img src="images/pixel_clear.gif" alt="" width="20" height="20"></td>
        
 	        <td>
 	        	<c:if test="${param.inquiryFlag != 'true'}">
-		        	<div align="center"><br/><br/>
-		            	<table align="center" cellpadding="0" class="datatable-100">
+		        	<div id="lookup" align="center"><br/><br/>
+		            	<table class="datatable-100" align="center" cellpadding="0" cellspacing="0">
 		              		<c:set var="FormName" value="KualiForm" scope="request" />
 		              		<c:set var="FieldRows" value="${KualiForm.lookupable.rows}" scope="request" />
 		              		<c:set var="ActionName" value="glBalanceInquiry.do" scope="request" />
@@ -174,6 +176,8 @@
 					</display:column>
 				</display:table>		    
         	</td>
+        	<td width="1%"><img src="images/pixel_clear.gif" alt="" height="20" width="20"></td>
       	</tr>
     </table>
+    
 </kul:pageLookup>

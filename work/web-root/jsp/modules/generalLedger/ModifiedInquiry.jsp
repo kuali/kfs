@@ -29,8 +29,8 @@
         
         <td>
         <c:if test="${param.inquiryFlag != 'true'}">
-          <div align="center"><br/><br/>
-            <table align="center" cellpadding="0" class="datatable-100">
+          <div id="lookup" align="center"><br/><br/>
+            	<table class="datatable-100" align="center" cellpadding="0" cellspacing="0">
               <c:set var="FormName" value="KualiForm" scope="request" />
               <c:set var="FieldRows" value="${KualiForm.lookupable.rows}" scope="request" />
               <c:set var="ActionName" value="glModifiedInquiry.do" scope="request" />
@@ -104,7 +104,7 @@
           </c:if>
         </c:forEach>
       </display:table>
-	</td>
+	</td><td width="1%"><img src="images/pixel_clear.gif" alt="" height="20" width="20"></td>
   </tr>
 </table>
 </kul:pageLookup>

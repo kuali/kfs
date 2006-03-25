@@ -28,8 +28,8 @@
         <td width="1%"><img src="images/pixel_clear.gif" alt="" width="20" height="20" /></td>
         
         <td>
-          <div align="center"><br/><br/>
-            <table align="center" cellpadding="0" class="datatable-100">
+          <div id="lookup" align="center"><br/><br/>
+            	<table class="datatable-100" align="center" cellpadding="0" cellspacing="0">
               <c:set var="FormName" value="KualiForm" scope="request" />
               <c:set var="FieldRows" value="${KualiForm.lookupable.rows}" scope="request" />
               <c:set var="ActionName" value="glModifiedInquiry.do" scope="request" />
@@ -140,7 +140,7 @@
 		      </display:table>
 	      </div>
 	      </c:if>
-	  </td>
+	  </td>	<td width="1%"><img src="images/pixel_clear.gif" alt="" height="20" width="20"></td>
     </tr>
 </table>
 <br/><br/>

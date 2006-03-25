@@ -40,7 +40,12 @@
 				<lookupField attributeName="subAccountNumber" noLookup="false"/>
 				<lookupField attributeName="objectCode" noLookup="false"/>
 				<lookupField attributeName="subObjectCode" noLookup="false"/> 
-				<lookupField attributeName="balanceTypeCode" required="true" noLookup="false"/> 
+				<lookupField attributeName="balanceTypeCode" required="true" noLookup="false">
+                	<defaultValueFinderClass>
+						org.kuali.module.gl.web.optionfinder.GLActualBalanceTypeOptionFinder
+					</defaultValueFinderClass>
+				</lookupField>
+
 				<lookupField attributeName="objectTypeCode" noLookup="false"/>
 						
 				<lookupField attributeName="dummyBusinessObject.consolidationOption" noLookup="false">
@@ -128,7 +133,7 @@
 								sourceClassName="org.kuali.module.chart.bo.codes.BalanceTyp" 
 								sourceAttributeName="code">
                 <control>
-		            <select valuesFinderClass="org.kuali.core.lookup.keyvalues.BalanceTypeValuesFinder"/>
+	                <select valuesFinderClass="org.kuali.module.gl.web.optionfinder.GLActualBalanceTypeOptionFinder"/>
                 </control>
             </attributeReference>
 

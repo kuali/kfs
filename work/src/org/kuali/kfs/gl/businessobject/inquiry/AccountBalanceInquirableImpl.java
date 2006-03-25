@@ -30,8 +30,11 @@ import java.util.Properties;
 
 import org.kuali.Constants;
 import org.kuali.PropertyConstants;
+import org.kuali.core.bo.user.Options;
 import org.kuali.core.service.BusinessObjectDictionaryService;
 import org.kuali.core.service.LookupService;
+import org.kuali.core.service.OptionsService;
+import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.gl.bo.Balance;
 import org.kuali.module.gl.web.Constant;
 
@@ -70,9 +73,12 @@ public class AccountBalanceInquirableImpl extends AbstractGLInquirableImpl {
     protected Map getUserDefinedAttributeMap() {
         Map userDefinedAttributeMap = new HashMap();
 
+        OptionsService os = SpringServiceLocator.getOptionsService();
+        Options o = os.getCurrentYearOptions();
+
         userDefinedAttributeMap.put(PropertyConstants.CURRENT_BUDGET_LINE_BALANCE_AMOUNT, Constant.BALANCE_TYPE_CB);
-        userDefinedAttributeMap.put(PropertyConstants.ACCOUNT_LINE_ACTUALS_BALANCE_AMOUNT, Constant.BALANCE_TYPE_AC);
-        userDefinedAttributeMap.put(PropertyConstants.ACCOUNT_LINE_ENCUMBRANCE_BALANCE_AMOUNT, Constant.BALANCE_TYPE_EX);
+        userDefinedAttributeMap.put(PropertyConstants.ACCOUNT_LINE_ACTUALS_BALANCE_AMOUNT, o.getActualFinancialBalanceTypeCd());
+        userDefinedAttributeMap.put(PropertyConstants.ACCOUNT_LINE_ENCUMBRANCE_BALANCE_AMOUNT, o.getExtrnlEncumFinBalanceTypCd());
 
         return userDefinedAttributeMap;
     }

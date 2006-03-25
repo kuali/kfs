@@ -53,11 +53,8 @@ public final class Constant {
     public static final String DOCUMENT_APPROVED_CODE_PENDING = "N";
     public static final String DOCUMENT_APPROVED_CODE_PROCESSED = "X";    
     
-    public static final String BALANCE_TYPE_IE = "IE";
     public static final String BALANCE_TYPE_PE = "PE";
-    public static final String BALANCE_TYPE_EX = "EX";
     public static final String BALANCE_TYPE_CB = "CB";
-    public static final String BALANCE_TYPE_AC = "AC";    
     
     public static final String OBJECT_TYPE_EE = "EE";
     public static final String OBJECT_TYPE_ES = "ES";

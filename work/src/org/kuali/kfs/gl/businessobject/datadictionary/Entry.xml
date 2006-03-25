@@ -75,27 +75,35 @@
 			
 			<resultFields>         
                 <field attributeName="universityFiscalYear" />
-                <field attributeName="universityFiscalPeriodCode"/>
+
                 <field attributeName="chartOfAccountsCode" />
                 <field attributeName="accountNumber" />
-                
                 <field attributeName="subAccountNumber" />
                 <field attributeName="financialObjectCode" />
-				<field attributeName="financialSubObjectCode" />                
-				<field attributeName="financialBalanceTypeCode" /> 
-				<field attributeName="financialSystemOriginationCode" /> 
+				<field attributeName="financialSubObjectCode" />
+				
+				<field attributeName="financialBalanceTypeCode" />
+				<field attributeName="financialObjectTypeCode" />
+
+				<field attributeName="universityFiscalPeriodCode" />
 
                 <field attributeName="financialDocumentTypeCode" />                				                            
+				<field attributeName="financialSystemOriginationCode" />
                 <field attributeName="financialDocumentNumber" />
+
+                <field attributeName="transactionLedgerEntryDesc" />
                 <field attributeName="transactionLedgerEntryAmount" />
+
                 <field attributeName="transactionDebitCreditCode" />    
                 <field attributeName="transactionDate" />
+                <field attributeName="organizationDocumentNumber" />
+
                 <field attributeName="projectCode" />
-				<field attributeName="transactionLedgerEntryDesc" />
+                <field attributeName="organizationReferenceId" />
 				                
                 <field attributeName="referenceFinDocumentTypeCode" />
-				<field attributeName="financialDocumentReferenceNbr" />
 				<field attributeName="finSystemRefOriginationCode" />
+				<field attributeName="financialDocumentReferenceNbr" />
 			</resultFields>
 		</lookup>
 		

@@ -34,7 +34,9 @@ import java.util.Map;
 
 import org.kuali.Constants;
 import org.kuali.core.service.DateTimeService;
+import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.chart.bo.IcrAutomatedEntry;
 import org.kuali.module.chart.dao.IcrAutomatedEntryDao;
@@ -62,7 +64,7 @@ import org.springframework.beans.factory.BeanFactoryAware;
 
 /**
  * @author jsissom
- * @version $Id: PosterServiceImpl.java,v 1.24 2006-03-22 17:13:14 larevans Exp $
+ * @version $Id: PosterServiceImpl.java,v 1.25 2006-03-26 20:26:02 jsissom Exp $
  */
 public class PosterServiceImpl implements PosterService,BeanFactoryAware {
   private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PosterServiceImpl.class);
@@ -140,6 +142,7 @@ public class PosterServiceImpl implements PosterService,BeanFactoryAware {
         validEntrySourceCode = OriginEntrySource.REVERSAL_POSTER_VALID;
         invalidEntrySourceCode = OriginEntrySource.REVERSAL_POSTER_ERROR;
         reversalTransactions = reversalDao.getByDate(runDate);
+        break;
       case PosterService.MODE_ICR:
         validEntrySourceCode = OriginEntrySource.ICR_POSTER_VALID;
         invalidEntrySourceCode = OriginEntrySource.ICR_POSTER_ERROR;
@@ -222,7 +225,6 @@ public class PosterServiceImpl implements PosterService,BeanFactoryAware {
 
     List errors = new ArrayList();
 
-    Reversal reversal = null;
     Transaction originalTransaction = tran;
 
     // Update select count in the report
@@ -237,10 +239,7 @@ public class PosterServiceImpl implements PosterService,BeanFactoryAware {
     // If these are reversal entries, we need to reverse the entry and
     // modify a few fields
     if (mode == PosterService.MODE_REVERSAL) {
-    	// NOTE (laran): should this be a cast instead of a new Reversal?
-    	// Reversal implements Transaction and the Reversals coming from the Poster
-    	// are loaded just prior to this.
-      reversal = new Reversal(tran);
+      Reversal reversal = new Reversal(tran);
 
       // Reverse the debit/credit code
       if (Constants.GL_DEBIT_CODE.equals(reversal.getTransactionDebitCreditCode())) {
@@ -266,13 +265,16 @@ public class PosterServiceImpl implements PosterService,BeanFactoryAware {
             newDescription = newDescription.substring(0,39);
           }
           reversal.setTransactionLedgerEntryDesc(newDescription);
-          tran = reversal;
         } else {
           errors.add("Date from university date not in AccountingPeriod table");
         }
       } else {
         errors.add("Date from reversal not in UniversityDate table");
       }
+
+      PersistenceService ps = SpringServiceLocator.getPersistenceService();
+      ps.retrieveNonKeyFields(reversal);
+      tran = reversal;
     }
 
     if ( errors.size() == 0 ) {

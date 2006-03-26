@@ -593,25 +593,43 @@ public class PosterServiceTest extends OriginEntryTestBase {
     assertEquals("Wrong number of balances in the table",8,balances.size());
   }
 
-  public void xtestPostExpenditureTransaction() throws Exception {
+  public void testPostExpenditureTransaction() throws Exception {
     LOG.debug("testPostExpenditureTransaction() started");
 
-    setRollback(false);
-
     String[] inputTransactions = {
+        // Not posted because icr type cd = 10
         "2004BL2231499-----4166---ACEX07CHKDPDET000001112345DESCRIPTION                                      11000.00D2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
 
+        // Not posted because icr type cd is null
+        "2004BA9019993-----4166---ACEX07CHKDPDET000001112345DESCRIPTION                                      11000.00D2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
+
+        // Not posted because the period code is AB, BB or CB
+        "2004BL4031407-----4166---ACEXABCHKDPDET000001112345DESCRIPTION                                      12000.00D2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
+        "2004BL4031407-----4166---ACEXBBCHKDPDET000001112345DESCRIPTION                                          0.12C2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
+        "2004BL4031407-----4166---ACEXCBCHKDPDET000001112345DESCRIPTION                                      12000.00D2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
+
+        // Posted
         "2004BL4031407-----4166---ACEX07CHKDPDET000001112345DESCRIPTION                                      12000.00D2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
         "2004BL4031407-----4166---ACEX07CHKDPDET000001112345DESCRIPTION                                          0.12C2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
 
+        // Posted
         "2004BL4131406-----2401---EXEX07CHKDPDET000001112345DESCRIPTION                                         12.00C2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
         "2004BL4131406-----2401---EXEX07CHKDPDET000001112345DESCRIPTION                                          2.00D2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
 
-        "2004BL4131406-----2401---EXEX07CHKDPDET000001112345DESCRIPTION                                         12.00C2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
-        "2004BL4131406-----2401---EXEX07CHKDPDET000001112345DESCRIPTION                                          2.00D2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
+        // Not posted - excluded account
+        "2004BL4431406-----2401---EXEX07CHKDPDET000001112345DESCRIPTION                                         33.00C2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
+        "2004BL4431406-----2401---EXEX07CHKDPDET000001112345DESCRIPTION                                          4.00D2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
 
-        // We need an account that has 2 sub acounts, one with type CS and one with type EX.  This doesn't exist in the chart so we need to make it.
+        // Not posted - excluded type (23)
+        "2004BL4431407-----2401---EXEX07CHKDPDET000001112345DESCRIPTION                                         44.00C2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
+        "2004BL4431407-----2401---EXEX07CHKDPDET000001112345DESCRIPTION                                          5.00D2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
+
+        // Not posted, CS sub acct
         "2004BL4631464CS0014166---ACEX07CHKDPDET000002112345DESCRIPTION                                         25.00D2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
+
+        // Posted, non-CS sub acct
+        "2004BL4631464XXX  4166---ACEX07CHKDPDET000002112345DESCRIPTION                                         25.00D2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
+        "2004BL4631464XXX  4166---ACEX07CHKDPDET000002112345DESCRIPTION                                          2.00C2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
     };
 
     EntryHolder[] outputTransactions = new EntryHolder[inputTransactions.length * 2];
@@ -622,17 +640,75 @@ public class PosterServiceTest extends OriginEntryTestBase {
 
     clearOriginEntryTables();
     clearExpenditureTable();
+    
+    // Add sub account for testing
+    unitTestSqlDao.sqlCommand("delete from ca_sub_acct_t where fin_coa_cd = 'BL' and account_nbr = '4631464' and sub_acct_nbr = 'XXX'");
+    unitTestSqlDao.sqlCommand("delete from ca_a21_sub_acct_t where fin_coa_cd = 'BL' and account_nbr = '4631464' and sub_acct_nbr = 'XXX'");
+    unitTestSqlDao.sqlCommand("insert into ca_sub_acct_t (FIN_COA_CD,ACCOUNT_NBR,SUB_ACCT_NBR,OBJ_ID,VER_NBR,SUB_ACCT_NM,SUB_ACCT_ACTV_CD,FIN_RPT_CHRT_CD,FIN_RPT_ORG_CD,FIN_RPT_CD) values ('BL','4631464','XXX',sys_guid(),1,'XXX','N',null,null,null)");
+    unitTestSqlDao.sqlCommand("INSERT INTO CA_A21_SUB_ACCT_T (FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, OBJ_ID, VER_NBR, SUB_ACCT_TYP_CD, ICR_TYP_CD, FIN_SERIES_ID, ICR_FIN_COA_CD, ICR_ACCOUNT_NBR, OFF_CMP_CD, CST_SHR_COA_CD, CST_SHRSRCACCT_NBR, CST_SRCSUBACCT_NBR) VALUES ('BL','4631464','XXX',sys_guid(),1,'EX',null,'000',null,null,null,'BL','1031400',null)");
+
+    // Modify account for testing
+    unitTestSqlDao.sqlCommand("update ca_account_t set fin_series_id = '11' where account_nbr = '9019993'");
+
+    // Exclude account
+    unitTestSqlDao.sqlCommand("delete from ca_icr_excl_acct_t where account_nbr = '4431406'");
+    unitTestSqlDao.sqlCommand("insert into CA_ICR_EXCL_ACCT_T (FIN_COA_CD, ACCOUNT_NBR, FIN_OBJ_COA_CD, FIN_OBJECT_CD, OBJ_ID, VER_NBR) values ('BL','4431406','IU','2400',sys_guid(),1)");
+
+    // Exclude type
+    unitTestSqlDao.sqlCommand("delete from ca_icr_excl_type_t where acct_icr_typ_cd = '23' and fin_coa_cd = 'BL'");
+    unitTestSqlDao.sqlCommand("insert into CA_ICR_EXCL_TYPE_T (ACCT_ICR_TYP_CD, FIN_COA_CD, FIN_OBJECT_CD, OBJ_ID, VER_NBR) values ('23','BL','2401',sys_guid(),1)");
+    
     loadInputTransactions(OriginEntrySource.SCRUBBER_VALID,inputTransactions);
     posterService.postMainEntries();
 
     assertOriginEntries(3,outputTransactions);
 
     List trans = unitTestSqlDao.sqlSelect("select * from GL_EXPEND_TRN_T order by account_nbr");
-    assertEquals("Should be 2 transactions",2,trans.size());
+    assertEquals("Wrong number of transactions",3,trans.size());
     Map acct4031407 = (Map)trans.get(0);
+    assertEquals("Account wrong","4031407",acct4031407.get("ACCOUNT_NBR"));
     assertEquals("Amount wrong",11999.88,getAmount(acct4031407,"ACCT_OBJ_DCST_AMT"),0.01);
     Map acct4131406 = (Map)trans.get(1);
+    assertEquals("Account wrong","4131406",acct4131406.get("ACCOUNT_NBR"));
     assertEquals("Amount wrong",-10.00,getAmount(acct4131406,"ACCT_OBJ_DCST_AMT"),0.01);
+    Map acct4631464 = (Map)trans.get(2);
+    assertEquals("Account wrong","4631464",acct4631464.get("ACCOUNT_NBR"));
+    assertEquals("Amount wrong",23.00,getAmount(acct4631464,"ACCT_OBJ_DCST_AMT"),0.01);    
+  }
+
+  public void testReversalPoster() throws Exception {
+    LOG.debug("testPostReversalPosting() started");
+
+    // First post these entries to the reversal table
+    String[] inputTransactions = {
+        "2004BL2231408-----5300---ACEX07CHKDPDREVTEST0112345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678               2003-10-01    ",
+        "2004BL2231408-----5300---ACEX07CHKDPDREVTEST0212345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678               2003-12-31    ",
+        "2004BL2231408-----5300---ACEX07CHKDPDREVTEST0312345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678               2004-01-01    ",
+        "2004BL2231408-----5300---ACEX07CHKDPDREVTEST0412345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678               2004-01-02    ",
+        "2004BL2231408-----5300---ACEX07CHKDPDREVTEST0512345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678               2005-03-01    "
+    };
+
+    clearOriginEntryTables();
+    clearReversalTable();
+    loadInputTransactions(OriginEntrySource.SCRUBBER_VALID,inputTransactions);
+    posterService.postMainEntries();
+
+    unitTestSqlDao.clearCache();
+
+    // Now post the reversal entries
+    clearGlEntryTable("BL","2231408");
+    posterService.postReversalEntries();
+    printReport();
+
+    List results = unitTestSqlDao.sqlSelect("select * from gl_entry_t where account_nbr = '2231408' order by fdoc_nbr");
+    assertEquals("Wrong number of posted entries",3,results.size());
+    Map row1 = (Map)results.get(0);
+    Map row2 = (Map)results.get(1);
+    Map row3 = (Map)results.get(2);
+
+    assertEquals("Wrong doc nbr","REVTEST01",row1.get("FDOC_NBR"));
+    assertEquals("Wrong doc nbr","REVTEST02",row2.get("FDOC_NBR"));
+    assertEquals("Wrong doc nbr","REVTEST03",row3.get("FDOC_NBR"));
   }
 
   private double getAmount(Map map,String field) {

@@ -25,13 +25,15 @@ package org.kuali.module.gl;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-import org.kuali.module.gl.batch.poster.impl.PostExpenditureTransactionTest;
 import org.kuali.module.gl.dao.ojb.TestUnitTestSqlDao;
 import org.kuali.module.gl.dao.ojb.TestUniversityDateDao;
 import org.kuali.module.gl.service.GeneralLedgerPendingEntryServiceTest;
 import org.kuali.module.gl.service.NightlyOutServiceTest;
 import org.kuali.module.gl.service.PosterServiceTest;
 import org.kuali.module.gl.service.ScrubberServiceTest;
+import org.kuali.module.gl.service.SufficientFundRebuildServiceTest;
+import org.kuali.module.gl.service.SufficientFundsRebuilderServiceTest;
+import org.kuali.module.gl.service.SufficientFundsServiceTest;
 
 /**
  * @author jsissom
@@ -46,18 +48,18 @@ public class AllTests {
   public static Test suite() {
     TestSuite suite = new TestSuite();
 
-    // org.kuali.module.gl.batch.poster.impl
-    suite.addTestSuite(PostExpenditureTransactionTest.class);
-
     // org.kuali.module.gl.dao.ojb
     suite.addTestSuite(TestUniversityDateDao.class);
     suite.addTestSuite(TestUnitTestSqlDao.class);
 
     // org.kuali.module.gl.service
-    suite.addTestSuite(NightlyOutServiceTest.class);
-    suite.addTestSuite(ScrubberServiceTest.class);
-    suite.addTestSuite(PosterServiceTest.class);
     suite.addTestSuite(GeneralLedgerPendingEntryServiceTest.class);
+    suite.addTestSuite(NightlyOutServiceTest.class);
+    suite.addTestSuite(PosterServiceTest.class);
+    suite.addTestSuite(ScrubberServiceTest.class);
+    suite.addTestSuite(SufficientFundRebuildServiceTest.class);
+    suite.addTestSuite(SufficientFundsRebuilderServiceTest.class);
+    suite.addTestSuite(SufficientFundsServiceTest.class);
 
     return suite;
   }

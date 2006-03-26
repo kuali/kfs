@@ -77,7 +77,7 @@
                 <lookupField attributeName="organizationDocumentNumber" />
 			</lookupFields>
 			
-			<resultFields>         
+			<resultFields>
                 <field attributeName="universityFiscalYear" />
 
                 <field attributeName="chartOfAccountsCode" />
@@ -186,7 +186,7 @@
                 <summary>Financial document type code.</summary>
                 <description>documentTypeCode description...</description>
             </attribute> 
-                
+
             <attribute name="financialSystemOriginationCode" forceUppercase="false">
                 <label>Origin Code</label>
                 <shortLabel>Origin Code</shortLabel>

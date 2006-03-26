@@ -145,17 +145,17 @@
 				          		</c:forEach>
 				          		<c:forEach items="${row.columns}" var="column" begin="8" end="11">
 					          		<c:if test="${column.propertyURL!=\"\" && param['d-16544-e'] == null}">
-					          			<td class="infocell">
+					          			<td class="numbercell">
 						          			<a href="<c:out value="${column.propertyURL}"/>" target="blank">
-						          				<fmt:formatNumber value="${column.propertyValue}" maxFractionDigits="2" minFractionDigits="2" groupingUsed="true"/>
+						          				<c:out value="${column.propertyValue}" />
 											</a>
 										</td>
 									</c:if>	
 									<c:if test="${column.propertyURL==\"\" || param['d-16544-e'] != null}">
 					          			<td class="numbercell">
-						          				<fmt:formatNumber value="${column.propertyValue}" maxFractionDigits="2" minFractionDigits="2" groupingUsed="true"/>
+						          				<c:out value="${column.propertyValue}" />
 										</td>
-									</c:if>	               				          			
+									</c:if>	
 				          		</c:forEach>
 				          	</tr>
 				          	
@@ -169,25 +169,25 @@
 						          			<th class="infocell" width="10%"><c:out value="${row.columns[12].columnTitle}" /></th>
 						          			<td class="numbercell" width="15%">
 							          			<a href="<c:out value="${row.columns[12].propertyURL}"/>" target="blank">
-							          				<fmt:formatNumber value="${row.columns[12].propertyValue}" maxFractionDigits="2" minFractionDigits="2" groupingUsed="true"/>
+							          				<c:out value="${row.columns[12].propertyValue}"/>
 												</a>
 											</td>
 						          			<th class="infocell" width="10%"><c:out value="${row.columns[15].columnTitle}" /></th>
 						          			<td class="numbercell" width="15%">
 							          			<a href="<c:out value="${row.columns[15].propertyURL}"/>" target="blank">
-							          				<fmt:formatNumber value="${row.columns[15].propertyValue}" maxFractionDigits="2" minFractionDigits="2" groupingUsed="true"/>
+							          				<c:out value="${row.columns[15].propertyValue}"/>
 												</a>
 											</td>
 						          			<th class="infocell" width="10%"><c:out value="${row.columns[18].columnTitle}" /></th>
 						          			<td class="numbercell" width="15%">
 							          			<a href="<c:out value="${row.columns[18].propertyURL}"/>" target="blank">
-							          				<fmt:formatNumber value="${row.columns[18].propertyValue}" maxFractionDigits="2" minFractionDigits="2" groupingUsed="true"/>
+							          				<c:out value="${row.columns[18].propertyValue}"/>
 												</a>
 											</td>
 						          			<th class="infocell" width="10%"><c:out value="${row.columns[21].columnTitle}" /></th>
 						          			<td class="numbercell" width="15%">
 							          			<a href="<c:out value="${row.columns[21].propertyURL}"/>" target="blank">
-							          				<fmt:formatNumber value="${row.columns[21].propertyValue}" maxFractionDigits="2" minFractionDigits="2" groupingUsed="true"/>
+							          				<c:out value="${row.columns[21].propertyValue}"/>
 												</a>
 											</td>
 										</tr>
@@ -195,25 +195,25 @@
 						          			<th class="infocell" width="10%"><c:out value="${row.columns[13].columnTitle}" /></th>
 						          			<td class="numbercell" width="15%">
 							          			<a href="<c:out value="${row.columns[13].propertyURL}"/>" target="blank">
-							          				<fmt:formatNumber value="${row.columns[13].propertyValue}" maxFractionDigits="2" minFractionDigits="2" groupingUsed="true"/>
+							          				<c:out value="${row.columns[13].propertyValue}"/>
 												</a>
 											</td>
 						          			<th class="infocell" width="10%"><c:out value="${row.columns[16].columnTitle}" /></th>
 						          			<td class="numbercell" width="15%">
 							          			<a href="<c:out value="${row.columns[16].propertyURL}"/>" target="blank">
-							          				<fmt:formatNumber value="${row.columns[16].propertyValue}" maxFractionDigits="2" minFractionDigits="2" groupingUsed="true"/>
+							          				<c:out value="${row.columns[16].propertyValue}"/>
 												</a>
 											</td>
 						          			<th class="infocell" width="10%"><c:out value="${row.columns[19].columnTitle}" /></th>
 						          			<td class="numbercell" width="15%">
 							          			<a href="<c:out value="${row.columns[19].propertyURL}"/>" target="blank">
-							          				<fmt:formatNumber value="${row.columns[19].propertyValue}" maxFractionDigits="2" minFractionDigits="2" groupingUsed="true"/>
+							          				<c:out value="${row.columns[19].propertyValue}"/>
 												</a>
 											</td>
 						          			<th class="infocell" width="10%"><c:out value="${row.columns[22].columnTitle}" /></th>
 						          			<td class="numbercell" width="15%">
 							          			<a href="<c:out value="${row.columns[22].propertyURL}"/>" target="blank">
-							          				<fmt:formatNumber value="${row.columns[22].propertyValue}" maxFractionDigits="2" minFractionDigits="2" groupingUsed="true"/>
+							          				<c:out value="${row.columns[22].propertyValue}"/>
 												</a>
 											</td>
 										</tr>
@@ -221,25 +221,25 @@
 						          			<th class="infocell" width="10%"><c:out value="${row.columns[14].columnTitle}" /></th>
 						          			<td class="numbercell" width="15%">
 							          			<a href="<c:out value="${row.columns[14].propertyURL}"/>" target="blank">
-							          				<fmt:formatNumber value="${row.columns[14].propertyValue}" maxFractionDigits="2" minFractionDigits="2" groupingUsed="true"/>
+							          				<c:out value="${row.columns[14].propertyValue}"/>
 												</a>
 											</td>
 						          			<th class="infocell" width="10%"><c:out value="${row.columns[17].columnTitle}" /></th>
 						          			<td class="numbercell" width="15%">
 							          			<a href="<c:out value="${row.columns[17].propertyURL}"/>" target="blank">
-							          				<fmt:formatNumber value="${row.columns[17].propertyValue}" maxFractionDigits="2" minFractionDigits="2" groupingUsed="true"/>
+							          				<c:out value="${row.columns[17].propertyValue}"/>
 												</a>
 											</td>
 						          			<th class="infocell" width="10%"><c:out value="${row.columns[20].columnTitle}" /></th>
 						          			<td class="numbercell" width="15%">
 							          			<a href="<c:out value="${row.columns[20].propertyURL}"/>" target="blank">
-							          				<fmt:formatNumber value="${row.columns[20].propertyValue}" maxFractionDigits="2" minFractionDigits="2" groupingUsed="true"/>
+							          				<c:out value="${row.columns[20].propertyValue}"/>
 												</a>
 											</td>
 						          			<th class="infocell" width="10%"><c:out value="${row.columns[23].columnTitle}" /></th>
 						          			<td class="numbercell" width="15%">
 							          			<a href="<c:out value="${row.columns[23].propertyURL}"/>" target="blank">
-							          				<fmt:formatNumber value="${row.columns[23].propertyValue}" maxFractionDigits="2" minFractionDigits="2" groupingUsed="true"/>
+							          				<c:out value="${row.columns[23].propertyValue}"/>
 												</a>
 											</td>
 										</tr>

@@ -88,19 +88,26 @@
 				requestURI="glModifiedInquiry.do?methodToCall=viewResults&reqSearchResultsActualSize=${reqSearchResultsActualSize}&listKey=${listKey}">
       
         <c:forEach items="${row.columns}" var="column">
-         
-          <c:if test="${column.propertyURL!=\"\" && param['d-16544-e'] == null}">
-            <display:column class="infocell" sortable="${column.sortable}" title="${column.columnTitle}">
-              <a href="<c:out value="${column.propertyURL}"/>" target="blank">
-                <c:out value="${column.propertyValue}" />
-              </a>
-            </display:column>
-          </c:if>
-         
-          <c:if test="${column.propertyURL==\"\" || param['d-16544-e'] != null}">
-            <display:column class="infocell" sortable="${column.sortable}" title="${column.columnTitle}">
+          <c:if test="${column.formatter.implementationClass == 'org.kuali.core.web.format.CurrencyFormatter'}">
+            <display:column class="numbercell" sortable="false" title="${column.columnTitle}">
               <c:out value="${column.propertyValue}" />
             </display:column>
+          </c:if>
+
+          <c:if test="${column.formatter.implementationClass != 'org.kuali.core.web.format.CurrencyFormatter'}">
+            <c:if test="${column.propertyURL!=\"\" && param['d-16544-e'] == null}">
+              <display:column class="infocell" sortable="${column.sortable}" title="${column.columnTitle}">
+                <a href="<c:out value="${column.propertyURL}"/>" target="blank">
+                  <c:out value="${column.propertyValue}" />
+                </a>&nbsp;
+              </display:column>
+            </c:if>
+         
+            <c:if test="${column.propertyURL==\"\" || param['d-16544-e'] != null}">
+              <display:column class="infocell" sortable="${column.sortable}" title="${column.columnTitle}">
+                <c:out value="${column.propertyValue}" />&nbsp;
+              </display:column>
+            </c:if>
           </c:if>
         </c:forEach>
       </display:table>

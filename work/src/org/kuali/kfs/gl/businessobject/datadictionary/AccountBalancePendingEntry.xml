@@ -143,6 +143,7 @@
                 <shortLabel>Amount</shortLabel>
                 <summary>transactionLedgerEntryAmount</summary>
                 <description>transactionLedgerEntryAmount description...</description>
+                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
             </attributeReference>
             
             <attribute name="finSystemRefOriginationCode" forceUppercase="false">
@@ -303,8 +304,7 @@
             					sourceClassName="org.kuali.module.gl.bo.DummyBusinessObject" 
             					sourceAttributeName="genericText">
                 <label>Item Name</label>         					
-			</attributeReference>            					
-            					              					             					           
+			</attributeReference>
         </attributes>
     </businessObject>
 </dictionaryEntry>

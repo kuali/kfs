@@ -98,6 +98,7 @@
                 <shortLabel>Amount</shortLabel>
                 <summary>currentBudgetLineBalanceAmount</summary>
                 <description>currentBudgetLineBalanceAmount description...</description>
+                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
             </attributeReference>
 			
 			<attributeReference name="accountLineActualsBalanceAmount" 
@@ -107,6 +108,7 @@
                 <shortLabel>Actuals Balance Amount</shortLabel>
                 <summary>accountLineActualsBalanceAmount</summary>
                 <description>accountLineActualsBalanceAmount description...</description>
+                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
             </attributeReference>
 
 			<attributeReference name="accountLineEncumbranceBalanceAmount" 
@@ -116,6 +118,7 @@
                 <shortLabel>Encumbrance Balance</shortLabel>
                 <summary>accountLineEncumbranceBalanceAmount</summary>
                 <description>accountLineEncumbranceBalanceAmount description...</description>
+                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
             </attributeReference>
 
             <attributeReference name="timestamp" 
@@ -137,10 +140,9 @@
 			    <label>Variance</label>
                 <shortLabel>Variance</shortLabel>
                 <summary>Variance</summary>
-                <description>Variance...</description>      					
+                <description>Variance...</description>
+                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
             </attributeReference>
-            					 
         </attributes>
-		
     </businessObject>
 </dictionaryEntry>

@@ -26,15 +26,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.core.bo.user.Options;
-import org.kuali.core.dao.OptionsDao;
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.lookup.valueFinder.ValueFinder;
-import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.OptionsService;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.uidraw.KeyLabelPair;
 import org.kuali.module.gl.web.Constant;
-import org.springframework.beans.factory.BeanFactory;
 
 /**
  * This class...

@@ -74,8 +74,8 @@
 				<field attributeName="subAccountNumber"/>
 				<field attributeName="objectCode"/>
 				<field attributeName="subObjectCode"/>
-				<field attributeName="objectTypeCode"/>
 				<field attributeName="balanceTypeCode"/>				
+				<field attributeName="objectTypeCode"/>
 				<field attributeName="accountLineAnnualBalanceAmount"/>
 				<field attributeName="beginningBalanceLineAmount"/>
 				<field attributeName="contractsGrantsBeginningBalanceAmount"/>

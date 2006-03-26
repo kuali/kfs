@@ -24,6 +24,7 @@ package org.kuali.module.chart.rules;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.KeyConstants;
+import org.kuali.core.document.Document;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.rules.PreRulesContinuationBase;
 import org.kuali.core.service.KualiConfigurationService;
@@ -56,7 +57,8 @@ public class MaintenancePreRulesBase extends PreRulesContinuationBase {
         this.configService = configService;
     }
     
-    public boolean doRules(MaintenanceDocument maintenanceDocument) {
+    public boolean doRules(Document document) {
+        MaintenanceDocument maintenanceDocument = (MaintenanceDocument) document;
         return doCustomPreRules(maintenanceDocument);
     }
     

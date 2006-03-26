@@ -22,146 +22,41 @@
  */
 package org.kuali.module.financial.rules;
 
-import java.util.Set;
-
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.commons.lang.StringUtils;
-import org.apache.struts.action.ActionForm;
-import org.kuali.Constants;
-import org.kuali.KeyConstants;
-import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.question.ConfirmationQuestion;
-import org.kuali.core.rule.PreRulesCheck;
-import org.kuali.core.rule.event.PreRulesCheckEvent;
-import org.kuali.core.rules.RulesUtils;
+import org.kuali.core.document.Document;
+import org.kuali.core.rules.PreRulesContinuationBase;
 import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.util.SpringServiceLocator;
-import org.kuali.module.financial.bo.Payee;
+import org.kuali.module.financial.document.DisbursementVoucherDocument;
 
 /**
- * Checks warnings and prompt conditions for payee document.
+ * Checks warnings and prompt conditions for dv document.
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
-public class DisbursementVoucherDocumentPreRules implements PreRulesCheck, DisbursementVoucherRuleConstants {
-    private String buttonClicked;
-    private String question;
+public class DisbursementVoucherDocumentPreRules extends PreRulesContinuationBase implements DisbursementVoucherRuleConstants {
     private KualiConfigurationService kualiConfiguration;
 
+
     /**
-     * @see org.kuali.core.rule.PreRulesCheck#processPreRuleChecks(org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest,
-     *      org.kuali.core.rule.event.PreRulesCheckEvent)
+     * @see org.kuali.core.rules.PreRulesContinuationBase#doRules(org.kuali.core.document.MaintenanceDocument)
      */
-    public boolean processPreRuleChecks(ActionForm form, HttpServletRequest request, PreRulesCheckEvent event) {
-
-        kualiConfiguration = SpringServiceLocator.getKualiConfigurationService();
-        question = request.getParameter(Constants.QUESTION_INST_ATTRIBUTE_NAME);
-        buttonClicked = request.getParameter(Constants.QUESTION_CLICKED_BUTTON);
-        event.setQuestionContext(request.getParameter(Constants.QUESTION_CONTEXT));
-
-//        dv warnings
-//
-//        if ($$curr_state != $$screate & $$curr_state != $$snew)
-//            message/info "Please attach a note explaining why you are changing the payment method."
-//            call fp_notes
-//            if ($$note_option != "NEW")
-//                return $$cancel
-//            endif
-//        endif
-//
-//        if (dv_pmt_mthd_cd != "C" & dv_pmt_mthd_cd != "P")
-//          if (dv_pmt_mthd_cd = "W")
-//            $$message = "You have selected a wire transfer payment method for which you will be charged a fee."
-//            run "fp_g0055"
-//          endif
-//          call lp_fdwt
-//          if ($status != $$success)
-//            dv_pmt_mthd_cd = ""
-//          endif
-//        endif
-//        if (dv_attch_ind.fp_dv_doc_t & (dv_pmt_mthd_cd = "W" | dv_pmt_mthd_cd = "A"))
-//            askmess "You cannot send an attachment with this payment method.","OK"
-//            dv_attch_ind.fp_dv_doc_t = $$false
-//        endif
+    public boolean doRules(Document document) {
+        boolean preRulesOK = true;
+ 
+        DisbursementVoucherDocument dvDocument = (DisbursementVoucherDocument) document;
+        checkSpecialHandlingIndicator(dvDocument);
         
-        
-
-//        28-1      if ($totocc(fp_dv_nonemp_exp_t) > 10)
-//                  ;$totocc should be safe since there's a setocc *,-1 when a doc is retrieved
-//        29-1          $$message = "Please note that due to file transfer limitations, only 10 of the travel expense lines on this document will print in the check stub text."
-//        30-1          run "fp_g0055"
-//        31-1      endif
-        
-
-//        ******        Y73::
-//             1        if (dv_exp_cd = "PC")
-//           info:    1000 - Field reference 'DV_EXP_CD' is ambiguous; Cannot be optimized
-//             2-1          $$message = "If the registration fee is for out-of-state or foreign travel, a copy of the Department Travel Authorization form must be attached to the cover sheet."
-//             3-1          run "fp_g0055"
-//             4-1      endif
-//
-//
-//            10-1      endif
-//            11        if ($totocc(fp_dv_pre_conf_t) > 12)
-//            12-1      ;$totocc should be safe since there's a setocc *,-1 in exec trigger
-//            13-1          $$message = "Please note that due to file transfer limitations, only 12 of the individuals on this document will print in the check stub text."
-//            14-1          run "fp_g0055"
-//            15-1      endif
-
-        return true;
+        return preRulesOK;
     }
-
-
-    private boolean performW9Check(HttpServletRequest request, PreRulesCheckEvent event) {
-        MaintenanceDocument document = (MaintenanceDocument) event.getDocument();
-        Payee oldPayee = (Payee) document.getOldMaintainableObject().getBusinessObject();
-        Payee newPayee = (Payee) document.getNewMaintainableObject().getBusinessObject();
-        
-        Set W9_OWN_TYPS = RulesUtils.makeSet(new String[] { "M", "I", "P", "S" });
-
-        /**
-         * give warning about required tax forms
-         */
-        if (question != null && Constants.PAYEE_W9_QUESTION.equals(question)) {
-            if (ConfirmationQuestion.NO.equals(buttonClicked)) {
-                event.setActionForwardName(Constants.MAPPING_BASIC);
-                return false;
-            }
-            else {
-                return true;
-            }
-        }
-        else if (!StringUtils.contains(event.getQuestionContext(), "w9CheckDone")) {
-            event.setQuestionId(Constants.PAYEE_W9_QUESTION);
-            event.setQuestionType(Constants.CONFIRMATION_QUESTION);
-            event.setQuestionContext(event.getQuestionContext() + "w9CheckDone");
-            if (!oldPayee.isPayeeW9CompleteCode() && newPayee.isPayeeW9CompleteCode()) {
-                if (RulesUtils.permitted(W9_OWN_TYPS, newPayee.getPayeeOwnershipTyp())) {
-                    if (newPayee.isAlienPaymentCode()) {
-                        event.setQuestionText(kualiConfiguration.getPropertyString(KeyConstants.WARNING_DV_W9_ALIEN));
-                    }
-                    else {
-                        event.setQuestionText(kualiConfiguration.getPropertyString(KeyConstants.WARNING_DV_W9_NONALIEN));
-                    }
-                    event.setPerformQuestion(true);
-                }
-            }
-            else if (!oldPayee.isPayeeW9CompleteCode() && !newPayee.isPayeeW9CompleteCode()) {
-                if (newPayee.isAlienPaymentCode()) {
-                    event.setQuestionText(kualiConfiguration.getPropertyString(KeyConstants.WARNING_MISSING_DV_W9_ALIEN));
-                }
-                else {
-                    event.setQuestionText(kualiConfiguration.getPropertyString(KeyConstants.WARNING_MISSING_DV_W9_NONALIEN));
-                }
-                event.setPerformQuestion(true);
-            }
-        }
-
-        if (event.isPerformQuestion()) {
-            return false;
-        }
-        else {
-            return true;
+    
+    /**
+     * If the special handling name and address 1 fields have value, this will mark the special
+     * handling indicator for the user.
+     * @param dvDocument
+     */
+    private void checkSpecialHandlingIndicator(DisbursementVoucherDocument dvDocument) {
+        if (StringUtils.isNotBlank(dvDocument.getDvPayeeDetail().getDisbVchrRemitPersonName()) &&
+            StringUtils.isNotBlank(dvDocument.getDvPayeeDetail().getDisbVchrRemitLine1Addr())) {
+                dvDocument.setDisbVchrSpecialHandlingCode(true);
         }
     }
 

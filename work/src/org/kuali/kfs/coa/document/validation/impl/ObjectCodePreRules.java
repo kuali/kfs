@@ -24,6 +24,7 @@ package org.kuali.module.chart.rules;
 
 import java.util.Map;
 
+import org.kuali.core.document.Document;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.rules.PreRulesContinuationBase;
 import org.kuali.core.util.SpringServiceLocator;
@@ -43,7 +44,8 @@ public class ObjectCodePreRules extends PreRulesContinuationBase {
     }
     
     
-    public boolean doRules(MaintenanceDocument maintenanceDocument) {
+    public boolean doRules(Document document) {
+        MaintenanceDocument maintenanceDocument = (MaintenanceDocument) document;
         
         LOG.debug("doRules");
         

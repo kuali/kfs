@@ -27,6 +27,7 @@ import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.core.bo.OriginationCode;
+import org.kuali.core.bo.user.Options;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
@@ -62,6 +63,7 @@ public class Encumbrance extends BusinessObjectBase {
     private ObjectCode financialObject;
     private BalanceTyp balanceType;
     private OriginationCode originationCode;
+    private Options option;
 
     private DummyBusinessObject dummyBusinessObject;
 
@@ -103,11 +105,11 @@ public class Encumbrance extends BusinessObjectBase {
     }
 
     public OriginationCode getOriginationCode() {
-      return originationCode;
+        return originationCode;
     }
 
     public void setOriginationCode(OriginationCode originationCode) {
-      this.originationCode = originationCode;
+        this.originationCode = originationCode;
     }
 
     /**
@@ -132,11 +134,9 @@ public class Encumbrance extends BusinessObjectBase {
     }
 
     /**
-     * @param accountLineEncumbranceClearedAmount The accountLineEncumbranceClearedAmount
-     *        to set.
+     * @param accountLineEncumbranceClearedAmount The accountLineEncumbranceClearedAmount to set.
      */
-    public void setAccountLineEncumbranceClosedAmount(
-            KualiDecimal accountLineEncumbranceClosedAmount) {
+    public void setAccountLineEncumbranceClosedAmount(KualiDecimal accountLineEncumbranceClosedAmount) {
         this.accountLineEncumbranceClosedAmount = accountLineEncumbranceClosedAmount;
     }
 
@@ -316,11 +316,9 @@ public class Encumbrance extends BusinessObjectBase {
     }
 
     /**
-     * @param transactionEncumbranceDescription The transactionEncumbranceDescription to
-     *        set.
+     * @param transactionEncumbranceDescription The transactionEncumbranceDescription to set.
      */
-    public void setTransactionEncumbranceDescription(
-            String transactionEncumbranceDescription) {
+    public void setTransactionEncumbranceDescription(String transactionEncumbranceDescription) {
         this.transactionEncumbranceDescription = transactionEncumbranceDescription;
     }
 
@@ -426,5 +424,23 @@ public class Encumbrance extends BusinessObjectBase {
      */
     public void setDummyBusinessObject(DummyBusinessObject dummyBusinessObject) {
         this.dummyBusinessObject = dummyBusinessObject;
+    }
+
+    /**
+     * Gets the option attribute.
+     * 
+     * @return Returns the option.
+     */
+    public Options getOption() {
+        return option;
+    }
+
+    /**
+     * Sets the option attribute value.
+     * 
+     * @param option The option to set.
+     */
+    public void setOption(Options option) {
+        this.option = option;
     }
 }

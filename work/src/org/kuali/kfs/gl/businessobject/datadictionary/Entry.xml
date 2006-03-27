@@ -75,6 +75,10 @@
                 <lookupField attributeName="financialDocumentTypeCode" />                				                            
                 <lookupField attributeName="financialDocumentNumber" />
                 <lookupField attributeName="organizationDocumentNumber" />
+
+                <lookupField attributeName="finSystemRefOriginationCode" />
+                <lookupField attributeName="referenceFinDocumentTypeCode" />
+				<lookupField attributeName="financialDocumentReferenceNbr" />
 			</lookupFields>
 
 			<resultFields>

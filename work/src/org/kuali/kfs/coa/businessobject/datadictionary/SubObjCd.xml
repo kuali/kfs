@@ -87,8 +87,8 @@
 			</attributeReference>
 
 			<attribute name="financialSubObjectCode" forceUppercase="true">
-				<label>SubObject Code</label>
-				<shortLabel>SubObject</shortLabel>
+				<label>Sub-Object Code</label>
+				<shortLabel>Sub-Object</shortLabel>
 
 				<maxLength>3</maxLength>
 				<validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>

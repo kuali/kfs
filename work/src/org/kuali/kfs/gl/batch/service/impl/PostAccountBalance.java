@@ -22,8 +22,11 @@
  */
 package org.kuali.module.gl.batch.poster.impl;
 
+import java.util.Collection;
 import java.util.Date;
+import java.util.Iterator;
 
+import org.kuali.module.gl.batch.poster.AccountBalanceCalculator;
 import org.kuali.module.gl.batch.poster.PostTransaction;
 import org.kuali.module.gl.bo.AccountBalance;
 import org.kuali.module.gl.bo.Transaction;
@@ -33,7 +36,7 @@ import org.kuali.module.gl.dao.AccountBalanceDao;
  * @author jsissom
  *
  */
-public class PostGlAccountBalance implements PostTransaction {
+public class PostGlAccountBalance implements PostTransaction,AccountBalanceCalculator {
   private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PostGlAccountBalance.class);
 
   private AccountBalanceDao accountBalanceDao;
@@ -71,28 +74,7 @@ public class PostGlAccountBalance implements PostTransaction {
 
       ab.setTimestamp(new java.sql.Date(postDate.getTime()));
 
-      if ( t.getFinancialBalanceTypeCode().equals(t.getOption().getBudgetCheckingBalanceTypeCd()) ) {
-        ab.setCurrentBudgetLineBalanceAmount(ab.getCurrentBudgetLineBalanceAmount().add(t.getTransactionLedgerEntryAmount()));
-      } else if ( t.getFinancialBalanceTypeCode().equals(t.getOption().getActualFinancialBalanceTypeCd()) ) {
-        if ( t.getObjectType().getFinObjectTypeDebitcreditCd().equals(t.getTransactionDebitCreditCode()) ||
-            ( ( !t.getBalanceType().isFinancialOffsetGenerationIndicator()) && " ".equals(t.getTransactionDebitCreditCode()) ) ) {
-          ab.setAccountLineActualsBalanceAmount(ab.getAccountLineActualsBalanceAmount().add(t.getTransactionLedgerEntryAmount()));
-        } else {
-          ab.setAccountLineActualsBalanceAmount(ab.getAccountLineActualsBalanceAmount().subtract(t.getTransactionLedgerEntryAmount()));          
-        }
-      } else if ( t.getFinancialBalanceTypeCode().equals(t.getOption().getExtrnlEncumFinBalanceTypCd()) ||
-        t.getFinancialBalanceTypeCode().equals(t.getOption().getIntrnlEncumFinBalanceTypCd()) ||
-        t.getFinancialBalanceTypeCode().equals(t.getOption().getPreencumbranceFinBalTypeCd()) ||
-        t.getFinancialBalanceTypeCode().equals("CE") ) {
-        if ( t.getObjectType().getFinObjectTypeDebitcreditCd().equals(t.getTransactionDebitCreditCode()) ||
-            ( (! t.getBalanceType().isFinancialOffsetGenerationIndicator()) &&
-                " ".equals(t.getTransactionDebitCreditCode()) ) ) {
-          ab.setAccountLineEncumbranceBalanceAmount(ab.getAccountLineEncumbranceBalanceAmount().add(t.getTransactionLedgerEntryAmount()));
-        } else {
-          ab.setAccountLineEncumbranceBalanceAmount(ab.getAccountLineEncumbranceBalanceAmount().subtract(t.getTransactionLedgerEntryAmount()));
-        }
-      } else {
-        // Don't need to post
+      if ( ! updateAccountBalanceReturn(t, ab) ) {
         return "";
       }
 
@@ -103,6 +85,65 @@ public class PostGlAccountBalance implements PostTransaction {
       // Don't need to post
       return "";
     }
+  }
+
+  public AccountBalance findAccountBalance(Collection balanceList, Transaction t) {
+
+    // Try to find one that already exists
+    for (Iterator iter = balanceList.iterator(); iter.hasNext();) {
+        AccountBalance b = (AccountBalance) iter.next();
+
+        if ( b.getUniversityFiscalYear().equals(t.getUniversityFiscalYear())
+                && b.getChartOfAccountsCode().equals(t.getChartOfAccountsCode())
+                && b.getAccountNumber().equals(t.getAccountNumber()) 
+                && b.getSubAccountNumber().equals(t.getSubAccountNumber())
+                && b.getObjectCode().equals(t.getFinancialObjectCode())
+                && b.getSubObjectCode().equals(t.getFinancialSubObjectCode()) ) {
+            return b;
+        }
+    }
+
+    // If we couldn't find one that exists, create a new one
+    AccountBalance b = new AccountBalance(t);
+    balanceList.add(b);
+
+    return b;
+  }
+
+  private boolean updateAccountBalanceReturn(Transaction t,AccountBalance ab) {
+    if ( t.getFinancialBalanceTypeCode().equals(t.getOption().getBudgetCheckingBalanceTypeCd()) ) {
+      ab.setCurrentBudgetLineBalanceAmount(ab.getCurrentBudgetLineBalanceAmount().add(t.getTransactionLedgerEntryAmount()));
+    } else if ( t.getFinancialBalanceTypeCode().equals(t.getOption().getActualFinancialBalanceTypeCd()) ) {
+      if ( t.getObjectType().getFinObjectTypeDebitcreditCd().equals(t.getTransactionDebitCreditCode()) ||
+          ( ( !t.getBalanceType().isFinancialOffsetGenerationIndicator()) && " ".equals(t.getTransactionDebitCreditCode()) ) ) {
+        ab.setAccountLineActualsBalanceAmount(ab.getAccountLineActualsBalanceAmount().add(t.getTransactionLedgerEntryAmount()));
+      } else {
+        ab.setAccountLineActualsBalanceAmount(ab.getAccountLineActualsBalanceAmount().subtract(t.getTransactionLedgerEntryAmount()));          
+      }
+    } else if ( t.getFinancialBalanceTypeCode().equals(t.getOption().getExtrnlEncumFinBalanceTypCd()) ||
+      t.getFinancialBalanceTypeCode().equals(t.getOption().getIntrnlEncumFinBalanceTypCd()) ||
+      t.getFinancialBalanceTypeCode().equals(t.getOption().getPreencumbranceFinBalTypeCd()) ||
+      t.getFinancialBalanceTypeCode().equals("CE") ) {
+      if ( t.getObjectType().getFinObjectTypeDebitcreditCd().equals(t.getTransactionDebitCreditCode()) ||
+          ( (! t.getBalanceType().isFinancialOffsetGenerationIndicator()) &&
+              " ".equals(t.getTransactionDebitCreditCode()) ) ) {
+        ab.setAccountLineEncumbranceBalanceAmount(ab.getAccountLineEncumbranceBalanceAmount().add(t.getTransactionLedgerEntryAmount()));
+      } else {
+        ab.setAccountLineEncumbranceBalanceAmount(ab.getAccountLineEncumbranceBalanceAmount().subtract(t.getTransactionLedgerEntryAmount()));
+      }
+    } else {
+      return false;
+    }
+    return true;
+  }
+
+  /**
+   * 
+   * @param t
+   * @param enc
+   */
+  public void updateAccountBalance(Transaction t, AccountBalance ab) {
+    updateAccountBalanceReturn(t,ab);
   }
 
   public String getDestinationName() {

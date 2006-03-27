@@ -123,20 +123,13 @@
 		        	begin="${indexOfbeginningColumn}" end="${indexOfbeginningColumn+4}">
 		        	
 		            <c:if test="${status.count == 1}">
-                      <c:if test="${column.formatter.implementationClass != 'org.kuali.core.web.format.CurrencyFormatter'}">
-			            <display:column class="infocell">
-			                <c:out value="${column.propertyValue}" />
-			            </display:column>
-			          </c:if>
-                      <c:if test="${column.formatter.implementationClass == 'org.kuali.core.web.format.CurrencyFormatter'}">
-			            <display:column class="numbercell">
-			                <c:out value="${column.propertyValue}" />
-			            </display:column>
-			          </c:if>
+	                  <display:column class="infocell" title="Type">
+			            <c:out value="${column.propertyValue}" />
+			          </display:column>
 			        </c:if>
 		        	        
 		            <c:if test="${status.count != 1}">
-			            <display:column class="infocell" title="${column.columnTitle}">
+			            <display:column class="numbercell" title="${column.columnTitle}">
 			                <c:out value="${column.propertyValue}" />
 			            </display:column>
 			        </c:if>
@@ -144,9 +137,12 @@
 		        
 		        <display:footer>
 		        	<tr>
-		        		<td colspan="${indexOfbeginningColumn+1}" class="infocell" style="text-align: right">
-		        			Available Balance: <c:out value="${reqSearchResults[3].columns[8].propertyValue}"/>
-		        		</td>
+		        		<th colspan="${indexOfbeginningColumn}" class="infocell" style="text-align: right">
+		        			Available Balance:&nbsp;
+		        		</th>
+		        		<td class="numbercell">
+                          <c:out value="${reqSearchResults[3].columns[8].propertyValue}"/>
+                        </td>
 		        	</tr>
 		        </display:footer>          	          
 		      </display:table>

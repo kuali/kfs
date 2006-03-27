@@ -38,21 +38,21 @@
                 <field attributeName="budgetYear" />
             </inquiryFields>
         </inquiry>
-        
+
         <lookup>
         	<lookupableID>glEntryLookupable</lookupableID>
-        	
+
 			<title>General Ledger Entry Lookup</title>
 			<instructions>Lookup General Ledger Entries</instructions>
 			<defaultSort attributeName="financialObjectCode" sortAscending="true" />
-			
+
 			<lookupFields>
                 <lookupField attributeName="universityFiscalYear" required="true">
                 	<defaultValueFinderClass>
 						org.kuali.core.lookup.valueFinder.FiscalYearFinder
 					</defaultValueFinderClass>
                 </lookupField>
-                
+
                 <lookupField attributeName="chartOfAccountsCode" required="true"/>                
                 <lookupField attributeName="accountNumber" required="true"/>
                 <lookupField attributeName="subAccountNumber" />
@@ -64,19 +64,19 @@
 					</defaultValueFinderClass>
 				</lookupField>
 				<lookupField attributeName="financialObjectTypeCode" />  
-				
+
                 <lookupField attributeName="universityFiscalPeriodCode" required="true">
                 	<defaultValueFinderClass>
 						org.kuali.module.gl.web.optionfinder.GLPeriodCodeOptionFinder
 					</defaultValueFinderClass>
                 </lookupField>
-                
+
                 <lookupField attributeName="financialSystemOriginationCode" />
                 <lookupField attributeName="financialDocumentTypeCode" />                				                            
                 <lookupField attributeName="financialDocumentNumber" />
                 <lookupField attributeName="organizationDocumentNumber" />
 			</lookupFields>
-			
+
 			<resultFields>
                 <field attributeName="universityFiscalYear" />
 
@@ -110,7 +110,7 @@
 				<field attributeName="financialDocumentReferenceNbr" />
 			</resultFields>
 		</lookup>
-		
+
         <attributes>
             <attributeReference name="universityFiscalYear" 
 				sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
@@ -263,8 +263,8 @@
 	            sourceAttributeName="code"/>
             
             <attribute name="organizationReferenceId" forceUppercase="false">
-                <label>Org. Ref. Id</label>
-                <shortLabel>Org. Ref. Id</shortLabel>
+                <label>Org Ref ID</label>
+                <shortLabel>Org Ref ID</shortLabel>
                 <maxLength>8</maxLength>
                 <control>
                     <text size="10" />
@@ -274,8 +274,8 @@
             </attribute>
             					
             <attribute name="referenceFinDocumentTypeCode" forceUppercase="true">
-                <label>Ref. Doc. Type Code</label>
-                <shortLabel>Ref Doc. Type Code</shortLabel>
+                <label>Ref Doc Type Code</label>
+                <shortLabel>Ref Doc Type Code</shortLabel>
                 <maxLength>4</maxLength>
                 <control>
                     <text size="5" />
@@ -285,8 +285,8 @@
             </attribute>        
             
             <attribute name="finSystemRefOriginationCode" forceUppercase="false">
-                <label>Ref. Origin Code</label>
-                <shortLabel>Ref. Origin Code</shortLabel>
+                <label>Ref Origin Code</label>
+                <shortLabel>Ref Origin Code</shortLabel>
                 <maxLength>2</maxLength>
                 <control>
                     <text size="3" />
@@ -296,8 +296,8 @@
             </attribute>
             			
             <attribute name="financialDocumentReferenceNbr" forceUppercase="false">
-                <label>Ref. Doc. Number</label>
-                <shortLabel>Number</shortLabel>
+                <label>Ref Doc Number</label>
+                <shortLabel>Ref Doc Number</shortLabel>
                 <maxLength>9</maxLength>
                 <control>
                     <text size="11" />

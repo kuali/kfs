@@ -26,6 +26,7 @@ import java.sql.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.user.Options;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
@@ -68,6 +69,21 @@ public class Balance extends BusinessObjectBase {
     private Account account;
     private ObjectCode financialObject;
     private DummyBusinessObject dummyBusinessObject;
+    private Options options;
+
+    /**
+     * @return Returns the options.
+     */
+    public Options getOptions() {
+        return options;
+    }
+
+    /**
+     * @param options The options to set.
+     */
+    public void setOptions(Options options) {
+        this.options = options;
+    }
 
     public Balance() {
         accountLineAnnualBalanceAmount = new KualiDecimal(0);

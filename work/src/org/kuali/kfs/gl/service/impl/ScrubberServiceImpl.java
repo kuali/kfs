@@ -72,7 +72,7 @@ import org.springframework.util.StringUtils;
 
 /**
  * @author Kuali General Ledger Team <kualigltech@oncourse.iu.edu>
- * @version $Id: ScrubberServiceImpl.java,v 1.78 2006-03-24 21:50:31 larevans Exp $
+ * @version $Id: ScrubberServiceImpl.java,v 1.79 2006-03-27 19:29:47 larevans Exp $
  */
 
 public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
@@ -3375,61 +3375,61 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
                 
                 if(null == entry.getFinancialDocumentTypeCode()) {
                     
-                    LOG.debug("DocumentTypeCode is NULL for ObjectID " + entry.getObjectId());
+                    LOG.debug("DocumentTypeCode is NULL for: " + entry.toString());
                     
                 }
                 
                 if(null == entry.getFinancialSystemOriginationCode()) {
                     
-                    LOG.debug("OriginationCode is NULL for ObjectID " + entry.getObjectId());
+                    LOG.debug("OriginationCode is NULL for: " + entry.toString());
                     
                 }
                 
                 if(null == entry.getFinancialDocumentNumber()) {
                     
-                    LOG.debug("DocumentNumber is NULL for ObjectID " + entry.getObjectId());
+                    LOG.debug("DocumentNumber is NULL for: " + entry.toString());
 
                 }
                 
                 if(null == entry.getChartOfAccountsCode()) {
                     
-                    LOG.debug("ChartCode is NULL for ObjectID " + entry.getObjectId());
+                    LOG.debug("ChartCode is NULL for: " + entry.toString());
 
                 }
                 
                 if(null == entry.getAccountNumber()) {
                     
-                    LOG.debug("AccountNumber is NULL for ObjectID " + entry.getObjectId());
+                    LOG.debug("AccountNumber is NULL for: " + entry.toString());
 
                 }
                 
                 if(null == entry.getSubAccountNumber()) {
                 
-                    LOG.debug("SubAccountNumber is NULL for ObjectID " + entry.getObjectId());
+                    LOG.debug("SubAccountNumber is NULL for: " + entry.toString());
 
                 }
                 
                 if(null == entry.getFinancialBalanceTypeCode()) {
 
-                    LOG.debug("BalanceTypeCode is NULL for ObjectID " + entry.getObjectId());
+                    LOG.debug("BalanceTypeCode is NULL for: " + entry.toString());
 
                 }
                 
                 if(null == entry.getFinancialDocumentReversalDate()) {
 
-                    LOG.debug("DocumentReversalDate is NULL for ObjectID " + entry.getObjectId());
+                    LOG.debug("DocumentReversalDate is NULL for: " + entry.toString());
 
                 }
                 
                 if(null == entry.getUniversityFiscalYear()) {
 
-                    LOG.debug("UniversityFiscalYear is NULL for ObjectID " + entry.getObjectId());
+                    LOG.debug("UniversityFiscalYear is NULL for: " + entry.toString());
 
                 }
                 
                 if(null == entry.getUniversityFiscalPeriodCode()) {
 
-                    LOG.debug("UniversityFiscalPeriodCode is NULL for ObjectID " + entry.getObjectId());
+                    LOG.debug("UniversityFiscalPeriodCode is NULL for: " + entry.toString());
 
                 }
                 

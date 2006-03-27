@@ -289,19 +289,21 @@ public class OriginEntry extends BusinessObjectBase implements Transaction {
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap map = new LinkedHashMap();
         map.put("entryId", entryId);
+        map.put("entryGroupId", entryGroupId);
         map.put("universityFiscalYear", universityFiscalYear);
+        map.put("universityFiscalPeriodCode", universityFiscalPeriodCode);
         map.put("chartOfAccountsCode", chartOfAccountsCode);
         map.put("accountNumber", accountNumber);
         map.put("subAccountNumber", subAccountNumber);
         map.put("financialObjectCode", financialObjectCode);
+        map.put("financialObjectTypeCode", financialObjectTypeCode);
         map.put("financialSubObjectCode", financialSubObjectCode);
         map.put("financialBalanceTypeCode", financialBalanceTypeCode);
-        map.put("financialObjectTypeCode", financialObjectTypeCode);
-        map.put("universityFiscalPeriodCode", universityFiscalPeriodCode);
+        map.put("financialDocumentNumber", financialDocumentNumber);
         map.put("financialDocumentTypeCode", financialDocumentTypeCode);
         map.put("financialSystemOriginationCode", financialSystemOriginationCode);
-        map.put("financialDocumentNumber", financialDocumentNumber);
         map.put("transactionLedgerEntrySequenceNumber", transactionLedgerEntrySequenceNumber);
+        map.put("transactionLedgerEntryDescription", transactionLedgerEntryDescription);
         return map;
     }
 

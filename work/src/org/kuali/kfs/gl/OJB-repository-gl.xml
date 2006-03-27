@@ -227,6 +227,14 @@
 	<reference-descriptor name="reversalDate" class-ref="org.kuali.module.gl.bo.UniversityDate" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="financialDocumentReversalDate" />
 	</reference-descriptor>
+
+	<reference-descriptor name="originationCode" class-ref="org.kuali.core.bo.OriginationCode" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="financialSystemOriginationCode" />
+	</reference-descriptor>
+
+	<reference-descriptor name="referenceOriginationCode" class-ref="org.kuali.core.bo.OriginationCode" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="financialSystemOriginationCode" />
+	</reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.gl.bo.Reversal" table="GL_REVERSAL_T">

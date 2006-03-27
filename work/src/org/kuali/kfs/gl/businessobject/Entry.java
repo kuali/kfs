@@ -29,6 +29,7 @@ import java.sql.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.OriginationCode;
 import org.kuali.core.bo.user.Options;
 import org.kuali.core.document.DocumentType;
 import org.kuali.core.util.KualiDecimal;
@@ -91,6 +92,8 @@ public class Entry extends BusinessObjectBase implements Transaction {
     private Options option;
     private AccountingPeriod accountingPeriod;
     private UniversityDate reversalDate;
+    private OriginationCode originationCode;
+    private OriginationCode referenceOriginationCode;
 
     /**
      * Default constructor.
@@ -131,6 +134,22 @@ public class Entry extends BusinessObjectBase implements Transaction {
 
         java.util.Date now = new java.util.Date();
         setTransactionDateTimeStamp(new Date(now.getTime()));
+    }
+
+    public OriginationCode getOriginationCode() {
+      return originationCode;
+    }
+
+    public void setOriginationCode(OriginationCode originationCode) {
+      this.originationCode = originationCode;
+    }
+
+    public OriginationCode getReferenceOriginationCode() {
+      return referenceOriginationCode;
+    }
+
+    public void setReferenceOriginationCode(OriginationCode referenceOriginationCode) {
+      this.referenceOriginationCode = referenceOriginationCode;
     }
 
     /**

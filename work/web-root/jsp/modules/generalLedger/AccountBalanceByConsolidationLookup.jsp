@@ -78,7 +78,7 @@
           </div>          
           
 	      <c:if test="${reqSearchResultsActualSize>0}" >
-	      	<c:out value="${reqSearchResultsActualSize}" /> items found.  Please refine your search criteria to narrow down your search.
+	      	<c:out value="${reqSearchResultsActualSize}" /> items found.
 	      </c:if>
 	      
 	      <c:set var="offset" value="5"/>
@@ -88,7 +88,6 @@
 					requestURI="glAccountBalanceByConsolidationLookup.do?methodToCall=viewResults&reqSearchResultsActualSize=${reqSearchResultsActualSize}&listKey=${listKey}">
 	      
 	        <c:forEach items="${row.columns}" var="column" varStatus="status">
-	        
 	          <c:if test="${column.propertyURL!=\"\" && param['d-16544-e'] == null}">
 	            <display:column class="infocell" title="${column.columnTitle}">
 	              <a href="<c:out value="${column.propertyURL}"/>" target="blank">
@@ -96,13 +95,19 @@
 	              </a>
 	            </display:column>
 	          </c:if>
-	         
+
 	          <c:if test="${(column.propertyURL==\"\" || param['d-16544-e'] != null)}">
-	            <display:column class="infocell" title="${column.columnTitle}">
-	              <c:out value="${column.propertyValue}" />
-	            </display:column>
+                <c:if test="${column.formatter.implementationClass == 'org.kuali.core.web.format.CurrencyFormatter'}">
+	              <display:column class="numbercell" title="${column.columnTitle}">
+	                <c:out value="${column.propertyValue}" />
+	              </display:column>
+                </c:if>
+                <c:if test="${column.formatter.implementationClass != 'org.kuali.core.web.format.CurrencyFormatter'}">
+	              <display:column class="infocell" title="${column.columnTitle}">
+	                <c:out value="${column.propertyValue}" />
+	              </display:column>
+                </c:if>
 	          </c:if>
-	          	          
 	        </c:forEach>
 	      </display:table>
 		  
@@ -118,9 +123,16 @@
 		        	begin="${indexOfbeginningColumn}" end="${indexOfbeginningColumn+4}">
 		        	
 		            <c:if test="${status.count == 1}">
+                      <c:if test="${column.formatter.implementationClass != 'org.kuali.core.web.format.CurrencyFormatter'}">
 			            <display:column class="infocell">
 			                <c:out value="${column.propertyValue}" />
 			            </display:column>
+			          </c:if>
+                      <c:if test="${column.formatter.implementationClass == 'org.kuali.core.web.format.CurrencyFormatter'}">
+			            <display:column class="numbercell">
+			                <c:out value="${column.propertyValue}" />
+			            </display:column>
+			          </c:if>
 			        </c:if>
 		        	        
 		            <c:if test="${status.count != 1}">

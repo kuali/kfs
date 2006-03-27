@@ -118,6 +118,8 @@ public class JournalVoucherAction extends KualiTransactionalDocumentActionBase {
 
     /**
      * We want to keep the bad data for the JV.
+     * 
+     * @see org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase#revertAccountingLine(org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase, int, org.kuali.core.bo.AccountingLine, org.kuali.core.bo.AccountingLine)
      */
     protected boolean revertAccountingLine(KualiTransactionalDocumentFormBase transForm, int revertIndex,
             AccountingLine originalLine, AccountingLine brokenLine) {
@@ -140,6 +142,29 @@ public class JournalVoucherAction extends KualiTransactionalDocumentActionBase {
         }
 
         return reverted;
+    }
+    
+    /**
+     * Overrides to call super, and then to repopulate the credit/debit amounts b/c the credit/debit 
+     * code might change during a JV error correction.
+     * 
+     * @see org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase#correct(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    public ActionForward correct(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+        throws Exception {
+        ActionForward actionForward = super.correct(mapping, form, request, response);
+        
+        JournalVoucherForm jvForm = (JournalVoucherForm) form;
+        JournalVoucherDocument jvDoc = jvForm.getJournalVoucherDocument();
+        
+        jvDoc.refreshReferenceObject(PropertyConstants.BALANCE_TYPE);
+        // only repopulate if this is a JV that was entered in debit/credit mode
+        if(jvDoc.getBalanceType().isFinancialOffsetGenerationIndicator()) {
+            // now make sure to repopulate credit/debit amounts
+            populateAllJournalVoucherAccountingLineHelpers(jvForm);
+        }
+        
+        return actionForward;
     }
 
     /**
@@ -633,9 +658,11 @@ public class JournalVoucherAction extends KualiTransactionalDocumentActionBase {
             if (StringUtils.isNotBlank(sourceAccountingLine.getDebitCreditCode())) {
                 if (sourceAccountingLine.getDebitCreditCode().equals(Constants.GL_DEBIT_CODE)) {
                     jvAcctLineHelperForm.setDebit(sourceAccountingLine.getAmount());
+                    jvAcctLineHelperForm.setCredit(Constants.ZERO);
                 }
                 else if (sourceAccountingLine.getDebitCreditCode().equals(Constants.GL_CREDIT_CODE)) {
                     jvAcctLineHelperForm.setCredit(sourceAccountingLine.getAmount());
+                    jvAcctLineHelperForm.setDebit(Constants.ZERO);
                 }
             }
         }

@@ -27,12 +27,18 @@ import java.util.Iterator;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.Constants;
+import org.kuali.PropertyConstants;
 import org.kuali.core.bo.AccountingLineBase;
 import org.kuali.core.bo.AccountingLineParser;
+import org.kuali.core.bo.SourceAccountingLine;
+import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
 import org.kuali.module.financial.bo.JournalVoucherAccountingLineParser;
+import org.kuali.module.financial.rules.TransactionalDocumentRuleBaseConstants;
+
+import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * This is the business object that represents the JournalVoucherDocument in Kuali. This is a transactional document that will
@@ -44,6 +50,7 @@ import org.kuali.module.financial.bo.JournalVoucherAccountingLineParser;
  */
 public class JournalVoucherDocument extends TransactionalDocumentBase {
     private static final long serialVersionUID = 1452941605423073277L;
+    
     // document specific attributes
     private String balanceTypeCode; // balanceType key
     private BalanceTyp balanceType;
@@ -60,7 +67,7 @@ public class JournalVoucherDocument extends TransactionalDocumentBase {
     /**
      * This method retrieves the balance typ associated with this document.
      * 
-     * @return
+     * @return BalanceTyp
      */
     public BalanceTyp getBalanceType() {
         return balanceType;
@@ -97,7 +104,7 @@ public class JournalVoucherDocument extends TransactionalDocumentBase {
     /**
      * This method retrieves the reversal date associated with this document.
      * 
-     * @return
+     * @return Timestamp
      */
     public Timestamp getReversalDate() {
         return reversalDate;
@@ -114,6 +121,8 @@ public class JournalVoucherDocument extends TransactionalDocumentBase {
 
     /**
      * Overrides the base implementation to return an empty string.
+     * 
+     * @return String
      */
     public String getSourceAccountingLinesSectionTitle() {
         return Constants.EMPTY_STRING;
@@ -121,6 +130,8 @@ public class JournalVoucherDocument extends TransactionalDocumentBase {
 
     /**
      * Overrides the base implementation to return an empty string.
+     * 
+     * @return String
      */
     public String getTargetAccountingLinesSectionTitle() {
         return Constants.EMPTY_STRING;
@@ -130,7 +141,7 @@ public class JournalVoucherDocument extends TransactionalDocumentBase {
      * This method calculates the debit total for a JV document keying off of the debit/debit code, only summing the accounting
      * lines with a debitDebitCode that matched the debit constant, and returns the results.
      * 
-     * @return
+     * @return KualiDecimal
      */
     public KualiDecimal getDebitTotal() {
         KualiDecimal debitTotal = new KualiDecimal(0);
@@ -150,7 +161,7 @@ public class JournalVoucherDocument extends TransactionalDocumentBase {
      * This method calculates the credit total for a JV document keying off of the debit/credit code, only summing the accounting
      * lines with a debitCreditCode that matched the debit constant, and returns the results.
      * 
-     * @return
+     * @return KualiDecimal
      */
     public KualiDecimal getCreditTotal() {
         KualiDecimal creditTotal = new KualiDecimal(0);
@@ -199,5 +210,59 @@ public class JournalVoucherDocument extends TransactionalDocumentBase {
      */
     public AccountingLineParser getAccountingLineParser() {
         return new JournalVoucherAccountingLineParser();
+    }
+    
+    /**
+     * Overrides to call super, and then makes sure this is an error correction.  If it is an 
+     * error correction, it calls the JV specific error correction helper method.
+     * 
+     * @see org.kuali.core.document.TransactionalDocumentBase#performConversion(int)
+     */
+    protected void performConversion(int operation) throws WorkflowException {
+        super.performConversion(operation);
+        
+        // process special for error corrections
+        if(ERROR_CORRECTING == operation) {
+            processJournalVoucherErrorCorrections();
+        }
+    }
+
+    /**
+     * This method checks to make sure that the JV that we are dealing with was one that was 
+     * created in debit/credit mode, not single amount entry mode.  If this is a debit/credit 
+     * JV, then iterate over each source line and flip the sign on the amount to nullify the 
+     * super's effect, then flip the debit/credit code b/c an error corrected JV flips the  
+     * debit/credit code.
+     */
+    private void processJournalVoucherErrorCorrections() {
+        Iterator i = getSourceAccountingLines().iterator();
+        
+        this.refreshReferenceObject(PropertyConstants.BALANCE_TYPE);
+        
+        if(this.getBalanceType().isFinancialOffsetGenerationIndicator()) {  // make sure this is not a single amount entered JV
+            int index = 0;
+            while(i.hasNext()) {
+                SourceAccountingLine sLine = (SourceAccountingLine) i.next();
+                
+                String debitCreditCode = sLine.getDebitCreditCode();
+                
+                if(StringUtils.isNotBlank(debitCreditCode)) {
+                    // negate the amount to to nullify the effects of the super, b/c super flipped it the first time through
+                    sLine.setAmount(sLine.getAmount().negated());  // offsets the effect the super
+                
+                    // now just flip the debit/credit code
+                    if(TransactionalDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE.DEBIT.equals(debitCreditCode)) {
+                        sLine.setDebitCreditCode(TransactionalDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE.CREDIT);
+                    } else if(TransactionalDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE.CREDIT.equals(debitCreditCode)) {
+                        sLine.setDebitCreditCode(TransactionalDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE.DEBIT);
+                    } else {
+                        throw new IllegalStateException("SourceAccountingLine at index " + index + " does not have a debit/credit " +
+                                "code associated with it.  This should never have occured. Please contact your system administrator.");
+                        
+                    }
+                    index++;
+                }
+            }
+        }
     }
 }

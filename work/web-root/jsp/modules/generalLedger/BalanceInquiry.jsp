@@ -120,13 +120,13 @@
 					<display:column>      
 			          <table width="100%" class="datatable-100" cellspacing="0" cellpadding="0" id="row">
 			          	<c:forEach items="${reqSearchResults}" var="row" varStatus="status">
-			          		<c:if test="${status.count == 1}">
+			          		<!-- c:if test="${status.count == 1}" -->
 				               	<tr>
 					          		<c:forEach items="${row.columns}" var="column" end="11">
 					          			<th class="infocell"><c:out value="${column.columnTitle}" /></th>
 					          		</c:forEach>
 					          	</tr>
-					        </c:if>
+					        <!-- /c:if -->
 			          		
 				          	<tr>
 				          		<c:forEach items="${row.columns}" var="column" end="7">
@@ -158,10 +158,9 @@
 									</c:if>	
 				          		</c:forEach>
 				          	</tr>
-				          	
+
 				          	<tr>
-				          		<td>&nbsp;</td>
-				          		<td colspan="11" class="infocell">
+				          		<td colspan="12" class="infocell">
 				          			<br>
 				          			<center>
 					          		<table class="datatable-80" cellspacing="0" cellpadding="0" id="row">
@@ -245,7 +244,7 @@
 										</tr>
 						          	</table>
 				          			</center>
-						          	<br>
+						          	<p>&nbsp;</p>
 					          	</td>
 				          	</tr>
 				        </c:forEach>

@@ -26,6 +26,7 @@ import java.util.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.OriginationCode;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
@@ -60,6 +61,7 @@ public class Encumbrance extends BusinessObjectBase {
     private Account account;
     private ObjectCode financialObject;
     private BalanceTyp balanceType;
+    private OriginationCode originationCode;
 
     private DummyBusinessObject dummyBusinessObject;
 
@@ -98,6 +100,14 @@ public class Encumbrance extends BusinessObjectBase {
         map.put("originCode", getOriginCode());
         map.put("documentNumber", getDocumentNumber());
         return map;
+    }
+
+    public OriginationCode getOriginationCode() {
+      return originationCode;
+    }
+
+    public void setOriginationCode(OriginationCode originationCode) {
+      this.originationCode = originationCode;
     }
 
     /**

@@ -80,7 +80,7 @@
        </c:if>
           
       <c:if test="${reqSearchResultsActualSize>0}" >
-      	<c:out value="${reqSearchResultsActualSize}" /> items found.  Please refine your search criteria to narrow down your search.
+      	<c:out value="${reqSearchResultsActualSize}" /> items found.  
       </c:if>
       
       <display:table width="100%" class="datatable-100" cellspacing="0"

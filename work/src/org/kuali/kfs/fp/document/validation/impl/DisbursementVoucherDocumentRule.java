@@ -53,6 +53,7 @@ import org.kuali.module.financial.bo.DisbursementVoucherPayeeDetail;
 import org.kuali.module.financial.bo.NonResidentAlienTaxPercent;
 import org.kuali.module.financial.bo.Payee;
 import org.kuali.module.financial.bo.WireCharge;
+import org.kuali.module.financial.document.DisbursementVoucherAuthorizer;
 import org.kuali.module.financial.document.DisbursementVoucherDocument;
 import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 import org.kuali.module.gl.util.SufficientFundsItemHelper.SufficientFundsItem;
@@ -79,6 +80,39 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
     }
     
     /**
+     * Override to check if we are in special handling where the check amount and accounting line total 
+     * can decrease, else amounts should not have changed.
+     * @see org.kuali.core.rule.DocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.core.document.Document)
+     */
+    protected boolean processCustomApproveDocumentBusinessRules(Document document) {
+        DisbursementVoucherDocument dvDocument = (DisbursementVoucherDocument) document;
+        
+        // amounts can only decrease
+        if (DisbursementVoucherAuthorizer.isSpecialRouting(document, GlobalVariables.getUserSession().getKualiUser())) {
+            boolean approveOK = true;
+            
+            DisbursementVoucherDocument persistedDocument = (DisbursementVoucherDocument) retrievePersistedDocument(dvDocument);
+            if (persistedDocument == null) {
+                handleNonExistentDocumentWhenApproving(dvDocument);
+                return approveOK;
+            }
+            else {
+                // check total cannot decrease
+                if (persistedDocument.getDisbVchrCheckTotalAmount().isLessThan(dvDocument.getDisbVchrCheckTotalAmount())) {
+                    GlobalVariables.getErrorMap().put(PropertyConstants.DOCUMENT + "." + PropertyConstants.DISB_VCHR_CHECK_TOTAL_AMOUNT, KeyConstants.ERROR_DV_CHECK_TOTAL_CHANGE);
+                    approveOK = false;
+                }
+            }
+            
+            return approveOK;
+        }
+        else {
+            // amounts must not have been changed
+            return super.processCustomApproveDocumentBusinessRules(document);
+        }
+    }
+    
+    /**
      * @see org.kuali.core.rule.AddAccountingLineRule#processCustomAddAccountingLineBusinessRules(org.kuali.core.document.TransactionalDocument,
      *      org.kuali.core.bo.AccountingLine)
      */
@@ -89,6 +123,13 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
         LOG.debug("validating accounting line # " + accountingLine.getSequenceNumber());
 
         // don't validate generated tax lines
+        if (((DisbursementVoucherDocument) transactionalDocument).getDvNonResidentAlienTax() != null) {
+            List taxLineNumbers = SpringServiceLocator.getDisbursementVoucherTaxService().getNRATaxLineNumbers(
+                    ((DisbursementVoucherDocument) transactionalDocument).getDvNonResidentAlienTax().getFinancialDocumentAccountingLineText());
+            if (taxLineNumbers.contains(accountingLine.getSequenceNumber())) {
+                return true;
+            }
+        }
         
         DisbursementVoucherDocument dvDocument = (DisbursementVoucherDocument) transactionalDocument;
         ErrorMap errors = GlobalVariables.getErrorMap();
@@ -713,7 +754,7 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
                 }
 
                 if (invalidMovingPayee) {
-                    errors.put(PropertyConstants.DV_PAYEE_DETAIL + PropertyConstants.DISB_VCHR_PAYEE_ID_NUMBER,
+                    errors.put(PropertyConstants.DV_PAYEE_DETAIL + "." + PropertyConstants.DISB_VCHR_PAYEE_ID_NUMBER,
                             KeyConstants.ERROR_DV_MOVING_PAYMENT_PAYEE);
                 }
             }
@@ -892,8 +933,6 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
         if (document.getDisbVchrCheckTotalAmount().compareTo(document.getSourceTotal()) != 0) {
             errors.putWithoutFullErrorPath(Constants.ACCOUNTING_LINE_ERRORS, KeyConstants.ERROR_CHECK_ACCOUNTING_TOTAL);
         }
-
-        /* Document total cannot change during account manager edits */
     }
 
     /**

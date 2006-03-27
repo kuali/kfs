@@ -235,7 +235,7 @@
 	</reference-descriptor>
 
 	<reference-descriptor name="referenceOriginationCode" class-ref="org.kuali.core.bo.OriginationCode" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="financialSystemOriginationCode" />
+		<foreignkey field-ref="finSystemRefOriginationCode" />
 	</reference-descriptor>
 </class-descriptor>
 

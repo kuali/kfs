@@ -62,6 +62,7 @@ public class AccountBalanceByLevelInquirableImpl extends AbstractGLInquirableImp
         keys.add("financialObject.financialObjectLevel.financialReportingSortCode");
         keys.add(Constant.COST_SHARE_OPTION);
         keys.add(Constant.CONSOLIDATION_OPTION);
+        keys.add(Constant.PENDING_ENTRY_OPTION);
 
         return keys;
     }

@@ -64,6 +64,7 @@ public class AccountBalanceByObjectInquirableImpl extends AbstractGLInquirableIm
         keys.add(PropertyConstants.SUB_OBJECT_CODE);
         keys.add(Constant.COST_SHARE_OPTION);
         keys.add(Constant.CONSOLIDATION_OPTION);
+        keys.add(Constant.PENDING_ENTRY_OPTION);
 
         return keys;
     }

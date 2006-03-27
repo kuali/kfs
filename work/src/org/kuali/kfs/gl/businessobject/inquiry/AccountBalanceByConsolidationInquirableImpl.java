@@ -62,6 +62,7 @@ public class AccountBalanceByConsolidationInquirableImpl extends AbstractGLInqui
         keys.add("financialObject.financialObjectLevel.financialConsolidationObjectCode");
         keys.add(Constant.COST_SHARE_OPTION);
         keys.add(Constant.CONSOLIDATION_OPTION);
+        keys.add(Constant.PENDING_ENTRY_OPTION);
 
         return keys;
     }

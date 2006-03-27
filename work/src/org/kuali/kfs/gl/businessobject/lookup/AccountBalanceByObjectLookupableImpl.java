@@ -34,7 +34,10 @@ import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.lookup.CollectionIncomplete;
 import org.kuali.core.util.BeanPropertyComparator;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.module.gl.batch.poster.AccountBalanceCalculator;
 import org.kuali.module.gl.bo.AccountBalance;
+import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
+import org.kuali.module.gl.util.BusinessObjectFieldConverter;
 import org.kuali.module.gl.web.Constant;
 import org.kuali.module.gl.web.inquirable.AccountBalanceInquirableImpl;
 import org.kuali.module.gl.web.inquirable.AccountBalanceByObjectInquirableImpl;
@@ -45,6 +48,8 @@ import org.kuali.module.gl.web.inquirable.AccountBalanceByObjectInquirableImpl;
  * @author Bin Gao from Michigan State University
  */
 public class AccountBalanceByObjectLookupableImpl extends AbstractGLLookupableImpl {
+    
+    private AccountBalanceCalculator postAccountBalance;
 
     /**
      * Returns the inquiry url for a result field.
@@ -173,9 +178,38 @@ public class AccountBalanceByObjectLookupableImpl extends AbstractGLLookupableIm
     }
 
     /**
-     * @see org.kuali.module.gl.web.lookupable.AbstractGLLookupableImpl#updateEntryCollection(java.util.Collection, Map, boolean,
-     *      boolean)
+     * @see org.kuali.module.gl.web.lookupable.AbstractGLLookupableImpl#updateEntryCollection(java.util.Collection, java.util.Map,
+     *      boolean, boolean)
      */
     public void updateEntryCollection(Collection entryCollection, Map fieldValues, boolean isApproved, boolean isConsolidated) {
+
+        // convert the field names of balance object into corresponding ones of pending entry object
+        Map pendingEntryFieldValues = BusinessObjectFieldConverter.convertToTransactionFieldValues(fieldValues);
+
+        // go through the pending entries to update the balance collection
+        Iterator pendingEntryIterator = generalLedgerPendingEntryService.findPendingLedgerEntriesForBalance(
+                pendingEntryFieldValues, isApproved);
+        while (pendingEntryIterator.hasNext()) {
+            GeneralLedgerPendingEntry pendingEntry = (GeneralLedgerPendingEntry) pendingEntryIterator.next();
+
+            // if consolidated, change the following fields into the default values for consolidation
+            if (isConsolidated) {
+                pendingEntry.setSubAccountNumber(Constant.CONSOLIDATED_SUB_ACCOUNT_NUMBER);
+                pendingEntry.setFinancialSubObjectCode(Constant.CONSOLIDATED_SUB_OBJECT_CODE);
+                pendingEntry.setFinancialObjectTypeCode(Constant.CONSOLIDATED_OBJECT_TYPE_CODE);
+            }
+
+            AccountBalance accountBalance = postAccountBalance.findAccountBalance(entryCollection, pendingEntry);
+            postAccountBalance.updateAccountBalance(pendingEntry, accountBalance);
+        }
+    }
+
+    /**
+     * Sets the postAccountBalance attribute value.
+     * 
+     * @param postAccountBalance The postAccountBalance to set.
+     */
+    public void setPostAccountBalance(AccountBalanceCalculator postAccountBalance) {
+        this.postAccountBalance = postAccountBalance;
     }
 }

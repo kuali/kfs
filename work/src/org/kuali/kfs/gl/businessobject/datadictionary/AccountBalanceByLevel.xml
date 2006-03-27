@@ -47,7 +47,13 @@
 					<defaultValueFinderClass>
 						org.kuali.module.gl.web.optionfinder.GLCostShareOptionFinder
 					</defaultValueFinderClass>
-				</lookupField>				
+				</lookupField>	
+					
+				<lookupField attributeName="dummyBusinessObject.pendingEntryOption">
+					<defaultValueFinderClass>
+						org.kuali.module.gl.web.optionfinder.GLPendingEntryOptionFinder
+					</defaultValueFinderClass>
+				</lookupField>								
 			</lookupFields>
 			
 			<resultFields>
@@ -136,6 +142,10 @@
                 <summary>transactionEntryProcessed</summary>
                 <description>transactionEntryProcessed description...</description>
             </attributeReference>
+
+            <attributeReference name="dummyBusinessObject.pendingEntryOption"
+					            sourceClassName="org.kuali.module.gl.bo.DummyBusinessObject" 
+					            sourceAttributeName="pendingEntryOption"/>	            					         
                         					
 			<attributeReference name="dummyBusinessObject.consolidationOption"
             					sourceClassName="org.kuali.module.gl.bo.DummyBusinessObject" 

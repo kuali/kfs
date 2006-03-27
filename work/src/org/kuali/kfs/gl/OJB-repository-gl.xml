@@ -210,10 +210,12 @@
 	<reference-descriptor name="documentType" class-ref="org.kuali.core.document.DocumentType" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="financialDocumentTypeCode" />
 	</reference-descriptor>
-
+	
+	<!--  
 	<reference-descriptor name="universityDate" class-ref="org.kuali.module.gl.bo.UniversityDate" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="transactionDate" />
 	</reference-descriptor>
+	-->
 
 	<reference-descriptor name="option" class-ref="org.kuali.core.bo.user.Options" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="universityFiscalYear" />
@@ -369,6 +371,10 @@
 	<reference-descriptor name="balanceType" class-ref="org.kuali.module.chart.bo.codes.BalanceTyp" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="balanceTypeCode" />
 	</reference-descriptor>	
+
+	<reference-descriptor name="option" class-ref="org.kuali.core.bo.user.Options" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="universityFiscalYear" />
+	</reference-descriptor>	
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.gl.bo.Balance" table="GL_BALANCE_T">
@@ -417,6 +423,10 @@
 		<foreignkey field-ref="universityFiscalYear" />
 		<foreignkey field-ref="chartOfAccountsCode" />
 		<foreignkey field-ref="objectCode" />
+	</reference-descriptor>	
+	
+	<reference-descriptor name="option" class-ref="org.kuali.core.bo.user.Options" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="universityFiscalYear" />
 	</reference-descriptor>		
 </class-descriptor>
 
@@ -577,6 +587,10 @@
 		<foreignkey field-ref="accountNumber" />
 		<foreignkey field-ref="subAccountNumber" />		
 	</reference-descriptor>	
+	
+	<reference-descriptor name="option" class-ref="org.kuali.core.bo.user.Options" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="universityFiscalYear" />
+	</reference-descriptor>	
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.gl.document.GeneralLedgerErrorCorrectionDocument" table="GL_COR_DOC_T">
@@ -726,7 +740,10 @@
 		<foreignkey field-ref="accountNumber" />
 		<foreignkey field-ref="subAccountNumber" />
 	</reference-descriptor>
-	
+
+	<reference-descriptor name="option" class-ref="org.kuali.core.bo.user.Options" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="universityFiscalYear" />
+	</reference-descriptor>	
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.gl.bo.UniversityDate" table="SH_UNIV_DATE_T">

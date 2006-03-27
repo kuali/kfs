@@ -22,9 +22,7 @@
     <html-el:hidden property="listKey" value="${listKey}" />
     
     <kul:errors errorTitle="Errors found in Search Criteria:" />
-    
 
-    
     <table width="100%">
       	<tr>
         	<td width="1%"><img src="images/pixel_clear.gif" alt="" width="20" height="20"></td>
@@ -114,10 +112,11 @@
 	          	</c:if>
          		
 		        <display:table width="100%" class="datatable-100" cellspacing="0" cellpadding="0" 
-						name="${reqSearchResults[0]}" export="true" pagesize="1" length="1" summary="">
+						name="${reqSearchResults[0]}" id="dummyRow" export="true" pagesize="1" length="1" summary="">
 					
 					<display-el:setProperty name="paging.banner.one_item_found" value=""/>	
-					<display:column>      
+					
+					<display:column class="infocell">      
 			          <table width="100%" class="datatable-100" cellspacing="0" cellpadding="0" id="row">
 			          	<c:forEach items="${reqSearchResults}" var="row" varStatus="status">
 			          		<!-- c:if test="${status.count == 1}" -->
@@ -158,7 +157,7 @@
 									</c:if>	
 				          		</c:forEach>
 				          	</tr>
-
+				          	
 				          	<tr>
 				          		<td colspan="12" class="infocell">
 				          			<br>

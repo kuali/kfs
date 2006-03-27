@@ -184,7 +184,6 @@ public class BalanceInquiryAction extends KualiAction {
             }
         }
 
-
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 

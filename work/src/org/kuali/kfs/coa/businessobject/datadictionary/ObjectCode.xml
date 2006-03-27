@@ -298,8 +298,11 @@
 
 				<maxLength>1</maxLength>
 				<required>true</required>
-				<control><text size="1" /></control>
-
+				<control>
+				  <apcSelect
+				    group="ChartMaintenanceEDoc"
+                    parameterName="ObjectCodeValidBudgetAggregationCodes" />
+		        </control>
 				<summary>Budget Aggregation Code</summary>
 				<description>Budget Aggregation Code</description>
 			</attribute>

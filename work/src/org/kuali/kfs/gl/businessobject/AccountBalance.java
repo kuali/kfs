@@ -26,6 +26,7 @@ import java.sql.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.user.Options;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.chart.bo.A21SubAccount;
 import org.kuali.module.chart.bo.Account;
@@ -38,8 +39,6 @@ import org.kuali.module.chart.bo.ObjectCode;
  */
 public class AccountBalance extends BusinessObjectBase {
     static final long serialVersionUID = 6873573726961704771L;
-
-    private static KualiDecimal ZERO = new KualiDecimal("0");
 
     private Integer universityFiscalYear;
     private String chartOfAccountsCode;
@@ -57,6 +56,7 @@ public class AccountBalance extends BusinessObjectBase {
     private ObjectCode financialObject;
     private A21SubAccount a21SubAccount;    
     private DummyBusinessObject dummyBusinessObject;
+    private Options option;
 
     public AccountBalance() {
         super();
@@ -72,9 +72,9 @@ public class AccountBalance extends BusinessObjectBase {
         subAccountNumber = t.getSubAccountNumber();
         objectCode = t.getFinancialObjectCode();
         subObjectCode = t.getFinancialSubObjectCode();
-        currentBudgetLineBalanceAmount = ZERO;
-        accountLineActualsBalanceAmount = ZERO;
-        accountLineEncumbranceBalanceAmount = ZERO;
+        currentBudgetLineBalanceAmount = KualiDecimal.ZERO;
+        accountLineActualsBalanceAmount = KualiDecimal.ZERO;
+        accountLineEncumbranceBalanceAmount = KualiDecimal.ZERO;
         
         this.dummyBusinessObject = new DummyBusinessObject();
         this.financialObject = new ObjectCode();
@@ -94,6 +94,22 @@ public class AccountBalance extends BusinessObjectBase {
         map.put("objectCode", getObjectCode());
         map.put("subObjectCode", getSubObjectCode());
         return map;
+    }
+
+    public A21SubAccount getA21SubAccount() {
+      return a21SubAccount;
+    }
+
+    public void setA21SubAccount(A21SubAccount subAccount) {
+      a21SubAccount = subAccount;
+    }
+
+    public Options getOption() {
+      return option;
+    }
+
+    public void setOption(Options option) {
+      this.option = option;
     }
 
     public KualiDecimal getAccountLineActualsBalanceAmount() {

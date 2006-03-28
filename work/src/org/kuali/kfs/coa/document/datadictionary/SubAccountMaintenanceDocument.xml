@@ -58,6 +58,7 @@
 		            	<defaultValue>EX</defaultValue>
 		            </maintainableField>
 		            <maintainableField name="versionNumber" />
+		            <maintainableField name="a21SubAccount.versionNumber" />
                 </maintainableItems>
 	        </maintainableSection>
 	        <maintainableSection title="Edit Financial Reporting Code">

@@ -30,7 +30,7 @@
 					</defaultValueFinderClass>
                 </lookupField>
                 
-				<lookupField attributeName="chartOfAccountsCode" required="true"/>
+				<lookupField attributeName="chartOfAccountsCode" required="true" noLookup="true"/>
 				<lookupField attributeName="accountNumber"  required="true" noLookup="false"/>
 				<lookupField attributeName="subAccountNumber"/>
 				

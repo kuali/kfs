@@ -31,7 +31,6 @@ import org.kuali.PropertyConstants;
 import org.kuali.core.bo.AccountingLineBase;
 import org.kuali.core.bo.AccountingLineParser;
 import org.kuali.core.bo.SourceAccountingLine;
-import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.chart.bo.codes.BalanceTyp;

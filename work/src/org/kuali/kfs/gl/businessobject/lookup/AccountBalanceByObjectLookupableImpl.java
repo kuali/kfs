@@ -140,7 +140,7 @@ public class AccountBalanceByObjectLookupableImpl extends AbstractGLLookupableIm
             String consolidationOption = isConsolidated ? Constant.CONSOLIDATION : Constant.DETAIL;
             accountBalance.getDummyBusinessObject().setConsolidationOption(consolidationOption);
 
-            String costShareOption = isCostShareInclusive ? Constant.COST_SHARE_INCLUSIVE : Constant.COST_SHARE_EXCLUSIVE;
+            String costShareOption = isCostShareInclusive ? Constant.COST_SHARE_INCLUDE : Constant.COST_SHARE_EXCLUDE;
             accountBalance.getDummyBusinessObject().setCostShareOption(costShareOption);
 
             // add a button that can trigger lookup account balance by object

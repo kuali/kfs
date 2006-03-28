@@ -43,8 +43,8 @@ public final class Constant {
     public static final String ACCUMULATE = "Accumulate"; 
     
     public static final String COST_SHARE_OPTION = "dummyBusinessObject.costShareOption";
-    public static final String COST_SHARE_EXCLUSIVE = "Exclusive";
-    public static final String COST_SHARE_INCLUSIVE  = "Inclusive";    
+    public static final String COST_SHARE_EXCLUDE = "Exclude";
+    public static final String COST_SHARE_INCLUDE  = "Include";    
     public static final String COST_SHARE_VALUE  = "CS"; 
     
     public static final String SUB_ACCOUNT_OPTION = "subAccountNumber";

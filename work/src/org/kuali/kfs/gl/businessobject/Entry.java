@@ -95,14 +95,18 @@ public class Entry extends BusinessObjectBase implements Transaction {
     private OriginationCode originationCode;
     private OriginationCode referenceOriginationCode;
 
+    private DummyBusinessObject dummyBusinessObject;
+
     /**
      * Default constructor.
      */
     public Entry() {
-
     }
 
     public Entry(Transaction t, java.util.Date postDate) {
+        super();
+        this.dummyBusinessObject = new DummyBusinessObject();
+        
         setUniversityFiscalYear(t.getUniversityFiscalYear());
         setChartOfAccountsCode(t.getChartOfAccountsCode());
         setAccountNumber(t.getAccountNumber());
@@ -137,19 +141,19 @@ public class Entry extends BusinessObjectBase implements Transaction {
     }
 
     public OriginationCode getOriginationCode() {
-      return originationCode;
+        return originationCode;
     }
 
     public void setOriginationCode(OriginationCode originationCode) {
-      this.originationCode = originationCode;
+        this.originationCode = originationCode;
     }
 
     public OriginationCode getReferenceOriginationCode() {
-      return referenceOriginationCode;
+        return referenceOriginationCode;
     }
 
     public void setReferenceOriginationCode(OriginationCode referenceOriginationCode) {
-      this.referenceOriginationCode = referenceOriginationCode;
+        this.referenceOriginationCode = referenceOriginationCode;
     }
 
     /**
@@ -164,8 +168,7 @@ public class Entry extends BusinessObjectBase implements Transaction {
     /**
      * Sets the universityFiscalYear attribute.
      * 
-     * @param -
-     *            universityFiscalYear The universityFiscalYear to set.
+     * @param - universityFiscalYear The universityFiscalYear to set.
      */
     public void setUniversityFiscalYear(Integer universityFiscalYear) {
         this.universityFiscalYear = universityFiscalYear;
@@ -183,8 +186,7 @@ public class Entry extends BusinessObjectBase implements Transaction {
     /**
      * Sets the chartOfAccountsCode attribute.
      * 
-     * @param -
-     *            chartOfAccountsCode The chartOfAccountsCode to set.
+     * @param - chartOfAccountsCode The chartOfAccountsCode to set.
      */
     public void setChartOfAccountsCode(String chartOfAccountsCode) {
         this.chartOfAccountsCode = chartOfAccountsCode;
@@ -202,8 +204,7 @@ public class Entry extends BusinessObjectBase implements Transaction {
     /**
      * Sets the accountNumber attribute.
      * 
-     * @param -
-     *            accountNumber The accountNumber to set.
+     * @param - accountNumber The accountNumber to set.
      */
     public void setAccountNumber(String accountNumber) {
         this.accountNumber = accountNumber;
@@ -221,8 +222,7 @@ public class Entry extends BusinessObjectBase implements Transaction {
     /**
      * Sets the subAccountNumber attribute.
      * 
-     * @param -
-     *            subAccountNumber The subAccountNumber to set.
+     * @param - subAccountNumber The subAccountNumber to set.
      */
     public void setSubAccountNumber(String subAccountNumber) {
         this.subAccountNumber = subAccountNumber;
@@ -240,8 +240,7 @@ public class Entry extends BusinessObjectBase implements Transaction {
     /**
      * Sets the financialObjectCode attribute.
      * 
-     * @param -
-     *            financialObjectCode The financialObjectCode to set.
+     * @param - financialObjectCode The financialObjectCode to set.
      */
     public void setFinancialObjectCode(String financialObjectCode) {
         this.financialObjectCode = financialObjectCode;
@@ -259,8 +258,7 @@ public class Entry extends BusinessObjectBase implements Transaction {
     /**
      * Sets the financialSubObjectCode attribute.
      * 
-     * @param -
-     *            financialSubObjectCode The financialSubObjectCode to set.
+     * @param - financialSubObjectCode The financialSubObjectCode to set.
      */
     public void setFinancialSubObjectCode(String financialSubObjectCode) {
         this.financialSubObjectCode = financialSubObjectCode;
@@ -278,8 +276,7 @@ public class Entry extends BusinessObjectBase implements Transaction {
     /**
      * Sets the financialBalanceTypeCode attribute.
      * 
-     * @param -
-     *            financialBalanceTypeCode The financialBalanceTypeCode to set.
+     * @param - financialBalanceTypeCode The financialBalanceTypeCode to set.
      */
     public void setFinancialBalanceTypeCode(String financialBalanceTypeCode) {
         this.financialBalanceTypeCode = financialBalanceTypeCode;
@@ -297,8 +294,7 @@ public class Entry extends BusinessObjectBase implements Transaction {
     /**
      * Sets the financialObjectTypeCode attribute.
      * 
-     * @param -
-     *            financialObjectTypeCode The financialObjectTypeCode to set.
+     * @param - financialObjectTypeCode The financialObjectTypeCode to set.
      */
     public void setFinancialObjectTypeCode(String financialObjectTypeCode) {
         this.financialObjectTypeCode = financialObjectTypeCode;
@@ -316,8 +312,7 @@ public class Entry extends BusinessObjectBase implements Transaction {
     /**
      * Sets the universityFiscalPeriodCode attribute.
      * 
-     * @param -
-     *            universityFiscalPeriodCode The universityFiscalPeriodCode to set.
+     * @param - universityFiscalPeriodCode The universityFiscalPeriodCode to set.
      */
     public void setUniversityFiscalPeriodCode(String universityFiscalPeriodCode) {
         this.universityFiscalPeriodCode = universityFiscalPeriodCode;
@@ -335,8 +330,7 @@ public class Entry extends BusinessObjectBase implements Transaction {
     /**
      * Sets the financialDocumentTypeCode attribute.
      * 
-     * @param -
-     *            financialDocumentTypeCode The financialDocumentTypeCode to set.
+     * @param - financialDocumentTypeCode The financialDocumentTypeCode to set.
      */
     public void setFinancialDocumentTypeCode(String financialDocumentTypeCode) {
         this.financialDocumentTypeCode = financialDocumentTypeCode;
@@ -354,8 +348,7 @@ public class Entry extends BusinessObjectBase implements Transaction {
     /**
      * Sets the financialSystemOriginationCode attribute.
      * 
-     * @param -
-     *            financialSystemOriginationCode The financialSystemOriginationCode to set.
+     * @param - financialSystemOriginationCode The financialSystemOriginationCode to set.
      */
     public void setFinancialSystemOriginationCode(String financialSystemOriginationCode) {
         this.financialSystemOriginationCode = financialSystemOriginationCode;
@@ -373,8 +366,7 @@ public class Entry extends BusinessObjectBase implements Transaction {
     /**
      * Sets the financialDocumentNumber attribute.
      * 
-     * @param -
-     *            financialDocumentNumber The financialDocumentNumber to set.
+     * @param - financialDocumentNumber The financialDocumentNumber to set.
      */
     public void setFinancialDocumentNumber(String financialDocumentNumber) {
         this.financialDocumentNumber = financialDocumentNumber;
@@ -392,8 +384,7 @@ public class Entry extends BusinessObjectBase implements Transaction {
     /**
      * Sets the trnEntryLedgerSequenceNumber attribute.
      * 
-     * @param -
-     *            trnEntryLedgerSequenceNumber The trnEntryLedgerSequenceNumber to set.
+     * @param - trnEntryLedgerSequenceNumber The trnEntryLedgerSequenceNumber to set.
      */
     public void setTrnEntryLedgerSequenceNumber(Integer trnEntryLedgerSequenceNumber) {
         this.trnEntryLedgerSequenceNumber = trnEntryLedgerSequenceNumber;
@@ -411,8 +402,7 @@ public class Entry extends BusinessObjectBase implements Transaction {
     /**
      * Sets the transactionLedgerEntryDesc attribute.
      * 
-     * @param -
-     *            transactionLedgerEntryDesc The transactionLedgerEntryDesc to set.
+     * @param - transactionLedgerEntryDesc The transactionLedgerEntryDesc to set.
      */
     public void setTransactionLedgerEntryDesc(String transactionLedgerEntryDesc) {
         this.transactionLedgerEntryDesc = transactionLedgerEntryDesc;
@@ -430,8 +420,7 @@ public class Entry extends BusinessObjectBase implements Transaction {
     /**
      * Sets the transactionLedgerEntryAmount attribute.
      * 
-     * @param -
-     *            transactionLedgerEntryAmount The transactionLedgerEntryAmount to set.
+     * @param - transactionLedgerEntryAmount The transactionLedgerEntryAmount to set.
      */
     public void setTransactionLedgerEntryAmount(KualiDecimal transactionLedgerEntryAmount) {
         this.transactionLedgerEntryAmount = transactionLedgerEntryAmount;
@@ -449,8 +438,7 @@ public class Entry extends BusinessObjectBase implements Transaction {
     /**
      * Sets the transactionDebitCreditCode attribute.
      * 
-     * @param -
-     *            transactionDebitCreditCode The transactionDebitCreditCode to set.
+     * @param - transactionDebitCreditCode The transactionDebitCreditCode to set.
      */
     public void setTransactionDebitCreditCode(String transactionDebitCreditCode) {
         this.transactionDebitCreditCode = transactionDebitCreditCode;
@@ -468,8 +456,7 @@ public class Entry extends BusinessObjectBase implements Transaction {
     /**
      * Sets the transactionDate attribute.
      * 
-     * @param -
-     *            transactionDate The transactionDate to set.
+     * @param - transactionDate The transactionDate to set.
      */
     public void setTransactionDate(Date transactionDate) {
         this.transactionDate = transactionDate;
@@ -487,8 +474,7 @@ public class Entry extends BusinessObjectBase implements Transaction {
     /**
      * Sets the organizationDocumentNumber attribute.
      * 
-     * @param -
-     *            organizationDocumentNumber The organizationDocumentNumber to set.
+     * @param - organizationDocumentNumber The organizationDocumentNumber to set.
      */
     public void setOrganizationDocumentNumber(String organizationDocumentNumber) {
         this.organizationDocumentNumber = organizationDocumentNumber;
@@ -506,8 +492,7 @@ public class Entry extends BusinessObjectBase implements Transaction {
     /**
      * Sets the projectCode attribute.
      * 
-     * @param -
-     *            projectCode The projectCode to set.
+     * @param - projectCode The projectCode to set.
      */
     public void setProjectCode(String projectCode) {
         this.projectCode = projectCode;
@@ -525,8 +510,7 @@ public class Entry extends BusinessObjectBase implements Transaction {
     /**
      * Sets the organizationReferenceId attribute.
      * 
-     * @param -
-     *            organizationReferenceId The organizationReferenceId to set.
+     * @param - organizationReferenceId The organizationReferenceId to set.
      */
     public void setOrganizationReferenceId(String organizationReferenceId) {
         this.organizationReferenceId = organizationReferenceId;
@@ -544,8 +528,7 @@ public class Entry extends BusinessObjectBase implements Transaction {
     /**
      * Sets the referenceFinDocumentTypeCode attribute.
      * 
-     * @param -
-     *            referenceFinDocumentTypeCode The referenceFinDocumentTypeCode to set.
+     * @param - referenceFinDocumentTypeCode The referenceFinDocumentTypeCode to set.
      */
     public void setReferenceFinDocumentTypeCode(String referenceFinDocumentTypeCode) {
         this.referenceFinDocumentTypeCode = referenceFinDocumentTypeCode;
@@ -563,8 +546,7 @@ public class Entry extends BusinessObjectBase implements Transaction {
     /**
      * Sets the finSystemRefOriginationCode attribute.
      * 
-     * @param -
-     *            finSystemRefOriginationCode The finSystemRefOriginationCode to set.
+     * @param - finSystemRefOriginationCode The finSystemRefOriginationCode to set.
      */
     public void setFinSystemRefOriginationCode(String finSystemRefOriginationCode) {
         this.finSystemRefOriginationCode = finSystemRefOriginationCode;
@@ -582,8 +564,7 @@ public class Entry extends BusinessObjectBase implements Transaction {
     /**
      * Sets the financialDocumentReferenceNbr attribute.
      * 
-     * @param -
-     *            financialDocumentReferenceNbr The financialDocumentReferenceNbr to set.
+     * @param - financialDocumentReferenceNbr The financialDocumentReferenceNbr to set.
      */
     public void setFinancialDocumentReferenceNbr(String financialDocumentReferenceNbr) {
         this.financialDocumentReferenceNbr = financialDocumentReferenceNbr;
@@ -601,8 +582,7 @@ public class Entry extends BusinessObjectBase implements Transaction {
     /**
      * Sets the financialDocumentReversalDate attribute.
      * 
-     * @param -
-     *            financialDocumentReversalDate The financialDocumentReversalDate to set.
+     * @param - financialDocumentReversalDate The financialDocumentReversalDate to set.
      */
     public void setFinancialDocumentReversalDate(Date financialDocumentReversalDate) {
         this.financialDocumentReversalDate = financialDocumentReversalDate;
@@ -620,8 +600,7 @@ public class Entry extends BusinessObjectBase implements Transaction {
     /**
      * Sets the transactionEncumbranceUpdtCd attribute.
      * 
-     * @param -
-     *            transactionEncumbranceUpdtCd The transactionEncumbranceUpdtCd to set.
+     * @param - transactionEncumbranceUpdtCd The transactionEncumbranceUpdtCd to set.
      */
     public void setTransactionEncumbranceUpdtCd(String transactionEncumbranceUpdtCd) {
         this.transactionEncumbranceUpdtCd = transactionEncumbranceUpdtCd;
@@ -639,8 +618,7 @@ public class Entry extends BusinessObjectBase implements Transaction {
     /**
      * Sets the transactionPostingDate attribute.
      * 
-     * @param -
-     *            transactionPostingDate The transactionPostingDate to set.
+     * @param - transactionPostingDate The transactionPostingDate to set.
      */
     public void setTransactionPostingDate(Date transactionPostingDate) {
         this.transactionPostingDate = transactionPostingDate;
@@ -658,8 +636,7 @@ public class Entry extends BusinessObjectBase implements Transaction {
     /**
      * Sets the transactionDateTimeStamp attribute.
      * 
-     * @param -
-     *            transactionDateTimeStamp The transactionDateTimeStamp to set.
+     * @param - transactionDateTimeStamp The transactionDateTimeStamp to set.
      */
     public void setTransactionDateTimeStamp(Date transactionDateTimeStamp) {
         this.transactionDateTimeStamp = transactionDateTimeStamp;
@@ -677,8 +654,7 @@ public class Entry extends BusinessObjectBase implements Transaction {
     /**
      * Sets the budgetYear attribute.
      * 
-     * @param -
-     *            budgetYear The budgetYear to set.
+     * @param - budgetYear The budgetYear to set.
      */
     public void setBudgetYear(String budgetYear) {
         this.budgetYear = budgetYear;
@@ -807,5 +783,23 @@ public class Entry extends BusinessObjectBase implements Transaction {
         m.put("financialDocumentNumber", this.financialDocumentNumber);
         m.put("trnEntryLedgerSequenceNumber", this.trnEntryLedgerSequenceNumber.toString());
         return m;
+    }
+
+    /**
+     * Gets the dummyBusinessObject attribute.
+     * 
+     * @return Returns the dummyBusinessObject.
+     */
+    public DummyBusinessObject getDummyBusinessObject() {
+        return dummyBusinessObject;
+    }
+
+    /**
+     * Sets the dummyBusinessObject attribute value.
+     * 
+     * @param dummyBusinessObject The dummyBusinessObject to set.
+     */
+    public void setDummyBusinessObject(DummyBusinessObject dummyBusinessObject) {
+        this.dummyBusinessObject = dummyBusinessObject;
     }
 }

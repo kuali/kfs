@@ -63,6 +63,7 @@ public class BalanceInquirableImpl extends AbstractGLInquirableImpl {
         keys.add(PropertyConstants.OBJECT_CODE);
         keys.add(PropertyConstants.SUB_OBJECT_CODE);
         keys.add(PropertyConstants.OBJECT_TYPE_CODE);
+        keys.add(Constant.PENDING_ENTRY_OPTION);
 
         return keys;
     }

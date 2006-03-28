@@ -37,6 +37,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.gl.batch.poster.AccountBalanceCalculator;
 import org.kuali.module.gl.bo.AccountBalance;
 import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
+import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.util.BusinessObjectFieldConverter;
 import org.kuali.module.gl.web.Constant;
 import org.kuali.module.gl.web.inquirable.AccountBalanceByLevelInquirableImpl;
@@ -206,10 +207,41 @@ public class AccountBalanceByLevelLookupableImpl extends AbstractGLLookupableImp
             }
             pendingEntry.setFinancialSubObjectCode(Constant.CONSOLIDATED_SUB_OBJECT_CODE);
 
-            AccountBalance accountBalance = postAccountBalance.findAccountBalance(entryCollection, pendingEntry);
+            AccountBalance accountBalance = findAccountBalance(entryCollection, pendingEntry);
             postAccountBalance.updateAccountBalance(pendingEntry, accountBalance);
         }
     }
+    
+    /**
+     * This method tests if the transaction belongs to any existing account balance searched by level
+     * @param entryCollection the collection of account balances searched by level
+     * @param transaction the given transaction
+     * @return the existing account balance if found; otherwise, create a new account balance and return it
+     */
+    private AccountBalance findAccountBalance(Collection entryCollection, Transaction transaction) {
+
+        // test if the transaction belongs to any existing account balance searched by consolidation
+        Iterator iterator = entryCollection.iterator();
+        while (iterator.hasNext()) {
+            AccountBalance accountBalance = (AccountBalance) iterator.next();
+
+            if (accountBalance.getUniversityFiscalYear().equals(transaction.getUniversityFiscalYear())
+                    && accountBalance.getChartOfAccountsCode().equals(transaction.getChartOfAccountsCode())
+                    && accountBalance.getAccountNumber().equals(transaction.getAccountNumber())
+                    && accountBalance.getSubAccountNumber().equals(transaction.getSubAccountNumber())
+                    && accountBalance.getFinancialObject().getFinancialObjectLevel().getFinancialObjectLevelCode().equals(
+                            transaction.getFinancialObject().getFinancialObjectLevel().getFinancialObjectLevelCode())) {
+                return accountBalance;
+            }
+        }
+
+        // If we couldn't find one that exists, create a new one
+        AccountBalance accountBalance = new AccountBalance(transaction);
+        entryCollection.add(accountBalance);
+
+        return accountBalance;
+    }
+    
 
     /**
      * Sets the postAccountBalance attribute value.

@@ -79,6 +79,12 @@
                 <lookupField attributeName="finSystemRefOriginationCode" />
                 <lookupField attributeName="referenceFinDocumentTypeCode" />
 				<lookupField attributeName="financialDocumentReferenceNbr" />
+				
+				<lookupField attributeName="dummyBusinessObject.pendingEntryOption">
+					<defaultValueFinderClass>
+						org.kuali.module.gl.web.optionfinder.GLPendingEntryOptionFinder
+					</defaultValueFinderClass>
+				</lookupField>				
 			</lookupFields>
 
 			<resultFields>
@@ -343,6 +349,10 @@
                 <summary>The budget year for this transaction.</summary>
                 <description>This is the budget year associated with this pending ledger entry.</description>
             </attribute>
+                        
+            <attributeReference name="dummyBusinessObject.pendingEntryOption"
+					            sourceClassName="org.kuali.module.gl.bo.DummyBusinessObject" 
+					            sourceAttributeName="pendingEntryOption"/>            
         </attributes>
     </businessObject>
 </dictionaryEntry>

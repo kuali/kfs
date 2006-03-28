@@ -501,15 +501,6 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
                             "parameter='" + CG_WORKGROUP_PARM_NAME + ";");
         }
         
-        // ********************************************************
-        //  DEBUG CODE
-        // ********************************************************
-        if (user.getPersonUserIdentifier().trim().equalsIgnoreCase("KHUNTLEY")) {
-            return true;
-        }
-        //TODO: figure out why groups are broken
-        // ********************************************************
-
         if (user.isMember(new KualiGroup(allowedCgWorkgroup))) {
             LOG.info("User '" + user.getPersonUserIdentifier() + "' is a member of the group '" + allowedCgWorkgroup + "', which gives them access to the CG fields.");
             return true;

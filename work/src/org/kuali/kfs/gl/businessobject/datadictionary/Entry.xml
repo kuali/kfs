@@ -170,8 +170,8 @@
             <attributeReference name="universityFiscalPeriodCode" 
             	sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
             	sourceAttributeName="universityFiscalAccountingPeriod">
-            	<label>Period</label>
-                <shortLabel>University Fiscal Accounting Period</shortLabel>
+            	<label>Fiscal Period</label>
+                <shortLabel>Fiscal Period</shortLabel>
                 <maxLength>3</maxLength>
                 <control>
 		            <select valuesFinderClass="org.kuali.module.gl.web.optionfinder.GLPeriodCodeOptionFinder"/>

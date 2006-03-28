@@ -55,6 +55,8 @@
 					            sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
 					            sourceAttributeName="genericFiscalYear" >
 				<required>true</required>
+                <label>Fiscal Year</label>
+                <shortLabel>Fiscal Year</shortLabel>
 			</attributeReference>		            
 
             <attributeReference name="universityFiscalAccountingPeriod" 

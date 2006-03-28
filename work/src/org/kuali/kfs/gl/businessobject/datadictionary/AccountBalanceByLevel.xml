@@ -78,8 +78,11 @@
         <attributes>
             <attributeReference name="universityFiscalYear" 
             					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
-            					sourceAttributeName="genericFiscalYear" />
-										
+            					sourceAttributeName="genericFiscalYear">
+                <label>Fiscal Year</label>
+                <shortLabel>Fiscal Year</shortLabel>
+			</attributeReference>
+
             <attributeReference name="chartOfAccountsCode" 
             					sourceClassName="org.kuali.module.chart.bo.Chart" 
             					sourceAttributeName="chartOfAccountsCode">

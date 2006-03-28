@@ -202,6 +202,15 @@ public class TransferOfFundsDocumentRule extends TransactionalDocumentRuleBase i
     public boolean isObjectSubTypeAllowed(AccountingLine accountingLine) {
         accountingLine.refreshReferenceObject("objectCode");
         String objectSubTypeCode = accountingLine.getObjectCode().getFinancialObjectSubTypeCode();
+        
+        // make sure a object sub type code exists for this object code
+        if(StringUtils.isBlank(objectSubTypeCode)) {
+            GlobalVariables.getErrorMap().put(
+                    "financialObjectCode",
+                    KeyConstants.ERROR_DOCUMENT_TOF_OBJECT_SUB_TYPE_IS_NULL,
+                    accountingLine.getFinancialObjectCode());
+            return false;
+        }
 
         if (!isMandatoryTransfersSubType(objectSubTypeCode) && !isNonMandatoryTransfersSubType(objectSubTypeCode)) {
             GlobalVariables.getErrorMap().put(

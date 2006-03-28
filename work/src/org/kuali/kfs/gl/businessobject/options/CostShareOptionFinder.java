@@ -40,7 +40,7 @@ public class GLCostShareOptionFinder extends KeyValuesBase implements ValueFinde
      * @see org.kuali.core.lookup.valueFinder.ValueFinder#getValue()
      */
     public String getValue() {
-        return Constant.COST_SHARE_INCLUDE;
+        return Constant.COST_SHARE_EXCLUDE;
     }
 
     /**
@@ -48,8 +48,8 @@ public class GLCostShareOptionFinder extends KeyValuesBase implements ValueFinde
      */
     public List getKeyValues() {       
         List labels = new ArrayList();
-        labels.add(new KeyLabelPair(Constant.COST_SHARE_INCLUDE, Constant.COST_SHARE_INCLUDE));
         labels.add(new KeyLabelPair(Constant.COST_SHARE_EXCLUDE, Constant.COST_SHARE_EXCLUDE));
+        labels.add(new KeyLabelPair(Constant.COST_SHARE_INCLUDE, Constant.COST_SHARE_INCLUDE));
         return labels;
     }
 }

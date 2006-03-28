@@ -74,6 +74,9 @@ public class AccountBalanceByObjectLookupableImpl extends AbstractGLLookupableIm
     public List getSearchResults(Map fieldValues) {
         setBackLocation((String) fieldValues.get(Constants.BACK_LOCATION));
         setDocFormKey((String) fieldValues.get(Constants.DOC_FORM_KEY));
+        
+        // get the pending entry option. This method must be prior to the get search results
+        String pendingEntryOption = this.getSelectedPendingEntryOption(fieldValues);        
 
         // test if the consolidation option is selected or not
         boolean isConsolidated = isConsolidationSelected(fieldValues);
@@ -84,8 +87,12 @@ public class AccountBalanceByObjectLookupableImpl extends AbstractGLLookupableIm
         // get the search result collection
         Iterator availableBalanceIterator = accountBalanceService.findAccountBalanceByObject(fieldValues, isCostShareInclusive,
                 isConsolidated);
+        
         Collection searchResultsCollection = buildAvailableBalanceCollection(availableBalanceIterator, isCostShareInclusive,
-                isConsolidated);
+                isConsolidated, pendingEntryOption);
+        
+        // update search results according to the selected pending entry option
+        updateByPendingLedgerEntry(searchResultsCollection, fieldValues, pendingEntryOption, isConsolidated, isCostShareInclusive); 
 
         // sort list if default sort column given
         List searchResults = (List) searchResultsCollection;
@@ -98,13 +105,14 @@ public class AccountBalanceByObjectLookupableImpl extends AbstractGLLookupableIm
 
     /**
      * This method builds the available account balance collection based on the input iterator
-     * 
      * @param iterator the iterator of search results of account balance
      * @param isCostShareInclusive determine whether the account balance entries with cost share is included     
      * @param isConsolidated flag whether the results are consolidated or not
+     * @param pendingEntryOption the selected pending entry option
+     * 
      * @return the account balance collection
      */
-    private Collection buildAvailableBalanceCollection(Iterator iterator, boolean isCostShareInclusive, boolean isConsolidated) {
+    private Collection buildAvailableBalanceCollection(Iterator iterator, boolean isCostShareInclusive, boolean isConsolidated, String pendingEntryOption) {
         Collection balanceCollection = new ArrayList();
 
         // build available balance collection throught analyzing the input iterator
@@ -122,6 +130,8 @@ public class AccountBalanceByObjectLookupableImpl extends AbstractGLLookupableIm
             accountBalance.setSubAccountNumber(subAccountNumber);
 
             accountBalance.setObjectCode(array[i++].toString());
+            accountBalance.setSubObjectCode(Constant.CONSOLIDATED_SUB_OBJECT_CODE);
+            
             accountBalance.getFinancialObject().getFinancialObjectLevel().setFinancialReportingSortCode(array[i++].toString());
             accountBalance.getFinancialObject().setFinancialObjectLevelCode(array[i++].toString());
 
@@ -179,25 +189,26 @@ public class AccountBalanceByObjectLookupableImpl extends AbstractGLLookupableIm
 
     /**
      * @see org.kuali.module.gl.web.lookupable.AbstractGLLookupableImpl#updateEntryCollection(java.util.Collection, java.util.Map,
-     *      boolean, boolean)
+     *      boolean, boolean, boolean)
      */
-    public void updateEntryCollection(Collection entryCollection, Map fieldValues, boolean isApproved, boolean isConsolidated) {
+    public void updateEntryCollection(Collection entryCollection, Map fieldValues, boolean isApproved, boolean isConsolidated, boolean isCostShareInclusive) {
 
         // convert the field names of balance object into corresponding ones of pending entry object
         Map pendingEntryFieldValues = BusinessObjectFieldConverter.convertToTransactionFieldValues(fieldValues);
 
         // go through the pending entries to update the balance collection
-        Iterator pendingEntryIterator = generalLedgerPendingEntryService.findPendingLedgerEntriesForBalance(
-                pendingEntryFieldValues, isApproved);
+        Iterator pendingEntryIterator = generalLedgerPendingEntryService.findPendingLedgerEntriesForAccountBalanceByConsolidation(
+                pendingEntryFieldValues, isCostShareInclusive, isApproved);
+        
         while (pendingEntryIterator.hasNext()) {
             GeneralLedgerPendingEntry pendingEntry = (GeneralLedgerPendingEntry) pendingEntryIterator.next();
 
             // if consolidated, change the following fields into the default values for consolidation
             if (isConsolidated) {
                 pendingEntry.setSubAccountNumber(Constant.CONSOLIDATED_SUB_ACCOUNT_NUMBER);
-                pendingEntry.setFinancialSubObjectCode(Constant.CONSOLIDATED_SUB_OBJECT_CODE);
                 pendingEntry.setFinancialObjectTypeCode(Constant.CONSOLIDATED_OBJECT_TYPE_CODE);
             }
+            pendingEntry.setFinancialSubObjectCode(Constant.CONSOLIDATED_SUB_OBJECT_CODE);
 
             AccountBalance accountBalance = postAccountBalance.findAccountBalance(entryCollection, pendingEntry);
             postAccountBalance.updateAccountBalance(pendingEntry, accountBalance);

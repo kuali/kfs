@@ -25,6 +25,7 @@ package org.kuali.module.gl.web.optionfinder;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.lookup.valueFinder.ValueFinder;
 import org.kuali.core.web.uidraw.KeyLabelPair;
@@ -40,7 +41,8 @@ public class GLPeriodCodeOptionFinder extends KeyValuesBase implements ValueFind
      * @see org.kuali.core.lookup.valueFinder.ValueFinder#getValue()
      */
     public String getValue() {
-        return Constant.MONTH1;
+        java.sql.Date curDate = new java.sql.Date(SpringServiceLocator.getDateTimeService().getCurrentTimestamp().getTime());
+        return SpringServiceLocator.getAccountingPeriodService().getByDate(curDate).getUniversityFiscalPeriodCode();
     }
 
     /**

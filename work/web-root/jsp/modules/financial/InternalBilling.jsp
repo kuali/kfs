@@ -11,7 +11,7 @@
         <fin:accountingLines editingMode="${KualiForm.editingMode}" editableAccounts="${KualiForm.editableAccounts}"/>
         <kul:items/>
         <kul:generalLedgerPendingEntries/>
-        <kul:notes editingMode="${KualiForm.editingMode }"/>
+        <kul:notes/>
         <kul:adHocRecipients editingMode="${KualiForm.editingMode}"/>
         <kul:routeLog/>
         <kul:panelFooter/>

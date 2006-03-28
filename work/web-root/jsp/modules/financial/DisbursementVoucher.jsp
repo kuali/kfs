@@ -65,7 +65,7 @@
 		
 		<kul:generalLedgerPendingEntries/>
 
-		<kul:notes editingMode="${KualiForm.editingMode}"/>
+		<kul:notes/>
 			
 		<kul:adHocRecipients editingMode="${KualiForm.editingMode}"/>		
 			

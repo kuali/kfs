@@ -68,6 +68,9 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
         GenerateGeneralLedgerDocumentPendingEntriesRule {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherDocumentRule.class);
 
+    /**
+     * Constructs a DisbursementVoucherDocumentRule instance.
+     */
     public DisbursementVoucherDocumentRule() {
     }
     

@@ -53,7 +53,7 @@ import org.kuali.module.financial.bo.DisbursementVoucherPayeeDetail;
 import org.kuali.module.financial.bo.NonResidentAlienTaxPercent;
 import org.kuali.module.financial.bo.Payee;
 import org.kuali.module.financial.bo.WireCharge;
-import org.kuali.module.financial.document.DisbursementVoucherAuthorizer;
+import org.kuali.module.financial.document.DisbursementVoucherDocumentAuthorizer;
 import org.kuali.module.financial.document.DisbursementVoucherDocument;
 import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 import org.kuali.module.gl.util.SufficientFundsItemHelper.SufficientFundsItem;
@@ -90,8 +90,11 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
     protected boolean processCustomApproveDocumentBusinessRules(Document document) {
         DisbursementVoucherDocument dvDocument = (DisbursementVoucherDocument) document;
         
-        // amounts can only decrease
-        if (DisbursementVoucherAuthorizer.isSpecialRouting(document, GlobalVariables.getUserSession().getKualiUser())) {
+        // retrieve the right authorizer class        
+        DisbursementVoucherDocumentAuthorizer dvAuthorizer = (DisbursementVoucherDocumentAuthorizer) SpringServiceLocator.
+            getDocumentAuthorizationService().getDocumentAuthorizer(document);
+        if (dvAuthorizer.isSpecialRouting(document, GlobalVariables.getUserSession().getKualiUser())) {
+            // amounts can only decrease
             boolean approveOK = true;
             
             DisbursementVoucherDocument persistedDocument = (DisbursementVoucherDocument) retrievePersistedDocument(dvDocument);

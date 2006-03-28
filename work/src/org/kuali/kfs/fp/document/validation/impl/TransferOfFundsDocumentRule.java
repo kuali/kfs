@@ -230,7 +230,6 @@ public class TransferOfFundsDocumentRule extends TransactionalDocumentRuleBase i
      */
     protected SufficientFundsItem processSourceAccountingLineSufficientFundsCheckingPreparation(
             TransactionalDocument transactionalDocument, SourceAccountingLine sourceAccountingLine) {
-
         return processAccountingLineSufficientFundsCheckingPreparation(sourceAccountingLine);
     }
 
@@ -247,7 +246,7 @@ public class TransferOfFundsDocumentRule extends TransactionalDocumentRuleBase i
      * fi_dtf:lp_proc_frm_ln,lp_proc_to_ln conslidated
      * 
      * @param accountingLine
-     * @return
+     * @return SufficientFundsItem
      */
     private final SufficientFundsItem processAccountingLineSufficientFundsCheckingPreparation(AccountingLine accountingLine) {
         SufficientFundsItem item = null;

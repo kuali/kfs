@@ -76,6 +76,8 @@
 		            <maintainableField name="endowmentIncomeAcctFinCoaCd" required="false" />
 		            <maintainableField name="endowmentIncomeAccountNumber" required="false" />
 		            <maintainableField name="versionNumber" />
+		            <maintainableField name="accountGuideline.versionNumber" />
+		            <maintainableField name="accountDescription.versionNumber" />
                 </maintainableItems>
 	        </maintainableSection>
 	        <maintainableSection title="Account Responsibility">

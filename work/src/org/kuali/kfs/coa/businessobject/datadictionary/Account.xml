@@ -771,6 +771,10 @@
 				<description>A textual description of the Account Purpose.</description>
 			</attributeReference>
 			
+			<attributeReference name="accountGuideline.versionNumber" 
+								sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
+								sourceAttributeName="versionNumber" />
+			
 			<attributeReference name="accountDescription.campusDescription" 
 								sourceClassName="org.kuali.module.chart.bo.AccountDescription" 
 								sourceAttributeName="campusDescription" />
@@ -790,6 +794,10 @@
 			<attributeReference name="accountDescription.buildingCode" 
 								sourceClassName="org.kuali.module.chart.bo.AccountDescription" 
 								sourceAttributeName="buildingCode" />
+			
+			<attributeReference name="accountDescription.versionNumber" 
+								sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
+								sourceAttributeName="versionNumber" />
 			
 		</attributes>
 

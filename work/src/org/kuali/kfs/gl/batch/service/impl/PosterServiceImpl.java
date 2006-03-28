@@ -39,8 +39,10 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.chart.bo.IcrAutomatedEntry;
+import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.dao.IcrAutomatedEntryDao;
 import org.kuali.module.chart.service.AccountingPeriodService;
+import org.kuali.module.chart.service.ObjectCodeService;
 import org.kuali.module.gl.batch.poster.PostTransaction;
 import org.kuali.module.gl.batch.poster.PosterReport;
 import org.kuali.module.gl.batch.poster.VerifyTransaction;
@@ -64,7 +66,7 @@ import org.springframework.beans.factory.BeanFactoryAware;
 
 /**
  * @author jsissom
- * @version $Id: PosterServiceImpl.java,v 1.25 2006-03-26 20:26:02 jsissom Exp $
+ * @version $Id: PosterServiceImpl.java,v 1.26 2006-03-28 19:36:43 jsissom Exp $
  */
 public class PosterServiceImpl implements PosterService,BeanFactoryAware {
   private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PosterServiceImpl.class);
@@ -82,6 +84,7 @@ public class PosterServiceImpl implements PosterService,BeanFactoryAware {
   private AccountingPeriodService accountingPeriodService;
   private ExpenditureTransactionDao expenditureTransactionDao;
   private IcrAutomatedEntryDao icrAutomatedEntryDao;
+  private ObjectCodeService objectCodeService;
   // private IndirectCostRecoveryThresholdDao indirectCostRecoveryThresholdDao;
 
   /**
@@ -330,6 +333,8 @@ public class PosterServiceImpl implements PosterService,BeanFactoryAware {
     }
   }
 
+  private static KualiDecimal ONEHUNDRED = new KualiDecimal("100");
+
   /**
    * This step reads the expenditure table and uses the data to generate Indirect Cost Recovery
    * transactions.
@@ -348,7 +353,6 @@ public class PosterServiceImpl implements PosterService,BeanFactoryAware {
     int reportExpendTranKept = 0;
     int reportOriginEntryGenerated = 0;
 
-    KualiDecimal onehundred = new KualiDecimal("100");
     KualiDecimal warningMaxDifference = new KualiDecimal("0.05"); // TODO Put this in APC
 
     Iterator expenditureTransactions = expenditureTransactionDao.getAllExpenditureTransactions();
@@ -363,7 +367,7 @@ public class PosterServiceImpl implements PosterService,BeanFactoryAware {
 
       Collection automatedEntries = icrAutomatedEntryDao.getEntriesBySeries(et.getUniversityFiscalYear(),et.getAccount().getFinancialIcrSeriesIdentifier(),et.getBalanceTypeCode());
       int automatedEntriesCount = automatedEntries.size();
-      if ( automatedEntries.size() > 0) {
+      if ( automatedEntriesCount > 0) {
         int count = 0;
         for (Iterator icrIter = automatedEntries.iterator(); icrIter.hasNext();) {
           IcrAutomatedEntry icrEntry = (IcrAutomatedEntry)icrIter.next();
@@ -373,12 +377,12 @@ public class PosterServiceImpl implements PosterService,BeanFactoryAware {
 
           if ( icrEntry.getAwardIndrCostRcvyEntryNbr().intValue() == 1 ) {
             // Line 1 must have the total percentage of the transaction to distribute
-            distributionPercent = icrEntry.getAwardIndrCostRcvyRatePct();
-            distributionAmount = transactionAmount.multiply(new KualiDecimal(distributionPercent.toString())).divide(onehundred);
+            distributionPercent = icrEntry.getAwardIndrCostRcvyRatePct().divide(ONEHUNDRED);
+            distributionAmount = transactionAmount.multiply(new KualiDecimal(distributionPercent.toString())).divide(ONEHUNDRED);
 
             generatedTransactionAmount = distributionAmount;
           } else {
-            generatedTransactionAmount = transactionAmount.multiply(new KualiDecimal(icrEntry.getAwardIndrCostRcvyRatePct().toString())).divide(onehundred);
+            generatedTransactionAmount = transactionAmount.multiply(new KualiDecimal(icrEntry.getAwardIndrCostRcvyRatePct().divide(ONEHUNDRED).toString())).divide(ONEHUNDRED);
             distributedAmount = distributedAmount.add(generatedTransactionAmount);
 
             // Do we need to round?  Round on the last one
@@ -458,15 +462,21 @@ public class PosterServiceImpl implements PosterService,BeanFactoryAware {
     e.setFinancialSystemOriginationCode("MF");
     e.setFinancialDocumentNumber(sdf.format(runDate));
     if ( Constants.GL_DEBIT_CODE.equals(icrEntry.getTransactionDebitIndicator()) ) {
-      e.setTransactionLedgerEntryDescription(getChargeDescription(icrEntry.getAwardIndrCostRcvyRatePct(),et.getObjectCode(),et.getAccount().getAcctIndirectCostRcvyTypeCd(),et.getAccountObjectDirectCostAmount()));
+      e.setTransactionLedgerEntryDescription(getChargeDescription(icrEntry.getAwardIndrCostRcvyRatePct().divide(ONEHUNDRED),et.getObjectCode(),et.getAccount().getAcctIndirectCostRcvyTypeCd(),et.getAccountObjectDirectCostAmount()));
     } else {
-      e.setTransactionLedgerEntryDescription(getOffsetDescription(icrEntry.getAwardIndrCostRcvyRatePct(),et.getAccountObjectDirectCostAmount(),et.getChartOfAccountsCode(),et.getAccountNumber()));
+      e.setTransactionLedgerEntryDescription(getOffsetDescription(icrEntry.getAwardIndrCostRcvyRatePct().divide(ONEHUNDRED),et.getAccountObjectDirectCostAmount(),et.getChartOfAccountsCode(),et.getAccountNumber()));
     }
     e.setTransactionDate(new java.sql.Date(runDate.getTime()));
     e.setTransactionDebitCreditCode(icrEntry.getTransactionDebitIndicator());
     e.setFinancialBalanceTypeCode(et.getBalanceTypeCode());
     e.setUniversityFiscalYear(et.getUniversityFiscalYear());
     e.setUniversityFiscalPeriodCode(et.getUniversityFiscalAccountingPeriod());
+
+    ObjectCode oc = objectCodeService.getByPrimaryId(e.getUniversityFiscalYear(), e.getChartOfAccountsCode(), e.getFinancialObjectCode());
+    if ( oc == null ) {
+      throw new IllegalArgumentException("Unable to find object code in table for " + e.getUniversityFiscalYear() + "," + e.getChartOfAccountsCode() + "," + e.getFinancialObjectCode());
+    }
+    e.setFinancialObjectTypeCode(oc.getFinancialObjectTypeCode());
 
     e.setTransactionLedgerEntryAmount(generatedTransactionAmount);
     
@@ -508,9 +518,9 @@ public class PosterServiceImpl implements PosterService,BeanFactoryAware {
 
  */   
     if ( Constants.GL_DEBIT_CODE.equals(icrEntry.getTransactionDebitIndicator()) ) {
-      e.setTransactionLedgerEntryDescription(getChargeDescription(icrEntry.getAwardIndrCostRcvyRatePct(),et.getObjectCode(),et.getAccount().getAcctIndirectCostRcvyTypeCd(),et.getAccountObjectDirectCostAmount()));
+      e.setTransactionLedgerEntryDescription(getChargeDescription(icrEntry.getAwardIndrCostRcvyRatePct().divide(ONEHUNDRED),et.getObjectCode(),et.getAccount().getAcctIndirectCostRcvyTypeCd(),et.getAccountObjectDirectCostAmount()));
     } else {
-      e.setTransactionLedgerEntryDescription(getOffsetDescription(icrEntry.getAwardIndrCostRcvyRatePct(),et.getAccountObjectDirectCostAmount(),et.getChartOfAccountsCode(),et.getAccountNumber()));
+      e.setTransactionLedgerEntryDescription(getOffsetDescription(icrEntry.getAwardIndrCostRcvyRatePct().divide(ONEHUNDRED),et.getAccountObjectDirectCostAmount(),et.getChartOfAccountsCode(),et.getAccountNumber()));
     }
 
     originEntryService.createEntry(e,group);
@@ -636,9 +646,10 @@ public class PosterServiceImpl implements PosterService,BeanFactoryAware {
     icrAutomatedEntryDao = iaed;
   }
 
-  /* (non-Javadoc)
-   * @see org.springframework.beans.factory.BeanFactoryAware#setBeanFactory(org.springframework.beans.factory.BeanFactory)
-   */
+  public void setObjectCodeService(ObjectCodeService ocs) {
+    objectCodeService = ocs;
+  }
+
   public void setBeanFactory(BeanFactory bf) throws BeansException {
     beanFactory = bf;
   }

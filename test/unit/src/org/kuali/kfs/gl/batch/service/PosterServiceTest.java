@@ -711,6 +711,85 @@ public class PosterServiceTest extends OriginEntryTestBase {
     assertEquals("Wrong doc nbr","REVTEST03",row3.get("FDOC_NBR"));
   }
 
+  public void testIcrGeneration() throws Exception {
+    LOG.debug("testIcrGeneration() started");
+
+    setRollback(false);
+
+    // Load the expenditure table
+    unitTestSqlDao.sqlCommand("delete from gl_expend_trn_t");
+    
+    // This one shouldn't generate any entries
+    unitTestSqlDao.sqlCommand("INSERT INTO GL_EXPEND_TRN_T (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, FIN_BALANCE_TYP_CD, FIN_OBJ_TYP_CD, UNIV_FISCAL_PRD_CD, PROJECT_CD, ORG_REFERENCE_ID, OBJ_ID, VER_NBR, ACCT_OBJ_DCST_AMT) VALUES ('2004', 'BL', '1031400', '-----', '4166', '---', 'AC', 'EX', '07', '----------', '12345678', sys_guid(), 1, 10000)");
+
+    // This one is fin_series_id 001 3.13% to 1 account (2 gl entries)
+    unitTestSqlDao.sqlCommand("INSERT INTO GL_EXPEND_TRN_T (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, FIN_BALANCE_TYP_CD, FIN_OBJ_TYP_CD, UNIV_FISCAL_PRD_CD, PROJECT_CD, ORG_REFERENCE_ID, OBJ_ID, VER_NBR, ACCT_OBJ_DCST_AMT) VALUES ('2004', 'BL', '4531407', '-----', '4166', '---', 'AC', 'EX', '07', '----------', '12345678', sys_guid(), 1, 10000)");
+
+    // This one is fin_series_id 002 3.8% to 2 accounts (2.0% & 1.8%)
+    unitTestSqlDao.sqlCommand("INSERT INTO GL_EXPEND_TRN_T (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, FIN_BALANCE_TYP_CD, FIN_OBJ_TYP_CD, UNIV_FISCAL_PRD_CD, PROJECT_CD, ORG_REFERENCE_ID, OBJ_ID, VER_NBR, ACCT_OBJ_DCST_AMT) VALUES ('2004', 'BL', '4531408', '-----', '4166', '---', 'AC', 'EX', '07', '----------', '12345678', sys_guid(), 1, 10000)");    
+
+    // Clear origin entry & origin entry group
+    clearOriginEntryTables();
+
+    posterService.generateIcrTransactions();
+
+    List results = unitTestSqlDao.sqlSelect("select * from gl_expend_trn_t");
+    assertEquals("Should be no expenditure rows left",0,results.size());
+
+    results = unitTestSqlDao.sqlSelect("select * from gl_origin_entry_t order by origin_entry_id");
+    assertEquals("Wrong number of transactions generated",10,results.size());
+
+    Map row = (Map)results.get(0);
+    assertEquals("0 account number wrong","4531407",row.get("ACCOUNT_NBR"));
+    assertEquals("0 object code wrong","5500",row.get("FIN_OBJECT_CD"));
+    assertEquals("0 amount wrong",313.0,getAmount(row,"TRN_LDGR_ENTR_AMT"),0.01);
+
+    row = (Map)results.get(1);
+    assertEquals("1 account number wrong","4531407",row.get("ACCOUNT_NBR"));
+    assertEquals("1 object code wrong","8000",row.get("FIN_OBJECT_CD"));
+    assertEquals("1 amount wrong",313.0,getAmount(row,"TRN_LDGR_ENTR_AMT"),0.01);
+    
+    row = (Map)results.get(2);
+    assertEquals("2 account number wrong","1023287",row.get("ACCOUNT_NBR"));
+    assertEquals("2 object code wrong","1803",row.get("FIN_OBJECT_CD"));
+    assertEquals("2 amount wrong",313.0,getAmount(row,"TRN_LDGR_ENTR_AMT"),0.01);
+    
+    row = (Map)results.get(3);
+    assertEquals("3 account number wrong","1023287",row.get("ACCOUNT_NBR"));
+    assertEquals("3 object code wrong","8000",row.get("FIN_OBJECT_CD"));
+    assertEquals("3 amount wrong",313.0,getAmount(row,"TRN_LDGR_ENTR_AMT"),0.01);
+
+    row = (Map)results.get(4);
+    assertEquals("4 account number wrong","4531408",row.get("ACCOUNT_NBR"));
+    assertEquals("4 object code wrong","5500",row.get("FIN_OBJECT_CD"));
+    assertEquals("4 amount wrong",380.0,getAmount(row,"TRN_LDGR_ENTR_AMT"),0.01);
+
+    row = (Map)results.get(5);
+    assertEquals("5 account number wrong","4531408",row.get("ACCOUNT_NBR"));
+    assertEquals("5 object code wrong","8000",row.get("FIN_OBJECT_CD"));
+    assertEquals("5 amount wrong",380.0,getAmount(row,"TRN_LDGR_ENTR_AMT"),0.01);
+
+    row = (Map)results.get(6);
+    assertEquals("6 account number wrong","1023287",row.get("ACCOUNT_NBR"));
+    assertEquals("6 object code wrong","1803",row.get("FIN_OBJECT_CD"));
+    assertEquals("6 amount wrong",200.0,getAmount(row,"TRN_LDGR_ENTR_AMT"),0.01);
+
+    row = (Map)results.get(7);
+    assertEquals("7 account number wrong","1023287",row.get("ACCOUNT_NBR"));
+    assertEquals("7 object code wrong","8000",row.get("FIN_OBJECT_CD"));
+    assertEquals("7 amount wrong",200.0,getAmount(row,"TRN_LDGR_ENTR_AMT"),0.01);
+
+    row = (Map)results.get(8);
+    assertEquals("8 account number wrong","1031400",row.get("ACCOUNT_NBR"));
+    assertEquals("8 object code wrong","1803",row.get("FIN_OBJECT_CD"));
+    assertEquals("8 amount wrong",180.0,getAmount(row,"TRN_LDGR_ENTR_AMT"),0.01);
+
+    row = (Map)results.get(9);
+    assertEquals("9 account number wrong","1031400",row.get("ACCOUNT_NBR"));
+    assertEquals("9 object code wrong","8000",row.get("FIN_OBJECT_CD"));
+    assertEquals("9 amount wrong",180.0,getAmount(row,"TRN_LDGR_ENTR_AMT"),0.01);
+  }
+
   private double getAmount(Map map,String field) {
     BigDecimal amt = (BigDecimal)map.get(field);
     if ( amt == null ) {

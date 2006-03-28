@@ -85,6 +85,7 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
     private static final String ORGANIZATION_DOC_TYPE = "KualiOrganizationMaintenanceDocument";
     private static final String SUB_ACCOUNT_DOC_TYPE = "KualiSubAccountMaintenanceDocument";
     private static final String SUB_OBJECT_DOC_TYPE = "KualiSubObjectMaintenanceDocument";
+    private static final String PROJECT_CODE_DOC_TYPE = "KualiProjectCodeMaintenanceDocument";
 
     private String finCoaCd;
     private String orgCd;
@@ -407,7 +408,8 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
         		chart = xpath.evaluate("//chart", docContent.getDocument());
         		org = xpath.evaluate("//org", docContent.getDocument());
         	} else if (docType.getName().equals(ACCOUNT_DOC_TYPE) ||
-        			docType.getName().equals(FIS_USER_DOC_TYPE)) {
+        			docType.getName().equals(FIS_USER_DOC_TYPE) ||
+        			docType.getName().equals(PROJECT_CODE_DOC_TYPE)) {
         		chart = xpath.evaluate(MAINTAINABLE_PREFIX+"chartOfAccountsCode", docContent.getDocument());
         		org = xpath.evaluate(MAINTAINABLE_PREFIX+"organizationCode", docContent.getDocument());
         	} else if (docType.getName().equals(ORGANIZATION_DOC_TYPE)) {

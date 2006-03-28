@@ -324,13 +324,13 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
             if (ObjectUtils.isNotNull(fiscalOfficer)) {
                 if (accountSupervisor.equals(fiscalOfficer)) {
                     success &= false;
-                    putGlobalError(KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_SUPER_CANNOT_BE_FISCAL_OFFICER);
+                    putFieldError("accountsSupervisorySystemsIdentifier", KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_SUPER_CANNOT_BE_FISCAL_OFFICER);
                 }
             }
             if (ObjectUtils.isNotNull(accountManager)) {
                 if (accountSupervisor.equals(accountManager)) {
                     success &= false;
-                    putGlobalError(KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_SUPER_CANNOT_BE_ACCT_MGR);
+                    putFieldError("accountManagerSystemIdentifier", KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_SUPER_CANNOT_BE_ACCT_MGR);
                 }
             }
         }

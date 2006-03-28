@@ -42,6 +42,7 @@ import org.kuali.core.question.ConfirmationQuestion;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.core.util.Timer;
 import org.kuali.core.web.struts.action.KualiAction;
 import org.kuali.module.financial.bo.DepositWizardHelper;
 import org.kuali.module.financial.document.CashManagementDocument;
@@ -69,13 +70,15 @@ public class DepositWizardAction extends KualiAction {
      */
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
         throws Exception {
+        Timer t0=new Timer("DepositWizardAction.execute");
         String documentTypeName = SpringServiceLocator.getDataDictionaryService().getDocumentTypeNameByClass(CashManagementDocument.class);
         DocumentAuthorizer documentAuthorizer = SpringServiceLocator.getDocumentAuthorizationService().getDocumentAuthorizer(documentTypeName);
         KualiUser user = GlobalVariables.getUserSession().getKualiUser();
+        LOG.debug("calling canInitiate from execute()");
         if (!documentAuthorizer.canInitiate(documentTypeName, user)) {
             throw new DocumentTypeAuthorizationException(user.getPersonUserIdentifier(), "initiate", documentTypeName);
         }
-        
+        t0.log();
         return super.execute(mapping, form, request, response);
     }
 

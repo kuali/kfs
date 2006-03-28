@@ -40,6 +40,7 @@ import org.kuali.core.rule.event.DeleteCheckEvent;
 import org.kuali.core.rule.event.UpdateCheckEvent;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.core.util.Timer;
 import org.kuali.core.util.WebUtils;
 import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
@@ -65,6 +66,7 @@ public class CashReceiptAction extends KualiTransactionalDocumentActionBase {
      */
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
+        Timer t0=new Timer("execute");
         CashReceiptForm cform = (CashReceiptForm) form;
 
         if (cform.hasDocumentId()) {
@@ -84,7 +86,10 @@ public class CashReceiptAction extends KualiTransactionalDocumentActionBase {
         }
 
         // proceed as usual
-        return super.execute(mapping, form, request, response);
+        ActionForward result=super.execute(mapping, form, request, response);
+        t0.log();
+        return result; 
+
     }
 
     /**

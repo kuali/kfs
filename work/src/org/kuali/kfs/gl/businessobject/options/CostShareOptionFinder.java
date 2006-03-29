@@ -40,7 +40,7 @@ public class GLCostShareOptionFinder extends KeyValuesBase implements ValueFinde
      * @see org.kuali.core.lookup.valueFinder.ValueFinder#getValue()
      */
     public String getValue() {
-        return Constant.COST_SHARE_INCLUDE;
+        return Constant.COST_SHARE_EXCLUDE;
     }
 
     /**

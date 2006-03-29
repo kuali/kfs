@@ -211,6 +211,8 @@ public class AccountBalanceByObjectLookupableImpl extends AbstractGLLookupableIm
             pendingEntry.setFinancialSubObjectCode(Constant.CONSOLIDATED_SUB_OBJECT_CODE);
 
             AccountBalance accountBalance = postAccountBalance.findAccountBalance(entryCollection, pendingEntry);
+            accountBalance.getDummyBusinessObject().setLinkButtonOption(Constant.LOOKUP_BUTTON_VALUE);
+            
             postAccountBalance.updateAccountBalance(pendingEntry, accountBalance);
         }
     }

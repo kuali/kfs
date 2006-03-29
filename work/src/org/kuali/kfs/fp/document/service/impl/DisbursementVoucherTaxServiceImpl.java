@@ -429,6 +429,15 @@ public class DisbursementVoucherTaxServiceImpl implements DisbursementVoucherTax
      */
     private boolean validateNRATaxInformation(DisbursementVoucherDocument document) {
         ErrorMap errors = GlobalVariables.getErrorMap();
+        
+        // set nulls to 0
+        if (document.getDvNonResidentAlienTax().getFederalIncomeTaxPercent() == null) {
+            document.getDvNonResidentAlienTax().setFederalIncomeTaxPercent(new KualiDecimal(0));
+        }
+        
+        if (document.getDvNonResidentAlienTax().getStateIncomeTaxPercent() == null) {
+            document.getDvNonResidentAlienTax().setStateIncomeTaxPercent(new KualiDecimal(0));
+        }
 
         /* call dv rule to do general nra validation */
         DisbursementVoucherDocumentRule documentRule = new DisbursementVoucherDocumentRule();

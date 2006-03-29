@@ -33,6 +33,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.KeyConstants;
+import org.kuali.core.bo.user.KualiUser;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.DocumentHeader;
 import org.kuali.core.document.TransactionalDocumentBase;
@@ -820,8 +821,9 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
      * generic, shared logic used to iniate a dv document
      */
     public void initiateDocument() {
-        setDisbVchrContactPersonName(GlobalVariables.getUserSession().getKualiUser().getPersonName());
-        setCampusCode(GlobalVariables.getUserSession().getKualiUser().getOrganization().getOrganizationPhysicalCampusCode());
+        KualiUser currentUser = GlobalVariables.getUserSession().getKualiUser();
+        setDisbVchrContactPersonName(currentUser.getPersonName());
+        setCampusCode(currentUser.getOrganization().getOrganizationPhysicalCampusCode());
 
         // due date
         Calendar calendar = SpringServiceLocator.getDateTimeService().getCurrentCalendar();

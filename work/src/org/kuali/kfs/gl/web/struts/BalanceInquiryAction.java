@@ -179,7 +179,7 @@ public class BalanceInquiryAction extends KualiAction {
             for (Iterator iterator = row.getFields().iterator(); iterator.hasNext();) {
                 Field field = (Field) iterator.next();
                 if (!field.getFieldType().equals(Field.RADIO)) {
-                    field.setPropertyValue(Constants.EMPTY_STRING);
+                    field.setPropertyValue(field.getDefaultValue());
                 }
             }
         }

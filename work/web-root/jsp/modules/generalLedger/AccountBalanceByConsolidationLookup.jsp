@@ -112,7 +112,7 @@
 		  
 		  <c:if test="${reqSearchResultsActualSize>0}" >
 		  <div style="float: right; width: 70%;"><br/><br/>
-		      <display:table width="100%" class="datatable-100" cellspacing="0"
+		      <display:table class="datatable-100" cellspacing="0"
 						cellpadding="0" name="${reqSearchResults}" id="row" export="false" length="${offset-2}">
 						
 				<display:caption style="text-align: left; font-weight: bold;">Totals</display:caption>		

@@ -19,7 +19,6 @@
     <html-el:hidden name="KualiForm" property="businessObjectClassName" />
     <html-el:hidden name="KualiForm" property="conversionFields" />
     <html-el:hidden name="KualiForm" property="hideReturnLink" />
-    <html-el:hidden property="listKey" value="${listKey}" />
     
     <kul:errors errorTitle="Errors found in Search Criteria:" />
     
@@ -111,9 +110,9 @@
 	          		<c:out value="${reqSearchResultsActualSize}" /> items found.
 	          	</c:if>
          		
-		        <display:table width="100%" class="datatable-100" cellspacing="0" cellpadding="0" 
+		        <display:table class="datatable-100" cellspacing="0" cellpadding="0" 
 						name="${reqSearchResults[0]}" id="dummyRow" export="true" pagesize="1" length="1" summary=""
-						requestURI="glBalanceInquiry.do?methodToCall=viewResults&reqSearchResultsActualSize=${reqSearchResultsActualSize}&listKey=${listKey}">
+						requestURI="glBalanceInquiry.do?methodToCall=viewResults&reqSearchResultsActualSize=${reqSearchResultsActualSize}&searchResultKey=${searchResultKey}">
 					
 					<display-el:setProperty name="paging.banner.one_item_found" value=""/>	
 					

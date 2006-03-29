@@ -156,7 +156,7 @@ public class UserSession implements Serializable {
      * @return
      */
     public String addObject(Object object, String keyPrefix) {
-        String objectKey = keyPrefix + nextObjectKey++ + "";
+        String objectKey = keyPrefix + nextObjectKey++;
         objectMap.put(objectKey, object);
         return objectKey;
     }

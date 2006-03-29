@@ -73,43 +73,49 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
      */
     public DisbursementVoucherDocumentRule() {
     }
-    
+
     /**
-     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processCustomUpdateAccountingLineBusinessRules(org.kuali.core.document.TransactionalDocument, org.kuali.core.bo.AccountingLine, org.kuali.core.bo.AccountingLine)
+     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processCustomUpdateAccountingLineBusinessRules(org.kuali.core.document.TransactionalDocument,
+     *      org.kuali.core.bo.AccountingLine, org.kuali.core.bo.AccountingLine)
      */
     protected boolean processCustomUpdateAccountingLineBusinessRules(TransactionalDocument transactionalDocument,
             AccountingLine originalAccountingLine, AccountingLine updatedAccountingLine) {
         return processCustomAddAccountingLineBusinessRules(transactionalDocument, updatedAccountingLine);
     }
-    
+
     /**
-     * Override to check if we are in special handling where the check amount and accounting line total 
-     * can decrease, else amounts should not have changed.
+     * Override to check if we are in special handling where the check amount and accounting line total can decrease, else amounts
+     * should not have changed.
      * @see org.kuali.core.rule.DocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.core.document.Document)
      */
     protected boolean processCustomApproveDocumentBusinessRules(Document document) {
         DisbursementVoucherDocument dvDocument = (DisbursementVoucherDocument) document;
-        
-        // retrieve the right authorizer class        
-        DisbursementVoucherDocumentAuthorizer dvAuthorizer = (DisbursementVoucherDocumentAuthorizer) SpringServiceLocator.
-            getDocumentAuthorizationService().getDocumentAuthorizer(document);
-        if (dvAuthorizer.isSpecialRouting(document, GlobalVariables.getUserSession().getKualiUser())) {
-            // amounts can only decrease
+
+        // amounts can only decrease
+        DisbursementVoucherDocumentAuthorizer dvAuthorizer = (DisbursementVoucherDocumentAuthorizer) SpringServiceLocator
+                .getDocumentAuthorizationService().getDocumentAuthorizer(document);
+        if (dvAuthorizer.isSpecialRouting(document, GlobalVariables.getUserSession().getKualiUser())
+                && (isUserInTaxGroup() || isUserInTravelGroup() || isUserInFRNGroup() || isUserInWireGroup())) {
             boolean approveOK = true;
-            
-            DisbursementVoucherDocument persistedDocument = (DisbursementVoucherDocument) retrievePersistedDocument(dvDocument);
-            if (persistedDocument == null) {
-                handleNonExistentDocumentWhenApproving(dvDocument);
-                return approveOK;
-            }
-            else {
-                // check total cannot decrease
-                if (persistedDocument.getDisbVchrCheckTotalAmount().isLessThan(dvDocument.getDisbVchrCheckTotalAmount())) {
-                    GlobalVariables.getErrorMap().put(PropertyConstants.DOCUMENT + "." + PropertyConstants.DISB_VCHR_CHECK_TOTAL_AMOUNT, KeyConstants.ERROR_DV_CHECK_TOTAL_CHANGE);
-                    approveOK = false;
+
+            // users in foreign or wire workgroup can increase or decrease amounts because of currency conversion
+            if (!isUserInFRNGroup() && !isUserInWireGroup()) {
+                DisbursementVoucherDocument persistedDocument = (DisbursementVoucherDocument) retrievePersistedDocument(dvDocument);
+                if (persistedDocument == null) {
+                    handleNonExistentDocumentWhenApproving(dvDocument);
+                    return approveOK;
+                }
+                else {
+                    // check total cannot decrease
+                    if (persistedDocument.getDisbVchrCheckTotalAmount().isLessThan(dvDocument.getDisbVchrCheckTotalAmount())) {
+                        GlobalVariables.getErrorMap().put(
+                                PropertyConstants.DOCUMENT + "." + PropertyConstants.DISB_VCHR_CHECK_TOTAL_AMOUNT,
+                                KeyConstants.ERROR_DV_CHECK_TOTAL_CHANGE);
+                        approveOK = false;
+                    }
                 }
             }
-            
+
             return approveOK;
         }
         else {
@@ -117,7 +123,7 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
             return super.processCustomApproveDocumentBusinessRules(document);
         }
     }
-    
+
     /**
      * @see org.kuali.core.rule.AddAccountingLineRule#processCustomAddAccountingLineBusinessRules(org.kuali.core.document.TransactionalDocument,
      *      org.kuali.core.bo.AccountingLine)
@@ -131,12 +137,13 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
         // don't validate generated tax lines
         if (((DisbursementVoucherDocument) transactionalDocument).getDvNonResidentAlienTax() != null) {
             List taxLineNumbers = SpringServiceLocator.getDisbursementVoucherTaxService().getNRATaxLineNumbers(
-                    ((DisbursementVoucherDocument) transactionalDocument).getDvNonResidentAlienTax().getFinancialDocumentAccountingLineText());
+                    ((DisbursementVoucherDocument) transactionalDocument).getDvNonResidentAlienTax()
+                            .getFinancialDocumentAccountingLineText());
             if (taxLineNumbers.contains(accountingLine.getSequenceNumber())) {
                 return true;
             }
         }
-        
+
         DisbursementVoucherDocument dvDocument = (DisbursementVoucherDocument) transactionalDocument;
         ErrorMap errors = GlobalVariables.getErrorMap();
 
@@ -967,12 +974,12 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
                 && executeApplicationParameterRestriction(GLOBAL_FIELD_RESTRICTIONS_GROUP_NM,
                         OBJECT_TYPE_GLOBAL_RESTRICTION_PARM_NM, accountingLine.getObjectCode().getFinancialObjectTypeCode(),
                         errorKey, "Object type");
-        
+
         /* check object sub type global restrictions */
         objectCodeAllowed = objectCodeAllowed
                 && executeApplicationParameterRestriction(GLOBAL_FIELD_RESTRICTIONS_GROUP_NM,
                         OBJECT_SUB_TYPE_GLOBAL_RESTRICTION_PARM_NM, accountingLine.getObjectCode().getFinancialObjectSubTypeCode(),
-                        errorKey, "Object sub type");   
+                        errorKey, "Object sub type");
 
         /* check object level global restrictions */
         objectCodeAllowed = objectCodeAllowed
@@ -1003,13 +1010,13 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
                         + accountingLine.getFinancialObjectCode(), dvDocument.getDvPayeeDetail().getDisbVchrPaymentReasonCode(),
                         PropertyConstants.DV_PAYEE_DETAIL + "." + PropertyConstants.DISB_VCHR_PAYMENT_REASON_CODE,
                         "Payment reason code");
-        
+
         /* check payment reason is valid for object level */
         objectCodeAllowed = objectCodeAllowed
                 && executeApplicationParameterRestriction(OBJECT_LEVEL_PAYMENT_GROUP_NM, OBJECT_LEVEL_PARM_PREFIX
-                        + accountingLine.getObjectCode().getFinancialObjectLevelCode(), dvDocument.getDvPayeeDetail().getDisbVchrPaymentReasonCode(),
-                        PropertyConstants.DV_PAYEE_DETAIL + "." + PropertyConstants.DISB_VCHR_PAYMENT_REASON_CODE,
-                        "Payment reason code");
+                        + accountingLine.getObjectCode().getFinancialObjectLevelCode(), dvDocument.getDvPayeeDetail()
+                        .getDisbVchrPaymentReasonCode(), PropertyConstants.DV_PAYEE_DETAIL + "."
+                        + PropertyConstants.DISB_VCHR_PAYMENT_REASON_CODE, "Payment reason code");
 
         return objectCodeAllowed;
     }
@@ -1139,6 +1146,30 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
      */
     private boolean isUserInTaxGroup() {
         return GlobalVariables.getUserSession().getKualiUser().isMember(new KualiGroup(KualiGroup.KUALI_DV_TAX_GROUP));
+    }
+
+    /**
+     * Checks if the current user is a member of the dv travel workgroup.
+     * @return true if user is in group
+     */
+    private boolean isUserInTravelGroup() {
+        return GlobalVariables.getUserSession().getKualiUser().isMember(new KualiGroup(KualiGroup.KUALI_DV_TRAVEL_GROUP));
+    }
+
+    /**
+     * Checks if the current user is a member of the dv frn workgroup.
+     * @return true if user is in group
+     */
+    private boolean isUserInFRNGroup() {
+        return GlobalVariables.getUserSession().getKualiUser().isMember(new KualiGroup(KualiGroup.KUALI_DV_FRN_GROUP));
+    }
+
+    /**
+     * Checks if the current user is a member of the dv wire workgroup.
+     * @return true if user is in group
+     */
+    private boolean isUserInWireGroup() {
+        return GlobalVariables.getUserSession().getKualiUser().isMember(new KualiGroup(KualiGroup.KUALI_DV_WIRE_GROUP));
     }
 
     /**

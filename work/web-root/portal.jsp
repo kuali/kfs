@@ -4,7 +4,7 @@
 <%@ taglib uri="/tlds/struts-html.tld" prefix="html" %>
 <%@ taglib uri="/tlds/struts-logic.tld" prefix="logic" %>
 <%@ taglib uri="/tlds/struts-nested.tld" prefix="nested" %>
-<%@ taglib uri="/tlds/displaytag-12.tld" prefix="display" %>
+<%@ taglib uri="/tlds/displaytag.tld" prefix="display" %>
 <%@ taglib tagdir="/WEB-INF/tags/portal" prefix="portal" %>
 
 <%

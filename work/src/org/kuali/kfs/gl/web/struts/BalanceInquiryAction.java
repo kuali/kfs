@@ -85,10 +85,10 @@ public class BalanceInquiryAction extends KualiAction {
         
         request.setAttribute("reqSearchResultsActualSize", ((CollectionIncomplete)displayList).getActualSizeIfTruncated());       
         request.setAttribute("reqSearchResults", resultTable);
-        if (request.getParameter("listKey") != null) {
-            GlobalVariables.getUserSession().removeObject(request.getParameter("listKey"));
+        if (request.getParameter(Constants.SEARCH_LIST_REQUEST_KEY) != null) {
+            GlobalVariables.getUserSession().removeObject(request.getParameter(Constants.SEARCH_LIST_REQUEST_KEY));
         }
-        request.setAttribute("listKey", GlobalVariables.getUserSession().addObject(resultTable));
+        request.setAttribute(Constants.SEARCH_LIST_REQUEST_KEY, GlobalVariables.getUserSession().addObject(resultTable));
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
@@ -190,8 +190,8 @@ public class BalanceInquiryAction extends KualiAction {
 
     public ActionForward viewResults(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        request.setAttribute("listKey", request.getParameter("listKey"));
-        request.setAttribute("reqSearchResults", GlobalVariables.getUserSession().retrieveObject(request.getParameter("listKey")));
+        request.setAttribute(Constants.SEARCH_LIST_REQUEST_KEY, request.getParameter(Constants.SEARCH_LIST_REQUEST_KEY));
+        request.setAttribute("reqSearchResults", GlobalVariables.getUserSession().retrieveObject(request.getParameter(Constants.SEARCH_LIST_REQUEST_KEY)));
         request.setAttribute("reqSearchResultsActualSize", request.getParameter("reqSearchResultsActualSize"));
         return mapping.findForward(Constants.MAPPING_BASIC);
     }     

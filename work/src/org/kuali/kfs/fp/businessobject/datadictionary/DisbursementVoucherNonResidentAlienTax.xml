@@ -45,6 +45,8 @@
             <attributeReference name="incomeClassCode" 
             					sourceClassName="org.kuali.module.financial.bo.TaxIncomeClassCode" 
             					sourceAttributeName="code">
+            					
+                <required>true</required>
                 <control>
                   <select valuesFinderClass="org.kuali.core.lookup.keyvalues.TaxIncomeClassValuesFinder"/>
                 </control>

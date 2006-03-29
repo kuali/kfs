@@ -19,7 +19,6 @@
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/commons-pool-1.2.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/commons-validator.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/concurrent.jar"/>
-	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/displaytag-1.0.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/gdsclient.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/jakarta-oro.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/jaxrpc.jar"/>
@@ -69,5 +68,6 @@
 	<classpathentry kind="lib" path="test/lib/Tidy.jar"/>
 	<classpathentry kind="lib" path="test/lib/httpunit.jar"/>
 	<classpathentry kind="var" path="TOMCAT_LIB_HOME/jsp-api.jar"/>
+	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/displaytag-1.1.jar"/>
 	<classpathentry kind="output" path="work/web-root/WEB-INF/classes"/>
 </classpath>

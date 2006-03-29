@@ -19,7 +19,6 @@
     <html-el:hidden name="KualiForm" property="businessObjectClassName" />
     <html-el:hidden name="KualiForm" property="conversionFields" />
     <html-el:hidden name="KualiForm" property="hideReturnLink" />
-    <html-el:hidden property="listKey" value="${listKey}" />
     
     <kul:errors errorTitle="Errors found in Search Criteria:" />
     
@@ -83,9 +82,9 @@
 	      
 	      <c:set var="offset" value="5"/>
 	      
-	      <display:table width="100%" class="datatable-100" cellspacing="0"
+	      <display:table class="datatable-100" cellspacing="0"
 					cellpadding="0" name="${reqSearchResults}" id="row" export="true" pagesize="100" offset="${offset}"
-					requestURI="glAccountBalanceByConsolidationLookup.do?methodToCall=viewResults&reqSearchResultsActualSize=${reqSearchResultsActualSize}&listKey=${listKey}">
+					requestURI="glAccountBalanceByConsolidationLookup.do?methodToCall=viewResults&reqSearchResultsActualSize=${reqSearchResultsActualSize}&searchResultKey=${searchResultKey}">
 	      
 	        <c:forEach items="${row.columns}" var="column" varStatus="status">
 	          <c:if test="${column.propertyURL!=\"\" && param['d-16544-e'] == null}">

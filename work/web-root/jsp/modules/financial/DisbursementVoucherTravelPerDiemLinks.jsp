@@ -1,7 +1,7 @@
 <%@ include file="/jsp/core/tldHeader.jsp" %>
 <%@ taglib tagdir="/WEB-INF/tags/dv" prefix="dv" %>
 
-<kul:page showDocumentInfo="false" headerTitle="Travel Per Diem Links" docTitle="" transactionalDocument="false" htmlFormAction="help" >
+<kul:page showDocumentInfo="false" headerTitle="Travel Per Diem Links" docTitle="Travel Per Diem Links" transactionalDocument="false" htmlFormAction="help" >
 
 <center>
 
@@ -13,21 +13,33 @@
 
 <br><br>
 
-<table border=0 cellspacing=0 cellpadding=0>
-  <tr>
-      <td colspan="2" class="tab-subhead">Per Diem Category Links</td>
-  </tr>
-  <tr>
-     <th class="bord-l-b"> <div align=left>Category Name</div></th>
-     <th class="bord-l-b"> <div align=left>Category Link</div></th>
-  </tr>
+<div id="workarea">
+
+<table cellpadding="0">
+  <tbody>
+   <tr>
+      <td colspan="2" class="tab-subhead">Per Diem Category Links </td>
+   </tr>
+
+   <tr>
+     <th> <div align=left>Category Name</div></th>
+     <th> <div align=left>Category Link</div></th>
+   </tr>
+ 
   <logic:iterate indexId="ctr" name="KualiForm" property="travelPerDiemCategoryCodes" id="currentCategory">
      <tr>
-        <th scope="row" class="bord-l-b">${currentCategory.perDiemCountryName}</th>
-        <td valign=top class="infoline"><a href="${currentCategory.perDiemCountryText}">${currentCategory.perDiemCountryText}</a></td>
+        <th scope="row"><div align="right">${currentCategory.perDiemCountryName}</div></th>
+        <td valign="top"><a href="${currentCategory.perDiemCountryText}">${currentCategory.perDiemCountryText}</a></td>
      </tr>
   </logic:iterate>
+  </tbody>
 </table>
+
+</div>
+
 </center>
+
+<br/>
+<kul:inquiryControls/> 
 
 </kul:page>

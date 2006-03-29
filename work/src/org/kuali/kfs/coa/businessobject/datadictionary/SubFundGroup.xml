@@ -33,6 +33,7 @@
                 <lookupField attributeName="subFundGroupCode" />
                 <lookupField attributeName="subFundGroupDescription" />
                 <lookupField attributeName="subFundGroupTypeCode" />
+                <lookupField attributeName="fundGroupCode" />
                 <lookupField attributeName="subFundGroupWagesIndicator" />
                 <lookupField attributeName="financialReportingSortCode" />
                 <lookupField attributeName="subfundgrpActivityIndicator" />

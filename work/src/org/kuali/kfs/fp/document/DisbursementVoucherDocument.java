@@ -58,7 +58,6 @@ import edu.iu.uis.eden.exception.WorkflowException;
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public class DisbursementVoucherDocument extends TransactionalDocumentBase {
-
     private Integer finDocNextRegistrantLineNbr;
     private String disbVchrContactPersonName;
     private String disbVchrContactPhoneNumber;

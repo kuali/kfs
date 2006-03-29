@@ -37,7 +37,7 @@ function checkAllOrNone() {
 		  	      </div>
 		  	  </td>
 		  	  <kul:htmlAttributeHeaderCell
-		          literalLabel=""
+		          literalLabel="#"
 		          scope="col"/>
 		      <kul:htmlAttributeHeaderCell
 		          literalLabel="Document Number"

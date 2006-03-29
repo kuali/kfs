@@ -28,10 +28,12 @@ package org.kuali.module.financial.document;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.Constants;
 import org.kuali.KeyConstants;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.DocumentHeader;
@@ -810,6 +812,13 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
             }
         }
 
+        // clear waive wire
+        setDvWireTransfer(new DisbursementVoucherWireTransfer());
+
+        // clear nra on sourcedocument
+        Map nraKey = new HashMap();
+        nraKey.put(Constants.FINANCIAL_DOCUMENT_NUMBER,getDocumentHeader().getFinancialDocumentTemplateNumber());
+        SpringServiceLocator.getBusinessObjectService().deleteMatching(DisbursementVoucherNonResidentAlienTax.class, nraKey);
 
     }
 

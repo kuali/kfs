@@ -188,7 +188,14 @@ public class LedgerReport {
         } catch (Exception de) {
             LOG.error("generateReport() Error creating PDF report", de);
             throw new RuntimeException("Report Generation Failed");
+        } finally {
+          try {
+            if ( (document != null) && (document.isOpen()) ) {
+              document.close();
+            }
+          } catch (RuntimeException re) {
+              LOG.error("generateReport() Exception closing report",re);
+          }
         }
-        document.close();
     }
 }

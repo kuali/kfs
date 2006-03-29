@@ -32,7 +32,7 @@ import java.util.Map;
 import org.kuali.Constants;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.lookup.CollectionIncomplete;
-import org.kuali.core.util.BeanPropertyComparator;
+import org.kuali.core.util.comparator.BeanPropertyComparator;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.gl.batch.poster.AccountBalanceCalculator;
 import org.kuali.module.gl.bo.AccountBalance;

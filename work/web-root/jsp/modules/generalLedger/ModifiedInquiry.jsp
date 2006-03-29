@@ -101,7 +101,7 @@
             </c:if>
          
             <c:if test="${column.propertyURL==\"\" || param['d-16544-e'] != null}">
-              <display:column class="infocell" sortable="${column.sortable}" title="${column.columnTitle}">
+              <display:column class="infocell" sortable="${column.sortable}" title="${column.columnTitle}" comparator="${column.comparator}">
                 <c:out value="${column.propertyValue}" />
               </display:column>
             </c:if>

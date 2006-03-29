@@ -72,7 +72,7 @@ import org.springframework.util.StringUtils;
 
 /**
  * @author Kuali General Ledger Team <kualigltech@oncourse.iu.edu>
- * @version $Id: ScrubberServiceImpl.java,v 1.79 2006-03-27 19:29:47 larevans Exp $
+ * @version $Id: ScrubberServiceImpl.java,v 1.80 2006-03-29 15:11:44 larevans Exp $
  */
 
 public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
@@ -2035,8 +2035,10 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
 //            4780  037460        MOVE LIT-GEN-CAPITALIZATION
 //            4781  037470          TO TRN-LDGR-ENTR-DESC OF ALT-GLEN-RECORD
             
+            // NOTE (laran) Used this to debug KULGL-54. Not positive it's resolve so leaving it here commented out.
             capitalizationEntry.setTransactionLedgerEntryDescription(
                     kualiConfigurationService.getPropertyString(KeyConstants.MSG_GENERATED_CAPITALIZATION)); 
+//            capitalizationEntry.setTransactionLedgerEntryDescription("CAP ENTRY: I MIGHT BE BROKEN."); 
             
 //            4782  037480        PERFORM 4000-PLANT-FUND-ACCT
 //            4783  037490           THRU 4000-PLANT-FUND-ACCT-EXIT
@@ -2182,7 +2184,9 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
 //            4886  038810        MOVE TRN-LDGR-ENTR-DESC OF WS-SAVED-FIELDS
 //            4887  038820          TO TRN-LDGR-ENTR-DESC OF ALT-GLEN-RECORD
             
+            // NOTE (laran) Used this to debug KULGL-54. Not positive it's resolve so leaving it here commented out.
             plantIndebtednessEntry.setTransactionLedgerEntryDescription(originEntry.getTransactionLedgerEntryDesc());
+            // plantIndebtednessEntry.setTransactionLedgerEntryDescription("PI ENTRY: I MIGHT BE BROKEN");
             
 //            4888  038830        MOVE ACCOUNT-NBR        OF WS-SAVED-FIELDS
 //            4889  038840          TO ACCOUNT-NBR        OF ALT-GLEN-RECORD

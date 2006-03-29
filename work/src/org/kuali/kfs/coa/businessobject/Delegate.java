@@ -53,7 +53,7 @@ public class Delegate extends BusinessObjectBase {
 	private String chartOfAccountsCode;
 	private String accountNumber;
 	private String financialDocumentTypeCode;
-	private Long accountDelegateSystemId;
+	private String accountDelegateSystemId;
 	private KualiDecimal finDocApprovalFromThisAmt;
 	private boolean accountsDelegatePrmrtIndicator;
 	private boolean accountDelegateActiveIndicator;
@@ -121,7 +121,7 @@ public class Delegate extends BusinessObjectBase {
      * Gets the accountDelegateSystemId attribute. 
      * @return Returns the accountDelegateSystemId.
      */
-    public Long getAccountDelegateSystemId() {
+    public String getAccountDelegateSystemId() {
         return accountDelegateSystemId;
     }
     
@@ -129,7 +129,7 @@ public class Delegate extends BusinessObjectBase {
      * Sets the accountDelegateSystemId attribute value.
      * @param accountDelegateSystemId The accountDelegateSystemId to set.
      */
-    public void setAccountDelegateSystemId(Long accountDelegateSystemId) {
+    public void setAccountDelegateSystemId(String accountDelegateSystemId) {
         this.accountDelegateSystemId = accountDelegateSystemId;
     }
     

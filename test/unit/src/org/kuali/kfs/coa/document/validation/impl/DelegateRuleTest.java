@@ -73,7 +73,7 @@ public class DelegateRuleTest extends ChartRuleTestBase {
         delegate.setChartOfAccountsCode(CHART_GOOD_1);
         delegate.setAccountNumber(ACCOUNT_GOOD_1);
         delegate.setFinancialDocumentTypeCode(DOCTYPE_GOOD_1);
-        delegate.setAccountDelegateSystemId(new Long(USERID_GOOD_1));
+        delegate.setAccountDelegateSystemId(USERID_GOOD_1);
         return delegate;
     }
     

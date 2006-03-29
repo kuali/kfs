@@ -1328,7 +1328,7 @@
 		column="FDOC_TYP_CD" jdbc-type="VARCHAR" primarykey="true"
 		index="true" />
 	<field-descriptor name="accountDelegateSystemId"
-		column="ACCT_DLGT_UNVL_ID" jdbc-type="BIGINT" primarykey="true"
+		column="ACCT_DLGT_UNVL_ID" jdbc-type="VARCHAR" primarykey="true"
 		index="true" />
 	<field-descriptor name="finDocApprovalFromThisAmt"
 		column="FDOC_APRV_FROM_AMT" jdbc-type="DECIMAL"

@@ -780,8 +780,12 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
         setDisbVchrPayeeTaxControlCode("");
         
         // clear nra
+        SpringServiceLocator.getDisbursementVoucherTaxService().clearNRATaxLines(this);
         setDvNonResidentAlienTax(new DisbursementVoucherNonResidentAlienTax());
 
+        // clear waive wire
+        setDvWireTransfer(new DisbursementVoucherWireTransfer());
+        
         // check payee id number to see if still valid, if so retrieve their last information and set in the detail inform.
         if (getDvPayeeDetail().isPayee() && !StringUtils.isBlank(getDvPayeeDetail().getDisbVchrPayeeIdNumber())) {
             Payee payee = new Payee();
@@ -811,13 +815,6 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
             }
         }
 
-        // clear waive wire
-        setDvWireTransfer(new DisbursementVoucherWireTransfer());
-
-        // clear nra on sourcedocument
-        Map nraKey = new HashMap();
-        nraKey.put(Constants.FINANCIAL_DOCUMENT_NUMBER,getDocumentHeader().getFinancialDocumentTemplateNumber());
-        SpringServiceLocator.getBusinessObjectService().deleteMatching(DisbursementVoucherNonResidentAlienTax.class, nraKey);
 
     }
 

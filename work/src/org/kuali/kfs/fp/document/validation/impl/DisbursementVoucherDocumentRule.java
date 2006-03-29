@@ -614,15 +614,16 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
         errors.addToErrorPath(PropertyConstants.DV_NON_EMPLOYEE_TRAVEL);
         SpringServiceLocator.getDictionaryValidationService().validateBusinessObjectsRecursively(document.getDvNonEmployeeTravel(),
                 1);
-        if (!errors.isEmpty()) {
-            errors.removeFromErrorPath(PropertyConstants.DV_NON_EMPLOYEE_TRAVEL);
-            return;
-        }
 
         /* travel to state required if country is us */
         if (Constants.COUNTRY_CODE_UNITED_STATES.equals(document.getDvNonEmployeeTravel().getDisbVchrTravelToCountryCode())
                 && StringUtils.isBlank(document.getDvNonEmployeeTravel().getDisbVchrTravelToStateCode())) {
-            errors.put("disbVchrTravelToStateCode", KeyConstants.ERROR_DV_TRAVEL_TO_STATE);
+            errors.put(PropertyConstants.DISB_VCHR_TRAVEL_TO_STATE_CODE, KeyConstants.ERROR_DV_TRAVEL_TO_STATE);
+        }
+
+        if (!errors.isEmpty()) {
+            errors.removeFromErrorPath(PropertyConstants.DV_NON_EMPLOYEE_TRAVEL);
+            return;
         }
 
         /* must have per diem change message if actual amount is different from calculated amount */

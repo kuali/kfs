@@ -94,7 +94,7 @@
         </control>
 
         <summary>Organization Code</summary>
-        <description>Organization Code</description>
+        <description>The code used to represent an organization.</description>
       </attribute>
 
       <attribute name="organizationName" forceUppercase="false">

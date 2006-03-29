@@ -64,7 +64,7 @@
                 </control>
 
                 <summary>The Sub-Fund Group code.</summary>
-                <description>The Sub-Fund Group code is a unique identifier... </description>
+                <description>The code used to categorize Accounts for internal resource management, and to relate the Account to a Fund through the Sub-Fund Groups.</description>
             </attribute>
             
             <attributeReference name="subfundgrpActivityIndicator" 

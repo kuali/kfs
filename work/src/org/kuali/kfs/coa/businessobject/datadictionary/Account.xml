@@ -64,8 +64,12 @@
 		<attributes>
 			<attributeReference name="chartOfAccountsCode" 
 								sourceClassName="org.kuali.module.chart.bo.Chart" 
-								sourceAttributeName="chartOfAccountsCode" />
-
+								sourceAttributeName="chartOfAccountsCode" >
+				<description>
+					The code that identifies the Chart of Accounts for an Account. It is part of the primary key. Kuali accommodates more than one Chart of Accounts.
+				</description>
+			</attributeReference>
+			
 			<!--  ROOT REFERENCE FOR ACCOUNT NUMBER -->
 			<attribute name="accountNumber" forceUppercase="true">
 				<label>Account Number</label>
@@ -83,7 +87,7 @@
 
 				<summary>Account Number</summary>
 				<description>
-					Account Number
+					Identifier for a pool of funds assigned to a specific university entity for a specific function.
 				</description>
 			</attribute>
 			<attribute name="accountName" forceUppercase="true">
@@ -99,11 +103,16 @@
 				</control>
 
 				<summary>Account Name</summary>
-				<description>The name assigned to this object Account.</description>
+				<description>The familiar title of a specific Account.</description>
 			</attribute>	
 			<attributeReference name="organizationCode" 
 								sourceClassName="org.kuali.module.chart.bo.Org" 
-								sourceAttributeName="organizationCode" />
+								sourceAttributeName="organizationCode" >
+				<description>
+				The code used to represent an organization.
+				</description>
+			</attributeReference>
+	
 
 			<attributeReference name="accountTypeCode" 
 								sourceClassName="org.kuali.module.chart.bo.AcctType" 
@@ -116,7 +125,7 @@
 				</control>			
 				
 				<summary>Account Type Code</summary>
-				<description>Account Type Code</description>
+				<description>An additional attribute to describe the purpose of an Account</description>
 			</attributeReference>
 
 			<attributeReference name="accountPhysicalCampusCode" 
@@ -133,7 +142,7 @@
 				<label>Sub-Fund Group Code</label>
 				<shortLabel>SubFundGrpCd</shortLabel>
 				<summary>Sub-Fund Group Code</summary>
-				<description>Sub-Fund Group Code</description>
+				<description>The code used to categorize Accounts for internal resource management, and to relate the Account to a Fund through the Sub-Fund Groups.</description>
 			</attributeReference>
 								
 			<attributeReference name="accountsFringesBnftIndicator" 
@@ -616,7 +625,7 @@
         		<control><checkbox /></control>
 
 				<summary>Account Closed Indicator</summary>
-				<description>Account Closed Indicator</description>
+				<description>Box in the entry form that indicates if an account can or cannot accept transactions. When the box is checked, the Account is closed, and can no longer accept transactions.</description>
 				<formatterClass>org.kuali.core.web.format.BooleanFormatter</formatterClass>
 			</attribute>
 			
@@ -642,7 +651,7 @@
 				</control>
 				<summary>Fiscal Officer User ID</summary>
 				<description>
-					The UserID of the Fiscal Officer.
+					The user ID of the Fiscal Office for the Account.  The Fiscal Officer is responsible for the accuracy of transactions in the Account.  All transactions route to the Fiscal Officer or his/her delegate.
 				</description>
 			</attributeReference>
 			

@@ -625,7 +625,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         }
         
         // must have no pending ledger entries
-        if (!generalLedgerPendingEntryService.hasPendingGeneralLedgerEntry(newAccount)) {
+        if (generalLedgerPendingEntryService.hasPendingGeneralLedgerEntry(newAccount)) {
             putGlobalError(KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCOUNT_CLOSED_PENDING_LEDGER_ENTRIES);
             success &= false;
         }

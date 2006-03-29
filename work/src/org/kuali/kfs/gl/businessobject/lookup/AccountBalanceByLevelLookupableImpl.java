@@ -44,10 +44,11 @@ import org.kuali.module.gl.web.inquirable.AccountBalanceByLevelInquirableImpl;
 
 /**
  * This class...
+ * 
  * @author Bin Gao from Michigan State University
  */
 public class AccountBalanceByLevelLookupableImpl extends AbstractGLLookupableImpl {
-    
+
     private AccountBalanceCalculator postAccountBalance;
 
     /**
@@ -59,8 +60,8 @@ public class AccountBalanceByLevelLookupableImpl extends AbstractGLLookupableImp
      */
     public String getInquiryUrl(BusinessObject bo, String propertyName) {
         return (new AccountBalanceByLevelInquirableImpl()).getInquiryUrl(bo, propertyName);
-    }    
-    
+    }
+
     /**
      * Uses Lookup Service to provide a basic search.
      * 
@@ -70,9 +71,9 @@ public class AccountBalanceByLevelLookupableImpl extends AbstractGLLookupableImp
     public List getSearchResults(Map fieldValues) {
         setBackLocation((String) fieldValues.get(Constants.BACK_LOCATION));
         setDocFormKey((String) fieldValues.get(Constants.DOC_FORM_KEY));
-   
+
         // get the pending entry option. This method must be prior to the get search results
-        String pendingEntryOption = this.getSelectedPendingEntryOption(fieldValues);        
+        String pendingEntryOption = this.getSelectedPendingEntryOption(fieldValues);
 
         // test if the consolidation option is selected or not
         boolean isConsolidated = isConsolidationSelected(fieldValues);
@@ -83,12 +84,12 @@ public class AccountBalanceByLevelLookupableImpl extends AbstractGLLookupableImp
         // get the search result collection
         Iterator availableBalanceIterator = accountBalanceService.findAccountBalanceByLevel(fieldValues,
                 isCostShareInclusive, isConsolidated);
-        
+
         Collection searchResultsCollection = buildAvailableBalanceCollection(availableBalanceIterator, 
                 isCostShareInclusive, isConsolidated, pendingEntryOption);        
-        
+
         // update search results according to the selected pending entry option
-        updateByPendingLedgerEntry(searchResultsCollection, fieldValues, pendingEntryOption, isConsolidated, isCostShareInclusive);     
+        updateByPendingLedgerEntry(searchResultsCollection, fieldValues, pendingEntryOption, isConsolidated, isCostShareInclusive);
 
         // sort list if default sort column given
         List searchResults = (List) searchResultsCollection;
@@ -101,8 +102,9 @@ public class AccountBalanceByLevelLookupableImpl extends AbstractGLLookupableImp
 
     /**
      * This method builds the available account balance collection based on the input iterator
+     * 
      * @param iterator the iterator of search results of account balance
-     * @param isCostShareInclusive determine whether the account balance entries with cost share is included     
+     * @param isCostShareInclusive determine whether the account balance entries with cost share is included
      * @param isConsolidated flag whether the results are consolidated or not
      * @param pendingEntryOption the selected pending entry option
      * 
@@ -122,10 +124,10 @@ public class AccountBalanceByLevelLookupableImpl extends AbstractGLLookupableImp
             accountBalance.setChartOfAccountsCode(array[i++].toString());
             accountBalance.setAccountNumber(array[i++].toString());
 
-            String subAccountNumber = isConsolidated? Constant.CONSOLIDATED_SUB_ACCOUNT_NUMBER : array[i++].toString();
+            String subAccountNumber = isConsolidated ? Constant.CONSOLIDATED_SUB_ACCOUNT_NUMBER : array[i++].toString();
             accountBalance.setSubAccountNumber(subAccountNumber);
 
-            accountBalance.getFinancialObject().getFinancialObjectLevel().setFinancialReportingSortCode(array[i++].toString());           
+            accountBalance.getFinancialObject().getFinancialObjectLevel().setFinancialReportingSortCode(array[i++].toString());
             accountBalance.getFinancialObject().getFinancialObjectLevel().setFinancialObjectLevelCode(array[i++].toString());
             accountBalance.getFinancialObject().getFinancialObjectLevel().setFinancialConsolidationObjectCode(array[i++].toString());
 
@@ -143,12 +145,12 @@ public class AccountBalanceByLevelLookupableImpl extends AbstractGLLookupableImp
 
             String consolidationOption = isConsolidated ? Constant.CONSOLIDATION : Constant.DETAIL;
             accountBalance.getDummyBusinessObject().setConsolidationOption(consolidationOption);
-            
+
             String costShareOption = isCostShareInclusive ? Constant.COST_SHARE_INCLUDE : Constant.COST_SHARE_EXCLUDE;
             accountBalance.getDummyBusinessObject().setCostShareOption(costShareOption);
-            
+
             accountBalance.getDummyBusinessObject().setPendingEntryOption(pendingEntryOption);
-            
+
             // add a button that can trigger lookup account balance by object
             accountBalance.getDummyBusinessObject().setLinkButtonOption(Constant.LOOKUP_BUTTON_VALUE);
 
@@ -192,11 +194,11 @@ public class AccountBalanceByLevelLookupableImpl extends AbstractGLLookupableImp
 
         // convert the field names of balance object into corresponding ones of pending entry object
         Map pendingEntryFieldValues = BusinessObjectFieldConverter.convertToTransactionFieldValues(fieldValues);
-        
+
         // go through the pending entries to update the balance collection
         Iterator pendingEntryIterator = generalLedgerPendingEntryService.findPendingLedgerEntriesForAccountBalanceByConsolidation(
                 pendingEntryFieldValues, isCostShareInclusive, isApproved);
-        
+
         while (pendingEntryIterator.hasNext()) {
             GeneralLedgerPendingEntry pendingEntry = (GeneralLedgerPendingEntry) pendingEntryIterator.next();
 
@@ -208,40 +210,61 @@ public class AccountBalanceByLevelLookupableImpl extends AbstractGLLookupableImp
             pendingEntry.setFinancialSubObjectCode(Constant.CONSOLIDATED_SUB_OBJECT_CODE);
 
             AccountBalance accountBalance = findAccountBalance(entryCollection, pendingEntry);
-            postAccountBalance.updateAccountBalance(pendingEntry, accountBalance);
+            if(accountBalance != null){
+                postAccountBalance.updateAccountBalance(pendingEntry, accountBalance);
+            }
         }
     }
-    
+
     /**
      * This method tests if the transaction belongs to any existing account balance searched by level
+     * 
      * @param entryCollection the collection of account balances searched by level
      * @param transaction the given transaction
      * @return the existing account balance if found; otherwise, create a new account balance and return it
      */
     private AccountBalance findAccountBalance(Collection entryCollection, Transaction transaction) {
 
+        String objectLevelCodeOfPendingEntry = null;
+
+        try {
+            objectLevelCodeOfPendingEntry = transaction.getFinancialObject().getFinancialObjectLevel()
+                    .getFinancialObjectLevelCode();
+            String objectCode = transaction.getFinancialObjectCode();
+            
+            if (objectLevelCodeOfPendingEntry == null || objectCode == null) {
+                return null;
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+
         // test if the transaction belongs to any existing account balance searched by consolidation
         Iterator iterator = entryCollection.iterator();
         while (iterator.hasNext()) {
             AccountBalance accountBalance = (AccountBalance) iterator.next();
 
+            String objectLevelCodeOfAccountBalance = accountBalance.getFinancialObject().getFinancialObjectLevel()
+                    .getFinancialObjectLevelCode();
+
             if (accountBalance.getUniversityFiscalYear().equals(transaction.getUniversityFiscalYear())
                     && accountBalance.getChartOfAccountsCode().equals(transaction.getChartOfAccountsCode())
                     && accountBalance.getAccountNumber().equals(transaction.getAccountNumber())
                     && accountBalance.getSubAccountNumber().equals(transaction.getSubAccountNumber())
-                    && accountBalance.getFinancialObject().getFinancialObjectLevel().getFinancialObjectLevelCode().equals(
-                            transaction.getFinancialObject().getFinancialObjectLevel().getFinancialObjectLevelCode())) {
+                    && objectLevelCodeOfAccountBalance.equals(objectLevelCodeOfPendingEntry)) {
                 return accountBalance;
             }
         }
 
         // If we couldn't find one that exists, create a new one
         AccountBalance accountBalance = new AccountBalance(transaction);
+        accountBalance.getFinancialObject().getFinancialObjectLevel().setFinancialObjectLevelCode(objectLevelCodeOfPendingEntry);
+        
         entryCollection.add(accountBalance);
-
         return accountBalance;
     }
-    
 
     /**
      * Sets the postAccountBalance attribute value.

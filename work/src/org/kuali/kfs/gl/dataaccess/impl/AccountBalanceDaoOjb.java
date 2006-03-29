@@ -141,12 +141,12 @@ public class AccountBalanceDaoOjb extends PersistenceBrokerDaoSupport implements
                 "financialObject.financialObjectLevel.financialConsolidationObject.finConsolidationObjectCode");
         
         // exclude the entries whose subaccount type code is cost share
-        if(!isCostShareInclusive){
-            criteria.addEqualToField("chartOfAccountsCode", "a21SubAccount.chartOfAccountsCode");
-            criteria.addEqualToField("accountNumber", "a21SubAccount.accountNumber");
-            criteria.addEqualToField("subAccountNumber", "a21SubAccount.subAccountNumber");
-            criteria.addNotEqualTo("a21SubAccount.subAccountTypeCode", "CS");
-        }
+//        if(!isCostShareInclusive){
+//            criteria.addEqualToField("chartOfAccountsCode", "a21SubAccount.chartOfAccountsCode");
+//            criteria.addEqualToField("accountNumber", "a21SubAccount.accountNumber");
+//            criteria.addEqualToField("subAccountNumber", "a21SubAccount.subAccountNumber");
+//            criteria.addNotEqualTo("a21SubAccount.subAccountTypeCode", "CS");
+//        }
         
         ReportQueryByCriteria query = QueryFactory.newReportQuery(AccountBalance.class, criteria);
         

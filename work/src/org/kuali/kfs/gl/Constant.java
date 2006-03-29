@@ -81,8 +81,8 @@ public final class Constant {
     public static final String LOOKUP_BUTTON_VALUE = "LOOK UP";    
     
     public static final String TOTAL_ACCOUNT_BALANCE_INCOME = "Income";
-    public static final String TOTAL_ACCOUNT_BALANCE_EXPENSE_GROSS = "Expense(Gross)";
-    public static final String TOTAL_ACCOUNT_BALANCE_EXPENSE_IN = "Expense(Net Transfer In)";
+    public static final String TOTAL_ACCOUNT_BALANCE_EXPENSE_GROSS = "Expense (Gross)";
+    public static final String TOTAL_ACCOUNT_BALANCE_EXPENSE_IN = "Expense (Net Transfer In)";
     public static final String TOTAL_ACCOUNT_BALANCE_AVAILABLE = "Avaliable Balance";
     
     public static final String MONTH1  = "01";

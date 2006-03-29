@@ -4,10 +4,8 @@
  */
 package org.kuali.module.gl.batch.poster;
 
-import java.util.Collection;
 import java.util.Date;
 
-import org.kuali.module.gl.bo.Entry;
 import org.kuali.module.gl.bo.Transaction;
 
 /**

@@ -316,8 +316,8 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         
         //the employee type for fiscal officer, account manager, and account supervisor must be 'P' – professional.
         success &= checkUserStatusAndType("accountFiscalOfficerUser.personUserIdentifier", fiscalOfficer);
-        success &= checkUserStatusAndType("accountSupervisoryUser.personUserIdentifier", accountManager);
-        success &= checkUserStatusAndType("accountManagerUser.personUserIdentifier", accountSupervisor);
+        success &= checkUserStatusAndType("accountSupervisoryUser.personUserIdentifier", accountSupervisor);
+        success &= checkUserStatusAndType("accountManagerUser.personUserIdentifier", accountManager);
         
         //the supervisor cannot be the same as the fiscal officer or account manager.
         if (ObjectUtils.isNotNull(accountSupervisor)) {

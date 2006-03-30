@@ -73,6 +73,31 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
      */
     public DisbursementVoucherDocumentRule() {
     }
+    
+    /**
+     * Overrides to call super.  If super fails, then we invoke some DV specific rules about FO routing to double check 
+     * if the individual has special conditions that they can alter accounting lines by.
+     * 
+     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#checkAccountingLineAccountAccessibility(org.kuali.core.document.TransactionalDocument, org.kuali.core.bo.AccountingLine, java.lang.String)
+     */
+    protected boolean checkAccountingLineAccountAccessibility(TransactionalDocument transactionalDocument,
+            AccountingLine accountingLine, String errorKey) {
+        boolean valid = super.checkAccountingLineAccountAccessibility(transactionalDocument, accountingLine, errorKey);
+        
+        // get the authorizer class to check for special conditions routing and if the user is part of a particular workgroup
+        // but only if the document is enroute
+        if(!valid && transactionalDocument.getDocumentHeader().getWorkflowDocument().stateIsEnroute()) {
+            DisbursementVoucherDocumentAuthorizer dvAuthorizer = (DisbursementVoucherDocumentAuthorizer) SpringServiceLocator
+                    .getDocumentAuthorizationService().getDocumentAuthorizer(transactionalDocument);
+            if (dvAuthorizer.isSpecialRouting(transactionalDocument, GlobalVariables.getUserSession().getKualiUser())
+                    && (isUserInTaxGroup() || isUserInTravelGroup() || isUserInFRNGroup() || isUserInWireGroup() ||
+                            isUserInDvAdminGroup())) {
+                valid = true;
+            }
+        }
+        
+        return valid;
+    }
 
     /**
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processCustomUpdateAccountingLineBusinessRules(org.kuali.core.document.TransactionalDocument,
@@ -123,10 +148,10 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
             return super.processCustomApproveDocumentBusinessRules(document);
         }
     }
-
+    
     /**
-     * @see org.kuali.core.rule.AddAccountingLineRule#processCustomAddAccountingLineBusinessRules(org.kuali.core.document.TransactionalDocument,
-     *      org.kuali.core.bo.AccountingLine)
+     * 
+     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processCustomAddAccountingLineBusinessRules(org.kuali.core.document.TransactionalDocument, org.kuali.core.bo.AccountingLine)
      */
     public boolean processCustomAddAccountingLineBusinessRules(TransactionalDocument transactionalDocument,
             AccountingLine accountingLine) {
@@ -258,6 +283,7 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
 
     /**
      * Override to change the doc type based on payment method. This is needed to pick up different offset definitions.
+     * 
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#customizeExplicitGeneralLedgerPendingEntry(org.kuali.core.document.TransactionalDocument,
      *      org.kuali.core.bo.AccountingLine, org.kuali.module.gl.bo.GeneralLedgerPendingEntry)
      */
@@ -315,8 +341,11 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
     /**
      * Builds an explicit and offset for the wire charge debit. The account associated with the first accounting is used for the
      * debit. The explicit and offset entries for the first accounting line and copied and customized for the wire charge.
-     * @param transactionalDocument
+     * 
+     * @param dvDocument
+     * @param sequenceHelper
      * @param wireCharge
+     * @return GeneralLedgerPendingEntry
      */
     private GeneralLedgerPendingEntry processWireChargeDebitEntries(DisbursementVoucherDocument dvDocument,
             GeneralLedgerPendingEntrySequenceHelper sequenceHelper, WireCharge wireCharge) {
@@ -359,7 +388,10 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
     /**
      * Builds an explicit and offset for the wire charge credit. The account and income object code found in the wire charge table
      * is used for the entry.
-     * @param transactionalDocument
+     * 
+     * @param dvDocument
+     * @param sequenceHelper
+     * @param chargeEntry
      * @param wireCharge
      */
     private void processWireChargeCreditEntries(DisbursementVoucherDocument dvDocument,
@@ -1143,6 +1175,7 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
 
     /**
      * Checks if the current user is a member of the dv tax workgroup.
+     * 
      * @return true if user is in group
      */
     private boolean isUserInTaxGroup() {
@@ -1151,6 +1184,7 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
 
     /**
      * Checks if the current user is a member of the dv travel workgroup.
+     * 
      * @return true if user is in group
      */
     private boolean isUserInTravelGroup() {
@@ -1159,6 +1193,7 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
 
     /**
      * Checks if the current user is a member of the dv frn workgroup.
+     * 
      * @return true if user is in group
      */
     private boolean isUserInFRNGroup() {
@@ -1167,10 +1202,20 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
 
     /**
      * Checks if the current user is a member of the dv wire workgroup.
+     * 
      * @return true if user is in group
      */
     private boolean isUserInWireGroup() {
         return GlobalVariables.getUserSession().getKualiUser().isMember(new KualiGroup(KualiGroup.KUALI_DV_WIRE_GROUP));
+    }
+    
+    /**
+     * This method checks to see whether the user is in the dv admin group or not.
+     * 
+     * @return true if user is in group, false otherwise
+     */
+    private boolean isUserInDvAdminGroup() {
+        return GlobalVariables.getUserSession().getKualiUser().isMember(new KualiGroup(KualiGroup.KUALI_DV_ADMIN_GROUP));
     }
 
     /**

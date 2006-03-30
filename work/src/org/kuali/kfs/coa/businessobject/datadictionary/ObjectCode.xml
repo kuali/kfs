@@ -292,7 +292,7 @@
 				<shortLabel>Ac.</shortLabel>
 
 				<maxLength>1</maxLength>
-				<required>true</required>
+				
 				<control><checkbox/></control>
 
 				<summary>Active Indicator</summary>

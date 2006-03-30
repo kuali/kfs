@@ -51,7 +51,7 @@
 					<maintainableField name="financialObjectLevelCode" required="true" />
 					<maintainableField name="financialObjectSubTypeCode" required="true" />
 					<maintainableField name="historicalFinancialObjectCode" />
-					<maintainableField name="financialObjectActiveCode" required="true">
+					<maintainableField name="financialObjectActiveCode">
   		                 <defaultValue>true</defaultValue>
 					</maintainableField >
 					<maintainableField name="financialBudgetAggregationCd" required="true" />

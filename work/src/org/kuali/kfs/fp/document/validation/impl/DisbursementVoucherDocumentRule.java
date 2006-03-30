@@ -82,21 +82,31 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
      */
     protected boolean checkAccountingLineAccountAccessibility(TransactionalDocument transactionalDocument,
             AccountingLine accountingLine, String errorKey) {
-        boolean valid = super.checkAccountingLineAccountAccessibility(transactionalDocument, accountingLine, errorKey);
+        // first check parent's isAccessible method for basic FO authz checking
+        boolean isAccessible = accountIsAccessible(transactionalDocument, accountingLine);
         
         // get the authorizer class to check for special conditions routing and if the user is part of a particular workgroup
         // but only if the document is enroute
-        if(!valid && transactionalDocument.getDocumentHeader().getWorkflowDocument().stateIsEnroute()) {
+        if(!isAccessible && transactionalDocument.getDocumentHeader().getWorkflowDocument().stateIsEnroute()) {
             DisbursementVoucherDocumentAuthorizer dvAuthorizer = (DisbursementVoucherDocumentAuthorizer) SpringServiceLocator
                     .getDocumentAuthorizationService().getDocumentAuthorizer(transactionalDocument);
-            if (dvAuthorizer.isSpecialRouting(transactionalDocument, GlobalVariables.getUserSession().getKualiUser())
-                    && (isUserInTaxGroup() || isUserInTravelGroup() || isUserInFRNGroup() || isUserInWireGroup() ||
-                            isUserInDvAdminGroup())) {
-                valid = true;
+            // if approval is requested and it is special conditions routing and the user is in a special conditions routing workgroup then
+            // the line is accessible
+            if (transactionalDocument.getDocumentHeader().getWorkflowDocument().isApprovalRequested() && 
+                    dvAuthorizer.isSpecialRouting(transactionalDocument, GlobalVariables.getUserSession().getKualiUser()) && 
+                    (isUserInTaxGroup() || isUserInTravelGroup() || isUserInFRNGroup() || isUserInWireGroup() || isUserInDvAdminGroup())) {
+                isAccessible = true;
             }
         }
         
-        return valid;
+        // report (and log) errors
+        if (!isAccessible) {
+            String[] errorParams = new String[] { accountingLine.getAccountNumber(),
+                    GlobalVariables.getUserSession().getKualiUser().getPersonUserIdentifier() };
+            GlobalVariables.getErrorMap().put(Constants.ACCOUNT_NUMBER_PROPERTY_NAME, errorKey, errorParams);
+        }
+        
+        return isAccessible;
     }
 
     /**

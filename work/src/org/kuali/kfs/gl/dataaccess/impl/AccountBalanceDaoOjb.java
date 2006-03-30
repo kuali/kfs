@@ -160,7 +160,7 @@ public class AccountBalanceDaoOjb extends PersistenceBrokerDaoSupport implements
       // Summarize
       if ( isConsolidated ) {
         sqlCommand("INSERT INTO fp_bal_by_cons_t (SUB_ACCT_NBR, FIN_REPORT_SORT_CD, CONS_FIN_REPORT_SORT_CD, FIN_CONS_OBJ_CD, CURR_BDLN_BAL_AMT, ACLN_ACTLS_BAL_AMT, " + 
-          "ACLN_ENCUM_BAL_AMT, OBJ_ID, VER_NBR, PERSON_SYS_ID) SELECT '-----',fin_report_sort_ind,cons_fin_report_sort_cd,fin_cons_obj_cd,SUM(curr_bdln_bal_amt), " + 
+          "ACLN_ENCUM_BAL_AMT, OBJ_ID, VER_NBR, PERSON_SYS_ID) SELECT '*ALL*',fin_report_sort_ind,cons_fin_report_sort_cd,fin_cons_obj_cd,SUM(curr_bdln_bal_amt), " + 
           "SUM(acln_actls_bal_amt), SUM(acln_encum_bal_amt), sys_guid(), 1, USERENV('SESSIONID') FROM fp_interim2_cons_mt WHERE fp_interim2_cons_mt.SESID = USERENV('SESSIONID') " + 
           "GROUP BY cons_fin_report_sort_cd, fin_report_sort_ind, fin_cons_obj_cd");
       } else {
@@ -214,7 +214,7 @@ public class AccountBalanceDaoOjb extends PersistenceBrokerDaoSupport implements
       // Summarize
       if ( isConsolidated ) {
         sqlCommand("INSERT INTO fp_bal_by_level_t (SUB_ACCT_NBR, FIN_OBJ_LEVEL_CD, FIN_REPORT_SORT_CD, CURR_BDLN_BAL_AMT, ACLN_ACTLS_BAL_AMT, ACLN_ENCUM_BAL_AMT, " +
-            "TYP_FIN_REPORT_SORT_CD, OBJ_ID, VER_NBR, PERSON_SYS_ID) SELECT '-----', fin_obj_level_cd,fin_report_sort_cd, SUM(curr_bdln_bal_amt), " + 
+            "TYP_FIN_REPORT_SORT_CD, OBJ_ID, VER_NBR, PERSON_SYS_ID) SELECT '*ALL*', fin_obj_level_cd,fin_report_sort_cd, SUM(curr_bdln_bal_amt), " + 
             "SUM(acln_actls_bal_amt), SUM(acln_encum_bal_amt),'" + financialReportingSortCode + "', sys_guid(), 1, USERENV('SESSIONID') FROM fp_interim1_level_mt " + 
             "WHERE fp_interim1_level_mt.SESID = USERENV('SESSIONID') GROUP BY fin_report_sort_cd, fin_obj_level_cd");
       } else {
@@ -259,7 +259,7 @@ public class AccountBalanceDaoOjb extends PersistenceBrokerDaoSupport implements
       // Summarize
       if ( isConsolidated ) {
         sqlCommand("INSERT INTO fp_bal_by_obj_t (SUB_ACCT_NBR, FIN_OBJECT_CD, CURR_BDLN_BAL_AMT, ACLN_ACTLS_BAL_AMT, ACLN_ENCUM_BAL_AMT, FIN_REPORT_SORT_CD, " +
-            "OBJ_ID, VER_NBR, PERSON_SYS_ID) SELECT  '-----',fin_object_cd, SUM(curr_bdln_bal_amt),SUM(acln_actls_bal_amt), SUM(acln_encum_bal_amt)," + 
+            "OBJ_ID, VER_NBR, PERSON_SYS_ID) SELECT  '*ALL*',fin_object_cd, SUM(curr_bdln_bal_amt),SUM(acln_actls_bal_amt), SUM(acln_encum_bal_amt)," + 
             "'B', sys_guid(), 1, USERENV('SESSIONID') FROM fp_interim1_obj_mt WHERE fp_interim1_obj_mt.SESID  = USERENV('SESSIONID') " +
             "GROUP BY fin_object_cd");
       } else {

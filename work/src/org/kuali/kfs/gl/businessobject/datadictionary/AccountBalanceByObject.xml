@@ -49,12 +49,14 @@
 						org.kuali.module.gl.web.optionfinder.GLCostShareOptionFinder
 					</defaultValueFinderClass>
 				</lookupField>
-				
+
+                <!-- Not implemented for now
 				<lookupField attributeName="dummyBusinessObject.pendingEntryOption">
 					<defaultValueFinderClass>
 						org.kuali.module.gl.web.optionfinder.GLPendingEntryOptionFinder
 					</defaultValueFinderClass>
-				</lookupField>								
+				</lookupField>
+				-->
 			</lookupFields>
 			
 			<resultFields>

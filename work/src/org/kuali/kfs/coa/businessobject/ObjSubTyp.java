@@ -36,13 +36,8 @@ public class ObjSubTyp extends KualiCodeBase {
 	 * Default no-arg constructor.
 	 */
 	public ObjSubTyp() {
-
+	    setActive(true);  // always active
 	}
-
-	public ObjSubTyp(String string) { //FIXME eliminate this constructor
-	    throw new RuntimeException();
-    }
-
 
 	/**
 	 * Gets the financialObjectSubTypeCode attribute.

@@ -36,7 +36,7 @@ public class ObjectType extends KualiCodeBase {
 	 * Default no-arg constructor.
 	 */
 	public ObjectType() {
-
+	    setActive(true);  // always active
 	}
     
 	public ObjectType(String string) { //FIXME eliminate this constructor

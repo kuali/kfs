@@ -15,12 +15,15 @@
                                   sourceAttributeName="code">
                 <control>
 	                <select valuesFinderClass="org.kuali.core.lookup.keyvalues.PaymentReasonValuesFinder"/>
-	            </control>                
+	            </control> 
+	            <description>One of a prescribed list of text fields that describes the reason for the document Payment.</description>               
               </attributeReference>    
 	       
 	          <attributeReference name="disbVchrPayeeIdNumber"
                                   sourceClassName="org.kuali.module.financial.bo.Payee"
-                                  sourceAttributeName="payeeIdNumber"/>
+                                  sourceAttributeName="payeeIdNumber">
+	            <description>The unique numeric identifier for the document Payee.</description>               
+              </attributeReference>    
                                   
               <attribute name="disbursementVoucherPayeeTypeCode">
 	            <label>Payee Type</label>
@@ -42,34 +45,52 @@
                                   sourceClassName="org.kuali.module.financial.bo.Payee"
                                   sourceAttributeName="payeePersonName">
                                   <required>true</required>
+	           <description>Full name of document Payee, expressed as "Lastname, Firstname MiddleInitial".</description>
+                    
               </attributeReference>                    
 	       
 	          <attributeReference name="disbVchrPayeeLine1Addr"
                                   sourceClassName="org.kuali.module.financial.bo.Payee"
                                   sourceAttributeName="payeeLine1Addr">
                                   <required>true</required>
+	           <description>First address line of Payee.</description>
+
               </attributeReference>                    
                                   
               <attributeReference name="disbVchrPayeeLine2Addr"
                                   sourceClassName="org.kuali.module.financial.bo.Payee"
-                                  sourceAttributeName="payeeLine2Addr"/>
+                                  sourceAttributeName="payeeLine2Addr">
+	           <description>Second address line of Payee, if required.</description>
+
+              </attributeReference>                    
 	       
 	          <attributeReference name="disbVchrPayeeCityName"
                                   sourceClassName="org.kuali.module.financial.bo.Payee"
-                                  sourceAttributeName="payeeCityName"/>
+                                  sourceAttributeName="payeeCityName">
+	           <description>City of Payee</description>
+
+              </attributeReference>                    
                                   
               <attributeReference name="disbVchrPayeeStateCode"
                                   sourceClassName="org.kuali.module.financial.bo.Payee"
-                                  sourceAttributeName="payeeStateCode"/>
+                                  sourceAttributeName="payeeStateCode">
+	           <description>The 2-character code for the State of the Payee.</description>
+
+              </attributeReference>                    
 	       
 	          <attributeReference name="disbVchrPayeeZipCode"
                                   sourceClassName="org.kuali.module.financial.bo.Payee"
-                                  sourceAttributeName="payeeZipCode"/>              
+                                  sourceAttributeName="payeeZipCode">              
+	           <description>The numeric Zip Code assigned by the US Postal Service for the Address of the Payee.</description>
+
+              </attributeReference>                    
 
 	          <attributeReference name="disbVchrPayeeCountryCode"
                                   sourceClassName="org.kuali.module.financial.bo.Payee"
                                   sourceAttributeName="payeeCountryCode">
                                   <required>true</required>
+	          <description>One of a prescribed list of names for the Country of the Payee.</description>
+
               </attributeReference>                    
                                   
  	          <attributeReference name="disbVchrRemitPersonName"
@@ -79,7 +100,7 @@
                                   <shortLabel>Remit Nm</shortLabel>
                                   
                                   <summary>Special Handling Remit Name</summary>
-                                  <description>...</description>
+                                  <description>Full name of document Remit, an individual or organization that takes initial receipt of the Payment, expressed as "Lastname, Firstname MiddleInitial".</description>
               </attributeReference>                    
 	       
 	          <attributeReference name="disbVchrRemitLine1Addr"
@@ -89,7 +110,7 @@
                                   <shortLabel>Remit Addr 1</shortLabel>
                                   
                                   <summary>Special Handling Remit Address Line 1</summary>
-                                  <description>...</description>
+                                  <description>First address line of Remit, an individual or organization that takes initial receipt of the Payment.</description>
               </attributeReference>         
               
 	          <attributeReference name="disbVchrRemitLine2Addr"
@@ -99,7 +120,7 @@
                                   <shortLabel>Remit Addr 2</shortLabel>
                                   
                                   <summary>Special Handling Remit Address Line 2</summary>
-                                  <description>...</description>
+                                  <description>Second address line of Remit, an individual or organization that takes initial receipt of the Payment.</description>
               </attributeReference>   
 	       
 	          <attributeReference name="disbVchrRemitCityName"
@@ -109,7 +130,7 @@
                                   <shortLabel>Remit City</shortLabel>
                                   
                                   <summary>Special Handling Remit City</summary>
-                                  <description>...</description>
+                                  <description>City of Remit, an individual or organization that takes initial receipt of the Payment.</description>
               </attributeReference>   
               
 	          <attributeReference name="disbVchrRemitStateCode"
@@ -119,7 +140,7 @@
                                   <shortLabel>Remit State</shortLabel>
                                   
                                   <summary>Special Handling Remit State</summary>
-                                  <description>...</description>
+                                  <description>The 2-characode code for the State of the Remit.</description>
               </attributeReference>
               
 	       
@@ -130,7 +151,7 @@
                                   <shortLabel>Remit Zip</shortLabel>
                                   
                                   <summary>Special Handling Remit Zip Code</summary>
-                                  <description>...</description>
+                                  <description>The numeric Zip code assigned by the US Postal Service for the Address of the Remit, an individual or organization that takes initial receipt of the Payment.</description>
               </attributeReference>   
 
 	          <attributeReference name="disbVchrRemitCountryCode"
@@ -140,7 +161,7 @@
                                   <shortLabel>Remit Cntry</shortLabel>
                                   
                                   <summary>Special Handling Remit Country</summary>
-                                  <description>...</description>
+                                  <description>One of a prescribed list of names for the Country of the Remit, an individual or organization that takes initial receipt of the Payment.</description>
               </attributeReference> 
               
               <attributeReference name="disbVchrPayeeEmployeeCode"

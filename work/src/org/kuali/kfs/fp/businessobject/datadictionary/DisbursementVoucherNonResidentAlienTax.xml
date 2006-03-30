@@ -23,7 +23,7 @@
 	            </control>
 	            
 	            <summary>Federal Tax Percent</summary>
-	            <description>...</description>
+	            <description>Percentage of federal tax in the Nonresident Alien (NRA) Tax.</description>
 	        </attribute>
 	        
 	        <attribute name="stateIncomeTaxPercent">
@@ -39,7 +39,7 @@
 	            </control>
 	            
 	            <summary>State Tax Percent</summary>
-	            <description>...</description>
+	            <description>Percentage of state tax in the Nonresident Alien (NRA) Tax.</description>
 	        </attribute>
 	        
             <attributeReference name="incomeClassCode" 
@@ -50,6 +50,7 @@
                 <control>
                   <select valuesFinderClass="org.kuali.core.lookup.keyvalues.TaxIncomeClassValuesFinder"/>
                 </control>
+	            <description>One of a prescribed list of text fields that describes the Income Class for the Nonresident Alien (NRA) Tax.</description>
             </attributeReference>  
             
             <attributeReference name="postalCountryCode" 
@@ -58,6 +59,8 @@
                 <control>
                   <select valuesFinderClass="org.kuali.core.lookup.keyvalues.CountryValuesFinder"/>
                 </control>
+	            <description>The code that identifies the country of residence for the Nonresident Alien (NRA) Tax</description>
+  
             </attributeReference>  
 	        
 	        <attribute name="incomeTaxTreatyExemptCode">
@@ -73,7 +76,7 @@
 	            </control>
 	            
 	            <summary>Treaty Exempt</summary>
-	            <description>...</description>
+	            <description>The code to specify that the Nonresident Alien (NRA) Tax is treaty exempt, expressed as "Yes" or "No"</description>
 	        </attribute>
 	        
 	        <attribute name="foreignSourceIncomeCode">
@@ -89,7 +92,7 @@
 	            </control>
 	            
 	            <summary>Foreign Source</summary>
-	            <description>...</description>
+	            <description>Foreign Source Income Code</description>
 	        </attribute>
 	        
 	        <attribute name="incomeTaxGrossUpCode">
@@ -105,7 +108,7 @@
 	            </control>
 	            
 	            <summary>Gross Up</summary>
-	            <description>...</description>
+	            <description>The code to specify that the Nonresident Alien (NRA) Tax is "grossed up" to the original Account, expressed as "Yes" or "No".</description>
 	        </attribute>
 	        
             <attributeReference name="financialDocumentReferenceNbr" 
@@ -113,6 +116,8 @@
             					sourceAttributeName="financialDocumentNumber">
                 <label>Reference Doc</label>
                 <shortLabel>Ref Doc</shortLabel>
+	            <description>A free-form text field that identifies a reference document for the Nonresident Alien (NRA) Tax.</description>
+
             </attributeReference> 
 
 	    </attributes>

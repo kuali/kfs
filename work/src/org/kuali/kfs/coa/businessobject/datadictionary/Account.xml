@@ -810,7 +810,7 @@
 				<shortLabel>ExpGuideTxt</shortLabel>
 				<required>false</required>
 				<summary>Expense Guidelines</summary>
-				<description>A textual description of the Expense Guidelines.</description>
+				<description>A free-form text field that describes the expense guideline for the Account.</description>
 			</attributeReference>
 			
 			<attributeReference name="accountGuideline.accountIncomeGuidelineText" 
@@ -820,7 +820,7 @@
 				<shortLabel>IncGuideTxt</shortLabel>
 				<required>false</required>
 				<summary>Income Guidelines</summary>
-				<description>A textual description of the Income Guidelines.</description>
+				<description>A free-form text field that describes the income guideline for the Account.</description>
 			</attributeReference>
 			
 			<attributeReference name="accountGuideline.accountPurposeText" 
@@ -830,37 +830,57 @@
 				<shortLabel>AcctPurpTxt</shortLabel>
 				<required>false</required>
 				<summary>Account Purpose Text</summary>
-				<description>A textual description of the Account Purpose.</description>
+				<description>A free-form text field that describes the institutional purpose of the Account.</description>
 			</attributeReference>
 			
 			<attributeReference name="accountGuideline.versionNumber" 
 								sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
 								sourceAttributeName="versionNumber" />
-			
+						
 			<attributeReference name="accountDescription.campusDescription" 
 								sourceClassName="org.kuali.module.chart.bo.AccountDescription" 
-								sourceAttributeName="campusDescription" />
+								sourceAttributeName="campusDescription" >
+				<description>
+				A free-form text field that identfies the Campus of the Account.
+				</description>
+			</attributeReference>						
 			
 			<attributeReference name="accountDescription.organizationDescription" 
 								sourceClassName="org.kuali.module.chart.bo.AccountDescription" 
-								sourceAttributeName="organizationDescription" />
+								sourceAttributeName="organizationDescription" >
+				<description>
+				A free-form text field that describes the Organization responsible for the Account.
+				</description>
+			</attributeReference>						
 			
 			<attributeReference name="accountDescription.responsibilityCenterDescription" 
 								sourceClassName="org.kuali.module.chart.bo.AccountDescription" 
-								sourceAttributeName="responsibilityCenterDescription" />
+								sourceAttributeName="responsibilityCenterDescription" >
+				<description>
+				A free-form text field that identifies the Responsibility Center to which the Organization of the Account belongs.
+				</description>
+			</attributeReference>						
 			
 			<attributeReference name="accountDescription.campusCode" 
 								sourceClassName="org.kuali.module.chart.bo.AccountDescription" 
-								sourceAttributeName="campusCode" />
+								sourceAttributeName="campusCode" >
+				<description>
+				The code that identifies the Campus on which the Organization of the Account is located.
+				</description>
+			</attributeReference>						
 			
 			<attributeReference name="accountDescription.buildingCode" 
 								sourceClassName="org.kuali.module.chart.bo.AccountDescription" 
-								sourceAttributeName="buildingCode" />
+								sourceAttributeName="buildingCode" >
+				<description>
+				The code that identifies the Building in which the Organization of the Account is located.
+				</description>
+			</attributeReference>					
 			
 			<attributeReference name="accountDescription.versionNumber" 
 								sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
-								sourceAttributeName="versionNumber" />
-			
+								sourceAttributeName="versionNumber" />						
+		
 		</attributes>
 
 		<collections>

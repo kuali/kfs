@@ -19,7 +19,7 @@
                 </control>
 
                 <summary>Check Number</summary>
-                <description>Check Number...</description>
+                <description>The numeric identifier for the check or batch of checks in the Cash Reconciliation tab.</description>
             </attribute>
 
             <attributeReference name="checkDate" 
@@ -31,6 +31,10 @@
                 <control>
                     <text size="10" />
                 </control>
+    			<description>
+				The date from the check or batch of checks.  Use the calendar icon to select and format a date automatically.
+				</description>
+                
 			</attributeReference>		            
 
 			<attribute name="description" forceUppercase="false">
@@ -44,7 +48,7 @@
                 </control>
 
                 <summary>Description</summary>
-                <description>Description...</description>
+                <description>A free-form text field that describes the purpose or function of the check or batch of checks.</description>
             </attribute>            
             
             <attributeReference name="interimDepositAmount" 
@@ -57,6 +61,10 @@
 					            sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
 					            sourceAttributeName="genericAmount">
 				<required>true</required>
+				<description>
+				The total dollar amount of check or batch of checks.	
+				</description>
+				
 			</attributeReference>		            
 
             <attributeReference name="sequenceId" 

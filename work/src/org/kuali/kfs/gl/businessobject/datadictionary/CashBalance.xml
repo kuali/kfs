@@ -39,12 +39,14 @@
 						org.kuali.module.gl.web.optionfinder.GLConsolidationOptionFinder
 					</defaultValueFinderClass>
 				</lookupField>
-				
+
+                <!-- Disabled for test drive
 				<lookupField attributeName="dummyBusinessObject.pendingEntryOption">
 					<defaultValueFinderClass>
 						org.kuali.module.gl.web.optionfinder.GLPendingEntryOptionFinder
 					</defaultValueFinderClass>
 				</lookupField>
+				-->
 			</lookupFields>
 			
 			<resultFields>

@@ -46,12 +46,14 @@
 						org.kuali.module.gl.web.optionfinder.GLConsolidationOptionFinder
 					</defaultValueFinderClass>
 				</lookupField>
-					
+
+                <!-- disabled for test drive
 				<lookupField attributeName="dummyBusinessObject.pendingEntryOption">
 					<defaultValueFinderClass>
 						org.kuali.module.gl.web.optionfinder.GLPendingEntryOptionFinder
 					</defaultValueFinderClass>
-				</lookupField>					
+				</lookupField>				
+				-->	
 			</lookupFields>
 			
 			<resultFields>
@@ -105,7 +107,7 @@
                 <label>Budget Amount</label>
                 <shortLabel>Amount</shortLabel>
                 <summary>currentBudgetLineBalanceAmount</summary>
-                <description>currentBudgetLineBalanceAmount description...</description>
+                <description>Current Budget Line Balance Amount</description>
                 <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
             </attributeReference>
 			
@@ -115,7 +117,7 @@
                 <label>Actuals Amount</label>
                 <shortLabel>Actuals Balance Amount</shortLabel>
                 <summary>accountLineActualsBalanceAmount</summary>
-                <description>accountLineActualsBalanceAmount description...</description>
+                <description>Account Line Actuals Balance Amount</description>
                 <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
             </attributeReference>
 
@@ -125,7 +127,7 @@
                 <label>Encumbrance Amount</label>
                 <shortLabel>Encumbrance Balance</shortLabel>
                 <summary>accountLineEncumbranceBalanceAmount</summary>
-                <description>accountLineEncumbranceBalanceAmount description...</description>
+                <description>Account Line Encumbrance Balance Amount</description>
                 <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
             </attributeReference>
 
@@ -135,7 +137,7 @@
                 <label>Transaction Entry Processed</label>
                 <shortLabel>Entry Processed</shortLabel>
                 <summary>transactionEntryProcessed</summary>
-                <description>transactionEntryProcessed description...</description>
+                <description>transaction Entry Processed Date</description>
             </attributeReference>
             
            	<attributeReference name="dummyBusinessObject.pendingEntryOption"
@@ -152,7 +154,7 @@
 			    <label>Variance</label>
                 <shortLabel>Variance</shortLabel>
                 <summary>Variance</summary>
-                <description>Variance...</description>
+                <description>Variance Amount</description>
                 <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
             </attributeReference>
         </attributes>

@@ -47,6 +47,7 @@ import org.w3c.dom.NodeList;
 
 import edu.iu.uis.eden.WorkflowServiceErrorImpl;
 import edu.iu.uis.eden.doctype.DocumentType;
+import edu.iu.uis.eden.exception.WorkflowRuntimeException;
 import edu.iu.uis.eden.lookupable.Field;
 import edu.iu.uis.eden.lookupable.Row;
 import edu.iu.uis.eden.plugin.attributes.WorkflowAttribute;
@@ -189,19 +190,19 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
         }
 
         if (isRequired() && !StringUtils.isNumeric(toAmount)) {
-            errors.add(new WorkflowServiceErrorImpl("To Amount is invalid.", ""));
+            errors.add(new WorkflowServiceErrorImpl("To Amount is invalid.", "routetemplate.dollarrangeattribute.toamount.invalid"));
         } else if (StringUtils.isNotBlank(toAmount) && !StringUtils.isNumeric(toAmount)) {
-            errors.add(new WorkflowServiceErrorImpl("To Amount is invalid.", ""));
+            errors.add(new WorkflowServiceErrorImpl("To Amount is invalid.", "routetemplate.dollarrangeattribute.toamount.invalid"));
         }
 
         if (isRequired() && !StringUtils.isNumeric(fromAmount)) {
-            errors.add(new WorkflowServiceErrorImpl("From Amount is invalid.", ""));
+            errors.add(new WorkflowServiceErrorImpl("From Amount is invalid.", "routetemplate.dollarrangeattribute.fromamount.invalid"));
         } else if (StringUtils.isNotBlank(fromAmount) && !StringUtils.isNumeric(fromAmount)) {
-            errors.add(new WorkflowServiceErrorImpl("From Amount is invalid.", ""));
+            errors.add(new WorkflowServiceErrorImpl("From Amount is invalid.", "routetemplate.dollarrangeattribute.fromamount.invalid"));
         }
         
         return errors;
-    }    
+    }  
 
     public List validateRoutingData(Map paramMap) {
 
@@ -365,6 +366,9 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
      */
     private void buildOrgReviewHierarchy(Set chartOrgSet, KualiFiscalOrganization chartOrg) {
         KualiFiscalOrganization org = getKualiFiscalOrganization(chartOrg.getFinCoaCd(), chartOrg.getOrgCd());
+        if (org == null) {
+        	throw new WorkflowRuntimeException("Couldn't find organization " + chartOrg.getFinCoaCd() + "-" + chartOrg.getOrgCd());
+        }
         if (org.getReportsToFinCoaCd().equals(chartOrg.getFinCoaCd()) && org.getReportsToOrgCd().equals(chartOrg.getOrgCd())) {
             return;
         }

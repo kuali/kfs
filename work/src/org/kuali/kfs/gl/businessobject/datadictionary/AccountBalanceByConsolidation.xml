@@ -21,7 +21,7 @@
 				<field attributeName="dummyBusinessObject.genericAmount"/>
             </inquiryFields>
         </inquiry>
-		
+
         <lookup>
         	<lookupableID>glAccountBalanceByConsolidationLookupable</lookupableID>
 			<title>Available Account Balance By Consolidation</title>
@@ -64,9 +64,10 @@
 				<field attributeName="chartOfAccountsCode"/>
 				<field attributeName="accountNumber"/>
 				<field attributeName="subAccountNumber"/>                
-            		
+
+				<field attributeName="financialObject.financialObjectType.financialReportingSortCode"/>
 	            <field attributeName="financialObject.financialObjectLevel.financialConsolidationObjectCode"/>
-	                       
+
 				<field attributeName="currentBudgetLineBalanceAmount"/>
 				<field attributeName="accountLineActualsBalanceAmount"/>
 				<field attributeName="accountLineEncumbranceBalanceAmount"/>
@@ -172,7 +173,7 @@
             <attributeReference name="financialObject.financialObjectLevel.financialConsolidationObject.financialReportingSortCode"
             					sourceClassName="org.kuali.module.chart.bo.ObjectCons" 
             					sourceAttributeName="financialReportingSortCode"/> 
-            					
+
 	        <attributeReference name="financialObject.financialObjectType.financialReportingSortCode"
 	                    		sourceClassName="org.kuali.module.chart.bo.ObjectType" 
             					sourceAttributeName="financialReportingSortCode"/> 

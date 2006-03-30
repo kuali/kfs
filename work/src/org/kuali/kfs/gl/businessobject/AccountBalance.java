@@ -22,8 +22,10 @@
  */
 package org.kuali.module.gl.bo;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.core.bo.user.Options;
@@ -32,6 +34,7 @@ import org.kuali.module.chart.bo.A21SubAccount;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.ObjectCode;
+import org.kuali.module.gl.web.Constant;
 
 /**
  * @author jsissom
@@ -78,6 +81,78 @@ public class AccountBalance extends BusinessObjectBase {
         
         this.dummyBusinessObject = new DummyBusinessObject();
         this.financialObject = new ObjectCode();
+    }
+
+    public AccountBalance(String type,Map data,Integer universityFiscalYear,String chartOfAccountsCode,String accountNumber) {
+      this();
+
+      this.universityFiscalYear = universityFiscalYear;
+      this.chartOfAccountsCode = chartOfAccountsCode;
+      this.accountNumber = accountNumber;
+      subAccountNumber = (String)data.get("SUB_ACCT_NBR");
+
+      currentBudgetLineBalanceAmount = new KualiDecimal( (BigDecimal)data.get("CURR_BDLN_BAL_AMT") );
+      accountLineActualsBalanceAmount = new KualiDecimal( (BigDecimal)data.get("ACLN_ACTLS_BAL_AMT") );
+      accountLineEncumbranceBalanceAmount = new KualiDecimal( (BigDecimal)data.get("ACLN_ENCUM_BAL_AMT") );
+
+      if ( "Consolidation".equals(type) ) {
+        financialObject.getFinancialObjectType().setFinancialReportingSortCode( (String)data.get("FIN_REPORT_SORT_CD") );
+        financialObject.getFinancialObjectLevel().getFinancialConsolidationObject().setFinancialReportingSortCode( (String)data.get("CONS_FIN_REPORT_SORT_CD") );
+        financialObject.getFinancialObjectLevel().setFinancialConsolidationObjectCode( (String)data.get("FIN_CONS_OBJ_CD") );
+        fixVariance();
+      } else if ( "Level".equals(type) ) {
+        financialObject.getFinancialObjectLevel().setFinancialConsolidationObjectCode( (String)data.get("FIN_CONS_OBJ_CD") );
+        financialObject.getFinancialObjectLevel().setFinancialReportingSortCode((String)data.get("FIN_REPORT_SORT_CD") );
+        financialObject.getFinancialObjectLevel().setFinancialObjectLevelCode( (String)data.get("FIN_OBJ_LEVEL_CD") );
+
+        // tricking it so getVariance() works
+        financialObject.getFinancialObjectType().setFinancialReportingSortCode("B");
+        fixVariance();
+      } else if ( "Object".equals(type) ) {
+        objectCode = (String)data.get("FIN_OBJECT_CD");
+        financialObject.setFinancialObjectLevelCode( (String)data.get("FIN_OBJ_LVL_CD") );
+
+        // tricking it so getVariance() works
+        financialObject.getFinancialObjectType().setFinancialReportingSortCode("B");
+        fixVariance();
+      } else {
+        throw new RuntimeException("Unknown type: " + type);
+      }
+    }
+
+    public AccountBalance(String title) {
+      this();
+      financialObject.getFinancialObjectLevel().setFinancialConsolidationObjectCode(title);
+      currentBudgetLineBalanceAmount = KualiDecimal.ZERO;
+      accountLineActualsBalanceAmount = KualiDecimal.ZERO;
+      accountLineEncumbranceBalanceAmount = KualiDecimal.ZERO;
+    }
+
+    public void fixVariance() {
+      dummyBusinessObject.setGenericAmount(getVariance());      
+    }
+
+    public KualiDecimal getVariance() {
+
+      KualiDecimal variance = KualiDecimal.ZERO;
+
+      // get the reporting sort code
+      String reportingSortCode = financialObject.getFinancialObjectType().getFinancialReportingSortCode();
+
+      // calculate the variance based on the starting character of reporting sort code
+      if (reportingSortCode.startsWith(Constant.START_CHAR_OF_REPORTING_SORT_CODE_B)) {
+          variance = currentBudgetLineBalanceAmount.subtract(accountLineActualsBalanceAmount);
+          variance = variance.subtract(accountLineEncumbranceBalanceAmount);
+      } else {
+          variance = accountLineActualsBalanceAmount.subtract(currentBudgetLineBalanceAmount);
+      }
+      return variance;      
+    }
+
+    public void add(AccountBalance ab) {
+      currentBudgetLineBalanceAmount = currentBudgetLineBalanceAmount.add(ab.currentBudgetLineBalanceAmount);
+      accountLineActualsBalanceAmount = accountLineActualsBalanceAmount.add(ab.accountLineActualsBalanceAmount);
+      accountLineEncumbranceBalanceAmount = accountLineEncumbranceBalanceAmount.add(ab.accountLineEncumbranceBalanceAmount);
     }
 
     /*

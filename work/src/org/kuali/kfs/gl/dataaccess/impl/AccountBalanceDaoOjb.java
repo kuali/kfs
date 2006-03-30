@@ -22,7 +22,11 @@
  */
 package org.kuali.module.gl.dao.ojb;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -112,154 +116,170 @@ public class AccountBalanceDaoOjb extends PersistenceBrokerDaoSupport implements
     }
 
     /**
-     * @see org.kuali.module.gl.dao.AccountBalanceDao#findAccountBalanceByConsolidation(java.util.Map, boolean, boolean)
+     * This is based on the code in the FIS.  Unfortunately, there is business logic in here.  This should be cleaned up at some point.
+     * 
+     * @param universityFiscalYear
+     * @param chartOfAccountsCode
+     * @param accountNumber
+     * @param subAccountNumber
+     * @param isExcludeCostShare
+     * @param isConsolidated
+     * @return
      */
-    public Iterator findAccountBalanceByConsolidation(Map fieldValues, boolean isCostShareInclusive, boolean isConsolidated) {
-        
-        Criteria criteria = BusinessObjectHandler.buildCriteriaFromMap(fieldValues, new AccountBalance());
-        
-        // join account balance and object code tables
-        criteria.addEqualToField("universityFiscalYear", "financialObject.universityFiscalYear");
-        criteria.addEqualToField("chartOfAccountsCode", "financialObject.chartOfAccountsCode");
-        criteria.addEqualToField("objectCode", "financialObject.financialObjectCode");
+    public List findAccountBalanceByConsolidation(Integer universityFiscalYear,String chartOfAccountsCode,String accountNumber,
+        boolean isExcludeCostShare,boolean isConsolidated) {
+      LOG.debug("findAccountBalanceByConsolidation() started");
 
-        // join object code and object type code tables
-        criteria.addEqualToField("financialObject.financialObjectTypeCode", 
-                "financialObject.financialObjectType.code");
-        criteria.addIn("financialObject.financialObjectTypeCode", this.buildObjectTypeCodeList());
-        
-        // join object code and object level tables
-        criteria.addEqualToField("financialObject.chartOfAccountsCode", 
-                "financialObject.financialObjectLevel.chartOfAccountsCode");
-        criteria.addEqualToField("financialObject.financialObjectLevelCode", 
-                "financialObject.financialObjectLevel.financialObjectLevelCode"); 
-        
-        // join object level and object consolidation tables
-        criteria.addEqualToField("financialObject.financialObjectLevel.chartOfAccountsCode", 
-                "financialObject.financialObjectLevel.financialConsolidationObject.chartOfAccountsCode");
-        criteria.addEqualToField("financialObject.financialObjectLevel.finConsolidationObjectCode",
-                "financialObject.financialObjectLevel.financialConsolidationObject.finConsolidationObjectCode");
-        
-        // exclude the entries whose subaccount type code is cost share
-//        if(!isCostShareInclusive){
-//            criteria.addEqualToField("chartOfAccountsCode", "a21SubAccount.chartOfAccountsCode");
-//            criteria.addEqualToField("accountNumber", "a21SubAccount.accountNumber");
-//            criteria.addEqualToField("subAccountNumber", "a21SubAccount.subAccountNumber");
-//            criteria.addNotEqualTo("a21SubAccount.subAccountTypeCode", "CS");
-//        }
-        
-        ReportQueryByCriteria query = QueryFactory.newReportQuery(AccountBalance.class, criteria);
-        
-        List attributeList = buildAttributeList(true, this.BY_CONSOLIDATION);
-        List groupByList = buildGroupList(true, this.BY_CONSOLIDATION);
-        
-        // consolidate the selected entries
-        if(isConsolidated){
-            attributeList.remove("subAccountNumber");
-            groupByList.remove("subAccountNumber");
-        }
-        
-        // set the selection attributes
-        String[] attributes = (String[]) attributeList.toArray(new String[attributeList.size()]);
-        query.setAttributes(attributes);
+      // Delete any data for this session if it exists already
+      sqlCommand("DELETE fp_bal_by_cons_t WHERE person_sys_id = USERENV('SESSIONID')");
 
-        // add the group criteria into the selection statement
-        String[] groupBy = (String[]) groupByList.toArray(new String[groupByList.size()]);
-        query.addGroupBy(groupBy);
+      // Add in all the source data
+      sqlCommand("INSERT INTO fp_interim1_cons_mt (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, CURR_BDLN_BAL_AMT, ACLN_ACTLS_BAL_AMT, " + 
+        "ACLN_ENCUM_BAL_AMT, TIMESTAMP, FIN_REPORT_SORT_IND, FIN_OBJ_TYP_CD, SESID, OBJ_ID, VER_NBR) SELECT A.UNIV_FISCAL_YR, A.FIN_COA_CD, A.ACCOUNT_NBR, A.SUB_ACCT_NBR, " + 
+        "A.FIN_OBJECT_CD, A.FIN_SUB_OBJ_CD, A.CURR_BDLN_BAL_AMT, A.ACLN_ACTLS_BAL_AMT, A.ACLN_ENCUM_BAL_AMT, A.TIMESTAMP, SUBSTR(fin_report_sort_cd, 1, 1), " + 
+        "t.fin_obj_typ_cd, USERENV('SESSIONID'), sys_guid(), 1 FROM gl_acct_balances_t a, ca_object_code_t o, ca_obj_type_t t WHERE a.univ_fiscal_yr = " + universityFiscalYear +  
+        " AND a.fin_coa_cd = '" + chartOfAccountsCode + "' AND a.account_nbr = '" + accountNumber + "' AND a.univ_fiscal_yr = o.univ_fiscal_yr AND a.fin_coa_cd = o.fin_coa_cd " + 
+        " AND a.fin_object_cd = o.fin_object_cd AND o.fin_obj_typ_cd = t.fin_obj_typ_cd AND o.univ_fiscal_yr = " + universityFiscalYear + " AND o.fin_coa_cd = '" + chartOfAccountsCode + "' " +
+        " AND o.fin_obj_typ_cd IN ('EE', 'EX', 'ES', 'IN', 'IC', 'CH')");
 
-        return getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
-    }
-    
-    /**
-     * @see org.kuali.module.gl.dao.AccountBalanceDao#findAccountBalanceByLevel(java.util.Map, boolean, boolean)
-     */
-    public Iterator findAccountBalanceByLevel(Map fieldValues, boolean isCostShareInclusive, boolean isConsolidated) {
-        
-        Criteria criteria = BusinessObjectHandler.buildCriteriaFromMap(fieldValues, new AccountBalance());
-        
-        // join account balance and object code tables
-        criteria.addEqualToField("universityFiscalYear", "financialObject.universityFiscalYear");
-        criteria.addEqualToField("chartOfAccountsCode", "financialObject.chartOfAccountsCode");
-        criteria.addEqualToField("objectCode", "financialObject.financialObjectCode");
+      sqlCommand("INSERT INTO fp_interim2_cons_mt (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, CURR_BDLN_BAL_AMT, ACLN_ACTLS_BAL_AMT, " + 
+        "ACLN_ENCUM_BAL_AMT, TIMESTAMP, FIN_REPORT_SORT_IND,FIN_OBJ_TYP_CD, SESID, CONS_FIN_REPORT_SORT_CD, FIN_CONS_OBJ_CD, OBJ_ID, VER_NBR) " +
+        "SELECT A.UNIV_FISCAL_YR, A.FIN_COA_CD, A.ACCOUNT_NBR, A.SUB_ACCT_NBR,A.FIN_OBJECT_CD, A.FIN_SUB_OBJ_CD, A.CURR_BDLN_BAL_AMT, A.ACLN_ACTLS_BAL_AMT, " + 
+        "A.ACLN_ENCUM_BAL_AMT, A.TIMESTAMP, A.FIN_REPORT_SORT_IND, A.FIN_OBJ_TYP_CD, A.SESID,c.fin_report_sort_cd,c.fin_cons_obj_cd,sys_guid(), 1 " +
+        "FROM fp_interim1_cons_mt a,ca_object_code_t o,ca_obj_level_t l,ca_obj_consoldtn_t c WHERE a.univ_fiscal_yr = o.univ_fiscal_yr " +
+        "AND a.fin_coa_cd = o.fin_coa_cd AND a.fin_object_cd = o.fin_object_cd AND o.fin_coa_cd = l.fin_coa_cd AND o.fin_obj_level_cd = l.fin_obj_level_cd " + 
+        "AND c.fin_coa_cd = l.fin_coa_cd AND c.fin_cons_obj_cd = l.fin_cons_obj_cd AND o.univ_fiscal_yr = " + universityFiscalYear + " AND o.fin_coa_cd = '" + chartOfAccountsCode + "' " + 
+        "AND l.fin_coa_cd = '" + chartOfAccountsCode + "' AND a.SESID = USERENV('SESSIONID')");
 
-        // join object code and object level tables
-        criteria.addEqualToField("financialObject.chartOfAccountsCode", 
-                "financialObject.financialObjectLevel.chartOfAccountsCode");
-        criteria.addEqualToField("financialObject.financialObjectLevelCode", 
-                "financialObject.financialObjectLevel.financialObjectLevelCode"); 
-        
-        // exclude the entries whose subaccount type code is cost share
-        if(!isCostShareInclusive){
-            criteria.addEqualToField("chartOfAccountsCode", "a21SubAccount.chartOfAccountsCode");
-            criteria.addEqualToField("accountNumber", "a21SubAccount.accountNumber");
-            criteria.addEqualToField("subAccountNumber", "a21SubAccount.subAccountNumber");
-            criteria.addNotEqualTo("a21SubAccount.subAccountTypeCode", "CS");
-        }
-        
-        ReportQueryByCriteria query = QueryFactory.newReportQuery(AccountBalance.class, criteria);
-        
-        List attributeList = buildAttributeList(true, this.BY_LEVEL);
-        List groupByList = buildGroupList(true, this.BY_LEVEL);
-        
-        // consolidate the selected entries
-        if(isConsolidated){
-            attributeList.remove("subAccountNumber");
-            groupByList.remove("subAccountNumber");
-        }
-        
-        // set the selection attributes
-        String[] attributes = (String[]) attributeList.toArray(new String[attributeList.size()]);
-        query.setAttributes(attributes);
+      // Get rid of stuff we don't need
+      if ( isExcludeCostShare ) {
+        sqlCommand("DELETE fp_interim2_cons_mt WHERE ROWID IN (SELECT i.ROWID FROM fp_interim2_cons_mt i,ca_a21_sub_acct_t a WHERE (a.fin_coa_cd = i.fin_coa_cd " + 
+          "AND a.account_nbr = i.account_nbr AND a.sub_acct_nbr = i.sub_acct_nbr AND a.sub_acct_typ_cd = 'CS') AND fp_interim2_cons_mt.SESID = USERENV('SESSIONID'))");
+      }
 
-        // add the group criteria into the selection statement
-        String[] groupBy = (String[]) groupByList.toArray(new String[groupByList.size()]);
-        query.addGroupBy(groupBy);
+      // Summarize
+      if ( isConsolidated ) {
+        sqlCommand("INSERT INTO fp_bal_by_cons_t (SUB_ACCT_NBR, FIN_REPORT_SORT_CD, CONS_FIN_REPORT_SORT_CD, FIN_CONS_OBJ_CD, CURR_BDLN_BAL_AMT, ACLN_ACTLS_BAL_AMT, " + 
+          "ACLN_ENCUM_BAL_AMT, OBJ_ID, VER_NBR, PERSON_SYS_ID) SELECT '-----',fin_report_sort_ind,cons_fin_report_sort_cd,fin_cons_obj_cd,SUM(curr_bdln_bal_amt), " + 
+          "SUM(acln_actls_bal_amt), SUM(acln_encum_bal_amt), sys_guid(), 1, USERENV('SESSIONID') FROM fp_interim2_cons_mt WHERE fp_interim2_cons_mt.SESID = USERENV('SESSIONID') " + 
+          "GROUP BY cons_fin_report_sort_cd, fin_report_sort_ind, fin_cons_obj_cd");
+      } else {
+        sqlCommand("INSERT INTO fp_bal_by_cons_t (SUB_ACCT_NBR, FIN_REPORT_SORT_CD, CONS_FIN_REPORT_SORT_CD, FIN_CONS_OBJ_CD, CURR_BDLN_BAL_AMT, ACLN_ACTLS_BAL_AMT, " + 
+          "ACLN_ENCUM_BAL_AMT, OBJ_ID, VER_NBR, PERSON_SYS_ID) SELECT sub_acct_nbr, fin_report_sort_ind, cons_fin_report_sort_cd, fin_cons_obj_cd, SUM(curr_bdln_bal_amt), " + 
+          "SUM(acln_actls_bal_amt), SUM(acln_encum_bal_amt), sys_guid(), 1, USERENV('SESSIONID') FROM fp_interim2_cons_mt WHERE fp_interim2_cons_mt.SESID = USERENV('SESSIONID') " + 
+          "GROUP BY sub_acct_nbr, cons_fin_report_sort_cd, fin_report_sort_ind, fin_cons_obj_cd");
+      }
 
-        return getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
+      // Here's the data
+      List data = sqlSelect("select SUB_ACCT_NBR, FIN_REPORT_SORT_CD, CONS_FIN_REPORT_SORT_CD, FIN_CONS_OBJ_CD, CURR_BDLN_BAL_AMT, ACLN_ACTLS_BAL_AMT, ACLN_ENCUM_BAL_AMT " +
+         "from fp_bal_by_cons_t where PERSON_SYS_ID = USERENV('SESSIONID') order by fin_report_sort_cd,cons_fin_report_sort_cd");
+
+      // Clean up everything
+      sqlCommand("DELETE fp_interim1_cons_mt WHERE fp_interim1_cons_mt.SESID = USERENV('SESSIONID')");
+      sqlCommand("DELETE fp_interim2_cons_mt WHERE fp_interim2_cons_mt.SESID = USERENV('SESSIONID')");
+      sqlCommand("DELETE from fp_bal_by_cons_t where person_sys_id = USERENV('SESSIONID')");
+
+      return data;
     }
 
     /**
-     * @see org.kuali.module.gl.dao.AccountBalanceDao#findAccountBalanceByObject(java.util.Map, boolean, boolean)
+     * Find balances by level
      */
-    public Iterator findAccountBalanceByObject(Map fieldValues, boolean isCostShareInclusive, boolean isConsolidated) {
-        
-        Criteria criteria = BusinessObjectHandler.buildCriteriaFromMap(fieldValues, new AccountBalance());
-        
-        // join account balance and object code tables
-        criteria.addEqualToField("universityFiscalYear", "financialObject.universityFiscalYear");
-        criteria.addEqualToField("chartOfAccountsCode", "financialObject.chartOfAccountsCode");
-        criteria.addEqualToField("objectCode", "financialObject.financialObjectCode");
-        
-        // exclude the entries whose subaccount type code is cost share
-        if(!isCostShareInclusive){
-            criteria.addEqualToField("chartOfAccountsCode", "a21SubAccount.chartOfAccountsCode");
-            criteria.addEqualToField("accountNumber", "a21SubAccount.accountNumber");
-            criteria.addEqualToField("subAccountNumber", "a21SubAccount.subAccountNumber");
-            criteria.addNotEqualTo("a21SubAccount.subAccountTypeCode", "CS");
-        }
-        
-        ReportQueryByCriteria query = QueryFactory.newReportQuery(AccountBalance.class, criteria);
-        
-        List attributeList = buildAttributeList(true, this.BY_OBJECT);
-        List groupByList = buildGroupList(true, this.BY_OBJECT);    
-        
-        // consolidate the selected entries
-        if(isConsolidated){
-            attributeList.remove("subAccountNumber");
-            groupByList.remove("subAccountNumber");
-        }
-        
-        // set the selection attributes
-        String[] attributes = (String[]) attributeList.toArray(new String[attributeList.size()]);
-        query.setAttributes(attributes);
+    public List findAccountBalanceByLevel(Integer universityFiscalYear,String chartOfAccountsCode,String accountNumber,
+        String financialConsolidationObjectCode, boolean isCostShareExcluded, boolean isConsolidated) {
 
-        // add the group criteria into the selection statement
-        String[] groupBy = (String[]) groupByList.toArray(new String[groupByList.size()]);
-        query.addGroupBy(groupBy);
+      // Not sure what this is for
+      String financialReportingSortCode = "A";
 
-        return getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
+      // Delete any data for this session if it exists already
+      sqlCommand("DELETE fp_bal_by_level_t WHERE person_sys_id = USERENV('SESSIONID')");
+      sqlCommand("DELETE  fp_interim1_level_mt WHERE fp_interim1_level_mt.SESID = USERENV('SESSIONID')");
+
+      // Add in all the data we need
+      sqlCommand("INSERT INTO fp_interim1_level_mt (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, CURR_BDLN_BAL_AMT, " +
+          "ACLN_ACTLS_BAL_AMT, ACLN_ENCUM_BAL_AMT, TIMESTAMP, FIN_REPORT_SORT_CD, FIN_OBJ_LEVEL_CD, SESID, OBJ_ID, VER_NBR) SELECT A.UNIV_FISCAL_YR, A.FIN_COA_CD, " +
+          "A.ACCOUNT_NBR, A.SUB_ACCT_NBR,A.FIN_OBJECT_CD, A.FIN_SUB_OBJ_CD,A.CURR_BDLN_BAL_AMT, A.ACLN_ACTLS_BAL_AMT, A.ACLN_ENCUM_BAL_AMT, A.TIMESTAMP, " +
+          "fin_report_sort_cd, l.fin_obj_level_cd, USERENV('SESSIONID'), sys_guid(), 1 FROM gl_acct_balances_t a, ca_object_code_t o, ca_obj_level_t l " +            
+          "WHERE a.univ_fiscal_yr = " + universityFiscalYear + " AND a.fin_coa_cd = '" + chartOfAccountsCode + "' AND a.account_nbr = '" + accountNumber + "' " +
+          "AND a.univ_fiscal_yr = o.univ_fiscal_yr AND a.fin_coa_cd = o.fin_coa_cd AND a.fin_object_cd = o.fin_object_cd AND o.fin_coa_cd = l.fin_coa_cd " + 
+          "AND o.fin_obj_level_cd = l.fin_obj_level_cd AND l.fin_cons_obj_cd = '" + financialConsolidationObjectCode + "' AND o.univ_fiscal_yr = " + universityFiscalYear + " " + 
+          "AND o.fin_coa_cd = '" + chartOfAccountsCode + "'");
+
+      // Delete what we don't need
+      if ( isCostShareExcluded ) {
+        sqlCommand("DELETE fp_interim1_level_mt WHERE ROWID IN (SELECT i.ROWID FROM fp_interim1_level_mt i,ca_a21_sub_acct_t a WHERE (a.fin_coa_cd = i.fin_coa_cd " + 
+           "AND a.account_nbr = i.account_nbr AND a.sub_acct_nbr = i.sub_acct_nbr AND a.sub_acct_typ_cd = 'CS') AND fp_interim1_level_mt.SESID = USERENV('SESSIONID'))");
+      }
+
+      // Summarize
+      if ( isConsolidated ) {
+        sqlCommand("INSERT INTO fp_bal_by_level_t (SUB_ACCT_NBR, FIN_OBJ_LEVEL_CD, FIN_REPORT_SORT_CD, CURR_BDLN_BAL_AMT, ACLN_ACTLS_BAL_AMT, ACLN_ENCUM_BAL_AMT, " +
+            "TYP_FIN_REPORT_SORT_CD, OBJ_ID, VER_NBR, PERSON_SYS_ID) SELECT '-----', fin_obj_level_cd,fin_report_sort_cd, SUM(curr_bdln_bal_amt), " + 
+            "SUM(acln_actls_bal_amt), SUM(acln_encum_bal_amt),'" + financialReportingSortCode + "', sys_guid(), 1, USERENV('SESSIONID') FROM fp_interim1_level_mt " + 
+            "WHERE fp_interim1_level_mt.SESID = USERENV('SESSIONID') GROUP BY fin_report_sort_cd, fin_obj_level_cd");
+      } else {
+        sqlCommand("INSERT INTO fp_bal_by_level_t (SUB_ACCT_NBR, FIN_OBJ_LEVEL_CD, FIN_REPORT_SORT_CD, CURR_BDLN_BAL_AMT, ACLN_ACTLS_BAL_AMT, ACLN_ENCUM_BAL_AMT, " +
+            "TYP_FIN_REPORT_SORT_CD, OBJ_ID, VER_NBR, PERSON_SYS_ID) SELECT  sub_acct_nbr, fin_obj_level_cd, fin_report_sort_cd, SUM(curr_bdln_bal_amt), " + 
+            "SUM(acln_actls_bal_amt), SUM(acln_encum_bal_amt), '" + financialReportingSortCode + "', sys_guid(), 1, USERENV('SESSIONID') FROM fp_interim1_level_mt " + 
+            "WHERE fp_interim1_level_mt.SESID = USERENV('SESSIONID') GROUP BY sub_acct_nbr, fin_report_sort_cd, fin_obj_level_cd");
+      }
+
+      // Here's the data
+      List data = sqlSelect("select SUB_ACCT_NBR, FIN_OBJ_LEVEL_CD, FIN_REPORT_SORT_CD, CURR_BDLN_BAL_AMT, ACLN_ACTLS_BAL_AMT, ACLN_ENCUM_BAL_AMT, TYP_FIN_REPORT_SORT_CD " +
+          "from FP_BAL_BY_LEVEL_T where PERSON_SYS_ID = USERENV('SESSIONID')");
+
+      // Clean up everything
+      sqlCommand("DELETE fp_bal_by_level_t WHERE person_sys_id = USERENV('SESSIONID')");
+      sqlCommand("DELETE  fp_interim1_level_mt WHERE fp_interim1_level_mt.SESID = USERENV('SESSIONID')");
+
+      return data;
     }
-    
+
+    public List findAccountBalanceByObject(Integer universityFiscalYear,String chartOfAccountsCode,String accountNumber,String financialObjectLevelCode,
+        String financialReportingSortCode,boolean isCostShareExcluded,boolean isConsolidated) {
+
+      // Delete any data for this session if it exists already
+      sqlCommand("DELETE fp_bal_by_obj_t WHERE person_sys_id = USERENV('SESSIONID')");
+      sqlCommand("DELETE  fp_interim1_obj_mt WHERE fp_interim1_obj_mt.SESID = USERENV('SESSIONID')");
+
+      // Add in all the data we need
+      sqlCommand("INSERT INTO fp_interim1_obj_mt (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR,FIN_OBJECT_CD, FIN_SUB_OBJ_CD, CURR_BDLN_BAL_AMT," + 
+          "ACLN_ACTLS_BAL_AMT, ACLN_ENCUM_BAL_AMT, TIMESTAMP,SESID, OBJ_ID, VER_NBR) SELECT A.UNIV_FISCAL_YR, A.FIN_COA_CD, A.ACCOUNT_NBR, A.SUB_ACCT_NBR," + 
+          "A.FIN_OBJECT_CD, A.FIN_SUB_OBJ_CD, A.CURR_BDLN_BAL_AMT,A.ACLN_ACTLS_BAL_AMT, A.ACLN_ENCUM_BAL_AMT, A.TIMESTAMP,USERENV('SESSIONID'), sys_guid(), 1 " +
+          "FROM gl_acct_balances_t a, ca_object_code_t o WHERE a.univ_fiscal_yr = " + universityFiscalYear + " AND a.fin_coa_cd = '" + chartOfAccountsCode + 
+          "' AND a.account_nbr = '" + accountNumber + "' AND a.univ_fiscal_yr = o.univ_fiscal_yr AND a.fin_coa_cd = o.fin_coa_cd AND a.fin_object_cd = o.fin_object_cd " + 
+          "AND o.fin_obj_level_cd = '" + financialObjectLevelCode + "'");
+
+      // Delete what we don't need
+      if ( isCostShareExcluded ) {
+        sqlCommand("DELETE fp_interim1_obj_mt WHERE ROWID IN (SELECT i.ROWID FROM fp_interim1_obj_mt i,ca_a21_sub_acct_t a WHERE (a.fin_coa_cd = i.fin_coa_cd " + 
+            "AND a.account_nbr = i.account_nbr AND a.sub_acct_nbr = i.sub_acct_nbr AND a.sub_acct_typ_cd = 'CS') AND fp_interim1_obj_mt.SESID = USERENV('SESSIONID'))");
+      }
+
+      // Summarize
+      if ( isConsolidated ) {
+        sqlCommand("INSERT INTO fp_bal_by_obj_t (SUB_ACCT_NBR, FIN_OBJECT_CD, CURR_BDLN_BAL_AMT, ACLN_ACTLS_BAL_AMT, ACLN_ENCUM_BAL_AMT, FIN_REPORT_SORT_CD, " +
+            "OBJ_ID, VER_NBR, PERSON_SYS_ID) SELECT  '-----',fin_object_cd, SUM(curr_bdln_bal_amt),SUM(acln_actls_bal_amt), SUM(acln_encum_bal_amt)," + 
+            "'B', sys_guid(), 1, USERENV('SESSIONID') FROM fp_interim1_obj_mt WHERE fp_interim1_obj_mt.SESID  = USERENV('SESSIONID') " +
+            "GROUP BY fin_object_cd");
+      } else {
+        sqlCommand("INSERT INTO fp_bal_by_obj_t (SUB_ACCT_NBR, FIN_OBJECT_CD, CURR_BDLN_BAL_AMT, ACLN_ACTLS_BAL_AMT, ACLN_ENCUM_BAL_AMT, FIN_REPORT_SORT_CD, " +
+            "OBJ_ID, VER_NBR, PERSON_SYS_ID) SELECT  sub_acct_nbr, fin_object_cd, SUM(curr_bdln_bal_amt), SUM(acln_actls_bal_amt),SUM(acln_encum_bal_amt), " +
+            "'B', sys_guid(), 1, USERENV('SESSIONID') FROM fp_interim1_obj_mt WHERE fp_interim1_obj_mt.SESID  = USERENV('SESSIONID') " + 
+            "GROUP BY sub_acct_nbr, fin_object_cd");
+      }
+
+      // Here's the data
+      List data = sqlSelect("select SUB_ACCT_NBR, FIN_OBJECT_CD, CURR_BDLN_BAL_AMT, ACLN_ACTLS_BAL_AMT, ACLN_ENCUM_BAL_AMT, FIN_REPORT_SORT_CD from fp_bal_by_obj_t " +
+         "where PERSON_SYS_ID = USERENV('SESSIONID') order by fin_object_cd");
+
+      // Clean up everything
+      sqlCommand("DELETE fp_bal_by_obj_t WHERE person_sys_id = USERENV('SESSIONID')");
+      sqlCommand("DELETE  fp_interim1_obj_mt WHERE fp_interim1_obj_mt.SESID = USERENV('SESSIONID')");
+
+      return data;
+    }
+
     /**
      * This method builds the atrribute list used by balance searching
      * @param isExtended determine whether the extended attributes will be used 
@@ -317,21 +337,58 @@ public class AccountBalanceDaoOjb extends PersistenceBrokerDaoSupport implements
         return attributeList;
     }
 
-    /**
-     * This method builds an object type code list
-     * 
-     * @return List an object type code list
-     */
-    private List buildObjectTypeCodeList() {
-        List objectTypeCodeList = new ArrayList();
+    private int sqlCommand(String sql) {
+        LOG.info("sqlCommand() started: " + sql);
 
-        objectTypeCodeList.add("EE");
-        objectTypeCodeList.add("EX");
-        objectTypeCodeList.add("ES");
-        objectTypeCodeList.add("IN");
-        objectTypeCodeList.add("IC");
-        objectTypeCodeList.add("CH");
+        Statement stmt = null;
 
-        return objectTypeCodeList;
+        try {
+          Connection c = getPersistenceBroker(true).serviceConnectionManager().getConnection();
+          stmt = c.createStatement();
+          return stmt.executeUpdate(sql);
+        } catch (Exception e) {
+          throw new RuntimeException("Unable to execute: " + e.getMessage());
+        } finally {
+          try {
+            if ( stmt != null ) {
+              stmt.close();
+            }
+          } catch (Exception e) {
+            throw new RuntimeException("Unable to close connection: " + e.getMessage());
+          }
+        }
+    }
+
+    private List sqlSelect(String sql) {
+      LOG.debug("sqlSelect() started");
+
+      Statement stmt = null;
+
+      try {
+        Connection c = getPersistenceBroker(true).serviceConnectionManager().getConnection();
+        stmt = c.createStatement();
+
+        ResultSet rs = stmt.executeQuery(sql);
+        List result = new ArrayList();
+        while (rs.next()) {
+          Map row = new HashMap();
+          int numColumns = rs.getMetaData().getColumnCount();
+          for ( int i = 1 ; i <= numColumns ; i++ ) {
+            row.put(rs.getMetaData().getColumnName(i).toUpperCase(),rs.getObject(i));
+          }
+          result.add(row);
+        }
+        return result;
+      } catch (Exception e) {
+        throw new RuntimeException("Unable to execute: " + e.getMessage());
+      } finally {
+        try {
+          if ( stmt != null ) {
+            stmt.close();
+          }
+        } catch (Exception e) {
+          throw new RuntimeException("Unable to close connection: " + e.getMessage());
+        }
+      }
     }
 }

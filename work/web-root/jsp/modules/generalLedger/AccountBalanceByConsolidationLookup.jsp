@@ -64,7 +64,7 @@
               </tr>
             </table>
           </div>
-          
+
           <br/><br/>
 		  <div class="right">
             <logic-el:present name="KualiForm" property="formKey">
@@ -75,17 +75,12 @@
               </c:if>
             </logic-el:present>
           </div>          
-          
-	      <c:if test="${reqSearchResultsActualSize>0}" >
-	      	<c:out value="${reqSearchResultsActualSize}" /> items found.
-	      </c:if>
-	      
+
 	      <c:set var="offset" value="5"/>
-	      
+
 	      <display:table class="datatable-100" cellspacing="0"
 					cellpadding="0" name="${reqSearchResults}" id="row" export="true" pagesize="100" offset="${offset}"
 					requestURI="glAccountBalanceByConsolidationLookup.do?methodToCall=viewResults&reqSearchResultsActualSize=${reqSearchResultsActualSize}&searchResultKey=${searchResultKey}">
-	      
 	        <c:forEach items="${row.columns}" var="column" varStatus="status">
 	          <c:if test="${column.propertyURL!=\"\" && param['d-16544-e'] == null}">
 	            <display:column class="infocell" title="${column.columnTitle}">
@@ -110,14 +105,14 @@
 	        </c:forEach>
 	      </display:table>
 		  
-		  <c:if test="${reqSearchResultsActualSize>0}" >
+		  <c:if test="${reqSearchResultsActualSize>4}" >
 		  <div style="float: right; width: 70%;"><br/><br/>
 		      <display:table class="datatable-100" cellspacing="0"
 						cellpadding="0" name="${reqSearchResults}" id="row" export="false" length="${offset-2}">
 						
 				<display:caption style="text-align: left; font-weight: bold;">Totals</display:caption>		
 		      
-		        <c:set var="indexOfbeginningColumn" value="4"/>
+		        <c:set var="indexOfbeginningColumn" value="5"/>
 		        <c:forEach items="${row.columns}" var="column" varStatus="status" 
 		        	begin="${indexOfbeginningColumn}" end="${indexOfbeginningColumn+4}">
 		        	
@@ -136,11 +131,11 @@
 		        
 		        <display:footer>
 		        	<tr>
-		        		<th colspan="${indexOfbeginningColumn}" class="infocell" style="text-align: right">
+		        		<th colspan="${indexOfbeginningColumn-1}" class="infocell" style="text-align: right">
 		        			Available Balance:&nbsp;
 		        		</th>
 		        		<td class="numbercell">
-                          <c:out value="${reqSearchResults[3].columns[8].propertyValue}"/>
+                          <c:out value="${reqSearchResults[3].columns[9].propertyValue}"/>
                         </td>
 		        	</tr>
 		        </display:footer>          	          

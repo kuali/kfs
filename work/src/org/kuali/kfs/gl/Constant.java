@@ -78,7 +78,7 @@ public final class Constant {
     
     public static final String RETURN_LOCATION_VALUE = "portal.do";
     public static final String START_CHAR_OF_REPORTING_SORT_CODE_B = "B"; 
-    public static final String LOOKUP_BUTTON_VALUE = "LOOK UP";    
+    public static final String LOOKUP_BUTTON_VALUE = "Drill Down";    
     
     public static final String TOTAL_ACCOUNT_BALANCE_INCOME = "Income";
     public static final String TOTAL_ACCOUNT_BALANCE_EXPENSE_GROSS = "Expense (Gross)";

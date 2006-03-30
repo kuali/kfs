@@ -23,6 +23,7 @@
 package org.kuali.module.gl.service;
 
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.kuali.module.gl.bo.AccountBalance;
@@ -32,7 +33,7 @@ import org.kuali.module.gl.bo.AccountBalance;
  * @author Bin Gao from Michigan State University
  */
 public interface AccountBalanceService {
-    
+
     /**
      * This method finds the available account balances according to input fields and values
      * 
@@ -41,36 +42,24 @@ public interface AccountBalanceService {
      * @return the summary records of account balance entries
      */
     public Iterator findAvailableAccountBalance(Map fieldValues, boolean isConsolidated);
-    
+
+    /**
+     * This method finds the available account balances according to input fields and values 
+     */
+    public List findAccountBalanceByConsolidation(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String subAccountNumber, 
+        boolean isCostShareExcluded, boolean isConsolidated,boolean isIncludePendingEntry);
+
     /**
      * This method finds the available account balances according to input fields and values
-     * 
-     * @param fieldValues the input fields and values
-     * @param isCostShareInclusive determine whether the account balance entries with cost share is included
-     * @param isConsolidated determine whether the search results are consolidated
-     * @return the summary records of account balance entries
      */
-    public Iterator findAccountBalanceByConsolidation(Map fieldValues, boolean isCostShareInclusive, boolean isConsolidated); 
-    
+    public List findAccountBalanceByLevel(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String subAccountNumber, 
+        String financialConsolidationObjectCode, boolean isCostShareExcluded, boolean isConsolidated,boolean isIncludePendingEntry);
+
     /**
      * This method finds the available account balances according to input fields and values
-     * 
-     * @param fieldValues the input fields and values
-     * @param isCostShareInclusive determine whether the account balance entries with cost share is included
-     * @param isConsolidated determine whether the search results are consolidated
-     * @return the summary records of account balance entries
      */
-    public Iterator findAccountBalanceByLevel(Map fieldValues, boolean isCostShareInclusive, boolean isConsolidated); 
-    
-    /**
-     * This method finds the available account balances according to input fields and values
-     * 
-     * @param fieldValues the input fields and values
-     * @param isCostShareInclusive determine whether the account balance entries with cost share is included
-     * @param isConsolidated determine whether the search results are consolidated
-     * @return the summary records of account balance entries
-     */
-    public Iterator findAccountBalanceByObject(Map fieldValues, boolean isCostShareInclusive, boolean isConsolidated);
-    
+    public List findAccountBalanceByObject(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String subAccountNumber, 
+        String financialObjectLevelCode,String financialReportingSortCode,boolean isCostShareExcluded,boolean isConsolidated,boolean isIncludePendingEntry);
+
     public void save(AccountBalance ab);
 }

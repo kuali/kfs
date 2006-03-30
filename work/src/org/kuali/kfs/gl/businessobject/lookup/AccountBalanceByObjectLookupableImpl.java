@@ -22,9 +22,6 @@
  */
 package org.kuali.module.gl.web.lookupable;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -32,24 +29,27 @@ import java.util.Map;
 import org.kuali.Constants;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.lookup.CollectionIncomplete;
-import org.kuali.core.util.comparator.BeanPropertyComparator;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.module.gl.batch.poster.AccountBalanceCalculator;
+import org.kuali.core.lookup.KualiLookupableImpl;
 import org.kuali.module.gl.bo.AccountBalance;
-import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
-import org.kuali.module.gl.util.BusinessObjectFieldConverter;
+import org.kuali.module.gl.bo.DummyBusinessObject;
+import org.kuali.module.gl.service.AccountBalanceService;
 import org.kuali.module.gl.web.Constant;
-import org.kuali.module.gl.web.inquirable.AccountBalanceInquirableImpl;
 import org.kuali.module.gl.web.inquirable.AccountBalanceByObjectInquirableImpl;
+import org.kuali.module.gl.web.inquirable.AccountBalanceInquirableImpl;
 
 /**
  * This class...
  * 
  * @author Bin Gao from Michigan State University
  */
-public class AccountBalanceByObjectLookupableImpl extends AbstractGLLookupableImpl {
-    
-    private AccountBalanceCalculator postAccountBalance;
+public class AccountBalanceByObjectLookupableImpl extends KualiLookupableImpl {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountBalanceByObjectLookupableImpl.class);
+
+    private AccountBalanceService accountBalanceService;
+
+    public void setAccountBalanceService(AccountBalanceService abs) {
+      accountBalanceService = abs;
+    }
 
     /**
      * Returns the inquiry url for a result field.
@@ -72,157 +72,49 @@ public class AccountBalanceByObjectLookupableImpl extends AbstractGLLookupableIm
      * @return List found business objects
      */
     public List getSearchResults(Map fieldValues) {
+        LOG.debug("getSearchResults() started");
+
         setBackLocation((String) fieldValues.get(Constants.BACK_LOCATION));
         setDocFormKey((String) fieldValues.get(Constants.DOC_FORM_KEY));
-        
-        // get the pending entry option. This method must be prior to the get search results
-        String pendingEntryOption = this.getSelectedPendingEntryOption(fieldValues);        
 
-        // test if the consolidation option is selected or not
-        boolean isConsolidated = isConsolidationSelected(fieldValues);
+        String costShareOption = (String)fieldValues.get("dummyBusinessObject.costShareOption");
+        String pendingEntryOption = (String)fieldValues.get("dummyBusinessObject.pendingEntryOption");
+        String consolidationOption = (String)fieldValues.get("dummyBusinessObject.consolidationOption");
+        boolean isCostShareExcluded = Constant.COST_SHARE_EXCLUDE.equals(costShareOption);
+        boolean isIncludePendingEntry = "No".equals(pendingEntryOption);
+        boolean isConsolidated = Constant.CONSOLIDATION.equals(consolidationOption);
 
-        // test if the cost share inclusive option is selected or not
-        boolean isCostShareInclusive = isCostShareInclusive(fieldValues);
+        String chartOfAccountsCode = (String)fieldValues.get("chartOfAccountsCode");
+        String accountNumber = (String)fieldValues.get("accountNumber");
+        String subAccountNumber = (String)fieldValues.get("subAccountNumber");
+        String financialObjectLevelCode = (String)fieldValues.get("financialObject.financialObjectLevelCode");
+        String financialReportingSortCode = (String)fieldValues.get("financialObject.financialObjectLevel.financialReportingSortCode");
 
-        // get the search result collection
-        Iterator availableBalanceIterator = accountBalanceService.findAccountBalanceByObject(fieldValues, isCostShareInclusive,
-                isConsolidated);
-        
-        Collection searchResultsCollection = buildAvailableBalanceCollection(availableBalanceIterator, isCostShareInclusive,
-                isConsolidated, pendingEntryOption);
-        
-        // update search results according to the selected pending entry option
-        updateByPendingLedgerEntry(searchResultsCollection, fieldValues, pendingEntryOption, isConsolidated, isCostShareInclusive); 
-
-        // sort list if default sort column given
-        List searchResults = (List) searchResultsCollection;
-        List defaultSortColumns = getDefaultSortColumns();
-        if (defaultSortColumns.size() > 0) {
-            Collections.sort(searchResults, new BeanPropertyComparator(defaultSortColumns, true));
+        // Dashes means no sub account number
+        if ( Constants.DASHES_SUB_ACCOUNT_NUMBER.equals(subAccountNumber) ) {
+          subAccountNumber = "";
         }
-        return searchResults;
-    }
 
-    /**
-     * This method builds the available account balance collection based on the input iterator
-     * @param iterator the iterator of search results of account balance
-     * @param isCostShareInclusive determine whether the account balance entries with cost share is included     
-     * @param isConsolidated flag whether the results are consolidated or not
-     * @param pendingEntryOption the selected pending entry option
-     * 
-     * @return the account balance collection
-     */
-    private Collection buildAvailableBalanceCollection(Iterator iterator, boolean isCostShareInclusive, boolean isConsolidated, String pendingEntryOption) {
-        Collection balanceCollection = new ArrayList();
+        String ufy = (String)fieldValues.get("universityFiscalYear");
 
-        // build available balance collection throught analyzing the input iterator
-        while (iterator.hasNext()) {
-            int i = 0;
-            Object avaiableAccountBalance = iterator.next();
-            Object[] array = (Object[]) avaiableAccountBalance;
-            AccountBalance accountBalance = new AccountBalance();
+        // TODO Deal with invalid numbers
+        Integer universityFiscalYear = new Integer(Integer.parseInt(ufy));
 
-            accountBalance.setUniversityFiscalYear(new Integer(array[i++].toString()));
-            accountBalance.setChartOfAccountsCode(array[i++].toString());
-            accountBalance.setAccountNumber(array[i++].toString());
+        // TODO Include Pending 
 
-            String subAccountNumber = isConsolidated ? Constant.CONSOLIDATED_SUB_ACCOUNT_NUMBER : array[i++].toString();
-            accountBalance.setSubAccountNumber(subAccountNumber);
+        List results = accountBalanceService.findAccountBalanceByObject(universityFiscalYear, chartOfAccountsCode, accountNumber, subAccountNumber, 
+            financialObjectLevelCode, financialReportingSortCode, isCostShareExcluded, isConsolidated, isIncludePendingEntry);
 
-            accountBalance.setObjectCode(array[i++].toString());
-            accountBalance.setSubObjectCode(Constant.CONSOLIDATED_SUB_OBJECT_CODE);
-            
-            accountBalance.getFinancialObject().getFinancialObjectLevel().setFinancialReportingSortCode(array[i++].toString());
-            accountBalance.getFinancialObject().setFinancialObjectLevelCode(array[i++].toString());
+        // Put the search related stuff in the objects
+        for (Iterator iter = results.iterator(); iter.hasNext();) {
+          AccountBalance ab = (AccountBalance)iter.next();
 
-            KualiDecimal budgetAmount = new KualiDecimal(array[i++].toString());
-            accountBalance.setCurrentBudgetLineBalanceAmount(budgetAmount);
-
-            KualiDecimal actualsAmount = new KualiDecimal(array[i++].toString());
-            accountBalance.setAccountLineActualsBalanceAmount(actualsAmount);
-
-            KualiDecimal encumbranceAmount = new KualiDecimal(array[i].toString());
-            accountBalance.setAccountLineEncumbranceBalanceAmount(encumbranceAmount);
-
-            KualiDecimal variance = calculateVariance(accountBalance);
-            accountBalance.getDummyBusinessObject().setGenericAmount(variance);
-
-            String consolidationOption = isConsolidated ? Constant.CONSOLIDATION : Constant.DETAIL;
-            accountBalance.getDummyBusinessObject().setConsolidationOption(consolidationOption);
-
-            String costShareOption = isCostShareInclusive ? Constant.COST_SHARE_INCLUDE : Constant.COST_SHARE_EXCLUDE;
-            accountBalance.getDummyBusinessObject().setCostShareOption(costShareOption);
-
-            // add a button that can trigger lookup account balance by object
-            accountBalance.getDummyBusinessObject().setLinkButtonOption(Constant.LOOKUP_BUTTON_VALUE);
-            
-            balanceCollection.add(accountBalance);
+          DummyBusinessObject dbo = ab.getDummyBusinessObject();
+          dbo.setConsolidationOption(consolidationOption);
+          dbo.setCostShareOption(costShareOption);
+          dbo.setPendingEntryOption(pendingEntryOption);
+          dbo.setLinkButtonOption(Constant.LOOKUP_BUTTON_VALUE);
         }
-        return new CollectionIncomplete(balanceCollection, new Long(balanceCollection.size()));
-    }
-
-    /**
-     * This method calculates the variance of current budget balance, actuals balance and encumbrance balance
-     * 
-     * @param accountBalance an account balance entry
-     */
-    private KualiDecimal calculateVariance(AccountBalance accountBalance) {
-
-        KualiDecimal variance = new KualiDecimal(0.0);
-        KualiDecimal budgetAmount = accountBalance.getCurrentBudgetLineBalanceAmount();
-        KualiDecimal actualsAmount = accountBalance.getAccountLineActualsBalanceAmount();
-        KualiDecimal encumbranceAmount = accountBalance.getAccountLineEncumbranceBalanceAmount();
-
-        // get the reporting sort code
-        String reportingSortCode = accountBalance.getFinancialObject().getFinancialObjectLevel().getFinancialReportingSortCode();
-
-        // calculate the variance based on the starting character of reporting sort code
-        if (reportingSortCode.startsWith(Constant.START_CHAR_OF_REPORTING_SORT_CODE_B)) {
-            variance = budgetAmount.subtract(actualsAmount);
-            variance = variance.subtract(encumbranceAmount);
-        }
-        else {
-            variance = actualsAmount.subtract(budgetAmount);
-        }
-        return variance;
-    }
-
-    /**
-     * @see org.kuali.module.gl.web.lookupable.AbstractGLLookupableImpl#updateEntryCollection(java.util.Collection, java.util.Map,
-     *      boolean, boolean, boolean)
-     */
-    public void updateEntryCollection(Collection entryCollection, Map fieldValues, boolean isApproved, boolean isConsolidated, boolean isCostShareInclusive) {
-
-        // convert the field names of balance object into corresponding ones of pending entry object
-        Map pendingEntryFieldValues = BusinessObjectFieldConverter.convertToTransactionFieldValues(fieldValues);
-
-        // go through the pending entries to update the balance collection
-        Iterator pendingEntryIterator = generalLedgerPendingEntryService.findPendingLedgerEntriesForAccountBalanceByConsolidation(
-                pendingEntryFieldValues, isCostShareInclusive, isApproved);
-        
-        while (pendingEntryIterator.hasNext()) {
-            GeneralLedgerPendingEntry pendingEntry = (GeneralLedgerPendingEntry) pendingEntryIterator.next();
-
-            // if consolidated, change the following fields into the default values for consolidation
-            if (isConsolidated) {
-                pendingEntry.setSubAccountNumber(Constant.CONSOLIDATED_SUB_ACCOUNT_NUMBER);
-                pendingEntry.setFinancialObjectTypeCode(Constant.CONSOLIDATED_OBJECT_TYPE_CODE);
-            }
-            pendingEntry.setFinancialSubObjectCode(Constant.CONSOLIDATED_SUB_OBJECT_CODE);
-
-            AccountBalance accountBalance = postAccountBalance.findAccountBalance(entryCollection, pendingEntry);
-            accountBalance.getDummyBusinessObject().setLinkButtonOption(Constant.LOOKUP_BUTTON_VALUE);
-            
-            postAccountBalance.updateAccountBalance(pendingEntry, accountBalance);
-        }
-    }
-
-    /**
-     * Sets the postAccountBalance attribute value.
-     * 
-     * @param postAccountBalance The postAccountBalance to set.
-     */
-    public void setPostAccountBalance(AccountBalanceCalculator postAccountBalance) {
-        this.postAccountBalance = postAccountBalance;
-    }
+        return new CollectionIncomplete(results,new Long(results.size()));
+   }
 }

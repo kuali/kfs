@@ -23,7 +23,7 @@
 	            </control>
 	            
 	            <summary>Bank Name</summary>
-	            <description>...</description>
+	            <description>The full name of the Bank managing the Wire Transfer.</description>
 	        </attribute>
 	        
 	        <attribute name="disbVchrBankRoutingNumber">
@@ -39,7 +39,7 @@
 	            </control>
 	            
 	            <summary>Bank ABA Routing #</summary>
-	            <description>...</description>
+	            <description>The ABA Routing number of the Bank managing the Wire Transfer.</description>
 	        </attribute>
 	        
 	        <attribute name="disbVchrBankCityName">
@@ -55,7 +55,7 @@
 	            </control>
 	            
 	            <summary>Bank City</summary>
-	            <description>...</description>
+	            <description>The city in which the Bank managing the Wire Transfer is located.</description>
 	        </attribute>
 	        
 	        <attribute name="disbVchrBankStateCode">
@@ -71,7 +71,7 @@
 	            </control>
 	            
 	            <summary>Bank State</summary>
-	            <description>...</description>
+	            <description>The state in which the Bank managing the Wire Transfer is located.</description>
 	        </attribute>
 	        
 	        <attribute name="disbVchrBankCountryCode">
@@ -87,7 +87,7 @@
 	            </control>
 	            
 	            <summary>Bank Country</summary>
-	            <description>...</description>
+	            <description>One of a prescribed list of countries in which the Bank managing the Wire Transfer is located.</description>
 	        </attribute>
 	        
 	        <attribute name="disbVchrAttentionLineText">
@@ -103,7 +103,7 @@
 	            </control>
 	            
 	            <summary>Addenda</summary>
-	            <description>...</description>
+	            <description>A free-form text field for addenda on the Write Transfer.</description>
 	        </attribute>
 	        
 	        <attribute name="disbVchrAdditionalWireText">
@@ -119,7 +119,7 @@
 	            </control>
 	            
 	            <summary>Additional Wire Information</summary>
-	            <description>...</description>
+	            <description>A free-form text field for additional information on the Write Transfer</description>
 	        </attribute>
              
 	        <attribute name="disbVchrPayeeAccountNumber">
@@ -135,7 +135,7 @@
 	            </control>
 	            
 	            <summary>Bank Account #</summary>
-	            <description>...</description>
+	            <description>The Account Number involved in the Wire Transfer.</description>
 	        </attribute>
 	        
 	        <attribute name="disbVchrCurrencyTypeCode">
@@ -151,7 +151,7 @@
 	            </control>
 	            
 	            <summary>DV Amount Stated in</summary>
-	            <description>...</description>
+	            <description>One of a prescribed list of text fields that specifies foreign or domestic currency for the Wire Transfer.</description>
 	        </attribute>
 	        
 	        <attribute name="disbVchrForeignBankIndicator">
@@ -167,7 +167,7 @@
 	            </control>
 	            
 	            <summary>Wire To</summary>
-	            <description>...</description>
+	            <description>Radiobuttons to specify that the Wire Transfer is sent to either a domestic or foreign bank</description>
 	        </attribute>
 	        
 	        <attribute name="disbVchrCurrencyTypeName">
@@ -183,7 +183,7 @@
 	            </control>
 	            
 	            <summary>Currency Type</summary>
-	            <description>...</description>
+	            <description>The type or unit of currency, if foreign currency is involved in the Wire Transfer.</description>
 	        </attribute>
 	        
 	        <attribute name="disbursementVoucherWireTransferFeeWaiverIndicator">
@@ -199,7 +199,7 @@
 	            </control>
 	            
 	            <summary>Waive wire transfer fee?</summary>
-	            <description>...</description>
+	            <description>The code to specify that the Wire Transfer fee should be waived, expressed as "Yes" or "No".</description>
 	        </attribute>
 	        
 	        <attribute name="disbursementVoucherPayeeAccountName">
@@ -215,7 +215,7 @@
 	            </control>
 	            
 	            <summary>Bank Acct in the Name of</summary>
-	            <description>...</description>
+	            <description>The full name of the individual or organization account involved in the Wire Transfer.</description>
 	        </attribute>
 	        
 	    	<attribute name="disbursementVoucherPayeeAccountTypeCode">
@@ -231,7 +231,7 @@
 	            </control>
 	            
 	            <summary>Bank Acct Type</summary>
-	            <description>...</description>
+	            <description>Bank Account Type.</description>
 	        </attribute>  
 	        
 	    	<attribute name="disbursementVoucherAutomatedClearingHouseProfileNumber">
@@ -247,7 +247,7 @@
 	            </control>
 	            
 	            <summary>Recurring Profile No.</summary>
-	            <description>...</description>
+	            <description>PDP customer profile number ACH payment.</description>
 	        </attribute>   
 
 	    </attributes>

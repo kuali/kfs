@@ -23,7 +23,7 @@
 	            </control>
 	            
 	            <summary>Traveler Name</summary>
-	            <description>...</description>
+	            <description>The full name of the Traveler involved, expressed as "Lastname, Firstname MiddleInitial"</description>
 	        </attribute>
 	        
 	        <attribute name="disbVchrServicePerformedDesc">
@@ -39,7 +39,7 @@
 	            </control>
 	            
 	            <summary>Service Performed</summary>
-	            <description>...</description>
+	            <description>A free-form text field that describes the Service performed in the Travel.</description>
 	        </attribute>
 	        
 	        <attribute name="dvServicePerformedLocName">
@@ -55,7 +55,7 @@
 	            </control>
 	            
 	            <summary>Place of Performance</summary>
-	            <description>...</description>
+	            <description>A free-form text field that identifies the location of the Service performed in the Travel.</description>
 	        </attribute>
 	        
 	        <attribute name="dvServiceRegularEmprName">
@@ -71,7 +71,7 @@
 	            </control>
 	            
 	            <summary>Regular Employer</summary>
-	            <description>...</description>
+	            <description>A free-form text field that identifies the Employer of the Traveler involved.</description>
 	        </attribute>
 	        
 	        <attribute name="disbVchrTravelFromCityName">
@@ -87,7 +87,7 @@
 	            </control>
 	            
 	            <summary>Travel From City</summary>
-	            <description>...</description>
+	            <description>A free-form text field that identifies the City of the Non-Employee Travel.</description>
 	        </attribute>
 
 	        <attribute name="disbVchrTravelFromStateCode">
@@ -103,7 +103,7 @@
 	            </control>
 	            
 	            <summary>Travel From State</summary>
-	            <description>...</description>
+	            <description>A free-form text field that identifies the State of the Non-Employee Travel.</description>
 	        </attribute>
 	        
 	        <attribute name="dvTravelFromCountryCode">
@@ -119,7 +119,7 @@
 	            </control>
 	            
 	            <summary>Travel From Country</summary>
-	            <description>...</description>
+	            <description>One of a prescribed list that identifies the Country of the Non-Employee Travel.</description>
 	        </attribute>
 	        
 	        <attribute name="perDiemStartDateTime">
@@ -151,7 +151,7 @@
 	            </control>
 	            
 	            <summary>Travel Start Date Time</summary>
-	            <description>...</description>
+	            <description>A free-form text field that identifies the Date and Time of the Non-Employee Travel.  Use the calendar icon to select and format the date.</description>
 	        </attribute>
 	        
 	        <attribute name="disbVchrTravelToCityName">
@@ -167,7 +167,7 @@
 	            </control>
 	            
 	            <summary>Travel From City</summary>
-	            <description>...</description>
+	            <description>A free-form text field that identifies the City of the Non-Employee Travel.</description>
 	        </attribute>
 
 	        <attribute name="disbVchrTravelToStateCode">
@@ -183,7 +183,7 @@
 	            </control>
 	            
 	            <summary>Travel From State</summary>
-	            <description>...</description>
+	            <description>A free-form text field that identifies the State of the Non-Employee Travel.</description>
 	        </attribute>
 	        
 	        <attribute name="disbVchrTravelToCountryCode">
@@ -199,7 +199,7 @@
 	            </control>
 	            
 	            <summary>Travel From Country</summary>
-	            <description>...</description>
+	            <description>One of a prescribed list that identifies the Country of the Non-Employee Travel.</description>
 	        </attribute>
 	        
 	        <attribute name="disbVchrPerdiemCategoryName">
@@ -215,7 +215,7 @@
 	            </control>
 	            
 	            <summary>Per Diem Category</summary>
-	            <description>...</description>
+	            <description>One of a prescribed list of location categories for the Non-Employee Travel.</description>
 	        </attribute>
 	        
 	        <attribute name="disbVchrPerdiemRate">
@@ -231,7 +231,7 @@
 	            </control>
 	            
 	            <summary>Per Diem Rate</summary>
-	            <description>...</description>
+	            <description>The Per Diem rate for the Non-Employee Travel.  Use the Per Diem Links to select the appropriate rate.</description>
 	        </attribute>
 	        
 	        <attribute name="disbVchrPerdiemCalculatedAmt">
@@ -247,7 +247,7 @@
 	            </control>
 	            
 	            <summary>Per Diem Calculated Amount</summary>
-	            <description>...</description>
+	            <description>The calculated Per Diem amount for the Non-Employee Travel, based the appropriate Rate.</description>
 	        </attribute>
 	        
 	        <attribute name="disbVchrPerdiemActualAmount">
@@ -263,7 +263,7 @@
 	            </control>
 	            
 	            <summary>Per Diem Actual Amount</summary>
-	            <description>...</description>
+	            <description>The actual Per Diem amount for the Non-Employee Travel.</description>
 	        </attribute>	        
 	        
 	        <attribute name="dvPerdiemChangeReasonText">
@@ -279,7 +279,7 @@
 	            </control>
 	            
 	            <summary>Justification for per diem amount change</summary>
-	            <description>...</description>
+	            <description>A free-form text field that describes the reason for any disparity between the Calculated and Actual Per Diem Amounts for the Non-Employee Travel.</description>
 	        </attribute>
 	        
 	        <attribute name="disbVchrAutoFromCityName">
@@ -295,7 +295,7 @@
 	            </control>
 	            
 	            <summary>Travel From City</summary>
-	            <description>...</description>
+	            <description>A free-form text field that identifies the departure City and State for the Non-Employee Travel.</description>
 	        </attribute>
 	        
 	        <attribute name="disbVchrAutoFromStateCode">
@@ -311,7 +311,7 @@
 	            </control>
 	            
 	            <summary>Travel From State</summary>
-	            <description>...</description>
+	            <description>Travel From State</description>
 	        </attribute>
 	        
 	        <attribute name="disbVchrAutoToCityName">
@@ -327,7 +327,7 @@
 	            </control>
 	            
 	            <summary>Travel To City</summary>
-	            <description>...</description>
+	            <description>A free-form text field that identifies the destination City and State for the Non-Employee Travel.</description>
 	        </attribute>
 	        
 	        <attribute name="disbVchrAutoToStateCode">
@@ -343,7 +343,7 @@
 	            </control>
 	            
 	            <summary>Travel To State</summary>
-	            <description>...</description>
+	            <description>Travel To State</description>
 	        </attribute>
 	        
 	        <attribute name="disbVchrAutoRoundTripCode">
@@ -359,7 +359,7 @@
 	            </control>
 	            
 	            <summary>Round trip Indicator</summary>
-	            <description>...</description>
+	            <description>A checkbox to indicate that the Non-Employee Travel is round trip.</description>
 	        </attribute>
 	        
 	        <attribute name="dvPersonalCarMileageAmount">
@@ -375,7 +375,7 @@
 	            </control>
 	            
 	            <summary>Auto Mileage Amount</summary>
-	            <description>...</description>
+	            <description>A free-form text field that specifies the mileage involved in the Non-Employee Travel.</description>
 	        </attribute>
 	        
 	        <attribute name="disbVchrMileageCalculatedAmt">
@@ -391,7 +391,7 @@
 	            </control>
 	            
 	            <summary>Calculated Mileage Amount</summary>
-	            <description>...</description>
+	            <description>Use the "calculate" button to calculate the dollar amount for mileage involved in the Non-Employee Travel.</description>
 	        </attribute>
 	        
 	        <attribute name="disbVchrPersonalCarAmount">
@@ -407,7 +407,7 @@
 	            </control>
 	            
 	            <summary>Mileage Amount</summary>
-	            <description>...</description>
+	            <description>A free-form text field that specifies the actual dollar amount for mileage involved in the Non-Employee Travel</description>
 	        </attribute>	        	        	        	        	        	        	        	        	        
 
 	        <attribute name="totalTravelAmount">
@@ -423,7 +423,7 @@
 	            </control>
 	            
 	            <summary>Total Travel Amount</summary>
-	            <description>...</description>
+	            <description>The sum of Per Diem: Actual Amount, Personal Vehicle: Actual Amount, and Traveler Expenses: Expense Sub Total.</description>
 	        </attribute>
 	        
 	        <attribute name="totalPrePaidAmount">
@@ -439,7 +439,7 @@
 	            </control>
 	            
 	            <summary>Pre Paid Amount</summary>
-	            <description>...</description>
+	            <description>The sub total of the Amounts in all Pre Paid Expenses.</description>
 	        </attribute>
 	        
 	        <attribute name="totalExpenseAmount">
@@ -455,7 +455,7 @@
 	            </control>
 	            
 	            <summary>Expense Sub Total</summary>
-	            <description>...</description>
+	            <description>The sub total of the Amounts in all Traveler Expenses.</description>
 	        </attribute>
 	    </attributes>
 	</businessObject>

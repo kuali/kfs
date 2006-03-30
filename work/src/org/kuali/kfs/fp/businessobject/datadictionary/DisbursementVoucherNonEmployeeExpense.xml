@@ -23,7 +23,7 @@
 	            </control>
 	            
 	            <summary>Expense Type Code</summary>
-	            <description>...</description>
+	            <description>One of a prescribed list that describes the type of Traveler Expense.</description>
 	        </attribute>
 	        
 	         <attribute name="disbVchrPrePaidExpenseCode">
@@ -39,7 +39,7 @@
 	            </control>
 	            
 	            <summary>Expense Type Code</summary>
-	            <description>...</description>
+	            <description>One of a prescribed list that describes the type of Pre Paid Expenses.</description>
 	        </attribute>
 	        
 	        <attribute name="disbVchrExpenseCompanyName">
@@ -55,7 +55,7 @@
 	            </control>
 	            
 	            <summary>Travel Company Name</summary>
-	            <description>...</description>
+	            <description>A free-form text field that identifies the Company of the Non-Employee Traveler.</description>
 	        </attribute>
         
 	        <attribute name="disbVchrExpenseAmount">
@@ -71,7 +71,7 @@
 	            </control>
 	            
 	            <summary>Expense Amount</summary>
-	            <description>...</description>
+	            <description>A free-form text field that specifies the dollar amount of the Pre Paid Expenses</description>
 	        </attribute>
 	        
 	        <attributeReference name="financialDocumentNumber" 

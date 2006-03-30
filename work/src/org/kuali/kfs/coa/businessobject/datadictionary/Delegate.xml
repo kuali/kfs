@@ -64,12 +64,21 @@
 				<control>
 					<select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" />
 				</control> 
+				
+				<description>
+				The code for the Chart of Accounts for an Account. It is part of the primary key. Kuali accommodates more than one Chart of Accounts
+				</description>
+				
 			</attributeReference>
 								
 			<attributeReference name="accountNumber" 
 								sourceClassName="org.kuali.module.chart.bo.Account" 
 								sourceAttributeName="accountNumber">
 				<required>true</required>
+			<description>
+			Identifier for a pool of funds assigned to a specific university entity for a specific function.
+			</description>
+			
 			</attributeReference>
 								
 			<attribute name="financialDocumentTypeCode" forceUppercase="true">
@@ -85,7 +94,9 @@
 				</control>
 
 				<summary>Document Type Code</summary>
-				<description>Document Type Code is a unique identifier of the type of a document.</description>
+				<description>
+				The code for the business function of all documents of this type.
+				</description>
 			</attribute>
 			
 			<attributeReference name="accountDelegateSystemId" 
@@ -114,7 +125,7 @@
 				</control>
 				<summary>Account Delegate User ID</summary>
 				<description>
-					The UserID of the Account Delegate.
+					The user ID of the designated delegate for the Fiscal Officer for the Account.
 				</description>
 			</attributeReference>
 			
@@ -164,7 +175,9 @@
 				<label>Account Delegate Active</label>
 				<shortLabel>DelegateActive</shortLabel>
 				<summary>Account Delegate Active Flag</summary>
-				<description>Account Delegate Active Flag</description>
+				<description>
+				Radioboxes in the entry form that indicate if the Account delegation is active or inactive.  If "Both" is checked in the Lookup, then both "Yes" (active) or "No" (inactive) values are listed in the search.
+				</description>
 			</attributeReference>
 			
 			<attributeReference name="accountDelegateStartDate" 

@@ -86,7 +86,9 @@
         </control>
 
         <summary>Chart of Accounts Code</summary>
-        <description>Financial Chart of Accounts Code</description>
+        <description>
+        The code for the Chart of Accounts for an Account. It is part of the primary key. Kuali accommodates more than one Chart of Accounts.
+        </description>
       </attribute>
 
       <attributeReference
@@ -144,7 +146,9 @@
         </control>
 		
         <summary>The chart's description</summary>
-        <description>The chart's description...</description>
+        <description>
+        A description of the Chart of Accounts.  For Search Criteria, select the Help for the Chart Lookup title.
+        </description>
       </attribute>
 	<attributeReference
         name="finChartOfAccountActiveIndicator"
@@ -154,7 +158,9 @@
 		<shortLabel>ChartActive</shortLabel>
 		<required>false</required>
 		<summary>Chart Active Indicator</summary>
-		<description>Chart Active Indicator</description>
+		<description>
+		Radioboxes in the entry form that indicate if the Chart is active or inactive.  If "Both" is checked in the Lookup, then both "Yes" (active) or "No" (inactive) values are listed in the search.
+		</description>
 		
     </attributeReference>
 
@@ -172,7 +178,9 @@
           <text size="4" />
         </control>
         <summary>Cash Object Code value.</summary>
-        <description>The Cash Object Code value used.</description>
+        <description>
+        The code for the "object" of accounting for a cash transaction.
+        </description>
 	</attributeReference>
 	
 	<attributeReference
@@ -189,7 +197,9 @@
           <text size="4" />
         </control>
         <summary>Accounts Payable Object Code value.</summary>
-        <description>The Accounts Payable Object Code value used.</description>
+        <description>
+        The code for the "object" of accounting for an Accounts Payable transaction.
+        </description>
 	</attributeReference>
 	
 	<attributeReference

@@ -133,7 +133,11 @@
 								sourceAttributeName="campusCode">
 								<control>
 									<select valuesFinderClass="org.kuali.core.lookup.keyvalues.CampusValuesFinder" />
-								</control>							
+								</control>
+								<description>
+								The code for the physical campus of the institution on which the Account is located.
+								</description>
+															
 			</attributeReference>
 
 			<attributeReference name="subFundGroupCode" 
@@ -152,7 +156,7 @@
 				<shortLabel>FringeBene</shortLabel>
 				<required>true</required>
 				<summary>Account Fringe Benefit</summary>
-				<description>Account Fringe Benefit</description>
+				<description>A checkbox that indicates if employee benefit expenses will be charged to the Account.</description>
 			</attributeReference>
 			
 			<attribute name="financialHigherEdFunctionCd" forceUppercase="true">
@@ -168,7 +172,7 @@
 				</control>
 
 				<summary>Financial Higher Education Function Code</summary>
-				<description>Financial Higher Education Function Code</description>
+				<description>The code that indicates the specific purpose of the activities recorded in the Account.</description>
 			</attribute>
 			
 			<attributeReference name="accountRestrictedStatusCode" 
@@ -180,7 +184,7 @@
 					<select valuesFinderClass="org.kuali.core.lookup.keyvalues.RestrictedStatusValuesFinder" />					
 	            </control>				
 				<summary>Account Restricted Status Code</summary>
-				<description>Account Restricted Status Code</description>
+				<description>The code for the status of usage restrictions on funds in the Account.</description>
 			</attributeReference>
 			
 			<attributeReference name="accountRestrictedStatusDate" 
@@ -189,7 +193,7 @@
 				<label>Account Restricted Status Date</label>
 				<shortLabel>RstrcStatDt</shortLabel>
 				<summary>Account Restricted Status Date</summary>
-				<description>Account Restricted Status Date</description>
+				<description>The date on which funds become unrestricted, if the Account Restricted Status Code is "T - Temporarily Restricted".</description>
 			</attributeReference>
 			
 			<attribute name="accountCityName" forceUppercase="false">
@@ -205,7 +209,7 @@
 				</control>
 
 				<summary>Account City Name</summary>
-				<description>Account City Name</description>
+				<description>The city in which the account is managed.</description>
 			</attribute>
 			
 			<attributeReference name="accountStateCode" 
@@ -215,7 +219,7 @@
 				<shortLabel>StateCd</shortLabel>
 				<required>true</required>
 				<summary>Account State Code</summary>
-				<description>Account State Code</description>
+				<description>A 2-character code for the state in which the Account is managed.</description>
 			</attributeReference>
 			
 			<attribute name="accountStreetAddress" forceUppercase="false">
@@ -231,7 +235,7 @@
 				</control>
 
 				<summary>Account Street Address</summary>
-				<description>Account Street Address</description>
+				<description>The street address where the Account is managed. It is also the location to which standard financial reports are to be sent.</description>
 			</attribute>
 			
 			<attributeReference name="accountZipCode" 
@@ -241,7 +245,9 @@
 				<shortLabel>ZipCode</shortLabel>
 				<required>true</required>
 				<summary>Account Zip Code</summary>
-				<description>Account Zip Code</description>
+				<description>
+				The Zip code assigned by the US Postal Service for the city in which the Account is managed.
+				</description>
 			</attributeReference>
 			
 			<attributeReference name="reportsToChartOfAccountsCode" 
@@ -254,7 +260,9 @@
 					<select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" />
 				</control> 
 				<summary>Fringe Benefit Chart Of Accounts Code</summary>
-				<description>Fringe Benefit Chart Of Accounts Code</description>
+				<description>
+				The code for the Chart of Accounts for the employee benefits Account, i.e., the Account that records the employee benefits applicable to the salaries recorded in the original Account.
+				</description>
 			</attributeReference>
 			
 			<attributeReference name="reportsToAccountNumber" 
@@ -264,7 +272,7 @@
 				<shortLabel>FringeAcct</shortLabel>
 				<required>false</required>
 				<summary>Fringe Benefit Account Number</summary>
-				<description>Fringe Benefit Account Number</description>
+				<description>The numeric identification for the Account to which employee benefits will be charged, related to the salaries recorded in the original Account.</description>
 			</attributeReference>
 			
 			<attributeReference name="accountCreateDate" 
@@ -283,7 +291,7 @@
 				<shortLabel>EffDate</shortLabel>
 				<required>true</required>
 				<summary>Account Effective Date</summary>
-				<description>Account Effective Date</description>
+				<description>The date on which the Account became effective.  Use the calendar icon to select and format the date.</description>
 			</attributeReference>
 			
 			<attributeReference name="accountExpirationDate" 
@@ -292,7 +300,7 @@
 				<label>Account Expiration Date</label>
 				<shortLabel>ExpDate</shortLabel>
 				<summary>Account Expiration Date</summary>
-				<description>Account Expiration Date</description>
+				<description>The date on which the Account expires and will no longer accept transactions.  Use the calendar icon to select and format the date.</description>
 			</attributeReference>
 			
 			<attributeReference name="continuationFinChrtOfAcctCd" 
@@ -305,7 +313,9 @@
 					<select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" />
 				</control> 
 				<summary>Continuation Chart Of Accounts Code</summary>
-				<description>Continuation Chart Of Accounts Code</description>
+				<description>
+				The code for the Chart of Accounts for the Continuation Account.  It will accept transactions after the original account has expired.
+				</description>
 			</attributeReference>
 			
 			<attributeReference name="continuationAccountNumber" 
@@ -315,7 +325,9 @@
 				<shortLabel>ContAcct</shortLabel>
 				<required>false</required>
 				<summary>Continuation Account Number</summary>
-				<description>Continuation Account Number</description>
+				<description>
+				The numeric identifier for the Continuation Account.  It will accept transactions after the original account has expired.
+				</description>
 			</attributeReference>
 			
 			<attribute name="awardPeriodEndYear" forceUppercase="false">
@@ -388,7 +400,9 @@
 					<select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" />
 				</control> 
 				<summary>Endowment Chart Of Accounts Code</summary>
-				<description>Endowment Chart Of Accounts Code</description>
+				<description>
+				The code for the Chart of Accounts for the Account when the Account is related to an Endowment.
+				</description>
 			</attributeReference>
 			
 			<attributeReference name="endowmentIncomeAccountNumber" 
@@ -398,7 +412,7 @@
 				<shortLabel>EndowAcct</shortLabel>
 				<required>false</required>
 				<summary>Endowment Account Number</summary>
-				<description>Endowment Account Number</description>
+				<description>The numeric identifier for the Account when the Account is related to an Endowment.</description>
 			</attributeReference>
 			
 			<attributeReference name="contractControlFinCoaCode" 
@@ -411,7 +425,10 @@
 					<select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" />
 				</control> 
 				<summary>Contract Control Chart of Accounts Code</summary>
-				<description>Contract Control Chart of Accounts Code</description>
+				<description>
+				The code for the Chart of Accounts for the Contract Control Account.  
+				It is the account with primary spending authority for a contract that has been assignment multiple accounts in the system, and it is the account out of which most of the reporting will be done.  It represents more fully than any other account the full functionality of the project and its corresponding expenditures and revenues.
+				</description>
 			</attributeReference>
 			
 			<attributeReference name="contractControlAccountNumber" 
@@ -421,7 +438,11 @@
 				<shortLabel>CntrctAcct</shortLabel>
 				<required>false</required>
 				<summary>Contract Control Account Number</summary>
-				<description>Contract Control Account Number</description>
+				<description>
+				The numeric identifier for the Contract Control Account.  
+				It is the account with primary spending authority for a contract that has been assignment multiple accounts in the system, and it is the account out of which most of the reporting will be done.  
+				It represents more fully than any other account the full functionality of the project and its corresponding expenditures and revenues.
+				</description>
 			</attributeReference>
 			
 			<attributeReference name="incomeStreamFinancialCoaCode" 
@@ -434,7 +455,9 @@
 					<select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" />
 				</control> 
 				<summary>Income Stream Chart Of Accounts Code</summary>
-				<description>Income Stream Chart Of Accounts Code</description>
+				<description>
+				The code for the Chart of Accounts for the Income Stream Account.  It is the account that is linked to receive any offsetting entries, in order to balance responsibility center activity.
+				</description>
 			</attributeReference>
 			
 			<attributeReference name="incomeStreamAccountNumber" 
@@ -444,7 +467,9 @@
 				<shortLabel>IncStrAcct</shortLabel>
 				<required>false</required>
 				<summary>Income Stream Account Number</summary>
-				<description>Income Stream Account Number</description>
+				<description>
+				The numeric identifier for the Income Stream Account.  It is the account that is linked to receive any offsetting entries, in order to balance responsibility center activity.
+				</description>
 			</attributeReference>
 			
 			<attributeReference name="acctIndirectCostRcvyTypeCd" 
@@ -454,7 +479,9 @@
 				<shortLabel>IndCstTypCd</shortLabel>
 				<required>false</required>
 				<summary>Account Indirect Cost Recovery Type Code</summary>
-				<description>Account Indirect Cost Recovery Type Code</description>
+				<description>
+				The code for a particular Indirect Cost Recovery base.  The "type" contains Object Codes that are excluded from indirect cost charges.
+				</description>
 			</attributeReference>
 			
 			<attributeReference name="acctCustomIndCstRcvyExclCd" 
@@ -480,7 +507,9 @@
 				</control>
 
 				<summary>Financial Series ID</summary>
-				<description>Financial Series ID</description>
+				<description>
+				The numeric identifier for the record in the Automated Indirect Cost Recovery table that will be used to determine indirect cost percentage and income account(s).
+				</description>
 			</attribute>
 			
 			<attributeReference name="indirectCostRcvyFinCoaCode" 
@@ -493,7 +522,9 @@
 					<select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" />
 				</control> 
 				<summary>Indirect Cost Recovery Chart Of Accounts Code</summary>
-				<description>Indirect Cost Recovery Chart Of Accounts Code</description>
+				<description>
+				The code for the Chart of Accounts for the Indirect Cost Recovery (ICR) Account.  It is the account that receives the credit for the Indirect Cost Recovery.
+				</description>
 			</attributeReference>
 			
 			<attributeReference name="indirectCostRecoveryAcctNbr" 
@@ -503,7 +534,9 @@
 				<shortLabel>IndCstAcct</shortLabel>
 				<required>false</required>
 				<summary>Indirect Cost Recovery Account Number</summary>
-				<description>Indirect Cost Recovery Account Number</description>
+				<description>
+				The numeric identifier for the Indirect Cost Recovery (ICR) Account.  It is the account that receives the credit for the Indirect Cost Recovery.
+				</description>
 			</attributeReference>
 			
 			<attributeReference name="accountInFinancialProcessingIndicator" 
@@ -526,7 +559,9 @@
 					<select valuesFinderClass="org.kuali.core.lookup.keyvalues.BudgetRecordingLevelCodeValuesFinder"/>					
 				</control>				
 				<summary>Budget Record Level Code</summary>
-				<description>Budget Record Level Code</description>
+				<description>
+				The code for the level at which a budget is recorded in the Account.  
+				</description>
 			</attributeReference>
 			
 			<attributeReference name="accountSufficientFundsCode" 
@@ -539,7 +574,9 @@
 					<select valuesFinderClass="org.kuali.core.lookup.keyvalues.SufficientFundsCodeValuesFinder"/>					
 				</control>				
 				<summary>Account Sufficient Funds Code</summary>
-				<description>Account Sufficient Funds Code</description>
+				<description>
+				The code for the level at which the account is going to be checked for sufficient funds in the transaction processing environment.
+				</description>
 			</attributeReference>
 			
 			<attributeReference name="pendingAcctSufficientFundsIndicator" 
@@ -549,7 +586,9 @@
 				<shortLabel>TPSuffChk</shortLabel>
 				<required>true</required>
 				<summary>TP Sufficient Funds Check</summary>
-				<description>TP Sufficient Funds Check</description>
+				<description>
+				A checkbox that indicates if the Account will include pending transactions in calculating sufficient funds.
+				</description>
 			</attributeReference>
 			
 			<attributeReference name="extrnlFinEncumSufficntFndIndicator" 
@@ -559,7 +598,9 @@
 				<shortLabel>ExtEncSuffFndsInd</shortLabel>
 				<required>true</required>
 				<summary>External Encumbrance Sufficient Funds Indicator</summary>
-				<description>External Encumbrance Sufficient Funds Indicator</description>
+				<description>
+				A checkbox that indicates if the Account will include external encumbrances in calculating sufficient funds.
+				</description>
 			</attributeReference>
 			
 			<attributeReference name="intrnlFinEncumSufficntFndIndicator" 
@@ -569,7 +610,9 @@
 				<shortLabel>IntEncSuffFndsInd</shortLabel>
 				<required>true</required>
 				<summary>Internal Encumbrance Sufficient Funds Indicator</summary>
-				<description>Internal Encumbrance Sufficient Indicator Code</description>
+				<description>
+				A checkbox that indicates if the Account will include internal encumbrances in calculating sufficient funds.
+				</description>
 			</attributeReference>
 			<attributeReference name="finPreencumSufficientFundIndicator" 
 								sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
@@ -578,7 +621,9 @@
 				<shortLabel>PreEncSuffFndsInd</shortLabel>
 				<required>true</required>
 				<summary>Pre-Encumbrance Sufficient Funds Indicator</summary>
-				<description>Pre-Encumbrance Sufficient Funds Indicator</description>
+				<description>
+				A checkbox that indicates if the Account will include pre-encumbrances in calculating sufficient funds.
+				</description>
 			</attributeReference>
 			
 			<attributeReference name="financialObjectivePrsctrlIndicator" 
@@ -588,7 +633,9 @@
 				<shortLabel>ObjPrsCntrl</shortLabel>
 				<required>true</required>
 				<summary>Object Presence Control Indicator</summary>
-				<description>Object Presence Control Indicator</description>
+				<description>
+				A checkbox that indicates if the Account will use presence control, i.e., sufficient funds checking by Object Code.
+				</description>
 			</attributeReference>
 			
 			<attribute name="cgCatlfFedDomestcAssistNbr" forceUppercase="false">
@@ -604,7 +651,9 @@
 				</control>
 
 				<summary>Code Of Federal Domestic Assistance Number</summary>
-				<description>Code Of Federal Domestic Assistance Number</description>
+				<description>
+				Numeric identifier for the federal government sources for awards.  The label is required for the Audit of Federal Domestic Assistance conducted under OMB regulation A-133.
+				</description>
 			</attribute>
 			
 			<attributeReference name="accountOffCampusIndicator" 
@@ -614,7 +663,9 @@
 				<shortLabel>OffCmpsInd</shortLabel>
 				<required>true</required>
 				<summary>Account Off Campus Indicator</summary>
-				<description>Account Off Campus Indicator</description>
+				<description>
+				A checkbox that indicates the activity represented by the Account occurs off campus.
+				</description>
 			</attributeReference>
 			
 			<attribute name="accountClosedIndicator" forceUppercase="false">
@@ -625,7 +676,9 @@
         		<control><checkbox /></control>
 
 				<summary>Account Closed Indicator</summary>
-				<description>Box in the entry form that indicates if an account can or cannot accept transactions. When the box is checked, the Account is closed, and can no longer accept transactions.</description>
+				<description>
+				A checkbox that indicates the Account is closed and can no longer accept transactions.
+				</description>
 				<formatterClass>org.kuali.core.web.format.BooleanFormatter</formatterClass>
 			</attribute>
 			
@@ -651,7 +704,7 @@
 				</control>
 				<summary>Fiscal Officer User ID</summary>
 				<description>
-					The user ID of the Fiscal Office for the Account.  The Fiscal Officer is responsible for the accuracy of transactions in the Account.  All transactions route to the Fiscal Officer or his/her delegate.
+					The username of the Fiscal Officer for the Account.  Fiscal Officers are responsible for the accuracy of transactions in the Account.  All transaction documents route to Fiscal Officers or their delegates.
 				</description>
 			</attributeReference>
 			
@@ -690,7 +743,7 @@
 				</control>
 				<summary>Account Supervisor User ID</summary>
 				<description>
-					The UserID of the Account Supervisor.
+					The username of the Account Supervisor.  Account Supervisors generally provide the Account leadership role, which may consist of general oversight, approval of the budget, and/or establishing the "big picture". 
 				</description>
 			</attributeReference>
 			
@@ -729,7 +782,7 @@
 				</control>
 				<summary>Account Manager User ID</summary>
 				<description>
-					The UserID of the Account Manager.
+					The username of the Account Manager.  Account Managers generally provide the account management role for the Account.  They develop or establish the account budget, determine how funds are being spent, and monitor the remaining balance.
 				</description>
 			</attributeReference>
 			

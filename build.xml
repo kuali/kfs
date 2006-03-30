@@ -39,7 +39,7 @@
 		<zip destfile="en-plugins.zip" basedir="${plugin.directory}"/>
 	</target>
 	
-	<target name="dist-batch" depends="clean,make-source" description="Build batch zip for remote deployment">
+	<target name="dist-batch" depends="clean,init-batch,make-source" description="Build batch zip for remote deployment">
 		<copy todir="${batch.directory}">
 			<fileset dir="${batch.script.directory}"/>
 		</copy>
@@ -52,6 +52,10 @@
 			<fileset file="${appserver.lib.dir}/${oracle.library.file}"/>
 		</copy>
 		<zip basedir="${batch.directory}" destfile="${ant.project.name}-${build.environment}.zip"/>
+	</target>
+	
+	<target name="init-batch">
+    	<property name="is.batch.build" value="true"/>
 	</target>
 
 	<target name="continuous-integration" depends="test-all" description="Run all tests and fail if there are failures or errors">
@@ -103,17 +107,24 @@
 			<equals arg1="${build.environment}" arg2="ptd"/>
 		</condition>
 		<property name="workflow.url" value="${test.environment.url}en-${build.environment}"/>
-		<condition property="standard.out.appender" value='StdOut, '>
+		<condition property="driver.class" value="${p6spy.driver.class}">
+			<equals arg1="${use.p6spy}" arg2="true"/>
+		</condition>
+		<property name="driver.class" value="${oracle.driver.class}"/>
+		<condition property="standard.out.appender" value="${standard.out.appender.on}">
     		<equals arg1="${is.local.build}" arg2="true"/>
 		</condition>
 		<property name="standard.out.appender" value=""/>
+		<condition property="batch.logger" value="log4j.logger.org.kuali.module.gl=DEBUG${standard.out.appender.on}">
+    		<equals arg1="${is.batch.build}" arg2="true"/>
+		</condition>
+		<property name="batch.logger" value=""/>
 		<filterset id="general.filterset">
         	<filter token="application" value="${ant.project.name}"/>
 			<filter token="institution" value="${institution}"/>
         	<filter token="environment" value="${build.environment}"/>
     		<filter token="settings-directory" value="${settings.directory}/"/>
 			<filter token="log4j-settings-file" value="${settings.directory}/${log4j.settings.file}"/>
-			<filter token="log4j-batch-settings-file" value="${settings.directory}/${log4j.batch.settings.file}"/>
     		<filter token="security-directory" value="${security.directory}/"/>
 			<filter token="logs-directory" value="${logs.directory}/"/>
         	<filter token="attachments-root-directory" value="${attachments.root.directory}"/>
@@ -122,9 +133,10 @@
 			<filter token="web-authentication-filter" value="${web.authentication.filter}"/>
 			<filter token="web-authentication-filtermapping" value="${web.authentication.filtermapping}"/>
 			<filter token="webservices-keystore-password" value="${webservices.keystore.password}"/>
-			<filter token="use-p6spy" value="${use.p6spy}"/>
+			<filter token="driver-class" value="${driver.class}"/>
 			<filter token="context-docbase" value="${context.docbase}"/>
 			<filter token="standard-out-appender" value="${standard.out.appender}"/>
+			<filter token="batch-logger" value="${batch.logger}"/>
 			<filter token="variable-ojb-properties" value="${application.ojb.properties}"/>
 		</filterset>
 		<filterset id="security.filterset">
@@ -180,6 +192,7 @@
 		</copy>
 		<copy todir="${security.directory}" overwrite="true">
 			<fileset dir="${build.security.directory}" excludes="${webservices.keystore.file}"/>
+			<filterset refid="general.filterset"/>
 			<filterset refid="security.filterset"/>
 		</copy>
 		<copy file="${build.security.directory}/${webservices.keystore.file}" todir="${security.directory}" overwrite="true"/>

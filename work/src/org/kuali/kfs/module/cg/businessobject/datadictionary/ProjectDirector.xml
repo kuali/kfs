@@ -4,7 +4,7 @@
     "../../../core/datadictionary/dataDictionary-1_0.dtd">
 <dictionaryEntry>
 	<businessObject businessObjectClass="org.kuali.module.cg.bo.ProjectDirector">
-		<customAttributeEnabled>true</customAttributeEnabled>
+		<customAttributeEnabled>false</customAttributeEnabled>
 
 		<inquiry>
 			<title>Project Director Inquiry</title>

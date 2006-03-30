@@ -214,19 +214,23 @@ public class AccountPreRules extends MaintenancePreRulesBase {
      */
     private void newAccountDefaults(MaintenanceDocument maintenanceDocument) {
         
-        //On new Accounts acct_effect_date is defaulted to the doc creation date
-        if (copyAccount.getAccountEffectiveDate() == null) {
-            
-            /*GlobalVariables.getErrorMap().put("document.newMaintainableObject.accountEffectiveDate"
-            	, "error.document.accountMaintenance.emptyAccountEffectiveDate", "Account Effective Date");*/
-            Timestamp ts = maintenanceDocument.getDocumentHeader().getWorkflowDocument().getCreateDate();
-            // Set nano as zero, to prevent an error related on maximum character numbers. 
-            ts.setNanos(0); 
-            if (ts != null) {
+        
+        /*GlobalVariables.getErrorMap().put("document.newMaintainableObject.accountEffectiveDate"
+    	, "error.document.accountMaintenance.emptyAccountEffectiveDate", "Account Effective Date");*/
+        
+        Timestamp ts = maintenanceDocument.getDocumentHeader().getWorkflowDocument().getCreateDate();
+        // Set nano as zero, to prevent an error related on maximum character numbers. 
+        ts.setNanos(0);
+        if (ts != null) {
+            //On new Accounts AccountCreateDate is defaulted to the doc creation date
+            if (newAccount.getAccountCreateDate() == null) {
+                newAccount.setAccountCreateDate(ts);
+            }
+            //On new Accounts acct_effect_date is defaulted to the doc creation date
+            if (copyAccount.getAccountEffectiveDate() == null) {
                 newAccount.setAccountEffectiveDate(ts);
             }
         }
-        
         //On new Accounts acct_state_cd is defaulted to the value of "IN"
         if (StringUtils.isBlank(copyAccount.getAccountStateCode())) {
             String defaultStateCode = configService.getApplicationParameterValue(CHART_MAINTENANCE_EDOC, 

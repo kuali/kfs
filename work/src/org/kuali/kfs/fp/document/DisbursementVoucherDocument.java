@@ -777,13 +777,15 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
         getDvPayeeDetail().setDisbVchrPayeeCountryCode("");
         getDvPayeeDetail().setDisbVchrAlienPaymentCode(false);
         setDisbVchrPayeeTaxControlCode("");
-        
+
         // clear nra
         SpringServiceLocator.getDisbursementVoucherTaxService().clearNRATaxLines(this);
         setDvNonResidentAlienTax(new DisbursementVoucherNonResidentAlienTax());
 
         // clear waive wire
-        setDvWireTransfer(new DisbursementVoucherWireTransfer());
+        setDvNonEmployeeTravel(new DisbursementVoucherNonEmployeeTravel());
+        setDvPreConferenceDetail(new DisbursementVoucherPreConferenceDetail());
+        getDvWireTransfer().setDisbursementVoucherWireTransferFeeWaiverIndicator(false);
         
         // check payee id number to see if still valid, if so retrieve their last information and set in the detail inform.
         if (getDvPayeeDetail().isPayee() && !StringUtils.isBlank(getDvPayeeDetail().getDisbVchrPayeeIdNumber())) {

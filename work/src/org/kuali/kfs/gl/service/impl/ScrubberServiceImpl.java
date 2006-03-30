@@ -72,7 +72,7 @@ import org.springframework.util.StringUtils;
 
 /**
  * @author Kuali General Ledger Team <kualigltech@oncourse.iu.edu>
- * @version $Id: ScrubberServiceImpl.java,v 1.80 2006-03-29 15:11:44 larevans Exp $
+ * @version $Id: ScrubberServiceImpl.java,v 1.81 2006-03-30 20:32:05 larevans Exp $
  */
 
 public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
@@ -1250,7 +1250,7 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         }
         
         StringBuffer documentNumber = new StringBuffer();
-        documentNumber.append("CSHR");//originEntry.getFinancialDocumentNumber().substring(0, 4));
+        documentNumber.append("CSHR");
         documentNumber.append(dateForDocumentNumber);
         
         costShareEntry.setFinancialDocumentNumber(documentNumber.toString());
@@ -2035,18 +2035,21 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
 //            4780  037460        MOVE LIT-GEN-CAPITALIZATION
 //            4781  037470          TO TRN-LDGR-ENTR-DESC OF ALT-GLEN-RECORD
             
-            // NOTE (laran) Used this to debug KULGL-54. Not positive it's resolve so leaving it here commented out.
             capitalizationEntry.setTransactionLedgerEntryDescription(
-                    kualiConfigurationService.getPropertyString(KeyConstants.MSG_GENERATED_CAPITALIZATION)); 
-//            capitalizationEntry.setTransactionLedgerEntryDescription("CAP ENTRY: I MIGHT BE BROKEN."); 
+                    kualiConfigurationService.getPropertyString(
+                            KeyConstants.MSG_GENERATED_CAPITALIZATION)); 
             
 //            4782  037480        PERFORM 4000-PLANT-FUND-ACCT
 //            4783  037490           THRU 4000-PLANT-FUND-ACCT-EXIT
-            
+
             plantFundAccountLookup(originEntry, capitalizationEntry);
             
 //            4784  037500        PERFORM 8210-WRITE-ALT-GLEN
 //            4785  037510           THRU 8210-WRITE-ALT-GLEN-EXIT
+            
+            // This should fix KULGL-54.
+            capitalizationEntry.setUniversityFiscalPeriodCode(
+                    workingEntry.getUniversityFiscalPeriodCode());
             
             createOutputEntry(capitalizationEntry, validGroup);
             batchInfo.capitalizationEntryGenerated();

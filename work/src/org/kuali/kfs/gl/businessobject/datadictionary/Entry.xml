@@ -129,6 +129,7 @@
 				sourceAttributeName="genericFiscalYear">
 				<label>Fiscal Year</label>
 				<shortLabel>Fisc Year</shortLabel>
+				<description>Identifies the Fiscal Year to which the balances apply.</description>
 			</attributeReference>
 
             <attributeReference name="chartOfAccountsCode" 
@@ -137,31 +138,40 @@
 				<control>
 					<select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder"/>					
 				</control>
+				<description>The Chart of Accounts for an Account Number.  Kuali accommodates more than one Chart of Accounts.  Each chart has its own set of Account Numbers, Object Codes, and Organizations.</description>
 			</attributeReference>
             					
             <attributeReference name="accountNumber" 
 				sourceClassName="org.kuali.module.chart.bo.Account" 
-				sourceAttributeName="accountNumber" />
-				
+				sourceAttributeName="accountNumber">
+				<description>An identifier for a pool of funds assigned to a specific division for a stated purpose.</description>
+			</attributeReference>
+			
             <attributeReference name="subAccountNumber" 
 				sourceClassName="org.kuali.module.chart.bo.SubAccount" 
 				sourceAttributeName="subAccountNumber">
 				<label>Sub Account Number</label>
+				<description>A code that partitions an Account Number into greater detail.  Sub-Accounts take on most of the attributes of the Account Number to which they report.</description>
 			</attributeReference>
 				
             <attributeReference name="financialObjectCode" 
             	sourceClassName="org.kuali.module.chart.bo.ObjectCode" 
-            	sourceAttributeName="financialObjectCode"/>
+            	sourceAttributeName="financialObjectCode" >
+            	<description>The list of codes (commonly known as Income, Expense, Asset, Liability, and Fund Balance) used to identify the nature of a financial transaction.</description>
+        	</attributeReference>
             	
             <attributeReference name="financialSubObjectCode" 
             	sourceClassName="org.kuali.module.chart.bo.SubObjCd" 
             	sourceAttributeName="financialSubObjectCode">
 				<label>Sub Object Code</label>
+				<description>A code that partitions an Object Code into greater detail. Sub-Object Codes take on most of the attributes of the Object Code to which they report.</description>
 			</attributeReference>            	
             	
             <attributeReference name="financialObjectTypeCode" 
             	sourceClassName="org.kuali.module.chart.bo.ObjectType" 
-            	sourceAttributeName="code" />
+            	sourceAttributeName="code">
+            	<description>Designates whether and Object Code is either Income, Expense, Asset, Liability, or Fund Balance.</description>
+        	</attributeReference>
 			               
 			<attributeReference name="financialBalanceTypeCode" 
 				sourceClassName="org.kuali.module.chart.bo.codes.BalanceTyp" 
@@ -173,7 +183,7 @@
 	                <select valuesFinderClass="org.kuali.module.gl.web.optionfinder.GLActualBalanceTypeOptionFinder"/>
                 </control>
                 <summary>Balance Type</summary>
-                <description>Balance Type description...</description>
+                <description>Balance type categorizes transactions and balances into Budget, Actual or Encumbrance.  There may be various types of each category.</description>
             </attributeReference>
 				
             <attributeReference name="universityFiscalPeriodCode" 
@@ -186,7 +196,7 @@
 		            <select valuesFinderClass="org.kuali.module.gl.web.optionfinder.GLPeriodCodeOptionFinder"/>
                 </control>
                 <summary>University Fiscal Accounting Period</summary>
-                <description>University Fiscal Accounting Period description...</description>
+                <description>One of a prescribed list of Accounting Periods to which accounting transactions may post.</description>
             </attributeReference>            			
             
             <attribute name="financialDocumentTypeCode" forceUppercase="true">
@@ -197,7 +207,7 @@
                     <text size="5" />
                 </control>
                 <summary>Financial document type code.</summary>
-                <description>documentTypeCode description...</description>
+                <description>The code that represents the particular type of document being process, e.g., CR = Cash Receipts, JV = Journal Voucher, and DV = Disbursement Voucher.</description>
             </attribute> 
 
             <attribute name="financialSystemOriginationCode" forceUppercase="false">
@@ -208,12 +218,14 @@
                     <text size="3" />
                 </control>
                 <summary>originCode</summary>
-                <description>originCode description...</description>
+                <description>The code corresponding to the system which created the General Ledger entry, e.g., 01 = Kuali Financial System (KFS).</description>
             </attribute>
                            				                            
             <attributeReference name="financialDocumentNumber" 
             	sourceClassName="org.kuali.core.document.DocumentHeader" 
-				sourceAttributeName="financialDocumentNumber" />
+				sourceAttributeName="financialDocumentNumber" >
+				<description>The system generated Document Number attached to the accounting transaction.  Used for tracking purposes.</description>
+			</attributeReference>
 					            
             <attributeReference name="trnEntryLedgerSequenceNumber"             	
 				sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
@@ -268,7 +280,7 @@
                     <text size="12" />
                 </control>
                 <summary>organizationDocumentNumber</summary>
-                <description>organizationDocumentNumber description...</description>
+                <description>Contains a Document Number assigned to the transaction by the originating department.  This number is not the same as the Document Number assigned by the Kuali Financial System (KFS).</description>
             </attribute>
             
             <attributeReference name="projectCode" 
@@ -294,7 +306,7 @@
                     <text size="5" />
                 </control>
                 <summary>Financial document type code.</summary>
-                <description>documentTypeCode description...</description>
+                <description>The code that represents the particular type of document being process, e.g., CR = Cash Receipts, JV = Journal Voucher, and DV = Disbursement Voucher.</description>
             </attribute>        
             
             <attribute name="finSystemRefOriginationCode" forceUppercase="false">
@@ -305,7 +317,7 @@
                     <text size="3" />
                 </control>
                 <summary>referenceOriginCode</summary>
-                <description>referenceOriginCode description...</description>
+                <description>The code corresponding to the system which created the General Ledger entry, e.g., 01 = Kuali Financial System (KFS).</description>
             </attribute>
             			
             <attribute name="financialDocumentReferenceNbr" forceUppercase="false">
@@ -316,7 +328,7 @@
                     <text size="11" />
                 </control>
                 <summary>referenceDocumentNumber</summary>
-                <description>referenceDocumentNumber description...</description>
+                <description>Typically the document number for the preceding transaction in the chain of events.  Example:  for a purchase requistion this would typically be the purchase order number.</description>
             </attribute>
             			
             <attributeReference name="financialDocumentReversalDate"

@@ -44,8 +44,6 @@ public class Delegate extends BusinessObjectBase {
 	 * Default no-arg constructor.
 	 */
 	public Delegate() {
-	    this.accountDelegateActiveIndicator = true;
-	    this.accountsDelegatePrmrtIndicator = false;
 	    this.finDocApprovalFromThisAmt = new KualiDecimal(0);
 	    this.finDocApprovalToThisAmount = new KualiDecimal(0);
 	}

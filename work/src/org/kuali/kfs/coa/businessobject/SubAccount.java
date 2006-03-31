@@ -56,7 +56,6 @@ public class SubAccount extends BusinessObjectBase {
      * Default no-arg constructor.
      */
     public SubAccount() {
-        subAccountActiveIndicator = true;
     }
 
     /**

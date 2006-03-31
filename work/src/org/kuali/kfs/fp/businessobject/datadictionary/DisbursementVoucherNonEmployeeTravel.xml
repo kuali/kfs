@@ -96,7 +96,7 @@
 	            
 	            <maxLength>2</maxLength>
 	            
-	            <required>true</required>
+	            <required>false</required>
 	            
 	            <control>
 	                <text size="2"/>

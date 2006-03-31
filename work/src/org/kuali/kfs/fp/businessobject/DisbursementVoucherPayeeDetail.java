@@ -29,6 +29,7 @@ import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.core.lookup.keyvalues.PayeeTypeValuesFinder;
+import org.kuali.core.lookup.keyvalues.PaymentReasonValuesFinder;
 import org.kuali.module.financial.rules.DisbursementVoucherRuleConstants;
 
 /**
@@ -554,6 +555,17 @@ public class DisbursementVoucherPayeeDetail extends BusinessObjectBase {
     }
     
     public void setDisbursementVoucherPayeeTypeName(String name) {
+    }
+    
+    /**
+     * Returns the name associated with the payment reason name
+     * @return
+     */
+    public String getDisbVchrPaymentReasonName(){
+        return new PaymentReasonValuesFinder().getKeyLabel(disbVchrPaymentReasonCode);
+    }
+    
+    public void setDisbVchrPaymentReasonName(String name){
     }
     
     /**

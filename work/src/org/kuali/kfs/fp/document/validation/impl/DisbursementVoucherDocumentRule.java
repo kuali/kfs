@@ -657,7 +657,11 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
         SpringServiceLocator.getDictionaryValidationService().validateBusinessObjectsRecursively(document.getDvNonEmployeeTravel(),
                 1);
 
-        /* travel to state required if country is us */
+        /* travel from and to state required if country is us */
+        if (Constants.COUNTRY_CODE_UNITED_STATES.equals(document.getDvNonEmployeeTravel().getDvTravelFromCountryCode())
+                && StringUtils.isBlank(document.getDvNonEmployeeTravel().getDisbVchrTravelFromStateCode())) {
+            errors.put(PropertyConstants.DISB_VCHR_TRAVEL_FROM_STATE_CODE, KeyConstants.ERROR_DV_TRAVEL_FROM_STATE);
+        }
         if (Constants.COUNTRY_CODE_UNITED_STATES.equals(document.getDvNonEmployeeTravel().getDisbVchrTravelToCountryCode())
                 && StringUtils.isBlank(document.getDvNonEmployeeTravel().getDisbVchrTravelToStateCode())) {
             errors.put(PropertyConstants.DISB_VCHR_TRAVEL_TO_STATE_CODE, KeyConstants.ERROR_DV_TRAVEL_TO_STATE);

@@ -37,6 +37,7 @@ import org.kuali.core.bo.user.KualiUser;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.DocumentHeader;
 import org.kuali.core.document.TransactionalDocumentBase;
+import org.kuali.core.lookup.keyvalues.DisbursementVoucherDocumentationLocationValuesFinder;
 import org.kuali.core.lookup.keyvalues.PaymentMethodValuesFinder;
 import org.kuali.core.rules.RulesUtils;
 import org.kuali.core.util.GlobalVariables;
@@ -647,6 +648,17 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
     }
     
     public void setDisbVchrPaymentMethodName(String method){
+    }
+    
+    /**
+     * Returns the name associated with the documentation location name
+     * @return
+     */
+    public String getDisbursementVoucherDocumentationLocationName(){
+        return new DisbursementVoucherDocumentationLocationValuesFinder().getKeyLabel(disbursementVoucherDocumentationLocationCode);
+    }
+    
+    public void setDisbursementVoucherDocumentationLocationName(String name){
     }
     
     

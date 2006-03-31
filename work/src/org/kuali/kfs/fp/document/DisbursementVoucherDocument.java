@@ -37,6 +37,7 @@ import org.kuali.core.bo.user.KualiUser;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.DocumentHeader;
 import org.kuali.core.document.TransactionalDocumentBase;
+import org.kuali.core.lookup.keyvalues.PaymentMethodValuesFinder;
 import org.kuali.core.rules.RulesUtils;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
@@ -68,7 +69,7 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
     private boolean disbVchrForeignCurrencyInd;
     private String disbursementVoucherDocumentationLocationCode;
     private String disbVchrCheckStubText;
-    private String dvCheckStubOverflowCode;
+    private boolean dvCheckStubOverflowCode;
     private String campusCode;
     private String disbVchrPayeeTaxControlCode;
     private boolean disbVchrPayeeChangedInd;
@@ -337,7 +338,7 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
      * @return - Returns the dvCheckStubOverflowCode
      *  
      */
-    public String getDvCheckStubOverflowCode() {
+    public boolean getDvCheckStubOverflowCode() {
         return dvCheckStubOverflowCode;
     }
 
@@ -348,7 +349,7 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
      * @param - dvCheckStubOverflowCode The dvCheckStubOverflowCode to set.
      *  
      */
-    public void setDvCheckStubOverflowCode(String dvCheckStubOverflowCode) {
+    public void setDvCheckStubOverflowCode(boolean dvCheckStubOverflowCode) {
         this.dvCheckStubOverflowCode = dvCheckStubOverflowCode;
     }
 
@@ -636,6 +637,19 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
         this.getDvPreConferenceDetail().getDvPreConferenceRegistrants().add(line);
         this.finDocNextRegistrantLineNbr = new Integer(getFinDocNextRegistrantLineNbr().intValue() + 1);
     }
+    
+    /**
+     * Returns the name associated with the payment method code
+     * @return
+     */
+    public String getDisbVchrPaymentMethodName(){
+        return new PaymentMethodValuesFinder().getKeyLabel(disbVchrPaymentMethodCode);
+    }
+    
+    public void setDisbVchrPaymentMethodName(String method){
+    }
+    
+    
 
     /**
      * @see org.kuali.core.document.Document#handleRouteStatusChange(java.lang.String)
@@ -688,7 +702,7 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
         this.getDvPayeeDetail().setDisbVchrPayeePersonName(employee.getPersonName());
         this.getDvPayeeDetail().setDisbVchrPayeeLine1Addr(employee.getDeptid());
         this.getDvPayeeDetail().setDisbVchrPayeeLine2Addr("");
-        this.getDvPayeeDetail().setDisbVchrPayeeCityName(employee.getCampus().getCampusName());
+        this.getDvPayeeDetail().setDisbVchrPayeeCityName(employee.getCampus().getCampusName() + " CAMPUS");
         this.getDvPayeeDetail().setDisbVchrPayeeStateCode("");
         this.getDvPayeeDetail().setDisbVchrPayeeZipCode("");
         this.getDvPayeeDetail().setDisbVchrPayeeCountryCode("");

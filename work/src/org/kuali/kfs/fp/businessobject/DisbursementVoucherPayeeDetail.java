@@ -28,6 +28,7 @@ package org.kuali.module.financial.bo;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.lookup.keyvalues.PayeeTypeValuesFinder;
 import org.kuali.module.financial.rules.DisbursementVoucherRuleConstants;
 
 /**
@@ -543,7 +544,17 @@ public class DisbursementVoucherPayeeDetail extends BusinessObjectBase {
      */
     public void setDisbursementVoucherPayeeTypeCode(String disbursementVoucherPayeeTypeCode) {
         this.disbursementVoucherPayeeTypeCode = disbursementVoucherPayeeTypeCode;
-    }      
+    }   
+    
+    /**
+     * returns the payee type name
+     */
+    public String getDisbursementVoucherPayeeTypeName() {
+        return new PayeeTypeValuesFinder().getKeyLabel(disbursementVoucherPayeeTypeCode);
+    }
+    
+    public void setDisbursementVoucherPayeeTypeName(String name) {
+    }
     
     /**
      * @see org.kuali.bo.BusinessObjectBase#toStringMapper()

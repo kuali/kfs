@@ -137,9 +137,11 @@ public class NonResidentAlienTaxPercent extends BusinessObjectBase {
 	 */
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();
-          m.put("incomeClassCode", this.incomeClassCode);
-            m.put("incomeTaxTypeCode", this.incomeTaxTypeCode);
-            m.put("incomeTaxPercent", this.incomeTaxPercent.toString());
+        m.put("incomeClassCode", this.incomeClassCode);
+        m.put("incomeTaxTypeCode", this.incomeTaxTypeCode);
+        if (this.incomeTaxPercent != null) {
+          m.put("incomeTaxPercent", this.incomeTaxPercent.toString());
+        }
   	    return m;
 	}
 }

@@ -880,13 +880,13 @@
 	<field-descriptor name="disbVchrAttachmentCode" column="DV_ATTCH_IND" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 	<field-descriptor name="disbVchrSpecialHandlingCode" column="DV_SPCL_HANDLG_IND" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 	<field-descriptor name="disbVchrCheckTotalAmount" column="DV_CHK_TOT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="disbVchrForeignCurrencyInd" column="DV_FRGN_CRNCY_IND" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanField10Conversion"/>
+	<field-descriptor name="disbVchrForeignCurrencyInd" column="DV_FRGN_CRNCY_IND" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 	<field-descriptor name="disbursementVoucherDocumentationLocationCode" column="DV_DOC_LOC_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="disbVchrCheckStubText" column="DV_CHK_STUB_TXT" jdbc-type="VARCHAR"/>
 	<field-descriptor name="dvCheckStubOverflowCode" column="DV_CHKSTUBOVFL_IND" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 	<field-descriptor name="campusCode" column="CAMPUS_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="disbVchrPayeeTaxControlCode" column="DV_PAYEE_TXCTRL_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="disbVchrPayeeChangedInd" column="DV_PAYEE_CHG_IND" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanField10Conversion"/>
+	<field-descriptor name="disbVchrPayeeChangedInd" column="DV_PAYEE_CHG_IND" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 	<field-descriptor name="disbursementVoucherCheckNbr" column="DV_CHK_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="disbursementVoucherCheckDate" column="DV_CHK_DT" jdbc-type="TIMESTAMP"/>
 	<field-descriptor name="disbVchrPayeeW9CompleteCode" column="DV_W9_CMPLT_IND" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
@@ -977,7 +977,7 @@
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="disbVchrPaymentReasonCode" column="DV_PMT_REAS_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="disbVchrAlienPaymentCode" column="DV_ALIEN_PMT_IND" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanField10Conversion"/>
+	<field-descriptor name="disbVchrAlienPaymentCode" column="DV_ALIEN_PMT_IND" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 	<field-descriptor name="disbVchrPayeeIdNumber" column="DV_PAYEE_ID_NBR" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="disbVchrPayeePersonName" column="DV_PAYEE_PRSN_NM" jdbc-type="VARCHAR"/>
 	<field-descriptor name="disbVchrPayeeLine1Addr" column="DV_PAYEE_LN1_ADDR" jdbc-type="VARCHAR"/>
@@ -993,8 +993,8 @@
 	<field-descriptor name="disbVchrRemitStateCode" column="DV_RMT_ST_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="disbVchrRemitZipCode" column="DV_RMT_ZIP_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="disbVchrRemitCountryCode" column="DV_RMT_CNTRY_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="disbVchrPayeeEmployeeCode" column="DV_PAYEE_EMP_IND" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanField10Conversion"/>
-	<field-descriptor name="dvPayeeRevolvingFundCode" column="DV_PAYEE_RVFND_IND" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanField10Conversion"/>
+	<field-descriptor name="disbVchrPayeeEmployeeCode" column="DV_PAYEE_EMP_IND" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="dvPayeeRevolvingFundCode" column="DV_PAYEE_RVFND_IND" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 	<field-descriptor name="disbursementVoucherPayeeTypeCode" column="DV_PAYEE_TYP_CD" jdbc-type="VARCHAR"/>
 
 	<reference-descriptor name="disbVchrPaymentReason" class-ref="org.kuali.module.financial.bo.PaymentReasonCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
@@ -1201,8 +1201,8 @@
 	<field-descriptor name="disbVchrPayeeAccountNumber" column="DV_PAYEE_ACCT_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="disbVchrCurrencyTypeName" column="DV_CRNCY_TYP_NM" jdbc-type="VARCHAR"/>
 	<field-descriptor name="disbVchrCurrencyTypeCode" column="DV_CRNCY_TYP_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="disbVchrForeignBankIndicator" column="DV_FRGN_BNK_IND" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanField10Conversion"/>
-	<field-descriptor name="disbursementVoucherWireTransferFeeWaiverIndicator" column="DV_WIRE_TRNFR_FEE_WVR_IND" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanField10Conversion"/>
+	<field-descriptor name="disbVchrForeignBankIndicator" column="DV_FRGN_BNK_IND" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="disbursementVoucherWireTransferFeeWaiverIndicator" column="DV_WIRE_TRNFR_FEE_WVR_IND" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 	<field-descriptor name="disbursementVoucherPayeeAccountName" column="DV_PAYEE_ACCT_NM" jdbc-type="VARCHAR"/>
 	<field-descriptor name="disbursementVoucherPayeeAccountTypeCode" column="DV_PAYEE_ACCT_TYP_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="disbursementVoucherAutomatedClearingHouseProfileNumber" column="DV_ACH_PRFL_NBR" jdbc-type="VARCHAR"/>
@@ -1224,7 +1224,7 @@
 	<field-descriptor name="subAccountNumber" column="SUB_ACCT_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="financialSubObjectCode" column="FIN_SUB_OBJ_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="projectCode" column="PROJECT_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="purchasingCreditCardActiveIndicator" column="PURCH_CCRD_ACTV_IND" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanField10Conversion"/>
+	<field-descriptor name="purchasingCreditCardActiveIndicator" column="PURCH_CCRD_ACTV_IND" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 	<reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="chartOfAccountsCode" />
 	</reference-descriptor>
@@ -1423,7 +1423,7 @@
 	<field-descriptor name="disbVchrPayeeAccountNumber" column="DV_PAYEE_ACCT_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="disbursementVoucherPayeeAccountName" column="DV_PAYEE_ACCT_NM" jdbc-type="VARCHAR"/>
 	<field-descriptor name="disbursementVoucherPayeeAccountTypeCode" column="DV_PAYEE_ACCT_TYP_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="disbursementVoucherWireTransferFeeWaiverIndicator" column="DV_WIRE_TRNFR_FEE_WVR_IND" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanField10Conversion"/>
+	<field-descriptor name="disbursementVoucherWireTransferFeeWaiverIndicator" column="DV_WIRE_TRNFR_FEE_WVR_IND" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 	<reference-descriptor name="account" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="disbVchrPayeeAccountNumber" />
 	</reference-descriptor>

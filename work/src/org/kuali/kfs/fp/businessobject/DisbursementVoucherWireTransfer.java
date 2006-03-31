@@ -26,8 +26,10 @@
 package org.kuali.module.financial.bo;
 
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.lookup.keyvalues.ForeignBankIndicatorValuesFinder;
 import org.kuali.module.financial.document.DisbursementVoucherDocument;
 
 /**
@@ -462,6 +464,17 @@ public class DisbursementVoucherWireTransfer extends BusinessObjectBase {
      */
     public void setDisbursementVoucherDocument(DisbursementVoucherDocument disbursementVoucherDocument) {
         this.disbursementVoucherDocument = disbursementVoucherDocument;
+    }
+    
+    /**
+     * Returns the wire to name 
+     */
+    public String getDisbVchrForeignBankIndicatorName(){
+        Map indicators = new ForeignBankIndicatorValuesFinder().getKeyLabelMap();
+        return (String) indicators.get(new Boolean(disbVchrForeignBankIndicator).toString().toLowerCase());
+    }
+    
+    public void setDisbVchrForeignBankIndicatorName(String name){
     }
     
 	/**

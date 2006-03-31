@@ -65,7 +65,7 @@ public class DisbursementVoucherNonEmployeeTravel extends BusinessObjectBase {
     private Integer dvPersonalCarMileageAmount;
     private KualiDecimal disbVchrPersonalCarRate;
     private KualiDecimal disbVchrPersonalCarAmount;
-    private String disbVchrExceptionCode;
+    private boolean disbVchrExceptionCode;
     private Integer financialDocumentNextLineNbr;
     private String disbVchrNonEmpTravelerName;
     private KualiDecimal disbVchrPerdiemRate;
@@ -575,7 +575,7 @@ public class DisbursementVoucherNonEmployeeTravel extends BusinessObjectBase {
      * @return - Returns the disbVchrExceptionCode
      *  
      */
-    public String getDisbVchrExceptionCode() {
+    public boolean getDisbVchrExceptionCode() {
         return disbVchrExceptionCode;
     }
 
@@ -586,7 +586,7 @@ public class DisbursementVoucherNonEmployeeTravel extends BusinessObjectBase {
      * @param - disbVchrExceptionCode The disbVchrExceptionCode to set.
      *  
      */
-    public void setDisbVchrExceptionCode(String disbVchrExceptionCode) {
+    public void setDisbVchrExceptionCode(boolean disbVchrExceptionCode) {
         this.disbVchrExceptionCode = disbVchrExceptionCode;
     }
 

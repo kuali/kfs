@@ -30,6 +30,8 @@ import org.apache.ojb.broker.accesslayer.QueryCustomizer;
 import org.apache.ojb.broker.metadata.CollectionDescriptor;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryByCriteria;
+import org.kuali.Constants;
+import org.kuali.PropertyConstants;
 
 /**
  * Query customizer for to seperate out the pre-paid and non prepaid collections
@@ -38,7 +40,7 @@ import org.apache.ojb.broker.query.QueryByCriteria;
  */
 public class OJBTravelExpenseQueryCustomizer implements QueryCustomizer {
     private static final String prepaidAttributeName = "PREPAID";
-    private static final String prepaidIndicatorField = "disbVchrExpense.prepaidExpense";
+    private static final String prepaidIndicatorField = PropertyConstants.DISB_VCHR_EXPENSE + "." + PropertyConstants.PREPAID_EXPENSE;
     private Map attributes = new HashMap();
 
     /**
@@ -46,10 +48,10 @@ public class OJBTravelExpenseQueryCustomizer implements QueryCustomizer {
      */
     public Query customizeQuery(Object arg0, PersistenceBroker arg1, CollectionDescriptor arg2, QueryByCriteria arg3) {
         if ("TRUE".equals(getAttribute(prepaidAttributeName))) {
-          arg3.getCriteria().addEqualTo(prepaidIndicatorField, "1");
+          arg3.getCriteria().addEqualTo(prepaidIndicatorField, Constants.ACTIVE_INDICATOR);
         }
         else {
-          arg3.getCriteria().addEqualTo(prepaidIndicatorField, "0");
+          arg3.getCriteria().addEqualTo(prepaidIndicatorField, Constants.NON_ACTIVE_INDICATOR);
         }
         return arg3;
     }

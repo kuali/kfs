@@ -22,7 +22,7 @@
 	                <text size="10"/>
 	            </control>
 	            
-	            <summary>Federal Tax Percent</summary>
+	            <summary><![CDATA[&nbsp;]]></summary>
 	            <description>Percentage of federal tax in the Nonresident Alien (NRA) Tax.</description>
 	        </attribute>
 	        
@@ -38,7 +38,7 @@
 	                <text size="10"/>
 	            </control>
 	            
-	            <summary>State Tax Percent</summary>
+	            <summary><![CDATA[&nbsp;]]></summary>
 	            <description>Percentage of state tax in the Nonresident Alien (NRA) Tax.</description>
 	        </attribute>
 	        
@@ -75,7 +75,7 @@
 	                <checkbox/>
 	            </control>
 	            
-	            <summary>Treaty Exempt</summary>
+	            <summary><![CDATA[&nbsp;]]></summary>
 	            <description>The code to specify that the Nonresident Alien (NRA) Tax is treaty exempt, expressed as "Yes" or "No"</description>
 	        </attribute>
 	        
@@ -91,8 +91,8 @@
 	                <checkbox/>
 	            </control>
 	            
-	            <summary>Foreign Source</summary>
-	            <description>Foreign Source Income Code</description>
+	            <summary><![CDATA[&nbsp;]]></summary>
+	            <description><![CDATA[&nbsp;]]></description>
 	        </attribute>
 	        
 	        <attribute name="incomeTaxGrossUpCode">
@@ -107,7 +107,7 @@
 	                <checkbox/>
 	            </control>
 	            
-	            <summary>Gross Up</summary>
+	            <summary><![CDATA[&nbsp;]]></summary>
 	            <description>The code to specify that the Nonresident Alien (NRA) Tax is "grossed up" to the original Account, expressed as "Yes" or "No".</description>
 	        </attribute>
 	        

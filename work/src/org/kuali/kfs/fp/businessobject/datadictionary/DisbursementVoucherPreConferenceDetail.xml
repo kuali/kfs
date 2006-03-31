@@ -22,8 +22,8 @@
 	                <text size="40"/>
 	            </control>
 	            
-	            <summary>Pre Conference Location</summary>
-	            <description>...</description>
+	            <summary><![CDATA[&nbsp;]]></summary>
+	            <description><![CDATA[&nbsp;]]></description>
 	        </attribute>
 	        
 	        <attribute name="disbVchrExpenseCode">
@@ -38,8 +38,8 @@
 	                <select valuesFinderClass="org.kuali.core.lookup.keyvalues.TravelPrePaidExpenseTypeValuesFinder"/>
 	            </control>
 	            
-	            <summary>Expense Type Code</summary>
-	            <description>...</description>
+	            <summary><![CDATA[&nbsp;]]></summary>
+	            <description><![CDATA[&nbsp;]]></description>
 	        </attribute>
 	        
 	        <attribute name="disbVchrConferenceStartDate">
@@ -54,8 +54,8 @@
 	                <text size="10"/>
 	            </control>
 	            
-	            <summary>Conference Start Date</summary>
-	            <description>...</description>
+	            <summary><![CDATA[&nbsp;]]></summary>
+	            <description><![CDATA[&nbsp;]]></description>
 	        </attribute>
 	        
 	        <attribute name="disbVchrConferenceEndDate">
@@ -70,8 +70,8 @@
 	                <text size="10"/>
 	            </control>
 	            
-	            <summary>Conference End Date</summary>
-	            <description>...</description>
+	            <summary><![CDATA[&nbsp;]]></summary>
+	            <description><![CDATA[&nbsp;]]></description>
 	        </attribute>	        
 	        
 	        <attribute name="disbVchrConferenceTotalAmt">
@@ -86,8 +86,8 @@
 	                <text size="9"/>
 	            </control>
 	            
-	            <summary>Conference Total Amount</summary>
-	            <description>...</description>
+	            <summary><![CDATA[&nbsp;]]></summary>
+	            <description><![CDATA[&nbsp;]]></description>
 	        </attribute>
 	    </attributes>
 	</businessObject>

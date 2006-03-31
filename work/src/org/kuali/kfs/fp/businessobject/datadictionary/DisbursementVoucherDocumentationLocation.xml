@@ -51,7 +51,7 @@
 					<text size="2" />
 				</control>
 
-				<summary>Documentation Location Code</summary>
+				<summary><![CDATA[&nbsp;]]></summary>
 				<description>The code uniquely identify a documentation location.</description>
 			</attribute>
 			
@@ -65,8 +65,8 @@
                     <text size="25" />
                 </control>
 
-                <summary>Documentation Location Name</summary>
-                <description>Documentation Location Name</description>
+                <summary><![CDATA[&nbsp;]]></summary>
+                <description><![CDATA[&nbsp;]]></description>
             </attribute>
 
 			<attribute name="disbursementVoucherDocumentationLocationAddress" forceUppercase="false">
@@ -79,8 +79,8 @@
                     <textarea rows="4" cols="60" />
                 </control>
 
-                <summary>Documentation Location Address</summary>
-                <description>Documentation Location Address</description>
+                <summary><![CDATA[&nbsp;]]></summary>
+                <description><![CDATA[&nbsp;]]></description>
             </attribute>
             
             <attributeReference name="versionNumber" 

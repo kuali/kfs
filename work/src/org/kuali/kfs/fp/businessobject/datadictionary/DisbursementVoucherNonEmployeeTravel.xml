@@ -22,7 +22,7 @@
 	                <text size="40"/>
 	            </control>
 	            
-	            <summary>Traveler Name</summary>
+	            <summary><![CDATA[&nbsp;]]></summary>
 	            <description>The full name of the Traveler involved, expressed as "Lastname, Firstname MiddleInitial"</description>
 	        </attribute>
 	        
@@ -38,7 +38,7 @@
 	                <text size="50"/>
 	            </control>
 	            
-	            <summary>Service Performed</summary>
+	            <summary><![CDATA[&nbsp;]]></summary>
 	            <description>A free-form text field that describes the Service performed in the Travel.</description>
 	        </attribute>
 	        
@@ -54,7 +54,7 @@
 	                <text size="40"/>
 	            </control>
 	            
-	            <summary>Place of Performance</summary>
+	            <summary><![CDATA[&nbsp;]]></summary>
 	            <description>A free-form text field that identifies the location of the Service performed in the Travel.</description>
 	        </attribute>
 	        
@@ -70,7 +70,7 @@
 	                <text size="40"/>
 	            </control>
 	            
-	            <summary>Regular Employer</summary>
+	            <summary><![CDATA[&nbsp;]]></summary>
 	            <description>A free-form text field that identifies the Employer of the Traveler involved.</description>
 	        </attribute>
 	        
@@ -86,7 +86,7 @@
 	                <text size="40"/>
 	            </control>
 	            
-	            <summary>Travel From City</summary>
+	            <summary><![CDATA[&nbsp;]]></summary>
 	            <description>A free-form text field that identifies the City of the Non-Employee Travel.</description>
 	        </attribute>
 
@@ -102,7 +102,7 @@
 	                <text size="2"/>
 	            </control>
 	            
-	            <summary>Travel From State</summary>
+	            <summary><![CDATA[&nbsp;]]></summary>
 	            <description>A free-form text field that identifies the State of the Non-Employee Travel.</description>
 	        </attribute>
 	        
@@ -118,7 +118,7 @@
 	                <select valuesFinderClass="org.kuali.core.lookup.keyvalues.CountryValuesFinder"/>
 	            </control>
 	            
-	            <summary>Travel From Country</summary>
+	            <summary><![CDATA[&nbsp;]]></summary>
 	            <description>One of a prescribed list that identifies the Country of the Non-Employee Travel.</description>
 	        </attribute>
 	        
@@ -134,8 +134,8 @@
 	                <text size="20"/>
 	            </control>
 	            
-	            <summary>Travel Start Date Time</summary>
-	            <description>...</description>
+	            <summary><![CDATA[&nbsp;]]></summary>
+	            <description><![CDATA[&nbsp;]]></description>
 	        </attribute>
 	        
 	        <attribute name="perDiemEndDateTime">
@@ -150,7 +150,7 @@
 	                <text size="20"/>
 	            </control>
 	            
-	            <summary>Travel Start Date Time</summary>
+	            <summary><![CDATA[&nbsp;]]></summary>
 	            <description>A free-form text field that identifies the Date and Time of the Non-Employee Travel.  Use the calendar icon to select and format the date.</description>
 	        </attribute>
 	        
@@ -166,7 +166,7 @@
 	                <text size="40"/>
 	            </control>
 	            
-	            <summary>Travel From City</summary>
+	            <summary><![CDATA[&nbsp;]]></summary>
 	            <description>A free-form text field that identifies the City of the Non-Employee Travel.</description>
 	        </attribute>
 
@@ -182,7 +182,7 @@
 	                <text size="2"/>
 	            </control>
 	            
-	            <summary>Travel From State</summary>
+	            <summary><![CDATA[&nbsp;]]></summary>
 	            <description>A free-form text field that identifies the State of the Non-Employee Travel.</description>
 	        </attribute>
 	        
@@ -198,7 +198,7 @@
 	                <select valuesFinderClass="org.kuali.core.lookup.keyvalues.CountryValuesFinder"/>
 	            </control>
 	            
-	            <summary>Travel From Country</summary>
+	            <summary><![CDATA[&nbsp;]]></summary>
 	            <description>One of a prescribed list that identifies the Country of the Non-Employee Travel.</description>
 	        </attribute>
 	        
@@ -214,7 +214,7 @@
 	                <select valuesFinderClass="org.kuali.core.lookup.keyvalues.TravelPerDiemCategoryValuesFinder"/>
 	            </control>
 	            
-	            <summary>Per Diem Category</summary>
+	            <summary><![CDATA[&nbsp;]]></summary>
 	            <description>One of a prescribed list of location categories for the Non-Employee Travel.</description>
 	        </attribute>
 	        
@@ -230,7 +230,7 @@
 	                <text size="6"/>
 	            </control>
 	            
-	            <summary>Per Diem Rate</summary>
+	            <summary><![CDATA[&nbsp;]]></summary>
 	            <description>The Per Diem rate for the Non-Employee Travel.  Use the Per Diem Links to select the appropriate rate.</description>
 	        </attribute>
 	        
@@ -246,7 +246,7 @@
 	                <text size="9"/>
 	            </control>
 	            
-	            <summary>Per Diem Calculated Amount</summary>
+	            <summary><![CDATA[&nbsp;]]></summary>
 	            <description>The calculated Per Diem amount for the Non-Employee Travel, based the appropriate Rate.</description>
 	        </attribute>
 	        
@@ -262,7 +262,7 @@
 	                <text size="9"/>
 	            </control>
 	            
-	            <summary>Per Diem Actual Amount</summary>
+	            <summary><![CDATA[&nbsp;]]></summary>
 	            <description>The actual Per Diem amount for the Non-Employee Travel.</description>
 	        </attribute>	        
 	        
@@ -278,7 +278,7 @@
 	                <textarea rows="3" cols="30"/>
 	            </control>
 	            
-	            <summary>Justification for per diem amount change</summary>
+	            <summary><![CDATA[&nbsp;]]></summary>
 	            <description>A free-form text field that describes the reason for any disparity between the Calculated and Actual Per Diem Amounts for the Non-Employee Travel.</description>
 	        </attribute>
 	        
@@ -294,7 +294,7 @@
 	                <text size="40"/>
 	            </control>
 	            
-	            <summary>Travel From City</summary>
+	            <summary><![CDATA[&nbsp;]]></summary>
 	            <description>A free-form text field that identifies the departure City and State for the Non-Employee Travel.</description>
 	        </attribute>
 	        
@@ -310,8 +310,8 @@
 	                <text size="2"/>
 	            </control>
 	            
-	            <summary>Travel From State</summary>
-	            <description>Travel From State</description>
+	            <summary><![CDATA[&nbsp;]]></summary>
+	            <description><![CDATA[&nbsp;]]></description>
 	        </attribute>
 	        
 	        <attribute name="disbVchrAutoToCityName">
@@ -326,7 +326,7 @@
 	                <text size="40"/>
 	            </control>
 	            
-	            <summary>Travel To City</summary>
+	            <summary><![CDATA[&nbsp;]]></summary>
 	            <description>A free-form text field that identifies the destination City and State for the Non-Employee Travel.</description>
 	        </attribute>
 	        
@@ -342,8 +342,8 @@
 	                <text size="2"/>
 	            </control>
 	            
-	            <summary>Travel To State</summary>
-	            <description>Travel To State</description>
+	            <summary><![CDATA[&nbsp;]]></summary>
+	            <description><![CDATA[&nbsp;]]></description>
 	        </attribute>
 	        
 	        <attribute name="disbVchrAutoRoundTripCode">
@@ -374,7 +374,7 @@
 	                <text size="7"/>
 	            </control>
 	            
-	            <summary>Auto Mileage Amount</summary>
+	            <summary><![CDATA[&nbsp;]]></summary>
 	            <description>A free-form text field that specifies the mileage involved in the Non-Employee Travel.</description>
 	        </attribute>
 	        
@@ -390,7 +390,7 @@
 	                <text size="9"/>
 	            </control>
 	            
-	            <summary>Calculated Mileage Amount</summary>
+	            <summary><![CDATA[&nbsp;]]></summary>
 	            <description>Use the "calculate" button to calculate the dollar amount for mileage involved in the Non-Employee Travel.</description>
 	        </attribute>
 	        
@@ -406,7 +406,7 @@
 	                <text size="9"/>
 	            </control>
 	            
-	            <summary>Mileage Amount</summary>
+	            <summary><![CDATA[&nbsp;]]></summary>
 	            <description>A free-form text field that specifies the actual dollar amount for mileage involved in the Non-Employee Travel</description>
 	        </attribute>	        	        	        	        	        	        	        	        	        
 
@@ -422,7 +422,7 @@
 	                <text size="9"/>
 	            </control>
 	            
-	            <summary>Total Travel Amount</summary>
+	            <summary><![CDATA[&nbsp;]]></summary>
 	            <description>The sum of Per Diem: Actual Amount, Personal Vehicle: Actual Amount, and Traveler Expenses: Expense Sub Total.</description>
 	        </attribute>
 	        
@@ -438,7 +438,7 @@
 	                <text size="9"/>
 	            </control>
 	            
-	            <summary>Pre Paid Amount</summary>
+	            <summary><![CDATA[&nbsp;]]></summary>
 	            <description>The sub total of the Amounts in all Pre Paid Expenses.</description>
 	        </attribute>
 	        
@@ -454,7 +454,7 @@
 	                <text size="9"/>
 	            </control>
 	            
-	            <summary>Expense Sub Total</summary>
+	            <summary><![CDATA[&nbsp;]]></summary>
 	            <description>The sub total of the Amounts in all Traveler Expenses.</description>
 	        </attribute>
 	    </attributes>

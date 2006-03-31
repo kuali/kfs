@@ -22,7 +22,7 @@
 	                <select valuesFinderClass="org.kuali.core.lookup.keyvalues.TravelExpenseTypeValuesFinder"/>
 	            </control>
 	            
-	            <summary>Expense Type Code</summary>
+	            <summary><![CDATA[&nbsp;]]></summary>
 	            <description>One of a prescribed list that describes the type of Traveler Expense.</description>
 	        </attribute>
 	        
@@ -38,7 +38,7 @@
 	                <select valuesFinderClass="org.kuali.core.lookup.keyvalues.TravelPrePaidExpenseTypeValuesFinder"/>
 	            </control>
 	            
-	            <summary>Expense Type Code</summary>
+	            <summary><![CDATA[&nbsp;]]></summary>
 	            <description>One of a prescribed list that describes the type of Pre Paid Expenses.</description>
 	        </attribute>
 	        
@@ -54,7 +54,7 @@
 	                <text size="40"/>
 	            </control>
 	            
-	            <summary>Travel Company Name</summary>
+	            <summary><![CDATA[&nbsp;]]></summary>
 	            <description>A free-form text field that identifies the Company of the Non-Employee Traveler.</description>
 	        </attribute>
         
@@ -70,7 +70,7 @@
 	                <text size="9"/>
 	            </control>
 	            
-	            <summary>Expense Amount</summary>
+	            <summary><![CDATA[&nbsp;]]></summary>
 	            <description>A free-form text field that specifies the dollar amount of the Pre Paid Expenses</description>
 	        </attribute>
 	        

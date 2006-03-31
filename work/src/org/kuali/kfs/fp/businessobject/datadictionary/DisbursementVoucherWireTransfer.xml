@@ -22,7 +22,7 @@
 	                <text size="40"/>
 	            </control>
 	            
-	            <summary>Bank Name</summary>
+	            <summary><![CDATA[&nbsp;]]></summary>
 	            <description>The full name of the Bank managing the Wire Transfer.</description>
 	        </attribute>
 	        
@@ -38,7 +38,7 @@
 	                <text size="9"/>
 	            </control>
 	            
-	            <summary>Bank ABA Routing #</summary>
+	            <summary><![CDATA[&nbsp;]]></summary>
 	            <description>The ABA Routing number of the Bank managing the Wire Transfer.</description>
 	        </attribute>
 	        
@@ -54,7 +54,7 @@
 	                <text size="37"/>
 	            </control>
 	            
-	            <summary>Bank City</summary>
+	            <summary><![CDATA[&nbsp;]]></summary>
 	            <description>The city in which the Bank managing the Wire Transfer is located.</description>
 	        </attribute>
 	        
@@ -70,7 +70,7 @@
 	                <text size="2"/>
 	            </control>
 	            
-	            <summary>Bank State</summary>
+	            <summary><![CDATA[&nbsp;]]></summary>
 	            <description>The state in which the Bank managing the Wire Transfer is located.</description>
 	        </attribute>
 	        
@@ -86,7 +86,7 @@
 	                <select valuesFinderClass="org.kuali.core.lookup.keyvalues.CountryValuesFinder"/>
 	            </control>
 	            
-	            <summary>Bank Country</summary>
+	            <summary><![CDATA[&nbsp;]]></summary>
 	            <description>One of a prescribed list of countries in which the Bank managing the Wire Transfer is located.</description>
 	        </attribute>
 	        
@@ -102,7 +102,7 @@
 	                <text size="60"/>
 	            </control>
 	            
-	            <summary>Addenda</summary>
+	            <summary><![CDATA[&nbsp;]]></summary>
 	            <description>A free-form text field for addenda on the Write Transfer.</description>
 	        </attribute>
 	        
@@ -118,7 +118,7 @@
 	                <text size="60"/>
 	            </control>
 	            
-	            <summary>Additional Wire Information</summary>
+	            <summary><![CDATA[&nbsp;]]></summary>
 	            <description>A free-form text field for additional information on the Write Transfer</description>
 	        </attribute>
              
@@ -134,7 +134,7 @@
 	                <text size="40"/>
 	            </control>
 	            
-	            <summary>Bank Account #</summary>
+	            <summary><![CDATA[&nbsp;]]></summary>
 	            <description>The Account Number involved in the Wire Transfer.</description>
 	        </attribute>
 	        
@@ -150,7 +150,7 @@
 	                <select valuesFinderClass="org.kuali.core.lookup.keyvalues.CurrencyTypeValuesFinder"/>
 	            </control>
 	            
-	            <summary>DV Amount Stated in</summary>
+	            <summary><![CDATA[&nbsp;]]></summary>
 	            <description>One of a prescribed list of text fields that specifies foreign or domestic currency for the Wire Transfer.</description>
 	        </attribute>
 	        
@@ -166,7 +166,7 @@
 	                <radio valuesFinderClass="org.kuali.core.lookup.keyvalues.ForeignBankIndicatorValuesFinder"/>
 	            </control>
 	            
-	            <summary>Wire To</summary>
+	            <summary><![CDATA[&nbsp;]]></summary>
 	            <description>Radiobuttons to specify that the Wire Transfer is sent to either a domestic or foreign bank</description>
 	        </attribute>
 	        
@@ -182,7 +182,7 @@
 	                <text size="20"/>
 	            </control>
 	            
-	            <summary>Currency Type</summary>
+	            <summary><![CDATA[&nbsp;]]></summary>
 	            <description>The type or unit of currency, if foreign currency is involved in the Wire Transfer.</description>
 	        </attribute>
 	        
@@ -198,7 +198,7 @@
 	                <checkbox/>
 	            </control>
 	            
-	            <summary>Waive wire transfer fee?</summary>
+	            <summary><![CDATA[&nbsp;]]></summary>
 	            <description>The code to specify that the Wire Transfer fee should be waived, expressed as "Yes" or "No".</description>
 	        </attribute>
 	        
@@ -214,7 +214,7 @@
 	                <text size="40"/>
 	            </control>
 	            
-	            <summary>Bank Acct in the Name of</summary>
+	            <summary><![CDATA[&nbsp;]]></summary>
 	            <description>The full name of the individual or organization account involved in the Wire Transfer.</description>
 	        </attribute>
 	        
@@ -230,7 +230,7 @@
 	                <radio valuesFinderClass="org.kuali.core.lookup.keyvalues.BankAccountTypeValuesFinder"/>
 	            </control>
 	            
-	            <summary>Bank Acct Type</summary>
+	            <summary><![CDATA[&nbsp;]]></summary>
 	            <description>Bank Account Type.</description>
 	        </attribute>  
 	        
@@ -246,7 +246,7 @@
 	                <text size="3"/>
 	            </control>
 	            
-	            <summary>Recurring Profile No.</summary>
+	            <summary><![CDATA[&nbsp;]]></summary>
 	            <description>PDP customer profile number ACH payment.</description>
 	        </attribute>   
 

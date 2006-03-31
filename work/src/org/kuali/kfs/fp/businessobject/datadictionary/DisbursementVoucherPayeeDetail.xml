@@ -37,8 +37,8 @@
 	                <select valuesFinderClass="org.kuali.core.lookup.keyvalues.PayeeTypeValuesFinder"/>
 	            </control>
 	            
-	            <summary>Payee Type - DV Payee, Employee, or Vendor</summary>
-	            <description>...</description>
+	            <summary><![CDATA[&nbsp;]]></summary>
+	            <description><![CDATA[&nbsp;]]></description>
 	          </attribute>
                                   
  	          <attributeReference name="disbVchrPayeePersonName"
@@ -99,7 +99,7 @@
                                   <label>Remit Name</label>
                                   <shortLabel>Remit Nm</shortLabel>
                                   
-                                  <summary>Special Handling Remit Name</summary>
+                                  <summary><![CDATA[&nbsp;]]></summary>
                                   <description>Full name of document Remit, an individual or organization that takes initial receipt of the Payment, expressed as "Lastname, Firstname MiddleInitial".</description>
               </attributeReference>                    
 	       
@@ -109,7 +109,7 @@
                                   <label>Remit Address 1</label>
                                   <shortLabel>Remit Addr 1</shortLabel>
                                   
-                                  <summary>Special Handling Remit Address Line 1</summary>
+                                  <summary><![CDATA[&nbsp;]]></summary>
                                   <description>First address line of Remit, an individual or organization that takes initial receipt of the Payment.</description>
               </attributeReference>         
               
@@ -119,7 +119,7 @@
                                   <label>Remit Address 2</label>
                                   <shortLabel>Remit Addr 2</shortLabel>
                                   
-                                  <summary>Special Handling Remit Address Line 2</summary>
+                                  <summary><![CDATA[&nbsp;]]></summary>
                                   <description>Second address line of Remit, an individual or organization that takes initial receipt of the Payment.</description>
               </attributeReference>   
 	       
@@ -129,7 +129,7 @@
                                   <label>Remit City</label>
                                   <shortLabel>Remit City</shortLabel>
                                   
-                                  <summary>Special Handling Remit City</summary>
+                                  <summary><![CDATA[&nbsp;]]></summary>
                                   <description>City of Remit, an individual or organization that takes initial receipt of the Payment.</description>
               </attributeReference>   
               
@@ -139,7 +139,7 @@
                                   <label>Remit State</label>
                                   <shortLabel>Remit State</shortLabel>
                                   
-                                  <summary>Special Handling Remit State</summary>
+                                  <summary><![CDATA[&nbsp;]]></summary>
                                   <description>The 2-characode code for the State of the Remit.</description>
               </attributeReference>
               
@@ -150,7 +150,7 @@
                                   <label>Remit Zip Code</label>
                                   <shortLabel>Remit Zip</shortLabel>
                                   
-                                  <summary>Special Handling Remit Zip Code</summary>
+                                  <summary><![CDATA[&nbsp;]]></summary>
                                   <description>The numeric Zip code assigned by the US Postal Service for the Address of the Remit, an individual or organization that takes initial receipt of the Payment.</description>
               </attributeReference>   
 
@@ -160,7 +160,7 @@
                                   <label>Remit Country</label>
                                   <shortLabel>Remit Cntry</shortLabel>
                                   
-                                  <summary>Special Handling Remit Country</summary>
+                                  <summary><![CDATA[&nbsp;]]></summary>
                                   <description>One of a prescribed list of names for the Country of the Remit, an individual or organization that takes initial receipt of the Payment.</description>
               </attributeReference> 
               

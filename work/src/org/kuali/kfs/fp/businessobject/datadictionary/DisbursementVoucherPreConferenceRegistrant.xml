@@ -22,8 +22,8 @@
 	                <text size="40"/>
 	            </control>
 	            
-	            <summary>Conference Registrant Name</summary>
-	            <description>...</description>
+	            <summary><![CDATA[&nbsp;]]></summary>
+	            <description><![CDATA[&nbsp;]]></description>
 	        </attribute>
 	        
 	        <attribute name="disbVchrPreConfDepartmentCd">
@@ -38,8 +38,8 @@
 	                <text size="4"/>
 	            </control>
 	            
-	            <summary>Conference Department Code</summary>
-	            <description>...</description>
+	            <summary><![CDATA[&nbsp;]]></summary>
+	            <description><![CDATA[&nbsp;]]></description>
 	        </attribute>
 	        
 	        <attribute name="dvPreConferenceRequestNumber">
@@ -54,8 +54,8 @@
 	                <text size="6"/>
 	            </control>
 	            
-	            <summary>Conference Req/Instate</summary>
-	            <description>...</description>
+	            <summary><![CDATA[&nbsp;]]></summary>
+	            <description><![CDATA[&nbsp;]]></description>
 	        </attribute>
 	        
 	        <attribute name="disbVchrExpenseAmount">
@@ -70,8 +70,8 @@
 	                <text size="9"/>
 	            </control>
 	            
-	            <summary>Expense Amount</summary>
-	            <description>...</description>
+	            <summary><![CDATA[&nbsp;]]></summary>
+	            <description><![CDATA[&nbsp;]]></description>
 	        </attribute>
 	        
 	        <attributeReference name="financialDocumentNumber" 

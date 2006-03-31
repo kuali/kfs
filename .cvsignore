@@ -4,3 +4,4 @@ dist
 ${test.temp.directory}
 ${test.xml.results.directory}
 *.zip
+spy.log

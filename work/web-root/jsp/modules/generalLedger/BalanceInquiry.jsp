@@ -111,7 +111,7 @@
 	          	</c:if>
          		
 		        <display:table class="datatable-100" cellspacing="0" cellpadding="0" 
-						name="${reqSearchResults[0]}" id="dummyRow" export="true" pagesize="1" length="1" summary=""
+						name="${reqSearchResults[0]}" id="dummyRow" export="false" pagesize="1" length="1" summary=""
 						requestURI="glBalanceInquiry.do?methodToCall=viewResults&reqSearchResultsActualSize=${reqSearchResultsActualSize}&searchResultKey=${searchResultKey}">
 					
 					<display-el:setProperty name="paging.banner.one_item_found" value=""/>	

@@ -98,8 +98,8 @@
 					<text size="3" />
 				</control>
 
-				<summary>Sub-Object Code</summary>
-				<description>Sub-Object Code.</description>
+				<summary><![CDATA[&nbsp;]]></summary>
+				<description><![CDATA[&nbsp;]]></description>
 			</attribute>	
 
 			<attribute name="financialSubObjectCodeName" forceUppercase="false">
@@ -114,9 +114,9 @@
 					<text size="40" />
 				</control>
 
-				<summary>Sub-Object Code Name</summary>
+				<summary><![CDATA[&nbsp;]]></summary>
 				<description>
-					Sub-Object Code Name
+					<![CDATA[&nbsp;]]>
 				</description>
 			</attribute>
 			
@@ -132,9 +132,9 @@
 					<text size="12" />
 				</control>
 
-				<summary>Sub-Object Code Short Name</summary>
+				<summary><![CDATA[&nbsp;]]></summary>
 				<description>
-					Sub-Object Code Short Name
+					<![CDATA[&nbsp;]]>
 				</description>
 			</attribute>
 			

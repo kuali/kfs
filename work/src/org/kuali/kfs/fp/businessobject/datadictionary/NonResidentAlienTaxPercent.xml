@@ -49,8 +49,8 @@
 					<text size="2" />
 				</control>
 
-				<summary>Income Class Code</summary>
-				<description>...</description>
+				<summary><![CDATA[&nbsp;]]></summary>
+				<description><![CDATA[&nbsp;]]></description>
 		    </attribute>
 		    
 		    <attribute name="incomeTaxTypeCode" forceUppercase="true">

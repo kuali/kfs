@@ -104,9 +104,9 @@
 					<text size="5" />
 				</control>
 
-				<summary>sub-Account Number</summary>
+				<summary><![CDATA[&nbsp;]]></summary>
 				<description>
-					Sub-Account Number
+					<![CDATA[&nbsp;]]>
 				</description>
 			</attribute>
 		
@@ -122,8 +122,8 @@
 					<text size="40" />
 				</control>
 
-				<summary>Name</summary>
-				<description>Name</description>
+				<summary><![CDATA[&nbsp;]]></summary>
+				<description><![CDATA[&nbsp;]]></description>
 			</attribute>
 			
 			<attributeReference name="financialReportChartCode" 
@@ -135,9 +135,9 @@
 				<control>
 					<select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" />
 				</control>
-				<summary>Financial Reporting Chart of Accounts Code</summary>
+				<summary><![CDATA[&nbsp;]]></summary>
 				<description>
-					Financial Reporting Chart of Accounts Code
+					<![CDATA[&nbsp;]]>
 				</description>
 			</attributeReference>
 
@@ -147,9 +147,9 @@
 				<label>Financial Reporting Org Code</label>
 				<shortLabel>Org</shortLabel>
 				<required>false</required>
-				<summary>Financial Reporting Organization Code</summary>
+				<summary><![CDATA[&nbsp;]]></summary>
 				<description>
-					Financial Reporting Organization Code
+					<![CDATA[&nbsp;]]>
 				</description>
 			</attributeReference>
 
@@ -161,9 +161,9 @@
 					Fin. Rpt. Code
 				</shortLabel>
 				<required>false</required>
-				<summary>Financial Reporting Code</summary>
+				<summary><![CDATA[&nbsp;]]></summary>
 				<description>
-					Financial Reporting Code
+					<![CDATA[&nbsp;]]>
 				</description>
 			</attributeReference>
 
@@ -192,8 +192,8 @@
 		          <select
 		            valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" />
 		        </control>
-				<summary>Cost Sharing Chart of Accounts Code</summary>
-				<description>Cost Sharing Chart of Accounts Code</description>
+				<summary><![CDATA[&nbsp;]]></summary>
+				<description><![CDATA[&nbsp;]]></description>
 			</attributeReference>
 		    
 			<attributeReference name="a21SubAccount.costShareSourceAccountNumber" 
@@ -202,8 +202,8 @@
 				<label>Cost Sharing Account Number</label>
 				<shortLabel>CostShareAcctNbr</shortLabel>
 				<required>false</required>
-				<summary>Cost Sharing Account Number</summary>
-				<description>Cost Sharing Account Number</description>
+				<summary><![CDATA[&nbsp;]]></summary>
+				<description><![CDATA[&nbsp;]]></description>
 			</attributeReference>
 		    
 			<attributeReference name="a21SubAccount.costShareSourceSubAccountNumber" 
@@ -212,8 +212,8 @@
 				<label>Cost Sharing Sub Account Number</label>
 				<shortLabel>CostShareSubAcctNbr</shortLabel>
 				<required>false</required>
-				<summary>Cost Sharing Sub Account Number</summary>
-				<description>Cost Sharing Sub Account Number</description>
+				<summary><![CDATA[&nbsp;]]></summary>
+				<description><![CDATA[&nbsp;]]></description>
 			</attributeReference>
 		    
 			<attributeReference name="a21SubAccount.financialIcrSeriesIdentifier" 
@@ -222,8 +222,8 @@
 				<label>Financial ICR Series Identifier</label>
 				<shortLabel>FinICRSerID</shortLabel>
 				<required>false</required>
-				<summary>Financial ICR Series Identifier</summary>
-				<description>Financial ICR Series Identifier</description>
+				<summary><![CDATA[&nbsp;]]></summary>
+				<description><![CDATA[&nbsp;]]></description>
 			</attributeReference>
 		    
 			<attributeReference name="a21SubAccount.indirectCostRecoveryChartOfAccountsCode" 
@@ -235,8 +235,8 @@
 				<control>
 					<select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" />
 				</control>
-				<summary>ICR Chart of Accounts Code</summary>
-				<description>ICR Chart of Accounts Code</description>
+				<summary><![CDATA[&nbsp;]]></summary>
+				<description><![CDATA[&nbsp;]]></description>
 			</attributeReference>
 		    
 			<attributeReference name="a21SubAccount.indirectCostRecoveryAccountNumber" 
@@ -245,8 +245,8 @@
 				<label>ICR Account Number</label>
 				<shortLabel>ICRAcctNbr</shortLabel>
 				<required>false</required>
-				<summary>ICR Chart of Accounts Code</summary>
-				<description>ICR Chart of Accounts Code</description>
+				<summary><![CDATA[&nbsp;]]></summary>
+				<description><![CDATA[&nbsp;]]></description>
 			</attributeReference>
 		    
 			<attributeReference name="a21SubAccount.indirectCostRecoveryTypeCode" 
@@ -259,8 +259,8 @@
 		          <select
 		            valuesFinderClass="org.kuali.core.lookup.keyvalues.ICRTypeValuesFinder" />
 		        </control>
-				<summary>ICR Type Code</summary>
-				<description>ICR Type Code</description>
+				<summary><![CDATA[&nbsp;]]></summary>
+				<description><![CDATA[&nbsp;]]></description>
 			</attributeReference>
 		    
 			<attributeReference name="a21SubAccount.offCampusCode" 
@@ -269,8 +269,8 @@
 				<label>Off Campus Indicator</label>
 				<shortLabel>Off Campus</shortLabel>
 				<required>false</required>
-				<summary>Off Campus Indicator</summary>
-				<description>Off Campus Indicator</description>
+				<summary><![CDATA[&nbsp;]]></summary>
+				<description><![CDATA[&nbsp;]]></description>
 			</attributeReference>
 		    
 		    <attributeReference name="versionNumber" 

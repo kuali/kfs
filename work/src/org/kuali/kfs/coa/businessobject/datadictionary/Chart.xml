@@ -85,7 +85,7 @@
           <text size="2" />
         </control>
 
-        <summary>Chart of Accounts Code</summary>
+        <summary><![CDATA[&nbsp;]]></summary>
         <description>
         The code for the Chart of Accounts for an Account. It is part of the primary key. Kuali accommodates more than one Chart of Accounts.
         </description>
@@ -99,7 +99,7 @@
         <shortLabel>Chart Manager</shortLabel>
         <required>false</required>
         <control><hidden /></control>
-        <summary>Chart Manager</summary>
+        <summary><![CDATA[&nbsp;]]></summary>
         <description>Chart Manager</description>
       </attributeReference>
 
@@ -114,7 +114,7 @@
 							userIdAttributeName="finCoaManagerUniversal.personUserIdentifier" 
 							personNameAttributeName="finCoaManagerUniversal.personName" />
 			</control>
-			<summary>Chart Manager User ID</summary>
+			<summary><![CDATA[&nbsp;]]></summary>
 			<description>
 				The UserID of the Chart Manager.
 			</description>
@@ -127,7 +127,7 @@
 			<shortLabel>Name</shortLabel>
 			<required>false</required>
 			<control><hidden /></control>
-			<summary>Chart Manager Name</summary>
+			<summary><![CDATA[&nbsp;]]></summary>
 			<description>
 				The Name of the Chart Manager.
 			</description>
@@ -145,7 +145,7 @@
           <text size="40" />
         </control>
 		
-        <summary>The chart's description</summary>
+        <summary><![CDATA[&nbsp;]]></summary>
         <description>
         A description of the Chart of Accounts.  For Search Criteria, select the Help for the Chart Lookup title.
         </description>
@@ -157,7 +157,7 @@
         <label>Chart Active Indicator</label>
 		<shortLabel>ChartActive</shortLabel>
 		<required>false</required>
-		<summary>Chart Active Indicator</summary>
+		<summary><![CDATA[&nbsp;]]></summary>
 		<description>
 		Radioboxes in the entry form that indicate if the Chart is active or inactive.  If "Both" is checked in the Lookup, then both "Yes" (active) or "No" (inactive) values are listed in the search.
 		</description>
@@ -177,7 +177,7 @@
         <control>
           <text size="4" />
         </control>
-        <summary>Cash Object Code value.</summary>
+        <summary><![CDATA[&nbsp;]]></summary>
         <description>
         The code for the "object" of accounting for a cash transaction.
         </description>
@@ -196,7 +196,7 @@
         <control>
           <text size="4" />
         </control>
-        <summary>Accounts Payable Object Code value.</summary>
+        <summary><![CDATA[&nbsp;]]></summary>
         <description>
         The code for the "object" of accounting for an Accounts Payable transaction.
         </description>
@@ -215,7 +215,7 @@
         <control>
           <text size="4" />
         </control>
-        <summary>Income Budget Elimination Object Code value.</summary>
+        <summary><![CDATA[&nbsp;]]></summary>
         <description>
           Income Budget Elimination Object Code value used.
         </description>
@@ -234,7 +234,7 @@
         <control>
           <text size="4" />
         </control>
-        <summary>Expense Budget Elimination Object Code value.</summary>
+        <summary><![CDATA[&nbsp;]]></summary>
         <description>
           Expense Budget Elimination Object Code value used.
         </description>
@@ -254,8 +254,8 @@
           <select
             valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" />
         </control>
-        <summary>Reports To Chart of Accounts Code</summary>
-        <description>Reports To Chart of Accounts Code</description>
+        <summary><![CDATA[&nbsp;]]></summary>
+        <description><![CDATA[&nbsp;]]></description>
 	</attributeReference>
       
 	<attributeReference
@@ -271,8 +271,8 @@
         <control>
           <text size="4" />
         </control>
-        <summary>Accounts Receivable Object Code value.</summary>
-        <description>Accounts Receivable Object Code value used.</description>
+        <summary><![CDATA[&nbsp;]]></summary>
+        <description><![CDATA[&nbsp;]]></description>
 	</attributeReference>
       
     <attributeReference
@@ -288,8 +288,8 @@
         <control>
           <text size="4" />
         </control>
-        <summary>Internal Encumbrances Object Code value.</summary>
-        <description>Internal Encumbrances Object Code value used.</description>
+        <summary><![CDATA[&nbsp;]]></summary>
+        <description><![CDATA[&nbsp;]]></description>
 	</attributeReference>
       
     <attributeReference
@@ -305,8 +305,8 @@
         <control>
           <text size="4" />
         </control>
-        <summary>External Encumbrances Object Code value.</summary>
-        <description>External Encumbrances Object Code value used.</description>
+        <summary><![CDATA[&nbsp;]]></summary>
+        <description><![CDATA[&nbsp;]]></description>
 	</attributeReference>
 	
 	<attributeReference
@@ -322,8 +322,8 @@
         <control>
           <text size="4" />
         </control>
-        <summary>Pre Encumbrances Object Code value.</summary>
-        <description>Pre Encumbrances Object Code value used.</description>
+        <summary><![CDATA[&nbsp;]]></summary>
+        <description><![CDATA[&nbsp;]]></description>
 	</attributeReference>
 	
 	<attributeReference
@@ -340,9 +340,9 @@
           <text size="4" />
         </control>	
 
-        <summary>Indirect Cost Recovery Income Object Code value.</summary>
+        <summary><![CDATA[&nbsp;]]></summary>
         <description>
-          Indirect Cost Recovery Income Object Code value used.
+          <![CDATA[&nbsp;]]>
         </description>
 	</attributeReference>
 	<attributeReference
@@ -358,9 +358,9 @@
         <control>
           <text size="4" />
         </control>
-        <summary>Indirect Cost Recovery Expense Object Code value.</summary>
+        <summary><![CDATA[&nbsp;]]></summary>
         <description>
-          Indirect Cost Recovery Expense Object Code value used.
+          <![CDATA[&nbsp;]]>
         </description>
 	</attributeReference>
 

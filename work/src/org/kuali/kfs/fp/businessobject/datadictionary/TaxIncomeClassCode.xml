@@ -48,7 +48,7 @@
 					<text size="2" />
 				</control>
 
-				<summary>Income Class Code</summary>
+				<summary><![CDATA[&nbsp;]]></summary>
 				<description>The code uniquely identify an income class.</description>
 			</attribute>
 			
@@ -62,8 +62,8 @@
                     <text size="40" />
                 </control>
 
-                <summary>Income Class Name</summary>
-                <description>Income Class Name</description>
+                <summary><![CDATA[&nbsp;]]></summary>
+                <description><![CDATA[&nbsp;]]></description>
             </attribute>
 		
 	    	<attributeReference name="versionNumber" 

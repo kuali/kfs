@@ -114,8 +114,8 @@
                 <control>
                     <text size="10" />
                 </control>
-                <summary>organizationReferenceId</summary>
-                <description>organizationReferenceId description...</description>
+                <summary><![CDATA[&nbsp;]]></summary>
+                <description><![CDATA[&nbsp;]]></description>
             </attribute>
             <attributeReference name="chartOfAccountsCode" 
             					sourceClassName="org.kuali.module.chart.bo.Chart" 

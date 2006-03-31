@@ -94,7 +94,7 @@
           <text size="4" />
         </control>
 
-        <summary>Organization Code</summary>
+        <summary><![CDATA[&nbsp;]]></summary>
         <description>The code used to represent an organization.</description>
       </attribute>
 
@@ -112,8 +112,8 @@
           <text size="40" />
         </control>
 
-        <summary>Organization Name</summary>
-        <description>Organization Name</description>
+        <summary><![CDATA[&nbsp;]]></summary>
+        <description><![CDATA[&nbsp;]]></description>
       </attribute>
 
       <attributeReference name="organizationManagerUniversalId"
@@ -123,8 +123,8 @@
         <shortLabel>Unvl Id</shortLabel>
         <required>true</required>
         <control><hidden /></control>
-        <summary>Manager Universal Id</summary>
-        <description>Manager Universal Id</description>
+        <summary><![CDATA[&nbsp;]]></summary>
+        <description><![CDATA[&nbsp;]]></description>
       </attributeReference>
 
 	  <attributeReference name="organizationManagerUniversal.personUserIdentifier" 
@@ -138,9 +138,9 @@
 							userIdAttributeName="organizationManagerUniversal.personUserIdentifier" 
 							personNameAttributeName="organizationManagerUniversal.personName" />
 			</control>
-			<summary>Organization Manager User ID</summary>
+			<summary><![CDATA[&nbsp;]]></summary>
 			<description>
-				The UserID of the Organization Manager.
+				<![CDATA[&nbsp;]]>
 			</description>
 	  </attributeReference>
 	  
@@ -151,9 +151,9 @@
 			<shortLabel>Name</shortLabel>
 			<required>false</required>
 			<control><hidden /></control>
-			<summary>Organization Manager Name</summary>
+			<summary><![CDATA[&nbsp;]]></summary>
 			<description>
-				The Name of the Organization Manager.
+				<![CDATA[&nbsp;]]>
 			</description>
 		</attributeReference>
 		
@@ -171,8 +171,8 @@
           <text size="2" />
         </control>
 
-        <summary>Responsibility Center Code</summary>
-        <description>Responsibility Center Code</description>
+        <summary><![CDATA[&nbsp;]]></summary>
+        <description><![CDATA[&nbsp;]]></description>
       </attribute>
 
       <attribute name="organizationPhysicalCampusCode" forceUppercase="false">
@@ -189,8 +189,8 @@
           <text size="2" />
         </control>
 
-        <summary>Organization Physical Campus Code</summary>
-        <description>Organization Physical Campus Code</description>
+        <summary><![CDATA[&nbsp;]]></summary>
+        <description><![CDATA[&nbsp;]]></description>
       </attribute>
 
       <attribute name="organizationTypeCode" forceUppercase="false">
@@ -207,8 +207,8 @@
           <select valuesFinderClass="org.kuali.core.lookup.keyvalues.OrgTypeValuesFinder" />
         </control>
 
-        <summary>Organization Type</summary>
-        <description>Organization Type</description>
+        <summary><![CDATA[&nbsp;]]></summary>
+        <description><![CDATA[&nbsp;]]></description>
       </attribute>
 
       <attributeReference name="organizationDefaultAccountNumber"
@@ -217,8 +217,8 @@
         <label>Organization Default Account Number</label>
         <shortLabel>Default Acct</shortLabel>
         <required>true</required>
-        <summary>Organization Default Account Number</summary>
-        <description>Organization Default Account Number</description>
+        <summary><![CDATA[&nbsp;]]></summary>
+        <description><![CDATA[&nbsp;]]></description>
       </attributeReference>
 
       <attributeReference name="organizationPlantAccountNumber"
@@ -227,8 +227,8 @@
         <label>Plant Account Number</label>
         <shortLabel>Plant Acct</shortLabel>
         <required>false</required>
-        <summary>Plant Account Number</summary>
-        <description>Plant Account Number</description>
+        <summary><![CDATA[&nbsp;]]></summary>
+        <description><![CDATA[&nbsp;]]></description>
       </attributeReference>
 
       <attributeReference name="organizationPlantChartCode"
@@ -240,8 +240,8 @@
         <control>
 			<select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" />
 		</control> 
-        <summary>Organization Plant Chart</summary>
-        <description>Organization Plant Chart</description>
+        <summary><![CDATA[&nbsp;]]></summary>
+        <description><![CDATA[&nbsp;]]></description>
       </attributeReference>
 
       <attribute name="organizationZipCode" forceUppercase="false">
@@ -258,8 +258,8 @@
           <text size="11" />
         </control>
 
-        <summary>Organization Zip Code</summary>
-        <description>Organization Zip Code</description>
+        <summary><![CDATA[&nbsp;]]></summary>
+        <description><![CDATA[&nbsp;]]></description>
       </attribute>
 
       <attribute name="organizationStateCode" forceUppercase="false">
@@ -276,8 +276,8 @@
           <text size="2" />
         </control>
 
-        <summary>Organization State Code</summary>
-        <description>Organization State Code</description>
+        <summary><![CDATA[&nbsp;]]></summary>
+        <description><![CDATA[&nbsp;]]></description>
       </attribute>
 
       <attribute name="organizationStreetAddress" forceUppercase="false">
@@ -294,8 +294,8 @@
           <text size="30" />
         </control>
 
-        <summary>Organization Street</summary>
-        <description>Organization Street</description>
+        <summary><![CDATA[&nbsp;]]></summary>
+        <description><![CDATA[&nbsp;]]></description>
       </attribute>
       
       <attribute name="organizationCityName" forceUppercase="false">
@@ -312,8 +312,8 @@
           <text size="25" />
         </control>
 
-        <summary>Organization City Name</summary>
-        <description>Organization City Name</description>
+        <summary><![CDATA[&nbsp;]]></summary>
+        <description><![CDATA[&nbsp;]]></description>
       </attribute>
 
       <attributeReference name="reportsToChartOfAccountsCode"
@@ -325,8 +325,8 @@
 		<control>
 			<select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" />
 		</control> 
-        <summary>Reports to Chart Code</summary>
-        <description>Reports to Chart Code</description>
+        <summary><![CDATA[&nbsp;]]></summary>
+        <description><![CDATA[&nbsp;]]></description>
       </attributeReference>
 
       <attributeReference name="reportsToOrganizationCode"
@@ -335,8 +335,8 @@
         <label>Reports to Organization</label>
         <shortLabel>Rpts to Org</shortLabel>
 		<required>true</required>
-        <summary>Reports to Organization</summary>
-        <description>Reports to Organization</description>
+        <summary><![CDATA[&nbsp;]]></summary>
+        <description><![CDATA[&nbsp;]]></description>
       </attributeReference>
 
       <attributeReference name="organizationBeginDate"
@@ -345,8 +345,8 @@
         <label>Organization Begin Date</label>
         <shortLabel>Begin Date</shortLabel>
         <required>true</required>
-        <summary>Organization Begin Date</summary>
-        <description>Organization Begin Date</description>
+        <summary><![CDATA[&nbsp;]]></summary>
+        <description><![CDATA[&nbsp;]]></description>
         <formatterClass>org.kuali.core.web.format.DateFormatter</formatterClass>
       </attributeReference>
 
@@ -356,8 +356,8 @@
 	        sourceAttributeName="organizationCode">
         <label>Human Resources Organization Code</label>
         <shortLabel>HR Org Code</shortLabel>
-        <summary>Human Resources Organization Code</summary>
-        <description>Human Resources Organization Code</description>
+        <summary><![CDATA[&nbsp;]]></summary>
+        <description><![CDATA[&nbsp;]]></description>
       </attributeReference>
 
       <attributeReference name="organizationEndDate"
@@ -365,8 +365,8 @@
 				sourceAttributeName="genericTimestamp">
         <label>Organization End Date</label>
         <shortLabel>End Date</shortLabel>
-        <summary>Organization End Date</summary>
-        <description>Organization End Date</description>
+        <summary><![CDATA[&nbsp;]]></summary>
+        <description><![CDATA[&nbsp;]]></description>
       </attributeReference>
 
       <attributeReference
@@ -375,8 +375,8 @@
 	        sourceAttributeName="genericBoolean">
         <label>Active</label>
         <shortLabel>Act.</shortLabel>
-        <summary>Active</summary>
-        <description>Action</description>
+        <summary><![CDATA[&nbsp;]]></summary>
+        <description><![CDATA[&nbsp;]]></description>
       </attributeReference>
 
       <attributeReference
@@ -386,8 +386,8 @@
         <label>Campus Plant Account Number</label>
         <shortLabel>Plant Acct</shortLabel>
         <required>false</required>
-        <summary>Campus Plant Account Number</summary>
-        <description>Campus Plant Account Number</description>
+        <summary><![CDATA[&nbsp;]]></summary>
+        <description><![CDATA[&nbsp;]]></description>
       </attributeReference>
 
       <attributeReference
@@ -400,8 +400,8 @@
         <control>
 			<select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" />
 		</control> 
-        <summary>Campus Plant Chart Code</summary>
-        <description>Campus Plant Chart Code</description>
+        <summary><![CDATA[&nbsp;]]></summary>
+        <description><![CDATA[&nbsp;]]></description>
       </attributeReference>
 
       <attribute name="organizationInFinancialProcessingIndicator" forceUppercase="false">
@@ -414,8 +414,8 @@
           <checkbox />
         </control>
 
-        <summary>Organization In Financial Processing</summary>
-        <description>Organization In Financial Processing</description>
+        <summary><![CDATA[&nbsp;]]></summary>
+        <description><![CDATA[&nbsp;]]></description>
       </attribute>
 
  	<attributeReference name="versionNumber" 

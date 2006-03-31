@@ -282,8 +282,8 @@
                 <control>
                     <text size="10" />
                 </control>
-                <summary>organizationReferenceId</summary>
-                <description>organizationReferenceId description...</description>
+                <summary><![CDATA[&nbsp;]]></summary>
+                <description><![CDATA[&nbsp;]]></description>
             </attribute>
             					
             <attribute name="referenceFinDocumentTypeCode" forceUppercase="true">

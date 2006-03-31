@@ -54,8 +54,8 @@
 								sourceAttributeName="activeIndicator">
 				<label>Active Indicator</label>
 				<shortLabel>Active</shortLabel>
-				<summary>Project Code Active Indicator</summary>
-				<description>Project Code Active Indicator</description>
+				<summary><![CDATA[&nbsp;]]></summary>
+				<description><![CDATA[&nbsp;]]></description>
 			</attributeReference>
 			
 			<attributeReference name="chartOfAccountsCode" 
@@ -94,7 +94,7 @@
 								userIdAttributeName="projectManagerUniversal.personUserIdentifier" 
 								personNameAttributeName="projectManagerUniversal.personName" />
 				</control>
-				<summary>Project Manager User ID</summary>
+				<summary><![CDATA[&nbsp;]]></summary>
 				<description>
 					The UserID of the Project Manager.
 				</description>
@@ -107,7 +107,7 @@
 				<shortLabel>Name</shortLabel>
 				<required>false</required>
 				<control><hidden /></control>
-				<summary>Project Manager Name</summary>
+				<summary><![CDATA[&nbsp;]]></summary>
 				<description>
 					The Name of the Project Manager.
 				</description>
@@ -125,8 +125,8 @@
 					<text size="10" />
 				</control>
 
-				<summary>Project Code</summary>
-				<description>Project Code</description>
+				<summary><![CDATA[&nbsp;]]></summary>
+				<description><![CDATA[&nbsp;]]></description>
 			</attribute>
 		
 			<attribute name="projectDescription" forceUppercase="false">
@@ -141,8 +141,8 @@
 					<textarea rows="3" cols="40"/>
 				</control>
 
-				<summary>Project Description</summary>
-				<description>Project Description</description>
+				<summary><![CDATA[&nbsp;]]></summary>
+				<description><![CDATA[&nbsp;]]></description>
 			</attribute>
 			
 			<attribute name="name" forceUppercase="true">
@@ -157,8 +157,8 @@
 					<text size="40" />
 				</control>
 
-				<summary>Name</summary>
-				<description>Name</description>
+				<summary><![CDATA[&nbsp;]]></summary>
+				<description><![CDATA[&nbsp;]]></description>
 			</attribute>
 			
 		    <attributeReference name="versionNumber" 

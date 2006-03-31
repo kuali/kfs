@@ -18,7 +18,7 @@
                     <text size="10" />
                 </control>
 
-                <summary>Check Number</summary>
+                <summary><![CDATA[&nbsp;]]></summary>
                 <description>The numeric identifier for the check or batch of checks in the Cash Reconciliation tab.</description>
             </attribute>
 
@@ -47,7 +47,7 @@
                     <text size="40" />
                 </control>
 
-                <summary>Description</summary>
+                <summary><![CDATA[&nbsp;]]></summary>
                 <description>A free-form text field that describes the purpose or function of the check or batch of checks.</description>
             </attribute>            
             

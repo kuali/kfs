@@ -93,7 +93,7 @@
 					<select valuesFinderClass="org.kuali.core.lookup.keyvalues.DocumentTypeValueFinder" />
 				</control>
 
-				<summary>Document Type Code</summary>
+				<summary><![CDATA[&nbsp;]]></summary>
 				<description>
 				The code for the business function of all documents of this type.
 				</description>
@@ -106,7 +106,7 @@
 				<shortLabel>UnvlID</shortLabel>
 				<required>true</required>
 				<control><hidden /></control>
-				<summary>Account Delegate Universal ID</summary>
+				<summary><![CDATA[&nbsp;]]></summary>
 				<description>
 					The Universal ID (ie, unique identifier) of the Account Delegate.
 				</description>
@@ -123,7 +123,7 @@
 								userIdAttributeName="accountDelegate.personUserIdentifier" 
 								personNameAttributeName="accountDelegate.personName" />
 				</control>
-				<summary>Account Delegate User ID</summary>
+				<summary><![CDATA[&nbsp;]]></summary>
 				<description>
 					The user ID of the designated delegate for the Fiscal Officer for the Account.
 				</description>
@@ -136,7 +136,7 @@
 				<shortLabel>Name</shortLabel>
 				<required>false</required>
 				<control><hidden /></control>
-				<summary>Account Delegate Name</summary>
+				<summary><![CDATA[&nbsp;]]></summary>
 				<description>
 					The Name of the Account Delegate.
 				</description>
@@ -147,7 +147,7 @@
 								sourceAttributeName="genericAmount">
 				<label>From Amount</label>
 				<shortLabel>FromAmt</shortLabel>
-				<summary>Total Amount on the 'From' side of the document.</summary>
+				<summary><![CDATA[&nbsp;]]></summary>
 				<description>Total Amount on the 'From' side of the document.</description>
 			</attributeReference>
 			
@@ -156,7 +156,7 @@
 								sourceAttributeName="genericAmount">
 				<label>To Amount</label>
 				<shortLabel>ToAmt</shortLabel>
-				<summary>Total Amount on the 'To' side of the document.</summary>
+				<summary><![CDATA[&nbsp;]]></summary>
 				<description>Total Amount on the 'To' side of the document.</description>
 			</attributeReference>
 			
@@ -165,8 +165,8 @@
 								sourceAttributeName="genericBoolean">
 				<label>Account Delegate Primary Route</label>
 				<shortLabel>PrimaryRoute</shortLabel>
-				<summary>Account Delegate Primary Route Flag</summary>
-				<description>Account Delegate Primary Route Flag</description>
+				<summary><![CDATA[&nbsp;]]></summary>
+				<description><![CDATA[&nbsp;]]></description>
 			</attributeReference>
 			
 			<attributeReference name="accountDelegateActiveIndicator" 
@@ -174,7 +174,7 @@
 								sourceAttributeName="genericBoolean">
 				<label>Account Delegate Active</label>
 				<shortLabel>DelegateActive</shortLabel>
-				<summary>Account Delegate Active Flag</summary>
+				<summary><![CDATA[&nbsp;]]></summary>
 				<description>
 				Radioboxes in the entry form that indicate if the Account delegation is active or inactive.  If "Both" is checked in the Lookup, then both "Yes" (active) or "No" (inactive) values are listed in the search.
 				</description>
@@ -186,8 +186,8 @@
 				<label>Account Delegate Start Date</label>
 				<shortLabel>DelegateStartDt</shortLabel>
 				<required>true</required>
-				<summary>Account Delegate Start Date</summary>
-				<description>Account Delegate Start Date</description>
+				<summary><![CDATA[&nbsp;]]></summary>
+				<description><![CDATA[&nbsp;]]></description>
 			</attributeReference>
 			
  			<attributeReference name="versionNumber" 

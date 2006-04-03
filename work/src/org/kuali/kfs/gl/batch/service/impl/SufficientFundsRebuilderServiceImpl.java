@@ -207,7 +207,7 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
     private void calculateSufficientFundsByAccount(SufficientFundRebuild sfrb) {
         Account sfrbAccount = accountService.getByPrimaryId(sfrb.getChartOfAccountsCode(), sfrb.getAccountNumberFinancialObjectCode());
 
-        if ("ALCOHN".indexOf(sfrbAccount.getAccountSufficientFundsCode()) > -1) {
+        if ( (sfrbAccount.getAccountSufficientFundsCode() != null) && ("ALCOHN".indexOf(sfrbAccount.getAccountSufficientFundsCode()) > -1) ) {
             ++sfrbRecordsDeletedCount;
             sufficientFundBalancesDao.deleteByAccountNumber(universityFiscalYear, sfrb.getChartOfAccountsCode(), sfrbAccount.getAccountNumber());
 

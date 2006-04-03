@@ -72,7 +72,7 @@ import org.springframework.util.StringUtils;
 
 /**
  * @author Kuali General Ledger Team <kualigltech@oncourse.iu.edu>
- * @version $Id: ScrubberServiceImpl.java,v 1.81 2006-03-30 20:32:05 larevans Exp $
+ * @version $Id: ScrubberServiceImpl.java,v 1.82 2006-04-03 17:39:00 larevans Exp $
  */
 
 public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
@@ -657,6 +657,10 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
             // ... look ahead to see if there are more entries in the same unit of work.
             OriginEntry nextEntry = iteratorOverEntries.hasNext() ? (OriginEntry) iteratorOverEntries.next() : null;
 
+            // Scrub the entry in the context of the previously scrubbed entry.
+            OriginEntryInfo workingEntryInfo = 
+                validateOriginEntryAndBuildWorkingEntry(currentEntry, unitOfWorkInfo);
+            
             // If we've hit the end of the unit of work, return 
             // nextEntry, which will be the first entry of the 
             // next unit of work.
@@ -665,13 +669,10 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
             	// Indicate that we should break out of the loop. We're at the end of the unit of work ...
             	isLastEntryOfCurrentUnitOfWork = true;
             	
-            	// ... and setup offset generation.
-            	unitOfWorkInfo.setTemplateEntryForOffsetGeneration(currentEntry);
+            	// ... and setup offset generation on the working entry (not the currentEntry because
+                // the working entry is cleaned up -- fiscal period code etc. set if it should be and wasn't).
+            	unitOfWorkInfo.setTemplateEntryForOffsetGeneration(workingEntryInfo.getOriginEntry());
             }
-            
-            // Scrub the entry in the context of the previously scrubbed entry.
-            OriginEntryInfo workingEntryInfo = 
-            	validateOriginEntryAndBuildWorkingEntry(currentEntry, unitOfWorkInfo);
             
             // This needs to be done, so we do it as soon as we have workingEntryInfo to work with.
             // This information allows us to distinguish the boundary between two documents.
@@ -3042,7 +3043,7 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         OriginEntry workingEntry = unitOfWorkInfo.getTemplateEntryForOffsetGeneration();
     	
         OriginEntry offsetEntry = new OriginEntry(workingEntry);
-
+        
         // Temporary storage for any errors.
         ArrayList errors = new ArrayList();
         
@@ -3258,7 +3259,8 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
 //        4082  030870        COMPUTE TRN-LDGR-ENTR-AMT OF ALT-GLEN-RECORD =
 //        4083  030880                SCRB-OFFSET-AMOUNT * NEGATIVE-ONE.
         
-            offsetEntry.setTransactionLedgerEntryAmount(unitOfWorkInfo.getTotalOffsetAmount().multiply(new KualiDecimal(-1)));
+            offsetEntry.setTransactionLedgerEntryAmount(
+                    unitOfWorkInfo.getTotalOffsetAmount().negated());
             
         }
         
@@ -3300,6 +3302,37 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
             BatchInfo batchInfo = 
                 unitOfWorkInfo.getDocumentInfo().getOriginEntryGroupInfo().getBatchInfo();
             
+            // FIXME Debugging for KULGL-54. Should be removed for production.
+            
+            if(null == offsetEntry.getUniversityFiscalPeriodCode()) {
+                
+                LOG.debug("Writing offset for working entry " 
+                        + offsetEntry.hashCode() 
+                        + ". Fiscal period of OFFSET is NULL.");
+                
+            }
+            if(null == offsetEntry.getFinancialDocumentReversalDate()) {
+                
+                LOG.debug("Writing offset for working entry " 
+                        + offsetEntry.hashCode() 
+                        + ". Document reversal date of OFFSET is NULL.");
+                
+            }
+            if(null == workingEntry.getUniversityFiscalPeriodCode()) {
+                
+                LOG.debug("Writing offset for working entry " 
+                        + offsetEntry.hashCode() 
+                        + ". Fiscal period of WORKING ENTRY is NULL.");
+                
+            }
+            if(null == workingEntry.getFinancialDocumentReversalDate()) {
+                
+                LOG.debug("Writing offset for working entry " 
+                        + offsetEntry.hashCode() 
+                        + ". Document reversal date of WORKING ENTRY is NULL.");
+                
+            }
+
             // write expiredEntry as expired
             createOutputEntry(offsetEntry, validGroup);
             batchInfo.offsetEntryGenerated();

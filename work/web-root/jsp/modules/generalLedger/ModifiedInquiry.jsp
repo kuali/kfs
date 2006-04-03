@@ -102,6 +102,7 @@
 								test="${column.formatter.implementationClass == 'org.kuali.core.web.format.CurrencyFormatter'}">
 								
 								<display:column class="numbercell" sortable="true"
+									decorator="org.kuali.core.web.uidraw.FormatAwareDecorator"
 									title="${column.columnTitle}" comparator="${column.comparator}">
 									
 									<c:out value="${column.propertyValue}" />
@@ -117,11 +118,12 @@
 									<c:when test="${column.propertyURL != \"\"}">
 										
 										<display:column class="infocell" sortable="${column.sortable}"
+											decorator="org.kuali.core.web.uidraw.FormatAwareDecorator"
 											title="${column.columnTitle}" comparator="${column.comparator}">
 											
 											<a href="<c:out value="${column.propertyURL}"/>" 
 												target="blank"><c:out value="${column.propertyValue}" 
-												/></a>&nbsp;
+												/></a>
 											
 										</display:column>
 									
@@ -130,9 +132,10 @@
 									<c:otherwise>
 										
 										<display:column class="infocell" sortable="${column.sortable}"
+											decorator="org.kuali.core.web.uidraw.FormatAwareDecorator"
 											title="${column.columnTitle}" comparator="${column.comparator}">
 											
-											<c:out value="${column.propertyValue}" />&nbsp;
+											<c:out value="${column.propertyValue}" />
 											
 										</display:column>
 		

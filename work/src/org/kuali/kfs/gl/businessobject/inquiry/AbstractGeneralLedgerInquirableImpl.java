@@ -39,10 +39,11 @@ import org.kuali.core.service.PersistenceStructureService;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.util.UrlFactory;
+import org.kuali.module.gl.util.BusinessObjectFieldConverter;
 import org.kuali.module.gl.web.Constant;
 
 /**
- * This class is the template class for the customized inqurable implementations used to generate balance inquiry screens. 
+ * This class is the template class for the customized inqurable implementations used to generate balance inquiry screens.
  * 
  * @author Bin Gao from Michigan State University
  */
@@ -99,9 +100,8 @@ public abstract class AbstractGLInquirableImpl extends KualiInquirableImpl {
 
         // process the business object class if the attribute name is not user-defined
         if (!isUserDefinedAttribute) {
-            if (inquiryBusinessObjectClass == null 
-                    || businessDictionary.isInquirable(inquiryBusinessObjectClass) == null
-                    || !businessDictionary.isInquirable(inquiryBusinessObjectClass).booleanValue() 
+            if (inquiryBusinessObjectClass == null || businessDictionary.isInquirable(inquiryBusinessObjectClass) == null
+                    || !businessDictionary.isInquirable(inquiryBusinessObjectClass).booleanValue()
                     || isExclusiveField(attributeName, attributeValue)) {
                 return Constants.EMPTY_STRING;
             }
@@ -149,8 +149,8 @@ public abstract class AbstractGLInquirableImpl extends KualiInquirableImpl {
                     keyConversion = keyName;
                 }
                 else {
-                    keyConversion = persistenceStructureService.
-                    	getForeignKeyFieldName(businessObject.getClass(), attributeRefName, keyName);
+                    keyConversion = persistenceStructureService.getForeignKeyFieldName(businessObject.getClass(), attributeRefName,
+                            keyName);
                 }
             }
             Object keyValue = ObjectUtils.getPropertyValue(businessObject, keyConversion);
@@ -197,7 +197,7 @@ public abstract class AbstractGLInquirableImpl extends KualiInquirableImpl {
      * @return the key value from the given key value
      */
     protected abstract Object getKeyValue(String keyName, Object keyValue);
-    
+
     /**
      * This method finds the matching the key name of the given one
      * 
@@ -233,8 +233,8 @@ public abstract class AbstractGLInquirableImpl extends KualiInquirableImpl {
      * @param parameter the current parameter map
      */
     protected abstract void addMoreParameters(Properties parameter, String attributeName);
-    
-    
+
+
     /**
      * This method determines whether the input name-value pair is exclusive from the processing
      * 
@@ -245,25 +245,34 @@ public abstract class AbstractGLInquirableImpl extends KualiInquirableImpl {
     protected boolean isExclusiveField(Object keyName, Object keyValue) {
 
         if (keyName != null && keyValue != null) {
-            if (keyName.equals(PropertyConstants.SUB_ACCOUNT_NUMBER) && keyValue.equals(Constant.CONSOLIDATED_SUB_ACCOUNT_NUMBER)) {
+            String convertedKeyName = BusinessObjectFieldConverter.convertFromTransactionPropertyName(keyName.toString());
+
+            if (convertedKeyName.equals(PropertyConstants.SUB_ACCOUNT_NUMBER)
+                    && keyValue.equals(Constant.CONSOLIDATED_SUB_ACCOUNT_NUMBER)) {
                 return true;
             }
-            else if (keyName.equals(PropertyConstants.SUB_OBJECT_CODE) && keyValue.equals(Constant.CONSOLIDATED_SUB_OBJECT_CODE)) {
+            else if (convertedKeyName.equals(PropertyConstants.SUB_OBJECT_CODE)
+                    && keyValue.equals(Constant.CONSOLIDATED_SUB_OBJECT_CODE)) {
                 return true;
             }
-            else if (keyName.equals(PropertyConstants.OBJECT_TYPE_CODE) && keyValue.equals(Constant.CONSOLIDATED_OBJECT_TYPE_CODE)) {
+            else if (convertedKeyName.equals(PropertyConstants.OBJECT_TYPE_CODE)
+                    && keyValue.equals(Constant.CONSOLIDATED_OBJECT_TYPE_CODE)) {
                 return true;
             }
-            if (keyName.equals(PropertyConstants.SUB_ACCOUNT_NUMBER) && keyValue.equals(Constant.DASHED_SUB_ACCOUNT_NUMBER)) {
+            if (convertedKeyName.equals(PropertyConstants.SUB_ACCOUNT_NUMBER)
+                    && keyValue.equals(Constants.DASHES_SUB_ACCOUNT_NUMBER)) {
                 return true;
             }
-            else if (keyName.equals(PropertyConstants.SUB_OBJECT_CODE) && keyValue.equals(Constant.DASHED_SUB_OBJECT_CODE)) {
+            else if (convertedKeyName.equals(PropertyConstants.SUB_OBJECT_CODE)
+                    && keyValue.equals(Constants.DASHES_SUB_OBJECT_CODE)) {
                 return true;
             }
-            else if (keyName.equals(PropertyConstants.OBJECT_TYPE_CODE) && keyValue.equals(Constant.DASHED_OBJECT_TYPE_CODE)) {
+            else if (convertedKeyName.equals(PropertyConstants.OBJECT_CODE) 
+                    && keyValue.equals(Constants.DASHES_OBJECT_CODE)) {
                 return true;
-            }            
-            else if (keyName.equals(PropertyConstants.PROJECT_CODE) && keyValue.equals(Constant.DASHED_PROJECT_CODE)) {
+            }
+            else if (convertedKeyName.equals(PropertyConstants.PROJECT_CODE) 
+                    && keyValue.equals(Constants.DASHES_PROJECT_CODE)) {
                 return true;
             }
         }

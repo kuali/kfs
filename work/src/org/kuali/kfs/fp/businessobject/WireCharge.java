@@ -28,6 +28,7 @@ package org.kuali.module.financial.bo;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.user.Options;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
@@ -46,6 +47,7 @@ public class WireCharge extends BusinessObjectBase {
 	private KualiDecimal domesticChargeAmt;
 	private KualiDecimal foreignChargeAmt;
 	
+	private Options fiscalYear;
 	private Chart chartOfAccounts;
 	private ObjectCode incomeFinancialObject;
 	private ObjectCode expenseFinancialObject;
@@ -289,6 +291,22 @@ public class WireCharge extends BusinessObjectBase {
 		this.account = account;
 	}
 
+    /**
+     * @return Returns the fiscalYear.
+     */
+    public Options getFiscalYear() {
+        return fiscalYear;
+    }
+    
+    
+    /**
+     * @param fiscalYear The fiscalYear to set.
+     */
+    public void setFiscalYear(Options fiscalYear) {
+        this.fiscalYear = fiscalYear;
+    }
+    
+    
 	/**
 	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
 	 */

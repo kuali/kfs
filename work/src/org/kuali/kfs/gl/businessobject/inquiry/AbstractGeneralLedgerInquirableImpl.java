@@ -254,7 +254,16 @@ public abstract class AbstractGLInquirableImpl extends KualiInquirableImpl {
             else if (keyName.equals(PropertyConstants.OBJECT_TYPE_CODE) && keyValue.equals(Constant.CONSOLIDATED_OBJECT_TYPE_CODE)) {
                 return true;
             }
-            else if (keyName.equals(PropertyConstants.PROJECT_CODE) && keyValue.equals(Constant.DEFAULT_PROJECT_CODE)) {
+            if (keyName.equals(PropertyConstants.SUB_ACCOUNT_NUMBER) && keyValue.equals(Constant.DASHED_SUB_ACCOUNT_NUMBER)) {
+                return true;
+            }
+            else if (keyName.equals(PropertyConstants.SUB_OBJECT_CODE) && keyValue.equals(Constant.DASHED_SUB_OBJECT_CODE)) {
+                return true;
+            }
+            else if (keyName.equals(PropertyConstants.OBJECT_TYPE_CODE) && keyValue.equals(Constant.DASHED_OBJECT_TYPE_CODE)) {
+                return true;
+            }            
+            else if (keyName.equals(PropertyConstants.PROJECT_CODE) && keyValue.equals(Constant.DASHED_PROJECT_CODE)) {
                 return true;
             }
         }

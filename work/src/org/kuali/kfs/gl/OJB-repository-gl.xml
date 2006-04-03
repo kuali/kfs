@@ -429,6 +429,28 @@
 		<foreignkey field-ref="objectCode" />
 	</reference-descriptor>	
 	
+	<reference-descriptor name="subAccount" class-ref="org.kuali.module.chart.bo.SubAccount" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="chartOfAccountsCode" />
+		<foreignkey field-ref="accountNumber" />
+		<foreignkey field-ref="subAccountNumber" />
+	</reference-descriptor>
+
+	<reference-descriptor name="balanceType" class-ref="org.kuali.module.chart.bo.codes.BalanceTyp" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="balanceTypeCode" />
+	</reference-descriptor>
+	
+	<reference-descriptor name="objectType" class-ref="org.kuali.module.chart.bo.ObjectType" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="objectTypeCode" />
+	</reference-descriptor>	
+
+	<reference-descriptor name="financialSubObject" class-ref="org.kuali.module.chart.bo.SubObjCd" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="universityFiscalYear" />
+		<foreignkey field-ref="chartOfAccountsCode" />
+		<foreignkey field-ref="accountNumber" />
+		<foreignkey field-ref="objectCode" />
+		<foreignkey field-ref="subObjectCode" />
+	</reference-descriptor>	
+	
 	<reference-descriptor name="option" class-ref="org.kuali.core.bo.user.Options" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="universityFiscalYear" />
 	</reference-descriptor>		

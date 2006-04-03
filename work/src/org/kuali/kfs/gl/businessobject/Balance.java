@@ -31,6 +31,10 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.ObjectCode;
+import org.kuali.module.chart.bo.ObjectType;
+import org.kuali.module.chart.bo.SubAccount;
+import org.kuali.module.chart.bo.SubObjCd;
+import org.kuali.module.chart.bo.codes.BalanceTyp;
 
 /**
  * @author jsissom
@@ -68,6 +72,11 @@ public class Balance extends BusinessObjectBase {
     private Chart chart;
     private Account account;
     private ObjectCode financialObject;
+    private SubObjCd financialSubObject;
+    private SubAccount subAccount;
+    private BalanceTyp balanceType;
+    private ObjectType objectType;
+
     private DummyBusinessObject dummyBusinessObject;
     private Options option;
 
@@ -245,8 +254,7 @@ public class Balance extends BusinessObjectBase {
     /**
      * @param accountLineAnnualBalanceAmount The accountLineAnnualBalanceAmount to set.
      */
-    public void setAccountLineAnnualBalanceAmount(
-            KualiDecimal accountLineAnnualBalanceAmount) {
+    public void setAccountLineAnnualBalanceAmount(KualiDecimal accountLineAnnualBalanceAmount) {
         this.accountLineAnnualBalanceAmount = accountLineAnnualBalanceAmount;
     }
 
@@ -314,11 +322,9 @@ public class Balance extends BusinessObjectBase {
     }
 
     /**
-     * @param contractsGrantsBeginningBalanceAmount The
-     *        contractsGrantsBeginningBalanceAmount to set.
+     * @param contractsGrantsBeginningBalanceAmount The contractsGrantsBeginningBalanceAmount to set.
      */
-    public void setContractsGrantsBeginningBalanceAmount(
-            KualiDecimal contractsGrantsBeginningBalanceAmount) {
+    public void setContractsGrantsBeginningBalanceAmount(KualiDecimal contractsGrantsBeginningBalanceAmount) {
         this.contractsGrantsBeginningBalanceAmount = contractsGrantsBeginningBalanceAmount;
     }
 
@@ -658,5 +664,77 @@ public class Balance extends BusinessObjectBase {
      */
     public void setFinancialObject(ObjectCode financialObject) {
         this.financialObject = financialObject;
+    }
+
+    /**
+     * Gets the balanceType attribute.
+     * 
+     * @return Returns the balanceType.
+     */
+    public BalanceTyp getBalanceType() {
+        return balanceType;
+    }
+
+    /**
+     * Sets the balanceType attribute value.
+     * 
+     * @param balanceType The balanceType to set.
+     */
+    public void setBalanceType(BalanceTyp balanceType) {
+        this.balanceType = balanceType;
+    }
+
+    /**
+     * Gets the financialSubObject attribute.
+     * 
+     * @return Returns the financialSubObject.
+     */
+    public SubObjCd getFinancialSubObject() {
+        return financialSubObject;
+    }
+
+    /**
+     * Sets the financialSubObject attribute value.
+     * 
+     * @param financialSubObject The financialSubObject to set.
+     */
+    public void setFinancialSubObject(SubObjCd financialSubObject) {
+        this.financialSubObject = financialSubObject;
+    }
+
+    /**
+     * Gets the subAccount attribute.
+     * 
+     * @return Returns the subAccount.
+     */
+    public SubAccount getSubAccount() {
+        return subAccount;
+    }
+
+    /**
+     * Sets the subAccount attribute value.
+     * 
+     * @param subAccount The subAccount to set.
+     */
+    public void setSubAccount(SubAccount subAccount) {
+        this.subAccount = subAccount;
+    }
+
+    /**
+     * Gets the objectType attribute.
+     * 
+     * @return Returns the objectType.
+     */
+    public ObjectType getObjectType() {
+        return objectType;
+    }
+
+    /**
+     * Sets the objectType attribute value.
+     * 
+     * @param objectType The objectType to set.
+     */
+    public void setObjectType(ObjectType objectType) {
+        this.objectType = objectType;
     }
 }

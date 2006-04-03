@@ -251,6 +251,7 @@
 		<property name="persistenceService" ><ref bean="persistenceService" /></property>
 		<property name="kualiRuleService" ><ref bean="kualiRuleService" /></property>
 		<property name="dataDictionaryService" ><ref bean="dataDictionaryService" /></property>
+        <property name="sufficientFundsDao"><ref bean="sufficientFundsDao"/></property>
 	</bean>
 	
 	<bean id="sufficientFundsDao" class="org.kuali.module.gl.dao.ojb.SufficientFundsDaoOjb">

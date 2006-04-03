@@ -68,7 +68,7 @@
 				<description>Contracts and Grants Subcontractor Number.</description>
 			</attribute>
 			
-           <attribute name="name" forceUppercase="false">
+           <attribute name="name" forceUppercase="true">
                 <label>Subcontractor Name</label>
                 <shortLabel>Name</shortLabel>
 

@@ -22,7 +22,12 @@
  */
 package org.kuali.module.kra.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.module.kra.bo.Budget;
+import org.kuali.module.kra.bo.BudgetNonpersonnel;
 import org.kuali.test.KualiTestBaseWithSpring;
 
 /**
@@ -32,6 +37,10 @@ import org.kuali.test.KualiTestBaseWithSpring;
 public class BudgetModularServiceTest extends KualiTestBaseWithSpring {
     
     private BudgetModularService budgetModularService;
+    private BudgetNonpersonnelService budgetNonpersonnelService;
+    
+    private Budget budget;
+    private List nonpersonnelCategories;
     
     /**
      * @see junit.framework.TestCase#setUp()
@@ -39,22 +48,95 @@ public class BudgetModularServiceTest extends KualiTestBaseWithSpring {
     protected void setUp() throws Exception {
         super.setUp();
         budgetModularService = SpringServiceLocator.getBudgetModularService();
+        budgetNonpersonnelService = SpringServiceLocator.getBudgetNonpersonnelService();
+        budget = setupBudget();
+        nonpersonnelCategories = budgetNonpersonnelService.getAllNonpersonnelCategories();
     }
     
-    public void testDetermineModularDirectCost() {
-        
+    protected Budget setupBudget() {
+        Budget budget = new Budget();
+        return budget;
     }
     
-    public void testCalculateTotalModularDirectCostAmount() {
-        
+    
+    public void testGenerateModularBudget() {
+        List nonpersonnelList = new ArrayList();
+        BudgetNonpersonnel budgetNonpersonnel = new BudgetNonpersonnel();
+        budgetNonpersonnel.setAgencyRequestAmount(new Long(35000));
+        //budgetModularService.generateModularBudget(budget, nonpersonnelCategories);
     }
     
-    public void testCalculateTotalAdjustedModularDirectCostAmount() {
-        
-    }
     
-    public void testSumKualiDecimalAmountAcrossPeriods() {
-        
-    }
-    
+//    public void testGenerateAgencyModularIncrements() {
+//        BudgetModular modularBudget = new BudgetModular();
+//        modularBudget.setTotalActualDirectCostAmount(new KualiDecimal(120000));
+//        modularBudget.setBudgetPeriodMaximumAmount(new Integer(250000));
+//        modularBudget.setBudgetModularIncrementAmount(new Integer(25000));
+//        List result = budgetModularService.generateAgencyModularIncrements(modularBudget);
+//        assertTrue(result.size() == 10);
+//        assertTrue(((String) result.get(9)).equals("25000"));
+//        assertTrue(((String) result.get(0)).equals("250000"));
+//        assertTrue(((String) result.get(5)).equals("125000"));
+//    }
+//    
+//    public void testDetermineModularDirectCost() {
+//        BudgetModular modularBudget = new BudgetModular();
+//        modularBudget.setTotalActualDirectCostAmount(new KualiDecimal(120000));
+//        modularBudget.setBudgetPeriodMaximumAmount(new Integer(250000));
+//        modularBudget.setBudgetModularIncrementAmount(new Integer(25000));
+//        KualiDecimal result = budgetModularService.determineModularDirectCost(2, modularBudget);
+//        assertTrue(result.equals(new KualiDecimal(75000)));
+//    }
+//    
+//    public void testCalculateTotalModularDirectCostAmount() {
+//        List modularPeriodList = new ArrayList();
+//        
+//        KualiDecimal result = budgetModularService.calculateTotalModularDirectCostAmount(new KualiDecimal(120000), modularPeriodList);
+//        assertTrue(result.equals(new KualiDecimal(0)));
+//        
+//        BudgetModularPeriod modularPeriod1 = new BudgetModularPeriod();
+//        modularPeriodList.add(modularPeriod1);
+//        
+//        BudgetModularPeriod modularPeriod2 = new BudgetModularPeriod();
+//        modularPeriodList.add(modularPeriod2);
+//        
+//        result = budgetModularService.calculateTotalModularDirectCostAmount(new KualiDecimal(120000), modularPeriodList);
+//        assertTrue(result.equals(new KualiDecimal(240000)));
+//    }
+//    
+//    public void testCalculateTotalAdjustedModularDirectCostAmount() {
+//        List modularPeriodList = new ArrayList();
+//        
+//        KualiDecimal result = budgetModularService.calculateTotalAdjustedModularDirectCostAmount(modularPeriodList);
+//        assertTrue(result.equals(new KualiDecimal(0)));
+//        
+//        BudgetModularPeriod modularPeriod1 = new BudgetModularPeriod();
+//        modularPeriod1.setBudgetAdjustedModularDirectCostAmount(new Integer(30000));
+//        modularPeriodList.add(modularPeriod1);
+//        
+//        BudgetModularPeriod modularPeriod2 = new BudgetModularPeriod();
+//        modularPeriod2.setBudgetAdjustedModularDirectCostAmount(new Integer(20000));
+//        modularPeriodList.add(modularPeriod2);
+//        
+//        result = budgetModularService.calculateTotalAdjustedModularDirectCostAmount(modularPeriodList);
+//        assertTrue(result.equals(new KualiDecimal(50000)));
+//    }
+//    
+//    public void testSumKualiDecimalAmountAcrossPeriods() {
+//        List modularPeriodList = new ArrayList();
+//        
+//        KualiDecimal result = budgetModularService.sumKualiDecimalAmountAcrossPeriods(modularPeriodList, "actualDirectCostAmount");
+//        assertTrue(result.equals(new KualiDecimal(0)));
+//        
+//        BudgetModularPeriod modularPeriod1 = new BudgetModularPeriod();
+//        modularPeriod1.setActualDirectCostAmount(new KualiDecimal(30000));
+//        modularPeriodList.add(modularPeriod1);
+//        
+//        BudgetModularPeriod modularPeriod2 = new BudgetModularPeriod();
+//        modularPeriod2.setActualDirectCostAmount(new KualiDecimal(20000));
+//        modularPeriodList.add(modularPeriod2);
+//        
+//        result = budgetModularService.sumKualiDecimalAmountAcrossPeriods(modularPeriodList, "actualDirectCostAmount");
+//        assertTrue(result.equals(new KualiDecimal(50000)));
+//    }
 }

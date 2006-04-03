@@ -72,7 +72,7 @@
 				<description>Contracts and Grants Agency Number.</description>
 			</attribute>
 			
-           <attribute name="reportingName" forceUppercase="false">
+           <attribute name="reportingName" forceUppercase="true">
                 <label>Agency Reporting Name</label>
                 <shortLabel>ReportingNm</shortLabel>
 
@@ -88,7 +88,7 @@
                 <description>Contracts and Grants Agency Reporting Name</description>
             </attribute>				
 
-			<attribute name="fullName" forceUppercase="false">
+			<attribute name="fullName" forceUppercase="true">
                 <label>Agency Full Name</label>
                 <shortLabel>Name</shortLabel>
 

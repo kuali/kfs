@@ -8,6 +8,7 @@
     </bean>
 
     <bean id="kraUniversityDateDao" class="org.kuali.module.kra.dao.ojb.UniversityDateDaoOjb" />
+	<bean id="indirectCostLookupDao" class="org.kuali.module.kra.dao.ojb.IndirectCostLookupDaoOjb" />
 
     <bean id="budgetService" class="org.kuali.module.kra.service.impl.BudgetServiceImpl">
         <property name="documentService">
@@ -28,6 +29,12 @@
         <property name="budgetPersonnelService">
             <ref bean="budgetPersonnelService" />
         </property>
+        <property name="budgetModularService">
+            <ref bean="budgetModularService" />
+        </property>
+		<property name="budgetIndirectCostService">
+			<ref bean="budgetIndirectCostService"/>
+		</property>
     </bean>
 
     <bean id="budgetFringeRateService" class="org.kuali.module.kra.service.impl.BudgetFringeRateServiceImpl">
@@ -53,10 +60,7 @@
     
     <bean id="budgetModularService" class="org.kuali.module.kra.service.impl.BudgetModularServiceImpl">
         <property name="budgetNonpersonnelService">
-        		<ref bean="budgetNonpersonnelService" />
-        </property>
-        <property name="budgetPersonnelService">
-        		<ref bean="budgetPersonnelService" />
+        	<ref bean="budgetNonpersonnelService" />
         </property>
     </bean>
     
@@ -112,6 +116,9 @@
         <property name="budgetPeriodDao">
             <ref bean="budgetPeriodDao" />
         </property>
+        <property name="appointmentTypeDao">
+            <ref bean="appointmentTypeDao" />
+        </property>
     </bean>
     <bean id="budgetCostShareService" class="org.kuali.module.kra.service.impl.BudgetCostShareServiceImpl">
         <property name="budgetNonpersonnelService">
@@ -121,6 +128,16 @@
             <ref bean="budgetPersonnelService" />
         </property>
     </bean>
-	<bean id="budgetIndirectCostService" class="org.kuali.module.kra.service.impl.BudgetIndirectCostServiceImpl"></bean>
+	<bean id="budgetIndirectCostService" class="org.kuali.module.kra.service.impl.BudgetIndirectCostServiceImpl">
+		<property name="indirectCostLookupDao">
+			<ref bean="indirectCostLookupDao"/>
+		</property>
+		<property name="budgetPeriodDao">
+            <ref bean="budgetPeriodDao"/>
+        </property>
+        <property name="budgetTaskDao">
+            <ref bean="budgetTaskDao" />
+        </property>
+	</bean>
     
 </beans>

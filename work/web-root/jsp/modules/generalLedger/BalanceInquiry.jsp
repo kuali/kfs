@@ -45,9 +45,9 @@
 										alt="search" border="0" />
 												
 								    <html:image
-										property="methodToCall.resetValues" value="resetValues"
+										property="methodToCall.clearValues" value="clearValues"
 										src="images/buttonsmall_clear.gif" styleClass="tinybutton"
-										alt="reset" border="0" />
+										alt="clear" border="0" />
 											
 							      	<c:if test="${KualiForm.formKey!=''}">
 										<a href='<c:out value="${KualiForm.backLocation}?methodToCall=refresh&docFormKey=${KualiForm.formKey}" />'>

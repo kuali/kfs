@@ -186,32 +186,6 @@ public class BalanceInquiryAction extends KualiAction {
 
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
-    
-    /**
-     * resetValues - reset the values of all the fields into the defaults on the jsp.
-     */
-    public ActionForward resetValues(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws IOException, ServletException {
-        LookupForm lookupForm = (LookupForm) form;
-        Lookupable kualiLookupable = lookupForm.getLookupable();
-        if (kualiLookupable == null) {
-            LOG.error("Lookupable is null.");
-            throw new RuntimeException("Lookupable is null.");
-        }
-
-        for (Iterator iter = kualiLookupable.getRows().iterator(); iter.hasNext();) {
-            Row row = (Row) iter.next();
-            for (Iterator iterator = row.getFields().iterator(); iterator.hasNext();) {
-                Field field = (Field) iterator.next();
-                
-                String fieldValue = field.getDefaultValue() == null ? "" : field.getDefaultValue();
-                field.setPropertyValue(fieldValue);
-            }
-        }
-
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-
 
     public ActionForward viewResults(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {

@@ -44,7 +44,7 @@
 							alt="search" border="0" />
 							
                   <html:image
-							property="methodToCall.resetValues" value="resetValues"
+							property="methodToCall.clearValues" value="clearValues"
 							src="images/buttonsmall_clear.gif" styleClass="tinybutton"
 							alt="clear" border="0" />
 							

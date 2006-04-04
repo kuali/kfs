@@ -117,9 +117,9 @@
 	        </maintainableSection>
 	        <maintainableSection title="Guidelines And Purpose">
                 <maintainableItems>
-		            <maintainableField name="accountGuideline.accountExpenseGuidelineText" required="false" />
-		            <maintainableField name="accountGuideline.accountIncomeGuidelineText" required="false" />
-		            <maintainableField name="accountGuideline.accountPurposeText" required="false" />
+		            <maintainableField name="accountGuideline.accountExpenseGuidelineText" required="true" />
+		            <maintainableField name="accountGuideline.accountIncomeGuidelineText" required="true" />
+		            <maintainableField name="accountGuideline.accountPurposeText" required="true" />
                 </maintainableItems>
 	        </maintainableSection>
 	        <maintainableSection title="Account Description">

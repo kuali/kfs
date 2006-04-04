@@ -180,16 +180,10 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
 
         boolean success = true;
         
-        //	Certain C&G fields are required if the Account belongs to the CG Fund Group
-        if (ObjectUtils.isNotNull(newAccount.getSubFundGroup())) {
-	        if (newAccount.getSubFundGroup().getFundGroupCode().equalsIgnoreCase(CONTRACTS_GRANTS_CD)) {
-		        success &= checkEmptyBOField("acctIndirectCostRcvyTypeCd", newAccount.getAcctIndirectCostRcvyTypeCd(), "ICR Type Code");
-		        success &= checkEmptyBOField("financialIcrSeriesIdentifier", newAccount.getFinancialIcrSeriesIdentifier(), "ICR Series Identifier");
-		        success &= checkEmptyBOField("indirectCostRcvyFinCoaCode", newAccount.getIndirectCostRcvyFinCoaCode(), "ICR Cost Recovery Chart of Accounts Code");
-		        success &= checkEmptyBOField("indirectCostRecoveryAcctNbr", newAccount.getIndirectCostRecoveryAcctNbr(), "ICR Cost Recovery Account");
-		        success &= checkEmptyBOField("cgCatlfFedDomestcAssistNbr", newAccount.getCgCatlfFedDomestcAssistNbr(), "C&G Domestic Assistance Number");
-	        }
-        }
+        //	Certain C&G fields are required if the Account belongs to the CG Fund Group 
+        //  Moved in checkContractsAndGrants(document) method.
+        
+        
         
         //	if the expiration date is set, and its earlier than today, account guidelines are not required.
         boolean guidelinesRequired = true;
@@ -216,6 +210,8 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         success &= checkForPartiallyFilledOutReferenceForeignKeys("reportsToAccount");
         success &= checkForPartiallyFilledOutReferenceForeignKeys("contractControlAccount");
         success &= checkForPartiallyFilledOutReferenceForeignKeys("indirectCostRecoveryAcct");
+        
+        
         
         return success;
     }
@@ -655,10 +651,32 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
      * @return false on rules violation
      */
     private boolean checkContractsAndGrants(MaintenanceDocument maintenanceDocument) {
-
+        
+        //TODO: Must add validation for C&G field. 
+        
         LOG.info("checkContractsAndGrants called");
 
         boolean success = true;
+        
+        //Certain C&G fields are required if the Account belongs to the CG Fund Group 
+        if (ObjectUtils.isNotNull(newAccount.getSubFundGroup())) {
+	        if (newAccount.getSubFundGroup().getFundGroupCode().equalsIgnoreCase(CONTRACTS_GRANTS_CD)) {
+	            success &= checkEmptyBOField("contractControlFinCoaCode", newAccount.getContractControlFinCoaCode(), 
+	                    "When Fund Group is CG, Contract Control Chart of Accounts Code");
+	            success &= checkEmptyBOField("contractControlAccountNumber", newAccount.getContractControlAccountNumber(), 
+	                    "When Fund Group is CG, Contract Control Account Number");
+	            success &= checkEmptyBOField("acctIndirectCostRcvyTypeCd", newAccount.getAcctIndirectCostRcvyTypeCd(), 
+	                    "When Fund Group is CG, ICR Type Code");
+		        success &= checkEmptyBOField("financialIcrSeriesIdentifier", newAccount.getFinancialIcrSeriesIdentifier(), 
+		                "When Fund Group is CG, ICR Series Identifier");
+		        success &= checkEmptyBOField("indirectCostRcvyFinCoaCode", newAccount.getIndirectCostRcvyFinCoaCode(), 
+		                "When Fund Group is CG, ICR Cost Recovery Chart of Accounts Code");
+		        success &= checkEmptyBOField("indirectCostRecoveryAcctNbr", newAccount.getIndirectCostRecoveryAcctNbr(), 
+		                "When Fund Group is CG, ICR Cost Recovery Account");
+		        success &= checkEmptyBOField("cgCatlfFedDomestcAssistNbr", newAccount.getCgCatlfFedDomestcAssistNbr(), 
+		                "When Fund Group is CG, C&G Domestic Assistance Number");
+	        }
+        }
         
         //	an income stream account is required for accounts in the C&G (CG) and General Fund (GF) fund groups 
         // (except for the MPRACT sub-fund group in the general fund fund group).
@@ -668,14 +686,19 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
                (fundGroupCode.equalsIgnoreCase(GENERAL_FUND_CD) && 
                !newAccount.getSubFundGroupCode().equalsIgnoreCase(SUB_FUND_GROUP_MEDICAL_PRACTICE_FUNDS))) {
                 
-                if(StringUtils.isBlank(newAccount.getIncomeStreamAccountNumber())) {
+                success &= checkEmptyBOField("incomeStreamAccountNumber", newAccount.getIncomeStreamAccountNumber(), 
+                        "When Fund Group is CG or GF, Income Stream Account Number");
+                success &= checkEmptyBOField("incomeStreamFinancialCoaCode", newAccount.getIncomeStreamFinancialCoaCode(), 
+                        "When Fund Group is CG or GF, Income Stream Chart Of Accounts Code");
+                
+                /*if(StringUtils.isBlank(newAccount.getIncomeStreamAccountNumber())) {
                     putFieldError("incomeStreamAccountNumber", KeyConstants.ERROR_DOCUMENT_ACCMAINT_INCOME_STREAM_ACCT_NBR_CANNOT_BE_NULL);
                     success &= false;
                 }
                 if(StringUtils.isBlank(newAccount.getIncomeStreamFinancialCoaCode())) {
                     putFieldError("incomeStreamFinancialCoaCode", KeyConstants.ERROR_DOCUMENT_ACCMAINT_INCOME_STREAM_ACCT_COA_CANNOT_BE_NULL);
                     success &= false;
-                }
+                }*/
             }
         }
         return success;

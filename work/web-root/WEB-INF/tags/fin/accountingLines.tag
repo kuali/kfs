@@ -50,6 +50,10 @@
   <html:hidden property="editableAccounts(${account.key})" value="${account.key}"/>
 </c:forEach>
 
+<c:forEach items="${editableFields}" var="field">
+  <html:hidden property="accountingLineEditableFields(${field.key})"/>
+</c:forEach>
+
 <c:set var="optionalFieldCount" value="${empty optionalFields ? 0 : fn:length(fn:split(optionalFields, ' ,'))}"/>
 <c:set var="columnCountUntilAmount" value="${9
                                         + (includeObjectTypeCode ? 1 : 0)

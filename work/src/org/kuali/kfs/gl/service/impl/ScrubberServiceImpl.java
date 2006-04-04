@@ -72,7 +72,7 @@ import org.springframework.util.StringUtils;
 
 /**
  * @author Kuali General Ledger Team <kualigltech@oncourse.iu.edu>
- * @version $Id: ScrubberServiceImpl.java,v 1.82 2006-04-03 17:39:00 larevans Exp $
+ * @version $Id: ScrubberServiceImpl.java,v 1.83 2006-04-04 14:08:14 larevans Exp $
  */
 
 public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
@@ -3301,37 +3301,6 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         
             BatchInfo batchInfo = 
                 unitOfWorkInfo.getDocumentInfo().getOriginEntryGroupInfo().getBatchInfo();
-            
-            // FIXME Debugging for KULGL-54. Should be removed for production.
-            
-            if(null == offsetEntry.getUniversityFiscalPeriodCode()) {
-                
-                LOG.debug("Writing offset for working entry " 
-                        + offsetEntry.hashCode() 
-                        + ". Fiscal period of OFFSET is NULL.");
-                
-            }
-            if(null == offsetEntry.getFinancialDocumentReversalDate()) {
-                
-                LOG.debug("Writing offset for working entry " 
-                        + offsetEntry.hashCode() 
-                        + ". Document reversal date of OFFSET is NULL.");
-                
-            }
-            if(null == workingEntry.getUniversityFiscalPeriodCode()) {
-                
-                LOG.debug("Writing offset for working entry " 
-                        + offsetEntry.hashCode() 
-                        + ". Fiscal period of WORKING ENTRY is NULL.");
-                
-            }
-            if(null == workingEntry.getFinancialDocumentReversalDate()) {
-                
-                LOG.debug("Writing offset for working entry " 
-                        + offsetEntry.hashCode() 
-                        + ". Document reversal date of WORKING ENTRY is NULL.");
-                
-            }
 
             // write expiredEntry as expired
             createOutputEntry(offsetEntry, validGroup);
@@ -3452,12 +3421,6 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
                 if(null == entry.getFinancialBalanceTypeCode()) {
 
                     LOG.debug("BalanceTypeCode is NULL for: " + entry.toString());
-
-                }
-                
-                if(null == entry.getFinancialDocumentReversalDate()) {
-
-                    LOG.debug("DocumentReversalDate is NULL for: " + entry.toString());
 
                 }
                 

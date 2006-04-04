@@ -14,7 +14,7 @@ function checkAllOrNone() {
 	<div align="left">
 		<kul:errors keyMatch="*" />
 	</div>  
-    <c:if test="${KualiForm.cashDrawer.closed}">
+    <c:if test="${!empty KualiForm.cashDrawerStatusMessage}">
     <div align="left">
     	<b><font color="red">${KualiForm.cashDrawerStatusMessage}</font></b>
     	<br>
@@ -89,7 +89,7 @@ function checkAllOrNone() {
 		  
 		                  <tr>
 	                  <td height="30" colspan="6" class="infoline"><div align="center" >
-						 <c:if test="${KualiForm.cashDrawer.open}"><html:image property="methodToCall.createDeposit" src="images/buttonsmall_create.gif" alt="create the deposit" styleClass="tinybutton"  /></c:if>
+						 <c:if test="${!KualiForm.cashDrawerClosed}"><html:image property="methodToCall.createDeposit" src="images/buttonsmall_create.gif" alt="create the deposit" styleClass="tinybutton"  /></c:if>
 						 &nbsp;&nbsp;
 	                     <html:image property="methodToCall.cancel" src="images/buttonsmall_cancel.gif" alt="cancel" styleClass="tinybutton" />
 	                  </div></td>

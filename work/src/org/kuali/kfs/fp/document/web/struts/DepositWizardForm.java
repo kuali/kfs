@@ -23,18 +23,11 @@
 package org.kuali.module.financial.web.struts.form;
 
 import java.util.ArrayList;
-
-import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.Constants;
-import org.kuali.KeyConstants;
-import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.struts.form.KualiForm;
-import org.kuali.module.financial.bo.CashDrawer;
 import org.kuali.module.financial.bo.DepositWizardHelper;
-
-import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * This class is the action form for the deposit document wizard.
@@ -44,9 +37,14 @@ import edu.iu.uis.eden.exception.WorkflowException;
 public class DepositWizardForm extends KualiForm {
     private static final long serialVersionUID = 1L;
 
-    private CashDrawer cashDrawer;
-    private ArrayList cashReceiptsReadyForDeposit;
+    private String cashDrawerVerificationUnit;
+
+    private boolean cashDrawerClosed;
+    private String cashDrawerStatusMessage;
+
+    private List cashReceiptsReadyForDeposit;
     private ArrayList selectedCashReceipts;
+
 
     /**
      * Constructs a DepositWizardForm class instance.
@@ -57,36 +55,16 @@ public class DepositWizardForm extends KualiForm {
     }
 
     /**
-     * Makes sure to populate the list of cash receipts that are ready for
-     * deposit.
-     * 
-     * @see org.kuali.core.web.struts.pojo.PojoForm#populate(javax.servlet.http.HttpServletRequest)
-     */
-    public void populate(HttpServletRequest request) {
-        super.populate(request);
-
-        try {
-            this.cashReceiptsReadyForDeposit.clear();
-            this.cashReceiptsReadyForDeposit.addAll(SpringServiceLocator.getCashManagementService()
-                    .retrieveVerifiedCashReceiptsByVerificationUnit(Constants.CashReceiptConstants.CASH_RECEIPT_VERIFICATION_UNIT));
-            this.cashDrawer = SpringServiceLocator.getCashDrawerService().getByWorkgroupName(Constants.CashReceiptConstants.CASH_RECEIPT_VERIFICATION_UNIT);
-        }
-        catch (WorkflowException we) {
-            throw new RuntimeException(we);
-        }
-    }
-
-    /**
      * @return ArrayList
      */
-    public ArrayList getCashReceiptsReadyForDeposit() {
+    public List getCashReceiptsReadyForDeposit() {
         return cashReceiptsReadyForDeposit;
     }
 
     /**
      * @param cashReceiptsReadyForDeposit
      */
-    public void setCashReceiptsReadyForDeposit(ArrayList cashReceiptsReadyForDeposit) {
+    public void setCashReceiptsReadyForDeposit(List cashReceiptsReadyForDeposit) {
         this.cashReceiptsReadyForDeposit = cashReceiptsReadyForDeposit;
     }
 
@@ -105,47 +83,47 @@ public class DepositWizardForm extends KualiForm {
     }
 
     /**
-     * This method retrieves whether the cash receipt at the specified index
-     * will be selected or not.
+     * This method retrieves whether the cash receipt at the specified index will be selected or not.
      * 
      * @param index
      * @return DepositWizarHelper
      */
     public DepositWizardHelper getSelectedCashReceipt(int index) {
         while (this.selectedCashReceipts.size() <= index) {
-            this.selectedCashReceipts.add(new DepositWizardHelper()); // default
-                                                                        // to no
-                                                                        // check
+            this.selectedCashReceipts.add(new DepositWizardHelper());
+            // default to no check
         }
         return (DepositWizardHelper) this.selectedCashReceipts.get(index);
     }
-    
-    /**
-     * This method gets the cash drawer status message only if the cash drawer is closed though.
-     * 
-     * @return String
-     */
+
+
+    public void setCashDrawerStatusMessage(String cashDrawerStatusMessage) {
+        this.cashDrawerStatusMessage = cashDrawerStatusMessage;
+    }
+
     public String getCashDrawerStatusMessage() {
-        String cashDrawerStatusMessage = "";
-        if(cashDrawer.isClosed()) {
-            cashDrawerStatusMessage = SpringServiceLocator.getKualiConfigurationService().
-                getPropertyString(KeyConstants.CashManagement.MSG_DOCUMENT_CASH_MANAGEMENT_CASH_DRAWER_CLOSED_VERIFICATION_NOT_ALLOWED);
-            cashDrawerStatusMessage = StringUtils.replace(cashDrawerStatusMessage, "{0}", Constants.CashReceiptConstants.CASH_RECEIPT_VERIFICATION_UNIT);
-        }
         return cashDrawerStatusMessage;
     }
 
-    /**
-     * @return CashDrawer
-     */
-    public CashDrawer getCashDrawer() {
-        return cashDrawer;
+
+    public boolean hasCashDrawerVerificationUnit() {
+        return StringUtils.isNotBlank(cashDrawerVerificationUnit);
     }
 
-    /**
-     * @param cashDrawer
-     */
-    public void setCashDrawer(CashDrawer cashDrawer) {
-        this.cashDrawer = cashDrawer;
+    public void setCashDrawerVerificationUnit(String cashDrawerVerificationUnit) {
+        this.cashDrawerVerificationUnit = cashDrawerVerificationUnit;
+    }
+
+    public String getCashDrawerVerificationUnit() {
+        return cashDrawerVerificationUnit;
+    }
+
+
+    public boolean isCashDrawerClosed() {
+        return cashDrawerClosed;
+    }
+
+    public void setCashDrawerClosed(boolean cashDrawerClosed) {
+        this.cashDrawerClosed = cashDrawerClosed;
     }
 }

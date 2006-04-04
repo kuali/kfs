@@ -44,6 +44,7 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.util.Timer;
 import org.kuali.core.web.struts.action.KualiAction;
+import org.kuali.module.financial.bo.CashDrawer;
 import org.kuali.module.financial.bo.DepositWizardHelper;
 import org.kuali.module.financial.document.CashManagementDocument;
 import org.kuali.module.financial.document.CashReceiptDocument;
@@ -78,9 +79,44 @@ public class DepositWizardAction extends KualiAction {
         if (!documentAuthorizer.canInitiate(documentTypeName, user)) {
             throw new DocumentTypeAuthorizationException(user.getPersonUserIdentifier(), "initiate", documentTypeName);
         }
+        
+        String verificationUnit = Constants.CashReceiptConstants.CASH_RECEIPT_VERIFICATION_UNIT;
+        populateForVerificationUnit( verificationUnit, (DepositWizardForm)form );
+        
         t0.log();
         return super.execute(mapping, form, request, response);
     }
+    
+    /**
+     * Populate verification-unit-based contents of form, but only if the form doesn't already have them.
+     * (Reduces the number of redundant CashReceiptDocument lookups which happen during cancel-processing.)
+     * 
+     * @param verificationUnit
+     * @param dform
+     */
+    private void populateForVerificationUnit(String verificationUnit, DepositWizardForm dform) {
+        if ( !dform.hasCashDrawerVerificationUnit() ) {
+            dform.setCashDrawerVerificationUnit(verificationUnit);
+
+            List depositableReceipts = SpringServiceLocator.getCashManagementService().retrieveVerifiedCashReceiptsByVerificationUnit(verificationUnit);
+            dform.setCashReceiptsReadyForDeposit(depositableReceipts);
+
+            CashDrawer cashDrawer = SpringServiceLocator.getCashDrawerService().getByWorkgroupName(verificationUnit);
+            dform.setCashDrawerClosed( cashDrawer.isClosed() );
+
+            if (cashDrawer.isClosed()) {
+                String statusMessage= SpringServiceLocator.getKualiConfigurationService().getPropertyString(
+                        KeyConstants.CashManagement.MSG_DOCUMENT_CASH_MANAGEMENT_CASH_DRAWER_CLOSED_VERIFICATION_NOT_ALLOWED);
+                statusMessage = StringUtils.replace(statusMessage, "{0}", verificationUnit);
+                dform.setCashDrawerStatusMessage( statusMessage );
+            }
+            else {
+                // clear status message, just in case
+                dform.setCashDrawerStatusMessage( null );
+            }
+        }
+    }
+        
 
     /**
      * This method is the starting point for the deposit document wizard.
@@ -142,8 +178,6 @@ public class DepositWizardAction extends KualiAction {
         try {
             cmd = SpringServiceLocator.getCashManagementService().createCashManagementDocument("Fill me in...", 
                    selectedCashReceipts, Constants.CashReceiptConstants.CASH_RECEIPT_VERIFICATION_UNIT);  // for now it's just on verification unit
-        } catch(WorkflowException we) {
-            throw new RuntimeException(we);
         } catch(InvalidCashDrawerState icds) {
             return mapping.findForward(Constants.MAPPING_BASIC);
         }

@@ -29,13 +29,16 @@ import org.kuali.core.bo.user.KualiUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.DocumentRuleBase;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.module.financial.bo.BankAccount;
 import org.kuali.module.financial.bo.CashDrawer;
 import org.kuali.module.financial.bo.Deposit;
 import org.kuali.module.financial.bo.DepositCashReceiptControl;
 import org.kuali.module.financial.document.CashManagementDocument;
 import org.kuali.module.financial.document.CashReceiptDocument;
 import org.kuali.Constants;
+import org.kuali.KeyConstants;
 import org.kuali.PropertyConstants;
 
 import edu.iu.uis.eden.EdenConstants;
@@ -168,8 +171,16 @@ public class CashManagementDocumentRule extends DocumentRuleBase {
      * @return boolean
      */
     private boolean validateDeposit(Deposit deposit) {
-        // validate the specific deposit coming in
+        // check for required fields
         SpringServiceLocator.getDictionaryValidationService().validateBusinessObject(deposit);
+        
+        // validate foreign-key relationships
+        deposit.refresh();
+
+        BankAccount bankAccount = deposit.getBankAccount();
+        if ( ObjectUtils.isNull( bankAccount ) ) {
+            GlobalVariables.getErrorMap().put(PropertyConstants.DEPOSIT_BANK_ACCOUNT_NUMBER, KeyConstants.ERROR_EXISTENCE, "Bank Account");
+        }
         
         return GlobalVariables.getErrorMap().isEmpty();
     }

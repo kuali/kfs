@@ -76,7 +76,7 @@ public class CashManagementServiceImpl implements CashManagementService {
      *      java.lang.String)
      */
     public CashManagementDocument createCashManagementDocument(String documentDescription, List verifiedCashReceipts,
-            String workgroupName) throws WorkflowException {
+            String workgroupName) {
         CashManagementDocument cmDoc = null;
 
         // check and lock cash drawer
@@ -110,7 +110,7 @@ public class CashManagementServiceImpl implements CashManagementService {
             // failure-to-close)
             openCashDrawer(workgroupName);
 
-            throw e;
+            throw new InfrastructureException("unable to create CashManagementDocument ", e);
         }
 
         return cmDoc;
@@ -432,7 +432,7 @@ public class CashManagementServiceImpl implements CashManagementService {
     /**
      * @see org.kuali.module.financial.service.CashManagementService#countVerifiedCashReceiptsByVerificationUnit(java.lang.String)
      */
-    public int countVerifiedCashReceiptsByVerificationUnit(String verificationUnitWorkgroupName) throws WorkflowException {
+    public int countVerifiedCashReceiptsByVerificationUnit(String verificationUnitWorkgroupName) {
         if (StringUtils.isBlank(verificationUnitWorkgroupName)) {
             throw new IllegalArgumentException("invalid (blank) verificationWorkgroupName");
         }
@@ -448,7 +448,7 @@ public class CashManagementServiceImpl implements CashManagementService {
     /**
      * @see org.kuali.module.financial.service.CashManagementService#retrieveVerifiedCashReceiptsByVerificationUnit(java.lang.String)
      */
-    public List retrieveVerifiedCashReceiptsByVerificationUnit(String verificationUnitWorkgroupName) throws WorkflowException {
+    public List retrieveVerifiedCashReceiptsByVerificationUnit(String verificationUnitWorkgroupName) {
         if (StringUtils.isBlank(verificationUnitWorkgroupName)) {
             throw new IllegalArgumentException("invalid (blank) verificationWorkgroupName");
         }
@@ -471,6 +471,10 @@ public class CashManagementServiceImpl implements CashManagementService {
             }
             catch (DocumentNotFoundException e) {
                 throw new UnknownDocumentIdException("no document found for documentHeaderId '"
+                        + docHeader.getFinancialDocumentNumber() + "'", e);
+            }
+            catch( WorkflowException e ) {
+                throw new InfrastructureException( "unable to retrieve workflow document for documentHeaderId '"
                         + docHeader.getFinancialDocumentNumber() + "'", e);
             }
 

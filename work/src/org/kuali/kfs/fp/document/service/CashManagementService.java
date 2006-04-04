@@ -28,8 +28,6 @@ import org.kuali.module.financial.bo.Deposit;
 import org.kuali.module.financial.document.CashManagementDocument;
 import org.kuali.module.financial.document.CashReceiptDocument;
 
-import edu.iu.uis.eden.exception.WorkflowException;
-
 
 /**
  * This interface defines methods that a CashManagementService implementation must provide.
@@ -46,7 +44,7 @@ public interface CashManagementService {
      * @return new CashManagementDocument
      */
     public CashManagementDocument createCashManagementDocument(String documentDescription, List verifiedCashReceipts,
-            String workgroupName) throws WorkflowException;
+            String workgroupName);
 
     /**
      * Finalizes the given CashManagementDocument: updates all of the CashReceipts for all of its Deposits to "Approved" status,
@@ -116,18 +114,16 @@ public interface CashManagementService {
      * Returns the count of all verified CashReceipts associated with the given workgroup.
      * 
      * @return number of verified CashReceipts associated with the given workgroup
-     * @throws WorkflowException
      */
-    public int countVerifiedCashReceiptsByVerificationUnit(String verificationUnitWorkgroupName) throws WorkflowException;
+    public int countVerifiedCashReceiptsByVerificationUnit(String verificationUnitWorkgroupName);
 
 
     /**
      * Returns a List of all verified CashReceipts associated with the given workgroup.
      * 
      * @return List of CashReceipts
-     * @throws WorkflowException
      */
-    public List retrieveVerifiedCashReceiptsByVerificationUnit(String verificationUnitWorkgroupName) throws WorkflowException;
+    public List retrieveVerifiedCashReceiptsByVerificationUnit(String verificationUnitWorkgroupName);
 
 
     /**

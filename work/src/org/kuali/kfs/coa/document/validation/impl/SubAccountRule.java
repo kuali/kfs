@@ -81,9 +81,6 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
         //	check that all sub-objects whose keys are specified have matching objects in the db
         checkExistenceAndActive();
 
-        //  disallow any values entered or changed in CG fields if not authorized
-        checkCgFieldsNotAuthorized(document);
-        
         //  process CG rules if appropriate
         checkCgRules(document);
         
@@ -104,9 +101,6 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
         
         //	check that all sub-objects whose keys are specified have matching objects in the db
         success &= checkExistenceAndActive();
-
-        //  disallow any values entered or changed in CG fields if not authorized
-        success &= checkCgFieldsNotAuthorized(document);
 
         //  process CG rules if appropriate
         success &= checkCgRules(document);
@@ -129,9 +123,6 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
         //	check that all sub-objects whose keys are specified have matching objects in the db
         success &= checkExistenceAndActive();
 
-        //  disallow any values entered or changed in CG fields if not authorized
-        success &= checkCgFieldsNotAuthorized(document);
-
         //  process CG rules if appropriate
         success &= checkCgRules(document);
         
@@ -153,10 +144,10 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
     public void setupConvenienceObjects() {
         
         //	setup oldAccount convenience objects, make sure all possible sub-objects are populated
-        oldSubAccount = (SubAccount) super.oldBo;
+        oldSubAccount = (SubAccount) super.getOldBo();
 
         //	setup newAccount convenience objects, make sure all possible sub-objects are populated
-        newSubAccount = (SubAccount) super.newBo;
+        newSubAccount = (SubAccount) super.getNewBo();
     }
     
     protected boolean checkExistenceAndActive() {
@@ -203,6 +194,10 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
      * 
      */
     protected boolean checkCgFieldsNotAuthorized(MaintenanceDocument document) {
+        
+        //  This method is no longer necessary, as authorization restricted 
+        // fields are enforced in the general case in MaintenanceDocumentRuleBase 
+        // in checkAuthorizationRestrictions().
         
         boolean success = true;
         
@@ -297,7 +292,7 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
                 
                 //  get the fundgroupcode for this SubAccount, and the CG FundGroupcode
                 String thisFundGroupCode = newSubAccount.getAccount().getSubFundGroup().getFundGroupCode();
-                String cgFundGroupCode = configService.getApplicationParameterValue(Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, CG_FUND_GROUP_CODE);
+                String cgFundGroupCode = getConfigService().getApplicationParameterValue(Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, CG_FUND_GROUP_CODE);
                 
                 //  compare them, exit if this isnt a CG subaccount
                 if (!thisFundGroupCode.trim().equalsIgnoreCase(cgFundGroupCode.trim())) {
@@ -318,7 +313,7 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
         newSubAccount.getA21SubAccount().refresh();
         
         //  C&G A21 Type field must be in the allowed values
-        KualiParameterRule parmRule = configService.getApplicationParameterRule(Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, CG_ALLOWED_SUBACCOUNT_TYPE_CODES);
+        KualiParameterRule parmRule = getConfigService().getApplicationParameterRule(Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, CG_ALLOWED_SUBACCOUNT_TYPE_CODES);
         if (parmRule.failsRule(newSubAccount.getA21SubAccount().getSubAccountTypeCode())) {
             putFieldError("a21SubAccount.subAccountTypeCode", 
                             KeyConstants.ERROR_DOCUMENT_SUBACCTMAINT_INVALI_SUBACCOUNT_TYPE_CODES, 
@@ -385,7 +380,7 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
                 
                 //   get the cost sharing account's fund group code, and the forbidden fund group code
                 String costSharingAccountFundGroupCode = a21.getCostShareAccount().getSubFundGroup().getFundGroupCode();
-                String cgFundGroupCode = configService.getApplicationParameterValue(Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, CG_FUND_GROUP_CODE);
+                String cgFundGroupCode = getConfigService().getApplicationParameterValue(Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, CG_FUND_GROUP_CODE);
                 
                 //  disallow them being the same
                 if (costSharingAccountFundGroupCode.trim().equalsIgnoreCase(cgFundGroupCode.trim())) {
@@ -429,12 +424,12 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
         //  existence check for Financial Series ID
         if (StringUtils.isNotEmpty(a21.getFinancialIcrSeriesIdentifier())) {
 
-            Integer fiscalYear = dateTimeService.getCurrentFiscalYear();
+            Integer fiscalYear = getDateTimeService().getCurrentFiscalYear();
 
             Map fieldValues = new HashMap();
             fieldValues.put("financialIcrSeriesIdentifier", a21.getFinancialIcrSeriesIdentifier());
             //Collection results = boService.findMatchingOrderBy(IcrAutomatedEntry.class, fieldValues, "universityFiscalYear", true);
-            Collection results = boService.findMatching(IcrAutomatedEntry.class, fieldValues);
+            Collection results = getBoService().findMatching(IcrAutomatedEntry.class, fieldValues);
             
             //  if there are any results, we need to see if there is a match on fiscal year
             boolean anyFound = false;
@@ -492,7 +487,7 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
     protected boolean isCgAuthorized(KualiUser user) {
         
         //  attempt to get the group name that grants access to the CG fields
-        String allowedCgWorkgroup = configService.getApplicationParameterValue(Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, CG_WORKGROUP_PARM_NAME);
+        String allowedCgWorkgroup = getConfigService().getApplicationParameterValue(Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, CG_WORKGROUP_PARM_NAME);
         
         //  if only a null was returned, then we must abort, and cannot continue processing this document
         if (ObjectUtils.isNull(allowedCgWorkgroup)) {
@@ -583,7 +578,7 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
     }
     
     private String getDisplayName(String propertyName) {
-        return ddService.getAttributeLabel(SubAccount.class, propertyName);
+        return getDdService().getAttributeLabel(SubAccount.class, propertyName);
     }
     
 }

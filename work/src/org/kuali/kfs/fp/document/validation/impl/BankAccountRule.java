@@ -88,10 +88,10 @@ public class BankAccountRule extends MaintenanceDocumentRuleBase {
     public void setupConvenienceObjects() {
         
         //  setup oldAccount convenience objects, make sure all possible sub-objects are populated
-        oldBankAccount = (BankAccount) super.oldBo;
+        oldBankAccount = (BankAccount) super.getOldBo();
 
         //  setup newAccount convenience objects, make sure all possible sub-objects are populated
-        newBankAccount = (BankAccount) super.newBo;
+        newBankAccount = (BankAccount) super.getNewBo();
     }
     
     /**
@@ -136,20 +136,20 @@ public class BankAccountRule extends MaintenanceDocumentRuleBase {
         
         //  setup the map to search on
         Map pkMap = new HashMap();
-        pkMap.put("universityFiscalYear", dateTimeService.getCurrentFiscalYear());
+        pkMap.put("universityFiscalYear", getDateTimeService().getCurrentFiscalYear());
         pkMap.put("chartOfAccountsCode", newBankAccount.getCashOffsetFinancialChartOfAccountCode());
         pkMap.put("accountNumber", newBankAccount.getCashOffsetAccountNumber());
         pkMap.put("financialObjectCode", newBankAccount.getCashOffsetObjectCode());
         pkMap.put("financialSubObjectCode", newBankAccount.getCashOffsetSubObjectCode());
         
         //  do the search
-        SubObjCd testSubObjCd = (SubObjCd) boService.findByPrimaryKey(SubObjCd.class, pkMap);
+        SubObjCd testSubObjCd = (SubObjCd) getBoService().findByPrimaryKey(SubObjCd.class, pkMap);
         
         //  fail if the subObjectCode isnt found
         if (testSubObjCd == null) {
             putFieldError("cashOffsetSubObjectCode", 
                     KeyConstants.ERROR_EXISTENCE, 
-                    ddService.getAttributeLabel(BankAccount.class, "cashOffsetSubObjectCode"));
+                    getDdService().getAttributeLabel(BankAccount.class, "cashOffsetSubObjectCode"));
             success &= false;
         }
         

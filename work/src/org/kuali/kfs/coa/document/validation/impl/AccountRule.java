@@ -36,6 +36,8 @@ import org.kuali.core.bo.user.KualiUser;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
@@ -80,6 +82,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
     private Account newAccount;
     private boolean ruleValuesSetup;
     private BalanceService balanceService;
+    private BusinessObjectService boService;
     
     public AccountRule() {
         ruleValuesSetup = false;
@@ -100,7 +103,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
      */
     private void initializeRuleValues(MaintenanceDocument document) {
         if(!ruleValuesSetup) {
-            validBudgetRule = configService.getApplicationParameterRule(Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, ACCT_BUDGET_CODES_RESTRICT);
+            validBudgetRule = getConfigService().getApplicationParameterRule(Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, ACCT_BUDGET_CODES_RESTRICT);
         }
     }
     
@@ -119,10 +122,10 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
     private void setupConvenienceObjects(MaintenanceDocument document) {
         
         //	setup oldAccount convenience objects, make sure all possible sub-objects are populated
-        oldAccount = (Account) super.oldBo;
+        oldAccount = (Account) super.getOldBo();
 
         //	setup newAccount convenience objects, make sure all possible sub-objects are populated
-        newAccount = (Account) super.newBo;
+        newAccount = (Account) super.getNewBo();
     }
     
     /**
@@ -188,7 +191,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         //	if the expiration date is set, and its earlier than today, account guidelines are not required.
         boolean guidelinesRequired = true;
         if (newAccount.getAccountExpirationDate() != null) {
-            Timestamp today = dateTimeService.getCurrentTimestamp();
+            Timestamp today = getDateTimeService().getCurrentTimestamp();
             today.setTime(DateUtils.truncate(today, Calendar.DAY_OF_MONTH).getTime());
             if (newAccount.getAccountExpirationDate().before(today)) {
                 guidelinesRequired = false;
@@ -235,7 +238,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         // (e.g. the account number cannot begin with a 3 or with 00.)
         // Only bother trying if there is an account string to test
         if (!StringUtils.isBlank(newAccount.getAccountNumber())) {
-            String[] illegalValues = configService.getApplicationParameterValues(Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, ACCT_PREFIX_RESTRICTION);
+            String[] illegalValues = getConfigService().getApplicationParameterValues(Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, ACCT_PREFIX_RESTRICTION);
             
             if (illegalValues != null) {
                 for (int i = 0; i < illegalValues.length; i++) {
@@ -558,7 +561,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
             success &= false;
             putFieldError(propertyName, 
                     KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACTIVE_REQD_FOR_EMPLOYEE, 
-                    ddService.getAttributeLabel(newAccount.getClass(), propertyName));
+                    getDdService().getAttributeLabel(newAccount.getClass(), propertyName));
         }
         
         //  user must be of the allowable types (P - Professional)
@@ -568,7 +571,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
             success &= false;
             putFieldError(propertyName, 
                     KeyConstants.ERROR_DOCUMENT_ACCMAINT_PRO_TYPE_REQD_FOR_EMPLOYEE, 
-                    ddService.getAttributeLabel(newAccount.getClass(), propertyName));
+                    getDdService().getAttributeLabel(newAccount.getClass(), propertyName));
         }
         
         return success;
@@ -600,7 +603,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         
         //	get the two dates, and remove any time-components from the dates
         Timestamp expirationDate = newAccount.getAccountExpirationDate();
-        Timestamp todaysDate = dateTimeService.getCurrentTimestamp();
+        Timestamp todaysDate = getDateTimeService().getCurrentTimestamp();
         todaysDate.setTime(DateUtils.truncate(todaysDate, Calendar.DAY_OF_MONTH).getTime());
         
         if (ObjectUtils.isNotNull(expirationDate)) {
@@ -718,7 +721,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
 
         Timestamp oldExpDate = oldAccount.getAccountExpirationDate();
         Timestamp newExpDate = newAccount.getAccountExpirationDate();
-        Timestamp today = dateTimeService.getCurrentTimestamp();
+        Timestamp today = getDateTimeService().getCurrentTimestamp();
         today.setTime(DateUtils.truncate(today, Calendar.DAY_OF_MONTH).getTime()); // remove any time components
         
         //	When updating an account expiration date, the date must be today or later 
@@ -894,7 +897,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
             
             //	Attempt to get the right SubFundGroup code to check the following logic with.  If the value isn't available, go ahead 
             // and die, as this indicates a misconfigured app, and important business rules wont be implemented without it.
-            String capitalSubFundGroup = configService.getApplicationParameterValue(Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, ACCT_CAPITAL_SUBFUNDGROUP);
+            String capitalSubFundGroup = getConfigService().getApplicationParameterValue(Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, ACCT_CAPITAL_SUBFUNDGROUP);
             if (StringUtils.isBlank(capitalSubFundGroup)) {
                 throw new RuntimeException("Expected ConfigurationService.ApplicationParameterValue was not found " + 
                         					"for ScriptName = '" + Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS + "' and " + 
@@ -924,7 +927,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
             	    pkMap.put("campusCode", campusCode);
             	    pkMap.put("buildingCode", buildingCode);
 
-            	    Building building = (Building) boService.findByPrimaryKey(Building.class, pkMap);
+            	    Building building = (Building) getBoService().findByPrimaryKey(Building.class, pkMap);
             	    if (building == null) {
             	        putFieldError("accountDescription.campusCode", KeyConstants.ERROR_EXISTENCE, campusCode);
             	        putFieldError("accountDescription.buildingCode", KeyConstants.ERROR_EXISTENCE, buildingCode);

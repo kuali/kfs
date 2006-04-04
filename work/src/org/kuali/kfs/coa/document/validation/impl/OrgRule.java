@@ -181,12 +181,12 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
                 "Campus Plant Account Number");
         
         //  validate Org Plant Account
-        success &= dictionaryValidationService.validateReferenceExistsAndIsActive(newOrg, "organizationPlantAccount", 
+        success &= getDictionaryValidationService().validateReferenceExistsAndIsActive(newOrg, "organizationPlantAccount", 
                     "accountClosedIndicator", true, true, MAINTAINABLE_ERROR_PREFIX + "organizationPlantAccountNumber", 
                     "Organization Plant Account");
         
         //  validate Campus Plant Account
-        success &= dictionaryValidationService.validateReferenceExistsAndIsActive(newOrg, "campusPlantAccount", 
+        success &= getDictionaryValidationService().validateReferenceExistsAndIsActive(newOrg, "campusPlantAccount", 
                     "accountClosedIndicator", true, true, MAINTAINABLE_ERROR_PREFIX + "campusPlantAccountNumber", 
                     "Campus Plant Account");
         
@@ -402,7 +402,7 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
      */
     protected boolean isHrmsOrgActivated() {
         
-        String flag = configService.getApplicationParameterValue(Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, APC_HRMS_ACTIVE_KEY);
+        String flag = getConfigService().getApplicationParameterValue(Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, APC_HRMS_ACTIVE_KEY);
         if (StringUtils.isBlank(flag)) {
             throw new RuntimeException("Application Parameter Value did not return a value, and one is required. " + 
                     "[" + Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS + "] '" + APC_HRMS_ACTIVE_KEY + "'");
@@ -429,10 +429,10 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
     public void setupConvenienceObjects() {
         
         //  setup oldAccount convenience objects, make sure all possible sub-objects are populated
-        oldOrg = (Org) super.oldBo;
+        oldOrg = (Org) super.getOldBo();
 
         //  setup newAccount convenience objects, make sure all possible sub-objects are populated
-        newOrg = (Org) super.newBo;
+        newOrg = (Org) super.getNewBo();
     }
 
     /**

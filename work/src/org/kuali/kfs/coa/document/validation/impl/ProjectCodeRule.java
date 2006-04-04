@@ -95,10 +95,10 @@ public class ProjectCodeRule extends MaintenanceDocumentRuleBase {
     public void setupConvenienceObjects() {
         
         //  setup oldAccount convenience objects, make sure all possible sub-objects are populated
-        oldProjectCode = (ProjectCode) super.oldBo;
+        oldProjectCode = (ProjectCode) super.getOldBo();
 
         //  setup newAccount convenience objects, make sure all possible sub-objects are populated
-        newProjectCode = (ProjectCode) super.newBo;
+        newProjectCode = (ProjectCode) super.getNewBo();
     }
     
     protected boolean checkExistenceAndActive() {

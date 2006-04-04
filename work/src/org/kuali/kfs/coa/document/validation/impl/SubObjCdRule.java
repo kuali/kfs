@@ -98,10 +98,10 @@ public class SubObjCdRule extends MaintenanceDocumentRuleBase {
     public void setupConvenienceObjects() {
         
         //  setup oldAccount convenience objects, make sure all possible sub-objects are populated
-        oldSubObjectCode = (SubObjCd) super.oldBo;
+        oldSubObjectCode = (SubObjCd) super.getOldBo();
 
         //  setup newAccount convenience objects, make sure all possible sub-objects are populated
-        newSubObjectCode = (SubObjCd) super.newBo;
+        newSubObjectCode = (SubObjCd) super.getNewBo();
     }
     
     protected boolean checkExistenceAndActive() {

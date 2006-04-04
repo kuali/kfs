@@ -156,10 +156,10 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
     private void setupConvenienceObjects(MaintenanceDocument document) {
         
         //	setup oldAccount convenience objects, make sure all possible sub-objects are populated
-        oldDelegate = (Delegate) super.oldBo;
+        oldDelegate = (Delegate) super.getOldBo();
 
         //	setup newAccount convenience objects, make sure all possible sub-objects are populated
-        newDelegate = (Delegate) super.newBo;
+        newDelegate = (Delegate) super.getNewBo();
     }
     
     private boolean checkExistenceAndActive() {
@@ -204,7 +204,7 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
         
         //	start date must be greater than or equal to today
         if (ObjectUtils.isNotNull(newDelegate.getAccountDelegateStartDate())) {
-            Timestamp today = dateTimeService.getCurrentTimestamp();
+            Timestamp today = getDateTimeService().getCurrentTimestamp();
             today.setTime(DateUtils.truncate(today, Calendar.DAY_OF_MONTH).getTime());
             if (newDelegate.getAccountDelegateStartDate().before(today)) {
                 putFieldError("accountDelegateStartDate", KeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_STARTDATE_IN_PAST);
@@ -304,7 +304,7 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
         
         //	find all the matching records
         Collection primaryRoutes;
-        primaryRoutes = boService.findMatching(Delegate.class, whereMap);
+        primaryRoutes = getBoService().findMatching(Delegate.class, whereMap);
         
         //	if there is at least one result, then this business rule is tripped
         if (primaryRoutes.size() > 0) {
@@ -328,7 +328,7 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
             whereMap.put("accountDelegateActiveIndicator", Boolean.valueOf(true));
             
             //  find all the matching records
-            primaryRoutes = boService.findMatching(Delegate.class, whereMap);
+            primaryRoutes = getBoService().findMatching(Delegate.class, whereMap);
             
             //  if there is at least one result, then this business rule is tripped
             if (primaryRoutes.size() > 0) {
@@ -363,7 +363,7 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
             whereMap.put("accountDelegateActiveIndicator", Boolean.valueOf(true));
             
             //  find all the matching records
-            primaryRoutes = boService.findMatching(Delegate.class, whereMap);
+            primaryRoutes = getBoService().findMatching(Delegate.class, whereMap);
             
             //  if there is at least one result, then this business rule is tripped
             if (primaryRoutes.size() > 0) {

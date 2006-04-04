@@ -172,10 +172,10 @@ public class IcrAutomatedEntryRule extends MaintenanceDocumentRuleBase {
     public void setupConvenienceObjects(MaintenanceDocument document) {
         
         //	setup oldICRAutomatedEntry convenience objects, make sure all possible sub-objects are populated
-        oldIcrAutomatedEntry = (IcrAutomatedEntry) super.oldBo;
+        oldIcrAutomatedEntry = (IcrAutomatedEntry) super.getOldBo();
 
         //	setup newICRAutomatedEntry convenience objects, make sure all possible sub-objects are populated
-        newIcrAutomatedEntry = (IcrAutomatedEntry) super.newBo;
+        newIcrAutomatedEntry = (IcrAutomatedEntry) super.getNewBo();
     }
     
     
@@ -183,7 +183,7 @@ public class IcrAutomatedEntryRule extends MaintenanceDocumentRuleBase {
     private boolean checkExistenceFromTable(Class clazz, Map map, String errorField, String errorMessage){
         boolean success = true;
         BusinessObject findByChartCode = null;
-	    findByChartCode = boService.findByPrimaryKey(clazz, map);
+	    findByChartCode = getBoService().findByPrimaryKey(clazz, map);
 	    if (findByChartCode == null) {
 	        putFieldError(errorField, KeyConstants.ERROR_EXISTENCE, errorMessage);
 	        success = false;

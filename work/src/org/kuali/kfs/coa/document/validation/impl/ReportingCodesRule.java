@@ -66,10 +66,10 @@ public class ReportingCodesRule extends MaintenanceDocumentRuleBase {
     private void setupConvenienceObjects(MaintenanceDocument document) {
         
         //  setup oldAccount convenience objects, make sure all possible sub-objects are populated
-        oldReportingCode = (ReportingCodes) super.oldBo;
+        oldReportingCode = (ReportingCodes) super.getOldBo();
 
         //  setup newAccount convenience objects, make sure all possible sub-objects are populated
-        newReportingCode = (ReportingCodes) super.newBo;
+        newReportingCode = (ReportingCodes) super.getNewBo();
     }
     
     private boolean checkReportsToReportingCode() {

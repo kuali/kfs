@@ -65,13 +65,13 @@ public class ObjectConsRule extends MaintenanceDocumentRuleBase {
      */
     private boolean checkObjLevelCode() {
         boolean success = true;
-        ObjectCons objConsolidation = (ObjectCons) super.newBo;
+        ObjectCons objConsolidation = (ObjectCons) super.getNewBo();
         String chartOfAccountsCode = objConsolidation.getChartOfAccountsCode();
         String financialObjectLevelCode = objConsolidation.getFinConsolidationObjectCode();
         Map primaryKeys = new HashMap();
         primaryKeys.put("chartOfAccountsCode", chartOfAccountsCode);
         primaryKeys.put("financialObjectLevelCode", financialObjectLevelCode);
-        ObjLevel objLevel = (ObjLevel)boService.findByPrimaryKey(ObjLevel.class, primaryKeys);
+        ObjLevel objLevel = (ObjLevel) getBoService().findByPrimaryKey(ObjLevel.class, primaryKeys);
         if(objLevel != null) {
             success = false;
             putFieldError("finConsolidationObjectCode", KeyConstants.ERROR_DOCUMENT_OBJCONSMAINT_ALREADY_EXISTS_AS_OBJLEVEL);

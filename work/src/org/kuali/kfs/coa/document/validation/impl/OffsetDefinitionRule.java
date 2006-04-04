@@ -53,10 +53,10 @@ public class OffsetDefinitionRule extends MaintenanceDocumentRuleBase {
     public void setupConvenienceObjects() {
         
         //  setup oldAccount convenience objects, make sure all possible sub-objects are populated
-        oldDefinition = (OffsetDefinition) super.oldBo;
+        oldDefinition = (OffsetDefinition) super.getOldBo();
 
         //  setup newAccount convenience objects, make sure all possible sub-objects are populated
-        newDefinition = (OffsetDefinition) super.newBo;
+        newDefinition = (OffsetDefinition) super.getNewBo();
     }
     
     /**
@@ -87,7 +87,7 @@ public class OffsetDefinitionRule extends MaintenanceDocumentRuleBase {
     
     private boolean checkDocTypeAndFinancialObjCode(MaintenanceDocument document) {
         boolean success = true;
-        KualiParameterRule parmRule = configService.getApplicationParameterRule(
+        KualiParameterRule parmRule = getConfigService().getApplicationParameterRule(
                 Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, 
                 DOCTYPE_AND_OBJ_CODE_VAL);
         // we need to check to see if the values are in the right range and then
@@ -114,7 +114,7 @@ public class OffsetDefinitionRule extends MaintenanceDocumentRuleBase {
     
     private boolean checkDocTypeActiveFinancialObjCode(MaintenanceDocument document) {
         boolean success = true;
-        KualiParameterRule parmRule = configService.getApplicationParameterRule(
+        KualiParameterRule parmRule = getConfigService().getApplicationParameterRule(
                 Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, 
                 DOCTYPE_AND_OBJ_CODE_ACTIVE);
         if(parmRule.succeedsRule(newDefinition.getFinancialDocumentTypeCode())) {

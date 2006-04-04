@@ -37,4 +37,23 @@ public class BudgetNonpersonnelCopyOverFormHelperTest extends KualiTestBaseWithS
         super.setUp();
     }
 
+    public void testBudgetNonpersonnelCopyOverFormHelper() {
+        BudgetNonpersonnelCopyOverFormHelper budgetNonpersonnelCopyOverFormHelper = new BudgetNonpersonnelCopyOverFormHelper();
+        assertTrue(budgetNonpersonnelCopyOverFormHelper.getNonpersonnelCopyOverCategoryHelpers().isEmpty());
+        
+        /** @todo test second constructor below. Note that should probably be done in a seperate method so that it can be used
+         * for deconstruct too. */
+        /*
+        BudgetForm budgetForm = new BudgetForm();
+        BudgetNonpersonnelCopyOverFormHelper budgetNonpersonnelCopyOverFormHelper = new BudgetNonpersonnelCopyOverFormHelper();
+        */
+    }
+    
+    public void testDeconstruct() {
+        /** @todo use whatever method is created for second constructor above. */
+    }
+    
+    public void testRefresh() {
+        /** @todo use whatever method is created for second constructor above. */
+    }
 }

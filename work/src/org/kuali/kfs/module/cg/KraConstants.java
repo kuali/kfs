@@ -35,4 +35,7 @@ public class KraConstants extends JstlConstants {
     public static final int maximumNumberOfTasks = 20; // used on budgetTasks.tag
     
     public static final String SUBCONTRACTOR_CATEGORY_CODE = "SC"; // used on budgetCostShare*.tag and budgetNonpersonnel.tag
+    
+    public static final Integer TASK_SUMMATION = new Integer(0);   // budgetDetailSelection.tag defines 0 as a task summation
+    public static final Integer PERIOD_SUMMATION = new Integer(0); // budgetDetailSelection.tag defines 0 as a period summation
 }

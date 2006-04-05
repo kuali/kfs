@@ -103,7 +103,7 @@ public class InternalBillingDocumentRule extends TransactionalDocumentRuleBase {
      *      org.kuali.core.bo.AccountingLine)
      */
     public boolean processCustomAddAccountingLineBusinessRules(TransactionalDocument document, AccountingLine accountingLine) {
-        return super.processCustomAddAccountingLineBusinessRules( document, accountingLine ) && validateAccountingLine(document, accountingLine);
+        return super.processCustomAddAccountingLineBusinessRules( document, accountingLine ) && checkIndianaStudentFeesNotContinueEduc(document, accountingLine);
     }
 
     /**
@@ -111,7 +111,14 @@ public class InternalBillingDocumentRule extends TransactionalDocumentRuleBase {
      *      org.kuali.core.bo.AccountingLine)
      */
     public boolean processCustomReviewAccountingLineBusinessRules(TransactionalDocument document, AccountingLine accountingLine) {
-        return super.processCustomReviewAccountingLineBusinessRules( document, accountingLine ) && validateAccountingLine(document, accountingLine);
+        return super.processCustomReviewAccountingLineBusinessRules( document, accountingLine ) && checkIndianaStudentFeesNotContinueEduc(document, accountingLine);
+    }
+
+    /**
+     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processCustomUpdateAccountingLineBusinessRules(TransactionalDocument, AccountingLine, AccountingLine)
+     */
+    public boolean processCustomUpdateAccountingLineBusinessRules(TransactionalDocument document, AccountingLine originalAccountingLine, AccountingLine updatedAccountingLine) {
+        return super.processCustomUpdateAccountingLineBusinessRules( document, originalAccountingLine, updatedAccountingLine ) && checkIndianaStudentFeesNotContinueEduc(document, updatedAccountingLine);
     }
 
     /**
@@ -124,7 +131,7 @@ public class InternalBillingDocumentRule extends TransactionalDocumentRuleBase {
      * @see org.kuali.core.rule.AddAccountingLineRule#processCustomAddAccountingLineBusinessRules(org.kuali.core.document.TransactionalDocument,
      *      org.kuali.core.bo.AccountingLine)
      */
-    public boolean validateAccountingLine(TransactionalDocument document, AccountingLine accountingLine) {
+    private boolean checkIndianaStudentFeesNotContinueEduc(TransactionalDocument document, AccountingLine accountingLine) {
         String objectCode = accountingLine.getObjectCode().getFinancialObjectCode();
         String objectSubTypeCode = accountingLine.getObjectCode().getFinancialObjectSubType().getCode();
         String subFundGroupCode = accountingLine.getAccount().getSubFundGroup().getSubFundGroupCode();

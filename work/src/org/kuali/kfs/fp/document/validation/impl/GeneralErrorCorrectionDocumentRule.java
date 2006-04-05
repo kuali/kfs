@@ -77,7 +77,7 @@ public class GeneralErrorCorrectionDocumentRule extends TransactionalDocumentRul
 			|| OBJECT_SUB_TYPE_CODE.ASSESSMENT.equals(objectSubTypeCode) || OBJECT_SUB_TYPE_CODE.NON_MANDATORY_TRANSFER.equals(objectSubTypeCode)) {
 			GlobalVariables.getErrorMap().put(
 				Constants.DOCUMENT_ERRORS, KeyConstants.ERROR_DOCUMENT_INCORRECT_OBJ_CODE_WITH_SUB_TYPE,
-				new String[] {objectSubTypeCode});
+				new String[] {objectCode, objectSubTypeCode});
 			return false;
 		}
 		

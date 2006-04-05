@@ -85,6 +85,8 @@
           	</defaultValueFinderClass>
           </maintainableField>
           <maintainableField name="organizationEndDate" />
+          
+          <maintainableField name="hrisOrganizationCode" />
           <maintainableField name="reportsToChartOfAccountsCode" required="true" />
           <maintainableField name="reportsToOrganizationCode" required="true" />
           <maintainableField name="organizationActiveIndicator">

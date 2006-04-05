@@ -324,7 +324,7 @@
   <field-descriptor name="budgetModularConsortiumDescription" column="BDGT_MOD_CSRM_DESC" jdbc-type="VARCHAR"/>
   <field-descriptor name="budgetModularPersonnelDescription" column="BDGT_MOD_PSNL_DESC" jdbc-type="VARCHAR"/>
   <field-descriptor name="budgetModularSbirFeesDescription" column="BDGT_MOD_SBIR_FEE_DESC" jdbc-type="VARCHAR"/>
-  <field-descriptor name="budgetModularVariableAdjustmentDescription" column="BDGT_MOD_VAR_ADJ_DESC" jdbc-type="VARCHAR"/>
+  <field-descriptor name="budgetModularVariableAdjustmentDescription" column="BDGT_MOD_VAR_ADJ_DESC" jdbc-type="VARCHAR"/> 
   <field-descriptor name="budgetPeriodMaximumAmount" column="BDGT_PRD_MAX_AMT" jdbc-type="INTEGER"/>
   <collection-descriptor name="budgetModularPeriods" proxy="true" element-class-ref="org.kuali.module.kra.bo.BudgetModularPeriod" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
       <orderby name="budgetPeriodSequenceNumber" sort="ASC"/>

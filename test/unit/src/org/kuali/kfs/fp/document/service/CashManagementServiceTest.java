@@ -1024,7 +1024,7 @@ public class CashManagementServiceTest extends KualiTestBaseWithSpring {
         SourceAccountingLine sourceLine = new SourceAccountingLine();
         sourceLine.setChartOfAccountsCode("BL");
         sourceLine.setAccountNumber("1031400");
-        sourceLine.setFinancialObjectCode("5000");
+        sourceLine.setFinancialObjectCode("0737");
         sourceLine.setAmount(BALANCE_AMT);
         sourceLine.refresh();
 

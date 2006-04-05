@@ -32,6 +32,58 @@
 			<field attributeName="accountNumber" />
 		</lockingKeys>		 
 		
+		<defaultExistenceChecks>
+			<reference  attributeName="organization" 
+						activeIndicatorAttributeName="organizationActiveIndicator" 
+						attributeToHighlightOnFail="organizationCode"  />
+			<reference  attributeName="accountPhysicalCampus" 
+						attributeToHighlightOnFail="accountPhysicalCampusCode"  />
+			<reference  attributeName="accountState" 
+						attributeToHighlightOnFail="accountStateCode"  />
+			<reference  attributeName="postalZipCode" 
+						attributeToHighlightOnFail="accountZipCode"  />
+			<reference  attributeName="accountType" 
+						attributeToHighlightOnFail="accountTypeCode"  />
+			<reference  attributeName="financialHigherEdFunction" 
+						attributeToHighlightOnFail="financialHigherEdFunctionCd"  />
+			<reference  attributeName="reportsToAccount" 
+						activeIndicatorAttributeName="accountClosedIndicator" 
+						activeIndicatorReversed="true" 
+						attributeToHighlightOnFail="reportsToAccountNumber" />
+			<reference  attributeName="continuationAccount" 
+						activeIndicatorAttributeName="accountClosedIndicator" 
+						activeIndicatorReversed="true" 
+						attributeToHighlightOnFail="continuationAccountNumber" />
+			<reference  attributeName="endowmentIncomeAccount" 
+						activeIndicatorAttributeName="accountClosedIndicator" 
+						activeIndicatorReversed="true" 
+						attributeToHighlightOnFail="endowmentIncomeAccountNumber" />
+			<reference  attributeName="contractControlAccount" 
+						activeIndicatorAttributeName="accountClosedIndicator" 
+						activeIndicatorReversed="true" 
+						attributeToHighlightOnFail="contractControlAccountNumber" />
+			<reference  attributeName="incomeStreamAccount" 
+						activeIndicatorAttributeName="accountClosedIndicator" 
+						activeIndicatorReversed="true" 
+						attributeToHighlightOnFail="incomeStreamAccountNumber" />
+			<reference  attributeName="indirectCostRecoveryAcct" 
+						activeIndicatorAttributeName="accountClosedIndicator" 
+						activeIndicatorReversed="true" 
+						attributeToHighlightOnFail="indirectCostRecoveryAcctNbr" />
+			<reference  attributeName="sufficientFundsCode" 
+						attributeToHighlightOnFail="accountSufficientFundsCode"  />
+			<reference  attributeName="accountFiscalOfficerUser" 
+						attributeToHighlightOnFail="accountFiscalOfficerUser.personUserIdentifier"  />
+			<reference  attributeName="accountSupervisoryUser" 
+						attributeToHighlightOnFail="accountSupervisoryUser.personUserIdentifier"  />
+			<reference  attributeName="accountManagerUser" 
+						attributeToHighlightOnFail="accountManagerUser.personUserIdentifier"  />
+			<reference  attributeName="accountRestrictedStatus" 
+						attributeToHighlightOnFail="accountRestrictedStatusCode"  />
+			<reference  attributeName="subFundGroup" 
+						attributeToHighlightOnFail="subFundGroupCode"  />
+		</defaultExistenceChecks>
+		
 		<applyApcRules>
 			<apcRule attributeName="budgetRecordingLevelCode"
 				     apcGroup="ChartMaintenanceEDoc"

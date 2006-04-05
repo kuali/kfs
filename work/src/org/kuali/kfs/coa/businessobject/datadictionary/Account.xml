@@ -145,6 +145,7 @@
 								sourceAttributeName="subFundGroupCode">
 				<label>Sub-Fund Group Code</label>
 				<shortLabel>SubFundGrpCd</shortLabel>
+				<required>true</required>
 				<summary><![CDATA[&nbsp;]]></summary>
 				<description>The code used to categorize Accounts for internal resource management, and to relate the Account to a Fund through the Sub-Fund Groups.</description>
 			</attributeReference>

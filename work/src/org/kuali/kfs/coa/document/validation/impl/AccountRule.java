@@ -36,13 +36,11 @@ import org.kuali.core.bo.user.KualiUser;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.SubFundGroup;
-import org.kuali.module.financial.rules.KualiParameterRule;
 import org.kuali.module.gl.service.BalanceService;
 import org.kuali.module.gl.service.GeneralLedgerPendingEntryService;
 
@@ -55,7 +53,6 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
     
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountRule.class);
     
-    private static final String ACCT_BUDGET_CODES_RESTRICT = "Account.BudgetCodesRestriction";
     private static final String ACCT_PREFIX_RESTRICTION = "Account.PrefixRestriction";
     private static final String ACCT_CAPITAL_SUBFUNDGROUP = "Account.CapitalSubFundGroup";
 
@@ -74,17 +71,13 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
     
     private static final String BUDGET_RECORDING_LEVEL_MIXED = "M";
     
-    GeneralLedgerPendingEntryService generalLedgerPendingEntryService;
+    private GeneralLedgerPendingEntryService generalLedgerPendingEntryService;
+    private BalanceService balanceService;
     
-    private KualiParameterRule validBudgetRule;
     private Account oldAccount;
     private Account newAccount;
-    private boolean ruleValuesSetup;
-    private BalanceService balanceService;
-    private BusinessObjectService boService;
     
     public AccountRule() {
-        ruleValuesSetup = false;
         
         // Pseudo-inject some services.
         //
@@ -94,16 +87,6 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         // SpringServiceLocator, and configure the bean defs for spring.
         this.setGeneralLedgerPendingEntryService(SpringServiceLocator.getGeneralLedgerPendingEntryService());
         this.setBalanceService(SpringServiceLocator.getGeneralLedgerBalanceService());
-    }
-    
-    /**
-     * This method initializes our rule values for Account Maintenance
-     * @param document
-     */
-    private void initializeRuleValues(MaintenanceDocument document) {
-        if(!ruleValuesSetup) {
-            validBudgetRule = getConfigService().getApplicationParameterRule(Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, ACCT_BUDGET_CODES_RESTRICT);
-        }
     }
     
     /**
@@ -135,7 +118,6 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         
         LOG.info("processCustomSaveDocumentBusinessRules called");
         setupConvenienceObjects(document);
-        initializeRuleValues(document);
         
         checkEmptyValues(document);
         checkGeneralRules(document);
@@ -153,7 +135,6 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
 
         LOG.info("processCustomRouteDocumentBusinessRules called");
         setupConvenienceObjects(document);
-        initializeRuleValues(document);
         
         //	default to success
         boolean success = true;
@@ -182,12 +163,8 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
 
         boolean success = true;
         
-        //	Certain C&G fields are required if the Account belongs to the CG Fund Group 
-        //  Moved in checkContractsAndGrants(document) method.
-        
-        
-        
-        //	if the expiration date is set, and its earlier than today, account guidelines are not required.
+        //	guidelines are always required, except when the expirationDate is set, and its 
+        // earlier than today
         boolean guidelinesRequired = true;
         if (newAccount.getAccountExpirationDate() != null) {
             Timestamp today = getDateTimeService().getCurrentTimestamp();
@@ -212,8 +189,6 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         success &= checkForPartiallyFilledOutReferenceForeignKeys("reportsToAccount");
         success &= checkForPartiallyFilledOutReferenceForeignKeys("contractControlAccount");
         success &= checkForPartiallyFilledOutReferenceForeignKeys("indirectCostRecoveryAcct");
-        
-        
         
         return success;
     }
@@ -334,198 +309,23 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         }
         
         //valid values for the budget code are account, consolidation, level, object code, mixed, sub-account and no budget.
-        if (ObjectUtils.isNull(newAccount.getBudgetRecordingLevel())) {
-            if (validBudgetRule.failsRule(newAccount.getBudgetRecordingLevelCode())) {
+        if (ObjectUtils.isNotNull(newAccount.getBudgetRecordingLevel())) {
+            if (!newAccount.getBudgetRecordingLevel().isActive()) { 
                 success &= false;
-                putFieldError("budgetRecordingLevelCode", KeyConstants.ERROR_DOCUMENT_ACCMAINT_INVALID_BUDGET_RECORD_LVL_CD, newAccount.getBudgetRecordingLevelCode());
-            }
-        } else if (!newAccount.getBudgetRecordingLevel().isActive()) { 
-            success &= false;
-            putFieldError("budgetRecordingLevelCode", KeyConstants.ERROR_DOCUMENT_ACCMAINT_INACTIVE_BUDGET_RECORD_LVL_CD, newAccount.getBudgetRecordingLevelCode());
-        }
-        
-        // IMPORTANT NOTE: In this whole stretch of tests which follows where we're testing to make sure that subObject X 
-        // is valid (ie, present in the its table) and active, we're cheating a little bit, to 
-        // simplify the code.  This assumes that we've run the PersistenceService.retrieveNonKeyFields() 
-        // on the object.  After this happens, if the String value for the subObject is valid, the 
-        // subObject itself will be populated.  So if its null, then its not present in the DB.
-        // This is quite a bundle of assumptions, so be aware that if any of these assumptions become 
-        // untrue, then this whole section breaks down.
-        
-        //org_cd must be a valid org and active in the ca_org_t table
-        if (ObjectUtils.isNull(newAccount.getOrganization())) {
-            success &= false;
-            putFieldError("organizationCode", KeyConstants.ERROR_DOCUMENT_ACCMAINT_INVALID_ORG);
-        }
-        else if (!newAccount.getOrganization().isOrganizationActiveIndicator()) {
-            success &= false;
-            putFieldError("organizationCode", KeyConstants.ERROR_DOCUMENT_ACCMAINT_INACTIVE_ORG);
-        }
-        
-        //acct_phys_cmp_cd must be valid campus in the acct_phys_cmp_cd table
-        if (ObjectUtils.isNull(newAccount.getAccountPhysicalCampus())) {
-            success &= false;
-            putFieldError("accountPhysicalCampusCode", KeyConstants.ERROR_DOCUMENT_ACCMAINT_INVALID_CAMPUS_CD);
-        } // campus doesnt have an Active code, so this isnt checked
-        
-        //acct_state_cd must be valid in the sh_state_t table
-        if (ObjectUtils.isNull(newAccount.getAccountState())) {
-            success &= false;
-            putFieldError("accountStateCode", KeyConstants.ERROR_DOCUMENT_ACCMAINT_INVALID_STATE_CD);
-        } // state doesnt have an Active code, so this isnt checked
-        
-        //acct_zip_cd must be a valid in the sh_zip_code_t table
-        if (ObjectUtils.isNull(newAccount.getPostalZipCode())) {
-            success &= false;
-            putFieldError("accountZipCode", KeyConstants.ERROR_DOCUMENT_ACCMAINT_INVALID_ZIP_CD);
-        } // zipcode doesnt have an Active code, so this isnt checked
-        
-        //existence check on account type
-        if (ObjectUtils.isNull(newAccount.getAccountType())) {
-            success &= false;
-            putFieldError("accountTypeCode", KeyConstants.ERROR_DOCUMENT_ACCMAINT_INVALID_ACCT_TYPE);
-        } 
-        
-        // existence check on financial higher ed function
-        if (ObjectUtils.isNull(newAccount.getFinancialHigherEdFunction())) {
-            success &= false;
-            putFieldError("financialHigherEdFunctionCd", KeyConstants.ERROR_DOCUMENT_ACCMAINT_INVALID_HIGHER_ED_CD);
-        }
-        
-        // existence check on reportsTo/fringeBenefit account
-        // NOTE: that both FringeBenefit Account and ReportsTo Account are the same thing.
-        if(StringUtils.isNotEmpty(newAccount.getReportsToAccountNumber()) && StringUtils.isNotEmpty(newAccount.getReportsToChartOfAccountsCode())) {
-            if(ObjectUtils.isNull(newAccount.getReportsToAccount())) {
-                success &= false;
-                putFieldError("reportsToAccountNumber", KeyConstants.ERROR_DOCUMENT_ACCMAINT_INVALID_FRINGE_BENEFIT_ACCOUNT);
-            }
-            else {
-                Account fringeBenefitAccount = newAccount.getReportsToAccount();
-                if (fringeBenefitAccount.isAccountClosedIndicator()) {
-                    success &= false;
-                    putFieldError("reportsToAccountNumber", KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCOUNT_CLOSED_FRINGE_BENEFIT);
-                }
+                putFieldError("budgetRecordingLevelCode", KeyConstants.ERROR_DOCUMENT_ACCMAINT_INACTIVE_BUDGET_RECORD_LVL_CD, newAccount.getBudgetRecordingLevelCode());
             }
         }
         
         //  existence check on continuation account
-        if(StringUtils.isNotEmpty(newAccount.getContinuationAccountNumber()) && StringUtils.isNotEmpty(newAccount.getContinuationFinChrtOfAcctCd())) {
-            if(ObjectUtils.isNull(newAccount.getContinuationAccount())) {
+        // moved to maintDoc.xml <defaultExistenceChecks>
+        if(ObjectUtils.isNotNull(newAccount.getContinuationAccount())) {
+            Account continuationAccount = newAccount.getContinuationAccount();
+            if (continuationAccount.isExpired()) {
                 success &= false;
-                putFieldError("continuationAccountNumber", KeyConstants.ERROR_DOCUMENT_ACCMAINT_INVALID_CONTINUATION_ACCOUNT);
-            }
-            else {
-                Account continuationAccount = newAccount.getContinuationAccount();
-                if (continuationAccount.isAccountClosedIndicator()) {
-                    success &= false;
-                    putFieldError("continuationAccountNumber", KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCOUNT_CLOSED_CONTINUATION);
-                }
-                else if (continuationAccount.isExpired()) {
-                    success &= false;
-                    putFieldError("continuationAccountNumber", KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCOUNT_EXPIRED_CONTINUATION);
-                }
+                putFieldError("continuationAccountNumber", KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCOUNT_EXPIRED_CONTINUATION);
             }
         }
         
-        //existence check on endowment account
-        if(StringUtils.isNotEmpty(newAccount.getEndowmentIncomeAccountNumber()) && StringUtils.isNotEmpty(newAccount.getEndowmentIncomeAcctFinCoaCd())) {
-            if(ObjectUtils.isNull(newAccount.getEndowmentIncomeAccount())) {
-                success &= false;
-                putFieldError("endowmentIncomeAccountNumber", KeyConstants.ERROR_DOCUMENT_ACCMAINT_INVALID_ENDOWMENT_ACCOUNT);
-            }
-            else {
-                Account endowmentAccount = newAccount.getEndowmentIncomeAccount();
-                if (endowmentAccount.isAccountClosedIndicator()) {
-                    success &= false;
-                    putFieldError("endowmentIncomeAccountNumber", KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCOUNT_CLOSED_ENDOWMENT);
-                }
-            }
-        }
-        
-        //existence check on contractControl account
-        if(StringUtils.isNotEmpty(newAccount.getContractControlAccountNumber()) && StringUtils.isNotEmpty(newAccount.getContractControlFinCoaCode())) {
-            if(ObjectUtils.isNull(newAccount.getContractControlAccount())) {
-                success &= false;
-                putFieldError("contractControlAccountNumber", KeyConstants.ERROR_DOCUMENT_ACCMAINT_INVALID_CONTRACT_CONTROL_ACCOUNT);
-            }
-            else {
-                Account contractControlAccount = newAccount.getContractControlAccount();
-                if (contractControlAccount.isAccountClosedIndicator()) {
-                    success &= false;
-                    putFieldError("contractControlAccountNumber", KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCOUNT_CLOSED_CONTRACT_CONTROL);
-                }
-            }
-        }
-        
-        //existence check on income stream
-        if(StringUtils.isNotEmpty(newAccount.getIncomeStreamAccountNumber()) && StringUtils.isNotEmpty(newAccount.getIncomeStreamFinancialCoaCode())) {
-            if(ObjectUtils.isNull(newAccount.getIncomeStreamAccount())) {
-                success &= false;
-                putFieldError("incomeStreamAccountNumber", KeyConstants.ERROR_DOCUMENT_ACCMAINT_INVALID_INCOME_STREAM_ACCOUNT);
-            }
-            else {
-                Account incomeStreamAccount = newAccount.getIncomeStreamAccount();
-                if (incomeStreamAccount.isAccountClosedIndicator()) {
-                    success &= false;
-                    putFieldError("incomeStreamAccountNumber", KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCOUNT_CLOSED_INCOME_STREAM);
-                }
-            }
-        }
-        
-        //existence check on indirect cost recovery
-        if(StringUtils.isNotEmpty(newAccount.getIndirectCostRecoveryAcctNbr()) && StringUtils.isNotEmpty(newAccount.getIndirectCostRcvyFinCoaCode())) {
-            if(ObjectUtils.isNull(newAccount.getIndirectCostRecoveryAcct())) {
-                success &= false;
-                putFieldError("indirectCostRecoveryAcctNbr", KeyConstants.ERROR_DOCUMENT_ACCMAINT_INVALID_ICR_ACCOUNT);
-            }
-            else {
-                Account icrAccount = newAccount.getIndirectCostRecoveryAcct();
-                if (icrAccount.isAccountClosedIndicator()) {
-                    success &= false;
-                    putFieldError("indirectCostRecoveryAcctNbr", KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCOUNT_CLOSED_ICR);
-                }
-            }
-        }
-        
-        //existence check on account sufficient funds code
-        if(StringUtils.isNotEmpty(newAccount.getAccountSufficientFundsCode())) {
-            if(ObjectUtils.isNull(newAccount.getSufficientFundsCode())) {
-                success &= false;
-                putFieldError("accountSufficientFundsCode", KeyConstants.ERROR_DOCUMENT_ACCMAINT_INVALID_SUFFICIENT_FUNDS_CODE);
-            }
-        }
-        
-        //existence check on fiscal officer
-        if(StringUtils.isNotEmpty(newAccount.getAccountFiscalOfficerSystemIdentifier())) {
-            if(ObjectUtils.isNull(newAccount.getAccountFiscalOfficerUser())) {
-                success &= false;
-                putFieldError("accountFiscalOfficerSystemIdentifier", KeyConstants.ERROR_DOCUMENT_ACCMAINT_INVALID_PERSON_FISCAL_OFFICER);
-            }
-        }
-        
-        //existence check on supervisory system manager
-        if(StringUtils.isNotEmpty(newAccount.getAccountsSupervisorySystemsIdentifier())) {
-            if(ObjectUtils.isNull(newAccount.getAccountSupervisoryUser())) {
-                success &= false;
-                putFieldError("accountsSupervisorySystemsIdentifier", KeyConstants.ERROR_DOCUMENT_ACCMAINT_INVALID_PERSON_SUPERVISOR);
-            }
-        }
-        
-        //existence check on manager system
-        if(StringUtils.isNotEmpty(newAccount.getAccountManagerSystemIdentifier())) {
-            if(ObjectUtils.isNull(newAccount.getAccountManagerUser())) {
-                success &= false;
-                putFieldError("accountManagerSystemIdentifier", KeyConstants.ERROR_DOCUMENT_ACCMAINT_INVALID_PERSON_MANAGER);
-            }
-        }
-        
-        //existence check on account restricted status code
-        if(StringUtils.isNotEmpty(newAccount.getAccountRestrictedStatusCode())) {
-            if(ObjectUtils.isNull(newAccount.getAccountRestrictedStatus())) {
-                success &= false;
-                putFieldError("accountRestrictedStatusCode", KeyConstants.ERROR_DOCUMENT_ACCMAINT_INVALID_RESTRICTED_STATUS_CODE);
-            }
-        }
         return success;
     }
 
@@ -883,57 +683,52 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
 
         boolean success = true;
         
-        //	sub_fund_grp_cd on the account must be set to a valid sub_fund_grp_cd that exists in the ca_sub_fund_grp_t table
-        //	assuming here that since we did the PersistenceService.refreshNonKeyFields() at beginning of rule that if the 
-        // SubFundGroup object would be populated.
+        //  if we dont have a valid subFundGroupCode and subFundGroup object, we cannot proceed
         if (StringUtils.isBlank(newAccount.getSubFundGroupCode()) || ObjectUtils.isNull(newAccount.getSubFundGroup())) {
-            putFieldError("subFundGroupCode", KeyConstants.ERROR_DOCUMENT_ACCMAINT_INVALID_SUBFUNDGROUP);
-            success &= false;
-        } //no active indicator
+            return success;
+        }
         
         //	PFCMD (Plant Fund, Construction and Major Remodeling) SubFundCode checks
-        else {
-            
-            //	Attempt to get the right SubFundGroup code to check the following logic with.  If the value isn't available, go ahead 
-            // and die, as this indicates a misconfigured app, and important business rules wont be implemented without it.
-            String capitalSubFundGroup = getConfigService().getApplicationParameterValue(Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, ACCT_CAPITAL_SUBFUNDGROUP);
-            if (StringUtils.isBlank(capitalSubFundGroup)) {
-                throw new RuntimeException("Expected ConfigurationService.ApplicationParameterValue was not found " + 
-                        					"for ScriptName = '" + Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS + "' and " + 
-                        					"Parameter = '" + ACCT_CAPITAL_SUBFUNDGROUP + "'");
-            }
 
-            if (newAccount.getSubFundGroupCode().equalsIgnoreCase(capitalSubFundGroup)) {
-                
-                String campusCode = newAccount.getAccountDescription().getCampusCode();
-                String buildingCode = newAccount.getAccountDescription().getBuildingCode();
-                
-                //	if sub_fund_grp_cd is 'PFCMR' then campus_cd must be entered
-                if (StringUtils.isBlank(campusCode)) {
-        	        putFieldError("accountDescription.campusCode", KeyConstants.ERROR_DOCUMENT_ACCMAINT_CAMS_SUBFUNDGROUP_WITH_MISSING_CAMPUS_CD_FOR_BLDG);
-                    success &= false;
-                }
-            
-            	//	if sub_fund_grp_cd is 'PFCMR' then bldg_cd must be entered
-            	if (StringUtils.isBlank(buildingCode)) {
-        	        putFieldError("accountDescription.campusCode", KeyConstants.ERROR_DOCUMENT_ACCMAINT_CAMS_SUBFUNDGROUP_WITH_MISSING_BUILDING_CD);
-                    success &= false;
-            	} 
-            	
-            	//	the building object (campusCode & buildingCode) must exist in the DB
-            	if (!StringUtils.isBlank(campusCode) && !StringUtils.isBlank(buildingCode)) {
-            	    Map pkMap = new HashMap();
-            	    pkMap.put("campusCode", campusCode);
-            	    pkMap.put("buildingCode", buildingCode);
+        //	Attempt to get the right SubFundGroup code to check the following logic with.  If the value isn't available, go ahead 
+        // and die, as this indicates a misconfigured app, and important business rules wont be implemented without it.
+        String capitalSubFundGroup = getConfigService().getApplicationParameterValue(Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, ACCT_CAPITAL_SUBFUNDGROUP);
+        if (StringUtils.isBlank(capitalSubFundGroup)) {
+            throw new RuntimeException("Expected ConfigurationService.ApplicationParameterValue was not found " + 
+                    					"for ScriptName = '" + Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS + "' and " + 
+                    					"Parameter = '" + ACCT_CAPITAL_SUBFUNDGROUP + "'");
+        }
 
-            	    Building building = (Building) getBoService().findByPrimaryKey(Building.class, pkMap);
-            	    if (building == null) {
-            	        putFieldError("accountDescription.campusCode", KeyConstants.ERROR_EXISTENCE, campusCode);
-            	        putFieldError("accountDescription.buildingCode", KeyConstants.ERROR_EXISTENCE, buildingCode);
-            	        success &= false;
-            	    }
-            	}
+        if (newAccount.getSubFundGroupCode().equalsIgnoreCase(capitalSubFundGroup)) {
+            
+            String campusCode = newAccount.getAccountDescription().getCampusCode();
+            String buildingCode = newAccount.getAccountDescription().getBuildingCode();
+            
+            //	if sub_fund_grp_cd is 'PFCMR' then campus_cd must be entered
+            if (StringUtils.isBlank(campusCode)) {
+    	        putFieldError("accountDescription.campusCode", KeyConstants.ERROR_DOCUMENT_ACCMAINT_CAMS_SUBFUNDGROUP_WITH_MISSING_CAMPUS_CD_FOR_BLDG);
+                success &= false;
             }
+        
+        	//	if sub_fund_grp_cd is 'PFCMR' then bldg_cd must be entered
+        	if (StringUtils.isBlank(buildingCode)) {
+    	        putFieldError("accountDescription.campusCode", KeyConstants.ERROR_DOCUMENT_ACCMAINT_CAMS_SUBFUNDGROUP_WITH_MISSING_BUILDING_CD);
+                success &= false;
+        	} 
+        	
+        	//	the building object (campusCode & buildingCode) must exist in the DB
+        	if (!StringUtils.isBlank(campusCode) && !StringUtils.isBlank(buildingCode)) {
+        	    Map pkMap = new HashMap();
+        	    pkMap.put("campusCode", campusCode);
+        	    pkMap.put("buildingCode", buildingCode);
+
+        	    Building building = (Building) getBoService().findByPrimaryKey(Building.class, pkMap);
+        	    if (building == null) {
+        	        putFieldError("accountDescription.campusCode", KeyConstants.ERROR_EXISTENCE, campusCode);
+        	        putFieldError("accountDescription.buildingCode", KeyConstants.ERROR_EXISTENCE, buildingCode);
+        	        success &= false;
+        	    }
+        	}
         }
 
         return success;

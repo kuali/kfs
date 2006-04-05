@@ -195,7 +195,19 @@ public class DisbursementVoucherAction extends KualiTransactionalDocumentActionB
         DisbursementVoucherForm dvForm = (DisbursementVoucherForm) form;
         DisbursementVoucherDocument dvDocument = (DisbursementVoucherDocument) dvForm.getDocument();
 
-        try {
+        if (dvDocument.getDvNonEmployeeTravel().getDvPersonalCarMileageAmount() == null) {
+            LOG.error("Total Mileage must be given");
+            GlobalVariables.getErrorMap()
+                    .put(Constants.GENERAL_NONEMPLOYEE_TAB_ERRORS, KeyConstants.ERROR_REQUIRED, "Total Mileage");
+        }
+
+        if (dvDocument.getDvNonEmployeeTravel().getDvPerdiemStartDttmStamp() == null) {
+            LOG.error("Travel Start Date must be given");
+            GlobalVariables.getErrorMap().put(Constants.GENERAL_NONEMPLOYEE_TAB_ERRORS, KeyConstants.ERROR_REQUIRED,
+                    "Travel Start Date");
+        }
+
+        if (GlobalVariables.getErrorMap().isEmpty()) {
             // call service to calculate mileage amount
             KualiDecimal mileageAmount = SpringServiceLocator.getDisbursementVoucherTravelService().calculateMileageAmount(
                     dvDocument.getDvNonEmployeeTravel().getDvPersonalCarMileageAmount(),
@@ -204,13 +216,8 @@ public class DisbursementVoucherAction extends KualiTransactionalDocumentActionB
             dvDocument.getDvNonEmployeeTravel().setDisbVchrMileageCalculatedAmt(mileageAmount);
             dvDocument.getDvNonEmployeeTravel().setDisbVchrPersonalCarAmount(mileageAmount);
         }
-        catch (RuntimeException e) {
-            LOG.error("Error in calculating mileage amount: " + e.getMessage());
-            GlobalVariables.getErrorMap().put("DVNonEmployeeTravelErrors", KeyConstants.ERROR_CUSTOM, e.getMessage());
-        }
-
+        
         return mapping.findForward(Constants.MAPPING_BASIC);
-
     }
 
     /**
@@ -396,7 +403,8 @@ public class DisbursementVoucherAction extends KualiTransactionalDocumentActionB
         /* call service to generate new tax lines */
         GlobalVariables.getErrorMap().addToErrorPath("document");
         taxService.processNonResidentAlienTax(document);
-
+        GlobalVariables.getErrorMap().removeFromErrorPath("document");
+      
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 

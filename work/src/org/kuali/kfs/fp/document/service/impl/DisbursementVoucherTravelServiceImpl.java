@@ -155,8 +155,8 @@ public class DisbursementVoucherTravelServiceImpl implements DisbursementVoucher
         KualiDecimal mileageAmount = new KualiDecimal(0);
 
         if (totalMileage == null || travelStartDate == null) {
-            LOG.error("Total Mileage and Travel Start Date must be given");
-            throw new RuntimeException("Total Mileage and Travel Start Date must be given");
+            LOG.error("Total Mileage and Travel Start Date must be given.");
+            throw new RuntimeException("Total Mileage and Travel Start Date must be given.");
         }
 
         // convert timestamp to sql date

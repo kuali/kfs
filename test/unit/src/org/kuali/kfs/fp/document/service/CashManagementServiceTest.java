@@ -83,7 +83,7 @@ public class CashManagementServiceTest extends KualiTestBaseWithSpring {
         boolean failedAsExpected = false;
 
         try {
-            changeCurrentUser("RJWEISS");
+            changeCurrentUser("KHUNTLEY");
             cashManagementService.createCashManagementDocument("  ", new ArrayList(), KNOWN_VERIFICATION_UNIT);
         }
         catch (IllegalArgumentException e) {
@@ -97,7 +97,7 @@ public class CashManagementServiceTest extends KualiTestBaseWithSpring {
         boolean failedAsExpected = false;
 
         try {
-            changeCurrentUser("RJWEISS");
+            changeCurrentUser("KHUNTLEY");
             cashManagementService.createCashManagementDocument("testCreateCashManagementDocument_null", null,
                     KNOWN_VERIFICATION_UNIT);
         }
@@ -112,7 +112,7 @@ public class CashManagementServiceTest extends KualiTestBaseWithSpring {
         boolean failedAsExpected = false;
 
         try {
-            changeCurrentUser("RJWEISS");
+            changeCurrentUser("KHUNTLEY");
             cashManagementService.createCashManagementDocument("testCreateCashManagementDocument_empty", new ArrayList(),
                     KNOWN_VERIFICATION_UNIT);
         }
@@ -140,7 +140,7 @@ public class CashManagementServiceTest extends KualiTestBaseWithSpring {
                         Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED);
                 crList.add(cr2);
 
-                changeCurrentUser("RJWEISS");
+                changeCurrentUser("KHUNTLEY");
                 cashManagementService.createCashManagementDocument("testCreateCashManagementDocument_blank", crList, "  ");
             }
             catch (IllegalArgumentException e) {
@@ -170,7 +170,7 @@ public class CashManagementServiceTest extends KualiTestBaseWithSpring {
                 cr2 = buildCashReceiptDoc(KNOWN_VERIFICATION_UNIT, "cr162", "Q");
                 crList.add(cr2);
 
-                changeCurrentUser("RJWEISS");
+                changeCurrentUser("KHUNTLEY");
                 cashManagementService.createCashManagementDocument("testCreateCashManagementDocument_blank", crList,
                         KNOWN_VERIFICATION_UNIT);
             }
@@ -205,7 +205,7 @@ public class CashManagementServiceTest extends KualiTestBaseWithSpring {
                         Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED);
                 crList.add(cr2);
 
-                changeCurrentUser("RJWEISS");
+                changeCurrentUser("KHUNTLEY");
                 cashManagementService.createCashManagementDocument("testCreateCashManagementDocument_blank", crList, workgroupName);
             }
             catch (InvalidCashDrawerState e) {
@@ -233,7 +233,7 @@ public class CashManagementServiceTest extends KualiTestBaseWithSpring {
                 Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED);
         crList.add(cr2);
 
-        changeCurrentUser("RJWEISS");
+        changeCurrentUser("KHUNTLEY");
         CashManagementDocument createdDoc = cashManagementService.createCashManagementDocument("testCreateCashManagementDocument",
                 crList, workgroupName);
 
@@ -278,7 +278,7 @@ public class CashManagementServiceTest extends KualiTestBaseWithSpring {
                 EdenConstants.ROUTE_HEADER_ENROUTE_CD);
             assertTrue(ChangeMonitor.waitUntilChange(workflowMonitor1, 240, 5));
 
-            changeCurrentUser("RJWEISS");
+            changeCurrentUser("KHUNTLEY");
             CashReceiptDocument cr1b = (CashReceiptDocument) docService.getByDocumentHeaderId(docNumber1);
             docService.approve(cr1b, "approving lifecycle cr1", null);
 
@@ -303,7 +303,7 @@ public class CashManagementServiceTest extends KualiTestBaseWithSpring {
                 EdenConstants.ROUTE_HEADER_ENROUTE_CD);
             assertTrue(ChangeMonitor.waitUntilChange(workflowMonitor2, 240, 5));
 
-            changeCurrentUser("RJWEISS");
+            changeCurrentUser("KHUNTLEY");
             CashReceiptDocument cr2b = (CashReceiptDocument) docService.getByDocumentHeaderId(docNumber2);
             docService.approve(cr2b, "approving lifecycle cr2", null);
 
@@ -379,7 +379,7 @@ public class CashManagementServiceTest extends KualiTestBaseWithSpring {
                 assertTrue(cashDrawerService.getByWorkgroupName(workgroupName).isOpen());
 
                 // approve CR1
-                changeCurrentUser("RJWEISS");
+                changeCurrentUser("KHUNTLEY");
                 CashReceiptDocument cr1b = (CashReceiptDocument) docService.getByDocumentHeaderId(docNumber1);
                 docService.approve(cr1b, "approving reuse-test cr1", null);
 
@@ -406,7 +406,7 @@ public class CashManagementServiceTest extends KualiTestBaseWithSpring {
                 assertTrue(cashDrawerService.getByWorkgroupName(workgroupName).isOpen());
 
                 // approve CR2
-                changeCurrentUser("RJWEISS");
+                changeCurrentUser("KHUNTLEY");
                 CashReceiptDocument cr2b = (CashReceiptDocument) docService.getByDocumentHeaderId(docNumber2);
                 docService.approve(cr2b, "approving reuse-test cr2", null);
 
@@ -483,7 +483,7 @@ public class CashManagementServiceTest extends KualiTestBaseWithSpring {
                 Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED);
         crList.add(cr1);
 
-        changeCurrentUser("RJWEISS");
+        changeCurrentUser("KHUNTLEY");
         CashManagementDocument createdDoc = cashManagementService.createCashManagementDocument("testCreateCashManagementDocument",
                 crList, workgroupName);
 
@@ -573,7 +573,7 @@ public class CashManagementServiceTest extends KualiTestBaseWithSpring {
             crList.add(cr1);
 
             try {
-                changeCurrentUser("RJWEISS");
+                changeCurrentUser("KHUNTLEY");
                 cashManagementService.createDeposit(buildCashManagementDoc("testCreateDeposit_blankGroup"), VALID_LINE_NUMBER,
                         crList, " ");
             }
@@ -603,7 +603,7 @@ public class CashManagementServiceTest extends KualiTestBaseWithSpring {
             crList.add(cr2);
 
             try {
-                changeCurrentUser("RJWEISS");
+                changeCurrentUser("KHUNTLEY");
                 cashManagementService.createDeposit(buildCashManagementDoc("testCreateDeposit_unverifiedCR"), VALID_LINE_NUMBER,
                         crList, " ");
             }
@@ -624,7 +624,7 @@ public class CashManagementServiceTest extends KualiTestBaseWithSpring {
         CashReceiptDocument cr2 = null;
 
         try {
-            changeCurrentUser("RJWEISS");
+            changeCurrentUser("KHUNTLEY");
             CashManagementDocument cmDoc = buildCashManagementDoc("testCreateDeposit_nullLineNumber");
 
             changeCurrentUser("INEFF");
@@ -683,7 +683,7 @@ public class CashManagementServiceTest extends KualiTestBaseWithSpring {
         CashReceiptDocument cr3 = null;
 
         try {
-            changeCurrentUser("RJWEISS");
+            changeCurrentUser("KHUNTLEY");
             CashManagementDocument cmDoc = buildCashManagementDoc("testRetrieveDeposits");
 
             changeCurrentUser("INEFF");
@@ -747,7 +747,7 @@ public class CashManagementServiceTest extends KualiTestBaseWithSpring {
 
         try {
             // create a deposit
-            changeCurrentUser("RJWEISS");
+            changeCurrentUser("KHUNTLEY");
             CashManagementDocument cmDoc = buildCashManagementDoc("testRetrieveCashReceipts");
 
             changeCurrentUser("INEFF");
@@ -800,7 +800,7 @@ public class CashManagementServiceTest extends KualiTestBaseWithSpring {
     }
 
     public void testCancelDeposit() throws Exception {
-        changeCurrentUser("RJWEISS");
+        changeCurrentUser("KHUNTLEY");
         CashManagementDocument cmDoc = buildCashManagementDoc("testCancelDeposit");
 
         changeCurrentUser("INEFF");

@@ -638,30 +638,29 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
         this.getDvPreConferenceDetail().getDvPreConferenceRegistrants().add(line);
         this.finDocNextRegistrantLineNbr = new Integer(getFinDocNextRegistrantLineNbr().intValue() + 1);
     }
-    
+
     /**
      * Returns the name associated with the payment method code
      * @return
      */
-    public String getDisbVchrPaymentMethodName(){
+    public String getDisbVchrPaymentMethodName() {
         return new PaymentMethodValuesFinder().getKeyLabel(disbVchrPaymentMethodCode);
     }
-    
-    public void setDisbVchrPaymentMethodName(String method){
+
+    public void setDisbVchrPaymentMethodName(String method) {
     }
-    
+
     /**
      * Returns the name associated with the documentation location name
      * @return
      */
-    public String getDisbursementVoucherDocumentationLocationName(){
+    public String getDisbursementVoucherDocumentationLocationName() {
         return new DisbursementVoucherDocumentationLocationValuesFinder().getKeyLabel(disbursementVoucherDocumentationLocationCode);
     }
-    
-    public void setDisbursementVoucherDocumentationLocationName(String name){
+
+    public void setDisbursementVoucherDocumentationLocationName(String name) {
     }
-    
-    
+
 
     /**
      * @see org.kuali.core.document.Document#handleRouteStatusChange(java.lang.String)
@@ -812,7 +811,7 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
         setDvNonEmployeeTravel(new DisbursementVoucherNonEmployeeTravel());
         setDvPreConferenceDetail(new DisbursementVoucherPreConferenceDetail());
         getDvWireTransfer().setDisbursementVoucherWireTransferFeeWaiverIndicator(false);
-        
+
         // check payee id number to see if still valid, if so retrieve their last information and set in the detail inform.
         if (getDvPayeeDetail().isPayee() && !StringUtils.isBlank(getDvPayeeDetail().getDisbVchrPayeeIdNumber())) {
             Payee payee = new Payee();
@@ -859,9 +858,11 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
         setDisbursementVoucherDueDate(new Date(calendar.getTimeInMillis()));
 
         // default doc location
-        setDisbursementVoucherDocumentationLocationCode(SpringServiceLocator.getKualiConfigurationService()
-                .getApplicationParameterValue(DisbursementVoucherRuleConstants.DV_DOCUMENT_PARAMETERS_GROUP_NM,
-                        DisbursementVoucherRuleConstants.DEFAULT_DOC_LOCATION_PARM_NM));
+        if (StringUtils.isBlank(getDisbursementVoucherDocumentationLocationCode())) {
+            setDisbursementVoucherDocumentationLocationCode(SpringServiceLocator.getKualiConfigurationService()
+                    .getApplicationParameterValue(DisbursementVoucherRuleConstants.DV_DOCUMENT_PARAMETERS_GROUP_NM,
+                            DisbursementVoucherRuleConstants.DEFAULT_DOC_LOCATION_PARM_NM));
+        }
     }
 
     /**

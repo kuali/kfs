@@ -28,6 +28,7 @@ package org.kuali.module.financial.bo;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.lookup.keyvalues.TaxIncomeClassValuesFinder;
 import org.kuali.core.util.KualiDecimal;
 
 /**
@@ -301,6 +302,17 @@ public class DisbursementVoucherNonResidentAlienTax extends BusinessObjectBase {
 		this.incomeClass = incomeClass;
 	}
     
+	/**
+	 * Return select read-only label for income class
+	 * @return
+	 */
+	public String getIncomeClassName() {
+	    return new TaxIncomeClassValuesFinder().getKeyLabel(incomeClassCode);
+	}
+	
+	public void setincomeClassName(String name) {
+	}
+	
 	/**
 	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
 	 */

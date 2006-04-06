@@ -93,9 +93,9 @@ public class BudgetNonpersonnelCopyOverBoHelperTest extends KualiTestBaseWithSpr
         assertEquality(newBudgetNonpersonnel2.getBudgetThirdPartyCostShareAmount(), new Long(0));
         
         // inflation over 5 periods, 10%
-        assertEquality(newBudgetNonpersonnel2.getBudgetInflatedAgencyAmount(), new Long(11273));
+        assertEquality(newBudgetNonpersonnel2.getBudgetInflatedAgencyAmount(), new Long(11274));
         assertEquality(newBudgetNonpersonnel2.getBudgetInflatedUniversityCostShareAmount(), new Long(12884));
-        assertEquality(newBudgetNonpersonnel2.getBudgetInflatedThirdPartyCostShareAmount(), new Long(14494));
+        assertEquality(newBudgetNonpersonnel2.getBudgetInflatedThirdPartyCostShareAmount(), new Long(14495));
         
         
         ////** BudgetNonpersonnelCopyOverBoHelper(BudgetNonpersonnel originBudgetNonpersonnel, Integer budgetPeriodSequenceNumberOverride, int inflationLength, KualiDecimal budgetNonpersonnelInflationRate)
@@ -138,9 +138,9 @@ public class BudgetNonpersonnelCopyOverBoHelperTest extends KualiTestBaseWithSpr
         assertNull(newBudgetNonpersonnel3.getBudgetNonpersonnelSequenceNumber());
          
         // inflation over 5 periods, 10%
-        assertEquality(newBudgetNonpersonnel3.getBudgetInflatedAgencyAmount(), new Long(1610));
+        assertEquality(newBudgetNonpersonnel3.getBudgetInflatedAgencyAmount(), new Long(1611));
         assertEquality(newBudgetNonpersonnel3.getBudgetInflatedUniversityCostShareAmount(), new Long(3221));
-        assertEquality(newBudgetNonpersonnel3.getBudgetInflatedThirdPartyCostShareAmount(), new Long(4831));
+        assertEquality(newBudgetNonpersonnel3.getBudgetInflatedThirdPartyCostShareAmount(), new Long(4832));
     }
     
     public void testGetBudgetNonpersonnel() {

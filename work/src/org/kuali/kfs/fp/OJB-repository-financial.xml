@@ -1467,3 +1467,50 @@
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="financialSystemMessageOfTheDayText" column="FS_MOTD_TXT" jdbc-type="VARCHAR"/>
 </class-descriptor>
+
+<class-descriptor class="org.kuali.module.financial.bo.CreditCardVendor" table="FP_CR_CARD_VNDR_T">
+	<field-descriptor name="financialDocumentCreditCardVendorNumber" column="FDOC_CCRD_VNDR_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<field-descriptor name="financialDocumentCreditCardVendorName" column="FDOC_CCRD_VNDR_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="financialDocumentCreditCardTypeCode" column="FDOC_CCRD_TYP_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="incomeFinancialChartOfAccountsCode" column="INC_FIN_COA_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="incomeAccountNumber" column="INC_ACCT_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="incomeFinancialObjectCode" column="INC_FIN_OBJ_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="incomeFinancialSubObjectCode" column="INC_FIN_SUB_OBJ_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="incomeSubAccountNumber" column="INC_SUB_ACCT_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="expenseFinancialChartOfAccountsCode" column="EXP_FIN_COA_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="expenseAccountNumber" column="EXP_ACCT_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="expenseFinancialObjectCode" column="EXP_FIN_OBJ_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="expenseFinancialSubObjectCd" column="EXP_FIN_SUB_OBJ_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="expenseSubAccountNumber" column="EXP_SUB_ACCT_NBR" jdbc-type="VARCHAR"/>
+	<reference-descriptor name="incomeFinancialChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="incomeFinancialChartOfAccountsCode" />
+	</reference-descriptor>
+	<reference-descriptor name="incomeFinancialObject" class-ref="org.kuali.module.chart.bo.ObjectCodeCurrent" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="incomeFinancialChartOfAccountsCode" />
+		<foreignkey field-ref="incomeFinancialObjectCode" />
+	</reference-descriptor>
+	<reference-descriptor name="incomeAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="incomeFinancialChartOfAccountsCode" />
+		<foreignkey field-ref="incomeAccountNumber" />
+	</reference-descriptor>
+	<reference-descriptor name="expenseFinancialChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="expenseFinancialChartOfAccountsCode" />
+	</reference-descriptor>
+	<reference-descriptor name="expenseFinancialObject" class-ref="org.kuali.module.chart.bo.ObjectCodeCurrent" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="expenseFinancialChartOfAccountsCode" />
+		<foreignkey field-ref="expenseFinancialObjectCode" />
+	</reference-descriptor>
+	<reference-descriptor name="expenseAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="expenseFinancialChartOfAccountsCode" />
+		<foreignkey field-ref="expenseAccountNumber" />
+	</reference-descriptor>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.financial.bo.CreditCardType" table="FP_CR_CARD_TYP_T">
+	<field-descriptor name="financialDocumentCreditCardTypeCode" column="FDOC_CCRD_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<field-descriptor name="financialDocumentCreditCardCompanyName" column="FDOC_CCRD_CMPNY_NM" jdbc-type="VARCHAR"/>
+</class-descriptor>

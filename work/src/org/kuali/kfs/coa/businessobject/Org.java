@@ -87,6 +87,9 @@ public class Org extends BusinessObjectBase {
     private String organizationDefaultAccountNumber;
     private String chartOfAccountsCode;
 
+    //Several kinds of Dummy Attributes for dividing sections on Inquiry page
+    private String editPlantAccountsSectionBlank;
+    private String editPlantAccountsSection;
     /**
      * Gets the organizationCode attribute.
      * 
@@ -767,5 +770,20 @@ public class Org extends BusinessObjectBase {
         m.put("organizationCode", this.organizationCode);
 
         return m;
+    }
+    /**
+     * Gets the editPlantAccountsSection attribute. 
+     * @return Returns the editPlantAccountsSection.
+     */
+    public String getEditPlantAccountsSection() {
+        return editPlantAccountsSection;
+    }
+
+    /**
+     * Gets the editPlantAccountsSectionBlank attribute. 
+     * @return Returns the editPlantAccountsSectionBlank.
+     */
+    public String getEditPlantAccountsSectionBlank() {
+        return editPlantAccountsSectionBlank;
     }
 }

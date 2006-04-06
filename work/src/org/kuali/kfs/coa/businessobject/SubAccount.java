@@ -52,6 +52,15 @@ public class SubAccount extends BusinessObjectBase {
     private Org org;
     private Chart financialReportChart;    
     
+    
+    //Several kinds of Dummy Attributes for dividing sections on Inquiry page
+    private String financialReportingCodeSectionBlank;
+    private String financialReportingCodeSection;
+    private String cgCostSharingSectionBlank;
+    private String cgCostSharingSection;
+    private String cgICRSectionBlank;
+    private String cgICRSection;
+    
     /**
      * Default no-arg constructor.
      */
@@ -302,4 +311,46 @@ public class SubAccount extends BusinessObjectBase {
         return m;
     }
 
+    /**
+     * Gets the cGCostSharingSectionBlank attribute. 
+     * @return Returns the cGCostSharingSectionBlank.
+     */
+    public String getCgCostSharingSectionBlank() {
+        return cgCostSharingSectionBlank;
+    }
+    /**
+     * Gets the cGICRSectionBlank attribute. 
+     * @return Returns the cGICRSectionBlank.
+     */
+    public String getCgICRSectionBlank() {
+        return cgICRSectionBlank;
+    }
+    /**
+     * Gets the financialReportingCodeSectionBlank attribute. 
+     * @return Returns the financialReportingCodeSectionBlank.
+     */
+    public String getFinancialReportingCodeSectionBlank() {
+        return financialReportingCodeSectionBlank;
+    }
+    /**
+     * Gets the cGCostSharingSection attribute. 
+     * @return Returns the cGCostSharingSection.
+     */
+    public String getCgCostSharingSection() {
+        return cgCostSharingSection;
+    }
+    /**
+     * Gets the cGICRSection attribute. 
+     * @return Returns the cGICRSection.
+     */
+    public String getCgICRSection() {
+        return cgICRSection;
+    }
+    /**
+     * Gets the financialReportingCodeSection attribute. 
+     * @return Returns the financialReportingCodeSection.
+     */
+    public String getFinancialReportingCodeSection() {
+        return financialReportingCodeSection;
+    }
 }

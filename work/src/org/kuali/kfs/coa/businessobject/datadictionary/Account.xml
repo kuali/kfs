@@ -13,14 +13,77 @@
 				<field attributeName="chartOfAccountsCode" />			
 				<field attributeName="accountNumber" />
 				<field attributeName="accountName" />
-				<field attributeName="accountFiscalOfficerUser.personUserIdentifier" />
-				<field attributeName="accountFiscalOfficerUser.personName" />
 				<field attributeName="organizationCode" />
-				<field attributeName="accountTypeCode" />
-				<field attributeName="accountCreateDate" />
+		 		<field attributeName="accountPhysicalCampusCode" />	     
+		        <field attributeName="accountEffectiveDate" />
 				<field attributeName="accountExpirationDate" />
-				<field attributeName="accountClosedIndicator" />
-			</inquiryFields>
+				<field attributeName="accountZipCode" />	
+				<field attributeName="accountCityName" />	
+				<field attributeName="accountStateCode" />
+	            <field attributeName="accountStreetAddress" />	
+	            <field attributeName="accountOffCampusIndicator" />	  
+				<field attributeName="accountClosedIndicator" />	
+				<field attributeName="accountTypeCode" />
+            	<field attributeName="subFundGroupCode" />
+	            <field attributeName="accountsFringesBnftIndicator" />
+    	        <field attributeName="reportsToChartOfAccountsCode" />
+        	    <field attributeName="reportsToAccountNumber" />
+            	<field attributeName="financialHigherEdFunctionCd" />
+            	<field attributeName="accountRestrictedStatusCode" />
+	            <field attributeName="accountRestrictedStatusDate" />
+	            <field attributeName="endowmentIncomeAcctFinCoaCd" />
+	            <field attributeName="endowmentIncomeAccountNumber" />
+				
+				<field attributeName="accountResponsibilitySectionBlank" />
+				<field attributeName="accountResponsibilitySection" />
+									
+				<field attributeName="accountFiscalOfficerUser.personUserIdentifier" />
+				<field attributeName="accountSupervisoryUser.personUserIdentifier" />
+				<field attributeName="accountManagerUser.personUserIdentifier" />
+				<field attributeName="continuationFinChrtOfAcctCd" />
+				<field attributeName="continuationAccountNumber" />
+				<field attributeName="incomeStreamFinancialCoaCode" />  
+				<field attributeName="incomeStreamAccountNumber" />
+	<!--	Those two fields generate ERROR!! 
+	
+				<field attributeName="budgetRecordingLevelCode" /> 
+				<field attributeName="accountSufficientFundsCode" />
+	-->
+	
+  				<field attributeName="pendingAcctSufficientFundsIndicator" />
+				<field attributeName="extrnlFinEncumSufficntFndIndicator" />
+				<field attributeName="intrnlFinEncumSufficntFndIndicator" />
+				<field attributeName="finPreencumSufficientFundIndicator" />
+				<field attributeName="financialObjectivePrsctrlIndicator" />  
+				
+				<field attributeName="contractsAndGrantsSectionBlank" />
+				<field attributeName="contractsAndGrantsSection" />
+			
+				<field attributeName="contractControlFinCoaCode" />
+				<field attributeName="contractControlAccountNumber" />
+				<field attributeName="acctIndirectCostRcvyTypeCd" />
+				<field attributeName="financialIcrSeriesIdentifier" />
+				<field attributeName="indirectCostRcvyFinCoaCode" />
+				<field attributeName="indirectCostRecoveryAcctNbr" />
+				<field attributeName="cgCatlfFedDomestcAssistNbr" />
+				
+				<field attributeName="guidelinesAndPurposeSectionBlank" />				
+				<field attributeName="guidelinesAndPurposeSection" />
+				
+				<field attributeName="accountGuideline.accountExpenseGuidelineText" />
+				<field attributeName="accountGuideline.accountIncomeGuidelineText" />
+				<field attributeName="accountGuideline.accountPurposeText" />
+				
+				<field attributeName="accountDescriptionSectionBlank" />				
+				<field attributeName="accountDescriptionSection" />
+				
+				<field attributeName="accountDescription.campusDescription" />
+				<field attributeName="accountDescription.organizationDescription" />
+				<field attributeName="accountDescription.responsibilityCenterDescription" />
+				<field attributeName="accountDescription.campusCode" />
+				<field attributeName="accountDescription.buildingCode" />
+		
+	         </inquiryFields>
 		</inquiry>
 
 		<lookup>
@@ -881,6 +944,48 @@
 			<attributeReference name="accountDescription.versionNumber" 
 								sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
 								sourceAttributeName="versionNumber" />						
+		
+		
+		
+		<attribute name="accountResponsibilitySection" forceUppercase="false">
+				<label>ACCOUNT RESPONSIBILITY SECTION</label>
+				<maxLength>50</maxLength>
+        		<control><checkbox /></control>
+				<summary><![CDATA[&nbsp;]]></summary>
+				<description>
+				Dummy attribute to divide sections on Inquiry page.
+				</description>
+		</attribute>
+		
+		<attribute name="contractsAndGrantsSection" forceUppercase="false">
+				<label>CONTRACTS AND GRANTS SECTION</label>
+				<maxLength>50</maxLength>
+        		<control><checkbox /></control>
+				<summary><![CDATA[&nbsp;]]></summary>
+				<description>
+				Dummy attribute to divide sections on Inquiry page.
+				</description>
+		</attribute>
+
+		<attribute name="guidelinesAndPurposeSection" forceUppercase="false">
+				<label>GUIDELINES AND PURPOSE SECTION</label>
+				<maxLength>50</maxLength>
+        		<control><checkbox /></control>
+				<summary><![CDATA[&nbsp;]]></summary>
+				<description>
+				Dummy attribute to divide sections on Inquiry page.
+				</description>
+		</attribute>
+
+		<attribute name="accountDescriptionSection" forceUppercase="false">
+				<label>ACCOUNT DESCRIPTION SECTION</label>
+				<maxLength>50</maxLength>
+        		<control><checkbox /></control>
+				<summary><![CDATA[&nbsp;]]></summary>
+				<description>
+				Dummy attribute to divide sections on Inquiry page.
+				</description>
+		</attribute>
 		
 		</attributes>
 

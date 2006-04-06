@@ -122,6 +122,19 @@ public class Account extends BusinessObjectBase {
     private BudgetRecordingLevelCode budgetRecordingLevel;
     private SufficientFundsCode sufficientFundsCode;
     
+    //Several kinds of Dummy Attributes for dividing sections on Inquiry page
+    private String accountResponsibilitySectionBlank;
+    private String accountResponsibilitySection;
+    private String contractsAndGrantsSectionBlank;
+    private String contractsAndGrantsSection;
+    private String guidelinesAndPurposeSectionBlank;
+    private String guidelinesAndPurposeSection;
+    private String accountDescriptionSectionBlank;
+    private String accountDescriptionSection;
+        
+        
+        
+        
     private AccountGuideline accountGuideline;
     private AccountDescription accountDescription;
     
@@ -662,7 +675,7 @@ public class Account extends BusinessObjectBase {
     public boolean isPendingAcctSufficientFundsIndicator() {
         return pendingAcctSufficientFundsIndicator;
     }
-
+    
     /**
      * Sets the pendingAcctSufficientFundsIndicator attribute.
      * 
@@ -1608,5 +1621,94 @@ public class Account extends BusinessObjectBase {
     public String getAccountKey() {
         String key = getChartOfAccountsCode() + ":" + getAccountNumber();
         return key;
+    }
+    /**
+     * Gets the dummy attribute. 
+     * @return Returns the dummy.
+     */
+   
+    /**
+     * Gets the accountResponsibilitySection attribute. 
+     * @return Returns the accountResponsibilitySection.
+     */
+    public String getAccountResponsibilitySection() {
+        return accountResponsibilitySection;
+    }
+    /**
+     * Sets the accountResponsibilitySection attribute value.
+     * @param accountResponsibilitySection The accountResponsibilitySection to set.
+     */
+    public void setAccountResponsibilitySection(String accountResponsibilitySection) {
+        this.accountResponsibilitySection = accountResponsibilitySection;
+    }
+    /**
+     * Gets the contractsAndGrantsSection attribute. 
+     * @return Returns the contractsAndGrantsSection.
+     */
+    public String getContractsAndGrantsSection() {
+        return contractsAndGrantsSection;
+    }
+    /**
+     * Sets the contractsAndGrantsSection attribute value.
+     * @param contractsAndGrantsSection The contractsAndGrantsSection to set.
+     */
+    public void setContractsAndGrantsSection(String contractsAndGrantsSection) {
+        this.contractsAndGrantsSection = contractsAndGrantsSection;
+    }
+    /**
+     * Gets the accountDescriptionSection attribute. 
+     * @return Returns the accountDescriptionSection.
+     */
+    public String getAccountDescriptionSection() {
+        return accountDescriptionSection;
+    }
+    /**
+     * Sets the accountDescriptionSection attribute value.
+     * @param accountDescriptionSection The accountDescriptionSection to set.
+     */
+    public void setAccountDescriptionSection(String accountDescriptionSection) {
+        this.accountDescriptionSection = accountDescriptionSection;
+    }
+    /**
+     * Gets the guidelinesAndPurposeSection attribute. 
+     * @return Returns the guidelinesAndPurposeSection.
+     */
+    public String getGuidelinesAndPurposeSection() {
+        return guidelinesAndPurposeSection;
+    }
+    /**
+     * Sets the guidelinesAndPurposeSection attribute value.
+     * @param guidelinesAndPurposeSection The guidelinesAndPurposeSection to set.
+     */
+    public void setGuidelinesAndPurposeSection(String guidelinesAndPurposeSection) {
+        this.guidelinesAndPurposeSection = guidelinesAndPurposeSection;
+    }
+    /**
+     * Gets the accountResponsibilitySectionBlank attribute. 
+     * @return Returns the accountResponsibilitySectionBlank.
+     */
+    public String getAccountResponsibilitySectionBlank() {
+        return accountResponsibilitySectionBlank;
+    }
+    /**
+     * Gets the contractsAndGrantsSectionBlank attribute. 
+     * @return Returns the contractsAndGrantsSectionBlank.
+     */
+    public String getContractsAndGrantsSectionBlank() {
+        return contractsAndGrantsSectionBlank;
+    }
+    /**
+     * Gets the accountDescriptionSectionBlank attribute. 
+     * @return Returns the accountDescriptionSectionBlank.
+     */
+    public String getAccountDescriptionSectionBlank() {
+        return accountDescriptionSectionBlank;
+    }
+    /**
+     * Gets the guidelinesAndPurposeSectionBlank attribute. 
+     * @return Returns the guidelinesAndPurposeSectionBlank.
+     */
+    public String getGuidelinesAndPurposeSectionBlank() {
+        return guidelinesAndPurposeSectionBlank;
     }
 }

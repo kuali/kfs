@@ -11,7 +11,8 @@
 			<title>Sub-Account Code Inquiry</title>
 
 			<inquiryFields>
-				<field attributeName="chartOfAccountsCode" />
+			<!-- Previous version which is little different from Maintainable Fields       -->
+			<!-- <field attributeName="chartOfAccountsCode" />
 				<field attributeName="accountNumber" />			
 				<field attributeName="subAccountNumber" />
 				<field attributeName="subAccountName" />			
@@ -28,6 +29,39 @@
 				<field attributeName="a21SubAccount.indirectCostRecoveryAccountNumber" />
 				<field attributeName="a21SubAccount.indirectCostRecoveryTypeCode" />
 				<field attributeName="a21SubAccount.offCampusCode" />
+			-->
+				<field attributeName="chartOfAccountsCode" />
+			    <field attributeName="accountNumber" />
+			    <field attributeName="subAccountNumber" />
+		        <field attributeName="subAccountName" />	 
+		        <field attributeName="subAccountActiveIndicator" />
+	            <field attributeName="a21SubAccount.subAccountTypeCode" />
+	            
+				<field attributeName="financialReportingCodeSectionBlank" />
+				<field attributeName="financialReportingCodeSection" />
+	            
+	            <field attributeName="financialReportChartCode" />
+	            <field attributeName="finReportOrganizationCode" />	     
+	            <field attributeName="financialReportingCode" />
+
+	            <field attributeName="cgCostSharingSectionBlank" />
+				<field attributeName="cgCostSharingSection" />
+	  
+	            <field attributeName="a21SubAccount.costShareChartOfAccountCode" />
+	            <field attributeName="a21SubAccount.costShareSourceAccountNumber" />
+	            <field attributeName="a21SubAccount.costShareSourceSubAccountNumber" />
+
+	            <field attributeName="cgICRSectionBlank" />
+				<field attributeName="cgICRSection" />
+	                          
+	            <field attributeName="a21SubAccount.financialIcrSeriesIdentifier"/>
+	            <field attributeName="a21SubAccount.indirectCostRecoveryChartOfAccountsCode"/>
+	            <field attributeName="a21SubAccount.indirectCostRecoveryAccountNumber"/>
+	            <field attributeName="a21SubAccount.indirectCostRecoveryTypeCode"/>
+	            <field attributeName="a21SubAccount.offCampusCode" />
+			
+			
+			
 			</inquiryFields>
 		</inquiry>	
 		
@@ -280,6 +314,41 @@
 		    <attributeReference name="a21SubAccount.versionNumber" 
 								sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
 								sourceAttributeName="versionNumber" />
+								
+			
+			
+			
+			<attribute name="financialReportingCodeSection" forceUppercase="false">
+				<label>FINANCIAL REPORTING CODE SECTION</label>
+				<maxLength>50</maxLength>
+        		<control><checkbox /></control>
+				<summary><![CDATA[&nbsp;]]></summary>
+				<description>
+				Dummy attribute to divide sections on Inquiry page.
+				</description>
+			</attribute>
+								
+			<attribute name="cgCostSharingSection" forceUppercase="false">
+				<label>CG COST SHARING SECTION</label>
+				<maxLength>50</maxLength>
+        		<control><checkbox /></control>
+				<summary><![CDATA[&nbsp;]]></summary>
+				<description>
+				Dummy attribute to divide sections on Inquiry page.
+				</description>
+			</attribute>
+		
+			<attribute name="cgICRSection" forceUppercase="false">
+				<label>CG ICR SECTION</label>
+				<maxLength>50</maxLength>
+        		<control><checkbox /></control>
+				<summary><![CDATA[&nbsp;]]></summary>
+				<description>
+				Dummy attribute to divide sections on Inquiry page.
+				</description>
+			</attribute>					
+								
+								
 								
 		</attributes>
 	</businessObject>

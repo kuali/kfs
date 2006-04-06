@@ -10,7 +10,8 @@
       <title>Organization Inquiry</title>
 
       <inquiryFields>
-        <field attributeName="chartOfAccountsCode" noInquiry="true" />
+ <!-- Previous version which is little different from Maintainable Fields       -->
+ <!--   <field attributeName="chartOfAccountsCode" noInquiry="true" />
         <field attributeName="organizationCode" noInquiry="true" />
         <field attributeName="organizationName" />
         <field attributeName="organizationActiveIndicator" />
@@ -30,6 +31,36 @@
         <field attributeName="reportsToOrganizationCode" />
         <field attributeName="reportsToChartOfAccountsCode" />
         <field attributeName="organizationPlantChartCode" />
+        <field attributeName="campusPlantChartCode" />
+        <field attributeName="campusPlantAccountNumber" />        
+ -->
+ 		<field attributeName="chartOfAccountsCode" />
+        <field attributeName="organizationCode" />
+        <field attributeName="organizationName"  />
+        <field attributeName="organizationManagerUniversalId" />
+        <field attributeName="organizationManagerUniversal.personUserIdentifier" />
+        <field attributeName="organizationManagerUniversal.personName" />
+        <field attributeName="responsibilityCenterCode" />
+        <field attributeName="organizationPhysicalCampusCode" />
+        <field attributeName="organizationTypeCode" />
+        <field attributeName="organizationDefaultAccountNumber" />
+        <field attributeName="organizationZipCode" />
+        <field attributeName="organizationStreetAddress" />
+        <field attributeName="organizationCityName" />
+        <field attributeName="organizationStateCode" />
+        <field attributeName="organizationBeginDate" />
+        <field attributeName="organizationEndDate" />
+        <field attributeName="hrisOrganizationCode" />
+        <field attributeName="reportsToChartOfAccountsCode" />
+        <field attributeName="reportsToOrganizationCode" />
+        <field attributeName="organizationActiveIndicator" />
+        
+        <field attributeName="editPlantAccountsSectionBlank" />
+        <field attributeName="editPlantAccountsSection" />
+        
+        
+        <field attributeName="organizationPlantChartCode" />
+        <field attributeName="organizationPlantAccountNumber" />
         <field attributeName="campusPlantChartCode" />
         <field attributeName="campusPlantAccountNumber" />
       </inquiryFields>
@@ -420,6 +451,17 @@
         <summary><![CDATA[&nbsp;]]></summary>
         <description><![CDATA[&nbsp;]]></description>
       </attribute>
+
+	  <attribute name="editPlantAccountsSection" forceUppercase="false">
+				<label>EDIT PLANT ACCOUNT SECTION</label>
+				<maxLength>50</maxLength>
+        		<control><checkbox /></control>
+				<summary><![CDATA[&nbsp;]]></summary>
+				<description>
+				Dummy attribute to divide sections on Inquiry page.
+				</description>
+	  </attribute>
+
 
  	<attributeReference name="versionNumber" 
  			sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 

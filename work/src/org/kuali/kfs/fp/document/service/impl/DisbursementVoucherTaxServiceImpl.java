@@ -43,6 +43,7 @@ import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.module.financial.bo.DisbursementVoucherNonResidentAlienTax;
 import org.kuali.module.financial.bo.Payee;
 import org.kuali.module.financial.document.DisbursementVoucherDocument;
 import org.kuali.module.financial.rules.DisbursementVoucherDocumentRule;
@@ -373,27 +374,30 @@ public class DisbursementVoucherTaxServiceImpl implements DisbursementVoucherTax
         List taxLines = new ArrayList();
         KualiDecimal taxTotal = new KualiDecimal(0);
 
-        List previousTaxLineNumbers = getNRATaxLineNumbers(document.getDvNonResidentAlienTax().getFinancialDocumentAccountingLineText());
-
-        // get tax lines out of source lines
-        for (Iterator iter = document.getSourceAccountingLines().iterator(); iter.hasNext();) {
-            AccountingLine line = (AccountingLine) iter.next();
-            if (previousTaxLineNumbers.contains(line.getSequenceNumber())) {
-                taxLines.add(line);
-                taxTotal = taxTotal.add(line.getAmount().abs());
+        DisbursementVoucherNonResidentAlienTax dvnrat = document.getDvNonResidentAlienTax();
+        if ( dvnrat != null ) {
+            List previousTaxLineNumbers = getNRATaxLineNumbers(dvnrat.getFinancialDocumentAccountingLineText());
+    
+            // get tax lines out of source lines
+            for (Iterator iter = document.getSourceAccountingLines().iterator(); iter.hasNext();) {
+                AccountingLine line = (AccountingLine) iter.next();
+                if (previousTaxLineNumbers.contains(line.getSequenceNumber())) {
+                    taxLines.add(line);
+                    taxTotal = taxTotal.add(line.getAmount().abs());
+                }
             }
+
+            // remove tax lines
+            document.getSourceAccountingLines().removeAll(taxLines);
+    
+            // update check total if not grossed up (3 previous accounting lines)
+            if (previousTaxLineNumbers.size() != 3) {
+                document.setDisbVchrCheckTotalAmount(document.getDisbVchrCheckTotalAmount().add(taxTotal));
+            }
+    
+            // clear line string
+            dvnrat.setFinancialDocumentAccountingLineText("");
         }
-
-        // remove tax lines
-        document.getSourceAccountingLines().removeAll(taxLines);
-
-        // update check total if not grossed up (3 previous accounting lines)
-        if (previousTaxLineNumbers.size() != 3) {
-            document.setDisbVchrCheckTotalAmount(document.getDisbVchrCheckTotalAmount().add(taxTotal));
-        }
-
-        // clear line string
-        document.getDvNonResidentAlienTax().setFinancialDocumentAccountingLineText("");
     }
 
     /**

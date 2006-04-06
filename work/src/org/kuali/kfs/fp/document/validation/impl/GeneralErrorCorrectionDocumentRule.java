@@ -33,7 +33,8 @@ import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.ObjectCode;
 
 /**
- * Business rule(s) applicable to AccountMaintenance documents.
+ * Business rule(s) applicable to 
+ * <code>{@link GeneralErrorCorrectionDocument}</code> instances.
  * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
@@ -47,12 +48,14 @@ public class GeneralErrorCorrectionDocumentRule
      *
      * @return String
      */
-    public String getDefaultSecurityGrouping() {
+    protected String getDefaultSecurityGrouping() {
         return GENERAL_ERROR_CORRECTION_SECURITY_GROUPING;
     }
 
     /**
-     *
+     * Convenience method for accessing <code>{@link KualiParameterRule}</code> 
+     * restricting object type codes.
+     * 
      * @return KualiParameterRule
      */
     protected KualiParameterRule getRestrictedObjectTypeCodesRule() {
@@ -60,6 +63,9 @@ public class GeneralErrorCorrectionDocumentRule
     }
 
     /**
+     * Convenience method for accessing <code>{@link KualiParameterRule}</code> 
+     * restricting object sub type codes.
+     * 
      *
      * @return KualiParameterRule
      */
@@ -68,6 +74,9 @@ public class GeneralErrorCorrectionDocumentRule
     }
     
     /**
+     * Convenience method for accessing <code>{@link KualiParameterRule}</code> 
+     * restricting object type codes under special circumstances.
+     * 
      *
      * @return KualiParameterRule
      */
@@ -76,21 +85,37 @@ public class GeneralErrorCorrectionDocumentRule
     }
     
     /**
-     *
+     * Convenience method for accessing <code>{@link KualiParameterRule}</code> 
+     * restricting object sub type codes under special circumstances.
+     * 
      * @return KualiParameterRule
      */
     protected KualiParameterRule getCombinedRestrictedObjectSubTypeCodesRule() {
         return getParameterRule(COMBINED_RESTRICTED_OBJECT_SUB_TYPE_CODES);
     }
 
+    /**
+     * Uses default security grouping specified with the 
+     * <code>getDefaultSecurityGrouping()</code> method to obtain a 
+     * <code>{@link KualiDocumentRule}</code> instance for the given 
+     * <code>parameterName</code>
+     * 
+     * @param parameterName
+     * @return KualiParameterRule
+     * @see #getDefaultSecurityGrouping()
+     */
     protected KualiParameterRule getParameterRule(String parameterName) {
         return getParameterRule(getDefaultSecurityGrouping(), parameterName);
     }
 
     /**
+     * Obtain access to an instance of <code>{@link KualiParameterRule}</code> 
+     * for the given <code>securityGrouping</code> and 
+     * <code>parameterName</code>
      *
      * @param securityGrouping
      * @param parameterName
+     * @return KualiDocumentRule
      */
     protected KualiParameterRule getParameterRule(String securityGrouping,
                                                   String parameterName) {
@@ -100,7 +125,29 @@ public class GeneralErrorCorrectionDocumentRule
     }
 
     /**
-     * 
+     * Helper method for business rules concerning 
+     * <code>{@link AccountingLine}</code> instances.
+     *
+     * @param document
+     * @param accountingLine
+     * @return boolean pass or fail
+     */
+    private boolean processGenericAccountingLineBusinessRules(TransactionalDocument document,
+                                                              AccountingLine accountingLine) {
+        boolean retval = true;
+
+        ObjectCode objectCode = accountingLine.getObjectCode();
+        if (ObjectUtils.isNull(objectCode)) {
+            accountingLine
+                .refreshReferenceObject(PropertyConstants.OBJECT_CODE);
+        }
+        retval &= isObjectTypeAndObjectSubTypeAllowed(objectCode);
+        
+        return retval;
+    }
+
+    /**
+     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processCustomAddAccountingLineBusinessRule(TransactionalDocument document, AccountingLine accountingLine)
      */
     public boolean processCustomAddAccountingLineBusinessRules(TransactionalDocument document, 
                                                                AccountingLine accountingLine) {
@@ -109,12 +156,15 @@ public class GeneralErrorCorrectionDocumentRule
             .processCustomAddAccountingLineBusinessRules(document, 
                                                          accountingLine); 
         if (retval) {
-            retval &= validateAccountingLine( document, accountingLine );
+            processGenericAccountingLineBusinessRules(document, accountingLine);
         }
         return retval;
     }
     
     
+    /**
+     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processCustomReviewAccountingLineBusinessRule(TransactionalDocument document, AccountingLine accountingLine)
+     */
     public boolean processCustomReviewAccountingLineBusinessRules(TransactionalDocument document, 
                                                                   AccountingLine accountingLine) {
         boolean retval = true;
@@ -123,61 +173,37 @@ public class GeneralErrorCorrectionDocumentRule
             .processCustomReviewAccountingLineBusinessRules(document, 
                                                             accountingLine);
         if (retval) {
-            retval &= validateAccountingLine( document, accountingLine );
+            processGenericAccountingLineBusinessRules(document, accountingLine);
         }
         
         return retval;
     }
     
-    protected boolean validateAccountingLine(TransactionalDocument document, 
-                                             AccountingLine accountingLine ) {
-        //get a new instance so we don't affect the original accounting line's values
-        AccountingLine accountingLineCopy = 
-            (AccountingLine) ObjectUtils.deepCopy(accountingLine);
+/**
+ */
+    protected boolean isObjectTypeAndObjectSubTypeAllowed(ObjectCode code) {
+        boolean retval = true;
+
+        retval &= getCombinedRestrictedObjectTypeCodesRule()
+            .failsRule(code.getFinancialObjectTypeCode());
         
-        //now make sure all the necessary business objects are fully populated
-        accountingLineCopy.refresh();
-        
-        String objectCode = accountingLineCopy
-            .getObjectCode().getFinancialObjectCode();
-        String objectTypeCode = accountingLineCopy
-            .getObjectCode().getFinancialObjectType().getCode();
-        String objectSubTypeCode = accountingLineCopy
-            .getObjectCode().getFinancialObjectSubType().getCode();
-		
-        // Check for failure cases.
-        if(OBJECT_TYPE_CODE.INCOME_NOT_CASH.equals(objectTypeCode)) {
-            // NOTE: Check for objectTypeCode of "FDBL" is done in TransactionalDocumentRuleBase.
-            GlobalVariables.getErrorMap().put(
-                                              Constants.DOCUMENT_ERRORS, KeyConstants.ERROR_DOCUMENT_INCORRECT_OBJ_CODE_WITH_OBJ_TYPE,
-                                              new String[] {objectCode, objectTypeCode});
-            return false;
+        if (retval) {
+            retval &= getCombinedRestrictedObjectSubTypeCodesRule()
+                .failsRule(code.getFinancialObjectTypeCode());
+            
         }
         
-        if(OBJECT_SUB_TYPE_CODE.CASH.equals(objectSubTypeCode) || OBJECT_SUB_TYPE_CODE.FRINGE_BEN.equals(objectSubTypeCode)
-           || OBJECT_SUB_TYPE_CODE.LOSS_ON_DISPOSAL_OF_ASSETS.equals(objectSubTypeCode) || OBJECT_SUB_TYPE_CODE.OTHER_PROVISIONS.equals(objectSubTypeCode)
-           || OBJECT_SUB_TYPE_CODE.SALARIES.equals(objectSubTypeCode) || OBJECT_SUB_TYPE_CODE.HOURLY_WAGES.equals(objectSubTypeCode)
-           || OBJECT_SUB_TYPE_CODE.BUDGET_ONLY.equals(objectSubTypeCode) || OBJECT_SUB_TYPE_CODE.MANDATORY_TRANSFER.equals(objectSubTypeCode)
-           || OBJECT_SUB_TYPE_CODE.PLANT.equals(objectSubTypeCode) || OBJECT_SUB_TYPE_CODE.DEPRECIATION.equals(objectSubTypeCode)
-           || OBJECT_SUB_TYPE_CODE.LOSS_ON_RETIREMENT_OF_ASSETS.equals(objectSubTypeCode) || OBJECT_SUB_TYPE_CODE.VALUATIONS_AND_ADJUSTMENTS.equals(objectSubTypeCode)
-           || OBJECT_SUB_TYPE_CODE.ASSESSMENT.equals(objectSubTypeCode) || OBJECT_SUB_TYPE_CODE.NON_MANDATORY_TRANSFER.equals(objectSubTypeCode)) {
-            GlobalVariables.getErrorMap().put(
-                                              Constants.DOCUMENT_ERRORS, KeyConstants.ERROR_DOCUMENT_INCORRECT_OBJ_CODE_WITH_SUB_TYPE,
-                                              new String[] {objectCode, objectSubTypeCode});
-            return false;
+        if (!retval) {
+            // add message
+            GlobalVariables.getErrorMap()
+                .put(PropertyConstants.FINANCIAL_OBJECT_CODE,
+                     KeyConstants.GeneralErrorCorrection
+                     .ERROR_DOCUMENT_GENERAL_ERROR_CORRECTION_INVALID_OBJECT_SUB_TYPE_CODE,
+                     new String[] {code.getFinancialObjectCode(), 
+                                   code.getFinancialObjectSubTypeCode()});
         }
-        
-        if(OBJECT_TYPE_CODE.EXPENSE_NOT_EXPENDITURE.equals(objectTypeCode) 
-           && ((!OBJECT_SUB_TYPE_CODE.CAP_MOVE_EQUIP_FED_FUND.equals(objectSubTypeCode) 
-                && !OBJECT_SUB_TYPE_CODE.CAP_MOVE_EQUIP.equals(objectSubTypeCode) 
-                && !OBJECT_TYPE_CODE.WRITE_OFF_EXPENSE.equals(objectSubTypeCode)))) {
-            GlobalVariables.getErrorMap().put(
-                                              Constants.DOCUMENT_ERRORS, KeyConstants.ERROR_DOCUMENT_INCORRECT_OBJ_TYPE_WITH_OBJ_SUB_TYPE,
-                                              new String[] {objectTypeCode, objectSubTypeCode});
-            return false;
-        }
-        
-        return true;
+
+        return retval;
     }
 
     /**

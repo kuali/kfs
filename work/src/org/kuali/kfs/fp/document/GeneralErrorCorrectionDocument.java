@@ -35,12 +35,6 @@ import org.kuali.module.chart.bo.AccountingPeriod;
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class GeneralErrorCorrectionDocument extends TransactionalDocumentBase  {
-    private static final long serialVersionUID = 5560938005488306376L;
-
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(GeneralErrorCorrectionDocument.class);
-
-    private AccountingPeriod accountingPeriod;
-
     /**
      * Initializes the array lists and some basic info.
      */
@@ -49,23 +43,9 @@ public class GeneralErrorCorrectionDocument extends TransactionalDocumentBase  {
     }
 
     /**
-     * Gets the accountingPeriod attribute.
-     * @return Returns the accountingPeriod.
-     */
-    public AccountingPeriod getAccountingPeriod() {
-        return accountingPeriod;
-    }
-
-    /**
-     * Sets the accountingPeriod attribute value.
-     * @param accountingPeriod The accountingPeriod to set.
-     */
-    public void setAccountingPeriod(AccountingPeriod accountingPeriod) {
-        this.accountingPeriod = accountingPeriod;
-    }
-   
-    /**
      * Overrides the base implementation to return "From".
+     *
+     * @see org.kuali.core.document.TransactionalDocument#getSourceAccountingLineSectionTitle()
      */
     public String getSourceAccountingLinesSectionTitle() {
         return Constants.FROM;
@@ -73,6 +53,8 @@ public class GeneralErrorCorrectionDocument extends TransactionalDocumentBase  {
 
     /**
      * Overrides the base implementation to return "To".
+     *
+     * @see org.kuali.core.document.TransactionalDocument#getTargetAccountingLineSectionTitle()
      */
     public String getTargetAccountingLinesSectionTitle() {
         return Constants.TO;

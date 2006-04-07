@@ -103,7 +103,7 @@
 				<shortLabel>FY</shortLabel>
 				<required>true</required>
 				<summary><![CDATA[&nbsp;]]></summary>
-				<description>Indicates what fiscal year this offset applies to.</description>
+				<description>This identifies the fiscal year of this object code. The Kuali object code table is by fiscal year, which assists in clean-up and maitenance of object codes.</description>
 			</attributeReference>
 			
 			<attributeReference name="chartOfAccountsCode" 

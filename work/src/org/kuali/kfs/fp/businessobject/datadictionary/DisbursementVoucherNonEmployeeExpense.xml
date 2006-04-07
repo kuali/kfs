@@ -23,7 +23,7 @@
 	            </control>
 	            
 	            <summary><![CDATA[&nbsp;]]></summary>
-	            <description>One of a prescribed list that describes the type of Traveler Expense.</description>
+	            <description>The type of Traveler Expense.  Select one from the pulldown list.</description>
 	        </attribute>
 	        
 	         <attribute name="disbVchrPrePaidExpenseCode">
@@ -39,7 +39,7 @@
 	            </control>
 	            
 	            <summary><![CDATA[&nbsp;]]></summary>
-	            <description>One of a prescribed list that describes the type of Pre Paid Expenses.</description>
+	            <description>The type of Pre Paid Expenses.  Select one from the pulldown list.</description>
 	        </attribute>
 	        
 	        <attribute name="disbVchrExpenseCompanyName">

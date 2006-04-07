@@ -23,7 +23,7 @@
 	            </control>
 	            
 	            <summary><![CDATA[&nbsp;]]></summary>
-	            <description>The full name of the Traveler involved, expressed as "Lastname, Firstname MiddleInitial"</description>
+	            <description>The full name of the Traveler involved, expressed as "Lastname, Firstname Initial"</description>
 	        </attribute>
 	        
 	        <attribute name="disbVchrServicePerformedDesc">
@@ -119,7 +119,7 @@
 	            </control>
 	            
 	            <summary><![CDATA[&nbsp;]]></summary>
-	            <description>One of a prescribed list that identifies the Country of the Non-Employee Travel.</description>
+	            <description>The Country of the Non-Employee Travel.  Select one from the pulldown list.</description>
 	        </attribute>
 	        
 	        <attribute name="perDiemStartDateTime">
@@ -199,7 +199,7 @@
 	            </control>
 	            
 	            <summary><![CDATA[&nbsp;]]></summary>
-	            <description>One of a prescribed list that identifies the Country of the Non-Employee Travel.</description>
+	            <description>The Country of the Non-Employee Travel.  Select one from the pulldown list.</description>
 	        </attribute>
 	        
 	        <attribute name="disbVchrPerdiemCategoryName">
@@ -215,7 +215,7 @@
 	            </control>
 	            
 	            <summary><![CDATA[&nbsp;]]></summary>
-	            <description>One of a prescribed list of location categories for the Non-Employee Travel.</description>
+	            <description>The location category for the Non-Employee Travel.  Select from the pulldown list.</description>
 	        </attribute>
 	        
 	        <attribute name="disbVchrPerdiemRate">

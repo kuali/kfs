@@ -16,7 +16,7 @@
                 <control>
 	                <select valuesFinderClass="org.kuali.core.lookup.keyvalues.PaymentReasonValuesFinder"/>
 	            </control> 
-	            <description>One of a prescribed list of text fields that describes the reason for the document Payment.</description>               
+	            <description>The description of the reason for the document Payment.  Select one from the pulldown list.</description>               
               </attributeReference>    
 	       
 	          <attributeReference name="disbVchrPayeeIdNumber"
@@ -45,7 +45,7 @@
                                   sourceClassName="org.kuali.module.financial.bo.Payee"
                                   sourceAttributeName="payeePersonName">
                                   <required>true</required>
-	           <description>Full name of document Payee, expressed as "Lastname, Firstname MiddleInitial".</description>
+	           <description>Full name of document Payee, expressed as "Lastname, Firstname Initial"</description>
                     
               </attributeReference>                    
 	       
@@ -89,7 +89,7 @@
                                   sourceClassName="org.kuali.module.financial.bo.Payee"
                                   sourceAttributeName="payeeCountryCode">
                                   <required>true</required>
-	          <description>One of a prescribed list of names for the Country of the Payee.</description>
+	          <description>The name of the Country of the Payee.  Select one from the pulldown list.</description>
 
               </attributeReference>                    
                                   
@@ -100,7 +100,7 @@
                                   <shortLabel>Remit Nm</shortLabel>
                                   
                                   <summary><![CDATA[&nbsp;]]></summary>
-                                  <description>Full name of document Remit, an individual or organization that takes initial receipt of the Payment, expressed as "Lastname, Firstname MiddleInitial".</description>
+                                  <description>The full name of the individual or organization that takes initial receipt of the Payment, expressed as "Lastname, Firstname Initial".  Select one from the pulldown list.</description>
               </attributeReference>                    
 	       
 	          <attributeReference name="disbVchrRemitLine1Addr"
@@ -110,7 +110,7 @@
                                   <shortLabel>Remit Addr 1</shortLabel>
                                   
                                   <summary><![CDATA[&nbsp;]]></summary>
-                                  <description>First address line of Remit, an individual or organization that takes initial receipt of the Payment.</description>
+                                  <description>The first address line of the individual or organization that takes initial receipt of the Payment.</description>
               </attributeReference>         
               
 	          <attributeReference name="disbVchrRemitLine2Addr"
@@ -120,7 +120,7 @@
                                   <shortLabel>Remit Addr 2</shortLabel>
                                   
                                   <summary><![CDATA[&nbsp;]]></summary>
-                                  <description>Second address line of Remit, an individual or organization that takes initial receipt of the Payment.</description>
+                                  <description>The second address line of the individual or organization that takes initial receipt of the Payment, if required.</description>
               </attributeReference>   
 	       
 	          <attributeReference name="disbVchrRemitCityName"
@@ -130,7 +130,7 @@
                                   <shortLabel>Remit City</shortLabel>
                                   
                                   <summary><![CDATA[&nbsp;]]></summary>
-                                  <description>City of Remit, an individual or organization that takes initial receipt of the Payment.</description>
+                                  <description>The city of the individual or organization that takes initial receipt of the Payment.</description>
               </attributeReference>   
               
 	          <attributeReference name="disbVchrRemitStateCode"
@@ -140,7 +140,7 @@
                                   <shortLabel>Remit State</shortLabel>
                                   
                                   <summary><![CDATA[&nbsp;]]></summary>
-                                  <description>The 2-characode code for the State of the Remit.</description>
+                                  <description>The 2-characode code for the State of the individual or organization that takes initial receipt of the Payment.</description>
               </attributeReference>
               
 	       
@@ -151,7 +151,7 @@
                                   <shortLabel>Remit Zip</shortLabel>
                                   
                                   <summary><![CDATA[&nbsp;]]></summary>
-                                  <description>The numeric Zip code assigned by the US Postal Service for the Address of the Remit, an individual or organization that takes initial receipt of the Payment.</description>
+                                  <description>The numeric Zip code assigned by the US Postal Service for the Address of the individual or organization that takes initial receipt of the Payment.</description>
               </attributeReference>   
 
 	          <attributeReference name="disbVchrRemitCountryCode"
@@ -161,7 +161,7 @@
                                   <shortLabel>Remit Cntry</shortLabel>
                                   
                                   <summary><![CDATA[&nbsp;]]></summary>
-                                  <description>One of a prescribed list of names for the Country of the Remit, an individual or organization that takes initial receipt of the Payment.</description>
+                                  <description>The name of the Country of the individual or organization that takes initial receipt of the Payment.  Select one from the pulldown list.</description>
               </attributeReference> 
               
               <attributeReference name="disbVchrPayeeEmployeeCode"

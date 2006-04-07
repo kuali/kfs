@@ -50,7 +50,7 @@
                 <control>
                   <select valuesFinderClass="org.kuali.core.lookup.keyvalues.TaxIncomeClassValuesFinder"/>
                 </control>
-	            <description>One of a prescribed list of text fields that describes the Income Class for the Nonresident Alien (NRA) Tax.</description>
+	            <description>The description of the Income Class for the Nonresident Alien (NRA) Tax.  Select one from the pulldown list.</description>
             </attributeReference>  
             
             <attributeReference name="postalCountryCode" 

@@ -23,7 +23,7 @@
 	            </control>
 	            
 	            <summary><![CDATA[&nbsp;]]></summary>
-	            <description>The full name of the Bank managing the Wire Transfer.</description>
+	            <description>The full name of the Bank handling the Wire Transfer.</description>
 	        </attribute>
 	        
 	        <attribute name="disbVchrBankRoutingNumber">
@@ -39,7 +39,7 @@
 	            </control>
 	            
 	            <summary><![CDATA[&nbsp;]]></summary>
-	            <description>The ABA Routing number of the Bank managing the Wire Transfer.</description>
+	            <description>The ABA Routing number of the Bank handling the Wire Transfer.</description>
 	        </attribute>
 	        
 	        <attribute name="disbVchrBankCityName">
@@ -55,7 +55,7 @@
 	            </control>
 	            
 	            <summary><![CDATA[&nbsp;]]></summary>
-	            <description>The city in which the Bank managing the Wire Transfer is located.</description>
+	            <description>The city in which the Bank handling the Wire Transfer is located.</description>
 	        </attribute>
 	        
 	        <attribute name="disbVchrBankStateCode">
@@ -71,7 +71,7 @@
 	            </control>
 	            
 	            <summary><![CDATA[&nbsp;]]></summary>
-	            <description>The state in which the Bank managing the Wire Transfer is located.</description>
+	            <description>The state in which the Bank handling the Wire Transfer is located.</description>
 	        </attribute>
 	        
 	        <attribute name="disbVchrBankCountryCode">
@@ -87,7 +87,7 @@
 	            </control>
 	            
 	            <summary><![CDATA[&nbsp;]]></summary>
-	            <description>One of a prescribed list of countries in which the Bank managing the Wire Transfer is located.</description>
+	            <description>The country in which the Bank handling the Wire Transfer is located.  Select one from the pulldown list.</description>
 	        </attribute>
 	        
 	        <attribute name="disbVchrAttentionLineText">
@@ -151,7 +151,7 @@
 	            </control>
 	            
 	            <summary><![CDATA[&nbsp;]]></summary>
-	            <description>One of a prescribed list of text fields that specifies foreign or domestic currency for the Wire Transfer.</description>
+	            <description>The foreign or domestic currency for the Wire Transfer.  Select one from the pulldown list.</description>
 	        </attribute>
 	        
 	        <attribute name="disbVchrForeignBankIndicator">

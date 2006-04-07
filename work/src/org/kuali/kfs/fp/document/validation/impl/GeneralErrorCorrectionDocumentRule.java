@@ -22,6 +22,7 @@
  */
 package org.kuali.module.financial.rules;
 
+import org.kuali.Constants;
 import org.kuali.KeyConstants;
 import org.kuali.PropertyConstants;
 import org.kuali.core.bo.AccountingLine;
@@ -40,6 +41,18 @@ import org.kuali.module.chart.bo.ObjectCode;
 public class GeneralErrorCorrectionDocumentRule 
     extends TransactionalDocumentRuleBase 
     implements GeneralErrorCorrectionDocumentRuleConstants {
+    
+    /**
+     * Helper method to determine if the given <code>value</code> 
+     * fails a rule.
+     *
+     * @param parameterName
+     * @param value
+     * @return boolean
+     */
+    private boolean failsRule(String parameterName, String value) {
+        return getParameterRule(parameterName).failsRule(value);
+    }
 
     /**
      * Convenience method for accessing the most-likely requested
@@ -49,48 +62,6 @@ public class GeneralErrorCorrectionDocumentRule
      */
     protected String getDefaultSecurityGrouping() {
         return GENERAL_ERROR_CORRECTION_SECURITY_GROUPING;
-    }
-
-    /**
-     * Convenience method for accessing <code>{@link KualiParameterRule}</code> 
-     * restricting object type codes.
-     * 
-     * @return KualiParameterRule
-     */
-    protected KualiParameterRule getRestrictedObjectTypeCodesRule() {
-        return getParameterRule(RESTRICTED_OBJECT_TYPE_CODES);
-    }
-
-    /**
-     * Convenience method for accessing <code>{@link KualiParameterRule}</code> 
-     * restricting object sub type codes.
-     * 
-     *
-     * @return KualiParameterRule
-     */
-    protected KualiParameterRule getRestrictedObjectSubTypeCodesRule() {
-        return getParameterRule(RESTRICTED_OBJECT_SUB_TYPE_CODES);
-    }
-    
-    /**
-     * Convenience method for accessing <code>{@link KualiParameterRule}</code> 
-     * restricting object type codes under special circumstances.
-     * 
-     *
-     * @return KualiParameterRule
-     */
-    protected KualiParameterRule getCombinedRestrictedObjectTypeCodesRule() {
-        return getParameterRule(COMBINED_RESTRICTED_OBJECT_SUB_TYPE_CODES);
-    }
-    
-    /**
-     * Convenience method for accessing <code>{@link KualiParameterRule}</code> 
-     * restricting object sub type codes under special circumstances.
-     * 
-     * @return KualiParameterRule
-     */
-    protected KualiParameterRule getCombinedRestrictedObjectSubTypeCodesRule() {
-        return getParameterRule(COMBINED_RESTRICTED_OBJECT_SUB_TYPE_CODES);
     }
 
     /**
@@ -178,18 +149,22 @@ public class GeneralErrorCorrectionDocumentRule
         return retval;
     }
     
-/**
- */
+    /**
+     * Used to determine of object code sub types are valid with the
+     * object type code.
+     * 
+     * @param code
+     * @return boolean
+     */
     protected boolean isObjectTypeAndObjectSubTypeAllowed(ObjectCode code) {
         boolean retval = true;
 
-        retval &= getCombinedRestrictedObjectTypeCodesRule()
-            .failsRule(code.getFinancialObjectTypeCode());
+        retval &= failsRule(COMBINED_RESTRICTED_OBJECT_TYPE_CODES, 
+                            code.getFinancialObjectTypeCode());
         
         if (retval) {
-            retval &= getCombinedRestrictedObjectSubTypeCodesRule()
-                .failsRule(code.getFinancialObjectTypeCode());
-            
+            retval &= failsRule(COMBINED_RESTRICTED_OBJECT_SUB_TYPE_CODES,
+                                code.getFinancialObjectSubTypeCode());
         }
         
         if (!retval) {
@@ -197,8 +172,9 @@ public class GeneralErrorCorrectionDocumentRule
             GlobalVariables.getErrorMap()
                 .put(PropertyConstants.FINANCIAL_OBJECT_CODE,
                      KeyConstants.GeneralErrorCorrection
-                     .ERROR_DOCUMENT_GENERAL_ERROR_CORRECTION_INVALID_OBJECT_SUB_TYPE_CODE,
-                     new String[] {code.getFinancialObjectCode(), 
+                     .ERROR_DOCUMENT_GENERAL_ERROR_CORRECTION_INVALID_OBJECT_TYPE_CODE_WITH_SUB_TYPE_CODE,
+                     new String[] {code.getFinancialObjectCode(),
+                                   code.getFinancialObjectTypeCode(),
                                    code.getFinancialObjectSubTypeCode()});
         }
 
@@ -223,8 +199,8 @@ public class GeneralErrorCorrectionDocumentRule
                 accountingLine.refreshReferenceObject(PropertyConstants.OBJECT_CODE);
             }
 
-            if (getRestrictedObjectTypeCodesRule()
-                .failsRule(objectCode.getFinancialObjectTypeCode())) {
+            if (failsRule(RESTRICTED_OBJECT_TYPE_CODES,
+                          objectCode.getFinancialObjectTypeCode())) {
                 valid = false;
 
                 // add message
@@ -259,12 +235,8 @@ public class GeneralErrorCorrectionDocumentRule
                     .refreshReferenceObject(PropertyConstants.OBJECT_CODE);
             }
 
-            if (getRestrictedObjectSubTypeCodesRule()
-                .failsRule(objectCode.getFinancialObjectSubTypeCode())
-                || (getCombinedRestrictedObjectTypeCodesRule()
-                    .failsRule(objectCode.getFinancialObjectTypeCode())
-                    && getCombinedRestrictedObjectSubTypeCodesRule()
-                    .failsRule(objectCode.getFinancialObjectTypeCode()))) {
+            if (failsRule(RESTRICTED_OBJECT_SUB_TYPE_CODES,
+                          objectCode.getFinancialObjectSubTypeCode())) {
                 valid = false;
 
                 // add message

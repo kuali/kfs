@@ -156,7 +156,7 @@ public class BudgetDocumentRuleTest extends KualiTestBaseWithSpring {
         periodList.add(period4);
         periodList.add(period5);
 
-        budgetDocumentRule.isPeriodListValid(periodList);
+        budgetDocumentRule.isPeriodListValid(periodList, false);
 
         Map errorMap = GlobalVariables.getErrorMap();
         assertTrue(errorMap.isEmpty());
@@ -196,7 +196,7 @@ public class BudgetDocumentRuleTest extends KualiTestBaseWithSpring {
         periodList.add(period4);
         periodList.add(period5);
 
-        budgetDocumentRule.isPeriodListValid(periodList);
+        budgetDocumentRule.isPeriodListValid(periodList, false);
 
         Map errorMap = GlobalVariables.getErrorMap();
         assertTrue("should be 4, was " + errorMap.size(), errorMap.size() == 4);

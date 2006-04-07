@@ -22,7 +22,6 @@
  */
 package org.kuali.module.financial.rules;
 
-import org.kuali.Constants;
 import org.kuali.KeyConstants;
 import org.kuali.PropertyConstants;
 import org.kuali.core.bo.AccountingLine;

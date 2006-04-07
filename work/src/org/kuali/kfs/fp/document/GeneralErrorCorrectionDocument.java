@@ -24,7 +24,6 @@ package org.kuali.module.financial.document;
 
 import org.kuali.Constants;
 import org.kuali.core.document.TransactionalDocumentBase;
-import org.kuali.module.chart.bo.AccountingPeriod;
 
 
 

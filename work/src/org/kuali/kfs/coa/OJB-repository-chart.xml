@@ -1549,6 +1549,13 @@
 		auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="financialBalanceTypeCode" />
 	</reference-descriptor>
+
+	<reference-descriptor name="financialDocumentType" 
+		class-ref="org.kuali.core.document.DocumentType" auto-retrieve="true" 
+		auto-update="none" auto-delete="none" proxy="true">
+		<foreignkey field-ref="financialDocumentTypeCode" />
+	</reference-descriptor>
+	
 	<!--reference-descriptor name="financialSubObject"
 		class-ref="org.kuali.module.chart.bo.SubObjCd" auto-retrieve="true"
 		auto-update="none" auto-delete="none" proxy="true">
@@ -1934,6 +1941,10 @@
 	<field-descriptor name="universityFiscalPeriodStatusCode" column="UNIV_FSCPD_STAT_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="budgetRolloverIndicator" column="BDGT_ROLLOVER_CD" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanFieldTFConversion"/>
 	<field-descriptor name="universityFiscalPeriodEndDate" column="UNIV_FSCPD_END_DT" jdbc-type="DATE"/>
+
+	<reference-descriptor name="options" class-ref="org.kuali.core.bo.user.Options" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+		<foreignkey field-ref="universityFiscalYear" />
+	</reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.chart.bo.UniversityBudgetOfficeFunction" table="CA_UBO_FUNC_T">

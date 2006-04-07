@@ -26,6 +26,7 @@ import java.sql.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.module.chart.bo.AccountingPeriod;
 
 /**
  * @author jsissom
@@ -38,6 +39,8 @@ public class UniversityDate extends BusinessObjectBase {
     private Integer universityFiscalYear;
     private String universityFiscalAccountingPeriod;
 
+    private AccountingPeriod accountingPeriod;
+   
     /*
      * (non-Javadoc)
      * 
@@ -89,5 +92,20 @@ public class UniversityDate extends BusinessObjectBase {
      */
     public void setUniversityFiscalYear(Integer universityFiscalYear) {
         this.universityFiscalYear = universityFiscalYear;
+    }
+
+    /**
+     * @return Returns the accountingPeriod.
+     */
+    public AccountingPeriod getAccountingPeriod() {
+        return accountingPeriod;
+    }
+
+    /**
+     * @param accountingPeriod The accountingPeriod to set.
+     * @deprecated
+     */
+    public void setAccountingPeriod(AccountingPeriod accountingPeriod) {
+        this.accountingPeriod = accountingPeriod;
     }
 }

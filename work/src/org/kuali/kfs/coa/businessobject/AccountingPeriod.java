@@ -30,6 +30,7 @@ import java.util.Calendar;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.user.Options;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.SpringServiceLocator;
 
@@ -43,8 +44,10 @@ public class AccountingPeriod extends BusinessObjectBase {
 	private String universityFiscalPeriodName;
 	private String universityFiscalPeriodStatusCode; //TODO - should this be another bo?
 	private boolean budgetRolloverIndicator;
-	private Date universityFiscalPeriodEndDate;
 
+    private Date universityFiscalPeriodEndDate;
+    private Options options;
+    
 	/**
 	 * Default constructor.
 	 */
@@ -179,6 +182,21 @@ public class AccountingPeriod extends BusinessObjectBase {
 	}
 
     /**
+     * @return Returns the options.
+     */
+    public Options getOptions() {
+        return options;
+    }
+
+    /**
+     * @param options The options to set.
+     * @deprecated
+     */
+    public void setOptions(Options options) {
+        this.options = options;
+    }    
+    
+    /**
      * This method returns the month that this period represents
      * @return the actual month (1 - 12) that this period represents
      */
@@ -197,4 +215,6 @@ public class AccountingPeriod extends BusinessObjectBase {
         m.put("universityFiscalPeriodCode", this.universityFiscalPeriodCode);
 	    return m;
     }
+
+
 }

@@ -29,6 +29,7 @@ import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.core.bo.user.Options;
+import org.kuali.core.document.DocumentType;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
 
 /**
@@ -50,6 +51,7 @@ public class OffsetDefinition extends BusinessObjectBase {
     private SubObjCd financialSubObject;
 	private Chart chartOfAccounts;
     private BalanceTyp financialBalanceType;
+    private DocumentType financialDocumentType;
 
 	/**
 	 * Default no-arg constructor.
@@ -257,17 +259,31 @@ public class OffsetDefinition extends BusinessObjectBase {
     }
 
     /**
+     * @return Returns the financialDocumentType.
+     */
+    public DocumentType getFinancialDocumentType() {
+        return financialDocumentType;
+    }
+
+    /**
+     * @param financialDocumentType The financialDocumentType to set.
+     * @deprecated
+     */
+    public void setFinancialDocumentType(DocumentType financialDocumentType) {
+        this.financialDocumentType = financialDocumentType;
+    }
+    
+    /**
 	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {
 		LinkedHashMap m = new LinkedHashMap();
-
-
         m.put("universityFiscalYear", this.universityFiscalYear);
        	m.put("chartOfAccountsCode", this.chartOfAccountsCode);
        	m.put("documentTypeCode", this.financialDocumentTypeCode);
        	m.put("balanceTypeCode", this.financialBalanceTypeCode);
-
 		return m;
 	}
+
+
 }

@@ -40,6 +40,7 @@ import org.kuali.core.document.Document;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.rule.GenerateGeneralLedgerDocumentPendingEntriesRule;
+import org.kuali.core.rule.KualiParameterRule;
 import org.kuali.core.rules.RulesUtils;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;

@@ -34,12 +34,12 @@ import org.kuali.core.bo.user.KualiGroup;
 import org.kuali.core.bo.user.KualiUser;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.core.rule.KualiParameterRule;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.module.chart.bo.A21SubAccount;
 import org.kuali.module.chart.bo.IcrAutomatedEntry;
 import org.kuali.module.chart.bo.SubAccount;
-import org.kuali.module.financial.rules.KualiParameterRule;
 
 /**
  * This class...

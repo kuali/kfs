@@ -27,6 +27,7 @@ import org.kuali.KeyConstants;
 import org.kuali.PropertyConstants;
 import org.kuali.core.bo.AccountingLine;
 import org.kuali.core.document.TransactionalDocument;
+import org.kuali.core.rule.KualiParameterRule;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
@@ -43,18 +44,6 @@ public class GeneralErrorCorrectionDocumentRule
     implements GeneralErrorCorrectionDocumentRuleConstants {
     
     /**
-     * Helper method to determine if the given <code>value</code> 
-     * fails a rule.
-     *
-     * @param parameterName
-     * @param value
-     * @return boolean
-     */
-    private boolean failsRule(String parameterName, String value) {
-        return getParameterRule(parameterName).failsRule(value);
-    }
-
-    /**
      * Convenience method for accessing the most-likely requested
      * security grouping
      *
@@ -62,36 +51,6 @@ public class GeneralErrorCorrectionDocumentRule
      */
     protected String getDefaultSecurityGrouping() {
         return GENERAL_ERROR_CORRECTION_SECURITY_GROUPING;
-    }
-
-    /**
-     * Uses default security grouping specified with the 
-     * <code>getDefaultSecurityGrouping()</code> method to obtain a 
-     * <code>{@link KualiDocumentRule}</code> instance for the given 
-     * <code>parameterName</code>
-     * 
-     * @param parameterName
-     * @return KualiParameterRule
-     * @see #getDefaultSecurityGrouping()
-     */
-    protected KualiParameterRule getParameterRule(String parameterName) {
-        return getParameterRule(getDefaultSecurityGrouping(), parameterName);
-    }
-
-    /**
-     * Obtain access to an instance of <code>{@link KualiParameterRule}</code> 
-     * for the given <code>securityGrouping</code> and 
-     * <code>parameterName</code>
-     *
-     * @param securityGrouping
-     * @param parameterName
-     * @return KualiDocumentRule
-     */
-    protected KualiParameterRule getParameterRule(String securityGrouping,
-                                                  String parameterName) {
-        return SpringServiceLocator
-            .getKualiConfigurationService()
-            .getApplicationParameterRule(securityGrouping, parameterName);
     }
 
     /**

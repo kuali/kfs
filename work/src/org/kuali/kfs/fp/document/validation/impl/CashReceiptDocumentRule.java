@@ -31,6 +31,7 @@ import org.kuali.core.document.Document;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.rule.AddCheckRule;
 import org.kuali.core.rule.DeleteCheckRule;
+import org.kuali.core.rule.KualiParameterRule;
 import org.kuali.core.rule.UpdateCheckRule;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;

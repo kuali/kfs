@@ -159,11 +159,11 @@ public class GeneralErrorCorrectionDocumentRule
     protected boolean isObjectTypeAndObjectSubTypeAllowed(ObjectCode code) {
         boolean retval = true;
 
-        retval &= failsRule(COMBINED_RESTRICTED_OBJECT_TYPE_CODES, 
+        retval &= !failsRule(COMBINED_RESTRICTED_OBJECT_TYPE_CODES, 
                             code.getFinancialObjectTypeCode());
         
         if (retval) {
-            retval &= failsRule(COMBINED_RESTRICTED_OBJECT_SUB_TYPE_CODES,
+            retval &= !failsRule(COMBINED_RESTRICTED_OBJECT_SUB_TYPE_CODES,
                                 code.getFinancialObjectSubTypeCode());
         }
         

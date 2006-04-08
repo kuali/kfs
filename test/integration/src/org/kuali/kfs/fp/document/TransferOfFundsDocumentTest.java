@@ -49,7 +49,6 @@ public class TransferOfFundsDocumentTest extends TransactionalDocumentTestBase {
     public static final String USER_NAME = "user1";
     public static final String DOCUMENT_PARAMETER = "documentParameter5";
 
-    private static final String DOCNAME = "internalBillingDocument";
     private static final String USER_INIT = "user_unprivileged";
     private static final String USER_APPROVE1 = "user_accountSet1";
     private static final String USER_APPROVE2 = "user_accountSet2";

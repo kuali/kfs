@@ -33,6 +33,7 @@ import org.kuali.core.document.DocumentNote;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.document.TransactionalDocumentTestBase;
 import org.kuali.core.rule.event.RouteDocumentEvent;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.test.monitor.ChangeMonitor;
 import org.kuali.test.monitor.DocumentStatusMonitor;
@@ -179,6 +180,26 @@ public class JournalVoucherDocumentTest extends TransactionalDocumentTestBase {
      */
     public void testConvertIntoErrorCorrection() throws Exception {
         TransactionalDocument document = (TransactionalDocument) buildDocument();
+        
+        // replace the broken sourceLines with one that lets the test succeed
+        KualiDecimal balance = new KualiDecimal( "21.12" );
+        ArrayList sourceLines = new ArrayList();
+        {
+            SourceAccountingLine sourceLine = new SourceAccountingLine();
+            sourceLine.setFinancialDocumentNumber(document.getFinancialDocumentNumber());
+            sourceLine.setSequenceNumber(new Integer(0));
+            sourceLine.setChartOfAccountsCode("BL");
+            sourceLine.setAccountNumber("1031400");
+            sourceLine.setFinancialObjectCode("1663");
+            sourceLine.setAmount(balance);
+            sourceLine.setObjectTypeCode("AS");
+            sourceLine.setBalanceTypeCode("AC");
+            sourceLine.refresh();
+            sourceLines.add( sourceLine );
+        }
+        document.setSourceAccountingLines( sourceLines );
+        
+        
         String documentHeaderId = document.getFinancialDocumentNumber();
         // route the original doc, wait for status change
         //TODO: workflow-team change

@@ -175,7 +175,32 @@ public class TransferOfFundsDocumentRuleTest extends TransactionalDocumentRuleTe
     }
 
     protected final Document createDocumentValidForRouting() throws Exception {
-        return createDocumentWithValidObjectSubType();
+        TransferOfFundsDocument doc = (TransferOfFundsDocument) createDocument();
+
+        KualiDecimal balance = new KualiDecimal( "21.12" );
+
+        SourceAccountingLine sourceLine = new SourceAccountingLine();
+        sourceLine.setChartOfAccountsCode("BL");
+        sourceLine.setAccountNumber("1031400");
+        sourceLine.setFinancialObjectCode("1663");
+        sourceLine.setAmount(balance);
+        sourceLine.refresh();
+        ArrayList sourceLines = new ArrayList();
+        sourceLines.add( sourceLine );
+
+        TargetAccountingLine targetLine = new TargetAccountingLine();
+        targetLine.setChartOfAccountsCode("BL");
+        targetLine.setAccountNumber("1031400");
+        targetLine.setFinancialObjectCode("5163");
+        targetLine.setAmount(balance);
+        targetLine.refresh();
+        ArrayList targetLines = new ArrayList();
+        targetLines.add( targetLine );
+
+        doc.setSourceAccountingLines(sourceLines);
+        doc.setTargetAccountingLines(targetLines);
+        
+        return doc;
     }
 
     protected final Document createDocumentInvalidForSave() throws Exception {

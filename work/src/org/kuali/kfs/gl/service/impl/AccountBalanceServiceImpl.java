@@ -190,5 +190,17 @@ public class AccountBalanceServiceImpl implements AccountBalanceService {
      */
     public void save(AccountBalance ab) {
        accountBalanceDao.save(ab);
-    }    
+    }
+
+    /**
+     * Purge an entire fiscal year for a single chart.
+     * 
+     * @param chartOfAccountscode
+     * @param year
+     */
+    public void purgeYearByChart(String chartOfAccountsCode,int year) {
+      LOG.debug("purgeYearByChart() started");
+
+      accountBalanceDao.purgeYearByChart(chartOfAccountsCode,year);
+    }
 }

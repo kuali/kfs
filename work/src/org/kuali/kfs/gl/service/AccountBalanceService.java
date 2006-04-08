@@ -62,4 +62,12 @@ public interface AccountBalanceService {
         String financialObjectLevelCode,String financialReportingSortCode,boolean isCostShareExcluded,boolean isConsolidated,boolean isIncludePendingEntry);
 
     public void save(AccountBalance ab);
+
+    /**
+     * Purge an entire fiscal year for a single chart.
+     * 
+     * @param chartOfAccountscode
+     * @param year
+     */
+    public void purgeYearByChart(String chartOfAccountsCode,int year);
 }

@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
+	<bean id="glPurgeAccountBalancesStep" class="org.kuali.module.gl.batch.PurgeAccountBalancesStep">
+		<property name="kualiConfigurationService"><ref bean="kualiConfigurationService" /></property>
+		<property name="accountBalanceService"><ref bean="glAccountBalanceService" /></property>
+		<property name="chartService"><ref bean="chartService" /></property>
+	</bean>
+
 	<bean id="glSufficientFundsRebuilderStep" class="org.kuali.module.gl.batch.SufficientFundsRebuilderStep">
 		<property name="sufficientFundsRebuilderService"><ref bean="glSufficientFundsRebuilderService" /></property>
 	</bean>

@@ -89,4 +89,12 @@ public interface AccountBalanceDao {
      */
     public List findAccountBalanceByObject(Integer universityFiscalYear,String chartOfAccountsCode,String accountNumber,String financialObjectLevelCode,
         String financialReportingSortCode,boolean isCostShareExcluded,boolean isConsolidated);
+
+    /**
+     * Purge an entire fiscal year for a single chart.
+     * 
+     * @param chartOfAccountscode
+     * @param year
+     */
+    public void purgeYearByChart(String chartOfAccountscode,int year);
 }

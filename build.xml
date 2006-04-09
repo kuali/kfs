@@ -115,6 +115,7 @@
         	<filter token="application" value="${ant.project.name}"/>
 			<filter token="institution" value="${institution}"/>
         	<filter token="environment" value="${build.environment}"/>
+			<filter token="version" value="${project.cvs.tag}"/>
     		<filter token="settings-directory" value="${settings.directory}/"/>
 			<filter token="log4j-settings-file" value="${settings.directory}/${log4j.settings.file}"/>
 			<filter token="log4j-batch-settings-file" value="${settings.directory}/${log4j.batch.settings.file}"/>

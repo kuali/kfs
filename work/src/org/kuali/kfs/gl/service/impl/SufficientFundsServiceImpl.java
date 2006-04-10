@@ -51,6 +51,8 @@ import org.kuali.module.gl.service.SufficientFundsServiceConstants;
 import org.kuali.module.gl.util.SufficientFundsItemHelper.SufficientFundsItem;
 
 public class SufficientFundsServiceImpl implements SufficientFundsService, SufficientFundsServiceConstants {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SufficientFundsServiceImpl.class);
+
     private AccountService accountService;
     private BusinessObjectService businessObjectService;
     private ObjectLevelService objectLevelService;
@@ -368,6 +370,19 @@ public class SufficientFundsServiceImpl implements SufficientFundsService, Suffi
         return value;
     }
 
+
+    /**
+     * Purge the sufficient funds balance table by year/chart
+     * 
+     * @param chart
+     * @param year
+     */
+    public void purgeYearByChart(String chart,int year) {
+        LOG.debug("setAccountService() started");
+
+        sufficientFundsDao.purgeYearByChart(chart,year);
+    }
+
     // spring injected services
     /**
      * Sets the accountService attribute value.
@@ -440,6 +455,4 @@ public class SufficientFundsServiceImpl implements SufficientFundsService, Suffi
     public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
         this.dataDictionaryService = dataDictionaryService;
     }
-
-
 }

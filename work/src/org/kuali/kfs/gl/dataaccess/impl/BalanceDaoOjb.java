@@ -6,8 +6,8 @@ package org.kuali.module.gl.dao.ojb;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.beanutils.PropertyUtils;
@@ -353,5 +353,27 @@ public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements Balanc
 
         QueryByCriteria qbc = QueryFactory.newQuery(Balance.class, crit);
         return getPersistenceBrokerTemplate().getIteratorByQuery(qbc);
+    }
+
+
+    /**
+     * Purge the sufficient funds balance table by year/chart
+     * 
+     * @param chart
+     * @param year
+     */
+    public void purgeYearByChart(String chartOfAccountsCode,int year) {
+        LOG.debug("purgeYearByChart() started");
+
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo("chartOfAccountsCode", chartOfAccountsCode);
+        criteria.addEqualTo("universityFiscalYear", new Integer(year));
+
+        getPersistenceBrokerTemplate().deleteByQuery(new QueryByCriteria(Balance.class,criteria));
+
+        // This is required because if any deleted account balances are in the cache, deleteByQuery doesn't
+        // remove them from the cache so a future select will retrieve these deleted account balances from
+        // the cache and return them.  Clearing the cache forces OJB to go to the database again.
+        getPersistenceBrokerTemplate().clearCache();
     }
 }

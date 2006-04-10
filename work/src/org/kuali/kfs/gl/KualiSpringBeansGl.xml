@@ -1,6 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
+	<bean id="glPurgeEntryStep" class="org.kuali.module.gl.batch.PurgeEntryStep">
+		<property name="kualiConfigurationService"><ref bean="kualiConfigurationService" /></property>
+		<property name="entryService"><ref bean="glEntryService" /></property>
+		<property name="chartService"><ref bean="chartService" /></property>
+	</bean>
+
+	<bean id="glPurgeBalanceStep" class="org.kuali.module.gl.batch.PurgeBalanceStep">
+		<property name="kualiConfigurationService"><ref bean="kualiConfigurationService" /></property>
+		<property name="balanceService"><ref bean="glBalanceService" /></property>
+		<property name="chartService"><ref bean="chartService" /></property>
+	</bean>
+
+	<bean id="glPurgeSufficientFundBalancesStep" class="org.kuali.module.gl.batch.PurgeSufficientFundBalancesStep">
+		<property name="kualiConfigurationService"><ref bean="kualiConfigurationService" /></property>
+		<property name="sufficientFundsService"><ref bean="sufficientFundsService" /></property>
+		<property name="chartService"><ref bean="chartService" /></property>
+	</bean>
+
+	<bean id="glPurgeEncumbranceStep" class="org.kuali.module.gl.batch.PurgeEncumbranceStep">
+		<property name="kualiConfigurationService"><ref bean="kualiConfigurationService" /></property>
+		<property name="encumbranceService"><ref bean="glEncumbranceService" /></property>
+		<property name="chartService"><ref bean="chartService" /></property>
+	</bean>
+
 	<bean id="glPurgeAccountBalancesStep" class="org.kuali.module.gl.batch.PurgeAccountBalancesStep">
 		<property name="kualiConfigurationService"><ref bean="kualiConfigurationService" /></property>
 		<property name="accountBalanceService"><ref bean="glAccountBalanceService" /></property>
@@ -110,7 +134,11 @@
         <property name="generalLedgerPendingEntryDao"><ref bean="generalLedgerPendingEntryDao"/></property>
         <property name="kualiRuleService"><ref bean="kualiRuleService" /></property>
     </bean>
-    
+
+	<bean id="glEntryService" class="org.kuali.module.gl.service.impl.EntryServiceImpl">
+		<property name="entryDao"><ref bean="glEntryDao" /></property>
+	</bean>
+
 	<bean id="glBalanceService" class="org.kuali.module.gl.service.impl.BalanceServiceImpl">
 		<property name="balanceDao"><ref bean="glBalanceDao" /></property>
 		<property name="dateTimeService"><ref bean="dateTimeService" /></property>
@@ -118,6 +146,10 @@
 
 	<bean id="glAccountBalanceService" class="org.kuali.module.gl.service.impl.AccountBalanceServiceImpl">
 		<property name="accountBalanceDao"><ref bean="glAccountBalanceDao" /></property>
+	</bean>
+
+	<bean id="glEncumbranceService" class="org.kuali.module.gl.service.impl.EncumbranceServiceImpl">
+		<property name="encumbranceDao"><ref bean="glEncumbranceDao" /></property>
 	</bean>
 
 	<bean id="glSufficientFundRebuildService" class="org.kuali.module.gl.service.impl.SufficientFundRebuildServiceImpl">

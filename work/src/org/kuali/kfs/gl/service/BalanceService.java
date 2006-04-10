@@ -60,4 +60,12 @@ public interface BalanceService {
      * @return the summary records of balance entries
      */
     public Iterator findBalance(Map fieldValues, boolean isConsolidated);
+
+    /**
+     * Purge the sufficient funds balance table by year/chart
+     * 
+     * @param chart
+     * @param year
+     */
+    public void purgeYearByChart(String chart,int year);
 }

@@ -1,9 +1,32 @@
+/*
+ * Copyright (c) 2004, 2005 The National Association of College and University Business Officers,
+ * Cornell University, Trustees of Indiana University, Michigan State University Board of Trustees,
+ * Trustees of San Joaquin Delta College, University of Hawai'i, The Arizona Board of Regents on
+ * behalf of the University of Arizona, and the r*smart group.
+ * 
+ * Licensed under the Educational Community License Version 1.0 (the "License"); By obtaining,
+ * using and/or copying this Original Work, you agree that you have read, understand, and will
+ * comply with the terms and conditions of the Educational Community License.
+ * 
+ * You may obtain a copy of the License at:
+ * 
+ * http://kualiproject.org/license.html
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
+ * BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE
+ * AND NONINFRINGEMENT.
+ * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES
+ * OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ *
+ */
 package org.kuali.module.gl.dao.ojb;
 
 import java.util.Iterator;
 import java.util.List;
 
 import org.apache.ojb.broker.query.Criteria;
+import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.Constants;
@@ -14,6 +37,8 @@ import org.kuali.module.gl.dao.SufficientFundsDao;
 import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 public class SufficientFundsDaoOjb extends PersistenceBrokerDaoSupport implements SufficientFundsDao {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SufficientFundsDaoOjb.class);
+
     private static final String YEAR_END_DOC_PREFIX = "YE%";
 
     // these
@@ -337,6 +362,27 @@ public class SufficientFundsDaoOjb extends PersistenceBrokerDaoSupport implement
     }
 
     /**
+     * Purge table by year/chart
+     * 
+     * @param chart
+     * @param year
+     */
+    public void purgeYearByChart(String chartOfAccountsCode,int year) {
+        LOG.debug("purgeYearByChart() started");
+
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo("chartOfAccountsCode", chartOfAccountsCode);
+        criteria.addEqualTo("universityFiscalYear", new Integer(year));
+
+        getPersistenceBrokerTemplate().deleteByQuery(new QueryByCriteria(SufficientFundBalances.class,criteria));
+
+        // This is required because if any deleted account balances are in the cache, deleteByQuery doesn't
+        // remove them from the cache so a future select will retrieve these deleted account balances from
+        // the cache and return them.  Clearing the cache forces OJB to go to the database again.
+        getPersistenceBrokerTemplate().clearCache();
+    }
+
+    /**
      * class util methods
      */
 
@@ -351,6 +397,4 @@ public class SufficientFundsDaoOjb extends PersistenceBrokerDaoSupport implement
         }
         return rv;
     }
-
-
 }

@@ -29,17 +29,17 @@ import org.kuali.Constants;
 import org.kuali.core.batch.Step;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.module.chart.service.ChartService;
-import org.kuali.module.gl.service.BalanceService;
+import org.kuali.module.gl.service.SufficientFundsService;
 
-public class PurgeBalanceStep implements Step {
-  private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurgeBalanceStep.class);
+public class PurgeSufficientFundBalancesStep implements Step {
+  private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurgeSufficientFundBalancesStep.class);
 
   private ChartService chartService;
-  private BalanceService balanceService;
+  private SufficientFundsService sufficientFundsService;
   private KualiConfigurationService kualiConfigurationService;
 
   /**
-   * This step will purge data from the gl_encumbrance_t table older than a specified year.  It purges the
+   * This step will purge data from the gl_sf_balances_t table older than a specified year.  It purges the
    * data one chart at a time each within their own transaction so database transaction logs don't get completely
    * filled up when doing this.  This step class should NOT be transactional.
    * 
@@ -48,25 +48,25 @@ public class PurgeBalanceStep implements Step {
     LOG.debug("performStep() started");
 
     String yearStr = kualiConfigurationService.getRequiredApplicationParameterValue(Constants.ParameterGroups.SYSTEM,
-        Constants.SystemGroupParameterNames.PURGE_GL_BALANCE_T_BEFORE_YEAR);
+        Constants.SystemGroupParameterNames.PURGE_GL_SF_BALANCES_T_BEFORE_YEAR);
 
     int year = Integer.parseInt(yearStr);
 
     List charts = chartService.getAllChartCodes();
     for (Iterator iter = charts.iterator(); iter.hasNext();) {
       String chart = (String)iter.next();
-      balanceService.purgeYearByChart(chart,year);
+      sufficientFundsService.purgeYearByChart(chart,year);
     }
 
     return true;
   }
 
   public String getName() {
-    return "Purge gl_balance_t";
+    return "Purge gl_sf_balances_t";
   }
 
-  public void setBalanceService(BalanceService balanceService) {
-    this.balanceService = balanceService;
+  public void setSufficientFundsService(SufficientFundsService sufficientFundsService) {
+    this.sufficientFundsService = sufficientFundsService;
   }
 
   public void setChartService(ChartService chartService) {

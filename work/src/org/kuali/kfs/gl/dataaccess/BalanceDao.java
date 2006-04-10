@@ -84,4 +84,12 @@ public interface BalanceDao {
      */
     public Balance getCurrentBudgetForObjectCode(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber,
             String objectCode);
+
+    /**
+     * Purge the sufficient funds balance table by year/chart
+     * 
+     * @param chart
+     * @param year
+     */
+    public void purgeYearByChart(String chart,int year);
 }

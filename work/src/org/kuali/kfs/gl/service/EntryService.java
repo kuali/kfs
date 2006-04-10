@@ -20,17 +20,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-package org.kuali.module.gl.dao;
+package org.kuali.module.gl.service;
 
-import org.kuali.module.gl.bo.Encumbrance;
-import org.kuali.module.gl.bo.Transaction;
-
-/**
- * @author jsissom
- *
- */
-public interface EncumbranceDao {
-  public Encumbrance getEncumbranceByTransaction(Transaction t);
-  public void purgeYearByChart(String chartOfAccountsCode, int year);
-  public void save(Encumbrance e);
+public interface EntryService {
+  /**
+   * Purge the entry table by year/chart
+   * 
+   * @param chart
+   * @param year
+   */
+  public void purgeYearByChart(String chart,int year);
 }

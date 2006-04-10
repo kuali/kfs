@@ -71,4 +71,19 @@ public class EncumbranceDaoOjb extends PersistenceBrokerDaoSupport implements En
 
     getPersistenceBrokerTemplate().store(e);
   }
+
+  public void purgeYearByChart(String chartOfAccountsCode, int year) {
+    LOG.debug("purgeYearByChart() started");
+
+    Criteria criteria = new Criteria();
+    criteria.addEqualTo("chartOfAccountsCode", chartOfAccountsCode);
+    criteria.addEqualTo("universityFiscalYear", new Integer(year));
+
+    getPersistenceBrokerTemplate().deleteByQuery(new QueryByCriteria(Encumbrance.class,criteria));
+
+    // This is required because if any deleted account balances are in the cache, deleteByQuery doesn't
+    // remove them from the cache so a future select will retrieve these deleted account balances from
+    // the cache and return them.  Clearing the cache forces OJB to go to the database again.
+    getPersistenceBrokerTemplate().clearCache();
+  }
 }

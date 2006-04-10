@@ -20,17 +20,23 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-package org.kuali.module.gl.dao;
+package org.kuali.module.gl.service.impl;
 
-import org.kuali.module.gl.bo.Encumbrance;
-import org.kuali.module.gl.bo.Transaction;
+import org.kuali.module.gl.dao.EntryDao;
+import org.kuali.module.gl.service.EntryService;
 
-/**
- * @author jsissom
- *
- */
-public interface EncumbranceDao {
-  public Encumbrance getEncumbranceByTransaction(Transaction t);
-  public void purgeYearByChart(String chartOfAccountsCode, int year);
-  public void save(Encumbrance e);
+public class EntryServiceImpl implements EntryService {
+  private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EntryServiceImpl.class);
+
+  private EntryDao entryDao;
+
+  public void purgeYearByChart(String chart, int year) {
+    LOG.debug("purgeYearByChart() started");
+
+    entryDao.purgeYearByChart(chart,year);
+  }
+
+  public void setEntryDao(EntryDao entryDao) {
+    this.entryDao = entryDao;
+  }
 }

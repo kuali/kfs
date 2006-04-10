@@ -42,6 +42,7 @@ import org.kuali.module.gl.service.BalanceService;
  * @author Randall P. Embry (rpembry@indiana.edu)
  */
 public class BalanceServiceImpl implements BalanceService {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BalanceServiceImpl.class);
 
     protected BalanceDao balanceDao;
     protected DateTimeService dateTimeService;
@@ -284,5 +285,17 @@ public class BalanceServiceImpl implements BalanceService {
      */
     public Iterator findBalance(Map fieldValues, boolean isConsolidated) {
         return balanceDao.findBalance(fieldValues, isConsolidated);
+    }
+
+    /**
+     * Purge the sufficient funds balance table by year/chart
+     * 
+     * @param chart
+     * @param year
+     */
+    public void purgeYearByChart(String chart,int year) {
+        LOG.debug("purgeYearByChart() started");
+
+        balanceDao.purgeYearByChart(chart,year);
     }
 }

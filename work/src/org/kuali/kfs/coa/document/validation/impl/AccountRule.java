@@ -568,10 +568,12 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         
         //	a continuation account is required if the expiration date is completed.
         if (ObjectUtils.isNotNull(newExpDate)) {
-            if (StringUtils.isBlank(newAccount.getContinuationAccountNumber()) || 
-                StringUtils.isBlank(newAccount.getContinuationFinChrtOfAcctCd())) {
-                
-                putGlobalError(KeyConstants.ERROR_DOCUMENT_ACCMAINT_CONTINUATION_ACCT_REQD_IF_EXP_DATE_COMPLETED);
+            if (StringUtils.isBlank(newAccount.getContinuationAccountNumber())){
+                putFieldError("continuationAccountNumber", KeyConstants.ERROR_DOCUMENT_ACCMAINT_CONTINUATION_ACCT_REQD_IF_EXP_DATE_COMPLETED); 
+            }
+            if (StringUtils.isBlank(newAccount.getContinuationFinChrtOfAcctCd())){
+                putFieldError("continuationFinChrtOfAcctCd", KeyConstants.ERROR_DOCUMENT_ACCMAINT_CONTINUATION_FINCODE_REQD_IF_EXP_DATE_COMPLETED); 
+                //putGlobalError(KeyConstants.ERROR_DOCUMENT_ACCMAINT_CONTINUATION_ACCT_REQD_IF_EXP_DATE_COMPLETED);
                 success &= false;
             }
         }

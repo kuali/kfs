@@ -31,7 +31,7 @@ import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 
 /**
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class TravelPerDiem extends BusinessObjectBase {
     private Integer fiscalYear;

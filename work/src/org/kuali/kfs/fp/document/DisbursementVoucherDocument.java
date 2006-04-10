@@ -56,7 +56,7 @@ import org.kuali.module.financial.rules.DisbursementVoucherRuleConstants;
 import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class DisbursementVoucherDocument extends TransactionalDocumentBase {
     private Integer finDocNextRegistrantLineNbr;

@@ -3,8 +3,8 @@
 	<field-descriptor name="organizationCode" column="ORG_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="processingFinChartOfAcctCd" column="PRCS_FIN_COA_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="processingOrganizationCode" column="PRCS_ORG_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="orgCreditCardOptionIndicator" column="ORG_CCRD_OPTN_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanFieldTFConversion"/>
-	<field-descriptor name="acctRcvbPrintInvoiceInd" column="AR_PRN_INV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanFieldConversion"/>
+	<field-descriptor name="orgCreditCardOptionIndicator" column="ORG_CCRD_OPTN_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="acctRcvbPrintInvoiceInd" column="AR_PRN_INV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 	<field-descriptor name="organizationPaymentTermsText" column="ORG_PMT_TERMS_TXT" jdbc-type="VARCHAR"/>
 	<field-descriptor name="organizationMessageText" column="ORG_MSG_TXT" jdbc-type="VARCHAR"/>
 	<field-descriptor name="orgRemitToAddressName" column="ORG_REMIT_ADDR_NM" jdbc-type="VARCHAR"/>
@@ -13,9 +13,9 @@
 	<field-descriptor name="organizationRemitToCityName" column="ORG_REMIT_CITY_NM" jdbc-type="VARCHAR"/>
 	<field-descriptor name="organizationRemitToStateCode" column="ORG_REMIT_ST_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="organizationRemitToZipCode" column="ORG_REMIT_ZIP_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="organizationLateFeeIndicator" column="ORG_LATE_FEE_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanFieldTFConversion"/>
+	<field-descriptor name="organizationLateFeeIndicator" column="ORG_LATE_FEE_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 	<field-descriptor name="orgLatePaymentChargeAmt" column="ORG_LTPMT_CHRG_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="acctReceivableAutoPayInd" column="AR_AUTO_PAY_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanFieldTFConversion"/>
+	<field-descriptor name="acctReceivableAutoPayInd" column="AR_AUTO_PAY_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 	<field-descriptor name="organizationPhoneNumber" column="ORG_PHONE_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="organization800PhoneNumber" column="ORG_800_PHONE_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="organizationFaxNumber" column="ORG_FAX_NBR" jdbc-type="VARCHAR"/>

@@ -33,7 +33,7 @@ import org.kuali.core.lookup.keyvalues.ForeignBankIndicatorValuesFinder;
 import org.kuali.module.financial.document.DisbursementVoucherDocument;
 
 /**
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class DisbursementVoucherWireTransfer extends BusinessObjectBase {
 

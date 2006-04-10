@@ -1610,17 +1610,17 @@
 	<field-descriptor name="financialIcrSeriesIdentifier" column="FIN_SERIES_ID" jdbc-type="VARCHAR"/>
 	<field-descriptor name="indirectCostRcvyFinCoaCode" column="ICR_FIN_COA_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="indirectCostRecoveryAcctNbr" column="ICR_ACCOUNT_NBR" jdbc-type="VARCHAR"/>
-	<field-descriptor name="accountInFinProcessingIndicator" column="ACCT_IN_FP_CD" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanFieldTFConversion"/>
+	<field-descriptor name="accountInFinProcessingIndicator" column="ACCT_IN_FP_CD" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 	<field-descriptor name="budgetRecordingLevelCode" column="BDGT_REC_LVL_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="accountSufficientFundsCode" column="ACCT_SF_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="pendingAcctSufficientFundsIndicator" column="ACCT_PND_SF_CD" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanFieldTFConversion"/>
-	<field-descriptor name="extrnlFinEncumSufficntFndIndicator" column="FIN_EXT_ENC_SF_CD" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanFieldTFConversion"/>
-	<field-descriptor name="intrnlFinEncumSufficntFndIndicator" column="FIN_INT_ENC_SF_CD" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanFieldTFConversion"/>
-	<field-descriptor name="finPreencumSufficientFundIndicator" column="FIN_PRE_ENC_SF_CD" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanFieldTFConversion"/>
-	<field-descriptor name="finObjectPresenceControlIndicator" column="FIN_OBJ_PRSCTRL_CD" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanFieldTFConversion"/>
+	<field-descriptor name="pendingAcctSufficientFundsIndicator" column="ACCT_PND_SF_CD" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="extrnlFinEncumSufficntFndIndicator" column="FIN_EXT_ENC_SF_CD" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="intrnlFinEncumSufficntFndIndicator" column="FIN_INT_ENC_SF_CD" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="finPreencumSufficientFundIndicator" column="FIN_PRE_ENC_SF_CD" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="finObjectPresenceControlIndicator" column="FIN_OBJ_PRSCTRL_CD" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 	<field-descriptor name="cgCatlfFedDomestcAssistNbr" column="CG_CFDA_NBR" jdbc-type="VARCHAR"/>
-	<field-descriptor name="accountOffCampusIndicator" column="ACCT_OFF_CMP_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanFieldConversion"/>
-	<field-descriptor name="accountClosedIndicator" column="ACCT_CLOSED_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanFieldTFConversion"/>
+	<field-descriptor name="accountOffCampusIndicator" column="ACCT_OFF_CMP_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="accountClosedIndicator" column="ACCT_CLOSED_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 	<reference-descriptor name="chart" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="chartOfAccountsCode" />
 	</reference-descriptor>
@@ -1853,7 +1853,7 @@
 	<field-descriptor name="organizationAssessmentExpendituresReversionObjectCode" column="ORG_ASMTXRVNOBJ_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="organizationRevenueReversionCode" column="ORG_RVNU_RVRSN_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="revenueReversionObjectCode" column="RVNU_RVRSN_OBJ_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="carryForwardByObjectCodeIndicator" column="CF_BY_OBJ_CD_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanFieldTFConversion"/>
+	<field-descriptor name="carryForwardByObjectCodeIndicator" column="CF_BY_OBJ_CD_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 	<field-descriptor name="cashReversionFinancialChartOfAccountsCode" column="CSH_RVRSNFINCOA_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="cashReversionAccountNumber" column="CSH_RVRSN_ACCT_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="transferInReversionProcessCode" column="TRNFR_IN_PRCS_CD" jdbc-type="VARCHAR"/>
@@ -1939,7 +1939,7 @@
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="universityFiscalPeriodName" column="UNIV_FISCAL_PRD_NM" jdbc-type="VARCHAR"/>
 	<field-descriptor name="universityFiscalPeriodStatusCode" column="UNIV_FSCPD_STAT_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="budgetRolloverIndicator" column="BDGT_ROLLOVER_CD" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanFieldTFConversion"/>
+	<field-descriptor name="budgetRolloverIndicator" column="BDGT_ROLLOVER_CD" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 	<field-descriptor name="universityFiscalPeriodEndDate" column="UNIV_FSCPD_END_DT" jdbc-type="DATE"/>
 
 	<reference-descriptor name="options" class-ref="org.kuali.core.bo.user.Options" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">

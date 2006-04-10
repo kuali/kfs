@@ -33,7 +33,7 @@ import org.kuali.core.lookup.keyvalues.PaymentReasonValuesFinder;
 import org.kuali.module.financial.rules.DisbursementVoucherRuleConstants;
 
 /**
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class DisbursementVoucherPayeeDetail extends BusinessObjectBase {
 

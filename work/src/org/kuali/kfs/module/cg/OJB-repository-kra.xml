@@ -514,7 +514,7 @@
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.kra.bo.IndirectCostLookup" table="ER_IDC_LU_T">
-  <field-descriptor name="budgetOnCampusIndicator" column="BDGT_ON_CMP_IND" jdbc-type="VARCHAR" primarykey="true" index="true" conversion="org.kuali.core.util.OjbCharBooleanFieldConversion"/>
+  <field-descriptor name="budgetOnCampusIndicator" column="BDGT_ON_CMP_IND" jdbc-type="VARCHAR" primarykey="true" index="true" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
   <field-descriptor name="budgetPurposeCode" column="BDGT_PRPS_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
   <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
   <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
@@ -526,12 +526,12 @@
   <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
   <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
   <field-descriptor name="budgetBaseCode" column="BDGT_BASE_CD" jdbc-type="VARCHAR"/>
-  <field-descriptor name="budgetIndirectCostCostShareIndicator" column="BDGT_IDC_CST_SHR_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanFieldConversion"/>
+  <field-descriptor name="budgetIndirectCostCostShareIndicator" column="BDGT_IDC_CST_SHR_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
   <field-descriptor name="budgetIndirectCostJustificationText" column="BDGT_IDC_JSTF_TXT" jdbc-type="VARCHAR"/>
-  <field-descriptor name="budgetManualMtdcIndicator" column="BDGT_MAN_MTDC_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanFieldConversion"/>
+  <field-descriptor name="budgetManualMtdcIndicator" column="BDGT_MAN_MTDC_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
   <field-descriptor name="budgetManualRateIndicator" column="BDGT_MAN_RT_IND" jdbc-type="VARCHAR"/>
   <field-descriptor name="budgetPurposeCode" column="BDGT_PRPS_CD" jdbc-type="VARCHAR"/>
-  <field-descriptor name="budgetUnrecoveredIndirectCostIndicator" column="BDGT_URCV_IDC_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanFieldConversion"/>
+  <field-descriptor name="budgetUnrecoveredIndirectCostIndicator" column="BDGT_URCV_IDC_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
   <collection-descriptor name="budgetTaskPeriodIndirectCostItems" proxy="true" element-class-ref="org.kuali.module.kra.bo.BudgetTaskPeriodIndirectCost" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
       <orderby name="budgetTaskSequenceNumber" sort="ASC"/>
       <inverse-foreignkey field-ref="documentHeaderId"/>

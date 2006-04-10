@@ -32,7 +32,7 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.BusinessObjectBase;
 
 /**
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class TravelMileageRate extends BusinessObjectBase {
     private Date disbursementVoucherMileageEffectiveDate;

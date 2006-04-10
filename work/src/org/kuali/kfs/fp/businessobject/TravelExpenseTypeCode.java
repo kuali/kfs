@@ -28,7 +28,7 @@ package org.kuali.module.financial.bo;
 import org.kuali.core.bo.KualiCodeBase;
 
 /**
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class TravelExpenseTypeCode extends KualiCodeBase {
     boolean prepaidExpense;

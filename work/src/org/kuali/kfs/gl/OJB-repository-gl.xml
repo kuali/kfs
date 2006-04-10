@@ -712,7 +712,7 @@
 	<field-descriptor name="transactionEncumbranceUpdtCd" column="TRN_ENCUM_UPDT_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="financialDocumentApprovedCode" column="FDOC_APPROVED_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="acctSufficientFundsFinObjCd" column="ACCT_SF_FINOBJ_CD" jdbc-type="VARCHAR" index="true"/>
-	<field-descriptor name="transactionEntryOffsetIndicator" column="TRN_ENTR_OFST_CD" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanFieldTFConversion"/>
+	<field-descriptor name="transactionEntryOffsetIndicator" column="TRN_ENTR_OFST_CD" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 	<field-descriptor name="transactionEntryProcessedTs" column="TRNENTR_PROCESS_TM" jdbc-type="DATE"/>
 	<field-descriptor name="budgetYear" column="BDGT_YR" jdbc-type="VARCHAR"/>
 	

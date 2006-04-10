@@ -25,19 +25,17 @@ package org.kuali.module.chart.service;
 import org.kuali.core.service.KualiCodeService;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.codes.MandatoryTransferEliminationCode;
-import org.kuali.test.KualiTestBaseWithSpring;
+import org.kuali.test.KualiTestBaseWithSpringOnly;
 
 /**
  * This class tests the MandatoryTransferEliminationCode service.
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public class MandatoryTransferEliminationCodeServiceTest
-  extends KualiTestBaseWithSpring {
+  extends KualiTestBaseWithSpringOnly {
 
   MandatoryTransferEliminationCode mtec;
   KualiCodeService kualiCodeService;
-  private static final String M_CODE_DESCR = "Mandatory transfer object";
-  private static final String E_CODE_DESCR = "Eliminations object";
   private static final String N_CODE_DESCR = "None";
 
   /**
@@ -50,9 +48,9 @@ public class MandatoryTransferEliminationCodeServiceTest
   }
 
   /**
-   * Performs all tests for this service.
+   * Performs miscellaneous tests for this service.
    */
-  public void testAll() {
+  public void testMiscellaneous() {
     //  test known-good byCode
     mtec = null;
     mtec = (MandatoryTransferEliminationCode) kualiCodeService.getByCode(MandatoryTransferEliminationCode.class, "N");

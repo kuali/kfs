@@ -53,7 +53,7 @@
 			</attribute>
 			
 			<attribute name="financialDocumentCreditCardCompanyName" forceUppercase="false">
-                <label>Bank Name</label>
+                <label>Company Name</label>
                 <shortLabel>Name</shortLabel>
 
                 <maxLength>40</maxLength>

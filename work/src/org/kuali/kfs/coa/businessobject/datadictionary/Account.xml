@@ -105,7 +105,9 @@
 				<lookupField attributeName="accountFiscalOfficerSystemIdentifier" required="false" />
 				<lookupField attributeName="accountFiscalOfficerUser.personUserIdentifier" required="false" />
 				<lookupField attributeName="accountFiscalOfficerUser.personName" required="false" />
-				<lookupField attributeName="accountClosedIndicator" />			
+				<lookupField attributeName="accountClosedIndicator" >	
+					<defaultValue>N</defaultValue>
+				</lookupField>		
 			</lookupFields>
 
 			<resultFields>

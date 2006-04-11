@@ -26,12 +26,14 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.kuali.Constants;
+import org.kuali.KeyConstants;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.document.MaintenanceDocumentBase;
 import org.kuali.core.maintenance.KualiMaintainableImpl;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRule;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.core.service.DictionaryValidationService;
 import org.kuali.core.util.ErrorMessage;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.SpringServiceLocator;
@@ -42,9 +44,12 @@ import edu.iu.uis.eden.exception.WorkflowException;
 
 public abstract class ChartRuleTestBase extends KualiTestBaseWithSpring {
 
+    protected DictionaryValidationService dictionaryValidationService;
+
     protected void setUp() throws Exception {
         super.setUp();
         clearErrors();
+        dictionaryValidationService = SpringServiceLocator.getDictionaryValidationService();
     }
 
     /**
@@ -73,6 +78,13 @@ public abstract class ChartRuleTestBase extends KualiTestBaseWithSpring {
      */
     protected MaintenanceDocument newMaintDoc(BusinessObject oldBo, BusinessObject newBo) {
         
+        //  disallow null value for newBo
+        if (null == newBo) {
+            throw new IllegalArgumentException("Invalid value (null) for newBo.  " + 
+                    "This must always be a valid, populated BusinessObject instance.");
+        }
+        
+        //  get a new MaintenanceDocument from Spring
         MaintenanceDocument document = null;
         try {
             document = (MaintenanceDocument) SpringServiceLocator.getDocumentService().getNewDocument(MaintenanceDocumentBase.class);
@@ -81,6 +93,7 @@ public abstract class ChartRuleTestBase extends KualiTestBaseWithSpring {
             throw new RuntimeException(e);
         }
         
+        //  add all the pieces
         document.getDocumentHeader().setFinancialDocumentDescription("test");
         document.setOldMaintainableObject(new KualiMaintainableImpl(oldBo));
         document.setNewMaintainableObject(new KualiMaintainableImpl(newBo));
@@ -105,7 +118,11 @@ public abstract class ChartRuleTestBase extends KualiTestBaseWithSpring {
     
     /**
      * 
-     * This method creates a new instance of the specified ruleClass, injects the 
+     * This method first creates a new MaintenanceDocument with the BusinessObject(s) 
+     * passed in.  Note that the maintDoc is created and destroyed internally, and is 
+     * never returned.
+     * 
+     * This method then creates a new instance of the specified ruleClass, injects the 
      * businessObject(s).
      * 
      * @param oldBo - the populated businessObject for the oldMaintainable
@@ -115,6 +132,22 @@ public abstract class ChartRuleTestBase extends KualiTestBaseWithSpring {
      * 
      */
     protected MaintenanceDocumentRule setupMaintDocRule(BusinessObject oldBo, BusinessObject newBo, Class ruleClass) {
+        
+        MaintenanceDocument maintDoc = newMaintDoc(oldBo, newBo);
+
+        return setupMaintDocRule(maintDoc, ruleClass);
+    }
+    
+    /**
+     * 
+     * This method creates a new instance of the specified ruleClass, and then 
+     * injects the maintenanceDocument and associated business objects.
+     * 
+     * @param maintDoc - the populated MaintenanceDocument instance
+     * @param ruleClass - the class of rule to instantiate
+     * @return - a populated and ready-to-test rule, of the specified class
+     */
+    protected MaintenanceDocumentRule setupMaintDocRule(MaintenanceDocument maintDoc, Class ruleClass) {
         
         MaintenanceDocumentRule rule;
         try {
@@ -127,13 +160,28 @@ public abstract class ChartRuleTestBase extends KualiTestBaseWithSpring {
             throw new RuntimeException(e);
         }
         
-        MaintenanceDocument maintDoc = newMaintDoc(oldBo, newBo);
         rule.setupBaseConvenienceObjects(maintDoc);
         
         //  confirm that we're starting with no errors
         assertEquals(0, GlobalVariables.getErrorMap().size());
         
         return rule;
+    }
+    
+    protected void testDefaultExistenceCheck(BusinessObject bo, String fieldName, boolean shouldFail) {
+        
+        //  init the error path
+        GlobalVariables.getErrorMap().addToErrorPath("document.newMaintainableObject");
+
+        //  run the dataDictionary validation
+        dictionaryValidationService.validateDefaultExistenceChecks(bo);
+        
+        //  clear the error path
+        GlobalVariables.getErrorMap().removeFromErrorPath("document.newMaintainableObject");
+
+        //  assert that the existence of the error is what is expected
+        assertFieldErrorExistence(fieldName, KeyConstants.ERROR_EXISTENCE, shouldFail);
+        
     }
     
     /**
@@ -151,10 +199,62 @@ public abstract class ChartRuleTestBase extends KualiTestBaseWithSpring {
     
     /**
      * 
+     * This method tests whether the field error exists and returns the result of this 
+     * test.
+     * 
+     * @param fieldName
+     * @param errorKey
+     * @return - True if the error exists in the GlobalErrors, false if not.
+     * 
+     */
+    protected boolean doesFieldErrorExist(String fieldName, String errorKey) {
+        return GlobalVariables.getErrorMap().fieldHasMessage(MaintenanceDocumentRuleBase.MAINTAINABLE_ERROR_PREFIX + fieldName, errorKey);
+    }
+    
+    /**
+     * 
+     * This method tests whether the existence check on the error matches what is expected 
+     * by what is passed into expectedResult.
+     * 
+     * This method will fail the assertion if the presence of the error is not what is 
+     * expected.
+     * 
+     * @param fieldName
+     * @param errorKey
+     * @param expectedResult - True if the error is expected, False if it is not.
+     * 
+     */
+    protected void assertFieldErrorExistence(String fieldName, String errorKey, boolean expectedResult) {
+        boolean result = doesFieldErrorExist(fieldName, errorKey);
+        assertEquals("Existence check for Error on fieldName/errorKey: " + fieldName + "/" + errorKey, expectedResult, result);
+    }
+
+    /**
+     * 
+     * This method tests whether a given combination of fieldName and errorKey does 
+     * NOT exist in the GlobalVariables.getErrorMap().
+     * 
+     * The assert will fail if the fieldName & errorKey combination DOES exist.
+     * 
+     * NOTE that fieldName should NOT include the prefix errorPath.
+     * 
+     * @param fieldName - fieldName as it would be provided when adding the error
+     * @param errorKey - errorKey as it would be provided when adding the error
+     * 
+     */
+    protected void assertFieldErrorDoesNotExist(String fieldName, String errorKey) {
+        boolean result = doesFieldErrorExist(fieldName, errorKey);
+        assertTrue("FieldName (" + fieldName + ") should NOT contain errorKey: " + errorKey, result);
+    }
+    
+    /**
+     * 
      * This method tests whether a given combination of fieldName and errorKey exists 
      * in the GlobalVariables.getErrorMap().
      * 
      * The assert will fail if the fieldName & errorKey combination doesnt exist.
+     * 
+     * NOTE that fieldName should NOT include the prefix errorPath.
      * 
      * @param fieldName - fieldName as it would be provided when adding the error
      * @param errorKey - errorKey as it would be provided when adding the error
@@ -205,7 +305,15 @@ public abstract class ChartRuleTestBase extends KualiTestBaseWithSpring {
                     System.err.println(e.getKey().toString() + " = " + em.getErrorKey());
                 }
                 else {
-                    System.err.println(e.getKey().toString() + " = " + em.getErrorKey() +  " : " + em.getMessageParameters().toString());
+                    StringBuffer messageParams = new StringBuffer();
+                    String delim = "";
+                    for (int k = 0; k < em.getMessageParameters().length; k++) {
+                        messageParams.append(delim + "'" + em.getMessageParameters()[k] + "'");
+                        if ("".equals(delim)) {
+                            delim = ", ";
+                        }
+                    }
+                    System.err.println(e.getKey().toString() + " = " + em.getErrorKey() +  " : " + messageParams.toString());
                 }
             }
         }

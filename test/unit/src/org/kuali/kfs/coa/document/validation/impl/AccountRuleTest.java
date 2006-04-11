@@ -23,29 +23,52 @@
 package org.kuali.module.chart.rules;
 
 import org.kuali.core.document.MaintenanceDocument;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.module.chart.bo.Account;
 
 public class AccountRuleTest extends ChartRuleTestBase {
 
-    private static final String CHART = "UA";
-    private static final String NEW_ACCOUNT = "1912208";
-    private static final String GOOD_ACCOUNT = "1912201";
-    private static final String NEW_ACCOUNT_NAME = "New Account " + NEW_ACCOUNT;
-    private static final String ORG = "ACCT";
-    private static final String CAMPUS = "BL";
-    private static final String DATE1 = "01/01/2006";
-    private static final String ZIP = "47405-3085";
-    private static final String CITY = "BLOOMINGTON";
-    private static final String STATE = "IN";
-    private static final String STREET = "1234 N Any St";
-    private static final String ACCT_TYPE = "NA";
-    private static final String SUBFUND = "GENFND";
-    private static final String HIGHERED_FUNC = "AC";
-    private static final String RESTRICTED = "U";
-    private static final String BUDGET_RECORD = "A";
-    private static final String OFFICER = "4318506633";
-    private static final String SUPERVISOR = "4052406505";
-    private static final String MANAGER = "4318506633";
+    private class Accounts {
+        private class ChartCode {
+            private static final String GOOD1 = "BL";
+            private static final String BAD1 = "ZZ";
+        }
+        private class AccountNumber {
+            private static final String GOOD1 = "1031400";
+            private static final String BAD1 = "9999999";
+        }
+        private class Org {
+            private static final String GOOD1 = "ACAD";
+            private static final String BAD1 = "1234";
+        }
+        private class Campus {
+            private static final String GOOD1 = "BL";
+        }
+        private class AccountType {
+            private static final String GOOD1 = "NA";
+        }
+        private class SubFund {
+            private static final String GOOD1 = "GENFND";
+        }
+        private class HigherEdFunction {
+            private static final String GOOD1 = "AC";
+        }
+        private class RestrictedCode {
+            private static final String GOOD1 = "U";
+        }
+        private class BudgetRecordingLevel {
+            private static final String GOOD1 = "A";
+        }
+        private class FiscalOfficer {
+            private static final String GOOD1 = "4318506633";
+        }
+        private class Supervisor {
+            private static final String GOOD1 = "4052406505";
+        }
+        private class Manager {
+            private static final String GOOD1 = "4318506633";
+        }
+    }
     
     Account oldAccount;
     Account newAccount;
@@ -54,31 +77,45 @@ public class AccountRuleTest extends ChartRuleTestBase {
     
     protected void setUp() throws Exception {
         super.setUp();
+        rule = new AccountRule();
     }
     
-    private Account account1() {
-        
+    protected void tearDown() throws Exception {
+        super.tearDown();
+        GlobalVariables.getErrorMap().getErrorPath().clear();
+    }
+    
+    private Account a1() {
         Account account = new Account();
-        account.setChartOfAccountsCode(CHART);
-        account.setAccountNumber(NEW_ACCOUNT);
-        account.setOrganizationCode(ORG);
-        account.setAccountPhysicalCampusCode(CAMPUS);
-        account.setAccountZipCode(ZIP);
-        account.setAccountCityName(CITY);
-        account.setAccountStateCode(STATE);
-        account.setAccountStreetAddress(STREET);
-        account.setAccountTypeCode(ACCT_TYPE);
-        account.setSubFundGroupCode(SUBFUND);
-        account.setAccountsFringesBnftIndicator(true);
-        account.setFinancialHigherEdFunctionCd(HIGHERED_FUNC);
-        account.setAccountRestrictedStatusCode(RESTRICTED);
-        account.setAccountFiscalOfficerSystemIdentifier(OFFICER);
-        account.setAccountsSupervisorySystemsIdentifier(SUPERVISOR);
-        account.setAccountManagerSystemIdentifier(MANAGER);
+        account.setChartOfAccountsCode(Accounts.ChartCode.GOOD1);
+        account.setOrganizationCode(Accounts.Org.GOOD1);
         return account;
     }
     
-    public void testNothingToStopAnthillWarningsAboutNoTests() {
-        assertTrue("This should be true.", true);
+    public void testDefaultExistenceChecks_Org_KnownGood() {
+        
+        //  create new account to test
+        newAccount = new Account();
+        newAccount.setChartOfAccountsCode(Accounts.ChartCode.GOOD1);
+        newAccount.setOrganizationCode(Accounts.Org.GOOD1);
+        
+        //  run the test
+        testDefaultExistenceCheck(newAccount, "organizationCode", false);
+        assertErrorCount(0);
+        
     }
+
+    public void testDefaultExistenceChecks_Org_KnownBad() {
+        
+        //  create new account to test
+        newAccount = new Account();
+        newAccount.setChartOfAccountsCode(Accounts.ChartCode.GOOD1);
+        newAccount.setOrganizationCode(Accounts.Org.BAD1);
+        
+        //  run the test
+        testDefaultExistenceCheck(newAccount, "organizationCode", true);
+        assertErrorCount(1);
+        
+    }
+
 }

@@ -36,7 +36,9 @@ import java.util.TreeMap;
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
 import org.kuali.core.dao.OptionsDao;
+import org.kuali.core.document.DocumentType;
 import org.kuali.core.service.DateTimeService;
+import org.kuali.core.service.DocumentTypeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.KualiDecimal;
@@ -45,6 +47,8 @@ import org.kuali.module.chart.bo.OffsetDefinition;
 import org.kuali.module.chart.service.AccountService;
 import org.kuali.module.chart.service.ObjectCodeService;
 import org.kuali.module.chart.service.OffsetDefinitionService;
+import org.kuali.module.financial.bo.OffsetAccount;
+import org.kuali.module.financial.service.FlexibleOffsetAccountService;
 import org.kuali.module.gl.batch.scrubber.ScrubberReport;
 import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.bo.OriginEntryGroup;
@@ -72,7 +76,7 @@ import org.springframework.util.StringUtils;
 
 /**
  * @author Kuali General Ledger Team <kualigltech@oncourse.iu.edu>
- * @version $Id: ScrubberServiceImpl.java,v 1.83 2006-04-04 14:08:14 larevans Exp $
+ * @version $Id: ScrubberServiceImpl.java,v 1.84 2006-04-11 14:47:12 bgao Exp $
  */
 
 public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
@@ -236,6 +240,8 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
     };
     
 
+    private FlexibleOffsetAccountService flexibleOffsetAccountService;
+    private DocumentTypeService documentTypeService;
     
     private BeanFactory beanFactory;
     private OriginEntryService originEntryService;
@@ -3103,6 +3109,9 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
 //        4000  030100          WHEN 0
         
         if(!ObjectHelper.isNull(offsetDefinition)) {
+            
+            // apply offset generation onto flexible accounts
+            this.applyFlexibleOffsetGeneration(offsetEntry);
 
 //        4001  030110              MOVE GLOFSD-FIN-OBJECT-CD TO
 //        4002  030120                   FIN-OBJECT-CD OF ALT-GLEN-RECORD
@@ -3309,6 +3318,61 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         }
         
     }
+    
+    /**
+     * This method determines if the flexible offsets need to be generated against the given transaction entry. 
+     * If any, replace the chart and account with the offset chart of accounts code and offset account number from 
+     * the offset table (FP_ODST_ACC_T). Then, pass the control to the module of the ordinary offset generation.
+     * 
+     * @param originEntry the transaction entry being processed
+     */
+    private void applyFlexibleOffsetGeneration(OriginEntry originEntry){
+        
+        Integer fiscalYear = originEntry.getUniversityFiscalYear();
+        String chartOfAccountsCode = originEntry.getChartOfAccountsCode();
+        String accountNumber = originEntry.getAccountNumber();
+        
+        String balanceTypeCode = originEntry.getFinancialBalanceTypeCode();
+        String documentTypeCode = originEntry.getFinancialDocumentTypeCode();
+        
+        // do nothing if the global flexible offset indicator is off
+        boolean isFlexibleOffsetEnabled = flexibleOffsetAccountService.getEnabled();
+        if(!isFlexibleOffsetEnabled){
+            return;
+        }
+        
+        // do nothing if scrubber offset indicator is turned off in the document type table
+        DocumentType documentType = documentTypeService.getDocumentTypeByCode(documentTypeCode);
+        boolean scrubberOffsetGenerationIndicator = documentType.isTransactionScrubberOffsetGenerationIndicator();
+        if(!scrubberOffsetGenerationIndicator){
+            return;
+        }
+        
+        // look up the offset Definition table for the offset object code
+        OffsetDefinition offsetDefinition = offsetDefinitionService.getByPrimaryId(
+                fiscalYear, chartOfAccountsCode, documentTypeCode, balanceTypeCode);
+        if(offsetDefinition == null){
+            return;
+        }
+        
+        // get the offset object code from the offset definition record searched above
+        String offsetObjectCode = offsetDefinition.getFinancialObjectCode();
+        if(offsetObjectCode == null){
+            return;
+        }
+                
+        // do nothing if there is no the offset account with the given chart of accounts code, 
+        // account number and offset object code in the offset table.
+        OffsetAccount offsetAccount = flexibleOffsetAccountService.getByPrimaryIdIfEnabled(
+                chartOfAccountsCode, accountNumber, offsetObjectCode);
+        if(offsetAccount == null){
+            return;
+        }
+        
+        // replace the chart and account of the given transaction with those of the offset account obtained above
+        originEntry.setAccountNumber(offsetAccount.getAccountNumber());
+        originEntry.setChartOfAccountsCode(offsetAccount.getChartOfAccountsCode());
+    }
 
     public void setOriginEntryService(OriginEntryService oes) {
         this.originEntryService = oes;
@@ -3510,5 +3574,20 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         }
 
     }
+//    
+    /**
+     * Sets the flexibleOffsetAccountService attribute value.
+     * @param flexibleOffsetAccountService The flexibleOffsetAccountService to set.
+     */
+    public void setFlexibleOffsetAccountService(FlexibleOffsetAccountService flexibleOffsetAccountService) {
+        this.flexibleOffsetAccountService = flexibleOffsetAccountService;
+    }
     
+    /**
+     * Sets the documentTypeService attribute value.
+     * @param documentTypeService The documentTypeService to set.
+     */
+    public void setDocumentTypeService(DocumentTypeService documentTypeService) {
+        this.documentTypeService = documentTypeService;
+    }
 }

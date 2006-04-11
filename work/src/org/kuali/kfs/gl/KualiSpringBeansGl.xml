@@ -72,6 +72,9 @@
 	</bean>
 
 	<bean id="glScrubberService" class="org.kuali.module.gl.service.impl.ScrubberServiceImpl" init-method="init">
+		<property name="flexibleOffsetAccountService"><ref bean="flexibleOffsetAccountService" /></property>
+		<property name="documentTypeService"><ref bean="documentTypeService" /></property>
+		
 		<property name="originEntryService"><ref bean="glOriginEntryService" /></property>
 		<property name="dateTimeService"><ref bean="dateTimeService" /></property>
 		<property name="offsetDefinitionService"><ref bean="offsetDefinitionService" /></property>
@@ -134,7 +137,7 @@
         <property name="generalLedgerPendingEntryDao"><ref bean="generalLedgerPendingEntryDao"/></property>
         <property name="kualiRuleService"><ref bean="kualiRuleService" /></property>
     </bean>
-
+    
 	<bean id="glEntryService" class="org.kuali.module.gl.service.impl.EntryServiceImpl">
 		<property name="entryDao"><ref bean="glEntryDao" /></property>
 	</bean>

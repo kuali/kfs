@@ -30,7 +30,9 @@
                 <lookupField attributeName="code" required="false" />
                 <lookupField attributeName="name" required="false" />
                 <lookupField attributeName="financialReportingSortCode" required="false" />
-                <lookupField attributeName="active" required="false" />
+                <lookupField attributeName="active" required="false" >	
+					<defaultValue>Y</defaultValue>
+				</lookupField>
             </lookupFields>
 
             <resultFields>

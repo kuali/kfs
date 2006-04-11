@@ -9,7 +9,7 @@
 
         <kul:documentOverview editingMode="${KualiForm.editingMode}"/>
         <fin:accountingLines editingMode="${KualiForm.editingMode}" editableAccounts="${KualiForm.editableAccounts}"/>
-        <kul:items/>
+        <kul:items editingMode="${KualiForm.editingMode}"/>
         <kul:generalLedgerPendingEntries/>
         <kul:notes/>
         <kul:adHocRecipients editingMode="${KualiForm.editingMode}"/>

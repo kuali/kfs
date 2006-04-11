@@ -218,6 +218,7 @@ public class AccountPreRules extends MaintenancePreRulesBase {
         /*GlobalVariables.getErrorMap().put("document.newMaintainableObject.accountEffectiveDate"
     	, "error.document.accountMaintenance.emptyAccountEffectiveDate", "Account Effective Date");*/
         
+        //TODO: this is not needed any more, is in maintdoc xml defaults
         Timestamp ts = maintenanceDocument.getDocumentHeader().getWorkflowDocument().getCreateDate();
         // Set nano as zero, to prevent an error related on maximum character numbers. 
         ts.setNanos(0);
@@ -232,6 +233,7 @@ public class AccountPreRules extends MaintenancePreRulesBase {
             }
         }
         //On new Accounts acct_state_cd is defaulted to the value of "IN"
+        //TODO: this is not needed any more, is in maintdoc xml defaults
         if (StringUtils.isBlank(copyAccount.getAccountStateCode())) {
             String defaultStateCode = configService.getApplicationParameterValue(CHART_MAINTENANCE_EDOC, 
     				DEFAULT_STATE_CODE);
@@ -244,6 +246,7 @@ public class AccountPreRules extends MaintenancePreRulesBase {
         }
         
         //if the account type code is left blank it will default to NA.
+        //TODO: this is not needed any more, is in maintdoc xml defaults
         if (StringUtils.isBlank(copyAccount.getAccountTypeCode())) {
             String defaultAccountTypeCode = configService.getApplicationParameterValue(CHART_MAINTENANCE_EDOC, 
     				DEFAULT_ACCOUNT_TYPE_CODE);

@@ -36,7 +36,10 @@
                 <lookupField attributeName="fundGroupCode" />
                 <lookupField attributeName="subFundGroupWagesIndicator" />
                 <lookupField attributeName="financialReportingSortCode" />
-                <lookupField attributeName="subfundgrpActivityIndicator" />
+                <lookupField attributeName="subfundgrpActivityIndicator" >	
+					<defaultValue>Y</defaultValue>
+				</lookupField>	
+
             </lookupFields>
 
             <resultFields>

@@ -87,7 +87,10 @@
         <lookupField attributeName="organizationName" required="false" />
         <lookupField attributeName="reportsToChartOfAccountsCode" required="false" noLookup="true" />
         <lookupField attributeName="reportsToOrganizationCode" required="false" />
-        <lookupField attributeName="organizationActiveIndicator" required="false" />
+        <lookupField attributeName="organizationActiveIndicator" required="false" >	
+			<defaultValue>Y</defaultValue>
+		</lookupField>		
+
       </lookupFields>
 
       <resultFields>

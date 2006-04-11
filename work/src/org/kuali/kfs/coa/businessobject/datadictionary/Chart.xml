@@ -45,7 +45,9 @@
       <lookupFields>
         <lookupField attributeName="chartOfAccountsCode" required="false" noLookup="true"/>
         <lookupField attributeName="finChartOfAccountDescription" />
-        <lookupField attributeName="finChartOfAccountActiveIndicator" />
+		<lookupField attributeName="finChartOfAccountActiveIndicator" >	
+			<defaultValue>Y</defaultValue>
+		</lookupField>		
         <lookupField attributeName="financialCashObjectCode" />
         <lookupField attributeName="finAccountsPayableObjectCode" />
       </lookupFields>

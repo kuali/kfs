@@ -40,7 +40,9 @@
 				<lookupField attributeName="accountDelegateSystemId" required="false" />
 				<lookupField attributeName="accountDelegate.personUserIdentifier" required="false" />
 				<lookupField attributeName="accountDelegate.personName" required="false" />
-				<lookupField attributeName="accountDelegateActiveIndicator" required="false" />
+				<lookupField attributeName="accountDelegateActiveIndicator" required="false" >	
+					<defaultValue>Y</defaultValue>
+				</lookupField>		
 			</lookupFields>
 
 			<resultFields>

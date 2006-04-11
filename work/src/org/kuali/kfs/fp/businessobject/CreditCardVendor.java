@@ -48,15 +48,17 @@ public class CreditCardVendor extends BusinessObjectBase {
 	private String expenseFinancialChartOfAccountsCode;
 	private String expenseAccountNumber;
 	private String expenseFinancialObjectCode;
-	private String expenseFinancialSubObjectCd;
+	private String expenseFinancialSubObjectCode;
 	private String expenseSubAccountNumber;
-	private Chart incomeFinancialChartOfAccounts;
+
+    private Chart incomeFinancialChartOfAccounts;
 	private ObjectCodeCurrent incomeFinancialObject;
 	private Account incomeAccount;
 	private Chart expenseFinancialChartOfAccounts;
 	private ObjectCodeCurrent expenseFinancialObject;
 	private Account expenseAccount;
-
+    private CreditCardType financialDocumentCreditCardType;
+    
 	/**
 	 * Default constructor.
 	 */
@@ -301,8 +303,8 @@ public class CreditCardVendor extends BusinessObjectBase {
 	 * @return - Returns the expenseFinancialSubObjectCd
 	 * 
 	 */
-	public String getExpenseFinancialSubObjectCd() { 
-		return expenseFinancialSubObjectCd;
+	public String getExpenseFinancialSubObjectCode() { 
+		return expenseFinancialSubObjectCode;
 	}
 
 	/**
@@ -311,8 +313,8 @@ public class CreditCardVendor extends BusinessObjectBase {
 	 * @param - expenseFinancialSubObjectCd The expenseFinancialSubObjectCd to set.
 	 * 
 	 */
-	public void setExpenseFinancialSubObjectCd(String expenseFinancialSubObjectCd) {
-		this.expenseFinancialSubObjectCd = expenseFinancialSubObjectCd;
+	public void setExpenseFinancialSubObjectCode(String expenseFinancialSubObjectCode) {
+		this.expenseFinancialSubObjectCode = expenseFinancialSubObjectCode;
 	}
 
 
@@ -457,6 +459,21 @@ public class CreditCardVendor extends BusinessObjectBase {
 		this.expenseAccount = expenseAccount;
 	}
 
+    /**
+     * @return Returns the financialDocumentCreditCardType.
+     */
+    public CreditCardType getFinancialDocumentCreditCardType() {
+        return financialDocumentCreditCardType;
+    }
+
+    /**
+     * @param financialDocumentCreditCardType The financialDocumentCreditCardType to set.
+     * @deprecated
+     */
+    public void setFinancialDocumentCreditCardType(CreditCardType financialDocumentCreditCardType) {
+        this.financialDocumentCreditCardType = financialDocumentCreditCardType;
+    }    
+    
 	/**
 	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
 	 */
@@ -465,4 +482,6 @@ public class CreditCardVendor extends BusinessObjectBase {
         m.put("financialDocumentCreditCardVendorNumber", this.financialDocumentCreditCardVendorNumber);
 	    return m;
     }
+
+
 }

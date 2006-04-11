@@ -1482,7 +1482,7 @@
 	<field-descriptor name="expenseFinancialChartOfAccountsCode" column="EXP_FIN_COA_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="expenseAccountNumber" column="EXP_ACCT_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="expenseFinancialObjectCode" column="EXP_FIN_OBJ_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="expenseFinancialSubObjectCd" column="EXP_FIN_SUB_OBJ_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="expenseFinancialSubObjectCode" column="EXP_FIN_SUB_OBJ_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="expenseSubAccountNumber" column="EXP_SUB_ACCT_NBR" jdbc-type="VARCHAR"/>
 	<reference-descriptor name="incomeFinancialChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="incomeFinancialChartOfAccountsCode" />
@@ -1505,6 +1505,31 @@
 	<reference-descriptor name="expenseAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="expenseFinancialChartOfAccountsCode" />
 		<foreignkey field-ref="expenseAccountNumber" />
+	</reference-descriptor>
+	<reference-descriptor name="financialDocumentCreditCardType" class-ref="org.kuali.module.financial.bo.CreditCardType" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="financialDocumentCreditCardTypeCode" />
+	</reference-descriptor>
+	<reference-descriptor name="incomeSubAccount" class-ref="org.kuali.module.chart.bo.SubAccount" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="incomeFinancialChartOfAccountsCode" />
+		<foreignkey field-ref="incomeAccountNumber" />
+		<foreignkey field-ref="incomeSubAccountNumber" />
+	</reference-descriptor>
+	<reference-descriptor name="expenseSubAccount" class-ref="org.kuali.module.chart.bo.SubAccount" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="expenseFinancialChartOfAccountsCode" />
+		<foreignkey field-ref="expenseAccountNumber" />
+		<foreignkey field-ref="expenseSubAccountNumber" />
+	</reference-descriptor>
+	<reference-descriptor name="incomeFinancialSubObject" class-ref="org.kuali.module.chart.bo.SubObjCdCurrent" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="incomeFinancialChartOfAccountsCode" />
+		<foreignkey field-ref="incomeAccountNumber" />
+		<foreignkey field-ref="incomeFinancialObjectCode" />
+		<foreignkey field-ref="incomeFinancialSubObjectCode" />
+	</reference-descriptor>
+	<reference-descriptor name="expenseFinancialSubObject" class-ref="org.kuali.module.chart.bo.SubObjCdCurrent" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="expenseFinancialChartOfAccountsCode" />
+		<foreignkey field-ref="expenseAccountNumber" />
+		<foreignkey field-ref="expenseFinancialObjectCode" />
+		<foreignkey field-ref="expenseFinancialSubObjectCode" />
 	</reference-descriptor>
 </class-descriptor>
 

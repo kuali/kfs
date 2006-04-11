@@ -21,7 +21,7 @@ if (top.location != self.location) {
   <tbody>
     <tr>
       <td align="left" valign="top"><a href="portal.do?selectedTab=edocs" border="0"><img src="images/kuali1.gif" alt="my portal" width="150" height="48" vspace="4" title="" border="0"></a>&nbsp;${ConfigProperties.version}</td>
-      <td width="100%" align="right" valign="middle"><img src="images-portal/transparent_002.gif" alt="" width="1" height="1"><img src="images-portal/myuniv.gif" alt="university logo" width="187" height="38" hspace="20"></td>
+      <td align="right" valign="middle"><img src="images-portal/transparent_002.gif" alt="" width="1" height="1"><img src="images-portal/myuniv.gif" alt="university logo" width="187" height="38" hspace="20"></td>
     </tr>
   </tbody>
 </table>

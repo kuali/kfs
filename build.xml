@@ -85,6 +85,7 @@
 	</target>
 
 	<target name="init-filter-sets" depends="init-institution-default-properties">
+		<tstamp><format property="project.cvs.tag" pattern="MM/dd/yyyy hh:mm aa"/></tstamp>
 		<condition property="context.docbase" value=' docBase="${basedir}${file.separator}work${file.separator}web-root"'>
     		<equals arg1="${is.local.build}" arg2="true"/>
 		</condition>

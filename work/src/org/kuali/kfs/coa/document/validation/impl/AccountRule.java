@@ -89,6 +89,11 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         this.setBalanceService(SpringServiceLocator.getGeneralLedgerBalanceService());
     }
     
+    //  makes the super method visible to this class' test 
+    protected boolean dataDictionaryValidate(MaintenanceDocument document) {
+        return super.dataDictionaryValidate(document);
+    }
+    
     /**
      * 
      * This method sets the convenience objects like newAccount and oldAccount, so you
@@ -101,7 +106,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
      * @param document - the maintenanceDocument being evaluated
      * 
      */
-    private void setupConvenienceObjects(MaintenanceDocument document) {
+    protected void setupConvenienceObjects(MaintenanceDocument document) {
         
         //	setup oldAccount convenience objects, make sure all possible sub-objects are populated
         oldAccount = (Account) super.getOldBo();
@@ -157,7 +162,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
      * @param maintenanceDocument
      * @return
      */
-    private boolean checkEmptyValues(MaintenanceDocument maintenanceDocument) {
+    protected boolean checkEmptyValues(MaintenanceDocument maintenanceDocument) {
         
         LOG.info("checkEmptyValues called");
 
@@ -199,7 +204,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
      * @param maintenanceDocument
      * @return false on rules violation
      */
-    private boolean checkGeneralRules(MaintenanceDocument maintenanceDocument) {
+    protected boolean checkGeneralRules(MaintenanceDocument maintenanceDocument) {
 
         LOG.info("checkGeneralRules called");
         UniversalUser fiscalOfficer = newAccount.getAccountFiscalOfficerUser();
@@ -309,6 +314,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         }
         
         //valid values for the budget code are account, consolidation, level, object code, mixed, sub-account and no budget.
+        //TODO: can this be moved to KualiSystemCodes?
         if (ObjectUtils.isNotNull(newAccount.getBudgetRecordingLevel())) {
             if (!newAccount.getBudgetRecordingLevel().isActive()) { 
                 success &= false;
@@ -316,8 +322,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
             }
         }
         
-        //  existence check on continuation account
-        // moved to maintDoc.xml <defaultExistenceChecks>
+        //  disallow continuation account being expired
         if(ObjectUtils.isNotNull(newAccount.getContinuationAccount())) {
             Account continuationAccount = newAccount.getContinuationAccount();
             if (continuationAccount.isExpired()) {
@@ -343,7 +348,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
      *           user object is null
      * 
      */
-    private boolean checkUserStatusAndType(String propertyName, UniversalUser user) {
+    protected boolean checkUserStatusAndType(String propertyName, UniversalUser user) {
         
         boolean success = true;
         
@@ -383,7 +388,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
      * @param maintenanceDocument
      * @return false on rules violation
      */
-    private boolean checkCloseAccount(MaintenanceDocument maintenanceDocument) {
+    protected boolean checkCloseAccount(MaintenanceDocument maintenanceDocument) {
 
         LOG.info("checkCloseAccount called");
 
@@ -416,7 +421,6 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         }
         
         // when closing an account, a continuation account is required 
-        // error message - "When closing an Account a Continuation Account Number entered on the Responsibility screen is required."
         if (StringUtils.isBlank(newAccount.getContinuationAccountNumber())) {
             putGlobalError(KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_CLOSE_CONTINUATION_ACCT_REQD);
             success &= false;
@@ -452,7 +456,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
      * @param maintenanceDocument
      * @return false on rules violation
      */
-    private boolean checkContractsAndGrants(MaintenanceDocument maintenanceDocument) {
+    protected boolean checkContractsAndGrants(MaintenanceDocument maintenanceDocument) {
         
         //TODO: Must add validation for C&G field. 
         
@@ -512,7 +516,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
      * @param maintenanceDocument
      * @return false on rules violation
      */
-    private boolean checkExpirationDate(MaintenanceDocument maintenanceDocument) {
+    protected boolean checkExpirationDate(MaintenanceDocument maintenanceDocument) {
 
         LOG.info("checkExpirationDate called");
 
@@ -610,7 +614,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
      * @return false on rules violation
      * 
      */
-    private boolean checkFundGroup(MaintenanceDocument maintenanceDocument) {
+    protected boolean checkFundGroup(MaintenanceDocument maintenanceDocument) {
         
         LOG.info("checkFundGroup called");
 
@@ -618,6 +622,8 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         SubFundGroup subFundGroup = newAccount.getSubFundGroup();
         
         if (ObjectUtils.isNotNull(subFundGroup)) {
+            
+            //  get values for fundGroupCode and restrictedStatusCode
             String fundGroupCode = "";
             String restrictedStatusCode = "";
             if(StringUtils.isNotBlank(subFundGroup.getFundGroupCode())) {
@@ -679,7 +685,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
      * @return false on rules violation
      * 
      */
-    private boolean checkSubFundGroup(MaintenanceDocument maintenanceDocument) {
+    protected boolean checkSubFundGroup(MaintenanceDocument maintenanceDocument) {
         
         LOG.info("checkSubFundGroup called");
 
@@ -694,14 +700,15 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
 
         //	Attempt to get the right SubFundGroup code to check the following logic with.  If the value isn't available, go ahead 
         // and die, as this indicates a misconfigured app, and important business rules wont be implemented without it.
-        String capitalSubFundGroup = getConfigService().getApplicationParameterValue(Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, ACCT_CAPITAL_SUBFUNDGROUP);
+        String capitalSubFundGroup = "";
+        capitalSubFundGroup = getConfigService().getApplicationParameterValue(Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, ACCT_CAPITAL_SUBFUNDGROUP);
         if (StringUtils.isBlank(capitalSubFundGroup)) {
             throw new RuntimeException("Expected ConfigurationService.ApplicationParameterValue was not found " + 
                     					"for ScriptName = '" + Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS + "' and " + 
                     					"Parameter = '" + ACCT_CAPITAL_SUBFUNDGROUP + "'");
         }
 
-        if (newAccount.getSubFundGroupCode().equalsIgnoreCase(capitalSubFundGroup)) {
+        if (capitalSubFundGroup.equalsIgnoreCase(newAccount.getSubFundGroupCode().trim())) {
             
             String campusCode = newAccount.getAccountDescription().getCampusCode();
             String buildingCode = newAccount.getAccountDescription().getBuildingCode();

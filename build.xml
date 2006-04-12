@@ -40,6 +40,7 @@
 	</target>
 	
 	<target name="dist-batch" depends="clean,make-source" description="Build batch zip for remote deployment">
+		<delete dir="${batch.directory}"/>
 		<copy todir="${batch.directory}">
 			<fileset dir="${batch.script.directory}"/>
 		</copy>
@@ -51,7 +52,6 @@
 			<fileset file="${appserver.lib.dir}/servlet-api.jar"/>
 			<fileset file="${appserver.lib.dir}/${oracle.library.file}"/>
 		</copy>
-		<zip basedir="${batch.directory}" destfile="${ant.project.name}-${build.environment}.zip"/>
 	</target>
 	
 	<target name="continuous-integration" depends="test-all" description="Run all tests and fail if there are failures or errors">

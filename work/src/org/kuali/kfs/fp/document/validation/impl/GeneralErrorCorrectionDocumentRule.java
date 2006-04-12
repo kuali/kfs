@@ -22,12 +22,17 @@
  */
 package org.kuali.module.financial.rules;
 
+import org.apache.commons.lang.StringUtils;
+
 import org.kuali.KeyConstants;
 import org.kuali.PropertyConstants;
 import org.kuali.core.bo.AccountingLine;
+import org.kuali.core.bo.SourceAccountingLine;
+import org.kuali.core.bo.TargetAccountingLine;
+import org.kuali.core.datadictionary.BusinessObjectEntry;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.ObjectUtils;
+import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.ObjectCode;
 
 /**
@@ -63,13 +68,23 @@ public class GeneralErrorCorrectionDocumentRule
         boolean retval = true;
 
         ObjectCode objectCode = accountingLine.getObjectCode();
-        if (ObjectUtils.isNull(objectCode)) {
-            accountingLine
-                .refreshReferenceObject(PropertyConstants.OBJECT_CODE);
-        }
+
         retval &= isObjectTypeAndObjectSubTypeAllowed(objectCode);
         
+        if (retval) {
+            retval &= isRequiredReferenceFieldsValid(accountingLine);
+        }
+        
         return retval;
+    }
+
+    /**
+     * Overrides to consider the object types.
+     *
+     * @see TransactionalDocumentRuleBase#isDocumentBalanceValid(TransactionalDocument)
+     */
+    protected boolean isDocumentBalanceValid(TransactionalDocument transactionalDocument) {
+        return isDocumentBalancedConsideringObjectTypes(transactionalDocument);
     }
 
     /**
@@ -115,13 +130,10 @@ public class GeneralErrorCorrectionDocumentRule
     protected boolean isObjectTypeAndObjectSubTypeAllowed(ObjectCode code) {
         boolean retval = true;
 
-        retval &= !failsRule(COMBINED_RESTRICTED_OBJECT_TYPE_CODES, 
-                            code.getFinancialObjectTypeCode());
-        
-        if (retval) {
-            retval &= !failsRule(COMBINED_RESTRICTED_OBJECT_SUB_TYPE_CODES,
-                                code.getFinancialObjectSubTypeCode());
-        }
+        retval &= !(failsRule(COMBINED_RESTRICTED_OBJECT_TYPE_CODES, 
+                              code.getFinancialObjectTypeCode())
+                    && failsRule(COMBINED_RESTRICTED_OBJECT_SUB_TYPE_CODES,
+                                 code.getFinancialObjectSubTypeCode()));
         
         if (!retval) {
             // add message
@@ -135,6 +147,13 @@ public class GeneralErrorCorrectionDocumentRule
         }
 
         return retval;
+    }
+
+    private static void putRequiredPropertyError(BusinessObjectEntry boe, 
+                                                 String propertyName) {
+        String label = boe.getAttributeDefinition(propertyName).getLabel();
+        GlobalVariables.getErrorMap()
+            .put(propertyName, KeyConstants.ERROR_REQUIRED, label);
     }
 
     /**
@@ -151,9 +170,6 @@ public class GeneralErrorCorrectionDocumentRule
 
         if (valid) {
             ObjectCode objectCode = accountingLine.getObjectCode();
-            if (ObjectUtils.isNull(objectCode)) {
-                accountingLine.refreshReferenceObject(PropertyConstants.OBJECT_CODE);
-            }
 
             if (failsRule(RESTRICTED_OBJECT_TYPE_CODES,
                           objectCode.getFinancialObjectTypeCode())) {
@@ -173,6 +189,40 @@ public class GeneralErrorCorrectionDocumentRule
     }
 
     /**
+     * This method checks that values exist in the two reference fields
+     * ENCUMBRANCE.
+     * 
+     * @param accountingLine
+     * @return True if all of the required external encumbrance reference fields are valid, false otherwise.
+     */
+    private boolean isRequiredReferenceFieldsValid(AccountingLine accountingLine) {
+        boolean valid = true;
+        Class alclass = null;
+        BusinessObjectEntry boe;
+
+        if (accountingLine instanceof SourceAccountingLine) {
+            alclass = SourceAccountingLine.class;
+        }
+        else if (accountingLine instanceof TargetAccountingLine) {
+            alclass = TargetAccountingLine.class;
+        }
+        
+        boe = SpringServiceLocator
+            .getDataDictionaryService()
+            .getDataDictionary()
+            .getBusinessObjectEntry(alclass);
+        if (StringUtils.isEmpty(accountingLine.getReferenceOriginCode())) {
+            putRequiredPropertyError(boe, PropertyConstants.REFERENCE_ORIGIN_CODE);
+            valid = false;
+        }
+        if (StringUtils.isEmpty(accountingLine.getReferenceNumber())) {
+            putRequiredPropertyError(boe, PropertyConstants.REFERENCE_NUMBER);
+            valid = false;
+        }
+        return valid;
+    }
+
+    /**
      * Overrides to perform the universal rule in the super class in addition 
      * to General Error Correction specific rules. This method leverages the 
      * APC for checking restricted object sub type values.
@@ -186,10 +236,6 @@ public class GeneralErrorCorrectionDocumentRule
 
         if (valid) {
             ObjectCode objectCode = accountingLine.getObjectCode();
-            if (ObjectUtils.isNull(objectCode)) {
-                accountingLine
-                    .refreshReferenceObject(PropertyConstants.OBJECT_CODE);
-            }
 
             if (failsRule(RESTRICTED_OBJECT_SUB_TYPE_CODES,
                           objectCode.getFinancialObjectSubTypeCode())) {

@@ -48,11 +48,6 @@
         		<field attributeName="universalUser.employeeTypeCode" />
 			</resultFields>
 			
-			<extraButton>
-				<extraButtonSource>images/buttonsmall_namelater.gif</extraButtonSource>
-				<extraButtonParams><![CDATA[&document.budget.projectDirectorToBeNamedIndicator=true]]></extraButtonParams>
-			</extraButton>
-			
 		</lookup>
 		
 		<attributes>

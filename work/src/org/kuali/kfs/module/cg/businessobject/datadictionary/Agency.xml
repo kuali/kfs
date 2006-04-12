@@ -48,11 +48,6 @@
 				<field attributeName="reportsToAgency.agencyNumber" />
 			</resultFields>
 			
-			<extraButton>
-				<extraButtonSource>images/buttonsmall_namelater.gif</extraButtonSource>
-				<extraButtonParams><![CDATA[&document.budget.agencyToBeNamedIndicator=true]]></extraButtonParams>
-			</extraButton>
-			
 		</lookup>
 
 		<attributes>

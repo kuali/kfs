@@ -26,24 +26,27 @@ import org.kuali.core.bo.KualiCodeBase;
 
 /**
  * @author jsissom
- * @version $Id: OriginEntrySource.java,v 1.4 2006-01-28 16:00:33 jsissom Exp $
+ * @version $Id: OriginEntrySource.java,v 1.5 2006-04-12 20:49:37 larevans Exp $
  * 
  */
 
 public class OriginEntrySource extends KualiCodeBase {
+    
     static final private long serialVersionUID = 1l;
-    public static String SCRUBBER_VALID = "SCV";
-    public static String SCRUBBER_ERROR = "SCE";
-    public static String SCRUBBER_EXPIRED = "SCX";
-    public static String MAIN_POSTER_VALID = "MPV";
-    public static String MAIN_POSTER_ERROR = "MPE";
-    public static String REVERSAL_POSTER_VALID = "RPV";
-    public static String REVERSAL_POSTER_ERROR = "RPE";
-    public static String ICR_TRANSACTIONS = "ICR";
-    public static String ICR_POSTER_VALID = "ICRV";
-    public static String ICR_POSTER_ERROR = "ICRE";
-    public static String GENERATE_BY_EDOC = "EDOC";
-    public static String EXTERNAL = "EXT";
+    
+    public static final String SCRUBBER_VALID = "SCV";
+    public static final String SCRUBBER_ERROR = "SCE";
+    public static final String SCRUBBER_EXPIRED = "SCX";
+    public static final String MAIN_POSTER_VALID = "MPV";
+    public static final String MAIN_POSTER_ERROR = "MPE";
+    public static final String REVERSAL_POSTER_VALID = "RPV";
+    public static final String REVERSAL_POSTER_ERROR = "RPE";
+    public static final String ICR_TRANSACTIONS = "ICR";
+    public static final String ICR_POSTER_VALID = "ICRV";
+    public static final String ICR_POSTER_ERROR = "ICRE";
+    public static final String GENERATE_BY_EDOC = "EDOC";
+    public static final String EXTERNAL = "EXT";
+    public static final String YEAR_END_ENCUMBRANCE_CLOSING = "YEEC";
 
     // Code base has all the fields we need
 }

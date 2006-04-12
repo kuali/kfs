@@ -88,4 +88,6 @@
         </property>
     </bean>
 
+    <bean id="cashReceiptService" class="org.kuali.module.financial.service.impl.CashReceiptServiceImpl">
+    </bean>
 </beans>

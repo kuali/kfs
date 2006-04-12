@@ -35,6 +35,7 @@ import org.kuali.core.bo.Building;
 import org.kuali.core.bo.user.KualiUser;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.MaintenanceDocument;
+import org.kuali.core.exceptions.ApplicationParameterDoesNotExistException;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
@@ -170,14 +171,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         
         //	guidelines are always required, except when the expirationDate is set, and its 
         // earlier than today
-        boolean guidelinesRequired = true;
-        if (newAccount.getAccountExpirationDate() != null) {
-            Timestamp today = getDateTimeService().getCurrentTimestamp();
-            today.setTime(DateUtils.truncate(today, Calendar.DAY_OF_MONTH).getTime());
-            if (newAccount.getAccountExpirationDate().before(today)) {
-                guidelinesRequired = false;
-            }
-        }
+        boolean guidelinesRequired = areGuidelinesRequired((Account) maintenanceDocument.getNewMaintainableObject().getBusinessObject());
 
         //  confirm that required guidelines are entered, if required
         if (guidelinesRequired) {
@@ -200,6 +194,68 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
     
     /**
      * 
+     * This method determines whether the guidelines are required, based on 
+     * business rules.
+     * 
+     * @param account - the populated Account bo to be evaluated
+     * @return - true if guidelines are required, false otherwise
+     * 
+     */
+    protected boolean areGuidelinesRequired(Account account) {
+        
+        boolean result = true;
+        
+        if (account.getAccountExpirationDate() != null) {
+            Timestamp today = getDateTimeService().getCurrentTimestamp();
+            today.setTime(DateUtils.truncate(today, Calendar.DAY_OF_MONTH).getTime());
+            if (account.getAccountExpirationDate().before(today)) {
+                result = false;
+            }
+        }
+        return result;
+    }
+    
+    protected boolean accountNumberStartsWithAllowedPrefix(String accountNumber, String[] illegalValues) {
+        
+        boolean result = true;
+        
+        //  for each disallowed value, make sure the account doesnt start with it
+        for (int i = 0; i < illegalValues.length; i++) {
+            if (accountNumber.startsWith(illegalValues[i])) {
+                result = false;
+                putFieldError("accountNumber", 
+                        KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_NMBR_NOT_ALLOWED, 
+                        new String[] {accountNumber, illegalValues[i]});
+            }
+        }
+        
+        return result;
+    }
+    
+    protected boolean isNonSystemSupervisorReopeningAClosedAccount(MaintenanceDocument document, KualiUser user) {
+        
+        boolean result = false;
+        
+        if (document.isEdit()) {
+            
+            //  get local references
+            Account oldAccount = (Account) document.getOldMaintainableObject().getBusinessObject();
+            Account newAccount = (Account) document.getNewMaintainableObject().getBusinessObject();
+            
+            //  do the test
+            if (oldAccount.isAccountClosedIndicator()) {
+                if (!newAccount.isAccountClosedIndicator()) {
+                    if (!user.isSupervisorUser()) {
+                        result = true;
+                    }
+                }
+            }
+        }
+        return result;
+    }
+    
+    /**
+     * 
      * This method checks some of the general business rules associated with this document
      * @param maintenanceDocument
      * @return false on rules violation
@@ -217,34 +273,25 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         // (e.g. the account number cannot begin with a 3 or with 00.)
         // Only bother trying if there is an account string to test
         if (!StringUtils.isBlank(newAccount.getAccountNumber())) {
+            
+            //  attempt to get the disallowed values
             String[] illegalValues = getConfigService().getApplicationParameterValues(Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, ACCT_PREFIX_RESTRICTION);
             
-            if (illegalValues != null) {
-                for (int i = 0; i < illegalValues.length; i++) {
-                    if (newAccount.getAccountNumber().startsWith(illegalValues[i])) {
-                        success &= false;
-                        putFieldError("accountNumber", 
-                                KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_NMBR_NOT_ALLOWED, 
-                                new String[] {newAccount.getAccountNumber(),illegalValues[i]});
-                    }
-                }
-            } else {
-                LOG.warn("No Financial System Parameter found for CHART_MAINTENANCE_EDOC/ACCT_PREFIX_RESTRICTION");
+            //  if the entry doesnt exist in APC, fail fast and loudly, something needs to be done
+            if (illegalValues == null) {
+                throw new ApplicationParameterDoesNotExistException("The expected Application Parameter does not exist: " + 
+                        Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS + " - " + ACCT_PREFIX_RESTRICTION + ".");
             }
+
+            //  test the number
+            success &= accountNumberStartsWithAllowedPrefix(newAccount.getAccountNumber(), illegalValues);
         }
         
         //only a FIS supervisor can reopen a closed account. (This is the central super user, not an account supervisor).
         //we need to get the old maintanable doc here
-        if (maintenanceDocument.isEdit()) {
-            if (oldAccount.isAccountClosedIndicator()) {
-                if (!newAccount.isAccountClosedIndicator()) {
-                    KualiUser thisUser = GlobalVariables.getUserSession().getKualiUser();
-                    if (!thisUser.isSupervisorUser()) {
-                        success &= false;
-                        putFieldError("accountClosedIndicator", KeyConstants.ERROR_DOCUMENT_ACCMAINT_ONLY_SUPERVISORS_CAN_REOPEN);
-                    }
-                }
-            }
+        if (isNonSystemSupervisorReopeningAClosedAccount(maintenanceDocument, GlobalVariables.getUserSession().getKualiUser())) {
+            success &= false;
+            putFieldError("accountClosedIndicator", KeyConstants.ERROR_DOCUMENT_ACCMAINT_ONLY_SUPERVISORS_CAN_REOPEN);
         }
         
         //when a restricted status code of 'T' (temporarily restricted) is selected, a restricted status date must be supplied.

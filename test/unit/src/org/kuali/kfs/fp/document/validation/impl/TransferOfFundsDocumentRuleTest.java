@@ -673,13 +673,6 @@ public class TransferOfFundsDocumentRuleTest extends TransactionalDocumentRuleTe
                         Constants.SystemGroupParameterNames.FLEXIBLE_OFFSET_ENABLED_FLAG },
                 flexibleOffsetEnabled ? Constants.ParameterValues.YES : Constants.ParameterValues.NO);
     }
-
-    private TransactionalDocument createDocumentFromParameter(String transactionalDocumentParameterName) throws WorkflowException {
-        TransactionalDocumentParameter param = (TransactionalDocumentParameter) getFixtureEntry(transactionalDocumentParameterName)
-                .createObject();
-        return (TransactionalDocument) param.createDocument(getDocumentService());
-    }
-
     // /////////////////////////////////////////////////////////////////////////
     // Test Methods End Here //
     // /////////////////////////////////////////////////////////////////////////

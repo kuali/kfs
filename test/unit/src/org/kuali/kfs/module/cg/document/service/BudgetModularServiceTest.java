@@ -22,12 +22,20 @@
  */
 package org.kuali.module.kra.service;
 
-import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.module.cg.bo.Agency;
+import org.kuali.module.kra.bo.AgencyExtension;
 import org.kuali.module.kra.bo.Budget;
-import org.kuali.module.kra.bo.BudgetNonpersonnel;
+import org.kuali.module.kra.bo.BudgetModular;
+import org.kuali.module.kra.bo.BudgetModularPeriod;
+import org.kuali.module.kra.bo.BudgetNonpersonnelTest;
+import org.kuali.module.kra.bo.BudgetPeriod;
+import org.kuali.module.kra.bo.BudgetPeriodTest;
+import org.kuali.module.kra.bo.UserAppointmentTaskPeriod;
 import org.kuali.test.KualiTestBaseWithSpring;
 
 /**
@@ -39,7 +47,6 @@ public class BudgetModularServiceTest extends KualiTestBaseWithSpring {
     private BudgetModularService budgetModularService;
     private BudgetNonpersonnelService budgetNonpersonnelService;
     
-    private Budget budget;
     private List nonpersonnelCategories;
     
     /**
@@ -49,21 +56,114 @@ public class BudgetModularServiceTest extends KualiTestBaseWithSpring {
         super.setUp();
         budgetModularService = SpringServiceLocator.getBudgetModularService();
         budgetNonpersonnelService = SpringServiceLocator.getBudgetNonpersonnelService();
-        budget = setupBudget();
         nonpersonnelCategories = budgetNonpersonnelService.getAllNonpersonnelCategories();
     }
     
     protected Budget setupBudget() {
         Budget budget = new Budget();
+        
+        Agency agency = new Agency();
+        agency.setAgencyExtension(new AgencyExtension());
+        agency.getAgencyExtension().setAgencyModularIndicator(true);
+        agency.getAgencyExtension().setBudgetModularIncrementAmount(new Integer(25000));
+        agency.getAgencyExtension().setBudgetPeriodMaximumAmount(new Integer(250000));
+        
+        budget.setPeriods(BudgetPeriodTest.createBudgetPeriods(2));
+        
+        budget.setBudgetAgency(agency);
         return budget;
     }
     
     
     public void testGenerateModularBudget() {
-        List nonpersonnelList = new ArrayList();
-        BudgetNonpersonnel budgetNonpersonnel = new BudgetNonpersonnel();
-        budgetNonpersonnel.setAgencyRequestAmount(new Long(35000));
-        //budgetModularService.generateModularBudget(budget, nonpersonnelCategories);
+        KualiDecimal zeroValue = new KualiDecimal(0);
+        
+        // Case 1: Budget with no costs
+        Budget budget = setupBudget();
+        budgetModularService.generateModularBudget(budget, nonpersonnelCategories);
+        BudgetModular modularBudget = (BudgetModular) budget.getModularBudget();
+        
+        assertEquals(modularBudget.getIncrements().size(), 10);
+        assertEquals(modularBudget.getBudgetModularDirectCostAmount(), zeroValue);
+        assertEquals(modularBudget.getTotalActualDirectCostAmount(), zeroValue);
+        assertEquals(modularBudget.getTotalAdjustedModularDirectCostAmount(), zeroValue);
+        assertEquals(modularBudget.getTotalConsortiumAmount(), zeroValue);
+        assertEquals(modularBudget.getTotalDirectCostAmount(), zeroValue);
+        assertEquals(modularBudget.getTotalModularDirectCostAmount(), zeroValue);
+        
+        for (Iterator iter = modularBudget.getBudgetModularPeriods().iterator(); iter.hasNext();) {
+            BudgetModularPeriod modularPeriod = (BudgetModularPeriod) iter.next();
+            assertEquals(modularPeriod.getActualDirectCostAmount(), zeroValue);
+            assertEquals(modularPeriod.getConsortiumAmount(), zeroValue);
+            assertEquals(modularPeriod.getTotalPeriodDirectCostAmount(), zeroValue);
+            assertEquals(modularPeriod.getBudgetAdjustedModularDirectCostAmount(), new Integer(0));
+        }
+        
+        // Case 2: Budget with personnel, nonpersonnel, consortium costs
+        budget = setupBudget();
+        
+        String [] categories = {"CO", "CO", "FL"};
+        String [] subCategories = {"C1", "C1", "F5"};
+        budget.setNonpersonnelItems(BudgetNonpersonnelTest.createBudgetNonpersonnel(categories, subCategories));
+        
+        for (Iterator iter = budget.getPeriods().iterator(); iter.hasNext();) {
+            BudgetPeriod currentPeriod = (BudgetPeriod) iter.next();
+            
+            UserAppointmentTaskPeriod taskPeriod = new UserAppointmentTaskPeriod();
+            taskPeriod.setBudgetPeriodSequenceNumber(currentPeriod.getBudgetPeriodSequenceNumber());
+            taskPeriod.setAgencyRequestTotalAmount(new Integer(35000));
+            taskPeriod.setAgencyFringeBenefitTotalAmount(new Integer(13000));
+            budget.getAllUserAppointmentTaskPeriods().add(taskPeriod);
+            
+            UserAppointmentTaskPeriod taskPeriod2 = new UserAppointmentTaskPeriod();
+            taskPeriod2.setBudgetPeriodSequenceNumber(currentPeriod.getBudgetPeriodSequenceNumber());
+            taskPeriod2.setAgencyRequestTotalAmount(new Integer(43000));
+            taskPeriod2.setAgencyFringeBenefitTotalAmount(new Integer(11500));
+            budget.getAllUserAppointmentTaskPeriods().add(taskPeriod2);
+        }
+        
+        budgetModularService.generateModularBudget(budget, nonpersonnelCategories);
+        
+        //assertEquals(budget.getModularBudget().getTotalModularDirectCostAmount(), new KualiDecimal(250000));
+        
+        // Case 3: Budget with costs > # of periods * period maximum
+        
+        
+//        List nonpersonnelList = new ArrayList();
+//        BudgetNonpersonnel budgetNonpersonnel = new BudgetNonpersonnel();
+//        budgetNonpersonnel.setAgencyRequestAmount(new Long(35000));
+        
+        
+        
+        
+        
+        
+        
+    }
+    
+    public void testResetModularBudget() {
+        assertTrue(true);
+    }
+    
+    public void testAgencySupportsModular() {
+        
+        // Case 1: Agency is null.
+        assertFalse(budgetModularService.agencySupportsModular(null));
+        
+        // Case 2: Supports modular is true.
+        Agency agency = new Agency();
+        AgencyExtension agencyExtension = new AgencyExtension();
+        agencyExtension.setAgencyModularIndicator(true);
+        agency.setAgencyExtension(agencyExtension);
+        assertTrue(budgetModularService.agencySupportsModular(agency));
+        
+        // Case 3: Supports modular is false.
+        agency.getAgencyExtension().setAgencyModularIndicator(false);
+        assertFalse(budgetModularService.agencySupportsModular(agency));
+        
+        // Case 5: Agency extension and reports to agency both null.
+        agency.setAgencyExtension(null);
+        assertFalse(budgetModularService.agencySupportsModular(agency));
     }
     
     

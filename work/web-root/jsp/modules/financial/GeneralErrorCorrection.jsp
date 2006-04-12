@@ -9,7 +9,10 @@
 
 		<kul:documentOverview editingMode="${KualiForm.editingMode}"/>
 
-        <fin:accountingLines editingMode="${KualiForm.editingMode}" editableAccounts="${KualiForm.editableAccounts}"/>
+        <fin:accountingLines editingMode="${KualiForm.editingMode}" 
+                        editableAccounts="${KualiForm.editableAccounts}"
+                        extraSourceRowFields="referenceOriginCode,referenceNumber,financialDocumentLineDescription"
+                        extraTargetRowFields="referenceOriginCode,referenceNumber,financialDocumentLineDescription"/>
 
 		<kul:generalLedgerPendingEntries/>
 

@@ -42,8 +42,6 @@ import org.kuali.test.MockService;
 import org.kuali.test.parameters.AccountingLineParameter;
 import org.kuali.test.parameters.TransactionalDocumentParameter;
 
-import edu.iu.uis.eden.exception.WorkflowException;
-
 /**
  * This class tests the Transfer of Funds Document's persistence, routing, and PE generation.
  * 

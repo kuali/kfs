@@ -133,7 +133,7 @@
 				<label>Project Description</label>
 				<shortLabel>Desc</shortLabel>
 
-				<maxLength>5000</maxLength>
+				<maxLength>400</maxLength>
 				<validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
 				<required>true</required>
 				

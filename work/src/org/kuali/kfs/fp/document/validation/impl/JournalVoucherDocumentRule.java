@@ -505,5 +505,18 @@ public class JournalVoucherDocumentRule extends TransactionalDocumentRuleBase {
         return null;
     }
 
+    /**
+     * 
+     * @see org.kuali.core.rule.DocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.Document)
+     */
+    protected boolean processCustomRouteDocumentBusinessRules(Document document) {
+        boolean isValid = super.processCustomRouteDocumentBusinessRules(document);
+
+        if (isValid) {
+            isValid &= isAllAccountingLinesMatchingBudgetYear((TransactionalDocument) document);
+        }
+
+        return isValid;
+    }
 
 }

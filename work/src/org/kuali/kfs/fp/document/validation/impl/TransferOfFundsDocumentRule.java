@@ -124,6 +124,7 @@ public class TransferOfFundsDocumentRule extends TransactionalDocumentRuleBase i
             // check the balance across mandatory and non-mandatory transfers
             TransferOfFundsDocument tofDoc = (TransferOfFundsDocument) document;
             isValid = isMandatoryTransferTotalAndNonMandatoryTransferTotalBalanceValid(tofDoc);
+            isValid &= isAllAccountingLinesMatchingBudgetYear(tofDoc);
         }
 
         return isValid;

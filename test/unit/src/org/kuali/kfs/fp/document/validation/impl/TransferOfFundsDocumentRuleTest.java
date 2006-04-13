@@ -24,15 +24,18 @@ package org.kuali.module.financial.rules;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
+import org.kuali.core.bo.AccountingLine;
 import org.kuali.core.bo.SourceAccountingLine;
 import org.kuali.core.bo.TargetAccountingLine;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.rule.TransactionalDocumentRuleTestBase;
 import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.financial.document.TransferOfFundsDocument;
@@ -675,6 +678,49 @@ public class TransferOfFundsDocumentRuleTest extends TransactionalDocumentRuleTe
                         Constants.SystemGroupParameterNames.FLEXIBLE_OFFSET_ENABLED_FLAG },
                 flexibleOffsetEnabled ? Constants.ParameterValues.YES : Constants.ParameterValues.NO);
     }
+
+    public void testProcessCustomRouteDocumentBusinessRules_accountingLines_notMatching_budgetYear() throws Exception {
+        TransferOfFundsDocument document = (TransferOfFundsDocument) createDocumentValidForRouting();
+        int budgetYear = 1990;
+        for (ListIterator i = document.getSourceAccountingLines().listIterator(); i.hasNext();) {
+            AccountingLine line = (AccountingLine) i.next();
+            line.setBudgetYear(Integer.toString(budgetYear + i.nextIndex()));
+            i.set(line);
+        }
+        for (ListIterator i = document.getTargetAccountingLines().listIterator(); i.hasNext();) {
+            AccountingLine line = (AccountingLine) i.next();
+            line.setBudgetYear(Integer.toString(budgetYear + 2 + i.nextIndex()));
+            i.set(line);
+        }
+
+        JournalVoucherDocumentRule rule = new JournalVoucherDocumentRule();
+        boolean failedAsExpected = !rule.processCustomRouteDocumentBusinessRules(document);
+
+        assertTrue(failedAsExpected);
+        assertTrue(GlobalVariables.getErrorMap().containsMessageKey(KeyConstants.ERROR_ACCOUNTING_LINES_DIFFERENT_BUDGET_YEAR));
+    }
+
+    public void testProcessCustomRouteDocumentBusinessRules_accountingLines_matching_budgetYear() throws Exception {
+        TransferOfFundsDocument document = (TransferOfFundsDocument) createDocumentValidForRouting();
+        int budgetYear = 1990;
+        for (ListIterator i = document.getSourceAccountingLines().listIterator(); i.hasNext();) {
+            AccountingLine line = (AccountingLine) i.next();
+            line.setBudgetYear(Integer.toString(budgetYear));
+            i.set(line);
+        }
+        for (ListIterator i = document.getTargetAccountingLines().listIterator(); i.hasNext();) {
+            AccountingLine line = (AccountingLine) i.next();
+            line.setBudgetYear(Integer.toString(budgetYear));
+            i.set(line);
+        }
+
+        JournalVoucherDocumentRule rule = new JournalVoucherDocumentRule();
+        boolean passedAsExpected = rule.processCustomRouteDocumentBusinessRules(document);
+
+        assertTrue(passedAsExpected);
+        assertFalse(GlobalVariables.getErrorMap().containsMessageKey(KeyConstants.ERROR_ACCOUNTING_LINES_DIFFERENT_BUDGET_YEAR));
+    }
+
     // /////////////////////////////////////////////////////////////////////////
     // Test Methods End Here //
     // /////////////////////////////////////////////////////////////////////////

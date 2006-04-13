@@ -24,6 +24,7 @@ package org.kuali.module.financial.rules;
 
 import org.apache.commons.lang.StringUtils;
 
+import org.kuali.Constants;
 import org.kuali.KeyConstants;
 import org.kuali.PropertyConstants;
 import org.kuali.core.bo.AccountingLine;
@@ -32,8 +33,10 @@ import org.kuali.core.bo.TargetAccountingLine;
 import org.kuali.core.datadictionary.BusinessObjectEntry;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.ObjectCode;
+import org.kuali.module.gl.util.SufficientFundsItemHelper.SufficientFundsItem;
 
 /**
  * Business rule(s) applicable to 
@@ -252,5 +255,77 @@ public class GeneralErrorCorrectionDocumentRule
         }
 
         return valid;
+    }
+
+    /**
+     * 
+     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processSourceAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument,
+     *      org.kuali.core.bo.SourceAccountingLine)
+     */
+    protected SufficientFundsItem processSourceAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument transactionalDocument,
+                 SourceAccountingLine sourceAccountingLine) {
+        return processAccountingLineSufficientFundsCheckingPreparation(transactionalDocument, sourceAccountingLine);
+    }
+
+    /**
+     * 
+     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processTargetAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument,
+     *      org.kuali.core.bo.TargetAccountingLine)
+     */
+    protected SufficientFundsItem processTargetAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument transactionalDocument,
+                 TargetAccountingLine targetAccountingLine) {
+        return processAccountingLineSufficientFundsCheckingPreparation(transactionalDocument, targetAccountingLine);
+    }
+    
+    private SufficientFundsItem processAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument document, AccountingLine accountingLine) {
+        SufficientFundsItem item = null;
+        String chartOfAccountsCode = accountingLine.getChartOfAccountsCode();
+        String accountNumber = accountingLine.getAccountNumber();
+        String accountSufficientFundsCode = 
+            accountingLine.getAccount().getAccountSufficientFundsCode();
+        String financialObjectCode = 
+            accountingLine.getObjectCode().getFinancialObjectCode();
+        String financialObjectLevelCode = 
+            accountingLine.getObjectCode().getFinancialObjectLevelCode();
+        KualiDecimal lineAmount = 
+            getGeneralLedgerPendingEntryAmountForAccountingLine(accountingLine);
+        Integer fiscalYear = accountingLine.getPostingYear();
+        String financialObjectTypeCode = accountingLine.getObjectTypeCode();
+
+        // always credit
+        String debitCreditCode = null;
+
+        if (isDebit(accountingLine)) {
+            debitCreditCode = Constants.GL_CREDIT_CODE;
+        }
+        else {
+            debitCreditCode = Constants.GL_DEBIT_CODE;
+        }
+        String sufficientFundsObjectCode = 
+            getSufficientFundsObjectCode(chartOfAccountsCode, 
+                                         financialObjectCode, 
+                                         accountSufficientFundsCode, 
+                                         financialObjectLevelCode);
+        item = buildSufficentFundsItem(accountNumber, 
+                                       accountSufficientFundsCode, 
+                                       lineAmount, chartOfAccountsCode,
+                                       sufficientFundsObjectCode, 
+                                       debitCreditCode, financialObjectCode, 
+                                       financialObjectLevelCode, fiscalYear,
+                                       financialObjectTypeCode);
+
+        return item;
+    }
+    
+    private String getSufficientFundsObjectCode(String chartOfAccountsCode,
+                                                String financialObjectCode,
+                                                String accountSufficientFundsCode,
+                                                String financialObjectLevelCode) {
+        return SpringServiceLocator
+            .getSufficientFundsService()
+            .getSufficientFundsObjectCode(chartOfAccountsCode, 
+                                          financialObjectCode, 
+                                          accountSufficientFundsCode, 
+                                          financialObjectLevelCode);      
     }
 }

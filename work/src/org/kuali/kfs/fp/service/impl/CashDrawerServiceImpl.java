@@ -22,11 +22,13 @@
  */
 package org.kuali.module.financial.service.impl;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.Constants;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.module.financial.bo.CashDrawer;
-import org.kuali.module.financial.dao.CashDrawerDao;
-import org.kuali.module.financial.document.CashReceiptDocument;
 import org.kuali.module.financial.service.CashDrawerService;
 import org.kuali.module.financial.service.CashManagementService;
 
@@ -37,8 +39,8 @@ import org.kuali.module.financial.service.CashManagementService;
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public class CashDrawerServiceImpl implements CashDrawerService {
-    private CashDrawerDao cashDrawerDao;
     private CashManagementService cashManagementService;
+    private BusinessObjectService businessObjectService;
 
 
     /**
@@ -75,7 +77,8 @@ public class CashDrawerServiceImpl implements CashDrawerService {
             throw new IllegalArgumentException("invalid (blank) workgroupName");
         }
 
-        return cashDrawerDao.findByWorkgroupName(workgroupName);
+        CashDrawer cd = (CashDrawer) businessObjectService.findByPrimaryKey(CashDrawer.class, buildPrimaryKeyMap(workgroupName));
+        return cd;
     }
 
     /**
@@ -86,34 +89,14 @@ public class CashDrawerServiceImpl implements CashDrawerService {
             throw new IllegalArgumentException("invalid (null) cashDrawer");
         }
 
-        return cashDrawerDao.save(cashDrawer);
+        businessObjectService.save(cashDrawer);
+        return cashDrawer;
     }
 
-    /**
-     * @see org.kuali.module.financial.service.CashDrawerService#delete(org.kuali.module.financial.bo.CashDrawer)
-     */
-    public void delete(CashDrawer cashDrawer) {
-        if (cashDrawer == null) {
-            throw new IllegalArgumentException("invalid (null) cashDrawer");
-        }
-
-        cashDrawerDao.delete(cashDrawer);
-    }
-    
-    /**
-     * If the passed in cash receipt is not yet associated with a verification unit (via campus code), 
-     * then this method returns null.
-     * 
-     * @see org.kuali.module.financial.service.CashDrawerService#getByCashReceiptDocument(org.kuali.module.financial.document.CashReceiptDocument)
-     */
-    public CashDrawer getByCashReceiptDocument(CashReceiptDocument cashReceipt) {
-        return getByWorkgroupName(cashManagementService.getCashReceiptVerificationUnitWorkgroupNameByCampusCode(
-                cashReceipt.getCampusLocationCode()));
-    }
 
     /**
      * @param workgroupName
-     * @return CashDrawer
+     * @return newly-created (unpersisted) CashDrawer instance for the given workgroupName
      */
     private CashDrawer newCashDrawer(String workgroupName) {
         CashDrawer drawer = new CashDrawer();
@@ -123,24 +106,20 @@ public class CashDrawerServiceImpl implements CashDrawerService {
         return drawer;
     }
 
+    /**
+     * @param workgroupName
+     * @return Map suitable for use with primaryKey-related OJB methods
+     */
+    private Map buildPrimaryKeyMap(String workgroupName) {
+        Map keyMap = new HashMap();
+        keyMap.put("WRKGRP_NM", workgroupName);
+        return keyMap;
+    }
+
 
     // Spring injection
     /**
-     * @param cashDrawerDao
-     */
-    public void setCashDrawerDao(CashDrawerDao cashDrawerDao) {
-        this.cashDrawerDao = cashDrawerDao;
-    }
-
-    /**
-     * @return CashDrawerDao
-     */
-    public CashDrawerDao getCashDrawerDao() {
-        return cashDrawerDao;
-    }
-
-    /**
-     * Gets the cashManagementService attribute. 
+     * Gets the cashManagementService attribute.
      * 
      * @return Returns the cashManagementService.
      */
@@ -155,5 +134,21 @@ public class CashDrawerServiceImpl implements CashDrawerService {
      */
     public void setCashManagementService(CashManagementService cashManagementService) {
         this.cashManagementService = cashManagementService;
+    }
+
+    /**
+     * @return current value of businessObjectService.
+     */
+    public BusinessObjectService getBusinessObjectService() {
+        return businessObjectService;
+    }
+
+    /**
+     * Sets the businessObjectService attribute value.
+     * 
+     * @param businessObjectService The businessObjectService to set.
+     */
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
     }
 }

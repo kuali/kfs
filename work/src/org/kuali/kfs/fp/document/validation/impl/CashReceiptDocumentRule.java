@@ -73,7 +73,9 @@ public class CashReceiptDocumentRule extends TransactionalDocumentRuleBase imple
 
         if(valid) {
             CashReceiptDocument crd = (CashReceiptDocument) document;
-            CashDrawer cd = SpringServiceLocator.getCashDrawerService().getByCashReceiptDocument(crd);
+
+            String unitName = SpringServiceLocator.getCashReceiptService().getCashReceiptVerificationUnitForCampusCode( crd.getCampusLocationCode() );
+            CashDrawer cd = SpringServiceLocator.getCashDrawerService().getByWorkgroupName( unitName );
             if(cd == null) {
                 throw new IllegalStateException("There is no cash drawer associated with cash receipt: " + crd.getFinancialDocumentNumber());
             } else if(cd.isClosed()) {

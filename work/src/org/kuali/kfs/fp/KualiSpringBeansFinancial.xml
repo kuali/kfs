@@ -47,11 +47,11 @@
     </bean>
 
     <bean id="cashDrawerService" class="org.kuali.module.financial.service.impl.CashDrawerServiceImpl">
-        <property name="cashDrawerDao">
-            <ref bean="cashDrawerDao" />
-        </property>
         <property name="cashManagementService">
             <ref bean="cashManagementService" />
+        </property>
+        <property name="businessObjectService">
+            <ref bean="businessObjectService" />
         </property>
     </bean>
      
@@ -76,6 +76,9 @@
         </property>
         <property name="dateTimeService">
             <ref bean="dateTimeService" />
+        </property>
+        <property name="cashReceiptService">
+            <ref bean="cashReceiptService" />
         </property>
      </bean>
 

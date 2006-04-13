@@ -27,11 +27,11 @@ import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.test.KualiTestBaseWithSpring;
 
 public class CashReceiptServiceTest extends KualiTestBaseWithSpring {
-    private static final String KNOWN_CAMPUS_CD = "HI";
-    private static final String UNKNOWN_CAMPUS_CD = "YY";
+    private static final String KNOWN_CAMPUS_CD = Constants.CashReceiptConstants.TEST_CASH_RECEIPT_CAMPUS_LOCATION_CODE;
+    private static final String KNOWN_UNIT_NAME = Constants.CashReceiptConstants.TEST_CASH_RECEIPT_VERIFICATION_UNIT;
 
-    private static final String KNOWN_UNIT_NAME = "HAWAII_CR_VERIFICATION_UNIT";
-    private static final String UNKNOWN_UNIT_NAME = Constants.CashReceiptConstants.CASH_RECEIPT_VERIFICATION_UNIT;
+    private static final String UNKNOWN_CAMPUS_CD = Constants.CashReceiptConstants.DEFAULT_CASH_RECEIPT_CAMPUS_LOCATION_CODE;
+    private static final String UNKNOWN_UNIT_NAME = Constants.CashReceiptConstants.DEFAULT_CASH_RECEIPT_VERIFICATION_UNIT;
 
 
     CashReceiptService crs;

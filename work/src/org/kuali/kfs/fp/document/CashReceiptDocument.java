@@ -75,6 +75,8 @@ public class CashReceiptDocument extends TransactionalDocumentBase {
      */
     public CashReceiptDocument() {
         super();
+        
+        setCampusLocationCode( Constants.CashReceiptConstants.DEFAULT_CASH_RECEIPT_CAMPUS_LOCATION_CODE );
     }
 
     /**

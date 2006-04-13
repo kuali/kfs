@@ -30,8 +30,6 @@ public class CashReceiptServiceImpl implements CashReceiptService {
     private static final String TEST_CASH_RECEIPT_CAMPUS_CD = "HI";
     private static final String TEST_CASH_RECEIPT_VERIFICATION_UNIT = "HAWAII_CR_VERIFICATION_UNIT";
 
-    private static final String DEFAULT_CASH_RECEIPT_CAMPUS_CD = "YY";
-    private static final String DEFAULT_CASH_RECEIPT_VERIFICATION_UNIT = Constants.CashReceiptConstants.CASH_RECEIPT_VERIFICATION_UNIT;
 
     /**
      * @see org.kuali.module.financial.service.CashReceiptService#getCashReceiptVerificationUnitWorkgroupNameByCampusCode(java.lang.String)
@@ -48,7 +46,7 @@ public class CashReceiptServiceImpl implements CashReceiptService {
             vunit = TEST_CASH_RECEIPT_VERIFICATION_UNIT;
         }
         else {
-            vunit = DEFAULT_CASH_RECEIPT_VERIFICATION_UNIT;
+            vunit = Constants.CashReceiptConstants.DEFAULT_CASH_RECEIPT_VERIFICATION_UNIT;
         }
 
         return vunit;
@@ -70,7 +68,7 @@ public class CashReceiptServiceImpl implements CashReceiptService {
             campusCode = TEST_CASH_RECEIPT_CAMPUS_CD;
         }
         else {
-            campusCode = DEFAULT_CASH_RECEIPT_CAMPUS_CD;
+            campusCode = Constants.CashReceiptConstants.DEFAULT_CASH_RECEIPT_CAMPUS_LOCATION_CODE;
         }
 
         return campusCode;

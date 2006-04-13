@@ -245,13 +245,14 @@ public class CashReceiptForm extends KualiTransactionalDocumentFormBase {
         
         // first check to see if the document is in the appropriate state for this message
         if(crd != null && crd.getDocumentHeader() != null && crd.getDocumentHeader().getWorkflowDocument() != null) {
-            if(crd.getDocumentHeader().getWorkflowDocument().stateIsEnroute()) { 
-                CashDrawer cd = SpringServiceLocator.getCashDrawerService().getByCashReceiptDocument(crd);
+            if(crd.getDocumentHeader().getWorkflowDocument().stateIsEnroute()) {
+                String unitName = SpringServiceLocator.getCashReceiptService().getCashReceiptVerificationUnitForCampusCode( crd.getCampusLocationCode() );
+                CashDrawer cd = SpringServiceLocator.getCashDrawerService().getByWorkgroupName( unitName );
                 if (cd != null && crd.getDocumentHeader().getWorkflowDocument().isApprovalRequested() && cd.isClosed()) {
                     cashDrawerStatusMessage = SpringServiceLocator.getKualiConfigurationService().getPropertyString(
                             KeyConstants.CashReceipt.MSG_CASH_DRAWER_CLOSED_VERIFICATION_NOT_ALLOWED);
                     cashDrawerStatusMessage = StringUtils.replace(cashDrawerStatusMessage, "{0}",
-                            Constants.CashReceiptConstants.CASH_RECEIPT_VERIFICATION_UNIT);
+                            unitName);
                 }
             }
         }

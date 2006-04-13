@@ -54,6 +54,7 @@ import org.kuali.module.financial.exceptions.InvalidCashDrawerState;
 import org.kuali.module.financial.exceptions.InvalidCashReceiptState;
 import org.kuali.module.financial.service.CashDrawerService;
 import org.kuali.module.financial.service.CashManagementService;
+import org.kuali.module.financial.service.CashReceiptService;
 
 import edu.iu.uis.eden.exception.DocumentNotFoundException;
 import edu.iu.uis.eden.exception.WorkflowException;
@@ -70,13 +71,14 @@ public class CashManagementServiceImpl implements CashManagementService {
     private DocumentService documentService;
     private CashDrawerService cashDrawerService;
     private DateTimeService dateTimeService;
+    private CashReceiptService cashReceiptService;
+
 
     /**
      * @see org.kuali.module.financial.service.CashManagementService#createCashManagementDocument(java.lang.String, java.util.List,
      *      java.lang.String)
      */
-    public CashManagementDocument createCashManagementDocument(String documentDescription, List verifiedCashReceipts,
-            String workgroupName) {
+    public CashManagementDocument createCashManagementDocument(String documentDescription, List verifiedCashReceipts, String workgroupName) {
         CashManagementDocument cmDoc = null;
 
         // check and lock cash drawer
@@ -196,8 +198,7 @@ public class CashManagementServiceImpl implements CashManagementService {
      * @see org.kuali.module.financial.service.CashManagementService#createDeposit(CashManagementDocument, java.util.List,
      *      java.lang.String)
      */
-    public Deposit createDeposit(CashManagementDocument cashManagementDoc, Integer lineNumber, List verifiedCashReceipts,
-            String workgroupName) {
+    public Deposit createDeposit(CashManagementDocument cashManagementDoc, Integer lineNumber, List verifiedCashReceipts, String workgroupName) {
         if (cashManagementDoc == null) {
             throw new IllegalArgumentException("invalid (null) cashManagementDoc");
         }
@@ -347,8 +348,7 @@ public class CashManagementServiceImpl implements CashManagementService {
             }
 
             try {
-                cashReceiptDocuments = getDocumentService()
-                        .getDocumentsByListOfDocumentHeaderIds(CashReceiptDocument.class, idList);
+                cashReceiptDocuments = getDocumentService().getDocumentsByListOfDocumentHeaderIds(CashReceiptDocument.class, idList);
             }
             catch (WorkflowException e) {
                 throw new InfrastructureException("unable to retrieve cashReceipts", e);
@@ -377,28 +377,11 @@ public class CashManagementServiceImpl implements CashManagementService {
 
         Map criteriaMap = new LinkedHashMap();
         criteriaMap.put("depositCashReceiptControl.financialDocumentDepositNumber", deposit.getFinancialDocumentNumber());
-        criteriaMap.put("depositCashReceiptControl.financialDocumentDepositLineNumber", deposit
-                .getFinancialDocumentDepositLineNumber());
+        criteriaMap.put("depositCashReceiptControl.financialDocumentDepositLineNumber", deposit.getFinancialDocumentDepositLineNumber());
 
         Collection crHeaders = getBusinessObjectService().findMatching(CashReceiptHeader.class, criteriaMap);
 
         return new ArrayList(crHeaders);
-    }
-
-
-    /**
-     * @see org.kuali.module.financial.service.CashManagementService#getCampusCodeByCashReceiptVerificationUnitWorkgroupName(java.lang.String)
-     */
-    public String getCampusCodeByCashReceiptVerificationUnitWorkgroupName(String cashReceiptVerificationUnitWorkgroupName) {
-        if (StringUtils.isBlank(cashReceiptVerificationUnitWorkgroupName)) {
-            throw new IllegalArgumentException("invalid (blank) cashReceiptVerificationUnitWorkgroupName");
-        }
-
-        // UNF: once this is doing an actual lookup somewhere, change the test
-        // to distinguish between a workgroup from which you can
-        // derive a campusCode, and one which you cannot
-
-        return null;
     }
 
 
@@ -420,8 +403,7 @@ public class CashManagementServiceImpl implements CashManagementService {
 
             // UNF: verify that the CRDoc workflow state is final
 
-            if (!StringUtils.equals(cr.getDocumentHeader().getFinancialDocumentStatusCode(),
-                    Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED)) {
+            if (!StringUtils.equals(cr.getDocumentHeader().getFinancialDocumentStatusCode(), Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED)) {
                 succeeded = false;
             }
         }
@@ -454,8 +436,7 @@ public class CashManagementServiceImpl implements CashManagementService {
         }
 
         Map queryCriteria = buildCriteriaMap(verificationUnitWorkgroupName);
-        List documents = new ArrayList(getBusinessObjectService().findMatchingOrderBy(CashReceiptDocument.class, queryCriteria,
-                PropertyConstants.FINANCIAL_DOCUMENT_NUMBER, true));
+        List documents = new ArrayList(getBusinessObjectService().findMatchingOrderBy(CashReceiptDocument.class, queryCriteria, PropertyConstants.FINANCIAL_DOCUMENT_NUMBER, true));
 
         // now populate each CR doc with its workflow document
         for (Iterator i = documents.iterator(); i.hasNext();) {
@@ -470,12 +451,10 @@ public class CashManagementServiceImpl implements CashManagementService {
                 workflowDocument = getWorkflowDocumentService().createWorkflowDocument(documentHeaderId, user);
             }
             catch (DocumentNotFoundException e) {
-                throw new UnknownDocumentIdException("no document found for documentHeaderId '"
-                        + docHeader.getFinancialDocumentNumber() + "'", e);
+                throw new UnknownDocumentIdException("no document found for documentHeaderId '" + docHeader.getFinancialDocumentNumber() + "'", e);
             }
-            catch( WorkflowException e ) {
-                throw new InfrastructureException( "unable to retrieve workflow document for documentHeaderId '"
-                        + docHeader.getFinancialDocumentNumber() + "'", e);
+            catch (WorkflowException e) {
+                throw new InfrastructureException("unable to retrieve workflow document for documentHeaderId '" + docHeader.getFinancialDocumentNumber() + "'", e);
             }
 
             docHeader.setWorkflowDocument(workflowDocument);
@@ -494,14 +473,11 @@ public class CashManagementServiceImpl implements CashManagementService {
      */
     private Map buildCriteriaMap(String workgroupName) {
         Map queryCriteria = new HashMap();
-        queryCriteria.put(Constants.DOCUMENT_HEADER_PROPERTY_NAME + "."
-                + Constants.DOCUMENT_HEADER_DOCUMENT_STATUS_CODE_PROPERTY_NAME,
+        queryCriteria.put(Constants.DOCUMENT_HEADER_PROPERTY_NAME + "." + Constants.DOCUMENT_HEADER_DOCUMENT_STATUS_CODE_PROPERTY_NAME,
                 Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED);
 
-        // UNF: once getCampusCode... returns meaningful values, this if should
-        // probably short-circuit when no campusCode is
-        // returned rather than selecting all CashReceipts
-        String campusLocationCode = getCampusCodeByCashReceiptVerificationUnitWorkgroupName(workgroupName);
+        // UNF: this if should probably short-circuit when no campusCode is returned rather than selecting all CashReceipts
+        String campusLocationCode = cashReceiptService.getCampusCodeForCashReceiptVerificationUnit(workgroupName);
         if (StringUtils.isNotBlank(campusLocationCode)) {
             queryCriteria.put(Constants.CashReceiptConstants.CASH_RECEIPT_CAMPUS_LOCATION_CODE_PROPERTY_NAME, campusLocationCode);
         }
@@ -531,15 +507,6 @@ public class CashManagementServiceImpl implements CashManagementService {
         else {
             return null;
         }
-    }
-
-    /**
-     * For now the default impl returns just the one verification unit that is in use - KUALI_ROLE_CASH_RECEIPT_VERIFICATION_UNIT.
-     * 
-     * @see org.kuali.module.financial.service.CashManagementService#getCashReceiptVerificationUnitWorkgroupNameByCampusCode(java.lang.String)
-     */
-    public String getCashReceiptVerificationUnitWorkgroupNameByCampusCode(String campusCode) {
-        return Constants.CashReceiptConstants.CASH_RECEIPT_VERIFICATION_UNIT;
     }
 
     // injected dependencies
@@ -581,5 +548,13 @@ public class CashManagementServiceImpl implements CashManagementService {
 
     public DateTimeService getDateTimeService() {
         return dateTimeService;
+    }
+
+    public void setCashReceiptService(CashReceiptService cashReceiptService) {
+        this.cashReceiptService = cashReceiptService;
+    }
+
+    public CashReceiptService getCashReceiptService() {
+        return cashReceiptService;
     }
 }

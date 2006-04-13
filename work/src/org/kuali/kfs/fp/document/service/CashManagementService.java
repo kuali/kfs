@@ -127,22 +127,6 @@ public interface CashManagementService {
 
 
     /**
-     * This method will retrieve campus code base on the verification unit workgroup name that is supplied.
-     * 
-     * @param cashReceiptVerificationUnitWorkgroupName
-     * @return String
-     */
-    public String getCampusCodeByCashReceiptVerificationUnitWorkgroupName(String cashReceiptVerificationUnitWorkgroupName);
-
-    /**
-     * This method will retrieve the verification unit workgroup for the CR's campus code.
-     * 
-     * @param campusCode
-     * @return String
-     */
-    public String getCashReceiptVerificationUnitWorkgroupNameByCampusCode(String campusCode);
-
-    /**
      * This method will retrieve the CashManagementDocument that houses the deposit that the passed in CashReceiptDocument is
      * associated with.
      * 

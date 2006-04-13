@@ -80,7 +80,7 @@ public class DepositWizardAction extends KualiAction {
             throw new DocumentTypeAuthorizationException(user.getPersonUserIdentifier(), "initiate", documentTypeName);
         }
         
-        String verificationUnit = Constants.CashReceiptConstants.CASH_RECEIPT_VERIFICATION_UNIT;
+        String verificationUnit = Constants.CashReceiptConstants.DEFAULT_CASH_RECEIPT_VERIFICATION_UNIT;
         populateForVerificationUnit( verificationUnit, (DepositWizardForm)form );
         
         t0.log();
@@ -177,7 +177,7 @@ public class DepositWizardAction extends KualiAction {
         CashManagementDocument cmd = null;
         try {
             cmd = SpringServiceLocator.getCashManagementService().createCashManagementDocument("Fill me in...", 
-                   selectedCashReceipts, Constants.CashReceiptConstants.CASH_RECEIPT_VERIFICATION_UNIT);  // for now it's just on verification unit
+                   selectedCashReceipts, Constants.CashReceiptConstants.DEFAULT_CASH_RECEIPT_VERIFICATION_UNIT);  // for now there's just one verification unit
         } catch(InvalidCashDrawerState icds) {
             return mapping.findForward(Constants.MAPPING_BASIC);
         }

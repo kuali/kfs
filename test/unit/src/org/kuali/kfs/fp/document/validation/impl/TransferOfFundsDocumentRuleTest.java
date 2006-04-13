@@ -54,13 +54,13 @@ public class TransferOfFundsDocumentRuleTest extends TransactionalDocumentRuleTe
 
     private static final String SUFF_FUNDS_CHECKING_SOURCE_EXPENSE = "TOFSufficientFundsCheckingPreparation_source_Expense_1";
     private static final String SUFF_FUNDS_CHECKING_SOURCE_ASSET = "TOFSufficientFundsCheckingPreparation_source_Asset_1";
-    private static final String SUFF_FUNDS_CHECKING_SOURCE_LIABILITY="TOFSufficientFundsCheckingPreparation_source_Liability_1";
-    private static final String SUFF_FUNDS_CHECKING_SOURCE_INCOME="TOFSufficientFundsCheckingPreparation_source_Income_1";
+    private static final String SUFF_FUNDS_CHECKING_SOURCE_LIABILITY = "TOFSufficientFundsCheckingPreparation_source_Liability_1";
+    private static final String SUFF_FUNDS_CHECKING_SOURCE_INCOME = "TOFSufficientFundsCheckingPreparation_source_Income_1";
     private static final String SUFF_FUNDS_CHECKING_TARGET_EXPENSE = "TOFSufficientFundsCheckingPreparation_target_Expense_1";
     private static final String SUFF_FUNDS_CHECKING_TARGET_ASSET = "TOFSufficientFundsCheckingPreparation_target_Asset_1";
-    private static final String SUFF_FUNDS_CHECKING_TARGET_LIABILITY="TOFSufficientFundsCheckingPreparation_target_Liability_1";
-    private static final String SUFF_FUNDS_CHECKING_TARGET_INCOME="TOFSufficientFundsCheckingPreparation_target_Income_1";
-    
+    private static final String SUFF_FUNDS_CHECKING_TARGET_LIABILITY = "TOFSufficientFundsCheckingPreparation_target_Liability_1";
+    private static final String SUFF_FUNDS_CHECKING_TARGET_INCOME = "TOFSufficientFundsCheckingPreparation_target_Income_1";
+
     private static final String[] FIXTURE_COLLECTION_NAMES = { COLLECTION_NAME };
 
     private TransactionalDocumentParameter _docParam1;
@@ -175,7 +175,7 @@ public class TransferOfFundsDocumentRuleTest extends TransactionalDocumentRuleTe
     protected final Document createDocumentValidForRouting() throws Exception {
         TransferOfFundsDocument doc = (TransferOfFundsDocument) createDocument();
 
-        KualiDecimal balance = new KualiDecimal( "21.12" );
+        KualiDecimal balance = new KualiDecimal("21.12");
 
         SourceAccountingLine sourceLine = new SourceAccountingLine();
         sourceLine.setChartOfAccountsCode("BL");
@@ -184,7 +184,7 @@ public class TransferOfFundsDocumentRuleTest extends TransactionalDocumentRuleTe
         sourceLine.setAmount(balance);
         sourceLine.refresh();
         ArrayList sourceLines = new ArrayList();
-        sourceLines.add( sourceLine );
+        sourceLines.add(sourceLine);
 
         TargetAccountingLine targetLine = new TargetAccountingLine();
         targetLine.setChartOfAccountsCode("BL");
@@ -193,11 +193,11 @@ public class TransferOfFundsDocumentRuleTest extends TransactionalDocumentRuleTe
         targetLine.setAmount(balance);
         targetLine.refresh();
         ArrayList targetLines = new ArrayList();
-        targetLines.add( targetLine );
+        targetLines.add(targetLine);
 
         doc.setSourceAccountingLines(sourceLines);
         doc.setTargetAccountingLines(targetLines);
-        
+
         return doc;
     }
 
@@ -557,7 +557,7 @@ public class TransferOfFundsDocumentRuleTest extends TransactionalDocumentRuleTe
         SourceAccountingLine line = (SourceAccountingLine) getFixtureEntryFromCollection(COLLECTION_NAME,
                 SUFF_FUNDS_CHECKING_SOURCE_EXPENSE).createObject();
         line.setAmount(new KualiDecimal("3.0"));
-        
+
         TransferOfFundsDocumentRule rule = new TransferOfFundsDocumentRule();
         SufficientFundsItem item = rule.processSourceAccountingLineSufficientFundsCheckingPreparation(null, line);
 
@@ -581,11 +581,12 @@ public class TransferOfFundsDocumentRuleTest extends TransactionalDocumentRuleTe
         assertFalse(line.getAmount().equals(item.getAmount()));
         assertTrue(line.getAmount().abs().equals(item.getAmount()));
     }
+
     public void testProcessSourceAccountingLineSufficientFundsCheckingPreparation_isIncome_postive_lineAmount() {
         SourceAccountingLine line = (SourceAccountingLine) getFixtureEntryFromCollection(COLLECTION_NAME,
                 SUFF_FUNDS_CHECKING_SOURCE_INCOME).createObject();
         line.setAmount(new KualiDecimal("3.0"));
-        
+
         TransferOfFundsDocumentRule rule = new TransferOfFundsDocumentRule();
         SufficientFundsItem item = rule.processSourceAccountingLineSufficientFundsCheckingPreparation(null, line);
 
@@ -609,11 +610,12 @@ public class TransferOfFundsDocumentRuleTest extends TransactionalDocumentRuleTe
         assertFalse(line.getAmount().equals(item.getAmount()));
         assertTrue(line.getAmount().abs().equals(item.getAmount()));
     }
+
     public void testProcessTargetAccountingLineSufficientFundsCheckingPreparation_isExpense_postive_lineAmount() {
         TargetAccountingLine line = (TargetAccountingLine) getFixtureEntryFromCollection(COLLECTION_NAME,
                 SUFF_FUNDS_CHECKING_TARGET_EXPENSE).createObject();
         line.setAmount(new KualiDecimal("3.0"));
-        
+
         TransferOfFundsDocumentRule rule = new TransferOfFundsDocumentRule();
         SufficientFundsItem item = rule.processTargetAccountingLineSufficientFundsCheckingPreparation(null, line);
 
@@ -637,11 +639,12 @@ public class TransferOfFundsDocumentRuleTest extends TransactionalDocumentRuleTe
         assertFalse(line.getAmount().equals(item.getAmount()));
         assertTrue(line.getAmount().abs().equals(item.getAmount()));
     }
+
     public void testProcessTargetAccountingLineSufficientFundsCheckingPreparation_isIncome_postive_lineAmount() {
         TargetAccountingLine line = (TargetAccountingLine) getFixtureEntryFromCollection(COLLECTION_NAME,
                 SUFF_FUNDS_CHECKING_TARGET_INCOME).createObject();
         line.setAmount(new KualiDecimal("3.0"));
-        
+
         TransferOfFundsDocumentRule rule = new TransferOfFundsDocumentRule();
         SufficientFundsItem item = rule.processTargetAccountingLineSufficientFundsCheckingPreparation(null, line);
 
@@ -665,6 +668,7 @@ public class TransferOfFundsDocumentRuleTest extends TransactionalDocumentRuleTe
         assertFalse(line.getAmount().equals(item.getAmount()));
         assertTrue(line.getAmount().abs().equals(item.getAmount()));
     }
+
     private KualiConfigurationService createMockConfigurationService(boolean flexibleOffsetEnabled) {
         return (KualiConfigurationService) MockService.createProxy(KualiConfigurationService.class,
                 "getRequiredApplicationParameterValue", new Object[] { Constants.ParameterGroups.SYSTEM,

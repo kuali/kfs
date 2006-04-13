@@ -51,7 +51,9 @@ public class TransferOfFundsDocumentRule extends TransactionalDocumentRuleBase i
     /**
      * Set attributes of an offset pending entry according to rules specific to TransferOfFundsDocument.
      * 
-     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#customizeOffsetGeneralLedgerPendingEntry(org.kuali.core.document.TransactionalDocument, org.kuali.core.bo.AccountingLine, org.kuali.module.gl.bo.GeneralLedgerPendingEntry, org.kuali.module.gl.bo.GeneralLedgerPendingEntry)
+     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#customizeOffsetGeneralLedgerPendingEntry(org.kuali.core.document.TransactionalDocument,
+     *      org.kuali.core.bo.AccountingLine, org.kuali.module.gl.bo.GeneralLedgerPendingEntry,
+     *      org.kuali.module.gl.bo.GeneralLedgerPendingEntry)
      */
     protected boolean customizeOffsetGeneralLedgerPendingEntry(TransactionalDocument transactionalDocument,
             AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry, GeneralLedgerPendingEntry offsetEntry) {
@@ -118,12 +120,12 @@ public class TransferOfFundsDocumentRule extends TransactionalDocumentRuleBase i
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
         boolean isValid = super.processCustomRouteDocumentBusinessRules(document);
 
-        if(isValid) {
+        if (isValid) {
             // check the balance across mandatory and non-mandatory transfers
             TransferOfFundsDocument tofDoc = (TransferOfFundsDocument) document;
             isValid = isMandatoryTransferTotalAndNonMandatoryTransferTotalBalanceValid(tofDoc);
         }
-        
+
         return isValid;
     }
 
@@ -202,12 +204,10 @@ public class TransferOfFundsDocumentRule extends TransactionalDocumentRuleBase i
     public boolean isObjectSubTypeAllowed(AccountingLine accountingLine) {
         accountingLine.refreshReferenceObject("objectCode");
         String objectSubTypeCode = accountingLine.getObjectCode().getFinancialObjectSubTypeCode();
-        
+
         // make sure a object sub type code exists for this object code
-        if(StringUtils.isBlank(objectSubTypeCode)) {
-            GlobalVariables.getErrorMap().put(
-                    "financialObjectCode",
-                    KeyConstants.ERROR_DOCUMENT_TOF_OBJECT_SUB_TYPE_IS_NULL,
+        if (StringUtils.isBlank(objectSubTypeCode)) {
+            GlobalVariables.getErrorMap().put("financialObjectCode", KeyConstants.ERROR_DOCUMENT_TOF_OBJECT_SUB_TYPE_IS_NULL,
                     accountingLine.getFinancialObjectCode());
             return false;
         }
@@ -226,7 +226,8 @@ public class TransferOfFundsDocumentRule extends TransactionalDocumentRuleBase i
 
     /**
      * 
-     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processSourceAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument, org.kuali.core.bo.SourceAccountingLine)
+     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processSourceAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument,
+     *      org.kuali.core.bo.SourceAccountingLine)
      */
     protected SufficientFundsItem processSourceAccountingLineSufficientFundsCheckingPreparation(
             TransactionalDocument transactionalDocument, SourceAccountingLine sourceAccountingLine) {
@@ -235,7 +236,8 @@ public class TransferOfFundsDocumentRule extends TransactionalDocumentRuleBase i
 
     /**
      * 
-     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processTargetAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument, org.kuali.core.bo.TargetAccountingLine)
+     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processTargetAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument,
+     *      org.kuali.core.bo.TargetAccountingLine)
      */
     protected SufficientFundsItem processTargetAccountingLineSufficientFundsCheckingPreparation(
             TransactionalDocument transactionalDocument, TargetAccountingLine targetAccountingLine) {

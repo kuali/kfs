@@ -25,13 +25,16 @@ package org.kuali.module.financial.rules;
 import java.util.Set;
 import java.util.TreeSet;
 
-import org.apache.log4j.Logger;
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
 import org.kuali.PropertyConstants;
 import org.kuali.core.bo.AccountingLine;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.TransactionalDocument;
+import org.kuali.core.util.ErrorMap;
+import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.module.financial.document.InternalBillingDocument;
 
 /**
  * Business rule(s) applicable to InternalBilling document.
@@ -39,8 +42,6 @@ import org.kuali.core.document.TransactionalDocument;
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class InternalBillingDocumentRule extends TransactionalDocumentRuleBase {
-    private static final Logger LOG = Logger.getLogger(TransactionalDocumentRuleBase.class);
-
 
     // Set container for restricted capital object codes
     protected static Set restrictedCapitalObjectCodes;
@@ -144,10 +145,30 @@ public class InternalBillingDocumentRule extends TransactionalDocumentRuleBase {
      * @see TransactionalDocumentRuleBase#processCustomRouteDocumentBusinessRules(Document)
      */
     public boolean processCustomRouteDocumentBusinessRules(Document document) {
+        // This super method actually does something.
+        boolean valid = super.processCustomRouteDocumentBusinessRules(document);
+        valid &= validateItems((InternalBillingDocument) document);
         // todo: for phase II, when capital object codes are allowed on expense accounting lines, check that there are any if and
         // only if the Capital Assets tab contains information about the associated capital asset.
         // todo: for phase II, check that this bills for no more than one capital asset.
-        return super.processCustomRouteDocumentBusinessRules(document);
+        return valid;
+    }
+
+    private static boolean validateItems(InternalBillingDocument internalBillingDocument) {
+        final ErrorMap errorMap = GlobalVariables.getErrorMap();
+        errorMap.addToErrorPath(Constants.DOCUMENT_PROPERTY_NAME);
+        int originalErrorCount = errorMap.getErrorCount();
+        for(int i = 0; i < internalBillingDocument.getItems().size(); i++) {
+            // todo: expose and use a method for this List handling in DictionaryValidationService
+            String propertyName = "item[" + i + "]";
+            GlobalVariables.getErrorMap().addToErrorPath(propertyName);
+            SpringServiceLocator.getDictionaryValidationService().validateBusinessObject(internalBillingDocument.getItem(i));
+            GlobalVariables.getErrorMap().removeFromErrorPath(propertyName);
+        }
+        // todo: return a boolean from DictionaryValidationService instead of checking errorMap.  KULNRVSYS-1093
+        int currentErrorCount = errorMap.getErrorCount();
+        errorMap.removeFromErrorPath(Constants.DOCUMENT_PROPERTY_NAME);
+        return currentErrorCount == originalErrorCount;
     }
 
     /**

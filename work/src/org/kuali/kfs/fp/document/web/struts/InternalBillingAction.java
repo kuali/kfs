@@ -29,33 +29,52 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.Constants;
+import org.kuali.PropertyConstants;
+import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.core.util.ErrorMap;
 import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.module.financial.bo.InternalBillingItem;
 import org.kuali.module.financial.web.struts.form.InternalBillingForm;
 
 /**
  * This class handles Actions for InternalBilling.
+ *
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 
 
 public class InternalBillingAction extends KualiTransactionalDocumentActionBase {
 
-  private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(InternalBillingAction.class);
+    public ActionForward insertItem(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+                                    HttpServletResponse response)
+        throws Exception
+    {
+        InternalBillingForm internalBillingForm = (InternalBillingForm) form;
+        if (validateNewItem(internalBillingForm)) {
+            internalBillingForm.getInternalBillingDocument().addItem(internalBillingForm.getNewItem());
+            internalBillingForm.setNewItem(new InternalBillingItem());
+        }
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
 
-  public ActionForward insertItem(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-      HttpServletResponse response) throws Exception {
-    InternalBillingForm internalBillingForm = (InternalBillingForm) form;
-    internalBillingForm.getInternalBillingDocument().addItem(internalBillingForm.getNewItem());
-    internalBillingForm.setNewItem(new InternalBillingItem());
-    return mapping.findForward(Constants.MAPPING_BASIC);
-  }
+    private static boolean validateNewItem(InternalBillingForm internalBillingForm) {
+        final ErrorMap errorMap = GlobalVariables.getErrorMap();
+        int originalErrorCount = errorMap.getErrorCount();
+        errorMap.addToErrorPath(PropertyConstants.NEW_ITEM);
+        SpringServiceLocator.getDictionaryValidationService().validateBusinessObject(internalBillingForm.getNewItem());
+        errorMap.removeFromErrorPath(PropertyConstants.NEW_ITEM);
+        // todo: return a boolean from DictionaryValidationService instead of checking errorMap.  KULNRVSYS-1093
+        int currentErrorCount = errorMap.getErrorCount();
+        return currentErrorCount == originalErrorCount;
+    }
 
-  public ActionForward deleteItem(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-      HttpServletResponse response) throws Exception {
-    InternalBillingForm internalBillingForm = (InternalBillingForm) form;
-    internalBillingForm.getInternalBillingDocument().getItems().remove(getLineToDelete(request));
-    return mapping.findForward(Constants.MAPPING_BASIC);
-  }
-
+    public ActionForward deleteItem(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+                                    HttpServletResponse response)
+        throws Exception
+    {
+        InternalBillingForm internalBillingForm = (InternalBillingForm) form;
+        internalBillingForm.getInternalBillingDocument().getItems().remove(getLineToDelete(request));
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
 }

@@ -12,6 +12,8 @@
             					sourceAttributeName="genericAmount">
                 <label>Item Unit Amount</label>
                 <shortLabel>Item Cost</shortLabel>
+                <exclusiveMin>0</exclusiveMin>
+                <required>true</required>
                 <summary>itemUnitAmount</summary>
                 <description>itemUnitAmount description...</description>
             </attributeReference>
@@ -89,6 +91,9 @@
                 <shortLabel>Quantity</shortLabel>
 
                 <maxLength>22</maxLength>
+                <exclusiveMin>0</exclusiveMin>
+                <validationPattern><numeric/></validationPattern>
+                <required>true</required>
 
                 <control>
                     <text size="10" />
@@ -102,8 +107,8 @@
 					            sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
 					            sourceAttributeName="versionNumber" />
 					            
-            <attributeReference name="financialDocumentNumber" 
-					            sourceClassName="org.kuali.core.document.DocumentHeader" 
+            <attributeReference name="financialDocumentNumber"
+					            sourceClassName="org.kuali.core.document.DocumentHeader"
 					            sourceAttributeName="financialDocumentNumber" />
         </attributes>
 

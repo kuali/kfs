@@ -379,19 +379,27 @@ public class DisbursementVoucherTaxServiceImpl implements DisbursementVoucherTax
             List previousTaxLineNumbers = getNRATaxLineNumbers(dvnrat.getFinancialDocumentAccountingLineText());
     
             // get tax lines out of source lines
+            boolean previousGrossUp = false;
             for (Iterator iter = document.getSourceAccountingLines().iterator(); iter.hasNext();) {
                 AccountingLine line = (AccountingLine) iter.next();
                 if (previousTaxLineNumbers.contains(line.getSequenceNumber())) {
                     taxLines.add(line);
-                    taxTotal = taxTotal.add(line.getAmount().abs());
+                    
+                    // check if tax line was a positive amount, in which case we had a gross up
+                    if ((new KualiDecimal(0)).compareTo(line.getAmount()) < 0 ) {
+                        previousGrossUp = true;
+                    }
+                    else {
+                      taxTotal = taxTotal.add(line.getAmount().abs());
+                    }  
                 }
             }
 
             // remove tax lines
             document.getSourceAccountingLines().removeAll(taxLines);
     
-            // update check total if not grossed up (3 previous accounting lines)
-            if (previousTaxLineNumbers.size() != 3) {
+            // update check total if not grossed up
+            if (!previousGrossUp) {
                 document.setDisbVchrCheckTotalAmount(document.getDisbVchrCheckTotalAmount().add(taxTotal));
             }
     

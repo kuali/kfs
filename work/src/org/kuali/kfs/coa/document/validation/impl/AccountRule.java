@@ -37,6 +37,7 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.exceptions.ApplicationParameterDoesNotExistException;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.core.service.DictionaryValidationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
@@ -88,11 +89,6 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         // SpringServiceLocator, and configure the bean defs for spring.
         this.setGeneralLedgerPendingEntryService(SpringServiceLocator.getGeneralLedgerPendingEntryService());
         this.setBalanceService(SpringServiceLocator.getGeneralLedgerBalanceService());
-    }
-    
-    //  makes the super method visible to this class' test 
-    protected boolean dataDictionaryValidate(MaintenanceDocument document) {
-        return super.dataDictionaryValidate(document);
     }
     
     /**
@@ -215,6 +211,18 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         return result;
     }
     
+    /**
+     * 
+     * This method tests whether the accountNumber passed in is prefixed with an 
+     * allowed prefix, or an illegal one. 
+     * 
+     * The illegal prefixes are passed in as an array of strings.
+     * 
+     * @param accountNumber - The Account Number to be tested.
+     * @param illegalValues - An Array of Strings of the unallowable prefixes.
+     * @return - false if the accountNumber starts with any of the illegalPrefixes, true otherwise
+     * 
+     */
     protected boolean accountNumberStartsWithAllowedPrefix(String accountNumber, String[] illegalValues) {
         
         boolean result = true;
@@ -232,6 +240,17 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         return result;
     }
     
+    /**
+     * 
+     * This method tests whether an account is being ReOpened by anyone except a system 
+     * supervisor.  Only system supervisors may reopen closed accounts.
+     * 
+     * @param document - populated document containing the old and new accounts
+     * @param user - the user who is trying to possibly reopen the account 
+     * @return - true if:  document is an edit document, old was closed and new is open, and the 
+     *           user is not one of the System Supervisors
+     *           
+     */
     protected boolean isNonSystemSupervisorReopeningAClosedAccount(MaintenanceDocument document, KualiUser user) {
         
         boolean result = false;
@@ -248,6 +267,29 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
                     if (!user.isSupervisorUser()) {
                         result = true;
                     }
+                }
+            }
+        }
+        return result;
+    }
+    
+    /**
+     * 
+     * This method tests whether a given account has the T - Temporary value for 
+     * Restricted Status Code, but does not have a Restricted Status Date, which is 
+     * required when the code is T.
+     * 
+     * @param account
+     * @return
+     */
+    protected boolean hasTemporaryRestrictedStatusCodeButNoRestrictedStatusDate(Account account) {
+        
+        boolean result = false;
+        
+        if (StringUtils.isNotBlank(account.getAccountRestrictedStatusCode())) {
+            if (RESTRICTED_CD_TEMPORARILY_RESTRICTED.equalsIgnoreCase(account.getAccountRestrictedStatusCode().trim())) {
+                if (account.getAccountRestrictedStatusDate() == null) {
+                    result = true;
                 }
             }
         }
@@ -294,50 +336,15 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
             putFieldError("accountClosedIndicator", KeyConstants.ERROR_DOCUMENT_ACCMAINT_ONLY_SUPERVISORS_CAN_REOPEN);
         }
         
-        //when a restricted status code of 'T' (temporarily restricted) is selected, a restricted status date must be supplied.
-        if (!StringUtils.isBlank(newAccount.getAccountRestrictedStatusCode())) {
-	        if (newAccount.getAccountRestrictedStatusCode().equalsIgnoreCase(RESTRICTED_CD_TEMPORARILY_RESTRICTED)) {
-	            if (newAccount.getAccountRestrictedStatusDate() == null) {
-		            success &= false;
-		            putFieldError("accountRestrictedStatusDate", KeyConstants.ERROR_DOCUMENT_ACCMAINT_RESTRICTED_STATUS_DT_REQ, newAccount.getAccountNumber());
-	            }
-	        }
+        //  when a restricted status code of 'T' (temporarily restricted) is selected, a restricted status 
+        // date must be supplied.
+        if (hasTemporaryRestrictedStatusCodeButNoRestrictedStatusDate(newAccount)) {
+            success &= false;
+            putFieldError("accountRestrictedStatusDate", KeyConstants.ERROR_DOCUMENT_ACCMAINT_RESTRICTED_STATUS_DT_REQ, newAccount.getAccountNumber());
         }
         
-        // the fringe benefit account (otherwise known as the reportsToAccount) is required if 
-        // the fringe benefit code is set to N. 
-        // The fringe benefit code of the account designated to accept the fringes must be Y.
-        if (!newAccount.isAccountsFringesBnftIndicator()) {
-            if (StringUtils.isBlank(newAccount.getReportsToAccountNumber())) {
-                success &= false;
-                putFieldError("reportsToAccountNumber", KeyConstants.ERROR_DOCUMENT_ACCMAINT_RPTS_TO_ACCT_REQUIRED_IF_FRINGEBENEFIT_FALSE);
-            }
-            else if (StringUtils.isBlank(newAccount.getReportsToChartOfAccountsCode())) {
-                success &= false;
-                putFieldError("reportsToChartOfAccountsCode", KeyConstants.ERROR_DOCUMENT_ACCMAINT_RPTS_TO_ACCT_REQUIRED_IF_FRINGEBENEFIT_FALSE);
-            }
-            else {
-                Account reportsToAccount = newAccount.getReportsToAccount();
-                //	if the reportsToChartCode and reportsToAccountNbr dont map to any in the db
-                if (ObjectUtils.isNull(reportsToAccount)) {
-                    success &= false;
-                    putFieldError("reportsToAccountNumber", KeyConstants.ERROR_EXISTENCE, 
-                            		"Fringe Benefit Account: " + newAccount.getReportsToChartOfAccountsCode() + "-" + 
-                            		newAccount.getReportsToAccountNumber());
-                    putFieldError("reportsToChartOfAccountsCode", KeyConstants.ERROR_EXISTENCE, 
-                                    "Fringe Benefit Account: " + newAccount.getReportsToChartOfAccountsCode() + "-" + 
-                                    newAccount.getReportsToAccountNumber());
-                }
-                else {
-                    //	otherwise, make sure this account is flagged as a fringe benefits acct
-                    if (!reportsToAccount.isAccountsFringesBnftIndicator()) {
-                        success &= false;
-                        putFieldError("reportsToAccountNumber", KeyConstants.ERROR_DOCUMENT_ACCMAINT_RPTS_TO_ACCT_MUST_BE_FLAGGED_FRINGEBENEFIT, newAccount.getReportsToAccountNumber());
-                        putFieldError("reportsToChartOfAccountsCode", KeyConstants.ERROR_DOCUMENT_ACCMAINT_RPTS_TO_ACCT_MUST_BE_FLAGGED_FRINGEBENEFIT, newAccount.getReportsToAccountNumber());
-                    }
-                }
-            }
-        }
+        //  check FringeBenefit account rules
+        success &= checkFringeBenefitAccountRule(newAccount);
         
         //the employee type for fiscal officer, account manager, and account supervisor must be 'P' – professional.
         success &= checkUserStatusAndType("accountFiscalOfficerUser.personUserIdentifier", fiscalOfficer);
@@ -345,42 +352,137 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         success &= checkUserStatusAndType("accountManagerUser.personUserIdentifier", accountManager);
         
         //the supervisor cannot be the same as the fiscal officer or account manager.
-        if (ObjectUtils.isNotNull(accountSupervisor)) {
-            if (ObjectUtils.isNotNull(fiscalOfficer)) {
-                if (accountSupervisor.equals(fiscalOfficer)) {
-                    success &= false;
-                    putFieldError("accountsSupervisorySystemsIdentifier", KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_SUPER_CANNOT_BE_FISCAL_OFFICER);
-                }
-            }
-            if (ObjectUtils.isNotNull(accountManager)) {
-                if (accountSupervisor.equals(accountManager)) {
-                    success &= false;
-                    putFieldError("accountManagerSystemIdentifier", KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_SUPER_CANNOT_BE_ACCT_MGR);
-                }
-            }
+        if (isSupervisorSameAsFiscalOfficer(newAccount)) {
+            success &= false;
+            putFieldError("accountsSupervisorySystemsIdentifier", KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_SUPER_CANNOT_BE_FISCAL_OFFICER);
         }
-        
-        //valid values for the budget code are account, consolidation, level, object code, mixed, sub-account and no budget.
-        //TODO: can this be moved to KualiSystemCodes?
-        if (ObjectUtils.isNotNull(newAccount.getBudgetRecordingLevel())) {
-            if (!newAccount.getBudgetRecordingLevel().isActive()) { 
-                success &= false;
-                putFieldError("budgetRecordingLevelCode", KeyConstants.ERROR_DOCUMENT_ACCMAINT_INACTIVE_BUDGET_RECORD_LVL_CD, newAccount.getBudgetRecordingLevelCode());
-            }
+        if (isSupervisorSameAsManager(newAccount)) {
+            success &= false;
+            putFieldError("accountManagerSystemIdentifier", KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_SUPER_CANNOT_BE_ACCT_MGR);
         }
         
         //  disallow continuation account being expired
-        if(ObjectUtils.isNotNull(newAccount.getContinuationAccount())) {
-            Account continuationAccount = newAccount.getContinuationAccount();
-            if (continuationAccount.isExpired()) {
-                success &= false;
-                putFieldError("continuationAccountNumber", KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCOUNT_EXPIRED_CONTINUATION);
-            }
+        if (isContinuationAccountExpired(newAccount)) {
+            success &= false;
+            putFieldError("continuationAccountNumber", 
+                    KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCOUNT_EXPIRED_CONTINUATION);
         }
         
         return success;
     }
 
+    /**
+     * 
+     * This method tests whether the continuation account entered (if any) 
+     * has expired or not.
+     * 
+     * @param newAccount
+     * @return
+     * 
+     */
+    protected boolean isContinuationAccountExpired(Account newAccount) {
+        
+        boolean result = false;
+        
+        String chartCode = newAccount.getContinuationFinChrtOfAcctCd();
+        String accountNumber = newAccount.getContinuationAccountNumber();
+        
+        //  if either chartCode or accountNumber is not entered, then we 
+        // cant continue, so exit
+        if (StringUtils.isBlank(chartCode) || StringUtils.isBlank(accountNumber)) {
+            return result;
+        }
+        
+        //  attempt to retrieve the continuation account from the DB
+        Account continuation = null;
+        Map pkMap = new HashMap();
+        pkMap.put("chartOfAccountsCode", chartCode);
+        pkMap.put("accountNumber", accountNumber);
+        continuation = (Account) super.getBoService().findByPrimaryKey(Account.class, pkMap);
+        
+        //  if the object doesnt exist, then we cant continue, so exit
+        if (ObjectUtils.isNull(continuation)) {
+            return result;
+        }
+        
+        //  at this point, we have a valid continuation account, so we just need to 
+        // know whether its expired or not
+        result = continuation.isExpired();
+        
+        return result;
+    }
+    
+    // the fringe benefit account (otherwise known as the reportsToAccount) is required if 
+    // the fringe benefit code is set to N. 
+    // The fringe benefit code of the account designated to accept the fringes must be Y.
+    protected boolean checkFringeBenefitAccountRule(Account newAccount) {
+        
+        boolean result = true;
+        
+        //  if this account is selected as a Fringe Benefit Account, then we have nothing
+        // to test, so exit
+        if (newAccount.isAccountsFringesBnftIndicator()) {
+            return true;
+        }
+        
+        //  if fringe benefit is not selected ... continue processing
+        
+        //  fringe benefit account number is required
+        if (StringUtils.isBlank(newAccount.getReportsToAccountNumber())) {
+            putFieldError("reportsToAccountNumber", KeyConstants.ERROR_DOCUMENT_ACCMAINT_RPTS_TO_ACCT_REQUIRED_IF_FRINGEBENEFIT_FALSE);
+            return false;
+        }
+        
+        //  fringe benefit chart of accounts code is required
+        if (StringUtils.isBlank(newAccount.getReportsToChartOfAccountsCode())) {
+            putFieldError("reportsToChartOfAccountsCode", KeyConstants.ERROR_DOCUMENT_ACCMAINT_RPTS_TO_ACCT_REQUIRED_IF_FRINGEBENEFIT_FALSE);
+            return false;
+        }
+        
+        //  if the reportsToAccount doesnt exist by the accountNumber and chartOfAccountsCode
+        DictionaryValidationService dvService = super.getDictionaryValidationService();
+        boolean referenceExists = dvService.validateReferenceExists(newAccount, "reportsToAccount");
+        if (!referenceExists) {
+            putFieldError("reportsToAccountNumber", KeyConstants.ERROR_EXISTENCE, 
+                            "Fringe Benefit Account: " + newAccount.getReportsToChartOfAccountsCode() + "-" + 
+                            newAccount.getReportsToAccountNumber());
+            return false;
+        }
+
+        //  check active
+        boolean active = dvService.validateReferenceIsActive(newAccount, "reportsToAccount", "accountClosedIndicator", true);
+        if (!active) {
+            putFieldError("reportsToAccountNumber", 
+                    KeyConstants.ERROR_DOCUMENT_ACCMAINT_RPTS_TO_ACCT_MUST_BE_FLAGGED_FRINGEBENEFIT, 
+                    newAccount.getReportsToAccountNumber());
+            return false;
+        }
+        return result;
+    }
+    
+    protected boolean isSupervisorSameAsFiscalOfficer(Account account) {
+        return areTwoUsersTheSame(account.getAccountSupervisoryUser(), account.getAccountFiscalOfficerUser());
+    }
+    
+    protected boolean isSupervisorSameAsManager(Account account) {
+        return areTwoUsersTheSame(account.getAccountSupervisoryUser(), account.getAccountManagerUser());
+    }
+    
+    protected boolean areTwoUsersTheSame(UniversalUser user1, UniversalUser user2) {
+        if (ObjectUtils.isNull(user1)) {
+            return false;
+        }
+        if (ObjectUtils.isNull(user2)) {
+            return false;
+        }
+        if (ObjectUtils.equalByKeys(user1, user2)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+    
     /**
      * 
      * This method checks to see if the user passed in is of the type requested.  
@@ -412,7 +514,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
             success &= false;
             putFieldError(propertyName, 
                     KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACTIVE_REQD_FOR_EMPLOYEE, 
-                    getDdService().getAttributeLabel(newAccount.getClass(), propertyName));
+                    getDdService().getAttributeLabel(Account.class, propertyName));
         }
         
         //  user must be of the allowable types (P - Professional)
@@ -422,7 +524,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
             success &= false;
             putFieldError(propertyName, 
                     KeyConstants.ERROR_DOCUMENT_ACCMAINT_PRO_TYPE_REQD_FOR_EMPLOYEE, 
-                    getDdService().getAttributeLabel(newAccount.getClass(), propertyName));
+                    getDdService().getAttributeLabel(Account.class, propertyName));
         }
         
         return success;
@@ -455,6 +557,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         //	get the two dates, and remove any time-components from the dates
         Timestamp expirationDate = newAccount.getAccountExpirationDate();
         Timestamp todaysDate = getDateTimeService().getCurrentTimestamp();
+        //TODO: convert this to using Wes' kuali DateUtils once we're using Date's instead of Timestamp
         todaysDate.setTime(DateUtils.truncate(todaysDate, Calendar.DAY_OF_MONTH).getTime());
         
         if (ObjectUtils.isNotNull(expirationDate)) {
@@ -495,6 +598,32 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         // TODO:  must have no pending labor ledger entries (depends on labor: KULLAB-1) 
 
         return success;
+    }
+    
+    protected boolean checkAccountExpirationDateTodayOrEarlier(Account newAccount) {
+        
+        //  get today's date, with no time component
+        Timestamp todaysDate = getDateTimeService().getCurrentTimestamp();
+        todaysDate.setTime(DateUtils.truncate(todaysDate, Calendar.DAY_OF_MONTH).getTime());
+        //TODO: convert this to using Wes' kuali DateUtils once we're using Date's instead of Timestamp
+        
+        //  get the expiration date, if any
+        Timestamp expirationDate = newAccount.getAccountExpirationDate();
+        if (ObjectUtils.isNull(expirationDate)) {
+            putFieldError("accountExpirationDate", 
+                    KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_CANNOT_BE_CLOSED_EXP_DATE_INVALID);
+            return false;
+        }
+
+        //when closing an account, the account expiration date must be the current date or earlier
+        expirationDate.setTime(DateUtils.truncate(expirationDate, Calendar.DAY_OF_MONTH).getTime());
+        if (expirationDate.after(todaysDate)) {
+            putFieldError("accountExpirationDate", 
+                    KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_CANNOT_BE_CLOSED_EXP_DATE_INVALID);
+            return false;
+        }
+        
+        return true;
     }
     
     /**

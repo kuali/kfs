@@ -26,11 +26,12 @@ import java.sql.Timestamp;
 import java.util.Calendar;
 
 import org.apache.commons.lang.time.DateUtils;
+import org.kuali.KeyConstants;
 import org.kuali.core.bo.user.AuthenticationUserId;
 import org.kuali.core.bo.user.KualiUser;
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.exceptions.UserNotFoundException;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Account;
 
@@ -39,10 +40,15 @@ public class AccountRuleTest extends ChartRuleTestBase {
     private class Accounts {
         private class ChartCode {
             private static final String GOOD1 = "BL";
+            private static final String CLOSED1 = "BL";
+            private static final String EXPIRED1 = "BL";
+            private static final String GOOD2 = "UA";
             private static final String BAD1 = "ZZ";
         }
         private class AccountNumber {
             private static final String GOOD1 = "1031400";
+            private static final String CLOSED1 = "2231414";
+            private static final String EXPIRED1 = "2231404";
             private static final String BAD1 = "9999999";
         }
         private class Org {
@@ -77,6 +83,32 @@ public class AccountRuleTest extends ChartRuleTestBase {
         private class BudgetRecordingLevel {
             private static final String GOOD1 = "A";
         }
+        private class User {
+            private class McafeeAlan {
+                private static final String UNIVERSAL_ID = "1509103107";
+                private static final String USER_ID = "AEMCAFEE";
+                private static final String EMP_ID = "0000000013";
+                private static final String NAME = "Mcafee, Alan";
+                private static final String EMP_STATUS = "A";
+                private static final String EMP_TYPE = "P";
+            }
+            private class PhamAnibal {
+                private static final String UNIVERSAL_ID = "1195901455";
+                private static final String USER_ID = "AAPHAM";
+                private static final String EMP_ID = "0000004686";
+                private static final String NAME = "Pham, Anibal";
+                private static final String EMP_STATUS = "A";
+                private static final String EMP_TYPE = "P";
+            }
+            private class AhlersEsteban {
+                private static final String UNIVERSAL_ID = "1959008511";
+                private static final String USER_ID = "AHLERS";
+                private static final String EMP_ID = "0000002820";
+                private static final String NAME = "Ahlers, Esteban";
+                private static final String EMP_STATUS = "A";
+                private static final String EMP_TYPE = "P";
+            }
+        }
         private class FiscalOfficer {
             private static final String GOOD1 = "4318506633";
         }
@@ -86,7 +118,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
         private class Manager {
             private static final String GOOD1 = "4318506633";
         }
-        private class User {
+        private class UserIds {
             private static final String SUPER1 = "HEAGLE";
             private static final String GOOD1 = "KCOPLEY";
             private static final String GOOD2 = "KHUNTLEY";
@@ -105,7 +137,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
     
     protected void tearDown() throws Exception {
         super.tearDown();
-        GlobalVariables.getErrorMap().getErrorPath().clear();
+        clearErrors();
     }
     
     public void testDefaultExistenceChecks_Org_KnownGood() {
@@ -338,7 +370,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
         return user;
     }
     
-    public void testNonSystemSupervisorReopeningClosedAccount() {
+    public void testNonSystemSupervisorReopeningClosedAccount_NotBeingReopened() {
         
         Account oldAccount = new Account();
         Account newAccount = new Account();
@@ -357,23 +389,505 @@ public class AccountRuleTest extends ChartRuleTestBase {
         //  document not being closed
         oldAccount.setAccountClosedIndicator(false);
         newAccount.setAccountClosedIndicator(false);
-        user = getKualiUserByUserName(Accounts.User.GOOD1);
+        user = getKualiUserByUserName(Accounts.UserIds.GOOD1);
         result = rule.isNonSystemSupervisorReopeningAClosedAccount(maintDoc, user);
         assertEquals("Account is not closed, and is not being reopened.", false, result);
+        
+    }
+    
+    public void testNonSystemSupervisorReopeningClosedAccount_BeingReopenedNotSupervisor() {
+        
+        Account oldAccount = new Account();
+        Account newAccount = new Account();
+        maintDoc = newMaintDoc(oldAccount, newAccount);
+        rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
+
+        boolean result;
+        KualiUser user = null;
+        
+        //  setup common information
+        oldAccount.setChartOfAccountsCode(Accounts.ChartCode.GOOD1);
+        oldAccount.setAccountNumber(Accounts.AccountNumber.GOOD1);
+        newAccount.setChartOfAccountsCode(Accounts.ChartCode.GOOD1);
+        newAccount.setAccountNumber(Accounts.AccountNumber.GOOD1);
         
         //  document being closed, non-supervisor user
         oldAccount.setAccountClosedIndicator(true);
         newAccount.setAccountClosedIndicator(false);
-        user = getKualiUserByUserName(Accounts.User.GOOD1);
+        user = getKualiUserByUserName(Accounts.UserIds.GOOD1);
         result = rule.isNonSystemSupervisorReopeningAClosedAccount(maintDoc, user);
         assertEquals("Account is being reopened by a non-System-Supervisor.", true, result);
+        
+    }
+    
+    public void testNonSystemSupervisorReopeningClosedAccount_BeingReopenedBySupervisor() {
+        
+        Account oldAccount = new Account();
+        Account newAccount = new Account();
+        maintDoc = newMaintDoc(oldAccount, newAccount);
+        rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
+
+        boolean result;
+        KualiUser user = null;
+        
+        //  setup common information
+        oldAccount.setChartOfAccountsCode(Accounts.ChartCode.GOOD1);
+        oldAccount.setAccountNumber(Accounts.AccountNumber.GOOD1);
+        newAccount.setChartOfAccountsCode(Accounts.ChartCode.GOOD1);
+        newAccount.setAccountNumber(Accounts.AccountNumber.GOOD1);
         
         //  document being closed, supervisor user
         oldAccount.setAccountClosedIndicator(true);
         newAccount.setAccountClosedIndicator(false);
-        user = getKualiUserByUserName(Accounts.User.SUPER1);
+        user = getKualiUserByUserName(Accounts.UserIds.SUPER1);
         result = rule.isNonSystemSupervisorReopeningAClosedAccount(maintDoc, user);
         assertEquals("Account is being reopened by a System-Supervisor.", false, result);
         
     }
+    
+    public void testHasTemporaryRestrictedStatusCodeButNoRestrictedStatusDate_BothNull() {
+        
+        Account newAccount = new Account();
+        maintDoc = newMaintDoc(newAccount);
+        rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
+        boolean result;
+        
+        //  restricted status code blank, date not set
+        newAccount.setAccountRestrictedStatusCode(null);
+        newAccount.setAccountRestrictedStatusDate(null);
+        result = rule.hasTemporaryRestrictedStatusCodeButNoRestrictedStatusDate(newAccount);
+        assertEquals("No error should be thrown if code is blank.", false, result);
+        
+    }
+    
+    public void testHasTemporaryRestrictedStatusCodeButNoRestrictedStatusDate_NonTCodeAndNullDate() {
+        
+        Account newAccount = new Account();
+        maintDoc = newMaintDoc(newAccount);
+        rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
+        boolean result;
+        
+        //  restricted status code != T, date not set
+        newAccount.setAccountRestrictedStatusCode("U");
+        newAccount.setAccountRestrictedStatusDate(null);
+        result = rule.hasTemporaryRestrictedStatusCodeButNoRestrictedStatusDate(newAccount);
+        assertEquals("No error should be thrown if code is not T.", false, result);
+        
+    }
+    
+    public void testHasTemporaryRestrictedStatusCodeButNoRestrictedStatusDate_TCodeAndNullDate() {
+        
+        Account newAccount = new Account();
+        maintDoc = newMaintDoc(newAccount);
+        rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
+        boolean result;
+        
+        //  restricted status code == T, date not set
+        newAccount.setAccountRestrictedStatusCode("T");
+        newAccount.setAccountRestrictedStatusDate(null);
+        result = rule.hasTemporaryRestrictedStatusCodeButNoRestrictedStatusDate(newAccount);
+        assertEquals("An error should be thrown if code is not T, but date is not set.", true, result);
+        
+    }
+    
+    public void testHasTemporaryRestrictedStatusCodeButNoRestrictedStatusDate_TCodeAndRealDate() {
+        
+        Account newAccount = new Account();
+        maintDoc = newMaintDoc(newAccount);
+        rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
+        boolean result;
+        
+        //  restricted status code == T, date set
+        newAccount.setAccountRestrictedStatusCode("T");
+        newAccount.setAccountRestrictedStatusDate(SpringServiceLocator.getDateTimeService().getCurrentTimestamp());
+        result = rule.hasTemporaryRestrictedStatusCodeButNoRestrictedStatusDate(newAccount);
+        assertEquals("No error should be thrown if code is T but date is null.", false, result);
+        
+    }
+    
+    public void testCheckUserStatusAndType_NullUser() {
+        
+        Account newAccount = new Account();
+        maintDoc = newMaintDoc(newAccount);
+        rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
+        boolean result;
+
+        String fieldName = "userId";
+        
+        //  null user, should return true
+        result = rule.checkUserStatusAndType(fieldName, null);
+        assertEquals("Null user should return true.", true, result);
+        assertErrorCount(0);
+        
+    }
+    
+    public void testCheckUserStatusAndType_TermdAndNonProfessional() {
+        
+        Account newAccount = new Account();
+        maintDoc = newMaintDoc(newAccount);
+        rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
+        boolean result;
+
+        UniversalUser user = new UniversalUser();
+        String fieldName = "userId";
+        
+        //  User w/ T status and N type, should fail
+        user.setEmployeeStatusCode("T");
+        user.setEmployeeTypeCode("N");
+        result = rule.checkUserStatusAndType(fieldName, user);
+        assertEquals("Terminated and Non-Professional staff should fail.", false, result);
+        assertFieldErrorExists(fieldName, KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACTIVE_REQD_FOR_EMPLOYEE);
+        assertFieldErrorExists(fieldName, KeyConstants.ERROR_DOCUMENT_ACCMAINT_PRO_TYPE_REQD_FOR_EMPLOYEE);
+        assertErrorCount(2);
+        
+    }
+    
+    public void testCheckUserStatusAndType_ActiveButNonProfessional() {
+        
+        Account newAccount = new Account();
+        maintDoc = newMaintDoc(newAccount);
+        rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
+        boolean result;
+
+        UniversalUser user = new UniversalUser();
+        String fieldName = "userId";
+        
+        //  User w/ A status and N type, should fail
+        user.setEmployeeStatusCode("A");
+        user.setEmployeeTypeCode("N");
+        result = rule.checkUserStatusAndType(fieldName, user);
+        assertEquals("Active but Non-Professional staff should fail.", false, result);
+        assertFieldErrorExists(fieldName, KeyConstants.ERROR_DOCUMENT_ACCMAINT_PRO_TYPE_REQD_FOR_EMPLOYEE);
+        assertErrorCount(1);
+        
+    }
+    
+    public void testCheckUserStatusAndType_TermdButProfessional() {
+        
+        Account newAccount = new Account();
+        maintDoc = newMaintDoc(newAccount);
+        rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
+        boolean result;
+
+        UniversalUser user = new UniversalUser();
+        String fieldName = "userId";
+        
+        //  User w/ T status and N type, should fail
+        user.setEmployeeStatusCode("T");
+        user.setEmployeeTypeCode("P");
+        result = rule.checkUserStatusAndType(fieldName, user);
+        assertEquals("Terminated but Professional staff should fail.", false, result);
+        assertFieldErrorExists(fieldName, KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACTIVE_REQD_FOR_EMPLOYEE);
+        assertErrorCount(1);
+        
+    }
+
+    public void testCheckUserStatusAndType_ActiveAndProfessional() {
+        
+        Account newAccount = new Account();
+        maintDoc = newMaintDoc(newAccount);
+        rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
+        boolean result;
+
+        UniversalUser user = new UniversalUser();
+        String fieldName = "userId";
+        
+        //  User w/ T status and N type, should fail
+        user.setEmployeeStatusCode("A");
+        user.setEmployeeTypeCode("P");
+        result = rule.checkUserStatusAndType(fieldName, user);
+        assertEquals("Terminated but Professional staff should fail.", true, result);
+        assertErrorCount(0);
+        
+    }
+
+    public void testAreTwoUsersTheSame_BothNull() {
+        
+        Account newAccount = new Account();
+        maintDoc = newMaintDoc(newAccount);
+        rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
+        boolean result;
+        
+        UniversalUser user1 = new UniversalUser();
+        UniversalUser user2 = new UniversalUser();
+        
+        //  both null
+        result = rule.areTwoUsersTheSame(null, null);
+        assertEquals("Both users null should return false.", false, result);
+        
+    }
+
+    public void testAreTwoUsersTheSame_User1Null() {
+        
+        Account newAccount = new Account();
+        maintDoc = newMaintDoc(newAccount);
+        rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
+        boolean result;
+        
+        UniversalUser user1 = new UniversalUser();
+        UniversalUser user2 = new UniversalUser();
+        
+        //  user1 null, user2 not null
+        result = rule.areTwoUsersTheSame(user1, null);
+        assertEquals("User1 null and User2 not null should return false.", false, result);
+        
+    }
+
+    public void testAreTwoUsersTheSame_User2Null() {
+        
+        Account newAccount = new Account();
+        maintDoc = newMaintDoc(newAccount);
+        rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
+        boolean result;
+        
+        UniversalUser user1 = new UniversalUser();
+        UniversalUser user2 = new UniversalUser();
+        
+        //  user1 not null, user2 null
+        result = rule.areTwoUsersTheSame(null, user2);
+        assertEquals("User1 not null and User2 null should return false.", false, result);
+        
+    }
+
+    public void testAreTwoUsersTheSame_UsersTheSame() {
+        
+        Account newAccount = new Account();
+        maintDoc = newMaintDoc(newAccount);
+        rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
+        boolean result;
+        
+        UniversalUser user1 = new UniversalUser();
+        UniversalUser user2 = new UniversalUser();
+        
+        //  both users non-null, both populated with same UniversalID
+        user1.setPersonUniversalIdentifier(Accounts.User.AhlersEsteban.UNIVERSAL_ID);
+        user1.setPersonUserIdentifier(Accounts.User.AhlersEsteban.USER_ID);
+        user1.setEmplid(Accounts.User.AhlersEsteban.EMP_ID);
+        user1.setPersonName(Accounts.User.AhlersEsteban.NAME);
+        user2.setPersonUniversalIdentifier(Accounts.User.AhlersEsteban.UNIVERSAL_ID);
+        user2.setPersonUserIdentifier(Accounts.User.AhlersEsteban.USER_ID);
+        user2.setEmplid(Accounts.User.AhlersEsteban.EMP_ID);
+        user2.setPersonName(Accounts.User.AhlersEsteban.NAME);
+        result = rule.areTwoUsersTheSame(user1, user2);
+        assertEquals("User1 and User2 are same person, diff objects, result true", true, result);
+        
+    }
+
+    public void testAreTwoUsersTheSame_UsersDifferent() {
+        
+        Account newAccount = new Account();
+        maintDoc = newMaintDoc(newAccount);
+        rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
+        boolean result;
+        
+        UniversalUser user1 = new UniversalUser();
+        UniversalUser user2 = new UniversalUser();
+        
+        //  both users non-null, each different people
+        user1.setPersonUniversalIdentifier(Accounts.User.AhlersEsteban.UNIVERSAL_ID);
+        user1.setPersonUserIdentifier(Accounts.User.AhlersEsteban.USER_ID);
+        user1.setEmplid(Accounts.User.AhlersEsteban.EMP_ID);
+        user1.setPersonName(Accounts.User.AhlersEsteban.NAME);
+        user2.setPersonUniversalIdentifier(Accounts.User.PhamAnibal.UNIVERSAL_ID);
+        user2.setPersonUserIdentifier(Accounts.User.PhamAnibal.USER_ID);
+        user2.setEmplid(Accounts.User.PhamAnibal.EMP_ID);
+        user2.setPersonName(Accounts.User.PhamAnibal.NAME);
+        result = rule.areTwoUsersTheSame(user1, user2);
+        assertEquals("User1 and User2 are different persons, result should be false", false, result);
+
+    }
+
+    public void testCheckFringeBenefitAccountRule_FringeBenefitFlagTrue() {
+        
+        Account newAccount = new Account();
+        maintDoc = newMaintDoc(newAccount);
+        rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
+        boolean result;
+        
+        //  fringe benefit flag is checked TRUE
+        newAccount.setAccountsFringesBnftIndicator(true);
+        result = rule.checkFringeBenefitAccountRule(newAccount);
+        assertEquals("If FringeBenefit is checked, then rule always returns true.", true, result);
+        
+    }
+
+    public void testCheckFringeBenefitAccountRule_FringeBenefitChartCodeMissing() {
+        
+        Account newAccount = new Account();
+        maintDoc = newMaintDoc(newAccount);
+        rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
+        boolean result;
+        
+        //  fringe benefit chartCode missing
+        newAccount.setAccountsFringesBnftIndicator(false);
+        newAccount.setReportsToChartOfAccountsCode(null);
+        newAccount.setReportsToAccountNumber(Accounts.AccountNumber.GOOD1);
+        result = rule.checkFringeBenefitAccountRule(newAccount);
+        assertEquals("FringeBenefit ChartCode missing causes error.", false, result);
+        assertFieldErrorExists("reportsToChartOfAccountsCode", KeyConstants.ERROR_DOCUMENT_ACCMAINT_RPTS_TO_ACCT_REQUIRED_IF_FRINGEBENEFIT_FALSE);
+        assertErrorCount(1);
+        
+    }
+
+    public void testCheckFringeBenefitAccountRule_FringeBenefitAccountNumberMissing() {
+        
+        Account newAccount = new Account();
+        maintDoc = newMaintDoc(newAccount);
+        rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
+        boolean result;
+        
+        //  fringe benefit accountNumber missing
+        newAccount.setAccountsFringesBnftIndicator(false);
+        newAccount.setReportsToChartOfAccountsCode(Accounts.ChartCode.GOOD1);
+        newAccount.setReportsToAccountNumber(null);
+        result = rule.checkFringeBenefitAccountRule(newAccount);
+        assertEquals("FringeBenefit AccountNumber missing causes error.", false, result);
+        assertFieldErrorExists("reportsToAccountNumber", KeyConstants.ERROR_DOCUMENT_ACCMAINT_RPTS_TO_ACCT_REQUIRED_IF_FRINGEBENEFIT_FALSE);
+        assertErrorCount(1);
+        
+    }
+    
+    public void testCheckFringeBenefitAccountRule_FringeBenefitAccountDoesntExist() {
+        
+        Account newAccount = new Account();
+        maintDoc = newMaintDoc(newAccount);
+        rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
+        boolean result;
+        
+        //  fringe benefit accountNumber missing
+        newAccount.setAccountsFringesBnftIndicator(false);
+        newAccount.setReportsToChartOfAccountsCode(Accounts.ChartCode.GOOD2);
+        newAccount.setReportsToAccountNumber(Accounts.AccountNumber.GOOD1);
+        result = rule.checkFringeBenefitAccountRule(newAccount);
+        assertEquals("FringeBenefit doesnt exist causes error.", false, result);
+        assertFieldErrorExists("reportsToAccountNumber", KeyConstants.ERROR_EXISTENCE);
+        assertErrorCount(1);
+        
+    }
+    
+    public void testCheckFringeBenefitAccountRule_FringeBenefitAccountClosed() {
+        
+        Account newAccount = new Account();
+        maintDoc = newMaintDoc(newAccount);
+        rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
+        boolean result;
+        
+        //  fringe benefit accountNumber missing
+        newAccount.setAccountsFringesBnftIndicator(false);
+        newAccount.setReportsToChartOfAccountsCode(Accounts.ChartCode.CLOSED1);
+        newAccount.setReportsToAccountNumber(Accounts.AccountNumber.CLOSED1);
+        result = rule.checkFringeBenefitAccountRule(newAccount);
+        assertEquals("FringeBenefit Closed causes error.", false, result);
+        assertFieldErrorExists("reportsToAccountNumber", KeyConstants.ERROR_DOCUMENT_ACCMAINT_RPTS_TO_ACCT_MUST_BE_FLAGGED_FRINGEBENEFIT);
+        assertErrorCount(1);
+        
+    }
+    
+    public void testCheckFringeBenefitAccountRule_FringeBenefitGood() {
+        
+        Account newAccount = new Account();
+        maintDoc = newMaintDoc(newAccount);
+        rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
+        boolean result;
+        
+        //  fringe benefit accountNumber missing
+        newAccount.setAccountsFringesBnftIndicator(false);
+        newAccount.setReportsToChartOfAccountsCode(Accounts.ChartCode.GOOD1);
+        newAccount.setReportsToAccountNumber(Accounts.AccountNumber.GOOD1);
+        result = rule.checkFringeBenefitAccountRule(newAccount);
+        assertEquals("Good FringeBenefit Account should not fail.", true, result);
+        assertErrorCount(0);
+        
+    }
+
+    public void testIsContinuationAccountExpired_MissingChartCode() {
+        
+        Account newAccount = new Account();
+        maintDoc = newMaintDoc(newAccount);
+        rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
+        boolean result;
+        
+        //  continuation chartCode is missing
+        newAccount.setContinuationFinChrtOfAcctCd(null);
+        newAccount.setContinuationAccountNumber(Accounts.AccountNumber.GOOD1);
+        result = rule.isContinuationAccountExpired(newAccount);
+        assertEquals("Missing continuation chartCode should return false.", false, result);
+        
+    }
+
+    public void testIsContinuationAccountExpired_MissingAccountNumber() {
+        
+        Account newAccount = new Account();
+        maintDoc = newMaintDoc(newAccount);
+        rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
+        boolean result;
+        
+        //  continuation accountNumber is missing
+        newAccount.setContinuationFinChrtOfAcctCd(Accounts.ChartCode.GOOD1);
+        newAccount.setContinuationAccountNumber(null);
+        result = rule.isContinuationAccountExpired(newAccount);
+        assertEquals("Missing continuation accountNumber should return false.", false, result);
+        
+    }
+
+    public void testIsContinuationAccountExpired_InvalidContinuationAccount() {
+        
+        Account newAccount = new Account();
+        maintDoc = newMaintDoc(newAccount);
+        rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
+        boolean result;
+        
+        //  bad continuation chart/account
+        newAccount.setContinuationFinChrtOfAcctCd(Accounts.ChartCode.BAD1);
+        newAccount.setContinuationAccountNumber(Accounts.AccountNumber.GOOD1);
+        result = rule.isContinuationAccountExpired(newAccount);
+        assertEquals("Bad continuation chartCode/Account should return false.", false, result);
+        
+    }
+
+    public void testIsContinuationAccountExpired_ValidNonExpiredContinuationAccount() {
+        
+        Account newAccount = new Account();
+        maintDoc = newMaintDoc(newAccount);
+        rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
+        boolean result;
+        
+        //  non-expired continuation account 
+        newAccount.setContinuationFinChrtOfAcctCd(Accounts.ChartCode.GOOD1);
+        newAccount.setContinuationAccountNumber(Accounts.AccountNumber.GOOD1);
+        result = rule.isContinuationAccountExpired(newAccount);
+        assertEquals("Good and non-expired continuation account should return false.", false, result);
+                
+    }
+
+    public void testIsContinuationAccountExpired_ValidExpiredContinuationAccount() {
+        
+        Account newAccount = new Account();
+        maintDoc = newMaintDoc(newAccount);
+        rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
+        boolean result;
+        
+        //  EXPIRED continuation account 
+        newAccount.setContinuationFinChrtOfAcctCd(Accounts.ChartCode.EXPIRED1);
+        newAccount.setContinuationAccountNumber(Accounts.AccountNumber.EXPIRED1);
+        result = rule.isContinuationAccountExpired(newAccount);
+        assertEquals("A valid, expired account should return true.", true, result);
+                
+    }
+    
+    public void testCheckAccountExpirationDateTodayOrEarlier() {
+        
+        Account newAccount = new Account();
+        maintDoc = newMaintDoc(newAccount);
+        rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
+        boolean result;
+        
+        //  empty expiration date - fail
+        
+        //  future expiration date - fail
+        
+        //  past or today expiration date - pass
+        
+    }
+    
 }

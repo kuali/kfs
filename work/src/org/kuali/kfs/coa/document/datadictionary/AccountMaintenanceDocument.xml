@@ -82,15 +82,11 @@
 						attributeToHighlightOnFail="accountRestrictedStatusCode"  />
 			<reference  attributeName="subFundGroup" 
 						attributeToHighlightOnFail="subFundGroupCode"  />
+			<reference  attributeName="budgetRecordingLevel" 
+						activeIndicatorAttributeName="active" 
+						attributeToHighlightOnFail="budgetRecordingLevelCode" />
 		</defaultExistenceChecks>
 		
-		<applyApcRules>
-			<apcRule attributeName="budgetRecordingLevelCode"
-				     apcGroup="ChartMaintenanceEDoc"
-				     apcRule="Account.BudgetCodesRestriction"
-				     errorMessage="error.document.accountMaintenance.invalidBudgetRecordingLevel" />
-		</applyApcRules>       
-
 	    <maintainableSections>
 	        <maintainableSection title="Account Maintenance">
                 <maintainableItems>

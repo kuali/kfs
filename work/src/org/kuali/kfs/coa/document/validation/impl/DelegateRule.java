@@ -69,9 +69,6 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
         
         LOG.info("Entering processCustomSaveDocumentBusinessRules()");
         setupConvenienceObjects(document);
-    
-        //	check that all sub-objects whose keys are specified have matching objects in the db
-        checkExistenceAndActive();
 
         //	check simple rules
         checkSimpleRules();
@@ -99,9 +96,6 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
         LOG.info("Entering processCustomRouteDocumentBusinessRules()");
         setupConvenienceObjects(document);
 
-        //	check that all sub-objects whose keys are specified have matching objects in the db
-        success &= checkExistenceAndActive();
-
         //	check simple rules
         success &= checkSimpleRules();
         
@@ -127,9 +121,6 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
         LOG.info("Entering processCustomApproveDocumentBusinessRules()");
         setupConvenienceObjects(document);
 
-        //	check that all sub-objects whose keys are specified have matching objects in the db
-        success &= checkExistenceAndActive();
-
         //	check simple rules
         success &= checkSimpleRules();
         
@@ -153,7 +144,7 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
      * @param document - the maintenanceDocument being evaluated
      * 
      */
-    private void setupConvenienceObjects(MaintenanceDocument document) {
+    protected void setupConvenienceObjects(MaintenanceDocument document) {
         
         //	setup oldAccount convenience objects, make sure all possible sub-objects are populated
         oldDelegate = (Delegate) super.getOldBo();
@@ -162,41 +153,8 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
         newDelegate = (Delegate) super.getNewBo();
     }
     
-    private boolean checkExistenceAndActive() {
-        
-        boolean success = true;
-        
-        //	if both ChartCode and AccountNumber are filled in, validate that they map to real objects
-        if (StringUtils.isNotEmpty(newDelegate.getChartOfAccountsCode()) && StringUtils.isNotEmpty(newDelegate.getAccountNumber())) {
-            if (ObjectUtils.isNull(newDelegate.getAccount())) {
-                putFieldError("accountNumber", KeyConstants.ERROR_EXISTENCE, 
-                        "Chart Code and Account Number (" + newDelegate.getChartOfAccountsCode() + "-" + newDelegate.getAccountNumber() + ")");
-                success &= false;
-            }
-        }
-        
-        //	if documentTypeCode is filled in, validate that the object exists in the db
-        if (StringUtils.isNotEmpty(newDelegate.getFinancialDocumentTypeCode())) {
-            if (ObjectUtils.isNull(newDelegate.getDocumentType())) {
-                putFieldError("financialDocumentTypeCode", KeyConstants.ERROR_EXISTENCE, 
-                        "Document Type Code: " + newDelegate.getFinancialDocumentTypeCode());
-                success &= false;
-            }
-        }
-        
-        //	if userID is filled in, validate that the object exists in the db
-        if (newDelegate.getAccountDelegateSystemId() != null) {
-            if (ObjectUtils.isNull(newDelegate.getAccountDelegate())) {
-                putFieldError("accountDelegateSystemId", KeyConstants.ERROR_EXISTENCE, 
-                        "Kuali User ID: " + newDelegate.getAccountDelegateSystemId());
-                success &= false;
-            }
-        }
-        
-        return success;
-    }
     
-    private boolean checkSimpleRules() {
+    protected boolean checkSimpleRules() {
         
         boolean success = true;
         KualiDecimal fromAmount = newDelegate.getFinDocApprovalFromThisAmt();
@@ -228,24 +186,30 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
         //	TO amount must be >= FROM amount or Zero 
         if (ObjectUtils.isNotNull(toAmount)) {
             
-            //	case if FROM amount is null then TO amount must be zero
-            if (ObjectUtils.isNull(fromAmount) && !toAmount.equals(new KualiDecimal(0))) {
-                putFieldError("finDocApprovalToThisAmount", KeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_TO_AMOUNT_MORE_THAN_FROM_OR_ZERO);
-                success &= false;
+            if (ObjectUtils.isNull(fromAmount)) {
+                //  case if FROM amount is null then TO amount must be zero
+                if (!toAmount.equals(new KualiDecimal(0))) {
+                    putFieldError("finDocApprovalToThisAmount", KeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_TO_AMOUNT_MORE_THAN_FROM_OR_ZERO);
+                    success &= false;
+                }
+            }
+            else {
+                //  case if FROM amount is non-null and positive, disallow TO amount being less 
+                if (toAmount.isLessThan(fromAmount)) {
+                    putFieldError("finDocApprovalToThisAmount", KeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_TO_AMOUNT_MORE_THAN_FROM_OR_ZERO);
+                    success &= false;
+                }
             }
             
-            //	case if FROM amount is non-null and positive, disallow TO amount being less 
-            if (toAmount.isLessThan(fromAmount)) {
-                putFieldError("finDocApprovalToThisAmount", KeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_TO_AMOUNT_MORE_THAN_FROM_OR_ZERO);
-                success &= false;
-            }
+            
         }
         
         return success;
     }
     
+    
     //	checks to see if there is already a record 
-    private boolean checkOnlyOnePrimaryRoute(MaintenanceDocument document) {
+    protected boolean checkOnlyOnePrimaryRoute(MaintenanceDocument document) {
         
         boolean success = true;
         boolean checkDb = false;
@@ -375,7 +339,7 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
         return success;
     }
     
-    private boolean checkDelegateUserRules(MaintenanceDocument document) {
+    protected boolean checkDelegateUserRules(MaintenanceDocument document) {
         
         boolean success = true;
         
@@ -401,7 +365,6 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
             putFieldError("accountDelegate.personUserIdentifier", KeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_USER_NOT_PROFESSIONAL);
         }
         
-        //  user must be 
         return success;
     }
     

@@ -24,12 +24,14 @@ package org.kuali.module.chart.rules;
 
 import java.sql.Timestamp;
 import java.util.Calendar;
+import java.util.Date;
 
 import org.apache.commons.lang.time.DateUtils;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.document.MaintenanceDocumentBase;
 import org.kuali.core.maintenance.KualiMaintainableImpl;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.chart.bo.Delegate;
 
 /**
@@ -43,22 +45,61 @@ public class DelegateRuleTest extends ChartRuleTestBase {
     private static final String CHART_GOOD_1 = "UA";
     private static final String ACCOUNT_GOOD_1 = "1912201";
     private static final String DOCTYPE_GOOD_1 = "ALL";
-    private static final String USERID_GOOD_1 = "4513309370";  // PIABAD = Abad, Pauline I = 0000112715
-    private static final String USERID_GOOD_2 = ""; // HABRAHAM = Abraham, Helena C = 0000199323
+    private static final int BAD_FROM_AMT = -25;
+    private static final int BAD_TO_AMT = -40;
+    private static final int GOOD_FROM_AMT = 25;
+    private static final int GOOD_TO_AMT = 25;
+    private static final int BAD_TO_AMT_LESS_THAN = 5;
     
-    private static final int FAKE_TODAY_1_YEAR = 2002;
-    private static final int FAKE_TODAY_1_MONTH = 3;
-    private static final int FAKE_TODAY_1_DAY = 15;
     
-    private DelegateRule delegateRule;
+    
+    //delegate user's - need four
+    //one that is good - has both A for status and P for type
+    private static final String USERID_GOOD_1 = "1545104915";// ABARRING = BARRINGER,ALONZO E
+    
+    //one that has something else for status and P for type
+    private static final String USERID_BAD_1 = "2419205388"; //SROOD=ROOD,SAM N : status=D
+    
+    //one that has A for status and something else for type
+    private static final String USERID_BAD_2 = "2049507878"; //AJPAYNTE=PAYNTER,AUBREY J
+    
+    //one that has neither A nor P for status and type
+    private static final String USERID_BAD_3 = "4533105209"; //AIAUCOIN=AUCOIN,AMELIA I  
+    
+    //values for testing primary routing
+    //has doctype "all" for chart BL and account 223146
+    private static final String DOCTYPE_ALL_CHART = "BL";
+    private static final String DOCTYPE_ALL_ACCT = "2231466";
+    
+    //has doctype CREQ for chart BL and account 1031400
+    private static final String DOCTYPE_SPECIFIC_CHART = "BL";
+    private static final String DOCTYPE_SPECIFIC_ACCT = "1031400";
+    private static final String DOCTYPE_SPECIFIC_DT_VALUE = "CREQ";
+    
+    //this one is an available chart/account combo that should succeed for specific
+    //choose anything but CREQ or AV for doctype
+    private static final String DOCTYPE_OPEN_SPECIFIC_CHART = "BA";
+    private static final String DOCTYPE_OPEN_SPECIFIC_ACCT = "9020174";
+    private static final String DOCTYPE_OPEN_SPECFIC_DT_VALUE = "A21";
+    
+    //this one is an available chart/account combo for doctype "all"
+    private static final String DOCTYPE_OPEN_ALL_CHART = "UA";
+    private static final String DOCTYPE_OPEN_ALL_ACCT = "1912201";
+    private static final String DOCTYPE_OPEN_ALL_DT_VALUE = "ALL";
+    
+    private static final String DOCTYPE_ALL = "ALL";
+    
+    private DelegateRule rule;
+    private Delegate newDelegate;
+    private Delegate oldDelegate;
+    private MaintenanceDocument maintDoc;
     
     /*
      * @see KualiTestBaseWithSpring#setUp()
      */
     protected void setUp() throws Exception {
         super.setUp();
-        
-        delegateRule = new DelegateRule();
+        rule = new DelegateRule();
     }
 
     /**
@@ -74,6 +115,164 @@ public class DelegateRuleTest extends ChartRuleTestBase {
         delegate.setAccountNumber(ACCOUNT_GOOD_1);
         delegate.setFinancialDocumentTypeCode(DOCTYPE_GOOD_1);
         delegate.setAccountDelegateSystemId(USERID_GOOD_1);
+        delegate.refresh();
+        return delegate;
+    }
+    
+    private Delegate goodDelegate2() {
+        Delegate delegate = new Delegate();
+        delegate.setChartOfAccountsCode(CHART_GOOD_1);
+        delegate.setAccountNumber(ACCOUNT_GOOD_1);
+        delegate.setFinancialDocumentTypeCode(DOCTYPE_GOOD_1);
+        delegate.setAccountDelegateSystemId(USERID_GOOD_1);
+        
+        Timestamp today = new Timestamp(Calendar.getInstance().getTime().getTime());
+        delegate.setAccountDelegateStartDate(today);
+        
+        delegate.refresh();
+        return delegate;
+    }
+    
+    private Delegate badDelegate1() {
+        Delegate delegate = new Delegate();
+        delegate.setChartOfAccountsCode(CHART_GOOD_1);
+        delegate.setAccountNumber(ACCOUNT_GOOD_1);
+        delegate.setFinancialDocumentTypeCode(DOCTYPE_GOOD_1);
+        delegate.setAccountDelegateSystemId(USERID_BAD_1);
+        delegate.refresh();
+        return delegate;
+    }
+    
+    private Delegate badDelegate2() {
+        Delegate delegate = new Delegate();
+        delegate.setChartOfAccountsCode(CHART_GOOD_1);
+        delegate.setAccountNumber(ACCOUNT_GOOD_1);
+        delegate.setFinancialDocumentTypeCode(DOCTYPE_GOOD_1);
+        delegate.setAccountDelegateSystemId(USERID_BAD_2);
+        delegate.refresh();
+        return delegate;
+    }
+    
+    private Delegate badDelegate3() {
+        Delegate delegate = new Delegate();
+        delegate.setChartOfAccountsCode(CHART_GOOD_1);
+        delegate.setAccountNumber(ACCOUNT_GOOD_1);
+        delegate.setFinancialDocumentTypeCode(DOCTYPE_GOOD_1);
+        delegate.setAccountDelegateSystemId(USERID_BAD_3);
+        delegate.refresh();
+        return delegate;
+    }
+    
+    private Delegate badDelegate4() {
+        Delegate delegate = new Delegate();
+        delegate.setChartOfAccountsCode(CHART_GOOD_1);
+        delegate.setAccountNumber(ACCOUNT_GOOD_1);
+        delegate.setFinancialDocumentTypeCode(DOCTYPE_GOOD_1);
+        delegate.setAccountDelegateSystemId(USERID_GOOD_1);
+        delegate.setFinDocApprovalFromThisAmt(new KualiDecimal(BAD_FROM_AMT));
+        delegate.refresh();
+        return delegate;
+    }
+    
+    private Delegate badDelegate5() {
+        Delegate delegate = new Delegate();
+        delegate.setChartOfAccountsCode(CHART_GOOD_1);
+        delegate.setAccountNumber(ACCOUNT_GOOD_1);
+        delegate.setFinancialDocumentTypeCode(DOCTYPE_GOOD_1);
+        delegate.setAccountDelegateSystemId(USERID_GOOD_1);
+        delegate.setFinDocApprovalToThisAmount(new KualiDecimal(BAD_TO_AMT));
+        delegate.refresh();
+        return delegate;
+    }
+    
+    private Delegate badDelegate6() {
+        Delegate delegate = new Delegate();
+        delegate.setChartOfAccountsCode(CHART_GOOD_1);
+        delegate.setAccountNumber(ACCOUNT_GOOD_1);
+        delegate.setFinancialDocumentTypeCode(DOCTYPE_GOOD_1);
+        delegate.setAccountDelegateSystemId(USERID_GOOD_1);
+        delegate.setFinDocApprovalToThisAmount(new KualiDecimal(GOOD_FROM_AMT));
+        delegate.setFinDocApprovalToThisAmount(null);
+        delegate.refresh();
+        return delegate;
+    }
+    
+    private Delegate badDelegate7() {
+        Delegate delegate = new Delegate();
+        delegate.setChartOfAccountsCode(CHART_GOOD_1);
+        delegate.setAccountNumber(ACCOUNT_GOOD_1);
+        delegate.setFinancialDocumentTypeCode(DOCTYPE_GOOD_1);
+        delegate.setAccountDelegateSystemId(USERID_GOOD_1);
+        delegate.setFinDocApprovalFromThisAmt(null);
+        delegate.setFinDocApprovalToThisAmount(new KualiDecimal(GOOD_TO_AMT));
+        delegate.refresh();
+        return delegate;
+    }
+    
+    private Delegate badDelegate8() {
+        Delegate delegate = new Delegate();
+        delegate.setChartOfAccountsCode(CHART_GOOD_1);
+        delegate.setAccountNumber(ACCOUNT_GOOD_1);
+        delegate.setFinancialDocumentTypeCode(DOCTYPE_GOOD_1);
+        delegate.setAccountDelegateSystemId(USERID_GOOD_1);
+        delegate.setFinDocApprovalFromThisAmt(new KualiDecimal(GOOD_FROM_AMT));
+        delegate.setFinDocApprovalToThisAmount(new KualiDecimal(BAD_TO_AMT_LESS_THAN));
+        delegate.refresh();
+        return delegate;
+    }
+    
+    private Delegate delegateWithDocTypeAll() {
+        Delegate delegate = new Delegate();
+        delegate.setChartOfAccountsCode(DOCTYPE_ALL_CHART);
+        delegate.setAccountNumber(DOCTYPE_ALL_ACCT);
+        delegate.setFinancialDocumentTypeCode(DOCTYPE_ALL);
+        delegate.setAccountsDelegatePrmrtIndicator(true);
+        delegate.setAccountDelegateSystemId(USERID_GOOD_1);
+        delegate.refresh();
+        return delegate;
+    }
+    
+    private Delegate delegateWithSpecificTypeClosedAllSpecified() {
+        Delegate delegate = new Delegate();
+        delegate.setChartOfAccountsCode(DOCTYPE_SPECIFIC_CHART);
+        delegate.setAccountNumber(DOCTYPE_SPECIFIC_ACCT);
+        delegate.setFinancialDocumentTypeCode(DOCTYPE_ALL);
+        delegate.setAccountsDelegatePrmrtIndicator(true);
+        delegate.setAccountDelegateSystemId(USERID_GOOD_1);
+        delegate.refresh();
+        return delegate;
+    }
+    
+    private Delegate delegateWithSpecificTypeClosed() {
+        Delegate delegate = new Delegate();
+        delegate.setChartOfAccountsCode(DOCTYPE_SPECIFIC_CHART);
+        delegate.setAccountNumber(DOCTYPE_SPECIFIC_ACCT);
+        delegate.setFinancialDocumentTypeCode(DOCTYPE_SPECIFIC_DT_VALUE);
+        delegate.setAccountsDelegatePrmrtIndicator(true);
+        delegate.setAccountDelegateSystemId(USERID_GOOD_1);
+        delegate.refresh();
+        return delegate;
+    }
+    
+    private Delegate delegateWithAllDocTypeOpen() {
+        Delegate delegate = new Delegate();
+        delegate.setChartOfAccountsCode(DOCTYPE_OPEN_ALL_CHART);
+        delegate.setAccountNumber(DOCTYPE_OPEN_ALL_ACCT);
+        delegate.setFinancialDocumentTypeCode(DOCTYPE_OPEN_ALL_DT_VALUE);
+        delegate.setAccountsDelegatePrmrtIndicator(true);
+        delegate.setAccountDelegateSystemId(USERID_GOOD_1);
+        delegate.refresh();
+        return delegate;
+    }
+    
+    private Delegate delegateWithSpecificDocTypeOpen() {
+        Delegate delegate = new Delegate();
+        delegate.setChartOfAccountsCode(DOCTYPE_OPEN_SPECIFIC_CHART);
+        delegate.setAccountNumber(DOCTYPE_OPEN_SPECIFIC_ACCT);
+        delegate.setFinancialDocumentTypeCode(DOCTYPE_OPEN_SPECFIC_DT_VALUE);
+        delegate.setAccountsDelegatePrmrtIndicator(true);
+        delegate.setAccountDelegateSystemId(USERID_GOOD_1);
+        delegate.refresh();
         return delegate;
     }
     
@@ -87,23 +286,6 @@ public class DelegateRuleTest extends ChartRuleTestBase {
         return new Timestamp(calendar.getTimeInMillis());
     }
     
-    private Timestamp fakeToday1() {
-        return newTimestamp(FAKE_TODAY_1_YEAR, FAKE_TODAY_1_MONTH, FAKE_TODAY_1_DAY);
-    }
-    
-    /**
-     * 
-     * This method creates a Maintenance document with the passed in businessObject
-     * 
-     * @param delegate
-     * @return
-     */
-    private MaintenanceDocument doc1(Delegate delegate) {
-        MaintenanceDocument document = new MaintenanceDocumentBase("KualiAccountDelegateMaintenanceDocument");
-        document.getDocumentHeader().setFinancialDocumentDescription("test");
-        document.setNewMaintainableObject(new KualiMaintainableImpl(delegate));
-        return document;
-    }
     
     /**
      * 
@@ -115,84 +297,345 @@ public class DelegateRuleTest extends ChartRuleTestBase {
      * following tests are meaningful, as the baseline is broken.
      *
      */
-    public void testKnownGoodDelegatePassesAllRules() {
+    public void testCheckSimpleRules_validDelegate() {
+        newDelegate = goodDelegate1();
+        maintDoc = newMaintDoc(newDelegate);
         
-        MaintenanceDocument document = doc1(goodDelegate1());
-
-        //	make sure there are no errors beforehand
-        assertEquals(0, GlobalVariables.getErrorMap().size());
+        rule = (DelegateRule) setupMaintDocRule(maintDoc, rule.getClass());
+        // now we need to setup the convenience objects so that the rule has the right 
+        // delegate values
+        rule.setupConvenienceObjects(maintDoc);
+        
+        // confirm that there are no errors to begin with
+        assertErrorCount(0);
         
         //	run the business rules
-        delegateRule.processRouteDocument(document);
-        
-        //	show errors to the console, if any
-        if (GlobalVariables.getErrorMap().size() > 0) {
-            showErrorMap();
-        }
-        
-        //	assert there are no errors afterwards
-        assertEquals(0, GlobalVariables.getErrorMap().size());
-        
+        assertEquals(true, rule.checkSimpleRules());
+   
     }
     
-    // THIS TEST IS NOT COMPLETE
-    // THIS TEST IS NOT COMPLETE
     public void testCheckSimpleRulesStartDateRule_startDateToday() {
+        newDelegate = goodDelegate2();
         
         //	new delegate with start-date same as today
-        MaintenanceDocument document = doc1(goodDelegate1());
-        Delegate delegate = (Delegate) document.getNewMaintainableObject().getBusinessObject();
-        delegate.setAccountDelegateStartDate(fakeToday1());
+        maintDoc = newMaintDoc(newDelegate);
+        rule = (DelegateRule) setupMaintDocRule(maintDoc, rule.getClass());
         
-        //	arbitrary time for today
-        Timestamp today = fakeToday1();
+        // now we need to setup the convenience objects so that the rule has the right 
+        // delegate values
+        rule.setupConvenienceObjects(maintDoc);
         
-        //	make sure there are no errors beforehand
-        assertEquals(0, GlobalVariables.getErrorMap().size());
+        
+        // confirm that there are no errors to begin with
+        assertErrorCount(0);
         
         //	run the business rules
-        delegateRule.processRouteDocument(document);
-        
-        //	show errors to the console, if any
-        if (GlobalVariables.getErrorMap().size() > 0) {
-            showErrorMap();
-        }
-        
-        //	assert there are no errors afterwards
-        //assertEquals(0, GlobalVariables.getErrorMap().size());
+        assertEquals(true, rule.checkSimpleRules());
         
     }
     
     public void testCheckSimpleRulesStartDateRule_startDateTomorrow() {
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, 1);
+        Timestamp ts = newTimestamp(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DATE));
         
+        newDelegate = goodDelegate2();
+        newDelegate.setAccountDelegateStartDate(ts);
+        
+        //  new delegate with start-date same as today
+        maintDoc = newMaintDoc(newDelegate);
+        rule = (DelegateRule) setupMaintDocRule(maintDoc, rule.getClass());
+        
+        // now we need to setup the convenience objects so that the rule has the right 
+        // delegate values
+        rule.setupConvenienceObjects(maintDoc);
+        
+        
+        // confirm that there are no errors to begin with
+        assertErrorCount(0);
+        
+        //  run the business rules
+        assertEquals(true, rule.checkSimpleRules());
     }
     
     public void testCheckSimpleRulesStartDateRule_startDateYesterday() {
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, -1);
+        Timestamp ts = newTimestamp(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DATE));
         
+        newDelegate = goodDelegate2();
+        newDelegate.setAccountDelegateStartDate(ts);
+        
+        //  new delegate with start-date same as today
+        maintDoc = newMaintDoc(newDelegate);
+        rule = (DelegateRule) setupMaintDocRule(maintDoc, rule.getClass());
+        
+        // now we need to setup the convenience objects so that the rule has the right 
+        // delegate values
+        rule.setupConvenienceObjects(maintDoc);
+        
+        
+        // confirm that there are no errors to begin with
+        assertErrorCount(0);
+        
+        //  run the business rules
+        assertEquals(false, rule.checkSimpleRules());
     }
     
-    public void testCheckSimpleRulesStartDateRule_startDateTodayTimeBefore() {
+    public void testCheckSimpleRulesStartDateRule_invalidFromAmt() {
+        newDelegate = badDelegate4();
         
+        //  new delegate with start-date same as today
+        maintDoc = newMaintDoc(newDelegate);
+        rule = (DelegateRule) setupMaintDocRule(maintDoc, rule.getClass());
+        
+        // now we need to setup the convenience objects so that the rule has the right 
+        // delegate values
+        rule.setupConvenienceObjects(maintDoc);
+        
+        
+        // confirm that there are no errors to begin with
+        assertErrorCount(0);
+        
+        //  run the business rules
+        assertEquals(false, rule.checkSimpleRules());
     }
     
-    public void testCheckSimpleRulesStartDateRule_startDateTodayTimeSame() {
+    public void testCheckSimpleRulesStartDateRule_invalidToAmt() {
+        newDelegate = badDelegate5();
         
+        //  new delegate with start-date same as today
+        maintDoc = newMaintDoc(newDelegate);
+        rule = (DelegateRule) setupMaintDocRule(maintDoc, rule.getClass());
+        
+        // now we need to setup the convenience objects so that the rule has the right 
+        // delegate values
+        rule.setupConvenienceObjects(maintDoc);
+        
+        
+        // confirm that there are no errors to begin with
+        assertErrorCount(0);
+        
+        //  run the business rules
+        assertEquals(false, rule.checkSimpleRules());
     }
     
-    public void testCheckSimpleRulesStartDateRule_startDateTodayTimeAfter() {
+    public void testCheckSimpleRulesStartDateRule_validFromAmtNullToAmt() {
+        newDelegate = badDelegate6();
         
+        //  new delegate with start-date same as today
+        maintDoc = newMaintDoc(newDelegate);
+        rule = (DelegateRule) setupMaintDocRule(maintDoc, rule.getClass());
+        
+        // now we need to setup the convenience objects so that the rule has the right 
+        // delegate values
+        rule.setupConvenienceObjects(maintDoc);
+        
+        
+        // confirm that there are no errors to begin with
+        assertErrorCount(0);
+        
+        //  run the business rules
+        assertEquals(false, rule.checkSimpleRules());
     }
     
-    /*
-     * Class under test for boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument)
+    public void testCheckSimpleRulesStartDateRule_nullFromAmtZeroPlusToAmt() {
+        newDelegate = badDelegate7();
+        
+        //  new delegate with start-date same as today
+        maintDoc = newMaintDoc(newDelegate);
+        rule = (DelegateRule) setupMaintDocRule(maintDoc, rule.getClass());
+        
+        // now we need to setup the convenience objects so that the rule has the right 
+        // delegate values
+        rule.setupConvenienceObjects(maintDoc);
+        
+        
+        // confirm that there are no errors to begin with
+        assertErrorCount(0);
+        
+        //  run the business rules
+        assertEquals(false, rule.checkSimpleRules());
+    }
+    
+    public void testCheckSimpleRulesStartDateRule_validFromAmtLessThanToAmt() {
+        newDelegate = badDelegate8();
+        
+        //  new delegate with start-date same as today
+        maintDoc = newMaintDoc(newDelegate);
+        rule = (DelegateRule) setupMaintDocRule(maintDoc, rule.getClass());
+        
+        // now we need to setup the convenience objects so that the rule has the right 
+        // delegate values
+        rule.setupConvenienceObjects(maintDoc);
+        
+        
+        // confirm that there are no errors to begin with
+        assertErrorCount(0);
+        
+        //  run the business rules
+        assertEquals(false, rule.checkSimpleRules());
+    }
+    
+    
+    /**
+     * This test makes sure that a good user delegate passes the Delegate User Rules
      */
-    public void testProcessCustomRouteDocumentBusinessRulesMaintenanceDocument() {
+    public void testcheckDelegateUserRules_goodDelegate() {
+        newDelegate = goodDelegate1();
+        maintDoc = newMaintDoc(newDelegate);
+        
+        rule = (DelegateRule) setupMaintDocRule(newDelegate, rule.getClass());
+        // now we need to setup the convenience objects so that the rule has the right 
+        // delegate values
+        rule.setupConvenienceObjects(maintDoc);
+        
+        // confirm that there are no errors to begin with
+        assertErrorCount(0);
+        assertEquals(true, rule.checkDelegateUserRules(maintDoc));
+        
     }
-
-    /*
-     * Class under test for boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument)
+    
+    public void testcheckDelegateUserRules_badDelegate1() {
+        newDelegate = badDelegate1();
+        maintDoc = newMaintDoc(newDelegate);
+        
+        rule = (DelegateRule) setupMaintDocRule(newDelegate, rule.getClass());
+        // now we need to setup the convenience objects so that the rule has the right 
+        // delegate values
+        rule.setupConvenienceObjects(maintDoc);
+        
+        // confirm that there are no errors to begin with
+        assertErrorCount(0);
+        assertEquals(false, rule.checkDelegateUserRules(maintDoc));
+        
+    }
+    
+    public void testcheckDelegateUserRules_badDelegate2() {
+        newDelegate = badDelegate2();
+        maintDoc = newMaintDoc(newDelegate);
+        
+        rule = (DelegateRule) setupMaintDocRule(newDelegate, rule.getClass());
+        // now we need to setup the convenience objects so that the rule has the right 
+        // delegate values
+        rule.setupConvenienceObjects(maintDoc);
+        
+        // confirm that there are no errors to begin with
+        assertErrorCount(0);
+        assertEquals(false, rule.checkDelegateUserRules(maintDoc));
+        
+    }
+    
+    public void testcheckDelegateUserRules_badDelegate3() {
+        newDelegate = badDelegate3();
+        maintDoc = newMaintDoc(newDelegate);
+        
+        rule = (DelegateRule) setupMaintDocRule(newDelegate, rule.getClass());
+        // now we need to setup the convenience objects so that the rule has the right 
+        // delegate values
+        rule.setupConvenienceObjects(maintDoc);
+        
+        // confirm that there are no errors to begin with
+        assertErrorCount(0);
+        assertEquals(false, rule.checkDelegateUserRules(maintDoc));
+        
+    }
+    
+    /**
+     * 
+     * This method simulates a user trying to create a delegate marked as primary when
+     * there is already an account with All Documents for the doctype for the chart/account
+     * combo
      */
-    public void testProcessCustomApproveDocumentBusinessRulesMaintenanceDocument() {
+    public void testCheckOnlyOnePrimaryRoute_allPrimaryAlreadyExists() {
+        newDelegate = delegateWithDocTypeAll();
+        maintDoc = newMaintDoc(newDelegate);
+        
+        rule = (DelegateRule) setupMaintDocRule(newDelegate, rule.getClass());
+        // now we need to setup the convenience objects so that the rule has the right 
+        // delegate values
+        rule.setupConvenienceObjects(maintDoc);
+        
+        // confirm that there are no errors to begin with
+        assertErrorCount(0);
+        assertEquals(false, rule.checkOnlyOnePrimaryRoute(maintDoc));
+    }
+    
+    /**
+     * This method will simulate a user is trying to create a delegate that routes with
+     * DocumentType of ALL, but a chart/account combo that has a primary route for a specific
+     * doctype already exists
+     */
+    
+    public void testCheckOnlyOnePrimaryRoute_specificPrimaryAlreadyExistsAllFails() {
+        newDelegate = delegateWithSpecificTypeClosedAllSpecified();
+        maintDoc = newMaintDoc(newDelegate);
+        
+        rule = (DelegateRule) setupMaintDocRule(newDelegate, rule.getClass());
+        // now we need to setup the convenience objects so that the rule has the right 
+        // delegate values
+        rule.setupConvenienceObjects(maintDoc);
+        
+        // confirm that there are no errors to begin with
+        assertErrorCount(0);
+        assertEquals(false, rule.checkOnlyOnePrimaryRoute(maintDoc));
+    }
+    
+    /**
+     * This method will simulate a user who is trying to create a delegate that routes with
+     * a specific doctype that is already taken in the db
+     */
+    
+    public void testCheckOnlyOnePrimaryRoute_specificPrimaryAlreadyExistsSpecificFails() {
+        newDelegate = delegateWithSpecificTypeClosed();
+        maintDoc = newMaintDoc(newDelegate);
+        
+        rule = (DelegateRule) setupMaintDocRule(newDelegate, rule.getClass());
+        // now we need to setup the convenience objects so that the rule has the right 
+        // delegate values
+        rule.setupConvenienceObjects(maintDoc);
+        
+        // confirm that there are no errors to begin with
+        assertErrorCount(0);
+        assertEquals(false, rule.checkOnlyOnePrimaryRoute(maintDoc));
+    }
+   
+    /**
+     * This method will simulate a user who is trying to create a delegate that routes with
+     * a doctype of all and should succeed
+     */
+    
+    public void testCheckOnlyOnePrimaryRoute_allPrimaryDoesNotExist() {
+        newDelegate = delegateWithAllDocTypeOpen();
+        maintDoc = newMaintDoc(newDelegate);
+        
+        rule = (DelegateRule) setupMaintDocRule(newDelegate, rule.getClass());
+        // now we need to setup the convenience objects so that the rule has the right 
+        // delegate values
+        rule.setupConvenienceObjects(maintDoc);
+        
+        // confirm that there are no errors to begin with
+        assertErrorCount(0);
+        assertEquals(true, rule.checkOnlyOnePrimaryRoute(maintDoc));
+    }
+    
+    /**
+     * This method will simulate a user who is trying to create a delegate that routes with
+     * a doctype of a21 should succeed
+     */
+    
+    public void testCheckOnlyOnePrimaryRoute_specificPrimaryDoesNotExist() {
+        newDelegate = delegateWithSpecificDocTypeOpen();
+        maintDoc = newMaintDoc(newDelegate);
+        
+        rule = (DelegateRule) setupMaintDocRule(newDelegate, rule.getClass());
+        // now we need to setup the convenience objects so that the rule has the right 
+        // delegate values
+        rule.setupConvenienceObjects(maintDoc);
+        
+        // confirm that there are no errors to begin with
+        assertErrorCount(0);
+        assertEquals(true, rule.checkOnlyOnePrimaryRoute(maintDoc));
     }
 
 }

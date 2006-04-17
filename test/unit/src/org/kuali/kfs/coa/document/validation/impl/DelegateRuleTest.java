@@ -24,13 +24,9 @@ package org.kuali.module.chart.rules;
 
 import java.sql.Timestamp;
 import java.util.Calendar;
-import java.util.Date;
 
 import org.apache.commons.lang.time.DateUtils;
 import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.document.MaintenanceDocumentBase;
-import org.kuali.core.maintenance.KualiMaintainableImpl;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.chart.bo.Delegate;
 

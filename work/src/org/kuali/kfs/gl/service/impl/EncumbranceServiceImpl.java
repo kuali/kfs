@@ -22,28 +22,38 @@
  */
 package org.kuali.module.gl.service.impl;
 
+import java.util.Iterator;
+
 import org.kuali.module.gl.bo.Encumbrance;
 import org.kuali.module.gl.dao.EncumbranceDao;
 import org.kuali.module.gl.service.EncumbranceService;
 
 public class EncumbranceServiceImpl implements EncumbranceService {
-  private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EncumbranceServiceImpl.class);
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EncumbranceServiceImpl.class);
 
-  private EncumbranceDao encumbranceDao;
+    private EncumbranceDao encumbranceDao;
 
-  public void save(Encumbrance enc) {
-    LOG.debug("save() started");
+    public void save(Encumbrance enc) {
+        LOG.debug("save() started");
 
-    encumbranceDao.save(enc);
-  }
+        encumbranceDao.save(enc);
+    }
 
-  public void purgeYearByChart(String chartOfAccountsCode, int year) {
-    LOG.debug("purgeYearByChart() started");
+    public void purgeYearByChart(String chartOfAccountsCode, int year) {
+        LOG.debug("purgeYearByChart() started");
 
-    encumbranceDao.purgeYearByChart(chartOfAccountsCode,year);
-  }
+        encumbranceDao.purgeYearByChart(chartOfAccountsCode, year);
+    }
 
-  public void setEncumbranceDao(EncumbranceDao ed) {
-    encumbranceDao = ed;
-  }
+    public void setEncumbranceDao(EncumbranceDao ed) {
+        encumbranceDao = ed;
+    }
+
+    /* (non-Javadoc)
+     * @see org.kuali.module.gl.service.EncumbranceService#getEncumbrancesByFiscalYear(java.lang.Integer)
+     */
+    public Iterator getEncumbrancesToClose(Integer year) {
+        return encumbranceDao.getEncumbrancesToClose(year);
+    }
+    
 }

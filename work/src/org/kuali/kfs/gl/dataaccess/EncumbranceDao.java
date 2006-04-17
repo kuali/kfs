@@ -22,15 +22,18 @@
  */
 package org.kuali.module.gl.dao;
 
+import java.util.Iterator;
+
 import org.kuali.module.gl.bo.Encumbrance;
 import org.kuali.module.gl.bo.Transaction;
 
 /**
  * @author jsissom
- *
+ * @version $Id: EncumbranceDao.java,v 1.3 2006-04-17 14:10:34 larevans Exp $
  */
 public interface EncumbranceDao {
   public Encumbrance getEncumbranceByTransaction(Transaction t);
+  public Iterator getEncumbrancesToClose(Integer fiscalYear);
   public void purgeYearByChart(String chartOfAccountsCode, int year);
   public void save(Encumbrance e);
 }

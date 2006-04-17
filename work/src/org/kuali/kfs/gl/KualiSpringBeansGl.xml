@@ -223,6 +223,11 @@
 	<bean id="glIcrGenerationReport" class="org.kuali.module.gl.batch.poster.impl.IcrGenerationReportImpl">
 		<property name="kualiConfigurationService"><ref bean="kualiConfigurationService"/></property>
 	</bean>
+	
+	<bean id="glEncumbranceForwardStep" class="org.kuali.module.gl.yearEndClosing.impl.encumbranceforward.EncumbranceForwardStep">
+        <property name="originEntryService"><ref bean="glOriginEntryService" /></property>
+		<property name="encumbranceDao"><ref bean="glEncumbranceDao"/></property>
+	</bean>
 
 	<bean id="glVerifyTransaction" class="org.kuali.module.gl.batch.poster.impl.VerifyTransactionImpl"/>
 

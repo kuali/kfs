@@ -25,14 +25,18 @@ package org.kuali.module.financial.rules;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.Constants;
 import org.kuali.core.bo.AccountingLine;
 import org.kuali.core.bo.SourceAccountingLine;
 import org.kuali.core.bo.TargetAccountingLine;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.rule.TransactionalDocumentRuleTestBase;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.financial.document.GeneralErrorCorrectionDocument;
+import org.kuali.module.financial.rules.GeneralErrorCorrectionDocumentRule;
 import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
+import org.kuali.module.gl.util.SufficientFundsItemHelper.SufficientFundsItem;
 import org.kuali.test.parameters.AccountingLineParameter;
 import org.kuali.test.parameters.TransactionalDocumentParameter;
 
@@ -587,6 +591,85 @@ public class GeneralErrorCorrectionDocumentRuleTest
         return createLineFromFixture("expenseGECTargetLine");
     }
     
+    /**
+     * Fixture method that returns a <code>{@link SourceAccountingLine}</code> 
+     * for sufficient funds checking of an expense source line
+     *
+     * @return AccountingLineParameter
+     */
+    public final AccountingLineParameter getSufficientFundsCheckingSourceExpense() {
+        return getAccruedIncomeSourceLineParameter();
+    }
+
+    /**
+     * Fixture method that returns a <code>{@link SourceAccountingLine}</code> 
+     * for sufficient funds checking of an asset source line
+     *
+     * @return AccountingLineParameter
+     */
+    public final AccountingLineParameter getSufficientFundsCheckingSourceAsset() {
+        return getAccruedIncomeSourceLineParameter();
+    }
+
+    /**
+     * Fixture method that returns a <code>{@link SourceAccountingLine}</code> 
+     * for sufficient funds checking of a liability source line
+     *
+     * @return AccountingLineParameter
+     */
+    public final AccountingLineParameter getSufficientFundsCheckingSourceLiability() {
+        return null;
+    }
+
+    /**
+     * Fixture method that returns a <code>{@link SourceAccountingLine}</code> 
+     * for sufficient funds checking of an income source line
+     *
+     * @return AccountingLineParameter
+     */
+    public final AccountingLineParameter getSufficientFundsCheckingSourceIncome() {
+        return null;
+    }
+
+    /**
+     * Fixture method that returns a <code>{@link TargetAccountingLine}</code> 
+     * for sufficient funds checking of an expense source line
+     *
+     * @return AccountingLineParameter
+     */
+    public final AccountingLineParameter getSufficientFundsCheckingTargetExpense() {
+        return getAccruedIncomeTargetLineParameter();
+    }
+
+    /**
+     * Fixture method that returns a <code>{@link TargetAccountingLine}</code> 
+     * for sufficient funds checking of an asset source line
+     *
+     * @return AccountingLineParameter
+     */
+    public final AccountingLineParameter getSufficientFundsCheckingTargetAsset() {
+        return getAccruedIncomeTargetLineParameter();
+    }
+
+    /**
+     * Fixture method that returns a <code>{@link TargetAccountingLine}</code> 
+     * for sufficient funds checking of an liability source line
+     *
+     * @return AccountingLineParameter
+     */
+    public final AccountingLineParameter getSufficientFundsCheckingTargetLiability() {
+        return null;
+    }
+
+    /**
+     * Fixture method that returns a <code>{@link TargetAccountingLine}</code> 
+     * for sufficient funds checking of an income source line
+     *
+     * @return AccountingLineParameter
+     */
+    public final AccountingLineParameter getSufficientFundsCheckingTargetIncome() {
+        return null;
+    }
 
     ///////////////////////////////////////////////////////////////////////////
     // Fixture Methods End Here                                              //
@@ -604,6 +687,135 @@ public class GeneralErrorCorrectionDocumentRuleTest
         testAddAccountingLine(doc, false);
     }
 
+    public void testProcessSourceAccountingLineSufficientFundsCheckingPreparation_isExpense_postive_lineAmount() {
+        SourceAccountingLine line = (SourceAccountingLine)
+            getSufficientFundsCheckingSourceExpense().createLine();
+        line.setAmount(new KualiDecimal("3.0"));
+
+        GeneralErrorCorrectionDocumentRule rule = 
+            new GeneralErrorCorrectionDocumentRule();
+        SufficientFundsItem item = 
+            rule.processSourceAccountingLineSufficientFundsCheckingPreparation(null, line);
+
+        assertEquals(Constants.GL_CREDIT_CODE, item.getDebitCreditCode());
+        assertTrue(line.getAmount().equals(item.getAmount()));
+    }
+
+    /**
+     * These tests currently don't work. Something should be done during QA 
+     * Period to get them to work
+    public void testProcessSourceAccountingLineSufficientFundsCheckingPreparation_isAsset__negative_lineAmount() {
+        SourceAccountingLine line = (SourceAccountingLine) 
+            getSufficientFundsCheckingSourceAsset().createLine();
+        line.setAmount(new KualiDecimal("-3.0"));
+
+        GeneralErrorCorrectionDocumentRule rule = 
+            new GeneralErrorCorrectionDocumentRule();
+        SufficientFundsItem item = 
+            rule.processSourceAccountingLineSufficientFundsCheckingPreparation(null, line);
+
+        assertEquals(line.getObjectTypeCode(), item.getFinancialObjectTypeCode());
+        assertEquals(Constants.GL_DEBIT_CODE, item.getDebitCreditCode());
+        assertFalse(line.getAmount().equals(item.getAmount()));
+        assertTrue(line.getAmount().abs().equals(item.getAmount()));
+    }
+
+    public void testProcessSourceAccountingLineSufficientFundsCheckingPreparation_isIncome_postive_lineAmount() {
+        SourceAccountingLine line = (SourceAccountingLine) 
+            getSufficientFundsCheckingSourceIncome().createLine();
+        line.setAmount(new KualiDecimal("3.0"));
+
+        GeneralErrorCorrectionDocumentRule rule = 
+            new GeneralErrorCorrectionDocumentRule();
+        SufficientFundsItem item = 
+            rule.processSourceAccountingLineSufficientFundsCheckingPreparation(null, line);
+        
+        assertEquals(Constants.GL_CREDIT_CODE, item.getDebitCreditCode());
+        assertTrue(line.getAmount().equals(item.getAmount()));
+    }
+
+    public void testProcessSourceAccountingLineSufficientFundsCheckingPreparation_isLiability__negative_lineAmount() {
+        SourceAccountingLine line = (SourceAccountingLine) 
+            getSufficientFundsCheckingSourceLiability().createLine();
+        line.setAmount(new KualiDecimal("-3.0"));
+        
+        GeneralErrorCorrectionDocumentRule rule = 
+            new GeneralErrorCorrectionDocumentRule();
+        SufficientFundsItem item = rule
+            .processSourceAccountingLineSufficientFundsCheckingPreparation(null, line);
+
+        assertEquals(line.getObjectTypeCode(), item.getFinancialObjectTypeCode());
+        assertEquals(Constants.GL_DEBIT_CODE, item.getDebitCreditCode());
+        assertFalse(line.getAmount().equals(item.getAmount()));
+        assertTrue(line.getAmount().abs().equals(item.getAmount()));
+    }
+
+    public void testProcessTargetAccountingLineSufficientFundsCheckingPreparation_isExpense_postive_lineAmount() {
+        TargetAccountingLine line = (TargetAccountingLine) 
+            getSufficientFundsCheckingTargetExpense().createLine();
+        line.setAmount(new KualiDecimal("3.0"));
+
+        GeneralErrorCorrectionDocumentRule rule = 
+            new GeneralErrorCorrectionDocumentRule();
+        SufficientFundsItem item = rule
+            .processTargetAccountingLineSufficientFundsCheckingPreparation(null, line);
+
+        assertEquals(Constants.GL_DEBIT_CODE, item.getDebitCreditCode());
+        assertTrue(line.getAmount().equals(item.getAmount()));
+    }
+
+    public void testProcessTargetAccountingLineSufficientFundsCheckingPreparation_isAsset__negative_lineAmount() {
+        TargetAccountingLine line = (TargetAccountingLine) 
+            getSufficientFundsCheckingTargetAsset().createLine();
+        line.setAmount(new KualiDecimal("-3.0"));
+
+        GeneralErrorCorrectionDocumentRule rule = 
+            new GeneralErrorCorrectionDocumentRule();
+        SufficientFundsItem item = rule
+            .processTargetAccountingLineSufficientFundsCheckingPreparation(null, line);
+
+        assertEquals(line.getObjectTypeCode(), item.getFinancialObjectTypeCode());
+        assertEquals(Constants.GL_CREDIT_CODE, item.getDebitCreditCode());
+        assertFalse(line.getAmount().equals(item.getAmount()));
+        assertTrue(line.getAmount().abs().equals(item.getAmount()));
+    }
+
+    public void testProcessTargetAccountingLineSufficientFundsCheckingPreparation_isIncome_postive_lineAmount() {
+        TargetAccountingLine line = (TargetAccountingLine) 
+            getSufficientFundsCheckingTargetIncome().createLine();
+        line.setAmount(new KualiDecimal("3.0"));
+
+        GeneralErrorCorrectionDocumentRule rule = 
+            new GeneralErrorCorrectionDocumentRule();
+        SufficientFundsItem item = rule
+            .processTargetAccountingLineSufficientFundsCheckingPreparation(null, line);
+
+        assertEquals(Constants.GL_DEBIT_CODE, item.getDebitCreditCode());
+        assertTrue(line.getAmount().equals(item.getAmount()));
+    }
+    */
+
+    /**
+     * tests sufficient funds checking on a 
+     * <code>{@link TargetAccountingLine}</code> that is of liability type 
+     * with a negative amount.
+     *
+    public void testProcessTargetAccountingLineSufficientFundsCheckingPreparation_isLiability__negative_lineAmount() {
+        TargetAccountingLine line = (TargetAccountingLine) 
+            getSufficientFundsCheckingTargetLiability().createLine();
+        line.setAmount(new KualiDecimal("-3.0"));
+
+        GeneralErrorCorrectionDocumentRule rule = 
+            new GeneralErrorCorrectionDocumentRule();
+        SufficientFundsItem item = rule
+            .processTargetAccountingLineSufficientFundsCheckingPreparation(null, line);
+
+        assertEquals(line.getObjectTypeCode(), item.getFinancialObjectTypeCode());
+        assertEquals(Constants.GL_CREDIT_CODE, item.getDebitCreditCode());
+        assertFalse(line.getAmount().equals(item.getAmount()));
+        assertTrue(line.getAmount().abs().equals(item.getAmount()));
+    }
+    */
     ///////////////////////////////////////////////////////////////////////////
     // Test Methods End Here                                                 //
     ///////////////////////////////////////////////////////////////////////////

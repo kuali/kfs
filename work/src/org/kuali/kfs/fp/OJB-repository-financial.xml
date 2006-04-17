@@ -1296,32 +1296,6 @@
     </collection-descriptor>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.financial.bo.ProcurementCardSourceAccountingLine" table="FP_PRCRMNT_ACCT_LINES_T">
-	<field-descriptor name="financialDocumentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="financialDocumentTransactionLineNumber" column="FDOC_TRN_LN_NBR" jdbc-type="INTEGER" primarykey="true" index="true"/>
-	<field-descriptor name="financialDocumentLineNumber" column="FDOC_LINE_NBR" jdbc-type="INTEGER" primarykey="true" index="true"/>
-    <field-descriptor name="ojbConcreteClass" column="FDOC_CLASS_NM" jdbc-type="VARCHAR" primarykey="true"/>
-	
-	<reference-descriptor name="super" class-ref="org.kuali.core.bo.SourceAccountingLine">
-        <foreignkey field-ref="financialDocumentNumber"/>
-        <foreignkey field-ref="financialDocumentLineNumber"/>
-        <foreignkey field-ref="ojbConcreteClass"/>
-    </reference-descriptor>
-</class-descriptor>
-
-<class-descriptor class="org.kuali.module.financial.bo.ProcurementCardTargetAccountingLine" table="FP_PRCRMNT_ACCT_LINES_T">
-	<field-descriptor name="financialDocumentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="financialDocumentTransactionLineNumber" column="FDOC_TRN_LN_NBR" jdbc-type="INTEGER" primarykey="true" index="true"/>
-	<field-descriptor name="financialDocumentLineNumber" column="FDOC_LINE_NBR" jdbc-type="INTEGER" primarykey="true" index="true"/>
-    <field-descriptor name="ojbConcreteClass" column="FDOC_CLASS_NM" jdbc-type="VARCHAR" primarykey="true"/>
-	
-	<reference-descriptor name="super" class-ref="org.kuali.core.bo.TargetAccountingLine">
-        <foreignkey field-ref="financialDocumentNumber"/>
-        <foreignkey field-ref="financialDocumentLineNumber"/>
-        <foreignkey field-ref="ojbConcreteClass"/>
-    </reference-descriptor>
-</class-descriptor>
-
 <class-descriptor class="org.kuali.module.financial.bo.ProcurementCardTransaction" table="FP_PRCRMT_CD_TRN_T">
 	<field-descriptor name="transactionIdentifier" column="TRANS_ID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="transactionSequenceRowNumber" column="TRN_SEQ_ROW_NBR" jdbc-type="INTEGER" primarykey="true" index="true"/>

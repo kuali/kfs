@@ -25,7 +25,10 @@
 
 package org.kuali.module.financial.document;
 
-import java.sql.Timestamp;
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
 
 import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.module.chart.bo.Account;
@@ -35,210 +38,236 @@ import org.kuali.module.chart.bo.Chart;
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class ProcurementCardDocument extends TransactionalDocumentBase {
-	private String chartOfAccountsCode;
-	private String accountNumber;
-	private String subAccountNumber;
-	private Timestamp transactionCycleStartDate;
-	private Timestamp transactionCycleEndDate;
-	private String transactionCreditCardNumber;
-	private String fdocCardHolderName;
-	
-	private Account subAccount;
-	private Chart chartOfAccounts;
 
-	/**
-	 * Default no-arg constructor.
-	 */
-	public ProcurementCardDocument() {
-        super();
-	}
+    private String chartOfAccountsCode;
+    private String accountNumber;
+    private String subAccountNumber;
+    private Date transactionCycleStartDate;
+    private Date transactionCycleEndDate;
+    private String transactionCreditCardNumber;
+    private String financialDocumentCardHolderName;
+
+    private Account account;
+    private Chart chartOfAccounts;
+
+    private List transactionEntries;
+
 
     /**
-	 * Gets the chartOfAccountsCode attribute.
-	 * 
-	 * @return - Returns the chartOfAccountsCode
-	 * 
-	 */
-	public String getChartOfAccountsCode() { 
-		return chartOfAccountsCode;
-	}
-	
+     * Default constructor.
+     */
+    public ProcurementCardDocument() {
+        transactionEntries = new ArrayList();
+    }
 
-	/**
-	 * Sets the chartOfAccountsCode attribute.
-	 * 
-	 * @param - chartOfAccountsCode The chartOfAccountsCode to set.
-	 * 
-	 */
-	public void setChartOfAccountsCode(String chartOfAccountsCode) {
-		this.chartOfAccountsCode = chartOfAccountsCode;
-	}
+    /**
+     * Gets the chartOfAccountsCode attribute.
+     * 
+     * @return - Returns the chartOfAccountsCode
+     *  
+     */
+    public String getChartOfAccountsCode() {
+        return chartOfAccountsCode;
+    }
 
-	/**
-	 * Gets the accountNumber attribute.
-	 * 
-	 * @return - Returns the accountNumber
-	 * 
-	 */
-	public String getAccountNumber() { 
-		return accountNumber;
-	}
-	
+    /**
+     * Sets the chartOfAccountsCode attribute.
+     * 
+     * @param - chartOfAccountsCode The chartOfAccountsCode to set.
+     *  
+     */
+    public void setChartOfAccountsCode(String chartOfAccountsCode) {
+        this.chartOfAccountsCode = chartOfAccountsCode;
+    }
 
-	/**
-	 * Sets the accountNumber attribute.
-	 * 
-	 * @param - accountNumber The accountNumber to set.
-	 * 
-	 */
-	public void setAccountNumber(String accountNumber) {
-		this.accountNumber = accountNumber;
-	}
 
-	/**
-	 * Gets the subAccountNumber attribute.
-	 * 
-	 * @return - Returns the subAccountNumber
-	 * 
-	 */
-	public String getSubAccountNumber() { 
-		return subAccountNumber;
-	}
-	
+    /**
+     * Gets the accountNumber attribute.
+     * 
+     * @return - Returns the accountNumber
+     *  
+     */
+    public String getAccountNumber() {
+        return accountNumber;
+    }
 
-	/**
-	 * Sets the subAccountNumber attribute.
-	 * 
-	 * @param - subAccountNumber The subAccountNumber to set.
-	 * 
-	 */
-	public void setSubAccountNumber(String subAccountNumber) {
-		this.subAccountNumber = subAccountNumber;
-	}
+    /**
+     * Sets the accountNumber attribute.
+     * 
+     * @param - accountNumber The accountNumber to set.
+     *  
+     */
+    public void setAccountNumber(String accountNumber) {
+        this.accountNumber = accountNumber;
+    }
 
-	/**
-	 * Gets the transactionCycleStartDate attribute.
-	 * 
-	 * @return - Returns the transactionCycleStartDate
-	 * 
-	 */
-	public Timestamp getTransactionCycleStartDate() { 
-		return transactionCycleStartDate;
-	}
-	
 
-	/**
-	 * Sets the transactionCycleStartDate attribute.
-	 * 
-	 * @param - transactionCycleStartDate The transactionCycleStartDate to set.
-	 * 
-	 */
-	public void setTransactionCycleStartDate(Timestamp transactionCycleStartDate) {
-		this.transactionCycleStartDate = transactionCycleStartDate;
-	}
+    /**
+     * Gets the subAccountNumber attribute.
+     * 
+     * @return - Returns the subAccountNumber
+     *  
+     */
+    public String getSubAccountNumber() {
+        return subAccountNumber;
+    }
 
-	/**
-	 * Gets the transactionCycleEndDate attribute.
-	 * 
-	 * @return - Returns the transactionCycleEndDate
-	 * 
-	 */
-	public Timestamp getTransactionCycleEndDate() { 
-		return transactionCycleEndDate;
-	}
-	
+    /**
+     * Sets the subAccountNumber attribute.
+     * 
+     * @param - subAccountNumber The subAccountNumber to set.
+     *  
+     */
+    public void setSubAccountNumber(String subAccountNumber) {
+        this.subAccountNumber = subAccountNumber;
+    }
 
-	/**
-	 * Sets the transactionCycleEndDate attribute.
-	 * 
-	 * @param - transactionCycleEndDate The transactionCycleEndDate to set.
-	 * 
-	 */
-	public void setTransactionCycleEndDate(Timestamp transactionCycleEndDate) {
-		this.transactionCycleEndDate = transactionCycleEndDate;
-	}
 
-	/**
-	 * Gets the transactionCreditCardNumber attribute.
-	 * 
-	 * @return - Returns the transactionCreditCardNumber
-	 * 
-	 */
-	public String getTransactionCreditCardNumber() { 
-		return transactionCreditCardNumber;
-	}
-	
+    /**
+     * Gets the transactionCycleStartDate attribute.
+     * 
+     * @return - Returns the transactionCycleStartDate
+     *  
+     */
+    public Date getTransactionCycleStartDate() {
+        return transactionCycleStartDate;
+    }
 
-	/**
-	 * Sets the transactionCreditCardNumber attribute.
-	 * 
-	 * @param - transactionCreditCardNumber The transactionCreditCardNumber to set.
-	 * 
-	 */
-	public void setTransactionCreditCardNumber(String transactionCreditCardNumber) {
-		this.transactionCreditCardNumber = transactionCreditCardNumber;
-	}
+    /**
+     * Sets the transactionCycleStartDate attribute.
+     * 
+     * @param - transactionCycleStartDate The transactionCycleStartDate to set.
+     *  
+     */
+    public void setTransactionCycleStartDate(Date transactionCycleStartDate) {
+        this.transactionCycleStartDate = transactionCycleStartDate;
+    }
 
-	/**
-	 * Gets the fdocCardHolderName attribute.
-	 * 
-	 * @return - Returns the fdocCardHolderName
-	 * 
-	 */
-	public String getFdocCardHolderName() { 
-		return fdocCardHolderName;
-	}
-	
 
-	/**
-	 * Sets the fdocCardHolderName attribute.
-	 * 
-	 * @param - fdocCardHolderName The fdocCardHolderName to set.
-	 * 
-	 */
-	public void setFdocCardHolderName(String fdocCardHolderName) {
-		this.fdocCardHolderName = fdocCardHolderName;
-	}
+    /**
+     * Gets the transactionCycleEndDate attribute.
+     * 
+     * @return - Returns the transactionCycleEndDate
+     *  
+     */
+    public Date getTransactionCycleEndDate() {
+        return transactionCycleEndDate;
+    }
 
-	/**
-	 * Gets the subAccount attribute.
-	 * 
-	 * @return - Returns the subAccount
-	 * 
-	 */
-	public Account getSubAccount() { 
-		return subAccount;
-	}
-	
+    /**
+     * Sets the transactionCycleEndDate attribute.
+     * 
+     * @param - transactionCycleEndDate The transactionCycleEndDate to set.
+     *  
+     */
+    public void setTransactionCycleEndDate(Date transactionCycleEndDate) {
+        this.transactionCycleEndDate = transactionCycleEndDate;
+    }
 
-	/**
-	 * Sets the subAccount attribute.
-	 * 
-	 * @param - subAccount The subAccount to set.
-	 * @deprecated
-	 */
-	public void setSubAccount(Account subAccount) {
-		this.subAccount = subAccount;
-	}
 
-	/**
-	 * Gets the chartOfAccounts attribute.
-	 * 
-	 * @return - Returns the chartOfAccounts
-	 * 
-	 */
-	public Chart getChartOfAccounts() { 
-		return chartOfAccounts;
-	}
-	
+    /**
+     * Gets the transactionCreditCardNumber attribute.
+     * 
+     * @return - Returns the transactionCreditCardNumber
+     *  
+     */
+    public String getTransactionCreditCardNumber() {
+        return transactionCreditCardNumber;
+    }
 
-	/**
-	 * Sets the chartOfAccounts attribute.
-	 * 
-	 * @param - chartOfAccounts The chartOfAccounts to set.
-	 * @deprecated
-	 */
-	public void setChartOfAccounts(Chart chartOfAccounts) {
-		this.chartOfAccounts = chartOfAccounts;
-	}
+    /**
+     * Sets the transactionCreditCardNumber attribute.
+     * 
+     * @param - transactionCreditCardNumber The transactionCreditCardNumber to set.
+     *  
+     */
+    public void setTransactionCreditCardNumber(String transactionCreditCardNumber) {
+        this.transactionCreditCardNumber = transactionCreditCardNumber;
+    }
+
+
+    /**
+     * Gets the financialDocumentCardHolderName attribute.
+     * 
+     * @return - Returns the financialDocumentCardHolderName
+     *  
+     */
+    public String getFinancialDocumentCardHolderName() {
+        return financialDocumentCardHolderName;
+    }
+
+    /**
+     * Sets the financialDocumentCardHolderName attribute.
+     * 
+     * @param - financialDocumentCardHolderName The financialDocumentCardHolderName to set.
+     *  
+     */
+    public void setFinancialDocumentCardHolderName(String financialDocumentCardHolderName) {
+        this.financialDocumentCardHolderName = financialDocumentCardHolderName;
+    }
+
+
+    /**
+     * Gets the account attribute.
+     * 
+     * @return - Returns the account
+     *  
+     */
+    public Account getAccount() {
+        return account;
+    }
+
+    /**
+     * Sets the account attribute.
+     * 
+     * @param - account The account to set.
+     * @deprecated
+     */
+    public void setAccount(Account account) {
+        this.account = account;
+    }
+
+    /**
+     * Gets the chartOfAccounts attribute.
+     * 
+     * @return - Returns the chartOfAccounts
+     *  
+     */
+    public Chart getChartOfAccounts() {
+        return chartOfAccounts;
+    }
+
+    /**
+     * Sets the chartOfAccounts attribute.
+     * 
+     * @param - chartOfAccounts The chartOfAccounts to set.
+     * @deprecated
+     */
+    public void setChartOfAccounts(Chart chartOfAccounts) {
+        this.chartOfAccounts = chartOfAccounts;
+    }
+
+
+    /**
+     * @return Returns the transactionEntries.
+     */
+    public List getTransactionEntries() {
+        return transactionEntries;
+    }
+
+    /**
+     * @param transactionEntries The transactionEntries to set.
+     */
+    public void setTransactionEntries(List transactionEntries) {
+        this.transactionEntries = transactionEntries;
+    }
+
+    /**
+     * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
+        m.put("financialDocumentNumber", this.financialDocumentNumber);
+        return m;
+    }
 }

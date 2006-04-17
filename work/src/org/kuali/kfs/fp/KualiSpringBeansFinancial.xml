@@ -90,6 +90,23 @@
             <ref bean="businessObjectService" />
         </property>
     </bean>
+    
+    <bean id="procurementCardDocumentService" class="org.kuali.module.financial.service.impl.ProcurementCardDocumentServiceImpl">
+        <property name="kualiConfigurationService">
+            <ref bean="kualiConfigurationService" />
+        </property>
+        <property name="dictionaryValidationService">
+            <ref bean="dictionaryValidationService" />
+        </property>
+        <property name="businessObjectService">
+            <ref bean="businessObjectService" />
+        </property>
+        <property name="dateTimeService">
+           <ref bean="dateTimeService"/>
+        </property>
+    </bean> 
+    
+    <bean id="procurementCardFilePreProcessService" class="org.kuali.module.financial.service.impl.ProcurementCardFilePreProcessServiceImpl"/>
 
     <bean id="cashReceiptService" class="org.kuali.module.financial.service.impl.CashReceiptServiceImpl">
     </bean>

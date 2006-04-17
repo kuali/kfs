@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.financial.bo.ProcurementCardTransaction">
+        <customAttributeEnabled>false</customAttributeEnabled>
+ 
+        <attributes>
+
+            <attribute name="accountNumber" forceUppercase="true">
+                <label>Account Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>accountNumber</summary>
+                <description>accountNumber description...</description>
+			</attribute>
+
+            <attribute name="accountTypeCode" forceUppercase="true">
+                <label>Account Type Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>1</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="3" />
+                </control>
+
+                <summary>accountTypeCode</summary>
+                <description>accountTypeCode description...</description>
+			</attribute>
+
+            <attribute name="chartOfAccountsCode" forceUppercase="true">
+                <label>Chart Of Accounts Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>chartOfAccountsCode</summary>
+                <description>chartOfAccountsCode description...</description>
+			</attribute>
+
+            <attribute name="financialDocumentCardHolderName" forceUppercase="true">
+                <label>Financial Document Card Holder Name</label>
+                <shortLabel>Name</shortLabel>
+
+                <maxLength>35</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="37" />
+                </control>
+
+                <summary>financialDocumentCardHolderName</summary>
+                <description>financialDocumentCardHolderName description...</description>
+			</attribute>
+
+            <attribute name="financialDocumentTotalAmount" forceUppercase="true">
+                <label>Financial Document Total Amount</label>
+                <shortLabel>Amount</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>financialDocumentTotalAmount</summary>
+                <description>financialDocumentTotalAmount description...</description>
+			</attribute>
+
+            <attribute name="subAccountNumber" forceUppercase="true">
+                <label>Sub Account Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>5</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="7" />
+                </control>
+
+                <summary>subAccountNumber</summary>
+                <description>subAccountNumber description...</description>
+			</attribute>
+
+            <attribute name="transactionCreditCardNumber" forceUppercase="true">
+                <label>Transaction Credit Card Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>16</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="18" />
+                </control>
+
+                <summary>transactionCreditCardNumber</summary>
+                <description>transactionCreditCardNumber description...</description>
+			</attribute>
+
+            <attribute name="transactionCycleEndDate" forceUppercase="true">
+                <label>Transaction Cycle End Date</label>
+                <shortLabel>Date</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><date /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>transactionCycleEndDate</summary>
+                <description>transactionCycleEndDate description...</description>
+			</attribute>
+
+            <attribute name="transactionCycleStartDate" forceUppercase="true">
+                <label>Transaction Cycle Start Date</label>
+                <shortLabel>Date</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><date /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>transactionCycleStartDate</summary>
+                <description>transactionCycleStartDate description...</description>
+			</attribute>
+
+            <attribute name="transactionDate" forceUppercase="true">
+                <label>Transaction Date</label>
+                <shortLabel>Date</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><date /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>transactionDate</summary>
+                <description>transactionDate description...</description>
+			</attribute>
+
+            <attribute name="transactionDebitCreditCode" forceUppercase="true">
+                <label>Transaction Debit Credit Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>1</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="3" />
+                </control>
+
+                <summary>transactionDebitCreditCode</summary>
+                <description>transactionDebitCreditCode description...</description>
+			</attribute>
+
+            <attribute name="transactionIdentifier" forceUppercase="true">
+                <label>Transaction Identifier</label>
+                <shortLabel>Identifier</shortLabel>
+
+                <maxLength>6</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="8" />
+                </control>
+
+                <summary>transactionIdentifier</summary>
+                <description>transactionIdentifier description...</description>
+			</attribute>
+
+            <attribute name="transactionMerchantCategoryCode" forceUppercase="true">
+                <label>Transaction Merchant Category Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>4</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="6" />
+                </control>
+
+                <summary>transactionMerchantCategoryCode</summary>
+                <description>transactionMerchantCategoryCode description...</description>
+			</attribute>
+
+            <attribute name="transactionReferenceNumber" forceUppercase="true">
+                <label>Transaction Reference Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>23</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="25" />
+                </control>
+
+                <summary>transactionReferenceNumber</summary>
+                <description>transactionReferenceNumber description...</description>
+			</attribute>
+
+            <attribute name="transactionSequenceRowNumber" forceUppercase="true">
+                <label>Transaction Sequence Row Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>transactionSequenceRowNumber</summary>
+                <description>transactionSequenceRowNumber description...</description>
+			</attribute>
+
+            <attribute name="transactionVendorName" forceUppercase="true">
+                <label>Transaction Vendor Name</label>
+                <shortLabel>Name</shortLabel>
+
+                <maxLength>25</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="27" />
+                </control>
+
+                <summary>transactionVendorName</summary>
+                <description>transactionVendorName description...</description>
+			</attribute>
+
+            <attribute name="versionNumber" forceUppercase="true">
+                <label>Version Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>8</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="10" />
+                </control>
+
+                <summary>versionNumber</summary>
+                <description>versionNumber description...</description>
+			</attribute>
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

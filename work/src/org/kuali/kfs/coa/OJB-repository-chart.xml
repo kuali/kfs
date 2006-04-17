@@ -2285,3 +2285,66 @@
 		<foreignkey field-ref="campusPlantChartCode" />
 	</reference-descriptor>
 </class-descriptor>
+
+<class-descriptor class="org.kuali.module.chart.bo.OrganizationExtension" table="CA_ORG_EXTNS_T">
+	<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="organizationCode" column="ORG_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<field-descriptor name="hrmsShortDescription" column="DESCRSHORT" jdbc-type="VARCHAR"/>
+	<field-descriptor name="hrmsCompany" column="COMPANY" jdbc-type="VARCHAR"/>
+	<field-descriptor name="hrmsSetIdLocation" column="SETID_LOCATION" jdbc-type="VARCHAR"/>
+	<field-descriptor name="hrmsLocation" column="LOCATION" jdbc-type="VARCHAR"/>
+	<field-descriptor name="hrmsTaxLocationCode" column="TAX_LOCATION_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="hrmsPersonnelApproverUniversalId" column="MANAGER_UNVL_ID" jdbc-type="VARCHAR"/>
+	<field-descriptor name="hrmsManagerPositionNumber" column="MANAGER_POSN" jdbc-type="VARCHAR"/>
+	<field-descriptor name="hrmsBudgetYearEndDate" column="BUDGET_YR_END_DT" jdbc-type="INTEGER"/>
+	<field-descriptor name="hrmsBudgetLevel" column="BUDGET_LVL" jdbc-type="VARCHAR"/>
+	<field-descriptor name="hrmsGeneralLedgerExpense" column="GL_EXPENSE" jdbc-type="VARCHAR"/>
+	<field-descriptor name="hrmsEqualEmploymentOpportunity4Function" column="EEO4_FUNCTION" jdbc-type="VARCHAR"/>
+	<field-descriptor name="hrmsAccidentInsurance" column="ACCIDENT_INS" jdbc-type="VARCHAR"/>
+	<field-descriptor name="hrmsSocialInsuranceAccidentNumber" column="SI_ACCIDENT_NUM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="hrmsHazard" column="HAZARD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="hrmsEstablishmentId" column="ESTABID" jdbc-type="VARCHAR"/>
+	<field-descriptor name="hrmsRiskCode" column="RISKCD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="hrmsFullTimeEmploymentEditIndicator" column="FTE_EDIT_INDC" jdbc-type="VARCHAR"/>
+	<field-descriptor name="hrmsDepartmentTenureFlag" column="DEPT_TENURE_FLG" jdbc-type="VARCHAR"/>
+	<field-descriptor name="hrmsTimeAndLaborDistributionInformation" column="TL_DISTRIB_INFO" jdbc-type="VARCHAR"/>
+	<field-descriptor name="hrmsUseBudgetsIndicator" column="USE_BUDGETS" jdbc-type="VARCHAR"/>
+	<field-descriptor name="hrmsUseEncumbrancesIndicator" column="USE_ENCUMBRANCES" jdbc-type="VARCHAR"/>
+	<field-descriptor name="hrmsUseDistributionIndicator" column="USE_DISTRIBUTION" jdbc-type="VARCHAR"/>
+	<field-descriptor name="hrmsBudgetDepartmentId" column="BUDGET_DEPTID" jdbc-type="VARCHAR"/>
+	<field-descriptor name="hrmsDistributionProrateOption" column="DIST_PRORATE_OPTN" jdbc-type="VARCHAR"/>
+	<field-descriptor name="hrmsHealthProgramStatisticsDepartmentCode" column="HP_STATS_DEPT_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="hrmsHealthProgramStatisticsFaculty" column="HP_STATS_FACULTY" jdbc-type="VARCHAR"/>
+	<field-descriptor name="hrmsAccountingOwner" column="ACCOUNTING_OWNER" jdbc-type="VARCHAR"/>
+	<field-descriptor name="hrmsCountryGroup" column="COUNTRY_GRP" jdbc-type="VARCHAR"/>
+	<field-descriptor name="hrmsIuOrganizationMailDropCode" column="IU_ORG_MAIL_DRP_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="hrmsIuOrganizationAddress2" column="IU_ORG_ADDRESS_2" jdbc-type="VARCHAR"/>
+	<field-descriptor name="hrmsIuOrganizationAddress3" column="IU_ORG_ADDRESS_3" jdbc-type="VARCHAR"/>
+	<field-descriptor name="hrmsIuCampusCode" column="IU_CAMPUS_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="hrmsIuCampusBuilding" column="IU_CAMPUS_BLDG" jdbc-type="VARCHAR"/>
+	<field-descriptor name="hrmsIuCampusRoom" column="IU_CAMPUS_ROOM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="hrmsIuPositionAllowedFlag" column="IU_POSN_ALLOW_FL" jdbc-type="VARCHAR"/>
+	<field-descriptor name="hrmsIuTenureAllowedFlag" column="IU_TENURE_ALLOW_FL" jdbc-type="VARCHAR"/>
+	<field-descriptor name="hrmsIuTitleAllowedFlag" column="IU_TITLE_ALLOW_FL" jdbc-type="VARCHAR"/>
+	<field-descriptor name="hrmsIuOccupationalUnitAllowedFlag" column="IU_OCC_UN_ALLOW_FL" jdbc-type="VARCHAR"/>
+	<field-descriptor name="fiscalApproverUniversalId" column="ORG_FSCL_APRVR_UID" jdbc-type="VARCHAR"/>
+	<field-descriptor name="hrmsLastUpdateDate" column="LAST_UPDATE_DATE" jdbc-type="TIMESTAMP"/>
+	<reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="chartOfAccountsCode" />
+	</reference-descriptor>
+	<reference-descriptor name="organization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="chartOfAccountsCode" />
+		<foreignkey field-ref="organizationCode" />
+	</reference-descriptor>
+	<reference-descriptor name="hrmsPersonnelApproverUniversal" class-ref="org.kuali.core.bo.user.UniversalUser" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="hrmsPersonnelApproverUniversalId" />
+	</reference-descriptor>
+	<reference-descriptor name="hrmsIuCampus" class-ref="org.kuali.module.chart.bo.Campus" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="hrmsIuCampusCode" />
+	</reference-descriptor>
+	<reference-descriptor name="fiscalApproverUniversal" class-ref="org.kuali.core.bo.user.UniversalUser" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="fiscalApproverUniversalId" />
+	</reference-descriptor>
+</class-descriptor>

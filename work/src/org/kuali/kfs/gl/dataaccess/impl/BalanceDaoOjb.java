@@ -367,7 +367,7 @@ public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements Balanc
 
         Criteria criteria = new Criteria();
         criteria.addEqualTo("chartOfAccountsCode", chartOfAccountsCode);
-        criteria.addEqualTo("universityFiscalYear", new Integer(year));
+        criteria.addLessThan("universityFiscalYear", new Integer(year));
 
         getPersistenceBrokerTemplate().deleteByQuery(new QueryByCriteria(Balance.class,criteria));
 

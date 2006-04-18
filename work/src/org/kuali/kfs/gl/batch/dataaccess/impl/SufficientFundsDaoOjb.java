@@ -372,7 +372,7 @@ public class SufficientFundsDaoOjb extends PersistenceBrokerDaoSupport implement
 
         Criteria criteria = new Criteria();
         criteria.addEqualTo("chartOfAccountsCode", chartOfAccountsCode);
-        criteria.addEqualTo("universityFiscalYear", new Integer(year));
+        criteria.addLessThan("universityFiscalYear", new Integer(year));
 
         getPersistenceBrokerTemplate().deleteByQuery(new QueryByCriteria(SufficientFundBalances.class,criteria));
 

@@ -105,7 +105,7 @@ public class EntryDaoOjb extends PersistenceBrokerDaoSupport implements EntryDao
 
     Criteria criteria = new Criteria();
     criteria.addEqualTo("chartOfAccountsCode", chartOfAccountsCode);
-    criteria.addEqualTo("universityFiscalYear", new Integer(year));
+    criteria.addLessThan("universityFiscalYear", new Integer(year));
 
     getPersistenceBrokerTemplate().deleteByQuery(new QueryByCriteria(Entry.class,criteria));
 

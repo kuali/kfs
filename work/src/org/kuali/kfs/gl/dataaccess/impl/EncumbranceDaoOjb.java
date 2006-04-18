@@ -34,7 +34,7 @@ import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 /**
  * @author jsissom
- * @version $Id: EncumbranceDaoOjb.java,v 1.4 2006-04-17 14:10:34 larevans Exp $
+ * @version $Id: EncumbranceDaoOjb.java,v 1.5 2006-04-18 19:35:38 jsissom Exp $
  */
 public class EncumbranceDaoOjb extends PersistenceBrokerDaoSupport implements EncumbranceDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EncumbranceDaoOjb.class);
@@ -123,7 +123,7 @@ public class EncumbranceDaoOjb extends PersistenceBrokerDaoSupport implements En
 
         Criteria criteria = new Criteria();
         criteria.addEqualTo("chartOfAccountsCode", chartOfAccountsCode);
-        criteria.addEqualTo("universityFiscalYear", new Integer(year));
+        criteria.addLessThan("universityFiscalYear", new Integer(year));
 
         getPersistenceBrokerTemplate().deleteByQuery(new QueryByCriteria(Encumbrance.class, criteria));
 

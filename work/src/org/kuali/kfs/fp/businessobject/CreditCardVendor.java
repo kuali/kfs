@@ -31,6 +31,8 @@ import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.ObjectCodeCurrent;
+import org.kuali.module.chart.bo.SubAccount;
+import org.kuali.module.chart.bo.SubObjCdCurrent;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -58,6 +60,11 @@ public class CreditCardVendor extends BusinessObjectBase {
 	private ObjectCodeCurrent expenseFinancialObject;
 	private Account expenseAccount;
     private CreditCardType financialDocumentCreditCardType;
+    private SubAccount incomeSubAccount;
+    private SubAccount expenseSubAccount;
+    private SubObjCdCurrent incomeFinancialSubObject;
+    private SubObjCdCurrent expenseFinancialSubObject;
+    
     
 	/**
 	 * Default constructor.
@@ -474,6 +481,62 @@ public class CreditCardVendor extends BusinessObjectBase {
         this.financialDocumentCreditCardType = financialDocumentCreditCardType;
     }    
     
+    /**
+     * Gets the expenseFinancialSubObject attribute. 
+     * @return Returns the expenseFinancialSubObject.
+     */
+    public SubObjCdCurrent getExpenseFinancialSubObject() {
+        return expenseFinancialSubObject;
+    }
+    /**
+     * Sets the expenseFinancialSubObject attribute value.
+     * @param expenseFinancialSubObject The expenseFinancialSubObject to set.
+     */
+    public void setExpenseFinancialSubObject(SubObjCdCurrent expenseFinancialSubObject) {
+        this.expenseFinancialSubObject = expenseFinancialSubObject;
+    }
+    /**
+     * Gets the expenseSubAccount attribute. 
+     * @return Returns the expenseSubAccount.
+     */
+    public SubAccount getExpenseSubAccount() {
+        return expenseSubAccount;
+    }
+    /**
+     * Sets the expenseSubAccount attribute value.
+     * @param expenseSubAccount The expenseSubAccount to set.
+     */
+    public void setExpenseSubAccount(SubAccount expenseSubAccount) {
+        this.expenseSubAccount = expenseSubAccount;
+    }
+    /**
+     * Gets the incomeFinancialSubObject attribute. 
+     * @return Returns the incomeFinancialSubObject.
+     */
+    public SubObjCdCurrent getIncomeFinancialSubObject() {
+        return incomeFinancialSubObject;
+    }
+    /**
+     * Sets the incomeFinancialSubObject attribute value.
+     * @param incomeFinancialSubObject The incomeFinancialSubObject to set.
+     */
+    public void setIncomeFinancialSubObject(SubObjCdCurrent incomeFinancialSubObject) {
+        this.incomeFinancialSubObject = incomeFinancialSubObject;
+    }
+    /**
+     * Gets the incomeSubAccount attribute. 
+     * @return Returns the incomeSubAccount.
+     */
+    public SubAccount getIncomeSubAccount() {
+        return incomeSubAccount;
+    }
+    /**
+     * Sets the incomeSubAccount attribute value.
+     * @param incomeSubAccount The incomeSubAccount to set.
+     */
+    public void setIncomeSubAccount(SubAccount incomeSubAccount) {
+        this.incomeSubAccount = incomeSubAccount;
+    }
 	/**
 	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
 	 */

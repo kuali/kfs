@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+
+<dictionaryEntry>
+	<maintenanceDocument>
+        <businessObjectClass>org.kuali.module.financial.bo.CreditCardVendor</businessObjectClass>
+        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+        <documentAuthorizerClass>org.kuali.core.document.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
+        <authorizations>
+            <authorization action="initiate">
+                <workgroups>
+                    <workgroup>kualiUniversalGroup</workgroup>
+                </workgroups>
+            </authorization>
+        </authorizations>
+
+		<documentTypeName>KualiCreditCardVendorMaintenanceDocument</documentTypeName>
+		<documentTypeCode>CCVN</documentTypeCode>
+
+		<label>Credit Card Vendor Maintenance Document</label>
+		<shortLabel>CreditCardVendorMaintenanceDocument</shortLabel>
+		
+		<summary>Credit Card Vendor Maintenance Document</summary>
+		<description>Document used to create or update a credit card vendor.</description>
+
+        <lockingKeys>
+			<field attributeName="financialDocumentCreditCardVendorNumber" />
+		</lockingKeys>  
+		       
+		<defaultExistenceChecks>
+			<reference  attributeName="financialDocumentCreditCardType" 
+						attributeToHighlightOnFail="financialDocumentCreditCardTypeCode" />
+			<reference  attributeName="incomeFinancialChartOfAccounts" 
+						attributeToHighlightOnFail="incomeFinancialChartOfAccountsCode" />
+			<reference  attributeName="incomeAccount" 
+						attributeToHighlightOnFail="incomeAccountNumber" />						
+			<reference  attributeName="incomeFinancialObject" 
+						attributeToHighlightOnFail="incomeFinancialChartOfAccountsCode" />
+			<reference  attributeName="incomeFinancialSubObject" 
+						attributeToHighlightOnFail="incomeFinancialSubObjectCode" />
+			<reference  attributeName="incomeSubAccount" 
+						attributeToHighlightOnFail="incomeSubAccountNumber" />
+			<reference  attributeName="expenseFinancialChartOfAccounts" 
+						attributeToHighlightOnFail="expenseFinancialChartOfAccountsCode" />
+			<reference  attributeName="expenseAccount" 
+						attributeToHighlightOnFail="expenseAccountNumber" />						
+			<reference  attributeName="expenseFinancialObject" 
+						attributeToHighlightOnFail="expenseFinancialChartOfAccountsCode" />
+			<reference  attributeName="expenseFinancialSubObject" 
+						attributeToHighlightOnFail="expenseFinancialSubObjectCode" />
+			<reference  attributeName="expenseSubAccount" 
+						attributeToHighlightOnFail="expenseSubAccountNumber" />																	
+		</defaultExistenceChecks>
+
+	    <maintainableSections>
+	        <maintainableSection title="Edit Credit Card Vendor">
+	        	<maintainableItems>
+	            	<maintainableField name="financialDocumentCreditCardVendorNumber" required="true" />
+	            	<maintainableField name="financialDocumentCreditCardVendorName" required="true" />
+	            	<maintainableField name="financialDocumentCreditCardTypeCode" required="true" />
+	            	<maintainableField name="incomeFinancialChartOfAccountsCode" required="false" />
+	            	<maintainableField name="incomeAccountNumber" required="false" />
+	            	<maintainableField name="incomeFinancialObjectCode" required="false" />
+	            	<maintainableField name="incomeFinancialSubObjectCode" required="false" />
+	            	<maintainableField name="incomeSubAccountNumber" required="false" />
+	            	<maintainableField name="expenseFinancialChartOfAccountsCode" required="false" />
+	            	<maintainableField name="expenseAccountNumber" required="false" />
+	            	<maintainableField name="expenseFinancialObjectCode" required="false" />
+	            	<maintainableField name="expenseFinancialSubObjectCode" required="false" />
+	            	<maintainableField name="expenseSubAccountNumber" required="false" />
+	            	<maintainableField name="versionNumber" />          	                   
+	         	</maintainableItems>
+	        </maintainableSection>
+	    </maintainableSections>
+	</maintenanceDocument>
+</dictionaryEntry>

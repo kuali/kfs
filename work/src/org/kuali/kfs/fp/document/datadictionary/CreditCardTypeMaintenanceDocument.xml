@@ -7,7 +7,6 @@
 	<maintenanceDocument>
         <businessObjectClass>org.kuali.module.financial.bo.CreditCardType</businessObjectClass>
         <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
-		<businessRulesClass>org.kuali.module.financial.rules.BankRule</businessRulesClass>
         <documentAuthorizerClass>org.kuali.core.document.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
         <authorizations>
             <authorization action="initiate">
@@ -18,7 +17,7 @@
         </authorizations>
 
 		<documentTypeName>KualiCreditCardTypeMaintenanceDocument</documentTypeName>
-		<documentTypeCode>CRDT</documentTypeCode>
+		<documentTypeCode>CCTY</documentTypeCode>
 
 		<label>Credit Card Type Maintenance Document</label>
 		<shortLabel>CreditCardTypeMaintenanceDocument</shortLabel>

@@ -4,12 +4,13 @@
     "../../../core/datadictionary/dataDictionary-1_0.dtd">
 <!-- 
 	NOTE!!!
-	SubObjCdCurrent.xml is a copy of this, if you make any changes 
+	This is essentially a copy of SubObjCd.xml, if you make any changes 
 	they need to be made to both documents
--->    
+-->
+    
 <dictionaryEntry>
 	<businessObject
-		businessObjectClass="org.kuali.module.chart.bo.SubObjCd">
+		businessObjectClass="org.kuali.module.chart.bo.SubObjCdCurrent">
 		<customAttributeEnabled>false</customAttributeEnabled>
 
 		<inquiry>

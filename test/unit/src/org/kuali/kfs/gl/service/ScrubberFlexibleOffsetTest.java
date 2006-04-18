@@ -23,9 +23,7 @@
 package org.kuali.module.gl.service;
 
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 import org.kuali.Constants;
@@ -38,7 +36,6 @@ import org.kuali.core.service.DocumentTypeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.OffsetDefinition;
 import org.kuali.module.financial.bo.OffsetAccount;
 import org.kuali.module.financial.service.FlexibleOffsetAccountService;

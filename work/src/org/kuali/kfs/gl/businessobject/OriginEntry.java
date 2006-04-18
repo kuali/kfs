@@ -458,6 +458,10 @@ public class OriginEntry extends BusinessObjectBase implements Transaction {
     public String getFinancialDocumentReferenceNbr() {
         return financialDocumentReferenceNumber;
     }
+    
+    public String getFinancialDocumentReferenceNumber() {
+        return financialDocumentReferenceNumber;
+    }    
 
     public void setFinancialDocumentReferenceNumber(String financialDocumentReferenceNbr) {
         this.financialDocumentReferenceNumber = financialDocumentReferenceNbr;

@@ -81,7 +81,7 @@ public class BalanceInquiryAction extends KualiAction {
         
         // validate search parameters
         kualiLookupable.validateSearchParameters(lookupForm.getFields());
-        displayList =  SpringServiceLocator.getPersistenceService().performLookup(lookupForm, kualiLookupable, resultTable);
+        displayList =  SpringServiceLocator.getPersistenceService().performLookup(lookupForm, kualiLookupable, resultTable, true);
         
         request.setAttribute("reqSearchResultsActualSize", ((CollectionIncomplete)displayList).getActualSizeIfTruncated());       
         request.setAttribute("reqSearchResults", resultTable);

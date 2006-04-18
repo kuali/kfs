@@ -164,7 +164,7 @@ public abstract class AbstractGLInquirableImpl extends KualiInquirableImpl {
             parameters.put(keyName, keyValue);
         }
 
-        return UrlFactory.paremeterizeUrl(baseUrl, parameters);
+        return UrlFactory.parameterizeUrl(baseUrl, parameters);
     }
 
     /**

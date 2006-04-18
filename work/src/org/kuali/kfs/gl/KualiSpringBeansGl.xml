@@ -31,6 +31,12 @@
 		<property name="chartService"><ref bean="chartService" /></property>
 	</bean>
 
+	<bean id="glPurgeInterDepartmentalBillingStep" class="org.kuali.module.gl.batch.PurgeInterDepartmentalBillingStep">
+		<property name="kualiConfigurationService"><ref bean="kualiConfigurationService" /></property>
+		<property name="interDepartmentalBillingService"><ref bean="glInterDepartmentalBillingService" /></property>
+		<property name="chartService"><ref bean="chartService" /></property>
+	</bean>
+
 	<bean id="glSufficientFundsRebuilderStep" class="org.kuali.module.gl.batch.SufficientFundsRebuilderStep">
 		<property name="sufficientFundsRebuilderService"><ref bean="glSufficientFundsRebuilderService" /></property>
 	</bean>
@@ -174,7 +180,10 @@
         <property name="dateTimeService"><ref bean="dateTimeService" /></property>
         <property name="originEntryGroupService"><ref bean="glOriginEntryGroupService" /></property>
     </bean>
-    
+
+	<bean id="glInterDepartmentalBillingService" class="org.kuali.module.gl.service.impl.InterDepartmentalBillingServiceImpl">
+		<property name="interDepartmentalBillingDao"><ref bean="glInterDepartmentalBillingDao" /></property>
+	</bean>
 
 	<bean id="glPostGlEntry" class="org.kuali.module.gl.batch.poster.impl.PostGlEntry">
 		<property name="entryDao"><ref bean="glEntryDao" /></property>
@@ -287,8 +296,11 @@
 		<property name="jcdAlias"><value>dataSource</value></property>
 	</bean>
 
+	<bean id="glInterDepartmentalBillingDao" class="org.kuali.module.gl.dao.ojb.InterDepartmentalBillingDaoOjb">
+		<property name="jcdAlias"><value>dataSource</value></property>
+	</bean>
+
 	<!-- SUFFICIENT FUNDS SERVICE/DAO -->
-	  
 	<bean id="sufficientFundsService" class="org.kuali.module.gl.service.impl.SufficientFundsServiceImpl">
 		<property name="accountService"><ref bean="accountService" /></property>
 		<property name="businessObjectService"><ref bean="businessObjectService" /></property>
@@ -299,10 +311,8 @@
 		<property name="dataDictionaryService" ><ref bean="dataDictionaryService" /></property>
         <property name="sufficientFundsDao"><ref bean="sufficientFundsDao"/></property>
 	</bean>
-	
+
 	<bean id="sufficientFundsDao" class="org.kuali.module.gl.dao.ojb.SufficientFundsDaoOjb">
 		<property name="jcdAlias"><value>dataSource</value></property>
 	</bean>
-	
-	
 </beans>

@@ -115,7 +115,8 @@ public class ScrubberFlexibleOffsetTest extends OriginEntryTestBase {
         OriginEntryGroup group = this.createNewGroup(OriginEntrySource.EXTERNAL);
         
         // reset the preconditions of flexible offset generation so that they have the vaild values 
-        flexibleOffsetAccountService.setKualiConfigurationService(createMockConfigurationService(true));
+        // flexibleOffsetAccountService.setKualiConfigurationService(createMockConfigurationService(true));
+        resetFlexibleOffsetEnableFlag(true);
         resetScrubberGenerationIndicator(true, DOCUMENT_TYPE_CODE);
         resetAnOffsetAccount(COA_CODE, ACCOUNT_NUMBER, OFFSET_OBJECT_CODE);
         resetAnOffsetDefinition(FISCAL_YEAR, COA_CODE, DOCUMENT_TYPE_CODE, BALANCE_TYPE_CODE);
@@ -153,7 +154,8 @@ public class ScrubberFlexibleOffsetTest extends OriginEntryTestBase {
         OriginEntryGroup group = this.createNewGroup(OriginEntrySource.EXTERNAL);
         
         // disable the global flexible offset enable flag
-        flexibleOffsetAccountService.setKualiConfigurationService(createMockConfigurationService(false));
+        // flexibleOffsetAccountService.setKualiConfigurationService(createMockConfigurationService(false));
+        resetFlexibleOffsetEnableFlag(false);
         
         // reset the preconditions of flexible offset generation so that they have the vaild values 
         resetScrubberGenerationIndicator(true, DOCUMENT_TYPE_CODE);
@@ -191,7 +193,9 @@ public class ScrubberFlexibleOffsetTest extends OriginEntryTestBase {
         resetScrubberGenerationIndicator(false, DOCUMENT_TYPE_CODE);
         
         // reset the preconditions of flexible offset generation so that they have the vaild values 
-        flexibleOffsetAccountService.setKualiConfigurationService(createMockConfigurationService(true));
+        // flexibleOffsetAccountService.setKualiConfigurationService(createMockConfigurationService(true));
+        resetFlexibleOffsetEnableFlag(true);
+        
         resetAnOffsetAccount(COA_CODE, ACCOUNT_NUMBER, OFFSET_OBJECT_CODE);
         resetAnOffsetDefinition(FISCAL_YEAR, COA_CODE, DOCUMENT_TYPE_CODE, BALANCE_TYPE_CODE);
 
@@ -223,7 +227,8 @@ public class ScrubberFlexibleOffsetTest extends OriginEntryTestBase {
         OriginEntryGroup group = this.createNewGroup(OriginEntrySource.EXTERNAL);
         
         // reset the preconditions of flexible offset generation so that they have the vaild values 
-        flexibleOffsetAccountService.setKualiConfigurationService(createMockConfigurationService(true));
+        // flexibleOffsetAccountService.setKualiConfigurationService(createMockConfigurationService(true));
+        resetFlexibleOffsetEnableFlag(true);
         resetScrubberGenerationIndicator(true, DOCUMENT_TYPE_CODE);
         resetAnOffsetAccount(COA_CODE, ACCOUNT_NUMBER, OFFSET_OBJECT_CODE);
         resetAnOffsetDefinition(FISCAL_YEAR, COA_CODE, DOCUMENT_TYPE_CODE, BALANCE_TYPE_CODE);
@@ -258,7 +263,8 @@ public class ScrubberFlexibleOffsetTest extends OriginEntryTestBase {
         OriginEntryGroup group = this.createNewGroup(OriginEntrySource.EXTERNAL);
         
         // reset the preconditions of flexible offset generation so that they have the vaild values 
-        flexibleOffsetAccountService.setKualiConfigurationService(createMockConfigurationService(true));
+        // flexibleOffsetAccountService.setKualiConfigurationService(createMockConfigurationService(true));
+        resetFlexibleOffsetEnableFlag(true);
         resetScrubberGenerationIndicator(true, DOCUMENT_TYPE_CODE);
         resetAnOffsetAccount(COA_CODE, ACCOUNT_NUMBER, OFFSET_OBJECT_CODE);
         resetAnOffsetDefinition(FISCAL_YEAR, COA_CODE, DOCUMENT_TYPE_CODE, BALANCE_TYPE_CODE);

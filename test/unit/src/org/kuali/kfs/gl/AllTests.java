@@ -25,6 +25,7 @@ package org.kuali.module.gl;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
+import org.kuali.module.gl.batch.PurgeTest;
 import org.kuali.module.gl.dao.ojb.TestUnitTestSqlDao;
 import org.kuali.module.gl.dao.ojb.TestUniversityDateDao;
 import org.kuali.module.gl.service.GeneralLedgerPendingEntryServiceTest;
@@ -47,6 +48,9 @@ public class AllTests {
 
   public static Test suite() {
     TestSuite suite = new TestSuite();
+
+    // org.kuali.module.gl.batch
+    suite.addTestSuite(PurgeTest.class);
 
     // org.kuali.module.gl.dao.ojb
     suite.addTestSuite(TestUniversityDateDao.class);

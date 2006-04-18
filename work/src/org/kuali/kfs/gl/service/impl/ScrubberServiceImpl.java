@@ -76,7 +76,7 @@ import org.springframework.util.StringUtils;
 
 /**
  * @author Kuali General Ledger Team <kualigltech@oncourse.iu.edu>
- * @version $Id: ScrubberServiceImpl.java,v 1.84 2006-04-11 14:47:12 bgao Exp $
+ * @version $Id: ScrubberServiceImpl.java,v 1.85 2006-04-18 16:02:09 bgao Exp $
  */
 
 public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
@@ -3370,8 +3370,8 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         }
         
         // replace the chart and account of the given transaction with those of the offset account obtained above
-        originEntry.setAccountNumber(offsetAccount.getAccountNumber());
-        originEntry.setChartOfAccountsCode(offsetAccount.getChartOfAccountsCode());
+        originEntry.setAccountNumber(offsetAccount.getFinancialOffsetAccountNumber());
+        originEntry.setChartOfAccountsCode(offsetAccount.getFinancialOffsetChartOfAccountCode());
     }
 
     public void setOriginEntryService(OriginEntryService oes) {

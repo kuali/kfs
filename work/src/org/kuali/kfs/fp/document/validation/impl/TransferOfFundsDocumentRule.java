@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
@@ -110,26 +111,62 @@ public class TransferOfFundsDocumentRule extends TransactionalDocumentRuleBase i
     protected KualiDecimal getGeneralLedgerPendingEntryAmountForAccountingLine(AccountingLine accountingLine) {
         return accountingLine.getAmount().abs();
     }
+    
+    /**
+     * Overrides to check balances across mandator transfers and non-mandatory transfers.  Also 
+     * checks balances across fund groups.
+     *
+     * @see TransactionalDocumentRuleBase#isDocumentBalanceValid(TransactionalDocument)
+     */
+    protected boolean isDocumentBalanceValid(TransactionalDocument transactionalDocument) {
+        boolean isValid = super.isDocumentBalanceValid(transactionalDocument);
+        
+        TransferOfFundsDocument tofDoc = (TransferOfFundsDocument) transactionalDocument;
+        // make sure accounting lines balance across mandatory and non-mandatory transfers
+        if(isValid) {
+            isValid = isMandatoryTransferTotalAndNonMandatoryTransferTotalBalanceValid(tofDoc);
+        }
+        
+        // make sure accounting lines for a TOF balance across agency and clearing fund groups - IU specific
+        if(isValid) {
+            isValid = isFundGroupsBalanceValid(tofDoc);
+        }
+        
+        return isValid;
+    }
 
     /**
-     * This document specific routing business rule check calls the balance check that is done to make sure that totals between the
-     * "From" and "To" section are balanced within the groupings of "Mandatory Transfers" and "Non-Mandatory Transfers".
+     * This document specific routing business rule check calls the check that makes sure that the 
+     * budget year is consistent for all accounting lines.
      * 
      * @see org.kuali.core.rule.DocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.Document)
      */
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
         boolean isValid = super.processCustomRouteDocumentBusinessRules(document);
 
-        if (isValid) {
-            // check the balance across mandatory and non-mandatory transfers
-            TransferOfFundsDocument tofDoc = (TransferOfFundsDocument) document;
-            isValid = isMandatoryTransferTotalAndNonMandatoryTransferTotalBalanceValid(tofDoc);
-            isValid &= isAllAccountingLinesMatchingBudgetYear(tofDoc);
+        TransferOfFundsDocument tofDoc = (TransferOfFundsDocument) document;
+        
+        if(isValid) {
+            isValid = isAllAccountingLinesMatchingBudgetYear(tofDoc);
         }
 
         return isValid;
     }
 
+    /**
+     * This is a helper method that wraps the fund group balancing check.  This check can be configured by updating 
+     * the APC that is associated with this check.  See the document's specification for details. 
+     * 
+     * @param tofDoc
+     * @return boolean
+     */
+    private boolean isFundGroupsBalanceValid(TransferOfFundsDocument tofDoc) {
+        String[] fundGroupCodes = SpringServiceLocator.getKualiConfigurationService().
+            getApplicationParameterValues(KUALI_TRANSACTION_PROCESSING_TRANSFER_OF_FUNDS_SECURITY_GROUPING, 
+                    APPLICATION_PARAMETER.FUND_GROUP_BALANCING_SET);
+        return isFundGroupSetBalanceValid(tofDoc, fundGroupCodes);
+    }
+    
     /**
      * This method checks the sum of all of the "From" accounting lines with mandatory transfer object codes against the sum of all
      * of the "To" accounting lines with mandatory transfer object codes. In addition, it does the same, but for accounting lines
@@ -153,7 +190,6 @@ public class TransferOfFundsDocumentRule extends TransactionalDocumentRuleBase i
 
         for (Iterator i = lines.iterator(); i.hasNext();) {
             AccountingLine line = (AccountingLine) i.next();
-            line.refreshReferenceObject("objectCode"); // refresh b/c of proxying in OJB
             String objectSubTypeCode = line.getObjectCode().getFinancialObjectSubTypeCode();
 
             if (isNonMandatoryTransfersSubType(objectSubTypeCode)) {
@@ -246,6 +282,8 @@ public class TransferOfFundsDocumentRule extends TransactionalDocumentRuleBase i
     }
 
     /**
+     * Prepares the input item that will be used for sufficient funds checking.
+     * 
      * fi_dtf:lp_proc_frm_ln,lp_proc_to_ln conslidated
      * 
      * @param accountingLine

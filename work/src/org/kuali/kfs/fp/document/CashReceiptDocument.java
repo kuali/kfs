@@ -45,7 +45,7 @@ import edu.iu.uis.eden.EdenConstants;
 /**
  * This is the business object that represents the CashReceiptDocument in Kuali. This is a transactional document that will
  * eventually post transactions to the G/L. It integrates with workflow. Since a Cash Receipt is a one sided transactional document,
- * only accepting funds into the university, the accounting line data will be held in the target accounting line data structure
+ * only accepting funds into the university, the accounting line data will be held in the source accounting line data structure
  * only.
  * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)

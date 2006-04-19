@@ -31,4 +31,9 @@ public interface InternalBillingDocumentRuleConstants {
     public static final String INTERNAL_BILLING_DOCUMENT_SECURITY_GROUPING
         = "Kuali.FinancialTransactionProcessing.InternalBillingDocument";
     public static final String RESTRICTED_SUB_FUND_GROUP_CODES = "RestrictedSubFundGroupCodes";
+    public static final String RESTRICTED_FUND_GROUP_CODES = "RestrictedFundGroupCodes";
+    public static final String RESTRICTED_OBJECT_TYPE_CODES = "RestrictedObjectTypeCodes";
+    public static final String RESTRICTED_OBJECT_SUB_TYPE_CODES = "RestrictedObjectSubTypeCodes";
+    public static final String CAPITAL_OBJECT_SUB_TYPE_CODES = "CapitalObjectSubTypeCodes";
+    public static final String RESTRICTED_OBJECT_LEVEL_CODES = "RestrictedObjectLevelCodes";
 }

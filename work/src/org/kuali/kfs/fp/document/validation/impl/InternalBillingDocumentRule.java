@@ -23,8 +23,6 @@
 package org.kuali.module.financial.rules;
 
 import java.util.Arrays;
-import java.util.Set;
-import java.util.TreeSet;
 
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
@@ -39,6 +37,8 @@ import org.kuali.core.util.ExceptionUtils;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Account;
+import org.kuali.module.chart.bo.ObjectCode;
+import org.kuali.module.chart.bo.SubFundGroup;
 import org.kuali.module.financial.document.InternalBillingDocument;
 
 /**
@@ -47,55 +47,6 @@ import org.kuali.module.financial.document.InternalBillingDocument;
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class InternalBillingDocumentRule extends TransactionalDocumentRuleBase implements InternalBillingDocumentRuleConstants {
-
-    // Set container for restricted capital object codes
-    protected static Set restrictedCapitalObjectCodes;
-
-    // Set container for restricted object sub type codes
-    protected static Set restrictedObjectSubTypeCodes;
-
-    // initialize some static data structures that will be used for business
-    // rule checks
-    static {
-        initializeRestrictedCapitalObjectCodes();
-        initializeRestrictedObjectSubTypeCodes();
-    }
-
-    /**
-     * This method sets up the restricted capital object code set that will be checked against by business rules.
-     */
-    private static void initializeRestrictedCapitalObjectCodes() {
-        restrictedCapitalObjectCodes = new TreeSet();
-        restrictedCapitalObjectCodes.add(OBJECT_SUB_TYPE_CODE.CAP_MOVE_EQUIP);
-        restrictedCapitalObjectCodes.add(OBJECT_SUB_TYPE_CODE.CAP_MOVE_EQUIP_FED_FUND);
-        restrictedCapitalObjectCodes.add(OBJECT_SUB_TYPE_CODE.CAP_MOVE_EQUIP_OTHER_OWN);
-        restrictedCapitalObjectCodes.add(OBJECT_SUB_TYPE_CODE.CONSTRUCTION_IN_PROG);
-        restrictedCapitalObjectCodes.add(OBJECT_SUB_TYPE_CODE.UNIV_CONSTRUCTED);
-        restrictedCapitalObjectCodes.add(OBJECT_SUB_TYPE_CODE.UNIV_CONSTRUCTED_FED_FUND);
-        restrictedCapitalObjectCodes.add(OBJECT_SUB_TYPE_CODE.UNIV_CONSTRUCTED_FED_OWN);
-    }
-
-    /**
-     * This method sets up the restricted object sub type codes that will be checked against by business rules.
-     */
-    private static void initializeRestrictedObjectSubTypeCodes() {
-        restrictedObjectSubTypeCodes = new TreeSet();
-        restrictedObjectSubTypeCodes.add(OBJECT_SUB_TYPE_CODE.BUDGET_ONLY);
-        restrictedObjectSubTypeCodes.add(OBJECT_SUB_TYPE_CODE.CONSTRUCTION_IN_PROG);
-        restrictedObjectSubTypeCodes.add(OBJECT_SUB_TYPE_CODE.HOURLY_WAGES);
-        restrictedObjectSubTypeCodes.add(OBJECT_SUB_TYPE_CODE.MANDATORY_TRANSFER);
-        restrictedObjectSubTypeCodes.add(OBJECT_SUB_TYPE_CODE.RESERVES);
-        restrictedObjectSubTypeCodes.add(OBJECT_SUB_TYPE_CODE.WRITE_OFF);
-        restrictedObjectSubTypeCodes.add(OBJECT_SUB_TYPE_CODE.SALARIES_WAGES);
-        restrictedObjectSubTypeCodes.add(OBJECT_SUB_TYPE_CODE.STATE_APP);
-        restrictedObjectSubTypeCodes.add(OBJECT_SUB_TYPE_CODE.SALARIES);
-        restrictedObjectSubTypeCodes.add(OBJECT_SUB_TYPE_CODE.PLANT);
-        restrictedObjectSubTypeCodes.add(OBJECT_SUB_TYPE_CODE.INVEST);
-        restrictedObjectSubTypeCodes.add(OBJECT_SUB_TYPE_CODE.FRINGE_BEN);
-        restrictedObjectSubTypeCodes.add(OBJECT_SUB_TYPE_CODE.NON_MANDATORY_TRANSFER);
-        restrictedObjectSubTypeCodes.add(OBJECT_SUB_TYPE_CODE.ASSESSMENT);
-        restrictedObjectSubTypeCodes.add(OBJECT_SUB_TYPE_CODE.TRANSFER_OF_FUNDS);
-    }
 
     /**
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#isDebit(org.kuali.core.bo.AccountingLine)
@@ -108,14 +59,20 @@ public class InternalBillingDocumentRule extends TransactionalDocumentRuleBase i
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processCustomAddAccountingLineBusinessRules(TransactionalDocument, AccountingLine)
      */
     public boolean processCustomAddAccountingLineBusinessRules(TransactionalDocument document, AccountingLine accountingLine) {
-        return validIndianaStudentFeesNotContinueEduc(accountingLine);
+        boolean success = true;
+        success &= validIndianaStudentFeesNotContinueEduc(accountingLine);
+        success &= validateCapitalObjectCodes(accountingLine);
+        return success;
     }
 
     /**
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processCustomReviewAccountingLineBusinessRules(TransactionalDocument, AccountingLine)
      */
     public boolean processCustomReviewAccountingLineBusinessRules(TransactionalDocument document, AccountingLine accountingLine) {
-        return validIndianaStudentFeesNotContinueEduc(accountingLine);
+        boolean success = true;
+        success &= validIndianaStudentFeesNotContinueEduc(accountingLine);
+        success &= validateCapitalObjectCodes(accountingLine);
+        return success;
     }
 
     /**
@@ -125,7 +82,10 @@ public class InternalBillingDocumentRule extends TransactionalDocumentRuleBase i
                                                                   AccountingLine originalAccountingLine,
                                                                   AccountingLine updatedAccountingLine)
     {
-        return validIndianaStudentFeesNotContinueEduc(updatedAccountingLine);
+        boolean success = true;
+        success &= validIndianaStudentFeesNotContinueEduc(updatedAccountingLine);
+        success &= validateCapitalObjectCodes(updatedAccountingLine);
+        return success;
     }
 
     /**
@@ -196,74 +156,57 @@ public class InternalBillingDocumentRule extends TransactionalDocumentRuleBase i
     }
 
     /**
-     * Note: this is an IU specific business rule.
+     * Evaluates the object sub type code of the accounting line's object code to determine whether the object code is a capital
+     * object code.  If so, and this accounting line is in the income section, then it is not valid.
      * <p/>
-     * This implementation evaluates the object sub type code of the accounting line's object code to determine whether the object
-     * code is capital object code. If it is a capital object code, then this accounting line is not valid.
+     * Note: this is an IU specific business rule.
      *
-     * @see org.kuali.core.rule.AddAccountingLineRule#isObjectCodeAllowed(AccountingLine)
+     * @param accountingLine
+     * @return whether the given line is valid with respect to capital object codes
      */
-    public boolean isObjectCodeAllowed(AccountingLine accountingLine) {
-        int pendPurchaseCount = 0; // TODO need to do something with this but I have no idea what
-        String objectSubTypeCode = accountingLine.getObjectCode().getFinancialObjectSubType().getCode();
-        String subFundGroupCode = accountingLine.getAccount().getSubFundGroup().getSubFundGroupCode();
-
-        // TODO purchase count still needs to be entered in
-        if (!SUB_FUND_GROUP_CODE.CODE_EXTAGY.equals(subFundGroupCode) && restrictedCapitalObjectCodes.contains(objectSubTypeCode)
-            && (pendPurchaseCount <= 0))
-        {
-            reportError(Constants.ACCOUNTING_LINE_ERRORS, KeyConstants.ERROR_DOCUMENT_INCORRECT_OBJ_CODE_WITH_OBJ_LEVEL,
-                new String[]{objectSubTypeCode, subFundGroupCode});
+    private boolean validateCapitalObjectCodes(AccountingLine accountingLine) {
+        if (isSourceAccountingLine(accountingLine) && isCapitalObject(accountingLine)) {
+            GlobalVariables.getErrorMap().put(PropertyConstants.FINANCIAL_OBJECT_CODE,
+                KeyConstants.ERROR_DOCUMENT_IB_CAPITAL_OBJECT_IN_INCOME_SECTION);
+            LOG.debug("APC rule failure " + ExceptionUtils.describeStackLevel(0));
             return false;
         }
+        else {
+            return true;
+        }
+        // todo: phase II
+        // int pendPurchaseCount = 0; // TODO need to do something with this but I have no idea what
+        // if (!SUB_FUND_GROUP_CODE.CODE_EXTAGY.equals(subFundGroupCode) && restrictedCapitalObjectCodes.contains(objectSubTypeCode)
+        //     && (pendPurchaseCount <= 0))
+    }
 
-        return true;
+    private boolean isCapitalObject(AccountingLine accountingLine) {
+        return getParameterRule(INTERNAL_BILLING_DOCUMENT_SECURITY_GROUPING, CAPITAL_OBJECT_SUB_TYPE_CODES).succeedsRule(
+            accountingLine.getObjectCode().getFinancialObjectSubTypeCode());
     }
 
     /**
-     * This method overrides the parent's to call the parent's isObjectTypeAllowed() method first, and then makes sure that it's not
-     * an Income Not Cash and a Expense Not Expenditure object type.
-     *
      * @see org.kuali.core.rule.AddAccountingLineRule#isObjectTypeAllowed(AccountingLine)
      */
     public boolean isObjectTypeAllowed(AccountingLine accountingLine) {
-        boolean isValid = true;
-
-        isValid &= super.isObjectTypeAllowed(accountingLine);
-
-        // if this is being set behind the scenes automatically, as most documents do,
-        // this will not be set before the line is added
-        if (accountingLine.getObjectTypeCode() != null) {
-            // now check to make sure that the object type code is not an income not cash or expense not expenditure type code
-            String objectTypeCode = accountingLine.getObjectTypeCode();
-            if (OBJECT_TYPE_CODE.INCOME_NOT_CASH.equals(objectTypeCode)
-                || OBJECT_TYPE_CODE.EXPENSE_NOT_EXPENDITURE.equals(objectTypeCode))
-            {
-                reportError(Constants.ACCOUNTING_LINE_ERRORS, KeyConstants.ERROR_DOCUMENT_INCORRECT_OBJ_TYPE,
-                    new String[]{objectTypeCode});
-                isValid &= false;
-            }
-        }
-
-        return isValid;
+        return indirectRuleSucceeds(getParameterRule(INTERNAL_BILLING_DOCUMENT_SECURITY_GROUPING, RESTRICTED_OBJECT_TYPE_CODES),
+            new AttributeReference(SourceAccountingLine.class, PropertyConstants.FINANCIAL_OBJECT_CODE,
+                accountingLine.getFinancialObjectCode()),
+            new AttributeReference(ObjectCode.class, PropertyConstants.FINANCIAL_OBJECT_TYPE_CODE,
+                accountingLine.getObjectCode().getFinancialObjectTypeCode())); // todo: use accountingLine.getObjectTypeCode()?
     }
 
     /**
-     * Overrides the parent to make sure that the chosen object code's object sub-type code isn't restricted according to the above
-     * initialized restriction list.
+     * Overrides the parent to make sure that the chosen object code's object sub-type code isn't restricted according to the APC.
      *
      * @see org.kuali.core.rule.AddAccountingLineRule#isObjectSubTypeAllowed(AccountingLine)
      */
     public boolean isObjectSubTypeAllowed(AccountingLine accountingLine) {
-        String objectSubTypeCode = accountingLine.getObjectCode().getFinancialObjectSubType().getCode();
-
-        if (restrictedObjectSubTypeCodes.contains(objectSubTypeCode)) {
-            reportError(Constants.ACCOUNTING_LINE_ERRORS, KeyConstants.ERROR_DOCUMENT_INCORRECT_OBJ_SUB_TYPE,
-                new String[]{objectSubTypeCode});
-            return false;
-        }
-
-        return true;
+        return indirectRuleSucceeds(getParameterRule(INTERNAL_BILLING_DOCUMENT_SECURITY_GROUPING, RESTRICTED_OBJECT_SUB_TYPE_CODES),
+            new AttributeReference(SourceAccountingLine.class, PropertyConstants.FINANCIAL_OBJECT_CODE,
+                accountingLine.getFinancialObjectCode()),
+            new AttributeReference(ObjectCode.class, PropertyConstants.FINANCIAL_OBJECT_SUB_TYPE_CODE,
+                accountingLine.getObjectCode().getFinancialObjectSubTypeCode()));
     }
 
     /**
@@ -273,36 +216,11 @@ public class InternalBillingDocumentRule extends TransactionalDocumentRuleBase i
      * @see TransactionalDocumentRuleBase#isObjectLevelAllowed(AccountingLine)
      */
     public boolean isObjectLevelAllowed(AccountingLine accountingLine) {
-        String objectLevel = accountingLine.getObjectCode().getFinancialObjectLevel().getFinancialObjectLevelCode();
-
-        if (OBJECT_LEVEL_CODE.CONTRACT_GRANTS.equals(objectLevel)) {
-            reportError(Constants.ACCOUNTING_LINE_ERRORS, KeyConstants.ERROR_DOCUMENT_INCORRECT_OBJ_CODE_WITH_OBJ_LEVEL,
-                new String[]{accountingLine.getObjectCode().getFinancialObjectCode(), objectLevel});
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * Overrides the parent's implementation to check to make sure that the provided object code's consolidation isn't an asset of
-     * liability consolidation.
-     *
-     * @see TransactionalDocumentRuleBase#isObjectConsolidationAllowed(AccountingLine)
-     */
-    public boolean isObjectConsolidationAllowed(AccountingLine accountingLine) {
-        String consolidatedObjectCode = accountingLine.getObjectCode().getFinancialObjectLevel().getConsolidatedObjectCode();
-
-        if (CONSOLIDATED_OBJECT_CODE.ASSETS.equals(consolidatedObjectCode)
-            || CONSOLIDATED_OBJECT_CODE.LIABILITIES.equals(consolidatedObjectCode))
-        {
-            reportError(Constants.ACCOUNTING_LINE_ERRORS,
-                KeyConstants.ERROR_DOCUMENT_INCORRECT_OBJ_CODE_WITH_CONSOLIDATED_OBJ_CODE,
-                new String[]{accountingLine.getObjectCode().getFinancialObjectCode(), consolidatedObjectCode});
-            return false;
-        }
-
-        return true;
+        return indirectRuleSucceeds(getParameterRule(INTERNAL_BILLING_DOCUMENT_SECURITY_GROUPING, RESTRICTED_OBJECT_LEVEL_CODES),
+            new AttributeReference(SourceAccountingLine.class, PropertyConstants.FINANCIAL_OBJECT_CODE,
+                accountingLine.getFinancialObjectCode()),
+            new AttributeReference(ObjectCode.class, PropertyConstants.FINANCIAL_OBJECT_LEVEL_CODE,
+                accountingLine.getObjectCode().getFinancialObjectLevelCode()));
     }
 
     /**
@@ -311,15 +229,11 @@ public class InternalBillingDocumentRule extends TransactionalDocumentRuleBase i
      * @see TransactionalDocumentRuleBase#isFundGroupAllowed(AccountingLine)
      */
     public boolean isFundGroupAllowed(AccountingLine accountingLine) {
-        String fundGroupCode = accountingLine.getAccount().getSubFundGroup().getFundGroup().getCode();
-
-        if (FUND_GROUP_CODE.LOAN_FUND.equals(fundGroupCode)) {
-            reportError(Constants.ACCOUNTING_LINE_ERRORS, KeyConstants.ERROR_CUSTOM,
-                new String[]{"Invalid Fund Group for this eDoc"});
-            return false;
-        }
-
-        return true;
+        return indirectRuleSucceeds(getParameterRule(INTERNAL_BILLING_DOCUMENT_SECURITY_GROUPING, RESTRICTED_FUND_GROUP_CODES),
+            new AttributeReference(SourceAccountingLine.class, PropertyConstants.ACCOUNT_NUMBER, accountingLine.getAccountNumber()),
+            new AttributeReference(SubFundGroup.class, PropertyConstants.FUND_GROUP_CODE,
+                accountingLine.getAccount().getSubFundGroup().getFundGroupCode()));
+        // This calls for double indirection, but I'm not sure if such an error message would be more user friendly.
     }
 
     /**

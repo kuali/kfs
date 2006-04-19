@@ -91,6 +91,13 @@ public class GeneralErrorCorrectionDocumentRule
     }
 
     /**
+     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#isDebit(org.kuali.core.bo.AccountingLine)
+     */
+    public boolean isDebit(AccountingLine accountingLine) throws IllegalStateException {
+        return isDebitConsideringSection(accountingLine);
+    }
+
+    /**
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processCustomAddAccountingLineBusinessRule(TransactionalDocument document, AccountingLine accountingLine)
      */
     public boolean processCustomAddAccountingLineBusinessRules(TransactionalDocument document, 

@@ -43,21 +43,15 @@ import org.kuali.core.util.KualiDecimal;
 public class DistributionOfIncomeAndExpenseDocumentRule extends TransactionalDocumentRuleBase {
 
     /**
-     * 
+     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#isDebit(org.kuali.core.bo.AccountingLine)
      */
     public boolean isDebit(AccountingLine accountingLine) throws IllegalStateException {
-    	// Negative amounts are not allowed.
-    	if(accountingLine.getAmount().isNegative()) {
-    		throw new IllegalStateException(objectTypeCodeIllegalStateExceptionMessage);
-    	}
-    	
-    	if(isSourceAccountingLine(accountingLine)) {
-    		return !super.isDebit(accountingLine);
-    	} else {
-    		return super.isDebit(accountingLine);
-    	}
-	}
-	
+        if(accountingLine.getAmount().isNegative()) {
+            throw new IllegalStateException("Negative amounts are not allowed.");
+        }
+        return isDebitConsideringSection(accountingLine);
+    }
+
     public boolean processCustomRouteDocumentBusinessRules(Document document) {
         TransactionalDocument tranDoc = (TransactionalDocument) document;
         ErrorMap errorMap = GlobalVariables.getErrorMap();

@@ -90,15 +90,7 @@ public class TransferOfFundsDocumentRule extends TransactionalDocumentRuleBase i
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#isDebit(org.kuali.core.bo.AccountingLine)
      */
     public boolean isDebit(AccountingLine accountingLine) throws IllegalStateException {
-        if (isExpenseOrAsset(accountingLine) || isIncomeOrLiability(accountingLine)) {
-            if (isSourceAccountingLine(accountingLine)) {
-                return accountingLine.getAmount().isGreaterThan(Constants.ZERO);
-            }
-            else {
-                return accountingLine.getAmount().isLessEqual(Constants.ZERO);
-            }
-        }
-        throw new IllegalStateException(objectTypeCodeIllegalStateExceptionMessage);
+        return isDebitConsideringSection(accountingLine);
     }
 
     /**
@@ -110,41 +102,41 @@ public class TransferOfFundsDocumentRule extends TransactionalDocumentRuleBase i
     protected KualiDecimal getGeneralLedgerPendingEntryAmountForAccountingLine(AccountingLine accountingLine) {
         return accountingLine.getAmount().abs();
     }
-    
+
     /**
-     * Overrides to check balances across mandator transfers and non-mandatory transfers.  Also 
+     * Overrides to check balances across mandator transfers and non-mandatory transfers.  Also
      * checks balances across fund groups.
      *
      * @see TransactionalDocumentRuleBase#isDocumentBalanceValid(TransactionalDocument)
      */
     protected boolean isDocumentBalanceValid(TransactionalDocument transactionalDocument) {
         boolean isValid = super.isDocumentBalanceValid(transactionalDocument);
-        
+
         TransferOfFundsDocument tofDoc = (TransferOfFundsDocument) transactionalDocument;
         // make sure accounting lines balance across mandatory and non-mandatory transfers
         if(isValid) {
             isValid = isMandatoryTransferTotalAndNonMandatoryTransferTotalBalanceValid(tofDoc);
         }
-        
+
         // make sure accounting lines for a TOF balance across agency and clearing fund groups - IU specific
         if(isValid) {
             isValid = isFundGroupsBalanceValid(tofDoc);
         }
-        
+
         return isValid;
     }
 
     /**
-     * This document specific routing business rule check calls the check that makes sure that the 
+     * This document specific routing business rule check calls the check that makes sure that the
      * budget year is consistent for all accounting lines.
-     * 
+     *
      * @see org.kuali.core.rule.DocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.Document)
      */
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
         boolean isValid = super.processCustomRouteDocumentBusinessRules(document);
 
         TransferOfFundsDocument tofDoc = (TransferOfFundsDocument) document;
-        
+
         if(isValid) {
             isValid = isAllAccountingLinesMatchingBudgetYear(tofDoc);
         }
@@ -153,25 +145,25 @@ public class TransferOfFundsDocumentRule extends TransactionalDocumentRuleBase i
     }
 
     /**
-     * This is a helper method that wraps the fund group balancing check.  This check can be configured by updating 
-     * the APC that is associated with this check.  See the document's specification for details. 
-     * 
+     * This is a helper method that wraps the fund group balancing check.  This check can be configured by updating
+     * the APC that is associated with this check.  See the document's specification for details.
+     *
      * @param tofDoc
      * @return boolean
      */
     private boolean isFundGroupsBalanceValid(TransferOfFundsDocument tofDoc) {
         String[] fundGroupCodes = SpringServiceLocator.getKualiConfigurationService().
-            getApplicationParameterValues(KUALI_TRANSACTION_PROCESSING_TRANSFER_OF_FUNDS_SECURITY_GROUPING, 
+            getApplicationParameterValues(KUALI_TRANSACTION_PROCESSING_TRANSFER_OF_FUNDS_SECURITY_GROUPING,
                     APPLICATION_PARAMETER.FUND_GROUP_BALANCING_SET);
         return isFundGroupSetBalanceValid(tofDoc, fundGroupCodes);
     }
-    
+
     /**
      * This method checks the sum of all of the "From" accounting lines with mandatory transfer object codes against the sum of all
      * of the "To" accounting lines with mandatory transfer object codes. In addition, it does the same, but for accounting lines
      * with non-mandatory transfer object code. This is to enforce the rule that the document must balance within the object code
      * object sub-type codes of mandatory transfers and non-mandatory transfers.
-     * 
+     *
      * @param tofDoc
      * @return True if they balance; false otherwise.
      */
@@ -231,10 +223,10 @@ public class TransferOfFundsDocumentRule extends TransactionalDocumentRuleBase i
     /**
      * Overrides the parent to make sure that the chosen object code's object sub-type code is either Mandatory Transfer or
      * Non-Mandatory Transfer. This is called by the parent's processAddAccountingLine() method.
-     * 
+     *
      * @param accountingLine
      * @return True if the object code's object sub-type code is a mandatory or non-mandatory transfer; false otherwise.
-     * 
+     *
      * @see org.kuali.core.rule.AccountingLineRule#isObjectSubTypeAllowed(org.kuali.core.bo.AccountingLine)
      */
     public boolean isObjectSubTypeAllowed(AccountingLine accountingLine) {
@@ -261,7 +253,7 @@ public class TransferOfFundsDocumentRule extends TransactionalDocumentRuleBase i
     }
 
     /**
-     * 
+     *
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processSourceAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument,
      *      org.kuali.core.bo.SourceAccountingLine)
      */
@@ -271,7 +263,7 @@ public class TransferOfFundsDocumentRule extends TransactionalDocumentRuleBase i
     }
 
     /**
-     * 
+     *
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processTargetAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument,
      *      org.kuali.core.bo.TargetAccountingLine)
      */
@@ -282,7 +274,7 @@ public class TransferOfFundsDocumentRule extends TransactionalDocumentRuleBase i
 
     /**
      * Prepares the input item that will be used for sufficient funds checking.
-     * 
+     *
      * fi_dtf:lp_proc_frm_ln,lp_proc_to_ln conslidated
      * 
      * @param accountingLine

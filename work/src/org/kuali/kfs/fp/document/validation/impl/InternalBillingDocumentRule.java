@@ -98,6 +98,13 @@ public class InternalBillingDocumentRule extends TransactionalDocumentRuleBase i
     }
 
     /**
+     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#isDebit(org.kuali.core.bo.AccountingLine)
+     */
+    public boolean isDebit(AccountingLine accountingLine) throws IllegalStateException {
+        return isDebitConsideringSection(accountingLine);
+    }
+
+    /**
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processCustomAddAccountingLineBusinessRules(TransactionalDocument, AccountingLine)
      */
     public boolean processCustomAddAccountingLineBusinessRules(TransactionalDocument document, AccountingLine accountingLine) {

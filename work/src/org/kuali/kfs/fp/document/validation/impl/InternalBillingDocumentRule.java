@@ -361,7 +361,7 @@ public class InternalBillingDocumentRule extends TransactionalDocumentRuleBase i
             }
         }
         else {
-            assert parameterRule.isDeniedRule();
+            // todo: assert parameterRule.isDeniedRule();
             if (parameterRule.getMultipleValueIndicator()) {
                 errorKey = KeyConstants.ERROR_APC_INDIRECT_DENIED_MULTIPLE;
             }

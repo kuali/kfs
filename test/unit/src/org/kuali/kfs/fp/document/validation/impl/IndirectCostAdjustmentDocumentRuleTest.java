@@ -26,7 +26,7 @@ package org.kuali.module.financial.rules;
 import java.util.Collections;
 
 import org.kuali.core.util.SpringServiceLocator;
-import org.kuali.test.KualiTestBaseWithSpring;
+import org.kuali.test.KualiTestBaseWithFixtures;
 
 /**
  * This class tests the <code>{@link IndirectCostAdjustmentDocument}</code>'s rules 
@@ -37,7 +37,7 @@ import org.kuali.test.KualiTestBaseWithSpring;
  * 
  * @author Kuali Transaction Processing Team (kualidev@oncourse.iu.edu)
  */
-public class IndirectCostAdjustmentDocumentRuleTest extends KualiTestBaseWithSpring {
+public class IndirectCostAdjustmentDocumentRuleTest extends KualiTestBaseWithFixtures {
     //////////////////////////////////////////////////////////////////////////
     // Test methods start here                                              //
     //////////////////////////////////////////////////////////////////////////

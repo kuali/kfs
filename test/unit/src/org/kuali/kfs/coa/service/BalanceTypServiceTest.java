@@ -27,13 +27,13 @@ import java.util.HashMap;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
-import org.kuali.test.KualiTestBaseWithSpring;
+import org.kuali.test.KualiTestBaseWithFixtures;
 
 /**
  * This class tests the BalanceType service.
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class BalanceTypServiceTest extends KualiTestBaseWithSpring {
+public class BalanceTypServiceTest extends KualiTestBaseWithFixtures {
     BusinessObjectService businessObjectService;
 
     private static final boolean ACTIVE = true;

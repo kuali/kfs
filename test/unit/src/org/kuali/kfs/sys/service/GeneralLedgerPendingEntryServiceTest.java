@@ -27,14 +27,14 @@ import java.util.Iterator;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
-import org.kuali.test.KualiTestBaseWithSpring;
+import org.kuali.test.KualiTestBaseWithFixtures;
 
 /**
  * This class tests the GeneralLedgerPending service.
  * 
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class GeneralLedgerPendingEntryServiceTest extends KualiTestBaseWithSpring {
+public class GeneralLedgerPendingEntryServiceTest extends KualiTestBaseWithFixtures {
     private GeneralLedgerPendingEntryService generalLedgerPendingEntryService;
     private final String docHeaderId = "1003";
 

@@ -26,13 +26,13 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.ObjectCode;
-import org.kuali.test.KualiTestBaseWithSpring;
+import org.kuali.test.KualiTestBaseWithFixtures;
 
 /**
  * This class tests the AccountPresenceService.
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
-public class AccountPresenceServiceTest extends KualiTestBaseWithSpring {
+public class AccountPresenceServiceTest extends KualiTestBaseWithFixtures {
     private AccountPresenceService accountPresenceService;
     private BusinessObjectService businessObjectService;
 

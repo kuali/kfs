@@ -23,14 +23,14 @@
 package org.kuali.module.financial.service;
 
 import org.kuali.core.util.SpringServiceLocator;
-import org.kuali.test.KualiTestBaseWithSpring;
+import org.kuali.test.KualiTestBaseWithFixtures;
 
 /**
  * This class tests the ProcurementCardDocument service.
  * 
  * @author Kuali Financial Transactions (kualidev@oncourse.iu.edu)
  */
-public class ProcurementCardDocumentServiceTest extends KualiTestBaseWithSpring {
+public class ProcurementCardDocumentServiceTest extends KualiTestBaseWithFixtures {
     private ProcurementCardDocumentService procurementCardDocumentService;
 
     protected void setUp() throws Exception {

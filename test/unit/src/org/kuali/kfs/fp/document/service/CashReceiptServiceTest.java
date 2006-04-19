@@ -24,9 +24,9 @@ package org.kuali.module.financial.service;
 
 import org.kuali.Constants;
 import org.kuali.core.util.SpringServiceLocator;
-import org.kuali.test.KualiTestBaseWithSpring;
+import org.kuali.test.KualiTestBaseWithFixtures;
 
-public class CashReceiptServiceTest extends KualiTestBaseWithSpring {
+public class CashReceiptServiceTest extends KualiTestBaseWithFixtures {
     private static final String KNOWN_CAMPUS_CD = Constants.CashReceiptConstants.TEST_CASH_RECEIPT_CAMPUS_LOCATION_CODE;
     private static final String KNOWN_UNIT_NAME = Constants.CashReceiptConstants.TEST_CASH_RECEIPT_VERIFICATION_UNIT;
 

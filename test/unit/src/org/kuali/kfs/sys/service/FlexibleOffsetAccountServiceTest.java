@@ -27,7 +27,7 @@ import java.lang.reflect.InvocationTargetException;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.module.financial.bo.OffsetAccount;
-import org.kuali.test.KualiTestBaseWithSpring;
+import org.kuali.test.KualiTestBaseWithFixtures;
 import org.kuali.test.MockService;
 import org.kuali.Constants;
 
@@ -36,7 +36,7 @@ import org.kuali.Constants;
  *
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
-public class FlexibleOffsetAccountServiceTest extends KualiTestBaseWithSpring {
+public class FlexibleOffsetAccountServiceTest extends KualiTestBaseWithFixtures {
     private FlexibleOffsetAccountService service;
     private KualiConfigurationService originalConfigService;
 

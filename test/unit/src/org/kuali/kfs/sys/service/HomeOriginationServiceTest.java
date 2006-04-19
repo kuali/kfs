@@ -24,12 +24,12 @@ package org.kuali.core.service;
 
 import org.kuali.core.bo.HomeOrigination;
 import org.kuali.core.util.SpringServiceLocator;
-import org.kuali.test.KualiTestBaseWithSpring;
+import org.kuali.test.KualiTestBaseWithFixtures;
 
 /**
  * This class tests the Home Origination service.
  */
-public class HomeOriginationServiceTest extends KualiTestBaseWithSpring {
+public class HomeOriginationServiceTest extends KualiTestBaseWithFixtures {
     private HomeOriginationService homeOriginationService;
 
     protected void setUp() throws Exception {

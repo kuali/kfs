@@ -31,14 +31,14 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.ObjectCode;
-import org.kuali.test.KualiTestBaseWithSpring;
+import org.kuali.test.KualiTestBaseWithFixtures;
 
 /**
  * This class tests some methods of AccountingLineRuleUtil.
  * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
-public class AccountingLineRuleUtilTest extends KualiTestBaseWithSpring {
+public class AccountingLineRuleUtilTest extends KualiTestBaseWithFixtures {
     private BusinessObjectService businessObjectService;
 
     protected void setUp() throws Exception {

@@ -31,7 +31,7 @@ import org.kuali.PropertyConstants;
 import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
 import org.kuali.module.financial.document.JournalVoucherDocument;
-import org.kuali.test.KualiTestBaseWithSpring;
+import org.kuali.test.KualiTestBaseWithFixtures;
 import org.kuali.test.fixtures.FixtureEntryException;
 
 /**
@@ -41,7 +41,7 @@ import org.kuali.test.fixtures.FixtureEntryException;
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public class TransactionalDocumentRuleUtilTest
-    extends KualiTestBaseWithSpring  {
+    extends KualiTestBaseWithFixtures  {
 
     private static final String DOES_NOT_MATTER = "doesNotMatter";
     private static final String COLLECTION_NAME =

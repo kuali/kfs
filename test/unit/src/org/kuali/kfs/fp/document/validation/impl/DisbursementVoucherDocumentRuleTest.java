@@ -26,13 +26,13 @@ import org.kuali.Constants;
 import org.kuali.core.bo.SourceAccountingLine;
 import org.kuali.core.bo.TargetAccountingLine;
 import org.kuali.module.gl.util.SufficientFundsItemHelper.SufficientFundsItem;
-import org.kuali.test.KualiTestBaseWithSpring;
+import org.kuali.test.KualiTestBaseWithFixtures;
 import org.kuali.test.parameters.AccountingLineParameter;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class DisbursementVoucherDocumentRuleTest extends KualiTestBaseWithSpring {
+public class DisbursementVoucherDocumentRuleTest extends KualiTestBaseWithFixtures {
 
     private static final String COLLECTION_NAME = "DisbursementVoucherDocumentRuleTest.collection1";
     private static final String SOURCE_LINE_1 = "sourceLine1";

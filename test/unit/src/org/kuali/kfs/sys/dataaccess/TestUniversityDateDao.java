@@ -10,14 +10,14 @@ import java.util.Date;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.gl.bo.UniversityDate;
 import org.kuali.module.gl.dao.UniversityDateDao;
-import org.kuali.test.KualiTestBaseWithSpring;
+import org.kuali.test.KualiTestBaseWithFixtures;
 import org.springframework.beans.factory.BeanFactory;
 
 /**
  * @author jsissom
  *
  */
-public class TestUniversityDateDao extends KualiTestBaseWithSpring {
+public class TestUniversityDateDao extends KualiTestBaseWithFixtures {
 
   private SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
     

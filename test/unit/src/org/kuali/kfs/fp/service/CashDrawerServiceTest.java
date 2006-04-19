@@ -30,14 +30,14 @@ import org.kuali.Constants;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.CashDrawer;
-import org.kuali.test.KualiTestBaseWithSpring;
+import org.kuali.test.KualiTestBaseWithFixtures;
 
 /**
  * This class tests the Check service.
  * 
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class CashDrawerServiceTest extends KualiTestBaseWithSpring {
+public class CashDrawerServiceTest extends KualiTestBaseWithFixtures {
     private static final String KNOWN_WORKGROUP = Constants.CashReceiptConstants.TEST_CASH_RECEIPT_VERIFICATION_UNIT;
     private static final String PREEXISTING_WORKGROUP = "KUALI_BRSR_BL";
     private static final String UNKNOWN_WORKGROUP = "foo";

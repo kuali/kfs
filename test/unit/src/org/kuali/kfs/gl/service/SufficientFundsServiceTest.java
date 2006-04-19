@@ -39,7 +39,7 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.ObjLevel;
-import org.kuali.test.KualiTestBaseWithSpring;
+import org.kuali.test.KualiTestBaseWithFixtures;
 import org.kuali.test.parameters.AccountingLineParameter;
 import org.kuali.test.parameters.TransactionalDocumentParameter;
 
@@ -49,7 +49,7 @@ import org.kuali.test.parameters.TransactionalDocumentParameter;
  * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
-public class SufficientFundsServiceTest extends KualiTestBaseWithSpring {
+public class SufficientFundsServiceTest extends KualiTestBaseWithFixtures {
     private Options globalOptions;
     private Options originalOptions;
     private SufficientFundsService sufficientFundsService;

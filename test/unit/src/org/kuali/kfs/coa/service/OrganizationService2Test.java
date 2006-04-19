@@ -26,9 +26,9 @@ import java.util.Collections;
 import java.util.List;
 
 import org.kuali.core.util.SpringServiceLocator;
-import org.kuali.test.KualiTestBaseWithSpring;
+import org.kuali.test.KualiTestBaseWithFixtures;
 
-public class OrganizationService2Test extends KualiTestBaseWithSpring {
+public class OrganizationService2Test extends KualiTestBaseWithFixtures {
 
     private static final String GOOD_CHART = "BL";
     private static final String GOOD_ORG = "PSY";

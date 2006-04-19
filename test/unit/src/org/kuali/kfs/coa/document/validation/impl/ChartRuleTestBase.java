@@ -38,11 +38,11 @@ import org.kuali.core.util.ErrorMessage;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.util.TypedArrayList;
-import org.kuali.test.KualiTestBaseWithSpring;
+import org.kuali.test.KualiTestBaseWithFixtures;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
-public abstract class ChartRuleTestBase extends KualiTestBaseWithSpring {
+public abstract class ChartRuleTestBase extends KualiTestBaseWithFixtures {
 
     protected DictionaryValidationService dictionaryValidationService;
 

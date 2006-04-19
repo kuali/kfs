@@ -26,7 +26,7 @@ import java.util.Collections;
 
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.bo.AccountingLine;
-import org.kuali.test.KualiTestBaseWithSpring;
+import org.kuali.test.KualiTestBaseWithFixtures;
 import org.kuali.PropertyConstants;
 import org.kuali.KeyConstants;
 
@@ -37,7 +37,7 @@ import org.kuali.KeyConstants;
  * 
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class InternalBillingDocumentRuleTest extends KualiTestBaseWithSpring implements InternalBillingDocumentRuleConstants {
+public class InternalBillingDocumentRuleTest extends KualiTestBaseWithFixtures implements InternalBillingDocumentRuleConstants {
 
     //////////////////////////////////////////////////////////////////////////
     // Test methods start here                                              //

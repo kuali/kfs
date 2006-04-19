@@ -29,14 +29,14 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiCodeService;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.SubFundGroup;
-import org.kuali.test.KualiTestBaseWithSpring;
+import org.kuali.test.KualiTestBaseWithFixtures;
 
 /**
  * This class tests the SubFndGrp service.
  * 
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class SubFundGroupServiceTest extends KualiTestBaseWithSpring {
+public class SubFundGroupServiceTest extends KualiTestBaseWithFixtures {
 
     SubFundGroup SubFndGrp;
     KualiCodeService kualiCodeService;

@@ -25,7 +25,7 @@ package org.kuali.module.chart.service;
 import org.kuali.core.service.KualiCodeService;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.FundGroup;
-import org.kuali.test.KualiTestBaseWithSpring;
+import org.kuali.test.KualiTestBaseWithFixtures;
 
 /**
  * This class tests the FundGroup service.
@@ -33,7 +33,7 @@ import org.kuali.test.KualiTestBaseWithSpring;
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 
-public class FundGroupServiceTest extends KualiTestBaseWithSpring {
+public class FundGroupServiceTest extends KualiTestBaseWithFixtures {
 
     KualiCodeService kualiCodeService;
 

@@ -30,14 +30,14 @@ import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.Check;
 import org.kuali.module.financial.bo.CheckBase;
 import org.kuali.module.financial.service.CheckService;
-import org.kuali.test.KualiTestBaseWithSpring;
+import org.kuali.test.KualiTestBaseWithFixtures;
 
 /**
  * This class tests the Check service.
  * 
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class CheckServiceTest extends KualiTestBaseWithSpring {
+public class CheckServiceTest extends KualiTestBaseWithFixtures {
 
     private CheckService checkService;
     private Check check;

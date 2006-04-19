@@ -27,7 +27,7 @@ import java.util.Date;
 
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.codes.FederalFundedCode;
-import org.kuali.test.KualiTestBaseWithSpring;
+import org.kuali.test.KualiTestBaseWithFixtures;
 
 /**
  * This class tests the FederalFundedCode service.
@@ -35,7 +35,7 @@ import org.kuali.test.KualiTestBaseWithSpring;
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 
-public class FederalFundedCodeServiceTest extends KualiTestBaseWithSpring {
+public class FederalFundedCodeServiceTest extends KualiTestBaseWithFixtures {
 
     private FederalFundedCode ffc;
     private KualiCodeService kualiCodeService;

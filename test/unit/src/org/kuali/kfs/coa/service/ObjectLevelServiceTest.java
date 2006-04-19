@@ -24,13 +24,13 @@ package org.kuali.module.chart.service;
 
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.ObjLevel;
-import org.kuali.test.KualiTestBaseWithSpring;
+import org.kuali.test.KualiTestBaseWithFixtures;
 
 /**
  * This class tests the ObjLevel service.
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class ObjectLevelServiceTest extends KualiTestBaseWithSpring {
+public class ObjectLevelServiceTest extends KualiTestBaseWithFixtures {
     private ObjectLevelService objectLevelService;
 
     protected void setUp() throws Exception {

@@ -36,10 +36,10 @@ import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.dao.SufficientFundBalancesDao;
 import org.kuali.module.gl.dao.SufficientFundRebuildDao;
 import org.kuali.module.gl.dao.UnitTestSqlDao;
-import org.kuali.test.KualiTestBaseWithSpringOnly;
+import org.kuali.test.KualiTestBaseWithSpring;
 import org.springframework.beans.factory.BeanFactory;
 
-public class SufficientFundsRebuilderServiceTest extends KualiTestBaseWithSpringOnly {
+public class SufficientFundsRebuilderServiceTest extends KualiTestBaseWithSpring {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ScrubberServiceTest.class);
 
     protected BeanFactory beanFactory;

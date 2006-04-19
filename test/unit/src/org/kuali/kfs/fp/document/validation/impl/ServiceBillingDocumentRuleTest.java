@@ -25,7 +25,7 @@ package org.kuali.module.financial.rules;
 import java.util.Collections;
 
 import org.kuali.core.util.SpringServiceLocator;
-import org.kuali.test.KualiTestBaseWithSpring;
+import org.kuali.test.KualiTestBaseWithFixtures;
 
 /**
  * 
@@ -33,7 +33,7 @@ import org.kuali.test.KualiTestBaseWithSpring;
  * yet and needs to extend TransactionalDocumentRuleTestBase.
  * @author Kuali Financial Transaction Processing Team (kualidev@oncourse.iu.edu)
  */
-public class ServiceBillingDocumentRuleTest extends KualiTestBaseWithSpring {
+public class ServiceBillingDocumentRuleTest extends KualiTestBaseWithFixtures {
 
 
     //////////////////////////////////////////////////////////////////////////

@@ -25,14 +25,14 @@ package org.kuali.module.chart.service;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.OrganizationReversion;
 import org.kuali.module.chart.dao.OrganizationReversionDao;
-import org.kuali.test.KualiTestBaseWithSpring;
+import org.kuali.test.KualiTestBaseWithFixtures;
 import org.springframework.beans.factory.BeanFactory;
 
 /**
  * This class...
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class OrganizationReversionTestCase extends KualiTestBaseWithSpring {
+public class OrganizationReversionTestCase extends KualiTestBaseWithFixtures {
     
     public void testGetByPrimaryKey() throws Exception {
         BeanFactory factory = SpringServiceLocator.getBeanFactory();

@@ -41,7 +41,7 @@ import org.kuali.module.financial.document.CashManagementDocument;
 import org.kuali.module.financial.document.CashReceiptDocument;
 import org.kuali.module.financial.exceptions.InvalidCashDrawerState;
 import org.kuali.module.financial.exceptions.InvalidCashReceiptState;
-import org.kuali.test.KualiTestBaseWithSpring;
+import org.kuali.test.KualiTestBaseWithFixtures;
 import org.kuali.test.monitor.ChangeMonitor;
 import org.kuali.test.monitor.DocumentStatusMonitor;
 import org.kuali.test.monitor.DocumentWorkflowStatusMonitor;
@@ -50,7 +50,7 @@ import edu.iu.uis.eden.EdenConstants;
 import edu.iu.uis.eden.exception.WorkflowException;
 
 
-public class CashManagementServiceTest extends KualiTestBaseWithSpring {
+public class CashManagementServiceTest extends KualiTestBaseWithFixtures {
     private final Integer VALID_LINE_NUMBER = new Integer(1);
     private final Integer VALID_LINE_NUMBER2 = new Integer(2);
 

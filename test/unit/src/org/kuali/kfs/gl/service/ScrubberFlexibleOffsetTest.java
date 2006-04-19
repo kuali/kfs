@@ -309,7 +309,7 @@ public class ScrubberFlexibleOffsetTest extends OriginEntryTestBase {
         financialSystemParameter.setFinancialSystemMultipleValueIndicator(false);
 
         this.resetBusinessObject(financialSystemParameter, keys);
-        System.out.println("Enabled: " + flexibleOffsetAccountService.getEnabled());
+        //System.out.println("Enabled: " + flexibleOffsetAccountService.getEnabled());
     }
 
     /**

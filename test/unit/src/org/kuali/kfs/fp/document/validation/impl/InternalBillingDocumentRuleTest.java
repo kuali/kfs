@@ -25,7 +25,10 @@ package org.kuali.module.financial.rules;
 import java.util.Collections;
 
 import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.core.bo.AccountingLine;
 import org.kuali.test.KualiTestBaseWithSpring;
+import org.kuali.PropertyConstants;
+import org.kuali.KeyConstants;
 
 /**
  * This class tests the business rules of the internal billing document.  This is not implemented 
@@ -34,7 +37,7 @@ import org.kuali.test.KualiTestBaseWithSpring;
  * 
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class InternalBillingDocumentRuleTest extends KualiTestBaseWithSpring {
+public class InternalBillingDocumentRuleTest extends KualiTestBaseWithSpring implements InternalBillingDocumentRuleConstants {
 
     //////////////////////////////////////////////////////////////////////////
     // Test methods start here                                              //
@@ -51,6 +54,38 @@ public class InternalBillingDocumentRuleTest extends KualiTestBaseWithSpring {
         }
 
         assertTrue(failedAsExpected);
+    }
+
+    public final void testIsSubFundGroupAllowed_true() {
+        AccountingLine line = createLineFromFixture("expenseSourceLine");
+        line.refresh();
+        assertGlobalErrorMapEmpty();
+        boolean actual = new InternalBillingDocumentRule().isSubFundGroupAllowed(line);
+        assertGlobalErrorMapEmpty();
+        assertEquals(true, actual);
+    }
+
+    public final void testIsSubFundGroupAllowed_false() {
+        AccountingLine line = createLineFromFixture("pfipSubFundSourceLine");
+        line.refresh();
+        assertGlobalErrorMapEmpty();
+        boolean actual = new InternalBillingDocumentRule().isSubFundGroupAllowed(line);
+        assertGlobalErrorMapContains(PropertyConstants.ACCOUNT_NUMBER, KeyConstants.ERROR_APC_INDIRECT_DENIED_MULTIPLE,
+            new String[]{
+                INTERNAL_BILLING_DOCUMENT_SECURITY_GROUPING,
+                RESTRICTED_SUB_FUND_GROUP_CODES,
+                null, // ignore source line number since it will often change
+                "Account Number",
+                "9544900",
+                "Sub-Fund Group Code",
+                "PFIP",
+                "PFRI;PFIP"
+            });
+        assertEquals(false, actual);
+    }
+
+    private AccountingLine createLineFromFixture(String accountingLineFixtureName) {
+        return (AccountingLine) getFixtureEntry(accountingLineFixtureName).createObject();
     }
 
     /* Commented out until we get data in the db that matches what we need, or we can 

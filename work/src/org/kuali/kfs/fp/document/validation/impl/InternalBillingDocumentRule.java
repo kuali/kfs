@@ -22,6 +22,7 @@
  */
 package org.kuali.module.financial.rules;
 
+import java.util.Arrays;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -29,11 +30,15 @@ import org.kuali.Constants;
 import org.kuali.KeyConstants;
 import org.kuali.PropertyConstants;
 import org.kuali.core.bo.AccountingLine;
+import org.kuali.core.bo.SourceAccountingLine;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.TransactionalDocument;
+import org.kuali.core.rule.KualiParameterRule;
 import org.kuali.core.util.ErrorMap;
+import org.kuali.core.util.ExceptionUtils;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.module.chart.bo.Account;
 import org.kuali.module.financial.document.InternalBillingDocument;
 
 /**
@@ -41,7 +46,7 @@ import org.kuali.module.financial.document.InternalBillingDocument;
  *
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
-public class InternalBillingDocumentRule extends TransactionalDocumentRuleBase {
+public class InternalBillingDocumentRule extends TransactionalDocumentRuleBase implements InternalBillingDocumentRuleConstants {
 
     // Set container for restricted capital object codes
     protected static Set restrictedCapitalObjectCodes;
@@ -135,7 +140,10 @@ public class InternalBillingDocumentRule extends TransactionalDocumentRuleBase {
         {
             // The user could fix this via either ObjectCode or Account, but we arbitrarily choose the ObjectCode to highlight.
             reportError(PropertyConstants.OBJECT_CODE, KeyConstants.ERROR_DOCUMENT_INCORRECT_OBJ_CODE_WITH_SUB_FUND_GROUP,
-                new String[]{accountingLine.getFinancialObjectCode(), objectSubTypeCode, requiredSubFundGroupCode, actualSubFundGroupCode});
+                new String[]{accountingLine.getFinancialObjectCode(),
+                    objectSubTypeCode,
+                    requiredSubFundGroupCode,
+                    actualSubFundGroupCode});
             return false;
         }
         return true;
@@ -158,7 +166,7 @@ public class InternalBillingDocumentRule extends TransactionalDocumentRuleBase {
         final ErrorMap errorMap = GlobalVariables.getErrorMap();
         errorMap.addToErrorPath(Constants.DOCUMENT_PROPERTY_NAME);
         int originalErrorCount = errorMap.getErrorCount();
-        for(int i = 0; i < internalBillingDocument.getItems().size(); i++) {
+        for (int i = 0; i < internalBillingDocument.getItems().size(); i++) {
             // todo: expose and use a method for this List handling in DictionaryValidationService
             String propertyName = "item[" + i + "]";
             GlobalVariables.getErrorMap().addToErrorPath(propertyName);
@@ -224,7 +232,8 @@ public class InternalBillingDocumentRule extends TransactionalDocumentRuleBase {
             if (OBJECT_TYPE_CODE.INCOME_NOT_CASH.equals(objectTypeCode)
                 || OBJECT_TYPE_CODE.EXPENSE_NOT_EXPENDITURE.equals(objectTypeCode))
             {
-                reportError(Constants.ACCOUNTING_LINE_ERRORS, KeyConstants.ERROR_DOCUMENT_INCORRECT_OBJ_TYPE, objectTypeCode);
+                reportError(Constants.ACCOUNTING_LINE_ERRORS, KeyConstants.ERROR_DOCUMENT_INCORRECT_OBJ_TYPE,
+                    new String[]{objectTypeCode});
                 isValid &= false;
             }
         }
@@ -242,7 +251,8 @@ public class InternalBillingDocumentRule extends TransactionalDocumentRuleBase {
         String objectSubTypeCode = accountingLine.getObjectCode().getFinancialObjectSubType().getCode();
 
         if (restrictedObjectSubTypeCodes.contains(objectSubTypeCode)) {
-            reportError(Constants.ACCOUNTING_LINE_ERRORS, KeyConstants.ERROR_DOCUMENT_INCORRECT_OBJ_SUB_TYPE, objectSubTypeCode);
+            reportError(Constants.ACCOUNTING_LINE_ERRORS, KeyConstants.ERROR_DOCUMENT_INCORRECT_OBJ_SUB_TYPE,
+                new String[]{objectSubTypeCode});
             return false;
         }
 
@@ -297,7 +307,8 @@ public class InternalBillingDocumentRule extends TransactionalDocumentRuleBase {
         String fundGroupCode = accountingLine.getAccount().getSubFundGroup().getFundGroup().getCode();
 
         if (FUND_GROUP_CODE.LOAN_FUND.equals(fundGroupCode)) {
-            reportError(Constants.ACCOUNTING_LINE_ERRORS, KeyConstants.ERROR_CUSTOM, "Invalid Fund Group for this eDoc");
+            reportError(Constants.ACCOUNTING_LINE_ERRORS, KeyConstants.ERROR_CUSTOM,
+                new String[]{"Invalid Fund Group for this eDoc"});
             return false;
         }
 
@@ -311,15 +322,77 @@ public class InternalBillingDocumentRule extends TransactionalDocumentRuleBase {
      * @see TransactionalDocumentRuleBase#isSubFundGroupAllowed(AccountingLine)
      */
     public boolean isSubFundGroupAllowed(AccountingLine accountingLine) {
-        String subFundGroupCode = accountingLine.getAccount().getSubFundGroup().getSubFundGroupCode();
+        return indirectRuleSucceeds(getParameterRule(INTERNAL_BILLING_DOCUMENT_SECURITY_GROUPING, RESTRICTED_SUB_FUND_GROUP_CODES),
+            new AttributeReference(SourceAccountingLine.class, PropertyConstants.ACCOUNT_NUMBER, accountingLine.getAccountNumber()),
+            new AttributeReference(Account.class, PropertyConstants.SUB_FUND_GROUP_CODE,
+                accountingLine.getAccount().getSubFundGroupCode()));
+    }
 
-        if (SUB_FUND_GROUP_CODE.CODE_RETIRE_INDEBT.equals(subFundGroupCode)
-            || SUB_FUND_GROUP_CODE.CODE_INVESTMENT_PLANT.equals(subFundGroupCode))
-        {
-            reportError(Constants.ACCOUNTING_LINE_ERRORS, KeyConstants.ERROR_CUSTOM, "Invalid Sub Fund Group for this eDoc");
+    private static boolean indirectRuleSucceeds(KualiParameterRule parameterRule,
+                                                AttributeReference direct, AttributeReference indirect)
+    {
+        if (parameterRule.succeedsRule(indirect.getValueString())) {
+            return true;
+        }
+        else {
+            String[] errorParameters = {
+                parameterRule.getParameterGroupName(),
+                parameterRule.getParameterName(),
+                ExceptionUtils.describeStackLevel(1),
+                direct.getLabel(),
+                direct.getValueString(),
+                indirect.getLabel(),
+                indirect.getValueString(),
+                parameterRule.getParameterText()};
+            GlobalVariables.getErrorMap().put(direct.getPropertyName(), getIndirectErrorKey(parameterRule), errorParameters);
+            LOG.debug("APC rule failure " + Arrays.asList(errorParameters));
             return false;
         }
+    }
 
-        return true;
+    private static String getIndirectErrorKey(KualiParameterRule parameterRule) {
+        String errorKey;
+        if (parameterRule.isAllowedRule()) {
+            if (parameterRule.getMultipleValueIndicator()) {
+                errorKey = KeyConstants.ERROR_APC_INDIRECT_ALLOWED_MULTIPLE;
+            }
+            else {
+                errorKey = KeyConstants.ERROR_APC_INDIRECT_ALLOWED_SINGLE;
+            }
+        }
+        else {
+            assert parameterRule.isDeniedRule();
+            if (parameterRule.getMultipleValueIndicator()) {
+                errorKey = KeyConstants.ERROR_APC_INDIRECT_DENIED_MULTIPLE;
+            }
+            else {
+                errorKey = KeyConstants.ERROR_APC_INDIRECT_DENIED_SINGLE;
+            }
+        }
+        return errorKey;
+    }
+
+    static class AttributeReference {
+        private final String propertyName;
+        private final String valueString;
+        private final String label;
+
+        public AttributeReference(Class businessObjectClass, String propertyName, Object value) {
+            this.propertyName = propertyName;
+            this.valueString = value == null ? null : value.toString();
+            this.label = SpringServiceLocator.getDataDictionaryService().getAttributeLabel(businessObjectClass, propertyName);
+        }
+
+        public String getPropertyName() {
+            return propertyName;
+        }
+
+        public String getValueString() {
+            return valueString;
+        }
+
+        public String getLabel() {
+            return label;
+        }
     }
 }

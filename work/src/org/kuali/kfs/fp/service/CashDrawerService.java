@@ -32,14 +32,16 @@ import org.kuali.module.financial.bo.CashDrawer;
  */
 public interface CashDrawerService {
     /**
-     * Closes the CashDrawer instance associated with the given workgroupName, creating one if necessary
+     * Closes the CashDrawer instance associated with the given workgroupName, creating one if necessary.  Records the given documentId
+     * as the document which prompted the state change.
      */
-    public void closeCashDrawer(String workgroupName);
+    public void closeCashDrawer(String workgroupName, String documentId);
 
     /**
-     * Opens the CashDrawer instance associated with the given workgroupName, creating one if necessary
+     * Opens the CashDrawer instance associated with the given workgroupName, creating one if necessary. Records the given documentId
+     * as the document which prompted the state change.
      */
-    public void openCashDrawer(String workgroupName);
+    public void openCashDrawer(String workgroupName, String documentId);
 
     /**
      * Retrieves the CashDrawer instance associated with the given workgroupName, if any.
@@ -55,5 +57,5 @@ public interface CashDrawerService {
      * @param cashDrawer
      * @return the CashDrawer that was just saved
      */
-    public CashDrawer save(CashDrawer cashDrawer);
+    public CashDrawer save(CashDrawer cashDrawer, String documentId);
 }

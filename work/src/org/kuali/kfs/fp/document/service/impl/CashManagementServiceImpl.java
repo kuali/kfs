@@ -81,14 +81,17 @@ public class CashManagementServiceImpl implements CashManagementService {
     public CashManagementDocument createCashManagementDocument(String documentDescription, List verifiedCashReceipts, String workgroupName) {
         CashManagementDocument cmDoc = null;
 
-        // check and lock cash drawer
-        closeCashDrawer(workgroupName);
+        // check cash drawer
+        String lastControllingDocumentId = precloseCashDrawer(workgroupName);
 
         try {
             // create the document
             cmDoc = (CashManagementDocument) documentService.getNewDocument(CashManagementDocument.class);
             cmDoc.getDocumentHeader().setFinancialDocumentDescription(documentDescription);
             cmDoc.setWorkgroupName(workgroupName);
+
+            // close cash drawer
+            closeCashDrawer(workgroupName, cmDoc.getFinancialDocumentNumber());
 
             // create and associate the Deposit
             Deposit deposit = createDeposit(cmDoc, new Integer(0), verifiedCashReceipts, workgroupName);
@@ -103,21 +106,20 @@ public class CashManagementServiceImpl implements CashManagementService {
         catch (RuntimeException e) {
             // reopen the drawer if creation failed (without trapping the
             // failure-to-close)
-            openCashDrawer(workgroupName);
+            openCashDrawer(workgroupName, lastControllingDocumentId);
 
             throw e;
         }
         catch (WorkflowException e) {
             // reopen the drawer if creation failed (without trapping the
             // failure-to-close)
-            openCashDrawer(workgroupName);
+            openCashDrawer(workgroupName, lastControllingDocumentId);
 
             throw new InfrastructureException("unable to create CashManagementDocument ", e);
         }
 
         return cmDoc;
     }
-
 
     /**
      * @see org.kuali.module.financial.service.CashManagementService#finalizeCashManagementDocument(org.kuali.module.financial.document.CashManagementDocument)
@@ -138,7 +140,7 @@ public class CashManagementServiceImpl implements CashManagementService {
         }
 
         // 2. Open the cash drawer.
-        openCashDrawer(cmDoc.getWorkgroupName());
+        openCashDrawer(cmDoc.getWorkgroupName(), cmDoc.getFinancialDocumentNumber());
 
         // 3. Change the status of the CMD to APPROVED "A"
         cmDoc.getDocumentHeader().setFinancialDocumentStatusCode(Constants.DOCUMENT_STATUS_CD_APPROVED_PROCESSED);
@@ -158,7 +160,7 @@ public class CashManagementServiceImpl implements CashManagementService {
         }
 
         // 2. Open the cash drawer.
-        openCashDrawer(cmDoc.getWorkgroupName());
+        openCashDrawer(cmDoc.getWorkgroupName(), cmDoc.getFinancialDocumentNumber());
 
         // 3. Change the status of the CMD to something, probably
         // getDocumentHeader().setFinancialDocumentStatusCode(Constants.DOCUMENT_STATUS_CD_APPROVED_PROCESSED);
@@ -170,13 +172,13 @@ public class CashManagementServiceImpl implements CashManagementService {
      * 
      * @param workgroupName
      */
-    private void closeCashDrawer(String workgroupName) {
+    private String precloseCashDrawer(String workgroupName) {
         CashDrawer drawer = cashDrawerService.getByWorkgroupName(workgroupName);
         if ((drawer != null) && StringUtils.equals(drawer.getStatusCode(), Constants.CashDrawerConstants.STATUS_CLOSED)) {
             throw new InvalidCashDrawerState("cash drawer for workgroup '" + workgroupName + "' is already closed");
         }
 
-        cashDrawerService.closeCashDrawer(workgroupName);
+        return drawer.getFinancialDocumentReferenceNumber();
     }
 
     /**
@@ -184,13 +186,27 @@ public class CashManagementServiceImpl implements CashManagementService {
      * 
      * @param workgroupName
      */
-    private void openCashDrawer(String workgroupName) {
+    private void closeCashDrawer(String workgroupName, String documentId) {
+        CashDrawer drawer = cashDrawerService.getByWorkgroupName(workgroupName);
+        if ((drawer != null) && StringUtils.equals(drawer.getStatusCode(), Constants.CashDrawerConstants.STATUS_CLOSED)) {
+            throw new InvalidCashDrawerState("cash drawer for workgroup '" + workgroupName + "' is already closed");
+        }
+
+        cashDrawerService.closeCashDrawer(workgroupName, documentId);
+    }
+
+    /**
+     * Convenience wrapper around CashDrawerService call
+     * 
+     * @param workgroupName
+     */
+    private void openCashDrawer(String workgroupName, String documentId) {
         CashDrawer drawer = cashDrawerService.getByWorkgroupName(workgroupName);
         if ((drawer != null) && StringUtils.equals(drawer.getStatusCode(), Constants.CashDrawerConstants.STATUS_OPEN)) {
             throw new InvalidCashDrawerState("cash drawer for workgroup '" + workgroupName + "' is already open");
         }
 
-        cashDrawerService.openCashDrawer(workgroupName);
+        cashDrawerService.openCashDrawer(workgroupName, documentId);
     }
 
 

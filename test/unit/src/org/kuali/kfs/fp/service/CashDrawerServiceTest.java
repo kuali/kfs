@@ -42,6 +42,9 @@ public class CashDrawerServiceTest extends KualiTestBaseWithSpring {
     private static final String PREEXISTING_WORKGROUP = "KUALI_BRSR_BL";
     private static final String UNKNOWN_WORKGROUP = "foo";
 
+    private static final String BLANK_DOC_ID = "    ";
+    private static final String VALID_DOC_ID = "1234";
+
 
     private CashDrawerService cashDrawerService;
     private BusinessObjectService boService;
@@ -58,7 +61,20 @@ public class CashDrawerServiceTest extends KualiTestBaseWithSpring {
         boolean failedAsExpected = false;
 
         try {
-            cashDrawerService.openCashDrawer("  ");
+            cashDrawerService.openCashDrawer("  ", VALID_DOC_ID);
+        }
+        catch (IllegalArgumentException e) {
+            failedAsExpected = true;
+        }
+
+        assertTrue(failedAsExpected);
+    }
+
+    public final void testOpenCashDrawer_blankDocId() {
+        boolean failedAsExpected = false;
+
+        try {
+            cashDrawerService.openCashDrawer(KNOWN_WORKGROUP, BLANK_DOC_ID);
         }
         catch (IllegalArgumentException e) {
             failedAsExpected = true;
@@ -79,11 +95,12 @@ public class CashDrawerServiceTest extends KualiTestBaseWithSpring {
         deleteIfExists(nonexistentWorkgroup);
 
         // open it
-        cashDrawerService.openCashDrawer(nonexistentWorkgroup);
+        cashDrawerService.openCashDrawer(nonexistentWorkgroup, VALID_DOC_ID);
 
         // verify that it is open
         CashDrawer drawer = cashDrawerService.getByWorkgroupName(nonexistentWorkgroup);
-        assertEquals(drawer.getStatusCode(), Constants.CashDrawerConstants.STATUS_OPEN);
+        assertEquals(Constants.CashDrawerConstants.STATUS_OPEN, drawer.getStatusCode());
+        assertEquals(VALID_DOC_ID, drawer.getFinancialDocumentReferenceNumber());
 
         // clean up
         deleteIfExists(nonexistentWorkgroup);
@@ -93,9 +110,10 @@ public class CashDrawerServiceTest extends KualiTestBaseWithSpring {
         String testWorkgroup = "testWorkgroup2";
 
         // make sure it is open
-        cashDrawerService.openCashDrawer(testWorkgroup);
+        cashDrawerService.openCashDrawer(testWorkgroup, VALID_DOC_ID);
         CashDrawer drawer = cashDrawerService.getByWorkgroupName(testWorkgroup);
-        assertEquals(drawer.getStatusCode(), Constants.CashDrawerConstants.STATUS_OPEN);
+        assertEquals(Constants.CashDrawerConstants.STATUS_OPEN, drawer.getStatusCode());
+        assertEquals(VALID_DOC_ID, drawer.getFinancialDocumentReferenceNumber());
 
         // clean up after yourself
         deleteIfExists(testWorkgroup);
@@ -106,7 +124,20 @@ public class CashDrawerServiceTest extends KualiTestBaseWithSpring {
         boolean failedAsExpected = false;
 
         try {
-            cashDrawerService.closeCashDrawer("  ");
+            cashDrawerService.closeCashDrawer("  ", VALID_DOC_ID);
+        }
+        catch (IllegalArgumentException e) {
+            failedAsExpected = true;
+        }
+
+        assertTrue(failedAsExpected);
+    }
+
+    public final void testCloseCashDrawer_blankDocId() {
+        boolean failedAsExpected = false;
+
+        try {
+            cashDrawerService.closeCashDrawer(KNOWN_WORKGROUP, BLANK_DOC_ID);
         }
         catch (IllegalArgumentException e) {
             failedAsExpected = true;
@@ -121,11 +152,12 @@ public class CashDrawerServiceTest extends KualiTestBaseWithSpring {
         deleteIfExists(nonexistentWorkgroup);
 
         // open it
-        cashDrawerService.closeCashDrawer(nonexistentWorkgroup);
+        cashDrawerService.closeCashDrawer(nonexistentWorkgroup, VALID_DOC_ID);
 
         // verify that it is closed
         CashDrawer drawer = cashDrawerService.getByWorkgroupName(nonexistentWorkgroup);
-        assertEquals(drawer.getStatusCode(), Constants.CashDrawerConstants.STATUS_CLOSED);
+        assertEquals(Constants.CashDrawerConstants.STATUS_CLOSED, drawer.getStatusCode());
+        assertEquals(VALID_DOC_ID, drawer.getFinancialDocumentReferenceNumber());
 
         // clean up
         deleteIfExists(nonexistentWorkgroup);
@@ -135,9 +167,10 @@ public class CashDrawerServiceTest extends KualiTestBaseWithSpring {
         String testWorkgroup = "testWorkgroup2";
 
         // make sure it is closed
-        cashDrawerService.closeCashDrawer(testWorkgroup);
+        cashDrawerService.closeCashDrawer(testWorkgroup, VALID_DOC_ID);
         CashDrawer drawer = cashDrawerService.getByWorkgroupName(testWorkgroup);
-        assertEquals(drawer.getStatusCode(), Constants.CashDrawerConstants.STATUS_CLOSED);
+        assertEquals(Constants.CashDrawerConstants.STATUS_CLOSED, drawer.getStatusCode());
+        assertEquals(VALID_DOC_ID, drawer.getFinancialDocumentReferenceNumber());
 
         // clean up after yourself
         deleteIfExists(testWorkgroup);
@@ -167,7 +200,7 @@ public class CashDrawerServiceTest extends KualiTestBaseWithSpring {
         CashDrawer d = cashDrawerService.getByWorkgroupName(PREEXISTING_WORKGROUP);
 
         assertNotNull(d);
-        assertEquals(d.getWorkgroupName(), PREEXISTING_WORKGROUP);
+        assertEquals(PREEXISTING_WORKGROUP,d.getWorkgroupName());
     }
 
 
@@ -185,7 +218,7 @@ public class CashDrawerServiceTest extends KualiTestBaseWithSpring {
 
         CashDrawer retrieved = null;
         try {
-            CashDrawer saved = cashDrawerService.save(created);
+            CashDrawer saved = cashDrawerService.save(created, VALID_DOC_ID);
             assertNotNull(saved);
 
             retrieved = cashDrawerService.getByWorkgroupName(RANDOM_WORKGROUP_NAME);
@@ -194,6 +227,7 @@ public class CashDrawerServiceTest extends KualiTestBaseWithSpring {
             // compare
             assertEquals(created.getWorkgroupName(), saved.getWorkgroupName());
             assertEquals(created.getStatusCode(), saved.getStatusCode());
+            assertEquals(VALID_DOC_ID, saved.getFinancialDocumentReferenceNumber());
         }
         finally {
             // delete it

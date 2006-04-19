@@ -44,29 +44,29 @@ public class CashDrawerServiceImpl implements CashDrawerService {
 
 
     /**
-     * @see org.kuali.module.financial.service.CashDrawerService#closeCashDrawer(java.lang.String)
+     * @see org.kuali.module.financial.service.CashDrawerService#closeCashDrawer(java.lang.String,,java.lang.String)
      */
-    public void closeCashDrawer(String workgroupName) {
+    public void closeCashDrawer(String workgroupName, String documentId) {
         CashDrawer drawer = getByWorkgroupName(workgroupName);
         if (drawer == null) {
             drawer = newCashDrawer(workgroupName);
         }
         drawer.setStatusCode(Constants.CashDrawerConstants.STATUS_CLOSED);
 
-        save(drawer);
+        save(drawer, documentId);
     }
 
     /**
-     * @see org.kuali.module.financial.service.CashDrawerService#openCashDrawer(java.lang.String)
+     * @see org.kuali.module.financial.service.CashDrawerService#openCashDrawer(java.lang.String,java.lang.String)
      */
-    public void openCashDrawer(String workgroupName) {
+    public void openCashDrawer(String workgroupName, String documentId) {
         CashDrawer drawer = getByWorkgroupName(workgroupName);
         if (drawer == null) {
             drawer = newCashDrawer(workgroupName);
         }
         drawer.setStatusCode(Constants.CashDrawerConstants.STATUS_OPEN);
 
-        save(drawer);
+        save(drawer, documentId);
     }
 
     /**
@@ -82,13 +82,17 @@ public class CashDrawerServiceImpl implements CashDrawerService {
     }
 
     /**
-     * @see org.kuali.module.financial.service.CashDrawerService#save(org.kuali.module.financial.bo.CashDrawer)
+     * @see org.kuali.module.financial.service.CashDrawerService#save(org.kuali.module.financial.bo.CashDrawer,java.lang.String)
      */
-    public CashDrawer save(CashDrawer cashDrawer) {
+    public CashDrawer save(CashDrawer cashDrawer, String documentId) {
         if (cashDrawer == null) {
             throw new IllegalArgumentException("invalid (null) cashDrawer");
         }
+        if (StringUtils.isBlank(documentId)) {
+            throw new IllegalArgumentException("invalid (blank) documentId");
+        }
 
+        cashDrawer.setFinancialDocumentReferenceNumber(documentId);
         businessObjectService.save(cashDrawer);
         return cashDrawer;
     }

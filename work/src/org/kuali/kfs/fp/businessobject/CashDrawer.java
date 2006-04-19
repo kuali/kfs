@@ -27,6 +27,7 @@ package org.kuali.module.financial.bo;
 
 import java.util.LinkedHashMap;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.Constants;
 import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
@@ -67,14 +68,14 @@ public class CashDrawer extends BusinessObjectBase {
     public CashDrawer() {
 
     }
-    
+
     /**
      * This method returns true if the cash drawer is open.
      * 
      * @return boolean
      */
     public boolean isOpen() {
-        return statusCode.equals(Constants.CashDrawerConstants.STATUS_OPEN);
+        return StringUtils.equals(Constants.CashDrawerConstants.STATUS_OPEN, statusCode);
     }
 
     /**
@@ -83,8 +84,18 @@ public class CashDrawer extends BusinessObjectBase {
      * @return boolean
      */
     public boolean isClosed() {
-        return statusCode.equals(Constants.CashDrawerConstants.STATUS_CLOSED);
+        return StringUtils.equals(Constants.CashDrawerConstants.STATUS_CLOSED, statusCode);
     }
+
+    /**
+     * This method returns true if the cash drawer is locked.
+     * 
+     * @return boolean
+     */
+    public boolean isLocked() {
+        return StringUtils.equals(Constants.CashDrawerConstants.STATUS_LOCKED, statusCode);
+    }
+
 
     /**
      * Gets the workgroupName attribute.

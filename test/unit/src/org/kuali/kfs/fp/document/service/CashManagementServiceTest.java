@@ -55,7 +55,7 @@ public class CashManagementServiceTest extends KualiTestBaseWithSpring {
     private final Integer VALID_LINE_NUMBER2 = new Integer(2);
 
     private final String UNKNOWN_VERIFICATION_UNIT = "foo";
-    private final String KNOWN_VERIFICATION_UNIT =  Constants.CashReceiptConstants.TEST_CASH_RECEIPT_VERIFICATION_UNIT;
+    private final String KNOWN_VERIFICATION_UNIT = Constants.CashReceiptConstants.TEST_CASH_RECEIPT_VERIFICATION_UNIT;
 
     private final String KNOWN_CR_STATUS = Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED;
     private final String UNKNOWN_CR_STATUS = "foo";
@@ -77,7 +77,7 @@ public class CashManagementServiceTest extends KualiTestBaseWithSpring {
         cashDrawerService = SpringServiceLocator.getCashDrawerService();
         cashReceiptService = SpringServiceLocator.getCashReceiptService();
 
-        cashDrawerService.openCashDrawer(KNOWN_VERIFICATION_UNIT);
+        cashDrawerService.openCashDrawer(KNOWN_VERIFICATION_UNIT, "CMSTest1");
     }
 
 
@@ -190,7 +190,7 @@ public class CashManagementServiceTest extends KualiTestBaseWithSpring {
             boolean failedAsExpected = false;
 
             try {
-                cashDrawerService.closeCashDrawer(workgroupName);
+                cashDrawerService.closeCashDrawer(workgroupName, "CMSTest2a");
 
                 changeCurrentUser("INEFF");
                 List crList = new ArrayList();
@@ -210,7 +210,7 @@ public class CashManagementServiceTest extends KualiTestBaseWithSpring {
             // cleanup (hide CRs from future tests, reopen the drawer)
             updateCRDocStatus(cr1, "Z");
             updateCRDocStatus(cr2, "Z");
-            cashDrawerService.openCashDrawer(workgroupName);
+            cashDrawerService.openCashDrawer(workgroupName, "CMSTest2b");
         }
     }
 
@@ -242,7 +242,7 @@ public class CashManagementServiceTest extends KualiTestBaseWithSpring {
             CashReceiptDocument cr = (CashReceiptDocument) i.next();
             updateCRDocStatus(cr, "Z");
         }
-        cashDrawerService.openCashDrawer(workgroupName);
+        cashDrawerService.openCashDrawer(workgroupName, "CMSTest3");
     }
 
     public void testCashManagementDocumentLifecycle() throws Exception {
@@ -441,7 +441,7 @@ public class CashManagementServiceTest extends KualiTestBaseWithSpring {
                 cr2 = (CashReceiptDocument) docService.getByDocumentHeaderId(cr2.getFinancialDocumentNumber());
                 updateCRDocStatus(cr2, "Z");
             }
-            cashDrawerService.openCashDrawer(workgroupName);
+            cashDrawerService.openCashDrawer(workgroupName, "CMSTest4");
         }
     }
 
@@ -472,7 +472,7 @@ public class CashManagementServiceTest extends KualiTestBaseWithSpring {
             CashReceiptDocument cr = (CashReceiptDocument) i.next();
             updateCRDocStatus(cr, "Z");
         }
-        cashDrawerService.openCashDrawer(workgroupName);
+        cashDrawerService.openCashDrawer(workgroupName, "CMSTest5");
     }
 
 

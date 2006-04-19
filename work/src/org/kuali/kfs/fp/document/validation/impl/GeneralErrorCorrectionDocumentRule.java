@@ -284,6 +284,15 @@ public class GeneralErrorCorrectionDocumentRule
         return processAccountingLineSufficientFundsCheckingPreparation(transactionalDocument, targetAccountingLine);
     }
     
+    /**
+     * Helper method to build a <code>{@link SufficientFundsItem}</code> 
+     * from a <code>{@link TransactionalDocument}</code> and a
+     * <code>{@link AccountingLine}</code>
+     * 
+     * @param document
+     * @param accountingLine
+     * @return SufficientFundsItem
+     */
     private SufficientFundsItem processAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument document, AccountingLine accountingLine) {
         SufficientFundsItem item = null;
         String chartOfAccountsCode = accountingLine.getChartOfAccountsCode();
@@ -324,6 +333,15 @@ public class GeneralErrorCorrectionDocumentRule
         return item;
     }
     
+    /**
+     * Helper method to get the sufficient funds object code. 
+     *
+     * @param chartOfAccountsCode
+     * @param financialObjectCode
+     * @param accountSufficientFundsCode
+     * @param financialObjectlevelCode
+     * @return String
+     */
     private String getSufficientFundsObjectCode(String chartOfAccountsCode,
                                                 String financialObjectCode,
                                                 String accountSufficientFundsCode,

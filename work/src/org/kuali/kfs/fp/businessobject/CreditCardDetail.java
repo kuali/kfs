@@ -32,10 +32,13 @@ import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 
 /**
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * This class represents the CreditCardDetail business object, which is a single 
+ * record on the Credit Card Receipts Document representing a single credit card 
+ * receipt.  This is an advance deposit.
+ * 
+ * @author Kuali Transaction Processing eDocs Team (kualidev@oncourse.iu.edu)
  */
 public class CreditCardDetail extends BusinessObjectBase {
-
 	private String financialDocumentNumber;
 	private String financialDocumentTypeCode;
 	private String financialDocumentColumnTypeCode;
@@ -52,13 +55,15 @@ public class CreditCardDetail extends BusinessObjectBase {
 	 * Default constructor.
 	 */
 	public CreditCardDetail() {
-
+        super();
+	    this.financialDocumentLineNumber = new Integer(1);
+        this.creditCardAdvanceDepositAmount = new KualiDecimal(0);
 	}
 
 	/**
 	 * Gets the financialDocumentNumber attribute.
 	 * 
-	 * @return - Returns the financialDocumentNumber
+	 * @return Returns the financialDocumentNumber
 	 * 
 	 */
 	public String getFinancialDocumentNumber() { 
@@ -68,7 +73,7 @@ public class CreditCardDetail extends BusinessObjectBase {
 	/**
 	 * Sets the financialDocumentNumber attribute.
 	 * 
-	 * @param - financialDocumentNumber The financialDocumentNumber to set.
+	 * @param financialDocumentNumber The financialDocumentNumber to set.
 	 * 
 	 */
 	public void setFinancialDocumentNumber(String financialDocumentNumber) {
@@ -79,7 +84,7 @@ public class CreditCardDetail extends BusinessObjectBase {
 	/**
 	 * Gets the financialDocumentTypeCode attribute.
 	 * 
-	 * @return - Returns the financialDocumentTypeCode
+	 * @return Returns the financialDocumentTypeCode
 	 * 
 	 */
 	public String getFinancialDocumentTypeCode() { 
@@ -89,7 +94,7 @@ public class CreditCardDetail extends BusinessObjectBase {
 	/**
 	 * Sets the financialDocumentTypeCode attribute.
 	 * 
-	 * @param - financialDocumentTypeCode The financialDocumentTypeCode to set.
+	 * @param financialDocumentTypeCode The financialDocumentTypeCode to set.
 	 * 
 	 */
 	public void setFinancialDocumentTypeCode(String financialDocumentTypeCode) {
@@ -100,7 +105,7 @@ public class CreditCardDetail extends BusinessObjectBase {
 	/**
 	 * Gets the financialDocumentColumnTypeCode attribute.
 	 * 
-	 * @return - Returns the financialDocumentColumnTypeCode
+	 * @return Returns the financialDocumentColumnTypeCode
 	 * 
 	 */
 	public String getFinancialDocumentColumnTypeCode() { 
@@ -110,7 +115,7 @@ public class CreditCardDetail extends BusinessObjectBase {
 	/**
 	 * Sets the financialDocumentColumnTypeCode attribute.
 	 * 
-	 * @param - financialDocumentColumnTypeCode The financialDocumentColumnTypeCode to set.
+	 * @param financialDocumentColumnTypeCode The financialDocumentColumnTypeCode to set.
 	 * 
 	 */
 	public void setFinancialDocumentColumnTypeCode(String financialDocumentColumnTypeCode) {
@@ -121,7 +126,7 @@ public class CreditCardDetail extends BusinessObjectBase {
 	/**
 	 * Gets the financialDocumentLineNumber attribute.
 	 * 
-	 * @return - Returns the financialDocumentLineNumber
+	 * @return Returns the financialDocumentLineNumber
 	 * 
 	 */
 	public Integer getFinancialDocumentLineNumber() { 
@@ -131,7 +136,7 @@ public class CreditCardDetail extends BusinessObjectBase {
 	/**
 	 * Sets the financialDocumentLineNumber attribute.
 	 * 
-	 * @param - financialDocumentLineNumber The financialDocumentLineNumber to set.
+	 * @param financialDocumentLineNumber The financialDocumentLineNumber to set.
 	 * 
 	 */
 	public void setFinancialDocumentLineNumber(Integer financialDocumentLineNumber) {
@@ -142,7 +147,7 @@ public class CreditCardDetail extends BusinessObjectBase {
 	/**
 	 * Gets the financialDocumentCreditCardTypeCode attribute.
 	 * 
-	 * @return - Returns the financialDocumentCreditCardTypeCode
+	 * @return Returns the financialDocumentCreditCardTypeCode
 	 * 
 	 */
 	public String getFinancialDocumentCreditCardTypeCode() { 
@@ -152,7 +157,7 @@ public class CreditCardDetail extends BusinessObjectBase {
 	/**
 	 * Sets the financialDocumentCreditCardTypeCode attribute.
 	 * 
-	 * @param - financialDocumentCreditCardTypeCode The financialDocumentCreditCardTypeCode to set.
+	 * @param financialDocumentCreditCardTypeCode The financialDocumentCreditCardTypeCode to set.
 	 * 
 	 */
 	public void setFinancialDocumentCreditCardTypeCode(String financialDocumentCreditCardTypeCode) {
@@ -163,7 +168,7 @@ public class CreditCardDetail extends BusinessObjectBase {
 	/**
 	 * Gets the financialDocumentCreditCardVendorNumber attribute.
 	 * 
-	 * @return - Returns the financialDocumentCreditCardVendorNumber
+	 * @return Returns the financialDocumentCreditCardVendorNumber
 	 * 
 	 */
 	public String getFinancialDocumentCreditCardVendorNumber() { 
@@ -173,7 +178,7 @@ public class CreditCardDetail extends BusinessObjectBase {
 	/**
 	 * Sets the financialDocumentCreditCardVendorNumber attribute.
 	 * 
-	 * @param - financialDocumentCreditCardVendorNumber The financialDocumentCreditCardVendorNumber to set.
+	 * @param financialDocumentCreditCardVendorNumber The financialDocumentCreditCardVendorNumber to set.
 	 * 
 	 */
 	public void setFinancialDocumentCreditCardVendorNumber(String financialDocumentCreditCardVendorNumber) {
@@ -184,7 +189,7 @@ public class CreditCardDetail extends BusinessObjectBase {
 	/**
 	 * Gets the creditCardDepositDate attribute.
 	 * 
-	 * @return - Returns the creditCardDepositDate
+	 * @return Returns the creditCardDepositDate
 	 * 
 	 */
 	public Date getCreditCardDepositDate() { 
@@ -194,7 +199,7 @@ public class CreditCardDetail extends BusinessObjectBase {
 	/**
 	 * Sets the creditCardDepositDate attribute.
 	 * 
-	 * @param - creditCardDepositDate The creditCardDepositDate to set.
+	 * @param creditCardDepositDate The creditCardDepositDate to set.
 	 * 
 	 */
 	public void setCreditCardDepositDate(Date creditCardDepositDate) {
@@ -205,7 +210,7 @@ public class CreditCardDetail extends BusinessObjectBase {
 	/**
 	 * Gets the creditCardDepositReferenceNumber attribute.
 	 * 
-	 * @return - Returns the creditCardDepositReferenceNumber
+	 * @return Returns the creditCardDepositReferenceNumber
 	 * 
 	 */
 	public String getCreditCardDepositReferenceNumber() { 
@@ -215,7 +220,7 @@ public class CreditCardDetail extends BusinessObjectBase {
 	/**
 	 * Sets the creditCardDepositReferenceNumber attribute.
 	 * 
-	 * @param - creditCardDepositReferenceNumber The creditCardDepositReferenceNumber to set.
+	 * @param creditCardDepositReferenceNumber The creditCardDepositReferenceNumber to set.
 	 * 
 	 */
 	public void setCreditCardDepositReferenceNumber(String creditCardDepositReferenceNumber) {
@@ -236,7 +241,7 @@ public class CreditCardDetail extends BusinessObjectBase {
 	/**
 	 * Sets the creditCardAdvanceDepositAmount attribute.
 	 * 
-	 * @param - creditCardAdvanceDepositAmount The creditCardAdvanceDepositAmount to set.
+	 * @param creditCardAdvanceDepositAmount The creditCardAdvanceDepositAmount to set.
 	 * 
 	 */
 	public void setCreditCardAdvanceDepositAmount(KualiDecimal creditCardAdvanceDepositAmount) {
@@ -257,10 +262,10 @@ public class CreditCardDetail extends BusinessObjectBase {
     public void setFinancialDocumentCreditCardType(CreditCardType financialDocumentCreditCardType) {
         this.financialDocumentCreditCardType = financialDocumentCreditCardType;
     }
-    
-	/**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
-	 */
+
+    /**
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     */
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    
         m.put("financialDocumentNumber", this.financialDocumentNumber);

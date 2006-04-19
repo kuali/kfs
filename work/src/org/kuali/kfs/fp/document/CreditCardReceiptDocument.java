@@ -23,10 +23,12 @@
 package org.kuali.module.financial.document;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.web.format.CurrencyFormatter;
+import org.kuali.module.financial.bo.CreditCardDetail;
 
 /**
  * This is the business object that represents the CreditCardReceipt document in Kuali. This is a transactional document that will
@@ -37,6 +39,8 @@ import org.kuali.core.web.format.CurrencyFormatter;
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class CreditCardReceiptDocument extends CashReceiptDocument {
+    private static final String CASH_RECEIPT_CREDIT_CARD_RECEIPT_COLUMN_TYPE_CODE = "R";
+    
     // holds details about each credit card receipt
     private List creditCardReceipts = new ArrayList();
 
@@ -77,12 +81,12 @@ public class CreditCardReceiptDocument extends CashReceiptDocument {
      * 
      * @param creditCardAmount
      */
-    public void setTotalCashAmount(KualiDecimal creditCardAmount) {
+    public void setTotalCreditCardAmount(KualiDecimal creditCardAmount) {
         this.totalCreditCardAmount = creditCardAmount;
     }
 
     /**
-     * Gets the list of credit card receips which is a list 
+     * Gets the list of credit card receipts which is a list 
      * of CreditCardDetail business objects.
      * 
      * @return List
@@ -96,24 +100,30 @@ public class CreditCardReceiptDocument extends CashReceiptDocument {
      * 
      * @param creditCardReceipts
      */
-    public void setChecks(List creditCardReceipts) {
+    public void setCreditCardReceipts(List creditCardReceipts) {
         this.creditCardReceipts = creditCardReceipts;
     }
 
     /**
      * Adds a new credit card receipt to the list.
      * 
-     * @param credit card receipt
+     * @param creditCardReceiptDetail
      */
-//    public void addCheck(CreditCardReceiptDetail creditCardReceiptDetail) {
-//        creditCardReceiptDetail.setSequenceId(this.nextCreditCardCashReceiptLineNumber);
-//
-//        this.creditCardReceipts.add(creditCardReceiptDetail);
-//
-//        this.nextCreditCardCashReceiptLineNumber = new Integer(this.nextCreditCardCashReceiptLineNumber.intValue() + 1);
-//
-//        this.totalCreditCardAmount = this.totalCreditCardAmount.add(creditCardReceiptDetail.getAmount());
-//    }
+    public void addCreditCardReceipt(CreditCardDetail  creditCardReceiptDetail) {
+        // these three make up the primary key for a credit card detail record
+        creditCardReceiptDetail.setFinancialDocumentLineNumber(this.nextCreditCardCashReceiptLineNumber);
+        creditCardReceiptDetail.setFinancialDocumentColumnTypeCode(CASH_RECEIPT_CREDIT_CARD_RECEIPT_COLUMN_TYPE_CODE);
+        creditCardReceiptDetail.setFinancialDocumentNumber(this.getFinancialDocumentNumber());
+
+        // add the new detail record to the list
+        this.creditCardReceipts.add(creditCardReceiptDetail);
+
+        // increment line number
+        this.nextCreditCardCashReceiptLineNumber = new Integer(this.nextCreditCardCashReceiptLineNumber.intValue() + 1);
+
+        // update the overall amount
+        this.totalCreditCardAmount = this.totalCreditCardAmount.add(creditCardReceiptDetail.getCreditCardAdvanceDepositAmount());
+    }
 
     /**
      * Retrieve a particular credit card receipt at a given index in the list of credit card receipts.
@@ -121,269 +131,79 @@ public class CreditCardReceiptDocument extends CashReceiptDocument {
      * @param index
      * @return CreditCardReceiptDetail
      */
-//    public CreditCardReceiptDetail getCreditCardReceiptDetail(int index) throws InstantiationException {
-//        while (this.creditCardReceipts.size() <= index) {
-//            creditCardReceipts.add(new CreditCardReceiptDetail());
-//        }
-//        return (CreditCardReceiptDetail) creditCardReceipts.get(index);
-//    }
+    public CreditCardDetail getCreditCardReceiptDetail(int index) {
+        while (this.creditCardReceipts.size() <= index) {
+            creditCardReceipts.add(new CreditCardDetail());
+        }
+        return (CreditCardDetail) creditCardReceipts.get(index);
+    }
     
     /**
-     * Total for a Cash Receipt according to the spec should be the sum of the 
-     * amounts on accounting lines belonging to object codes having the 'income' object type, 
-     * less the sum of the amounts on accounting lines belonging to object codes 
-     * having the 'expense' object type.
-     * 
-     * @see org.kuali.core.document.TransactionalDocument#getSourceTotal()
-     */
-//    public KualiDecimal getSourceTotal() {
-//        CashReceiptDocumentRule crDocRule = (CashReceiptDocumentRule) SpringServiceLocator.getKualiRuleService().
-//            getBusinessRulesInstance(this, AccountingLineRule.class);
-//        KualiDecimal total = new KualiDecimal(0);
-//        AccountingLineBase al = null;
-//        Iterator iter = sourceAccountingLines.iterator();
-//        while (iter.hasNext()) {
-//            al = (AccountingLineBase) iter.next();
-//            
-//            KualiDecimal amount = al.getAmount();
-//            if (amount != null) {
-//                if(crDocRule.isDebit(al)) {
-//                    total = total.subtract(amount);
-//                } else if(crDocRule.isCredit(al)) {
-//                    total = total.add(amount);
-//                }
-//            }
-//        }
-//        return total;
-//    }
-
-    /**
-     * Cash Receipts only have source lines, so this should always return 0.
-     * 
-     * @see org.kuali.core.document.TransactionalDocument#getTargetTotal()
-     */
-//    public KualiDecimal getTargetTotal() {
-//        return new KualiDecimal(0);
-//    }
-
-    /**
-     * This method removes a check from the list and updates the total appropriately.
+     * This method removes a credit card receipt from the list and updates the total appropriately.
      * 
      * @param index
      */
-//    public void removeCheck(int index) {
-//        Check check = (Check) checks.remove(index);
-//
-//        // if the totalCheckAmount goes negative, bring back to zero.
-//        this.totalCheckAmount = this.totalCheckAmount.subtract(check.getAmount());
-//        if (this.totalCheckAmount.isNegative()) {
-//            totalCheckAmount = KualiDecimal.ZERO;
-//        }
-//    }
+    public void removeCreditCardReceiptDetail(int index) {
+        CreditCardDetail creditCardReceiptDetail = (CreditCardDetail) creditCardReceipts.remove(index);
+
+        // if the totalCreditCardAmount goes negative, bring back to zero.
+        this.totalCreditCardAmount = this.totalCreditCardAmount.subtract(creditCardReceiptDetail.getCreditCardAdvanceDepositAmount());
+        if (this.totalCreditCardAmount.isNegative()) {
+            this.totalCreditCardAmount = KualiDecimal.ZERO;
+        }
+    }
 
     /**
-     * Gets the depositDate attribute.
-     * 
-     * @return Returns the depositDate.
+     * @return Integer
      */
-//    public Timestamp getDepositDate() {
-//        return depositDate;
-//    }
-//
-//    /**
-//     * Sets the depositDate attribute value.
-//     * 
-//     * @param depositDate The depositDate to set.
-//     */
-//    public void setDepositDate(Timestamp depositDate) {
-//        this.depositDate = depositDate;
-//    }
-//
-//    /**
-//     * Gets the nextCheckSequenceId attribute.
-//     * 
-//     * @return Returns the nextCheckSequenceId.
-//     */
-//    public Integer getNextCheckSequenceId() {
-//        return nextCheckSequenceId;
-//    }
-//
-//    /**
-//     * Sets the nextCheckSequenceId attribute value.
-//     * 
-//     * @param nextCheckSequenceId The nextCheckSequenceId to set.
-//     */
-//    public void setNextCheckSequenceId(Integer nextCheckSequenceId) {
-//        this.nextCheckSequenceId = nextCheckSequenceId;
-//    }
-//
-//    /**
-//     * Gets the totalCheckAmount attribute.
-//     * 
-//     * @return Returns the totalCheckAmount.
-//     */
-//    public KualiDecimal getTotalCheckAmount() {
-//        return totalCheckAmount;
-//    }
-//
-//    /**
-//     * This method returns the check total amount as a currency formatted string.
-//     * 
-//     * @return String
-//     */
-//    public String getCurrencyFormattedTotalCheckAmount() {
-//        return (String) new CurrencyFormatter().format(totalCheckAmount);
-//    }
-//
-//    /**
-//     * Sets the totalCheckAmount attribute value.
-//     * 
-//     * @param totalCheckAmount The totalCheckAmount to set.
-//     */
-//    public void setTotalCheckAmount(KualiDecimal totalCheckAmount) {
-//        if(totalCheckAmount == null) {
-//            this.totalCheckAmount = new KualiDecimal(0);
-//        } else {
-//            this.totalCheckAmount = totalCheckAmount;
-//        }
-//    }
-//
-//    /**
-//     * Gets the totalCoinAmount attribute.
-//     * 
-//     * @return Returns the totalCoinAmount.
-//     */
-//    public KualiDecimal getTotalCoinAmount() {
-//        return totalCoinAmount;
-//    }
-//
-//    /**
-//     * This method returns the coin total amount as a currency formatted string.
-//     * 
-//     * @return String
-//     */
-//    public String getCurrencyFormattedTotalCoinAmount() {
-//        return (String) new CurrencyFormatter().format(totalCoinAmount);
-//    }
-//
-//    /**
-//     * Sets the totalCoinAmount attribute value.
-//     * 
-//     * @param totalCoinAmount The totalCoinAmount to set.
-//     */
-//    public void setTotalCoinAmount(KualiDecimal totalCoinAmount) {
-//        this.totalCoinAmount = totalCoinAmount;
-//    }
-//
-//    /**
-//     * This method returns the overall total of the document - coin plus check plus cash.
-//     * 
-//     * @return KualiDecimal
-//     */
-//    public KualiDecimal getSumTotalAmount() {
-//        return totalCoinAmount.add(totalCheckAmount).add(totalCashAmount);
-//    }
-//
-//    /**
-//     * Retrieves the summed total amount in a currency format with commas.
-//     * 
-//     * @return String
-//     */
-//    public String getCurrencyFormattedSumTotalAmount() {
-//        return (String) new CurrencyFormatter().format(getSumTotalAmount());
-//    }
-//
-//    /**
-//     * Overrides the base implementation to return an empty string.
-//     * 
-//     * @see org.kuali.core.document.TransactionalDocument#getSourceAccountingLinesSectionTitle()
-//     */
-//    public String getSourceAccountingLinesSectionTitle() {
-//        return Constants.EMPTY_STRING;
-//    }
-//
-//    /**
-//     * Overrides the base implementation to return an empty string.
-//     * 
-//     * @see org.kuali.core.document.TransactionalDocument#getTargetAccountingLinesSectionTitle()
-//     */
-//    public String getTargetAccountingLinesSectionTitle() {
-//        return Constants.EMPTY_STRING;
-//    }
-//
-//    /**
-//     * @return sum of the amounts of the current list of checks
-//     */
-//    public KualiDecimal calculateCheckTotal() {
-//        KualiDecimal total = KualiDecimal.ZERO;
-//        for (Iterator i = getChecks().iterator(); i.hasNext();) {
-//            Check c = (Check) i.next();
-//            if (null != c.getAmount()) {
-//                total = total.add(c.getAmount());
-//            }
-//        }
-//        return total;
-//    }
-//
-//    /**
-//     * Override to set the document status to VERIFIED ("V") when the document is FINAL. When the Cash Management document that this
-//     * is associated with is FINAL approved, this status will be set to APPROVED ("A") to be picked up by the GL for processing.
-//     * That's done in the handleRouteStatusChange() method in the CashManagementDocument.
-//     * 
-//     * @see org.kuali.core.document.Document#handleRouteStatusChange(java.lang.String)
-//     */
-//    public void handleRouteStatusChange(String newRouteStatus) {
-//        // Workflow Status of Final --> Kuali Doc Status of Verified
-//        if (EdenConstants.ROUTE_HEADER_PROCESSED_CD.equals(newRouteStatus)
-//                || EdenConstants.ROUTE_HEADER_APPROVED_CD.equals(newRouteStatus)
-//                || EdenConstants.ROUTE_HEADER_FINAL_CD.equals(newRouteStatus)) {
-//            this.getDocumentHeader().setFinancialDocumentStatusCode(
-//                    Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED);
-//            SpringServiceLocator.getDocumentService().updateDocument(this);
-//        }
-//    }
-//
-//    /**
-//     * @see org.kuali.core.document.DocumentBase#prepareForSave()
-//     */
-//    public void prepareForSave() {
-//        super.prepareForSave();
-//
-//        // clear check list if mode is checkTotal
-//        if (CHECK_ENTRY_TOTAL.equals(getCheckEntryMode())) {
-//            getChecks().clear();
-//        }
-//        // update total if mode is checkDetail
-//        else {
-//            setTotalCheckAmount(calculateCheckTotal());
-//        }
-//    }
-//
-//    /**
-//     * @see org.kuali.core.document.DocumentBase#processAfterRetrieve()
-//     */
-//    public void processAfterRetrieve() {
-//        super.processAfterRetrieve();
-//
-//        // set to checkTotal mode if no checks
-//        List checkList = getChecks();
-//        if (ObjectUtils.isNull(checkList) || checkList.isEmpty()) {
-//            setCheckEntryMode(CHECK_ENTRY_TOTAL);
-//        }
-//        // set to checkDetail mode if checks (and update the checkTotal, while you're here)
-//        else {
-//            setCheckEntryMode(CHECK_ENTRY_DETAIL);
-//            setTotalCheckAmount(calculateCheckTotal());
-//        }
-//    }
-//
-//    /**
-//     * @see org.kuali.core.document.TransactionalDocumentBase#buildListOfDeletionAwareLists()
-//     */
-//    public List buildListOfDeletionAwareLists() {
-//        List managedLists = super.buildListOfDeletionAwareLists();
-//        managedLists.add(getChecks());
-//
-//        return managedLists;
-//    }
+    public Integer getNextCreditCardCashReceiptLineNumber() {
+        return nextCreditCardCashReceiptLineNumber;
+    }
+
+    /**
+     * @param nextCreditCardCashReceiptLineNumber
+     */
+    public void setNextCreditCardCashReceiptLineNumber(Integer nextCreditCardCashReceiptLineNumber) {
+        this.nextCreditCardCashReceiptLineNumber = nextCreditCardCashReceiptLineNumber;
+    }
+
+    /**
+     * This method returns the overall total of the document - coin plus check plus 
+     * cash (which should be zero) plus credit card total.
+     * 
+     * @return KualiDecimal
+     */
+    public KualiDecimal getSumTotalAmount() {
+        KualiDecimal sumTotal = super.getSumTotalAmount();
+        return sumTotal.add(this.totalCreditCardAmount);
+    }
+
+    /**
+     * Calculates the sum of the credit card receipts.
+     * 
+     * @return sum of the amounts of the current list of checks
+     */
+    public KualiDecimal calculateCreditCardReceiptTotal() {
+        KualiDecimal total = KualiDecimal.ZERO;
+        for (Iterator i = creditCardReceipts.iterator(); i.hasNext();) {
+            CreditCardDetail ccd = (CreditCardDetail) i.next();
+            if (null != ccd.getCreditCardAdvanceDepositAmount()) {
+                total = total.add(ccd.getCreditCardAdvanceDepositAmount());
+            }
+        }
+        return total;
+    }
+
+    /**
+     * Overrides super to call super and then also add in the new list of credit card 
+     * receipts that have to be managed.
+     * 
+     * @see org.kuali.core.document.TransactionalDocumentBase#buildListOfDeletionAwareLists()
+     */
+    public List buildListOfDeletionAwareLists() {
+        List managedLists = super.buildListOfDeletionAwareLists();
+        managedLists.add(getCreditCardReceipts());
+
+        return managedLists;
+    }
 }

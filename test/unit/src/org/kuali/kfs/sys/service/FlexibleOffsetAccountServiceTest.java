@@ -38,17 +38,10 @@ import org.kuali.Constants;
  */
 public class FlexibleOffsetAccountServiceTest extends KualiTestBaseWithFixtures {
     private FlexibleOffsetAccountService service;
-    private KualiConfigurationService originalConfigService;
 
     protected void setUp() throws Exception {
         super.setUp();
         service = SpringServiceLocator.getFlexibleOffsetAccountService();
-        originalConfigService = service.getKualiConfigurationService();
-    }
-
-    protected void tearDown() throws Exception {
-        service.setKualiConfigurationService(originalConfigService);
-        super.tearDown();
     }
 
     public void testGetByPrimaryId_valid()
@@ -84,13 +77,6 @@ public class FlexibleOffsetAccountServiceTest extends KualiTestBaseWithFixtures 
         assertEquals(true, SpringServiceLocator.getFlexibleOffsetAccountService().getEnabled());
         SpringServiceLocator.getFlexibleOffsetAccountService().setKualiConfigurationService(createMockConfigurationService(false));
         assertEquals(false, SpringServiceLocator.getFlexibleOffsetAccountService().getEnabled());
-    }
-
-    private KualiConfigurationService createMockConfigurationService(boolean enabled) {
-        return (KualiConfigurationService) MockService.createProxy(
-            KualiConfigurationService.class, "getRequiredApplicationParameterValue",
-            new Object[]{Constants.ParameterGroups.SYSTEM, Constants.SystemGroupParameterNames.FLEXIBLE_OFFSET_ENABLED_FLAG},
-            enabled ? Constants.ParameterValues.YES : Constants.ParameterValues.NO);
     }
 
     /**

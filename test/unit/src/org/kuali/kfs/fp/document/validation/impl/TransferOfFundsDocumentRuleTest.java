@@ -88,17 +88,12 @@ public class TransferOfFundsDocumentRuleTest extends TransactionalDocumentRuleTe
     public String[] getFixtureCollectionNames() {
         return FIXTURE_COLLECTION_NAMES;
     }
-
-    private KualiConfigurationService originalConfigService;
-
-    protected void setUp() throws Exception {
-        super.setUp();
-        originalConfigService = SpringServiceLocator.getFlexibleOffsetAccountService().getKualiConfigurationService();
-    }
-
-    protected void tearDown() throws Exception {
-        SpringServiceLocator.getFlexibleOffsetAccountService().setKualiConfigurationService(originalConfigService);
-        super.tearDown();
+    
+    /**
+     * @see KualiTestBaseWithSpring#isMockConfigurationServiceRequired()
+     */
+    protected boolean isMockConfigurationServiceRequired() {
+        return true;
     }
 
     // /////////////////////////////////////////////////////////////////////////
@@ -670,13 +665,6 @@ public class TransferOfFundsDocumentRuleTest extends TransactionalDocumentRuleTe
         assertEquals(Constants.GL_CREDIT_CODE, item.getDebitCreditCode());
         assertFalse(line.getAmount().equals(item.getAmount()));
         assertTrue(line.getAmount().abs().equals(item.getAmount()));
-    }
-
-    private KualiConfigurationService createMockConfigurationService(boolean flexibleOffsetEnabled) {
-        return (KualiConfigurationService) MockService.createProxy(KualiConfigurationService.class,
-                "getRequiredApplicationParameterValue", new Object[] { Constants.ParameterGroups.SYSTEM,
-                        Constants.SystemGroupParameterNames.FLEXIBLE_OFFSET_ENABLED_FLAG },
-                flexibleOffsetEnabled ? Constants.ParameterValues.YES : Constants.ParameterValues.NO);
     }
 
     public void testProcessCustomRouteDocumentBusinessRules_accountingLines_notMatching_budgetYear() throws Exception {

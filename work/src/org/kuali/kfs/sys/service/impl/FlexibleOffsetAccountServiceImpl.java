@@ -24,11 +24,11 @@ package org.kuali.module.financial.service.impl;
 
 import java.util.HashMap;
 
-import org.kuali.module.financial.service.FlexibleOffsetAccountService;
-import org.kuali.module.financial.bo.OffsetAccount;
+import org.kuali.Constants;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.Constants;
+import org.kuali.module.financial.bo.OffsetAccount;
+import org.kuali.module.financial.service.FlexibleOffsetAccountService;
 
 /**
  * This class implements FlexibleOffsetAccountService.
@@ -58,12 +58,8 @@ public class FlexibleOffsetAccountServiceImpl implements FlexibleOffsetAccountSe
      * @see FlexibleOffsetAccountService#getEnabled
      */
     public boolean getEnabled() {
-        String enabledValue = kualiConfigurationService.getRequiredApplicationParameterValue(Constants.ParameterGroups.SYSTEM,
+      return kualiConfigurationService.getRequiredApplicationParameterIndicator(Constants.ParameterGroups.SYSTEM,
             Constants.SystemGroupParameterNames.FLEXIBLE_OFFSET_ENABLED_FLAG);
-        if (!Constants.ParameterValues.YES.equals(enabledValue) && !Constants.ParameterValues.NO.equals(enabledValue)) {
-            throw new RuntimeException("illegal parameter value " + enabledValue);
-        }
-        return Constants.ParameterValues.YES.equals(enabledValue);
     }
 
     public BusinessObjectService getBusinessObjectService() {

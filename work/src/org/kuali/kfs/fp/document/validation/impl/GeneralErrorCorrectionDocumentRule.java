@@ -36,6 +36,7 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.ObjectCode;
+import org.kuali.module.financial.document.GeneralErrorCorrectionDocument;
 import org.kuali.module.gl.util.SufficientFundsItemHelper.SufficientFundsItem;
 
 /**
@@ -72,10 +73,10 @@ public class GeneralErrorCorrectionDocumentRule
 
         ObjectCode objectCode = accountingLine.getObjectCode();
 
-        retval &= isObjectTypeAndObjectSubTypeAllowed(objectCode);
+        retval = isObjectTypeAndObjectSubTypeAllowed(objectCode);
         
         if (retval) {
-            retval &= isRequiredReferenceFieldsValid(accountingLine);
+            retval = isRequiredReferenceFieldsValid(accountingLine);
         }
         
         return retval;
@@ -98,33 +99,37 @@ public class GeneralErrorCorrectionDocumentRule
     }
 
     /**
-     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processCustomAddAccountingLineBusinessRule(TransactionalDocument document, AccountingLine accountingLine)
+     * Overrides to call super and then GEC specific accounting line rules.
+     * 
+     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processCustomAddAccountingLineBusinessRules(org.kuali.core.document.TransactionalDocument, org.kuali.core.bo.AccountingLine)
      */
     public boolean processCustomAddAccountingLineBusinessRules(TransactionalDocument document, 
                                                                AccountingLine accountingLine) {
         boolean retval = true;
-        retval &= super
+        retval = super
             .processCustomAddAccountingLineBusinessRules(document, 
                                                          accountingLine); 
         if (retval) {
-            processGenericAccountingLineBusinessRules(document, accountingLine);
+            retval = processGenericAccountingLineBusinessRules(document, accountingLine);
         }
         return retval;
     }
     
     
     /**
-     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processCustomReviewAccountingLineBusinessRule(TransactionalDocument document, AccountingLine accountingLine)
+     * Overrides to call super and then GEC specific accounting line rules.
+     * 
+     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processCustomReviewAccountingLineBusinessRules(org.kuali.core.document.TransactionalDocument, org.kuali.core.bo.AccountingLine)
      */
     public boolean processCustomReviewAccountingLineBusinessRules(TransactionalDocument document, 
                                                                   AccountingLine accountingLine) {
         boolean retval = true;
 
-        retval &= super
+        retval = super
             .processCustomReviewAccountingLineBusinessRules(document, 
                                                             accountingLine);
         if (retval) {
-            processGenericAccountingLineBusinessRules(document, accountingLine);
+            retval = processGenericAccountingLineBusinessRules(document, accountingLine);
         }
         
         return retval;
@@ -140,7 +145,7 @@ public class GeneralErrorCorrectionDocumentRule
     protected boolean isObjectTypeAndObjectSubTypeAllowed(ObjectCode code) {
         boolean retval = true;
 
-        retval &= !(failsRule(COMBINED_RESTRICTED_OBJECT_TYPE_CODES, 
+        retval = !(failsRule(COMBINED_RESTRICTED_OBJECT_TYPE_CODES, 
                               code.getFinancialObjectTypeCode())
                     && failsRule(COMBINED_RESTRICTED_OBJECT_SUB_TYPE_CODES,
                                  code.getFinancialObjectSubTypeCode()));
@@ -339,7 +344,7 @@ public class GeneralErrorCorrectionDocumentRule
      * @param chartOfAccountsCode
      * @param financialObjectCode
      * @param accountSufficientFundsCode
-     * @param financialObjectlevelCode
+     * @param financialObjectLevelCode
      * @return String
      */
     private String getSufficientFundsObjectCode(String chartOfAccountsCode,

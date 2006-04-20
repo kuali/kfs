@@ -23,7 +23,6 @@
 package org.kuali.module.financial.rules;
 
 import org.apache.commons.lang.StringUtils;
-
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
 import org.kuali.PropertyConstants;
@@ -36,7 +35,6 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.ObjectCode;
-import org.kuali.module.financial.document.GeneralErrorCorrectionDocument;
 import org.kuali.module.gl.util.SufficientFundsItemHelper.SufficientFundsItem;
 
 /**

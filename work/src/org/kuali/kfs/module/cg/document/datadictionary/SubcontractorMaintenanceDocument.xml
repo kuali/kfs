@@ -33,14 +33,14 @@
 	    <maintainableSections>
 	        <maintainableSection title="Edit Contracts and Grants Subcontractor">  
 	        	<maintainableItems>
-					<maintainableField name="number" />
-					<maintainableField name="name" />
-					<maintainableField name="addressLine1" />
+					<maintainableField name="number" required="true"/>
+					<maintainableField name="name" required="true"/>
+					<maintainableField name="addressLine1" required="true"/>
 					<maintainableField name="addressLine2" />
-					<maintainableField name="city" />
-					<maintainableField name="stateCode" />
-					<maintainableField name="zipCode" />
-					<maintainableField name="countryCode" />
+					<maintainableField name="city" required="true"/>
+					<maintainableField name="stateCode" required="true"/>
+					<maintainableField name="zipCode" required="true"/>
+					<maintainableField name="countryCode" required="true"/>
 					<maintainableField name="versionNumber" />
 				</maintainableItems>
 	        </maintainableSection>

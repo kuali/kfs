@@ -59,7 +59,7 @@
 
 				<maxLength>5</maxLength>
 				<validationPattern><alphaNumeric exactLength="5" /></validationPattern>
-
+				<required>true</required>
 				<control>
 					<text size="5" />
 				</control>
@@ -75,6 +75,7 @@
                 <maxLength>50</maxLength>
 
                 <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
+				<required>true</required>
 
                 <control>
                     <text size="50" />
@@ -91,6 +92,7 @@
                 <maxLength>25</maxLength>
 
                 <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
+				<required>true</required>
 
                 <control>
                     <text size="25" />
@@ -123,6 +125,7 @@
                 <maxLength>20</maxLength>
 
                 <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
+				<required>true</required>
 
                 <control>
                     <text size="20" />
@@ -139,6 +142,7 @@
 				<maxLength>2</maxLength>
 
                 <validationPattern><alpha /></validationPattern>
+				<required>true</required>
 
                 <control>
                     <text size="2" />
@@ -155,6 +159,7 @@
                 <maxLength>10</maxLength>
 
                 <validationPattern><zipcode /></validationPattern>
+				<required>true</required>
 
                 <control>
                     <text size="10" />
@@ -171,6 +176,7 @@
                 <maxLength>15</maxLength>
 
                 <validationPattern><alphaNumeric allowWhitespace="true" /></validationPattern>
+				<required>true</required>
 
                 <control>
                     <text size="15" />

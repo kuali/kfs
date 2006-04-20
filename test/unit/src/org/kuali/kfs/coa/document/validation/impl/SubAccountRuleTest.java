@@ -24,9 +24,7 @@ package org.kuali.module.chart.rules;
 
 import org.kuali.KeyConstants;
 import org.kuali.core.bo.user.AuthenticationUserId;
-import org.kuali.core.bo.user.EmplId;
 import org.kuali.core.bo.user.KualiUser;
-import org.kuali.core.bo.user.UserId;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.A21SubAccount;

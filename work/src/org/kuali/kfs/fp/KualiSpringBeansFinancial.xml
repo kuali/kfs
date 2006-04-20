@@ -91,7 +91,22 @@
         </property>
     </bean>
     
-    <bean id="procurementCardDocumentService" class="org.kuali.module.financial.service.impl.ProcurementCardDocumentServiceImpl">
+    <bean id="procurementCardCreateDocumentService" class="org.kuali.module.financial.service.impl.ProcurementCardCreateDocumentServiceImpl">
+        <property name="kualiConfigurationService">
+            <ref bean="kualiConfigurationService" />
+        </property>
+        <property name="businessObjectService">
+            <ref bean="businessObjectService" />
+        </property>
+        <property name="documentService">
+            <ref bean="documentService" />
+        </property>
+        <property name="dataDictionaryService">
+            <ref bean="dataDictionaryService" />
+        </property>
+    </bean> 
+    
+    <bean id="procurementCardLoadTransactionsService" class="org.kuali.module.financial.service.impl.ProcurementCardLoadTransactionsServiceImpl">
         <property name="kualiConfigurationService">
             <ref bean="kualiConfigurationService" />
         </property>
@@ -104,9 +119,7 @@
         <property name="dateTimeService">
            <ref bean="dateTimeService"/>
         </property>
-    </bean> 
-    
-    <bean id="procurementCardFilePreProcessService" class="org.kuali.module.financial.service.impl.ProcurementCardFilePreProcessServiceImpl"/>
+    </bean>
 
     <bean id="cashReceiptService" class="org.kuali.module.financial.service.impl.CashReceiptServiceImpl">
     </bean>

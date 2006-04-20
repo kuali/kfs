@@ -208,7 +208,7 @@ public class ProcurementCardTransactionDetail extends BusinessObjectBase {
     public void setTargetAccountingLines(List targetAccountingLines) {
         this.targetAccountingLines = targetAccountingLines;
     }
-
+    
     /**
      * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
      */

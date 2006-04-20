@@ -27,12 +27,16 @@ package org.kuali.module.financial.document;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
+import org.kuali.module.financial.bo.ProcurementCardSourceAccountingLine;
+import org.kuali.module.financial.bo.ProcurementCardTargetAccountingLine;
+import org.kuali.module.financial.bo.ProcurementCardTransactionDetail;
 
 /**
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
@@ -260,6 +264,40 @@ public class ProcurementCardDocument extends TransactionalDocumentBase {
      */
     public void setTransactionEntries(List transactionEntries) {
         this.transactionEntries = transactionEntries;
+    }
+    
+    /**
+     * Override to set the accounting line in the transaction detail object. 
+     * @see org.kuali.core.document.TransactionalDocument#addSourceAccountingLine(org.kuali.core.bo.SourceAccountingLine)
+     */
+    public void addSourceAccountingLine(ProcurementCardSourceAccountingLine line) {
+        line.setSequenceNumber(this.getNextSourceLineNumber());
+        
+        for (Iterator iter = transactionEntries.iterator(); iter.hasNext();) {
+            ProcurementCardTransactionDetail transactionEntry = (ProcurementCardTransactionDetail) iter.next();
+            if (transactionEntry.getFinancialDocumentTransactionLineNumber().equals(line.getFinancialDocumentTransactionLineNumber())) {
+                transactionEntry.getSourceAccountingLines().add(line);
+            }
+        }
+        
+        this.nextSourceLineNumber = new Integer(this.getNextSourceLineNumber().intValue() + 1);
+    }
+
+    /**
+     * Override to set the accounting line in the transaction detail object. 
+     * @see org.kuali.core.document.TransactionalDocument#addTargetAccountingLine(org.kuali.core.bo.TargetAccountingLine)
+     */
+    public void addTargetAccountingLine(ProcurementCardTargetAccountingLine line) {
+        line.setSequenceNumber(this.getNextTargetLineNumber());
+        
+        for (Iterator iter = transactionEntries.iterator(); iter.hasNext();) {
+            ProcurementCardTransactionDetail transactionEntry = (ProcurementCardTransactionDetail) iter.next();
+            if (transactionEntry.getFinancialDocumentTransactionLineNumber().equals(line.getFinancialDocumentTransactionLineNumber())) {
+                transactionEntry.getTargetAccountingLines().add(line);
+            }
+        } 
+        
+        this.nextTargetLineNumber = new Integer(this.getNextTargetLineNumber().intValue() + 1);
     }
 
     /**

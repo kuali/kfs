@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../core/datadictionary/dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.financial.bo.ProcurementCardTransactionDetail">
+        <customAttributeEnabled>false</customAttributeEnabled>
+
+        <attributes>
+        
+        	<attributeReference name="financialDocumentNumber"
+								sourceClassName="org.kuali.core.document.DocumentHeader"
+								sourceAttributeName="financialDocumentNumber" />
+
+            <attribute name="financialDocumentTransactionLineNumber" forceUppercase="true">
+                <label>Financial Document Transaction Line Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>financialDocumentTransactionLineNumber</summary>
+                <description>financialDocumentTransactionLineNumber description...</description>
+			</attribute>
+
+            <attribute name="transactionDate" forceUppercase="true">
+                <label>Transaction Date</label>
+                <shortLabel>Date</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><date /></validationPattern>
+
+                <control>
+                   <text size="9" />
+                </control>
+
+                <summary>transactionDate</summary>
+                <description>transactionDate description...</description>
+			</attribute>
+
+            <attribute name="transactionMerchantCategoryCode" forceUppercase="true">
+                <label>Transaction Merchant Category Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>4</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="6" />
+                </control>
+
+                <summary>transactionMerchantCategoryCode</summary>
+                <description>transactionMerchantCategoryCode description...</description>
+			</attribute>
+
+            <attribute name="transactionReferenceNumber" forceUppercase="true">
+                <label>Transaction Reference Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>23</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="25" />
+                </control>
+
+                <summary>transactionReferenceNumber</summary>
+                <description>transactionReferenceNumber description...</description>
+			</attribute>
+
+            <attribute name="transactionVendorName" forceUppercase="true">
+                <label>Transaction Vendor Name</label>
+                <shortLabel>Name</shortLabel>
+
+                <maxLength>25</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="27" />
+                </control>
+
+                <summary>transactionVendorName</summary>
+                <description>transactionVendorName description...</description>
+			</attribute>
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

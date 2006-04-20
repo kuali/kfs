@@ -65,7 +65,7 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
      */
     public SubAccountRule() {
         super();
-        cgAuthorized = false;
+        setCgAuthorized(false);
     }
 
     /**
@@ -76,10 +76,10 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
         LOG.info("Entering processCustomApproveDocumentBusinessRules()");
     
         //  set whether the user is authorized to modify the CG fields
-        cgAuthorized = isCgAuthorized(GlobalVariables.getUserSession().getKualiUser());
+        setCgAuthorized(isCgAuthorized(GlobalVariables.getUserSession().getKualiUser()));
         
         //	check that all sub-objects whose keys are specified have matching objects in the db
-        checkExistenceAndActive();
+        checkForPartiallyEnteredReportingFields();
 
         //  process CG rules if appropriate
         checkCgRules(document);
@@ -97,10 +97,10 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
         LOG.info("Entering processCustomRouteDocumentBusinessRules()");
 
         //  set whether the user is authorized to modify the CG fields
-        cgAuthorized = isCgAuthorized(GlobalVariables.getUserSession().getKualiUser());
+        setCgAuthorized(isCgAuthorized(GlobalVariables.getUserSession().getKualiUser()));
         
         //	check that all sub-objects whose keys are specified have matching objects in the db
-        success &= checkExistenceAndActive();
+        success &= checkForPartiallyEnteredReportingFields();
 
         //  process CG rules if appropriate
         success &= checkCgRules(document);
@@ -118,10 +118,10 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
         LOG.info("Entering processCustomSaveDocumentBusinessRules()");
 
         //  set whether the user is authorized to modify the CG fields
-        cgAuthorized = isCgAuthorized(GlobalVariables.getUserSession().getKualiUser());
+        setCgAuthorized(isCgAuthorized(GlobalVariables.getUserSession().getKualiUser()));
         
         //	check that all sub-objects whose keys are specified have matching objects in the db
-        success &= checkExistenceAndActive();
+        success &= checkForPartiallyEnteredReportingFields();
 
         //  process CG rules if appropriate
         success &= checkCgRules(document);
@@ -150,7 +150,7 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
         newSubAccount = (SubAccount) super.getNewBo();
     }
     
-    protected boolean checkExistenceAndActive() {
+    protected boolean checkForPartiallyEnteredReportingFields() {
         
         LOG.info("Entering checkExistenceAndActive()");
         
@@ -202,7 +202,7 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
         boolean success = true;
         
         //  if the user is authorized, then dont bother checking any of this
-        if (cgAuthorized) {
+        if (getCgAuthorized()) {
             return success;
         }
         
@@ -282,7 +282,7 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
         boolean success = true;
         
         //  short circuit if this person isnt authorized for any CG fields
-        if (!cgAuthorized) {
+        if (!getCgAuthorized()) {
             return success;
         }
         
@@ -570,15 +570,17 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
         return false;
     }
     
-    protected boolean existenceCheck(String fieldName, String activeIndicatorFieldName) {
-        
-        boolean success = true;
-        
-        return success;
-    }
     
     private String getDisplayName(String propertyName) {
         return getDdService().getAttributeLabel(SubAccount.class, propertyName);
+    }
+    
+    protected void setCgAuthorized(boolean cgAuthorized) {
+        this.cgAuthorized = cgAuthorized;
+    }
+    
+    protected boolean getCgAuthorized() {
+        return cgAuthorized;
     }
     
 }

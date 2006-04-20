@@ -30,6 +30,7 @@
        <form-bean name="PreEncumbranceForm" type="org.kuali.module.financial.web.struts.form.PreEncumbranceForm" />
        <form-bean name="DisbursementVoucherForm" type="org.kuali.module.financial.web.struts.form.DisbursementVoucherForm" />
        <form-bean name="CashManagementForm" type="org.kuali.module.financial.web.struts.form.CashManagementForm" />
+       <form-bean name="CashManagementStatusForm" type="org.kuali.module.financial.web.struts.form.CashManagementStatusForm" />
 
        <!-- KRA Module Bean Definitions -->
        <form-bean name="BudgetForm" type="org.kuali.module.kra.web.struts.form.BudgetForm" />
@@ -54,8 +55,9 @@
     </form-beans>
 
     <global-exceptions>
-        <!-- AuthorizationException handler -->
-        <exception type="org.kuali.core.exceptions.AuthorizationException" key="meaningless" path="/authorizationException.do" />
+        <exception type="org.kuali.core.exceptions.AuthorizationException" key="meaningless" path="/authorizationException.do" />        
+        <exception type="org.kuali.module.financial.exceptions.CashDrawerStateException" key="unused" path="/cashManagementStatus.do" />
+
         <exception type="org.kuali.core.exceptions.UnknownDocumentIdException" key="error.document.noLongerExistsInKuali" path="/jsp/core/Exception.jsp" />
         <exception type="org.kuali.core.exceptions.FileUploadLimitExceededException" key="error.document.attachmentMaximumFileSizeExceeded" path="/jsp/core/Exception.jsp" />
     </global-exceptions>
@@ -156,7 +158,7 @@
         
         <action path="/glAccountBalanceByConsolidationLookup" name="BalanceInquiryForm" scope="request" attribute="KualiForm" parameter="methodToCall" type="org.kuali.module.gl.web.struts.action.BalanceInquiryAction">
           	<forward name="basic" path="/jsp/modules/generalLedger/AccountBalanceByConsolidationLookup.jsp" />
-        </action>           
+        </action>
 
         <action path="/research*" name="{1}Form" input="/jsp/modules/research/{1}.jsp" type="org.kuali.module.kra.web.struts.action.{1}Action" scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
           	<forward name="basic" path="/jsp/modules/research/{1}.jsp" />
@@ -174,7 +176,10 @@
             <forward name="auditmode" path="/jsp/modules/research/BudgetAuditMode.jsp" redirect="false"/>
             <forward name="permissions" path="/jsp/modules/research/BudgetPermissions.jsp" redirect="false"/>			
         </action>
-
+        
+        <action path="/cashManagementStatus" name="CashManagementStatusForm" type="org.kuali.module.financial.web.struts.action.CashManagementStatusAction" scope="request" attribute="KualiForm">
+            <forward name="basic" path="/jsp/modules/financial/CashManagementStatus.jsp" />
+        </action>
     </action-mappings>
 
     <controller processorClass="org.kuali.core.web.struts.action.KualiRequestProcessor" maxFileSize="5M"/>

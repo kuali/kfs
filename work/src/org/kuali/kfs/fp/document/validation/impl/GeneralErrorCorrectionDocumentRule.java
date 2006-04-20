@@ -172,6 +172,13 @@ public class GeneralErrorCorrectionDocumentRule
         return retval;
     }
 
+    /**
+     * Error for missing required properties like reference origin code 
+     * are added using this.
+     *
+     * @param boe
+     * @param propertyName
+     */
     private static void putRequiredPropertyError(BusinessObjectEntry boe, 
                                                  String propertyName) {
         String label = boe.getAttributeDefinition(propertyName).getLabel();

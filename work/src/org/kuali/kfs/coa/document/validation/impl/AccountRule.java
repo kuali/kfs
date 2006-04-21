@@ -102,7 +102,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
      * @param document - the maintenanceDocument being evaluated
      * 
      */
-    protected void setupConvenienceObjects(MaintenanceDocument document) {
+    public void setupConvenienceObjects() {
         
         //	setup oldAccount convenience objects, make sure all possible sub-objects are populated
         oldAccount = (Account) super.getOldBo();
@@ -118,7 +118,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
         
         LOG.info("processCustomSaveDocumentBusinessRules called");
-        setupConvenienceObjects(document);
+        setupConvenienceObjects();
         
         checkEmptyValues(document);
         checkGeneralRules(document);
@@ -135,7 +135,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
 
         LOG.info("processCustomRouteDocumentBusinessRules called");
-        setupConvenienceObjects(document);
+        setupConvenienceObjects();
         
         //	default to success
         boolean success = true;
@@ -545,25 +545,16 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
             return true;
         }
         
-        //	get the two dates, and remove any time-components from the dates
-        Timestamp expirationDate = newAccount.getAccountExpirationDate();
-        Timestamp todaysDate = getDateTimeService().getCurrentTimestamp();
-        //TODO: convert this to using Wes' kuali DateUtils once we're using Date's instead of Timestamp
-        todaysDate.setTime(DateUtils.truncate(todaysDate, Calendar.DAY_OF_MONTH).getTime());
-        
-        if (ObjectUtils.isNotNull(expirationDate)) {
-
-            //when closing an account, the account expiration date must be the current date or earlier
-            expirationDate.setTime(DateUtils.truncate(expirationDate, Calendar.DAY_OF_MONTH).getTime());
-            if (expirationDate.before(todaysDate) || expirationDate.equals(todaysDate)) {
-                putGlobalError(KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_CANNOT_BE_CLOSED_EXP_DATE_INVALID);
-                success &= false;
-            }
-        }
+        //  on an account being closed, the expiration date must be 
+        success &= checkAccountExpirationDateValidTodayOrEarlier(newAccount);
         
         // when closing an account, a continuation account is required 
         if (StringUtils.isBlank(newAccount.getContinuationAccountNumber())) {
-            putGlobalError(KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_CLOSE_CONTINUATION_ACCT_REQD);
+            putFieldError("continuationAccountNumber", KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_CLOSE_CONTINUATION_ACCT_REQD);
+            success &= false;
+        }
+        if (StringUtils.isBlank(newAccount.getContinuationFinChrtOfAcctCd())) {
+            putFieldError("continuationFinChrtOfAcctCd", KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_CLOSE_CONTINUATION_ACCT_REQD);
             success &= false;
         }
         
@@ -591,7 +582,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         return success;
     }
     
-    protected boolean checkAccountExpirationDateTodayOrEarlier(Account newAccount) {
+    protected boolean checkAccountExpirationDateValidTodayOrEarlier(Account newAccount) {
         
         //  get today's date, with no time component
         Timestamp todaysDate = getDateTimeService().getCurrentTimestamp();
@@ -625,56 +616,102 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
      */
     protected boolean checkContractsAndGrants(MaintenanceDocument maintenanceDocument) {
         
-        //TODO: Must add validation for C&G field. 
-        
         LOG.info("checkContractsAndGrants called");
 
         boolean success = true;
         
-        //Certain C&G fields are required if the Account belongs to the CG Fund Group 
-        if (ObjectUtils.isNotNull(newAccount.getSubFundGroup())) {
-	        if (newAccount.getSubFundGroup().getFundGroupCode().equalsIgnoreCase(CONTRACTS_GRANTS_CD)) {
-	            success &= checkEmptyBOField("contractControlFinCoaCode", newAccount.getContractControlFinCoaCode(), 
-	                    "When Fund Group is CG, Contract Control Chart of Accounts Code");
-	            success &= checkEmptyBOField("contractControlAccountNumber", newAccount.getContractControlAccountNumber(), 
-	                    "When Fund Group is CG, Contract Control Account Number");
-	            success &= checkEmptyBOField("acctIndirectCostRcvyTypeCd", newAccount.getAcctIndirectCostRcvyTypeCd(), 
-	                    "When Fund Group is CG, ICR Type Code");
-		        success &= checkEmptyBOField("financialIcrSeriesIdentifier", newAccount.getFinancialIcrSeriesIdentifier(), 
-		                "When Fund Group is CG, ICR Series Identifier");
-		        success &= checkEmptyBOField("indirectCostRcvyFinCoaCode", newAccount.getIndirectCostRcvyFinCoaCode(), 
-		                "When Fund Group is CG, ICR Cost Recovery Chart of Accounts Code");
-		        success &= checkEmptyBOField("indirectCostRecoveryAcctNbr", newAccount.getIndirectCostRecoveryAcctNbr(), 
-		                "When Fund Group is CG, ICR Cost Recovery Account");
-		        success &= checkEmptyBOField("cgCatlfFedDomestcAssistNbr", newAccount.getCgCatlfFedDomestcAssistNbr(), 
-		                "When Fund Group is CG, C&G Domestic Assistance Number");
-	        }
+        //  Certain C&G fields are required if the Account belongs to the CG Fund Group 
+        success &= checkCgRequiredFields(newAccount);
+        
+        //  Income Stream account is required if this account is CG fund group, 
+        // or GF (general fund) fund group (with some exceptions)
+        success &= checkCgIncomeStreamRequired(newAccount);
+        
+        return success;
+    }
+    
+    protected boolean checkCgIncomeStreamRequired(Account newAccount) {
+        
+        boolean result = true;
+        boolean required = false;
+        
+        //  if the subFundGroup object is null, we cant test, so exit
+        if (ObjectUtils.isNull(newAccount.getSubFundGroup())) {
+            return result;
         }
         
-        //	an income stream account is required for accounts in the C&G (CG) and General Fund (GF) fund groups 
-        // (except for the MPRACT sub-fund group in the general fund fund group).
-        if (ObjectUtils.isNotNull(newAccount.getSubFundGroup())) {
-            String fundGroupCode = newAccount.getSubFundGroup().getFundGroupCode();
-            if (fundGroupCode.equalsIgnoreCase(CONTRACTS_GRANTS_CD) || 
-               (fundGroupCode.equalsIgnoreCase(GENERAL_FUND_CD) && 
-               !newAccount.getSubFundGroupCode().equalsIgnoreCase(SUB_FUND_GROUP_MEDICAL_PRACTICE_FUNDS))) {
-                
-                success &= checkEmptyBOField("incomeStreamAccountNumber", newAccount.getIncomeStreamAccountNumber(), 
-                        "When Fund Group is CG or GF, Income Stream Account Number");
-                success &= checkEmptyBOField("incomeStreamFinancialCoaCode", newAccount.getIncomeStreamFinancialCoaCode(), 
-                        "When Fund Group is CG or GF, Income Stream Chart Of Accounts Code");
-                
-                /*if(StringUtils.isBlank(newAccount.getIncomeStreamAccountNumber())) {
-                    putFieldError("incomeStreamAccountNumber", KeyConstants.ERROR_DOCUMENT_ACCMAINT_INCOME_STREAM_ACCT_NBR_CANNOT_BE_NULL);
-                    success &= false;
-                }
-                if(StringUtils.isBlank(newAccount.getIncomeStreamFinancialCoaCode())) {
-                    putFieldError("incomeStreamFinancialCoaCode", KeyConstants.ERROR_DOCUMENT_ACCMAINT_INCOME_STREAM_ACCT_COA_CANNOT_BE_NULL);
-                    success &= false;
-                }*/
+        //  retrieve the subfundcode and fundgroupcode
+        String subFundGroupCode = newAccount.getSubFundGroupCode().trim();
+        String fundGroupCode = newAccount.getSubFundGroup().getFundGroupCode().trim();
+        
+        //  if this is a CG fund group, then its required
+        if (CONTRACTS_GRANTS_CD.equalsIgnoreCase(fundGroupCode)) {
+            required = true;
+        }
+        
+        //  if this is a general fund group, then its required
+        else if (GENERAL_FUND_CD.equalsIgnoreCase(fundGroupCode)) {
+            //  unless its part of the MPRACT subfundgroup
+            if (!SUB_FUND_GROUP_MEDICAL_PRACTICE_FUNDS.equalsIgnoreCase(subFundGroupCode)) {
+                required = true;
             }
         }
-        return success;
+        
+        //  if the income stream account is not required, then we're done
+        if (!required) {
+            return result;
+        }
+
+        //  make sure both coaCode and accountNumber are filled out
+        result &= checkEmptyBOField("incomeStreamAccountNumber", 
+                        newAccount.getIncomeStreamAccountNumber(), 
+                        "When Fund Group is CG or GF, Income Stream Account Number");
+        result &= checkEmptyBOField("incomeStreamFinancialCoaCode", 
+                        newAccount.getIncomeStreamFinancialCoaCode(), 
+                        "When Fund Group is CG or GF, Income Stream Chart Of Accounts Code");
+        
+        //  if both fields arent present, then we're done
+        if (result == false) {
+            return result;
+        }
+        
+        //  do an existence/active test
+        DictionaryValidationService dvService = super.getDictionaryValidationService();
+        boolean referenceExists = dvService.validateReferenceExists(newAccount, "incomeStreamAccount");
+        if (!referenceExists) {
+            putFieldError("incomeStreamAccount", KeyConstants.ERROR_EXISTENCE, 
+                            "Income Stream Account: " + newAccount.getIncomeStreamFinancialCoaCode() + "-" + 
+                            newAccount.getIncomeStreamAccountNumber());
+            result &= false;
+        }
+
+        return result;
+    }
+    
+    protected boolean checkCgRequiredFields(Account newAccount) {
+        
+        boolean result = true;
+        
+        //Certain C&G fields are required if the Account belongs to the CG Fund Group 
+        if (ObjectUtils.isNotNull(newAccount.getSubFundGroup())) {
+            if (newAccount.getSubFundGroup().getFundGroupCode().equalsIgnoreCase(CONTRACTS_GRANTS_CD)) {
+                result &= checkEmptyBOField("contractControlFinCoaCode", newAccount.getContractControlFinCoaCode(), 
+                        "When Fund Group is CG, Contract Control Chart of Accounts Code");
+                result &= checkEmptyBOField("contractControlAccountNumber", newAccount.getContractControlAccountNumber(), 
+                        "When Fund Group is CG, Contract Control Account Number");
+                result &= checkEmptyBOField("acctIndirectCostRcvyTypeCd", newAccount.getAcctIndirectCostRcvyTypeCd(), 
+                        "When Fund Group is CG, ICR Type Code");
+                result &= checkEmptyBOField("financialIcrSeriesIdentifier", newAccount.getFinancialIcrSeriesIdentifier(), 
+                        "When Fund Group is CG, ICR Series Identifier");
+                result &= checkEmptyBOField("indirectCostRcvyFinCoaCode", newAccount.getIndirectCostRcvyFinCoaCode(), 
+                        "When Fund Group is CG, ICR Cost Recovery Chart of Accounts Code");
+                result &= checkEmptyBOField("indirectCostRecoveryAcctNbr", newAccount.getIndirectCostRecoveryAcctNbr(), 
+                        "When Fund Group is CG, ICR Cost Recovery Account");
+                result &= checkEmptyBOField("cgCatlfFedDomestcAssistNbr", newAccount.getCgCatlfFedDomestcAssistNbr(), 
+                        "When Fund Group is CG, C&G Domestic Assistance Number");
+            }
+        }
+        return result;
     }
     
     /**
@@ -694,47 +731,13 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         Timestamp today = getDateTimeService().getCurrentTimestamp();
         today.setTime(DateUtils.truncate(today, Calendar.DAY_OF_MONTH).getTime()); // remove any time components
         
-        //	When updating an account expiration date, the date must be today or later 
+        //  When updating an account expiration date, the date must be today or later 
         // (except for C&G accounts).  Only run this test if this maint doc 
         // is an edit doc
-        if (maintenanceDocument.isEdit()) {
-            
-            boolean expDateHasChanged = false;
-            
-            //	if the old version of the account had no expiration date, and the new 
-            // one has a date
-            if (ObjectUtils.isNull(oldExpDate) && ObjectUtils.isNotNull(newExpDate)) {
-                expDateHasChanged = true;
-            }
-            
-            //	 if there was an old and a new expDate, but they're different
-            else if (ObjectUtils.isNotNull(oldExpDate) && ObjectUtils.isNotNull(newExpDate)) {
-                if (!oldExpDate.equals(newExpDate)) {
-                    expDateHasChanged = true;
-                }
-            }
-
-            //	if the dates are different
-            if (expDateHasChanged) {
-                
-                //	If we have a subFundGroup value.  Normally, this would never be allowed 
-                // to be null, but it could be in this case, which will trigger a different 
-                // validation error.  But if it is null, we want to silently not bother to 
-                // make the test, as it'll run the test for real once the user gets the 
-                // subFundGroupCode entered and correct.
-                if (ObjectUtils.isNotNull(newAccount.getSubFundGroup())) {
-                    String fundGroupCode = newAccount.getSubFundGroup().getFundGroupCode();
-                    
-                    //	If this is NOT a CG Fund Group account, then Expiration Date 
-                    // must be later than today.  If its not, add a business rule error.
-                    if (!fundGroupCode.equalsIgnoreCase(CONTRACTS_GRANTS_CD)) {
-                        if (!newExpDate.after(today) && !newExpDate.equals(today)) {
-                            putGlobalError(KeyConstants.ERROR_DOCUMENT_ACCMAINT_EXP_DATE_TODAY_LATER_EXCEPT_CANDG_ACCT);
-                            success &= false;
-                        }
-                    }
-                }
-            }
+        if (isUpdatedExpirationDateInvalid(maintenanceDocument)) {
+            putFieldError("accountExpirationDate", 
+                    KeyConstants.ERROR_DOCUMENT_ACCMAINT_EXP_DATE_TODAY_LATER_EXCEPT_CANDG_ACCT);
+            success &= false;
         }
         
         //	a continuation account is required if the expiration date is completed.
@@ -772,6 +775,68 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         }
 
         return success;
+    }
+    
+    protected boolean isUpdatedExpirationDateInvalid(MaintenanceDocument maintDoc) {
+        
+        //  if this isnt an Edit document, we're not interested
+        if (!maintDoc.isEdit()) {
+            return false;
+        }
+        
+        Timestamp oldExpDate = oldAccount.getAccountExpirationDate();
+        Timestamp newExpDate = newAccount.getAccountExpirationDate();
+        Timestamp today = getDateTimeService().getCurrentTimestamp();
+        today.setTime(DateUtils.truncate(today, Calendar.DAY_OF_MONTH).getTime()); // remove any time components
+        
+        //  When updating an account expiration date, the date must be today or later 
+        // (except for C&G accounts).  Only run this test if this maint doc 
+        // is an edit doc
+        boolean expDateHasChanged = false;
+        
+        //  if the old version of the account had no expiration date, and the new 
+        // one has a date
+        if (ObjectUtils.isNull(oldExpDate) && ObjectUtils.isNotNull(newExpDate)) {
+            expDateHasChanged = true;
+        }
+        
+        //   if there was an old and a new expDate, but they're different
+        else if (ObjectUtils.isNotNull(oldExpDate) && ObjectUtils.isNotNull(newExpDate)) {
+            if (!oldExpDate.equals(newExpDate)) {
+                expDateHasChanged = true;
+            }
+        }
+
+        //  if the expiration date hasnt changed, we're not interested
+        if (!expDateHasChanged) {
+            return false;
+        }
+        
+        //  make a shortcut to the newAccount
+        Account newAccount = (Account) maintDoc.getNewMaintainableObject().getBusinessObject();
+        
+        //  if a subFundGroup isnt present, we cannot continue the testing
+        SubFundGroup subFundGroup = newAccount.getSubFundGroup();
+        if (ObjectUtils.isNull(subFundGroup)) {
+            return false;
+        }
+        
+        //  get the fundGroup code
+        String fundGroupCode = newAccount.getSubFundGroup().getFundGroupCode().trim();
+        
+        //  if the account is part of the CG fund group, then this rule doenst 
+        // apply, so we're done
+        if (CONTRACTS_GRANTS_CD.equalsIgnoreCase(fundGroupCode)) {
+            return false;
+        }
+        
+        //  at this point, we know its not a CG fund group, so we must apply the rule
+        
+        //  expirationDate must be today or later than today (cannot be before today)
+        if (newExpDate.equals(today) || newExpDate.after(today)) {
+            return false;
+        }
+        else return true;
     }
     
     /**

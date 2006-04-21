@@ -95,8 +95,15 @@ public abstract class ChartRuleTestBase extends KualiTestBaseWithFixtures {
         
         //  add all the pieces
         document.getDocumentHeader().setFinancialDocumentDescription("test");
-        document.setOldMaintainableObject(new KualiMaintainableImpl(oldBo));
+        if (null == oldBo) {
+            document.setOldMaintainableObject(new KualiMaintainableImpl());
+        }
+        else {
+            document.setOldMaintainableObject(new KualiMaintainableImpl(oldBo));
+            document.getOldMaintainableObject().setBoClass(oldBo.getClass());
+        }
         document.setNewMaintainableObject(new KualiMaintainableImpl(newBo));
+        document.getNewMaintainableObject().setBoClass(newBo.getClass());
         return document;
     }
 
@@ -113,7 +120,8 @@ public abstract class ChartRuleTestBase extends KualiTestBaseWithFixtures {
      * 
      */
     protected MaintenanceDocumentRule setupMaintDocRule(BusinessObject newBo, Class ruleClass) {
-        return setupMaintDocRule(null, newBo, ruleClass);
+        MaintenanceDocument maintDoc = newMaintDoc(newBo);
+        return setupMaintDocRule(maintDoc, ruleClass);
     }
     
     /**

@@ -34,6 +34,7 @@ import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Account;
+import org.kuali.module.chart.bo.SubFundGroup;
 
 public class AccountRuleTest extends ChartRuleTestBase {
 
@@ -72,6 +73,17 @@ public class AccountRuleTest extends ChartRuleTestBase {
             private static final String BAD1 = "ZZ";
         }
         private class SubFund {
+            private class Code {
+                private static final String CG1 = "HIEDUA";
+                private static final String GF1 = "GENFND";
+                private static final String GF_MPRACT = "MPRACT";
+                private static final String EN1 = "ENDOW";
+            }
+            private class FundGroupCode {
+                private static final String CG1 = "CG";
+                private static final String GF1 = "GF";
+                private static final String EN1 = "EN";
+            }
             private static final String GOOD1 = "GENFND";
         }
         private class HigherEdFunction {
@@ -123,6 +135,9 @@ public class AccountRuleTest extends ChartRuleTestBase {
             private static final String GOOD1 = "KCOPLEY";
             private static final String GOOD2 = "KHUNTLEY";
         }
+        private class IndirectCostRecoveryTypeCode {
+            private static final String GOOD1 = "";
+        }
     }
     
     Account oldAccount;
@@ -133,11 +148,14 @@ public class AccountRuleTest extends ChartRuleTestBase {
     protected void setUp() throws Exception {
         super.setUp();
         rule = new AccountRule();
+        maintDoc = null;
     }
     
     protected void tearDown() throws Exception {
         super.tearDown();
         clearErrors();
+        rule = null;
+        maintDoc = null;
     }
     
     public void testDefaultExistenceChecks_Org_KnownGood() {
@@ -875,7 +893,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
                 
     }
     
-    public void testCheckAccountExpirationDateTodayOrEarlier() {
+    public void testCheckAccountExpirationDateTodayOrEarlier_NullDate() {
         
         Account newAccount = new Account();
         maintDoc = newMaintDoc(newAccount);
@@ -883,11 +901,553 @@ public class AccountRuleTest extends ChartRuleTestBase {
         boolean result;
         
         //  empty expiration date - fail
+        newAccount.setAccountExpirationDate(null);
+        result = rule.checkAccountExpirationDateValidTodayOrEarlier(newAccount);
+        assertEquals("Null expiration date should fail.", false, result);
+        assertFieldErrorExists("accountExpirationDate", KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_CANNOT_BE_CLOSED_EXP_DATE_INVALID);
+        assertErrorCount(1);
         
-        //  future expiration date - fail
+    }
+    
+    public void testCheckAccountExpirationDateTodayOrEarlier_PastDate() {
+        
+        Account newAccount = new Account();
+        maintDoc = newMaintDoc(newAccount);
+        rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
+        boolean result;
+        Calendar testCalendar;
+        Timestamp testTimestamp;
+        
+        //  get an arbitrarily early date
+        testCalendar = Calendar.getInstance();
+        testCalendar.clear();
+        testCalendar.set(1900, 1, 1);
+        testTimestamp = new Timestamp(testCalendar.getTimeInMillis());
+        
+        //  past expiration date - pass
+        newAccount.setAccountExpirationDate(testTimestamp);
+        result = rule.checkAccountExpirationDateValidTodayOrEarlier(newAccount);
+        assertEquals("Arbitrarily early date should fail.", true, result);
+        assertErrorCount(0);
+        
+    }
+    
+    public void testCheckAccountExpirationDateTodayOrEarlier_TodaysDate() {
+        
+        Account newAccount = new Account();
+        maintDoc = newMaintDoc(newAccount);
+        rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
+        boolean result;
+        Calendar testCalendar;
+        Timestamp testTimestamp;
+        
+        //  get today's date
+        testCalendar = Calendar.getInstance();
+        testCalendar = DateUtils.truncate(testCalendar, Calendar.DAY_OF_MONTH);
+        testTimestamp = new Timestamp(testCalendar.getTimeInMillis());
+        
+        //  current date - pass
+        newAccount.setAccountExpirationDate(testTimestamp);
+        result = rule.checkAccountExpirationDateValidTodayOrEarlier(newAccount);
+        assertEquals("Today's date should pass.", true, result);
+        assertErrorCount(0);
+        
+    }
+    
+    public void testCheckAccountExpirationDateTodayOrEarlier_FutureDate() {
+        
+        Account newAccount = new Account();
+        maintDoc = newMaintDoc(newAccount);
+        rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
+        boolean result;
+        Calendar testCalendar;
+        Timestamp testTimestamp;
+        
+        //  get an arbitrarily late date - fail
+        testCalendar = Calendar.getInstance();
+        testCalendar.clear();
+        testCalendar.set(2100, 1, 1);
+        testTimestamp = new Timestamp(testCalendar.getTimeInMillis());
         
         //  past or today expiration date - pass
+        newAccount.setAccountExpirationDate(testTimestamp);
+        result = rule.checkAccountExpirationDateValidTodayOrEarlier(newAccount);
+        assertEquals("Arbitrarily late date should pass.", false, result);
+        assertFieldErrorExists("accountExpirationDate", KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_CANNOT_BE_CLOSED_EXP_DATE_INVALID);
+        assertErrorCount(1);
+        
+    }
+    
+    public void testCheckCloseAccountContinuation_NullContinuationCoaCode() {
+        
+        Account oldAccount = new Account();
+        Account newAccount = new Account();
+        maintDoc = newMaintDoc(oldAccount, newAccount);
+        rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
+        boolean result;
+        
+        //  account must be being closed
+        oldAccount.setAccountClosedIndicator(false);
+        newAccount.setAccountClosedIndicator(true);
+        newAccount.setAccountExpirationDate(SpringServiceLocator.getDateTimeService().getCurrentTimestamp());
+        
+        //  continuation coa code null
+        newAccount.setContinuationFinChrtOfAcctCd(null);
+        newAccount.setContinuationAccountNumber(Accounts.AccountNumber.GOOD1);
+        result = rule.checkCloseAccount(maintDoc);
+        assertEquals("Null continuation coa code should fail with one error.", false, result);
+        assertFieldErrorExists("continuationFinChrtOfAcctCd", KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_CLOSE_CONTINUATION_ACCT_REQD);
+        assertErrorCount(1);
+        
+    }
+
+    public void testCheckCloseAccountContinuation_NullContinuationAccountNumber() {
+        
+        Account oldAccount = new Account();
+        Account newAccount = new Account();
+        maintDoc = newMaintDoc(oldAccount, newAccount);
+        rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
+        boolean result;
+        
+        //  account must be being closed
+        oldAccount.setAccountClosedIndicator(false);
+        newAccount.setAccountClosedIndicator(true);
+        newAccount.setAccountExpirationDate(SpringServiceLocator.getDateTimeService().getCurrentTimestamp());
+        
+        //  continuation coa code null
+        newAccount.setContinuationFinChrtOfAcctCd(Accounts.ChartCode.GOOD1);
+        newAccount.setContinuationAccountNumber(null);
+        result = rule.checkCloseAccount(maintDoc);
+        assertEquals("Null continuation account number should fail with one error.", false, result);
+        assertFieldErrorExists("continuationAccountNumber", KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_CLOSE_CONTINUATION_ACCT_REQD);
+        assertErrorCount(1);
+        
+    }
+
+    public void testCheckCloseAccountContinuation_ValidContinuationAccount() {
+        
+        Account oldAccount = new Account();
+        Account newAccount = new Account();
+        maintDoc = newMaintDoc(oldAccount, newAccount);
+        rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
+        boolean result;
+        
+        //  account must be being closed
+        oldAccount.setAccountClosedIndicator(false);
+        newAccount.setAccountClosedIndicator(true);
+        newAccount.setAccountExpirationDate(SpringServiceLocator.getDateTimeService().getCurrentTimestamp());
+        
+        //  continuation coa code null
+        newAccount.setContinuationFinChrtOfAcctCd(Accounts.ChartCode.GOOD1);
+        newAccount.setContinuationAccountNumber(Accounts.AccountNumber.GOOD1);
+        result = rule.checkCloseAccount(maintDoc);
+        assertEquals("Valid continuation account info should not fail.", true, result);
+        assertErrorCount(0);
+        
+    }
+
+    /**
+     * Note that we are not testing any of the other elements in the 
+     * AccountRule.checkCloseAccount().  This is because there is no logic 
+     * to them.  They simple exercise GL service methods, and if those GL service 
+     * methods return false, they add an error.
+     */
+    
+    public void testCGFields_RequiredCGFields_Missing() {
+        
+        Account newAccount = new Account();
+        maintDoc = newMaintDoc(newAccount);
+        rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
+        boolean result;
+        
+        //  create the populated CG subfundgroup
+        SubFundGroup subFundGroup = new SubFundGroup();
+        subFundGroup.setSubFundGroupCode(Accounts.SubFund.Code.CG1);
+        subFundGroup.setFundGroupCode(Accounts.SubFund.FundGroupCode.CG1);
+        subFundGroup.setSubfundgrpActivityIndicator(true);
+        
+        //  add the subFundGroup info to Account
+        newAccount.setSubFundGroupCode(Accounts.SubFund.Code.CG1);
+        newAccount.setSubFundGroup(subFundGroup);
+        
+        //  make sure all the required fields are missing
+        newAccount.setContractControlFinCoaCode(null);
+        newAccount.setContractControlAccountNumber(null);
+        newAccount.setAcctIndirectCostRcvyTypeCd(null);
+        newAccount.setFinancialIcrSeriesIdentifier(null);
+        newAccount.setIndirectCostRcvyFinCoaCode(null);
+        newAccount.setIndirectCostRecoveryAcctNbr(null);
+        newAccount.setCgCatlfFedDomestcAssistNbr(null);
+        
+        //  run the rule
+        result = rule.checkCgRequiredFields(newAccount);
+        assertEquals("Rule should return false with missing fields.", false, result);
+        assertErrorCount(7);
+        assertFieldErrorExists("contractControlFinCoaCode", KeyConstants.ERROR_REQUIRED);
+        assertFieldErrorExists("contractControlAccountNumber", KeyConstants.ERROR_REQUIRED);
+        assertFieldErrorExists("acctIndirectCostRcvyTypeCd", KeyConstants.ERROR_REQUIRED);
+        assertFieldErrorExists("financialIcrSeriesIdentifier", KeyConstants.ERROR_REQUIRED);
+        assertFieldErrorExists("indirectCostRcvyFinCoaCode", KeyConstants.ERROR_REQUIRED);
+        assertFieldErrorExists("indirectCostRecoveryAcctNbr", KeyConstants.ERROR_REQUIRED);
+        assertFieldErrorExists("cgCatlfFedDomestcAssistNbr", KeyConstants.ERROR_REQUIRED);
+        
+    }
+
+    public void testCGFields_RequiredCGFields_AllPresent() {
+        
+        Account newAccount = new Account();
+        maintDoc = newMaintDoc(newAccount);
+        rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
+        boolean result;
+        
+        //  create the populated CG subfundgroup
+        SubFundGroup subFundGroup = new SubFundGroup();
+        subFundGroup.setSubFundGroupCode(Accounts.SubFund.Code.CG1);
+        subFundGroup.setFundGroupCode(Accounts.SubFund.FundGroupCode.CG1);
+        subFundGroup.setSubfundgrpActivityIndicator(true);
+        
+        //  add the subFundGroup info to Account
+        newAccount.setSubFundGroupCode(Accounts.SubFund.Code.CG1);
+        newAccount.setSubFundGroup(subFundGroup);
+        
+        //  make sure all the required fields are missing
+        newAccount.setContractControlFinCoaCode(Accounts.ChartCode.GOOD1);
+        newAccount.setContractControlAccountNumber(Accounts.AccountNumber.GOOD1);
+        newAccount.setAcctIndirectCostRcvyTypeCd("001");
+        newAccount.setFinancialIcrSeriesIdentifier("A");
+        newAccount.setIndirectCostRcvyFinCoaCode(Accounts.ChartCode.GOOD1);
+        newAccount.setIndirectCostRecoveryAcctNbr(Accounts.AccountNumber.GOOD1);
+        newAccount.setCgCatlfFedDomestcAssistNbr("001");
+        
+        //  run the rule
+        result = rule.checkCgRequiredFields(newAccount);
+        assertEquals("Rule should return true with no missing fields.", true, result);
+        assertErrorCount(0);
+        
+    }
+
+    public void testCheckCgIncomeStreamRequired_NotApplicableAccount() {
+        
+        Account newAccount = new Account();
+        maintDoc = newMaintDoc(newAccount);
+        rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
+        boolean result;
+        
+        //  create the populated CG subfundgroup
+        SubFundGroup subFundGroup = new SubFundGroup();
+        subFundGroup.setSubFundGroupCode(Accounts.SubFund.Code.EN1);
+        subFundGroup.setFundGroupCode(Accounts.SubFund.FundGroupCode.EN1);
+        subFundGroup.setSubfundgrpActivityIndicator(true);
+        
+        //  add the subFundGroup info to Account
+        newAccount.setSubFundGroupCode(Accounts.SubFund.Code.EN1);
+        newAccount.setSubFundGroup(subFundGroup);
+        
+        //  make sure the income stream fields are blank
+        newAccount.setIncomeStreamFinancialCoaCode(null);
+        newAccount.setIncomeStreamAccountNumber(null);
+        newAccount.setIncomeStreamAccount(null);
+        
+        //  run the rule
+        result = rule.checkCgIncomeStreamRequired(newAccount);
+        assertEquals("Non-applicable accounts should not fail.", true, result);
+        assertErrorCount(0);
+        
+    }
+    
+    public void testCheckCgIncomeStreamRequired_GFMPRACTException() {
+        
+        Account newAccount = new Account();
+        maintDoc = newMaintDoc(newAccount);
+        rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
+        boolean result;
+        
+        //  create the populated CG subfundgroup
+        SubFundGroup subFundGroup = new SubFundGroup();
+        subFundGroup.setSubFundGroupCode(Accounts.SubFund.Code.GF_MPRACT);
+        subFundGroup.setFundGroupCode(Accounts.SubFund.FundGroupCode.GF1);
+        subFundGroup.setSubfundgrpActivityIndicator(true);
+        
+        //  add the subFundGroup info to Account
+        newAccount.setSubFundGroupCode(Accounts.SubFund.Code.GF_MPRACT);
+        newAccount.setSubFundGroup(subFundGroup);
+        
+        //  make sure the income stream fields are blank
+        newAccount.setIncomeStreamFinancialCoaCode(null);
+        newAccount.setIncomeStreamAccountNumber(null);
+        newAccount.setIncomeStreamAccount(null);
+        
+        //  run the rule
+        result = rule.checkCgIncomeStreamRequired(newAccount);
+        assertEquals("GF MPRACT account should not fail.", true, result);
+        assertErrorCount(0);
+        
+    }
+    
+    public void testCheckCgIncomeStreamRequired_CGAcctNoIncomeStreamFields() {
+        
+        Account newAccount = new Account();
+        maintDoc = newMaintDoc(newAccount);
+        rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
+        boolean result;
+        
+        //  create the populated CG subfundgroup
+        SubFundGroup subFundGroup = new SubFundGroup();
+        subFundGroup.setSubFundGroupCode(Accounts.SubFund.Code.CG1);
+        subFundGroup.setFundGroupCode(Accounts.SubFund.FundGroupCode.CG1);
+        subFundGroup.setSubfundgrpActivityIndicator(true);
+        
+        //  add the subFundGroup info to Account
+        newAccount.setSubFundGroupCode(Accounts.SubFund.Code.CG1);
+        newAccount.setSubFundGroup(subFundGroup);
+        
+        //  make sure the income stream fields are blank
+        newAccount.setIncomeStreamFinancialCoaCode(null);
+        newAccount.setIncomeStreamAccountNumber(null);
+        newAccount.setIncomeStreamAccount(null);
+        
+        //  run the rule
+        result = rule.checkCgIncomeStreamRequired(newAccount);
+        assertEquals("CG Account with no Income Stream data should fail.", false, result);
+        assertFieldErrorExists("incomeStreamFinancialCoaCode", KeyConstants.ERROR_REQUIRED);
+        assertFieldErrorExists("incomeStreamAccountNumber", KeyConstants.ERROR_REQUIRED);
+        assertErrorCount(2);
+        
+    }
+    
+    public void testCheckCgIncomeStreamRequired_CGAcctInvalidIncomeStreamAccount() {
+        
+        Account newAccount = new Account();
+        maintDoc = newMaintDoc(newAccount);
+        rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
+        boolean result;
+        
+        //  create the populated CG subfundgroup
+        SubFundGroup subFundGroup = new SubFundGroup();
+        subFundGroup.setSubFundGroupCode(Accounts.SubFund.Code.CG1);
+        subFundGroup.setFundGroupCode(Accounts.SubFund.FundGroupCode.CG1);
+        subFundGroup.setSubfundgrpActivityIndicator(true);
+        
+        //  add the subFundGroup info to Account
+        newAccount.setSubFundGroupCode(Accounts.SubFund.Code.CG1);
+        newAccount.setSubFundGroup(subFundGroup);
+        
+        //  make sure the income stream fields are blank
+        newAccount.setIncomeStreamFinancialCoaCode(Accounts.ChartCode.BAD1);
+        newAccount.setIncomeStreamAccountNumber(Accounts.AccountNumber.GOOD1);
+        newAccount.setIncomeStreamAccount(null);
+        
+        //  run the rule
+        result = rule.checkCgIncomeStreamRequired(newAccount);
+        assertEquals("CG Account with invalid Income Stream data should fail.", false, result);
+        assertFieldErrorExists("incomeStreamAccount", KeyConstants.ERROR_EXISTENCE);
+        assertErrorCount(1);
+        
+    }
+    
+    public void testCheckCgIncomeStreamRequired_GFAcctNoIncomeStreamFields() {
+        
+        Account newAccount = new Account();
+        maintDoc = newMaintDoc(newAccount);
+        rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
+        boolean result;
+        
+        //  create the populated CG subfundgroup
+        SubFundGroup subFundGroup = new SubFundGroup();
+        subFundGroup.setSubFundGroupCode(Accounts.SubFund.Code.GF1);
+        subFundGroup.setFundGroupCode(Accounts.SubFund.FundGroupCode.GF1);
+        subFundGroup.setSubfundgrpActivityIndicator(true);
+        
+        //  add the subFundGroup info to Account
+        newAccount.setSubFundGroupCode(Accounts.SubFund.Code.GF1);
+        newAccount.setSubFundGroup(subFundGroup);
+        
+        //  make sure the income stream fields are blank
+        newAccount.setIncomeStreamFinancialCoaCode(null);
+        newAccount.setIncomeStreamAccountNumber(null);
+        newAccount.setIncomeStreamAccount(null);
+        
+        //  run the rule
+        result = rule.checkCgIncomeStreamRequired(newAccount);
+        assertEquals("GF Account with no Income Stream data should fail.", false, result);
+        assertFieldErrorExists("incomeStreamFinancialCoaCode", KeyConstants.ERROR_REQUIRED);
+        assertFieldErrorExists("incomeStreamAccountNumber", KeyConstants.ERROR_REQUIRED);
+        assertErrorCount(2);
+        
+    }
+    
+    public void testIsUpdateExpirationDateInvalid_BothExpirationDatesNull() {
+        
+        Account oldAccount = new Account();
+        Account newAccount = new Account();
+        maintDoc = newMaintDoc(oldAccount, newAccount);
+        rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
+        boolean result;
+        
+        //  set both expiration dates to null
+        oldAccount.setAccountExpirationDate(null);
+        newAccount.setAccountExpirationDate(null);
+        
+        result = rule.isUpdatedExpirationDateInvalid(maintDoc);
+        assertEquals("Doc with no expiration dates should return false.", false, result);
+        
+    }
+    
+    public void testIsUpdateExpirationDateInvalid_ExpirationDatesSame() {
+        
+        Account oldAccount = new Account();
+        Account newAccount = new Account();
+        maintDoc = newMaintDoc(oldAccount, newAccount);
+        rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
+        boolean result;
+        
+        //  get today's date
+        Timestamp todaysDate = SpringServiceLocator.getDateTimeService().getCurrentTimestamp();
+        
+        //  set both expiration dates to null
+        oldAccount.setAccountExpirationDate(todaysDate);
+        newAccount.setAccountExpirationDate(todaysDate);
+        
+        result = rule.isUpdatedExpirationDateInvalid(maintDoc);
+        assertEquals("Doc with same expiration dates should return false.", false, result);
+        
+    }
+    
+    public void testIsUpdateExpirationDateInvalid_NewExpDateNull() {
+        
+        Account oldAccount = new Account();
+        Account newAccount = new Account();
+        maintDoc = newMaintDoc(oldAccount, newAccount);
+        rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
+        boolean result;
+        
+        //  get today's date
+        Timestamp todaysDate = SpringServiceLocator.getDateTimeService().getCurrentTimestamp();
+        
+        //  set both expiration dates to null
+        oldAccount.setAccountExpirationDate(todaysDate);
+        newAccount.setAccountExpirationDate(null);
+        
+        result = rule.isUpdatedExpirationDateInvalid(maintDoc);
+        assertEquals("Doc with null new expiration dates should return false.", false, result);
+        
+    }
+    
+    public void testIsUpdateExpirationDateInvalid_SubFundGroupNull() {
+        
+        Account oldAccount = new Account();
+        Account newAccount = new Account();
+        maintDoc = newMaintDoc(oldAccount, newAccount);
+        rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
+        boolean result;
+        
+        //  get today's date
+        Calendar calendar;
+        Timestamp todaysDate = SpringServiceLocator.getDateTimeService().getCurrentTimestamp();
+        
+        //  old exp date
+        calendar = Calendar.getInstance();
+        calendar.set(1900, 1, 1);
+        Timestamp oldDate = new Timestamp(calendar.getTimeInMillis());
+        
+        //  new exp date
+        Timestamp newDate = todaysDate;
+        
+        //  set both expiration dates to null
+        oldAccount.setAccountExpirationDate(oldDate);
+        newAccount.setAccountExpirationDate(newDate);
+        
+        //  set subfund group to null
+        newAccount.setSubFundGroupCode(null);
+        newAccount.setSubFundGroup(null);
+        
+        //  run the rule
+        result = rule.isUpdatedExpirationDateInvalid(maintDoc);
+        assertEquals("Doc with changed exp dates, but no subfund group should false.", false, result);
+        
+    }
+    
+    public void testIsUpdateExpirationDateInvalid_ChangedNewInPast_CGSubFund() {
+        
+        Account oldAccount = new Account();
+        Account newAccount = new Account();
+        maintDoc = newMaintDoc(oldAccount, newAccount);
+        rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
+        boolean result;
+        
+        //  get today's date
+        Calendar calendar;
+        Timestamp todaysDate = SpringServiceLocator.getDateTimeService().getCurrentTimestamp();
+        
+        //  old exp date
+        calendar = Calendar.getInstance();
+        calendar.set(1900, 1, 1);
+        Timestamp oldDate = new Timestamp(calendar.getTimeInMillis());
+        
+        //  new exp date
+        calendar = Calendar.getInstance();
+        calendar.set(2000, 1, 1);
+        Timestamp newDate = new Timestamp(calendar.getTimeInMillis());
+        
+        //  set both expiration dates to null
+        oldAccount.setAccountExpirationDate(oldDate);
+        newAccount.setAccountExpirationDate(newDate);
+        
+        //  setup new subfund
+        SubFundGroup subFundGroup = new SubFundGroup();
+        subFundGroup.setFundGroupCode(Accounts.SubFund.Code.CG1);
+        subFundGroup.setSubFundGroupCode(Accounts.SubFund.FundGroupCode.CG1);
+        
+        //  set subfund group to null
+        newAccount.setSubFundGroupCode(Accounts.SubFund.Code.CG1);
+        newAccount.setSubFundGroup(subFundGroup);
+        
+        //  run the rule
+        result = rule.isUpdatedExpirationDateInvalid(maintDoc);
+        assertEquals("Doc with changed exp dates, CG fundgroup should be false.", false, result);
+        
+    }
+    
+    public void testIsUpdateExpirationDateInvalid_ChangedNewInPast_NonCGSubFund() {
+        
+        Account oldAccount = new Account();
+        Account newAccount = new Account();
+        maintDoc = newMaintDoc(oldAccount, newAccount);
+        rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
+        boolean result;
+        
+        //  get today's date
+        Calendar calendar;
+        Timestamp todaysDate = SpringServiceLocator.getDateTimeService().getCurrentTimestamp();
+        
+        //  old exp date
+        calendar = Calendar.getInstance();
+        calendar.set(1900, 1, 1);
+        Timestamp oldDate = new Timestamp(calendar.getTimeInMillis());
+        
+        //  new exp date
+        calendar = Calendar.getInstance();
+        calendar.set(2000, 1, 1);
+        Timestamp newDate = new Timestamp(calendar.getTimeInMillis());
+        
+        //  set both expiration dates to null
+        oldAccount.setAccountExpirationDate(oldDate);
+        newAccount.setAccountExpirationDate(newDate);
+        
+        //  setup new subfund
+        SubFundGroup subFundGroup = new SubFundGroup();
+        subFundGroup.setFundGroupCode(Accounts.SubFund.Code.GF1);
+        subFundGroup.setSubFundGroupCode(Accounts.SubFund.FundGroupCode.GF1);
+        
+        //  set subfund group to null
+        newAccount.setSubFundGroupCode(Accounts.SubFund.Code.GF1);
+        newAccount.setSubFundGroup(subFundGroup);
+        
+        //  run the rule
+        result = rule.isUpdatedExpirationDateInvalid(maintDoc);
+        assertEquals("Doc with changed exp dates, exp in past should be false.", false, result);
         
     }
     
 }
+

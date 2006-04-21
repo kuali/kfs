@@ -58,7 +58,7 @@ public class FlexibleOffsetAccountServiceImpl implements FlexibleOffsetAccountSe
      * @see FlexibleOffsetAccountService#getEnabled
      */
     public boolean getEnabled() {
-      return kualiConfigurationService.getRequiredApplicationParameterIndicator(Constants.ParameterGroups.SYSTEM,
+      return kualiConfigurationService.getApplicationParameterIndicator(Constants.ParameterGroups.SYSTEM,
             Constants.SystemGroupParameterNames.FLEXIBLE_OFFSET_ENABLED_FLAG);
     }
 

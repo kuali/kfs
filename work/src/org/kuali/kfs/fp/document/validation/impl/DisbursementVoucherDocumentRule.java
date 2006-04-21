@@ -1130,9 +1130,9 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
             String restrictedFieldValue, String errorField, String errorParameter) {
         boolean rulePassed = true;
 
-        KualiParameterRule rule = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterRule(
-                parameterGroupName, parameterName);
-        if (rule != null) {
+        if (SpringServiceLocator.getKualiConfigurationService().hasApplicationParameter(parameterGroupName, parameterName)) {
+            KualiParameterRule rule = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterRule(
+                    parameterGroupName, parameterName);
             if (rule.failsRule(restrictedFieldValue)) {
                 GlobalVariables.getErrorMap().put(
                         errorField,

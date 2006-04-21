@@ -29,7 +29,7 @@ public class PurgeEntryStep implements Step {
   public boolean performStep() {
     LOG.debug("performStep() started");
 
-    String yearStr = kualiConfigurationService.getRequiredApplicationParameterValue(Constants.ParameterGroups.SYSTEM,
+    String yearStr = kualiConfigurationService.getApplicationParameterValue(Constants.ParameterGroups.SYSTEM,
         Constants.SystemGroupParameterNames.PURGE_GL_ENTRY_T_BEFORE_YEAR);
 
     int year = Integer.parseInt(yearStr);

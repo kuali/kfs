@@ -35,7 +35,6 @@ import org.kuali.core.bo.Building;
 import org.kuali.core.bo.user.KualiUser;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.exceptions.ApplicationParameterDoesNotExistException;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.service.DictionaryValidationService;
 import org.kuali.core.util.GlobalVariables;
@@ -315,16 +314,8 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         // (e.g. the account number cannot begin with a 3 or with 00.)
         // Only bother trying if there is an account string to test
         if (!StringUtils.isBlank(newAccount.getAccountNumber())) {
-            
-            //  attempt to get the disallowed values
-            String[] illegalValues = getConfigService().getApplicationParameterValues(Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, ACCT_PREFIX_RESTRICTION);
-            
-            //  if the entry doesnt exist in APC, fail fast and loudly, something needs to be done
-            if (illegalValues == null) {
-                throw new ApplicationParameterDoesNotExistException("The expected Application Parameter does not exist: " + 
-                        Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS + " - " + ACCT_PREFIX_RESTRICTION + ".");
-            }
-
+            String[] illegalValues = getConfigService().getApplicationParameterValues(
+                Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, ACCT_PREFIX_RESTRICTION);
             //  test the number
             success &= accountNumberStartsWithAllowedPrefix(newAccount.getAccountNumber(), illegalValues);
         }
@@ -878,11 +869,6 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         // and die, as this indicates a misconfigured app, and important business rules wont be implemented without it.
         String capitalSubFundGroup = "";
         capitalSubFundGroup = getConfigService().getApplicationParameterValue(Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, ACCT_CAPITAL_SUBFUNDGROUP);
-        if (StringUtils.isBlank(capitalSubFundGroup)) {
-            throw new RuntimeException("Expected ConfigurationService.ApplicationParameterValue was not found " + 
-                    					"for ScriptName = '" + Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS + "' and " + 
-                    					"Parameter = '" + ACCT_CAPITAL_SUBFUNDGROUP + "'");
-        }
 
         if (capitalSubFundGroup.equalsIgnoreCase(newAccount.getSubFundGroupCode().trim())) {
             

@@ -285,7 +285,7 @@ public class OriginEntryTestBase extends KualiTestBaseWithSpringOnly {
   }
 
   protected boolean getApplicationConfigurationFlag(String name) {
-    return kualiConfigurationService.getRequiredApplicationParameterIndicator("SYSTEM",name);
+    return kualiConfigurationService.getApplicationParameterIndicator("SYSTEM",name);
   }
 
   protected void setApplicationConfigurationFlag(String name,boolean value) {

@@ -403,11 +403,6 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
     protected boolean isHrmsOrgActivated() {
         
         String flag = getConfigService().getApplicationParameterValue(Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, APC_HRMS_ACTIVE_KEY);
-        if (StringUtils.isBlank(flag)) {
-            throw new RuntimeException("Application Parameter Value did not return a value, and one is required. " + 
-                    "[" + Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS + "] '" + APC_HRMS_ACTIVE_KEY + "'");
-        }
-        
         if (flag.trim().equalsIgnoreCase("Y")) {
             return true;
         }

@@ -36,6 +36,7 @@ import org.kuali.core.dao.OptionsDao;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.exceptions.ApplicationParameterException;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.service.AccountService;
 import org.kuali.module.gl.batch.sufficientFunds.SufficientFundsReport;
@@ -88,10 +89,13 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
     }
 
     private Integer getFiscalYear() {
-      String val = kualiConfigurationService.getApplicationParameterValue("fis_sf_rebuild.sh", "UNIV_FISCAL_YR");
-      if ( val == null ) {
+      String val;
+      try {
+          val = kualiConfigurationService.getApplicationParameterValue("fis_sf_rebuild.sh", "UNIV_FISCAL_YR");
+      }
+      catch (ApplicationParameterException e) {
         LOG.error("getFiscalYear() Unable to get UNIV_FISCAL_YR from kualiConfigurationService");
-        throw new RuntimeException("Unable to get fiscal year from kualiConfigurationService");
+        throw new RuntimeException("Unable to get fiscal year from kualiConfigurationService", e);
       }
 
       int yr = Integer.parseInt(val);

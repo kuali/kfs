@@ -430,17 +430,9 @@ If the Next Year Object has been entered, it must exist in the object code table
         String[] elements=configService.getApplicationParameterValues(Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS,parameterName);
         
         Set result=new HashSet();
-        if (elements!=null) {
-            for (int i=0; i<elements.length; i++) {
-                result.add(elements[i]);
-            }
+        for (int i=0; i<elements.length; i++) {
+            result.add(elements[i]);
         }
         return result;
     }
-
-    /**
-     * 
-     * @deprecated use putFieldError or putGlobalError instead
-     */
-   
 }

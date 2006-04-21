@@ -237,11 +237,6 @@ public class AccountPreRules extends MaintenancePreRulesBase {
         if (StringUtils.isBlank(copyAccount.getAccountStateCode())) {
             String defaultStateCode = configService.getApplicationParameterValue(CHART_MAINTENANCE_EDOC, 
     				DEFAULT_STATE_CODE);
-    		if (StringUtils.isBlank(defaultStateCode)) {
-    			throw new RuntimeException("Expected ConfigurationService.ApplicationParameterValue was not found " + 
-    										"for ScriptName = '" + CHART_MAINTENANCE_EDOC + "' and " + 
-    										"Parameter = '" + DEFAULT_STATE_CODE + "'");
-    		}
             newAccount.setAccountStateCode(defaultStateCode);
         }
         
@@ -250,11 +245,6 @@ public class AccountPreRules extends MaintenancePreRulesBase {
         if (StringUtils.isBlank(copyAccount.getAccountTypeCode())) {
             String defaultAccountTypeCode = configService.getApplicationParameterValue(CHART_MAINTENANCE_EDOC, 
     				DEFAULT_ACCOUNT_TYPE_CODE);
-    		if (StringUtils.isBlank(defaultAccountTypeCode)) {
-    			throw new RuntimeException("Expected ConfigurationService.ApplicationParameterValue was not found " + 
-    										"for ScriptName = '" + CHART_MAINTENANCE_EDOC + "' and " + 
-    										"Parameter = '" + DEFAULT_ACCOUNT_TYPE_CODE + "'");
-    		}
             newAccount.setAccountTypeCode(defaultAccountTypeCode);
         }
     }

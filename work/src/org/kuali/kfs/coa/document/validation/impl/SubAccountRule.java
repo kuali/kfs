@@ -489,13 +489,6 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
         //  attempt to get the group name that grants access to the CG fields
         String allowedCgWorkgroup = getConfigService().getApplicationParameterValue(Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, CG_WORKGROUP_PARM_NAME);
         
-        //  if only a null was returned, then we must abort, and cannot continue processing this document
-        if (ObjectUtils.isNull(allowedCgWorkgroup)) {
-            throw new RuntimeException("CG Workgroup Name could not be retrieved from the configuration service.  Rule " + 
-                            "processing cannot continue.  scriptName='" + Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS + "'; " + 
-                            "parameter='" + CG_WORKGROUP_PARM_NAME + ";");
-        }
-        
         if (user.isMember(new KualiGroup(allowedCgWorkgroup))) {
             LOG.info("User '" + user.getPersonUserIdentifier() + "' is a member of the group '" + allowedCgWorkgroup + "', which gives them access to the CG fields.");
             return true;

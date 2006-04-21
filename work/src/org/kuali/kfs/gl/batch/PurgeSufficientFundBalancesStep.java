@@ -47,7 +47,7 @@ public class PurgeSufficientFundBalancesStep implements Step {
   public boolean performStep() {
     LOG.debug("performStep() started");
 
-    String yearStr = kualiConfigurationService.getRequiredApplicationParameterValue(Constants.ParameterGroups.SYSTEM,
+    String yearStr = kualiConfigurationService.getApplicationParameterValue(Constants.ParameterGroups.SYSTEM,
         Constants.SystemGroupParameterNames.PURGE_GL_SF_BALANCES_T_BEFORE_YEAR);
 
     int year = Integer.parseInt(yearStr);

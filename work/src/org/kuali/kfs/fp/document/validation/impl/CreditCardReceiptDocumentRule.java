@@ -29,10 +29,7 @@ import org.kuali.PropertyConstants;
 import org.kuali.core.bo.AccountingLine;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.TransactionalDocument;
-import org.kuali.core.rule.AddCheckRule;
-import org.kuali.core.rule.DeleteCheckRule;
 import org.kuali.core.rule.KualiParameterRule;
-import org.kuali.core.rule.UpdateCheckRule;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
@@ -48,9 +45,8 @@ import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
  * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
-public class CreditCardReceiptDocumentRule extends TransactionalDocumentRuleBase implements AddCheckRule, 
-    DeleteCheckRule, UpdateCheckRule, CashReceiptDocumentRuleConstants {
-    
+public class CreditCardReceiptDocumentRule extends CashReceiptDocumentRule {
+
     /**
      * Implements Cash Receipt specific rule checks for the cash reconciliation section, to make sure 
      * that the cash, check, and coin totals are not negative.
@@ -60,7 +56,7 @@ public class CreditCardReceiptDocumentRule extends TransactionalDocumentRuleBase
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
         return !CashReceiptDocumentRuleUtil.areCashTotalsNegative((CashReceiptDocument) document);
     }
-    
+
     /**
      * For Cash Receipt documents, the document is balanced if the sum total of checks and cash and coin
      * equals the sum total of the accounting lines.  In addition, the sum total of checks and cash and coin
@@ -73,25 +69,24 @@ public class CreditCardReceiptDocumentRule extends TransactionalDocumentRuleBase
 
         // make sure that cash reconciliation total is greater than zero
         boolean isValid = cr.getSumTotalAmount().compareTo(Constants.ZERO) > 0;
-        if(!isValid) {
+        if (!isValid) {
             GlobalVariables.getErrorMap().put(DOCUMENT_ERROR_PREFIX + PropertyConstants.SUM_TOTAL_AMOUNT,
                     KeyConstants.CashReceipt.ERROR_DOCUMENT_CASH_RECEIPT_NO_CASH_RECONCILIATION_TOTAL);
         }
 
-        if(isValid) {
+        if (isValid) {
             // make sure the document is in balance
             isValid = cr.getSourceTotal().compareTo(cr.getSumTotalAmount()) == 0;
 
             if (!isValid) {
-                GlobalVariables.getErrorMap().put(
-                        DOCUMENT_ERROR_PREFIX + PropertyConstants.SUM_TOTAL_AMOUNT,
+                GlobalVariables.getErrorMap().put(DOCUMENT_ERROR_PREFIX + PropertyConstants.SUM_TOTAL_AMOUNT,
                         KeyConstants.CashReceipt.ERROR_DOCUMENT_CASH_RECEIPT_BALANCE);
             }
         }
 
         return isValid;
     }
-    
+
     /**
      * Overrides to perform the universal rule in the super class in addition to CashReceipt specific rules.  
      * This method leverages the APC for checking restricted object type values.
@@ -100,31 +95,31 @@ public class CreditCardReceiptDocumentRule extends TransactionalDocumentRuleBase
      */
     public boolean isObjectTypeAllowed(AccountingLine accountingLine) {
         boolean valid = true;
-        
+
         valid &= super.isObjectTypeAllowed(accountingLine);
-        
-        if(valid) {
+
+        if (valid) {
             KualiParameterRule rule = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterRule(
                     KUALI_TRANSACTION_PROCESSING_CASH_RECEIPT_SECURITY_GROUPING, RESTRICTED_OBJECT_TYPE_CODES);
-            
+
             ObjectCode objectCode = accountingLine.getObjectCode();
-            if(ObjectUtils.isNull(objectCode)) {
+            if (ObjectUtils.isNull(objectCode)) {
                 accountingLine.refreshReferenceObject(PropertyConstants.OBJECT_CODE);
             }
-            
-            if(rule.failsRule(objectCode.getFinancialObjectTypeCode())) {
+
+            if (rule.failsRule(objectCode.getFinancialObjectTypeCode())) {
                 valid = false;
-                
+
                 // add message
-                GlobalVariables.getErrorMap().put(PropertyConstants.FINANCIAL_OBJECT_CODE, 
-                        KeyConstants.CashReceipt.ERROR_DOCUMENT_CASH_RECEIPT_INVALID_OBJECT_TYPE_CODE_FOR_OBJECT_CODE, 
-                        new String[] {objectCode.getFinancialObjectCode(), objectCode.getFinancialObjectTypeCode()});
+                GlobalVariables.getErrorMap().put(PropertyConstants.FINANCIAL_OBJECT_CODE,
+                        KeyConstants.CashReceipt.ERROR_DOCUMENT_CASH_RECEIPT_INVALID_OBJECT_TYPE_CODE_FOR_OBJECT_CODE,
+                        new String[] { objectCode.getFinancialObjectCode(), objectCode.getFinancialObjectTypeCode() });
             }
         }
 
         return valid;
     }
-    
+
     /**
      * Overrides to validate specific object codes for the Cash Receipt document.  This method leverages the APC 
      * for checking restricted object consolidation values.
@@ -133,39 +128,40 @@ public class CreditCardReceiptDocumentRule extends TransactionalDocumentRuleBase
      */
     public boolean isObjectConsolidationAllowed(AccountingLine accountingLine) {
         boolean valid = true;
-        
+
         valid &= super.isObjectConsolidationAllowed(accountingLine);
-        
-        if(valid) {
+
+        if (valid) {
             KualiParameterRule rule = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterRule(
                     KUALI_TRANSACTION_PROCESSING_CASH_RECEIPT_SECURITY_GROUPING, RESTRICTED_CONSOLIDATED_OBJECT_CODES);
-            
+
             ObjectCode objectCode = accountingLine.getObjectCode();
-            if(ObjectUtils.isNull(objectCode)) {
+            if (ObjectUtils.isNull(objectCode)) {
                 accountingLine.refreshReferenceObject(PropertyConstants.OBJECT_CODE);
             }
-            
+
             ObjLevel objectLevel = objectCode.getFinancialObjectLevel();
-            if(ObjectUtils.isNull(objectCode)) {
+            if (ObjectUtils.isNull(objectCode)) {
                 accountingLine.refreshReferenceObject(PropertyConstants.OBJECT_CODE);
             }
-            
+
             String consolidatedObjectCode = objectLevel.getConsolidatedObjectCode();
-            
-            if(rule.failsRule(consolidatedObjectCode)) {
+
+            if (rule.failsRule(consolidatedObjectCode)) {
                 valid = false;
-                
+
                 // add message
-                GlobalVariables.getErrorMap().put(PropertyConstants.FINANCIAL_OBJECT_CODE, 
-                        KeyConstants.CashReceipt.ERROR_DOCUMENT_CASH_RECEIPT_INVALID_CONSOLIDATED_OBJECT_CODE, 
-                        new String[] {objectCode.getFinancialObjectCode(), objectLevel.getFinancialObjectLevelCode(), 
-                        consolidatedObjectCode});
+                GlobalVariables.getErrorMap().put(
+                        PropertyConstants.FINANCIAL_OBJECT_CODE,
+                        KeyConstants.CashReceipt.ERROR_DOCUMENT_CASH_RECEIPT_INVALID_CONSOLIDATED_OBJECT_CODE,
+                        new String[] { objectCode.getFinancialObjectCode(), objectLevel.getFinancialObjectLevelCode(),
+                                consolidatedObjectCode });
             }
         }
 
         return valid;
     }
-    
+
     /**
      * Overrides to perform the universal rule in the super class in addition to CashReceipt specific rules.
      * This method leverages the APC for checking restricted object sub type values.
@@ -174,31 +170,31 @@ public class CreditCardReceiptDocumentRule extends TransactionalDocumentRuleBase
      */
     public boolean isObjectSubTypeAllowed(AccountingLine accountingLine) {
         boolean valid = true;
-        
+
         valid &= super.isObjectSubTypeAllowed(accountingLine);
-        
-        if(valid) {
+
+        if (valid) {
             KualiParameterRule rule = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterRule(
                     KUALI_TRANSACTION_PROCESSING_CASH_RECEIPT_SECURITY_GROUPING, RESTRICTED_OBJECT_SUB_TYPE_CODES);
-            
+
             ObjectCode objectCode = accountingLine.getObjectCode();
-            if(ObjectUtils.isNull(objectCode)) {
+            if (ObjectUtils.isNull(objectCode)) {
                 accountingLine.refreshReferenceObject(PropertyConstants.OBJECT_CODE);
             }
-            
-            if(rule.failsRule(objectCode.getFinancialObjectSubTypeCode())) {
+
+            if (rule.failsRule(objectCode.getFinancialObjectSubTypeCode())) {
                 valid = false;
-                
+
                 // add message
-                GlobalVariables.getErrorMap().put(PropertyConstants.FINANCIAL_OBJECT_CODE, 
-                        KeyConstants.CashReceipt.ERROR_DOCUMENT_CASH_RECEIPT_INVALID_OBJECT_SUB_TYPE_CODE, 
-                        new String[] {objectCode.getFinancialObjectCode(), objectCode.getFinancialObjectSubTypeCode()});
+                GlobalVariables.getErrorMap().put(PropertyConstants.FINANCIAL_OBJECT_CODE,
+                        KeyConstants.CashReceipt.ERROR_DOCUMENT_CASH_RECEIPT_INVALID_OBJECT_SUB_TYPE_CODE,
+                        new String[] { objectCode.getFinancialObjectCode(), objectCode.getFinancialObjectSubTypeCode() });
             }
         }
 
         return valid;
     }
-    
+
     /**
      * Cash receipt documents do not utilize the target accounting line list.  A CR doc is one sided, so this method 
      * should always return true.
@@ -208,7 +204,7 @@ public class CreditCardReceiptDocumentRule extends TransactionalDocumentRuleBase
     protected boolean isTargetAccountingLinesRequiredNumberForRoutingMet(TransactionalDocument transactionalDocument) {
         return true;
     }
-    
+
     /**
      * Cash receipt documents need at least one accounting line.  Had to override to supply a Cash Receipt specific method.
      * 
@@ -224,7 +220,7 @@ public class CreditCardReceiptDocumentRule extends TransactionalDocumentRuleBase
             return true;
         }
     }
-    
+
     /**
      * Overrides to set the entry's description to the description from the accounting line, if a value exists.
      * 
@@ -233,11 +229,11 @@ public class CreditCardReceiptDocumentRule extends TransactionalDocumentRuleBase
     protected void customizeExplicitGeneralLedgerPendingEntry(TransactionalDocument transactionalDocument,
             AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry) {
         String accountingLineDescription = accountingLine.getFinancialDocumentLineDescription();
-        if(StringUtils.isNotBlank(accountingLineDescription)) {
+        if (StringUtils.isNotBlank(accountingLineDescription)) {
             explicitEntry.setTransactionLedgerEntryDesc(accountingLineDescription);
         }
     }
-    
+
     /**
      * Checks to make sure that the check passed in passes all data dictionary validation and that the 
      * amount is positive.
@@ -274,7 +270,7 @@ public class CreditCardReceiptDocumentRule extends TransactionalDocumentRuleBase
 
         return isValid;
     }
-    
+
     /**
      * This method validates checks for a CR document.
      * @param check
@@ -283,19 +279,19 @@ public class CreditCardReceiptDocumentRule extends TransactionalDocumentRuleBase
     private boolean validateCheck(Check check) {
         // validate the specific check coming in
         SpringServiceLocator.getDictionaryValidationService().validateBusinessObject(check);
-        
+
         boolean isValid = GlobalVariables.getErrorMap().isEmpty();
-        
+
         // check to make sure the amount is also valid
-        if(check.getAmount().compareTo(Constants.ZERO) <= 0) {
-            GlobalVariables.getErrorMap().put(PropertyConstants.CHECK_AMOUNT, KeyConstants.ERROR_ZERO_OR_NEGATIVE_AMOUNT, 
+        if (check.getAmount().compareTo(Constants.ZERO) <= 0) {
+            GlobalVariables.getErrorMap().put(PropertyConstants.CHECK_AMOUNT, KeyConstants.ERROR_ZERO_OR_NEGATIVE_AMOUNT,
                     PropertyConstants.CHECKS);
             isValid = false;
         }
-        
+
         return isValid;
     }
-    
+
     /**
      * Method used by <code>{@link CashReceiptCoverPageService}</code> to
      * determine of the <code>{@link CashReceiptDocument}</code> validates 
@@ -309,14 +305,9 @@ public class CreditCardReceiptDocumentRule extends TransactionalDocumentRuleBase
      *
      * @see org.kuali.core.module.financial.service.CashReceiptCoverSheetServiceImpl#generateCoverSheet( org.kuali.module.financial.documentCashReceiptDocument )
      */
-    public boolean isCoverSheetPrintable( CashReceiptDocument document ) {
-        KualiWorkflowDocument workflowDocument = 
-            document.getDocumentHeader().getWorkflowDocument();
-        return !(workflowDocument.stateIsCanceled() 
-                 || workflowDocument.stateIsInitiated() 
-                 || workflowDocument.stateIsDisapproved()
-                 || workflowDocument.stateIsException() 
-                 || workflowDocument.stateIsDisapproved() 
-                 || workflowDocument.stateIsSaved());
+    public boolean isCoverSheetPrintable(CashReceiptDocument document) {
+        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+        return !(workflowDocument.stateIsCanceled() || workflowDocument.stateIsInitiated() || workflowDocument.stateIsDisapproved()
+                || workflowDocument.stateIsException() || workflowDocument.stateIsDisapproved() || workflowDocument.stateIsSaved());
     }
 }

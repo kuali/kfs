@@ -14,6 +14,7 @@
        <!--  Financial Module Bean Definitions -->
        <form-bean name="DepositWizardForm" type="org.kuali.module.financial.web.struts.form.DepositWizardForm" />
        <form-bean name="CashReceiptForm" type="org.kuali.module.financial.web.struts.form.CashReceiptForm" />
+       <form-bean name="CreditCardReceiptForm" type="org.kuali.module.financial.web.struts.form.CreditCardReceiptForm" />
        <form-bean name="InternalBillingForm" type="org.kuali.module.financial.web.struts.form.InternalBillingForm" />
        <form-bean name="ServiceBillingForm" type="org.kuali.module.financial.web.struts.form.ServiceBillingForm" />
        <form-bean name="TransferOfFundsForm" type="org.kuali.module.financial.web.struts.form.TransferOfFundsForm" />
@@ -51,7 +52,6 @@
        <!-- General Ledger Bean Definitions -->
        <form-bean name="GeneralLedgerErrorCorrectionForm" type="org.kuali.module.gl.web.struts.form.GeneralLedgerErrorCorrectionForm" />
        <form-bean name="BalanceInquiryForm" type="org.kuali.module.gl.web.struts.form.BalanceInquiryForm" />
-       
     </form-beans>
 
     <global-exceptions>

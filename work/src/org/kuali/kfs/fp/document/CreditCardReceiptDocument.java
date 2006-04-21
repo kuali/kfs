@@ -26,9 +26,14 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.kuali.core.bo.AccountingLineBase;
+import org.kuali.core.rule.AccountingLineRule;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.format.CurrencyFormatter;
 import org.kuali.module.financial.bo.CreditCardDetail;
+import org.kuali.module.financial.rules.CashReceiptDocumentRule;
+import org.kuali.module.financial.rules.CreditCardReceiptDocumentRule;
 
 /**
  * This is the business object that represents the CreditCardReceipt document in Kuali. This is a transactional document that will
@@ -45,7 +50,7 @@ public class CreditCardReceiptDocument extends CashReceiptDocument {
     private List creditCardReceipts = new ArrayList();
 
     // incrementers for detail lines
-    private Integer nextCreditCardCashReceiptLineNumber = new Integer(1);
+    private Integer nextCcCrLineNumber = new Integer(1);
 
     // monetary attributes
     private KualiDecimal totalCreditCardAmount = new KualiDecimal(0);
@@ -111,18 +116,28 @@ public class CreditCardReceiptDocument extends CashReceiptDocument {
      */
     public void addCreditCardReceipt(CreditCardDetail  creditCardReceiptDetail) {
         // these three make up the primary key for a credit card detail record
-        creditCardReceiptDetail.setFinancialDocumentLineNumber(this.nextCreditCardCashReceiptLineNumber);
-        creditCardReceiptDetail.setFinancialDocumentColumnTypeCode(CASH_RECEIPT_CREDIT_CARD_RECEIPT_COLUMN_TYPE_CODE);
-        creditCardReceiptDetail.setFinancialDocumentNumber(this.getFinancialDocumentNumber());
+        prepareNewCreditCardReceipt(creditCardReceiptDetail);
 
         // add the new detail record to the list
         this.creditCardReceipts.add(creditCardReceiptDetail);
 
         // increment line number
-        this.nextCreditCardCashReceiptLineNumber = new Integer(this.nextCreditCardCashReceiptLineNumber.intValue() + 1);
+        this.nextCcCrLineNumber = new Integer(this.nextCcCrLineNumber.intValue() + 1);
 
         // update the overall amount
         this.totalCreditCardAmount = this.totalCreditCardAmount.add(creditCardReceiptDetail.getCreditCardAdvanceDepositAmount());
+    }
+
+    /**
+     * This is a helper method that automatically populates document specfic information into the credit 
+     * card receipt (CreditCardDetail) instance.
+     *  
+     * @param creditCardReceiptDetail
+     */
+    public final void prepareNewCreditCardReceipt(CreditCardDetail creditCardReceiptDetail) {
+        creditCardReceiptDetail.setFinancialDocumentLineNumber(this.nextCcCrLineNumber);
+        creditCardReceiptDetail.setFinancialDocumentColumnTypeCode(CASH_RECEIPT_CREDIT_CARD_RECEIPT_COLUMN_TYPE_CODE);
+        creditCardReceiptDetail.setFinancialDocumentNumber(this.getFinancialDocumentNumber());
     }
 
     /**
@@ -131,7 +146,7 @@ public class CreditCardReceiptDocument extends CashReceiptDocument {
      * @param index
      * @return CreditCardReceiptDetail
      */
-    public CreditCardDetail getCreditCardReceiptDetail(int index) {
+    public CreditCardDetail getCreditCardReceipt(int index) {
         while (this.creditCardReceipts.size() <= index) {
             creditCardReceipts.add(new CreditCardDetail());
         }
@@ -143,7 +158,7 @@ public class CreditCardReceiptDocument extends CashReceiptDocument {
      * 
      * @param index
      */
-    public void removeCreditCardReceiptDetail(int index) {
+    public void removeCreditCardReceipt(int index) {
         CreditCardDetail creditCardReceiptDetail = (CreditCardDetail) creditCardReceipts.remove(index);
 
         // if the totalCreditCardAmount goes negative, bring back to zero.
@@ -156,15 +171,15 @@ public class CreditCardReceiptDocument extends CashReceiptDocument {
     /**
      * @return Integer
      */
-    public Integer getNextCreditCardCashReceiptLineNumber() {
-        return nextCreditCardCashReceiptLineNumber;
+    public Integer getNextCcCrLineNumber() {
+        return nextCcCrLineNumber;
     }
 
     /**
-     * @param nextCreditCardCashReceiptLineNumber
+     * @param nextCcCrLineNumber
      */
-    public void setNextCreditCardCashReceiptLineNumber(Integer nextCreditCardCashReceiptLineNumber) {
-        this.nextCreditCardCashReceiptLineNumber = nextCreditCardCashReceiptLineNumber;
+    public void setNextCcCrLineNumber(Integer nextCcCrLineNumber) {
+        this.nextCcCrLineNumber = nextCcCrLineNumber;
     }
 
     /**

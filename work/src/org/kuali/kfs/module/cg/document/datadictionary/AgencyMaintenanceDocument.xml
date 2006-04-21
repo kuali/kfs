@@ -33,10 +33,10 @@
 	    <maintainableSections>
 	        <maintainableSection title="Edit Contracts and Grants Agency">  
 	        	<maintainableItems>         					
-					<maintainableField name="agencyNumber" />
-					<maintainableField name="reportingName" />
-					<maintainableField name="fullName" />
-					<maintainableField name="agencyType.name" />
+					<maintainableField name="agencyNumber" required="true" />
+					<maintainableField name="reportingName" required="true"/>
+					<maintainableField name="fullName" required="true"/>
+					<maintainableField name="agencyTypeCode" required="true" />
 					<maintainableField name="historicalIndicator" />
 					<maintainableField name="inStateIndicator" />
 					<maintainableField name="indirectAmount" />

@@ -58,7 +58,7 @@
 
 				<maxLength>5</maxLength>
 				<validationPattern><alphaNumeric exactLength="5" /></validationPattern>
-
+				<required>true</required>
 				<control>
 					<text size="5" />
 				</control>
@@ -74,8 +74,8 @@
                 <maxLength>30</maxLength>
 
                 <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
-
-                <control>
+			    <required>true</required>
+			   <control>
                     <text size="30" />
                 </control>
 
@@ -90,7 +90,7 @@
                 <maxLength>50</maxLength>
 
                 <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
-
+				<required>true</required>
                 <control>
                     <text size="50" />
                 </control>
@@ -98,10 +98,18 @@
                 <summary>Agency Full Name</summary>
                 <description>Contracts And Grants Agency Full Name</description>
             </attribute>
-
-			<attributeReference name="agencyType.name" 
+			<attributeReference name="agencyType.name"
             					sourceClassName="org.kuali.module.cg.bo.AgencyType" 
-            					sourceAttributeName="name" />
+            					sourceAttributeName="name">
+            					
+            					<required>true</required>
+			</attributeReference>
+
+			<attributeReference name="agencyTypeCode" 
+			sourceClassName="org.kuali.module.cg.bo.AgencyType" 
+			sourceAttributeName="code">
+			<required>true</required>
+			</attributeReference>
  
 			<attribute name="historicalIndicator" forceUppercase="false">
                 <label>Historical Indicator</label>

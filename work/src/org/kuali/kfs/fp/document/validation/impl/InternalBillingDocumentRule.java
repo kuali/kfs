@@ -22,8 +22,6 @@
  */
 package org.kuali.module.financial.rules;
 
-import java.util.Arrays;
-
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
 import org.kuali.PropertyConstants;
@@ -31,7 +29,6 @@ import org.kuali.core.bo.AccountingLine;
 import org.kuali.core.bo.SourceAccountingLine;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.TransactionalDocument;
-import org.kuali.core.rule.KualiParameterRule;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.ExceptionUtils;
 import org.kuali.core.util.GlobalVariables;
@@ -193,7 +190,7 @@ public class InternalBillingDocumentRule extends TransactionalDocumentRuleBase i
             new AttributeReference(SourceAccountingLine.class, PropertyConstants.FINANCIAL_OBJECT_CODE,
                 accountingLine.getFinancialObjectCode()),
             new AttributeReference(ObjectCode.class, PropertyConstants.FINANCIAL_OBJECT_TYPE_CODE,
-                accountingLine.getObjectCode().getFinancialObjectTypeCode())); // todo: use accountingLine.getObjectTypeCode()?
+                accountingLine.getObjectCode().getFinancialObjectTypeCode()));
     }
 
     /**
@@ -247,73 +244,5 @@ public class InternalBillingDocumentRule extends TransactionalDocumentRuleBase i
             new AttributeReference(SourceAccountingLine.class, PropertyConstants.ACCOUNT_NUMBER, accountingLine.getAccountNumber()),
             new AttributeReference(Account.class, PropertyConstants.SUB_FUND_GROUP_CODE,
                 accountingLine.getAccount().getSubFundGroupCode()));
-    }
-
-    private static boolean indirectRuleSucceeds(KualiParameterRule parameterRule,
-                                                AttributeReference direct, AttributeReference indirect)
-    {
-        if (parameterRule.succeedsRule(indirect.getValueString())) {
-            return true;
-        }
-        else {
-            String[] errorParameters = {
-                parameterRule.getParameterGroupName(),
-                parameterRule.getParameterName(),
-                ExceptionUtils.describeStackLevel(1),
-                direct.getLabel(),
-                direct.getValueString(),
-                indirect.getLabel(),
-                indirect.getValueString(),
-                parameterRule.getParameterText()};
-            GlobalVariables.getErrorMap().put(direct.getPropertyName(), getIndirectErrorKey(parameterRule), errorParameters);
-            LOG.debug("APC rule failure " + Arrays.asList(errorParameters));
-            return false;
-        }
-    }
-
-    private static String getIndirectErrorKey(KualiParameterRule parameterRule) {
-        String errorKey;
-        if (parameterRule.isAllowedRule()) {
-            if (parameterRule.getMultipleValueIndicator()) {
-                errorKey = KeyConstants.ERROR_APC_INDIRECT_ALLOWED_MULTIPLE;
-            }
-            else {
-                errorKey = KeyConstants.ERROR_APC_INDIRECT_ALLOWED_SINGLE;
-            }
-        }
-        else {
-            // todo: assert parameterRule.isDeniedRule();
-            if (parameterRule.getMultipleValueIndicator()) {
-                errorKey = KeyConstants.ERROR_APC_INDIRECT_DENIED_MULTIPLE;
-            }
-            else {
-                errorKey = KeyConstants.ERROR_APC_INDIRECT_DENIED_SINGLE;
-            }
-        }
-        return errorKey;
-    }
-
-    static class AttributeReference {
-        private final String propertyName;
-        private final String valueString;
-        private final String label;
-
-        public AttributeReference(Class businessObjectClass, String propertyName, Object value) {
-            this.propertyName = propertyName;
-            this.valueString = value == null ? null : value.toString();
-            this.label = SpringServiceLocator.getDataDictionaryService().getAttributeLabel(businessObjectClass, propertyName);
-        }
-
-        public String getPropertyName() {
-            return propertyName;
-        }
-
-        public String getValueString() {
-            return valueString;
-        }
-
-        public String getLabel() {
-            return label;
-        }
     }
 }

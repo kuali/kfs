@@ -66,6 +66,8 @@ public class CashManagementForm extends KualiDocumentFormBase {
      */
     public void populate(HttpServletRequest request) {
         super.populate(request);
+        
+        populateDeposits();
         populateDepositHelpers();
     }
 
@@ -76,6 +78,20 @@ public class CashManagementForm extends KualiDocumentFormBase {
         return (CashManagementDocument) getDocument();
     }
 
+    
+    /**
+     * Completes population of each Deposit associated with this form's document
+     *
+     */
+    public void populateDeposits() {
+        List deposits = getCashManagementDocument().getDeposits();
+        for (Iterator i = deposits.iterator(); i.hasNext();) {
+            Deposit d = (Deposit) i.next();
+            
+            d.refresh();
+        }
+    }
+    
 
     /**
      * Creates a DepositHelper foreach Deposit associated with this form's document

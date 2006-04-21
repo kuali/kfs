@@ -26,14 +26,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.kuali.core.bo.AccountingLineBase;
-import org.kuali.core.rule.AccountingLineRule;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.format.CurrencyFormatter;
 import org.kuali.module.financial.bo.CreditCardDetail;
-import org.kuali.module.financial.rules.CashReceiptDocumentRule;
-import org.kuali.module.financial.rules.CreditCardReceiptDocumentRule;
 
 /**
  * This is the business object that represents the CreditCardReceipt document in Kuali. This is a transactional document that will

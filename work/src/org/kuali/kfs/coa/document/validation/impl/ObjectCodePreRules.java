@@ -66,6 +66,11 @@ public class ObjectCodePreRules extends PreRulesContinuationBase {
         // force reportsTo to the right value regardless of user input
         newObjectCode.setReportsToChartOfAccountsCode(reportsToChart);
         
+        //Default Mandatory Transfer Or Eliminations Code should be N when it left blank
+        if (newObjectCode.getFinObjMandatoryTrnfrelimCd() == null){
+            newObjectCode.setFinObjMandatoryTrnfrelimCd("N");
+        }
+        
         return true;
         
     }

@@ -325,7 +325,7 @@
 				<shortLabel>ManTranOrElimCode</shortLabel>
 
 				<maxLength>1</maxLength>
-				<required>true</required>
+				
 				<control><text size="1" /></control>
 
 				<summary><![CDATA[&nbsp;]]></summary>

@@ -89,6 +89,9 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
         objectCodeService = SpringServiceLocator.getObjectCodeService();
         
         
+        
+        
+        
     }
     
 
@@ -159,7 +162,7 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
 
         String mandatoryTransferEliminationCode=objectCode.getFinObjMandatoryTrnfrelimCd();
         
-        if (!isLegalMandatoryTransferEliminationCode(mandatoryTransferEliminationCode)) {
+        if (mandatoryTransferEliminationCode != null && !isLegalMandatoryTransferEliminationCode(mandatoryTransferEliminationCode)) {
             this.putFieldError("finObjMandatoryTrnfrelimCd", KeyConstants.ERROR_DOCUMENT_OBJCODE_MUST_ONEOF_VALID, "Mandatory Transfer Or Eliminations Code");
             result=false;
         }
@@ -430,9 +433,17 @@ If the Next Year Object has been entered, it must exist in the object code table
         String[] elements=configService.getApplicationParameterValues(Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS,parameterName);
         
         Set result=new HashSet();
-        for (int i=0; i<elements.length; i++) {
-            result.add(elements[i]);
+        if (elements!=null) {
+            for (int i=0; i<elements.length; i++) {
+                result.add(elements[i]);
+            }
         }
         return result;
     }
+
+    /**
+     * 
+     * @deprecated use putFieldError or putGlobalError instead
+     */
+   
 }

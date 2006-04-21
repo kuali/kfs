@@ -52,6 +52,7 @@
        <!-- General Ledger Bean Definitions -->
        <form-bean name="GeneralLedgerErrorCorrectionForm" type="org.kuali.module.gl.web.struts.form.GeneralLedgerErrorCorrectionForm" />
        <form-bean name="BalanceInquiryForm" type="org.kuali.module.gl.web.struts.form.BalanceInquiryForm" />
+       
     </form-beans>
 
     <global-exceptions>
@@ -133,6 +134,8 @@
           	<forward name="user" path="/jsp/xmlhttp/user.jsp" />
             <forward name="originationCode" path="/jsp/xmlhttp/originationCode.jsp" />
             <forward name="documentType" path="/jsp/xmlhttp/documentType.jsp" />
+            <forward name="bank" path="/jsp/xmlhttp/bank.jsp" />
+            <forward name="bankAccount" path="/jsp/xmlhttp/bankAccount.jsp" />
         </action>
         
         <!--  Module Action Mappings -->

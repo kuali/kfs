@@ -7,14 +7,14 @@ package org.kuali.module.kra.service;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.kra.bo.BudgetFringeRate;
-import org.kuali.test.KualiTestBaseWithSpring;
+import org.kuali.test.KualiTestBaseWithSession;
 
 /**
  * 
  * This class...
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class BudgetFringeRateServiceTest extends KualiTestBaseWithSpring {
+public class BudgetFringeRateServiceTest extends KualiTestBaseWithSession {
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetFringeRateServiceTest.class);
 

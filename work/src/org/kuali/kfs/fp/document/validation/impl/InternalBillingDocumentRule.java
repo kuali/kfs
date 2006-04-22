@@ -58,7 +58,9 @@ public class InternalBillingDocumentRule extends TransactionalDocumentRuleBase i
     public boolean processCustomAddAccountingLineBusinessRules(TransactionalDocument document, AccountingLine accountingLine) {
         boolean success = true;
         success &= validIndianaStudentFeesNotContinueEduc(accountingLine);
-        success &= validateCapitalObjectCodes(accountingLine);
+        if (success) {
+            success &= validateCapitalObjectCodes(accountingLine);
+        }
         return success;
     }
 
@@ -68,7 +70,9 @@ public class InternalBillingDocumentRule extends TransactionalDocumentRuleBase i
     public boolean processCustomReviewAccountingLineBusinessRules(TransactionalDocument document, AccountingLine accountingLine) {
         boolean success = true;
         success &= validIndianaStudentFeesNotContinueEduc(accountingLine);
-        success &= validateCapitalObjectCodes(accountingLine);
+        if (success) {
+            success &= validateCapitalObjectCodes(accountingLine);
+        }
         return success;
     }
 
@@ -81,7 +85,9 @@ public class InternalBillingDocumentRule extends TransactionalDocumentRuleBase i
     {
         boolean success = true;
         success &= validIndianaStudentFeesNotContinueEduc(updatedAccountingLine);
-        success &= validateCapitalObjectCodes(updatedAccountingLine);
+        if (success) {
+            success &= validateCapitalObjectCodes(updatedAccountingLine);
+        }
         return success;
     }
 
@@ -118,12 +124,15 @@ public class InternalBillingDocumentRule extends TransactionalDocumentRuleBase i
      */
     public boolean processCustomRouteDocumentBusinessRules(Document document) {
         // This super method actually does something.
-        boolean valid = super.processCustomRouteDocumentBusinessRules(document);
-        valid &= validateItems((InternalBillingDocument) document);
+        boolean success = true;
+        success &= super.processCustomRouteDocumentBusinessRules(document);
+        if (success) {
+            success &= validateItems((InternalBillingDocument) document);
+        }
         // todo: for phase II, when capital object codes are allowed on expense accounting lines, check that there are any if and
         // only if the Capital Assets tab contains information about the associated capital asset.
         // todo: for phase II, check that this bills for no more than one capital asset.
-        return valid;
+        return success;
     }
 
     private static boolean validateItems(InternalBillingDocument internalBillingDocument) {

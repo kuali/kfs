@@ -50,138 +50,157 @@ import edu.iu.uis.eden.EdenConstants;
  */
 public class CashManagementDocumentRule extends DocumentRuleBase {
     private static final Logger LOG = Logger.getLogger(CashManagementDocumentRule.class);
-    
+
     /**
-     * Overrides to validate that the person saving the document is the initiator, validates that the cash drawer is open 
-     * for initial creation, validates that the cash drawer for the specfic verification unit is closed for subsequent 
-     * saves, and validates that the associate cash receipts are still verified. 
+     * Overrides to validate that the person saving the document is the initiator, validates that the cash drawer is open for
+     * initial creation, validates that the cash drawer for the specfic verification unit is closed for subsequent saves, and
+     * validates that the associate cash receipts are still verified.
      * 
      * @see org.kuali.core.rule.DocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.Document)
      */
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
         boolean isValid = super.processCustomSaveDocumentBusinessRules(document);
-        
+
         CashManagementDocument cmd = (CashManagementDocument) document;
-        
+
         // verify user is initiator
         verifyUserIsDocumentInitiator(cmd);
-        
+
         // verify the cash drawer for the verification unit is closed for post-initialized saves
         verifyCashDrawerForVerificationUnitIsClosedForPostInitiationSaves(cmd);
-        
-        // verify that CRs are still verified
-        verifyAssociatedCashReceiptsAreVerified(cmd);
-        
+
+        // verify deposits
+        isValid &= validateDeposits(cmd);
+
         return isValid;
     }
 
-    /**
-     * This method double checks that the CRs that this cash management document's deposit, are 
-     * still verified.
-     * 
-     * @param cmd
-     */
-    private void verifyAssociatedCashReceiptsAreVerified(CashManagementDocument cmd) {
-        Iterator deposits = cmd.getDeposits().iterator();
-        while(deposits.hasNext()) {
-            Deposit deposit = (Deposit) deposits.next();
-            Iterator depositCashReceiptControls = deposit.getDepositCashReceiptControl().iterator();
-            while(depositCashReceiptControls.hasNext()) {
-                DepositCashReceiptControl depositCashReceiptControl = (DepositCashReceiptControl) depositCashReceiptControls.next();
-                CashReceiptDocument cashReceipt = depositCashReceiptControl.getCashReceiptHeader().getCashReceiptDocument();
-                if(!cashReceipt.getDocumentHeader().getFinancialDocumentStatusCode().
-                        equals(Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED)) {
-                    throw new IllegalStateException("Cash receipt document number " + 
-                            cashReceipt.getFinancialDocumentNumber() + " is not in a verified state.  It must be in " +
-                                    "order for the deposit/cash management document that it is associated to be submitted.");
-                }
-            }
-        }
-    }
 
     /**
-     * This method checks to make sure that the current system user is the person 
-     * that initiated this document in the first place.
+     * This method checks to make sure that the current system user is the person that initiated this document in the first place.
      * 
      * @param cmd
      */
     private void verifyUserIsDocumentInitiator(CashManagementDocument cmd) {
         KualiUser currentUser = GlobalVariables.getUserSession().getKualiUser();
-        if(cmd.getDocumentHeader() != null && cmd.getDocumentHeader().getWorkflowDocument() != null) {
+        if (cmd.getDocumentHeader() != null && cmd.getDocumentHeader().getWorkflowDocument() != null) {
             String cmdInitiatorNetworkId = cmd.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId();
-            if(!cmdInitiatorNetworkId.equals(currentUser.getPersonUserIdentifier())) {
-                throw new IllegalStateException("The current user (" + currentUser.getPersonUserIdentifier() + 
-                        ") is not the individual (" + cmdInitiatorNetworkId + ") that initiated this document.");
+            if (!cmdInitiatorNetworkId.equals(currentUser.getPersonUserIdentifier())) {
+                throw new IllegalStateException("The current user (" + currentUser.getPersonUserIdentifier() + ") is not the individual (" + cmdInitiatorNetworkId + ") that initiated this document.");
             }
         }
     }
-    
+
     /**
-     * This method checks to make sure that the cash drawer is closed for the associated verification unit, 
-     * for post initiation saves.
+     * This method checks to make sure that the cash drawer is closed for the associated verification unit, for post initiation
+     * saves.
      * 
      * @param cmd
      */
     private void verifyCashDrawerForVerificationUnitIsClosedForPostInitiationSaves(CashManagementDocument cmd) {
-        if(cmd.getDocumentHeader() != null && 
-                cmd.getDocumentHeader().getWorkflowDocument() != null && 
-                cmd.getDocumentHeader().getWorkflowDocument().getRouteHeader() != null) {
+        if (cmd.getDocumentHeader() != null && cmd.getDocumentHeader().getWorkflowDocument() != null && cmd.getDocumentHeader().getWorkflowDocument().getRouteHeader() != null) {
             String workflowRouteStatusCode = cmd.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus();
-            if(EdenConstants.ROUTE_HEADER_SAVED_CD.equals(workflowRouteStatusCode)) {
+            if (EdenConstants.ROUTE_HEADER_SAVED_CD.equals(workflowRouteStatusCode)) {
                 // now verify that the associated cash drawer is closed
                 CashDrawer cd = SpringServiceLocator.getCashDrawerService().getByWorkgroupName(cmd.getWorkgroupName());
-                if(cd.isOpen()) {
-                    throw new IllegalStateException("The cash drawer for verification unit \"" + cd.getWorkgroupName() + 
-                        "\" is open.  It should be closed when a cash management document for that verification unit is open and being saved.");
+                if (cd.isOpen()) {
+                    throw new IllegalStateException("The cash drawer for verification unit \"" + cd.getWorkgroupName()
+                            + "\" is open.  It should be closed when a cash management document for that verification unit is open and being saved.");
                 }
             }
         }
     }
-    
+
+
     /**
-     * Overrides parent to validate that the contained deposit business objects contain valid data 
-     * according to the data dictionary set up.
+     * Validates all Deposits associated with the given CashManagementDocument
      * 
-     * @see org.kuali.core.rule.DocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.Document)
+     * @param cmd
      */
-    protected boolean processCustomRouteDocumentBusinessRules(Document document) {
-        boolean isValid = super.processCustomRouteDocumentBusinessRules(document);
-        
-        // iterate over all deposits contained within this cash management document and validate that 
-        // each is complete according to its DD file
-        CashManagementDocument cmd = (CashManagementDocument) document;
-        Iterator deposits = cmd.getDeposits().iterator();
-        int index = 0;
+    private boolean validateDeposits(CashManagementDocument cmd) {
+        boolean isValid = true;
+        boolean isInitiated = cmd.getDocumentHeader().getWorkflowDocument().stateIsInitiated();
+
         GlobalVariables.getErrorMap().addToErrorPath(PropertyConstants.DOCUMENT);
-        while(deposits.hasNext()) {
+
+        int index = 0;
+        for (Iterator deposits = cmd.getDeposits().iterator(); deposits.hasNext(); index++) {
             Deposit deposit = (Deposit) deposits.next();
+
+            isValid &= validateDeposit(deposit, isInitiated);
             GlobalVariables.getErrorMap().addToErrorPath(PropertyConstants.DEPOSIT + "[" + index + "]");
-            isValid &= validateDeposit(deposit);
             GlobalVariables.getErrorMap().removeFromErrorPath(PropertyConstants.DEPOSIT + "[" + index + "]");
-            index++;
         }
+
         GlobalVariables.getErrorMap().removeFromErrorPath(PropertyConstants.DOCUMENT);
+
         return isValid;
     }
-    
+
     /**
-     * This method validates a deposit business object using the data dictionary service.
+     * If documentIsInitiated, performs complete dataDictionary-driven validation of the given Deposit. Unconditionally validates
+     * the CashReceipts associated with the given Deposit.
      * 
      * @param deposit
-     * @return boolean
+     * @param documentIsInitiated
+     * @return validation results
      */
-    private boolean validateDeposit(Deposit deposit) {
+    private boolean validateDeposit(Deposit deposit, boolean documentIsInitiated) {
+        boolean isValid = true;
+
+        verifyCashReceipts(deposit, documentIsInitiated);
+
+        if (!documentIsInitiated) {
+            isValid = performDataDictionaryValidation(deposit);
+        }
+
+        return isValid;
+    }
+
+
+    /**
+     * Verifies that all CashReceipts associated with the given document are of the appropriate status for the given
+     * CashManagementDocument state
+     * 
+     * @param deposit
+     * @param documentIsInitiated
+     */
+    private void verifyCashReceipts(Deposit deposit, boolean documentIsInitiated) {
+        String desiredCRState = null;
+        if (documentIsInitiated) {
+            desiredCRState = Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED;
+        }
+        else {
+            desiredCRState = Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_DEPOSITED;
+        }
+
+        for (Iterator depositCashReceiptControls = deposit.getDepositCashReceiptControl().iterator(); depositCashReceiptControls.hasNext();) {
+            DepositCashReceiptControl depositCashReceiptControl = (DepositCashReceiptControl) depositCashReceiptControls.next();
+            CashReceiptDocument cashReceipt = depositCashReceiptControl.getCashReceiptHeader().getCashReceiptDocument();
+            if (!cashReceipt.getDocumentHeader().getFinancialDocumentStatusCode().equals(desiredCRState)) {
+                throw new IllegalStateException("Cash receipt document number " + cashReceipt.getFinancialDocumentNumber() + " is not in the appropriate state (" + desiredCRState
+                        + ") for the deposit/cash management document that it is associated to be submitted.");
+            }
+        }
+    }
+
+    /**
+     * Performs complete, recursive dataDictionary-driven validation of the given Deposit.
+     * 
+     * @param deposit
+     */
+    private boolean performDataDictionaryValidation(Deposit deposit) {
         // check for required fields
         SpringServiceLocator.getDictionaryValidationService().validateBusinessObject(deposit);
-        
+
         // validate foreign-key relationships
         deposit.refresh();
 
         BankAccount bankAccount = deposit.getBankAccount();
-        if ( ObjectUtils.isNull( bankAccount ) ) {
+        if (ObjectUtils.isNull(bankAccount)) {
             GlobalVariables.getErrorMap().put(PropertyConstants.DEPOSIT_BANK_ACCOUNT_NUMBER, KeyConstants.ERROR_EXISTENCE, "Bank Account");
         }
-        
+
         return GlobalVariables.getErrorMap().isEmpty();
     }
 }

@@ -53,6 +53,7 @@ public class CashManagementAction extends KualiDocumentActionBase {
         
         CashManagementForm cmf = (CashManagementForm)form;
         cmf.populateDepositHelpers();
+        cmf.populateDeposits();
         
         return dest;
     }

@@ -28,13 +28,13 @@ import java.util.Map;
 
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.gl.dao.UnitTestSqlDao;
-import org.kuali.test.KualiTestBaseWithSpringOnly;
+import org.kuali.test.KualiTestBaseWithSpring;
 
 /**
  * This class...
  * @author Bin Gao from Michigan State University
  */
-public class NightlyOutServiceTest extends KualiTestBaseWithSpringOnly {
+public class NightlyOutServiceTest extends KualiTestBaseWithSpring {
 
     private NightlyOutService nightlyOutService;
     private UnitTestSqlDao unitTestSqlDao;

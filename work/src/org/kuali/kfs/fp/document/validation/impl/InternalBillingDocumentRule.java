@@ -98,6 +98,7 @@ public class InternalBillingDocumentRule extends TransactionalDocumentRuleBase i
      * fund group for the account. This didn't fit any of the interface methods, so this rule was programmed in the "custom rule"
      * method.
      *
+     * @param accountingLine
      * @return whether this rule passes
      */
     private boolean validIndianaStudentFeesNotContinueEduc(AccountingLine accountingLine) {
@@ -135,6 +136,13 @@ public class InternalBillingDocumentRule extends TransactionalDocumentRuleBase i
         return success;
     }
 
+    /**
+     * Validates all the InternalBillingItems in the given Document, adding global errors for invalid items.
+     * It just uses the DataDictionary validation.
+     * 
+     * @param internalBillingDocument
+     * @return whether any items were invalid
+     */
     private static boolean validateItems(InternalBillingDocument internalBillingDocument) {
         final ErrorMap errorMap = GlobalVariables.getErrorMap();
         errorMap.addToErrorPath(Constants.DOCUMENT_PROPERTY_NAME);
@@ -186,6 +194,12 @@ public class InternalBillingDocumentRule extends TransactionalDocumentRuleBase i
         //     && (pendPurchaseCount <= 0))
     }
 
+    /**
+     * Checks whether the given AccountingLine's ObjectCode is a capital one.
+     * 
+     * @param accountingLine
+     * @return whether the given AccountingLine's ObjectCode is a capital one.
+     */
     private boolean isCapitalObject(AccountingLine accountingLine) {
         return getParameterRule(INTERNAL_BILLING_DOCUMENT_SECURITY_GROUPING, CAPITAL_OBJECT_SUB_TYPE_CODES).succeedsRule(
             accountingLine.getObjectCode().getFinancialObjectSubTypeCode());

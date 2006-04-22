@@ -45,80 +45,175 @@ public class InternalBillingItem extends BusinessObjectBase {
     private KualiDecimal itemUnitAmount;
     private String unitOfMeasureCode;
 
+    /**
+     * Constructs a InternalBillingItem.java.
+     */
     public InternalBillingItem() {
         setItemUnitAmount(new KualiDecimal(0));
         setItemQuantity(new Integer(1));
     }
 
-    public Integer getItemQuantity() {
-        return this.itemQuantity;
-    }
-
-    public void setItemQuantity(Integer param) {
-        this.itemQuantity = param;
-    }
-
-    public Timestamp getItemServiceDate() {
-        return this.itemServiceDate;
-    }
-
-    public void setItemServiceDate(Timestamp itemServiceDate) {
-        this.itemServiceDate = itemServiceDate;
-    }
-
-    public String getItemStockDescription() {
-        return this.itemStockDescription;
-    }
-
-    public void setItemStockDescription(String param) {
-        this.itemStockDescription = param;
-    }
-
-    public String getItemStockNumber() {
-        return this.itemStockNumber;
-    }
-
-    public void setItemStockNumber(String param) {
-        this.itemStockNumber = param;
-    }
-
-    public KualiDecimal getItemUnitAmount() {
-        return this.itemUnitAmount;
-    }
-
-    public void setItemUnitAmount(KualiDecimal param) {
-        this.itemUnitAmount = param;
-    }
-
-    public String getUnitOfMeasureCode() {
-        return this.unitOfMeasureCode;
-    }
-
-    public void setUnitOfMeasureCode(String param) {
-        this.unitOfMeasureCode = param;
-    }
-
-    public Integer getItemSequenceId() {
-        return this.itemSequenceId;
-    }
-
-    public void setItemSequenceId(Integer param) {
-        this.itemSequenceId = param;
-    }
+    
 
     /**
-     * @return Returns the documentHeaderId.
+     * Gets the financialDocumentNumber attribute. 
+     * @return Returns the financialDocumentNumber.
      */
     public String getFinancialDocumentNumber() {
         return financialDocumentNumber;
     }
 
+
+
     /**
-     * @param documentHeaderId The documentHeaderId to set.
+     * Sets the financialDocumentNumber attribute value.
+     * @param financialDocumentNumber The financialDocumentNumber to set.
      */
-    public void setFinancialDocumentNumber(String documentHeaderId) {
-        this.financialDocumentNumber = documentHeaderId;
+    public void setFinancialDocumentNumber(String financialDocumentNumber) {
+        this.financialDocumentNumber = financialDocumentNumber;
     }
+
+
+
+    /**
+     * Gets the itemQuantity attribute. 
+     * @return Returns the itemQuantity.
+     */
+    public Integer getItemQuantity() {
+        return itemQuantity;
+    }
+
+
+
+    /**
+     * Sets the itemQuantity attribute value.
+     * @param itemQuantity The itemQuantity to set.
+     */
+    public void setItemQuantity(Integer itemQuantity) {
+        this.itemQuantity = itemQuantity;
+    }
+
+
+
+    /**
+     * Gets the itemSequenceId attribute. 
+     * @return Returns the itemSequenceId.
+     */
+    public Integer getItemSequenceId() {
+        return itemSequenceId;
+    }
+
+
+
+    /**
+     * Sets the itemSequenceId attribute value.
+     * @param itemSequenceId The itemSequenceId to set.
+     */
+    public void setItemSequenceId(Integer itemSequenceId) {
+        this.itemSequenceId = itemSequenceId;
+    }
+
+
+
+    /**
+     * Gets the itemServiceDate attribute. 
+     * @return Returns the itemServiceDate.
+     */
+    public Timestamp getItemServiceDate() {
+        return itemServiceDate;
+    }
+
+
+
+    /**
+     * Sets the itemServiceDate attribute value.
+     * @param itemServiceDate The itemServiceDate to set.
+     */
+    public void setItemServiceDate(Timestamp itemServiceDate) {
+        this.itemServiceDate = itemServiceDate;
+    }
+
+
+
+    /**
+     * Gets the itemStockDescription attribute. 
+     * @return Returns the itemStockDescription.
+     */
+    public String getItemStockDescription() {
+        return itemStockDescription;
+    }
+
+
+
+    /**
+     * Sets the itemStockDescription attribute value.
+     * @param itemStockDescription The itemStockDescription to set.
+     */
+    public void setItemStockDescription(String itemStockDescription) {
+        this.itemStockDescription = itemStockDescription;
+    }
+
+
+
+    /**
+     * Gets the itemStockNumber attribute. 
+     * @return Returns the itemStockNumber.
+     */
+    public String getItemStockNumber() {
+        return itemStockNumber;
+    }
+
+
+
+    /**
+     * Sets the itemStockNumber attribute value.
+     * @param itemStockNumber The itemStockNumber to set.
+     */
+    public void setItemStockNumber(String itemStockNumber) {
+        this.itemStockNumber = itemStockNumber;
+    }
+
+
+
+    /**
+     * Gets the itemUnitAmount attribute. 
+     * @return Returns the itemUnitAmount.
+     */
+    public KualiDecimal getItemUnitAmount() {
+        return itemUnitAmount;
+    }
+
+
+
+    /**
+     * Sets the itemUnitAmount attribute value.
+     * @param itemUnitAmount The itemUnitAmount to set.
+     */
+    public void setItemUnitAmount(KualiDecimal itemUnitAmount) {
+        this.itemUnitAmount = itemUnitAmount;
+    }
+
+
+
+    /**
+     * Gets the unitOfMeasureCode attribute. 
+     * @return Returns the unitOfMeasureCode.
+     */
+    public String getUnitOfMeasureCode() {
+        return unitOfMeasureCode;
+    }
+
+
+
+    /**
+     * Sets the unitOfMeasureCode attribute value.
+     * @param unitOfMeasureCode The unitOfMeasureCode to set.
+     */
+    public void setUnitOfMeasureCode(String unitOfMeasureCode) {
+        this.unitOfMeasureCode = unitOfMeasureCode;
+    }
+
+
 
     /*
      *  

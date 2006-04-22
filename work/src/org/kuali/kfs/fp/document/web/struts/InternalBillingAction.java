@@ -46,6 +46,17 @@ import org.kuali.module.financial.web.struts.form.InternalBillingForm;
 
 public class InternalBillingAction extends KualiTransactionalDocumentActionBase {
 
+    /**
+     * Adds a new InternalBillingItem from the Form to the Document if valid.
+     * This method is called reflectively from KualiAction.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return ActionForward
+     * @throws Exception
+     */
     public ActionForward insertItem(ActionMapping mapping, ActionForm form, HttpServletRequest request,
                                     HttpServletResponse response)
         throws Exception
@@ -58,6 +69,12 @@ public class InternalBillingAction extends KualiTransactionalDocumentActionBase 
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
+    /**
+     * Validates the new InternalBillingItem on the Form, adding a global error if invalid.
+     * 
+     * @param internalBillingForm
+     * @return whether the new item is valid
+     */
     private static boolean validateNewItem(InternalBillingForm internalBillingForm) {
         final ErrorMap errorMap = GlobalVariables.getErrorMap();
         int originalErrorCount = errorMap.getErrorCount();
@@ -69,6 +86,17 @@ public class InternalBillingAction extends KualiTransactionalDocumentActionBase 
         return currentErrorCount == originalErrorCount;
     }
 
+    /**
+     * Deletes an InternalBillingItem from the Document.
+     * This method is called reflectively from KualiAction.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return ActionForward
+     * @throws Exception
+     */
     public ActionForward deleteItem(ActionMapping mapping, ActionForm form, HttpServletRequest request,
                                     HttpServletResponse response)
         throws Exception

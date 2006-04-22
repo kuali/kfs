@@ -46,17 +46,17 @@ public class InternalBillingItem extends BusinessObjectBase {
     private String unitOfMeasureCode;
 
     /**
-     * Constructs a InternalBillingItem.java.
+     * Constructs a InternalBillingItem.
      */
     public InternalBillingItem() {
         setItemUnitAmount(new KualiDecimal(0));
         setItemQuantity(new Integer(1));
     }
 
-    
 
     /**
-     * Gets the financialDocumentNumber attribute. 
+     * Gets the financialDocumentNumber attribute.
+     * 
      * @return Returns the financialDocumentNumber.
      */
     public String getFinancialDocumentNumber() {
@@ -64,9 +64,9 @@ public class InternalBillingItem extends BusinessObjectBase {
     }
 
 
-
     /**
      * Sets the financialDocumentNumber attribute value.
+     * 
      * @param financialDocumentNumber The financialDocumentNumber to set.
      */
     public void setFinancialDocumentNumber(String financialDocumentNumber) {
@@ -74,9 +74,9 @@ public class InternalBillingItem extends BusinessObjectBase {
     }
 
 
-
     /**
-     * Gets the itemQuantity attribute. 
+     * Gets the itemQuantity attribute.
+     * 
      * @return Returns the itemQuantity.
      */
     public Integer getItemQuantity() {
@@ -84,9 +84,9 @@ public class InternalBillingItem extends BusinessObjectBase {
     }
 
 
-
     /**
      * Sets the itemQuantity attribute value.
+     * 
      * @param itemQuantity The itemQuantity to set.
      */
     public void setItemQuantity(Integer itemQuantity) {
@@ -94,9 +94,9 @@ public class InternalBillingItem extends BusinessObjectBase {
     }
 
 
-
     /**
-     * Gets the itemSequenceId attribute. 
+     * Gets the itemSequenceId attribute.
+     * 
      * @return Returns the itemSequenceId.
      */
     public Integer getItemSequenceId() {
@@ -104,9 +104,9 @@ public class InternalBillingItem extends BusinessObjectBase {
     }
 
 
-
     /**
      * Sets the itemSequenceId attribute value.
+     * 
      * @param itemSequenceId The itemSequenceId to set.
      */
     public void setItemSequenceId(Integer itemSequenceId) {
@@ -114,9 +114,9 @@ public class InternalBillingItem extends BusinessObjectBase {
     }
 
 
-
     /**
-     * Gets the itemServiceDate attribute. 
+     * Gets the itemServiceDate attribute.
+     * 
      * @return Returns the itemServiceDate.
      */
     public Timestamp getItemServiceDate() {
@@ -124,9 +124,9 @@ public class InternalBillingItem extends BusinessObjectBase {
     }
 
 
-
     /**
      * Sets the itemServiceDate attribute value.
+     * 
      * @param itemServiceDate The itemServiceDate to set.
      */
     public void setItemServiceDate(Timestamp itemServiceDate) {
@@ -134,9 +134,9 @@ public class InternalBillingItem extends BusinessObjectBase {
     }
 
 
-
     /**
-     * Gets the itemStockDescription attribute. 
+     * Gets the itemStockDescription attribute.
+     * 
      * @return Returns the itemStockDescription.
      */
     public String getItemStockDescription() {
@@ -144,9 +144,9 @@ public class InternalBillingItem extends BusinessObjectBase {
     }
 
 
-
     /**
      * Sets the itemStockDescription attribute value.
+     * 
      * @param itemStockDescription The itemStockDescription to set.
      */
     public void setItemStockDescription(String itemStockDescription) {
@@ -154,9 +154,9 @@ public class InternalBillingItem extends BusinessObjectBase {
     }
 
 
-
     /**
-     * Gets the itemStockNumber attribute. 
+     * Gets the itemStockNumber attribute.
+     * 
      * @return Returns the itemStockNumber.
      */
     public String getItemStockNumber() {
@@ -164,9 +164,9 @@ public class InternalBillingItem extends BusinessObjectBase {
     }
 
 
-
     /**
      * Sets the itemStockNumber attribute value.
+     * 
      * @param itemStockNumber The itemStockNumber to set.
      */
     public void setItemStockNumber(String itemStockNumber) {
@@ -174,9 +174,9 @@ public class InternalBillingItem extends BusinessObjectBase {
     }
 
 
-
     /**
-     * Gets the itemUnitAmount attribute. 
+     * Gets the itemUnitAmount attribute.
+     * 
      * @return Returns the itemUnitAmount.
      */
     public KualiDecimal getItemUnitAmount() {
@@ -184,9 +184,9 @@ public class InternalBillingItem extends BusinessObjectBase {
     }
 
 
-
     /**
      * Sets the itemUnitAmount attribute value.
+     * 
      * @param itemUnitAmount The itemUnitAmount to set.
      */
     public void setItemUnitAmount(KualiDecimal itemUnitAmount) {
@@ -194,9 +194,9 @@ public class InternalBillingItem extends BusinessObjectBase {
     }
 
 
-
     /**
-     * Gets the unitOfMeasureCode attribute. 
+     * Gets the unitOfMeasureCode attribute.
+     * 
      * @return Returns the unitOfMeasureCode.
      */
     public String getUnitOfMeasureCode() {
@@ -204,9 +204,9 @@ public class InternalBillingItem extends BusinessObjectBase {
     }
 
 
-
     /**
      * Sets the unitOfMeasureCode attribute value.
+     * 
      * @param unitOfMeasureCode The unitOfMeasureCode to set.
      */
     public void setUnitOfMeasureCode(String unitOfMeasureCode) {
@@ -214,9 +214,8 @@ public class InternalBillingItem extends BusinessObjectBase {
     }
 
 
-
-    /*
-     *  
+    /**
+     * @return the total amount for this item
      */
     public KualiDecimal getTotal() {
         KualiDecimal total = new KualiDecimal(itemQuantity.toString());

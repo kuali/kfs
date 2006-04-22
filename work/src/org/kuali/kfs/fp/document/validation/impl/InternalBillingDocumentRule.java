@@ -40,7 +40,7 @@ import org.kuali.module.financial.document.InternalBillingDocument;
 
 /**
  * Business rule(s) applicable to InternalBilling document.
- *
+ * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class InternalBillingDocumentRule extends TransactionalDocumentRuleBase implements InternalBillingDocumentRuleConstants {
@@ -53,7 +53,8 @@ public class InternalBillingDocumentRule extends TransactionalDocumentRuleBase i
     }
 
     /**
-     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processCustomAddAccountingLineBusinessRules(TransactionalDocument, AccountingLine)
+     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processCustomAddAccountingLineBusinessRules(TransactionalDocument,
+     *      AccountingLine)
      */
     public boolean processCustomAddAccountingLineBusinessRules(TransactionalDocument document, AccountingLine accountingLine) {
         boolean success = true;
@@ -65,7 +66,8 @@ public class InternalBillingDocumentRule extends TransactionalDocumentRuleBase i
     }
 
     /**
-     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processCustomReviewAccountingLineBusinessRules(TransactionalDocument, AccountingLine)
+     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processCustomReviewAccountingLineBusinessRules(TransactionalDocument,
+     *      AccountingLine)
      */
     public boolean processCustomReviewAccountingLineBusinessRules(TransactionalDocument document, AccountingLine accountingLine) {
         boolean success = true;
@@ -77,12 +79,11 @@ public class InternalBillingDocumentRule extends TransactionalDocumentRuleBase i
     }
 
     /**
-     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processCustomUpdateAccountingLineBusinessRules(TransactionalDocument, AccountingLine, AccountingLine)
+     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processCustomUpdateAccountingLineBusinessRules(TransactionalDocument,
+     *      AccountingLine, AccountingLine)
      */
     public boolean processCustomUpdateAccountingLineBusinessRules(TransactionalDocument document,
-                                                                  AccountingLine originalAccountingLine,
-                                                                  AccountingLine updatedAccountingLine)
-    {
+            AccountingLine originalAccountingLine, AccountingLine updatedAccountingLine) {
         boolean success = true;
         success &= validIndianaStudentFeesNotContinueEduc(updatedAccountingLine);
         if (success) {
@@ -92,12 +93,10 @@ public class InternalBillingDocumentRule extends TransactionalDocumentRuleBase i
     }
 
     /**
-     * Note: This method implements an IU specific business rule.
-     * <p/>
-     * This method evaluates the accounting line's object sub type code for its object code in addition to the accounting line's sub
-     * fund group for the account. This didn't fit any of the interface methods, so this rule was programmed in the "custom rule"
-     * method.
-     *
+     * Note: This method implements an IU specific business rule. <p/> This method evaluates the accounting line's object sub type
+     * code for its object code in addition to the accounting line's sub fund group for the account. This didn't fit any of the
+     * interface methods, so this rule was programmed in the "custom rule" method.
+     * 
      * @param accountingLine
      * @return whether this rule passes
      */
@@ -106,15 +105,11 @@ public class InternalBillingDocumentRule extends TransactionalDocumentRuleBase i
         String actualSubFundGroupCode = accountingLine.getAccount().getSubFundGroupCode();
         String requiredSubFundGroupCode = SUB_FUND_GROUP_CODE.CONTINUE_EDUC;
 
-        if (OBJECT_SUB_TYPE_CODE.STUDENT_FEES.equals(objectSubTypeCode)
-            && !requiredSubFundGroupCode.equals(actualSubFundGroupCode))
-        {
+        if (OBJECT_SUB_TYPE_CODE.STUDENT_FEES.equals(objectSubTypeCode) && !requiredSubFundGroupCode.equals(actualSubFundGroupCode)) {
             // The user could fix this via either ObjectCode or Account, but we arbitrarily choose the ObjectCode to highlight.
             reportError(PropertyConstants.OBJECT_CODE, KeyConstants.ERROR_DOCUMENT_INCORRECT_OBJ_CODE_WITH_SUB_FUND_GROUP,
-                new String[]{accountingLine.getFinancialObjectCode(),
-                    objectSubTypeCode,
-                    requiredSubFundGroupCode,
-                    actualSubFundGroupCode});
+                    new String[] { accountingLine.getFinancialObjectCode(), objectSubTypeCode, requiredSubFundGroupCode,
+                            actualSubFundGroupCode });
             return false;
         }
         return true;
@@ -137,8 +132,8 @@ public class InternalBillingDocumentRule extends TransactionalDocumentRuleBase i
     }
 
     /**
-     * Validates all the InternalBillingItems in the given Document, adding global errors for invalid items.
-     * It just uses the DataDictionary validation.
+     * Validates all the InternalBillingItems in the given Document, adding global errors for invalid items. It just uses the
+     * DataDictionary validation.
      * 
      * @param internalBillingDocument
      * @return whether any items were invalid
@@ -154,7 +149,7 @@ public class InternalBillingDocumentRule extends TransactionalDocumentRuleBase i
             SpringServiceLocator.getDictionaryValidationService().validateBusinessObject(internalBillingDocument.getItem(i));
             GlobalVariables.getErrorMap().removeFromErrorPath(propertyName);
         }
-        // todo: return a boolean from DictionaryValidationService instead of checking errorMap.  KULNRVSYS-1093
+        // todo: return a boolean from DictionaryValidationService instead of checking errorMap. KULNRVSYS-1093
         int currentErrorCount = errorMap.getErrorCount();
         errorMap.removeFromErrorPath(Constants.DOCUMENT_PROPERTY_NAME);
         return currentErrorCount == originalErrorCount;
@@ -162,7 +157,7 @@ public class InternalBillingDocumentRule extends TransactionalDocumentRuleBase i
 
     /**
      * Overrides to consider the object types.
-     *
+     * 
      * @see TransactionalDocumentRuleBase#isDocumentBalanceValid(TransactionalDocument)
      */
     protected boolean isDocumentBalanceValid(TransactionalDocument transactionalDocument) {
@@ -171,17 +166,16 @@ public class InternalBillingDocumentRule extends TransactionalDocumentRuleBase i
 
     /**
      * Evaluates the object sub type code of the accounting line's object code to determine whether the object code is a capital
-     * object code.  If so, and this accounting line is in the income section, then it is not valid.
-     * <p/>
-     * Note: this is an IU specific business rule.
-     *
+     * object code. If so, and this accounting line is in the income section, then it is not valid. <p/> Note: this is an IU
+     * specific business rule.
+     * 
      * @param accountingLine
      * @return whether the given line is valid with respect to capital object codes
      */
     private boolean validateCapitalObjectCodes(AccountingLine accountingLine) {
         if (isSourceAccountingLine(accountingLine) && isCapitalObject(accountingLine)) {
             GlobalVariables.getErrorMap().put(PropertyConstants.FINANCIAL_OBJECT_CODE,
-                KeyConstants.ERROR_DOCUMENT_IB_CAPITAL_OBJECT_IN_INCOME_SECTION);
+                    KeyConstants.ERROR_DOCUMENT_IB_CAPITAL_OBJECT_IN_INCOME_SECTION);
             LOG.debug("APC rule failure " + ExceptionUtils.describeStackLevel(0));
             return false;
         }
@@ -191,7 +185,7 @@ public class InternalBillingDocumentRule extends TransactionalDocumentRuleBase i
         // todo: phase II
         // int pendPurchaseCount = 0; // TODO need to do something with this but I have no idea what
         // if (!SUB_FUND_GROUP_CODE.CODE_EXTAGY.equals(subFundGroupCode) && restrictedCapitalObjectCodes.contains(objectSubTypeCode)
-        //     && (pendPurchaseCount <= 0))
+        // && (pendPurchaseCount <= 0))
     }
 
     /**
@@ -202,7 +196,7 @@ public class InternalBillingDocumentRule extends TransactionalDocumentRuleBase i
      */
     private boolean isCapitalObject(AccountingLine accountingLine) {
         return getParameterRule(INTERNAL_BILLING_DOCUMENT_SECURITY_GROUPING, CAPITAL_OBJECT_SUB_TYPE_CODES).succeedsRule(
-            accountingLine.getObjectCode().getFinancialObjectSubTypeCode());
+                accountingLine.getObjectCode().getFinancialObjectSubTypeCode());
     }
 
     /**
@@ -210,62 +204,61 @@ public class InternalBillingDocumentRule extends TransactionalDocumentRuleBase i
      */
     public boolean isObjectTypeAllowed(AccountingLine accountingLine) {
         return indirectRuleSucceeds(getParameterRule(INTERNAL_BILLING_DOCUMENT_SECURITY_GROUPING, RESTRICTED_OBJECT_TYPE_CODES),
-            new AttributeReference(SourceAccountingLine.class, PropertyConstants.FINANCIAL_OBJECT_CODE,
-                accountingLine.getFinancialObjectCode()),
-            new AttributeReference(ObjectCode.class, PropertyConstants.FINANCIAL_OBJECT_TYPE_CODE,
-                accountingLine.getObjectCode().getFinancialObjectTypeCode()));
+                new AttributeReference(SourceAccountingLine.class, PropertyConstants.FINANCIAL_OBJECT_CODE, accountingLine
+                        .getFinancialObjectCode()), new AttributeReference(ObjectCode.class,
+                    PropertyConstants.FINANCIAL_OBJECT_TYPE_CODE, accountingLine.getObjectCode().getFinancialObjectTypeCode()));
     }
 
     /**
      * Overrides the parent to make sure that the chosen object code's object sub-type code isn't restricted according to the APC.
-     *
+     * 
      * @see org.kuali.core.rule.AddAccountingLineRule#isObjectSubTypeAllowed(AccountingLine)
      */
     public boolean isObjectSubTypeAllowed(AccountingLine accountingLine) {
-        return indirectRuleSucceeds(getParameterRule(INTERNAL_BILLING_DOCUMENT_SECURITY_GROUPING, RESTRICTED_OBJECT_SUB_TYPE_CODES),
-            new AttributeReference(SourceAccountingLine.class, PropertyConstants.FINANCIAL_OBJECT_CODE,
-                accountingLine.getFinancialObjectCode()),
-            new AttributeReference(ObjectCode.class, PropertyConstants.FINANCIAL_OBJECT_SUB_TYPE_CODE,
-                accountingLine.getObjectCode().getFinancialObjectSubTypeCode()));
+        return indirectRuleSucceeds(
+                getParameterRule(INTERNAL_BILLING_DOCUMENT_SECURITY_GROUPING, RESTRICTED_OBJECT_SUB_TYPE_CODES),
+                new AttributeReference(SourceAccountingLine.class, PropertyConstants.FINANCIAL_OBJECT_CODE, accountingLine
+                        .getFinancialObjectCode()), new AttributeReference(ObjectCode.class,
+                    PropertyConstants.FINANCIAL_OBJECT_SUB_TYPE_CODE, accountingLine.getObjectCode()
+                            .getFinancialObjectSubTypeCode()));
     }
 
     /**
      * Overrides the parent's implementation to check to make sure that the provided object code's level isn't a contract and grants
      * level.
-     *
+     * 
      * @see TransactionalDocumentRuleBase#isObjectLevelAllowed(AccountingLine)
      */
     public boolean isObjectLevelAllowed(AccountingLine accountingLine) {
         return indirectRuleSucceeds(getParameterRule(INTERNAL_BILLING_DOCUMENT_SECURITY_GROUPING, RESTRICTED_OBJECT_LEVEL_CODES),
-            new AttributeReference(SourceAccountingLine.class, PropertyConstants.FINANCIAL_OBJECT_CODE,
-                accountingLine.getFinancialObjectCode()),
-            new AttributeReference(ObjectCode.class, PropertyConstants.FINANCIAL_OBJECT_LEVEL_CODE,
-                accountingLine.getObjectCode().getFinancialObjectLevelCode()));
+                new AttributeReference(SourceAccountingLine.class, PropertyConstants.FINANCIAL_OBJECT_CODE, accountingLine
+                        .getFinancialObjectCode()), new AttributeReference(ObjectCode.class,
+                    PropertyConstants.FINANCIAL_OBJECT_LEVEL_CODE, accountingLine.getObjectCode().getFinancialObjectLevelCode()));
     }
 
     /**
      * This implementation overrides the parent to check and make sure that the fund group is not a Loan fund group.
-     *
+     * 
      * @see TransactionalDocumentRuleBase#isFundGroupAllowed(AccountingLine)
      */
     public boolean isFundGroupAllowed(AccountingLine accountingLine) {
         return indirectRuleSucceeds(getParameterRule(INTERNAL_BILLING_DOCUMENT_SECURITY_GROUPING, RESTRICTED_FUND_GROUP_CODES),
-            new AttributeReference(SourceAccountingLine.class, PropertyConstants.ACCOUNT_NUMBER, accountingLine.getAccountNumber()),
-            new AttributeReference(SubFundGroup.class, PropertyConstants.FUND_GROUP_CODE,
-                accountingLine.getAccount().getSubFundGroup().getFundGroupCode()));
+                new AttributeReference(SourceAccountingLine.class, PropertyConstants.ACCOUNT_NUMBER, accountingLine
+                        .getAccountNumber()), new AttributeReference(SubFundGroup.class, PropertyConstants.FUND_GROUP_CODE,
+                    accountingLine.getAccount().getSubFundGroup().getFundGroupCode()));
         // This calls for double indirection, but I'm not sure if such an error message would be more user friendly.
     }
 
     /**
      * Overrides the parent's implementation to check and make sure that the sub fund group is not the Retire Indebt or the
      * Investment Plant sub fund group.
-     *
+     * 
      * @see TransactionalDocumentRuleBase#isSubFundGroupAllowed(AccountingLine)
      */
     public boolean isSubFundGroupAllowed(AccountingLine accountingLine) {
         return indirectRuleSucceeds(getParameterRule(INTERNAL_BILLING_DOCUMENT_SECURITY_GROUPING, RESTRICTED_SUB_FUND_GROUP_CODES),
-            new AttributeReference(SourceAccountingLine.class, PropertyConstants.ACCOUNT_NUMBER, accountingLine.getAccountNumber()),
-            new AttributeReference(Account.class, PropertyConstants.SUB_FUND_GROUP_CODE,
-                accountingLine.getAccount().getSubFundGroupCode()));
+                new AttributeReference(SourceAccountingLine.class, PropertyConstants.ACCOUNT_NUMBER, accountingLine
+                        .getAccountNumber()), new AttributeReference(Account.class, PropertyConstants.SUB_FUND_GROUP_CODE,
+                    accountingLine.getAccount().getSubFundGroupCode()));
     }
 }

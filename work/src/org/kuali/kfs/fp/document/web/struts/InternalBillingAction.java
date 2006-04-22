@@ -39,7 +39,7 @@ import org.kuali.module.financial.web.struts.form.InternalBillingForm;
 
 /**
  * This class handles Actions for InternalBilling.
- *
+ * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 
@@ -47,8 +47,7 @@ import org.kuali.module.financial.web.struts.form.InternalBillingForm;
 public class InternalBillingAction extends KualiTransactionalDocumentActionBase {
 
     /**
-     * Adds a new InternalBillingItem from the Form to the Document if valid.
-     * This method is called reflectively from KualiAction.
+     * Adds a new InternalBillingItem from the Form to the Document if valid. This method is called reflectively from KualiAction.
      * 
      * @param mapping
      * @param form
@@ -57,10 +56,8 @@ public class InternalBillingAction extends KualiTransactionalDocumentActionBase 
      * @return ActionForward
      * @throws Exception
      */
-    public ActionForward insertItem(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-                                    HttpServletResponse response)
-        throws Exception
-    {
+    public ActionForward insertItem(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
         InternalBillingForm internalBillingForm = (InternalBillingForm) form;
         if (validateNewItem(internalBillingForm)) {
             internalBillingForm.getInternalBillingDocument().addItem(internalBillingForm.getNewItem());
@@ -81,14 +78,13 @@ public class InternalBillingAction extends KualiTransactionalDocumentActionBase 
         errorMap.addToErrorPath(PropertyConstants.NEW_ITEM);
         SpringServiceLocator.getDictionaryValidationService().validateBusinessObject(internalBillingForm.getNewItem());
         errorMap.removeFromErrorPath(PropertyConstants.NEW_ITEM);
-        // todo: return a boolean from DictionaryValidationService instead of checking errorMap.  KULNRVSYS-1093
+        // todo: return a boolean from DictionaryValidationService instead of checking errorMap. KULNRVSYS-1093
         int currentErrorCount = errorMap.getErrorCount();
         return currentErrorCount == originalErrorCount;
     }
 
     /**
-     * Deletes an InternalBillingItem from the Document.
-     * This method is called reflectively from KualiAction.
+     * Deletes an InternalBillingItem from the Document. This method is called reflectively from KualiAction.
      * 
      * @param mapping
      * @param form
@@ -97,10 +93,8 @@ public class InternalBillingAction extends KualiTransactionalDocumentActionBase 
      * @return ActionForward
      * @throws Exception
      */
-    public ActionForward deleteItem(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-                                    HttpServletResponse response)
-        throws Exception
-    {
+    public ActionForward deleteItem(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
         InternalBillingForm internalBillingForm = (InternalBillingForm) form;
         internalBillingForm.getInternalBillingDocument().getItems().remove(getLineToDelete(request));
         return mapping.findForward(Constants.MAPPING_BASIC);

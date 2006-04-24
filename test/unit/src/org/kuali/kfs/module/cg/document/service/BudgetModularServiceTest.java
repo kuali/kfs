@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.cg.bo.Agency;
@@ -38,13 +39,13 @@ import org.kuali.module.kra.bo.BudgetNonpersonnelTest;
 import org.kuali.module.kra.bo.BudgetPeriod;
 import org.kuali.module.kra.bo.BudgetPeriodTest;
 import org.kuali.module.kra.bo.UserAppointmentTaskPeriod;
-import org.kuali.test.KualiTestBaseWithSpring;
+import org.kuali.test.KualiTestBaseWithSession;
 
 /**
  * This class tests service methods in BudgetModularService.
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-public class BudgetModularServiceTest extends KualiTestBaseWithSpring {
+public class BudgetModularServiceTest extends KualiTestBaseWithSession {
     
     private BudgetModularService budgetModularService;
     private BudgetNonpersonnelService budgetNonpersonnelService;
@@ -89,17 +90,17 @@ public class BudgetModularServiceTest extends KualiTestBaseWithSpring {
         assertEquals(modularBudget.getIncrements().size(), 10);
         assertEquals(modularBudget.getBudgetModularDirectCostAmount(), zeroValue);
         assertEquals(modularBudget.getTotalActualDirectCostAmount(), zeroValue);
-        assertEquals(modularBudget.getTotalAdjustedModularDirectCostAmount(), zeroValue);
+        assertEquals(modularBudget.getTotalAdjustedModularDirectCostAmount(), new KualiDecimal(500000));
         assertEquals(modularBudget.getTotalConsortiumAmount(), zeroValue);
-        assertEquals(modularBudget.getTotalDirectCostAmount(), zeroValue);
+        assertEquals(modularBudget.getTotalDirectCostAmount(), new KualiDecimal(500000));
         assertEquals(modularBudget.getTotalModularDirectCostAmount(), zeroValue);
         
         for (Iterator iter = modularBudget.getBudgetModularPeriods().iterator(); iter.hasNext();) {
             BudgetModularPeriod modularPeriod = (BudgetModularPeriod) iter.next();
             assertEquals(modularPeriod.getActualDirectCostAmount(), zeroValue);
             assertEquals(modularPeriod.getConsortiumAmount(), zeroValue);
-            assertEquals(modularPeriod.getTotalPeriodDirectCostAmount(), zeroValue);
-            assertEquals(modularPeriod.getBudgetAdjustedModularDirectCostAmount(), new Integer(0));
+            assertEquals(modularPeriod.getTotalPeriodDirectCostAmount(), new KualiDecimal(250000));
+            assertEquals(modularPeriod.getBudgetAdjustedModularDirectCostAmount(), new Integer(250000));
         }
         
         // Case 2: Budget with personnel, nonpersonnel, consortium costs
@@ -177,10 +178,11 @@ public class BudgetModularServiceTest extends KualiTestBaseWithSpring {
         budget.setAllUserAppointmentTaskPeriods(userAppointmentTaskPeriods);
         
         budgetModularService.generateModularBudget(budget, nonpersonnelCategories);
+        assertTrue(GlobalVariables.getErrorMap().size() == 1);
         modularBudget = budget.getModularBudget();
         
         assertTrue(modularBudget.isInvalidMode());
-        assertEquals(modularBudget.getIncrements().size(), 1);
+        assertTrue(modularBudget.getIncrements().size() == 1);
         assertNull(modularBudget.getBudgetModularDirectCostAmount());
         assertEquals(modularBudget.getTotalActualDirectCostAmount(), new KualiDecimal(1000000));
         assertNull(modularBudget.getTotalAdjustedModularDirectCostAmount());

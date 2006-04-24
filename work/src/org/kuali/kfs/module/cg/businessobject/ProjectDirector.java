@@ -72,7 +72,7 @@ public class ProjectDirector extends BusinessObjectBase {
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
 
-        m.put("universaliUser.getPersonUniversal().getPersonUniversalIdentifier()", universalUser.getPersonUniversalIdentifier());
+        m.put("universaliUser.getUniversalIdentifier", this.getUniversalIdentifier());
         return m;
     }
 

@@ -22,145 +22,260 @@
  */
 package org.kuali.module.financial.rules;
 
-import java.util.Set;
-import java.util.TreeSet;
-
+import org.apache.commons.lang.StringUtils;
+import org.kuali.Constants;
+import org.kuali.KeyConstants;
+import org.kuali.PropertyConstants;
 import org.kuali.core.bo.AccountingLine;
-import org.kuali.core.document.Document;
+import org.kuali.core.bo.SourceAccountingLine;
+import org.kuali.core.bo.TargetAccountingLine;
+import org.kuali.core.datadictionary.BusinessObjectEntry;
 import org.kuali.core.document.TransactionalDocument;
+import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.module.chart.bo.ObjectCode;
+import org.kuali.module.gl.util.SufficientFundsItemHelper.SufficientFundsItem;
 
 /**
  * Business rule(s) applicable to NonCheckDisbursement documents.
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
-public class NonCheckDisbursementDocumentRule extends TransactionalDocumentRuleBase {
-    private static final Set _invalidObjectTypes = new TreeSet();
-    private static final Set _invalidSubTypes = new TreeSet();
-    private static final Set _invalidSubFundGroupTypes = new TreeSet();
-    
-    private Document _document;
-    private String _objectType;
-    private String _objectSubType;
-    private String _subFundGroup;
-    
-    static {
-    	_invalidObjectTypes.add(OBJECT_TYPE_CODE.INCOME_NOT_CASH);
-    	_invalidObjectTypes.add(OBJECT_TYPE_CODE.EXPENSE_NOT_EXPENDITURE);
-    	
-    	_invalidSubTypes.add(OBJECT_SUB_TYPE_CODE.BUDGET_ONLY);
-    	_invalidSubTypes.add(OBJECT_SUB_TYPE_CODE.CASH);
-    	_invalidSubTypes.add(OBJECT_SUB_TYPE_CODE.SUBTYPE_FUND_BALANCE);
-    	_invalidSubTypes.add(OBJECT_SUB_TYPE_CODE.HOURLY_WAGES);
-    	_invalidSubTypes.add(OBJECT_SUB_TYPE_CODE.PLANT);
-    	_invalidSubTypes.add(OBJECT_SUB_TYPE_CODE.SALARIES);
-    	_invalidSubTypes.add(OBJECT_SUB_TYPE_CODE.VALUATIONS_AND_ADJUSTMENTS);
-    	_invalidSubTypes.add(OBJECT_SUB_TYPE_CODE.RESERVES);
-    	_invalidSubTypes.add(OBJECT_SUB_TYPE_CODE.MANDATORY_TRANSFER);
-    	_invalidSubTypes.add(OBJECT_SUB_TYPE_CODE.FRINGE_BEN);
-    	_invalidSubTypes.add(OBJECT_SUB_TYPE_CODE.COST_RECOVERY_EXPENSE);
-    	
-    	_invalidSubFundGroupTypes.add(SUB_FUND_GROUP_CODE.RENEWAL_AND_REPLACEMENT);
-    }
-    
-
-    protected Set getInvalidObjectTypes() {
-	return _invalidObjectTypes;
+public class NonCheckDisbursementDocumentRule 
+    extends TransactionalDocumentRuleBase 
+    implements NonCheckDisbursementDocumentRuleConstants {
+       
+    /**
+     * Convenience method for accessing the most-likely requested
+     * security grouping
+     *
+     * @return String
+     */
+    protected String getDefaultSecurityGrouping() {
+        return NON_CHECK_DISBURSEMENT_SECURITY_GROUPING;
     }
 
-    protected Set getInvalidSubTypes() {
-	return _invalidSubTypes;
+    /**
+     * Overrides to consider the object types.
+     *
+     * @see TransactionalDocumentRuleBase#isDocumentBalanceValid(TransactionalDocument)
+     */
+    protected boolean isDocumentBalanceValid(TransactionalDocument transactionalDocument) {
+        return isDocumentBalancedConsideringObjectTypes(transactionalDocument);
     }
 
-    protected Set getInvalidSubFundGroupTypes() {
-	return _invalidSubFundGroupTypes;
+    /**
+     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#isDebit(org.kuali.core.bo.AccountingLine)
+     */
+    public boolean isDebit(AccountingLine accountingLine) throws IllegalStateException {
+        return isDebitConsideringSection(accountingLine);
+    }
+    
+    /**
+     * The GEC spec says that all GL pending entry amounts are positive. I.e., it says that the pending entry uses the absolute
+     * value of non-positive accounting line amounts.
+     * 
+     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#getGeneralLedgerPendingEntryAmountForAccountingLine(org.kuali.core.bo.AccountingLine)
+     */
+    protected KualiDecimal getGeneralLedgerPendingEntryAmountForAccountingLine(AccountingLine accountingLine) {
+        return accountingLine.getAmount().abs();
     }
 
-    protected void init( TransactionalDocument document,
-			AccountingLine accountingLine ) {
-	setDocument( document );
+    /**
+     * Overrides to call super and then Non-Check Disbursement specific 
+     * accounting line rules.
+     * 
+     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processCustomAddAccountingLineBusinessRules(org.kuali.core.document.TransactionalDocument, org.kuali.core.bo.AccountingLine)
+     */
+    public boolean processCustomAddAccountingLineBusinessRules(TransactionalDocument document, 
+                                                               AccountingLine accountingLine) {
+        return super.processCustomAddAccountingLineBusinessRules(document, accountingLine); 
+    }
+    
+    
+    /**
+     * Overrides to call super and then Non-Check Disbursement specific 
+     * accounting line rules.
+     * 
+     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processCustomReviewAccountingLineBusinessRules(org.kuali.core.document.TransactionalDocument, org.kuali.core.bo.AccountingLine)
+     */
+    public boolean processCustomReviewAccountingLineBusinessRules(TransactionalDocument document, 
+                                                                  AccountingLine accountingLine) {
+        return super.processCustomReviewAccountingLineBusinessRules(document, accountingLine);
+    }
+    
+    /**
+     * Overrides to perform the universal rule in the super class in addition 
+     * to Non-Check Disbursement specific rules. This method leverages the 
+     * APC for checking restricted object type values.
+     *
+     * @see org.kuali.core.rule.AccountingLineRule#isObjectTypeAllowed(org.kuali.core.bo.AccountingLine)
+     */
+    public boolean isObjectTypeAllowed(AccountingLine accountingLine) {
+        boolean valid = true;
 
-	setObjectType( accountingLine
-		       .getObjectTypeCode() );
-	
-	
-	// We do this check because object sub type code 
-	// isn't required.
-	if( accountingLine.getObjectCode() != null
-	    && accountingLine.getObjectCode().getFinancialObjectSubType() != null ) {
-	    setObjectSubType( accountingLine
-			      .getObjectCode()
-			      .getFinancialObjectSubType().getCode() );
-	}
-	else {
-	    setObjectSubType( new String() );
-	}
+        valid &= super.isObjectTypeAllowed(accountingLine);
 
-	// We do this because sub fund group isn't required.
-	if( accountingLine.getAccount().getSubFundGroup().getSubFundGroupCode() != null ) {
-	    setSubFundGroupCode
-		( accountingLine.getAccount().getSubFundGroup().getSubFundGroupCode() );
-	}
-	else {
-	    setSubFundGroupCode( new String() );
-	}
-    }
+        if (valid) {
+            ObjectCode objectCode = accountingLine.getObjectCode();
 
-    protected void setObjectType( String o ) {
-		_objectType = o;
-    }
-    
-    protected String getObjectType() {
-		return _objectType;
-    }
-    
-    protected void setObjectSubType( String o ) {
-		_objectSubType = o;
-    }
-    
-    protected String getObjectSubType() {
-		return _objectSubType;
-    }
-    
-    protected void setSubFundGroupCode( String o ) {
-		_subFundGroup = o;
-    }
-    
-    protected String getSubFundGroupCode() {
-		return _subFundGroup;
-    }
-    
-    protected void setDocument( Document d ) {
-		_document = d;
+            if (failsRule(RESTRICTED_OBJECT_TYPE_CODES,
+                          objectCode.getFinancialObjectTypeCode())) {
+                valid = false;
+
+                // add message
+                GlobalVariables.getErrorMap()
+                    .put(PropertyConstants.FINANCIAL_OBJECT_CODE,
+                         KeyConstants.GeneralErrorCorrection
+                         .ERROR_DOCUMENT_GENERAL_ERROR_CORRECTION_INVALID_OBJECT_TYPE_CODE_FOR_OBJECT_CODE,
+                         new String[] {objectCode.getFinancialObjectCode(), 
+                                       objectCode.getFinancialObjectTypeCode()});
+            }
+        }
+
+        return valid;
     }
 
-    protected Document getDocument() {
-		return _document;
-    }
-    
-    protected TransactionalDocument getTransactionalDocument() {
-		return ( TransactionalDocument )getDocument();
-    }
-    
-    public boolean processCustomAddAccountingLineBusinessRules(TransactionalDocument document, AccountingLine accountingLine) {
-        return super.processCustomAddAccountingLineBusinessRules( document, accountingLine ) && validateAccountingLine(document, accountingLine);
-    }
-    public boolean processCustomReviewAccountingLineBusinessRules(TransactionalDocument document, AccountingLine accountingLine) {
-        return super.processCustomReviewAccountingLineBusinessRules( document, accountingLine) && validateAccountingLine(document, accountingLine);
-    }
-    
-    protected boolean validateAccountingLine(TransactionalDocument document, AccountingLine accountingLine) {
-        boolean retval = true;
-		init( document, accountingLine );
+    /**
+     * Overrides to perform the universal rule in the super class in addition 
+     * to Non-Check Disbursement specific rules. This method leverages the 
+     * APC for checking restricted object sub type values.
+     *
+     * @see org.kuali.core.rule.AccountingLineRule#isObjectSubTypeAllowed(org.kuali.core.bo.AccountingLine)
+     */
+    public boolean isObjectSubTypeAllowed(AccountingLine accountingLine) {
+        boolean valid = true;
 
-        // What does this do? 
-        //SpringServiceLocator.getPersistenceService().linkObjects(accountingLine);
+        valid &= super.isObjectSubTypeAllowed(accountingLine);
 
-        retval &= !getInvalidObjectTypes().contains( getObjectType() );
-		retval &= !getInvalidSubTypes().contains( getObjectSubType() );
-        retval &= !getInvalidSubFundGroupTypes().contains( getSubFundGroupCode() );
-        
-        return retval;
+        if (valid) {
+            ObjectCode objectCode = accountingLine.getObjectCode();
+
+            if (failsRule(RESTRICTED_OBJECT_SUB_TYPE_CODES,
+                          objectCode.getFinancialObjectSubTypeCode())) {
+                valid = false;
+
+                // add message
+                GlobalVariables.getErrorMap()
+                    .put(PropertyConstants.FINANCIAL_OBJECT_CODE,
+                         KeyConstants.GeneralErrorCorrection
+                         .ERROR_DOCUMENT_GENERAL_ERROR_CORRECTION_INVALID_OBJECT_SUB_TYPE_CODE,
+                         new String[] {objectCode.getFinancialObjectCode(), 
+                                       objectCode.getFinancialObjectSubTypeCode()});
+            }
+        }
+
+        return valid;
     }
 
-    
+    /**
+     * This method checks to see if the sub fund group code for the accouting line's account is allowed. The common implementation
+     * allows any sub fund group code.
+     *
+     * @param accountingLine
+     * @return boolean
+     */
+    public boolean isSubFundGroupAllowed(AccountingLine accountingLine) {
+        boolean valid = true;
+
+        valid &= super.isSubFundGroupAllowed(accountingLine);
+
+        if (valid) {
+            String subFundGroupTypeCode = accountingLine
+                .getAccount().getSubFundGroup().getSubFundGroupTypeCode();
+            ObjectCode objectCode = accountingLine.getObjectCode();
+
+            if (failsRule(RESTRICTED_SUB_FUND_GROUP_TYPE_CODES,
+                          subFundGroupTypeCode)) {
+                valid = false;
+
+                // add message
+                GlobalVariables.getErrorMap()
+                    .put(PropertyConstants.FINANCIAL_OBJECT_CODE,
+                         KeyConstants.GeneralErrorCorrection
+                         .ERROR_DOCUMENT_GENERAL_ERROR_CORRECTION_INVALID_OBJECT_TYPE_CODE_FOR_OBJECT_CODE,
+                         new String[] {objectCode.getFinancialObjectCode(), 
+                                       subFundGroupTypeCode});
+            }
+        }
+
+        return valid;
+    }
+
+    /**
+     * 
+     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processSourceAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument,
+     *      org.kuali.core.bo.SourceAccountingLine)
+     */
+    protected SufficientFundsItem processSourceAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument transactionalDocument,
+                 SourceAccountingLine accountingLine) {
+        SufficientFundsItem item = null;
+        String chartOfAccountsCode = accountingLine.getChartOfAccountsCode();
+        String accountNumber = accountingLine.getAccountNumber();
+        String accountSufficientFundsCode = 
+            accountingLine.getAccount().getAccountSufficientFundsCode();
+        String financialObjectCode = 
+            accountingLine.getObjectCode().getFinancialObjectCode();
+        String financialObjectLevelCode = 
+            accountingLine.getObjectCode().getFinancialObjectLevelCode();
+        KualiDecimal lineAmount = 
+            getGeneralLedgerPendingEntryAmountForAccountingLine(accountingLine);
+        Integer fiscalYear = accountingLine.getPostingYear();
+        String financialObjectTypeCode = accountingLine.getObjectTypeCode();
+
+        // always credit
+        String debitCreditCode = null;
+
+        if (isDebit(accountingLine)) {
+            debitCreditCode = Constants.GL_CREDIT_CODE;
+        }
+        else {
+            debitCreditCode = Constants.GL_DEBIT_CODE;
+        }
+        String sufficientFundsObjectCode = 
+            getSufficientFundsObjectCode(chartOfAccountsCode, 
+                                         financialObjectCode, 
+                                         accountSufficientFundsCode, 
+                                         financialObjectLevelCode);
+        item = buildSufficentFundsItem(accountNumber, 
+                                       accountSufficientFundsCode, 
+                                       lineAmount, chartOfAccountsCode,
+                                       sufficientFundsObjectCode, 
+                                       debitCreditCode, financialObjectCode, 
+                                       financialObjectLevelCode, fiscalYear,
+                                       financialObjectTypeCode);
+
+        return item;
+    }
+
+    /**
+     * 
+     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processTargetAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument,
+     *      org.kuali.core.bo.TargetAccountingLine)
+     */
+    protected SufficientFundsItem processTargetAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument transactionalDocument,
+                 TargetAccountingLine targetAccountingLine) {
+        return null;
+    }
+
+    /**
+     * Helper method to get the sufficient funds object code. 
+     *
+     * @param chartOfAccountsCode
+     * @param financialObjectCode
+     * @param accountSufficientFundsCode
+     * @param financialObjectLevelCode
+     * @return String
+     */
+    private String getSufficientFundsObjectCode(String chartOfAccountsCode,
+                                                String financialObjectCode,
+                                                String accountSufficientFundsCode,
+                                                String financialObjectLevelCode) {
+        return SpringServiceLocator
+            .getSufficientFundsService()
+            .getSufficientFundsObjectCode(chartOfAccountsCode, 
+                                          financialObjectCode, 
+                                          accountSufficientFundsCode, 
+                                          financialObjectLevelCode);      
+    }
 }

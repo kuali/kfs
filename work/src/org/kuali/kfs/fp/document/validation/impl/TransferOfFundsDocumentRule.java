@@ -321,6 +321,9 @@ public class TransferOfFundsDocumentRule extends TransactionalDocumentRuleBase i
                         .getApplicationParameterValue(KUALI_TRANSACTION_PROCESSING_TRANSFER_OF_FUNDS_SECURITY_GROUPING,
                                 TRANSFER_OF_FUNDS_INCOME_OBJECT_TYPE_CODE);
             }
+            if (StringUtils.isBlank(objectType)) {
+                throw new IllegalArgumentException("Invalid (null) object type");
+            }
             String chartOfAccountsCode = accountingLine.getChartOfAccountsCode();
             String acocuntNumber = accountingLine.getAccountNumber();
             String accountSufficientFundsCode = accountingLine.getAccount().getAccountSufficientFundsCode();

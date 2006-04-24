@@ -26,6 +26,7 @@ import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.module.chart.bo.Account;
+import org.kuali.module.chart.bo.Chart;
 
 /**
  * ServiceBillingControl Business Object
@@ -34,10 +35,14 @@ import org.kuali.module.chart.bo.Account;
  */
 public class ServiceBillingControl extends BusinessObjectBase {
     private static final long serialVersionUID = -615796117852059115L;
-    private Account account;
-    private String accountNumber;
-    private String chartOfAccountsCode;
 
+    private String chartOfAccountsCode;
+    private String accountNumber;
+    private String workgroupName;
+    
+    private Chart chartOfAccounts;
+    private Account account;
+    
     /**
      * This constructor sets up empty instances for the dependent objects...
      *  
@@ -46,27 +51,24 @@ public class ServiceBillingControl extends BusinessObjectBase {
         account = new Account();
     }
 
-
     /**
-     * Gets the account attribute.
+     * Gets the chartOfAccountsCode attribute.
      * 
-     * @return Returns the account.
+     * @return Returns the chartOfAccountsCode.
      */
-    public Account getAccount() {
-        return account;
+    public String getChartOfAccountsCode() {
+        return chartOfAccountsCode;
     }
 
     /**
-     * Sets the account attribute value.
+     * Sets the chartOfAccountsCode attribute value.
      * 
-     * @param account The account to set.
-     * @deprecated
+     * @param chartOfAccountsCode The chartOfAccountsCode to set.
      */
-    public void setAccount(Account account) {
-        this.account = account;
-    }
-
-
+    public void setChartOfAccountsCode(String chartOfAccountsCode) {
+        this.chartOfAccountsCode = chartOfAccountsCode;
+    }    
+    
     /**
      * Gets the accountNumber attribute.
      * 
@@ -86,32 +88,60 @@ public class ServiceBillingControl extends BusinessObjectBase {
     }
 
     /**
-     * Gets the chartOfAccountsCode attribute.
-     * 
-     * @return Returns the chartOfAccountsCode.
+     * @return Returns the workgroupName.
      */
-    public String getChartOfAccountsCode() {
-        return chartOfAccountsCode;
+    public String getWorkgroupName() {
+        return workgroupName;
     }
 
     /**
-     * Sets the chartOfAccountsCode attribute value.
-     * 
-     * @param chartOfAccountsCode The chartOfAccountsCode to set.
+     * @param workgroupName The workgroupName to set.
      */
-    public void setChartOfAccountsCode(String chartOfAccountsCode) {
-        this.chartOfAccountsCode = chartOfAccountsCode;
+    public void setWorkgroupName(String workgroupName) {
+        this.workgroupName = workgroupName;
+    }
+    
+    /**
+     * @return Returns the chartOfAccounts.
+     */
+    public Chart getChartOfAccounts() {
+        return chartOfAccounts;
     }
 
+    /**
+     * @param chartOfAccounts The chartOfAccounts to set.
+     * @deprecated
+     */
+    public void setChartOfAccounts(Chart chartOfAccounts) {
+        this.chartOfAccounts = chartOfAccounts;
+    }    
+    
+    /**
+     * Gets the account attribute.
+     * 
+     * @return Returns the account.
+     */
+    public Account getAccount() {
+        return account;
+    }
+
+    /**
+     * Sets the account attribute value.
+     * 
+     * @param account The account to set.
+     * @deprecated
+     */
+    public void setAccount(Account account) {
+        this.account = account;
+    }
+    
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap map = new LinkedHashMap();
-
-        map.put("account", getAccount());
-        map.put("accountNumber", getAccountNumber());
         map.put("charOfAccountsCode", getChartOfAccountsCode());
+        map.put("accountNumber", getAccountNumber());
         return map;
     }
 

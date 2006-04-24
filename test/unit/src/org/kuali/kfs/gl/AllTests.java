@@ -26,15 +26,20 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 import org.kuali.module.gl.batch.PurgeTest;
+import org.kuali.module.gl.bo.OriginEntryTest;
+import org.kuali.module.gl.dao.ojb.SufficientFundsDaoTest;
 import org.kuali.module.gl.dao.ojb.TestUnitTestSqlDao;
 import org.kuali.module.gl.dao.ojb.TestUniversityDateDao;
 import org.kuali.module.gl.service.GeneralLedgerPendingEntryServiceTest;
 import org.kuali.module.gl.service.NightlyOutServiceTest;
 import org.kuali.module.gl.service.PosterServiceTest;
+import org.kuali.module.gl.service.ScrubberFlexibleOffsetTest;
 import org.kuali.module.gl.service.ScrubberServiceTest;
 import org.kuali.module.gl.service.SufficientFundRebuildServiceTest;
 import org.kuali.module.gl.service.SufficientFundsRebuilderServiceTest;
 import org.kuali.module.gl.service.SufficientFundsServiceTest;
+import org.kuali.module.gl.util.BusinessObjectHandlerTest;
+import org.kuali.module.gl.util.GLFlexibleAccountServiceTest;
 
 /**
  * @author jsissom
@@ -52,7 +57,11 @@ public class AllTests {
     // org.kuali.module.gl.batch
     suite.addTestSuite(PurgeTest.class);
 
+    // org.kuali.module.gl.bo
+    suite.addTestSuite(OriginEntryTest.class);
+
     // org.kuali.module.gl.dao.ojb
+    suite.addTestSuite(SufficientFundsDaoTest.class);
     suite.addTestSuite(TestUniversityDateDao.class);
     suite.addTestSuite(TestUnitTestSqlDao.class);
 
@@ -60,11 +69,16 @@ public class AllTests {
     suite.addTestSuite(GeneralLedgerPendingEntryServiceTest.class);
     suite.addTestSuite(NightlyOutServiceTest.class);
     suite.addTestSuite(PosterServiceTest.class);
+    suite.addTestSuite(ScrubberFlexibleOffsetTest.class);
     suite.addTestSuite(ScrubberServiceTest.class);
     suite.addTestSuite(SufficientFundRebuildServiceTest.class);
     suite.addTestSuite(SufficientFundsRebuilderServiceTest.class);
     suite.addTestSuite(SufficientFundsServiceTest.class);
 
+    // org.kuali.module.gl.util
+    suite.addTestSuite(BusinessObjectHandlerTest.class);
+    suite.addTestSuite(GLFlexibleAccountServiceTest.class);
+ 
     return suite;
   }
 

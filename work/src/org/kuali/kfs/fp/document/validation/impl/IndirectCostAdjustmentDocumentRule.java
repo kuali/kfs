@@ -99,9 +99,9 @@ public class IndirectCostAdjustmentDocumentRule extends TransactionalDocumentRul
      */
 	protected void customizeExplicitGeneralLedgerPendingEntry(TransactionalDocument transactionalDocument, AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry) {
         explicitEntry.setFinancialBalanceTypeCode(BALANCE_TYPE_CODE.ACTUAL );
-        explicitEntry.setReferenceFinDocumentTypeCode(GENERAL_LEDGER_PENDING_ENTRY_CODE.BLANK_SPACE);
-        explicitEntry.setFinancialDocumentReferenceNbr(GENERAL_LEDGER_PENDING_ENTRY_CODE.BLANK_SPACE);
-        explicitEntry.setTransactionEncumbranceUpdtCd(GENERAL_LEDGER_PENDING_ENTRY_CODE.BLANK_SPACE);
+        explicitEntry.setReferenceFinancialDocumentTypeCode(GENERAL_LEDGER_PENDING_ENTRY_CODE.BLANK_SPACE);
+        explicitEntry.setReferenceFinancialDocumentNumber(GENERAL_LEDGER_PENDING_ENTRY_CODE.BLANK_SPACE);
+        explicitEntry.setTransactionEncumbranceUpdateCode(GENERAL_LEDGER_PENDING_ENTRY_CODE.BLANK_SPACE);
 	}
 
 	/**

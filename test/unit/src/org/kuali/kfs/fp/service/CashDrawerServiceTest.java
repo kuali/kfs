@@ -100,7 +100,7 @@ public class CashDrawerServiceTest extends KualiTestBaseWithFixtures {
         // verify that it is open
         CashDrawer drawer = cashDrawerService.getByWorkgroupName(nonexistentWorkgroup);
         assertEquals(Constants.CashDrawerConstants.STATUS_OPEN, drawer.getStatusCode());
-        assertEquals(VALID_DOC_ID, drawer.getFinancialDocumentReferenceNumber());
+        assertEquals(VALID_DOC_ID, drawer.getReferenceFinancialDocumentNumber());
 
         // clean up
         deleteIfExists(nonexistentWorkgroup);
@@ -113,7 +113,7 @@ public class CashDrawerServiceTest extends KualiTestBaseWithFixtures {
         cashDrawerService.openCashDrawer(testWorkgroup, VALID_DOC_ID);
         CashDrawer drawer = cashDrawerService.getByWorkgroupName(testWorkgroup);
         assertEquals(Constants.CashDrawerConstants.STATUS_OPEN, drawer.getStatusCode());
-        assertEquals(VALID_DOC_ID, drawer.getFinancialDocumentReferenceNumber());
+        assertEquals(VALID_DOC_ID, drawer.getReferenceFinancialDocumentNumber());
 
         // clean up after yourself
         deleteIfExists(testWorkgroup);
@@ -157,7 +157,7 @@ public class CashDrawerServiceTest extends KualiTestBaseWithFixtures {
         // verify that it is closed
         CashDrawer drawer = cashDrawerService.getByWorkgroupName(nonexistentWorkgroup);
         assertEquals(Constants.CashDrawerConstants.STATUS_CLOSED, drawer.getStatusCode());
-        assertEquals(VALID_DOC_ID, drawer.getFinancialDocumentReferenceNumber());
+        assertEquals(VALID_DOC_ID, drawer.getReferenceFinancialDocumentNumber());
 
         // clean up
         deleteIfExists(nonexistentWorkgroup);
@@ -170,7 +170,7 @@ public class CashDrawerServiceTest extends KualiTestBaseWithFixtures {
         cashDrawerService.closeCashDrawer(testWorkgroup, VALID_DOC_ID);
         CashDrawer drawer = cashDrawerService.getByWorkgroupName(testWorkgroup);
         assertEquals(Constants.CashDrawerConstants.STATUS_CLOSED, drawer.getStatusCode());
-        assertEquals(VALID_DOC_ID, drawer.getFinancialDocumentReferenceNumber());
+        assertEquals(VALID_DOC_ID, drawer.getReferenceFinancialDocumentNumber());
 
         // clean up after yourself
         deleteIfExists(testWorkgroup);
@@ -227,7 +227,7 @@ public class CashDrawerServiceTest extends KualiTestBaseWithFixtures {
             // compare
             assertEquals(created.getWorkgroupName(), saved.getWorkgroupName());
             assertEquals(created.getStatusCode(), saved.getStatusCode());
-            assertEquals(VALID_DOC_ID, saved.getFinancialDocumentReferenceNumber());
+            assertEquals(VALID_DOC_ID, saved.getReferenceFinancialDocumentNumber());
         }
         finally {
             // delete it

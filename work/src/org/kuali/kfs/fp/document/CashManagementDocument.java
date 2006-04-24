@@ -48,7 +48,7 @@ public class CashManagementDocument extends FinancialDocumentBase {
     private static final long serialVersionUID = 7475843770851900297L;
 
     private String workgroupName;
-    private String financialDocumentReferenceNumber;
+    private String referenceFinancialDocumentNumber;
 
     private List deposits;
 
@@ -63,21 +63,20 @@ public class CashManagementDocument extends FinancialDocumentBase {
 
 
     /**
-     * @return current value of financialDocumentReferenceNumber.
+     * @return current value of referenceFinancialDocumentNumber.
      */
-    public String getFinancialDocumentReferenceNumber() {
-        return financialDocumentReferenceNumber;
+    public String getReferenceFinancialDocumentNumber() {
+        return referenceFinancialDocumentNumber;
     }
 
     /**
-     * Sets the financialDocumentReferenceNumber attribute value.
+     * Sets the referenceFinancialDocumentNumber attribute value.
      * 
-     * @param financialDocumentReferenceNumber The financialDocumentReferenceNumber to set.
+     * @param referenceFinancialDocumentNumber The referenceFinancialDocumentNumber to set.
      */
-    public void setFinancialDocumentReferenceNumber(String financialDocumentReferenceNumber) {
-        this.financialDocumentReferenceNumber = financialDocumentReferenceNumber;
+    public void setReferenceFinancialDocumentNumber(String referenceFinancialDocumentNumber) {
+        this.referenceFinancialDocumentNumber = referenceFinancialDocumentNumber;
     }
-
 
     /**
      * @return current value of workgroupName.

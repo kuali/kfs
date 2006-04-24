@@ -63,7 +63,7 @@ public class OriginEntryKey {
 		key.setBalanceTypeCode(entry.getFinancialBalanceTypeCode());
 		key.setChartCode(entry.getChartOfAccountsCode());
 		key.setDocumentTypeCode(entry.getFinancialDocumentTypeCode());
-		key.setEntrySequenceNumber(entry.getTrnEntryLedgerSequenceNumber().toString());
+		key.setEntrySequenceNumber(entry.getTransactionLedgerEntrySequenceNumber().toString());
 		key.setFinancialDocumentNumber(entry.getFinancialDocumentNumber());
 		key.setFinancialObjectCode(entry.getFinancialObjectCode());
 		key.setFiscalPeriodCode(entry.getUniversityFiscalPeriodCode());

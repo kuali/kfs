@@ -22,8 +22,6 @@
  */
 package org.kuali.module.gl.service.impl;
 
-import java.util.Iterator;
-
 import org.kuali.module.gl.bo.Encumbrance;
 import org.kuali.module.gl.dao.EncumbranceDao;
 import org.kuali.module.gl.service.EncumbranceService;
@@ -47,13 +45,6 @@ public class EncumbranceServiceImpl implements EncumbranceService {
 
     public void setEncumbranceDao(EncumbranceDao ed) {
         encumbranceDao = ed;
-    }
-
-    /* (non-Javadoc)
-     * @see org.kuali.module.gl.service.EncumbranceService#getEncumbrancesByFiscalYear(java.lang.Integer)
-     */
-    public Iterator getEncumbrancesToClose(Integer year) {
-        return encumbranceDao.getEncumbrancesToClose(year);
     }
     
 }

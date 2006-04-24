@@ -261,7 +261,7 @@ public class CashReceiptDocumentRule extends TransactionalDocumentRuleBase imple
             AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry) {
         String accountingLineDescription = accountingLine.getFinancialDocumentLineDescription();
         if(StringUtils.isNotBlank(accountingLineDescription)) {
-            explicitEntry.setTransactionLedgerEntryDesc(accountingLineDescription);
+            explicitEntry.setTransactionLedgerEntryDescription(accountingLineDescription);
         }
     }
     

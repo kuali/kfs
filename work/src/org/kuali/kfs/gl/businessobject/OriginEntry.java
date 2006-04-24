@@ -55,8 +55,8 @@ public class OriginEntry extends BusinessObjectBase implements Transaction {
     private Integer entryGroupId;
     private String accountNumber;
     private String financialDocumentNumber;
-    private String financialDocumentReferenceNumber;
-    private String financialDocumentReferenceDocumentTypeCode;
+    private String referenceFinancialDocumentNumber;
+    private String referenceFinancialDocumentTypeCode;
     private Date financialDocumentReversalDate;
     private String financialDocumentTypeCode;
     private String financialBalanceTypeCode;
@@ -65,7 +65,7 @@ public class OriginEntry extends BusinessObjectBase implements Transaction {
     private String financialObjectCode;
     private String financialSubObjectCode;
     private String financialSystemOriginationCode;
-    private String financialSystemReferenceOriginationCode;
+    private String referenceFinancialSystemOriginationCode;
     private String organizationDocumentNumber;
     private String organizationReferenceId;
     private String projectCode;
@@ -118,8 +118,8 @@ public class OriginEntry extends BusinessObjectBase implements Transaction {
     public void setTransaction(Transaction t) {
         setAccountNumber(t.getAccountNumber());
         setFinancialDocumentNumber(t.getFinancialDocumentNumber());
-        setFinancialDocumentReferenceNumber(t.getFinancialDocumentReferenceNbr());
-        setFinancialDocumentReferenceDocumentTypeCode(t.getReferenceFinDocumentTypeCode());
+        setReferenceFinancialDocumentNumber(t.getReferenceFinancialDocumentNumber());
+        setReferenceFinancialDocumentTypeCode(t.getReferenceFinancialDocumentTypeCode());
         setFinancialDocumentReversalDate(t.getFinancialDocumentReversalDate());
         setFinancialDocumentTypeCode(t.getFinancialDocumentTypeCode());
         setFinancialBalanceTypeCode(t.getFinancialBalanceTypeCode());
@@ -128,17 +128,17 @@ public class OriginEntry extends BusinessObjectBase implements Transaction {
         setFinancialObjectCode(t.getFinancialObjectCode());
         setFinancialSubObjectCode(t.getFinancialSubObjectCode());
         setFinancialSystemOriginationCode(t.getFinancialSystemOriginationCode());
-        setFinancialSystemReferenceOriginationCode(t.getFinSystemRefOriginationCode());
+        setReferenceFinancialSystemOriginationCode(t.getReferenceFinancialSystemOriginationCode());
         setOrganizationDocumentNumber(t.getOrganizationDocumentNumber());
         setOrganizationReferenceId(t.getOrganizationReferenceId());
         setProjectCode(t.getProjectCode());
         setSubAccountNumber(t.getSubAccountNumber());
         setTransactionDate(t.getTransactionDate());
         setTransactionDebitCreditCode(t.getTransactionDebitCreditCode());
-        setTransactionEncumbranceUpdateCode(t.getTransactionEncumbranceUpdtCd());
-        setTransactionLedgerEntrySequenceNumber(t.getTrnEntryLedgerSequenceNumber());
+        setTransactionEncumbranceUpdateCode(t.getTransactionEncumbranceUpdateCode());
+        setTransactionLedgerEntrySequenceNumber(t.getTransactionLedgerEntrySequenceNumber());
         setTransactionLedgerEntryAmount(t.getTransactionLedgerEntryAmount());
-        setTransactionLedgerEntryDescription(t.getTransactionLedgerEntryDesc());
+        setTransactionLedgerEntryDescription(t.getTransactionLedgerEntryDescription());
         setUniversityFiscalPeriodCode(t.getUniversityFiscalPeriodCode());
         setUniversityFiscalYear(t.getUniversityFiscalYear());
     }
@@ -202,9 +202,9 @@ public class OriginEntry extends BusinessObjectBase implements Transaction {
       setOrganizationDocumentNumber(line.substring(119, 129).trim());
       setProjectCode(line.substring(129, 139).trim());
       setOrganizationReferenceId(line.substring(139, 147).trim());
-      setFinancialDocumentReferenceDocumentTypeCode(line.substring(147, 151).trim());
-      setFinancialSystemReferenceOriginationCode(line.substring(151, 153).trim());
-      setFinancialDocumentReferenceNumber(line.substring(153, 162).trim());
+      setReferenceFinancialDocumentTypeCode(line.substring(147, 151).trim());
+      setReferenceFinancialSystemOriginationCode(line.substring(151, 153).trim());
+      setReferenceFinancialDocumentNumber(line.substring(153, 162).trim());
       setFinancialDocumentReversalDate(parseDate(line.substring(162, 172), true));
       setTransactionEncumbranceUpdateCode(line.substring(172, 173));
   }
@@ -278,9 +278,9 @@ public class OriginEntry extends BusinessObjectBase implements Transaction {
       sb.append(getField(10,organizationDocumentNumber));
       sb.append(getField(10,projectCode));
       sb.append(getField(8,organizationReferenceId));
-      sb.append(getField(4,financialDocumentReferenceDocumentTypeCode));
-      sb.append(getField(2,financialSystemReferenceOriginationCode));
-      sb.append(getField(9,financialDocumentReferenceNumber));
+      sb.append(getField(4,referenceFinancialDocumentTypeCode));
+      sb.append(getField(2,referenceFinancialSystemOriginationCode));
+      sb.append(getField(9,referenceFinancialDocumentNumber));
       sb.append(formatDate(financialDocumentReversalDate));
       sb.append(getField(1,transactionEncumbranceUpdateCode));
       return sb.toString();
@@ -383,12 +383,12 @@ public class OriginEntry extends BusinessObjectBase implements Transaction {
         this.financialDocumentTypeCode = financialDocumentTypeCode;
     }
 
-    public String getTransactionEncumbranceUpdtCd() {
+    public String getTransactionEncumbranceUpdateCode() {
         return transactionEncumbranceUpdateCode;
     }
 
-    public void setTransactionEncumbranceUpdateCode(String transactionEncumbranceUpdtCd) {
-        this.transactionEncumbranceUpdateCode = transactionEncumbranceUpdtCd;
+    public void setTransactionEncumbranceUpdateCode(String transactionEncumbranceUpdateCode) {
+        this.transactionEncumbranceUpdateCode = transactionEncumbranceUpdateCode;
     }
 
     public Integer getEntryGroupId() {
@@ -455,32 +455,28 @@ public class OriginEntry extends BusinessObjectBase implements Transaction {
         this.projectCode = projectCode;
     }
 
-    public String getFinancialDocumentReferenceNbr() {
-        return financialDocumentReferenceNumber;
-    }
-    
-    public String getFinancialDocumentReferenceNumber() {
-        return financialDocumentReferenceNumber;
-    }    
-
-    public void setFinancialDocumentReferenceNumber(String financialDocumentReferenceNbr) {
-        this.financialDocumentReferenceNumber = financialDocumentReferenceNbr;
+    public String getReferenceFinancialDocumentNumber() {
+        return referenceFinancialDocumentNumber;
     }
 
-    public String getReferenceFinDocumentTypeCode() {
-        return financialDocumentReferenceDocumentTypeCode;
+    public void setReferenceFinancialDocumentNumber(String referenceFinancialDocumentNumber) {
+        this.referenceFinancialDocumentNumber = referenceFinancialDocumentNumber;
     }
 
-    public void setFinancialDocumentReferenceDocumentTypeCode(String referenceFinDocumentTypeCode) {
-        this.financialDocumentReferenceDocumentTypeCode = referenceFinDocumentTypeCode;
+    public String getReferenceFinancialDocumentTypeCode() {
+        return referenceFinancialDocumentTypeCode;
     }
 
-    public String getFinSystemRefOriginationCode() {
-        return financialSystemReferenceOriginationCode;
+    public void setReferenceFinancialDocumentTypeCode(String referenceFinancialDocumentTypeCode) {
+        this.referenceFinancialDocumentTypeCode = referenceFinancialDocumentTypeCode;
     }
 
-    public void setFinancialSystemReferenceOriginationCode(String finSystemRefOriginationCode) {
-        this.financialSystemReferenceOriginationCode = finSystemRefOriginationCode;
+    public String getReferenceFinancialSystemOriginationCode() {
+        return referenceFinancialSystemOriginationCode;
+    }
+
+    public void setReferenceFinancialSystemOriginationCode(String referenceFinancialSystemOriginationCode) {
+        this.referenceFinancialSystemOriginationCode = referenceFinancialSystemOriginationCode;
     }
 
     public String getSubAccountNumber() {
@@ -507,12 +503,12 @@ public class OriginEntry extends BusinessObjectBase implements Transaction {
         this.transactionDate = transactionDate;
     }
 
-    public Integer getTrnEntryLedgerSequenceNumber() {
+    public Integer getTransactionLedgerEntrySequenceNumber() {
         return transactionLedgerEntrySequenceNumber;
     }
 
-    public void setTransactionLedgerEntrySequenceNumber(Integer trnEntryLedgerSequenceNumber) {
-        this.transactionLedgerEntrySequenceNumber = trnEntryLedgerSequenceNumber;
+    public void setTransactionLedgerEntrySequenceNumber(Integer transactionLedgerEntrySequenceNumber) {
+        this.transactionLedgerEntrySequenceNumber = transactionLedgerEntrySequenceNumber;
     }
 
     public KualiDecimal getTransactionLedgerEntryAmount() {
@@ -523,12 +519,12 @@ public class OriginEntry extends BusinessObjectBase implements Transaction {
         this.transactionLedgerEntryAmount = transactionLedgerEntryAmount;
     }
 
-    public String getTransactionLedgerEntryDesc() {
+    public String getTransactionLedgerEntryDescription() {
         return transactionLedgerEntryDescription;
     }
 
-    public void setTransactionLedgerEntryDescription(String transactionLedgerEntryDesc) {
-        this.transactionLedgerEntryDescription = transactionLedgerEntryDesc;
+    public void setTransactionLedgerEntryDescription(String transactionLedgerEntryDescription) {
+        this.transactionLedgerEntryDescription = transactionLedgerEntryDescription;
     }
 
     public String getUniversityFiscalPeriodCode() {

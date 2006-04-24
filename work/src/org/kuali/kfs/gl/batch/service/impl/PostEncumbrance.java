@@ -65,9 +65,9 @@ public class PostEncumbrance implements PostTransaction, VerifyTransaction, Encu
     List errors = new ArrayList();
 
     // The encumbrance update code can only be space, N, R or D. Nothing else
-    if ( (t.getTransactionEncumbranceUpdtCd() != null) && (!" ".equals(t.getTransactionEncumbranceUpdtCd())) && (!Constants.ENCUMB_UPDT_NO_ENCUMBRANCE_CD.equals(t.getTransactionEncumbranceUpdtCd()))
-        && (!Constants.ENCUMB_UPDT_REFERENCE_DOCUMENT_CD.equals(t.getTransactionEncumbranceUpdtCd())) && (!Constants.ENCUMB_UPDT_DOCUMENT_CD.equals(t.getTransactionEncumbranceUpdtCd()))) {
-      errors.add("Invalid Encumbrance Update Code (" + t.getTransactionEncumbranceUpdtCd() + ")");
+    if ( (t.getTransactionEncumbranceUpdateCode() != null) && (!" ".equals(t.getTransactionEncumbranceUpdateCode())) && (!Constants.ENCUMB_UPDT_NO_ENCUMBRANCE_CD.equals(t.getTransactionEncumbranceUpdateCode()))
+        && (!Constants.ENCUMB_UPDT_REFERENCE_DOCUMENT_CD.equals(t.getTransactionEncumbranceUpdateCode())) && (!Constants.ENCUMB_UPDT_DOCUMENT_CD.equals(t.getTransactionEncumbranceUpdateCode()))) {
+      errors.add("Invalid Encumbrance Update Code (" + t.getTransactionEncumbranceUpdateCode() + ")");
     }
 
     return errors;
@@ -84,17 +84,17 @@ public class PostEncumbrance implements PostTransaction, VerifyTransaction, Encu
 
     // If the encumbrance update code is space or N, or the object type code is FB
     // we don't need to post an encumbrance
-    if ((t.getTransactionEncumbranceUpdtCd() == null) || " ".equals(t.getTransactionEncumbranceUpdtCd()) || Constants.ENCUMB_UPDT_NO_ENCUMBRANCE_CD.equals(t.getTransactionEncumbranceUpdtCd()) || "FB".equals(t.getFinancialObjectTypeCode())) {
+    if ((t.getTransactionEncumbranceUpdateCode() == null) || " ".equals(t.getTransactionEncumbranceUpdateCode()) || Constants.ENCUMB_UPDT_NO_ENCUMBRANCE_CD.equals(t.getTransactionEncumbranceUpdateCode()) || "FB".equals(t.getFinancialObjectTypeCode())) {
       LOG.debug("post() not posting non-encumbrance transaction");
       return "";
     }
 
     // Get the current encumbrance record if there is one
     Entry e = new Entry(t, null);
-    if (Constants.ENCUMB_UPDT_REFERENCE_DOCUMENT_CD.equals(t.getTransactionEncumbranceUpdtCd())) {
-      e.setFinancialDocumentNumber(t.getFinancialDocumentReferenceNbr());
-      e.setFinancialSystemOriginationCode(t.getFinSystemRefOriginationCode());
-      e.setFinancialDocumentTypeCode(t.getReferenceFinDocumentTypeCode());
+    if (Constants.ENCUMB_UPDT_REFERENCE_DOCUMENT_CD.equals(t.getTransactionEncumbranceUpdateCode())) {
+      e.setFinancialDocumentNumber(t.getReferenceFinancialDocumentNumber());
+      e.setFinancialSystemOriginationCode(t.getReferenceFinancialSystemOriginationCode());
+      e.setFinancialDocumentTypeCode(t.getReferenceFinancialDocumentTypeCode());
     }
 
     Encumbrance enc = encumbranceDao.getEncumbranceByTransaction(e);
@@ -124,7 +124,7 @@ public class PostEncumbrance implements PostTransaction, VerifyTransaction, Encu
   public Encumbrance findEncumbrance(Collection encumbranceList, Transaction t) {
 
     // If it isn't an encumbrance transaction, skip it
-    if ((!Constants.ENCUMB_UPDT_DOCUMENT_CD.equals(t.getTransactionEncumbranceUpdtCd())) && (!Constants.ENCUMB_UPDT_REFERENCE_DOCUMENT_CD.equals(t.getTransactionEncumbranceUpdtCd()))) {
+    if ((!Constants.ENCUMB_UPDT_DOCUMENT_CD.equals(t.getTransactionEncumbranceUpdateCode())) && (!Constants.ENCUMB_UPDT_REFERENCE_DOCUMENT_CD.equals(t.getTransactionEncumbranceUpdateCode()))) {
       return null;
     }
 
@@ -132,7 +132,7 @@ public class PostEncumbrance implements PostTransaction, VerifyTransaction, Encu
     for (Iterator iter = encumbranceList.iterator(); iter.hasNext();) {
       Encumbrance e = (Encumbrance) iter.next();
 
-      if (Constants.ENCUMB_UPDT_DOCUMENT_CD.equals(t.getTransactionEncumbranceUpdtCd()) && e.getUniversityFiscalYear().equals(t.getUniversityFiscalYear())
+      if (Constants.ENCUMB_UPDT_DOCUMENT_CD.equals(t.getTransactionEncumbranceUpdateCode()) && e.getUniversityFiscalYear().equals(t.getUniversityFiscalYear())
           && e.getChartOfAccountsCode().equals(t.getChartOfAccountsCode()) && e.getAccountNumber().equals(t.getAccountNumber()) && e.getSubAccountNumber().equals(t.getSubAccountNumber())
           && e.getObjectCode().equals(t.getFinancialObjectCode()) && e.getSubObjectCode().equals(t.getFinancialSubObjectCode()) && e.getBalanceTypeCode().equals(t.getFinancialBalanceTypeCode())
           && e.getDocumentTypeCode().equals(t.getFinancialDocumentTypeCode()) && e.getOriginCode().equals(t.getFinancialSystemOriginationCode())
@@ -140,11 +140,11 @@ public class PostEncumbrance implements PostTransaction, VerifyTransaction, Encu
         return e;
       }
 
-      if (Constants.ENCUMB_UPDT_REFERENCE_DOCUMENT_CD.equals(t.getTransactionEncumbranceUpdtCd()) && e.getUniversityFiscalYear().equals(t.getUniversityFiscalYear())
+      if (Constants.ENCUMB_UPDT_REFERENCE_DOCUMENT_CD.equals(t.getTransactionEncumbranceUpdateCode()) && e.getUniversityFiscalYear().equals(t.getUniversityFiscalYear())
           && e.getChartOfAccountsCode().equals(t.getChartOfAccountsCode()) && e.getAccountNumber().equals(t.getAccountNumber()) && e.getSubAccountNumber().equals(t.getSubAccountNumber())
           && e.getObjectCode().equals(t.getFinancialObjectCode()) && e.getSubObjectCode().equals(t.getFinancialSubObjectCode()) && e.getBalanceTypeCode().equals(t.getFinancialBalanceTypeCode())
-          && e.getDocumentTypeCode().equals(t.getReferenceFinDocumentTypeCode()) && e.getOriginCode().equals(t.getFinSystemRefOriginationCode())
-          && e.getDocumentNumber().equals(t.getFinancialDocumentReferenceNbr())) {
+          && e.getDocumentTypeCode().equals(t.getReferenceFinancialDocumentTypeCode()) && e.getOriginCode().equals(t.getReferenceFinancialSystemOriginationCode())
+          && e.getDocumentNumber().equals(t.getReferenceFinancialDocumentNumber())) {
         return e;
       }
     }
@@ -153,10 +153,10 @@ public class PostEncumbrance implements PostTransaction, VerifyTransaction, Encu
 
     // NOTE: the date doesn't matter so there is no need to call the date service
     Entry e = new Entry(t, new Date());
-    if (Constants.ENCUMB_UPDT_REFERENCE_DOCUMENT_CD.equals(t.getTransactionEncumbranceUpdtCd())) {
-      e.setFinancialDocumentNumber(t.getFinancialDocumentReferenceNbr());
-      e.setFinancialSystemOriginationCode(t.getFinSystemRefOriginationCode());
-      e.setFinancialDocumentTypeCode(t.getReferenceFinDocumentTypeCode());
+    if (Constants.ENCUMB_UPDT_REFERENCE_DOCUMENT_CD.equals(t.getTransactionEncumbranceUpdateCode())) {
+      e.setFinancialDocumentNumber(t.getReferenceFinancialDocumentNumber());
+      e.setFinancialSystemOriginationCode(t.getReferenceFinancialSystemOriginationCode());
+      e.setFinancialDocumentTypeCode(t.getReferenceFinancialDocumentTypeCode());
     }
 
     Encumbrance enc = new Encumbrance(e);
@@ -170,7 +170,7 @@ public class PostEncumbrance implements PostTransaction, VerifyTransaction, Encu
    * @param enc
    */
   public void updateEncumbrance(Transaction t, Encumbrance enc) {
-    if (Constants.ENCUMB_UPDT_REFERENCE_DOCUMENT_CD.equals(t.getTransactionEncumbranceUpdtCd())) {
+    if (Constants.ENCUMB_UPDT_REFERENCE_DOCUMENT_CD.equals(t.getTransactionEncumbranceUpdateCode())) {
       // If using referring doc number, add or subtract transaction amount from
       // encumbrance closed amount
       if (Constants.GL_DEBIT_CODE.equals(t.getTransactionDebitCreditCode())) {

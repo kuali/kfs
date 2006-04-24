@@ -29,7 +29,7 @@
     </collection-descriptor>
 
     <collection-descriptor name="generalLedgerPendingEntries" proxy="true" element-class-ref="org.kuali.module.gl.bo.GeneralLedgerPendingEntry" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
-        <orderby name="trnEntryLedgerSequenceNumber" sort="ASC"/>
+        <orderby name="transactionLedgerEntrySequenceNumber" sort="ASC"/>
         <inverse-foreignkey field-ref="financialDocumentNumber"/>
     </collection-descriptor>
 
@@ -83,7 +83,7 @@
     </collection-descriptor>
 
     <collection-descriptor name="generalLedgerPendingEntries" proxy="true" element-class-ref="org.kuali.module.gl.bo.GeneralLedgerPendingEntry" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
-        <orderby name="trnEntryLedgerSequenceNumber" sort="ASC"/>
+        <orderby name="transactionLedgerEntrySequenceNumber" sort="ASC"/>
         <inverse-foreignkey field-ref="financialDocumentNumber"/>
     </collection-descriptor>
 
@@ -126,7 +126,7 @@
     </collection-descriptor>
 
     <collection-descriptor name="generalLedgerPendingEntries" proxy="true" element-class-ref="org.kuali.module.gl.bo.GeneralLedgerPendingEntry" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
-        <orderby name="trnEntryLedgerSequenceNumber" sort="ASC"/>
+        <orderby name="transactionLedgerEntrySequenceNumber" sort="ASC"/>
         <inverse-foreignkey field-ref="financialDocumentNumber"/>
     </collection-descriptor>
 </class-descriptor>
@@ -172,7 +172,7 @@
 			element-class-ref="org.kuali.module.gl.bo.GeneralLedgerPendingEntry"
 			collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
 			auto-retrieve="true" auto-update="object" auto-delete="object">
-        <orderby name="trnEntryLedgerSequenceNumber" sort="ASC"/>
+        <orderby name="transactionLedgerEntrySequenceNumber" sort="ASC"/>
         <inverse-foreignkey field-ref="financialDocumentNumber"/>
     </collection-descriptor>
 </class-descriptor>
@@ -198,7 +198,7 @@
     </collection-descriptor>
 
     <collection-descriptor name="generalLedgerPendingEntries" proxy="true" element-class-ref="org.kuali.module.gl.bo.GeneralLedgerPendingEntry" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-update="object" auto-delete="object">
-        <orderby name="trnEntryLedgerSequenceNumber" sort="ASC"/>
+        <orderby name="transactionLedgerEntrySequenceNumber" sort="ASC"/>
         <inverse-foreignkey field-ref="financialDocumentNumber"/>
     </collection-descriptor>
 
@@ -227,7 +227,7 @@
     </collection-descriptor>
 
     <collection-descriptor name="generalLedgerPendingEntries" proxy="true" element-class-ref="org.kuali.module.gl.bo.GeneralLedgerPendingEntry" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-update="object" auto-delete="object">
-        <orderby name="trnEntryLedgerSequenceNumber" sort="ASC"/>
+        <orderby name="transactionLedgerEntrySequenceNumber" sort="ASC"/>
         <inverse-foreignkey field-ref="financialDocumentNumber"/>
     </collection-descriptor>
 
@@ -261,7 +261,7 @@
     </collection-descriptor>
 
     <collection-descriptor name="generalLedgerPendingEntries" proxy="true" element-class-ref="org.kuali.module.gl.bo.GeneralLedgerPendingEntry" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-update="object" auto-delete="object">
-        <orderby name="trnEntryLedgerSequenceNumber" sort="ASC"/>
+        <orderby name="transactionLedgerEntrySequenceNumber" sort="ASC"/>
         <inverse-foreignkey field-ref="financialDocumentNumber"/>
     </collection-descriptor>
 
@@ -312,7 +312,7 @@
     </collection-descriptor>
 
     <collection-descriptor name="generalLedgerPendingEntries" proxy="true" element-class-ref="org.kuali.module.gl.bo.GeneralLedgerPendingEntry" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
-        <orderby name="trnEntryLedgerSequenceNumber" sort="ASC"/>
+        <orderby name="transactionLedgerEntrySequenceNumber" sort="ASC"/>
         <inverse-foreignkey field-ref="financialDocumentNumber"/>
     </collection-descriptor>
 </class-descriptor>
@@ -342,7 +342,7 @@
     </collection-descriptor>
 
     <collection-descriptor name="generalLedgerPendingEntries" proxy="true" element-class-ref="org.kuali.module.gl.bo.GeneralLedgerPendingEntry" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-update="object" auto-delete="object">
-        <orderby name="trnEntryLedgerSequenceNumber" sort="ASC"/>
+        <orderby name="transactionLedgerEntrySequenceNumber" sort="ASC"/>
         <inverse-foreignkey field-ref="financialDocumentNumber"/>
     </collection-descriptor>
 
@@ -393,7 +393,7 @@
     </collection-descriptor>
 
     <collection-descriptor name="generalLedgerPendingEntries" proxy="true" element-class-ref="org.kuali.module.gl.bo.GeneralLedgerPendingEntry" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
-        <orderby name="trnEntryLedgerSequenceNumber" sort="ASC"/>
+        <orderby name="transactionLedgerEntrySequenceNumber" sort="ASC"/>
         <inverse-foreignkey field-ref="financialDocumentNumber"/>
     </collection-descriptor>
 </class-descriptor>
@@ -422,7 +422,7 @@
     </collection-descriptor>
 
     <collection-descriptor name="generalLedgerPendingEntries" proxy="true" element-class-ref="org.kuali.module.gl.bo.GeneralLedgerPendingEntry" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-update="object" auto-delete="object">
-        <orderby name="trnEntryLedgerSequenceNumber" sort="ASC"/>
+        <orderby name="transactionLedgerEntrySequenceNumber" sort="ASC"/>
         <inverse-foreignkey field-ref="financialDocumentNumber"/>
     </collection-descriptor>
 
@@ -534,7 +534,7 @@
     </collection-descriptor>
 
     <collection-descriptor name="generalLedgerPendingEntries" proxy="true" element-class-ref="org.kuali.module.gl.bo.GeneralLedgerPendingEntry" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
-        <orderby name="trnEntryLedgerSequenceNumber" sort="ASC"/>
+        <orderby name="transactionLedgerEntrySequenceNumber" sort="ASC"/>
         <inverse-foreignkey field-ref="financialDocumentNumber"/>
     </collection-descriptor>
 
@@ -690,7 +690,7 @@
 	<field-descriptor name="financialDocumentOtherCentAmount" column="FDOC_OTHR_CENT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="financialDocumentHundredCentAmount" column="FDOC_100_CENT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="financialDocumentMiscellaneousAdvanceAmount" column="FDOC_MISC_ADV_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="financialDocumentReferenceNumber" column="FDOC_REF_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="referenceFinancialDocumentNumber" column="FDOC_REF_NBR" jdbc-type="VARCHAR"/>
 </class-descriptor>
 
 <!-- CASH MANAGEMENT DOCUMENT SPECIFIC MAPPINGS -->
@@ -703,7 +703,7 @@
 
     <!-- CashManagement-specific attributes -->
 	<field-descriptor name="workgroupName" column="WRKGRP_NM" jdbc-type="VARCHAR"/>
-    <field-descriptor name="financialDocumentReferenceNumber" column="FDOC_REF_NBR" jdbc-type="VARCHAR"/>
+    <field-descriptor name="referenceFinancialDocumentNumber" column="FDOC_REF_NBR" jdbc-type="VARCHAR"/>
 
     <!-- object references -->
     <reference-descriptor name="documentHeader" class-ref="org.kuali.core.document.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
@@ -847,7 +847,7 @@
     </collection-descriptor>
 
     <collection-descriptor name="generalLedgerPendingEntries" proxy="true" element-class-ref="org.kuali.module.gl.bo.GeneralLedgerPendingEntry" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
-        <orderby name="trnEntryLedgerSequenceNumber" sort="ASC"/>
+        <orderby name="transactionLedgerEntrySequenceNumber" sort="ASC"/>
         <inverse-foreignkey field-ref="financialDocumentNumber"/>
     </collection-descriptor>
 
@@ -880,7 +880,7 @@
     </collection-descriptor>
 
     <collection-descriptor name="generalLedgerPendingEntries" proxy="true" element-class-ref="org.kuali.module.gl.bo.GeneralLedgerPendingEntry" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
-        <orderby name="trnEntryLedgerSequenceNumber" sort="ASC"/>
+        <orderby name="transactionLedgerEntrySequenceNumber" sort="ASC"/>
         <inverse-foreignkey field-ref="financialDocumentNumber"/>
     </collection-descriptor>
 </class-descriptor>
@@ -971,7 +971,7 @@
     </collection-descriptor>
 
     <collection-descriptor name="generalLedgerPendingEntries" proxy="true" element-class-ref="org.kuali.module.gl.bo.GeneralLedgerPendingEntry" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
-        <orderby name="trnEntryLedgerSequenceNumber" sort="ASC"/>
+        <orderby name="transactionLedgerEntrySequenceNumber" sort="ASC"/>
         <inverse-foreignkey field-ref="financialDocumentNumber"/>
     </collection-descriptor>
 </class-descriptor>
@@ -1100,8 +1100,8 @@
 	<field-descriptor name="incomeTaxTreatyExemptCode" column="INC_TAX_TRTY_EXMPT_IND" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 	<field-descriptor name="foreignSourceIncomeCode" column="FRGN_SRC_INC_IND" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 	<field-descriptor name="incomeTaxGrossUpCode" column="INC_TAX_GRS_UP_IND" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
-	<field-descriptor name="finSystemRefOriginationCode" column="FS_REF_ORIGIN_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="financialDocumentReferenceNbr" column="FDOC_REF_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="referenceFinancialSystemOriginationCode" column="FS_REF_ORIGIN_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="referenceFinancialDocumentNumber" column="FDOC_REF_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="financialDocumentAccountingLineText" column="FDOC_ACCTG_LN_TXT" jdbc-type="VARCHAR"/>
 
 	<reference-descriptor name="incomeClass" class-ref="org.kuali.module.financial.bo.TaxIncomeClassCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
@@ -1310,7 +1310,7 @@
 	</reference-descriptor>
 	
 	<collection-descriptor name="generalLedgerPendingEntries" proxy="true" element-class-ref="org.kuali.module.gl.bo.GeneralLedgerPendingEntry" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
-        <orderby name="trnEntryLedgerSequenceNumber" sort="ASC"/>
+        <orderby name="transactionLedgerEntrySequenceNumber" sort="ASC"/>
         <inverse-foreignkey field-ref="financialDocumentNumber"/>
     </collection-descriptor>
     

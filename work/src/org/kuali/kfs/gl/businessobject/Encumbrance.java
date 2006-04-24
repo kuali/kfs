@@ -81,7 +81,7 @@ public class Encumbrance extends BusinessObjectBase {
         documentTypeCode = t.getFinancialDocumentTypeCode();
         originCode = t.getFinancialSystemOriginationCode();
         documentNumber = t.getFinancialDocumentNumber();
-        transactionEncumbranceDescription = t.getTransactionLedgerEntryDesc();
+        transactionEncumbranceDescription = t.getTransactionLedgerEntryDescription();
         transactionEncumbranceDate = t.getTransactionDate();
         accountLineEncumbranceAmount = new KualiDecimal("0");
         accountLineEncumbranceClosedAmount = new KualiDecimal("0");

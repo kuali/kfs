@@ -20,45 +20,39 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-package org.kuali.module.chart.dao.ojb;
+package org.kuali.module.chart.service.impl;
 
-import org.apache.ojb.broker.query.Criteria;
-import org.apache.ojb.broker.query.QueryFactory;
-import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.SubFundGroup;
 import org.kuali.module.chart.dao.SubFundGroupDao;
-import org.springframework.orm.ojb.PersistenceBrokerTemplate;
+import org.kuali.module.chart.service.SubFundGroupService;
 
 /**
- * @author Bin Gao from Michigan State University
  * @author Laran Evans <lc278@cornell.edu>
+ * @version $Id$
  */
-public class SubFundGroupDaoOjb extends PersistenceBrokerTemplate implements SubFundGroupDao {
+public class SubFundGroupServiceImpl implements SubFundGroupService {
+    
+    private SubFundGroupDao subFundGroupDao;
 
     /* (non-Javadoc)
-     * @see org.kuali.module.chart.dao.SubFundGroupDao#getByPrimaryId(java.lang.String)
+     * @see org.kuali.module.chart.service.SubFundGroupService#getByPrimaryId(java.lang.String)
      */
     public SubFundGroup getByPrimaryId(String subFundGroupCode) {
-        Criteria criteria = new Criteria();
-        criteria.addEqualTo("subFundGroupCode", subFundGroupCode);
-
-        return (SubFundGroup) getObjectByQuery(QueryFactory.newQuery(SubFundGroup.class,
-                criteria));
+        return subFundGroupDao.getByPrimaryId(subFundGroupCode);
     }
 
     /* (non-Javadoc)
-     * @see org.kuali.module.chart.dao.SubFundGroupDao#getByChartAndAccount(java.lang.String, java.lang.String)
+     * @see org.kuali.module.chart.service.SubFundGroupService#getByChartAndAccount(java.lang.String, java.lang.String)
      */
     public SubFundGroup getByChartAndAccount(String chartCode, String accountNumber) {
-        Criteria criteria = new Criteria();
-        criteria.addEqualTo("chartOfAccountsCode", chartCode);
-        criteria.addEqualTo("accountNumber", accountNumber);
-        
-        Account account = (Account) getObjectByQuery(QueryFactory.newQuery(Account.class, criteria));
-        criteria = new Criteria();
-        criteria.addEqualTo("subFundGroupCode", account.getSubFundGroupCode());
-        
-        return (SubFundGroup) getObjectByQuery(QueryFactory.newQuery(SubFundGroup.class, criteria));
+        return subFundGroupDao.getByChartAndAccount(chartCode, accountNumber);
     }
-    
+
+    /**
+     * 
+     * @param subFundGroupDao
+     */
+    public void setSubFundGroupDao(SubFundGroupDao subFundGroupDao) {
+        this.subFundGroupDao = subFundGroupDao;
+    }
 }

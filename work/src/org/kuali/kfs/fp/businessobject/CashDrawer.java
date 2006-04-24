@@ -60,7 +60,7 @@ public class CashDrawer extends BusinessObjectBase {
 
     private KualiDecimal financialDocumentMiscellaneousAdvanceAmount;
 
-    private String financialDocumentReferenceNumber;
+    private String referenceFinancialDocumentNumber;
 
     /**
      * Default constructor.
@@ -497,25 +497,24 @@ public class CashDrawer extends BusinessObjectBase {
 
 
     /**
-     * Gets the financialDocumentReferenceNumber attribute.
+     * Gets the referenceFinancialDocumentNumber attribute.
      * 
-     * @return - Returns the financialDocumentReferenceNumber
+     * @return - Returns the referenceFinancialDocumentNumber
      * 
      */
-    public String getFinancialDocumentReferenceNumber() {
-        return financialDocumentReferenceNumber;
+    public String getReferenceFinancialDocumentNumber() {
+        return referenceFinancialDocumentNumber;
     }
 
     /**
-     * Sets the financialDocumentReferenceNumber attribute.
+     * Sets the referenceFinancialDocumentNumber attribute.
      * 
-     * @param - financialDocumentReferenceNumber The financialDocumentReferenceNumber to set.
+     * @param - referenceFinancialDocumentNumber The referenceFinancialDocumentNumber to set.
      * 
      */
-    public void setFinancialDocumentReferenceNumber(String financialDocumentReferenceNumber) {
-        this.financialDocumentReferenceNumber = financialDocumentReferenceNumber;
+    public void setReferenceFinancialDocumentNumber(String referenceFinancialDocumentNumber) {
+        this.referenceFinancialDocumentNumber = referenceFinancialDocumentNumber;
     }
-
 
     /**
      * @see org.kuali.bo.BusinessObjectBase#toStringMapper()

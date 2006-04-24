@@ -26,7 +26,7 @@ import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -66,7 +66,7 @@ import org.springframework.beans.factory.BeanFactoryAware;
 
 /**
  * @author jsissom
- * @version $Id: PosterServiceImpl.java,v 1.26 2006-03-28 19:36:43 jsissom Exp $
+ * @version $Id: PosterServiceImpl.java,v 1.27 2006-04-24 20:48:30 larevans Exp $
  */
 public class PosterServiceImpl implements PosterService,BeanFactoryAware {
   private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PosterServiceImpl.class);
@@ -130,7 +130,7 @@ public class PosterServiceImpl implements PosterService,BeanFactoryAware {
     OriginEntryGroup validGroup = null;
     OriginEntryGroup invalidGroup = null;
 
-    Date runDate = dateTimeService.getCurrentDate();
+    Date runDate = new Date(dateTimeService.getCurrentDate().getTime());
     UniversityDate runUniversityDate = universityDateDao.getByPrimaryKey(runDate);
 
     Collection groups = null;
@@ -263,11 +263,11 @@ public class PosterServiceImpl implements PosterService,BeanFactoryAware {
             reversal.setUniversityFiscalPeriodCode(runUniversityDate.getUniversityFiscalAccountingPeriod());
           }
           reversal.setFinancialDocumentReversalDate(null);
-          String newDescription = Constants.GL_REVERSAL_DESCRIPTION_PREFIX + reversal.getTransactionLedgerEntryDesc();
+          String newDescription = Constants.GL_REVERSAL_DESCRIPTION_PREFIX + reversal.getTransactionLedgerEntryDescription();
           if ( newDescription.length() > 40 ) {
             newDescription = newDescription.substring(0,39);
           }
-          reversal.setTransactionLedgerEntryDesc(newDescription);
+          reversal.setTransactionLedgerEntryDescription(newDescription);
         } else {
           errors.add("Date from university date not in AccountingPeriod table");
         }
@@ -342,7 +342,7 @@ public class PosterServiceImpl implements PosterService,BeanFactoryAware {
   public void generateIcrTransactions() {
     LOG.debug("generateIcrTransactions() started");
 
-    Date runDate = dateTimeService.getCurrentDate();
+    Date runDate = new Date(dateTimeService.getCurrentDate().getTime());
 
     OriginEntryGroup group = originEntryGroupService.createGroup(runDate,OriginEntrySource.ICR_TRANSACTIONS,true,true,false);
 

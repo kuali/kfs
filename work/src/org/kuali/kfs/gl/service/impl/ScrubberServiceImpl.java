@@ -76,7 +76,7 @@ import org.springframework.util.StringUtils;
 
 /**
  * @author Kuali General Ledger Team <kualigltech@oncourse.iu.edu>
- * @version $Id: ScrubberServiceImpl.java,v 1.85 2006-04-18 16:02:09 bgao Exp $
+ * @version $Id: ScrubberServiceImpl.java,v 1.86 2006-04-24 20:48:30 larevans Exp $
  */
 
 public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
@@ -782,11 +782,11 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         workingEntry.setFinancialDocumentNumber(originEntry.getFinancialDocumentNumber());
         workingEntry.setOrganizationDocumentNumber(originEntry.getOrganizationDocumentNumber());
         workingEntry.setOrganizationReferenceId(originEntry.getOrganizationReferenceId());
-        workingEntry.setFinancialDocumentReferenceNumber(originEntry.getFinancialDocumentReferenceNbr());
+        workingEntry.setReferenceFinancialDocumentNumber(originEntry.getReferenceFinancialDocumentNumber());
 
-        Integer transactionNumber = originEntry.getTrnEntryLedgerSequenceNumber();
+        Integer transactionNumber = originEntry.getTransactionLedgerEntrySequenceNumber();
         workingEntry.setTransactionLedgerEntrySequenceNumber(null == transactionNumber ? new Integer(0) : transactionNumber);
-        workingEntry.setTransactionLedgerEntryDescription(originEntry.getTransactionLedgerEntryDesc());
+        workingEntry.setTransactionLedgerEntryDescription(originEntry.getTransactionLedgerEntryDescription());
         workingEntry.setTransactionLedgerEntryAmount(originEntry.getTransactionLedgerEntryAmount());
         workingEntry.setTransactionDebitCreditCode(originEntry.getTransactionDebitCreditCode());
 
@@ -1073,13 +1073,15 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
            && !ObjectHelper.isNull(originEntry.getAccount())
            && !ObjectHelper.isNull(originEntry.getAccount().getSubFundGroup())
            && "CG".equals(originEntry.getAccount().getSubFundGroup().getFundGroupCode())
+           && !ObjectHelper.isNull(originEntry.getA21SubAccount())
            && "CS".equals(originEntry.getA21SubAccount().getSubAccountTypeCode())
            && !ObjectHelper.isOneOf(
                    originEntry.getUniversityFiscalPeriodCode(), 
                    invalidFiscalPeriodCodesForOffsetGeneration)
-           && !ObjectHelper.isOneOf(
-                   originEntry.getFinancialDocumentTypeCode().trim(),
-                   invalidDocumentTypeCodesForCostShareEncumbrances)) {
+           && (StringHelper.isEmpty(originEntry.getFinancialDocumentTypeCode())
+                   || !ObjectHelper.isOneOf(
+                           originEntry.getFinancialDocumentTypeCode().trim(),
+                           invalidDocumentTypeCodesForCostShareEncumbrances))) {
             
 //      3440  023720         PERFORM 3200-COST-SHARE-ENC THRU 3200-CSE-EXIT
         
@@ -1315,9 +1317,9 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
 //        4132  031700                    TRN-ENCUM-UPDT-CD OF ALT-GLEN-RECORD.
         
         costShareEntry.setOrganizationReferenceId(null);
-        costShareEntry.setFinancialDocumentReferenceDocumentTypeCode(null);
-        costShareEntry.setFinancialSystemReferenceOriginationCode(null);
-        costShareEntry.setFinancialDocumentReferenceNumber(null);
+        costShareEntry.setReferenceFinancialDocumentTypeCode(null);
+        costShareEntry.setReferenceFinancialSystemOriginationCode(null);
+        costShareEntry.setReferenceFinancialDocumentNumber(null);
         costShareEntry.setFinancialDocumentReversalDate(null);
         costShareEntry.setTransactionEncumbranceUpdateCode(null);
         
@@ -1655,9 +1657,9 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
 //        4300  033430                    TRN-ENCUM-UPDT-CD OF ALT-GLEN-RECORD.
         
         costShareSourceAccountEntry.setOrganizationReferenceId(null);
-        costShareSourceAccountEntry.setFinancialDocumentReferenceDocumentTypeCode(null);
-        costShareSourceAccountEntry.setFinancialSystemReferenceOriginationCode(null);
-        costShareSourceAccountEntry.setFinancialDocumentReferenceNumber(null);
+        costShareSourceAccountEntry.setReferenceFinancialDocumentTypeCode(null);
+        costShareSourceAccountEntry.setReferenceFinancialSystemOriginationCode(null);
+        costShareSourceAccountEntry.setReferenceFinancialDocumentNumber(null);
         costShareSourceAccountEntry.setFinancialDocumentReversalDate(null);
         costShareSourceAccountEntry.setTransactionEncumbranceUpdateCode(null);
         
@@ -2195,7 +2197,7 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
 //            4887  038820          TO TRN-LDGR-ENTR-DESC OF ALT-GLEN-RECORD
             
             // NOTE (laran) Used this to debug KULGL-54. Not positive it's resolve so leaving it here commented out.
-            plantIndebtednessEntry.setTransactionLedgerEntryDescription(originEntry.getTransactionLedgerEntryDesc());
+            plantIndebtednessEntry.setTransactionLedgerEntryDescription(originEntry.getTransactionLedgerEntryDescription());
             // plantIndebtednessEntry.setTransactionLedgerEntryDescription("PI ENTRY: I MIGHT BE BROKEN");
             
 //            4888  038830        MOVE ACCOUNT-NBR        OF WS-SAVED-FIELDS
@@ -2597,9 +2599,9 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
 
         OriginEntry costShareEncumbranceEntry = new OriginEntry(originEntry);
 
-        String fragment = 29 > originEntry.getTransactionLedgerEntryDesc().length() ?
-                originEntry.getTransactionLedgerEntryDesc() :
-                    originEntry.getTransactionLedgerEntryDesc().substring(0, 28);
+        String fragment = 29 > originEntry.getTransactionLedgerEntryDescription().length() ?
+                originEntry.getTransactionLedgerEntryDescription() :
+                    originEntry.getTransactionLedgerEntryDescription().substring(0, 28);
         StringBuffer buffer = new StringBuffer(fragment);
         while(buffer.length() < 28) {
             buffer.append(" ");
@@ -2724,9 +2726,9 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         costShareEncumbranceOffsetEntry.setOrganizationDocumentNumber("");
         costShareEncumbranceOffsetEntry.setProjectCode(Constants.DASHES_PROJECT_CODE);
         costShareEncumbranceOffsetEntry.setOrganizationReferenceId(null);
-        costShareEncumbranceOffsetEntry.setFinancialDocumentReferenceDocumentTypeCode(null);
-        costShareEncumbranceOffsetEntry.setFinancialSystemReferenceOriginationCode(null);
-        costShareEncumbranceOffsetEntry.setFinancialDocumentReferenceNumber(null);
+        costShareEncumbranceOffsetEntry.setReferenceFinancialDocumentTypeCode(null);
+        costShareEncumbranceOffsetEntry.setReferenceFinancialSystemOriginationCode(null);
+        costShareEncumbranceOffsetEntry.setReferenceFinancialDocumentNumber(null);
         costShareEncumbranceOffsetEntry.setReversalDate(null);
         costShareEncumbranceOffsetEntry.setTransactionEncumbranceUpdateCode("");
 
@@ -3282,10 +3284,10 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         
         offsetEntry.setOrganizationDocumentNumber(null);
         offsetEntry.setOrganizationReferenceId(null);
-        offsetEntry.setFinancialDocumentReferenceDocumentTypeCode(null);
+        offsetEntry.setReferenceFinancialDocumentTypeCode(null);
         offsetEntry.setReferenceDocumentType(null);
-        offsetEntry.setFinancialSystemReferenceOriginationCode(null);
-        offsetEntry.setFinancialDocumentReferenceNumber(null);
+        offsetEntry.setReferenceFinancialSystemOriginationCode(null);
+        offsetEntry.setReferenceFinancialDocumentNumber(null);
         offsetEntry.setTransactionEncumbranceUpdateCode(null);
         
 //        4090  031010     MOVE PROJECT-CD-DASHES TO PROJECT-CD OF ALT-GLEN-RECORD.

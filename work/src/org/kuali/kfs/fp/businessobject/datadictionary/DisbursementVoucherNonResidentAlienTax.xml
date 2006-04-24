@@ -111,7 +111,7 @@
 	            <description>The code to specify that the Nonresident Alien (NRA) Tax is "grossed up" to the original Account, expressed as "Yes" or "No".</description>
 	        </attribute>
 	        
-            <attributeReference name="financialDocumentReferenceNbr" 
+            <attributeReference name="referenceFinancialDocumentNumber" 
             					sourceClassName="org.kuali.core.document.DocumentHeader" 
             					sourceAttributeName="financialDocumentNumber">
                 <label>Reference Doc</label>

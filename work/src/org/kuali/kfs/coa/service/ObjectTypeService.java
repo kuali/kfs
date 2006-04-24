@@ -20,24 +20,21 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-package org.kuali.module.gl.service;
+package org.kuali.module.chart.service;
 
-import org.kuali.module.gl.bo.Encumbrance;
+import org.kuali.module.chart.bo.ObjectType;
 
-public interface EncumbranceService {
-  /**
-   * Save an Encumbrance entry
-   * 
-   * @param enc
-   */
-  public void save(Encumbrance enc);
+/**
+ * @author Laran Evans <lc278@cornell.edu>
+ * @version $Id$
+ */
 
-  /**
-   * Purge an entire fiscal year for a single chart.
-   * 
-   * @param chartOfAccountscode
-   * @param year
-   */
-  public void purgeYearByChart(String chartOfAccountsCode,int year);
-
+public interface ObjectTypeService {
+    /**
+     * Get an ObjectType by code/id.
+     * 
+     * @param objectTypeCode
+     * @return
+     */
+    public ObjectType getByPrimaryKey(String objectTypeCode);
 }

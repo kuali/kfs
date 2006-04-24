@@ -92,7 +92,7 @@ public class CashDrawerServiceImpl implements CashDrawerService {
             throw new IllegalArgumentException("invalid (blank) documentId");
         }
 
-        cashDrawer.setFinancialDocumentReferenceNumber(documentId);
+        cashDrawer.setReferenceFinancialDocumentNumber(documentId);
         businessObjectService.save(cashDrawer);
         return cashDrawer;
     }

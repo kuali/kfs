@@ -23,9 +23,14 @@
 package org.kuali.module.gl.service;
 
 import java.util.Collection;
-import java.util.Date;
+import java.sql.Date;
 
 import org.kuali.module.gl.bo.OriginEntryGroup;
+
+/**
+ * @author Laran Evans <lc278@cornell.edu>
+ * @version $Id: OriginEntryGroupService.java,v 1.5 2006-04-24 20:48:28 larevans Exp $
+ */
 
 public interface OriginEntryGroupService {
 	public OriginEntryGroup getOriginEntryGroup(String groupId);
@@ -34,5 +39,5 @@ public interface OriginEntryGroupService {
 	public Collection getIcrGroupsToPost();
 	public Collection getGroupsToScrub(Date scrubDate);
 	public OriginEntryGroup createGroup(Date date,String sourceCode,boolean valid,boolean process,boolean scrub);
-  public void save(OriginEntryGroup group);
+    public void save(OriginEntryGroup group);
 }

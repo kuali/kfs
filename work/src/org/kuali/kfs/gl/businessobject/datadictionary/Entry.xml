@@ -20,19 +20,19 @@
                 <field attributeName="financialSystemOriginationCode" />
                 <field attributeName="financialDocumentTypeCode" />                				                            
                 <field attributeName="financialDocumentNumber" />
-                <field attributeName="trnEntryLedgerSequenceNumber" />
-                <field attributeName="transactionLedgerEntryDesc" />
+                <field attributeName="transactionLedgerEntrySequenceNumber" />
+                <field attributeName="transactionLedgerEntryDescription" />
                 <field attributeName="transactionLedgerEntryAmount" />
                 <field attributeName="transactionDebitCreditCode" />    
                 <field attributeName="transactionDate" />
                 <field attributeName="organizationDocumentNumber" />
                 <field attributeName="projectCode" />
                 <field attributeName="organizationReferenceId" />
-                <field attributeName="referenceFinDocumentTypeCode" />
-                <field attributeName="finSystemRefOriginationCode" />
-				<field attributeName="financialDocumentReferenceNbr" />
+                <field attributeName="referenceFinancialDocumentTypeCode" />
+                <field attributeName="referenceFinancialSystemOriginationCode" />
+				<field attributeName="referenceFinancialDocumentNumber" />
                 <field attributeName="financialDocumentReversalDate" />               
-                <field attributeName="transactionEncumbranceUpdtCd" />
+                <field attributeName="transactionEncumbranceUpdateCode" />
                 <field attributeName="transactionPostingDate" />
                 <field attributeName="transactionDateTimeStamp" noInquiry="true"/>
                 <field attributeName="budgetYear" />
@@ -76,9 +76,9 @@
                 <lookupField attributeName="financialDocumentNumber" />
                 <lookupField attributeName="organizationDocumentNumber" />
 
-                <lookupField attributeName="finSystemRefOriginationCode" />
-                <lookupField attributeName="referenceFinDocumentTypeCode" />
-				<lookupField attributeName="financialDocumentReferenceNbr" />
+                <lookupField attributeName="referenceFinancialSystemOriginationCode" />
+                <lookupField attributeName="referenceFinancialDocumentTypeCode" />
+				<lookupField attributeName="referenceFinancialDocumentNumber" />
 				
 				<!-- Disabled for test drive
 				<lookupField attributeName="dummyBusinessObject.pendingEntryOption">
@@ -107,7 +107,7 @@
 				<field attributeName="financialSystemOriginationCode" />
                 <field attributeName="financialDocumentNumber" />
 
-                <field attributeName="transactionLedgerEntryDesc" />
+                <field attributeName="transactionLedgerEntryDescription" />
                 <field attributeName="transactionLedgerEntryAmount" />
 
                 <field attributeName="transactionDebitCreditCode" />    
@@ -117,9 +117,9 @@
                 <field attributeName="projectCode" />
                 <field attributeName="organizationReferenceId" />
 				                
-                <field attributeName="referenceFinDocumentTypeCode" />
-				<field attributeName="finSystemRefOriginationCode" />
-				<field attributeName="financialDocumentReferenceNbr" />
+                <field attributeName="referenceFinancialDocumentTypeCode" />
+				<field attributeName="referenceFinancialSystemOriginationCode" />
+				<field attributeName="referenceFinancialDocumentNumber" />
 			</resultFields>
 		</lookup>
 
@@ -227,11 +227,11 @@
 				<description>The system generated Document Number attached to the accounting transaction.  Used for tracking purposes.</description>
 			</attributeReference>
 					            
-            <attributeReference name="trnEntryLedgerSequenceNumber"             	
+            <attributeReference name="transactionLedgerEntrySequenceNumber"             	
 				sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
 				sourceAttributeName="transactionEntrySequenceId" />
 				       		       		
-            <attribute name="transactionLedgerEntryDesc" forceUppercase="false">
+            <attribute name="transactionLedgerEntryDescription" forceUppercase="false">
                 <label>Description</label>
                 <shortLabel>Description</shortLabel>
                 <maxLength>40</maxLength>
@@ -298,7 +298,7 @@
                 <description><![CDATA[&nbsp;]]></description>
             </attribute>
             					
-            <attribute name="referenceFinDocumentTypeCode" forceUppercase="true">
+            <attribute name="referenceFinancialDocumentTypeCode" forceUppercase="true">
                 <label>Ref Doc Type Code</label>
                 <shortLabel>Ref Doc Type Code</shortLabel>
                 <maxLength>4</maxLength>
@@ -309,7 +309,7 @@
                 <description>The code that represents the particular type of document being process, e.g., CR = Cash Receipts, JV = Journal Voucher, and DV = Disbursement Voucher.</description>
             </attribute>        
             
-            <attribute name="finSystemRefOriginationCode" forceUppercase="false">
+            <attribute name="referenceFinancialSystemOriginationCode" forceUppercase="false">
                 <label>Ref Origin Code</label>
                 <shortLabel>Ref Origin Code</shortLabel>
                 <maxLength>2</maxLength>
@@ -320,7 +320,7 @@
                 <description>The code corresponding to the system which created the General Ledger entry, e.g., 01 = Kuali Financial System (KFS).</description>
             </attribute>
             			
-            <attribute name="financialDocumentReferenceNbr" forceUppercase="false">
+            <attribute name="referenceFinancialDocumentNumber" forceUppercase="false">
                 <label>Ref Doc Number</label>
                 <shortLabel>Ref Doc Number</shortLabel>
                 <maxLength>9</maxLength>
@@ -335,7 +335,7 @@
                  sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
             	 sourceAttributeName="genericDate"/>
             	              
-            <attribute name="transactionEncumbranceUpdtCd" forceUppercase="true">
+            <attribute name="transactionEncumbranceUpdateCode" forceUppercase="true">
                 <label>Encumbrance Update Code</label>
                 <shortLabel>Encmbr. Updt. Code</shortLabel>
                 <maxLength>1</maxLength>

@@ -23,10 +23,9 @@
 package org.kuali.module.chart.service;
 
 import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.OrganizationReversion;
-import org.kuali.module.chart.dao.OrganizationReversionDao;
 import org.kuali.test.KualiTestBaseWithFixtures;
-import org.springframework.beans.factory.BeanFactory;
 
 /**
  * This class...
@@ -35,25 +34,22 @@ import org.springframework.beans.factory.BeanFactory;
 public class OrganizationReversionTestCase extends KualiTestBaseWithFixtures {
     
     public void testGetByPrimaryKey() throws Exception {
-        BeanFactory factory = SpringServiceLocator.getBeanFactory();
-        assertNotNull("Factory shouldn't be null", factory);
 
-        OrganizationReversionDao dao = (OrganizationReversionDao)factory.getBean("organizationReversionDao");
-        assertNotNull("Dao shouldn't be null",dao);
+        OrganizationReversionService organizationReversionService = SpringServiceLocator.getOrganizationReversionService();
+        assertNotNull("Service shouldn't be null",organizationReversionService);
 
         Integer fiscalYear = new Integer("1997");
-        String chartOfAcc = "BL";
-        String orgCode;
         
-        orgCode = "test";
-        OrganizationReversion notexist = dao.getByPrimaryId(fiscalYear,chartOfAcc, orgCode);
+        Account account = new Account();
+        account.setChartOfAccountsCode("BL");
+        account.setOrganizationCode("test");
+        
+        OrganizationReversion notexist = organizationReversionService.getByFiscalYearAndAccount(fiscalYear, account);
         assertNull("01/01/1901 shouldn't exist in table", notexist);
-
-        orgCode = "PSY";
-        OrganizationReversion exist = dao.getByPrimaryId(fiscalYear,chartOfAcc, orgCode);
+        
+        account.setOrganizationCode("PSY");
+        OrganizationReversion exist = organizationReversionService.getByFiscalYearAndAccount(fiscalYear, account);
         assertNotNull("08/14/1993 should exist in table", exist);
         
-        //String orgRev = exist.getOrganizationWagesReversionCode();
-        //System.out.println(orgRev);
       }
 }

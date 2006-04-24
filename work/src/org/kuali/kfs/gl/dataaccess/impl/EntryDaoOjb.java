@@ -56,7 +56,7 @@ public class EntryDaoOjb extends PersistenceBrokerDaoSupport implements EntryDao
   }
 
   /**
-   * Find the maximum trnEntryLedgerSequenceNumber in the entry table
+   * Find the maximum transactionLedgerEntrySequenceNumber in the entry table
    * for a specific transaction.  This is used to make sure that rows
    * added have a unique primary key.
    */
@@ -78,7 +78,7 @@ public class EntryDaoOjb extends PersistenceBrokerDaoSupport implements EntryDao
     crit.addEqualTo("financialDocumentNumber",t.getFinancialDocumentNumber());
 
     ReportQueryByCriteria q = QueryFactory.newReportQuery(Entry.class, crit);
-    q.setAttributes(new String[] { "max(trnEntryLedgerSequenceNumber)" });
+    q.setAttributes(new String[] { "max(transactionLedgerEntrySequenceNumber)" });
 
     Iterator iter = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(q);
     if ( iter.hasNext() ) {

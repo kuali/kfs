@@ -230,7 +230,7 @@ public class CreditCardReceiptDocumentRule extends CashReceiptDocumentRule {
             AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry) {
         String accountingLineDescription = accountingLine.getFinancialDocumentLineDescription();
         if (StringUtils.isNotBlank(accountingLineDescription)) {
-            explicitEntry.setTransactionLedgerEntryDesc(accountingLineDescription);
+            explicitEntry.setTransactionLedgerEntryDescription(accountingLineDescription);
         }
     }
 

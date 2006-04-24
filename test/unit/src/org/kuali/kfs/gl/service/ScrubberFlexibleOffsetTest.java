@@ -448,7 +448,7 @@ public class ScrubberFlexibleOffsetTest extends OriginEntryTestBase {
             primaryKeyMap.put(PropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE, entry.getFinancialDocumentTypeCode());
             primaryKeyMap.put(PropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE, entry.getFinancialSystemOriginationCode());
             primaryKeyMap.put(PropertyConstants.FINANCIAL_DOCUMENT_NUMBER, entry.getFinancialDocumentNumber());
-            primaryKeyMap.put(PropertyConstants.TRANSACTION_ENTRY_SEQUENCE_NUMBER, entry.getTrnEntryLedgerSequenceNumber());
+            primaryKeyMap.put(PropertyConstants.TRANSACTION_ENTRY_SEQUENCE_NUMBER, entry.getTransactionLedgerEntrySequenceNumber());
         }
 
         return primaryKeyMap;
@@ -490,9 +490,9 @@ public class ScrubberFlexibleOffsetTest extends OriginEntryTestBase {
         entry.setProjectCode("----------");
         entry.setOrganizationReferenceId("");
 
-        entry.setFinancialDocumentReferenceDocumentTypeCode("");
-        entry.setFinancialSystemReferenceOriginationCode("");
-        entry.setFinancialDocumentReferenceNumber("");
+        entry.setReferenceFinancialDocumentTypeCode("");
+        entry.setReferenceFinancialSystemOriginationCode("");
+        entry.setReferenceFinancialDocumentNumber("");
         entry.setFinancialDocumentReversalDate(null);
         entry.setTransactionEncumbranceUpdateCode("");
 

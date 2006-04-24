@@ -61,19 +61,19 @@ public class Entry extends BusinessObjectBase implements Transaction {
     private String financialDocumentTypeCode;
     private String financialSystemOriginationCode;
     private String financialDocumentNumber;
-    private Integer trnEntryLedgerSequenceNumber;
-    private String transactionLedgerEntryDesc;
+    private Integer transactionLedgerEntrySequenceNumber;
+    private String transactionLedgerEntryDescription;
     private KualiDecimal transactionLedgerEntryAmount;
     private String transactionDebitCreditCode;
     private Date transactionDate;
     private String organizationDocumentNumber;
     private String projectCode;
     private String organizationReferenceId;
-    private String referenceFinDocumentTypeCode;
-    private String finSystemRefOriginationCode;
-    private String financialDocumentReferenceNbr;
+    private String referenceFinancialDocumentTypeCode;
+    private String referenceFinancialSystemOriginationCode;
+    private String referenceFinancialDocumentNumber;
     private Date financialDocumentReversalDate;
-    private String transactionEncumbranceUpdtCd;
+    private String transactionEncumbranceUpdateCode;
     private Date transactionPostingDate;
     private Date transactionDateTimeStamp;
     private String budgetYear;
@@ -119,19 +119,19 @@ public class Entry extends BusinessObjectBase implements Transaction {
         setFinancialDocumentTypeCode(t.getFinancialDocumentTypeCode());
         setFinancialSystemOriginationCode(t.getFinancialSystemOriginationCode());
         setFinancialDocumentNumber(t.getFinancialDocumentNumber());
-        setTrnEntryLedgerSequenceNumber(t.getTrnEntryLedgerSequenceNumber());
-        setTransactionLedgerEntryDesc(t.getTransactionLedgerEntryDesc());
+        setTransactionLedgerEntrySequenceNumber(t.getTransactionLedgerEntrySequenceNumber());
+        setTransactionLedgerEntryDescription(t.getTransactionLedgerEntryDescription());
         setTransactionLedgerEntryAmount(t.getTransactionLedgerEntryAmount());
         setTransactionDebitCreditCode(t.getTransactionDebitCreditCode());
         setTransactionDate(t.getTransactionDate());
         setOrganizationDocumentNumber(t.getOrganizationDocumentNumber());
         setProjectCode(t.getProjectCode());
         setOrganizationReferenceId(t.getOrganizationReferenceId());
-        setReferenceFinDocumentTypeCode(t.getReferenceFinDocumentTypeCode());
-        setFinSystemRefOriginationCode(t.getFinSystemRefOriginationCode());
-        setFinancialDocumentReferenceNbr(t.getFinancialDocumentReferenceNbr());
+        setReferenceFinancialDocumentTypeCode(t.getReferenceFinancialDocumentTypeCode());
+        setReferenceFinancialSystemOriginationCode(t.getReferenceFinancialSystemOriginationCode());
+        setReferenceFinancialDocumentNumber(t.getReferenceFinancialDocumentNumber());
         setFinancialDocumentReversalDate(t.getFinancialDocumentReversalDate());
-        setTransactionEncumbranceUpdtCd(t.getTransactionEncumbranceUpdtCd());
+        setTransactionEncumbranceUpdateCode(t.getTransactionEncumbranceUpdateCode());
         if (postDate != null) {
             setTransactionPostingDate(new Date(postDate.getTime()));
         }
@@ -373,39 +373,39 @@ public class Entry extends BusinessObjectBase implements Transaction {
     }
 
     /**
-     * Gets the trnEntryLedgerSequenceNumber attribute.
+     * Gets the transactionLedgerEntrySequenceNumber attribute.
      * 
-     * @return - Returns the trnEntryLedgerSequenceNumber
+     * @return - Returns the transactionLedgerEntrySequenceNumber
      */
-    public Integer getTrnEntryLedgerSequenceNumber() {
-        return trnEntryLedgerSequenceNumber;
+    public Integer getTransactionLedgerEntrySequenceNumber() {
+        return transactionLedgerEntrySequenceNumber;
     }
 
     /**
-     * Sets the trnEntryLedgerSequenceNumber attribute.
+     * Sets the transactionLedgerEntrySequenceNumber attribute.
      * 
-     * @param - trnEntryLedgerSequenceNumber The trnEntryLedgerSequenceNumber to set.
+     * @param - transactionLedgerEntrySequenceNumber The transactionLedgerEntrySequenceNumber to set.
      */
-    public void setTrnEntryLedgerSequenceNumber(Integer trnEntryLedgerSequenceNumber) {
-        this.trnEntryLedgerSequenceNumber = trnEntryLedgerSequenceNumber;
+    public void setTransactionLedgerEntrySequenceNumber(Integer transactionLedgerEntrySequenceNumber) {
+        this.transactionLedgerEntrySequenceNumber = transactionLedgerEntrySequenceNumber;
     }
 
     /**
-     * Gets the transactionLedgerEntryDesc attribute.
+     * Gets the transactionLedgerEntryDescription attribute.
      * 
-     * @return - Returns the transactionLedgerEntryDesc
+     * @return - Returns the transactionLedgerEntryDescription
      */
-    public String getTransactionLedgerEntryDesc() {
-        return transactionLedgerEntryDesc;
+    public String getTransactionLedgerEntryDescription() {
+        return transactionLedgerEntryDescription;
     }
 
     /**
-     * Sets the transactionLedgerEntryDesc attribute.
+     * Sets the transactionLedgerEntryDescription attribute.
      * 
-     * @param - transactionLedgerEntryDesc The transactionLedgerEntryDesc to set.
+     * @param - transactionLedgerEntryDescription The transactionLedgerEntryDescription to set.
      */
-    public void setTransactionLedgerEntryDesc(String transactionLedgerEntryDesc) {
-        this.transactionLedgerEntryDesc = transactionLedgerEntryDesc;
+    public void setTransactionLedgerEntryDescription(String transactionLedgerEntryDescription) {
+        this.transactionLedgerEntryDescription = transactionLedgerEntryDescription;
     }
 
     /**
@@ -517,57 +517,57 @@ public class Entry extends BusinessObjectBase implements Transaction {
     }
 
     /**
-     * Gets the referenceFinDocumentTypeCode attribute.
+     * Gets the referenceFinancialDocumentTypeCode attribute.
      * 
-     * @return - Returns the referenceFinDocumentTypeCode
+     * @return - Returns the referenceFinancialDocumentTypeCode
      */
-    public String getReferenceFinDocumentTypeCode() {
-        return referenceFinDocumentTypeCode;
+    public String getReferenceFinancialDocumentTypeCode() {
+        return referenceFinancialDocumentTypeCode;
     }
 
     /**
-     * Sets the referenceFinDocumentTypeCode attribute.
+     * Sets the referenceFinancialDocumentTypeCode attribute.
      * 
-     * @param - referenceFinDocumentTypeCode The referenceFinDocumentTypeCode to set.
+     * @param - referenceFinancialDocumentTypeCode The referenceFinancialDocumentTypeCode to set.
      */
-    public void setReferenceFinDocumentTypeCode(String referenceFinDocumentTypeCode) {
-        this.referenceFinDocumentTypeCode = referenceFinDocumentTypeCode;
+    public void setReferenceFinancialDocumentTypeCode(String referenceFinancialDocumentTypeCode) {
+        this.referenceFinancialDocumentTypeCode = referenceFinancialDocumentTypeCode;
     }
 
     /**
-     * Gets the finSystemRefOriginationCode attribute.
+     * Gets the referenceFinancialSystemOriginationCode attribute.
      * 
-     * @return - Returns the finSystemRefOriginationCode
+     * @return - Returns the referenceFinancialSystemOriginationCode
      */
-    public String getFinSystemRefOriginationCode() {
-        return finSystemRefOriginationCode;
+    public String getReferenceFinancialSystemOriginationCode() {
+        return referenceFinancialSystemOriginationCode;
     }
 
     /**
-     * Sets the finSystemRefOriginationCode attribute.
+     * Sets the referenceFinancialSystemOriginationCode attribute.
      * 
-     * @param - finSystemRefOriginationCode The finSystemRefOriginationCode to set.
+     * @param - referenceFinancialSystemOriginationCode The referenceFinancialSystemOriginationCode to set.
      */
-    public void setFinSystemRefOriginationCode(String finSystemRefOriginationCode) {
-        this.finSystemRefOriginationCode = finSystemRefOriginationCode;
+    public void setReferenceFinancialSystemOriginationCode(String referenceFinancialSystemOriginationCode) {
+        this.referenceFinancialSystemOriginationCode = referenceFinancialSystemOriginationCode;
     }
 
     /**
-     * Gets the financialDocumentReferenceNbr attribute.
+     * Gets the referenceFinancialDocumentNumber attribute.
      * 
-     * @return - Returns the financialDocumentReferenceNbr
+     * @return - Returns the referenceFinancialDocumentNumber
      */
-    public String getFinancialDocumentReferenceNbr() {
-        return financialDocumentReferenceNbr;
+    public String getReferenceFinancialDocumentNumber() {
+        return referenceFinancialDocumentNumber;
     }
 
     /**
-     * Sets the financialDocumentReferenceNbr attribute.
+     * Sets the referenceFinancialDocumentNumber attribute.
      * 
-     * @param - financialDocumentReferenceNbr The financialDocumentReferenceNbr to set.
+     * @param - referenceFinancialDocumentNumber The referenceFinancialDocumentNumber to set.
      */
-    public void setFinancialDocumentReferenceNbr(String financialDocumentReferenceNbr) {
-        this.financialDocumentReferenceNbr = financialDocumentReferenceNbr;
+    public void setReferenceFinancialDocumentNumber(String referenceFinancialDocumentNumber) {
+        this.referenceFinancialDocumentNumber = referenceFinancialDocumentNumber;
     }
 
     /**
@@ -589,21 +589,21 @@ public class Entry extends BusinessObjectBase implements Transaction {
     }
 
     /**
-     * Gets the transactionEncumbranceUpdtCd attribute.
+     * Gets the transactionEncumbranceUpdateCode attribute.
      * 
-     * @return - Returns the transactionEncumbranceUpdtCd
+     * @return - Returns the transactionEncumbranceUpdateCode
      */
-    public String getTransactionEncumbranceUpdtCd() {
-        return transactionEncumbranceUpdtCd;
+    public String getTransactionEncumbranceUpdateCode() {
+        return transactionEncumbranceUpdateCode;
     }
 
     /**
-     * Sets the transactionEncumbranceUpdtCd attribute.
+     * Sets the transactionEncumbranceUpdateCode attribute.
      * 
-     * @param - transactionEncumbranceUpdtCd The transactionEncumbranceUpdtCd to set.
+     * @param - transactionEncumbranceUpdateCode The transactionEncumbranceUpdateCode to set.
      */
-    public void setTransactionEncumbranceUpdtCd(String transactionEncumbranceUpdtCd) {
-        this.transactionEncumbranceUpdtCd = transactionEncumbranceUpdtCd;
+    public void setTransactionEncumbranceUpdateCode(String transactionEncumbranceUpdateCode) {
+        this.transactionEncumbranceUpdateCode = transactionEncumbranceUpdateCode;
     }
 
     /**
@@ -781,7 +781,7 @@ public class Entry extends BusinessObjectBase implements Transaction {
         m.put("financialDocumentTypeCode", this.financialDocumentTypeCode);
         m.put("financialSystemOriginationCode", this.financialSystemOriginationCode);
         m.put("financialDocumentNumber", this.financialDocumentNumber);
-        m.put("trnEntryLedgerSequenceNumber", this.trnEntryLedgerSequenceNumber.toString());
+        m.put("transactionLedgerEntrySequenceNumber", this.transactionLedgerEntrySequenceNumber.toString());
         return m;
     }
 

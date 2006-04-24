@@ -9,10 +9,10 @@
             <title>Pending Entry Inquiry</title>
             <inquiryFields>
                 <field attributeName="financialDocumentNumber" />
-                <field attributeName="trnEntryLedgerSequenceNumber" />
+                <field attributeName="transactionLedgerEntrySequenceNumber" />
                 <field attributeName="financialBalanceTypeCode" />
                 <field attributeName="transactionDate" />
-                <field attributeName="transactionLedgerEntryDesc" />
+                <field attributeName="transactionLedgerEntryDescription" />
                 <field attributeName="organizationReferenceId" />
                 <field attributeName="chartOfAccountsCode" />
                 <field attributeName="accountNumber" />
@@ -21,11 +21,11 @@
 				<field attributeName="financialSubObjectCode" />
 				<field attributeName="financialObjectTypeCode" />                          
                 <field attributeName="transactionLedgerEntryAmount" />
-                <field attributeName="finSystemRefOriginationCode" />
-                <field attributeName="referenceFinDocumentTypeCode" />
-                <field attributeName="financialDocumentReferenceNbr" />
+                <field attributeName="referenceFinancialSystemOriginationCode" />
+                <field attributeName="referenceFinancialDocumentTypeCode" />
+                <field attributeName="referenceFinancialDocumentNumber" />
                 <field attributeName="transactionEntryOffsetIndicator" />
-                <field attributeName="transactionEncumbranceUpdtCd" />
+                <field attributeName="transactionEncumbranceUpdateCode" />
                 <field attributeName="financialDocumentReversalDate" />
                 <field attributeName="universityFiscalPeriodCode" />
                 <field attributeName="financialDocumentApprovedCode" />
@@ -83,7 +83,7 @@
             <attributeReference name="financialDocumentNumber" 
 					            sourceClassName="org.kuali.core.document.DocumentHeader" 
 					            sourceAttributeName="financialDocumentNumber" />
-			<attributeReference name="trnEntryLedgerSequenceNumber" 
+			<attributeReference name="transactionLedgerEntrySequenceNumber" 
             					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
             					sourceAttributeName="transactionEntrySequenceId" />
             <attributeReference name="financialBalanceTypeCode" 
@@ -97,7 +97,7 @@
                 <summary>transactionDate</summary>
                 <description>transactionDate description...</description>
             </attributeReference>
-            <attribute name="transactionLedgerEntryDesc" forceUppercase="false">
+            <attribute name="transactionLedgerEntryDescription" forceUppercase="false">
                 <label>Transaction Ledger Entry Description</label>
                 <shortLabel>Description</shortLabel>
                 <maxLength>40</maxLength>
@@ -146,7 +146,7 @@
                 <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
             </attributeReference>
             
-            <attribute name="finSystemRefOriginationCode" forceUppercase="false">
+            <attribute name="referenceFinancialSystemOriginationCode" forceUppercase="false">
                 <label>Reference Origin Code</label>
                 <shortLabel>Ref. Origin Code</shortLabel>
                 <maxLength>2</maxLength>
@@ -156,7 +156,7 @@
                 <summary>referenceOriginCode</summary>
                 <description>referenceOriginCode description...</description>
             </attribute>
-            <attribute name="referenceFinDocumentTypeCode" forceUppercase="true">
+            <attribute name="referenceFinancialDocumentTypeCode" forceUppercase="true">
                 <label>Reference Document Type Code</label>
                 <shortLabel>Ref. Doc. Type Code</shortLabel>
                 <maxLength>4</maxLength>
@@ -167,7 +167,7 @@
                 <description>referenceDocumentTypeCode description...</description>
             </attribute>
             
-            <attribute name="financialDocumentReferenceNbr" forceUppercase="false">
+            <attribute name="referenceFinancialDocumentNumber" forceUppercase="false">
                 <label>Reference Document Number</label>
                 <shortLabel>Number</shortLabel>
                 <maxLength>9</maxLength>
@@ -187,7 +187,7 @@
                 <description>transactionEntryOffsetCode description...</description>
             </attributeReference>
             
-            <attribute name="transactionEncumbranceUpdtCd" forceUppercase="true">
+            <attribute name="transactionEncumbranceUpdateCode" forceUppercase="true">
                 <label>Encumbrance Update Code</label>
                 <shortLabel>Encmbr. Updt. Code</shortLabel>
                 <maxLength>1</maxLength>

@@ -20,24 +20,37 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-package org.kuali.module.gl.service;
+package org.kuali.module.chart.service.impl;
 
-import org.kuali.module.gl.bo.Encumbrance;
+import org.kuali.module.chart.bo.A21SubAccount;
+import org.kuali.module.chart.dao.A21SubAccountDao;
+import org.kuali.module.chart.service.A21SubAccountService;
 
-public interface EncumbranceService {
-  /**
-   * Save an Encumbrance entry
-   * 
-   * @param enc
-   */
-  public void save(Encumbrance enc);
+/**
+ * @author Laran Evans <lc278@cornell.edu>
+ * @version $Id$
+ */
 
-  /**
-   * Purge an entire fiscal year for a single chart.
-   * 
-   * @param chartOfAccountscode
-   * @param year
-   */
-  public void purgeYearByChart(String chartOfAccountsCode,int year);
+public class A21SubAccountServiceImpl implements A21SubAccountService {
+    
+    private A21SubAccountDao a21SubAccountDao;
 
+    public A21SubAccountServiceImpl() {
+        super();
+    }
+
+    /* (non-Javadoc)
+     * @see org.kuali.module.chart.service.A21SubAccountService#getByPrimaryKey(java.lang.String, java.lang.String, java.lang.String)
+     */
+    public A21SubAccount getByPrimaryKey(String chartOfAccountsCode, String accountNumber, String subAccountNumber) {
+        return a21SubAccountDao.getByPrimaryKey(chartOfAccountsCode, accountNumber, subAccountNumber);
+    }
+
+    /**
+     * @param subAccountDao The a21SubAccountDao to set.
+     */
+    public void setA21SubAccountDao(A21SubAccountDao subAccountDao) {
+        a21SubAccountDao = subAccountDao;
+    }
+    
 }

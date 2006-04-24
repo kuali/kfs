@@ -43,7 +43,7 @@ public class ReversalDaoOjb extends PersistenceBrokerDaoSupport implements Rever
     crit.addEqualTo("financialDocumentTypeCode",t.getFinancialDocumentTypeCode());
     crit.addEqualTo("financialSystemOriginationCode",t.getFinancialSystemOriginationCode());
     crit.addEqualTo("financialDocumentNumber",t.getFinancialDocumentNumber());
-    crit.addEqualTo("trnEntryLedgerSequenceNumber",t.getTrnEntryLedgerSequenceNumber());
+    crit.addEqualTo("transactionLedgerEntrySequenceNumber",t.getTransactionLedgerEntrySequenceNumber());
 
     QueryByCriteria qbc = QueryFactory.newQuery(Reversal.class,crit);
     return (Reversal)getPersistenceBrokerTemplate().getObjectByQuery(qbc);

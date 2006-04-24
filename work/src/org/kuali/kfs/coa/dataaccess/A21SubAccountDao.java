@@ -26,7 +26,7 @@ import org.kuali.module.chart.bo.A21SubAccount;
 
 /**
  * @author jsissom
- *
+ * @version $Id: A21SubAccountDao.java,v 1.2 2006-04-24 20:48:28 larevans Exp $
  */
 public interface A21SubAccountDao {
   public A21SubAccount getByPrimaryKey(String chartOfAccountsCode,String accountNumber,String subAccountNumber);

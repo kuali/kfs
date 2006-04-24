@@ -304,12 +304,12 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
 
         /* change document type based on payment method to pick up different offsets */
         if (PAYMENT_METHOD_CHECK.equals(dvDocument.getDisbVchrPaymentMethodCode())) {
-            LOG.debug("changing doc type on pending entry " + explicitEntry.getTrnEntryLedgerSequenceNumber() + " to "
+            LOG.debug("changing doc type on pending entry " + explicitEntry.getTransactionLedgerEntrySequenceNumber() + " to "
                     + DOCUMENT_TYPE_CHECKACH);
             explicitEntry.setFinancialDocumentTypeCode(DOCUMENT_TYPE_CHECKACH);
         }
         else {
-            LOG.debug("changing doc type on pending entry " + explicitEntry.getTrnEntryLedgerSequenceNumber() + " to "
+            LOG.debug("changing doc type on pending entry " + explicitEntry.getTransactionLedgerEntrySequenceNumber() + " to "
                     + DOCUMENT_TYPE_CHECKACH);
             explicitEntry.setFinancialDocumentTypeCode(DOCUMENT_TYPE_WTFD);
         }
@@ -367,7 +367,7 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
         // grab the explicit entry for the first accounting line and adjust for wire charge entry
         GeneralLedgerPendingEntry explicitEntry = (GeneralLedgerPendingEntry) ObjectUtils.deepCopy(dvDocument
                 .getGeneralLedgerPendingEntry(0));
-        explicitEntry.setTrnEntryLedgerSequenceNumber(new Integer(sequenceHelper.getSequenceCounter()));
+        explicitEntry.setTransactionLedgerEntrySequenceNumber(new Integer(sequenceHelper.getSequenceCounter()));
         explicitEntry.setFinancialObjectCode(wireCharge.getExpenseFinancialObjectCode());
         explicitEntry.setFinancialSubObjectCode(GENERAL_LEDGER_PENDING_ENTRY_CODE.BLANK_SUB_OBJECT_CODE);
         explicitEntry.setFinancialObjectTypeCode(OBJECT_TYPE_CODE.EXPENSE_EXPENDITURE);
@@ -380,7 +380,7 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
             explicitEntry.setTransactionLedgerEntryAmount(wireCharge.getDomesticChargeAmt());
         }
 
-        explicitEntry.setTransactionLedgerEntryDesc("Automatic debit for wire transfer fee");
+        explicitEntry.setTransactionLedgerEntryDescription("Automatic debit for wire transfer fee");
 
         dvDocument.getGeneralLedgerPendingEntries().add(explicitEntry);
 
@@ -413,7 +413,7 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
 
         // copy the charge entry and adjust for credit
         GeneralLedgerPendingEntry explicitEntry = (GeneralLedgerPendingEntry) ObjectUtils.deepCopy(chargeEntry);
-        explicitEntry.setTrnEntryLedgerSequenceNumber(new Integer(sequenceHelper.getSequenceCounter()));
+        explicitEntry.setTransactionLedgerEntrySequenceNumber(new Integer(sequenceHelper.getSequenceCounter()));
         explicitEntry.setChartOfAccountsCode(wireCharge.getChartOfAccountsCode());
         explicitEntry.setAccountNumber(wireCharge.getAccountNumber());
         explicitEntry.setFinancialObjectCode(wireCharge.getIncomeFinancialObjectCode());
@@ -434,7 +434,7 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
         explicitEntry.setSubAccountNumber(GENERAL_LEDGER_PENDING_ENTRY_CODE.BLANK_SUB_ACCOUNT_NUMBER);
         explicitEntry.setProjectCode(GENERAL_LEDGER_PENDING_ENTRY_CODE.BLANK_PROJECT_STRING);
 
-        explicitEntry.setTransactionLedgerEntryDesc("Automatic credit for wire transfer fee");
+        explicitEntry.setTransactionLedgerEntryDescription("Automatic credit for wire transfer fee");
 
         dvDocument.getGeneralLedgerPendingEntries().add(explicitEntry);
 

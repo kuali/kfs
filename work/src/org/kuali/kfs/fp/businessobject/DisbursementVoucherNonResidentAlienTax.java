@@ -44,8 +44,8 @@ public class DisbursementVoucherNonResidentAlienTax extends BusinessObjectBase {
 	private boolean incomeTaxTreatyExemptCode;
 	private boolean foreignSourceIncomeCode;
 	private boolean incomeTaxGrossUpCode;
-	private String finSystemRefOriginationCode;
-	private String financialDocumentReferenceNbr;
+	private String referenceFinancialSystemOriginationCode;
+	private String referenceFinancialDocumentNumber;
     private String financialDocumentAccountingLineText;
 
     private TaxIncomeClassCode incomeClass;
@@ -226,45 +226,45 @@ public class DisbursementVoucherNonResidentAlienTax extends BusinessObjectBase {
 	}
 
 	/**
-	 * Gets the finSystemRefOriginationCode attribute.
+	 * Gets the referenceFinancialSystemOriginationCode attribute.
 	 * 
-	 * @return - Returns the finSystemRefOriginationCode
+	 * @return - Returns the referenceFinancialSystemOriginationCode
 	 * 
 	 */
-	public String getFinSystemRefOriginationCode() { 
-		return finSystemRefOriginationCode;
+	public String getReferenceFinancialSystemOriginationCode() { 
+		return referenceFinancialSystemOriginationCode;
 	}
 	
 
 	/**
-	 * Sets the finSystemRefOriginationCode attribute.
+	 * Sets the referenceFinancialSystemOriginationCode attribute.
 	 * 
-	 * @param - finSystemRefOriginationCode The finSystemRefOriginationCode to set.
+	 * @param - referenceFinancialSystemOriginationCode The referenceFinancialSystemOriginationCode to set.
 	 * 
 	 */
-	public void setFinSystemRefOriginationCode(String finSystemRefOriginationCode) {
-		this.finSystemRefOriginationCode = finSystemRefOriginationCode;
+	public void setReferenceFinancialSystemOriginationCode(String referenceFinancialSystemOriginationCode) {
+		this.referenceFinancialSystemOriginationCode = referenceFinancialSystemOriginationCode;
 	}
 
 	/**
-	 * Gets the financialDocumentReferenceNbr attribute.
+	 * Gets the referenceFinancialDocumentNumber attribute.
 	 * 
-	 * @return - Returns the financialDocumentReferenceNbr
+	 * @return - Returns the referenceFinancialDocumentNumber
 	 * 
 	 */
-	public String getFinancialDocumentReferenceNbr() { 
-		return financialDocumentReferenceNbr;
+	public String getReferenceFinancialDocumentNumber() { 
+		return referenceFinancialDocumentNumber;
 	}
 	
 
 	/**
-	 * Sets the financialDocumentReferenceNbr attribute.
+	 * Sets the referenceFinancialDocumentNumber attribute.
 	 * 
-	 * @param - financialDocumentReferenceNbr The financialDocumentReferenceNbr to set.
+	 * @param - referenceFinancialDocumentNumber The referenceFinancialDocumentNumber to set.
 	 * 
 	 */
-	public void setFinancialDocumentReferenceNbr(String financialDocumentReferenceNbr) {
-		this.financialDocumentReferenceNbr = financialDocumentReferenceNbr;
+	public void setReferenceFinancialDocumentNumber(String referenceFinancialDocumentNumber) {
+		this.referenceFinancialDocumentNumber = referenceFinancialDocumentNumber;
 	}
 
     /**

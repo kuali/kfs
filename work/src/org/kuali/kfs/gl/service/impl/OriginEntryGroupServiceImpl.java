@@ -24,7 +24,7 @@ package org.kuali.module.gl.service.impl;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Date;
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -36,7 +36,7 @@ import org.kuali.module.gl.service.OriginEntryGroupService;
 
 /**
  * @author Laran Evans <lc278@cs.cornell.edu>
- * @version $Id: OriginEntryGroupServiceImpl.java,v 1.10 2006-03-02 21:00:32 wesprice Exp $
+ * @version $Id: OriginEntryGroupServiceImpl.java,v 1.11 2006-04-24 20:48:30 larevans Exp $
  * 
  */
 public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
@@ -85,12 +85,12 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
 	/**
 	 * Create a new OriginEntryGroup and persist it to the database.
 	 */
-	public OriginEntryGroup createGroup(java.util.Date date, String sourceCode,
+	public OriginEntryGroup createGroup(Date date, String sourceCode,
 			boolean valid, boolean process, boolean scrub) {
 		LOG.debug("createGroup() started");
 
 		OriginEntryGroup oeg = new OriginEntryGroup();
-		oeg.setDate(new java.sql.Date(date.getTime()));
+		oeg.setDate(date);
 		oeg.setProcess(Boolean.valueOf(process));
 		oeg.setScrub(Boolean.valueOf(scrub));
 		oeg.setSourceCode(sourceCode);

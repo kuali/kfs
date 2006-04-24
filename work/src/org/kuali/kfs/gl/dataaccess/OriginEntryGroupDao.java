@@ -23,7 +23,7 @@
 package org.kuali.module.gl.dao;
 
 import java.util.Collection;
-import java.util.Date;
+import java.sql.Date;
 import java.util.Map;
 
 import org.kuali.module.gl.bo.OriginEntryGroup;

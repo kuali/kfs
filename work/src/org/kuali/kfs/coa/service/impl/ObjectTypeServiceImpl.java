@@ -20,24 +20,33 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-package org.kuali.module.gl.service;
+package org.kuali.module.chart.service.impl;
 
-import org.kuali.module.gl.bo.Encumbrance;
+import org.kuali.module.chart.bo.ObjectType;
+import org.kuali.module.chart.dao.ObjectTypeDao;
+import org.kuali.module.chart.service.ObjectTypeService;
 
-public interface EncumbranceService {
-  /**
-   * Save an Encumbrance entry
-   * 
-   * @param enc
-   */
-  public void save(Encumbrance enc);
+/**
+ * @author Laran Evans <lc278@cornell.edu>
+ * @version $Id$
+ */
 
-  /**
-   * Purge an entire fiscal year for a single chart.
-   * 
-   * @param chartOfAccountscode
-   * @param year
-   */
-  public void purgeYearByChart(String chartOfAccountsCode,int year);
+public class ObjectTypeServiceImpl implements ObjectTypeService {
+
+    private ObjectTypeDao objectTypeDao;
+    
+    /* (non-Javadoc)
+     * @see org.kuali.module.chart.service.ObjectTypeService#getByPrimaryKey(java.lang.String)
+     */
+    public ObjectType getByPrimaryKey(String objectTypeCode) {
+        return objectTypeDao.getByPrimaryKey(objectTypeCode);
+    }
+
+    /**
+     * @param objectTypeDao The objectTypeDao to set.
+     */
+    public void setObjectTypeDao(ObjectTypeDao objectTypeDao) {
+        this.objectTypeDao = objectTypeDao;
+    }
 
 }

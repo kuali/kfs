@@ -23,7 +23,7 @@
 package org.kuali.module.gl.dao.ojb;
 
 import java.util.Collection;
-import java.util.Date;
+import java.sql.Date;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -36,7 +36,7 @@ import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 /**
  * @author Laran Evans <lc278@cornell.edu>
- * @version $Id: OriginEntryGroupDaoOjb.java,v 1.5 2006-02-12 01:59:42 jsissom Exp $
+ * @version $Id: OriginEntryGroupDaoOjb.java,v 1.6 2006-04-24 20:48:29 larevans Exp $
  * 
  */
 

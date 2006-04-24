@@ -173,7 +173,7 @@ public class JournalVoucherDocumentRule extends TransactionalDocumentRuleBase {
         }
 
         // set the encumbrance update code
-        explicitEntry.setTransactionEncumbranceUpdtCd(getEntryValue(accountingLine.getEncumbranceUpdateCode(),
+        explicitEntry.setTransactionEncumbranceUpdateCode(getEntryValue(accountingLine.getEncumbranceUpdateCode(),
                 GENERAL_LEDGER_PENDING_ENTRY_CODE.BLANK_SPACE));
 
         // set the reversal date to what what specified at the document level

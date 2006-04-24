@@ -38,7 +38,7 @@ import org.kuali.module.gl.service.OriginEntryService;
 
 /**
  * @author jsissom
- * @version $Id: OriginEntryServiceImpl.java,v 1.9 2006-03-22 21:29:46 larevans Exp $
+ * @version $Id: OriginEntryServiceImpl.java,v 1.10 2006-04-24 20:48:30 larevans Exp $
  */
 public class OriginEntryServiceImpl implements OriginEntryService {
   private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OriginEntryServiceImpl.class);
@@ -93,7 +93,7 @@ public class OriginEntryServiceImpl implements OriginEntryService {
   public void loadFlatFile(String filename,String groupSourceCode,boolean valid,boolean processed,boolean scrub) {
     LOG.debug("loadFlatFile() started");
 
-    java.util.Date groupDate = new java.util.Date();
+    java.sql.Date groupDate = new java.sql.Date(System.currentTimeMillis());
     OriginEntryGroup newGroup = originEntryGroupService.createGroup(groupDate,groupSourceCode,valid,processed,scrub);
 
     BufferedReader input = null;

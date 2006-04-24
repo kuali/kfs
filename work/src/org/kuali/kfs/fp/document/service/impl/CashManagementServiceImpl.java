@@ -178,7 +178,7 @@ public class CashManagementServiceImpl implements CashManagementService {
             throw new InvalidCashDrawerState("cash drawer for workgroup '" + workgroupName + "' is already closed");
         }
 
-        return drawer.getFinancialDocumentReferenceNumber();
+        return drawer.getReferenceFinancialDocumentNumber();
     }
 
     /**

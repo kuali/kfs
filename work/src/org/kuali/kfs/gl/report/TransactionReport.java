@@ -238,10 +238,10 @@ public class TransactionReport {
               warnings.addCell(cell);
               cell = new PdfPCell(new Phrase(tran.getFinancialDocumentNumber(),textFont));
               warnings.addCell(cell);
-              if (tran.getTrnEntryLedgerSequenceNumber() == null) {
+              if (tran.getTransactionLedgerEntrySequenceNumber() == null) {
                   cell = new PdfPCell(new Phrase("NULL",textFont));
               } else {
-                  cell = new PdfPCell(new Phrase(tran.getTrnEntryLedgerSequenceNumber().toString(),textFont));
+                  cell = new PdfPCell(new Phrase(tran.getTransactionLedgerEntrySequenceNumber().toString(),textFont));
               }
               warnings.addCell(cell);
             } else {

@@ -20,24 +20,17 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-package org.kuali.module.gl.service;
+package org.kuali.module.chart.service;
 
-import org.kuali.module.gl.bo.Encumbrance;
+import org.kuali.module.chart.bo.Account;
+import org.kuali.module.chart.bo.OrganizationReversion;
 
-public interface EncumbranceService {
-  /**
-   * Save an Encumbrance entry
-   * 
-   * @param enc
-   */
-  public void save(Encumbrance enc);
-
-  /**
-   * Purge an entire fiscal year for a single chart.
-   * 
-   * @param chartOfAccountscode
-   * @param year
-   */
-  public void purgeYearByChart(String chartOfAccountsCode,int year);
-
+/**
+ * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * @version $Id$
+ */
+public interface OrganizationReversionService {
+    public void executeEntry(int entryNumber);
+    public OrganizationReversion getByFiscalYearAndAccount(Integer fiscalYear, Account account);
+    public OrganizationReversion getByKeys(Integer fiscalYear, String chartCode, String accountNumber);
 }

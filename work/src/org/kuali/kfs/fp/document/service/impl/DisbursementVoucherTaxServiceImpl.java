@@ -474,7 +474,7 @@ public class DisbursementVoucherTaxServiceImpl implements DisbursementVoucherTax
         }
 
         /* don't generate tax if reference doc is given */
-        if (StringUtils.isNotBlank(document.getDvNonResidentAlienTax().getFinancialDocumentReferenceNbr())) {
+        if (StringUtils.isNotBlank(document.getDvNonResidentAlienTax().getReferenceFinancialDocumentNumber())) {
             errors.putWithoutFullErrorPath("DVNRATaxErrors", KeyConstants.ERROR_DV_GENERATE_TAX_DOC_REFERENCE);
             return false;
         }

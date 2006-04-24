@@ -29,7 +29,6 @@ import org.kuali.module.chart.dao.OrganizationReversionDao;
 import org.springframework.orm.ojb.PersistenceBrokerTemplate;
 
 /**
- * This class...
  * @author Bin Gao from Michigan State University
  */
 public class OrganizationReversionDaoOjb extends PersistenceBrokerTemplate implements OrganizationReversionDao {
@@ -41,7 +40,7 @@ public class OrganizationReversionDaoOjb extends PersistenceBrokerTemplate imple
         Criteria criteria = new Criteria();
         criteria.addEqualTo("universityFiscalYear", universityFiscalYear);        
         criteria.addEqualTo("chartOfAccountsCode", financialChartOfAccountsCode);
-        criteria.addEqualTo("organizationCode",organizationCode);
+        criteria.addEqualTo("organizationCode", organizationCode);
 
         return (OrganizationReversion)getObjectByQuery(QueryFactory.newQuery(OrganizationReversion.class,criteria));
     }

@@ -13,13 +13,58 @@
         </property>
      </bean>
      
+     <bean id="subFundGroupService" class="org.kuali.module.chart.service.impl.SubFundGroupServiceImpl">
+        <property name="subFundGroupDao">
+            <ref bean="subFundGroupDao" />
+        </property>
+     </bean>
+     
+     <bean id="objectTypeService" class="org.kuali.module.chart.service.impl.ObjectTypeServiceImpl">
+        <property name="objectTypeDao">
+            <ref bean="objectTypeDao" />
+        </property>
+     </bean>
+     
+     <bean id="a21SubAccountService" class="org.kuali.module.chart.service.impl.A21SubAccountServiceImpl">
+        <property name="a21SubAccountDao">
+            <ref bean="a21SubAccountDao" />
+        </property>
+     </bean>
+     
+     <bean id="priorYearAccountService" class="org.kuali.module.chart.service.impl.PrioYearAccountServiceImpl">
+        <property name="priorYearAccountDao">
+            <ref bean="priorYearAccountDao" />
+        </property>
+     </bean>
+     
+     <bean id="organizationReversionService" class="org.kuali.module.chart.service.impl.OrganizationReversionServiceImpl">
+        <property name="organizationReversionDao">
+            <ref bean="organizationReversionDao" />
+        </property>
+        <property name="accountService">
+        	<ref bean="accountService"/>
+        </property>
+     </bean>
+     
      <bean id="organizationReversionDao" class="org.kuali.module.chart.dao.ojb.OrganizationReversionDaoOjb">
         <property name="jcdAlias">
             <value>dataSource</value>
         </property>
      </bean>
+     
+	<bean id="priorYearAccountDao" class="org.kuali.module.chart.dao.ojb.PriorYearAccountDaoOjb">
+		<property name="jcdAlias">
+			<value>dataSource</value>
+		</property>
+	</bean>
 
-     <bean id="objectTypeCodeDao" class="org.kuali.module.chart.dao.ojb.ObjectTypeCodeDaoOjb">
+	<bean id="subFundGroupDao" class="org.kuali.module.chart.dao.ojb.SubFundGroupDaoOjb">
+		<property name="jcdAlias">
+			<value>dataSource</value>
+		</property>
+	</bean>
+	
+     <bean id="objectTypeDao" class="org.kuali.module.chart.dao.ojb.ObjectTypeDaoOjb">
 		<property name="jcdAlias">
 			<value>dataSource</value>
 		</property>

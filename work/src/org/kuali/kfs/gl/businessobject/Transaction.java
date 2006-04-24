@@ -44,22 +44,22 @@ public interface Transaction {
   public String getFinancialDocumentNumber();
   public Date getFinancialDocumentReversalDate();
   public String getFinancialDocumentTypeCode();
-  public String getTransactionEncumbranceUpdtCd();
+  public String getTransactionEncumbranceUpdateCode();
   public String getFinancialObjectCode();
   public String getFinancialObjectTypeCode();
   public String getOrganizationDocumentNumber();
   public String getOrganizationReferenceId();
   public String getFinancialSystemOriginationCode();
   public String getProjectCode();
-  public String getFinancialDocumentReferenceNbr();
-  public String getReferenceFinDocumentTypeCode();
-  public String getFinSystemRefOriginationCode();
+  public String getReferenceFinancialDocumentNumber();
+  public String getReferenceFinancialDocumentTypeCode();
+  public String getReferenceFinancialSystemOriginationCode();
   public String getSubAccountNumber();
   public String getFinancialSubObjectCode();
   public Date getTransactionDate();
-  public Integer getTrnEntryLedgerSequenceNumber();
+  public Integer getTransactionLedgerEntrySequenceNumber();
   public KualiDecimal getTransactionLedgerEntryAmount();
-  public String getTransactionLedgerEntryDesc();
+  public String getTransactionLedgerEntryDescription();
   public String getUniversityFiscalPeriodCode();
   public Integer getUniversityFiscalYear();
 

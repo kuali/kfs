@@ -113,7 +113,7 @@ public class VerifyTransactionImpl implements VerifyTransaction {
     if ( (t.getFinancialDocumentNumber() == null) || (t.getFinancialDocumentNumber().trim().length() == 0) ) {
       errors.add("fdoc_nbr must not be null");
     }
-    if ( t.getTrnEntryLedgerSequenceNumber() == null ) {
+    if ( t.getTransactionLedgerEntrySequenceNumber() == null ) {
       errors.add("trn_entr_seq_nbr must not be null");
     }
 

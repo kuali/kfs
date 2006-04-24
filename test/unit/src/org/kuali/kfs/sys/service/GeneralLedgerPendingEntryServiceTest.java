@@ -53,7 +53,7 @@ public class GeneralLedgerPendingEntryServiceTest extends KualiTestBaseWithSprin
         GeneralLedgerPendingEntry testEntry = this.createGeneralLedgerPendingEntry();
         generalLedgerPendingEntryService.save(testEntry);
         GeneralLedgerPendingEntry generalLedgerPendingEntry = generalLedgerPendingEntryService
-                .getByPrimaryId(testEntry.getTrnEntryLedgerSequenceNumber(), docHeaderId);
+                .getByPrimaryId(testEntry.getTransactionLedgerEntrySequenceNumber(), docHeaderId);
         assertNotNull("Save didn't save this entry", generalLedgerPendingEntry);
         generalLedgerPendingEntryService.delete(docHeaderId);
     }
@@ -62,7 +62,7 @@ public class GeneralLedgerPendingEntryServiceTest extends KualiTestBaseWithSprin
         GeneralLedgerPendingEntry testEntry = this.createGeneralLedgerPendingEntry();
         generalLedgerPendingEntryService.save(testEntry);
         GeneralLedgerPendingEntry generalLedgerPendingEntry = generalLedgerPendingEntryService
-                .getByPrimaryId(testEntry.getTrnEntryLedgerSequenceNumber(), docHeaderId);
+                .getByPrimaryId(testEntry.getTransactionLedgerEntrySequenceNumber(), docHeaderId);
         assertNotNull("getByPrimaryId didn't get this entry", generalLedgerPendingEntry);
         generalLedgerPendingEntryService.delete(docHeaderId);
     }
@@ -73,7 +73,7 @@ public class GeneralLedgerPendingEntryServiceTest extends KualiTestBaseWithSprin
         generalLedgerPendingEntryService.save(generalLedgerPendingEntry);
         generalLedgerPendingEntryService.delete(docHeaderId);
         generalLedgerPendingEntry = generalLedgerPendingEntryService.getByPrimaryId(
-                generalLedgerPendingEntry.getTrnEntryLedgerSequenceNumber(), docHeaderId);
+                generalLedgerPendingEntry.getTransactionLedgerEntrySequenceNumber(), docHeaderId);
         assertNull("Delete didn't delete this entry", generalLedgerPendingEntry);
     }
 
@@ -115,11 +115,11 @@ public class GeneralLedgerPendingEntryServiceTest extends KualiTestBaseWithSprin
         generalLedgerPendingEntry.setUniversityFiscalPeriodCode("7");
         generalLedgerPendingEntry
                 .setTransactionLedgerEntryAmount(new KualiDecimal("8.8"));
-        generalLedgerPendingEntry.setTransactionLedgerEntryDesc("9");
+        generalLedgerPendingEntry.setTransactionLedgerEntryDescription("9");
         generalLedgerPendingEntry.setTransactionDebitCreditCode("D");
         generalLedgerPendingEntry.setTransactionDate(new java.sql.Date(new java.util.Date().getTime()));
         generalLedgerPendingEntry.setFinancialDocumentTypeCode("12");
-        generalLedgerPendingEntry.setTrnEntryLedgerSequenceNumber(new Integer(1));
+        generalLedgerPendingEntry.setTransactionLedgerEntrySequenceNumber(new Integer(1));
         return generalLedgerPendingEntry;
     }
 }

@@ -52,7 +52,18 @@ public class InternalBillingDocumentRule extends TransactionalDocumentRuleBase i
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#isDebit(org.kuali.core.bo.AccountingLine)
      */
     public boolean isDebit(AccountingLine accountingLine) throws IllegalStateException {
-        return isDebitConsideringSection(accountingLine);
+        // The IB spec has the same logic but opposite value of the TOF spec.
+        return !isDebitConsideringSection(accountingLine);
+    }
+
+    /**
+     * The IB spec says that all GL pending entry amounts are positive. I.e., it says that the pending entry uses the absolute
+     * value of non-positive accounting line amounts.
+     *
+     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#getGeneralLedgerPendingEntryAmountForAccountingLine(org.kuali.core.bo.AccountingLine)
+     */
+    protected KualiDecimal getGeneralLedgerPendingEntryAmountForAccountingLine(AccountingLine accountingLine) {
+        return accountingLine.getAmount().abs();
     }
 
     /**
@@ -312,7 +323,7 @@ public class InternalBillingDocumentRule extends TransactionalDocumentRuleBase i
         String accountSufficientFundsCode = accountingLine.getAccount().getAccountSufficientFundsCode();
         String financialObjectCode = accountingLine.getFinancialObjectCode();
         String financialObjectLevelCode = accountingLine.getObjectCode().getFinancialObjectLevelCode();
-        KualiDecimal lineAmount = accountingLine.getAmount();
+        KualiDecimal lineAmount = getGeneralLedgerPendingEntryAmountForAccountingLine(accountingLine);
         Integer fiscalYear = accountingLine.getPostingYear();
         String financialObjectTypeCode = accountingLine.getObjectTypeCode();
         String offsetDebitCreditCode = isDebit(accountingLine) ? Constants.GL_CREDIT_CODE : Constants.GL_DEBIT_CODE;

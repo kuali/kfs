@@ -37,7 +37,6 @@ import org.kuali.module.financial.document.CreditCardReceiptDocument;
 public class CreditCardReceiptForm extends KualiTransactionalDocumentFormBase {
     private static final long serialVersionUID = 1L;
     private CreditCardDetail newCreditCardReceipt;
-    private List creditCardReceipts;
 
     /**
      * Constructs a CreditCardReceiptForm.java.
@@ -46,7 +45,6 @@ public class CreditCardReceiptForm extends KualiTransactionalDocumentFormBase {
         super();
         setDocument(new CreditCardReceiptDocument());
         setNewCreditCardReceipt(new CreditCardDetail());
-        creditCardReceipts = new ArrayList();
     }
 
     /**
@@ -54,20 +52,6 @@ public class CreditCardReceiptForm extends KualiTransactionalDocumentFormBase {
      */
     public CreditCardReceiptDocument getCreditCardReceiptDocument() {
         return (CreditCardReceiptDocument) getDocument();
-    }
-
-    /**
-     * @return List
-     */
-    public List getCreditCardReceipts() {
-        return creditCardReceipts;
-    }
-
-    /**
-     * @param creditCardReceipts
-     */
-    public void setCreditCardReceipts(List creditCardReceipts) {
-        this.creditCardReceipts = creditCardReceipts;
     }
 
     /**
@@ -92,9 +76,9 @@ public class CreditCardReceiptForm extends KualiTransactionalDocumentFormBase {
      * @return CreditCardDetail at the given index
      */
     public CreditCardDetail getCreditCardReceipt(int index) {
-        while (creditCardReceipts.size() <= index) {
-            creditCardReceipts.add(new CreditCardDetail());
+        while(getCreditCardReceiptDocument().getCreditCardReceipts().size() <= index) {
+            getCreditCardReceiptDocument().getCreditCardReceipts().add(new CreditCardDetail());
         }
-        return (CreditCardDetail) creditCardReceipts.get(index);
+        return (CreditCardDetail) getCreditCardReceiptDocument().getCreditCardReceipts().get(index);
     }
 }

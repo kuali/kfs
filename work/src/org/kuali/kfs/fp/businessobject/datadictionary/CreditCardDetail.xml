@@ -36,31 +36,37 @@
 			<attributeReference name="financialDocumentCreditCardTypeCode" 
 					            sourceClassName="org.kuali.module.financial.bo.CreditCardType" 
 					            sourceAttributeName="financialDocumentCreditCardTypeCode">
+	            <shortLabel>Type</shortLabel>
 				<required>true</required>
 			</attributeReference>
 			<attributeReference name="financialDocumentCreditCardVendorNumber" 
 					            sourceClassName="org.kuali.module.financial.bo.CreditCardVendor" 
 					            sourceAttributeName="financialDocumentCreditCardVendorNumber">
+				<shortLabel>Vendor</shortLabel>
 				<required>true</required>
 			</attributeReference>
             <attributeReference name="creditCardDepositDate" 
             					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
             					sourceAttributeName="genericDate" >
+				<label>Credit Card Date</label>
+            	<shortLabel>Date</shortLabel>
            		<required>true</required>
             </attributeReference>
             <attributeReference name="creditCardDepositReferenceNumber" 
 					            sourceClassName="org.kuali.core.document.DocumentHeader" 
 					            sourceAttributeName="financialDocumentNumber" >
+				<label>Credit Card Reference Number</label>
+				<shortLabel>Ref Nbr</shortLabel>
 				<maxLength>10</maxLength>
 				<required>true</required>
 			</attributeReference>
             <attributeReference name="creditCardAdvanceDepositAmount" 
 					            sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
 					            sourceAttributeName="genericAmount">
+				<exclusiveMin>0</exclusiveMin>
 				<required>true</required>
 				<description>The total dollar amount of the credit card receipt.</description>
 			</attributeReference>					
 		</attributes>
 	</businessObject>
 </dictionaryEntry>
-

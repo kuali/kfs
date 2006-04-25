@@ -3,9 +3,8 @@
 <%@ taglib uri="/tlds/struts-html.tld" prefix="html" %>
 <%@ taglib uri="/tlds/struts-logic.tld" prefix="logic" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="kul"%>
-<%@ taglib tagdir="/WEB-INF/tags/cr" prefix="cr" %>
+<%@ taglib tagdir="/WEB-INF/tags/ccr" prefix="ccr" %>
 <%@ taglib tagdir="/WEB-INF/tags/dd" prefix="dd" %>
-<c:set var="displayHidden" value="false" />
 <c:set var="creditCardReceiptAttributes" value="${DataDictionary['KualiCreditCardReceiptDocument'].attributes}" /><c:set var="readOnly" value="${!empty KualiForm.editingMode['viewOnly']}" />
 <kul:documentPage showDocumentInfo="true" 
 				  htmlFormAction="financialCreditCardReceipt" 
@@ -24,7 +23,7 @@
 	        }
 	    //-->
 	</SCRIPT>
-	<!-- cr:checkLines checkDetailMode="${checkDetailMode}" editingMode="${KualiForm.editingMode}" totalAmount="${KualiForm.creditCardReceiptDocument.currencyFormattedTotalCheckAmount}" displayHidden="${displayHidden}" / -->
+	<ccr:creditCardReceipts editingMode="${KualiForm.editingMode}" />
 	<fin:accountingLines editingMode="${KualiForm.editingMode}" editableAccounts="${KualiForm.editableAccounts}" sourceAccountingLinesOnly="true" extraSourceRowFields="financialDocumentLineDescription" />
 	<kul:generalLedgerPendingEntries/>
 	<kul:notes/>

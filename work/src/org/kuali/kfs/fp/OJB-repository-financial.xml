@@ -662,9 +662,26 @@
 
     <!-- credit card receipt specific collections -->
     <collection-descriptor name="creditCardReceipts" proxy="true" element-class-ref="org.kuali.module.financial.bo.CreditCardDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
-        <orderby name="sequenceId" sort="ASC"/>
+        <orderby name="financialDocumentLineNumber" sort="ASC"/>
         <inverse-foreignkey field-ref="financialDocumentNumber"/>
     </collection-descriptor>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.financial.bo.CreditCardDetail" table="FP_CR_CARD_DTL_T">
+	<field-descriptor name="financialDocumentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="financialDocumentTypeCode" column="FDOC_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="financialDocumentColumnTypeCode" column="FDOC_COLUMN_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="financialDocumentLineNumber" column="FDOC_LINE_NBR" jdbc-type="INTEGER" primarykey="true" index="true"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<field-descriptor name="financialDocumentCreditCardTypeCode" column="FDOC_CCRD_TYP_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="financialDocumentCreditCardVendorNumber" column="FDOC_CCRD_VNDR_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="creditCardDepositDate" column="FDOC_CCRD_DPST_DT" jdbc-type="DATE"/>
+	<field-descriptor name="creditCardDepositReferenceNumber" column="FDOC_CCRD_DREF_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="creditCardAdvanceDepositAmount" column="FDOC_CCRD_DPST_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<reference-descriptor name="financialDocumentCreditCardType" class-ref="org.kuali.module.financial.bo.CreditCardType" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="financialDocumentCreditCardTypeCode" />
+	</reference-descriptor>
 </class-descriptor>
 
 <!-- CASH DRAWER SPECIFIC MAPPINGS -->
@@ -1628,21 +1645,4 @@
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="financialDocumentCreditCardCompanyName" column="FDOC_CCRD_CMPNY_NM" jdbc-type="VARCHAR"/>
-</class-descriptor>
-
-<class-descriptor class="org.kuali.module.financial.bo.CreditCardDetail" table="FP_CR_CARD_DTL_T">
-	<field-descriptor name="financialDocumentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="financialDocumentTypeCode" column="FDOC_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="financialDocumentColumnTypeCode" column="FDOC_COLUMN_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="financialDocumentLineNumber" column="FDOC_LINE_NBR" jdbc-type="INTEGER" primarykey="true" index="true"/>
-	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
-	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="financialDocumentCreditCardTypeCode" column="FDOC_CCRD_TYP_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="financialDocumentCreditCardVendorNumber" column="FDOC_CCRD_VNDR_NBR" jdbc-type="VARCHAR"/>
-	<field-descriptor name="creditCardDepositDate" column="FDOC_CCRD_DPST_DT" jdbc-type="DATE"/>
-	<field-descriptor name="creditCardDepositReferenceNumber" column="FDOC_CCRD_DREF_NBR" jdbc-type="VARCHAR"/>
-	<field-descriptor name="creditCardAdvanceDepositAmount" column="FDOC_CCRD_DPST_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<reference-descriptor name="financialDocumentCreditCardType" class-ref="org.kuali.module.financial.bo.CreditCardType" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="financialDocumentCreditCardTypeCode" />
-	</reference-descriptor>
 </class-descriptor>

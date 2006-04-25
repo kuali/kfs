@@ -27,6 +27,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.format.CurrencyFormatter;
 import org.kuali.module.financial.bo.CreditCardDetail;
 
@@ -133,6 +134,7 @@ public class CreditCardReceiptDocument extends CashReceiptDocument {
         creditCardReceiptDetail.setFinancialDocumentLineNumber(this.nextCcCrLineNumber);
         creditCardReceiptDetail.setFinancialDocumentColumnTypeCode(CASH_RECEIPT_CREDIT_CARD_RECEIPT_COLUMN_TYPE_CODE);
         creditCardReceiptDetail.setFinancialDocumentNumber(this.getFinancialDocumentNumber());
+        creditCardReceiptDetail.setFinancialDocumentTypeCode(SpringServiceLocator.getDocumentTypeService().getDocumentTypeCodeByClass(this.getClass()));
     }
 
     /**

@@ -22,6 +22,8 @@
  */
 package org.kuali.module.gl.service;
 
+import java.util.Iterator;
+
 import org.kuali.module.gl.bo.Encumbrance;
 
 public interface EncumbranceService {
@@ -40,4 +42,8 @@ public interface EncumbranceService {
    */
   public void purgeYearByChart(String chartOfAccountsCode,int year);
 
+  /**
+   * fetch all encumbrance records from GL open encumbrance table
+   */
+  public Iterator getAllEncumbrances();
 }

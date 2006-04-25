@@ -34,7 +34,7 @@ import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 /**
  * @author jsissom
- * @version $Id: EncumbranceDaoOjb.java,v 1.5 2006-04-18 19:35:38 jsissom Exp $
+ * @version $Id: EncumbranceDaoOjb.java,v 1.6 2006-04-25 20:58:43 bgao Exp $
  */
 public class EncumbranceDaoOjb extends PersistenceBrokerDaoSupport implements EncumbranceDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EncumbranceDaoOjb.class);
@@ -131,5 +131,14 @@ public class EncumbranceDaoOjb extends PersistenceBrokerDaoSupport implements En
         // remove them from the cache so a future select will retrieve these deleted account balances from
         // the cache and return them. Clearing the cache forces OJB to go to the database again.
         getPersistenceBrokerTemplate().clearCache();
+    }
+
+    /**
+     * @see org.kuali.module.gl.dao.EncumbranceDao#getAllEncumbrances()
+     */
+    public Iterator getAllEncumbrances() {
+        Criteria criteria = new Criteria();
+        QueryByCriteria query = QueryFactory.newQuery(Encumbrance.class, criteria);
+        return getPersistenceBrokerTemplate().getIteratorByQuery(query);
     }
 }

@@ -29,11 +29,16 @@ import org.kuali.module.gl.bo.Transaction;
 
 /**
  * @author jsissom
- * @version $Id: EncumbranceDao.java,v 1.3 2006-04-17 14:10:34 larevans Exp $
+ * @version $Id: EncumbranceDao.java,v 1.4 2006-04-25 20:58:43 bgao Exp $
  */
 public interface EncumbranceDao {
   public Encumbrance getEncumbranceByTransaction(Transaction t);
   public Iterator getEncumbrancesToClose(Integer fiscalYear);
   public void purgeYearByChart(String chartOfAccountsCode, int year);
   public void save(Encumbrance e);
+  
+  /**
+   * fetch all encumbrance records from GL open encumbrance table
+   */
+  public Iterator getAllEncumbrances();
 }

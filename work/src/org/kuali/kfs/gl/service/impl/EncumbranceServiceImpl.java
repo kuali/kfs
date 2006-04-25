@@ -22,6 +22,8 @@
  */
 package org.kuali.module.gl.service.impl;
 
+import java.util.Iterator;
+
 import org.kuali.module.gl.bo.Encumbrance;
 import org.kuali.module.gl.dao.EncumbranceDao;
 import org.kuali.module.gl.service.EncumbranceService;
@@ -42,9 +44,15 @@ public class EncumbranceServiceImpl implements EncumbranceService {
 
         encumbranceDao.purgeYearByChart(chartOfAccountsCode, year);
     }
+    
+    /**
+     * @see org.kuali.module.gl.service.EncumbranceService#getAllEncumbrances()
+     */
+    public Iterator getAllEncumbrances() {
+        return encumbranceDao.getAllEncumbrances();
+    }  
 
     public void setEncumbranceDao(EncumbranceDao ed) {
         encumbranceDao = ed;
     }
-    
 }

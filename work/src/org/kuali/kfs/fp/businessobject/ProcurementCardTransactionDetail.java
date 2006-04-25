@@ -26,11 +26,11 @@
 package org.kuali.module.financial.bo;
 
 import java.sql.Date;
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.util.TypedArrayList;
 
 /**
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
@@ -51,8 +51,8 @@ public class ProcurementCardTransactionDetail extends BusinessObjectBase {
      * Default constructor.
      */
     public ProcurementCardTransactionDetail() {
-        sourceAccountingLines = new ArrayList();
-        targetAccountingLines = new ArrayList();
+        sourceAccountingLines = new TypedArrayList(ProcurementCardSourceAccountingLine.class);
+        targetAccountingLines = new TypedArrayList(ProcurementCardTargetAccountingLine.class);
     }
 
     /**

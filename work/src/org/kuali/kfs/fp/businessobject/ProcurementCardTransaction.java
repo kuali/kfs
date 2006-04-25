@@ -57,6 +57,8 @@ public class ProcurementCardTransaction extends BusinessObjectBase {
 
     private Account account;
 	private Chart chartOfAccounts;
+	
+	//private static Integer incrementSequenceNum = new Integer(0);
 
 	/**
 	 * Default constructor.
@@ -103,6 +105,8 @@ public class ProcurementCardTransaction extends BusinessObjectBase {
 	 * 
 	 */
 	public void setTransactionSequenceRowNumber(Integer transactionSequenceRowNumber) {
+//		this.transactionSequenceRowNumber = new Integer(incrementSequenceNum.intValue() + 1);
+//		incrementSequenceNum = this.transactionSequenceRowNumber;
 		this.transactionSequenceRowNumber = transactionSequenceRowNumber;
 	}
 
@@ -146,6 +150,10 @@ public class ProcurementCardTransaction extends BusinessObjectBase {
 	 */
 	public void setFinancialDocumentTotalAmount(KualiDecimal financialDocumentTotalAmount) {
 		this.financialDocumentTotalAmount = financialDocumentTotalAmount;
+	}
+	
+	public void setFinancialDocumentTotalAmount(String financialDocumentTotalAmount) {
+		this.financialDocumentTotalAmount = new KualiDecimal(financialDocumentTotalAmount);
 	}
 
 

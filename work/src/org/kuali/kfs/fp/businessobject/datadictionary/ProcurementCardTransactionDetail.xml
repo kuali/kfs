@@ -5,9 +5,19 @@
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.module.financial.bo.ProcurementCardTransactionDetail">
         <customAttributeEnabled>false</customAttributeEnabled>
+		
+		<inquiry>
+			<title>Transaction Inquiry</title>
 
+			<inquiryFields>
+				<field attributeName="transactionReferenceNumber" />
+				<field attributeName="transactionVendorName" />	
+				<field attributeName="transactionDate" />				
+				<field attributeName="transactionMerchantCategoryCode" />				
+			</inquiryFields>
+		</inquiry>
+		
         <attributes>
-        
         	<attributeReference name="financialDocumentNumber"
 								sourceClassName="org.kuali.core.document.DocumentHeader"
 								sourceAttributeName="financialDocumentNumber" />
@@ -31,7 +41,7 @@
                 <label>Transaction Date</label>
                 <shortLabel>Date</shortLabel>
 
-                <maxLength>7</maxLength>
+                <maxLength>10</maxLength>
                 <validationPattern><date /></validationPattern>
 
                 <control>
@@ -40,6 +50,7 @@
 
                 <summary>transactionDate</summary>
                 <description>transactionDate description...</description>
+                <formatterClass>org.kuali.core.web.format.DateFormatter</formatterClass>
 			</attribute>
 
             <attribute name="transactionMerchantCategoryCode" forceUppercase="true">
@@ -86,7 +97,6 @@
                 <summary>transactionVendorName</summary>
                 <description>transactionVendorName description...</description>
 			</attribute>
-
         </attributes>
     </businessObject>
 </dictionaryEntry>

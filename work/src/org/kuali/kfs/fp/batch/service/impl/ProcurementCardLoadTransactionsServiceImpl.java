@@ -23,6 +23,7 @@
 package org.kuali.module.financial.service.impl;
 
 import java.io.File;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
@@ -38,6 +39,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.datadictionary.DataDictionaryBuilder;
 import org.kuali.core.datadictionary.XmlErrorHandler;
 import org.kuali.core.datadictionary.exception.InitException;
+import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DictionaryValidationService;
@@ -54,11 +56,11 @@ import org.xml.sax.SAXException;
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class ProcurementCardLoadTransactionsServiceImpl implements ProcurementCardLoadTransactionsService {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProcurementCardLoadTransactionsServiceImpl.class);
-  
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger
+            .getLogger(ProcurementCardLoadTransactionsServiceImpl.class);
+
     private final static String PCARD_DOCUMENT_PARAMETERS_SEC_GROUP = "PCardDocumentParameters";
     private final static String KUALI_FILE_DIRECTORY_PARM_NM = "KUALI_FILE_DIRECTORY";
-    private final static String KUALI_FILE_NAME_PARM_NM = "KUALI_FILE_NAME";
 
     private static final String PACKAGE_PREFIX = "/org/kuali/module/financial/batch/pcard/";
 
@@ -78,64 +80,80 @@ public class ProcurementCardLoadTransactionsServiceImpl implements ProcurementCa
      */
     public boolean loadProcurementCardDataFile() {
         // get input file to process
-        File pcardLoadFile = retrieveKualiPCardFile();
-        if (pcardLoadFile == null) {
-            LOG.error("Kuali Procurment Card Not Found.");
-            throw new RuntimeException("Kuali Procurment Card Not Found.");
+        File[] pcardLoadFiles = retrieveKualiPCardFile();
+        if (pcardLoadFiles == null) {
+            LOG.warn("No PCard input files found.");
+            throw new NoTransactionsException("No PCard input files found.");
         }
-
-        // setup digester for parsing the xml file
-        Digester digester = buildDigester(pcardLoadFile.getName());
-
-        Collection pcardTransactions;
-        try {
-            pcardTransactions = (Collection) digester.parse(pcardLoadFile);
-        }
-        catch (IOException e) {
-            LOG.error("Error parsing xml " + e.getMessage());
-            throw new RuntimeException("Error parsing xml " + e.getMessage());
-        }
-        catch (SAXException e) {
-            LOG.error("Error parsing xml " + e.getMessage());
-            throw new RuntimeException("Error parsing xml " + e.getMessage());
-        }
-        LOG.info("Finished Parsing of PCard Input File");
-
-        if (pcardTransactions == null || pcardTransactions.isEmpty()) {
-            LOG.warn("No PCard transactions in input file.");
-            throw new NoTransactionsException("No PCard transactions in input file.");
-        }
-
-        // check transaction record against dd, validates length, required, and format
-        boolean validationSuccessful = validateTransactionsDataFormat(pcardTransactions);
-
+        
         // clean transaction table from any previous loads
         cleanTransactionsTable();
+        
+        int totalTransactionsParsed = 0;
 
-        // load new transactions into temp table
-        loadTransactions((List) pcardTransactions);
+        for (int i = 0; i < pcardLoadFiles.length; i++) {
+            File pcardLoadFile = pcardLoadFiles[i];
+            // setup digester for parsing the xml file
+            Digester digester = buildDigester(pcardLoadFile.getName());
 
-        // back up input file
-        String dateString = (new SimpleDateFormat("yyyy-MM-dd")).format(dateTimeService.getCurrentDate());
-        String[] extSplit = StringUtils.split(pcardLoadFile.getAbsolutePath(), ".");
-        File backupPCardFile = new File(extSplit[0] + dateString + "." + extSplit[1]);
-        pcardLoadFile.renameTo(backupPCardFile);
+            Collection pcardTransactions;
+            try {
+                pcardTransactions = (Collection) digester.parse(pcardLoadFile);
+            }
+            catch (Exception e) {
+                LOG.error("Error parsing xml " + e.getMessage());
+                throw new RuntimeException("Error parsing xml " + e.getMessage());
+            }
+
+            if (pcardTransactions == null || pcardTransactions.isEmpty()) {
+                LOG.warn("No PCard transactions in input file.");
+                continue;
+            }
+            
+            totalTransactionsParsed += pcardTransactions.size();
+
+            // check transaction record against dd, validates length, required, and format
+            boolean validationSuccessful = validateTransactionsDataFormat(pcardTransactions);
+            if (!validationSuccessful) {
+                LOG.error("Error validating transaction against dd file. " + GlobalVariables.getErrorMap().toString());
+                throw new ValidationException("Error validating transaction against dd file. " + GlobalVariables.getErrorMap().toString());
+            }
+
+            // load new transactions into temp table
+            loadTransactions((List) pcardTransactions);
+
+            // back up input file
+//            String dateString = (new SimpleDateFormat("yyyy-MM-dd")).format(dateTimeService.getCurrentDate());
+//            String[] extSplit = StringUtils.split(pcardLoadFile.getAbsolutePath(), ".");
+//            File backupPCardFile = new File(extSplit[0] + dateString + "." + extSplit[1]);
+//            pcardLoadFile.renameTo(backupPCardFile);
+        }
+        
+        LOG.debug(Integer.toString(totalTransactionsParsed));
+        System.out.println(Integer.toString(totalTransactionsParsed));
 
         return true;
+    }
+    
+    private class PCardFilenameFilter implements FilenameFilter {
+        /**
+         * @see java.io.FilenameFilter#accept(java.io.File, java.lang.String)
+         */
+        public boolean accept(File dir, String name) {
+            return name.endsWith(".xml");
+        }
     }
 
     /**
      * Looks for the PCard input file using the APC parameters for the directory and name.
      * @return File object representing the input file or null if not found
      */
-    private File retrieveKualiPCardFile() {
+    private File[] retrieveKualiPCardFile() {
         // retrieve parms telling us where to find the file
         String fileDirectory = kualiConfigurationService.getApplicationParameterValue(PCARD_DOCUMENT_PARAMETERS_SEC_GROUP,
                 KUALI_FILE_DIRECTORY_PARM_NM);
-        String fileName = kualiConfigurationService.getApplicationParameterValue(PCARD_DOCUMENT_PARAMETERS_SEC_GROUP,
-                KUALI_FILE_NAME_PARM_NM);
 
-        return new File(fileDirectory + fileName);
+        return (new File(fileDirectory)).listFiles(new PCardFilenameFilter());
     }
 
     /**

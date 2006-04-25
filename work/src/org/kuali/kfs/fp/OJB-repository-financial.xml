@@ -1285,7 +1285,6 @@
 
 <class-descriptor class="org.kuali.module.financial.document.ProcurementCardDocument" table="FP_PRCRMNT_DOC_T">
 	<field-descriptor name="financialDocumentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="nextSourceLineNumber" column="FDOC_NXT_LINE_NBR" jdbc-type="INTEGER"/>
 	<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR"/>
@@ -1339,11 +1338,6 @@
         <orderby name="sequenceNumber" sort="ASC"/>
         <inverse-foreignkey field-ref="financialDocumentNumber"/>
     </collection-descriptor>
-</class-descriptor>
-
-<class-descriptor class="org.kuali.module.financial.bo.ProcurementCardAccountingLineBase">
-    <extent-class class-ref="org.kuali.module.financial.bo.ProcurementCardSourceAccountingLine" />
-    <extent-class class-ref="org.kuali.module.financial.bo.ProcurementCardTargetAccountingLine" />
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.financial.bo.ProcurementCardSourceAccountingLine" table="FP_PRCRMNT_ACCT_LINES_T">

@@ -33,6 +33,8 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.util.ErrorMap;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.financial.bo.ProcurementCardSourceAccountingLine;
 import org.kuali.module.financial.bo.ProcurementCardTargetAccountingLine;
@@ -51,14 +53,6 @@ import edu.iu.uis.eden.exception.WorkflowException;
  */
 public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCardCreateDocumentService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProcurementCardCreateDocumentServiceImpl.class);
-
-    private final static String PCARD_DOCUMENT_PARAMETERS_SEC_GROUP = "PCardDocumentParameters";
-    private final static String SINGLE_TRANSACTION_IND_PARM_NM = "SINGLE_TRANSACTION_INDICATOR";
-    private final static String ERROR_TRANS_CHART_CODE_PARM_NM = "ERROR_TRANSACTION_CHART_CODE";
-    private final static String ERROR_TRANS_ACCOUNT_PARM_NM = "ERROR_TRANSACTION_ACCOUNT_NUMBER";
-    private final static String DEFAULT_TRANS_CHART_CODE_PARM_NM = "DEFAULT_TRANSACTION_CHART_CODE";
-    private final static String DEFAULT_TRANS_ACCOUNT_PARM_NM = "DEFAULT_TRANSACTION_ACCOUNT_NUMBER";
-    private final static String DEFAULT_TRANS_OBJECT_CODE_PARM_NM = "DEFAULT_TRANSACTION_OBJECT_CODE";
 
     private KualiConfigurationService kualiConfigurationService;
     private BusinessObjectService businessObjectService;
@@ -84,7 +78,8 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
             singleTransaction = true;
         }
 
-        // iterate through trans list, if single call create document for each transaction, else build list until card number changes
+        // iterate through trans list, if single call create document for each transaction, else build list until card number
+        // changes
         List documentTransactions = new ArrayList();
         String previousCardNumber = "";
         for (Iterator iter = transactions.iterator(); iter.hasNext();) {
@@ -107,9 +102,40 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
             }
         }
 
+        // now store all the documents
+        for (Iterator iter = documents.iterator(); iter.hasNext();) {
+            ProcurementCardDocument pcardDocument = (ProcurementCardDocument) iter.next();
+            try {
+                documentService.save(pcardDocument, "", null);
+            }
+            catch (Exception e) {
+                throw new RuntimeException(e.getMessage());
+            }
+        }
+
         return true;
     }
 
+    /**
+     * Routes all pcard documents in 'I' status.
+     * 
+     * @see org.kuali.module.financial.service.ProcurementCardCreateDocumentService#routeProcurementCardDocuments(java.util.List)
+     */
+    public boolean routeProcurementCardDocuments() {
+        List documentList = (List) documentService.findByDocumentHeaderStatusCode(ProcurementCardDocument.class,
+                Constants.DOCUMENT_STATUS_CD_IN_PROCESS_PROCESSED);
+        for (Iterator iter = documentList.iterator(); iter.hasNext();) {
+            ProcurementCardDocument pcardDocument = (ProcurementCardDocument) iter.next();
+            try {
+                documentService.route(pcardDocument, "", new ArrayList());
+            }
+            catch (WorkflowException e) {
+                throw new RuntimeException(e.getMessage());
+            }
+        }
+
+        return true;
+    }
 
     /**
      * Creates a ProcurementCardDocument from the List of transactions
@@ -159,6 +185,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
             }
 
             pcardDocument.getDocumentHeader().setFinancialDocumentTotalAmount(documentTotalAmount);
+            pcardDocument.getDocumentHeader().setFinancialDocumentDescription("Generated PCDO Document");
             pcardDocument.setExplanation(errorText);
         }
         catch (WorkflowException e) {
@@ -201,6 +228,9 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
 
         // build source line, note this is actually the displayed lines on the document
         ProcurementCardSourceAccountingLine sourceLine = createSourceAccountingLine(transaction, docTransactionDetail);
+
+        // add line to transaction through document since document contains the next sequence number fields
+        pcardDocument.addSourceAccountingLine(sourceLine);
 
         return validateSourceAccountingLine(sourceLine);
     }
@@ -280,7 +310,8 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
         sourceLine.refresh();
 
         if (StringUtils.isNotBlank(sourceLine.getFinancialSubObjectCode())
-                && !AccountingLineRuleUtil.isValidSubObjectCode(sourceLine.getSubObjectCode(), dataDictionaryService.getDataDictionary())) {
+                && !AccountingLineRuleUtil.isValidSubObjectCode(sourceLine.getSubObjectCode(), dataDictionaryService
+                        .getDataDictionary())) {
             LOG.info("Sub Object Code " + sourceLine.getFinancialSubObjectCode() + " is invalid. Setting to blank");
             errorText += " Sub Object Code " + sourceLine.getFinancialSubObjectCode() + " is invalid. Setting to blank";
 
@@ -295,13 +326,17 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
             sourceLine.setProjectCode("");
         }
 
-        if (!AccountingLineRuleUtil.isValidAccount(sourceLine.getAccount(), dataDictionaryService.getDataDictionary()) || sourceLine.getAccount().isExpired()) {
+        if (!AccountingLineRuleUtil.isValidAccount(sourceLine.getAccount(), dataDictionaryService.getDataDictionary())
+                || sourceLine.getAccount().isExpired()) {
             LOG.info("Account " + sourceLine.getAccountNumber() + " is invalid. Using error account.");
             errorText += " Account " + sourceLine.getAccountNumber() + " is invalid. Using error Chart & Account.";
 
             sourceLine.setChartOfAccountsCode(getErrorChartCode());
             sourceLine.setAccountNumber(getErrorAccountNumber());
         }
+
+        // clear out GlobalVariable error map, since we have taken care of the errors
+        GlobalVariables.setErrorMap(new ErrorMap());
 
         return errorText;
     }

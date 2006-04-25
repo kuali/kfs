@@ -23,6 +23,7 @@
 package org.kuali.module.financial.service;
 
 
+
 /**
  * Service interface for implementing methods to create procurement card
  * documents.
@@ -30,10 +31,27 @@ package org.kuali.module.financial.service;
  */
 public interface ProcurementCardCreateDocumentService {
     
+    public static String PCARD_DOCUMENT_PARAMETERS_SEC_GROUP = "PCardDocumentParameters";
+    public static String SINGLE_TRANSACTION_IND_PARM_NM = "SINGLE_TRANSACTION_INDICATOR";
+    public static String ERROR_TRANS_CHART_CODE_PARM_NM = "ERROR_TRANSACTION_CHART_CODE";
+    public static String ERROR_TRANS_ACCOUNT_PARM_NM = "ERROR_TRANSACTION_ACCOUNT_NUMBER";
+    public static String DEFAULT_TRANS_CHART_CODE_PARM_NM = "DEFAULT_TRANSACTION_CHART_CODE";
+    public static String DEFAULT_TRANS_ACCOUNT_PARM_NM = "DEFAULT_TRANSACTION_ACCOUNT_NUMBER";
+    public static String DEFAULT_TRANS_OBJECT_CODE_PARM_NM = "DEFAULT_TRANSACTION_OBJECT_CODE";
+    public static String DISPUTE_URL_PARM_NM = "DISPUTE_URL";
+    
     /**
      * Creates procurement card documents and routes from the records loaded
      * into the transaction table.
-     * @return boolean indicating if the documents were created successfully
+     * @return boolean indicating whether the routing was successful
      */
     public boolean createProcurementCardDocuments();
+    
+    /**
+     * Looks for PCDO documents in 'I' status, meaning they have been created
+     * and saved to inbox, but need routed.
+     * @param documentList list of documents to be routed
+     * @return boolean indicating whether the routing was successful
+     */
+    public boolean routeProcurementCardDocuments();
 }

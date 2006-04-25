@@ -26,6 +26,8 @@
 <%@ attribute name="actionGroup" required="true" description="The name of the group of action buttons to be displayed; valid values are newLine and existingLine." %>
 <%@ attribute name="actionInfix" required="true" description="Infix used to build method names which will be invoked by the buttons in this actionGroup" %>
 
+<%@ attribute name="accountingAddLineIndex" required="false" description="index for multiple add new source lines" %>
+
 <%@ attribute name="readOnly" required="true" %>
 <%@ attribute name="editableFields" required="false" type="java.util.Map"
               description="Map of accounting line fields which this user is allowed to edit" %>
@@ -286,6 +288,15 @@
     <c:choose>
         <c:when test="${actionGroup == 'newLine' }" >
             <c:set var="insertMethod" value="insert${actionInfix}Line" />
+
+            <td rowspan="${rowCount}" class="${dataCellCssClass}" nowrap><div align="center">
+                <html:image property="methodToCall.${insertMethod}" src="images/tinybutton-add1.gif" alt="insert" styleClass="tinybutton"/>
+                <fin:accountingLineDataCellDetail/></div>
+            </td>
+        </c:when>
+        
+        <c:when test="${actionGroup == 'newGroupLine' }" >
+            <c:set var="insertMethod" value="insert${actionInfix}Line.line${accountingAddLineIndex}" />
 
             <td rowspan="${rowCount}" class="${dataCellCssClass}" nowrap><div align="center">
                 <html:image property="methodToCall.${insertMethod}" src="images/tinybutton-add1.gif" alt="insert" styleClass="tinybutton"/>

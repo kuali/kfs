@@ -22,7 +22,10 @@
  */
 package org.kuali.module.financial.service;
 
+import java.util.List;
+
 import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.module.financial.bo.ProcurementCardTransaction;
 import org.kuali.test.KualiTestBaseWithFixtures;
 
 /**
@@ -33,27 +36,38 @@ import org.kuali.test.KualiTestBaseWithFixtures;
 public class ProcurementCardDocumentServiceTest extends KualiTestBaseWithFixtures {
     private ProcurementCardCreateDocumentService procurementCardCreateDocumentService;
     private ProcurementCardLoadTransactionsService procurementCardLoadTransactionsService;
+    private static String PCDO_USER_NAME = "hschrein";
+    
+    private static List documentsCreated;
 
     protected void setUp() throws Exception {
         super.setUp();
+        changeCurrentUser(PCDO_USER_NAME);
+        setRollback(false);
 
         procurementCardCreateDocumentService = SpringServiceLocator.getProcurementCardCreateDocumentService();
         procurementCardLoadTransactionsService = SpringServiceLocator.getProcurementCardLoadTransactionsService();
     }
 
     /**
-     * Tests that the service is parsing the kuali xml file and loading into the transaction table correctly.
+     * Tests that the service is parsing the kuali xml files and loading into the transaction table correctly.
      * @throws Exception
      */
-    public void testLoadKualiPCardFile() throws Exception {
-//        boolean loadSuccessful = procurementCardLoadTransactionsService.loadProcurementCardDataFile();
-//
-//        List loadedTransactions = (List) SpringServiceLocator.getBusinessObjectService().findAll(ProcurementCardTransaction.class);
-//        assertNotNull(loadedTransactions);
-//        assertEquals("Incorrect number of rows loaded ", 2, loadedTransactions.size());
-        
-        // rename file back so the test can run again
-        
+    public void testLoadKualiPCardFiles() throws Exception {
+        boolean loadSuccessful = procurementCardLoadTransactionsService.loadProcurementCardDataFile();
+
+        // load transactions
+        List loadedTransactions = (List) SpringServiceLocator.getBusinessObjectService().findAll(ProcurementCardTransaction.class);
+        assertNotNull(loadedTransactions);
+        assertEquals("Incorrect number of rows loaded ", 4, loadedTransactions.size());
     }
+    
+    public void testCreatePCardDocuments() throws Exception {
+        boolean documentsCreated = procurementCardCreateDocumentService.createProcurementCardDocuments();
+    }
+    
+//    public void testRoutePCardDocuments() throws Exception {
+//        boolean routeSuccessful = procurementCardCreateDocumentService.routeProcurementCardDocuments(documentsCreated);
+//    }
 
 }

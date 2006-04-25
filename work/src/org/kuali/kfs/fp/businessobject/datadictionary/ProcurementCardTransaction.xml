@@ -87,7 +87,7 @@
                 <label>Transaction Cycle End Date</label>
                 <shortLabel>Date</shortLabel>
 
-                <maxLength>7</maxLength>
+                <maxLength>10</maxLength>
                 <validationPattern><date /></validationPattern>
 
                 <control>
@@ -102,7 +102,7 @@
                 <label>Transaction Cycle Start Date</label>
                 <shortLabel>Date</shortLabel>
 
-                <maxLength>7</maxLength>
+                <maxLength>10</maxLength>
                 <validationPattern><date /></validationPattern>
 
                 <control>
@@ -117,7 +117,7 @@
                 <label>Transaction Date</label>
                 <shortLabel>Date</shortLabel>
 
-                <maxLength>7</maxLength>
+                <maxLength>10</maxLength>
                 <validationPattern><date /></validationPattern>
 
                 <control>

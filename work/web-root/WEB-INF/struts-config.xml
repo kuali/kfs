@@ -32,6 +32,7 @@
        <form-bean name="DisbursementVoucherForm" type="org.kuali.module.financial.web.struts.form.DisbursementVoucherForm" />
        <form-bean name="CashManagementForm" type="org.kuali.module.financial.web.struts.form.CashManagementForm" />
        <form-bean name="CashManagementStatusForm" type="org.kuali.module.financial.web.struts.form.CashManagementStatusForm" />
+       <form-bean name="ProcurementCardForm" type="org.kuali.module.financial.web.struts.form.ProcurementCardForm" />
 
        <!-- KRA Module Bean Definitions -->
        <form-bean name="BudgetForm" type="org.kuali.module.kra.web.struts.form.BudgetForm" />

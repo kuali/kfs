@@ -26,7 +26,6 @@ import org.kuali.core.batch.Step;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.gl.service.YearEndService;
-import org.kuali.module.gl.service.impl.YearEndServiceImpl;
 
 public class EncumbranceForwardStep implements Step {
     

@@ -18,7 +18,7 @@
         </authorizations>
 
 		<documentTypeName>KualiAicpaFunctionMaintenanceDocument</documentTypeName>
-		<documentTypeCode>AICF</documentTypeCode>
+		<documentTypeCode>AFUN</documentTypeCode>
 
 		<label>AICPA Function Maintenance Document</label>
 		<shortLabel>AICPA Function Maint Doc</shortLabel>

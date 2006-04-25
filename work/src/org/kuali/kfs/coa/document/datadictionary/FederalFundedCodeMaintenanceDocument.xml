@@ -19,7 +19,7 @@
         </authorizations>
 
 		<documentTypeName>KualiFederalFundedCodeMaintenanceDocument</documentTypeName>
-		<documentTypeCode>FFM</documentTypeCode>
+		<documentTypeCode>FFC</documentTypeCode>
 		<label>Federal Funded Code Maintenance Document</label>
 		<shortLabel>FederalFundedCodeMaintDoc</shortLabel>
 		<summary>Federal Funded Code Maintenance Document</summary>

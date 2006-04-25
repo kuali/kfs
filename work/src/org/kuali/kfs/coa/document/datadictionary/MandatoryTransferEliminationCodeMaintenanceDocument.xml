@@ -19,7 +19,7 @@
         </authorizations>
 
 		<documentTypeName>KualiMandatoryTransferEliminationCodeMaintenanceDocument</documentTypeName>
-		<documentTypeCode>MTM</documentTypeCode>
+		<documentTypeCode>MTE</documentTypeCode>
 		<label>Mandatory Transfer Elimination Code Maintenance Document</label>
 		<shortLabel>MandTransferElimCodeMaintDoc</shortLabel>
 		<summary>Mandatory Transfer EliminationCode Maintenance Document</summary>

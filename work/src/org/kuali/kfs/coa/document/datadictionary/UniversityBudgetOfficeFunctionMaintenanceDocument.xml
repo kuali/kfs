@@ -18,7 +18,7 @@
         </authorizations>
 
 		<documentTypeName>KualiUniversityBudgetOfficeFunctionMaintenanceDocument</documentTypeName>
-		<documentTypeCode>UBOF</documentTypeCode>
+		<documentTypeCode>UFUN</documentTypeCode>
 
 		<label>University Budget Office Function Maintenance Document</label>
 		<shortLabel>Univ Budget Office Function Maint Doc</shortLabel>

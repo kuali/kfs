@@ -244,6 +244,7 @@
     	<copy todir="${test.classes.directory}">
             <fileset dir="${test.source.directory}">
             	<patternset refid="non.java.resources"/>
+            	<include name="**/*.txt"/>
             </fileset>
         </copy>
     	<copy todir="${test.classes.directory}">

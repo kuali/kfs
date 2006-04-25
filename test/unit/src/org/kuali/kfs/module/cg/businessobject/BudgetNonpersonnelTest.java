@@ -25,6 +25,7 @@ package org.kuali.module.kra.bo;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.core.util.KualiInteger;
 import org.kuali.test.KualiTestBaseWithSpring;
 
 /**
@@ -65,9 +66,9 @@ public class BudgetNonpersonnelTest extends KualiTestBaseWithSpring {
             budgetNonpersonnel.setBudgetUniversityCostShareCopyIndicator(false);
             budgetNonpersonnel.setBudgetThirdPartyCostShareCopyIndicator(false);
             
-            budgetNonpersonnel.setAgencyRequestAmount(new Long(1000));
-            budgetNonpersonnel.setBudgetUniversityCostShareAmount(new Long(2000));
-            budgetNonpersonnel.setBudgetThirdPartyCostShareAmount(new Long(3000));
+            budgetNonpersonnel.setAgencyRequestAmount(new KualiInteger(1000));
+            budgetNonpersonnel.setBudgetUniversityCostShareAmount(new KualiInteger(2000));
+            budgetNonpersonnel.setBudgetThirdPartyCostShareAmount(new KualiInteger(3000));
             
             budgetNonpersonnel.setBudgetOriginSequenceNumber(null);
             

@@ -109,8 +109,8 @@
   <field-descriptor name="budgetProjectDirectorSystemId" column="BDGT_PROJ_DRCTR_SYS_ID" jdbc-type="VARCHAR" />
   <field-descriptor name="budgetThirdPartyCostShareIndicator" column="BDGT_3RD_PRTY_CST_SHR_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
   <field-descriptor name="budgetStatusCode" column="BDGT_STAT_CD" jdbc-type="VARCHAR" />
-  <field-descriptor name="budgetPersonnelInflationRate" column="BDGT_PSNL_INFLTN_RT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-  <field-descriptor name="budgetNonpersonnelInflationRate" column="BDGT_NPRS_INFLTN_RT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+  <field-descriptor name="budgetPersonnelInflationRate" column="BDGT_PSNL_INFLTN_RT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbDecimalPercentageFieldConversion"/>
+  <field-descriptor name="budgetNonpersonnelInflationRate" column="BDGT_NPRS_INFLTN_RT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbDecimalPercentageFieldConversion"/>
   <field-descriptor name="electronicResearchAdministrationGrantNumber" column="ER_GRANT_NBR" jdbc-type="VARCHAR" />
   <field-descriptor name="routeSheetTrackNumber" column="RF_TRACK_NBR" jdbc-type="BIGINT" />
   <field-descriptor name="budgetFringeRateDescription" column="BDGT_FRNG_RT_DESC" jdbc-type="VARCHAR" />
@@ -178,6 +178,10 @@
   </collection-descriptor>
 
   <collection-descriptor name="thirdPartyCostShareItems" proxy="true" element-class-ref="org.kuali.module.kra.bo.BudgetThirdPartyCostShare" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+      <inverse-foreignkey field-ref="documentHeaderId"/>
+  </collection-descriptor>
+  
+  <collection-descriptor name="universityCostSharePersonnelItems" proxy="true" element-class-ref="org.kuali.module.kra.bo.UniversityCostSharePersonnel" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
       <inverse-foreignkey field-ref="documentHeaderId"/>
   </collection-descriptor>
   
@@ -260,16 +264,16 @@
 	<field-descriptor name="budgetNonpersonnelSequenceNumber" column ="BDGT_NPRS_SEQ_NBR" jdbc-type="INTEGER" primarykey="true" />
 	<field-descriptor name="budgetNonpersonnelSubCategoryCode" column="BDGT_NPRS_SUB_CTGRY_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="budgetNonpersonnelDescription" column="BDGT_NPRS_DESC" jdbc-type="VARCHAR" />
-	<field-descriptor name="agencyRequestAmount" column="AGNCY_RQST_AMT" jdbc-type="BIGINT" />
-	<field-descriptor name="budgetThirdPartyCostShareAmount" column="BDGT_3RD_PRTY_CST_SHR" jdbc-type="BIGINT" />
-	<field-descriptor name="budgetUniversityCostShareAmount" column="BDGT_UNIV_CST_SHR_AMT" jdbc-type="BIGINT" />
+	<field-descriptor name="agencyRequestAmount" column="AGNCY_RQST_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
+	<field-descriptor name="budgetThirdPartyCostShareAmount" column="BDGT_3RD_PRTY_CST_SHR" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
+	<field-descriptor name="budgetUniversityCostShareAmount" column="BDGT_UNIV_CST_SHR_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion" />
 	<field-descriptor name="budgetOriginSequenceNumber" column="BDGT_ORGN_SEQ_NBR" jdbc-type="INTEGER" />
 	<field-descriptor name="agencyCopyIndicator" column="AGNCY_CPY_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
 	<field-descriptor name="budgetUniversityCostShareCopyIndicator" column="BDGT_UNIV_CS_CPY_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 	<field-descriptor name="budgetThirdPartyCostShareCopyIndicator" column="BDGT_3RD_PRTY_CS_CPY_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
-	<field-descriptor name="budgetOriginAgencyAmount" column="BDGT_ORGN_AGNCY_AMT" jdbc-type="BIGINT" />
-	<field-descriptor name="budgetOriginUniversityCostShareAmount" column="BDGT_ORGN_UNIV_CST_SHR_AMT" jdbc-type="BIGINT" />
-	<field-descriptor name="budgetOriginThirdPartyCostShareAmount" column="BDGT_ORGN_3RD_PRTY_CST_SHR_AMT" jdbc-type="BIGINT" />
+	<field-descriptor name="budgetOriginAgencyAmount" column="BDGT_ORGN_AGNCY_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion" />
+	<field-descriptor name="budgetOriginUniversityCostShareAmount" column="BDGT_ORGN_UNIV_CST_SHR_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion" />
+	<field-descriptor name="budgetOriginThirdPartyCostShareAmount" column="BDGT_ORGN_3RD_PRTY_CST_SHR_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion" />
   <field-descriptor name="subcontractorNumber" column="SBCNR_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 	<field-descriptor name="versionNumber" locking="true" column="VER_NBR" jdbc-type="BIGINT" />
@@ -311,8 +315,8 @@
   <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
   <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
   <field-descriptor name="agencyModularIndicator" column="AGNCY_MOD_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
-  <field-descriptor name="budgetModularIncrementAmount" column="BDGT_MOD_INCR_AMT" jdbc-type="INTEGER"/>
-  <field-descriptor name="budgetPeriodMaximumAmount" column="BDGT_PRD_MAX_AMT" jdbc-type="INTEGER"/>
+  <field-descriptor name="budgetModularIncrementAmount" column="BDGT_MOD_INCR_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion" />
+  <field-descriptor name="budgetPeriodMaximumAmount" column="BDGT_PRD_MAX_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion" />
   <field-descriptor name="agencyNsfOutputIndicator" column="AGNCY_NSF_OUT_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 </class-descriptor>
 
@@ -320,9 +324,9 @@
   <field-descriptor name="documentHeaderId" column="ER_REF_TRACK_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
   <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
   <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-  <field-descriptor name="budgetModularIncrementAmount" column="BDGT_MOD_INCRM_AMT" jdbc-type="INTEGER"/>
+  <field-descriptor name="budgetModularIncrementAmount" column="BDGT_MOD_INCRM_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion" />
   <field-descriptor name="budgetModularTaskNumber" column="BDGT_MOD_TSK_NBR" jdbc-type="INTEGER"/>
-  <field-descriptor name="budgetPeriodMaximumAmount" column="BDGT_PRD_MAX_AMT" jdbc-type="INTEGER"/>
+  <field-descriptor name="budgetPeriodMaximumAmount" column="BDGT_PRD_MAX_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion" />
   <field-descriptor name="budgetModularConsortiumDescription" column="BDGT_MOD_CSRM_DESC" jdbc-type="CLOB"/>
   <field-descriptor name="budgetModularPersonnelDescription" column="BDGT_MOD_PSNL_DESC" jdbc-type="CLOB"/>
   <field-descriptor name="budgetModularVariableAdjustmentDescription" column="BDGT_MOD_VAR_ADJ_DESC" jdbc-type="CLOB"/> 
@@ -426,29 +430,29 @@
   <field-descriptor name="universityAppointmentTypeCode"               column="UNIV_APPT_TYP_CD"               jdbc-type="VARCHAR" primarykey="true" index="true"/>
   <field-descriptor name="objectId"                                    column="OBJ_ID"                         jdbc-type="VARCHAR"/>
   <field-descriptor name="versionNumber"                               column="VER_NBR"                        jdbc-type="BIGINT" locking="true"/>
-  <field-descriptor name="agencyFringeBenefitTotalAmount"              column="AGNCY_FRNG_BENE_TOT_AMT"        jdbc-type="INTEGER"/>
+  <field-descriptor name="agencyFringeBenefitTotalAmount"              column="AGNCY_FRNG_BENE_TOT_AMT"        jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
   <field-descriptor name="agencyPercentEffortAmount"                   column="AGNCY_PCT_EFFRT_AMT"            jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbDecimalPercentageFieldConversion"/>
-  <field-descriptor name="agencyRequestTotalAmount"                    column="AGNCY_RQST_TOT_AMT"             jdbc-type="INTEGER"/>
+  <field-descriptor name="agencyRequestTotalAmount"                    column="AGNCY_RQST_TOT_AMT"             jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
   <field-descriptor name="personWeeksAmount"                           column="PRSN_WKS_AMT"                   jdbc-type="INTEGER"/>
   <field-descriptor name="personWeeksJustificationText"                column="PRSN_WKS_JSTF_TXT"              jdbc-type="VARCHAR"/>
-  <field-descriptor name="universityCostShareFringeBenefitTotalAmount" column="UNIV_CST_SHR_FRNG_BENE_TOT_AMT" jdbc-type="INTEGER"/>
+  <field-descriptor name="universityCostShareFringeBenefitTotalAmount" column="UNIV_CST_SHR_FRNG_BENE_TOT_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
   <field-descriptor name="universityCostSharePercentEffortAmount"      column="UNIV_CST_SHR_PCT_EFFRT_AMT"     jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbDecimalPercentageFieldConversion"/>
-  <field-descriptor name="universityCostShareRequestTotalAmount"       column="UNIV_CST_SHR_RQST_TOT_AMT"      jdbc-type="INTEGER"/>
-  <field-descriptor name="userAgencyHours"                             column="USR_AGNCY_HRS"                  jdbc-type="INTEGER"/>
+  <field-descriptor name="universityCostShareRequestTotalAmount"       column="UNIV_CST_SHR_RQST_TOT_AMT"      jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
+  <field-descriptor name="userAgencyHours"                             column="USR_AGNCY_HRS"                  jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
   <field-descriptor name="userHourlyRate"                              column="USR_HRLY_RT"                    jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-  <field-descriptor name="userUniversityHours"                         column="USR_UNIV_HRS"                   jdbc-type="INTEGER"/>
-  <field-descriptor name="userBudgetPeriodSalaryAmount"                column="USR_BDGT_PRD_SLRY_AMT"          jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+  <field-descriptor name="userUniversityHours"                         column="USR_UNIV_HRS"                   jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
+  <field-descriptor name="userBudgetPeriodSalaryAmount"                column="USR_BDGT_PRD_SLRY_AMT"          jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
   <field-descriptor name="agencyFullTimeEquivalentPercent"             column="AGNCY_FTE_PCT"                  jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbDecimalPercentageFieldConversion" />
-  <field-descriptor name="agencyHealthInsuranceAmount"                 column="AGNCY_HLTH_INS_AMT"             jdbc-type="INTEGER"/>
-  <field-descriptor name="agencyRequestedFeesAmount"                   column="AGNCY_RQST_FEE_AMT"             jdbc-type="INTEGER"/>
-  <field-descriptor name="agencySalaryAmount"                          column="AGNCY_SLRY_AMT"                 jdbc-type="INTEGER"/>
+  <field-descriptor name="agencyHealthInsuranceAmount"                 column="AGNCY_HLTH_INS_AMT"             jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
+  <field-descriptor name="agencyRequestedFeesAmount"                   column="AGNCY_RQST_FEE_AMT"             jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
+  <field-descriptor name="agencySalaryAmount"                          column="AGNCY_SLRY_AMT"                 jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
   <field-descriptor name="universityFullTimeEquivalentPercent"         column="UNIV_FTE_PCT"                   jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbDecimalPercentageFieldConversion" />
-  <field-descriptor name="universityHealthInsuranceAmount"             column="UNIV_HLTH_INS_AMT"              jdbc-type="INTEGER"/>
-  <field-descriptor name="universityRequestedFeesAmount"               column="UNIV_RQST_FEE_AMT"              jdbc-type="INTEGER"/>
-  <field-descriptor name="universitySalaryAmount"                      column="UNIV_SLRY_AMT"                  jdbc-type="INTEGER"/>
-  <field-descriptor name="userCreditHoursNumber"                       column="USR_CRDT_HRS_NBR"               jdbc-type="INTEGER"/>
+  <field-descriptor name="universityHealthInsuranceAmount"             column="UNIV_HLTH_INS_AMT"              jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
+  <field-descriptor name="universityRequestedFeesAmount"               column="UNIV_RQST_FEE_AMT"              jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
+  <field-descriptor name="universitySalaryAmount"                      column="UNIV_SLRY_AMT"                  jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
+  <field-descriptor name="userCreditHoursNumber"                       column="USR_CRDT_HRS_NBR"               jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
   <field-descriptor name="userCreditHourAmount"                        column="USR_CRDT_HR_AMT"                jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-  <field-descriptor name="userMiscellaneousFeeAmount"                  column="USR_MISC_FEE_AMT"               jdbc-type="INTEGER"/>
+  <field-descriptor name="userMiscellaneousFeeAmount"                  column="USR_MISC_FEE_AMT"               jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
   <reference-descriptor name="budgetFringeRate" class-ref="org.kuali.module.kra.bo.BudgetFringeRate" auto-retrieve="true" auto-update="false" auto-delete="false">
     <foreignkey field-ref="documentHeaderId" />
     <foreignkey field-ref="universityAppointmentTypeCode" />
@@ -562,7 +566,7 @@
   <field-descriptor name="budgetPeriodSequenceNumber" column="BDGT_PRD_SEQ_NBR" jdbc-type="INTEGER" primarykey="true" index="true"/>
   <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
   <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-  <field-descriptor name="budgetAdjustedModularDirectCostAmount" column="BDGT_ADJ_MOD_DCST_AMT" jdbc-type="INTEGER"/>
+  <field-descriptor name="budgetAdjustedModularDirectCostAmount" column="BDGT_ADJ_MOD_DCST_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion" />
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.kra.bo.UniversityDate" table="ER_UNIV_DATE_T">

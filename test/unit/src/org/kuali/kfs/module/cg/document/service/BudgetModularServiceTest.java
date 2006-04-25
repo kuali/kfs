@@ -27,7 +27,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.cg.bo.Agency;
 import org.kuali.module.kra.bo.AgencyExtension;
@@ -68,8 +68,8 @@ public class BudgetModularServiceTest extends KualiTestBaseWithSession {
         Agency agency = new Agency();
         agency.setAgencyExtension(new AgencyExtension());
         agency.getAgencyExtension().setAgencyModularIndicator(true);
-        agency.getAgencyExtension().setBudgetModularIncrementAmount(new Integer(25000));
-        agency.getAgencyExtension().setBudgetPeriodMaximumAmount(new Integer(250000));
+        agency.getAgencyExtension().setBudgetModularIncrementAmount(new KualiInteger(25000));
+        agency.getAgencyExtension().setBudgetPeriodMaximumAmount(new KualiInteger(250000));
         
         budget.setPeriods(BudgetPeriodTest.createBudgetPeriods(2));
         
@@ -79,7 +79,7 @@ public class BudgetModularServiceTest extends KualiTestBaseWithSession {
     
     
     public void testGenerateModularBudget() {
-        KualiDecimal zeroValue = new KualiDecimal(0);
+        KualiInteger zeroValue = new KualiInteger(0);
         
         // Case 1: Budget with no costs
         Budget budget = setupBudget();
@@ -90,17 +90,17 @@ public class BudgetModularServiceTest extends KualiTestBaseWithSession {
         assertEquals(modularBudget.getIncrements().size(), 10);
         assertEquals(modularBudget.getBudgetModularDirectCostAmount(), zeroValue);
         assertEquals(modularBudget.getTotalActualDirectCostAmount(), zeroValue);
-        assertEquals(modularBudget.getTotalAdjustedModularDirectCostAmount(), new KualiDecimal(500000));
+        assertEquals(modularBudget.getTotalAdjustedModularDirectCostAmount(), new KualiInteger(500000));
         assertEquals(modularBudget.getTotalConsortiumAmount(), zeroValue);
-        assertEquals(modularBudget.getTotalDirectCostAmount(), new KualiDecimal(500000));
+        assertEquals(modularBudget.getTotalDirectCostAmount(), new KualiInteger(500000));
         assertEquals(modularBudget.getTotalModularDirectCostAmount(), zeroValue);
         
         for (Iterator iter = modularBudget.getBudgetModularPeriods().iterator(); iter.hasNext();) {
             BudgetModularPeriod modularPeriod = (BudgetModularPeriod) iter.next();
             assertEquals(modularPeriod.getActualDirectCostAmount(), zeroValue);
             assertEquals(modularPeriod.getConsortiumAmount(), zeroValue);
-            assertEquals(modularPeriod.getTotalPeriodDirectCostAmount(), new KualiDecimal(250000));
-            assertEquals(modularPeriod.getBudgetAdjustedModularDirectCostAmount(), new Integer(250000));
+            assertEquals(modularPeriod.getTotalPeriodDirectCostAmount(), new KualiInteger(250000));
+            assertEquals(modularPeriod.getBudgetAdjustedModularDirectCostAmount(), new KualiInteger(250000));
         }
         
         // Case 2: Budget with personnel, nonpersonnel, consortium costs
@@ -121,22 +121,22 @@ public class BudgetModularServiceTest extends KualiTestBaseWithSession {
             
         UserAppointmentTaskPeriod taskPeriod = new UserAppointmentTaskPeriod();
         taskPeriod.setBudgetPeriodSequenceNumber(period1.getBudgetPeriodSequenceNumber());
-        taskPeriod.setAgencyRequestTotalAmount(new Integer(39000));
-        taskPeriod.setAgencyFringeBenefitTotalAmount(new Integer(13000));
+        taskPeriod.setAgencyRequestTotalAmount(new KualiInteger(39000));
+        taskPeriod.setAgencyFringeBenefitTotalAmount(new KualiInteger(13000));
         userAppointmentTaskPeriods.add(taskPeriod);
             
         UserAppointmentTaskPeriod taskPeriod2 = new UserAppointmentTaskPeriod();
         taskPeriod2.setBudgetPeriodSequenceNumber(period1.getBudgetPeriodSequenceNumber());
-        taskPeriod2.setAgencyRequestTotalAmount(new Integer(43000));
-        taskPeriod2.setAgencyFringeBenefitTotalAmount(new Integer(8500));
+        taskPeriod2.setAgencyRequestTotalAmount(new KualiInteger(43000));
+        taskPeriod2.setAgencyFringeBenefitTotalAmount(new KualiInteger(8500));
         userAppointmentTaskPeriods.add(taskPeriod2);
         
         BudgetPeriod period2 = (BudgetPeriod) budget.getPeriods().get(1);
         
         UserAppointmentTaskPeriod taskPeriod3 = new UserAppointmentTaskPeriod();
         taskPeriod3.setBudgetPeriodSequenceNumber(period2.getBudgetPeriodSequenceNumber());
-        taskPeriod3.setAgencyRequestTotalAmount(new Integer(74000));
-        taskPeriod3.setAgencyFringeBenefitTotalAmount(new Integer(21500));
+        taskPeriod3.setAgencyRequestTotalAmount(new KualiInteger(74000));
+        taskPeriod3.setAgencyFringeBenefitTotalAmount(new KualiInteger(21500));
         userAppointmentTaskPeriods.add(taskPeriod3);
         
         budget.setAllUserAppointmentTaskPeriods(userAppointmentTaskPeriods);
@@ -146,24 +146,24 @@ public class BudgetModularServiceTest extends KualiTestBaseWithSession {
         
         assertFalse(modularBudget.isInvalidMode());
         assertEquals(modularBudget.getIncrements().size(), 10);
-        assertEquals(modularBudget.getBudgetModularDirectCostAmount(), new KualiDecimal(125000));
-        assertEquals(modularBudget.getTotalActualDirectCostAmount(), new KualiDecimal(202000));
-        assertEquals(modularBudget.getTotalAdjustedModularDirectCostAmount(), new KualiDecimal(250000));
-        assertEquals(modularBudget.getTotalConsortiumAmount(), new KualiDecimal(1000));
-        assertEquals(modularBudget.getTotalDirectCostAmount(), new KualiDecimal(251000));
-        assertEquals(modularBudget.getTotalModularDirectCostAmount(), new KualiDecimal(250000));
+        assertEquals(modularBudget.getBudgetModularDirectCostAmount(), new KualiInteger(125000));
+        assertEquals(modularBudget.getTotalActualDirectCostAmount(), new KualiInteger(202000));
+        assertEquals(modularBudget.getTotalAdjustedModularDirectCostAmount(), new KualiInteger(250000));
+        assertEquals(modularBudget.getTotalConsortiumAmount(), new KualiInteger(1000));
+        assertEquals(modularBudget.getTotalDirectCostAmount(), new KualiInteger(251000));
+        assertEquals(modularBudget.getTotalModularDirectCostAmount(), new KualiInteger(250000));
         
         BudgetModularPeriod modularPeriod1 = (BudgetModularPeriod) modularBudget.getBudgetModularPeriods().get(0);
-        assertEquals(modularPeriod1.getActualDirectCostAmount(), new KualiDecimal(103500));
+        assertEquals(modularPeriod1.getActualDirectCostAmount(), new KualiInteger(103500));
         assertEquals(modularPeriod1.getConsortiumAmount(), zeroValue);
-        assertEquals(modularPeriod1.getTotalPeriodDirectCostAmount(), new KualiDecimal(125000));
-        assertEquals(modularPeriod1.getBudgetAdjustedModularDirectCostAmount(), new Integer(125000));
+        assertEquals(modularPeriod1.getTotalPeriodDirectCostAmount(), new KualiInteger(125000));
+        assertEquals(modularPeriod1.getBudgetAdjustedModularDirectCostAmount(), new KualiInteger(125000));
         
         BudgetModularPeriod modularPeriod2 = (BudgetModularPeriod) modularBudget.getBudgetModularPeriods().get(1);
-        assertEquals(modularPeriod2.getActualDirectCostAmount(), new KualiDecimal(98500));
-        assertEquals(modularPeriod2.getConsortiumAmount(), new KualiDecimal(1000));
-        assertEquals(modularPeriod2.getTotalPeriodDirectCostAmount(), new KualiDecimal(126000));
-        assertEquals(modularPeriod2.getBudgetAdjustedModularDirectCostAmount(), new Integer(125000));
+        assertEquals(modularPeriod2.getActualDirectCostAmount(), new KualiInteger(98500));
+        assertEquals(modularPeriod2.getConsortiumAmount(), new KualiInteger(1000));
+        assertEquals(modularPeriod2.getTotalPeriodDirectCostAmount(), new KualiInteger(126000));
+        assertEquals(modularPeriod2.getBudgetAdjustedModularDirectCostAmount(), new KualiInteger(125000));
         
         // Case 3: Budget with costs > # of periods * period maximum
         budget = setupBudget();
@@ -172,7 +172,7 @@ public class BudgetModularServiceTest extends KualiTestBaseWithSession {
         
         UserAppointmentTaskPeriod taskPeriod4 = new UserAppointmentTaskPeriod();
         taskPeriod4.setBudgetPeriodSequenceNumber(periodInvalid.getBudgetPeriodSequenceNumber());
-        taskPeriod4.setAgencyRequestTotalAmount(new Integer(1000000));
+        taskPeriod4.setAgencyRequestTotalAmount(new KualiInteger(1000000));
         userAppointmentTaskPeriods = new ArrayList();
         userAppointmentTaskPeriods.add(taskPeriod4);
         budget.setAllUserAppointmentTaskPeriods(userAppointmentTaskPeriods);
@@ -184,14 +184,14 @@ public class BudgetModularServiceTest extends KualiTestBaseWithSession {
         assertTrue(modularBudget.isInvalidMode());
         assertTrue(modularBudget.getIncrements().size() == 1);
         assertNull(modularBudget.getBudgetModularDirectCostAmount());
-        assertEquals(modularBudget.getTotalActualDirectCostAmount(), new KualiDecimal(1000000));
+        assertEquals(modularBudget.getTotalActualDirectCostAmount(), new KualiInteger(1000000));
         assertNull(modularBudget.getTotalAdjustedModularDirectCostAmount());
         assertEquals(modularBudget.getTotalConsortiumAmount(), zeroValue);
         assertNull(modularBudget.getTotalDirectCostAmount());
         assertNull(modularBudget.getTotalModularDirectCostAmount());
         
         BudgetModularPeriod modularPeriodInvalid1 = (BudgetModularPeriod) modularBudget.getBudgetModularPeriods().get(0);
-        assertEquals(modularPeriodInvalid1.getActualDirectCostAmount(), new KualiDecimal(1000000));
+        assertEquals(modularPeriodInvalid1.getActualDirectCostAmount(), new KualiInteger(1000000));
         assertEquals(modularPeriodInvalid1.getConsortiumAmount(), zeroValue);
         assertNull(modularPeriodInvalid1.getTotalPeriodDirectCostAmount());
         assertNull(modularPeriodInvalid1.getBudgetAdjustedModularDirectCostAmount());
@@ -214,7 +214,7 @@ public class BudgetModularServiceTest extends KualiTestBaseWithSession {
         assertFalse(modularBudget.isInvalidMode());
         for (Iterator iter = modularBudget.getBudgetModularPeriods().iterator(); iter.hasNext();) {
             BudgetModularPeriod modularPeriod = (BudgetModularPeriod) iter.next();
-            assertEquals(modularPeriod.getBudgetAdjustedModularDirectCostAmount(), new Integer(0));
+            assertEquals(modularPeriod.getBudgetAdjustedModularDirectCostAmount(), new KualiInteger(0));
         }
         
         // Case 2: Budget with personnel, nonpersonnel, consortium costs
@@ -235,22 +235,22 @@ public class BudgetModularServiceTest extends KualiTestBaseWithSession {
             
         UserAppointmentTaskPeriod taskPeriod = new UserAppointmentTaskPeriod();
         taskPeriod.setBudgetPeriodSequenceNumber(period1.getBudgetPeriodSequenceNumber());
-        taskPeriod.setAgencyRequestTotalAmount(new Integer(39000));
-        taskPeriod.setAgencyFringeBenefitTotalAmount(new Integer(13000));
+        taskPeriod.setAgencyRequestTotalAmount(new KualiInteger(39000));
+        taskPeriod.setAgencyFringeBenefitTotalAmount(new KualiInteger(13000));
         userAppointmentTaskPeriods.add(taskPeriod);
             
         UserAppointmentTaskPeriod taskPeriod2 = new UserAppointmentTaskPeriod();
         taskPeriod2.setBudgetPeriodSequenceNumber(period1.getBudgetPeriodSequenceNumber());
-        taskPeriod2.setAgencyRequestTotalAmount(new Integer(43000));
-        taskPeriod2.setAgencyFringeBenefitTotalAmount(new Integer(8500));
+        taskPeriod2.setAgencyRequestTotalAmount(new KualiInteger(43000));
+        taskPeriod2.setAgencyFringeBenefitTotalAmount(new KualiInteger(8500));
         userAppointmentTaskPeriods.add(taskPeriod2);
         
         BudgetPeriod period2 = (BudgetPeriod) budget.getPeriods().get(1);
         
         UserAppointmentTaskPeriod taskPeriod3 = new UserAppointmentTaskPeriod();
         taskPeriod3.setBudgetPeriodSequenceNumber(period2.getBudgetPeriodSequenceNumber());
-        taskPeriod3.setAgencyRequestTotalAmount(new Integer(74000));
-        taskPeriod3.setAgencyFringeBenefitTotalAmount(new Integer(21500));
+        taskPeriod3.setAgencyRequestTotalAmount(new KualiInteger(74000));
+        taskPeriod3.setAgencyFringeBenefitTotalAmount(new KualiInteger(21500));
         userAppointmentTaskPeriods.add(taskPeriod3);
         
         budget.setAllUserAppointmentTaskPeriods(userAppointmentTaskPeriods);
@@ -261,10 +261,10 @@ public class BudgetModularServiceTest extends KualiTestBaseWithSession {
         assertFalse(modularBudget.isInvalidMode());
         
         BudgetModularPeriod modularPeriod1 = (BudgetModularPeriod) modularBudget.getBudgetModularPeriods().get(0);
-        assertEquals(modularPeriod1.getBudgetAdjustedModularDirectCostAmount(), new Integer(125000));
+        assertEquals(modularPeriod1.getBudgetAdjustedModularDirectCostAmount(), new KualiInteger(125000));
         
         BudgetModularPeriod modularPeriod2 = (BudgetModularPeriod) modularBudget.getBudgetModularPeriods().get(1);
-        assertEquals(modularPeriod2.getBudgetAdjustedModularDirectCostAmount(), new Integer(125000));
+        assertEquals(modularPeriod2.getBudgetAdjustedModularDirectCostAmount(), new KualiInteger(125000));
         
         // Case 3: Budget with costs > # of periods * period maximum
         budget = setupBudget();
@@ -273,7 +273,7 @@ public class BudgetModularServiceTest extends KualiTestBaseWithSession {
         
         UserAppointmentTaskPeriod taskPeriod4 = new UserAppointmentTaskPeriod();
         taskPeriod4.setBudgetPeriodSequenceNumber(periodInvalid.getBudgetPeriodSequenceNumber());
-        taskPeriod4.setAgencyRequestTotalAmount(new Integer(1000000));
+        taskPeriod4.setAgencyRequestTotalAmount(new KualiInteger(1000000));
         userAppointmentTaskPeriods = new ArrayList();
         userAppointmentTaskPeriods.add(taskPeriod4);
         budget.setAllUserAppointmentTaskPeriods(userAppointmentTaskPeriods);

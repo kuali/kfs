@@ -27,20 +27,23 @@ import org.kuali.KeyConstants;
 import org.kuali.PropertyConstants;
 import org.kuali.core.bo.AccountingLine;
 import org.kuali.core.bo.SourceAccountingLine;
+import org.kuali.core.bo.TargetAccountingLine;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.ExceptionUtils;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.bo.SubFundGroup;
 import org.kuali.module.financial.document.InternalBillingDocument;
+import org.kuali.module.gl.util.SufficientFundsItemHelper;
 
 /**
  * Business rule(s) applicable to InternalBilling document.
- * 
+ *
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class InternalBillingDocumentRule extends TransactionalDocumentRuleBase implements InternalBillingDocumentRuleConstants {
@@ -50,6 +53,20 @@ public class InternalBillingDocumentRule extends TransactionalDocumentRuleBase i
      */
     public boolean isDebit(AccountingLine accountingLine) throws IllegalStateException {
         return isDebitConsideringSection(accountingLine);
+    }
+
+    /**
+     * Overrides to only disallow zero, allowing negative amounts.
+     *
+     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#isAmountValid(TransactionalDocument, AccountingLine)
+     */
+    public boolean isAmountValid(TransactionalDocument document, AccountingLine accountingLine) {
+        if (accountingLine.getAmount().equals(Constants.ZERO)){
+            GlobalVariables.getErrorMap().put(Constants.AMOUNT_PROPERTY_NAME, KeyConstants.ERROR_ZERO_AMOUNT, "an accounting line");
+            LOG.info("failing isAmountValid - zero check");
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -83,7 +100,7 @@ public class InternalBillingDocumentRule extends TransactionalDocumentRuleBase i
      *      AccountingLine, AccountingLine)
      */
     public boolean processCustomUpdateAccountingLineBusinessRules(TransactionalDocument document,
-            AccountingLine originalAccountingLine, AccountingLine updatedAccountingLine) {
+                                                                  AccountingLine originalAccountingLine, AccountingLine updatedAccountingLine) {
         boolean success = true;
         success &= validIndianaStudentFeesNotContinueEduc(updatedAccountingLine);
         if (success) {
@@ -96,7 +113,7 @@ public class InternalBillingDocumentRule extends TransactionalDocumentRuleBase i
      * Note: This method implements an IU specific business rule. <p/> This method evaluates the accounting line's object sub type
      * code for its object code in addition to the accounting line's sub fund group for the account. This didn't fit any of the
      * interface methods, so this rule was programmed in the "custom rule" method.
-     * 
+     *
      * @param accountingLine
      * @return whether this rule passes
      */
@@ -134,7 +151,7 @@ public class InternalBillingDocumentRule extends TransactionalDocumentRuleBase i
     /**
      * Validates all the InternalBillingItems in the given Document, adding global errors for invalid items. It just uses the
      * DataDictionary validation.
-     * 
+     *
      * @param internalBillingDocument
      * @return whether any items were invalid
      */
@@ -157,7 +174,7 @@ public class InternalBillingDocumentRule extends TransactionalDocumentRuleBase i
 
     /**
      * Overrides to consider the object types.
-     * 
+     *
      * @see TransactionalDocumentRuleBase#isDocumentBalanceValid(TransactionalDocument)
      */
     protected boolean isDocumentBalanceValid(TransactionalDocument transactionalDocument) {
@@ -168,7 +185,7 @@ public class InternalBillingDocumentRule extends TransactionalDocumentRuleBase i
      * Evaluates the object sub type code of the accounting line's object code to determine whether the object code is a capital
      * object code. If so, and this accounting line is in the income section, then it is not valid. <p/> Note: this is an IU
      * specific business rule.
-     * 
+     *
      * @param accountingLine
      * @return whether the given line is valid with respect to capital object codes
      */
@@ -190,7 +207,7 @@ public class InternalBillingDocumentRule extends TransactionalDocumentRuleBase i
 
     /**
      * Checks whether the given AccountingLine's ObjectCode is a capital one.
-     * 
+     *
      * @param accountingLine
      * @return whether the given AccountingLine's ObjectCode is a capital one.
      */
@@ -211,7 +228,7 @@ public class InternalBillingDocumentRule extends TransactionalDocumentRuleBase i
 
     /**
      * Overrides the parent to make sure that the chosen object code's object sub-type code isn't restricted according to the APC.
-     * 
+     *
      * @see org.kuali.core.rule.AddAccountingLineRule#isObjectSubTypeAllowed(AccountingLine)
      */
     public boolean isObjectSubTypeAllowed(AccountingLine accountingLine) {
@@ -226,7 +243,7 @@ public class InternalBillingDocumentRule extends TransactionalDocumentRuleBase i
     /**
      * Overrides the parent's implementation to check to make sure that the provided object code's level isn't a contract and grants
      * level.
-     * 
+     *
      * @see TransactionalDocumentRuleBase#isObjectLevelAllowed(AccountingLine)
      */
     public boolean isObjectLevelAllowed(AccountingLine accountingLine) {
@@ -238,7 +255,7 @@ public class InternalBillingDocumentRule extends TransactionalDocumentRuleBase i
 
     /**
      * This implementation overrides the parent to check and make sure that the fund group is not a Loan fund group.
-     * 
+     *
      * @see TransactionalDocumentRuleBase#isFundGroupAllowed(AccountingLine)
      */
     public boolean isFundGroupAllowed(AccountingLine accountingLine) {
@@ -252,7 +269,7 @@ public class InternalBillingDocumentRule extends TransactionalDocumentRuleBase i
     /**
      * Overrides the parent's implementation to check and make sure that the sub fund group is not the Retire Indebt or the
      * Investment Plant sub fund group.
-     * 
+     *
      * @see TransactionalDocumentRuleBase#isSubFundGroupAllowed(AccountingLine)
      */
     public boolean isSubFundGroupAllowed(AccountingLine accountingLine) {
@@ -260,5 +277,49 @@ public class InternalBillingDocumentRule extends TransactionalDocumentRuleBase i
                 new AttributeReference(SourceAccountingLine.class, PropertyConstants.ACCOUNT_NUMBER, accountingLine
                         .getAccountNumber()), new AttributeReference(Account.class, PropertyConstants.SUB_FUND_GROUP_CODE,
                     accountingLine.getAccount().getSubFundGroupCode()));
+    }
+
+    /**
+     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processSourceAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument,
+     *      org.kuali.core.bo.SourceAccountingLine)
+     */
+    protected SufficientFundsItemHelper.SufficientFundsItem processSourceAccountingLineSufficientFundsCheckingPreparation(
+        TransactionalDocument transactionalDocument, SourceAccountingLine sourceAccountingLine) {
+        return processAccountingLineSufficientFundsCheckingPreparation(sourceAccountingLine);
+    }
+
+    /**
+     *
+     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processTargetAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument,
+     *      org.kuali.core.bo.TargetAccountingLine)
+     */
+    protected SufficientFundsItemHelper.SufficientFundsItem processTargetAccountingLineSufficientFundsCheckingPreparation(
+        TransactionalDocument transactionalDocument, TargetAccountingLine targetAccountingLine) {
+        return processAccountingLineSufficientFundsCheckingPreparation(targetAccountingLine);
+    }
+
+    /**
+     * Prepares to process sufficient funds checking for the given AccountingLine.
+     *
+     * @param accountingLine
+     * @return the item to help check sufficient funds for the given AccountingLine
+     */
+    private SufficientFundsItemHelper.SufficientFundsItem processAccountingLineSufficientFundsCheckingPreparation(
+        AccountingLine accountingLine)
+    {
+        String chartOfAccountsCode = accountingLine.getChartOfAccountsCode();
+        String accountNumber = accountingLine.getAccountNumber();
+        String accountSufficientFundsCode = accountingLine.getAccount().getAccountSufficientFundsCode();
+        String financialObjectCode = accountingLine.getFinancialObjectCode();
+        String financialObjectLevelCode = accountingLine.getObjectCode().getFinancialObjectLevelCode();
+        KualiDecimal lineAmount = accountingLine.getAmount();
+        Integer fiscalYear = accountingLine.getPostingYear();
+        String financialObjectTypeCode = accountingLine.getObjectTypeCode();
+        String offsetDebitCreditCode = isDebit(accountingLine) ? Constants.GL_CREDIT_CODE : Constants.GL_DEBIT_CODE;
+        String sufficientFundsObjectCode = SpringServiceLocator.getSufficientFundsService().getSufficientFundsObjectCode(
+            chartOfAccountsCode, financialObjectCode, accountSufficientFundsCode, financialObjectLevelCode);
+        return buildSufficentFundsItem(accountNumber, accountSufficientFundsCode, lineAmount, chartOfAccountsCode,
+            sufficientFundsObjectCode, offsetDebitCreditCode, financialObjectCode, financialObjectLevelCode, fiscalYear,
+            financialObjectTypeCode);
     }
 }

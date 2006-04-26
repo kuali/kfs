@@ -22,9 +22,6 @@
  */
 package org.kuali.module.financial.web.struts.form;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
 import org.kuali.module.financial.bo.CreditCardDetail;
 import org.kuali.module.financial.document.CreditCardReceiptDocument;

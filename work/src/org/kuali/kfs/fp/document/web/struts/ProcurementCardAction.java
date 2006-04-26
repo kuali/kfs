@@ -28,12 +28,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.Constants;
-import org.kuali.core.rule.event.AddAccountingLineEvent;
-import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
-import org.kuali.module.financial.bo.ProcurementCardSourceAccountingLine;
-import org.kuali.module.financial.web.struts.form.ProcurementCardForm;
 
 /**
  * This class handles specific Actions requests for the ProcurementCard.

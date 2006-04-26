@@ -180,14 +180,12 @@ public class CreditCardReceiptDocument extends CashReceiptDocument {
     }
 
     /**
-     * This method returns the overall total of the document - coin plus check plus 
-     * cash (which should be zero) plus credit card total.
+     * This method returns the overall total of the document - the credit card total.
      * 
      * @return KualiDecimal
      */
     public KualiDecimal getSumTotalAmount() {
-        KualiDecimal sumTotal = super.getSumTotalAmount();
-        return sumTotal.add(this.totalCreditCardAmount);
+        return this.totalCreditCardAmount;
     }
 
     /**

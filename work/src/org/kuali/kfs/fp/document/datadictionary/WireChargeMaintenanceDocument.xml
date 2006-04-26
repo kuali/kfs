@@ -18,7 +18,7 @@
         </authorizations>
 
 		<documentTypeName>KualiWireChargeMaintenanceDocument</documentTypeName>
-		<documentTypeCode>KWC</documentTypeCode>
+		<documentTypeCode>DVWT</documentTypeCode>
 
 		<label>Wire Charge Maintenance Document</label>
 		<shortLabel>Wire Charge Maint Doc</shortLabel>

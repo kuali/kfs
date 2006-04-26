@@ -18,7 +18,7 @@
         </authorizations>
 
 		<documentTypeName>KualiTravelExpenseTypeCodeMaintenanceDocument</documentTypeName>
-		<documentTypeCode>TETMD</documentTypeCode>
+		<documentTypeCode>DVET</documentTypeCode>
 
 		<label>Travel Expense Type Code Maintenance Document</label>
 		<shortLabel>Tr Expense Type Maint Doc</shortLabel>

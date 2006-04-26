@@ -26,10 +26,13 @@
 package org.kuali.module.financial.bo;
 
 import java.sql.Date;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.kuali.core.bo.AccountingLineBase;
 import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.TypedArrayList;
 
 /**
@@ -53,6 +56,24 @@ public class ProcurementCardTransactionDetail extends BusinessObjectBase {
     public ProcurementCardTransactionDetail() {
         sourceAccountingLines = new TypedArrayList(ProcurementCardSourceAccountingLine.class);
         targetAccountingLines = new TypedArrayList(ProcurementCardTargetAccountingLine.class);
+    }
+    
+    /**
+     * @see org.kuali.core.document.TransactionalDocument#getSourceTotal()
+     */
+    public KualiDecimal getSourceTotal() {
+        KualiDecimal total = new KualiDecimal(0);
+        AccountingLineBase al = null;
+        Iterator iter = getSourceAccountingLines().iterator();
+        while (iter.hasNext()) {
+            al = (AccountingLineBase) iter.next();
+
+            KualiDecimal amount = al.getAmount();
+            if (amount != null) {
+                total = total.add(amount);
+            }
+        }
+        return total;
     }
 
     /**

@@ -45,7 +45,8 @@ import org.kuali.module.financial.bo.ProcurementCardTransactionDetail;
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class ProcurementCardDocument extends TransactionalDocumentBase {
-
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProcurementCardDocument.class);
+    
     private String chartOfAccountsCode;
     private String accountNumber;
     private String subAccountNumber;
@@ -342,11 +343,13 @@ public class ProcurementCardDocument extends TransactionalDocumentBase {
      * @see org.kuali.core.document.Document#handleRouteStatusChange(java.lang.String)
      */
     public void handleRouteStatusChange(String newRouteStatus) {
+        LOG.info("handling route status change, new status: " + newRouteStatus);
         if (Constants.ROUTE_HEADER_SAVED_CD.equals(newRouteStatus)) {
             this.getDocumentHeader().setFinancialDocumentStatusCode(
-                    Constants.DOCUMENT_STATUS_CD_IN_PROCESS_PROCESSED);
+                    Constants.ROUTE_HEADER_SAVED_CD);
             SpringServiceLocator.getDocumentService().updateDocument(this);
         }
+        LOG.info("new doc header status: " + this.getDocumentHeader().getFinancialDocumentStatusCode());
         super.handleRouteStatusChange(newRouteStatus);
     }
     

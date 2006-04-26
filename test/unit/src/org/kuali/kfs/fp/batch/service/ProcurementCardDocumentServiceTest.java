@@ -67,7 +67,7 @@ public class ProcurementCardDocumentServiceTest extends KualiTestBaseWithFixture
     }
     
 //    public void testRoutePCardDocuments() throws Exception {
-//        boolean routeSuccessful = procurementCardCreateDocumentService.routeProcurementCardDocuments(documentsCreated);
+//        boolean routeSuccessful = procurementCardCreateDocumentService.routeProcurementCardDocuments();
 //    }
 
 }

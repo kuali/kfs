@@ -22,41 +22,56 @@
  */
 package org.kuali.module.financial.web.struts.form;
 
+import java.util.List;
+
 import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.core.util.TypedArrayList;
 import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
 import org.kuali.module.financial.bo.ProcurementCardSourceAccountingLine;
 import org.kuali.module.financial.document.ProcurementCardDocument;
 import org.kuali.module.financial.service.ProcurementCardCreateDocumentService;
 
 /**
- * This class is the form class for the ProcurementCard document.  This method 
- * extends the parent KualiTransactionalDocumentFormBase class which contains 
- * all of the common form methods and form attributes needed by the Procurment Card
- * document.
+ * This class is the form class for the ProcurementCard document. This method extends the parent KualiTransactionalDocumentFormBase
+ * class which contains all of the common form methods and form attributes needed by the Procurment Card document.
  * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class ProcurementCardForm extends KualiTransactionalDocumentFormBase {
     private static final long serialVersionUID = 1L;
+    private List newSourceLines;
 
     /**
-     * Constructs a ProcurmentCardForm instance and sets up the appropriately 
-     * casted document. Also, the newSourceLine needs to be the extended
-     * ProcurementCardSourceAccountingLine, for the additional trans line nbr.
+     * Constructs a ProcurmentCardForm instance and sets up the appropriately casted document. Also, the newSourceLine needs to be
+     * the extended ProcurementCardSourceAccountingLine, for the additional trans line nbr.
      */
     public ProcurementCardForm() {
         super();
         setDocument(new ProcurementCardDocument());
-        this.newSourceLine = new ProcurementCardSourceAccountingLine();
+        this.newSourceLines = new TypedArrayList(ProcurementCardSourceAccountingLine.class);
     }
-    
+
     /**
-     * @return The retreived APC string used for the 
-     * dispute url.
+     * @return The retreived APC string used for the dispute url.
      */
     public String getDisputeURL() {
         return SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(
                 ProcurementCardCreateDocumentService.PCARD_DOCUMENT_PARAMETERS_SEC_GROUP,
-                ProcurementCardCreateDocumentService.DISPUTE_URL_PARM_NM);  
+                ProcurementCardCreateDocumentService.DISPUTE_URL_PARM_NM);
+    }
+
+
+    /**
+     * @return Returns the newSourceLines.
+     */
+    public List getNewSourceLines() {
+        return newSourceLines;
+    }
+
+    /**
+     * @param newSourceLines The newSourceLines to set.
+     */
+    public void setNewSourceLines(List newSourceLines) {
+        this.newSourceLines = newSourceLines;
     }
 }

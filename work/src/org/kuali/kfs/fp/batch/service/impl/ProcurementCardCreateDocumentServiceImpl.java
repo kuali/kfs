@@ -94,6 +94,9 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
                 if ((StringUtils.isNotBlank(previousCardNumber) && !previousCardNumber.equals(transaction
                         .getTransactionCreditCardNumber()))
                         || !iter.hasNext()) {
+                    if (!iter.hasNext()) {
+                        documentTransactions.add(transaction);
+                    }
                     documents.add(createProcurementCardDocument(documentTransactions));
                     documentTransactions = new ArrayList();
                 }
@@ -122,8 +125,14 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
      * @see org.kuali.module.financial.service.ProcurementCardCreateDocumentService#routeProcurementCardDocuments(java.util.List)
      */
     public boolean routeProcurementCardDocuments() {
-        List documentList = (List) documentService.findByDocumentHeaderStatusCode(ProcurementCardDocument.class,
-                Constants.DOCUMENT_STATUS_CD_IN_PROCESS_PROCESSED);
+        List documentList = new ArrayList();
+        try {
+            documentList = (List) documentService.findByDocumentHeaderStatusCode(ProcurementCardDocument.class,
+                    Constants.ROUTE_HEADER_SAVED_CD);
+        }
+        catch (WorkflowException e1) {
+            throw new RuntimeException(e1.getMessage());
+        }
         for (Iterator iter = documentList.iterator(); iter.hasNext();) {
             ProcurementCardDocument pcardDocument = (ProcurementCardDocument) iter.next();
             try {

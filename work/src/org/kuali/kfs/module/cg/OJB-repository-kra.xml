@@ -180,6 +180,11 @@
   <collection-descriptor name="thirdPartyCostShareItems" proxy="true" element-class-ref="org.kuali.module.kra.bo.BudgetThirdPartyCostShare" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
       <inverse-foreignkey field-ref="documentHeaderId"/>
   </collection-descriptor>
+
+  <collection-descriptor name="universityCostSharePersonnelItems" proxy="true" element-class-ref="org.kuali.module.kra.bo.UniversityCostSharePersonnel" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+      <inverse-foreignkey field-ref="documentHeaderId"/>
+  </collection-descriptor>
+
   
   <collection-descriptor name="universityCostSharePersonnelItems" proxy="true" element-class-ref="org.kuali.module.kra.bo.UniversityCostSharePersonnel" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
       <inverse-foreignkey field-ref="documentHeaderId"/>

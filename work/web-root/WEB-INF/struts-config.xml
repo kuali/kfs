@@ -37,7 +37,7 @@
        <!-- KRA Module Bean Definitions -->
        <form-bean name="BudgetForm" type="org.kuali.module.kra.web.struts.form.BudgetForm" />
        <form-bean name="BudgetParametersForm" type="org.kuali.module.kra.web.struts.form.BudgetForm" />
-       <form-bean name="BudgetMainPageForm" type="org.kuali.module.kra.web.struts.form.BudgetForm" />
+       <form-bean name="BudgetOverviewForm" type="org.kuali.module.kra.web.struts.form.BudgetForm" />
        <form-bean name="BudgetTemplateForm" type="org.kuali.module.kra.web.struts.form.BudgetForm" />
        <form-bean name="BudgetNonpersonnelForm" type="org.kuali.module.kra.web.struts.form.BudgetForm" />
        <form-bean name="BudgetNonpersonnelCopyOverForm" type="org.kuali.module.kra.web.struts.form.BudgetForm" />
@@ -167,8 +167,7 @@
         <action path="/research*" name="{1}Form" input="/jsp/modules/research/{1}.jsp" type="org.kuali.module.kra.web.struts.action.{1}Action" scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
           	<forward name="basic" path="/jsp/modules/research/{1}.jsp" />
             <forward name="parameters"  path="/jsp/modules/research/BudgetParameters.jsp" redirect="false" />
-            <forward name="mainPage"  path="/jsp/modules/research/BudgetMainPage.jsp" redirect="false" />
-          	<forward name="oldMainPage"  path="/jsp/modules/research/Budget.jsp" redirect="false" />
+            <forward name="overview"  path="/jsp/modules/research/BudgetOverview.jsp" redirect="false" />
             <forward name="template"  path="/jsp/modules/research/BudgetTemplate.jsp" redirect="false" />
             <forward name="nonpersonnel"  path="/jsp/modules/research/BudgetNonpersonnel.jsp" redirect="false" />
             <forward name="nonpersonnelCopyOver"  path="/jsp/modules/research/BudgetNonpersonnelCopyOver.jsp" redirect="false" />

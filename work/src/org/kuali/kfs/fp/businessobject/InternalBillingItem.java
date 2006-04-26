@@ -50,7 +50,6 @@ public class InternalBillingItem extends BusinessObjectBase {
      */
     public InternalBillingItem() {
         setItemUnitAmount(new KualiDecimal(0));
-        setItemQuantity(new Integer(1));
     }
 
 

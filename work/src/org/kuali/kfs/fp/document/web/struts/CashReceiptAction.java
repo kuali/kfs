@@ -48,6 +48,7 @@ import org.kuali.module.financial.bo.Check;
 import org.kuali.module.financial.bo.CheckBase;
 import org.kuali.module.financial.document.CashReceiptDocument;
 import org.kuali.module.financial.service.CashReceiptCoverSheetService;
+import org.kuali.module.financial.service.CashReceiptService;
 import org.kuali.module.financial.service.impl.CashReceiptCoverSheetServiceImpl;
 import org.kuali.module.financial.web.struts.form.CashReceiptForm;
 import org.kuali.module.financial.rules.CashReceiptDocumentRuleUtil;
@@ -64,9 +65,8 @@ public class CashReceiptAction extends KualiTransactionalDocumentActionBase {
      * @see org.apache.struts.action.Action#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm,
      *      javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
-    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
-            throws Exception {
-        Timer t0=new Timer("execute");
+    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        Timer t0 = new Timer("execute");
         CashReceiptForm cform = (CashReceiptForm) form;
 
         if (cform.hasDocumentId()) {
@@ -77,7 +77,7 @@ public class CashReceiptAction extends KualiTransactionalDocumentActionBase {
 
             // handle changes to checks (but only if current checkEntryMode is 'detail')
             if (CashReceiptDocument.CHECK_ENTRY_DETAIL.equals(cdoc.getCheckEntryMode())) {
-                cdoc.setTotalCheckAmount(cdoc.calculateCheckTotal());  //recalc b/c changes to the amounts could have happened
+                cdoc.setTotalCheckAmount(cdoc.calculateCheckTotal()); // recalc b/c changes to the amounts could have happened
                 processChecks(cdoc, cform);
             }
 
@@ -86,9 +86,9 @@ public class CashReceiptAction extends KualiTransactionalDocumentActionBase {
         }
 
         // proceed as usual
-        ActionForward result=super.execute(mapping, form, request, response);
+        ActionForward result = super.execute(mapping, form, request, response);
         t0.log();
-        return result; 
+        return result;
 
     }
 
@@ -102,21 +102,18 @@ public class CashReceiptAction extends KualiTransactionalDocumentActionBase {
      * @return
      * @throws Exception
      */
-    public ActionForward printCoverSheet(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
+    public ActionForward printCoverSheet(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         // get directory of tempate
-        String directory = getServlet().getServletConfig().getServletContext().
-            getRealPath(CashReceiptCoverSheetServiceImpl.CR_COVERSHEET_TEMPLATE_RELATIVE_DIR);
+        String directory = getServlet().getServletConfig().getServletContext().getRealPath(CashReceiptCoverSheetServiceImpl.CR_COVERSHEET_TEMPLATE_RELATIVE_DIR);
 
         // retrieve document
         String financialDocumentNumber = request.getParameter(PropertyConstants.FINANCIAL_DOCUMENT_NUMBER);
 
-        CashReceiptDocument document = (CashReceiptDocument) SpringServiceLocator.getDocumentService().
-            getByDocumentHeaderId(financialDocumentNumber);
-        
+        CashReceiptDocument document = (CashReceiptDocument) SpringServiceLocator.getDocumentService().getByDocumentHeaderId(financialDocumentNumber);
+
         // since this action isn't triggered by a post, we don't have the normal document data
-        // so we have to set the document into the form manually so that later authz processing 
+        // so we have to set the document into the form manually so that later authz processing
         // has a document object instance to work with
         CashReceiptForm crForm = (CashReceiptForm) form;
         crForm.setDocument(document);
@@ -131,8 +128,8 @@ public class CashReceiptAction extends KualiTransactionalDocumentActionBase {
     }
 
     /**
-     * This method processes the check entry mode to determine if the user is entering checks or if they are 
-     * just entering the total.
+     * This method processes the check entry mode to determine if the user is entering checks or if they are just entering the
+     * total.
      * 
      * @param crForm
      * @param crDoc
@@ -185,9 +182,7 @@ public class CashReceiptAction extends KualiTransactionalDocumentActionBase {
             // only generate update events for specific action methods
             String methodToCall = cform.getMethodToCall();
             if (UPDATE_EVENT_ACTIONS.contains(methodToCall)) {
-                SpringServiceLocator.getKualiRuleService().applyRules(
-                        new UpdateCheckEvent(PropertyConstants.DOCUMENT + "." + PropertyConstants.CHECK + "[" + index + "]", cdoc,
-                            formCheck));
+                SpringServiceLocator.getKualiRuleService().applyRules(new UpdateCheckEvent(PropertyConstants.DOCUMENT + "." + PropertyConstants.CHECK + "[" + index + "]", cdoc, formCheck));
             }
             index++;
         }
@@ -203,8 +198,7 @@ public class CashReceiptAction extends KualiTransactionalDocumentActionBase {
      * @return ActionForward
      * @throws Exception
      */
-    public ActionForward addCheck(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
-            throws Exception {
+    public ActionForward addCheck(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         CashReceiptForm crForm = (CashReceiptForm) form;
         CashReceiptDocument crDoc = crForm.getCashReceiptDocument();
 
@@ -212,8 +206,7 @@ public class CashReceiptAction extends KualiTransactionalDocumentActionBase {
         newCheck.setFinancialDocumentNumber(crDoc.getFinancialDocumentNumber());
 
         // check business rules
-        boolean rulePassed = SpringServiceLocator.getKualiRuleService().applyRules(
-                new AddCheckEvent(Constants.NEW_CHECK_PROPERTY_NAME, crDoc, newCheck));
+        boolean rulePassed = SpringServiceLocator.getKualiRuleService().applyRules(new AddCheckEvent(Constants.NEW_CHECK_PROPERTY_NAME, crDoc, newCheck));
         if (rulePassed) {
             // add check
             crDoc.addCheck(newCheck);
@@ -235,8 +228,7 @@ public class CashReceiptAction extends KualiTransactionalDocumentActionBase {
      * @return
      * @throws Exception
      */
-    public ActionForward deleteCheck(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
+    public ActionForward deleteCheck(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         CashReceiptForm crForm = (CashReceiptForm) form;
         CashReceiptDocument crDoc = crForm.getCashReceiptDocument();
 
@@ -244,8 +236,7 @@ public class CashReceiptAction extends KualiTransactionalDocumentActionBase {
         Check oldCheck = crDoc.getCheck(deleteIndex);
 
 
-        boolean rulePassed = SpringServiceLocator.getKualiRuleService().applyRules(
-                new DeleteCheckEvent(Constants.EXISTING_CHECK_PROPERTY_NAME, crDoc, oldCheck));
+        boolean rulePassed = SpringServiceLocator.getKualiRuleService().applyRules(new DeleteCheckEvent(Constants.EXISTING_CHECK_PROPERTY_NAME, crDoc, oldCheck));
 
         if (rulePassed) {
             // delete check
@@ -257,8 +248,7 @@ public class CashReceiptAction extends KualiTransactionalDocumentActionBase {
             }
         }
         else {
-            GlobalVariables.getErrorMap().put("document.check[" + deleteIndex + "]", KeyConstants.Check.ERROR_CHECK_DELETERULE,
-                    Integer.toString(deleteIndex));
+            GlobalVariables.getErrorMap().put("document.check[" + deleteIndex + "]", KeyConstants.Check.ERROR_CHECK_DELETERULE, Integer.toString(deleteIndex));
         }
 
         return mapping.findForward(Constants.MAPPING_BASIC);
@@ -275,8 +265,7 @@ public class CashReceiptAction extends KualiTransactionalDocumentActionBase {
      * @return
      * @throws Exception
      */
-    public ActionForward changeCheckEntryMode(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
+    public ActionForward changeCheckEntryMode(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         CashReceiptForm crForm = (CashReceiptForm) form;
         CashReceiptDocument crDoc = crForm.getCashReceiptDocument();
@@ -321,7 +310,15 @@ public class CashReceiptAction extends KualiTransactionalDocumentActionBase {
     protected void createDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
         super.createDocument(kualiDocumentFormBase);
 
-        initDerivedCheckValues((CashReceiptForm) kualiDocumentFormBase);
+        CashReceiptForm crForm = (CashReceiptForm) kualiDocumentFormBase;
+        CashReceiptDocument crDoc = crForm.getCashReceiptDocument();
+
+        CashReceiptService crs = SpringServiceLocator.getCashReceiptService();
+        String verificationUnit = crs.getCashReceiptVerificationUnit(GlobalVariables.getUserSession().getKualiUser());
+        String campusCode = crs.getCampusCodeForCashReceiptVerificationUnit(verificationUnit);
+        crDoc.setCampusLocationCode(campusCode);
+
+        initDerivedCheckValues(crForm);
     }
 
     /**

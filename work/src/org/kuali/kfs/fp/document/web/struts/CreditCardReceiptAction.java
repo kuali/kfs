@@ -34,9 +34,13 @@ import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
+import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.module.financial.bo.CreditCardDetail;
 import org.kuali.module.financial.document.CreditCardReceiptDocument;
+import org.kuali.module.financial.service.CashReceiptService;
 import org.kuali.module.financial.web.struts.form.CreditCardReceiptForm;
+
+import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
@@ -71,6 +75,20 @@ public class CreditCardReceiptAction extends KualiTransactionalDocumentActionBas
         }
 
         return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+    /**
+     * @see org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase#createDocument(org.kuali.core.web.struts.form.KualiDocumentFormBase)
+     */
+    protected void createDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
+        super.createDocument(kualiDocumentFormBase);
+
+        CreditCardReceiptDocument crDoc = (CreditCardReceiptDocument)kualiDocumentFormBase.getDocument();
+
+        CashReceiptService crs = SpringServiceLocator.getCashReceiptService();
+        String verificationUnit = crs.getCashReceiptVerificationUnit(GlobalVariables.getUserSession().getKualiUser());
+        String campusCode = crs.getCampusCodeForCashReceiptVerificationUnit(verificationUnit);
+        crDoc.setCampusLocationCode(campusCode);
     }
 
     /**

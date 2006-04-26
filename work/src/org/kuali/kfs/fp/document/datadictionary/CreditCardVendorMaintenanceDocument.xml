@@ -7,6 +7,7 @@
 	<maintenanceDocument>
         <businessObjectClass>org.kuali.module.financial.bo.CreditCardVendor</businessObjectClass>
         <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+		<businessRulesClass>org.kuali.module.financial.rules.CreditCardVendorRule</businessRulesClass>
         <documentAuthorizerClass>org.kuali.core.document.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
         <authorizations>
             <authorization action="initiate">

@@ -24,6 +24,7 @@ package org.kuali.module.financial.service.impl;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.Constants;
+import org.kuali.core.bo.user.KualiUser;
 import org.kuali.module.financial.service.CashReceiptService;
 
 public class CashReceiptServiceImpl implements CashReceiptService {
@@ -72,5 +73,22 @@ public class CashReceiptServiceImpl implements CashReceiptService {
         }
 
         return campusCode;
+    }
+
+
+    /**
+     * @see org.kuali.module.financial.service.CashReceiptService#getCashReceiptVerificationUnit(org.kuali.core.bo.user.KualiUser)
+     */
+    public String getCashReceiptVerificationUnit(KualiUser user) {
+        String unitName = null;
+
+        if (user == null) {
+            throw new IllegalArgumentException("invalid (null) user");
+        }
+
+        // HACK: pretend that a lookup is actually happening
+        unitName = Constants.CashReceiptConstants.DEFAULT_CASH_RECEIPT_VERIFICATION_UNIT;
+
+        return unitName;
     }
 }

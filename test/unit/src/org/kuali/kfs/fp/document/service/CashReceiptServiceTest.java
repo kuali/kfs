@@ -23,6 +23,7 @@
 package org.kuali.module.financial.service;
 
 import org.kuali.Constants;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.test.KualiTestBaseWithFixtures;
 
@@ -99,4 +100,26 @@ public class CashReceiptServiceTest extends KualiTestBaseWithFixtures {
         assertNotNull(returnedUnit);
         assertEquals(KNOWN_UNIT_NAME, returnedUnit);
     }
+
+
+    public final void testGetCashReceiptVerificationUnit_nullUser() {
+        boolean failedAsExpected = false;
+
+        try {
+            crs.getCashReceiptVerificationUnit(null);
+        }
+        catch (IllegalArgumentException e) {
+            failedAsExpected = true;
+        }
+
+        assertTrue(failedAsExpected);
+    }
+
+    public final void testGetCashReceiptVerificationUnit_validUser() {
+        String expectedUnit = Constants.CashReceiptConstants.DEFAULT_CASH_RECEIPT_VERIFICATION_UNIT;
+
+        String unit = crs.getCashReceiptVerificationUnit(GlobalVariables.getUserSession().getKualiUser());
+        assertEquals(expectedUnit, unit);
+    }
+    // TODO: once we start doing actual lookups, add a test for (user not in any verification unit)
 }

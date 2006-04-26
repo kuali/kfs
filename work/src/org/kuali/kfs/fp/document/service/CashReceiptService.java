@@ -22,6 +22,9 @@
  */
 package org.kuali.module.financial.service;
 
+import org.kuali.core.bo.user.KualiUser;
+
+
 public interface CashReceiptService {
     /**
      * @param campusCode
@@ -35,4 +38,10 @@ public interface CashReceiptService {
      */
     public String getCampusCodeForCashReceiptVerificationUnit(String unitName);
 
+
+    /**
+     * @param user
+     * @return cash receipt verificationUnit workgroupName associated with the given user
+     */
+    public String getCashReceiptVerificationUnit(KualiUser user);
 }

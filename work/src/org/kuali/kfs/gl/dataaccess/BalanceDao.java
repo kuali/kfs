@@ -59,7 +59,17 @@ public interface BalanceDao {
      * @param universityFiscalYear
      * @param chartOfAccountsCode
      * @param accountNumber
+     * @param sfCode Sufficient Funds Code (used to determine sorting)
      * @return balance entries matching above
+     */
+    public Iterator findAccountBalances(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber,String sfCode);
+
+    /**
+     * Returns the balance entries for the given year, chart, and account.
+     * @param universityFiscalYear
+     * @param chartOfAccountsCode
+     * @param accountNumber
+     * @return balance entries matching above sorted by object code
      */
     public Iterator findAccountBalances(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber);
 

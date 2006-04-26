@@ -30,13 +30,14 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.Constants;
 import org.kuali.KeyConstants;
 import org.kuali.core.bo.user.Options;
 import org.kuali.core.dao.OptionsDao;
+import org.kuali.core.exceptions.ApplicationParameterException;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.exceptions.ApplicationParameterException;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.service.AccountService;
 import org.kuali.module.gl.batch.sufficientFunds.SufficientFundsReport;
@@ -220,7 +221,7 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
                 return;
             }
 
-            Iterator balancesIterator = balanceDao.findAccountBalances(universityFiscalYear, sfrb.getChartOfAccountsCode(), sfrb.getAccountNumberFinancialObjectCode());
+            Iterator balancesIterator = balanceDao.findAccountBalances(universityFiscalYear, sfrb.getChartOfAccountsCode(), sfrb.getAccountNumberFinancialObjectCode(),sfrbAccount.getAccountSufficientFundsCode());
 
             if (balancesIterator == null) {
                 addTransactionError("Balances not found in database for this COA/Account/fiscal year (" + universityFiscalYear + ")");
@@ -235,21 +236,21 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
                 Balance balance = (Balance) balancesIterator.next();
 
                 String tempFinObjectCd = "";
-                if ("O".equalsIgnoreCase(sfrbAccount.getAccountSufficientFundsCode())) {
+                if (Constants.SF_TYPE_OBJECT.equals(sfrbAccount.getAccountSufficientFundsCode())) {
                     tempFinObjectCd = balance.getObjectCode();
                 }
-                else if ("L".equalsIgnoreCase(sfrbAccount.getAccountSufficientFundsCode())) {
+                else if (Constants.SF_TYPE_LEVEL.equals(sfrbAccount.getAccountSufficientFundsCode())) {
                     tempFinObjectCd = balance.getFinancialObject().getFinancialObjectLevelCode();
                 }
-                else if ("C".equalsIgnoreCase(sfrbAccount.getAccountSufficientFundsCode())) {
+                else if (Constants.SF_TYPE_CONSOLIDATION.equals(sfrbAccount.getAccountSufficientFundsCode())) {
                   tempFinObjectCd = balance.getFinancialObject().getFinancialObjectLevel().getFinancialConsolidationObjectCode();
                 }
-                else if ("H".equalsIgnoreCase(sfrbAccount.getAccountSufficientFundsCode())
-                        || "A".equalsIgnoreCase(sfrbAccount.getAccountSufficientFundsCode())) {
+                else if (Constants.SF_TYPE_CASH_AT_ACCOUNT.equals(sfrbAccount.getAccountSufficientFundsCode())
+                        || Constants.SF_TYPE_ACCOUNT.equals(sfrbAccount.getAccountSufficientFundsCode())) {
                     tempFinObjectCd = "    ";
                 }
 
-                if (!tempFinObjectCd.equals(currentFinObjectCd)) {
+                if (! tempFinObjectCd.equals(currentFinObjectCd) ) {
                     // we have a change or are on the last record, write out the data if there is any
                     currentFinObjectCd = tempFinObjectCd;
 
@@ -258,6 +259,7 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
                       if ( (currentSfbl.getAccountActualExpenditureAmt().compareTo(KualiDecimal.ZERO) != 0) || 
                           (currentSfbl.getAccountEncumbranceAmount().compareTo(KualiDecimal.ZERO) != 0) ||
                           (currentSfbl.getCurrentBudgetBalanceAmount().compareTo(KualiDecimal.ZERO) !=0) ) {
+
                         sufficientFundBalancesDao.save(currentSfbl);
                         ++sfblInsertedCount;
                       }
@@ -279,7 +281,7 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
                             balance.getContractsGrantsBeginningBalanceAmount()));
                 }
 
-                if ("H".equalsIgnoreCase(sfrbAccount.getAccountSufficientFundsCode())) {
+                if (Constants.SF_TYPE_CASH_AT_ACCOUNT.equals(sfrbAccount.getAccountSufficientFundsCode())) {
                     processCash(sfrbAccount, balance);
                 }
                 else {

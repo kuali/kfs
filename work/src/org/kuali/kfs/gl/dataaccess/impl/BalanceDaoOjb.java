@@ -343,7 +343,30 @@ public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements Balanc
         return (Balance) getPersistenceBrokerTemplate().getObjectByQuery(qbc);
     }
 
+    /**
+     * Find all matching account balances.
+     * 
+     * @param universityFiscalYear
+     * @param chartOfAccountsCode
+     * @param accountNumber
+     * @return balances sorted by object code
+     */
     public Iterator findAccountBalances(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber) {
+      LOG.debug("findAccountBalances() started");
+      return this.findAccountBalances(universityFiscalYear, chartOfAccountsCode, accountNumber, Constants.SF_TYPE_OBJECT);
+    }
+
+    /**
+     * Find all matching account balances.  The Sufficient funds code is used to determine the sort of the
+     * results.
+     * 
+     * @param universityFiscalYear
+     * @param chartOfAccountsCode
+     * @param accountNumber
+     * @param sfCode
+     * @return
+     */
+    public Iterator findAccountBalances(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber,String sfCode) {
         LOG.debug("findAccountBalances() started");
 
         Criteria crit = new Criteria();
@@ -352,6 +375,13 @@ public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements Balanc
         crit.addEqualTo("accountNumber", accountNumber);
 
         QueryByCriteria qbc = QueryFactory.newQuery(Balance.class, crit);
+        if ( Constants.SF_TYPE_OBJECT.equals(sfCode) ) {
+          qbc.addOrderByAscending("objectCode");
+        } else if ( Constants.SF_TYPE_LEVEL.equals(sfCode) ) {
+          qbc.addOrderByAscending("financialObject.financialObjectLevelCode");
+        } else if ( Constants.SF_TYPE_CONSOLIDATION.equals(sfCode) ) {
+          qbc.addOrderByAscending("financialObject.financialObjectLevel.financialConsolidationObjectCode");
+        }
         return getPersistenceBrokerTemplate().getIteratorByQuery(qbc);
     }
 

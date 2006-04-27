@@ -39,7 +39,7 @@
     </class-descriptor>
 
 <class-descriptor class="org.kuali.module.kra.bo.GraduateAssistantRate" table="ER_GRAD_ASST_RT_T">
-  <field-descriptor name="campusCode" column="CMP_CD" jdbc-type="VARCHAR" primarykey="true" />
+  	<field-descriptor name="campusCode" column="CMP_CD" jdbc-type="VARCHAR" primarykey="true" />
 	<field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
     <field-descriptor name="campusMaximumPeriod1Rate" column="CMP_MAX_PRD1_RT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
     <field-descriptor name="campusMaximumPeriod2Rate" column="CMP_MAX_PRD2_RT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/> 
@@ -50,6 +50,9 @@
  	<field-descriptor name="lastUpdateTimestamp" column="LST_UPDT_TS" jdbc-type="TIMESTAMP" />
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 	<field-descriptor name="versionNumber" locking="true" column="VER_NBR" jdbc-type="BIGINT" />
+	<reference-descriptor name="campus" class-ref="org.kuali.module.chart.bo.Campus" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="campusCode" />
+	</reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.kra.bo.NonpersonnelObjectCode" table="ER_NPRS_OBJ_CD_T">

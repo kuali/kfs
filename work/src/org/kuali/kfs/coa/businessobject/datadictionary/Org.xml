@@ -212,7 +212,7 @@
         <description><![CDATA[&nbsp;]]></description>
       </attribute>
 
-      <attribute name="organizationPhysicalCampusCode" forceUppercase="false">
+      <attribute name="organizationPhysicalCampusCode" forceUppercase="true">
         <label>Organization Physical Campus Code</label>
         <shortLabel>Physical Campus</shortLabel>
 

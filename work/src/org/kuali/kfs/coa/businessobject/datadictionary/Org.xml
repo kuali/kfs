@@ -156,8 +156,8 @@
       <attributeReference name="organizationManagerUniversalId"
 				        sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
 				        sourceAttributeName="genericSystemId">
-        <label>Manager Universal Id</label>
-        <shortLabel>Unvl Id</shortLabel>
+        <label>Organization Manager UserID</label>
+        <shortLabel>Manager UserID</shortLabel>
         <required>true</required>
         <control><hidden /></control>
         <summary><![CDATA[&nbsp;]]></summary>

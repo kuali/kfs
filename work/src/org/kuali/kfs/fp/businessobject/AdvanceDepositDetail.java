@@ -30,7 +30,6 @@ import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.module.chart.bo.Account;
 import org.kuali.module.financial.document.CashReceiptDocument;
 
 /**

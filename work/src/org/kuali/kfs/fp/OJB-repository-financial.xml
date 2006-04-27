@@ -53,7 +53,7 @@
 </class-descriptor>
 
 <!--  SERVICE BILLING DOCUMENT MAPPINGS -->
-<class-descriptor class="org.kuali.module.financial.document.ServiceBillingDocument" table="FP_SVC_BILL_DOC_T">
+<class-descriptor class="org.kuali.module.financial.document.ServiceBillingDocument" table="FP_INT_BILL_DOC_T">
     <!--  common transactional document base attributes -->
     <field-descriptor name="financialDocumentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true"/>
     <field-descriptor name="explanation" column="FDOC_EXPLAIN_TXT" jdbc-type="VARCHAR" />

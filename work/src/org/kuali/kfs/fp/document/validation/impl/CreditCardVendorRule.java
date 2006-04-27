@@ -24,6 +24,7 @@ package org.kuali.module.financial.rules;
 
 import java.util.HashMap;
 import java.util.Map;
+import org.apache.commons.lang.StringUtils;
 
 import org.kuali.KeyConstants;
 import org.kuali.core.document.MaintenanceDocument;
@@ -48,20 +49,27 @@ public class CreditCardVendorRule extends MaintenanceDocumentRuleBase {
     
     public void setupConvenienceObjects() {
         
-        //	setup oldCreditCardVendor convenience objects, make sure all possible sub-objects are populated
-        oldCreditCardVendor = (CreditCardVendor) super.getOldBo();
-
         //	setup newCreditCardVendor convenience objects, make sure all possible sub-objects are populated
         newCreditCardVendor = (CreditCardVendor) super.getNewBo();
     }
-    
-    
+   
+    protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
+        //default to success
+       boolean success = true;
+       setupConvenienceObjects();
+       
+       //check valid Credit Card Vendor Number (numeric, minimum length)
+       success &=checkCreditCardVendorNumber();
+        
+       return success;
+        
+        
+   
+    }
     protected boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
         //default to success
-        boolean success = true;
         
-        
-        return success;
+        return true;
     }
 
     /**
@@ -73,6 +81,9 @@ public class CreditCardVendorRule extends MaintenanceDocumentRuleBase {
         boolean success = true;
         
         setupConvenienceObjects();
+        
+        //check valid Credit Card Vendor Number (numeric, minimum length)
+        success &=checkCreditCardVendorNumber();
         
         //check Income Account Number business rule
         if (newCreditCardVendor.getIncomeAccountNumber() != null){
@@ -163,19 +174,25 @@ public class CreditCardVendorRule extends MaintenanceDocumentRuleBase {
     }
 
 
-    /**
-     * 
-     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
-     */
-    protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
-        //default to success
-       
-        
+    
+
+
+    private boolean checkCreditCardVendorNumber(){
+        String ccvNumber = newCreditCardVendor.getFinancialDocumentCreditCardVendorNumber();
+        if ( ccvNumber == null){
+            return false;
+        } else if (!StringUtils.isNumeric(ccvNumber)){
+            putFieldError("financialDocumentCreditCardVendorNumber", KeyConstants.ERROR_NUMERIC, "Vendor Credit Card Number");
+            return false;
+        } else if (ccvNumber.length() < 5){
+            String errorMessage[] = null;
+            errorMessage = new String[] {"Vendor Credit Card Number", "5"}; 
+            putFieldError("financialDocumentCreditCardVendorNumber", KeyConstants.ERROR_MIN_LENGTH, errorMessage);
+            return false;
+        }
         
         return true;
     }
-
-
 
 
 

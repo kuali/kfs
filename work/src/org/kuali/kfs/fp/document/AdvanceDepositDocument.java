@@ -107,9 +107,9 @@ public class AdvanceDepositDocument extends CashReceiptDocument {
      * 
      * @param advanceDepositDetail
      */
-    public void addCreditCardReceipt(AdvanceDepositDetail advanceDepositDetail) {
+    public void addAdvanceDeposit(AdvanceDepositDetail advanceDepositDetail) {
         // these three make up the primary key for a credit card detail record
-        prepareNewCreditCardReceipt(advanceDepositDetail);
+        prepareNewAdvanceDeposit(advanceDepositDetail);
 
         // add the new detail record to the list
         this.advanceDeposits.add(advanceDepositDetail);
@@ -128,7 +128,7 @@ public class AdvanceDepositDocument extends CashReceiptDocument {
      * 
      * @param advanceDepositDetail
      */
-    public final void prepareNewCreditCardReceipt(AdvanceDepositDetail advanceDepositDetail) {
+    public final void prepareNewAdvanceDeposit(AdvanceDepositDetail advanceDepositDetail) {
         advanceDepositDetail.setFinancialDocumentLineNumber(this.nextAdvanceDepositLineNumber);
         advanceDepositDetail.setFinancialDocumentColumnTypeCode(CASH_RECEIPT_ADVANCE_DEPOSIT_COLUMN_TYPE_CODE);
         advanceDepositDetail.setFinancialDocumentNumber(this.getFinancialDocumentNumber());

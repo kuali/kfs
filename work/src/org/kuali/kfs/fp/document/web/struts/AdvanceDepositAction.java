@@ -22,8 +22,6 @@
  */
 package org.kuali.module.financial.web.struts.action;
 
-import java.util.HashMap;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -31,29 +29,24 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.Constants;
-import org.kuali.KeyConstants;
 import org.kuali.PropertyConstants;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
-import org.kuali.core.web.struts.form.KualiDocumentFormBase;
-import org.kuali.module.financial.bo.CreditCardDetail;
-import org.kuali.module.financial.bo.CreditCardType;
-import org.kuali.module.financial.bo.CreditCardVendor;
-import org.kuali.module.financial.document.CreditCardReceiptDocument;
-import org.kuali.module.financial.rules.CreditCardReceiptDocumentRuleUtil;
-import org.kuali.module.financial.service.CashReceiptService;
-import org.kuali.module.financial.web.struts.form.CreditCardReceiptForm;
 
-import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.module.financial.bo.AdvanceDepositDetail;
+import org.kuali.module.financial.document.AdvanceDepositDocument;
+import org.kuali.module.financial.web.struts.form.AdvanceDepositForm;
 
 /**
+ * This is the action class for the Advance Deposit document.
+ * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
-public class CreditCardReceiptAction extends KualiTransactionalDocumentActionBase {
+public class AdvanceDepositAction extends KualiTransactionalDocumentActionBase {
     /**
-     * Adds a CreditCardDetail instance created from the current "new creditCardReceipt" line to the document
+     * Adds a AdvanceDepositDetail instance created from the current "new advanceDeposit" line to the document
      * 
      * @param mapping
      * @param form
@@ -62,29 +55,29 @@ public class CreditCardReceiptAction extends KualiTransactionalDocumentActionBas
      * @return ActionForward
      * @throws Exception
      */
-    public ActionForward addCreditCardReceipt(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+    public ActionForward addAdvanceDeposit(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        CreditCardReceiptForm ccrForm = (CreditCardReceiptForm) form;
-        CreditCardReceiptDocument ccrDoc = ccrForm.getCreditCardReceiptDocument();
+        AdvanceDepositForm adForm = (AdvanceDepositForm) form;
+        AdvanceDepositDocument adDoc = adForm.getAdvanceDepositDocument();
 
-        CreditCardDetail newCreditCardReceipt = ccrForm.getNewCreditCardReceipt();
-        ccrDoc.prepareNewCreditCardReceipt(newCreditCardReceipt);
+        AdvanceDepositDetail newAdvanceDeposit = adForm.getNewAdvanceDeposit();
+        adDoc.prepareNewAdvanceDeposit(newAdvanceDeposit);
 
-        // creditCardReceipt business rules
-        boolean rulePassed = validateNewCreditCardReceipt(newCreditCardReceipt);
+        // advanceDeposit business rules
+        boolean rulePassed = validateNewAdvanceDeposit(newAdvanceDeposit);
         if (rulePassed) {
-            // add creditCardReceipt
-            ccrDoc.addCreditCardReceipt(newCreditCardReceipt);
+            // add advanceDeposit
+            adDoc.addAdvanceDeposit(newAdvanceDeposit);
 
-            // clear the used creditCardReceipt
-            ccrForm.setNewCreditCardReceipt(new CreditCardDetail());
+            // clear the used advanceDeposit
+            adForm.setNewAdvanceDeposit(new AdvanceDepositDetail());
         }
 
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
     /**
-     * Deletes the selected creditCardReceipt (line) from the document
+     * Deletes the selected advanceDeposit (line) from the document
      * 
      * @param mapping
      * @param form
@@ -93,28 +86,34 @@ public class CreditCardReceiptAction extends KualiTransactionalDocumentActionBas
      * @return ActionForward
      * @throws Exception
      */
-    public ActionForward deleteCreditCardReceipt(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+    public ActionForward deleteAdvanceDeposit(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        CreditCardReceiptForm ccrForm = (CreditCardReceiptForm) form;
-        CreditCardReceiptDocument ccrDoc = ccrForm.getCreditCardReceiptDocument();
+        AdvanceDepositForm adForm = (AdvanceDepositForm) form;
+        AdvanceDepositDocument adDoc = adForm.getAdvanceDepositDocument();
 
         int deleteIndex = getLineToDelete(request);
-        // delete creditCardReceipt
-        ccrDoc.removeCreditCardReceipt(deleteIndex);
+        // delete advanceDeposit
+        adDoc.removeAdvanceDeposit(deleteIndex);
 
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
     /**
-     * This method validates a new credit card receipt detail record.
+     * This method validates a new advance deposit detail record.
      * 
-     * @param creditCardReceipt
+     * @param advanceDeposit
      * @return boolean
      */
-    private boolean validateNewCreditCardReceipt(CreditCardDetail creditCardReceipt) {
-        GlobalVariables.getErrorMap().addToErrorPath(PropertyConstants.NEW_CREDIT_CARD_RECEIPT);
-        boolean isValid = CreditCardReceiptDocumentRuleUtil.validateCreditCardReceipt(creditCardReceipt);
-        GlobalVariables.getErrorMap().removeFromErrorPath(PropertyConstants.NEW_CREDIT_CARD_RECEIPT);
-        return isValid;
+    private boolean validateNewAdvanceDeposit(AdvanceDepositDetail advanceDeposit) {
+        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        int originalErrorCount = errorMap.getErrorCount();
+        errorMap.addToErrorPath(PropertyConstants.NEW_ADVANCE_DEPOSIT);
+        SpringServiceLocator.getDictionaryValidationService().validateBusinessObject(advanceDeposit);
+
+        // todo - check existence - use a rule util class like the ccr doc rule util
+
+        errorMap.removeFromErrorPath(PropertyConstants.NEW_ADVANCE_DEPOSIT);
+        int currentErrorCount = errorMap.getErrorCount();
+        return currentErrorCount == originalErrorCount;
     }
 }

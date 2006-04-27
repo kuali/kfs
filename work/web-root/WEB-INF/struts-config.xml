@@ -15,6 +15,7 @@
        <form-bean name="DepositWizardForm" type="org.kuali.module.financial.web.struts.form.DepositWizardForm" />
        <form-bean name="CashReceiptForm" type="org.kuali.module.financial.web.struts.form.CashReceiptForm" />
        <form-bean name="CreditCardReceiptForm" type="org.kuali.module.financial.web.struts.form.CreditCardReceiptForm" />
+       <form-bean name="AdvanceDepositForm" type="org.kuali.module.financial.web.struts.form.AdvanceDepositForm" />
        <form-bean name="InternalBillingForm" type="org.kuali.module.financial.web.struts.form.InternalBillingForm" />
        <form-bean name="ServiceBillingForm" type="org.kuali.module.financial.web.struts.form.ServiceBillingForm" />
        <form-bean name="TransferOfFundsForm" type="org.kuali.module.financial.web.struts.form.TransferOfFundsForm" />

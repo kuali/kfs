@@ -27,7 +27,9 @@ import org.kuali.KeyConstants;
 import org.kuali.PropertyConstants;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.TransactionalDocument;
+import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.financial.document.CreditCardReceiptDocument;
 
 /**
@@ -35,7 +37,7 @@ import org.kuali.module.financial.document.CreditCardReceiptDocument;
  * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
-public class CreditCardReceiptDocumentRule extends CashReceiptDocumentRule {
+public class AdvanceDepositDocumentRule extends CashReceiptDocumentRule {
     /**
      * For Credit Card Receipt documents, the document is balanced if the sum total of credit card receipts
      * equals the sum total of the accounting lines.
@@ -43,26 +45,27 @@ public class CreditCardReceiptDocumentRule extends CashReceiptDocumentRule {
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#isDocumentBalanceValid(org.kuali.core.document.TransactionalDocument)
      */
     protected boolean isDocumentBalanceValid(TransactionalDocument transactionalDocument) {
-        CreditCardReceiptDocument ccr = (CreditCardReceiptDocument) transactionalDocument;
-
-        // make sure that the credit card total is greater than zero
-        boolean isValid = ccr.getSumTotalAmount().compareTo(Constants.ZERO) > 0;
-        if (!isValid) {
-            GlobalVariables.getErrorMap().put(PropertyConstants.NEW_CREDIT_CARD_RECEIPT, 
-                    KeyConstants.CreditCardReceipt.ERROR_DOCUMENT_CREDIT_CARD_RECEIPT_TOTAL_INVALID);
-        }
-
-        if (isValid) {
-            // make sure the document is in balance
-            isValid = ccr.getSourceTotal().compareTo(ccr.getSumTotalAmount()) == 0;
-
-            if (!isValid) {
-                GlobalVariables.getErrorMap().put(PropertyConstants.NEW_CREDIT_CARD_RECEIPT,
-                        KeyConstants.CreditCardReceipt.ERROR_DOCUMENT_CREDIT_CARD_RECEIPT_OUT_OF_BALANCE);
-            }
-        }
-
-        return isValid;
+//        CreditCardReceiptDocument ccr = (CreditCardReceiptDocument) transactionalDocument;
+//
+//        // make sure that the credit card total is greater than zero
+//        boolean isValid = ccr.getSumTotalAmount().compareTo(Constants.ZERO) > 0;
+//        if (!isValid) {
+//            GlobalVariables.getErrorMap().put(PropertyConstants.NEW_CREDIT_CARD_RECEIPT, 
+//                    KeyConstants.CreditCardReceipt.ERROR_DOCUMENT_CREDIT_CARD_RECEIPT_TOTAL_INVALID);
+//        }
+//
+//        if (isValid) {
+//            // make sure the document is in balance
+//            isValid = ccr.getSourceTotal().compareTo(ccr.getSumTotalAmount()) == 0;
+//
+//            if (!isValid) {
+//                GlobalVariables.getErrorMap().put(PropertyConstants.NEW_CREDIT_CARD_RECEIPT,
+//                        KeyConstants.CreditCardReceipt.ERROR_DOCUMENT_CREDIT_CARD_RECEIPT_OUT_OF_BALANCE);
+//            }
+//        }
+//
+//        return isValid;
+        return true;
     }
     
     /**
@@ -72,13 +75,14 @@ public class CreditCardReceiptDocumentRule extends CashReceiptDocumentRule {
      * @see org.kuali.core.rule.DocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.Document)
      */
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
-        boolean isValid = super.processCustomRouteDocumentBusinessRules(document);
-        
-        if(isValid) {
-            isValid = isMinimumNumberOfCreditCardReceiptsMet(document, isValid);
-        }
-        
-        return isValid;
+//        boolean isValid = super.processCustomRouteDocumentBusinessRules(document);
+//        
+//        if(isValid) {
+//            isValid = isMinimumNumberOfCreditCardReceiptsMet(document, isValid);
+//        }
+//        
+//        return isValid;
+        return true;
     }
 
     /**
@@ -108,29 +112,33 @@ public class CreditCardReceiptDocumentRule extends CashReceiptDocumentRule {
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
         boolean isValid = super.processCustomSaveDocumentBusinessRules(document);
         
-        if(isValid) {
-            isValid = validateCreditCardReceipts((CreditCardReceiptDocument) document);
-        }
+//        if(isValid) {
+//            isValid = validateCreditCardReceipts((CreditCardReceiptDocument) document);
+//        }
         
         return isValid;
     }
     
     /**
-     * Validates all the CreditCardReceipts in the given Document.
+     * Validates all the CreditCardReceipts in the given Document, adding global errors for invalid items. It just uses the
+     * DataDictionary validation.
      *
      * @param creditCardReceiptDocument
      * @return boolean
      */
     private boolean validateCreditCardReceipts(CreditCardReceiptDocument creditCardReceiptDocument) {
-        GlobalVariables.getErrorMap().addToErrorPath(Constants.DOCUMENT_PROPERTY_NAME);
-        boolean isValid = true;
+        final ErrorMap errorMap = GlobalVariables.getErrorMap();
+        errorMap.addToErrorPath(Constants.DOCUMENT_PROPERTY_NAME);
+        int originalErrorCount = errorMap.getErrorCount();
         for (int i = 0; i < creditCardReceiptDocument.getCreditCardReceipts().size(); i++) {
             String propertyName = PropertyConstants.CREDIT_CARD_RECEIPT + "[" + i + "]";
             GlobalVariables.getErrorMap().addToErrorPath(propertyName);
-            isValid = CreditCardReceiptDocumentRuleUtil.validateCreditCardReceipt(creditCardReceiptDocument.getCreditCardReceipt(i));
+            SpringServiceLocator.getDictionaryValidationService().validateBusinessObject(creditCardReceiptDocument.getCreditCardReceipt(i));
+            // todo - check existence - use a rule util class like the ccr doc rule util
             GlobalVariables.getErrorMap().removeFromErrorPath(propertyName);
         }
-        GlobalVariables.getErrorMap().removeFromErrorPath(Constants.DOCUMENT_PROPERTY_NAME);
-        return isValid;
+        int currentErrorCount = errorMap.getErrorCount();
+        errorMap.removeFromErrorPath(Constants.DOCUMENT_PROPERTY_NAME);
+        return currentErrorCount == originalErrorCount;
     }
 }

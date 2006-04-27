@@ -23,45 +23,45 @@
 package org.kuali.module.financial.web.struts.form;
 
 import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
-import org.kuali.module.financial.bo.CreditCardDetail;
-import org.kuali.module.financial.document.CreditCardReceiptDocument;
+import org.kuali.module.financial.bo.AdvanceDepositDetail;
+import org.kuali.module.financial.document.AdvanceDepositDocument;
 
 /**
- * This class is the struts form for Credit Card Receipt document.
+ * This class is the struts form for Advance Deposit document.
  * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
-public class CreditCardReceiptForm extends KualiTransactionalDocumentFormBase {
+public class AdvanceDepositForm extends KualiTransactionalDocumentFormBase {
     private static final long serialVersionUID = 1L;
-    private CreditCardDetail newCreditCardReceipt;
+    private AdvanceDepositDetail newAdvanceDeposit;
 
     /**
-     * Constructs a CreditCardReceiptForm.java.
+     * Constructs a AdvanceDepositForm.java.
      */
-    public CreditCardReceiptForm() {
+    public AdvanceDepositForm() {
         super();
-        setDocument(new CreditCardReceiptDocument());
-        setNewCreditCardReceipt(new CreditCardDetail());
+        setDocument(new AdvanceDepositDocument());
+        setNewAdvanceDeposit(new AdvanceDepositDetail());
     }
 
     /**
-     * @return CreditCardReceiptDocument
+     * @return AdvanceDepositDocument
      */
-    public CreditCardReceiptDocument getCreditCardReceiptDocument() {
-        return (CreditCardReceiptDocument) getDocument();
+    public AdvanceDepositDocument getAdvanceDepositDocument() {
+        return (AdvanceDepositDocument) getDocument();
     }
 
     /**
-     * @return CreditCardDetail
+     * @return AdvanceDepositDetail
      */
-    public CreditCardDetail getNewCreditCardReceipt() {
-        return newCreditCardReceipt;
+    public AdvanceDepositDetail getNewAdvanceDeposit() {
+        return newAdvanceDeposit;
     }
 
     /**
-     * @param newCreditCardReceipt
+     * @param newAdvanceDeposit
      */
-    public void setNewCreditCardReceipt(CreditCardDetail newCreditCardReceipt) {
-        this.newCreditCardReceipt = newCreditCardReceipt;
+    public void setNewAdvanceDeposit(AdvanceDepositDetail newAdvanceDeposit) {
+        this.newAdvanceDeposit = newAdvanceDeposit;
     }
 }

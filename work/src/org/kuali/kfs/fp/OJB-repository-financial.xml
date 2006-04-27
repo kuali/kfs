@@ -101,10 +101,10 @@
     <field-descriptor name="explanation"            column="FDOC_EXPLAIN_TXT"   jdbc-type="VARCHAR" />
     <field-descriptor name="versionNumber"          column="VER_NBR"            jdbc-type="BIGINT" locking="true"/>
     <field-descriptor name="postingYear"            column="FDOC_POST_YR"       jdbc-type="INTEGER" />
-    <field-descriptor name="nextSourceLineNumber"   column="FDOC_NXT_DBT_NBR"   jdbc-type="INTEGER" />
-    <field-descriptor name="nextTargetLineNumber"   column="FDOC_NXT_CRDT_NBR"  jdbc-type="INTEGER" />
-    <!--  attributes specific to AV doc -->
+	<field-descriptor name="nextSourceLineNumber"   column="FDOC_NXT_LINE_NBR"  jdbc-type="INTEGER"/>
     <field-descriptor name="postingPeriodCode"      column="FDOC_POST_PRD_CD"   jdbc-type="VARCHAR" />
+
+    <!--  attributes specific to AV doc -->
     <field-descriptor name="reversalDate"           column="FDOC_REVERSAL_DT"   jdbc-type="TIMESTAMP" />
     <field-descriptor name="typeCode"               column="FDOC_AV_TYP_CD"     jdbc-type="VARCHAR" />
 

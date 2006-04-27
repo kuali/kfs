@@ -1648,3 +1648,23 @@
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="financialDocumentCreditCardCompanyName" column="FDOC_CCRD_CMPNY_NM" jdbc-type="VARCHAR"/>
 </class-descriptor>
+
+<class-descriptor class="org.kuali.module.financial.bo.AdvanceDepositDetail" table="FP_ADV_DPST_DTL_T">
+	<field-descriptor name="financialDocumentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="financialDocumentTypeCode" column="FDOC_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="financialDocumentColumnTypeCode" column="FDOC_COLUMN_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="financialDocumentLineNumber" column="FDOC_LINE_NBR" jdbc-type="INTEGER" primarykey="true" index="true"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<field-descriptor name="financialDocumentAdvanceDepositDate" column="FDOC_ADV_DPST_DT" jdbc-type="DATE"/>
+	<field-descriptor name="financialDocumentAdvanceDepositReferenceNumber" column="FDOC_ADPST_REF_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="financialDocumentAdvanceDepositDescription" column="FDOC_ADV_DPST_DESC" jdbc-type="VARCHAR"/>
+	<field-descriptor name="financialDocumentAdvanceDepositAmount" column="FDOC_ADV_DPST_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="financialDocumentBankCode" column="FDOC_BANK_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="financialDocumentBankAccountNumber" column="FDOC_BANK_ACCT_NBR" jdbc-type="VARCHAR"/>
+	<reference-descriptor name="cashReceiptDocument" class-ref="org.kuali.module.financial.document.CashReceiptDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="financialDocumentNumber" />
+	</reference-descriptor>
+</class-descriptor>
+
+

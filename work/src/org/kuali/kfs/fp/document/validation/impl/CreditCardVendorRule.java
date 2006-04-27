@@ -41,10 +41,7 @@ import org.kuali.module.financial.bo.CreditCardVendor;
  */
 public class CreditCardVendorRule extends MaintenanceDocumentRuleBase {
    
-    private CreditCardVendor oldCreditCardVendor;
     private CreditCardVendor newCreditCardVendor;
-    
-    
     
     
     public void setupConvenienceObjects() {
@@ -69,7 +66,8 @@ public class CreditCardVendorRule extends MaintenanceDocumentRuleBase {
     protected boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
         //default to success
         
-        return true;
+        
+        return processCustomRouteDocumentBusinessRules(document);
     }
 
     /**
@@ -179,6 +177,7 @@ public class CreditCardVendorRule extends MaintenanceDocumentRuleBase {
 
     private boolean checkCreditCardVendorNumber(){
         String ccvNumber = newCreditCardVendor.getFinancialDocumentCreditCardVendorNumber();
+        
         if ( ccvNumber == null){
             return false;
         } else if (!StringUtils.isNumeric(ccvNumber)){

@@ -55,8 +55,8 @@
 
         <attributes>
             <attribute name="subFundGroupCode" forceUppercase="true">
-                <label>Code</label>
-                <shortLabel>Code</shortLabel>
+                <label>Sub-Fund Group Code</label>
+                <shortLabel>Sub-Fund Group Code</shortLabel>
 
                 <maxLength>6</maxLength>
 

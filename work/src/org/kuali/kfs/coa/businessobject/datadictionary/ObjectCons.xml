@@ -74,7 +74,7 @@
                 <description>Consolidation Object Code...</description>
             </attribute>
 
-			<attribute name="finConsolidationObjectName" forceUppercase="false">
+			<attribute name="finConsolidationObjectName" forceUppercase="true">
                 <label>Consolidation Object Name</label>
                 <shortLabel>Long Name</shortLabel>
 
@@ -88,7 +88,7 @@
                 <description>Consolidation Object Name...</description>
             </attribute>
             
-			<attribute name="finConsolidationObjShortName" forceUppercase="false">
+			<attribute name="finConsolidationObjShortName" forceUppercase="true">
                 <label>Consolidation Object Short Name</label>
                 <shortLabel>Short Name</shortLabel>
 

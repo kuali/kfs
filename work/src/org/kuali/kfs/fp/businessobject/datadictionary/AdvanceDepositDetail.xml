@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.financial.bo.AdvanceDepositDetail">
+        <customAttributeEnabled>false</customAttributeEnabled>
+
+        <attributes>
+        	<attributeReference name="financialDocumentNumber" 
+					            sourceClassName="org.kuali.core.document.DocumentHeader" 
+					            sourceAttributeName="financialDocumentNumber" />
+			<attributeReference name="financialDocumentTypeCode" 
+					            sourceClassName="org.kuali.core.document.DocumentType" 
+					            sourceAttributeName="financialDocumentTypeCode" />		            
+			<attribute name="financialDocumentColumnTypeCode" forceUppercase="true">
+                <label>Column Type Code</label>
+                <shortLabel>Col Type Code</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <validationPattern><alpha /></validationPattern>
+                <required>true</required>
+                <control>
+                    <text size="3" />
+                </control>
+
+                <summary><![CDATA[&nbsp;]]></summary>
+                <description><![CDATA[&nbsp;]]></description>
+            </attribute>
+            <attributeReference name="financialDocumentLineNumber" 
+					            sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
+					            sourceAttributeName="genericAmount">
+				<required>true</required>
+			</attributeReference>
+			<attributeReference name="financialDocumentAdvanceDepositAmount" 
+					            sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
+					            sourceAttributeName="genericAmount">
+				<exclusiveMin>0</exclusiveMin>
+				<required>true</required>
+				<description>The total dollar amount of the advance deposit.</description>
+			</attributeReference>
+			<attributeReference name="financialDocumentAdvanceDepositDate" 
+            					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
+            					sourceAttributeName="genericDate" >
+				<label>Advance Deposit Date</label>
+            	<shortLabel>Date</shortLabel>
+           		<required>true</required>
+            </attributeReference>		
+            <attribute name="financialDocumentAdvanceDepositDescription" forceUppercase="true">
+                <label>Financial Document Advance Deposit Description</label>
+                <shortLabel>Descr</shortLabel>
+
+                <maxLength>40</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="42" />
+                </control>
+
+                <summary>financialDocumentAdvanceDepositDescription</summary>
+                <description>financialDocumentAdvanceDepositDescription description...</description>
+			</attribute>
+			<attributeReference name="financialDocumentAdvanceDepositReferenceNumber" 
+					            sourceClassName="org.kuali.core.document.DocumentHeader" 
+					            sourceAttributeName="financialDocumentNumber" >
+				<label>Advance Deposit Reference Number</label>
+				<shortLabel>Ref Nbr</shortLabel>
+				<maxLength>10</maxLength>
+				<required>true</required>
+			</attributeReference>
+			<attributeReference name="financialDocumentBankCode" 
+					            sourceClassName="org.kuali.module.financial.bo.Bank" 
+					            sourceAttributeName="financialDocumentBankCode">
+	            <shortLabel>Bank</shortLabel>
+				<required>true</required>
+			</attributeReference>
+			<attributeReference name="financialDocumentBankAccountNumber" 
+					            sourceClassName="org.kuali.module.financial.bo.BankAccount" 
+					            sourceAttributeName="finDocumentBankAccountNumber">
+				<shortLabel>Bank Acct</shortLabel>
+				<required>true</required>
+			</attributeReference>
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

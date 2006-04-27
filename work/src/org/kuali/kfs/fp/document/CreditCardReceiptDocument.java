@@ -189,22 +189,6 @@ public class CreditCardReceiptDocument extends CashReceiptDocument {
     }
 
     /**
-     * Calculates the sum of the credit card receipts.
-     * 
-     * @return sum of the amounts of the current list of checks
-     */
-    public KualiDecimal calculateCreditCardReceiptTotal() {
-        KualiDecimal total = KualiDecimal.ZERO;
-        for (Iterator i = creditCardReceipts.iterator(); i.hasNext();) {
-            CreditCardDetail ccd = (CreditCardDetail) i.next();
-            if (null != ccd.getCreditCardAdvanceDepositAmount()) {
-                total = total.add(ccd.getCreditCardAdvanceDepositAmount());
-            }
-        }
-        return total;
-    }
-
-    /**
      * Overrides super to call super and then also add in the new list of credit card 
      * receipts that have to be managed.
      * 

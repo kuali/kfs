@@ -22,46 +22,16 @@
  */
 package org.kuali.module.financial.web.struts.form;
 
-import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
-import org.kuali.module.financial.bo.InternalBillingItem;
 import org.kuali.module.financial.document.ServiceBillingDocument;
 
 /**
- * This class...
+ * This class is the action form for Service Billing.
+ *
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
-public class ServiceBillingForm extends KualiTransactionalDocumentFormBase {
-    private static final long serialVersionUID = 1L;
-    private InternalBillingItem newItem;
-
+public class ServiceBillingForm extends InternalBillingForm {
     public ServiceBillingForm() {
     	super();
         setDocument(new ServiceBillingDocument());
-    	this.newItem = new InternalBillingItem();
-    }
-    
-    /**
-     * @return Returns the serviceBillingDocument.
-     */
-    public ServiceBillingDocument getServiceBillingDocument() {
-        return (ServiceBillingDocument) getDocument();
-    }
-    /**
-     * @param serviceBillingDocument The serviceBillingDocument to set.
-     */ 
-    public void setInternalBillingDocument(ServiceBillingDocument internalBillingDocument) {
-        setDocument(internalBillingDocument);
-    }    
-    /**
-     * @return Returns the newItem.
-     */
-    public InternalBillingItem getNewItem() {
-        return newItem;
-    }
-    /**
-     * @param newItem The newItem to set.
-     */
-    public void setNewItem(InternalBillingItem newItem) {
-        this.newItem = newItem;
     }
 }

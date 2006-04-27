@@ -22,52 +22,11 @@
  */
 package org.kuali.module.financial.web.struts.action;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.struts.action.ActionForm;
-import org.apache.struts.action.ActionForward;
-import org.apache.struts.action.ActionMapping;
-import org.kuali.Constants;
-import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
-import org.kuali.module.financial.bo.InternalBillingItem;
-import org.kuali.module.financial.web.struts.form.ServiceBillingForm;
-
 /**
- * This class...
+ * This class handles Actions for ServiceBilling.
+ *
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
-public class ServiceBillingAction extends KualiTransactionalDocumentActionBase {
-    /**
-     * This method...
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    public ActionForward insertItem(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-      ServiceBillingForm serviceBillingForm = (ServiceBillingForm) form;
-      serviceBillingForm.getServiceBillingDocument().addItem(serviceBillingForm.getNewItem());
-      serviceBillingForm.setNewItem(new InternalBillingItem());
-      return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-
-    /**
-     * This method...
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    public ActionForward deleteItem(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-        HttpServletResponse response) throws Exception {
-        ServiceBillingForm serviceBillingForm = (ServiceBillingForm) form;
-        serviceBillingForm.getServiceBillingDocument().getItems().remove(getLineToDelete(request));
-      return mapping.findForward(Constants.MAPPING_BASIC);
-    }
+public class ServiceBillingAction extends InternalBillingAction {
+    // no difference from superclass
 }

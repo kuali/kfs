@@ -22,8 +22,6 @@
  */
 package org.kuali.module.financial.web.struts.action;
 
-import java.util.HashMap;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -31,22 +29,13 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.Constants;
-import org.kuali.KeyConstants;
 import org.kuali.PropertyConstants;
-import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
-import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.module.financial.bo.CreditCardDetail;
-import org.kuali.module.financial.bo.CreditCardType;
-import org.kuali.module.financial.bo.CreditCardVendor;
 import org.kuali.module.financial.document.CreditCardReceiptDocument;
 import org.kuali.module.financial.rules.CreditCardReceiptDocumentRuleUtil;
-import org.kuali.module.financial.service.CashReceiptService;
 import org.kuali.module.financial.web.struts.form.CreditCardReceiptForm;
-
-import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)

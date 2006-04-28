@@ -20,32 +20,29 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-package org.kuali.module.chart.dao.ojb;
-
-import org.apache.ojb.broker.query.Criteria;
-import org.apache.ojb.broker.query.QueryFactory;
-import org.kuali.module.chart.bo.PriorYearAccount;
-import org.kuali.module.chart.dao.PriorYearAccountDao;
-import org.springframework.orm.ojb.PersistenceBrokerTemplate;
+package org.kuali.module.gl.util;
 
 /**
- * This class...
- * @author Bin Gao from Michigan State University
+ * @author Laran Evans
+ * @version $Id$
  */
-public class PriorYearAccountDaoOjb extends PersistenceBrokerTemplate implements PriorYearAccountDao {
 
-    /**
-     * @see org.kuali.module.chart.dao.PriorYearAccountDao#getByPrimaryId(java.lang.String, java.lang.String)
-     */
-    public PriorYearAccount getByPrimaryId(String chartOfAccountsCode,
-            String accountNumber) {
-        
-        Criteria criteria = new Criteria();
-        criteria.addEqualTo("chartOfAccountsCode", chartOfAccountsCode);
-        criteria.addEqualTo("accountNumber", accountNumber);
+public class FatalErrorException extends Exception {
 
-        return (PriorYearAccount) getObjectByQuery(
-                QueryFactory.newQuery(PriorYearAccount.class, criteria));
+    public FatalErrorException() {
+        super();
     }
 
+    public FatalErrorException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    public FatalErrorException(String message) {
+        super(message);
+    }
+
+    public FatalErrorException(Throwable cause) {
+        super(cause);
+    }
+    
 }

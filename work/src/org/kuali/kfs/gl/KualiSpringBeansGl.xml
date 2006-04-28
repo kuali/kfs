@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
+
+	<bean id="glYearEndEncumbranceClosingRuleHelper" class="org.kuali.module.gl.service.impl.helper.YearEndEncumbranceClosingRuleHelper">
+		<property name="a21SubAccountService"><ref bean="a21SubAccountService"/></property>
+		<property name="priorYearAccountService"><ref bean="priorYearAccountService"/></property>
+		<property name="subFundGroupService"><ref bean="subFundGroupService"/></property>
+	</bean>
+	
 	<bean id="glPurgeEntryStep" class="org.kuali.module.gl.batch.PurgeEntryStep">
 		<property name="kualiConfigurationService"><ref bean="kualiConfigurationService" /></property>
 		<property name="entryService"><ref bean="glEntryService" /></property>
@@ -88,6 +95,7 @@
 		<property name="encumbranceDao"><ref bean="glEncumbranceDao"/></property>
 		<property name="encumbranceClosingReport"><ref bean="glEncumbranceClosingYearEndReport" /></property>
 		<property name="dateTimeService"><ref bean="dateTimeService" /></property>
+		<property name="yearEndEncumbranceClosingRuleHelper"><ref bean="glYearEndEncumbranceClosingRuleHelper" /></property>
 	</bean>
 	
 	<bean id="glScrubberService" class="org.kuali.module.gl.service.impl.ScrubberServiceImpl" init-method="init">

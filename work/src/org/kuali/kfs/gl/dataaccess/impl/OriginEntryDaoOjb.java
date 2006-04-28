@@ -35,82 +35,85 @@ import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 /**
  * @author jsissom
- * @version $Id: OriginEntryDaoOjb.java,v 1.12 2006-04-24 20:48:29 larevans Exp $
- * 
+ * @author Laran Evans <lc278@cornell.edu>
+ * @version $Id: OriginEntryDaoOjb.java,v 1.13 2006-04-28 16:16:16 larevans Exp $
  */
 
 public class OriginEntryDaoOjb extends PersistenceBrokerDaoSupport implements OriginEntryDao {
-  private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OriginEntryDaoOjb.class);
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OriginEntryDaoOjb.class);
 
-  /**
-   * 
-   */
-  public OriginEntryDaoOjb() {
-    super();
-  }
-
-  /**
-   * I'm not sure how this is supposed to work and since it wasn't
-   * implemented it, I did it this way.  If you change it, let me know. jsissom 
-   */
-  public Iterator getMatchingEntries(Map searchCriteria) {
-    LOG.debug("getMatchingEntries() started");
-
-    Criteria criteria = new Criteria();
-    for (Iterator iter = searchCriteria.keySet().iterator(); iter.hasNext();) {
-      String element = (String)iter.next();
-      criteria.addEqualTo(element,searchCriteria.get(element));
+    /**
+     * 
+     */
+    public OriginEntryDaoOjb() {
+        super();
     }
 
-    QueryByCriteria qbc = QueryFactory.newQuery(OriginEntry.class,criteria);
-    qbc.addOrderByAscending("entryId");
-    return getPersistenceBrokerTemplate().getIteratorByQuery(qbc);
-  }
+    /**
+     * I'm not sure how this is supposed to work and since it wasn't implemented it, I did it this way. If you change it, let me
+     * know. jsissom
+     */
+    public Iterator getMatchingEntries(Map searchCriteria) {
+        LOG.debug("getMatchingEntries() started");
 
-  /**
-   * This method should only be used in unit tests.  It loads all the 
-   * gl_origin_entry_t rows in memory into a collection.  This won't 
-   * work for production because there would be too many rows to load
-   * into memory.
-   * 
-   * @return
-   */
-  public Collection testingGetAllEntries() {
-    LOG.debug("testingGetAllEntries() started");
+        Criteria criteria = new Criteria();
+        for (Iterator iter = searchCriteria.keySet().iterator(); iter.hasNext();) {
+            String element = (String) iter.next();
+            criteria.addEqualTo(element, searchCriteria.get(element));
+        }
 
-    Criteria criteria = new Criteria();
-    QueryByCriteria qbc = QueryFactory.newQuery(OriginEntry.class,criteria);
-    qbc.addOrderByAscending("entryId");
-    return getPersistenceBrokerTemplate().getCollectionByQuery(qbc);    
-  }
+        QueryByCriteria qbc = QueryFactory.newQuery(OriginEntry.class, criteria);
+        qbc.addOrderByAscending("entryId");
+        return getPersistenceBrokerTemplate().getIteratorByQuery(qbc);
+    }
 
-  /**
-   * 
-   */
-  public void saveOriginEntry(OriginEntry entry) {
-    LOG.debug("saveOriginEntry() started");
+    /**
+     * This method should only be used in unit tests. It loads all the gl_origin_entry_t rows in memory into a collection. This
+     * won't work for production because there would be too many rows to load into memory.
+     * 
+     * @return
+     */
+    public Collection testingGetAllEntries() {
+        LOG.debug("testingGetAllEntries() started");
+
+        Criteria criteria = new Criteria();
+        QueryByCriteria qbc = QueryFactory.newQuery(OriginEntry.class, criteria);
+        qbc.addOrderByAscending("entryId");
+        return getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
+    }
+
+    /**
+     * @param entry the entry to save.
+     */
+    public void saveOriginEntry(OriginEntry entry) {
+        LOG.debug("saveOriginEntry() started");
+
+        if (null != entry && null != entry.getTransactionLedgerEntryDescription()
+                && 40 < entry.getTransactionLedgerEntryDescription().length()) {
+
+            entry.setTransactionLedgerEntryDescription(entry.getTransactionLedgerEntryDescription().substring(0, 40));
+
+        }
+
+        getPersistenceBrokerTemplate().store(entry);
+    }
+
+    /**
+     * Delete entries matching searchCriteria search criteria.
+     * 
+     * @param searchCriteria
+     */
+    public void deleteMatchingEntries(Map searchCriteria) {
+        LOG.debug("deleteMatchingEntries() started");
+
+        Criteria criteria = new Criteria();
+        for (Iterator iter = searchCriteria.keySet().iterator(); iter.hasNext();) {
+            String element = (String) iter.next();
+            criteria.addEqualTo(element, searchCriteria.get(element));
+        }
+
+        QueryByCriteria qbc = QueryFactory.newQuery(OriginEntry.class, criteria);
+        getPersistenceBrokerTemplate().deleteByQuery(qbc);
+    }
     
-    if(null != entry 
-    && null != entry.getTransactionLedgerEntryDescription()
-    && 40 < entry.getTransactionLedgerEntryDescription().length()) {
-        
-        entry.setTransactionLedgerEntryDescription(entry.getTransactionLedgerEntryDescription().substring(0, 40));
-        
-    }
-
-    getPersistenceBrokerTemplate().store(entry);
-  }
-
-  public void deleteMatchingEntries(Map searchCriteria) {
-      LOG.debug("deleteMatchingEntries() started");
-      
-      Criteria criteria = new Criteria();
-      for (Iterator iter = searchCriteria.keySet().iterator(); iter.hasNext();) {
-        String element = (String)iter.next();
-        criteria.addEqualTo(element, searchCriteria.get(element));
-      }
-
-      QueryByCriteria qbc = QueryFactory.newQuery(OriginEntry.class,criteria);
-      getPersistenceBrokerTemplate().deleteByQuery(qbc);
-  }
 }

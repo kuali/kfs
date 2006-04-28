@@ -102,17 +102,56 @@ public class OriginEntry extends BusinessObjectBase implements Transaction {
     /**
      * 
      */
-    public OriginEntry() {
+    public OriginEntry(String financialDocumentTypeCode, String financialSystemOriginationCode) {
         super();
-    }
 
+        setChartOfAccountsCode(Constants.EMPTY_STRING);
+        setAccountNumber(Constants.EMPTY_STRING);
+        setSubAccountNumber(Constants.DASHES_SUB_ACCOUNT_NUMBER);
+        setProjectCode(Constants.DASHES_PROJECT_CODE);
+
+        setFinancialDocumentTypeCode(financialDocumentTypeCode);
+        setFinancialSystemOriginationCode(financialSystemOriginationCode);
+        
+        setFinancialObjectCode(Constants.EMPTY_STRING);
+        setFinancialSubObjectCode(Constants.DASHES_SUB_OBJECT_CODE);
+        setFinancialBalanceTypeCode(Constants.EMPTY_STRING);
+        setFinancialObjectTypeCode(Constants.EMPTY_STRING);
+        setFinancialDocumentNumber(Constants.EMPTY_STRING);
+        setFinancialDocumentReversalDate(null);
+        
+        setUniversityFiscalYear(new Integer(0));
+        setUniversityFiscalPeriodCode(Constants.EMPTY_STRING);
+
+        setTransactionLedgerEntrySequenceNumber(new Integer(1));
+        setTransactionLedgerEntryAmount(new KualiDecimal(0));
+        setTransactionLedgerEntryDescription(Constants.EMPTY_STRING);
+        setTransactionDate(null);
+        setTransactionDebitCreditCode(Constants.EMPTY_STRING);
+        setTransactionEncumbranceUpdateCode(Constants.EMPTY_STRING);
+
+        setOrganizationDocumentNumber(Constants.EMPTY_STRING);
+        setOrganizationReferenceId(Constants.EMPTY_STRING);
+
+        setReferenceFinancialDocumentTypeCode(Constants.EMPTY_STRING);
+        setReferenceFinancialSystemOriginationCode(Constants.EMPTY_STRING);
+        setReferenceFinancialDocumentNumber(Constants.EMPTY_STRING);
+    }
+    
+    /**
+     * 
+     */
+    public OriginEntry() {
+        this(null, null);
+    }
+    
     public OriginEntry(Transaction t) {
-        super();
+        this();
         setTransaction(t);
     }
 
     public OriginEntry(String line) {
-      setFromTextFile(line);
+        setFromTextFile(line);
     }
 
     public void setTransaction(Transaction t) {

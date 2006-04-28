@@ -84,7 +84,7 @@ public class PriorYearAccount extends BusinessObjectBase {
 	private boolean finPreencumSufficientFundIndicator;
 	private boolean finObjectPresenceControlIndicator;
 	private String cgCatlfFedDomestcAssistNbr;
-	private String accountOffCampusIndicator;
+	private boolean accountOffCampusIndicator;
 	private boolean accountClosedIndicator;
 	private Chart chart;
 	private Campus campus;
@@ -1148,7 +1148,7 @@ public class PriorYearAccount extends BusinessObjectBase {
 	 * @return - Returns the accountOffCampusIndicator
 	 * 
 	 */
-	public String getAccountOffCampusIndicator() { 
+	public boolean getAccountOffCampusIndicator() { 
 		return accountOffCampusIndicator;
 	}
 
@@ -1158,7 +1158,7 @@ public class PriorYearAccount extends BusinessObjectBase {
 	 * @param - accountOffCampusIndicator The accountOffCampusIndicator to set.
 	 * 
 	 */
-	public void setAccountOffCampusIndicator(String accountOffCampusIndicator) {
+	public void setAccountOffCampusIndicator(boolean accountOffCampusIndicator) {
 		this.accountOffCampusIndicator = accountOffCampusIndicator;
 	}
 

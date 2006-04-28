@@ -20,32 +20,57 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-package org.kuali.module.chart.dao.ojb;
+package org.kuali.module.gl.util;
 
-import org.apache.ojb.broker.query.Criteria;
-import org.apache.ojb.broker.query.QueryFactory;
-import org.kuali.module.chart.bo.PriorYearAccount;
-import org.kuali.module.chart.dao.PriorYearAccountDao;
-import org.springframework.orm.ojb.PersistenceBrokerTemplate;
+import org.kuali.module.gl.bo.OriginEntry;
 
 /**
- * This class...
- * @author Bin Gao from Michigan State University
+ * @author Laran Evans <lc278@cornell.edu>
+ * @version $Id$
  */
-public class PriorYearAccountDaoOjb extends PersistenceBrokerTemplate implements PriorYearAccountDao {
 
+public class OriginEntryOffsetPair {
+    private OriginEntry entry;
+    private OriginEntry offset;
+    private boolean fatalErrorFlag;
+    
     /**
-     * @see org.kuali.module.chart.dao.PriorYearAccountDao#getByPrimaryId(java.lang.String, java.lang.String)
+     * @return Returns the fatalErrorFlag.
      */
-    public PriorYearAccount getByPrimaryId(String chartOfAccountsCode,
-            String accountNumber) {
-        
-        Criteria criteria = new Criteria();
-        criteria.addEqualTo("chartOfAccountsCode", chartOfAccountsCode);
-        criteria.addEqualTo("accountNumber", accountNumber);
-
-        return (PriorYearAccount) getObjectByQuery(
-                QueryFactory.newQuery(PriorYearAccount.class, criteria));
+    public boolean isFatalErrorFlag() {
+        return fatalErrorFlag;
     }
+    /**
+     * @param fatalErrorFlag The fatalErrorFlag to set.
+     */
+    public void setFatalErrorFlag(boolean fatalErrorFlag) {
+        this.fatalErrorFlag = fatalErrorFlag;
+    }
+    /**
+     * @return Returns the entry.
+     */
+    public OriginEntry getEntry() {
+        return entry;
+    }
+    /**
+     * @param entry The entry to set.
+     */
+    public void setEntry(OriginEntry entry) {
+        this.entry = entry;
+    }
+    /**
+     * @return Returns the offset.
+     */
+    public OriginEntry getOffset() {
+        return offset;
+    }
+    /**
+     * @param offset The offset to set.
+     */
+    public void setOffset(OriginEntry offset) {
+        this.offset = offset;
+    }
+    
+    
 
 }

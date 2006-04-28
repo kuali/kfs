@@ -20,40 +20,17 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-
-package org.kuali.module.financial.document;
-
-import org.kuali.Constants;
-import org.kuali.core.document.TransactionalDocumentBase;
-
+package org.kuali.module.financial.rules;
 
 /**
- * The Distribution of Income and Expense (DI) document is used to distribute income or expense, or assets and liabilities. Amounts
- * being distributed are usually the result of an accumulation of transactions that need to be divided up between various accounts.
+ * Distribution of Income and Expense Document specific APC constants
  * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
-public class DistributionOfIncomeAndExpenseDocument extends TransactionalDocumentBase {
+public interface DistributionOfIncomeAndExpenseDocumentRuleConstants {
+    public static final String DISTRIBUTION_OF_INCOME_AND_EXPENSE_DOCUMENT_SECURITY_GROUPING = "Kuali.FinancialTransactionProcessing.DistributionOfIncomeAndExpenseDocument";
+    public static final String RESTRICTED_SUB_TYPE_GROUP_CODES = "RestrictedSubTypeCodes";
 
-    /**
-     * Constructs a DistributionOfIncomeAndExpenseDocument.java.
-     */
-    public DistributionOfIncomeAndExpenseDocument() {
-        super();
-    }
-
-    /**
-     * @see org.kuali.core.document.TransactionalDocument#getSourceAccountingLinesSectionTitle()
-     */
-    public String getSourceAccountingLinesSectionTitle() {
-        return Constants.FROM;
-    }
-
-    /**
-     * @see org.kuali.core.document.TransactionalDocument#getTargetAccountingLinesSectionTitle()
-     */
-    public String getTargetAccountingLinesSectionTitle() {
-        return Constants.TO;
-    }
-
+    public static final String RESTRICTED_OBJECT_TYPE_CODES = "RestrictedObjectTypeCodes";
+    public static final String RESTRICTED_CONSOLIDATED_OBJECT_CODES_GROUP = "RestrictedConsolidatedObjectCodes";
 }

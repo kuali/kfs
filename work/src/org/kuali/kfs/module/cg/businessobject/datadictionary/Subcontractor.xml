@@ -10,14 +10,14 @@
 			<title>Contracts and Grants Subcontractor</title>
 
 			<inquiryFields>
-				<field attributeName="number" />
-				<field attributeName="name" />
-				<field attributeName="addressLine1" />
-				<field attributeName="addressLine2" />
-				<field attributeName="city" />
-				<field attributeName="stateCode" />
-				<field attributeName="zipCode" />
-				<field attributeName="countryCode" />
+				<field attributeName="subcontractorNumber" />
+				<field attributeName="subcontractorName" />
+				<field attributeName="subcontractorAddressLine1" />
+				<field attributeName="subcontractorAddressLine2" />
+				<field attributeName="subcontractorCity" />
+				<field attributeName="subcontractorStateCode" />
+				<field attributeName="subcontractorZipCode" />
+				<field attributeName="subcontractorCountryCode" />
 			</inquiryFields>
 		</inquiry>
 
@@ -28,32 +28,32 @@
 
 			<instructions>Lookup an Subcontractor</instructions>
 
-			<defaultSort attributeName="name" sortAscending="true" />
+			<defaultSort attributeName="subcontractorName" sortAscending="true" />
 
 			<lookupFields>
-				<lookupField attributeName="number"  required="false" />
-				<lookupField attributeName="name" required="false" />
-				<lookupField attributeName="city" required="false"  />
-				<lookupField attributeName="stateCode" required="false" />
-				<lookupField attributeName="zipCode" required="false" />
-				<lookupField attributeName="countryCode" required="false" />
+				<lookupField attributeName="subcontractorNumber"  required="false" />
+				<lookupField attributeName="subcontractorName" required="false" />
+				<lookupField attributeName="subcontractorCity" required="false"  />
+				<lookupField attributeName="subcontractorStateCode" required="false" />
+				<lookupField attributeName="subcontractorZipCode" required="false" />
+				<lookupField attributeName="subcontractorCountryCode" required="false" />
 			</lookupFields>
 
 			<resultFields>
-				<field attributeName="number" />
-				<field attributeName="name" />
-				<field attributeName="addressLine1" />
-				<field attributeName="addressLine2" />
-				<field attributeName="city" />
-				<field attributeName="stateCode" />
-				<field attributeName="zipCode" />
-				<field attributeName="countryCode" />
+				<field attributeName="subcontractorNumber" />
+				<field attributeName="subcontractorName" />
+				<field attributeName="subcontractorAddressLine1" />
+				<field attributeName="subcontractorAddressLine2" />
+				<field attributeName="subcontractorCity" />
+				<field attributeName="subcontractorStateCode" />
+				<field attributeName="subcontractorZipCode" />
+				<field attributeName="subcontractorCountryCode" />
 			</resultFields>
 		</lookup>
 
 		<attributes>
 
-			<attribute name="number" forceUppercase="true">
+			<attribute name="subcontractorNumber" forceUppercase="true">
 				<label>Subcontractor Number</label>
 				<shortLabel>Nbr</shortLabel>
 
@@ -68,7 +68,7 @@
 				<description>Contracts and Grants Subcontractor Number.</description>
 			</attribute>
 			
-           <attribute name="name" forceUppercase="true">
+           <attribute name="subcontractorName" forceUppercase="true">
                 <label>Subcontractor Name</label>
                 <shortLabel>Name</shortLabel>
 
@@ -85,7 +85,7 @@
                 <description>Contracts and Grants Subcontractor Name</description>
             </attribute>				
 
-			<attribute name="addressLine1" forceUppercase="false">
+			<attribute name="subcontractorAddressLine1" forceUppercase="false">
                 <label>Address Line 1</label>
                 <shortLabel>Address1</shortLabel>
 
@@ -102,7 +102,7 @@
                 <description>Contracts And Grants Subcontractor Address Line 1</description>
             </attribute>
 
-			<attribute name="addressLine2" forceUppercase="false">
+			<attribute name="subcontractorAddressLine2" forceUppercase="false">
                 <label>Address Line 2</label>
                 <shortLabel>Address2</shortLabel>
 
@@ -118,7 +118,7 @@
                 <description>Contracts And Grants Subcontractor Address Line 2</description>
             </attribute>
 
-			<attribute name="city" forceUppercase="false">
+			<attribute name="subcontractorCity" forceUppercase="false">
                 <label>Subcontractor City</label>
                 <shortLabel>City</shortLabel>
 
@@ -135,7 +135,7 @@
                 <description>Contracts And Grants Subcontractor City</description>
             </attribute>
 
-			<attribute name="stateCode" forceUppercase="true">
+			<attribute name="subcontractorStateCode" forceUppercase="true">
 				<label>State Code</label>
 				<shortLabel>State</shortLabel>
 
@@ -152,7 +152,7 @@
 				<description>Subcontractor State Code</description>
 			</attribute>
 			
-	       	<attribute name="zipCode" forceUppercase="false">
+	       	<attribute name="subcontractorZipCode" forceUppercase="false">
         		<label>ZIP Code</label>
         		<shortLabel>ZIP</shortLabel>
         		
@@ -169,7 +169,7 @@
         		<description>Subcontractor ZIP Code</description>
         	</attribute>
 
-	       	<attribute name="countryCode" forceUppercase="false">
+	       	<attribute name="subcontractorCountryCode" forceUppercase="false">
         		<label>Country Code</label>
         		<shortLabel>Country</shortLabel>
         		

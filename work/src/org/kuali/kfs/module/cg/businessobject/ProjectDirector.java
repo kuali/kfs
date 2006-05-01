@@ -36,7 +36,7 @@ import org.kuali.core.bo.user.UniversalUser;
 public class ProjectDirector extends BusinessObjectBase {
 
     private static final long serialVersionUID = -8864103362445919041L;
-    private String universalIdentifier;
+    private String personUniversalIdentifier;
     private UniversalUser universalUser;
 
     /**
@@ -67,30 +67,31 @@ public class ProjectDirector extends BusinessObjectBase {
     }
 
     /**
+     * Gets the personUniversalIdentifier attribute.
+     * 
+     * @return Returns the personUniversalIdentifier.
+     */
+    public String getPersonUniversalIdentifier() {
+        return personUniversalIdentifier;
+    }
+
+    /**
+     * Sets the personUniversalIdentifier attribute value.
+     * 
+     * @param personUniversalIdentifier The personUniversalIdentifier to set.
+     */
+    public void setPersonUniversalIdentifier(String personUniversalIdentifier) {
+        this.personUniversalIdentifier = personUniversalIdentifier;
+    }
+
+    /**
      * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
-
-        m.put("universaliUser.getUniversalIdentifier", this.getUniversalIdentifier());
+        m.put("universaliUser.getUniversalIdentifier", this.getPersonUniversalIdentifier());
         return m;
     }
 
-    /**
-     * Gets the universalIdentifier attribute.
-     * 
-     * @return Returns the universalIdentifier.
-     */
-    public String getUniversalIdentifier() {
-        return universalIdentifier;
-    }
 
-    /**
-     * Sets the universalIdentifier attribute value.
-     * 
-     * @param universalIdentifier The universalIdentifier to set.
-     */
-    public void setUniversalIdentifier(String universalIdentifier) {
-        this.universalIdentifier = universalIdentifier;
-    }
 }

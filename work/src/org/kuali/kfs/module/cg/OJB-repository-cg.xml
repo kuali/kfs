@@ -37,25 +37,25 @@
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.cg.bo.ProjectDirector" table="CG_PRJDR_T">
-	<field-descriptor name="universalIdentifier" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="personUniversalIdentifier" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<reference-descriptor name="universalUser" class-ref="org.kuali.core.bo.user.UniversalUser" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="universalIdentifier" />
+		<foreignkey field-ref="personUniversalIdentifier" />
 	</reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.cg.bo.Subcontractor" table="CG_SUBCNR_T">
-	<field-descriptor name="number" column="CG_SUBCNR_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="subcontractorNumber" column="CG_SUBCNR_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="name" column="CG_SUBCNR_NM" jdbc-type="VARCHAR"/>
-	<field-descriptor name="addressLine1" column="CG_SUBCNR_LN1_ADDR" jdbc-type="VARCHAR"/>
-	<field-descriptor name="addressLine2" column="CG_SUBCNR_LN2_ADDR" jdbc-type="VARCHAR"/>
-	<field-descriptor name="city" column="CG_SUBCNR_CITY_NM" jdbc-type="VARCHAR"/>
-	<field-descriptor name="stateCode" column="CG_SUBCNR_ST_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="zipCode" column="CG_SUBCNR_ZIP_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="countryCode" column="CGSUBCNR_CNTRY_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="subcontractorName" column="CG_SUBCNR_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="subcontractorAddressLine1" column="CG_SUBCNR_LN1_ADDR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="subcontractorAddressLine2" column="CG_SUBCNR_LN2_ADDR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="subcontractorCity" column="CG_SUBCNR_CITY_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="subcontractorStateCode" column="CG_SUBCNR_ST_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="subcontractorZipCode" column="CG_SUBCNR_ZIP_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="subcontractorCountryCode" column="CGSUBCNR_CNTRY_CD" jdbc-type="VARCHAR"/>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.cg.bo.ContractsAndGrantsProjectDirectorView" table="CG_PRJDR_V">

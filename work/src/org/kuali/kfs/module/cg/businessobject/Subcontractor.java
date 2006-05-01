@@ -34,14 +34,14 @@ import org.kuali.core.bo.BusinessObjectBase;
  */
 public class Subcontractor extends BusinessObjectBase {
 
-	private String number;
-	private String name;
-	private String addressLine1;
-	private String addressLine2;
-	private String city;
-	private String stateCode;
-	private String zipCode;
-	private String countryCode;
+	private String subcontractorNumber;
+	private String subcontractorName;
+	private String subcontractorAddressLine1;
+	private String subcontractorAddressLine2;
+	private String subcontractorCity;
+	private String subcontractorStateCode;
+	private String subcontractorZipCode;
+	private String subcontractorCountryCode;
 
 	/**
 	 * Default no-arg constructor.
@@ -51,159 +51,159 @@ public class Subcontractor extends BusinessObjectBase {
 	}
 
 	/**
-	 * Gets the number attribute.
+	 * Gets the subcontractorNumber attribute.
 	 * 
-	 * @return - Returns the number
+	 * @return - Returns the subcontractorNumber
 	 * 
 	 */
-	public String getNumber() { 
-		return number;
+	public String getSubcontractorNumber() { 
+		return subcontractorNumber;
 	}
 	
 	/**
-	 * Sets the number attribute.
+	 * Sets the subcontractorNumber attribute.
 	 * 
-	 * @param - number The number to set.
+	 * @param - subcontractorNumber The subcontractorNumber to set.
 	 * 
 	 */
-	public void setNumber(String number) {
-		this.number = number;
+	public void setSubcontractorNumber(String subcontractorNumber) {
+		this.subcontractorNumber = subcontractorNumber;
 	}
 
 	/**
-	 * Gets the name attribute.
+	 * Gets the subcontractorName attribute.
 	 * 
-	 * @return - Returns the name
+	 * @return - Returns the subcontractorName
 	 * 
 	 */
-	public String getName() { 
-		return name;
+	public String getSubcontractorName() { 
+		return subcontractorName;
 	}
 	
 	/**
-	 * Sets the name attribute.
+	 * Sets the subcontractorName attribute.
 	 * 
-	 * @param - name The name to set.
+	 * @param - subcontractorName The subcontractorName to set.
 	 * 
 	 */
-	public void setName(String name) {
-		this.name = name;
+	public void setSubcontractorName(String subcontractorName) {
+		this.subcontractorName = subcontractorName;
 	}
 
 	/**
-	 * Gets the addressLine attribute.
+	 * Gets the subcontractorAddressLine1 attribute.
 	 * 
-	 * @return - Returns the addressLine
+	 * @return - Returns the subcontractorAddressLine1
 	 * 
 	 */
-	public String getAddressLine1() { 
-		return addressLine1;
+	public String getSubcontractorAddressLine1() { 
+		return subcontractorAddressLine1;
 	}
 	
 	/**
-	 * Sets the addressLine attribute.
+	 * Sets the subcontractorAddressLine1 attribute.
 	 * 
-	 * @param - addressLine The addressLine to set.
+	 * @param - subcontractorAddressLine1 The subcontractorAddressLine1 to set.
 	 * 
 	 */
-	public void setAddressLine1(String addressLine) {
-		this.addressLine1 = addressLine;
+	public void setSubcontractorAddressLine1(String subcontractorAddressLine1) {
+		this.subcontractorAddressLine1 = subcontractorAddressLine1;
 	}
 
 	/**
-	 * Gets the addressLine2 attribute.
+	 * Gets the subcontractorAddressLine2 attribute.
 	 * 
-	 * @return - Returns the addressLine2
+	 * @return - Returns the subcontractorAddressLine2
 	 * 
 	 */
-	public String getAddressLine2() { 
-		return addressLine2;
+	public String getSubcontractorAddressLine2() { 
+		return subcontractorAddressLine2;
 	}
 	
 	/**
-	 * Sets the addressLine2 attribute.
+	 * Sets the subcontractorAddressLine2 attribute.
 	 * 
-	 * @param - addressLine2 The addressLine2 to set.
+	 * @param - subcontractorAddressLine2 The subcontractorAddressLine2 to set.
 	 * 
 	 */
-	public void setAddressLine2(String addressLine) {
-		this.addressLine2 = addressLine;
+	public void setSubcontractorAddressLine2(String subcontractorAddressLine2) {
+		this.subcontractorAddressLine2 = subcontractorAddressLine2;
 	}
 
 	/**
-	 * Gets the city attribute.
+	 * Gets the subcontractorCity attribute.
 	 * 
-	 * @return - Returns the city
+	 * @return - Returns the subcontractorCity
 	 * 
 	 */
-	public String getCity() { 
-		return city;
+	public String getSubcontractorCity() { 
+		return subcontractorCity;
 	}
 	
 	/**
-	 * Sets the city attribute.
+	 * Sets the subcontractorCity attribute.
 	 * 
-	 * @param - city The city to set.
+	 * @param - subcontractorCity The subcontractorCity to set.
 	 * 
 	 */
-	public void setCity(String city) {
-		this.city = city;
+	public void setSubcontractorCity(String subcontractorCity) {
+		this.subcontractorCity = subcontractorCity;
 	}
 
     /**
-     * Gets the stateCode attribute. 
-     * @return Returns the stateCode.
+     * Gets the subcontractorStateCode attribute. 
+     * @return Returns the subcontractorStateCode.
      */
-    public String getStateCode() {
-        return stateCode;
+    public String getSubcontractorStateCode() {
+        return subcontractorStateCode;
     }
     
     /**
-     * Sets the stateCode attribute value.
-     * @param stateCode The stateCode to set.
+     * Sets the subcontractorStateCode attribute value.
+     * @param subcontractorStateCode The subcontractorStateCode to set.
      */
-    public void setStateCode(String stateCode) {
-        this.stateCode = stateCode;
+    public void setSubcontractorStateCode(String subcontractorStateCode) {
+        this.subcontractorStateCode = subcontractorStateCode;
     }
     
 	/**
-	 * Gets the zipCode attribute.
+	 * Gets the subcontractorZipCode attribute.
 	 * 
-	 * @return - Returns the zipCode
+	 * @return - Returns the subcontractorZipCode
 	 * 
 	 */
-	public String getZipCode() { 
-		return zipCode;
+	public String getSubcontractorZipCode() { 
+		return subcontractorZipCode;
 	}
 	
 	/**
-	 * Sets the zipCode attribute.
+	 * Sets the subcontractorZipCode attribute.
 	 * 
-	 * @param - zipCode The zipCode to set.
+	 * @param - subcontractorZipCode The subcontractorZipCode to set.
 	 * 
 	 */
-	public void setZipCode(String zipCode) {
-		this.zipCode = zipCode;
+	public void setSubcontractorZipCode(String subcontractorZipCode) {
+		this.subcontractorZipCode = subcontractorZipCode;
 	}
 
 	/**
-	 * Gets the countryCode attribute.
+	 * Gets the subcontractorCountryCode attribute.
 	 * 
-	 * @return - Returns the countryCode
+	 * @return - Returns the subcontractorCountryCode
 	 * 
 	 */
-	public String getCountryCode() { 
-		return countryCode;
+	public String getSubcontractorCountryCode() { 
+		return subcontractorCountryCode;
 	}
 	
 	/**
-	 * Sets the countryCode attribute.
+	 * Sets the subcontractorCountryCode attribute.
 	 * 
-	 * @param - countryCode The countryCode to set.
+	 * @param - subcontractorCountryCode The subcontractorCountryCode to set.
 	 * 
 	 */
-	public void setCountryCode(String countryCode) {
-		this.countryCode = countryCode;
+	public void setSubcontractorCountryCode(String subcontractorCountryCode) {
+		this.subcontractorCountryCode = subcontractorCountryCode;
 	}
 
 	/**
@@ -211,8 +211,7 @@ public class Subcontractor extends BusinessObjectBase {
 	 */
 	protected LinkedHashMap toStringMapper() {
 			LinkedHashMap m = new LinkedHashMap();
-
-			m.put("number", getNumber());
+			m.put("subcontractorNumber", this.getSubcontractorNumber());
 			return m;
 	}
 }

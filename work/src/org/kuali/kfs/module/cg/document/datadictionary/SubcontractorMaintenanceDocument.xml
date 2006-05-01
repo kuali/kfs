@@ -27,20 +27,20 @@
 		<description>Document used to create or update Contracts and Grants Subcontractor objects</description>
         
         <lockingKeys>
-			<field attributeName="number" />
+			<field attributeName="subcontractorNumber" />
 		</lockingKeys>        
 
 	    <maintainableSections>
 	        <maintainableSection title="Edit Contracts and Grants Subcontractor">  
 	        	<maintainableItems>
-					<maintainableField name="number" required="true"/>
-					<maintainableField name="name" required="true"/>
-					<maintainableField name="addressLine1" required="true"/>
-					<maintainableField name="addressLine2" />
-					<maintainableField name="city" required="true"/>
-					<maintainableField name="stateCode" required="true"/>
-					<maintainableField name="zipCode" required="true"/>
-					<maintainableField name="countryCode" required="true"/>
+					<maintainableField name="subcontractorNumber" required="true"/>
+					<maintainableField name="subcontractorName" required="true"/>
+					<maintainableField name="subcontractorAddressLine1" required="true"/>
+					<maintainableField name="subcontractorAddressLine2" />
+					<maintainableField name="subcontractorCity" required="true"/>
+					<maintainableField name="subcontractorStateCode" required="true"/>
+					<maintainableField name="subcontractorZipCode" required="true"/>
+					<maintainableField name="subcontractorCountryCode" required="true"/>
 					<maintainableField name="versionNumber" />
 				</maintainableItems>
 	        </maintainableSection>

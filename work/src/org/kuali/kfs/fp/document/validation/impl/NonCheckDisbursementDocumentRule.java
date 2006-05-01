@@ -112,23 +112,22 @@ public class NonCheckDisbursementDocumentRule
     public boolean isObjectTypeAllowed(AccountingLine accountingLine) {
         boolean valid = true;
 
-        valid &= super.isObjectTypeAllowed(accountingLine);
+        // This deviates from the normal style of using an 'if' statement
+        // because the super class method always returns true. Using an 'if'
+        // statement then causes problems with coverage because valid
+        // is never false.
 
-        if (valid) {
-            ObjectCode objectCode = accountingLine.getObjectCode();
+        valid &= succeedsRule(RESTRICTED_OBJECT_TYPE_CODES,
+                              objectCode.getFinancialObjectTypeCode());
 
-            if (failsRule(RESTRICTED_OBJECT_TYPE_CODES,
-                          objectCode.getFinancialObjectTypeCode())) {
-                valid = false;
-
+        if (!valid) {
                 // add message
-                GlobalVariables.getErrorMap()
-                    .put(PropertyConstants.FINANCIAL_OBJECT_CODE,
-                         KeyConstants.NonCheckDisbursement
-                         .ERROR_DOCUMENT_NON_CHECK_DISBURSEMENT_INVALID_OBJECT_TYPE_CODE_FOR_OBJECT_CODE,
-                         new String[] {objectCode.getFinancialObjectCode(), 
-                                       objectCode.getFinancialObjectTypeCode()});
-            }
+            GlobalVariables.getErrorMap()
+                .put(PropertyConstants.FINANCIAL_OBJECT_CODE,
+                     KeyConstants.NonCheckDisbursement
+                     .ERROR_DOCUMENT_NON_CHECK_DISBURSEMENT_INVALID_OBJECT_TYPE_CODE_FOR_OBJECT_CODE,
+                     new String[] {objectCode.getFinancialObjectCode(), 
+                                   objectCode.getFinancialObjectTypeCode()});
         }
 
         return valid;
@@ -143,6 +142,11 @@ public class NonCheckDisbursementDocumentRule
      */
     public boolean isObjectSubTypeAllowed(AccountingLine accountingLine) {
         boolean valid = true;
+
+        // This deviates from the normal style of using an 'if' statement
+        // because the super class method always returns true. Using an 'if'
+        // statement then causes problems with coverage because valid
+        // is never false.
 
         valid &= super.isObjectSubTypeAllowed(accountingLine);
 

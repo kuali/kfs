@@ -43,8 +43,9 @@
 	        <maintainableSection title="Edit Service Billing Control">
                 <maintainableItems>
                     <maintainableField name="chartOfAccountsCode" required="true"/> 
-		            <maintainableField name="accountNumber" required="true" />     	
-		            <maintainableField name="versionNumber" />	          	                   
+		            <maintainableField name="accountNumber" required="true" />
+                    <maintainableField name="workgroupName" required="true" />
+                    <maintainableField name="versionNumber" />
                 </maintainableItems>
 	        </maintainableSection>
 	    </maintainableSections>

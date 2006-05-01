@@ -12,8 +12,9 @@
 
 			<inquiryFields>
 				<field attributeName="chartOfAccountsCode" />
-				<field attributeName="accountNumber" />			
-			</inquiryFields>
+				<field attributeName="accountNumber" />
+                <field attributeName="workgroupName" />
+            </inquiryFields>
 		</inquiry>	
 		
 		<lookup>
@@ -27,13 +28,15 @@
 
 			<lookupFields>
 				<lookupField attributeName="chartOfAccountsCode" required="false" />
-				<lookupField attributeName="accountNumber" required="false" />	
+				<lookupField attributeName="accountNumber" required="false" />
+                <lookupField attributeName="workgroupName" required="false" />
 			</lookupFields>
 
 			<resultFields>
 				<field attributeName="chartOfAccountsCode" />
-				<field attributeName="accountNumber" />		
-			</resultFields>
+				<field attributeName="accountNumber" />
+                <field attributeName="workgroupName" />
+            </resultFields>
 		</lookup>
 		
 		<attributes>
@@ -44,16 +47,34 @@
 				<required>true</required>	
 			</attributeReference>
 
-			
 
-			<attributeReference name="accountNumber" 
+
+			<attributeReference name="accountNumber"
 								sourceClassName="org.kuali.module.chart.bo.Account" 
 								sourceAttributeName="accountNumber">
 				<required>true</required>	
 			</attributeReference>
-				
-								
-		    <attributeReference name="versionNumber" 
+
+
+            <attribute name="workgroupName" forceUppercase="true">
+                <label>Workgroup Name</label>
+                <shortLabel>Workgroup Name</shortLabel>
+
+                <maxLength>70</maxLength>
+
+                <control>
+                    <text size="70" />
+                </control>
+
+                <summary><![CDATA[&nbsp;]]></summary>
+                <description>
+                    The name of the workgroup allowed to create Service Billing documents with income accounting lines
+                    for the associated account.
+                </description>
+            </attribute>
+
+
+            <attributeReference name="versionNumber"
 								sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
 								sourceAttributeName="versionNumber" />
 								

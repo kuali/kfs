@@ -2141,6 +2141,12 @@
 	<reference-descriptor name="indirectCostRecoveryChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="indirectCostRecoveryChartOfAccountsCode" />
 	</reference-descriptor>
+	<collection-descriptor name="accountChangeDetail" element-class-ref="org.kuali.module.chart.bo.AccountChangeDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
+		auto-retrieve="true" auto-update="none" auto-delete="none">
+		<orderby name="chartOfAccountsCode" sort="ASC" />
+		<orderby name="accountNumber" sort="ASC" />
+		<inverse-foreignkey field-ref="financialDocumentNumber" />
+	</collection-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.chart.bo.AccountChangeDetail" table="CA_ACCT_CHG_DTL_T">
@@ -2185,6 +2191,9 @@
 	<field-descriptor name="approvalToThisAmount" column="FDOC_APRV_TO_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="accountDelegatePrimaryRoutingCode" column="ACCT_DLGT_PRMRT_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="accountDelegateStartDate" column="ACCT_DLGT_START_DT" jdbc-type="DATE"/>
+	<reference-descriptor name="kualiUser" class-ref="org.kuali.core.bo.user.KualiUser" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="accountDelegateUniversalId" />
+	</reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.chart.bo.ObjectCodeChangeDocument" table="CA_OBJ_CD_CHG_DOC_T">

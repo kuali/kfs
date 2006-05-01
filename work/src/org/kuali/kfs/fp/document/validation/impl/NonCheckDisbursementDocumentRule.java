@@ -124,8 +124,8 @@ public class NonCheckDisbursementDocumentRule
                 // add message
                 GlobalVariables.getErrorMap()
                     .put(PropertyConstants.FINANCIAL_OBJECT_CODE,
-                         KeyConstants.GeneralErrorCorrection
-                         .ERROR_DOCUMENT_GENERAL_ERROR_CORRECTION_INVALID_OBJECT_TYPE_CODE_FOR_OBJECT_CODE,
+                         KeyConstants.NonCheckDisbursement
+                         .ERROR_DOCUMENT_NON_CHECK_DISBURSEMENT_INVALID_OBJECT_TYPE_CODE_FOR_OBJECT_CODE,
                          new String[] {objectCode.getFinancialObjectCode(), 
                                        objectCode.getFinancialObjectTypeCode()});
             }
@@ -156,8 +156,8 @@ public class NonCheckDisbursementDocumentRule
                 // add message
                 GlobalVariables.getErrorMap()
                     .put(PropertyConstants.FINANCIAL_OBJECT_CODE,
-                         KeyConstants.GeneralErrorCorrection
-                         .ERROR_DOCUMENT_GENERAL_ERROR_CORRECTION_INVALID_OBJECT_SUB_TYPE_CODE,
+                         KeyConstants.NonCheckDisbursement
+                         .ERROR_DOCUMENT_NON_CHECK_DISBURSEMENT_INVALID_OBJECT_SUB_TYPE_CODE,
                          new String[] {objectCode.getFinancialObjectCode(), 
                                        objectCode.getFinancialObjectSubTypeCode()});
             }
@@ -176,25 +176,49 @@ public class NonCheckDisbursementDocumentRule
     public boolean isSubFundGroupAllowed(AccountingLine accountingLine) {
         boolean valid = true;
 
-        valid &= super.isSubFundGroupAllowed(accountingLine);
+        String subFundGroupTypeCode = accountingLine
+            .getAccount().getSubFundGroup().getSubFundGroupTypeCode();
+        ObjectCode objectCode = accountingLine.getObjectCode();
+        
+        if (failsRule(RESTRICTED_SUB_FUND_GROUP_TYPE_CODES,
+                      subFundGroupTypeCode)) {
+            valid = false;
+            
+            // add message
+            GlobalVariables.getErrorMap()
+                .put(PropertyConstants.FINANCIAL_OBJECT_CODE,
+                     KeyConstants.NonCheckDisbursement
+                     .ERROR_DOCUMENT_NON_CHECK_DISBURSEMENT_INVALID_SUB_FUND_GROUP,
+                     new String[] {objectCode.getFinancialObjectCode(), 
+                                   subFundGroupTypeCode});
+        }
 
-        if (valid) {
-            String subFundGroupTypeCode = accountingLine
-                .getAccount().getSubFundGroup().getSubFundGroupTypeCode();
-            ObjectCode objectCode = accountingLine.getObjectCode();
+        return valid;
+    }
 
-            if (failsRule(RESTRICTED_SUB_FUND_GROUP_TYPE_CODES,
-                          subFundGroupTypeCode)) {
-                valid = false;
+    /**
+     * This method checks to see if the object consolidation for the accouting line's object code is allowed. The common
+     * implementation allows any object consolidation.
+     *
+     * @param accountingLine
+     * @return boolean True if the use of the object code's object sub type code is allowed; false otherwise.
+     */
+    public boolean isObjectConsolidationAllowed(AccountingLine accountingLine) {
+        boolean valid = true;
 
-                // add message
-                GlobalVariables.getErrorMap()
-                    .put(PropertyConstants.FINANCIAL_OBJECT_CODE,
-                         KeyConstants.GeneralErrorCorrection
-                         .ERROR_DOCUMENT_GENERAL_ERROR_CORRECTION_INVALID_OBJECT_TYPE_CODE_FOR_OBJECT_CODE,
-                         new String[] {objectCode.getFinancialObjectCode(), 
-                                       subFundGroupTypeCode});
-            }
+        ObjectCode objectCode = accountingLine.getObjectCode();
+        String consolidationCode = objectCode
+            .getFinancialObjectLevel().getFinancialConsolidationObjectCode();
+        valid &= succeedsRule(RESTRICTED_CONSOLIDATION_CODES, consolidationCode);
+        
+        if (!valid) {            
+            // add message
+            GlobalVariables.getErrorMap()
+                .put(PropertyConstants.FINANCIAL_OBJECT_CODE,
+                     KeyConstants.NonCheckDisbursement
+                     .ERROR_DOCUMENT_NON_CHECK_DISBURSEMENT_INVALID_CONSOLIDATION_CODE,
+                     new String[] {objectCode.getFinancialObjectCode(), 
+                                   consolidationCode});
         }
 
         return valid;

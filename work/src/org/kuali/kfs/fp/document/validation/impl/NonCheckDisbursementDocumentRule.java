@@ -70,6 +70,17 @@ public class NonCheckDisbursementDocumentRule
     }
     
     /**
+     * Overrides the parent to return true, because Auxiliary Voucher documents only use the SourceAccountingLines data structures.
+     * The list that holds TargetAccountingLines should be empty. This will be checked when the document is "routed" or submitted to
+     * post - it's called automatically by the parent's processRouteDocument method.
+     * 
+     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#isTargetAccountingLinesRequiredNumberForRoutingMet(org.kuali.core.document.TransactionalDocument)
+     */
+    protected boolean isTargetAccountingLinesRequiredNumberForRoutingMet(TransactionalDocument transactionalDocument) {
+        return true;
+    }
+    
+    /**
      * The GEC spec says that all GL pending entry amounts are positive. I.e., it says that the pending entry uses the absolute
      * value of non-positive accounting line amounts.
      * 
@@ -116,6 +127,7 @@ public class NonCheckDisbursementDocumentRule
         // because the super class method always returns true. Using an 'if'
         // statement then causes problems with coverage because valid
         // is never false.
+        ObjectCode objectCode = accountingLine.getObjectCode();
 
         valid &= succeedsRule(RESTRICTED_OBJECT_TYPE_CODES,
                               objectCode.getFinancialObjectTypeCode());
@@ -147,24 +159,18 @@ public class NonCheckDisbursementDocumentRule
         // because the super class method always returns true. Using an 'if'
         // statement then causes problems with coverage because valid
         // is never false.
+        ObjectCode objectCode = accountingLine.getObjectCode();
 
-        valid &= super.isObjectSubTypeAllowed(accountingLine);
-
-        if (valid) {
-            ObjectCode objectCode = accountingLine.getObjectCode();
-
-            if (failsRule(RESTRICTED_OBJECT_SUB_TYPE_CODES,
-                          objectCode.getFinancialObjectSubTypeCode())) {
-                valid = false;
-
-                // add message
-                GlobalVariables.getErrorMap()
-                    .put(PropertyConstants.FINANCIAL_OBJECT_CODE,
-                         KeyConstants.NonCheckDisbursement
-                         .ERROR_DOCUMENT_NON_CHECK_DISBURSEMENT_INVALID_OBJECT_SUB_TYPE_CODE,
-                         new String[] {objectCode.getFinancialObjectCode(), 
-                                       objectCode.getFinancialObjectSubTypeCode()});
-            }
+        valid &= succeedsRule(RESTRICTED_OBJECT_SUB_TYPE_CODES,
+                              objectCode.getFinancialObjectSubTypeCode());
+        if (!valid) {
+            // add message
+            GlobalVariables.getErrorMap()
+                .put(PropertyConstants.FINANCIAL_OBJECT_CODE,
+                     KeyConstants.NonCheckDisbursement
+                     .ERROR_DOCUMENT_NON_CHECK_DISBURSEMENT_INVALID_OBJECT_SUB_TYPE_CODE,
+                     new String[] {objectCode.getFinancialObjectCode(), 
+                                   objectCode.getFinancialObjectSubTypeCode()});
         }
 
         return valid;
@@ -180,6 +186,10 @@ public class NonCheckDisbursementDocumentRule
     public boolean isSubFundGroupAllowed(AccountingLine accountingLine) {
         boolean valid = true;
 
+        // This deviates from the normal style of using an 'if' statement
+        // because the super class method always returns true. Using an 'if'
+        // statement then causes problems with coverage because valid
+        // is never false.
         String subFundGroupTypeCode = accountingLine
             .getAccount().getSubFundGroup().getSubFundGroupTypeCode();
         ObjectCode objectCode = accountingLine.getObjectCode();

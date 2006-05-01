@@ -156,7 +156,7 @@ public class ObjLevel extends BusinessObjectBase {
     }
 
 
-    public String getConsolidatedObjectCode() { //FIXME eliminate usages of this
+    public String getConsolidatedObjectCode() { 
         return financialConsolidationObject.getFinancialReportingSortCode();
     }
 

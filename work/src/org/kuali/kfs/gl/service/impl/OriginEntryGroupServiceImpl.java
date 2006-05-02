@@ -22,9 +22,10 @@
  */
 package org.kuali.module.gl.service.impl;
 
+import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.sql.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -35,7 +36,7 @@ import org.kuali.module.gl.dao.OriginEntryGroupDao;
 import org.kuali.module.gl.service.OriginEntryGroupService;
 /**
  * @author Laran Evans <lc278@cs.cornell.edu>
- * @version $Id: OriginEntryGroupServiceImpl.java,v 1.12 2006-05-02 02:26:12 schoo Exp $
+ * @version $Id: OriginEntryGroupServiceImpl.java,v 1.13 2006-05-02 02:29:32 schoo Exp $
  * 
  */
 public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {

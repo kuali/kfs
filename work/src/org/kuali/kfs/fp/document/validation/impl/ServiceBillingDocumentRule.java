@@ -93,6 +93,13 @@ public class ServiceBillingDocumentRule extends InternalBillingDocumentRule {
         return success;
     }
 
+    /**
+     * Validates the org doc nbr.  This could be done by the DD if AccountingLine had a org doc nbr field.
+     * Using ref nbr for now, which is longer than org doc nbr.
+     *
+     * @param accountingLine
+     * @return whether the org doc nbr is valid
+     */
     private boolean validateOrganizationDocumentNumber(AccountingLine accountingLine) {
         // todo: add organizationDocumentNumber to AccountingLine, database schema, and DD instead of using referenceNumber?
         String orgDocNbr = accountingLine.getReferenceNumber();

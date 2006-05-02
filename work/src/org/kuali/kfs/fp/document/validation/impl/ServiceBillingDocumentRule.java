@@ -137,21 +137,4 @@ public class ServiceBillingDocumentRule extends InternalBillingDocumentRule {
         explicitEntry.setOrganizationDocumentNumber(accountingLine.getReferenceNumber());
         explicitEntry.setReferenceFinancialDocumentNumber(null);
     }
-
-    /**
-     * Sets extra accounting line field in offset GLPE.
-     * The offset description remains {@link org.kuali.Constants#GL_PE_OFFSET_STRING}.
-     *
-     * @see TransactionalDocumentRuleBase#customizeOffsetGeneralLedgerPendingEntry(TransactionalDocument, AccountingLine, GeneralLedgerPendingEntry, GeneralLedgerPendingEntry)
-     */
-    protected boolean customizeOffsetGeneralLedgerPendingEntry(TransactionalDocument transactionalDocument,
-                                                               AccountingLine accountingLine,
-                                                               GeneralLedgerPendingEntry explicitEntry,
-                                                               GeneralLedgerPendingEntry offsetEntry)
-    {
-        // todo: add organizationDocumentNumber to AccountingLine, database schema, and DD instead of using referenceNumber?
-        explicitEntry.setOrganizationDocumentNumber(accountingLine.getReferenceNumber());
-        explicitEntry.setReferenceFinancialDocumentNumber(null);
-        return true;
-    }
 }

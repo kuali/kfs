@@ -33,18 +33,17 @@ import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.bo.OriginEntrySource;
 import org.kuali.module.gl.dao.OriginEntryGroupDao;
 import org.kuali.module.gl.service.OriginEntryGroupService;
-
 /**
  * @author Laran Evans <lc278@cs.cornell.edu>
- * @version $Id: OriginEntryGroupServiceImpl.java,v 1.11 2006-04-24 20:48:30 larevans Exp $
+ * @version $Id: OriginEntryGroupServiceImpl.java,v 1.12 2006-05-02 02:26:12 schoo Exp $
  * 
  */
 public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
 	private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger
 			.getLogger(OriginEntryGroupServiceImpl.class);
-
+																														  	
 	private OriginEntryGroupDao originEntryGroupDao;
-
+	
 	public OriginEntryGroupServiceImpl() {
 		super();
 	}
@@ -61,8 +60,9 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
 	public Collection getOriginEntryGroupsPendingProcessing() {
 		Map criteria = new HashMap();
 		criteria.put("process", Boolean.FALSE);
-		return Collections.unmodifiableCollection(originEntryGroupDao
-				.getMatchingGroups(criteria));
+		Collection returnCollection = new ArrayList();
+		returnCollection = originEntryGroupDao.getMatchingGroups(criteria);
+		return Collections.unmodifiableCollection(returnCollection);
 	}
 
 	/**
@@ -73,7 +73,8 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
 	 */
 	public OriginEntryGroup getOriginEntryGroup(String groupId) {
 		Map criteria = new HashMap();
-		criteria.put("entryGroupId", groupId);
+		//shawn
+		criteria.put("id", groupId);
 		Collection matches = originEntryGroupDao.getMatchingGroups(criteria);
 		Iterator i = matches.iterator();
 		if (i.hasNext()) {

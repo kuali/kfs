@@ -39,6 +39,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.chart.bo.OffsetDefinition;
 import org.kuali.module.financial.bo.OffsetAccount;
 import org.kuali.module.financial.service.FlexibleOffsetAccountService;
+import org.kuali.module.gl.GLSpringBeansRegistry;
 import org.kuali.module.gl.OriginEntryTestBase;
 import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.bo.OriginEntryGroup;
@@ -78,7 +79,7 @@ public class ScrubberFlexibleOffsetTest extends OriginEntryTestBase {
     protected void setUp() throws Exception {
         super.setUp();
 
-        scrubberService = (ScrubberService) beanFactory.getBean("glScrubberService");
+        scrubberService = (ScrubberService) beanFactory.getBean(GLSpringBeansRegistry.glScrubberService);
         persistenceService = (PersistenceService) beanFactory.getBean("persistenceService");
 
         businessObjectService = (BusinessObjectService) beanFactory.getBean("businessObjectService");
@@ -456,14 +457,14 @@ public class ScrubberFlexibleOffsetTest extends OriginEntryTestBase {
 
 
     /**
-     * This method offer a template of origin entry that is an instance of transaction. The template can be used to construct other
-     * origin entries with an approperiate modification.
+     * This method offer a template of origin entry that is an instance of transaction. The template can be used to 
+     * construct other origin entries with an approperiate modification.
      * 
      * @return an origin entry with prepopulated data
      */
     private OriginEntry buildOriginEntryTemplate(OriginEntryGroup group) {
         OriginEntry entry = new OriginEntry();
-        java.sql.Date date = new java.sql.Date(System.currentTimeMillis());
+        java.sql.Date date = dateTimeService.getCurrentSqlDate();
 
         entry.setFinancialObjectCode("");
         entry.setFinancialBalanceTypeCode("");

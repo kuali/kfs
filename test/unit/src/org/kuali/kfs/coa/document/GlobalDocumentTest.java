@@ -22,22 +22,24 @@
  */
 package org.kuali.module.chart.globals;
 
+import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.test.KualiTestBaseWithFixtures;
 
 public class GlobalDocumentTest extends KualiTestBaseWithFixtures {
-    private static final String KNOWN_DOCUMENT_TYPENAME = "KualiGlobalAccountMaintenanceDocument";
+    private static final String KNOWN_DOCUMENT_TYPENAME = "KualiDelegateChangeDocument";
     
     public GlobalDocumentTest() {
         super();
     }
-    
-    public void testGlobalMaintenanceDocumentCreation_goodDocTypeName() throws Exception {
-        /*DocumentService docService = SpringServiceLocator.getDocumentService();
-        GlobalMaintenanceDocument doc = (GlobalMaintenanceDocument)docService.getNewDocument(KNOWN_DOCUMENT_TYPENAME);
+        
+    public void testGlobalDelegateMaintenanceDocumentCreation_goodDocTypeName() throws Exception {
+        DocumentService docService = SpringServiceLocator.getDocumentService();
+        MaintenanceDocument doc = (MaintenanceDocument)docService.getNewDocument(KNOWN_DOCUMENT_TYPENAME);
         assertNotNull(doc);
-        assertNotNull(doc.getChangeFields());*/
+        assertNotNull(doc.getNewMaintainableObject());
+        assertEquals("org.kuali.module.chart.bo.DelegateChangeDocument", doc.getNewMaintainableObject().getBoClass().getName());
     }
 
 }

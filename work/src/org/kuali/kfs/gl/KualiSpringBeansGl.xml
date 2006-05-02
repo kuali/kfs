@@ -160,6 +160,23 @@
 		<!--  <property name="indirectCostRecoveryThresholdDao"><ref bean="indirectCostRecoveryThresholdDao" /></property> -->
 	</bean>
 
+	<bean id="glIcrEncumbranceService" class="org.kuali.module.gl.service.impl.IndirectCostRecoveryEncumbranceServiceImpl">
+	
+		<property name="originEntryService"><ref bean="glOriginEntryService" /></property>
+		<property name="originEntryGroupService"><ref bean="glOriginEntryGroupService" /></property>
+		<property name="dateTimeService"><ref bean="dateTimeService" /></property>
+		
+		<property name="icrAutomatedEntryDao"><ref bean="icrAutomatedEntryDao" /></property>		
+		<property name="indirectCostRecoveryThresholdDao"><ref bean="indirectCostRecoveryThresholdDao" /></property>
+
+		<property name="objectCodeService"><ref bean="objectCodeService" /></property>
+		<property name="objectTypeService"><ref bean="objectTypeService" /></property>
+		<property name="offsetDefinitionService"><ref bean="offsetDefinitionService" /></property>
+		
+		<property name="expenditureTransactionDao"><ref bean="glExpenditureTransactionDao" /></property>
+		<property name="kualiConfigurationService"><ref bean="kualiConfigurationService" /></property>		
+	</bean>
+	
 	<bean id="generalLedgerPendingEntryService" class="org.kuali.module.gl.service.impl.GeneralLedgerPendingEntryServiceImpl">
         <property name="generalLedgerPendingEntryDao"><ref bean="generalLedgerPendingEntryDao"/></property>
         <property name="kualiRuleService"><ref bean="kualiRuleService" /></property>

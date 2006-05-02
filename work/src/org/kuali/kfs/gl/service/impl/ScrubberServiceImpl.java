@@ -35,7 +35,6 @@ import java.util.TreeMap;
 
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
-import org.kuali.core.dao.OptionsDao;
 import org.kuali.core.document.DocumentType;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DocumentTypeService;
@@ -44,7 +43,6 @@ import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.bo.OffsetDefinition;
-import org.kuali.module.chart.service.AccountService;
 import org.kuali.module.chart.service.ObjectCodeService;
 import org.kuali.module.chart.service.OffsetDefinitionService;
 import org.kuali.module.financial.bo.OffsetAccount;
@@ -58,6 +56,7 @@ import org.kuali.module.gl.dao.UniversityDateDao;
 import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.gl.service.OriginEntryService;
 import org.kuali.module.gl.service.ScrubberService;
+import org.kuali.module.gl.service.ScrubberValidator;
 import org.kuali.module.gl.service.impl.helper.BatchInfo;
 import org.kuali.module.gl.service.impl.helper.DocumentInfo;
 import org.kuali.module.gl.service.impl.helper.OriginEntryGroupInfo;
@@ -66,7 +65,6 @@ import org.kuali.module.gl.service.impl.helper.ScrubberServiceErrorHandler;
 import org.kuali.module.gl.service.impl.helper.UnitOfWorkInfo;
 import org.kuali.module.gl.util.LedgerEntry;
 import org.kuali.module.gl.util.ObjectHelper;
-import org.kuali.module.gl.util.ScrubberServiceValidationHelper;
 import org.kuali.module.gl.util.StringHelper;
 import org.kuali.module.gl.util.Summary;
 import org.springframework.beans.BeansException;
@@ -76,7 +74,7 @@ import org.springframework.util.StringUtils;
 
 /**
  * @author Kuali General Ledger Team <kualigltech@oncourse.iu.edu>
- * @version $Id: ScrubberServiceImpl.java,v 1.86 2006-04-24 20:48:30 larevans Exp $
+ * @version $Id: ScrubberServiceImpl.java,v 1.87 2006-05-02 21:47:24 jsissom Exp $
  */
 
 public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
@@ -85,10 +83,10 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
     // Initialize mappings for capitalization. They only need to be initialized once.
     static private Map objectSubTypeCodesToObjectCodesForCapitalization = new TreeMap();
     static {
-        
+
 //      4733  037020           WHEN 'AM'
 //      4734  037030              MOVE '8615' TO FIN-OBJECT-CD OF ALT-GLEN-RECORD
-        
+
         objectSubTypeCodesToObjectCodesForCapitalization.put("AM", "8615");
         
 //      4735  037040           WHEN 'AF'
@@ -241,20 +239,18 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
     
 
     private FlexibleOffsetAccountService flexibleOffsetAccountService;
-    private DocumentTypeService documentTypeService;
-    
+    private DocumentTypeService documentTypeService;    
     private BeanFactory beanFactory;
     private OriginEntryService originEntryService;
     private OriginEntryGroupService originEntryGroupService;
     private DateTimeService dateTimeService;
     private OffsetDefinitionService offsetDefinitionService;
     private ObjectCodeService objectCodeService;
-    private OptionsDao optionsDao;
-    private AccountService accountService;
     private KualiConfigurationService kualiConfigurationService;
     private UniversityDateDao universityDateDao;
     private PersistenceService persistenceService;
     private ScrubberReport scrubberReportService;
+    private ScrubberValidator scrubberValidator;
     private Date runDate;
     private Calendar runCal;
     UniversityDate universityRunDate;
@@ -264,8 +260,6 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
     OriginEntryGroup expiredGroup;
     Map batchError;
 
-    private ScrubberServiceValidationHelper validator;
-    
     public ScrubberServiceImpl() {
       super();
     }
@@ -296,9 +290,6 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         
         batchError = new HashMap();
         
-        // One validator per run is preferred. The validator is stateless. 
-    	validator = new ScrubberServiceValidationHelper(universityDateDao, persistenceService);
-    	
         // setup an object to hold the "default" date information
         runDate = new Date(dateTimeService.getCurrentDate().getTime());
         runCal = Calendar.getInstance();
@@ -773,12 +764,7 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         
         persistenceService.retrieveNonKeyFields(originEntry);
         
-    	OriginEntryInfo workingEntryInfo = new OriginEntryInfo(unitOfWorkInfo);
-
-        workingEntryInfo.setAccount(originEntry.getAccount());
-    	
     	OriginEntry workingEntry = new OriginEntry();
-    	workingEntryInfo.setOriginEntry(workingEntry);
         workingEntry.setFinancialDocumentNumber(originEntry.getFinancialDocumentNumber());
         workingEntry.setOrganizationDocumentNumber(originEntry.getOrganizationDocumentNumber());
         workingEntry.setOrganizationReferenceId(originEntry.getOrganizationReferenceId());
@@ -792,34 +778,12 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
 
         // NOTE the validator WILL set any fields in the workingEntry as appropriate
         // per the validation rules.
-        
-        // It's important that this check come before the checks for object, sub-object and accountingPeriod
-        // because this validation method will set the fiscal year and reload those three objects if the fiscal
-        // year was invalid. This will also set originEntry.getOption and workingEntry.getOption. So, it's 
-        // probably a good idea to validate the fiscal year first thing.
-        validator.validateFiscalYear(originEntry, workingEntryInfo, universityRunDate, optionsDao);
-        
-        // Must be called after validation of fiscal year as the option object may change in that method.
-        workingEntry.setOption(originEntry.getOption());
-        
-        validator.validateTransactionDate(originEntry, workingEntryInfo, runDate, universityDateDao);
-        validator.validateTransactionAmount(originEntry, workingEntryInfo);
-        validator.validateAccount(originEntry, workingEntryInfo, accountService, runCal);
-        validator.validateSubAccount(originEntry, workingEntryInfo);
-        validator.validateSubObjectCode(originEntry, workingEntryInfo);
-        validator.validateProjectCode(originEntry, workingEntryInfo);
-        validator.validateDocumentType(originEntry, workingEntryInfo);
-        validator.validateOrigination(originEntry, workingEntryInfo);
-        validator.validateDocumentNumber(originEntry, workingEntryInfo);
-        validator.validateChart(originEntry, workingEntryInfo);
-        validator.validateObjectCode(originEntry, workingEntryInfo);
-        validator.validateObjectType(originEntry, workingEntryInfo);
-        validator.validateFinancialSubObjectCode(originEntry, workingEntryInfo);
-        validator.validateBalanceType(originEntry, workingEntryInfo);
-        validator.validateUniversityFiscalPeriodCode(originEntry, workingEntryInfo, universityRunDate);
-        validator.validateEncumbranceUpdateCode(originEntry, workingEntryInfo);
-        validator.validateReferenceDocument(originEntry, workingEntryInfo);
-        validator.validateReversalDate(originEntry, workingEntryInfo, universityDateDao);
+        List errors = scrubberValidator.validateTransaction(originEntry, workingEntry, universityRunDate);
+
+        OriginEntryInfo workingEntryInfo = new OriginEntryInfo(unitOfWorkInfo);
+        workingEntryInfo.getErrors().addAll(errors);
+        workingEntryInfo.setAccount(originEntry.getAccount());
+        workingEntryInfo.setOriginEntry(workingEntry);
 
         return workingEntryInfo;
     }
@@ -1898,9 +1862,6 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
      * @return
      */
     private boolean isSameUnitOfWork(OriginEntry currentEntry, OriginEntry nextEntry) {
-    	
-        // TODO consider replacing this with ObjectUtils.equalByKeys(currentEntry, nextEntry)
-        
         // Check the key fields
         return null != currentEntry && null != nextEntry 
         	&& ObjectHelper.isEqual(currentEntry.getFinancialDocumentTypeCode(), nextEntry.getFinancialDocumentTypeCode()) 
@@ -3376,72 +3337,6 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         originEntry.setChartOfAccountsCode(offsetAccount.getFinancialOffsetChartOfAccountCode());
     }
 
-    public void setOriginEntryService(OriginEntryService oes) {
-        this.originEntryService = oes;
-    }
-
-    public void setOriginEntryGroupService(OriginEntryGroupService groupService) {
-        this.originEntryGroupService = groupService;
-    }
-
-    public void setDateTimeService(DateTimeService dts) {
-        this.dateTimeService = dts;
-    }
-
-    public void setUniversityDateDao(UniversityDateDao universityDateDao) {
-        this.universityDateDao = universityDateDao;
-    }
-
-    public void setPersistenceService(PersistenceService ps) {
-        persistenceService = ps;
-    }
-    
-    /**
-     * @return Returns the optionsDao.
-     */
-    public OptionsDao getOptionsDao() {
-        return optionsDao;
-    }
-
-    /**
-     * @param optionsDao The optionsDao to set.
-     */
-    public void setOptionsDao(OptionsDao optionsDao) {
-        this.optionsDao = optionsDao;
-    }
-
-    /**
-     * Sets the offsetDefinitionService attribute value.
-     * @param offsetDefinitionService The offsetDefinitionService to set.
-     */
-    public void setOffsetDefinitionService(OffsetDefinitionService offsetDefinitionService) {
-        this.offsetDefinitionService = offsetDefinitionService;
-    }
-
-    /**
-     * Sets the objectCodeService attribute value.
-     * @param objectCodeService The objectCodeService to set.
-     */
-    public void setObjectCodeService(ObjectCodeService objectCodeService) {
-        this.objectCodeService = objectCodeService;
-    }
-
-    public void setAccountService(AccountService accountService) {
-        this.accountService = accountService;
-    }
-
-    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
-        this.kualiConfigurationService = kualiConfigurationService;
-    }
-
-    public void setScrubberReport(ScrubberReport srs) {
-        scrubberReportService = srs;
-    }
-
-    public void setBeanFactory(BeanFactory bf) throws BeansException {
-      beanFactory = bf;
-    }
-
     private void checkForNullKeys(OriginEntry entry, OriginEntryGroup group) {
         
         if(Boolean.TRUE.equals(group.getValid())) {
@@ -3541,42 +3436,6 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         
     }
 
-    public class ErrorEntry implements Comparable {
-        private String errorMessage;
-        private String errorValue;
-
-        public ErrorEntry() {
-        }
-
-        public ErrorEntry(String errorMessage, String errorValue) {
-            super();
-            this.errorMessage = errorMessage;
-            this.errorValue = errorValue;
-        }
-
-        public String getErrorMessage() {
-            return errorMessage;
-        }
-
-        public void setErrorMessage(String errorMessage) {
-            this.errorMessage = errorMessage;
-        }
-
-        public String getErrorValue() {
-            return errorValue;
-        }
-
-        public void setErrorValue(String errorValue) {
-            this.errorValue = errorValue;
-        }
-
-        public int compareTo(Object o) {
-            // TODO Auto-generated method stub
-            return 0;
-        }
-
-    }
-//    
     /**
      * Sets the flexibleOffsetAccountService attribute value.
      * @param flexibleOffsetAccountService The flexibleOffsetAccountService to set.
@@ -3591,5 +3450,57 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
      */
     public void setDocumentTypeService(DocumentTypeService documentTypeService) {
         this.documentTypeService = documentTypeService;
+    }
+
+    public void setScrubberValidator(ScrubberValidator sv) {
+      scrubberValidator = sv;
+    }
+
+    public void setOriginEntryService(OriginEntryService oes) {
+        this.originEntryService = oes;
+    }
+
+    public void setOriginEntryGroupService(OriginEntryGroupService groupService) {
+        this.originEntryGroupService = groupService;
+    }
+
+    public void setDateTimeService(DateTimeService dts) {
+        this.dateTimeService = dts;
+    }
+
+    public void setUniversityDateDao(UniversityDateDao universityDateDao) {
+        this.universityDateDao = universityDateDao;
+    }
+
+    public void setPersistenceService(PersistenceService ps) {
+        persistenceService = ps;
+    }
+
+    /**
+     * Sets the offsetDefinitionService attribute value.
+     * @param offsetDefinitionService The offsetDefinitionService to set.
+     */
+    public void setOffsetDefinitionService(OffsetDefinitionService offsetDefinitionService) {
+        this.offsetDefinitionService = offsetDefinitionService;
+    }
+
+    /**
+     * Sets the objectCodeService attribute value.
+     * @param objectCodeService The objectCodeService to set.
+     */
+    public void setObjectCodeService(ObjectCodeService objectCodeService) {
+        this.objectCodeService = objectCodeService;
+    }
+
+    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
+        this.kualiConfigurationService = kualiConfigurationService;
+    }
+
+    public void setScrubberReport(ScrubberReport srs) {
+        scrubberReportService = srs;
+    }
+
+    public void setBeanFactory(BeanFactory bf) throws BeansException {
+      beanFactory = bf;
     }
 }

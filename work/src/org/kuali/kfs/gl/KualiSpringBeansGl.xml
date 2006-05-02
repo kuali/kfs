@@ -101,18 +101,24 @@
 	<bean id="glScrubberService" class="org.kuali.module.gl.service.impl.ScrubberServiceImpl" init-method="init">
 		<property name="flexibleOffsetAccountService"><ref bean="flexibleOffsetAccountService" /></property>
 		<property name="documentTypeService"><ref bean="documentTypeService" /></property>
-		
 		<property name="originEntryService"><ref bean="glOriginEntryService" /></property>
 		<property name="dateTimeService"><ref bean="dateTimeService" /></property>
 		<property name="offsetDefinitionService"><ref bean="offsetDefinitionService" /></property>
 		<property name="objectCodeService"><ref bean="objectCodeService" /></property>
-		<property name="accountService"><ref bean="accountService" /></property>
 		<property name="kualiConfigurationService"><ref bean="kualiConfigurationService" /></property>
 		<property name="universityDateDao"><ref bean="universityDateDao" /></property>
 		<property name="originEntryGroupService"><ref bean="glOriginEntryGroupService" /></property>
 		<property name="persistenceService"><ref bean="persistenceService"/></property>
 		<property name="scrubberReport"><ref bean="glScrubberReport" /></property>
-		<property name="optionsDao"><ref bean="optionsDao" /></property>
+		<property name="scrubberValidator"><ref bean="glScrubberValidator"/></property>
+	</bean>
+
+	<bean id="glScrubberValidator" class="org.kuali.module.gl.service.impl.ScrubberValidatorImpl">
+		<property name="persistenceService"><ref bean="persistenceService"/></property>
+		<property name="kualiConfigurationService"><ref bean="kualiConfigurationService" /></property>
+		<property name="universityDateDao"><ref bean="universityDateDao"/></property>
+		<property name="originationCodeService"><ref bean="originationCodeService"/></property>
+		<property name="accountService"><ref bean="accountService"/></property>
 	</bean>
 
 	<bean id="glSufficientFundsSyncService" class="org.kuali.module.gl.service.impl.SufficientFundsSyncServiceImpl">

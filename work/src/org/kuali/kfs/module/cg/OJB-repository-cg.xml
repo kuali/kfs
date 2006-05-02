@@ -70,3 +70,176 @@
 	</reference-descriptor>
 </class-descriptor>
 
+<class-descriptor class="org.kuali.module.cg.bo.Proposal" table="CG_PRPSL_T">
+	<field-descriptor name="proposalNumber" column="CGPRPSL_NBR" jdbc-type="BIGINT" primarykey="true" index="true"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<field-descriptor name="proposalBeginningDate" column="CGPRPSL_BEG_DT" jdbc-type="TIMESTAMP"/>
+	<field-descriptor name="proposalEndingDate" column="CGPRPSL_END_DT" jdbc-type="TIMESTAMP"/>
+	<field-descriptor name="proposalTotalAmount" column="CGPRPSL_TOT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="proposalDirectCostAmount" column="CGPRPSL_DRCTCS_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="proposalIndirectCostAmount" column="CGPRPSL_INDRCS_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="proposalRejectedDate" column="CGPRPSL_REJECTD_DT" jdbc-type="TIMESTAMP"/>
+	<field-descriptor name="proposalLastUpdateDate" column="CGPRPSL_LSTUPDT_DT" jdbc-type="TIMESTAMP"/>
+	<field-descriptor name="proposalDueDate" column="CGPRPSL_DUE_DT" jdbc-type="TIMESTAMP"/>
+	<field-descriptor name="proposalTotalProjectAmount" column="CGPRPSL_TOTPRJ_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="proposalSubmissionDate" column="CGPRPSL_SUBMSSN_DT" jdbc-type="TIMESTAMP"/>
+	<field-descriptor name="proposalFederalPassThroughIndicator" column="CGPRPSL_FEDPT_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="oldProposalNumber" column="CG_OLD_PRPSL_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="grantNumber" column="CG_GRANT_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="proposalClosingDate" column="CGPRPSL_CLOSING_DT" jdbc-type="TIMESTAMP"/>
+	<field-descriptor name="proposalAwardTypeCode" column="CGPRPSL_AWD_TYP_CD" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="agencyNumber" column="CG_AGENCY_NBR" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="proposalStatusCode" column="CGPRPSL_STAT_CD" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="federalPassThroughAgencyNumber" column="CG_FEDPT_AGNCY_NBR" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="cfdaNumber" column="CG_CFDA_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="proposalFellowName" column="CGPRPSL_FELLOW_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="proposalPurposeCode" column="CGPRPSL_PURPOSE_CD" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="proposalProjectTitle" column="CGPRPSL_PROJ_TTL" jdbc-type="VARCHAR"/>
+	<reference-descriptor name="researchType" class-ref="org.kuali.module.cg.bo.ResearchType" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="proposalNumber" />
+	</reference-descriptor>
+	<reference-descriptor name="proposalAwardType" class-ref="org.kuali.module.cg.bo.ProposalAwardType" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="proposalAwardTypeCode" />
+	</reference-descriptor>
+	<reference-descriptor name="agency" class-ref="org.kuali.module.cg.bo.Agency" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="agencyNumber" />
+	</reference-descriptor>
+	<reference-descriptor name="proposalStatus" class-ref="org.kuali.module.cg.bo.ProposalStatus" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="proposalStatusCode" />
+	</reference-descriptor>
+	<reference-descriptor name="federalPassThroughAgency" class-ref="org.kuali.module.cg.bo.Agency" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="federalPassThroughAgencyNumber" />
+	</reference-descriptor>
+	<reference-descriptor name="proposalPurpose" class-ref="org.kuali.module.cg.bo.ProposalPurpose" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="proposalPurposeCode" />
+	</reference-descriptor>
+	<collection-descriptor name="proposalSubcontractor" element-class-ref="org.kuali.module.cg.bo.ProposalSubcontractor" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<orderby name="proposalSubcontractorNumber" sort="ASC" />
+		<orderby name="subcontractorNumber" sort="ASC" />
+		<inverse-foreignkey field-ref="proposalNumber" />
+	</collection-descriptor>
+	<collection-descriptor name="proposalOrganization" element-class-ref="org.kuali.module.cg.bo.ProposalOrganization" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<orderby name="chartOfAccountsCode" sort="ASC" />
+		<orderby name="organizationCode" sort="ASC" />
+		<inverse-foreignkey field-ref="proposalNumber" />
+	</collection-descriptor>
+	<collection-descriptor name="proposalProjectDirector" element-class-ref="org.kuali.module.cg.bo.ProposalProjectDirector" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<orderby name="personUniversalIdentifier" sort="ASC" />
+		<inverse-foreignkey field-ref="proposalNumber" />
+	</collection-descriptor>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.cg.bo.ProposalAwardType" table="CG_PRPSL_AWD_TYP_T">
+	<field-descriptor name="proposalAwardTypeCode" column="CGPRPSL_AWD_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="proposalAwardTypeDescription" column="PRPSL_AWD_TYP_DESC" jdbc-type="VARCHAR"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.cg.bo.ProposalPurpose" table="CG_PRPSL_PURPOSE_T">
+	<field-descriptor name="proposalPurposeCode" column="CGPRPSL_PURPOSE_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="proposalPurposeDescription" column="PRPSL_PURPOSE_DESC" jdbc-type="VARCHAR"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.cg.bo.ProposalStatus" table="CG_PRPSL_STAT_T">
+	<field-descriptor name="proposalStatusCode" column="CGPRPSL_STAT_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="proposalStatusDescription" column="CGPRPSL_STAT_DESC" jdbc-type="VARCHAR"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.cg.bo.ResearchType" table="CG_RESEARCH_TYP_T">
+	<field-descriptor name="proposalNumber" column="CGPRPSL_NBR" jdbc-type="BIGINT" primarykey="true" index="true"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<field-descriptor name="proposalHumansRequiredIndicator" column="CGPRPSL_HMNRQD_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="proposalAnimalsRequiredIndicator" column="CGPRPSL_ANMLRQ_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="proposalDnaRequiredIndicator" column="CGPRPSL_DNARQD_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="proposalBiohazardIndicator" column="CGPRPSL_BIOHAZ_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+	<reference-descriptor name="proposal" class-ref="org.kuali.module.cg.bo.Proposal" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="proposalNumber" />
+	</reference-descriptor>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.cg.bo.ProposalSubcontractor" table="CG_PRPSL_SUBCN_T">
+	<field-descriptor name="proposalSubcontractorNumber" column="CGPRPSL_SUBCN_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="proposalNumber" column="CGPRPSL_NBR" jdbc-type="BIGINT" primarykey="true" index="true"/>
+	<field-descriptor name="subcontractorNumber" column="CG_SUBCNR_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<field-descriptor name="proposalSubcontractorAmount" column="CGPRPSL_SUBCN_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<reference-descriptor name="subcontractor" class-ref="org.kuali.module.cg.bo.Subcontractor" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="subcontractorNumber" />
+	</reference-descriptor>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.cg.bo.ProposalOrganization" table="CG_PRPSL_ORG_T">
+	<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="organizationCode" column="ORG_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="proposalNumber" column="CGPRPSL_NBR" jdbc-type="BIGINT" primarykey="true" index="true"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<field-descriptor name="proposalPrimaryOrganizationIndicator" column="CGPRPSL_PRMORG_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+	<reference-descriptor name="organization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="chartOfAccountsCode" />
+		<foreignkey field-ref="organizationCode" />
+	</reference-descriptor>
+	<reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="chartOfAccountsCode" />
+	</reference-descriptor>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.cg.bo.ProposalProjectDirector" table="CG_PRPSL_PRJDR_T">
+	<field-descriptor name="personUniversalIdentifier" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="proposalNumber" column="CGPRPSL_NBR" jdbc-type="BIGINT" primarykey="true" index="true"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<field-descriptor name="proposalProjectDirNote1Txt" column="PRPSL_PRJDRNT1_TXT" jdbc-type="VARCHAR"/>
+	<field-descriptor name="proposalProjectDirNote2Txt" column="PRPSL_PRJDRNT2_TXT" jdbc-type="VARCHAR"/>
+	<field-descriptor name="proposalProjectDirNote3Txt" column="PRPSL_PRJDRNT3_TXT" jdbc-type="VARCHAR"/>
+	<field-descriptor name="proposalPrimaryProjectDirectorIndicator" column="PRPSL_PRMPRJDR_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="proposalProjectDirectorProjectTitle" column="PRPSL_PRJDRPRJ_TTL" jdbc-type="VARCHAR"/>
+	<reference-descriptor name="contractsAndGrantsProjectDirectorView" class-ref="org.kuali.module.cg.bo.ContractsAndGrantsProjectDirectorView" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="personUniversalIdentifier" />
+	</reference-descriptor>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.cg.bo.ProposalSearch" table="CG_PRPSL_SRCH_T">
+	<field-descriptor name="personUniversalIdentifier" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="proposalNumber" column="CGPRPSL_NBR" jdbc-type="BIGINT" primarykey="true" index="true"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<field-descriptor name="agencyNumber" column="CG_AGENCY_NBR" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="proposalTotalAmount" column="CGPRPSL_TOT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="proposalBeginningDate" column="CGPRPSL_BEG_DT" jdbc-type="TIMESTAMP"/>
+	<field-descriptor name="grantNumber" column="CG_GRANT_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="proposalStatusCode" column="CGPRPSL_STAT_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="federalPassThroughAgencyNumber" column="CG_FEDPT_AGNCY_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="proposalPurposeCode" column="CGPRPSL_PURPOSE_CD" jdbc-type="VARCHAR"/>
+	<reference-descriptor name="agency" class-ref="org.kuali.module.cg.bo.Agency" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="agencyNumber" />
+	</reference-descriptor>
+	<reference-descriptor name="proposal" class-ref="org.kuali.module.cg.bo.Proposal" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="proposalNumber" />
+	</reference-descriptor>
+	<reference-descriptor name="contractsAndGrantsProjectDirectorView" class-ref="org.kuali.module.cg.bo.ContractsAndGrantsProjectDirectorView" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="personUniversalIdentifier" />
+	</reference-descriptor>
+	<reference-descriptor name="proposalStatus" class-ref="org.kuali.module.cg.bo.ProposalStatus" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="proposalStatusCode" />
+	</reference-descriptor>
+	<reference-descriptor name="federalPassThroughAgency" class-ref="org.kuali.module.cg.bo.Agency" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="federalPassThroughAgencyNumber" />
+	</reference-descriptor>
+	<reference-descriptor name="proposalPurpose" class-ref="org.kuali.module.cg.bo.ProposalPurpose" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="proposalPurposeCode" />
+	</reference-descriptor>
+	<collection-descriptor name="proposalOrganization" element-class-ref="org.kuali.module.cg.bo.ProposalOrganization" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<orderby name="chartOfAccountsCode" sort="ASC" />
+		<orderby name="organizationCode" sort="ASC" />
+		<inverse-foreignkey field-ref="proposalNumber" />
+	</collection-descriptor>
+</class-descriptor>

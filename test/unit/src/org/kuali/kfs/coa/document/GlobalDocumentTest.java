@@ -28,6 +28,7 @@ import org.kuali.core.exceptions.UnknownDocumentTypeException;
 import org.kuali.core.maintenance.Maintainable;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.module.chart.bo.AccountChangeDocument;
 import org.kuali.module.chart.bo.DelegateChangeDocument;
 import org.kuali.test.KualiTestBaseWithFixtures;
 
@@ -87,28 +88,22 @@ public class GlobalDocumentTest extends KualiTestBaseWithFixtures {
         catch (UnknownDocumentTypeException e) {
             exceptionThrown = true;
         }
-        assertEquals("UnknownDocumentTypeException should be thrown until the AccountChangeDocument is setup.", true, exceptionThrown);
         
-        // *****************************************************
-        //  Uncomment everything below in this method once the 
-        // docType is setup properly in the system.
-        // ******************************************************
+        //  make sure the doc is setup
+        assertNotNull(document);
+        assertNotNull(document.getDocumentHeader());
+        assertNotNull(document.getDocumentHeader().getFinancialDocumentNumber());
         
-//        //  make sure the doc is setup
-//        assertNotNull(document);
-//        assertNotNull(document.getDocumentHeader());
-//        assertNotNull(document.getDocumentHeader().getFinancialDocumentNumber());
-//        
-//        assertEquals("Global document should always appear as a New.", true, document.isNew());
-//        assertEquals("Global document should never appear as an edit.", false, document.isEdit());
-//        
-//        Maintainable newMaintainable = document.getNewMaintainableObject();
-//        assertNotNull("New Maintainable should never be null.", newMaintainable);
-//        assertEquals("BO Class should be AccountChangeDocument.", AccountChangeDocument.class, newMaintainable.getBoClass());
-//
-//        BusinessObject newBo = newMaintainable.getBusinessObject();
-//        assertNotNull("New BO should never be null.", newBo);
-//        assertEquals("New BO should be of the correct class.", AccountChangeDocument.class, newBo.getClass());
+        assertEquals("Global document should always appear as a New.", true, document.isNew());
+        assertEquals("Global document should never appear as an edit.", false, document.isEdit());
+        
+        Maintainable newMaintainable = document.getNewMaintainableObject();
+        assertNotNull("New Maintainable should never be null.", newMaintainable);
+        assertEquals("BO Class should be AccountChangeDocument.", AccountChangeDocument.class, newMaintainable.getBoClass());
+
+        BusinessObject newBo = newMaintainable.getBusinessObject();
+        assertNotNull("New BO should never be null.", newBo);
+        assertEquals("New BO should be of the correct class.", AccountChangeDocument.class, newBo.getClass());
 //        
     }
     

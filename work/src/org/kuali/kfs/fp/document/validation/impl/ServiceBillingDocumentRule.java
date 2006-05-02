@@ -26,10 +26,16 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.KeyConstants;
 import org.kuali.PropertyConstants;
 import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
+import org.kuali.module.financial.bo.ServiceBillingControl;
 import org.kuali.core.bo.AccountingLine;
 import org.kuali.core.bo.SourceAccountingLine;
+import org.kuali.core.bo.user.KualiUser;
+import org.kuali.core.bo.user.KualiGroup;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.exceptions.GroupNotFoundException;
+import org.kuali.core.workflow.service.KualiWorkflowDocument;
 
 /**
  * Business rule(s) applicable to Service Billing documents.
@@ -53,7 +59,7 @@ public class ServiceBillingDocumentRule extends InternalBillingDocumentRule {
         // provide the user with less helpful information and to force him to retry his submit twice.  It's not throwing an
         // exception because this pattern (without the short-circuiting logic) originally implemented the opposite policy.
         if (success) {
-            success &= processCommonCustomAccountingLineBusinessRules(accountingLine);
+            success &= validateOrganizationDocumentNumber(accountingLine);
         }
         return success;
     }
@@ -66,7 +72,7 @@ public class ServiceBillingDocumentRule extends InternalBillingDocumentRule {
         boolean success = true;
         success &= super.processCustomReviewAccountingLineBusinessRules(document, accountingLine);
         if (success) {
-            success &= processCommonCustomAccountingLineBusinessRules(accountingLine);
+            success &= validateOrganizationDocumentNumber(accountingLine);
         }
         return success;
     }
@@ -82,23 +88,7 @@ public class ServiceBillingDocumentRule extends InternalBillingDocumentRule {
         boolean success = true;
         success &= super.processCustomUpdateAccountingLineBusinessRules(document, originalAccountingLine, updatedAccountingLine);
         if (success) {
-            success &= processCommonCustomAccountingLineBusinessRules(updatedAccountingLine);
-        }
-        return success;
-    }
-
-    /**
-     * Processes rules common to the three custom accounting line rule methods.
-     *
-     * @param accountingLine
-     *
-     * @return whether the rule succeeds
-     */
-    private boolean processCommonCustomAccountingLineBusinessRules(AccountingLine accountingLine) {
-        boolean success = true;
-        success &= validateOrganizationDocumentNumber(accountingLine);
-        if (success) {
-            success &= validateIncomeAccount(accountingLine);
+            success &= validateOrganizationDocumentNumber(updatedAccountingLine);
         }
         return success;
     }
@@ -117,9 +107,52 @@ public class ServiceBillingDocumentRule extends InternalBillingDocumentRule {
         return true;
     }
 
-    private boolean validateIncomeAccount(AccountingLine accountingLine) {
-        // todo: SB control table check
-        return true;
+    /**
+     * @see TransactionalDocumentRuleBase#accountIsAccessible(TransactionalDocument, AccountingLine)
+     */
+    protected boolean accountIsAccessible(TransactionalDocument transactionalDocument, AccountingLine accountingLine) {
+        KualiWorkflowDocument workflowDocument = transactionalDocument.getDocumentHeader().getWorkflowDocument();
+
+        if (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) {
+            // todo: separate rule with SB specific error message explaining about the control table instead/additionally?
+            // The use from hasAccessibleAccountingLines() is not important for SB, which routes straight to final.
+            return accountingLine.isTargetAccountingLine() || serviceBillingIncomeAccountIsAccessible(accountingLine);
+        }
+        else {
+            return super.accountIsAccessible(transactionalDocument, accountingLine);
+        }
+    }
+
+    /**
+     * Checks the account and user against the SB control table.
+     *
+     * @param accountingLine from the income section
+     * @return whether the current user is authorized to use the given account in the SB income section
+     */
+    private boolean serviceBillingIncomeAccountIsAccessible(AccountingLine accountingLine) {
+        // todo: assert accountingLine.isSourceAccountingLine();
+        String chartOfAccountsCode = accountingLine.getChartOfAccountsCode();
+        String accountNumber = accountingLine.getAccountNumber();
+        // Handle empty key because hasAccessibleAccountingLines() may not validate beforehand.
+        if (!StringUtils.isEmpty(chartOfAccountsCode) && !StringUtils.isEmpty(accountNumber)) {
+            KualiUser currentUser = GlobalVariables.getUserSession().getKualiUser();
+            ServiceBillingControl control = SpringServiceLocator.getServiceBillingControlService().getByPrimaryId(
+                chartOfAccountsCode, accountNumber);
+            if (control != null) {
+                try {
+                    // todo: isMember(String) instead of going through KualiGroupService?
+                    KualiGroup group = SpringServiceLocator.getKualiGroupService().getByGroupName(control.getWorkgroupName());
+                    if (currentUser.isMember(group)) {
+                        return true;
+                    }
+                }
+                catch (GroupNotFoundException e) {
+                    // todo: handle invalid ServiceBillingControl?  Just log?
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+        return false;
     }
 
     /**

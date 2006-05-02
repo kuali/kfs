@@ -78,6 +78,7 @@ public class Account extends BusinessObjectBase {
     private String cgCatlfFedDomestcAssistNbr;
     private boolean accountOffCampusIndicator;
     private boolean accountClosedIndicator;
+    private String programCode;
 
     private String accountFiscalOfficerSystemIdentifier;
     private String accountsSupervisorySystemsIdentifier;
@@ -121,6 +122,7 @@ public class Account extends BusinessObjectBase {
     private PostalZipCode postalZipCode;
     private BudgetRecordingLevelCode budgetRecordingLevel;
     private SufficientFundsCode sufficientFundsCode;
+    private Program program;
     
     //Several kinds of Dummy Attributes for dividing sections on Inquiry page
     private String accountResponsibilitySectionBlank;
@@ -1154,7 +1156,21 @@ public class Account extends BusinessObjectBase {
         this.continuationAccount = continuationAccount;
     }
 
+    /**
+     * @return Returns the program.
+     */
+    public Program getProgram() {
+        return program;
+    }
 
+    /**
+     * @param program The program to set.
+     * @deprecated
+     */
+    public void setProgram(Program program) {
+        this.program = program;
+    }
+    
     /**
      * @return Returns the accountGuideline.
      */
@@ -1561,6 +1577,20 @@ public class Account extends BusinessObjectBase {
     public void setSufficientFundsCode(SufficientFundsCode sufficientFundsCode) {
         this.sufficientFundsCode = sufficientFundsCode;
     }
+
+    /**
+     * @return Returns the programCode.
+     */
+    public String getProgramCode() {
+        return programCode;
+    }
+
+    /**
+     * @param programCode The programCode to set.
+     */
+    public void setProgramCode(String programCode) {
+        this.programCode = programCode;
+    }    
     
     /**
      * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
@@ -1711,4 +1741,5 @@ public class Account extends BusinessObjectBase {
     public String getGuidelinesAndPurposeSectionBlank() {
         return guidelinesAndPurposeSectionBlank;
     }
+
 }

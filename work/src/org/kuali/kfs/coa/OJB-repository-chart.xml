@@ -115,7 +115,8 @@
 		jdbc-type="VARCHAR" index="true" />
 	<field-descriptor name="versionNumber" column="VER_NBR"
 		jdbc-type="BIGINT" locking="true" />
-
+	<field-descriptor name="programCode" column="PGM_CD" jdbc-type="VARCHAR" />
+	
 	<reference-descriptor name="chartOfAccounts"
 		class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true"
 		auto-update="none" auto-delete="none" proxy="true">
@@ -269,6 +270,12 @@
 		proxy="true">
 		<foreignkey field-ref="chartOfAccountsCode" />
 		<foreignkey field-ref="accountNumber" />
+	</reference-descriptor>
+
+	<reference-descriptor name="program"
+		class-ref="org.kuali.module.chart.bo.Program" auto-retrieve="true"
+		auto-update="none" auto-delete="none" proxy="true">
+		<foreignkey field-ref="programCode" />
 	</reference-descriptor>
 
 	<collection-descriptor name="subAccounts"
@@ -2352,4 +2359,12 @@
 	<reference-descriptor name="fiscalApproverUniversal" class-ref="org.kuali.core.bo.user.UniversalUser" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="fiscalApproverUniversalId" />
 	</reference-descriptor>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.chart.bo.Program" table="CA_PGM_T">
+	<field-descriptor name="programCode" column="PGM_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<field-descriptor name="programName" column="PGM_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="programActiveIndicator" column="PGM_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 </class-descriptor>

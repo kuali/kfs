@@ -22,6 +22,15 @@
  */
 package org.kuali.module.financial.rules;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.KeyConstants;
+import org.kuali.PropertyConstants;
+import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
+import org.kuali.core.bo.AccountingLine;
+import org.kuali.core.bo.SourceAccountingLine;
+import org.kuali.core.document.TransactionalDocument;
+import org.kuali.core.util.SpringServiceLocator;
+
 /**
  * Business rule(s) applicable to Service Billing documents.
  * They differ from {@link InternalBillingDocumentRule} by not routing for fiscal officer approval.
@@ -32,5 +41,117 @@ package org.kuali.module.financial.rules;
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class ServiceBillingDocumentRule extends InternalBillingDocumentRule {
-    // todo: SB control table check
+
+    /**
+     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processCustomAddAccountingLineBusinessRules(TransactionalDocument,
+     *      AccountingLine)
+     */
+    public boolean processCustomAddAccountingLineBusinessRules(TransactionalDocument document, AccountingLine accountingLine) {
+        boolean success = true;
+        success &= super.processCustomAddAccountingLineBusinessRules(document, accountingLine);
+        // This short-circuiting pattern (in all these rule methods) is the eDoc policy, not because it is necessary, but to
+        // provide the user with less helpful information and to force him to retry his submit twice.  It's not throwing an
+        // exception because this pattern (without the short-circuiting logic) originally implemented the opposite policy.
+        if (success) {
+            success &= processCommonCustomAccountingLineBusinessRules(accountingLine);
+        }
+        return success;
+    }
+
+    /**
+     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processCustomReviewAccountingLineBusinessRules(TransactionalDocument,
+     *      AccountingLine)
+     */
+    public boolean processCustomReviewAccountingLineBusinessRules(TransactionalDocument document, AccountingLine accountingLine) {
+        boolean success = true;
+        success &= super.processCustomReviewAccountingLineBusinessRules(document, accountingLine);
+        if (success) {
+            success &= processCommonCustomAccountingLineBusinessRules(accountingLine);
+        }
+        return success;
+    }
+
+    /**
+     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processCustomUpdateAccountingLineBusinessRules(TransactionalDocument,
+     *      AccountingLine, AccountingLine)
+     */
+    public boolean processCustomUpdateAccountingLineBusinessRules(TransactionalDocument document,
+                                                                  AccountingLine originalAccountingLine,
+                                                                  AccountingLine updatedAccountingLine)
+    {
+        boolean success = true;
+        success &= super.processCustomUpdateAccountingLineBusinessRules(document, originalAccountingLine, updatedAccountingLine);
+        if (success) {
+            success &= processCommonCustomAccountingLineBusinessRules(updatedAccountingLine);
+        }
+        return success;
+    }
+
+    /**
+     * Processes rules common to the three custom accounting line rule methods.
+     *
+     * @param accountingLine
+     *
+     * @return whether the rule succeeds
+     */
+    private boolean processCommonCustomAccountingLineBusinessRules(AccountingLine accountingLine) {
+        boolean success = true;
+        success &= validateOrganizationDocumentNumber(accountingLine);
+        if (success) {
+            success &= validateIncomeAccount(accountingLine);
+        }
+        return success;
+    }
+
+    private boolean validateOrganizationDocumentNumber(AccountingLine accountingLine) {
+        // todo: add organizationDocumentNumber to AccountingLine, database schema, and DD instead of using referenceNumber?
+        String orgDocNbr = accountingLine.getReferenceNumber();
+        Integer maxLength = new Integer(10);
+        if (StringUtils.isNotBlank(orgDocNbr) && orgDocNbr.length() > maxLength.intValue()) {
+            String attributeLabel = SpringServiceLocator.getDataDictionaryService().getAttributeShortLabel(
+                SourceAccountingLine.class.getName(), PropertyConstants.REFERENCE_NUMBER);
+            reportError(PropertyConstants.REFERENCE_NUMBER, KeyConstants.ERROR_MAX_LENGTH,
+                new String[]{attributeLabel, maxLength.toString()});
+            return false;
+        }
+        return true;
+    }
+
+    private boolean validateIncomeAccount(AccountingLine accountingLine) {
+        // todo: SB control table check
+        return true;
+    }
+
+    /**
+     * Sets extra accounting line fields in explicit GLPE.
+     * IB doesn't have these fields.
+     *
+     * @see TransactionalDocumentRuleBase#customizeExplicitGeneralLedgerPendingEntry(TransactionalDocument, AccountingLine, GeneralLedgerPendingEntry)
+     */
+    protected void customizeExplicitGeneralLedgerPendingEntry(TransactionalDocument transactionalDocument,
+                                                              AccountingLine accountingLine,
+                                                              GeneralLedgerPendingEntry explicitEntry)
+    {
+        explicitEntry.setTransactionLedgerEntryDescription(accountingLine.getFinancialDocumentLineDescription());
+        // todo: add organizationDocumentNumber to AccountingLine, database schema, and DD instead of using referenceNumber?
+        explicitEntry.setOrganizationDocumentNumber(accountingLine.getReferenceNumber());
+        explicitEntry.setReferenceFinancialDocumentNumber(null);
+    }
+
+    /**
+     * Sets extra accounting line field in offset GLPE.
+     * The offset description remains {@link org.kuali.Constants#GL_PE_OFFSET_STRING}.
+     *
+     * @see TransactionalDocumentRuleBase#customizeOffsetGeneralLedgerPendingEntry(TransactionalDocument, AccountingLine, GeneralLedgerPendingEntry, GeneralLedgerPendingEntry)
+     */
+    protected boolean customizeOffsetGeneralLedgerPendingEntry(TransactionalDocument transactionalDocument,
+                                                               AccountingLine accountingLine,
+                                                               GeneralLedgerPendingEntry explicitEntry,
+                                                               GeneralLedgerPendingEntry offsetEntry)
+    {
+        // todo: add organizationDocumentNumber to AccountingLine, database schema, and DD instead of using referenceNumber?
+        explicitEntry.setOrganizationDocumentNumber(accountingLine.getReferenceNumber());
+        explicitEntry.setReferenceFinancialDocumentNumber(null);
+        return true;
+    }
 }

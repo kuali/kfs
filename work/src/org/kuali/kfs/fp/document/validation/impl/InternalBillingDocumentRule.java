@@ -85,12 +85,7 @@ public class InternalBillingDocumentRule extends TransactionalDocumentRuleBase i
      *      AccountingLine)
      */
     public boolean processCustomAddAccountingLineBusinessRules(TransactionalDocument document, AccountingLine accountingLine) {
-        boolean success = true;
-        success &= validIndianaStudentFeesNotContinueEduc(accountingLine);
-        if (success) {
-            success &= validateCapitalObjectCodes(accountingLine);
-        }
-        return success;
+        return processCommonCustomAccountingLineRules(accountingLine);
     }
 
     /**
@@ -98,12 +93,7 @@ public class InternalBillingDocumentRule extends TransactionalDocumentRuleBase i
      *      AccountingLine)
      */
     public boolean processCustomReviewAccountingLineBusinessRules(TransactionalDocument document, AccountingLine accountingLine) {
-        boolean success = true;
-        success &= validIndianaStudentFeesNotContinueEduc(accountingLine);
-        if (success) {
-            success &= validateCapitalObjectCodes(accountingLine);
-        }
-        return success;
+        return processCommonCustomAccountingLineRules(accountingLine);
     }
 
     /**
@@ -112,10 +102,20 @@ public class InternalBillingDocumentRule extends TransactionalDocumentRuleBase i
      */
     public boolean processCustomUpdateAccountingLineBusinessRules(TransactionalDocument document,
                                                                   AccountingLine originalAccountingLine, AccountingLine updatedAccountingLine) {
+        return processCommonCustomAccountingLineRules(updatedAccountingLine);
+    }
+
+    /**
+     * Processes rules common to the three custom accounting line rule methods.
+     *
+     * @param accountingLine
+     * @return whether the rule succeeds
+     */
+    private boolean processCommonCustomAccountingLineRules(AccountingLine accountingLine) {
         boolean success = true;
-        success &= validIndianaStudentFeesNotContinueEduc(updatedAccountingLine);
+        success &= validIndianaStudentFeesNotContinueEduc(accountingLine);
         if (success) {
-            success &= validateCapitalObjectCodes(updatedAccountingLine);
+            success &= validateCapitalObjectCodes(accountingLine);
         }
         return success;
     }

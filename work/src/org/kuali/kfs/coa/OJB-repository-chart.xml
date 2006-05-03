@@ -1280,7 +1280,6 @@
 	<field-descriptor name="organizationEndDate" column="ORG_END_DT" jdbc-type="DATE"/>
 	<field-descriptor name="reportsToChartOfAccountsCode" column="RPTS_TO_FIN_COA_CD" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="reportsToOrganizationCode" column="RPTS_TO_ORG_CD" jdbc-type="VARCHAR" index="true"/>
-	<field-descriptor name="hrisOrganizationCode" column="HRIS_ORG_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="organizationActiveIndicator" column="ORG_ACTIVE_CD" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 	<field-descriptor name="organizationInFinancialProcessingIndicator" column="ORG_IN_FP_CD" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 	<field-descriptor name="organizationPlantAccountNumber" column="ORG_PLNT_ACCT_NBR" jdbc-type="VARCHAR"/>
@@ -1293,13 +1292,6 @@
 			auto-retrieve="true" auto-update="none" auto-delete="none" 
 			proxy="true">
 		<foreignkey field-ref="chartOfAccountsCode" />
-	</reference-descriptor>
-	<reference-descriptor name="hrisOrganization" 
-			class-ref="org.kuali.module.chart.bo.Org" 
-			auto-retrieve="true" auto-update="none" auto-delete="none" 
-			proxy="true">
-		<foreignkey field-ref="chartOfAccountsCode" />
-		<foreignkey field-ref="hrisOrganizationCode" />
 	</reference-descriptor>
 	<reference-descriptor name="organizationDefaultAccount" 
 			class-ref="org.kuali.module.chart.bo.Account" 

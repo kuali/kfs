@@ -83,7 +83,6 @@ public class Org extends BusinessObjectBase {
     private PostalZipCode postalZip;
     
     // fields for mixed anonymous keys
-    private String hrisOrganizationCode;
     private String organizationDefaultAccountNumber;
     private String chartOfAccountsCode;
 
@@ -310,27 +309,7 @@ public class Org extends BusinessObjectBase {
         this.chartOfAccounts = chartOfAccounts;
     }
 
-    /**
-     * Gets the hrisOrganization attribute.
-     * 
-     * @return - Returns the hrisOrganization
-     *  
-     */
-    public Org getHrisOrganization() {
-        return hrisOrganization;
-    }
-
-    /**
-     * Sets the hrisOrganization attribute.
-     * 
-     * @param - hrisOrganization The hrisOrganization to set.
-     * @deprecated
-     */
-    public void setHrisOrganization(Org hrisOrganization) {
-        this.hrisOrganization = hrisOrganization;
-    }
-
-    /**
+     /**
      * Gets the organizationDefaultAccount attribute.
      * 
      * @return - Returns the organizationDefaultAccount
@@ -566,24 +545,6 @@ public class Org extends BusinessObjectBase {
      */
     public void setChartOfAccountsCode(String chartOfAccountsCode) {
         this.chartOfAccountsCode = chartOfAccountsCode;
-    }
-
-    /**
-     * Gets the hrisOrganizationCode attribute.
-     * 
-     * @return Returns the hrisOrganizationCode.
-     */
-    public String getHrisOrganizationCode() {
-        return hrisOrganizationCode;
-    }
-
-    /**
-     * Sets the hrisOrganizationCode attribute value.
-     * 
-     * @param hrisOrganizationCode The hrisOrganizationCode to set.
-     */
-    public void setHrisOrganizationCode(String hrisOrganizationCode) {
-        this.hrisOrganizationCode = hrisOrganizationCode;
     }
 
     /**

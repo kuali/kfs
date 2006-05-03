@@ -27,7 +27,6 @@
         <field attributeName="organizationZipCode" />
         <field attributeName="organizationBeginDate" />
         <field attributeName="organizationEndDate" />     
-        <field attributeName="hrisOrganizationCode" />
         <field attributeName="reportsToOrganizationCode" />
         <field attributeName="reportsToChartOfAccountsCode" />
         <field attributeName="organizationPlantChartCode" />
@@ -50,7 +49,6 @@
         <field attributeName="organizationStateCode" />
         <field attributeName="organizationBeginDate" />
         <field attributeName="organizationEndDate" />
-        <field attributeName="hrisOrganizationCode" />
         <field attributeName="reportsToChartOfAccountsCode" />
         <field attributeName="reportsToOrganizationCode" />
         <field attributeName="organizationActiveIndicator" />
@@ -385,16 +383,6 @@
         <summary><![CDATA[&nbsp;]]></summary>
         <description><![CDATA[&nbsp;]]></description>
         <formatterClass>org.kuali.core.web.format.DateFormatter</formatterClass>
-      </attributeReference>
-
-      <attributeReference
-	        name="hrisOrganizationCode"
-	        sourceClassName="org.kuali.module.chart.bo.Org"
-	        sourceAttributeName="organizationCode">
-        <label>Human Resources Organization Code</label>
-        <shortLabel>HR Org Code</shortLabel>
-        <summary><![CDATA[&nbsp;]]></summary>
-        <description><![CDATA[&nbsp;]]></description>
       </attributeReference>
 
       <attributeReference name="organizationEndDate"

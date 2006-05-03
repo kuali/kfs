@@ -35,6 +35,7 @@ import org.kuali.core.util.ExceptionUtils;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.rule.KualiParameterRule;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.bo.SubFundGroup;
@@ -228,13 +229,11 @@ public class InternalBillingDocumentRule extends TransactionalDocumentRuleBase i
     }
 
     /**
-     * @see org.kuali.core.rule.AddAccountingLineRule#isObjectTypeAllowed(AccountingLine)
+     * @see TransactionalDocumentRuleBase#getObjectTypeRule()
      */
-    public boolean isObjectTypeAllowed(AccountingLine accountingLine) {
-        return indirectRuleSucceeds(getParameterRule(INTERNAL_BILLING_DOCUMENT_SECURITY_GROUPING, RESTRICTED_OBJECT_TYPE_CODES),
-                new AttributeReference(SourceAccountingLine.class, PropertyConstants.FINANCIAL_OBJECT_CODE, accountingLine
-                        .getFinancialObjectCode()), new AttributeReference(ObjectCode.class,
-                    PropertyConstants.FINANCIAL_OBJECT_TYPE_CODE, accountingLine.getObjectCode().getFinancialObjectTypeCode()));
+    protected KualiParameterRule getObjectTypeRule() {
+        return KualiParameterRule.and(super.getObjectTypeRule(),
+            getParameterRule(INTERNAL_BILLING_DOCUMENT_SECURITY_GROUPING, RESTRICTED_OBJECT_TYPE_CODES));
     }
 
     /**

@@ -22,12 +22,15 @@
  */
 package org.kuali.module.chart.globals;
 
+import java.util.Iterator;
+import java.util.List;
+
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.exceptions.UnknownDocumentTypeException;
 import org.kuali.core.maintenance.Maintainable;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.module.chart.bo.AccountChangeDetail;
 import org.kuali.module.chart.bo.AccountChangeDocument;
 import org.kuali.module.chart.bo.DelegateChangeDocument;
 import org.kuali.test.KualiTestBaseWithFixtures;
@@ -80,14 +83,7 @@ public class GlobalDocumentTest extends KualiTestBaseWithFixtures {
     
     public final void testGetNewDocument_globalAccountMaintDoc() throws Exception {
         
-        boolean exceptionThrown = false;
-        MaintenanceDocument document = null;
-        try {
-            document = (MaintenanceDocument) docService.getNewDocument(GLOBAL_ACCOUNT_TYPENAME);
-        }
-        catch (UnknownDocumentTypeException e) {
-            exceptionThrown = true;
-        }
+        MaintenanceDocument document = (MaintenanceDocument) docService.getNewDocument(GLOBAL_ACCOUNT_TYPENAME);
         
         //  make sure the doc is setup
         assertNotNull(document);
@@ -104,7 +100,113 @@ public class GlobalDocumentTest extends KualiTestBaseWithFixtures {
         BusinessObject newBo = newMaintainable.getBusinessObject();
         assertNotNull("New BO should never be null.", newBo);
         assertEquals("New BO should be of the correct class.", AccountChangeDocument.class, newBo.getClass());
-//        
+    }
+    
+    public final void testSaveDocument_globalDelegate() throws Exception {
+     
+        setRollback(false);
+        
+        MaintenanceDocument document = (MaintenanceDocument) docService.getNewDocument(GLOBAL_DELEGATE_TYPENAME);
+        
+        //  get local references to the Maintainable and the BO
+        Maintainable newMaintainable = document.getNewMaintainableObject();
+        DelegateChangeDocument bo = (DelegateChangeDocument) newMaintainable.getBusinessObject();
+        String finDocNumber = document.getFinancialDocumentNumber();
+        System.err.println("DOC_NBR = " + finDocNumber);
+        
+        AccountChangeDetail account;
+        
+        account = new AccountChangeDetail();
+        account.setFinancialDocumentNumber(finDocNumber);
+        account.setChartOfAccountsCode("BL");
+        account.setAccountNumber("1031400");
+        bo.addAccount(account);
+        
+        account = new AccountChangeDetail();
+        account.setFinancialDocumentNumber(finDocNumber);
+        account.setChartOfAccountsCode("BL");
+        account.setAccountNumber("1031420");
+        bo.addAccount(account);
+        
+        account = new AccountChangeDetail();
+        account.setFinancialDocumentNumber(finDocNumber);
+        account.setChartOfAccountsCode("BL");
+        account.setAccountNumber("1031467");
+        bo.addAccount(account);
+        
+        docService.save(document, null, null);
+        
+    }
+    
+    public final void testSaveAndLoadDocument_globalDelegate() throws Exception {
+        
+        setRollback(false);
+        
+        MaintenanceDocument document = (MaintenanceDocument) docService.getNewDocument(GLOBAL_DELEGATE_TYPENAME);
+        
+        //  get local references to the Maintainable and the BO
+        Maintainable newMaintainable = document.getNewMaintainableObject();
+        DelegateChangeDocument bo = (DelegateChangeDocument) newMaintainable.getBusinessObject();
+        String finDocNumber = document.getFinancialDocumentNumber();
+        System.err.println("DOC_NBR = " + finDocNumber);
+        
+        AccountChangeDetail account;
+        
+        account = new AccountChangeDetail();
+        account.setFinancialDocumentNumber(finDocNumber);
+        account.setChartOfAccountsCode("BL");
+        account.setAccountNumber("1031400");
+        bo.addAccount(account);
+        
+        account = new AccountChangeDetail();
+        account.setFinancialDocumentNumber(finDocNumber);
+        account.setChartOfAccountsCode("BL");
+        account.setAccountNumber("1031420");
+        bo.addAccount(account);
+        
+        account = new AccountChangeDetail();
+        account.setFinancialDocumentNumber(finDocNumber);
+        account.setChartOfAccountsCode("BL");
+        account.setAccountNumber("1031467");
+        bo.addAccount(account);
+        
+        docService.save(document, null, null);
+        
+        //  clear the document, and re-load it from the DB
+        document = null;
+        document = (MaintenanceDocument) docService.getByDocumentHeaderId(finDocNumber);
+        assertNotNull("Document should not be null after loaded from the DB.", document);
+        assertNotNull("Document Header should not be null after loaded from the DB.", document.getDocumentHeader());
+        assertNotNull("Document FinDocNumber should not be null after loaded from the DB.", document.getDocumentHeader().getFinancialDocumentNumber());
+        
+        //  document should show up as a 'New' document
+        assertEquals("Global document should always appear as a New.", true, document.isNew());
+        assertEquals("Global document should never appear as an edit.", false, document.isEdit());
+        
+        //  Maintainable should be populated and contain the right class
+        newMaintainable = document.getNewMaintainableObject();
+        assertNotNull("New Maintainable should never be null.", newMaintainable);
+        assertEquals("BO Class should be DelegateChangeDocument.", DelegateChangeDocument.class, newMaintainable.getBoClass());
+
+        //  BO should be non-null and the right class
+        bo = (DelegateChangeDocument) newMaintainable.getBusinessObject();
+        assertNotNull("New BO should never be null.", bo);
+        assertEquals("New BO should be of the correct class.", DelegateChangeDocument.class, bo.getClass());
+        
+        //  List should contain 3 elements
+        assertNotNull("AccountDetail list should not be null.", bo.getAccounts());
+        List accounts = bo.getAccounts();
+        assertEquals("AccountDetail list should not be empty.", false, accounts.isEmpty());
+        assertEquals("AccountDetail list should contain 3 elements.", 3, accounts.size());
+        
+        //  make sure all the accounts are non-null and at least have the Chart populated
+        for (Iterator iter = accounts.iterator(); iter.hasNext();) {
+            AccountChangeDetail accountDetail = (AccountChangeDetail) iter.next();
+            
+            assertNotNull("AccountDetailChange should not be null.", accountDetail);
+            assertNotNull("ChartOfAccountsCode", accountDetail.getChartOfAccountsCode());
+            assertEquals("Account Chart should be known.", "BL", accountDetail.getChartOfAccountsCode());
+        }
     }
     
 }

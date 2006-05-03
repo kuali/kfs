@@ -10,8 +10,14 @@
 <%@ attribute name="editingMode" required="false" type="java.util.Map"%>
 <%@ attribute name="editableAccounts" required="true" type="java.util.Map"
               description="Map of Accounts which this user is allowed to edit" %>
+<%@ attribute name="displayExternalEncumbranceFields" 
+       description="A flag used to determine if External Encumbrance Fields should be displayed" 
+              type="java.lang.Boolean" required="false"%>
+<%@ attribute name="isDebitCreditAmount" 
+       description="A flag used to determine if debit/credit fields should be displayed" 
+              type="java.lang.Boolean" required="false"%>
 
-<c:set var="debitCreditAmount" value="${KualiForm.selectedBalanceType.financialOffsetGenerationIndicator}" />
+<c:set var="debitCreditAmount" value="${isDebitCreditAmount}" />
 
 <c:set var="extraHiddenFields" value=",balanceTypeCode,debitCreditCode,encumbranceUpdateCode"/>
 <c:if test="${debitCreditAmount}">
@@ -19,7 +25,8 @@
 </c:if>
 <c:set var="externalEncumbranceFields" value="referenceOriginCode,referenceNumber,referenceTypeCode"/>
 <c:choose>
-    <c:when test="${KualiForm.selectedBalanceType.code==Constants.BALANCE_TYPE_EXTERNAL_ENCUMBRANCE}">
+    <c:when test="${displayExternalEncumbranceFields}">
+        <c:set var="includeObjectTypeCode" value="true"/>
         <c:set var="extraSourceRowFields" value="${externalEncumbranceFields}"/>
     </c:when>
     <c:otherwise>
@@ -34,7 +41,7 @@
     sourceAccountingLinesOnly="true"
     extraSourceRowFields="${extraSourceRowFields}"
     useCurrencyFormattedTotal="true"
-    includeObjectTypeCode="true"
+    includeObjectTypeCode="${includeObjectTypeCode}"
     debitCreditAmount="${debitCreditAmount}"
     extraHiddenFields="${extraHiddenFields}"
     />

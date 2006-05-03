@@ -54,9 +54,16 @@
 	    	</div>
 		          
 		</kul:tab>
-
-	    <fin:auxiliaryVoucherAccountingLines />
-
+        <fin:voucherAccountingLines
+            isDebitCreditAmount="true" 
+            editingMode="${KualiForm.editingMode}"
+            editableAccounts="${KualiForm.editableAccounts}"/>
+                <kul:generalLedgerPendingEntries/>
+                <kul:notes/>
+                <kul:adHocRecipients/>
+                <kul:routeLog/>
+                <kul:panelFooter/>
+                <kul:documentControls transactionalDocument="true" />
 		<kul:generalLedgerPendingEntries/>
 
 		<kul:notes/>

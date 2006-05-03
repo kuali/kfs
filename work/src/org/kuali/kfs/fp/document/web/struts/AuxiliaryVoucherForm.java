@@ -30,6 +30,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.core.web.format.CurrencyFormatter;
 import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
 import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.financial.bo.JournalVoucherAccountingLineHelper;
@@ -204,5 +205,33 @@ public class AuxiliaryVoucherForm extends KualiTransactionalDocumentFormBase {
             getAuxiliaryVoucherDocument().setAccountingPeriod(ap);
         }
     }
+
+    /**
+     * This method retrieves the AV's debit total formatted as currency.
+     * 
+     * @return String
+     */
+    public String getCurrencyFormattedDebitTotal() {
+        return (String) new CurrencyFormatter().format(getAuxiliaryVoucherDocument().getDebitTotal());
+    }
+
+    /**
+     * This method retrieves the AV's credit total formatted as currency.
+     * 
+     * @return String
+     */
+    public String getCurrencyFormattedCreditTotal() {
+        return (String) new CurrencyFormatter().format(getAuxiliaryVoucherDocument().getCreditTotal());
+    }
+
+    /**
+     * This method retrieves the AV's total formatted as currency.
+     * 
+     * @return String
+     */
+    public String getCurrencyFormattedTotal() {
+        return (String) new CurrencyFormatter().format(getAuxiliaryVoucherDocument().getTotal());
+    }
+
 }
 

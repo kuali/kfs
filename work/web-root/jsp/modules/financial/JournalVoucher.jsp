@@ -121,6 +121,8 @@
     	</div>
 		</kul:tab>
         <fin:voucherAccountingLines
+            isDebitCreditAmount="${KualiForm.selectedBalanceType.financialOffsetGenerationIndicator}" 
+            displayExternalEncumbranceFields="${KualiForm.selectedBalanceType.financialOffsetGenerationIndicator}"
             editingMode="${KualiForm.editingMode}"
             editableAccounts="${KualiForm.editableAccounts}"
             />

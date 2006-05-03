@@ -30,6 +30,7 @@ import java.util.TreeSet;
 
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
+import org.kuali.PropertyConstants;
 import org.kuali.core.bo.AccountingLine;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.TransactionalDocument;
@@ -38,6 +39,7 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.AccountingPeriod;
+import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.service.AccountingPeriodService;
 import org.kuali.module.financial.document.AuxiliaryVoucherDocument;
 import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
@@ -46,7 +48,9 @@ import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
  * This class...
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
-public class AuxiliaryVoucherDocumentRule extends TransactionalDocumentRuleBase {
+public class AuxiliaryVoucherDocumentRule 
+    extends TransactionalDocumentRuleBase 
+    implements AuxiliaryVoucherDocumentRuleConstants {
     //TODO refactor and move up to parent class
     private static final String AUX_VOUCHER_ADJUSTMENT_DOC_TYPE = "AVAD";
     private static final String AUX_VOUCHER_RECODE_DOC_TYPE = "AVRC";
@@ -88,6 +92,29 @@ public class AuxiliaryVoucherDocumentRule extends TransactionalDocumentRuleBase 
         _invalidObjectCodeSubTypes.add(OBJECT_SUB_TYPE_CODE.TRANSFER_OF_FUNDS);
     }
     
+    /**
+     * Convenience method for accessing the most-likely requested
+     * security grouping
+     *
+     * @return String
+     */
+    protected String getDefaultSecurityGrouping() {
+        return AUXILIARY_VOUCHER_SECURITY_GROUPING;
+    }
+
+    /**
+     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#isDebit(org.kuali.core.bo.AccountingLine)
+     */
+    public boolean isDebit(AccountingLine accountingLine) throws IllegalStateException {
+        return isDebitConsideringSection(accountingLine);
+    }
+    
+    /**
+     * The GEC spec says that all GL pending entry amounts are positive. I.e., it says that the pending entry uses the absolute
+     * value of non-positive accounting line amounts.
+     * 
+     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#getGeneralLedgerPendingEntryAmountForAccountingLine(org.kuali.core.bo.AccountingLine)
+     */
     protected KualiDecimal getGeneralLedgerPendingEntryAmountForAccountingLine(AccountingLine accountingLine) {
         KualiDecimal amount = accountingLine.getAmount();
         if(amount.isNegative()) {
@@ -306,34 +333,23 @@ public class AuxiliaryVoucherDocumentRule extends TransactionalDocumentRuleBase 
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processCustomAddAccountingLineBusinessRules(org.kuali.core.document.TransactionalDocument, org.kuali.core.bo.AccountingLine)
      */
     public boolean processCustomAddAccountingLineBusinessRules(TransactionalDocument document, AccountingLine accountingLine) {
-        return super.processCustomAddAccountingLineBusinessRules( document, accountingLine ) && validateAccountingLine( document, accountingLine );
+        boolean valid = true;
+        valid &= super.processCustomAddAccountingLineBusinessRules(document, accountingLine);
+        if (valid) {
+            valid &= isValidDocWithSubAndLevel(document, accountingLine);
+        }
+        return valid;
     }
     /**
      * @see org.kuali.core.rule.ReviewAccountingLineRule#processCustomReviewAccountingLineBusinessRules(org.kuali.core.document.TransactionalDocument, org.kuali.core.bo.AccountingLine)
      */
     public boolean processCustomReviewAccountingLineBusinessRules(TransactionalDocument document, AccountingLine accountingLine) {
-        return super.processCustomReviewAccountingLineBusinessRules( document, accountingLine ) && validateAccountingLine( document, accountingLine );
-    }
-
-    /**
-     * @param document
-     * @param accountingLine
-     * @return true if the given accountingLine is valid
-     */
-    protected boolean validateAccountingLine(TransactionalDocument document, AccountingLine accountingLine) {
-        if (accountingLine.getAmount().isNegative() 
-                || document.getDocumentHeader().getFinancialDocumentInErrorNumber() == null) {
-            GlobalVariables.getErrorMap()
-                .put(Constants.ACCOUNTING_LINE_ERRORS, KeyConstants.ERROR_INVALID_NEGATIVE_AMOUNT, "Amount");
-            return false;
+        boolean valid = true;
+        valid &= super.processCustomReviewAccountingLineBusinessRules(document, accountingLine);
+        if (valid) {
+            valid &= isValidDocWithSubAndLevel(document, accountingLine);
         }
-        
-        SpringServiceLocator.getPersistenceService().linkObjects(accountingLine);
-
-        boolean retval = true;
-        retval &= !_invalidObjectCodeSubTypes.contains(accountingLine.getObjectCode().getFinancialObjectType().getCode());
-        retval &= isValidDocWithSubAndLevel(document, accountingLine);
-        return retval;
+        return valid;
     }
     
     /**
@@ -344,8 +360,10 @@ public class AuxiliaryVoucherDocumentRule extends TransactionalDocumentRuleBase 
      * @return
      */
     private boolean isValidDocWithSubAndLevel(TransactionalDocument document, AccountingLine accountingLine) {
+        boolean retval = true;
         if(document instanceof AuxiliaryVoucherDocument) {
-            if(accountingLine.getObjectCode().getFinancialObjectType().getCode().equals(OBJECT_SUB_TYPE_CODE.VALUATIONS_AND_ADJUSTMENTS) 
+            if(accountingLine.getObjectCode().getFinancialObjectType()
+               .getCode().equals(OBJECT_SUB_TYPE_CODE.VALUATIONS_AND_ADJUSTMENTS) 
                     && accountingLine.getObjectType().getCode().equals(OBJECT_TYPE_CODE.EXPENSE_NOT_EXPENDITURE) 
                     && accountingLine.getObjectCode().getFinancialObjectLevel().getFinancialObjectLevelCode().equals(OBJECT_LEVEL_CODE.VALUATIONS_ADJUSTMENTS) ) {
                 String errorObjects[] = { 
@@ -500,5 +518,36 @@ public class AuxiliaryVoucherDocumentRule extends TransactionalDocumentRuleBase 
             }
         }
         return true;
+    }
+
+    /**
+     * Overrides to perform the universal rule in the super class in addition 
+     * to Auxiliary Voucher specific rules. This method leverages the 
+     * APC for checking restricted object sub type values.
+     *
+     * @see org.kuali.core.rule.AccountingLineRule#isObjectSubTypeAllowed(org.kuali.core.bo.AccountingLine)
+     */
+    public boolean isObjectSubTypeAllowed(AccountingLine accountingLine) {
+        boolean valid = true;
+
+        // This deviates from the normal style of using an 'if' statement
+        // because the super class method always returns true. Using an 'if'
+        // statement then causes problems with coverage because valid
+        // is never false.
+        ObjectCode objectCode = accountingLine.getObjectCode();
+
+        valid &= succeedsRule(RESTRICTED_OBJECT_SUB_TYPE_CODES,
+                              objectCode.getFinancialObjectSubTypeCode());
+        if (!valid) {
+            // add message
+            GlobalVariables.getErrorMap()
+                .put(PropertyConstants.FINANCIAL_OBJECT_CODE,
+                     KeyConstants.AuxiliaryVoucher
+                     .ERROR_DOCUMENT_AUXILIARY_VOUCHER_INVALID_OBJECT_SUB_TYPE_CODE,
+                     new String[] {objectCode.getFinancialObjectCode(), 
+                                   objectCode.getFinancialObjectSubTypeCode()});
+        }
+
+        return valid;
     }
 }

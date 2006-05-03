@@ -76,7 +76,9 @@ public class Proposal extends BusinessObjectBase {
 	 * Default constructor.
 	 */
 	public Proposal() {
-        proposalSubcontractor = new ArrayList();        
+        proposalSubcontractor = new ArrayList(); 
+        proposalOrganization = new ArrayList();
+        proposalProjectDirector = new ArrayList();
 
 	}
 

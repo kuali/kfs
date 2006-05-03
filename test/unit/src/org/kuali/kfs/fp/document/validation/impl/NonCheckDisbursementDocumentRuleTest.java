@@ -23,7 +23,6 @@
 package org.kuali.module.financial.rules;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import org.kuali.core.bo.AccountingLine;
@@ -32,11 +31,8 @@ import org.kuali.core.bo.TargetAccountingLine;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.rule.TransactionalDocumentRuleTestBase;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.financial.document.NonCheckDisbursementDocument;
 import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
-import org.kuali.test.KualiTestBaseWithFixtures;
 import org.kuali.test.parameters.AccountingLineParameter;
 import org.kuali.test.parameters.TransactionalDocumentParameter;
 

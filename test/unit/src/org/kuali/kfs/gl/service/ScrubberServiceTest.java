@@ -249,8 +249,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     }
 
-    // TODO Fix
-    public void FIXtestNoCostShareEncumbrancesForCostShareEncumbrances() throws Exception {
+    public void testNoCostShareEncumbrancesForCostShareEncumbrances() throws Exception {
 
         // Inputs.
         String[] stringInput = new String[] {
@@ -382,8 +381,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     }
 
-    // TODO Fix
-    public void FIXtestNoCostShareEncumbrancesForBudget() throws Exception {
+    public void testNoCostShareEncumbrancesForBudget() throws Exception {
 
         // Inputs.
         String[] stringInput = new String[] {
@@ -1268,8 +1266,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     }
 
-    // TODO Fix
-    public void FIXtestNoCostShareTransfersForCertainDocumentTypes() throws Exception {
+    public void testNoCostShareTransfersForCertainDocumentTypes() throws Exception {
 
         // Inputs.
         String[] stringInput = new String[] {
@@ -1366,8 +1363,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     }
 
-    // TODO FIX
-    public void FIXtestNoCostShareTransfersForBudgetTransactions() throws Exception {
+    public void testNoCostShareTransfersForBudgetTransactions() throws Exception {
 
         // Inputs.
         String[] stringInput = new String[] {
@@ -1585,8 +1581,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     }
 
-    // TODO FIX
-    public void FIXtestNoIndebtednessForBudgetTransactions() throws Exception {
+    public void testNoIndebtednessForBudgetTransactions() throws Exception {
 
         // Inputs.
         String[] stringInput = new String[] {
@@ -2037,8 +2032,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     }
 
-    // TODO Fix
-    public void FIXtestNoCapitalizationForCertainFiscalPeriods() throws Exception {
+    public void testNoCapitalizationForCertainFiscalPeriods() throws Exception {
 
         // Inputs.
         String[] stringInput = new String[] {
@@ -2131,8 +2125,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     }
 
-    // TODO FIX
-    public void FIXtestNoCapitalizationForBudgetTransaction() throws Exception {
+    public void testNoCapitalizationForBudgetTransaction() throws Exception {
 
         // Inputs.
         String[] stringInput = new String[] {
@@ -2159,8 +2152,8 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
         // ... and run the test.
         scrub(stringInput);
+        reportErrors();
         assertOriginEntries(4,(EntryHolder[]) expectedOutput.toArray(new EntryHolder[0]), dateTimeService.currentDate);
-
     }
 
     public void testOffsetGenerationAcrossMultipleFiscalPeriods() throws Exception {
@@ -2490,8 +2483,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     }
 
-    // TODO Fix
-    public void FIXtestClosedAccount() throws Exception {
+    public void testClosedAccount() throws Exception {
 
         // Inputs.
         String[] stringInput = new String[] {
@@ -3050,8 +3042,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
         assertOriginEntries(4,outputTransactions);
     }
 
-    // TODO Fix
-    public void FIXtestInvalidBalanceType() throws Exception {
+    public void testInvalidBalanceType() throws Exception {
 
         String[] inputTransactions = {
                 "2004BL1031420-----4110---XXEX07ID33EUINVALBALT00000NOV-05 IMU Business Office          2224           241.75D2005-11-30          ----------                                                                          ",

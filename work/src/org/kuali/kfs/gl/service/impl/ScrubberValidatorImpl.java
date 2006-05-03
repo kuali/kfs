@@ -85,6 +85,11 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
             errors.add(err);
         }
 
+        err = validateBalanceType(originEntry, scrubbedEntry);
+        if ( err != null ) {
+            errors.add(err);
+        }
+
         err = validateTransactionDate(originEntry, scrubbedEntry, universityRunDate);
         if ( err != null ) {
             errors.add(err);
@@ -146,11 +151,6 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         }
 
         err = validateFinancialSubObjectCode(originEntry, scrubbedEntry);
-        if ( err != null ) {
-            errors.add(err);
-        }
-
-        err = validateBalanceType(originEntry, scrubbedEntry);
         if ( err != null ) {
             errors.add(err);
         }
@@ -794,6 +794,11 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
 	public String validateEncumbranceUpdateCode(OriginEntry originEntry, OriginEntry workingEntry) {
         LOG.debug("validateEncumbranceUpdateCode() started");
 
+        if ( (originEntry.getBalanceType() == null) || (originEntry.getObjectType() == null) ) {
+            // We can't validate the encumbrance update code without these
+            return null;
+        }
+
         if ( originEntry.getBalanceType().isFinBalanceTypeEncumIndicator() && ! originEntry.getObjectType().isFundBalanceIndicator() ) {
             if ( Constants.ENCUMB_UPDT_DOCUMENT_CD.equals(originEntry.getTransactionEncumbranceUpdateCode()) || 
                     Constants.ENCUMB_UPDT_NO_ENCUMBRANCE_CD.equals(originEntry.getTransactionEncumbranceUpdateCode()) ||
@@ -817,6 +822,11 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         LOG.debug("validateTransactionAmount() started");
 
         KualiDecimal amount = originEntry.getTransactionLedgerEntryAmount();
+        if ( originEntry.getBalanceType() == null ) {
+            // We can't validate the amount without a balance type code
+            return null;
+        }
+
         if ( originEntry.getBalanceType().isFinancialOffsetGenerationIndicator() ) {
             if (amount.isPositive() || amount.isZero()) {
                 workingEntry.setTransactionLedgerEntryAmount(originEntry.getTransactionLedgerEntryAmount());
@@ -834,8 +844,8 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
                     originEntry.getTransactionDebitCreditCode() + ")";
             }
         } else {
-            if ( StringHelper.isEmpty(originEntry.getTransactionDebitCreditCode())) {
-                workingEntry.setTransactionDebitCreditCode(originEntry.getTransactionDebitCreditCode());
+            if ( (originEntry.getTransactionDebitCreditCode() == null) || (" ".equals(originEntry.getTransactionDebitCreditCode())) ) {
+                workingEntry.setTransactionDebitCreditCode(Constants.GL_BUDGET_CODE);
             } else {
                 return kualiConfigurationService.getPropertyString(KeyConstants.ERROR_DEBIT_CREDIT_INDICATOR_MUST_BE_SPACE) + " (" +
                     originEntry.getTransactionDebitCreditCode() + ")";

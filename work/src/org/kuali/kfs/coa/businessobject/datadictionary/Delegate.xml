@@ -5,7 +5,7 @@
 <dictionaryEntry>
 	<businessObject
 		businessObjectClass="org.kuali.module.chart.bo.Delegate">
-		<customAttributeEnabled>false</customAttributeEnabled>
+		<customAttributeEnabled>true</customAttributeEnabled>
 
 		<inquiry>
 			<title>Account Delegate Inquiry</title>

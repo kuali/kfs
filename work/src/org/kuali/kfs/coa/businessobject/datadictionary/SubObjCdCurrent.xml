@@ -11,7 +11,7 @@
 <dictionaryEntry>
 	<businessObject
 		businessObjectClass="org.kuali.module.chart.bo.SubObjCdCurrent">
-		<customAttributeEnabled>false</customAttributeEnabled>
+		<customAttributeEnabled>true</customAttributeEnabled>
 
 		<inquiry>
 			<title>Sub-Object Code Inquiry</title>

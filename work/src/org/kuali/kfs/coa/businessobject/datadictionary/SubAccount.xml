@@ -5,7 +5,7 @@
 <dictionaryEntry>
 	<businessObject
 		businessObjectClass="org.kuali.module.chart.bo.SubAccount">
-		<customAttributeEnabled>false</customAttributeEnabled>
+		<customAttributeEnabled>true</customAttributeEnabled>
 
 		<inquiry>
 			<title>Sub-Account Code Inquiry</title>

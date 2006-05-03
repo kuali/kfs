@@ -32,15 +32,12 @@
         <lockingKeys>
 			<field attributeName="chartOfAccountsCode" />
 			<field attributeName="accountNumber" />
-			<field attributeName="financialDocumentTypeCode" />
 			<field attributeName="accountDelegateSystemId" />
 		</lockingKeys>		
 
 		<defaultExistenceChecks>
 			<reference  attributeName="account" 
 						attributeToHighlightOnFail="accountNumber" />
-			<reference  attributeName="documentType" 
-						attributeToHighlightOnFail="financialDocumentTypeCode" />
 			<reference  attributeName="accountDelegate" 
 						attributeToHighlightOnFail="accountDelegateSystemId" />
 		</defaultExistenceChecks>						
@@ -50,7 +47,6 @@
                 <maintainableItems>
 					<maintainableField name="chartOfAccountsCode" required="true" />			
 					<maintainableField name="accountNumber" required="true" />
-					<maintainableField name="financialDocumentTypeCode" required="true" />			
 					<maintainableField name="accountDelegateSystemId" required="true" readOnly="true" />
 					<maintainableField name="accountDelegate.personUserIdentifier" required="true" />
 					<maintainableField name="accountDelegate.personName" required="false" readOnly="true" />

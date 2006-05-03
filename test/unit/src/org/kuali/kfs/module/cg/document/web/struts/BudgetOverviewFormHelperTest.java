@@ -60,19 +60,19 @@ public class BudgetOverviewFormHelperTest extends KualiTestBaseWithSpring {
         assertEquals("50000 + 50000 = 75000", budgetOverviewFormHelper.getTotalPersonnelAgencyRequest(), new KualiInteger(75000));
     }
 
-    public void testGetTotalPersonnelUniversityCostShareRequest() {
+    public void testGetTotalPersonnelInstitutionCostShare() {
         BudgetOverviewFormHelper budgetOverviewFormHelper = new BudgetOverviewFormHelper();
         
         budgetOverviewFormHelper.setPersonnelSalaryInstitutionCostShare(new KualiInteger(0));
         budgetOverviewFormHelper.setPersonnelFringeBenefitsInstitutionCostShare(new KualiInteger(0));
-        assertEquals("0 + 0 = 0", budgetOverviewFormHelper.getTotalPersonnelUniversityCostShareRequest(), new KualiInteger(0));
+        assertEquals("0 + 0 = 0", budgetOverviewFormHelper.getTotalPersonnelInstitutionCostShare(), new KualiInteger(0));
         
         budgetOverviewFormHelper.setPersonnelSalaryInstitutionCostShare(new KualiInteger(5));
         budgetOverviewFormHelper.setPersonnelFringeBenefitsInstitutionCostShare(new KualiInteger(-15));
-        assertEquals("5 - 15 = -10", budgetOverviewFormHelper.getTotalPersonnelUniversityCostShareRequest(), new KualiInteger(-10));
+        assertEquals("5 - 15 = -10", budgetOverviewFormHelper.getTotalPersonnelInstitutionCostShare(), new KualiInteger(-10));
         
         budgetOverviewFormHelper.setPersonnelSalaryInstitutionCostShare(new KualiInteger(50000));
         budgetOverviewFormHelper.setPersonnelFringeBenefitsInstitutionCostShare(new KualiInteger(25000));
-        assertEquals("50000 + 50000 = 75000", budgetOverviewFormHelper.getTotalPersonnelUniversityCostShareRequest(), new KualiInteger(75000));
+        assertEquals("50000 + 50000 = 75000", budgetOverviewFormHelper.getTotalPersonnelInstitutionCostShare(), new KualiInteger(75000));
     }
 }

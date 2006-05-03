@@ -138,6 +138,9 @@
         <property name="budgetTaskDao">
             <ref bean="budgetTaskDao" />
         </property>
+        <property name="budgetModularService">
+        	<ref bean="budgetModularService"/>
+        </property>
 	</bean>
     
 </beans>

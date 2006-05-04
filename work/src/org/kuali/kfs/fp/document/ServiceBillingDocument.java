@@ -23,10 +23,10 @@
 package org.kuali.module.financial.document;
 
 /**
- * This is the business object that represents the ServiceBillingDocument in Kuali.
- * See {@link org.kuali.module.financial.rules.ServiceBillingDocumentRule} for details on how it differs from
+ * This is the business object that represents the ServiceBillingDocument in Kuali. See
+ * {@link org.kuali.module.financial.rules.ServiceBillingDocumentRule} for details on how it differs from
  * {@link InternalBillingDocument}.
- *
+ * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class ServiceBillingDocument extends InternalBillingDocument {

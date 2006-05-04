@@ -439,22 +439,22 @@
   <field-descriptor name="objectId"                                    column="OBJ_ID"                         jdbc-type="VARCHAR"/>
   <field-descriptor name="versionNumber"                               column="VER_NBR"                        jdbc-type="BIGINT" locking="true"/>
   <field-descriptor name="agencyFringeBenefitTotalAmount"              column="AGNCY_FRNG_BENE_TOT_AMT"        jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
-  <field-descriptor name="agencyPercentEffortAmount"                   column="AGNCY_PCT_EFFRT_AMT"            jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbDecimalPercentageFieldConversion"/>
+  <field-descriptor name="agencyPercentEffortAmount"                   column="AGNCY_PCT_EFFRT_AMT"            jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiIntegerPercentageFieldConversion"/>
   <field-descriptor name="agencyRequestTotalAmount"                    column="AGNCY_RQST_TOT_AMT"             jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
   <field-descriptor name="personWeeksAmount"                           column="PRSN_WKS_AMT"                   jdbc-type="INTEGER"/>
   <field-descriptor name="personWeeksJustificationText"                column="PRSN_WKS_JSTF_TXT"              jdbc-type="VARCHAR"/>
   <field-descriptor name="universityCostShareFringeBenefitTotalAmount" column="UNIV_CST_SHR_FRNG_BENE_TOT_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
-  <field-descriptor name="universityCostSharePercentEffortAmount"      column="UNIV_CST_SHR_PCT_EFFRT_AMT"     jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbDecimalPercentageFieldConversion"/>
+  <field-descriptor name="universityCostSharePercentEffortAmount"      column="UNIV_CST_SHR_PCT_EFFRT_AMT"     jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiIntegerPercentageFieldConversion"/>
   <field-descriptor name="universityCostShareRequestTotalAmount"       column="UNIV_CST_SHR_RQST_TOT_AMT"      jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
   <field-descriptor name="userAgencyHours"                             column="USR_AGNCY_HRS"                  jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
   <field-descriptor name="userHourlyRate"                              column="USR_HRLY_RT"                    jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
   <field-descriptor name="userUniversityHours"                         column="USR_UNIV_HRS"                   jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
   <field-descriptor name="userBudgetPeriodSalaryAmount"                column="USR_BDGT_PRD_SLRY_AMT"          jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
-  <field-descriptor name="agencyFullTimeEquivalentPercent"             column="AGNCY_FTE_PCT"                  jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbDecimalPercentageFieldConversion" />
+  <field-descriptor name="agencyFullTimeEquivalentPercent"             column="AGNCY_FTE_PCT"                  jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiIntegerPercentageFieldConversion" />
   <field-descriptor name="agencyHealthInsuranceAmount"                 column="AGNCY_HLTH_INS_AMT"             jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
   <field-descriptor name="agencyRequestedFeesAmount"                   column="AGNCY_RQST_FEE_AMT"             jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
   <field-descriptor name="agencySalaryAmount"                          column="AGNCY_SLRY_AMT"                 jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
-  <field-descriptor name="universityFullTimeEquivalentPercent"         column="UNIV_FTE_PCT"                   jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbDecimalPercentageFieldConversion" />
+  <field-descriptor name="universityFullTimeEquivalentPercent"         column="UNIV_FTE_PCT"                   jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiIntegerPercentageFieldConversion" />
   <field-descriptor name="universityHealthInsuranceAmount"             column="UNIV_HLTH_INS_AMT"              jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
   <field-descriptor name="universityRequestedFeesAmount"               column="UNIV_RQST_FEE_AMT"              jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
   <field-descriptor name="universitySalaryAmount"                      column="UNIV_SLRY_AMT"                  jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>

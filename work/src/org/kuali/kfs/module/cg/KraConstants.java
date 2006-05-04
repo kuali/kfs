@@ -25,7 +25,7 @@ package org.kuali.module.kra;
 import java.util.Calendar;
 
 import org.kuali.core.JstlConstants;
-import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.KualiInteger;
 
 public class KraConstants extends JstlConstants {
     private static final long serialVersionUID = 5725060921632498564L;
@@ -40,5 +40,5 @@ public class KraConstants extends JstlConstants {
     public static final Integer TASK_SUMMATION = new Integer(0);   // budgetDetailSelection.tag defines 0 as a task summation
     public static final Integer PERIOD_SUMMATION = new Integer(0); // budgetDetailSelection.tag defines 0 as a period summation
     
-    public static final KualiDecimal PERSONNEL_AGGREGATION_MAX_PERCENTAGE = new KualiDecimal(100);
+    public static final KualiInteger PERSONNEL_AGGREGATION_MAX_PERCENTAGE = new KualiInteger(100);
 }

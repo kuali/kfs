@@ -64,6 +64,8 @@ public class BalanceServiceImpl implements BalanceService {
         return Arrays.asList(s);
     }
 
+    
+    
     /**
      * 
      * This method...
@@ -86,6 +88,14 @@ public class BalanceServiceImpl implements BalanceService {
      * @param account
      * @return
      */
+
+    /* (non-Javadoc)
+     * @see org.kuali.module.gl.service.BalanceService#findBalancesForFiscalYear(java.lang.Integer)
+     */
+    public Iterator findBalancesForFiscalYear(Integer fiscalYear) {
+
+        return balanceDao.findBalancesForFiscalYear(fiscalYear);
+    }
 
     /**
      * @see org.kuali.module.gl.service.BalanceService#hasAssetLiabilityFundBalanceBalances(org.kuali.module.chart.bo.Account)

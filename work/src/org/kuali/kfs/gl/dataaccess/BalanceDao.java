@@ -102,4 +102,10 @@ public interface BalanceDao {
      * @param year
      */
     public void purgeYearByChart(String chart,int year);
+    
+    /**
+     * @param year
+     * @return an iterator over all balances for a given fiscal year
+     */
+    public Iterator findBalancesForFiscalYear(Integer year);
 }

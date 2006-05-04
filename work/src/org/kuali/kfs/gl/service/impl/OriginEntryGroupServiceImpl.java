@@ -34,10 +34,10 @@ import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.bo.OriginEntrySource;
 import org.kuali.module.gl.dao.OriginEntryGroupDao;
 import org.kuali.module.gl.service.OriginEntryGroupService;
+
 /**
- * @author Laran Evans <lc278@cs.cornell.edu>
- * @version $Id: OriginEntryGroupServiceImpl.java,v 1.13 2006-05-02 02:29:32 schoo Exp $
- * 
+ * @author Laran Evans <lc278@cornell.edu>
+ * @version $Id: OriginEntryGroupServiceImpl.java,v 1.14 2006-05-04 16:08:59 larevans Exp $
  */
 public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
 	private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger
@@ -123,17 +123,27 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
 
 	/**
 	 * An alias for OriginEntryGroupDao.getScrubberGroups().
+     * @param scrubDate
 	 */
 	public Collection getGroupsToScrub(Date scrubDate) {
 		LOG.debug("getGroupsToScrub() started");
 		return originEntryGroupDao.getScrubberGroups(scrubDate);
 	}
+    
+	/* (non-Javadoc)
+     * @see org.kuali.module.gl.service.OriginEntryGroupService#getMatchingGroups(java.util.Map)
+     */
+    public Collection getMatchingGroups(Map criteria) {
+        return originEntryGroupDao.getMatchingGroups(criteria);
+    }
 
-	/**
+    /**
 	 * Persist an OriginEntryGroup to the database.
+     * @param originEntryGroup
 	 */
-	public void save(OriginEntryGroup group) {
+	public void save(OriginEntryGroup originEntryGroup) {
 		LOG.debug("save() started");
-		originEntryGroupDao.save(group);
+		originEntryGroupDao.save(originEntryGroup);
 	}
+    
 }

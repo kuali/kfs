@@ -677,9 +677,15 @@
 	<field-descriptor name="creditCardDepositDate" column="FDOC_CCRD_DPST_DT" jdbc-type="DATE"/>
 	<field-descriptor name="creditCardDepositReferenceNumber" column="FDOC_CCRD_DREF_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="creditCardAdvanceDepositAmount" column="FDOC_CCRD_DPST_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+
 	<reference-descriptor name="financialDocumentCreditCardType" class-ref="org.kuali.module.financial.bo.CreditCardType" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="financialDocumentCreditCardTypeCode" />
 	</reference-descriptor>
+
+	<reference-descriptor name="financialDocumentCreditCardVendor" class-ref="org.kuali.module.financial.bo.CreditCardVendor" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="financialDocumentCreditCardVendorNumber" />
+	</reference-descriptor>
+
 </class-descriptor>
 
 <!--  ADVANCED DEPOSIT DOCUMENT MAPPINGS -->

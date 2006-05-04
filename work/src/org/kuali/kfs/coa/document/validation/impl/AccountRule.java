@@ -87,7 +87,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         // When this happens, just remove these calls to the setters with 
         // SpringServiceLocator, and configure the bean defs for spring.
         this.setGeneralLedgerPendingEntryService(SpringServiceLocator.getGeneralLedgerPendingEntryService());
-        this.setBalanceService(SpringServiceLocator.getGeneralLedgerBalanceService());
+        this.setBalanceService(SpringServiceLocator.getBalanceService());
     }
     
     /**

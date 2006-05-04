@@ -22,40 +22,51 @@
  */
 package org.kuali.module.gl.batch;
 
+import java.sql.Date;
+
 import org.kuali.core.batch.Step;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.gl.service.YearEndService;
 
-public class EncumbranceForwardStep implements Step {
-    
+/**
+ * @author Laran Evans <lc278@cornell.edu>
+ * @version $Id$
+ */
+public class BalanceForwardStep implements Step {
+
     private DateTimeService dateTimeService;
     private YearEndService yearEndService;
-
-    public EncumbranceForwardStep() {
+    
+    public BalanceForwardStep() {
         super();
+        // TODO Auto-generated constructor stub
     }
 
     /* (non-Javadoc)
      * @see org.kuali.core.batch.Step#getName()
      */
     public String getName() {
-        return "General Ledger Encumbrance Forward Step";
+        return "General Ledger Balance Forward Step";
     }
-
+    
     /* (non-Javadoc)
      * @see org.kuali.core.batch.Step#performStep()
      */
     public boolean performStep() {
 
         Integer closingFiscalYear = dateTimeService.getCurrentFiscalYear();
+        
+        boolean selectActiveFlag = true;
+        boolean selectGeneralFlag = true;
+        Date transactionDate = null;
+        
         // FIXME FIXME FIXME Hack alert!
         yearEndService = SpringServiceLocator.getGeneralLedgerYearEndService();
         yearEndService.setDateTimeService(dateTimeService);
         // FIXME FIXME FIXME End hack alert.
-        yearEndService.forwardEncumbrancesForFiscalYear(closingFiscalYear);
+        yearEndService.forwardBalancesForFiscalYear(closingFiscalYear, selectActiveFlag, selectGeneralFlag, transactionDate);
         return true;
-        
     }
 
     /**
@@ -64,8 +75,12 @@ public class EncumbranceForwardStep implements Step {
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
     }
-    
+
+    /**
+     * @param yearEndService The yearEndService to set.
+     */
     public void setYearEndService(YearEndService yearEndService) {
         this.yearEndService = yearEndService;
     }
+    
 }

@@ -36,71 +36,70 @@ import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 /**
  * @author Laran Evans <lc278@cornell.edu>
- * @version $Id: OriginEntryGroupDaoOjb.java,v 1.6 2006-04-24 20:48:29 larevans Exp $
- * 
+ * @version $Id: OriginEntryGroupDaoOjb.java,v 1.7 2006-05-04 16:08:59 larevans Exp $
  */
 
 public class OriginEntryGroupDaoOjb extends PersistenceBrokerDaoSupport implements OriginEntryGroupDao {
-	private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OriginEntryGroupDaoOjb.class);
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OriginEntryGroupDaoOjb.class);
 
-	public OriginEntryGroupDaoOjb() {
-		super();
-	}
+    public OriginEntryGroupDaoOjb() {
+        super();
+    }
 
-	/**
-	 * 
-	 */
-	public Collection getMatchingGroups(Map searchCriteria) {
-	    LOG.debug("getPendingEntries() started");
-	    
-	    Criteria criteria = new Criteria();
-	    for(Iterator iterator = searchCriteria.keySet().iterator(); iterator.hasNext();) {
-	    	String key = iterator.next().toString();
-		    criteria.addEqualTo(key, searchCriteria.get(key));
-	    }
+    /**
+     * 
+     */
+    public Collection getMatchingGroups(Map searchCriteria) {
+        LOG.debug("getPendingEntries() started");
 
-	    QueryByCriteria qbc = QueryFactory.newQuery(OriginEntryGroup.class, criteria);
-	    return getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
-	}
+        Criteria criteria = new Criteria();
+        for (Iterator iterator = searchCriteria.keySet().iterator(); iterator.hasNext();) {
+            String key = iterator.next().toString();
+            criteria.addEqualTo(key, searchCriteria.get(key));
+        }
 
-	  /**
-	   * 
-	   */
-	  public Collection getPosterGroups(String groupSourceCode) {
-	    LOG.debug("getPosterGroups() started");
+        QueryByCriteria qbc = QueryFactory.newQuery(OriginEntryGroup.class, criteria);
+        return getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
+    }
 
-	    Criteria criteria = new Criteria();
-	    criteria.addEqualTo("sourceCode",groupSourceCode);
-	    criteria.addEqualTo("process",Boolean.TRUE);
-	    criteria.addEqualTo("valid",Boolean.TRUE);
+    /**
+     * 
+     */
+    public Collection getPosterGroups(String groupSourceCode) {
+        LOG.debug("getPosterGroups() started");
 
-	    QueryByCriteria qbc = QueryFactory.newQuery(OriginEntryGroup.class,criteria);
-	    return getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
-	  }
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo("sourceCode", groupSourceCode);
+        criteria.addEqualTo("process", Boolean.TRUE);
+        criteria.addEqualTo("valid", Boolean.TRUE);
 
-	  /**
-	   * 
-	   */
-	  public Collection getScrubberGroups(Date groupDate) {
-	    LOG.debug("getScrubberGroups() started");
+        QueryByCriteria qbc = QueryFactory.newQuery(OriginEntryGroup.class, criteria);
+        return getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
+    }
 
-	    Criteria criteria = new Criteria();
-	    criteria.addLessOrEqualThan("date",groupDate);
-	    criteria.addEqualTo("scrub",Boolean.TRUE);
-	    criteria.addEqualTo("process",Boolean.TRUE);
-	    criteria.addEqualTo("valid",Boolean.TRUE);
+    /**
+     * 
+     */
+    public Collection getScrubberGroups(Date groupDate) {
+        LOG.debug("getScrubberGroups() started");
 
-	    QueryByCriteria qbc = QueryFactory.newQuery(OriginEntryGroup.class,criteria);
-	    return getPersistenceBrokerTemplate().getCollectionByQuery(qbc);    
-	  }
+        Criteria criteria = new Criteria();
+        criteria.addLessOrEqualThan("date", groupDate);
+        criteria.addEqualTo("scrub", Boolean.TRUE);
+        criteria.addEqualTo("process", Boolean.TRUE);
+        criteria.addEqualTo("valid", Boolean.TRUE);
 
-	  /**
-	   * 
-	   */
-	  public void save(OriginEntryGroup group) {
-	    LOG.debug("save() started");
+        QueryByCriteria qbc = QueryFactory.newQuery(OriginEntryGroup.class, criteria);
+        return getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
+    }
 
-	    getPersistenceBrokerTemplate().store(group);
-	  }
+    /**
+     * 
+     */
+    public void save(OriginEntryGroup group) {
+        LOG.debug("save() started");
+
+        getPersistenceBrokerTemplate().store(group);
+    }
 
 }

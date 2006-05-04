@@ -22,18 +22,20 @@
  */
 package org.kuali.module.gl.service;
 
-import java.util.Collection;
 import java.sql.Date;
+import java.util.Collection;
+import java.util.Map;
 
 import org.kuali.module.gl.bo.OriginEntryGroup;
 
 /**
  * @author Laran Evans <lc278@cornell.edu>
- * @version $Id: OriginEntryGroupService.java,v 1.5 2006-04-24 20:48:28 larevans Exp $
+ * @version $Id: OriginEntryGroupService.java,v 1.6 2006-05-04 16:08:59 larevans Exp $
  */
 
 public interface OriginEntryGroupService {
 	public OriginEntryGroup getOriginEntryGroup(String groupId);
+    public Collection getMatchingGroups(Map criteria);
 	public Collection getOriginEntryGroupsPendingProcessing();
 	public Collection getGroupsToPost();
 	public Collection getIcrGroupsToPost();

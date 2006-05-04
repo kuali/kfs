@@ -28,6 +28,10 @@ import java.util.Map;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.gl.bo.Balance;
 
+/**
+ * @author Laran evans <lc278@cornell.edu>
+ * @version $Id: BalanceService.java,v 1.8 2006-05-04 16:08:59 larevans Exp $
+ */
 
 public interface BalanceService {
     
@@ -42,6 +46,13 @@ public interface BalanceService {
     public boolean beginningBalanceLoaded(Account account);
 
     public boolean hasAssetLiabilityOrFundBalance(Account account);
+    
+    /**
+     * 
+     * @param fiscalYear
+     * @return an Iterator over all balances for a given year
+     */
+    public Iterator findBalancesForFiscalYear(Integer fiscalYear);
     
     /**
      * This method finds the summary records of balance entries according to input fields an values

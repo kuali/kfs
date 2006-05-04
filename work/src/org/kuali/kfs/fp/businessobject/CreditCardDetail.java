@@ -49,7 +49,8 @@ public class CreditCardDetail extends BusinessObjectBase {
 	private String creditCardDepositReferenceNumber;
 	private KualiDecimal creditCardAdvanceDepositAmount;
 
-    private CreditCardType financialDocumentCreditCardType;    
+    private CreditCardType financialDocumentCreditCardType;
+    private CreditCardVendor financialDocumentCreditCardVendor;
     
 	/**
 	 * Default constructor.
@@ -261,6 +262,20 @@ public class CreditCardDetail extends BusinessObjectBase {
      */
     public void setFinancialDocumentCreditCardType(CreditCardType financialDocumentCreditCardType) {
         this.financialDocumentCreditCardType = financialDocumentCreditCardType;
+    }
+    
+    /**
+     * @return Returns the financialDocumentCreditCardVendor.
+     */
+    public CreditCardVendor getFinancialDocumentCreditCardVendor() {
+        return financialDocumentCreditCardVendor;
+    }
+
+    /**
+     * @param financialDocumentCreditCardVendor The financialDocumentCreditCardVendor to set.
+     */
+    public void setFinancialDocumentCreditCardVendor(CreditCardVendor financialDocumentCreditCardVendor) {
+        this.financialDocumentCreditCardVendor = financialDocumentCreditCardVendor;
     }
 
     /**

@@ -1,5 +1,23 @@
 /*
- * Created on Oct 14, 2005
+ * Copyright (c) 2004, 2005 The National Association of College and University Business Officers,
+ * Cornell University, Trustees of Indiana University, Michigan State University Board of Trustees,
+ * Trustees of San Joaquin Delta College, University of Hawai'i, The Arizona Board of Regents on
+ * behalf of the University of Arizona, and the r*smart group.
+ * 
+ * Licensed under the Educational Community License Version 1.0 (the "License"); By obtaining,
+ * using and/or copying this Original Work, you agree that you have read, understand, and will
+ * comply with the terms and conditions of the Educational Community License.
+ * 
+ * You may obtain a copy of the License at:
+ * 
+ * http://kualiproject.org/license.html
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
+ * BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE
+ * AND NONINFRINGEMENT.
+ * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES
+ * OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
 package org.kuali.module.gl.dao.ojb;
@@ -26,13 +44,72 @@ import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 /**
  * @author jsissom
- *  
+ * @author Laran Evans <lc278@cornell.edu>
+ * @version $Id: BalanceDaoOjb.java,v 1.27 2006-05-04 16:08:59 larevans Exp $
  */
 public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements BalanceDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BalanceDaoOjb.class);
 
     public BalanceDaoOjb() {
         super();
+    }
+    
+    /* (non-Javadoc)
+     * @see org.kuali.module.gl.dao.BalanceDao#findBalancesForFiscalYear(java.lang.Integer)
+     */
+    public Iterator findBalancesForFiscalYear(Integer year) {
+        
+        // from gleacbfb (balance forward) cobol program
+        
+//        744  002750        DECLARE GLBL_CURSOR CURSOR FOR
+//        745  002760          SELECT UNIV_FISCAL_YR,
+//        746  002770                 FIN_COA_CD,
+//        747  002780                 ACCOUNT_NBR,
+//        748  002790                 SUB_ACCT_NBR,
+//        749  002800                 FIN_OBJECT_CD,
+//        750  002810                 FIN_SUB_OBJ_CD,
+//        751  002820                 FIN_BALANCE_TYP_CD,
+//        752  002830                 FIN_OBJ_TYP_CD,
+//        753  002840                 ACLN_ANNL_BAL_AMT,
+//        754  002850                 FIN_BEG_BAL_LN_AMT,
+//        755  002860                 CONTR_GR_BB_AC_AMT,
+//        756  002870                 MO1_ACCT_LN_AMT,
+//        757  002880                 MO2_ACCT_LN_AMT,
+//        758  002890                 MO3_ACCT_LN_AMT,
+//        759  002900                 MO4_ACCT_LN_AMT,
+//        760  002910                 MO5_ACCT_LN_AMT,
+//        761  002920                 MO6_ACCT_LN_AMT,
+//        762  002930                 MO7_ACCT_LN_AMT,
+//        763  002940                 MO8_ACCT_LN_AMT,
+//        764  002950                 MO9_ACCT_LN_AMT,
+//        765  002960                 MO10_ACCT_LN_AMT,
+//        766  002970                 MO11_ACCT_LN_AMT,
+//        767  002980                 MO12_ACCT_LN_AMT,
+//        768  002990                 MO13_ACCT_LN_AMT
+//        769  003000           FROM  GL_BALANCE_T
+//        770  003010           WHERE UNIV_FISCAL_YR = RTRIM(:GLGLBL-UNIV-FISCAL-YR)
+//        771  003020           ORDER BY FIN_COA_CD,
+//        772  003030                    ACCOUNT_NBR,
+//        773  003040                    SUB_ACCT_NBR,
+//        774  003050                    FIN_OBJECT_CD,
+//        775  003060                    FIN_SUB_OBJ_CD,
+//        776  003070                    FIN_BALANCE_TYP_CD,
+//        777  003080                    FIN_OBJ_TYP_CD
+//        778  003090           END-EXEC.        
+        
+        Criteria c = new Criteria();
+        c.addEqualTo("fiscalYear", year);
+        
+        QueryByCriteria query = QueryFactory.newQuery(Balance.class, c);
+        query.addOrderByAscending("chartOfAccountsCode");
+        query.addOrderByAscending("accountNumber");
+        query.addOrderByAscending("subAccountNumber");
+        query.addOrderByAscending("objectCode");
+        query.addOrderByAscending("subObjectCode");
+        query.addOrderByAscending("balanceTypeCode");
+        query.addOrderByAscending("objectTypeCode");
+        
+        return getPersistenceBrokerTemplate().getIteratorByQuery(query);
     }
 
     /*

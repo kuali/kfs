@@ -22,17 +22,11 @@
  */
 package org.kuali.module.financial.rules;
 
-import java.util.Collection;
-import java.util.HashMap;
-
-import org.kuali.KeyConstants;
 import org.kuali.PropertyConstants;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.CreditCardDetail;
-import org.kuali.module.financial.bo.CreditCardType;
-import org.kuali.module.financial.bo.CreditCardVendor;
 
 /**
  * Common Advance Deposit Document rule utilities.
@@ -54,33 +48,35 @@ public class CreditCardReceiptDocumentRuleUtil {
         
         // call the DD validation which checks basic data integrity
         SpringServiceLocator.getDictionaryValidationService().validateBusinessObject(creditCardReceipt);
+        SpringServiceLocator.getDictionaryValidationService().validateReferenceExists(creditCardReceipt, PropertyConstants.CREDIT_CARD_TYPE);
+        SpringServiceLocator.getDictionaryValidationService().validateReferenceExists(creditCardReceipt, PropertyConstants.CREDIT_CARD_VENDOR);
         
         // check to see if new errors were added or not
         boolean isValid = (errorMap.getErrorCount() == originalErrorCount);
-        if(isValid) {
-            // validate credit card type existence
-            HashMap criteria = new HashMap();
-            criteria.put(PropertyConstants.FINANCIAL_DOCUMENT_CREDIT_CARD_TYPE_CODE, creditCardReceipt.getFinancialDocumentCreditCardTypeCode());
-            Collection c = SpringServiceLocator.getBusinessObjectService().findMatching(CreditCardType.class, criteria);
-            if(c == null || c.isEmpty()) {
-                String label = SpringServiceLocator.getDataDictionaryService().getAttributeLabel(CreditCardDetail.class, PropertyConstants.FINANCIAL_DOCUMENT_CREDIT_CARD_TYPE_CODE);
-                errorMap.put(PropertyConstants.FINANCIAL_DOCUMENT_CREDIT_CARD_TYPE_CODE, KeyConstants.ERROR_EXISTENCE, label);
-                isValid = false;
-            }
-            
-            // validate credit card vendor number existence
-            // clear out old values
-            criteria.clear();
-            c.clear();
-            criteria.put(PropertyConstants.FINANCIAL_DOCUMENT_CREDIT_CARD_VENDOR_NUMBER, creditCardReceipt.getFinancialDocumentCreditCardVendorNumber());
-            c = SpringServiceLocator.getBusinessObjectService().findMatching(CreditCardVendor.class, criteria);
-            if(c == null || c.isEmpty()) {
-                String label = SpringServiceLocator.getDataDictionaryService().getAttributeLabel(CreditCardDetail.class, PropertyConstants.FINANCIAL_DOCUMENT_CREDIT_CARD_VENDOR_NUMBER);
-                errorMap.put(PropertyConstants.FINANCIAL_DOCUMENT_CREDIT_CARD_VENDOR_NUMBER, KeyConstants.ERROR_EXISTENCE, label);
-                isValid = false;
-            }   
-            
-        }
+//        if(isValid) {
+//            // validate credit card type existence
+//            HashMap criteria = new HashMap();
+//            criteria.put(PropertyConstants.FINANCIAL_DOCUMENT_CREDIT_CARD_TYPE_CODE, creditCardReceipt.getFinancialDocumentCreditCardTypeCode());
+//            Collection c = SpringServiceLocator.getBusinessObjectService().findMatching(CreditCardType.class, criteria);
+//            if(c == null || c.isEmpty()) {
+//                String label = SpringServiceLocator.getDataDictionaryService().getAttributeLabel(CreditCardDetail.class, PropertyConstants.FINANCIAL_DOCUMENT_CREDIT_CARD_TYPE_CODE);
+//                errorMap.put(PropertyConstants.FINANCIAL_DOCUMENT_CREDIT_CARD_TYPE_CODE, KeyConstants.ERROR_EXISTENCE, label);
+//                isValid = false;
+//            }
+//            
+//            // validate credit card vendor number existence
+//            // clear out old values
+//            criteria.clear();
+//            c.clear();
+//            criteria.put(PropertyConstants.FINANCIAL_DOCUMENT_CREDIT_CARD_VENDOR_NUMBER, creditCardReceipt.getFinancialDocumentCreditCardVendorNumber());
+//            c = SpringServiceLocator.getBusinessObjectService().findMatching(CreditCardVendor.class, criteria);
+//            if(c == null || c.isEmpty()) {
+//                String label = SpringServiceLocator.getDataDictionaryService().getAttributeLabel(CreditCardDetail.class, PropertyConstants.FINANCIAL_DOCUMENT_CREDIT_CARD_VENDOR_NUMBER);
+//                errorMap.put(PropertyConstants.FINANCIAL_DOCUMENT_CREDIT_CARD_VENDOR_NUMBER, KeyConstants.ERROR_EXISTENCE, label);
+//                isValid = false;
+//            }   
+//            
+//        }
         return isValid;
     }
 }

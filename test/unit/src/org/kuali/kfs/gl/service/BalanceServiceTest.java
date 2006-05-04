@@ -60,7 +60,7 @@ public class BalanceServiceTest extends KualiTestBaseWithSpring {
     protected void setUp() throws Exception {
         super.setUp();
         unitTestSqlDao = (UnitTestSqlDao)SpringServiceLocator.getBeanFactory().getBean("glUnitTestSqlDao");
-        balanceService=SpringServiceLocator.getGeneralLedgerBalanceService();
+        balanceService=SpringServiceLocator.getBalanceService();
         Integer fiscalYear=SpringServiceLocator.getDateTimeService().getCurrentFiscalYear();
 
         if (runOnce) {

@@ -28,28 +28,50 @@ package org.kuali.module.cg.bo;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
-import org.kuali.module.chart.bo.Org;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class ProposalOrganization extends BusinessObjectBase {
+public class AwardAccount extends BusinessObjectBase {
 
-	private String chartOfAccountsCode;
-	private String organizationCode;
 	private Long proposalNumber;
-    private boolean proposalPrimaryOrganizationIndicator;
+	private String chartOfAccountsCode;
+	private String accountNumber;
+	private String personUniversalIdentifier;
 
-    private Org organization;
+    private Account account;
 	private Chart chartOfAccounts;
+	private ContractsAndGrantsProjectDirectorView personUniversal;
 
 	/**
 	 * Default constructor.
 	 */
-	public ProposalOrganization() {
+	public AwardAccount() {
 
 	}
+
+	/**
+	 * Gets the proposalNumber attribute.
+	 * 
+	 * @return - Returns the proposalNumber
+	 * 
+	 */
+	public Long getProposalNumber() { 
+		return proposalNumber;
+	}
+
+	/**
+	 * Sets the proposalNumber attribute.
+	 * 
+	 * @param - proposalNumber The proposalNumber to set.
+	 * 
+	 */
+	public void setProposalNumber(Long proposalNumber) {
+		this.proposalNumber = proposalNumber;
+	}
+
 
 	/**
 	 * Gets the chartOfAccountsCode attribute.
@@ -73,78 +95,65 @@ public class ProposalOrganization extends BusinessObjectBase {
 
 
 	/**
-	 * Gets the organizationCode attribute.
+	 * Gets the accountNumber attribute.
 	 * 
-	 * @return - Returns the organizationCode
+	 * @return - Returns the accountNumber
 	 * 
 	 */
-	public String getOrganizationCode() { 
-		return organizationCode;
+	public String getAccountNumber() { 
+		return accountNumber;
 	}
 
 	/**
-	 * Sets the organizationCode attribute.
+	 * Sets the accountNumber attribute.
 	 * 
-	 * @param - organizationCode The organizationCode to set.
+	 * @param - accountNumber The accountNumber to set.
 	 * 
 	 */
-	public void setOrganizationCode(String organizationCode) {
-		this.organizationCode = organizationCode;
+	public void setAccountNumber(String accountNumber) {
+		this.accountNumber = accountNumber;
 	}
 
 
 	/**
-	 * Gets the proposalNumber attribute.
+	 * Gets the personUniversalIdentifier attribute.
 	 * 
-	 * @return - Returns the proposalNumber
+	 * @return - Returns the personUniversalIdentifier
 	 * 
 	 */
-	public Long getProposalNumber() { 
-		return proposalNumber;
+	public String getPersonUniversalIdentifier() { 
+		return personUniversalIdentifier;
 	}
 
 	/**
-	 * Sets the proposalNumber attribute.
+	 * Sets the personUniversalIdentifier attribute.
 	 * 
-	 * @param - proposalNumber The proposalNumber to set.
+	 * @param - personUniversalIdentifier The personUniversalIdentifier to set.
 	 * 
 	 */
-	public void setProposalNumber(Long proposalNumber) {
-		this.proposalNumber = proposalNumber;
+	public void setPersonUniversalIdentifier(String personUniversalIdentifier) {
+		this.personUniversalIdentifier = personUniversalIdentifier;
 	}
 
-    /**
-     * @return Returns the proposalPrimaryOrganizationIndicator.
-     */
-    public boolean isProposalPrimaryOrganizationIndicator() {
-        return proposalPrimaryOrganizationIndicator;
-    }
 
-    /**
-     * @param proposalPrimaryOrganizationIndicator The proposalPrimaryOrganizationIndicator to set.
-     */
-    public void setProposalPrimaryOrganizationIndicator(boolean proposalPrimaryOrganizationIndicator) {
-        this.proposalPrimaryOrganizationIndicator = proposalPrimaryOrganizationIndicator;
-    }    
-    
-    /**
-	 * Gets the organization attribute.
+	/**
+	 * Gets the account attribute.
 	 * 
-	 * @return - Returns the organization
+	 * @return - Returns the account
 	 * 
 	 */
-	public Org getOrganization() { 
-		return organization;
+	public Account getAccount() { 
+		return account;
 	}
 
 	/**
-	 * Sets the organization attribute.
+	 * Sets the account attribute.
 	 * 
-	 * @param - organization The organization to set.
+	 * @param - account The account to set.
 	 * @deprecated
 	 */
-	public void setOrganization(Org organization) {
-		this.organization = organization;
+	public void setAccount(Account account) {
+		this.account = account;
 	}
 
 	/**
@@ -168,16 +177,25 @@ public class ProposalOrganization extends BusinessObjectBase {
 	}
 
 	/**
+	 * Gets the personUniversal attribute.
+	 * 
+	 * @return - Returns the personUniversal
+	 * 
+	 */
+	public ContractsAndGrantsProjectDirectorView getPersonUniversal() { 
+		return personUniversal;
+	}
+
+	/**
 	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    
-        m.put("chartOfAccountsCode", this.chartOfAccountsCode);
-        m.put("organizationCode", this.organizationCode);
         if (this.proposalNumber != null) {
             m.put("proposalNumber", this.proposalNumber.toString());
         }
+        m.put("chartOfAccountsCode", this.chartOfAccountsCode);
+        m.put("accountNumber", this.accountNumber);
 	    return m;
     }
-
 }

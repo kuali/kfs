@@ -49,7 +49,7 @@ public class Proposal extends BusinessObjectBase {
 	private Timestamp proposalDueDate;
 	private KualiDecimal proposalTotalProjectAmount;
 	private Timestamp proposalSubmissionDate;
-	private String proposalFederalPassThroughIndicator;
+	private boolean proposalFederalPassThroughIndicator;
 	private String oldProposalNumber;
 	private String grantNumber;
 	private Timestamp proposalClosingDate;
@@ -64,6 +64,7 @@ public class Proposal extends BusinessObjectBase {
     private List proposalSubcontractor;
     private List proposalOrganization;
     private List proposalProjectDirector;
+    private List proposalDiary;
     
     private ResearchType researchType;
 	private ProposalAwardType proposalAwardType;
@@ -79,7 +80,7 @@ public class Proposal extends BusinessObjectBase {
         proposalSubcontractor = new ArrayList(); 
         proposalOrganization = new ArrayList();
         proposalProjectDirector = new ArrayList();
-
+        proposalDiary = new ArrayList();
 	}
 
 	/**
@@ -319,7 +320,7 @@ public class Proposal extends BusinessObjectBase {
 	 * @return - Returns the proposalFederalPassThroughIndicator
 	 * 
 	 */
-	public String getProposalFederalPassThroughIndicator() { 
+	public boolean getProposalFederalPassThroughIndicator() { 
 		return proposalFederalPassThroughIndicator;
 	}
 
@@ -329,7 +330,7 @@ public class Proposal extends BusinessObjectBase {
 	 * @param - proposalFederalPassThroughIndicator The proposalFederalPassThroughIndicator to set.
 	 * 
 	 */
-	public void setProposalFederalPassThroughIndicator(String proposalFederalPassThroughIndicator) {
+	public void setProposalFederalPassThroughIndicator(boolean proposalFederalPassThroughIndicator) {
 		this.proposalFederalPassThroughIndicator = proposalFederalPassThroughIndicator;
 	}
 
@@ -732,7 +733,21 @@ public class Proposal extends BusinessObjectBase {
     public void setProposalProjectDirector(List proposalProjectDirector) {
         this.proposalProjectDirector = proposalProjectDirector;
     }
-    
+
+    /**
+     * @return Returns the proposalDiary.
+     */
+    public List getProposalDiary() {
+        return proposalDiary;
+    }
+
+    /**
+     * @param proposalDiary The proposalDiary to set.
+     */
+    public void setProposalDiary(List proposalDiary) {
+        this.proposalDiary = proposalDiary;
+    }
+   
 	/**
 	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
 	 */

@@ -34,20 +34,20 @@ import org.kuali.module.chart.bo.Org;
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class ProposalOrganization extends BusinessObjectBase {
+public class AwardOrganization extends BusinessObjectBase {
 
 	private String chartOfAccountsCode;
 	private String organizationCode;
 	private Long proposalNumber;
-    private boolean proposalPrimaryOrganizationIndicator;
+	private boolean awardPrimaryOrganizationIndicator;
 
-    private Org organization;
-	private Chart chartOfAccounts;
+    private Chart chartOfAccounts;
+	private Org organization;
 
 	/**
 	 * Default constructor.
 	 */
-	public ProposalOrganization() {
+	public AwardOrganization() {
 
 	}
 
@@ -113,39 +113,28 @@ public class ProposalOrganization extends BusinessObjectBase {
 		this.proposalNumber = proposalNumber;
 	}
 
-    /**
-     * @return Returns the proposalPrimaryOrganizationIndicator.
-     */
-    public boolean isProposalPrimaryOrganizationIndicator() {
-        return proposalPrimaryOrganizationIndicator;
-    }
-
-    /**
-     * @param proposalPrimaryOrganizationIndicator The proposalPrimaryOrganizationIndicator to set.
-     */
-    public void setProposalPrimaryOrganizationIndicator(boolean proposalPrimaryOrganizationIndicator) {
-        this.proposalPrimaryOrganizationIndicator = proposalPrimaryOrganizationIndicator;
-    }    
-    
-    /**
-	 * Gets the organization attribute.
-	 * 
-	 * @return - Returns the organization
-	 * 
-	 */
-	public Org getOrganization() { 
-		return organization;
-	}
 
 	/**
-	 * Sets the organization attribute.
+	 * Gets the awardPrimaryOrganizationIndicator attribute.
 	 * 
-	 * @param - organization The organization to set.
-	 * @deprecated
+	 * @return - Returns the awardPrimaryOrganizationIndicator
+	 * 
 	 */
-	public void setOrganization(Org organization) {
-		this.organization = organization;
+	public boolean isAwardPrimaryOrganizationIndicator() { 
+		return awardPrimaryOrganizationIndicator;
 	}
+	
+
+	/**
+	 * Sets the awardPrimaryOrganizationIndicator attribute.
+	 * 
+	 * @param - awardPrimaryOrganizationIndicator The awardPrimaryOrganizationIndicator to set.
+	 * 
+	 */
+	public void setAwardPrimaryOrganizationIndicator(boolean awardPrimaryOrganizationIndicator) {
+		this.awardPrimaryOrganizationIndicator = awardPrimaryOrganizationIndicator;
+	}
+
 
 	/**
 	 * Gets the chartOfAccounts attribute.
@@ -168,6 +157,26 @@ public class ProposalOrganization extends BusinessObjectBase {
 	}
 
 	/**
+	 * Gets the organization attribute.
+	 * 
+	 * @return - Returns the organization
+	 * 
+	 */
+	public Org getOrganization() { 
+		return organization;
+	}
+
+	/**
+	 * Sets the organization attribute.
+	 * 
+	 * @param - organization The organization to set.
+	 * @deprecated
+	 */
+	public void setOrganization(Org organization) {
+		this.organization = organization;
+	}
+
+	/**
 	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {
@@ -179,5 +188,4 @@ public class ProposalOrganization extends BusinessObjectBase {
         }
 	    return m;
     }
-
 }

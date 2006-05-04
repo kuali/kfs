@@ -185,15 +185,6 @@ public class InternalBillingDocumentRule extends TransactionalDocumentRuleBase i
     }
 
     /**
-     * Overrides to consider the object types.
-     *
-     * @see TransactionalDocumentRuleBase#isDocumentBalanceValid(TransactionalDocument)
-     */
-    protected boolean isDocumentBalanceValid(TransactionalDocument transactionalDocument) {
-        return isDocumentBalancedConsideringObjectTypes(transactionalDocument);
-    }
-
-    /**
      * Evaluates the object sub type code of the accounting line's object code to determine whether the object code is a capital
      * object code. If so, and this accounting line is in the income section, then it is not valid. <p/> Note: this is an IU
      * specific business rule.

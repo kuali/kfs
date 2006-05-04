@@ -329,12 +329,12 @@
 
 			<attribute name="financialFederalFundedCode" forceUppercase="true">
 				<label>Federally Funded Code</label>
-				<shortLabel>FedFundCde</shortLabel>
+				<shortLabel>FedFundCd</shortLabel>
 
 				<maxLength>1</maxLength>
 				
 				<control>
-					<text size="1" />
+					<select valuesFinderClass="org.kuali.core.lookup.keyvalues.FederalFundedCodeValuesFinder" />					
 				</control>
 
 				<summary><![CDATA[&nbsp;]]></summary>

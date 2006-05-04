@@ -125,6 +125,7 @@
             displayExternalEncumbranceFields="${KualiForm.selectedBalanceType==Constants.BALANCE_TYPE_EXTERNAL_ENCUMBRANCE}"
             editingMode="${KualiForm.editingMode}"
             editableAccounts="${KualiForm.editableAccounts}"
+            includeObjectTypeCode="true"
             />
 		<kul:generalLedgerPendingEntries/>
 		<kul:notes/>

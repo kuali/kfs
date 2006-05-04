@@ -88,6 +88,17 @@ public class InternalBillingDocument extends TransactionalDocumentBase {
     }
 
     /**
+     * Allows items (in addition to accounting lines) to be deleted from the database after being saved there.
+     *
+     * @see org.kuali.core.document.TransactionalDocumentBase#buildListOfDeletionAwareLists()
+     */
+    public List buildListOfDeletionAwareLists() {
+        List managedLists = super.buildListOfDeletionAwareLists();
+        managedLists.add(getItems());
+        return managedLists;
+    }
+
+    /**
      * Iterates through the list of items and sums up their totals.
      *
      * @return the total

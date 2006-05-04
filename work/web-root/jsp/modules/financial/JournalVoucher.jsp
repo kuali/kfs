@@ -122,7 +122,7 @@
 		</kul:tab>
         <fin:voucherAccountingLines
             isDebitCreditAmount="${KualiForm.selectedBalanceType.financialOffsetGenerationIndicator}" 
-            displayExternalEncumbranceFields="${KualiForm.selectedBalanceType.financialOffsetGenerationIndicator}"
+            displayExternalEncumbranceFields="${KualiForm.selectedBalanceType==Constants.BALANCE_TYPE_EXTERNAL_ENCUMBRANCE}"
             editingMode="${KualiForm.editingMode}"
             editableAccounts="${KualiForm.editableAccounts}"
             />

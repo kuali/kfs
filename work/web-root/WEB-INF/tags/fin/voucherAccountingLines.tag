@@ -16,6 +16,9 @@
 <%@ attribute name="isDebitCreditAmount" 
        description="A flag used to determine if debit/credit fields should be displayed" 
               type="java.lang.Boolean" required="false"%>
+<%@ attribute name="includeObjectTypeCode" required="false"
+              description="boolean indicating that the object type code column should be displayed.
+              As with all boolean tag attributes, if it is not provided, it defaults to false." %>
 
 <c:set var="debitCreditAmount" value="${isDebitCreditAmount}" />
 
@@ -26,7 +29,6 @@
 <c:set var="externalEncumbranceFields" value="referenceOriginCode,referenceNumber,referenceTypeCode"/>
 <c:choose>
     <c:when test="${displayExternalEncumbranceFields}">
-        <c:set var="includeObjectTypeCode" value="true"/>
         <c:set var="extraSourceRowFields" value="${externalEncumbranceFields}"/>
     </c:when>
     <c:otherwise>

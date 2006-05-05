@@ -36,8 +36,9 @@ public interface AuxiliaryVoucherDocumentRuleConstants
         "Kuali.FinancialTransactionProcessing.AuxiliaryVoucherDocument";
 
     // Application parameter lookup constants to be used in conjunction with the grouping constants above
-    public static final String RESTRICTED_OBJECT_TYPE_CODES = "RestrictedObjectTypeCodes";
+    public static final String RESTRICTED_COMBINED_CODES = "RestrictedCombinedCodes";
     public static final String RESTRICTED_OBJECT_SUB_TYPE_CODES = "RestrictedObjectSubTypeCodes";
-    public static final String RESTRICTED_SUB_FUND_GROUP_TYPE_CODES = "RestrictedSubFundGroupTypeCodes";
-    public static final String RESTRICTED_CONSOLIDATION_CODES = "RestrictedConsolidationCodes";
+    public static final String RESTRICTED_EXPENSE_OBJECT_TYPE_CODES = "RestrictedExpenseObjectTypeCodes";
+    public static final String RESTRICTED_INCOME_OBJECT_TYPE_CODES = "RestrictedIncomeObjectTypeCodes";
+    public static final String RESTRICTED_PERIOD_CODES = "RestrictedPeriodCodes";
 }

@@ -32,6 +32,7 @@ import org.kuali.Constants;
 import org.kuali.KeyConstants;
 import org.kuali.PropertyConstants;
 import org.kuali.core.bo.AccountingLine;
+import org.kuali.core.bo.KualiCodeBase;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
@@ -40,6 +41,9 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.chart.bo.ObjectCode;
+import org.kuali.module.chart.bo.ObjectType;
+import org.kuali.module.chart.bo.ObjLevel;
+import org.kuali.module.chart.bo.ObjSubTyp;
 import org.kuali.module.chart.service.AccountingPeriodService;
 import org.kuali.module.financial.document.AuxiliaryVoucherDocument;
 import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
@@ -56,42 +60,6 @@ public class AuxiliaryVoucherDocumentRule
     private static final String AUX_VOUCHER_RECODE_DOC_TYPE = "AVRC";
     private static final String AUX_VOUCHER_ACCRUAL_DOC_TYPE = "AVAE";
         
-    protected static final Set _invalidObjectCodeSubTypes = new TreeSet();    
-    protected static final Set _invalidPeriodCodes = new TreeSet();
-    
-    static {
-        _invalidPeriodCodes.add("AB");
-        _invalidPeriodCodes.add("BB");
-        _invalidPeriodCodes.add("CB");
-    }
-    
-    static {
-        _invalidObjectCodeSubTypes.add(OBJECT_SUB_TYPE_CODE.ART_AND_MUSEUM);
-        _invalidObjectCodeSubTypes.add(OBJECT_SUB_TYPE_CODE.BLDG_FED_FUNDED);
-        _invalidObjectCodeSubTypes.add(OBJECT_SUB_TYPE_CODE.CAP_MOVE_EQUIP_FED_FUND);
-        _invalidObjectCodeSubTypes.add(OBJECT_SUB_TYPE_CODE.CASH);
-        _invalidObjectCodeSubTypes.add(OBJECT_SUB_TYPE_CODE.BUDGET_ONLY);
-        _invalidObjectCodeSubTypes.add(OBJECT_SUB_TYPE_CODE.BLDG);
-        _invalidObjectCodeSubTypes.add(OBJECT_SUB_TYPE_CODE.CAP_LEASE_PURCHASE);
-        _invalidObjectCodeSubTypes.add(OBJECT_SUB_TYPE_CODE.LIBRARY_ACQ_FED_FUND);
-        _invalidObjectCodeSubTypes.add(OBJECT_SUB_TYPE_CODE.LEASE_IMPROVEMENTS);
-        _invalidObjectCodeSubTypes.add(OBJECT_SUB_TYPE_CODE.LAND);
-        _invalidObjectCodeSubTypes.add(OBJECT_SUB_TYPE_CODE.INFRASTRUCTURE);
-        _invalidObjectCodeSubTypes.add(OBJECT_SUB_TYPE_CODE.SUBTYPE_FUND_BALANCE);
-        _invalidObjectCodeSubTypes.add(OBJECT_SUB_TYPE_CODE.EQUIP_STARTUP_COSTS);
-        _invalidObjectCodeSubTypes.add(OBJECT_SUB_TYPE_CODE.CONSTRUCTION_IN_PROG);
-        _invalidObjectCodeSubTypes.add(OBJECT_SUB_TYPE_CODE.CAP_MOVE_EQUIP_OTHER_OWN);
-        _invalidObjectCodeSubTypes.add(OBJECT_SUB_TYPE_CODE.CAP_MOVE_EQUIP);
-        _invalidObjectCodeSubTypes.add(OBJECT_SUB_TYPE_CODE.UNIV_CONSTRUCTED_FED_OWN);
-        _invalidObjectCodeSubTypes.add(OBJECT_SUB_TYPE_CODE.UNIV_CONSTRUCTED);
-        _invalidObjectCodeSubTypes.add(OBJECT_SUB_TYPE_CODE.PLANT);
-        _invalidObjectCodeSubTypes.add(OBJECT_SUB_TYPE_CODE.PLANT_INDEBT);
-        _invalidObjectCodeSubTypes.add(OBJECT_SUB_TYPE_CODE.MANDATORY_TRANSFER);
-        _invalidObjectCodeSubTypes.add(OBJECT_SUB_TYPE_CODE.LIBRARY_ACQ);
-        _invalidObjectCodeSubTypes.add(OBJECT_SUB_TYPE_CODE.ASSESSMENT);
-        _invalidObjectCodeSubTypes.add(OBJECT_SUB_TYPE_CODE.TRANSFER_OF_FUNDS);
-    }
-    
     /**
      * Convenience method for accessing the most-likely requested
      * security grouping
@@ -198,9 +166,7 @@ public class AuxiliaryVoucherDocumentRule
         String postingPeriodString = postingPeriod.getUniversityFiscalPeriodCode();
         
         //first check for the odd posting periods, AA, BB, CB and treat it like period 13
-        if(_invalidPeriodCodes.contains(postingPeriodString)) {
-            GlobalVariables.getErrorMap()
-                .put(Constants.ACCOUNTING_PERIOD_STATUS_CODE_FIELD, KeyConstants.ERROR_CUSTOM, "You have entered an incorrect posting period, it must be a number between 1 and 13.");
+        if(isPeriodCodeAllowed(postingPeriod)) {
             return false;
         }
         Integer postingPeriodInt = new Integer(0);
@@ -359,32 +325,48 @@ public class AuxiliaryVoucherDocumentRule
      * @param accountingLine
      * @return
      */
-    private boolean isValidDocWithSubAndLevel(TransactionalDocument document, AccountingLine accountingLine) {
+    private boolean isValidDocWithSubAndLevel(TransactionalDocument document, 
+                                              AccountingLine accountingLine) {
         boolean retval = true;
-        if(document instanceof AuxiliaryVoucherDocument) {
-            if(accountingLine.getObjectCode().getFinancialObjectType()
-               .getCode().equals(OBJECT_SUB_TYPE_CODE.VALUATIONS_AND_ADJUSTMENTS) 
-                    && accountingLine.getObjectType().getCode().equals(OBJECT_TYPE_CODE.EXPENSE_NOT_EXPENDITURE) 
-                    && accountingLine.getObjectCode().getFinancialObjectLevel().getFinancialObjectLevelCode().equals(OBJECT_LEVEL_CODE.VALUATIONS_ADJUSTMENTS) ) {
-                String errorObjects[] = { 
-                        accountingLine.getObjectCode().getFinancialObjectCode(),
-                        accountingLine.getObjectCode().getFinancialObjectType().getCode(),
-                        accountingLine.getObjectType().getCode(),
-                        accountingLine.getObjectCode().getFinancialObjectLevel().getFinancialObjectLevelCode()
-                };
-                GlobalVariables.getErrorMap()
-                    .put(Constants.ACCOUNTING_LINE_ERRORS, KeyConstants.ERROR_DOCUMENT_INCORRECT_OBJ_CODE_WITH_SUB_TYPE_OBJ_LEVEL_AND_OBJ_TYPE, 
-                            errorObjects);
-                return false;
-            } else {
-                return true;
+
+        try {
+            retval &= succeedsRule(RESTRICTED_COMBINED_CODES,
+                                   getMockCodeBaseInstance(ObjectType.class,
+                                                           accountingLine.getObjectCode()
+                                                           .getFinancialObjectTypeCode()).toString());
+            
+            if (retval) {
+                retval &= succeedsRule(RESTRICTED_COMBINED_CODES,
+                                       getMockCodeBaseInstance(ObjSubTyp.class,
+                                                               accountingLine.getObjectCode()
+                                                               .getFinancialObjectSubTypeCode()).toString());
             }
-        } else {
-            GlobalVariables.getErrorMap()
-            .put(Constants.ACCOUNTING_LINE_ERRORS, KeyConstants.ERROR_CUSTOM, 
-                    "Incorrect Document Type: " + document.getDocumentTitle());
-            return false;
+            
+            if (retval) {
+                retval &= succeedsRule(RESTRICTED_COMBINED_CODES,
+                                       getMockObjLevelInstance(accountingLine.getObjectCode()
+                                                               .getFinancialObjectLevel()
+                                                               .getFinancialObjectLevelCode()).toString());
+            }
         }
+        catch(Exception e) {
+            retval = false;
+        }
+
+        if (!retval) {
+            String errorObjects[] = { 
+                accountingLine.getObjectCode().getFinancialObjectCode(),
+                accountingLine.getObjectCode().getFinancialObjectType().getCode(),
+                accountingLine.getObjectType().getCode(),
+                accountingLine.getObjectCode().getFinancialObjectLevel().getFinancialObjectLevelCode()
+            };
+            GlobalVariables.getErrorMap()
+                .put(Constants.ACCOUNTING_LINE_ERRORS, 
+                     KeyConstants.ERROR_DOCUMENT_INCORRECT_OBJ_CODE_WITH_SUB_TYPE_OBJ_LEVEL_AND_OBJ_TYPE, 
+                     errorObjects);
+        }
+        
+        return retval;
     }
     
     /**
@@ -549,5 +531,75 @@ public class AuxiliaryVoucherDocumentRule
         }
 
         return valid;
+    }
+
+    /**
+     * Determines if period code used in primary key of <code>{@link AccountingPeriod}</code> 
+     * is allowed.
+     *
+     * @param accountingPeriod
+     * @return boolean
+     */
+    protected boolean isPeriodCodeAllowed(AccountingPeriod accountingPeriod) {
+        boolean valid = true;
+
+        valid &= succeedsRule(RESTRICTED_PERIOD_CODES,
+                              accountingPeriod.getUniversityFiscalPeriodCode());
+        if (!valid) {
+            GlobalVariables.getErrorMap()
+                .put(Constants.ACCOUNTING_PERIOD_STATUS_CODE_FIELD, 
+                     KeyConstants.ERROR_CUSTOM, 
+                     "You have entered an incorrect posting period, it must be a number between 1 and 13.");
+        }
+
+        return valid;
+    }
+
+    /**
+     * Generic factory method for creating instances of
+     * <code>{@link KualiCodeBase}</code> like an <code>{@link ObjectType}</code> 
+     * instance or a <code>{@link ObjSubTyp}</code> instance.<br/>
+     * 
+     * <p>The mock object method is needed to validate using APC. The parameter uses non-specific 
+     * <code>{@link KualiCodeBase}</code> codes, so things like chart code are unimportant.</p>
+     * 
+     * <p>This method uses reflections, so a <code>{@link ClassNotFoundException}</code>,
+     * <code>{@link InstantiationException}</code>, <code>{@link IllegalAccessException</code> 
+     * may be thrown</p>
+     *
+     * @param type
+     * @param code
+     * @return KualiCodebase
+     * @exception ClassNotFoundException
+     * @exception InstantiationException
+     * @exception IllegalAccessException
+     */
+    protected KualiCodeBase getMockCodeBaseInstance(Class type, String code) 
+        throws ClassNotFoundException, IllegalAccessException, InstantiationException {
+        KualiCodeBase retval = (KualiCodeBase) type.newInstance();
+        
+        retval.setCode(code);
+        
+        return retval;
+    }
+    
+    /**
+     * Factory method for creating instances of <code>{@link ObjLevel}</code>. This 
+     * method is more specific than <code>{@link #getMockCodeBaseInstance(Class, type, String code)}</code> 
+     * because it is aimed specifically towards <code>{@link ObjLevel}</code> which is
+     * not part of the <code>{@link KualiCodeBase}</code> class hieraarchy.<br/>
+     * 
+     * <p>The mock object method is needed to validate using APC. The parameter uses non-specific 
+     * <code>{@link ObjLevel}</code> codes, so things like chart code are unimportant.</p>
+     *
+     * @param code
+     * @return ObjLevel
+     */
+    protected ObjLevel getMockObjLevelInstance(String code) {
+        ObjLevel retval = new ObjLevel();
+
+        retval.setFinancialObjectLevelCode(code);
+        
+        return retval;
     }
 }

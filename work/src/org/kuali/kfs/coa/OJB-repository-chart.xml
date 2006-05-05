@@ -2397,7 +2397,7 @@
 		auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="chartOfAccountsCode" />
 		<foreignkey field-ref="organizationCode" />
-	</reference-descriptor>
+	</reference-descriptor-->
 
 	<reference-descriptor name="subFundGroup"
 		class-ref="org.kuali.module.chart.bo.SubFundGroup"
@@ -2431,7 +2431,7 @@
 		auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="incomeStreamFinancialCoaCode" />
 		<foreignkey field-ref="incomeStreamAccountNumber" />
-	</reference-descriptor-->
+	</reference-descriptor>
 
 	<reference-descriptor name="accountFiscalOfficerUser"
 		class-ref="org.kuali.core.bo.user.UniversalUser" auto-retrieve="true"
@@ -2451,7 +2451,7 @@
 		<foreignkey field-ref="accountManagerSystemIdentifier" />
 	</reference-descriptor>
 
-	<!-- reference-descriptor name="postalZipCode" 
+	<reference-descriptor name="postalZipCode" 
 		class-ref="org.kuali.core.bo.PostalZipCode" 
 		auto-retrieve="true" auto-update="none" auto-delete="none" 
 		proxy="true">
@@ -2463,7 +2463,7 @@
 		auto-retrieve="true" auto-update="none" auto-delete="none" 
 		proxy="true">
 		<foreignkey field-ref="accountSufficientFundsCode" />
-	</reference-descriptor-->
+	</reference-descriptor>
 	
 	<collection-descriptor name="accountChangeDetails" 
 			element-class-ref="org.kuali.module.chart.bo.AccountChangeDetail" 

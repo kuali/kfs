@@ -27,28 +27,31 @@ import org.kuali.module.financial.document.DistributionOfIncomeAndExpenseDocumen
 
 /**
  * This class is the action form for Distribution of Income and Expense.
+ * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 
 public class DistributionOfIncomeAndExpenseForm extends KualiTransactionalDocumentFormBase {
-
-    private static final long serialVersionUID = 1L;
+    /**
+     * Constructs a DistributionOfIncomeAndExpenseForm.java.
+     */
     public DistributionOfIncomeAndExpenseForm() {
         super();
-    	setDocument(new DistributionOfIncomeAndExpenseDocument());
+        setDocument(new DistributionOfIncomeAndExpenseDocument());
     }
-    
+
     /**
      * @return Returns the DistributionOfIncomeAndExpenseDocument.
      */
     public DistributionOfIncomeAndExpenseDocument getDistributionOfIncomeAndExpenseDocument() {
         return (DistributionOfIncomeAndExpenseDocument) getDocument();
     }
+
     /**
-     * @param DistributionOfIncomeAndExpenseDocument The DistributionOfIncomeAndExpenseDocument to set.
-     */ 
+     * @param distributionOfIncomeAndExpenseDocument
+     */
     public void setDistributionOfIncomeAndExpenseDocument(
             DistributionOfIncomeAndExpenseDocument distributionOfIncomeAndExpenseDocument) {
         setDocument(distributionOfIncomeAndExpenseDocument);
-    }    
- }
+    }
+}

@@ -22,24 +22,15 @@
  */
 package org.kuali.module.financial.rules;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
-import org.kuali.Constants;
 import org.kuali.KeyConstants;
 import org.kuali.PropertyConstants;
 import org.kuali.core.bo.AccountingLine;
-import org.kuali.core.document.Document;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.rule.KualiParameterRule;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
-import org.kuali.module.chart.bo.ObjLevel;
 import org.kuali.module.chart.bo.ObjectCode;
-import org.kuali.module.chart.bo.ObjectType;
 
 /**
  * This class holds document specific business rules for the Distribution of Income and Expense. It overrides methods in the base
@@ -58,21 +49,6 @@ public class DistributionOfIncomeAndExpenseDocumentRule extends TransactionalDoc
             throw new IllegalStateException("Negative amounts are not allowed.");
         }
         return isDebitConsideringSection(accountingLine);
-    }
-
-    /**
-     * @see org.kuali.core.rule.DocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.Document)
-     */
-    public boolean processCustomRouteDocumentBusinessRules(Document document) {
-        TransactionalDocument transactionalDocument = (TransactionalDocument) document;
-
-        boolean success = isDocumentBalanceValid(transactionalDocument);
-
-        if (success) {
-            success &= isAccountingLinesRequiredNumberForRoutingMet(transactionalDocument);
-        }
-
-        return success;
     }
 
     /**
@@ -104,91 +80,25 @@ public class DistributionOfIncomeAndExpenseDocumentRule extends TransactionalDoc
     }
 
     /**
+     * adds the following additional balance checks
+     * <ol>
+     * <li> transactions (income and expense; assets or liabilities) must balance. FIS will check and prompt the initiator if the
+     * transaction does not balance
+     * <li> the total of the revenue objects - total of the expense objects in the "from" window = the total of the revenue objects -
+     * total of the expense objects in the "to" window
+     * <ul>
      * 
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#isDocumentBalanceValid(org.kuali.core.document.TransactionalDocument)
      */
     protected boolean isDocumentBalanceValid(TransactionalDocument transactionalDocument) {
-        boolean isValid = super.isDocumentBalanceValid(transactionalDocument);
-
-        if (isValid) {
-            List accountingLines = new ArrayList();
-            accountingLines.addAll(transactionalDocument.getSourceAccountingLines());
-            accountingLines.addAll(transactionalDocument.getTargetAccountingLines());
-
-            KualiDecimal expense = KualiDecimal.ZERO;
-            KualiDecimal revenue = KualiDecimal.ZERO;
-
-            for (Iterator i = accountingLines.iterator(); i.hasNext();) {
-                AccountingLine accountingLine = (AccountingLine) i.next();
-                KualiDecimal amount = accountingLine.getAmount();
-
-                boolean isExpense = isExpenseOrAsset(accountingLine);
-                boolean isSourceLine = isSourceAccountingLine(accountingLine);
-
-                if (isExpense) {
-                    if (isSourceLine) {
-                        expense = expense.add(amount);
-                    }
-                    else {
-                        expense = expense.subtract(amount);
-                    }
-                }
-                else {
-                    if (isSourceLine) {
-                        revenue.add(amount);
-                    }
-                    else {
-                        revenue.subtract(amount);
-                    }
-                }
-            }
-            if (!expense.equals(revenue)) {
-                isValid = false;
-                reportError(Constants.ACCOUNTING_LINE_ERRORS, KeyConstants.ERROR_DOCUMENT_BALANCE, new String[] {
-                        transactionalDocument.getSourceAccountingLinesSectionTitle(),
-                        transactionalDocument.getTargetAccountingLinesSectionTitle() });
-            }
+        boolean valid = super.isDocumentBalanceValid(transactionalDocument);
+        if (valid) {
+            valid = isDocumentBalancedConsideringObjectTypes(transactionalDocument);
         }
-
-        return isValid;
-    }
-
-    /**
-     * @see org.kuali.core.rule.AccountingLineRule#isObjectConsolidationAllowed(org.kuali.core.bo.AccountingLine)
-     */
-    public boolean isObjectConsolidationAllowed(AccountingLine accountingLine) {
-        boolean valid = true;
-
-        valid &= super.isObjectConsolidationAllowed(accountingLine);
 
         if (valid) {
-            KualiParameterRule rule = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterRule(
-                    DISTRIBUTION_OF_INCOME_AND_EXPENSE_DOCUMENT_SECURITY_GROUPING, RESTRICTED_CONSOLIDATED_OBJECT_CODES_GROUP);
-
-            ObjectCode objectCode = accountingLine.getObjectCode();
-            if (ObjectUtils.isNull(objectCode)) {
-                accountingLine.refreshReferenceObject(PropertyConstants.OBJECT_CODE);
-            }
-
-            ObjLevel objectLevel = objectCode.getFinancialObjectLevel();
-            if (ObjectUtils.isNull(objectCode)) {
-                accountingLine.refreshReferenceObject(PropertyConstants.OBJECT_CODE);
-            }
-
-            String consolidatedObjectCode = objectLevel.getConsolidatedObjectCode();
-
-            if (rule.failsRule(consolidatedObjectCode)) {
-                valid = false;
-
-                // add message
-                GlobalVariables.getErrorMap().put(
-                        PropertyConstants.FINANCIAL_OBJECT_CODE,
-                        KeyConstants.DistributionOfIncomeAndExpense.ERROR_DOCUMENT_DI_INVALID_CONSOLIDATION_OBJECT_CODE,
-                        new String[] { objectCode.getFinancialObjectCode(), objectLevel.getFinancialObjectLevelCode(),
-                                consolidatedObjectCode });
-            }
+            valid = isDocumenBalancedConsideringRevenueAndExpenseObjectTypes(transactionalDocument);
         }
-
         return valid;
     }
 
@@ -197,29 +107,18 @@ public class DistributionOfIncomeAndExpenseDocumentRule extends TransactionalDoc
      * @see org.kuali.core.rule.AccountingLineRule#isObjectTypeAllowed(org.kuali.core.bo.AccountingLine)
      */
     public boolean isObjectTypeAllowed(AccountingLine accountingLine) {
-        boolean valid = true;
-
-        valid &= super.isObjectTypeAllowed(accountingLine);
+        boolean valid = super.isObjectTypeAllowed(accountingLine);
 
         if (valid) {
             KualiParameterRule rule = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterRule(
                     DISTRIBUTION_OF_INCOME_AND_EXPENSE_DOCUMENT_SECURITY_GROUPING, RESTRICTED_OBJECT_TYPE_CODES);
 
             ObjectCode objectCode = accountingLine.getObjectCode();
-            if (ObjectUtils.isNull(objectCode)) {
-                accountingLine.refreshReferenceObject(PropertyConstants.OBJECT_CODE);
-            }
-
-            ObjectType objectType = objectCode.getFinancialObjectType();
-            if (ObjectUtils.isNull(objectType)) {
-                accountingLine.refreshReferenceObject(PropertyConstants.OBJECT_TYPE_CODE);
-            }
 
             String objectTypeCode = objectCode.getFinancialObjectTypeCode();
 
-            if (rule.failsRule(objectTypeCode)) {
-                valid = false;
-
+            valid = rule.failsRule(objectTypeCode);
+            if (!valid) {
                 // add message
                 GlobalVariables.getErrorMap().put(PropertyConstants.FINANCIAL_OBJECT_CODE,
                         KeyConstants.DistributionOfIncomeAndExpense.ERROR_DOCUMENT_DI_INVALID_OBJECT_TYPE_CODE,

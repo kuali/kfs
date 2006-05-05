@@ -32,5 +32,4 @@ public interface DistributionOfIncomeAndExpenseDocumentRuleConstants {
     public static final String RESTRICTED_SUB_TYPE_GROUP_CODES = "RestrictedSubTypeCodes";
 
     public static final String RESTRICTED_OBJECT_TYPE_CODES = "RestrictedObjectTypeCodes";
-    public static final String RESTRICTED_CONSOLIDATED_OBJECT_CODES_GROUP = "RestrictedConsolidatedObjectCodes";
 }

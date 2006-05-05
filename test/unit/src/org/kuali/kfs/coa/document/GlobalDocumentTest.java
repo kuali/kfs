@@ -33,6 +33,7 @@ import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.AccountChangeDetail;
 import org.kuali.module.chart.bo.AccountChangeDocument;
 import org.kuali.module.chart.bo.DelegateChangeDocument;
+import org.kuali.module.chart.bo.GlobalAccountChanges;
 import org.kuali.test.KualiTestBaseWithFixtures;
 
 public class GlobalDocumentTest extends KualiTestBaseWithFixtures {
@@ -95,11 +96,11 @@ public class GlobalDocumentTest extends KualiTestBaseWithFixtures {
         
         Maintainable newMaintainable = document.getNewMaintainableObject();
         assertNotNull("New Maintainable should never be null.", newMaintainable);
-        assertEquals("BO Class should be AccountChangeDocument.", AccountChangeDocument.class, newMaintainable.getBoClass());
+        assertEquals("BO Class should be AccountChangeDocument.", GlobalAccountChanges.class, newMaintainable.getBoClass());
 
         BusinessObject newBo = newMaintainable.getBusinessObject();
         assertNotNull("New BO should never be null.", newBo);
-        assertEquals("New BO should be of the correct class.", AccountChangeDocument.class, newBo.getClass());
+        assertEquals("New BO should be of the correct class.", GlobalAccountChanges.class, newBo.getClass());
     }
     
     public final void testSaveDocument_globalDelegate() throws Exception {

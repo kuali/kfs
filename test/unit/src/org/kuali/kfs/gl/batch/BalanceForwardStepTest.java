@@ -63,6 +63,7 @@ public class BalanceForwardStepTest extends OriginEntryTestBase {
         
         // Execute the step ...
         BalanceForwardStep step = new BalanceForwardStep();
+        dateTimeService.currentDate = new java.util.Date();
         step.setDateTimeService(dateTimeService);
         step.performStep();
         

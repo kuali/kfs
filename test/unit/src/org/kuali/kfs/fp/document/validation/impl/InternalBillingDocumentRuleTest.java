@@ -72,8 +72,7 @@ public class InternalBillingDocumentRuleTest extends KualiTestBaseWithFixtures i
         boolean actual = new InternalBillingDocumentRule().isSubFundGroupAllowed(line);
         assertGlobalErrorMapContains(PropertyConstants.ACCOUNT_NUMBER, KeyConstants.ERROR_APC_INDIRECT_DENIED_MULTIPLE,
             new String[]{
-                INTERNAL_BILLING_DOCUMENT_SECURITY_GROUPING,
-                RESTRICTED_SUB_FUND_GROUP_CODES,
+                INTERNAL_BILLING_DOCUMENT_SECURITY_GROUPING + ":" + RESTRICTED_SUB_FUND_GROUP_CODES,
                 null, // ignore source line number since it will often change
                 "Account Number",
                 "9544900",

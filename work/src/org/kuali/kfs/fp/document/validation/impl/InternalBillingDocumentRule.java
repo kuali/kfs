@@ -28,19 +28,19 @@ import org.kuali.PropertyConstants;
 import org.kuali.core.bo.AccountingLine;
 import org.kuali.core.bo.SourceAccountingLine;
 import org.kuali.core.bo.TargetAccountingLine;
-import org.kuali.core.document.Document;
 import org.kuali.core.document.TransactionalDocument;
-import org.kuali.core.util.ErrorMap;
+import org.kuali.core.document.Document;
+import org.kuali.core.rule.KualiParameterRule;
 import org.kuali.core.util.ExceptionUtils;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.rule.KualiParameterRule;
+import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.core.util.ErrorMap;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.bo.SubFundGroup;
-import org.kuali.module.financial.document.InternalBillingDocument;
 import org.kuali.module.gl.util.SufficientFundsItemHelper;
+import org.kuali.module.financial.document.InternalBillingDocument;
 
 /**
  * Business rule(s) applicable to InternalBilling document.
@@ -147,6 +147,41 @@ public class InternalBillingDocumentRule extends TransactionalDocumentRuleBase i
     }
 
     /**
+     * Evaluates the object sub type code of the accounting line's object code to determine whether the object code is a capital
+     * object code. If so, and this accounting line is in the income section, then it is not valid. <p/> Note: this is an IU
+     * specific business rule.
+     *
+     * @param accountingLine
+     * @return whether the given line is valid with respect to capital object codes
+     */
+    private boolean validateCapitalObjectCodes(AccountingLine accountingLine) {
+        if (isSourceAccountingLine(accountingLine) && isCapitalObject(accountingLine)) {
+            GlobalVariables.getErrorMap().put(PropertyConstants.FINANCIAL_OBJECT_CODE,
+                    KeyConstants.ERROR_DOCUMENT_IB_CAPITAL_OBJECT_IN_INCOME_SECTION);
+            LOG.debug("APC rule failure " + ExceptionUtils.describeStackLevel(0));
+            return false;
+        }
+        else {
+            return true;
+        }
+        // todo: phase II
+        // int pendPurchaseCount = 0; // TODO need to do something with this but I have no idea what
+        // if (!SUB_FUND_GROUP_CODE.CODE_EXTAGY.equals(subFundGroupCode) && restrictedCapitalObjectCodes.contains(objectSubTypeCode)
+        // && (pendPurchaseCount <= 0))
+    }
+
+    /**
+     * Checks whether the given AccountingLine's ObjectCode is a capital one.
+     *
+     * @param accountingLine
+     * @return whether the given AccountingLine's ObjectCode is a capital one.
+     */
+    private boolean isCapitalObject(AccountingLine accountingLine) {
+        return getParameterRule(INTERNAL_BILLING_DOCUMENT_SECURITY_GROUPING, CAPITAL_OBJECT_SUB_TYPE_CODES).succeedsRule(
+                accountingLine.getObjectCode().getFinancialObjectSubTypeCode());
+    }
+
+    /**
      * @see TransactionalDocumentRuleBase#processCustomRouteDocumentBusinessRules(Document)
      */
     public boolean processCustomRouteDocumentBusinessRules(Document document) {
@@ -184,41 +219,6 @@ public class InternalBillingDocumentRule extends TransactionalDocumentRuleBase i
         int currentErrorCount = errorMap.getErrorCount();
         errorMap.removeFromErrorPath(Constants.DOCUMENT_PROPERTY_NAME);
         return currentErrorCount == originalErrorCount;
-    }
-
-    /**
-     * Evaluates the object sub type code of the accounting line's object code to determine whether the object code is a capital
-     * object code. If so, and this accounting line is in the income section, then it is not valid. <p/> Note: this is an IU
-     * specific business rule.
-     *
-     * @param accountingLine
-     * @return whether the given line is valid with respect to capital object codes
-     */
-    private boolean validateCapitalObjectCodes(AccountingLine accountingLine) {
-        if (isSourceAccountingLine(accountingLine) && isCapitalObject(accountingLine)) {
-            GlobalVariables.getErrorMap().put(PropertyConstants.FINANCIAL_OBJECT_CODE,
-                    KeyConstants.ERROR_DOCUMENT_IB_CAPITAL_OBJECT_IN_INCOME_SECTION);
-            LOG.debug("APC rule failure " + ExceptionUtils.describeStackLevel(0));
-            return false;
-        }
-        else {
-            return true;
-        }
-        // todo: phase II
-        // int pendPurchaseCount = 0; // TODO need to do something with this but I have no idea what
-        // if (!SUB_FUND_GROUP_CODE.CODE_EXTAGY.equals(subFundGroupCode) && restrictedCapitalObjectCodes.contains(objectSubTypeCode)
-        // && (pendPurchaseCount <= 0))
-    }
-
-    /**
-     * Checks whether the given AccountingLine's ObjectCode is a capital one.
-     *
-     * @param accountingLine
-     * @return whether the given AccountingLine's ObjectCode is a capital one.
-     */
-    private boolean isCapitalObject(AccountingLine accountingLine) {
-        return getParameterRule(INTERNAL_BILLING_DOCUMENT_SECURITY_GROUPING, CAPITAL_OBJECT_SUB_TYPE_CODES).succeedsRule(
-                accountingLine.getObjectCode().getFinancialObjectSubTypeCode());
     }
 
     /**

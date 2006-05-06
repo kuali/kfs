@@ -124,7 +124,7 @@ public class InternalBillingDocumentRule extends TransactionalDocumentRuleBase i
     /**
      * Note: This method implements an IU specific business rule. <p/> This method evaluates the accounting line's object sub type
      * code for its object code in addition to the accounting line's sub fund group for the account. This didn't fit any of the
-     * interface methods, so this rule was programmed in the "custom rule" method.
+     * interface methods, so this rule was programmed in the "custom rule" method.  It only applies to lines in the income section.
      *
      * @param accountingLine
      * @return whether this rule passes
@@ -134,7 +134,9 @@ public class InternalBillingDocumentRule extends TransactionalDocumentRuleBase i
         String actualSubFundGroupCode = accountingLine.getAccount().getSubFundGroupCode();
         String requiredSubFundGroupCode = SUB_FUND_GROUP_CODE.CONTINUE_EDUC;
 
-        if (OBJECT_SUB_TYPE_CODE.STUDENT_FEES.equals(objectSubTypeCode) && !requiredSubFundGroupCode.equals(actualSubFundGroupCode)) {
+        if (accountingLine.isSourceAccountingLine() && OBJECT_SUB_TYPE_CODE.STUDENT_FEES.equals(objectSubTypeCode)
+            && !requiredSubFundGroupCode.equals(actualSubFundGroupCode))
+        {
             // The user could fix this via either ObjectCode or Account, but we arbitrarily choose the ObjectCode to highlight.
             reportError(PropertyConstants.OBJECT_CODE, KeyConstants.ERROR_DOCUMENT_INCORRECT_OBJ_CODE_WITH_SUB_FUND_GROUP,
                     new String[] { accountingLine.getFinancialObjectCode(), objectSubTypeCode, requiredSubFundGroupCode,

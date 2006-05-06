@@ -134,7 +134,7 @@ public class InternalBillingDocumentRule extends TransactionalDocumentRuleBase i
         String actualSubFundGroupCode = accountingLine.getAccount().getSubFundGroupCode();
         String requiredSubFundGroupCode = SUB_FUND_GROUP_CODE.CONTINUE_EDUC;
 
-        if (accountingLine.isSourceAccountingLine() && OBJECT_SUB_TYPE_CODE.STUDENT_FEES.equals(objectSubTypeCode)
+        if (isSourceAccountingLine(accountingLine) && OBJECT_SUB_TYPE_CODE.STUDENT_FEES.equals(objectSubTypeCode)
             && !requiredSubFundGroupCode.equals(actualSubFundGroupCode))
         {
             // The user could fix this via either ObjectCode or Account, but we arbitrarily choose the ObjectCode to highlight.

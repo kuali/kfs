@@ -25,8 +25,8 @@
 
 package org.kuali.module.gl.batch;
 
-import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -52,18 +52,40 @@ public class BalanceForwardStepTest extends OriginEntryTestBase {
         super();
     }
 
+    /* (non-Javadoc)
+     * @see org.kuali.module.gl.OriginEntryTestBase#setUp()
+     */
+    protected void setUp() throws Exception {
+        super.setUp();
+        
+        // Get the test date time service so we can specify the date/time of the run
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.DAY_OF_MONTH, 5);
+        c.set(Calendar.MONTH, Calendar.MAY);
+        c.set(Calendar.YEAR, 2006);
+        date = c.getTime();
+        dateTimeService.currentDate = date;
+    }
+    
+    public void testToAvoidTestRunErrors() throws Exception {
+        assertTrue(true);
+    }
+    
     /**
      * Test the encumbrance forwarding process in one fell swoop.
      * 
      * @throws Exception
+     * 
+     * ## WARNING: DO NOT run this test or rename this method.    WARNING ##
+     * ## WARNING: This one  test takes just under 3 hours to run WARNING ##
+     * ## WARNING: over the vpn.                                  WARNING ##
      */
-    public void testAll() throws Exception {
+    public void DO_NOT_testAll() throws Exception {
         
         clearOriginEntryTables();
         
         // Execute the step ...
         BalanceForwardStep step = new BalanceForwardStep();
-        dateTimeService.currentDate = new java.util.Date();
         step.setDateTimeService(dateTimeService);
         step.performStep();
         
@@ -80,7 +102,6 @@ public class BalanceForwardStepTest extends OriginEntryTestBase {
                     "org/kuali/module/gl/batch/gl_acbfclos.data.txt");
         
         // load our groups.
-        java.sql.Date d = new Date(dateTimeService.getCurrentDate().getTime());
         Map criteria = new HashMap();
         
         criteria.put("sourceCode", "YEBB");

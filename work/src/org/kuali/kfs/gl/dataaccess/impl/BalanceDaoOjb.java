@@ -45,7 +45,7 @@ import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 /**
  * @author jsissom
  * @author Laran Evans <lc278@cornell.edu>
- * @version $Id: BalanceDaoOjb.java,v 1.27 2006-05-04 16:08:59 larevans Exp $
+ * @version $Id: BalanceDaoOjb.java,v 1.28 2006-05-08 14:04:14 larevans Exp $
  */
 public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements BalanceDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BalanceDaoOjb.class);
@@ -98,7 +98,7 @@ public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements Balanc
 //        778  003090           END-EXEC.        
         
         Criteria c = new Criteria();
-        c.addEqualTo("fiscalYear", year);
+        c.addEqualTo("universityFiscalYear", year);
         
         QueryByCriteria query = QueryFactory.newQuery(Balance.class, c);
         query.addOrderByAscending("chartOfAccountsCode");

@@ -102,6 +102,10 @@
 		<property name="dateTimeService"><ref bean="dateTimeService" /></property>
 		<property name="balanceService"><ref bean="glBalanceService" /></property>
 		<property name="yearEndEncumbranceClosingRuleHelper"><ref bean="glYearEndEncumbranceClosingRuleHelper" /></property>
+		<property name="priorYearAccountService"><ref bean="priorYearAccountService" /></property>
+		<property name="subFundGroupService"><ref bean="subFundGroupService"/></property>
+		<property name="balanceTypeService"><ref bean="balanceTypService"/></property>
+		<property name="objectTypeService"><ref bean="objectTypeService"/></property>
 	</bean>
 	
 	<bean id="glScrubberService" class="org.kuali.module.gl.service.impl.ScrubberServiceImpl" init-method="init">

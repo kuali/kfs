@@ -23,6 +23,7 @@
 package org.kuali.module.gl.batch;
 
 import java.sql.Date;
+import java.util.Calendar;
 
 import org.kuali.core.batch.Step;
 import org.kuali.core.service.DateTimeService;
@@ -40,7 +41,6 @@ public class BalanceForwardStep implements Step {
     
     public BalanceForwardStep() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
     /* (non-Javadoc)
@@ -55,17 +55,20 @@ public class BalanceForwardStep implements Step {
      */
     public boolean performStep() {
 
+//        boolean selectActiveFlag = true;
+//        boolean selectGeneralFlag = true;
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.DAY_OF_MONTH, 5);
+        c.set(Calendar.MONTH, Calendar.MAY);
+        c.set(Calendar.YEAR, 2006);
+        Date transactionDate = new Date(c.getTime().getTime());
+        
         Integer closingFiscalYear = dateTimeService.getCurrentFiscalYear();
-        
-        boolean selectActiveFlag = true;
-        boolean selectGeneralFlag = true;
-        Date transactionDate = null;
-        
         // FIXME FIXME FIXME Hack alert!
         yearEndService = SpringServiceLocator.getGeneralLedgerYearEndService();
         yearEndService.setDateTimeService(dateTimeService);
         // FIXME FIXME FIXME End hack alert.
-        yearEndService.forwardBalancesForFiscalYear(closingFiscalYear, selectActiveFlag, selectGeneralFlag, transactionDate);
+        yearEndService.forwardBalancesForFiscalYear(closingFiscalYear/*, selectActiveFlag, selectGeneralFlag*/, transactionDate);
         return true;
     }
 

@@ -1,3 +1,44 @@
+<class-descriptor class="org.kuali.module.gl.bo.CollectorFile" table="GL_COLLECTOR_FILE_T">
+	<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true"/>
+	<field-descriptor name="organizationCode" column="ORG_CD" jdbc-type="VARCHAR" primarykey="true"/>
+    <field-descriptor name="transmissionDate" column="TRANSMISSION_DT" jdbc-type="DATE" primarykey="true"/>
+    <field-descriptor name="batchSequenceNumber" column="BATCH_SEQ_NBR" jdbc-type="INTEGER" primarykey="true"/>
+	<field-descriptor name="personUserId" column="PERSON_USER_ID" jdbc-type="VARCHAR"/>
+	<field-descriptor name="workgroupName" column="WRKGRP_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="totalRecordCount" column="TOTAL_RECORD_COUNT" jdbc-type="INTEGER"/>
+	<field-descriptor name="totalAmount" column="TOTAL_AMT"  jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
+	<field-descriptor name="valid" column="VALID_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+
+	<collection-descriptor name="messages" proxy="true" element-class-ref="org.kuali.module.gl.bo.CollectorMessage" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object"
+		auto-delete="object">
+		<orderby name="chartOfAccountsCode" sort="ASC" />
+		<inverse-foreignkey field-ref="chartOfAccountsCode" />
+		<inverse-foreignkey field-ref="organizationCode" />
+		<inverse-foreignkey field-ref="transmissionDate" />
+		<inverse-foreignkey field-ref="batchSequenceNumber" />
+	</collection-descriptor>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.gl.bo.CollectorMessage" table="GL_COLLECTOR_MSG_T">
+	<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true"/>
+	<field-descriptor name="organizationCode" column="ORG_CD" jdbc-type="VARCHAR" primarykey="true"/>
+    <field-descriptor name="transmissionDate" column="TRANSMISSION_DT" jdbc-type="DATE" primarykey="true"/>
+    <field-descriptor name="batchSequenceNumber" column="BATCH_SEQ_NBR" jdbc-type="INTEGER" primarykey="true"/>
+    <field-descriptor name="messageNumber" column="MSG_NBR" jdbc-type="INTEGER" primarykey="true"/>
+    <field-descriptor name="messageText" column="MSG_TXT" jdbc-type="VARCHAR"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+
+	<reference-descriptor name="file" class-ref="org.kuali.module.gl.bo.CollectorFile" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="chartOfAccountsCode" />
+		<foreignkey field-ref="organizationCode" />
+		<foreignkey field-ref="transmissionDate" />
+		<foreignkey field-ref="batchSequenceNumber" />
+	</reference-descriptor>
+</class-descriptor>
+
 <class-descriptor class="org.kuali.module.gl.bo.OriginEntry" table="GL_ORIGIN_ENTRY_T">
 	<field-descriptor name="entryId" column="ORIGIN_ENTRY_ID" jdbc-type="INTEGER" primarykey="true" autoincrement="true" sequence-name="GL_ORIGIN_ENTRY_T_SEQ" />
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />

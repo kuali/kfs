@@ -99,6 +99,7 @@
         <property name="originEntryGroupService"><ref bean="glOriginEntryGroupService" /></property>
 		<property name="encumbranceDao"><ref bean="glEncumbranceDao"/></property>
 		<property name="encumbranceClosingReport"><ref bean="glEncumbranceClosingYearEndReport" /></property>
+		<property name="balanceForwardReport"><ref bean="glBalanceForwardYearEndReport" /></property>
 		<property name="dateTimeService"><ref bean="dateTimeService" /></property>
 		<property name="balanceService"><ref bean="glBalanceService" /></property>
 		<property name="yearEndEncumbranceClosingRuleHelper"><ref bean="glYearEndEncumbranceClosingRuleHelper" /></property>
@@ -276,7 +277,13 @@
 		<property name="kualiConfigurationService"><ref bean="kualiConfigurationService"/></property>
 		-->
 	</bean>
-	
+
+	<bean id="glBalanceForwardYearEndReport" class="org.kuali.module.gl.batch.closing.year.impl.BalanceForwardReportImpl">
+		<!--
+		<property name="kualiConfigurationService"><ref bean="kualiConfigurationService"/></property>
+		-->
+	</bean>
+
 	<bean id="glScrubberReport" class="org.kuali.module.gl.batch.scrubber.impl.ScrubberReportImpl">
 		<property name="kualiConfigurationService"><ref bean="kualiConfigurationService"/></property>
 	</bean>

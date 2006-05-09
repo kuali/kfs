@@ -22,23 +22,14 @@
  */
 package org.kuali.module.financial.rules;
 
-import java.util.Iterator;
-import java.util.List;
-
-import org.apache.commons.lang.StringUtils;
-import org.kuali.KeyConstants;
 import org.kuali.PropertyConstants;
 import org.kuali.core.bo.AccountingLine;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.rule.KualiParameterRule;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
-import org.kuali.module.financial.bo.ProcurementCardSourceAccountingLine;
-import org.kuali.module.financial.bo.ProcurementCardTransactionDetail;
 import org.kuali.module.financial.document.BudgetAdjustmentDocument;
-import org.kuali.module.financial.document.ProcurementCardDocument;
 
 
 /**

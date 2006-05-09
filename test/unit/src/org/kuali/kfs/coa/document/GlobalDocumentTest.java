@@ -31,7 +31,6 @@ import org.kuali.core.maintenance.Maintainable;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.AccountChangeDetail;
-import org.kuali.module.chart.bo.AccountChangeDocument;
 import org.kuali.module.chart.bo.DelegateChangeDocument;
 import org.kuali.module.chart.bo.GlobalAccountChanges;
 import org.kuali.test.KualiTestBaseWithFixtures;

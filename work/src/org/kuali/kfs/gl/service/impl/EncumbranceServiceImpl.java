@@ -55,4 +55,11 @@ public class EncumbranceServiceImpl implements EncumbranceService {
     public void setEncumbranceDao(EncumbranceDao ed) {
         encumbranceDao = ed;
     }
+
+    /**
+     * @see org.kuali.module.gl.service.EncumbranceService#getSummarizedEncumbrances(java.lang.String, boolean)
+     */
+    public Iterator getSummarizedEncumbrances(String documentTypeCode, boolean included) {
+        return encumbranceDao.getSummarizedEncumbrances(documentTypeCode, included);
+    }
 }

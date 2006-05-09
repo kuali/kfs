@@ -22,11 +22,15 @@
  */
 package org.kuali.module.gl.dao.ojb;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
+import org.apache.ojb.broker.query.ReportQueryByCriteria;
+import org.kuali.PropertyConstants;
 import org.kuali.module.gl.bo.Encumbrance;
 import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.dao.EncumbranceDao;
@@ -34,7 +38,7 @@ import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 /**
  * @author jsissom
- * @version $Id: EncumbranceDaoOjb.java,v 1.6 2006-04-25 20:58:43 bgao Exp $
+ * @version $Id: EncumbranceDaoOjb.java,v 1.7 2006-05-09 12:16:59 bgao Exp $
  */
 public class EncumbranceDaoOjb extends PersistenceBrokerDaoSupport implements EncumbranceDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EncumbranceDaoOjb.class);
@@ -68,34 +72,34 @@ public class EncumbranceDaoOjb extends PersistenceBrokerDaoSupport implements En
     }
 
     public Iterator getEncumbrancesToClose(Integer fiscalYear) {
-        
-//        816  002750     EXEC SQL
-//        817  002760        DECLARE GLEC_CURSOR CURSOR FOR
-//        818  002770          SELECT UNIV_FISCAL_YR,
-//        819  002780                 FIN_COA_CD,
-//        820  002790                 ACCOUNT_NBR,
-//        821  002800                 SUB_ACCT_NBR,
-//        822  002810                 FIN_OBJECT_CD,
-//        823  002820                 FIN_SUB_OBJ_CD,
-//        824  002830                 FIN_BALANCE_TYP_CD,
-//        825  002840                 FDOC_TYP_CD,
-//        826  002850                 FS_ORIGIN_CD,
-//        827  002860                 FDOC_NBR,
-//        828  002870                 TRN_ENCUM_DESC,
-//        829  002880                 ACLN_ENCUM_AMT,
-//        830  002890                 ACLN_ENCUM_CLS_AMT
-//        831  002900           FROM  GL_ENCUMBRANCE_T
-//        832  002910           WHERE UNIV_FISCAL_YR = RTRIM(:GLGLEC-UNIV-FISCAL-YR)
-//        833  002920           ORDER BY FIN_COA_CD,
-//        834  002930                    ACCOUNT_NBR,
-//        835  002940                    SUB_ACCT_NBR,
-//        836  002950                    FIN_OBJECT_CD,
-//        837  002960                    FIN_SUB_OBJ_CD,
-//        838  002970                    FIN_BALANCE_TYP_CD
-//        839  002980           END-EXEC.        
+
+        //        816 002750 EXEC SQL
+        //        817 002760 DECLARE GLEC_CURSOR CURSOR FOR
+        //        818 002770 SELECT UNIV_FISCAL_YR,
+        //        819 002780 FIN_COA_CD,
+        //        820 002790 ACCOUNT_NBR,
+        //        821 002800 SUB_ACCT_NBR,
+        //        822 002810 FIN_OBJECT_CD,
+        //        823 002820 FIN_SUB_OBJ_CD,
+        //        824 002830 FIN_BALANCE_TYP_CD,
+        //        825 002840 FDOC_TYP_CD,
+        //        826 002850 FS_ORIGIN_CD,
+        //        827 002860 FDOC_NBR,
+        //        828 002870 TRN_ENCUM_DESC,
+        //        829 002880 ACLN_ENCUM_AMT,
+        //        830 002890 ACLN_ENCUM_CLS_AMT
+        //        831 002900 FROM GL_ENCUMBRANCE_T
+        //        832 002910 WHERE UNIV_FISCAL_YR = RTRIM(:GLGLEC-UNIV-FISCAL-YR)
+        //        833 002920 ORDER BY FIN_COA_CD,
+        //        834 002930 ACCOUNT_NBR,
+        //        835 002940 SUB_ACCT_NBR,
+        //        836 002950 FIN_OBJECT_CD,
+        //        837 002960 FIN_SUB_OBJ_CD,
+        //        838 002970 FIN_BALANCE_TYP_CD
+        //        839 002980 END-EXEC.
         Criteria criteria = new Criteria();
         criteria.addEqualTo("universityFiscalYear", fiscalYear);
-        
+
         QueryByCriteria query = new QueryByCriteria(Encumbrance.class, criteria);
         query.addOrderByAscending("chartOfAccountsCode");
         query.addOrderByAscending("accountNumber");
@@ -127,8 +131,10 @@ public class EncumbranceDaoOjb extends PersistenceBrokerDaoSupport implements En
 
         getPersistenceBrokerTemplate().deleteByQuery(new QueryByCriteria(Encumbrance.class, criteria));
 
-        // This is required because if any deleted account balances are in the cache, deleteByQuery doesn't
-        // remove them from the cache so a future select will retrieve these deleted account balances from
+        // This is required because if any deleted account balances are in the cache, deleteByQuery
+        // doesn't
+        // remove them from the cache so a future select will retrieve these deleted account
+        // balances from
         // the cache and return them. Clearing the cache forces OJB to go to the database again.
         getPersistenceBrokerTemplate().clearCache();
     }
@@ -140,5 +146,62 @@ public class EncumbranceDaoOjb extends PersistenceBrokerDaoSupport implements En
         Criteria criteria = new Criteria();
         QueryByCriteria query = QueryFactory.newQuery(Encumbrance.class, criteria);
         return getPersistenceBrokerTemplate().getIteratorByQuery(query);
+    }
+
+    /**
+     * @see org.kuali.module.gl.dao.EncumbranceDao#getSummarizedEncumbrances(String, boolean)
+     */
+    public Iterator getSummarizedEncumbrances(String documentTypeCode, boolean included) {
+        Criteria criteria = new Criteria();
+        
+        if(included){
+            criteria.addEqualTo(PropertyConstants.DOCUMENT_TYPE_CODE, documentTypeCode);
+        }
+        else{
+            criteria.addNotEqualTo(PropertyConstants.DOCUMENT_TYPE_CODE, documentTypeCode);
+        }
+        
+        ReportQueryByCriteria query = QueryFactory.newReportQuery(Encumbrance.class, criteria);
+
+        // set the selection attributes
+        List attributeList = buildAttributeList();
+        String[] attributes = (String[]) attributeList.toArray(new String[attributeList.size()]);
+        query.setAttributes(attributes);
+
+        // add the group criteria into the selection statement
+        List groupByList = buildGroupByList();
+        String[] groupBy = (String[]) groupByList.toArray(new String[groupByList.size()]);
+        query.addGroupBy(groupBy);
+
+        return getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
+    }
+
+    /**
+     * This method builds the atrribute list used by balance searching
+     */
+    private List buildAttributeList() {
+        List attributeList = this.buildGroupByList();
+
+        attributeList.add("sum(" + PropertyConstants.ACCOUNT_LINE_ENCUMBRANCE_AMOUNT + ")");
+        attributeList.add("sum(" + PropertyConstants.ACCOUNT_LINE_ENCUMBRANCE_CLOSED_AMOUNT + ")");
+
+        return attributeList;
+    }
+
+    /**
+     * This method builds group by attribute list used by balance searching
+     */
+    private List buildGroupByList() {
+        List attributeList = new ArrayList();
+
+        attributeList.add(PropertyConstants.UNIVERSITY_FISCAL_YEAR);
+        attributeList.add(PropertyConstants.CHART_OF_ACCOUNTS_CODE);
+        attributeList.add(PropertyConstants.ACCOUNT_NUMBER);
+        attributeList.add(PropertyConstants.SUB_ACCOUNT_NUMBER);
+        attributeList.add(PropertyConstants.OBJECT_CODE);
+        attributeList.add(PropertyConstants.SUB_OBJECT_CODE);
+        attributeList.add(PropertyConstants.BALANCE_TYPE_CODE);
+
+        return attributeList;
     }
 }

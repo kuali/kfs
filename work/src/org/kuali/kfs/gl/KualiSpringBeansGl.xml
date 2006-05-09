@@ -190,7 +190,7 @@
 		<property name="objectTypeService"><ref bean="objectTypeService" /></property>
 		<property name="offsetDefinitionService"><ref bean="offsetDefinitionService" /></property>
 		
-		<property name="encumbranceDao"><ref bean="glEncumbranceDao" /></property>
+		<property name="encumbranceService"><ref bean="glEncumbranceService" /></property>
 		<property name="kualiConfigurationService"><ref bean="kualiConfigurationService" /></property>		
 	</bean>
 	
@@ -277,7 +277,7 @@
 		<property name="kualiConfigurationService"><ref bean="kualiConfigurationService"/></property>
 		-->
 	</bean>
-
+	
 	<bean id="glBalanceForwardYearEndReport" class="org.kuali.module.gl.batch.closing.year.impl.BalanceForwardReportImpl">
 		<!--
 		<property name="kualiConfigurationService"><ref bean="kualiConfigurationService"/></property>

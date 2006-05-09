@@ -267,10 +267,6 @@ public abstract class AbstractGLInquirableImpl extends KualiInquirableImpl {
                     && keyValue.equals(Constants.DASHES_SUB_OBJECT_CODE)) {
                 return true;
             }
-            else if (convertedKeyName.equals(PropertyConstants.OBJECT_CODE) 
-                    && keyValue.equals(Constants.DASHES_OBJECT_CODE)) {
-                return true;
-            }
             else if (convertedKeyName.equals(PropertyConstants.PROJECT_CODE) 
                     && keyValue.equals(Constants.DASHES_PROJECT_CODE)) {
                 return true;

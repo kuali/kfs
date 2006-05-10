@@ -120,7 +120,10 @@
 		<property name="universityDateDao"><ref bean="universityDateDao" /></property>
 		<property name="originEntryGroupService"><ref bean="glOriginEntryGroupService" /></property>
 		<property name="persistenceService"><ref bean="persistenceService"/></property>
+		<!--
 		<property name="scrubberReport"><ref bean="glScrubberReport" /></property>
+		-->
+		<property name="reportService"><ref bean="glReportService" /></property>
 		<property name="scrubberValidator"><ref bean="glScrubberValidator"/></property>
 	</bean>
 
@@ -295,8 +298,12 @@
 	</bean>
 
 	<bean id="glScrubberReport" class="org.kuali.module.gl.batch.scrubber.impl.ScrubberReportImpl">
+		<!--
 		<property name="kualiConfigurationService"><ref bean="kualiConfigurationService"/></property>
+		-->
 	</bean>
+
+	<bean id="glReportService" class="org.kuali.module.gl.service.impl.ReportServiceImpl" />
 
 	<bean id="glSufficientFundsReport" class="org.kuali.module.gl.batch.sufficientFunds.impl.SufficientFundsReportImpl">
 		<property name="kualiConfigurationService"><ref bean="kualiConfigurationService"/></property>

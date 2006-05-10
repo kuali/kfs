@@ -46,8 +46,6 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     private ScrubberService scrubberService = null;
 
-    private TestScrubberReport scrubberReport = null;
-
     protected void setUp() throws Exception {
         super.setUp();
 
@@ -63,10 +61,6 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
         c.set(Calendar.YEAR, 2006);
         date = c.getTime();
         dateTimeService.currentDate = date;
-
-        // get the test scrubber report so we can read the summary and error information
-        // in the unit test
-        scrubberReport = (TestScrubberReport) beanFactory.getBean("testScrubberReport");
     }
 
     /*
@@ -2152,7 +2146,6 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
         // ... and run the test.
         scrub(stringInput);
-        reportErrors();
         assertOriginEntries(4,(EntryHolder[]) expectedOutput.toArray(new EntryHolder[0]), dateTimeService.currentDate);
     }
 
@@ -3256,20 +3249,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
         };
 
         scrub(inputTransactions);
-        reportErrors();
         assertOriginEntries(4,outputTransactions);
-    }
-
-    private void reportErrors() {
-        Map errors = scrubberReport.reportErrors;
-        for (Iterator i = errors.keySet().iterator(); i.hasNext();) {
-            Transaction key = (Transaction) i.next();
-            List msgs = (List) errors.get(key);
-            for (Iterator iterator = msgs.iterator(); iterator.hasNext();) {
-                String msg = (String) iterator.next();
-                System.err.println(msg);
-            }
-        }
     }
 
     private void scrub(String[] inputTransactions) {

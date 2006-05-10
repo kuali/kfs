@@ -28,6 +28,8 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.kuali.module.gl.util.LedgerEntry;
+
 import com.lowagie.text.Document;
 import com.lowagie.text.ExceptionConverter;
 import com.lowagie.text.Font;
@@ -74,8 +76,7 @@ public class LedgerReport {
                 head.setTotalWidth(page.width() - document.leftMargin() - document.rightMargin());
                 head.writeSelectedRows(0, -1, document.leftMargin(), page.height() - document.topMargin() + head.getTotalHeight(),
                         writer.getDirectContent());
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 throw new ExceptionConverter(e);
             }
         }
@@ -104,16 +105,19 @@ public class LedgerReport {
         helper.title = title;
 
         try {
+            
             String filename = destinationDirectory + "/" + fileprefix + "_";
             SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
             filename = filename + sdf.format(runDate);
             filename = filename + ".pdf";
+            
             PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(filename));
             writer.setPageEvent(helper);
 
             document.open();
-
+            
             if (ledgerEntries != null && ledgerEntries.size() > 0) {
+
                 float[] warningWidths = { 3, 3, 6, 3, 8, 10, 8, 10, 8, 10, 8 };
                 PdfPTable ledgerEntryTable = new PdfPTable(warningWidths);
                 ledgerEntryTable.setHeaderRows(2);
@@ -177,25 +181,42 @@ public class LedgerReport {
                     cell = new PdfPCell(new Phrase(Integer.toString(ledgerEntry.noDCCount), textFont));
                     ledgerEntryTable.addCell(cell);
                 }
+
                 document.add(ledgerEntryTable);
+
             } else {
+
                 float[] warningWidths = { 100 };
                 PdfPTable ledgerEntryTable = new PdfPTable(warningWidths);
                 ledgerEntryTable.setWidthPercentage(100);
                 ledgerEntryTable.addCell("No valid entries found!");
                 document.add(ledgerEntryTable);
+
             }
+
         } catch (Exception de) {
+
             LOG.error("generateReport() Error creating PDF report", de);
             throw new RuntimeException("Report Generation Failed");
+
         } finally {
-          try {
-            if ( (document != null) && (document.isOpen()) ) {
-              document.close();
+
+            try {
+
+                if (null != document && document.isOpen() && 0 != document.getPageNumber()) {
+
+                    document.close();
+
+                }
+
+            } catch (Throwable t) {
+
+                LOG.error("generateReport() Exception closing report", t);
+
             }
-          } catch (RuntimeException re) {
-              LOG.error("generateReport() Exception closing report",re);
-          }
+
         }
+
     }
+
 }

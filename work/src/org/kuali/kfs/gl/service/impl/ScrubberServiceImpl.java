@@ -55,6 +55,7 @@ import org.kuali.module.gl.bo.UniversityDate;
 import org.kuali.module.gl.dao.UniversityDateDao;
 import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.gl.service.OriginEntryService;
+import org.kuali.module.gl.service.ReportService;
 import org.kuali.module.gl.service.ScrubberService;
 import org.kuali.module.gl.service.ScrubberValidator;
 import org.kuali.module.gl.service.impl.helper.BatchInfo;
@@ -74,7 +75,7 @@ import org.springframework.util.StringUtils;
 
 /**
  * @author Kuali General Ledger Team <kualigltech@oncourse.iu.edu>
- * @version $Id: ScrubberServiceImpl.java,v 1.87 2006-05-02 21:47:24 jsissom Exp $
+ * @version $Id: ScrubberServiceImpl.java,v 1.88 2006-05-10 21:00:05 larevans Exp $
  */
 
 public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
@@ -249,7 +250,8 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
     private KualiConfigurationService kualiConfigurationService;
     private UniversityDateDao universityDateDao;
     private PersistenceService persistenceService;
-    private ScrubberReport scrubberReportService;
+    //private ScrubberReport scrubberReportService;
+    private ReportService reportService;
     private ScrubberValidator scrubberValidator;
     private Date runDate;
     private Calendar runCal;
@@ -271,13 +273,13 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
      *
      */
     public void init() {
-      LOG.debug("init() started");
+        LOG.debug("init() started");
 
-      // If we are in test mode
-      if ( beanFactory.containsBean("testDateTimeService") ) {
-        dateTimeService = (DateTimeService)beanFactory.getBean("testDateTimeService");
-        scrubberReportService = (ScrubberReport)beanFactory.getBean("testScrubberReport");
-      }
+        // If we are in test mode
+        if (beanFactory.containsBean("testDateTimeService")) {
+            dateTimeService = (DateTimeService) beanFactory.getBean("testDateTimeService");
+            reportService = (ReportService) beanFactory.getBean("testReportService");
+        }
     }
 
     /**
@@ -339,13 +341,6 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         // write out report and errors
         List reportSummary = buildReportSummary(batchInfo);
         
-        scrubberReportService.generateStatisticReport(batchError, reportSummary, runDate, 0);
-        generateBKUPLedgerReport();
-        
-        LOG.debug("scrubEntries() exiting scrubber process");
-    }
-
-    private void generateBKUPLedgerReport() {
         Map ledgerEntries = new HashMap();
         for (Iterator iterator = originEntryService.getEntriesByGroup(validGroup); iterator.hasNext();) {
             OriginEntry entry = (OriginEntry) iterator.next();
@@ -382,8 +377,12 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
             }
         }
         Map sortedLedgerEntries = new TreeMap(ledgerEntries);
-        scrubberReportService.generateLedgerStatReport(sortedLedgerEntries, runDate);
-}
+        
+        reportService.generateScrubberReports(runDate, reportSummary, batchError, sortedLedgerEntries);
+        //scrubberReportService.generateLedgerStatReport(sortedLedgerEntries, runDate);
+        
+        LOG.debug("scrubEntries() exiting scrubber process");
+    }
 
     /**
      * 
@@ -3496,10 +3495,14 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         this.kualiConfigurationService = kualiConfigurationService;
     }
 
-    public void setScrubberReport(ScrubberReport srs) {
-        scrubberReportService = srs;
-    }
+//    public void setScrubberReport(ScrubberReport srs) {
+//        scrubberReportService = srs;
+//    }
 
+    public void setReportService(ReportService reportService) {
+        this.reportService = reportService;
+    }
+    
     public void setBeanFactory(BeanFactory bf) throws BeansException {
       beanFactory = bf;
     }

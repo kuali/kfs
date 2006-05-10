@@ -80,7 +80,7 @@ public class BalanceForwardStepTest extends OriginEntryTestBase {
      * ## WARNING: This one  test takes just under 3 hours to run WARNING ##
      * ## WARNING: over the vpn.                                  WARNING ##
      */
-    public void DO_NOT_testAll() throws Exception {
+    public void testAll() throws Exception {
         
         clearOriginEntryTables();
         

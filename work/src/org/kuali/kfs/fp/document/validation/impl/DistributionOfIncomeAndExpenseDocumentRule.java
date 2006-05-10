@@ -66,9 +66,7 @@ public class DistributionOfIncomeAndExpenseDocumentRule extends TransactionalDoc
                 accountingLine.refreshReferenceObject(PropertyConstants.OBJECT_CODE);
             }
 
-            String objectSubType = objectCode.getFinancialObjectSubTypeCode();
-
-            valid = rule.failsRule(objectSubTypeCode);
+            valid = !rule.failsRule(objectSubTypeCode);
 
             if (!valid) {
                 reportError(PropertyConstants.FINANCIAL_OBJECT_CODE,
@@ -117,7 +115,7 @@ public class DistributionOfIncomeAndExpenseDocumentRule extends TransactionalDoc
 
             String objectTypeCode = objectCode.getFinancialObjectTypeCode();
 
-            valid = rule.failsRule(objectTypeCode);
+            valid = !rule.failsRule(objectTypeCode);
             if (!valid) {
                 // add message
                 GlobalVariables.getErrorMap().put(PropertyConstants.FINANCIAL_OBJECT_CODE,

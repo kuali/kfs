@@ -242,12 +242,16 @@ public class InternalBillingDocumentRule extends TransactionalDocumentRuleBase i
      * @see org.kuali.core.rule.AddAccountingLineRule#isObjectSubTypeAllowed(AccountingLine)
      */
     public boolean isObjectSubTypeAllowed(AccountingLine accountingLine) {
-        KualiParameterRule parameterRule = getParameterRule(INTERNAL_BILLING_DOCUMENT_SECURITY_GROUPING,
-            RESTRICTED_OBJECT_SUB_TYPE_CODES);
-        AttributeReference direct = createObjectCodeAttributeReference(accountingLine);
-        AttributeReference indirect = new AttributeReference(ObjectCode.class, PropertyConstants.FINANCIAL_OBJECT_SUB_TYPE_CODE,
-            accountingLine.getObjectCode().getFinancialObjectSubTypeCode());
-        return indirectRuleSucceeds(parameterRule, direct, indirect);
+        boolean allowed = super.isObjectSubTypeAllowed(accountingLine);
+        if (allowed) {
+            KualiParameterRule parameterRule = getParameterRule(INTERNAL_BILLING_DOCUMENT_SECURITY_GROUPING,
+                RESTRICTED_OBJECT_SUB_TYPE_CODES);
+            AttributeReference direct = createObjectCodeAttributeReference(accountingLine);
+            AttributeReference indirect = new AttributeReference(ObjectCode.class, PropertyConstants.FINANCIAL_OBJECT_SUB_TYPE_CODE,
+                accountingLine.getObjectCode().getFinancialObjectSubTypeCode());
+            allowed &= indirectRuleSucceeds(parameterRule, direct, indirect);
+        }
+        return allowed;
     }
 
     /**
@@ -257,12 +261,16 @@ public class InternalBillingDocumentRule extends TransactionalDocumentRuleBase i
      * @see TransactionalDocumentRuleBase#isObjectLevelAllowed(AccountingLine)
      */
     public boolean isObjectLevelAllowed(AccountingLine accountingLine) {
-        KualiParameterRule parameterRule = getParameterRule(INTERNAL_BILLING_DOCUMENT_SECURITY_GROUPING,
-            RESTRICTED_OBJECT_LEVEL_CODES);
-        AttributeReference direct = createObjectCodeAttributeReference(accountingLine);
-        AttributeReference indirect = new AttributeReference(ObjectCode.class, PropertyConstants.FINANCIAL_OBJECT_LEVEL_CODE,
-            accountingLine.getObjectCode().getFinancialObjectLevelCode());
-        return indirectRuleSucceeds(parameterRule, direct, indirect);
+        boolean allowed = super.isObjectLevelAllowed(accountingLine);
+        if (allowed) {
+            KualiParameterRule parameterRule = getParameterRule(INTERNAL_BILLING_DOCUMENT_SECURITY_GROUPING,
+                RESTRICTED_OBJECT_LEVEL_CODES);
+            AttributeReference direct = createObjectCodeAttributeReference(accountingLine);
+            AttributeReference indirect = new AttributeReference(ObjectCode.class, PropertyConstants.FINANCIAL_OBJECT_LEVEL_CODE,
+                accountingLine.getObjectCode().getFinancialObjectLevelCode());
+            allowed &= indirectRuleSucceeds(parameterRule, direct, indirect);
+        }
+        return allowed;
     }
 
     /**
@@ -271,13 +279,17 @@ public class InternalBillingDocumentRule extends TransactionalDocumentRuleBase i
      * @see TransactionalDocumentRuleBase#isFundGroupAllowed(AccountingLine)
      */
     public boolean isFundGroupAllowed(AccountingLine accountingLine) {
-        KualiParameterRule parameterRule = getParameterRule(INTERNAL_BILLING_DOCUMENT_SECURITY_GROUPING,
-            RESTRICTED_FUND_GROUP_CODES);
-        AttributeReference direct = createAccountNumberAttributeReference(accountingLine);
-        AttributeReference indirect = new AttributeReference(SubFundGroup.class, PropertyConstants.FUND_GROUP_CODE,
-            accountingLine.getAccount().getSubFundGroup().getFundGroupCode());
-        return indirectRuleSucceeds(parameterRule, direct, indirect);
-        // This calls for double indirection, but I'm not sure if such an error message would be more user friendly.
+        boolean allowed = super.isFundGroupAllowed(accountingLine);
+        if (allowed) {
+            KualiParameterRule parameterRule = getParameterRule(INTERNAL_BILLING_DOCUMENT_SECURITY_GROUPING,
+                RESTRICTED_FUND_GROUP_CODES);
+            AttributeReference direct = createAccountNumberAttributeReference(accountingLine);
+            AttributeReference indirect = new AttributeReference(SubFundGroup.class, PropertyConstants.FUND_GROUP_CODE,
+                accountingLine.getAccount().getSubFundGroup().getFundGroupCode());
+            allowed &= indirectRuleSucceeds(parameterRule, direct, indirect);
+            // This calls for double indirection, but I'm not sure if such an error message would be more user friendly.
+        }
+        return allowed;
     }
 
     /**
@@ -298,12 +310,16 @@ public class InternalBillingDocumentRule extends TransactionalDocumentRuleBase i
      * @see TransactionalDocumentRuleBase#isSubFundGroupAllowed(AccountingLine)
      */
     public boolean isSubFundGroupAllowed(AccountingLine accountingLine) {
-        KualiParameterRule parameterRule = getParameterRule(INTERNAL_BILLING_DOCUMENT_SECURITY_GROUPING,
-            RESTRICTED_SUB_FUND_GROUP_CODES);
-        AttributeReference direct = createAccountNumberAttributeReference(accountingLine);
-        AttributeReference indirect = new AttributeReference(Account.class, PropertyConstants.SUB_FUND_GROUP_CODE,
-            accountingLine.getAccount().getSubFundGroupCode());
-        return indirectRuleSucceeds(parameterRule, direct, indirect);
+        boolean allowed = super.isSubFundGroupAllowed(accountingLine);
+        if (allowed) {
+            KualiParameterRule parameterRule = getParameterRule(INTERNAL_BILLING_DOCUMENT_SECURITY_GROUPING,
+                RESTRICTED_SUB_FUND_GROUP_CODES);
+            AttributeReference direct = createAccountNumberAttributeReference(accountingLine);
+            AttributeReference indirect = new AttributeReference(Account.class, PropertyConstants.SUB_FUND_GROUP_CODE,
+                accountingLine.getAccount().getSubFundGroupCode());
+            allowed &= indirectRuleSucceeds(parameterRule, direct, indirect);
+        }
+        return allowed;
     }
 
     /**

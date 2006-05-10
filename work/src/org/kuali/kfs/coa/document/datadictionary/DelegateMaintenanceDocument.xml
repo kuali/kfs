@@ -39,7 +39,7 @@
 			<reference  attributeName="account" 
 						attributeToHighlightOnFail="accountNumber" />
 			<reference  attributeName="accountDelegate" 
-						attributeToHighlightOnFail="accountDelegateSystemId" />
+						attributeToHighlightOnFail="accountDelegate.personUserIdentifier" />
 		</defaultExistenceChecks>						
 		
 		<maintainableSections>

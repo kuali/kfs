@@ -32,7 +32,7 @@
 
 		<defaultExistenceChecks>
 			<reference  attributeName="finCoaManagerUniversal" 
-						attributeToHighlightOnFail="finCoaManagerUniversalId" 
+						attributeToHighlightOnFail="finCoaManagerUniversal.personUserIdentifier" 
 						displayFieldName="Chart Manager" />
 			<reference  attributeName="financialCashObject" 
 						attributeToHighlightOnFail="financialCashObjectCode" />

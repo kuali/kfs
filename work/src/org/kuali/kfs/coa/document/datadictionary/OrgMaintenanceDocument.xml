@@ -41,7 +41,7 @@
 			<reference  attributeName="chartOfAccounts" 
 						attributeToHighlightOnFail="chartOfAccountsCode" />
 			<reference  attributeName="organizationManagerUniversal" 
-						attributeToHighlightOnFail="organizationManagerUniversalId" />
+						attributeToHighlightOnFail="organizationManagerUniversal.personUserIdentifier" />
 			<reference  attributeName="responsibilityCenter" 
 						activeIndicatorAttributeName="responsibilityCenterActiveIndicator" 
 						attributeToHighlightOnFail="responsibilityCenterCode" />

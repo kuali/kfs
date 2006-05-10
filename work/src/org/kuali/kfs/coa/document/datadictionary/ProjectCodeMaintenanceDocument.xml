@@ -38,7 +38,7 @@
 						attributeToHighlightOnFail="chartOfAccountsCode" />
 			<reference  attributeName="projectManagerUniversal" 
 						activeIndicatorAttributeName="personActiveIndicator" 
-						attributeToHighlightOnFail="projectManagerUniversalId" />
+						attributeToHighlightOnFail="projectManagerUniversal.personUserIdentifier" />
 			<reference  attributeName="organization" 
 						activeIndicatorAttributeName="organizationActiveIndicator" 
 						attributeToHighlightOnFail="organizationCode" />

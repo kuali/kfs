@@ -151,7 +151,7 @@ public class ServiceBillingDocumentRule extends InternalBillingDocumentRule {
                     }
                 }
                 catch (GroupNotFoundException e) {
-                    // todo: handle invalid ServiceBillingControl? Just log?
+                    LOG.error("invalid workgroup in SB control for " + chartOfAccountsCode + accountNumber, e);
                     throw new RuntimeException(e);
                 }
             }

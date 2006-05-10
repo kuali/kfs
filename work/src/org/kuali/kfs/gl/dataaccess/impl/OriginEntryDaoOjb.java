@@ -23,6 +23,7 @@
 package org.kuali.module.gl.dao.ojb;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -36,7 +37,7 @@ import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 /**
  * @author jsissom
  * @author Laran Evans <lc278@cornell.edu>
- * @version $Id: OriginEntryDaoOjb.java,v 1.13 2006-04-28 16:16:16 larevans Exp $
+ * @version $Id: OriginEntryDaoOjb.java,v 1.14 2006-05-10 18:36:20 schoo Exp $
  */
 
 public class OriginEntryDaoOjb extends PersistenceBrokerDaoSupport implements OriginEntryDao {
@@ -116,4 +117,19 @@ public class OriginEntryDaoOjb extends PersistenceBrokerDaoSupport implements Or
         getPersistenceBrokerTemplate().deleteByQuery(qbc);
     }
     
+    
+    public Collection getMatchingEntriesByCollection(Map searchCriteria) {
+        LOG.debug("getMatchingEntries() started");
+
+        Criteria criteria = new Criteria();
+        for (Iterator iter = searchCriteria.keySet().iterator(); iter.hasNext();) {
+            String element = (String) iter.next();
+            criteria.addEqualTo(element, searchCriteria.get(element));
+        }
+
+        QueryByCriteria qbc = QueryFactory.newQuery(OriginEntry.class, criteria);
+        qbc.addOrderByAscending("entryId");
+        return getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
+    }
+   
 }

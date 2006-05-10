@@ -30,13 +30,13 @@ import org.kuali.module.gl.bo.OriginEntry;
 
 /**
  * @author jsissom
- * @version $Id: OriginEntryDao.java,v 1.4 2006-02-15 03:29:49 jsissom Exp $
+ * @version $Id: OriginEntryDao.java,v 1.5 2006-05-10 18:35:53 schoo Exp $
  */
 public interface OriginEntryDao {
+    public Collection getMatchingEntriesByCollection(Map searchCriteria);
     public Iterator getMatchingEntries(Map searchCriteria);
     public void deleteMatchingEntries(Map searchCriteria);
 	public void saveOriginEntry(OriginEntry entry);
-
     /**
      * This method should only be used in unit tests.  It loads all the 
      * gl_origin_entry_t rows in memory into a collection.  This won't 

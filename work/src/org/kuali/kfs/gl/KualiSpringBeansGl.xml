@@ -285,6 +285,13 @@
 		<property name="expenditureTransactionDao"><ref bean="glExpenditureTransactionDao"/></property>
 	</bean>
 
+	<bean id="glIcrTransaction" class="org.kuali.module.gl.batch.poster.impl.PostExpenditureTransaction">
+		<property name="indirectCostRecoveryExclusionAccountDao"><ref bean="indirectCostRecoveryExclusionAccountDao"/></property>
+		<property name="indirectCostRecoveryExclusionTypeDao"><ref bean="indirectCostRecoveryExclusionTypeDao"/></property>
+		<property name="a21SubAccountDao"><ref bean="a21SubAccountDao"/></property>
+		<property name="expenditureTransactionDao"><ref bean="glExpenditureTransactionDao"/></property>
+	</bean>
+
 	<bean id="glEncumbranceClosingYearEndReport" class="org.kuali.module.gl.batch.closing.year.impl.EncumbranceClosingReportImpl">
 		<!--
 		<property name="kualiConfigurationService"><ref bean="kualiConfigurationService"/></property>

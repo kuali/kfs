@@ -47,7 +47,6 @@ import org.kuali.module.chart.service.ObjectCodeService;
 import org.kuali.module.chart.service.OffsetDefinitionService;
 import org.kuali.module.financial.bo.OffsetAccount;
 import org.kuali.module.financial.service.FlexibleOffsetAccountService;
-import org.kuali.module.gl.batch.scrubber.ScrubberReport;
 import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.bo.OriginEntrySource;
@@ -75,7 +74,7 @@ import org.springframework.util.StringUtils;
 
 /**
  * @author Kuali General Ledger Team <kualigltech@oncourse.iu.edu>
- * @version $Id: ScrubberServiceImpl.java,v 1.88 2006-05-10 21:00:05 larevans Exp $
+ * @version $Id: ScrubberServiceImpl.java,v 1.89 2006-05-11 02:06:25 wesprice Exp $
  */
 
 public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {

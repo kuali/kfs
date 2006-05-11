@@ -23,16 +23,11 @@
 package org.kuali.module.gl.service;
 
 import java.util.Calendar;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 import java.util.Vector;
 
 import org.kuali.core.service.PersistenceService;
 import org.kuali.module.gl.OriginEntryTestBase;
-import org.kuali.module.gl.TestScrubberReport;
 import org.kuali.module.gl.bo.OriginEntrySource;
-import org.kuali.module.gl.bo.Transaction;
 
 // testNoCostShareEncumbracesForBudget
 // testNoCostShareTransfersForBudgetTransactions

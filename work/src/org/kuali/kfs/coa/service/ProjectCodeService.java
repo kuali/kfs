@@ -43,9 +43,4 @@ public interface ProjectCodeService {
      */
     public ProjectCode getByName(String name);
 
-    /**
-     * Saves a ProjectCode object
-     * @param name - projectCode
-     */
-    public void save(ProjectCode projectCode);
 }

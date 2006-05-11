@@ -189,12 +189,14 @@
 		<property name="indirectCostRecoveryThresholdDao"><ref bean="indirectCostRecoveryThresholdDao" /></property>
 
 		<property name="objectCodeService"><ref bean="objectCodeService" /></property>
-		<property name="objectTypeService"><ref bean="objectTypeService" /></property>
 		<property name="offsetDefinitionService"><ref bean="offsetDefinitionService" /></property>
 		
 		<property name="encumbranceService"><ref bean="glEncumbranceService" /></property>
 		<property name="kualiConfigurationService"><ref bean="kualiConfigurationService" /></property>	
-		<property name="optionsDao"><ref bean="optionsDao" /></property>	
+		
+		<property name="optionsDao"><ref bean="optionsDao" /></property>
+		<property name="reportingService"><ref bean="glPosterReport" /></property>
+		<property name="icrTransaction"><ref bean="glIcrTransaction" /></property>
 	</bean>
 
 	<bean id="glIcrEncumbranceReversalService" class="org.kuali.module.gl.service.impl.IndirectCostEncumbranceReversalServiceImpl">	

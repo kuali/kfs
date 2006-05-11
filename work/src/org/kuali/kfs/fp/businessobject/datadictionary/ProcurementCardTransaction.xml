@@ -12,26 +12,11 @@
 								sourceClassName="org.kuali.module.chart.bo.Account" 
 								sourceAttributeName="accountNumber" />
 								
-             <attribute name="accountTypeCode" forceUppercase="true">
-                <label>Account Type Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>1</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="3" />
-                </control>
-
-                <summary>accountTypeCode</summary>
-                <description>accountTypeCode description...</description>
-			</attribute>
-
             <attributeReference name="chartOfAccountsCode" 
 								sourceClassName="org.kuali.module.chart.bo.Chart" 
 								sourceAttributeName="chartOfAccountsCode" />
 
-            <attribute name="financialDocumentCardHolderName" forceUppercase="true">
+            <attribute name="cardHolderName" forceUppercase="true">
                 <label>Financial Document Card Holder Name</label>
                 <shortLabel>Name</shortLabel>
 
@@ -143,21 +128,6 @@
                 <description>transactionDebitCreditCode description...</description>
 			</attribute>
 
-            <attribute name="transactionIdentifier" forceUppercase="true">
-                <label>Transaction Identifier</label>
-                <shortLabel>Identifier</shortLabel>
-
-                <maxLength>6</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="8" />
-                </control>
-
-                <summary>transactionIdentifier</summary>
-                <description>transactionIdentifier description...</description>
-			</attribute>
-
             <attribute name="transactionMerchantCategoryCode" forceUppercase="true">
                 <label>Transaction Merchant Category Code</label>
                 <shortLabel>Code</shortLabel>
@@ -203,7 +173,7 @@
                 <description>transactionSequenceRowNumber description...</description>
 			</attribute>
 
-            <attribute name="transactionVendorName" forceUppercase="true">
+            <attribute name="vendorName" forceUppercase="true">
                 <label>Transaction Vendor Name</label>
                 <shortLabel>Name</shortLabel>
 

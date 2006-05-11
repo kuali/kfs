@@ -1384,6 +1384,156 @@
 	</reference-descriptor>
 </class-descriptor>
 
+<class-descriptor class="org.kuali.module.financial.document.ProcurementDocument" table="FP_PRCRMNT_DOC_T">
+	<field-descriptor name="financialDocumentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<field-descriptor name="financialDocumentNextLineNumber" column="FDOC_NXT_LINE_NBR" jdbc-type="INTEGER"/>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.financial.bo.ProcurementVendor" table="FP_PRCRMNT_VNDR_T">
+	<field-descriptor name="financialDocumentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="financialDocumentTransactionLineNumber" column="FDOC_TRN_LN_NBR" jdbc-type="INTEGER" primarykey="true" index="true"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<field-descriptor name="vendorName" column="VNDR_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="vendorLine1Address" column="VNDR_LN1_ADDR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="vendorLine2Address" column="VNDR_LN2_ADDR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="vendorCityName" column="VNDR_CTY_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="vendorStateCode" column="VNDR_ST_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="vendorZipCode" column="VNDR_ZIP_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="visaVendorIdentifier" column="VISA_VNDR_ID" jdbc-type="VARCHAR"/>
+	<field-descriptor name="vendorOrderNumber" column="VNDR_ORD_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="transactionMerchantCategoryCode" column="TRN_MCC_CD" jdbc-type="VARCHAR"/>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.financial.bo.ProcurementCardHolder" table="FP_PRCRMNT_CARD_HLDR_T">
+	<field-descriptor name="financialDocumentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<field-descriptor name="transactionCreditCardNumber" column="TRN_CC_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="cardHolderName" column="FDOC_CARD_HLDR_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="cardHolderAlternateName" column="FDOC_CARD_HLDR_ALTRNT_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="cardHolderLine1Address" column="FDOC_CARD_HLDR_LN1_ADDR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="cardHolderLine2Address" column="FDOC_CARD_HLDR_LN2_ADDR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="cardHolderCityName" column="FDOC_CARD_HLDR_CTY_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="cardHolderStateCode" column="FDOC_CARD_HLDR_ST_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="cardHolderZipCode" column="FDOC_CARD_HLDR_ZIP_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="cardHolderWorkPhoneNumber" column="FDOC_CARD_HLDR_WRK_PHN_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="cardLimit" column="FDOC_CARD_LMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="cardCycleAmountLimit" column="FDOC_CARD_CYCLE_AMT_LMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="cardCycleVolumeLimit" column="FDOC_CARD_CYCLE_VOL_LMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="cardStatusCode" column="FDOC_CARD_STAT_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="cardNoteText" column="FDOC_CARD_NTE_TXT" jdbc-type="VARCHAR"/>
+	<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="accountNumber" column="ACCOUNT_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="subAccountNumber" column="SUB_ACCT_NBR" jdbc-type="VARCHAR"/>
+	<reference-descriptor name="account" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="chartOfAccountsCode" />
+		<foreignkey field-ref="accountNumber" />
+	</reference-descriptor>
+	<reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="chartOfAccountsCode" />
+	</reference-descriptor>
+	<reference-descriptor name="subAccount" class-ref="org.kuali.module.chart.bo.SubAccount" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="chartOfAccountsCode" />
+		<foreignkey field-ref="accountNumber" />
+		<foreignkey field-ref="subAccountNumber"/>
+	</reference-descriptor>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.financial.bo.ProcurementTransactionDetail" table="FP_PRCRMNT_TRN_DTL_T">
+	<field-descriptor name="financialDocumentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="financialDocumentTransactionLineNumber" column="FDOC_TRN_LN_NBR" jdbc-type="INTEGER" primarykey="true" index="true"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<field-descriptor name="transactionDate" column="TRANSACTION_DT" jdbc-type="DATE"/>
+	<field-descriptor name="transactionReferenceNumber" column="TRN_REF_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="transactionPostingDate" column="TRN_POST_DT" jdbc-type="DATE"/>
+	<field-descriptor name="transactionOriginalCurrencyCode" column="TRN_ORIG_CRNCY_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="transactionBillingCurrencyCode" column="TRN_BILL_CRNCY_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="transactionOriginalCurrencyAmount" column="TRN_ORIG_CRNCY_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="transactionCurrencyExchangeRate" column="TRN_CRNCY_EXCH_RT" jdbc-type="DECIMAL"/>
+	<field-descriptor name="transactionSettlementAmount" column="TRN_STLMNT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="transactionSalesTaxAmount" column="TRN_SALES_TAX_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="transactionTaxExemptIndicator" column="TRN_TAX_EXMPT_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="transactionPurchaseIdentifierIndicator" column="TRN_PURCH_ID_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="transactionPurchaseIdentifierDescription" column="TRN_PURCH_ID_DESC" jdbc-type="VARCHAR"/>
+	<field-descriptor name="transactionUnitContactName" column="TRN_UNIT_CNTCT_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="transactionTravelAuthorizationCode" column="TRN_TRVL_AUTH_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="transactionPointOfSaleCode" column="TRN_PT_OF_SALE_CD" jdbc-type="VARCHAR"/>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.financial.bo.ProcurementCardTransaction" table="FP_PRCRMNT_CARD_TRN_T">
+	<field-descriptor name="transactionSequenceRowNumber" column="TRN_SEQ_ROW_NBR" jdbc-type="INTEGER" primarykey="true" index="true"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<field-descriptor name="transactionCreditCardNumber" column="TRN_CC_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="financialDocumentTotalAmount" column="FDOC_TOTAL_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="transactionDebitCreditCode" column="TRN_DEBIT_CRDT_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="accountNumber" column="ACCOUNT_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="subAccountNumber" column="SUB_ACCT_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="financialObjectCode" column="FIN_OBJECT_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="financialSubObjectCode" column="FIN_SUB_OBJ_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="projectCode" column="PROJECT_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="transactionCycleStartDate" column="TRN_CYCLE_STRT_DT" jdbc-type="DATE"/>
+	<field-descriptor name="transactionCycleEndDate" column="TRN_CYCLE_END_DT" jdbc-type="DATE"/>
+	<field-descriptor name="cardHolderName" column="FDOC_CARD_HLDR_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="transactionDate" column="TRANSACTION_DT" jdbc-type="DATE"/>
+	<field-descriptor name="transactionReferenceNumber" column="TRN_REF_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="transactionMerchantCategoryCode" column="TRN_MCC_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="transactionPostingDate" column="TRN_POST_DT" jdbc-type="DATE"/>
+	<field-descriptor name="transactionOriginalCurrencyCode" column="TRN_ORIG_CRNCY_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="transactionBillingCurrencyCode" column="TRN_BILL_CRNCY_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="transactionOriginalCurrencyAmount" column="TRN_ORIG_CRNCY_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="transactionCurrencyExchangeRate" column="TRN_CRNCY_EXCH_RT" jdbc-type="DECIMAL"/>
+	<field-descriptor name="transactionSettlementAmount" column="TRN_STLMNT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="transactionSalesTaxAmount" column="TRN_SALES_TAX_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="transactionTaxExemptIndicator" column="TRN_TAX_EXMPT_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="transactionPurchaseIdentifierIndicator" column="TRN_PURCH_ID_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="transactionPurchaseIdentifierDescription" column="TRN_PURCH_ID_DESC" jdbc-type="VARCHAR"/>
+	<field-descriptor name="transactionUnitContactName" column="TRN_UNIT_CNTCT_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="transactionTravelAuthorizationCode" column="TRN_TRVL_AUTH_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="transactionPointOfSaleCode" column="TRN_PT_OF_SALE_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="vendorName" column="VNDR_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="vendorLine1Address" column="VNDR_LN1_ADDR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="vendorLine2Address" column="VNDR_LN2_ADDR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="vendorCityName" column="VNDR_CTY_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="vendorStateCode" column="VNDR_ST_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="vendorZipCode" column="VNDR_ZIP_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="vendorOrderNumber" column="VNDR_ORD_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="visaVendorIdentifier" column="VISA_VNDR_ID" jdbc-type="VARCHAR"/>
+	<field-descriptor name="cardHolderAlternateName" column="FDOC_CARD_HLDR_ALTRNT_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="cardHolderLine1Address" column="FDOC_CARD_HLDR_LN1_ADDR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="cardHolderLine2Address" column="FDOC_CARD_HLDR_LN2_ADDR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="cardHolderCityName" column="FDOC_CARD_HLDR_CTY_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="cardHolderStateCode" column="FDOC_CARD_HLDR_ST_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="cardHolderZipCode" column="FDOC_CARD_HLDR_ZIP_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="cardHolderWorkPhoneNumber" column="FDOC_CARD_HLDR_WRK_PHN_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="cardLimit" column="FDOC_CARD_LMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="cardCycleAmountLimit" column="FDOC_CARD_CYCLE_AMT_LMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="cardCycleVolumeLimit" column="FDOC_CARD_CYCLE_VOL_LMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="cardStatusCode" column="FDOC_CARD_STAT_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="cardNoteText" column="FDOC_CARD_NTE_TXT" jdbc-type="VARCHAR"/>
+	<reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="chartOfAccountsCode" />
+	</reference-descriptor>
+	<reference-descriptor name="account" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="chartOfAccountsCode" />
+		<foreignkey field-ref="accountNumber" />
+	</reference-descriptor>
+   	<reference-descriptor name="project" class-ref="org.kuali.module.chart.bo.ProjectCode" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="projectCode"/>
+	</reference-descriptor>
+	<reference-descriptor name="subAccount" class-ref="org.kuali.module.chart.bo.SubAccount" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="chartOfAccountsCode" />
+		<foreignkey field-ref="accountNumber" />
+		<foreignkey field-ref="subAccountNumber"/>
+	</reference-descriptor>
+</class-descriptor>
+
+<!-- 
 <class-descriptor class="org.kuali.module.financial.document.ProcurementCardDocument" table="FP_PRCRMNT_DOC_T">
 	<field-descriptor name="financialDocumentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
@@ -1442,6 +1592,7 @@
         <inverse-foreignkey field-ref="financialDocumentTransactionLineNumber"/>
     </collection-descriptor>
 </class-descriptor>
+-->
 
 <class-descriptor class="org.kuali.module.financial.bo.ProcurementCardSourceAccountingLine" table="FP_PRCRMNT_ACCT_LINES_T">
 	<field-descriptor name="financialDocumentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
@@ -1557,6 +1708,7 @@
     </reference-descriptor>
 </class-descriptor>
 
+<!-- 
 <class-descriptor class="org.kuali.module.financial.bo.ProcurementCardTransaction" table="FP_PRCRMT_CD_TRN_T">
 	<field-descriptor name="transactionIdentifier" column="TRANS_ID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="transactionSequenceRowNumber" column="TRN_SEQ_ROW_NBR" jdbc-type="INTEGER" primarykey="true" index="true"/>
@@ -1586,6 +1738,7 @@
 		<foreignkey field-ref="chartOfAccountsCode" />
 	</reference-descriptor>
 </class-descriptor>
+-->
 
 <class-descriptor class="org.kuali.module.financial.bo.DisbursementVoucherAutomatedClearingHouse" table="FP_DV_ACH_T">
 	<field-descriptor name="disbursementVoucherAutomatedClearingHouseProfileNumber" column="DV_ACH_PRFL_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>

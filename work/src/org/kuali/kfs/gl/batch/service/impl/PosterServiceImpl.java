@@ -66,7 +66,7 @@ import org.springframework.beans.factory.BeanFactoryAware;
 
 /**
  * @author jsissom
- * @version $Id: PosterServiceImpl.java,v 1.27 2006-04-24 20:48:30 larevans Exp $
+ * @version $Id: PosterServiceImpl.java,v 1.28 2006-05-11 17:32:46 jsissom Exp $
  */
 public class PosterServiceImpl implements PosterService,BeanFactoryAware {
   private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PosterServiceImpl.class);
@@ -164,7 +164,7 @@ public class PosterServiceImpl implements PosterService,BeanFactoryAware {
     // Build the summary map so all the possible combinations of destination &
     // operation
     // are included in the summary part of the report.
-    Map reportSummary = new HashMap();
+    Map<String,Integer> reportSummary = new HashMap<String,Integer>();
     for (Iterator posterIter = transactionPosters.iterator(); posterIter.hasNext();) {
       PostTransaction poster = (PostTransaction) posterIter.next();
       reportSummary.put(poster.getDestinationName() + ",D", new Integer(0));
@@ -204,7 +204,7 @@ public class PosterServiceImpl implements PosterService,BeanFactoryAware {
     // Generate the report
 
     // Convert our summary to a list of items for the report
-    List summary = new ArrayList();
+    List<Summary> summary = new ArrayList<Summary>();
     summary.add(new Summary(1,"Number of GL_ORIGIN_ENTRY_T records selected:",(Integer)reportSummary.get("GL_ORIGIN_ENTRY_T,S")));
     summary.add(new Summary(2,"",0));
 

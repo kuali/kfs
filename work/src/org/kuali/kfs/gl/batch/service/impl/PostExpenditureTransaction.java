@@ -38,12 +38,13 @@ import org.kuali.module.gl.batch.poster.PostTransaction;
 import org.kuali.module.gl.bo.ExpenditureTransaction;
 import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.dao.ExpenditureTransactionDao;
+import org.kuali.module.gl.service.IcrTransaction;
 
 /**
  * @author jsissom
  *
  */
-public class PostExpenditureTransaction implements PostTransaction {
+public class PostExpenditureTransaction implements IcrTransaction,PostTransaction {
   private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PostExpenditureTransaction.class);
 
   private A21SubAccountDao a21SubAccountDao;
@@ -71,67 +72,76 @@ public class PostExpenditureTransaction implements PostTransaction {
     super();
   }
 
+  /**
+   * This will determine if this transaction is an ICR eligible transaction
+   * 
+   * @return
+   */
+  public boolean isIcrTransaction(ObjectType objectType,Account account,String subAccountNumber,ObjectCode objectCode,String universityFiscalPeriodCode) {
+      LOG.debug("isIcrTransaction() started");
+
+      // Is the ICR indicator set and the ICR Series identifier set?
+      // Is the period code a non-balance period?  If so, continue, if not, we aren't posting this transaction
+      if ( objectType.isFinObjectTypeIcrSelectionIndicator() && (account.getFinancialIcrSeriesIdentifier() != null) &&
+          ( ! "AB".equals(universityFiscalPeriodCode) ) &&  ( ! "BB".equals(universityFiscalPeriodCode) ) &&
+          ( ! "CB".equals(universityFiscalPeriodCode) ) ) {
+        // Continue on the posting process
+
+        // Check the sub account type code.  A21 subaccounts with the type of CS don't get posted
+        A21SubAccount a21SubAccount = a21SubAccountDao.getByPrimaryKey(account.getChartOfAccountsCode(),account.getAccountNumber(),subAccountNumber);
+        if ( (a21SubAccount != null) && "CS".equals(a21SubAccount.getSubAccountTypeCode()) ) {
+          // No need to post this
+          LOG.debug("isIcrTransaction() A21 subaccounts with type of CS - not posted");
+          return false;
+        }
+
+        // Do we exclude this account from ICR because account/object is in the table?
+        IndirectCostRecoveryExclusionAccount excAccount = indirectCostRecoveryExclusionAccountDao.getByPrimaryKey(account.getChartOfAccountsCode(),
+            account.getAccountNumber(),objectCode.getReportsToChartOfAccountsCode(),objectCode.getReportsToFinancialObjectCode());
+        if ( excAccount != null ) {
+          // No need to post this
+          LOG.debug("isIcrTransaction() ICR Excluded account - not posted");
+          return false;
+        }
+
+        // How about if we just look based on account?
+        if ( indirectCostRecoveryExclusionAccountDao.existByAccount(account.getChartOfAccountsCode(),account.getAccountNumber()) ) {
+          return true;
+        } else {
+          // If the ICR type code is null or 10, don't post
+          if ( (account.getAcctIndirectCostRcvyTypeCd() == null) || "10".equals(account.getAcctIndirectCostRcvyTypeCd()) ) {
+            // No need to post this
+            LOG.debug("isIcrTransaction() ICR type is null or 10 - not posted");
+            return false;
+          }
+
+          // If the type is excluded, don't post
+          IndirectCostRecoveryExclusionType excType = indirectCostRecoveryExclusionTypeDao.getByPrimaryKey(account.getAcctIndirectCostRcvyTypeCd(),
+              account.getChartOfAccountsCode(),objectCode.getFinancialObjectCode());
+          if ( excType != null ) {
+            // No need to post this
+            LOG.debug("isIcrTransaction() ICR Excluded type - not posted");
+            return false;
+          }
+          return true;
+        }
+      } else {
+        // Don't need to post anything
+        LOG.debug("isIcrTransaction() Not ICR account or invalid period code - not posted");
+        return false;
+      }
+  }
+
   /* (non-Javadoc)
    * @see org.kuali.module.gl.batch.poster.PostTransaction#post(org.kuali.module.gl.bo.Transaction)
    */
   public String post(Transaction t,int mode,Date postDate) {
     LOG.debug("post() started");
 
-    // Decide if we need to post here
-    ObjectType objectType = t.getObjectType();
-    Account account = t.getAccount();
-    ObjectCode objectCode = t.getFinancialObject();
-
-    // Is the ICR indicator set and the ICR Series identifier set?
-    // Is the period code a non-balance period?  If so, continue, if not, we aren't posting this transaction
-    if ( objectType.isFinObjectTypeIcrSelectionIndicator() && (account.getFinancialIcrSeriesIdentifier() != null) &&
-        ( ! "AB".equals(t.getUniversityFiscalPeriodCode()) ) &&  ( ! "BB".equals(t.getUniversityFiscalPeriodCode()) ) &&
-        ( ! "CB".equals(t.getUniversityFiscalPeriodCode()) ) ) {
-      // Continue on the posting process
-
-      // Check the sub account type code.  A21 subaccounts with the type of CS don't get posted
-      A21SubAccount a21SubAccount = a21SubAccountDao.getByPrimaryKey(t.getChartOfAccountsCode(),t.getAccountNumber(),t.getSubAccountNumber());
-      if ( (a21SubAccount != null) && "CS".equals(a21SubAccount.getSubAccountTypeCode()) ) {
-        // No need to post this
-        LOG.debug("post() A21 subaccounts with type of CS - not posted");
-        return "";
-      }
-
-      // Do we exclude this account from ICR because account/object is in the table?
-      IndirectCostRecoveryExclusionAccount excAccount = indirectCostRecoveryExclusionAccountDao.getByPrimaryKey(t.getChartOfAccountsCode(),
-          t.getAccountNumber(),objectCode.getReportsToChartOfAccountsCode(),objectCode.getReportsToFinancialObjectCode());
-      if ( excAccount != null ) {
-        // No need to post this
-        LOG.debug("post() ICR Excluded account - not posted");
-        return "";
-      }
-
-      // How about if we just look based on account?
-      if ( indirectCostRecoveryExclusionAccountDao.existByAccount(t.getChartOfAccountsCode(),t.getAccountNumber()) ) {
+    if ( isIcrTransaction(t.getObjectType(), t.getAccount(), t.getSubAccountNumber(), t.getFinancialObject(), t.getUniversityFiscalPeriodCode()) ) {
         return postTransaction(t,mode,postDate);
-      } else {
-        // If the ICR type code is null or 10, don't post
-        if ( (account.getAcctIndirectCostRcvyTypeCd() == null) || "10".equals(account.getAcctIndirectCostRcvyTypeCd()) ) {
-          // No need to post this
-          LOG.debug("post() ICR type is null or 10 - not posted");
-          return "";
-        }
-
-        // If the type is excluded, don't post
-        IndirectCostRecoveryExclusionType excType = indirectCostRecoveryExclusionTypeDao.getByPrimaryKey(account.getAcctIndirectCostRcvyTypeCd(),
-            t.getChartOfAccountsCode(),t.getFinancialObjectCode());
-        if ( excType != null ) {
-          // No need to post this
-          LOG.debug("post() ICR Excluded type - not posted");
-          return "";
-        }
-        return postTransaction(t,mode,postDate);
-      }
-    } else {
-      // Don't need to post anything
-      LOG.debug("post() Not ICR account or invalid period code - not posted");
-      return "";
     }
+    return "";
   }
 
   private String postTransaction(Transaction t,int mode,Date postDate) {

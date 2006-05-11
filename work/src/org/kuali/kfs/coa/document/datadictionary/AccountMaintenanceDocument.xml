@@ -144,7 +144,7 @@
 		            <maintainableField name="incomeStreamFinancialCoaCode" required="false" />
 		            <maintainableField name="incomeStreamAccountNumber" required="false" />	
 		            <maintainableField name="budgetRecordingLevelCode" required="true" />	  
-		            <maintainableField name="accountSufficientFundsCode" required="false" />	     
+		            <maintainableField name="accountSufficientFundsCode" required="true" />	     
 		            <maintainableField name="pendingAcctSufficientFundsIndicator" required="false" />
 		            <maintainableField name="extrnlFinEncumSufficntFndIndicator" required="false" />	
 		            <maintainableField name="intrnlFinEncumSufficntFndIndicator" required="false" />	  

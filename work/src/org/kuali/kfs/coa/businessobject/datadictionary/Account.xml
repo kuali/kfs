@@ -45,6 +45,10 @@
 				<field attributeName="incomeStreamFinancialCoaCode" />  
 				<field attributeName="incomeStreamAccountNumber" />
 	<!--	Those two fields generate ERROR!! 
+		This is somehow related to the fact that these fields use the generic
+		FS_Codes_Desc_T code table instead of having their own.
+		The problem is that the inquiry screen gets an error.
+		We will solve this problem as part of the APC refactoring project.
 	
 				<field attributeName="budgetRecordingLevelCode" /> 
 				<field attributeName="accountSufficientFundsCode" />
@@ -635,7 +639,7 @@
 								sourceAttributeName="code">
 				<label>Account Sufficient Funds Code</label>
 				<shortLabel>SuffFndsCd</shortLabel>
-				<required>false</required>
+				<required>true</required>
 				<control>
 					<select valuesFinderClass="org.kuali.core.lookup.keyvalues.SufficientFundsCodeValuesFinder"/>					
 				</control>				
@@ -1001,4 +1005,3 @@
 		</collections>
 	</businessObject>
 </dictionaryEntry>
-

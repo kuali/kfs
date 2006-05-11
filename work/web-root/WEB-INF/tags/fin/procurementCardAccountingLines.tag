@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="/tlds/c.tld" %>
+<%@ taglib prefix="bean" uri="/tlds/struts-bean.tld" %>
 <%@ taglib prefix="fn" uri="/tlds/fn.tld" %>
 <%@ taglib prefix="kul" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="fin" tagdir="/WEB-INF/tags/fin" %>
@@ -21,37 +22,40 @@
 
 <c:set var="columnCountUntilAmount" value="9" />
 <c:set var="columnCount" value="${columnCountUntilAmount + 1 + (empty editingMode['viewOnly'] ? 1 : 0)}" />
-<c:set var="accountingLineAttributes" value="${DataDictionary['SourceAccountingLine'].attributes}" />
+<c:set var="accountingLineAttributes" value="${DataDictionary['TargetAccountingLine'].attributes}" />
 
-<kul:tab tabTitle="Accounting Lines" defaultOpen="true" tabErrorKey="${Constants.ACCOUNTING_LINE_ERRORS}">
+<kul:tab tabTitle="Accounting Lines" defaultOpen="true" tabErrorKey="${Constants.TARGET_ACCOUNTING_LINE_ERROR_PATTERN}">
   <c:set var="transactionAttributes" value="${DataDictionary.ProcurementCardTransactionDetail.attributes}" />
 	
   <div class="tab-container" align=center>
+  <c:set var="totalNewTargetCtr" value="0"/>
+  <c:set var="baseCtr" value="0"/>
   <logic:iterate indexId="ctr" name="KualiForm" property="document.transactionEntries" id="currentTransaction">
   
-    <%-- write out target (actually from lines) as hiddens since they are not displayed but need repopulated --%>
-    <logic:iterate indexId="tCtr" name="KualiForm" property="document.transactionEntries[${ctr}].targetAccountingLines" id="currentLine">
-        <html:hidden write="false" property="document.transactionEntries[${ctr}].targetAccountingLines[${tCtr}].financialDocumentNumber"/>
-        <html:hidden write="false" property="document.transactionEntries[${ctr}].targetAccountingLines[${tCtr}].financialDocumentTransactionLineNumber"/>
-        <html:hidden write="false" property="document.transactionEntries[${ctr}].targetAccountingLines[${tCtr}].sequenceNumber"/>
-        <html:hidden write="false" property="document.transactionEntries[${ctr}].targetAccountingLines[${tCtr}].versionNumber"/>
-        <html:hidden write="false" property="document.transactionEntries[${ctr}].targetAccountingLines[${tCtr}].chartOfAccountsCode"/>
-        <html:hidden write="false" property="document.transactionEntries[${ctr}].targetAccountingLines[${tCtr}].accountNumber"/>
-        <html:hidden write="false" property="document.transactionEntries[${ctr}].targetAccountingLines[${tCtr}].postingYear"/>
-        <html:hidden write="false" property="document.transactionEntries[${ctr}].targetAccountingLines[${tCtr}].financialObjectCode"/>
-        <html:hidden write="false" property="document.transactionEntries[${ctr}].targetAccountingLines[${tCtr}].balanceTypeCode"/>
-        <html:hidden write="false" property="document.transactionEntries[${ctr}].targetAccountingLines[${tCtr}].amount"/>
-        <html:hidden write="false" property="document.transactionEntries[${ctr}].targetAccountingLines[${tCtr}].subAccountNumber"/>
-        <html:hidden write="false" property="document.transactionEntries[${ctr}].targetAccountingLines[${tCtr}].financialSubObjectCode"/>
-        <html:hidden write="false" property="document.transactionEntries[${ctr}].targetAccountingLines[${tCtr}].projectCode"/>
-        <html:hidden write="false" property="document.transactionEntries[${ctr}].targetAccountingLines[${tCtr}].organizationReferenceId"/>
-        <html:hidden write="false" property="document.transactionEntries[${ctr}].targetAccountingLines[${tCtr}].overrideCode"/>
+    <%-- write out source as hiddens since they are not displayed but need repopulated --%>
+    <logic:iterate indexId="tCtr" name="KualiForm" property="document.transactionEntries[${ctr}].sourceAccountingLines" id="currentLine">
+        <html:hidden write="false" property="document.transactionEntries[${ctr}].sourceAccountingLines[${tCtr}].financialDocumentNumber"/>
+        <html:hidden write="false" property="document.transactionEntries[${ctr}].sourceAccountingLines[${tCtr}].financialDocumentTransactionLineNumber"/>
+        <html:hidden write="false" property="document.transactionEntries[${ctr}].sourceAccountingLines[${tCtr}].sequenceNumber"/>
+        <html:hidden write="false" property="document.transactionEntries[${ctr}].sourceAccountingLines[${tCtr}].versionNumber"/>
+        <html:hidden write="false" property="document.transactionEntries[${ctr}].sourceAccountingLines[${tCtr}].chartOfAccountsCode"/>
+        <html:hidden write="false" property="document.transactionEntries[${ctr}].sourceAccountingLines[${tCtr}].accountNumber"/>
+        <html:hidden write="false" property="document.transactionEntries[${ctr}].sourceAccountingLines[${tCtr}].postingYear"/>
+        <html:hidden write="false" property="document.transactionEntries[${ctr}].sourceAccountingLines[${tCtr}].financialObjectCode"/>
+        <html:hidden write="false" property="document.transactionEntries[${ctr}].sourceAccountingLines[${tCtr}].balanceTypeCode"/>
+        <html:hidden write="false" property="document.transactionEntries[${ctr}].sourceAccountingLines[${tCtr}].amount"/>
+        <html:hidden write="false" property="document.transactionEntries[${ctr}].sourceAccountingLines[${tCtr}].subAccountNumber"/>
+        <html:hidden write="false" property="document.transactionEntries[${ctr}].sourceAccountingLines[${tCtr}].financialSubObjectCode"/>
+        <html:hidden write="false" property="document.transactionEntries[${ctr}].sourceAccountingLines[${tCtr}].projectCode"/>
+        <html:hidden write="false" property="document.transactionEntries[${ctr}].sourceAccountingLines[${tCtr}].organizationReferenceId"/>
+        <html:hidden write="false" property="document.transactionEntries[${ctr}].sourceAccountingLines[${tCtr}].overrideCode"/>
     </logic:iterate>
   
     <table cellpadding="0" class="datatable" summary="Transaction Details">
        <html:hidden write="false" property="document.transactionEntries[${ctr}].financialDocumentNumber"/>
        <html:hidden write="false" property="document.transactionEntries[${ctr}].financialDocumentTransactionLineNumber"/>
        <html:hidden write="false" property="document.transactionEntries[${ctr}].transactionMerchantCategoryCode"/>
+       <html:hidden write="false" property="document.transactionEntries[${ctr}].versionNumber"/>
        
        <fin:subheadingWithDetailToggleRow columnCount="4" subheading="Transaction #${currentTransaction.transactionReferenceNumber}"/>
 
@@ -69,7 +73,11 @@
        <tr>  
           <th> <div align="right"><kul:htmlAttributeLabel attributeEntry="${transactionAttributes.transactionVendorName}"/></div></th> 
           <td valign=top><html:hidden write="true" property="document.transactionEntries[${ctr}].transactionVendorName"/></td>
-          <th colspan="2"> <div align="left"><a href="${KualiForm.disputeURL}" target="_blank"><img src="images/buttonsmall_dispute.gif"/></a></div></th>
+          <th colspan="2"> <div align="left">
+          <c:if test="${empty editingMode['viewOnly']}">
+            <a href="${KualiForm.disputeURL}" target="_blank"><img src="images/buttonsmall_dispute.gif"/></a>
+          </c:if>
+          </div></th>
        </tr>   
     </table>   
 
@@ -97,31 +105,33 @@
      </tr>
      
      <c:if test="${empty editingMode['viewOnly']}">
-       <c:set var="valuesMap" value="${KualiForm.newSourceLines[ctr].valuesMap}"/>
+       <c:set var="valuesMap" value="${KualiForm.newTargetLines[totalNewTargetCtr].valuesMap}"/>
        <fin:accountingLineRow
-          accountingLine="newSourceLines[${ctr}]"
+          accountingLine="newTargetLines[${totalNewTargetCtr}]"
           accountingLineAttributes="${accountingLineAttributes}"
           dataCellCssClass="infoline"
           rowHeader="add"
-          actionGroup="newAddLine"
-          actionInfix="source"
-          accountingAddLineIndex="${currentTransaction.transactionReferenceNumber}"
+          actionGroup="newGroupLine"
+          actionInfix="Target"
+          accountingAddLineIndex="${totalNewTargetCtr}"
           optionalFields=""
           extraRowFields=""
           extraRowLabelFontWeight="bold"
           readOnly="false"
           debitCreditAmount="false"
-          hiddenFields="postingYear,overrideCode,financialDocumentTransactionLineNumber"
+          hiddenFields="postingYear,overrideCode"
           columnCountUntilAmount="${columnCountUntilAmount}"
-          debitCellProperty="newSourceLineDebit"
-          creditCellProperty="newSourceLineCredit"
+          debitCellProperty="newTargetLineDebit"
+          creditCellProperty="newTargetLineCredit"
           includeObjectTypeCode="false"
           displayHidden="false"
           accountingLineValuesMap="${valuesMap}"
-          />   
+          />  
+          <html:hidden property="newTargetLines[${totalNewTargetCtr}].financialDocumentTransactionLineNumber" value="${currentTransaction.financialDocumentTransactionLineNumber}"/> 
      </c:if>
      
-     <logic:iterate indexId="sCtr" name="KualiForm" property="document.transactionEntries[${ctr}].sourceAccountingLines" id="currentLine">
+
+     <logic:iterate indexId="sCtr" name="KualiForm" property="document.transactionEntries[${ctr}].targetAccountingLines" id="currentLine">
         <%-- readonlyness of accountingLines depends on editingMode and user's account-list --%>
         <c:choose>
           <c:when test="${!empty editingMode['fullEntry']}">
@@ -134,22 +144,21 @@
             <%-- using accountKey of baseline accountingLine, so that when the user changes to an account they can't access,
                  they'll be allowed to revert or update the line to something to which they do have access --%>
             <c:set var="baselineAccountKey">
-                <bean:write name="KualiForm" property="${baselineSourceOrTarget}AccountingLine[${ctr}].accountKey" />
+                <bean:write name="KualiForm" property="baselineTargetAccountingLine[${baseCtr}].accountKey" />
             </c:set>
-
             <c:set var="accountIsEditable" value="${!empty editableAccounts[baselineAccountKey]}" />
          </c:otherwise>
        </c:choose>
        
        <fin:accountingLineRow
-          accountingLine="document.transactionEntries[${ctr}].sourceAccountingLines[${sCtr}]"
-          baselineAccountingLine="document.transactionEntries[${ctr}].sourceAccountingLines[${sCtr}]"
-          accountingLineIndex="${sCtr}"
+          accountingLine="document.transactionEntries[${ctr}].targetAccountingLines[${sCtr}]"
+          baselineAccountingLine="baselineTargetAccountingLine[${baseCtr}]"
+          accountingLineIndex="${baseCtr}"
           accountingLineAttributes="${accountingLineAttributes}"
           dataCellCssClass="datacell"
           rowHeader="${sCtr+1}"
           actionGroup="existingLine"
-          actionInfix="source"
+          actionInfix="Target"
           optionalFields=""
           extraRowFields=""
           extraRowLabelFontWeight="normal"
@@ -162,20 +171,23 @@
           creditCellProperty="journalLineHelper[${sCtr}].credit"
           includeObjectTypeCode="false"
           displayHidden="false"
-          decorator="sourceLineDecorator[${sCtr}]"
+          decorator="targetLineDecorator[${sCtr}]"
           accountingLineValuesMap="${currentLine.valuesMap}"
           />
+          <c:set var="baseCtr" value="${baseCtr+1}"/>
      </logic:iterate>
      <tr>
         <td class="total-line" colspan="${columnCountUntilAmount}">&nbsp;</td>
-        <td class="total-line" style="border-left: 0px;"><strong>Total: $${KualiForm.document.transactionEntries[ctr].sourceTotal}</strong></td>
+        <td class="total-line" style="border-left: 0px;"><strong>Total: $${KualiForm.document.transactionEntries[ctr].targetTotal}</strong></td>
         <c:if test="empty editingMode['viewOnly']">
           <td class="total-line" style="border-left: 0px;">&nbsp;</td>
         </c:if>
+        <td class="total-line">&nbsp;</td>
      </tr>
     </table>
     
     <br/>
+    <c:set var="totalNewTargetCtr" value="${totalNewTargetCtr+1}"/>
    </logic:iterate> 
   </div>
   <SCRIPT type="text/javascript">

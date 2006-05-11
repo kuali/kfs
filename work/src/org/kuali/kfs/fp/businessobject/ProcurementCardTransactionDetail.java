@@ -59,12 +59,12 @@ public class ProcurementCardTransactionDetail extends BusinessObjectBase {
     }
     
     /**
-     * @see org.kuali.core.document.TransactionalDocument#getSourceTotal()
+     * @see org.kuali.core.document.TransactionalDocument#getTargetTotal()
      */
-    public KualiDecimal getSourceTotal() {
+    public KualiDecimal getTargetTotal() {
         KualiDecimal total = new KualiDecimal(0);
         AccountingLineBase al = null;
-        Iterator iter = getSourceAccountingLines().iterator();
+        Iterator iter = getTargetAccountingLines().iterator();
         while (iter.hasNext()) {
             al = (AccountingLineBase) iter.next();
 

@@ -31,9 +31,9 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.Constants;
+import org.kuali.core.bo.SourceAccountingLine;
+import org.kuali.core.bo.TargetAccountingLine;
 import org.kuali.core.document.TransactionalDocumentBase;
-import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
@@ -269,12 +269,31 @@ public class ProcurementCardDocument extends TransactionalDocumentBase {
     public void setTransactionEntries(List transactionEntries) {
         this.transactionEntries = transactionEntries;
     }
+    
+    /**
+     * Removes the target accounting line at the given index from 
+     * the transaction detail entry.
+     * @param index
+     */
+    public void removeTargetAccountingLine(int index) {
+        ProcurementCardTargetAccountingLine line = (ProcurementCardTargetAccountingLine) getTargetAccountingLines().get(index);
+        
+        for (Iterator iter = transactionEntries.iterator(); iter.hasNext();) {
+            ProcurementCardTransactionDetail transactionEntry = (ProcurementCardTransactionDetail) iter.next();
+            if (transactionEntry.getFinancialDocumentTransactionLineNumber().equals(
+                    line.getFinancialDocumentTransactionLineNumber())) {
+                transactionEntry.getTargetAccountingLines().remove(line);
+            }
+        }
+    }
 
     /**
      * Override to set the accounting line in the transaction detail object.
      * @see org.kuali.core.document.TransactionalDocument#addSourceAccountingLine(org.kuali.core.bo.SourceAccountingLine)
      */
-    public void addSourceAccountingLine(ProcurementCardSourceAccountingLine line) {
+    public void addSourceAccountingLine(SourceAccountingLine sourceLine) {
+        ProcurementCardSourceAccountingLine line = (ProcurementCardSourceAccountingLine) sourceLine;
+      
         line.setSequenceNumber(this.getNextSourceLineNumber());
 
         for (Iterator iter = transactionEntries.iterator(); iter.hasNext();) {
@@ -292,7 +311,9 @@ public class ProcurementCardDocument extends TransactionalDocumentBase {
      * Override to set the accounting line in the transaction detail object.
      * @see org.kuali.core.document.TransactionalDocument#addTargetAccountingLine(org.kuali.core.bo.TargetAccountingLine)
      */
-    public void addTargetAccountingLine(ProcurementCardTargetAccountingLine line) {
+    public void addTargetAccountingLine(TargetAccountingLine targetLine) {
+        ProcurementCardTargetAccountingLine line = (ProcurementCardTargetAccountingLine) targetLine;
+        
         line.setSequenceNumber(this.getNextTargetLineNumber());
 
         for (Iterator iter = transactionEntries.iterator(); iter.hasNext();) {
@@ -315,7 +336,10 @@ public class ProcurementCardDocument extends TransactionalDocumentBase {
 
         for (Iterator iter = transactionEntries.iterator(); iter.hasNext();) {
             ProcurementCardTransactionDetail transactionEntry = (ProcurementCardTransactionDetail) iter.next();
-            sourceAccountingLines.addAll(transactionEntry.getSourceAccountingLines());
+            for (Iterator iterator = transactionEntry.getSourceAccountingLines().iterator(); iterator.hasNext();) {
+                SourceAccountingLine sourceLine = (SourceAccountingLine) iterator.next();
+                sourceAccountingLines.add(sourceLine);
+            }
         }
 
         return sourceAccountingLines;
@@ -330,27 +354,27 @@ public class ProcurementCardDocument extends TransactionalDocumentBase {
 
         for (Iterator iter = transactionEntries.iterator(); iter.hasNext();) {
             ProcurementCardTransactionDetail transactionEntry = (ProcurementCardTransactionDetail) iter.next();
-            targetAccountingLines.addAll(transactionEntry.getTargetAccountingLines());
+            for (Iterator iterator = transactionEntry.getTargetAccountingLines().iterator(); iterator.hasNext();) {
+                TargetAccountingLine targetLine = (TargetAccountingLine) iterator.next();
+                targetAccountingLines.add(targetLine);
+            }
         }
 
         return targetAccountingLines;
     }
     
-    
-
     /**
-     * Override to set status in document header for when the document is saved.
-     * @see org.kuali.core.document.Document#handleRouteStatusChange(java.lang.String)
+     * @see org.kuali.core.document.TransactionalDocument#getSourceAccountingLineClass()
      */
-    public void handleRouteStatusChange(String newRouteStatus) {
-        LOG.info("handling route status change, new status: " + newRouteStatus);
-        if (Constants.ROUTE_HEADER_SAVED_CD.equals(newRouteStatus)) {
-            this.getDocumentHeader().setFinancialDocumentStatusCode(
-                    Constants.ROUTE_HEADER_SAVED_CD);
-            SpringServiceLocator.getDocumentService().updateDocument(this);
-        }
-        LOG.info("new doc header status: " + this.getDocumentHeader().getFinancialDocumentStatusCode());
-        super.handleRouteStatusChange(newRouteStatus);
+    public Class getSourceAccountingLineClass() {
+        return ProcurementCardSourceAccountingLine.class;
+    }
+    
+    /**
+     * @see org.kuali.core.document.TransactionalDocument#getTargetAccountingLineClass()
+     */
+    public Class getTargetAccountingLineClass() {
+        return ProcurementCardTargetAccountingLine.class;
     }
     
     /**

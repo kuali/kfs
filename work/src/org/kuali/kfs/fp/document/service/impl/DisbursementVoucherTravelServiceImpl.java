@@ -31,6 +31,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.core.service.DateTimeService;
+import org.kuali.core.util.DateUtils;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.financial.bo.TravelMileageRate;
 import org.kuali.module.financial.dao.TravelMileageRateDao;
@@ -64,28 +65,15 @@ public class DisbursementVoucherTravelServiceImpl implements DisbursementVoucher
             LOG.error("End date/time must be after start date/time.");
             throw new RuntimeException("End date/time must be after start date/time.");
         }
-
+        
         Calendar startCalendar = Calendar.getInstance();
         startCalendar.setTime(startDateTime);
 
         Calendar endCalendar = Calendar.getInstance();
         endCalendar.setTime(endDateTime);
-
-        // First, get difference in whole days
-        Calendar startCompare = Calendar.getInstance();
-        startCompare.setTime(startDateTime);
-        startCompare.set(Calendar.HOUR_OF_DAY, 0);
-        startCompare.set(Calendar.MINUTE, 0);
-
-        Calendar endCompare = Calendar.getInstance();
-        endCompare.setTime(endDateTime);
-        endCompare.set(Calendar.HOUR_OF_DAY, 0);
-        endCompare.set(Calendar.MINUTE, 0);
-
         
-        double diffDays = (endCompare.getTimeInMillis() - startCompare.getTimeInMillis()) / (24 * 60 * 60 * 1000);
-
-        double diffHours = (endCalendar.getTimeInMillis() - startCalendar.getTimeInMillis()) / (60.0000 * 60.0000 * 1000.0000);
+        double diffDays = DateUtils.getDifferenceInDays(startDateTime, endDateTime);
+        double diffHours = DateUtils.getDifferenceInHours(startDateTime, endDateTime);
 
         // same day travel
         if (diffDays == 0) {

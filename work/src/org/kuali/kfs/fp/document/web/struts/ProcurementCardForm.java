@@ -24,10 +24,11 @@ package org.kuali.module.financial.web.struts.form;
 
 import java.util.List;
 
+import org.kuali.core.bo.TargetAccountingLine;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
-import org.kuali.module.financial.bo.ProcurementCardSourceAccountingLine;
+import org.kuali.module.financial.bo.ProcurementCardTargetAccountingLine;
 import org.kuali.module.financial.document.ProcurementCardDocument;
 import org.kuali.module.financial.service.ProcurementCardCreateDocumentService;
 
@@ -39,7 +40,7 @@ import org.kuali.module.financial.service.ProcurementCardCreateDocumentService;
  */
 public class ProcurementCardForm extends KualiTransactionalDocumentFormBase {
     private static final long serialVersionUID = 1L;
-    private List newSourceLines;
+    private List newTargetLines;
 
     /**
      * Constructs a ProcurmentCardForm instance and sets up the appropriately casted document. Also, the newSourceLine needs to be
@@ -48,7 +49,7 @@ public class ProcurementCardForm extends KualiTransactionalDocumentFormBase {
     public ProcurementCardForm() {
         super();
         setDocument(new ProcurementCardDocument());
-        this.newSourceLines = new TypedArrayList(ProcurementCardSourceAccountingLine.class);
+        this.newTargetLines = new TypedArrayList(ProcurementCardTargetAccountingLine.class);
     }
 
     /**
@@ -62,16 +63,28 @@ public class ProcurementCardForm extends KualiTransactionalDocumentFormBase {
 
 
     /**
-     * @return Returns the newSourceLines.
+     * @return Returns the newTargetLines.
      */
-    public List getNewSourceLines() {
-        return newSourceLines;
+    public List getNewTargetLines() {
+        return newTargetLines;
     }
 
     /**
-     * @param newSourceLines The newSourceLines to set.
+     * @param newTargetLines The newTargetLines to set.
      */
-    public void setNewSourceLines(List newSourceLines) {
-        this.newSourceLines = newSourceLines;
+    public void setNewTargetLines(List newTargetLines) {
+        this.newTargetLines = newTargetLines;
+    }
+
+
+    /**
+     * Override to return ProcurementCardTargetAccountingLine
+     * @see org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase#getBaselineSourceAccountingLine(int)
+     */
+    public TargetAccountingLine getBaselineTargetAccountingLine(int index) {
+        while (getBaselineTargetAccountingLines().size() <= index) {
+            getBaselineTargetAccountingLines().add(new ProcurementCardTargetAccountingLine());
+        }
+        return (ProcurementCardTargetAccountingLine) getBaselineTargetAccountingLines().get(index);
     }
 }

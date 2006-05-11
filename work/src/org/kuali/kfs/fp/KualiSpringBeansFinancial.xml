@@ -110,6 +110,9 @@
         <property name="dataDictionaryService">
             <ref bean="dataDictionaryService" />
         </property>
+        <property name="dateTimeService">
+            <ref bean="dateTimeService" />
+        </property>
     </bean> 
     
     <bean id="procurementCardLoadTransactionsService" class="org.kuali.module.financial.service.impl.ProcurementCardLoadTransactionsServiceImpl">
@@ -128,5 +131,29 @@
     </bean>
 
     <bean id="cashReceiptService" class="org.kuali.module.financial.service.impl.CashReceiptServiceImpl">
+    </bean>
+    
+    <bean id="loadDataFileStep" class="org.kuali.module.financial.batch.pcard.LoadDataFileStep">
+        <property name="procurementCardLoadTransactionsService">
+            <ref bean="procurementCardLoadTransactionsService" />
+        </property>
+    </bean>
+    
+    <bean id="createDocumentsStep" class="org.kuali.module.financial.batch.pcard.CreateDocumentsStep">
+        <property name="procurementCardCreateDocumentService">
+            <ref bean="procurementCardCreateDocumentService" />
+        </property>
+    </bean>
+    
+    <bean id="routeDocumentsStep" class="org.kuali.module.financial.batch.pcard.RouteDocumentsStep">
+        <property name="procurementCardCreateDocumentService">
+            <ref bean="procurementCardCreateDocumentService" />
+        </property>
+    </bean>
+    
+    <bean id="autoApproveDocumentsStep" class="org.kuali.module.financial.batch.pcard.AutoApproveDocumentsStep">
+        <property name="procurementCardCreateDocumentService">
+            <ref bean="procurementCardCreateDocumentService" />
+        </property>
     </bean>
 </beans>

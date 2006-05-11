@@ -410,6 +410,10 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
                 	role.chart = xpath.evaluate(NEW_MAINTAINABLE_PREFIX+"finCoaCd", docContent.getDocument());
                 	role.accountNumber = xpath.evaluate(NEW_MAINTAINABLE_PREFIX+"accountNbr", docContent.getDocument());
                 	fiscalOfficers.add(role);
+                } else if (docTypeName.equals(KualiConstants.PROCUREMENT_CARD_DOC_TYPE)) {
+            		NodeList targetLineNodes = (NodeList) xpath.evaluate("//org.kuali.module.financial.bo.ProcurementCardTargetAccountingLine", docContent.getDocument(), XPathConstants.NODESET);
+            		String totalDollarAmount = String.valueOf(calculateTotalDollarAmount(xpath, targetLineNodes));
+            		fiscalOfficers.addAll(getFiscalOfficers(xpath, targetLineNodes, roleName, totalDollarAmount));
                 } else {
                 	if (!KualiConstants.isTargetLineOnly(docTypeName)) {
                 		NodeList sourceLineNodes = (NodeList) xpath.evaluate("//org.kuali.core.bo.SourceAccountingLine", docContent.getDocument(), XPathConstants.NODESET);

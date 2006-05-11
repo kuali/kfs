@@ -56,7 +56,8 @@ public class KualiPostProcessor implements PostProcessorRemote {
     public boolean doRouteStatusChange(DocumentRouteStatusChangeVO statusChangeEvent) throws RemoteException {
         LOG.debug("entering post processor");
         try {
-            if (EdenConstants.ROUTE_HEADER_PROCESSED_CD.equals(statusChangeEvent.getNewRouteStatus()) || EdenConstants.ROUTE_HEADER_CANCEL_CD.equals(statusChangeEvent.getNewRouteStatus()) || EdenConstants.ROUTE_HEADER_DISAPPROVED_CD.equals(statusChangeEvent.getNewRouteStatus()) || EdenConstants.ROUTE_HEADER_ENROUTE_CD.equals(statusChangeEvent.getNewRouteStatus())) {
+            if (EdenConstants.ROUTE_HEADER_PROCESSED_CD.equals(statusChangeEvent.getNewRouteStatus()) || EdenConstants.ROUTE_HEADER_CANCEL_CD.equals(statusChangeEvent.getNewRouteStatus()) || EdenConstants.ROUTE_HEADER_DISAPPROVED_CD.equals(statusChangeEvent.getNewRouteStatus()) || EdenConstants.ROUTE_HEADER_ENROUTE_CD.equals(statusChangeEvent.getNewRouteStatus())
+                    || EdenConstants.ROUTE_HEADER_SAVED_CD.equals(statusChangeEvent.getNewRouteStatus())) {
                 LOG.debug("passing document " + statusChangeEvent.getRouteHeaderId() + " to DocumentService");
                 DocumentStatusChange docStatChange = new DocumentStatusChange();
                 docStatChange.setFinancialDocumentNumber(statusChangeEvent.getRouteHeaderId().toString());

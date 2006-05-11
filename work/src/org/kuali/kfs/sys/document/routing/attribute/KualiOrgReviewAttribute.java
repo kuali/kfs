@@ -440,6 +440,9 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
         			if (docType.getName().equals("KualiMaintenanceDocument")) {
         				xpathExp = "//kualiUser";
         				break;
+        			} else if (docType.getName().equals(KualiConstants.PROCUREMENT_CARD_DOC_TYPE)) {
+        				xpathExp = "//org.kuali.module.financial.bo.ProcurementCardTargetAccountingLine/account";
+        				break;
         			} else if (KualiConstants.isSourceLineOnly(docType.getName())) {
         				xpathExp = "//org.kuali.core.bo.SourceAccountingLine/account";
         				break;

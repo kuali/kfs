@@ -39,6 +39,8 @@ public interface ProcurementCardCreateDocumentService {
     public static String DEFAULT_TRANS_ACCOUNT_PARM_NM = "DEFAULT_TRANSACTION_ACCOUNT_NUMBER";
     public static String DEFAULT_TRANS_OBJECT_CODE_PARM_NM = "DEFAULT_TRANSACTION_OBJECT_CODE";
     public static String DISPUTE_URL_PARM_NM = "DISPUTE_URL";
+    public static String AUTO_APPROVE_DOCUMENTS_IND = "AUTO_APPROVE_DOCUMENTS_IND";
+    public static String AUTO_APPROVE_NUMBER_OF_DAYS = "AUTO_APPROVE_NUMBER_OF_DAYS";
     
     /**
      * Creates procurement card documents and routes from the records loaded
@@ -54,4 +56,11 @@ public interface ProcurementCardCreateDocumentService {
      * @return boolean indicating whether the routing was successful
      */
     public boolean routeProcurementCardDocuments();
+    
+    /**
+     * Finds documents that have been in route status past the number of
+     * allowed days. Then calls document service to auto approve the documents.
+     * @return boolean indicating whether the auto approve was successful
+     */
+    public boolean autoApproveProcurementCardDocuments();
 }

@@ -194,6 +194,7 @@
         decorator="${sourceOrTarget}LineDecorator[${ctr}]"
         accountingLineValuesMap="${currentLine.valuesMap}"
         />
+        
 </logic:iterate>
 
 <tr>

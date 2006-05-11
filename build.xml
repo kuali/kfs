@@ -334,13 +334,13 @@
 	<target name="dist-workflow-local" if="dist.workflow.local" depends="filter-workflow-local">
 		<copy file="${build.workflow.directory}/${workflow.application}-${build.environment}.war" todir="${appserver.deploy.dir}"/>
 		<!-- when we move to 2.2, we'll be able to make workflow watch the project directory instead of doing this -->
-		<copy todir="${plugin.classes.directory}">
-			<fileset dir="${classes.directory}"/>
-		</copy>
 		<copy todir="${classes.directory}" overwrite="true">
 			<fileset dir="${build.tokenized.resources.directory}" includes="${tokenized.source.files}"/>
             <filterset refid="general.filterset"/>
     	</copy>
+		<copy todir="${plugin.classes.directory}">
+			<fileset dir="${classes.directory}"/>
+		</copy>
 		<copy todir="${plugin.lib.directory}">
 			<fileset dir="${lib.directory}" excludes="${workflow.exclude.library.list}"/>
 		</copy>

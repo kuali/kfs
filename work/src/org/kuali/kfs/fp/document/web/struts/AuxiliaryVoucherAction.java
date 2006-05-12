@@ -22,40 +22,6 @@
  */
 package org.kuali.module.financial.web.struts.action;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.ArrayList;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.lang.StringUtils;
-import org.apache.struts.action.ActionForm;
-import org.apache.struts.action.ActionForward;
-import org.apache.struts.action.ActionMapping;
-import org.kuali.Constants;
-import org.kuali.KeyConstants;
-import org.kuali.PropertyConstants;
-import org.kuali.core.authorization.DocumentAuthorizer;
-import org.kuali.core.bo.AccountingLine;
-import org.kuali.core.bo.SourceAccountingLine;
-import org.kuali.core.document.Document;
-import org.kuali.core.question.ConfirmationQuestion;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.SpringServiceLocator;
-import org.kuali.core.web.format.CurrencyFormatter;
-import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
-import org.kuali.core.web.struts.form.KualiDocumentFormBase;
-import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
-import org.kuali.module.chart.bo.codes.BalanceTyp;
-import org.kuali.module.financial.bo.VoucherAccountingLineHelper;
-import org.kuali.module.financial.document.AuxiliaryVoucherDocument;
-import org.kuali.module.financial.web.struts.form.AuxiliaryVoucherForm;
-import org.kuali.module.financial.web.struts.form.VoucherForm;
-
-import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * This class piggy backs on all of the functionality in the KualiTransactionalDocumentActionBase but is necessary for this document

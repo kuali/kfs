@@ -22,18 +22,6 @@
  */
 package org.kuali.module.financial.web.struts.form;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.apache.commons.lang.StringUtils;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.SpringServiceLocator;
-import org.kuali.core.web.format.CurrencyFormatter;
-import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
-import org.kuali.module.chart.bo.AccountingPeriod;
-import org.kuali.module.financial.bo.VoucherAccountingLineHelper;
 import org.kuali.module.financial.document.AuxiliaryVoucherDocument;
 
 /**

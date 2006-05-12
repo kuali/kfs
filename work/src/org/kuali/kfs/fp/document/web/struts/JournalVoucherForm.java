@@ -22,30 +22,20 @@
  */
 package org.kuali.module.financial.web.struts.form;
 
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.Constants;
-import org.kuali.KeyConstants;
 import org.kuali.core.bo.SourceAccountingLine;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
-import org.kuali.core.web.format.CurrencyFormatter;
-import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
-import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.bo.SubObjCd;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
 import org.kuali.module.chart.service.BalanceTypService;
-import org.kuali.module.financial.bo.VoucherAccountingLineHelper;
 import org.kuali.module.financial.document.JournalVoucherDocument;
 
 /**

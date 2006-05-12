@@ -39,9 +39,7 @@ import org.kuali.core.util.KualiDecimal;
  * Expense and target.  Expense is the expense and target is the income lines. * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
-public class AuxiliaryVoucherDocument extends TransactionalDocumentBase {
-	private static final long serialVersionUID = -2030598871701221377L;
-
+public class AuxiliaryVoucherDocument extends TransactionalDocumentBase implements VoucherDocument {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AuxiliaryVoucherDocument.class);
 	
     private String typeCode = "AVAD";

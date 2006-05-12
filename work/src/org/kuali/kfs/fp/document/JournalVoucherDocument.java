@@ -47,9 +47,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
  * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
-public class JournalVoucherDocument extends TransactionalDocumentBase {
-    private static final long serialVersionUID = 1452941605423073277L;
-    
+public class JournalVoucherDocument extends TransactionalDocumentBase implements VoucherDocument {
     // document specific attributes
     private String balanceTypeCode; // balanceType key
     private BalanceTyp balanceType;

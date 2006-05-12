@@ -20,45 +20,37 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-package org.kuali.module.financial.web.struts.form;
+package org.kuali.module.financial.bo;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.apache.commons.lang.StringUtils;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.SpringServiceLocator;
-import org.kuali.core.web.format.CurrencyFormatter;
-import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
-import org.kuali.module.chart.bo.AccountingPeriod;
-import org.kuali.module.financial.bo.VoucherAccountingLineHelper;
-import org.kuali.module.financial.document.AuxiliaryVoucherDocument;
 
 /**
- * This class...
+ * Interface to aid voucher documents for handling debit/credit amounts.
+ *
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
-public class AuxiliaryVoucherForm extends VoucherForm {
-    
-    public AuxiliaryVoucherForm() {
-		super();
-        setDocument(new AuxiliaryVoucherDocument());
-    }
-    
+public interface VoucherAccountingLineHelper {
     /**
-     * @return Returns the serviceBillingDocument.
+     * This method retrieves the credit amount.
+     * @return
      */
-    public AuxiliaryVoucherDocument getAuxiliaryVoucherDocument() {
-        return (AuxiliaryVoucherDocument) getDocument();
-    }
+    public KualiDecimal getCredit();
 
     /**
-     * @param serviceBillingDocument The serviceBillingDocument to set.
-     */ 
-    public void setAuxiliaryVoucherDocument(AuxiliaryVoucherDocument auxiliaryVoucherDocument) {
-        setDocument(auxiliaryVoucherDocument);
-    }    
-}
+     * This method sets the credit amount.
+     * @param credit
+     */
+    public void setCredit(KualiDecimal credit);
 
+    /**
+     * This method retrieves the debit amount.
+     * @return
+     */
+    public KualiDecimal getDebit();
+
+    /**
+     * This method sets the debit amount.
+     * @param debit
+     */
+    public void setDebit(KualiDecimal debit);
+}

@@ -25,7 +25,10 @@ package org.kuali.module.financial.rules;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.Calendar;
+import java.util.Set;
+import java.util.TreeSet;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
 import org.kuali.PropertyConstants;
@@ -38,10 +41,10 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.AccountingPeriod;
-import org.kuali.module.chart.bo.ObjLevel;
-import org.kuali.module.chart.bo.ObjSubTyp;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.bo.ObjectType;
+import org.kuali.module.chart.bo.ObjLevel;
+import org.kuali.module.chart.bo.ObjSubTyp;
 import org.kuali.module.chart.service.AccountingPeriodService;
 import org.kuali.module.financial.document.AuxiliaryVoucherDocument;
 import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
@@ -54,6 +57,7 @@ public class AuxiliaryVoucherDocumentRule
     extends TransactionalDocumentRuleBase 
     implements AuxiliaryVoucherDocumentRuleConstants {
     //TODO refactor and move up to parent class
+    private static final KualiDecimal ZERO = new KualiDecimal(0);
     private static final String AUX_VOUCHER_ADJUSTMENT_DOC_TYPE = "AVAD";
     private static final String AUX_VOUCHER_RECODE_DOC_TYPE = "AVRC";
     private static final String AUX_VOUCHER_ACCRUAL_DOC_TYPE = "AVAE";
@@ -112,29 +116,86 @@ public class AuxiliaryVoucherDocumentRule
     }
     
     /**
-     * Accounting lines for Journal Vouchers can be positive or negative, just not "$0.00".
+     * Accounting lines for Auxiliary Vouchers can be positive or negative, just not "$0.00".
      * 
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#isAmountValid(org.kuali.core.document.TransactionalDocument,
      *      org.kuali.core.bo.AccountingLine)
      */
     public boolean isAmountValid(TransactionalDocument document, AccountingLine accountingLine) {
-        KualiDecimal ZERO = new KualiDecimal(0);
+        boolean retval = true;
         KualiDecimal amount = accountingLine.getAmount();
 
-        // Check for zero amounts
-        if (ZERO.compareTo(amount) == 0) { // amount == 0
-            GlobalVariables.getErrorMap().put(Constants.ACCOUNTING_LINE_ERRORS, KeyConstants.ERROR_ZERO_AMOUNT,
-                    "an accounting line");
-            return false;
+        AuxiliaryVoucherDocument avDoc = (AuxiliaryVoucherDocument) document;
+		
+		LOG.info("validating amount of: " + amount);
+
+        // check for negative or zero amounts
+        if (ZERO.compareTo(amount) == 0) { // if 0
+            GlobalVariables.getErrorMap().putWithoutFullErrorPath(buildErrorMapKeyPathForDebitCreditAmount(true),
+                                                                  KeyConstants.ERROR_ZERO_OR_NEGATIVE_AMOUNT, "an accounting line");
+            GlobalVariables.getErrorMap().putWithoutFullErrorPath(buildErrorMapKeyPathForDebitCreditAmount(false),
+                                                                  KeyConstants.ERROR_ZERO_OR_NEGATIVE_AMOUNT, "an accounting line");
+            
+            retval = false;
+        }
+        else if (ZERO.compareTo(amount) == 1) { // entered a negative number
+            String debitCreditCode = accountingLine.getDebitCreditCode();
+            if (StringUtils.isNotBlank(debitCreditCode) && GENERAL_LEDGER_PENDING_ENTRY_CODE.DEBIT.equals(debitCreditCode)) {
+                GlobalVariables.getErrorMap().putWithoutFullErrorPath(buildErrorMapKeyPathForDebitCreditAmount(true),
+                                                                      KeyConstants.ERROR_ZERO_OR_NEGATIVE_AMOUNT, "an accounting line");
+            }
+            else {
+                GlobalVariables.getErrorMap().putWithoutFullErrorPath(buildErrorMapKeyPathForDebitCreditAmount(false),
+                                                                      KeyConstants.ERROR_ZERO_OR_NEGATIVE_AMOUNT, "an accounting line");
+            }
+            
+            retval = false;
+        }
+        
+        return retval;
+    }
+
+    /**
+     * This method looks at the current full key path that exists in the ErrorMap structure to determine how to build the error map
+     * for the special journal voucher credit and debit fields since they don't conform to the standard pattern of accounting lines.
+     * 
+     * @param isDebit
+     * @return String
+     */
+    private String buildErrorMapKeyPathForDebitCreditAmount(boolean isDebit) {
+        // determine if we are looking at a new line add or an update
+        boolean isNewLineAdd = GlobalVariables.getErrorMap().getErrorPath().contains(Constants.NEW_SOURCE_ACCT_LINE_PROPERTY_NAME);
+        isNewLineAdd |= GlobalVariables.getErrorMap().getErrorPath().contains(Constants.NEW_SOURCE_ACCT_LINE_PROPERTY_NAME);
+
+        if (isNewLineAdd) {
+            if (isDebit) {
+                return Constants.DEBIT_AMOUNT_PROPERTY_NAME;
+            }
+            else {
+                return Constants.CREDIT_AMOUNT_PROPERTY_NAME;
+            }
+        }
+        else {
+            String index = StringUtils.substringBetween(GlobalVariables.getErrorMap().getKeyPath("", true),
+                    Constants.SQUARE_BRACKET_LEFT, Constants.SQUARE_BRACKET_RIGHT);
+            String indexWithParams = Constants.SQUARE_BRACKET_LEFT + index + Constants.SQUARE_BRACKET_RIGHT;
+            if (isDebit) {
+                return Constants.JOURNAL_LINE_HELPER_PROPERTY_NAME + indexWithParams
+                        + Constants.JOURNAL_LINE_HELPER_DEBIT_PROPERTY_NAME;
+            }
+            else {
+                return Constants.JOURNAL_LINE_HELPER_PROPERTY_NAME + indexWithParams
+                        + Constants.JOURNAL_LINE_HELPER_CREDIT_PROPERTY_NAME;
+            }
+
         }
 
-        return true;
-    }
-    
+    } 
+   
     /**
      * This is the default implementation for Transactional Documents, which sums the amounts of all of the Source Accounting Lines,
      * and compares it to the total of all of the Target Accounting Lines. In general, this algorithm works, but it does not work
-     * for some specific documents such as the Journal Voucher. The method name denotes not an expected behavior, but a more general
+     * for some specific documents such as the Auxiliary Voucher. The method name denotes not an expected behavior, but a more general
      * title so that some documents that don't use this default implementation, can override just this method without having to
      * override the calling method.
      * 

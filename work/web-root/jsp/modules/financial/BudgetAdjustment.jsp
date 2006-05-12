@@ -9,7 +9,7 @@
 		
         <kul:documentOverview editingMode="${KualiForm.editingMode}"/>
         
-        <fin:budgetAdjustmentAccountingLines editingMode="${KualiForm.editingMode}" editableAccounts="${KualiForm.editableAccounts}"/>
+        <fin:accountingLines editingMode="${KualiForm.editingMode}" editableAccounts="${KualiForm.editableAccounts}" displayMonthlyAmounts="true"/>
 	    
 		<kul:generalLedgerPendingEntries/>
 		

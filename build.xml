@@ -160,7 +160,13 @@
 	</target>	
 
 	<target name="clean-workflow-local" if="is.local.build" depends="init-project-properties">
-        <delete failonerror="false">
+		<delete failonerror="false">
+			<fileset dir="${appserver.classes.dir}" includes="${workflow.tomcat.classes.list}"/>
+		</delete>
+		<delete failonerror="false">
+			<fileset dir="${appserver.lib.dir}" includes="${workflow.tomcat.library.list}"/>
+		</delete>
+		<delete failonerror="false">
 			<fileset dir="${appserver.config.dir}" includes="${workflow.application}-*"/>
 		</delete>
 		<delete failonerror="false" includeemptydirs="true">
@@ -214,11 +220,11 @@
 	</target>
 	
 	<target name="filter-workflow-local" if="dist.workflow.local" depends="init-filter-sets,clean-workflow-local">
-		<copy todir="${appserver.lib.dir}" overwrite="true">
-			<fileset dir="${build.workflow.directory}" includes="*.jar"/>
+		<copy todir="${appserver.classes.dir}" overwrite="true">
+			<fileset dir="${build.workflow.directory}" includes="${workflow.tomcat.classes.list}"/>
 		</copy>
-		<copy todir="${appserver.home}/common/classes" overwrite="true">
-			<fileset dir="${build.workflow.directory}" includes="*.properties"/>
+		<copy todir="${appserver.lib.dir}" overwrite="true">
+			<fileset dir="${build.workflow.directory}" includes="${workflow.tomcat.library.list}"/>
 		</copy>
 		<filterset id="workflow.filterset">
         	<filter token="workflow-application" value="${workflow.application}"/>
@@ -400,6 +406,7 @@
 			- run the echo-properties target and review the results
 			- click the "Run/Stop/Restart MyEclipse Application Servers" button in the "Java (default)" perspective in
 			eclipse to start tomcat
+			- launch a browser and access http://localhost:8080/kuali-dev
 			
 	you can override the default log4j settings for your local deployments by copying 
 		build/configurationFiles/externalConfigDirectory/settings/${log4j.settings.file} to

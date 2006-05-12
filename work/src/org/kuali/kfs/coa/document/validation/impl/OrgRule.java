@@ -22,6 +22,7 @@
  */
 package org.kuali.module.chart.rules;
 
+import java.sql.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -84,6 +85,9 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
 
         success &= checkOrgClosureRules(document);
         
+        //  check that end date is greater than begin date
+        success &= checkSimpleRules();
+       
         return success;
     }
     
@@ -104,6 +108,9 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
         
         //  check that all sub-objects whose keys are specified have matching objects in the db
         success &= checkExistenceAndActive();
+
+        //  check that end date is greater than begin date
+        success &= checkSimpleRules();
 
         success &= checkOrgClosureRules(document);
         
@@ -128,6 +135,9 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
 
         checkOrgClosureRules(document);
         
+        //  check that end date is greater than begin date
+        checkSimpleRules();
+       
         return true;
     }
     
@@ -327,6 +337,25 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
         //  if the 
         return success;
     }
+    
+    protected boolean checkSimpleRules() {
+        
+        boolean success = true;
+        
+        //	begin date must be greater than or equal to end date
+        if (	(ObjectUtils.isNotNull(newOrg.getOrganizationBeginDate()) &&
+                (ObjectUtils.isNotNull(newOrg.getOrganizationEndDate())))) {
+               														
+            Date beginDate = newOrg.getOrganizationBeginDate();
+            Date endDate = newOrg.getOrganizationEndDate();
+
+            if (endDate.before(beginDate)) {
+                putFieldError("organizationEndDate", KeyConstants.ERROR_DOCUMENT_ORGMAINT_END_DATE_GREATER_THAN_BEGIN_DATE);
+                success &= false;
+            }
+        } 
+        return success;
+    }   
     
     /**
      * 

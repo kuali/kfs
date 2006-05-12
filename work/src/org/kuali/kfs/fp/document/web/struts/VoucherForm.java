@@ -67,7 +67,7 @@ public class VoucherForm extends KualiTransactionalDocumentFormBase {
 	/**
 	 * Supplements a constructor for this voucher class
 	 */
-	public void VoucherForm() {
+	public VoucherForm() {
         selectedAccountingPeriod = "";
         setNewSourceLineCredit(new KualiDecimal(0));
         setNewSourceLineDebit(new KualiDecimal(0));

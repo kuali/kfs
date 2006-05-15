@@ -35,7 +35,7 @@ public class BudgetAdjustmentSourceAccountingLine extends SourceAccountingLine {
     private KualiDecimal currentBudgetAdjustmentAmount;
     private KualiDecimal baseBudgetAdjustmentAmount;
     
-    //add monthly BO 
+    private BudgetAdjustmentSourceMonth budgetAdjustmentSourceMonth;
 	
     /**
 	 * This constructor needs to initialize the ojbConcreteClass attribute such
@@ -72,5 +72,13 @@ public class BudgetAdjustmentSourceAccountingLine extends SourceAccountingLine {
 			KualiDecimal currentBudgetAdjustmentAmount) {
 		this.currentBudgetAdjustmentAmount = currentBudgetAdjustmentAmount;
 	}
+
+    public BudgetAdjustmentSourceMonth getBudgetAdjustmentSourceMonth() {
+        return budgetAdjustmentSourceMonth;
+    }
+
+    public void setBudgetAdjustmentSourceMonth(BudgetAdjustmentSourceMonth budgetAdjustmentSourceMonth) {
+        this.budgetAdjustmentSourceMonth = budgetAdjustmentSourceMonth;
+    }
 	
 }

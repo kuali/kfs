@@ -20,7 +20,7 @@
             </classpath>
             <formatter type="xml"/>
 			<batchtest todir="${test.xml.results.directory}">
-		    	<fileset dir="${test.source.directory}">
+		    		<fileset dir="${test.source.directory}">
 		            <include name="**/*Test.java"/>
 		            <exclude name="**/TransactionalDocumentRuleTest.java"/>
 		            <exclude name="**/PosterServiceTest.java"/>
@@ -429,7 +429,9 @@
 			echo-properties: executes ant echoproperties task, thereby printing out all the properties that have been set
 
 			test: runs all project tests and generates results
-
+			- you should run dist-local before running this target, if the criteria listed above for runinng dist-local are met
+			- if you are running workflow locally, tomcat needs to be running when you are executing this target
+			
 			clean: removes all build output
 		</echo>
 	</target>

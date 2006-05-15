@@ -1462,6 +1462,8 @@
 	<field-descriptor name="transactionUnitContactName" column="TRN_UNIT_CNTCT_NM" jdbc-type="VARCHAR"/>
 	<field-descriptor name="transactionTravelAuthorizationCode" column="TRN_TRVL_AUTH_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="transactionPointOfSaleCode" column="TRN_PT_OF_SALE_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="transactionCycleStartDate" column="TRN_CYCLE_STRT_DT" jdbc-type="DATE"/>
+	<field-descriptor name="transactionCycleEndDate" column="TRN_CYCLE_END_DT" jdbc-type="DATE"/>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.financial.bo.ProcurementCardTransaction" table="FP_PRCRMNT_CARD_TRN_T">

@@ -50,7 +50,7 @@ public class GlobalDocumentTest extends KualiTestBaseWithFixtures {
     private static final String GLOBAL_DELEGATE_TYPENAME = "KualiDelegateChangeDocument";
     private static final String GLOBAL_ACCOUNT_TYPENAME = "KualiAccountChangeDocument";
     
-    private boolean rollback = false;
+    private boolean rollback = true;
     private DocumentService docService;
     
     public GlobalDocumentTest() {
@@ -70,7 +70,9 @@ public class GlobalDocumentTest extends KualiTestBaseWithFixtures {
      * @see org.kuali.test.KualiTestBaseWithSpring#needsTestTransaction()
      */
     protected boolean needsTestTransaction() {
-        return false;
+        //return false;
+        //  change this to false to turn off transactions entirely in the test
+        return true;
     }
     
     public void testGlobalDelegateMaintenanceDocumentCreation_goodDocTypeName() throws Exception {

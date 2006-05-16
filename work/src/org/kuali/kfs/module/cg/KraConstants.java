@@ -41,4 +41,7 @@ public class KraConstants extends JstlConstants {
     public static final Integer PERIOD_SUMMATION = new Integer(0); // budgetDetailSelection.tag defines 0 as a period summation
     
     public static final KualiInteger PERSONNEL_AGGREGATION_MAX_PERCENTAGE = new KualiInteger(100);
+    
+    public static final String INSTITUTION_COST_SHARE_CODE = "I";
+    public static final String THIRD_PARTY_COST_SHARE_CODE = "T";
 }

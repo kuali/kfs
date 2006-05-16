@@ -50,7 +50,6 @@ import org.kuali.module.financial.document.JournalVoucherDocument;
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class JournalVoucherForm extends VoucherForm {
-    private static final long serialVersionUID = 1L;
     private List balanceTypes;
     private String originalBalanceType;
     private BalanceTyp selectedBalanceType;
@@ -60,7 +59,7 @@ public class JournalVoucherForm extends VoucherForm {
      */
     public JournalVoucherForm() {
         super();
-		setDocument(new JournalVoucherDocument());
+        setDocument(new JournalVoucherDocument());
         selectedBalanceType = new BalanceTyp();
         originalBalanceType = "";
     }
@@ -73,17 +72,9 @@ public class JournalVoucherForm extends VoucherForm {
      * @see org.kuali.core.web.struts.pojo.PojoForm#populate(javax.servlet.http.HttpServletRequest)
      */
     public void populate(HttpServletRequest request) {
-        super.populate(request);
-        
         // populate the drop downs
-        populateAccountingPeriodListForRendering();
         populateBalanceTypeListForRendering();
-        
-        // we don't want to do this if we are just reloading the document
-        if(StringUtils.isBlank(getMethodToCall()) || !getMethodToCall().equals(Constants.RELOAD_METHOD_TO_CALL)) {
-            // make sure the amount fields are populated appropriately when in debit/credit amount mode
-            populateCreditAndDebitAmounts();
-        }
+        super.populate(request);
     }
 
     /**
@@ -264,7 +255,7 @@ public class JournalVoucherForm extends VoucherForm {
      */
     protected void populateCreditAndDebitAmounts() {
         if (isSelectedBalanceTypeFinancialOffsetGenerationIndicator()) {
-			super.populateCreditAndDebitAmounts();
+            super.populateCreditAndDebitAmounts();
         }
     }
     

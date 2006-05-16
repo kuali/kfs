@@ -94,6 +94,14 @@
 		<property name="dateTimeService"><ref bean="dateTimeService" /></property>
 	</bean>
 	
+	<bean id="glIcrEncumbranceGenerationStep" class="org.kuali.module.gl.batch.IcrEncumbranceGenerationStep">
+		<property name="icrEncumbranceService"><ref bean="glIcrEncumbranceService" /></property>
+	</bean>		
+	
+	<bean id="glIcrEncumbranceReversalStep" class="org.kuali.module.gl.batch.IcrEncumbranceReversalStep">
+		<property name="icrEncumbranceReversalService"><ref bean="glIcrEncumbranceReversalService" /></property>
+	</bean>	
+	
 	<bean id="glYearEndService" class="org.kuali.module.gl.service.impl.YearEndServiceImpl">
         <property name="originEntryService"><ref bean="glOriginEntryService" /></property>
         <property name="originEntryGroupService"><ref bean="glOriginEntryGroupService" /></property>

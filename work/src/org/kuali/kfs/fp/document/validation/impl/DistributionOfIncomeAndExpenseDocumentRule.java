@@ -22,15 +22,20 @@
  */
 package org.kuali.module.financial.rules;
 
+import org.kuali.Constants;
 import org.kuali.KeyConstants;
 import org.kuali.PropertyConstants;
 import org.kuali.core.bo.AccountingLine;
+import org.kuali.core.bo.SourceAccountingLine;
+import org.kuali.core.bo.TargetAccountingLine;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.rule.KualiParameterRule;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.ObjectCode;
+import org.kuali.module.gl.util.SufficientFundsItemHelper.SufficientFundsItem;
 
 /**
  * This class holds document specific business rules for the Distribution of Income and Expense. It overrides methods in the base
@@ -42,13 +47,58 @@ public class DistributionOfIncomeAndExpenseDocumentRule extends TransactionalDoc
         DistributionOfIncomeAndExpenseDocumentRuleConstants {
 
     /**
+     * Overrrides default implementation to do the following: a line is considered debit if
+     * <ol>
+     * <li> is a source line && isExpenseOrAsset && is negative amount
+     * <li> is a source line && IncomeOrLiability && is positive amount
+     * <li> is a target line && isExpenseOrAsset && is positive amount
+     * <li> is a target line && IncomeOrLiability && is a negative amount
+     * </ol>
+     * 
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#isDebit(org.kuali.core.bo.AccountingLine)
      */
     public boolean isDebit(AccountingLine accountingLine) throws IllegalStateException {
-        if (accountingLine.getAmount().isNegative()) {
-            throw new IllegalStateException("Negative amounts are not allowed.");
+        // SOURCE line
+        // -- Expense Or Asset
+        // credit: positive amount
+        // debit: negative amount
+        // --Income Or Liability
+        // debit: positive amount
+        // credit: negative amount
+        // TARGET LINE
+        // --Expense Or Asset
+        // debit: positive amount
+        // credit: negative amount
+        // --Income Or Liability
+        // credit: positive amount
+        // debit: negative amount
+
+        boolean isDebit = false;
+        boolean isPositive = accountingLine.getAmount().isPositive();
+        if (isSourceAccountingLine(accountingLine)) {
+            if (isExpenseOrAsset(accountingLine)) {
+                isDebit = !isPositive;
+            }
+            else if (isIncomeOrLiability(accountingLine)) {
+                isDebit = isPositive;
+            }
+            else {
+                throw new IllegalStateException(objectTypeCodeIllegalStateExceptionMessage);
+            }
         }
-        return isDebitConsideringSection(accountingLine);
+        // target line
+        else {
+            if (isExpenseOrAsset(accountingLine)) {
+                isDebit = isPositive;
+            }
+            else if (isIncomeOrLiability(accountingLine)) {
+                isDebit = !isPositive;
+            }
+            else {
+                throw new IllegalStateException(objectTypeCodeIllegalStateExceptionMessage);
+            }
+        }
+        return isDebit;
     }
 
     /**
@@ -126,4 +176,72 @@ public class DistributionOfIncomeAndExpenseDocumentRule extends TransactionalDoc
 
         return valid;
     }
+
+    /**
+     * @Override
+     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processSourceAccountingLineSufficientFundsCheckingPreparation(org.kuali.core.document.TransactionalDocument,
+     *      org.kuali.core.bo.SourceAccountingLine)
+     */
+    protected SufficientFundsItem processSourceAccountingLineSufficientFundsCheckingPreparation(
+            TransactionalDocument transactionalDocument, SourceAccountingLine sourceAccountingLine) {
+        return processAccountingLineSufficientFundsCheckingPreparation(sourceAccountingLine);
+    }
+
+
+    /**
+     * @Override
+     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processTargetAccountingLineSufficientFundsCheckingPreparation(org.kuali.core.document.TransactionalDocument,
+     *      org.kuali.core.bo.TargetAccountingLine)
+     */
+    protected SufficientFundsItem processTargetAccountingLineSufficientFundsCheckingPreparation(
+            TransactionalDocument transactionalDocument, TargetAccountingLine targetAccountingLine) {
+        return processAccountingLineSufficientFundsCheckingPreparation(targetAccountingLine);
+    }
+
+    /**
+     * Prepares the input item that will be used for sufficient funds checking.
+     * 
+     * fi_ddi:lp_proc_frm_ln,lp_proc_to_ln conslidated
+     * 
+     * @param accountingLine
+     * @return <code>SufficientFundsItem</code>
+     */
+    private final SufficientFundsItem processAccountingLineSufficientFundsCheckingPreparation(AccountingLine accountingLine) {
+        String chartOfAccountsCode = accountingLine.getChartOfAccountsCode();
+        String accountNumber = accountingLine.getAccountNumber();
+        String accountSufficientFundsCode = accountingLine.getAccount().getAccountSufficientFundsCode();
+        String financialObjectCode = accountingLine.getFinancialObjectCode();
+        String financialObjectLevelCode = accountingLine.getObjectCode().getFinancialObjectLevelCode();
+        Integer fiscalYear = accountingLine.getPostingYear();
+        String financialObjectTypeCode = accountingLine.getObjectTypeCode();
+        KualiDecimal lineAmount = accountingLine.getAmount();
+        String offsetDebitCreditCode = null;
+        // fi_ddi:lp_proc_from_ln.43-2...69-2
+        // fi_ddi:lp_proc_to_ln.43-2...69-2
+        if (isDebit(accountingLine)) {
+            offsetDebitCreditCode = Constants.GL_CREDIT_CODE;
+        }
+        else {
+            offsetDebitCreditCode = Constants.GL_DEBIT_CODE;
+        }
+        lineAmount = lineAmount.abs();
+
+        String sufficientFundsObjectCode = SpringServiceLocator.getSufficientFundsService().getSufficientFundsObjectCode(
+                chartOfAccountsCode, financialObjectCode, accountSufficientFundsCode, financialObjectLevelCode);
+        SufficientFundsItem item = buildSufficentFundsItem(accountNumber, accountSufficientFundsCode, lineAmount,
+                chartOfAccountsCode, sufficientFundsObjectCode, offsetDebitCreditCode, financialObjectCode,
+                financialObjectLevelCode, fiscalYear, financialObjectTypeCode);
+        return item;
+    }
+
+    /**
+     * The GEC spec says that all GL pending entry amounts are positive. I.e., it says that the pending entry uses the absolute
+     * value of non-positive accounting line amounts.
+     * 
+     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#getGeneralLedgerPendingEntryAmountForAccountingLine(org.kuali.core.bo.AccountingLine)
+     */
+    protected KualiDecimal getGeneralLedgerPendingEntryAmountForAccountingLine(AccountingLine accountingLine) {
+        return accountingLine.getAmount().abs();
+    }
+
 }

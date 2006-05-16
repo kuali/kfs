@@ -27,7 +27,6 @@ package org.kuali.module.financial.document;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.document.DocumentHeader;
 import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.module.financial.bo.BudgetAdjustmentSourceAccountingLine;

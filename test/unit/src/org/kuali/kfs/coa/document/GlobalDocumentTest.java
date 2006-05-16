@@ -22,25 +22,16 @@
  */
 package org.kuali.module.chart.globals;
 
-import java.util.Iterator;
-import java.util.List;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.Maintainable;
 import org.kuali.core.service.DocumentService;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
-import org.kuali.module.chart.bo.AccountChangeDetail;
-import org.kuali.module.chart.bo.AccountChangeDocument;
 import org.kuali.module.chart.bo.DelegateChangeDocument;
 import org.kuali.module.chart.bo.GlobalAccountChanges;
 import org.kuali.test.KualiTestBaseWithFixtures;
-import org.kuali.test.KualiTestBaseWithSpring;
-
-import edu.iu.uis.eden.exception.WorkflowException;
 
 public class GlobalDocumentTest extends KualiTestBaseWithFixtures {
     

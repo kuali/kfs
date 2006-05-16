@@ -82,6 +82,9 @@
 						attributeToHighlightOnFail="accountRestrictedStatusCode"  />
 			<reference  attributeName="subFundGroup" 
 						attributeToHighlightOnFail="subFundGroupCode"  />
+			<reference  attributeName="program" 
+						activeIndicatorAttributeName="programActiveIndicator" 
+						attributeToHighlightOnFail="programCode"  />
 			<reference  attributeName="budgetRecordingLevel" 
 						activeIndicatorAttributeName="active" 
 						attributeToHighlightOnFail="budgetRecordingLevelCode" />
@@ -113,6 +116,7 @@
 		            <maintainableField name="accountClosedIndicator" required="false" />
 		            <maintainableField name="accountTypeCode" required="true" />
 		            <maintainableField name="subFundGroupCode" required="true" />
+		            <maintainableField name="programCode" required="false" />
 		            <maintainableField name="accountsFringesBnftIndicator" required="false">
 		            	<defaultValue>true</defaultValue>
 		            </maintainableField>

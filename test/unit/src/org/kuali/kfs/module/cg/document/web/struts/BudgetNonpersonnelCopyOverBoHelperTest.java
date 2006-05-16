@@ -157,19 +157,28 @@ public class BudgetNonpersonnelCopyOverBoHelperTest extends KualiTestBaseWithSpr
         assertEquality(newBudgetNonpersonnel1.getBudgetUniversityCostShareAmount(), new KualiInteger(2000));
         assertEquality(newBudgetNonpersonnel1.getBudgetThirdPartyCostShareAmount(), new KualiInteger(3000));
         assertFalse(newBudgetNonpersonnel1.getCopyToFuturePeriods()); // should always be false per interface requirement
-        
+
         // agencyCopyIndicator = true
         budgetNonpersonnel.setAgencyCopyIndicator(true);
         budgetNonpersonnel.setBudgetUniversityCostShareCopyIndicator(true);
         budgetNonpersonnel.setBudgetThirdPartyCostShareCopyIndicator(true);
         budgetNonpersonnel.setCopyToFuturePeriods(false);
         BudgetNonpersonnel newBudgetNonpersonnel2 = budgetNonpersonnel.getBudgetNonpersonnel();
-        assertEquality(newBudgetNonpersonnel1.getAgencyRequestAmount(), new KualiInteger(4000));
-        assertEquality(newBudgetNonpersonnel1.getBudgetUniversityCostShareAmount(), new KualiInteger(5000));
-        assertEquality(newBudgetNonpersonnel1.getBudgetThirdPartyCostShareAmount(), new KualiInteger(6000));
+        assertEquality(newBudgetNonpersonnel2.getAgencyRequestAmount(), new KualiInteger(4000));
+        assertEquality(newBudgetNonpersonnel2.getBudgetUniversityCostShareAmount(), new KualiInteger(5000));
+        assertEquality(newBudgetNonpersonnel2.getBudgetThirdPartyCostShareAmount(), new KualiInteger(6000));
         assertFalse(newBudgetNonpersonnel2.getCopyToFuturePeriods()); // should always be false per interface requirement
+        
+        // KULERA-491 bug: getBudgetNonpersonnel doesn't return object of type gBudgetNonpersonnel which confused OJB.
+        boolean exceptionThrown = false;
+        try {
+            BudgetNonpersonnelCopyOverBoHelper newBudgetNonpersonnel3 = (BudgetNonpersonnelCopyOverBoHelper) budgetNonpersonnel.getBudgetNonpersonnel();
+        } catch (ClassCastException e) {
+            exceptionThrown = true;
+        }
+        assertTrue("BudgetNonpersonnel.getBudgetNonpersonnel should not return an object of type BudgetNonpersonnelCopyOverBoHelper because " +
+                "that confuses OJB. It can only store BudgetNonpersonnel.", exceptionThrown);
     }
-    
     
     /**
      * Helper to give a representation of a re-occuring BudgetNonpersonnelCopyOverBoHelper object. Note this may

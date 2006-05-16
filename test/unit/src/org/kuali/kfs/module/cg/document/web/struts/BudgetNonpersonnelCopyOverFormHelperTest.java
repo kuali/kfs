@@ -64,8 +64,8 @@ public class BudgetNonpersonnelCopyOverFormHelperTest extends KualiTestBaseWithS
         
         BudgetNonpersonnelCopyOverFormHelper budgetNonpersonnelCopyOverFormHelper2 = new BudgetNonpersonnelCopyOverFormHelper(budgetForm);
         
-        assertNotNull("Should not be pull after construction.", budgetNonpersonnelCopyOverFormHelper2);
-        assertNotNull("Should not be pull after construction.", budgetNonpersonnelCopyOverFormHelper2.getNonpersonnelCopyOverCategoryHelpers());
+        assertNotNull("Should not be null after construction.", budgetNonpersonnelCopyOverFormHelper2);
+        assertNotNull("Should not be null after construction.", budgetNonpersonnelCopyOverFormHelper2.getNonpersonnelCopyOverCategoryHelpers());
         // Further tests are easier done after decontruction. The important part here is that it doesn't crash.
     }
     

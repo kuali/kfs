@@ -77,18 +77,18 @@
 								sourceClassName="org.kuali.module.chart.bo.Account" 
 								sourceAttributeName="accountNumber">
 				<required>true</required>
-			<description>
-			Identifier for a pool of funds assigned to a specific university entity for a specific function.
-			</description>
+				<description>
+				Identifier for a pool of funds assigned to a specific university entity for a specific function.
+				</description>
 			
 			</attributeReference>
-								
-			<attribute name="financialDocumentTypeCode" forceUppercase="true">
+			
+			<attributeReference name="financialDocumentTypeCode" 
+								sourceClassName="org.kuali.core.document.DocumentType" 
+								sourceAttributeName="financialDocumentTypeCode">
 				<label>Document Type Code</label>
 				<shortLabel>DocType</shortLabel>
 
-				<maxLength>4</maxLength>
-				<validationPattern><alphaNumeric /></validationPattern>
 				<required>true</required>
 				
 				<control>
@@ -99,7 +99,8 @@
 				<description>
 				The code for the business function of all documents of this type.
 				</description>
-			</attribute>
+			
+			</attributeReference>	
 			
 			<attributeReference name="accountDelegateSystemId" 
 								sourceClassName="org.kuali.core.bo.user.KualiUser" 

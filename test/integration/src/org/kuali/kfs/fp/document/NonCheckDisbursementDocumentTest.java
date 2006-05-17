@@ -56,46 +56,6 @@ public class NonCheckDisbursementDocumentTest extends TransactionalDocumentTestB
         return new String[] { COLLECTION_NAME };
     }
 
-    public final void testGetCreditTotal() throws Exception {
-        KualiDecimal total = new KualiDecimal(0);
-        NonCheckDisbursementDocument document = 
-            (NonCheckDisbursementDocument)getDocumentParameterFixture()
-            .createDocument( getDocumentService() );
-        for (Iterator i = getSourceAccountingLineParametersFromFixtures().iterator(); i.hasNext();) {
-            AccountingLineParameter parameter = (AccountingLineParameter) i.next();
-            parameter.setDebitCreditCode(Constants.GL_CREDIT_CODE);
-            document.addSourceAccountingLine( ( SourceAccountingLine )( parameter.createLine( getDocumentParameterFixture().getDocumentNumber() ) ) );
-            total = total.add(parameter.getLineAmount());
-            // add 1 line of debit
-            if (!i.hasNext()) {
-                parameter.setDebitCreditCode(Constants.GL_DEBIT_CODE);
-                parameter.setLineAmount(new KualiDecimal("50.00"));
-            }
-        }
-
-        assertEquals(total, document.getCreditTotal());
-    }
-
-    public final void testGetDebitTotal() throws Exception {
-        KualiDecimal total = new KualiDecimal(0);
-        NonCheckDisbursementDocument document = 
-            (NonCheckDisbursementDocument)getDocumentParameterFixture()
-            .createDocument( getDocumentService() );
-        for (Iterator i = getSourceAccountingLineParametersFromFixtures().iterator(); i.hasNext();) {
-            AccountingLineParameter parameter = (AccountingLineParameter) i.next();
-            parameter.setDebitCreditCode(Constants.GL_DEBIT_CODE);
-            document.addSourceAccountingLine( ( SourceAccountingLine )( parameter.createLine( getDocumentParameterFixture().getDocumentNumber() ) ) );
-            total = total.add(parameter.getLineAmount());
-            // add 1 line of debit
-            if (!i.hasNext()) {
-                parameter.setDebitCreditCode(Constants.GL_CREDIT_CODE);
-                parameter.setLineAmount(new KualiDecimal("50.00"));
-            }
-        }
-
-        assertEquals(total, document.getDebitTotal());
-    }
-
     /**
      * 
      * @see org.kuali.core.document.DocumentTestCase#getDocumentParameterFixture()

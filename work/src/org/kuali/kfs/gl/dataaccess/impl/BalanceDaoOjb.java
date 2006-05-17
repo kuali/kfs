@@ -45,7 +45,7 @@ import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 /**
  * @author jsissom
  * @author Laran Evans <lc278@cornell.edu>
- * @version $Id: BalanceDaoOjb.java,v 1.28 2006-05-08 14:04:14 larevans Exp $
+ * @version $Id: BalanceDaoOjb.java,v 1.29 2006-05-17 14:38:49 larevans Exp $
  */
 public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements BalanceDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BalanceDaoOjb.class);
@@ -57,7 +57,7 @@ public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements Balanc
     /* (non-Javadoc)
      * @see org.kuali.module.gl.dao.BalanceDao#findBalancesForFiscalYear(java.lang.Integer)
      */
-    public Iterator findBalancesForFiscalYear(Integer year) {
+    public Iterator<Balance> findBalancesForFiscalYear(Integer year) {
         
         // from gleacbfb (balance forward) cobol program
         
@@ -197,7 +197,7 @@ public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements Balanc
 
     }
 
-    public Iterator findBalances(Account account, Integer fiscalYear, Collection includedObjectCodes,
+    public Iterator<Balance> findBalances(Account account, Integer fiscalYear, Collection includedObjectCodes,
             Collection excludedObjectCodes, Collection objectTypeCodes, Collection balanceTypeCodes) {
 
         Criteria criteria = new Criteria();
@@ -222,7 +222,7 @@ public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements Balanc
     /**
      * @see org.kuali.module.gl.dao.BalanceDao#findCashBalance(java.util.Map, boolean)
      */
-    public Iterator findCashBalance(Map fieldValues, boolean isConsolidated) {
+    public Iterator<Balance> findCashBalance(Map fieldValues, boolean isConsolidated) {
 
         Criteria criteria = buildCriteriaFromMap(fieldValues, new Balance(), false);
         criteria.addEqualTo("balanceTypeCode", "AC");
@@ -251,15 +251,13 @@ public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements Balanc
         String[] groupBy = (String[]) groupByList.toArray(new String[groupByList.size()]);
         query.addGroupBy(groupBy);
 
-        Iterator cashBalance = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
-
-        return cashBalance;
+        return getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
     }
 
     /**
      * @see org.kuali.module.gl.dao.BalanceDao#findBalance(java.util.Map, boolean)
      */
-    public Iterator findBalance(Map fieldValues, boolean isConsolidated) {
+    public Iterator<Balance> findBalance(Map fieldValues, boolean isConsolidated) {
 
         Criteria criteria = buildCriteriaFromMap(fieldValues, new Balance(), false);
         ReportQueryByCriteria query = new ReportQueryByCriteria(Balance.class, criteria);
@@ -327,7 +325,7 @@ public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements Balanc
      * 
      * @return List a balance type code list
      */
-    private List buildBalanceTypeCodeList() {
+    private List<String> buildBalanceTypeCodeList() {
         List balanceTypeCodeList = new ArrayList();
 
         balanceTypeCodeList.add("EX");
@@ -344,7 +342,7 @@ public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements Balanc
      * @param isExtended
      * @return List an attribute list
      */
-    private List buildAttributeList(boolean isExtended) {
+    private List<String> buildAttributeList(boolean isExtended) {
         List attributeList = this.buildGroupByList();
         
         attributeList.add("sum(accountLineAnnualBalanceAmount)");
@@ -375,7 +373,7 @@ public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements Balanc
      * 
      * @return List an group by attribute list
      */
-    private List buildGroupByList() {
+    private List<String> buildGroupByList() {
         List attributeList = new ArrayList();
 
         attributeList.add("universityFiscalYear");
@@ -428,7 +426,7 @@ public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements Balanc
      * @param accountNumber
      * @return balances sorted by object code
      */
-    public Iterator findAccountBalances(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber) {
+    public Iterator<Balance> findAccountBalances(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber) {
       LOG.debug("findAccountBalances() started");
       return this.findAccountBalances(universityFiscalYear, chartOfAccountsCode, accountNumber, Constants.SF_TYPE_OBJECT);
     }
@@ -443,7 +441,7 @@ public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements Balanc
      * @param sfCode
      * @return
      */
-    public Iterator findAccountBalances(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber,String sfCode) {
+    public Iterator<Balance> findAccountBalances(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber,String sfCode) {
         LOG.debug("findAccountBalances() started");
 
         Criteria crit = new Criteria();

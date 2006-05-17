@@ -30,7 +30,7 @@ import org.kuali.module.gl.bo.Balance;
 
 /**
  * @author Laran evans <lc278@cornell.edu>
- * @version $Id: BalanceService.java,v 1.8 2006-05-04 16:08:59 larevans Exp $
+ * @version $Id: BalanceService.java,v 1.9 2006-05-17 14:38:50 larevans Exp $
  */
 
 public interface BalanceService {
@@ -52,7 +52,7 @@ public interface BalanceService {
      * @param fiscalYear
      * @return an Iterator over all balances for a given year
      */
-    public Iterator findBalancesForFiscalYear(Integer fiscalYear);
+    public Iterator<Balance> findBalancesForFiscalYear(Integer fiscalYear);
     
     /**
      * This method finds the summary records of balance entries according to input fields an values

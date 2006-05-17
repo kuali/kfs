@@ -28,21 +28,20 @@ import java.util.Calendar;
 import org.kuali.core.batch.Step;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.SpringServiceLocator;
-import org.kuali.module.gl.service.YearEndService;
+import org.kuali.module.gl.batch.closing.year.service.YearEndService;
 
 /**
  * @author Laran Evans <lc278@cornell.edu>
  * @version $Id$
  */
 public class BalanceForwardStep implements Step {
-
-    private DateTimeService dateTimeService;
+    
     private YearEndService yearEndService;
     
     public BalanceForwardStep() {
         super();
     }
-
+    
     /* (non-Javadoc)
      * @see org.kuali.core.batch.Step#getName()
      */
@@ -54,31 +53,10 @@ public class BalanceForwardStep implements Step {
      * @see org.kuali.core.batch.Step#performStep()
      */
     public boolean performStep() {
-
-//        boolean selectActiveFlag = true;
-//        boolean selectGeneralFlag = true;
-        Calendar c = Calendar.getInstance();
-        c.set(Calendar.DAY_OF_MONTH, 5);
-        c.set(Calendar.MONTH, Calendar.MAY);
-        c.set(Calendar.YEAR, 2006);
-        Date transactionDate = new Date(c.getTime().getTime());
-        
-        Integer closingFiscalYear = dateTimeService.getCurrentFiscalYear();
-        // FIXME FIXME FIXME Hack alert!
-        yearEndService = SpringServiceLocator.getGeneralLedgerYearEndService();
-        yearEndService.setDateTimeService(dateTimeService);
-        // FIXME FIXME FIXME End hack alert.
-        yearEndService.forwardBalancesForFiscalYear(closingFiscalYear/*, selectActiveFlag, selectGeneralFlag*/, transactionDate);
+        yearEndService.forwardBalances();
         return true;
     }
-
-    /**
-     * @param dateTimeService The dateTimeService to set.
-     */
-    public void setDateTimeService(DateTimeService dateTimeService) {
-        this.dateTimeService = dateTimeService;
-    }
-
+    
     /**
      * @param yearEndService The yearEndService to set.
      */

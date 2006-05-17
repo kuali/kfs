@@ -20,45 +20,21 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-package org.kuali.module.gl.batch;
+package org.kuali.module.gl.batch.closing.year.service;
 
-import org.kuali.core.batch.Step;
+import java.sql.Date;
+
 import org.kuali.core.service.DateTimeService;
-import org.kuali.core.util.SpringServiceLocator;
-import org.kuali.module.gl.batch.closing.year.service.YearEndService;
 
 /**
  * @author Kuali General Ledger Team (kualigltech@oncourse.iu.edu)
  * @version $Id$
  */
-public class EncumbranceForwardStep implements Step {
-    
-    private YearEndService yearEndService;
 
-    public EncumbranceForwardStep() {
-        super();
-    }
+public interface YearEndService {
 
-    /* (non-Javadoc)
-     * @see org.kuali.core.batch.Step#getName()
-     */
-    public String getName() {
-        return "General Ledger Encumbrance Forward Step";
-    }
-
-    /* (non-Javadoc)
-     * @see org.kuali.core.batch.Step#performStep()
-     */
-    public boolean performStep() {
-        yearEndService.forwardEncumbrances();
-        return true;
-    }
-
-    /**
-     * @param yearEndService
-     */
-    public void setYearEndService(YearEndService yearEndService) {
-        this.yearEndService = yearEndService;
-    }
+    public void forwardEncumbrances();
+    public void forwardBalances();
+    public void closeNominalActivity();
     
 }

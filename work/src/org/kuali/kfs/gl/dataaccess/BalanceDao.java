@@ -52,7 +52,7 @@ public interface BalanceDao {
      * @param isConsolidated consolidation option is applied or not
      * @return the records of cash balance entries
      */
-    public Iterator findCashBalance(Map fieldValues, boolean isConsolidated);
+    public Iterator<Balance> findCashBalance(Map fieldValues, boolean isConsolidated);
 
     /**
      * Returns the balance entries for the given year, chart, and account.
@@ -62,7 +62,7 @@ public interface BalanceDao {
      * @param sfCode Sufficient Funds Code (used to determine sorting)
      * @return balance entries matching above
      */
-    public Iterator findAccountBalances(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber,String sfCode);
+    public Iterator<Balance> findAccountBalances(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber,String sfCode);
 
     /**
      * Returns the balance entries for the given year, chart, and account.
@@ -71,7 +71,7 @@ public interface BalanceDao {
      * @param accountNumber
      * @return balance entries matching above sorted by object code
      */
-    public Iterator findAccountBalances(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber);
+    public Iterator<Balance> findAccountBalances(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber);
 
     /**
      * This method finds the summary records of balance entries according to input fields and values
@@ -107,5 +107,5 @@ public interface BalanceDao {
      * @param year
      * @return an iterator over all balances for a given fiscal year
      */
-    public Iterator findBalancesForFiscalYear(Integer year);
+    public Iterator<Balance> findBalancesForFiscalYear(Integer year);
 }

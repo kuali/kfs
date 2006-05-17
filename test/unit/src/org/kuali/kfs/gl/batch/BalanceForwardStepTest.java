@@ -87,8 +87,10 @@ public class BalanceForwardStepTest extends OriginEntryTestBase {
         populateBalanceTable();
 
         // Execute the step ...
-        BalanceForwardStep step = new BalanceForwardStep();
-        step.setDateTimeService(dateTimeService);
+        // BalanceForwardStep step = new BalanceForwardStep();
+        BalanceForwardStep step = 
+            (BalanceForwardStep) beanFactory.getBean("glBalanceForwardStep"); 
+        // step.setDateTimeService(dateTimeService);
         step.performStep();
         
         // load our services.

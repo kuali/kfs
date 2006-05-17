@@ -92,9 +92,9 @@ public class BalanceServiceImpl implements BalanceService {
     /* (non-Javadoc)
      * @see org.kuali.module.gl.service.BalanceService#findBalancesForFiscalYear(java.lang.Integer)
      */
-    public Iterator findBalancesForFiscalYear(Integer fiscalYear) {
+    public Iterator<Balance> findBalancesForFiscalYear(Integer fiscalYear) {
 
-        return balanceDao.findBalancesForFiscalYear(fiscalYear);
+        return (Iterator<Balance>) balanceDao.findBalancesForFiscalYear(fiscalYear);
     }
 
     /**

@@ -2,7 +2,7 @@
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
 
-	<bean id="glYearEndEncumbranceClosingRuleHelper" class="org.kuali.module.gl.service.impl.helper.YearEndEncumbranceClosingRuleHelper">
+	<bean id="glYearEndEncumbranceClosingRuleHelper" class="org.kuali.module.gl.batch.closing.year.service.impl.helper.EncumbranceClosingRuleHelper">
 		<property name="a21SubAccountService"><ref bean="a21SubAccountService"/></property>
 		<property name="priorYearAccountService"><ref bean="priorYearAccountService"/></property>
 		<property name="subFundGroupService"><ref bean="subFundGroupService"/></property>
@@ -84,14 +84,16 @@
 		<property name="sufficientFundsSyncService"><ref bean="glSufficientFundsSyncService"/></property>
 	</bean>
 	
-	<bean id="glEncumbranceForwardStep" class="org.kuali.module.gl.batch.EncumbranceForwardStep">
+	<bean id="glEncumbranceForwardStep"     class="org.kuali.module.gl.batch.EncumbranceForwardStep">
         <property name="yearEndService"><ref bean="glYearEndService" /></property>
-		<property name="dateTimeService"><ref bean="dateTimeService" /></property>
 	</bean>
-
+	
 	<bean id="glBalanceForwardStep" class="org.kuali.module.gl.batch.BalanceForwardStep">
         <property name="yearEndService"><ref bean="glYearEndService" /></property>
-		<property name="dateTimeService"><ref bean="dateTimeService" /></property>
+	</bean>
+	
+	<bean id="glNominalActivityClosingStep" class="org.kuali.module.gl.batch.NominalActivityClosingStep">
+        <property name="yearEndService"><ref bean="glYearEndService" /></property>
 	</bean>
 	
 	<bean id="glIcrEncumbranceGenerationStep" class="org.kuali.module.gl.batch.IcrEncumbranceGenerationStep">
@@ -102,7 +104,7 @@
 		<property name="icrEncumbranceReversalService"><ref bean="glIcrEncumbranceReversalService" /></property>
 	</bean>	
 	
-	<bean id="glYearEndService" class="org.kuali.module.gl.service.impl.YearEndServiceImpl">
+	<bean id="glYearEndService" class="org.kuali.module.gl.batch.closing.year.service.impl.YearEndServiceImpl">
         <property name="originEntryService"><ref bean="glOriginEntryService" /></property>
         <property name="originEntryGroupService"><ref bean="glOriginEntryGroupService" /></property>
 		<property name="encumbranceDao"><ref bean="glEncumbranceDao"/></property>
@@ -111,10 +113,9 @@
 		<property name="dateTimeService"><ref bean="dateTimeService" /></property>
 		<property name="balanceService"><ref bean="glBalanceService" /></property>
 		<property name="yearEndEncumbranceClosingRuleHelper"><ref bean="glYearEndEncumbranceClosingRuleHelper" /></property>
-		<property name="priorYearAccountService"><ref bean="priorYearAccountService" /></property>
-		<property name="subFundGroupService"><ref bean="subFundGroupService"/></property>
 		<property name="balanceTypeService"><ref bean="balanceTypService"/></property>
 		<property name="objectTypeService"><ref bean="objectTypeService"/></property>
+		<property name="kualiConfigurationService"><ref bean="kualiConfigurationService"/></property>
 	</bean>
 	
 	<bean id="glScrubberService" class="org.kuali.module.gl.service.impl.ScrubberServiceImpl" init-method="init">
@@ -128,13 +129,10 @@
 		<property name="universityDateDao"><ref bean="universityDateDao" /></property>
 		<property name="originEntryGroupService"><ref bean="glOriginEntryGroupService" /></property>
 		<property name="persistenceService"><ref bean="persistenceService"/></property>
-		<!--
-		<property name="scrubberReport"><ref bean="glScrubberReport" /></property>
-		-->
 		<property name="reportService"><ref bean="glReportService" /></property>
 		<property name="scrubberValidator"><ref bean="glScrubberValidator"/></property>
 	</bean>
-
+	
 	<bean id="glScrubberValidator" class="org.kuali.module.gl.service.impl.ScrubberValidatorImpl">
 		<property name="persistenceService"><ref bean="persistenceService"/></property>
 		<property name="kualiConfigurationService"><ref bean="kualiConfigurationService" /></property>
@@ -201,8 +199,7 @@
 		
 		<property name="encumbranceService"><ref bean="glEncumbranceService" /></property>
 		<property name="kualiConfigurationService"><ref bean="kualiConfigurationService" /></property>	
-		
-		<property name="optionsDao"><ref bean="optionsDao" /></property>
+		<property name="optionsDao"><ref bean="optionsDao" /></property>	
 		<property name="reportingService"><ref bean="glPosterReport" /></property>
 		<property name="icrTransaction"><ref bean="glIcrTransaction" /></property>
 	</bean>
@@ -302,23 +299,11 @@
 		<property name="expenditureTransactionDao"><ref bean="glExpenditureTransactionDao"/></property>
 	</bean>
 
-	<bean id="glEncumbranceClosingYearEndReport" class="org.kuali.module.gl.batch.closing.year.impl.EncumbranceClosingReportImpl">
-		<!--
-		<property name="kualiConfigurationService"><ref bean="kualiConfigurationService"/></property>
-		-->
-	</bean>
+	<bean id="glEncumbranceClosingYearEndReport" class="org.kuali.module.gl.batch.closing.year.reporting.impl.EncumbranceClosingReportImpl" />
 	
-	<bean id="glBalanceForwardYearEndReport" class="org.kuali.module.gl.batch.closing.year.impl.BalanceForwardReportImpl">
-		<!--
-		<property name="kualiConfigurationService"><ref bean="kualiConfigurationService"/></property>
-		-->
-	</bean>
+	<bean id="glBalanceForwardYearEndReport" class="org.kuali.module.gl.batch.closing.year.reporting.impl.BalanceForwardReportImpl" />
 
-	<bean id="glScrubberReport" class="org.kuali.module.gl.batch.scrubber.impl.ScrubberReportImpl">
-		<!--
-		<property name="kualiConfigurationService"><ref bean="kualiConfigurationService"/></property>
-		-->
-	</bean>
+	<bean id="glScrubberReport" class="org.kuali.module.gl.batch.scrubber.impl.ScrubberReportImpl" />
 
 	<bean id="glReportService" class="org.kuali.module.gl.service.impl.ReportServiceImpl" />
 

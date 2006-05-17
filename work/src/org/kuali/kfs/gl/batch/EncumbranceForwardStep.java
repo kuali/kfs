@@ -23,8 +23,6 @@
 package org.kuali.module.gl.batch;
 
 import org.kuali.core.batch.Step;
-import org.kuali.core.service.DateTimeService;
-import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.gl.batch.closing.year.service.YearEndService;
 
 /**

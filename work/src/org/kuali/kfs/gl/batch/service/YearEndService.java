@@ -22,9 +22,6 @@
  */
 package org.kuali.module.gl.batch.closing.year.service;
 
-import java.sql.Date;
-
-import org.kuali.core.service.DateTimeService;
 
 /**
  * @author Kuali General Ledger Team (kualigltech@oncourse.iu.edu)

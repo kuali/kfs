@@ -29,10 +29,11 @@ import org.kuali.module.financial.document.NonCheckDisbursementDocument;
  * This class is the action form for Non-Check Disbursement.
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
-
 public class NonCheckDisbursementForm extends KualiTransactionalDocumentFormBase {
-    private static final long serialVersionUID = 1L;
 
+	/**
+	 * NonCheckDisbursementForm default constructor
+	 */
     public NonCheckDisbursementForm() {
     	super();
         setDocument(new NonCheckDisbursementDocument());

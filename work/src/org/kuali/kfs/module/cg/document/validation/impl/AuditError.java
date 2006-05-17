@@ -22,14 +22,25 @@
  */
 package org.kuali.module.kra.util;
 
+import org.apache.commons.lang.ArrayUtils;
+
 public class AuditError {
     
     private String key;
+    private String[] params;
     private String link;
     
     public AuditError(String key, String link) {
         this.setKey(key);
+        this.params = new String[5];
         this.setLink(link);
+    }
+    
+    public AuditError(String key, String[] params, String link) {
+        this(key, link);
+        for (int i = 0; i < params.length; i++) {
+            this.params[i] = params[i];
+        }
     }
 
     /**
@@ -62,5 +73,21 @@ public class AuditError {
      */
     public void setKey(String key) {
         this.key = key;
+    }
+
+    /**
+     * Gets the params attribute. 
+     * @return Returns the params.
+     */
+    public String[] getParams() {
+        return params;
+    }
+
+    /**
+     * Sets the params attribute value.
+     * @param params The params to set.
+     */
+    public void setParams(String[] params) {
+        this.params = params;
     }
 }

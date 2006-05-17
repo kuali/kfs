@@ -33,7 +33,9 @@ import org.kuali.core.util.KualiDecimal;
 /**
  * This is the business object that represents the NonCheckDisbursementDocument in Kuali.
  * 
- * I don't have any idea what this does
+ * The "Non-Check Disbursement" document is used to record charges or credits directly 
+ * assessed to university bank accounts. It is used primarily by the Tax and Treasury 
+ * Accounting office to record wire transfers, foreign drafts, etc.
  * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
@@ -47,54 +49,20 @@ public class NonCheckDisbursementDocument extends TransactionalDocumentBase {
     }
 
     /**
-     * This method calculates the debit total for a <code>NonCheckDisbursementDocument keying off of the </code> debit/debit code,
-     * only summing the accounting lines with a debitDebitCode that matched the debit constant, and returns the results.
-     * 
-     * @return KualiDecimal for decimal currency
-     */
-    public KualiDecimal getDebitTotal() {
-        KualiDecimal debitTotal = new KualiDecimal(0);
-        AccountingLineBase al = null;
-        Iterator iter = sourceAccountingLines.iterator();
-        while (iter.hasNext()) {
-            al = (AccountingLineBase) iter.next();
-            if (StringUtils.equals(al.getDebitCreditCode(), Constants.GL_DEBIT_CODE)) {
-                debitTotal = debitTotal.add(al.getAmount());
-            }
-        }
-        return debitTotal;
-    }
-
-    /**
-     * This method calculates the credit total for a <code>NonCheckDisbursementDocument</code> keying off of the debit/credit
-     * code, only summing the accounting lines with a debitCreditCode that matched the debit constant, and returns the results.
-     * 
-     * @return KualiDecimal for decimal currency
-     */
-    public KualiDecimal getCreditTotal() {
-        KualiDecimal creditTotal = new KualiDecimal(0);
-        AccountingLineBase al = null;
-        Iterator iter = sourceAccountingLines.iterator();
-        while (iter.hasNext()) {
-            al = (AccountingLineBase) iter.next();
-            if (StringUtils.equals(al.getDebitCreditCode(), Constants.GL_CREDIT_CODE)) {
-                creditTotal = creditTotal.add(al.getAmount());
-            }
-        }
-        return creditTotal;
-    }
-
-    /**
      * Overrides the base implementation to return "From".
+	 * @see TransactionalDocument#getSourceAccountingLinesSectionTitle();
      */
-    public String getSourceAccountingLinesSectionTitle() {
+    @Override
+	public String getSourceAccountingLinesSectionTitle() {
         return Constants.FROM;
     }
 
     /**
      * Overrides the base implementation to return "To".
+	 * @see TransactionalDocument#getTargetAccountingLinesSectionTitle();
      */
-    public String getTargetAccountingLinesSectionTitle() {
+    @Override 
+	public String getTargetAccountingLinesSectionTitle() {
         return Constants.TO;
     }
 

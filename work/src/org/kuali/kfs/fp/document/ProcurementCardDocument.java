@@ -37,29 +37,25 @@ import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
+import org.kuali.module.financial.bo.ProcurementCardHolder;
 import org.kuali.module.financial.bo.ProcurementCardSourceAccountingLine;
 import org.kuali.module.financial.bo.ProcurementCardTargetAccountingLine;
 import org.kuali.module.financial.bo.ProcurementCardTransactionDetail;
+import org.kuali.module.financial.bo.ProcurementCardVendor;
 
 /**
+ * This is the Procurement Card Document Class. The procurement cards distributes expenses from clearing accounts. It is a two-sided
+ * document, but only target lines are displayed because source lines cannot be changed. Transaction, Card, and Vendor information
+ * are associated with the document to help better distribute the expense.
+ * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class ProcurementCardDocument extends TransactionalDocumentBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProcurementCardDocument.class);
-    
-    private String chartOfAccountsCode;
-    private String accountNumber;
-    private String subAccountNumber;
-    private Date transactionCycleStartDate;
-    private Date transactionCycleEndDate;
-    private String transactionCreditCardNumber;
-    private String financialDocumentCardHolderName;
 
-    private Account account;
-    private Chart chartOfAccounts;
+    private ProcurementCardHolder procurementCardHolder;
 
     private List transactionEntries;
-
 
     /**
      * Default constructor.
@@ -67,194 +63,6 @@ public class ProcurementCardDocument extends TransactionalDocumentBase {
     public ProcurementCardDocument() {
         transactionEntries = new TypedArrayList(ProcurementCardTransactionDetail.class);
     }
-
-    /**
-     * Gets the chartOfAccountsCode attribute.
-     * 
-     * @return - Returns the chartOfAccountsCode
-     *  
-     */
-    public String getChartOfAccountsCode() {
-        return chartOfAccountsCode;
-    }
-
-    /**
-     * Sets the chartOfAccountsCode attribute.
-     * 
-     * @param - chartOfAccountsCode The chartOfAccountsCode to set.
-     *  
-     */
-    public void setChartOfAccountsCode(String chartOfAccountsCode) {
-        this.chartOfAccountsCode = chartOfAccountsCode;
-    }
-
-
-    /**
-     * Gets the accountNumber attribute.
-     * 
-     * @return - Returns the accountNumber
-     *  
-     */
-    public String getAccountNumber() {
-        return accountNumber;
-    }
-
-    /**
-     * Sets the accountNumber attribute.
-     * 
-     * @param - accountNumber The accountNumber to set.
-     *  
-     */
-    public void setAccountNumber(String accountNumber) {
-        this.accountNumber = accountNumber;
-    }
-
-
-    /**
-     * Gets the subAccountNumber attribute.
-     * 
-     * @return - Returns the subAccountNumber
-     *  
-     */
-    public String getSubAccountNumber() {
-        return subAccountNumber;
-    }
-
-    /**
-     * Sets the subAccountNumber attribute.
-     * 
-     * @param - subAccountNumber The subAccountNumber to set.
-     *  
-     */
-    public void setSubAccountNumber(String subAccountNumber) {
-        this.subAccountNumber = subAccountNumber;
-    }
-
-
-    /**
-     * Gets the transactionCycleStartDate attribute.
-     * 
-     * @return - Returns the transactionCycleStartDate
-     *  
-     */
-    public Date getTransactionCycleStartDate() {
-        return transactionCycleStartDate;
-    }
-
-    /**
-     * Sets the transactionCycleStartDate attribute.
-     * 
-     * @param - transactionCycleStartDate The transactionCycleStartDate to set.
-     *  
-     */
-    public void setTransactionCycleStartDate(Date transactionCycleStartDate) {
-        this.transactionCycleStartDate = transactionCycleStartDate;
-    }
-
-
-    /**
-     * Gets the transactionCycleEndDate attribute.
-     * 
-     * @return - Returns the transactionCycleEndDate
-     *  
-     */
-    public Date getTransactionCycleEndDate() {
-        return transactionCycleEndDate;
-    }
-
-    /**
-     * Sets the transactionCycleEndDate attribute.
-     * 
-     * @param - transactionCycleEndDate The transactionCycleEndDate to set.
-     *  
-     */
-    public void setTransactionCycleEndDate(Date transactionCycleEndDate) {
-        this.transactionCycleEndDate = transactionCycleEndDate;
-    }
-
-
-    /**
-     * Gets the transactionCreditCardNumber attribute.
-     * 
-     * @return - Returns the transactionCreditCardNumber
-     *  
-     */
-    public String getTransactionCreditCardNumber() {
-        return transactionCreditCardNumber;
-    }
-
-    /**
-     * Sets the transactionCreditCardNumber attribute.
-     * 
-     * @param - transactionCreditCardNumber The transactionCreditCardNumber to set.
-     *  
-     */
-    public void setTransactionCreditCardNumber(String transactionCreditCardNumber) {
-        this.transactionCreditCardNumber = transactionCreditCardNumber;
-    }
-
-
-    /**
-     * Gets the financialDocumentCardHolderName attribute.
-     * 
-     * @return - Returns the financialDocumentCardHolderName
-     *  
-     */
-    public String getFinancialDocumentCardHolderName() {
-        return financialDocumentCardHolderName;
-    }
-
-    /**
-     * Sets the financialDocumentCardHolderName attribute.
-     * 
-     * @param - financialDocumentCardHolderName The financialDocumentCardHolderName to set.
-     *  
-     */
-    public void setFinancialDocumentCardHolderName(String financialDocumentCardHolderName) {
-        this.financialDocumentCardHolderName = financialDocumentCardHolderName;
-    }
-
-
-    /**
-     * Gets the account attribute.
-     * 
-     * @return - Returns the account
-     *  
-     */
-    public Account getAccount() {
-        return account;
-    }
-
-    /**
-     * Sets the account attribute.
-     * 
-     * @param - account The account to set.
-     * @deprecated
-     */
-    public void setAccount(Account account) {
-        this.account = account;
-    }
-
-    /**
-     * Gets the chartOfAccounts attribute.
-     * 
-     * @return - Returns the chartOfAccounts
-     *  
-     */
-    public Chart getChartOfAccounts() {
-        return chartOfAccounts;
-    }
-
-    /**
-     * Sets the chartOfAccounts attribute.
-     * 
-     * @param - chartOfAccounts The chartOfAccounts to set.
-     * @deprecated
-     */
-    public void setChartOfAccounts(Chart chartOfAccounts) {
-        this.chartOfAccounts = chartOfAccounts;
-    }
-
 
     /**
      * @return Returns the transactionEntries.
@@ -269,15 +77,33 @@ public class ProcurementCardDocument extends TransactionalDocumentBase {
     public void setTransactionEntries(List transactionEntries) {
         this.transactionEntries = transactionEntries;
     }
-    
+
     /**
-     * Removes the target accounting line at the given index from 
-     * the transaction detail entry.
+     * Gets the procurementCardHolder attribute.
+     * 
+     * @return Returns the procurementCardHolder.
+     */
+    public ProcurementCardHolder getProcurementCardHolder() {
+        return procurementCardHolder;
+    }
+
+    /**
+     * Sets the procurementCardHolder attribute value.
+     * 
+     * @param procurementCardHolder The procurementCardHolder to set.
+     */
+    public void setProcurementCardHolder(ProcurementCardHolder procurementCardHolder) {
+        this.procurementCardHolder = procurementCardHolder;
+    }
+
+    /**
+     * Removes the target accounting line at the given index from the transaction detail entry.
+     * 
      * @param index
      */
     public void removeTargetAccountingLine(int index) {
         ProcurementCardTargetAccountingLine line = (ProcurementCardTargetAccountingLine) getTargetAccountingLines().get(index);
-        
+
         for (Iterator iter = transactionEntries.iterator(); iter.hasNext();) {
             ProcurementCardTransactionDetail transactionEntry = (ProcurementCardTransactionDetail) iter.next();
             if (transactionEntry.getFinancialDocumentTransactionLineNumber().equals(
@@ -289,11 +115,12 @@ public class ProcurementCardDocument extends TransactionalDocumentBase {
 
     /**
      * Override to set the accounting line in the transaction detail object.
+     * 
      * @see org.kuali.core.document.TransactionalDocument#addSourceAccountingLine(org.kuali.core.bo.SourceAccountingLine)
      */
     public void addSourceAccountingLine(SourceAccountingLine sourceLine) {
         ProcurementCardSourceAccountingLine line = (ProcurementCardSourceAccountingLine) sourceLine;
-      
+
         line.setSequenceNumber(this.getNextSourceLineNumber());
 
         for (Iterator iter = transactionEntries.iterator(); iter.hasNext();) {
@@ -309,11 +136,12 @@ public class ProcurementCardDocument extends TransactionalDocumentBase {
 
     /**
      * Override to set the accounting line in the transaction detail object.
+     * 
      * @see org.kuali.core.document.TransactionalDocument#addTargetAccountingLine(org.kuali.core.bo.TargetAccountingLine)
      */
     public void addTargetAccountingLine(TargetAccountingLine targetLine) {
         ProcurementCardTargetAccountingLine line = (ProcurementCardTargetAccountingLine) targetLine;
-        
+
         line.setSequenceNumber(this.getNextTargetLineNumber());
 
         for (Iterator iter = transactionEntries.iterator(); iter.hasNext();) {
@@ -329,6 +157,7 @@ public class ProcurementCardDocument extends TransactionalDocumentBase {
 
     /**
      * Override to get source accounting lines out of transactions
+     * 
      * @see org.kuali.core.document.TransactionalDocument#getSourceAccountingLines()
      */
     public List getSourceAccountingLines() {
@@ -347,6 +176,7 @@ public class ProcurementCardDocument extends TransactionalDocumentBase {
 
     /**
      * Override to get target accounting lines out of transactions
+     * 
      * @see org.kuali.core.document.TransactionalDocument#getTargetAccountingLines()
      */
     public List getTargetAccountingLines() {
@@ -362,21 +192,21 @@ public class ProcurementCardDocument extends TransactionalDocumentBase {
 
         return targetAccountingLines;
     }
-    
+
     /**
      * @see org.kuali.core.document.TransactionalDocument#getSourceAccountingLineClass()
      */
     public Class getSourceAccountingLineClass() {
         return ProcurementCardSourceAccountingLine.class;
     }
-    
+
     /**
      * @see org.kuali.core.document.TransactionalDocument#getTargetAccountingLineClass()
      */
     public Class getTargetAccountingLineClass() {
         return ProcurementCardTargetAccountingLine.class;
     }
-    
+
     /**
      * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
      */

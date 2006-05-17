@@ -26,39 +26,54 @@
 
 <kul:tab tabTitle="Accounting Lines" defaultOpen="true" tabErrorKey="${Constants.TARGET_ACCOUNTING_LINE_ERROR_PATTERN}">
   <c:set var="transactionAttributes" value="${DataDictionary.ProcurementCardTransactionDetail.attributes}" />
+  <c:set var="vendorAttributes" value="${DataDictionary.ProcurementCardVendor.attributes}" />
+  <c:set var="cardAttributes" value="${DataDictionary.ProcurementCardHolder.attributes}" />
 	
   <div class="tab-container" align=center>
   <c:set var="totalNewTargetCtr" value="0"/>
   <c:set var="baseCtr" value="0"/>
   <logic:iterate indexId="ctr" name="KualiForm" property="document.transactionEntries" id="currentTransaction">
-  
-    <%-- write out source as hiddens since they are not displayed but need repopulated --%>
-    <logic:iterate indexId="tCtr" name="KualiForm" property="document.transactionEntries[${ctr}].sourceAccountingLines" id="currentLine">
-        <html:hidden write="false" property="document.transactionEntries[${ctr}].sourceAccountingLines[${tCtr}].financialDocumentNumber"/>
-        <html:hidden write="false" property="document.transactionEntries[${ctr}].sourceAccountingLines[${tCtr}].financialDocumentTransactionLineNumber"/>
-        <html:hidden write="false" property="document.transactionEntries[${ctr}].sourceAccountingLines[${tCtr}].sequenceNumber"/>
-        <html:hidden write="false" property="document.transactionEntries[${ctr}].sourceAccountingLines[${tCtr}].versionNumber"/>
-        <html:hidden write="false" property="document.transactionEntries[${ctr}].sourceAccountingLines[${tCtr}].chartOfAccountsCode"/>
-        <html:hidden write="false" property="document.transactionEntries[${ctr}].sourceAccountingLines[${tCtr}].accountNumber"/>
-        <html:hidden write="false" property="document.transactionEntries[${ctr}].sourceAccountingLines[${tCtr}].postingYear"/>
-        <html:hidden write="false" property="document.transactionEntries[${ctr}].sourceAccountingLines[${tCtr}].financialObjectCode"/>
-        <html:hidden write="false" property="document.transactionEntries[${ctr}].sourceAccountingLines[${tCtr}].balanceTypeCode"/>
-        <html:hidden write="false" property="document.transactionEntries[${ctr}].sourceAccountingLines[${tCtr}].amount"/>
-        <html:hidden write="false" property="document.transactionEntries[${ctr}].sourceAccountingLines[${tCtr}].subAccountNumber"/>
-        <html:hidden write="false" property="document.transactionEntries[${ctr}].sourceAccountingLines[${tCtr}].financialSubObjectCode"/>
-        <html:hidden write="false" property="document.transactionEntries[${ctr}].sourceAccountingLines[${tCtr}].projectCode"/>
-        <html:hidden write="false" property="document.transactionEntries[${ctr}].sourceAccountingLines[${tCtr}].organizationReferenceId"/>
-        <html:hidden write="false" property="document.transactionEntries[${ctr}].sourceAccountingLines[${tCtr}].overrideCode"/>
-    </logic:iterate>
-  
     <table cellpadding="0" class="datatable" summary="Transaction Details">
        <html:hidden write="false" property="document.transactionEntries[${ctr}].financialDocumentNumber"/>
        <html:hidden write="false" property="document.transactionEntries[${ctr}].financialDocumentTransactionLineNumber"/>
-       <html:hidden write="false" property="document.transactionEntries[${ctr}].transactionMerchantCategoryCode"/>
+       <html:hidden write="false" property="document.transactionEntries[${ctr}].transactionPostingDate"/>
+       <html:hidden write="false" property="document.transactionEntries[${ctr}].transactionOriginalCurrencyCode"/>
+       <html:hidden write="false" property="document.transactionEntries[${ctr}].transactionBillingCurrencyCode"/>
+       <html:hidden write="false" property="document.transactionEntries[${ctr}].transactionOriginalCurrencyAmount"/>
+       <html:hidden write="false" property="document.transactionEntries[${ctr}].transactionCurrencyExchangeRate"/>
+       <html:hidden write="false" property="document.transactionEntries[${ctr}].transactionSettlementAmount"/>
+       <html:hidden write="false" property="document.transactionEntries[${ctr}].transactionSalesTaxAmount"/>
+       <html:hidden write="false" property="document.transactionEntries[${ctr}].transactionTaxExemptIndicator"/>
+       <html:hidden write="false" property="document.transactionEntries[${ctr}].transactionPurchaseIdentifierIndicator"/>
+       <html:hidden write="false" property="document.transactionEntries[${ctr}].transactionPurchaseIdentifierDescription"/>
+       <html:hidden write="false" property="document.transactionEntries[${ctr}].transactionUnitContactName"/>
+       <html:hidden write="false" property="document.transactionEntries[${ctr}].transactionTravelAuthorizationCode"/>
+       <html:hidden write="false" property="document.transactionEntries[${ctr}].transactionPointOfSaleCode"/>
+       <html:hidden write="false" property="document.transactionEntries[${ctr}].transactionCycleStartDate"/>
+       <html:hidden write="false" property="document.transactionEntries[${ctr}].transactionCycleEndDate"/>
        <html:hidden write="false" property="document.transactionEntries[${ctr}].versionNumber"/>
        
        <fin:subheadingWithDetailToggleRow columnCount="4" subheading="Transaction #${currentTransaction.transactionReferenceNumber}"/>
-
+	      <tr>
+	        <th scope="row"><div align="right"><kul:htmlAttributeLabel attributeEntry="${cardAttributes.transactionCreditCardNumber}" readOnly="true"/></div></th>
+	        <td>
+	          <kul:inquiry boClassName="org.kuali.module.financial.bo.ProcurementCardHolder" 
+               keyValues="financialDocumentNumber=${currentTransaction.financialDocumentNumber}" 
+               render="true">
+	          <c:if test="${!empty KualiForm.editingMode['viewOnly']}">
+	            ****************
+	            <html:hidden write="false" property="document.procurementCardHolder.transactionCreditCardNumber"/>
+	          </c:if>
+	          <c:if test="${empty KualiForm.editingMode['viewOnly']}">
+	            <kul:htmlControlAttribute attributeEntry="${cardAttributes.transactionCreditCardNumber}" property="document.procurementCardHolder.transactionCreditCardNumber" readOnly="true"/>
+	          </c:if>
+	          </kul:inquiry>
+	        </td>
+	      </tr>
+	      <tr>
+	        <th scope="row"><div align="right"><kul:htmlAttributeLabel attributeEntry="${cardAttributes.cardHolderName}" readOnly="true"/></div></th>
+	        <td><kul:htmlControlAttribute attributeEntry="${cardAttributes.cardHolderName}" property="document.procurementCardHolder.cardHolderName" readOnly="true"/></td>
+	     </tr>
        <tr>
           <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${transactionAttributes.transactionDate}"/></div></th>
           <td valign=top><html:hidden write="true" property="document.transactionEntries[${ctr}].transactionDate"/></td>
@@ -70,9 +85,16 @@
               <html:hidden write="true" property="document.transactionEntries[${ctr}].transactionReferenceNumber"/>
             </kul:inquiry>
           </td>
+       </tr>   
        <tr>  
-          <th> <div align="right"><kul:htmlAttributeLabel attributeEntry="${transactionAttributes.transactionVendorName}"/></div></th> 
-          <td valign=top><html:hidden write="true" property="document.transactionEntries[${ctr}].transactionVendorName"/></td>
+          <th> <div align="right"><kul:htmlAttributeLabel attributeEntry="${vendorAttributes.vendorName}"/></div></th> 
+          <td valign=top>
+            <kul:inquiry boClassName="org.kuali.module.financial.bo.ProcurementCardVendor" 
+               keyValues="financialDocumentNumber=${currentTransaction.financialDocumentNumber}&financialDocumentTransactionLineNumber=${currentTransaction.financialDocumentTransactionLineNumber}" 
+               render="true">
+              <html:hidden write="true" property="document.transactionEntries[${ctr}].procurementCardVendor.vendorName"/>
+            </kul:inquiry>  
+          </td>
           <th colspan="2"> <div align="left">
           <c:if test="${empty editingMode['viewOnly']}">
             <a href="${KualiForm.disputeURL}" target="_blank"><img src="images/buttonsmall_dispute.gif"/></a>

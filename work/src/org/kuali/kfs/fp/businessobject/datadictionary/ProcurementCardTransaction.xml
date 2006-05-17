@@ -5,120 +5,115 @@
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.module.financial.bo.ProcurementCardTransaction">
         <customAttributeEnabled>false</customAttributeEnabled>
- 
+
         <attributes>
+		    <attributeReference name="cardCycleAmountLimit"
+					            sourceClassName="org.kuali.module.financial.bo.ProcurementCardHolder"
+					            sourceAttributeName="cardCycleAmountLimit"/>
 
-            <attributeReference name="accountNumber" 
-								sourceClassName="org.kuali.module.chart.bo.Account" 
-								sourceAttributeName="accountNumber" />
-								
-            <attributeReference name="chartOfAccountsCode" 
-								sourceClassName="org.kuali.module.chart.bo.Chart" 
-								sourceAttributeName="chartOfAccountsCode" />
+		    <attributeReference name="cardCycleVolumeLimit"
+					            sourceClassName="org.kuali.module.financial.bo.ProcurementCardHolder"
+					            sourceAttributeName="cardCycleVolumeLimit"/>
+					            
+		    <attributeReference name="cardHolderAlternateName"
+					            sourceClassName="org.kuali.module.financial.bo.ProcurementCardHolder"
+					            sourceAttributeName="cardHolderAlternateName"/>
+ 
+		    <attributeReference name="cardHolderCityName"
+					            sourceClassName="org.kuali.module.financial.bo.ProcurementCardHolder"
+					            sourceAttributeName="cardHolderCityName"/>
 
-            <attribute name="cardHolderName" forceUppercase="true">
-                <label>Financial Document Card Holder Name</label>
-                <shortLabel>Name</shortLabel>
+		    <attributeReference name="cardHolderLine1Address"
+					            sourceClassName="org.kuali.module.financial.bo.ProcurementCardHolder"
+					            sourceAttributeName="cardHolderLine1Address"/>
 
-                <maxLength>35</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
+		    <attributeReference name="cardHolderLine2Address"
+					            sourceClassName="org.kuali.module.financial.bo.ProcurementCardHolder"
+					            sourceAttributeName="cardHolderLine2Address"/>
 
-                <control>
-                    <text size="37" />
-                </control>
+		    <attributeReference name="cardHolderName"
+					            sourceClassName="org.kuali.module.financial.bo.ProcurementCardHolder"
+					            sourceAttributeName="cardHolderName"/>
 
-                <summary>financialDocumentCardHolderName</summary>
-                <description>financialDocumentCardHolderName description...</description>
-			</attribute>
+		    <attributeReference name="cardHolderStateCode"
+					            sourceClassName="org.kuali.module.financial.bo.ProcurementCardHolder"
+					            sourceAttributeName="cardHolderStateCode"/>
 
-            <attribute name="financialDocumentTotalAmount" forceUppercase="true">
-                <label>Financial Document Total Amount</label>
-                <shortLabel>Amount</shortLabel>
+		    <attributeReference name="cardHolderWorkPhoneNumber"
+					            sourceClassName="org.kuali.module.financial.bo.ProcurementCardHolder"
+					            sourceAttributeName="cardHolderWorkPhoneNumber"/>
 
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
+		    <attributeReference name="cardHolderZipCode"
+					            sourceClassName="org.kuali.module.financial.bo.ProcurementCardHolder"
+					            sourceAttributeName="cardHolderZipCode"/>
 
-                <control>
-                    <text size="21" />
-                </control>
+		    <attributeReference name="cardLimit"
+					            sourceClassName="org.kuali.module.financial.bo.ProcurementCardHolder"
+					            sourceAttributeName="cardLimit"/>
 
-                <summary>financialDocumentTotalAmount</summary>
-                <description>financialDocumentTotalAmount description...</description>
-			</attribute>
-			
-			<attributeReference name="subAccountNumber" 
-								sourceClassName="org.kuali.module.chart.bo.SubAccount" 
-								sourceAttributeName="subAccountNumber" >
-								
-					<required>false</required>
-			</attributeReference>			
+		    <attributeReference name="cardNoteText"
+					            sourceClassName="org.kuali.module.financial.bo.ProcurementCardHolder"
+					            sourceAttributeName="cardNoteText"/>
 
-            <attribute name="transactionCreditCardNumber" forceUppercase="true">
-                <label>Transaction Credit Card Number</label>
-                <shortLabel>Number</shortLabel>
+		    <attributeReference name="cardStatusCode"
+					            sourceClassName="org.kuali.module.financial.bo.ProcurementCardHolder"
+					            sourceAttributeName="cardStatusCode"/>
 
-                <maxLength>16</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+		    <attributeReference name="chartOfAccountsCode"
+					            sourceClassName="org.kuali.module.chart.bo.Chart"
+					            sourceAttributeName="chartOfAccountsCode"/>
 
-                <control>
-                    <text size="18" />
-                </control>
+		    <attributeReference name="accountNumber"
+					            sourceClassName="org.kuali.module.chart.bo.Account"
+					            sourceAttributeName="accountNumber"/>
+					            
+		    <attributeReference name="financialDocumentTotalAmount"
+					            sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
+					            sourceAttributeName="genericAmount"/>
 
-                <summary>transactionCreditCardNumber</summary>
-                <description>transactionCreditCardNumber description...</description>
-			</attribute>
+		    <attributeReference name="financialObjectCode"
+					            sourceClassName="org.kuali.module.chart.bo.ObjectCode"
+					            sourceAttributeName="financialObjectCode"/>
 
-            <attribute name="transactionCycleEndDate" forceUppercase="true">
-                <label>Transaction Cycle End Date</label>
-                <shortLabel>Date</shortLabel>
+		    <attributeReference name="financialSubObjectCode"
+					            sourceClassName="org.kuali.module.chart.bo.SubObjCd"
+					            sourceAttributeName="financialSubObjectCode">
+					            <required>false</required>
+			</attributeReference>		            
+					            
+		    <attributeReference name="projectCode"
+					            sourceClassName="org.kuali.module.chart.bo.ProjectCode"
+					            sourceAttributeName="code">
+					            <required>false</required>
+			</attributeReference>		            
+  
+		    <attributeReference name="subAccountNumber"
+					            sourceClassName="org.kuali.module.chart.bo.SubAccount"
+					            sourceAttributeName="subAccountNumber">
+					            <required>false</required>
+			</attributeReference>		            
 
-                <maxLength>10</maxLength>
-                <validationPattern><date /></validationPattern>
+		    <attributeReference name="transactionBillingCurrencyCode"
+					            sourceClassName="org.kuali.module.financial.bo.ProcurementCardTransactionDetail"
+					            sourceAttributeName="transactionBillingCurrencyCode"/>
+					            
+		    <attributeReference name="transactionCreditCardNumber"
+					            sourceClassName="org.kuali.module.financial.bo.ProcurementCardHolder"
+					            sourceAttributeName="transactionCreditCardNumber"/>
 
-                <control>
-                    <text size="9" />
-                </control>
+		    <attributeReference name="transactionCurrencyExchangeRate"
+					            sourceClassName="org.kuali.module.financial.bo.ProcurementCardTransactionDetail"
+					            sourceAttributeName="transactionCurrencyExchangeRate"/>
 
-                <summary>transactionCycleEndDate</summary>
-                <description>transactionCycleEndDate description...</description>
-			</attribute>
-
-            <attribute name="transactionCycleStartDate" forceUppercase="true">
-                <label>Transaction Cycle Start Date</label>
-                <shortLabel>Date</shortLabel>
-
-                <maxLength>10</maxLength>
-                <validationPattern><date /></validationPattern>
-
-                <control>
-                    <text size="9" />
-                </control>
-
-                <summary>transactionCycleStartDate</summary>
-                <description>transactionCycleStartDate description...</description>
-			</attribute>
-
-            <attribute name="transactionDate" forceUppercase="true">
-                <label>Transaction Date</label>
-                <shortLabel>Date</shortLabel>
-
-                <maxLength>10</maxLength>
-                <validationPattern><date /></validationPattern>
-
-                <control>
-                    <text size="9" />
-                </control>
-
-                <summary>transactionDate</summary>
-                <description>transactionDate description...</description>
-			</attribute>
+		    <attributeReference name="transactionDate"
+					            sourceClassName="org.kuali.module.financial.bo.ProcurementCardTransactionDetail"
+					            sourceAttributeName="transactionDate"/>
 
             <attribute name="transactionDebitCreditCode" forceUppercase="true">
                 <label>Transaction Debit Credit Code</label>
                 <shortLabel>Code</shortLabel>
 
                 <maxLength>1</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
 
                 <control>
                     <text size="3" />
@@ -127,37 +122,51 @@
                 <summary>transactionDebitCreditCode</summary>
                 <description>transactionDebitCreditCode description...</description>
 			</attribute>
+			
+		    <attributeReference name="transactionMerchantCategoryCode"
+					            sourceClassName="org.kuali.module.financial.bo.ProcurementCardVendor"
+					            sourceAttributeName="transactionMerchantCategoryCode"/>
 
-            <attribute name="transactionMerchantCategoryCode" forceUppercase="true">
-                <label>Transaction Merchant Category Code</label>
-                <shortLabel>Code</shortLabel>
+		    <attributeReference name="transactionOriginalCurrencyAmount"
+					            sourceClassName="org.kuali.module.financial.bo.ProcurementCardTransactionDetail"
+					            sourceAttributeName="transactionOriginalCurrencyAmount"/>
 
-                <maxLength>4</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+		    <attributeReference name="transactionOriginalCurrencyCode"
+					            sourceClassName="org.kuali.module.financial.bo.ProcurementCardTransactionDetail"
+					            sourceAttributeName="transactionOriginalCurrencyCode"/>
 
-                <control>
-                    <text size="6" />
-                </control>
+		    <attributeReference name="transactionPointOfSaleCode"
+					            sourceClassName="org.kuali.module.financial.bo.ProcurementCardTransactionDetail"
+					            sourceAttributeName="transactionPointOfSaleCode"/>
 
-                <summary>transactionMerchantCategoryCode</summary>
-                <description>transactionMerchantCategoryCode description...</description>
-			</attribute>
+		    <attributeReference name="transactionPostingDate"
+					            sourceClassName="org.kuali.module.financial.bo.ProcurementCardTransactionDetail"
+					            sourceAttributeName="transactionPostingDate"/>
 
-            <attribute name="transactionReferenceNumber" forceUppercase="true">
-                <label>Transaction Reference Number</label>
-                <shortLabel>Number</shortLabel>
+		    <attributeReference name="transactionPurchaseIdentifierDescription"
+					            sourceClassName="org.kuali.module.financial.bo.ProcurementCardTransactionDetail"
+					            sourceAttributeName="transactionPurchaseIdentifierDescription"/>
 
-                <maxLength>23</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+		    <attributeReference name="transactionPurchaseIdentifierIndicator"
+					            sourceClassName="org.kuali.module.financial.bo.ProcurementCardTransactionDetail"
+					            sourceAttributeName="transactionPurchaseIdentifierIndicator"/>
 
-                <control>
-                    <text size="25" />
-                </control>
+		    <attributeReference name="transactionReferenceNumber"
+					            sourceClassName="org.kuali.module.financial.bo.ProcurementCardTransactionDetail"
+					            sourceAttributeName="transactionReferenceNumber"/>
 
-                <summary>transactionReferenceNumber</summary>
-                <description>transactionReferenceNumber description...</description>
-			</attribute>
+		    <attributeReference name="transactionSalesTaxAmount"
+					            sourceClassName="org.kuali.module.financial.bo.ProcurementCardTransactionDetail"
+					            sourceAttributeName="transactionSalesTaxAmount"/>
 
+		    <attributeReference name="transactionCycleStartDate"
+					            sourceClassName="org.kuali.module.financial.bo.ProcurementCardTransactionDetail"
+					            sourceAttributeName="transactionCycleStartDate"/>
+					            
+		    <attributeReference name="transactionCycleEndDate"
+					            sourceClassName="org.kuali.module.financial.bo.ProcurementCardTransactionDetail"
+					            sourceAttributeName="transactionCycleEndDate"/>
+					            
             <attribute name="transactionSequenceRowNumber" forceUppercase="true">
                 <label>Transaction Sequence Row Number</label>
                 <shortLabel>Number</shortLabel>
@@ -172,26 +181,58 @@
                 <summary>transactionSequenceRowNumber</summary>
                 <description>transactionSequenceRowNumber description...</description>
 			</attribute>
+			
+		    <attributeReference name="transactionSettlementAmount"
+					            sourceClassName="org.kuali.module.financial.bo.ProcurementCardTransactionDetail"
+					            sourceAttributeName="transactionSettlementAmount"/>
 
-            <attribute name="vendorName" forceUppercase="true">
-                <label>Transaction Vendor Name</label>
-                <shortLabel>Name</shortLabel>
+		    <attributeReference name="transactionTaxExemptIndicator"
+					            sourceClassName="org.kuali.module.financial.bo.ProcurementCardTransactionDetail"
+					            sourceAttributeName="transactionTaxExemptIndicator"/>
 
-                <maxLength>25</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
+		    <attributeReference name="transactionTravelAuthorizationCode"
+					            sourceClassName="org.kuali.module.financial.bo.ProcurementCardTransactionDetail"
+					            sourceAttributeName="transactionTravelAuthorizationCode"/>
+		
+		    <attributeReference name="transactionUnitContactName"
+					            sourceClassName="org.kuali.module.financial.bo.ProcurementCardTransactionDetail"
+					            sourceAttributeName="transactionUnitContactName"/>
 
-                <control>
-                    <text size="27" />
-                </control>
+		    <attributeReference name="vendorCityName"
+					            sourceClassName="org.kuali.module.financial.bo.ProcurementCardVendor"
+					            sourceAttributeName="vendorCityName"/>
 
-                <summary>transactionVendorName</summary>
-                <description>transactionVendorName description...</description>
-			</attribute>
+		    <attributeReference name="vendorLine1Address"
+					            sourceClassName="org.kuali.module.financial.bo.ProcurementCardVendor"
+					            sourceAttributeName="vendorLine1Address"/>
 
-        	<attributeReference name="versionNumber" 
-                        		sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
- 	                        	sourceAttributeName="versionNumber" />
+		    <attributeReference name="vendorLine2Address"
+					            sourceClassName="org.kuali.module.financial.bo.ProcurementCardVendor"
+					            sourceAttributeName="vendorLine2Address"/>
+		
+		    <attributeReference name="vendorName"
+					            sourceClassName="org.kuali.module.financial.bo.ProcurementCardVendor"
+					            sourceAttributeName="vendorName"/>
 
+		    <attributeReference name="vendorOrderNumber"
+					            sourceClassName="org.kuali.module.financial.bo.ProcurementCardVendor"
+					            sourceAttributeName="vendorOrderNumber"/>
+
+		    <attributeReference name="vendorStateCode"
+					            sourceClassName="org.kuali.module.financial.bo.ProcurementCardVendor"
+					            sourceAttributeName="vendorStateCode"/>
+
+		    <attributeReference name="vendorZipCode"
+					            sourceClassName="org.kuali.module.financial.bo.ProcurementCardVendor"
+					            sourceAttributeName="vendorZipCode"/>
+
+		    <attributeReference name="visaVendorIdentifier"
+					            sourceClassName="org.kuali.module.financial.bo.ProcurementCardVendor"
+					            sourceAttributeName="visaVendorIdentifier"/>
+					            
+            <attributeReference name="versionNumber"
+            					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
+            					sourceAttributeName="versionNumber"/>
         </attributes>
     </businessObject>
 </dictionaryEntry>

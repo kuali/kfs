@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.financial.bo.ProcurementCardHolder">
+        <customAttributeEnabled>false</customAttributeEnabled>
+
+        <inquiry>
+            <title>Procurement Card Holder Inquiry</title>
+
+            <inquiryFields>
+                <field attributeName="financialDocumentNumber" />
+                <field attributeName="transactionCreditCardNumber" />
+                <field attributeName="cardCycleAmountLimit" />
+                <field attributeName="cardCycleVolumeLimit" />
+                <field attributeName="cardHolderName" />
+                <field attributeName="cardHolderAlternateName" />
+                <field attributeName="cardHolderCityName" />
+                <field attributeName="cardHolderLine1Address" />
+                <field attributeName="cardHolderLine2Address" />
+                <field attributeName="cardHolderStateCode" />
+                <field attributeName="cardHolderWorkPhoneNumber" />
+                <field attributeName="cardHolderZipCode" />
+                <field attributeName="cardLimit" />
+                <field attributeName="cardNoteText" />
+                <field attributeName="cardStatusCode" />
+                <field attributeName="chartOfAccountsCode" />
+                <field attributeName="accountNumber" />
+                <field attributeName="subAccountNumber" />
+            </inquiryFields>
+        </inquiry>
+
+        <attributes>
+        
+            <attributeReference name="accountNumber"
+					            sourceClassName="org.kuali.module.chart.bo.Account"
+					            sourceAttributeName="accountNumber">
+				<label>Default Account</label>
+				<shortLabel>Dflt Acct</shortLabel>
+		    </attributeReference>	            
+
+            <attribute name="cardCycleAmountLimit" forceUppercase="true">
+                <label>Card Cycle Amount Limit</label>
+                <shortLabel>Limit</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>cardCycleAmountLimit</summary>
+                <description>cardCycleAmountLimit description...</description>
+			</attribute>
+
+            <attribute name="cardCycleVolumeLimit" forceUppercase="true">
+                <label>Card Cycle Volume Limit</label>
+                <shortLabel>Limit</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>cardCycleVolumeLimit</summary>
+                <description>cardCycleVolumeLimit description...</description>
+			</attribute>
+
+            <attribute name="cardHolderAlternateName" forceUppercase="true">
+                <label>Card Holder Alternate Name</label>
+                <shortLabel>Name</shortLabel>
+
+                <maxLength>45</maxLength>
+
+                <control>
+                    <text size="47" />
+                </control>
+
+                <summary>cardHolderAlternateName</summary>
+                <description>cardHolderAlternateName description...</description>
+			</attribute>
+
+            <attribute name="cardHolderCityName" forceUppercase="true">
+                <label>Card Holder City Name</label>
+                <shortLabel>Name</shortLabel>
+
+                <maxLength>45</maxLength>
+
+                <control>
+                    <text size="47" />
+                </control>
+
+                <summary>cardHolderCityName</summary>
+                <description>cardHolderCityName description...</description>
+			</attribute>
+
+            <attribute name="cardHolderLine1Address" forceUppercase="true">
+                <label>Card Holder Line1 Address</label>
+                <shortLabel>Address</shortLabel>
+
+                <maxLength>45</maxLength>
+
+                <control>
+                    <text size="47" />
+                </control>
+
+                <summary>cardHolderLine1Address</summary>
+                <description>cardHolderLine1Address description...</description>
+			</attribute>
+
+            <attribute name="cardHolderLine2Address" forceUppercase="true">
+                <label>Card Holder Line2 Address</label>
+                <shortLabel>Address</shortLabel>
+
+                <maxLength>45</maxLength>
+
+                <control>
+                    <text size="47" />
+                </control>
+
+                <summary>cardHolderLine2Address</summary>
+                <description>cardHolderLine2Address description...</description>
+			</attribute>
+
+            <attribute name="cardHolderName" forceUppercase="true">
+                <label>Card Holder Name</label>
+                <shortLabel>Name</shortLabel>
+
+                <maxLength>35</maxLength>
+
+                <control>
+                    <text size="37" />
+                </control>
+
+                <summary>cardHolderName</summary>
+                <description>cardHolderName description...</description>
+			</attribute>
+
+            <attribute name="cardHolderStateCode" forceUppercase="true">
+                <label>Card Holder State Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>cardHolderStateCode</summary>
+                <description>cardHolderStateCode description...</description>
+			</attribute>
+
+            <attribute name="cardHolderWorkPhoneNumber" forceUppercase="true">
+                <label>Card Holder Work Phone Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>10</maxLength>
+
+                <control>
+                    <text size="12" />
+                </control>
+
+                <summary>cardHolderWorkPhoneNumber</summary>
+                <description>cardHolderWorkPhoneNumber description...</description>
+			</attribute>
+
+            <attribute name="cardHolderZipCode" forceUppercase="true">
+                <label>Card Holder Zip Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>20</maxLength>
+
+                <control>
+                    <text size="22" />
+                </control>
+
+                <summary>cardHolderZipCode</summary>
+                <description>cardHolderZipCode description...</description>
+			</attribute>
+
+            <attribute name="cardLimit" forceUppercase="true">
+                <label>Card Limit</label>
+                <shortLabel>Limit</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>cardLimit</summary>
+                <description>cardLimit description...</description>
+			</attribute>
+
+            <attribute name="cardNoteText" forceUppercase="true">
+                <label>Card Note Text</label>
+                <shortLabel>Text</shortLabel>
+
+                <maxLength>50</maxLength>
+
+                <control>
+                    <text size="52" />
+                </control>
+
+                <summary>cardNoteText</summary>
+                <description>cardNoteText description...</description>
+			</attribute>
+
+            <attribute name="cardStatusCode" forceUppercase="true">
+                <label>Card Status Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>cardStatusCode</summary>
+                <description>cardStatusCode description...</description>
+			</attribute>
+			
+			<attributeReference name="chartOfAccountsCode"
+					            sourceClassName="org.kuali.module.chart.bo.Chart"
+					            sourceAttributeName="chartOfAccountsCode">
+				<label>Default Chart</label>
+				<shortLabel>Dflt Chrt</shortLabel>
+		    </attributeReference>
+		    
+		    <attributeReference name="financialDocumentNumber"
+					            sourceClassName="org.kuali.core.document.DocumentHeader"
+					            sourceAttributeName="financialDocumentNumber"/>
+
+			<attributeReference name="subAccountNumber"
+					            sourceClassName="org.kuali.module.chart.bo.SubAccount"
+					            sourceAttributeName="subAccountNumber">
+				<label>Default Sub-Account</label>
+				<shortLabel>Dflt Sub-Acct</shortLabel>
+		    </attributeReference>
+
+            <attribute name="transactionCreditCardNumber" forceUppercase="true">
+                <label>Transaction Credit Card Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>16</maxLength>
+
+                <control>
+                    <text size="18" />
+                </control>
+
+                <summary>transactionCreditCardNumber</summary>
+                <description>transactionCreditCardNumber description...</description>
+			</attribute>
+
+            <attributeReference name="versionNumber"
+            					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
+            					sourceAttributeName="versionNumber"/>
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

@@ -140,10 +140,10 @@ public class ProcurementCardDocumentRule extends TransactionalDocumentRuleBase {
         List pcTransactions = pcDocument.getTransactionEntries();
         for (Iterator iter = pcTransactions.iterator(); iter.hasNext();) {
             ProcurementCardTransactionDetail transactionEntry = (ProcurementCardTransactionDetail) iter.next();
-            if (transactionEntry.getFinancialDocumentTransactionLineNumber().equals(
-                    line.getFinancialDocumentTransactionLineNumber())) {
-                mccRestriction = transactionEntry.getTransactionMerchantCategoryCode();
-            }
+//            if (transactionEntry.getFinancialDocumentTransactionLineNumber().equals(
+//                    line.getFinancialDocumentTransactionLineNumber())) {
+//                mccRestriction = transactionEntry.getTransactionMerchantCategoryCode();
+//            }
         }
 
         if (StringUtils.isBlank(mccRestriction)) {

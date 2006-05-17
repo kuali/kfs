@@ -9,8 +9,6 @@
 		
         <kul:documentOverview editingMode="${KualiForm.editingMode}"/>
         
-        <fin:procurementCardCycleCardDetails/>
-     
         <fin:procurementCardAccountingLines editingMode="${KualiForm.editingMode}" editableAccounts="${KualiForm.editableAccounts}"/>
 	    
 		<kul:generalLedgerPendingEntries/>

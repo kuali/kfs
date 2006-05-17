@@ -29,6 +29,7 @@ import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
+import org.kuali.Constants;
 import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.chart.bo.Account;
@@ -37,7 +38,7 @@ import org.kuali.module.chart.bo.ProjectCode;
 import org.kuali.module.chart.bo.SubAccount;
 
 /**
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class ProcurementCardTransaction extends BusinessObjectBase {
 
@@ -90,11 +91,6 @@ public class ProcurementCardTransaction extends BusinessObjectBase {
 	private KualiDecimal cardCycleVolumeLimit;
 	private String cardStatusCode;
 	private String cardNoteText;
-
-    private Chart chartOfAccounts;
-	private Account account;
-    private ProjectCode project;
-    private SubAccount subAccount;
     
 	/**
 	 * Default constructor.
@@ -164,6 +160,10 @@ public class ProcurementCardTransaction extends BusinessObjectBase {
 	public void setFinancialDocumentTotalAmount(KualiDecimal financialDocumentTotalAmount) {
 		this.financialDocumentTotalAmount = financialDocumentTotalAmount;
 	}
+    
+    public void setFinancialDocumentTotalAmount(String financialDocumentTotalAmount) {
+        this.financialDocumentTotalAmount = new KualiDecimal(financialDocumentTotalAmount);
+    }
 
 
 	/**
@@ -521,6 +521,10 @@ public class ProcurementCardTransaction extends BusinessObjectBase {
 	public void setTransactionOriginalCurrencyAmount(KualiDecimal transactionOriginalCurrencyAmount) {
 		this.transactionOriginalCurrencyAmount = transactionOriginalCurrencyAmount;
 	}
+    
+    public void setTransactionOriginalCurrencyAmount(String transactionOriginalCurrencyAmount) {
+        this.transactionOriginalCurrencyAmount = new KualiDecimal(transactionOriginalCurrencyAmount);
+    }
 
 
 	/**
@@ -542,6 +546,10 @@ public class ProcurementCardTransaction extends BusinessObjectBase {
 	public void setTransactionCurrencyExchangeRate(BigDecimal transactionCurrencyExchangeRate) {
 		this.transactionCurrencyExchangeRate = transactionCurrencyExchangeRate;
 	}
+    
+    public void setTransactionCurrencyExchangeRate(String transactionCurrencyExchangeRate) {
+        this.transactionCurrencyExchangeRate = new BigDecimal(transactionCurrencyExchangeRate);
+    }
 
 
 	/**
@@ -563,6 +571,10 @@ public class ProcurementCardTransaction extends BusinessObjectBase {
 	public void setTransactionSettlementAmount(KualiDecimal transactionSettlementAmount) {
 		this.transactionSettlementAmount = transactionSettlementAmount;
 	}
+    
+    public void setTransactionSettlementAmount(String transactionSettlementAmount) {
+        this.transactionSettlementAmount = new KualiDecimal(transactionSettlementAmount);
+    }
 
 
 	/**
@@ -584,6 +596,10 @@ public class ProcurementCardTransaction extends BusinessObjectBase {
 	public void setTransactionSalesTaxAmount(KualiDecimal transactionSalesTaxAmount) {
 		this.transactionSalesTaxAmount = transactionSalesTaxAmount;
 	}
+    
+    public void setTransactionSalesTaxAmount(String transactionSalesTaxAmount) {
+        this.transactionSalesTaxAmount = new KualiDecimal(transactionSalesTaxAmount);
+    }
 
 
 	/**
@@ -605,6 +621,15 @@ public class ProcurementCardTransaction extends BusinessObjectBase {
 	public void setTransactionTaxExemptIndicator(boolean transactionTaxExemptIndicator) {
 		this.transactionTaxExemptIndicator = transactionTaxExemptIndicator;
 	}
+    
+    public void setTransactionTaxExemptIndicator(String transactionTaxExemptIndicator) {
+        if (Constants.ACTIVE_INDICATOR.equals(transactionTaxExemptIndicator)) {
+            this.transactionTaxExemptIndicator = true;
+        }
+        else {
+            this.transactionTaxExemptIndicator = false;
+        }
+    }
 
 
 	/**
@@ -626,6 +651,15 @@ public class ProcurementCardTransaction extends BusinessObjectBase {
 	public void setTransactionPurchaseIdentifierIndicator(boolean transactionPurchaseIdentifierIndicator) {
 		this.transactionPurchaseIdentifierIndicator = transactionPurchaseIdentifierIndicator;
 	}
+    
+    public void setTransactionPurchaseIdentifierIndicator(String transactionPurchaseIdentifierIndicator) {
+        if (Constants.ACTIVE_INDICATOR.equals(transactionPurchaseIdentifierIndicator)) {
+            this.transactionPurchaseIdentifierIndicator = true;
+        }
+        else {
+            this.transactionPurchaseIdentifierIndicator = false;
+        }
+    }
 
 
 	/**
@@ -1046,6 +1080,10 @@ public class ProcurementCardTransaction extends BusinessObjectBase {
 	public void setCardLimit(KualiDecimal cardLimit) {
 		this.cardLimit = cardLimit;
 	}
+    
+    public void setCardLimit(String cardLimit) {
+        this.cardLimit = new KualiDecimal(cardLimit);
+    }
 
 
 	/**
@@ -1067,6 +1105,10 @@ public class ProcurementCardTransaction extends BusinessObjectBase {
 	public void setCardCycleAmountLimit(KualiDecimal cardCycleAmountLimit) {
 		this.cardCycleAmountLimit = cardCycleAmountLimit;
 	}
+    
+    public void setCardCycleAmountLimit(String cardCycleAmountLimit) {
+        this.cardCycleAmountLimit = new KualiDecimal(cardCycleAmountLimit);
+    }
 
 
 	/**
@@ -1088,6 +1130,10 @@ public class ProcurementCardTransaction extends BusinessObjectBase {
 	public void setCardCycleVolumeLimit(KualiDecimal cardCycleVolumeLimit) {
 		this.cardCycleVolumeLimit = cardCycleVolumeLimit;
 	}
+    
+    public void setCardCycleVolumeLimit(String cardCycleVolumeLimit) {
+        this.cardCycleVolumeLimit = new KualiDecimal(cardCycleVolumeLimit);
+    }
 
 
 	/**
@@ -1130,75 +1176,6 @@ public class ProcurementCardTransaction extends BusinessObjectBase {
 	public void setCardNoteText(String cardNoteText) {
 		this.cardNoteText = cardNoteText;
 	}
-
-
-	/**
-	 * Gets the chartOfAccounts attribute.
-	 * 
-	 * @return - Returns the chartOfAccounts
-	 * 
-	 */
-	public Chart getChartOfAccounts() { 
-		return chartOfAccounts;
-	}
-
-	/**
-	 * Sets the chartOfAccounts attribute.
-	 * 
-	 * @param - chartOfAccounts The chartOfAccounts to set.
-	 * @deprecated
-	 */
-	public void setChartOfAccounts(Chart chartOfAccounts) {
-		this.chartOfAccounts = chartOfAccounts;
-	}
-
-	/**
-	 * Gets the account attribute.
-	 * 
-	 * @return - Returns the account
-	 * 
-	 */
-	public Account getAccount() { 
-		return account;
-	}
-
-	/**
-	 * Sets the account attribute.
-	 * 
-	 * @param - account The account to set.
-	 * @deprecated
-	 */
-	public void setAccount(Account account) {
-		this.account = account;
-	}
-
-    /**
-     * @return Returns the project.
-     */
-    public ProjectCode getProject() {
-        return project;
-    }
-
-    /**
-     * @param project The project to set.
-     */
-    public void setProject(ProjectCode project) {
-        this.project = project;
-    }
-
-    /**
-     * @return Returns the subAccount.
-     */
-    public SubAccount getSubAccount() {
-        return subAccount;
-    }
-
-    /**
-     * @param subAccount The subAccount to set.
-     */
-    public void setSubAccount(SubAccount subAccount) {
-        this.subAccount = subAccount;
-    }
     
     /**
      * @see org.kuali.bo.BusinessObjectBase#toStringMapper()

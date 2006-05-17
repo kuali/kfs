@@ -29,6 +29,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.Constants;
+import org.kuali.PropertyConstants;
 
 import org.kuali.core.rule.event.SaveDocumentEvent;
 import org.kuali.core.service.BusinessObjectService;
@@ -40,10 +41,12 @@ import org.kuali.core.util.DateUtils;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.module.financial.bo.ProcurementCardHolder;
 import org.kuali.module.financial.bo.ProcurementCardSourceAccountingLine;
 import org.kuali.module.financial.bo.ProcurementCardTargetAccountingLine;
 import org.kuali.module.financial.bo.ProcurementCardTransaction;
 import org.kuali.module.financial.bo.ProcurementCardTransactionDetail;
+import org.kuali.module.financial.bo.ProcurementCardVendor;
 import org.kuali.module.financial.document.ProcurementCardDocument;
 import org.kuali.module.financial.rules.AccountingLineRuleUtil;
 import org.kuali.module.financial.rules.TransactionalDocumentRuleBaseConstants;
@@ -59,6 +62,7 @@ import java.util.List;
 
 /**
  * Implementation of ProcurementCardCreateDocumentService
+ * 
  * @see org.kuali.module.financial.service.ProcurementCardCreateDocumentService
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
@@ -80,7 +84,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
 
         // retrieve records from transaction table order by card number
         List transactions = (List) businessObjectService.findMatchingOrderBy(ProcurementCardTransaction.class, new HashMap(),
-                "transactionCreditCardNumber", true);
+                PropertyConstants.TRANSACTION_CREDIT_CARD_NUMBER, true);
 
         // check apc for single transaction documents or multple by card
         boolean singleTransaction = false;
@@ -121,10 +125,22 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
         for (Iterator iter = documents.iterator(); iter.hasNext();) {
             ProcurementCardDocument pcardDocument = (ProcurementCardDocument) iter.next();
             try {
+                //  only references that can be updated are stored with document
                 documentService.validateAndPersist(pcardDocument, new SaveDocumentEvent(pcardDocument));
+                
+                // store other references
+                businessObjectService.save(pcardDocument.getProcurementCardHolder());
+                for (Iterator iterator = pcardDocument.getTransactionEntries().iterator(); iterator.hasNext();) {
+                    ProcurementCardTransactionDetail transactionDetail = (ProcurementCardTransactionDetail) iterator.next();
+                    businessObjectService.save(transactionDetail.getProcurementCardVendor());
+                    businessObjectService.save(transactionDetail.getSourceAccountingLines());
+                }
             }
             catch (Exception e) {
-                throw new RuntimeException(e.getMessage());
+                LOG.error("Error persisting document # " + pcardDocument.getDocumentHeader().getFinancialDocumentNumber() + " "
+                        + e.getMessage());
+                throw new RuntimeException("Error persisting document # "
+                        + pcardDocument.getDocumentHeader().getFinancialDocumentNumber() + " " + e.getMessage());
             }
         }
 
@@ -217,6 +233,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
 
     /**
      * Creates a ProcurementCardDocument from the List of transactions
+     * 
      * @param transactions - List of ProcurementCardTransaction objects
      * @return ProcurementCardDocument
      */
@@ -227,34 +244,21 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
             // get new document from doc service
             pcardDocument = (ProcurementCardDocument) documentService.getNewDocument(ProcurementCardDocument.class);
 
-            // set the trans cycle and card details on the document from the first transaction
-            setDocumentHeaderFields(pcardDocument, (ProcurementCardTransaction) transactions.get(0));
+            // set the card holder record on the document from the first transaction
+            createCardHolderRecord(pcardDocument, (ProcurementCardTransaction) transactions.get(0));
 
             // for each transaction, create transaction detail object and then acct lines for the detail
-            List docTransactionDetails = new ArrayList();
             int transactionLineNumber = 1;
             KualiDecimal documentTotalAmount = new KualiDecimal(0);
             String errorText = "";
             for (Iterator iter = transactions.iterator(); iter.hasNext();) {
                 ProcurementCardTransaction transaction = (ProcurementCardTransaction) iter.next();
-                ProcurementCardTransactionDetail docTransactionDetail = new ProcurementCardTransactionDetail();
 
-                // set the document transaction detail fields from the loaded transaction record
-                docTransactionDetail.setFinancialDocumentNumber(pcardDocument.getFinancialDocumentNumber());
-                docTransactionDetail.setFinancialDocumentTransactionLineNumber(new Integer(transactionLineNumber));
-                docTransactionDetail.setTransactionDate(transaction.getTransactionDate());
-                docTransactionDetail.setTransactionMerchantCategoryCode(transaction.getTransactionMerchantCategoryCode());
-                docTransactionDetail.setTransactionReferenceNumber(transaction.getTransactionReferenceNumber());
-                docTransactionDetail.setTransactionVendorName(transaction.getVendorName());
+                // create transaction detail record with accounting lines
+                errorText += createTransactionDetailRecord(pcardDocument, transaction, transactionLineNumber);
 
-                // add transaction detail to document
-                pcardDocument.getTransactionEntries().add(docTransactionDetail);
-
-                // now create the initial source and target lines for this transaction
-                errorText = createAndValidateAccountingLines(pcardDocument, transaction, docTransactionDetail);
-
-                // add to the document transaction detail list
-                docTransactionDetails.add(docTransactionDetail);
+                // create transaction vendor record
+                createTransactionVendorRecord(pcardDocument, transaction, transactionLineNumber);
 
                 // update document total
                 documentTotalAmount = documentTotalAmount.add(transaction.getFinancialDocumentTotalAmount());
@@ -263,7 +267,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
             }
 
             pcardDocument.getDocumentHeader().setFinancialDocumentTotalAmount(documentTotalAmount);
-            pcardDocument.getDocumentHeader().setFinancialDocumentDescription("Generated PCDO Document");
+            pcardDocument.getDocumentHeader().setFinancialDocumentDescription("SYSTEM Generated");
             pcardDocument.setExplanation(errorText);
         }
         catch (WorkflowException e) {
@@ -275,23 +279,108 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
     }
 
     /**
-     * Sets transaction and card fields on the document from the give ProcurmentCardTransaction record.
+     * Creates card holder record and sets in document.
+     * 
+     * @param pcardDocument - document to place record in
+     * @param transaction - transaction to set fields from
+     */
+    private void createCardHolderRecord(ProcurementCardDocument pcardDocument, ProcurementCardTransaction transaction) {
+        ProcurementCardHolder cardHolder = new ProcurementCardHolder();
+
+        cardHolder.setFinancialDocumentNumber(pcardDocument.getFinancialDocumentNumber());
+        cardHolder.setAccountNumber(transaction.getAccountNumber());
+        cardHolder.setCardCycleAmountLimit(transaction.getCardCycleAmountLimit());
+        cardHolder.setCardCycleVolumeLimit(transaction.getCardCycleVolumeLimit());
+        cardHolder.setCardHolderAlternateName(transaction.getCardHolderAlternateName());
+        cardHolder.setCardHolderCityName(transaction.getCardHolderCityName());
+        cardHolder.setCardHolderLine1Address(transaction.getCardHolderLine1Address());
+        cardHolder.setCardHolderLine2Address(transaction.getCardHolderLine2Address());
+        cardHolder.setCardHolderName(transaction.getCardHolderName());
+        cardHolder.setCardHolderStateCode(transaction.getCardHolderStateCode());
+        cardHolder.setCardHolderWorkPhoneNumber(transaction.getCardHolderWorkPhoneNumber());
+        cardHolder.setCardHolderZipCode(transaction.getCardHolderZipCode());
+        cardHolder.setCardLimit(transaction.getCardLimit());
+        cardHolder.setCardNoteText(transaction.getCardNoteText());
+        cardHolder.setCardStatusCode(transaction.getCardStatusCode());
+        cardHolder.setChartOfAccountsCode(transaction.getChartOfAccountsCode());
+        cardHolder.setSubAccountNumber(transaction.getSubAccountNumber());
+        cardHolder.setTransactionCreditCardNumber(transaction.getTransactionCreditCardNumber());
+
+        pcardDocument.setProcurementCardHolder(cardHolder);
+    }
+
+    /**
+     * Creates transaction detail record and adds to document.
+     * 
+     * @param pcardDocument - document to place record in
+     * @param transaction - transaction to set fields from
+     */
+    private String createTransactionDetailRecord(ProcurementCardDocument pcardDocument, ProcurementCardTransaction transaction,
+            Integer transactionLineNumber) {
+        ProcurementCardTransactionDetail transactionDetail = new ProcurementCardTransactionDetail();
+
+        // set the document transaction detail fields from the loaded transaction record
+        transactionDetail.setFinancialDocumentNumber(pcardDocument.getFinancialDocumentNumber());
+        transactionDetail.setFinancialDocumentTransactionLineNumber(transactionLineNumber);
+        transactionDetail.setTransactionDate(transaction.getTransactionDate());
+        transactionDetail.setTransactionReferenceNumber(transaction.getTransactionReferenceNumber());
+        transactionDetail.setTransactionBillingCurrencyCode(transaction.getTransactionBillingCurrencyCode());
+        transactionDetail.setTransactionCurrencyExchangeRate(transaction.getTransactionCurrencyExchangeRate());
+        transactionDetail.setTransactionDate(transaction.getTransactionDate());
+        transactionDetail.setTransactionOriginalCurrencyAmount(transaction.getTransactionOriginalCurrencyAmount());
+        transactionDetail.setTransactionOriginalCurrencyCode(transaction.getTransactionOriginalCurrencyCode());
+        transactionDetail.setTransactionPointOfSaleCode(transaction.getTransactionPointOfSaleCode());
+        transactionDetail.setTransactionPostingDate(transaction.getTransactionPostingDate());
+        transactionDetail.setTransactionPurchaseIdentifierDescription(transaction.getTransactionPurchaseIdentifierDescription());
+        transactionDetail.setTransactionPurchaseIdentifierIndicator(transaction.getTransactionPurchaseIdentifierIndicator());
+        transactionDetail.setTransactionSalesTaxAmount(transaction.getTransactionSalesTaxAmount());
+        transactionDetail.setTransactionSettlementAmount(transaction.getTransactionSettlementAmount());
+        transactionDetail.setTransactionTaxExemptIndicator(transaction.getTransactionTaxExemptIndicator());
+        transactionDetail.setTransactionTravelAuthorizationCode(transaction.getTransactionTravelAuthorizationCode());
+        transactionDetail.setTransactionUnitContactName(transaction.getTransactionUnitContactName());
+
+        // add transaction detail to document
+        pcardDocument.getTransactionEntries().add(transactionDetail);
+
+        // now create the initial source and target lines for this transaction
+        return createAndValidateAccountingLines(pcardDocument, transaction, transactionDetail);
+    }
+
+
+    /**
+     * Creates transaction vendor detail record and adds to transaction detail.
+     * 
      * @param pcardDocument - document to set fields in
      * @param transaction - transaction to set fields from
      */
-    private void setDocumentHeaderFields(ProcurementCardDocument pcardDocument, ProcurementCardTransaction transaction) {
-        pcardDocument.setTransactionCreditCardNumber(transaction.getTransactionCreditCardNumber());
-        pcardDocument.setFinancialDocumentCardHolderName(transaction.getCardHolderName());
-        pcardDocument.setTransactionCycleStartDate(transaction.getTransactionCycleStartDate());
-        pcardDocument.setTransactionCycleEndDate(transaction.getTransactionCycleEndDate());
-        pcardDocument.setChartOfAccountsCode(transaction.getChartOfAccountsCode());
-        pcardDocument.setAccountNumber(transaction.getAccountNumber());
-        pcardDocument.setSubAccountNumber(transaction.getSubAccountNumber());
+    private void createTransactionVendorRecord(ProcurementCardDocument pcardDocument, ProcurementCardTransaction transaction,
+            Integer transactionLineNumber) {
+        ProcurementCardVendor transactionVendor = new ProcurementCardVendor();
+
+        transactionVendor.setFinancialDocumentNumber(pcardDocument.getFinancialDocumentNumber());
+        transactionVendor.setFinancialDocumentTransactionLineNumber(transactionLineNumber);
+        transactionVendor.setTransactionMerchantCategoryCode(transaction.getTransactionMerchantCategoryCode());
+        transactionVendor.setVendorCityName(transaction.getVendorCityName());
+        transactionVendor.setVendorLine1Address(transaction.getVendorLine1Address());
+        transactionVendor.setVendorLine2Address(transaction.getVendorLine2Address());
+        transactionVendor.setVendorName(transaction.getVendorName());
+        transactionVendor.setVendorOrderNumber(transaction.getVendorOrderNumber());
+        transactionVendor.setVendorStateCode(transaction.getVendorStateCode());
+        transactionVendor.setVendorZipCode(transaction.getVendorZipCode());
+        transactionVendor.setVisaVendorIdentifier(transaction.getVisaVendorIdentifier());
+
+        for (Iterator iter = pcardDocument.getTransactionEntries().iterator(); iter.hasNext();) {
+            ProcurementCardTransactionDetail transactionDetail = (ProcurementCardTransactionDetail) iter.next();
+            if (transactionLineNumber.equals(transactionDetail.getFinancialDocumentTransactionLineNumber())) {
+                transactionDetail.setProcurementCardVendor(transactionVendor);
+            }
+        }
     }
 
     /**
      * From the transaction accounting attributes, creates source and target accounting lines. Attributes are validated first, and
      * replaced with default and error values if needed. There will be 1 source and 1 target line generated
+     * 
      * @param transaction - transaction to process
      * @param docTransactionDetail - Object to put accounting lines into
      * @return String containing any error messages
@@ -315,6 +404,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
 
     /**
      * Creates the to record for the transaction. The COA attributes from the transaction are used to create the accounting line.
+     * 
      * @param transaction
      * @param docTransactionDetail
      * @return ProcurementCardSourceAccountingLine
@@ -323,21 +413,21 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
             ProcurementCardTransactionDetail docTransactionDetail) {
         ProcurementCardTargetAccountingLine targetLine = new ProcurementCardTargetAccountingLine();
 
-        //TODO: Get remaining COA attributes from the transaction once they are added
+        targetLine.setFinancialDocumentNumber(docTransactionDetail.getFinancialDocumentNumber());
         targetLine.setFinancialDocumentTransactionLineNumber(docTransactionDetail.getFinancialDocumentTransactionLineNumber());
         targetLine.setChartOfAccountsCode(transaction.getChartOfAccountsCode());
         targetLine.setAccountNumber(transaction.getAccountNumber());
-        targetLine.setFinancialObjectCode("4025");
+        targetLine.setFinancialObjectCode(transaction.getFinancialObjectCode());
         targetLine.setSubAccountNumber(transaction.getSubAccountNumber());
-        targetLine.setFinancialSubObjectCode("");
-        targetLine.setProjectCode("");
+        targetLine.setFinancialSubObjectCode(transaction.getFinancialSubObjectCode());
+        targetLine.setProjectCode(transaction.getProjectCode());
 
         if (TransactionalDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE.CREDIT.equals(transaction
                 .getTransactionDebitCreditCode())) {
             targetLine.setAmount(transaction.getFinancialDocumentTotalAmount().negated());
         }
         else {
-        targetLine.setAmount(transaction.getFinancialDocumentTotalAmount());
+            targetLine.setAmount(transaction.getFinancialDocumentTotalAmount());
         }
 
         return targetLine;
@@ -345,6 +435,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
 
     /**
      * Creates the from record for the transaction. The clearing chart, account, and object code is used for creating the line.
+     * 
      * @param transaction
      * @param docTransactionDetail
      * @return ProcurementCardSourceAccountingLine
@@ -353,6 +444,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
             ProcurementCardTransactionDetail docTransactionDetail) {
         ProcurementCardSourceAccountingLine sourceLine = new ProcurementCardSourceAccountingLine();
 
+        sourceLine.setFinancialDocumentNumber(docTransactionDetail.getFinancialDocumentNumber());
         sourceLine.setFinancialDocumentTransactionLineNumber(docTransactionDetail.getFinancialDocumentTransactionLineNumber());
         sourceLine.setChartOfAccountsCode(getDefaultChartCode());
         sourceLine.setAccountNumber(getDefaultAccountNumber());
@@ -366,7 +458,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
             sourceLine.setAmount(transaction.getFinancialDocumentTotalAmount().negated());
         }
         else {
-        sourceLine.setAmount(transaction.getFinancialDocumentTotalAmount());
+            sourceLine.setAmount(transaction.getFinancialDocumentTotalAmount());
         }
 
         return sourceLine;
@@ -375,6 +467,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
     /**
      * Validates the COA attributes for existence and active indicator. Will substitute for defined default parameters or set fields
      * to empty that have errors.
+     * 
      * @param sourceLine
      * @return String with error messages
      */
@@ -482,6 +575,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
 
     /**
      * Loads all the parsed xml transactions into the temp transaction table.
+     * 
      * @param transactions - List of ProcurementCardTransaction to load.
      */
     private void loadTransactions(List transactions) {
@@ -551,7 +645,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
      */
     public DateTimeService getDateTimeService() {
         return dateTimeService;
-}
+    }
 
     /**
      * @param dateTimeService The dateTimeService to set.

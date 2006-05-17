@@ -24,7 +24,9 @@ package org.kuali.module.financial.service.impl;
 
 import java.io.File;
 import java.io.FilenameFilter;
+import java.io.IOException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -33,6 +35,8 @@ import java.util.List;
 import org.apache.commons.digester.Digester;
 import org.apache.commons.digester.Rules;
 import org.apache.commons.digester.xmlrules.DigesterLoader;
+import org.apache.commons.lang.StringUtils;
+import org.kuali.Constants;
 import org.kuali.core.datadictionary.DataDictionaryBuilder;
 import org.kuali.core.datadictionary.XmlErrorHandler;
 import org.kuali.core.datadictionary.exception.InitException;
@@ -45,9 +49,11 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.module.financial.bo.ProcurementCardTransaction;
 import org.kuali.module.financial.exceptions.NoTransactionsException;
 import org.kuali.module.financial.service.ProcurementCardLoadTransactionsService;
+import org.xml.sax.SAXException;
 
 /**
  * Implementation of ProcurementCardDocumentService
+ * 
  * @see org.kuali.module.financial.service.ProcurementCardCreateDocumentService
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
@@ -56,7 +62,8 @@ public class ProcurementCardLoadTransactionsServiceImpl implements ProcurementCa
             .getLogger(ProcurementCardLoadTransactionsServiceImpl.class);
 
     private final static String PCARD_DOCUMENT_PARAMETERS_SEC_GROUP = "PCardDocumentParameters";
-    private final static String KUALI_FILE_DIRECTORY_PARM_NM = "KUALI_FILE_DIRECTORY";
+    private final static String PCDO_FILE_DIRECTORY_PARM_NM = "PCDO_FILE_DIRECTORY";
+    private final static String BACK_UP_INCOMING_FILES_IND_PARM_NM = "BACK_UP_INCOMOING_FILES_IND";
 
     private static final String PACKAGE_PREFIX = "/org/kuali/module/financial/batch/pcard/";
 
@@ -76,19 +83,25 @@ public class ProcurementCardLoadTransactionsServiceImpl implements ProcurementCa
      */
     public boolean loadProcurementCardDataFile() {
         // get input file to process
-        File[] pcardLoadFiles = retrieveKualiPCardFile();
+        File[] pcardLoadFiles = retrieveKualiPCardFiles();
         if (pcardLoadFiles == null) {
             LOG.warn("No PCard input files found.");
             throw new NoTransactionsException("No PCard input files found.");
         }
         
-        // clean transaction table from any previous loads
-        cleanTransactionsTable();
-        
-        int totalTransactionsParsed = 0;
+        // retrieve backup indicator parm value
+        String backupIndicator = kualiConfigurationService.getApplicationParameterValue(PCARD_DOCUMENT_PARAMETERS_SEC_GROUP,
+                BACK_UP_INCOMING_FILES_IND_PARM_NM);
 
+        // clean transaction table from any previous loads
+        LOG.info("Cleaning transaction temp table ...");
+        cleanTransactionsTable();
+
+        int totalTransactionsParsed = 0;
         for (int i = 0; i < pcardLoadFiles.length; i++) {
             File pcardLoadFile = pcardLoadFiles[i];
+            LOG.info("Processing file: " + pcardLoadFile.getName());
+
             // setup digester for parsing the xml file
             Digester digester = buildDigester(pcardLoadFile.getName());
 
@@ -105,32 +118,35 @@ public class ProcurementCardLoadTransactionsServiceImpl implements ProcurementCa
                 LOG.warn("No PCard transactions in input file.");
                 continue;
             }
-            
+
             totalTransactionsParsed += pcardTransactions.size();
 
             // check transaction record against dd, validates length, required, and format
             boolean validationSuccessful = validateTransactionsDataFormat(pcardTransactions);
             if (!validationSuccessful) {
                 LOG.error("Error validating transaction against dd file. " + GlobalVariables.getErrorMap().toString());
-                throw new ValidationException("Error validating transaction against dd file. " + GlobalVariables.getErrorMap().toString());
+                throw new ValidationException("Error validating transaction against dd file. "
+                        + GlobalVariables.getErrorMap().toString());
             }
 
             // load new transactions into temp table
+            LOG.info("Loading transaction temp table ...");
             loadTransactions((List) pcardTransactions);
 
-            // back up input file
-//            String dateString = (new SimpleDateFormat("yyyy-MM-dd")).format(dateTimeService.getCurrentDate());
-//            String[] extSplit = StringUtils.split(pcardLoadFile.getAbsolutePath(), ".");
-//            File backupPCardFile = new File(extSplit[0] + dateString + "." + extSplit[1]);
-//            pcardLoadFile.renameTo(backupPCardFile);
+            // backup input file
+            if (Constants.ACTIVE_INDICATOR.equals(backupIndicator.toUpperCase())) {
+                LOG.info("Backing up input file ...");
+                String dateString = (new SimpleDateFormat("yyyy-MM-dd")).format(dateTimeService.getCurrentDate());
+                String[] extSplit = StringUtils.split(pcardLoadFile.getAbsolutePath(), ".");
+                File backupPCardFile = new File(extSplit[0] + dateString + "." + extSplit[1]);
+                pcardLoadFile.renameTo(backupPCardFile);
+            }
         }
-        
-        LOG.debug(Integer.toString(totalTransactionsParsed));
-        System.out.println(Integer.toString(totalTransactionsParsed));
 
+        LOG.info("Total transactions loaded: " + Integer.toString(totalTransactionsParsed));
         return true;
     }
-    
+
     private class PCardFilenameFilter implements FilenameFilter {
         /**
          * @see java.io.FilenameFilter#accept(java.io.File, java.lang.String)
@@ -142,18 +158,20 @@ public class ProcurementCardLoadTransactionsServiceImpl implements ProcurementCa
 
     /**
      * Looks for the PCard input file using the APC parameters for the directory and name.
+     * 
      * @return File object representing the input file or null if not found
      */
-    private File[] retrieveKualiPCardFile() {
+    private File[] retrieveKualiPCardFiles() {
         // retrieve parms telling us where to find the file
         String fileDirectory = kualiConfigurationService.getApplicationParameterValue(PCARD_DOCUMENT_PARAMETERS_SEC_GROUP,
-                KUALI_FILE_DIRECTORY_PARM_NM);
+                PCDO_FILE_DIRECTORY_PARM_NM);
 
         return (new File(fileDirectory)).listFiles(new PCardFilenameFilter());
     }
 
     /**
      * Validates each transaction against the data dictionary definition for correct size and format.
+     * 
      * @param transactions
      * @return
      */
@@ -225,6 +243,7 @@ public class ProcurementCardLoadTransactionsServiceImpl implements ProcurementCa
 
     /**
      * Loads all the parsed xml transactions into the temp transaction table.
+     * 
      * @param transactions - List of ProcurementCardTransaction to load.
      */
     private void loadTransactions(List transactions) {

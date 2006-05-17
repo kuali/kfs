@@ -1,26 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE dictionaryEntry PUBLIC
     "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../../../core/datadictionary/dataDictionary-1_0.dtd">
+    "../dataDictionary-1_0.dtd">
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.module.financial.bo.ProcurementCardTransactionDetail">
         <customAttributeEnabled>false</customAttributeEnabled>
-		
-		<inquiry>
-			<title>Transaction Inquiry</title>
 
-			<inquiryFields>
-				<field attributeName="transactionReferenceNumber" />
-				<field attributeName="transactionVendorName" />	
-				<field attributeName="transactionDate" />				
-				<field attributeName="transactionMerchantCategoryCode" />				
-			</inquiryFields>
-		</inquiry>
-		
+        <inquiry>
+            <title>Procurement Card Transaction Detail Inquiry</title>
+
+            <inquiryFields>
+                <field attributeName="financialDocumentNumber" />
+                <field attributeName="financialDocumentTransactionLineNumber" />
+                <field attributeName="transactionReferenceNumber" />
+                <field attributeName="transactionBillingCurrencyCode" />
+                <field attributeName="transactionCurrencyExchangeRate" />
+                <field attributeName="transactionDate" />
+                <field attributeName="transactionOriginalCurrencyAmount" />
+                <field attributeName="transactionOriginalCurrencyCode" />
+                <field attributeName="transactionPointOfSaleCode" />
+                <field attributeName="transactionPostingDate" />
+                <field attributeName="transactionPurchaseIdentifierDescription" />
+                <field attributeName="transactionPurchaseIdentifierIndicator" />
+                <field attributeName="transactionSalesTaxAmount" />
+                <field attributeName="transactionSettlementAmount" />
+                <field attributeName="transactionTaxExemptIndicator" />
+                <field attributeName="transactionTravelAuthorizationCode" />
+                <field attributeName="transactionUnitContactName" />
+                <field attributeName="transactionCycleEndDate" />
+                <field attributeName="transactionCycleStartDate" />
+            </inquiryFields>
+        </inquiry>
+
         <attributes>
-        	<attributeReference name="financialDocumentNumber"
-								sourceClassName="org.kuali.core.document.DocumentHeader"
-								sourceAttributeName="financialDocumentNumber" />
+
+		    <attributeReference name="financialDocumentNumber"
+					            sourceClassName="org.kuali.core.document.DocumentHeader"
+					            sourceAttributeName="financialDocumentNumber"/>
 
             <attribute name="financialDocumentTransactionLineNumber" forceUppercase="true">
                 <label>Financial Document Transaction Line Number</label>
@@ -37,35 +53,134 @@
                 <description>financialDocumentTransactionLineNumber description...</description>
 			</attribute>
 
+            <attribute name="transactionBillingCurrencyCode" forceUppercase="true">
+                <label>Transaction Billing Currency Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>3</maxLength>
+
+                <control>
+                    <text size="5" />
+                </control>
+
+                <summary>transactionBillingCurrencyCode</summary>
+                <description>transactionBillingCurrencyCode description...</description>
+			</attribute>
+
+            <attribute name="transactionCurrencyExchangeRate" forceUppercase="true">
+                <label>Transaction Currency Exchange Rate</label>
+                <shortLabel>Rate</shortLabel>
+
+                <maxLength>10</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="12" />
+                </control>
+
+                <summary>transactionCurrencyExchangeRate</summary>
+                <description>transactionCurrencyExchangeRate description...</description>
+			</attribute>
+
             <attribute name="transactionDate" forceUppercase="true">
                 <label>Transaction Date</label>
                 <shortLabel>Date</shortLabel>
 
-                <maxLength>10</maxLength>
+                <maxLength>7</maxLength>
                 <validationPattern><date /></validationPattern>
 
                 <control>
-                   <text size="9" />
+                    <text size="9" />
                 </control>
 
                 <summary>transactionDate</summary>
                 <description>transactionDate description...</description>
-                <formatterClass>org.kuali.core.web.format.DateFormatter</formatterClass>
 			</attribute>
 
-            <attribute name="transactionMerchantCategoryCode" forceUppercase="true">
-                <label>Transaction Merchant Category Code</label>
-                <shortLabel>Code</shortLabel>
+            <attribute name="transactionOriginalCurrencyAmount" forceUppercase="true">
+                <label>Transaction Original Currency Amount</label>
+                <shortLabel>Amount</shortLabel>
 
-                <maxLength>4</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
 
                 <control>
-                    <text size="6" />
+                    <text size="21" />
                 </control>
 
-                <summary>transactionMerchantCategoryCode</summary>
-                <description>transactionMerchantCategoryCode description...</description>
+                <summary>transactionOriginalCurrencyAmount</summary>
+                <description>transactionOriginalCurrencyAmount description...</description>
+			</attribute>
+
+            <attribute name="transactionOriginalCurrencyCode" forceUppercase="true">
+                <label>Transaction Original Currency Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>3</maxLength>
+
+                <control>
+                    <text size="5" />
+                </control>
+
+                <summary>transactionOriginalCurrencyCode</summary>
+                <description>transactionOriginalCurrencyCode description...</description>
+			</attribute>
+
+            <attribute name="transactionPointOfSaleCode" forceUppercase="true">
+                <label>Transaction Point Of Sale Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>25</maxLength>
+
+                <control>
+                    <text size="27" />
+                </control>
+
+                <summary>transactionPointOfSaleCode</summary>
+                <description>transactionPointOfSaleCode description...</description>
+			</attribute>
+
+            <attribute name="transactionPostingDate" forceUppercase="true">
+                <label>Transaction Posting Date</label>
+                <shortLabel>Date</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><date /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>transactionPostingDate</summary>
+                <description>transactionPostingDate description...</description>
+			</attribute>
+
+            <attribute name="transactionPurchaseIdentifierDescription" forceUppercase="true">
+                <label>Transaction Purchase Identifier Description</label>
+                <shortLabel>Description</shortLabel>
+
+                <maxLength>25</maxLength>
+
+                <control>
+                    <text size="27" />
+                </control>
+
+                <summary>transactionPurchaseIdentifierDescription</summary>
+                <description>transactionPurchaseIdentifierDescription description...</description>
+			</attribute>
+
+            <attribute name="transactionPurchaseIdentifierIndicator" forceUppercase="true">
+                <label>Transaction Purchase Identifier Indicator</label>
+                <shortLabel>Indicator</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>transactionPurchaseIdentifierIndicator</summary>
+                <description>transactionPurchaseIdentifierIndicator description...</description>
 			</attribute>
 
             <attribute name="transactionReferenceNumber" forceUppercase="true">
@@ -73,7 +188,6 @@
                 <shortLabel>Number</shortLabel>
 
                 <maxLength>23</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
 
                 <control>
                     <text size="25" />
@@ -83,20 +197,112 @@
                 <description>transactionReferenceNumber description...</description>
 			</attribute>
 
-            <attribute name="transactionVendorName" forceUppercase="true">
-                <label>Transaction Vendor Name</label>
-                <shortLabel>Name</shortLabel>
+            <attribute name="transactionSalesTaxAmount" forceUppercase="true">
+                <label>Transaction Sales Tax Amount</label>
+                <shortLabel>Amount</shortLabel>
 
-                <maxLength>25</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
 
                 <control>
-                    <text size="27" />
+                    <text size="21" />
                 </control>
 
-                <summary>transactionVendorName</summary>
-                <description>transactionVendorName description...</description>
+                <summary>transactionSalesTaxAmount</summary>
+                <description>transactionSalesTaxAmount description...</description>
 			</attribute>
+
+            <attribute name="transactionSettlementAmount" forceUppercase="true">
+                <label>Transaction Settlement Amount</label>
+                <shortLabel>Amount</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>transactionSettlementAmount</summary>
+                <description>transactionSettlementAmount description...</description>
+			</attribute>
+
+            <attribute name="transactionTaxExemptIndicator" forceUppercase="true">
+                <label>Transaction Tax Exempt Indicator</label>
+                <shortLabel>Indicator</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>transactionTaxExemptIndicator</summary>
+                <description>transactionTaxExemptIndicator description...</description>
+			</attribute>
+
+            <attribute name="transactionTravelAuthorizationCode" forceUppercase="true">
+                <label>Transaction Travel Authorization Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>50</maxLength>
+
+                <control>
+                    <text size="52" />
+                </control>
+
+                <summary>transactionTravelAuthorizationCode</summary>
+                <description>transactionTravelAuthorizationCode description...</description>
+			</attribute>
+
+            <attribute name="transactionUnitContactName" forceUppercase="true">
+                <label>Transaction Unit Contact Name</label>
+                <shortLabel>Name</shortLabel>
+
+                <maxLength>35</maxLength>
+
+                <control>
+                    <text size="37" />
+                </control>
+
+                <summary>transactionUnitContactName</summary>
+                <description>transactionUnitContactName description...</description>
+			</attribute>
+			
+            <attribute name="transactionCycleEndDate" forceUppercase="true">
+                <label>Transaction Cycle End Date</label>
+                <shortLabel>Date</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><date /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>transactionCycleEndDate</summary>
+                <description>transactionCycleEndDate description...</description>
+			</attribute>
+
+            <attribute name="transactionCycleStartDate" forceUppercase="true">
+                <label>Transaction Cycle Start Date</label>
+                <shortLabel>Date</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><date /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>transactionCycleStartDate</summary>
+                <description>transactionCycleStartDate description...</description>
+			</attribute>
+
+            <attributeReference name="versionNumber"
+            					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
+            					sourceAttributeName="versionNumber"/>
+
         </attributes>
     </businessObject>
 </dictionaryEntry>

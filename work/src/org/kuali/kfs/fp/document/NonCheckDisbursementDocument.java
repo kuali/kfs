@@ -22,13 +22,8 @@
  */
 package org.kuali.module.financial.document;
 
-import java.util.Iterator;
-
-import org.apache.commons.lang.StringUtils;
 import org.kuali.Constants;
-import org.kuali.core.bo.AccountingLineBase;
 import org.kuali.core.document.TransactionalDocumentBase;
-import org.kuali.core.util.KualiDecimal;
 
 /**
  * This is the business object that represents the NonCheckDisbursementDocument in Kuali.

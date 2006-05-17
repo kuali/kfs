@@ -24,7 +24,6 @@ package org.kuali.module.financial.service.impl;
 
 import java.io.File;
 import java.io.FilenameFilter;
-import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
@@ -49,7 +48,6 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.module.financial.bo.ProcurementCardTransaction;
 import org.kuali.module.financial.exceptions.NoTransactionsException;
 import org.kuali.module.financial.service.ProcurementCardLoadTransactionsService;
-import org.xml.sax.SAXException;
 
 /**
  * Implementation of ProcurementCardDocumentService

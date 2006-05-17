@@ -32,10 +32,6 @@ import java.util.LinkedHashMap;
 import org.kuali.Constants;
 import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.module.chart.bo.Account;
-import org.kuali.module.chart.bo.Chart;
-import org.kuali.module.chart.bo.ProjectCode;
-import org.kuali.module.chart.bo.SubAccount;
 
 /**
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)

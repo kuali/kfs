@@ -25,7 +25,6 @@
 
 package org.kuali.module.financial.document;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -35,13 +34,10 @@ import org.kuali.core.bo.SourceAccountingLine;
 import org.kuali.core.bo.TargetAccountingLine;
 import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.core.util.TypedArrayList;
-import org.kuali.module.chart.bo.Account;
-import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.financial.bo.ProcurementCardHolder;
 import org.kuali.module.financial.bo.ProcurementCardSourceAccountingLine;
 import org.kuali.module.financial.bo.ProcurementCardTargetAccountingLine;
 import org.kuali.module.financial.bo.ProcurementCardTransactionDetail;
-import org.kuali.module.financial.bo.ProcurementCardVendor;
 
 /**
  * This is the Procurement Card Document Class. The procurement cards distributes expenses from clearing accounts. It is a two-sided

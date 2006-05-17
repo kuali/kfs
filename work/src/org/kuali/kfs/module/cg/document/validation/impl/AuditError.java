@@ -22,7 +22,6 @@
  */
 package org.kuali.module.kra.util;
 
-import org.apache.commons.lang.ArrayUtils;
 
 public class AuditError {
     

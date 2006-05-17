@@ -52,7 +52,7 @@ public class CashDrawer extends BusinessObjectBase {
 
     private KualiDecimal financialDocumentHundredCentAmount;
     private KualiDecimal financialDocumentFiftyCentAmount;
-    private KualiDecimal financialDocumentTwentyfiveCentAmount;
+    private KualiDecimal financialDocumentTwentyFiveCentAmount;
     private KualiDecimal financialDocumentTenCentAmount;
     private KualiDecimal financialDocumentFiveCentAmount;
     private KualiDecimal financialDocumentOneCentAmount;
@@ -350,23 +350,23 @@ public class CashDrawer extends BusinessObjectBase {
 
 
     /**
-     * Gets the financialDocumentTwentyfiveCentAmount attribute.
+     * Gets the financialDocumentTwentyFiveCentAmount attribute.
      * 
-     * @return - Returns the financialDocumentTwentyfiveCentAmount
+     * @return - Returns the financialDocumentTwentyFiveCentAmount
      * 
      */
-    public KualiDecimal getFinancialDocumentTwentyfiveCentAmount() {
-        return financialDocumentTwentyfiveCentAmount;
+    public KualiDecimal getFinancialDocumentTwentyFiveCentAmount() {
+        return financialDocumentTwentyFiveCentAmount;
     }
 
     /**
-     * Sets the financialDocumentTwentyfiveCentAmount attribute.
+     * Sets the financialDocumentTwentyFiveCentAmount attribute.
      * 
-     * @param - financialDocumentTwentyfiveCentAmount The financialDocumentTwentyfiveCentAmount to set.
+     * @param - financialDocumentTwentyFiveCentAmount The financialDocumentTwentyFiveCentAmount to set.
      * 
      */
-    public void setFinancialDocumentTwentyfiveCentAmount(KualiDecimal financialDocumentTwentyfiveCentAmount) {
-        this.financialDocumentTwentyfiveCentAmount = financialDocumentTwentyfiveCentAmount;
+    public void setFinancialDocumentTwentyFiveCentAmount(KualiDecimal financialDocumentTwentyFiveCentAmount) {
+        this.financialDocumentTwentyFiveCentAmount = financialDocumentTwentyFiveCentAmount;
     }
 
 

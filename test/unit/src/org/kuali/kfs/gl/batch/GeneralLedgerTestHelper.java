@@ -62,7 +62,8 @@ public class GeneralLedgerTestHelper {
         List expectedOutputOriginEntries = new ArrayList();        
         String line = null;
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        char[] dateChars = dateFormat.format(date).toCharArray();
+        char[] dateChars = 
+            null == date ? null : dateFormat.format(date).toCharArray();
         
         while(null != (line = reader.readLine())) {
             // correct for differences in line format

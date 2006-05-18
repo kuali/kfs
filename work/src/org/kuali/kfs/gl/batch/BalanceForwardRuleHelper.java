@@ -26,6 +26,7 @@ import java.sql.Date;
 
 import org.kuali.Constants;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.module.chart.bo.ObjectType;
 import org.kuali.module.chart.bo.PriorYearAccount;
 import org.kuali.module.chart.bo.SubFundGroup;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
@@ -43,7 +44,7 @@ import org.kuali.module.gl.util.ObjectHelper;
  * @version $Id$
  */
 public class BalanceForwardRuleHelper {
-
+    
     private static org.apache.log4j.Logger LOG = 
         org.apache.log4j.Logger.getLogger(BalanceForwardRuleHelper.class);
     
@@ -865,10 +866,6 @@ public class BalanceForwardRuleHelper {
                           entry.setTransactionDebitCreditCode(
                                   wsFinancialObjectTypeDebitCreditCode);
                           
-                          if(null == wsFinancialObjectTypeDebitCreditCode) {
-                              boolean justForDebugging_canBeRemovedAtWill = false;
-                          }
-                          
                       }
               
 //              1277  008040     MOVE VAR-TRANSACTION-DT
@@ -1012,7 +1009,7 @@ public class BalanceForwardRuleHelper {
                           // NOTE (laran) These fields don't seem to do anything at all in the COBOL.
                   
 //              1322  008440       WRITE CLOSE-DATA FROM GLEN-RECORD
-                  
+                          
                           originEntryService.createEntry(
                                   entry, closedPriorYearAccountGroup);
                       
@@ -1277,7 +1274,7 @@ public class BalanceForwardRuleHelper {
                       }
                   
 //              1405  009270     IF TRN-LDGR-ENTR-AMT OF GLEN-RECORD < 0
-              
+                      
                       if(activeEntry.getTransactionLedgerEntryAmount().isNegative()) {
               
 //              1406  009280       IF FIN-BALANCE-TYP-CD OF GLEN-RECORD = 'AC'
@@ -1340,7 +1337,7 @@ public class BalanceForwardRuleHelper {
 //              1426  009430      ELSE
                   
                       } else {
-                  
+                          
 //              1427  009440       MOVE TRN-LDGR-ENTR-AMT TO WS-AMT-W-PERIOD
 //              1428  009450                                 WS-AMT-N
                   

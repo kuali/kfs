@@ -25,7 +25,6 @@
 
 package org.kuali.module.gl.batch;
 
-import java.io.PrintStream;
 import java.sql.Date;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -66,14 +65,6 @@ public class BalanceForwardStepTest extends OriginEntryTestBase {
         
         super.setUp();
         
-        // Get the test date time service so we can specify the date/time of the run
-//        Calendar c = Calendar.getInstance();
-//        c.set(Calendar.DAY_OF_MONTH, 5);
-//        c.set(Calendar.MONTH, Calendar.MAY);
-//        c.set(Calendar.YEAR, 2006);
-//        date = c.getTime();
-//        dateTimeService.currentDate = date;
-
         try {
             
             DateFormat transactionDateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -100,10 +91,6 @@ public class BalanceForwardStepTest extends OriginEntryTestBase {
         
     }
     
-    public void testToAvoidTestRunErrors() throws Exception {
-        assertTrue(true);
-    }
-    
     /**
      * Test the encumbrance forwarding process in one fell swoop.
      * 
@@ -119,57 +106,57 @@ public class BalanceForwardStepTest extends OriginEntryTestBase {
         BalanceTestHelper.populateBalanceTable();
 
         // Execute the step ...
-        // BalanceForwardStep step = new BalanceForwardStep();
         BalanceForwardStep step = 
             (BalanceForwardStep) beanFactory.getBean("glBalanceForwardStep"); 
-        // step.setDateTimeService(dateTimeService);
         step.performStep();
         
         // load our services.
-        OriginEntryService entryService = SpringServiceLocator.getOriginEntryService();
-        OriginEntryGroupService groupService = SpringServiceLocator.getOriginEntryGroupService();
+        OriginEntryService entryService = 
+            SpringServiceLocator.getOriginEntryService();
+        OriginEntryGroupService groupService = 
+            SpringServiceLocator.getOriginEntryGroupService();
         
         // and verify the output.
-        List normalEntriesGeneratedByFis = 
+        List fisGenerated = 
             GeneralLedgerTestHelper.loadOutputOriginEntriesFromClasspath(
-                    "org/kuali/module/gl/batch/gl_gleacbfb.data.txt", dateTimeService.currentDate);
-        List closedPriorYearAccountEntriesGeneratedByFis = 
-            GeneralLedgerTestHelper.loadOutputOriginEntriesFromClasspath(
-                    "org/kuali/module/gl/batch/gl_acbfclos.data.txt", dateTimeService.currentDate);
+                    "org/kuali/module/gl/batch/gl_gleacbfb.data.txt", 
+                    dateTimeService.currentDate);
         
         // load our groups.
         Map criteria = new HashMap();
         
         criteria.put("sourceCode", "YEBB");
-        Collection regularGroups = groupService.getMatchingGroups(criteria);
+        Collection kualiGeneratedNonClosedPriorYearAccountGroups = 
+            groupService.getMatchingGroups(criteria);
         
         criteria.put("sourceCode", "YEBC");
-        Collection closedPriorYearAccountGroups = groupService.getMatchingGroups(criteria);
+        Collection kualiGeneratedClosedPriorYearAccountGroups = 
+            groupService.getMatchingGroups(criteria);
         
         // compute the difference between what should be output and what was output.
-        List extraRegularEntriesGenerated = new ArrayList();
+        List kualiGeneratedEntriesNotGeneratedByFis = new ArrayList();
         
-        Iterator regularGroupsIterator = regularGroups.iterator();
-        while(regularGroupsIterator.hasNext()) {
+        Iterator kualiGeneratedNonClosedPriorYearAccountGroupIterator = 
+            kualiGeneratedNonClosedPriorYearAccountGroups.iterator();
+        while(kualiGeneratedNonClosedPriorYearAccountGroupIterator.hasNext()) {
             
-            OriginEntryGroup group = (OriginEntryGroup) regularGroupsIterator.next();
+            OriginEntryGroup kualiGroup = 
+                (OriginEntryGroup) kualiGeneratedNonClosedPriorYearAccountGroupIterator.next();
             
-            Iterator entryIterator = entryService.getEntriesByGroup(group);
+            Iterator kualiGeneratedNonClosedPriorYearAccountEntryIterator = 
+                entryService.getEntriesByGroup(kualiGroup);
             
-            while(entryIterator.hasNext()) {
+            while(kualiGeneratedNonClosedPriorYearAccountEntryIterator.hasNext()) {
                 
-                OriginEntry entry = (OriginEntry) entryIterator.next();
-                String line = entry.getLine();
+                OriginEntry entry = 
+                    (OriginEntry) kualiGeneratedNonClosedPriorYearAccountEntryIterator.next();
+                String kualiEntryLine = entry.getLine();
                 
-                try {
-                    line = line.substring(0, 173);
-                } catch(StringIndexOutOfBoundsException e) {
-                    throw e;
-                }
+                kualiEntryLine = kualiEntryLine.substring(0, 173);
                 
-                if(!normalEntriesGeneratedByFis.remove(line)) {
+                if(!fisGenerated.remove(kualiEntryLine)) {
                     
-                    extraRegularEntriesGenerated.add(line);
+                    kualiGeneratedEntriesNotGeneratedByFis.add(kualiEntryLine);
                     
                 }
                 
@@ -177,12 +164,12 @@ public class BalanceForwardStepTest extends OriginEntryTestBase {
             
         }
         
-        List closedPriorYearAccountEntriesGenerated = new ArrayList();
-        
-        Iterator closedPriorYearAccountGroupsIterator = closedPriorYearAccountGroups.iterator();
+        Iterator closedPriorYearAccountGroupsIterator = 
+            kualiGeneratedClosedPriorYearAccountGroups.iterator();
         while(closedPriorYearAccountGroupsIterator.hasNext()) {
             
-            OriginEntryGroup group = (OriginEntryGroup) closedPriorYearAccountGroupsIterator.next();
+            OriginEntryGroup group = 
+                (OriginEntryGroup) closedPriorYearAccountGroupsIterator.next();
             
             Iterator entryIterator = entryService.getEntriesByGroup(group);
             while(entryIterator.hasNext()) {
@@ -190,9 +177,9 @@ public class BalanceForwardStepTest extends OriginEntryTestBase {
                 OriginEntry entry = (OriginEntry) entryIterator.next();
                 String line = entry.getLine().substring(0, 173);
                 
-                if(!closedPriorYearAccountEntriesGeneratedByFis.remove(line)) {
+                if(!fisGenerated.remove(line)) {
                     
-                    closedPriorYearAccountEntriesGenerated.add(line);
+                    kualiGeneratedEntriesNotGeneratedByFis.add(line);
                     
                 }
                 
@@ -200,36 +187,16 @@ public class BalanceForwardStepTest extends OriginEntryTestBase {
             
         }
         
-        traceList(extraRegularEntriesGenerated, "kuali not fis");
-        traceList(normalEntriesGeneratedByFis, "fis not kuali");
+        traceList(kualiGeneratedEntriesNotGeneratedByFis, "kuali not fis");
+        traceList(fisGenerated, "fis not kuali");
         
         // At this point extraEntriesGenerated and shouldBe should both be empty.
         // If they're not then something went wrong.
-        assertTrue("Kuali generated entries that FIS did not generate:", extraRegularEntriesGenerated.isEmpty());
-        assertTrue("FIS generated entries that Kuali did not generate:", normalEntriesGeneratedByFis.isEmpty());
+        assertTrue("Kuali generated entries that FIS did not generate:", 
+                kualiGeneratedEntriesNotGeneratedByFis.isEmpty());
+        assertTrue("FIS generated entries that Kuali did not generate:", 
+                fisGenerated.isEmpty());
         
-    }
-
-    private void traceList(List list, String name) {
-        trace("StartList " + name + "( " 
-                + list.size() + " elements): ", 0);
-        
-        for(Iterator iterator = list.iterator(); iterator.hasNext();) {
-            trace(iterator.next(), 1);
-        }
-        
-        trace("EndList " + name + ": ", 0);
-        trace("", 0);
-    }
-    
-    private void trace(Object o, int tabIndentCount) {
-        PrintStream out = System.out;
-        
-        for(int i = 0; i < tabIndentCount; i++) {
-            out.print("\t");
-        }
-        
-        out.println(null == o ? "NULL" : o.toString());
     }
     
 }

@@ -292,6 +292,7 @@ public class YearEndServiceImpl implements YearEndService {
         int nonFatalCount = 0;
 
         boolean nonFatalErrorFlag = false;
+        int debugNumberSelected = 0;
         
         while(balanceIterator.hasNext()) {
             
@@ -318,6 +319,7 @@ public class YearEndServiceImpl implements YearEndService {
 //            791  004740     IF WS-SELECT-YES
             
                 if(selectYes) {
+                    debugNumberSelected++;
                     
                     LOG.debug("Balance selected.");
                     
@@ -1113,6 +1115,9 @@ public class YearEndServiceImpl implements YearEndService {
 //        783  004660     GO TO FETCH-CURSOR.
             
         }
+        
+        LOG.info("Number selected: " + debugNumberSelected);
+        LOG.info("Number read    : " + globalReadCount);
         
 //        784  004670 2000-DRIVER-EXIT.
 //        785  004680     EXIT.

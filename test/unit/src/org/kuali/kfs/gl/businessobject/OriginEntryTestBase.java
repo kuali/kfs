@@ -22,6 +22,7 @@
  */
 package org.kuali.module.gl;
 
+import java.io.PrintStream;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
@@ -43,7 +44,7 @@ import org.springframework.beans.factory.BeanFactory;
 
 /**
  * @author Kuali General Ledger Team (kualigltech@oncourse.iu.edu)
- * @version $Id: OriginEntryTestBase.java,v 1.16 2006-05-18 15:14:45 larevans Exp $
+ * @version $Id: OriginEntryTestBase.java,v 1.17 2006-05-18 19:33:08 larevans Exp $
  */
 public class OriginEntryTestBase extends KualiTestBaseWithSpringOnly {
   private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OriginEntryTestBase.class);
@@ -297,4 +298,28 @@ public class OriginEntryTestBase extends KualiTestBaseWithSpringOnly {
     unitTestSqlDao.sqlCommand("insert into fs_parm_t (fs_scr_nm,fs_parm_nm,obj_id,ver_nbr,fs_parm_txt,fs_parm_desc,fs_mult_val_ind," +
         "fs_parm_oper,fs_active_ind) values ('SYSTEM','" + name + "',SYS_GUID(),1,'" + (value ? "Y" : "N") + "','Y','N',null,'Y')");    
   }
+  
+
+  protected void traceList(List list, String name) {
+      trace("StartList " + name + "( " 
+              + list.size() + " elements): ", 0);
+      
+      for(Iterator iterator = list.iterator(); iterator.hasNext();) {
+          trace(iterator.next(), 1);
+      }
+      
+      trace("EndList " + name + ": ", 0);
+      trace("", 0);
+  }
+  
+  protected void trace(Object o, int tabIndentCount) {
+      PrintStream out = System.out;
+      
+      for(int i = 0; i < tabIndentCount; i++) {
+          out.print("\t");
+      }
+      
+      out.println(null == o ? "NULL" : o.toString());
+  }
+  
 }

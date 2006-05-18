@@ -26,16 +26,23 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 /**
- * @author Laran Evans <lc278@cornell.edu>
+ * @author Kuali General Ledger Team (kualigltech@oncourse.iu.edu)
  * @version $Id$
  */
-
 public class GeneralLedgerTestHelper {
 
+    static public List loadOutputOriginEntriesFromClasspath(String nameOfOutputOriginEntryFileFromFis) throws IOException {
+        return loadOutputOriginEntriesFromClasspath(nameOfOutputOriginEntryFileFromFis, null);
+    }
+    
     /**
      * This method differs from OriginEntryServiceImpl.loadFlatFile in that it loads a file using a classloader
      * instead of loading a file from an absolute file path. This allows and in fact requires that the file
@@ -45,7 +52,7 @@ public class GeneralLedgerTestHelper {
      * @return
      * @throws IOException
      */
-    static public List loadOutputOriginEntriesFromClasspath(String nameOfOutputOriginEntryFileFromFis) throws IOException {
+    static public List loadOutputOriginEntriesFromClasspath(String nameOfOutputOriginEntryFileFromFis, Date date) throws IOException {
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         InputStream inputStream = 
             classLoader.getResourceAsStream(nameOfOutputOriginEntryFileFromFis);
@@ -54,9 +61,15 @@ public class GeneralLedgerTestHelper {
         
         List expectedOutputOriginEntries = new ArrayList();        
         String line = null;
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        char[] dateChars = dateFormat.format(date).toCharArray();
+        
         while(null != (line = reader.readLine())) {
             // correct for differences in line format
-            char[] lineChars = line.toCharArray();
+            char[] lineChars = new char[173];
+            Arrays.fill(lineChars, ' ');
+            char[] lineA = line.toCharArray();
+            System.arraycopy(lineA, 0, lineChars, 0, lineA.length);
             lineChars[91] = ' ';
             int idx = 92;
             do {
@@ -67,9 +80,18 @@ public class GeneralLedgerTestHelper {
                 }
             } while(103 > idx++);
             
+            if(null != date) { // splice in the date
+                
+                for(int i = 0; i < dateChars.length; i++) {
+                    lineChars[109 + i] = dateChars[i];
+                }
+                
+            }
+            
             String lin2 = new String(lineChars);
             expectedOutputOriginEntries.add(lin2);
         }
+        
         return expectedOutputOriginEntries;
     }
         

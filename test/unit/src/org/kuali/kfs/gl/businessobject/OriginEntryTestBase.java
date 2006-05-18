@@ -41,6 +41,10 @@ import org.kuali.module.gl.dao.UnitTestSqlDao;
 import org.kuali.test.KualiTestBaseWithSpringOnly;
 import org.springframework.beans.factory.BeanFactory;
 
+/**
+ * @author Kuali General Ledger Team (kualigltech@oncourse.iu.edu)
+ * @version $Id: OriginEntryTestBase.java,v 1.16 2006-05-18 15:14:45 larevans Exp $
+ */
 public class OriginEntryTestBase extends KualiTestBaseWithSpringOnly {
   private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OriginEntryTestBase.class);
 

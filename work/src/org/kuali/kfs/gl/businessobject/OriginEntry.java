@@ -45,8 +45,8 @@ import org.kuali.module.chart.bo.SubObjCd;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
 
 /**
- * @author jsissom
- * 
+ * @author Kuali General Ledger Team (kualigltech@oncourse.iu.edu)
+ * @version $Id: OriginEntry.java,v 1.24 2006-05-18 15:14:44 larevans Exp $
  */
 public class OriginEntry extends BusinessObjectBase implements Transaction {
     static final long serialVersionUID = -2498312988235747448L;
@@ -322,6 +322,10 @@ public class OriginEntry extends BusinessObjectBase implements Transaction {
       sb.append(getField(9,referenceFinancialDocumentNumber));
       sb.append(formatDate(financialDocumentReversalDate));
       sb.append(getField(1,transactionEncumbranceUpdateCode));
+      // pad to full length of 173 chars.
+      while(173 > sb.toString().length()) {
+          sb.append(' ');
+      }
       return sb.toString();
     }
 

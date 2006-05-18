@@ -36,6 +36,8 @@ import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.module.chart.service.BalanceTypService;
 import org.kuali.module.chart.service.ObjectTypeService;
+import org.kuali.module.chart.service.PriorYearAccountService;
+import org.kuali.module.chart.service.SubFundGroupService;
 import org.kuali.module.gl.batch.closing.year.reporting.BalanceForwardReport;
 import org.kuali.module.gl.batch.closing.year.reporting.EncumbranceClosingReport;
 import org.kuali.module.gl.batch.closing.year.service.YearEndService;
@@ -57,10 +59,9 @@ import org.kuali.module.gl.util.OriginEntryOffsetPair;
 import org.kuali.module.gl.util.Summary;
 
 /**
- * @author Laran Evans <lc278@cornell.edu>
+ * @author Kuali General Ledger Team (kualigltech@oncourse.iu.edu)
  * @version $Id$
  */
-
 public class YearEndServiceImpl implements YearEndService {
     
     private static org.apache.log4j.Logger LOG = 
@@ -76,8 +77,10 @@ public class YearEndServiceImpl implements YearEndService {
     private BalanceTypService balanceTypeService;
     private ObjectTypeService objectTypeService;
     private KualiConfigurationService kualiConfigurationService;
+    private PriorYearAccountService priorYearAccountService;
+    private SubFundGroupService subFundGroupService;
     
-    private EncumbranceClosingRuleHelper yearEndEncumbranceClosingRuleHelper;
+    private EncumbranceClosingRuleHelper encumbranceClosingRuleHelper;
     
     public YearEndServiceImpl() {
         super();
@@ -1267,6 +1270,10 @@ public class YearEndServiceImpl implements YearEndService {
                     varFiscalYear, varTransactionDate, 
                     closedPriorYearAccountGroup, unclosedPriorYearAccountGroup);
         
+        balanceForwardRuleHelper.setPriorYearAccountService(priorYearAccountService);
+        balanceForwardRuleHelper.setSubFundGroupService(subFundGroupService);
+        balanceForwardRuleHelper.setOriginEntryService(originEntryService);
+        
         Iterator<Balance> balanceIterator = 
             balanceService.findBalancesForFiscalYear(varFiscalYear);
         int fakeCounter = 0;
@@ -1358,7 +1365,7 @@ public class YearEndServiceImpl implements YearEndService {
             Encumbrance encumbrance = (Encumbrance) encumbranceIterator.next();
             encumbrancesRead++;
             
-            if (yearEndEncumbranceClosingRuleHelper.anEntryShouldBeCreatedForThisEncumbrance(encumbrance)) {
+            if (encumbranceClosingRuleHelper.anEntryShouldBeCreatedForThisEncumbrance(encumbrance)) {
                 
                 encumbrancesSelected++;
                 
@@ -1389,7 +1396,7 @@ public class YearEndServiceImpl implements YearEndService {
                 try {
                     
                     isEligibleForCostShare = 
-                        yearEndEncumbranceClosingRuleHelper.isEncumbranceEligibleForCostShare(
+                        encumbranceClosingRuleHelper.isEncumbranceEligibleForCostShare(
 							beginningBalanceEntryPair.getEntry(), beginningBalanceEntryPair.getOffset(),
                             encumbrance, beginningBalanceEntryPair.getEntry().getFinancialObjectTypeCode());
                     
@@ -1502,8 +1509,8 @@ public class YearEndServiceImpl implements YearEndService {
     /**
      * @param yearEndEncumbranceClosingRuleHelper
      */
-    public void setYearEndEncumbranceClosingRuleHelper(EncumbranceClosingRuleHelper yearEndEncumbranceClosingRuleHelper) {
-        this.yearEndEncumbranceClosingRuleHelper = yearEndEncumbranceClosingRuleHelper;
+    public void setEncumbranceClosingRuleHelper(EncumbranceClosingRuleHelper encumbranceClosingRuleHelper) {
+        this.encumbranceClosingRuleHelper = encumbranceClosingRuleHelper;
     }
 
     /**
@@ -1533,5 +1540,20 @@ public class YearEndServiceImpl implements YearEndService {
     public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
     }
+
+    /**
+     * @param priorYearAccountService
+     */
+    public void setPriorYearAccountService(PriorYearAccountService priorYearAccountService) {
+        this.priorYearAccountService = priorYearAccountService;
+    }
+    
+    /**
+     * @param subFundGroupService
+     */
+    public void setSubFundGroupService(SubFundGroupService subFundGroupService) {
+        this.subFundGroupService = subFundGroupService;
+    }
+    
     
 }

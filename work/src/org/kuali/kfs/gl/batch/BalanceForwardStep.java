@@ -26,7 +26,7 @@ import org.kuali.core.batch.Step;
 import org.kuali.module.gl.batch.closing.year.service.YearEndService;
 
 /**
- * @author Laran Evans <lc278@cornell.edu>
+ * @author Kuali General Ledger Team (kualigltech@oncourse.iu.edu)
  * @version $Id$
  */
 public class BalanceForwardStep implements Step {

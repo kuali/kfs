@@ -23,14 +23,9 @@
 package org.kuali.module.financial.document;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
-import org.kuali.Constants;
-import org.kuali.core.bo.SourceAccountingLine;
 import org.kuali.core.document.TransactionalDocumentTestBase;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.test.parameters.AccountingLineParameter;
 import org.kuali.test.parameters.DocumentParameter;
 import org.kuali.test.parameters.TransactionalDocumentParameter;
 

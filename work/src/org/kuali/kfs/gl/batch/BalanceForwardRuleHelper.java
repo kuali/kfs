@@ -26,7 +26,6 @@ import java.sql.Date;
 
 import org.kuali.Constants;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.module.chart.bo.ObjectType;
 import org.kuali.module.chart.bo.PriorYearAccount;
 import org.kuali.module.chart.bo.SubFundGroup;
 import org.kuali.module.chart.bo.codes.BalanceTyp;

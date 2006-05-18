@@ -23,5 +23,6 @@
 				</c:otherwise>
 			</c:choose>
 		</c:if>
+		<br/>
 	</c:forEach>
 </c:if>

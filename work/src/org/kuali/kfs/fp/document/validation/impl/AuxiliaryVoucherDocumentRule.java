@@ -28,8 +28,6 @@ import java.util.Calendar;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.Constants;
-import org.kuali.KeyConstants;
-import org.kuali.PropertyConstants;
 import org.kuali.core.bo.AccountingLine;
 import org.kuali.core.bo.KualiCodeBase;
 import org.kuali.core.document.Document;
@@ -47,13 +45,37 @@ import org.kuali.module.chart.service.AccountingPeriodService;
 import org.kuali.module.financial.document.AuxiliaryVoucherDocument;
 import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 
+import static org.kuali.Constants.ACCOUNTING_LINE_ERRORS;
+import static org.kuali.Constants.ACCOUNTING_PERIOD_STATUS_CODE_FIELD;
+import static org.kuali.Constants.ACCOUNTING_PERIOD_STATUS_CLOSED;
+import static org.kuali.Constants.CREDIT_AMOUNT_PROPERTY_NAME;
+import static org.kuali.Constants.DEBIT_AMOUNT_PROPERTY_NAME;
+import static org.kuali.Constants.DOCUMENT_ERRORS;
+import static org.kuali.Constants.JOURNAL_LINE_HELPER_CREDIT_PROPERTY_NAME;
+import static org.kuali.Constants.JOURNAL_LINE_HELPER_DEBIT_PROPERTY_NAME;
+import static org.kuali.Constants.JOURNAL_LINE_HELPER_PROPERTY_NAME;
+import static org.kuali.Constants.NEW_SOURCE_ACCT_LINE_PROPERTY_NAME;
+import static org.kuali.Constants.SQUARE_BRACKET_LEFT;
+import static org.kuali.Constants.SQUARE_BRACKET_RIGHT;
+import static org.kuali.KeyConstants.ERROR_CUSTOM;
+import static org.kuali.KeyConstants.ERROR_DOCUMENT_ACCOUNTING_PERIOD_CLOSED;
+import static org.kuali.KeyConstants.ERROR_DOCUMENT_ACCOUNTING_PERIOD_THREE_OPEN;
+import static org.kuali.KeyConstants.ERROR_DOCUMENT_ACCOUNTING_TWO_PERIODS;
+import static org.kuali.KeyConstants.ERROR_DOCUMENT_BALANCE;
+import static org.kuali.KeyConstants.ERROR_DOCUMENT_AV_INCORRECT_FISCAL_YEAR_AVRC;
+import static org.kuali.KeyConstants.ERROR_DOCUMENT_AV_INCORRECT_POST_PERIOD_AVRC;
+import static org.kuali.KeyConstants.ERROR_DOCUMENT_INCORRECT_OBJ_CODE_WITH_SUB_TYPE_OBJ_LEVEL_AND_OBJ_TYPE;
+import static org.kuali.KeyConstants.ERROR_DOCUMENT_INCORRECT_REVERSAL_DATE;
+import static org.kuali.KeyConstants.ERROR_ZERO_OR_NEGATIVE_AMOUNT;
+import static org.kuali.KeyConstants.AuxiliaryVoucher.ERROR_DOCUMENT_AUXILIARY_VOUCHER_INVALID_OBJECT_SUB_TYPE_CODE;
+import static org.kuali.PropertyConstants.FINANCIAL_OBJECT_CODE;
+import static org.kuali.module.financial.rules.AuxiliaryVoucherDocumentRuleConstants.*;
+
 /**
  * This class...
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
-public class AuxiliaryVoucherDocumentRule 
-    extends TransactionalDocumentRuleBase 
-    implements AuxiliaryVoucherDocumentRuleConstants {
+public class AuxiliaryVoucherDocumentRule extends TransactionalDocumentRuleBase {
     //TODO refactor and move up to parent class
     private static final KualiDecimal ZERO = new KualiDecimal(0);
     private static final String AUX_VOUCHER_ADJUSTMENT_DOC_TYPE = "AVAD";
@@ -115,9 +137,9 @@ public class AuxiliaryVoucherDocumentRule
         // check for negative or zero amounts
         if (ZERO.compareTo(amount) == 0) { // if 0
             GlobalVariables.getErrorMap().putWithoutFullErrorPath(buildErrorMapKeyPathForDebitCreditAmount(true),
-                                                                  KeyConstants.ERROR_ZERO_OR_NEGATIVE_AMOUNT, "an accounting line");
+                                                                  ERROR_ZERO_OR_NEGATIVE_AMOUNT, "an accounting line");
             GlobalVariables.getErrorMap().putWithoutFullErrorPath(buildErrorMapKeyPathForDebitCreditAmount(false),
-                                                                  KeyConstants.ERROR_ZERO_OR_NEGATIVE_AMOUNT, "an accounting line");
+                                                                  ERROR_ZERO_OR_NEGATIVE_AMOUNT, "an accounting line");
             
             retval = false;
         }
@@ -125,11 +147,11 @@ public class AuxiliaryVoucherDocumentRule
             String debitCreditCode = accountingLine.getDebitCreditCode();
             if (StringUtils.isNotBlank(debitCreditCode) && GENERAL_LEDGER_PENDING_ENTRY_CODE.DEBIT.equals(debitCreditCode)) {
                 GlobalVariables.getErrorMap().putWithoutFullErrorPath(buildErrorMapKeyPathForDebitCreditAmount(true),
-                                                                      KeyConstants.ERROR_ZERO_OR_NEGATIVE_AMOUNT, "an accounting line");
+                                                                      ERROR_ZERO_OR_NEGATIVE_AMOUNT, "an accounting line");
             }
             else {
                 GlobalVariables.getErrorMap().putWithoutFullErrorPath(buildErrorMapKeyPathForDebitCreditAmount(false),
-                                                                      KeyConstants.ERROR_ZERO_OR_NEGATIVE_AMOUNT, "an accounting line");
+																	  ERROR_ZERO_OR_NEGATIVE_AMOUNT, "an accounting line");
             }
             
             retval = false;
@@ -147,28 +169,28 @@ public class AuxiliaryVoucherDocumentRule
      */
     private String buildErrorMapKeyPathForDebitCreditAmount(boolean isDebit) {
         // determine if we are looking at a new line add or an update
-        boolean isNewLineAdd = GlobalVariables.getErrorMap().getErrorPath().contains(Constants.NEW_SOURCE_ACCT_LINE_PROPERTY_NAME);
-        isNewLineAdd |= GlobalVariables.getErrorMap().getErrorPath().contains(Constants.NEW_SOURCE_ACCT_LINE_PROPERTY_NAME);
+        boolean isNewLineAdd = GlobalVariables.getErrorMap().getErrorPath().contains(NEW_SOURCE_ACCT_LINE_PROPERTY_NAME);
+        isNewLineAdd |= GlobalVariables.getErrorMap().getErrorPath().contains(NEW_SOURCE_ACCT_LINE_PROPERTY_NAME);
 
         if (isNewLineAdd) {
             if (isDebit) {
-                return Constants.DEBIT_AMOUNT_PROPERTY_NAME;
+                return DEBIT_AMOUNT_PROPERTY_NAME;
             }
             else {
-                return Constants.CREDIT_AMOUNT_PROPERTY_NAME;
+                return CREDIT_AMOUNT_PROPERTY_NAME;
             }
         }
         else {
             String index = StringUtils.substringBetween(GlobalVariables.getErrorMap().getKeyPath("", true),
-                    Constants.SQUARE_BRACKET_LEFT, Constants.SQUARE_BRACKET_RIGHT);
-            String indexWithParams = Constants.SQUARE_BRACKET_LEFT + index + Constants.SQUARE_BRACKET_RIGHT;
+                    SQUARE_BRACKET_LEFT, SQUARE_BRACKET_RIGHT);
+            String indexWithParams = SQUARE_BRACKET_LEFT + index + SQUARE_BRACKET_RIGHT;
             if (isDebit) {
-                return Constants.JOURNAL_LINE_HELPER_PROPERTY_NAME + indexWithParams
-                        + Constants.JOURNAL_LINE_HELPER_DEBIT_PROPERTY_NAME;
+                return JOURNAL_LINE_HELPER_PROPERTY_NAME + indexWithParams
+                        + JOURNAL_LINE_HELPER_DEBIT_PROPERTY_NAME;
             }
             else {
-                return Constants.JOURNAL_LINE_HELPER_PROPERTY_NAME + indexWithParams
-                        + Constants.JOURNAL_LINE_HELPER_CREDIT_PROPERTY_NAME;
+                return JOURNAL_LINE_HELPER_PROPERTY_NAME + indexWithParams
+                        + JOURNAL_LINE_HELPER_CREDIT_PROPERTY_NAME;
             }
 
         }
@@ -189,7 +211,7 @@ public class AuxiliaryVoucherDocumentRule
         KualiDecimal ZERO = new KualiDecimal(0);
         if(!(ZERO.compareTo(document.getTotal()) == 0)) {
             GlobalVariables.getErrorMap()
-                .put(Constants.ACCOUNTING_LINE_ERRORS, KeyConstants.ERROR_DOCUMENT_BALANCE);
+                .put(ACCOUNTING_LINE_ERRORS, ERROR_DOCUMENT_BALANCE);
             return false;
         }
         return true;
@@ -217,7 +239,7 @@ public class AuxiliaryVoucherDocumentRule
             postingPeriodInt = Integer.valueOf(postingPeriodString);
         } catch (NumberFormatException nfe) {
             GlobalVariables.getErrorMap()
-                .put(Constants.ACCOUNTING_PERIOD_STATUS_CODE_FIELD, KeyConstants.ERROR_CUSTOM, "You have entered an incorrect posting period, it must be a number between 1 and 13.");
+                .put(ACCOUNTING_PERIOD_STATUS_CODE_FIELD, ERROR_CUSTOM, "You have entered an incorrect posting period, it must be a number between 1 and 13.");
             return false;
         }
         
@@ -403,8 +425,8 @@ public class AuxiliaryVoucherDocumentRule
                 accountingLine.getObjectCode().getFinancialObjectLevel().getFinancialObjectLevelCode()
             };
             GlobalVariables.getErrorMap()
-                .put(Constants.ACCOUNTING_LINE_ERRORS, 
-                     KeyConstants.ERROR_DOCUMENT_INCORRECT_OBJ_CODE_WITH_SUB_TYPE_OBJ_LEVEL_AND_OBJ_TYPE, 
+                .put(ACCOUNTING_LINE_ERRORS, 
+                     ERROR_DOCUMENT_INCORRECT_OBJ_CODE_WITH_SUB_TYPE_OBJ_LEVEL_AND_OBJ_TYPE, 
                      errorObjects);
         }
         
@@ -447,7 +469,7 @@ public class AuxiliaryVoucherDocumentRule
                     ts = revDate;
                 } else {
                     GlobalVariables.getErrorMap()
-                        .put("document.reversalDate", KeyConstants.ERROR_DOCUMENT_INCORRECT_REVERSAL_DATE);
+                        .put("document.reversalDate", ERROR_DOCUMENT_INCORRECT_REVERSAL_DATE);
                     return false;
                 }
             } else {
@@ -477,9 +499,9 @@ public class AuxiliaryVoucherDocumentRule
         AccountingPeriod acctPeriod = perService.getByPeriod(new Integer(period).toString(), new Integer(year));
         
         //can't post into a closed period
-        if(acctPeriod.getUniversityFiscalPeriodStatusCode().equalsIgnoreCase(Constants.ACCOUNTING_PERIOD_STATUS_CLOSED)) {
+        if(acctPeriod.getUniversityFiscalPeriodStatusCode().equalsIgnoreCase(ACCOUNTING_PERIOD_STATUS_CLOSED)) {
             GlobalVariables.getErrorMap()
-                .put(Constants.DOCUMENT_ERRORS, KeyConstants.ERROR_DOCUMENT_ACCOUNTING_PERIOD_CLOSED);
+                .put(DOCUMENT_ERRORS, ERROR_DOCUMENT_ACCOUNTING_PERIOD_CLOSED);
             return false;
         }
         
@@ -491,7 +513,7 @@ public class AuxiliaryVoucherDocumentRule
         if(currPeriodVal == 1) {
             if(period < 11) {
                 GlobalVariables.getErrorMap()
-                    .put(Constants.DOCUMENT_ERRORS, KeyConstants.ERROR_DOCUMENT_ACCOUNTING_PERIOD_THREE_OPEN);
+                    .put(DOCUMENT_ERRORS, ERROR_DOCUMENT_ACCOUNTING_PERIOD_THREE_OPEN);
                 return false;
             }
         }
@@ -500,7 +522,7 @@ public class AuxiliaryVoucherDocumentRule
         if(period < currPeriodVal) {
             if((currPeriodVal - period) > 2) {
                 GlobalVariables.getErrorMap()
-                    .put(Constants.DOCUMENT_ERRORS, KeyConstants.ERROR_DOCUMENT_ACCOUNTING_TWO_PERIODS);
+                    .put(DOCUMENT_ERRORS, ERROR_DOCUMENT_ACCOUNTING_TWO_PERIODS);
                 return false;
             }
         } else {
@@ -509,12 +531,12 @@ public class AuxiliaryVoucherDocumentRule
             //if not then error out
             if(currPeriodVal != 2) {
                 GlobalVariables.getErrorMap()
-                    .put(Constants.DOCUMENT_ERRORS, KeyConstants.ERROR_DOCUMENT_ACCOUNTING_TWO_PERIODS);
+                    .put(DOCUMENT_ERRORS, ERROR_DOCUMENT_ACCOUNTING_TWO_PERIODS);
                 return false;
             } else {
                 if(period != 13) {
                     GlobalVariables.getErrorMap()
-                        .put(Constants.DOCUMENT_ERRORS, KeyConstants.ERROR_DOCUMENT_ACCOUNTING_TWO_PERIODS);
+                        .put(DOCUMENT_ERRORS, ERROR_DOCUMENT_ACCOUNTING_TWO_PERIODS);
                     return false;
                 }
             }
@@ -527,17 +549,17 @@ public class AuxiliaryVoucherDocumentRule
             int currFiscalYear = currPeriod.getUniversityFiscalYear().intValue();
             if(!(currFiscalYear < year)) {
                 GlobalVariables.getErrorMap()
-                    .put(Constants.DOCUMENT_ERRORS, KeyConstants.ERROR_DOCUMENT_AV_INCORRECT_FISCAL_YEAR_AVRC);
+                    .put(DOCUMENT_ERRORS, ERROR_DOCUMENT_AV_INCORRECT_FISCAL_YEAR_AVRC);
                 return false;
             }
             //check the posting period, throw out if period 13
             if(period > 12) {
                 GlobalVariables.getErrorMap()
-                    .put(Constants.DOCUMENT_ERRORS, KeyConstants.ERROR_DOCUMENT_AV_INCORRECT_POST_PERIOD_AVRC);
+                    .put(DOCUMENT_ERRORS, ERROR_DOCUMENT_AV_INCORRECT_POST_PERIOD_AVRC);
                 return false;
             } else if(period < 1) {
                 GlobalVariables.getErrorMap()
-                    .put(Constants.DOCUMENT_ERRORS, KeyConstants.ERROR_CUSTOM, "You have entered an incorrect posting period, it must be a number between 1 and 13.");
+                    .put(DOCUMENT_ERRORS, ERROR_CUSTOM, "You have entered an incorrect posting period, it must be a number between 1 and 13.");
                 return false;
             }
         }
@@ -565,9 +587,8 @@ public class AuxiliaryVoucherDocumentRule
         if (!valid) {
             // add message
             GlobalVariables.getErrorMap()
-                .put(PropertyConstants.FINANCIAL_OBJECT_CODE,
-                     KeyConstants.AuxiliaryVoucher
-                     .ERROR_DOCUMENT_AUXILIARY_VOUCHER_INVALID_OBJECT_SUB_TYPE_CODE,
+                .put(FINANCIAL_OBJECT_CODE,
+					 ERROR_DOCUMENT_AUXILIARY_VOUCHER_INVALID_OBJECT_SUB_TYPE_CODE,
                      new String[] {objectCode.getFinancialObjectCode(), 
                                    objectCode.getFinancialObjectSubTypeCode()});
         }
@@ -589,8 +610,8 @@ public class AuxiliaryVoucherDocumentRule
                               accountingPeriod.getUniversityFiscalPeriodCode());
         if (!valid) {
             GlobalVariables.getErrorMap()
-                .put(Constants.ACCOUNTING_PERIOD_STATUS_CODE_FIELD, 
-                     KeyConstants.ERROR_CUSTOM, 
+                .put(ACCOUNTING_PERIOD_STATUS_CODE_FIELD, 
+                     ERROR_CUSTOM, 
                      "You have entered an incorrect posting period, it must be a number between 1 and 13.");
         }
 

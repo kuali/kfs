@@ -335,8 +335,8 @@
 		</copy>
 		<copy todir="${batch.lib.directory}">
 			<fileset dir="${lib.directory}"/>
+			<fileset dir="${build.appserver.directory}"/>
 			<fileset file="${appserver.lib.dir}/servlet-api.jar"/>
-			<fileset file="${appserver.lib.dir}/${oracle.library.file}"/>
 		</copy>
 		<zip basedir="${batch.directory}" destfile="${ant.project.name}-${build.environment}.zip"/>
 	</target>

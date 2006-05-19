@@ -31,16 +31,41 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.Constants;
 import org.kuali.PropertyConstants;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.Timer;
 import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.module.financial.bo.CreditCardDetail;
+import org.kuali.module.financial.document.CashReceiptDocument;
 import org.kuali.module.financial.document.CreditCardReceiptDocument;
+import org.kuali.module.financial.rules.CashReceiptDocumentRuleUtil;
 import org.kuali.module.financial.rules.CreditCardReceiptDocumentRuleUtil;
+import org.kuali.module.financial.web.struts.form.CashReceiptForm;
 import org.kuali.module.financial.web.struts.form.CreditCardReceiptForm;
 
 /**
+ * This is the action class for the CreditCardReceiptDocument.
+ * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class CreditCardReceiptAction extends KualiTransactionalDocumentActionBase {
+    /**
+     * Adds handling for credit card receipt amount updates.
+     * 
+     * @see org.apache.struts.action.Action#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm,
+     *      javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        CreditCardReceiptForm ccrForm = (CreditCardReceiptForm) form;
+
+        if (ccrForm.hasDocumentId()) {
+            CreditCardReceiptDocument ccrDoc = ccrForm.getCreditCardReceiptDocument();
+
+            ccrDoc.setTotalCreditCardAmount(ccrDoc.calculateCreditCardReceiptTotal()); // recalc b/c changes to the amounts could have happened
+        }
+
+        // proceed as usual
+        return super.execute(mapping, form, request, response);
+    }
+    
     /**
      * Adds a CreditCardDetail instance created from the current "new creditCardReceipt" line to the document
      * 

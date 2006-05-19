@@ -23,11 +23,13 @@
 package org.kuali.module.financial.document;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.format.CurrencyFormatter;
+import org.kuali.module.financial.bo.Check;
 import org.kuali.module.financial.bo.CreditCardDetail;
 
 /**
@@ -185,6 +187,22 @@ public class CreditCardReceiptDocument extends CashReceiptDocument {
      */
     public KualiDecimal getSumTotalAmount() {
         return this.totalCreditCardAmount;
+    }
+    
+    /**
+     * This method returns the sum of all of the credit card receipts for this document.
+     * 
+     * @return KualiDecimal
+     */
+    public KualiDecimal calculateCreditCardReceiptTotal() {
+        KualiDecimal total = KualiDecimal.ZERO;
+        for (Iterator i = getCreditCardReceipts().iterator(); i.hasNext();) {
+            CreditCardDetail c = (CreditCardDetail) i.next();
+            if (null != c.getCreditCardAdvanceDepositAmount()) {
+                total = total.add(c.getCreditCardAdvanceDepositAmount());
+            }
+        }
+        return total;
     }
 
     /**

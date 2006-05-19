@@ -55,14 +55,18 @@ public class NonCheckDisbursementDocumentRule extends TransactionalDocumentRuleB
     }
 
     /**
-     * Overrides to consider the object types.
+     * Overrides to consider the object types.<br/>
+	 *
+	 * <p>Note: This <code>{@link Document} is always balanced because it only
+	 * has From: lines.
      *
      * @see TransactionalDocumentRuleBase#isDocumentBalanceValid(TransactionalDocument)
      */
 	@Override
     protected boolean isDocumentBalanceValid(TransactionalDocument transactionalDocument) {
-        return isDocumentBalancedConsideringObjectTypes(transactionalDocument);
+		return true;
     }
+
 
     /**
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#isDebit(org.kuali.core.bo.AccountingLine)

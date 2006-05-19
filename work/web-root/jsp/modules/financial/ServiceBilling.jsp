@@ -2,7 +2,6 @@
 
 <kul:documentPage showDocumentInfo="true" documentTypeName="KualiServiceBillingDocument" htmlFormAction="financialServiceBilling"
                   renderMultipart="true" showTabButtons="true">
-
     <html:hidden property="document.nextItemLineNumber"/>
     <html:hidden property="document.nextSourceLineNumber"/>
     <html:hidden property="document.nextTargetLineNumber"/>
@@ -12,8 +11,8 @@
     <fin:accountingLines
         editingMode="${KualiForm.editingMode}"
         editableAccounts="${KualiForm.editableAccounts}"
-        extraSourceRowFields="referenceNumber,financialDocumentLineDescription"
-        extraTargetRowFields="referenceNumber,financialDocumentLineDescription"
+        extraSourceRowFields="financialDocumentLineDescription"
+        extraTargetRowFields="financialDocumentLineDescription"
         />
     <kul:items editingMode="${KualiForm.editingMode}"/>
     <kul:generalLedgerPendingEntries/>
@@ -22,5 +21,4 @@
     <kul:routeLog/>
     <kul:panelFooter/>
     <kul:documentControls transactionalDocument="${documentEntry.transactionalDocument}"/>
-
 </kul:documentPage>

@@ -46,71 +46,6 @@ import org.kuali.core.workflow.service.KualiWorkflowDocument;
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class ServiceBillingDocumentRule extends InternalBillingDocumentRule {
-
-    /**
-     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processCustomAddAccountingLineBusinessRules(TransactionalDocument,
-     *      AccountingLine)
-     */
-    public boolean processCustomAddAccountingLineBusinessRules(TransactionalDocument document, AccountingLine accountingLine) {
-        boolean success = true;
-        success &= super.processCustomAddAccountingLineBusinessRules(document, accountingLine);
-        // This short-circuiting pattern (in all these rule methods) is the eDoc policy, not because it is necessary, but to
-        // provide the user with less helpful information and to force him to retry his submit twice. It's not throwing an
-        // exception because this pattern (without the short-circuiting logic) originally implemented the opposite policy.
-        if (success) {
-            success &= validateOrganizationDocumentNumber(accountingLine);
-        }
-        return success;
-    }
-
-    /**
-     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processCustomReviewAccountingLineBusinessRules(TransactionalDocument,
-     *      AccountingLine)
-     */
-    public boolean processCustomReviewAccountingLineBusinessRules(TransactionalDocument document, AccountingLine accountingLine) {
-        boolean success = true;
-        success &= super.processCustomReviewAccountingLineBusinessRules(document, accountingLine);
-        if (success) {
-            success &= validateOrganizationDocumentNumber(accountingLine);
-        }
-        return success;
-    }
-
-    /**
-     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processCustomUpdateAccountingLineBusinessRules(TransactionalDocument,
-     *      AccountingLine, AccountingLine)
-     */
-    public boolean processCustomUpdateAccountingLineBusinessRules(TransactionalDocument document,
-            AccountingLine originalAccountingLine, AccountingLine updatedAccountingLine) {
-        boolean success = true;
-        success &= super.processCustomUpdateAccountingLineBusinessRules(document, originalAccountingLine, updatedAccountingLine);
-        if (success) {
-            success &= validateOrganizationDocumentNumber(updatedAccountingLine);
-        }
-        return success;
-    }
-
-    /**
-     * Validates the org doc nbr. This could be done by the DD if AccountingLine had a org doc nbr field. Using ref nbr for now,
-     * which is longer than org doc nbr.
-     * 
-     * @param accountingLine
-     * @return whether the org doc nbr is valid
-     */
-    private boolean validateOrganizationDocumentNumber(AccountingLine accountingLine) {
-        // todo: add organizationDocumentNumber to AccountingLine, database schema, and DD instead of using referenceNumber?
-        String orgDocNbr = accountingLine.getReferenceNumber();
-        Integer maxLength = new Integer(10);
-        if (StringUtils.isNotBlank(orgDocNbr) && orgDocNbr.length() > maxLength.intValue()) {
-            String attributeLabel = SpringServiceLocator.getDataDictionaryService().getAttributeShortLabel(
-                    SourceAccountingLine.class.getName(), PropertyConstants.REFERENCE_NUMBER);
-            reportError(PropertyConstants.REFERENCE_NUMBER, KeyConstants.ERROR_MAX_LENGTH, new String[] { attributeLabel,
-                    maxLength.toString() });
-            return false;
-        }
-        return true;
-    }
-
     /**
      * @see TransactionalDocumentRuleBase#accountIsAccessible(TransactionalDocument, AccountingLine)
      */
@@ -167,9 +102,9 @@ public class ServiceBillingDocumentRule extends InternalBillingDocumentRule {
      */
     protected void customizeExplicitGeneralLedgerPendingEntry(TransactionalDocument transactionalDocument,
             AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry) {
-        explicitEntry.setTransactionLedgerEntryDescription(accountingLine.getFinancialDocumentLineDescription());
-        // todo: add organizationDocumentNumber to AccountingLine, database schema, and DD instead of using referenceNumber?
-        explicitEntry.setOrganizationDocumentNumber(accountingLine.getReferenceNumber());
-        explicitEntry.setReferenceFinancialDocumentNumber(null);
+        String description = accountingLine.getFinancialDocumentLineDescription();
+        if(StringUtils.isNotBlank(description)) {
+            explicitEntry.setTransactionLedgerEntryDescription(accountingLine.getFinancialDocumentLineDescription());
+        }
     }
 }

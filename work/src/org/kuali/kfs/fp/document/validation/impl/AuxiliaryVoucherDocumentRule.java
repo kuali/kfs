@@ -27,7 +27,6 @@ import java.sql.Timestamp;
 import java.util.Calendar;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.Constants;
 import org.kuali.core.bo.AccountingLine;
 import org.kuali.core.bo.KualiCodeBase;
 import org.kuali.core.document.Document;

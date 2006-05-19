@@ -22,9 +22,6 @@
  */
 package org.kuali.module.financial.rules;
 
-import org.kuali.Constants;
-import org.kuali.KeyConstants;
-import org.kuali.PropertyConstants;
 import org.kuali.core.bo.AccountingLine;
 import org.kuali.core.bo.SourceAccountingLine;
 import org.kuali.core.bo.TargetAccountingLine;
@@ -35,13 +32,17 @@ import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.gl.util.SufficientFundsItemHelper.SufficientFundsItem;
 
+import static org.kuali.Constants.GL_CREDIT_CODE;
+import static org.kuali.Constants.GL_DEBIT_CODE;
+import static org.kuali.KeyConstants.NonCheckDisbursement.*;
+import static org.kuali.PropertyConstants.FINANCIAL_OBJECT_CODE;
+import static org.kuali.module.financial.rules.NonCheckDisbursementDocumentRuleConstants.*;
+
 /**
  * Business rule(s) applicable to NonCheckDisbursement documents.
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
-public class NonCheckDisbursementDocumentRule 
-    extends TransactionalDocumentRuleBase 
-    implements NonCheckDisbursementDocumentRuleConstants {
+public class NonCheckDisbursementDocumentRule extends TransactionalDocumentRuleBase {
        
     /**
      * Convenience method for accessing the most-likely requested
@@ -104,9 +105,8 @@ public class NonCheckDisbursementDocumentRule
 		if (!valid) {
 			// add message
 			GlobalVariables.getErrorMap()
-				.put(PropertyConstants.FINANCIAL_OBJECT_CODE,
-					 KeyConstants.NonCheckDisbursement
-					 .ERROR_DOCUMENT_NON_CHECK_DISBURSEMENT_INVALID_OBJECT_TYPE_CODE_FOR_OBJECT_CODE,
+				.put(FINANCIAL_OBJECT_CODE,
+					 ERROR_DOCUMENT_NON_CHECK_DISBURSEMENT_INVALID_OBJECT_TYPE_CODE_FOR_OBJECT_CODE,
 					 new String[] {objectCode.getFinancialObjectCode(), 
 								   objectCode.getFinancialObjectTypeCode()});
 		}
@@ -135,9 +135,8 @@ public class NonCheckDisbursementDocumentRule
         if (!valid) {
             // add message
             GlobalVariables.getErrorMap()
-                .put(PropertyConstants.FINANCIAL_OBJECT_CODE,
-                     KeyConstants.NonCheckDisbursement
-                     .ERROR_DOCUMENT_NON_CHECK_DISBURSEMENT_INVALID_OBJECT_SUB_TYPE_CODE,
+                .put(FINANCIAL_OBJECT_CODE,
+                     ERROR_DOCUMENT_NON_CHECK_DISBURSEMENT_INVALID_OBJECT_SUB_TYPE_CODE,
                      new String[] {objectCode.getFinancialObjectCode(), 
                                    objectCode.getFinancialObjectSubTypeCode()});
         }
@@ -164,9 +163,8 @@ public class NonCheckDisbursementDocumentRule
 		if (!valid) {
             // add message
             GlobalVariables.getErrorMap()
-                .put(PropertyConstants.FINANCIAL_OBJECT_CODE,
-                     KeyConstants.NonCheckDisbursement
-                     .ERROR_DOCUMENT_NON_CHECK_DISBURSEMENT_INVALID_SUB_FUND_GROUP,
+                .put(FINANCIAL_OBJECT_CODE,
+                     ERROR_DOCUMENT_NON_CHECK_DISBURSEMENT_INVALID_SUB_FUND_GROUP,
                      new String[] {objectCode.getFinancialObjectCode(), 
                                    subFundGroupTypeCode});
         }
@@ -177,6 +175,7 @@ public class NonCheckDisbursementDocumentRule
     /**
 	 * @see TransactionalDocumentRuleBase#isObjectConsolidationAllowed(AccountingLine accountingLine)
      */
+	@Override
     public boolean isObjectConsolidationAllowed(AccountingLine accountingLine) {
         boolean valid = true;
 
@@ -188,9 +187,8 @@ public class NonCheckDisbursementDocumentRule
         if (!valid) {            
             // add message
             GlobalVariables.getErrorMap()
-                .put(PropertyConstants.FINANCIAL_OBJECT_CODE,
-                     KeyConstants.NonCheckDisbursement
-                     .ERROR_DOCUMENT_NON_CHECK_DISBURSEMENT_INVALID_CONSOLIDATION_CODE,
+                .put(FINANCIAL_OBJECT_CODE,
+                     ERROR_DOCUMENT_NON_CHECK_DISBURSEMENT_INVALID_CONSOLIDATION_CODE,
                      new String[] {objectCode.getFinancialObjectCode(), 
                                    consolidationCode});
         }
@@ -224,10 +222,10 @@ public class NonCheckDisbursementDocumentRule
         String debitCreditCode = null;
 
         if (isDebit(accountingLine)) {
-            debitCreditCode = Constants.GL_CREDIT_CODE;
+            debitCreditCode = GL_CREDIT_CODE;
         }
         else {
-            debitCreditCode = Constants.GL_DEBIT_CODE;
+            debitCreditCode = GL_DEBIT_CODE;
         }
 
         String sufficientFundsObjectCode = 

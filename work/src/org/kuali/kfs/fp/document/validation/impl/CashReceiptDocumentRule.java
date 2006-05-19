@@ -34,6 +34,7 @@ import org.kuali.core.rule.DeleteCheckRule;
 import org.kuali.core.rule.KualiParameterRule;
 import org.kuali.core.rule.UpdateCheckRule;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
@@ -51,6 +52,22 @@ import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
  */
 public class CashReceiptDocumentRule extends TransactionalDocumentRuleBase implements AddCheckRule, 
     DeleteCheckRule, UpdateCheckRule, CashReceiptDocumentRuleConstants {
+    
+    /**
+     * Cash Receipt documents allow both positive and negative values, so we only need to check for zero amounts.
+     * 
+     * @see org.kuali.core.rule.AccountingLineRule#isAmountValid(org.kuali.core.document.TransactionalDocument, org.kuali.core.bo.AccountingLine)
+     */
+    public boolean isAmountValid(TransactionalDocument document, AccountingLine accountingLine) {
+        KualiDecimal amount = accountingLine.getAmount();
+
+        if (Constants.ZERO.compareTo(amount) == 0) { // amount == 0
+            GlobalVariables.getErrorMap().put(Constants.AMOUNT_PROPERTY_NAME, KeyConstants.ERROR_ZERO_AMOUNT, "an accounting line");
+            return false;
+        }
+
+        return true;
+    }
     
     /**
      * Implements Cash Receipt specific rule checks for the cash reconciliation section, to make sure 

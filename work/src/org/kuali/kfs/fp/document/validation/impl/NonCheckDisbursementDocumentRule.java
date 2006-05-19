@@ -84,14 +84,6 @@ public class NonCheckDisbursementDocumentRule
     }
     
     /**
-     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#getGeneralLedgerPendingEntryAmountForAccountingLine(org.kuali.core.bo.AccountingLine)
-     */
-	@Override
-    protected KualiDecimal getGeneralLedgerPendingEntryAmountForAccountingLine(AccountingLine accountingLine) {
-        return accountingLine.getAmount().abs();
-    }
-
-    /**
      * Overrides to perform the universal rule in the super class in addition 
      * to Non-Check Disbursement specific rules. This method leverages the 
      * APC for checking restricted object type values.

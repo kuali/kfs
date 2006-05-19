@@ -233,15 +233,4 @@ public class DistributionOfIncomeAndExpenseDocumentRule extends TransactionalDoc
                 financialObjectLevelCode, fiscalYear, financialObjectTypeCode);
         return item;
     }
-
-    /**
-     * The GEC spec says that all GL pending entry amounts are positive. I.e., it says that the pending entry uses the absolute
-     * value of non-positive accounting line amounts.
-     * 
-     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#getGeneralLedgerPendingEntryAmountForAccountingLine(org.kuali.core.bo.AccountingLine)
-     */
-    protected KualiDecimal getGeneralLedgerPendingEntryAmountForAccountingLine(AccountingLine accountingLine) {
-        return accountingLine.getAmount().abs();
-    }
-
 }

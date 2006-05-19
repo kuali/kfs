@@ -78,21 +78,6 @@ public class AuxiliaryVoucherDocumentRule
     }
     
     /**
-     * The GEC spec says that all GL pending entry amounts are positive. I.e., it says that the pending entry uses the absolute
-     * value of non-positive accounting line amounts.
-     * 
-     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#getGeneralLedgerPendingEntryAmountForAccountingLine(org.kuali.core.bo.AccountingLine)
-     */
-    protected KualiDecimal getGeneralLedgerPendingEntryAmountForAccountingLine(AccountingLine accountingLine) {
-        KualiDecimal amount = accountingLine.getAmount();
-        if(amount.isNegative()) {
-            throw new IllegalStateException(objectTypeCodeIllegalStateExceptionMessage);
-        }
-        
-        return amount;
-    } 
-    
-    /**
      * Overrides the parent to return true, because Auxiliary Voucher documents only use the SourceAccountingLines data structures.
      * The list that holds TargetAccountingLines should be empty. This will be checked when the document is "routed" or submitted to
      * post - it's called automatically by the parent's processRouteDocument method.

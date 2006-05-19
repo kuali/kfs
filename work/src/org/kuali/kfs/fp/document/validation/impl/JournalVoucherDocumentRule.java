@@ -183,15 +183,6 @@ public class JournalVoucherDocumentRule extends TransactionalDocumentRuleBase {
     }
 
     /**
-     * Needed to overrided to set the amount of the GLPE to the amount of the accounting line. It's a straight mapping.
-     * 
-     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#getGeneralLedgerPendingEntryAmountForAccountingLine(org.kuali.core.bo.AccountingLine)
-     */
-    protected KualiDecimal getGeneralLedgerPendingEntryAmountForAccountingLine(AccountingLine accountingLine) {
-        return accountingLine.getAmount();
-    }
-
-    /**
      * A Journal Voucher document doesn't generate an offset entry at all, so this method overrides to do nothing more than return
      * true. This will be called by the parent's processGeneralLedgerPendingEntries method.
      * 

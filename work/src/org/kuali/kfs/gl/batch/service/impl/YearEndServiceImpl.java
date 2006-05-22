@@ -290,7 +290,9 @@ public class YearEndServiceImpl implements YearEndService {
         int sequenceCheckCount = 0;
         int globalSelectCount = 0;
         int nonFatalCount = 0;
-
+        int offsetsWritten = 0;
+        int actualsWritten = 0;
+        
         boolean nonFatalErrorFlag = false;
         int debugNumberSelected = 0;
         
@@ -310,14 +312,15 @@ public class YearEndServiceImpl implements YearEndService {
             selectSw = true;
             
             try {
-            
+                
 //            789  004720     PERFORM 3000-SELECT-CRITERIA
 //            790  004730        THRU 3000-SELECT-CRITERIA-EXIT.
-            
-                boolean selectYes = selectBalanceForClosingOfNominalActivity(balance);
+                
+                boolean selectYes = 
+                    selectBalanceForClosingOfNominalActivity(balance);
                 
 //            791  004740     IF WS-SELECT-YES
-            
+                
                 if(selectYes) {
                     debugNumberSelected++;
                     
@@ -371,7 +374,8 @@ public class YearEndServiceImpl implements YearEndService {
 //                851  005340     MOVE GLGLBL-FIN-COA-CD
 //                852  005350       TO FIN-COA-CD                     OF GLEN-RECORD.
                 
-                    activityEntry.setChartOfAccountsCode(balance.getChartOfAccountsCode());
+                    activityEntry.setChartOfAccountsCode(
+                            balance.getChartOfAccountsCode());
                 
 //                853  005360     MOVE GLGLBL-ACCOUNT-NBR
 //                854  005370       TO ACCOUNT-NBR                    OF GLEN-RECORD.
@@ -381,7 +385,8 @@ public class YearEndServiceImpl implements YearEndService {
 //                855  005380     MOVE GLGLBL-SUB-ACCT-NBR
 //                856  005390       TO SUB-ACCT-NBR                   OF GLEN-RECORD.
                 
-                    activityEntry.setSubAccountNumber(balance.getSubAccountNumber());
+                    activityEntry.setSubAccountNumber(
+                            balance.getSubAccountNumber());
                 
 //                857  005400* FOR OBJECT TYPES = 'ES' OR 'EX' OR 'EE' USE THE NEXT EXPENSE
 //                858  005410* OBJECT FROM THE INPUT VAR. ELSE USE THE NET REVENUE OBJECT
@@ -390,12 +395,14 @@ public class YearEndServiceImpl implements YearEndService {
 //                860  005430     IF GLGLBL-FIN-OBJ-TYP-CD = 'ES' OR 'EX' OR 'EE'
 //                861  005440          OR 'TE'
                 
-                    if(ObjectHelper.isOneOf(balance.getObjectTypeCode(), new String[] {"ES", "EX", "EE"})) {
+                    if(ObjectHelper.isOneOf(balance.getObjectTypeCode(), 
+                            new String[] {"ES", "EX", "EE", "TE"})) {
                 
 //                862  005450        MOVE VAR-NET-EXP-OBJECT-CD
 //                863  005460          TO FIN-OBJECT-CD               OF GLEN-RECORD
                     
-                        activityEntry.setFinancialObjectCode(varNetExpenseObjectCode);
+                        activityEntry.setFinancialObjectCode(
+                                varNetExpenseObjectCode);
                     
 //                864  005470     ELSE
                     
@@ -404,14 +411,16 @@ public class YearEndServiceImpl implements YearEndService {
 //                865  005480        MOVE VAR-NET-REV-OBJECT-CD
 //                866  005490          TO FIN-OBJECT-CD               OF GLEN-RECORD.
                     
-                        activityEntry.setFinancialObjectCode(varNetRevenueObjectCode);
+                        activityEntry.setFinancialObjectCode(
+                                varNetRevenueObjectCode);
                     
                     }
                 
 //                867  005500     MOVE ALL '-'
 //                868  005510       TO FIN-SUB-OBJ-CD                 OF GLEN-RECORD.
                 
-                    activityEntry.setFinancialSubObjectCode(Constants.DASHES_SUB_OBJECT_CODE);
+                    activityEntry.setFinancialSubObjectCode(
+                            Constants.DASHES_SUB_OBJECT_CODE);
                 
 //                869  005520     MOVE 'NB'
 //                870  005530       TO FIN-BALANCE-TYP-CD             OF GLEN-RECORD.
@@ -461,7 +470,8 @@ public class YearEndServiceImpl implements YearEndService {
 //                908  005890           MOVE 'Y' TO WS-FATAL-ERROR-FLAG
 //                909  005900           GO TO 4100-WRITE-ACTIVITY-EXIT
                         
-                        throw new FatalErrorException(" ERROR ACCESSING OBJECT TABLE FOR ");
+                        throw new FatalErrorException(
+                                " ERROR ACCESSING OBJECT TABLE FOR ");
                     
                     }
                     
@@ -493,17 +503,20 @@ public class YearEndServiceImpl implements YearEndService {
 //                923  006040       INTO FDOC-NBR                     OF GLEN-RECORD.
                     
                     activityEntry.setFinancialDocumentNumber(
-                            new StringBuffer("AC").append(balance.getAccountNumber()).toString());
+                            new StringBuffer("AC").append(
+                                    balance.getAccountNumber()).toString());
                     
 //                924  006050     MOVE WS-SEQ-NBR
 //                925  006060       TO TRN-ENTR-SEQ-NBR               OF GLEN-RECORD.
                     
-                    activityEntry.setTransactionLedgerEntrySequenceNumber(new Integer(sequenceNumber));
+                    activityEntry.setTransactionLedgerEntrySequenceNumber(
+                            new Integer(sequenceNumber));
                     
 //                926  006070     IF GLGLBL-FIN-OBJ-TYP-CD = 'EX' OR 'ES' OR 'EE'
 //                927  006080           OR 'TE'
                     
-                    if(ObjectHelper.isOneOf(balance.getObjectTypeCode(), new String[]{"EX", "ES", "EE"})) {
+                    if(ObjectHelper.isOneOf(balance.getObjectTypeCode(), 
+                            new String[]{"EX", "ES", "EE", "TE"})) {
                     
 //                928  006090        STRING 'CLS ENT TO NE FOR '
 //                929  006100               GLGLBL-SUB-ACCT-NBR
@@ -517,11 +530,21 @@ public class YearEndServiceImpl implements YearEndService {
 //                937  006180               DELIMITED BY SIZE INTO
 //                938  006190               TRN-LDGR-ENTR-DESC OF GLEN-RECORD
                         
+                        StringBuffer neDescription = 
+                            new StringBuffer("CLS ENT TO NE FOR ")
+                            .append(balance.getSubAccountNumber())
+                            .append("-").append(balance.getObjectCode())
+                            .append("-").append(balance.getSubObjectCode());
+                        int socLength = 
+                            null == balance.getSubObjectCode() ? 0 : 
+                                balance.getSubObjectCode().length();
+                        while(3 > socLength++) {
+                            neDescription.append(' ');
+                        }
                         activityEntry.setTransactionLedgerEntryDescription(
-                                new StringBuffer("CLS ENT TO NE FOR ").append(balance.getSubAccountNumber())
-                                .append("-").append(balance.getObjectCode())
-                                .append("-").append(balance.getSubObjectCode())
-                                .append("-").append(balance.getObjectTypeCode()).toString());
+                                neDescription
+                                .append("-")
+                                .append(balance.getObjectTypeCode()).toString());
                         
 //                939  006200     ELSE
                         
@@ -539,11 +562,21 @@ public class YearEndServiceImpl implements YearEndService {
 //                949  006300               DELIMITED BY SIZE INTO
 //                950  006310               TRN-LDGR-ENTR-DESC OF GLEN-RECORD.
                         
+                        StringBuffer nrDescription = 
+                            new StringBuffer("CLS ENT TO NR FOR ")
+                            .append(balance.getSubAccountNumber())
+                            .append("-").append(balance.getObjectCode())
+                            .append("-").append(balance.getSubObjectCode());
+                        int socLength = 
+                            null == balance.getSubObjectCode() ? 0 : 
+                                balance.getSubObjectCode().length();
+                        while(3 > socLength++) {
+                            nrDescription.append(' ');
+                        }
                         activityEntry.setTransactionLedgerEntryDescription(
-                                new StringBuffer("CLS ENT TO NR FOR ").append(balance.getSubAccountNumber())
-                                .append("-").append(balance.getObjectCode())
-                                .append("-").append(balance.getSubObjectCode())
-                                .append("-").append(balance.getObjectTypeCode()).toString());
+                                nrDescription
+                                .append("-")
+                                .append(balance.getObjectTypeCode()).toString());
                         
                     }
                     
@@ -826,6 +859,8 @@ public class YearEndServiceImpl implements YearEndService {
                     originEntryService.createEntry(
                             activityEntry, nominalClosingOriginEntryGroup);
                     
+                    actualsWritten++;
+                    
 //               1055  007330     MOVE WS-AMT-N TO TRN-LDGR-ENTR-AMT.
                     
 //               1056  007340     IF GLEDATA-STATUS > '09'
@@ -952,11 +987,20 @@ public class YearEndServiceImpl implements YearEndService {
 //                1108  007830            DELIMITED BY SIZE INTO
 //                1109  007840            TRN-LDGR-ENTR-DESC OF GLEN-RECORD.
                     
+                    StringBuffer fbDescription = 
+                        new StringBuffer("CLS ENT TO FB FOR ")
+                        .append(balance.getSubAccountNumber()).append("-")
+                        .append(balance.getObjectCode()).append("-")
+                        .append(balance.getSubObjectCode());
+                    int socLength = 
+                        null == balance.getSubObjectCode() ? 0 : 
+                            balance.getSubObjectCode().length();
+                    while(3 > socLength++) {
+                        fbDescription.append(' ');
+                    }
                     offsetEntry.setTransactionLedgerEntryDescription(
-                            new StringBuffer("CLS ENT TO FB FOR ")
-                            .append(balance.getSubAccountNumber()).append("-")
-                            .append(balance.getObjectCode()).append("-")
-                            .append(balance.getSubObjectCode()).append("-")
+                            fbDescription
+                            .append("-")
                             .append(balance.getObjectTypeCode()).toString());
                     
 //                1110  007850     MOVE GLGLBL-ACLN-ANNL-BAL-AMT
@@ -1041,16 +1085,16 @@ public class YearEndServiceImpl implements YearEndService {
                     
 //                1137  008120     IF TRN-LDGR-ENTR-AMT OF GLEN-RECORD < 0
                         
-                        if(balance.getAccountLineAnnualBalanceAmount().isNegative()) {
+                    if(balance.getAccountLineAnnualBalanceAmount().isNegative()) {
                         
 //                1138  008130       COMPUTE
 //                1139  008140        TRN-LDGR-ENTR-AMT OF GLEN-RECORD =
 //                1140  008150        TRN-LDGR-ENTR-AMT OF GLEN-RECORD * -1.
-                            
-                            offsetEntry.setTransactionLedgerEntryAmount(
-                                    balance.getAccountLineAnnualBalanceAmount().negated());
                         
-                        }
+                        offsetEntry.setTransactionLedgerEntryAmount(
+                                balance.getAccountLineAnnualBalanceAmount().negated());
+                    
+                    }
                         
 //                1141  008160     MOVE TRN-LDGR-ENTR-AMT TO WS-AMT-N
 //                1142  008170                               WS-AMT-W-PERIOD.
@@ -1058,9 +1102,11 @@ public class YearEndServiceImpl implements YearEndService {
                         
 //                1144  008190     WRITE GLE-DATA FROM GLEN-RECORD.
                         
-                        originEntryService.createEntry(
-                                offsetEntry, nominalClosingOriginEntryGroup);
-                        
+                    originEntryService.createEntry(
+                            offsetEntry, nominalClosingOriginEntryGroup);
+                    
+                    offsetsWritten++;
+                    
 //                1145  008200     MOVE WS-AMT-N TO TRN-LDGR-ENTR-AMT.
 //                1146  008210     IF GLEDATA-STATUS > '09'
 //                1147  008220        DISPLAY '**ERROR WRITING GLE DATA FILE '
@@ -1071,38 +1117,38 @@ public class YearEndServiceImpl implements YearEndService {
                         
 //                1152  008270     ADD +1 TO SEQ-WRITE-COUNT.
                         
-                        sequenceWriteCount++;
+                    sequenceWriteCount++;
                         
 //                1153             MOVE SEQ-WRITE-COUNT TO SEQ-CHECK-CNT.
                         
-                        sequenceCheckCount = sequenceWriteCount;
+                    sequenceCheckCount = sequenceWriteCount;
                         
 //                1154             IF SEQ-CHECK-CNT (7:3) = '000'
                         
-                        if(0 == sequenceCheckCount % 1000) {
+                    if(0 == sequenceCheckCount % 1000) {
                         
 //                1155                DISPLAY '  SEQUENTIAL RECORDS WRITTEN = ' SEQ-CHECK-CNT.
                             
-                            LOG.info(new StringBuffer("  SEQUENTIAL RECORDS WRITTEN = ")
-                                    .append(sequenceCheckCount).toString());
-                        
-                        }
-                        
+                        LOG.info(new StringBuffer("  SEQUENTIAL RECORDS WRITTEN = ")
+                                .append(sequenceCheckCount).toString());
+                    
+                    }
+                    
 //                1156  008280 4200-WRITE-OFFSET-EXIT.
 //                1157  008290     EXIT.
                 
 //            800  004830     ELSE
                 
-            } else {
+                } else {
                 
 //            801  004840        NEXT SENTENCE.
                 
-            }
+                }
 
 //            802  004850     MOVE GLGLBL-ACCOUNT-NBR
 //            803  004860       TO WS-ACCOUNT-NBR-HOLD.
             
-            accountNumberHold = balance.getAccountNumber();
+                accountNumberHold = balance.getAccountNumber();
             
 //        782  004650        THRU 2500-PROCESS-UNIT-OF-WORK-EXIT.
             
@@ -1118,6 +1164,9 @@ public class YearEndServiceImpl implements YearEndService {
         
         LOG.info("Number selected: " + debugNumberSelected);
         LOG.info("Number read    : " + globalReadCount);
+        
+        LOG.info("Actuals written: " + actualsWritten);
+        LOG.info("Offsets written: " + offsetsWritten);
         
 //        784  004670 2000-DRIVER-EXIT.
 //        785  004680     EXIT.

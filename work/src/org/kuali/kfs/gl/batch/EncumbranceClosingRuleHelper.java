@@ -39,7 +39,7 @@ import org.kuali.module.gl.util.ObjectHelper;
  * closing process. This logic is likely going to need to be modular which is why I put it in its
  * own class.
  * 
- * @author Laran Evans <lc278@cornell.edu>
+ * @author Kuali General Ledger Team (kualigltech@oncourse.iu.edu)
  * @version $Id$
  */
 

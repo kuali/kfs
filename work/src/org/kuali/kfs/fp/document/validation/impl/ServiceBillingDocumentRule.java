@@ -23,19 +23,16 @@
 package org.kuali.module.financial.rules;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.KeyConstants;
-import org.kuali.PropertyConstants;
-import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
-import org.kuali.module.financial.bo.ServiceBillingControl;
 import org.kuali.core.bo.AccountingLine;
-import org.kuali.core.bo.SourceAccountingLine;
-import org.kuali.core.bo.user.KualiUser;
 import org.kuali.core.bo.user.KualiGroup;
+import org.kuali.core.bo.user.KualiUser;
 import org.kuali.core.document.TransactionalDocument;
-import org.kuali.core.util.SpringServiceLocator;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.exceptions.GroupNotFoundException;
+import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
+import org.kuali.module.financial.bo.ServiceBillingControl;
+import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 
 /**
  * Business rule(s) applicable to Service Billing documents. They differ from {@link InternalBillingDocumentRule} by not routing for

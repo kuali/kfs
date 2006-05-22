@@ -30,9 +30,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.core.document.DocumentBase;
-import org.kuali.core.document.DocumentHeader;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.gl.bo.CorrectionChangeGroup;
 import org.kuali.module.gl.bo.OriginEntryGroup;

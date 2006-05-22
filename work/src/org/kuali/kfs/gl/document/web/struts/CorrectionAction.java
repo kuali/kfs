@@ -60,14 +60,13 @@ import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.dao.OriginEntryDao;
 import org.kuali.module.gl.document.CorrectionDocument;
-import org.kuali.module.gl.document.CorrectionDocument;
 import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.gl.service.OriginEntryService;
 import org.kuali.module.gl.web.struts.form.CorrectionForm;
 
 /**
  * @author Laran Evans <lc278@cornell.edu>
- * @version $Id: CorrectionAction.java,v 1.1 2006-05-22 14:19:03 temay Exp $
+ * @version $Id: CorrectionAction.java,v 1.2 2006-05-22 18:51:26 wesprice Exp $
  * 
  */
 

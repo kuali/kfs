@@ -1162,12 +1162,6 @@ public class YearEndServiceImpl implements YearEndService {
             
         }
         
-        LOG.info("Number selected: " + debugNumberSelected);
-        LOG.info("Number read    : " + globalReadCount);
-        
-        LOG.info("Actuals written: " + actualsWritten);
-        LOG.info("Offsets written: " + offsetsWritten);
-        
 //        784  004670 2000-DRIVER-EXIT.
 //        785  004680     EXIT.
     }
@@ -1493,6 +1487,8 @@ public class YearEndServiceImpl implements YearEndService {
             
         }
 
+        LOG.info("Entries written: " + originEntriesWritten);
+        
         // Assemble statistics.
         List statistics = new ArrayList();
         Summary summary = new Summary();

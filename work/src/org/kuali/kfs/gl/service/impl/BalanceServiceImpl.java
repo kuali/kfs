@@ -255,7 +255,7 @@ public class BalanceServiceImpl implements BalanceService {
      * @see org.kuali.module.gl.service.BalanceService#beginningBalanceLoaded(org.kuali.module.chart.bo.Account)
      */
     public boolean beginningBalanceLoaded(Account account) {
-        return true; //TODO: retrieve this from SystemOptions per Bill Overman
+        return true; //TODO: KULCOA-748 retrieve this from SystemOptions per Bill Overman 
     }
 
     /**

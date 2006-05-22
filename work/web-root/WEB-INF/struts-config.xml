@@ -53,7 +53,7 @@
        <form-bean name="BudgetPermissionsForm" type="org.kuali.module.kra.web.struts.form.BudgetForm" />       
        
        <!-- General Ledger Bean Definitions -->
-       <form-bean name="GeneralLedgerErrorCorrectionForm" type="org.kuali.module.gl.web.struts.form.GeneralLedgerErrorCorrectionForm" />
+       <form-bean name="CorrectionForm" type="org.kuali.module.gl.web.struts.form.CorrectionForm" />
        <form-bean name="BalanceInquiryForm" type="org.kuali.module.gl.web.struts.form.BalanceInquiryForm" />
        
     </form-beans>
@@ -150,8 +150,8 @@
           	<forward name="basic" path="/jsp/modules/financial/DepositWizard.jsp" />
         </action>
 
-	    <action path="/generalLedger*" name="GeneralLedger{1}Form" input="/jsp/modules/generalLedger/GeneralLedger{1}.jsp" type="org.kuali.module.gl.web.struts.action.GeneralLedger{1}Action" scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
-		    <forward name="basic" path="/jsp/modules/generalLedger/GeneralLedger{1}.jsp" />
+	    <action path="/generalLedger*" name="{1}Form" input="/jsp/modules/generalLedger/{1}.jsp" type="org.kuali.module.gl.web.struts.action.{1}Action" scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+		    <forward name="basic" path="/jsp/modules/generalLedger/{1}.jsp" />
 	    </action>
 	    
         <action path="/glBalanceInquiry" name="BalanceInquiryForm" scope="request" attribute="KualiForm" parameter="methodToCall" type="org.kuali.module.gl.web.struts.action.BalanceInquiryAction">

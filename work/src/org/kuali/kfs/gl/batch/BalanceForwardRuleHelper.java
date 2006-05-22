@@ -248,8 +248,8 @@ public class BalanceForwardRuleHelper {
       
             }
       
-              // WS-SELECT-GENERAL-YES and WS-SELECT-GENERAL-SW are synonyms.
-              // WS-SELECT-ACTIVE-YES and WS-SELECT-ACTIVE-SW are synonyms.
+            // WS-SELECT-GENERAL-YES and WS-SELECT-GENERAL-SW are synonyms.
+            // WS-SELECT-ACTIVE-YES and WS-SELECT-ACTIVE-SW are synonyms.
             if(selectGeneralSwFlag) {
 
 // 1009  005360     IF WS-SELECT-GENERAL-YES
@@ -829,49 +829,49 @@ public class BalanceForwardRuleHelper {
                           .add(balance.getAccountLineAnnualBalanceAmount())
                           .add(balance.getBeginningBalanceLineAmount())
                           .add(balance.getContractsGrantsBeginningBalanceAmount());
-                  
+                      
 //              1269  007960     IF TRN-LDGR-ENTR-AMT < ZERO
-              
+                      
                       if(transactionLedgerEntryAmount.isNegative()) {
-              
+                          
 //              1270  007970        IF WS-FIN-OBJTYP-DBCR-CD = 'D'
                           
                           if(Constants.GL_DEBIT_CODE.equals(
                                   wsFinancialObjectTypeDebitCreditCode)) {
-                  
+                              
 //              1271  007980           MOVE 'C' TO TRN-DEBIT-CRDT-CD
-                      
+                              
                               entry.setTransactionDebitCreditCode(
                                       Constants.GL_CREDIT_CODE);
-                      
+                              
 //              1272  007990        ELSE
-                      
+                              
                           } else {
-                      
+                              
 //              1273  008000           MOVE 'D' TO TRN-DEBIT-CRDT-CD
-                  
+                              
                               entry.setTransactionDebitCreditCode(
                                       Constants.GL_DEBIT_CODE);
-                      
+                              
                           }
-                      
+                          
 //              1274  008010     ELSE
                       
                       } else {
-                  
+                          
 //              1275  008020        MOVE WS-FIN-OBJTYP-DBCR-CD
 //              1276  008030          TO TRN-DEBIT-CRDT-CD.
-                  
+                          
                           entry.setTransactionDebitCreditCode(
                                   wsFinancialObjectTypeDebitCreditCode);
                           
                       }
-              
+                      
 //              1277  008040     MOVE VAR-TRANSACTION-DT
 //              1278  008050       TO TRANSACTION-DT OF GLEN-RECORD.
-              
+                      
                       entry.setTransactionDate(transactionDate);
-              
+                      
 //              1279  008060     MOVE SPACES
 //              1280  008070       TO ORG-DOC-NBR.
               
@@ -914,7 +914,7 @@ public class BalanceForwardRuleHelper {
                       
 //              1295  008220     IF FIN-BALANCE-TYP-CD = 'NB'
                       
-                      if("NB".equals(balance.getBalanceTypeCode())) {
+                      if("NB".equals(entry.getFinancialBalanceTypeCode())) {
                           
 //              1296  008230       MOVE 'AC' TO FIN-BALANCE-TYP-CD.
                           
@@ -928,7 +928,7 @@ public class BalanceForwardRuleHelper {
                           
 //              1298  008250       IF FIN-BALANCE-TYP-CD = 'AC'
                           
-                          if("AC".equals(balance.getBalanceTypeCode())) {
+                          if("AC".equals(entry.getFinancialBalanceTypeCode())) {
                               
 //              1299  008260        COMPUTE TRN-LDGR-ENTR-AMT
 //              1300  008270          = TRN-LDGR-ENTR-AMT * -1.

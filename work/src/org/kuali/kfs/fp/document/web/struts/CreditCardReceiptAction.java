@@ -31,14 +31,10 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.Constants;
 import org.kuali.PropertyConstants;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.Timer;
 import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.module.financial.bo.CreditCardDetail;
-import org.kuali.module.financial.document.CashReceiptDocument;
 import org.kuali.module.financial.document.CreditCardReceiptDocument;
-import org.kuali.module.financial.rules.CashReceiptDocumentRuleUtil;
 import org.kuali.module.financial.rules.CreditCardReceiptDocumentRuleUtil;
-import org.kuali.module.financial.web.struts.form.CashReceiptForm;
 import org.kuali.module.financial.web.struts.form.CreditCardReceiptForm;
 
 /**

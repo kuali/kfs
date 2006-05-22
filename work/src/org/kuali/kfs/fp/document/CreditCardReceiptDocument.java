@@ -26,10 +26,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.kuali.Constants;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.format.CurrencyFormatter;
-import org.kuali.module.financial.bo.Check;
 import org.kuali.module.financial.bo.CreditCardDetail;
 
 /**
@@ -41,8 +41,6 @@ import org.kuali.module.financial.bo.CreditCardDetail;
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class CreditCardReceiptDocument extends CashReceiptDocument {
-    private static final String CASH_RECEIPT_CREDIT_CARD_RECEIPT_COLUMN_TYPE_CODE = "R";
-    
     // holds details about each credit card receipt
     private List creditCardReceipts = new ArrayList();
 
@@ -133,7 +131,7 @@ public class CreditCardReceiptDocument extends CashReceiptDocument {
      */
     public final void prepareNewCreditCardReceipt(CreditCardDetail creditCardReceiptDetail) {
         creditCardReceiptDetail.setFinancialDocumentLineNumber(this.nextCcCrLineNumber);
-        creditCardReceiptDetail.setFinancialDocumentColumnTypeCode(CASH_RECEIPT_CREDIT_CARD_RECEIPT_COLUMN_TYPE_CODE);
+        creditCardReceiptDetail.setFinancialDocumentColumnTypeCode(Constants.CreditCardReceiptConstants.CASH_RECEIPT_CREDIT_CARD_RECEIPT_COLUMN_TYPE_CODE);
         creditCardReceiptDetail.setFinancialDocumentNumber(this.getFinancialDocumentNumber());
         creditCardReceiptDetail.setFinancialDocumentTypeCode(SpringServiceLocator.getDocumentTypeService().getDocumentTypeCodeByClass(this.getClass()));
     }

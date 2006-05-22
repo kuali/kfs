@@ -32,7 +32,6 @@ import org.kuali.module.financial.document.CreditCardReceiptDocument;
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class CreditCardReceiptForm extends KualiTransactionalDocumentFormBase {
-    private static final long serialVersionUID = 1L;
     private CreditCardDetail newCreditCardReceipt;
 
     /**

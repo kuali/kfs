@@ -75,7 +75,7 @@ public class CreditCardReceiptDocumentRule extends CashReceiptDocumentRule {
         boolean isValid = super.processCustomRouteDocumentBusinessRules(document);
         
         if(isValid) {
-            isValid = isMinimumNumberOfCreditCardReceiptsMet(document, isValid);
+            isValid = isMinimumNumberOfCreditCardReceiptsMet(document);
         }
         
         return isValid;
@@ -86,18 +86,17 @@ public class CreditCardReceiptDocumentRule extends CashReceiptDocumentRule {
      * line exists for the document.
      * 
      * @param document
-     * @param isValid
      * @return boolean
      */
-    private boolean isMinimumNumberOfCreditCardReceiptsMet(Document document, boolean isValid) {
+    private boolean isMinimumNumberOfCreditCardReceiptsMet(Document document) {
         CreditCardReceiptDocument ccr = (CreditCardReceiptDocument) document;
         
         if(ccr.getCreditCardReceipts().size() == 0) {
             GlobalVariables.getErrorMap().put(DOCUMENT_ERROR_PREFIX,
                     KeyConstants.CreditCardReceipt.ERROR_DOCUMENT_CREDIT_CARD_RECEIPT_REQ_NUMBER_RECEIPTS_NOT_MET);
-            isValid = false;
+            return false;
         }
-        return isValid;
+        return true;
     }
     
     /**
@@ -127,7 +126,7 @@ public class CreditCardReceiptDocumentRule extends CashReceiptDocumentRule {
         for (int i = 0; i < creditCardReceiptDocument.getCreditCardReceipts().size(); i++) {
             String propertyName = PropertyConstants.CREDIT_CARD_RECEIPT + "[" + i + "]";
             GlobalVariables.getErrorMap().addToErrorPath(propertyName);
-            isValid = CreditCardReceiptDocumentRuleUtil.validateCreditCardReceipt(creditCardReceiptDocument.getCreditCardReceipt(i));
+            isValid &= CreditCardReceiptDocumentRuleUtil.validateCreditCardReceipt(creditCardReceiptDocument.getCreditCardReceipt(i));
             GlobalVariables.getErrorMap().removeFromErrorPath(propertyName);
         }
         GlobalVariables.getErrorMap().removeFromErrorPath(Constants.DOCUMENT_PROPERTY_NAME);

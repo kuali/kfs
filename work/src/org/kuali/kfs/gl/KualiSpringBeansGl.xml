@@ -113,6 +113,7 @@
 		<property name="encumbranceDao"><ref bean="glEncumbranceDao"/></property>
 		<property name="encumbranceClosingReport"><ref bean="glEncumbranceClosingYearEndReport" /></property>
 		<property name="balanceForwardReport"><ref bean="glBalanceForwardYearEndReport" /></property>
+		<property name="nominalActivityClosingReport"><ref bean="glNominalActivityClosingYearEndReport"/></property>
 		<property name="dateTimeService"><ref bean="dateTimeService" /></property>
 		<property name="balanceService"><ref bean="glBalanceService" /></property>
 		<property name="encumbranceClosingRuleHelper"><ref bean="glEncumbranceClosingRuleHelper" /></property>
@@ -303,19 +304,21 @@
 		<property name="a21SubAccountDao"><ref bean="a21SubAccountDao"/></property>
 		<property name="expenditureTransactionDao"><ref bean="glExpenditureTransactionDao"/></property>
 	</bean>
-
+	
+	<bean id="glNominalActivityClosingYearEndReport" class="org.kuali.module.gl.batch.closing.year.reporting.impl.NominalActivityClosingReportImpl" />
+	
 	<bean id="glEncumbranceClosingYearEndReport" class="org.kuali.module.gl.batch.closing.year.reporting.impl.EncumbranceClosingReportImpl" />
 	
 	<bean id="glBalanceForwardYearEndReport" class="org.kuali.module.gl.batch.closing.year.reporting.impl.BalanceForwardReportImpl" />
-
+	
 	<bean id="glScrubberReport" class="org.kuali.module.gl.batch.scrubber.impl.ScrubberReportImpl" />
-
+	
 	<bean id="glReportService" class="org.kuali.module.gl.service.impl.ReportServiceImpl" />
-
+	
 	<bean id="glSufficientFundsReport" class="org.kuali.module.gl.batch.sufficientFunds.impl.SufficientFundsReportImpl">
 		<property name="kualiConfigurationService"><ref bean="kualiConfigurationService"/></property>
 	</bean>
-
+	
 	<bean id="glPosterReport" class="org.kuali.module.gl.batch.poster.impl.PosterReportImpl">
 		<property name="kualiConfigurationService"><ref bean="kualiConfigurationService"/></property>
 	</bean>

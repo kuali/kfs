@@ -40,6 +40,7 @@ import org.kuali.module.chart.service.PriorYearAccountService;
 import org.kuali.module.chart.service.SubFundGroupService;
 import org.kuali.module.gl.batch.closing.year.reporting.BalanceForwardReport;
 import org.kuali.module.gl.batch.closing.year.reporting.EncumbranceClosingReport;
+import org.kuali.module.gl.batch.closing.year.reporting.NominalActivityClosingReport;
 import org.kuali.module.gl.batch.closing.year.service.YearEndService;
 import org.kuali.module.gl.batch.closing.year.service.impl.helper.BalanceForwardRuleHelper;
 import org.kuali.module.gl.batch.closing.year.service.impl.helper.EncumbranceClosingRuleHelper;
@@ -72,6 +73,7 @@ public class YearEndServiceImpl implements YearEndService {
     private OriginEntryGroupService originEntryGroupService;
     private EncumbranceClosingReport encumbranceClosingReport;
     private BalanceForwardReport balanceForwardReport;
+    private NominalActivityClosingReport nominalActivityClosingReport;
     private DateTimeService dateTimeService;
     private BalanceService balanceService;
     private BalanceTypService balanceTypeService;
@@ -264,7 +266,8 @@ public class YearEndServiceImpl implements YearEndService {
 //        764  004490              :GLGLBL-MO13-ACCT-LN-AMT
 //        765  004510     END-EXEC.
         
-        Iterator<Balance> balanceIterator = balanceService.findBalancesForFiscalYear(varFiscalYear);
+        Iterator<Balance> balanceIterator = 
+            balanceService.findBalancesForFiscalYear(varFiscalYear);
         
 //        766             IF RETURN-CODE NOT = ZERO
 //        767                DISPLAY 'RETURN CODE 4510 ' RETURN-CODE.
@@ -282,19 +285,18 @@ public class YearEndServiceImpl implements YearEndService {
 //        779  004620     END-EVALUATE.
 //        780  004630 FETCH-PROCESS.
         
-        int globalReadCount = 0;
-        boolean selectSw = false;
         String accountNumberHold = null;
+        
+        boolean selectSw = false;
+        
+        int globalReadCount = 0;
+        int globalSelectCount = 0;
         int sequenceNumber = 0;
         int sequenceWriteCount = 0;
         int sequenceCheckCount = 0;
-        int globalSelectCount = 0;
         int nonFatalCount = 0;
-        int offsetsWritten = 0;
-        int actualsWritten = 0;
         
         boolean nonFatalErrorFlag = false;
-        int debugNumberSelected = 0;
         
         while(balanceIterator.hasNext()) {
             
@@ -322,7 +324,6 @@ public class YearEndServiceImpl implements YearEndService {
 //            791  004740     IF WS-SELECT-YES
                 
                 if(selectYes) {
-                    debugNumberSelected++;
                     
                     LOG.debug("Balance selected.");
                     
@@ -859,8 +860,6 @@ public class YearEndServiceImpl implements YearEndService {
                     originEntryService.createEntry(
                             activityEntry, nominalClosingOriginEntryGroup);
                     
-                    actualsWritten++;
-                    
 //               1055  007330     MOVE WS-AMT-N TO TRN-LDGR-ENTR-AMT.
                     
 //               1056  007340     IF GLEDATA-STATUS > '09'
@@ -1105,8 +1104,6 @@ public class YearEndServiceImpl implements YearEndService {
                     originEntryService.createEntry(
                             offsetEntry, nominalClosingOriginEntryGroup);
                     
-                    offsetsWritten++;
-                    
 //                1145  008200     MOVE WS-AMT-N TO TRN-LDGR-ENTR-AMT.
 //                1146  008210     IF GLEDATA-STATUS > '09'
 //                1147  008220        DISPLAY '**ERROR WRITING GLE DATA FILE '
@@ -1164,6 +1161,30 @@ public class YearEndServiceImpl implements YearEndService {
         
 //        784  004670 2000-DRIVER-EXIT.
 //        785  004680     EXIT.
+        
+        // Assemble statistics.
+        List statistics = new ArrayList();
+        Summary summary = new Summary();
+        summary.setSortOrder(1);
+        summary.setDescription("NUMBER OF GLBL RECORDS READ");
+        summary.setCount(globalReadCount);
+        statistics.add(summary);
+        
+        summary = new Summary();
+        summary.setSortOrder(2);
+        summary.setDescription("NUMBER OF GLBL RECORDS SELECTED");
+        summary.setCount(globalSelectCount);
+        statistics.add(summary);
+        
+        summary = new Summary();
+        summary.setSortOrder(3);
+        summary.setDescription("NUMBER OF SEQ RECORDS WRITTEN");
+        summary.setCount(sequenceWriteCount);
+        statistics.add(summary);
+        
+        Date runDate = new Date(dateTimeService.getCurrentDate().getTime());
+        nominalActivityClosingReport.generateStatisticsReport(statistics, runDate);
+        
     }
     
     /**
@@ -1640,6 +1661,12 @@ public class YearEndServiceImpl implements YearEndService {
     public void setSubFundGroupService(SubFundGroupService subFundGroupService) {
         this.subFundGroupService = subFundGroupService;
     }
-    
+
+    /**
+     * @param nominalActivityClosingReport
+     */
+    public void setNominalActivityClosingReport(NominalActivityClosingReport nominalActivityClosingReport) {
+        this.nominalActivityClosingReport = nominalActivityClosingReport;
+    }
     
 }

@@ -22,24 +22,41 @@
  */
 package org.kuali.module.kra.util;
 
-
 public class AuditError {
     
-    private String key;
+    private String errorKey;
+    private String messageKey;
     private String[] params;
     private String link;
     
-    public AuditError(String key, String link) {
-        this.setKey(key);
+    public AuditError(String errorKey, String messageKey, String link) {
+        this.setErrorKey(errorKey);
+        this.setMessageKey(messageKey);
         this.params = new String[5];
         this.setLink(link);
     }
     
-    public AuditError(String key, String[] params, String link) {
-        this(key, link);
+    public AuditError(String errorKey, String messageKey, String[] params, String link) {
+        this(errorKey, messageKey, link);
         for (int i = 0; i < params.length; i++) {
             this.params[i] = params[i];
         }
+    }
+    
+    /**
+     * Gets the errorKey attribute. 
+     * @return Returns the errorKey.
+     */
+    public String getErrorKey() {
+        return errorKey;
+    }
+
+    /**
+     * Sets the errorKey attribute value.
+     * @param errorKey The errorKey to set.
+     */
+    public void setErrorKey(String errorKey) {
+        this.errorKey = errorKey;
     }
 
     /**
@@ -62,16 +79,16 @@ public class AuditError {
      * Gets the key attribute. 
      * @return Returns the key.
      */
-    public String getKey() {
-        return key;
+    public String getMessageKey() {
+        return messageKey;
     }
 
     /**
      * Sets the key attribute value.
      * @param key The key to set.
      */
-    public void setKey(String key) {
-        this.key = key;
+    public void setMessageKey(String messageKey) {
+        this.messageKey = messageKey;
     }
 
     /**

@@ -1379,6 +1379,7 @@ public class YearEndServiceImpl implements YearEndService {
     public void forwardEncumbrances() {
 
         Integer varFiscalYear = null;
+        Date varTransactionDate = null;
 
         try {
             
@@ -1394,16 +1395,42 @@ public class YearEndServiceImpl implements YearEndService {
                     "Unable to get university fiscal year from kualiConfigurationService", e);
             
         }
+
+        try {
+            
+            DateFormat transactionDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            varTransactionDate = 
+                new Date(transactionDateFormat.parse(
+                        kualiConfigurationService.getApplicationParameterValue(
+                                "fis_gl_year_end.sh", "TRANSACTION_DT")).getTime());
+            
+        } catch (ApplicationParameterException e) {
+            
+            LOG.error(
+                "Unable to get TRANSACTION_DT from kualiConfigurationService");
+            throw new RuntimeException(
+                "Unable to get transaction date from kualiConfigurationService", e);
+            
+        } catch (ParseException pe) {
+            
+            LOG.error(
+                "Failed to parse TRANSACTION_DT from kualiConfigurationService");
+            throw new RuntimeException(
+                "Unable to get transaction date from kualiConfigurationService", pe);
+            
+        }
         
         int encumbrancesRead = 0;
         int encumbrancesSelected = 0;
         int originEntriesWritten = 0;
         
-        Date today = new Date(dateTimeService.getCurrentDate().getTime());
+        // Date today = new Date(dateTimeService.getCurrentDate().getTime());
         
         OriginEntryGroup originEntryGroup = 
             originEntryGroupService.createGroup(
-                today, OriginEntrySource.YEAR_END_ENCUMBRANCE_CLOSING, true, true, true);
+                    varTransactionDate, 
+                    OriginEntrySource.YEAR_END_ENCUMBRANCE_CLOSING, 
+                    true, true, true);
 
         // encumbranceDao will return Encumbrances sorted properly by all of the appropriate keys.
         Iterator encumbranceIterator = 
@@ -1419,8 +1446,7 @@ public class YearEndServiceImpl implements YearEndService {
                 
                 OriginEntryOffsetPair beginningBalanceEntryPair = 
                     EncumbranceClosingOriginEntryFactory.createBeginningBalanceEntryOffsetPair(
-                        encumbrance, varFiscalYear, new Date(
-                                dateTimeService.getCurrentDate().getTime()));
+                        encumbrance, varFiscalYear, varTransactionDate);
                 
                 if(beginningBalanceEntryPair.isFatalErrorFlag()) {
                     
@@ -1428,13 +1454,17 @@ public class YearEndServiceImpl implements YearEndService {
                     
                 } else {
                     
-                    beginningBalanceEntryPair.getEntry().setGroup(originEntryGroup);
-                    beginningBalanceEntryPair.getOffset().setGroup(originEntryGroup);
+                    beginningBalanceEntryPair.getEntry().setGroup(
+                            originEntryGroup);
+                    beginningBalanceEntryPair.getOffset().setGroup(
+                            originEntryGroup);
                     
                     originEntryService.createEntry(
-                            beginningBalanceEntryPair.getEntry(), originEntryGroup);
+                            beginningBalanceEntryPair.getEntry(), 
+                            originEntryGroup);
                     originEntryService.createEntry(
-                            beginningBalanceEntryPair.getOffset(), originEntryGroup);
+                            beginningBalanceEntryPair.getOffset(), 
+                            originEntryGroup);
                     originEntriesWritten += 2;
                 
                 }
@@ -1445,8 +1475,10 @@ public class YearEndServiceImpl implements YearEndService {
                     
                     isEligibleForCostShare = 
                         encumbranceClosingRuleHelper.isEncumbranceEligibleForCostShare(
-							beginningBalanceEntryPair.getEntry(), beginningBalanceEntryPair.getOffset(),
-                            encumbrance, beginningBalanceEntryPair.getEntry().getFinancialObjectTypeCode());
+							beginningBalanceEntryPair.getEntry(), 
+                            beginningBalanceEntryPair.getOffset(),
+                            encumbrance, 
+                            beginningBalanceEntryPair.getEntry().getFinancialObjectTypeCode());
                     
                 } catch(FatalErrorException fee) {
                     
@@ -1466,13 +1498,17 @@ public class YearEndServiceImpl implements YearEndService {
                         
                     } else {
                         
-                        costShareBeginningBalanceEntryPair.getEntry().setGroup(originEntryGroup);
-                        costShareBeginningBalanceEntryPair.getOffset().setGroup(originEntryGroup);
+                        costShareBeginningBalanceEntryPair.getEntry().setGroup(
+                                originEntryGroup);
+                        costShareBeginningBalanceEntryPair.getOffset().setGroup(
+                                originEntryGroup);
                         
                         originEntryService.createEntry(
-                                costShareBeginningBalanceEntryPair.getEntry(), originEntryGroup);
+                                costShareBeginningBalanceEntryPair.getEntry(), 
+                                originEntryGroup);
                         originEntryService.createEntry(
-                                costShareBeginningBalanceEntryPair.getOffset(), originEntryGroup);
+                                costShareBeginningBalanceEntryPair.getOffset(), 
+                                originEntryGroup);
                         originEntriesWritten += 2;
                         
                     }

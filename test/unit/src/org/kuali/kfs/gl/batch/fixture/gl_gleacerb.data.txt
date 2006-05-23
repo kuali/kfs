@@ -1,428 +1,428 @@
-2005BA6044900-----4700---EXEXBBEXENLG12405000900001POM, INC.                               +0000000000182.00D2006-04-17          ----------                                 D
-2005BA6044900-----9892---EXFBBBEXENLG12405000900001BEGINNING FUND BALANCE OFFSET           +0000000000182.00C2006-04-17          ----------                                 D
-2005BA6044900-----4700---EXEXBBEXENLG12405001500001TENNANT COMPANY                         +0000000001967.12D2006-04-17          ----------                                 D
-2005BA6044900-----9892---EXFBBBEXENLG12405001500001BEGINNING FUND BALANCE OFFSET           +0000000001967.12C2006-04-17          ----------                                 D
-2005BA6044900-----4700---IEEXBBID01EUB4443330 00001Bloomington Physical Plant              +0000000011546.16D2006-04-17          ----------                                 D
-2005BA6044900-----9891---IEFBBBID01EUB4443330 00001BEGINNING FUND BALANCE OFFSET           +0000000011546.16C2006-04-17          ----------                                 D
-2005BA6044900-----4768---IEEXBBID01EUB2185363 00001Bloomington Physical Plant              +0000000000000.03D2006-04-17          ----------                                 D
-2005BA6044900-----9891---IEFBBBID01EUB2185363 00001BEGINNING FUND BALANCE OFFSET           +0000000000000.03C2006-04-17          ----------                                 D
-2005BA6044900-----4768---IEEXBBID01EUB2261646 00001Bloomington Physical Plant              +0000000000000.02D2006-04-17          ----------                                 D
-2005BA6044900-----9891---IEFBBBID01EUB2261646 00001BEGINNING FUND BALANCE OFFSET           +0000000000000.02C2006-04-17          ----------                                 D
-2005BA6044900-----4768---IEEXBBID01EUB2292578 00001Bloomington Physical Plant              +0000000000000.02D2006-04-17          ----------                                 D
-2005BA6044900-----9891---IEFBBBID01EUB2292578 00001BEGINNING FUND BALANCE OFFSET           +0000000000000.02C2006-04-17          ----------                                 D
-2005BA6044900-----4776---EXEXBBEXENLG12310012600001LIGHT & BREUNING, INC.                  +0000000000365.51D2006-04-17          ----------                                 D
-2005BA6044900-----9892---EXFBBBEXENLG12310012600001BEGINNING FUND BALANCE OFFSET           +0000000000365.51C2006-04-17          ----------                                 D
-2005BA6044900-----4906---EXEXBBEXENLG12408001700001CINTAS CORPORATION                      +0000000001144.68D2006-04-17          ----------                                 D
-2005BA6044900-----9892---EXFBBBEXENLG12408001700001BEGINNING FUND BALANCE OFFSET           +0000000001144.68C2006-04-17          ----------                                 D
-2005BA6044900-----5200---EXEXBBEXENLG12411001300001LIGHT & BREUNING, INC.                  +0000000001735.80D2006-04-17          ----------                                 D
-2005BA6044900-----9892---EXFBBBEXENLG12411001300001BEGINNING FUND BALANCE OFFSET           +0000000001735.80C2006-04-17          ----------                                 D
-2005BA6044900-----5200---EXEXBBEXENLG24405001000001TABCO BUSINESS FORMS, INC               +0000000000391.50D2006-04-17          ----------                                 D
-2005BA6044900-----9892---EXFBBBEXENLG24405001000001BEGINNING FUND BALANCE OFFSET           +0000000000391.50C2006-04-17          ----------                                 D
-2005BA6044900-----6100---EXEXBBEXENEUTR378329 00001ABRAHAM, RANJI                          +0000000001260.50D2006-04-17          ----------                                 D
-2005BA6044900-----9892---EXFBBBEXENEUTR378329 00001BEGINNING FUND BALANCE OFFSET           +0000000001260.50C2006-04-17          ----------                                 D
-2005BA6044900-----6100---EXEXBBEXENEUTR404139 00001WHITLOW, MIRIAM                         +0000000000509.24D2006-04-17          ----------                                 D
-2005BA6044900-----9892---EXFBBBEXENEUTR404139 00001BEGINNING FUND BALANCE OFFSET           +0000000000509.24C2006-04-17          ----------                                 D
-2005BA6044900-----6100JAFEXEXBBEXENEUTR411644 00001FLAHERTY, JULIA                         +0000000000701.72D2006-04-17          ----------                                 D
-2005BA6044900-----9892JAFEXFBBBEXENEUTR411644 00001BEGINNING FUND BALANCE OFFSET           +0000000000701.72C2006-04-17          ----------                                 D
-2005BA6044906-----4906---EXEXBBEXENLG16404002500001THE UNIFORM HOUSE INC                   +0000000001712.13D2006-04-17          ----------                                 D
-2005BA6044906-----9892---EXFBBBEXENLG16404002500001BEGINNING FUND BALANCE OFFSET           +0000000001712.13C2006-04-17          ----------                                 D
-2005BA6044913-----4768---IEEXBBID01EUB1113144 00001Bloomington Physical Plant              +0000000000000.03D2006-04-17          ----------                                 D
-2005BA6044913-----9891---IEFBBBID01EUB1113144 00001BEGINNING FUND BALANCE OFFSET           +0000000000000.03C2006-04-17          ----------                                 D
-2005BA9019995-----7468---EXEEBBEXENLG22402000800001BLEDSOE TAPP & RIGGERT, INC.            +0000000018887.00D2006-04-17          ----------                                 D
-2005BA9019995-----9892---EXFBBBEXENLG22402000800001BEGINNING FUND BALANCE OFFSET           +0000000018887.00C2006-04-17          ----------                                 D
-2005BA9020174-----7468---EXEEBBEXENLG22312000100001BLEDSOE TAPP & RIGGERT, INC.            +0000000002572.26D2006-04-17          ----------                                 D
-2005BA9020174-----9892---EXFBBBEXENLG22312000100001BEGINNING FUND BALANCE OFFSET           +0000000002572.26C2006-04-17          ----------                                 D
-2005BA9020204-----7468---EXEEBBEXENLG22404000400001BLEDSOE TAPP & RIGGERT, INC.            +0000000010270.00D2006-04-17          ----------                                 D
-2005BA9020204-----9892---EXFBBBEXENLG22404000400001BEGINNING FUND BALANCE OFFSET           +0000000010270.00C2006-04-17          ----------                                 D
-2005BA9020224-----4768---IEEXBBID01EUB2242990 00001Bloomington Physical Plant              +0000000000000.01D2006-04-17          ----------                                 D
-2005BA9020224-----9891---IEFBBBID01EUB2242990 00001BEGINNING FUND BALANCE OFFSET           +0000000000000.01C2006-04-17          ----------                                 D
-2005BA9020224-----4768---IEEXBBID01EUB4242990 00001Bloomington Physical Plant              +0000000010805.80D2006-04-17          ----------                                 D
-2005BA9020224-----9891---IEFBBBID01EUB4242990 00001BEGINNING FUND BALANCE OFFSET           +0000000010805.80C2006-04-17          ----------                                 D
-2005BA9021104-----4768---IEEXBBID01EUB4242976 00001Bloomington Physical Plant              +0000000008981.60D2006-04-17          ----------                                 D
-2005BA9021104-----9891---IEFBBBID01EUB4242976 00001BEGINNING FUND BALANCE OFFSET           +0000000008981.60C2006-04-17          ----------                                 D
-2005BA9244901-----4700---IEEXBBID01EUB4398734 00001Bloomington Physical Plant              +0000000000000.01D2006-04-17          ----------                                 D
-2005BA9244901-----9891---IEFBBBID01EUB4398734 00001BEGINNING FUND BALANCE OFFSET           +0000000000000.01C2006-04-17          ----------                                 D
-2005BA9244940-----4700---IEEXBBID01EUB4398733 00001Bloomington Physical Plant              +0000000039886.54D2006-04-17          ----------                                 D
-2005BA9244940-----9891---IEFBBBID01EUB4398733 00001BEGINNING FUND BALANCE OFFSET           +0000000039886.54C2006-04-17          ----------                                 D
-2005BA9244940-----4700---IEEXBBID01EUB4398734 00001Bloomington Physical Plant              +0000000040000.00D2006-04-17          ----------                                 D
-2005BA9244940-----9891---IEFBBBID01EUB4398734 00001BEGINNING FUND BALANCE OFFSET           +0000000040000.00C2006-04-17          ----------                                 D
-2005BA9244940-----4768---IEEXBBID01EUB4530206 00001Bloomington Physical Plant              +0000000027228.99D2006-04-17          ----------                                 D
-2005BA9244940-----9891---IEFBBBID01EUB4530206 00001BEGINNING FUND BALANCE OFFSET           +0000000027228.99C2006-04-17          ----------                                 D
-2005BL1031400-----4055---EXEXBBEXENLG81405070900001ELSEVIER HEALTH SCIENCE                 +0000000000007.51D2006-04-17          ----------                                 D
-2005BL1031400-----9892---EXFBBBEXENLG81405070900001BEGINNING FUND BALANCE OFFSET           +0000000000007.51C2006-04-17          ----------                                 D
-2005BL1031400-----4938---EXEXBBEXENLG81402130700001QIAGEN INC                              +0000000000191.00D2006-04-17          ----------                                 D
-2005BL1031400-----9892---EXFBBBEXENLG81402130700001BEGINNING FUND BALANCE OFFSET           +0000000000191.00C2006-04-17          ----------                                 D
-2005BL1031400-----5017---EXEXBBEXENLG20404002100001INDIANA OXYGEN COMPANY                  +0000000000200.00D2006-04-17          ----------                                 D
-2005BL1031400-----9892---EXFBBBEXENLG20404002100001BEGINNING FUND BALANCE OFFSET           +0000000000200.00C2006-04-17          ----------                                 D
-2005BL1031400-----6100---EXEXBBEXENEUTR414595 00001SENGELAUB, DALE                         +0000000000665.00D2006-04-17          ----------                                 D
-2005BL1031400-----9892---EXFBBBEXENEUTR414595 00001BEGINNING FUND BALANCE OFFSET           +0000000000665.00C2006-04-17          ----------                                 D
-2005BL1031400-----6100---EXEXBBEXENEUTR423590 00001BUSEMEYER, JEROME                       +0000000000165.00D2006-04-17          ----------                                 D
-2005BL1031400-----9892---EXFBBBEXENEUTR423590 00001BEGINNING FUND BALANCE OFFSET           +0000000000165.00C2006-04-17          ----------                                 D
-2005BL1031400-----6100---EXEXBBEXENEUTR423845 00001BUSEMEYER, JEROME                       +0000000000506.15D2006-04-17          ----------                                 D
-2005BL1031400-----9892---EXFBBBEXENEUTR423845 00001BEGINNING FUND BALANCE OFFSET           +0000000000506.15C2006-04-17          ----------                                 D
-2005BL1031400-----6100---EXEXBBEXENEUTR430213 00001KRUSCHKE, JOHN                          +0000000000415.00D2006-04-17          ----------                                 D
-2005BL1031400-----9892---EXFBBBEXENEUTR430213 00001BEGINNING FUND BALANCE OFFSET           +0000000000415.00C2006-04-17          ----------                                 D
-2005BL1031400BOD  4910---EXEXBBEXENLG17404002300001SCANDINAVIAN IMPORTS                    +0000000000169.00D2006-04-17          ----------                                 D
-2005BL1031400BOD  9892---EXFBBBEXENLG17404002300001BEGINNING FUND BALANCE OFFSET           +0000000000169.00C2006-04-17          ----------                                 D
-2005BL1031400CHR  6100---EXEXBBEXENEUTR399985 00001STEINMETZ, JOSEPH                       +0000000000819.72D2006-04-17          ----------                                 D
-2005BL1031400CHR  9892---EXFBBBEXENEUTR399985 00001BEGINNING FUND BALANCE OFFSET           +0000000000819.72C2006-04-17          ----------                                 D
-2005BL1031400JBD  4115---EXEXBBEXENLG81406236500001CANNON IV, INC.                         +0000000000040.68D2006-04-17          ----------                                 D
-2005BL1031400JBD  9892---EXFBBBEXENLG81406236500001BEGINNING FUND BALANCE OFFSET           +0000000000040.68C2006-04-17          ----------                                 D
-2005BL1031400JBT  4115---EXEXBBEXENLG81406236500001CANNON IV, INC.                         +0000000000040.67D2006-04-17          ----------                                 D
-2005BL1031400JBT  9892---EXFBBBEXENLG81406236500001BEGINNING FUND BALANCE OFFSET           +0000000000040.67C2006-04-17          ----------                                 D
-2005BL1031400REC  4502---EXEXBBEXENLG81407207500001APA MONITOR                             +0000000000430.00D2006-04-17          ----------                                 D
-2005BL1031400REC  9892---EXFBBBEXENLG81407207500001BEGINNING FUND BALANCE OFFSET           +0000000000430.00C2006-04-17          ----------                                 D
-2005BL1031400REC  4502---EXEXBBEXENLG81407207700001APA MONITOR                             +0000000000390.00D2006-04-17          ----------                                 D
-2005BL1031400REC  9892---EXFBBBEXENLG81407207700001BEGINNING FUND BALANCE OFFSET           +0000000000390.00C2006-04-17          ----------                                 D
-2005BL1031400REC  4502---EXEXBBEXENLG81407224200001SOCIETY FOR NEUROSCIENCE                +0000000000210.00D2006-04-17          ----------                                 D
-2005BL1031400REC  9892---EXFBBBEXENLG81407224200001BEGINNING FUND BALANCE OFFSET           +0000000000210.00C2006-04-17          ----------                                 D
-2005BL1031400REC  4502---EXEXBBEXENLG81407225400001APA MONITOR                             +0000000000400.00D2006-04-17          ----------                                 D
-2005BL1031400REC  9892---EXFBBBEXENLG81407225400001BEGINNING FUND BALANCE OFFSET           +0000000000400.00C2006-04-17          ----------                                 D
-2005BL1031400RVD  6100---EXEXBBEXENEUTR430838 00001VIKEN, RICHARD                          +0000000000435.00D2006-04-17          ----------                                 D
-2005BL1031400RVD  9892---EXFBBBEXENEUTR430838 00001BEGINNING FUND BALANCE OFFSET           +0000000000435.00C2006-04-17          ----------                                 D
-2005BL1031400STT  4055---EXEXBBEXENLG81403189800001LAWRENCE ERLBAUM ASSOCIATES INC         +0000000000069.95D2006-04-17          ----------                                 D
-2005BL1031400STT  9892---EXFBBBEXENLG81403189800001BEGINNING FUND BALANCE OFFSET           +0000000000069.95C2006-04-17          ----------                                 D
-2005BL2220090-----6100---EXEXBBEXENEUTR422435 00001BREHM, SHARON                           +0000000000050.25D2006-04-17          ----------                                 D
-2005BL2220090-----9892---EXFBBBEXENEUTR422435 00001BEGINNING FUND BALANCE OFFSET           +0000000000050.25C2006-04-17          ----------                                 D
-2005BL2220090-----6100---EXEXBBEXENEUTR427932 00001BREHM, SHARON                           +0000000000453.25D2006-04-17          ----------                                 D
-2005BL2220090-----9892---EXFBBBEXENEUTR427932 00001BEGINNING FUND BALANCE OFFSET           +0000000000453.25C2006-04-17          ----------                                 D
-2005BL2231409-----6100---EXEXBBEXENEUTR344394 00001BOWDLE, BRIAN                           +0000000001177.57D2006-04-17          ----------                                 D
-2005BL2231409-----9892---EXFBBBEXENEUTR344394 00001BEGINNING FUND BALANCE OFFSET           +0000000001177.57C2006-04-17          ----------                                 D
-2005BL2231416-----4910---EXEXBBEXENLG17406014100001INDIANAPOLIS OFFICE SUPPLY              +0000000000131.13D2006-04-17          ----------                                 D
-2005BL2231416-----9892---EXFBBBEXENLG17406014100001BEGINNING FUND BALANCE OFFSET           +0000000000131.13C2006-04-17          ----------                                 D
-2005BL2231416-----6100---EXEXBBEXENEUTR429950 00001FROMMER, GABRIEL                        +0000000000463.25D2006-04-17          ----------                                 D
-2005BL2231416-----9892---EXFBBBEXENEUTR429950 00001BEGINNING FUND BALANCE OFFSET           +0000000000463.25C2006-04-17          ----------                                 D
-2005BL2231419-----6200---EXEXBBEXENEUTR430547 00001GOLD, JASON                             +0000000001483.25D2006-04-17          ----------                                 D
-2005BL2231419-----9892---EXFBBBEXENEUTR430547 00001BEGINNING FUND BALANCE OFFSET           +0000000001483.25C2006-04-17          ----------                                 D
-2005BL2231423-----5000---EXEXBBEXENLG20407069100001BOC GAS & GEAR                          +0000000000023.68D2006-04-17          ----------                                 D
-2005BL2231423-----9892---EXFBBBEXENLG20407069100001BEGINNING FUND BALANCE OFFSET           +0000000000023.68C2006-04-17          ----------                                 D
-2005BL2231423-----5017---EXEXBBEXENLG20407069000001BOC INDUSTRIAL GASES                    +0000000000120.00D2006-04-17          ----------                                 D
-2005BL2231423-----9892---EXFBBBEXENLG20407069000001BEGINNING FUND BALANCE OFFSET           +0000000000120.00C2006-04-17          ----------                                 D
-2005BL2231447-----6100---EXEXBBEXENEUTR389457 00001ALEXANDER, WILLIAM                      +0000000000577.23D2006-04-17          ----------                                 D
-2005BL2231447-----9892---EXFBBBEXENEUTR389457 00001BEGINNING FUND BALANCE OFFSET           +0000000000577.23C2006-04-17          ----------                                 D
-2005BL2231447-----6100---EXEXBBEXENEUTR389557 00001ALEXANDER, WILLIAM                      +0000000002519.37D2006-04-17          ----------                                 D
-2005BL2231447-----9892---EXFBBBEXENEUTR389557 00001BEGINNING FUND BALANCE OFFSET           +0000000002519.37C2006-04-17          ----------                                 D
-2005BL2231458-----6200---EXEXBBEXENEUTR352380 00001NOSOFSKY, ROBERT                        +0000000000816.15D2006-04-17          ----------                                 D
-2005BL2231458-----9892---EXFBBBEXENEUTR352380 00001BEGINNING FUND BALANCE OFFSET           +0000000000816.15C2006-04-17          ----------                                 D
-2005BL2231458-----6200---EXEXBBEXENEUTR352756 00001NOSOFSKY, ROBERT                        +0000000000288.15D2006-04-17          ----------                                 D
-2005BL2231458-----9892---EXFBBBEXENEUTR352756 00001BEGINNING FUND BALANCE OFFSET           +0000000000288.15C2006-04-17          ----------                                 D
-2005BL2231459-----5000---EXEXBBEXENLG81304082800001CANNON IV OFFICE PRODUCTS               +0000000000081.35D2006-04-17          ----------                                 D
-2005BL2231459-----9892---EXFBBBEXENLG81304082800001BEGINNING FUND BALANCE OFFSET           +0000000000081.35C2006-04-17          ----------                                 D
-2005BL2231479-----4700---EXEXBBEXENLG20401013400001LEICA (CAMBRIDGE)                       +0000000000750.00D2006-04-17          ----------                                 D
-2005BL2231479-----9892---EXFBBBEXENLG20401013400001BEGINNING FUND BALANCE OFFSET           +0000000000750.00C2006-04-17          ----------                                 D
-2005BL2231481-----4035---EXEXBBEXENLG20407069200001PAIN ENTERPRISES                        +0000000000113.00D2006-04-17          ----------                                 D
-2005BL2231481-----9892---EXFBBBEXENLG20407069200001BEGINNING FUND BALANCE OFFSET           +0000000000113.00C2006-04-17          ----------                                 D
-2005BL2231485-----5200---EXEXBBEXENLG81406097100001AJUMP.COM                               +0000000000279.00D2006-04-17          ----------                                 D
-2005BL2231485-----9892---EXFBBBEXENLG81406097100001BEGINNING FUND BALANCE OFFSET           +0000000000279.00C2006-04-17          ----------                                 D
-2005BL2231485-----6100---EXEXBBEXENEUTR416510 00001THELEN, ESTHER                          +0000000000451.72D2006-04-17          ----------                                 D
-2005BL2231485-----9892---EXFBBBEXENEUTR416510 00001BEGINNING FUND BALANCE OFFSET           +0000000000451.72C2006-04-17          ----------                                 D
-2005BL2231490-----6100---EXEXBBEXENEUTR363077 00001BUSEMEYER, JEROME                       +0000000000866.62D2006-04-17          ----------                                 D
-2005BL2231490-----9892---EXFBBBEXENEUTR363077 00001BEGINNING FUND BALANCE OFFSET           +0000000000866.62C2006-04-17          ----------                                 D
-2005BL2231490-----6100---EXEXBBEXENEUTR363077800001BUSEMEYER, JEROME                       +0000000000866.62C2006-04-17          ----------                                 D
-2005BL2231490-----9892---EXFBBBEXENEUTR363077800001BEGINNING FUND BALANCE OFFSET           +0000000000866.62D2006-04-17          ----------                                 D
-2005BL2231490-----6200---EXEXBBEXENEUTR370315 00001BUSEMEYER, JEROME                       +0000000002222.29D2006-04-17          ----------                                 D
-2005BL2231490-----9892---EXFBBBEXENEUTR370315 00001BEGINNING FUND BALANCE OFFSET           +0000000002222.29C2006-04-17          ----------                                 D
-2005BL2231490-----6200---EXEXBBEXENEUTR370316 00001BUSEMEYER, JEROME                       +0000000002222.29C2006-04-17          ----------                                 D
-2005BL2231490-----9892---EXFBBBEXENEUTR370316 00001BEGINNING FUND BALANCE OFFSET           +0000000002222.29D2006-04-17          ----------                                 D
-2005BL2231490-----6200---EXEXBBEXENEUTR430214 00001BUSEMEYER, JEROME                       +0000000000765.00D2006-04-17          ----------                                 D
-2005BL2231490-----9892---EXFBBBEXENEUTR430214 00001BEGINNING FUND BALANCE OFFSET           +0000000000765.00C2006-04-17          ----------                                 D
-2005BL2231495-----4035---EXEXBBEXENLG20407069200001PAIN ENTERPRISES                        +0000000000023.00D2006-04-17          ----------                                 D
-2005BL2231495-----9892---EXFBBBEXENLG20407069200001BEGINNING FUND BALANCE OFFSET           +0000000000023.00C2006-04-17          ----------                                 D
-2005BL2231495-----4700---EXEXBBEXENLG20401013400001LEICA (CAMBRIDGE)                       +0000000000750.00D2006-04-17          ----------                                 D
-2005BL2231495-----9892---EXFBBBEXENLG20401013400001BEGINNING FUND BALANCE OFFSET           +0000000000750.00C2006-04-17          ----------                                 D
-2005BL2231495-----7000---EXEEBBEXENLG20406005300001MED ASSOCIATES INC                      +0000000017247.00D2006-04-17          ----------                                 D
-2005BL2231495-----9892---EXFBBBEXENLG20406005300001BEGINNING FUND BALANCE OFFSET           +0000000017247.00C2006-04-17          ----------                                 D
-2005BL2231495-----7016---EXEEBBEXENLG20406005300001MED ASSOCIATES INC                      +0000000001331.00D2006-04-17          ----------                                 D
-2005BL2231495-----9892---EXFBBBEXENLG20406005300001BEGINNING FUND BALANCE OFFSET           +0000000001331.00C2006-04-17          ----------                                 D
-2005BL2231566-----4035---EXEXBBEXENLG81406044700001VWR INTERNATIONAL                       +0000000000000.03D2006-04-17          ----------                                 D
-2005BL2231566-----9892---EXFBBBEXENLG81406044700001BEGINNING FUND BALANCE OFFSET           +0000000000000.03C2006-04-17          ----------                                 D
-2005BL2231566-----4700---EXEXBBEXENLG81406170200001RPS IMAGING INC                         +0000000000100.00D2006-04-17          ----------                                 D
-2005BL2231566-----9892---EXFBBBEXENLG81406170200001BEGINNING FUND BALANCE OFFSET           +0000000000100.00C2006-04-17          ----------                                 D
-2005BL2231566-----5017---EXEXBBEXENLG20404002200001INDIANA OXYGEN COMPANY                  +0000000000200.00D2006-04-17          ----------                                 D
-2005BL2231566-----9892---EXFBBBEXENLG20404002200001BEGINNING FUND BALANCE OFFSET           +0000000000200.00C2006-04-17          ----------                                 D
-2005BL2231566-----5200---EXEXBBEXENLG20406021000001FRYER CO INC                            +0000000001865.80D2006-04-17          ----------                                 D
-2005BL2231566-----9892---EXFBBBEXENLG20406021000001BEGINNING FUND BALANCE OFFSET           +0000000001865.80C2006-04-17          ----------                                 D
-2005BL2231566-----5200---EXEXBBEXENLG81412040700001FERREE CABINET CO.                      +0000000000020.00D2006-04-17          ----------                                 D
-2005BL2231566-----9892---EXFBBBEXENLG81412040700001BEGINNING FUND BALANCE OFFSET           +0000000000020.00C2006-04-17          ----------                                 D
-2005BL2231580-----6100---EXEXBBEXENEUTR422238 00001TORMALA, ZAKARY                         +0000000000540.00D2006-04-17          ----------                                 D
-2005BL2231580-----9892---EXFBBBEXENEUTR422238 00001BEGINNING FUND BALANCE OFFSET           +0000000000540.00C2006-04-17          ----------                                 D
-2005BL2331403-----4938---EXEXBBEXENLG20407069300001ANCARE CORPORATION                      +0000000000372.93D2006-04-17          ----------                                 D
-2005BL2331403-----9892---EXFBBBEXENLG20407069300001BEGINNING FUND BALANCE OFFSET           +0000000000372.93C2006-04-17          ----------                                 D
-2005BL2331403-----5017---EXEXBBEXENLG20408008000001INDIANA OXYGEN COMPANY                  +0000000000621.72D2006-04-17          ----------                                 D
-2005BL2331403-----9892---EXFBBBEXENLG20408008000001BEGINNING FUND BALANCE OFFSET           +0000000000621.72C2006-04-17          ----------                                 D
-2005BL2331405-----4035---EXEXBBEXENLG20407069200001PAIN ENTERPRISES                        +0000000000113.00D2006-04-17          ----------                                 D
-2005BL2331405-----9892---EXFBBBEXENLG20407069200001BEGINNING FUND BALANCE OFFSET           +0000000000113.00C2006-04-17          ----------                                 D
-2005BL2331405-----4700---EXEXBBEXENLG20401013400001LEICA (CAMBRIDGE)                       +0000000000750.00D2006-04-17          ----------                                 D
-2005BL2331405-----9892---EXFBBBEXENLG20401013400001BEGINNING FUND BALANCE OFFSET           +0000000000750.00C2006-04-17          ----------                                 D
-2005BL2331405-----4938---EXEXBBEXENLG20401013200001INDIANA OXYGEN COMPANY                  +0000000000303.90D2006-04-17          ----------                                 D
-2005BL2331405-----9892---EXFBBBEXENLG20401013200001BEGINNING FUND BALANCE OFFSET           +0000000000303.90C2006-04-17          ----------                                 D
-2005BL2331405-----4938---EXEXBBEXENLG20407068900001BOC GAS & GEAR                          +0000000000010.83D2006-04-17          ----------                                 D
-2005BL2331405-----9892---EXFBBBEXENLG20407068900001BEGINNING FUND BALANCE OFFSET           +0000000000010.83C2006-04-17          ----------                                 D
-2005BL2331405-----4938---EXEXBBEXENLG81406126700001R & D SYSTEMS INC                       +0000000000245.00D2006-04-17          ----------                                 D
-2005BL2331405-----9892---EXFBBBEXENLG81406126700001BEGINNING FUND BALANCE OFFSET           +0000000000245.00C2006-04-17          ----------                                 D
-2005BL2331405-----5200---EXEXBBEXENLG81405125600001MICRO PROBE, INC.                       +0000000000220.00D2006-04-17          ----------                                 D
-2005BL2331405-----9892---EXFBBBEXENLG81405125600001BEGINNING FUND BALANCE OFFSET           +0000000000220.00C2006-04-17          ----------                                 D
-2005BL2331405-----6100---EXEXBBEXENEUTR429952 00001MOWERY, TODD                            +0000000000415.00D2006-04-17          ----------                                 D
-2005BL2331405-----9892---EXFBBBEXENEUTR429952 00001BEGINNING FUND BALANCE OFFSET           +0000000000415.00C2006-04-17          ----------                                 D
-2005BL2331405-----6100---EXEXBBEXENEUTR429953 00001SAMUELSON, DANIELLE                     +0000000000415.00D2006-04-17          ----------                                 D
-2005BL2331405-----9892---EXFBBBEXENEUTR429953 00001BEGINNING FUND BALANCE OFFSET           +0000000000415.00C2006-04-17          ----------                                 D
-2005BL2331412-----6100---EXEXBBEXENEUTR426357 00001VOHS, JENIFER                           +0000000000400.00D2006-04-17          ----------                                 D
-2005BL2331412-----9892---EXFBBBEXENEUTR426357 00001BEGINNING FUND BALANCE OFFSET           +0000000000400.00C2006-04-17          ----------                                 D
-2005BL2331412-----6100---EXEXBBEXENEUTR430202 00001FARRIS, COREEN                          +0000000000400.00D2006-04-17          ----------                                 D
-2005BL2331412-----9892---EXFBBBEXENEUTR430202 00001BEGINNING FUND BALANCE OFFSET           +0000000000400.00C2006-04-17          ----------                                 D
-2005BL2331427-----6100---EXEXBBEXENEUTR345246 00001TOWLES-SCHWEN, TAMARA                   +0000000000879.56D2006-04-17          ----------                                 D
-2005BL2331427-----9892---EXFBBBEXENEUTR345246 00001BEGINNING FUND BALANCE OFFSET           +0000000000879.56C2006-04-17          ----------                                 D
-2005BL2331430-----4700---IEEXBBID01EUB1121826 00001Bloomington Physical Plant              +0000000000000.01D2006-04-17          ----------                                 D
-2005BL2331430-----9891---IEFBBBID01EUB1121826 00001BEGINNING FUND BALANCE OFFSET           +0000000000000.01C2006-04-17          ----------                                 D
-2005BL2331430-----4700---IEEXBBID01EUB2121826 00001Bloomington Physical Plant              +0000000000000.01D2006-04-17          ----------                                 D
-2005BL2331430-----9891---IEFBBBID01EUB2121826 00001BEGINNING FUND BALANCE OFFSET           +0000000000000.01C2006-04-17          ----------                                 D
-2005BL2331430-----4700---IEEXBBID01EUB2168290 00001Bloomington Physical Plant              +0000000000000.02D2006-04-17          ----------                                 D
-2005BL2331430-----9891---IEFBBBID01EUB2168290 00001BEGINNING FUND BALANCE OFFSET           +0000000000000.02C2006-04-17          ----------                                 D
-2005BL2331430-----4700---IEEXBBID01EUB4508070 00001Bloomington Physical Plant              +0000000014000.00D2006-04-17          ----------                                 D
-2005BL2331430-----9891---IEFBBBID01EUB4508070 00001BEGINNING FUND BALANCE OFFSET           +0000000014000.00C2006-04-17          ----------                                 D
-2005BL2331430-----4700---IEEXBBID01EUB4513420 00001Bloomington Physical Plant              +0000000003993.39D2006-04-17          ----------                                 D
-2005BL2331430-----9891---IEFBBBID01EUB4513420 00001BEGINNING FUND BALANCE OFFSET           +0000000003993.39C2006-04-17          ----------                                 D
-2005BL2331430-----4768---IEEXBBID01EUB4510338 00001Bloomington Physical Plant              +0000000000000.01D2006-04-17          ----------                                 D
-2005BL2331430-----9891---IEFBBBID01EUB4510338 00001BEGINNING FUND BALANCE OFFSET           +0000000000000.01C2006-04-17          ----------                                 D
-2005BL2331473-----6100---EXEXBBEXENEUTR386122 00001TOWNSEND, JAMES                         +0000000001352.09D2006-04-17          ----------                                 D
-2005BL2331473-----9892---EXFBBBEXENEUTR386122 00001BEGINNING FUND BALANCE OFFSET           +0000000001352.09C2006-04-17          ----------                                 D
-2005BL2331473-----6100---EXEXBBEXENEUTR403973 00001TOWNSEND, JAMES                         +0000000000290.00D2006-04-17          ----------                                 D
-2005BL2331473-----9892---EXFBBBEXENEUTR403973 00001BEGINNING FUND BALANCE OFFSET           +0000000000290.00C2006-04-17          ----------                                 D
-2005BL2331474-----5017---EXEXBBEXENLG20407069700001BOC GAS & GEAR                          +0000000000035.36D2006-04-17          ----------                                 D
-2005BL2331474-----9892---EXFBBBEXENLG20407069700001BEGINNING FUND BALANCE OFFSET           +0000000000035.36C2006-04-17          ----------                                 D
-2005BL2331491-----4085---EXEXBBEXENLG21406002700001ANDREW KING                             +0000000002300.00D2006-04-17          ----------                                 D
-2005BL2331491-----9892---EXFBBBEXENLG21406002700001BEGINNING FUND BALANCE OFFSET           +0000000002300.00C2006-04-17          ----------                                 D
-2005BL2931497-----4166---EXEXBBEXENLG81409157400001KINKO'S                                 +0000000000094.65D2006-04-17          ----------                                 D
-2005BL2931497-----9892---EXFBBBEXENLG81409157400001BEGINNING FUND BALANCE OFFSET           +0000000000094.65C2006-04-17          ----------                                 D
-2005BL2931497-----5000---EXEXBBEXENLG81409162300001ENGRAVING AND STAMP CENTER              +0000000000024.50D2006-04-17          ----------                                 D
-2005BL2931497-----9892---EXFBBBEXENLG81409162300001BEGINNING FUND BALANCE OFFSET           +0000000000024.50C2006-04-17          ----------                                 D
-2005BL4031434-----6100---EXEXBBEXENEUTR410770 00001SANDHOFER, CATHERINE                    +0000000000815.72C2006-04-17          ----------                                 D
-2005BL4031434-----9892---EXFBBBEXENEUTR410770 00001BEGINNING FUND BALANCE OFFSET           +0000000000815.72D2006-04-17          ----------                                 D
-2005BL4031436-----4074---EXEXBBEXENLG10407031500001PURDUE UNIVERSITY                       +0000000004843.67D2006-04-17          ----------                                 D
-2005BL4031436-----9892---EXFBBBEXENLG10407031500001BEGINNING FUND BALANCE OFFSET           +0000000004843.67C2006-04-17          ----------                                 D
-2005BL4031436-----4075---EXEXBBEXENLG10407031500001PURDUE UNIVERSITY                       +0000000003050.00D2006-04-17          ----------                                 D
-2005BL4031436-----9892---EXFBBBEXENLG10407031500001BEGINNING FUND BALANCE OFFSET           +0000000003050.00C2006-04-17          ----------                                 D
-2005BL4031438-----5215---EXEXBBEXENLG81406157200001CDW GOVERNMENT, INC.                    +0000000000100.03D2006-04-17          ----------                                 D
-2005BL4031438-----9892---EXFBBBEXENLG81406157200001BEGINNING FUND BALANCE OFFSET           +0000000000100.03C2006-04-17          ----------                                 D
-2005BL4031438-----6100---EXEXBBEXENEUTR427084 00001STOUT, JULIE                            +0000000000290.00D2006-04-17          ----------                                 D
-2005BL4031438-----9892---EXFBBBEXENEUTR427084 00001BEGINNING FUND BALANCE OFFSET           +0000000000290.00C2006-04-17          ----------                                 D
-2005BL4131412-----6200---EXEXBBEXENEUTR427630 00001PRAUSE, NICOLE                          +0000000000700.00D2006-04-17          ----------                                 D
-2005BL4131412-----9892---EXFBBBEXENEUTR427630 00001BEGINNING FUND BALANCE OFFSET           +0000000000700.00C2006-04-17          ----------                                 D
-2005BL4531410-----4084---EXEXBBEXENLG26102000500001AMERITECH CUSTOM BUSINESS SERVICES      +0000000000116.64D2006-04-17          ----------                                 D
-2005BL4531410-----9892---EXFBBBEXENLG26102000500001BEGINNING FUND BALANCE OFFSET           +0000000000116.64C2006-04-17          ----------                                 D
-2005BL4531410-----4700---IEEXBBID01EUB2188032 00001Bloomington Physical Plant              +0000000000000.01D2006-04-17          ----------                                 D
-2005BL4531410-----9891---IEFBBBID01EUB2188032 00001BEGINNING FUND BALANCE OFFSET           +0000000000000.01C2006-04-17          ----------                                 D
-2005BL4531412-----6100---EXEXBBEXENEUTR429943 00001FENG, YING                              +0000000000328.25D2006-04-17          ----------                                 D
-2005BL4531412-----9892---EXFBBBEXENEUTR429943 00001BEGINNING FUND BALANCE OFFSET           +0000000000328.25C2006-04-17          ----------                                 D
-2005BL4631400-----6150---EXEXBBEXENEUTR427596 00001ROBERTS, MICHAEL                        +0000000001080.06D2006-04-17          ----------                                 D
-2005BL4631400-----9892---EXFBBBEXENEUTR427596 00001BEGINNING FUND BALANCE OFFSET           +0000000001080.06C2006-04-17          ----------                                 D
-2005BL4631492-----5017---EXEXBBEXENLG20104033700001BOC GAS & GEAR                          +0000000000107.71D2006-04-17          ----------                                 D
-2005BL4631492-----9892---EXFBBBEXENLG20104033700001BEGINNING FUND BALANCE OFFSET           +0000000000107.71C2006-04-17          ----------                                 D
-2005BL4631518-----4074---EXEXBBEXENLG10909038200001UNIVERSITY OF CALIFORNIA                +0000000007433.48D2006-04-17          ----------                                 D
-2005BL4631518-----9892---EXFBBBEXENLG10909038200001BEGINNING FUND BALANCE OFFSET           +0000000007433.48C2006-04-17          ----------                                 D
-2005BL4631527-----4035---EXEXBBEXENLG20407069200001PAIN ENTERPRISES                        +0000000000113.00D2006-04-17          ----------                                 D
-2005BL4631527-----9892---EXFBBBEXENLG20407069200001BEGINNING FUND BALANCE OFFSET           +0000000000113.00C2006-04-17          ----------                                 D
-2005BL4631527-----4035---EXEXBBEXENLG81301128900001DIAMEDIX CORP                           +0000000000080.00D2006-04-17          ----------                                 D
-2005BL4631527-----9892---EXFBBBEXENLG81301128900001BEGINNING FUND BALANCE OFFSET           +0000000000080.00C2006-04-17          ----------                                 D
-2005BL4631527-----4035---EXEXBBEXENLG81406237800001NEWARK ELECTRONICS, INC                 +0000000000032.60D2006-04-17          ----------                                 D
-2005BL4631527-----9892---EXFBBBEXENLG81406237800001BEGINNING FUND BALANCE OFFSET           +0000000000032.60C2006-04-17          ----------                                 D
-2005BL4631527-----4035---EXEXBBEXENLG81406241100001FISHER SCIENTIFIC                       +0000000000053.31D2006-04-17          ----------                                 D
-2005BL4631527-----9892---EXFBBBEXENLG81406241100001BEGINNING FUND BALANCE OFFSET           +0000000000053.31C2006-04-17          ----------                                 D
-2005BL4631527-----4700---EXEXBBEXENLG20401013400001LEICA (CAMBRIDGE)                       +0000000000145.14D2006-04-17          ----------                                 D
-2005BL4631527-----9892---EXFBBBEXENLG20401013400001BEGINNING FUND BALANCE OFFSET           +0000000000145.14C2006-04-17          ----------                                 D
-2005BL4631527-----6100---EXEXBBEXENEUTR415452 00001CORTRIGHT, JAMES                        +0000000001188.72D2006-04-17          ----------                                 D
-2005BL4631527-----9892---EXFBBBEXENEUTR415452 00001BEGINNING FUND BALANCE OFFSET           +0000000001188.72C2006-04-17          ----------                                 D
-2005BL4631527-----6150---EXEXBBEXENEUTR348598 00001WOOD, DAVID                             +0000000001043.15D2006-04-17          ----------                                 D
-2005BL4631527-----9892---EXFBBBEXENEUTR348598 00001BEGINNING FUND BALANCE OFFSET           +0000000001043.15C2006-04-17          ----------                                 D
-2005BL4631557-----6100---EXEXBBEXENEUTR429439 00001PISONI, DAVID                           +0000000000828.25D2006-04-17          ----------                                 D
-2005BL4631557-----9892---EXFBBBEXENEUTR429439 00001BEGINNING FUND BALANCE OFFSET           +0000000000828.25C2006-04-17          ----------                                 D
-2005BL4631557-----6100---EXEXBBEXENEUTR430491 00001CLOPPER, CYNTHIA                        +0000000000648.75D2006-04-17          ----------                                 D
-2005BL4631557-----9892---EXFBBBEXENEUTR430491 00001BEGINNING FUND BALANCE OFFSET           +0000000000648.75C2006-04-17          ----------                                 D
-2005BL4631605-----4075---EXEXBBEXENLG10108011800001UNIVERSITY OF HELSINKI                  +0000000285256.00D2006-04-17          ----------                                 D
-2005BL4631605-----9892---EXFBBBEXENLG10108011800001BEGINNING FUND BALANCE OFFSET           +0000000285256.00C2006-04-17          ----------                                 D
-2005BL4631605-----6200---EXEXBBEXENEUTR430763 00001ROSE, RICHARD                           +0000000001445.00D2006-04-17          ----------                                 D
-2005BL4631605-----9892---EXFBBBEXENEUTR430763 00001BEGINNING FUND BALANCE OFFSET           +0000000001445.00C2006-04-17          ----------                                 D
-2005BL4631613-----6100---EXEXBBEXENEUTR412144 00001COLUNGA-LEAL, ELIANA                    +0000000000540.00D2006-04-17          ----------                                 D
-2005BL4631613-----9892---EXFBBBEXENEUTR412144 00001BEGINNING FUND BALANCE OFFSET           +0000000000540.00C2006-04-17          ----------                                 D
-2005BL4631617-----4035---EXEXBBEXENLG20407069200001PAIN ENTERPRISES                        +0000000000023.00D2006-04-17          ----------                                 D
-2005BL4631617-----9892---EXFBBBEXENLG20407069200001BEGINNING FUND BALANCE OFFSET           +0000000000023.00C2006-04-17          ----------                                 D
-2005BL4631617-----4938---EXEXBBEXENLG20407069900001BOC INDUSTRIAL GASES                    +0000000000001.32D2006-04-17          ----------                                 D
-2005BL4631617-----9892---EXFBBBEXENLG20407069900001BEGINNING FUND BALANCE OFFSET           +0000000000001.32C2006-04-17          ----------                                 D
-2005BL4631617-----4938---EXEXBBEXENLG81404234300001SCHEIN HENRY                            +0000000000039.98D2006-04-17          ----------                                 D
-2005BL4631617-----9892---EXFBBBEXENLG81404234300001BEGINNING FUND BALANCE OFFSET           +0000000000039.98C2006-04-17          ----------                                 D
-2005BL4631618-----4055---EXEXBBEXENLG81401078400001LAWRENCE ERLBAUM ASSOCIATES INC         +0000000000049.99D2006-04-17          ----------                                 D
-2005BL4631618-----9892---EXFBBBEXENLG81401078400001BEGINNING FUND BALANCE OFFSET           +0000000000049.99C2006-04-17          ----------                                 D
-2005BL4631618-----6100---EXEXBBEXENEUTR425672 00001BUSEMEYER, JEROME                       +0000000000909.65D2006-04-17          ----------                                 D
-2005BL4631618-----9892---EXFBBBEXENEUTR425672 00001BEGINNING FUND BALANCE OFFSET           +0000000000909.65C2006-04-17          ----------                                 D
-2005BL4631624-----4074---EXEXBBEXENLG10408013400001UNIVERSITY OF MARYLAND                  +0000000003773.39D2006-04-17          ----------                                 D
-2005BL4631624-----9892---EXFBBBEXENLG10408013400001BEGINNING FUND BALANCE OFFSET           +0000000003773.39C2006-04-17          ----------                                 D
-2005BL4631624-----4075---EXEXBBEXENLG10208017200001UNIVERSITY OF COLORADO                  +0000000036745.77D2006-04-17          ----------                                 D
-2005BL4631624-----9892---EXFBBBEXENLG10208017200001BEGINNING FUND BALANCE OFFSET           +0000000036745.77C2006-04-17          ----------                                 D
-2005BL4631624-----4075---EXEXBBEXENLG10408013400001UNIVERSITY OF MARYLAND                  +0000000031515.78D2006-04-17          ----------                                 D
-2005BL4631624-----9892---EXFBBBEXENLG10408013400001BEGINNING FUND BALANCE OFFSET           +0000000031515.78C2006-04-17          ----------                                 D
-2005BL4631625-----6100---EXEXBBEXENEUTR422739 00001BOBOVA, LYUBOV                          +0000000000415.00D2006-04-17          ----------                                 D
-2005BL4631625-----9892---EXFBBBEXENEUTR422739 00001BEGINNING FUND BALANCE OFFSET           +0000000000415.00C2006-04-17          ----------                                 D
-2005BL4631625-----6100---EXEXBBEXENEUTR422741 00001CANTRELL, ELIZABETH                     +0000000000415.00D2006-04-17          ----------                                 D
-2005BL4631625-----9892---EXFBBBEXENEUTR422741 00001BEGINNING FUND BALANCE OFFSET           +0000000000415.00C2006-04-17          ----------                                 D
-2005BL4631625-----6200---EXEXBBEXENEUTR426361 00001FINN, PETER                             +0000000001105.00D2006-04-17          ----------                                 D
-2005BL4631625-----9892---EXFBBBEXENEUTR426361 00001BEGINNING FUND BALANCE OFFSET           +0000000001105.00C2006-04-17          ----------                                 D
-2005BL4631628-----6100---EXEXBBEXENEUTR417270 00001DAVIS, REBECCA                          +0000000000250.00D2006-04-17          ----------                                 D
-2005BL4631628-----9892---EXFBBBEXENEUTR417270 00001BEGINNING FUND BALANCE OFFSET           +0000000000250.00C2006-04-17          ----------                                 D
-2005BL4631629-----6100---EXEXBBEXENEUTR393760 00001THELEN, ESTHER                          +0000000000415.00D2006-04-17          ----------                                 D
-2005BL4631629-----9892---EXFBBBEXENEUTR393760 00001BEGINNING FUND BALANCE OFFSET           +0000000000415.00C2006-04-17          ----------                                 D
-2005BL4631630-----6100---EXEXBBEXENEUTR423578 00001MUELLER, SHANE                          +0000000001078.25D2006-04-17          ----------                                 D
-2005BL4631630-----9892---EXFBBBEXENEUTR423578 00001BEGINNING FUND BALANCE OFFSET           +0000000001078.25C2006-04-17          ----------                                 D
-2005BL4631630-----6100---EXEXBBEXENEUTR430616 00001CRISS, AMY                              +0000000000455.75D2006-04-17          ----------                                 D
-2005BL4631630-----9892---EXFBBBEXENEUTR430616 00001BEGINNING FUND BALANCE OFFSET           +0000000000455.75C2006-04-17          ----------                                 D
-2005BL4631630-----6100---EXEXBBEXENEUTR430843 00001SHIFFRIN, RICHARD                       +0000000000290.00D2006-04-17          ----------                                 D
-2005BL4631630-----9892---EXFBBBEXENEUTR430843 00001BEGINNING FUND BALANCE OFFSET           +0000000000290.00C2006-04-17          ----------                                 D
-2005BL4631630-----6200---EXEXBBEXENEUTR421875 00001SANDBORN, ADAM                          +0000000000935.00D2006-04-17          ----------                                 D
-2005BL4631630-----9892---EXFBBBEXENEUTR421875 00001BEGINNING FUND BALANCE OFFSET           +0000000000935.00C2006-04-17          ----------                                 D
-2005BL4631630-----6200---EXEXBBEXENEUTR422227 00001CRISS, AMY                              +0000000001870.00D2006-04-17          ----------                                 D
-2005BL4631630-----9892---EXFBBBEXENEUTR422227 00001BEGINNING FUND BALANCE OFFSET           +0000000001870.00C2006-04-17          ----------                                 D
-2005BL4631630-----6200---EXEXBBEXENEUTR422415 00001WEIDEMANN, CHRISTOPH                    +0000000001870.00D2006-04-17          ----------                                 D
-2005BL4631630-----9892---EXFBBBEXENEUTR422415 00001BEGINNING FUND BALANCE OFFSET           +0000000001870.00C2006-04-17          ----------                                 D
-2005BL4631630-----6200---EXEXBBEXENEUTR422738 00001COHEN, ANDREW                           +0000000006035.00D2006-04-17          ----------                                 D
-2005BL4631630-----9892---EXFBBBEXENEUTR422738 00001BEGINNING FUND BALANCE OFFSET           +0000000006035.00C2006-04-17          ----------                                 D
-2005BL4631630-----6200---EXEXBBEXENEUTR422958 00001KLEIN, KRYSTAL                          +0000000001313.25D2006-04-17          ----------                                 D
-2005BL4631630-----9892---EXFBBBEXENEUTR422958 00001BEGINNING FUND BALANCE OFFSET           +0000000001313.25C2006-04-17          ----------                                 D
-2005BL4631636-----4938---EXEXBBEXENLG81406229800001MED ASSOCIATES INC                      +0000000000064.00D2006-04-17          ----------                                 D
-2005BL4631636-----9892---EXFBBBEXENLG81406229800001BEGINNING FUND BALANCE OFFSET           +0000000000064.00C2006-04-17          ----------                                 D
-2005BL4631636-----6100---EXEXBBEXENEUTR427418 00001WILSON, ANDREW                          +0000000000578.25D2006-04-17          ----------                                 D
-2005BL4631636-----9892---EXFBBBEXENEUTR427418 00001BEGINNING FUND BALANCE OFFSET           +0000000000578.25C2006-04-17          ----------                                 D
-2005BL4631636-----6100---EXEXBBEXENEUTR429978 00001BINGHAM, GEOFFREY                       +0000000001540.00D2006-04-17          ----------                                 D
-2005BL4631636-----9892---EXFBBBEXENEUTR429978 00001BEGINNING FUND BALANCE OFFSET           +0000000001540.00C2006-04-17          ----------                                 D
-2005BL4631636-----6100---EXEXBBEXENEUTR429979 00001WILSON, ANDREW                          +0000000000415.00D2006-04-17          ----------                                 D
-2005BL4631636-----9892---EXFBBBEXENEUTR429979 00001BEGINNING FUND BALANCE OFFSET           +0000000000415.00C2006-04-17          ----------                                 D
-2005BL4631638-----4075---EXEXBBEXENLG10312006200001JOHNS HOPKINS UNIVERSITY                +0000000098512.30D2006-04-17          ----------                                 D
-2005BL4631638-----9892---EXFBBBEXENLG10312006200001BEGINNING FUND BALANCE OFFSET           +0000000098512.30C2006-04-17          ----------                                 D
-2005BL4631638-----5200---EXEXBBEXENLG81406249200001PCB PIEZOTRONICS                        +0000000000970.00D2006-04-17          ----------                                 D
-2005BL4631638-----9892---EXFBBBEXENLG81406249200001BEGINNING FUND BALANCE OFFSET           +0000000000970.00C2006-04-17          ----------                                 D
-2005BL4631638-----6100---EXEXBBEXENEUTR430615 00001CRAIG, JAMES                            +0000000000290.00D2006-04-17          ----------                                 D
-2005BL4631638-----9892---EXFBBBEXENEUTR430615 00001BEGINNING FUND BALANCE OFFSET           +0000000000290.00C2006-04-17          ----------                                 D
-2005BL4631639-----6100---EXEXBBEXENEUTR430362 00001HETRICK, WILLIAM                        +0000000000415.00D2006-04-17          ----------                                 D
-2005BL4631639-----9892---EXFBBBEXENEUTR430362 00001BEGINNING FUND BALANCE OFFSET           +0000000000415.00C2006-04-17          ----------                                 D
-2005BL4631640-----4074---EXEXBBEXENLG10305006300001UNIVERSITY OF NOTRE DAME                +0000000010934.13D2006-04-17          ----------                                 D
-2005BL4631640-----9892---EXFBBBEXENLG10305006300001BEGINNING FUND BALANCE OFFSET           +0000000010934.13C2006-04-17          ----------                                 D
-2005BL4631640-----4075---EXEXBBEXENLG10305006300001UNIVERSITY OF NOTRE DAME                +0000000021010.02D2006-04-17          ----------                                 D
-2005BL4631640-----9892---EXFBBBEXENLG10305006300001BEGINNING FUND BALANCE OFFSET           +0000000021010.02C2006-04-17          ----------                                 D
-2005BL4631640-----6100---EXEXBBEXENEUTR410932 00001TOWNSEND, JAMES                         +0000000000165.00D2006-04-17          ----------                                 D
-2005BL4631640-----9892---EXFBBBEXENEUTR410932 00001BEGINNING FUND BALANCE OFFSET           +0000000000165.00C2006-04-17          ----------                                 D
-2005BL4631640-----6100---EXEXBBEXENEUTR412049 00001FIFIC, MARIO                            +0000000000665.00C2006-04-17          ----------                                 D
-2005BL4631640-----9892---EXFBBBEXENEUTR412049 00001BEGINNING FUND BALANCE OFFSET           +0000000000665.00D2006-04-17          ----------                                 D
-2005BL4631640-----6100---EXEXBBEXENEUTR415931 00001TOWNSEND, JAMES                         +0000000002506.72D2006-04-17          ----------                                 D
-2005BL4631640-----9892---EXFBBBEXENEUTR415931 00001BEGINNING FUND BALANCE OFFSET           +0000000002506.72C2006-04-17          ----------                                 D
-2005BL4631640-----6100---EXEXBBEXENEUTR423105 00001TOWNSEND, JAMES                         +0000000000953.65D2006-04-17          ----------                                 D
-2005BL4631640-----9892---EXFBBBEXENEUTR423105 00001BEGINNING FUND BALANCE OFFSET           +0000000000953.65C2006-04-17          ----------                                 D
-2005BL4631640-----6200---EXEXBBEXENEUTR410436 00001TOWNSEND, JAMES                         +0000000000801.72D2006-04-17          ----------                                 D
-2005BL4631640-----9892---EXFBBBEXENEUTR410436 00001BEGINNING FUND BALANCE OFFSET           +0000000000801.72C2006-04-17          ----------                                 D
-2005BL4631640-----6200---EXEXBBEXENEUTR418033 00001TOWNSEND, JAMES                         +0000000000801.72D2006-04-17          ----------                                 D
-2005BL4631640-----9892---EXFBBBEXENEUTR418033 00001BEGINNING FUND BALANCE OFFSET           +0000000000801.72C2006-04-17          ----------                                 D
-2005BL4631640-----6200---EXEXBBEXENEUTR423933 00001TOWNSEND, JAMES                         +0000000003145.00D2006-04-17          ----------                                 D
-2005BL4631640-----9892---EXFBBBEXENEUTR423933 00001BEGINNING FUND BALANCE OFFSET           +0000000003145.00C2006-04-17          ----------                                 D
-2005BL4631641-----6100---EXEXBBEXENEUTR414084 00001SETHURAMAN, NITYA                       +0000000000451.72C2006-04-17          ----------                                 D
-2005BL4631641-----9892---EXFBBBEXENEUTR414084 00001BEGINNING FUND BALANCE OFFSET           +0000000000451.72D2006-04-17          ----------                                 D
-2005BL4631642-----6100---EXEXBBEXENEUTR429951 00001MCFALL, RICHARD                         +0000000000665.00D2006-04-17          ----------                                 D
-2005BL4631642-----9892---EXFBBBEXENEUTR429951 00001BEGINNING FUND BALANCE OFFSET           +0000000000665.00C2006-04-17          ----------                                 D
-2005BL4631642-----6100---EXEXBBEXENEUTR430202 00001FARRIS, COREEN                          +0000000000244.50D2006-04-17          ----------                                 D
-2005BL4631642-----9892---EXFBBBEXENEUTR430202 00001BEGINNING FUND BALANCE OFFSET           +0000000000244.50C2006-04-17          ----------                                 D
-2005BL4631642-----6100---EXEXBBEXENEUTR430483 00001SEAY, STEVE                             +0000000000600.00D2006-04-17          ----------                                 D
-2005BL4631642-----9892---EXFBBBEXENEUTR430483 00001BEGINNING FUND BALANCE OFFSET           +0000000000600.00C2006-04-17          ----------                                 D
-2005BL4631643-----4002---EXEXBBEXENLG20406022700001MYRTLES RABBITRY                        +0000000000520.00D2006-04-17          ----------                                 D
-2005BL4631643-----9892---EXFBBBEXENLG20406022700001BEGINNING FUND BALANCE OFFSET           +0000000000520.00C2006-04-17          ----------                                 D
-2005BL4631643-----4035---EXEXBBEXENLG81406121000001SCHEIN HENRY                            +0000000000512.84D2006-04-17          ----------                                 D
-2005BL4631643-----9892---EXFBBBEXENLG81406121000001BEGINNING FUND BALANCE OFFSET           +0000000000512.84C2006-04-17          ----------                                 D
-2005BL4631643-----4035---EXEXBBEXENLG81406264400001VWR INTERNATIONAL                       +0000000000363.78D2006-04-17          ----------                                 D
-2005BL4631643-----9892---EXFBBBEXENLG81406264400001BEGINNING FUND BALANCE OFFSET           +0000000000363.78C2006-04-17          ----------                                 D
-2005BL4631643-----4938---EXEXBBEXENLG20405016100001PHARMACY 1 EXPRESS                      +0000000000134.50D2006-04-17          ----------                                 D
-2005BL4631643-----9892---EXFBBBEXENLG20405016100001BEGINNING FUND BALANCE OFFSET           +0000000000134.50C2006-04-17          ----------                                 D
-2005BL4631644-----6100---EXEXBBEXENEUTR429355 00001DILLON, CAITLIN                         +0000000000333.75D2006-04-17          ----------                                 D
-2005BL4631644-----9892---EXFBBBEXENEUTR429355 00001BEGINNING FUND BALANCE OFFSET           +0000000000333.75C2006-04-17          ----------                                 D
-2005BL4631644-----6100---EXEXBBEXENEUTR430384 00001WINTERS, STEPHEN                        +0000000000523.75D2006-04-17          ----------                                 D
-2005BL4631644-----9892---EXFBBBEXENEUTR430384 00001BEGINNING FUND BALANCE OFFSET           +0000000000523.75C2006-04-17          ----------                                 D
-2005BL4631644-----6100---EXEXBBEXENEUTR430761 00001DILLON, CAITLIN                         +0000000000648.75D2006-04-17          ----------                                 D
-2005BL4631644-----9892---EXFBBBEXENEUTR430761 00001BEGINNING FUND BALANCE OFFSET           +0000000000648.75C2006-04-17          ----------                                 D
-2005BL4631644-----6200---EXEXBBEXENEUTR430849 00001SCHWARTZ, ANA                           +0000000000803.25D2006-04-17          ----------                                 D
-2005BL4631644-----9892---EXFBBBEXENEUTR430849 00001BEGINNING FUND BALANCE OFFSET           +0000000000803.25C2006-04-17          ----------                                 D
-2005BL4631645-----6100---EXEXBBEXENEUTR430244 00001SMITH, LINDA                            +0000000000415.00D2006-04-17          ----------                                 D
-2005BL4631645-----9892---EXFBBBEXENEUTR430244 00001BEGINNING FUND BALANCE OFFSET           +0000000000415.00C2006-04-17          ----------                                 D
-2005BL4631645-----6100---EXEXBBEXENEUTR430358 00001SMITH, LINDA                            +0000000000415.00D2006-04-17          ----------                                 D
-2005BL4631645-----9892---EXFBBBEXENEUTR430358 00001BEGINNING FUND BALANCE OFFSET           +0000000000415.00C2006-04-17          ----------                                 D
-2005BL4631645-----6100---EXEXBBEXENEUTR430360 00001SMITH, LINDA                            +0000000000415.00D2006-04-17          ----------                                 D
-2005BL4631645-----9892---EXFBBBEXENEUTR430360 00001BEGINNING FUND BALANCE OFFSET           +0000000000415.00C2006-04-17          ----------                                 D
-2005BL4631645-----6200---EXEXBBEXENEUTR425960 00001YOSHIDA, HANAKO                         +0000000001483.25D2006-04-17          ----------                                 D
-2005BL4631645-----9892---EXFBBBEXENEUTR425960 00001BEGINNING FUND BALANCE OFFSET           +0000000001483.25C2006-04-17          ----------                                 D
-2005BL4631646-----4074---EXEXBBEXENLG10409023900001UNIVERSITY OF VIRGINIA                  +0000000017537.45D2006-04-17          ----------                                 D
-2005BL4631646-----9892---EXFBBBEXENLG10409023900001BEGINNING FUND BALANCE OFFSET           +0000000017537.45C2006-04-17          ----------                                 D
-2005BL4631646-----4074---EXEXBBEXENLG10409024000001ARIZONA STATE UNIVERSITY                +0000000025000.00D2006-04-17          ----------                                 D
-2005BL4631646-----9892---EXFBBBEXENLG10409024000001BEGINNING FUND BALANCE OFFSET           +0000000025000.00C2006-04-17          ----------                                 D
-2005BL4631646-----4074---EXEXBBEXENLG10911000500001ARIZONA STATE UNIVERSITY                +0000000018882.30D2006-04-17          ----------                                 D
-2005BL4631646-----9892---EXFBBBEXENLG10911000500001BEGINNING FUND BALANCE OFFSET           +0000000018882.30C2006-04-17          ----------                                 D
-2005BL4631646-----4075---EXEXBBEXENLG10409024000001ARIZONA STATE UNIVERSITY                +0000000104165.00D2006-04-17          ----------                                 D
-2005BL4631646-----9892---EXFBBBEXENLG10409024000001BEGINNING FUND BALANCE OFFSET           +0000000104165.00C2006-04-17          ----------                                 D
-2005BL4631646-----4166---EXEXBBEXENLG24406002500001PEARSON NCS                             +0000000004637.74D2006-04-17          ----------                                 D
-2005BL4631646-----9892---EXFBBBEXENLG24406002500001BEGINNING FUND BALANCE OFFSET           +0000000004637.74C2006-04-17          ----------                                 D
-2005BL4631646-----5200---EXEXBBEXENLG81406145200001CDW GOVERNMENT, INC.                    +0000000000125.34D2006-04-17          ----------                                 D
-2005BL4631646-----9892---EXFBBBEXENLG81406145200001BEGINNING FUND BALANCE OFFSET           +0000000000125.34C2006-04-17          ----------                                 D
-2005BL4631646-----6000---EXEXBBEXENEUTR430613 00001PRESSON, CLARK                          +0000000004996.00D2006-04-17          ----------                                 D
-2005BL4631646-----9892---EXFBBBEXENEUTR430613 00001BEGINNING FUND BALANCE OFFSET           +0000000004996.00C2006-04-17          ----------                                 D
-2005BL4631646-----6000---EXEXBBEXENEUTR430614 00001CHASSIN, LAURIE                         +0000000004996.00D2006-04-17          ----------                                 D
-2005BL4631646-----9892---EXFBBBEXENEUTR430614 00001BEGINNING FUND BALANCE OFFSET           +0000000004996.00C2006-04-17          ----------                                 D
-2005BL4631648-----6100---EXEXBBEXENEUTR414597 00001NOSOFSKY, ROBERT                        +0000000000415.00D2006-04-17          ----------                                 D
-2005BL4631648-----9892---EXFBBBEXENEUTR414597 00001BEGINNING FUND BALANCE OFFSET           +0000000000415.00C2006-04-17          ----------                                 D
-2005BL4631648-----6100---EXEXBBEXENEUTR414598 00001NOSOFSKY, ROBERT                        +0000000000415.00C2006-04-17          ----------                                 D
-2005BL4631648-----9892---EXFBBBEXENEUTR414598 00001BEGINNING FUND BALANCE OFFSET           +0000000000415.00D2006-04-17          ----------                                 D
-2005BL4631648-----6200---EXEXBBEXENEUTR429976 00001NOSOFSKY, ROBERT                        +0000000002465.00D2006-04-17          ----------                                 D
-2005BL4631648-----9892---EXFBBBEXENEUTR429976 00001BEGINNING FUND BALANCE OFFSET           +0000000002465.00C2006-04-17          ----------                                 D
-2005BL4631651-----6100---EXEXBBEXENEUTR430361 00001BRENNER, COLLEEN                        +0000000000415.00D2006-04-17          ----------                                 D
-2005BL4631651-----9892---EXFBBBEXENEUTR430361 00001BEGINNING FUND BALANCE OFFSET           +0000000000415.00C2006-04-17          ----------                                 D
-2005BL4631653-----4002---EXEXBBEXENLG20406020200001NASCO                                   +0000000000186.00D2006-04-17          ----------                                 D
-2005BL4631653-----9892---EXFBBBEXENLG20406020200001BEGINNING FUND BALANCE OFFSET           +0000000000186.00C2006-04-17          ----------                                 D
-2005BL4631653-----4035---EXEXBBEXENLG20407069200001PAIN ENTERPRISES                        +0000000000113.00D2006-04-17          ----------                                 D
-2005BL4631653-----9892---EXFBBBEXENLG20407069200001BEGINNING FUND BALANCE OFFSET           +0000000000113.00C2006-04-17          ----------                                 D
-2005BL4631653-----5017---EXEXBBEXENLG20407069400001BOC GAS & GEAR                          +0000000000030.08D2006-04-17          ----------                                 D
-2005BL4631653-----9892---EXFBBBEXENLG20407069400001BEGINNING FUND BALANCE OFFSET           +0000000000030.08C2006-04-17          ----------                                 D
-2005BL4631653-----5200---EXEXBBEXENLG12406000400001LOWE'S HOME IMPROVEMENT CENTER          +0000000000388.00D2006-04-17          ----------                                 D
-2005BL4631653-----9892---EXFBBBEXENLG12406000400001BEGINNING FUND BALANCE OFFSET           +0000000000388.00C2006-04-17          ----------                                 D
-2005BL4631653-----5200---EXEXBBEXENLG20405000300001ENVIROTECH SYSTEMS INC                  +0000000002500.00D2006-04-17          ----------                                 D
-2005BL4631653-----9892---EXFBBBEXENLG20405000300001BEGINNING FUND BALANCE OFFSET           +0000000002500.00C2006-04-17          ----------                                 D
-2005BL4631654-----4002---EXEXBBEXENLG20406011200001THE JACKSON LABORATORY                  +0000000000243.00D2006-04-17          ----------                                 D
-2005BL4631654-----9892---EXFBBBEXENLG20406011200001BEGINNING FUND BALANCE OFFSET           +0000000000243.00C2006-04-17          ----------                                 D
-2005BL4631654-----4002---EXEXBBEXENLG20406011300001THE JACKSON LABORATORY                  +0000000000243.00D2006-04-17          ----------                                 D
-2005BL4631654-----9892---EXFBBBEXENLG20406011300001BEGINNING FUND BALANCE OFFSET           +0000000000243.00C2006-04-17          ----------                                 D
-2005BL4631654-----4002---EXEXBBEXENLG20406011400001THE JACKSON LABORATORY                  +0000000000243.00D2006-04-17          ----------                                 D
-2005BL4631654-----9892---EXFBBBEXENLG20406011400001BEGINNING FUND BALANCE OFFSET           +0000000000243.00C2006-04-17          ----------                                 D
-2005BL4631654-----4002---EXEXBBEXENLG20406011600001THE JACKSON LABORATORY                  +0000000000243.00D2006-04-17          ----------                                 D
-2005BL4631654-----9892---EXFBBBEXENLG20406011600001BEGINNING FUND BALANCE OFFSET           +0000000000243.00C2006-04-17          ----------                                 D
-2005BL4631654-----4002---EXEXBBEXENLG20406011700001THE JACKSON LABORATORY                  +0000000000243.00D2006-04-17          ----------                                 D
-2005BL4631654-----9892---EXFBBBEXENLG20406011700001BEGINNING FUND BALANCE OFFSET           +0000000000243.00C2006-04-17          ----------                                 D
-2005BL4631654-----4002---EXEXBBEXENLG20406011800001THE JACKSON LABORATORY                  +0000000000243.00D2006-04-17          ----------                                 D
-2005BL4631654-----9892---EXFBBBEXENLG20406011800001BEGINNING FUND BALANCE OFFSET           +0000000000243.00C2006-04-17          ----------                                 D
-2005BL4631654-----4002---EXEXBBEXENLG20406011900001THE JACKSON LABORATORY                  +0000000000243.00D2006-04-17          ----------                                 D
-2005BL4631654-----9892---EXFBBBEXENLG20406011900001BEGINNING FUND BALANCE OFFSET           +0000000000243.00C2006-04-17          ----------                                 D
-2005BL4631654-----4002---EXEXBBEXENLG20406012000001THE JACKSON LABORATORY                  +0000000000243.00D2006-04-17          ----------                                 D
-2005BL4631654-----9892---EXFBBBEXENLG20406012000001BEGINNING FUND BALANCE OFFSET           +0000000000243.00C2006-04-17          ----------                                 D
-2005BL4631654-----4002---EXEXBBEXENLG20406012100001THE JACKSON LABORATORY                  +0000000000243.00D2006-04-17          ----------                                 D
-2005BL4631654-----9892---EXFBBBEXENLG20406012100001BEGINNING FUND BALANCE OFFSET           +0000000000243.00C2006-04-17          ----------                                 D
-2005BL4631654-----4074---EXEXBBEXENLG10404011800001UNIVERSITY OF MICHIGAN                  +0000000019222.62D2006-04-17          ----------                                 D
-2005BL4631654-----9892---EXFBBBEXENLG10404011800001BEGINNING FUND BALANCE OFFSET           +0000000019222.62C2006-04-17          ----------                                 D
-2005BL4631660-----4002---EXEXBBEXENLG20406016700001HARLAN SPRAGUE DAWLEY INC               +0000000000704.00D2006-04-17          ----------                                 D
-2005BL4631660-----9892---EXFBBBEXENLG20406016700001BEGINNING FUND BALANCE OFFSET           +0000000000704.00C2006-04-17          ----------                                 D
-2005BL4824404-----4002---EXEXBBEXENLG20405014500001HARLAN SPRAGUE DAWLEY INC               +0000000000582.20D2006-04-17          ----------                                 D
-2005BL4824404-----9892---EXFBBBEXENLG20405014500001BEGINNING FUND BALANCE OFFSET           +0000000000582.20C2006-04-17          ----------                                 D
-2005BL4824404-----4938---EXEXBBEXENLG81406157300001MIDWEST SCIENTIFIC                      +0000000000142.29D2006-04-17          ----------                                 D
-2005BL4824404-----9892---EXFBBBEXENLG81406157300001BEGINNING FUND BALANCE OFFSET           +0000000000142.29C2006-04-17          ----------                                 D
-2005BL4824404-----4938---EXEXBBEXENLG81406159300001SIGMA ALDRICH CHEMICAL                  +0000000000187.70D2006-04-17          ----------                                 D
-2005BL4824404-----9892---EXFBBBEXENLG81406159300001BEGINNING FUND BALANCE OFFSET           +0000000000187.70C2006-04-17          ----------                                 D
-2005BL4824404-----4938---EXEXBBEXENLG81406192200001INVITROGEN                              +0000000000057.00D2006-04-17          ----------                                 D
-2005BL4824404-----9892---EXFBBBEXENLG81406192200001BEGINNING FUND BALANCE OFFSET           +0000000000057.00C2006-04-17          ----------                                 D
-2005BL4824404-----4938---EXEXBBEXENLG81406203800001ATCC                                    +0000000000290.00D2006-04-17          ----------                                 D
-2005BL4824404-----9892---EXFBBBEXENLG81406203800001BEGINNING FUND BALANCE OFFSET           +0000000000290.00C2006-04-17          ----------                                 D
-2005BL4824404-----4938---EXEXBBEXENLG81406257800001ATCC                                    +0000000000224.00D2006-04-17          ----------                                 D
-2005BL4824404-----9892---EXFBBBEXENLG81406257800001BEGINNING FUND BALANCE OFFSET           +0000000000224.00C2006-04-17          ----------                                 D
-2005BL4831401-----4616---EXEXBBEXENLG81406248000001WORLDVIZ                                +0000000001000.00D2006-04-17          ----------                                 D
-2005BL4831401-----9892---EXFBBBEXENLG81406248000001BEGINNING FUND BALANCE OFFSET           +0000000001000.00C2006-04-17          ----------                                 D
-2005BL4831401-----6100---EXEXBBEXENEUTR427442 00001SMITH, ELIOT                            +0000000000953.25D2006-04-17          ----------                                 D
-2005BL4831401-----9892---EXFBBBEXENEUTR427442 00001BEGINNING FUND BALANCE OFFSET           +0000000000953.25C2006-04-17          ----------                                 D
-2005BL4831497-----6200---EXEXBBEXENEUTR430251 00001GOLDSTONE, ROBERT                       +0000000001785.00D2006-04-17          ----------                                 D
-2005BL4831497-----9892---EXFBBBEXENEUTR430251 00001BEGINNING FUND BALANCE OFFSET           +0000000001785.00C2006-04-17          ----------                                 D
+2005BA6044900-----4700---EXEXBBEXENLG12405000900001POM, INC.                               +0000000000182.00D2004-07-30          ----------                                 D
+2005BA6044900-----9892---EXFBBBEXENLG12405000900001BEGINNING FUND BALANCE OFFSET           +0000000000182.00C2004-07-30          ----------                                 D
+2005BA6044900-----4700---EXEXBBEXENLG12405001500001TENNANT COMPANY                         +0000000001967.12D2004-07-30          ----------                                 D
+2005BA6044900-----9892---EXFBBBEXENLG12405001500001BEGINNING FUND BALANCE OFFSET           +0000000001967.12C2004-07-30          ----------                                 D
+2005BA6044900-----4700---IEEXBBID01EUB4443330 00001Bloomington Physical Plant              +0000000011546.16D2004-07-30          ----------                                 D
+2005BA6044900-----9891---IEFBBBID01EUB4443330 00001BEGINNING FUND BALANCE OFFSET           +0000000011546.16C2004-07-30          ----------                                 D
+2005BA6044900-----4768---IEEXBBID01EUB2185363 00001Bloomington Physical Plant              +0000000000000.03D2004-07-30          ----------                                 D
+2005BA6044900-----9891---IEFBBBID01EUB2185363 00001BEGINNING FUND BALANCE OFFSET           +0000000000000.03C2004-07-30          ----------                                 D
+2005BA6044900-----4768---IEEXBBID01EUB2261646 00001Bloomington Physical Plant              +0000000000000.02D2004-07-30          ----------                                 D
+2005BA6044900-----9891---IEFBBBID01EUB2261646 00001BEGINNING FUND BALANCE OFFSET           +0000000000000.02C2004-07-30          ----------                                 D
+2005BA6044900-----4768---IEEXBBID01EUB2292578 00001Bloomington Physical Plant              +0000000000000.02D2004-07-30          ----------                                 D
+2005BA6044900-----9891---IEFBBBID01EUB2292578 00001BEGINNING FUND BALANCE OFFSET           +0000000000000.02C2004-07-30          ----------                                 D
+2005BA6044900-----4776---EXEXBBEXENLG12310012600001LIGHT & BREUNING, INC.                  +0000000000365.51D2004-07-30          ----------                                 D
+2005BA6044900-----9892---EXFBBBEXENLG12310012600001BEGINNING FUND BALANCE OFFSET           +0000000000365.51C2004-07-30          ----------                                 D
+2005BA6044900-----4906---EXEXBBEXENLG12408001700001CINTAS CORPORATION                      +0000000001144.68D2004-07-30          ----------                                 D
+2005BA6044900-----9892---EXFBBBEXENLG12408001700001BEGINNING FUND BALANCE OFFSET           +0000000001144.68C2004-07-30          ----------                                 D
+2005BA6044900-----5200---EXEXBBEXENLG12411001300001LIGHT & BREUNING, INC.                  +0000000001735.80D2004-07-30          ----------                                 D
+2005BA6044900-----9892---EXFBBBEXENLG12411001300001BEGINNING FUND BALANCE OFFSET           +0000000001735.80C2004-07-30          ----------                                 D
+2005BA6044900-----5200---EXEXBBEXENLG24405001000001TABCO BUSINESS FORMS, INC               +0000000000391.50D2004-07-30          ----------                                 D
+2005BA6044900-----9892---EXFBBBEXENLG24405001000001BEGINNING FUND BALANCE OFFSET           +0000000000391.50C2004-07-30          ----------                                 D
+2005BA6044900-----6100---EXEXBBEXENEUTR378329 00001ABRAHAM, RANJI                          +0000000001260.50D2004-07-30          ----------                                 D
+2005BA6044900-----9892---EXFBBBEXENEUTR378329 00001BEGINNING FUND BALANCE OFFSET           +0000000001260.50C2004-07-30          ----------                                 D
+2005BA6044900-----6100---EXEXBBEXENEUTR404139 00001WHITLOW, MIRIAM                         +0000000000509.24D2004-07-30          ----------                                 D
+2005BA6044900-----9892---EXFBBBEXENEUTR404139 00001BEGINNING FUND BALANCE OFFSET           +0000000000509.24C2004-07-30          ----------                                 D
+2005BA6044900-----6100JAFEXEXBBEXENEUTR411644 00001FLAHERTY, JULIA                         +0000000000701.72D2004-07-30          ----------                                 D
+2005BA6044900-----9892JAFEXFBBBEXENEUTR411644 00001BEGINNING FUND BALANCE OFFSET           +0000000000701.72C2004-07-30          ----------                                 D
+2005BA6044906-----4906---EXEXBBEXENLG16404002500001THE UNIFORM HOUSE INC                   +0000000001712.13D2004-07-30          ----------                                 D
+2005BA6044906-----9892---EXFBBBEXENLG16404002500001BEGINNING FUND BALANCE OFFSET           +0000000001712.13C2004-07-30          ----------                                 D
+2005BA6044913-----4768---IEEXBBID01EUB1113144 00001Bloomington Physical Plant              +0000000000000.03D2004-07-30          ----------                                 D
+2005BA6044913-----9891---IEFBBBID01EUB1113144 00001BEGINNING FUND BALANCE OFFSET           +0000000000000.03C2004-07-30          ----------                                 D
+2005BA9019995-----7468---EXEEBBEXENLG22402000800001BLEDSOE TAPP & RIGGERT, INC.            +0000000018887.00D2004-07-30          ----------                                 D
+2005BA9019995-----9892---EXFBBBEXENLG22402000800001BEGINNING FUND BALANCE OFFSET           +0000000018887.00C2004-07-30          ----------                                 D
+2005BA9020174-----7468---EXEEBBEXENLG22312000100001BLEDSOE TAPP & RIGGERT, INC.            +0000000002572.26D2004-07-30          ----------                                 D
+2005BA9020174-----9892---EXFBBBEXENLG22312000100001BEGINNING FUND BALANCE OFFSET           +0000000002572.26C2004-07-30          ----------                                 D
+2005BA9020204-----7468---EXEEBBEXENLG22404000400001BLEDSOE TAPP & RIGGERT, INC.            +0000000010270.00D2004-07-30          ----------                                 D
+2005BA9020204-----9892---EXFBBBEXENLG22404000400001BEGINNING FUND BALANCE OFFSET           +0000000010270.00C2004-07-30          ----------                                 D
+2005BA9020224-----4768---IEEXBBID01EUB2242990 00001Bloomington Physical Plant              +0000000000000.01D2004-07-30          ----------                                 D
+2005BA9020224-----9891---IEFBBBID01EUB2242990 00001BEGINNING FUND BALANCE OFFSET           +0000000000000.01C2004-07-30          ----------                                 D
+2005BA9020224-----4768---IEEXBBID01EUB4242990 00001Bloomington Physical Plant              +0000000010805.80D2004-07-30          ----------                                 D
+2005BA9020224-----9891---IEFBBBID01EUB4242990 00001BEGINNING FUND BALANCE OFFSET           +0000000010805.80C2004-07-30          ----------                                 D
+2005BA9021104-----4768---IEEXBBID01EUB4242976 00001Bloomington Physical Plant              +0000000008981.60D2004-07-30          ----------                                 D
+2005BA9021104-----9891---IEFBBBID01EUB4242976 00001BEGINNING FUND BALANCE OFFSET           +0000000008981.60C2004-07-30          ----------                                 D
+2005BA9244901-----4700---IEEXBBID01EUB4398734 00001Bloomington Physical Plant              +0000000000000.01D2004-07-30          ----------                                 D
+2005BA9244901-----9891---IEFBBBID01EUB4398734 00001BEGINNING FUND BALANCE OFFSET           +0000000000000.01C2004-07-30          ----------                                 D
+2005BA9244940-----4700---IEEXBBID01EUB4398733 00001Bloomington Physical Plant              +0000000039886.54D2004-07-30          ----------                                 D
+2005BA9244940-----9891---IEFBBBID01EUB4398733 00001BEGINNING FUND BALANCE OFFSET           +0000000039886.54C2004-07-30          ----------                                 D
+2005BA9244940-----4700---IEEXBBID01EUB4398734 00001Bloomington Physical Plant              +0000000040000.00D2004-07-30          ----------                                 D
+2005BA9244940-----9891---IEFBBBID01EUB4398734 00001BEGINNING FUND BALANCE OFFSET           +0000000040000.00C2004-07-30          ----------                                 D
+2005BA9244940-----4768---IEEXBBID01EUB4530206 00001Bloomington Physical Plant              +0000000027228.99D2004-07-30          ----------                                 D
+2005BA9244940-----9891---IEFBBBID01EUB4530206 00001BEGINNING FUND BALANCE OFFSET           +0000000027228.99C2004-07-30          ----------                                 D
+2005BL1031400-----4055---EXEXBBEXENLG81405070900001ELSEVIER HEALTH SCIENCE                 +0000000000007.51D2004-07-30          ----------                                 D
+2005BL1031400-----9892---EXFBBBEXENLG81405070900001BEGINNING FUND BALANCE OFFSET           +0000000000007.51C2004-07-30          ----------                                 D
+2005BL1031400-----4938---EXEXBBEXENLG81402130700001QIAGEN INC                              +0000000000191.00D2004-07-30          ----------                                 D
+2005BL1031400-----9892---EXFBBBEXENLG81402130700001BEGINNING FUND BALANCE OFFSET           +0000000000191.00C2004-07-30          ----------                                 D
+2005BL1031400-----5017---EXEXBBEXENLG20404002100001INDIANA OXYGEN COMPANY                  +0000000000200.00D2004-07-30          ----------                                 D
+2005BL1031400-----9892---EXFBBBEXENLG20404002100001BEGINNING FUND BALANCE OFFSET           +0000000000200.00C2004-07-30          ----------                                 D
+2005BL1031400-----6100---EXEXBBEXENEUTR414595 00001SENGELAUB, DALE                         +0000000000665.00D2004-07-30          ----------                                 D
+2005BL1031400-----9892---EXFBBBEXENEUTR414595 00001BEGINNING FUND BALANCE OFFSET           +0000000000665.00C2004-07-30          ----------                                 D
+2005BL1031400-----6100---EXEXBBEXENEUTR423590 00001BUSEMEYER, JEROME                       +0000000000165.00D2004-07-30          ----------                                 D
+2005BL1031400-----9892---EXFBBBEXENEUTR423590 00001BEGINNING FUND BALANCE OFFSET           +0000000000165.00C2004-07-30          ----------                                 D
+2005BL1031400-----6100---EXEXBBEXENEUTR423845 00001BUSEMEYER, JEROME                       +0000000000506.15D2004-07-30          ----------                                 D
+2005BL1031400-----9892---EXFBBBEXENEUTR423845 00001BEGINNING FUND BALANCE OFFSET           +0000000000506.15C2004-07-30          ----------                                 D
+2005BL1031400-----6100---EXEXBBEXENEUTR430213 00001KRUSCHKE, JOHN                          +0000000000415.00D2004-07-30          ----------                                 D
+2005BL1031400-----9892---EXFBBBEXENEUTR430213 00001BEGINNING FUND BALANCE OFFSET           +0000000000415.00C2004-07-30          ----------                                 D
+2005BL1031400BOD  4910---EXEXBBEXENLG17404002300001SCANDINAVIAN IMPORTS                    +0000000000169.00D2004-07-30          ----------                                 D
+2005BL1031400BOD  9892---EXFBBBEXENLG17404002300001BEGINNING FUND BALANCE OFFSET           +0000000000169.00C2004-07-30          ----------                                 D
+2005BL1031400CHR  6100---EXEXBBEXENEUTR399985 00001STEINMETZ, JOSEPH                       +0000000000819.72D2004-07-30          ----------                                 D
+2005BL1031400CHR  9892---EXFBBBEXENEUTR399985 00001BEGINNING FUND BALANCE OFFSET           +0000000000819.72C2004-07-30          ----------                                 D
+2005BL1031400JBD  4115---EXEXBBEXENLG81406236500001CANNON IV, INC.                         +0000000000040.68D2004-07-30          ----------                                 D
+2005BL1031400JBD  9892---EXFBBBEXENLG81406236500001BEGINNING FUND BALANCE OFFSET           +0000000000040.68C2004-07-30          ----------                                 D
+2005BL1031400JBT  4115---EXEXBBEXENLG81406236500001CANNON IV, INC.                         +0000000000040.67D2004-07-30          ----------                                 D
+2005BL1031400JBT  9892---EXFBBBEXENLG81406236500001BEGINNING FUND BALANCE OFFSET           +0000000000040.67C2004-07-30          ----------                                 D
+2005BL1031400REC  4502---EXEXBBEXENLG81407207500001APA MONITOR                             +0000000000430.00D2004-07-30          ----------                                 D
+2005BL1031400REC  9892---EXFBBBEXENLG81407207500001BEGINNING FUND BALANCE OFFSET           +0000000000430.00C2004-07-30          ----------                                 D
+2005BL1031400REC  4502---EXEXBBEXENLG81407207700001APA MONITOR                             +0000000000390.00D2004-07-30          ----------                                 D
+2005BL1031400REC  9892---EXFBBBEXENLG81407207700001BEGINNING FUND BALANCE OFFSET           +0000000000390.00C2004-07-30          ----------                                 D
+2005BL1031400REC  4502---EXEXBBEXENLG81407224200001SOCIETY FOR NEUROSCIENCE                +0000000000210.00D2004-07-30          ----------                                 D
+2005BL1031400REC  9892---EXFBBBEXENLG81407224200001BEGINNING FUND BALANCE OFFSET           +0000000000210.00C2004-07-30          ----------                                 D
+2005BL1031400REC  4502---EXEXBBEXENLG81407225400001APA MONITOR                             +0000000000400.00D2004-07-30          ----------                                 D
+2005BL1031400REC  9892---EXFBBBEXENLG81407225400001BEGINNING FUND BALANCE OFFSET           +0000000000400.00C2004-07-30          ----------                                 D
+2005BL1031400RVD  6100---EXEXBBEXENEUTR430838 00001VIKEN, RICHARD                          +0000000000435.00D2004-07-30          ----------                                 D
+2005BL1031400RVD  9892---EXFBBBEXENEUTR430838 00001BEGINNING FUND BALANCE OFFSET           +0000000000435.00C2004-07-30          ----------                                 D
+2005BL1031400STT  4055---EXEXBBEXENLG81403189800001LAWRENCE ERLBAUM ASSOCIATES INC         +0000000000069.95D2004-07-30          ----------                                 D
+2005BL1031400STT  9892---EXFBBBEXENLG81403189800001BEGINNING FUND BALANCE OFFSET           +0000000000069.95C2004-07-30          ----------                                 D
+2005BL2220090-----6100---EXEXBBEXENEUTR422435 00001BREHM, SHARON                           +0000000000050.25D2004-07-30          ----------                                 D
+2005BL2220090-----9892---EXFBBBEXENEUTR422435 00001BEGINNING FUND BALANCE OFFSET           +0000000000050.25C2004-07-30          ----------                                 D
+2005BL2220090-----6100---EXEXBBEXENEUTR427932 00001BREHM, SHARON                           +0000000000453.25D2004-07-30          ----------                                 D
+2005BL2220090-----9892---EXFBBBEXENEUTR427932 00001BEGINNING FUND BALANCE OFFSET           +0000000000453.25C2004-07-30          ----------                                 D
+2005BL2231409-----6100---EXEXBBEXENEUTR344394 00001BOWDLE, BRIAN                           +0000000001177.57D2004-07-30          ----------                                 D
+2005BL2231409-----9892---EXFBBBEXENEUTR344394 00001BEGINNING FUND BALANCE OFFSET           +0000000001177.57C2004-07-30          ----------                                 D
+2005BL2231416-----4910---EXEXBBEXENLG17406014100001INDIANAPOLIS OFFICE SUPPLY              +0000000000131.13D2004-07-30          ----------                                 D
+2005BL2231416-----9892---EXFBBBEXENLG17406014100001BEGINNING FUND BALANCE OFFSET           +0000000000131.13C2004-07-30          ----------                                 D
+2005BL2231416-----6100---EXEXBBEXENEUTR429950 00001FROMMER, GABRIEL                        +0000000000463.25D2004-07-30          ----------                                 D
+2005BL2231416-----9892---EXFBBBEXENEUTR429950 00001BEGINNING FUND BALANCE OFFSET           +0000000000463.25C2004-07-30          ----------                                 D
+2005BL2231419-----6200---EXEXBBEXENEUTR430547 00001GOLD, JASON                             +0000000001483.25D2004-07-30          ----------                                 D
+2005BL2231419-----9892---EXFBBBEXENEUTR430547 00001BEGINNING FUND BALANCE OFFSET           +0000000001483.25C2004-07-30          ----------                                 D
+2005BL2231423-----5000---EXEXBBEXENLG20407069100001BOC GAS & GEAR                          +0000000000023.68D2004-07-30          ----------                                 D
+2005BL2231423-----9892---EXFBBBEXENLG20407069100001BEGINNING FUND BALANCE OFFSET           +0000000000023.68C2004-07-30          ----------                                 D
+2005BL2231423-----5017---EXEXBBEXENLG20407069000001BOC INDUSTRIAL GASES                    +0000000000120.00D2004-07-30          ----------                                 D
+2005BL2231423-----9892---EXFBBBEXENLG20407069000001BEGINNING FUND BALANCE OFFSET           +0000000000120.00C2004-07-30          ----------                                 D
+2005BL2231447-----6100---EXEXBBEXENEUTR389457 00001ALEXANDER, WILLIAM                      +0000000000577.23D2004-07-30          ----------                                 D
+2005BL2231447-----9892---EXFBBBEXENEUTR389457 00001BEGINNING FUND BALANCE OFFSET           +0000000000577.23C2004-07-30          ----------                                 D
+2005BL2231447-----6100---EXEXBBEXENEUTR389557 00001ALEXANDER, WILLIAM                      +0000000002519.37D2004-07-30          ----------                                 D
+2005BL2231447-----9892---EXFBBBEXENEUTR389557 00001BEGINNING FUND BALANCE OFFSET           +0000000002519.37C2004-07-30          ----------                                 D
+2005BL2231458-----6200---EXEXBBEXENEUTR352380 00001NOSOFSKY, ROBERT                        +0000000000816.15D2004-07-30          ----------                                 D
+2005BL2231458-----9892---EXFBBBEXENEUTR352380 00001BEGINNING FUND BALANCE OFFSET           +0000000000816.15C2004-07-30          ----------                                 D
+2005BL2231458-----6200---EXEXBBEXENEUTR352756 00001NOSOFSKY, ROBERT                        +0000000000288.15D2004-07-30          ----------                                 D
+2005BL2231458-----9892---EXFBBBEXENEUTR352756 00001BEGINNING FUND BALANCE OFFSET           +0000000000288.15C2004-07-30          ----------                                 D
+2005BL2231459-----5000---EXEXBBEXENLG81304082800001CANNON IV OFFICE PRODUCTS               +0000000000081.35D2004-07-30          ----------                                 D
+2005BL2231459-----9892---EXFBBBEXENLG81304082800001BEGINNING FUND BALANCE OFFSET           +0000000000081.35C2004-07-30          ----------                                 D
+2005BL2231479-----4700---EXEXBBEXENLG20401013400001LEICA (CAMBRIDGE)                       +0000000000750.00D2004-07-30          ----------                                 D
+2005BL2231479-----9892---EXFBBBEXENLG20401013400001BEGINNING FUND BALANCE OFFSET           +0000000000750.00C2004-07-30          ----------                                 D
+2005BL2231481-----4035---EXEXBBEXENLG20407069200001PAIN ENTERPRISES                        +0000000000113.00D2004-07-30          ----------                                 D
+2005BL2231481-----9892---EXFBBBEXENLG20407069200001BEGINNING FUND BALANCE OFFSET           +0000000000113.00C2004-07-30          ----------                                 D
+2005BL2231485-----5200---EXEXBBEXENLG81406097100001AJUMP.COM                               +0000000000279.00D2004-07-30          ----------                                 D
+2005BL2231485-----9892---EXFBBBEXENLG81406097100001BEGINNING FUND BALANCE OFFSET           +0000000000279.00C2004-07-30          ----------                                 D
+2005BL2231485-----6100---EXEXBBEXENEUTR416510 00001THELEN, ESTHER                          +0000000000451.72D2004-07-30          ----------                                 D
+2005BL2231485-----9892---EXFBBBEXENEUTR416510 00001BEGINNING FUND BALANCE OFFSET           +0000000000451.72C2004-07-30          ----------                                 D
+2005BL2231490-----6100---EXEXBBEXENEUTR363077 00001BUSEMEYER, JEROME                       +0000000000866.62D2004-07-30          ----------                                 D
+2005BL2231490-----9892---EXFBBBEXENEUTR363077 00001BEGINNING FUND BALANCE OFFSET           +0000000000866.62C2004-07-30          ----------                                 D
+2005BL2231490-----6100---EXEXBBEXENEUTR363077800001BUSEMEYER, JEROME                       +0000000000866.62C2004-07-30          ----------                                 D
+2005BL2231490-----9892---EXFBBBEXENEUTR363077800001BEGINNING FUND BALANCE OFFSET           +0000000000866.62D2004-07-30          ----------                                 D
+2005BL2231490-----6200---EXEXBBEXENEUTR370315 00001BUSEMEYER, JEROME                       +0000000002222.29D2004-07-30          ----------                                 D
+2005BL2231490-----9892---EXFBBBEXENEUTR370315 00001BEGINNING FUND BALANCE OFFSET           +0000000002222.29C2004-07-30          ----------                                 D
+2005BL2231490-----6200---EXEXBBEXENEUTR370316 00001BUSEMEYER, JEROME                       +0000000002222.29C2004-07-30          ----------                                 D
+2005BL2231490-----9892---EXFBBBEXENEUTR370316 00001BEGINNING FUND BALANCE OFFSET           +0000000002222.29D2004-07-30          ----------                                 D
+2005BL2231490-----6200---EXEXBBEXENEUTR430214 00001BUSEMEYER, JEROME                       +0000000000765.00D2004-07-30          ----------                                 D
+2005BL2231490-----9892---EXFBBBEXENEUTR430214 00001BEGINNING FUND BALANCE OFFSET           +0000000000765.00C2004-07-30          ----------                                 D
+2005BL2231495-----4035---EXEXBBEXENLG20407069200001PAIN ENTERPRISES                        +0000000000023.00D2004-07-30          ----------                                 D
+2005BL2231495-----9892---EXFBBBEXENLG20407069200001BEGINNING FUND BALANCE OFFSET           +0000000000023.00C2004-07-30          ----------                                 D
+2005BL2231495-----4700---EXEXBBEXENLG20401013400001LEICA (CAMBRIDGE)                       +0000000000750.00D2004-07-30          ----------                                 D
+2005BL2231495-----9892---EXFBBBEXENLG20401013400001BEGINNING FUND BALANCE OFFSET           +0000000000750.00C2004-07-30          ----------                                 D
+2005BL2231495-----7000---EXEEBBEXENLG20406005300001MED ASSOCIATES INC                      +0000000017247.00D2004-07-30          ----------                                 D
+2005BL2231495-----9892---EXFBBBEXENLG20406005300001BEGINNING FUND BALANCE OFFSET           +0000000017247.00C2004-07-30          ----------                                 D
+2005BL2231495-----7016---EXEEBBEXENLG20406005300001MED ASSOCIATES INC                      +0000000001331.00D2004-07-30          ----------                                 D
+2005BL2231495-----9892---EXFBBBEXENLG20406005300001BEGINNING FUND BALANCE OFFSET           +0000000001331.00C2004-07-30          ----------                                 D
+2005BL2231566-----4035---EXEXBBEXENLG81406044700001VWR INTERNATIONAL                       +0000000000000.03D2004-07-30          ----------                                 D
+2005BL2231566-----9892---EXFBBBEXENLG81406044700001BEGINNING FUND BALANCE OFFSET           +0000000000000.03C2004-07-30          ----------                                 D
+2005BL2231566-----4700---EXEXBBEXENLG81406170200001RPS IMAGING INC                         +0000000000100.00D2004-07-30          ----------                                 D
+2005BL2231566-----9892---EXFBBBEXENLG81406170200001BEGINNING FUND BALANCE OFFSET           +0000000000100.00C2004-07-30          ----------                                 D
+2005BL2231566-----5017---EXEXBBEXENLG20404002200001INDIANA OXYGEN COMPANY                  +0000000000200.00D2004-07-30          ----------                                 D
+2005BL2231566-----9892---EXFBBBEXENLG20404002200001BEGINNING FUND BALANCE OFFSET           +0000000000200.00C2004-07-30          ----------                                 D
+2005BL2231566-----5200---EXEXBBEXENLG20406021000001FRYER CO INC                            +0000000001865.80D2004-07-30          ----------                                 D
+2005BL2231566-----9892---EXFBBBEXENLG20406021000001BEGINNING FUND BALANCE OFFSET           +0000000001865.80C2004-07-30          ----------                                 D
+2005BL2231566-----5200---EXEXBBEXENLG81412040700001FERREE CABINET CO.                      +0000000000020.00D2004-07-30          ----------                                 D
+2005BL2231566-----9892---EXFBBBEXENLG81412040700001BEGINNING FUND BALANCE OFFSET           +0000000000020.00C2004-07-30          ----------                                 D
+2005BL2231580-----6100---EXEXBBEXENEUTR422238 00001TORMALA, ZAKARY                         +0000000000540.00D2004-07-30          ----------                                 D
+2005BL2231580-----9892---EXFBBBEXENEUTR422238 00001BEGINNING FUND BALANCE OFFSET           +0000000000540.00C2004-07-30          ----------                                 D
+2005BL2331403-----4938---EXEXBBEXENLG20407069300001ANCARE CORPORATION                      +0000000000372.93D2004-07-30          ----------                                 D
+2005BL2331403-----9892---EXFBBBEXENLG20407069300001BEGINNING FUND BALANCE OFFSET           +0000000000372.93C2004-07-30          ----------                                 D
+2005BL2331403-----5017---EXEXBBEXENLG20408008000001INDIANA OXYGEN COMPANY                  +0000000000621.72D2004-07-30          ----------                                 D
+2005BL2331403-----9892---EXFBBBEXENLG20408008000001BEGINNING FUND BALANCE OFFSET           +0000000000621.72C2004-07-30          ----------                                 D
+2005BL2331405-----4035---EXEXBBEXENLG20407069200001PAIN ENTERPRISES                        +0000000000113.00D2004-07-30          ----------                                 D
+2005BL2331405-----9892---EXFBBBEXENLG20407069200001BEGINNING FUND BALANCE OFFSET           +0000000000113.00C2004-07-30          ----------                                 D
+2005BL2331405-----4700---EXEXBBEXENLG20401013400001LEICA (CAMBRIDGE)                       +0000000000750.00D2004-07-30          ----------                                 D
+2005BL2331405-----9892---EXFBBBEXENLG20401013400001BEGINNING FUND BALANCE OFFSET           +0000000000750.00C2004-07-30          ----------                                 D
+2005BL2331405-----4938---EXEXBBEXENLG20401013200001INDIANA OXYGEN COMPANY                  +0000000000303.90D2004-07-30          ----------                                 D
+2005BL2331405-----9892---EXFBBBEXENLG20401013200001BEGINNING FUND BALANCE OFFSET           +0000000000303.90C2004-07-30          ----------                                 D
+2005BL2331405-----4938---EXEXBBEXENLG20407068900001BOC GAS & GEAR                          +0000000000010.83D2004-07-30          ----------                                 D
+2005BL2331405-----9892---EXFBBBEXENLG20407068900001BEGINNING FUND BALANCE OFFSET           +0000000000010.83C2004-07-30          ----------                                 D
+2005BL2331405-----4938---EXEXBBEXENLG81406126700001R & D SYSTEMS INC                       +0000000000245.00D2004-07-30          ----------                                 D
+2005BL2331405-----9892---EXFBBBEXENLG81406126700001BEGINNING FUND BALANCE OFFSET           +0000000000245.00C2004-07-30          ----------                                 D
+2005BL2331405-----5200---EXEXBBEXENLG81405125600001MICRO PROBE, INC.                       +0000000000220.00D2004-07-30          ----------                                 D
+2005BL2331405-----9892---EXFBBBEXENLG81405125600001BEGINNING FUND BALANCE OFFSET           +0000000000220.00C2004-07-30          ----------                                 D
+2005BL2331405-----6100---EXEXBBEXENEUTR429952 00001MOWERY, TODD                            +0000000000415.00D2004-07-30          ----------                                 D
+2005BL2331405-----9892---EXFBBBEXENEUTR429952 00001BEGINNING FUND BALANCE OFFSET           +0000000000415.00C2004-07-30          ----------                                 D
+2005BL2331405-----6100---EXEXBBEXENEUTR429953 00001SAMUELSON, DANIELLE                     +0000000000415.00D2004-07-30          ----------                                 D
+2005BL2331405-----9892---EXFBBBEXENEUTR429953 00001BEGINNING FUND BALANCE OFFSET           +0000000000415.00C2004-07-30          ----------                                 D
+2005BL2331412-----6100---EXEXBBEXENEUTR426357 00001VOHS, JENIFER                           +0000000000400.00D2004-07-30          ----------                                 D
+2005BL2331412-----9892---EXFBBBEXENEUTR426357 00001BEGINNING FUND BALANCE OFFSET           +0000000000400.00C2004-07-30          ----------                                 D
+2005BL2331412-----6100---EXEXBBEXENEUTR430202 00001FARRIS, COREEN                          +0000000000400.00D2004-07-30          ----------                                 D
+2005BL2331412-----9892---EXFBBBEXENEUTR430202 00001BEGINNING FUND BALANCE OFFSET           +0000000000400.00C2004-07-30          ----------                                 D
+2005BL2331427-----6100---EXEXBBEXENEUTR345246 00001TOWLES-SCHWEN, TAMARA                   +0000000000879.56D2004-07-30          ----------                                 D
+2005BL2331427-----9892---EXFBBBEXENEUTR345246 00001BEGINNING FUND BALANCE OFFSET           +0000000000879.56C2004-07-30          ----------                                 D
+2005BL2331430-----4700---IEEXBBID01EUB1121826 00001Bloomington Physical Plant              +0000000000000.01D2004-07-30          ----------                                 D
+2005BL2331430-----9891---IEFBBBID01EUB1121826 00001BEGINNING FUND BALANCE OFFSET           +0000000000000.01C2004-07-30          ----------                                 D
+2005BL2331430-----4700---IEEXBBID01EUB2121826 00001Bloomington Physical Plant              +0000000000000.01D2004-07-30          ----------                                 D
+2005BL2331430-----9891---IEFBBBID01EUB2121826 00001BEGINNING FUND BALANCE OFFSET           +0000000000000.01C2004-07-30          ----------                                 D
+2005BL2331430-----4700---IEEXBBID01EUB2168290 00001Bloomington Physical Plant              +0000000000000.02D2004-07-30          ----------                                 D
+2005BL2331430-----9891---IEFBBBID01EUB2168290 00001BEGINNING FUND BALANCE OFFSET           +0000000000000.02C2004-07-30          ----------                                 D
+2005BL2331430-----4700---IEEXBBID01EUB4508070 00001Bloomington Physical Plant              +0000000014000.00D2004-07-30          ----------                                 D
+2005BL2331430-----9891---IEFBBBID01EUB4508070 00001BEGINNING FUND BALANCE OFFSET           +0000000014000.00C2004-07-30          ----------                                 D
+2005BL2331430-----4700---IEEXBBID01EUB4513420 00001Bloomington Physical Plant              +0000000003993.39D2004-07-30          ----------                                 D
+2005BL2331430-----9891---IEFBBBID01EUB4513420 00001BEGINNING FUND BALANCE OFFSET           +0000000003993.39C2004-07-30          ----------                                 D
+2005BL2331430-----4768---IEEXBBID01EUB4510338 00001Bloomington Physical Plant              +0000000000000.01D2004-07-30          ----------                                 D
+2005BL2331430-----9891---IEFBBBID01EUB4510338 00001BEGINNING FUND BALANCE OFFSET           +0000000000000.01C2004-07-30          ----------                                 D
+2005BL2331473-----6100---EXEXBBEXENEUTR386122 00001TOWNSEND, JAMES                         +0000000001352.09D2004-07-30          ----------                                 D
+2005BL2331473-----9892---EXFBBBEXENEUTR386122 00001BEGINNING FUND BALANCE OFFSET           +0000000001352.09C2004-07-30          ----------                                 D
+2005BL2331473-----6100---EXEXBBEXENEUTR403973 00001TOWNSEND, JAMES                         +0000000000290.00D2004-07-30          ----------                                 D
+2005BL2331473-----9892---EXFBBBEXENEUTR403973 00001BEGINNING FUND BALANCE OFFSET           +0000000000290.00C2004-07-30          ----------                                 D
+2005BL2331474-----5017---EXEXBBEXENLG20407069700001BOC GAS & GEAR                          +0000000000035.36D2004-07-30          ----------                                 D
+2005BL2331474-----9892---EXFBBBEXENLG20407069700001BEGINNING FUND BALANCE OFFSET           +0000000000035.36C2004-07-30          ----------                                 D
+2005BL2331491-----4085---EXEXBBEXENLG21406002700001ANDREW KING                             +0000000002300.00D2004-07-30          ----------                                 D
+2005BL2331491-----9892---EXFBBBEXENLG21406002700001BEGINNING FUND BALANCE OFFSET           +0000000002300.00C2004-07-30          ----------                                 D
+2005BL2931497-----4166---EXEXBBEXENLG81409157400001KINKO'S                                 +0000000000094.65D2004-07-30          ----------                                 D
+2005BL2931497-----9892---EXFBBBEXENLG81409157400001BEGINNING FUND BALANCE OFFSET           +0000000000094.65C2004-07-30          ----------                                 D
+2005BL2931497-----5000---EXEXBBEXENLG81409162300001ENGRAVING AND STAMP CENTER              +0000000000024.50D2004-07-30          ----------                                 D
+2005BL2931497-----9892---EXFBBBEXENLG81409162300001BEGINNING FUND BALANCE OFFSET           +0000000000024.50C2004-07-30          ----------                                 D
+2005BL4031434-----6100---EXEXBBEXENEUTR410770 00001SANDHOFER, CATHERINE                    +0000000000815.72C2004-07-30          ----------                                 D
+2005BL4031434-----9892---EXFBBBEXENEUTR410770 00001BEGINNING FUND BALANCE OFFSET           +0000000000815.72D2004-07-30          ----------                                 D
+2005BL4031436-----4074---EXEXBBEXENLG10407031500001PURDUE UNIVERSITY                       +0000000004843.67D2004-07-30          ----------                                 D
+2005BL4031436-----9892---EXFBBBEXENLG10407031500001BEGINNING FUND BALANCE OFFSET           +0000000004843.67C2004-07-30          ----------                                 D
+2005BL4031436-----4075---EXEXBBEXENLG10407031500001PURDUE UNIVERSITY                       +0000000003050.00D2004-07-30          ----------                                 D
+2005BL4031436-----9892---EXFBBBEXENLG10407031500001BEGINNING FUND BALANCE OFFSET           +0000000003050.00C2004-07-30          ----------                                 D
+2005BL4031438-----5215---EXEXBBEXENLG81406157200001CDW GOVERNMENT, INC.                    +0000000000100.03D2004-07-30          ----------                                 D
+2005BL4031438-----9892---EXFBBBEXENLG81406157200001BEGINNING FUND BALANCE OFFSET           +0000000000100.03C2004-07-30          ----------                                 D
+2005BL4031438-----6100---EXEXBBEXENEUTR427084 00001STOUT, JULIE                            +0000000000290.00D2004-07-30          ----------                                 D
+2005BL4031438-----9892---EXFBBBEXENEUTR427084 00001BEGINNING FUND BALANCE OFFSET           +0000000000290.00C2004-07-30          ----------                                 D
+2005BL4131412-----6200---EXEXBBEXENEUTR427630 00001PRAUSE, NICOLE                          +0000000000700.00D2004-07-30          ----------                                 D
+2005BL4131412-----9892---EXFBBBEXENEUTR427630 00001BEGINNING FUND BALANCE OFFSET           +0000000000700.00C2004-07-30          ----------                                 D
+2005BL4531410-----4084---EXEXBBEXENLG26102000500001AMERITECH CUSTOM BUSINESS SERVICES      +0000000000116.64D2004-07-30          ----------                                 D
+2005BL4531410-----9892---EXFBBBEXENLG26102000500001BEGINNING FUND BALANCE OFFSET           +0000000000116.64C2004-07-30          ----------                                 D
+2005BL4531410-----4700---IEEXBBID01EUB2188032 00001Bloomington Physical Plant              +0000000000000.01D2004-07-30          ----------                                 D
+2005BL4531410-----9891---IEFBBBID01EUB2188032 00001BEGINNING FUND BALANCE OFFSET           +0000000000000.01C2004-07-30          ----------                                 D
+2005BL4531412-----6100---EXEXBBEXENEUTR429943 00001FENG, YING                              +0000000000328.25D2004-07-30          ----------                                 D
+2005BL4531412-----9892---EXFBBBEXENEUTR429943 00001BEGINNING FUND BALANCE OFFSET           +0000000000328.25C2004-07-30          ----------                                 D
+2005BL4631400-----6150---EXEXBBEXENEUTR427596 00001ROBERTS, MICHAEL                        +0000000001080.06D2004-07-30          ----------                                 D
+2005BL4631400-----9892---EXFBBBEXENEUTR427596 00001BEGINNING FUND BALANCE OFFSET           +0000000001080.06C2004-07-30          ----------                                 D
+2005BL4631492-----5017---EXEXBBEXENLG20104033700001BOC GAS & GEAR                          +0000000000107.71D2004-07-30          ----------                                 D
+2005BL4631492-----9892---EXFBBBEXENLG20104033700001BEGINNING FUND BALANCE OFFSET           +0000000000107.71C2004-07-30          ----------                                 D
+2005BL4631518-----4074---EXEXBBEXENLG10909038200001UNIVERSITY OF CALIFORNIA                +0000000007433.48D2004-07-30          ----------                                 D
+2005BL4631518-----9892---EXFBBBEXENLG10909038200001BEGINNING FUND BALANCE OFFSET           +0000000007433.48C2004-07-30          ----------                                 D
+2005BL4631527-----4035---EXEXBBEXENLG20407069200001PAIN ENTERPRISES                        +0000000000113.00D2004-07-30          ----------                                 D
+2005BL4631527-----9892---EXFBBBEXENLG20407069200001BEGINNING FUND BALANCE OFFSET           +0000000000113.00C2004-07-30          ----------                                 D
+2005BL4631527-----4035---EXEXBBEXENLG81301128900001DIAMEDIX CORP                           +0000000000080.00D2004-07-30          ----------                                 D
+2005BL4631527-----9892---EXFBBBEXENLG81301128900001BEGINNING FUND BALANCE OFFSET           +0000000000080.00C2004-07-30          ----------                                 D
+2005BL4631527-----4035---EXEXBBEXENLG81406237800001NEWARK ELECTRONICS, INC                 +0000000000032.60D2004-07-30          ----------                                 D
+2005BL4631527-----9892---EXFBBBEXENLG81406237800001BEGINNING FUND BALANCE OFFSET           +0000000000032.60C2004-07-30          ----------                                 D
+2005BL4631527-----4035---EXEXBBEXENLG81406241100001FISHER SCIENTIFIC                       +0000000000053.31D2004-07-30          ----------                                 D
+2005BL4631527-----9892---EXFBBBEXENLG81406241100001BEGINNING FUND BALANCE OFFSET           +0000000000053.31C2004-07-30          ----------                                 D
+2005BL4631527-----4700---EXEXBBEXENLG20401013400001LEICA (CAMBRIDGE)                       +0000000000145.14D2004-07-30          ----------                                 D
+2005BL4631527-----9892---EXFBBBEXENLG20401013400001BEGINNING FUND BALANCE OFFSET           +0000000000145.14C2004-07-30          ----------                                 D
+2005BL4631527-----6100---EXEXBBEXENEUTR415452 00001CORTRIGHT, JAMES                        +0000000001188.72D2004-07-30          ----------                                 D
+2005BL4631527-----9892---EXFBBBEXENEUTR415452 00001BEGINNING FUND BALANCE OFFSET           +0000000001188.72C2004-07-30          ----------                                 D
+2005BL4631527-----6150---EXEXBBEXENEUTR348598 00001WOOD, DAVID                             +0000000001043.15D2004-07-30          ----------                                 D
+2005BL4631527-----9892---EXFBBBEXENEUTR348598 00001BEGINNING FUND BALANCE OFFSET           +0000000001043.15C2004-07-30          ----------                                 D
+2005BL4631557-----6100---EXEXBBEXENEUTR429439 00001PISONI, DAVID                           +0000000000828.25D2004-07-30          ----------                                 D
+2005BL4631557-----9892---EXFBBBEXENEUTR429439 00001BEGINNING FUND BALANCE OFFSET           +0000000000828.25C2004-07-30          ----------                                 D
+2005BL4631557-----6100---EXEXBBEXENEUTR430491 00001CLOPPER, CYNTHIA                        +0000000000648.75D2004-07-30          ----------                                 D
+2005BL4631557-----9892---EXFBBBEXENEUTR430491 00001BEGINNING FUND BALANCE OFFSET           +0000000000648.75C2004-07-30          ----------                                 D
+2005BL4631605-----4075---EXEXBBEXENLG10108011800001UNIVERSITY OF HELSINKI                  +0000000285256.00D2004-07-30          ----------                                 D
+2005BL4631605-----9892---EXFBBBEXENLG10108011800001BEGINNING FUND BALANCE OFFSET           +0000000285256.00C2004-07-30          ----------                                 D
+2005BL4631605-----6200---EXEXBBEXENEUTR430763 00001ROSE, RICHARD                           +0000000001445.00D2004-07-30          ----------                                 D
+2005BL4631605-----9892---EXFBBBEXENEUTR430763 00001BEGINNING FUND BALANCE OFFSET           +0000000001445.00C2004-07-30          ----------                                 D
+2005BL4631613-----6100---EXEXBBEXENEUTR412144 00001COLUNGA-LEAL, ELIANA                    +0000000000540.00D2004-07-30          ----------                                 D
+2005BL4631613-----9892---EXFBBBEXENEUTR412144 00001BEGINNING FUND BALANCE OFFSET           +0000000000540.00C2004-07-30          ----------                                 D
+2005BL4631617-----4035---EXEXBBEXENLG20407069200001PAIN ENTERPRISES                        +0000000000023.00D2004-07-30          ----------                                 D
+2005BL4631617-----9892---EXFBBBEXENLG20407069200001BEGINNING FUND BALANCE OFFSET           +0000000000023.00C2004-07-30          ----------                                 D
+2005BL4631617-----4938---EXEXBBEXENLG20407069900001BOC INDUSTRIAL GASES                    +0000000000001.32D2004-07-30          ----------                                 D
+2005BL4631617-----9892---EXFBBBEXENLG20407069900001BEGINNING FUND BALANCE OFFSET           +0000000000001.32C2004-07-30          ----------                                 D
+2005BL4631617-----4938---EXEXBBEXENLG81404234300001SCHEIN HENRY                            +0000000000039.98D2004-07-30          ----------                                 D
+2005BL4631617-----9892---EXFBBBEXENLG81404234300001BEGINNING FUND BALANCE OFFSET           +0000000000039.98C2004-07-30          ----------                                 D
+2005BL4631618-----4055---EXEXBBEXENLG81401078400001LAWRENCE ERLBAUM ASSOCIATES INC         +0000000000049.99D2004-07-30          ----------                                 D
+2005BL4631618-----9892---EXFBBBEXENLG81401078400001BEGINNING FUND BALANCE OFFSET           +0000000000049.99C2004-07-30          ----------                                 D
+2005BL4631618-----6100---EXEXBBEXENEUTR425672 00001BUSEMEYER, JEROME                       +0000000000909.65D2004-07-30          ----------                                 D
+2005BL4631618-----9892---EXFBBBEXENEUTR425672 00001BEGINNING FUND BALANCE OFFSET           +0000000000909.65C2004-07-30          ----------                                 D
+2005BL4631624-----4074---EXEXBBEXENLG10408013400001UNIVERSITY OF MARYLAND                  +0000000003773.39D2004-07-30          ----------                                 D
+2005BL4631624-----9892---EXFBBBEXENLG10408013400001BEGINNING FUND BALANCE OFFSET           +0000000003773.39C2004-07-30          ----------                                 D
+2005BL4631624-----4075---EXEXBBEXENLG10208017200001UNIVERSITY OF COLORADO                  +0000000036745.77D2004-07-30          ----------                                 D
+2005BL4631624-----9892---EXFBBBEXENLG10208017200001BEGINNING FUND BALANCE OFFSET           +0000000036745.77C2004-07-30          ----------                                 D
+2005BL4631624-----4075---EXEXBBEXENLG10408013400001UNIVERSITY OF MARYLAND                  +0000000031515.78D2004-07-30          ----------                                 D
+2005BL4631624-----9892---EXFBBBEXENLG10408013400001BEGINNING FUND BALANCE OFFSET           +0000000031515.78C2004-07-30          ----------                                 D
+2005BL4631625-----6100---EXEXBBEXENEUTR422739 00001BOBOVA, LYUBOV                          +0000000000415.00D2004-07-30          ----------                                 D
+2005BL4631625-----9892---EXFBBBEXENEUTR422739 00001BEGINNING FUND BALANCE OFFSET           +0000000000415.00C2004-07-30          ----------                                 D
+2005BL4631625-----6100---EXEXBBEXENEUTR422741 00001CANTRELL, ELIZABETH                     +0000000000415.00D2004-07-30          ----------                                 D
+2005BL4631625-----9892---EXFBBBEXENEUTR422741 00001BEGINNING FUND BALANCE OFFSET           +0000000000415.00C2004-07-30          ----------                                 D
+2005BL4631625-----6200---EXEXBBEXENEUTR426361 00001FINN, PETER                             +0000000001105.00D2004-07-30          ----------                                 D
+2005BL4631625-----9892---EXFBBBEXENEUTR426361 00001BEGINNING FUND BALANCE OFFSET           +0000000001105.00C2004-07-30          ----------                                 D
+2005BL4631628-----6100---EXEXBBEXENEUTR417270 00001DAVIS, REBECCA                          +0000000000250.00D2004-07-30          ----------                                 D
+2005BL4631628-----9892---EXFBBBEXENEUTR417270 00001BEGINNING FUND BALANCE OFFSET           +0000000000250.00C2004-07-30          ----------                                 D
+2005BL4631629-----6100---EXEXBBEXENEUTR393760 00001THELEN, ESTHER                          +0000000000415.00D2004-07-30          ----------                                 D
+2005BL4631629-----9892---EXFBBBEXENEUTR393760 00001BEGINNING FUND BALANCE OFFSET           +0000000000415.00C2004-07-30          ----------                                 D
+2005BL4631630-----6100---EXEXBBEXENEUTR423578 00001MUELLER, SHANE                          +0000000001078.25D2004-07-30          ----------                                 D
+2005BL4631630-----9892---EXFBBBEXENEUTR423578 00001BEGINNING FUND BALANCE OFFSET           +0000000001078.25C2004-07-30          ----------                                 D
+2005BL4631630-----6100---EXEXBBEXENEUTR430616 00001CRISS, AMY                              +0000000000455.75D2004-07-30          ----------                                 D
+2005BL4631630-----9892---EXFBBBEXENEUTR430616 00001BEGINNING FUND BALANCE OFFSET           +0000000000455.75C2004-07-30          ----------                                 D
+2005BL4631630-----6100---EXEXBBEXENEUTR430843 00001SHIFFRIN, RICHARD                       +0000000000290.00D2004-07-30          ----------                                 D
+2005BL4631630-----9892---EXFBBBEXENEUTR430843 00001BEGINNING FUND BALANCE OFFSET           +0000000000290.00C2004-07-30          ----------                                 D
+2005BL4631630-----6200---EXEXBBEXENEUTR421875 00001SANDBORN, ADAM                          +0000000000935.00D2004-07-30          ----------                                 D
+2005BL4631630-----9892---EXFBBBEXENEUTR421875 00001BEGINNING FUND BALANCE OFFSET           +0000000000935.00C2004-07-30          ----------                                 D
+2005BL4631630-----6200---EXEXBBEXENEUTR422227 00001CRISS, AMY                              +0000000001870.00D2004-07-30          ----------                                 D
+2005BL4631630-----9892---EXFBBBEXENEUTR422227 00001BEGINNING FUND BALANCE OFFSET           +0000000001870.00C2004-07-30          ----------                                 D
+2005BL4631630-----6200---EXEXBBEXENEUTR422415 00001WEIDEMANN, CHRISTOPH                    +0000000001870.00D2004-07-30          ----------                                 D
+2005BL4631630-----9892---EXFBBBEXENEUTR422415 00001BEGINNING FUND BALANCE OFFSET           +0000000001870.00C2004-07-30          ----------                                 D
+2005BL4631630-----6200---EXEXBBEXENEUTR422738 00001COHEN, ANDREW                           +0000000006035.00D2004-07-30          ----------                                 D
+2005BL4631630-----9892---EXFBBBEXENEUTR422738 00001BEGINNING FUND BALANCE OFFSET           +0000000006035.00C2004-07-30          ----------                                 D
+2005BL4631630-----6200---EXEXBBEXENEUTR422958 00001KLEIN, KRYSTAL                          +0000000001313.25D2004-07-30          ----------                                 D
+2005BL4631630-----9892---EXFBBBEXENEUTR422958 00001BEGINNING FUND BALANCE OFFSET           +0000000001313.25C2004-07-30          ----------                                 D
+2005BL4631636-----4938---EXEXBBEXENLG81406229800001MED ASSOCIATES INC                      +0000000000064.00D2004-07-30          ----------                                 D
+2005BL4631636-----9892---EXFBBBEXENLG81406229800001BEGINNING FUND BALANCE OFFSET           +0000000000064.00C2004-07-30          ----------                                 D
+2005BL4631636-----6100---EXEXBBEXENEUTR427418 00001WILSON, ANDREW                          +0000000000578.25D2004-07-30          ----------                                 D
+2005BL4631636-----9892---EXFBBBEXENEUTR427418 00001BEGINNING FUND BALANCE OFFSET           +0000000000578.25C2004-07-30          ----------                                 D
+2005BL4631636-----6100---EXEXBBEXENEUTR429978 00001BINGHAM, GEOFFREY                       +0000000001540.00D2004-07-30          ----------                                 D
+2005BL4631636-----9892---EXFBBBEXENEUTR429978 00001BEGINNING FUND BALANCE OFFSET           +0000000001540.00C2004-07-30          ----------                                 D
+2005BL4631636-----6100---EXEXBBEXENEUTR429979 00001WILSON, ANDREW                          +0000000000415.00D2004-07-30          ----------                                 D
+2005BL4631636-----9892---EXFBBBEXENEUTR429979 00001BEGINNING FUND BALANCE OFFSET           +0000000000415.00C2004-07-30          ----------                                 D
+2005BL4631638-----4075---EXEXBBEXENLG10312006200001JOHNS HOPKINS UNIVERSITY                +0000000098512.30D2004-07-30          ----------                                 D
+2005BL4631638-----9892---EXFBBBEXENLG10312006200001BEGINNING FUND BALANCE OFFSET           +0000000098512.30C2004-07-30          ----------                                 D
+2005BL4631638-----5200---EXEXBBEXENLG81406249200001PCB PIEZOTRONICS                        +0000000000970.00D2004-07-30          ----------                                 D
+2005BL4631638-----9892---EXFBBBEXENLG81406249200001BEGINNING FUND BALANCE OFFSET           +0000000000970.00C2004-07-30          ----------                                 D
+2005BL4631638-----6100---EXEXBBEXENEUTR430615 00001CRAIG, JAMES                            +0000000000290.00D2004-07-30          ----------                                 D
+2005BL4631638-----9892---EXFBBBEXENEUTR430615 00001BEGINNING FUND BALANCE OFFSET           +0000000000290.00C2004-07-30          ----------                                 D
+2005BL4631639-----6100---EXEXBBEXENEUTR430362 00001HETRICK, WILLIAM                        +0000000000415.00D2004-07-30          ----------                                 D
+2005BL4631639-----9892---EXFBBBEXENEUTR430362 00001BEGINNING FUND BALANCE OFFSET           +0000000000415.00C2004-07-30          ----------                                 D
+2005BL4631640-----4074---EXEXBBEXENLG10305006300001UNIVERSITY OF NOTRE DAME                +0000000010934.13D2004-07-30          ----------                                 D
+2005BL4631640-----9892---EXFBBBEXENLG10305006300001BEGINNING FUND BALANCE OFFSET           +0000000010934.13C2004-07-30          ----------                                 D
+2005BL4631640-----4075---EXEXBBEXENLG10305006300001UNIVERSITY OF NOTRE DAME                +0000000021010.02D2004-07-30          ----------                                 D
+2005BL4631640-----9892---EXFBBBEXENLG10305006300001BEGINNING FUND BALANCE OFFSET           +0000000021010.02C2004-07-30          ----------                                 D
+2005BL4631640-----6100---EXEXBBEXENEUTR410932 00001TOWNSEND, JAMES                         +0000000000165.00D2004-07-30          ----------                                 D
+2005BL4631640-----9892---EXFBBBEXENEUTR410932 00001BEGINNING FUND BALANCE OFFSET           +0000000000165.00C2004-07-30          ----------                                 D
+2005BL4631640-----6100---EXEXBBEXENEUTR412049 00001FIFIC, MARIO                            +0000000000665.00C2004-07-30          ----------                                 D
+2005BL4631640-----9892---EXFBBBEXENEUTR412049 00001BEGINNING FUND BALANCE OFFSET           +0000000000665.00D2004-07-30          ----------                                 D
+2005BL4631640-----6100---EXEXBBEXENEUTR415931 00001TOWNSEND, JAMES                         +0000000002506.72D2004-07-30          ----------                                 D
+2005BL4631640-----9892---EXFBBBEXENEUTR415931 00001BEGINNING FUND BALANCE OFFSET           +0000000002506.72C2004-07-30          ----------                                 D
+2005BL4631640-----6100---EXEXBBEXENEUTR423105 00001TOWNSEND, JAMES                         +0000000000953.65D2004-07-30          ----------                                 D
+2005BL4631640-----9892---EXFBBBEXENEUTR423105 00001BEGINNING FUND BALANCE OFFSET           +0000000000953.65C2004-07-30          ----------                                 D
+2005BL4631640-----6200---EXEXBBEXENEUTR410436 00001TOWNSEND, JAMES                         +0000000000801.72D2004-07-30          ----------                                 D
+2005BL4631640-----9892---EXFBBBEXENEUTR410436 00001BEGINNING FUND BALANCE OFFSET           +0000000000801.72C2004-07-30          ----------                                 D
+2005BL4631640-----6200---EXEXBBEXENEUTR418033 00001TOWNSEND, JAMES                         +0000000000801.72D2004-07-30          ----------                                 D
+2005BL4631640-----9892---EXFBBBEXENEUTR418033 00001BEGINNING FUND BALANCE OFFSET           +0000000000801.72C2004-07-30          ----------                                 D
+2005BL4631640-----6200---EXEXBBEXENEUTR423933 00001TOWNSEND, JAMES                         +0000000003145.00D2004-07-30          ----------                                 D
+2005BL4631640-----9892---EXFBBBEXENEUTR423933 00001BEGINNING FUND BALANCE OFFSET           +0000000003145.00C2004-07-30          ----------                                 D
+2005BL4631641-----6100---EXEXBBEXENEUTR414084 00001SETHURAMAN, NITYA                       +0000000000451.72C2004-07-30          ----------                                 D
+2005BL4631641-----9892---EXFBBBEXENEUTR414084 00001BEGINNING FUND BALANCE OFFSET           +0000000000451.72D2004-07-30          ----------                                 D
+2005BL4631642-----6100---EXEXBBEXENEUTR429951 00001MCFALL, RICHARD                         +0000000000665.00D2004-07-30          ----------                                 D
+2005BL4631642-----9892---EXFBBBEXENEUTR429951 00001BEGINNING FUND BALANCE OFFSET           +0000000000665.00C2004-07-30          ----------                                 D
+2005BL4631642-----6100---EXEXBBEXENEUTR430202 00001FARRIS, COREEN                          +0000000000244.50D2004-07-30          ----------                                 D
+2005BL4631642-----9892---EXFBBBEXENEUTR430202 00001BEGINNING FUND BALANCE OFFSET           +0000000000244.50C2004-07-30          ----------                                 D
+2005BL4631642-----6100---EXEXBBEXENEUTR430483 00001SEAY, STEVE                             +0000000000600.00D2004-07-30          ----------                                 D
+2005BL4631642-----9892---EXFBBBEXENEUTR430483 00001BEGINNING FUND BALANCE OFFSET           +0000000000600.00C2004-07-30          ----------                                 D
+2005BL4631643-----4002---EXEXBBEXENLG20406022700001MYRTLES RABBITRY                        +0000000000520.00D2004-07-30          ----------                                 D
+2005BL4631643-----9892---EXFBBBEXENLG20406022700001BEGINNING FUND BALANCE OFFSET           +0000000000520.00C2004-07-30          ----------                                 D
+2005BL4631643-----4035---EXEXBBEXENLG81406121000001SCHEIN HENRY                            +0000000000512.84D2004-07-30          ----------                                 D
+2005BL4631643-----9892---EXFBBBEXENLG81406121000001BEGINNING FUND BALANCE OFFSET           +0000000000512.84C2004-07-30          ----------                                 D
+2005BL4631643-----4035---EXEXBBEXENLG81406264400001VWR INTERNATIONAL                       +0000000000363.78D2004-07-30          ----------                                 D
+2005BL4631643-----9892---EXFBBBEXENLG81406264400001BEGINNING FUND BALANCE OFFSET           +0000000000363.78C2004-07-30          ----------                                 D
+2005BL4631643-----4938---EXEXBBEXENLG20405016100001PHARMACY 1 EXPRESS                      +0000000000134.50D2004-07-30          ----------                                 D
+2005BL4631643-----9892---EXFBBBEXENLG20405016100001BEGINNING FUND BALANCE OFFSET           +0000000000134.50C2004-07-30          ----------                                 D
+2005BL4631644-----6100---EXEXBBEXENEUTR429355 00001DILLON, CAITLIN                         +0000000000333.75D2004-07-30          ----------                                 D
+2005BL4631644-----9892---EXFBBBEXENEUTR429355 00001BEGINNING FUND BALANCE OFFSET           +0000000000333.75C2004-07-30          ----------                                 D
+2005BL4631644-----6100---EXEXBBEXENEUTR430384 00001WINTERS, STEPHEN                        +0000000000523.75D2004-07-30          ----------                                 D
+2005BL4631644-----9892---EXFBBBEXENEUTR430384 00001BEGINNING FUND BALANCE OFFSET           +0000000000523.75C2004-07-30          ----------                                 D
+2005BL4631644-----6100---EXEXBBEXENEUTR430761 00001DILLON, CAITLIN                         +0000000000648.75D2004-07-30          ----------                                 D
+2005BL4631644-----9892---EXFBBBEXENEUTR430761 00001BEGINNING FUND BALANCE OFFSET           +0000000000648.75C2004-07-30          ----------                                 D
+2005BL4631644-----6200---EXEXBBEXENEUTR430849 00001SCHWARTZ, ANA                           +0000000000803.25D2004-07-30          ----------                                 D
+2005BL4631644-----9892---EXFBBBEXENEUTR430849 00001BEGINNING FUND BALANCE OFFSET           +0000000000803.25C2004-07-30          ----------                                 D
+2005BL4631645-----6100---EXEXBBEXENEUTR430244 00001SMITH, LINDA                            +0000000000415.00D2004-07-30          ----------                                 D
+2005BL4631645-----9892---EXFBBBEXENEUTR430244 00001BEGINNING FUND BALANCE OFFSET           +0000000000415.00C2004-07-30          ----------                                 D
+2005BL4631645-----6100---EXEXBBEXENEUTR430358 00001SMITH, LINDA                            +0000000000415.00D2004-07-30          ----------                                 D
+2005BL4631645-----9892---EXFBBBEXENEUTR430358 00001BEGINNING FUND BALANCE OFFSET           +0000000000415.00C2004-07-30          ----------                                 D
+2005BL4631645-----6100---EXEXBBEXENEUTR430360 00001SMITH, LINDA                            +0000000000415.00D2004-07-30          ----------                                 D
+2005BL4631645-----9892---EXFBBBEXENEUTR430360 00001BEGINNING FUND BALANCE OFFSET           +0000000000415.00C2004-07-30          ----------                                 D
+2005BL4631645-----6200---EXEXBBEXENEUTR425960 00001YOSHIDA, HANAKO                         +0000000001483.25D2004-07-30          ----------                                 D
+2005BL4631645-----9892---EXFBBBEXENEUTR425960 00001BEGINNING FUND BALANCE OFFSET           +0000000001483.25C2004-07-30          ----------                                 D
+2005BL4631646-----4074---EXEXBBEXENLG10409023900001UNIVERSITY OF VIRGINIA                  +0000000017537.45D2004-07-30          ----------                                 D
+2005BL4631646-----9892---EXFBBBEXENLG10409023900001BEGINNING FUND BALANCE OFFSET           +0000000017537.45C2004-07-30          ----------                                 D
+2005BL4631646-----4074---EXEXBBEXENLG10409024000001ARIZONA STATE UNIVERSITY                +0000000025000.00D2004-07-30          ----------                                 D
+2005BL4631646-----9892---EXFBBBEXENLG10409024000001BEGINNING FUND BALANCE OFFSET           +0000000025000.00C2004-07-30          ----------                                 D
+2005BL4631646-----4074---EXEXBBEXENLG10911000500001ARIZONA STATE UNIVERSITY                +0000000018882.30D2004-07-30          ----------                                 D
+2005BL4631646-----9892---EXFBBBEXENLG10911000500001BEGINNING FUND BALANCE OFFSET           +0000000018882.30C2004-07-30          ----------                                 D
+2005BL4631646-----4075---EXEXBBEXENLG10409024000001ARIZONA STATE UNIVERSITY                +0000000104165.00D2004-07-30          ----------                                 D
+2005BL4631646-----9892---EXFBBBEXENLG10409024000001BEGINNING FUND BALANCE OFFSET           +0000000104165.00C2004-07-30          ----------                                 D
+2005BL4631646-----4166---EXEXBBEXENLG24406002500001PEARSON NCS                             +0000000004637.74D2004-07-30          ----------                                 D
+2005BL4631646-----9892---EXFBBBEXENLG24406002500001BEGINNING FUND BALANCE OFFSET           +0000000004637.74C2004-07-30          ----------                                 D
+2005BL4631646-----5200---EXEXBBEXENLG81406145200001CDW GOVERNMENT, INC.                    +0000000000125.34D2004-07-30          ----------                                 D
+2005BL4631646-----9892---EXFBBBEXENLG81406145200001BEGINNING FUND BALANCE OFFSET           +0000000000125.34C2004-07-30          ----------                                 D
+2005BL4631646-----6000---EXEXBBEXENEUTR430613 00001PRESSON, CLARK                          +0000000004996.00D2004-07-30          ----------                                 D
+2005BL4631646-----9892---EXFBBBEXENEUTR430613 00001BEGINNING FUND BALANCE OFFSET           +0000000004996.00C2004-07-30          ----------                                 D
+2005BL4631646-----6000---EXEXBBEXENEUTR430614 00001CHASSIN, LAURIE                         +0000000004996.00D2004-07-30          ----------                                 D
+2005BL4631646-----9892---EXFBBBEXENEUTR430614 00001BEGINNING FUND BALANCE OFFSET           +0000000004996.00C2004-07-30          ----------                                 D
+2005BL4631648-----6100---EXEXBBEXENEUTR414597 00001NOSOFSKY, ROBERT                        +0000000000415.00D2004-07-30          ----------                                 D
+2005BL4631648-----9892---EXFBBBEXENEUTR414597 00001BEGINNING FUND BALANCE OFFSET           +0000000000415.00C2004-07-30          ----------                                 D
+2005BL4631648-----6100---EXEXBBEXENEUTR414598 00001NOSOFSKY, ROBERT                        +0000000000415.00C2004-07-30          ----------                                 D
+2005BL4631648-----9892---EXFBBBEXENEUTR414598 00001BEGINNING FUND BALANCE OFFSET           +0000000000415.00D2004-07-30          ----------                                 D
+2005BL4631648-----6200---EXEXBBEXENEUTR429976 00001NOSOFSKY, ROBERT                        +0000000002465.00D2004-07-30          ----------                                 D
+2005BL4631648-----9892---EXFBBBEXENEUTR429976 00001BEGINNING FUND BALANCE OFFSET           +0000000002465.00C2004-07-30          ----------                                 D
+2005BL4631651-----6100---EXEXBBEXENEUTR430361 00001BRENNER, COLLEEN                        +0000000000415.00D2004-07-30          ----------                                 D
+2005BL4631651-----9892---EXFBBBEXENEUTR430361 00001BEGINNING FUND BALANCE OFFSET           +0000000000415.00C2004-07-30          ----------                                 D
+2005BL4631653-----4002---EXEXBBEXENLG20406020200001NASCO                                   +0000000000186.00D2004-07-30          ----------                                 D
+2005BL4631653-----9892---EXFBBBEXENLG20406020200001BEGINNING FUND BALANCE OFFSET           +0000000000186.00C2004-07-30          ----------                                 D
+2005BL4631653-----4035---EXEXBBEXENLG20407069200001PAIN ENTERPRISES                        +0000000000113.00D2004-07-30          ----------                                 D
+2005BL4631653-----9892---EXFBBBEXENLG20407069200001BEGINNING FUND BALANCE OFFSET           +0000000000113.00C2004-07-30          ----------                                 D
+2005BL4631653-----5017---EXEXBBEXENLG20407069400001BOC GAS & GEAR                          +0000000000030.08D2004-07-30          ----------                                 D
+2005BL4631653-----9892---EXFBBBEXENLG20407069400001BEGINNING FUND BALANCE OFFSET           +0000000000030.08C2004-07-30          ----------                                 D
+2005BL4631653-----5200---EXEXBBEXENLG12406000400001LOWE'S HOME IMPROVEMENT CENTER          +0000000000388.00D2004-07-30          ----------                                 D
+2005BL4631653-----9892---EXFBBBEXENLG12406000400001BEGINNING FUND BALANCE OFFSET           +0000000000388.00C2004-07-30          ----------                                 D
+2005BL4631653-----5200---EXEXBBEXENLG20405000300001ENVIROTECH SYSTEMS INC                  +0000000002500.00D2004-07-30          ----------                                 D
+2005BL4631653-----9892---EXFBBBEXENLG20405000300001BEGINNING FUND BALANCE OFFSET           +0000000002500.00C2004-07-30          ----------                                 D
+2005BL4631654-----4002---EXEXBBEXENLG20406011200001THE JACKSON LABORATORY                  +0000000000243.00D2004-07-30          ----------                                 D
+2005BL4631654-----9892---EXFBBBEXENLG20406011200001BEGINNING FUND BALANCE OFFSET           +0000000000243.00C2004-07-30          ----------                                 D
+2005BL4631654-----4002---EXEXBBEXENLG20406011300001THE JACKSON LABORATORY                  +0000000000243.00D2004-07-30          ----------                                 D
+2005BL4631654-----9892---EXFBBBEXENLG20406011300001BEGINNING FUND BALANCE OFFSET           +0000000000243.00C2004-07-30          ----------                                 D
+2005BL4631654-----4002---EXEXBBEXENLG20406011400001THE JACKSON LABORATORY                  +0000000000243.00D2004-07-30          ----------                                 D
+2005BL4631654-----9892---EXFBBBEXENLG20406011400001BEGINNING FUND BALANCE OFFSET           +0000000000243.00C2004-07-30          ----------                                 D
+2005BL4631654-----4002---EXEXBBEXENLG20406011600001THE JACKSON LABORATORY                  +0000000000243.00D2004-07-30          ----------                                 D
+2005BL4631654-----9892---EXFBBBEXENLG20406011600001BEGINNING FUND BALANCE OFFSET           +0000000000243.00C2004-07-30          ----------                                 D
+2005BL4631654-----4002---EXEXBBEXENLG20406011700001THE JACKSON LABORATORY                  +0000000000243.00D2004-07-30          ----------                                 D
+2005BL4631654-----9892---EXFBBBEXENLG20406011700001BEGINNING FUND BALANCE OFFSET           +0000000000243.00C2004-07-30          ----------                                 D
+2005BL4631654-----4002---EXEXBBEXENLG20406011800001THE JACKSON LABORATORY                  +0000000000243.00D2004-07-30          ----------                                 D
+2005BL4631654-----9892---EXFBBBEXENLG20406011800001BEGINNING FUND BALANCE OFFSET           +0000000000243.00C2004-07-30          ----------                                 D
+2005BL4631654-----4002---EXEXBBEXENLG20406011900001THE JACKSON LABORATORY                  +0000000000243.00D2004-07-30          ----------                                 D
+2005BL4631654-----9892---EXFBBBEXENLG20406011900001BEGINNING FUND BALANCE OFFSET           +0000000000243.00C2004-07-30          ----------                                 D
+2005BL4631654-----4002---EXEXBBEXENLG20406012000001THE JACKSON LABORATORY                  +0000000000243.00D2004-07-30          ----------                                 D
+2005BL4631654-----9892---EXFBBBEXENLG20406012000001BEGINNING FUND BALANCE OFFSET           +0000000000243.00C2004-07-30          ----------                                 D
+2005BL4631654-----4002---EXEXBBEXENLG20406012100001THE JACKSON LABORATORY                  +0000000000243.00D2004-07-30          ----------                                 D
+2005BL4631654-----9892---EXFBBBEXENLG20406012100001BEGINNING FUND BALANCE OFFSET           +0000000000243.00C2004-07-30          ----------                                 D
+2005BL4631654-----4074---EXEXBBEXENLG10404011800001UNIVERSITY OF MICHIGAN                  +0000000019222.62D2004-07-30          ----------                                 D
+2005BL4631654-----9892---EXFBBBEXENLG10404011800001BEGINNING FUND BALANCE OFFSET           +0000000019222.62C2004-07-30          ----------                                 D
+2005BL4631660-----4002---EXEXBBEXENLG20406016700001HARLAN SPRAGUE DAWLEY INC               +0000000000704.00D2004-07-30          ----------                                 D
+2005BL4631660-----9892---EXFBBBEXENLG20406016700001BEGINNING FUND BALANCE OFFSET           +0000000000704.00C2004-07-30          ----------                                 D
+2005BL4824404-----4002---EXEXBBEXENLG20405014500001HARLAN SPRAGUE DAWLEY INC               +0000000000582.20D2004-07-30          ----------                                 D
+2005BL4824404-----9892---EXFBBBEXENLG20405014500001BEGINNING FUND BALANCE OFFSET           +0000000000582.20C2004-07-30          ----------                                 D
+2005BL4824404-----4938---EXEXBBEXENLG81406157300001MIDWEST SCIENTIFIC                      +0000000000142.29D2004-07-30          ----------                                 D
+2005BL4824404-----9892---EXFBBBEXENLG81406157300001BEGINNING FUND BALANCE OFFSET           +0000000000142.29C2004-07-30          ----------                                 D
+2005BL4824404-----4938---EXEXBBEXENLG81406159300001SIGMA ALDRICH CHEMICAL                  +0000000000187.70D2004-07-30          ----------                                 D
+2005BL4824404-----9892---EXFBBBEXENLG81406159300001BEGINNING FUND BALANCE OFFSET           +0000000000187.70C2004-07-30          ----------                                 D
+2005BL4824404-----4938---EXEXBBEXENLG81406192200001INVITROGEN                              +0000000000057.00D2004-07-30          ----------                                 D
+2005BL4824404-----9892---EXFBBBEXENLG81406192200001BEGINNING FUND BALANCE OFFSET           +0000000000057.00C2004-07-30          ----------                                 D
+2005BL4824404-----4938---EXEXBBEXENLG81406203800001ATCC                                    +0000000000290.00D2004-07-30          ----------                                 D
+2005BL4824404-----9892---EXFBBBEXENLG81406203800001BEGINNING FUND BALANCE OFFSET           +0000000000290.00C2004-07-30          ----------                                 D
+2005BL4824404-----4938---EXEXBBEXENLG81406257800001ATCC                                    +0000000000224.00D2004-07-30          ----------                                 D
+2005BL4824404-----9892---EXFBBBEXENLG81406257800001BEGINNING FUND BALANCE OFFSET           +0000000000224.00C2004-07-30          ----------                                 D
+2005BL4831401-----4616---EXEXBBEXENLG81406248000001WORLDVIZ                                +0000000001000.00D2004-07-30          ----------                                 D
+2005BL4831401-----9892---EXFBBBEXENLG81406248000001BEGINNING FUND BALANCE OFFSET           +0000000001000.00C2004-07-30          ----------                                 D
+2005BL4831401-----6100---EXEXBBEXENEUTR427442 00001SMITH, ELIOT                            +0000000000953.25D2004-07-30          ----------                                 D
+2005BL4831401-----9892---EXFBBBEXENEUTR427442 00001BEGINNING FUND BALANCE OFFSET           +0000000000953.25C2004-07-30          ----------                                 D
+2005BL4831497-----6200---EXEXBBEXENEUTR430251 00001GOLDSTONE, ROBERT                       +0000000001785.00D2004-07-30          ----------                                 D
+2005BL4831497-----9892---EXFBBBEXENEUTR430251 00001BEGINNING FUND BALANCE OFFSET           +0000000001785.00C2004-07-30          ----------                                 D

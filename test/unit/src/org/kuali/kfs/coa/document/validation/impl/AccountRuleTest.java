@@ -1052,7 +1052,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
      * to them.  They simple exercise GL service methods, and if those GL service 
      * methods return false, they add an error.
      */
-    
+    @SuppressWarnings("deprecation")
     public void testCGFields_RequiredCGFields_Missing() {
         
         Account newAccount = new Account();
@@ -1092,7 +1092,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
         assertFieldErrorExists("cgCatlfFedDomestcAssistNbr", KeyConstants.ERROR_REQUIRED);
         
     }
-
+    @SuppressWarnings("deprecation")
     public void testCGFields_RequiredCGFields_AllPresent() {
         
         Account newAccount = new Account();
@@ -1126,6 +1126,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
         
     }
 
+    @SuppressWarnings("deprecation")
     public void testCheckCgIncomeStreamRequired_NotApplicableAccount() {
         
         Account newAccount = new Account();
@@ -1155,6 +1156,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
         
     }
     
+    @SuppressWarnings("deprecation")
     public void testCheckCgIncomeStreamRequired_GFMPRACTException() {
         
         Account newAccount = new Account();
@@ -1184,6 +1186,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
         
     }
     
+    @SuppressWarnings("deprecation")
     public void testCheckCgIncomeStreamRequired_CGAcctNoIncomeStreamFields() {
         
         Account newAccount = new Account();
@@ -1215,6 +1218,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
         
     }
     
+    @SuppressWarnings("deprecation")
     public void testCheckCgIncomeStreamRequired_CGAcctInvalidIncomeStreamAccount() {
         
         Account newAccount = new Account();
@@ -1245,6 +1249,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
         
     }
     
+    @SuppressWarnings("deprecation")
     public void testCheckCgIncomeStreamRequired_GFAcctNoIncomeStreamFields() {
         
         Account newAccount = new Account();
@@ -1333,6 +1338,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
         
     }
     
+    @SuppressWarnings("deprecation")
     public void testIsUpdateExpirationDateInvalid_SubFundGroupNull() {
         
         Account oldAccount = new Account();
@@ -1367,6 +1373,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
         
     }
     
+    @SuppressWarnings("deprecation")
     public void testIsUpdateExpirationDateInvalid_ChangedNewInPast_CGSubFund() {
         
         Account oldAccount = new Account();
@@ -1408,6 +1415,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
         
     }
     
+    @SuppressWarnings("deprecation")
     public void testIsUpdateExpirationDateInvalid_ChangedNewInPast_NonCGSubFund() {
         
         Account oldAccount = new Account();

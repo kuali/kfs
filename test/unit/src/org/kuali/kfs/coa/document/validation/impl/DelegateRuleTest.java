@@ -217,6 +217,7 @@ public class DelegateRuleTest extends ChartRuleTestBase {
         return delegate;
     }
     
+    @SuppressWarnings("deprecation")
     private Delegate delegateWithDocTypeAll() {
         Delegate delegate = new Delegate();
         delegate.setChartOfAccountsCode(DOCTYPE_ALL_CHART);
@@ -228,6 +229,7 @@ public class DelegateRuleTest extends ChartRuleTestBase {
         return delegate;
     }
     
+    @SuppressWarnings("deprecation")
     private Delegate delegateWithSpecificTypeClosedAllSpecified() {
         Delegate delegate = new Delegate();
         delegate.setChartOfAccountsCode(DOCTYPE_SPECIFIC_CHART);
@@ -239,6 +241,7 @@ public class DelegateRuleTest extends ChartRuleTestBase {
         return delegate;
     }
     
+    @SuppressWarnings("deprecation")
     private Delegate delegateWithSpecificTypeClosed() {
         Delegate delegate = new Delegate();
         delegate.setChartOfAccountsCode(DOCTYPE_SPECIFIC_CHART);
@@ -250,6 +253,7 @@ public class DelegateRuleTest extends ChartRuleTestBase {
         return delegate;
     }
     
+    @SuppressWarnings("deprecation")
     private Delegate delegateWithAllDocTypeOpen() {
         Delegate delegate = new Delegate();
         delegate.setChartOfAccountsCode(DOCTYPE_OPEN_ALL_CHART);
@@ -261,6 +265,7 @@ public class DelegateRuleTest extends ChartRuleTestBase {
         return delegate;
     }
     
+    @SuppressWarnings("deprecation")
     private Delegate delegateWithSpecificDocTypeOpen() {
         Delegate delegate = new Delegate();
         delegate.setChartOfAccountsCode(DOCTYPE_OPEN_SPECIFIC_CHART);

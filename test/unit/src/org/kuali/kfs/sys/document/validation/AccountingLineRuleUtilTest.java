@@ -157,7 +157,8 @@ public class AccountingLineRuleUtilTest extends KualiTestBaseWithFixtures {
         testHasRequiredOverrides(getAccountWithPresenceControlWithExpired(), getNonBudgetedObjectCode(),
                 AccountingLineOverride.CODE.EXPIRED_ACCOUNT_AND_NON_BUDGETED_OBJECT, null);
     }
-
+    
+    @SuppressWarnings("deprecation")
     private void testHasRequiredOverrides(Account account,
                                           String overrideCode,
                                           String expectedErrorKey,
@@ -176,6 +177,7 @@ public class AccountingLineRuleUtilTest extends KualiTestBaseWithFixtures {
         }
     }
 
+    @SuppressWarnings("deprecation")
     private void testHasRequiredOverrides(Account account, ObjectCode objectCode, String overrideCode, String expectedErrorKey) {
         AccountingLine line = new SourceAccountingLine();
         line.setAccount(account);

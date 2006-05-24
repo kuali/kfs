@@ -2482,3 +2482,21 @@
 		<inverse-foreignkey field-ref="financialDocumentNumber" />
 	</collection-descriptor>
 </class-descriptor>
+
+<class-descriptor class="org.kuali.module.chart.bo.CampusMove"
+	table="SH_CAMPUS_MT">
+	<field-descriptor name="campusCode" column="CAMPUS_CD"
+		jdbc-type="VARCHAR" primarykey="true" index="true" />
+	<field-descriptor name="objectId" column="OBJ_ID"
+		jdbc-type="VARCHAR" index="true" />
+	<field-descriptor name="versionNumber" column="VER_NBR"
+		jdbc-type="BIGINT" locking="true" />
+	<field-descriptor name="campusName" column="CAMPUS_NM"
+		jdbc-type="VARCHAR" />
+	<field-descriptor name="campusShortName" column="CAMPUS_SHRT_NM"
+		jdbc-type="VARCHAR" />
+	<field-descriptor name="campusTypeCode" column="CAMPUS_TYP_CD"
+		jdbc-type="VARCHAR" />
+	<field-descriptor name="sessionIdentifier" column="SESID"
+		jdbc-type="BIGINT" />
+</class-descriptor>

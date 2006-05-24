@@ -40,8 +40,9 @@ public class CorrectionCriteria extends BusinessObjectBase implements Comparable
 	private Integer correctionStartPosition;
 	private Integer correctionEndPosition;
 	private String correctionOperatorCode;
-	private String correctionFieldValue;
+    private String correctionFieldValue;
 
+    private String operator;
     // TODO Does this need to be added to the database table?
     private String correctionFieldName;
     
@@ -283,6 +284,14 @@ public class CorrectionCriteria extends BusinessObjectBase implements Comparable
             m.put("correctionCriteriaLineNumber", this.correctionCriteriaLineNumber.toString());
         }
         return m;
+    }
+
+    public String getOperator() {
+        return operator;
+    }
+
+    public void setOperator(String operator) {
+        this.operator = operator;
     }
 
 }

@@ -61,11 +61,13 @@ public class AuxiliaryVoucherDocumentRuleTest
     private AccountingLineParameter _sourceLine5;
     private AccountingLineParameter _sourceLine6;
     private AccountingLineParameter _sickPaySourceLine;
+    private AccountingLineParameter _fundBalanceSourceLine;
     private AccountingLineParameter _assetSourceLine;
     private AccountingLineParameter _targetLine1;
     private AccountingLineParameter _targetLine2;
     private AccountingLineParameter _targetLine3;
     private AccountingLineParameter _sickPayTargetLine;
+    private AccountingLineParameter _fundBalanceTargetLine;
     private GeneralLedgerPendingEntry _expectedExpSourceGlEntryExpense;
     private GeneralLedgerPendingEntry _expectedExpTargetGlEntryExpense;
     private GeneralLedgerPendingEntry _expectedExpSourceGlEntry;
@@ -130,7 +132,7 @@ public class AuxiliaryVoucherDocumentRuleTest
     }
 
     protected final SourceAccountingLine getInvalidObjectTypeSourceLine() throws Exception {
-        return (SourceAccountingLine) getAccruedSickPaySourceLineParameter().createLine();
+        return (SourceAccountingLine) getFundBalanceSourceLineParameter().createLine();
     }
 
     protected final SourceAccountingLine getInvalidObjectCodeSourceLine() throws Exception {
@@ -315,6 +317,24 @@ public class AuxiliaryVoucherDocumentRuleTest
     }
 
     /**
+     * Accessor for fixture 'sourceLine6'
+     * 
+     * @return AccountingLineParameter
+     */
+    public final AccountingLineParameter getFundBalanceSourceLineParameter() {
+        return _fundBalanceSourceLine;
+    }
+
+    /**
+     * Accessor for fixture 'sourceLine6'
+     * 
+     * @param p AccountingLineParameter
+     */
+    public final void setFundBalanceSourceLineParameter(AccountingLineParameter p) {
+        _fundBalanceSourceLine = p;
+    }
+
+    /**
      * Accessor for fixture of a <code>{@link TargetAccountingLine}</code>
      * generated from an <code>{@link AccountingLineParameter}</code> instance 
      * with a cash object code.
@@ -383,6 +403,24 @@ public class AuxiliaryVoucherDocumentRuleTest
     }
 
     /**
+     * Accessor for fixture 'targetLine2'
+     * 
+     * @return AccountingLineParameter
+     */
+    public final AccountingLineParameter getFundBalanceTargetLineParameter() {
+        return _fundBalanceTargetLine;
+    }
+
+    /**
+     * Accessor for fixture 'targetLine2'
+     * 
+     * @param p AccountingLineParameter
+     */
+    public final void setFundBalanceTargetLineParameter(AccountingLineParameter p) {
+        _fundBalanceTargetLine = p;
+    }
+
+ss    /**
      * Accessor for fixture 'targetLine3'
      * 
      * @return AccountingLineParameter
@@ -723,6 +761,14 @@ public class AuxiliaryVoucherDocumentRuleTest
     //////////////////////////////////////////////////////////////////////////
     // Test methods start here                                              //
     //////////////////////////////////////////////////////////////////////////
+	/**
+	 * <code>{@link AuxiliaryVoucherDocumentRule}</code> always returns 
+	 * <code>true</code> for this, so there's really no reason to test it.
+	 * 
+	 * @see AuxiliaryVoucherDocumentRule#isObjectCodeAllowed(AccountingLine)
+	 */
+	public void testIsObjectCodeAllowed_InvalidObjectCode() {
+	}
     
     // These methods will need to be fixed in the future to yield more meaningful
     // results

@@ -27,8 +27,10 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.Constants;
 import org.kuali.core.exceptions.ApplicationParameterException;
@@ -102,6 +104,8 @@ public class YearEndServiceImpl implements YearEndService {
 //        678  003650      DISPLAY "UNIV_FISCAL_YR" UPON ENVIRONMENT-NAME.
 //        679  003660      ACCEPT VAR-UNIV-FISCAL-YR FROM ENVIRONMENT-VALUE.
         
+        Map jobParameters = new HashMap();
+
         try {
             
             varFiscalYear = 
@@ -215,6 +219,13 @@ public class YearEndServiceImpl implements YearEndService {
                     "Unable to get fund balance object type code from kualiConfigurationService", e);
 
         }
+        
+        jobParameters.put("UNIV-FISCAL-YR", varFiscalYear);
+        jobParameters.put("UNIV-DT", varTransactionDate);
+        jobParameters.put("NET-EXP-OBJECT-CD", varNetExpenseObjectCode);
+        jobParameters.put("NET-REV-OBJECT-CD", varNetRevenueObjectCode);
+        jobParameters.put("FUND-BAL-OBJECT-CD", varFundBalanceObjectCode);
+        jobParameters.put("FUND-BAL-OBJ-TYP-CD", varFundBalanceObjectTypeCode);
         
         OriginEntryGroup nominalClosingOriginEntryGroup = 
             originEntryGroupService.createGroup(varTransactionDate, "YECN", false, false, false);
@@ -1183,7 +1194,7 @@ public class YearEndServiceImpl implements YearEndService {
         statistics.add(summary);
         
         Date runDate = new Date(dateTimeService.getCurrentDate().getTime());
-        nominalActivityClosingReport.generateStatisticsReport(statistics, runDate);
+        nominalActivityClosingReport.generateStatisticsReport(jobParameters, statistics, runDate);
         
     }
     

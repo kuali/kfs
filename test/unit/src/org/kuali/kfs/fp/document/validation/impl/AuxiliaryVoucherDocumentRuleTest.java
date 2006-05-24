@@ -420,7 +420,7 @@ public class AuxiliaryVoucherDocumentRuleTest
         _fundBalanceTargetLine = p;
     }
 
-ss    /**
+    /**
      * Accessor for fixture 'targetLine3'
      * 
      * @return AccountingLineParameter

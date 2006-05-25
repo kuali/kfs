@@ -81,19 +81,69 @@ public class GeneralErrorCorrectionDocumentRule
     }
 
     /**
-     * Overrides to consider the object types.
-     *
-     * @see TransactionalDocumentRuleBase#isDocumentBalanceValid(TransactionalDocument)
-     */
-    protected boolean isDocumentBalanceValid(TransactionalDocument transactionalDocument) {
-        return isDocumentBalancedConsideringObjectTypes(transactionalDocument);
-    }
-
-    /**
+     * Overrides to provide specific isDebit() calculation - refer to 
+     * https://test.kuali.org/confluence/display/KULEDOCS/TP+eDocs+Debits+and+Credits for a summary of 
+     * business rules.
+     * 
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#isDebit(org.kuali.core.bo.AccountingLine)
      */
     public boolean isDebit(AccountingLine accountingLine) throws IllegalStateException {
-        return isDebitConsideringSection(accountingLine);
+        if(accountingLine instanceof SourceAccountingLine) {  // From lines
+            if(isIncomeOrLiability(accountingLine)) {
+                if(accountingLine.getAmount().compareTo(Constants.ZERO) > 0) {
+                    return true;
+                }
+            }
+            if(isExpenseOrAsset(accountingLine)) {
+                if(accountingLine.getAmount().compareTo(Constants.ZERO) > 0) {
+                    return false;
+                }
+            }
+        }
+        
+        if(accountingLine instanceof TargetAccountingLine) { //To lines
+            if(isIncomeOrLiability(accountingLine)) {
+                if(accountingLine.getAmount().compareTo(Constants.ZERO) > 0) {
+                    return false;
+                }
+            }
+            if(isExpenseOrAsset(accountingLine)) {
+                if(accountingLine.getAmount().compareTo(Constants.ZERO) > 0) {
+                    return true;
+                }
+            }
+        }
+        
+        throw new IllegalStateException("Invalid accounting line type, amount, and object type code combination for the accounting line.");
+    }
+    
+    /**
+     * The GEC allows one sided documents for correcting - so if one side is empty, the other side must have 
+     * at least two lines in it.  The balancing rules take care of validation of amounts.
+     * 
+     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#isAccountingLinesRequiredNumberForRoutingMet(org.kuali.core.document.TransactionalDocument)
+     */
+    protected boolean isAccountingLinesRequiredNumberForRoutingMet(TransactionalDocument transactionalDocument) {
+        int sourceSectionSize = transactionalDocument.getSourceAccountingLines().size();
+        int targetSectionSize = transactionalDocument.getTargetAccountingLines().size();
+        
+        if((sourceSectionSize == 0 && targetSectionSize < 2) || (targetSectionSize == 0 && sourceSectionSize < 2)) {
+            GlobalVariables.getErrorMap().put(Constants.ACCOUNTING_LINE_ERRORS,
+                    KeyConstants.ERROR_DOCUMENT_GEC_REQUIRED_NUMBER_OF_ACCOUNTING_LINES_NOT_MET);
+            return false;
+        }
+        
+        return true;
+    }
+    
+    /**
+     * This overrides the parent to only do the one balance check that is necessary - making sure that 
+     * the debits equal the credits.
+     * 
+     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#isDocumentBalanceValid(org.kuali.core.document.TransactionalDocument)
+     */
+    protected boolean isDocumentBalanceValid(TransactionalDocument transactionalDocument) {
+        return isDocumentBalancedConsideringCreditAndDebitAmounts(transactionalDocument);
     }
     
     /**

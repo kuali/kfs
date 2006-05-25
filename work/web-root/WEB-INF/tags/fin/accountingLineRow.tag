@@ -60,10 +60,22 @@
               separate debit and credit columns.
               If true, debitCellProperty and creditCellProperty are required.
               As with all boolean tag attributes, if it is not provided, it defaults to false." %>
+
+<%@ attribute name="currentBaseAmount" required="false"
+              description="boolean whether the amount column is displayed as
+              separate current and base columns.
+              If true, currentCellProperty and baseCellProperty are required.
+              As with all boolean tag attributes, if it is not provided, it defaults to false." %>
+
 <%@ attribute name="debitCellProperty" required="false"
               description="the name of the form property to display or edit in the debit amount column"%>
 <%@ attribute name="creditCellProperty" required="false"
               description="the name of the form property to display or edit in the credit amount column"%>
+
+<%@ attribute name="currentCellProperty" required="false"
+              description="the name of the form property to display or edit in the current amount column"%>
+<%@ attribute name="baseCellProperty" required="false"
+              description="the name of the form property to display or edit in the base amount column"%>
 
 <%@ attribute name="includeObjectTypeCode" required="false"
               description="boolean indicating that the object type code column should be displayed.
@@ -253,19 +265,7 @@
         />
 </c:forTokens>
 <c:choose>
-    <c:when test="${!debitCreditAmount}" >
-        <fin:accountingLineDataCell
-            dataCellCssClass="${dataCellCssClass}"
-            accountingLine="${accountingLine}"
-            baselineAccountingLine="${baselineAccountingLine}"
-            field="amount"
-            attributes="${accountingLineAttributes}"
-            readOnly="${readOnly&&(empty editableFields['amount'])}"
-            displayHidden="${displayHidden}"
-            rowSpan="${rowCount}"
-            />
-    </c:when>
-    <c:otherwise>
+    <c:when test="${debitCreditAmount}" >
         <fin:accountingLineDataCell
             dataCellCssClass="${dataCellCssClass}"
             cellProperty="${debitCellProperty}"
@@ -280,6 +280,36 @@
             attributes="${accountingLineAttributes}"
             field="amount"
             readOnly="${readOnly&&(empty editableFields['amount'])}"
+            rowSpan="${rowCount}"
+            />
+    </c:when>
+    <c:when test="${currentBaseAmount}" >
+        <fin:accountingLineDataCell
+            dataCellCssClass="${dataCellCssClass}"
+            cellProperty="${currentCellProperty}"
+            attributes="${accountingLineAttributes}"
+            field="amount"
+            readOnly="${readOnly&&(empty editableFields['amount'])}"
+            rowSpan="${rowCount}"
+            />
+        <fin:accountingLineDataCell
+            dataCellCssClass="${dataCellCssClass}"
+            cellProperty="${baseCellProperty}"
+            attributes="${accountingLineAttributes}"
+            field="amount"
+            readOnly="${readOnly&&(empty editableFields['amount'])}"
+            rowSpan="${rowCount}"
+            />
+    </c:when>
+    <c:otherwise>
+        <fin:accountingLineDataCell
+            dataCellCssClass="${dataCellCssClass}"
+            accountingLine="${accountingLine}"
+            baselineAccountingLine="${baselineAccountingLine}"
+            field="amount"
+            attributes="${accountingLineAttributes}"
+            readOnly="${readOnly&&(empty editableFields['amount'])}"
+            displayHidden="${displayHidden}"
             rowSpan="${rowCount}"
             />
     </c:otherwise>

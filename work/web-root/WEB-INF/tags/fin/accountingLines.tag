@@ -41,10 +41,21 @@
               currency formatted debit and credit totals.
               As with all boolean tag attributes, if it is not provided, it defaults to false." %>
 
+<%@ attribute name="currentBaseAmount" required="false"
+              description="boolean whether the amount column is displayed as
+              separate debit and credit columns, and the totals as the form's
+              currency formatted debit and credit totals.
+              As with all boolean tag attributes, if it is not provided, it defaults to false." %>
+
 <%@ attribute name="extraHiddenFields" required="false"
               description="A comma seperated list of names of any accounting line fields
               that should be added to the list of normally hidden fields
               for the existing (but not the new) accounting lines." %>
+
+<%@ attribute name="displayMonthlyAmounts" required="false"
+              description="A boolean whether the monthy amounts table is displayed
+              below each accounting line (needed for budget adjustment document).
+              As with all boolean tag attributes, if it is not provided, it defaults to false." %>
 
 <c:forEach items="${editableAccounts}" var="account">
   <html:hidden property="editableAccounts(${account.key})" value="${account.key}"/>
@@ -60,7 +71,7 @@
                                         + optionalFieldCount}" />
 <%-- add extra columns count for the "Action" button and/or dual amounts --%>
 <c:set var="columnCount" value="${columnCountUntilAmount
-                                        + (debitCreditAmount ? 2 : 1)
+                                        + (debitCreditAmount || currentBaseAmount ? 2 : 1)
                                         + (empty editingMode['viewOnly'] ? 1 : 0)}" />
 
 <kul:tab tabTitle="Accounting Lines" defaultOpen="true"
@@ -80,9 +91,11 @@
           editableAccounts="${editableAccounts}"
           editableFields="${editableFields}"
           debitCreditAmount="${debitCreditAmount}"
+          currentBaseAmount="${currentBaseAmount}"
           extraHiddenFields="${extraHiddenFields}"
           useCurrencyFormattedTotal="${useCurrencyFormattedTotal}"
           includeObjectTypeCode="${includeObjectTypeCode}"
+          displayMonthlyAmounts="${displayMonthlyAmounts}"
           />
       <c:if test="${!sourceAccountingLinesOnly}">
         <fin:accountingLineGroup
@@ -95,9 +108,11 @@
             editableAccounts="${editableAccounts}"
             editableFields="${editableFields}"
             debitCreditAmount="${debitCreditAmount}"
+            currentBaseAmount="${currentBaseAmount}"
             extraHiddenFields="${extraHiddenFields}"
             useCurrencyFormattedTotal="${useCurrencyFormattedTotal}"
             includeObjectTypeCode="${includeObjectTypeCode}"
+            displayMonthlyAmounts="${displayMonthlyAmounts}"
             />
       </c:if>
     </table>

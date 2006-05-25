@@ -25,7 +25,7 @@
 
             <attribute name="currentBudgetAdjustmentAmount" forceUppercase="true">
                 <label>Current Budget Adjustment Amount</label>
-                <shortLabel>Current Amount</shortLabel>
+                <shortLabel>Current Amt</shortLabel>
 
                 <maxLength>19</maxLength>
                 <validationPattern><floatingPoint /></validationPattern>
@@ -40,7 +40,7 @@
 
             <attribute name="baseBudgetAdjustmentAmount" forceUppercase="true">
                 <label>Base Budget Adjustment Amount</label>
-                <shortLabel>Base Amount</shortLabel>
+                <shortLabel>Base Amt</shortLabel>
 
                 <maxLength>19</maxLength>
                 <validationPattern><floatingPoint /></validationPattern>
@@ -52,6 +52,186 @@
                 <summary>baseBudgetAdjustmentAmount</summary>
                 <description>baseBudgetAdjustmentAmount description...</description>
 			</attribute>
+
+            <attribute name="financialDocumentMonth1LineAmount" forceUppercase="true">
+                <label>Month 1 Line Amount</label>
+                <shortLabel>Month 1 Amt</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>financialDocumentMonth1LineAmount</summary>
+                <description>financialDocumentMonth1LineAmount description...</description>
+            </attribute>
+
+            <attribute name="financialDocumentMonth2LineAmount" forceUppercase="true">
+                <label>Month 2 Line Amount</label>
+                <shortLabel>Month 2 Amt</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>financialDocumentMonth2LineAmount</summary>
+                <description>financialDocumentMonth2LineAmount description...</description>
+            </attribute>
+
+            <attribute name="financialDocumentMonth3LineAmount" forceUppercase="true">
+                <label>Month 3 Line Amount</label>
+                <shortLabel>Month 3 Amt</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>financialDocumentMonth3LineAmount</summary>
+                <description>financialDocumentMonth3LineAmount description...</description>
+            </attribute>
+
+            <attribute name="financialDocumentMonth4LineAmount" forceUppercase="true">
+                <label>Month 4 Line Amount</label>
+                <shortLabel>Month 4 Amt</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>financialDocumentMonth4LineAmount</summary>
+                <description>financialDocumentMonth4LineAmount description...</description>
+            </attribute>
+
+            <attribute name="financialDocumentMonth5LineAmount" forceUppercase="true">
+                <label>Month 5 Line Amount</label>
+                <shortLabel>Month 5 Amt</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>financialDocumentMonth5LineAmount</summary>
+                <description>financialDocumentMonth5LineAmount description...</description>
+            </attribute>
+
+            <attribute name="financialDocumentMonth6LineAmount" forceUppercase="true">
+                <label>Month 6 Line Amount</label>
+                <shortLabel>Month 6 Amt</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>financialDocumentMonth6LineAmount</summary>
+                <description>financialDocumentMonth6LineAmount description...</description>
+            </attribute>
+
+            <attribute name="financialDocumentMonth7LineAmount" forceUppercase="true">
+                <label>Month 7 Line Amount</label>
+                <shortLabel>Month 7 Amt</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>financialDocumentMonth7LineAmount</summary>
+                <description>financialDocumentMonth7LineAmount description...</description>
+            </attribute>
+
+            <attribute name="financialDocumentMonth8LineAmount" forceUppercase="true">
+                <label>Month 8 Line Amount</label>
+                <shortLabel>Month 8 Amt</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>financialDocumentMonth8LineAmount</summary>
+                <description>financialDocumentMonth8LineAmount description...</description>
+            </attribute>
+
+            <attribute name="financialDocumentMonth9LineAmount" forceUppercase="true">
+                <label>Month 9 Line Amount</label>
+                <shortLabel>Month 9 Amt</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>financialDocumentMonth9LineAmount</summary>
+                <description>financialDocumentMonth9LineAmount description...</description>
+            </attribute>
+
+            <attribute name="financialDocumentMonth10LineAmount" forceUppercase="true">
+                <label>Month 10 Line Amount</label>
+                <shortLabel>Month 10 Amt</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>financialDocumentMonth10LineAmount</summary>
+                <description>financialDocumentMonth10LineAmount description...</description>
+            </attribute>
+
+            <attribute name="financialDocumentMonth11LineAmount" forceUppercase="true">
+                <label>Month 11 Line Amount</label>
+                <shortLabel>Month 11 Amt</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>financialDocumentMonth11LineAmount</summary>
+                <description>financialDocumentMonth11LineAmount description...</description>
+            </attribute>
+
+            <attribute name="financialDocumentMonth12LineAmount" forceUppercase="true">
+                <label>Month 12 Line Amount</label>
+                <shortLabel>Month 12 Amt</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>financialDocumentMonth12LineAmount</summary>
+                <description>financialDocumentMonth12LineAmount description...</description>
+            </attribute>
 
             <attributeReference name="financialDocumentNumber"
             					sourceClassName="org.kuali.core.document.DocumentHeader"

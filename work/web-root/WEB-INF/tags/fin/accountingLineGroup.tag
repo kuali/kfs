@@ -38,6 +38,13 @@
               separate debit and credit columns, and the totals as the form's
               currency formatted debit and credit totals.
               As with all boolean tag attributes, if it is not provided, it defaults to false." %>
+
+<%@ attribute name="currentBaseAmount" required="false"
+              description="boolean whether the amount column is displayed as
+              separate current and base columns, and the totals as the form's
+              currency formatted current and base totals.
+              As with all boolean tag attributes, if it is not provided, it defaults to false." %>
+
 <%@ attribute name="useCurrencyFormattedTotal" required="false"
               description="boolean indicating that the form's currency formatted total
               should be displayed instead of the document's source or target total.
@@ -45,6 +52,11 @@
 
 <%@ attribute name="includeObjectTypeCode" required="false"
               description="boolean indicating that the object type code column should be displayed.
+              As with all boolean tag attributes, if it is not provided, it defaults to false." %>
+
+<%@ attribute name="displayMonthlyAmounts" required="false"
+              description="A boolean whether the monthy amounts table is displayed
+              below each accounting line (needed for budget adjustment document).
               As with all boolean tag attributes, if it is not provided, it defaults to false." %>
 
 <c:set var="sourceOrTarget" value="${isSource ? 'source' : 'target'}"/>
@@ -102,7 +114,7 @@
     <c:forTokens items="${optionalFields}" delims=" ," var="currentField">
         <kul:htmlAttributeHeaderCell attributeEntry="${accountingLineAttributes[currentField]}" rowspan="2"/>
     </c:forTokens>
-    <kul:htmlAttributeHeaderCell attributeEntry="${accountingLineAttributes.amount}" rowspan="${debitCreditAmount ? 1 : 2}" colspan="${debitCreditAmount ? 2 : 1}"/>
+    <kul:htmlAttributeHeaderCell attributeEntry="${accountingLineAttributes.amount}" rowspan="${debitCreditAmount || currentBaseAmount ? 1 : 2}" colspan="${debitCreditAmount || currentBaseAmount ? 2 : 1}"/>
 
     <c:if test="${hasActionsColumn}">
         <kul:htmlAttributeHeaderCell literalLabel="Actions" rowspan="2"/>
@@ -113,6 +125,12 @@
         <tr>
             <kul:htmlAttributeHeaderCell literalLabel="${ConfigProperties.label.document.journalVoucher.accountingLine.debit}"/>
             <kul:htmlAttributeHeaderCell literalLabel="${ConfigProperties.label.document.journalVoucher.accountingLine.credit}"/>
+        </tr>
+    </c:when>
+    <c:when test="${currentBaseAmount}" >
+        <tr>
+            <kul:htmlAttributeHeaderCell literalLabel="Current"/>
+            <kul:htmlAttributeHeaderCell literalLabel="Base"/>
         </tr>
     </c:when>
     <c:otherwise>
@@ -141,14 +159,24 @@
         extraRowLabelFontWeight="bold"
         readOnly="false"
         debitCreditAmount="${debitCreditAmount}"
+        currentBaseAmount="${currentBaseAmount}"
         hiddenFields="postingYear,overrideCode"
         columnCountUntilAmount="${columnCountUntilAmount}"
         debitCellProperty="newSourceLineDebit"
         creditCellProperty="newSourceLineCredit"
+        currentCellProperty="new${capitalSourceOrTarget}Line.currentBudgetAdjustmentAmount"
+        baseCellProperty="new${capitalSourceOrTarget}Line.baseBudgetAdjustmentAmount"
         includeObjectTypeCode="${includeObjectTypeCode}"
         displayHidden="${displayHidden}"
         accountingLineValuesMap="${valuesMap}"
         />
+
+    <c:if test="${displayMonthlyAmounts}">
+        <fin:budgetAdjustmentMonthlyAmountLines 
+            isSource="${isSource}" 
+            accountingLine="new${capitalSourceOrTarget}Line"/>
+    </c:if>
+
 </c:if>
 <logic:iterate indexId="ctr" name="KualiForm" property="document.${sourceOrTarget}AccountingLines" id="currentLine">
     <%-- readonlyness of accountingLines depends on editingMode and user's account-list --%>
@@ -185,16 +213,25 @@
         readOnly="${!accountIsEditable}"
         editableFields="${editableFields}"
         debitCreditAmount="${debitCreditAmount}"
+        currentBaseAmount="${currentBaseAmount}"
         hiddenFields="postingYear,overrideCode,sequenceNumber,versionNumber,financialDocumentNumber${extraHiddenFields}"
         columnCountUntilAmount="${columnCountUntilAmount}"
         debitCellProperty="journalLineHelper[${ctr}].debit"
         creditCellProperty="journalLineHelper[${ctr}].credit"
+        currentCellProperty="document.budgetAdjustment${capitalSourceOrTarget}AccountingLine[${ctr}].currentBudgetAdjustmentAmount"
+        baseCellProperty="document.budgetAdjustment${capitalSourceOrTarget}AccountingLine[${ctr}].baseBudgetAdjustmentAmount"
         includeObjectTypeCode="${includeObjectTypeCode}"
         displayHidden="${displayHidden}"
         decorator="${sourceOrTarget}LineDecorator[${ctr}]"
         accountingLineValuesMap="${currentLine.valuesMap}"
         />
-        
+
+    <c:if test="${displayMonthlyAmounts}">
+        <fin:budgetAdjustmentMonthlyAmountLines 
+            isSource="${isSource}" 
+            accountingLine="document.budgetAdjustment${capitalSourceOrTarget}AccountingLine[${ctr}]"/>
+    </c:if>
+
 </logic:iterate>
 
 <tr>
@@ -204,6 +241,11 @@
             <%-- from JournalVoucherForm --%>
             <td class="total-line" style="border-left: 0px;"><strong>Debit Total: $${KualiForm.currencyFormattedDebitTotal}</strong></td>
             <td class="total-line" style="border-left: 0px;"><strong>Credit Total: $${KualiForm.currencyFormattedCreditTotal}</strong></td>
+        </c:when>
+        <c:when test="${currentBaseAmount}" >
+            <%-- from BudgetAdjustmentForm --%>
+            <td class="total-line" style="border-left: 0px;"><strong>Current Total: <!-- todo --></strong></td>
+            <td class="total-line" style="border-left: 0px;"><strong>Base Total: <!-- todo --></strong></td>
         </c:when>
         <c:otherwise>
             <c:choose>

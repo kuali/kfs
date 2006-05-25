@@ -2028,6 +2028,7 @@
 	<field-descriptor name="accountFiscalOfficerSystemIdentifier" column="ACCT_FSC_OFC_UID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="accountsSupervisorySystemsIdentifier" column="ACCT_SPVSR_UNVL_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="accountManagerSystemIdentifier" column="ACCT_MGR_UNVL_ID" jdbc-type="VARCHAR" index="true"/>
+    <field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" index="true" />
 	<field-descriptor name="organizationCode" column="ORG_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="subFundGroupCode" column="SUB_FUND_GRP_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="accountCityName" column="ACCT_CITY_NM" jdbc-type="VARCHAR"/>
@@ -2069,6 +2070,13 @@
 	</reference-descriptor>
 	<reference-descriptor name="incomeStreamFinancialCoa" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="incomeStreamFinancialCoaCode" />
+	</reference-descriptor>
+	<reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="chartOfAccountsCode" />
+	</reference-descriptor>
+	<reference-descriptor name="organization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="chartOfAccountsCode" />
+		<foreignkey field-ref="organizationCode" />
 	</reference-descriptor>
 	<collection-descriptor name="accountChangeDetail" element-class-ref="org.kuali.module.chart.bo.AccountChangeDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
 		auto-retrieve="true" auto-update="none" auto-delete="none">

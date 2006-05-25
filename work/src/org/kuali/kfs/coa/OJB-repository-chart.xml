@@ -2025,9 +2025,9 @@
 	<field-descriptor name="financialDocumentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="accountManagerUniversalId" column="ACCT_MGR_UNVL_ID" jdbc-type="VARCHAR" index="true"/>
-	<field-descriptor name="accountSupervisorUniversalId" column="ACCT_SPVSR_UNVL_ID" jdbc-type="VARCHAR" index="true"/>
-	<field-descriptor name="accountReviewerUniversalId" column="ACCT_RVWER_UNVL_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="accountFiscalOfficerSystemIdentifier" column="ACCT_FSC_OFC_UID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="accountsSupervisorySystemsIdentifier" column="ACCT_SPVSR_UNVL_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="accountManagerSystemIdentifier" column="ACCT_MGR_UNVL_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="organizationCode" column="ORG_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="subFundGroupCode" column="SUB_FUND_GRP_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="accountCityName" column="ACCT_CITY_NM" jdbc-type="VARCHAR"/>
@@ -2047,14 +2047,14 @@
 	<reference-descriptor name="financialDocument" class-ref="org.kuali.core.document.DocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="financialDocumentNumber" />
 	</reference-descriptor>
-	<reference-descriptor name="accountManagerUniversal" class-ref="org.kuali.core.bo.user.UniversalUser" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="accountManagerUniversalId" />
+	<reference-descriptor name="accountFiscalOfficerUser" class-ref="org.kuali.core.bo.user.UniversalUser" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="accountFiscalOfficerSystemIdentifier" />
 	</reference-descriptor>
-	<reference-descriptor name="accountSupervisorUniversal" class-ref="org.kuali.core.bo.user.UniversalUser" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="accountSupervisorUniversalId" />
+	<reference-descriptor name="accountSupervisoryUser" class-ref="org.kuali.core.bo.user.UniversalUser" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="accountsSupervisorySystemsIdentifier" />
 	</reference-descriptor>
-	<reference-descriptor name="accountReviewerUniversal" class-ref="org.kuali.core.bo.user.UniversalUser" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="accountReviewerUniversalId" />
+	<reference-descriptor name="accountManagerUser" class-ref="org.kuali.core.bo.user.UniversalUser" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="accountManagerSystemIdentifier" />
 	</reference-descriptor>
 	<reference-descriptor name="continuationFinChrtOfAcct" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="continuationFinChrtOfAcctCd" />

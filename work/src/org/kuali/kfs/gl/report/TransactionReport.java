@@ -47,11 +47,10 @@ import com.lowagie.text.pdf.PdfWriter;
 
 /**
  * @author Kuali General Ledger Team (kualigltech@oncourse.iu.edu)
- * @version $Id: TransactionReport.java,v 1.13 2006-05-23 15:06:08 larevans Exp $
+ * @version $Id: TransactionReport.java,v 1.14 2006-05-26 21:18:37 jsissom Exp $
  */
 public class TransactionReport {
-    private static org.apache.log4j.Logger LOG = 
-        org.apache.log4j.Logger.getLogger(TransactionReport.class);
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(TransactionReport.class);
 
     class PageHelper extends PdfPageEventHelper {
         public Date runDate;
@@ -80,8 +79,7 @@ public class TransactionReport {
                 head.setTotalWidth(page.width() - document.leftMargin() - document.rightMargin());
                 head.writeSelectedRows(0, -1, document.leftMargin(), page.height() - document.topMargin() + head.getTotalHeight(),
                         writer.getDirectContent());
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 throw new ExceptionConverter(e);
             }
         }
@@ -133,7 +131,7 @@ public class TransactionReport {
             // Sort what we get
             Collections.sort(reportSummary);
 
-            float[] summaryWidths = { 90, 10 };
+            float[] summaryWidths = { 80, 20 };
             PdfPTable summary = new PdfPTable(summaryWidths);
             summary.setWidthPercentage(40);
             PdfPCell cell = new PdfPCell(new Phrase("S T A T I S T I C S", headerFont));
@@ -153,9 +151,8 @@ public class TransactionReport {
                     cell = new PdfPCell(new Phrase("", textFont));
                     cell.setBorder(Rectangle.NO_BORDER);
                     summary.addCell(cell);
-                }
-                else {
-                    DecimalFormat nf = new DecimalFormat("###,###,##0");
+                } else {
+                    DecimalFormat nf = new DecimalFormat("###,###,###,##0");
                     cell = new PdfPCell(new Phrase(nf.format(s.getCount()), textFont));
                     cell.setBorder(Rectangle.NO_BORDER);
                     cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
@@ -222,8 +219,7 @@ public class TransactionReport {
 
                             if (tran.getUniversityFiscalYear() == null) {
                                 cell = new PdfPCell(new Phrase("NULL", textFont));
-                            }
-                            else {
+                            } else {
                                 cell = new PdfPCell(new Phrase(tran.getUniversityFiscalYear().toString(), textFont));
                             }
                             warnings.addCell(cell);
@@ -251,13 +247,11 @@ public class TransactionReport {
                             warnings.addCell(cell);
                             if (tran.getTransactionLedgerEntrySequenceNumber() == null) {
                                 cell = new PdfPCell(new Phrase("NULL", textFont));
-                            }
-                            else {
+                            } else {
                                 cell = new PdfPCell(new Phrase(tran.getTransactionLedgerEntrySequenceNumber().toString(), textFont));
                             }
                             warnings.addCell(cell);
-                        }
-                        else {
+                        } else {
                             cell = new PdfPCell(new Phrase("", textFont));
                             cell.setColspan(13);
                             warnings.addCell(cell);
@@ -268,16 +262,13 @@ public class TransactionReport {
                 }
                 document.add(warnings);
             }
-        }
-        catch (Exception de) {
+        } catch (Exception de) {
             LOG.error("generateReport() Error creating PDF report", de);
             throw new RuntimeException("Report Generation Failed");
         }
 
         if (isDocumentOpen) {
-
             document.close();
-
         }
 
     }

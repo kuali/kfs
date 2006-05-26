@@ -35,7 +35,6 @@ public interface ScrubberValidator {
     public String validateDocumentNumber(OriginEntry originEntry, OriginEntry scrubbedEntry);
     public String validateDocumentType(OriginEntry originEntry, OriginEntry scrubbedEntry);
     public String validateEncumbranceUpdateCode(OriginEntry originEntry, OriginEntry scrubbedEntry);
-    public String validateFinancialSubObjectCode(OriginEntry originEntry, OriginEntry scrubbedEntry);
     public String validateFiscalYear(OriginEntry originEntry, OriginEntry scrubbedEntry,UniversityDate universityRunDate);
     public String validateObjectCode(OriginEntry originEntry, OriginEntry scrubbedEntry);
     public String validateObjectType(OriginEntry originEntry, OriginEntry scrubbedEntry);

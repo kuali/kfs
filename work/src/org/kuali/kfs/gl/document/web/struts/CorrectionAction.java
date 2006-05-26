@@ -34,6 +34,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerFactory;
@@ -63,7 +64,7 @@ import org.kuali.module.gl.web.struts.form.CorrectionForm;
 
 /**
  * @author Laran Evans <lc278@cornell.edu>
- * @version $Id: CorrectionAction.java,v 1.3 2006-05-24 18:36:14 schoo Exp $
+ * @version $Id: CorrectionAction.java,v 1.4 2006-05-26 14:07:13 schoo Exp $
  * 
  */
 
@@ -148,7 +149,7 @@ public class CorrectionAction extends KualiDocumentActionBase {
         setConvenienceObject(form);
         
         // rebuild the document state
-        CorrectionActionHelper.rebuildDocumentState(request, document);
+        CorrectionActionHelper.rebuildDocumentState(request, errorCorrectionForm);
         
         // create a new correction group and add it to the document
         document.addCorrectionGroup(new CorrectionChangeGroup());
@@ -175,7 +176,7 @@ public class CorrectionAction extends KualiDocumentActionBase {
         setConvenienceObject(form);
 
         // rebuild the document state
-        CorrectionActionHelper.rebuildDocumentState(request, document);
+        CorrectionActionHelper.rebuildDocumentState(request, errorCorrectionForm);
 
         // load the correction group number from the request
         Integer groupNumber = 
@@ -211,7 +212,7 @@ public class CorrectionAction extends KualiDocumentActionBase {
         setConvenienceObject(form);
         
         // rebuild the document state
-        CorrectionActionHelper.rebuildDocumentState(request, document);
+        CorrectionActionHelper.rebuildDocumentState(request, errorCorrectionForm);
 
         Map groupNumbers = new HashMap();
         for(Iterator i = document.getCorrectionChangeGroup().iterator(); i.hasNext();) {
@@ -260,7 +261,7 @@ public class CorrectionAction extends KualiDocumentActionBase {
         setConvenienceObject(form);
 
         // rebuild the document state
-        CorrectionActionHelper.rebuildDocumentState(request, document);
+        CorrectionActionHelper.rebuildDocumentState(request, errorCorrectionForm);
 
         // load the correction group from the request
         Integer[] criterionIndex = 
@@ -292,7 +293,7 @@ public class CorrectionAction extends KualiDocumentActionBase {
         setConvenienceObject(form);
         
         // rebuild the document state
-        CorrectionActionHelper.rebuildDocumentState(request, document);
+        CorrectionActionHelper.rebuildDocumentState(request, errorCorrectionForm);
 
         Map groupNumbers = new HashMap();
         for(Iterator i = document.getCorrectionChangeGroup().iterator(); i.hasNext();) {
@@ -341,7 +342,7 @@ public class CorrectionAction extends KualiDocumentActionBase {
         setConvenienceObject(form);
         
         // rebuild the document state
-        CorrectionActionHelper.rebuildDocumentState(request, document);
+        CorrectionActionHelper.rebuildDocumentState(request, errorCorrectionForm);
 
         // load the correction group from the request
         Integer[] specificationIndex = 
@@ -375,16 +376,9 @@ public class CorrectionAction extends KualiDocumentActionBase {
 
         
         // rebuild the document state
-        CorrectionActionHelper.rebuildDocumentState(request, document);
+        CorrectionActionHelper.rebuildDocumentState(request, errorCorrectionForm);
         
-        //shawn :commented out - matchingEntries, criteria...etc 
-        
-        // Create a container for all of the matching entries we'll find.
-        Collection matchingEntries = errorCorrectionForm.getEntriesThatMatchSearchCriteria();
-
-        // Clear the container. We don't want to retain results from previous searches.
-        matchingEntries.clear();
-        
+                
         // Configure the query.
         PersistenceBroker broker = PersistenceBrokerFactory.defaultPersistenceBroker();
         Criteria criteria = new Criteria();
@@ -507,9 +501,9 @@ public class CorrectionAction extends KualiDocumentActionBase {
             HttpServletRequest request, HttpServletResponse response) 
     throws Exception {
         setConvenienceObject(form);
-        CorrectionActionHelper.rebuildDocumentState(request, document);
+        HttpSession session = request.getSession(true);
         
-        Collection matchingEntries = errorCorrectionForm.getEntriesThatMatchSearchCriteria();
+        Collection matchingEntries = errorCorrectionForm.getAllEntriesForManualEdit();
         String groupId[] = null;
         groupId = request.getParameterValues("pending-origin-entry-group-id");
         
@@ -520,23 +514,24 @@ public class CorrectionAction extends KualiDocumentActionBase {
         Map searchMap = new HashMap();
         
         // Configure the query.
-        /*PersistenceBroker broker = PersistenceBrokerFactory.defaultPersistenceBroker();
-        Criteria criteria = new Criteria();*/
+        
         searchMap.put("entryGroupId", groupId[0]);
         Collection resultFromGroupId = originEntryDao.getMatchingEntriesByCollection(searchMap);
+        errorCorrectionForm.setAllEntriesForManualEdit(resultFromGroupId);
         
         
-        request.setAttribute("entriesThatMatchSearchCriteria", resultFromGroupId);
+        //all entries to a Map
+        Iterator iter = resultFromGroupId.iterator();
+        while (iter.hasNext()){
+            OriginEntry oe = (OriginEntry) iter.next();
+            errorCorrectionForm.getAllEntriesForManualEditHashMap().put(oe.getEntryId(), oe);
+        }
         
-        //For each entry ...
-        //Iterator entriesInGroup = resultFromGroupId.iterator();
+        session.setAttribute("allEntriesForManualEditHashMap", errorCorrectionForm.getAllEntriesForManualEditHashMap());
+        session.setAttribute("allEntriesForManualEdit", errorCorrectionForm.getAllEntriesForManualEdit());
         
-        /*while (entriesInGroup.hasNext()) {
-            OriginEntry eachOriginEntry = (OriginEntry) entriesInGroup.next();
-            matchingEntries.add(eachOriginEntry);
-            
-            }*/
-       
+        CorrectionActionHelper.rebuildDocumentState(request, errorCorrectionForm);
+        
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
@@ -934,5 +929,46 @@ public class CorrectionAction extends KualiDocumentActionBase {
         
         return mapping.findForward(Constants.MAPPING_BASIC);
     }    
+    
+    public ActionForward showOneEntry(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        setConvenienceObject(form);
+        CorrectionActionHelper.rebuildDocumentState(request, errorCorrectionForm);
+        
+        String stringEditEntryId = request.getParameter("methodToCall.showOneEntry");
+        Integer editEntryId = Integer.parseInt(stringEditEntryId);
+       
+        OriginEntry eachEntry = (OriginEntry) errorCorrectionForm.getAllEntriesForManualEditHashMap().get(editEntryId);
+        errorCorrectionForm.setEachEntryForManualEdit(eachEntry);
+        
+        
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }    
+    
+    public ActionForward editEntry(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        setConvenienceObject(form);
+        CorrectionActionHelper.rebuildDocumentState(request, errorCorrectionForm);
+        
+        String editAccountNumber = request.getParameter("editAccountNumber");
+        
+            
+            
+            
+        
+        
+        
+        
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+        
+       
+    }
+    
+    
+    
+    
+    
 }   
 

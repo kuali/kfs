@@ -27,7 +27,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -107,7 +107,11 @@ public class CorrectionForm extends KualiDocumentFormBase {
      * Correction Document are stored in this Set. This Set is then
      * referenced from the JSP for display on screen.
      */
-    private Set entriesThatMatchSearchCriteria;
+    private Collection allEntriesForManualEdit;
+    private OriginEntry eachEntryForManualEdit;
+    private Map allEntriesForManualEditHashMap;
+    private Map partialEntriesForManualEditHashMap;
+    
     
 
     
@@ -119,7 +123,10 @@ public class CorrectionForm extends KualiDocumentFormBase {
         super();
 		setDocument(new CorrectionDocument());
         
-        entriesThatMatchSearchCriteria = new HashSet();
+        allEntriesForManualEdit = new ArrayList();
+        eachEntryForManualEdit = null;
+        allEntriesForManualEditHashMap = new HashMap();
+        partialEntriesForManualEditHashMap = new HashMap();
         
         // create a blank TransactionalDocumentActionFlags instance, since form-recreation needs it
         setDocumentActionFlags(new TransactionalDocumentActionFlags());
@@ -190,16 +197,16 @@ public class CorrectionForm extends KualiDocumentFormBase {
     /**
      * @return Returns the entriesThatMatchSearchCriteria.
      */
-    public Collection getEntriesThatMatchSearchCriteria() {
-        return entriesThatMatchSearchCriteria;
+    public Collection getAllEntriesForManualEdit() {
+        return allEntriesForManualEdit;
     }
 
     /**
      * @param entriesThatMatchSearchCriteria The entriesThatMatchSearchCriteria to set.
      */
-    public void setEntriesThatMatchSearchCriteria(
-            Set entriesThatMatchSearchCriteria) {
-        this.entriesThatMatchSearchCriteria = entriesThatMatchSearchCriteria;
+    public void setAllEntriesForManualEdit(
+            Collection allEntriesForManualEdit) {
+        this.allEntriesForManualEdit = allEntriesForManualEdit;
     }
     
     /**
@@ -228,6 +235,30 @@ public class CorrectionForm extends KualiDocumentFormBase {
 
     public void setEditMethod(String editMethod) {
         this.editMethod = editMethod;
+    }
+
+    public Map getAllEntriesForManualEditHashMap() {
+        return allEntriesForManualEditHashMap;
+    }
+
+    public void setAllEntriesForManualEditHashMap(Map allEntriesForManualEditHashMap) {
+        this.allEntriesForManualEditHashMap = allEntriesForManualEditHashMap;
+    }
+
+    public OriginEntry getEachEntryForManualEdit() {
+        return eachEntryForManualEdit;
+    }
+
+    public void setEachEntryForManualEdit(OriginEntry eachEntryForManualEdit) {
+        this.eachEntryForManualEdit = eachEntryForManualEdit;
+    }
+
+    public Map getPartialEntriesForManualEditHashMap() {
+        return partialEntriesForManualEditHashMap;
+    }
+
+    public void setPartialEntriesForManualEditHashMap(Map partialEntriesForManualEditHashMap) {
+        this.partialEntriesForManualEditHashMap = partialEntriesForManualEditHashMap;
     }
 
     

@@ -379,7 +379,7 @@
 			<property name="plugin.dir" value="${workflow.plugin.project.directory}"/>
 			<property name="institution" value="kul"/>
 		</ant>
-		<copy file="${workflow.project.directory}/${workflow.application}-${build.environment}.war" todir="${build.workflow.directory}"/>
+		<copy file="${workflow.project.directory}/${workflow.application}-${build.environment}.war" todir="${build.workflow.appserver.directory}"/>
 	</target>
 	
 	<target name="make-zips" depends="filter-local,filter-workflow-local">

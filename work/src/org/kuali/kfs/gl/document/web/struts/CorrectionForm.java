@@ -110,7 +110,7 @@ public class CorrectionForm extends KualiDocumentFormBase {
     private Collection allEntriesForManualEdit;
     private OriginEntry eachEntryForManualEdit;
     private Map allEntriesForManualEditHashMap;
-    private Map partialEntriesForManualEditHashMap;
+    private Collection updatedEntriesFromManualEdit;
     
     
 
@@ -126,7 +126,8 @@ public class CorrectionForm extends KualiDocumentFormBase {
         allEntriesForManualEdit = new ArrayList();
         eachEntryForManualEdit = null;
         allEntriesForManualEditHashMap = new HashMap();
-        partialEntriesForManualEditHashMap = new HashMap();
+        updatedEntriesFromManualEdit = new ArrayList();
+      
         
         // create a blank TransactionalDocumentActionFlags instance, since form-recreation needs it
         setDocumentActionFlags(new TransactionalDocumentActionFlags());
@@ -253,12 +254,12 @@ public class CorrectionForm extends KualiDocumentFormBase {
         this.eachEntryForManualEdit = eachEntryForManualEdit;
     }
 
-    public Map getPartialEntriesForManualEditHashMap() {
-        return partialEntriesForManualEditHashMap;
+    public Collection getUpdatedEntriesFromManualEdit() {
+        return updatedEntriesFromManualEdit;
     }
 
-    public void setPartialEntriesForManualEditHashMap(Map partialEntriesForManualEditHashMap) {
-        this.partialEntriesForManualEditHashMap = partialEntriesForManualEditHashMap;
+    public void setUpdatedEntriesFromManualEdit(Collection updatedEntriesFromManualEdit) {
+        this.updatedEntriesFromManualEdit = updatedEntriesFromManualEdit;
     }
 
     

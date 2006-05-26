@@ -64,7 +64,7 @@ import org.kuali.module.gl.web.struts.form.CorrectionForm;
 
 /**
  * @author Laran Evans <lc278@cornell.edu>
- * @version $Id: CorrectionAction.java,v 1.4 2006-05-26 14:07:13 schoo Exp $
+ * @version $Id: CorrectionAction.java,v 1.5 2006-05-26 16:40:13 schoo Exp $
  * 
  */
 
@@ -504,8 +504,7 @@ public class CorrectionAction extends KualiDocumentActionBase {
         HttpSession session = request.getSession(true);
         
         Collection matchingEntries = errorCorrectionForm.getAllEntriesForManualEdit();
-        String groupId[] = null;
-        groupId = request.getParameterValues("pending-origin-entry-group-id");
+        String groupId[] = request.getParameterValues("pending-origin-entry-group-id");
         
         // Clear the container. We don't want to retain results from previous searches.
         matchingEntries.clear();
@@ -950,6 +949,8 @@ public class CorrectionAction extends KualiDocumentActionBase {
             HttpServletResponse response) throws Exception {
         setConvenienceObject(form);
         CorrectionActionHelper.rebuildDocumentState(request, errorCorrectionForm);
+        OriginEntry oe = new OriginEntry();
+        oe.setAccountNumber(request.getParameter("editAccountNumber"));
         
         String editAccountNumber = request.getParameter("editAccountNumber");
         
@@ -966,6 +967,49 @@ public class CorrectionAction extends KualiDocumentActionBase {
        
     }
     
+    
+    public ActionForward searchForManualEdit(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        
+        setConvenienceObject(form);
+        CorrectionActionHelper.rebuildDocumentState(request, errorCorrectionForm);
+        
+        String groupId[] = request.getParameterValues("pending-origin-entry-group-id");
+        CorrectionChangeGroup correctionGroup;
+        List correctionGroups = document.getCorrectionChangeGroup();
+        Map fieldValues = new HashMap();
+        Collection searchResults = null;
+        
+        
+        Iterator groupIter = correctionGroups.iterator();
+        
+        //tempGroupNumber is just for test
+        int tempGroupNumber = 1; 
+        
+        while (groupIter.hasNext()) {
+            correctionGroup = (CorrectionChangeGroup) groupIter.next();
+                
+        
+        fieldValues = createSearchMap(correctionGroup);
+        
+        fieldValues.put("entryGroupId", groupId[0]);
+        
+        LookupService lookupService = (LookupService) SpringServiceLocator.getBeanFactory().getBean("lookupService");
+        
+        //searchResults is collection of OriginEntry
+        searchResults = (Collection) lookupService.findCollectionBySearchUnbounded(OriginEntry.class, fieldValues);
+        
+        }
+        errorCorrectionForm.setAllEntriesForManualEdit(searchResults);
+       
+        HttpSession session = request.getSession(true);
+        session.setAttribute("allEntriesForManualEditHashMap", errorCorrectionForm.getAllEntriesForManualEditHashMap());
+        session.setAttribute("allEntriesForManualEdit", errorCorrectionForm.getAllEntriesForManualEdit());
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+        
+        
+    }
     
     
     

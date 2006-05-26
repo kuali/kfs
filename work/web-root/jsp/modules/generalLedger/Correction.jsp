@@ -322,11 +322,11 @@
 						<display:column property="projectCode" title="Project Code" />
 						<display:column property="subAccountNumber" title="Sub-Account Number" />
 						<display:column property="transactionDate" title="Transaction Date" />
-						<display:column property="transactionDebitCreditCode" title="Transaction DebitCreditCode" />
+						<display:column property="transactionDebitCreditCode" title="Transaction Debit Credit Code" />
 						<display:column property="transactionEncumbranceUpdateCode" title="Transaction Encumbrance Update Code" />
 						<display:column property="transactionLedgerEntrySequenceNumber" title="Transaction LedgerEntry Sequence Number" />
 						<display:column property="transactionLedgerEntryAmount" title="Transaction LedgerEntry Amount" />
-						<display:column property="transactionLedgerEntryDescription" title="Transaction Ledger Entry Description" />
+						<display:column property="transactionLedgerEntryDescription" title="Transaction LedgerEntry Description" />
 						<display:column property="universityFiscalPeriodCode" title="University FiscalPeriod Code" />
 						<display:column property="universityFiscalYear" title="University FiscalYear" />
 						<display:column property="budgetYear" title="BudgetYear" />
@@ -352,141 +352,140 @@
    			<display:table id="entry" name="${KualiForm.eachEntryForManualEdit}" requestURIcontext="false"  >
    			<display:column title="Choose For Manual Edit" />
 	   			<display:column title="Account Number" >
-   					<input size="7" type="text" name="editAccountNumber"
+   					<input size="8" type="text" name="editAccountNumber"
                 	       value="<c:out value="${KualiForm.eachEntryForManualEdit.accountNumber}" />">
         	    </display:column>
-       <!--	    
-        	    <display:column property="financialDocumentNumber" title="Financial Document Number" >
-        	    	<input size="7" type="text" name="editFinancialDocumentNumber"
+      	    
+        	    <display:column title="Financial Document Number" >
+        	    	<input size="9" type="text" name="editFinancialDocumentNumber"
                     	   value="<c:out value="${KualiForm.eachEntryForManualEdit.financialDocumentNumber}" />">
         	    </display:column>	
         	    
-				<display:column property="referenceFinancialDocumentNumber" title="Reference Financial Document Number" >
-					<input size="7" type="text" name="editFinancialDocumentNumber"
-    	                   value="<c:out value="${KualiForm.eachEntryForManualEdit.financialDocumentNumber}" />">
+				<display:column title="Reference Financial Document Number" >
+					<input size="9" type="text" name="editReferenceFinancialDocumentNumber"
+    	                   value="<c:out value="${KualiForm.eachEntryForManualEdit.referenceFinancialDocumentNumber}" />">
 				</display:column>
 				
-				<display:column property="referenceFinancialDocumentTypeCode" title="Reference Financial Document TypeCode" >
-					<input size="7" type="text" name="editFinancialDocumentNumber"
-            	           value="<c:out value="${KualiForm.eachEntryForManualEdit.financialDocumentNumber}" />">
+				<display:column title="Reference Financial Document TypeCode" >
+					<input size="9" type="text" name="editReferenceFinancialDocumentTypeCode"
+            	           value="<c:out value="${KualiForm.eachEntryForManualEdit.referenceFinancialDocumentTypeCode}" />">
 				</display:column>
 				
-				<display:column property="financialDocumentReversalDate" title="Financial Document Reversal Date" >
-					<input size="7" type="text" name="editFinancialDocumentNumber"
-                    	   value="<c:out value="${KualiForm.eachEntryForManualEdit.financialDocumentNumber}" />">
+				<display:column title="Financial Document Reversal Date" >
+					<input size="9" type="text" name="editFinancialDocumentReversalDate"
+                    	   value="<c:out value="${KualiForm.eachEntryForManualEdit.financialDocumentReversalDate}" />">
 				</display:column>
 				
-				<display:column property="financialDocumentTypeCode" title="Financial Document TypeCode" >
-					<input size="7" type="text" name="editFinancialDocumentNumber"
-    	                   value="<c:out value="${KualiForm.eachEntryForManualEdit.financialDocumentNumber}" />">
+				<display:column title="Financial Document TypeCode" >
+					<input size="9" type="text" name="editFinancialDocumentTypeCode
+    	                   value="<c:out value="${KualiForm.eachEntryForManualEdit.financialDocumentTypeCode}" />">
 				
 				</display:column>
 			
-				<display:column property="financialBalanceTypeCode" title="Financial Balance TypeCode" >
-					<input size="7" type="text" name="editFinancialDocumentNumber"
-                	       value="<c:out value="${KualiForm.eachEntryForManualEdit.financialDocumentNumber}" />">
+				<display:column title="Financial Balance TypeCode" >
+					<input size="9" type="text" name="editFinancialBalanceTypeCode"
+                	       value="<c:out value="${KualiForm.eachEntryForManualEdit.financialBalanceTypeCode}" />">
 				</display:column>
 				
-				<display:column property="chartOfAccountsCode" title="Chart Of Accounts Code" >
-					<input size="7" type="text" name="editFinancialDocumentNumber"
-                    	   value="<c:out value="${KualiForm.eachEntryForManualEdit.financialDocumentNumber}" />">
+				<display:column title="Chart Of Accounts Code" >
+					<input size="9" type="text" name="editChartOfAccountsCode"
+                    	   value="<c:out value="${KualiForm.eachEntryForManualEdit.chartOfAccountsCode}" />">
 				</display:column>
 
-				<display:column property="financialObjectTypeCode" title="Financial Object TypeCode" >
-					<input size="7" type="text" name="editFinancialDocumentNumber"
-    	                   value="<c:out value="${KualiForm.eachEntryForManualEdit.financialDocumentNumber}" />">
+				<display:column title="Financial Object TypeCode" >
+					<input size="9" type="text" name="editFinancialObjectTypeCode"
+    	                   value="<c:out value="${KualiForm.eachEntryForManualEdit.financialObjectTypeCode}" />">
 				</display:column>
 				
-				<display:column property="financialObjectCode" title="Financial Object Code" >
-					<input size="7" type="text" name="editFinancialDocumentNumber"
-            	           value="<c:out value="${KualiForm.eachEntryForManualEdit.financialDocumentNumber}" />">
+				<display:column title="Financial Object Code" >
+					<input size="9" type="text" name="editFinancialObjectCode"
+            	           value="<c:out value="${KualiForm.eachEntryForManualEdit.financialObjectCode}" />">
 				</display:column>
 				
-				<display:column property="financialSubObjectCode" title="Financial Sub-Object Code" >
-					<input size="7" type="text" name="editFinancialDocumentNumber"
-                    	   value="<c:out value="${KualiForm.eachEntryForManualEdit.financialDocumentNumber}" />">
+				<display:column title="Financial Sub-Object Code" >
+					<input size="9" type="text" name="editFinancialSubObjectCode"
+                    	   value="<c:out value="${KualiForm.eachEntryForManualEdit.financialSubObjectCode}" />">
 				</display:column>
 				
-				<display:column property="financialSystemOriginationCode" title="Financial System Origination Code" >
-					<input size="7" type="text" name="editFinancialDocumentNumber"
-                    	   value="<c:out value="${KualiForm.eachEntryForManualEdit.financialDocumentNumber}" />">
+				<display:column title="Financial System Origination Code" >
+					<input size="9" type="text" name="editFinancialSystemOriginationCode"
+                    	   value="<c:out value="${KualiForm.eachEntryForManualEdit.financialSystemOriginationCode}" />">
 				</display:column>
 				
-				<display:column property="referenceFinancialSystemOriginationCode" title="Reference Financial System Origination Code" >
-					<input size="7" type="text" name="editFinancialDocumentNumber"
-                    	   value="<c:out value="${KualiForm.eachEntryForManualEdit.financialDocumentNumber}" />">
+				<display:column title="Reference Financial System Origination Code" >
+					<input size="9" type="text" name="editReferenceFinancialSystemOriginationCode"
+                    	   value="<c:out value="${KualiForm.eachEntryForManualEdit.referenceFinancialSystemOriginationCode}" />">
 				</display:column>
 				
-				<display:column property="organizationDocumentNumber" title="Organization Document Number" >
-					<input size="7" type="text" name="editFinancialDocumentNumber"
-                    	   value="<c:out value="${KualiForm.eachEntryForManualEdit.financialDocumentNumber}" />">
+				<display:column title="Organization Document Number" >
+					<input size="9" type="text" name="editOrganizationDocumentNumber"
+                    	   value="<c:out value="${KualiForm.eachEntryForManualEdit.organizationDocumentNumber}" />">
 				</display:column>
 				
-				<display:column property="organizationReferenceId" title="Organization ReferenceId" >
-					<input size="7" type="text" name="editFinancialDocumentNumber"
-                    	   value="<c:out value="${KualiForm.eachEntryForManualEdit.financialDocumentNumber}" />">
+				<display:column title="Organization ReferenceId" >
+					<input size="13" type="text" name="editOrganizationReferenceId"
+                    	   value="<c:out value="${KualiForm.eachEntryForManualEdit.organizationReferenceId}" />">
 				</display:column>
 				
-				<display:column property="projectCode" title="Project Code" >
-					<input size="7" type="text" name="editFinancialDocumentNumber"
-                    	   value="<c:out value="${KualiForm.eachEntryForManualEdit.financialDocumentNumber}" />">
+				<display:column title="Project Code" >
+					<input size="9" type="text" name="editProjectCode"
+                    	   value="<c:out value="${KualiForm.eachEntryForManualEdit.projectCode}" />">
 				</display:column>
 				
-				<display:column property="subAccountNumber" title="Sub-Account Number" >
-					<input size="7" type="text" name="editFinancialDocumentNumber"
-    	                   value="<c:out value="${KualiForm.eachEntryForManualEdit.financialDocumentNumber}" />">
+				<display:column title="Sub-Account Number" >
+					<input size="13" type="text" name="editSubAccountNumber"
+    	                   value="<c:out value="${KualiForm.eachEntryForManualEdit.subAccountNumber}" />">
 				</display:column>
 				
-				<display:column property="transactionDate" title="Transaction Date" >
-					<input size="7" type="text" name="editFinancialDocumentNumber"
-            	           value="<c:out value="${KualiForm.eachEntryForManualEdit.financialDocumentNumber}" />">
+				<display:column title="Transaction Date" >
+					<input size="12" type="text" name="editTransactionDate"
+            	           value="<c:out value="${KualiForm.eachEntryForManualEdit.transactionDate}" />">
 				</display:column>
 
-				<display:column property="transactionDebitCreditCode" title="Transaction DebitCreditCode" >
-					<input size="7" type="text" name="editFinancialDocumentNumber"
-                    	   value="<c:out value="${KualiForm.eachEntryForManualEdit.financialDocumentNumber}" />">
+				<display:column title="Transaction Debit Credit Code" >
+					<input size="10" type="text" name="editTransactionDebitCreditCode"
+                    	   value="<c:out value="${KualiForm.eachEntryForManualEdit.transactionDebitCreditCode}" />">
 				</display:column>
 				
-				<display:column property="transactionEncumbranceUpdateCode" title="Transaction Encumbrance Update Code" >
-					<input size="7" type="text" name="editFinancialDocumentNumber"
-    	                   value="<c:out value="${KualiForm.eachEntryForManualEdit.financialDocumentNumber}" />">
+				<display:column title="Transaction Encumbrance Update Code" >
+					<input size="13" type="text" name="editTransactionEncumbranceUpdateCode"
+    	                   value="<c:out value="${KualiForm.eachEntryForManualEdit.transactionEncumbranceUpdateCode}" />">
 				</display:column>
 				
-				<display:column property="transactionLedgerEntrySequenceNumber" title="Transaction LedgerEntry Sequence Number" >
-					<input size="7" type="text" name="editFinancialDocumentNumber"
-            	           value="<c:out value="${KualiForm.eachEntryForManualEdit.financialDocumentNumber}" />">
+				<display:column title="Transaction LedgerEntry Sequence Number" >
+					<input size="12" type="text" name="editTransactionLedgerEntrySequenceNumber"
+            	           value="<c:out value="${KualiForm.eachEntryForManualEdit.transactionLedgerEntrySequenceNumber}" />">
 				</display:column>
 				
-				<display:column property="transactionLedgerEntryAmount" title="Transaction LedgerEntry Amount" >
-					<input size="7" type="text" name="editFinancialDocumentNumber"
-                    	   value="<c:out value="${KualiForm.eachEntryForManualEdit.financialDocumentNumber}" />">
+				<display:column title="Transaction LedgerEntry Amount" >
+					<input size="12" type="text" name="editTransactionLedgerEntryAmount"
+                    	   value="<c:out value="${KualiForm.eachEntryForManualEdit.transactionLedgerEntryAmount}" />">
 				</display:column>
 				
-				<display:column property="transactionLedgerEntryDescription" title="Transaction Ledger Entry Description" >
-					<input size="7" type="text" name="editFinancialDocumentNumber"
-                    	   value="<c:out value="${KualiForm.eachEntryForManualEdit.financialDocumentNumber}" />">
+				<display:column title="Transaction LedgerEntry Description" >
+					<input size="12" type="text" name="editTransactionLedgerEntryDescription"
+                    	   value="<c:out value="${KualiForm.eachEntryForManualEdit.transactionLedgerEntryDescription}" />">
 				</display:column>
 				
-				<display:column property="universityFiscalPeriodCode" title="University FiscalPeriod Code" >
-					<input size="7" type="text" name="editFinancialDocumentNumber"
-                    	   value="<c:out value="${KualiForm.eachEntryForManualEdit.financialDocumentNumber}" />">
+				<display:column title="University FiscalPeriod Code" >
+					<input size="12" type="text" name="editUniversityFiscalPeriodCode"
+                    	   value="<c:out value="${KualiForm.eachEntryForManualEdit.universityFiscalPeriodCode}" />">
 				</display:column>
 				
-				<display:column property="universityFiscalYear" title="University FiscalYear" >
-					<input size="7" type="text" name="editFinancialDocumentNumber"
-                    	   value="<c:out value="${KualiForm.eachEntryForManualEdit.financialDocumentNumber}" />">
+				<display:column title="University FiscalYear" >
+					<input size="9" type="text" name="editUniversityFiscalYear"
+                    	   value="<c:out value="${KualiForm.eachEntryForManualEdit.universityFiscalYear}" />">
 				</display:column>
 				
-				<display:column property="budgetYear" title="BudgetYear" >
-					<input size="7" type="text" name="editFinancialDocumentNumber"
-                    	   value="<c:out value="${KualiForm.eachEntryForManualEdit.financialDocumentNumber}" />">
+				<display:column title="BudgetYear" >
+					<input size="12" type="text" name="editBudgetYear"
+                    	   value="<c:out value="${KualiForm.eachEntryForManualEdit.budgetYear}" />">
 				</display:column>
         	           	    
         	    
         	    
             
-        	    -->
-        	    
+        	 
         	    
         	    
         	    
@@ -529,11 +528,11 @@
                                 <td>Project Code</td>
                                 <td>Sub-Account Number</td> 
                                 <td>Transaction Date</td>
-                                <td>Transaction DebitCreditCode</td>
+                                <td>Transaction Debit Credit Code</td>
                                 <td>Transaction Encumbrance Update Code</td> 
                                 <td>Transaction LedgerEntry Sequence Number</td>
                                 <td>Transaction LedgerEntry Amount</td>
-                                <td>Transaction Ledger Entry Description</td> 
+                                <td>Transaction LedgerEntry Description</td> 
                                 <td>University FiscalPeriod Code</td>
                                 <td>University FiscalYear</td>
                                 <td>BudgetYear</td> 
@@ -642,6 +641,34 @@
 		</div>
  	</c:if>
       
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
       
       
       
@@ -748,7 +775,7 @@
 		   			<td>
 	
 		   			<center>
-		   			<input type="image" name="methodToCall.replaceManualEdit" 
+		   			<input type="image" name="methodToCall.searchForManualEdit" 
 			                   src="images/buttonsmall_search.gif" alt="error correction" class="tinybutton" />
 		   			 	
 		   			</center>

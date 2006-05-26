@@ -52,7 +52,7 @@ import static org.kuali.Constants.DEBIT_AMOUNT_PROPERTY_NAME;
 import static org.kuali.Constants.DOCUMENT_ERRORS;
 import static org.kuali.Constants.JOURNAL_LINE_HELPER_CREDIT_PROPERTY_NAME;
 import static org.kuali.Constants.JOURNAL_LINE_HELPER_DEBIT_PROPERTY_NAME;
-import static org.kuali.Constants.JOURNAL_LINE_HELPER_PROPERTY_NAME;
+import static org.kuali.Constants.AUXILIARY_LINE_HELPER_PROPERTY_NAME;
 import static org.kuali.Constants.NEW_SOURCE_ACCT_LINE_PROPERTY_NAME;
 import static org.kuali.Constants.SQUARE_BRACKET_LEFT;
 import static org.kuali.Constants.SQUARE_BRACKET_RIGHT;
@@ -69,9 +69,11 @@ import static org.kuali.KeyConstants.ERROR_ZERO_OR_NEGATIVE_AMOUNT;
 import static org.kuali.KeyConstants.AuxiliaryVoucher.ERROR_DOCUMENT_AUXILIARY_VOUCHER_INVALID_OBJECT_SUB_TYPE_CODE;
 import static org.kuali.PropertyConstants.FINANCIAL_OBJECT_CODE;
 import static org.kuali.module.financial.rules.AuxiliaryVoucherDocumentRuleConstants.*;
+import static org.kuali.module.financial.rules.TransactionalDocumentRuleBaseConstants.OBJECT_TYPE_CODE.EXPENSE_NOT_EXPENDITURE;
+import static org.kuali.module.financial.rules.TransactionalDocumentRuleBaseConstants.OBJECT_TYPE_CODE.INCOME_NOT_CASH;
 
 /**
- * This class...
+ * Business rule(s) applicable to <code>{@link AuxiliaryVoucherDocument}</code> instances
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class AuxiliaryVoucherDocumentRule extends TransactionalDocumentRuleBase {
@@ -131,8 +133,6 @@ public class AuxiliaryVoucherDocumentRule extends TransactionalDocumentRuleBase 
 
         AuxiliaryVoucherDocument avDoc = (AuxiliaryVoucherDocument) document;
 		
-		LOG.info("validating amount of: " + amount);
-
         // check for negative or zero amounts
         if (ZERO.compareTo(amount) == 0) { // if 0
             GlobalVariables.getErrorMap().putWithoutFullErrorPath(buildErrorMapKeyPathForDebitCreditAmount(true),
@@ -184,11 +184,11 @@ public class AuxiliaryVoucherDocumentRule extends TransactionalDocumentRuleBase 
                     SQUARE_BRACKET_LEFT, SQUARE_BRACKET_RIGHT);
             String indexWithParams = SQUARE_BRACKET_LEFT + index + SQUARE_BRACKET_RIGHT;
             if (isDebit) {
-                return JOURNAL_LINE_HELPER_PROPERTY_NAME + indexWithParams
+                return AUXILIARY_LINE_HELPER_PROPERTY_NAME + indexWithParams
                         + JOURNAL_LINE_HELPER_DEBIT_PROPERTY_NAME;
             }
             else {
-                return JOURNAL_LINE_HELPER_PROPERTY_NAME + indexWithParams
+                return AUXILIARY_LINE_HELPER_PROPERTY_NAME + indexWithParams
                         + JOURNAL_LINE_HELPER_CREDIT_PROPERTY_NAME;
             }
 
@@ -207,10 +207,10 @@ public class AuxiliaryVoucherDocumentRule extends TransactionalDocumentRuleBase 
      */
     protected boolean isDocumentBalanceValid(TransactionalDocument transactionalDocument) {
         AuxiliaryVoucherDocument document = (AuxiliaryVoucherDocument)transactionalDocument;
-        KualiDecimal ZERO = new KualiDecimal(0);
-        if(!(ZERO.compareTo(document.getTotal()) == 0)) {
-            GlobalVariables.getErrorMap()
-                .put(ACCOUNTING_LINE_ERRORS, ERROR_DOCUMENT_BALANCE);
+        if(ZERO.compareTo(document.getTotal()) == 0 
+		   || ZERO.compareTo(document.getTotal()) == 1) {
+            GlobalVariables.getErrorMap().putWithoutFullErrorPath(buildErrorMapKeyPathForDebitCreditAmount(true),
+                                                                  ERROR_ZERO_OR_NEGATIVE_AMOUNT, "an Auxiliary Voucher");
             return false;
         }
         return true;
@@ -364,9 +364,13 @@ public class AuxiliaryVoucherDocumentRule extends TransactionalDocumentRuleBase 
     public boolean processCustomAddAccountingLineBusinessRules(TransactionalDocument document, AccountingLine accountingLine) {
         boolean valid = true;
         valid &= super.processCustomAddAccountingLineBusinessRules(document, accountingLine);
+		
         if (valid) {
+			buildAccountingLineObjectType(accountingLine);
             valid &= isValidDocWithSubAndLevel(document, accountingLine);
         }
+
+		LOG.info("Returning:" + valid);
         return valid;
     }
     /**
@@ -376,10 +380,32 @@ public class AuxiliaryVoucherDocumentRule extends TransactionalDocumentRuleBase 
         boolean valid = true;
         valid &= super.processCustomReviewAccountingLineBusinessRules(document, accountingLine);
         if (valid) {
+			buildAccountingLineObjectType(accountingLine);
             valid &= isValidDocWithSubAndLevel(document, accountingLine);
         }
         return valid;
     }
+	
+	/**
+	 * Fixes <code>{@link ObjectTyp}</code> for the given <code>{@link AccountingLine}</code>
+	 * instance 
+	 *
+	 * @param line
+	 */
+	private void buildAccountingLineObjectType(AccountingLine line) {
+		String objectTypeCode = line.getObjectCode().getFinancialObjectTypeCode();
+
+		if (succeedsRule(RESTRICTED_EXPENSE_OBJECT_TYPE_CODES, objectTypeCode)) {
+			line.setObjectTypeCode(EXPENSE_NOT_EXPENDITURE);
+		}
+		else if (succeedsRule(RESTRICTED_INCOME_OBJECT_TYPE_CODES, objectTypeCode)) {
+			line.setObjectTypeCode(INCOME_NOT_CASH);
+		}
+		else {
+			line.setObjectTypeCode(objectTypeCode);
+		}
+		line.refresh();
+	}
     
     /**
      * 
@@ -397,7 +423,7 @@ public class AuxiliaryVoucherDocumentRule extends TransactionalDocumentRuleBase 
                                    getMockCodeBaseInstance(ObjectType.class,
                                                            accountingLine.getObjectCode()
                                                            .getFinancialObjectTypeCode()).toString());
-            
+			
             if (retval) {
                 retval &= succeedsRule(RESTRICTED_COMBINED_CODES,
                                        getMockCodeBaseInstance(ObjSubTyp.class,

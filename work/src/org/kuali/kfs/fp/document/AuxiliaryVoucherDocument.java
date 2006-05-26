@@ -73,7 +73,8 @@ public class AuxiliaryVoucherDocument extends TransactionalDocumentBase implemen
      * This method calculates the debit total for a JV document keying off of the 
      * debit/debit code, only summing the accounting lines with a debitDebitCode 
      * that matched the debit constant, and returns the results.
-     * @return
+	 * 
+     * @return KualiDecimal
      */
     public KualiDecimal getDebitTotal() {
         KualiDecimal debitTotal = new KualiDecimal(0);
@@ -92,7 +93,8 @@ public class AuxiliaryVoucherDocument extends TransactionalDocumentBase implemen
      * This method calculates the credit total for a JV document keying off of the 
      * debit/credit code, only summing the accounting lines with a debitCreditCode 
      * that matched the debit constant, and returns the results.
-     * @return
+	 *
+     * @return KualiDecimal
      */
     public KualiDecimal getCreditTotal() {
         KualiDecimal creditTotal = new KualiDecimal(0);
@@ -109,19 +111,17 @@ public class AuxiliaryVoucherDocument extends TransactionalDocumentBase implemen
     
     /**
      * This method sums the amounts of all of the accounting lines in 
-     * the Journal Voucher.  This method should be used to represent the 
-     * total of the document when the balance type of External Encubmrance 
+     * the <code>{@link AuxiliaryVoucherDocument}</code>.  This method should be used to represent 
+	 * the total of the document when the balance type of External Encubmrance 
      * is selected.
-     * @return
+	 *
+     * @return KualiDecimal
      */
-    public KualiDecimal getTotal() {
+    public KualiDecimal getTotal() {        
         KualiDecimal total = new KualiDecimal(0);
-        AccountingLineBase al = null;
-        Iterator iter = sourceAccountingLines.iterator();
-        while (iter.hasNext()) {
-            al = (AccountingLineBase) iter.next();
-            total = total.add(al.getAmount());
-        }
+        
+		total = getCreditTotal().subtract(getDebitTotal());
+
         return total;
     }
 }

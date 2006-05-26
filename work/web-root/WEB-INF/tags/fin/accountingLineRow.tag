@@ -297,7 +297,7 @@
             cellProperty="${baseCellProperty}"
             attributes="${accountingLineAttributes}"
             field="amount"
-            readOnly="${readOnly&&(empty editableFields['amount'])}"
+            readOnly="${(readOnly&&(empty editableFields['amount']))||!KualiForm.editingMode['baseAmtEntry']}"
             rowSpan="${rowCount}"
             />
     </c:when>

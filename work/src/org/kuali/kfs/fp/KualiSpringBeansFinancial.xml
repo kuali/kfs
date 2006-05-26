@@ -97,6 +97,12 @@
         </property>
     </bean>
     
+    <bean id="fiscalYearFunctionControlService" class="org.kuali.module.financial.service.impl.FiscalYearFunctionControlServiceImpl">
+        <property name="businessObjectService">
+            <ref bean="businessObjectService" />
+        </property>
+    </bean>
+    
     <bean id="procurementCardCreateDocumentService" class="org.kuali.module.financial.service.impl.ProcurementCardCreateDocumentServiceImpl">
         <property name="kualiConfigurationService">
             <ref bean="kualiConfigurationService" />

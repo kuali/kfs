@@ -35,17 +35,10 @@ public class OffsetDefinitionServiceImpl implements OffsetDefinitionService {
     private OffsetDefinitionDao offsetDefinitionDao;
 
     /**
-     * @see org.kuali.module.chart.service.OffsetDefinitionService#getByPrimaryId(java.lang.Long, java.lang.String, java.lang.String, java.lang.String)
+     * @see org.kuali.module.chart.service.OffsetDefinitionService#getByPrimaryId(java.lang.Integer, java.lang.String, java.lang.String, java.lang.String)
      */
     public OffsetDefinition getByPrimaryId(Integer universityFiscalYear, String chartOfAccountsCode, String financialDocumentTypeCode, String financialBalanceTypeCode) {
         return offsetDefinitionDao.getByPrimaryId(universityFiscalYear, chartOfAccountsCode, financialDocumentTypeCode, financialBalanceTypeCode);
-    }
-
-    /**
-     * @return Returns the offsetDefinitionDao.
-     */
-    public OffsetDefinitionDao getOffsetDefinitionDao() {
-        return offsetDefinitionDao;
     }
 
     /**

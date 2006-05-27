@@ -643,14 +643,16 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         }
 
         if ( ! Constants.DASHES_SUB_OBJECT_CODE.equals(originEntry.getFinancialSubObjectCode()) ) {
-            if ( originEntry.getFinancialSubObject() == null ) {
-                return kualiConfigurationService.getPropertyString(KeyConstants.ERROR_SUB_OBJECT_CODE_NOT_FOUND) + " (" +
-                    originEntry.getUniversityFiscalYear() + "-" + originEntry.getChartOfAccountsCode() + "-" + originEntry.getAccountNumber() + "-" +
-                    originEntry.getFinancialObjectCode() + "-" + originEntry.getFinancialSubObjectCode() + ")";
-            }
-
-            if ( ! originEntry.getFinancialSubObject().isFinancialSubObjectActiveIndicator() ) {
-                // if NOT active, set it to dashes
+            if ( originEntry.getFinancialSubObject() != null ) {
+                // Exists
+                if ( ! originEntry.getFinancialSubObject().isFinancialSubObjectActiveIndicator() ) {
+                    // if NOT active, set it to dashes
+                    workingEntry.setFinancialSubObjectCode(Constants.DASHES_SUB_OBJECT_CODE);
+                    workingEntry.setFinancialSubObject(null);
+                    return null;
+                }
+            } else {
+                // Doesn't exist
                 workingEntry.setFinancialSubObjectCode(Constants.DASHES_SUB_OBJECT_CODE);
                 workingEntry.setFinancialSubObject(null);
                 return null;

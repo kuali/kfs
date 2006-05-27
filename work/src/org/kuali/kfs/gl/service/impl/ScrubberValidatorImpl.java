@@ -735,6 +735,9 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
 	}
 
     /**
+     * If the encumbrance update code = R, ref doc number must exist, ref doc type must be valid and ref origin code must be valid.
+     * If encumbrance update code is not R, and ref doc number is empty, make sure ref doc number, ref doc type and ref origin code are null.
+     * If encumbrance update code is not R and the ref doc number has a value, ref doc type must be valid and ref origin code must be valid. 
      * 
      * @param originEntry
      * @param workingEntryInfo
@@ -742,17 +745,12 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
     public String validateReferenceDocument(OriginEntry originEntry, OriginEntry workingEntry) {
         LOG.debug("validateReferenceDocument() started");
 
-        if ( ! StringUtils.hasText(originEntry.getReferenceFinancialDocumentNumber()) ) {
-            workingEntry.setReferenceDocumentType(null);
-            workingEntry.setReferenceFinancialSystemOriginationCode(null);
-            workingEntry.setReferenceFinancialDocumentTypeCode(null);
-            workingEntry.setReferenceFinancialDocumentNumber(null);
-
-            if ( Constants.ENCUMB_UPDT_REFERENCE_DOCUMENT_CD.equals(originEntry.getTransactionEncumbranceUpdateCode()) ) {
+        if ( Constants.ENCUMB_UPDT_REFERENCE_DOCUMENT_CD.equals(originEntry.getTransactionEncumbranceUpdateCode()) ) {
+            // If this is R, the reference origin code, reference document type and reference document number must filled in and valid
+            if ( ! StringUtils.hasText(originEntry.getReferenceFinancialDocumentNumber()) ) {
                 return kualiConfigurationService.getPropertyString(KeyConstants.ERROR_REFERENCE_DOC_NUMBER_CANNOT_BE_NULL_IF_UPDATE_CODE_IS_R);
             }
-            return null;
-        } else {
+
             if ( originEntry.getReferenceDocumentType() == null ) {
                 return kualiConfigurationService.getPropertyString(KeyConstants.ERROR_REFERENCE_DOCUMENT_TYPE_NOT_FOUND) + " (" +
                 originEntry.getReferenceFinancialDocumentTypeCode() + ")";
@@ -763,12 +761,32 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
                 return kualiConfigurationService.getPropertyString(KeyConstants.ERROR_REFERENCE_ORIGINATION_CODE_NOT_FOUND) + " (" +
                         originEntry.getReferenceFinancialSystemOriginationCode() + ")";
             }
+        } else {
+            // For any other encumbrance update code, if there is a ref doc number, there must be a valid ref origin code & ref doc type
+            if ( StringUtils.hasText(originEntry.getReferenceFinancialDocumentNumber()) ) {                
+                if ( originEntry.getReferenceDocumentType() == null ) {
+                    return kualiConfigurationService.getPropertyString(KeyConstants.ERROR_REFERENCE_DOCUMENT_TYPE_NOT_FOUND) + " (" +
+                    originEntry.getReferenceFinancialDocumentTypeCode() + ")";
+                }
 
-            workingEntry.setReferenceFinancialSystemOriginationCode(originEntry.getReferenceFinancialSystemOriginationCode());
-            workingEntry.setReferenceFinancialDocumentTypeCode(originEntry.getReferenceFinancialDocumentTypeCode());
-            workingEntry.setReferenceDocumentType(originEntry.getReferenceDocumentType());
-            workingEntry.setReferenceFinancialDocumentNumber(originEntry.getReferenceFinancialDocumentNumber());
+                OriginationCode originationCode = originationCodeService.getByPrimaryKey(originEntry.getReferenceFinancialSystemOriginationCode());
+                if ( originationCode == null ) {
+                    return kualiConfigurationService.getPropertyString(KeyConstants.ERROR_REFERENCE_ORIGINATION_CODE_NOT_FOUND) + " (" +
+                            originEntry.getReferenceFinancialSystemOriginationCode() + ")";
+                }
+            } else {
+                workingEntry.setReferenceDocumentType(null);
+                workingEntry.setReferenceFinancialSystemOriginationCode(null);
+                workingEntry.setReferenceFinancialDocumentTypeCode(null);
+                workingEntry.setReferenceFinancialDocumentNumber(null);
+                return null;
+            }
         }
+
+        workingEntry.setReferenceFinancialSystemOriginationCode(originEntry.getReferenceFinancialSystemOriginationCode());
+        workingEntry.setReferenceFinancialDocumentTypeCode(originEntry.getReferenceFinancialDocumentTypeCode());
+        workingEntry.setReferenceDocumentType(originEntry.getReferenceDocumentType());
+        workingEntry.setReferenceFinancialDocumentNumber(originEntry.getReferenceFinancialDocumentNumber());
         return null;
     }
 

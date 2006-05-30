@@ -69,7 +69,8 @@
 	<field-descriptor name="transactionLedgerEntryDescription" column="TRN_LDGR_ENTR_DESC" jdbc-type="VARCHAR" />
 	<field-descriptor name="universityFiscalPeriodCode" column="UNIV_FISCAL_PRD_CD" jdbc-type="VARCHAR" />
 	<field-descriptor name="universityFiscalYear" column="UNIV_FISCAL_YR" jdbc-type="INTEGER" />
-	<field-descriptor name="budgetYear" column="BDGT_YR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="budgetYear" column="BDGT_YR" jdbc-type="VARCHAR" />
+	<field-descriptor name="transactionScrubberOffsetGenerationIndicator" column="TRN_SCRBBR_OFST_GEN_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
 
 	<reference-descriptor name="group" class-ref="org.kuali.module.gl.bo.OriginEntryGroup" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="entryGroupId" />

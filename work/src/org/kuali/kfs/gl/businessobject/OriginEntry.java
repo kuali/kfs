@@ -46,7 +46,7 @@ import org.kuali.module.chart.bo.codes.BalanceTyp;
 
 /**
  * @author Kuali General Ledger Team (kualigltech@oncourse.iu.edu)
- * @version $Id: OriginEntry.java,v 1.24 2006-05-18 15:14:44 larevans Exp $
+ * @version $Id: OriginEntry.java,v 1.25 2006-05-30 20:16:07 jbmorris Exp $
  */
 public class OriginEntry extends BusinessObjectBase implements Transaction {
     static final long serialVersionUID = -2498312988235747448L;
@@ -79,6 +79,7 @@ public class OriginEntry extends BusinessObjectBase implements Transaction {
     private String universityFiscalPeriodCode;
     private Integer universityFiscalYear;
     private String budgetYear;
+    private boolean transactionScrubberOffsetGenerationIndicator;
     
     // bo references
     private OriginEntryGroup group;

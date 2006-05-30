@@ -66,6 +66,7 @@ public class ProcurementCardLoadTransactionsServiceImpl implements ProcurementCa
     private static final String PACKAGE_PREFIX = "/org/kuali/module/financial/batch/pcard/";
 
     // DTD registration info
+    // TODO: move to common dtd location
     private final static String[][] DTD_REGISTRATION_INFO = { { "-//Kuali Project//DTD Procurement Card 1.0//EN",
             PACKAGE_PREFIX + "procurementCardTransactions-1_0.dtd" }, };
 
@@ -139,6 +140,10 @@ public class ProcurementCardLoadTransactionsServiceImpl implements ProcurementCa
                 File backupPCardFile = new File(extSplit[0] + dateString + "." + extSplit[1]);
                 pcardLoadFile.renameTo(backupPCardFile);
             }
+            else {
+               //TODO: log not backing up 
+            }
+            
         }
 
         LOG.info("Total transactions loaded: " + Integer.toString(totalTransactionsParsed));

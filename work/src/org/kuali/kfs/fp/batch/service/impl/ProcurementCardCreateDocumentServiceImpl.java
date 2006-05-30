@@ -486,7 +486,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
         if (StringUtils.isNotBlank(targetLine.getSubAccountNumber())
                 && !AccountingLineRuleUtil.isValidSubAccount(targetLine.getSubAccount(), dataDictionaryService.getDataDictionary())) {
             LOG.info("Sub Account " + targetLine.getSubAccountNumber() + " is invalid. Setting to blank");
-            errorText += (" Sub Account " + targetLine.getSubAccountNumber() + " is invalid. Setting to blank");
+            errorText += " Sub Account " + targetLine.getSubAccountNumber() + " is invalid. Setting to blank";
 
             targetLine.setSubAccountNumber("");
         }
@@ -498,7 +498,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
                 && !AccountingLineRuleUtil.isValidSubObjectCode(targetLine.getSubObjectCode(), dataDictionaryService
                         .getDataDictionary())) {
             LOG.info("Sub Object Code " + targetLine.getFinancialSubObjectCode() + " is invalid. Setting to blank");
-            errorText += (" Sub Object Code " + targetLine.getFinancialSubObjectCode() + " is invalid. Setting to blank");
+            errorText += " Sub Object Code " + targetLine.getFinancialSubObjectCode() + " is invalid. Setting to blank";
 
             targetLine.setFinancialSubObjectCode("");
         }
@@ -506,7 +506,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
         if (StringUtils.isNotBlank(targetLine.getProjectCode())
                 && !AccountingLineRuleUtil.isValidProjectCode(targetLine.getProject(), dataDictionaryService.getDataDictionary())) {
             LOG.info("Project Code " + targetLine.getProjectCode() + " is invalid. Setting to blank");
-            errorText += (" Project Code " + targetLine.getProjectCode() + " is invalid. Setting to blank");
+            errorText += " Project Code " + targetLine.getProjectCode() + " is invalid. Setting to blank";
 
             targetLine.setProjectCode("");
         }
@@ -514,7 +514,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
         if (!AccountingLineRuleUtil.isValidAccount(targetLine.getAccount(), dataDictionaryService.getDataDictionary())
                 || targetLine.getAccount().isExpired()) {
             LOG.info("Account " + targetLine.getAccountNumber() + " is invalid. Using error account.");
-            errorText += (" Account " + targetLine.getAccountNumber() + " is invalid. Using error Chart & Account.");
+            errorText += " Account " + targetLine.getAccountNumber() + " is invalid. Using error Chart & Account.";
 
             targetLine.setChartOfAccountsCode(getErrorChartCode());
             targetLine.setAccountNumber(getErrorAccountNumber());

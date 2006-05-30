@@ -100,12 +100,14 @@
 			<filter token="institution" value="${institution}"/>
         	<filter token="environment" value="${build.environment}"/>
 			<filter token="version" value="${project.cvs.tag}"/>
-    		<filter token="settings-directory" value="${settings.directory}/"/>
+    			<filter token="settings-directory" value="${settings.directory}/"/>
 			<filter token="log4j-settings-file" value="${settings.directory}/${log4j.settings.file}"/>
 			<filter token="log4j-batch-settings-file" value="${settings.directory}/${log4j.batch.settings.file}"/>
-    		<filter token="security-directory" value="${security.directory}/"/>
+    			<filter token="security-directory" value="${security.directory}/"/>
 			<filter token="logs-directory" value="${logs.directory}/"/>
-        	<filter token="attachments-root-directory" value="${attachments.root.directory}"/>
+        		<filter token="attachments-root-directory" value="${attachments.root.directory}"/>
+			<filter token="htdocs-directory" value="${htdocs.directory}"/>
+			<filter token="staging-directory" value="${staging.directory}"/>
 			<filter token="cas-url" value="${cas.url}"/>
 			<filter token="workflow-url" value="${workflow.url}" />			
 			<filter token="web-authentication-filter" value="${web.authentication.filter}"/>
@@ -320,6 +322,7 @@
 			<fileset dir="${webroot.directory}" excludes="WEB-INF/classes/**/**"/>
 		</copy>
 		<jar jarfile="${ant.project.name}-${build.environment}.war" basedir="${war.directory}" compress="false"/>
+		<zip destfile="web.zip" basedir="${webroot.directory}" includes="xml/*"/>
 	</target>
     	
 	<target name="dist-plugin" depends="make-plugin" description="Build plugin zip for remote deployment">

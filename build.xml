@@ -322,6 +322,7 @@
 			<fileset dir="${webroot.directory}" excludes="WEB-INF/classes/**/**"/>
 		</copy>
 		<jar jarfile="${ant.project.name}-${build.environment}.war" basedir="${war.directory}" compress="false"/>
+		<zip destfile="static.zip" basedir="${webroot.directory}" includes="xml/*"/>
 	</target>
     	
 	<target name="dist-plugin" depends="make-plugin" description="Build plugin zip for remote deployment">

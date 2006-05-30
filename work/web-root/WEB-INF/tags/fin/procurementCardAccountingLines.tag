@@ -52,7 +52,37 @@
        <html:hidden write="false" property="document.transactionEntries[${ctr}].transactionCycleStartDate"/>
        <html:hidden write="false" property="document.transactionEntries[${ctr}].transactionCycleEndDate"/>
        <html:hidden write="false" property="document.transactionEntries[${ctr}].versionNumber"/>
+       <html:hidden write="false" property="document.transactionEntries[${ctr}].procurementCardVendor.financialDocumentNumber"/>
+       <html:hidden write="false" property="document.transactionEntries[${ctr}].procurementCardVendor.financialDocumentTransactionLineNumber"/>
+       <html:hidden write="false" property="document.transactionEntries[${ctr}].procurementCardVendor.vendorName"/>
+       <html:hidden write="false" property="document.transactionEntries[${ctr}].procurementCardVendor.vendorLine1Address"/>
+       <html:hidden write="false" property="document.transactionEntries[${ctr}].procurementCardVendor.vendorLine2Address"/>
+       <html:hidden write="false" property="document.transactionEntries[${ctr}].procurementCardVendor.vendorCityName"/>
+       <html:hidden write="false" property="document.transactionEntries[${ctr}].procurementCardVendor.vendorStateCode"/>
+       <html:hidden write="false" property="document.transactionEntries[${ctr}].procurementCardVendor.vendorZipCode"/>
+       <html:hidden write="false" property="document.transactionEntries[${ctr}].procurementCardVendor.visaVendorIdentifier"/>
+       <html:hidden write="false" property="document.transactionEntries[${ctr}].procurementCardVendor.vendorOrderNumber"/>
+       <html:hidden write="false" property="document.transactionEntries[${ctr}].procurementCardVendor.transactionMerchantCategoryCode"/>
        
+       <%-- write out source (actually from lines) as hiddens since they are not displayed but need repopulated --%>
+       <logic:iterate indexId="tCtr" name="KualiForm" property="document.transactionEntries[${ctr}].sourceAccountingLines" id="currentLine">
+        <html:hidden write="false" property="document.transactionEntries[${ctr}].sourceAccountingLines[${tCtr}].financialDocumentNumber"/>
+        <html:hidden write="false" property="document.transactionEntries[${ctr}].sourceAccountingLines[${tCtr}].financialDocumentTransactionLineNumber"/>
+        <html:hidden write="false" property="document.transactionEntries[${ctr}].sourceAccountingLines[${tCtr}].sequenceNumber"/>
+        <html:hidden write="false" property="document.transactionEntries[${ctr}].sourceAccountingLines[${tCtr}].versionNumber"/>
+        <html:hidden write="false" property="document.transactionEntries[${ctr}].sourceAccountingLines[${tCtr}].chartOfAccountsCode"/>
+        <html:hidden write="false" property="document.transactionEntries[${ctr}].sourceAccountingLines[${tCtr}].accountNumber"/>
+        <html:hidden write="false" property="document.transactionEntries[${ctr}].sourceAccountingLines[${tCtr}].postingYear"/>
+        <html:hidden write="false" property="document.transactionEntries[${ctr}].sourceAccountingLines[${tCtr}].financialObjectCode"/>
+        <html:hidden write="false" property="document.transactionEntries[${ctr}].sourceAccountingLines[${tCtr}].balanceTypeCode"/>
+        <html:hidden write="false" property="document.transactionEntries[${ctr}].sourceAccountingLines[${tCtr}].amount"/>
+        <html:hidden write="false" property="document.transactionEntries[${ctr}].sourceAccountingLines[${tCtr}].subAccountNumber"/>
+        <html:hidden write="false" property="document.transactionEntries[${ctr}].sourceAccountingLines[${tCtr}].financialSubObjectCode"/>
+        <html:hidden write="false" property="document.transactionEntries[${ctr}].sourceAccountingLines[${tCtr}].projectCode"/>
+        <html:hidden write="false" property="document.transactionEntries[${ctr}].sourceAccountingLines[${tCtr}].organizationReferenceId"/>
+        <html:hidden write="false" property="document.transactionEntries[${ctr}].sourceAccountingLines[${tCtr}].overrideCode"/>
+      </logic:iterate>
+                                                                                           
        <fin:subheadingWithDetailToggleRow columnCount="4" subheading="Transaction #${currentTransaction.transactionReferenceNumber}"/>
 	      <tr>
 	        <th scope="row"><div align="right"><kul:htmlAttributeLabel attributeEntry="${cardAttributes.transactionCreditCardNumber}" readOnly="true"/></div></th>

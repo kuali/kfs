@@ -25,12 +25,16 @@
  */
 package org.kuali.module.financial.service.impl;
 
-import edu.iu.uis.eden.exception.WorkflowException;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.Constants;
 import org.kuali.PropertyConstants;
-
 import org.kuali.core.rule.event.SaveDocumentEvent;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DataDictionaryService;
@@ -52,12 +56,7 @@ import org.kuali.module.financial.rules.AccountingLineRuleUtil;
 import org.kuali.module.financial.rules.TransactionalDocumentRuleBaseConstants;
 import org.kuali.module.financial.service.ProcurementCardCreateDocumentService;
 
-import java.sql.Timestamp;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
+import edu.iu.uis.eden.exception.WorkflowException;
 
 
 /**
@@ -81,60 +80,18 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
      */
     public boolean createProcurementCardDocuments() {
         List documents = new ArrayList();
+        List cardTransactions = retrieveTransactions();
 
-        // retrieve records from transaction table order by card number
-        List transactions = (List) businessObjectService.findMatchingOrderBy(ProcurementCardTransaction.class, new HashMap(),
-                PropertyConstants.TRANSACTION_CREDIT_CARD_NUMBER, true);
-
-        // check apc for single transaction documents or multple by card
-        boolean singleTransaction = false;
-        String singleTransactionParmVal = kualiConfigurationService.getApplicationParameterValue(
-                PCARD_DOCUMENT_PARAMETERS_SEC_GROUP, SINGLE_TRANSACTION_IND_PARM_NM);
-        if (Constants.ACTIVE_INDICATOR.equals(singleTransactionParmVal.toUpperCase())) {
-            singleTransaction = true;
-        }
-
-        // iterate through trans list, if single call create document for each transaction, else build list until card number
-        // changes
-        List documentTransactions = new ArrayList();
-        String previousCardNumber = "";
-        for (Iterator iter = transactions.iterator(); iter.hasNext();) {
-            ProcurementCardTransaction transaction = (ProcurementCardTransaction) iter.next();
-
-            if (singleTransaction) {
-                documentTransactions.add(transaction);
-                documents.add(createProcurementCardDocument(documentTransactions));
-                documentTransactions = new ArrayList();
-            }
-            else {
-                if ((StringUtils.isNotBlank(previousCardNumber) && !previousCardNumber.equals(transaction
-                        .getTransactionCreditCardNumber()))
-                        || !iter.hasNext()) {
-                    if (!iter.hasNext()) {
-                        documentTransactions.add(transaction);
-                    }
-                    documents.add(createProcurementCardDocument(documentTransactions));
-                    documentTransactions = new ArrayList();
-                }
-                documentTransactions.add(transaction);
-                previousCardNumber = transaction.getTransactionCreditCardNumber();
-            }
+        // iterate through card transaction list and create documents
+        for (Iterator iter = cardTransactions.iterator(); iter.hasNext();) {
+            documents.add(createProcurementCardDocument((List) iter.next()));
         }
 
         // now store all the documents
         for (Iterator iter = documents.iterator(); iter.hasNext();) {
             ProcurementCardDocument pcardDocument = (ProcurementCardDocument) iter.next();
             try {
-                //  only references that can be updated are stored with document
                 documentService.validateAndPersist(pcardDocument, new SaveDocumentEvent(pcardDocument));
-                
-                // store other references
-                businessObjectService.save(pcardDocument.getProcurementCardHolder());
-                for (Iterator iterator = pcardDocument.getTransactionEntries().iterator(); iterator.hasNext();) {
-                    ProcurementCardTransactionDetail transactionDetail = (ProcurementCardTransactionDetail) iterator.next();
-                    businessObjectService.save(transactionDetail.getProcurementCardVendor());
-                    businessObjectService.save(transactionDetail.getSourceAccountingLines());
-                }
             }
             catch (Exception e) {
                 LOG.error("Error persisting document # " + pcardDocument.getDocumentHeader().getFinancialDocumentNumber() + " "
@@ -183,10 +140,10 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
      */
     public boolean autoApproveProcurementCardDocuments() {
         // check if auto approve is turned on
-        String autoApproveOn = kualiConfigurationService.getApplicationParameterValue(PCARD_DOCUMENT_PARAMETERS_SEC_GROUP,
+        boolean autoApproveOn = kualiConfigurationService.getApplicationParameterIndicator(PCARD_DOCUMENT_PARAMETERS_SEC_GROUP,
                 AUTO_APPROVE_DOCUMENTS_IND);
 
-        if (!Constants.ACTIVE_INDICATOR.equals(autoApproveOn)) {
+        if (!autoApproveOn) {
             return true;
         }
 
@@ -204,10 +161,10 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
         int autoApproveNumberDays = Integer.parseInt(kualiConfigurationService.getApplicationParameterValue(
                 PCARD_DOCUMENT_PARAMETERS_SEC_GROUP, AUTO_APPROVE_NUMBER_OF_DAYS));
 
+        Timestamp currentDate = dateTimeService.getCurrentTimestamp();
         for (Iterator iter = documentList.iterator(); iter.hasNext();) {
             ProcurementCardDocument pcardDocument = (ProcurementCardDocument) iter.next();
             Timestamp docCreateDate = pcardDocument.getDocumentHeader().getWorkflowDocument().getCreateDate();
-            Timestamp currentDate = dateTimeService.getCurrentTimestamp();
 
             // if number of days in route is passed the allowed number, call doc service for super user approve
             if (DateUtils.getDifferenceInDays(docCreateDate, currentDate) > autoApproveNumberDays) {
@@ -228,6 +185,51 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
         }
 
         return true;
+    }
+
+
+    /**
+     * retrieves list of transactions from temporary table, and groups them into document lists, based on single transaction
+     * indicator or grouping of card
+     * 
+     * @return List of List containing transactions for document
+     */
+    private List retrieveTransactions() {
+        List groupedTransactions = new ArrayList();
+
+        // retrieve records from transaction table order by card number
+        List transactions = (List) businessObjectService.findMatchingOrderBy(ProcurementCardTransaction.class, new HashMap(),
+                PropertyConstants.TRANSACTION_CREDIT_CARD_NUMBER, true);
+
+        // check apc for single transaction documents or multple by card
+        boolean singleTransaction = kualiConfigurationService.getApplicationParameterIndicator(PCARD_DOCUMENT_PARAMETERS_SEC_GROUP,
+                SINGLE_TRANSACTION_IND_PARM_NM);
+
+        List documentTransactions = new ArrayList();
+        if (singleTransaction) {
+            for (Iterator iter = transactions.iterator(); iter.hasNext();) {
+                documentTransactions.add(iter.next());
+                groupedTransactions.add(documentTransactions);
+                documentTransactions = new ArrayList();
+            }
+        }
+        else {
+            Map cardTransactionsMap = new HashMap();
+            for (Iterator iter = transactions.iterator(); iter.hasNext();) {
+                ProcurementCardTransaction transaction = (ProcurementCardTransaction) iter.next();
+                if (!cardTransactionsMap.containsKey(transaction.getTransactionCreditCardNumber())) {
+                    cardTransactionsMap.put(transaction.getTransactionCreditCardNumber(), new ArrayList());
+                }
+                ((List) cardTransactionsMap.get(transaction.getTransactionCreditCardNumber())).add(transaction);
+            }
+
+            for (Iterator iter = cardTransactionsMap.values().iterator(); iter.hasNext();) {
+                documentTransactions.add(iter.next());
+
+            }
+        }
+
+        return groupedTransactions;
     }
 
 
@@ -256,9 +258,6 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
 
                 // create transaction detail record with accounting lines
                 errorText += createTransactionDetailRecord(pcardDocument, transaction, transactionLineNumber);
-
-                // create transaction vendor record
-                createTransactionVendorRecord(pcardDocument, transaction, transactionLineNumber);
 
                 // update document total
                 documentTotalAmount = documentTotalAmount.add(transaction.getFinancialDocumentTotalAmount());
@@ -339,6 +338,9 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
         transactionDetail.setTransactionTravelAuthorizationCode(transaction.getTransactionTravelAuthorizationCode());
         transactionDetail.setTransactionUnitContactName(transaction.getTransactionUnitContactName());
 
+        // create transaction vendor record
+        createTransactionVendorRecord(pcardDocument, transaction, transactionDetail);
+
         // add transaction detail to document
         pcardDocument.getTransactionEntries().add(transactionDetail);
 
@@ -354,11 +356,11 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
      * @param transaction - transaction to set fields from
      */
     private void createTransactionVendorRecord(ProcurementCardDocument pcardDocument, ProcurementCardTransaction transaction,
-            Integer transactionLineNumber) {
+            ProcurementCardTransactionDetail transactionDetail) {
         ProcurementCardVendor transactionVendor = new ProcurementCardVendor();
 
         transactionVendor.setFinancialDocumentNumber(pcardDocument.getFinancialDocumentNumber());
-        transactionVendor.setFinancialDocumentTransactionLineNumber(transactionLineNumber);
+        transactionVendor.setFinancialDocumentTransactionLineNumber(transactionDetail.getFinancialDocumentTransactionLineNumber());
         transactionVendor.setTransactionMerchantCategoryCode(transaction.getTransactionMerchantCategoryCode());
         transactionVendor.setVendorCityName(transaction.getVendorCityName());
         transactionVendor.setVendorLine1Address(transaction.getVendorLine1Address());
@@ -369,12 +371,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
         transactionVendor.setVendorZipCode(transaction.getVendorZipCode());
         transactionVendor.setVisaVendorIdentifier(transaction.getVisaVendorIdentifier());
 
-        for (Iterator iter = pcardDocument.getTransactionEntries().iterator(); iter.hasNext();) {
-            ProcurementCardTransactionDetail transactionDetail = (ProcurementCardTransactionDetail) iter.next();
-            if (transactionLineNumber.equals(transactionDetail.getFinancialDocumentTransactionLineNumber())) {
-                transactionDetail.setProcurementCardVendor(transactionVendor);
-            }
-        }
+        transactionDetail.setProcurementCardVendor(transactionVendor);
     }
 
     /**

@@ -24,6 +24,7 @@ package org.kuali.module.financial.service.impl;
 
 import java.io.File;
 import java.io.FilenameFilter;
+import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
@@ -35,7 +36,6 @@ import org.apache.commons.digester.Digester;
 import org.apache.commons.digester.Rules;
 import org.apache.commons.digester.xmlrules.DigesterLoader;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.Constants;
 import org.kuali.core.datadictionary.DataDictionaryBuilder;
 import org.kuali.core.datadictionary.XmlErrorHandler;
 import org.kuali.core.datadictionary.exception.InitException;
@@ -48,6 +48,7 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.module.financial.bo.ProcurementCardTransaction;
 import org.kuali.module.financial.exceptions.NoTransactionsException;
 import org.kuali.module.financial.service.ProcurementCardLoadTransactionsService;
+import org.xml.sax.SAXException;
 
 /**
  * Implementation of ProcurementCardDocumentService
@@ -89,7 +90,7 @@ public class ProcurementCardLoadTransactionsServiceImpl implements ProcurementCa
         }
         
         // retrieve backup indicator parm value
-        String backupIndicator = kualiConfigurationService.getApplicationParameterValue(PCARD_DOCUMENT_PARAMETERS_SEC_GROUP,
+        boolean backupIndicator = kualiConfigurationService.getApplicationParameterIndicator(PCARD_DOCUMENT_PARAMETERS_SEC_GROUP,
                 BACK_UP_INCOMING_FILES_IND_PARM_NM);
 
         // clean transaction table from any previous loads
@@ -133,17 +134,16 @@ public class ProcurementCardLoadTransactionsServiceImpl implements ProcurementCa
             loadTransactions((List) pcardTransactions);
 
             // backup input file
-            if (Constants.ACTIVE_INDICATOR.equals(backupIndicator.toUpperCase())) {
+            String dateString = (new SimpleDateFormat("yyyy-MM-dd")).format(dateTimeService.getCurrentDate());
+            String[] extSplit = StringUtils.split(pcardLoadFile.getAbsolutePath(), ".");
+            File backupPCardFile = new File(extSplit[0] + dateString + "." + extSplit[1]);
+            if (backupIndicator) {
                 LOG.info("Backing up input file ...");
-                String dateString = (new SimpleDateFormat("yyyy-MM-dd")).format(dateTimeService.getCurrentDate());
-                String[] extSplit = StringUtils.split(pcardLoadFile.getAbsolutePath(), ".");
-                File backupPCardFile = new File(extSplit[0] + dateString + "." + extSplit[1]);
                 pcardLoadFile.renameTo(backupPCardFile);
             }
             else {
-               //TODO: log not backing up 
+               LOG.info("Not backing up input file ...");
             }
-            
         }
 
         LOG.info("Total transactions loaded: " + Integer.toString(totalTransactionsParsed));

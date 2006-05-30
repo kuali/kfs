@@ -1393,7 +1393,7 @@
         <foreignkey field-ref="financialDocumentNumber"/>
     </reference-descriptor>
     
-    <reference-descriptor name="procurementCardHolder" class-ref="org.kuali.module.financial.bo.ProcurementCardHolder" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+    <reference-descriptor name="procurementCardHolder" class-ref="org.kuali.module.financial.bo.ProcurementCardHolder" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
         <foreignkey field-ref="financialDocumentNumber"/>
     </reference-descriptor>
     
@@ -1482,12 +1482,12 @@
 	<field-descriptor name="transactionCycleStartDate" column="TRN_CYCLE_STRT_DT" jdbc-type="DATE"/>
 	<field-descriptor name="transactionCycleEndDate" column="TRN_CYCLE_END_DT" jdbc-type="DATE"/>
 	
-    <reference-descriptor name="procurementCardVendor" class-ref="org.kuali.module.financial.bo.ProcurementCardVendor" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="procurementCardVendor" class-ref="org.kuali.module.financial.bo.ProcurementCardVendor" auto-retrieve="true" auto-update="object" auto-delete="object">
 		<foreignkey field-ref="financialDocumentNumber" />
 		<foreignkey field-ref="financialDocumentTransactionLineNumber" />
 	</reference-descriptor>
 
-    <collection-descriptor name="sourceAccountingLines" proxy="true" element-class-ref="org.kuali.module.financial.bo.ProcurementCardSourceAccountingLine" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <collection-descriptor name="sourceAccountingLines" proxy="true" element-class-ref="org.kuali.module.financial.bo.ProcurementCardSourceAccountingLine" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         <orderby name="sequenceNumber" sort="ASC"/>
         <inverse-foreignkey field-ref="financialDocumentNumber"/>
         <inverse-foreignkey field-ref="financialDocumentTransactionLineNumber"/>

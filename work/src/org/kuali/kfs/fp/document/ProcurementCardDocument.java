@@ -57,6 +57,7 @@ public class ProcurementCardDocument extends TransactionalDocumentBase {
      * Default constructor.
      */
     public ProcurementCardDocument() {
+        super();
         transactionEntries = new TypedArrayList(ProcurementCardTransactionDetail.class);
     }
 

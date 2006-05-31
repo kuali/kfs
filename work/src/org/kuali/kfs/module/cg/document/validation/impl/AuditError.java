@@ -31,14 +31,14 @@ public class AuditError {
     
     private String errorKey;
     private String messageKey;
-    private String[] params;
     private String link;
+    private String[] params;
     
     public AuditError(String errorKey, String messageKey, String link) {
         this.setErrorKey(errorKey);
         this.setMessageKey(messageKey);
         this.setLink(link);
-        this.params = new String[5];
+        this.params = new String[5]; // bean:message takes up to 5 tokenized parameters
     }
     
     public AuditError(String errorKey, String messageKey, String link, String[] params) {

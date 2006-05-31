@@ -1,0 +1,23 @@
+<%@ taglib prefix="c" uri="/tlds/c.tld" %>
+<%@ taglib tagdir="/WEB-INF/tags/kra" prefix="kra" %>
+
+<%@ attribute name="title" required="true" %>
+<%@ attribute name="soft" required="true" %>
+<%@ attribute name="auditType" required="true" %>
+
+<tr><td colspan="2" class="subhead">${title}</td></tr>
+<c:set var="found" value="${false}"/>
+<c:forEach items="${AuditErrors}" var="cluster">
+	<c:if test="${cluster.value.softAudits == soft && cluster.value.size != 0}">
+		<c:if test="${!found}"><c:set var="found" value="${true}"/></c:if>
+		<kra:auditRow tabTitle="${cluster.value.label}" defaultOpen="false" totalErrors="${cluster.value.size}">
+			<tr>
+				<td>&nbsp;</td>
+				<td><kra:auditErrors cluster="${cluster.key}" isLink="true"/></td>
+			</tr>
+		</kra:auditRow>
+	</c:if>
+</c:forEach>
+<c:if test="${!found}">
+	<tr><td colspan="2">No ${auditType} audit errors present.</td></tr>
+</c:if>

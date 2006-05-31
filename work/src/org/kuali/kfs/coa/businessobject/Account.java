@@ -150,6 +150,19 @@ public class Account extends BusinessObjectBase {
 
 
     /**
+     * This tells if this account is a C&G account.
+     * 
+     * @return true if C&G account
+     */
+    public boolean isInCg() {
+        // IF C&G is a sub fund group, use this line
+        // return "CG".equals(getSubFundGroupCode();
+
+        // IF C&G is a fund group, use this line
+        return "CG".equals(getSubFundGroup().getFundGroupCode());
+    }
+
+    /**
      * Gets the accountNumber attribute.
      * 
      * @return - Returns the accountNumber

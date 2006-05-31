@@ -22,10 +22,7 @@
  */
 package org.kuali.module.financial.web.struts.action;
 
-import org.kuali.Constants;
-import org.kuali.core.bo.AccountingLine;
 import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
-import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
 
 
 /**
@@ -35,18 +32,5 @@ import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
  */
 
 public class DistributionOfIncomeAndExpenseAction extends KualiTransactionalDocumentActionBase {
-    /**
-     * overrides parent to first set correct balance type on accounting lines. then calls parent's implementation
-     * 
-     * @see org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase#insertAccountingLine(boolean,
-     *      org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase, org.kuali.core.bo.AccountingLine)
-     */
-    protected void insertAccountingLine(boolean isSource, KualiTransactionalDocumentFormBase transactionalDocumentForm,
-            AccountingLine line) {
-        line.setBalanceTypeCode(Constants.BALANCE_TYPE_ACTUAL);
-        // refresh line and call super
-        line.refresh();
-        super.insertAccountingLine(isSource, transactionalDocumentForm, line);
-    }
 
 }

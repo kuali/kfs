@@ -9,12 +9,12 @@
 
 <c:if test="${!empty cluster}">
 	<div class="error">
-		<c:forEach items="${AuditErrors[cluster].auditErrorList}" var="audit" varStatus="index">
+		<c:forEach items="${AuditErrors[cluster].auditErrorList}" var="audit" varStatus="status">
 			<c:set var="errorText">
 				<bean:message key="${audit.messageKey}" arg0="${audit.params[0]}" arg1="${audit.params[1]}" arg2="${audit.params[2]}" arg3="${audit.params[3]}" arg4="${audit.params[4]}"/>
 			</c:set>
 			<c:if test="${(empty keyMatch) || (audit.errorKey == keyMatch) || (fn:endsWith(keyMatch, '*') && fn:startsWith(audit.errorKey, fn:replace(keyMatch, '*', '')))}">
-				<c:if test="${includesTitle}"><strong><font color="red">Audit Errors found in this Section:</font></strong><br/></c:if>
+				<c:if test="${includesTitle && status.index == 0}"><strong>Audit Errors found in this Section:</strong><br/></c:if>
 				<c:choose>
 					<c:when test="${isLink}"><html:submit value="${errorText}" property="methodToCall.${audit.link}.x" styleClass="${''}" /></c:when>
 					<c:otherwise>${errorText}</c:otherwise>

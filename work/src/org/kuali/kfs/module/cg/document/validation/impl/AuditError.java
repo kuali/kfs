@@ -22,6 +22,11 @@
  */
 package org.kuali.module.kra.util;
 
+/**
+ * KRA Audit Error class.
+ * 
+ * @author KRA (kualidev@oncourse.iu.edu)
+ */
 public class AuditError {
     
     private String errorKey;
@@ -32,15 +37,13 @@ public class AuditError {
     public AuditError(String errorKey, String messageKey, String link) {
         this.setErrorKey(errorKey);
         this.setMessageKey(messageKey);
-        this.params = new String[5];
         this.setLink(link);
+        this.params = new String[5];
     }
     
-    public AuditError(String errorKey, String messageKey, String[] params, String link) {
+    public AuditError(String errorKey, String messageKey, String link, String[] params) {
         this(errorKey, messageKey, link);
-        for (int i = 0; i < params.length; i++) {
-            this.params[i] = params[i];
-        }
+        this.setParams(params);
     }
     
     /**

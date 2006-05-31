@@ -25,6 +25,11 @@ package org.kuali.module.kra.util;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * KRA Audit Cluster; container for related set of audit errors.
+ * 
+ * @author KRA (kualidev@oncourse.iu.edu)
+ */
 public class AuditCluster {
     
     private String label;

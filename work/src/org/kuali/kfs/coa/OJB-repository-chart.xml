@@ -2017,6 +2017,37 @@
 	<reference-descriptor name="financialDocument" class-ref="org.kuali.core.document.DocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="financialDocumentNumber" />
 	</reference-descriptor>
+	<reference-descriptor name="chartOfAccounts" 
+		class-ref="org.kuali.module.chart.bo.Chart" 
+		auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="chartOfAccountsCode" />
+	</reference-descriptor>
+	<reference-descriptor name="organization"
+		class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true"
+		auto-update="none" auto-delete="none" proxy="true">
+		<foreignkey field-ref="chartOfAccountsCode" />
+		<foreignkey field-ref="organizationCode" />
+	</reference-descriptor>
+
+	<reference-descriptor name="subFundGroup"
+		class-ref="org.kuali.module.chart.bo.SubFundGroup"
+		auto-retrieve="true" auto-update="none" auto-delete="none"
+		proxy="true">
+		<foreignkey field-ref="subFundGroupCode" />
+	</reference-descriptor>
+
+	<reference-descriptor name="financialHigherEdFunction"
+		class-ref="org.kuali.module.chart.bo.HigherEdFunction"
+		auto-retrieve="true" auto-update="none" auto-delete="none"
+		proxy="true">
+		<foreignkey field-ref="financialHigherEdFunctionCd" />
+	</reference-descriptor>
+	
+	<reference-descriptor name="accountState"
+		class-ref="org.kuali.core.bo.State" auto-retrieve="true"
+		auto-update="none" auto-delete="none" proxy="true">
+		<foreignkey field-ref="accountStateCode" />
+	</reference-descriptor>
 	<reference-descriptor name="accountFiscalOfficerUser" class-ref="org.kuali.core.bo.user.UniversalUser" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="accountFiscalOfficerSystemIdentifier" />
 	</reference-descriptor>
@@ -2046,6 +2077,20 @@
 	<reference-descriptor name="organization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="chartOfAccountsCode" />
 		<foreignkey field-ref="organizationCode" />
+	</reference-descriptor>
+	
+	<reference-descriptor name="postalZipCode" 
+		class-ref="org.kuali.core.bo.PostalZipCode" 
+		auto-retrieve="true" auto-update="none" auto-delete="none" 
+		proxy="true">
+		<foreignkey field-ref="accountZipCode" />
+	</reference-descriptor>
+	
+	<reference-descriptor name="sufficientFundsCode" 
+		class-ref="org.kuali.module.chart.bo.codes.SufficientFundsCode" 
+		auto-retrieve="true" auto-update="none" auto-delete="none" 
+		proxy="true">
+		<foreignkey field-ref="accountSufficientFundsCode" />
 	</reference-descriptor>
 	<collection-descriptor name="accountChangeDetail" element-class-ref="org.kuali.module.chart.bo.AccountChangeDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
 		auto-retrieve="true" auto-update="none" auto-delete="none">

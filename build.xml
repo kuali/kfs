@@ -125,8 +125,15 @@
 	    	<filter token="datasource-password" value="${datasource.password}"/>
 			<filter token="keystore-password" value="${keystore.password}"/>
 		</filterset>
+		<property name="batch.program.directory" value="/home/kuldevb/batch/${build.environment}"/>
 		<filterset id="batch.filterset">
 			<filter token="batch-logger" value="log4j.logger.org.kuali.module.gl=DEBUG${standard.out.appender.on}"/>
+			<filter token="batch-program-directory" value="${batch.program.directory}"/>
+			<filter token="batch-classes-directory" value="${batch.program.directory}/classes"/>
+			<filter token="batch-lib-directory" value="${batch.program.directory}/lib"/>
+			<filter token="batch-command-prefix" value="$JAVA_HOME/bin/java org.kuali.core.batch.BrteStepRunner"/>
+			<filter token="batch-script-prefix" value="${batch.script.prefix}"/>
+			<filter token="batch-script-suffix" value="${batch.script.suffix}"/>
 		</filterset>
 		<filterset id="plugin.filterset">
 			<filter token="variable-ojb-properties" value="${plugin.ojb.properties}"/>
@@ -332,6 +339,8 @@
 	<target name="dist-batch" depends="make-source">
 		<copy todir="${batch.directory}">
 			<fileset dir="${batch.script.directory}"/>
+			<filterset refid="batch.filterset"/>
+			<filterset refid="general.filterset"/>
 		</copy>
 		<copy todir="${batch.classes.directory}">
 			<fileset dir="${war.classes.directory}"/>

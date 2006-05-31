@@ -91,10 +91,10 @@
 			<equals arg1="${use.p6spy}" arg2="true"/>
 		</condition>
 		<property name="driver.class" value="${oracle.driver.class}"/>
-		<condition property="standard.out.appender" value="${standard.out.appender.on}">
+		<condition property="appenders" value="INFO, LogFile, StdOut">
     		<equals arg1="${is.local.build}" arg2="true"/>
 		</condition>
-		<property name="standard.out.appender" value=""/>
+		<property name="appenders" value="INFO, LogFile"/>
 		<filterset id="general.filterset">
         	<filter token="application" value="${ant.project.name}"/>
 			<filter token="institution" value="${institution}"/>
@@ -115,7 +115,7 @@
 			<filter token="webservices-keystore-password" value="${webservices.keystore.password}"/>
 			<filter token="driver-class" value="${driver.class}"/>
 			<filter token="context-docbase" value="${context.docbase}"/>
-			<filter token="standard-out-appender" value="${standard.out.appender}"/>
+			<filter token="appenders" value="${appenders}"/>
 			<filter token="batch-logger" value=""/>
 			<filter token="variable-ojb-properties" value="${application.ojb.properties}"/>
 		</filterset>
@@ -127,7 +127,7 @@
 		</filterset>
 		<property name="batch.program.directory" value="/home/kuldevb/batch/${build.environment}"/>
 		<filterset id="batch.filterset">
-			<filter token="batch-logger" value="log4j.logger.org.kuali.module.gl=DEBUG${standard.out.appender.on}"/>
+			<filter token="appenders" value="INFO, StdOut"/>
 			<filter token="batch-program-directory" value="${batch.program.directory}"/>
 			<filter token="batch-classes-directory" value="${batch.program.directory}/classes"/>
 			<filter token="batch-lib-directory" value="${batch.program.directory}/lib"/>

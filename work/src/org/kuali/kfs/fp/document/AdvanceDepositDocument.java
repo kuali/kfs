@@ -108,7 +108,7 @@ public class AdvanceDepositDocument extends CashReceiptDocument {
      * @param advanceDepositDetail
      */
     public void addAdvanceDeposit(AdvanceDepositDetail advanceDepositDetail) {
-        // these three make up the primary key for a credit card detail record
+        // these three make up the primary key for an advance deposit detail record
         prepareNewAdvanceDeposit(advanceDepositDetail);
 
         // add the new detail record to the list

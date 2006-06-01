@@ -30,82 +30,80 @@ import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.SpringServiceLocator;
-import org.kuali.module.financial.document.CreditCardReceiptDocument;
+import org.kuali.module.financial.document.AdvanceDepositDocument;
 
 /**
- * Business rules applicable to Credit Card Receipt documents.
+ * Business rules applicable to Advance Deposit documents.
  * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class AdvanceDepositDocumentRule extends CashReceiptDocumentRule {
     /**
-     * For Credit Card Receipt documents, the document is balanced if the sum total of credit card receipts
+     * For Advance Deposit documents, the document is balanced if the sum total of advance deposits
      * equals the sum total of the accounting lines.
      *
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#isDocumentBalanceValid(org.kuali.core.document.TransactionalDocument)
      */
     protected boolean isDocumentBalanceValid(TransactionalDocument transactionalDocument) {
-//        CreditCardReceiptDocument ccr = (CreditCardReceiptDocument) transactionalDocument;
-//
-//        // make sure that the credit card total is greater than zero
-//        boolean isValid = ccr.getSumTotalAmount().compareTo(Constants.ZERO) > 0;
-//        if (!isValid) {
-//            GlobalVariables.getErrorMap().put(PropertyConstants.NEW_CREDIT_CARD_RECEIPT, 
-//                    KeyConstants.CreditCardReceipt.ERROR_DOCUMENT_CREDIT_CARD_RECEIPT_TOTAL_INVALID);
-//        }
-//
-//        if (isValid) {
-//            // make sure the document is in balance
-//            isValid = ccr.getSourceTotal().compareTo(ccr.getSumTotalAmount()) == 0;
-//
-//            if (!isValid) {
-//                GlobalVariables.getErrorMap().put(PropertyConstants.NEW_CREDIT_CARD_RECEIPT,
-//                        KeyConstants.CreditCardReceipt.ERROR_DOCUMENT_CREDIT_CARD_RECEIPT_OUT_OF_BALANCE);
-//            }
-//        }
-//
-//        return isValid;
-        return true;
+        AdvanceDepositDocument ad = (AdvanceDepositDocument) transactionalDocument;
+
+        // make sure that the deposits total is greater than zero
+        boolean isValid = ad.getSumTotalAmount().compareTo(Constants.ZERO) > 0;
+        if (!isValid) {
+            GlobalVariables.getErrorMap().put(PropertyConstants.NEW_ADVANCE_DEPOSIT, 
+                    KeyConstants.AdvanceDeposit.ERROR_DOCUMENT_ADVANCE_DEPOSIT_TOTAL_INVALID);
+        }
+
+        if (isValid) {
+            // make sure the document is in balance
+            isValid = ad.getSourceTotal().compareTo(ad.getSumTotalAmount()) == 0;
+
+            if (!isValid) {
+                GlobalVariables.getErrorMap().put(PropertyConstants.NEW_ADVANCE_DEPOSIT,
+                        KeyConstants.AdvanceDeposit.ERROR_DOCUMENT_ADVANCE_DEPOSIT_OUT_OF_BALANCE);
+            }
+        }
+
+        return isValid;
     }
     
     /**
-     * Overrides to call super and then make sure the minimum number of credit card receipt 
+     * Overrides to call super and then make sure the minimum number of deposit 
      * lines exist on this document.
      * 
      * @see org.kuali.core.rule.DocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.Document)
      */
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
-//        boolean isValid = super.processCustomRouteDocumentBusinessRules(document);
-//        
-//        if(isValid) {
-//            isValid = isMinimumNumberOfCreditCardReceiptsMet(document, isValid);
-//        }
-//        
-//        return isValid;
-        return true;
+        boolean isValid = super.processCustomRouteDocumentBusinessRules(document);
+        
+        if(isValid) {
+            isValid = isMinimumNumberOfAdvanceDepositsMet(document);
+        }
+        
+        return isValid;
     }
 
     /**
-     * This method is a helper that checks to make sure that at least one credit card receipt 
+     * This method is a helper that checks to make sure that at least one deposit 
      * line exists for the document.
      * 
      * @param document
-     * @param isValid
      * @return boolean
      */
-    private boolean isMinimumNumberOfCreditCardReceiptsMet(Document document, boolean isValid) {
-        CreditCardReceiptDocument ccr = (CreditCardReceiptDocument) document;
+    private boolean isMinimumNumberOfAdvanceDepositsMet(Document document) {
+        AdvanceDepositDocument ad = (AdvanceDepositDocument) document;
         
-        if(ccr.getCreditCardReceipts().size() == 0) {
+        if(ad.getAdvanceDeposits().size() == 0) {
             GlobalVariables.getErrorMap().put(DOCUMENT_ERROR_PREFIX,
-                    KeyConstants.CreditCardReceipt.ERROR_DOCUMENT_CREDIT_CARD_RECEIPT_REQ_NUMBER_RECEIPTS_NOT_MET);
-            isValid = false;
+                    KeyConstants.AdvanceDeposit.ERROR_DOCUMENT_ADVANCE_DEPOSIT_REQ_NUMBER_DEPOSITS_NOT_MET);
+            return false;
+        } else {
+            return true;
         }
-        return isValid;
     }
     
     /**
-     * Overrides to call super and then to validate all of the credit card receipts associated with this document.
+     * Overrides to call super and then to validate all of the deposits associated with this document.
      * 
      * @see org.kuali.core.rule.DocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.Document)
      */
@@ -113,32 +111,29 @@ public class AdvanceDepositDocumentRule extends CashReceiptDocumentRule {
         boolean isValid = super.processCustomSaveDocumentBusinessRules(document);
         
 //        if(isValid) {
-//            isValid = validateCreditCardReceipts((CreditCardReceiptDocument) document);
+//            isValid = validateAdvanceDeposits((AdvanceDepositDocument) document);
 //        }
         
         return isValid;
     }
     
     /**
-     * Validates all the CreditCardReceipts in the given Document, adding global errors for invalid items. It just uses the
+     * Validates all of the Advance Deposits in the given Document, adding global errors for invalid items. It just uses the
      * DataDictionary validation.
      *
-     * @param creditCardReceiptDocument
+     * @param advanceDepositDocument
      * @return boolean
      */
-    private boolean validateCreditCardReceipts(CreditCardReceiptDocument creditCardReceiptDocument) {
-        final ErrorMap errorMap = GlobalVariables.getErrorMap();
-        errorMap.addToErrorPath(Constants.DOCUMENT_PROPERTY_NAME);
-        int originalErrorCount = errorMap.getErrorCount();
-        for (int i = 0; i < creditCardReceiptDocument.getCreditCardReceipts().size(); i++) {
-            String propertyName = PropertyConstants.CREDIT_CARD_RECEIPT + "[" + i + "]";
+    private boolean validateAdvanceDeposits(AdvanceDepositDocument advanceDepositDocument) {
+        GlobalVariables.getErrorMap().addToErrorPath(Constants.DOCUMENT_PROPERTY_NAME);
+        boolean isValid = true;
+        for (int i = 0; i < advanceDepositDocument.getAdvanceDeposits().size(); i++) {
+            String propertyName = PropertyConstants.ADVANCE_DEPOSIT_DETAIL + "[" + i + "]";
             GlobalVariables.getErrorMap().addToErrorPath(propertyName);
-            SpringServiceLocator.getDictionaryValidationService().validateBusinessObject(creditCardReceiptDocument.getCreditCardReceipt(i));
-            // todo - check existence - use a rule util class like the ccr doc rule util
+            isValid &= AdvanceDepositDocumentRuleUtil.validateAdvanceDeposit(advanceDepositDocument.getAdvanceDepositDetail(i));
             GlobalVariables.getErrorMap().removeFromErrorPath(propertyName);
         }
-        int currentErrorCount = errorMap.getErrorCount();
-        errorMap.removeFromErrorPath(Constants.DOCUMENT_PROPERTY_NAME);
-        return currentErrorCount == originalErrorCount;
+        GlobalVariables.getErrorMap().removeFromErrorPath(Constants.DOCUMENT_PROPERTY_NAME);
+        return isValid;
     }
 }

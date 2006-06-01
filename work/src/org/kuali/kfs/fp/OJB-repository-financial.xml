@@ -748,6 +748,15 @@
 	<reference-descriptor name="advanceDepositDocument" class-ref="org.kuali.module.financial.document.AdvanceDepositDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="financialDocumentNumber" />
 	</reference-descriptor>
+	
+	<reference-descriptor name="financialDocumentBank" class-ref="org.kuali.module.financial.bo.Bank" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="financialDocumentBankCode" />
+	</reference-descriptor>
+	
+	<reference-descriptor name="financialDocumentBankAccount" class-ref="org.kuali.module.financial.bo.BankAccount" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="financialDocumentBankCode" />
+		<foreignkey field-ref="financialDocumentBankAccountNumber" />
+	</reference-descriptor>
 </class-descriptor>
 
 <!-- CASH DRAWER SPECIFIC MAPPINGS -->

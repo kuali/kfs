@@ -50,6 +50,8 @@ public class AdvanceDepositDetail extends BusinessObjectBase {
     private String financialDocumentBankAccountNumber;
 
     private AdvanceDepositDocument advanceDepositDocument;
+    private Bank financialDocumentBank;
+    private BankAccount financialDocumentBankAccount;
 
     /**
      * Default constructor.
@@ -277,6 +279,34 @@ public class AdvanceDepositDetail extends BusinessObjectBase {
      */
     public void setAdvanceDepositDocument(AdvanceDepositDocument advanceDepositDocument) {
         this.advanceDepositDocument = advanceDepositDocument;
+    }
+
+    /**
+     * @return Bank
+     */
+    public Bank getFinancialDocumentBank() {
+        return financialDocumentBank;
+    }
+
+    /**
+     * @param financialDocumentBank
+     */
+    public void setFinancialDocumentBank(Bank financialDocumentBank) {
+        this.financialDocumentBank = financialDocumentBank;
+    }
+
+    /**
+     * @return BankAccount
+     */
+    public BankAccount getFinancialDocumentBankAccount() {
+        return financialDocumentBankAccount;
+    }
+
+    /**
+     * @param financialDocumentBankAccount
+     */
+    public void setFinancialDocumentBankAccount(BankAccount financialDocumentBankAccount) {
+        this.financialDocumentBankAccount = financialDocumentBankAccount;
     }
 
     /**

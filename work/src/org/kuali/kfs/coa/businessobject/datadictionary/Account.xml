@@ -94,7 +94,8 @@
 		<lookup>
 			<title>Account Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.chart.bo.Account">Create New</a>]]></menubar>
+			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.chart.bo.Account">Create New</a>
+			                  <a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.chart.bo.AccountChangeDocument">Create New Global</a>]]></menubar>
 
 			<instructions>Lookup an Account</instructions>
 

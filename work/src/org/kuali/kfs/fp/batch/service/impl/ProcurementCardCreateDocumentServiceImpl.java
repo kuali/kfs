@@ -224,7 +224,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
             }
 
             for (Iterator iter = cardTransactionsMap.values().iterator(); iter.hasNext();) {
-                documentTransactions.add(iter.next());
+                groupedTransactions.add(iter.next());
 
             }
         }
@@ -516,6 +516,8 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
             targetLine.setChartOfAccountsCode(getErrorChartCode());
             targetLine.setAccountNumber(getErrorAccountNumber());
         }
+        
+        targetLine.refresh();
 
         // clear out GlobalVariable error map, since we have taken care of the errors
         GlobalVariables.setErrorMap(new ErrorMap());

@@ -29,6 +29,7 @@ import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
+import org.apache.commons.beanutils.converters.SqlDateConverter;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.Constants;
 import org.kuali.core.bo.BusinessObjectBase;
@@ -335,6 +336,12 @@ public class ProcurementCardTransaction extends BusinessObjectBase {
         this.transactionCycleStartDate = transactionCycleStartDate;
     }
 
+    public void setTransactionCycleStartDate(String transactionCycleStartDate) {
+        if (StringUtils.isNotBlank(transactionCycleStartDate)) {
+            this.transactionCycleStartDate = (Date) (new SqlDateConverter()).convert(Date.class, transactionCycleStartDate);
+        }
+    }
+
 
     /**
      * Gets the transactionCycleEndDate attribute.
@@ -356,6 +363,11 @@ public class ProcurementCardTransaction extends BusinessObjectBase {
         this.transactionCycleEndDate = transactionCycleEndDate;
     }
 
+    public void setTransactionCycleEndDate(String transactionCycleEndDate) {
+        if (StringUtils.isNotBlank(transactionCycleEndDate)) {
+            this.transactionCycleEndDate = (Date) (new SqlDateConverter()).convert(Date.class, transactionCycleEndDate);
+        }
+    }
 
     /**
      * Gets the cardHolderName attribute.

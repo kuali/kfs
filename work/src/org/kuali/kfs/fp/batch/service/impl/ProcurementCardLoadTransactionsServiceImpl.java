@@ -59,15 +59,9 @@ public class ProcurementCardLoadTransactionsServiceImpl implements ProcurementCa
             .getLogger(ProcurementCardLoadTransactionsServiceImpl.class);
 
     private final static String PCARD_DOCUMENT_PARAMETERS_SEC_GROUP = "PCardDocumentParameters";
-    private final static String PCDO_FILE_DIRECTORY_PARM_NM = "PCDO_FILE_DIRECTORY";
+    private final static String PCDO_FILE_DIRECTORY_PARM_NM = "pcdo.staging.directory";
     private final static String BACK_UP_INCOMING_FILES_IND_PARM_NM = "BACK_UP_INCOMOING_FILES_IND";
-
-    private static final String PACKAGE_PREFIX = "/org/kuali/module/financial/batch/pcard/";
-
-    // DTD registration info
-    // TODO: move to common dtd location
-    private final static String[][] DTD_REGISTRATION_INFO = { { "-//Kuali Project//DTD Procurement Card 1.0//EN",
-            PACKAGE_PREFIX + "procurementCardTransactions-1_0.dtd" }, };
+    private final static String PACKAGE_PREFIX = "/org/kuali/module/financial/batch/pcard/";
 
     private KualiConfigurationService kualiConfigurationService;
     private DictionaryValidationService dictionaryValidationService;
@@ -163,9 +157,8 @@ public class ProcurementCardLoadTransactionsServiceImpl implements ProcurementCa
      * @return File object representing the input file or null if not found
      */
     private File[] retrieveKualiPCardFiles() {
-        // retrieve parms telling us where to find the file
-        String fileDirectory = kualiConfigurationService.getApplicationParameterValue(PCARD_DOCUMENT_PARAMETERS_SEC_GROUP,
-                PCDO_FILE_DIRECTORY_PARM_NM);
+        // retrieve configuration parm telling us where to find the incoming files
+        String fileDirectory = kualiConfigurationService.getPropertyString(PCDO_FILE_DIRECTORY_PARM_NM);
 
         return (new File(fileDirectory)).listFiles(new PCardFilenameFilter());
     }
@@ -198,18 +191,6 @@ public class ProcurementCardLoadTransactionsServiceImpl implements ProcurementCa
         Digester digester = new Digester();
         digester.setNamespaceAware(false);
         digester.setValidating(true);
-
-        // register DTD(s)
-        for (int i = 0; i < DTD_REGISTRATION_INFO.length; ++i) {
-            String dtdPublic = DTD_REGISTRATION_INFO[i][0];
-            String dtdPath = DTD_REGISTRATION_INFO[i][1];
-
-            URL dtdUrl = DataDictionaryBuilder.class.getResource(dtdPath);
-            if (dtdUrl == null) {
-                throw new InitException("unable to locate DTD at \"" + dtdPath + "\"");
-            }
-            digester.register(dtdPublic, dtdUrl.toString());
-        }
 
         Rules rules = loadRules();
 

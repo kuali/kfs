@@ -34,7 +34,7 @@
 	            <html:image property="methodToCall.toggleTab.tab${currentTabIndex}" src="images/tinybutton-show.gif" alt="show" styleClass="tinybutton" onclick="javascript: if (document.forms[0].elements['tabState[${currentTabIndex}].open'].value == 'false') {document.getElementById('tab-${currentTabIndex}-div').style.display = ''; document.forms[0].elements['tabState[${currentTabIndex}].open'].value = 'true'; this.src = 'images/tinybutton-hide.gif';  return false;} else { document.getElementById('tab-${currentTabIndex}-div').style.display = 'none'; document.forms[0].elements['tabState[${currentTabIndex}].open'].value = 'false'; this.src = 'images/tinybutton-show.gif';  return false; } " />
 	        </c:if>
 	    </td>
-	    <td class="tab-subhead"><b>${tabTitle} (${totalErrors})</b></td>
+	    <td class="tab-subhead" width="99%"><b>${tabTitle} (${totalErrors})</b></td>
     </tr>
 </tbody>
 

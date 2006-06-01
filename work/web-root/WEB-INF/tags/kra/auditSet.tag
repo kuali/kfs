@@ -19,5 +19,9 @@
 	</c:if>
 </c:forEach>
 <c:if test="${!found}">
-	<tr><td colspan="2">No ${auditType} audit errors present.</td></tr>
+	<tr>
+		<td colspan="2" height="70" align=left valign=middle class="datacell">
+			<div align="center">No ${auditType} audit errors present.</div>
+		</td>
+	</tr>
 </c:if>

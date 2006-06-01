@@ -157,7 +157,13 @@ public class AccountingLineRuleUtilTest extends KualiTestBaseWithFixtures {
         testHasRequiredOverrides(getAccountWithPresenceControlWithExpired(), getNonBudgetedObjectCode(),
                 AccountingLineOverride.CODE.EXPIRED_ACCOUNT_AND_NON_BUDGETED_OBJECT, null);
     }
-    
+
+    public void testHasRequiredOverrides_closedAccountNonBudgetedObject() {
+        // This account would require a non-budgeted override if it were not closed.  But, the closed validation takes precedence.
+        testHasRequiredOverrides(getAccountWithPresenceControlButClosed(), getNonBudgetedObjectCode(),
+            AccountingLineOverride.CODE.NONE, null);
+    }
+
     @SuppressWarnings("deprecation")
     private void testHasRequiredOverrides(Account account,
                                           String overrideCode,
@@ -198,9 +204,14 @@ public class AccountingLineRuleUtilTest extends KualiTestBaseWithFixtures {
         Account account = getAccountFromFixture("accountPresenceAccount");
         return (Account) businessObjectService.retrieve(account);
     }
-    
+
     private Account getAccountWithPresenceControlWithExpired() {
         Account account = getAccountFromFixture("accountPresenceAccountWithExpired");
+        return (Account) businessObjectService.retrieve(account);
+    }
+
+    private Account getAccountWithPresenceControlButClosed() {
+        Account account = getAccountFromFixture("accountPresenceAccountButClosed");
         return (Account) businessObjectService.retrieve(account);
     }
 

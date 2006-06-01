@@ -50,6 +50,11 @@ import org.kuali.module.gl.service.SufficientFundsService;
 import org.kuali.module.gl.service.SufficientFundsServiceConstants;
 import org.kuali.module.gl.util.SufficientFundsItemHelper.SufficientFundsItem;
 
+/**
+ * Sufficient Funds implementation
+ * 
+ * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
+ */
 public class SufficientFundsServiceImpl implements SufficientFundsService, SufficientFundsServiceConstants {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SufficientFundsServiceImpl.class);
 
@@ -99,7 +104,7 @@ public class SufficientFundsServiceImpl implements SufficientFundsService, Suffi
     }
 
     /**
-     * @see org.kuali.core.service.SufficientFundsService#checkSufficientFunds(org.kuali.core.document.TransactionalDocument)
+     * @see org.kuali.module.gl.service.SufficientFundsService#checkSufficientFunds(org.kuali.core.document.TransactionalDocument)
      */
     public boolean checkSufficientFunds(TransactionalDocument transactionalDocument) {
 
@@ -132,13 +137,14 @@ public class SufficientFundsServiceImpl implements SufficientFundsService, Suffi
     /**
      * fp_sasfc:operation chk_suff_funds
      * 
+     * @param propertyNames
      * @param universityFiscalYear
      * @param chartOfAccountsCode
      * @param accountNumber
      * @param sufficientFundsObjectCode
      * @param amount
      * @param documentClass
-     * @return
+     * @return true is sufficientFunds were found
      */
     private boolean checkSufficientFunds(List propertyNames, Integer universityFiscalYear, String chartOfAccountsCode,
             String accountNumber, String sufficientFundsObjectCode, KualiDecimal amount, Class documentClass) {
@@ -206,11 +212,12 @@ public class SufficientFundsServiceImpl implements SufficientFundsService, Suffi
     /**
      * fp_sasfc:38 calculates pending ledger entry buckets
      * 
-     * @param universityFiscalYear
+     * @param propertyNames
+     * @param isYearEndDocument
      * @param lineAmount
      * @param sufficientFundsObjectCode
      * @param sufficientFundBalances
-     * @return
+     * @return true if sufficent funds were found
      */
     private boolean calculatePLEBuckets(List propertyNames, boolean isYearEndDocument, KualiDecimal lineAmount,
             String sufficientFundsObjectCode, SufficientFundBalances sufficientFundBalances) {
@@ -257,14 +264,18 @@ public class SufficientFundsServiceImpl implements SufficientFundsService, Suffi
     /**
      * fp_sasfc:operation chk_suff_funds. 168-1...183 preforms the actual check to see if there is sufficient funds in an account
      * 
+     * @param propertyNames
+     * @param financialBeginBalanceLoadInd
      * @param lineAmount
      * @param sufficientFundsCode
-     * @param financialBeginBalanceLoadInd
+     * @param pfyrBudget
+     * @param pfyrEncum
      * @param pendingActual
      * @param pendingBudget
      * @param pendingEncumb
      * @param sufficientFundBalances
-     * @return
+     * @param sufficientFundsObjectCode
+     * @return true if sufficient funds where found
      */
     private boolean hasSufficientFunds(List propertyNames, boolean financialBeginBalanceLoadInd, KualiDecimal lineAmount,
             String sufficientFundsCode, KualiDecimal pfyrBudget, KualiDecimal pfyrEncum, KualiDecimal pendingActual,
@@ -377,10 +388,10 @@ public class SufficientFundsServiceImpl implements SufficientFundsService, Suffi
      * @param chart
      * @param year
      */
-    public void purgeYearByChart(String chart,int year) {
+    public void purgeYearByChart(String chart, int year) {
         LOG.debug("setAccountService() started");
 
-        sufficientFundsDao.purgeYearByChart(chart,year);
+        sufficientFundsDao.purgeYearByChart(chart, year);
     }
 
     // spring injected services

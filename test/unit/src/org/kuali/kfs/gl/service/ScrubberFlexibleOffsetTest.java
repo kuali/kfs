@@ -285,7 +285,7 @@ public class ScrubberFlexibleOffsetTest extends OriginEntryTestBase {
         // No flexible offset record can be generated        
         int numOfMatching = businessObjectService.countMatching(OriginEntry.class, primaryKeyMap);
         assertTrue("No flexible offset record can be generated.", numOfMatching == 0);
-    }        
+    } 
     
     /**
      * reset the flexible offset enable flag to the given value of the flag

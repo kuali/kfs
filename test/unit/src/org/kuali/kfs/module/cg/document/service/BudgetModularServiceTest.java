@@ -87,22 +87,22 @@ public class BudgetModularServiceTest extends KualiTestBaseWithSession {
         BudgetModular modularBudget = budget.getModularBudget();
         
         assertFalse(modularBudget.isInvalidMode());
-        assertEquals(modularBudget.getIncrements().size(), 10);
+        assertEquals(modularBudget.getIncrements().size(), 11);
         assertEquals(modularBudget.getBudgetModularDirectCostAmount(), zeroValue);
         assertEquals(modularBudget.getTotalActualDirectCostAmount(), zeroValue);
-        assertEquals(modularBudget.getTotalAdjustedModularDirectCostAmount(), new KualiInteger(500000));
+        assertEquals(modularBudget.getTotalAdjustedModularDirectCostAmount(), new KualiInteger(0));
         assertEquals(modularBudget.getTotalConsortiumAmount(), zeroValue);
-        assertEquals(modularBudget.getTotalDirectCostAmount(), new KualiInteger(500000));
+        assertEquals(modularBudget.getTotalDirectCostAmount(), new KualiInteger(0));
         assertEquals(modularBudget.getTotalModularDirectCostAmount(), zeroValue);
-        assertEquals(modularBudget.getTotalModularVarianceAmount(), new KualiInteger(500000));
+        assertEquals(modularBudget.getTotalModularVarianceAmount(), new KualiInteger(0));
         
         for (Iterator iter = modularBudget.getBudgetModularPeriods().iterator(); iter.hasNext();) {
             BudgetModularPeriod modularPeriod = (BudgetModularPeriod) iter.next();
             assertEquals(modularPeriod.getActualDirectCostAmount(), zeroValue);
             assertEquals(modularPeriod.getConsortiumAmount(), zeroValue);
-            assertEquals(modularPeriod.getTotalPeriodDirectCostAmount(), new KualiInteger(250000));
-            assertEquals(modularPeriod.getBudgetAdjustedModularDirectCostAmount(), new KualiInteger(250000));
-            assertEquals(modularPeriod.getModularVarianceAmount(), new KualiInteger(250000));
+            assertEquals(modularPeriod.getTotalPeriodDirectCostAmount(), new KualiInteger(0));
+            assertEquals(modularPeriod.getBudgetAdjustedModularDirectCostAmount(), new KualiInteger(0));
+            assertEquals(modularPeriod.getModularVarianceAmount(), new KualiInteger(0));
         }
         
         // Case 2: Budget with personnel, nonpersonnel, consortium costs

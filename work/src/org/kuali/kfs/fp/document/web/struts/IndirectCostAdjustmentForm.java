@@ -26,29 +26,31 @@ import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
 import org.kuali.module.financial.document.IndirectCostAdjustmentDocument;
 
 /**
- * This class is the action form for Internal Billing.
+ * This class is the action form for Indirect Cost Adjustment Document
+ * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 
 public class IndirectCostAdjustmentForm extends KualiTransactionalDocumentFormBase {
-
-    private static final long serialVersionUID = 1L;
+    /**
+     * Constructs a IndirectCostAdjustmentForm.java.
+     */
     public IndirectCostAdjustmentForm() {
-    	super();
+        super();
         setDocument(new IndirectCostAdjustmentDocument());
     }
-    
+
     /**
-     * @return Returns the internalBillingDocument.
+     * @return Returns the Indirect Cost Adjustment Document
      */
     public IndirectCostAdjustmentDocument getIndirectCostAdjustmentDocument() {
         return (IndirectCostAdjustmentDocument) getDocument();
     }
+
     /**
-     * @param internalBillingDocument The internalBillingDocument to set.
-     */ 
+     * @param indirectCostAdjustmentDocument the <code>IndirectCostAdjustmentDocument</code> to set
+     */
     public void setIndirectCostAdjustmentDocument(IndirectCostAdjustmentDocument indirectCostAdjustmentDocument) {
         setDocument(indirectCostAdjustmentDocument);
-    }    
+    }
 }
-

@@ -20,43 +20,16 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-package org.kuali.module.financial.document;
-
-import org.kuali.Constants;
-import org.kuali.core.document.TransactionalDocumentBase;
-
+package org.kuali.module.financial.rules;
 
 /**
- * 
+ * Indirect Cost Adjustment Document specific APC constants
  * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
-public class IndirectCostAdjustmentDocument extends TransactionalDocumentBase {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(IndirectCostAdjustmentDocument.class);
+public interface IndirectCostAdjustmentDocumentRuleConstants {
+    public static final String INDIRECT_COST_ADJUSTMENT_DOCUMENT_SECURITY_GROUPING = "Kuali.FinancialTransactionProcessing.IndirectCostAdjustmentDocument";
 
-    /**
-     * 
-     * Constructs a IndirectCostAdjustmentDocument.java.
-     */
-    public IndirectCostAdjustmentDocument() {
-        super();
-    }
-
-    /**
-     * 
-     * @see org.kuali.core.document.TransactionalDocument#getSourceAccountingLinesSectionTitle()
-     */
-    @Override
-    public String getSourceAccountingLinesSectionTitle() {
-        return Constants.GRANT;
-    }
-
-    /**
-     * 
-     * @see org.kuali.core.document.TransactionalDocument#getTargetAccountingLinesSectionTitle()
-     */
-    @Override
-    public String getTargetAccountingLinesSectionTitle() {
-        return Constants.ICR;
-    }
+    public static final String RESTRICTED_SUB_TYPE_GROUP_CODES = "RestrictedSubTypeCodes";
+    public static final String RESTRICTED_OBJECT_TYPE_CODES = "RestrictedObjectTypeCodes";
 }

@@ -25,14 +25,12 @@ package org.kuali.module.financial.web.struts.action;
 import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
 
 /**
- * This class handles Actions for InternalBilling.
+ * This class handles Actions for <ocde>IndirectCostAdjustmentDocument</code>s
+ * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
-
-
 public class IndirectCostAdjustmentAction extends KualiTransactionalDocumentActionBase {
 
-  private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(IndirectCostAdjustmentAction.class);
-
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(IndirectCostAdjustmentAction.class);
 
 }

@@ -260,4 +260,15 @@ public class ProcurementCardDocumentRule extends TransactionalDocumentRuleBase {
 
         return super.accountIsAccessible(transactionalDocument, accountingLine);
     }
+
+    /**
+     * For transactions that are credits back from the bank, accounting lines can be negative.
+     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#isAmountValid(org.kuali.core.document.TransactionalDocument, org.kuali.core.bo.AccountingLine)
+     */
+    @Override
+    public boolean isAmountValid(TransactionalDocument document, AccountingLine accountingLine) {
+        return true;
+    }
+    
+    
 }

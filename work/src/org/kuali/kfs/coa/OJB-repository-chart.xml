@@ -2146,6 +2146,7 @@
 		column="ACCT_DLGT_PRMRT_CD" jdbc-type="VARCHAR"
 		conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 	<field-descriptor name="accountDelegateStartDate" column="ACCT_DLGT_START_DT" jdbc-type="DATE"/>
+	
 	<reference-descriptor name="accountDelegate" class-ref="org.kuali.core.bo.user.KualiUser" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="accountDelegateUniversalId" />
 	</reference-descriptor>
@@ -2154,12 +2155,6 @@
 		auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="financialDocumentTypeCode" />
 	</reference-descriptor>
-	<collection-descriptor name="accountChangeDetails" element-class-ref="org.kuali.module.chart.bo.AccountChangeDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
-		auto-retrieve="true" auto-update="true" auto-delete="true">
-		<orderby name="chartOfAccountsCode" sort="ASC" />
-		<orderby name="accountNumber" sort="ASC" />
-		<inverse-foreignkey field-ref="financialDocumentNumber" />
-	</collection-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.chart.bo.ObjectCodeChangeDocument" table="CA_OBJ_CD_CHG_DOC_T">
@@ -2451,4 +2446,32 @@
 		jdbc-type="VARCHAR" />
 	<field-descriptor name="sessionIdentifier" column="SESID"
 		jdbc-type="BIGINT" />
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.chart.bo.DelegateChangeContainer" 
+		table="FP_MAINTENANCE_DOCUMENT_T">
+	<field-descriptor name="financialDocumentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+
+	<reference-descriptor name="financialDocument" class-ref="org.kuali.core.document.DocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="financialDocumentNumber" />
+	</reference-descriptor>
+
+	<collection-descriptor name="accountChangeDetails" 
+			element-class-ref="org.kuali.module.chart.bo.AccountChangeDetail" 
+			collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" 
+			auto-retrieve="true" auto-update="true" auto-delete="true">
+		<orderby name="chartOfAccountsCode" sort="ASC" />
+		<orderby name="accountNumber" sort="ASC" />
+		<inverse-foreignkey field-ref="financialDocumentNumber" />
+	</collection-descriptor>
+	<collection-descriptor name="delegateChanges" 
+			element-class-ref="org.kuali.module.chart.bo.DelegateChangeDocument" 
+			collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" 
+			auto-retrieve="true" auto-update="true" auto-delete="true">
+		<orderby name="accountDelegateUniversalId" sort="ASC" />
+		<orderby name="financialDocumentTypeCode" sort="ASC" />
+		<inverse-foreignkey field-ref="financialDocumentNumber" />
+	</collection-descriptor>
 </class-descriptor>

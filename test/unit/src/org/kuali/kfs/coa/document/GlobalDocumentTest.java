@@ -22,16 +22,25 @@
  */
 package org.kuali.module.chart.globals;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.Maintainable;
 import org.kuali.core.service.DocumentService;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.module.chart.bo.AccountChangeDetail;
+import org.kuali.module.chart.bo.DelegateChangeContainer;
 import org.kuali.module.chart.bo.DelegateChangeDocument;
 import org.kuali.module.chart.bo.GlobalAccountChanges;
 import org.kuali.test.KualiTestBaseWithFixtures;
+
+import edu.iu.uis.eden.exception.WorkflowException;
 
 public class GlobalDocumentTest extends KualiTestBaseWithFixtures {
     
@@ -116,30 +125,28 @@ public class GlobalDocumentTest extends KualiTestBaseWithFixtures {
         assertEquals("New BO should be of the correct class.", GlobalAccountChanges.class, newBo.getClass());
     }
     
-    //  These following tests always fails because (apparently) in the DocumentService save method, it calls 
-    // the workflow saveDocument.  This in turn calls back to the Kuali PostProcessor for a 
-    // handleDocumentRouteStatusChangeEvent(DocumentStatusChange).  This in turn attempts to load 
-    // the document and update the status.  Unfortunately, because (I believe) workflow is running 
-    // outside the transaction, it has no visibility into those records until the transaction is 
-    // committed.  Short of disabling transaction wrapping for the whole app, I cant find a way out 
-    // of this.
-/*
     public final void testSaveDocument_globalDelegate() throws Exception {
      
         MaintenanceDocument document = (MaintenanceDocument) docService.getNewDocument(GLOBAL_DELEGATE_TYPENAME);
         
         //  get local references to the Maintainable and the BO
         Maintainable newMaintainable = document.getNewMaintainableObject();
-        DelegateChangeDocument bo = (DelegateChangeDocument) newMaintainable.getBusinessObject();
+        DelegateChangeContainer bo = (DelegateChangeContainer) newMaintainable.getBusinessObject();
         String finDocNumber = document.getFinancialDocumentNumber();
         System.err.println("DOC_NBR = " + finDocNumber);
         
-        bo.setAccountDelegatePrimaryRoutingCode("X");
-        bo.setAccountDelegateStartDate(new java.sql.Date(2006, 6, 1));
-        bo.setAccountDelegateUniversalId("20000000");
-        bo.setApprovalFromThisAmount(new KualiDecimal(0));
-        bo.setApprovalToThisAmount(new KualiDecimal(0));
-        bo.setFinancialDocumentTypeCode("ALL");
+        List<DelegateChangeDocument> changes = new ArrayList();
+
+        DelegateChangeDocument change = new DelegateChangeDocument();
+        change.setAccountDelegatePrimaryRoutingCode(false);
+        change.setAccountDelegateStartDate(new java.sql.Date(2006, 6, 1));
+        change.setAccountDelegateUniversalId("20000000");
+        change.setApprovalFromThisAmount(new KualiDecimal(0));
+        change.setApprovalToThisAmount(new KualiDecimal(0));
+        change.setFinancialDocumentTypeCode("ALL");
+        changes.add(change);
+        
+        bo.setDelegateChanges(changes);
 
         AccountChangeDetail account;
         
@@ -171,16 +178,21 @@ public class GlobalDocumentTest extends KualiTestBaseWithFixtures {
         
         //  get local references to the Maintainable and the BO
         Maintainable newMaintainable = document.getNewMaintainableObject();
-        DelegateChangeDocument bo = (DelegateChangeDocument) newMaintainable.getBusinessObject();
+        DelegateChangeContainer bo = (DelegateChangeContainer) newMaintainable.getBusinessObject();
         String finDocNumber = document.getFinancialDocumentNumber();
         System.err.println("DOC_NBR = " + finDocNumber);
         
-        bo.setAccountDelegatePrimaryRoutingCode("X");
-        bo.setAccountDelegateStartDate(new java.sql.Date(2006, 6, 1));
-        bo.setAccountDelegateUniversalId("20000000");
-        bo.setApprovalFromThisAmount(new KualiDecimal(0));
-        bo.setApprovalToThisAmount(new KualiDecimal(0));
-        bo.setFinancialDocumentTypeCode("ALL");
+        List<DelegateChangeDocument> changes = new ArrayList();
+
+        DelegateChangeDocument change = new DelegateChangeDocument();
+        change.setAccountDelegatePrimaryRoutingCode(false);
+        change.setAccountDelegateStartDate(new java.sql.Date(2006, 6, 1));
+        change.setAccountDelegateUniversalId("20000000");
+        change.setApprovalFromThisAmount(new KualiDecimal(0));
+        change.setApprovalToThisAmount(new KualiDecimal(0));
+        change.setFinancialDocumentTypeCode("ALL");
+
+        bo.setDelegateChanges(changes);
 
         AccountChangeDetail account;
         
@@ -221,9 +233,9 @@ public class GlobalDocumentTest extends KualiTestBaseWithFixtures {
         assertEquals("BO Class should be DelegateChangeDocument.", DelegateChangeDocument.class, newMaintainable.getBoClass());
 
         //  BO should be non-null and the right class
-        bo = (DelegateChangeDocument) newMaintainable.getBusinessObject();
+        bo = (DelegateChangeContainer) newMaintainable.getBusinessObject();
         assertNotNull("New BO should never be null.", bo);
-        assertEquals("New BO should be of the correct class.", DelegateChangeDocument.class, bo.getClass());
+        assertEquals("New BO should be of the correct class.", DelegateChangeContainer.class, bo.getClass());
         
         //  List should contain 3 elements
         assertNotNull("AccountDetail list should not be null.", bo.getAccountChangeDetails());
@@ -247,15 +259,20 @@ public class GlobalDocumentTest extends KualiTestBaseWithFixtures {
         
         //  get local references to the Maintainable and the BO
         Maintainable newMaintainable = document.getNewMaintainableObject();
-        DelegateChangeDocument bo = (DelegateChangeDocument) newMaintainable.getBusinessObject();
+        DelegateChangeContainer bo = (DelegateChangeContainer) newMaintainable.getBusinessObject();
         String finDocNumber = document.getFinancialDocumentNumber();
         
-        bo.setAccountDelegatePrimaryRoutingCode("");
-        bo.setAccountDelegateStartDate(new java.sql.Date(2006, 6, 1));
-        bo.setAccountDelegateUniversalId("019283749");
-        bo.setApprovalFromThisAmount(new KualiDecimal(0));
-        bo.setApprovalToThisAmount(new KualiDecimal(0));
-        bo.setFinancialDocumentTypeCode("ALL");
+        List<DelegateChangeDocument> changes = new ArrayList();
+
+        DelegateChangeDocument change = new DelegateChangeDocument();
+        change.setAccountDelegatePrimaryRoutingCode(false);
+        change.setAccountDelegateStartDate(new java.sql.Date(2006, 6, 1));
+        change.setAccountDelegateUniversalId("019283749");
+        change.setApprovalFromThisAmount(new KualiDecimal(0));
+        change.setApprovalToThisAmount(new KualiDecimal(0));
+        change.setFinancialDocumentTypeCode("ALL");
+
+        bo.setDelegateChanges(changes);
 
         AccountChangeDetail account;
         
@@ -296,9 +313,9 @@ public class GlobalDocumentTest extends KualiTestBaseWithFixtures {
         assertEquals("BO Class should be DelegateChangeDocument.", DelegateChangeDocument.class, newMaintainable.getBoClass());
 
         //  BO should be non-null and the right class
-        bo = (DelegateChangeDocument) newMaintainable.getBusinessObject();
+        bo = (DelegateChangeContainer) newMaintainable.getBusinessObject();
         assertNotNull("New BO should never be null.", bo);
-        assertEquals("New BO should be of the correct class.", DelegateChangeDocument.class, bo.getClass());
+        assertEquals("New BO should be of the correct class.", DelegateChangeContainer.class, bo.getClass());
         
         //  List should contain 3 elements
         assertNotNull("AccountDetail list should not be null.", bo.getAccountChangeDetails());
@@ -322,15 +339,20 @@ public class GlobalDocumentTest extends KualiTestBaseWithFixtures {
         
         //  get local references to the Maintainable and the BO
         Maintainable newMaintainable = document.getNewMaintainableObject();
-        DelegateChangeDocument bo = (DelegateChangeDocument) newMaintainable.getBusinessObject();
+        DelegateChangeContainer bo = (DelegateChangeContainer) newMaintainable.getBusinessObject();
         String finDocNumber = document.getFinancialDocumentNumber();
         
-        bo.setAccountDelegatePrimaryRoutingCode("X");
-        bo.setAccountDelegateStartDate(new java.sql.Date(2006, 6, 1));
-        bo.setAccountDelegateUniversalId("20000000");
-        bo.setApprovalFromThisAmount(new KualiDecimal(0));
-        bo.setApprovalToThisAmount(new KualiDecimal(0));
-        bo.setFinancialDocumentTypeCode("ALL");
+        List<DelegateChangeDocument> changes = new ArrayList();
+
+        DelegateChangeDocument change = new DelegateChangeDocument();
+        change.setAccountDelegatePrimaryRoutingCode(false);
+        change.setAccountDelegateStartDate(new java.sql.Date(2006, 6, 1));
+        change.setAccountDelegateUniversalId("20000000");
+        change.setApprovalFromThisAmount(new KualiDecimal(0));
+        change.setApprovalToThisAmount(new KualiDecimal(0));
+        change.setFinancialDocumentTypeCode("ALL");
+
+        bo.setDelegateChanges(changes);
 
         AccountChangeDetail account;
         
@@ -371,9 +393,9 @@ public class GlobalDocumentTest extends KualiTestBaseWithFixtures {
         assertEquals("BO Class should be DelegateChangeDocument.", DelegateChangeDocument.class, newMaintainable.getBoClass());
 
         //  BO should be non-null and the right class
-        bo = (DelegateChangeDocument) newMaintainable.getBusinessObject();
+        bo = (DelegateChangeContainer) newMaintainable.getBusinessObject();
         assertNotNull("New BO should never be null.", bo);
-        assertEquals("New BO should be of the correct class.", DelegateChangeDocument.class, bo.getClass());
+        assertEquals("New BO should be of the correct class.", DelegateChangeContainer.class, bo.getClass());
         
         //  List should contain 3 elements
         assertNotNull("AccountDetail list should not be null.", bo.getAccountChangeDetails());
@@ -394,15 +416,20 @@ public class GlobalDocumentTest extends KualiTestBaseWithFixtures {
         
         //  get local references to the Maintainable and the BO
         newMaintainable = document.getNewMaintainableObject();
-        bo = (DelegateChangeDocument) newMaintainable.getBusinessObject();
+        bo = (DelegateChangeContainer) newMaintainable.getBusinessObject();
         finDocNumber = document.getFinancialDocumentNumber();
         
-        bo.setAccountDelegatePrimaryRoutingCode("X");
-        bo.setAccountDelegateStartDate(new java.sql.Date(2006, 6, 1));
-        bo.setAccountDelegateUniversalId("3000000");
-        bo.setApprovalFromThisAmount(new KualiDecimal(0));
-        bo.setApprovalToThisAmount(new KualiDecimal(0));
-        bo.setFinancialDocumentTypeCode("ALL");
+        changes = new ArrayList();
+
+        change = new DelegateChangeDocument();
+        change.setAccountDelegatePrimaryRoutingCode(false);
+        change.setAccountDelegateStartDate(new java.sql.Date(2006, 6, 1));
+        change.setAccountDelegateUniversalId("3000000");
+        change.setApprovalFromThisAmount(new KualiDecimal(0));
+        change.setApprovalToThisAmount(new KualiDecimal(0));
+        change.setFinancialDocumentTypeCode("ALL");
+
+        bo.setDelegateChanges(changes);
 
         account = new AccountChangeDetail();
         account.setFinancialDocumentNumber(finDocNumber);
@@ -425,6 +452,5 @@ public class GlobalDocumentTest extends KualiTestBaseWithFixtures {
         docService.save(document, null, null);
         
     }
-*/  
     
 }

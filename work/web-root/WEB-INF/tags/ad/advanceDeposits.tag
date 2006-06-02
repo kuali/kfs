@@ -36,7 +36,7 @@
                 <td class="infoline">
                 	<kul:htmlControlAttribute attributeEntry="${adAttributes.financialDocumentBankAccountNumber}" property="newAdvanceDeposit.financialDocumentBankAccountNumber" />
                 	&nbsp;
-                	<kul:lookup boClassName="org.kuali.module.financial.bo.BankAccount" fieldConversions="financialDocumentBankCode:newAdvanceDeposit.financialDocumentBankCode,financialDocumentBankAccountNumber:newAdvanceDeposit.financialDocumentBankAccountNumber" lookupParameters="newAdvanceDeposit.financialDocumentBankCode:financialDocumentBankCode" />
+                	<kul:lookup boClassName="org.kuali.module.financial.bo.BankAccount" fieldConversions="financialDocumentBankCode:newAdvanceDeposit.financialDocumentBankCode,finDocumentBankAccountNumber:newAdvanceDeposit.financialDocumentBankAccountNumber" lookupParameters="newAdvanceDeposit.financialDocumentBankCode:financialDocumentBankCode" />
                 </td>
                 <td class="infoline">
                 	<kul:dateInput attributeEntry="${adAttributes.financialDocumentAdvanceDepositDate}" property="newAdvanceDeposit.financialDocumentAdvanceDepositDate" />
@@ -79,7 +79,7 @@
                 	<kul:htmlControlAttribute attributeEntry="${adAttributes.financialDocumentBankAccountNumber}" property="document.advanceDepositDetail[${ctr}].financialDocumentBankAccountNumber" readOnly="${readOnly}" />
                 	<c:if test="${not readOnly}">
 	                	&nbsp;
-    	            	<kul:lookup boClassName="org.kuali.module.financial.bo.BankAccount" fieldConversions="financialDocumentBankCode:document.advanceDepositDetail[${ctr}].financialDocumentBankCode,financialDocumentBankAccountNumber:document.advanceDepositDetail[${ctr}].financialDocumentBankAccountNumber" lookupParameters="document.advanceDepositDetail[${ctr}].financialDocumentBankCode:financialDocumentBankCode" />
+    	            	<kul:lookup boClassName="org.kuali.module.financial.bo.BankAccount" fieldConversions="financialDocumentBankCode:document.advanceDepositDetail[${ctr}].financialDocumentBankCode,finDocumentBankAccountNumber:document.advanceDepositDetail[${ctr}].financialDocumentBankAccountNumber" lookupParameters="document.advanceDepositDetail[${ctr}].financialDocumentBankCode:financialDocumentBankCode" />
     	            </c:if>
                 </td>
                 <td class="datacell">

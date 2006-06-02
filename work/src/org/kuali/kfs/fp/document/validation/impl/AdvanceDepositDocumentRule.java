@@ -108,9 +108,9 @@ public class AdvanceDepositDocumentRule extends CashReceiptDocumentRule {
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
         boolean isValid = super.processCustomSaveDocumentBusinessRules(document);
         
-//        if(isValid) {
-//            isValid = validateAdvanceDeposits((AdvanceDepositDocument) document);
-//        }
+        if(isValid) {
+            isValid = validateAdvanceDeposits((AdvanceDepositDocument) document);
+        }
         
         return isValid;
     }

@@ -36,7 +36,10 @@ import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
 
 import org.kuali.module.financial.bo.AdvanceDepositDetail;
+import org.kuali.module.financial.bo.CreditCardDetail;
 import org.kuali.module.financial.document.AdvanceDepositDocument;
+import org.kuali.module.financial.rules.AdvanceDepositDocumentRuleUtil;
+import org.kuali.module.financial.rules.CreditCardReceiptDocumentRuleUtil;
 import org.kuali.module.financial.web.struts.form.AdvanceDepositForm;
 
 /**
@@ -105,15 +108,9 @@ public class AdvanceDepositAction extends KualiTransactionalDocumentActionBase {
      * @return boolean
      */
     private boolean validateNewAdvanceDeposit(AdvanceDepositDetail advanceDeposit) {
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
-        int originalErrorCount = errorMap.getErrorCount();
-        errorMap.addToErrorPath(PropertyConstants.NEW_ADVANCE_DEPOSIT);
-        SpringServiceLocator.getDictionaryValidationService().validateBusinessObject(advanceDeposit);
-
-        // todo - check existence - use a rule util class like the ccr doc rule util
-
-        errorMap.removeFromErrorPath(PropertyConstants.NEW_ADVANCE_DEPOSIT);
-        int currentErrorCount = errorMap.getErrorCount();
-        return currentErrorCount == originalErrorCount;
+        GlobalVariables.getErrorMap().addToErrorPath(PropertyConstants.NEW_ADVANCE_DEPOSIT);
+        boolean isValid = AdvanceDepositDocumentRuleUtil.validateAdvanceDeposit(advanceDeposit);
+        GlobalVariables.getErrorMap().removeFromErrorPath(PropertyConstants.NEW_ADVANCE_DEPOSIT);
+        return isValid;
     }
 }

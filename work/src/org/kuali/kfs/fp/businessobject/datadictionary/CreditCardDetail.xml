@@ -42,6 +42,7 @@
 			<attributeReference name="financialDocumentCreditCardVendorNumber" 
 					            sourceClassName="org.kuali.module.financial.bo.CreditCardVendor" 
 					            sourceAttributeName="financialDocumentCreditCardVendorNumber">
+				<label>Vendor</label>
 				<shortLabel>Vendor</shortLabel>
 				<required>true</required>
 			</attributeReference>

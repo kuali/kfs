@@ -11,6 +11,10 @@
 	<!--  NOTE (laran) There is no entry for balanceForwardRuleHelper because 
 	balanceForwardRuleHelper is stateful whereas encumbranceClosingRuleHelper is not. -->
 	
+	<bean id="glClearPendingEntriesForCancelledOrDisapprovedDocumentsStep" class="org.kuali.module.gl.batch.ClearPendingEntriesForCancelledOrDisapprovedDocumentsStep">
+		<property name="generalLedgerPendingEntryService"><ref bean="generalLedgerPendingEntryService" /></property>
+	</bean>
+
 	<bean id="glPurgeEntryStep" class="org.kuali.module.gl.batch.PurgeEntryStep">
 		<property name="kualiConfigurationService"><ref bean="kualiConfigurationService" /></property>
 		<property name="entryService"><ref bean="glEntryService" /></property>

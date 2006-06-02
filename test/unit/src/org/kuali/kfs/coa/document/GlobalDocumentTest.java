@@ -32,6 +32,7 @@ import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.Maintainable;
 import org.kuali.core.service.DocumentService;
+import org.kuali.core.util.DateUtils;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.AccountChangeDetail;
@@ -139,7 +140,7 @@ public class GlobalDocumentTest extends KualiTestBaseWithFixtures {
 
         DelegateChangeDocument change = new DelegateChangeDocument();
         change.setAccountDelegatePrimaryRoutingCode(false);
-        change.setAccountDelegateStartDate(new java.sql.Date(2006, 6, 1));
+        change.setAccountDelegateStartDate(DateUtils.newDate(2006, 6, 1));
         change.setAccountDelegateUniversalId("20000000");
         change.setApprovalFromThisAmount(new KualiDecimal(0));
         change.setApprovalToThisAmount(new KualiDecimal(0));
@@ -186,7 +187,7 @@ public class GlobalDocumentTest extends KualiTestBaseWithFixtures {
 
         DelegateChangeDocument change = new DelegateChangeDocument();
         change.setAccountDelegatePrimaryRoutingCode(false);
-        change.setAccountDelegateStartDate(new java.sql.Date(2006, 6, 1));
+        change.setAccountDelegateStartDate(DateUtils.newDate(2006, 6, 1));
         change.setAccountDelegateUniversalId("20000000");
         change.setApprovalFromThisAmount(new KualiDecimal(0));
         change.setApprovalToThisAmount(new KualiDecimal(0));
@@ -266,7 +267,7 @@ public class GlobalDocumentTest extends KualiTestBaseWithFixtures {
 
         DelegateChangeDocument change = new DelegateChangeDocument();
         change.setAccountDelegatePrimaryRoutingCode(false);
-        change.setAccountDelegateStartDate(new java.sql.Date(2006, 6, 1));
+        change.setAccountDelegateStartDate(DateUtils.newDate(2006, 6, 1));
         change.setAccountDelegateUniversalId("019283749");
         change.setApprovalFromThisAmount(new KualiDecimal(0));
         change.setApprovalToThisAmount(new KualiDecimal(0));
@@ -346,7 +347,7 @@ public class GlobalDocumentTest extends KualiTestBaseWithFixtures {
 
         DelegateChangeDocument change = new DelegateChangeDocument();
         change.setAccountDelegatePrimaryRoutingCode(false);
-        change.setAccountDelegateStartDate(new java.sql.Date(2006, 6, 1));
+        change.setAccountDelegateStartDate(DateUtils.newDate(2006, 6, 1));
         change.setAccountDelegateUniversalId("20000000");
         change.setApprovalFromThisAmount(new KualiDecimal(0));
         change.setApprovalToThisAmount(new KualiDecimal(0));
@@ -423,7 +424,7 @@ public class GlobalDocumentTest extends KualiTestBaseWithFixtures {
 
         change = new DelegateChangeDocument();
         change.setAccountDelegatePrimaryRoutingCode(false);
-        change.setAccountDelegateStartDate(new java.sql.Date(2006, 6, 1));
+        change.setAccountDelegateStartDate(DateUtils.newDate(2006, 6, 1));
         change.setAccountDelegateUniversalId("3000000");
         change.setApprovalFromThisAmount(new KualiDecimal(0));
         change.setApprovalToThisAmount(new KualiDecimal(0));

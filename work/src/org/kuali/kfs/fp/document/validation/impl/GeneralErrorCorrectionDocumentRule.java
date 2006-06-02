@@ -37,15 +37,15 @@ import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.gl.util.SufficientFundsItemHelper.SufficientFundsItem;
 
+import static org.kuali.module.financial.rules.GeneralErrorCorrectionDocumentRuleConstants.*;
+
 /**
  * Business rule(s) applicable to 
  * <code>{@link GeneralErrorCorrectionDocument}</code> instances.
  * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
-public class GeneralErrorCorrectionDocumentRule 
-    extends TransactionalDocumentRuleBase 
-    implements GeneralErrorCorrectionDocumentRuleConstants {
+public class GeneralErrorCorrectionDocumentRule extends TransactionalDocumentRuleBase {
     
     /**
      * Convenience method for accessing the most-likely requested
@@ -89,7 +89,7 @@ public class GeneralErrorCorrectionDocumentRule
      */
     public boolean isDebit(AccountingLine accountingLine) throws IllegalStateException {
         if(accountingLine instanceof SourceAccountingLine) {  // From lines
-            if(isIncomeOrLiability(accountingLine)) {
+			if(isIncomeOrLiability(accountingLine)) {
                 if(accountingLine.getAmount().compareTo(Constants.ZERO) > 0) {
                     return true;
                 }

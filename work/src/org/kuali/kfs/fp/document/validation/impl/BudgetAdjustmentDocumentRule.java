@@ -22,13 +22,16 @@
  */
 package org.kuali.module.financial.rules;
 
+import org.kuali.KeyConstants;
 import org.kuali.PropertyConstants;
 import org.kuali.core.bo.AccountingLine;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.rule.KualiParameterRule;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.module.financial.bo.BudgetAdjustmentSourceAccountingLine;
 import org.kuali.module.financial.document.BudgetAdjustmentDocument;
 
 
@@ -47,12 +50,39 @@ public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase 
 
     LOG.debug("validating accounting line # " + accountingLine.getSequenceNumber());
 
+    LOG.debug("beginning monthly lines validation ");
+    allow = validateMonthlyLines(transactionalDocument, accountingLine);
+
     LOG.debug("beginning object code validation ");
     allow = validateObjectCode(transactionalDocument, accountingLine);
 
     LOG.debug("end validating accounting line, has errors: " + allow);
 
     return allow;
+  }
+
+  /**
+   * Checks object codes restrictions, including restrictions in parameters table.
+   */
+  public boolean validateMonthlyLines(TransactionalDocument transactionalDocument, AccountingLine accountingLine) {
+      //TODO fix this: should not cast into source type
+      BudgetAdjustmentSourceAccountingLine baAccountingLine = (BudgetAdjustmentSourceAccountingLine)accountingLine;
+      ErrorMap errors = GlobalVariables.getErrorMap();
+
+      String errorKey = PropertyConstants.CURRENT_BUDGET_ADJUSTMENT_AMOUNT;
+      boolean validMonthlyLines = true;
+
+      if (baAccountingLine.getCurrentBudgetAdjustmentAmount() != null) {
+          KualiDecimal monthlyTotal = baAccountingLine.getMonthlyLinesTotal();
+          if ((monthlyTotal != null) && (monthlyTotal.compareTo(baAccountingLine.getCurrentBudgetAdjustmentAmount()) != 0)) {
+              errors.put(errorKey, KeyConstants.ERROR_DOCUMENT_BA_MONTH_TOTAL_NOT_EQUAL_CURRENT);
+              validMonthlyLines = false;
+          }
+      } else {
+          //what validation is needed if the current amt is null?
+      }
+
+      return validMonthlyLines;
   }
 
   /**
@@ -67,6 +97,12 @@ public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase 
 
 
       return objectCodeAllowed;
+  }
+
+  @Override
+  public boolean isAmountValid(TransactionalDocument document, AccountingLine accountingLine) {
+      //TODO add validation
+      return true;
   }
 
   /**
@@ -102,4 +138,5 @@ public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase 
 
       return rulePassed;
   }
+
 }

@@ -22,7 +22,10 @@
  */
 package org.kuali.module.financial.service.impl;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 
 import org.kuali.PropertyConstants;
 import org.kuali.core.service.BusinessObjectService;
@@ -58,10 +61,24 @@ public class FiscalYearFunctionControlServiceImpl implements FiscalYearFunctionC
     }
 
     /**
-     * @see FiscalYearFunctionControlService#isBudgetAdjustmentAllowed(Integer, String)
+     * Retrieves list of FiscalYearFunctionControls by its function control code.
+     *
+     * @param financialSystemFunctionControlCode
+     * @return List.  Returns the list of FiscalYearFunctionControls
      */
-    public boolean isBudgetAdjustmentAllowed(Integer postingYear) {
-        return getActiveIndByPrimaryId(postingYear, FY_FUNCTION_CONTROL_BA_ALLOWED);
+    private List getByFunctionControlCodeAndActiveInd(String financialSystemFunctionControlCode, String financialSystemFunctionActiveIndicator) {
+        HashMap values = new HashMap();
+        values.put(PropertyConstants.FINANCIAL_SYSTEM_FUNCTION_CONTROL_CODE, financialSystemFunctionControlCode);
+        values.put(PropertyConstants.FINANCIAL_SYSTEM_FUNCTION_ACTIVE_INDICATOR, financialSystemFunctionActiveIndicator);
+        Collection controls = businessObjectService.findMatching(FiscalYearFunctionControl.class, values);
+        return new ArrayList(controls);
+    }
+
+    /**
+     * @see FiscalYearFunctionControlService#getBudgetAdjustmentAllowedYears(String)
+     */
+    public List getBudgetAdjustmentAllowedYears() {
+        return getByFunctionControlCodeAndActiveInd(FY_FUNCTION_CONTROL_BA_ALLOWED, "Y");
     }
 
     /**

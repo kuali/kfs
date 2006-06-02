@@ -57,6 +57,17 @@ public class BudgetAdjustmentSourceAccountingLine extends SourceAccountingLine {
 		super.ojbConcreteClass = this.getClass().getName();
 	}
 
+    public KualiDecimal getMonthlyLinesTotal() {
+        KualiDecimal total = new KualiDecimal(0);
+        if (getFinancialDocumentMonth1LineAmount() != null) {
+            total.add(getFinancialDocumentMonth1LineAmount());
+        }
+        if (getFinancialDocumentMonth2LineAmount() != null) {
+            total.add(getFinancialDocumentMonth2LineAmount());
+        }
+        return total;
+    }
+
 	public KualiDecimal getBaseBudgetAdjustmentAmount() {
 		return baseBudgetAdjustmentAmount;
 	}

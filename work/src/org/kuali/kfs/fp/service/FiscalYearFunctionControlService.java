@@ -22,6 +22,8 @@
  */
 package org.kuali.module.financial.service;
 
+import java.util.List;
+
 
 /**
  * This interface defines methods that a FiscalYearFunctionControl Service must provide.
@@ -31,18 +33,17 @@ package org.kuali.module.financial.service;
 public interface FiscalYearFunctionControlService {
 
     /**
-     * Checks the FY against the control tables to see if BA is allowed.
+     * Retrieves list of FYs that Budget Adjustment is allowed
      * 
-     * @param Integer from the BA
-     * @return whether the current user is authorized to perform a budget adjustment
+     * @return list of FYs that the current user is authorized to perform a budget adjustment
      */
-    public boolean isBudgetAdjustmentAllowed(Integer postingYear);
+    public List getBudgetAdjustmentAllowedYears();
 
     /**
      * Checks the FY against the control tables to see if BA to base amount is allowed.
      * 
      * @param Integer from the BA
-     * @return whether the current user is authorized to perform a budget adjustment
+     * @return whether the current user is authorized to edit the base amount
      */
     public boolean isBaseAmountChangeAllowed(Integer postingYear);
 

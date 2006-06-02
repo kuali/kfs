@@ -28,9 +28,12 @@ package org.kuali.module.financial.document;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.document.TransactionalDocumentBase;
+import org.kuali.core.exceptions.ApplicationParameterException;
+import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.module.financial.bo.BudgetAdjustmentSourceAccountingLine;
 import org.kuali.module.financial.bo.BudgetAdjustmentTargetAccountingLine;
+import org.kuali.module.financial.rules.BudgetAdjustmentRuleConstants;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -45,11 +48,36 @@ public class BudgetAdjustmentDocument extends TransactionalDocumentBase {
 	 * Default constructor.
 	 */
 	public BudgetAdjustmentDocument() {
+        super();
         sourceAccountingLines = new TypedArrayList(BudgetAdjustmentSourceAccountingLine.class);
         targetAccountingLines = new TypedArrayList(BudgetAdjustmentTargetAccountingLine.class);
 	}
 
-	public Integer getNextPositionSourceLineNumber() {
+    /**
+     * generic, shared logic used to iniate a ba document
+     */
+    public void initiateDocument() {
+
+        //setting default posting year
+        Integer currentYearParam = SpringServiceLocator.getDateTimeService().getCurrentFiscalYear();
+        Integer defaultYearParam = null;
+        
+        try {
+            defaultYearParam = new Integer(Integer.parseInt(SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(
+                    BudgetAdjustmentRuleConstants.GLOBAL_FIELD_RESTRICTIONS_GROUP_NM, BudgetAdjustmentRuleConstants.DEFAULT_FISCAL_YEAR_PARM_NM)));
+        } catch (ApplicationParameterException e) {
+            //DO NOTHING: we don't want to throw an error if the default value is not found, just don't set it in the list
+        }
+
+        if (defaultYearParam != null) {
+            setPostingYear(defaultYearParam);
+        } else {
+            setPostingYear(currentYearParam);
+        }
+
+    }
+
+    public Integer getNextPositionSourceLineNumber() {
         return nextPositionSourceLineNumber;
     }
 
@@ -73,4 +101,15 @@ public class BudgetAdjustmentDocument extends TransactionalDocumentBase {
         m.put("financialDocumentNumber", this.financialDocumentNumber);
 	    return m;
     }
+
+    @Override
+    public Class getSourceAccountingLineClass() {
+        return BudgetAdjustmentSourceAccountingLine.class;
+    }
+
+    @Override
+    public Class getTargetAccountingLineClass() {
+        return BudgetAdjustmentTargetAccountingLine.class;
+    }
+
 }

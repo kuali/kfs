@@ -23,6 +23,10 @@
 package org.kuali.module.financial.web.struts.action;
 
 import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
+import org.kuali.core.web.struts.form.KualiDocumentFormBase;
+import org.kuali.module.financial.document.BudgetAdjustmentDocument;
+
+import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * This class handles specific Actions requests for the BudgetAdjustment.
@@ -31,4 +35,16 @@ import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
  */
 public class BudgetAdjustmentAction extends KualiTransactionalDocumentActionBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetAdjustmentAction.class);
+
+    /**
+     * Do initialization for a new budget adjustment
+     * 
+     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#createDocument(org.kuali.core.web.struts.form.KualiDocumentFormBase)
+     */
+    protected void createDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
+        super.createDocument(kualiDocumentFormBase);
+        ((BudgetAdjustmentDocument) kualiDocumentFormBase.getDocument()).initiateDocument();
+
+    }
+
 }

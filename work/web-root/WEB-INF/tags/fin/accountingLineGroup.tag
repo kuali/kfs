@@ -218,8 +218,8 @@
         columnCountUntilAmount="${columnCountUntilAmount}"
         debitCellProperty="voucherLineHelper[${ctr}].debit"
         creditCellProperty="voucherLineHelper[${ctr}].credit"
-        currentCellProperty="document.budgetAdjustment${capitalSourceOrTarget}AccountingLine[${ctr}].currentBudgetAdjustmentAmount"
-        baseCellProperty="document.budgetAdjustment${capitalSourceOrTarget}AccountingLine[${ctr}].baseBudgetAdjustmentAmount"
+        currentCellProperty="document.${sourceOrTarget}AccountingLine[${ctr}].currentBudgetAdjustmentAmount"
+        baseCellProperty="document.${sourceOrTarget}AccountingLine[${ctr}].baseBudgetAdjustmentAmount"
         includeObjectTypeCode="${includeObjectTypeCode}"
         displayHidden="${displayHidden}"
         decorator="${sourceOrTarget}LineDecorator[${ctr}]"
@@ -229,7 +229,7 @@
     <c:if test="${displayMonthlyAmounts}">
         <fin:budgetAdjustmentMonthlyAmountLines 
             isSource="${isSource}" 
-            accountingLine="document.budgetAdjustment${capitalSourceOrTarget}AccountingLine[${ctr}]"/>
+            accountingLine="document.${sourceOrTarget}AccountingLine[${ctr}]"/>
     </c:if>
 
 </logic:iterate>

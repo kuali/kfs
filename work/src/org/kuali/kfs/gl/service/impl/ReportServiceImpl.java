@@ -27,8 +27,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
+import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.service.PosterService;
 import org.kuali.module.gl.service.ReportService;
+import org.kuali.module.gl.service.impl.scrubber.Message;
 import org.kuali.module.gl.util.LedgerReport;
 import org.kuali.module.gl.util.TransactionReport;
 
@@ -76,7 +78,7 @@ public class ReportServiceImpl implements ReportService {
         tr.generateReport(reportErrors,reportSummary,runDate,title,filename, reportsDirectory);
     }
 
-    public void generateScrubberReports(Date runDate, List reportSummary, Map reportErrors, Map ledgerEntries) {
+    public void generateScrubberReports(Date runDate, List reportSummary, Map<Transaction,List<Message>> reportErrors, Map ledgerEntries) {
         LOG.debug("Entering generateScrubberReports()");
 
         String title = "Scrubber Report ";

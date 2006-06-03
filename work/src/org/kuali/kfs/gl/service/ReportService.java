@@ -26,6 +26,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.module.gl.bo.Transaction;
+import org.kuali.module.gl.service.impl.scrubber.Message;
+
 /**
  * @author Laran Evans <lc278@cornell.edu>
  * @version $Id$
@@ -35,7 +38,7 @@ public interface ReportService {
 
     public void generateIcrReports(Date runDate, List reportSummary, Map reportErrors, Map ledgerEntries);
     public void generatePosterReports(Date runDate, List reportSummary, Map reportErrors, Map ledgerEntries, int mode);
-    public void generateScrubberReports(Date runDate, List reportSummary, Map reportErrors, Map ledgerEntries);
+    public void generateScrubberReports(Date runDate, List reportSummary, Map<Transaction,List<Message>> reportErrors, Map ledgerEntries);
     public void generateYearEndEncumbranceForwardReports(Date runDate, List reportSummary, Map reportErrors, Map ledgerEntries);
     public void generateYearEndBalanceForwardReports(Date runDate, List reportSummary, Map reportErrors, Map ledgerEntries);
     

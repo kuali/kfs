@@ -23,7 +23,9 @@
 package org.kuali.module.gl.service.impl;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -39,7 +41,7 @@ import org.kuali.module.gl.service.OriginEntryService;
 /**
  * @author jsissom
  * @author Laran Evans <lc278@cornell.edu>
- * @version $Id: OriginEntryServiceImpl.java,v 1.11 2006-04-28 16:16:16 larevans Exp $
+ * @version $Id: OriginEntryServiceImpl.java,v 1.12 2006-06-03 21:38:33 jsissom Exp $
  */
 public class OriginEntryServiceImpl implements OriginEntryService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OriginEntryServiceImpl.class);
@@ -76,9 +78,7 @@ public class OriginEntryServiceImpl implements OriginEntryService {
     public Iterator getEntriesByGroup(OriginEntryGroup originEntryGroup) {
         LOG.debug("getEntriesByGroup() started");
 
-        Map criteria = new HashMap();
-        criteria.put("group.id", originEntryGroup.getId());
-        return originEntryDao.getMatchingEntries(criteria);
+        return originEntryDao.getEntriesByGroup(originEntryGroup);
     }
 
     /**
@@ -111,6 +111,39 @@ public class OriginEntryServiceImpl implements OriginEntryService {
         e.setGroup(originEntryGroup);
 
         originEntryDao.saveOriginEntry(e);
+    }
+
+    public void save(OriginEntry entry) {
+        LOG.debug("save() started");
+
+        originEntryDao.saveOriginEntry(entry);
+    }
+
+    public void exportFlatFile(String filename, Integer groupId) {
+        LOG.debug("exportFlatFile() started");
+
+        BufferedWriter out = null;
+        try {
+            out = new BufferedWriter(new FileWriter(filename));
+
+            OriginEntryGroup oeg = new OriginEntryGroup();
+            oeg.setId(groupId);
+            Iterator i = getEntriesByGroup(oeg);
+            while ( i.hasNext() ) {
+                OriginEntry e = (OriginEntry)i.next();
+                out.write(e.getLine() + "\n");
+            }
+        } catch (IOException e) {
+            LOG.error("exportFlatFile() Error writing to file", e);
+        } finally {
+            if ( out != null ) {
+                try {
+                    out.close();
+                } catch (IOException ie) {
+                    LOG.error("exportFlatFile() Error closing file", ie);
+                }
+            }
+        }
     }
 
     /**

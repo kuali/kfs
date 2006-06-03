@@ -26,25 +26,26 @@ import java.util.List;
 
 import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.bo.UniversityDate;
+import org.kuali.module.gl.service.impl.scrubber.Message;
 
 public interface ScrubberValidator {
-    public List validateTransaction(OriginEntry originEntry, OriginEntry scrubbedEntry, UniversityDate universityRunDate);
-    public String validateAccount(OriginEntry originEntry, OriginEntry scrubbedEntry, UniversityDate universityRunDate);
-    public String validateBalanceType(OriginEntry originEntry, OriginEntry scrubbedEntry);
-    public String validateChart(OriginEntry originEntry, OriginEntry scrubbedEntry);
-    public String validateDocumentNumber(OriginEntry originEntry, OriginEntry scrubbedEntry);
-    public String validateDocumentType(OriginEntry originEntry, OriginEntry scrubbedEntry);
-    public String validateEncumbranceUpdateCode(OriginEntry originEntry, OriginEntry scrubbedEntry);
-    public String validateFiscalYear(OriginEntry originEntry, OriginEntry scrubbedEntry,UniversityDate universityRunDate);
-    public String validateObjectCode(OriginEntry originEntry, OriginEntry scrubbedEntry);
-    public String validateObjectType(OriginEntry originEntry, OriginEntry scrubbedEntry);
-    public String validateOrigination(OriginEntry originEntry, OriginEntry scrubbedEntry);
-    public String validateProjectCode(OriginEntry originEntry, OriginEntry scrubbedEntry);
-    public String validateReferenceDocument(OriginEntry originEntry, OriginEntry scrubbedEntry);
-    public String validateReversalDate(OriginEntry originEntry, OriginEntry scrubbedEntry);
-    public String validateSubAccount(OriginEntry originEntry, OriginEntry scrubbedEntry);
-    public String validateSubObjectCode(OriginEntry originEntry, OriginEntry scrubbedEntry);
-    public String validateTransactionAmount(OriginEntry originEntry, OriginEntry scrubbedEntry);
-    public String validateTransactionDate(OriginEntry originEntry, OriginEntry scrubbedEntry, UniversityDate universityRunDate);
-    public String validateUniversityFiscalPeriodCode(OriginEntry originEntry, OriginEntry scrubbedEntry, UniversityDate universityRunDate);
+    public List<Message> validateTransaction(OriginEntry originEntry, OriginEntry scrubbedEntry, UniversityDate universityRunDate);
+    public Message validateAccount(OriginEntry originEntry, OriginEntry scrubbedEntry, UniversityDate universityRunDate);
+    public Message validateBalanceType(OriginEntry originEntry, OriginEntry scrubbedEntry);
+    public Message validateChart(OriginEntry originEntry, OriginEntry scrubbedEntry);
+    public Message validateDocumentNumber(OriginEntry originEntry, OriginEntry scrubbedEntry);
+    public Message validateDocumentType(OriginEntry originEntry, OriginEntry scrubbedEntry);
+    public Message validateEncumbranceUpdateCode(OriginEntry originEntry, OriginEntry scrubbedEntry);
+    public Message validateFiscalYear(OriginEntry originEntry, OriginEntry scrubbedEntry,UniversityDate universityRunDate);
+    public Message validateObjectCode(OriginEntry originEntry, OriginEntry scrubbedEntry);
+    public Message validateObjectType(OriginEntry originEntry, OriginEntry scrubbedEntry);
+    public Message validateOrigination(OriginEntry originEntry, OriginEntry scrubbedEntry);
+    public Message validateProjectCode(OriginEntry originEntry, OriginEntry scrubbedEntry);
+    public Message validateReferenceDocument(OriginEntry originEntry, OriginEntry scrubbedEntry);
+    public Message validateReversalDate(OriginEntry originEntry, OriginEntry scrubbedEntry);
+    public Message validateSubAccount(OriginEntry originEntry, OriginEntry scrubbedEntry);
+    public Message validateSubObjectCode(OriginEntry originEntry, OriginEntry scrubbedEntry);
+    public Message validateTransactionAmount(OriginEntry originEntry, OriginEntry scrubbedEntry);
+    public Message validateTransactionDate(OriginEntry originEntry, OriginEntry scrubbedEntry, UniversityDate universityRunDate);
+    public Message validateUniversityFiscalPeriodCode(OriginEntry originEntry, OriginEntry scrubbedEntry, UniversityDate universityRunDate);
 }

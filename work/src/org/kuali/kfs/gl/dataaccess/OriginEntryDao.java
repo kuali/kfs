@@ -27,12 +27,14 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.kuali.module.gl.bo.OriginEntry;
+import org.kuali.module.gl.bo.OriginEntryGroup;
 
 /**
  * @author jsissom
- * @version $Id: OriginEntryDao.java,v 1.5 2006-05-10 18:35:53 schoo Exp $
+ * @version $Id: OriginEntryDao.java,v 1.6 2006-06-03 21:37:41 jsissom Exp $
  */
 public interface OriginEntryDao {
+    public Iterator getEntriesByGroup(OriginEntryGroup oeg);
     public Collection getMatchingEntriesByCollection(Map searchCriteria);
     public Iterator getMatchingEntries(Map searchCriteria);
     public void deleteMatchingEntries(Map searchCriteria);

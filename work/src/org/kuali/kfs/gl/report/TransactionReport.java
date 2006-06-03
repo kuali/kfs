@@ -22,6 +22,7 @@
  */
 package org.kuali.module.gl.util;
 
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -34,6 +35,7 @@ import java.util.Map;
 import org.kuali.module.gl.bo.Transaction;
 
 import com.lowagie.text.Document;
+import com.lowagie.text.DocumentException;
 import com.lowagie.text.ExceptionConverter;
 import com.lowagie.text.Font;
 import com.lowagie.text.FontFactory;
@@ -47,7 +49,7 @@ import com.lowagie.text.pdf.PdfWriter;
 
 /**
  * @author Kuali General Ledger Team (kualigltech@oncourse.iu.edu)
- * @version $Id: TransactionReport.java,v 1.14 2006-05-26 21:18:37 jsissom Exp $
+ * @version $Id: TransactionReport.java,v 1.15 2006-06-03 21:39:08 jsissom Exp $
  */
 public class TransactionReport {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(TransactionReport.class);
@@ -111,10 +113,6 @@ public class TransactionReport {
         helper.headerFont = headerFont;
         helper.title = title;
 
-        // This flag tells us whether or not an error was thrown before document.open() could be called
-        // successfully.
-        boolean isDocumentOpen = false;
-
         try {
             String filename = destinationDirectory + "/" + fileprefix + "_";
             SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
@@ -124,9 +122,6 @@ public class TransactionReport {
             writer.setPageEvent(helper);
 
             document.open();
-
-            // Indicate that document.close() should be called.
-            isDocumentOpen = true;
 
             // Sort what we get
             Collections.sort(reportSummary);
@@ -212,7 +207,8 @@ public class TransactionReport {
 
                     List errors = (List) reportErrors.get(tran);
                     for (Iterator listIter = errors.iterator(); listIter.hasNext();) {
-                        String msg = (String) listIter.next();
+                        Object m = listIter.next();
+                        String msg = m.toString();
 
                         if (first) {
                             first = false;
@@ -262,15 +258,17 @@ public class TransactionReport {
                 }
                 document.add(warnings);
             }
-        } catch (Exception de) {
+        } catch (DocumentException de) {
             LOG.error("generateReport() Error creating PDF report", de);
-            throw new RuntimeException("Report Generation Failed");
+            throw new RuntimeException("Report Generation Failed: " + de.getMessage());
+        } catch (FileNotFoundException fnfe) {
+            LOG.error("generateReport() Error writing PDF report", fnfe);
+            throw new RuntimeException("Report Generation Failed: Error writing to file " + fnfe.getMessage());            
+        } finally {
+            if ( (document != null) && document.isOpen() ) {
+                document.close();
+            }
         }
-
-        if (isDocumentOpen) {
-            document.close();
-        }
-
     }
 
 }

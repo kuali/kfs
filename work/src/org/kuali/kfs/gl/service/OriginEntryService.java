@@ -24,6 +24,7 @@ package org.kuali.module.gl.service;
 
 import java.util.Iterator;
 
+import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.bo.Transaction;
 
@@ -39,6 +40,10 @@ public interface OriginEntryService {
           String documentTypeCode, String originCode);
 
   public void createEntry(Transaction tran, OriginEntryGroup group);
+
+  public void save(OriginEntry entry);
+
+  public void exportFlatFile(String filename, Integer groupId);
 
   public void loadFlatFile(String filename, String groupSourceCode, boolean valid, boolean processed, 
           boolean scrub);

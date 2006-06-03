@@ -46,7 +46,7 @@ import org.kuali.module.chart.bo.codes.BalanceTyp;
 
 /**
  * @author Kuali General Ledger Team (kualigltech@oncourse.iu.edu)
- * @version $Id: OriginEntry.java,v 1.25 2006-05-30 20:16:07 jbmorris Exp $
+ * @version $Id: OriginEntry.java,v 1.26 2006-06-03 21:37:32 jsissom Exp $
  */
 public class OriginEntry extends BusinessObjectBase implements Transaction {
     static final long serialVersionUID = -2498312988235747448L;
@@ -80,7 +80,7 @@ public class OriginEntry extends BusinessObjectBase implements Transaction {
     private Integer universityFiscalYear;
     private String budgetYear;
     private boolean transactionScrubberOffsetGenerationIndicator;
-    
+
     // bo references
     private OriginEntryGroup group;
     private Account account;
@@ -145,7 +145,7 @@ public class OriginEntry extends BusinessObjectBase implements Transaction {
     public OriginEntry() {
         this(null, null);
     }
-    
+
     public OriginEntry(Transaction t) {
         this();
         setTransaction(t);
@@ -363,6 +363,14 @@ public class OriginEntry extends BusinessObjectBase implements Transaction {
         entryGroupId = null;
         group = null;
       }
+    }
+    
+    public boolean isTransactionScrubberOffsetGenerationIndicator() {
+        return transactionScrubberOffsetGenerationIndicator;
+    }
+
+    public void setTransactionScrubberOffsetGenerationIndicator(boolean transactionScrubberOffsetGenerationIndicator) {
+        this.transactionScrubberOffsetGenerationIndicator = transactionScrubberOffsetGenerationIndicator;
     }
 
     public A21SubAccount getA21SubAccount() {

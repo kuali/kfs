@@ -33,19 +33,21 @@ public class LedgerEntry {
     public String originCode;
     public Integer fiscalYear;
     public String period;
-    public int recordCount;
-    public KualiDecimal debitAmount;
-    public int debitCount;
-    public KualiDecimal creditAmount;
-    public int creditCount;
-    public KualiDecimal noDCAmount;
-    public int noDCCount;
+    public int recordCount = 0;
+    public KualiDecimal debitAmount = KualiDecimal.ZERO;
+    public int debitCount = 0;
+    public KualiDecimal creditAmount = KualiDecimal.ZERO;
+    public int creditCount = 0;
+    public KualiDecimal noDCAmount = KualiDecimal.ZERO;
+    public int noDCCount = 0;
 
     public LedgerEntry() {
-        fiscalYear = new Integer(0);
-        debitAmount = new KualiDecimal(0);
-        creditAmount = new KualiDecimal(0);
-        noDCAmount = new KualiDecimal(0);
     }
 
+    public LedgerEntry(String balanceType,String originCode,Integer fiscalYear,String period) {
+        this.balanceType = balanceType;
+        this.originCode = originCode;
+        this.fiscalYear = fiscalYear;
+        this.period = period;
+    }
 }

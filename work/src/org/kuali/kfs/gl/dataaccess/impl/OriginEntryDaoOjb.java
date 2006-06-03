@@ -30,13 +30,14 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.module.gl.bo.OriginEntry;
+import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.dao.OriginEntryDao;
 import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 /**
  * @author jsissom
  * @author Laran Evans <lc278@cornell.edu>
- * @version $Id: OriginEntryDaoOjb.java,v 1.15 2006-05-10 19:11:21 wesprice Exp $
+ * @version $Id: OriginEntryDaoOjb.java,v 1.16 2006-06-03 21:37:51 jsissom Exp $
  */
 
 public class OriginEntryDaoOjb extends PersistenceBrokerDaoSupport implements OriginEntryDao {
@@ -64,6 +65,34 @@ public class OriginEntryDaoOjb extends PersistenceBrokerDaoSupport implements Or
 
         QueryByCriteria qbc = QueryFactory.newQuery(OriginEntry.class, criteria);
         qbc.addOrderByAscending("entryId");
+        return getPersistenceBrokerTemplate().getIteratorByQuery(qbc);
+    }
+
+    /**
+     * This method is special because of the order by.  It is used in
+     * the scrubber.  The getMatchingEntries wouldn't work because of 
+     * the required order by.
+     * 
+     * @param oeg Group
+     * @return
+     */
+    public Iterator getEntriesByGroup(OriginEntryGroup oeg) {
+        LOG.debug("getEntriesByGroup() started");
+
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo("entryGroupId", oeg.getId());
+
+        QueryByCriteria qbc = QueryFactory.newQuery(OriginEntry.class, criteria);
+        qbc.addOrderByAscending("financialDocumentTypeCode");
+        qbc.addOrderByAscending("financialSystemOriginationCode");
+        qbc.addOrderByAscending("financialDocumentNumber");
+        qbc.addOrderByAscending("chartOfAccountsCode");
+        qbc.addOrderByAscending("accountNumber");
+        qbc.addOrderByAscending("subAccountNumber");
+        qbc.addOrderByAscending("financialBalanceTypeCode");
+        qbc.addOrderByAscending("financialDocumentReversalDate");
+        qbc.addOrderByAscending("universityFiscalPeriodCode");
+        qbc.addOrderByAscending("universityFiscalYear");
         return getPersistenceBrokerTemplate().getIteratorByQuery(qbc);
     }
 
@@ -130,5 +159,4 @@ public class OriginEntryDaoOjb extends PersistenceBrokerDaoSupport implements Or
         qbc.addOrderByAscending("entryId");
         return getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
     }
-   
 }

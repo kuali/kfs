@@ -22,60 +22,81 @@
  */
 package org.kuali.module.chart.service.impl;
 
-import org.kuali.module.chart.bo.Account;
+import java.text.NumberFormat;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.module.chart.bo.OrganizationReversion;
 import org.kuali.module.chart.dao.OrganizationReversionDao;
-import org.kuali.module.chart.service.AccountService;
 import org.kuali.module.chart.service.OrganizationReversionService;
+import org.kuali.module.gl.service.OrganizationReversionCategoryLogic;
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.BeanFactoryAware;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  * @version $Id$
  */
-public class OrganizationReversionServiceImpl implements OrganizationReversionService {
+public class OrganizationReversionServiceImpl implements OrganizationReversionService,BeanFactoryAware {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationReversionServiceImpl.class);
+
     private OrganizationReversionDao organizationReversionDao;
-    private AccountService accountService;
-
-    /**
-     * 
-     * @param orDao
-     */
-    public void setOrganizationReversionDao(OrganizationReversionDao orDao){
-        organizationReversionDao = orDao;
-    }
-    
-    /**
-     * @param accountService The accountService to set.
-     */
-    public void setAccountService(AccountService accountService) {
-        this.accountService = accountService;
-    }
-
-    /**
-     * @see org.kuali.module.chart.service.OrganizationReversionService#executeEntry(int)
-     */
-    public void executeEntry(int entryNumber) {
-        // TODO Auto-generated method stub
-        // organizationReversion = organizationReversionDao.getByPrimaryId()
-    }
-
-    /* (non-Javadoc)
-     * @see org.kuali.module.chart.service.OrganizationReversionService#getByPrimaryKey(java.lang.Integer, org.kuali.module.chart.bo.Account)
-     */
-    public OrganizationReversion getByFiscalYearAndAccount(Integer fiscalYear, Account account) {
-        if(null == account) {
-            return null;
-        }
-        
-        return organizationReversionDao.getByPrimaryId(fiscalYear, account.getChartOfAccountsCode(), account.getOrganizationCode());
-    }
+    private KualiConfigurationService kualiConfigurationService;
+    private BeanFactory beanFactory;
 
     /* (non-Javadoc)
      * @see org.kuali.module.chart.service.OrganizationReversionService#getByKeys(java.lang.Integer, java.lang.String, java.lang.String)
      */
-    public OrganizationReversion getByKeys(Integer fiscalYear, String chartCode, String accountNumber) {
-        Account account = accountService.getByPrimaryId(chartCode, accountNumber);
-        return getByFiscalYearAndAccount(fiscalYear, account);
+    public OrganizationReversion getByPrimaryId(Integer fiscalYear, String chartCode, String orgCode) {
+        LOG.debug("getByPrimaryId() started");
+        return organizationReversionDao.getByPrimaryId(fiscalYear, chartCode, orgCode);
     }
-    
+
+    public Map<String,OrganizationReversionCategoryLogic> getCategories() {
+        LOG.debug("getCategories() started");
+
+        Map<String,OrganizationReversionCategoryLogic> categories = new HashMap<String,OrganizationReversionCategoryLogic>();
+
+        // Categories must be in the format of Cnn so we'll start with C01 and go until we can't find a rule and
+        // assume that is the end of the list.
+        int ruleNumber = 1;
+
+        NumberFormat nf = NumberFormat.getInstance();
+        nf.setMaximumFractionDigits(0);
+        nf.setMinimumIntegerDigits(2);
+
+        boolean done = false;
+        while ( ! done ) {
+            String categoryCode = "C" + nf.format(ruleNumber);
+
+            if ( kualiConfigurationService.hasApplicationParameter("OrgReversion", categoryCode + "_Name") ) {
+                String name = kualiConfigurationService.getApplicationParameterValue("OrgReversion", categoryCode + "_Name");
+
+                if ( beanFactory.containsBean("gl" + categoryCode + "OrganizationReversionCategory") ) {
+                    // We have a custom implementation
+                    categories.put(categoryCode,(OrganizationReversionCategoryLogic)beanFactory.getBean("gl" + categoryCode + "OrganizationReversionCategory"));
+                } else {
+                    // We'll get the generic implementation
+                    categories.put(categoryCode, (OrganizationReversionCategoryLogic)beanFactory.getBean("glGenericOrganizationReversionCategory"));
+                }
+                ruleNumber++;
+            } else {
+                done = true;
+            }
+        }
+        return categories;
+    }
+
+    public void setOrganizationReversionDao(OrganizationReversionDao orDao){
+        organizationReversionDao = orDao;
+    }
+
+    public void setKualiConfigurationService(KualiConfigurationService kcs) {
+        kualiConfigurationService = kcs;
+    }
+
+    public void setBeanFactory(BeanFactory beanFactory) {
+        this.beanFactory = beanFactory;
+    }
 }

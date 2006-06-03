@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
+	<bean id="glGenericOrganizationReversionCategory" class="org.kuali.module.gl.service.impl.orgreversion.GenericOrganizationReversionCategory">
+		<property name="kualiConfigurationService"><ref bean="kualiConfigurationService" /></property>
+	</bean>
+
+	<bean id="glC12OrganizationReversionCategory" class="org.kuali.module.gl.service.impl.orgreversion.CustomOrganizationReversionCategory"/>
 
 	<bean id="glEncumbranceClosingRuleHelper" class="org.kuali.module.gl.batch.closing.year.service.impl.helper.EncumbranceClosingRuleHelper">
 		<property name="a21SubAccountService"><ref bean="a21SubAccountService"/></property>
@@ -84,6 +89,10 @@
 	</bean>
 
 	<bean id="glTextFileLoaderStep" class="org.kuali.module.gl.batch.TextFileLoaderStep">
+		<property name="originEntryService"><ref bean="glOriginEntryService"/></property>
+	</bean>
+
+	<bean id="glTextExportStep" class="org.kuali.module.gl.batch.TextExportStep">
 		<property name="originEntryService"><ref bean="glOriginEntryService"/></property>
 	</bean>
 

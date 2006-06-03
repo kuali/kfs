@@ -66,10 +66,8 @@ import org.kuali.module.gl.util.Summary;
  * @version $Id$
  */
 public class YearEndServiceImpl implements YearEndService {
-    
-    private static org.apache.log4j.Logger LOG = 
-        org.apache.log4j.Logger.getLogger(YearEndServiceImpl.class);
-    
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(YearEndServiceImpl.class);
+
     private EncumbranceDao encumbranceDao;
     private OriginEntryService originEntryService;
     private OriginEntryGroupService originEntryGroupService;
@@ -82,8 +80,7 @@ public class YearEndServiceImpl implements YearEndService {
     private ObjectTypeService objectTypeService;
     private KualiConfigurationService kualiConfigurationService;
     private PriorYearAccountService priorYearAccountService;
-    private SubFundGroupService subFundGroupService;
-    
+    private SubFundGroupService subFundGroupService;    
     private EncumbranceClosingRuleHelper encumbranceClosingRuleHelper;
     
     public YearEndServiceImpl() {
@@ -106,46 +103,17 @@ public class YearEndServiceImpl implements YearEndService {
         
         Map jobParameters = new HashMap();
 
-        try {
-            
-            varFiscalYear = 
-                new Integer(kualiConfigurationService.getApplicationParameterValue(
-                        "fis_gl_year_end.sh", "UNIV_FISCAL_YR"));
-            
-        } catch (ApplicationParameterException e) {
-            
-            LOG.error(
-                    "Unable to get UNIV_FISCAL_YR from kualiConfigurationService");
-            throw new RuntimeException(
-                    "Unable to get university fiscal year from kualiConfigurationService", e);
-            
-        }
+        varFiscalYear = new Integer(kualiConfigurationService.getApplicationParameterValue("fis_gl_year_end.sh", "UNIV_FISCAL_YR"));
         
 //        680  003670      DISPLAY "TRANSACTION_DT" UPON ENVIRONMENT-NAME.
 //        681  003680      ACCEPT VAR-UNIV-DT FROM ENVIRONMENT-VALUE.
         
+        DateFormat transactionDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         try {
-            
-            DateFormat transactionDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            varTransactionDate = 
-                new Date(transactionDateFormat.parse(
-                        kualiConfigurationService.getApplicationParameterValue(
-                                "fis_gl_year_end.sh", "TRANSACTION_DT")).getTime());
-            
-        } catch (ApplicationParameterException e) {
-            
-            LOG.error(
-                "Unable to get TRANSACTION_DT from kualiConfigurationService");
-            throw new RuntimeException(
-                "Unable to get transaction date from kualiConfigurationService", e);
-            
-        } catch (ParseException pe) {
-            
-            LOG.error(
-                "Failed to parse TRANSACTION_DT from kualiConfigurationService");
-            throw new RuntimeException(
-                "Unable to get transaction date from kualiConfigurationService", pe);
-            
+            varTransactionDate = new Date(transactionDateFormat.parse(kualiConfigurationService.getApplicationParameterValue("fis_gl_year_end.sh", "TRANSACTION_DT")).getTime());
+        } catch (ParseException pe) { 
+            LOG.error("Failed to parse TRANSACTION_DT from kualiConfigurationService");
+            throw new RuntimeException("Unable to get transaction date from kualiConfigurationService", pe);
         }
         
 //        682  003690      DISPLAY "NET_EXP_OBJECT_CD" UPON ENVIRONMENT-NAME.
@@ -1409,47 +1377,28 @@ public class YearEndServiceImpl implements YearEndService {
      * @param closingFiscalYear the year to close out
      */
     public void forwardEncumbrances() {
+        LOG.debug("forwardEncumbrances() started");
 
         Integer varFiscalYear = null;
         Date varTransactionDate = null;
 
-        try {
-            
-            varFiscalYear = 
-                new Integer(kualiConfigurationService.getApplicationParameterValue(
-                        "fis_gl_year_end.sh", "UNIV_FISCAL_YR"));
-            
+        try {            
+            varFiscalYear = new Integer(kualiConfigurationService.getApplicationParameterValue("fis_gl_year_end.sh", "UNIV_FISCAL_YR"));
         } catch (ApplicationParameterException e) {
-            
-            LOG.error(
-                    "Unable to get UNIV_FISCAL_YR from kualiConfigurationService");
-            throw new RuntimeException(
-                    "Unable to get university fiscal year from kualiConfigurationService", e);
-            
+            LOG.error("Unable to get UNIV_FISCAL_YR from kualiConfigurationService");
+            throw new RuntimeException("Unable to get university fiscal year from kualiConfigurationService", e);
         }
 
         try {
-            
             DateFormat transactionDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            varTransactionDate = 
-                new Date(transactionDateFormat.parse(
-                        kualiConfigurationService.getApplicationParameterValue(
-                                "fis_gl_year_end.sh", "TRANSACTION_DT")).getTime());
-            
+            varTransactionDate = new Date(transactionDateFormat.parse(kualiConfigurationService.getApplicationParameterValue(
+                    "fis_gl_year_end.sh", "TRANSACTION_DT")).getTime());
         } catch (ApplicationParameterException e) {
-            
-            LOG.error(
-                "Unable to get TRANSACTION_DT from kualiConfigurationService");
-            throw new RuntimeException(
-                "Unable to get transaction date from kualiConfigurationService", e);
-            
+            LOG.error("Unable to get TRANSACTION_DT from kualiConfigurationService");
+            throw new RuntimeException("Unable to get transaction date from kualiConfigurationService", e);
         } catch (ParseException pe) {
-            
-            LOG.error(
-                "Failed to parse TRANSACTION_DT from kualiConfigurationService");
-            throw new RuntimeException(
-                "Unable to get transaction date from kualiConfigurationService", pe);
-            
+            LOG.error("Failed to parse TRANSACTION_DT from kualiConfigurationService");
+            throw new RuntimeException("Unable to get transaction date from kualiConfigurationService", pe);
         }
         
         int encumbrancesRead = 0;
@@ -1457,102 +1406,62 @@ public class YearEndServiceImpl implements YearEndService {
         int originEntriesWritten = 0;
         
         // Date today = new Date(dateTimeService.getCurrentDate().getTime());
-        
-        OriginEntryGroup originEntryGroup = 
-            originEntryGroupService.createGroup(
-                    varTransactionDate, 
-                    OriginEntrySource.YEAR_END_ENCUMBRANCE_CLOSING, 
-                    true, true, true);
+
+        // TODO I think the flags on this is wrong
+        OriginEntryGroup originEntryGroup = originEntryGroupService.createGroup(varTransactionDate, 
+                    OriginEntrySource.YEAR_END_ENCUMBRANCE_CLOSING,true, true, true);
 
         // encumbranceDao will return Encumbrances sorted properly by all of the appropriate keys.
-        Iterator encumbranceIterator = 
-            encumbranceDao.getEncumbrancesToClose(varFiscalYear);
+        Iterator encumbranceIterator = encumbranceDao.getEncumbrancesToClose(varFiscalYear);
         while (encumbranceIterator.hasNext()) {
-            
             Encumbrance encumbrance = (Encumbrance) encumbranceIterator.next();
             encumbrancesRead++;
-            
+
             if (encumbranceClosingRuleHelper.anEntryShouldBeCreatedForThisEncumbrance(encumbrance)) {
                 
                 encumbrancesSelected++;
                 
-                OriginEntryOffsetPair beginningBalanceEntryPair = 
-                    EncumbranceClosingOriginEntryFactory.createBeginningBalanceEntryOffsetPair(
+                OriginEntryOffsetPair beginningBalanceEntryPair = EncumbranceClosingOriginEntryFactory.createBeginningBalanceEntryOffsetPair(
                         encumbrance, varFiscalYear, varTransactionDate);
-                
-                if(beginningBalanceEntryPair.isFatalErrorFlag()) {
-                    
+
+                if (beginningBalanceEntryPair.isFatalErrorFlag()) { 
                     continue;
-                    
                 } else {
+                    beginningBalanceEntryPair.getEntry().setGroup(originEntryGroup);
+                    beginningBalanceEntryPair.getOffset().setGroup(originEntryGroup);
                     
-                    beginningBalanceEntryPair.getEntry().setGroup(
-                            originEntryGroup);
-                    beginningBalanceEntryPair.getOffset().setGroup(
-                            originEntryGroup);
-                    
-                    originEntryService.createEntry(
-                            beginningBalanceEntryPair.getEntry(), 
-                            originEntryGroup);
-                    originEntryService.createEntry(
-                            beginningBalanceEntryPair.getOffset(), 
-                            originEntryGroup);
+                    originEntryService.createEntry(beginningBalanceEntryPair.getEntry(), originEntryGroup);
+                    originEntryService.createEntry(beginningBalanceEntryPair.getOffset(), originEntryGroup);
                     originEntriesWritten += 2;
-                
                 }
                 
                 boolean isEligibleForCostShare = false;
                 
                 try {
-                    
-                    isEligibleForCostShare = 
-                        encumbranceClosingRuleHelper.isEncumbranceEligibleForCostShare(
-							beginningBalanceEntryPair.getEntry(), 
-                            beginningBalanceEntryPair.getOffset(),
-                            encumbrance, 
-                            beginningBalanceEntryPair.getEntry().getFinancialObjectTypeCode());
-                    
+                    isEligibleForCostShare = encumbranceClosingRuleHelper.isEncumbranceEligibleForCostShare(beginningBalanceEntryPair.getEntry(), 
+                            beginningBalanceEntryPair.getOffset(),encumbrance, beginningBalanceEntryPair.getEntry().getFinancialObjectTypeCode());
                 } catch(FatalErrorException fee) {
-                    
                     LOG.info(fee.getMessage());
-                    
                 }
                 
-                if(isEligibleForCostShare) {
-                    
-                    OriginEntryOffsetPair costShareBeginningBalanceEntryPair = 
-                        EncumbranceClosingOriginEntryFactory.createCostShareBeginningBalanceEntryOffsetPair(
+                if (isEligibleForCostShare) {
+                    OriginEntryOffsetPair costShareBeginningBalanceEntryPair = EncumbranceClosingOriginEntryFactory.createCostShareBeginningBalanceEntryOffsetPair(
                             encumbrance, beginningBalanceEntryPair.getEntry().getTransactionDebitCreditCode());
                     
-                    if(costShareBeginningBalanceEntryPair.isFatalErrorFlag()) {
-                        
+                    if (costShareBeginningBalanceEntryPair.isFatalErrorFlag()) {
                         continue;
-                        
                     } else {
-                        
-                        costShareBeginningBalanceEntryPair.getEntry().setGroup(
-                                originEntryGroup);
-                        costShareBeginningBalanceEntryPair.getOffset().setGroup(
-                                originEntryGroup);
-                        
-                        originEntryService.createEntry(
-                                costShareBeginningBalanceEntryPair.getEntry(), 
-                                originEntryGroup);
-                        originEntryService.createEntry(
-                                costShareBeginningBalanceEntryPair.getOffset(), 
-                                originEntryGroup);
+                        costShareBeginningBalanceEntryPair.getEntry().setGroup(originEntryGroup);
+                        costShareBeginningBalanceEntryPair.getOffset().setGroup(originEntryGroup);
+
+                        originEntryService.createEntry(costShareBeginningBalanceEntryPair.getEntry(), originEntryGroup);
+                        originEntryService.createEntry(costShareBeginningBalanceEntryPair.getOffset(), originEntryGroup);
                         originEntriesWritten += 2;
-                        
                     }
-                    
                 } else {
-                    
                     continue; // Explicit if redundant.
-                    
                 }
-                
             }
-            
         }
 
         LOG.info("Entries written: " + originEntriesWritten);
@@ -1579,9 +1488,13 @@ public class YearEndServiceImpl implements YearEndService {
         
         Date runDate = new Date(dateTimeService.getCurrentDate().getTime());
         encumbranceClosingReport.generateStatisticsReport(statistics, runDate);
-        
     }
-    
+
+    public void orgReversionsCarryForwards() {
+        LOG.debug("orgReversionsCarryForwards() started");
+        // TODO Write this
+    }
+
     /**
      * @param encumbranceDao The encumbranceDao to set.
      */
@@ -1678,6 +1591,5 @@ public class YearEndServiceImpl implements YearEndService {
      */
     public void setNominalActivityClosingReport(NominalActivityClosingReport nominalActivityClosingReport) {
         this.nominalActivityClosingReport = nominalActivityClosingReport;
-    }
-    
+    }    
 }

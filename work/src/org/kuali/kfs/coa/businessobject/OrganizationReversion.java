@@ -26,6 +26,7 @@
 package org.kuali.module.chart.bo;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import org.kuali.core.bo.BusinessObjectBase;
 
@@ -48,7 +49,8 @@ public class OrganizationReversion extends BusinessObjectBase {
 	private Account budgetReversionAccount;
 	private Chart budgetReversionChartOfAccounts;
 	private Chart cashReversionFinancialChartOfAccounts;
-	private OrganizationReversionDetail organizationReversionDetail;
+
+    private List organizationReversionDetail;
 
 	/**
 	 * Default constructor.
@@ -57,7 +59,19 @@ public class OrganizationReversion extends BusinessObjectBase {
 
 	}
 
-	/**
+    public List getOrganizationReversionDetail() {
+        return organizationReversionDetail;
+    }
+
+    public void addOrganizationReversionDetail(OrganizationReversionDetail ord) {
+        organizationReversionDetail.add(ord);
+    }
+
+    public void setOrganizationReversionDetail(List organizationReversionDetail) {
+        this.organizationReversionDetail = organizationReversionDetail;
+    }
+
+    /**
 	 * Gets the universityFiscalYear attribute.
 	 * 
 	 * @return - Returns the universityFiscalYear

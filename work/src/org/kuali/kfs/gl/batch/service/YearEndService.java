@@ -33,5 +33,6 @@ public interface YearEndService {
     public void forwardEncumbrances();
     public void forwardBalances();
     public void closeNominalActivity();
-    
+    public void orgReversionsCarryForwards();
+
 }

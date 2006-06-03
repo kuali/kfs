@@ -22,15 +22,16 @@
  */
 package org.kuali.module.chart.service;
 
-import org.kuali.module.chart.bo.Account;
+import java.util.Map;
+
 import org.kuali.module.chart.bo.OrganizationReversion;
+import org.kuali.module.gl.service.OrganizationReversionCategoryLogic;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  * @version $Id$
  */
 public interface OrganizationReversionService {
-    public void executeEntry(int entryNumber);
-    public OrganizationReversion getByFiscalYearAndAccount(Integer fiscalYear, Account account);
-    public OrganizationReversion getByKeys(Integer fiscalYear, String chartCode, String accountNumber);
+    public OrganizationReversion getByPrimaryId(Integer fiscalYear, String chartCode, String organizationCode);
+    public Map<String,OrganizationReversionCategoryLogic> getCategories();
 }

@@ -41,9 +41,9 @@
         <property name="organizationReversionDao">
             <ref bean="organizationReversionDao" />
         </property>
-        <property name="accountService">
-        	<ref bean="accountService"/>
-        </property>
+        <property name="kualiConfigurationService">
+            <ref bean="kualiConfigurationService" />
+        </property>        
      </bean>
      
      <bean id="organizationReversionDao" class="org.kuali.module.chart.dao.ojb.OrganizationReversionDaoOjb">

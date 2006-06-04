@@ -52,6 +52,7 @@ public class OrganizationReversionCategoryTest extends KualiTestBaseWithSpringOn
     public void testC01Reversion() {
         String category = "C01";
         OrganizationReversionCategoryLogic cat = (OrganizationReversionCategoryLogic)categories.get(category);
+        assertNotNull("Category not found",cat);
 
         ObjectCode se = objectCodeService.getByPrimaryId(new Integer(2004), "BL","5000");
         assertNotNull("S&E Object code should exist",se);
@@ -67,6 +68,7 @@ public class OrganizationReversionCategoryTest extends KualiTestBaseWithSpringOn
     public void testC02Reversion() {
         String category = "C02";
         OrganizationReversionCategoryLogic cat = (OrganizationReversionCategoryLogic)categories.get(category);
+        assertNotNull("Category not found",cat);
 
         ObjectCode se = objectCodeService.getByPrimaryId(new Integer(2004), "BL","5000");
         assertNotNull("S&E Object code should exist",se);
@@ -87,6 +89,7 @@ public class OrganizationReversionCategoryTest extends KualiTestBaseWithSpringOn
     public void testC03Reversion() {
         String category = "C03";
         OrganizationReversionCategoryLogic cat = (OrganizationReversionCategoryLogic)categories.get(category);
+        assertNotNull("Category not found",cat);
 
         ObjectCode se = objectCodeService.getByPrimaryId(new Integer(2004), "BL","5000");
         assertNotNull("S&E Object code should exist",se);
@@ -102,6 +105,7 @@ public class OrganizationReversionCategoryTest extends KualiTestBaseWithSpringOn
     public void testC04Reversion() {
         String category = "C04";
         OrganizationReversionCategoryLogic cat = (OrganizationReversionCategoryLogic)categories.get(category);
+        assertNotNull("Category not found",cat);
 
         ObjectCode se = objectCodeService.getByPrimaryId(new Integer(2004), "BL","5000");
         assertNotNull("S&E Object code should exist",se);
@@ -117,50 +121,55 @@ public class OrganizationReversionCategoryTest extends KualiTestBaseWithSpringOn
     public void testC05Reversion() {
         String category = "C05";
         OrganizationReversionCategoryLogic cat = (OrganizationReversionCategoryLogic)categories.get(category);
+        assertNotNull("Category not found",cat);
 
         ObjectCode se = objectCodeService.getByPrimaryId(new Integer(2004), "BL","5000");
         assertNotNull("S&E Object code should exist",se);
 
         assertFalse("S&E is not reserve",cat.containsObjectCode(category,se));
-        // True test
+        // TODO True test
     }
 
     public void testC06Reversion() {
         String category = "C06";
         OrganizationReversionCategoryLogic cat = (OrganizationReversionCategoryLogic)categories.get(category);
+        assertNotNull("Category not found",cat);
 
         ObjectCode se = objectCodeService.getByPrimaryId(new Integer(2004), "BL","5000");
         assertNotNull("S&E Object code should exist",se);
 
         assertFalse("S&E is not transfer out",cat.containsObjectCode(category,se));
-        // True test
+        // TODO True test
     }
 
     public void testC07Reversion() {
         String category = "C07";
         OrganizationReversionCategoryLogic cat = (OrganizationReversionCategoryLogic)categories.get(category);
+        assertNotNull("Category not found",cat);
 
         ObjectCode se = objectCodeService.getByPrimaryId(new Integer(2004), "BL","5000");
         assertNotNull("S&E Object code should exist",se);
 
         assertFalse("S&E is not transfer in",cat.containsObjectCode(category,se));
-        // True test
+        // TODO True test
     }
 
     public void testC08Reversion() {
         String category = "C08";
         OrganizationReversionCategoryLogic cat = (OrganizationReversionCategoryLogic)categories.get(category);
+        assertNotNull("Category not found",cat);
 
         ObjectCode se = objectCodeService.getByPrimaryId(new Integer(2004), "BL","5000");
         assertNotNull("S&E Object code should exist",se);
 
         assertFalse("S&E is not travel",cat.containsObjectCode(category,se));
-        // True test
+        // TODO True test
     }
 
     public void testC09Reversion() {
         String category = "C09";
         OrganizationReversionCategoryLogic cat = (OrganizationReversionCategoryLogic)categories.get(category);
+        assertNotNull("Category not found",cat);
 
         ObjectCode se = objectCodeService.getByPrimaryId(new Integer(2004), "BL","5000");
         assertNotNull("S&E Object code should exist",se);
@@ -172,6 +181,7 @@ public class OrganizationReversionCategoryTest extends KualiTestBaseWithSpringOn
     public void testC10Reversion() {
         String category = "C10";
         OrganizationReversionCategoryLogic cat = (OrganizationReversionCategoryLogic)categories.get(category);
+        assertNotNull("Category not found",cat);
 
         ObjectCode se = objectCodeService.getByPrimaryId(new Integer(2004), "BL","5000");
         assertNotNull("S&E Object code should exist",se);
@@ -183,6 +193,7 @@ public class OrganizationReversionCategoryTest extends KualiTestBaseWithSpringOn
     public void testC11Reversion() {
         String category = "C11";
         OrganizationReversionCategoryLogic cat = (OrganizationReversionCategoryLogic)categories.get(category);
+        assertNotNull("Category not found",cat);
 
         ObjectCode se = objectCodeService.getByPrimaryId(new Integer(2004), "BL","5000");
         assertNotNull("S&E Object code should exist",se);
@@ -194,6 +205,7 @@ public class OrganizationReversionCategoryTest extends KualiTestBaseWithSpringOn
     public void testC12Reversion() {
         String category = "C11";
         OrganizationReversionCategoryLogic cat = (OrganizationReversionCategoryLogic)categories.get(category);
+        assertNotNull("Category not found",cat);
 
         ObjectCode se = objectCodeService.getByPrimaryId(new Integer(2004), "BL","5000");
         assertNotNull("S&E Object code should exist",se);

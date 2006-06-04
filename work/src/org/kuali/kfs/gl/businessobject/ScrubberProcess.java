@@ -60,7 +60,6 @@ import org.kuali.module.gl.service.ScrubberValidator;
 import org.kuali.module.gl.service.impl.helper.ScrubberReportData;
 import org.kuali.module.gl.service.impl.helper.UnitOfWorkInfo;
 import org.kuali.module.gl.service.impl.scrubber.Message;
-import org.kuali.module.gl.util.LedgerEntry;
 import org.kuali.module.gl.util.ObjectHelper;
 import org.kuali.module.gl.util.StringHelper;
 import org.kuali.module.gl.util.Summary;
@@ -245,47 +244,77 @@ public class ScrubberProcess {
             originEntryGroupService.save(originEntryGroup);
         }
 
+        runScrubberReports();
+        
+        performDemerger(errorGroup, validGroup);
+
+        // runDemergerReport();
+    }
+
+    private void runScrubberReports() {
         // write out report and errors
         List reportSummary = buildReportSummary();
 
-        // TODO This can be implemented with a ReportQuery so the database summarizes some of the data
+        // TODO This should be implemented with a ReportQuery so the database summarizes some of the data
         // Also, this logic should be moved into the report service impl
-        
-        // TODO Fix this
+
         Map ledgerEntries = new HashMap();
-        if ( false ) {
-        
-        for (Iterator iterator = originEntryService.getEntriesByGroup(validGroup); iterator.hasNext();) {
-            OriginEntry entry = (OriginEntry) iterator.next();
 
-            String key = entry.getFinancialBalanceTypeCode() + entry.getFinancialSystemOriginationCode() +
-                entry.getUniversityFiscalYear() + entry.getUniversityFiscalPeriodCode();
+        // This is commented out for now because it takes too long to run
+//        for (Iterator iterator = originEntryService.getEntriesByGroup(validGroup); iterator.hasNext();) {
+//            OriginEntry entry = (OriginEntry) iterator.next();
+//
+//            String key = entry.getFinancialBalanceTypeCode() + entry.getFinancialSystemOriginationCode() +
+//                entry.getUniversityFiscalYear() + entry.getUniversityFiscalPeriodCode();
+//
+//            LedgerEntry ledgerEntry = null;
+//            if ( ledgerEntries.containsKey(key) ) {
+//                ledgerEntry = (LedgerEntry)ledgerEntries.get(key);
+//            } else {
+//                ledgerEntry = new LedgerEntry(entry.getFinancialBalanceTypeCode(),entry.getFinancialSystemOriginationCode(),
+//                        entry.getUniversityFiscalYear(),entry.getUniversityFiscalPeriodCode());
+//                ledgerEntries.put(key, ledgerEntry);
+//            }
+//
+//            ++ledgerEntry.recordCount;
+//            if (entry.isCredit()) {
+//                ++ledgerEntry.creditCount;
+//                ledgerEntry.creditAmount = ledgerEntry.creditAmount.add(entry.getTransactionLedgerEntryAmount());
+//            } else if (entry.isDebit()) {
+//                ++ledgerEntry.debitCount;
+//                ledgerEntry.debitAmount = ledgerEntry.debitAmount.add(entry.getTransactionLedgerEntryAmount());
+//            } else {
+//                ++ledgerEntry.noDCCount;
+//                ledgerEntry.noDCAmount = ledgerEntry.noDCAmount.add(entry.getTransactionLedgerEntryAmount());
+//            }
+//        }
 
-            LedgerEntry ledgerEntry = null;
-            if ( ledgerEntries.containsKey(key) ) {
-                ledgerEntry = (LedgerEntry)ledgerEntries.get(key);
-            } else {
-                ledgerEntry = new LedgerEntry(entry.getFinancialBalanceTypeCode(),entry.getFinancialSystemOriginationCode(),
-                        entry.getUniversityFiscalYear(),entry.getUniversityFiscalPeriodCode());
-                ledgerEntries.put(key, ledgerEntry);
-            }
-
-            ++ledgerEntry.recordCount;
-            if (entry.isCredit()) {
-                ++ledgerEntry.creditCount;
-                ledgerEntry.creditAmount = ledgerEntry.creditAmount.add(entry.getTransactionLedgerEntryAmount());
-            } else if (entry.isDebit()) {
-                ++ledgerEntry.debitCount;
-                ledgerEntry.debitAmount = ledgerEntry.debitAmount.add(entry.getTransactionLedgerEntryAmount());
-            } else {
-                ++ledgerEntry.noDCCount;
-                ledgerEntry.noDCAmount = ledgerEntry.noDCAmount.add(entry.getTransactionLedgerEntryAmount());
-            }
-        }
-        }
+        // These should probably just be sorted in place rather than copied to a new map
         Map sortedLedgerEntries = new TreeMap(ledgerEntries);
 
         reportService.generateScrubberReports(runDate, reportSummary, scrubberReportErrors, sortedLedgerEntries);
+    }
+
+    /**
+     * The demerger process reads all of the documents in the error group, then moves all of the original entries for that document
+     * from the valid group to the error group.  It does not move generated entries to the error group.  Those are deleted.
+     * 
+     * @param errorGroup
+     * @param validGroup
+     */
+    private void performDemerger(OriginEntryGroup errorGroup, OriginEntryGroup validGroup) {
+        LOG.debug("performDemerger() started");
+
+        // TODO Write this
+        //        originEntryService.removeScrubberDocumentEntries(validGroup, errorGroup, expiredGroup, documentNumber, documentTypeCode, originCode);
+//
+//        Iterator entryIterator = originEntryService.getEntriesByDocument(oeg, documentNumber, documentTypeCode, originCode);
+//
+//        while(entryIterator.hasNext()) {
+//            OriginEntry entry = (OriginEntry) entryIterator.next();
+//            originEntryService.createEntry(entry, errorGroup);
+//        }
+//
     }
 
     /**
@@ -296,8 +325,8 @@ public class ScrubberProcess {
     private List buildReportSummary() {
         List reportSummary = new ArrayList();
 
-        reportSummary.add(new Summary(1, "UNSCRUBBED RECORDS READ", new Integer(scrubberReport.getNumberOfUnscrubbedRecordsRead())));
-        reportSummary.add(new Summary(2, "GROUPS READ", new Integer(scrubberReport.getNumberOfGroupsRead())));
+        reportSummary.add(new Summary(1, "GROUPS READ", new Integer(scrubberReport.getNumberOfGroupsRead())));
+        reportSummary.add(new Summary(2, "UNSCRUBBED RECORDS READ", new Integer(scrubberReport.getNumberOfUnscrubbedRecordsRead())));
         reportSummary.add(new Summary(3, "SCRUBBED RECORDS WRITTEN", new Integer(scrubberReport.getNumberOfScrubbedRecordsWritten())));
         reportSummary.add(new Summary(4, "ERROR RECORDS WRITTEN", new Integer(scrubberReport.getNumberOfErrorRecordsWritten())));
         reportSummary.add(new Summary(5, "OFFSET ENTRIES GENERATED", new Integer(scrubberReport.getNumberOfOffsetEntriesGenerated())));
@@ -323,6 +352,7 @@ public class ScrubberProcess {
 
         OriginEntry lastEntry = null;
         scrubCostShareAmount = KualiDecimal.ZERO;
+        unitOfWork = new UnitOfWorkInfo();
 
         Iterator entries = originEntryService.getEntriesByGroup(originEntryGroup);
         while ( entries.hasNext() ) {
@@ -330,7 +360,8 @@ public class ScrubberProcess {
             scrubberReport.unscrubbedRecordsRead();
 
             // This is done so if the code modifies this row, then saves it, it will be an insert,
-            // and it won't touch the original.  The Scrubber never modifies input rows.
+            // and it won't touch the original.  The Scrubber never modifies input rows/groups.
+            unscrubbedEntry.setGroup(null);
             unscrubbedEntry.setVersionNumber(null);
             unscrubbedEntry.setEntryId(null);
 
@@ -348,11 +379,6 @@ public class ScrubberProcess {
 
             List<Message> errors = scrubberValidator.validateTransaction(unscrubbedEntry, scrubbedEntry, universityRunDate);
 
-            // Init this on the first entry of the group
-            if ( unitOfWork == null ) {
-                unitOfWork = new UnitOfWorkInfo(scrubbedEntry);
-            }
-
             // Expired account?
             if ( (unscrubbedEntry.getAccount() != null) && (unscrubbedEntry.getAccount().isAccountClosedIndicator()) ) {
                 // Make a copy of it so OJB doesn't just update the row in the original
@@ -367,10 +393,9 @@ public class ScrubberProcess {
             if ( errors.size() == 0 ) {
                 // See if unit of work has changed
                 if ( ! unitOfWork.isSameUnitOfWork(scrubbedEntry) ) {
-                    if ( lastEntry != null ) {
-                        // Generate offset for last unit of work
-                        generateOffset(lastEntry);
-                    }
+                    // Generate offset for last unit of work
+                    generateOffset(lastEntry);
+
                     lastEntry = scrubbedEntry;
                     unitOfWork = new UnitOfWorkInfo(scrubbedEntry);
                 }
@@ -404,6 +429,9 @@ public class ScrubberProcess {
                 scrubberReport.errorRecordWritten();
             }
         }
+
+        // Generate last offset (if necessary)
+        generateOffset(lastEntry);
     }
 
     /**
@@ -989,7 +1017,7 @@ public class ScrubberProcess {
 
         costShareOffsetEntry.setTransactionScrubberOffsetGenerationIndicator(true);
         createOutputEntry(costShareOffsetEntry, validGroup);
-        scrubberReport.offsetEntryGenerated();
+        scrubberReport.costShareEntryGenerated();
 
         OriginEntry costShareSourceAccountEntry = new OriginEntry(costShareEntry);
 
@@ -1518,6 +1546,10 @@ public class ScrubberProcess {
             createOutputEntry(plantIndebtednessEntry, validGroup);
             scrubberReport.plantIndebtednessEntryGenerated();
 
+            // Clear out the id & the ojb version number to make sure we do an insert on the next one
+            plantIndebtednessEntry.setVersionNumber(null);
+            plantIndebtednessEntry.setEntryId(null);
+
 //            4872  038630        MOVE '9899'
 //            4873  038640          TO FIN-OBJECT-CD  OF ALT-GLEN-RECORD
 
@@ -1539,6 +1571,10 @@ public class ScrubberProcess {
             plantIndebtednessEntry.setTransactionScrubberOffsetGenerationIndicator(true);
             createOutputEntry(plantIndebtednessEntry, validGroup);
             scrubberReport.plantIndebtednessEntryGenerated();
+
+            // Clear out the id & the ojb version number to make sure we do an insert on the next one
+            plantIndebtednessEntry.setVersionNumber(null);
+            plantIndebtednessEntry.setEntryId(null);
 
 //            4880  038750        MOVE FIN-OBJECT-CD      OF WS-SAVED-FIELDS
 //            4881  038760          TO FIN-OBJECT-CD      OF ALT-GLEN-RECORD
@@ -1683,6 +1719,10 @@ public class ScrubberProcess {
             createOutputEntry(plantIndebtednessEntry, validGroup);
             scrubberReport.plantIndebtednessEntryGenerated();
 
+            // Clear out the id & the ojb version number to make sure we do an insert on the next one
+            plantIndebtednessEntry.setVersionNumber(null);
+            plantIndebtednessEntry.setEntryId(null);
+
 //            4966  039490        MOVE '9899'
 //            4967  039500          TO FIN-OBJECT-CD  OF ALT-GLEN-RECORD
 
@@ -1782,6 +1822,10 @@ public class ScrubberProcess {
             liabilityEntry.setTransactionScrubberOffsetGenerationIndicator(true);
             createOutputEntry(liabilityEntry, validGroup);
             scrubberReport.liabilityEntryGenerated();
+
+            // Clear out the id & the ojb version number to make sure we do an insert on the next one
+            liabilityEntry.setVersionNumber(null);
+            liabilityEntry.setEntryId(null);
 
             // ... and now generate the other half of the liability entry
 
@@ -2298,9 +2342,15 @@ public class ScrubberProcess {
      * @param workingEntry
      */
     private List generateOffset(OriginEntry workingEntry) {
+        LOG.debug("generateOffset() started");
 
         // Temporary storage for any errors.
         ArrayList errors = new ArrayList();
+
+        // There was no previous unit of work so we need no offset
+        if ( workingEntry == null ) {
+            return errors;
+        }
 
         // If the offset amount is zero, don't bother to lookup the offset definition ...
         // NOTE (laran) this is a rule that Sterling suggested.
@@ -2594,16 +2644,18 @@ public class ScrubberProcess {
         }
 
         // TODO We need to validate the chart/account in the offset table
-        
-        if ( chartOfAccountsCode.equals(offsetAccount.getChartOfAccountsCode()) ) {
+
+        if ( ! chartOfAccountsCode.equals(offsetAccount.getChartOfAccountsCode()) ) {
             // TODO We need to check that the object code is valid on the new chart
         }
+
         // replace the chart and account of the given transaction with those of the offset account obtained above
         // Since we are replacing the account, we blank out the sub account and sub object
         originEntry.setAccountNumber(offsetAccount.getFinancialOffsetAccountNumber());
         originEntry.setChartOfAccountsCode(offsetAccount.getFinancialOffsetChartOfAccountCode());
         originEntry.setSubAccountNumber(Constants.DASHES_SUB_ACCOUNT_NUMBER);
         originEntry.setFinancialSubObjectCode(Constants.DASHES_SUB_OBJECT_CODE);
+        originEntry.setTransactionLedgerEntryDescription("FLEXIBLE OFFSET GENERATION");
 
         return errors;
     }
@@ -2648,26 +2700,6 @@ public class ScrubberProcess {
         }
         entry.setGroup(group);
         originEntryService.save(entry);
-    }
-
-    /**
-     * The demerger process removes all the generated entries from the GL and then copies all the origin
-     * entries for the given document directly into the error group. 
-     * 
-     * @param documentNumber
-     * @param oeg
-     */
-    private void performDemerger(String documentNumber, String documentTypeCode, String originCode, OriginEntryGroup oeg) {
-
-        originEntryService.removeScrubberDocumentEntries(validGroup, errorGroup, expiredGroup, documentNumber, documentTypeCode, originCode);
-
-        Iterator entryIterator = originEntryService.getEntriesByDocument(oeg, documentNumber, documentTypeCode, originCode);
-
-        while(entryIterator.hasNext()) {
-            OriginEntry entry = (OriginEntry) entryIterator.next();
-            originEntryService.createEntry(entry, errorGroup);
-        }
-
     }
 
     /**

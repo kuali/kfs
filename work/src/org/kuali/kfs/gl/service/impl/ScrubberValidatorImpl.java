@@ -731,20 +731,27 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
 	public Message validateUniversityFiscalPeriodCode(OriginEntry originEntry, OriginEntry workingEntry, UniversityDate universityRunDate) {
         LOG.debug("validateUniversityFiscalPeriodCode() started");
 
-        if ( StringUtils.hasText(originEntry.getUniversityFiscalPeriodCode()) ) {
+        if ( ! StringUtils.hasText(originEntry.getUniversityFiscalPeriodCode()) ) {
+            workingEntry.setUniversityFiscalPeriodCode(universityRunDate.getUniversityFiscalAccountingPeriod());
+            workingEntry.setUniversityFiscalYear(universityRunDate.getUniversityFiscalYear());
+
+            // Retrieve these objects because the fiscal year is the primary key for them
+            persistenceService.retrieveReferenceObject(originEntry, "financialSubObject");
+            persistenceService.retrieveReferenceObject(originEntry, "financialObject");
+            persistenceService.retrieveReferenceObject(originEntry, "accountingPeriod");
+            persistenceService.retrieveReferenceObject(originEntry, "option");            
+        } else {
             if ( originEntry.getAccountingPeriod() == null ) {
                 return new Message(kualiConfigurationService.getPropertyString(KeyConstants.ERROR_ACCOUNTING_PERIOD_NOT_FOUND) + " (" +
-                        originEntry.getUniversityFiscalPeriodCode() + ")",Message.TYPE_FATAL);
-            }
-            if ( Constants.ACCOUNTING_PERIOD_STATUS_CLOSED.equals(originEntry.getAccountingPeriod().getUniversityFiscalPeriodStatusCode()) ) {
+                    originEntry.getUniversityFiscalPeriodCode() + ")",Message.TYPE_FATAL);
+            } else if ( Constants.ACCOUNTING_PERIOD_STATUS_CLOSED.equals(originEntry.getAccountingPeriod().getUniversityFiscalPeriodStatusCode()) ) {
                 return new Message(kualiConfigurationService.getPropertyString(KeyConstants.ERROR_FISCAL_PERIOD_CLOSED) + " (" + 
                     originEntry.getUniversityFiscalPeriodCode() + ")",Message.TYPE_FATAL);
             }
-            
+
             workingEntry.setUniversityFiscalPeriodCode(originEntry.getUniversityFiscalPeriodCode());
-        } else {
-            workingEntry.setUniversityFiscalPeriodCode(universityRunDate.getUniversityFiscalAccountingPeriod());
         }
+
         return null;
 	}
 

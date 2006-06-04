@@ -41,7 +41,7 @@ import org.springframework.beans.factory.BeanFactoryAware;
 
 /**
  * @author Kuali General Ledger Team <kualigltech@oncourse.iu.edu>
- * @version $Id: ScrubberServiceImpl.java,v 1.93 2006-06-03 21:33:48 jsissom Exp $
+ * @version $Id: ScrubberServiceImpl.java,v 1.94 2006-06-04 20:52:29 jsissom Exp $
  */
 
 public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
@@ -88,6 +88,9 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
      */
     public void scrubEntries() {
         LOG.debug("scrubEntries() started");
+
+        // The logic for this was moved into another object because the process was written using
+        // many instance variables which shouldn't be used for Spring services
 
         ScrubberProcess sp = new ScrubberProcess(flexibleOffsetAccountService,documentTypeService,    
             beanFactory,originEntryService,originEntryGroupService,dateTimeService,offsetDefinitionService,

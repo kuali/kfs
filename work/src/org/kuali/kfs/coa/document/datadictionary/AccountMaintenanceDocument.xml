@@ -82,6 +82,7 @@
 						attributeToHighlightOnFail="accountRestrictedStatusCode"  />
 			<reference  attributeName="subFundGroup" 
 						attributeToHighlightOnFail="subFundGroupCode"  />
+			<!--  comment program out if not in use at your institution -->
 			<reference  attributeName="program" 
 						activeIndicatorAttributeName="programActiveIndicator" 
 						attributeToHighlightOnFail="programCode"  />
@@ -116,6 +117,7 @@
 		            <maintainableField name="accountClosedIndicator" required="false" />
 		            <maintainableField name="accountTypeCode" required="true" />
 		            <maintainableField name="subFundGroupCode" required="true" />
+		            <!--  comment programCode out if not in use at your institution -->
 		            <maintainableField name="programCode" required="false" />
 		            <maintainableField name="accountsFringesBnftIndicator" required="false">
 		            	<defaultValue>true</defaultValue>

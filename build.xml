@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <project name="kuali" default="dist-local" basedir=".">
 	<!-- run the help task to view usage instructions -->	
-	<target name="dist-local" if="is.local.build" depends="filter-local,filter-project,dist-workflow-local" description="Prepare local configuration files and tokenized resources and deploy tomcat context file on development workstation">
+	<target name="dist-local" if="is.local.build" depends="filter-local,dist-workflow-local" description="Prepare local configuration files and tokenized resources and deploy tomcat context file on development workstation">
     		<copy file="${metainf.directory}/${tomcat.context.file}" tofile="${appserver.config.dir}/${ant.project.name}-${build.environment}.xml" overwrite="true"/>
     </target>
 
@@ -153,6 +153,9 @@
 		<delete>
 			<fileset dir="." includes="*.war"/>
 		</delete>
+		<delete>
+			<fileset dir="." includes="*.zip"/>
+		</delete>
 	</target>
 
 	<target name="clean-local" if="is.local.build" depends="init-project-properties">
@@ -165,9 +168,8 @@
 		<delete dir="${settings.directory}" failonerror="false"/>
 		<delete dir="${security.directory}" failonerror="false"/>
 		<delete dir="${logs.directory}" failonerror="false"/>
-		<delete failonerror="false">
-			<fileset dir="." includes="*.zip"/>
-		</delete>		
+		<delete dir="${attachments.root.directory}" failonerror="false"/>
+		<delete dir="${htdocs.directory}" failonerror="false"/>	
 	</target>	
 
 	<target name="clean-workflow-local" if="is.local.build" depends="init-project-properties">
@@ -203,10 +205,10 @@
 			<fileset dir="${build.tokenized.resources.directory}" includes="${tokenized.source.files}"/>
             <filterset refid="general.filterset"/>
     		</copy>
+		<zip destfile="${static.content.zip}" basedir="${webroot.directory}" includes="reports/*,xml/*"/>
     </target>
 	
-	<target name="filter-local" if="is.local.build" depends="init-filter-sets,clean-local">
-		<mkdir dir="${attachments.root.directory}/${build.environment}"/>
+	<target name="filter-local" if="is.local.build" depends="init-filter-sets,clean-local,filter-project">
 		<copy todir="${appserver.lib.dir}" overwrite="true">
 			<fileset dir="${build.appserver.directory}" includes="${appserver.library.list}"/>
 		</copy>
@@ -230,6 +232,9 @@
     		<copy todir="${logs.directory}" overwrite="true">
 			<fileset dir="${build.logs.directory}"/>
 		</copy>
+		<mkdir dir="${attachments.root.directory}/${build.environment}"/>
+        <unzip src="${static.content.zip}" dest="${htdocs.directory}"/>
+		<mkdir dir="${htdocs.directory}/reports"/>
 	</target>
 	
 	<target name="filter-workflow-local" if="dist.workflow.local" depends="init-filter-sets,clean-workflow-local">
@@ -329,7 +334,6 @@
 			<fileset dir="${webroot.directory}" excludes="WEB-INF/classes/**/**"/>
 		</copy>
 		<jar jarfile="${ant.project.name}-${build.environment}.war" basedir="${war.directory}" compress="false"/>
-		<zip destfile="static.zip" basedir="${webroot.directory}" includes="xml/*"/>
 	</target>
     	
 	<target name="dist-plugin" depends="make-plugin" description="Build plugin zip for remote deployment">

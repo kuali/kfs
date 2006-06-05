@@ -22,6 +22,7 @@
 		<html:hidden property="document.procurementCardHolder.chartOfAccountsCode"/>
 	    <html:hidden property="document.procurementCardHolder.accountNumber"/>
 		<html:hidden property="document.procurementCardHolder.subAccountNumber"/>
+		<html:hidden property="document.procurementCardHolder.versionNumber"/>
 																														
 		<kul:hiddenDocumentFields />
 		

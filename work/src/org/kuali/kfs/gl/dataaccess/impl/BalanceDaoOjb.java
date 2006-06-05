@@ -45,7 +45,7 @@ import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 /**
  * @author jsissom
  * @author Laran Evans <lc278@cornell.edu>
- * @version $Id: BalanceDaoOjb.java,v 1.29 2006-05-17 14:38:49 larevans Exp $
+ * @version $Id: BalanceDaoOjb.java,v 1.30 2006-06-05 19:45:23 jkneal Exp $
  */
 public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements BalanceDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BalanceDaoOjb.class);
@@ -412,7 +412,7 @@ public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements Balanc
         crit.addEqualTo("chartOfAccountsCode", chartOfAccountsCode);
         crit.addEqualTo("accountNumber", accountNumber);
         crit.addEqualTo("objectCode", objectCode);
-        crit.addEqualTo("balanceTypeCode", Constants.BALANCE_TYPE_BUDGET);
+        crit.addEqualTo("balanceTypeCode", Constants.BALANCE_TYPE_CURRENT_BUDGET);
         
         QueryByCriteria qbc = QueryFactory.newQuery(Balance.class, crit);
         return (Balance) getPersistenceBrokerTemplate().getObjectByQuery(qbc);

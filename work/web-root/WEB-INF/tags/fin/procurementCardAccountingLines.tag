@@ -24,7 +24,7 @@
 <c:set var="columnCount" value="${columnCountUntilAmount + 1 + (empty editingMode['viewOnly'] ? 1 : 0)}" />
 <c:set var="accountingLineAttributes" value="${DataDictionary['TargetAccountingLine'].attributes}" />
 
-<kul:tab tabTitle="Accounting Lines" defaultOpen="true" tabErrorKey="${Constants.TARGET_ACCOUNTING_LINE_ERROR_PATTERN}">
+<kul:tab tabTitle="Accounting Lines" defaultOpen="true" tabErrorKey="${Constants.TARGET_ACCOUNTING_LINE_ERROR_PATTERN},document.accountingLines*">
   <c:set var="transactionAttributes" value="${DataDictionary.ProcurementCardTransactionDetail.attributes}" />
   <c:set var="vendorAttributes" value="${DataDictionary.ProcurementCardVendor.attributes}" />
   <c:set var="cardAttributes" value="${DataDictionary.ProcurementCardHolder.attributes}" />
@@ -63,6 +63,7 @@
        <html:hidden write="false" property="document.transactionEntries[${ctr}].procurementCardVendor.visaVendorIdentifier"/>
        <html:hidden write="false" property="document.transactionEntries[${ctr}].procurementCardVendor.vendorOrderNumber"/>
        <html:hidden write="false" property="document.transactionEntries[${ctr}].procurementCardVendor.transactionMerchantCategoryCode"/>
+       <html:hidden write="false" property="document.transactionEntries[${ctr}].procurementCardVendor.versionNumber"/>
        
        <%-- write out source (actually from lines) as hiddens since they are not displayed but need repopulated --%>
        <logic:iterate indexId="tCtr" name="KualiForm" property="document.transactionEntries[${ctr}].sourceAccountingLines" id="currentLine">

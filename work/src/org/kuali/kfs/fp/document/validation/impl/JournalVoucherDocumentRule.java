@@ -436,7 +436,7 @@ public class JournalVoucherDocumentRule extends TransactionalDocumentRuleBase {
         String balanceTypeCode = ((JournalVoucherDocument) transactionalDocument).getBalanceTypeCode();
         // fp_dvj:lp_create_ple.10-1...11-1
         if (StringUtils.equals(Constants.BALANCE_TYPE_ACTUAL, balanceTypeCode)
-                || StringUtils.equals(Constants.BALANCE_TYPE_BUDGET, balanceTypeCode)) {
+                || StringUtils.equals(Constants.BALANCE_TYPE_CURRENT_BUDGET, balanceTypeCode)) {
 
             String financialObjectCode = sourceAccountingLine.getFinancialObjectCode();
             String accountSufficientFundsCode = sourceAccountingLine.getAccount().getAccountSufficientFundsCode();

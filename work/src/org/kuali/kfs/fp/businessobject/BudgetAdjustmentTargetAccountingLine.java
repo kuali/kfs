@@ -29,7 +29,7 @@ import org.kuali.core.util.KualiDecimal;
 /**
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
-public class BudgetAdjustmentTargetAccountingLine extends TargetAccountingLine {
+public class BudgetAdjustmentTargetAccountingLine extends TargetAccountingLine implements BudgetAdjustmentAccountingLine{
 
 	private String budgetAdjustmentPeriodCode;
     private KualiDecimal currentBudgetAdjustmentAmount;
@@ -332,6 +332,11 @@ public class BudgetAdjustmentTargetAccountingLine extends TargetAccountingLine {
      */
     public void setFinancialDocumentMonth12LineAmount(KualiDecimal financialDocumentMonth12LineAmount) {
         this.financialDocumentMonth12LineAmount = financialDocumentMonth12LineAmount;
+    }
+
+    public KualiDecimal getMonthlyLinesTotal() {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }

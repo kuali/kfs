@@ -174,7 +174,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
 
                 try {
                     LOG.info("Auto approving document # " + pcardDocument.getDocumentHeader().getFinancialDocumentNumber());
-                    documentService.blanketApprove(pcardDocument, "", new ArrayList());
+                    documentService.superUserApprove(pcardDocument, "");
                 }
                 catch (WorkflowException e) {
                     LOG.error("Error auto approving document # " + pcardDocument.getDocumentHeader().getFinancialDocumentNumber()

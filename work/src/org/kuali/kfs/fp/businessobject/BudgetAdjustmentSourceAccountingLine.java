@@ -29,7 +29,7 @@ import org.kuali.core.util.KualiDecimal;
 /**
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
-public class BudgetAdjustmentSourceAccountingLine extends SourceAccountingLine {
+public class BudgetAdjustmentSourceAccountingLine extends SourceAccountingLine implements BudgetAdjustmentAccountingLine {
 
 	private String budgetAdjustmentPeriodCode;
     private KualiDecimal currentBudgetAdjustmentAmount;
@@ -57,6 +57,9 @@ public class BudgetAdjustmentSourceAccountingLine extends SourceAccountingLine {
 		super.ojbConcreteClass = this.getClass().getName();
 	}
 
+    /**
+     * @see org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine#getMonthlyLinesTotal()
+     */
     public KualiDecimal getMonthlyLinesTotal() {
         KualiDecimal total = new KualiDecimal(0);
         if (getFinancialDocumentMonth1LineAmount() != null) {
@@ -98,47 +101,59 @@ public class BudgetAdjustmentSourceAccountingLine extends SourceAccountingLine {
         return total;
     }
 
+	/**
+     * @see org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine#getBaseBudgetAdjustmentAmount()
+     */
 	public KualiDecimal getBaseBudgetAdjustmentAmount() {
 		return baseBudgetAdjustmentAmount;
 	}
 
+	/**
+     * @see org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine#setBaseBudgetAdjustmentAmount(org.kuali.core.util.KualiDecimal)
+     */
 	public void setBaseBudgetAdjustmentAmount(
 			KualiDecimal baseBudgetAdjustmentAmount) {
 		this.baseBudgetAdjustmentAmount = baseBudgetAdjustmentAmount;
 	}
 
+	/**
+     * @see org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine#getBudgetAdjustmentPeriodCode()
+     */
 	public String getBudgetAdjustmentPeriodCode() {
 		return budgetAdjustmentPeriodCode;
 	}
 
+	/**
+     * @see org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine#setBudgetAdjustmentPeriodCode(java.lang.String)
+     */
 	public void setBudgetAdjustmentPeriodCode(String budgetAdjustmentPeriodCode) {
 		this.budgetAdjustmentPeriodCode = budgetAdjustmentPeriodCode;
 	}
 
+	/**
+     * @see org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine#getCurrentBudgetAdjustmentAmount()
+     */
 	public KualiDecimal getCurrentBudgetAdjustmentAmount() {
 		return currentBudgetAdjustmentAmount;
 	}
 
+	/**
+     * @see org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine#setCurrentBudgetAdjustmentAmount(org.kuali.core.util.KualiDecimal)
+     */
 	public void setCurrentBudgetAdjustmentAmount(
 			KualiDecimal currentBudgetAdjustmentAmount) {
 		this.currentBudgetAdjustmentAmount = currentBudgetAdjustmentAmount;
 	}
 
     /**
-     * Gets the financialDocumentMonth1LineAmount attribute.
-     * 
-     * @return - Returns the financialDocumentMonth1LineAmount
-     * 
+     * @see org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine#getFinancialDocumentMonth1LineAmount()
      */
     public KualiDecimal getFinancialDocumentMonth1LineAmount() { 
         return financialDocumentMonth1LineAmount;
     }   
     
     /**
-     * Sets the financialDocumentMonth1LineAmount attribute.
-     * 
-     * @param - financialDocumentMonth1LineAmount The financialDocumentMonth1LineAmount to set.
-     * 
+     * @see org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine#setFinancialDocumentMonth1LineAmount(org.kuali.core.util.KualiDecimal)
      */
     public void setFinancialDocumentMonth1LineAmount(KualiDecimal financialDocumentMonth1LineAmount) {
         this.financialDocumentMonth1LineAmount = financialDocumentMonth1LineAmount;
@@ -146,20 +161,14 @@ public class BudgetAdjustmentSourceAccountingLine extends SourceAccountingLine {
 
 
     /**
-     * Gets the financialDocumentMonth2LineAmount attribute.
-     * 
-     * @return - Returns the financialDocumentMonth2LineAmount
-     * 
+     * @see org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine#getFinancialDocumentMonth2LineAmount()
      */
     public KualiDecimal getFinancialDocumentMonth2LineAmount() { 
         return financialDocumentMonth2LineAmount;
     }
 
     /**
-     * Sets the financialDocumentMonth2LineAmount attribute.
-     * 
-     * @param - financialDocumentMonth2LineAmount The financialDocumentMonth2LineAmount to set.
-     * 
+     * @see org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine#setFinancialDocumentMonth2LineAmount(org.kuali.core.util.KualiDecimal)
      */
     public void setFinancialDocumentMonth2LineAmount(KualiDecimal financialDocumentMonth2LineAmount) {
         this.financialDocumentMonth2LineAmount = financialDocumentMonth2LineAmount;
@@ -167,20 +176,14 @@ public class BudgetAdjustmentSourceAccountingLine extends SourceAccountingLine {
 
 
     /**
-     * Gets the financialDocumentMonth3LineAmount attribute.
-     * 
-     * @return - Returns the financialDocumentMonth3LineAmount
-     * 
+     * @see org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine#getFinancialDocumentMonth3LineAmount()
      */
     public KualiDecimal getFinancialDocumentMonth3LineAmount() { 
         return financialDocumentMonth3LineAmount;
     }
 
     /**
-     * Sets the financialDocumentMonth3LineAmount attribute.
-     * 
-     * @param - financialDocumentMonth3LineAmount The financialDocumentMonth3LineAmount to set.
-     * 
+     * @see org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine#setFinancialDocumentMonth3LineAmount(org.kuali.core.util.KualiDecimal)
      */
     public void setFinancialDocumentMonth3LineAmount(KualiDecimal financialDocumentMonth3LineAmount) {
         this.financialDocumentMonth3LineAmount = financialDocumentMonth3LineAmount;
@@ -188,20 +191,14 @@ public class BudgetAdjustmentSourceAccountingLine extends SourceAccountingLine {
 
 
     /**
-     * Gets the financialDocumentMonth4LineAmount attribute.
-     * 
-     * @return - Returns the financialDocumentMonth4LineAmount
-     * 
+     * @see org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine#getFinancialDocumentMonth4LineAmount()
      */
     public KualiDecimal getFinancialDocumentMonth4LineAmount() { 
         return financialDocumentMonth4LineAmount;
     }
 
     /**
-     * Sets the financialDocumentMonth4LineAmount attribute.
-     * 
-     * @param - financialDocumentMonth4LineAmount The financialDocumentMonth4LineAmount to set.
-     * 
+     * @see org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine#setFinancialDocumentMonth4LineAmount(org.kuali.core.util.KualiDecimal)
      */
     public void setFinancialDocumentMonth4LineAmount(KualiDecimal financialDocumentMonth4LineAmount) {
         this.financialDocumentMonth4LineAmount = financialDocumentMonth4LineAmount;
@@ -209,20 +206,14 @@ public class BudgetAdjustmentSourceAccountingLine extends SourceAccountingLine {
 
 
     /**
-     * Gets the financialDocumentMonth5LineAmount attribute.
-     * 
-     * @return - Returns the financialDocumentMonth5LineAmount
-     * 
+     * @see org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine#getFinancialDocumentMonth5LineAmount()
      */
     public KualiDecimal getFinancialDocumentMonth5LineAmount() { 
         return financialDocumentMonth5LineAmount;
     }
 
     /**
-     * Sets the financialDocumentMonth5LineAmount attribute.
-     * 
-     * @param - financialDocumentMonth5LineAmount The financialDocumentMonth5LineAmount to set.
-     * 
+     * @see org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine#setFinancialDocumentMonth5LineAmount(org.kuali.core.util.KualiDecimal)
      */
     public void setFinancialDocumentMonth5LineAmount(KualiDecimal financialDocumentMonth5LineAmount) {
         this.financialDocumentMonth5LineAmount = financialDocumentMonth5LineAmount;
@@ -230,20 +221,14 @@ public class BudgetAdjustmentSourceAccountingLine extends SourceAccountingLine {
 
 
     /**
-     * Gets the financialDocumentMonth6LineAmount attribute.
-     * 
-     * @return - Returns the financialDocumentMonth6LineAmount
-     * 
+     * @see org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine#getFinancialDocumentMonth6LineAmount()
      */
     public KualiDecimal getFinancialDocumentMonth6LineAmount() { 
         return financialDocumentMonth6LineAmount;
     }
 
     /**
-     * Sets the financialDocumentMonth6LineAmount attribute.
-     * 
-     * @param - financialDocumentMonth6LineAmount The financialDocumentMonth6LineAmount to set.
-     * 
+     * @see org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine#setFinancialDocumentMonth6LineAmount(org.kuali.core.util.KualiDecimal)
      */
     public void setFinancialDocumentMonth6LineAmount(KualiDecimal financialDocumentMonth6LineAmount) {
         this.financialDocumentMonth6LineAmount = financialDocumentMonth6LineAmount;
@@ -251,20 +236,14 @@ public class BudgetAdjustmentSourceAccountingLine extends SourceAccountingLine {
 
 
     /**
-     * Gets the financialDocumentMonth7LineAmount attribute.
-     * 
-     * @return - Returns the financialDocumentMonth7LineAmount
-     * 
+     * @see org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine#getFinancialDocumentMonth7LineAmount()
      */
     public KualiDecimal getFinancialDocumentMonth7LineAmount() { 
         return financialDocumentMonth7LineAmount;
     }
 
     /**
-     * Sets the financialDocumentMonth7LineAmount attribute.
-     * 
-     * @param - financialDocumentMonth7LineAmount The financialDocumentMonth7LineAmount to set.
-     * 
+     * @see org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine#setFinancialDocumentMonth7LineAmount(org.kuali.core.util.KualiDecimal)
      */
     public void setFinancialDocumentMonth7LineAmount(KualiDecimal financialDocumentMonth7LineAmount) {
         this.financialDocumentMonth7LineAmount = financialDocumentMonth7LineAmount;
@@ -272,20 +251,14 @@ public class BudgetAdjustmentSourceAccountingLine extends SourceAccountingLine {
 
 
     /**
-     * Gets the financialDocumentMonth8LineAmount attribute.
-     * 
-     * @return - Returns the financialDocumentMonth8LineAmount
-     * 
+     * @see org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine#getFinancialDocumentMonth8LineAmount()
      */
     public KualiDecimal getFinancialDocumentMonth8LineAmount() { 
         return financialDocumentMonth8LineAmount;
     }
 
     /**
-     * Sets the financialDocumentMonth8LineAmount attribute.
-     * 
-     * @param - financialDocumentMonth8LineAmount The financialDocumentMonth8LineAmount to set.
-     * 
+     * @see org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine#setFinancialDocumentMonth8LineAmount(org.kuali.core.util.KualiDecimal)
      */
     public void setFinancialDocumentMonth8LineAmount(KualiDecimal financialDocumentMonth8LineAmount) {
         this.financialDocumentMonth8LineAmount = financialDocumentMonth8LineAmount;
@@ -293,20 +266,14 @@ public class BudgetAdjustmentSourceAccountingLine extends SourceAccountingLine {
 
 
     /**
-     * Gets the financialDocumentMonth9LineAmount attribute.
-     * 
-     * @return - Returns the financialDocumentMonth9LineAmount
-     * 
+     * @see org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine#getFinancialDocumentMonth9LineAmount()
      */
     public KualiDecimal getFinancialDocumentMonth9LineAmount() { 
         return financialDocumentMonth9LineAmount;
     }
 
     /**
-     * Sets the financialDocumentMonth9LineAmount attribute.
-     * 
-     * @param - financialDocumentMonth9LineAmount The financialDocumentMonth9LineAmount to set.
-     * 
+     * @see org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine#setFinancialDocumentMonth9LineAmount(org.kuali.core.util.KualiDecimal)
      */
     public void setFinancialDocumentMonth9LineAmount(KualiDecimal financialDocumentMonth9LineAmount) {
         this.financialDocumentMonth9LineAmount = financialDocumentMonth9LineAmount;
@@ -314,20 +281,14 @@ public class BudgetAdjustmentSourceAccountingLine extends SourceAccountingLine {
 
 
     /**
-     * Gets the financialDocumentMonth10LineAmount attribute.
-     * 
-     * @return - Returns the financialDocumentMonth10LineAmount
-     * 
+     * @see org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine#getFinancialDocumentMonth10LineAmount()
      */
     public KualiDecimal getFinancialDocumentMonth10LineAmount() { 
         return financialDocumentMonth10LineAmount;
     }
 
     /**
-     * Sets the financialDocumentMonth10LineAmount attribute.
-     * 
-     * @param - financialDocumentMonth10LineAmount The financialDocumentMonth10LineAmount to set.
-     * 
+     * @see org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine#setFinancialDocumentMonth10LineAmount(org.kuali.core.util.KualiDecimal)
      */
     public void setFinancialDocumentMonth10LineAmount(KualiDecimal financialDocumentMonth10LineAmount) {
         this.financialDocumentMonth10LineAmount = financialDocumentMonth10LineAmount;
@@ -335,20 +296,14 @@ public class BudgetAdjustmentSourceAccountingLine extends SourceAccountingLine {
 
 
     /**
-     * Gets the financialDocumentMonth11LineAmount attribute.
-     * 
-     * @return - Returns the financialDocumentMonth11LineAmount
-     * 
+     * @see org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine#getFinancialDocumentMonth11LineAmount()
      */
     public KualiDecimal getFinancialDocumentMonth11LineAmount() { 
         return financialDocumentMonth11LineAmount;
     }
 
     /**
-     * Sets the financialDocumentMonth11LineAmount attribute.
-     * 
-     * @param - financialDocumentMonth11LineAmount The financialDocumentMonth11LineAmount to set.
-     * 
+     * @see org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine#setFinancialDocumentMonth11LineAmount(org.kuali.core.util.KualiDecimal)
      */
     public void setFinancialDocumentMonth11LineAmount(KualiDecimal financialDocumentMonth11LineAmount) {
         this.financialDocumentMonth11LineAmount = financialDocumentMonth11LineAmount;
@@ -356,20 +311,14 @@ public class BudgetAdjustmentSourceAccountingLine extends SourceAccountingLine {
 
 
     /**
-     * Gets the financialDocumentMonth12LineAmount attribute.
-     * 
-     * @return - Returns the financialDocumentMonth12LineAmount
-     * 
+     * @see org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine#getFinancialDocumentMonth12LineAmount()
      */
     public KualiDecimal getFinancialDocumentMonth12LineAmount() { 
         return financialDocumentMonth12LineAmount;
     }
 
     /**
-     * Sets the financialDocumentMonth12LineAmount attribute.
-     * 
-     * @param - financialDocumentMonth12LineAmount The financialDocumentMonth12LineAmount to set.
-     * 
+     * @see org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine#setFinancialDocumentMonth12LineAmount(org.kuali.core.util.KualiDecimal)
      */
     public void setFinancialDocumentMonth12LineAmount(KualiDecimal financialDocumentMonth12LineAmount) {
         this.financialDocumentMonth12LineAmount = financialDocumentMonth12LineAmount;

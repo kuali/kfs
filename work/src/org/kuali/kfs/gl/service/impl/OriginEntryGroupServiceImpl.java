@@ -37,7 +37,7 @@ import org.kuali.module.gl.service.OriginEntryGroupService;
 
 /**
  * @author Laran Evans <lc278@cornell.edu>
- * @version $Id: OriginEntryGroupServiceImpl.java,v 1.14 2006-05-04 16:08:59 larevans Exp $
+ * @version $Id: OriginEntryGroupServiceImpl.java,v 1.15 2006-06-05 01:07:25 schoo Exp $
  */
 public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
 	private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger
@@ -63,7 +63,8 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
 		criteria.put("process", Boolean.FALSE);
 		Collection returnCollection = new ArrayList();
 		returnCollection = originEntryGroupDao.getMatchingGroups(criteria);
-		return Collections.unmodifiableCollection(returnCollection);
+		return //Collections.unmodifiableCollection(returnCollection);
+        returnCollection;
 	}
 
 	/**

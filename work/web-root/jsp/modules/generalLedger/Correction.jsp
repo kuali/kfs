@@ -36,7 +36,7 @@
       	</select>
      
 	     <input type="image" name="methodToCall.chooseRadio" 
-                   src="images/buttonsmall_submit.gif" alt="chooseRadio" class="tinybutton" />
+                   src="images/tinybutton-select.gif" alt="chooseRadio" class="tinybutton" />
 	  </center>
 	  </td>
 	  </tr>
@@ -53,17 +53,34 @@
       		  <table cellpadding=0 class="datatable" summary=""> 
  	           	<tr>
     	            <td class="bord-l-b" style="padding: 4px;">
+        	        
+        	        
+        	        <html:file size="30" property="sourceFile" />
+        	        <html:image property="methodToCall.uploadFile" src="images/imp-add.gif"
+                                    styleClass="tinybutton" alt="uploadFile" />
+        	        
+        	        <!--
+        	        
+        	        
         	            <label for="fileUpload">File</label>
             	        <input type="file" name="FileUpload" id="fileUpload">
 						<input type="image" name="methodToCall.uploadFile" 
 			                   src="images/buttonsmall_save.gif" alt="uploadFile" class="tinybutton" />
+			                   
+			                   
+			                   -->
             		</td>	    	    
                	</tr>
 	        	</table>
    			 </div>
+    
+    <c:set var="pending-origin-entry-group-id" value="${newOriginEntryGroup.Id}" /> 
+    
+    
+    
     </c:if>
  
-
+	
             
    <c:if test="${KualiForm.editMethod == 'criteria'}" >
     <!-- Search criteria control -->
@@ -231,12 +248,27 @@
                     </td>
                 </tr>
             </c:forEach>
-
+			
+		 		                   
 	</table>
-	</div>
+	
+	
+	<c:if test="${KualiForm.chooseSystem == 'file'}" >
+		
+		<table>	
+		<tr><br/>
+		</tr>
+			<tr>
+				
+					<input type="image" name="methodToCall.fileUploadSearchAndReplaceWithCriteria" 
+			 		       src="images/buttonsmall_errcorr.gif" alt="error correction" class="tinybutton" />
+	        	
+		    </tr>
+		</table>
+		
+	</c:if>	
 
-
-
+</div>
 </c:if>
              
              
@@ -254,7 +286,7 @@
                 <td colspan="2" class="bord-l-b" style="padding: 4px; vertical-align: top;"> 
                     <center>
                         <label for="pending-origin-entry-group-id"><strong>Origin Entry Group</strong></label><br/><br/>
-                        <select name="pending-origin-entry-group-id" <c:if test="${KualiForm.editMethod == 'criteria'}"> MULTIPLE</c:if> size="10"> 
+                        <select name="pending-origin-entry-group-id" MULTIPLE size="10"> 
                             <c:forEach var="pendingGroup" items="${KualiForm.originEntryGroupsPendingProcessing}">
                                 <option value="<c:out value="${ pendingGroup.id}" />" <c:if test="${KualiForm.document.originEntryGroup.id eq pendingGroup.id}"> selected="selected"</c:if> > 
                                     <c:out value="${pendingGroup.id}" /> - <c:out value="${pendingGroup.source.name}" /> - <fmt:formatDate value="${ pendingGroup.date}" dateStyle="full" />
@@ -268,8 +300,7 @@
 						</c:if>
 
 		   				<c:if test="${KualiForm.editMethod == 'manual'}" >           
-                        Show Matching Entries for Manual Edit<br />
-               			 <input type="image" name="methodToCall.showAllEntries" 
+                      	 <input type="image" name="methodToCall.loadDocument" 
 			                   src="images/tinybutton-loaddoc.gif" alt="show all entries for manual edit" class="tinybutton" />
            				  </c:if>
 
@@ -345,12 +376,17 @@
       
             <table cellpadding=0 class="datatable" summary=""> 
                 <tr>
-                    <td align="left" valign="middle" class="subhead"><span class="subhead-left">Manual Editing Section</span></td>
+                    <td align="left" valign="middle" class="subhead"><span class="subhead-left">Manual Editing</span></td>
                 </tr>
                 
         	<td>
    			<display:table id="entry" name="${KualiForm.eachEntryForManualEdit}" requestURIcontext="false"  >
-   			<display:column title="Choose For Manual Edit" />
+	   			
+	   			<display:column title="Choose For Manual Edit" >
+	   				<input type="image" name="methodToCall.editEntry" value="${entry.entryId}"
+				           src="images/tinybutton-saveedits.gif" alt="Edit an Entry" class="tinybutton" />
+	   			</display:column>
+	   			
 	   			<display:column title="Account Number" >
    					<input size="8" type="text" name="editAccountNumber"
                 	       value="<c:out value="${KualiForm.eachEntryForManualEdit.accountNumber}" />">
@@ -377,7 +413,7 @@
 				</display:column>
 				
 				<display:column title="Financial Document TypeCode" >
-					<input size="9" type="text" name="editFinancialDocumentTypeCode
+					<input size="9" type="text" name="editFinancialDocumentTypeCode"
     	                   value="<c:out value="${KualiForm.eachEntryForManualEdit.financialDocumentTypeCode}" />">
 				
 				</display:column>
@@ -493,152 +529,77 @@
                         
    			</td>
    			
-   			
-   			
-   			<c:if test="${KualiForm.eachEntryForManualEdit != null}" >           
-            <tr>    
-	            <td>        
-        	  		 <input type="image" name="methodToCall.editEntry" 
-				            src="images/tinybutton-loaddoc.gif" alt="Edit an Entry" class="tinybutton" />
-	            </td>
-            </tr>
-            </c:if>
-   			
-   			
-   			
-   			
-   			
-   			
-   			<!-- 
-                             <td>   Account Number </td>
-                                <td>Financial Document Number</td> 
-                                <td>Reference Financial Document Number</td>
-                                <td>Reference Financial Document TypeCode</td>
-                                <td>Financial Document Reversal Date</td> 
-                                <td>Financial Document TypeCode</td>
-                                <td>Financial Balance TypeCode</td>
-                                <td>Chart Of Accounts Code</td> 
-                                <td>Financial Object TypeCode</td>
-                                <td>Financial Object Code</td>
-                                <td>Financial Sub-Object Code</td> 
-                                <td>Financial System Origination Code</td>
-                                <td>Reference Financial System Origination Code</td>
-                                <td>Organization Document Number</td> 
-                                <td>Organization ReferenceId</td>
-                                <td>Project Code</td>
-                                <td>Sub-Account Number</td> 
-                                <td>Transaction Date</td>
-                                <td>Transaction Debit Credit Code</td>
-                                <td>Transaction Encumbrance Update Code</td> 
-                                <td>Transaction LedgerEntry Sequence Number</td>
-                                <td>Transaction LedgerEntry Amount</td>
-                                <td>Transaction LedgerEntry Description</td> 
-                                <td>University FiscalPeriod Code</td>
-                                <td>University FiscalYear</td>
-                                <td>BudgetYear</td> 
-
-                                
-
-                            </tr>
-
-              
-              
-              
-              
-              
-              -->
-              
-              
-              
-              
-            <!--             
-   			 <input size="7" type="text" name="accountNumber"
-                        value="<c:out value="${KualiForm.eachEntryForManualEdit.accountNumber}" />"></td>
-                        -->
-                        
-             <!-- 
-             <td><input size="10" type="text" name="entries[<c:out value="${entry.entryId}" />][financialDocumentNumber]" 
-                        value="<c:out value="${entry.financialDocumentNumber}" />"></td>
-             <td><input size="10" type="text" name="entries[<c:out 
-                        value="${entry.entryId}" />][referenceFinancialDocumentNumber]" 
-                        value="<c:out value="${entry.referenceFinancialDocumentNumber }" />"></td>    
-             <td><input size="10" type="text" name="entries[<c:out
-                        value="${ entry.entryId}" />][referenceFinancialDocumentTypeCode]" 
-                        value="<c:out value="${entry.referenceFinancialDocumentTypeCode}" />"></td> 
-             <td><input size="10" type="text" name="entries[<c:out 
-			            value="${ entry.entryId}" />][financialDocumentReversalDate]" 
-                        value="<c:out value="${entry.financialDocumentReversalDate}" />"></td>
-             <td><input size="2" type="text" name="entries[<c:out 
-                        value="${entry.entryId}" />][financialDocumentTypeCode]" 
-                        value="<c:out value="${entry.financialDocumentTypeCode}" />"></td>
-             <td><input size="2" type="text" name="entries[<c:out 
-                        value="${entry.entryId}" />][financialBalanceTypeCode]" 
-                        value="<c:out value="${entry.financialBalanceTypeCode }" />"></td>
-             <td><input size="2" type="text" name="entries[<c:out 
-                        value="${ entry.entryId}" />][chartOfAccountsCode]" 
-                        value="<c:out value="${entry.chartOfAccountsCode}" />"></td>
-             <td><input size="2" type="text" name="entries[<c:out 
-                        value="${entry.entryId}" />][financialObjectTypeCode]" 
-                        value="<c:out value="${entry.financialObjectTypeCode}" />"></td>
-             <td><input size="4" type="text" name="entries[<c:out 
-                        value="${entry.entryId}" />][financialObjectCode]" 
-                        value="<c:out value="${entry.financialObjectCode}" />"></td> 
-             <td><input size="3" type="text" name="entries[<c:out 
-                        value="${ entry.entryId}" />][financialSubObjectCode]" 
-                        value="<c:out value="${entry.financialSubObjectCode}" />"></td>
-             <td><input size="10" type="text" name="entries[<c:out 
-                        value="${entry.entryId}" />][financialSystemOriginationCode]" 
-                        value="<c:out value="${entry.financialSystemOriginationCode}" />"></td>
-             <td><input size="10" type="text" name="entries[<c:out 
-                        value="${entry.entryId}" />][referenceFinancialSystemOriginationCode]" 
-                        value="<c:out value="${entry.referenceFinancialSystemOriginationCode }" />"></td>
-             <td><input size="5" type="text" name="entries[<c:out 
-                        value="${ entry.entryId}" />][subAccountNumber]" 
-                        value="<c:out value="${entry.subAccountNumber}" />"></td>        
-             <td><input size="10" type="text" name="entries[<c:out 
-                        value="${entry.entryId}" />][organizationReferenceId]" 
-                        value="<c:out value="${entry.organizationReferenceId}" />"></td>        
-             <td><input size="3" type="text" name="entries[<c:out 
-                        value="${entry.entryId}" />][projectCode]" 
-                        value="<c:out value="${entry.projectCode}" />"></td> 
-             <td><input size="5" type="text" name="entries[<c:out 
-                        value="${ entry.entryId}" />][subAccountNumber]" 
-                        value="<c:out value="${entry.subAccountNumber}" />"></td>
-             <td><input size="10" type="text" name="entries[<c:out 
-                        value="${entry.entryId}" />][transactionDate]" 
-                        value="<c:out value="${entry.transactionDate}" />"></td>
-             <td><input size="1" type="text" name="entries[<c:out 
-                        value="${entry.entryId}" />][transactionDebitCreditCode]" 
-                        value="<c:out value="${entry.transactionDebitCreditCode }" />"></td>
-             <td><input size="10" type="text" name="entries[<c:out 
-                        value="${ entry.entryId}" />][transactionEncumbranceUpdateCode]" 
-                        value="<c:out value="${entry.transactionEncumbranceUpdateCode}" />"></td>
-             <td><input size="4" type="text" name="entries[<c:out 
-                        value="${ entry.entryId}" />][transactionLedgerEntrySequenceNumber]" 
-                        value="<c:out value="${entry.transactionLedgerEntrySequenceNumber}" />"></td>     
-             <td><input size="7" type="text" name="entries[<c:out 
-                        value="${ entry.entryId}" />][transactionLedgerEntryAmount]" 
-                        value="<c:out value="${entry.transactionLedgerEntryAmount}" />"></td>
-             <td><input size="10" type="text" name="entries[<c:out 
-                        value="${entry.entryId}" />][transactionLedgerEntryDescription]" 
-                        value="<c:out value="${entry.transactionLedgerEntryDescription}" />"></td>
-             <td><input size="1" type="text" name="entries[<c:out 
-                        value="${entry.entryId}" />][universityFiscalPeriodCode]" 
-                        value="<c:out value="${entry.universityFiscalPeriodCode }" />"></td>    
-             <td><input size="4" type="text" name="entries[<c:out 
-                        value="${ entry.entryId}" />][universityFiscalYear]" 
-                        value="<c:out value="${entry.universityFiscalYear}" />"></td>
-             <td><input size="4" type="text" name="entries[<c:out 
-                        value="${entry.entryId}" />][budgetYear]" 
-                        value="<c:out value="${entry.budgetYear}" />"></td>
-   			-->
-   			
-   			
-   			
-   			
    			</table>
 
 		</div>
+		
+	
+		
+		<div class="tab-container" align="left" style="overflow: scroll; max-width: 100%;">
+      
+            <table cellpadding=0 class="datatable" summary=""> 
+                <tr>
+                    <td align="left" valign="middle" class="subhead"><span class="subhead-left">Update Field</span></td>
+                </tr>
+                
+        			<td>
+   						<display:table id="updatedEntries" name="${KualiForm.updatedEntriesFromManualEdit}" requestURIcontext="false"  >
+   						<display:column title="Choose For Manual Edit" >
+             		     <input type="image" name="methodToCall.showOneEntry" value="${updatedEntries.entryId}"
+			                   src="images/tinybutton-edit1.gif" alt="edit" class="tinybutton" />
+             		    </display:column>
+			
+						<display:column property="accountNumber" title="Account Number" />
+						<display:column property="financialDocumentNumber" title="Financial Document Number" />
+						<display:column property="referenceFinancialDocumentNumber" title="Reference Financial Document Number" />
+						<display:column property="referenceFinancialDocumentTypeCode" title="Reference Financial Document TypeCode" />
+						<display:column property="financialDocumentReversalDate" title="Financial Document Reversal Date" />
+						<display:column property="financialDocumentTypeCode" title="Financial Document TypeCode" />
+						<display:column property="financialBalanceTypeCode" title="Financial Balance TypeCode" />
+						<display:column property="chartOfAccountsCode" title="Chart Of Accounts Code" />
+						<display:column property="financialObjectTypeCode" title="Financial Object TypeCode" />
+						<display:column property="financialObjectCode" title="Financial Object Code" />
+						<display:column property="financialSubObjectCode" title="Financial Sub-Object Code" />
+						<display:column property="financialSystemOriginationCode" title="Financial System Origination Code" />
+						<display:column property="referenceFinancialSystemOriginationCode" title="Reference Financial System Origination Code" />
+						<display:column property="organizationDocumentNumber" title="Organization Document Number" />
+						<display:column property="organizationReferenceId" title="Organization ReferenceId" />
+						<display:column property="projectCode" title="Project Code" />
+						<display:column property="subAccountNumber" title="Sub-Account Number" />
+						<display:column property="transactionDate" title="Transaction Date" />
+						<display:column property="transactionDebitCreditCode" title="Transaction Debit Credit Code" />
+						<display:column property="transactionEncumbranceUpdateCode" title="Transaction Encumbrance Update Code" />
+						<display:column property="transactionLedgerEntrySequenceNumber" title="Transaction LedgerEntry Sequence Number" />
+						<display:column property="transactionLedgerEntryAmount" title="Transaction LedgerEntry Amount" />
+						<display:column property="transactionLedgerEntryDescription" title="Transaction LedgerEntry Description" />
+						<display:column property="universityFiscalPeriodCode" title="University FiscalPeriod Code" />
+						<display:column property="universityFiscalYear" title="University FiscalYear" />
+						<display:column property="budgetYear" title="BudgetYear" />
+   						
+   						
+   						</display:table>
+   					</td>
+   					
+   					
+   					
+   		<c:if test="${updatedEntries.entryId != null}" >   
+   					<tr>
+   					<td>
+						
+		   			
+		   				<input type="image" name="methodToCall.manualErrorCorrection" 
+			                   src="images/buttonsmall_errcorr.gif" alt="error correction" class="tinybutton" />
+		   			 	
+		   			
+	    		  	
+					</td>    	
+					</tr>
+						</c:if>  
+   			</table>
+   		</div>
+	
+		
+		
  	</c:if>
       
     
@@ -774,11 +735,11 @@
 		   			
 		   			<td>
 	
-		   			<center>
+		   			
 		   			<input type="image" name="methodToCall.searchForManualEdit" 
 			                   src="images/buttonsmall_search.gif" alt="error correction" class="tinybutton" />
 		   			 	
-		   			</center>
+		   			
 	    		  	
 					</td>    		 	
      		
@@ -810,46 +771,7 @@
     <kul:routeLog/>
     <kul:panelFooter/>
     <kul:documentControls transactionalDocument="false" />
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
-</kul:documentPage>
+ </kul:documentPage>
  
  
 

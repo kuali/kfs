@@ -27,6 +27,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,11 +35,14 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
+import org.apache.struts.upload.FormFile;
 import org.kuali.core.authorization.TransactionalDocumentActionFlags;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.core.web.comparator.StringCellComparator;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.module.gl.bo.OriginEntry;
+import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.document.CorrectionDocument;
 import org.kuali.module.gl.service.OriginEntryGroupService;
 
@@ -54,6 +58,8 @@ public class CorrectionForm extends KualiDocumentFormBase {
   
     private String chooseSystem;
     private String editMethod;
+    protected FormFile sourceFile;
+    
     /**
      * This is a Map of operators that can be used in searches from the GL
      * Error Correction Document. Each value in this Map corresponds to a
@@ -111,6 +117,7 @@ public class CorrectionForm extends KualiDocumentFormBase {
     private OriginEntry eachEntryForManualEdit;
     private Map allEntriesForManualEditHashMap;
     private Collection updatedEntriesFromManualEdit;
+    private Map allEntriesCollection;
     
     
 
@@ -127,7 +134,8 @@ public class CorrectionForm extends KualiDocumentFormBase {
         eachEntryForManualEdit = null;
         allEntriesForManualEditHashMap = new HashMap();
         updatedEntriesFromManualEdit = new ArrayList();
-      
+        updatedEntriesFromManualEdit.clear();
+        
         
         // create a blank TransactionalDocumentActionFlags instance, since form-recreation needs it
         setDocumentActionFlags(new TransactionalDocumentActionFlags());
@@ -218,8 +226,19 @@ public class CorrectionForm extends KualiDocumentFormBase {
     public Collection getOriginEntryGroupsPendingProcessing() {
         
         OriginEntryGroupService temp = (OriginEntryGroupService) SpringServiceLocator.getBeanFactory().getBean("glOriginEntryGroupService");
-        return temp.getOriginEntryGroupsPendingProcessing();
         
+        /*OriginEntryGroup test = new OriginEntryGroup();
+        test.getSource().getName();
+        */
+        
+        
+       /* List sortList = (List) temp.getOriginEntryGroupsPendingProcessing();
+        
+        StringCellComparator stringComparator = new StringCellComparator();
+        Collections.sort(sortList, stringComparator);
+        Collection returnCollection = (Collection) sortList;*/
+        Collection returnCollection = temp.getOriginEntryGroupsPendingProcessing();
+        return returnCollection;
     }
 
     public String getChooseSystem() {
@@ -260,6 +279,14 @@ public class CorrectionForm extends KualiDocumentFormBase {
 
     public void setUpdatedEntriesFromManualEdit(Collection updatedEntriesFromManualEdit) {
         this.updatedEntriesFromManualEdit = updatedEntriesFromManualEdit;
+    }
+
+    public FormFile getSourceFile() {
+        return sourceFile;
+    }
+
+    public void setSourceFile(FormFile sourceFile) {
+        this.sourceFile = sourceFile;
     }
 
     

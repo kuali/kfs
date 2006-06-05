@@ -70,7 +70,8 @@ import org.kuali.module.gl.web.struts.form.CorrectionForm;
 
 /**
  * @author Laran Evans <lc278@cornell.edu>
- * @version $Id: CorrectionAction.java,v 1.6 2006-06-05 01:07:45 schoo Exp $
+ *         Shawn Choo  <schoo@indiana.edu>
+ * @version $Id: CorrectionAction.java,v 1.7 2006-06-05 02:14:35 schoo Exp $
  * 
  */
 
@@ -96,24 +97,16 @@ public class CorrectionAction extends KualiDocumentActionBase {
      * @throws Exception
      */
     
-    public void setConvenienceObject(ActionForm form) {
-        errorCorrectionForm = (CorrectionForm) form;
-        document = (CorrectionDocument) errorCorrectionForm.getDocument();
-        originEntryGroupService = (OriginEntryGroupService) SpringServiceLocator.getBeanFactory().getBean("glOriginEntryGroupService");
-        originEntryDao = (OriginEntryDao) SpringServiceLocator.getBeanFactory().getBean("glOriginEntryDao");
-        originEntryService = (OriginEntryService) SpringServiceLocator.getBeanFactory().getBean("glOriginEntryService");
-        
-    }
-    
-    
-    
     
     
     public ActionForward uploadFile(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) 
     throws FileNotFoundException, IOException {
         
-        setConvenienceObject(form);
+        errorCorrectionForm = (CorrectionForm) form;
+        
+        originEntryGroupService = (OriginEntryGroupService) SpringServiceLocator.getBeanFactory().getBean("glOriginEntryGroupService");
+        originEntryService = (OriginEntryService) SpringServiceLocator.getBeanFactory().getBean("glOriginEntryService");
         
         java.sql.Date today = new java.sql.Date(System.currentTimeMillis());
         OriginEntryGroup newOriginEntryGroup = originEntryGroupService.createGroup(today, "GLCP", true, false, false);
@@ -172,8 +165,9 @@ public class CorrectionAction extends KualiDocumentActionBase {
     public ActionForward addCorrectionGroup(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) 
     throws Exception {
-        setConvenienceObject(form);
-        
+       
+        errorCorrectionForm = (CorrectionForm) form;
+        document = (CorrectionDocument) errorCorrectionForm.getDocument();
         // rebuild the document state
         CorrectionActionHelper.rebuildDocumentState(request, errorCorrectionForm);
         
@@ -199,8 +193,9 @@ public class CorrectionAction extends KualiDocumentActionBase {
     public ActionForward removeCorrectionGroup(ActionMapping mapping, ActionForm form, 
             HttpServletRequest request, HttpServletResponse response) 
     throws Exception {
-        setConvenienceObject(form);
-
+       
+        errorCorrectionForm = (CorrectionForm) form;
+        document = (CorrectionDocument) errorCorrectionForm.getDocument();
         // rebuild the document state
         CorrectionActionHelper.rebuildDocumentState(request, errorCorrectionForm);
 
@@ -235,8 +230,9 @@ public class CorrectionAction extends KualiDocumentActionBase {
     public ActionForward addSearchCriterion(ActionMapping mapping, ActionForm form, 
             HttpServletRequest request, HttpServletResponse response) 
     throws Exception {
-        setConvenienceObject(form);
-        
+       
+        errorCorrectionForm = (CorrectionForm) form;
+        document = (CorrectionDocument) errorCorrectionForm.getDocument();
         // rebuild the document state
         CorrectionActionHelper.rebuildDocumentState(request, errorCorrectionForm);
 
@@ -284,8 +280,9 @@ public class CorrectionAction extends KualiDocumentActionBase {
     public ActionForward removeSearchCriterion(ActionMapping mapping, ActionForm form, 
             HttpServletRequest request, HttpServletResponse response) 
     throws Exception {
-        setConvenienceObject(form);
-
+        
+        errorCorrectionForm = (CorrectionForm) form;
+        document = (CorrectionDocument) errorCorrectionForm.getDocument();
         // rebuild the document state
         CorrectionActionHelper.rebuildDocumentState(request, errorCorrectionForm);
 
@@ -316,8 +313,9 @@ public class CorrectionAction extends KualiDocumentActionBase {
     public ActionForward addReplacementSpecification(ActionMapping mapping, ActionForm form, 
             HttpServletRequest request, HttpServletResponse response) 
     throws Exception {
-        setConvenienceObject(form);
-        
+       
+        errorCorrectionForm = (CorrectionForm) form;
+        document = (CorrectionDocument) errorCorrectionForm.getDocument();
         // rebuild the document state
         CorrectionActionHelper.rebuildDocumentState(request, errorCorrectionForm);
 
@@ -365,8 +363,9 @@ public class CorrectionAction extends KualiDocumentActionBase {
     public ActionForward removeReplacementSpecification(ActionMapping mapping, ActionForm form, 
             HttpServletRequest request, HttpServletResponse response) 
     throws Exception {
-        setConvenienceObject(form);
-        
+       
+        errorCorrectionForm = (CorrectionForm) form;
+        document = (CorrectionDocument) errorCorrectionForm.getDocument();
         // rebuild the document state
         CorrectionActionHelper.rebuildDocumentState(request, errorCorrectionForm);
 
@@ -398,9 +397,10 @@ public class CorrectionAction extends KualiDocumentActionBase {
     public ActionForward searchAndReplaceWithCriteria(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse reponse)
     throws Exception {
-        setConvenienceObject(form);
-
         
+
+        errorCorrectionForm = (CorrectionForm) form;
+        document = (CorrectionDocument) errorCorrectionForm.getDocument();
         // rebuild the document state
         CorrectionActionHelper.rebuildDocumentState(request, errorCorrectionForm);
         
@@ -452,9 +452,10 @@ public class CorrectionAction extends KualiDocumentActionBase {
      * @throws Exception
      */
     public ActionForward loadDocument(ActionMapping mapping, ActionForm form, 
-            HttpServletRequest request, HttpServletResponse response) 
-    {
-        setConvenienceObject(form);
+            HttpServletRequest request, HttpServletResponse response)    {
+        
+        errorCorrectionForm = (CorrectionForm) form;
+        
         HttpSession session = request.getSession(true);
         String groupId[] = request.getParameterValues("pending-origin-entry-group-id");
         showAllEntries(groupId[0]);
@@ -469,115 +470,8 @@ public class CorrectionAction extends KualiDocumentActionBase {
     }
     
     
-    public ActionForward replaceManualEdit(ActionMapping mapping, ActionForm form, 
-            HttpServletRequest request, HttpServletResponse response) 
-    throws Exception {
-        
-        
-        
-        
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
     
-    
-    
-    /**
-     * Get as a Set all OriginEntries that satisfies all of the SearchCriteria within any 
-     * Single CorrectionGroup, for any CorrectionGroup. So, if an OriginEntry satisfies 
-     * all SearchCriteria within a given CorrectionGroup it will be added to this Set. If
-     * the same OriginEntry satisfies all SearchCriteria in more than one CorrectionGroup
-     * it is still present in the Set exactly once. If an OriginEntry satisfies some, but
-     * not all SearchCriteria within a CorrectionGroup it is not added to the Set.
-     * 
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    public ActionForward getMatchingEntriesWithoutReplacement(ActionMapping mapping, ActionForm form, 
-            HttpServletRequest request, HttpServletResponse response) 
-    throws Exception {
-        return mapping.findForward(Constants.MAPPING_BASIC);
-        //return getMatchingEntries(mapping, form, request, response, false);
-        /*
-        CorrectionForm errorCorrectionForm = (CorrectionForm) form;
-        GeneralLedgerErrorCorrectionDocument document = 
-			(GeneralLedgerErrorCorrectionDocument) errorCorrectionForm.getDocument();
-
-        // rebuild the document state
-        CorrectionActionHelper.rebuildDocumentState(request, document);
-
-        // We want to first find origin entry group with the given id.
-        //OriginEntryGroupService originEntryGroupService = new OriginEntryGroupServiceImpl();
-        OriginEntryGroupService originEntryGroupService = (OriginEntryGroupService) SpringServiceLocator.getBeanFactory().getBean("glOriginEntryGroupService");
-        
-        OriginEntryGroup group 
-            = originEntryGroupService.getOriginEntryGroup(document.getOriginEntryGroupId());
-        
-        // Create a container for all of the matching entries we'll find.
-        Set matchingEntries = errorCorrectionForm.getEntriesThatMatchSearchCriteria();
-
-        // Clear the container. We don't want to retain results from previous searches.
-        matchingEntries.clear();
-        
-        // Configure the query.
-        PersistenceBroker broker = PersistenceBrokerFactory.defaultPersistenceBroker();
-        Criteria criteria = new Criteria();
-        criteria.addEqualTo("ORIGIN_ENTRY_GRP_ID", group.getId());
-
-        // Load all entries in that group.
-        QueryByCriteria qbc = QueryFactory.newQuery(OriginEntry.class, criteria);
-        Iterator entriesInGroup = broker.getIteratorByQuery(qbc);
-        
-        // For each entry ...
-        while (entriesInGroup.hasNext()) {
-            OriginEntry originEntry = (OriginEntry) entriesInGroup.next();
-            List correctionGroups = document.getCorrectionGroups();
-            
-            try {
-                //  ... and for each criteria group ...
-                for(Iterator iterator = correctionGroups.iterator(); iterator.hasNext();) {
-                    CorrectionGroup correctionGroup = (CorrectionGroup) iterator.next(); 
-                    List matchCriteria = correctionGroup.getSearchCriteria();
-                    
-                    // ... if the entry matches all of the criteria in the current group ...
-                    if(CorrectionActionHelper
-                            .originEntrySatisfiesAllCriteria(originEntry, matchCriteria)) {
-                        // ... indicate the match ...
-                        matchingEntries.add(originEntry);
-                        break;
-                    }
-                }
-            } catch(Throwable t) {
-                t.printStackTrace();
-            }
-        }
-        
-        // for consistent presentation ...
-        CorrectionActionHelper.sortForDisplay(document.getCorrectionGroups());
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
-        */
-    }
-
-    /**
-     * Gets the lookupService attribute. 
-     * @return Returns the lookupService.
-     */
-    /*public LookupService getLookupService() {
-        return lookupService;
-    }
-    *//**
-     * Sets the lookupService attribute value.
-     * @param lookupService The lookupService to set.
-     *//*
-    public void setLookupService(LookupService lookupService) {
-        this.lookupService = lookupService;
-    }*/
-    
+ 
     
     public String changeSearchField(String op, String field){
     
@@ -594,8 +488,6 @@ public class CorrectionAction extends KualiDocumentActionBase {
         return "%" + field + "%";
         
     }
-    
-    
     
     
     
@@ -682,7 +574,9 @@ public class CorrectionAction extends KualiDocumentActionBase {
     
     private void createNewOutput(OriginEntryGroup newOriginEntryGroup, String groupId){
             
-           // Collection returnCollection = new ArrayList();
+            originEntryDao = (OriginEntryDao) SpringServiceLocator.getBeanFactory().getBean("glOriginEntryDao");
+            originEntryService = (OriginEntryService) SpringServiceLocator.getBeanFactory().getBean("glOriginEntryService");
+            // Collection returnCollection = new ArrayList();
             //create all OriginEntry which will change GroupID to newOriginEntryGroup ID
             Map groupIdMap = new HashMap();
             groupIdMap.put("entryGroupId", groupId);
@@ -704,7 +598,7 @@ public class CorrectionAction extends KualiDocumentActionBase {
     }
     
     public void replaceOriginEntryValues(OriginEntry eachReplaceEntries, CorrectionChangeGroup correctionGroup) throws Exception{
-       
+        originEntryDao = (OriginEntryDao) SpringServiceLocator.getBeanFactory().getBean("glOriginEntryDao");
         CorrectionChange correctionReplacementSpecification;
         Iterator replaceIter = correctionGroup.getCorrectionChange().iterator();
         
@@ -870,7 +764,8 @@ public class CorrectionAction extends KualiDocumentActionBase {
     
     public ActionForward showOneEntry(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        setConvenienceObject(form);
+        
+        errorCorrectionForm = (CorrectionForm) form;
         CorrectionActionHelper.rebuildDocumentState(request, errorCorrectionForm);
         
         String stringEditEntryId = request.getParameter("methodToCall.showOneEntry");
@@ -886,7 +781,8 @@ public class CorrectionAction extends KualiDocumentActionBase {
     
     public ActionForward editEntry(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        setConvenienceObject(form);
+        errorCorrectionForm = (CorrectionForm) form;
+     
         CorrectionActionHelper.rebuildDocumentState(request, errorCorrectionForm);
         
         Date convertDate;
@@ -1025,9 +921,12 @@ public class CorrectionAction extends KualiDocumentActionBase {
     
     public ActionForward searchForManualEdit(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
+        
+        errorCorrectionForm = (CorrectionForm) form;
+        document = (CorrectionDocument) errorCorrectionForm.getDocument();
         HttpSession session = request.getSession(true);
         String groupId;
-        setConvenienceObject(form);
+       
         CorrectionActionHelper.rebuildDocumentState(request, errorCorrectionForm);
         List correctionGroups = document.getCorrectionChangeGroup();
         
@@ -1078,6 +977,9 @@ public class CorrectionAction extends KualiDocumentActionBase {
     public ActionForward manualErrorCorrection(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         
+        errorCorrectionForm = (CorrectionForm) form;
+        originEntryGroupService = (OriginEntryGroupService) SpringServiceLocator.getBeanFactory().getBean("glOriginEntryGroupService");
+        originEntryService = (OriginEntryService) SpringServiceLocator.getBeanFactory().getBean("glOriginEntryService");
         java.sql.Date today = new java.sql.Date(System.currentTimeMillis());
         OriginEntryGroup newOriginEntryGroup = originEntryGroupService.createGroup(today, "GLCP", true, true, false);
         
@@ -1099,6 +1001,7 @@ public class CorrectionAction extends KualiDocumentActionBase {
     
     public void showAllEntries(String groupId){
         
+        originEntryDao = (OriginEntryDao) SpringServiceLocator.getBeanFactory().getBean("glOriginEntryDao");
         Map searchMap = new HashMap();
         
         // Configure the query.
@@ -1119,6 +1022,7 @@ public class CorrectionAction extends KualiDocumentActionBase {
    
     public void searchAndReplace(String[] groupId, List correctionGroups){
         
+        originEntryGroupService = (OriginEntryGroupService) SpringServiceLocator.getBeanFactory().getBean("glOriginEntryGroupService");
         Map fieldValues = new HashMap();
         CorrectionChangeGroup correctionGroup;
         Collection searchResults = null;
@@ -1200,7 +1104,9 @@ public class CorrectionAction extends KualiDocumentActionBase {
     public ActionForward fileUploadSearchAndReplaceWithCriteria(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse reponse)
     throws Exception {
-        setConvenienceObject(form);
+      
+        errorCorrectionForm = (CorrectionForm) form;
+        document = (CorrectionDocument) errorCorrectionForm.getDocument();
         //TODO: Change later. The purpose of this method is just for groupId. 
         //This method will be useless if groupId set from session using session "chooseSystem".
         

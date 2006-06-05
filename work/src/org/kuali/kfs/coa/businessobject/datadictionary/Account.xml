@@ -25,6 +25,7 @@
 				<field attributeName="accountClosedIndicator" />	
 				<field attributeName="accountTypeCode" />
             	<field attributeName="subFundGroupCode" />
+            	<!--  comment programCode out if not in use at your institution -->
             	<field attributeName="programCode" />
 	            <field attributeName="accountsFringesBnftIndicator" />
     	        <field attributeName="reportsToChartOfAccountsCode" />
@@ -108,6 +109,7 @@
 				<lookupField attributeName="organizationCode" required="false" />
 				<lookupField attributeName="accountTypeCode" required="false" />
 				<lookupField attributeName="subFundGroupCode" required="false" />
+				<!--  comment programCode out if not in use at your institution -->
 				<lookupField attributeName="programCode" required="false" />
 				<lookupField attributeName="accountFiscalOfficerSystemIdentifier" required="false" />
 				<lookupField attributeName="accountFiscalOfficerUser.personUserIdentifier" required="false" />
@@ -221,7 +223,7 @@
 				<summary><![CDATA[&nbsp;]]></summary>
 				<description>The code used to categorize Accounts for internal resource management, and to relate the Account to a Fund through the Sub-Fund Groups.</description>
 			</attributeReference>
-								
+            <!--  comment programCode out if not in use at your institution -->
 			<attributeReference name="programCode" 
 								sourceClassName="org.kuali.module.chart.bo.Program" 
 								sourceAttributeName="programCode">

@@ -27,7 +27,6 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,10 +38,8 @@ import org.apache.struts.upload.FormFile;
 import org.kuali.core.authorization.TransactionalDocumentActionFlags;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
-import org.kuali.core.web.comparator.StringCellComparator;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.module.gl.bo.OriginEntry;
-import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.document.CorrectionDocument;
 import org.kuali.module.gl.service.OriginEntryGroupService;
 

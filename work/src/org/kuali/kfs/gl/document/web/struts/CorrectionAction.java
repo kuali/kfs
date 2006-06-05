@@ -26,7 +26,6 @@ package org.kuali.module.gl.web.struts.action;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.sql.Date;
 import java.util.ArrayList;
@@ -40,16 +39,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.ojb.broker.PersistenceBroker;
-import org.apache.ojb.broker.PersistenceBrokerFactory;
-import org.apache.ojb.broker.query.Criteria;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
-import org.kuali.core.bo.AccountingLine;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.LookupService;
@@ -71,7 +66,7 @@ import org.kuali.module.gl.web.struts.form.CorrectionForm;
 /**
  * @author Laran Evans <lc278@cornell.edu>
  *         Shawn Choo  <schoo@indiana.edu>
- * @version $Id: CorrectionAction.java,v 1.7 2006-06-05 02:14:35 schoo Exp $
+ * @version $Id: CorrectionAction.java,v 1.8 2006-06-05 18:48:12 wesprice Exp $
  * 
  */
 

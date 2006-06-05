@@ -25,7 +25,6 @@ package org.kuali.module.gl.service.impl;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -37,7 +36,7 @@ import org.kuali.module.gl.service.OriginEntryGroupService;
 
 /**
  * @author Laran Evans <lc278@cornell.edu>
- * @version $Id: OriginEntryGroupServiceImpl.java,v 1.15 2006-06-05 01:07:25 schoo Exp $
+ * @version $Id: OriginEntryGroupServiceImpl.java,v 1.16 2006-06-05 18:48:01 wesprice Exp $
  */
 public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
 	private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger

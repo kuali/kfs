@@ -36,7 +36,7 @@ public class ObjSubTyp extends KualiCodeBase {
 	 * Default no-arg constructor.
 	 */
 	public ObjSubTyp() {
-	    setActive(true);  // always active
+	    super.setActive(true);  // always active
 	}
 
 	/**

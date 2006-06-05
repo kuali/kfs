@@ -68,14 +68,14 @@ public class ResearchDocumentServiceImpl extends PersistenceBrokerTemplate imple
             list.add(budget.getNonpersonnelItems());
             list.add(budget.getAllUserAppointmentTaskPeriods(budgetDocument.isForceRefreshOfBOSubListsForSave()));
             list.add(budget.getAllUserAppointmentTasks(budgetDocument.isForceRefreshOfBOSubListsForSave()));
+            list.add(budget.getPersonnel());
             
             list.add(budget.getAllThirdPartyCostSharePeriods(budgetDocument.isForceRefreshOfBOSubListsForSave()));
             list.add(budget.getThirdPartyCostShareItems());
             
             list.add(budget.getAllUniversityCostSharePeriods(budgetDocument.isForceRefreshOfBOSubListsForSave()));
             list.add(budget.getUniversityCostShareItems());
-            
-            list.add(budget.getPersonnel());
+
             list.add(budget.getUniversityCostSharePersonnelItems());
             
             if (budget.getIndirectCost() != null && budget.getIndirectCost().getBudgetTaskPeriodIndirectCostItems() != null) {

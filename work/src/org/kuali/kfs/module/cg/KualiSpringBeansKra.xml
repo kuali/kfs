@@ -29,6 +29,9 @@
         <property name="budgetPersonnelService">
             <ref bean="budgetPersonnelService" />
         </property>
+        <property name="budgetCostShareService">
+            <ref bean="budgetCostShareService" />
+        </property>
         <property name="budgetModularService">
             <ref bean="budgetModularService" />
         </property>

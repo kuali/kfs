@@ -2055,14 +2055,14 @@ public class ScrubberProcess {
         }
 
         costShareEncumbranceOffsetEntry.setTransactionDate(runDate);
-        costShareEncumbranceOffsetEntry.setOrganizationDocumentNumber("");
+        costShareEncumbranceOffsetEntry.setOrganizationDocumentNumber(null);
         costShareEncumbranceOffsetEntry.setProjectCode(Constants.DASHES_PROJECT_CODE);
         costShareEncumbranceOffsetEntry.setOrganizationReferenceId(null);
         costShareEncumbranceOffsetEntry.setReferenceFinancialDocumentTypeCode(null);
         costShareEncumbranceOffsetEntry.setReferenceFinancialSystemOriginationCode(null);
         costShareEncumbranceOffsetEntry.setReferenceFinancialDocumentNumber(null);
         costShareEncumbranceOffsetEntry.setReversalDate(null);
-        costShareEncumbranceOffsetEntry.setTransactionEncumbranceUpdateCode("");
+        costShareEncumbranceOffsetEntry.setTransactionEncumbranceUpdateCode(null);
 
         costShareEncumbranceOffsetEntry.setTransactionScrubberOffsetGenerationIndicator(true);
         createOutputEntry(costShareEncumbranceOffsetEntry, validGroup);
@@ -2428,8 +2428,8 @@ public class ScrubberProcess {
 //        4009  030190              END-IF
 
             } else {
-                offsetEntry.setFinancialSubObject(workingEntry.getFinancialSubObject());
-                offsetEntry.setFinancialSubObjectCode(workingEntry.getFinancialSubObjectCode());
+                offsetEntry.setFinancialSubObject(offsetDefinition.getFinancialSubObject());
+                offsetEntry.setFinancialSubObjectCode(offsetDefinition.getFinancialSubObjectCode());
             }
         } else {
 

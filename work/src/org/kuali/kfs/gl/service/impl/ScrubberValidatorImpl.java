@@ -166,17 +166,12 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
             }
         }
 
+        err = validateReferenceDocumentFields(originEntry, scrubbedEntry);
+        if ( err != null ) {
+            errors.add(err);
+        }
+
         err = validateUniversityFiscalPeriodCode(originEntry, scrubbedEntry, universityRunDate);
-        if ( err != null ) {
-            errors.add(err);
-        }
-
-        err = validateEncumbranceUpdateCode(originEntry, scrubbedEntry);
-        if ( err != null ) {
-            errors.add(err);
-        }
-
-        err = validateReferenceDocument(originEntry, scrubbedEntry);
         if ( err != null ) {
             errors.add(err);
         }
@@ -259,7 +254,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
             }
 
             // If the account has changed ...
-            if( ! originEntry.getAccount().getAccountNumber().equals(workingEntry.getAccountNumber()) ) {
+            if( ! originEntry.getAccountNumber().equals(workingEntry.getAccountNumber()) ) {
                 workingEntry.setTransactionLedgerEntryDescription("AUTO FR " + originEntry.getChartOfAccountsCode() 
                         + originEntry.getAccountNumber() + originEntry.getTransactionLedgerEntryDescription());
                 // TODO Add warning message here
@@ -467,9 +462,10 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
                     originEntry.getProjectCode() + ")",Message.TYPE_FATAL);
                 }
             }
+        } else {
+            workingEntry.setProjectCode(Constants.DASHES_PROJECT_CODE);
         }
 
-        workingEntry.setProjectCode(Constants.DASHES_PROJECT_CODE);
         return null;
 	}
 
@@ -763,80 +759,55 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
      * @param originEntry
      * @param workingEntryInfo
      */
-    public Message validateReferenceDocument(OriginEntry originEntry, OriginEntry workingEntry) {
+    public Message validateReferenceDocumentFields(OriginEntry originEntry, OriginEntry workingEntry) {
         LOG.debug("validateReferenceDocument() started");
 
-        if ( Constants.ENCUMB_UPDT_REFERENCE_DOCUMENT_CD.equals(originEntry.getTransactionEncumbranceUpdateCode()) ) {
-            // If this is R, the reference origin code, reference document type and reference document number must filled in and valid
-            if ( ! StringUtils.hasText(originEntry.getReferenceFinancialDocumentNumber()) ) {
-                return new Message(kualiConfigurationService.getPropertyString(KeyConstants.ERROR_REFERENCE_DOC_NUMBER_CANNOT_BE_NULL_IF_UPDATE_CODE_IS_R),Message.TYPE_FATAL);
-            }
+        // 3148 of cobol
 
-            if ( originEntry.getReferenceDocumentType() == null ) {
+        boolean editReference = true;
+        if ( ! StringUtils.hasText(originEntry.getReferenceFinancialDocumentNumber()) ) {
+            workingEntry.setReferenceFinancialDocumentNumber(null);
+            workingEntry.setReferenceFinancialDocumentTypeCode(null);
+            workingEntry.setReferenceFinancialSystemOriginationCode(null);
+
+            if ( Constants.ENCUMB_UPDT_REFERENCE_DOCUMENT_CD.equals(originEntry.getTransactionEncumbranceUpdateCode()) ) {
+                return new Message("REF DOC NUMBER CANNOT BE SPACE",Message.TYPE_FATAL);
+            }
+        } else {
+            workingEntry.setReferenceFinancialDocumentNumber(originEntry.getReferenceFinancialDocumentNumber());
+
+            // Validate reference document type
+            if ( originEntry.getReferenceDocumentType() != null ) {
+                workingEntry.setReferenceFinancialDocumentTypeCode(originEntry.getReferenceFinancialDocumentTypeCode());
+            } else {
                 return new Message(kualiConfigurationService.getPropertyString(KeyConstants.ERROR_REFERENCE_DOCUMENT_TYPE_NOT_FOUND) + " (" +
                         originEntry.getReferenceFinancialDocumentTypeCode() + ")",Message.TYPE_FATAL);
             }
 
-            OriginationCode originationCode = originationCodeService.getByPrimaryKey(originEntry.getReferenceFinancialSystemOriginationCode());
-            if ( originationCode == null ) {
+            // Validate reference origin code
+            OriginationCode oc = originationCodeService.getByPrimaryKey(originEntry.getReferenceFinancialSystemOriginationCode());
+            if ( oc != null ) {
+                workingEntry.setReferenceFinancialSystemOriginationCode(originEntry.getReferenceFinancialSystemOriginationCode());
+            } else {
                 return new Message(kualiConfigurationService.getPropertyString(KeyConstants.ERROR_REFERENCE_ORIGINATION_CODE_NOT_FOUND) + " (" +
                         originEntry.getReferenceFinancialSystemOriginationCode() + ")",Message.TYPE_FATAL);
             }
-        } else {
-            // For any other encumbrance update code, if there is a ref doc number, there must be a valid ref origin code & ref doc type
-            if ( StringUtils.hasText(originEntry.getReferenceFinancialDocumentNumber()) ) {                
-                if ( originEntry.getReferenceDocumentType() == null ) {
-                    return new Message(kualiConfigurationService.getPropertyString(KeyConstants.ERROR_REFERENCE_DOCUMENT_TYPE_NOT_FOUND) + " (" +
-                    originEntry.getReferenceFinancialDocumentTypeCode() + ")",Message.TYPE_FATAL);
-                }
-
-                OriginationCode originationCode = originationCodeService.getByPrimaryKey(originEntry.getReferenceFinancialSystemOriginationCode());
-                if ( originationCode == null ) {
-                    return new Message(kualiConfigurationService.getPropertyString(KeyConstants.ERROR_REFERENCE_ORIGINATION_CODE_NOT_FOUND) + " (" +
-                            originEntry.getReferenceFinancialSystemOriginationCode() + ")",Message.TYPE_FATAL);
-                }
-            } else {
-                workingEntry.setReferenceDocumentType(null);
-                workingEntry.setReferenceFinancialSystemOriginationCode(null);
-                workingEntry.setReferenceFinancialDocumentTypeCode(null);
-                workingEntry.setReferenceFinancialDocumentNumber(null);
-                return null;
-            }
         }
 
-        workingEntry.setReferenceFinancialSystemOriginationCode(originEntry.getReferenceFinancialSystemOriginationCode());
-        workingEntry.setReferenceFinancialDocumentTypeCode(originEntry.getReferenceFinancialDocumentTypeCode());
-        workingEntry.setReferenceDocumentType(originEntry.getReferenceDocumentType());
-        workingEntry.setReferenceFinancialDocumentNumber(originEntry.getReferenceFinancialDocumentNumber());
-        return null;
-    }
-
-    /**
-     * 
-     * @param originEntry
-     * @param workingEntryInfo
-     */
-	public Message validateEncumbranceUpdateCode(OriginEntry originEntry, OriginEntry workingEntry) {
-        LOG.debug("validateEncumbranceUpdateCode() started");
-
-        if ( (originEntry.getBalanceType() == null) || (originEntry.getObjectType() == null) ) {
-            // We can't validate the encumbrance update code without these
-            return null;
-        }
-
-        if ( originEntry.getBalanceType().isFinBalanceTypeEncumIndicator() && ! originEntry.getObjectType().isFundBalanceIndicator() ) {
-            if ( Constants.ENCUMB_UPDT_DOCUMENT_CD.equals(originEntry.getTransactionEncumbranceUpdateCode()) || 
-                    Constants.ENCUMB_UPDT_NO_ENCUMBRANCE_CD.equals(originEntry.getTransactionEncumbranceUpdateCode()) ||
-                    Constants.ENCUMB_UPDT_REFERENCE_DOCUMENT_CD.equals(originEntry.getTransactionEncumbranceUpdateCode()) ) {
+        if ( workingEntry.getBalanceType().isFinBalanceTypeEncumIndicator() && ! workingEntry.getObjectType().isFundBalanceIndicator() ) {
+            if ( ( Constants.ENCUMB_UPDT_DOCUMENT_CD.equals(originEntry.getTransactionEncumbranceUpdateCode())) || 
+                    ( Constants.ENCUMB_UPDT_NO_ENCUMBRANCE_CD.equals(originEntry.getTransactionEncumbranceUpdateCode())) ||
+                    ( Constants.ENCUMB_UPDT_REFERENCE_DOCUMENT_CD.equals(originEntry.getTransactionEncumbranceUpdateCode())) ) {
                 workingEntry.setTransactionEncumbranceUpdateCode(originEntry.getTransactionEncumbranceUpdateCode());
-                return null;
             } else {
                 return new Message(kualiConfigurationService.getPropertyString(KeyConstants.ERROR_ENC_UPDATE_CODE_NOT_DRN) + " (" + 
-                    originEntry.getTransactionEncumbranceUpdateCode() + ")",Message.TYPE_FATAL);
+                        originEntry.getTransactionEncumbranceUpdateCode() + ")",Message.TYPE_FATAL);
             }
+        } else {
+            workingEntry.setTransactionEncumbranceUpdateCode(null);
         }
         return null;
-	}
+    }
 
     /**
      * 

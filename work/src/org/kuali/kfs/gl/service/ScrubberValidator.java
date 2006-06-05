@@ -35,13 +35,12 @@ public interface ScrubberValidator {
     public Message validateChart(OriginEntry originEntry, OriginEntry scrubbedEntry);
     public Message validateDocumentNumber(OriginEntry originEntry, OriginEntry scrubbedEntry);
     public Message validateDocumentType(OriginEntry originEntry, OriginEntry scrubbedEntry);
-    public Message validateEncumbranceUpdateCode(OriginEntry originEntry, OriginEntry scrubbedEntry);
     public Message validateFiscalYear(OriginEntry originEntry, OriginEntry scrubbedEntry,UniversityDate universityRunDate);
     public Message validateObjectCode(OriginEntry originEntry, OriginEntry scrubbedEntry);
     public Message validateObjectType(OriginEntry originEntry, OriginEntry scrubbedEntry);
     public Message validateOrigination(OriginEntry originEntry, OriginEntry scrubbedEntry);
     public Message validateProjectCode(OriginEntry originEntry, OriginEntry scrubbedEntry);
-    public Message validateReferenceDocument(OriginEntry originEntry, OriginEntry scrubbedEntry);
+    public Message validateReferenceDocumentFields(OriginEntry originEntry, OriginEntry scrubbedEntry);
     public Message validateReversalDate(OriginEntry originEntry, OriginEntry scrubbedEntry);
     public Message validateSubAccount(OriginEntry originEntry, OriginEntry scrubbedEntry);
     public Message validateSubObjectCode(OriginEntry originEntry, OriginEntry scrubbedEntry);

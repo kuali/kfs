@@ -43,10 +43,11 @@ import org.kuali.module.chart.bo.ProjectCode;
 import org.kuali.module.chart.bo.SubAccount;
 import org.kuali.module.chart.bo.SubObjCd;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
+import org.springframework.util.StringUtils;
 
 /**
  * @author Kuali General Ledger Team (kualigltech@oncourse.iu.edu)
- * @version $Id: OriginEntry.java,v 1.26 2006-06-03 21:37:32 jsissom Exp $
+ * @version $Id: OriginEntry.java,v 1.27 2006-06-05 21:19:14 jsissom Exp $
  */
 public class OriginEntry extends BusinessObjectBase implements Transaction {
     static final long serialVersionUID = -2498312988235747448L;
@@ -208,7 +209,12 @@ public class OriginEntry extends BusinessObjectBase implements Transaction {
         return sdf.format(date);
       }
     }
- 
+
+    private String getValue(String line,int s,int e) {
+        String v = line.substring(s,e);
+        return StringUtils.trimTrailingWhitespace(v);
+    }
+
     public void setFromTextFile(String line) {
 
       // Just in case
@@ -219,35 +225,36 @@ public class OriginEntry extends BusinessObjectBase implements Transaction {
       } else {
           setUniversityFiscalYear(null);
       }
-      setChartOfAccountsCode(line.substring(4, 6).trim());
-      setAccountNumber(line.substring(6, 13).trim());
-      setSubAccountNumber(line.substring(13, 18).trim());
-      setFinancialObjectCode(line.substring(18, 22).trim());
-      setFinancialSubObjectCode(line.substring(22, 25).trim());
-      setFinancialBalanceTypeCode(line.substring(25, 27).trim());
-      setFinancialObjectTypeCode(line.substring(27, 29).trim());
-      setUniversityFiscalPeriodCode(line.substring(29, 31).trim());
-      setFinancialDocumentTypeCode(line.substring(31, 35).trim());
-      setFinancialSystemOriginationCode(line.substring(35, 37).trim());
-      setFinancialDocumentNumber(line.substring(37, 46).trim());
+
+      setChartOfAccountsCode(getValue(line,4, 6));
+      setAccountNumber(getValue(line,6, 13));
+      setSubAccountNumber(getValue(line,13, 18));
+      setFinancialObjectCode(getValue(line,18, 22));
+      setFinancialSubObjectCode(getValue(line,22, 25));
+      setFinancialBalanceTypeCode(getValue(line,25, 27));
+      setFinancialObjectTypeCode(getValue(line,27, 29));
+      setUniversityFiscalPeriodCode(getValue(line,29, 31));
+      setFinancialDocumentTypeCode(getValue(line,31, 35));
+      setFinancialSystemOriginationCode(getValue(line,35, 37));
+      setFinancialDocumentNumber(getValue(line,37, 46));
       if (! "     ".equals(line.substring(46, 51)) && ! "00000".equals(line.substring(46, 51)) ) {
           setTransactionLedgerEntrySequenceNumber(new Integer(line.substring(46, 51).trim()));
       } else {
           setTransactionLedgerEntrySequenceNumber(null);
       }
-      setTransactionLedgerEntryDescription(line.substring(51, 91).trim());
+      setTransactionLedgerEntryDescription(getValue(line,51, 91));
       setTransactionLedgerEntryAmount(new KualiDecimal(line.substring(91, 108).trim()));
       setTransactionDebitCreditCode(line.substring(108, 109));
-      setTransactionDate(parseDate(line.substring(109, 119).trim(), false));
-      setOrganizationDocumentNumber(line.substring(119, 129).trim());
-      setProjectCode(line.substring(129, 139).trim());
-      setOrganizationReferenceId(line.substring(139, 147).trim());
-      setReferenceFinancialDocumentTypeCode(line.substring(147, 151).trim());
-      setReferenceFinancialSystemOriginationCode(line.substring(151, 153).trim());
-      setReferenceFinancialDocumentNumber(line.substring(153, 162).trim());
+      setTransactionDate(parseDate(line.substring(109, 119), false));
+      setOrganizationDocumentNumber(getValue(line,119, 129));
+      setProjectCode(getValue(line,129, 139));
+      setOrganizationReferenceId(getValue(line,139, 147));
+      setReferenceFinancialDocumentTypeCode(getValue(line,147, 151));
+      setReferenceFinancialSystemOriginationCode(getValue(line,151, 153));
+      setReferenceFinancialDocumentNumber(getValue(line,153, 162));
       setFinancialDocumentReversalDate(parseDate(line.substring(162, 172), true));
       setTransactionEncumbranceUpdateCode(line.substring(172, 173));
-  }
+    }
 
     private static String SPACES = "                                                                                                              ";
 

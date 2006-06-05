@@ -16,7 +16,13 @@
 			<c:if test="${(empty keyMatch) || (audit.errorKey == keyMatch) || (fn:endsWith(keyMatch, '*') && fn:startsWith(audit.errorKey, fn:replace(keyMatch, '*', '')))}">
 				<c:if test="${includesTitle && status.index == 0}"><strong>Audit Errors found in this Section:</strong><br/></c:if>
 				<c:choose>
-					<c:when test="${isLink}"><html:submit value="${errorText}" property="methodToCall.${audit.link}.x" styleClass="${''}" /></c:when>
+					<c:when test="${isLink}">
+						<tr>
+							<td>&nbsp;</td>
+							<td width="94%">${errorText}</td>
+							<td width="5%"><div align="center"><html:image src="images/tinybutton-fix.gif" property="methodToCall.${audit.link}.x"/></div></td>
+						</tr>
+					</c:when>
 					<c:otherwise>${errorText}</c:otherwise>
 				</c:choose><br/>
 			</c:if>

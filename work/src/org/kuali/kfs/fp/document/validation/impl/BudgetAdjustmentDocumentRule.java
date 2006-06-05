@@ -51,10 +51,10 @@ public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase 
     LOG.debug("validating accounting line # " + accountingLine.getSequenceNumber());
 
     LOG.debug("beginning monthly lines validation ");
-    allow = validateMonthlyLines(transactionalDocument, accountingLine);
+    allow = allow && validateMonthlyLines(transactionalDocument, accountingLine);
 
     LOG.debug("beginning object code validation ");
-    allow = validateObjectCode(transactionalDocument, accountingLine);
+    allow = allow && validateObjectCode(transactionalDocument, accountingLine);
 
     LOG.debug("end validating accounting line, has errors: " + allow);
 
@@ -69,13 +69,12 @@ public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase 
       BudgetAdjustmentSourceAccountingLine baAccountingLine = (BudgetAdjustmentSourceAccountingLine)accountingLine;
       ErrorMap errors = GlobalVariables.getErrorMap();
 
-      String errorKey = PropertyConstants.CURRENT_BUDGET_ADJUSTMENT_AMOUNT;
       boolean validMonthlyLines = true;
 
       if (baAccountingLine.getCurrentBudgetAdjustmentAmount() != null) {
           KualiDecimal monthlyTotal = baAccountingLine.getMonthlyLinesTotal();
           if ((monthlyTotal != null) && (monthlyTotal.compareTo(baAccountingLine.getCurrentBudgetAdjustmentAmount()) != 0)) {
-              errors.put(errorKey, KeyConstants.ERROR_DOCUMENT_BA_MONTH_TOTAL_NOT_EQUAL_CURRENT);
+              errors.put(PropertyConstants.BA_CURRENT_BUDGET_ADJUSTMENT_AMOUNT, KeyConstants.ERROR_DOCUMENT_BA_MONTH_TOTAL_NOT_EQUAL_CURRENT);
               validMonthlyLines = false;
           }
       } else {

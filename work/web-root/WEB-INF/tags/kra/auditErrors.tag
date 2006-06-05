@@ -23,7 +23,7 @@
 							<td width="5%"><div align="center"><html:image src="images/tinybutton-fix.gif" property="methodToCall.${audit.link}.x"/></div></td>
 						</tr>
 					</c:when>
-					<c:otherwise>${errorText}</c:otherwise>
+					<c:otherwise><li>${errorText}</li></c:otherwise>
 				</c:choose><br/>
 			</c:if>
 		</c:forEach>

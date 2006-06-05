@@ -60,6 +60,10 @@
 	            <description>Restricted Status Names are used to give short but meaningful names to the codes that they represent</description>
 	        </attribute>
 	        
+		    <attributeReference name="versionNumber" 
+								sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
+								sourceAttributeName="versionNumber" />
+
 	    </attributes>
 	</businessObject>
 </dictionaryEntry>

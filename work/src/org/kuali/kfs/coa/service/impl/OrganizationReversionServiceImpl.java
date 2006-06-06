@@ -22,12 +22,14 @@
  */
 package org.kuali.module.chart.service.impl;
 
-import java.text.NumberFormat;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.module.chart.bo.OrganizationReversion;
+import org.kuali.module.chart.bo.OrganizationReversionCategory;
 import org.kuali.module.chart.dao.OrganizationReversionDao;
 import org.kuali.module.chart.service.OrganizationReversionService;
 import org.kuali.module.gl.service.OrganizationReversionCategoryLogic;
@@ -58,37 +60,25 @@ public class OrganizationReversionServiceImpl implements OrganizationReversionSe
 
         Map<String,OrganizationReversionCategoryLogic> categories = new HashMap<String,OrganizationReversionCategoryLogic>();
 
-        // Categories must be in the format of Cnn so we'll start with C01 and go until we can't find a rule and
-        // assume that is the end of the list.
-        int ruleNumber = 1;
+        Collection cats = organizationReversionDao.getCategories();
 
-        NumberFormat nf = NumberFormat.getInstance();
-        nf.setMaximumFractionDigits(0);
-        nf.setMinimumIntegerDigits(2);
+        for (Iterator iter = cats.iterator(); iter.hasNext();) {
+            OrganizationReversionCategory orc = (OrganizationReversionCategory)iter.next();
 
-        boolean done = false;
-        while ( ! done ) {
-            String categoryCode = "C" + nf.format(ruleNumber);
+            String categoryCode = orc.getOrganizationReversionCategoryCode();
 
-            if ( kualiConfigurationService.hasApplicationParameter("OrgReversion", categoryCode + "_Name") ) {
-                String name = kualiConfigurationService.getApplicationParameterValue("OrgReversion", categoryCode + "_Name");
-
-                if ( beanFactory.containsBean("gl" + categoryCode + "OrganizationReversionCategory") ) {
-                    // We have a custom implementation
-                    categories.put(categoryCode,(OrganizationReversionCategoryLogic)beanFactory.getBean("gl" + categoryCode + "OrganizationReversionCategory"));
-                } else {
-                    // We'll get the generic implementation
-                    categories.put(categoryCode, (OrganizationReversionCategoryLogic)beanFactory.getBean("glGenericOrganizationReversionCategory"));
-                }
-                ruleNumber++;
+            if ( beanFactory.containsBean("gl" + categoryCode + "OrganizationReversionCategory") ) {
+                // We have a custom implementation
+                categories.put(categoryCode,(OrganizationReversionCategoryLogic)beanFactory.getBean("gl" + categoryCode + "OrganizationReversionCategory"));
             } else {
-                done = true;
+                // We'll get the generic implementation
+                categories.put(categoryCode, (OrganizationReversionCategoryLogic)beanFactory.getBean("glGenericOrganizationReversionCategory"));
             }
         }
         return categories;
     }
 
-    public void setOrganizationReversionDao(OrganizationReversionDao orDao){
+    public void setOrganizationReversionDao(OrganizationReversionDao orDao) {
         organizationReversionDao = orDao;
     }
 

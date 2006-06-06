@@ -22,9 +22,13 @@
  */
 package org.kuali.module.chart.dao.ojb;
 
+import java.util.Collection;
+
 import org.apache.ojb.broker.query.Criteria;
+import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.module.chart.bo.OrganizationReversion;
+import org.kuali.module.chart.bo.OrganizationReversionCategory;
 import org.kuali.module.chart.dao.OrganizationReversionDao;
 import org.springframework.orm.ojb.PersistenceBrokerTemplate;
 
@@ -32,16 +36,29 @@ import org.springframework.orm.ojb.PersistenceBrokerTemplate;
  * @author Bin Gao from Michigan State University
  */
 public class OrganizationReversionDaoOjb extends PersistenceBrokerTemplate implements OrganizationReversionDao {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationReversionDaoOjb.class);
 
     /**
      * @see org.kuali.module.chart.dao.OrganizationReversionDao#getByPrimaryId(java.lang.Integer, java.lang.String, java.lang.String)
      */
     public OrganizationReversion getByPrimaryId(Integer universityFiscalYear, String financialChartOfAccountsCode, String organizationCode) {
+        LOG.debug("getByPrimaryId() started");
+
         Criteria criteria = new Criteria();
         criteria.addEqualTo("universityFiscalYear", universityFiscalYear);        
         criteria.addEqualTo("chartOfAccountsCode", financialChartOfAccountsCode);
         criteria.addEqualTo("organizationCode", organizationCode);
 
         return (OrganizationReversion)getObjectByQuery(QueryFactory.newQuery(OrganizationReversion.class,criteria));
+    }
+
+    public Collection getCategories() {
+        LOG.debug("getCategories() started");
+
+        Criteria criteria = new Criteria();
+        QueryByCriteria q = QueryFactory.newQuery(OrganizationReversionCategory.class, criteria);
+        q.addOrderByAscending("organizationReversionSortCode");
+
+        return getCollectionByQuery(q);
     }
 }

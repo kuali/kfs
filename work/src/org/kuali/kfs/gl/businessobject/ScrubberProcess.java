@@ -2357,6 +2357,13 @@ public class ScrubberProcess {
         if(unitOfWork.offsetAmount.isZero()) {
             return errors;
         }
+        
+        // do nothing if scrubber offset indicator of the ducument type code is turned off in the document type table
+        String documentTypeCode = workingEntry.getFinancialDocumentTypeCode(); 
+        DocumentType documentType = documentTypeService.getDocumentTypeByCode(documentTypeCode);
+        if ( ! documentType.isTransactionScrubberOffsetGenerationIndicator() ) {
+            return errors;
+        }
 
         OriginEntry offsetEntry = new OriginEntry(workingEntry);
 
@@ -2405,8 +2412,10 @@ public class ScrubberProcess {
         if (offsetDefinition != null) {
 
             // Flexible Offset Enhancement
-            // TODO This returns errors so we need to deal with them
-            this.applyFlexibleOffsetGeneration(offsetEntry);
+            List errorsOfFlexibleOffsetGeneration = this.applyFlexibleOffsetGeneration(offsetEntry);
+            if(errorsOfFlexibleOffsetGeneration.size() > 0){
+                return errorsOfFlexibleOffsetGeneration;
+            }
 
 //        4001  030110              MOVE GLOFSD-FIN-OBJECT-CD TO
 //        4002  030120                   FIN-OBJECT-CD OF ALT-GLEN-RECORD
@@ -2599,6 +2608,8 @@ public class ScrubberProcess {
      */
     private List applyFlexibleOffsetGeneration(OriginEntry originEntry) {
         List errors = new ArrayList();
+        String keyOfErrorMessage = "";
+        StringBuffer errorValues = new StringBuffer();
 
         Integer fiscalYear = originEntry.getUniversityFiscalYear();
         String chartOfAccountsCode = originEntry.getChartOfAccountsCode();
@@ -2606,32 +2617,38 @@ public class ScrubberProcess {
 
         String balanceTypeCode = originEntry.getFinancialBalanceTypeCode();
         String documentTypeCode = originEntry.getFinancialDocumentTypeCode();
+        
+        // do nothing if scrubber offset indicator is turned off in the document type table
+        DocumentType documentType = documentTypeService.getDocumentTypeByCode(documentTypeCode);
+        if ( ! documentType.isTransactionScrubberOffsetGenerationIndicator() ) {            
+            return errors;
+        }
 
         // do nothing if the global flexible offset indicator is off
         if ( ! flexibleOffsetAccountService.getEnabled() ) {
             return errors;
         }
 
-        // TODO this is broken - if this indicator is N, we don't want to generate ANY offset
-
-        // do nothing if scrubber offset indicator is turned off in the document type table
-        DocumentType documentType = documentTypeService.getDocumentTypeByCode(documentTypeCode);
-        if ( ! documentType.isTransactionScrubberOffsetGenerationIndicator() ) {
-            return errors;
-        }
-
-        // look up the offset Definition table for the offset object code
+        // look up the offset definition table for the offset object code
         OffsetDefinition offsetDefinition = offsetDefinitionService.getByPrimaryId(
                 fiscalYear, chartOfAccountsCode, documentTypeCode, balanceTypeCode);
         if (offsetDefinition == null) {
-            // TODO This might be an error too.
+            errorValues.append("fiscal year = " + fiscalYear + "; ");
+            errorValues.append("chart of account code = " + chartOfAccountsCode + "; ");
+            errorValues.append("document type code = " + documentTypeCode + "; ");
+            errorValues.append("balance type code = " + balanceTypeCode + "; ");
+            
+            keyOfErrorMessage = kualiConfigurationService.getPropertyString(KeyConstants.ERROR_OFFSET_DEFINITION_NOT_FOUND);
+            addTransactionError(keyOfErrorMessage, errorValues.toString(), errors);
             return errors;
         }
 
         // get the offset object code from the offset definition record searched above
         String offsetObjectCode = offsetDefinition.getFinancialObjectCode();
         if (offsetObjectCode == null) {
-            // TODO Should this be an error?
+            errorValues.append("offset object code = " + offsetObjectCode + "; ");
+            keyOfErrorMessage = kualiConfigurationService.getPropertyString(KeyConstants.ERROR_OFFSET_DEFINITION_OBJECT_CODE_NOT_FOUND);
+            addTransactionError(keyOfErrorMessage, "", errors);
             return errors;
         }
 
@@ -2640,22 +2657,41 @@ public class ScrubberProcess {
         OffsetAccount offsetAccount = flexibleOffsetAccountService.getByPrimaryIdIfEnabled(
                 chartOfAccountsCode, accountNumber, offsetObjectCode);
         if (offsetAccount == null) {
+            errorValues.append("chart of account code = " + chartOfAccountsCode + "; ");
+            errorValues.append("account number = " + accountNumber + "; ");
+            errorValues.append("offset object code = " + offsetObjectCode + "; ");           
+            
+            keyOfErrorMessage = kualiConfigurationService.getPropertyString(KeyConstants.ERROR_OFFSET_ACCOUNT_NOT_FOUND);
+            addTransactionError(keyOfErrorMessage, errorValues.toString(), errors);
             return errors;
         }
+        String offserAccountNumber = offsetAccount.getFinancialOffsetAccountNumber();
+        String offsetChartOfAccountsCode = offsetAccount.getFinancialOffsetChartOfAccountCode();
 
-        // TODO We need to validate the chart/account in the offset table
-
-        if ( ! chartOfAccountsCode.equals(offsetAccount.getChartOfAccountsCode()) ) {
-            // TODO We need to check that the object code is valid on the new chart
+        // validate if there is a record with the offset chart and offset object code in the object code table 
+        if ( ! chartOfAccountsCode.equals(offsetChartOfAccountsCode)) {
+            ObjectCode objectCode = objectCodeService.getByPrimaryId(fiscalYear, offsetChartOfAccountsCode, offsetObjectCode);          
+            if(objectCode == null){
+                errorValues.append("chart of account code = " + chartOfAccountsCode + "; ");
+                errorValues.append("object code = " + offsetObjectCode + "; ");   
+                
+                keyOfErrorMessage = kualiConfigurationService.getPropertyString(KeyConstants.ERROR_OBJECT_CODE_NOT_FOUND);
+                addTransactionError(keyOfErrorMessage, errorValues.toString(), errors);
+                return errors;
+            }
         }
 
         // replace the chart and account of the given transaction with those of the offset account obtained above
-        // Since we are replacing the account, we blank out the sub account and sub object
-        originEntry.setAccountNumber(offsetAccount.getFinancialOffsetAccountNumber());
-        originEntry.setChartOfAccountsCode(offsetAccount.getFinancialOffsetChartOfAccountCode());
+        originEntry.setAccountNumber(offserAccountNumber);
+        originEntry.setChartOfAccountsCode(offsetChartOfAccountsCode);
+        
+        // blank out the sub account and sub object since the account has been replaced
         originEntry.setSubAccountNumber(Constants.DASHES_SUB_ACCOUNT_NUMBER);
         originEntry.setFinancialSubObjectCode(Constants.DASHES_SUB_OBJECT_CODE);
-        originEntry.setTransactionLedgerEntryDescription("FLEXIBLE OFFSET GENERATION");
+        
+        // indicate that the entry is a flexible offset with the meaningful description
+        String description = kualiConfigurationService.getPropertyString(KeyConstants.MSG_GENERATED_FLEXIBLE_OFFSET);
+        originEntry.setTransactionLedgerEntryDescription(description);
 
         return errors;
     }
@@ -2724,6 +2760,6 @@ public class ScrubberProcess {
      * @param errorMessage
      */
     private void addTransactionError(String errorMessage, String errorValue, List errors) {
-        errors.add(errorMessage + " (" + errorValue + ")");
+            errors.add(errorMessage + " (" + errorValue + ")");
     }
 }

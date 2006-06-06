@@ -22,8 +22,6 @@
  */
 package org.kuali.module.chart.bo.codes;
 
-import java.io.Serializable;
-
 import org.kuali.core.bo.KualiCodeBase;
 
 

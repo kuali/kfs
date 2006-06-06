@@ -46,6 +46,7 @@ public class BudgetAdjustmentTargetAccountingLine extends TargetAccountingLine i
     private KualiDecimal financialDocumentMonth10LineAmount;
     private KualiDecimal financialDocumentMonth11LineAmount;
     private KualiDecimal financialDocumentMonth12LineAmount;
+    private boolean fringeBenefitIndicator;
     
     /**
 	 * This constructor needs to initialize the ojbConcreteClass attribute such
@@ -334,6 +335,22 @@ public class BudgetAdjustmentTargetAccountingLine extends TargetAccountingLine i
         this.financialDocumentMonth12LineAmount = financialDocumentMonth12LineAmount;
     }
 
+    /**
+     * Gets the fringeBenefitIndicator attribute. 
+     * @return Returns the fringeBenefitIndicator.
+     */
+    public boolean isFringeBenefitIndicator() {
+        return fringeBenefitIndicator;
+    }
+
+    /**
+     * Sets the fringeBenefitIndicator attribute value.
+     * @param fringeBenefitIndicator The fringeBenefitIndicator to set.
+     */
+    public void setFringeBenefitIndicator(boolean fringeBenefitIndicator) {
+        this.fringeBenefitIndicator = fringeBenefitIndicator;
+    }    
+    
     public KualiDecimal getMonthlyLinesTotal() {
         // TODO Auto-generated method stub
         return null;

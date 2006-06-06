@@ -23,12 +23,17 @@
 package org.kuali.module.gl.util;
 
 import java.io.FileOutputStream;
+import java.text.DecimalFormat;
+import java.lang.Number;
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
+import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.Map;
 
 import com.lowagie.text.Document;
+import com.lowagie.text.Element;
 import com.lowagie.text.ExceptionConverter;
 import com.lowagie.text.Font;
 import com.lowagie.text.FontFactory;
@@ -42,7 +47,7 @@ import com.lowagie.text.pdf.PdfWriter;
 
 /**
  * @author jsissom
- * 
+ * @version
  */
 public class LedgerReport {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LedgerReport.class);
@@ -84,28 +89,40 @@ public class LedgerReport {
         super();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.kuali.module.gl.service.PosterReportService#generateReport(java.util.Map, java.util.Map, java.util.Date, int)
-     */
     public void generateReport(Map ledgerEntries, Date runDate, String title, String fileprefix, String destinationDirectory) {
-        LOG.debug("generateReport() started");
-
+        LOG.debug("generateReport() started");        
+        this.generateReport(ledgerEntries.values(), runDate, title, fileprefix, destinationDirectory);
+    }
+    
+    /**
+     * This method generates report based on the given collection of ledger entries
+     * @param entryCollection the given collection of ledger entries
+     * @param reportingDate the reporting date
+     * @param title the report title
+     * @param fileprefix the prefix of the generated report file
+     * @param destinationDirectory the directory where the report is located
+     */   
+    public void generateReport(Collection entryCollection, Date reportingDate, String title, String fileprefix, String destinationDirectory) {
+        LOG.debug("generateReport() started");        
+        this.generatePDFReport(entryCollection, reportingDate, title, fileprefix, destinationDirectory);
+    }    
+    
+    private void generatePDFReport(Collection entryCollection, Date reportingDate, String title, String fileprefix, String destinationDirectory){
+        
         Font headerFont = FontFactory.getFont(FontFactory.COURIER, 8, Font.BOLD);
         Font textFont = FontFactory.getFont(FontFactory.COURIER, 8, Font.NORMAL);
 
         Document document = new Document(PageSize.A4.rotate());
 
         PageHelper helper = new PageHelper();
-        helper.runDate = runDate;
+        helper.runDate = reportingDate;
         helper.headerFont = headerFont;
         helper.title = title;
 
         try {
             String filename = destinationDirectory + "/" + fileprefix + "_";
             SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
-            filename = filename + sdf.format(runDate);
+            filename = filename + sdf.format(reportingDate);
             filename = filename + ".pdf";
 
             PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(filename));
@@ -114,7 +131,7 @@ public class LedgerReport {
             document.open();
             PdfPTable ledgerEntryTable = null;
 
-            if (ledgerEntries != null && ledgerEntries.size() > 0) {
+            if (entryCollection != null && entryCollection.size() > 0) {
                 float[] warningWidths = { 3, 3, 6, 3, 8, 10, 8, 10, 8, 10, 8 };
                 ledgerEntryTable = new PdfPTable(warningWidths);
                 ledgerEntryTable.setHeaderRows(1);
@@ -144,7 +161,7 @@ public class LedgerReport {
                 cell = new PdfPCell(new Phrase("No D/C Code Count", headerFont));
                 ledgerEntryTable.addCell(cell);
 
-                for (Iterator reportIter = ledgerEntries.values().iterator(); reportIter.hasNext();) {
+                for (Iterator reportIter = entryCollection.iterator(); reportIter.hasNext();) {
                     LedgerEntry ledgerEntry = (LedgerEntry) reportIter.next();
 
                     cell = new PdfPCell(new Phrase(ledgerEntry.balanceType, textFont));
@@ -159,19 +176,33 @@ public class LedgerReport {
                     ledgerEntryTable.addCell(cell);
                     cell = new PdfPCell(new Phrase(ledgerEntry.period, textFont));
                     ledgerEntryTable.addCell(cell);
-                    cell = new PdfPCell(new Phrase(Integer.toString(ledgerEntry.recordCount), textFont));
+                    
+                    cell = new PdfPCell(new Phrase(this.formatNumber(new Integer(ledgerEntry.recordCount)), textFont));
+                    cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
                     ledgerEntryTable.addCell(cell);
-                    cell = new PdfPCell(new Phrase(ledgerEntry.debitAmount.toString(), textFont));
+                    
+                    cell = new PdfPCell(new Phrase(this.formatNumber(ledgerEntry.debitAmount), textFont));
+                    cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
                     ledgerEntryTable.addCell(cell);
-                    cell = new PdfPCell(new Phrase(Integer.toString(ledgerEntry.debitCount), textFont));
+                    
+                    cell = new PdfPCell(new Phrase(this.formatNumber(new Integer(ledgerEntry.debitCount)), textFont));
+                    cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
                     ledgerEntryTable.addCell(cell);
-                    cell = new PdfPCell(new Phrase(ledgerEntry.creditAmount.toString(), textFont));
+                    
+                    cell = new PdfPCell(new Phrase(this.formatNumber(ledgerEntry.creditAmount), textFont));
+                    cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
                     ledgerEntryTable.addCell(cell);
-                    cell = new PdfPCell(new Phrase(Integer.toString(ledgerEntry.creditCount), textFont));
+                    
+                    cell = new PdfPCell(new Phrase(this.formatNumber(new Integer(ledgerEntry.creditCount)), textFont));
+                    cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
                     ledgerEntryTable.addCell(cell);
-                    cell = new PdfPCell(new Phrase(ledgerEntry.noDCAmount.toString(), textFont));
+                    
+                    cell = new PdfPCell(new Phrase(this.formatNumber(ledgerEntry.noDCAmount), textFont));
+                    cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
                     ledgerEntryTable.addCell(cell);
-                    cell = new PdfPCell(new Phrase(Integer.toString(ledgerEntry.noDCCount), textFont));
+                    
+                    cell = new PdfPCell(new Phrase(this.formatNumber(new Integer(ledgerEntry.noDCCount)), textFont));
+                    cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
                     ledgerEntryTable.addCell(cell);
                 }
             } else {
@@ -195,5 +226,18 @@ public class LedgerReport {
                 LOG.error("generateReport() Exception closing report", t);
             }
         }
+    }
+    
+    // format the given number based on its type: Integer or BigDecimal
+    private String formatNumber(Number number){
+        DecimalFormat decimalFormat = new DecimalFormat();
+        
+        if(number instanceof Integer){
+            decimalFormat.applyPattern("###,###");
+        }
+        else if(number instanceof BigDecimal){
+            decimalFormat.applyPattern("###,###,###.##");
+        }       
+        return decimalFormat.format(number).toString();
     }
 }

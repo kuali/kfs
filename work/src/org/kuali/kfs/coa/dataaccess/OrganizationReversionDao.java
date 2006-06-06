@@ -22,6 +22,8 @@
  */
 package org.kuali.module.chart.dao;
 
+import java.util.Collection;
+
 import org.kuali.module.chart.bo.OrganizationReversion;
 
 
@@ -39,8 +41,12 @@ public interface OrganizationReversionDao {
      * 
      * Retrieves an OrganizationReversion by primary key.
      */    
-    public OrganizationReversion getByPrimaryId(
-            Integer universityFiscalYear,
-            String financialChartOfAccountsCode, 
-            String organizationCode);
+    public OrganizationReversion getByPrimaryId(Integer universityFiscalYear,String financialChartOfAccountsCode,String organizationCode);
+
+    /**
+     * Get all the categories
+     *
+     * @return list of categories
+     */
+    public Collection getCategories();
 }

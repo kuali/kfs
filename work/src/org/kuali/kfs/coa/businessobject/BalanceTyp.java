@@ -32,7 +32,7 @@ import org.kuali.core.bo.KualiCodeBase;
  * 
  * @author Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class BalanceTyp extends KualiCodeBase implements Serializable {
+public class BalanceTyp extends KualiCodeBase {
 
     private String financialBalanceTypeShortNm;
     private boolean financialOffsetGenerationIndicator;

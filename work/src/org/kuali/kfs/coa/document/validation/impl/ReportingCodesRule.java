@@ -22,6 +22,7 @@
  */
 package org.kuali.module.chart.rules;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.KeyConstants;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.document.MaintenanceDocument;
@@ -74,16 +75,42 @@ public class ReportingCodesRule extends MaintenanceDocumentRuleBase {
     
     private boolean checkReportsToReportingCode() {
         boolean success = true;
+        boolean oneMissing = false;
+        boolean bothMissing = false;
+        boolean doExistenceTest = false;
+        
+        //  if one of the codes is blank but the other isnt (ie, they are different), then 
+        // do the existence test 
+        if (StringUtils.isBlank(newReportingCode.getFinancialReportingCode()) 
+                && StringUtils.isBlank(newReportingCode.getFinancialReportsToReportingCode())) {
+            bothMissing = true;
+        }
+        else if (StringUtils.isBlank(newReportingCode.getFinancialReportingCode()) 
+                || StringUtils.isBlank(newReportingCode.getFinancialReportsToReportingCode())) {
+            oneMissing = true;
+        }
+        if (oneMissing && !bothMissing) {
+            doExistenceTest = true;
+        }
+        
+        //  if both codes are there, but they are different, then do the existence test
+        if (StringUtils.isNotBlank(newReportingCode.getFinancialReportingCode())) {
+            if (!newReportingCode.getFinancialReportingCode().equalsIgnoreCase(newReportingCode.getFinancialReportsToReportingCode())) {
+                doExistenceTest = true;
+            }
+        }
+        
         // if these two aren't equal then we need to make sure that the object exists
-        if (!newReportingCode.getFinancialReportingCode().equalsIgnoreCase(newReportingCode.getFinancialReportsToReportingCode())) {
+        if (doExistenceTest) {
+            
             // attempt to retrieve the specified object from the db
-            BusinessObject referenceBo = businessObjectService.getReferenceIfExists((BusinessObject)newReportingCode, "reportingCodes");
+            BusinessObject referenceBo;
+            referenceBo = businessObjectService.getReferenceIfExists((BusinessObject) newReportingCode, "reportingCodes");
             if (!ObjectUtils.isNotNull(referenceBo)) {
                 putFieldError("financialReportsToReportingCode", 
                         KeyConstants.ERROR_EXISTENCE, 
                         "Reports To Reporting Code");
                 success &= false;
-                
             }
         }
         return success;

@@ -31,14 +31,15 @@ import org.apache.commons.logging.LogFactory;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.Maintainable;
+import org.kuali.core.rule.event.SaveDocumentEvent;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.DateUtils;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.AccountChangeDetail;
+import org.kuali.module.chart.bo.AccountChangeDocument;
 import org.kuali.module.chart.bo.DelegateChangeContainer;
 import org.kuali.module.chart.bo.DelegateChangeDocument;
-import org.kuali.module.chart.bo.GlobalAccountChanges;
 import org.kuali.test.KualiTestBaseWithFixtures;
 
 import edu.iu.uis.eden.exception.WorkflowException;
@@ -80,7 +81,7 @@ public class GlobalDocumentTest extends KualiTestBaseWithFixtures {
         MaintenanceDocument doc = (MaintenanceDocument) docService.getNewDocument(KNOWN_DOCUMENT_TYPENAME);
         assertNotNull(doc);
         assertNotNull(doc.getNewMaintainableObject());
-        assertEquals("org.kuali.module.chart.bo.DelegateChangeDocument", doc.getNewMaintainableObject().getBoClass().getName());
+        assertEquals("org.kuali.module.chart.bo.DelegateChangeContainer", doc.getNewMaintainableObject().getBoClass().getName());
     }
 
     public final void testGetNewDocument_globalDelegateMaintDoc() throws Exception {
@@ -97,11 +98,11 @@ public class GlobalDocumentTest extends KualiTestBaseWithFixtures {
         
         Maintainable newMaintainable = document.getNewMaintainableObject();
         assertNotNull("New Maintainable should never be null.", newMaintainable);
-        assertEquals("BO Class should be DelegateChangeDocument.", DelegateChangeDocument.class, newMaintainable.getBoClass());
+        assertEquals("BO Class should be DelegateChangeContainer.", DelegateChangeContainer.class, newMaintainable.getBoClass());
 
         BusinessObject newBo = newMaintainable.getBusinessObject();
         assertNotNull("New BO should never be null.", newBo);
-        assertEquals("New BO should be of the correct class.", DelegateChangeDocument.class, newBo.getClass());
+        assertEquals("New BO should be of the correct class.", DelegateChangeContainer.class, newBo.getClass());
         
     }
     
@@ -119,11 +120,11 @@ public class GlobalDocumentTest extends KualiTestBaseWithFixtures {
         
         Maintainable newMaintainable = document.getNewMaintainableObject();
         assertNotNull("New Maintainable should never be null.", newMaintainable);
-        assertEquals("BO Class should be AccountChangeDocument.", GlobalAccountChanges.class, newMaintainable.getBoClass());
+        assertEquals("BO Class should be AccountChangeDocument.", AccountChangeDocument.class, newMaintainable.getBoClass());
 
         BusinessObject newBo = newMaintainable.getBusinessObject();
         assertNotNull("New BO should never be null.", newBo);
-        assertEquals("New BO should be of the correct class.", GlobalAccountChanges.class, newBo.getClass());
+        assertEquals("New BO should be of the correct class.", AccountChangeDocument.class, newBo.getClass());
     }
     
     public final void testSaveDocument_globalDelegate() throws Exception {
@@ -168,7 +169,7 @@ public class GlobalDocumentTest extends KualiTestBaseWithFixtures {
         account.setChartOfAccountsCode("BL");
         account.setAccountNumber("1031467");
         bo.addAccount(account);
-        
+        docService.validateAndPersist(document, new SaveDocumentEvent(document));
         docService.save(document, null, null);
         
     }
@@ -215,6 +216,7 @@ public class GlobalDocumentTest extends KualiTestBaseWithFixtures {
         account.setAccountNumber("1031467");
         bo.addAccount(account);
         
+        docService.validateAndPersist(document, new SaveDocumentEvent(document));
         docService.save(document, null, null);
         
         //  clear the document, and re-load it from the DB
@@ -295,6 +297,7 @@ public class GlobalDocumentTest extends KualiTestBaseWithFixtures {
         account.setAccountNumber("1031467");
         bo.addAccount(account);
         
+        docService.validateAndPersist(document, new SaveDocumentEvent(document));
         docService.save(document, null, null);
         
         //  clear the document, and re-load it from the DB
@@ -375,6 +378,7 @@ public class GlobalDocumentTest extends KualiTestBaseWithFixtures {
         account.setAccountNumber("1031467");
         bo.addAccount(account);
         
+        docService.validateAndPersist(document, new SaveDocumentEvent(document));
         docService.save(document, null, null);
         
         //  clear the document, and re-load it from the DB
@@ -450,6 +454,7 @@ public class GlobalDocumentTest extends KualiTestBaseWithFixtures {
         account.setAccountNumber("1031467");
         bo.addAccount(account);
         
+        docService.validateAndPersist(document, new SaveDocumentEvent(document));
         docService.save(document, null, null);
         
     }

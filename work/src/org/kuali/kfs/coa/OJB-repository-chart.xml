@@ -2471,10 +2471,6 @@
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 
-	<reference-descriptor name="financialDocument" class-ref="org.kuali.core.document.DocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="financialDocumentNumber" />
-	</reference-descriptor>
-
 	<collection-descriptor name="accountChangeDetails" 
 			element-class-ref="org.kuali.module.chart.bo.AccountChangeDetail" 
 			collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" 

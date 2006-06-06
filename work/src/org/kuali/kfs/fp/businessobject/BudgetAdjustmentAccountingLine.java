@@ -235,4 +235,21 @@ public interface BudgetAdjustmentAccountingLine {
      */
     public abstract void setFinancialDocumentMonth12LineAmount(KualiDecimal financialDocumentMonth12LineAmount);
 
+    /**
+     * Gets the fringeBenefitIndicator attribute.
+     * 
+     * @return - Returns the fringeBenefitIndicator
+     * 
+     */
+    public abstract boolean isFringeBenefitIndicator();
+
+    /**
+     * Sets the fringeBenefitIndicator attribute.
+     * 
+     * @param - fringeBenefitIndicator The fringeBenefitIndicator to set.
+     * 
+     */
+    public abstract void setFringeBenefitIndicator(boolean fringeBenefitIndicator);
+    
+    
 }

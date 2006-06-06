@@ -58,7 +58,51 @@ public class BudgetAdjustmentTargetAccountingLine extends TargetAccountingLine i
 		super.ojbConcreteClass = this.getClass().getName();
 	}
 
-	public KualiDecimal getBaseBudgetAdjustmentAmount() {
+    /**
+     * @see org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine#getMonthlyLinesTotal()
+     */
+    public KualiDecimal getMonthlyLinesTotal() {
+        KualiDecimal total = new KualiDecimal(0);
+        if (getFinancialDocumentMonth1LineAmount() != null) {
+            total = total.add(getFinancialDocumentMonth1LineAmount());
+        }
+        if (getFinancialDocumentMonth2LineAmount() != null) {
+            total = total.add(getFinancialDocumentMonth2LineAmount());
+        }
+        if (getFinancialDocumentMonth3LineAmount() != null) {
+            total = total.add(getFinancialDocumentMonth3LineAmount());
+        }
+        if (getFinancialDocumentMonth4LineAmount() != null) {
+            total = total.add(getFinancialDocumentMonth4LineAmount());
+        }
+        if (getFinancialDocumentMonth5LineAmount() != null) {
+            total = total.add(getFinancialDocumentMonth5LineAmount());
+        }
+        if (getFinancialDocumentMonth6LineAmount() != null) {
+            total = total.add(getFinancialDocumentMonth6LineAmount());
+        }
+        if (getFinancialDocumentMonth7LineAmount() != null) {
+            total = total.add(getFinancialDocumentMonth7LineAmount());
+        }
+        if (getFinancialDocumentMonth8LineAmount() != null) {
+            total = total.add(getFinancialDocumentMonth8LineAmount());
+        }
+        if (getFinancialDocumentMonth9LineAmount() != null) {
+            total = total.add(getFinancialDocumentMonth9LineAmount());
+        }
+        if (getFinancialDocumentMonth10LineAmount() != null) {
+            total = total.add(getFinancialDocumentMonth10LineAmount());
+        }
+        if (getFinancialDocumentMonth11LineAmount() != null) {
+            total = total.add(getFinancialDocumentMonth11LineAmount());
+        }
+        if (getFinancialDocumentMonth12LineAmount() != null) {
+            total = total.add(getFinancialDocumentMonth12LineAmount());
+        }
+        return total;
+    }
+
+    public KualiDecimal getBaseBudgetAdjustmentAmount() {
 		return baseBudgetAdjustmentAmount;
 	}
 
@@ -351,9 +395,4 @@ public class BudgetAdjustmentTargetAccountingLine extends TargetAccountingLine i
         this.fringeBenefitIndicator = fringeBenefitIndicator;
     }    
     
-    public KualiDecimal getMonthlyLinesTotal() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
 }

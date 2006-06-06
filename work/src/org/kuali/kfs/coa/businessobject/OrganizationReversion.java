@@ -25,11 +25,13 @@
 
 package org.kuali.module.chart.bo;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.core.bo.user.Options;
+import org.kuali.core.util.TypedArrayList;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -45,19 +47,20 @@ public class OrganizationReversion extends BusinessObjectBase {
 	private String cashReversionFinancialChartOfAccountsCode;
 	private String cashReversionAccountNumber;
 	private Chart chartOfAccounts;
-	private Org organization;
 	private Account cashReversionAccount;
 	private Account budgetReversionAccount;
 	private Chart budgetReversionChartOfAccounts;
 	private Chart cashReversionFinancialChartOfAccounts;
     private Options universityFiscal;
-    private List organizationReversionDetail;
+    private Org organization;
+    private List <Org> organizations; // This is only used by the "global" document
+    private List <OrganizationReversionDetail> organizationReversionDetail;
 
 	/**
 	 * Default constructor.
 	 */
 	public OrganizationReversion() {
-
+        organizations = new TypedArrayList(Org.class);
 	}
 
     public List getOrganizationReversionDetail() {
@@ -267,8 +270,8 @@ public class OrganizationReversion extends BusinessObjectBase {
 	 * @return - Returns the organization
 	 * 
 	 */
-	public Org getOrganization() { 
-		return organization;
+	public List<Org> getOrganizations() { 
+		return organizations;
 	}
 
 	/**
@@ -277,8 +280,8 @@ public class OrganizationReversion extends BusinessObjectBase {
 	 * @param - organization The organization to set.
 	 * @deprecated
 	 */
-	public void setOrganization(Org organization) {
-		this.organization = organization;
+	public void setOrganizations(List<Org> organization) {
+		this.organizations = organization;
 	}
 
 	/**
@@ -389,5 +392,13 @@ public class OrganizationReversion extends BusinessObjectBase {
         m.put("chartOfAccountsCode", this.chartOfAccountsCode);
         m.put("organizationCode", this.organizationCode);
 	    return m;
+    }
+
+    public Org getOrganization() {
+        return organization;
+    }
+
+    public void setOrganization(Org organization) {
+        this.organization = organization;
     }
 }

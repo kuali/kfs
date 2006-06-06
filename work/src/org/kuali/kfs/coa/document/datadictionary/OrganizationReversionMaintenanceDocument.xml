@@ -6,7 +6,7 @@
 <dictionaryEntry>
 	<maintenanceDocument>
 		<businessObjectClass>org.kuali.module.chart.bo.OrganizationReversion</businessObjectClass>
-		<maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>	
+		<maintainableClass>org.kuali.core.maintenance.OrganizationReversionMaintainable</maintainableClass>	
         <documentAuthorizerClass>org.kuali.core.document.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
         <authorizations>
             <authorization action="initiate">
@@ -59,6 +59,19 @@
 		</defaultExistenceChecks>
 		
 		<maintainableSections>
+
+			<maintainableSection title="Choose Organizations">
+                <maintainableItems>
+ 	          	<maintainableCollection name="organizations" businessObjectClass="org.kuali.module.chart.bo.Org" 
+		          		  sourceClassName="org.kuali.module.chart.bo.Org" 
+						  sourceAttributeName="organizationCode">
+                        <maintainableField name="organizationCode" />
+                        <maintainableField name="organizationName" />
+	                </maintainableCollection>
+                </maintainableItems>
+            </maintainableSection>
+	                
+		
 			<maintainableSection title="Edit Organization Reversion">
                 <maintainableItems>
 					<maintainableField name="universityFiscalYear" required="true" />
@@ -71,7 +84,21 @@
 					<maintainableField name="carryForwardByObjectCodeIndicator" required="true" />
 					<maintainableField name="versionNumber" />
 
+    		          	<maintainableCollection name="organizationReversionDetail" businessObjectClass="org.kuali.module.chart.bo.OrganizationReversionDetail">
+						<maintainableField name="organizationReversionCategoryCode" required="true" />																
+						<maintainableField name="universityFiscalYear" required="true" />
+						<maintainableField name="chartOfAccountsCode" required="true" />
+						<maintainableField name="organizationCode" required="true" />
+						<maintainableField name="organizationReversionObjectCode" required="true" />
+						<maintainableField name="organizationReversionCode" required="true" />				
+						<maintainableField name="versionNumber" />
+	                </maintainableCollection>
+
+
                 </maintainableItems>
+                
+                
+                
 			</maintainableSection>
 		</maintainableSections>
 	</maintenanceDocument>

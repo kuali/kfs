@@ -101,7 +101,7 @@ public class ServiceBillingDocumentRule extends InternalBillingDocumentRule {
             AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry) {
         String description = accountingLine.getFinancialDocumentLineDescription();
         if(StringUtils.isNotBlank(description)) {
-            explicitEntry.setTransactionLedgerEntryDescription(accountingLine.getFinancialDocumentLineDescription());
+            explicitEntry.setTransactionLedgerEntryDescription(description);
         }
     }
 }

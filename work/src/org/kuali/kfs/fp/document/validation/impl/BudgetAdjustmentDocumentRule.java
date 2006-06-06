@@ -36,7 +36,6 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine;
-import org.kuali.module.financial.bo.BudgetAdjustmentSourceAccountingLine;
 import org.kuali.module.financial.document.BudgetAdjustmentDocument;
 import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 
@@ -278,19 +277,27 @@ public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase 
    * Checks object codes restrictions, including restrictions in parameters table.
    */
   public boolean validateMonthlyLines(TransactionalDocument transactionalDocument, AccountingLine accountingLine) {
-      //TODO fix this: should not cast into source type
-      BudgetAdjustmentSourceAccountingLine baAccountingLine = (BudgetAdjustmentSourceAccountingLine)accountingLine;
+      BudgetAdjustmentAccountingLine baAccountingLine = (BudgetAdjustmentAccountingLine)accountingLine;
       ErrorMap errors = GlobalVariables.getErrorMap();
 
       boolean validMonthlyLines = true;
 
       KualiDecimal monthlyTotal = baAccountingLine.getMonthlyLinesTotal();
-      if (monthlyTotal != null && baAccountingLine.getCurrentBudgetAdjustmentAmount() != null &&
-              KualiDecimal.ZERO.compareTo(monthlyTotal) != 0 &&
-              KualiDecimal.ZERO.compareTo(baAccountingLine.getCurrentBudgetAdjustmentAmount()) != 0 &&
-              monthlyTotal.compareTo(baAccountingLine.getCurrentBudgetAdjustmentAmount()) != 0 ) {
-          errors.put(PropertyConstants.BA_CURRENT_BUDGET_ADJUSTMENT_AMOUNT, KeyConstants.ERROR_DOCUMENT_BA_MONTH_TOTAL_NOT_EQUAL_CURRENT);
-          validMonthlyLines = false;
+      if (baAccountingLine.getCurrentBudgetAdjustmentAmount() != null &&
+              KualiDecimal.ZERO.compareTo(baAccountingLine.getCurrentBudgetAdjustmentAmount()) != 0) {
+          //if current amt is entered check monthly amt
+          if (monthlyTotal != null &&
+                  KualiDecimal.ZERO.compareTo(monthlyTotal) != 0 &&
+                  monthlyTotal.compareTo(baAccountingLine.getCurrentBudgetAdjustmentAmount()) != 0 ) {
+              errors.put(PropertyConstants.BA_CURRENT_BUDGET_ADJUSTMENT_AMOUNT, KeyConstants.ERROR_DOCUMENT_BA_MONTH_TOTAL_NOT_EQUAL_CURRENT);
+              validMonthlyLines = false;
+          }
+      } else {
+          //if current amt is not entered, monthly amts cannot be entered
+          if (monthlyTotal != null || KualiDecimal.ZERO.compareTo(monthlyTotal) != 0 ) {
+              errors.put(PropertyConstants.BA_CURRENT_BUDGET_ADJUSTMENT_AMOUNT, KeyConstants.ERROR_DOCUMENT_BA_MONTH_TOTAL_NOT_ALLOWED_EMPTY_CURRENT);
+              validMonthlyLines = false;
+          }
       }
 
       return validMonthlyLines;

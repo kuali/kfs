@@ -28,6 +28,7 @@ package org.kuali.module.chart.bo;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.user.Options;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -40,10 +41,12 @@ public class OrganizationReversionDetail extends BusinessObjectBase {
 	private String organizationReversionCategoryCode;
 	private String organizationReversionCode;
 	private String organizationReversionObjectCode;
+    
 	private ObjectCode organizationReversionObject;
 	private Org organization;
 	private Chart chartOfAccounts;
 	private OrganizationReversionCategory organizationReversionCategory;
+    private Options universityFiscal;
 
 	/**
 	 * Default constructor.
@@ -239,6 +242,38 @@ public class OrganizationReversionDetail extends BusinessObjectBase {
 	}
 
 	/**
+     * Gets the organizationReversionCategory attribute. 
+     * @return Returns the organizationReversionCategory.
+     */
+    public OrganizationReversionCategory getOrganizationReversionCategory() {
+        return organizationReversionCategory;
+    }
+
+    /**
+     * Sets the organizationReversionCategory attribute value.
+     * @param organizationReversionCategory The organizationReversionCategory to set.
+     */
+    public void setOrganizationReversionCategory(OrganizationReversionCategory organizationReversionCategory) {
+        this.organizationReversionCategory = organizationReversionCategory;
+    }
+
+    /**
+     * Gets the universityFiscal attribute. 
+     * @return Returns the universityFiscal.
+     */
+    public Options getUniversityFiscal() {
+        return universityFiscal;
+    }
+
+    /**
+     * Sets the universityFiscal attribute value.
+     * @param universityFiscal The universityFiscal to set.
+     */
+    public void setUniversityFiscal(Options universityFiscal) {
+        this.universityFiscal = universityFiscal;
+    }
+
+    /**
 	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {

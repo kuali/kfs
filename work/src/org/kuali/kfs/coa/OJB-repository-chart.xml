@@ -1911,6 +1911,12 @@
 		<foreignkey field-ref="cashReversionFinancialChartOfAccountsCode" />
 	</reference-descriptor>
 
+	<reference-descriptor name="universityFiscal"
+		class-ref="org.kuali.core.bo.user.Options" auto-retrieve="true"
+		auto-update="none" auto-delete="none" proxy="true">
+		<foreignkey field-ref="universityFiscalYear" />
+	</reference-descriptor>
+	
 	<collection-descriptor name="organizationReversionDetail" element-class-ref="org.kuali.module.chart.bo.OrganizationReversionDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
 		auto-retrieve="true" auto-update="none" auto-delete="none">
 		<orderby name="organizationReversionCategoryCode" sort="ASC" />
@@ -1929,21 +1935,32 @@
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="organizationReversionCode" column="ORG_RVRSN_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="organizationReversionObjectCode" column="ORG_RVRSN_OBJ_CD" jdbc-type="VARCHAR"/>
+
 	<reference-descriptor name="organizationReversionObject" class-ref="org.kuali.module.chart.bo.ObjectCode" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="universityFiscalYear" />
 		<foreignkey field-ref="chartOfAccountsCode" />
 		<foreignkey field-ref="organizationReversionObjectCode" />
 	</reference-descriptor>
+	
+	<reference-descriptor name="universityFiscal"
+		class-ref="org.kuali.core.bo.user.Options" auto-retrieve="true"
+		auto-update="none" auto-delete="none" proxy="true">
+		<foreignkey field-ref="universityFiscalYear" />
+	</reference-descriptor>
+	
 	<reference-descriptor name="organization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="chartOfAccountsCode" />
 		<foreignkey field-ref="organizationCode" />
 	</reference-descriptor>
+	
 	<reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="chartOfAccountsCode" />
 	</reference-descriptor>
+	
 	<reference-descriptor name="organizationReversionCategory" class-ref="org.kuali.module.chart.bo.OrganizationReversionCategory" auto-retrieve="true" auto-update="none" auto-delete="none">
 	  <foreignkey field-ref="organizationReversionCategoryCode" />
 	</reference-descriptor>
+	
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.chart.bo.OrganizationReversionCategory" table="CA_ORG_RVRSN_CTGRY_T">

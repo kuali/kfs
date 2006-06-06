@@ -29,6 +29,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.user.Options;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -49,7 +50,7 @@ public class OrganizationReversion extends BusinessObjectBase {
 	private Account budgetReversionAccount;
 	private Chart budgetReversionChartOfAccounts;
 	private Chart cashReversionFinancialChartOfAccounts;
-
+    private Options universityFiscal;
     private List organizationReversionDetail;
 
 	/**
@@ -360,7 +361,24 @@ public class OrganizationReversion extends BusinessObjectBase {
 		this.cashReversionFinancialChartOfAccounts = cashReversionFinancialChartOfAccounts;
 	}
 
+    
 	/**
+     * Gets the universityFiscal attribute. 
+     * @return Returns the universityFiscal.
+     */
+    public Options getUniversityFiscal() {
+        return universityFiscal;
+    }
+
+    /**
+     * Sets the universityFiscal attribute value.
+     * @param universityFiscal The universityFiscal to set.
+     */
+    public void setUniversityFiscal(Options universityFiscal) {
+        this.universityFiscal = universityFiscal;
+    }
+
+    /**
 	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {

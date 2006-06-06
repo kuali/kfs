@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../core/datadictionary/dataDictionary-1_0.dtd">
+<dictionaryEntry>
+	<businessObject businessObjectClass="org.kuali.module.chart.bo.OrganizationReversionCategory">
+		<customAttributeEnabled>false</customAttributeEnabled>
+
+		<inquiry>
+			<title>Organization Reversion Category Inquiry</title>
+
+			<inquiryFields>
+				<field attributeName="organizationReversionCategoryCode" />
+				<field attributeName="organizationReversionCategoryName" />				
+				<field attributeName="organizationReversionSortCode" />						
+			</inquiryFields>
+		</inquiry>
+
+		<lookup>
+			<title>Organization Reversion Category Lookup</title>
+
+			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.chart.bo.OrganizationReversionCategory">Create New</a>]]></menubar>
+
+			<instructions>Lookup an Organization Reversion Category</instructions>
+
+			<defaultSort attributeName="organizationReversionCategoryCode" sortAscending="true" />
+
+			<lookupFields>
+				<lookupField attributeName="organizationReversionCategoryCode"  />
+				<lookupField attributeName="organizationReversionCategoryName"  />
+				<lookupField attributeName="organizationReversionSortCode"  />				
+			</lookupFields>
+
+			<resultFields>
+				<field attributeName="organizationReversionCategoryCode" forceInquiry="true"/>
+				<field attributeName="organizationReversionCategoryName" />
+				<field attributeName="organizationReversionSortCode" />				
+			</resultFields>
+		</lookup>
+
+		<attributes>
+
+			<attribute name="organizationReversionCategoryCode" forceUppercase="true">
+				<label>Category Code</label>
+				<shortLabel>Category Code</shortLabel>
+
+				<maxLength>8</maxLength>
+				<validationPattern><alphaNumeric /></validationPattern>
+				<required>true</required>
+
+                <control>
+                    <text size="8" />
+                </control>
+
+				<summary>Organization Reversion Category Code</summary>
+				<description>The code uniquely identifying a particular Organization Reversion Category.</description>
+			</attribute>
+			
+			<attribute name="organizationReversionCategoryName" forceUppercase="false">
+                <label>Category Name</label>
+                <shortLabel>Name</shortLabel>
+
+                <maxLength>40</maxLength>
+				<required>true</required>
+
+                <control>
+                    <text size="40" />
+                </control>
+
+                <summary>Category Name</summary>
+                <description>Category Name...</description>
+            </attribute>
+
+			<attribute name="organizationReversionSortCode" forceUppercase="true">
+				<label>Sort Code</label>
+				<shortLabel>Sort Code</shortLabel>
+
+				<maxLength>2</maxLength>
+				<validationPattern><alphaNumeric /></validationPattern>
+				<required>true</required>
+
+				<control>
+					<text size="2" />
+				</control>							
+
+				<summary>Sort Code</summary>
+				<description>The code identifying type of Sort.</description>
+			</attribute>
+	
+		
+			<attributeReference name="versionNumber" 
+				sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
+				sourceAttributeName="versionNumber" />
+			
+		</attributes>
+	</businessObject>
+</dictionaryEntry>
+

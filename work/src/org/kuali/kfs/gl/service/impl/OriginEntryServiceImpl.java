@@ -27,21 +27,26 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.kuali.Constants;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.dao.OriginEntryDao;
 import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.gl.service.OriginEntryService;
+import org.kuali.module.gl.util.LedgerEntry;
 
 /**
  * @author jsissom
  * @author Laran Evans <lc278@cornell.edu>
- * @version $Id: OriginEntryServiceImpl.java,v 1.12 2006-06-03 21:38:33 jsissom Exp $
+ * @version $Id: OriginEntryServiceImpl.java,v 1.13 2006-06-06 20:11:49 bgao Exp $
  */
 public class OriginEntryServiceImpl implements OriginEntryService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OriginEntryServiceImpl.class);
@@ -216,4 +221,48 @@ public class OriginEntryServiceImpl implements OriginEntryService {
 
     }
 
+    /**
+     * @see org.kuali.module.gl.service.OriginEntryService#getSummaryByGroupId(java.lang.Integer)
+     */
+    public Collection getSummaryByGroupId(Integer groupId) {
+        Collection ledgerEntryCollection = new ArrayList();
+        
+        Iterator entrySummaryIterator = originEntryDao.getSummaryByGroupId(groupId); 
+        while(entrySummaryIterator.hasNext()){
+            Object[] entrySummary = (Object[])entrySummaryIterator.next();
+            
+            // TODO: incorrect so far
+            LedgerEntry ledgerEntry = new LedgerEntry();
+            for(int i=0; i<entrySummary.length; i++){
+                Object thisElement = null;
+                
+                thisElement = entrySummary[i++];
+                String fiscalYear = thisElement != null ? thisElement.toString() : "0";
+                ledgerEntry.setFiscalYear(new Integer(fiscalYear.toString()));                
+                 
+                thisElement = entrySummary[i++];
+                String periodCode = thisElement != null ? thisElement.toString() : "";
+                ledgerEntry.setPeriod(periodCode);
+                
+                ledgerEntry.setBalanceType(entrySummary[i++].toString());
+                ledgerEntry.setOriginCode(entrySummary[i++].toString());
+                
+                String debitCreditCode = entrySummary[i++].toString();               
+                if(Constants.GL_CREDIT_CODE.equals(debitCreditCode)){
+                    ledgerEntry.setCreditAmount(new KualiDecimal(entrySummary[i++].toString()));
+                    ledgerEntry.setCreditCount(Integer.parseInt(entrySummary[i].toString()));
+                }
+                else if(Constants.GL_DEBIT_CODE.equals(debitCreditCode)){
+                    ledgerEntry.setDebitAmount(new KualiDecimal(entrySummary[i++].toString()));
+                    ledgerEntry.setDebitCount(Integer.parseInt(entrySummary[i].toString()));
+                }
+                else{
+                    ledgerEntry.setNoDCAmount(new KualiDecimal(entrySummary[i++].toString()));
+                    ledgerEntry.setNoDCCount(Integer.parseInt(entrySummary[i].toString()));
+                }
+            }
+            ledgerEntryCollection.add(ledgerEntry);
+        }      
+        return ledgerEntryCollection;
+    }
 }

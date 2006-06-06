@@ -22,6 +22,7 @@
  */
 package org.kuali.module.gl.service;
 
+import java.util.Collection;
 import java.util.Iterator;
 
 import org.kuali.module.gl.bo.OriginEntry;
@@ -50,5 +51,11 @@ public interface OriginEntryService {
 
   public void removeScrubberDocumentEntries(OriginEntryGroup validGroup, OriginEntryGroup errorGroup, 
           OriginEntryGroup expiredGroup, String documentNumber, String documentTypeCode, String originCode);
-
+  
+  /**
+   * get the summarized information of the entries that belong to a entry group with the given group id
+   * @param groupId the id of a origin entry group
+   * @return a set of summarized information of the entries within the specified group 
+   */
+  public Collection getSummaryByGroupId(Integer groupId);
 }

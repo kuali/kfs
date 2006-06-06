@@ -92,7 +92,7 @@ public class ServiceBillingDocumentRule extends InternalBillingDocumentRule {
     }
 
     /**
-     * Sets extra accounting line fields in explicit GLPE. IB doesn't have these fields.
+     * Sets extra accounting line field in explicit GLPE. IB doesn't have this field.
      * 
      * @see TransactionalDocumentRuleBase#customizeExplicitGeneralLedgerPendingEntry(TransactionalDocument, AccountingLine,
      *      GeneralLedgerPendingEntry)

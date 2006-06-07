@@ -30,6 +30,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.document.MaintenanceDocument;
+import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.maintenance.Maintainable;
 import org.kuali.core.rule.event.SaveDocumentEvent;
 import org.kuali.core.service.DocumentService;
@@ -52,7 +53,7 @@ public class GlobalDocumentTest extends KualiTestBaseWithFixtures {
     private static final String GLOBAL_DELEGATE_TYPENAME = "KualiDelegateChangeDocument";
     private static final String GLOBAL_ACCOUNT_TYPENAME = "KualiAccountChangeDocument";
     
-    private boolean rollback = true;
+    private boolean rollback = false;
     private DocumentService docService;
     
     public GlobalDocumentTest() {
@@ -72,9 +73,9 @@ public class GlobalDocumentTest extends KualiTestBaseWithFixtures {
      * @see org.kuali.test.KualiTestBaseWithSpring#needsTestTransaction()
      */
     protected boolean needsTestTransaction() {
-        //return false;
+        return false;
         //  change this to false to turn off transactions entirely in the test
-        return true;
+        //return true;
     }
     
     public void testGlobalDelegateMaintenanceDocumentCreation_goodDocTypeName() throws Exception {
@@ -135,6 +136,8 @@ public class GlobalDocumentTest extends KualiTestBaseWithFixtures {
         Maintainable newMaintainable = document.getNewMaintainableObject();
         DelegateChangeContainer bo = (DelegateChangeContainer) newMaintainable.getBusinessObject();
         String finDocNumber = document.getFinancialDocumentNumber();
+        document.getDocumentHeader().setFinancialDocumentDescription("blah");
+        
         System.err.println("DOC_NBR = " + finDocNumber);
         
         List<DelegateChangeDocument> changes = new ArrayList();
@@ -172,6 +175,9 @@ public class GlobalDocumentTest extends KualiTestBaseWithFixtures {
         docService.validateAndPersist(document, new SaveDocumentEvent(document));
         docService.save(document, null, null);
         
+        //  now that it worked, lets cancel the doc so it doesnt lock for others
+        docService.cancel(document, "cancelling test document");
+        
     }
     
     public final void testSaveAndLoadDocument_globalDelegate() throws Exception {
@@ -182,7 +188,7 @@ public class GlobalDocumentTest extends KualiTestBaseWithFixtures {
         Maintainable newMaintainable = document.getNewMaintainableObject();
         DelegateChangeContainer bo = (DelegateChangeContainer) newMaintainable.getBusinessObject();
         String finDocNumber = document.getFinancialDocumentNumber();
-        System.err.println("DOC_NBR = " + finDocNumber);
+        document.getDocumentHeader().setFinancialDocumentDescription("blah");
         
         List<DelegateChangeDocument> changes = new ArrayList();
 
@@ -193,7 +199,7 @@ public class GlobalDocumentTest extends KualiTestBaseWithFixtures {
         change.setApprovalFromThisAmount(new KualiDecimal(0));
         change.setApprovalToThisAmount(new KualiDecimal(0));
         change.setFinancialDocumentTypeCode("ALL");
-
+        changes.add(change);
         bo.setDelegateChanges(changes);
 
         AccountChangeDetail account;
@@ -233,7 +239,7 @@ public class GlobalDocumentTest extends KualiTestBaseWithFixtures {
         //  Maintainable should be populated and contain the right class
         newMaintainable = document.getNewMaintainableObject();
         assertNotNull("New Maintainable should never be null.", newMaintainable);
-        assertEquals("BO Class should be DelegateChangeDocument.", DelegateChangeDocument.class, newMaintainable.getBoClass());
+        assertEquals("BO Class should be DelegateChangeContainer.", DelegateChangeContainer.class, newMaintainable.getBoClass());
 
         //  BO should be non-null and the right class
         bo = (DelegateChangeContainer) newMaintainable.getBusinessObject();
@@ -254,6 +260,10 @@ public class GlobalDocumentTest extends KualiTestBaseWithFixtures {
             assertNotNull("ChartOfAccountsCode", accountDetail.getChartOfAccountsCode());
             assertEquals("Account Chart should be known.", "BL", accountDetail.getChartOfAccountsCode());
         }
+
+        //  now that it worked, lets cancel the doc so it doesnt lock for others
+        docService.cancel(document, "cancelling test document");
+        
     }
     
     public void testLocking_Delegate_NoLocks() throws WorkflowException {
@@ -264,6 +274,7 @@ public class GlobalDocumentTest extends KualiTestBaseWithFixtures {
         Maintainable newMaintainable = document.getNewMaintainableObject();
         DelegateChangeContainer bo = (DelegateChangeContainer) newMaintainable.getBusinessObject();
         String finDocNumber = document.getFinancialDocumentNumber();
+        document.getDocumentHeader().setFinancialDocumentDescription("blah");
         
         List<DelegateChangeDocument> changes = new ArrayList();
 
@@ -274,7 +285,7 @@ public class GlobalDocumentTest extends KualiTestBaseWithFixtures {
         change.setApprovalFromThisAmount(new KualiDecimal(0));
         change.setApprovalToThisAmount(new KualiDecimal(0));
         change.setFinancialDocumentTypeCode("ALL");
-
+        changes.add(change);
         bo.setDelegateChanges(changes);
 
         AccountChangeDetail account;
@@ -314,7 +325,7 @@ public class GlobalDocumentTest extends KualiTestBaseWithFixtures {
         //  Maintainable should be populated and contain the right class
         newMaintainable = document.getNewMaintainableObject();
         assertNotNull("New Maintainable should never be null.", newMaintainable);
-        assertEquals("BO Class should be DelegateChangeDocument.", DelegateChangeDocument.class, newMaintainable.getBoClass());
+        assertEquals("BO Class should be DelegateChangeContainer.", DelegateChangeContainer.class, newMaintainable.getBoClass());
 
         //  BO should be non-null and the right class
         bo = (DelegateChangeContainer) newMaintainable.getBusinessObject();
@@ -335,16 +346,23 @@ public class GlobalDocumentTest extends KualiTestBaseWithFixtures {
             assertNotNull("ChartOfAccountsCode", accountDetail.getChartOfAccountsCode());
             assertEquals("Account Chart should be known.", "BL", accountDetail.getChartOfAccountsCode());
         }
+
+        //  now that it worked, lets cancel the doc so it doesnt lock for others
+        docService.cancel(document, "cancelling test document");
+        
     }
 
     public void testLocking_Delegate_GlobalLocks() throws WorkflowException {
         
-        MaintenanceDocument document = (MaintenanceDocument) docService.getNewDocument(GLOBAL_DELEGATE_TYPENAME);
+        MaintenanceDocument document1;
+        document1 = (MaintenanceDocument) docService.getNewDocument(GLOBAL_DELEGATE_TYPENAME);
+        LOG.info("document1: " + document1.getFinancialDocumentNumber());
         
         //  get local references to the Maintainable and the BO
-        Maintainable newMaintainable = document.getNewMaintainableObject();
+        Maintainable newMaintainable = document1.getNewMaintainableObject();
         DelegateChangeContainer bo = (DelegateChangeContainer) newMaintainable.getBusinessObject();
-        String finDocNumber = document.getFinancialDocumentNumber();
+        String finDocNumber = document1.getFinancialDocumentNumber();
+        document1.getDocumentHeader().setFinancialDocumentDescription("blah");
         
         List<DelegateChangeDocument> changes = new ArrayList();
 
@@ -378,24 +396,24 @@ public class GlobalDocumentTest extends KualiTestBaseWithFixtures {
         account.setAccountNumber("1031467");
         bo.addAccount(account);
         
-        docService.validateAndPersist(document, new SaveDocumentEvent(document));
-        docService.save(document, null, null);
+        docService.validateAndPersist(document1, new SaveDocumentEvent(document1));
+        docService.save(document1, null, null);
         
         //  clear the document, and re-load it from the DB
-        document = null;
-        document = (MaintenanceDocument) docService.getByDocumentHeaderId(finDocNumber);
-        assertNotNull("Document should not be null after loaded from the DB.", document);
-        assertNotNull("Document Header should not be null after loaded from the DB.", document.getDocumentHeader());
-        assertNotNull("Document FinDocNumber should not be null after loaded from the DB.", document.getDocumentHeader().getFinancialDocumentNumber());
+        MaintenanceDocument document2;
+        document2 = (MaintenanceDocument) docService.getByDocumentHeaderId(finDocNumber);
+        assertNotNull("Document should not be null after loaded from the DB.", document2);
+        assertNotNull("Document Header should not be null after loaded from the DB.", document2.getDocumentHeader());
+        assertNotNull("Document FinDocNumber should not be null after loaded from the DB.", document2.getDocumentHeader().getFinancialDocumentNumber());
         
         //  document should show up as a 'New' document
-        assertEquals("Global document should always appear as a New.", true, document.isNew());
-        assertEquals("Global document should never appear as an edit.", false, document.isEdit());
+        assertEquals("Global document should always appear as a New.", true, document2.isNew());
+        assertEquals("Global document should never appear as an edit.", false, document2.isEdit());
         
         //  Maintainable should be populated and contain the right class
-        newMaintainable = document.getNewMaintainableObject();
+        newMaintainable = document2.getNewMaintainableObject();
         assertNotNull("New Maintainable should never be null.", newMaintainable);
-        assertEquals("BO Class should be DelegateChangeDocument.", DelegateChangeDocument.class, newMaintainable.getBoClass());
+        assertEquals("BO Class should be DelegateChangeContianer.", DelegateChangeContainer.class, newMaintainable.getBoClass());
 
         //  BO should be non-null and the right class
         bo = (DelegateChangeContainer) newMaintainable.getBusinessObject();
@@ -417,12 +435,15 @@ public class GlobalDocumentTest extends KualiTestBaseWithFixtures {
             assertEquals("Account Chart should be known.", "BL", accountDetail.getChartOfAccountsCode());
         }
 
-        document = (MaintenanceDocument) docService.getNewDocument(GLOBAL_DELEGATE_TYPENAME);
-        
+        MaintenanceDocument document3;
+        document3 = (MaintenanceDocument) docService.getNewDocument(GLOBAL_DELEGATE_TYPENAME);
+        LOG.info("document3: " + document3.getFinancialDocumentNumber());
+
         //  get local references to the Maintainable and the BO
-        newMaintainable = document.getNewMaintainableObject();
+        newMaintainable = document3.getNewMaintainableObject();
         bo = (DelegateChangeContainer) newMaintainable.getBusinessObject();
-        finDocNumber = document.getFinancialDocumentNumber();
+        finDocNumber = document3.getFinancialDocumentNumber();
+        document3.getDocumentHeader().setFinancialDocumentDescription("blah");
         
         changes = new ArrayList();
 
@@ -454,8 +475,27 @@ public class GlobalDocumentTest extends KualiTestBaseWithFixtures {
         account.setAccountNumber("1031467");
         bo.addAccount(account);
         
-        docService.validateAndPersist(document, new SaveDocumentEvent(document));
-        docService.save(document, null, null);
+        //  a locking error should be throw right here
+        boolean correctErrorThrown = false;
+        try {
+            docService.validateAndPersist(document3, new SaveDocumentEvent(document3));
+        }
+        catch (ValidationException e) {
+            if ("Maintenance Record is locked by another document.".equalsIgnoreCase(e.getMessage())) {
+                correctErrorThrown = true;
+            }
+        }
+        
+        // if the save didnt fail, then we need to cancel this document
+        if (!correctErrorThrown) {
+            docService.save(document3, null, null);
+            docService.cancel(document3, "");
+        }
+
+        assertTrue("The correct ValidationException was thrown.", correctErrorThrown);
+        
+        //  now that it worked, lets cancel the doc so it doesnt lock for others
+        docService.cancel(document1, "cancelling test document");
         
     }
     

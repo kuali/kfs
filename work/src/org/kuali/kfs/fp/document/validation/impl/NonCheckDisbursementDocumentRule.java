@@ -22,6 +22,21 @@
  */
 package org.kuali.module.financial.rules;
 
+import static org.kuali.Constants.GL_CREDIT_CODE;
+import static org.kuali.Constants.GL_DEBIT_CODE;
+import static org.kuali.KeyConstants.ERROR_REQUIRED;
+import static org.kuali.KeyConstants.NonCheckDisbursement.ERROR_DOCUMENT_NON_CHECK_DISBURSEMENT_INVALID_CONSOLIDATION_CODE;
+import static org.kuali.KeyConstants.NonCheckDisbursement.ERROR_DOCUMENT_NON_CHECK_DISBURSEMENT_INVALID_OBJECT_SUB_TYPE_CODE;
+import static org.kuali.KeyConstants.NonCheckDisbursement.ERROR_DOCUMENT_NON_CHECK_DISBURSEMENT_INVALID_OBJECT_TYPE_CODE_FOR_OBJECT_CODE;
+import static org.kuali.KeyConstants.NonCheckDisbursement.ERROR_DOCUMENT_NON_CHECK_DISBURSEMENT_INVALID_SUB_FUND_GROUP;
+import static org.kuali.PropertyConstants.FINANCIAL_OBJECT_CODE;
+import static org.kuali.PropertyConstants.REFERENCE_NUMBER;
+import static org.kuali.module.financial.rules.NonCheckDisbursementDocumentRuleConstants.NON_CHECK_DISBURSEMENT_SECURITY_GROUPING;
+import static org.kuali.module.financial.rules.NonCheckDisbursementDocumentRuleConstants.RESTRICTED_CONSOLIDATION_CODES;
+import static org.kuali.module.financial.rules.NonCheckDisbursementDocumentRuleConstants.RESTRICTED_OBJECT_SUB_TYPE_CODES;
+import static org.kuali.module.financial.rules.NonCheckDisbursementDocumentRuleConstants.RESTRICTED_OBJECT_TYPE_CODES;
+import static org.kuali.module.financial.rules.NonCheckDisbursementDocumentRuleConstants.RESTRICTED_SUB_FUND_GROUP_TYPE_CODES;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.AccountingLine;
 import org.kuali.core.bo.SourceAccountingLine;
@@ -33,16 +48,6 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.gl.util.SufficientFundsItemHelper.SufficientFundsItem;
-
-import static org.kuali.Constants.GL_CREDIT_CODE;
-import static org.kuali.Constants.GL_DEBIT_CODE;
-import static org.kuali.KeyConstants.ERROR_REQUIRED;
-import static org.kuali.KeyConstants.NonCheckDisbursement.*;
-import static org.kuali.PropertyConstants.FINANCIAL_OBJECT_CODE;
-import static org.kuali.PropertyConstants.REFERENCE_ORIGIN_CODE;
-import static org.kuali.PropertyConstants.REFERENCE_NUMBER;
-import static org.kuali.PropertyConstants.REFERENCE_TYPE_CODE;
-import static org.kuali.module.financial.rules.NonCheckDisbursementDocumentRuleConstants.*;
 
 /**
  * Business rule(s) applicable to NonCheckDisbursement documents.

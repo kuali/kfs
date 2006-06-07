@@ -25,7 +25,6 @@
 
 package org.kuali.module.chart.bo;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 

@@ -47,21 +47,25 @@ public class LedgerEntry {
      * Constructs a LedgerEntry.java.
      */
     public LedgerEntry() {
-        this(new Integer(0), KualiDecimal.ZERO, KualiDecimal.ZERO, KualiDecimal.ZERO);
+        this(new Integer(0), null, null, null);
     }
 
     /**
      * Constructs a LedgerEntry.java.
      * @param fiscalYear
-     * @param creditCount
-     * @param noDCAmount
-     * @param noDCCount
+     * @param period
+     * @param balanceType
+     * @param originCode
      */
-    public LedgerEntry(Integer fiscalYear, KualiDecimal debitAmount, KualiDecimal creditAmount, KualiDecimal noDCAmount) {
+    public LedgerEntry(Integer fiscalYear,String period, String balanceType,String originCode) {
         this.fiscalYear = fiscalYear;
-        this.debitAmount = debitAmount;
-        this.creditAmount = creditAmount;
-        this.noDCAmount = noDCAmount;
+        this.period = period;
+        this.balanceType = balanceType;
+        this.originCode = originCode;
+        
+        this.creditAmount = KualiDecimal.ZERO;
+        this.debitAmount = KualiDecimal.ZERO;
+        this.noDCAmount = KualiDecimal.ZERO;
     }
 
     /**

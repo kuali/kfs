@@ -295,16 +295,8 @@ public class NonCheckDisbursementDocumentRule extends TransactionalDocumentRuleB
 
         BusinessObjectEntry boe = SpringServiceLocator.getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(
                 SourceAccountingLine.class);
-        if (StringUtils.isEmpty(accountingLine.getReferenceOriginCode())) {
-            putRequiredPropertyError(boe, REFERENCE_ORIGIN_CODE);
-            valid = false;
-        }
         if (StringUtils.isEmpty(accountingLine.getReferenceNumber())) {
             putRequiredPropertyError(boe, REFERENCE_NUMBER);
-            valid = false;
-        }
-        if (StringUtils.isEmpty(accountingLine.getReferenceTypeCode())) {
-            putRequiredPropertyError(boe, REFERENCE_TYPE_CODE);
             valid = false;
         }
         return valid;

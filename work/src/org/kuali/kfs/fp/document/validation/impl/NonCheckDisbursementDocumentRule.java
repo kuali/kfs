@@ -22,9 +22,11 @@
  */
 package org.kuali.module.financial.rules;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.AccountingLine;
 import org.kuali.core.bo.SourceAccountingLine;
 import org.kuali.core.bo.TargetAccountingLine;
+import org.kuali.core.datadictionary.BusinessObjectEntry;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
@@ -34,8 +36,12 @@ import org.kuali.module.gl.util.SufficientFundsItemHelper.SufficientFundsItem;
 
 import static org.kuali.Constants.GL_CREDIT_CODE;
 import static org.kuali.Constants.GL_DEBIT_CODE;
+import static org.kuali.KeyConstants.ERROR_REQUIRED;
 import static org.kuali.KeyConstants.NonCheckDisbursement.*;
 import static org.kuali.PropertyConstants.FINANCIAL_OBJECT_CODE;
+import static org.kuali.PropertyConstants.REFERENCE_ORIGIN_CODE;
+import static org.kuali.PropertyConstants.REFERENCE_NUMBER;
+import static org.kuali.PropertyConstants.REFERENCE_TYPE_CODE;
 import static org.kuali.module.financial.rules.NonCheckDisbursementDocumentRuleConstants.*;
 
 /**
@@ -67,6 +73,23 @@ public class NonCheckDisbursementDocumentRule extends TransactionalDocumentRuleB
 		return true;
     }
 
+    /**
+     * Overrides to call super and then NCD specific accounting line rules.
+     * 
+     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processCustomAddAccountingLineBusinessRules(org.kuali.core.document.TransactionalDocument, org.kuali.core.bo.AccountingLine)
+     */
+	@Override
+    public boolean processCustomAddAccountingLineBusinessRules(TransactionalDocument document, 
+                                                               AccountingLine accountingLine) {
+        boolean retval = true;
+        retval = super
+            .processCustomAddAccountingLineBusinessRules(document, 
+                                                         accountingLine); 
+        if (retval) {
+            retval = isRequiredReferenceFieldsValid(accountingLine);
+        }
+        return retval;
+    }
 
     /**
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#isDebit(org.kuali.core.bo.AccountingLine)
@@ -259,5 +282,36 @@ public class NonCheckDisbursementDocumentRule extends TransactionalDocumentRuleB
     protected SufficientFundsItem processTargetAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument transactionalDocument,
                  TargetAccountingLine targetAccountingLine) {
         return null;
+    }
+
+    /**
+     * This method checks that values exist in the three reference fields that are required 
+     * 
+     * @param accountingLine
+     * @return True if all of the required reference fields are valid, false otherwise.
+     */
+    private boolean isRequiredReferenceFieldsValid(AccountingLine accountingLine) {
+        boolean valid = true;
+
+        BusinessObjectEntry boe = SpringServiceLocator.getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(
+                SourceAccountingLine.class);
+        if (StringUtils.isEmpty(accountingLine.getReferenceOriginCode())) {
+            putRequiredPropertyError(boe, REFERENCE_ORIGIN_CODE);
+            valid = false;
+        }
+        if (StringUtils.isEmpty(accountingLine.getReferenceNumber())) {
+            putRequiredPropertyError(boe, REFERENCE_NUMBER);
+            valid = false;
+        }
+        if (StringUtils.isEmpty(accountingLine.getReferenceTypeCode())) {
+            putRequiredPropertyError(boe, REFERENCE_TYPE_CODE);
+            valid = false;
+        }
+        return valid;
+    }
+
+    private static void putRequiredPropertyError(BusinessObjectEntry boe, String propertyName) {
+        String label = boe.getAttributeDefinition(propertyName).getLabel();
+        GlobalVariables.getErrorMap().put(propertyName, ERROR_REQUIRED, label);
     }
 }

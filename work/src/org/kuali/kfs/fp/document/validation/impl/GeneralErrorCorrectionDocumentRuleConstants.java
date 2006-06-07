@@ -40,4 +40,6 @@ public interface GeneralErrorCorrectionDocumentRuleConstants
     public static final String RESTRICTED_OBJECT_SUB_TYPE_CODES = "RestrictedObjectSubTypeCodes";
     public static final String COMBINED_RESTRICTED_OBJECT_TYPE_CODES = "CombinedRestrictedObjectTypeCodes";
     public static final String COMBINED_RESTRICTED_OBJECT_SUB_TYPE_CODES = "CombinedRestrictedObjectSubTypeCodes";    
+
+	public static final String TRANSACTION_LEDGER_ENTRY_DESCRIPTION_DELIMITER = "+";
 }

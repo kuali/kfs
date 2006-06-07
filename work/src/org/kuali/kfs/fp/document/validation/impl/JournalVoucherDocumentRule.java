@@ -25,9 +25,6 @@ package org.kuali.module.financial.rules;
 import java.sql.Timestamp;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.Constants;
-import org.kuali.KeyConstants;
-import org.kuali.PropertyConstants;
 import org.kuali.core.bo.AccountingLine;
 import org.kuali.core.bo.SourceAccountingLine;
 import org.kuali.core.bo.TargetAccountingLine;
@@ -44,6 +41,34 @@ import org.kuali.module.chart.bo.codes.BalanceTyp;
 import org.kuali.module.financial.document.JournalVoucherDocument;
 import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 import org.kuali.module.gl.util.SufficientFundsItemHelper.SufficientFundsItem;
+
+import static org.kuali.Constants.AMOUNT_PROPERTY_NAME;
+import static org.kuali.Constants.BALANCE_TYPE_ACTUAL;
+import static org.kuali.Constants.BALANCE_TYPE_CURRENT_BUDGET;
+import static org.kuali.Constants.CREDIT_AMOUNT_PROPERTY_NAME;
+import static org.kuali.Constants.DEBIT_AMOUNT_PROPERTY_NAME;
+import static org.kuali.Constants.GENERIC_CODE_PROPERTY_NAME;
+import static org.kuali.Constants.GL_CREDIT_CODE;
+import static org.kuali.Constants.GL_DEBIT_CODE;
+import static org.kuali.Constants.JOURNAL_LINE_HELPER_PROPERTY_NAME;
+import static org.kuali.Constants.JOURNAL_LINE_HELPER_CREDIT_PROPERTY_NAME;
+import static org.kuali.Constants.JOURNAL_LINE_HELPER_DEBIT_PROPERTY_NAME;
+import static org.kuali.Constants.NEW_SOURCE_ACCT_LINE_PROPERTY_NAME;
+import static org.kuali.Constants.OBJECT_TYPE_CODE_PROPERTY_NAME;
+import static org.kuali.Constants.SF_TYPE_CASH_AT_ACCOUNT;
+import static org.kuali.Constants.SQUARE_BRACKET_LEFT;
+import static org.kuali.Constants.SQUARE_BRACKET_RIGHT;
+import static org.kuali.KeyConstants.ERROR_REQUIRED;
+import static org.kuali.KeyConstants.ERROR_ZERO_AMOUNT;
+import static org.kuali.KeyConstants.ERROR_ZERO_OR_NEGATIVE_AMOUNT;
+import static org.kuali.KeyConstants.ERROR_DOCUMENT_SINGLE_SECTION_NO_ACCOUNTING_LINES;
+import static org.kuali.PropertyConstants.ACCOUNTING_PERIOD;
+import static org.kuali.PropertyConstants.BALANCE_TYPE;
+import static org.kuali.PropertyConstants.REFERENCE_ORIGIN_CODE;
+import static org.kuali.PropertyConstants.REFERENCE_NUMBER;
+import static org.kuali.PropertyConstants.REFERENCE_TYPE_CODE;
+import static org.kuali.PropertyConstants.REVERSAL_DATE;
+import static org.kuali.PropertyConstants.SELECTED_ACCOUNTING_PERIOD;
 
 /**
  * This class holds document specific business rules for the Journal Voucher. It overrides methods in the base rule class to apply
@@ -120,23 +145,23 @@ public class JournalVoucherDocumentRule extends TransactionalDocumentRuleBase {
         boolean valid = true;
 
         // check the selected balance type
-        jvDoc.refreshReferenceObject(PropertyConstants.BALANCE_TYPE);
+        jvDoc.refreshReferenceObject(BALANCE_TYPE);
         BalanceTyp balanceType = jvDoc.getBalanceType();
         valid &= TransactionalDocumentRuleUtil.isValidBalanceType(balanceType, JournalVoucherDocument.class,
-                PropertyConstants.BALANCE_TYPE_CODE, DOCUMENT_ERROR_PREFIX + PropertyConstants.BALANCE_TYPE_CODE);
+                BALANCE_TYPE, DOCUMENT_ERROR_PREFIX + BALANCE_TYPE);
 
         // check the selected accounting period
-        jvDoc.refreshReferenceObject(PropertyConstants.ACCOUNTING_PERIOD);
+        jvDoc.refreshReferenceObject(ACCOUNTING_PERIOD);
         AccountingPeriod accountingPeriod = jvDoc.getAccountingPeriod();
         // PropertyConstants.SELECTED_ACCOUNTING_PERIOD is on JournalVoucherForm, not JournalVoucherDocument
         valid &= TransactionalDocumentRuleUtil.isValidOpenAccountingPeriod(accountingPeriod, JournalVoucherDocument.class,
-                PropertyConstants.ACCOUNTING_PERIOD, DOCUMENT_ERROR_PREFIX + PropertyConstants.SELECTED_ACCOUNTING_PERIOD);
+                ACCOUNTING_PERIOD, DOCUMENT_ERROR_PREFIX + SELECTED_ACCOUNTING_PERIOD);
 
         // check the chosen reversal date, only if they entered a value
         if (null != jvDoc.getReversalDate()) {
             Timestamp reversalDate = jvDoc.getReversalDate();
             valid &= TransactionalDocumentRuleUtil.isValidReversalDate(reversalDate, DOCUMENT_ERROR_PREFIX
-                    + PropertyConstants.REVERSAL_DATE);
+                    + REVERSAL_DATE);
         }
 
         return valid;
@@ -163,7 +188,7 @@ public class JournalVoucherDocumentRule extends TransactionalDocumentRuleBase {
         explicitEntry.setFinancialBalanceTypeCode(accountingLine.getBalanceTypeCode());
 
         // set the debit/credit code appropriately
-        jvDoc.refreshReferenceObject("balanceType");
+        jvDoc.refreshReferenceObject(BALANCE_TYPE);
         if (jvDoc.getBalanceType().isFinancialOffsetGenerationIndicator()) {
             explicitEntry.setTransactionDebitCreditCode(getEntryValue(accountingLine.getDebitCreditCode(),
                     GENERAL_LEDGER_PENDING_ENTRY_CODE.BLANK_SPACE));
@@ -220,15 +245,15 @@ public class JournalVoucherDocumentRule extends TransactionalDocumentRuleBase {
         KualiDecimal amount = accountingLine.getAmount();
 
         JournalVoucherDocument jvDoc = (JournalVoucherDocument) document;
-        jvDoc.refreshReferenceObject("balanceType");
+        jvDoc.refreshReferenceObject(BALANCE_TYPE);
 
         if (jvDoc.getBalanceType().isFinancialOffsetGenerationIndicator()) {
             // check for negative or zero amounts
             if (ZERO.compareTo(amount) == 0) { // if 0
                 GlobalVariables.getErrorMap().putWithoutFullErrorPath(buildErrorMapKeyPathForDebitCreditAmount(true),
-                        KeyConstants.ERROR_ZERO_OR_NEGATIVE_AMOUNT, "an accounting line");
+																	  ERROR_ZERO_OR_NEGATIVE_AMOUNT, "an accounting line");
                 GlobalVariables.getErrorMap().putWithoutFullErrorPath(buildErrorMapKeyPathForDebitCreditAmount(false),
-                        KeyConstants.ERROR_ZERO_OR_NEGATIVE_AMOUNT, "an accounting line");
+																	  ERROR_ZERO_OR_NEGATIVE_AMOUNT, "an accounting line");
 
                 return false;
             }
@@ -236,11 +261,11 @@ public class JournalVoucherDocumentRule extends TransactionalDocumentRuleBase {
                 String debitCreditCode = accountingLine.getDebitCreditCode();
                 if (StringUtils.isNotBlank(debitCreditCode) && GENERAL_LEDGER_PENDING_ENTRY_CODE.DEBIT.equals(debitCreditCode)) {
                     GlobalVariables.getErrorMap().putWithoutFullErrorPath(buildErrorMapKeyPathForDebitCreditAmount(true),
-                            KeyConstants.ERROR_ZERO_OR_NEGATIVE_AMOUNT, "an accounting line");
+																		  ERROR_ZERO_OR_NEGATIVE_AMOUNT, "an accounting line");
                 }
                 else {
                     GlobalVariables.getErrorMap().putWithoutFullErrorPath(buildErrorMapKeyPathForDebitCreditAmount(false),
-                            KeyConstants.ERROR_ZERO_OR_NEGATIVE_AMOUNT, "an accounting line");
+																		  ERROR_ZERO_OR_NEGATIVE_AMOUNT, "an accounting line");
                 }
 
                 return false;
@@ -249,7 +274,7 @@ public class JournalVoucherDocumentRule extends TransactionalDocumentRuleBase {
         else {
             // Check for zero amounts
             if (ZERO.compareTo(amount) == 0) { // amount == 0
-                GlobalVariables.getErrorMap().put(Constants.AMOUNT_PROPERTY_NAME, KeyConstants.ERROR_ZERO_AMOUNT,
+                GlobalVariables.getErrorMap().put(AMOUNT_PROPERTY_NAME, ERROR_ZERO_AMOUNT,
                         "an accounting line");
                 return false;
             }
@@ -267,28 +292,28 @@ public class JournalVoucherDocumentRule extends TransactionalDocumentRuleBase {
      */
     private String buildErrorMapKeyPathForDebitCreditAmount(boolean isDebit) {
         // determine if we are looking at a new line add or an update
-        boolean isNewLineAdd = GlobalVariables.getErrorMap().getErrorPath().contains(Constants.NEW_SOURCE_ACCT_LINE_PROPERTY_NAME);
-        isNewLineAdd |= GlobalVariables.getErrorMap().getErrorPath().contains(Constants.NEW_SOURCE_ACCT_LINE_PROPERTY_NAME);
+        boolean isNewLineAdd = GlobalVariables.getErrorMap().getErrorPath().contains(NEW_SOURCE_ACCT_LINE_PROPERTY_NAME);
+        isNewLineAdd |= GlobalVariables.getErrorMap().getErrorPath().contains(NEW_SOURCE_ACCT_LINE_PROPERTY_NAME);
 
         if (isNewLineAdd) {
             if (isDebit) {
-                return Constants.DEBIT_AMOUNT_PROPERTY_NAME;
+                return DEBIT_AMOUNT_PROPERTY_NAME;
             }
             else {
-                return Constants.CREDIT_AMOUNT_PROPERTY_NAME;
+                return CREDIT_AMOUNT_PROPERTY_NAME;
             }
         }
         else {
             String index = StringUtils.substringBetween(GlobalVariables.getErrorMap().getKeyPath("", true),
-                    Constants.SQUARE_BRACKET_LEFT, Constants.SQUARE_BRACKET_RIGHT);
-            String indexWithParams = Constants.SQUARE_BRACKET_LEFT + index + Constants.SQUARE_BRACKET_RIGHT;
+														SQUARE_BRACKET_LEFT, SQUARE_BRACKET_RIGHT);
+            String indexWithParams = SQUARE_BRACKET_LEFT + index + SQUARE_BRACKET_RIGHT;
             if (isDebit) {
-                return Constants.JOURNAL_LINE_HELPER_PROPERTY_NAME + indexWithParams
-                        + Constants.JOURNAL_LINE_HELPER_DEBIT_PROPERTY_NAME;
+                return JOURNAL_LINE_HELPER_PROPERTY_NAME + indexWithParams
+                        + JOURNAL_LINE_HELPER_DEBIT_PROPERTY_NAME;
             }
             else {
-                return Constants.JOURNAL_LINE_HELPER_PROPERTY_NAME + indexWithParams
-                        + Constants.JOURNAL_LINE_HELPER_CREDIT_PROPERTY_NAME;
+                return JOURNAL_LINE_HELPER_PROPERTY_NAME + indexWithParams
+                        + JOURNAL_LINE_HELPER_CREDIT_PROPERTY_NAME;
             }
 
         }
@@ -315,7 +340,7 @@ public class JournalVoucherDocumentRule extends TransactionalDocumentRuleBase {
     protected boolean isSourceAccountingLinesRequiredNumberForRoutingMet(TransactionalDocument transactionalDocument) {
         if (0 == transactionalDocument.getSourceAccountingLines().size()) {
             GlobalVariables.getErrorMap().put("document.sourceAccountingLines",
-                    KeyConstants.ERROR_DOCUMENT_SINGLE_SECTION_NO_ACCOUNTING_LINES);
+                    ERROR_DOCUMENT_SINGLE_SECTION_NO_ACCOUNTING_LINES);
             return false;
         }
         else {
@@ -344,7 +369,7 @@ public class JournalVoucherDocumentRule extends TransactionalDocumentRuleBase {
     private boolean isExternalEncumbranceSpecificBusinessRulesValid(AccountingLine accountingLine) {
         // make sure that the line contains a proper balance type like it should
         BalanceTyp balanceType = accountingLine.getBalanceTyp();
-        if (!TransactionalDocumentRuleUtil.isValidBalanceType(balanceType, Constants.GENERIC_CODE_PROPERTY_NAME)) {
+        if (!TransactionalDocumentRuleUtil.isValidBalanceType(balanceType, GENERIC_CODE_PROPERTY_NAME)) {
             return false;
         }
         else if (BALANCE_TYPE_CODE.EXTERNAL_ENCUMBRANCE.equals(balanceType.getCode())) {
@@ -370,15 +395,15 @@ public class JournalVoucherDocumentRule extends TransactionalDocumentRuleBase {
         BusinessObjectEntry boe = SpringServiceLocator.getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(
                 SourceAccountingLine.class);
         if (StringUtils.isEmpty(accountingLine.getReferenceOriginCode())) {
-            putRequiredPropertyError(boe, PropertyConstants.REFERENCE_ORIGIN_CODE);
+            putRequiredPropertyError(boe, REFERENCE_ORIGIN_CODE);
             valid = false;
         }
         if (StringUtils.isEmpty(accountingLine.getReferenceNumber())) {
-            putRequiredPropertyError(boe, PropertyConstants.REFERENCE_NUMBER);
+            putRequiredPropertyError(boe, REFERENCE_NUMBER);
             valid = false;
         }
         if (StringUtils.isEmpty(accountingLine.getReferenceTypeCode())) {
-            putRequiredPropertyError(boe, PropertyConstants.REFERENCE_TYPE_CODE);
+            putRequiredPropertyError(boe, REFERENCE_TYPE_CODE);
             valid = false;
         }
         return valid;
@@ -386,7 +411,7 @@ public class JournalVoucherDocumentRule extends TransactionalDocumentRuleBase {
 
     private static void putRequiredPropertyError(BusinessObjectEntry boe, String propertyName) {
         String label = boe.getAttributeDefinition(propertyName).getLabel();
-        GlobalVariables.getErrorMap().put(propertyName, KeyConstants.ERROR_REQUIRED, label);
+        GlobalVariables.getErrorMap().put(propertyName, ERROR_REQUIRED, label);
     }
 
     /**
@@ -403,8 +428,8 @@ public class JournalVoucherDocumentRule extends TransactionalDocumentRuleBase {
         }
         else {
             String label = SpringServiceLocator.getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(
-                    ObjectType.class).getAttributeDefinition(Constants.GENERIC_CODE_PROPERTY_NAME).getLabel();
-            GlobalVariables.getErrorMap().put(Constants.OBJECT_TYPE_CODE_PROPERTY_NAME, KeyConstants.ERROR_REQUIRED, label);
+                    ObjectType.class).getAttributeDefinition(GENERIC_CODE_PROPERTY_NAME).getLabel();
+            GlobalVariables.getErrorMap().put(OBJECT_TYPE_CODE_PROPERTY_NAME, ERROR_REQUIRED, label);
             return false;
         }
 
@@ -435,8 +460,8 @@ public class JournalVoucherDocumentRule extends TransactionalDocumentRuleBase {
         SufficientFundsItem item = null;
         String balanceTypeCode = ((JournalVoucherDocument) transactionalDocument).getBalanceTypeCode();
         // fp_dvj:lp_create_ple.10-1...11-1
-        if (StringUtils.equals(Constants.BALANCE_TYPE_ACTUAL, balanceTypeCode)
-                || StringUtils.equals(Constants.BALANCE_TYPE_CURRENT_BUDGET, balanceTypeCode)) {
+        if (StringUtils.equals(BALANCE_TYPE_ACTUAL, balanceTypeCode)
+                || StringUtils.equals(BALANCE_TYPE_CURRENT_BUDGET, balanceTypeCode)) {
 
             String financialObjectCode = sourceAccountingLine.getFinancialObjectCode();
             String accountSufficientFundsCode = sourceAccountingLine.getAccount().getAccountSufficientFundsCode();
@@ -446,19 +471,19 @@ public class JournalVoucherDocumentRule extends TransactionalDocumentRuleBase {
             String debitCreditCode = null;
 
             // fi_djv:lp_proc_jrnl_ln.39-2...51-2
-            if (StringUtils.equals(accountSufficientFundsCode, Constants.SF_TYPE_CASH_AT_ACCOUNT)
+            if (StringUtils.equals(accountSufficientFundsCode, SF_TYPE_CASH_AT_ACCOUNT)
                     && StringUtils.equals(financialObjectCode, SpringServiceLocator.getSufficientFundsService()
                             .getFinancialObjectCodeForCashInBank())) {
                 // use debit credit code
                 debitCreditCode = sourceAccountingLine.getDebitCreditCode();
             }
-            else if (!StringUtils.equals(accountSufficientFundsCode, Constants.SF_TYPE_CASH_AT_ACCOUNT)) {
+            else if (!StringUtils.equals(accountSufficientFundsCode, SF_TYPE_CASH_AT_ACCOUNT)) {
                 // fi_djv:lp+proc_jrnl_ln.39-2...43-2
-                if (StringUtils.equals(sourceAccountingLine.getDebitCreditCode(), Constants.GL_DEBIT_CODE)) {
-                    debitCreditCode = Constants.GL_CREDIT_CODE;
+                if (StringUtils.equals(sourceAccountingLine.getDebitCreditCode(), GL_DEBIT_CODE)) {
+                    debitCreditCode = GL_CREDIT_CODE;
                 }
                 else {
-                    debitCreditCode = Constants.GL_DEBIT_CODE;
+                    debitCreditCode = GL_DEBIT_CODE;
                 }
             }
             if (StringUtils.isNotBlank(debitCreditCode)) {

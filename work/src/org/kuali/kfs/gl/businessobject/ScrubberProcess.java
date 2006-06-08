@@ -2285,13 +2285,13 @@ public class ScrubberProcess {
         }
         // do nothing if scrubber offset indicator of the ducument type code is turned off in the document type table
 
-        String documentTypeCode = workingEntry.getFinancialDocumentTypeCode(); 
+        String documentTypeCode = scrubbedEntry.getFinancialDocumentTypeCode(); 
         DocumentType documentType = documentTypeService.getDocumentTypeByCode(documentTypeCode);
         if ( ! documentType.isTransactionScrubberOffsetGenerationIndicator() ) {
             return errors;
         }
 
-        OriginEntry offsetEntry = new OriginEntry(workingEntry);
+        OriginEntry offsetEntry = new OriginEntry(scrubbedEntry);
 
 //        3970  029760 3000-OFFSET.
 //        3971  029840     MOVE OFFSET-DESCRIPTION

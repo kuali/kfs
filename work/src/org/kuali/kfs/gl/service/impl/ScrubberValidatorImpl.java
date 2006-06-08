@@ -113,6 +113,11 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
             errors.add(err);
         }
 
+        err = validateChart(originEntry, scrubbedEntry);
+        if ( err != null ) {
+            errors.add(err);
+        }
+
         err = validateAccount(originEntry, scrubbedEntry, universityRunDate);
         if ( err != null ) {
             errors.add(err);
@@ -144,11 +149,6 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         }
 
         err = validateDocumentNumber(originEntry, scrubbedEntry);
-        if ( err != null ) {
-            errors.add(err);
-        }
-
-        err = validateChart(originEntry, scrubbedEntry);
         if ( err != null ) {
             errors.add(err);
         }
@@ -204,11 +204,6 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
     public Message validateAccount(OriginEntry originEntry, OriginEntry workingEntry, UniversityDate universityRunDate) {
         LOG.debug("validateAccount() started");
 
-        if ( ! StringUtils.hasText(originEntry.getAccountNumber())) {
-            return new Message(kualiConfigurationService.getPropertyString(KeyConstants.ERROR_ACCOUNT_NOT_FOUND) + "(" +
-                originEntry.getChartOfAccountsCode() + "-" + originEntry.getAccountNumber() + ")",Message.TYPE_FATAL);
-        }
-
         if (originEntry.getAccount() == null) {
             return new Message(kualiConfigurationService.getPropertyString(KeyConstants.ERROR_ACCOUNT_NOT_FOUND) + "(" +
                 originEntry.getChartOfAccountsCode() + "-" + originEntry.getAccountNumber() + ")",Message.TYPE_FATAL);
@@ -218,7 +213,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
             setAccount(workingEntry,originEntry.getChartOfAccountsCode(),originEntry.getAccountNumber());
             return null;
         }
-        
+
         Account account = originEntry.getAccount();
 
         if ( (account.getAccountExpirationDate() == null) && !account.isAccountClosedIndicator()) {
@@ -252,18 +247,12 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
             if ( error != null ) {
                 return error;
             }
-
-            // If the account has changed ...
-            if( ! originEntry.getAccountNumber().equals(workingEntry.getAccountNumber()) ) {
-                workingEntry.setTransactionLedgerEntryDescription("AUTO FR " + originEntry.getChartOfAccountsCode() 
-                        + originEntry.getAccountNumber() + originEntry.getTransactionLedgerEntryDescription());
-                // TODO Add warning message here
-            }
         }
 
         setAccount(workingEntry,originEntry.getChartOfAccountsCode(),originEntry.getAccountNumber());
         return null;
     }
+
 
     private Message continuationAccountLogic(OriginEntry originEntry, OriginEntry workingEntry, Calendar today) {
 
@@ -296,6 +285,15 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
                     workingEntry.setAccount(account);
                     workingEntry.setAccountNumber(accountNumber);
                     workingEntry.setChartOfAccountsCode(chartCode);
+
+                    // TODO Fix this
+//                  // If the account has changed ...
+//                  if( ! originEntry.getAccountNumber().equals(workingEntry.getAccountNumber()) ) {
+//                      workingEntry.setTransactionLedgerEntryDescription("AUTO FR " + originEntry.getChartOfAccountsCode() 
+//                              + originEntry.getAccountNumber() + originEntry.getTransactionLedgerEntryDescription());
+//                      // TODO Add warning message here
+//                  }
+
                     return null;
                 } else {
                     // the account does have an expiration date.
@@ -319,6 +317,15 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
                         workingEntry.setAccount(account);
                         workingEntry.setAccountNumber(accountNumber);
                         workingEntry.setChartOfAccountsCode(chartCode);                        
+
+                        // TODO Fix this
+//                      // If the account has changed ...
+//                      if( ! originEntry.getAccountNumber().equals(workingEntry.getAccountNumber()) ) {
+//                          workingEntry.setTransactionLedgerEntryDescription("AUTO FR " + originEntry.getChartOfAccountsCode() 
+//                                  + originEntry.getAccountNumber() + originEntry.getTransactionLedgerEntryDescription());
+//                          // TODO Add warning message here
+//                      }
+
                         return null;
                     }
                 }
@@ -568,10 +575,6 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
 	 */
 	public Message validateChart(OriginEntry originEntry, OriginEntry workingEntry) {
 	    LOG.debug("validateChart() started");
-
-        if ( originEntry.getChartOfAccountsCode() == null ) {
-            return new Message(kualiConfigurationService.getPropertyString(KeyConstants.ERROR_CHART_NOT_FOUND),Message.TYPE_FATAL);
-        }
 
         if ( originEntry.getChart() == null ) {
             return new Message(kualiConfigurationService.getPropertyString(KeyConstants.ERROR_CHART_NOT_FOUND) + " (" +

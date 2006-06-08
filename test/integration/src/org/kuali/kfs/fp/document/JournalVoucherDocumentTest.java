@@ -32,7 +32,6 @@ import org.kuali.core.document.Document;
 import org.kuali.core.document.DocumentNote;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.document.TransactionalDocumentTestBase;
-import org.kuali.core.rule.event.RouteDocumentEvent;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.test.monitor.ChangeMonitor;

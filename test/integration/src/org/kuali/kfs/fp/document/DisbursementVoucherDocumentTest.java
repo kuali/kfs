@@ -29,7 +29,6 @@ import java.util.List;
 
 import org.kuali.core.document.Document;
 import org.kuali.core.document.TransactionalDocumentTestBase;
-import org.kuali.core.rule.event.RouteDocumentEvent;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.module.financial.bo.DisbursementVoucherNonResidentAlienTax;

@@ -32,7 +32,6 @@ import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.maintenance.Maintainable;
-import org.kuali.core.rule.event.SaveDocumentEvent;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.DateUtils;
 import org.kuali.core.util.KualiDecimal;

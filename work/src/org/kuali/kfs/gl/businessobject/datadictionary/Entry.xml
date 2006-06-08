@@ -80,15 +80,13 @@
                 <lookupField attributeName="referenceFinancialDocumentTypeCode" />
 				<lookupField attributeName="referenceFinancialDocumentNumber" />
 				
-				<!-- Disabled for test drive
 				<lookupField attributeName="dummyBusinessObject.pendingEntryOption">
 					<defaultValueFinderClass>
 						org.kuali.module.gl.web.optionfinder.GLPendingEntryOptionFinder
 					</defaultValueFinderClass>
-				</lookupField>				
-				-->
+				</lookupField>
 			</lookupFields>
-
+			
 			<resultFields>
                 <field attributeName="universityFiscalYear" />
 

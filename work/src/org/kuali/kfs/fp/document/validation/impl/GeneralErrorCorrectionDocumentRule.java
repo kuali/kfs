@@ -23,6 +23,17 @@
 package org.kuali.module.financial.rules;
 
 import org.apache.commons.lang.StringUtils;
+import static org.kuali.Constants.ACCOUNTING_LINE_ERRORS;
+import static org.kuali.Constants.GL_CREDIT_CODE;
+import static org.kuali.Constants.GL_DEBIT_CODE;
+import static org.kuali.Constants.ZERO;
+import static org.kuali.KeyConstants.ERROR_DOCUMENT_GEC_REQUIRED_NUMBER_OF_ACCOUNTING_LINES_NOT_MET;
+import static org.kuali.KeyConstants.GeneralErrorCorrection.ERROR_DOCUMENT_GENERAL_ERROR_CORRECTION_INVALID_OBJECT_SUB_TYPE_CODE;
+import static org.kuali.KeyConstants.GeneralErrorCorrection.ERROR_DOCUMENT_GENERAL_ERROR_CORRECTION_INVALID_OBJECT_TYPE_CODE_FOR_OBJECT_CODE;
+import static org.kuali.KeyConstants.GeneralErrorCorrection.ERROR_DOCUMENT_GENERAL_ERROR_CORRECTION_INVALID_OBJECT_TYPE_CODE_WITH_SUB_TYPE_CODE;
+import static org.kuali.PropertyConstants.FINANCIAL_OBJECT_CODE;
+import static org.kuali.PropertyConstants.REFERENCE_NUMBER;
+import static org.kuali.PropertyConstants.REFERENCE_ORIGIN_CODE;
 import org.kuali.core.bo.AccountingLine;
 import org.kuali.core.bo.SourceAccountingLine;
 import org.kuali.core.bo.TargetAccountingLine;
@@ -32,29 +43,23 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.ObjectCode;
+import static org.kuali.module.financial.rules.GeneralErrorCorrectionDocumentRuleConstants.COMBINED_RESTRICTED_OBJECT_SUB_TYPE_CODES;
+import static org.kuali.module.financial.rules.GeneralErrorCorrectionDocumentRuleConstants.COMBINED_RESTRICTED_OBJECT_TYPE_CODES;
+import static org.kuali.module.financial.rules.GeneralErrorCorrectionDocumentRuleConstants.GENERAL_ERROR_CORRECTION_SECURITY_GROUPING;
+import static org.kuali.module.financial.rules.GeneralErrorCorrectionDocumentRuleConstants.RESTRICTED_OBJECT_SUB_TYPE_CODES;
+import static org.kuali.module.financial.rules.GeneralErrorCorrectionDocumentRuleConstants.RESTRICTED_OBJECT_TYPE_CODES;
+import static org.kuali.module.financial.rules.GeneralErrorCorrectionDocumentRuleConstants.TRANSACTION_LEDGER_ENTRY_DESCRIPTION_DELIMITER;
 import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 import org.kuali.module.gl.util.SufficientFundsItemHelper.SufficientFundsItem;
 
-import static org.kuali.Constants.ACCOUNTING_LINE_ERRORS;
-import static org.kuali.Constants.GL_CREDIT_CODE;
-import static org.kuali.Constants.GL_DEBIT_CODE;
-import static org.kuali.Constants.ZERO;
-import static org.kuali.KeyConstants.ERROR_REQUIRED;
-import static org.kuali.KeyConstants.ERROR_DOCUMENT_GEC_REQUIRED_NUMBER_OF_ACCOUNTING_LINES_NOT_MET;
-import static org.kuali.KeyConstants.GeneralErrorCorrection.*;
-import static org.kuali.PropertyConstants.FINANCIAL_OBJECT_CODE;
-import static org.kuali.PropertyConstants.REFERENCE_ORIGIN_CODE;
-import static org.kuali.PropertyConstants.REFERENCE_NUMBER;
-import static org.kuali.module.financial.rules.GeneralErrorCorrectionDocumentRuleConstants.*;
-
 /**
- * Business rule(s) applicable to 
+ * Business rule(s) applicable to
  * <code>{@link GeneralErrorCorrectionDocument}</code> instances.
- * 
+ *
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class GeneralErrorCorrectionDocumentRule extends TransactionalDocumentRuleBase {
-    
+
     /**
      * Convenience method for accessing the most-likely requested
      * security grouping
@@ -64,11 +69,11 @@ public class GeneralErrorCorrectionDocumentRule extends TransactionalDocumentRul
     protected String getDefaultSecurityGrouping() {
         return GENERAL_ERROR_CORRECTION_SECURITY_GROUPING;
     }
-	
+
 	/**
-	 * Convenience method for accessing delimiter for the <code>TransactionLedgerEntryDescription</code> of a 
+	 * Convenience method for accessing delimiter for the <code>TransactionLedgerEntryDescription</code> of a
 	 * <code>{@link GeneralLedgerPendingEntry}</code>
-	 * 
+	 *
 	 * @return String
 	 */
 	protected String getEntryDescriptionDelimiter() {
@@ -76,7 +81,7 @@ public class GeneralErrorCorrectionDocumentRule extends TransactionalDocumentRul
 	}
 
     /**
-     * Helper method for business rules concerning 
+     * Helper method for business rules concerning
      * <code>{@link AccountingLine}</code> instances.
      *
      * @param document
@@ -90,11 +95,11 @@ public class GeneralErrorCorrectionDocumentRule extends TransactionalDocumentRul
         ObjectCode objectCode = accountingLine.getObjectCode();
 
         retval = isObjectTypeAndObjectSubTypeAllowed(objectCode);
-        
+
         if (retval) {
             retval = isRequiredReferenceFieldsValid(accountingLine);
         }
-        
+
         return retval;
     }
 
@@ -105,7 +110,7 @@ public class GeneralErrorCorrectionDocumentRule extends TransactionalDocumentRul
     protected void customizeExplicitGeneralLedgerPendingEntry(TransactionalDocument transactionalDocument,
             AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry) {
 		explicitEntry.setTransactionLedgerEntryDescription(buildTransactionLedgerEntryDescription(accountingLine));
-		
+
 		// Clearing fields that are already handled by the parent algorithm
 		explicitEntry.setReferenceFinancialDocumentNumber(null);
 		explicitEntry.setReferenceFinancialSystemOriginationCode(null);
@@ -113,9 +118,9 @@ public class GeneralErrorCorrectionDocumentRule extends TransactionalDocumentRul
 
 	/**
 	 * Builds an appropriately formatted string to be used for the
-	 * <code>TransactionLedgerEntryDescription</code>. It is built using information from 
+	 * <code>TransactionLedgerEntryDescription</code>. It is built using information from
 	 * the <code>{@link AccountingLine}</code>
-	 *	
+	 *
 	 * @param line
 	 * @return String
 	 */
@@ -130,10 +135,10 @@ public class GeneralErrorCorrectionDocumentRule extends TransactionalDocumentRul
 	}
 
     /**
-     * Overrides to provide specific isDebit() calculation - refer to 
-     * https://test.kuali.org/confluence/display/KULEDOCS/TP+eDocs+Debits+and+Credits for a summary of 
+     * Overrides to provide specific isDebit() calculation - refer to
+     * https://test.kuali.org/confluence/display/KULEDOCS/TP+eDocs+Debits+and+Credits for a summary of
      * business rules.
-     * 
+     *
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#isDebit(org.kuali.core.bo.AccountingLine)
      */
 	@Override
@@ -150,7 +155,7 @@ public class GeneralErrorCorrectionDocumentRule extends TransactionalDocumentRul
                 }
             }
         }
-        
+
         if(accountingLine instanceof TargetAccountingLine) { //To lines
             if(isIncomeOrLiability(accountingLine)) {
                 if(accountingLine.getAmount().compareTo(ZERO) > 0) {
@@ -163,94 +168,94 @@ public class GeneralErrorCorrectionDocumentRule extends TransactionalDocumentRul
                 }
             }
         }
-        
+
         throw new IllegalStateException("Invalid accounting line type, amount, and object type code combination for the accounting line.");
     }
-    
+
     /**
-     * The GEC allows one sided documents for correcting - so if one side is empty, the other side must have 
+     * The GEC allows one sided documents for correcting - so if one side is empty, the other side must have
      * at least two lines in it.  The balancing rules take care of validation of amounts.
-     * 
+     *
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#isAccountingLinesRequiredNumberForRoutingMet(org.kuali.core.document.TransactionalDocument)
      */
     protected boolean isAccountingLinesRequiredNumberForRoutingMet(TransactionalDocument transactionalDocument) {
         int sourceSectionSize = transactionalDocument.getSourceAccountingLines().size();
         int targetSectionSize = transactionalDocument.getTargetAccountingLines().size();
-        
+
         if((sourceSectionSize == 0 && targetSectionSize < 2) || (targetSectionSize == 0 && sourceSectionSize < 2)) {
             GlobalVariables.getErrorMap().put(ACCOUNTING_LINE_ERRORS,
                     ERROR_DOCUMENT_GEC_REQUIRED_NUMBER_OF_ACCOUNTING_LINES_NOT_MET);
             return false;
         }
-        
+
         return true;
     }
-    
+
     /**
-     * This overrides the parent to only do the one balance check that is necessary - making sure that 
+     * This overrides the parent to only do the one balance check that is necessary - making sure that
      * the debits equal the credits.
-     * 
+     *
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#isDocumentBalanceValid(org.kuali.core.document.TransactionalDocument)
      */
 	@Override
     protected boolean isDocumentBalanceValid(TransactionalDocument transactionalDocument) {
         return isDocumentBalancedConsideringCreditAndDebitAmounts(transactionalDocument);
     }
-    
+
     /**
      * Overrides to call super and then GEC specific accounting line rules.
-     * 
+     *
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processCustomAddAccountingLineBusinessRules(org.kuali.core.document.TransactionalDocument, org.kuali.core.bo.AccountingLine)
      */
 	@Override
-    public boolean processCustomAddAccountingLineBusinessRules(TransactionalDocument document, 
+    public boolean processCustomAddAccountingLineBusinessRules(TransactionalDocument document,
                                                                AccountingLine accountingLine) {
         boolean retval = true;
         retval = super
-            .processCustomAddAccountingLineBusinessRules(document, 
-                                                         accountingLine); 
+            .processCustomAddAccountingLineBusinessRules(document,
+                                                         accountingLine);
         if (retval) {
             retval = processGenericAccountingLineBusinessRules(document, accountingLine);
         }
         return retval;
     }
-    
-    
+
+
     /**
      * Overrides to call super and then GEC specific accounting line rules.
-     * 
+     *
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processCustomReviewAccountingLineBusinessRules(org.kuali.core.document.TransactionalDocument, org.kuali.core.bo.AccountingLine)
      */
 	@Override
-    public boolean processCustomReviewAccountingLineBusinessRules(TransactionalDocument document, 
+    public boolean processCustomReviewAccountingLineBusinessRules(TransactionalDocument document,
                                                                   AccountingLine accountingLine) {
         boolean retval = true;
 
         retval = super
-            .processCustomReviewAccountingLineBusinessRules(document, 
+            .processCustomReviewAccountingLineBusinessRules(document,
                                                             accountingLine);
         if (retval) {
             retval = processGenericAccountingLineBusinessRules(document, accountingLine);
         }
-        
+
         return retval;
     }
-    
+
     /**
      * Used to determine of object code sub types are valid with the
      * object type code.
-     * 
+     *
      * @param code
      * @return boolean
      */
     protected boolean isObjectTypeAndObjectSubTypeAllowed(ObjectCode code) {
         boolean retval = true;
 
-        retval = !(failsRule(COMBINED_RESTRICTED_OBJECT_TYPE_CODES, 
+        retval = !(failsRule(COMBINED_RESTRICTED_OBJECT_TYPE_CODES,
                               code.getFinancialObjectTypeCode())
                     && failsRule(COMBINED_RESTRICTED_OBJECT_SUB_TYPE_CODES,
                                  code.getFinancialObjectSubTypeCode()));
-        
+
         if (!retval) {
             // add message
             GlobalVariables.getErrorMap()
@@ -262,20 +267,6 @@ public class GeneralErrorCorrectionDocumentRule extends TransactionalDocumentRul
         }
 
         return retval;
-    }
-
-    /**
-     * Error for missing required properties like reference origin code 
-     * are added using this.
-     *
-     * @param boe
-     * @param propertyName
-     */
-    private static void putRequiredPropertyError(BusinessObjectEntry boe, 
-                                                 String propertyName) {
-        String label = boe.getAttributeDefinition(propertyName).getLabel();
-        GlobalVariables.getErrorMap()
-            .put(propertyName, ERROR_REQUIRED, label);
     }
 
     /**

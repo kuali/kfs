@@ -409,11 +409,6 @@ public class JournalVoucherDocumentRule extends TransactionalDocumentRuleBase {
         return valid;
     }
 
-    private static void putRequiredPropertyError(BusinessObjectEntry boe, String propertyName) {
-        String label = boe.getAttributeDefinition(propertyName).getLabel();
-        GlobalVariables.getErrorMap().put(propertyName, ERROR_REQUIRED, label);
-    }
-
     /**
      * The JV allows any object type b/c it is up to the user to enter it into the interface, but it is required. The existence
      * check is done for us automatically by the data dictionary validation if a value exists; beforehand so we can assume that any

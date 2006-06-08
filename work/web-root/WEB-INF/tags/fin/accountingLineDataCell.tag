@@ -65,8 +65,8 @@
 
 <%@ attribute name="labelFontWeight" required="false"
               description="The font weight for the in-cell label, e.g., bold or normal.  Providing this
-              attribute causes the cell to render a label for the field and surpress
-              the detail line.  This attribute is provided for cells on extra rows.  Changing the weight
+              attribute causes the cell to render a label for the field.
+              This attribute is provided for cells on extra rows.  Changing the weight
               allows the labels in the 'add' row to correspond to the weight of the column headers." %>
 
 <%@ attribute name="displayHidden" required="false"

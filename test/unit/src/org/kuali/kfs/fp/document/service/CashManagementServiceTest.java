@@ -258,8 +258,7 @@ public class CashManagementServiceTest extends KualiTestBaseWithFixtures {
             changeCurrentUser("INEFF");
             CashReceiptDocument cr1 = buildCashReceiptDoc(workgroupName, "cr259", Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED);
             completeCashReceiptDoc(cr1);
-            docService.validateAndPersist(cr1, new RouteDocumentEvent(cr1));
-            docService.route(cr1, "routing lifecycle cr1", null);
+            docService.routeDocument(cr1, "routing lifecycle cr1", null);
             docNumber1 = cr1.getFinancialDocumentNumber();
 
             // approve CR1
@@ -268,7 +267,7 @@ public class CashManagementServiceTest extends KualiTestBaseWithFixtures {
 
             changeCurrentUser("KHUNTLEY");
             CashReceiptDocument cr1b = (CashReceiptDocument) docService.getByDocumentHeaderId(docNumber1);
-            docService.approve(cr1b, "approving lifecycle cr1", null);
+            docService.approveDocument(cr1b, "approving lifecycle cr1", null);
 
             DocumentWorkflowStatusMonitor statusMonitor1 = new DocumentWorkflowStatusMonitor(docService, docNumber1, EdenConstants.ROUTE_HEADER_FINAL_CD);
             assertTrue(ChangeMonitor.waitUntilChange(statusMonitor1, 240, 5));
@@ -279,8 +278,7 @@ public class CashManagementServiceTest extends KualiTestBaseWithFixtures {
             changeCurrentUser("INEFF");
             CashReceiptDocument cr2 = buildCashReceiptDoc(workgroupName, "cr266", Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED);
             completeCashReceiptDoc(cr2);
-            docService.validateAndPersist(cr2, new RouteDocumentEvent(cr2));
-            docService.route(cr2, "routing lifecycle cr2", null);
+            docService.routeDocument(cr2, "routing lifecycle cr2", null);
             docNumber2 = cr2.getFinancialDocumentNumber();
 
 
@@ -290,7 +288,7 @@ public class CashManagementServiceTest extends KualiTestBaseWithFixtures {
 
             changeCurrentUser("KHUNTLEY");
             CashReceiptDocument cr2b = (CashReceiptDocument) docService.getByDocumentHeaderId(docNumber2);
-            docService.approve(cr2b, "approving lifecycle cr2", null);
+            docService.approveDocument(cr2b, "approving lifecycle cr2", null);
 
             DocumentWorkflowStatusMonitor statusMonitor2 = new DocumentWorkflowStatusMonitor(docService, docNumber2, EdenConstants.ROUTE_HEADER_FINAL_CD);
             assertTrue(ChangeMonitor.waitUntilChange(statusMonitor2, 240, 5));
@@ -310,9 +308,7 @@ public class CashManagementServiceTest extends KualiTestBaseWithFixtures {
             d1.setDepositBankCode("TEST");
             d1.setDepositBankAccountNumber("1111");
 
-            // route it
-            docService.validateAndPersist(createdDoc, new ApproveDocumentEvent(createdDoc));
-            docService.route(createdDoc, "routing lifecycle doc", null);
+            docService.routeDocument(createdDoc, "routing lifecycle doc", null);
             String cmDocNumber = createdDoc.getFinancialDocumentNumber();
 
             // wait for workflow
@@ -348,8 +344,7 @@ public class CashManagementServiceTest extends KualiTestBaseWithFixtures {
                 changeCurrentUser("INEFF");
                 cr1 = buildCashReceiptDoc(workgroupName, "cr356", Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED);
                 completeCashReceiptDoc(cr1);
-                docService.validateAndPersist(cr1, new RouteDocumentEvent(cr1));
-                docService.route(cr1, "routing reuse-test cr1", null);
+                docService.routeDocument(cr1, "routing reuse-test cr1", null);
                 docNumber1 = cr1.getFinancialDocumentNumber();
 
                 DocumentWorkflowStatusMonitor workflowMonitor1 = new DocumentWorkflowStatusMonitor(docService, docNumber1, EdenConstants.ROUTE_HEADER_ENROUTE_CD);
@@ -361,7 +356,7 @@ public class CashManagementServiceTest extends KualiTestBaseWithFixtures {
                 // approve CR1
                 changeCurrentUser("KHUNTLEY");
                 CashReceiptDocument cr1b = (CashReceiptDocument) docService.getByDocumentHeaderId(docNumber1);
-                docService.approve(cr1b, "approving reuse-test cr1", null);
+                docService.approveDocument(cr1b, "approving reuse-test cr1", null);
 
                 DocumentWorkflowStatusMonitor statusMonitor1 = new DocumentWorkflowStatusMonitor(docService, docNumber1, EdenConstants.ROUTE_HEADER_FINAL_CD);
                 assertTrue(ChangeMonitor.waitUntilChange(statusMonitor1, 240, 5));
@@ -372,8 +367,7 @@ public class CashManagementServiceTest extends KualiTestBaseWithFixtures {
                 changeCurrentUser("INEFF");
                 cr2 = buildCashReceiptDoc(workgroupName, "cr380", Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED);
                 completeCashReceiptDoc(cr2);
-                docService.validateAndPersist(cr2, new RouteDocumentEvent(cr2));
-                docService.route(cr2, "routing reuse-test cr2", null);
+                docService.routeDocument(cr2, "routing reuse-test cr2", null);
                 docNumber2 = cr2.getFinancialDocumentNumber();
 
                 DocumentWorkflowStatusMonitor workflowMonitor2 = new DocumentWorkflowStatusMonitor(docService, docNumber2, EdenConstants.ROUTE_HEADER_ENROUTE_CD);
@@ -385,7 +379,7 @@ public class CashManagementServiceTest extends KualiTestBaseWithFixtures {
                 // approve CR2
                 changeCurrentUser("KHUNTLEY");
                 CashReceiptDocument cr2b = (CashReceiptDocument) docService.getByDocumentHeaderId(docNumber2);
-                docService.approve(cr2b, "approving reuse-test cr2", null);
+                docService.approveDocument(cr2b, "approving reuse-test cr2", null);
 
                 DocumentWorkflowStatusMonitor statusMonitor2 = new DocumentWorkflowStatusMonitor(docService, docNumber2, EdenConstants.ROUTE_HEADER_FINAL_CD);
                 assertTrue(ChangeMonitor.waitUntilChange(statusMonitor2, 240, 5));
@@ -403,7 +397,7 @@ public class CashManagementServiceTest extends KualiTestBaseWithFixtures {
                 CashManagementDocument initialDoc = cashManagementService.createCashManagementDocument("testCMDocReusingReceipts", crList, workgroupName);
 
                 // cancel it
-                docService.cancel(initialDoc, "canceling reuse-test doc");
+                docService.cancelDocument(initialDoc, "canceling reuse-test doc");
             }
             {
                 // retrieve CRDocs
@@ -420,8 +414,7 @@ public class CashManagementServiceTest extends KualiTestBaseWithFixtures {
                 d1.setDepositBankAccountNumber("1111");
 
                 // route it
-                docService.validateAndPersist(reuseDoc, new ApproveDocumentEvent(reuseDoc));
-                docService.route(reuseDoc, "routing reuse-test doc", null);
+                docService.routeDocument(reuseDoc, "routing reuse-test doc", null);
                 String cmDocNumber = reuseDoc.getFinancialDocumentNumber();
 
                 // wait for workflow
@@ -893,7 +886,7 @@ public class CashManagementServiceTest extends KualiTestBaseWithFixtures {
             // create a cashReceipt
             changeCurrentUser("INEFF");
             cr1 = buildCashReceiptDoc(KNOWN_VERIFICATION_UNIT, "cr710", Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED);
-            cr1 = (CashReceiptDocument) docService.save(cr1, "saving", null);
+            cr1 = (CashReceiptDocument) docService.saveDocument(cr1, "saving", null);
 
             // retrieve it
             List retrievedCRDocs = cashManagementService.retrieveVerifiedCashReceiptsByVerificationUnit(KNOWN_VERIFICATION_UNIT);
@@ -926,7 +919,7 @@ public class CashManagementServiceTest extends KualiTestBaseWithFixtures {
 
         crDoc.setCampusLocationCode(cashReceiptService.getCampusCodeForCashReceiptVerificationUnit(KNOWN_VERIFICATION_UNIT));
 
-        docService.save(crDoc, "buildVerifiedCashReceiptDoc", null);
+        docService.saveDocument(crDoc, "buildVerifiedCashReceiptDoc", null);
 
         return crDoc;
     }

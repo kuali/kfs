@@ -295,12 +295,12 @@ public class TransferOfFundsDocumentTest extends TransactionalDocumentTestBase {
         assertTrue("At incorrect node.", WorkflowTestUtils.isAtNode(document, ACCOUNT_REVIEW));
         assertTrue("Document should be enroute.", wfDoc.stateIsEnroute());
         assertTrue("VPUTMAN should have an approve request.", wfDoc.isApprovalRequested());
-        getDocumentService().approve(document, "Test approving as VPUTMAN", null);
+        getDocumentService().approveDocument(document, "Test approving as VPUTMAN", null);
         
         WorkflowTestUtils.waitForApproveRequest(wfDoc, RORENFRO.getNetworkId());
         wfDoc = WorkflowTestUtils.refreshDocument(document, RORENFRO);
         assertTrue("RORENFRO should have an approve request.", wfDoc.isApprovalRequested());
-        getDocumentService().approve(document, "Test approving as RORENFRO", null);
+        getDocumentService().approveDocument(document, "Test approving as RORENFRO", null);
         
         WorkflowTestUtils.waitForNodeChange(document.getDocumentHeader().getWorkflowDocument(), ORG_REVIEW);
         
@@ -308,17 +308,17 @@ public class TransferOfFundsDocumentTest extends TransactionalDocumentTestBase {
         wfDoc = WorkflowTestUtils.refreshDocument(document, CSWINSON);
         assertTrue("At incorrect node.", WorkflowTestUtils.isAtNode(document, ORG_REVIEW));
         assertTrue("CSWINSON should have an approve request.", wfDoc.isApprovalRequested());
-        getDocumentService().approve(document, "Test approving as CSWINSON", null);
+        getDocumentService().approveDocument(document, "Test approving as CSWINSON", null);
         
         WorkflowTestUtils.waitForApproveRequest(wfDoc, RRUFFNER.getNetworkId());
         wfDoc = WorkflowTestUtils.refreshDocument(document, RRUFFNER);
         assertTrue("RRUFFNER should have an approve request.", wfDoc.isApprovalRequested());
-        getDocumentService().approve(document, "Test approving as RRUFFNER", null);
+        getDocumentService().approveDocument(document, "Test approving as RRUFFNER", null);
 
         WorkflowTestUtils.waitForApproveRequest(wfDoc, SEASON.getNetworkId());
         wfDoc = WorkflowTestUtils.refreshDocument(document, SEASON);
         assertTrue("SEASON should have an approve request.", wfDoc.isApprovalRequested());
-        getDocumentService().approve(document, "Test approving as SEASON", null);
+        getDocumentService().approveDocument(document, "Test approving as SEASON", null);
 
         
         // TODO once the sub fund node has been added, add code here to test it... 

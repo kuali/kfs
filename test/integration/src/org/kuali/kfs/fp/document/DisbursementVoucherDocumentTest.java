@@ -128,8 +128,7 @@ public class DisbursementVoucherDocumentTest extends TransactionalDocumentTestBa
     	
     	// save and route the document
         Document document = buildDocument();
-        getDocumentService().validateAndPersist(document, new RouteDocumentEvent(document));
-        getDocumentService().route(document, "routing test doc", null);
+        getDocumentService().routeDocument(document, "routing test doc", null);
 
         WorkflowTestUtils.waitForNodeChange(document.getDocumentHeader().getWorkflowDocument(), ACCOUNT_REVIEW);
         
@@ -138,7 +137,7 @@ public class DisbursementVoucherDocumentTest extends TransactionalDocumentTestBa
         assertTrue("At incorrect node.", WorkflowTestUtils.isAtNode(document, ACCOUNT_REVIEW));
         assertTrue("Document should be enroute.", wfDoc.stateIsEnroute());
         assertTrue("VPUTMAN should have an approve request.", wfDoc.isApprovalRequested());
-        getDocumentService().approve(document, "Test approving as VPUTMAN", null);
+        getDocumentService().approveDocument(document, "Test approving as VPUTMAN", null);
         
         WorkflowTestUtils.waitForNodeChange(document.getDocumentHeader().getWorkflowDocument(), ORG_REVIEW);
         
@@ -146,7 +145,7 @@ public class DisbursementVoucherDocumentTest extends TransactionalDocumentTestBa
         wfDoc = WorkflowTestUtils.refreshDocument(document, CSWINSON);
         assertTrue("At incorrect node.", WorkflowTestUtils.isAtNode(document, ORG_REVIEW));
         assertTrue("CSWINSON should have an approve request.", wfDoc.isApprovalRequested());
-        getDocumentService().approve(document, "Test approving as CSWINSON", null);
+        getDocumentService().approveDocument(document, "Test approving as CSWINSON", null);
                 
         // this is going to skip a bunch of other routing and end up at campus code
         WorkflowTestUtils.waitForNodeChange(document.getDocumentHeader().getWorkflowDocument(), CAMPUS_CODE);
@@ -155,7 +154,7 @@ public class DisbursementVoucherDocumentTest extends TransactionalDocumentTestBa
         wfDoc = WorkflowTestUtils.refreshDocument(document, MYLARGE);
         assertTrue("At incorrect node.", WorkflowTestUtils.isAtNode(document, CAMPUS_CODE));
         assertTrue("Should have an approve request.", wfDoc.isApprovalRequested());
-        getDocumentService().approve(document, "Approve", null);
+        getDocumentService().approveDocument(document, "Approve", null);
         
         WorkflowTestUtils.waitForStatusChange(wfDoc, EdenConstants.ROUTE_HEADER_FINAL_CD);
         

@@ -46,7 +46,7 @@ public class IndirectCostAdjustmentDocumentRuleTest extends KualiTestBaseWithFix
         boolean failedAsExpected = false;
 
         try {
-            SpringServiceLocator.getDocumentService().save(null, null, Collections.EMPTY_LIST);
+            SpringServiceLocator.getDocumentService().saveDocument(null, null, Collections.EMPTY_LIST);
         }
         catch (IllegalArgumentException e) {
             failedAsExpected = true;

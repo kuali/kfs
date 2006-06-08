@@ -172,11 +172,10 @@ public class GlobalDocumentTest extends KualiTestBaseWithFixtures {
         account.setChartOfAccountsCode("BL");
         account.setAccountNumber("1031467");
         bo.addAccount(account);
-        docService.validateAndPersist(document, new SaveDocumentEvent(document));
-        docService.save(document, null, null);
+        docService.saveDocument(document, null, null);
         
         //  now that it worked, lets cancel the doc so it doesnt lock for others
-        docService.cancel(document, "cancelling test document");
+        docService.cancelDocument(document, "cancelling test document");
         
     }
     
@@ -222,8 +221,7 @@ public class GlobalDocumentTest extends KualiTestBaseWithFixtures {
         account.setAccountNumber("1031467");
         bo.addAccount(account);
         
-        docService.validateAndPersist(document, new SaveDocumentEvent(document));
-        docService.save(document, null, null);
+        docService.saveDocument(document, null, null);
         
         //  clear the document, and re-load it from the DB
         document = null;
@@ -262,7 +260,7 @@ public class GlobalDocumentTest extends KualiTestBaseWithFixtures {
         }
 
         //  now that it worked, lets cancel the doc so it doesnt lock for others
-        docService.cancel(document, "cancelling test document");
+        docService.cancelDocument(document, "cancelling test document");
         
     }
     
@@ -308,8 +306,7 @@ public class GlobalDocumentTest extends KualiTestBaseWithFixtures {
         account.setAccountNumber("1031467");
         bo.addAccount(account);
         
-        docService.validateAndPersist(document, new SaveDocumentEvent(document));
-        docService.save(document, null, null);
+        docService.saveDocument(document, null, null);
         
         //  clear the document, and re-load it from the DB
         document = null;
@@ -348,7 +345,7 @@ public class GlobalDocumentTest extends KualiTestBaseWithFixtures {
         }
 
         //  now that it worked, lets cancel the doc so it doesnt lock for others
-        docService.cancel(document, "cancelling test document");
+        docService.cancelDocument(document, "cancelling test document");
         
     }
 
@@ -396,8 +393,7 @@ public class GlobalDocumentTest extends KualiTestBaseWithFixtures {
         account.setAccountNumber("1031467");
         bo.addAccount(account);
         
-        docService.validateAndPersist(document1, new SaveDocumentEvent(document1));
-        docService.save(document1, null, null);
+        docService.saveDocument(document1, null, null);
         
         //  clear the document, and re-load it from the DB
         MaintenanceDocument document2;
@@ -478,7 +474,7 @@ public class GlobalDocumentTest extends KualiTestBaseWithFixtures {
         //  a locking error should be throw right here
         boolean correctErrorThrown = false;
         try {
-            docService.validateAndPersist(document3, new SaveDocumentEvent(document3));
+            docService.saveDocument(document3, null, null);
         }
         catch (ValidationException e) {
             if ("Maintenance Record is locked by another document.".equalsIgnoreCase(e.getMessage())) {
@@ -488,14 +484,13 @@ public class GlobalDocumentTest extends KualiTestBaseWithFixtures {
         
         // if the save didnt fail, then we need to cancel this document
         if (!correctErrorThrown) {
-            docService.save(document3, null, null);
-            docService.cancel(document3, "");
+            docService.cancelDocument(document3, "");
         }
 
         assertTrue("The correct ValidationException was thrown.", correctErrorThrown);
         
         //  now that it worked, lets cancel the doc so it doesnt lock for others
-        docService.cancel(document1, "cancelling test document");
+        docService.cancelDocument(document1, "cancelling test document");
         
     }
     

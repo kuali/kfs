@@ -101,7 +101,7 @@ public class CashManagementServiceImpl implements CashManagementService {
             cmDoc.setDeposits(depositList);
 
             // persist everything
-            documentService.save(cmDoc, "service-created CashManagementDocument", null);
+            documentService.saveDocument(cmDoc, "service-created CashManagementDocument", null);
         }
         catch (RuntimeException e) {
             // reopen the drawer if creation failed (without trapping the
@@ -489,8 +489,7 @@ public class CashManagementServiceImpl implements CashManagementService {
      */
     private Map buildCriteriaMap(String workgroupName) {
         Map queryCriteria = new HashMap();
-        queryCriteria.put(Constants.DOCUMENT_HEADER_PROPERTY_NAME + "." + Constants.DOCUMENT_HEADER_DOCUMENT_STATUS_CODE_PROPERTY_NAME,
-                Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED);
+        queryCriteria.put(Constants.DOCUMENT_HEADER_PROPERTY_NAME + "." + Constants.DOCUMENT_HEADER_DOCUMENT_STATUS_CODE_PROPERTY_NAME, Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED);
 
         // UNF: this if should probably short-circuit when no campusCode is returned rather than selecting all CashReceipts
         String campusLocationCode = cashReceiptService.getCampusCodeForCashReceiptVerificationUnit(workgroupName);

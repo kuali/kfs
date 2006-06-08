@@ -112,10 +112,8 @@ public class JournalVoucherDocumentTest extends TransactionalDocumentTestBase {
     public void testConvertIntoCopy() throws Exception {
         // save the original doc, wait for status change
         TransactionalDocument document = (TransactionalDocument) buildDocument();
-        //TODO: workflow-team change
-        getDocumentService().validateAndPersist(document, new RouteDocumentEvent(Constants.DOCUMENT_PROPERTY_NAME, document));
         getDocumentService()
-            .route(document, "saving copy source document", null);
+            .routeDocument(document, "saving copy source document", null);
         // collect some preCopy data
         String preCopyId = document.getFinancialDocumentNumber();
         String preCopyCopiedFromId = document.getDocumentHeader().getFinancialDocumentTemplateNumber();
@@ -202,10 +200,8 @@ public class JournalVoucherDocumentTest extends TransactionalDocumentTestBase {
         
         String documentHeaderId = document.getFinancialDocumentNumber();
         // route the original doc, wait for status change
-        //TODO: workflow-team change
-        getDocumentService().validateAndPersist(document, new RouteDocumentEvent(Constants.DOCUMENT_PROPERTY_NAME, document));
         getDocumentService()
-            .route(document, "saving errorCorrection source document", null);
+            .routeDocument(document, "saving errorCorrection source document", null);
         //jv docs go straight to final
         DocumentWorkflowStatusMonitor routeMonitor = new DocumentWorkflowStatusMonitor(getDocumentService(), documentHeaderId, "F");
         assertTrue(ChangeMonitor.waitUntilChange(routeMonitor, 240, 5));
@@ -275,10 +271,8 @@ public class JournalVoucherDocumentTest extends TransactionalDocumentTestBase {
         // save the original doc, wait for status change
         Document document = buildDocument();
         assertFalse("R".equals(document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus()));
-        //TODO: workflow-team change
-        getDocumentService().validateAndPersist(document, new RouteDocumentEvent(Constants.DOCUMENT_PROPERTY_NAME, document));
         getDocumentService()
-            .route(document, "saving copy source document", null);
+            .routeDocument(document, "saving copy source document", null);
         // jv docs go straight to final
         DocumentWorkflowStatusMonitor routeMonitor = 
             new DocumentWorkflowStatusMonitor(getDocumentService(), 

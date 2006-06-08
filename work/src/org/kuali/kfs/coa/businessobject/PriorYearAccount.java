@@ -86,7 +86,9 @@ public class PriorYearAccount extends BusinessObjectBase {
 	private String cgCatlfFedDomestcAssistNbr;
 	private boolean accountOffCampusIndicator;
 	private boolean accountClosedIndicator;
-	private Chart chart;
+    private String programCode;
+    
+    private Chart chart;
 	private Campus campus;
 	private Chart reportsToChartOfAccounts;
 	private Account account;
@@ -99,7 +101,8 @@ public class PriorYearAccount extends BusinessObjectBase {
 	private Account incomeStreamAccount;
 	private Account indirectCostRecoveryAcct;
 	private Chart indirectCostRcvyFinCoa;
-
+    private Program program;
+    
 	/**
 	 * Default constructor.
 	 */
@@ -1445,13 +1448,48 @@ public class PriorYearAccount extends BusinessObjectBase {
 		this.indirectCostRcvyFinCoa = indirectCostRcvyFinCoa;
 	}
 
-	/**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();
-        m.put("chartOfAccountsCode", this.chartOfAccountsCode);
-        m.put("accountNumber", this.accountNumber);	    
-	    return m;
+    /**
+     * Gets the programCode attribute. 
+     * @return Returns the programCode.
+     */
+    public String getProgramCode() {
+        return programCode;
     }
+
+    /**
+     * Sets the programCode attribute value.
+     * @param programCode The programCode to set.
+     */
+    public void setProgramCode(String programCode) {
+        this.programCode = programCode;
+    }
+
+    /**
+     * Gets the program attribute. 
+     * @return Returns the program.
+     */
+    public Program getProgram() {
+        return program;
+    }
+
+    /**
+     * Sets the program attribute value.
+     * @param program The program to set.
+     * @deprecated
+     */
+    public void setProgram(Program program) {
+        this.program = program;
+    }
+
+    /**
+     * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
+        m.put("chartOfAccountsCode", this.chartOfAccountsCode);
+        m.put("accountNumber", this.accountNumber);     
+        return m;
+    }
+    
+
 }

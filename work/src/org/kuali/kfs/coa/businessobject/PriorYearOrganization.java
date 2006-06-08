@@ -51,7 +51,6 @@ public class PriorYearOrganization extends BusinessObjectBase {
 	private Date organizationEndDate;
 	private String reportsToChartOfAccountsCode;
 	private String reportsToOrganizationCode;
-	private String hrisOrganizationCode;
 	private boolean organizationActiveIndicator;
 	private boolean organizationInFinancialProcessingIndicator;
 	private String organizationPlantAccountNumber;
@@ -61,7 +60,6 @@ public class PriorYearOrganization extends BusinessObjectBase {
 
     private Chart chartOfAccounts;
 	private Account organizationDefaultAccount;
-	private Org hrisOrganization;
 	private Org organization;
 	private Campus organizationPhysicalCampus;
 	private Org reportsToOrganization;
@@ -414,28 +412,7 @@ public class PriorYearOrganization extends BusinessObjectBase {
 	}
 
 
-	/**
-	 * Gets the hrisOrganizationCode attribute.
-	 * 
-	 * @return - Returns the hrisOrganizationCode
-	 * 
-	 */
-	public String getHrisOrganizationCode() { 
-		return hrisOrganizationCode;
-	}
-
-	/**
-	 * Sets the hrisOrganizationCode attribute.
-	 * 
-	 * @param - hrisOrganizationCode The hrisOrganizationCode to set.
-	 * 
-	 */
-	public void setHrisOrganizationCode(String hrisOrganizationCode) {
-		this.hrisOrganizationCode = hrisOrganizationCode;
-	}
-
-
-	/**
+    /**
 	 * Gets the organizationActiveIndicator attribute.
 	 * 
 	 * @return - Returns the organizationActiveIndicator
@@ -601,26 +578,6 @@ public class PriorYearOrganization extends BusinessObjectBase {
 	 */
 	public void setOrganizationDefaultAccount(Account organizationDefaultAccount) {
 		this.organizationDefaultAccount = organizationDefaultAccount;
-	}
-
-	/**
-	 * Gets the hrisOrganization attribute.
-	 * 
-	 * @return - Returns the hrisOrganization
-	 * 
-	 */
-	public Org getHrisOrganization() { 
-		return hrisOrganization;
-	}
-
-	/**
-	 * Sets the hrisOrganization attribute.
-	 * 
-	 * @param - hrisOrganization The hrisOrganization to set.
-	 * @deprecated
-	 */
-	public void setHrisOrganization(Org hrisOrganization) {
-		this.hrisOrganization = hrisOrganization;
 	}
 
 	/**

@@ -2283,11 +2283,12 @@ public class ScrubberProcess {
         if(unitOfWork.offsetAmount.isZero()) {
             return errors;
         }
-        // do nothing if scrubber offset indicator of the ducument type code is turned off in the document type table
 
+        // do nothing if flexible offset is enabled and scrubber offset indicator of the document 
+        // type code is turned off in the document type table
         String documentTypeCode = scrubbedEntry.getFinancialDocumentTypeCode(); 
         DocumentType documentType = documentTypeService.getDocumentTypeByCode(documentTypeCode);
-        if ( ! documentType.isTransactionScrubberOffsetGenerationIndicator() ) {
+        if ( (! documentType.isTransactionScrubberOffsetGenerationIndicator()) && flexibleOffsetAccountService.getEnabled() ) {
             return errors;
         }
 

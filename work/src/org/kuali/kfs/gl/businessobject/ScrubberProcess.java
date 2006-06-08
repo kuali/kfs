@@ -22,6 +22,91 @@
  */
 package org.kuali.module.gl.service.impl;
 
+import java.text.NumberFormat;
+import java.util.AbstractCollection;
+import java.util.AbstractList;
+import java.util.AbstractMap;
+import java.util.AbstractQueue;
+import java.util.AbstractSequentialList;
+import java.util.AbstractSet;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.BitSet;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.ConcurrentModificationException;
+import java.util.Currency;
+import java.util.Dictionary;
+import java.util.DuplicateFormatFlagsException;
+import java.util.EmptyStackException;
+import java.util.Enumeration;
+import java.util.EnumMap;
+import java.util.EnumSet;
+import java.util.EventListener;
+import java.util.EventListenerProxy;
+import java.util.EventObject;
+import java.util.FormatFlagsConversionMismatchException;
+import java.util.Formattable;
+import java.util.FormattableFlags;
+import java.util.Formatter;
+import java.util.FormatterClosedException;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Hashtable;
+import java.util.IdentityHashMap;
+import java.util.IllegalFormatCodePointException;
+import java.util.IllegalFormatConversionException;
+import java.util.IllegalFormatException;
+import java.util.IllegalFormatFlagsException;
+import java.util.IllegalFormatPrecisionException;
+import java.util.IllegalFormatWidthException;
+import java.util.InputMismatchException;
+import java.util.InvalidPropertiesFormatException;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.ListResourceBundle;
+import java.util.Locale;
+import java.util.Map;
+import java.util.MissingFormatArgumentException;
+import java.util.MissingFormatWidthException;
+import java.util.MissingResourceException;
+import java.util.NoSuchElementException;
+import java.util.Observable;
+import java.util.Observer;
+import java.util.PriorityQueue;
+import java.util.Properties;
+import java.util.PropertyPermission;
+import java.util.PropertyResourceBundle;
+import java.util.Queue;
+import java.util.Random;
+import java.util.RandomAccess;
+import java.util.ResourceBundle;
+import java.util.Scanner;
+import java.util.Set;
+import java.util.SimpleTimeZone;
+import java.util.SortedMap;
+import java.util.SortedSet;
+import java.util.Stack;
+import java.util.StringTokenizer;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.TimeZone;
+import java.util.TooManyListenersException;
+import java.util.TreeMap;
+import java.util.TreeSet;
+import java.util.UnknownFormatConversionException;
+import java.util.UnknownFormatFlagsException;
+import java.util.UUID;
+import java.util.Vector;
+import java.util.WeakHashMap;
+
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -708,8 +793,8 @@ public class ScrubberProcess {
         description.append(kualiConfigurationService.getPropertyString(KeyConstants.MSG_GENERATED_COST_SHARE));
         description.append(" ").append(scrubbedEntry.getAccountNumber());
 
-        // TODO Remove after testing
-        description.append("***0531");
+        description.append(offsetString());
+
         costShareEntry.setTransactionLedgerEntryDescription(description.toString());
 
 
@@ -770,9 +855,7 @@ public class ScrubberProcess {
 //        4135  031750     MOVE OFFSET-DESCRIPTION
 //        4136  031760       TO TRN-LDGR-ENTR-DESC OF ALT-GLEN-RECORD.
 
-        // costShareOffsetEntry.setTransactionLedgerEntryDescription(kualiConfigurationService.getPropertyString(KeyConstants.MSG_GENERATED_OFFSET));
-        //                                                         1234567890123456789012345678901234567890
-        costShareOffsetEntry.setTransactionLedgerEntryDescription("GENERATED OFFSET                 ***0531");
+        costShareOffsetEntry.setTransactionLedgerEntryDescription("GENERATED OFFSET                 " + offsetString());
         // NOTE (laran) these three move steps were already done above.
 
 //        4143  031860     MOVE UNIV-FISCAL-YR     OF ALT-GLEN-RECORD
@@ -965,8 +1048,7 @@ public class ScrubberProcess {
         description.append(kualiConfigurationService.getPropertyString(KeyConstants.MSG_GENERATED_COST_SHARE));
         description.append(" ").append(scrubbedEntry.getAccountNumber());
 
-        // TODO Remove after testing
-        description.append("***0531");
+        description.append(offsetString());
         costShareSourceAccountEntry.setTransactionLedgerEntryDescription(description.toString());
         
         // NOTE (laran) document number and description already set above. Copied via copy constructor.
@@ -1094,7 +1176,7 @@ public class ScrubberProcess {
 
         // costShareSourceAccountOffsetEntry.setTransactionLedgerEntryDescription(kualiConfigurationService.getPropertyString(KeyConstants.MSG_GENERATED_OFFSET));
         // TODO
-        costShareSourceAccountOffsetEntry.setTransactionLedgerEntryDescription("GENERATED OFFSET                 ***0531");
+        costShareSourceAccountOffsetEntry.setTransactionLedgerEntryDescription("GENERATED OFFSET                 " + offsetString());
 
         //  
 //        4305  033500     MOVE '***' TO TRN-LDGR-ENTR-DESC
@@ -1293,6 +1375,17 @@ public class ScrubberProcess {
         scrubCostShareAmount = KualiDecimal.ZERO;
 
         return errors;
+    }
+
+    private String offsetString() {
+
+        NumberFormat nf = NumberFormat.getInstance();
+        nf.setMaximumFractionDigits(0);
+        nf.setMaximumIntegerDigits(2);
+        nf.setMinimumFractionDigits(0);
+        nf.setMinimumIntegerDigits(2);
+
+        return "***" + nf.format(runCal.get(Calendar.MONTH) + 1) + nf.format(runCal.get(Calendar.YEAR)-2000);
     }
 
     /**

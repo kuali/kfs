@@ -23,7 +23,6 @@
 package org.kuali.module.gl.service.impl;
 
 import java.sql.Date;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
@@ -396,7 +395,6 @@ public class ScrubberProcess {
                     // Generate offset for last unit of work
                     generateOffset(lastEntry);
 
-                    lastEntry = scrubbedEntry;
                     unitOfWork = new UnitOfWorkInfo(scrubbedEntry);
                 }
 
@@ -417,6 +415,8 @@ public class ScrubberProcess {
                 scrubbedEntry.setTransactionScrubberOffsetGenerationIndicator(false);
                 createOutputEntry(scrubbedEntry,validGroup);
                 scrubberReport.scrubbedRecordWritten();
+
+                lastEntry = scrubbedEntry;
             } else {
                 // Error transaction
 
@@ -656,27 +656,7 @@ public class ScrubberProcess {
 
         List errors = new ArrayList();
 
-//      4093  031160 3000-COST-SHARE.
-
-//        OriginEntry workingEntry = workingEntryInfo.getOriginEntry();
         OriginEntry costShareEntry = new OriginEntry(scrubbedEntry);
-
-        // NOTE (laran) The cobol for this comes from the FIS de-merger (glemergeb) COBOL program.
-        // All the tests run to-date pass with this code here (which to me is a more intuitive place
-        // to put it -- do cost sharing with cost sharing, not as an afterthought, if possible.
-        // However, it may need to be moved into performDemerger(String, String, String, OriginEntryGroup)
-        // if tests start to fail. If this becomes the case then a flag will need to be introduced to
-        // indicate to the demerger which entries are related to cost-sharing. This was done in the FIS
-        // scrubber by inserting the String "***" to the description field of the ALT-GLEN-RECORD. A 
-        // boolean flag would be a better way to accomplish the desired effect. 
-
-        // The COBOL for this functionality is as follows:
-//      193  002130 COST-SHARE-CHANGE.
-//      194  002140     MOVE 'TF' TO GOOD2-DOC-TYPE.
-//      195  002150     MOVE 'CS' TO GOOD2-ORIGIN.
-
-        costShareEntry.setFinancialDocumentTypeCode("TF");
-        costShareEntry.setFinancialSystemOriginationCode("CS");
 
         // objectCodeKey and offsetKey are used in error messages in the event that either an object
         // code or an offset definition respectively cannot be found in the database. They're defined
@@ -728,68 +708,26 @@ public class ScrubberProcess {
         description.append(kualiConfigurationService.getPropertyString(KeyConstants.MSG_GENERATED_COST_SHARE));
         description.append(" ").append(scrubbedEntry.getAccountNumber());
 
+        // TODO Remove after testing
+        description.append("***0531");
         costShareEntry.setTransactionLedgerEntryDescription(description.toString());
 
-//        4106  031390     MOVE '***' TO TRN-LDGR-ENTR-DESC
-//        4107  031400          OF ALT-GLEN-RECORD (34:3).
-
-        // NOTE (laran) These asterisks flag an entry as cost-share related for the demerger which
-        //              strips out the asterisks. They never show up in the output written to 
-        //              GL_ORIGIN_ENTRY_T.
-
-//        4108  031410     MOVE CS-MONTH TO TRN-LDGR-ENTR-DESC
-//        4109  031420          OF ALT-GLEN-RECORD (37:2).
-//        4110  031430     MOVE CS-DAY TO TRN-LDGR-ENTR-DESC
-//        4111  031440          OF ALT-GLEN-RECORD (39:2).
-
-        // TODO Remove demerger stuff and move into new step
-        // NOTE (laran) This logic having to do with document number comes from the demerger (glemergb) COBOL file.
-        // I'm not including that code here because I think it would be confusing in terms of keeping the line numbers
-        // consistent within the scrubber-related COBOL. 
-        // See lines 184 to 202 in glemergb.
-
-        SimpleDateFormat documentNumberDateFormat = new SimpleDateFormat("MM/dd");
-        String dateForDocumentNumber = documentNumberDateFormat.format(runDate);
-
-        // pad with zeros if needed.
-        while(dateForDocumentNumber.length() < 5) {
-            dateForDocumentNumber = "0" + dateForDocumentNumber;
-        }
-
-        StringBuffer documentNumber = new StringBuffer();
-        documentNumber.append("CSHR");
-        documentNumber.append(dateForDocumentNumber);
-
-        costShareEntry.setFinancialDocumentNumber(documentNumber.toString());
-
-//        4112  031450     MOVE SCRB-COST-SHARE-AMOUNT
-//        4113  031460       TO TRN-LDGR-ENTR-AMT OF ALT-GLEN-RECORD.
-
-        costShareEntry.setTransactionLedgerEntryAmount(scrubCostShareAmount);
 
 //        4114  031500     IF SCRB-COST-SHARE-AMOUNT > ZEROES
-
-        if(scrubCostShareAmount.isPositive()) {
-
 //        4115  031510        MOVE DEBIT
 //        4116  031520          TO TRN-DEBIT-CRDT-CD OF ALT-GLEN-RECORD
-
-            costShareEntry.setTransactionDebitCreditCode(Constants.GL_DEBIT_CODE);
-
 //        4117  031530     ELSE
-
-        } else {
-
 //        4118  031540        MOVE CREDIT
 //        4119  031550          TO TRN-DEBIT-CRDT-CD OF ALT-GLEN-RECORD
-
-            costShareEntry.setTransactionDebitCreditCode(Constants.GL_CREDIT_CODE);
-
 //        4120  031560          COMPUTE TRN-LDGR-ENTR-AMT OF ALT-GLEN-RECORD
 //        4121  031570          = SCRB-COST-SHARE-AMOUNT * -1.
 
+        costShareEntry.setTransactionLedgerEntryAmount(scrubCostShareAmount);
+        if (scrubCostShareAmount.isPositive()) {
+            costShareEntry.setTransactionDebitCreditCode(Constants.GL_DEBIT_CODE);
+        } else {
+            costShareEntry.setTransactionDebitCreditCode(Constants.GL_CREDIT_CODE);
             costShareEntry.setTransactionLedgerEntryAmount(scrubCostShareAmount.negated());
-
         }
 
 //        4122  031590     MOVE SCRB-TODAYS-DATE
@@ -832,17 +770,9 @@ public class ScrubberProcess {
 //        4135  031750     MOVE OFFSET-DESCRIPTION
 //        4136  031760       TO TRN-LDGR-ENTR-DESC OF ALT-GLEN-RECORD.
 
-        costShareOffsetEntry.setTransactionLedgerEntryDescription(kualiConfigurationService.getPropertyString(KeyConstants.MSG_GENERATED_OFFSET));
-
-        // TODO This isn't implemented properly
-
-//        4137  031770     MOVE '***' TO TRN-LDGR-ENTR-DESC
-//        4138  031780          OF ALT-GLEN-RECORD (34:3).
-//        4139  031790     MOVE CS-MONTH TO TRN-LDGR-ENTR-DESC
-//        4140  031800          OF ALT-GLEN-RECORD (37:2).
-//        4141  031810     MOVE CS-DAY TO TRN-LDGR-ENTR-DESC
-//        4142  031820          OF ALT-GLEN-RECORD (39:2).
-
+        // costShareOffsetEntry.setTransactionLedgerEntryDescription(kualiConfigurationService.getPropertyString(KeyConstants.MSG_GENERATED_OFFSET));
+        //                                                         1234567890123456789012345678901234567890
+        costShareOffsetEntry.setTransactionLedgerEntryDescription("GENERATED OFFSET                 ***0531");
         // NOTE (laran) these three move steps were already done above.
 
 //        4143  031860     MOVE UNIV-FISCAL-YR     OF ALT-GLEN-RECORD
@@ -883,6 +813,7 @@ public class ScrubberProcess {
 //        4171  032080                   FIN-OBJECT-CD OF ALT-GLEN-RECORD
 
             costShareOffsetEntry.setFinancialObjectCode(offsetDefinition.getFinancialObjectCode());
+            costShareOffsetEntry.setFinancialObject(offsetDefinition.getFinancialObject());
 
 //        4172  032090              IF GLOFSD-FIN-SUB-OBJ-CD = SPACES
 
@@ -1030,19 +961,24 @@ public class ScrubberProcess {
 //        4256  032890     MOVE CS-DAY TO TRN-LDGR-ENTR-DESC
 //        4257  032900          OF ALT-GLEN-RECORD (39:2).
 
-        // TODO Not right
+        description = new StringBuffer();
+        description.append(kualiConfigurationService.getPropertyString(KeyConstants.MSG_GENERATED_COST_SHARE));
+        description.append(" ").append(scrubbedEntry.getAccountNumber());
+
+        // TODO Remove after testing
+        description.append("***0531");
+        costShareSourceAccountEntry.setTransactionLedgerEntryDescription(description.toString());
+        
         // NOTE (laran) document number and description already set above. Copied via copy constructor.
 
 //        4258  032920     MOVE CASA21-CST-SHR-COA-CD TO FIN-COA-CD OF ALT-GLEN-RECORD.
 
-        // TODO Broken
-        // costShareSourceAccountEntry.setChartOfAccountsCode(scrubbedEntry.getA21SubAccount().getChartOfAccountsCode());
+        costShareSourceAccountEntry.setChartOfAccountsCode(scrubbedEntry.getA21SubAccount().getChartOfAccountsCode());
 
 //        4259  032930     MOVE CASA21-CST-SHRSRCACCT-NBR TO ACCOUNT-NBR
 //        4260  032940       OF ALT-GLEN-RECORD.
 
-        // TODO Broken
-        // costShareSourceAccountEntry.setAccountNumber(scrubbedEntry.getA21SubAccount().getCostShareSourceAccountNumber());
+        costShareSourceAccountEntry.setAccountNumber(scrubbedEntry.getA21SubAccount().getCostShareSourceAccountNumber());
 
 //        4261             PERFORM SET-OBJECT-2004 THRU SET-OBJECT-2004-EXIT.
 
@@ -1051,8 +987,7 @@ public class ScrubberProcess {
 //        4262  032970     MOVE CASA21-CST-SRCSUBACCT-NBR TO SUB-ACCT-NBR
 //        4263  032980       OF ALT-GLEN-RECORD.
 
-        // TODO Broken
-        // costShareSourceAccountEntry.setSubAccountNumber(scrubbedEntry.getA21SubAccount().getCostShareSourceSubAccountNumber());
+        costShareSourceAccountEntry.setSubAccountNumber(scrubbedEntry.getA21SubAccount().getCostShareSourceSubAccountNumber());
 
 //        4264  032990     IF SUB-ACCT-NBR OF ALT-GLEN-RECORD = SPACES
 //        4265  033000         MOVE SUB-ACCT-NBR-DASHES
@@ -1157,10 +1092,11 @@ public class ScrubberProcess {
 //        4303  033480     MOVE OFFSET-DESCRIPTION
 //        4304  033490       TO TRN-LDGR-ENTR-DESC OF ALT-GLEN-RECORD.
 
-        costShareSourceAccountOffsetEntry.setTransactionLedgerEntryDescription(
-                kualiConfigurationService.getPropertyString(KeyConstants.MSG_GENERATED_OFFSET));
+        // costShareSourceAccountOffsetEntry.setTransactionLedgerEntryDescription(kualiConfigurationService.getPropertyString(KeyConstants.MSG_GENERATED_OFFSET));
+        // TODO
+        costShareSourceAccountOffsetEntry.setTransactionLedgerEntryDescription("GENERATED OFFSET                 ***0531");
 
-        // TODO Not implemented
+        //  
 //        4305  033500     MOVE '***' TO TRN-LDGR-ENTR-DESC
 //        4306  033510          OF ALT-GLEN-RECORD (34:3).
 //        4307  033520     MOVE CS-MONTH TO TRN-LDGR-ENTR-DESC
@@ -1216,6 +1152,7 @@ public class ScrubberProcess {
 //        4339  033810                   FIN-OBJECT-CD OF ALT-GLEN-RECORD
 
             costShareSourceAccountOffsetEntry.setFinancialObjectCode(offsetDefinition.getFinancialObjectCode());
+            costShareSourceAccountOffsetEntry.setFinancialObject(offsetDefinition.getFinancialObject());
 
 //        4340  033820              IF GLOFSD-FIN-SUB-OBJ-CD = SPACES
 
@@ -1300,20 +1237,13 @@ public class ScrubberProcess {
 //        4392  034250        EVALUATE SQLCODE
 //        4393  034260           WHEN 0
 
-        // TODO I think this is wrong.  I think it's supposed to be looking up the object code in the generated cost share transaction...
-        if( scrubbedEntry.getFinancialObject() != null) {
-
 //        4394  034270            MOVE CAOBJT-FIN-OBJ-TYP-CD TO FIN-OBJ-TYP-CD
 //        4395  034280              OF ALT-GLEN-RECORD
 
-            // TODO Fix this - the code below is temporary, fix the real code
-            costShareSourceAccountOffsetEntry.setFinancialObjectCode("5000");
-//            costShareSourceAccountOffsetEntry.setFinancialObjectTypeCode(offsetDefinition.getFinancialObject().getFinancialObjectTypeCode());
+            costShareSourceAccountOffsetEntry.setFinancialObjectTypeCode(offsetDefinition.getFinancialObject().getFinancialObjectTypeCode());
 
 //        4396  034290           WHEN +100
 //        4397  034300           WHEN +1403
-
-        } else {
 
 //        4398  034310              MOVE GLEN-RECORD (1:51) TO RP-TABLE-KEY
 //        4399  034320              MOVE CAOBJT-FIN-OBJECT-CD TO RP-DATA-ERROR
@@ -1327,12 +1257,7 @@ public class ScrubberProcess {
 //        4407  034400               MOVE 'Y' TO WS-FATAL-ERROR-FLAG
 //        4408  034410               GO TO 2000-ENTRY-EXIT
 
-            addTransactionError(kualiConfigurationService.getPropertyString(KeyConstants.ERROR_OFFSET_DEFINITION_OBJECT_CODE_NOT_FOUND), 
-                    objectCodeKey.toString(), errors);
-
 //        4409  034420        END-EVALUATE
-
-        }
 
 //        4410  034460     IF TRN-DEBIT-CRDT-CD OF ALT-GLEN-RECORD = CREDIT
 
@@ -2020,6 +1945,7 @@ public class ScrubberProcess {
 
         if (offset != null) {
             costShareEncumbranceOffsetEntry.setFinancialObjectCode(offset.getFinancialObjectCode());
+            costShareEncumbranceOffsetEntry.setFinancialObject(offset.getFinancialObject());
 
             if(offset.getFinancialSubObjectCode() == null) {
                 costShareEncumbranceOffsetEntry.setFinancialSubObjectCode(Constants.DASHES_SUB_OBJECT_CODE);
@@ -2339,16 +2265,16 @@ public class ScrubberProcess {
      * 2. For the offset object code it needs to get the associated object type,
      *    object subtype, and object active code.
      *    
-     * @param workingEntry
+     * @param scrubbedEntry
      */
-    private List generateOffset(OriginEntry workingEntry) {
+    private List generateOffset(OriginEntry scrubbedEntry) {
         LOG.debug("generateOffset() started");
 
         // Temporary storage for any errors.
         ArrayList errors = new ArrayList();
 
         // There was no previous unit of work so we need no offset
-        if ( workingEntry == null ) {
+        if ( scrubbedEntry == null ) {
             return errors;
         }
 
@@ -2357,8 +2283,8 @@ public class ScrubberProcess {
         if(unitOfWork.offsetAmount.isZero()) {
             return errors;
         }
-        
         // do nothing if scrubber offset indicator of the ducument type code is turned off in the document type table
+
         String documentTypeCode = workingEntry.getFinancialDocumentTypeCode(); 
         DocumentType documentType = documentTypeService.getDocumentTypeByCode(documentTypeCode);
         if ( ! documentType.isTransactionScrubberOffsetGenerationIndicator() ) {
@@ -2397,8 +2323,8 @@ public class ScrubberProcess {
         // ... otherwise lookup the offset definition appropriate for this entry.
         // We need the offset object code from it.
 
-        OffsetDefinition offsetDefinition = offsetDefinitionService.getByPrimaryId(workingEntry.getUniversityFiscalYear(),
-            workingEntry.getChartOfAccountsCode(),workingEntry.getFinancialDocumentTypeCode(),workingEntry.getFinancialBalanceTypeCode());
+        OffsetDefinition offsetDefinition = offsetDefinitionService.getByPrimaryId(scrubbedEntry.getUniversityFiscalYear(),
+            scrubbedEntry.getChartOfAccountsCode(),scrubbedEntry.getFinancialDocumentTypeCode(),scrubbedEntry.getFinancialBalanceTypeCode());
 
 //        3993             IF GLOFSD-FOC-I < ZERO
 //        3994                MOVE SPACES TO GLOFSD-FIN-OBJECT-CD
@@ -2456,10 +2382,10 @@ public class ScrubberProcess {
 //        4021  030300              GO TO 2000-ENTRY-EXIT
 
             StringBuffer sb = new StringBuffer();
-            sb.append("Fiscal Year: ").append(workingEntry.getUniversityFiscalYear());
-            sb.append(", Chart of Accounts: ").append(workingEntry.getChartOfAccountsCode());
-            sb.append(", Document Type: ").append(workingEntry.getFinancialDocumentTypeCode());
-            sb.append(", Balance Type: ").append(workingEntry.getFinancialBalanceTypeCode());
+            sb.append("Fiscal Year: ").append(scrubbedEntry.getUniversityFiscalYear());
+            sb.append(", Chart of Accounts: ").append(scrubbedEntry.getChartOfAccountsCode());
+            sb.append(", Document Type: ").append(scrubbedEntry.getFinancialDocumentTypeCode());
+            sb.append(", Balance Type: ").append(scrubbedEntry.getFinancialBalanceTypeCode());
 
             addTransactionError(kualiConfigurationService.getPropertyString(KeyConstants.ERROR_OFFSET_DEFINITION_NOT_FOUND),
                     sb.toString(), errors);
@@ -2529,7 +2455,7 @@ public class ScrubberProcess {
 //        4072  030730        END-EVALUATE
 
             addTransactionError(kualiConfigurationService.getPropertyString(KeyConstants.ERROR_OFFSET_DEFINITION_OBJECT_CODE_NOT_FOUND),
-                    workingEntry.getFinancialObjectCode(), errors);
+                    scrubbedEntry.getFinancialObjectCode(), errors);
         }
 
 //        4073  030780     MOVE SCRB-OFFSET-AMOUNT
@@ -2617,10 +2543,10 @@ public class ScrubberProcess {
 
         String balanceTypeCode = originEntry.getFinancialBalanceTypeCode();
         String documentTypeCode = originEntry.getFinancialDocumentTypeCode();
-        
+
         // do nothing if scrubber offset indicator is turned off in the document type table
         DocumentType documentType = documentTypeService.getDocumentTypeByCode(documentTypeCode);
-        if ( ! documentType.isTransactionScrubberOffsetGenerationIndicator() ) {            
+        if ( ! documentType.isTransactionScrubberOffsetGenerationIndicator() ) {
             return errors;
         }
 
@@ -2674,11 +2600,11 @@ public class ScrubberProcess {
             if(objectCode == null){
                 errorValues.append("chart of account code = " + chartOfAccountsCode + "; ");
                 errorValues.append("object code = " + offsetObjectCode + "; ");   
-                
+
                 keyOfErrorMessage = kualiConfigurationService.getPropertyString(KeyConstants.ERROR_OBJECT_CODE_NOT_FOUND);
                 addTransactionError(keyOfErrorMessage, errorValues.toString(), errors);
                 return errors;
-            }
+        }
         }
 
         // replace the chart and account of the given transaction with those of the offset account obtained above
@@ -2688,7 +2614,7 @@ public class ScrubberProcess {
         // blank out the sub account and sub object since the account has been replaced
         originEntry.setSubAccountNumber(Constants.DASHES_SUB_ACCOUNT_NUMBER);
         originEntry.setFinancialSubObjectCode(Constants.DASHES_SUB_OBJECT_CODE);
-        
+
         // indicate that the entry is a flexible offset with the meaningful description
         String description = kualiConfigurationService.getPropertyString(KeyConstants.MSG_GENERATED_FLEXIBLE_OFFSET);
         originEntry.setTransactionLedgerEntryDescription(description);
@@ -2760,6 +2686,6 @@ public class ScrubberProcess {
      * @param errorMessage
      */
     private void addTransactionError(String errorMessage, String errorValue, List errors) {
-            errors.add(errorMessage + " (" + errorValue + ")");
+        errors.add(errorMessage + " (" + errorValue + ")");
     }
 }

@@ -177,10 +177,12 @@
   </collection-descriptor>
   
   <collection-descriptor name="universityCostShareItems" proxy="true" element-class-ref="org.kuali.module.kra.bo.BudgetUniversityCostShare" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+      <orderby name="budgetUniversityCostShareSequenceNumber" sort="ASC"/>
       <inverse-foreignkey field-ref="documentHeaderId"/>
   </collection-descriptor>
 
   <collection-descriptor name="thirdPartyCostShareItems" proxy="true" element-class-ref="org.kuali.module.kra.bo.BudgetThirdPartyCostShare" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+      <orderby name="budgetThirdPartyCostShareSequenceNumber" sort="ASC"/>
       <inverse-foreignkey field-ref="documentHeaderId"/>
   </collection-descriptor>
 
@@ -245,6 +247,9 @@
 	<field-descriptor name="budgetPeriodNextSequenceNumber" column="BDGT_PRD_NXT_SEQ_NBR" jdbc-type="INTEGER" />
   <field-descriptor name="personnelNextSequenceNumber" column="PSNL_NXT_SEQ_NBR" jdbc-type="INTEGER" />
   <field-descriptor name="nonpersonnelNextSequenceNumber" column="NPRS_NXT_SEQ_NBR" jdbc-type="INTEGER" />
+  <field-descriptor name="universityCostShareNextSequenceNumber" column="UNIV_CST_SHR_NXT_SEQ_NBR" jdbc-type="INTEGER" />
+  <field-descriptor name="thirdPartyCostShareNextSequenceNumber" column="THRD_PRTY_CST_SHR_NXT_SEQ_NBR" jdbc-type="INTEGER" />
+
 <!-- commented out until documents not descending from BusinessObject and thus not inheriting method to set obj_id is resolved	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" /> -->
 	<field-descriptor name="versionNumber" locking="true" column="VER_NBR" jdbc-type="BIGINT" />
 

@@ -407,24 +407,24 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
         try {
         	String chart = null;
         	String org = null;
-        	boolean isReport = ((Boolean)xpath.evaluate("wf:xstreamsafe('//report')", docContent.getDocument(), XPathConstants.BOOLEAN)).booleanValue();
+        	boolean isReport = ((Boolean)xpath.evaluate("//report", docContent.getDocument(), XPathConstants.BOOLEAN)).booleanValue();
         	if (isReport) {
-        		chart = xpath.evaluate("wf:xstreamsafe('//chart')", docContent.getDocument());
-        		org = xpath.evaluate("wf:xstreamsafe('//org')", docContent.getDocument());
+        		chart = xpath.evaluate("//chart", docContent.getDocument());
+        		org = xpath.evaluate("//org", docContent.getDocument());
         	} else if (docType.getName().equals(ACCOUNT_DOC_TYPE) ||
         			docType.getName().equals(FIS_USER_DOC_TYPE) ||
         			docType.getName().equals(PROJECT_CODE_DOC_TYPE)) {
-        		chart = xpath.evaluate("wf:xstreamsafe('" + MAINTAINABLE_PREFIX + "chartOfAccountsCode')", docContent.getDocument());
-        		org = xpath.evaluate("wf:xstreamsafe('" + MAINTAINABLE_PREFIX + "organizationCode')", docContent.getDocument());
+        		chart = xpath.evaluate(MAINTAINABLE_PREFIX+"chartOfAccountsCode", docContent.getDocument());
+        		org = xpath.evaluate(MAINTAINABLE_PREFIX+"organizationCode", docContent.getDocument());
         	} else if (docType.getName().equals(ORGANIZATION_DOC_TYPE)) {
-        		chart = xpath.evaluate("wf:xstreamsafe('" + MAINTAINABLE_PREFIX + "finCoaCd')", docContent.getDocument());
-        		org = xpath.evaluate("wf:xstreamsafe('" + MAINTAINABLE_PREFIX + "orgCd')", docContent.getDocument());
+        		chart = xpath.evaluate(MAINTAINABLE_PREFIX+"finCoaCd", docContent.getDocument());
+        		org = xpath.evaluate(MAINTAINABLE_PREFIX+"orgCd", docContent.getDocument());
         	} else if (docType.getName().equals(SUB_ACCOUNT_DOC_TYPE) ||
         			docType.getName().equals(ACCOUNT_DEL_DOC_TYPE) ||
         			docType.getName().equals(SUB_OBJECT_DOC_TYPE)) {
         		// these documents don't have the organization code on them so it must be looked up
-        		chart = xpath.evaluate("wf:xstreamsafe('" + MAINTAINABLE_PREFIX + "chartOfAccountsCode')", docContent.getDocument());
-        		String accountNumber = xpath.evaluate("wf:xstreamsafe('" + MAINTAINABLE_PREFIX + "accountNumber')", docContent.getDocument());
+        		chart = xpath.evaluate(MAINTAINABLE_PREFIX+"chartOfAccountsCode", docContent.getDocument());
+        		String accountNumber = xpath.evaluate(MAINTAINABLE_PREFIX+"accountNumber", docContent.getDocument());
         		Account account = SpringServiceLocator.getAccountService().getByPrimaryId(chart, accountNumber);
         		org = account.getOrganizationCode();
         	}
@@ -438,19 +438,19 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
         		String xpathExp = null;
         		do {
         			if (docType.getName().equals("KualiMaintenanceDocument")) {
-        				xpathExp = "wf:xstreamsafe('//kualiUser')";
+        				xpathExp = "//kualiUser";
         				break;
         			} else if (docType.getName().equals(KualiConstants.PROCUREMENT_CARD_DOC_TYPE)) {
-        				xpathExp = "wf:xstreamsafe('//org.kuali.module.financial.bo.ProcurementCardTargetAccountingLine/account')";
+        				xpathExp = "//org.kuali.module.financial.bo.ProcurementCardTargetAccountingLine/account";
         				break;
         			} else if (KualiConstants.isSourceLineOnly(docType.getName())) {
-        				xpathExp = "wf:xstreamsafe('//org.kuali.core.bo.SourceAccountingLine/account')";
+        				xpathExp = "//org.kuali.core.bo.SourceAccountingLine/account";
         				break;
         			} else if (KualiConstants.isTargetLineOnly(docType.getName())) {
-        				xpathExp = "wf:xstreamsafe('//org.kuali.core.bo.TargetAccountingLine/account')";
+        				xpathExp = "//org.kuali.core.bo.TargetAccountingLine/account";
         				break;
         			} else if (docType.getName().equals("KualiFinancialDocument")) {
-        				xpathExp = "wf:xstreamsafe('//org.kuali.core.bo.SourceAccountingLine/account | wf:xstreamsafe('//org.kuali.core.bo.TargetAccountingLine/account')";
+        				xpathExp = "//org.kuali.core.bo.SourceAccountingLine/account | //org.kuali.core.bo.TargetAccountingLine/account";
         				break;
         			} else {
         				docType = docType.getParentDocType();
@@ -464,14 +464,12 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
 
         		for (int i = 0; i < nodes.getLength(); i++) {
         			Node accountingLineNode = nodes.item(i);
-                    
-                    //  not needed anymore with the xstreamsafe function
-        			//String referenceString = xpath.evaluate("@reference", accountingLineNode);
-        			//if (!StringUtils.isEmpty(referenceString)) {
-        			//	accountingLineNode = (Node) xpath.evaluate(referenceString, accountingLineNode, XPathConstants.NODE);
-        			//}
-        			String finCoaCd = xpath.evaluate("wf:xstreamsafe('chartOfAccountsCode')", accountingLineNode);
-        			String orgCd = xpath.evaluate("wf:xstreamsafe('organizationCode')", accountingLineNode);
+        			String referenceString = xpath.evaluate("@reference", accountingLineNode);
+        			if (!StringUtils.isEmpty(referenceString)) {
+        				accountingLineNode = (Node) xpath.evaluate(referenceString, accountingLineNode, XPathConstants.NODE);
+        			}
+        			String finCoaCd = xpath.evaluate("chartOfAccountsCode", accountingLineNode);
+        			String orgCd = xpath.evaluate("organizationCode", accountingLineNode);
         			KualiFiscalOrganization orgization = new KualiFiscalOrganization();
         			orgization.setFinCoaCd(finCoaCd);
         			orgization.setOrgCd(orgCd);
@@ -489,22 +487,22 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
     private String getOverrideCd(DocumentType docType, DocumentContent docContent) {
         try {
         	XPath xpath = XPathFactory.newInstance().newXPath();
-        	boolean isReport = ((Boolean)xpath.evaluate("wf:xstreamsafe('//report')", docContent.getDocument(), XPathConstants.BOOLEAN)).booleanValue();
+        	boolean isReport = ((Boolean)xpath.evaluate("//report", docContent.getDocument(), XPathConstants.BOOLEAN)).booleanValue();
         	if (isReport) {
-        		return xpath.evaluate("wf:xstreamsafe('//report/overrideCode')", docContent.getDocument());
+        		return xpath.evaluate("//report/overrideCode", docContent.getDocument());
         	}
             String xpathExp = null;
             do {
                 if (docType.getName().equals("KualiMaintenanceDocument")) {
                     return null;
                 } else if (KualiConstants.isSourceLineOnly(docType.getName())) {
-                	xpathExp = "wf:xstreamsafe('//org.kuali.core.bo.SourceAccountingLine/overrideCode')";
+                	xpathExp = "//org.kuali.core.bo.SourceAccountingLine/overrideCode";
                 	break; 
                 } else if (KualiConstants.isTargetLineOnly(docType.getName())) {
-                    xpathExp = "wf:xstreamsafe('//org.kuali.core.bo.TargetAccountingLine/overrideCode')";
+                    xpathExp = "//org.kuali.core.bo.TargetAccountingLine/overrideCode";
                     break;
                 } else if (docType.getName().equals("KualiFinancialDocument")) {
-                    xpathExp = "wf:xstreamsafe('//org.kuali.core.bo.SourceAccountingLine/overrideCode') | wf:xstreamsafe('//org.kuali.core.bo.TargetAccountingLine/overrideCode')";
+                    xpathExp = "//org.kuali.core.bo.SourceAccountingLine/overrideCode | //org.kuali.core.bo.TargetAccountingLine/overrideCode";
                     break;
                 } else {
                     docType = docType.getParentDocType();
@@ -524,9 +522,9 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
     private Float getAmount(DocumentType docType, DocumentContent docContent) {
         try {
         	XPath xpath = XPathFactory.newInstance().newXPath();
-        	boolean isReport = ((Boolean)xpath.evaluate("wf:xstreamsafe('//report')", docContent.getDocument(), XPathConstants.BOOLEAN)).booleanValue();
+        	boolean isReport = ((Boolean)xpath.evaluate("//report", docContent.getDocument(), XPathConstants.BOOLEAN)).booleanValue();
         	if (isReport) {
-        		String floatVal = xpath.evaluate("wf:xstreamsafe('//report/totalDollarAmount')", docContent.getDocument());
+        		String floatVal = xpath.evaluate("//report/totalDollarAmount", docContent.getDocument());
         		if (StringUtils.isNumeric(floatVal) && StringUtils.isNotEmpty(floatVal)) {
         			return new Float(floatVal);	
         		} else {
@@ -538,13 +536,13 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
                 if (docType.getName().equals("KualiMaintenanceDocument")) {
                     return null;
                 } else if (KualiConstants.isSourceLineOnly(docType.getName())) {
-                    xpathExp = "wf:xstreamsafe('//org.kuali.core.bo.SourceAccountingLine/amount/value')";
+                    xpathExp = "//org.kuali.core.bo.SourceAccountingLine/amount/value";
                     break;
                 } else if (KualiConstants.isTargetLineOnly(docType.getName())) {
-                	xpathExp = "wf:xstreamsafe('//org.kuali.core.bo.TargetAccountingLine/amount/value')";
+                	xpathExp = "//org.kuali.core.bo.TargetAccountingLine/amount/value";
                 	break; 
                 } else if (docType.getName().equals("KualiFinancialDocument")) {
-                    xpathExp = "wf:xstreamsafe('//org.kuali.core.bo.SourceAccountingLine/amount/value') | wf:xstreamsafe('//org.kuali.core.bo.TargetAccountingLine/amount/value')";
+                    xpathExp = "//org.kuali.core.bo.SourceAccountingLine/amount/value | //org.kuali.core.bo.TargetAccountingLine/amount/value";
                     break;
                 } else {
                     docType = docType.getParentDocType();
@@ -552,7 +550,7 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
 
             } while (docType != null);
 
-            String value = xpath.evaluate("sum(" + xpathExp + ")", docContent.getDocument());
+            String value = xpath.evaluate("sum("+xpathExp+")", docContent.getDocument());
             if (value == null) {
                 throw new RuntimeException("Didn't find amount for document " + docContent.getRouteContext().getDocument().getRouteHeaderId());
             }

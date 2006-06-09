@@ -80,7 +80,7 @@ public class ScrubberFlexibleOffsetTest extends OriginEntryTestBase {
         super.setUp();
 
         scrubberService = (ScrubberService) beanFactory.getBean(GLSpringBeansRegistry.glScrubberService);
-        persistenceService = (PersistenceService) beanFactory.getBean("persistenceService");
+        //persistenceService = (PersistenceService) beanFactory.getBean("persistenceService");
 
         businessObjectService = (BusinessObjectService) beanFactory.getBean("businessObjectService");
         documentTypeService = (DocumentTypeService) beanFactory.getBean("documentTypeService");

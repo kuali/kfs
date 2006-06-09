@@ -22,10 +22,7 @@
  */
 package org.kuali.module.financial.web.struts.form;
 
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -154,12 +151,7 @@ public class VoucherForm extends KualiTransactionalDocumentFormBase {
      * @return String
      */
     public String getFormattedReversalDate() {
-        Timestamp reversalDate = getVoucherDocument().getReversalDate();
-        if (reversalDate == null) {
-            return "";
-        }
-        SimpleDateFormat sdf = new SimpleDateFormat("MMM d, yyyy");
-        return sdf.format(new Date(reversalDate.getTime()));
+        return formatReversalDate(getVoucherDocument().getReversalDate());
     }
 
     /**

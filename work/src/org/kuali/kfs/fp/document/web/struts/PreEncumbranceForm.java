@@ -29,7 +29,7 @@ import org.kuali.module.financial.document.PreEncumbranceDocument;
  * This class is the Struts specific form object that works in conjunction with the pojo 
  * utilities to build the UI.
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
- * @version $Id: PreEncumbranceForm.java,v 1.1 2006-01-14 19:36:15 abyrne Exp $
+ * @version $Id: PreEncumbranceForm.java,v 1.2 2006-06-09 03:06:29 dbeutel Exp $
  */
 public class PreEncumbranceForm extends KualiTransactionalDocumentFormBase {
     private static final long serialVersionUID = 1L;
@@ -54,5 +54,14 @@ public class PreEncumbranceForm extends KualiTransactionalDocumentFormBase {
      */ 
     public void setPreEncumbranceDocument(PreEncumbranceDocument preEncumbranceDocument) {
         setDocument(preEncumbranceDocument);
-    }    
+    }
+
+    /**
+     * This method returns the reversal date in the format MMM d, yyyy.
+     *
+     * @return String
+     */
+    public String getFormattedReversalDate() {
+        return formatReversalDate(getPreEncumbranceDocument().getReversalDate());
+    }
 }

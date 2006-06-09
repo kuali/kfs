@@ -64,9 +64,9 @@
                 <maintainableItems>
  	          	<maintainableCollection name="organizations" businessObjectClass="org.kuali.module.chart.bo.Org" 
 		          		  sourceClassName="org.kuali.module.chart.bo.Org" 
-						  sourceAttributeName="organizationCode">
-                        <maintainableField name="organizationCode" />
-                        <maintainableField name="organizationName" />
+						  sourceAttributeName="organizations">
+                        <maintainableField name="organizationCode" template="organizationCode"/>
+                        <maintainableField name="organizationName" template="organizationCode"/>
 	                </maintainableCollection>
                 </maintainableItems>
             </maintainableSection>

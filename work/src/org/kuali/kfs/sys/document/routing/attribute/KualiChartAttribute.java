@@ -298,7 +298,7 @@ public class KualiChartAttribute implements RoleAttribute, WorkflowAttribute {
         	XPath xpath = XPathFactory.newInstance().newXPath();
         	String chart = null;
         	try {
-        		chart = xpath.evaluate(chartXPath, docContent.getDocument());
+        		chart = xpath.evaluate("wf:xstreamsafe('" + chartXPath + "')", docContent.getDocument());
         	} catch (Exception e) {
         		throw new RuntimeException("Error evaluating xpath expression to locate chart.", e);
         	}

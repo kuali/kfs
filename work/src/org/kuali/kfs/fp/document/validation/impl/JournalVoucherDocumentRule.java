@@ -25,6 +25,7 @@ package org.kuali.module.financial.rules;
 import java.sql.Timestamp;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.PropertyConstants;
 import org.kuali.core.bo.AccountingLine;
 import org.kuali.core.bo.SourceAccountingLine;
 import org.kuali.core.bo.TargetAccountingLine;
@@ -115,7 +116,7 @@ public class JournalVoucherDocumentRule extends TransactionalDocumentRuleBase {
      *      org.kuali.core.bo.AccountingLine, org.kuali.core.bo.AccountingLine)
      */
     public boolean processCustomUpdateAccountingLineBusinessRules(TransactionalDocument transactionalDocument,
-            AccountingLine originalAccountingLine, AccountingLine updatedAccountingLine) {
+                                                                  AccountingLine originalAccountingLine, AccountingLine updatedAccountingLine) {
         return super.processCustomUpdateAccountingLineBusinessRules(transactionalDocument, originalAccountingLine,
                 updatedAccountingLine)
                 && validateAccountingLine(updatedAccountingLine);
@@ -147,8 +148,9 @@ public class JournalVoucherDocumentRule extends TransactionalDocumentRuleBase {
         // check the selected balance type
         jvDoc.refreshReferenceObject(BALANCE_TYPE);
         BalanceTyp balanceType = jvDoc.getBalanceType();
+        // todo: avoid naming conflict between PropertyConstants.BALANCE_TYPE_CODE and TransactionalDocumentsRuleBaseConstants.BALANCE_TYPE_CODE by renaming the latter to BALANCE_TYPE_CODES
         valid &= TransactionalDocumentRuleUtil.isValidBalanceType(balanceType, JournalVoucherDocument.class,
-                BALANCE_TYPE, DOCUMENT_ERROR_PREFIX + BALANCE_TYPE);
+                PropertyConstants.BALANCE_TYPE_CODE, DOCUMENT_ERROR_PREFIX + PropertyConstants.BALANCE_TYPE_CODE);
 
         // check the selected accounting period
         jvDoc.refreshReferenceObject(ACCOUNTING_PERIOD);
@@ -174,7 +176,7 @@ public class JournalVoucherDocumentRule extends TransactionalDocumentRuleBase {
      *      org.kuali.core.bo.AccountingLine, org.kuali.module.gl.bo.GeneralLedgerPendingEntry)
      */
     protected void customizeExplicitGeneralLedgerPendingEntry(TransactionalDocument transactionalDocument,
-            AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry) {
+                                                              AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry) {
         JournalVoucherDocument jvDoc = (JournalVoucherDocument) transactionalDocument;
 
         // set the appropriate accounting period values according to the values chosen by the user
@@ -216,8 +218,8 @@ public class JournalVoucherDocumentRule extends TransactionalDocumentRuleBase {
      *      org.kuali.module.gl.bo.GeneralLedgerPendingEntry, org.kuali.module.gl.bo.GeneralLedgerPendingEntry)
      */
     protected boolean processOffsetGeneralLedgerPendingEntry(TransactionalDocument transactionalDocument,
-            GeneralLedgerPendingEntrySequenceHelper sequenceHelper, AccountingLine accountingLineCopy,
-            GeneralLedgerPendingEntry explicitEntry, GeneralLedgerPendingEntry offsetEntry) {
+                                                             GeneralLedgerPendingEntrySequenceHelper sequenceHelper, AccountingLine accountingLineCopy,
+                                                             GeneralLedgerPendingEntry explicitEntry, GeneralLedgerPendingEntry offsetEntry) {
         sequenceHelper.decrement(); // the parent already increments; assuming that all documents have offset entries
         return true;
     }
@@ -251,9 +253,9 @@ public class JournalVoucherDocumentRule extends TransactionalDocumentRuleBase {
             // check for negative or zero amounts
             if (ZERO.compareTo(amount) == 0) { // if 0
                 GlobalVariables.getErrorMap().putWithoutFullErrorPath(buildErrorMapKeyPathForDebitCreditAmount(true),
-																	  ERROR_ZERO_OR_NEGATIVE_AMOUNT, "an accounting line");
+                                                                      ERROR_ZERO_OR_NEGATIVE_AMOUNT, "an accounting line");
                 GlobalVariables.getErrorMap().putWithoutFullErrorPath(buildErrorMapKeyPathForDebitCreditAmount(false),
-																	  ERROR_ZERO_OR_NEGATIVE_AMOUNT, "an accounting line");
+                                                                      ERROR_ZERO_OR_NEGATIVE_AMOUNT, "an accounting line");
 
                 return false;
             }
@@ -261,11 +263,11 @@ public class JournalVoucherDocumentRule extends TransactionalDocumentRuleBase {
                 String debitCreditCode = accountingLine.getDebitCreditCode();
                 if (StringUtils.isNotBlank(debitCreditCode) && GENERAL_LEDGER_PENDING_ENTRY_CODE.DEBIT.equals(debitCreditCode)) {
                     GlobalVariables.getErrorMap().putWithoutFullErrorPath(buildErrorMapKeyPathForDebitCreditAmount(true),
-																		  ERROR_ZERO_OR_NEGATIVE_AMOUNT, "an accounting line");
+                                                                          ERROR_ZERO_OR_NEGATIVE_AMOUNT, "an accounting line");
                 }
                 else {
                     GlobalVariables.getErrorMap().putWithoutFullErrorPath(buildErrorMapKeyPathForDebitCreditAmount(false),
-																		  ERROR_ZERO_OR_NEGATIVE_AMOUNT, "an accounting line");
+                                                                          ERROR_ZERO_OR_NEGATIVE_AMOUNT, "an accounting line");
                 }
 
                 return false;
@@ -305,7 +307,7 @@ public class JournalVoucherDocumentRule extends TransactionalDocumentRuleBase {
         }
         else {
             String index = StringUtils.substringBetween(GlobalVariables.getErrorMap().getKeyPath("", true),
-														SQUARE_BRACKET_LEFT, SQUARE_BRACKET_RIGHT);
+                                                        SQUARE_BRACKET_LEFT, SQUARE_BRACKET_RIGHT);
             String indexWithParams = SQUARE_BRACKET_LEFT + index + SQUARE_BRACKET_RIGHT;
             if (isDebit) {
                 return JOURNAL_LINE_HELPER_PROPERTY_NAME + indexWithParams

@@ -36,8 +36,6 @@ public class BudgetOverviewFormHelperTest extends KualiTestBaseWithSpring {
     }
 
     public void testBudgetOverviewFormHelper() {
-        assertTrue("Placeholder failed?! O.o", true);
-        
         BudgetOverviewFormHelper budgetOverviewFormHelper1 = new BudgetOverviewFormHelper();
         assertNotNull("Shouldn't be null.", budgetOverviewFormHelper1);
         

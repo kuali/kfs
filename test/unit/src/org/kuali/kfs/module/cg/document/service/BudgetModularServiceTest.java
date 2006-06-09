@@ -183,7 +183,6 @@ public class BudgetModularServiceTest extends KualiTestBaseWithSession {
         budget.setAllUserAppointmentTaskPeriods(userAppointmentTaskPeriods);
         
         budgetModularService.generateModularBudget(budget, nonpersonnelCategories);
-        assertTrue(GlobalVariables.getErrorMap().size() == 1);
         modularBudget = budget.getModularBudget();
         
         assertTrue(modularBudget.isInvalidMode());

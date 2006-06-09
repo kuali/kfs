@@ -41,7 +41,7 @@ import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 /**
  * @author jsissom
  * @author Laran Evans <lc278@cornell.edu>
- * @version $Id: OriginEntryDaoOjb.java,v 1.17 2006-06-06 20:11:49 bgao Exp $
+ * @version $Id: OriginEntryDaoOjb.java,v 1.18 2006-06-09 17:48:56 bgao Exp $
  */
 
 public class OriginEntryDaoOjb extends PersistenceBrokerDaoSupport implements OriginEntryDao {
@@ -192,6 +192,34 @@ public class OriginEntryDaoOjb extends PersistenceBrokerDaoSupport implements Or
 
         return getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
     } 
+    
+    /**
+     * @see org.kuali.module.gl.dao.OriginEntryDao#getSummaryByGroupId(java.util.List)
+     */
+    public Iterator getSummaryByGroupId(List groupIdList) {
+        Criteria criteria = new Criteria();
+        criteria.addIn(PropertyConstants.ENTRY_GROUP_ID, groupIdList);
+
+        ReportQueryByCriteria query = QueryFactory.newReportQuery(OriginEntry.class, criteria);
+
+        List attributeList = buildAttributeList();
+        List groupList = buildGroupList();
+        
+        // set the selection attributes
+        String[] attributes = (String[]) attributeList.toArray(new String[attributeList.size()]);
+        query.setAttributes(attributes);
+
+        // add the group criteria into the selection statement
+        String[] groupBy = (String[]) groupList.toArray(new String[groupList.size()]);
+        query.addGroupBy(groupBy);
+        
+        // add the sorting criteria
+        for(int i = 0; i<groupBy.length; i++){
+            query.addOrderByAscending(groupBy[i]);
+        }
+
+        return getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
+    }
     
     private List buildAttributeList(){
         List attributeList = this.buildGroupList();

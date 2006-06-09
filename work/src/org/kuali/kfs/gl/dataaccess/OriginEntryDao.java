@@ -24,6 +24,7 @@ package org.kuali.module.gl.dao;
 
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.kuali.module.gl.bo.OriginEntry;
@@ -31,7 +32,7 @@ import org.kuali.module.gl.bo.OriginEntryGroup;
 
 /**
  * @author jsissom
- * @version $Id: OriginEntryDao.java,v 1.7 2006-06-06 20:11:49 bgao Exp $
+ * @version $Id: OriginEntryDao.java,v 1.8 2006-06-09 17:48:56 bgao Exp $
  */
 public interface OriginEntryDao {
     public Iterator getEntriesByGroup(OriginEntryGroup oeg);
@@ -49,9 +50,16 @@ public interface OriginEntryDao {
     public Collection testingGetAllEntries();
     
     /**
-     * get the summarized information of the entries that belong to a entry group with the given group id
+     * get the summarized information of the entries that belong to an entry group with the given group id
      * @param groupId the id of a origin entry group
      * @return a set of summarized information of the entries within the specified group 
      */
     public Iterator getSummaryByGroupId(Integer groupId);
+    
+    /**
+     * get the summarized information of the entries that belong to the entry groups with the given group ids
+     * @param groupIdList the ids of origin entry groups
+     * @return a set of summarized information of the entries within the specified groups 
+     */
+    public Iterator getSummaryByGroupId(List groupIdList);
 }

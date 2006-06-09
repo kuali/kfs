@@ -38,7 +38,11 @@ public interface ReportService {
 
     public void generateIcrReports(Date runDate, List reportSummary, Map reportErrors, Map ledgerEntries);
     public void generatePosterReports(Date runDate, List reportSummary, Map reportErrors, Map ledgerEntries, int mode);
+
     public void generateScrubberReports(Date runDate, List reportSummary, Map<Transaction,List<Message>> reportErrors, Map ledgerEntries);
+    public void generateScrubberReports(Date runDate, List reportSummary, Map reportErrors, Integer groupId);
+    public void generateScrubberReports(Date runDate, List reportSummary, Map reportErrors, List groupIdList);
+
     public void generateYearEndEncumbranceForwardReports(Date runDate, List reportSummary, Map reportErrors, Map ledgerEntries);
     public void generateYearEndBalanceForwardReports(Date runDate, List reportSummary, Map reportErrors, Map ledgerEntries);
     

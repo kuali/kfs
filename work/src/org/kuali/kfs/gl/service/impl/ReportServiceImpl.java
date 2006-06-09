@@ -22,15 +22,16 @@
  */
 package org.kuali.module.gl.service.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-import org.kuali.module.gl.bo.Transaction;
+import org.kuali.module.gl.service.OriginEntryService;
 import org.kuali.module.gl.service.PosterService;
 import org.kuali.module.gl.service.ReportService;
-import org.kuali.module.gl.service.impl.scrubber.Message;
+import org.kuali.module.gl.util.LedgerEntryHolder;
 import org.kuali.module.gl.util.LedgerReport;
 import org.kuali.module.gl.util.TransactionReport;
 
@@ -42,6 +43,7 @@ public class ReportServiceImpl implements ReportService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ReportServiceImpl.class);
     
     String reportsDirectory;
+    private OriginEntryService originEntryService;
 
     public ReportServiceImpl() {
         super();
@@ -78,7 +80,10 @@ public class ReportServiceImpl implements ReportService {
         tr.generateReport(reportErrors,reportSummary,runDate,title,filename, reportsDirectory);
     }
 
-    public void generateScrubberReports(Date runDate, List reportSummary, Map<Transaction,List<Message>> reportErrors, Map ledgerEntries) {
+    /**
+     * @see org.kuali.module.gl.service.ReportService#generateScrubberReports(java.util.Date, java.util.List, java.util.Map, java.util.Map)
+     */
+    public void generateScrubberReports(Date runDate, List reportSummary, Map reportErrors, Map ledgerEntries) {
         LOG.debug("Entering generateScrubberReports()");
 
         String title = "Scrubber Report ";
@@ -87,6 +92,33 @@ public class ReportServiceImpl implements ReportService {
 
         title = "Ledger Report ";
         LedgerReport lr = new LedgerReport();
+        lr.generateReport(ledgerEntries, runDate, title, "ledger", reportsDirectory);
+    }
+    
+    /**
+     * @see org.kuali.module.gl.service.ReportService#generateScrubberReports(java.util.Date, java.util.List, java.util.Map, java.lang.Integer)
+     */
+    public void generateScrubberReports(Date runDate, List reportSummary, Map reportErrors, Integer groupId) {
+        LOG.debug("Entering generateScrubberReports()");
+
+        List groupIdList = new ArrayList();
+        groupIdList.add(groupId);
+        this.generateScrubberReports(runDate, reportSummary, reportErrors, groupIdList);
+    }
+
+    /**
+     * @see org.kuali.module.gl.service.ReportService#generateScrubberReports(java.util.Date, java.util.List, java.util.Map, java.util.List)
+     */
+    public void generateScrubberReports(Date runDate, List reportSummary, Map reportErrors, List groupIdList) {
+        LOG.debug("Entering generateScrubberReports()");
+
+        String title = "Scrubber Report ";
+        TransactionReport tr = new TransactionReport();
+        tr.generateReport(reportErrors, reportSummary, runDate, title, "scrubber", reportsDirectory);
+
+        title = "Ledger Report ";
+        LedgerReport lr = new LedgerReport();
+        LedgerEntryHolder ledgerEntries = originEntryService.getSummaryByGroupId(groupIdList, true);
         lr.generateReport(ledgerEntries, runDate, title, "ledger", reportsDirectory);
     }
 
@@ -104,4 +136,11 @@ public class ReportServiceImpl implements ReportService {
         transactionReport.generateReport(null, reportSummary, runDate, title, "year_end_balance_forward", reportsDirectory);
     }
 
+    /**
+     * Sets the originEntryService attribute value.
+     * @param originEntryService The originEntryService to set.
+     */
+    public void setOriginEntryService(OriginEntryService originEntryService) {
+        this.originEntryService = originEntryService;
+    }
 }

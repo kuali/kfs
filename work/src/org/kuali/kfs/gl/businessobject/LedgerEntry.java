@@ -47,7 +47,7 @@ public class LedgerEntry {
      * Constructs a LedgerEntry.java.
      */
     public LedgerEntry() {
-        this(new Integer(0), null, null, null);
+        this(null, null, null, null);
     }
 
     /**
@@ -66,6 +66,25 @@ public class LedgerEntry {
         this.creditAmount = KualiDecimal.ZERO;
         this.debitAmount = KualiDecimal.ZERO;
         this.noDCAmount = KualiDecimal.ZERO;
+    }    
+    
+    /**
+     * Add the amounts of the given ledger entry into those of current ledger entry, and update the counts of 
+     * corresponding fields
+     * 
+     * @param addend the given ledger entry to be added into current one
+     */
+    public void add(LedgerEntry addend){
+        this.creditAmount = this.creditAmount.add(addend.getCreditAmount());
+        this.creditCount += addend.getCreditCount();
+        
+        this.debitAmount  = this.debitAmount.add(addend.getDebitAmount());
+        this.debitCount += addend.getDebitCount();
+        
+        this.noDCAmount   = this.noDCAmount.add(addend.getNoDCAmount());
+        this.noDCCount += addend.getNoDCCount();
+        
+        this.recordCount = this.creditCount + this.debitCount + this.noDCCount;
     }
 
     /**
@@ -256,13 +275,13 @@ public class LedgerEntry {
         ledgerEntryDescription.append(originCode + "\t");       
         ledgerEntryDescription.append(recordCount + "\t");
         
-        ledgerEntryDescription.append(debitAmount + "\t");
+        ledgerEntryDescription.append(debitAmount + "\t\t");
         ledgerEntryDescription.append(debitCount + "\t");
         
-        ledgerEntryDescription.append(creditAmount + "\t");
+        ledgerEntryDescription.append(creditAmount + "\t\t");
         ledgerEntryDescription.append(creditCount + "\t");
         
-        ledgerEntryDescription.append(noDCAmount + "\t");
+        ledgerEntryDescription.append(noDCAmount + "\t\t");
         ledgerEntryDescription.append(noDCCount + "\t");
         
         return ledgerEntryDescription.toString();

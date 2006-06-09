@@ -23,11 +23,13 @@
 package org.kuali.module.gl.service;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Iterator;
 
 import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.bo.Transaction;
+import org.kuali.module.gl.util.LedgerEntryHolder;
 
 /**
  * @author jsissom
@@ -51,11 +53,13 @@ public interface OriginEntryService {
 
   public void removeScrubberDocumentEntries(OriginEntryGroup validGroup, OriginEntryGroup errorGroup, 
           OriginEntryGroup expiredGroup, String documentNumber, String documentTypeCode, String originCode);
-  
+    
   /**
-   * get the summarized information of the entries that belong to a entry group with the given group id
-   * @param groupId the id of a origin entry group
+   * get the summarized information of the entries that belong to the entry groups with the given group id list
+   * 
+   * @param groupIdList the id of a origin entry group
+   * @param calculateTotals indicate if the subtotals and grand total need to be calculated
    * @return a set of summarized information of the entries within the specified group 
    */
-  public Collection getSummaryByGroupId(Integer groupId);
+  public LedgerEntryHolder getSummaryByGroupId(List groupIdList, boolean calculateTotals);
 }

@@ -41,7 +41,7 @@ import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 /**
  * @author jsissom
  * @author Laran Evans <lc278@cornell.edu>
- * @version $Id: OriginEntryDaoOjb.java,v 1.18 2006-06-09 17:48:56 bgao Exp $
+ * @version $Id: OriginEntryDaoOjb.java,v 1.19 2006-06-10 02:05:22 jsissom Exp $
  */
 
 public class OriginEntryDaoOjb extends PersistenceBrokerDaoSupport implements OriginEntryDao {
@@ -97,6 +97,10 @@ public class OriginEntryDaoOjb extends PersistenceBrokerDaoSupport implements Or
         qbc.addOrderByAscending("financialDocumentReversalDate");
         qbc.addOrderByAscending("universityFiscalPeriodCode");
         qbc.addOrderByAscending("universityFiscalYear");
+
+        // The above order by fields are required by the scrubber process.  Adding this
+        // field makes the data in the exact same order as the COBOL scrubber.
+        qbc.addOrderByAscending("financialObjectCode");
         return getPersistenceBrokerTemplate().getIteratorByQuery(qbc);
     }
 

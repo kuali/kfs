@@ -87,7 +87,33 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         }
 
         // The cobol checks fdoc_nbr, trn_ldgr_entr_desc, org_doc_nbr, org_reference_id, and fdoc_ref_nbr for characters less than
-        // ascii 32 or '~'.  If found, it replaces that character with a space and reports a warning.  This code doesn't do that.
+        // ascii 32 or '~'.  If found, it replaces that character with a space and reports a warning.  This code does the ~, but not the
+        // less than 32 part.
+        if ( (originEntry.getFinancialDocumentNumber() != null) && (originEntry.getFinancialDocumentNumber().indexOf("~") > -1) ) {
+            String d = originEntry.getFinancialDocumentNumber();
+            scrubbedEntry.setFinancialDocumentNumber(d.replaceAll("~"," "));
+            errors.add(new Message("** INVALID CHARACTER EDITED",Message.TYPE_WARNING));
+        }
+        if ( (originEntry.getTransactionLedgerEntryDescription() != null) && (originEntry.getTransactionLedgerEntryDescription().indexOf("~") > -1) ) {
+            String d = originEntry.getTransactionLedgerEntryDescription();
+            scrubbedEntry.setTransactionLedgerEntryDescription(d.replaceAll("~"," "));
+            errors.add(new Message("** INVALID CHARACTER EDITED",Message.TYPE_WARNING));
+        }
+        if ( (originEntry.getOrganizationDocumentNumber() != null) && (originEntry.getOrganizationDocumentNumber().indexOf("~") > -1) ) {
+            String d = originEntry.getOrganizationDocumentNumber();
+            scrubbedEntry.setOrganizationDocumentNumber(d.replaceAll("~"," "));
+            errors.add(new Message("** INVALID CHARACTER EDITED",Message.TYPE_WARNING));
+        }
+        if ( (originEntry.getOrganizationReferenceId() != null) && (originEntry.getOrganizationReferenceId().indexOf("~") > -1) ) {
+            String d = originEntry.getOrganizationReferenceId();
+            scrubbedEntry.setOrganizationReferenceId(d.replaceAll("~"," "));
+            errors.add(new Message("** INVALID CHARACTER EDITED",Message.TYPE_WARNING));
+        }
+        if ( (originEntry.getReferenceFinancialDocumentNumber() != null) && (originEntry.getReferenceFinancialDocumentNumber().indexOf("~") > -1) ) {
+            String d = originEntry.getReferenceFinancialDocumentNumber();
+            scrubbedEntry.setReferenceFinancialDocumentNumber(d.replaceAll("~"," "));
+            errors.add(new Message("** INVALID CHARACTER EDITED",Message.TYPE_WARNING));
+        }
 
         // It's important that this check come before the checks for object, sub-object and accountingPeriod
         // because this validation method will set the fiscal year and reload those three objects if the fiscal
@@ -204,6 +230,8 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
     public Message validateAccount(OriginEntry originEntry, OriginEntry workingEntry, UniversityDate universityRunDate) {
         LOG.debug("validateAccount() started");
 
+        boolean debug = "2323290".equals(originEntry.getAccountNumber());
+
         if (originEntry.getAccount() == null) {
             return new Message(kualiConfigurationService.getPropertyString(KeyConstants.ERROR_ACCOUNT_NOT_FOUND) + "(" +
                 originEntry.getChartOfAccountsCode() + "-" + originEntry.getAccountNumber() + ")",Message.TYPE_FATAL);
@@ -215,6 +243,8 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         }
 
         Account account = originEntry.getAccount();
+
+        if (debug) { LOG.debug("validateAccount() exp: " + account.getAccountExpirationDate() + " eff: " + account.getAccountEffectiveDate() + " clsd: " + account.isAccountClosedIndicator()); }
 
         if ( (account.getAccountExpirationDate() == null) && !account.isAccountClosedIndicator()) {
             // account is neither closed nor expired                       
@@ -286,15 +316,9 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
                     workingEntry.setAccountNumber(accountNumber);
                     workingEntry.setChartOfAccountsCode(chartCode);
 
-                    // TODO Fix this
-//                  // If the account has changed ...
-//                  if( ! originEntry.getAccountNumber().equals(workingEntry.getAccountNumber()) ) {
-//                      workingEntry.setTransactionLedgerEntryDescription("AUTO FR " + originEntry.getChartOfAccountsCode() 
-//                              + originEntry.getAccountNumber() + originEntry.getTransactionLedgerEntryDescription());
-//                      // TODO Add warning message here
-//                  }
-
-                    return null;
+                    workingEntry.setTransactionLedgerEntryDescription("AUTO FR " + originEntry.getChartOfAccountsCode() 
+                            + originEntry.getAccountNumber() + originEntry.getTransactionLedgerEntryDescription());
+                    return new Message("** ACCOUNT CLOSED TO " + workingEntry.getChartOfAccountsCode() + workingEntry.getAccountNumber(),Message.TYPE_WARNING);
                 } else {
                     // the account does have an expiration date.
                     // This is the only case in which we might go 
@@ -318,15 +342,9 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
                         workingEntry.setAccountNumber(accountNumber);
                         workingEntry.setChartOfAccountsCode(chartCode);                        
 
-                        // TODO Fix this
-//                      // If the account has changed ...
-//                      if( ! originEntry.getAccountNumber().equals(workingEntry.getAccountNumber()) ) {
-//                          workingEntry.setTransactionLedgerEntryDescription("AUTO FR " + originEntry.getChartOfAccountsCode() 
-//                                  + originEntry.getAccountNumber() + originEntry.getTransactionLedgerEntryDescription());
-//                          // TODO Add warning message here
-//                      }
-
-                        return null;
+                        workingEntry.setTransactionLedgerEntryDescription("AUTO FR " + originEntry.getChartOfAccountsCode() 
+                                + originEntry.getAccountNumber() + originEntry.getTransactionLedgerEntryDescription());
+                        return new Message("** ACCOUNT CLOSED TO " + workingEntry.getChartOfAccountsCode() + workingEntry.getAccountNumber(),Message.TYPE_WARNING);
                     }
                 }
             }

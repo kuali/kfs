@@ -22,8 +22,8 @@ package org.kuali.workflow.postprocessor;
 import java.rmi.RemoteException;
 
 import org.apache.log4j.Logger;
-import org.kuali.Constants;
 import org.kuali.core.UserSession;
+import org.kuali.core.bo.user.KualiUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.SpringServiceLocator;
@@ -51,7 +51,7 @@ public class KualiPostProcessor implements PostProcessorRemote {
     public boolean doRouteStatusChange(DocumentRouteStatusChangeVO statusChangeEvent) throws RemoteException {
         try {
             LOG.debug(new StringBuffer("started handling route status change from ").append(statusChangeEvent.getOldRouteStatus()).append(" to ").append(statusChangeEvent.getNewRouteStatus()).append(" for document ").append(statusChangeEvent.getRouteHeaderId()));
-            GlobalVariables.setUserSession(new UserSession(Constants.SCHEDULED_TASK_USER_ID));
+            GlobalVariables.setUserSession(new UserSession(KualiUser.SYSTEM_USER));
             Document document = SpringServiceLocator.getDocumentService().getByDocumentHeaderId(statusChangeEvent.getRouteHeaderId().toString());
             if (document == null) {
                 if (!EdenConstants.ROUTE_HEADER_CANCEL_CD.equals(statusChangeEvent.getNewRouteStatus())) {
@@ -60,6 +60,10 @@ public class KualiPostProcessor implements PostProcessorRemote {
             }
             else {
                 document.handleRouteStatusChange(statusChangeEvent.getNewRouteStatus());
+                if (EdenConstants.ROUTE_HEADER_FINAL_CD.equals(statusChangeEvent.getNewRouteStatus())) {
+                    document.getDocumentHeader().setDocumentFinalDate(new java.sql.Date(SpringServiceLocator.getDateTimeService().getCurrentDate().getTime()));
+                }
+                SpringServiceLocator.getDocumentService().updateDocument(document);
             }
             LOG.debug(new StringBuffer("finished handling route status change from ").append(statusChangeEvent.getOldRouteStatus()).append(" to ").append(statusChangeEvent.getNewRouteStatus()).append(" for document ").append(statusChangeEvent.getRouteHeaderId()));
         }
@@ -83,7 +87,7 @@ public class KualiPostProcessor implements PostProcessorRemote {
         // want to avoid the user waiting for this during sync processing
         try {
             LOG.debug(new StringBuffer("started handling route level change from ").append(levelChangeEvent.getOldRouteLevel()).append(" to ").append(levelChangeEvent.getNewRouteLevel()).append(" for document ").append(levelChangeEvent.getRouteHeaderId()));
-            GlobalVariables.setUserSession(new UserSession(Constants.SCHEDULED_TASK_USER_ID));
+            GlobalVariables.setUserSession(new UserSession(KualiUser.SYSTEM_USER));
             Document document = SpringServiceLocator.getDocumentService().getByDocumentHeaderId(levelChangeEvent.getRouteHeaderId().toString());
             if (document == null) {
                 throw new RuntimeException("unable to load document " + levelChangeEvent.getRouteHeaderId());

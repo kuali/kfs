@@ -416,7 +416,6 @@ public class CashReceiptDocument extends TransactionalDocumentBase {
                 || EdenConstants.ROUTE_HEADER_FINAL_CD.equals(newRouteStatus)) {
             this.getDocumentHeader().setFinancialDocumentStatusCode(
                     Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED);
-            SpringServiceLocator.getDocumentService().updateDocument(this);
         }
     }
 

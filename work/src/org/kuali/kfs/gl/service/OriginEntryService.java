@@ -22,9 +22,8 @@
  */
 package org.kuali.module.gl.service;
 
-import java.util.Collection;
-import java.util.List;
 import java.util.Iterator;
+import java.util.List;
 
 import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.bo.OriginEntryGroup;
@@ -36,30 +35,80 @@ import org.kuali.module.gl.util.LedgerEntryHolder;
  *
  */
 public interface OriginEntryService {
+    /**
+     * Delete entry
+     * 
+     * @param oe Entry to delete
+     */
+    public void delete(OriginEntry oe);
 
-  public Iterator getEntriesByGroup(OriginEntryGroup oeg);
+    /**
+     * Return all documents in a group
+     * 
+     * @param oeg Group used to select documents
+     * @return Iterator to all documents
+     */
+    public Iterator<OriginEntry> getDocumentsByGroup(OriginEntryGroup oeg);
 
-  public Iterator getEntriesByDocument(OriginEntryGroup oeg, String documentNumber, 
-          String documentTypeCode, String originCode);
+    /**
+     * Return all the entries in a specific group
+     * 
+     * @param oeg Group used to select entries
+     * @return Iterator to all the entires
+     */
+    public Iterator<OriginEntry> getEntriesByGroup(OriginEntryGroup oeg);
 
-  public void createEntry(Transaction tran, OriginEntryGroup group);
+    /**
+     * Return all the entries for a specific document in a specific group
+     * 
+     * @param oeg Group selection
+     * @param documentNumber Document number selection
+     * @param documentTypeCode Document type selection
+     * @param originCode Origin Code selection
+     * @return iterator to all the entries
+     */
+    public Iterator<OriginEntry> getEntriesByDocument(OriginEntryGroup oeg, String documentNumber,String documentTypeCode, String originCode);
 
-  public void save(OriginEntry entry);
+    /**
+     * Take a generic transaction and save it as an origin entry in a specific group
+     * 
+     * @param tran transaction to save
+     * @param group group to save the transaction
+     */
+    public void createEntry(Transaction tran, OriginEntryGroup group);
 
-  public void exportFlatFile(String filename, Integer groupId);
+    /**
+     * Save an origin entry
+     * 
+     * @param entry
+     */
+    public void save(OriginEntry entry);
 
-  public void loadFlatFile(String filename, String groupSourceCode, boolean valid, boolean processed, 
-          boolean scrub);
+    /**
+     * Export all origin entries in a group to a flat text file
+     * 
+     * @param filename Filename to save the text
+     * @param groupId Group to save
+     */
+    public void exportFlatFile(String filename, Integer groupId);
 
-  public void removeScrubberDocumentEntries(OriginEntryGroup validGroup, OriginEntryGroup errorGroup, 
-          OriginEntryGroup expiredGroup, String documentNumber, String documentTypeCode, String originCode);
-    
-  /**
-   * get the summarized information of the entries that belong to the entry groups with the given group id list
-   * 
-   * @param groupIdList the id of a origin entry group
-   * @param calculateTotals indicate if the subtotals and grand total need to be calculated
-   * @return a set of summarized information of the entries within the specified group 
-   */
-  public LedgerEntryHolder getSummaryByGroupId(List groupIdList, boolean calculateTotals);
+    /**
+     * Load a flat file of transations into the origin entry table
+     * 
+     * @param filename Filename with the text
+     * @param groupSourceCode Source of the new group
+     * @param valid Valid flag for new group
+     * @param processed Process flag for new group
+     * @param scrub Scrub flag for new group
+     */
+    public void loadFlatFile(String filename, String groupSourceCode, boolean valid, boolean processed, boolean scrub);
+
+    /**
+     * get the summarized information of the entries that belong to the entry groups with the given group id list
+     * 
+     * @param groupIdList the id of a origin entry group
+     * @param calculateTotals indicate if the subtotals and grand total need to be calculated
+     * @return a set of summarized information of the entries within the specified group 
+     */
+    public LedgerEntryHolder getSummaryByGroupId(List groupIdList, boolean calculateTotals);
 }

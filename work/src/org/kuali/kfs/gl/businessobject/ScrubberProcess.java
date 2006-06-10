@@ -57,6 +57,7 @@ import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.gl.service.OriginEntryService;
 import org.kuali.module.gl.service.ReportService;
 import org.kuali.module.gl.service.ScrubberValidator;
+import org.kuali.module.gl.service.impl.helper.DemergerReportData;
 import org.kuali.module.gl.service.impl.helper.ScrubberReportData;
 import org.kuali.module.gl.service.impl.helper.UnitOfWorkInfo;
 import org.kuali.module.gl.service.impl.scrubber.Message;
@@ -134,6 +135,7 @@ public class ScrubberProcess {
     public final static String REPORTING_OPTION_ONLINE = "online";
     public final static String REPORTING_OPTION_DATABASE = "databse";
 
+    /* Services required */
     private FlexibleOffsetAccountService flexibleOffsetAccountService;
     private DocumentTypeService documentTypeService;    
     private BeanFactory beanFactory;
@@ -158,15 +160,23 @@ public class ScrubberProcess {
     private OriginEntryGroup validGroup;
     private OriginEntryGroup errorGroup;
     private OriginEntryGroup expiredGroup;
-    private Map<Transaction,List<Message>> scrubberReportErrors;
-    private List<Message> transactionErrors;
 
     /* Unit Of Work info */
     private UnitOfWorkInfo unitOfWork;
     private KualiDecimal scrubCostShareAmount;
 
-    /* Statistics for the scrubber report */
+    /* Statistics for the reports */
     private ScrubberReportData scrubberReport;
+    private Map<Transaction,List<Message>> scrubberReportErrors;
+    private List<Message> transactionErrors;
+    private DemergerReportData demergerReport;
+
+    /* Description names */
+    private String offsetDescription;
+    private String capitalizationDescription;
+    private String liabilityDescription;
+    private String transferDescription;
+    private String costShareDescription;
 
     /**
      * These parameters are all the dependencies.
@@ -208,6 +218,7 @@ public class ScrubberProcess {
         }
 
         setOffsetString();
+        setDescriptions();
 
         // Create the groups that will store the valid and error entries that come out of the scrubber
         validGroup = originEntryGroupService.createGroup(runDate, OriginEntrySource.SCRUBBER_VALID, true, true, false);
@@ -218,6 +229,8 @@ public class ScrubberProcess {
 
         LOG.debug("scrubEntries() number of groups to scrub: " + groupsToScrub.size());
 
+        // TODO Run the backup data Ledger Report
+
         scrubberReport = new ScrubberReportData();
 
         /*
@@ -227,7 +240,7 @@ public class ScrubberProcess {
         for (Iterator iteratorOverGroups = groupsToScrub.iterator(); iteratorOverGroups.hasNext();) {
             OriginEntryGroup originEntryGroup = (OriginEntryGroup) iteratorOverGroups.next();
             LOG.debug("scrubEntries() Scrubbing group " + originEntryGroup.getId());
-            scrubberReport.groupsRead();
+            scrubberReport.incrementGroupsRead();
 
             processGroup(originEntryGroup);
 
@@ -238,17 +251,24 @@ public class ScrubberProcess {
             originEntryGroupService.save(originEntryGroup);
         }
 
+        // TODO Run the Scrubber status report
+
         performDemerger(errorGroup, validGroup);
 
-        List reportSummary = buildReportSummary(scrubberReport);
-        runScrubberReports(runDate, reportSummary, scrubberReportErrors, validGroup, REPORTING_OPTION_DATABASE);
-        
-        // runDemergerReport();
+        // TODO Run the Demerger report
+        List<Summary> demergerReportSummary = buildDemergerReportSummary(demergerReport);
+
+        // TODO Run the bad balance types report
+
+        // TODO Run the Error Listing - Transactions Removed From the Scrubber report
+
+        List<Summary> scrubberReportSummary = buildScrubberReportSummary(scrubberReport);
+        runScrubberReports(runDate, scrubberReportSummary, scrubberReportErrors, validGroup, REPORTING_OPTION_DATABASE);
     }
 
-    private void runScrubberReports(Date runDate, List reportSummary, Map batchError, OriginEntryGroup validGroup, String reportingOption) {
+    private void runScrubberReports(Date runDate, List<Summary> scrubberReportSummary, Map batchError, OriginEntryGroup validGroup, String reportingOption) {
         if (reportingOption.equals(REPORTING_OPTION_DATABASE)) {
-            reportService.generateScrubberReports(runDate, reportSummary, batchError, validGroup.getId());
+            reportService.generateScrubberReports(runDate, scrubberReportSummary, batchError, validGroup.getId());
             return;
         }
 
@@ -291,12 +311,13 @@ public class ScrubberProcess {
         }
         Map sortedLedgerEntries = new TreeMap(ledgerEntries);
 
-        reportService.generateScrubberReports(runDate, reportSummary, batchError, sortedLedgerEntries);
+        reportService.generateScrubberReports(runDate, scrubberReportSummary, batchError, sortedLedgerEntries);
     }
 
     /**
      * The demerger process reads all of the documents in the error group, then moves all of the original entries for that document
-     * from the valid group to the error group.  It does not move generated entries to the error group.  Those are deleted.
+     * from the valid group to the error group.  It does not move generated entries to the error group.  Those are deleted.  It also
+     * modifies the doc number and origin code of cost share transfers.
      * 
      * @param errorGroup
      * @param validGroup
@@ -304,7 +325,106 @@ public class ScrubberProcess {
     private void performDemerger(OriginEntryGroup errorGroup, OriginEntryGroup validGroup) {
         LOG.debug("performDemerger() started");
 
-        // TODO Write this
+        demergerReport = new DemergerReportData();
+
+        // Read all the documents from the error group and move all non-generated
+        // transactions for these documents from the valid group into the error group
+        Iterator<OriginEntry> errorDocuments = originEntryService.getDocumentsByGroup(errorGroup);
+        while ( errorDocuments.hasNext() ) {
+            OriginEntry document = errorDocuments.next();
+
+            // Get all the transactions for the document in the valid group
+            Iterator<OriginEntry> transactions = originEntryService.getEntriesByDocument(validGroup, document.getFinancialDocumentNumber(), 
+                    document.getFinancialDocumentTypeCode(), document.getFinancialSystemOriginationCode());
+
+            while ( transactions.hasNext() ) {
+                OriginEntry transaction = transactions.next();
+
+                String transactionType = getTransactionType(transaction);
+                if ( "CE".equals(transactionType) ) {
+                    demergerReport.incrementCostShareEncumbranceTransactionsBypassed();
+                    originEntryService.delete(transaction);
+                } else if ( "O".equals(transactionType) ) {
+                    demergerReport.incrementOffsetTransactionsBypassed();
+                    originEntryService.delete(transaction);
+                } else if ( "C".equals(transactionType) ) {
+                    demergerReport.incrementCapitalizationTransactionsBypassed();
+                    originEntryService.delete(transaction);
+                } else if ( "L".equals(transactionType) ) {
+                    demergerReport.incrementLiabilityTransactionsBypassed();
+                    originEntryService.delete(transaction);
+                } else if ( "T".equals(transactionType) ) {
+                    demergerReport.incrementTransferTransactionsBypassed();
+                    originEntryService.delete(transaction);
+                } else if ( "CS".equals(transactionType) ) {
+                    demergerReport.incrementCostShareTransactionsBypassed();
+                    originEntryService.delete(transaction);
+                } else {
+                    transaction.setGroup(errorGroup);
+                }
+            }
+        }
+
+        // Read all the transactions in the valid group and update the cost share transactions
+        Iterator<OriginEntry> validTransactions = originEntryService.getDocumentsByGroup(validGroup);
+        while ( validTransactions.hasNext() ) {
+            OriginEntry transaction = validTransactions.next();
+
+            String transactionType = getTransactionType(transaction);
+            if ( "CS".equals(transactionType) ) {
+                transaction.setFinancialDocumentTypeCode("TF");
+                transaction.setFinancialSystemOriginationCode("CS");
+                StringBuffer docNbr = new StringBuffer("CSHR");
+
+                String desc = transaction.getTransactionLedgerEntryDescription();
+
+                docNbr.append(desc.substring(36,38));
+                docNbr.append("/");
+                docNbr.append(desc.substring(38,40));
+                transaction.setFinancialDocumentNumber(docNbr.toString());
+
+                transaction.setTransactionLedgerEntryDescription(desc.substring(0,33));
+
+                originEntryService.save(transaction);
+            }
+        }
+    }
+
+    /**
+     * Determine the type of the transaction by looking at attributes
+     * 
+     * @param transaction Transaction to identify
+     * @return CE (Cost share encumbrance, O (Offset), C (apitalization), L (Liability), T (Transfer), CS (Cost Share), X (Other)
+     */
+    private String getTransactionType(OriginEntry transaction) {
+        if ( "CE".equals(transaction.getFinancialBalanceTypeCode()) ) {
+            return "CE";
+        }
+        String desc = transaction.getTransactionLedgerEntryDescription();
+
+        if ( desc == null ) {
+            return "X";
+        }
+
+        if ( desc.startsWith(offsetDescription) && desc.indexOf("***") > -1 ) {
+            return "CS";
+        }
+        if ( desc.startsWith(costShareDescription) && desc.indexOf("***") > -1 ) { 
+            return "CS";
+        }
+        if ( desc.startsWith(offsetDescription) ) {
+            return "O";
+        }
+        if ( desc.startsWith(capitalizationDescription) ) {
+            return "C";
+        }
+        if ( desc.startsWith(liabilityDescription) ) {
+            return "L";
+        }
+        if ( desc.startsWith(transferDescription) ) {
+            return "T";
+        }
+        return "X";
     }
 
     /**
@@ -313,8 +433,8 @@ public class ScrubberProcess {
      * @param scrubberReport
      * @return list of report summaries to be printed
      */
-    private List buildReportSummary(ScrubberReportData scrubberReport) {
-        List reportSummary = new ArrayList();
+    private List<Summary> buildScrubberReportSummary(ScrubberReportData scrubberReport) {
+        List<Summary> reportSummary = new ArrayList<Summary>();
 
         reportSummary.add(new Summary(1, "GROUPS READ", new Integer(scrubberReport.getNumberOfGroupsRead())));
         reportSummary.add(new Summary(2, "UNSCRUBBED RECORDS READ", new Integer(scrubberReport.getNumberOfUnscrubbedRecordsRead())));
@@ -328,6 +448,29 @@ public class ScrubberProcess {
         reportSummary.add(new Summary(10, "COST SHARE ENC ENTRIES GENERATED", new Integer(scrubberReport.getNumberOfCostShareEncumbrancesGenerated())));
         reportSummary.add(new Summary(11, "TOTAL OUTPUT RECORDS WRITTEN", new Integer(scrubberReport.getTotalNumberOfRecordsWritten())));
         reportSummary.add(new Summary(12, "EXPIRED ACCOUNTS FOUND", new Integer(scrubberReport.getNumberOfExpiredAccountsFound())));
+
+        return reportSummary;
+    }
+
+    /**
+     * Generate the header for the demerger status report.  This should be moved into the report service impl
+     * 
+     * @param demergerReport
+     * @return list of report summaries to be printed
+     */
+    private List<Summary> buildDemergerReportSummary(DemergerReportData demergerReport) {
+        List<Summary> reportSummary = new ArrayList<Summary>();
+
+        reportSummary.add(new Summary(1, "SCRUBBER ERROR TRANSACTIONS READ", new Integer(demergerReport.getErrorTransactionsRead())));
+        reportSummary.add(new Summary(2, "SCRUBBER VALID TRANSACTIONS READ", new Integer(demergerReport.getValidTransactionsRead())));
+        reportSummary.add(new Summary(3, "DEMERGER ERRORS SAVED", new Integer(demergerReport.getErrorTransactionsSaved())));
+        reportSummary.add(new Summary(4, "DEMERGER VALID TRANSACTIONS SAVED", new Integer(demergerReport.getValidTransactionsSaved())));
+        reportSummary.add(new Summary(5, "OFFSET TRANSACTIONS BYPASSED", new Integer(demergerReport.getOffsetTransactionsBypassed())));
+        reportSummary.add(new Summary(6, "CAPITALIZATION TRANSACTIONS BYPASSED", new Integer(demergerReport.getCapitalizationTransactionsBypassed())));
+        reportSummary.add(new Summary(7, "LIABILITY TRANSACTIONS BYPASSED", new Integer(demergerReport.getLiabilityTransactionsBypassed())));
+        reportSummary.add(new Summary(8, "TRANSFER TRANSACTIONS BYPASSED", new Integer(demergerReport.getTransferTransactionsBypassed())));
+        reportSummary.add(new Summary(9, "COST SHARE TRANSACTIONS BYPASSED", new Integer(demergerReport.getCostShareTransactionsBypassed())));
+        reportSummary.add(new Summary(10, "COST SHARE ENC TRANSACTIONS BYPASSED", new Integer(demergerReport.getCostShareEncumbranceTransactionsBypassed())));
 
         return reportSummary;
     }
@@ -348,7 +491,7 @@ public class ScrubberProcess {
         Iterator entries = originEntryService.getEntriesByGroup(originEntryGroup);
         while ( entries.hasNext() ) {
             OriginEntry unscrubbedEntry = (OriginEntry)entries.next();
-            scrubberReport.unscrubbedRecordsRead();
+            scrubberReport.incrementUnscrubbedRecordsRead();
             transactionErrors = new ArrayList<Message>();
 
             // This is done so if the code modifies this row, then saves it, it will be an insert,
@@ -381,7 +524,7 @@ public class ScrubberProcess {
 
                 expiredEntry.setTransactionScrubberOffsetGenerationIndicator(false);
                 createOutputEntry(expiredEntry, expiredGroup);
-                scrubberReport.expiredAccountFound();
+                scrubberReport.incrementExpiredAccountFound();
             }
 
             if ( ! isFatal(transactionErrors) ) {
@@ -408,7 +551,7 @@ public class ScrubberProcess {
                 }
                 scrubbedEntry.setTransactionScrubberOffsetGenerationIndicator(false);
                 createOutputEntry(scrubbedEntry,validGroup);
-                scrubberReport.scrubbedRecordWritten();
+                scrubberReport.incrementScrubbedRecordWritten();
 
                 if ( transactionErrors.size() > 0 ) {
                     scrubberReportErrors.put(scrubbedEntry,transactionErrors);
@@ -423,7 +566,7 @@ public class ScrubberProcess {
                 OriginEntry errorEntry = new OriginEntry(unscrubbedEntry);
                 errorEntry.setTransactionScrubberOffsetGenerationIndicator(false);
                 createOutputEntry(errorEntry, errorGroup);
-                scrubberReport.errorRecordWritten();
+                scrubberReport.incrementErrorRecordWritten();
 
                 scrubberReportErrors.put(errorEntry,transactionErrors);
             }
@@ -518,7 +661,7 @@ public class ScrubberProcess {
         costShareEntry.setTransactionLedgerEntrySequenceNumber(new Integer(0));
 
         StringBuffer description = new StringBuffer();
-        description.append(kualiConfigurationService.getPropertyString(KeyConstants.MSG_GENERATED_COST_SHARE));
+        description.append(costShareDescription);
         description.append(" ").append(scrubbedEntry.getAccountNumber());
         description.append(offsetString);
         costShareEntry.setTransactionLedgerEntryDescription(description.toString());
@@ -543,7 +686,7 @@ public class ScrubberProcess {
         costShareEntry.setTransactionEncumbranceUpdateCode(null);
 
         createOutputEntry(costShareEntry, validGroup);
-        scrubberReport.costShareEntryGenerated();
+        scrubberReport.incrementCostShareEntryGenerated();
 
         OriginEntry costShareOffsetEntry = new OriginEntry(costShareEntry);
         costShareOffsetEntry.setTransactionLedgerEntryDescription(getOffsetMessage());
@@ -579,12 +722,12 @@ public class ScrubberProcess {
         }
 
         createOutputEntry(costShareOffsetEntry, validGroup);
-        scrubberReport.costShareEntryGenerated();
+        scrubberReport.incrementCostShareEntryGenerated();
 
         OriginEntry costShareSourceAccountEntry = new OriginEntry(costShareEntry);
 
         description = new StringBuffer();
-        description.append(kualiConfigurationService.getPropertyString(KeyConstants.MSG_GENERATED_COST_SHARE));
+        description.append(costShareDescription);
         description.append(" ").append(scrubbedEntry.getAccountNumber());
         description.append(offsetString);
         costShareSourceAccountEntry.setTransactionLedgerEntryDescription(description.toString());
@@ -623,7 +766,7 @@ public class ScrubberProcess {
         costShareSourceAccountEntry.setTransactionEncumbranceUpdateCode(null);
 
         createOutputEntry(costShareSourceAccountEntry, validGroup);
-        scrubberReport.costShareEntryGenerated();
+        scrubberReport.incrementCostShareEntryGenerated();
 
         OriginEntry costShareSourceAccountOffsetEntry = new OriginEntry(costShareSourceAccountEntry);
         costShareSourceAccountOffsetEntry.setTransactionLedgerEntryDescription(getOffsetMessage());
@@ -655,9 +798,22 @@ public class ScrubberProcess {
         }
 
         createOutputEntry(costShareSourceAccountOffsetEntry, validGroup);
-        scrubberReport.costShareEntryGenerated();
+        scrubberReport.incrementCostShareEntryGenerated();
 
         scrubCostShareAmount = KualiDecimal.ZERO;
+    }
+
+    /**
+     * Get all the transaction descriptions from the param table
+     * 
+     */
+    private void setDescriptions() {
+       offsetDescription =  kualiConfigurationService.getPropertyString(KeyConstants.MSG_GENERATED_OFFSET);
+       capitalizationDescription = kualiConfigurationService.getPropertyString(KeyConstants.MSG_GENERATED_CAPITALIZATION);
+       liabilityDescription = kualiConfigurationService.getPropertyString(KeyConstants.MSG_GENERATED_LIABILITY);
+       costShareDescription = kualiConfigurationService.getPropertyString(KeyConstants.MSG_GENERATED_COST_SHARE);
+       // TODO I don't see where the scrubber generates these
+       transferDescription = "GENERATED TRANSFER";
     }
 
     /**
@@ -682,7 +838,7 @@ public class ScrubberProcess {
      * @return Offset message
      */
     private String getOffsetMessage() {
-        String msg = kualiConfigurationService.getPropertyString(KeyConstants.MSG_GENERATED_OFFSET) + SPACES;
+        String msg = offsetDescription + SPACES;
 
         return msg.substring(0, 33) + offsetString;
     }
@@ -706,14 +862,14 @@ public class ScrubberProcess {
 
             capitalizationEntry.setFinancialObjectTypeCode("AS");
             persistenceService.retrieveReferenceObject(capitalizationEntry, "objectType");
-            capitalizationEntry.setTransactionLedgerEntryDescription(kualiConfigurationService.getPropertyString(KeyConstants.MSG_GENERATED_CAPITALIZATION)); 
+            capitalizationEntry.setTransactionLedgerEntryDescription(capitalizationDescription); 
 
             plantFundAccountLookup(scrubbedEntry, capitalizationEntry);
 
             capitalizationEntry.setUniversityFiscalPeriodCode(scrubbedEntry.getUniversityFiscalPeriodCode());
 
             createOutputEntry(capitalizationEntry, validGroup);
-            scrubberReport.capitalizationEntryGenerated();
+            scrubberReport.incrementCapitalizationEntryGenerated();
 
             // Clear out the id & the ojb version number to make sure we do an insert on the next one
             capitalizationEntry.setVersionNumber(null);
@@ -730,7 +886,7 @@ public class ScrubberProcess {
             }
 
             createOutputEntry(capitalizationEntry, validGroup);
-            scrubberReport.capitalizationEntryGenerated();
+            scrubberReport.incrementCapitalizationEntryGenerated();
         }
     }
 
@@ -757,7 +913,7 @@ public class ScrubberProcess {
 
             plantIndebtednessEntry.setTransactionScrubberOffsetGenerationIndicator(true);
             createOutputEntry(plantIndebtednessEntry, validGroup);
-            scrubberReport.plantIndebtednessEntryGenerated();
+            scrubberReport.incrementPlantIndebtednessEntryGenerated();
 
             // Clear out the id & the ojb version number to make sure we do an insert on the next one
             plantIndebtednessEntry.setVersionNumber(null);
@@ -769,7 +925,7 @@ public class ScrubberProcess {
 
             plantIndebtednessEntry.setTransactionScrubberOffsetGenerationIndicator(true);
             createOutputEntry(plantIndebtednessEntry, validGroup);
-            scrubberReport.plantIndebtednessEntryGenerated();
+            scrubberReport.incrementPlantIndebtednessEntryGenerated();
 
             // Clear out the id & the ojb version number to make sure we do an insert on the next one
             plantIndebtednessEntry.setVersionNumber(null);
@@ -801,7 +957,7 @@ public class ScrubberProcess {
             plantIndebtednessEntry.setTransactionLedgerEntryDescription(litGenPlantXferFrom.toString());
 
             createOutputEntry(plantIndebtednessEntry, validGroup);
-            scrubberReport.plantIndebtednessEntryGenerated();
+            scrubberReport.incrementPlantIndebtednessEntryGenerated();
 
             // Clear out the id & the ojb version number to make sure we do an insert on the next one
             plantIndebtednessEntry.setVersionNumber(null);
@@ -818,7 +974,7 @@ public class ScrubberProcess {
             }
 
             createOutputEntry(plantIndebtednessEntry, validGroup);
-            scrubberReport.plantIndebtednessEntryGenerated();
+            scrubberReport.incrementPlantIndebtednessEntryGenerated();
         }
     }
 
@@ -837,11 +993,11 @@ public class ScrubberProcess {
             liabilityEntry.setFinancialObjectTypeCode("LI"); // LIABILITY
 
             liabilityEntry.setTransactionDebitCreditCode(scrubbedEntry.getTransactionDebitCreditCode());
-            liabilityEntry.setTransactionLedgerEntryDescription(kualiConfigurationService.getPropertyString(KeyConstants.MSG_GENERATED_LIABILITY));
+            liabilityEntry.setTransactionLedgerEntryDescription(liabilityDescription);
             plantFundAccountLookup(scrubbedEntry, liabilityEntry);
 
             createOutputEntry(liabilityEntry, validGroup);
-            scrubberReport.liabilityEntryGenerated();
+            scrubberReport.incrementLiabilityEntryGenerated();
 
             // Clear out the id & the ojb version number to make sure we do an insert on the next one
             liabilityEntry.setVersionNumber(null);
@@ -859,7 +1015,7 @@ public class ScrubberProcess {
             }
 
             createOutputEntry(liabilityEntry, validGroup);
-            scrubberReport.liabilityEntryGenerated();
+            scrubberReport.incrementLiabilityEntryGenerated();
         }
     }
 
@@ -952,11 +1108,11 @@ public class ScrubberProcess {
 
         costShareEncumbranceEntry.setTransactionScrubberOffsetGenerationIndicator(true);
         createOutputEntry(costShareEncumbranceEntry, validGroup);
-        scrubberReport.costShareEncumbranceGenerated();
+        scrubberReport.incrementCostShareEncumbranceGenerated();
 
         OriginEntry costShareEncumbranceOffsetEntry = new OriginEntry(costShareEncumbranceEntry);
 
-        costShareEncumbranceOffsetEntry.setTransactionLedgerEntryDescription(kualiConfigurationService.getPropertyString(KeyConstants.MSG_GENERATED_OFFSET));
+        costShareEncumbranceOffsetEntry.setTransactionLedgerEntryDescription(offsetDescription);
 
         OffsetDefinition offset = offsetDefinitionService.getByPrimaryId(costShareEncumbranceEntry.getUniversityFiscalYear(), costShareEncumbranceEntry.getChartOfAccountsCode(), costShareEncumbranceEntry.getFinancialDocumentTypeCode(), costShareEncumbranceEntry.getFinancialBalanceTypeCode());
 
@@ -1005,7 +1161,7 @@ public class ScrubberProcess {
 
         costShareEncumbranceOffsetEntry.setTransactionScrubberOffsetGenerationIndicator(true);
         createOutputEntry(costShareEncumbranceOffsetEntry, validGroup);
-        scrubberReport.costShareEncumbranceGenerated();
+        scrubberReport.incrementCostShareEncumbranceGenerated();
     }
 
     /**
@@ -1136,7 +1292,7 @@ public class ScrubberProcess {
 
         // Create an offset
         OriginEntry offsetEntry = new OriginEntry(scrubbedEntry);
-        offsetEntry.setTransactionLedgerEntryDescription(kualiConfigurationService.getPropertyString(KeyConstants.MSG_GENERATED_OFFSET));
+        offsetEntry.setTransactionLedgerEntryDescription(offsetDescription);
 
         // lookup the offset definition appropriate for this entry.
         // We need the offset object code from it.
@@ -1200,7 +1356,7 @@ public class ScrubberProcess {
         offsetEntry.setTransactionDate(runDate);
 
         createOutputEntry(offsetEntry, validGroup);
-        scrubberReport.offsetEntryGenerated();
+        scrubberReport.incrementOffsetEntryGenerated();
     }
 
     /**
@@ -1293,8 +1449,7 @@ public class ScrubberProcess {
         originEntry.setFinancialSubObjectCode(Constants.DASHES_SUB_OBJECT_CODE);
 
         // indicate that the entry is a flexible offset with the meaningful description
-        String description = kualiConfigurationService.getPropertyString(KeyConstants.MSG_GENERATED_FLEXIBLE_OFFSET);
-        originEntry.setTransactionLedgerEntryDescription(description);
+        originEntry.setTransactionLedgerEntryDescription(offsetDescription);
 
         return;
     }

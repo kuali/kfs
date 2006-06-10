@@ -32,18 +32,66 @@ import org.kuali.module.gl.bo.OriginEntryGroup;
 
 /**
  * @author jsissom
- * @version $Id: OriginEntryDao.java,v 1.8 2006-06-09 17:48:56 bgao Exp $
+ * @version $Id: OriginEntryDao.java,v 1.9 2006-06-10 20:45:17 jsissom Exp $
  */
 public interface OriginEntryDao {
-    public Iterator getEntriesByGroup(OriginEntryGroup oeg);
-    public Collection getMatchingEntriesByCollection(Map searchCriteria);
+    /**
+     * Delete an entry
+     * 
+     * @param oe Entry to delete
+     */
+    public void deleteEntry(OriginEntry oe);
+
+    /**
+     * Return an iterator to all documents in a group
+     * 
+     * @param oeg Group
+     * @return Iterator of entries in the specified group
+     */
+    public Iterator<OriginEntry> getDocumentsByGroup(OriginEntryGroup oeg);
+
+    /**
+     * Return an iterator to all the entries in a group
+     * 
+     * @param oeg Group
+     * @return Iterator of entries in the specified group
+     */
+    public Iterator<OriginEntry> getEntriesByGroup(OriginEntryGroup oeg);
+
+    /**
+     * Collection of entries that match criteria
+     * 
+     * @param searchCriteria Map of field, value pairs
+     * @return collection of entries
+     */
+    public Collection<OriginEntry> getMatchingEntriesByCollection(Map searchCriteria);
+
+    /**
+     * Iterator of entries that match criteria
+     * 
+     * @param searchCriteria Map of field, value pairs
+     * @return collection of entries
+     */
     public Iterator getMatchingEntries(Map searchCriteria);
+
+    /**
+     * Delete entries that match criteria
+     * 
+     * @param searchCriteria Map of field, value pairs
+     */
     public void deleteMatchingEntries(Map searchCriteria);
+
+    /**
+     * Save origin entry
+     * 
+     * @param entry entry to save
+     */
 	public void saveOriginEntry(OriginEntry entry);
+
     /**
      * This method should only be used in unit tests.  It loads all the 
      * gl_origin_entry_t rows in memory into a collection.  This won't 
-     * sace for production.
+     * scale for production.
      * 
      * @return
      */

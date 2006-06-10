@@ -41,7 +41,7 @@ import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 /**
  * @author jsissom
  * @author Laran Evans <lc278@cornell.edu>
- * @version $Id: OriginEntryDaoOjb.java,v 1.19 2006-06-10 02:05:22 jsissom Exp $
+ * @version $Id: OriginEntryDaoOjb.java,v 1.20 2006-06-10 20:45:17 jsissom Exp $
  */
 
 public class OriginEntryDaoOjb extends PersistenceBrokerDaoSupport implements OriginEntryDao {
@@ -55,10 +55,35 @@ public class OriginEntryDaoOjb extends PersistenceBrokerDaoSupport implements Or
     }
 
     /**
-     * I'm not sure how this is supposed to work and since it wasn't implemented it, I did it this way. If you change it, let me
-     * know. jsissom
+     * 
+     * @see org.kuali.module.gl.dao.OriginEntryDao#deleteEntry(org.kuali.module.gl.bo.OriginEntry)
      */
-    public Iterator getMatchingEntries(Map searchCriteria) {
+    public void deleteEntry(OriginEntry oe) {
+        LOG.debug("deleteEntry() started");
+
+        getPersistenceBrokerTemplate().delete(oe);
+    }
+
+    /**
+     * 
+     * @see org.kuali.module.gl.dao.OriginEntryDao#getDocumentsByGroup(org.kuali.module.gl.bo.OriginEntryGroup)
+     */
+    public Iterator<OriginEntry> getDocumentsByGroup(OriginEntryGroup oeg) {
+        LOG.debug("getDocumentsByGroup() started");
+
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo("entryGroupId", oeg.getId());
+
+        QueryByCriteria qbc = QueryFactory.newQuery(OriginEntry.class, criteria);
+        qbc.setDistinct(true);
+        return getPersistenceBrokerTemplate().getIteratorByQuery(qbc);
+    }
+
+    /**
+     * 
+     * @see org.kuali.module.gl.dao.OriginEntryDao#getMatchingEntries(java.util.Map)
+     */
+    public Iterator<OriginEntry> getMatchingEntries(Map searchCriteria) {
         LOG.debug("getMatchingEntries() started");
 
         Criteria criteria = new Criteria();
@@ -77,10 +102,8 @@ public class OriginEntryDaoOjb extends PersistenceBrokerDaoSupport implements Or
      * the scrubber.  The getMatchingEntries wouldn't work because of 
      * the required order by.
      * 
-     * @param oeg Group
-     * @return
      */
-    public Iterator getEntriesByGroup(OriginEntryGroup oeg) {
+    public Iterator<OriginEntry> getEntriesByGroup(OriginEntryGroup oeg) {
         LOG.debug("getEntriesByGroup() started");
 
         Criteria criteria = new Criteria();
@@ -110,7 +133,7 @@ public class OriginEntryDaoOjb extends PersistenceBrokerDaoSupport implements Or
      * 
      * @return
      */
-    public Collection testingGetAllEntries() {
+    public Collection<OriginEntry> testingGetAllEntries() {
         LOG.debug("testingGetAllEntries() started");
 
         Criteria criteria = new Criteria();
@@ -125,13 +148,10 @@ public class OriginEntryDaoOjb extends PersistenceBrokerDaoSupport implements Or
     public void saveOriginEntry(OriginEntry entry) {
         LOG.debug("saveOriginEntry() started");
 
-        if (null != entry && null != entry.getTransactionLedgerEntryDescription()
-                && 40 < entry.getTransactionLedgerEntryDescription().length()) {
-
+        if ( (entry != null) && (entry.getTransactionLedgerEntryDescription() != null)
+                && (entry.getTransactionLedgerEntryDescription().length() > 40) ) {
             entry.setTransactionLedgerEntryDescription(entry.getTransactionLedgerEntryDescription().substring(0, 40));
-
         }
-
         getPersistenceBrokerTemplate().store(entry);
     }
 
@@ -151,10 +171,14 @@ public class OriginEntryDaoOjb extends PersistenceBrokerDaoSupport implements Or
 
         QueryByCriteria qbc = QueryFactory.newQuery(OriginEntry.class, criteria);
         getPersistenceBrokerTemplate().deleteByQuery(qbc);
+
+        // This is required because deleteByQuery leaves the cache alone so future queries
+        // could return origin entries that don't exist.  Clearing the cache makes OJB
+        // go back to the database for everything to make sure valid data is returned.
+        getPersistenceBrokerTemplate().clearCache();
     }
-    
-    
-    public Collection getMatchingEntriesByCollection(Map searchCriteria) {
+
+    public Collection<OriginEntry> getMatchingEntriesByCollection(Map searchCriteria) {
         LOG.debug("getMatchingEntries() started");
 
         Criteria criteria = new Criteria();

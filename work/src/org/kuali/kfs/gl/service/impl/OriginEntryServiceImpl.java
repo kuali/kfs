@@ -27,13 +27,10 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.SortedMap;
-import java.util.TreeMap;
 
 import org.kuali.Constants;
 import org.kuali.core.util.KualiDecimal;
@@ -49,7 +46,7 @@ import org.kuali.module.gl.util.LedgerEntryHolder;
 /**
  * @author jsissom
  * @author Laran Evans <lc278@cornell.edu>
- * @version $Id: OriginEntryServiceImpl.java,v 1.14 2006-06-09 17:48:56 bgao Exp $
+ * @version $Id: OriginEntryServiceImpl.java,v 1.15 2006-06-10 20:45:17 jsissom Exp $
  */
 public class OriginEntryServiceImpl implements OriginEntryService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OriginEntryServiceImpl.class);
@@ -81,21 +78,40 @@ public class OriginEntryServiceImpl implements OriginEntryService {
     }
 
     /**
-     * @param originEntryGroup
+     * 
+     * @see org.kuali.module.gl.service.OriginEntryService#delete(org.kuali.module.gl.bo.OriginEntry)
      */
-    public Iterator getEntriesByGroup(OriginEntryGroup originEntryGroup) {
+    public void delete(OriginEntry oe) {
+        LOG.debug("deleteEntry() started");
+
+        originEntryDao.deleteEntry(oe);
+    }
+
+    /**
+     * 
+     * @see org.kuali.module.gl.service.OriginEntryService#getDocumentsByGroup(org.kuali.module.gl.bo.OriginEntryGroup)
+     */
+    public Iterator<OriginEntry> getDocumentsByGroup(OriginEntryGroup oeg) {
+        LOG.debug("getDocumentsByGroup() started");
+
+        return originEntryDao.getDocumentsByGroup(oeg);
+    }
+
+    /**
+     * 
+     * @see org.kuali.module.gl.service.OriginEntryService#getEntriesByGroup(org.kuali.module.gl.bo.OriginEntryGroup)
+     */
+    public Iterator<OriginEntry> getEntriesByGroup(OriginEntryGroup originEntryGroup) {
         LOG.debug("getEntriesByGroup() started");
 
         return originEntryDao.getEntriesByGroup(originEntryGroup);
     }
 
     /**
-     * @param originEntryGroup
-     * @param documentNumber
-     * @param documentTypeCode
-     * @param originCode
+     * 
+     * @see org.kuali.module.gl.service.OriginEntryService#getEntriesByDocument(org.kuali.module.gl.bo.OriginEntryGroup, java.lang.String, java.lang.String, java.lang.String)
      */
-    public Iterator getEntriesByDocument(OriginEntryGroup originEntryGroup, String documentNumber, String documentTypeCode,
+    public Iterator<OriginEntry> getEntriesByDocument(OriginEntryGroup originEntryGroup, String documentNumber, String documentTypeCode,
             String originCode) {
         LOG.debug("getEntriesByGroup() started");
 
@@ -109,8 +125,8 @@ public class OriginEntryServiceImpl implements OriginEntryService {
     }
 
     /**
-     * @param transaction
-     * @param originEntryGroup
+     * 
+     * @see org.kuali.module.gl.service.OriginEntryService#createEntry(org.kuali.module.gl.bo.Transaction, org.kuali.module.gl.bo.OriginEntryGroup)
      */
     public void createEntry(Transaction transaction, OriginEntryGroup originEntryGroup) {
         LOG.debug("createEntry() started");
@@ -121,12 +137,20 @@ public class OriginEntryServiceImpl implements OriginEntryService {
         originEntryDao.saveOriginEntry(e);
     }
 
+    /**
+     * 
+     * @see org.kuali.module.gl.service.OriginEntryService#save(org.kuali.module.gl.bo.OriginEntry)
+     */
     public void save(OriginEntry entry) {
         LOG.debug("save() started");
 
         originEntryDao.saveOriginEntry(entry);
     }
 
+    /**
+     * 
+     * @see org.kuali.module.gl.service.OriginEntryService#exportFlatFile(java.lang.String, java.lang.Integer)
+     */
     public void exportFlatFile(String filename, Integer groupId) {
         LOG.debug("exportFlatFile() started");
 
@@ -158,11 +182,8 @@ public class OriginEntryServiceImpl implements OriginEntryService {
     }
 
     /**
-     * @param filename
-     * @param groupSourceCode
-     * @param isValid
-     * @param isProcessed
-     * @param isScrub
+     * 
+     * @see org.kuali.module.gl.service.OriginEntryService#loadFlatFile(java.lang.String, java.lang.String, boolean, boolean, boolean)
      */
     public void loadFlatFile(String filename, String groupSourceCode, boolean isValid, boolean isProcessed, boolean isScrub) {
         LOG.debug("loadFlatFile() started");
@@ -194,43 +215,9 @@ public class OriginEntryServiceImpl implements OriginEntryService {
             }
         }
     }
-
-    /**
-     * @param validGroup
-     * @param errorGroup
-     * @param expiredGroup
-     * @param documentNumber
-     * @param documentTypeCode
-     * @param originCode
-     */
-    public void removeScrubberDocumentEntries(OriginEntryGroup validGroup, OriginEntryGroup errorGroup,
-            OriginEntryGroup expiredGroup, String documentNumber, String documentTypeCode, String originCode) {
-
-        Map criteria = new HashMap();
-
-        criteria.put("financialDocumentNumber", documentNumber);
-        criteria.put("financialDocumentTypeCode", documentTypeCode);
-        criteria.put("financialSystemOriginationCode", originCode);
-        criteria.put("entryGroupId", validGroup.getId());
-        originEntryDao.deleteMatchingEntries(criteria);
-
-        criteria = new HashMap();
-        criteria.put("financialDocumentNumber", documentNumber);
-        criteria.put("financialDocumentTypeCode", documentTypeCode);
-        criteria.put("financialSystemOriginationCode", originCode);
-        criteria.put("entryGroupId", errorGroup.getId());
-        originEntryDao.deleteMatchingEntries(criteria);
-
-        criteria = new HashMap();
-        criteria.put("financialDocumentNumber", documentNumber);
-        criteria.put("financialDocumentTypeCode", documentTypeCode);
-        criteria.put("financialSystemOriginationCode", originCode);
-        criteria.put("entryGroupId", expiredGroup.getId());
-        originEntryDao.deleteMatchingEntries(criteria);
-
-    }
     
     /**
+     * 
      * @see org.kuali.module.gl.service.OriginEntryService#getSummaryByGroupId(java.util.List)
      */
     public LedgerEntryHolder getSummaryByGroupId(List groupIdList, boolean calculateTotals) {

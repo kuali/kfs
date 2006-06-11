@@ -24,6 +24,7 @@ package org.kuali.module.financial.bo;
 
 import org.kuali.core.bo.TargetAccountingLine;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.KualiInteger;
 
 
 /**
@@ -33,7 +34,7 @@ public class BudgetAdjustmentTargetAccountingLine extends TargetAccountingLine i
 
 	private String budgetAdjustmentPeriodCode;
     private KualiDecimal currentBudgetAdjustmentAmount;
-    private KualiDecimal baseBudgetAdjustmentAmount;
+    private KualiInteger baseBudgetAdjustmentAmount;
     private KualiDecimal financialDocumentMonth1LineAmount;
     private KualiDecimal financialDocumentMonth2LineAmount;
     private KualiDecimal financialDocumentMonth3LineAmount;
@@ -56,6 +57,20 @@ public class BudgetAdjustmentTargetAccountingLine extends TargetAccountingLine i
 	public BudgetAdjustmentTargetAccountingLine() {
 		super();
 		super.ojbConcreteClass = this.getClass().getName();
+        this.currentBudgetAdjustmentAmount = new KualiDecimal(0);
+        this.baseBudgetAdjustmentAmount = new KualiInteger(0);
+        this.financialDocumentMonth1LineAmount = new KualiDecimal(0);
+        this.financialDocumentMonth2LineAmount = new KualiDecimal(0);
+        this.financialDocumentMonth3LineAmount = new KualiDecimal(0);
+        this.financialDocumentMonth4LineAmount = new KualiDecimal(0);
+        this.financialDocumentMonth5LineAmount = new KualiDecimal(0);
+        this.financialDocumentMonth6LineAmount = new KualiDecimal(0);
+        this.financialDocumentMonth7LineAmount = new KualiDecimal(0);
+        this.financialDocumentMonth8LineAmount = new KualiDecimal(0);
+        this.financialDocumentMonth9LineAmount = new KualiDecimal(0);
+        this.financialDocumentMonth10LineAmount = new KualiDecimal(0);
+        this.financialDocumentMonth11LineAmount = new KualiDecimal(0);
+        this.financialDocumentMonth12LineAmount = new KualiDecimal(0);     
 	}
 
     /**
@@ -102,12 +117,12 @@ public class BudgetAdjustmentTargetAccountingLine extends TargetAccountingLine i
         return total;
     }
 
-    public KualiDecimal getBaseBudgetAdjustmentAmount() {
+	public KualiInteger getBaseBudgetAdjustmentAmount() {
 		return baseBudgetAdjustmentAmount;
 	}
 
 	public void setBaseBudgetAdjustmentAmount(
-			KualiDecimal baseBudgetAdjustmentAmount) {
+            KualiInteger baseBudgetAdjustmentAmount) {
 		this.baseBudgetAdjustmentAmount = baseBudgetAdjustmentAmount;
 	}
 
@@ -393,6 +408,6 @@ public class BudgetAdjustmentTargetAccountingLine extends TargetAccountingLine i
      */
     public void setFringeBenefitIndicator(boolean fringeBenefitIndicator) {
         this.fringeBenefitIndicator = fringeBenefitIndicator;
-    }    
+}    
     
 }

@@ -23,6 +23,7 @@
 package org.kuali.module.financial.bo;
 
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.KualiInteger;
 
 /**
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
@@ -31,9 +32,9 @@ public interface BudgetAdjustmentAccountingLine {
 
     public abstract KualiDecimal getMonthlyLinesTotal();
 
-    public abstract KualiDecimal getBaseBudgetAdjustmentAmount();
+    public abstract KualiInteger getBaseBudgetAdjustmentAmount();
 
-    public abstract void setBaseBudgetAdjustmentAmount(KualiDecimal baseBudgetAdjustmentAmount);
+    public abstract void setBaseBudgetAdjustmentAmount(KualiInteger baseBudgetAdjustmentAmount);
 
     public abstract String getBudgetAdjustmentPeriodCode();
 

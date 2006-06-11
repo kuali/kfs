@@ -31,11 +31,9 @@ import org.kuali.KeyConstants;
 import org.kuali.PropertyConstants;
 import org.kuali.core.bo.AccountingLine;
 import org.kuali.core.document.TransactionalDocument;
-import org.kuali.core.rule.KualiParameterRule;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.module.financial.bo.ProcurementCardTargetAccountingLine;
 import org.kuali.module.financial.bo.ProcurementCardTransactionDetail;
@@ -194,40 +192,6 @@ public class ProcurementCardDocumentRule extends TransactionalDocumentRuleBase {
                         errorKey, "Function code");
 
         return accountNumberAllowed;
-    }
-
-    /**
-     * Checks the given field value against a restriction defined in the application parameters table. If the rule fails, an error
-     * is added to the global error map.
-     * 
-     * @param parameterGroupName - Security Group name
-     * @param parameterName - Parameter Name
-     * @param restrictedFieldValue - Value to check
-     * @param errorField - Key to associate error with in error map
-     * @param errorParameter - String parameter for the restriction error message
-     * @return boolean indicating whether or not the rule passed
-     */
-    private boolean executeApplicationParameterRestriction(String parameterGroupName, String parameterName,
-            String restrictedFieldValue, String errorField, String errorParameter) {
-        boolean rulePassed = true;
-
-        if (SpringServiceLocator.getKualiConfigurationService().hasApplicationParameter(parameterGroupName, parameterName)) {
-            KualiParameterRule rule = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterRule(
-                    parameterGroupName, parameterName);
-            if (rule.failsRule(restrictedFieldValue)) {
-                GlobalVariables.getErrorMap().put(
-                        errorField,
-                        rule.getErrorMessageKey(),
-                        new String[] { errorParameter, restrictedFieldValue, parameterName, parameterGroupName,
-                                rule.getParameterText() });
-                rulePassed = false;
-            }
-        }
-        else {
-            LOG.warn("Did not find apc parameter record for group " + parameterGroupName + " with parm name " + parameterName);
-        }
-
-        return rulePassed;
     }
 
     /**

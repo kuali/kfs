@@ -15,26 +15,7 @@
 
 		<kul:hiddenDocumentFields excludePostingYear="true"/>
 
-        <kul:documentOverview editingMode="${KualiForm.editingMode}">
-            <c:set var="baAttributes" value="${DataDictionary.KualiBudgetAdjustmentDocument.attributes}" />
-            <tr>
-                <kul:htmlAttributeHeaderCell
-                    labelFor="document.postingYear"
-                    attributeEntry="${baAttributes.postingYear}"
-                    horizontal="true"
-                    />
-
-                <td class="datacell-nowrap">
-                    <kul:htmlControlAttribute 
-                        attributeEntry="${baAttributes.postingYear}" 
-                        property="document.postingYear" 
-                        onchange="submitForm()"
-                        readOnly="${!KualiForm.editingMode['fullEntry']}"/>
-                </td>
-
-              <th colspan="2">&nbsp;</th>
-            </tr>
-        </kul:documentOverview>
+        <kul:documentOverview editingMode="${KualiForm.editingMode}" includePostingYear="true"/>
 
         <fin:accountingLines 
             editingMode="${KualiForm.editingMode}" 

@@ -25,18 +25,23 @@
 
 package org.kuali.module.financial.document;
 
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.core.exceptions.ApplicationParameterException;
+import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.SpringServiceLocator;
-import org.kuali.core.util.TypedArrayList;
+import org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine;
 import org.kuali.module.financial.bo.BudgetAdjustmentSourceAccountingLine;
 import org.kuali.module.financial.bo.BudgetAdjustmentTargetAccountingLine;
 import org.kuali.module.financial.rules.BudgetAdjustmentRuleConstants;
 
 /**
- * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
+ * This is the business object that represents the BudgetAdjustment document in Kuali.
+ * 
+ * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class BudgetAdjustmentDocument extends TransactionalDocumentBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetAdjustmentDocument.class);
@@ -49,8 +54,6 @@ public class BudgetAdjustmentDocument extends TransactionalDocumentBase {
 	 */
 	public BudgetAdjustmentDocument() {
         super();
-        sourceAccountingLines = new TypedArrayList(BudgetAdjustmentSourceAccountingLine.class);
-        targetAccountingLines = new TypedArrayList(BudgetAdjustmentTargetAccountingLine.class);
 	}
 
     /**
@@ -91,6 +94,62 @@ public class BudgetAdjustmentDocument extends TransactionalDocumentBase {
 
     public void setNextPositionTargetLineNumber(Integer nextPositionTargetLineNumber) {
         this.nextPositionTargetLineNumber = nextPositionTargetLineNumber;
+    }
+    
+    /**
+     * Returns the total current budget amount from the source lines.
+     */
+    public KualiDecimal getSourceCurrentBudgetTotal() {
+        KualiDecimal currentBudgetTotal = new KualiDecimal(0);
+        
+        for (Iterator iter = sourceAccountingLines.iterator(); iter.hasNext();) {
+            BudgetAdjustmentAccountingLine line = (BudgetAdjustmentAccountingLine) iter.next();
+            currentBudgetTotal = currentBudgetTotal.add(line.getCurrentBudgetAdjustmentAmount());
+        }
+        
+        return currentBudgetTotal;
+    }
+    
+    /**
+     * Returns the total current budget amount from the target lines.
+     */
+    public KualiDecimal getTargetCurrentBudgetTotal() {
+        KualiDecimal currentBudgetTotal = new KualiDecimal(0);
+        
+        for (Iterator iter = targetAccountingLines.iterator(); iter.hasNext();) {
+            BudgetAdjustmentAccountingLine line = (BudgetAdjustmentAccountingLine) iter.next();
+            currentBudgetTotal = currentBudgetTotal.add(line.getCurrentBudgetAdjustmentAmount());
+        }
+        
+        return currentBudgetTotal;
+    }
+    
+    /**
+     * Returns the total base budget amount from the source lines.
+     */
+    public KualiInteger getSourceBaseBudgetTotal() {
+        KualiInteger baseBudgetTotal = new KualiInteger(0);
+        
+        for (Iterator iter = sourceAccountingLines.iterator(); iter.hasNext();) {
+            BudgetAdjustmentAccountingLine line = (BudgetAdjustmentAccountingLine) iter.next();
+            baseBudgetTotal = baseBudgetTotal.add(line.getBaseBudgetAdjustmentAmount());
+        }
+        
+        return baseBudgetTotal;
+    }
+    
+    /**
+     * Returns the total base budget amount from the target lines.
+     */
+    public KualiInteger getTargetBaseBudgetTotal() {
+        KualiInteger baseBudgetTotal = new KualiInteger(0);
+        
+        for (Iterator iter = targetAccountingLines.iterator(); iter.hasNext();) {
+            BudgetAdjustmentAccountingLine line = (BudgetAdjustmentAccountingLine) iter.next();
+            baseBudgetTotal = baseBudgetTotal.add(line.getBaseBudgetAdjustmentAmount());
+        }
+        
+        return baseBudgetTotal;
     }
 
     /**

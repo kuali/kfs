@@ -55,7 +55,7 @@
 			</attribute>
 
             <attribute name="financialDocumentMonth1LineAmount" forceUppercase="true">
-                <label>Month 1 Line Amount</label>
+                <label>Month 01 Line Amount</label>
                 <shortLabel>Month 1 Amt</shortLabel>
 
                 <maxLength>19</maxLength>
@@ -70,7 +70,7 @@
             </attribute>
 
             <attribute name="financialDocumentMonth2LineAmount" forceUppercase="true">
-                <label>Month 2 Line Amount</label>
+                <label>Month 02 Line Amount</label>
                 <shortLabel>Month 2 Amt</shortLabel>
 
                 <maxLength>19</maxLength>
@@ -85,7 +85,7 @@
             </attribute>
 
             <attribute name="financialDocumentMonth3LineAmount" forceUppercase="true">
-                <label>Month 3 Line Amount</label>
+                <label>Month 03 Line Amount</label>
                 <shortLabel>Month 3 Amt</shortLabel>
 
                 <maxLength>19</maxLength>
@@ -100,7 +100,7 @@
             </attribute>
 
             <attribute name="financialDocumentMonth4LineAmount" forceUppercase="true">
-                <label>Month 4 Line Amount</label>
+                <label>Month 04 Line Amount</label>
                 <shortLabel>Month 4 Amt</shortLabel>
 
                 <maxLength>19</maxLength>
@@ -115,7 +115,7 @@
             </attribute>
 
             <attribute name="financialDocumentMonth5LineAmount" forceUppercase="true">
-                <label>Month 5 Line Amount</label>
+                <label>Month 05 Line Amount</label>
                 <shortLabel>Month 5 Amt</shortLabel>
 
                 <maxLength>19</maxLength>
@@ -130,7 +130,7 @@
             </attribute>
 
             <attribute name="financialDocumentMonth6LineAmount" forceUppercase="true">
-                <label>Month 6 Line Amount</label>
+                <label>Month 06 Line Amount</label>
                 <shortLabel>Month 6 Amt</shortLabel>
 
                 <maxLength>19</maxLength>
@@ -145,7 +145,7 @@
             </attribute>
 
             <attribute name="financialDocumentMonth7LineAmount" forceUppercase="true">
-                <label>Month 7 Line Amount</label>
+                <label>Month 07 Line Amount</label>
                 <shortLabel>Month 7 Amt</shortLabel>
 
                 <maxLength>19</maxLength>
@@ -160,7 +160,7 @@
             </attribute>
 
             <attribute name="financialDocumentMonth8LineAmount" forceUppercase="true">
-                <label>Month 8 Line Amount</label>
+                <label>Month 08 Line Amount</label>
                 <shortLabel>Month 8 Amt</shortLabel>
 
                 <maxLength>19</maxLength>
@@ -175,7 +175,7 @@
             </attribute>
 
             <attribute name="financialDocumentMonth9LineAmount" forceUppercase="true">
-                <label>Month 9 Line Amount</label>
+                <label>Month 09 Line Amount</label>
                 <shortLabel>Month 9 Amt</shortLabel>
 
                 <maxLength>19</maxLength>

@@ -243,9 +243,14 @@
             <td class="total-line" style="border-left: 0px;"><strong>Credit Total: $${KualiForm.currencyFormattedCreditTotal}</strong></td>
         </c:when>
         <c:when test="${currentBaseAmount}" >
-            <%-- from BudgetAdjustmentForm --%>
-            <td class="total-line" style="border-left: 0px;"><strong>Current Total: <!-- todo --></strong></td>
-            <td class="total-line" style="border-left: 0px;"><strong>Base Total: <!-- todo --></strong></td>
+            <c:if test="${isSource}">
+              <td class="total-line" style="border-left: 0px;"><strong>Current Total: $${KualiForm.document.sourceCurrentBudgetTotal}</strong></td>
+              <td class="total-line" style="border-left: 0px;"><strong>Base Total: $${KualiForm.document.sourceBaseBudgetTotal}</strong></td>
+            </c:if>
+            <c:if test="${!isSource}">
+              <td class="total-line" style="border-left: 0px;"><strong>Current Total: $${KualiForm.document.targetCurrentBudgetTotal}</strong></td>
+              <td class="total-line" style="border-left: 0px;"><strong>Base Total: $${KualiForm.document.targetBaseBudgetTotal}</strong></td>
+            </c:if>
         </c:when>
         <c:otherwise>
             <c:choose>

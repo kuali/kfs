@@ -32,7 +32,21 @@ public class GenericOrganizationReversionCategory implements OrganizationReversi
 
     private KualiConfigurationService kualiConfigurationService;
 
-    public boolean containsObjectCode(String categoryCode,ObjectCode oc) {
+    private String categoryCode;
+    private String categoryName;
+
+    public GenericOrganizationReversionCategory() {
+    }
+
+    public void setCategoryCode(String code) {
+        categoryCode = code;
+    }
+
+    public void setCategoryName(String name) {
+        categoryName = name;
+    }
+
+    public boolean containsObjectCode(ObjectCode oc) {
         LOG.debug("containsObjectCode() started");
 
         String cons = oc.getFinancialObjectLevel().getFinancialConsolidationObjectCode();
@@ -48,8 +62,12 @@ public class GenericOrganizationReversionCategory implements OrganizationReversi
         return consolidationRules.succeedsRule(cons) && levelRules.succeedsRule(level) && objectTypeRules.succeedsRule(objTyp) && objectSubTypeRules.succeedsRule(objSubTyp);
     }
 
-    public String getName(String categoryCode) {
-        return kualiConfigurationService.getApplicationParameterValue("OrgReversion", categoryCode + "_Name");
+    public String getName() {
+        return categoryName;
+    }
+
+    public String getCode() {
+        return categoryCode;
     }
 
     public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {

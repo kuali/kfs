@@ -25,6 +25,26 @@ package org.kuali.module.gl.service;
 import org.kuali.module.chart.bo.ObjectCode;
 
 public interface OrganizationReversionCategoryLogic {
-    public boolean containsObjectCode(String categoryCode,ObjectCode oc);
-    public String getName(String categoryCode);
+    /**
+     * Determine if this object code is contained in
+     * this category
+     * 
+     * @param oc Object Code
+     * @return true if object code is in this category, false if not
+     */
+    public boolean containsObjectCode(ObjectCode oc);
+
+    /**
+     * Name of this code
+     * 
+     * @return code
+     */
+    public String getCode();
+
+    /**
+     * Name of this category
+     * 
+     * @return name
+     */
+    public String getName();
 }

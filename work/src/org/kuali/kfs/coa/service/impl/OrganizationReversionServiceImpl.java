@@ -33,6 +33,7 @@ import org.kuali.module.chart.bo.OrganizationReversionCategory;
 import org.kuali.module.chart.dao.OrganizationReversionDao;
 import org.kuali.module.chart.service.OrganizationReversionService;
 import org.kuali.module.gl.service.OrganizationReversionCategoryLogic;
+import org.kuali.module.gl.service.impl.orgreversion.GenericOrganizationReversionCategory;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
 
@@ -72,7 +73,11 @@ public class OrganizationReversionServiceImpl implements OrganizationReversionSe
                 categories.put(categoryCode,(OrganizationReversionCategoryLogic)beanFactory.getBean("gl" + categoryCode + "OrganizationReversionCategory"));
             } else {
                 // We'll get the generic implementation
-                categories.put(categoryCode, (OrganizationReversionCategoryLogic)beanFactory.getBean("glGenericOrganizationReversionCategory"));
+                GenericOrganizationReversionCategory cat = (GenericOrganizationReversionCategory)beanFactory.getBean("glGenericOrganizationReversionCategory");
+                cat.setCategoryCode(categoryCode);
+                cat.setCategoryName(orc.getOrganizationReversionCategoryName());
+
+                categories.put(categoryCode, (OrganizationReversionCategoryLogic)cat);
             }
         }
         return categories;

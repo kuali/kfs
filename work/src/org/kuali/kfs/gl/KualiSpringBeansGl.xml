@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
-	<bean id="glGenericOrganizationReversionCategory" class="org.kuali.module.gl.service.impl.orgreversion.GenericOrganizationReversionCategory">
+	<bean id="glGenericOrganizationReversionCategory" class="org.kuali.module.gl.service.impl.orgreversion.GenericOrganizationReversionCategory" singleton="false">
 		<property name="kualiConfigurationService"><ref bean="kualiConfigurationService" /></property>
 	</bean>
 

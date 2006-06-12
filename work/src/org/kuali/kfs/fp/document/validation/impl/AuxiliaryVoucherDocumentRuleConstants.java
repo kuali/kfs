@@ -41,4 +41,10 @@ public interface AuxiliaryVoucherDocumentRuleConstants
     public static final String RESTRICTED_EXPENSE_OBJECT_TYPE_CODES = "RestrictedExpenseObjectTypeCodes";
     public static final String RESTRICTED_INCOME_OBJECT_TYPE_CODES = "RestrictedIncomeObjectTypeCodes";
     public static final String RESTRICTED_PERIOD_CODES = "RestrictedPeriodCodes";
+
+
+	// Application type constants
+    public static final String AUX_VOUCHER_ADJUSTMENT_DOC_TYPE = "AVAD";
+    public static final String AUX_VOUCHER_RECODE_DOC_TYPE = "AVRC";
+    public static final String AUX_VOUCHER_ACCRUAL_DOC_TYPE = "AVAE";
 }

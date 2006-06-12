@@ -51,6 +51,9 @@ import static org.kuali.module.financial.rules.AuxiliaryVoucherDocumentRuleConst
 import static org.kuali.module.financial.rules.AuxiliaryVoucherDocumentRuleConstants.RESTRICTED_INCOME_OBJECT_TYPE_CODES;
 import static org.kuali.module.financial.rules.AuxiliaryVoucherDocumentRuleConstants.RESTRICTED_OBJECT_SUB_TYPE_CODES;
 import static org.kuali.module.financial.rules.AuxiliaryVoucherDocumentRuleConstants.RESTRICTED_PERIOD_CODES;
+import static org.kuali.module.financial.rules.AuxiliaryVoucherDocumentRuleConstants.AUX_VOUCHER_ACCRUAL_DOC_TYPE;
+import static org.kuali.module.financial.rules.AuxiliaryVoucherDocumentRuleConstants.AUX_VOUCHER_ADJUSTMENT_DOC_TYPE;
+import static org.kuali.module.financial.rules.AuxiliaryVoucherDocumentRuleConstants.AUX_VOUCHER_RECODE_DOC_TYPE;
 import static org.kuali.module.financial.rules.TransactionalDocumentRuleBaseConstants.OBJECT_TYPE_CODE.EXPENSE_NOT_EXPENDITURE;
 import static org.kuali.module.financial.rules.TransactionalDocumentRuleBaseConstants.OBJECT_TYPE_CODE.INCOME_NOT_CASH;
 
@@ -76,16 +79,14 @@ import org.kuali.module.chart.service.AccountingPeriodService;
 import org.kuali.module.financial.document.AuxiliaryVoucherDocument;
 import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 
+import static org.kuali.Constants.ZERO;
+
 /**
  * Business rule(s) applicable to <code>{@link AuxiliaryVoucherDocument}</code> instances
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class AuxiliaryVoucherDocumentRule extends TransactionalDocumentRuleBase {
     //TODO refactor and move up to parent class
-    private static final KualiDecimal ZERO = new KualiDecimal(0);
-    private static final String AUX_VOUCHER_ADJUSTMENT_DOC_TYPE = "AVAD";
-    private static final String AUX_VOUCHER_RECODE_DOC_TYPE = "AVRC";
-    private static final String AUX_VOUCHER_ACCRUAL_DOC_TYPE = "AVAE";
         
     /**
      * Convenience method for accessing the most-likely requested
@@ -398,16 +399,7 @@ public class AuxiliaryVoucherDocumentRule extends TransactionalDocumentRuleBase 
 	 */
 	private void buildAccountingLineObjectType(AccountingLine line) {
 		String objectTypeCode = line.getObjectCode().getFinancialObjectTypeCode();
-
-		if (succeedsRule(RESTRICTED_EXPENSE_OBJECT_TYPE_CODES, objectTypeCode)) {
-			line.setObjectTypeCode(EXPENSE_NOT_EXPENDITURE);
-		}
-		else if (succeedsRule(RESTRICTED_INCOME_OBJECT_TYPE_CODES, objectTypeCode)) {
-			line.setObjectTypeCode(INCOME_NOT_CASH);
-		}
-		else {
-			line.setObjectTypeCode(objectTypeCode);
-		}
+		line.setObjectTypeCode(objectTypeCode);
 		line.refresh();
 	}
     
@@ -605,10 +597,6 @@ public class AuxiliaryVoucherDocumentRule extends TransactionalDocumentRuleBase 
     public boolean isObjectSubTypeAllowed(AccountingLine accountingLine) {
         boolean valid = true;
 
-        // This deviates from the normal style of using an 'if' statement
-        // because the super class method always returns true. Using an 'if'
-        // statement then causes problems with coverage because valid
-        // is never false.
         ObjectCode objectCode = accountingLine.getObjectCode();
 
         valid &= succeedsRule(RESTRICTED_OBJECT_SUB_TYPE_CODES,

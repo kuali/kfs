@@ -27,10 +27,6 @@ import java.util.List;
 
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
-import org.kuali.module.kra.bo.BudgetPeriod;
-import org.kuali.module.kra.bo.BudgetPeriodTest;
-import org.kuali.module.kra.bo.BudgetPeriodThirdPartyCostShare;
-import org.kuali.module.kra.bo.BudgetPeriodUniversityCostShare;
 import org.kuali.module.kra.bo.BudgetThirdPartyCostShare;
 import org.kuali.module.kra.bo.BudgetUniversityCostShare;
 import org.kuali.module.kra.bo.BudgetUser;
@@ -246,55 +242,5 @@ public class BudgetCostShareServiceTest extends KualiTestBaseWithSession {
         assertTrue("There should have been no change to chart/org since people added were null org empty string.", universityCostSharePersonnel.size() == 2);
         assertTrue("Original person's chart/org should still be there.", ObjectUtils.collectionContainsObjectWithIdentitcalKey(universityCostSharePersonnel, universityCostSharePerson1));
         assertTrue("Second original person's chart/org should have been added.", ObjectUtils.collectionContainsObjectWithIdentitcalKey(universityCostSharePersonnel, universityCostSharePerson2));
-    }
-    
-    public void testRefreshBudgetPeriodUniversityCostShare() {
-        List<BudgetPeriod> budgetPeriods = BudgetPeriodTest.createBudgetPeriods(2);
-        List<BudgetUniversityCostShare> budgetUniversityCostShareItems = new ArrayList();
-        
-        BudgetUniversityCostShare budgetUniversityCostShare1 = new BudgetUniversityCostShare();
-        budgetUniversityCostShare1.setDocumentHeaderId("160642");
-        budgetUniversityCostShare1.setBudgetUniversityCostShareSequenceNumber(new Integer(69));
-        budgetUniversityCostShare1.setChartOfAccountsCode("BL");
-        budgetUniversityCostShare1.setOrganizationCode("PHYS");
-        budgetUniversityCostShareItems.add(budgetUniversityCostShare1);
-        
-        budgetCostShareService.refreshBudgetPeriodUniversityCostShare(budgetUniversityCostShareItems, budgetPeriods);
-        assertTrue("budgetPeriods should not be changed.", budgetPeriods.size() == 2);
-        
-        List<BudgetPeriodUniversityCostShare> budgetPeriodUniversityCostShareItems = budgetUniversityCostShareItems.get(0).getBudgetPeriodUniversityCostShare();
-        int i = 0;
-        for(BudgetPeriodUniversityCostShare budgetPeriodUniversityCostShare : budgetPeriodUniversityCostShareItems) {
-            assertEquals("documentHeaderId should have been set", budgetPeriodUniversityCostShare.getDocumentHeaderId(), "160642");
-            assertEquals("budgetUniversityCostShareSequenceNumber should have been set", budgetPeriodUniversityCostShare.getBudgetUniversityCostShareSequenceNumber(), new Integer(69));
-            assertEquals("chartOfAccountsCode should have been set", budgetPeriodUniversityCostShare.getChartOfAccountsCode(), "BL");
-            assertEquals("organizationCode should have been set", budgetPeriodUniversityCostShare.getOrganizationCode(), "PHYS");
-            
-            assertEquals("budgetPeriodSequenceNumber should have been set", budgetPeriodUniversityCostShare.getBudgetPeriodSequenceNumber(), new Integer(i));
-            i++;
-        }
-    }
-
-    public void testRefreshBudgetPeriodThirdPartyCostShare() {
-        List<BudgetPeriod> budgetPeriods = BudgetPeriodTest.createBudgetPeriods(2);
-        List<BudgetThirdPartyCostShare> budgetThirdPartyCostShareItems = new ArrayList();
-        
-        BudgetThirdPartyCostShare budgetThirdPartyCostShare1 = new BudgetThirdPartyCostShare();
-        budgetThirdPartyCostShare1.setDocumentHeaderId("160642");
-        budgetThirdPartyCostShare1.setBudgetThirdPartyCostShareSequenceNumber(new Integer(69));
-        budgetThirdPartyCostShareItems.add(budgetThirdPartyCostShare1);
-        
-        budgetCostShareService.refreshBudgetPeriodThirdPartyCostShare(budgetThirdPartyCostShareItems, budgetPeriods);
-        assertTrue("budgetPeriods should not be changed.", budgetPeriods.size() == 2);
-        
-        List<BudgetPeriodThirdPartyCostShare> budgetPeriodThirdPartyCostShareItems = budgetThirdPartyCostShareItems.get(0).getBudgetPeriodThirdPartyCostShare();
-        int i = 0;
-        for(BudgetPeriodThirdPartyCostShare budgetPeriodThirdPartyCostShare : budgetPeriodThirdPartyCostShareItems) {
-            assertEquals("documentHeaderId should have been set", budgetPeriodThirdPartyCostShare.getDocumentHeaderId(), "160642");
-            assertEquals("budgetThirdPartyCostShareSequenceNumber should have been set", budgetPeriodThirdPartyCostShare.getBudgetThirdPartyCostShareSequenceNumber(), new Integer(69));
-            
-            assertEquals("budgetPeriodSequenceNumber should have been set", budgetPeriodThirdPartyCostShare.getBudgetPeriodSequenceNumber(), new Integer(i));
-            i++;
-        }
     }
 }

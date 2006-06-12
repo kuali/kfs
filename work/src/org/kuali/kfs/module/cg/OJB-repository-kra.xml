@@ -250,7 +250,6 @@
   <field-descriptor name="universityCostShareNextSequenceNumber" column="UNIV_CST_SHR_NXT_SEQ_NBR" jdbc-type="INTEGER" />
   <field-descriptor name="thirdPartyCostShareNextSequenceNumber" column="THRD_PRTY_CST_SHR_NXT_SEQ_NBR" jdbc-type="INTEGER" />
 
-<!-- commented out until documents not descending from BusinessObject and thus not inheriting method to set obj_id is resolved	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" /> -->
 	<field-descriptor name="versionNumber" locking="true" column="VER_NBR" jdbc-type="BIGINT" />
 
   <reference-descriptor name="budget" class-ref="org.kuali.module.kra.bo.Budget"  auto-retrieve="true" auto-update="object" auto-delete="object">
@@ -362,8 +361,8 @@
 <class-descriptor class="org.kuali.module.kra.bo.BudgetUniversityCostShare" table="ER_BDGT_UNIV_CST_SHR_T">
   <field-descriptor name="documentHeaderId" column="ER_REF_TRACK_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
   <field-descriptor name="budgetUniversityCostShareSequenceNumber" column="BDGT_UNIV_CST_SHR_SEQ_NBR" jdbc-type="INTEGER" primarykey="true" index="true"/>
-  <field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-  <field-descriptor name="organizationCode" column="ORG_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+  <field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR"/>
+  <field-descriptor name="organizationCode" column="ORG_CD" jdbc-type="VARCHAR"/>
   <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
   <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
   <field-descriptor name="budgetUniversityCostShareDescription" column="BDGT_UNIV_CST_SHR_DESC" jdbc-type="VARCHAR"/>
@@ -372,8 +371,6 @@
       <orderby name="budgetPeriodSequenceNumber" sort="ASC"/>
       <inverse-foreignkey field-ref="documentHeaderId"/>
       <inverse-foreignkey field-ref="budgetUniversityCostShareSequenceNumber"/>
-      <inverse-foreignkey field-ref="chartOfAccountsCode"/>
-      <inverse-foreignkey field-ref="organizationCode"/>
   </collection-descriptor>
 </class-descriptor>
 
@@ -381,41 +378,20 @@
   <field-descriptor name="documentHeaderId" column="ER_REF_TRACK_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
   <field-descriptor name="budgetThirdPartyCostShareSequenceNumber" column="BDGT_3RD_PRTY_CST_SHR_SEQ_NBR" jdbc-type="INTEGER" primarykey="true" index="true"/>
   <field-descriptor name="budgetPeriodSequenceNumber" column="BDGT_PRD_SEQ_NBR" jdbc-type="INTEGER" primarykey="true" index="true"/>  
+  <field-descriptor name="budgetThirdPartyCostShareAmount" column="BDGT_3RD_PRTY_CST_SHR_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion"/>
   <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
   <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-  <field-descriptor name="budgetThirdPartyCostShareAmount" column="BDGT_3RD_PRTY_CST_SHR_AMT" jdbc-type="INTEGER"/>
-  <reference-descriptor name="budgetThirdPartyCostShareSequence" class-ref="org.kuali.module.kra.bo.BudgetThirdPartyCostShare" auto-retrieve="true" auto-update="none" auto-delete="none">
-    <foreignkey field-ref="documentHeaderId" />
-    <foreignkey field-ref="budgetThirdPartyCostShareSequenceNumber" />
-  </reference-descriptor>
-  <reference-descriptor name="budgetPeriodSequence" class-ref="org.kuali.module.kra.bo.BudgetPeriod" auto-retrieve="true" auto-update="none" auto-delete="none">
-    <foreignkey field-ref="documentHeaderId" />
-    <foreignkey field-ref="budgetPeriodSequenceNumber" />
-  </reference-descriptor>  
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.kra.bo.BudgetPeriodUniversityCostShare" table="ER_BDGT_PRD_UNIV_CST_SHR_T">
   <field-descriptor name="documentHeaderId" column="ER_REF_TRACK_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
   <field-descriptor name="budgetUniversityCostShareSequenceNumber" column="BDGT_UNIV_CST_SHR_SEQ_NBR" jdbc-type="INTEGER" primarykey="true" index="true"/>
-  <field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-  <field-descriptor name="organizationCode" column="ORG_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
   <field-descriptor name="budgetPeriodSequenceNumber" column="BDGT_PRD_SEQ_NBR" jdbc-type="INTEGER" primarykey="true" index="true"/>
+  <field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR"/>
+  <field-descriptor name="organizationCode" column="ORG_CD" jdbc-type="VARCHAR"/>
+  <field-descriptor name="budgetUniversityCostShareAmount" column="BDGT_UNIV_CST_SHR_AMT" jdbc-type="INTEGER"/>
   <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
   <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-  <field-descriptor name="budgetUniversityCostShareAmount" column="BDGT_UNIV_CST_SHR_AMT" jdbc-type="INTEGER"/>
-  <reference-descriptor name="budgetUniversityCostShareSequence" class-ref="org.kuali.module.kra.bo.BudgetUniversityCostShare" auto-retrieve="true" auto-update="none" auto-delete="none">
-    <foreignkey field-ref="documentHeaderId" />
-    <foreignkey field-ref="budgetUniversityCostShareSequenceNumber" />
-    <foreignkey field-ref="chartOfAccountsCode" />
-    <foreignkey field-ref="organizationCode" />
-  </reference-descriptor>
-  <reference-descriptor name="budgetPeriodSequence" class-ref="org.kuali.module.kra.bo.BudgetPeriod" auto-retrieve="true" auto-update="none" auto-delete="none">
-    <foreignkey field-ref="documentHeaderId" />
-    <foreignkey field-ref="budgetPeriodSequenceNumber" />
-  </reference-descriptor>
-  <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
-    <foreignkey field-ref="chartOfAccountsCode" />
-  </reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.kra.bo.UniversityCostSharePersonnel" table="ER_UNIV_CST_SHR_PSNL_T">

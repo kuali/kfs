@@ -27,11 +27,13 @@ package org.kuali.module.financial.document;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.Constants.DepositConstants;
 import org.kuali.core.document.FinancialDocumentBase;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.CashDrawer;
@@ -78,6 +80,7 @@ public class CashManagementDocument extends FinancialDocumentBase {
         this.referenceFinancialDocumentNumber = referenceFinancialDocumentNumber;
     }
 
+
     /**
      * @return current value of workgroupName.
      */
@@ -98,7 +101,7 @@ public class CashManagementDocument extends FinancialDocumentBase {
      * Derives and returns the cash drawer status for the document's workgroup
      */
     public String getCashDrawerStatus() {
-        CashDrawer drawer = SpringServiceLocator.getCashDrawerService().getByWorkgroupName(getWorkgroupName());
+        CashDrawer drawer = SpringServiceLocator.getCashDrawerService().getByWorkgroupName(getWorkgroupName(), true);
         String statusCode = drawer.getStatusCode();
 
         return statusCode;
@@ -109,6 +112,7 @@ public class CashManagementDocument extends FinancialDocumentBase {
      */
     public void setCashDrawerStatus(String cashDrawerStatus) {
         // ignored, because that value is dynamically retrieved from the service
+        // required, because POJO pitches a fit if this method doesn't exist
     }
 
     /* Deposit-list maintenance */
@@ -141,6 +145,52 @@ public class CashManagementDocument extends FinancialDocumentBase {
     }
 
     /**
+     * Removes and returns the Deposit at the given index.
+     * 
+     * @param index
+     * @return Deposit at the given index
+     */
+    public Deposit removeDeposit(int index) {
+        extendDeposits(index + 1);
+
+        return (Deposit) deposits.remove(index);
+    }
+
+
+    /**
+     * @return true if one of the Deposits contained in this document has a type of "final"
+     */
+    public boolean hasFinalDeposit() {
+        boolean hasFinal = false;
+
+        for (Iterator i = deposits.iterator(); !hasFinal && i.hasNext();) {
+            Deposit d = (Deposit) i.next();
+
+            hasFinal = StringUtils.equals(DepositConstants.DEPOSIT_TYPE_FINAL, d.getDepositTypeCode());
+        }
+
+        return hasFinal;
+    }
+
+    /**
+     * @return lowest unused deposit-line-number, to simplify adding and canceling deposits out-of-order
+     */
+    public Integer getNextDepositLineNumber() {
+        int maxLineNumber = -1;
+
+        for (Iterator i = deposits.iterator(); i.hasNext();) {
+            Deposit d = (Deposit) i.next();
+
+            Integer depositLineNumber = d.getFinancialDocumentDepositLineNumber();
+            if ((depositLineNumber != null) && (depositLineNumber.intValue() > maxLineNumber)) {
+                maxLineNumber = depositLineNumber.intValue();
+            }
+        }
+
+        return new Integer(maxLineNumber + 1);
+    }
+
+    /**
      * Adds default AccountingLineDecorators to sourceAccountingLineDecorators until it contains at least minSize elements
      * 
      * @param minSize
@@ -164,15 +214,13 @@ public class CashManagementDocument extends FinancialDocumentBase {
     }
 
 
-    private static final Set FAILURE_CODES;
+    private static final Set CANCELLATION_CODES;
     static {
         String[] FAILURE_CODE_ARRAY = { EdenConstants.ROUTE_HEADER_CANCEL_DISAPPROVE_CD, EdenConstants.ROUTE_HEADER_DISAPPROVED_CD,
-                EdenConstants.ROUTE_HEADER_CANCEL_CD,
-        // EdenConstants.ROUTE_HEADER_EXCEPTION_CD
-        };
-        FAILURE_CODES = new HashSet();
+                EdenConstants.ROUTE_HEADER_CANCEL_CD };
+        CANCELLATION_CODES = new HashSet();
         for (int i = 0; i < FAILURE_CODE_ARRAY.length; ++i) {
-            FAILURE_CODES.add(FAILURE_CODE_ARRAY[i]);
+            CANCELLATION_CODES.add(FAILURE_CODE_ARRAY[i]);
         }
     }
 
@@ -180,12 +228,12 @@ public class CashManagementDocument extends FinancialDocumentBase {
      * @see org.kuali.core.document.DocumentBase#handleRouteStatusChange(java.lang.String)
      */
     public void handleRouteStatusChange(String newRouteStatus) {
-        // all approvals have been processed, finalize  everything
+        // all approvals have been processed, finalize everything
         if (StringUtils.equals(newRouteStatus, EdenConstants.ROUTE_HEADER_PROCESSED_CD)) {
             SpringServiceLocator.getCashManagementService().finalizeCashManagementDocument(this);
         }
         // document has been canceled or disapproved,
-        else if (FAILURE_CODES.contains(newRouteStatus)) {
+        else if (CANCELLATION_CODES.contains(newRouteStatus)) {
             SpringServiceLocator.getCashManagementService().cancelCashManagementDocument(this);
         }
     }

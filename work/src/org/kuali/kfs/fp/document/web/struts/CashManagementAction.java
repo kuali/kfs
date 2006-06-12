@@ -22,15 +22,31 @@
  */
 package org.kuali.module.financial.web.struts.action;
 
+import java.util.Map;
+import java.util.Properties;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.Constants;
+import org.kuali.Constants.DepositConstants;
+import org.kuali.KeyConstants.CashManagement;
+import org.kuali.core.authorization.AuthorizationConstants;
+import org.kuali.core.authorization.DocumentAuthorizer;
+import org.kuali.core.bo.user.KualiUser;
+import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.core.util.UrlFactory;
 import org.kuali.core.web.struts.action.KualiDocumentActionBase;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
+import org.kuali.module.financial.bo.Deposit;
+import org.kuali.module.financial.document.CashManagementDocument;
+import org.kuali.module.financial.document.CashManagementDocumentAuthorizer;
 import org.kuali.module.financial.web.struts.form.CashManagementForm;
 
 import edu.iu.uis.eden.exception.WorkflowException;
@@ -42,29 +58,168 @@ import edu.iu.uis.eden.exception.WorkflowException;
  */
 public class CashManagementAction extends KualiDocumentActionBase {
     private static Logger LOG = Logger.getLogger(CashManagementAction.class);
-    
+
+
+    /**
+     * Default constructor
+     */
+    public CashManagementAction() {
+    }
+
+
     /**
      * Overrides to call super, but also make sure the helpers are populated.
      * 
-     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#execute(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
-    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
         ActionForward dest = super.execute(mapping, form, request, response);
-        
-        CashManagementForm cmf = (CashManagementForm)form;
-        cmf.populateDepositHelpers();
+
+        CashManagementForm cmf = (CashManagementForm) form;
         cmf.populateDeposits();
-        
+        cmf.populateDepositHelpers();
+
         return dest;
     }
 
+
     /**
-     * Overrides the default document-creation code, since CMDocs will be created elsewhere, and only loaded by the action.
+     * Overrides the default document-creation code to auto-save new documents upon creation: since creating a CMDoc changes the
+     * CashDrawer's state as a side-effect, we need all CMDocs to be docsearchable so that someone can relocate and use or cancel
+     * whatever the current CMDoc is.
      * 
      * @param kualiDocumentFormBase
      * @throws WorkflowException
      */
     protected void createDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
-        throw new IllegalStateException("direct creation of CashManagementDocuments is not allowed");
+        KualiUser user = GlobalVariables.getUserSession().getKualiUser();
+        String workgroupName = SpringServiceLocator.getCashReceiptService().getCashReceiptVerificationUnitForUser(user);
+
+        String defaultDescription = SpringServiceLocator.getKualiConfigurationService().getPropertyString(
+                CashManagement.DEFAULT_DOCUMENT_DESCRIPTION);
+        defaultDescription = StringUtils.replace(defaultDescription, "{0}", workgroupName);
+        defaultDescription = StringUtils.substring(defaultDescription, 0, 39);
+
+        // create doc
+        CashManagementDocument cmDoc = SpringServiceLocator.getCashManagementService().createCashManagementDocument(workgroupName,
+                defaultDescription, null);
+
+        // update form
+        kualiDocumentFormBase.setDocument(cmDoc);
+        kualiDocumentFormBase.setDocTypeName(cmDoc.getDocumentHeader().getWorkflowDocument().getDocumentType());
+    }
+
+    private CashManagementDocumentAuthorizer getDocumentAuthorizer() {
+        String documentTypeName = SpringServiceLocator.getDataDictionaryService().getDocumentTypeNameByClass(
+                CashManagementDocument.class);
+        DocumentAuthorizer documentAuthorizer = SpringServiceLocator.getDocumentAuthorizationService().getDocumentAuthorizer(
+                documentTypeName);
+
+        return (CashManagementDocumentAuthorizer) documentAuthorizer;
+    }
+
+
+    /**
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return ActionForward
+     * @throws Exception
+     */
+    public ActionForward addInterimDeposit(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        CashManagementForm cmForm = (CashManagementForm) form;
+        CashManagementDocument cmDoc = cmForm.getCashManagementDocument();
+
+        checkDepositAuthorization(cmDoc, DepositConstants.DEPOSIT_TYPE_INTERIM);
+
+        String wizardUrl = buildDepositWizardUrl(cmDoc, DepositConstants.DEPOSIT_TYPE_INTERIM);
+        return new ActionForward(wizardUrl, true);
+    }
+
+    /**
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return ActionForward
+     * @throws Exception
+     */
+    public ActionForward addFinalDeposit(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        CashManagementForm cmForm = (CashManagementForm) form;
+        CashManagementDocument cmDoc = cmForm.getCashManagementDocument();
+
+        checkDepositAuthorization(cmDoc, DepositConstants.DEPOSIT_TYPE_FINAL);
+
+        String wizardUrl = buildDepositWizardUrl(cmDoc, DepositConstants.DEPOSIT_TYPE_FINAL);
+        return new ActionForward(wizardUrl, true);
+    }
+
+    /**
+     * Throws a DocumentAuthorizationException if the current user is not authorized to add a deposit of the given type to the given
+     * document.
+     * 
+     * @param cmDoc
+     * @param depositTypeCode
+     */
+    private void checkDepositAuthorization(CashManagementDocument cmDoc, String depositTypeCode) {
+        // verify user's ability to add an interim deposit
+        KualiUser user = GlobalVariables.getUserSession().getKualiUser();
+        Map editModes = getDocumentAuthorizer().getEditMode(cmDoc, user);
+        if (!editModes.containsKey(AuthorizationConstants.CashManagementEditMode.ALLOW_ADDITIONAL_DEPOSITS)) {
+            throw buildAuthorizationException("add a deposit", cmDoc);
+        }
+    }
+
+    /**
+     * @param cmDoc
+     * @param depositTypeCode
+     * @return URL for passing control to the DepositWizard
+     */
+    private String buildDepositWizardUrl(CashManagementDocument cmDoc, String depositTypeCode) {
+        Properties params = new Properties();
+        params.setProperty("methodToCall", "startWizard");
+        params.setProperty("cmDocId", cmDoc.getFinancialDocumentNumber());
+        params.setProperty("depositTypeCode", depositTypeCode);
+
+        String wizardActionUrl = UrlFactory.parameterizeUrl("depositWizard.do", params);
+        return wizardActionUrl;
+    }
+
+
+    /**
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return ActionForward
+     * @throws Exception
+     */
+    public ActionForward cancelDeposit(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        CashManagementForm cmForm = (CashManagementForm) form;
+        CashManagementDocument cmDoc = cmForm.getCashManagementDocument();
+
+        // TODO: check for authorization to cancel deposit
+
+        // cancel the deposit
+        int depositIndex = getSelectedLine(request);
+        Deposit deposit = cmDoc.removeDeposit(depositIndex);
+        SpringServiceLocator.getCashManagementService().cancelDeposit(deposit);
+
+        // update the form
+        cmForm.removeDepositHelper(depositIndex);
+
+        // display status message
+        GlobalVariables.getMessageList().add(CashManagement.STATUS_DEPOSIT_CANCELED);
+
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
 }

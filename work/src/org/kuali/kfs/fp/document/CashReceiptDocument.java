@@ -75,8 +75,8 @@ public class CashReceiptDocument extends TransactionalDocumentBase {
      */
     public CashReceiptDocument() {
         super();
-        
-        setCampusLocationCode( Constants.CashReceiptConstants.DEFAULT_CASH_RECEIPT_CAMPUS_LOCATION_CODE );
+
+        setCampusLocationCode(Constants.CashReceiptConstants.DEFAULT_CASH_RECEIPT_CAMPUS_LOCATION_CODE);
     }
 
     /**
@@ -177,6 +177,18 @@ public class CashReceiptDocument extends TransactionalDocumentBase {
     }
 
     /**
+     * Gets the number of checks, since Sun doesn't have a direct getter for collection size
+     */
+    public int getCheckCount() {
+        int count = 0;
+        if (checks != null) {
+            count = checks.size();
+        }
+        return count;
+    }
+
+
+    /**
      * Adds a new check to the list.
      * 
      * @param check
@@ -204,7 +216,7 @@ public class CashReceiptDocument extends TransactionalDocumentBase {
         }
         return (Check) checks.get(index);
     }
-    
+
     /**
      * Total for a Cash Receipt according to the spec should be the sum of the 
      * amounts on accounting lines belonging to object codes having the 'income' object type, 
@@ -215,16 +227,16 @@ public class CashReceiptDocument extends TransactionalDocumentBase {
      */
     public KualiDecimal getSourceTotal() {
         CashReceiptDocumentRule crDocRule = (CashReceiptDocumentRule) SpringServiceLocator.getKualiRuleService().
-            getBusinessRulesInstance(this, AccountingLineRule.class);
+                getBusinessRulesInstance(this, AccountingLineRule.class);
         KualiDecimal total = new KualiDecimal(0);
         AccountingLineBase al = null;
         Iterator iter = sourceAccountingLines.iterator();
         while (iter.hasNext()) {
             al = (AccountingLineBase) iter.next();
-            
+
             KualiDecimal amount = al.getAmount();
             if (amount != null) {
-                if(crDocRule.isDebit(al)) {
+                if (crDocRule.isDebit(al)) {
                     total = total.subtract(amount);
                 } else if(crDocRule.isCredit(al)) {
                     total = total.add(amount);
@@ -318,7 +330,7 @@ public class CashReceiptDocument extends TransactionalDocumentBase {
      * @param totalCheckAmount The totalCheckAmount to set.
      */
     public void setTotalCheckAmount(KualiDecimal totalCheckAmount) {
-        if(totalCheckAmount == null) {
+        if (totalCheckAmount == null) {
             this.totalCheckAmount = new KualiDecimal(0);
         } else {
             this.totalCheckAmount = totalCheckAmount;
@@ -416,6 +428,7 @@ public class CashReceiptDocument extends TransactionalDocumentBase {
                 || EdenConstants.ROUTE_HEADER_FINAL_CD.equals(newRouteStatus)) {
             this.getDocumentHeader().setFinancialDocumentStatusCode(
                     Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED);
+            //SpringServiceLocator.getDocumentService().updateDocument(this);
         }
     }
 

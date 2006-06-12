@@ -24,10 +24,9 @@ package org.kuali.module.financial.service;
 
 import java.util.List;
 
+import org.kuali.module.financial.bo.BankAccount;
 import org.kuali.module.financial.bo.Deposit;
 import org.kuali.module.financial.document.CashManagementDocument;
-import org.kuali.module.financial.document.CashReceiptDocument;
-
 
 /**
  * This interface defines methods that a CashManagementService implementation must provide.
@@ -36,52 +35,63 @@ import org.kuali.module.financial.document.CashReceiptDocument;
  */
 public interface CashManagementService {
     /**
-     * Creates a CashManagementDocument, creates a Deposit from the given cashReceipts, associates them, and returns the document.
+     * Creates and returns a CashManagementDocument, opening the CashDrawer associated with the given verification unit.
      * 
-     * @param documentDescription
-     * @param verifiedCashReceipts
-     * @param workgroupName
-     * @return new CashManagementDocument
+     * @param unitName
+     * @param docDescription
+     * @param annotation
+     * @return properly initialized CashManagementDocument
      */
-    public CashManagementDocument createCashManagementDocument(String documentDescription, List verifiedCashReceipts,
-            String workgroupName);
+    public CashManagementDocument createCashManagementDocument(String unitName, String docDescription, String annotation);
+
 
     /**
-     * Finalizes the given CashManagementDocument: updates all of the CashReceipts for all of its Deposits to "Approved" status,
-     * reopens the CashDrawer, and changes the CashManagementDocument's status to "Approved". Should be called because the
-     * document's workflow status changes to PROCESSED (i.e. should *not* invoke workflow directly).
-     * 
-     * @param cashManagementDoc
-     */
-    public void finalizeCashManagementDocument(CashManagementDocument cashManagementDoc);
-
-    /**
-     * Cancels the given CashManagementDocument: restores all of the CashhReceipts for all of its Deposits to "Verified" status, and
-     * reopens the CashDrawer. Should be called if the document's workflow status changes to CANCELLED or DISAPPROVED (i.e. should
-     * *not* invoke workflow directly).
+     * Uses the given information to lock the appropriate CashDrawer, create a Deposit of the given type, and assoicate it with the
+     * given CashManagementDocument and CashReceipts
      * 
      * @param cashManagementDoc
+     * @param lineNumber
+     * @param depositTicketNumber
+     * @param bankAccount
+     * @param selectedCashReceipts
      */
-    public void cancelCashManagementDocument(CashManagementDocument cashManagementDoc);
-
+    public void addInterimDeposit(CashManagementDocument cashManagementDoc, String depositTicketNumber, BankAccount bankAccount,
+            List selectedCashReceipts);
 
     /**
-     * Verifies that all of the given CashReceipts are of "verified" status, creates a Deposit containing them, and changes their
-     * status to "deposited".
+     * Cancels the given Deposit, updating the related CashManagementDocument and CashReceipts as needed
      * 
-     * @param verifiedCashReceipts
-     * @param workgroupName
-     * @return new Deposit
+     * @param deposit
      */
-    public Deposit createDeposit(CashManagementDocument cashManagementDoc, Integer lineNumber, List verifiedCashReceipts,
-            String workgroupName);
+    public void cancelDeposit(Deposit deposit);
+
+    /**
+     * Cancels the given CashManagementDocument, cancelling the Deposits it contains and closing the CashDrawer associated with the
+     * given verification unit. Called in response to a workflow CANCEL request, so this method doesn't invoke workflow itself.
+     * 
+     * @param cmDoc
+     * @param annotation
+     */
+    public void cancelCashManagementDocument(CashManagementDocument cmDoc);
 
 
     /**
-     * @param cashManagementDoc
-     * @return List of Deposits associated with the given CashManagementDocument
+     * Finalizes the given CashManagementDocument, updating the status of the CashReceipt documents in the Deposits it contains and
+     * closing the CashDrawer associated with the given verification unit. Called in response to a workflow document status change,
+     * so this method doesn't invoke workflow itself.
+     * 
+     * @param cmDoc
+     * @param annotation
      */
-    public List retrieveDeposits(CashManagementDocument cashManagementDoc);
+    public void finalizeCashManagementDocument(CashManagementDocument cmDoc);
+
+
+    /**
+     * @param documentId
+     * @return CashManagementDocument which contains the Deposit which contains the given CashReceipt, or null if the CashReceipt is
+     *         not contained in a Deposit
+     */
+    public CashManagementDocument getCashManagementDocumentForCashReceiptId(String documentId);
 
 
     /**
@@ -91,47 +101,4 @@ public interface CashManagementService {
      * @return List of CashReceipts
      */
     public List retrieveCashReceipts(Deposit deposit);
-
-
-    /**
-     * Deletes this Deposit, changing the status of all of its CashReceipts from "deposited" back to "verified".
-     * 
-     * @param deposit
-     */
-    public void cancelDeposit(Deposit deposit);
-
-
-    /**
-     * Iterates through the given list of CashReceipts, verifying that each one has been verified. If any CashReceipt hasn't been
-     * verified, this method will return false.
-     * 
-     * @param cashReceipts
-     */
-    public boolean validateVerifiedCashReceipts(List cashReceipts);
-
-
-    /**
-     * Returns the count of all verified CashReceipts associated with the given workgroup.
-     * 
-     * @return number of verified CashReceipts associated with the given workgroup
-     */
-    public int countVerifiedCashReceiptsByVerificationUnit(String verificationUnitWorkgroupName);
-
-
-    /**
-     * Returns a List of all verified CashReceipts associated with the given workgroup.
-     * 
-     * @return List of CashReceipts
-     */
-    public List retrieveVerifiedCashReceiptsByVerificationUnit(String verificationUnitWorkgroupName);
-
-
-    /**
-     * This method will retrieve the CashManagementDocument that houses the deposit that the passed in CashReceiptDocument is
-     * associated with.
-     * 
-     * @param cashReceiptDocument
-     * @return CashManagementDocument
-     */
-    public CashManagementDocument getCashManagementDocumentByCashReceiptDocument(CashReceiptDocument cashReceiptDocument);
 }

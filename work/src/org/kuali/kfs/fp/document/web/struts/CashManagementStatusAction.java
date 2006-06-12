@@ -22,6 +22,8 @@
  */
 package org.kuali.module.financial.web.struts.action;
 
+import java.util.Properties;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -34,8 +36,12 @@ import org.apache.struts.action.ActionMessage;
 import org.apache.struts.action.ActionMessages;
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
+import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.core.util.UrlFactory;
 import org.kuali.core.web.struts.action.KualiAction;
+import org.kuali.module.financial.document.CashManagementDocument;
 import org.kuali.module.financial.exceptions.CashDrawerStateException;
+import org.kuali.module.financial.web.struts.form.CashManagementStatusForm;
 
 
 /**
@@ -59,13 +65,21 @@ public class CashManagementStatusAction extends KualiAction {
      */
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-        ActionForward returnForward = mapping.findForward(Constants.MAPPING_BASIC);
-
-        String messageKey = null;
+        // populate with exception values, if any
+        CashManagementStatusForm cform = (CashManagementStatusForm) form;
         CashDrawerStateException e = (CashDrawerStateException) request.getAttribute(Globals.EXCEPTION_KEY);
+        if (e != null) {
+            cform.setMethodToCall("displayPage");
 
-        String[] msgParams = { e.getVerificationUnit(), e.getControllingDocumentId(), e.getCurrentDrawerStatus(),
-                e.getDesiredDrawerStatus(), };
+            cform.setVerificationUnit(e.getVerificationUnit());
+            cform.setControllingDocumentId(e.getControllingDocumentId());
+            cform.setCurrentDrawerStatus(e.getCurrentDrawerStatus());
+            cform.setDesiredDrawerStatus(e.getDesiredDrawerStatus());
+        }
+
+        // generate the status message
+        String[] msgParams = { cform.getVerificationUnit(), cform.getControllingDocumentId(), cform.getCurrentDrawerStatus(),
+                cform.getDesiredDrawerStatus() };
 
         ActionMessage message = new ActionMessage(KeyConstants.CashDrawer.MSG_CASH_DRAWER_ALREADY_OPEN, msgParams);
 
@@ -73,6 +87,63 @@ public class CashManagementStatusAction extends KualiAction {
         messages.add(ActionMessages.GLOBAL_MESSAGE, message);
         saveMessages(request, messages);
 
-        return returnForward;
+        return super.execute(mapping, form, request, response);
+    }
+
+    /**
+     * Displays the status page. When requests get redirected here, I need to reset the form's methodToCall to something nonblank or
+     * the superclass will try to invoke a method which (probably) doesn't exist in this class.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @throws Exception
+     */
+    public ActionForward displayPage(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+    /**
+     * Returns the user to the index page.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @throws Exception
+     */
+    public ActionForward returnToIndex(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        return mapping.findForward(Constants.MAPPING_CLOSE);
+    }
+
+
+    /**
+     * Sends the user to the existing CashManagementDocument.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @throws Exception
+     */
+    public ActionForward openExisting(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        CashManagementStatusForm cform = (CashManagementStatusForm) form;
+
+        String cmDocTypeName = SpringServiceLocator.getDocumentTypeService().getDocumentTypeNameByClass(
+                CashManagementDocument.class);
+
+        Properties params = new Properties();
+        params.setProperty("methodToCall", "docHandler");
+        params.setProperty("command", "displayDocSearchView");
+        params.setProperty("docId", cform.getControllingDocumentId());
+
+
+        String cmActionUrl = UrlFactory.buildDocumentActionUrl(cmDocTypeName, params);
+
+        return new ActionForward(cmActionUrl, true);
     }
 }

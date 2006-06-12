@@ -22,9 +22,14 @@
  */
 package org.kuali.module.financial.rules;
 
+import java.util.Arrays;
 import java.util.Iterator;
+import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.kuali.KeyConstants;
+import org.kuali.PropertyConstants;
+import org.kuali.Constants.CashReceiptConstants;
 import org.kuali.core.bo.user.KualiUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.DocumentRuleBase;
@@ -37,9 +42,6 @@ import org.kuali.module.financial.bo.Deposit;
 import org.kuali.module.financial.bo.DepositCashReceiptControl;
 import org.kuali.module.financial.document.CashManagementDocument;
 import org.kuali.module.financial.document.CashReceiptDocument;
-import org.kuali.Constants;
-import org.kuali.KeyConstants;
-import org.kuali.PropertyConstants;
 
 import edu.iu.uis.eden.EdenConstants;
 
@@ -67,7 +69,7 @@ public class CashManagementDocumentRule extends DocumentRuleBase {
         verifyUserIsDocumentInitiator(cmd);
 
         // verify the cash drawer for the verification unit is closed for post-initialized saves
-        verifyCashDrawerForVerificationUnitIsClosedForPostInitiationSaves(cmd);
+        verifyCashDrawerForVerificationUnitIsOpenForPostInitiationSaves(cmd);
 
         // verify deposits
         isValid &= validateDeposits(cmd);
@@ -86,7 +88,8 @@ public class CashManagementDocumentRule extends DocumentRuleBase {
         if (cmd.getDocumentHeader() != null && cmd.getDocumentHeader().getWorkflowDocument() != null) {
             String cmdInitiatorNetworkId = cmd.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId();
             if (!cmdInitiatorNetworkId.equals(currentUser.getPersonUserIdentifier())) {
-                throw new IllegalStateException("The current user (" + currentUser.getPersonUserIdentifier() + ") is not the individual (" + cmdInitiatorNetworkId + ") that initiated this document.");
+                throw new IllegalStateException("The current user (" + currentUser.getPersonUserIdentifier()
+                        + ") is not the individual (" + cmdInitiatorNetworkId + ") that initiated this document.");
             }
         }
     }
@@ -97,15 +100,18 @@ public class CashManagementDocumentRule extends DocumentRuleBase {
      * 
      * @param cmd
      */
-    private void verifyCashDrawerForVerificationUnitIsClosedForPostInitiationSaves(CashManagementDocument cmd) {
-        if (cmd.getDocumentHeader() != null && cmd.getDocumentHeader().getWorkflowDocument() != null && cmd.getDocumentHeader().getWorkflowDocument().getRouteHeader() != null) {
+    private void verifyCashDrawerForVerificationUnitIsOpenForPostInitiationSaves(CashManagementDocument cmd) {
+        if (cmd.getDocumentHeader() != null && cmd.getDocumentHeader().getWorkflowDocument() != null
+                && cmd.getDocumentHeader().getWorkflowDocument().getRouteHeader() != null) {
             String workflowRouteStatusCode = cmd.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus();
             if (EdenConstants.ROUTE_HEADER_SAVED_CD.equals(workflowRouteStatusCode)) {
                 // now verify that the associated cash drawer is closed
-                CashDrawer cd = SpringServiceLocator.getCashDrawerService().getByWorkgroupName(cmd.getWorkgroupName());
-                if (cd.isOpen()) {
-                    throw new IllegalStateException("The cash drawer for verification unit \"" + cd.getWorkgroupName()
-                            + "\" is open.  It should be closed when a cash management document for that verification unit is open and being saved.");
+                CashDrawer cd = SpringServiceLocator.getCashDrawerService().getByWorkgroupName(cmd.getWorkgroupName(), true);
+                if (!cd.isOpen()) {
+                    throw new IllegalStateException(
+                        "The cash drawer for verification unit \""
+                                + cd.getWorkgroupName()
+                                + "\" is closed.  It should be open when a cash management document for that verification unit is open and being saved.");
                 }
             }
         }
@@ -158,28 +164,36 @@ public class CashManagementDocumentRule extends DocumentRuleBase {
     }
 
 
+    private static final List INITIATED_STATES = Arrays
+            .asList(new String[] { CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED });
+    private static final List UNINITIATED_STATES = Arrays.asList(new String[] {
+            CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_INTERIM,
+            CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_DEPOSITED });
+
     /**
-     * Verifies that all CashReceipts associated with the given document are of the appropriate status for the given
+     * Verifies that all CashReceipts associated with the given document are of an appropriate status for the given
      * CashManagementDocument state
      * 
      * @param deposit
      * @param documentIsInitiated
      */
     private void verifyCashReceipts(Deposit deposit, boolean documentIsInitiated) {
-        String desiredCRState = null;
+        List desiredCRStates = null;
         if (documentIsInitiated) {
-            desiredCRState = Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED;
+            desiredCRStates = INITIATED_STATES;
         }
         else {
-            desiredCRState = Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_DEPOSITED;
+            desiredCRStates = UNINITIATED_STATES;
         }
 
-        for (Iterator depositCashReceiptControls = deposit.getDepositCashReceiptControl().iterator(); depositCashReceiptControls.hasNext();) {
+        for (Iterator depositCashReceiptControls = deposit.getDepositCashReceiptControl().iterator(); depositCashReceiptControls
+                .hasNext();) {
             DepositCashReceiptControl depositCashReceiptControl = (DepositCashReceiptControl) depositCashReceiptControls.next();
             CashReceiptDocument cashReceipt = depositCashReceiptControl.getCashReceiptHeader().getCashReceiptDocument();
-            if (!cashReceipt.getDocumentHeader().getFinancialDocumentStatusCode().equals(desiredCRState)) {
-                throw new IllegalStateException("Cash receipt document number " + cashReceipt.getFinancialDocumentNumber() + " is not in the appropriate state (" + desiredCRState
-                        + ") for the deposit/cash management document that it is associated to be submitted.");
+            String crState = cashReceipt.getDocumentHeader().getFinancialDocumentStatusCode();
+            if (!desiredCRStates.contains(crState)) {
+                throw new IllegalStateException("Cash receipt document number " + cashReceipt.getFinancialDocumentNumber()
+                        + " is not in an appropriate state for the associated CashManagementDocument to be submitted.");
             }
         }
     }
@@ -198,7 +212,8 @@ public class CashManagementDocumentRule extends DocumentRuleBase {
 
         BankAccount bankAccount = deposit.getBankAccount();
         if (ObjectUtils.isNull(bankAccount)) {
-            GlobalVariables.getErrorMap().put(PropertyConstants.DEPOSIT_BANK_ACCOUNT_NUMBER, KeyConstants.ERROR_EXISTENCE, "Bank Account");
+            GlobalVariables.getErrorMap().put(PropertyConstants.DEPOSIT_BANK_ACCOUNT_NUMBER, KeyConstants.ERROR_EXISTENCE,
+                    "Bank Account");
         }
 
         return GlobalVariables.getErrorMap().isEmpty();

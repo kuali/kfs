@@ -58,7 +58,7 @@ public class CashManagementForm extends KualiDocumentFormBase {
         setFormatterType("document.cashDrawerStatus", CashDrawerStatusCodeFormatter.class);
         setFormatterType("document.deposit.depositTypeCode", CashReceiptDepositTypeFormatter.class);
     }
-    
+
     /**
      * Overrides parent to call super and then make sure that the deposit helper list is populated.
      * 
@@ -66,7 +66,7 @@ public class CashManagementForm extends KualiDocumentFormBase {
      */
     public void populate(HttpServletRequest request) {
         super.populate(request);
-        
+
         populateDeposits();
         populateDepositHelpers();
     }
@@ -78,32 +78,32 @@ public class CashManagementForm extends KualiDocumentFormBase {
         return (CashManagementDocument) getDocument();
     }
 
-    
+
     /**
      * Completes population of each Deposit associated with this form's document
-     *
+     * 
      */
     public void populateDeposits() {
         List deposits = getCashManagementDocument().getDeposits();
         for (Iterator i = deposits.iterator(); i.hasNext();) {
             Deposit d = (Deposit) i.next();
-            
+
             d.refresh();
         }
     }
-    
+
 
     /**
      * Creates a DepositHelper foreach Deposit associated with this form's document
      */
     public void populateDepositHelpers() {
-        if(depositHelpers.isEmpty()) {
+        if (depositHelpers.isEmpty()) {
             depositHelpers.clear();
-    
+
             List deposits = getCashManagementDocument().getDeposits();
             for (Iterator i = deposits.iterator(); i.hasNext();) {
                 Deposit d = (Deposit) i.next();
-    
+
                 DepositHelper dh = new DepositHelper(d);
                 depositHelpers.add(dh);
             }
@@ -131,6 +131,16 @@ public class CashManagementForm extends KualiDocumentFormBase {
     }
 
     /**
+     * Removes and returns DepositHelper at the given index
+     * 
+     * @param i
+     * @return
+     */
+    public DepositHelper removeDepositHelper(int i) {
+        return (DepositHelper) depositHelpers.remove(i);
+    }
+
+    /**
      * Inner helper class.
      * 
      * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -138,7 +148,7 @@ public class CashManagementForm extends KualiDocumentFormBase {
     public static final class DepositHelper {
         private Integer depositLineNumber;
         private List cashReceipts;
-        
+
         /**
          * Constructs a DepositHelper - default constructor used by PojoProcessor.
          */
@@ -149,6 +159,7 @@ public class CashManagementForm extends KualiDocumentFormBase {
 
         /**
          * Constructs a CashManagementForm.java.
+         * 
          * @param deposit
          */
         public DepositHelper(Deposit deposit) {
@@ -163,24 +174,24 @@ public class CashManagementForm extends KualiDocumentFormBase {
         public List getCashReceipts() {
             return cashReceipts;
         }
-        
+
         /**
          * @param i
          * @return CashReceiptDocument
          */
         public CashReceiptDocument getCashReceipt(int i) {
-            CashReceiptDocument cd = (CashReceiptDocument)cashReceipts.get( i );
-            
+            CashReceiptDocument cd = (CashReceiptDocument) cashReceipts.get(i);
+
             return cd;
         }
-        
+
         /**
          * @return Integer
          */
         public Integer getDepositLineNumber() {
             return depositLineNumber;
         }
-        
+
         /**
          * @see java.lang.Object#toString()
          */

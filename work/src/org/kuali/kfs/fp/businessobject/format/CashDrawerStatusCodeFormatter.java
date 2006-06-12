@@ -35,6 +35,9 @@ public class CashDrawerStatusCodeFormatter extends Formatter {
     private final String OPEN_CD;
     private final String OPEN_MSG;
 
+    private final String LOCKED_CD;
+    private final String LOCKED_MSG;
+
     public CashDrawerStatusCodeFormatter() {
         CLOSED_CD = Constants.CashDrawerConstants.STATUS_CLOSED;
         CLOSED_MSG = SpringServiceLocator.getKualiConfigurationService().getPropertyString(
@@ -43,6 +46,10 @@ public class CashDrawerStatusCodeFormatter extends Formatter {
         OPEN_CD = Constants.CashDrawerConstants.STATUS_OPEN;
         OPEN_MSG = SpringServiceLocator.getKualiConfigurationService().getPropertyString(
                 KeyConstants.CashDrawer.CASH_DRAWER_STATUS_OPEN);
+
+        LOCKED_CD = Constants.CashDrawerConstants.STATUS_LOCKED;
+        LOCKED_MSG = SpringServiceLocator.getKualiConfigurationService().getPropertyString(
+                KeyConstants.CashDrawer.CASH_DRAWER_STATUS_LOCKED);
     }
 
 
@@ -60,6 +67,9 @@ public class CashDrawerStatusCodeFormatter extends Formatter {
             }
             else if (StringUtils.equals(message, CLOSED_MSG)) {
                 result = CLOSED_CD;
+            }
+            else if (StringUtils.equals(message, LOCKED_MSG)) {
+                result = LOCKED_CD;
             }
         }
 
@@ -80,6 +90,9 @@ public class CashDrawerStatusCodeFormatter extends Formatter {
             }
             else if (StringUtils.equals(statusCode, OPEN_CD)) {
                 formatted = OPEN_MSG;
+            }
+            else if (StringUtils.equals(statusCode, LOCKED_CD)) {
+                formatted = LOCKED_MSG;
             }
         }
 

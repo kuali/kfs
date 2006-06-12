@@ -32,24 +32,40 @@ import org.kuali.module.financial.bo.CashDrawer;
  */
 public interface CashDrawerService {
     /**
-     * Closes the CashDrawer instance associated with the given workgroupName, creating one if necessary.  Records the given documentId
-     * as the document which prompted the state change.
+     * Closes the CashDrawer instance associated with the given workgroupName, creating one if necessary.
      */
-    public void closeCashDrawer(String workgroupName, String documentId);
+    public void closeCashDrawer(String workgroupName);
 
     /**
-     * Opens the CashDrawer instance associated with the given workgroupName, creating one if necessary. Records the given documentId
-     * as the document which prompted the state change.
+     * Opens the CashDrawer instance associated with the given workgroupName, creating one if necessary. Records the given
+     * documentId as the document which opened the cashdrawer.
      */
     public void openCashDrawer(String workgroupName, String documentId);
 
     /**
-     * Retrieves the CashDrawer instance associated with the given workgroupName, if any.
+     * Locks the currently-open CashDrawer instance associated with the given workgroupName, throwing an IllegalStateException if
+     * that cashDrawer is not open (i.e. is closed or locked). Records the given documentId as the document which locked the
+     * cashDrawer.
+     */
+    public void lockCashDrawer(String workgroupName, String documentId);
+
+    /**
+     * Unlocks the currently-locked CashDrawer instance associated with the given workgroupName, throwing an IllegalStateException
+     * if that cashDrawer is not locked (i.e. is closed or open). Records the given documentId as the document which unlocked the
+     * cashDrawer.
+     */
+    public void unlockCashDrawer(String workgroupName, String documentId);
+
+
+    /**
+     * Retrieves the CashDrawer instance associated with the given workgroupName, if any. If autocreate is true, and no CashDrawer
+     * for the given workgroupName exists, getByWorkgroupName will return a newly-created (non-persisted) CashDrawer instance.
      * 
      * @param workgroupName
+     * @param autocreate
      * @return CashDrawer instance or null
      */
-    public CashDrawer getByWorkgroupName(String workgroupName);
+    public CashDrawer getByWorkgroupName(String workgroupName, boolean autocreate);
 
     /**
      * Saves the given CashDrawer instance to the DB.
@@ -57,5 +73,5 @@ public interface CashDrawerService {
      * @param cashDrawer
      * @return the CashDrawer that was just saved
      */
-    public CashDrawer save(CashDrawer cashDrawer, String documentId);
+    public CashDrawer save(CashDrawer cashDrawer);
 }

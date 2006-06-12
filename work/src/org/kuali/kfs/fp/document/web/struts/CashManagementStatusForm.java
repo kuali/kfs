@@ -30,10 +30,84 @@ import org.kuali.core.web.struts.form.KualiForm;
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class CashManagementStatusForm extends KualiForm {
+    String verificationUnit;
+    String controllingDocumentId;
+    String currentDrawerStatus;
+    String desiredDrawerStatus;
+
+
     /**
      * Constructs a CashManagementStatusForm.
      */
     public CashManagementStatusForm() {
         super();
+    }
+
+
+    /**
+     * @return current value of controllingDocumentId.
+     */
+    public String getControllingDocumentId() {
+        return controllingDocumentId;
+    }
+
+    /**
+     * Sets the controllingDocumentId attribute value.
+     * 
+     * @param controllingDocumentId The controllingDocumentId to set.
+     */
+    public void setControllingDocumentId(String controllingDocumentId) {
+        this.controllingDocumentId = controllingDocumentId;
+    }
+
+
+    /**
+     * @return current value of currentDrawerStatus.
+     */
+    public String getCurrentDrawerStatus() {
+        return currentDrawerStatus;
+    }
+
+    /**
+     * Sets the currentDrawerStatus attribute value.
+     * 
+     * @param currentDrawerStatus The currentDrawerStatus to set.
+     */
+    public void setCurrentDrawerStatus(String currentDrawerStatus) {
+        this.currentDrawerStatus = currentDrawerStatus;
+    }
+
+
+    /**
+     * @return current value of desiredDrawerStatus.
+     */
+    public String getDesiredDrawerStatus() {
+        return desiredDrawerStatus;
+    }
+
+    /**
+     * Sets the desiredDrawerStatus attribute value.
+     * 
+     * @param desiredDrawerStatus The desiredDrawerStatus to set.
+     */
+    public void setDesiredDrawerStatus(String desiredDrawerStatus) {
+        this.desiredDrawerStatus = desiredDrawerStatus;
+    }
+
+
+    /**
+     * @return current value of verificationUnit.
+     */
+    public String getVerificationUnit() {
+        return verificationUnit;
+    }
+
+    /**
+     * Sets the verificationUnit attribute value.
+     * 
+     * @param verificationUnit The verificationUnit to set.
+     */
+    public void setVerificationUnit(String verificationUnit) {
+        this.verificationUnit = verificationUnit;
     }
 }

@@ -22,25 +22,48 @@
  */
 package org.kuali.module.financial.service;
 
+import java.util.Iterator;
+import java.util.List;
+
 import org.kuali.Constants;
+import org.kuali.Constants.CashReceiptConstants;
+import org.kuali.core.rule.event.SaveDocumentEvent;
+import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
-import org.kuali.test.KualiTestBaseWithFixtures;
+import org.kuali.module.financial.document.CashReceiptDocument;
+import org.kuali.test.KualiTestBaseWithSession;
 
-public class CashReceiptServiceTest extends KualiTestBaseWithFixtures {
-    private static final String KNOWN_CAMPUS_CD = Constants.CashReceiptConstants.TEST_CASH_RECEIPT_CAMPUS_LOCATION_CODE;
-    private static final String KNOWN_UNIT_NAME = Constants.CashReceiptConstants.TEST_CASH_RECEIPT_VERIFICATION_UNIT;
+import edu.iu.uis.eden.exception.WorkflowException;
 
-    private static final String UNKNOWN_CAMPUS_CD = Constants.CashReceiptConstants.DEFAULT_CASH_RECEIPT_CAMPUS_LOCATION_CODE;
-    private static final String UNKNOWN_UNIT_NAME = Constants.CashReceiptConstants.DEFAULT_CASH_RECEIPT_VERIFICATION_UNIT;
+public class CashReceiptServiceTest extends KualiTestBaseWithSession {
+    private static final String TEST_CAMPUS_CD = Constants.CashReceiptConstants.TEST_CASH_RECEIPT_CAMPUS_LOCATION_CODE;
+    private static final String TEST_UNIT_NAME = Constants.CashReceiptConstants.TEST_CASH_RECEIPT_VERIFICATION_UNIT;
+
+    private static final String DEFAULT_CAMPUS_CD = Constants.CashReceiptConstants.DEFAULT_CASH_RECEIPT_CAMPUS_LOCATION_CODE;
+    private static final String DEFAULT_UNIT_NAME = Constants.CashReceiptConstants.DEFAULT_CASH_RECEIPT_VERIFICATION_UNIT;
+
+    private static final String UNKNOWN_UNIT_NAME = "unknownUnit";
 
 
-    CashReceiptService crs;
+    CashReceiptService crService;
+    DocumentService docService;
 
     protected void setUp() throws Exception {
         super.setUp();
 
-        crs = SpringServiceLocator.getCashReceiptService();
+        crService = SpringServiceLocator.getCashReceiptService();
+        docService = SpringServiceLocator.getDocumentService();
+    }
+
+
+    /**
+     * @see org.kuali.test.KualiTestBaseWithSpring#needsTestTransaction()
+     */
+    @Override
+    protected boolean needsTestTransaction() {
+        return false;
     }
 
 
@@ -48,7 +71,7 @@ public class CashReceiptServiceTest extends KualiTestBaseWithFixtures {
         boolean failedAsExpected = false;
 
         try {
-            crs.getCampusCodeForCashReceiptVerificationUnit(" ");
+            crService.getCampusCodeForCashReceiptVerificationUnit(" ");
         }
         catch (IllegalArgumentException e) {
             failedAsExpected = true;
@@ -57,19 +80,19 @@ public class CashReceiptServiceTest extends KualiTestBaseWithFixtures {
         assertTrue(failedAsExpected);
     }
 
-    public final void testGetCampusCodeForCashReceiptVerificationUnit_unknownVerificationUnit() {
-        String returnedCode = crs.getCampusCodeForCashReceiptVerificationUnit(UNKNOWN_UNIT_NAME);
+    // TODO: once we stop returning default campusCode for unknown verificationUnit, need a test for unknown verificationUnit
+    public final void testGetCampusCodeForCashReceiptVerificationUnit_defaultVerificationUnit() {
+        String returnedCode = crService.getCampusCodeForCashReceiptVerificationUnit(DEFAULT_UNIT_NAME);
 
-        // TODO: once we start doing lookups, this test should be verifying that looking up with an unknown unit name returns null
         assertNotNull(returnedCode);
-        assertEquals(UNKNOWN_CAMPUS_CD, returnedCode);
+        assertEquals(DEFAULT_CAMPUS_CD, returnedCode);
     }
 
     public final void testGetCampusCodeForCashReceiptVerificationUnit_knownVerificationUnit() {
-        String returnedCode = crs.getCampusCodeForCashReceiptVerificationUnit(KNOWN_UNIT_NAME);
+        String returnedCode = crService.getCampusCodeForCashReceiptVerificationUnit(TEST_UNIT_NAME);
 
         assertNotNull(returnedCode);
-        assertEquals(KNOWN_CAMPUS_CD, returnedCode);
+        assertEquals(TEST_CAMPUS_CD, returnedCode);
     }
 
 
@@ -77,7 +100,7 @@ public class CashReceiptServiceTest extends KualiTestBaseWithFixtures {
         boolean failedAsExpected = false;
 
         try {
-            crs.getCashReceiptVerificationUnitForCampusCode(null);
+            crService.getCashReceiptVerificationUnitForCampusCode(null);
         }
         catch (IllegalArgumentException e) {
             failedAsExpected = true;
@@ -86,19 +109,19 @@ public class CashReceiptServiceTest extends KualiTestBaseWithFixtures {
         assertTrue(failedAsExpected);
     }
 
-    public final void testGetCashReceiptVerificationUnitForCampusCode_unknownCampusCode() {
-        String returnedUnit = crs.getCashReceiptVerificationUnitForCampusCode(UNKNOWN_CAMPUS_CD);
+    // TODO: once we stop returning defaultVerificationUnit for unknown campusCode, need a test for unknown campusCode
+    public final void testGetCashReceiptVerificationUnitForCampusCode_defaultCampusCode() {
+        String returnedUnit = crService.getCashReceiptVerificationUnitForCampusCode(DEFAULT_CAMPUS_CD);
 
-        // TODO: once we start doing lookups, this test should be verifying that lookup up with an unknown campus code returns null
         assertNotNull(returnedUnit);
-        assertEquals(UNKNOWN_UNIT_NAME, returnedUnit);
+        assertEquals(DEFAULT_UNIT_NAME, returnedUnit);
     }
 
     public final void testGetCashReceiptVerificationUnitForCampusCode_knownCampusCode() {
-        String returnedUnit = crs.getCashReceiptVerificationUnitForCampusCode(KNOWN_CAMPUS_CD);
+        String returnedUnit = crService.getCashReceiptVerificationUnitForCampusCode(TEST_CAMPUS_CD);
 
         assertNotNull(returnedUnit);
-        assertEquals(KNOWN_UNIT_NAME, returnedUnit);
+        assertEquals(TEST_UNIT_NAME, returnedUnit);
     }
 
 
@@ -106,7 +129,7 @@ public class CashReceiptServiceTest extends KualiTestBaseWithFixtures {
         boolean failedAsExpected = false;
 
         try {
-            crs.getCashReceiptVerificationUnit(null);
+            crService.getCashReceiptVerificationUnitForUser(null);
         }
         catch (IllegalArgumentException e) {
             failedAsExpected = true;
@@ -118,8 +141,344 @@ public class CashReceiptServiceTest extends KualiTestBaseWithFixtures {
     public final void testGetCashReceiptVerificationUnit_validUser() {
         String expectedUnit = Constants.CashReceiptConstants.DEFAULT_CASH_RECEIPT_VERIFICATION_UNIT;
 
-        String unit = crs.getCashReceiptVerificationUnit(GlobalVariables.getUserSession().getKualiUser());
+        String unit = crService.getCashReceiptVerificationUnitForUser(GlobalVariables.getUserSession().getKualiUser());
         assertEquals(expectedUnit, unit);
     }
-    // TODO: once we start doing actual lookups, add a test for (user not in any verification unit)
+
+    // TODO: once we stop returning default campus code for every user, need a test for a user who is not in a verification unit
+
+    public final void testGetCashReceipts1_blankUnitName() {
+        boolean failedAsExpected = false;
+
+        try {
+            crService.getCashReceipts("   ", (String) null);
+        }
+        catch (IllegalArgumentException e) {
+            failedAsExpected = true;
+        }
+
+        assertTrue(failedAsExpected);
+    }
+
+    public final void testGetCashReceipts1_blankStatusCode() {
+        boolean failedAsExpected = false;
+
+        try {
+            crService.getCashReceipts(TEST_UNIT_NAME, "");
+        }
+        catch (IllegalArgumentException e) {
+            failedAsExpected = true;
+        }
+
+        assertTrue(failedAsExpected);
+    }
+
+    // TODO: once we stop returning default campus code for unknown unit, need tests for unknown unit
+
+    public final void testGetCashReceipts1_knownVerificationUnit_noVerifiedReceipts() {
+        final String workgroup = TEST_UNIT_NAME;
+
+        // clean up before testing
+        denatureCashReceipts(workgroup);
+
+        List receipts = crService.getCashReceipts(workgroup, CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED);
+        assertEquals(0, receipts.size());
+    }
+
+    public final void testGetCashReceipts1_knownVerificationUnit_noInterimReceipts() {
+        final String workgroup = TEST_UNIT_NAME;
+
+        // clean up before testing
+        denatureCashReceipts(workgroup);
+
+        List receipts = crService.getCashReceipts(workgroup, CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_INTERIM);
+        assertEquals(0, receipts.size());
+    }
+
+
+    public final void testGetCashReceipts1_knownVerificationUnit_interimReceipts() throws Exception {
+        final String workgroup = TEST_UNIT_NAME;
+
+        // clean up before testing
+        denatureCashReceipts(workgroup);
+
+        // create some CRs
+        changeCurrentUser("INEFF");
+        CashReceiptDocument cr1 = buildCashReceiptDoc(workgroup, "ww2 CRST cr1",
+                Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_INTERIM, new KualiDecimal("101.01"),
+                new KualiDecimal("898.99"));
+
+        CashReceiptDocument cr2 = buildCashReceiptDoc(workgroup, "ww2 CRST cr2",
+                Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_INTERIM, new KualiDecimal("212.12"),
+                new KualiDecimal("787.87"));
+
+
+        // verify that there are only interim CRs
+        List vreceipts = crService.getCashReceipts(workgroup, CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED);
+        assertEquals(0, vreceipts.size());
+
+        List ireceipts = crService.getCashReceipts(workgroup, CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_INTERIM);
+        assertEquals(2, ireceipts.size());
+
+        // clean up afterwards
+        denatureCashReceipts(workgroup);
+    }
+
+    public final void testGetCashReceipts1_knownVerificationUnit_verifiedReceipts() throws Exception {
+        final String workgroup = TEST_UNIT_NAME;
+
+        // clean up before testing
+        denatureCashReceipts(workgroup);
+
+        // create some CRs
+        changeCurrentUser("INEFF");
+        CashReceiptDocument cr1 = buildCashReceiptDoc(workgroup, "ww2 CRST cr1",
+                Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED, new KualiDecimal("101.01"),
+                new KualiDecimal("898.99"));
+
+        CashReceiptDocument cr2 = buildCashReceiptDoc(workgroup, "ww2 CRST cr2",
+                Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED, new KualiDecimal("212.12"),
+                new KualiDecimal("787.87"));
+
+
+        // verify that there are only verified CRs
+        List ireceipts = crService.getCashReceipts(workgroup, CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_INTERIM);
+        assertEquals(0, ireceipts.size());
+
+        List vreceipts = crService.getCashReceipts(workgroup, CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED);
+        assertEquals(2, vreceipts.size());
+
+        // clean up afterwards
+        denatureCashReceipts(workgroup);
+    }
+
+    public final void testGetCashReceipts1_knownVerificationUnit_mixedReceipts() throws Exception {
+        final String workgroup = TEST_UNIT_NAME;
+
+        // clean up before testing
+        denatureCashReceipts(workgroup);
+
+        // create some CRs
+        changeCurrentUser("INEFF");
+        CashReceiptDocument cr1 = buildCashReceiptDoc(workgroup, "ww2 CRST cr1",
+                Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_INTERIM, new KualiDecimal("101.01"),
+                new KualiDecimal("898.99"));
+
+        CashReceiptDocument cr2 = buildCashReceiptDoc(workgroup, "ww2 CRST cr2",
+                Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED, new KualiDecimal("212.12"),
+                new KualiDecimal("787.87"));
+
+
+        // verify that there are some of each
+        List ireceipts = crService.getCashReceipts(workgroup, CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_INTERIM);
+        assertEquals(1, ireceipts.size());
+
+        List vreceipts = crService.getCashReceipts(workgroup, CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED);
+        assertEquals(1, vreceipts.size());
+
+
+        // clean up afterwards
+        denatureCashReceipts(workgroup);
+    }
+
+
+    private static final String[] BOTH_STATII = { CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED,
+            CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_INTERIM };
+    private static final String[] ISTATII = { CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_INTERIM };
+    private static final String[] VSTATII = { CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED };
+
+
+    public final void testGetCashReceipts2_blankUnitName() {
+        boolean failedAsExpected = false;
+
+        try {
+            crService.getCashReceipts("   ", (String[]) null);
+        }
+        catch (IllegalArgumentException e) {
+            failedAsExpected = true;
+        }
+
+        assertTrue(failedAsExpected);
+    }
+
+    public final void testGetCashReceipts2_nullStatii() {
+        boolean failedAsExpected = false;
+
+        try {
+            crService.getCashReceipts(TEST_UNIT_NAME, (String[]) null);
+        }
+        catch (IllegalArgumentException e) {
+            failedAsExpected = true;
+        }
+
+        assertTrue(failedAsExpected);
+    }
+
+    public final void testGetCashReceipts2_emptyStatii() {
+        boolean failedAsExpected = false;
+
+        String[] emptyStatii = {};
+        try {
+            crService.getCashReceipts(TEST_UNIT_NAME, emptyStatii);
+        }
+        catch (IllegalArgumentException e) {
+            failedAsExpected = true;
+        }
+
+        assertTrue(failedAsExpected);
+    }
+
+    public final void testGetCashReceipts2_blankStatii() {
+        boolean failedAsExpected = false;
+
+        String[] blankStatii = { "  " };
+        try {
+            crService.getCashReceipts(TEST_UNIT_NAME, blankStatii);
+        }
+        catch (IllegalArgumentException e) {
+            failedAsExpected = true;
+        }
+
+        assertTrue(failedAsExpected);
+    }
+
+    // TODO: once we stop returning default campus code for unknown unit, need tests for unknown unit
+
+    public final void testGetCashReceipts2_knownVerificationUnit_noVerifiedReceipts() {
+        final String workgroup = TEST_UNIT_NAME;
+
+        // clean up before testing
+        denatureCashReceipts(workgroup);
+
+        List receipts = crService.getCashReceipts(workgroup, VSTATII);
+        assertEquals(0, receipts.size());
+    }
+
+    public final void testGetCashReceipts2_knownVerificationUnit_noInterimReceipts() {
+        final String workgroup = TEST_UNIT_NAME;
+
+        // clean up before testing
+        denatureCashReceipts(workgroup);
+
+        List receipts = crService.getCashReceipts(workgroup, ISTATII);
+        assertEquals(0, receipts.size());
+    }
+
+
+    public final void testGetCashReceipts2_knownVerificationUnit_interimReceipts() throws Exception {
+        final String workgroup = TEST_UNIT_NAME;
+
+        // clean up before testing
+        denatureCashReceipts(workgroup);
+
+        // create some CRs
+        changeCurrentUser("INEFF");
+        CashReceiptDocument cr1 = buildCashReceiptDoc(workgroup, "ww2 CRST cr1",
+                Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_INTERIM, new KualiDecimal("101.01"),
+                new KualiDecimal("898.99"));
+
+        CashReceiptDocument cr2 = buildCashReceiptDoc(workgroup, "ww2 CRST cr2",
+                Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_INTERIM, new KualiDecimal("212.12"),
+                new KualiDecimal("787.87"));
+
+
+        // verify that there are only interim CRs
+        List vreceipts = crService.getCashReceipts(workgroup, VSTATII);
+        assertEquals(0, vreceipts.size());
+
+        List ireceipts = crService.getCashReceipts(workgroup, ISTATII);
+        assertEquals(2, ireceipts.size());
+
+        // clean up afterwards
+        denatureCashReceipts(workgroup);
+    }
+
+    public final void testGetCashReceipts2_knownVerificationUnit_verifiedReceipts() throws Exception {
+        final String workgroup = TEST_UNIT_NAME;
+
+        // clean up before testing
+        denatureCashReceipts(workgroup);
+
+        // create some CRs
+        changeCurrentUser("INEFF");
+        CashReceiptDocument cr1 = buildCashReceiptDoc(workgroup, "ww2 CRST cr1",
+                Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED, new KualiDecimal("101.01"),
+                new KualiDecimal("898.99"));
+
+        CashReceiptDocument cr2 = buildCashReceiptDoc(workgroup, "ww2 CRST cr2",
+                Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED, new KualiDecimal("212.12"),
+                new KualiDecimal("787.87"));
+
+
+        // verify that there are only verified CRs
+        List ireceipts = crService.getCashReceipts(workgroup, ISTATII);
+        assertEquals(0, ireceipts.size());
+
+        List vreceipts = crService.getCashReceipts(workgroup, VSTATII);
+        assertEquals(2, vreceipts.size());
+
+        // clean up afterwards
+        denatureCashReceipts(workgroup);
+    }
+
+    public final void testGetCashReceipts2_knownVerificationUnit_mixedReceipts() throws Exception {
+        final String workgroup = TEST_UNIT_NAME;
+
+        // clean up before testing
+        denatureCashReceipts(workgroup);
+
+        // create some CRs
+        changeCurrentUser("INEFF");
+        CashReceiptDocument cr1 = buildCashReceiptDoc(workgroup, "ww2 CRST cr1",
+                Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_INTERIM, new KualiDecimal("101.01"),
+                new KualiDecimal("898.99"));
+
+        CashReceiptDocument cr2 = buildCashReceiptDoc(workgroup, "ww2 CRST cr2",
+                Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED, new KualiDecimal("212.12"),
+                new KualiDecimal("787.87"));
+
+
+        // verify that there are some of each
+        List ireceipts = crService.getCashReceipts(workgroup, ISTATII);
+        assertEquals(1, ireceipts.size());
+
+        List vreceipts = crService.getCashReceipts(workgroup, VSTATII);
+        assertEquals(1, vreceipts.size());
+
+        List mixedReceipts = crService.getCashReceipts(workgroup, BOTH_STATII);
+        assertEquals(2, mixedReceipts.size());
+
+        // clean up afterwards
+        denatureCashReceipts(workgroup);
+    }
+
+
+    private void denatureCashReceipts(String workgroupName) {
+        List verifiedReceipts = crService.getCashReceipts(workgroupName, BOTH_STATII);
+
+        for (Iterator i = verifiedReceipts.iterator(); i.hasNext();) {
+            CashReceiptDocument receipt = (CashReceiptDocument) i.next();
+            receipt.getDocumentHeader().setFinancialDocumentStatusCode("Z");
+            docService.updateDocument(receipt);
+        }
+    }
+
+    private CashReceiptDocument buildCashReceiptDoc(String workgroupName, String description, String status,
+            KualiDecimal cashAmount, KualiDecimal checkAmount) throws WorkflowException {
+        CashReceiptDocument crDoc = (CashReceiptDocument) docService.getNewDocument(CashReceiptDocument.class);
+
+        crDoc.getDocumentHeader().setFinancialDocumentDescription(description);
+        crDoc.getDocumentHeader().setFinancialDocumentStatusCode(status);
+
+        crDoc.setCheckEntryMode(CashReceiptDocument.CHECK_ENTRY_TOTAL);
+        crDoc.setTotalCashAmount(cashAmount);
+        crDoc.setTotalCheckAmount(checkAmount);
+
+        crDoc.setCampusLocationCode(crService.getCampusCodeForCashReceiptVerificationUnit(workgroupName));
+
+        //HACK: docService.validateAndPersistDocument(crDoc, new SaveDocumentEvent(crDoc));
+        docService.saveDocument(crDoc, "buildVerifiedCashReceiptDoc", null);
+
+        return crDoc;
+    }
 }

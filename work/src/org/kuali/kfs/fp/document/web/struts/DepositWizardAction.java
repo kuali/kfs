@@ -23,8 +23,11 @@
 package org.kuali.module.financial.web.struts.action;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -35,88 +38,134 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
+import org.kuali.Constants.CashDrawerConstants;
+import org.kuali.Constants.CashReceiptConstants;
 import org.kuali.core.authorization.DocumentAuthorizer;
 import org.kuali.core.bo.user.KualiUser;
 import org.kuali.core.exceptions.DocumentTypeAuthorizationException;
-import org.kuali.core.question.ConfirmationQuestion;
-import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.exceptions.InfrastructureException;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.SpringServiceLocator;
-import org.kuali.core.util.Timer;
+import org.kuali.core.util.UrlFactory;
 import org.kuali.core.web.struts.action.KualiAction;
+import org.kuali.module.financial.bo.Bank;
+import org.kuali.module.financial.bo.BankAccount;
 import org.kuali.module.financial.bo.CashDrawer;
 import org.kuali.module.financial.bo.DepositWizardHelper;
 import org.kuali.module.financial.document.CashManagementDocument;
 import org.kuali.module.financial.document.CashReceiptDocument;
-import org.kuali.module.financial.exceptions.InvalidCashDrawerState;
+import org.kuali.module.financial.exceptions.CashDrawerStateException;
+import org.kuali.module.financial.service.CashManagementService;
+import org.kuali.module.financial.web.struts.form.CashDrawerStatusCodeFormatter;
 import org.kuali.module.financial.web.struts.form.DepositWizardForm;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
- * This class handles actions for the deposit wizard, which is used to create deposits that bundle groupings of Cash Receipt 
+ * This class handles actions for the deposit wizard, which is used to create deposits that bundle groupings of Cash Receipt
  * documents.
  * 
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public class DepositWizardAction extends KualiAction {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DepositWizardAction.class);
-    
+
     /**
-     * Overrides the parent to ensure the initiation check is done.  This has to be done in the non-typical place b/c 
-     * the wizard is associated with a Cash Management Document; however, it's not a document it self so it doesn't 
-     * have the luxury of the embedded initiation check that is doen for TP eDocs.
+     * Overrides the parent to validate the document state of the cashManagementDocument which will be updated and redisplayed after
+     * the DepositWizard builds and attaches the new Deposit.
      * 
-     * @see org.apache.struts.action.Action#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * @see org.apache.struts.action.Action#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm,
+     *      javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
-    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
-        throws Exception {
-        Timer t0=new Timer("DepositWizardAction.execute");
-        String documentTypeName = SpringServiceLocator.getDataDictionaryService().getDocumentTypeNameByClass(CashManagementDocument.class);
-        DocumentAuthorizer documentAuthorizer = SpringServiceLocator.getDocumentAuthorizationService().getDocumentAuthorizer(documentTypeName);
-        KualiUser user = GlobalVariables.getUserSession().getKualiUser();
-        LOG.debug("calling canInitiate from execute()");
-        if (!documentAuthorizer.canInitiate(documentTypeName, user)) {
-            throw new DocumentTypeAuthorizationException(user.getPersonUserIdentifier(), "initiate", documentTypeName);
+    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        DepositWizardForm dwForm = (DepositWizardForm) form;
+
+        ActionForward dest = super.execute(mapping, form, request, response);
+
+        // check authorization manually, since the auth-check isn't inherited by this class
+        String cmDocTypeName = SpringServiceLocator.getDataDictionaryService().getDocumentTypeNameByClass(CashManagementDocument.class);
+        DocumentAuthorizer cmDocAuthorizer = SpringServiceLocator.getDocumentAuthorizationService().getDocumentAuthorizer(cmDocTypeName);
+        KualiUser luser = GlobalVariables.getUserSession().getKualiUser();
+        if (!cmDocAuthorizer.canInitiate(cmDocTypeName, luser)) {
+            throw new DocumentTypeAuthorizationException(luser.getPersonUserIdentifier(), "add deposits to", cmDocTypeName);
         }
-        
-        String verificationUnit = Constants.CashReceiptConstants.DEFAULT_CASH_RECEIPT_VERIFICATION_UNIT;
-        populateForVerificationUnit( verificationUnit, (DepositWizardForm)form );
-        
-        t0.log();
-        return super.execute(mapping, form, request, response);
+
+        // populate the outgoing form used by the JSP if it seems empty
+        String cmDocId = dwForm.getCashManagementDocId();
+        if (StringUtils.isBlank(cmDocId)) {
+            cmDocId = request.getParameter("cmDocId");
+            String depositTypeCode = request.getParameter("depositTypeCode");
+
+            CashManagementDocument cmDoc = (CashManagementDocument) SpringServiceLocator.getDocumentService().getByDocumentHeaderId(cmDocId);
+
+            initializeForm(dwForm, cmDoc, depositTypeCode);
+        }
+
+        return dest;
     }
-    
+
     /**
-     * Populate verification-unit-based contents of form, but only if the form doesn't already have them.
-     * (Reduces the number of redundant CashReceiptDocument lookups which happen during cancel-processing.)
+     * Initializes the given form using the given values
      * 
-     * @param verificationUnit
+     * @param dform
+     * @param cmDoc
+     * @param depositTypeCode
+     */
+    private void initializeForm(DepositWizardForm dform, CashManagementDocument cmDoc, String depositTypeCode) {
+        String verificationUnit = cmDoc.getWorkgroupName();
+
+        CashDrawer cd = SpringServiceLocator.getCashDrawerService().getByWorkgroupName(verificationUnit, true);
+        if (!cd.isOpen()) {
+            CashDrawerStatusCodeFormatter f = new CashDrawerStatusCodeFormatter();
+
+            String cmDocId = cmDoc.getFinancialDocumentNumber();
+            String currentState = cd.getStatusCode();
+
+            throw new CashDrawerStateException(verificationUnit, cmDocId, (String) f.format(CashDrawerConstants.STATUS_OPEN), (String) f.format(cd.getStatusCode()));
+        }
+
+        dform.setCashManagementDocId(cmDoc.getFinancialDocumentNumber());
+        dform.setCashDrawerVerificationUnit(verificationUnit);
+
+        dform.setDepositTypeCode(depositTypeCode);
+
+        loadCashReceipts(dform);
+    }
+
+
+    /**
+     * Loads the CashReceipt information, re/setting the related form fields
+     * 
      * @param dform
      */
-    private void populateForVerificationUnit(String verificationUnit, DepositWizardForm dform) {
-        if ( !dform.hasCashDrawerVerificationUnit() ) {
-            dform.setCashDrawerVerificationUnit(verificationUnit);
+    private void loadCashReceipts(DepositWizardForm dform) {
+        List verifiedReceipts = SpringServiceLocator.getCashReceiptService().getCashReceipts(dform.getCashDrawerVerificationUnit(), CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED);
+        dform.setDepositableCashReceipts(verifiedReceipts);
 
-            List depositableReceipts = SpringServiceLocator.getCashManagementService().retrieveVerifiedCashReceiptsByVerificationUnit(verificationUnit);
-            dform.setCashReceiptsReadyForDeposit(depositableReceipts);
+        // prepopulate DepositWizardHelpers
+        int index = 0;
+        for (Iterator i = verifiedReceipts.iterator(); i.hasNext();) {
+            CashReceiptDocument receipt = (CashReceiptDocument) i.next();
 
-            CashDrawer cashDrawer = SpringServiceLocator.getCashDrawerService().getByWorkgroupName(verificationUnit);
-            dform.setCashDrawerClosed( cashDrawer.isClosed() );
-
-            if (cashDrawer.isClosed()) {
-                String statusMessage= SpringServiceLocator.getKualiConfigurationService().getPropertyString(
-                        KeyConstants.CashManagement.MSG_DOCUMENT_CASH_MANAGEMENT_CASH_DRAWER_CLOSED_VERIFICATION_NOT_ALLOWED);
-                statusMessage = StringUtils.replace(statusMessage, "{0}", verificationUnit);
-                dform.setCashDrawerStatusMessage( statusMessage );
-            }
-            else {
-                // clear status message, just in case
-                dform.setCashDrawerStatusMessage( null );
-            }
+            DepositWizardHelper d = dform.getDepositWizardHelper(index++);
+            d.setCashReceiptCreateDate(receipt.getDocumentHeader().getWorkflowDocument().getCreateDate());
         }
     }
-        
+
+
+    /**
+     * Reloads the CashReceipts, leaving everything else unchanged
+     * 
+     * @see org.kuali.core.web.struts.action.KualiAction#refresh(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        loadCashReceipts((DepositWizardForm) form);
+
+        return super.refresh(mapping, form, request, response);
+    }
 
     /**
      * This method is the starting point for the deposit document wizard.
@@ -128,14 +177,12 @@ public class DepositWizardAction extends KualiAction {
      * @return ActionForward
      * @throws Exception
      */
-    public ActionForward startWizard(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
-            throws Exception {
+    public ActionForward startWizard(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
-    
+
     /**
-     * This method is the action method for creating the new deposit document from 
-     * the information chosen by the user in the UI.
+     * This method is the action method for creating the new deposit document from the information chosen by the user in the UI.
      * 
      * @param mapping
      * @param form
@@ -144,54 +191,117 @@ public class DepositWizardAction extends KualiAction {
      * @return ActionForward
      */
     public ActionForward createDeposit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        DepositWizardForm depositDocumentWizardForm = (DepositWizardForm) form;
+        ActionForward dest = mapping.findForward(Constants.MAPPING_BASIC);
 
-        // make sure something was selected
-        if(depositDocumentWizardForm.getSelectedCashReceipts().isEmpty()) {
-            GlobalVariables.getErrorMap().put(Constants.DepositConstants.DEPOSIT_WIZARD_ERRORS, 
-                    KeyConstants.CashManagement.ERROR_DOCUMENT_CASH_MGMT_NO_CASH_RECEIPTS_SELECTED);
-            return mapping.findForward(Constants.MAPPING_BASIC);
+        DepositWizardForm dform = (DepositWizardForm) form;
+        BusinessObjectService boService = SpringServiceLocator.getBusinessObjectService();
+
+        // validate Bank and BankAccount
+        boolean hasBankAccountNumber = false;
+        String bankAccountNumber = dform.getBankAccountNumber();
+        if (StringUtils.isBlank(bankAccountNumber)) {
+            GlobalVariables.getErrorMap().put(Constants.DepositConstants.DEPOSIT_WIZARD_DEPOSITHEADER_ERROR, KeyConstants.Deposit.ERROR_MISSING_BANKACCOUNT);
         }
-        
-        // retrieve information about all that were selected
-        // transfer selected document numbers into a new list
-        List cashReceipts = depositDocumentWizardForm.getSelectedCashReceipts();
-        ArrayList selectedCashReceiptIds = new ArrayList();
-        Iterator i = cashReceipts.iterator();
-        while(i.hasNext()) {
-            String checkValue = ((DepositWizardHelper) i.next()).getSelectedValue();
-            if(StringUtils.isNotBlank(checkValue) && !checkValue.equals(Constants.ParameterValues.YES) && 
-                    !checkValue.equals(Constants.ParameterValues.NO)) {
-                selectedCashReceiptIds.add(checkValue);
+        else {
+            hasBankAccountNumber = true;
+        }
+
+        String bankCode = dform.getBankCode();
+        if (StringUtils.isBlank(bankCode)) {
+            GlobalVariables.getErrorMap().put(Constants.DepositConstants.DEPOSIT_WIZARD_DEPOSITHEADER_ERROR, KeyConstants.Deposit.ERROR_MISSING_BANK);
+        }
+        else {
+            Map keyMap = new HashMap();
+            keyMap.put("financialDocumentBankCode", bankCode);
+
+            Bank bank = (Bank) boService.findByPrimaryKey(Bank.class, keyMap);
+            if (bank == null) {
+                GlobalVariables.getErrorMap().put(Constants.DepositConstants.DEPOSIT_WIZARD_DEPOSITHEADER_ERROR, KeyConstants.Deposit.ERROR_UNKNOWN_BANK, bankCode);
+            }
+            else {
+                dform.setBank(bank);
+
+                if (hasBankAccountNumber) {
+                    keyMap.put("finDocumentBankAccountNumber", bankAccountNumber);
+
+                    BankAccount bankAccount = (BankAccount) boService.findByPrimaryKey(BankAccount.class, keyMap);
+                    if (bankAccount == null) {
+                        String[] msgParams = { bankAccountNumber, bankCode };
+                        GlobalVariables.getErrorMap().put(Constants.DepositConstants.DEPOSIT_WIZARD_DEPOSITHEADER_ERROR, KeyConstants.Deposit.ERROR_UNKNOWN_BANKACCOUNT, msgParams);
+                    }
+                    else {
+                        dform.setBankAccount(bankAccount);
+                    }
+                }
             }
         }
-        
-        List selectedCashReceipts = null;
-        try {
-            selectedCashReceipts = SpringServiceLocator.getDocumentService().getDocumentsByListOfDocumentHeaderIds(CashReceiptDocument.class, 
-                    selectedCashReceiptIds);
-        } catch(WorkflowException we) {
-            throw new RuntimeException(we);
+
+        // validate cashReceipt selection
+        List selectedIds = new ArrayList();
+        for (Iterator i = dform.getDepositWizardHelpers().iterator(); i.hasNext();) {
+            String checkValue = ((DepositWizardHelper) i.next()).getSelectedValue();
+
+            if (StringUtils.isNotBlank(checkValue) && !checkValue.equals(Constants.ParameterValues.NO)) {
+                // removed apparently-unnecessary test for !checkValue.equals(Constants.ParameterValues.YES)
+                selectedIds.add(checkValue);
+            }
         }
-                
-        CashManagementDocument cmd = null;
-        try {
-            cmd = SpringServiceLocator.getCashManagementService().createCashManagementDocument("Fill me in...", 
-                   selectedCashReceipts, Constants.CashReceiptConstants.DEFAULT_CASH_RECEIPT_VERIFICATION_UNIT);  // for now there's just one verification unit
-        } catch(InvalidCashDrawerState icds) {
-            return mapping.findForward(Constants.MAPPING_BASIC);
+
+        if (selectedIds.isEmpty()) {
+            GlobalVariables.getErrorMap().put(Constants.DepositConstants.DEPOSIT_WIZARD_CASHRECEIPT_ERROR, KeyConstants.Deposit.ERROR_NO_CASH_RECEIPTS_SELECTED);
         }
-        
-        String cmDocUrl = Constants.CASH_MANAGEMENT_DOCUMENT_ACTION + 
-            "?methodToCall=docHandler&docId=" + 
-            cmd.getFinancialDocumentNumber() + 
-            "&command=displayDocSearchView";
-        
-        return new ActionForward(cmDocUrl, true);
+
+        //
+        // proceed, if possible
+        if (GlobalVariables.getErrorMap().isEmpty()) {
+            try {
+                // retrieve selected receipts
+                List selectedReceipts = SpringServiceLocator.getDocumentService().getDocumentsByListOfDocumentHeaderIds(CashReceiptDocument.class, selectedIds);
+
+                // retrieve CashManagementDocument
+                String cashManagementDocId = dform.getCashManagementDocId();
+                CashManagementDocument cashManagementDoc = null;
+                try {
+                    cashManagementDoc = (CashManagementDocument) SpringServiceLocator.getDocumentService().getByDocumentHeaderId(cashManagementDocId);
+                    if (cashManagementDoc == null) {
+                        throw new IllegalStateException("unable to find cashManagementDocument with id " + cashManagementDocId);
+                    }
+                }
+                catch (WorkflowException e) {
+                    throw new IllegalStateException("unable to retrieve cashManagementDocument with id " + cashManagementDocId, e);
+                }
+
+
+                // create deposit
+                String cmDocId = dform.getCashManagementDocId();
+
+                CashManagementService cms = SpringServiceLocator.getCashManagementService();
+                if (StringUtils.equals(dform.getDepositTypeCode(), Constants.DepositConstants.DEPOSIT_TYPE_INTERIM)) {
+                    cms.addInterimDeposit(cashManagementDoc, dform.getDepositTicketNumber(), dform.getBankAccount(), selectedReceipts);
+                }
+                else if (StringUtils.equals(dform.getDepositTypeCode(), Constants.DepositConstants.DEPOSIT_TYPE_FINAL)) {
+                    throw new UnknownError("die, die, everybody die)");
+                    // UNF: cms.addFinalDeposit(cashManagementDoc, dform.getDepositTicketNumber(), dform.getBankAccount(),
+                    // selectedReceipts);
+                }
+                else {
+                    throw new IllegalStateException("invalid (unknown) depositTypeCode '" + dform.getDepositTypeCode() + "'");
+                }
+
+                // redirect to controlling CashManagementDocument
+                dest = returnToSender(cashManagementDocId);
+            }
+            catch (WorkflowException e) {
+                throw new InfrastructureException("unable to retrieve cashReceipts by documentId", e);
+            }
+        }
+
+        return dest;
     }
-    
+
+
     /**
-     * This method handles canceling the deposit wizard.
+     * This method handles canceling (closing) the deposit wizard.
      * 
      * @param mapping
      * @param form
@@ -201,23 +311,28 @@ public class DepositWizardAction extends KualiAction {
      * @throws Exception
      */
     public ActionForward cancel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        Object question = request.getParameter(Constants.QUESTION_INST_ATTRIBUTE_NAME);
-        // this should probably be moved into a private instance variable
-        KualiConfigurationService kualiConfiguration = SpringServiceLocator.getKualiConfigurationService();
+        DepositWizardForm dform = (DepositWizardForm) form;
 
-        if (question == null) {
-            // ask question if not already asked
-            return this.performQuestionWithoutInput(mapping, form, request, response, Constants.DOCUMENT_CANCEL_QUESTION, kualiConfiguration
-                    .getPropertyString("document.question.cancel.text"), Constants.CONFIRMATION_QUESTION, Constants.MAPPING_CANCEL, "");
-        }
-        else {
-            Object buttonClicked = request.getParameter(Constants.QUESTION_CLICKED_BUTTON);
-            if ((Constants.DOCUMENT_CANCEL_QUESTION.equals(question)) && ConfirmationQuestion.NO.equals(buttonClicked)) {
-                // if no button clicked just reload the IB doc
-                return mapping.findForward(Constants.MAPPING_BASIC);
-            }
-        }
+        ActionForward dest = returnToSender(dform.getCashManagementDocId());
+        return dest;
+    }
 
-        return new ActionForward(Constants.EMPTY_STRING, true);  // back to the index page
+
+    /**
+     * @param cmDocId
+     * @return ActionForward which will redirect the user to the docSearchDisplay for the CashManagementDocument with the given
+     *         documentId
+     */
+    private ActionForward returnToSender(String cmDocId) {
+        String cmDocTypeName = SpringServiceLocator.getDocumentTypeService().getDocumentTypeNameByClass(CashManagementDocument.class);
+
+        Properties params = new Properties();
+        params.setProperty("methodToCall", "docHandler");
+        params.setProperty("command", "displayDocSearchView");
+        params.setProperty("docId", cmDocId);
+
+        String cmActionUrl = UrlFactory.buildDocumentActionUrl(cmDocTypeName, params);
+
+        return new ActionForward(cmActionUrl, true);
     }
 }

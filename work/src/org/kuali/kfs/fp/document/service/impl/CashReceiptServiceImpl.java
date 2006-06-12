@@ -22,14 +22,37 @@
  */
 package org.kuali.module.financial.service.impl;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.Constants;
+import org.kuali.PropertyConstants;
 import org.kuali.core.bo.user.KualiUser;
+import org.kuali.core.document.DocumentHeader;
+import org.kuali.core.exceptions.InfrastructureException;
+import org.kuali.core.exceptions.UnknownDocumentIdException;
+import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.workflow.service.KualiWorkflowDocument;
+import org.kuali.core.workflow.service.WorkflowDocumentService;
+import org.kuali.module.financial.document.CashReceiptDocument;
 import org.kuali.module.financial.service.CashReceiptService;
+
+import edu.iu.uis.eden.exception.DocumentNotFoundException;
+import edu.iu.uis.eden.exception.WorkflowException;
 
 public class CashReceiptServiceImpl implements CashReceiptService {
     private static final String TEST_CASH_RECEIPT_CAMPUS_CD = "HI";
     private static final String TEST_CASH_RECEIPT_VERIFICATION_UNIT = "HAWAII_CR_VERIFICATION_UNIT";
+
+
+    private BusinessObjectService businessObjectService;
+    private WorkflowDocumentService workflowDocumentService;
 
 
     /**
@@ -42,7 +65,7 @@ public class CashReceiptServiceImpl implements CashReceiptService {
             throw new IllegalArgumentException("invalid (blank) campusCode");
         }
 
-        // HACK: pretend that a lookup is actually happening
+        // UNF: pretend that a lookup is actually happening
         if (campusCode.equals(TEST_CASH_RECEIPT_CAMPUS_CD)) {
             vunit = TEST_CASH_RECEIPT_VERIFICATION_UNIT;
         }
@@ -64,7 +87,7 @@ public class CashReceiptServiceImpl implements CashReceiptService {
             throw new IllegalArgumentException("invalid (blank) unitName");
         }
 
-        // HACK: pretend that a lookup is actually happening
+        // UNF: pretend that a lookup is actually happening
         if (unitName.equals(TEST_CASH_RECEIPT_VERIFICATION_UNIT)) {
             campusCode = TEST_CASH_RECEIPT_CAMPUS_CD;
         }
@@ -79,16 +102,159 @@ public class CashReceiptServiceImpl implements CashReceiptService {
     /**
      * @see org.kuali.module.financial.service.CashReceiptService#getCashReceiptVerificationUnit(org.kuali.core.bo.user.KualiUser)
      */
-    public String getCashReceiptVerificationUnit(KualiUser user) {
+    public String getCashReceiptVerificationUnitForUser(KualiUser user) {
         String unitName = null;
 
         if (user == null) {
             throw new IllegalArgumentException("invalid (null) user");
         }
 
-        // HACK: pretend that a lookup is actually happening
+        // UNF: pretend that a lookup is actually happening
         unitName = Constants.CashReceiptConstants.DEFAULT_CASH_RECEIPT_VERIFICATION_UNIT;
 
         return unitName;
+    }
+
+
+    /**
+     * @see org.kuali.module.financial.service.CashReceiptService#getCashReceipts(java.lang.String, java.lang.String)
+     */
+    public List getCashReceipts(String verificationUnit, String statusCode) {
+        if (StringUtils.isBlank(statusCode)) {
+            throw new IllegalArgumentException("invalid (blank) statusCode");
+        }
+
+        String[] statii = new String[] { statusCode };
+        return getCashReceipts(verificationUnit, statii);
+    }
+
+    /**
+     * @see org.kuali.module.financial.service.CashReceiptService#getCashReceipts(java.lang.String, java.lang.String[])
+     */
+    public List getCashReceipts(String verificationUnit, String[] statii) {
+        if (StringUtils.isBlank(verificationUnit)) {
+            throw new IllegalArgumentException("invalid (blank) verificationUnit");
+        }
+        if (statii == null) {
+            throw new IllegalArgumentException("invalid (null) statii");
+        }
+        else {
+            if (statii.length == 0) {
+                throw new IllegalArgumentException("invalid (empty) statii");
+            }
+            else {
+                for (int i = 0; i < statii.length; ++i) {
+                    if (StringUtils.isBlank(statii[i])) {
+                        throw new IllegalArgumentException("invalid (blank) status code " + i);
+                    }
+                }
+            }
+        }
+
+        return getPopulatedCashReceipts(verificationUnit, statii);
+    }
+
+    /**
+     * @param verificationUnit
+     * @param statii
+     * @return List of CashReceiptDocument instances with their associated workflowDocuments populated
+     */
+    public List getPopulatedCashReceipts(String verificationUnit, String[] statii) {
+        Map queryCriteria = buildCashReceiptCriteriaMap(verificationUnit, statii);
+
+        List documents = new ArrayList(getBusinessObjectService().findMatchingOrderBy(CashReceiptDocument.class, queryCriteria,
+                PropertyConstants.FINANCIAL_DOCUMENT_NUMBER, true));
+
+        populateWorkflowFields(documents);
+
+        return documents;
+    }
+
+
+    /**
+     * @param workgroupName
+     * @param statii
+     * @return Map
+     */
+    private Map buildCashReceiptCriteriaMap(String workgroupName, String[] statii) {
+        Map queryCriteria = new HashMap();
+
+        if (statii.length == 1) {
+            queryCriteria.put(Constants.CashReceiptConstants.CASH_RECEIPT_DOC_HEADER_STATUS_CODE_PROPERTY_NAME, statii[0]);
+        }
+        else if (statii.length > 0) {
+            List<String> statusList = Arrays.asList(statii);
+            queryCriteria.put(Constants.CashReceiptConstants.CASH_RECEIPT_DOC_HEADER_STATUS_CODE_PROPERTY_NAME, statusList);
+        }
+
+        String campusLocationCode = getCampusCodeForCashReceiptVerificationUnit(workgroupName);
+        queryCriteria.put(Constants.CashReceiptConstants.CASH_RECEIPT_CAMPUS_LOCATION_CODE_PROPERTY_NAME, campusLocationCode);
+
+        return queryCriteria;
+    }
+
+    /**
+     * Populates the workflowDocument field of each CashReceiptDocument in the given List
+     * 
+     * @param documents
+     */
+    private void populateWorkflowFields(List documents) {
+        for (Iterator i = documents.iterator(); i.hasNext();) {
+            CashReceiptDocument cr = (CashReceiptDocument) i.next();
+
+            KualiWorkflowDocument workflowDocument = null;
+            DocumentHeader docHeader = cr.getDocumentHeader();
+            try {
+                Long documentHeaderId = Long.valueOf(docHeader.getFinancialDocumentNumber());
+                KualiUser user = GlobalVariables.getUserSession().getKualiUser();
+
+                workflowDocument = getWorkflowDocumentService().createWorkflowDocument(documentHeaderId, user);
+            }
+            catch (DocumentNotFoundException e) {
+                throw new UnknownDocumentIdException("no document found for documentHeaderId '"
+                        + docHeader.getFinancialDocumentNumber() + "'", e);
+            }
+            catch (WorkflowException e) {
+                throw new InfrastructureException("unable to retrieve workflow document for documentHeaderId '"
+                        + docHeader.getFinancialDocumentNumber() + "'", e);
+            }
+
+            docHeader.setWorkflowDocument(workflowDocument);
+        }
+    }
+
+
+    // injection-molding
+    /**
+     * @return current value of businessObjectService.
+     */
+    public BusinessObjectService getBusinessObjectService() {
+        return businessObjectService;
+    }
+
+    /**
+     * Sets the businessObjectService attribute value.
+     * 
+     * @param businessObjectService The businessObjectService to set.
+     */
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
+
+
+    /**
+     * @return current value of workflowDocumentService.
+     */
+    public WorkflowDocumentService getWorkflowDocumentService() {
+        return workflowDocumentService;
+    }
+
+    /**
+     * Sets the workflowDocumentService attribute value.
+     * 
+     * @param workflowDocumentService The workflowDocumentService to set.
+     */
+    public void setWorkflowDocumentService(WorkflowDocumentService workflowDocumentService) {
+        this.workflowDocumentService = workflowDocumentService;
     }
 }

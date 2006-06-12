@@ -30,69 +30,113 @@ import org.kuali.Constants;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.module.financial.bo.CashDrawer;
 import org.kuali.module.financial.service.CashDrawerService;
-import org.kuali.module.financial.service.CashManagementService;
 
 
 /**
- * Stock CashDrawerService implementation.
+ * CashDrawerService implementation.
  * 
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public class CashDrawerServiceImpl implements CashDrawerService {
-    private CashManagementService cashManagementService;
     private BusinessObjectService businessObjectService;
 
 
     /**
-     * @see org.kuali.module.financial.service.CashDrawerService#closeCashDrawer(java.lang.String,,java.lang.String)
+     * @see org.kuali.module.financial.service.CashDrawerService#closeCashDrawer(java.lang.String)
      */
-    public void closeCashDrawer(String workgroupName, String documentId) {
-        CashDrawer drawer = getByWorkgroupName(workgroupName);
-        if (drawer == null) {
-            drawer = newCashDrawer(workgroupName);
-        }
+    public void closeCashDrawer(String workgroupName) {
+        CashDrawer drawer = getByWorkgroupName(workgroupName, true);
         drawer.setStatusCode(Constants.CashDrawerConstants.STATUS_CLOSED);
+        drawer.setReferenceFinancialDocumentNumber(null);
 
-        save(drawer, documentId);
+        save(drawer);
     }
 
     /**
      * @see org.kuali.module.financial.service.CashDrawerService#openCashDrawer(java.lang.String,java.lang.String)
      */
     public void openCashDrawer(String workgroupName, String documentId) {
-        CashDrawer drawer = getByWorkgroupName(workgroupName);
-        if (drawer == null) {
-            drawer = newCashDrawer(workgroupName);
+        if (StringUtils.isBlank(documentId)) {
+            throw new IllegalArgumentException("invalid (blank) documentId");
         }
-        drawer.setStatusCode(Constants.CashDrawerConstants.STATUS_OPEN);
 
-        save(drawer, documentId);
+        CashDrawer drawer = getByWorkgroupName(workgroupName, true);
+        drawer.setStatusCode(Constants.CashDrawerConstants.STATUS_OPEN);
+        drawer.setReferenceFinancialDocumentNumber(documentId);
+
+        save(drawer);
     }
+
+    /**
+     * @see org.kuali.module.financial.service.CashDrawerService#lockCashDrawer(java.lang.String,java.lang.String)
+     */
+    public void lockCashDrawer(String workgroupName, String documentId) {
+        if (StringUtils.isBlank(documentId)) {
+            throw new IllegalArgumentException("invalid (blank) documentId");
+        }
+
+        CashDrawer drawer = getByWorkgroupName(workgroupName, true);
+        if (!StringUtils.equals(Constants.CashDrawerConstants.STATUS_OPEN, drawer.getStatusCode())) {
+            throw new IllegalStateException("CashDrawer '" + workgroupName + "' cannot be locked because it is not open");
+        }
+        if (!StringUtils.equals(documentId, drawer.getReferenceFinancialDocumentNumber())) {
+            throw new IllegalStateException("CashDrawer '" + workgroupName
+                    + "' cannot be locked because it was opened by document " + drawer.getReferenceFinancialDocumentNumber());
+        }
+
+        drawer.setStatusCode(Constants.CashDrawerConstants.STATUS_LOCKED);
+        drawer.setReferenceFinancialDocumentNumber(documentId);
+
+        save(drawer);
+    }
+
+    /**
+     * @see org.kuali.module.financial.service.CashDrawerService#unlockCashDrawer(java.lang.String,java.lang.String)
+     */
+    public void unlockCashDrawer(String workgroupName, String documentId) {
+        if (StringUtils.isBlank(documentId)) {
+            throw new IllegalArgumentException("invalid (blank) documentId");
+        }
+
+        CashDrawer drawer = getByWorkgroupName(workgroupName, true);
+        if (!StringUtils.equals(Constants.CashDrawerConstants.STATUS_LOCKED, drawer.getStatusCode())) {
+            throw new IllegalStateException("CashDrawer '" + workgroupName + "' cannot be unlocked because it is not locked");
+        }
+        if (!StringUtils.equals(documentId, drawer.getReferenceFinancialDocumentNumber())) {
+            throw new IllegalStateException("CashDrawer '" + workgroupName
+                    + "' cannot be unlocked because it was locked by document " + drawer.getReferenceFinancialDocumentNumber());
+        }
+
+        drawer.setStatusCode(Constants.CashDrawerConstants.STATUS_OPEN);
+        drawer.setReferenceFinancialDocumentNumber(documentId);
+
+        save(drawer);
+    }
+
 
     /**
      * @see org.kuali.module.financial.service.CashDrawerService#findByWorkgroupName(java.lang.String)
      */
-    public CashDrawer getByWorkgroupName(String workgroupName) {
+    public CashDrawer getByWorkgroupName(String workgroupName, boolean autocreate) {
         if (StringUtils.isBlank(workgroupName)) {
             throw new IllegalArgumentException("invalid (blank) workgroupName");
         }
 
         CashDrawer cd = (CashDrawer) businessObjectService.findByPrimaryKey(CashDrawer.class, buildPrimaryKeyMap(workgroupName));
+        if (autocreate && (cd == null)) {
+            cd = newCashDrawer(workgroupName);
+        }
         return cd;
     }
 
     /**
      * @see org.kuali.module.financial.service.CashDrawerService#save(org.kuali.module.financial.bo.CashDrawer,java.lang.String)
      */
-    public CashDrawer save(CashDrawer cashDrawer, String documentId) {
+    public CashDrawer save(CashDrawer cashDrawer) {
         if (cashDrawer == null) {
             throw new IllegalArgumentException("invalid (null) cashDrawer");
         }
-        if (StringUtils.isBlank(documentId)) {
-            throw new IllegalArgumentException("invalid (blank) documentId");
-        }
 
-        cashDrawer.setReferenceFinancialDocumentNumber(documentId);
         businessObjectService.save(cashDrawer);
         return cashDrawer;
     }
@@ -105,7 +149,7 @@ public class CashDrawerServiceImpl implements CashDrawerService {
     private CashDrawer newCashDrawer(String workgroupName) {
         CashDrawer drawer = new CashDrawer();
         drawer.setWorkgroupName(workgroupName);
-        drawer.setStatusCode(Constants.CashDrawerConstants.STATUS_OPEN);
+        drawer.setStatusCode(Constants.CashDrawerConstants.STATUS_CLOSED);
 
         return drawer;
     }
@@ -122,24 +166,6 @@ public class CashDrawerServiceImpl implements CashDrawerService {
 
 
     // Spring injection
-    /**
-     * Gets the cashManagementService attribute.
-     * 
-     * @return Returns the cashManagementService.
-     */
-    public CashManagementService getCashManagementService() {
-        return cashManagementService;
-    }
-
-    /**
-     * Sets the cashManagementService attribute value.
-     * 
-     * @param cashManagementService The cashManagementService to set.
-     */
-    public void setCashManagementService(CashManagementService cashManagementService) {
-        this.cashManagementService = cashManagementService;
-    }
-
     /**
      * @return current value of businessObjectService.
      */

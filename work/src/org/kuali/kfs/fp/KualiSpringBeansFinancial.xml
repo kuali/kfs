@@ -47,29 +47,20 @@
     </bean>
 
     <bean id="cashDrawerService" class="org.kuali.module.financial.service.impl.CashDrawerServiceImpl">
-        <property name="cashManagementService">
-            <ref bean="cashManagementService" />
-        </property>
         <property name="businessObjectService">
             <ref bean="businessObjectService" />
         </property>
     </bean>
      
-     <bean id="accountPresenceService" class="org.kuali.module.financial.service.impl.AccountPresenceServiceImpl">
-        <property name="balanceDao">
-            <ref bean="glBalanceDao" />
-        </property>
-     </bean>
-     
-     <bean id="cashManagementService" class="org.kuali.module.financial.service.impl.CashManagementServiceImpl">
+    <bean id="accountPresenceService" class="org.kuali.module.financial.service.impl.AccountPresenceServiceImpl">
+       <property name="balanceDao">
+           <ref bean="glBalanceDao" />
+       </property>
+    </bean>
+    
+    <bean id="cashManagementService" class="org.kuali.module.financial.service.impl.CashManagementServiceImpl">
         <property name="businessObjectService">
             <ref bean="businessObjectService" />
-        </property>
-        <property name="workflowDocumentService">
-            <ref bean="workflowDocumentService" />
-        </property>
-        <property name="documentService">
-            <ref bean="documentService" />
         </property>
         <property name="cashDrawerService">
             <ref bean="cashDrawerService" />
@@ -77,10 +68,10 @@
         <property name="dateTimeService">
             <ref bean="dateTimeService" />
         </property>
-        <property name="cashReceiptService">
-            <ref bean="cashReceiptService" />
+        <property name="documentService">
+            <ref bean="documentService" />
         </property>
-     </bean>
+    </bean>
 
     <bean id="flexibleOffsetAccountService" class="org.kuali.module.financial.service.impl.FlexibleOffsetAccountServiceImpl">
         <property name="kualiConfigurationService">
@@ -134,9 +125,15 @@
         <property name="dateTimeService">
            <ref bean="dateTimeService"/>
         </property>
-    </bean>
-
+    </bean> 
+    
     <bean id="cashReceiptService" class="org.kuali.module.financial.service.impl.CashReceiptServiceImpl">
+        <property name="businessObjectService">
+            <ref bean="businessObjectService" />
+        </property>
+        <property name="workflowDocumentService">
+            <ref bean="workflowDocumentService" />
+        </property>
     </bean>
     
     <bean id="loadDataFileStep" class="org.kuali.module.financial.batch.pcard.LoadDataFileStep">

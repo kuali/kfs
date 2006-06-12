@@ -22,6 +22,8 @@
  */
 package org.kuali.module.financial.service;
 
+import java.util.List;
+
 import org.kuali.core.bo.user.KualiUser;
 
 
@@ -43,5 +45,28 @@ public interface CashReceiptService {
      * @param user
      * @return cash receipt verificationUnit workgroupName associated with the given user
      */
-    public String getCashReceiptVerificationUnit(KualiUser user);
+    public String getCashReceiptVerificationUnitForUser(KualiUser user);
+
+    /**
+     * Returns a List of CashReceiptDocuments for the given verificationUnit whose status matches the given status code
+     * 
+     * @param verificationUnit
+     * @param statusCode
+     * @return List of CashReceiptDocument instance
+     * @throws IllegalArgumentException if verificationUnit is blank
+     * @throws IllegalArgumentException if statusCode is blank
+     */
+    public List getCashReceipts(String verificationUnit, String statusCode);
+
+    /**
+     * Returns a List of CashReceiptDocuments for the given verificationUnit whose status matches any of the status codes in the
+     * given String[].
+     * 
+     * @param verificationUnit
+     * @param statii
+     * @return List of CashReceiptDocument instance
+     * @throws IllegalArgumentException if verificationUnit is blank
+     * @throws IllegalArgumentException if statii is null or empty or contains any blank statusCodes
+     */
+    public List getCashReceipts(String verificationUnit, String[] statii);
 }

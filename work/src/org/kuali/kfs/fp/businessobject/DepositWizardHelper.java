@@ -22,26 +22,31 @@
  */
 package org.kuali.module.financial.bo;
 
+import java.sql.Timestamp;
+import java.util.Calendar;
+import java.util.Date;
+
 import org.kuali.Constants;
 
 /**
- * This helper class works in conjunction with the DepositWizardForm to help build 
- * the UI for the Deposit Wizard.
+ * This helper class works in conjunction with the DepositWizardForm to help build the UI for the Deposit Wizard.
  * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class DepositWizardHelper {
     private String selectedValue;
-    
+    private Timestamp cashReceiptCreateDate;
+
     /**
      * Constructs a JournalVoucherAccountingLineHelper.java.
      */
     public DepositWizardHelper() {
-        this.selectedValue = Constants.ParameterValues.NO;
+        selectedValue = Constants.ParameterValues.NO;
+        cashReceiptCreateDate = new Timestamp(0);
     }
 
     /**
-     * Gets the selectedValue attribute. 
+     * Gets the selectedValue attribute.
      * 
      * @return Returns the selectedValue.
      */
@@ -56,5 +61,21 @@ public class DepositWizardHelper {
      */
     public void setSelectedValue(String selectedValue) {
         this.selectedValue = selectedValue;
+    }
+
+    /**
+     * @return current value of cashReceiptCreateDate.
+     */
+    public Timestamp getCashReceiptCreateDate() {
+        return cashReceiptCreateDate;
+    }
+
+    /**
+     * Sets the cashReceiptCreateDate attribute value.
+     * 
+     * @param cashReceiptCreateDate The cashReceiptCreateDate to set.
+     */
+    public void setCashReceiptCreateDate(Timestamp cashReceiptCreateDate) {
+        this.cashReceiptCreateDate = cashReceiptCreateDate;
     }
 }

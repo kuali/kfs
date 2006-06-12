@@ -63,8 +63,7 @@ public class CashReceiptForm extends KualiTransactionalDocumentFormBase {
      */
     public CashReceiptForm() {
         super();
-        setFormatterType( CAN_PRINT_COVERSHEET_SIG_STR, 
-                          SimpleBooleanFormatter.class );
+        setFormatterType(CAN_PRINT_COVERSHEET_SIG_STR, SimpleBooleanFormatter.class);
         setDocument(new CashReceiptDocument());
         setNewCheck(new CheckBase());
 
@@ -113,8 +112,7 @@ public class CashReceiptForm extends KualiTransactionalDocumentFormBase {
     }
 
     /**
-     * @return List of LabelValueBeans representing all available check entry
-     *         modes
+     * @return List of LabelValueBeans representing all available check entry modes
      */
     public List getCheckEntryModes() {
         return checkEntryModes;
@@ -172,9 +170,8 @@ public class CashReceiptForm extends KualiTransactionalDocumentFormBase {
     }
 
     /**
-     * Implementation creates empty Checks as a side-effect, so that Struts'
-     * efforts to set fields of lines which haven't been created will succeed
-     * rather than causing a NullPointerException.
+     * Implementation creates empty Checks as a side-effect, so that Struts' efforts to set fields of lines which haven't been
+     * created will succeed rather than causing a NullPointerException.
      * 
      * @param index
      * @return baseline Check at the given index
@@ -187,8 +184,7 @@ public class CashReceiptForm extends KualiTransactionalDocumentFormBase {
     }
 
     /**
-     * Gets the financialDocumentStatusMessage which is dependent upon document
-     * state.
+     * Gets the financialDocumentStatusMessage which is dependent upon document state.
      * 
      * @return Returns the financialDocumentStatusMessage.
      */
@@ -201,8 +197,8 @@ public class CashReceiptForm extends KualiTransactionalDocumentFormBase {
                     KeyConstants.CashReceipt.MSG_VERIFIED_BUT_NOT_AWAITING_DEPOSIT);
         }
         else if (financialDocumentStatusCode.equals(Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_DEPOSITED)) {
-            CashManagementDocument cmd = SpringServiceLocator.getCashManagementService()
-                    .getCashManagementDocumentByCashReceiptDocument(crd);
+            CashManagementDocument cmd = SpringServiceLocator.getCashManagementService().getCashManagementDocumentForCashReceiptId(
+                    crd.getFinancialDocumentNumber());
             if (cmd != null) {
                 String cmdFinancialDocNbr = cmd.getFinancialDocumentNumber();
 
@@ -216,8 +212,8 @@ public class CashReceiptForm extends KualiTransactionalDocumentFormBase {
             }
         }
         else if (financialDocumentStatusCode.equals(Constants.DOCUMENT_STATUS_CD_APPROVED_PROCESSED)) {
-            CashManagementDocument cmd = SpringServiceLocator.getCashManagementService()
-                    .getCashManagementDocumentByCashReceiptDocument(crd);
+            CashManagementDocument cmd = SpringServiceLocator.getCashManagementService().getCashManagementDocumentForCashReceiptId(
+                    crd.getFinancialDocumentNumber());
             if (cmd != null) {
                 String cmdFinancialDocNbr = cmd.getFinancialDocumentNumber();
 
@@ -234,42 +230,39 @@ public class CashReceiptForm extends KualiTransactionalDocumentFormBase {
     }
 
     /**
-     * This method will build out a message in the case the document is ENROUTE
-     * and the cash drawer is closed.
+     * This method will build out a message in the case the document is ENROUTE and the cash drawer is closed.
      * 
      * @return String
      */
     public String getCashDrawerStatusMessage() {
         String cashDrawerStatusMessage = "";
         CashReceiptDocument crd = getCashReceiptDocument();
-        
+
         // first check to see if the document is in the appropriate state for this message
-        if(crd != null && crd.getDocumentHeader() != null && crd.getDocumentHeader().getWorkflowDocument() != null) {
-            if(crd.getDocumentHeader().getWorkflowDocument().stateIsEnroute()) {
-                String unitName = SpringServiceLocator.getCashReceiptService().getCashReceiptVerificationUnitForCampusCode( crd.getCampusLocationCode() );
-                CashDrawer cd = SpringServiceLocator.getCashDrawerService().getByWorkgroupName( unitName );
+        if (crd != null && crd.getDocumentHeader() != null && crd.getDocumentHeader().getWorkflowDocument() != null) {
+            if (crd.getDocumentHeader().getWorkflowDocument().stateIsEnroute()) {
+                String unitName = SpringServiceLocator.getCashReceiptService().getCashReceiptVerificationUnitForCampusCode(
+                        crd.getCampusLocationCode());
+                CashDrawer cd = SpringServiceLocator.getCashDrawerService().getByWorkgroupName(unitName, false);
                 if (cd != null && crd.getDocumentHeader().getWorkflowDocument().isApprovalRequested() && cd.isClosed()) {
                     cashDrawerStatusMessage = SpringServiceLocator.getKualiConfigurationService().getPropertyString(
                             KeyConstants.CashReceipt.MSG_CASH_DRAWER_CLOSED_VERIFICATION_NOT_ALLOWED);
-                    cashDrawerStatusMessage = StringUtils.replace(cashDrawerStatusMessage, "{0}",
-                            unitName);
+                    cashDrawerStatusMessage = StringUtils.replace(cashDrawerStatusMessage, "{0}", unitName);
                 }
             }
         }
-        
+
         return cashDrawerStatusMessage;
     }
 
     /**
-     * determines if the <code>{@link CashReceiptDocument}</code> is in a 
-     * state that allows printing of the cover sheet.
+     * determines if the <code>{@link CashReceiptDocument}</code> is in a state that allows printing of the cover sheet.
      * 
      * @return boolean
      */
     public boolean isCoverSheetPrintingAllowed() {
         CashReceiptDocumentRule rule = new CashReceiptDocumentRule();
 
-        return rule
-            .isCoverSheetPrintable( ( CashReceiptDocument )getDocument());
+        return rule.isCoverSheetPrintable((CashReceiptDocument) getDocument());
     }
 }

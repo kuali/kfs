@@ -68,8 +68,7 @@ public class KualiPostProcessor implements PostProcessorRemote {
             LOG.debug(new StringBuffer("finished handling route status change from ").append(statusChangeEvent.getOldRouteStatus()).append(" to ").append(statusChangeEvent.getNewRouteStatus()).append(" for document ").append(statusChangeEvent.getRouteHeaderId()));
         }
         catch (Exception e) {
-            LOG.error("caught exception while handling route status change", e);
-            throw new RuntimeException("post processor caught exception while handling route status change: " + e.getMessage(), e);
+            logAndRethrow("route status", e);
         }
         return true;
     }
@@ -97,9 +96,13 @@ public class KualiPostProcessor implements PostProcessorRemote {
             LOG.debug(new StringBuffer("finished handling route level change from ").append(levelChangeEvent.getOldRouteLevel()).append(" to ").append(levelChangeEvent.getNewRouteLevel()).append(" for document ").append(levelChangeEvent.getRouteHeaderId()));
         }
         catch (Exception e) {
-            LOG.error("caught exception while handling route level change", e);
-            throw new RuntimeException("post processor caught exception while handling route level change: " + e.getMessage(), e);
+            logAndRethrow("route level", e);
         }
         return true;
+    }
+
+    private void logAndRethrow(String changeType, Exception e) throws RuntimeException {
+        LOG.error("caught exception while handling " + changeType + " change", e);
+        throw new RuntimeException("post processor caught exception while handling " + changeType + " change: " + e.getMessage(), e);
     }
 }

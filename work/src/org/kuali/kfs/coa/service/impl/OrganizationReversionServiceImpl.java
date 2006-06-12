@@ -25,6 +25,7 @@ package org.kuali.module.chart.service.impl;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.service.KualiConfigurationService;
@@ -48,14 +49,19 @@ public class OrganizationReversionServiceImpl implements OrganizationReversionSe
     private KualiConfigurationService kualiConfigurationService;
     private BeanFactory beanFactory;
 
-    /* (non-Javadoc)
-     * @see org.kuali.module.chart.service.OrganizationReversionService#getByKeys(java.lang.Integer, java.lang.String, java.lang.String)
+    /**
+     * 
+     * @see org.kuali.module.chart.service.OrganizationReversionService#getByPrimaryId(java.lang.Integer, java.lang.String, java.lang.String)
      */
     public OrganizationReversion getByPrimaryId(Integer fiscalYear, String chartCode, String orgCode) {
         LOG.debug("getByPrimaryId() started");
         return organizationReversionDao.getByPrimaryId(fiscalYear, chartCode, orgCode);
     }
 
+    /**
+     * 
+     * @see org.kuali.module.chart.service.OrganizationReversionService#getCategories()
+     */
     public Map<String,OrganizationReversionCategoryLogic> getCategories() {
         LOG.debug("getCategories() started");
 
@@ -81,6 +87,12 @@ public class OrganizationReversionServiceImpl implements OrganizationReversionSe
             }
         }
         return categories;
+    }
+
+    public List<OrganizationReversionCategory> getCategoryList() {
+        LOG.debug("getCategoryList() started");
+
+        return organizationReversionDao.getCategories();
     }
 
     public void setOrganizationReversionDao(OrganizationReversionDao orDao) {

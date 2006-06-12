@@ -34,12 +34,14 @@ public class GenericOrganizationReversionCategory implements OrganizationReversi
 
     private String categoryCode;
     private String categoryName;
+    private boolean isExpense;
 
     public GenericOrganizationReversionCategory() {
     }
 
     public void setCategoryCode(String code) {
         categoryCode = code;
+        isExpense = kualiConfigurationService.getApplicationParameterIndicator("OrgReversion", categoryCode + "_Expense");
     }
 
     public void setCategoryName(String name) {
@@ -68,6 +70,10 @@ public class GenericOrganizationReversionCategory implements OrganizationReversi
 
     public String getCode() {
         return categoryCode;
+    }
+
+    public boolean isExpense() {
+        return isExpense;
     }
 
     public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {

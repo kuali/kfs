@@ -25,6 +25,7 @@
 
 package org.kuali.module.chart.bo;
 
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -62,7 +63,7 @@ public class OrganizationReversion extends BusinessObjectBase {
         organizations = new TypedArrayList(Org.class);
 	}
 
-    public List getOrganizationReversionDetail() {
+    public List<OrganizationReversionDetail> getOrganizationReversionDetail() {
         return organizationReversionDetail;
     }
 
@@ -70,8 +71,18 @@ public class OrganizationReversion extends BusinessObjectBase {
         organizationReversionDetail.add(ord);
     }
 
-    public void setOrganizationReversionDetail(List organizationReversionDetail) {
+    public void setOrganizationReversionDetail(List<OrganizationReversionDetail> organizationReversionDetail) {
         this.organizationReversionDetail = organizationReversionDetail;
+    }
+
+    public OrganizationReversionDetail getOrganizationReversionDetail(String categoryCode) {
+        for (Iterator iter = organizationReversionDetail.iterator(); iter.hasNext();) {
+            OrganizationReversionDetail element = (OrganizationReversionDetail)iter.next();
+            if ( element.getOrganizationReversionCategoryCode().equals(categoryCode) ) {
+                return element;
+            }
+        }
+        return null;
     }
 
     /**

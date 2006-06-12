@@ -22,9 +22,11 @@
  */
 package org.kuali.module.chart.service;
 
+import java.util.List;
 import java.util.Map;
 
 import org.kuali.module.chart.bo.OrganizationReversion;
+import org.kuali.module.chart.bo.OrganizationReversionCategory;
 import org.kuali.module.gl.service.OrganizationReversionCategoryLogic;
 
 /**
@@ -32,6 +34,27 @@ import org.kuali.module.gl.service.OrganizationReversionCategoryLogic;
  * @version $Id$
  */
 public interface OrganizationReversionService {
+    /**
+     * Get an organization reversion record
+     * 
+     * @param fiscalYear Fiscal Year
+     * @param chartCode Chart
+     * @param organizationCode Organization code
+     * @return Org Reversion record
+     */
     public OrganizationReversion getByPrimaryId(Integer fiscalYear, String chartCode, String organizationCode);
+
+    /**
+     * Get org reversion categories
+     * 
+     * @return map of org reversion categories
+     */
     public Map<String,OrganizationReversionCategoryLogic> getCategories();
+
+    /**
+     * List of reversion categories in order of the sort code
+     * 
+     * @return list of org reversion category codes
+     */
+    public List<OrganizationReversionCategory> getCategoryList();
 }

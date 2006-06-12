@@ -22,7 +22,7 @@
  */
 package org.kuali.module.chart.dao.ojb;
 
-import java.util.Collection;
+import java.util.List;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
@@ -52,13 +52,13 @@ public class OrganizationReversionDaoOjb extends PersistenceBrokerTemplate imple
         return (OrganizationReversion)getObjectByQuery(QueryFactory.newQuery(OrganizationReversion.class,criteria));
     }
 
-    public Collection getCategories() {
+    public List<OrganizationReversionCategory> getCategories() {
         LOG.debug("getCategories() started");
 
         Criteria criteria = new Criteria();
         QueryByCriteria q = QueryFactory.newQuery(OrganizationReversionCategory.class, criteria);
         q.addOrderByAscending("organizationReversionSortCode");
 
-        return getCollectionByQuery(q);
+        return (List)getCollectionByQuery(q);
     }
 }

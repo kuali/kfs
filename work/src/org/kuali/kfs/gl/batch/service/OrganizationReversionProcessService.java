@@ -22,36 +22,10 @@
  */
 package org.kuali.module.gl.service;
 
-import org.kuali.module.chart.bo.ObjectCode;
-
-public interface OrganizationReversionCategoryLogic {
+public interface OrganizationReversionProcessService {
     /**
-     * Determine if this object code is contained in
-     * this category
+     * Organization Reversion Year End Process
      * 
-     * @param oc Object Code
-     * @return true if object code is in this category, false if not
      */
-    public boolean containsObjectCode(ObjectCode oc);
-
-    /**
-     * Name of this code
-     * 
-     * @return code
-     */
-    public String getCode();
-
-    /**
-     * Name of this category
-     * 
-     * @return name
-     */
-    public String getName();
-
-    /**
-     * Is this category an expense?
-     * 
-     * @return true if expense, false if not
-     */
-    public boolean isExpense();
+    public void organizationReversionProcess();
 }

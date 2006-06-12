@@ -22,9 +22,10 @@
  */
 package org.kuali.module.chart.dao;
 
-import java.util.Collection;
+import java.util.List;
 
 import org.kuali.module.chart.bo.OrganizationReversion;
+import org.kuali.module.chart.bo.OrganizationReversionCategory;
 
 
 /**
@@ -48,5 +49,5 @@ public interface OrganizationReversionDao {
      *
      * @return list of categories
      */
-    public Collection getCategories();
+    public List<OrganizationReversionCategory> getCategories();
 }

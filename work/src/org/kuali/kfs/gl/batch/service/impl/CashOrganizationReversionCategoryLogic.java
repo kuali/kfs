@@ -20,38 +20,32 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-package org.kuali.module.gl.service;
+package org.kuali.module.gl.service.impl.orgreversion;
 
 import org.kuali.module.chart.bo.ObjectCode;
+import org.kuali.module.gl.service.OrganizationReversionCategoryLogic;
 
-public interface OrganizationReversionCategoryLogic {
-    /**
-     * Determine if this object code is contained in
-     * this category
-     * 
-     * @param oc Object Code
-     * @return true if object code is in this category, false if not
-     */
-    public boolean containsObjectCode(ObjectCode oc);
+public class CashOrganizationReversionCategoryLogic implements OrganizationReversionCategoryLogic {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CashOrganizationReversionCategoryLogic.class);
 
-    /**
-     * Name of this code
-     * 
-     * @return code
-     */
-    public String getCode();
+    public boolean containsObjectCode(ObjectCode oc) {
+        LOG.debug("containsObjectCode() started");
 
-    /**
-     * Name of this category
-     * 
-     * @return name
-     */
-    public String getName();
+        if ( oc.getChartOfAccounts().getFinancialCashObject().equals(oc.getObjectCode()) ) {
+            return true;
+        }
+        return false;
+    }
 
-    /**
-     * Is this category an expense?
-     * 
-     * @return true if expense, false if not
-     */
-    public boolean isExpense();
+    public String getCode() {
+        return "CASH";
+    }
+
+    public String getName() {
+        return "Cash";
+    }
+
+    public boolean isExpense() {
+        return false;
+    }
 }

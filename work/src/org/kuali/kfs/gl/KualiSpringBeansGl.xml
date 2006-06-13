@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
+	<bean id="glOrganizationReversionStep" class="org.kuali.module.gl.batch.OrganizationReversionStep">
+		<property name="organizationReversionProcessService"><ref bean="glOrganizationReversionProcessService"/></property>
+	</bean>
+
 	<bean id="glOrganizationReversionProcessService" class="org.kuali.module.gl.service.impl.OrganizationReversionProcessServiceImpl">
 		<property name="organizationReversionService"><ref bean="organizationReversionService"/></property>
 		<property name="kualiConfigurationService"><ref bean="kualiConfigurationService" /></property>

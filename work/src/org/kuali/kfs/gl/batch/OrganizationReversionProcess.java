@@ -81,6 +81,7 @@ public class OrganizationReversionProcess {
             BeanFactory bf,BalanceService bs,OrganizationReversionSelection orgrs,OriginEntryGroupService oegs,
             OriginEntryService oes,PersistenceService ps,DateTimeService dts,OrganizationReversionCategoryLogic corc) {
 
+        balanceService = bs;
         organizationReversionService = ors;
         kualiConfigurationService = kcs;
         beanFactory = bf;
@@ -113,6 +114,7 @@ public class OrganizationReversionProcess {
             if ( balancesRead == 0 ) {
                 unitOfWork = new OrgReversionUnitOfWork(bal.getChartOfAccountsCode(),bal.getAccountNumber(),bal.getSubAccountNumber());
                 unitOfWork.setCategories(categoryList);
+                unitOfWork.setFields(bal.getChartOfAccountsCode(), bal.getAccountNumber(), bal.getSubAccountNumber());
             }
             balancesRead++;
 
@@ -167,7 +169,7 @@ public class OrganizationReversionProcess {
             writeMany();
         }
         if ( unitOfWork.getTotalCash().compareTo(KualiDecimal.ZERO) != 0 ) {
-            // TODO Write Cash
+            writeCash();
         }
     }
 
@@ -601,6 +603,7 @@ public class OrganizationReversionProcess {
             String categoryCode = category.getOrganizationReversionCategoryCode();
             OrganizationReversionCategoryLogic logic = categories.get(categoryCode);
             CategoryAmount amount = unitOfWork.amounts.get(categoryCode);
+System.err.println("Category Code: " + categoryCode);
             OrganizationReversionDetail detail = organizationReversion.getOrganizationReversionDetail(categoryCode);
             String ruleCode = detail.getOrganizationReversionCode();
 

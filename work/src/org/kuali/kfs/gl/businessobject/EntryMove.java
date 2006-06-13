@@ -41,7 +41,9 @@ public class EntryMove extends BusinessObjectBase {
 
 	private String personUniversalIdentifier;
 	private Integer universityFiscalYear;
-	private String chartOfAccountsCode;
+    private String budgetYearFundingSourceCode;
+    private Integer budgetYear;
+    private String chartOfAccountsCode;
 	private String accountNumber;
 	private String subAccountNumber;
 	private String financialObjectCode;
@@ -67,7 +69,6 @@ public class EntryMove extends BusinessObjectBase {
 	private String transactionEncumbranceUpdateCode;
 	private Date transactionPostingDate;
 	private Date transactionDateTimeStamp;
-	private String budgetYear;
 
     private ObjectCode financialObject;
 	private Account account;
@@ -667,28 +668,38 @@ public class EntryMove extends BusinessObjectBase {
 		this.transactionDateTimeStamp = transactionDateTimeStamp;
 	}
 
+    /**
+     * Gets the budgetYear attribute. 
+     * @return Returns the budgetYear.
+     */
+    public Integer getBudgetYear() {
+        return budgetYear;
+    }
 
-	/**
-	 * Gets the budgetYear attribute.
-	 * 
-	 * @return - Returns the budgetYear
-	 * 
-	 */
-	public String getBudgetYear() { 
-		return budgetYear;
-	}
+    /**
+     * Sets the budgetYear attribute value.
+     * @param budgetYear The budgetYear to set.
+     */
+    public void setBudgetYear(Integer budgetYear) {
+        this.budgetYear = budgetYear;
+    }
 
-	/**
-	 * Sets the budgetYear attribute.
-	 * 
-	 * @param - budgetYear The budgetYear to set.
-	 * 
-	 */
-	public void setBudgetYear(String budgetYear) {
-		this.budgetYear = budgetYear;
-	}
+    /**
+     * Gets the budgetYearFundingSourceCode attribute. 
+     * @return Returns the budgetYearFundingSourceCode.
+     */
+    public String getBudgetYearFundingSourceCode() {
+        return budgetYearFundingSourceCode;
+    }
 
-
+    /**
+     * Sets the budgetYearFundingSourceCode attribute value.
+     * @param budgetYearFundingSourceCode The budgetYearFundingSourceCode to set.
+     */
+    public void setBudgetYearFundingSourceCode(String budgetYearFundingSourceCode) {
+        this.budgetYearFundingSourceCode = budgetYearFundingSourceCode;
+    }    
+    
 	/**
 	 * Gets the financialObject attribute.
 	 * 
@@ -757,6 +768,10 @@ public class EntryMove extends BusinessObjectBase {
         m.put("personUniversalIdentifier", this.personUniversalIdentifier);
         if (this.universityFiscalYear != null) {
             m.put("universityFiscalYear", this.universityFiscalYear.toString());
+        }
+        m.put("budgetYearFundingSourceCode", this.budgetYearFundingSourceCode);
+        if (this.budgetYear != null) {
+            m.put("budgetYear", this.budgetYear.toString());
         }
         m.put("chartOfAccountsCode", this.chartOfAccountsCode);
         m.put("accountNumber", this.accountNumber);

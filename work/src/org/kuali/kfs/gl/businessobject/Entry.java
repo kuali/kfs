@@ -50,6 +50,8 @@ public class Entry extends BusinessObjectBase implements Transaction {
     static final long serialVersionUID = -24983129882357448L;
 
     private Integer universityFiscalYear;
+    private String budgetYearFundingSourceCode;
+    private Integer budgetYear;
     private String chartOfAccountsCode;
     private String accountNumber;
     private String subAccountNumber;
@@ -76,7 +78,6 @@ public class Entry extends BusinessObjectBase implements Transaction {
     private String transactionEncumbranceUpdateCode;
     private Date transactionPostingDate;
     private Date transactionDateTimeStamp;
-    private String budgetYear;
 
     // bo references
     private Account account;
@@ -642,24 +643,6 @@ public class Entry extends BusinessObjectBase implements Transaction {
         this.transactionDateTimeStamp = transactionDateTimeStamp;
     }
 
-    /**
-     * Gets the budgetYear attribute.
-     * 
-     * @return - Returns the budgetYear
-     */
-    public String getBudgetYear() {
-        return budgetYear;
-    }
-
-    /**
-     * Sets the budgetYear attribute.
-     * 
-     * @param - budgetYear The budgetYear to set.
-     */
-    public void setBudgetYear(String budgetYear) {
-        this.budgetYear = budgetYear;
-    }
-
     public Account getAccount() {
         return account;
     }
@@ -769,7 +752,13 @@ public class Entry extends BusinessObjectBase implements Transaction {
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
-        m.put("universityFiscalYear", this.universityFiscalYear.toString());
+        if (this.universityFiscalYear != null) {
+            m.put("universityFiscalYear", this.universityFiscalYear.toString());
+        }
+        m.put("budgetYearFundingSourceCode", this.budgetYearFundingSourceCode);
+        if (this.budgetYear != null) {
+            m.put("budgetYear", this.budgetYear.toString());
+        }
         m.put("chartOfAccountsCode", this.chartOfAccountsCode);
         m.put("accountNumber", this.accountNumber);
         m.put("subAccountNumber", this.subAccountNumber);
@@ -801,5 +790,37 @@ public class Entry extends BusinessObjectBase implements Transaction {
      */
     public void setDummyBusinessObject(DummyBusinessObject dummyBusinessObject) {
         this.dummyBusinessObject = dummyBusinessObject;
+    }
+
+    /**
+     * Gets the budgetYear attribute. 
+     * @return Returns the budgetYear.
+     */
+    public Integer getBudgetYear() {
+        return budgetYear;
+    }
+
+    /**
+     * Sets the budgetYear attribute value.
+     * @param budgetYear The budgetYear to set.
+     */
+    public void setBudgetYear(Integer budgetYear) {
+        this.budgetYear = budgetYear;
+    }
+
+    /**
+     * Gets the budgetYearFundingSourceCode attribute. 
+     * @return Returns the budgetYearFundingSourceCode.
+     */
+    public String getBudgetYearFundingSourceCode() {
+        return budgetYearFundingSourceCode;
+    }
+
+    /**
+     * Sets the budgetYearFundingSourceCode attribute value.
+     * @param budgetYearFundingSourceCode The budgetYearFundingSourceCode to set.
+     */
+    public void setBudgetYearFundingSourceCode(String budgetYearFundingSourceCode) {
+        this.budgetYearFundingSourceCode = budgetYearFundingSourceCode;
     }
 }

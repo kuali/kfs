@@ -66,7 +66,7 @@ import org.kuali.module.gl.web.struts.form.CorrectionForm;
 /**
  * @author Laran Evans <lc278@cornell.edu>
  *         Shawn Choo  <schoo@indiana.edu>
- * @version $Id: CorrectionAction.java,v 1.8 2006-06-05 18:48:12 wesprice Exp $
+ * @version $Id: CorrectionAction.java,v 1.9 2006-06-13 14:26:21 temay Exp $
  * 
  */
 
@@ -683,9 +683,6 @@ public class CorrectionAction extends KualiDocumentActionBase {
                     int convertInt = Integer.parseInt(replaceValue);
                     eachReplaceEntries.setUniversityFiscalYear(new Integer(convertInt));
                 }
-                if (replaceField.equals("budgetYear")){
-                    eachReplaceEntries.setBudgetYear(replaceValue);
-                }
                 
                 originEntryDao.saveOriginEntry(eachReplaceEntries);
                 
@@ -864,10 +861,7 @@ public class CorrectionAction extends KualiDocumentActionBase {
             convertInt = Integer.parseInt(editUniversityFiscalYear);
             oe.setUniversityFiscalYear(new Integer(convertInt));
         }
-        
-        oe.setBudgetYear(editBudgetYear);
-        
-        
+  
         HttpSession session = request.getSession(true);
         
         

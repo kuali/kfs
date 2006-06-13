@@ -47,7 +47,7 @@ import org.springframework.util.StringUtils;
 
 /**
  * @author Kuali General Ledger Team (kualigltech@oncourse.iu.edu)
- * @version $Id: OriginEntry.java,v 1.27 2006-06-05 21:19:14 jsissom Exp $
+ * @version $Id: OriginEntry.java,v 1.28 2006-06-13 14:26:21 temay Exp $
  */
 public class OriginEntry extends BusinessObjectBase implements Transaction {
     static final long serialVersionUID = -2498312988235747448L;
@@ -79,9 +79,10 @@ public class OriginEntry extends BusinessObjectBase implements Transaction {
     private String transactionLedgerEntryDescription;
     private String universityFiscalPeriodCode;
     private Integer universityFiscalYear;
-    private String budgetYear;
     private boolean transactionScrubberOffsetGenerationIndicator;
-
+    private String budgetYearFundingSourceCode;
+    private Integer budgetYear;
+    
     // bo references
     private OriginEntryGroup group;
     private Account account;
@@ -723,25 +724,43 @@ public class OriginEntry extends BusinessObjectBase implements Transaction {
         this.referenceDocumentType = referenceDocumentType;
     }
 
-    /**
-     * @return Returns the budgetYear.
-     */
-    public String getBudgetYear() {
-        return budgetYear;
-    }
-
-    /**
-     * @param budgetYear The budgetYear to set.
-     */
-    public void setBudgetYear(String budgetYear) {
-        this.budgetYear = budgetYear;
-    }
-    
     public boolean isDebit() {
         return Constants.GL_DEBIT_CODE.equals(this.transactionDebitCreditCode);
     }
     public boolean isCredit() {
         return Constants.GL_CREDIT_CODE.equals(this.transactionDebitCreditCode);
+    }
+
+    /**
+     * Gets the budgetYear attribute. 
+     * @return Returns the budgetYear.
+     */
+    public Integer getBudgetYear() {
+        return budgetYear;
+    }
+
+    /**
+     * Sets the budgetYear attribute value.
+     * @param budgetYear The budgetYear to set.
+     */
+    public void setBudgetYear(Integer budgetYear) {
+        this.budgetYear = budgetYear;
+    }
+
+    /**
+     * Gets the budgetYearFundingSourceCode attribute. 
+     * @return Returns the budgetYearFundingSourceCode.
+     */
+    public String getBudgetYearFundingSourceCode() {
+        return budgetYearFundingSourceCode;
+    }
+
+    /**
+     * Sets the budgetYearFundingSourceCode attribute value.
+     * @param budgetYearFundingSourceCode The budgetYearFundingSourceCode to set.
+     */
+    public void setBudgetYearFundingSourceCode(String budgetYearFundingSourceCode) {
+        this.budgetYearFundingSourceCode = budgetYearFundingSourceCode;
     }
 
 

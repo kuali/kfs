@@ -79,7 +79,8 @@ public class Account extends BusinessObjectBase {
     private boolean accountOffCampusIndicator;
     private boolean accountClosedIndicator;
     private String programCode;
-
+    private String budgetYearFundingSourceCode;
+    
     private String accountFiscalOfficerSystemIdentifier;
     private String accountsSupervisorySystemsIdentifier;
     private String accountManagerSystemIdentifier;
@@ -1753,6 +1754,22 @@ public class Account extends BusinessObjectBase {
      */
     public String getGuidelinesAndPurposeSectionBlank() {
         return guidelinesAndPurposeSectionBlank;
+    }
+
+    /**
+     * Gets the budgetYearFundingSourceCode attribute. 
+     * @return Returns the budgetYearFundingSourceCode.
+     */
+    public String getBudgetYearFundingSourceCode() {
+        return budgetYearFundingSourceCode;
+    }
+
+    /**
+     * Sets the budgetYearFundingSourceCode attribute value.
+     * @param budgetYearFundingSourceCode The budgetYearFundingSourceCode to set.
+     */
+    public void setBudgetYearFundingSourceCode(String budgetYearFundingSourceCode) {
+        this.budgetYearFundingSourceCode = budgetYearFundingSourceCode;
     }
 
 }

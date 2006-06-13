@@ -49,6 +49,8 @@ public class Reversal extends BusinessObjectBase implements Transaction {
 
     private Date financialDocumentReversalDate;
     private Integer universityFiscalYear;
+    private String budgetYearFundingSourceCode;
+    private Integer budgetYear;
     private String chartOfAccountsCode;
     private String accountNumber;
     private String subAccountNumber;
@@ -725,9 +727,47 @@ public class Reversal extends BusinessObjectBase implements Transaction {
         this.universityDate = universityDate;
     }
 
+    /**
+     * Gets the budgetYear attribute. 
+     * @return Returns the budgetYear.
+     */
+    public Integer getBudgetYear() {
+        return budgetYear;
+    }
+
+    /**
+     * Sets the budgetYear attribute value.
+     * @param budgetYear The budgetYear to set.
+     */
+    public void setBudgetYear(Integer budgetYear) {
+        this.budgetYear = budgetYear;
+    }
+
+    /**
+     * Gets the budgetYearFundingSourceCode attribute. 
+     * @return Returns the budgetYearFundingSourceCode.
+     */
+    public String getBudgetYearFundingSourceCode() {
+        return budgetYearFundingSourceCode;
+    }
+
+    /**
+     * Sets the budgetYearFundingSourceCode attribute value.
+     * @param budgetYearFundingSourceCode The budgetYearFundingSourceCode to set.
+     */
+    public void setBudgetYearFundingSourceCode(String budgetYearFundingSourceCode) {
+        this.budgetYearFundingSourceCode = budgetYearFundingSourceCode;
+    }
+    
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap map = new LinkedHashMap();
-        map.put("universityFiscalYear", getUniversityFiscalYear());
+        if (getUniversityFiscalYear() != null) {
+            map.put("universityFiscalYear", getUniversityFiscalYear().toString());
+        }
+        map.put("budgetYearFundingSourceCode", getBudgetYearFundingSourceCode());
+        if (getBudgetYear() != null) {
+            map.put("budgetYear", getBudgetYear().toString());
+        }
         map.put("chartOfAccountsCode", getChartOfAccountsCode());
         map.put("accountNumber", getAccountNumber());
         map.put("subAccountNumber", getSubAccountNumber());
@@ -741,5 +781,6 @@ public class Reversal extends BusinessObjectBase implements Transaction {
         map.put("financialDocumentNumber", getFinancialDocumentNumber());
         map.put("transactionLedgerEntrySequenceNumber", getTransactionLedgerEntrySequenceNumber());
         return map;
-    }
+    }    
+    
 }

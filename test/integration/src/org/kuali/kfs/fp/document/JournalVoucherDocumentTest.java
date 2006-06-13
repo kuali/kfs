@@ -281,7 +281,7 @@ public class JournalVoucherDocumentTest extends TransactionalDocumentTestBase {
             new DocumentStatusMonitor( getDocumentService(), 
                                        document.getDocumentHeader()
                                        .getFinancialDocumentNumber(), 
-                                       Constants.DOCUMENT_STATUS_CD_APPROVED_PROCESSED);
+                                       Constants.DocumentStatusCodes.PROCESSED);
         assertTrue(ChangeMonitor.waitUntilChange(statusMonitor, 240, 5));
     }
     

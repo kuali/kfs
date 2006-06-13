@@ -244,7 +244,7 @@ public class CashManagementServiceImpl implements CashManagementService {
         for (Iterator i = selectedCashReceipts.iterator(); i.hasNext();) {
             CashReceiptDocument crDoc = (CashReceiptDocument) i.next();
             DocumentHeader dh = crDoc.getDocumentHeader();
-            dh.setFinancialDocumentStatusCode(Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_INTERIM);
+            dh.setFinancialDocumentStatusCode(Constants.DocumentStatusCodes.CashReceipt.INTERIM);
             documentService.updateDocument(crDoc);
 
             CashReceiptHeader crHeader = new CashReceiptHeader();
@@ -281,7 +281,7 @@ public class CashManagementServiceImpl implements CashManagementService {
                 CashReceiptDocument cashReceipt = (CashReceiptDocument) i.next();
 
                 String statusCode = cashReceipt.getDocumentHeader().getFinancialDocumentStatusCode();
-                if (!StringUtils.equals(statusCode, Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED)) {
+                if (!StringUtils.equals(statusCode, Constants.DocumentStatusCodes.CashReceipt.VERIFIED)) {
                     throw new InvalidCashReceiptState("cash receipt document " + cashReceipt.getFinancialDocumentNumber()
                             + " has a status other than 'verified' ");
                 }
@@ -352,7 +352,7 @@ public class CashManagementServiceImpl implements CashManagementService {
             // reset each CashReceipt status
             CashReceiptDocument crDoc = crHeader.getCashReceiptDocument();
             DocumentHeader crdh = crDoc.getDocumentHeader();
-            crdh.setFinancialDocumentStatusCode(Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED);
+            crdh.setFinancialDocumentStatusCode(Constants.DocumentStatusCodes.CashReceipt.VERIFIED);
             documentService.updateDocument(crDoc);
         }
 

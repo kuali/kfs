@@ -109,7 +109,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
     public boolean routeProcurementCardDocuments() {
         List documentList = new ArrayList();
         try {
-            documentList = (List) documentService.findByDocumentHeaderStatusCode(ProcurementCardDocument.class, Constants.DOCUMENT_STATUS_CD_INITIAL);
+            documentList = (List) documentService.findByDocumentHeaderStatusCode(ProcurementCardDocument.class, Constants.DocumentStatusCodes.INITIATED);
         }
         catch (WorkflowException e1) {
             LOG.error("Error retrieving pcdo documents for routing: " + e1.getMessage());
@@ -144,7 +144,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
         List documentList = new ArrayList();
 
         try {
-            documentList = (List) documentService.findByDocumentHeaderStatusCode(ProcurementCardDocument.class, Constants.ROUTE_HEADER_ENROUTE_CD);
+            documentList = (List) documentService.findByDocumentHeaderStatusCode(ProcurementCardDocument.class, Constants.DocumentStatusCodes.ENROUTE);
         }
         catch (WorkflowException e1) {
             throw new RuntimeException(e1.getMessage());

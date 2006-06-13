@@ -26,11 +26,9 @@
 package org.kuali.module.financial.document;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.Constants.DepositConstants;
@@ -38,8 +36,6 @@ import org.kuali.core.document.FinancialDocumentBase;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.CashDrawer;
 import org.kuali.module.financial.bo.Deposit;
-
-import edu.iu.uis.eden.EdenConstants;
 
 /**
  * This class represents the CashManagementDocument.
@@ -214,26 +210,17 @@ public class CashManagementDocument extends FinancialDocumentBase {
     }
 
 
-    private static final Set CANCELLATION_CODES;
-    static {
-        String[] FAILURE_CODE_ARRAY = { EdenConstants.ROUTE_HEADER_CANCEL_DISAPPROVE_CD, EdenConstants.ROUTE_HEADER_DISAPPROVED_CD,
-                EdenConstants.ROUTE_HEADER_CANCEL_CD };
-        CANCELLATION_CODES = new HashSet();
-        for (int i = 0; i < FAILURE_CODE_ARRAY.length; ++i) {
-            CANCELLATION_CODES.add(FAILURE_CODE_ARRAY[i]);
-        }
-    }
-
     /**
-     * @see org.kuali.core.document.DocumentBase#handleRouteStatusChange(java.lang.String)
+     * @see org.kuali.core.document.DocumentBase#handleRouteStatusChange()
      */
-    public void handleRouteStatusChange(String newRouteStatus) {
+    public void handleRouteStatusChange() {
+        super.handleRouteStatusChange();
         // all approvals have been processed, finalize everything
-        if (StringUtils.equals(newRouteStatus, EdenConstants.ROUTE_HEADER_PROCESSED_CD)) {
+        if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
             SpringServiceLocator.getCashManagementService().finalizeCashManagementDocument(this);
         }
         // document has been canceled or disapproved,
-        else if (CANCELLATION_CODES.contains(newRouteStatus)) {
+        else if (getDocumentHeader().getWorkflowDocument().stateIsCanceled() || getDocumentHeader().getWorkflowDocument().stateIsDisapproved()) {
             SpringServiceLocator.getCashManagementService().cancelCashManagementDocument(this);
         }
     }

@@ -26,8 +26,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.Constants;
-import org.kuali.Constants.CashReceiptConstants;
-import org.kuali.core.rule.event.SaveDocumentEvent;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
@@ -181,7 +179,7 @@ public class CashReceiptServiceTest extends KualiTestBaseWithSession {
         // clean up before testing
         denatureCashReceipts(workgroup);
 
-        List receipts = crService.getCashReceipts(workgroup, CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED);
+        List receipts = crService.getCashReceipts(workgroup, Constants.DocumentStatusCodes.CashReceipt.VERIFIED);
         assertEquals(0, receipts.size());
     }
 
@@ -191,7 +189,7 @@ public class CashReceiptServiceTest extends KualiTestBaseWithSession {
         // clean up before testing
         denatureCashReceipts(workgroup);
 
-        List receipts = crService.getCashReceipts(workgroup, CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_INTERIM);
+        List receipts = crService.getCashReceipts(workgroup, Constants.DocumentStatusCodes.CashReceipt.INTERIM);
         assertEquals(0, receipts.size());
     }
 
@@ -205,19 +203,19 @@ public class CashReceiptServiceTest extends KualiTestBaseWithSession {
         // create some CRs
         changeCurrentUser("INEFF");
         CashReceiptDocument cr1 = buildCashReceiptDoc(workgroup, "ww2 CRST cr1",
-                Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_INTERIM, new KualiDecimal("101.01"),
+                Constants.DocumentStatusCodes.CashReceipt.INTERIM, new KualiDecimal("101.01"),
                 new KualiDecimal("898.99"));
 
         CashReceiptDocument cr2 = buildCashReceiptDoc(workgroup, "ww2 CRST cr2",
-                Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_INTERIM, new KualiDecimal("212.12"),
+                Constants.DocumentStatusCodes.CashReceipt.INTERIM, new KualiDecimal("212.12"),
                 new KualiDecimal("787.87"));
 
 
         // verify that there are only interim CRs
-        List vreceipts = crService.getCashReceipts(workgroup, CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED);
+        List vreceipts = crService.getCashReceipts(workgroup, Constants.DocumentStatusCodes.CashReceipt.VERIFIED);
         assertEquals(0, vreceipts.size());
 
-        List ireceipts = crService.getCashReceipts(workgroup, CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_INTERIM);
+        List ireceipts = crService.getCashReceipts(workgroup, Constants.DocumentStatusCodes.CashReceipt.INTERIM);
         assertEquals(2, ireceipts.size());
 
         // clean up afterwards
@@ -233,19 +231,19 @@ public class CashReceiptServiceTest extends KualiTestBaseWithSession {
         // create some CRs
         changeCurrentUser("INEFF");
         CashReceiptDocument cr1 = buildCashReceiptDoc(workgroup, "ww2 CRST cr1",
-                Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED, new KualiDecimal("101.01"),
+                Constants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("101.01"),
                 new KualiDecimal("898.99"));
 
         CashReceiptDocument cr2 = buildCashReceiptDoc(workgroup, "ww2 CRST cr2",
-                Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED, new KualiDecimal("212.12"),
+                Constants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("212.12"),
                 new KualiDecimal("787.87"));
 
 
         // verify that there are only verified CRs
-        List ireceipts = crService.getCashReceipts(workgroup, CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_INTERIM);
+        List ireceipts = crService.getCashReceipts(workgroup, Constants.DocumentStatusCodes.CashReceipt.INTERIM);
         assertEquals(0, ireceipts.size());
 
-        List vreceipts = crService.getCashReceipts(workgroup, CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED);
+        List vreceipts = crService.getCashReceipts(workgroup, Constants.DocumentStatusCodes.CashReceipt.VERIFIED);
         assertEquals(2, vreceipts.size());
 
         // clean up afterwards
@@ -261,19 +259,19 @@ public class CashReceiptServiceTest extends KualiTestBaseWithSession {
         // create some CRs
         changeCurrentUser("INEFF");
         CashReceiptDocument cr1 = buildCashReceiptDoc(workgroup, "ww2 CRST cr1",
-                Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_INTERIM, new KualiDecimal("101.01"),
+                Constants.DocumentStatusCodes.CashReceipt.INTERIM, new KualiDecimal("101.01"),
                 new KualiDecimal("898.99"));
 
         CashReceiptDocument cr2 = buildCashReceiptDoc(workgroup, "ww2 CRST cr2",
-                Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED, new KualiDecimal("212.12"),
+                Constants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("212.12"),
                 new KualiDecimal("787.87"));
 
 
         // verify that there are some of each
-        List ireceipts = crService.getCashReceipts(workgroup, CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_INTERIM);
+        List ireceipts = crService.getCashReceipts(workgroup, Constants.DocumentStatusCodes.CashReceipt.INTERIM);
         assertEquals(1, ireceipts.size());
 
-        List vreceipts = crService.getCashReceipts(workgroup, CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED);
+        List vreceipts = crService.getCashReceipts(workgroup, Constants.DocumentStatusCodes.CashReceipt.VERIFIED);
         assertEquals(1, vreceipts.size());
 
 
@@ -282,10 +280,10 @@ public class CashReceiptServiceTest extends KualiTestBaseWithSession {
     }
 
 
-    private static final String[] BOTH_STATII = { CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED,
-            CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_INTERIM };
-    private static final String[] ISTATII = { CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_INTERIM };
-    private static final String[] VSTATII = { CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED };
+    private static final String[] BOTH_STATII = { Constants.DocumentStatusCodes.CashReceipt.VERIFIED,
+            Constants.DocumentStatusCodes.CashReceipt.INTERIM };
+    private static final String[] ISTATII = { Constants.DocumentStatusCodes.CashReceipt.INTERIM };
+    private static final String[] VSTATII = { Constants.DocumentStatusCodes.CashReceipt.VERIFIED };
 
 
     public final void testGetCashReceipts2_blankUnitName() {
@@ -374,11 +372,11 @@ public class CashReceiptServiceTest extends KualiTestBaseWithSession {
         // create some CRs
         changeCurrentUser("INEFF");
         CashReceiptDocument cr1 = buildCashReceiptDoc(workgroup, "ww2 CRST cr1",
-                Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_INTERIM, new KualiDecimal("101.01"),
+                Constants.DocumentStatusCodes.CashReceipt.INTERIM, new KualiDecimal("101.01"),
                 new KualiDecimal("898.99"));
 
         CashReceiptDocument cr2 = buildCashReceiptDoc(workgroup, "ww2 CRST cr2",
-                Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_INTERIM, new KualiDecimal("212.12"),
+                Constants.DocumentStatusCodes.CashReceipt.INTERIM, new KualiDecimal("212.12"),
                 new KualiDecimal("787.87"));
 
 
@@ -402,11 +400,11 @@ public class CashReceiptServiceTest extends KualiTestBaseWithSession {
         // create some CRs
         changeCurrentUser("INEFF");
         CashReceiptDocument cr1 = buildCashReceiptDoc(workgroup, "ww2 CRST cr1",
-                Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED, new KualiDecimal("101.01"),
+                Constants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("101.01"),
                 new KualiDecimal("898.99"));
 
         CashReceiptDocument cr2 = buildCashReceiptDoc(workgroup, "ww2 CRST cr2",
-                Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED, new KualiDecimal("212.12"),
+                Constants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("212.12"),
                 new KualiDecimal("787.87"));
 
 
@@ -430,11 +428,11 @@ public class CashReceiptServiceTest extends KualiTestBaseWithSession {
         // create some CRs
         changeCurrentUser("INEFF");
         CashReceiptDocument cr1 = buildCashReceiptDoc(workgroup, "ww2 CRST cr1",
-                Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_INTERIM, new KualiDecimal("101.01"),
+                Constants.DocumentStatusCodes.CashReceipt.INTERIM, new KualiDecimal("101.01"),
                 new KualiDecimal("898.99"));
 
         CashReceiptDocument cr2 = buildCashReceiptDoc(workgroup, "ww2 CRST cr2",
-                Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED, new KualiDecimal("212.12"),
+                Constants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("212.12"),
                 new KualiDecimal("787.87"));
 
 

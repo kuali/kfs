@@ -133,7 +133,7 @@ public class SufficientFundsDaoOjb extends PersistenceBrokerDaoSupport implement
         criteria.addIn(Constants.FINANCIAL_OBJECT_TYPE_CODE, expenditureCodes);
         criteria.addEqualTo(Constants.ACCOUNT_SUFFICIENT_FUNDS_FINANCIAL_OBJECT_CODE_PROPERTY_NAME, acctSufficientFundsFinObjCd);
         criteria.addNotEqualTo(Constants.DOCUMENT_HEADER_PROPERTY_NAME + "."
-                + Constants.DOCUMENT_HEADER_DOCUMENT_STATUS_CODE_PROPERTY_NAME, Constants.DOCUMENT_STATUS_CD_CANCELLED);
+                + Constants.DOCUMENT_HEADER_DOCUMENT_STATUS_CODE_PROPERTY_NAME, Constants.DocumentStatusCodes.CANCELLED);
 
         if (isYearEndDocument) {
             criteria.addLike(Constants.FINANCIAL_DOCUMENT_TYPE_CODE, YEAR_END_DOC_PREFIX);
@@ -211,7 +211,7 @@ public class SufficientFundsDaoOjb extends PersistenceBrokerDaoSupport implement
         }
 
         criteria.addNotEqualTo(Constants.DOCUMENT_HEADER_PROPERTY_NAME + "."
-                + Constants.DOCUMENT_HEADER_DOCUMENT_STATUS_CODE_PROPERTY_NAME, Constants.DOCUMENT_STATUS_CD_CANCELLED);
+                + Constants.DOCUMENT_HEADER_DOCUMENT_STATUS_CODE_PROPERTY_NAME, Constants.DocumentStatusCodes.CANCELLED);
 
         if (isYearEndDocument) {
             criteria.addLike(Constants.FINANCIAL_DOCUMENT_TYPE_CODE, YEAR_END_DOC_PREFIX);
@@ -257,7 +257,7 @@ public class SufficientFundsDaoOjb extends PersistenceBrokerDaoSupport implement
         }
 
         criteria.addNotEqualTo(Constants.DOCUMENT_HEADER_PROPERTY_NAME + "."
-                + Constants.DOCUMENT_HEADER_DOCUMENT_STATUS_CODE_PROPERTY_NAME, Constants.DOCUMENT_STATUS_CD_CANCELLED);
+                + Constants.DOCUMENT_HEADER_DOCUMENT_STATUS_CODE_PROPERTY_NAME, Constants.DocumentStatusCodes.CANCELLED);
 
         if (isYearEndDocument) {
             criteria.addLike(Constants.FINANCIAL_DOCUMENT_TYPE_CODE, YEAR_END_DOC_PREFIX);
@@ -308,7 +308,7 @@ public class SufficientFundsDaoOjb extends PersistenceBrokerDaoSupport implement
         }
 
         criteria.addNotEqualTo(Constants.DOCUMENT_HEADER_PROPERTY_NAME + "."
-                + Constants.DOCUMENT_HEADER_DOCUMENT_STATUS_CODE_PROPERTY_NAME, Constants.DOCUMENT_STATUS_CD_CANCELLED);
+                + Constants.DOCUMENT_HEADER_DOCUMENT_STATUS_CODE_PROPERTY_NAME, Constants.DocumentStatusCodes.CANCELLED);
 
         ReportQueryByCriteria reportQuery = QueryFactory.newReportQuery(GeneralLedgerPendingEntry.class, criteria);
         reportQuery.setAttributes(new String[] { "sum(" + Constants.TRANSACTION_LEDGER_ENTRY_AMOUNT + ")" });
@@ -353,7 +353,7 @@ public class SufficientFundsDaoOjb extends PersistenceBrokerDaoSupport implement
         }
 
         criteria.addNotEqualTo(Constants.DOCUMENT_HEADER_PROPERTY_NAME + "."
-                + Constants.DOCUMENT_HEADER_DOCUMENT_STATUS_CODE_PROPERTY_NAME, Constants.DOCUMENT_STATUS_CD_CANCELLED);
+                + Constants.DOCUMENT_HEADER_DOCUMENT_STATUS_CODE_PROPERTY_NAME, Constants.DocumentStatusCodes.CANCELLED);
 
         ReportQueryByCriteria reportQuery = QueryFactory.newReportQuery(GeneralLedgerPendingEntry.class, criteria);
         reportQuery.setAttributes(new String[] { "sum(" + Constants.TRANSACTION_LEDGER_ENTRY_AMOUNT + ")" });

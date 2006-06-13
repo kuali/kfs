@@ -140,7 +140,7 @@ public class DepositWizardAction extends KualiAction {
      * @param dform
      */
     private void loadCashReceipts(DepositWizardForm dform) {
-        List verifiedReceipts = SpringServiceLocator.getCashReceiptService().getCashReceipts(dform.getCashDrawerVerificationUnit(), CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED);
+        List verifiedReceipts = SpringServiceLocator.getCashReceiptService().getCashReceipts(dform.getCashDrawerVerificationUnit(), Constants.DocumentStatusCodes.CashReceipt.VERIFIED);
         dform.setDepositableCashReceipts(verifiedReceipts);
 
         // prepopulate DepositWizardHelpers

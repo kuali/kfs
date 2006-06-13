@@ -59,8 +59,8 @@ public class KualiPostProcessor implements PostProcessorRemote {
                 }
             }
             else {
-                document.handleRouteStatusChange(statusChangeEvent.getNewRouteStatus());
-                if (EdenConstants.ROUTE_HEADER_FINAL_CD.equals(statusChangeEvent.getNewRouteStatus())) {
+                document.handleRouteStatusChange();
+                if (document.getDocumentHeader().getWorkflowDocument().stateIsCanceled() || document.getDocumentHeader().getWorkflowDocument().stateIsDisapproved() || document.getDocumentHeader().getWorkflowDocument().stateIsFinal()) {
                     document.getDocumentHeader().setDocumentFinalDate(new java.sql.Date(SpringServiceLocator.getDateTimeService().getCurrentDate().getTime()));
                 }
                 SpringServiceLocator.getDocumentService().updateDocument(document);

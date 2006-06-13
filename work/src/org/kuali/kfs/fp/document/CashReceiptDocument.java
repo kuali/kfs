@@ -40,8 +40,6 @@ import org.kuali.module.financial.bo.Check;
 import org.kuali.module.financial.bo.CheckBase;
 import org.kuali.module.financial.rules.CashReceiptDocumentRule;
 
-import edu.iu.uis.eden.EdenConstants;
-
 /**
  * This is the business object that represents the CashReceiptDocument in Kuali. This is a transactional document that will
  * eventually post transactions to the G/L. It integrates with workflow. Since a Cash Receipt is a one sided transactional document,
@@ -75,8 +73,8 @@ public class CashReceiptDocument extends TransactionalDocumentBase {
      */
     public CashReceiptDocument() {
         super();
-
-        setCampusLocationCode(Constants.CashReceiptConstants.DEFAULT_CASH_RECEIPT_CAMPUS_LOCATION_CODE);
+        
+        setCampusLocationCode( Constants.CashReceiptConstants.DEFAULT_CASH_RECEIPT_CAMPUS_LOCATION_CODE );
     }
 
     /**
@@ -216,7 +214,7 @@ public class CashReceiptDocument extends TransactionalDocumentBase {
         }
         return (Check) checks.get(index);
     }
-
+    
     /**
      * Total for a Cash Receipt according to the spec should be the sum of the 
      * amounts on accounting lines belonging to object codes having the 'income' object type, 
@@ -227,16 +225,16 @@ public class CashReceiptDocument extends TransactionalDocumentBase {
      */
     public KualiDecimal getSourceTotal() {
         CashReceiptDocumentRule crDocRule = (CashReceiptDocumentRule) SpringServiceLocator.getKualiRuleService().
-                getBusinessRulesInstance(this, AccountingLineRule.class);
+            getBusinessRulesInstance(this, AccountingLineRule.class);
         KualiDecimal total = new KualiDecimal(0);
         AccountingLineBase al = null;
         Iterator iter = sourceAccountingLines.iterator();
         while (iter.hasNext()) {
             al = (AccountingLineBase) iter.next();
-
+            
             KualiDecimal amount = al.getAmount();
             if (amount != null) {
-                if (crDocRule.isDebit(al)) {
+                if(crDocRule.isDebit(al)) {
                     total = total.subtract(amount);
                 } else if(crDocRule.isCredit(al)) {
                     total = total.add(amount);
@@ -330,7 +328,7 @@ public class CashReceiptDocument extends TransactionalDocumentBase {
      * @param totalCheckAmount The totalCheckAmount to set.
      */
     public void setTotalCheckAmount(KualiDecimal totalCheckAmount) {
-        if (totalCheckAmount == null) {
+        if(totalCheckAmount == null) {
             this.totalCheckAmount = new KualiDecimal(0);
         } else {
             this.totalCheckAmount = totalCheckAmount;
@@ -419,16 +417,14 @@ public class CashReceiptDocument extends TransactionalDocumentBase {
      * is associated with is FINAL approved, this status will be set to APPROVED ("A") to be picked up by the GL for processing.
      * That's done in the handleRouteStatusChange() method in the CashManagementDocument.
      * 
-     * @see org.kuali.core.document.Document#handleRouteStatusChange(java.lang.String)
+     * @see org.kuali.core.document.Document#handleRouteStatusChange()
      */
-    public void handleRouteStatusChange(String newRouteStatus) {
+    public void handleRouteStatusChange() {
+        super.handleRouteStatusChange();
         // Workflow Status of Final --> Kuali Doc Status of Verified
-        if (EdenConstants.ROUTE_HEADER_PROCESSED_CD.equals(newRouteStatus)
-                || EdenConstants.ROUTE_HEADER_APPROVED_CD.equals(newRouteStatus)
-                || EdenConstants.ROUTE_HEADER_FINAL_CD.equals(newRouteStatus)) {
+        if (getDocumentHeader().getWorkflowDocument().stateIsApproved() || getDocumentHeader().getWorkflowDocument().stateIsProcessed() || getDocumentHeader().getWorkflowDocument().stateIsFinal()) {
             this.getDocumentHeader().setFinancialDocumentStatusCode(
-                    Constants.CashReceiptConstants.DOCUMENT_STATUS_CD_CASH_RECEIPT_VERIFIED);
-            //SpringServiceLocator.getDocumentService().updateDocument(this);
+                    Constants.DocumentStatusCodes.CashReceipt.VERIFIED);
         }
     }
 

@@ -663,9 +663,10 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
 
 
     /**
-     * @see org.kuali.core.document.Document#handleRouteStatusChange(java.lang.String)
+     * @see org.kuali.core.document.Document#handleRouteStatusChange()
      */
-    public void handleRouteStatusChange(String newRouteStatus) {
+    public void handleRouteStatusChange() {
+        super.handleRouteStatusChange();
         // TODO Auto-generated method stub
 
     }

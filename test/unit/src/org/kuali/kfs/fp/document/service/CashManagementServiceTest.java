@@ -722,8 +722,6 @@ public class CashManagementServiceTest extends KualiTestBaseWithSession {
 
     // UNF: testCancelDeposit_finalCMDoc
     // UNF: testCancelDeposit_finalCashReceipt
-    // UNF: testCancelDeposit_
-    // UNF: testCancelDeposit_
 
 
     // UNF: test finalizeCashManagementDocument(CashManagementDocument cmDoc);
@@ -761,7 +759,6 @@ public class CashManagementServiceTest extends KualiTestBaseWithSession {
 
         crDoc.setCampusLocationCode(cashReceiptService.getCampusCodeForCashReceiptVerificationUnit(workgroupName));
 
-        // HACK: documentService.validateAndPersistDocument(crDoc, new SaveDocumentEvent(crDoc));
         documentService.saveDocument(crDoc, "buildVerifiedCashReceiptDoc", null);
 
         CashReceiptDocument persistedDoc = (CashReceiptDocument) documentService.getByDocumentHeaderId(crDoc.getFinancialDocumentNumber());

@@ -141,7 +141,6 @@ public class CashManagementServiceImpl implements CashManagementService {
                 cashDrawerService.openCashDrawer(unitName, cmDoc.getFinancialDocumentNumber());
 
                 // persist everything
-                //HACK: documentService.validateAndPersistDocument(cmDoc, new SaveDocumentEvent(cmDoc));
                 documentService.saveDocument(cmDoc, annotation, null);
             }
             catch (RuntimeException e) {

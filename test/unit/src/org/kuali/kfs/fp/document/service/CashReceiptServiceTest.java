@@ -474,7 +474,6 @@ public class CashReceiptServiceTest extends KualiTestBaseWithSession {
 
         crDoc.setCampusLocationCode(crService.getCampusCodeForCashReceiptVerificationUnit(workgroupName));
 
-        //HACK: docService.validateAndPersistDocument(crDoc, new SaveDocumentEvent(crDoc));
         docService.saveDocument(crDoc, "buildVerifiedCashReceiptDoc", null);
 
         return crDoc;

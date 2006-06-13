@@ -420,7 +420,6 @@ public class CashReceiptDocument extends TransactionalDocumentBase {
      * @see org.kuali.core.document.Document#handleRouteStatusChange()
      */
     public void handleRouteStatusChange() {
-        super.handleRouteStatusChange();
         // Workflow Status of Final --> Kuali Doc Status of Verified
         if (getDocumentHeader().getWorkflowDocument().stateIsApproved() || getDocumentHeader().getWorkflowDocument().stateIsProcessed() || getDocumentHeader().getWorkflowDocument().stateIsFinal()) {
             this.getDocumentHeader().setFinancialDocumentStatusCode(

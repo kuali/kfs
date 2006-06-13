@@ -214,7 +214,6 @@ public class CashManagementDocument extends FinancialDocumentBase {
      * @see org.kuali.core.document.DocumentBase#handleRouteStatusChange()
      */
     public void handleRouteStatusChange() {
-        super.handleRouteStatusChange();
         // all approvals have been processed, finalize everything
         if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
             SpringServiceLocator.getCashManagementService().finalizeCashManagementDocument(this);

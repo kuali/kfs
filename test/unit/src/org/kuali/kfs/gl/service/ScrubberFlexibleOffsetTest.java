@@ -22,6 +22,7 @@
  */
 package org.kuali.module.gl.service;
 
+import java.sql.Date;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -34,7 +35,6 @@ import org.kuali.core.document.DocumentType;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DocumentTypeService;
 import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.chart.bo.OffsetDefinition;
 import org.kuali.module.financial.bo.OffsetAccount;
@@ -59,6 +59,7 @@ public class ScrubberFlexibleOffsetTest extends OriginEntryTestBase {
     private DocumentTypeService documentTypeService;
     private ScrubberService scrubberService;
     private KualiConfigurationService originalConfigService;
+    private OriginEntryGroupService originEntryGroupService;
 
     public final Integer FISCAL_YEAR = new Integer(2004);
     public final String COA_CODE = "BL";
@@ -80,13 +81,11 @@ public class ScrubberFlexibleOffsetTest extends OriginEntryTestBase {
         super.setUp();
 
         scrubberService = (ScrubberService) beanFactory.getBean(GLSpringBeansRegistry.glScrubberService);
-        //persistenceService = (PersistenceService) beanFactory.getBean("persistenceService");
 
         businessObjectService = (BusinessObjectService) beanFactory.getBean("businessObjectService");
         documentTypeService = (DocumentTypeService) beanFactory.getBean("documentTypeService");
 
         flexibleOffsetAccountService = (FlexibleOffsetAccountService) beanFactory.getBean("flexibleOffsetAccountService");
-        //originalConfigService = flexibleOffsetAccountService.getKualiConfigurationService();
 
         // Get the test date time service so we can specify the date/time of the run
         Calendar c = Calendar.getInstance();
@@ -113,7 +112,7 @@ public class ScrubberFlexibleOffsetTest extends OriginEntryTestBase {
      */
     public void testFlexibleOffsetGeneration() throws Exception {
         this.clearOriginEntryTables();
-        OriginEntryGroup group = this.createNewGroup(OriginEntrySource.EXTERNAL);
+        OriginEntryGroup group = originEntryGroupService.createGroup(new Date(new java.util.Date().getTime()), OriginEntrySource.EXTERNAL, true, true, true);
         
         // reset the preconditions of flexible offset generation so that they have the vaild values 
         // flexibleOffsetAccountService.setKualiConfigurationService(createMockConfigurationService(true));
@@ -152,7 +151,7 @@ public class ScrubberFlexibleOffsetTest extends OriginEntryTestBase {
      */
     public void testFlexibleOffsetEnableFlag() throws Exception {
         this.clearOriginEntryTables();
-        OriginEntryGroup group = this.createNewGroup(OriginEntrySource.EXTERNAL);
+        OriginEntryGroup group = originEntryGroupService.createGroup(new Date(new java.util.Date().getTime()), OriginEntrySource.EXTERNAL, true, true, true);
         
         // disable the global flexible offset enable flag
         // flexibleOffsetAccountService.setKualiConfigurationService(createMockConfigurationService(false));
@@ -188,7 +187,7 @@ public class ScrubberFlexibleOffsetTest extends OriginEntryTestBase {
      */
     public void testScrubberGenerationIndicator() throws Exception {
         this.clearOriginEntryTables();
-        OriginEntryGroup group = this.createNewGroup(OriginEntrySource.EXTERNAL);
+        OriginEntryGroup group = originEntryGroupService.createGroup(new Date(new java.util.Date().getTime()), OriginEntrySource.EXTERNAL, true, true, true);
         
         // disable the scrubber generation indicator
         resetScrubberGenerationIndicator(false, DOCUMENT_TYPE_CODE);
@@ -225,7 +224,7 @@ public class ScrubberFlexibleOffsetTest extends OriginEntryTestBase {
      */
     public void testOffsetAccount() throws Exception {
         this.clearOriginEntryTables();
-        OriginEntryGroup group = this.createNewGroup(OriginEntrySource.EXTERNAL);
+        OriginEntryGroup group = originEntryGroupService.createGroup(new Date(new java.util.Date().getTime()), OriginEntrySource.EXTERNAL, true, true, true);
         
         // reset the preconditions of flexible offset generation so that they have the vaild values 
         // flexibleOffsetAccountService.setKualiConfigurationService(createMockConfigurationService(true));
@@ -261,7 +260,7 @@ public class ScrubberFlexibleOffsetTest extends OriginEntryTestBase {
      */
     public void testOffsetDefinition() throws Exception {
         this.clearOriginEntryTables();
-        OriginEntryGroup group = this.createNewGroup(OriginEntrySource.EXTERNAL);
+        OriginEntryGroup group = originEntryGroupService.createGroup(new Date(new java.util.Date().getTime()), OriginEntrySource.EXTERNAL, true, true, true);
         
         // reset the preconditions of flexible offset generation so that they have the vaild values 
         // flexibleOffsetAccountService.setKualiConfigurationService(createMockConfigurationService(true));

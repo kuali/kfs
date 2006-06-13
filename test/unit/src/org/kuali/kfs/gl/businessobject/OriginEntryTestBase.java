@@ -37,14 +37,15 @@ import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.dao.OriginEntryDao;
-import org.kuali.module.gl.dao.OriginEntryGroupDao;
 import org.kuali.module.gl.dao.UnitTestSqlDao;
+import org.kuali.module.gl.service.OriginEntryGroupService;
+import org.kuali.module.gl.service.OriginEntryService;
 import org.kuali.test.KualiTestBaseWithSpringOnly;
 import org.springframework.beans.factory.BeanFactory;
 
 /**
  * @author Kuali General Ledger Team (kualigltech@oncourse.iu.edu)
- * @version $Id: OriginEntryTestBase.java,v 1.18 2006-06-13 17:30:52 jsissom Exp $
+ * @version $Id: OriginEntryTestBase.java,v 1.19 2006-06-13 21:31:54 jsissom Exp $
  */
 public class OriginEntryTestBase extends KualiTestBaseWithSpringOnly {
   private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OriginEntryTestBase.class);
@@ -53,8 +54,9 @@ public class OriginEntryTestBase extends KualiTestBaseWithSpringOnly {
   protected TestDateTimeService dateTimeService;
   protected PersistenceService persistenceService;
   protected UnitTestSqlDao unitTestSqlDao = null;
+  protected OriginEntryGroupService originEntryGroupService = null;
+  protected OriginEntryService originEntryService = null;
   protected OriginEntryDao originEntryDao = null;
-  protected OriginEntryGroupDao originEntryGroupDao = null;
   protected KualiConfigurationService kualiConfigurationService = null;
   protected Date date = new Date();
 
@@ -77,8 +79,9 @@ public class OriginEntryTestBase extends KualiTestBaseWithSpringOnly {
     // Other objects needed for the tests
     persistenceService = (PersistenceService)beanFactory.getBean("persistenceService");
     unitTestSqlDao = (UnitTestSqlDao)beanFactory.getBean("glUnitTestSqlDao");
+    originEntryService = (OriginEntryService)beanFactory.getBean("glOriginEntryService");
     originEntryDao = (OriginEntryDao)beanFactory.getBean("glOriginEntryDao");
-    originEntryGroupDao = (OriginEntryGroupDao)beanFactory.getBean("glOriginEntryGroupDao");
+    originEntryGroupService = (OriginEntryGroupService)beanFactory.getBean("glOriginEntryGroupService");
     kualiConfigurationService = (KualiConfigurationService)beanFactory.getBean("kualiConfigurationService");
 
     // Set all enhancements to off
@@ -95,14 +98,20 @@ public class OriginEntryTestBase extends KualiTestBaseWithSpringOnly {
     }
   }
 
+  protected void loadInputTransactions(String groupCode,String[] transactions,Date date) {
+      OriginEntryGroup group = originEntryGroupService.createGroup(new java.sql.Date(date.getTime()), groupCode, true, true, true);
+      loadTransactions(transactions,group);
+  }
+
   protected void loadInputTransactions(String groupCode,String[] transactions) {
-    OriginEntryGroup group = createNewGroup(groupCode);
-    loadTransactions(transactions,group);
+      OriginEntryGroup group = originEntryGroupService.createGroup(new java.sql.Date(new java.util.Date().getTime()), groupCode, true, true, true);
+      loadTransactions(transactions,group);
   }
 
   protected void loadTransactions(String[] transactions, OriginEntryGroup group) {
     for (int i = 0; i < transactions.length; i++) {
-        createEntry(transactions[i], group);
+        OriginEntry e = new OriginEntry(transactions[i]);
+        originEntryService.createEntry(e, group);
     }
   }
 
@@ -139,43 +148,32 @@ public class OriginEntryTestBase extends KualiTestBaseWithSpringOnly {
     unitTestSqlDao.sqlCommand("delete from gl_origin_entry_grp_t");
   }
 
-  protected OriginEntryGroup createNewGroup(String code) {
-    OriginEntryGroup group = new OriginEntryGroup();
-    group.setDate(new java.sql.Date(date.getTime()));
-    group.setProcess(Boolean.TRUE);
-    group.setScrub(Boolean.TRUE);
-    group.setValid(Boolean.TRUE);
-    group.setSourceCode(code);
-    originEntryGroupDao.save(group);
-    return group;
-  }
-
-  protected OriginEntry createEntry(String line, OriginEntryGroup group) {
-    OriginEntry entry = new OriginEntry(line);
-    entry.setGroup(group);
-    
-    // This is being done to fool the caching.  If it isn't done, when
-    // we try to retrieve this entry later, none of the referenced tables will
-    // be loaded.
-    persistenceService.retrieveNonKeyFields(entry);
-
-    originEntryDao.saveOriginEntry(entry);
-    return entry;
-  }
-
   /**
    * Check all the entries in gl_origin_entry_t against the data passed in EntryHolder[].  If any of them
    * are different, assert an error.
    * 
    * @param requiredEntries
    */
-  protected void assertOriginEntries(int groupCount, EntryHolder[] requiredEntries, Date runDateForOffsets, boolean isCostSharing) {
-      
+  protected void assertOriginEntries(int groupCount, EntryHolder[] requiredEntries) {
+
+      persistenceService.getPersistenceBroker().clearCache();
+
       List groups = unitTestSqlDao.sqlSelect("select * from gl_origin_entry_grp_t order by origin_entry_grp_src_cd");
       assertEquals("Number of groups is wrong", groupCount, groups.size());
 
       Collection c = originEntryDao.testingGetAllEntries();
       assertEquals("Wrong number of transactions in Origin Entry",requiredEntries.length,c.size());
+
+      // This is for debugging purposes
+//      for (Iterator iter = groups.iterator(); iter.hasNext();) {
+//        Map element = (Map) iter.next();
+//        System.err.println("G:" + element.get("ORIGIN_ENTRY_GRP_ID") + " " + element.get("ORIGIN_ENTRY_GRP_SRC_CD"));
+//      }
+//
+//      for (Iterator iter = c.iterator(); iter.hasNext();) {
+//        OriginEntry element = (OriginEntry) iter.next();
+//        System.err.println("L:" + element.getEntryGroupId() + " " + element.getLine());
+//      }
 
       int count = 0;
       for (Iterator iter = c.iterator(); iter.hasNext();) {
@@ -184,8 +182,6 @@ public class OriginEntryTestBase extends KualiTestBaseWithSpringOnly {
         // Check group
         int group = getGroup(groups,requiredEntries[count].groupCode);
 
-        assertNotNull("Entry ID should not be null",foundTransaction.getEntryId());
-        assertNotNull("Group ID should not be null",foundTransaction.getEntryGroupId());
         assertEquals("Group for transaction " + foundTransaction.getEntryId() + " is wrong",group,foundTransaction.getEntryGroupId().intValue());
 
         // Check transaction - this is done this way so that Anthill prints the two transactions to make
@@ -193,80 +189,17 @@ public class OriginEntryTestBase extends KualiTestBaseWithSpringOnly {
         
         String expected = requiredEntries[count].transactionLine.substring(0, 173);//trim();
         String found    = foundTransaction.getLine().substring(0, 173);//trim();
-        
-        String desc = expected.substring(51, 92);
-        // If it's an offset entry, adjusted the expected entry to expect the runDate for the transactionDate.
-        if(null != runDateForOffsets) {
-            
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            String formattedRunDate = simpleDateFormat.format(runDateForOffsets);
-            
-            if("GENERATED OFFSET".equals(desc.trim())
-                    || (isCostSharing
-                            && (desc.startsWith("GENERATED ")
-                                && !desc.startsWith("GENERATED CAPITALIZATION")))
-                    || "FR-".equals(desc.substring(28, 31))
-               ) {
-                
-                StringBuffer modifiedExpectation = new StringBuffer();
-                modifiedExpectation.append(expected.substring(0, 109));
-                
-                // Splice in the current runDate.
-                modifiedExpectation.append(formattedRunDate);
-                
-                modifiedExpectation.append(expected.substring(119));
-                
-                // .. and modify our expectations.
-                expected = modifiedExpectation.toString();
-                
-            }
-            
-            // Document number on generated cost share entries includes the run date as the last
-            // five characters of the document number.
-            if(isCostSharing 
-                    && desc.startsWith("GENERATED ") 
-                    && !desc.startsWith("GENERATED CAPITALIZATION")) {
-                
-                simpleDateFormat = new SimpleDateFormat("MM/dd");
-                formattedRunDate = simpleDateFormat.format(runDateForOffsets);
-                
-                StringBuffer modifiedExpectation = new StringBuffer();
-                modifiedExpectation.append(expected.substring(0, 41));
-                
-                // Splice in the current runDate.
-                modifiedExpectation.append(formattedRunDate);
-                
-                modifiedExpectation.append(expected.substring(46));
-                
-                // .. and modify our expectations.
-                expected = modifiedExpectation.toString();
-                
-            }
-            
-        }
-        
-        if (!found.equals(expected)) {
-          
+
+        if (!found.equals(expected)) {          
           System.err.println("Expected transaction: " + expected);
           System.err.println("Found transaction:    " + found);
           
           fail("Transaction " + foundTransaction.getEntryId() + " doesn't match expected output");
-          
         }
         count++;
       }
   }
 
-  protected void assertOriginEntries(int groupCount, EntryHolder[] requiredEntries) {
-      assertOriginEntries(groupCount, requiredEntries, null, false);
-  }
-  
-  protected void assertOriginEntries(int groupCount, EntryHolder[] requiredEntries, Date runDateForOffsets) {
-      
-      assertOriginEntries(groupCount, requiredEntries, runDateForOffsets, false);
-      
-  }
-  
   protected int getGroup(List groups,String groupCode) {
     for (Iterator iter = groups.iterator(); iter.hasNext();) {
       Map element = (Map)iter.next();

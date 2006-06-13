@@ -190,6 +190,10 @@
       <inverse-foreignkey field-ref="documentHeaderId"/>
   </collection-descriptor>
   
+  <collection-descriptor name="adHocPermissions" proxy="true" element-class-ref="org.kuali.module.kra.bo.BudgetAdHocPermission" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+      <inverse-foreignkey field-ref="documentHeaderId"/>
+  </collection-descriptor>
+  
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.kra.bo.BudgetTask" table="ER_BDGT_TSK_T">
@@ -315,6 +319,19 @@
     <inverse-foreignkey field-ref="documentHeaderId" />
     <inverse-foreignkey field-ref="budgetUserSequenceNumber" />
   </collection-descriptor>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.kra.bo.BudgetAdHocPermission" table="ER_BDGT_ADHOC_PRMSN_T">
+	<field-descriptor name="documentHeaderId" column="ER_REF_TRACK_NBR" jdbc-type="VARCHAR" primarykey="true"/>
+	<field-descriptor name="personUniversalIdentifier" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" />
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<field-descriptor name="budgetPermissionCode" column="BDGT_PRMSN_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="addedByPerson" column="PRSN_ADD_BY_UNVL_ID" jdbc-type="VARCHAR"/>
+	<field-descriptor name="personAddedTimestamp" column="PRSN_ADD_TS" jdbc-type="TIMESTAMP"/>
+	<reference-descriptor name="user" class-ref="org.kuali.core.bo.user.UniversalUser" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="personUniversalIdentifier" />
+	</reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.kra.bo.AgencyExtension" table="ER_AGNCY_EXTNS_T">

@@ -44,7 +44,7 @@ import org.springframework.beans.factory.BeanFactory;
 
 /**
  * @author Kuali General Ledger Team (kualigltech@oncourse.iu.edu)
- * @version $Id: OriginEntryTestBase.java,v 1.17 2006-05-18 19:33:08 larevans Exp $
+ * @version $Id: OriginEntryTestBase.java,v 1.18 2006-06-13 17:30:52 jsissom Exp $
  */
 public class OriginEntryTestBase extends KualiTestBaseWithSpringOnly {
   private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OriginEntryTestBase.class);
@@ -183,6 +183,9 @@ public class OriginEntryTestBase extends KualiTestBaseWithSpringOnly {
 
         // Check group
         int group = getGroup(groups,requiredEntries[count].groupCode);
+
+        assertNotNull("Entry ID should not be null",foundTransaction.getEntryId());
+        assertNotNull("Group ID should not be null",foundTransaction.getEntryGroupId());
         assertEquals("Group for transaction " + foundTransaction.getEntryId() + " is wrong",group,foundTransaction.getEntryGroupId().intValue());
 
         // Check transaction - this is done this way so that Anthill prints the two transactions to make

@@ -41,6 +41,7 @@ import org.kuali.module.chart.service.OrganizationReversionService;
 import org.kuali.module.gl.bo.Balance;
 import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.bo.OriginEntryGroup;
+import org.kuali.module.gl.bo.OriginEntrySource;
 import org.kuali.module.gl.service.BalanceService;
 import org.kuali.module.gl.service.OrganizationReversionCategoryLogic;
 import org.kuali.module.gl.service.OrganizationReversionSelection;
@@ -103,7 +104,7 @@ public class OrganizationReversionProcess {
         runDate = dateTimeService.getCurrentDate();
 
         // Create output group
-        outputGroup = originEntryGroupService.createGroup(new java.sql.Date(runDate.getTime()), "SRC", true, false, false);
+        outputGroup = originEntryGroupService.createGroup(new java.sql.Date(runDate.getTime()), OriginEntrySource.ORG_REVERSION, true, false, false);
 
         categories = organizationReversionService.getCategories();
         categoryList = organizationReversionService.getCategoryList();

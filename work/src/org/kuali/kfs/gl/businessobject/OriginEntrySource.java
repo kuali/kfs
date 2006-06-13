@@ -26,7 +26,7 @@ import org.kuali.core.bo.KualiCodeBase;
 
 /**
  * @author jsissom
- * @version $Id: OriginEntrySource.java,v 1.5 2006-04-12 20:49:37 larevans Exp $
+ * @version $Id: OriginEntrySource.java,v 1.6 2006-06-13 18:02:08 jsissom Exp $
  * 
  */
 
@@ -47,6 +47,7 @@ public class OriginEntrySource extends KualiCodeBase {
     public static final String GENERATE_BY_EDOC = "EDOC";
     public static final String EXTERNAL = "EXT";
     public static final String YEAR_END_ENCUMBRANCE_CLOSING = "YEEC";
+    public static final String ORG_REVERSION = "OR";
 
     // Code base has all the fields we need
 }

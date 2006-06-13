@@ -815,6 +815,12 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
             }
         }
 
+        if ( (workingEntry.getBalanceType() == null) || (workingEntry.getObjectType() == null) ) {
+            // We are unable to check this because the balance type or object type is invalid.
+            // It would be nice if we could still validate the entry, but we can't.
+            return null;
+        }
+
         if ( workingEntry.getBalanceType().isFinBalanceTypeEncumIndicator() && ! workingEntry.getObjectType().isFundBalanceIndicator() ) {
             if ( ( Constants.ENCUMB_UPDT_DOCUMENT_CD.equals(originEntry.getTransactionEncumbranceUpdateCode())) || 
                     ( Constants.ENCUMB_UPDT_NO_ENCUMBRANCE_CD.equals(originEntry.getTransactionEncumbranceUpdateCode())) ||

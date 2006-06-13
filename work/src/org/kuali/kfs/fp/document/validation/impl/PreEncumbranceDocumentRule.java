@@ -39,6 +39,7 @@ import org.kuali.core.rule.KualiParameterRule;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.chart.bo.OffsetDefinition;
 import org.kuali.module.financial.document.PreEncumbranceDocument;
 import static org.kuali.module.financial.rules.PreEncumbranceDocumentRuleConstants.PRE_ENCUMBRANCE_DOCUMENT_SECURITY_GROUPING;
@@ -138,7 +139,13 @@ public class PreEncumbranceDocumentRule extends TransactionalDocumentRuleBase {
      */
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
-        return isReversalDateValidForRouting((PreEncumbranceDocument) document);
+        boolean valid = isReversalDateValidForRouting((PreEncumbranceDocument) document);
+        // this short-circuiting is just because it's the current eDocs policy (altho I think it's user-unfriendly)
+        if (valid) {
+            // super is to call isAccountingLinesRequiredNumberForRoutingMet()
+            valid &= super.processCustomRouteDocumentBusinessRules(document);
+        }
+        return valid;
     }
 
     /**
@@ -171,6 +178,16 @@ public class PreEncumbranceDocumentRule extends TransactionalDocumentRuleBase {
         else {
             return true;
         }
+    }
+
+    /**
+     * PreEncumbrance documents don't need to balance in any way.
+     *
+     * @see TransactionalDocumentRuleBase#isDocumentBalanceValid(org.kuali.core.document.TransactionalDocument)
+     */
+    @Override
+    protected boolean isDocumentBalanceValid(TransactionalDocument transactionalDocument) {
+        return true;
     }
 
     /**
@@ -231,7 +248,7 @@ public class PreEncumbranceDocumentRule extends TransactionalDocumentRuleBase {
     }
 
     /**
-     * The Pre-Encumbrance document specifies all encumbrance lines as debits (and disencumbrance lines as credits).
+     * The Pre-Encumbrance document specifies all (positive) amounts as debits.
      *
      * @see TransactionalDocumentRuleBase#isDebit(AccountingLine)
      */
@@ -239,6 +256,6 @@ public class PreEncumbranceDocumentRule extends TransactionalDocumentRuleBase {
     public boolean isDebit(AccountingLine accountingLine)
         throws IllegalStateException
     {
-        return isSourceAccountingLine(accountingLine);
+        return accountingLine.getAmount().isGreaterThan(KualiDecimal.ZERO);
     }
 }

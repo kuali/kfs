@@ -135,7 +135,14 @@
 											decorator="org.kuali.core.web.uidraw.FormatAwareDecorator"
 											title="${column.columnTitle}" comparator="${column.comparator}">
 											
-											<c:out value="${column.propertyValue}" />
+											<!-- Hard-coded: is not a good solution -->
+											<c:if test="${column.columnTitle == 'Project Code'}">
+												<div style="white-space: nowrap"><c:out value="${column.propertyValue}" /></div>
+											</c:if>
+											
+											<c:if test="${column.columnTitle != 'Project Code'}">
+												<c:out value="${column.propertyValue}" />
+											</c:if>
 											
 										</display:column>
 		

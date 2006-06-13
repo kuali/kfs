@@ -1,6 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
+	<bean id="glOrganizationReversionProcessService" class="org.kuali.module.gl.service.impl.OrganizationReversionProcessServiceImpl">
+		<property name="organizationReversionService"><ref bean="organizationReversionService"/></property>
+		<property name="kualiConfigurationService"><ref bean="kualiConfigurationService" /></property>
+		<property name="balanceService"><ref bean="glBalanceService" /></property>
+		<property name="organizationReversionSelection"><ref bean="glOrganizationReversionSelection"/></property>
+		<property name="originEntryGroupService"><ref bean="glOriginEntryGroupService"/></property>
+		<property name="originEntryService"><ref bean="glOriginEntryService"/></property>
+		<property name="persistenceService"><ref bean="persistenceService"/></property>
+		<property name="dateTimeService"><ref bean="dateTimeService" /></property>
+		<property name="cashOrganizationReversionCategoryLogic"><ref bean="glCashOrganizationReversionCategoryLogic"/></property>
+	</bean>
+
+	<bean id="glOrganizationReversionSelection" class="org.kuali.module.gl.service.impl.orgreversion.OrganizationReversionSelectionImpl"/>
+
+	<bean id="glCashOrganizationReversionCategoryLogic" class="org.kuali.module.gl.service.impl.orgreversion.CashOrganizationReversionCategoryLogic"/>
+
 	<bean id="glGenericOrganizationReversionCategory" class="org.kuali.module.gl.service.impl.orgreversion.GenericOrganizationReversionCategory" singleton="false">
 		<property name="kualiConfigurationService"><ref bean="kualiConfigurationService" /></property>
 	</bean>

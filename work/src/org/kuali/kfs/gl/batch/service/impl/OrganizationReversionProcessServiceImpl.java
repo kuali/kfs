@@ -22,12 +22,17 @@
  */
 package org.kuali.module.gl.service.impl;
 
+import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.service.PersistenceService;
 import org.kuali.module.chart.dao.OrganizationReversionDao;
 import org.kuali.module.chart.service.OrganizationReversionService;
 import org.kuali.module.gl.service.BalanceService;
+import org.kuali.module.gl.service.OrganizationReversionCategoryLogic;
 import org.kuali.module.gl.service.OrganizationReversionProcessService;
 import org.kuali.module.gl.service.OrganizationReversionSelection;
+import org.kuali.module.gl.service.OriginEntryGroupService;
+import org.kuali.module.gl.service.OriginEntryService;
 import org.kuali.module.gl.service.impl.orgreversion.OrganizationReversionProcess;
 import org.springframework.beans.factory.BeanFactory;
 
@@ -39,6 +44,51 @@ public class OrganizationReversionProcessServiceImpl implements OrganizationReve
     private BeanFactory beanFactory;
     private BalanceService balanceService;
     private OrganizationReversionSelection organizationReversionSelection;
+    private OriginEntryGroupService originEntryGroupService;
+    private OriginEntryService originEntryService;
+    private PersistenceService persistenceService;
+    private DateTimeService dateTimeService;
+    private OrganizationReversionCategoryLogic cashOrganizationReversionCategoryLogic;
+
+    public void setBalanceService(BalanceService balanceService) {
+        this.balanceService = balanceService;
+    }
+
+    public void setBeanFactory(BeanFactory beanFactory) {
+        this.beanFactory = beanFactory;
+    }
+
+    public void setCashOrganizationReversionCategoryLogic(OrganizationReversionCategoryLogic cashOrganizationReversionCategoryLogic) {
+        this.cashOrganizationReversionCategoryLogic = cashOrganizationReversionCategoryLogic;
+    }
+
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
+    }
+
+    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
+        this.kualiConfigurationService = kualiConfigurationService;
+    }
+
+    public void setOrganizationReversionSelection(OrganizationReversionSelection organizationReversionSelection) {
+        this.organizationReversionSelection = organizationReversionSelection;
+    }
+
+    public void setOrganizationReversionService(OrganizationReversionService organizationReversionService) {
+        this.organizationReversionService = organizationReversionService;
+    }
+
+    public void setOriginEntryGroupService(OriginEntryGroupService originEntryGroupService) {
+        this.originEntryGroupService = originEntryGroupService;
+    }
+
+    public void setOriginEntryService(OriginEntryService originEntryService) {
+        this.originEntryService = originEntryService;
+    }
+
+    public void setPersistenceService(PersistenceService persistenceService) {
+        this.persistenceService = persistenceService;
+    }
 
     /**
      * 
@@ -47,8 +97,10 @@ public class OrganizationReversionProcessServiceImpl implements OrganizationReve
     public void organizationReversionProcess() {
         LOG.debug("organizationReversionProcess() started");
 
-        OrganizationReversionProcess orp = new OrganizationReversionProcess(organizationReversionService,kualiConfigurationService,
-                beanFactory,balanceService,organizationReversionSelection);
+        OrganizationReversionProcess orp = new OrganizationReversionProcess(organizationReversionService ,kualiConfigurationService,
+                beanFactory,balanceService,organizationReversionSelection,originEntryGroupService,
+                originEntryService,persistenceService,dateTimeService,cashOrganizationReversionCategoryLogic);
+
         orp.organizationReversionProcess();
     }
 }

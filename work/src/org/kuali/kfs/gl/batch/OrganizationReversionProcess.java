@@ -603,7 +603,7 @@ public class OrganizationReversionProcess {
             String categoryCode = category.getOrganizationReversionCategoryCode();
             OrganizationReversionCategoryLogic logic = categories.get(categoryCode);
             CategoryAmount amount = unitOfWork.amounts.get(categoryCode);
-System.err.println("Category Code: " + categoryCode);
+
             OrganizationReversionDetail detail = organizationReversion.getOrganizationReversionDetail(categoryCode);
             String ruleCode = detail.getOrganizationReversionCode();
 

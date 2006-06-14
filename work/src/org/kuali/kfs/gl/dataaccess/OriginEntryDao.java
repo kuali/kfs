@@ -32,7 +32,7 @@ import org.kuali.module.gl.bo.OriginEntryGroup;
 
 /**
  * @author jsissom
- * @version $Id: OriginEntryDao.java,v 1.9 2006-06-10 20:45:17 jsissom Exp $
+ * @version $Id: OriginEntryDao.java,v 1.10 2006-06-14 01:40:29 schoo Exp $
  */
 public interface OriginEntryDao {
     /**
@@ -87,7 +87,11 @@ public interface OriginEntryDao {
      * @param entry entry to save
      */
 	public void saveOriginEntry(OriginEntry entry);
-
+    
+    
+    
+    public OriginEntry getExactMatchingEntry(Integer entryId);
+   
     /**
      * This method should only be used in unit tests.  It loads all the 
      * gl_origin_entry_t rows in memory into a collection.  This won't 

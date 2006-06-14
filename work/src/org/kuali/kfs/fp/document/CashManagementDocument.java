@@ -201,6 +201,7 @@ public class CashManagementDocument extends FinancialDocumentBase {
     /**
      * @see org.kuali.core.document.DocumentBase#buildListOfDeletionAwareLists()
      */
+    @Override
     public List buildListOfDeletionAwareLists() {
         List managedLists = super.buildListOfDeletionAwareLists();
 
@@ -213,6 +214,7 @@ public class CashManagementDocument extends FinancialDocumentBase {
     /**
      * @see org.kuali.core.document.DocumentBase#handleRouteStatusChange()
      */
+    @Override
     public void handleRouteStatusChange() {
         // all approvals have been processed, finalize everything
         if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
@@ -229,6 +231,7 @@ public class CashManagementDocument extends FinancialDocumentBase {
     /**
      * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
      */
+    @Override
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("financialDocumentNumber", getFinancialDocumentNumber());

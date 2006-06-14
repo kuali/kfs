@@ -86,7 +86,8 @@
 
 <%@ attribute name="accountingLineValuesMap" required="true" type="java.util.Map" 
               description="map of the accounting line primitive fields and values" %>
-
+<%@ attribute name="forcedReadOnlyFields" required="false" type="java.util.Map"
+              description="foces the object code to become a read only field regardless of document state"%>
 <c:set var="rowCount" value="${empty extraRowFields ? 1 : 2}"/>
 
 <tr>
@@ -172,7 +173,7 @@
     lookup="true"
     inquiry="true"
     boClassSimpleName="ObjectCode"
-    readOnly="${readOnly&&(empty editableFields['financialObjectCode'])}"
+    readOnly="${(readOnly&&(empty editableFields['financialObjectCode']))|| forcedReadOnlyFields[accountingLineAttributes.financialObjectCode.name]}"
     displayHidden="${displayHidden}"
     overrideField="objectBudgetOverride"
     lookupOrInquiryKeys="chartOfAccountsCode"

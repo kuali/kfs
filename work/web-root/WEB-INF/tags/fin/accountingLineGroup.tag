@@ -59,6 +59,8 @@
               below each accounting line (needed for budget adjustment document).
               As with all boolean tag attributes, if it is not provided, it defaults to false." %>
 
+<%@ attribute name="forcedReadOnlyFields" required="false" type="java.util.Map"
+              description="map containing accounting line field names that should be marked as read only." %>
 <c:set var="sourceOrTarget" value="${isSource ? 'source' : 'target'}"/>
 <c:set var="baselineSourceOrTarget" value="${isSource ? 'baselineSource' : 'baselineTarget'}"/>
 <c:set var="capitalSourceOrTarget" value="${isSource ? 'Source' : 'Target'}"/>
@@ -103,7 +105,7 @@
     <kul:htmlAttributeHeaderCell attributeEntry="${accountingLineAttributes.chartOfAccountsCode}" rowspan="2"/>
     <kul:htmlAttributeHeaderCell attributeEntry="${accountingLineAttributes.accountNumber}" rowspan="2"/>
     <kul:htmlAttributeHeaderCell attributeEntry="${accountingLineAttributes.subAccountNumber}" rowspan="2"/>
-    <kul:htmlAttributeHeaderCell attributeEntry="${accountingLineAttributes.financialObjectCode}" rowspan="2"/>
+    <kul:htmlAttributeHeaderCell attributeEntry="${accountingLineAttributes.financialObjectCode}" hideRequiredAsterisk="${forcedReadOnlyFields[accountingLineAttributes.financialObjectCode.name]}" rowspan="2"/>
     <kul:htmlAttributeHeaderCell attributeEntry="${accountingLineAttributes.financialSubObjectCode}" rowspan="2"/>
     <kul:htmlAttributeHeaderCell attributeEntry="${accountingLineAttributes.projectCode}" rowspan="2"/>
     <c:if test="${includeObjectTypeCode}">
@@ -169,6 +171,7 @@
         includeObjectTypeCode="${includeObjectTypeCode}"
         displayHidden="${displayHidden}"
         accountingLineValuesMap="${valuesMap}"
+        forcedReadOnlyFields="${forcedReadOnlyFields}"
         />
 
     <c:if test="${displayMonthlyAmounts}">
@@ -224,6 +227,7 @@
         displayHidden="${displayHidden}"
         decorator="${sourceOrTarget}LineDecorator[${ctr}]"
         accountingLineValuesMap="${currentLine.valuesMap}"
+        forcedReadOnlyFields="${forcedReadOnlyFields}"
         />
 
     <c:if test="${displayMonthlyAmounts}">

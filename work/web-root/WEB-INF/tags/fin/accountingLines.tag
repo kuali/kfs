@@ -57,6 +57,8 @@
               below each accounting line (needed for budget adjustment document).
               As with all boolean tag attributes, if it is not provided, it defaults to false." %>
 
+<%@ attribute name="forcedReadOnlyFields" required="false" type="java.util.Map"
+              description="map containing accounting line field names that should be marked as read only." %>
 <c:forEach items="${editableAccounts}" var="account">
   <html:hidden property="editableAccounts(${account.key})" value="${account.key}"/>
 </c:forEach>
@@ -96,6 +98,7 @@
           useCurrencyFormattedTotal="${useCurrencyFormattedTotal}"
           includeObjectTypeCode="${includeObjectTypeCode}"
           displayMonthlyAmounts="${displayMonthlyAmounts}"
+          forcedReadOnlyFields="${forcedReadOnlyFields}"
           />
       <c:if test="${!sourceAccountingLinesOnly}">
         <fin:accountingLineGroup
@@ -113,6 +116,7 @@
             useCurrencyFormattedTotal="${useCurrencyFormattedTotal}"
             includeObjectTypeCode="${includeObjectTypeCode}"
             displayMonthlyAmounts="${displayMonthlyAmounts}"
+            forcedReadOnlyFields="${forcedReadOnlyFields}"
             />
       </c:if>
     </table>

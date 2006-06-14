@@ -2,13 +2,13 @@
 <!DOCTYPE dictionaryEntry PUBLIC
     "-//Kuali Project//DTD Data Dictionary 1.0//EN"
     "../../../../core/datadictionary/dataDictionary-1_0.dtd">
-    
-<dictionaryEntry>
-	<maintenanceDocument>
-		<businessObjectClass>org.kuali.module.chart.bo.codes.MandatoryTransferEliminationCode</businessObjectClass>
-		<maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
 
-   		<documentAuthorizerClass>org.kuali.core.document.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
+<dictionaryEntry>
+    <maintenanceDocument>
+        <businessObjectClass>org.kuali.module.chart.bo.codes.MandatoryTransferEliminationCode</businessObjectClass>
+        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+
+        <documentAuthorizerClass>org.kuali.core.document.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
 
         <authorizations>
             <authorization action="initiate">
@@ -18,28 +18,26 @@
             </authorization>
         </authorizations>
 
-		<documentTypeName>KualiMandatoryTransferEliminationCodeMaintenanceDocument</documentTypeName>
-		<documentTypeCode>MTE</documentTypeCode>
-		<label>Mandatory Transfer Elimination Code Maintenance Document</label>
-		<shortLabel>MandTransferElimCodeMaintDoc</shortLabel>
-		<summary>Mandatory Transfer EliminationCode Maintenance Document</summary>
-		<description>
-			Maintenance document which allows you to create new Mandatory Transfer Elimination Codes, or modify existing Mandatory Transfer Elimination Codes.
-		</description>
-		
+        <documentTypeName>KualiMandatoryTransferEliminationCodeMaintenanceDocument</documentTypeName>
+        <documentTypeCode>MTE</documentTypeCode>
+        <label>Mandatory Transfer Elimination Code Maintenance Document</label>
+        <shortLabel>MandTransferElimCodeMaintDoc</shortLabel>
+        <summary>Mandatory Transfer EliminationCode Maintenance Document</summary>
+        <description>Maintenance document which allows you to create new Mandatory Transfer Elimination Codes, or modify existing Mandatory Transfer Elimination Codes.</description>
+
         <lockingKeys>
-			<field attributeName="code" />
-		</lockingKeys>	 		
-		
-		<maintainableSections>
-			<maintainableSection title="Edit Mandatory Transfer Elimination Code">
+            <field attributeName="code" />
+        </lockingKeys>
+
+        <maintainableSections>
+            <maintainableSection title="Edit Mandatory Transfer Elimination Code">
                 <maintainableItems>
-					<maintainableField name="code" required="true" />
-					<maintainableField name="name" required="true" />
-					<maintainableField name="versionNumber" />
+                    <maintainableField name="code" required="true" />
+                    <maintainableField name="name" required="true" />
+                    <maintainableField name="versionNumber" />
                 </maintainableItems>
-			</maintainableSection>
-		</maintainableSections>
-	</maintenanceDocument>
+            </maintainableSection>
+        </maintainableSections>
+    </maintenanceDocument>
 
 </dictionaryEntry>

@@ -2,13 +2,13 @@
 <!DOCTYPE dictionaryEntry PUBLIC
     "-//Kuali Project//DTD Data Dictionary 1.0//EN"
     "../../../../core/datadictionary/dataDictionary-1_0.dtd">
-    
+
 <dictionaryEntry>
-	<maintenanceDocument>
-		<businessObjectClass>org.kuali.module.chart.bo.IndirectCostRecoveryExclusionAccount</businessObjectClass>
-		<maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
-		<preRulesCheckClass>org.kuali.module.chart.rules.IndirectCostRecoveryExclusionAccountPreRules</preRulesCheckClass>
-   		<documentAuthorizerClass>org.kuali.core.document.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
+    <maintenanceDocument>
+        <businessObjectClass>org.kuali.module.chart.bo.IndirectCostRecoveryExclusionAccount</businessObjectClass>
+        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+        <preRulesCheckClass>org.kuali.module.chart.rules.IndirectCostRecoveryExclusionAccountPreRules</preRulesCheckClass>
+        <documentAuthorizerClass>org.kuali.core.document.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
 
         <authorizations>
             <authorization action="initiate">
@@ -18,44 +18,38 @@
             </authorization>
         </authorizations>
 
-		<documentTypeName>KualiIndirectCostRecoveryExclusionAccountMaintenanceDocument</documentTypeName>
-		<documentTypeCode>ICRA</documentTypeCode>
-		<label>Indirect Cost Recovery Exclusion Account Maintenance Document</label>
-		<shortLabel>ICRExclusionAccountMaintenanceDoc</shortLabel>
-		<summary>Indirect Cost Recovery Exclusion Account Maintenance Document</summary>
-		<description>
-			Maintenance document which allows you to create new Indirect Cost Recovery Exclusion Accounts, or modify existing Indirect Cost Recovery Exclusion Accounts.
-		</description>
-		
-        <lockingKeys>
-			<field attributeName="chartOfAccountsCode" />
-			<field attributeName="accountNumber" />
-			<field attributeName="financialObjectChartOfAccountCode" />
-			<field attributeName="financialObjectCode" />
-		</lockingKeys>	 		
+        <documentTypeName>KualiIndirectCostRecoveryExclusionAccountMaintenanceDocument</documentTypeName>
+        <documentTypeCode>ICRA</documentTypeCode>
+        <label>Indirect Cost Recovery Exclusion Account Maintenance Document</label>
+        <shortLabel>ICRExclusionAccountMaintenanceDoc</shortLabel>
+        <summary>Indirect Cost Recovery Exclusion Account Maintenance Document</summary>
+        <description>Maintenance document which allows you to create new Indirect Cost Recovery Exclusion Accounts, or modify existing Indirect Cost Recovery Exclusion Accounts.</description>
 
-		<defaultExistenceChecks>
-			<reference  attributeName="chart" 
-						attributeToHighlightOnFail="chartOfAccountsCode" />
-			<reference  attributeName="account" 
-						attributeToHighlightOnFail="accountNumber" />
-			<reference  attributeName="financialObjectChartOfAccount" 
-						attributeToHighlightOnFail="financialObjectChartOfAccountCode" />
-			<reference  attributeName="objectCodeCurrent" 
-						attributeToHighlightOnFail="financialObjectCode" />			
-		</defaultExistenceChecks>	
-			
-		<maintainableSections>
-			<maintainableSection title="Edit ICR Exclusion Account">
+        <lockingKeys>
+            <field attributeName="chartOfAccountsCode" />
+            <field attributeName="accountNumber" />
+            <field attributeName="financialObjectChartOfAccountCode" />
+            <field attributeName="financialObjectCode" />
+        </lockingKeys>
+
+        <defaultExistenceChecks>
+            <reference attributeName="chart" attributeToHighlightOnFail="chartOfAccountsCode" />
+            <reference attributeName="account" attributeToHighlightOnFail="accountNumber" />
+            <reference attributeName="financialObjectChartOfAccount" attributeToHighlightOnFail="financialObjectChartOfAccountCode" />
+            <reference attributeName="objectCodeCurrent" attributeToHighlightOnFail="financialObjectCode" />
+        </defaultExistenceChecks>
+
+        <maintainableSections>
+            <maintainableSection title="Edit ICR Exclusion Account">
                 <maintainableItems>
-					<maintainableField name="chartOfAccountsCode" required="true" />
-					<maintainableField name="accountNumber" required="true" />
-					<maintainableField name="financialObjectChartOfAccountCode" required="true" />
-					<maintainableField name="financialObjectCode" required="true" />
-					<maintainableField name="versionNumber" />
+                    <maintainableField name="chartOfAccountsCode" required="true" />
+                    <maintainableField name="accountNumber" required="true" />
+                    <maintainableField name="financialObjectChartOfAccountCode" required="true" />
+                    <maintainableField name="financialObjectCode" required="true" />
+                    <maintainableField name="versionNumber" />
                 </maintainableItems>
-			</maintainableSection>
-		</maintainableSections>
-	</maintenanceDocument>
+            </maintainableSection>
+        </maintainableSections>
+    </maintenanceDocument>
 
 </dictionaryEntry>

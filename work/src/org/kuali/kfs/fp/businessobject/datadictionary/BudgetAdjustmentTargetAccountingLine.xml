@@ -14,7 +14,9 @@
                 <shortLabel>Period Code</shortLabel>
 
                 <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+                <validationPattern>
+                    <anyCharacter />
+                </validationPattern>
 
                 <control>
                     <text size="4" />
@@ -22,14 +24,16 @@
 
                 <summary>budgetAdjustmentPeriodCode</summary>
                 <description>budgetAdjustmentPeriodCode description...</description>
-			</attribute>
+            </attribute>
 
             <attribute name="currentBudgetAdjustmentAmount" forceUppercase="true">
                 <label>Current Budget Adjustment Amount</label>
                 <shortLabel>Current Amt</shortLabel>
 
                 <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
+                <validationPattern>
+                    <floatingPoint />
+                </validationPattern>
 
                 <control>
                     <text size="21" />
@@ -37,14 +41,16 @@
 
                 <summary>currentBudgetAdjustmentAmount</summary>
                 <description>currentBudgetAdjustmentAmount description...</description>
-			</attribute>
+            </attribute>
 
             <attribute name="baseBudgetAdjustmentAmount" forceUppercase="true">
                 <label>Base Budget Adjustment Amount</label>
                 <shortLabel>Base Amt</shortLabel>
 
                 <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
+                <validationPattern>
+                    <floatingPoint />
+                </validationPattern>
 
                 <control>
                     <text size="21" />
@@ -52,14 +58,16 @@
 
                 <summary>baseBudgetAdjustmentAmount</summary>
                 <description>baseBudgetAdjustmentAmount description...</description>
-			</attribute>
+            </attribute>
 
             <attribute name="financialDocumentMonth1LineAmount" forceUppercase="true">
                 <label>Month 01 Line Amount</label>
                 <shortLabel>Month 1 Amt</shortLabel>
 
                 <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
+                <validationPattern>
+                    <floatingPoint />
+                </validationPattern>
 
                 <control>
                     <text size="21" />
@@ -74,7 +82,9 @@
                 <shortLabel>Month 2 Amt</shortLabel>
 
                 <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
+                <validationPattern>
+                    <floatingPoint />
+                </validationPattern>
 
                 <control>
                     <text size="21" />
@@ -89,7 +99,9 @@
                 <shortLabel>Month 3 Amt</shortLabel>
 
                 <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
+                <validationPattern>
+                    <floatingPoint />
+                </validationPattern>
 
                 <control>
                     <text size="21" />
@@ -104,7 +116,9 @@
                 <shortLabel>Month 4 Amt</shortLabel>
 
                 <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
+                <validationPattern>
+                    <floatingPoint />
+                </validationPattern>
 
                 <control>
                     <text size="21" />
@@ -119,7 +133,9 @@
                 <shortLabel>Month 5 Amt</shortLabel>
 
                 <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
+                <validationPattern>
+                    <floatingPoint />
+                </validationPattern>
 
                 <control>
                     <text size="21" />
@@ -134,7 +150,9 @@
                 <shortLabel>Month 6 Amt</shortLabel>
 
                 <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
+                <validationPattern>
+                    <floatingPoint />
+                </validationPattern>
 
                 <control>
                     <text size="21" />
@@ -149,7 +167,9 @@
                 <shortLabel>Month 7 Amt</shortLabel>
 
                 <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
+                <validationPattern>
+                    <floatingPoint />
+                </validationPattern>
 
                 <control>
                     <text size="21" />
@@ -164,7 +184,9 @@
                 <shortLabel>Month 8 Amt</shortLabel>
 
                 <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
+                <validationPattern>
+                    <floatingPoint />
+                </validationPattern>
 
                 <control>
                     <text size="21" />
@@ -179,7 +201,9 @@
                 <shortLabel>Month 9 Amt</shortLabel>
 
                 <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
+                <validationPattern>
+                    <floatingPoint />
+                </validationPattern>
 
                 <control>
                     <text size="21" />
@@ -194,7 +218,9 @@
                 <shortLabel>Month 10 Amt</shortLabel>
 
                 <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
+                <validationPattern>
+                    <floatingPoint />
+                </validationPattern>
 
                 <control>
                     <text size="21" />
@@ -209,7 +235,9 @@
                 <shortLabel>Month 11 Amt</shortLabel>
 
                 <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
+                <validationPattern>
+                    <floatingPoint />
+                </validationPattern>
 
                 <control>
                     <text size="21" />
@@ -224,7 +252,9 @@
                 <shortLabel>Month 12 Amt</shortLabel>
 
                 <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
+                <validationPattern>
+                    <floatingPoint />
+                </validationPattern>
 
                 <control>
                     <text size="21" />

@@ -4,79 +4,93 @@
     "../../../core/datadictionary/dataDictionary-1_0.dtd">
 
 <dictionaryEntry>
-	<businessObject businessObjectClass="org.kuali.module.financial.bo.DisbursementVoucherPreConferenceRegistrant">
-	
+    <businessObject businessObjectClass="org.kuali.module.financial.bo.DisbursementVoucherPreConferenceRegistrant">
+
         <customAttributeEnabled>false</customAttributeEnabled>
-	    
-	    <attributes>
-	    
-	        <attribute name="dvConferenceRegistrantName">
-	            <label>Name</label>
-	            <shortLabel>Nm</shortLabel>
-	            
-	            <maxLength>40</maxLength>
-	            
-	            <required>true</required>
-	            
-	            <control>
-	                <text size="40"/>
-	            </control>
-	            
-	            <summary><![CDATA[&nbsp;]]></summary>
-	            <description><![CDATA[&nbsp;]]></description>
-	        </attribute>
-	        
-	        <attribute name="disbVchrPreConfDepartmentCd">
-	            <label>Department Code</label>
-	            <shortLabel>Dep Cd</shortLabel>
-	            
-	            <maxLength>4</maxLength>
-	            
-	            <required>true</required>
-	            
-	            <control>
-	                <text size="4"/>
-	            </control>
-	            
-	            <summary><![CDATA[&nbsp;]]></summary>
-	            <description><![CDATA[&nbsp;]]></description>
-	        </attribute>
-	        
-	        <attribute name="dvPreConferenceRequestNumber">
-	            <label>Req/Instate</label>
-	            <shortLabel>Req/Instate</shortLabel>
-	            
-	            <maxLength>6</maxLength>
-	            
-	            <required>true</required>
-	            
-	            <control>
-	                <text size="6"/>
-	            </control>
-	            
-	            <summary><![CDATA[&nbsp;]]></summary>
-	            <description><![CDATA[&nbsp;]]></description>
-	        </attribute>
-	        
-	        <attribute name="disbVchrExpenseAmount">
-	            <label>Amount</label>
-	            <shortLabel>Amt</shortLabel>
-	            
-	            <maxLength>22</maxLength>
-	            
-	            <required>true</required>
-	            
-	            <control>
-	                <text size="9"/>
-	            </control>
-	            
-	            <summary><![CDATA[&nbsp;]]></summary>
-	            <description><![CDATA[&nbsp;]]></description>
-	        </attribute>
-	        
-	        <attributeReference name="financialDocumentNumber" 
-					            sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
-					            sourceAttributeName="transactionEntrySequenceId" />
-	    </attributes>
-	</businessObject>
+
+        <attributes>
+
+            <attribute name="dvConferenceRegistrantName">
+                <label>Name</label>
+                <shortLabel>Nm</shortLabel>
+
+                <maxLength>40</maxLength>
+
+                <required>true</required>
+
+                <control>
+                    <text size="40" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>
+                    <![CDATA[&nbsp;]]>
+                </description>
+            </attribute>
+
+            <attribute name="disbVchrPreConfDepartmentCd">
+                <label>Department Code</label>
+                <shortLabel>Dep Cd</shortLabel>
+
+                <maxLength>4</maxLength>
+
+                <required>true</required>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>
+                    <![CDATA[&nbsp;]]>
+                </description>
+            </attribute>
+
+            <attribute name="dvPreConferenceRequestNumber">
+                <label>Req/Instate</label>
+                <shortLabel>Req/Instate</shortLabel>
+
+                <maxLength>6</maxLength>
+
+                <required>true</required>
+
+                <control>
+                    <text size="6" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>
+                    <![CDATA[&nbsp;]]>
+                </description>
+            </attribute>
+
+            <attribute name="disbVchrExpenseAmount">
+                <label>Amount</label>
+                <shortLabel>Amt</shortLabel>
+
+                <maxLength>22</maxLength>
+
+                <required>true</required>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>
+                    <![CDATA[&nbsp;]]>
+                </description>
+            </attribute>
+
+            <attributeReference name="financialDocumentNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="transactionEntrySequenceId" />
+        </attributes>
+    </businessObject>
 </dictionaryEntry>

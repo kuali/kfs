@@ -3,169 +3,181 @@
     "-//Kuali Project//DTD Data Dictionary 1.0//EN"
     "../../../core/datadictionary/dataDictionary-1_0.dtd">
 <dictionaryEntry>
-	<businessObject businessObjectClass="org.kuali.module.chart.bo.ProjectCode">
-		<customAttributeEnabled>true</customAttributeEnabled>
+    <businessObject businessObjectClass="org.kuali.module.chart.bo.ProjectCode">
+        <customAttributeEnabled>true</customAttributeEnabled>
 
-		<inquiry>
-			<title>Project Code Inquiry</title>
+        <inquiry>
+            <title>Project Code Inquiry</title>
 
-			<inquiryFields>
-				<field attributeName="code" />
-				<field attributeName="name" />			
-				<field attributeName="chartOfAccountsCode" />
-				<field attributeName="organizationCode" />			
-				<field attributeName="projectManagerUniversal.personName" forceInquiry="true"/>
-				<field attributeName="projectDescription" />
-				<field attributeName="active" />
-			</inquiryFields>
-		</inquiry>
+            <inquiryFields>
+                <field attributeName="code" />
+                <field attributeName="name" />
+                <field attributeName="chartOfAccountsCode" />
+                <field attributeName="organizationCode" />
+                <field attributeName="projectManagerUniversal.personName" forceInquiry="true" />
+                <field attributeName="projectDescription" />
+                <field attributeName="active" />
+            </inquiryFields>
+        </inquiry>
 
-		<lookup>
-			<title>Project Code Lookup</title>
+        <lookup>
+            <title>Project Code Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.chart.bo.ProjectCode">Create New</a>]]></menubar>
+            <menubar>
+                <![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.chart.bo.ProjectCode">Create New</a>]]>
+            </menubar>
 
-			<instructions>Lookup a Project Code</instructions>
+            <instructions>Lookup a Project Code</instructions>
 
-			<defaultSort attributeName="code" sortAscending="false" />
+            <defaultSort attributeName="code" sortAscending="false" />
 
-			<lookupFields>
-				<lookupField attributeName="code" required="false" />
-				<lookupField attributeName="projectManagerUniversal.personName" required="false" />
-				<lookupField attributeName="name" required="false" />
-				<lookupField attributeName="chartOfAccountsCode" required="false" />
-				<lookupField attributeName="organizationCode" required="false" />				
-			</lookupFields>
+            <lookupFields>
+                <lookupField attributeName="code" required="false" />
+                <lookupField attributeName="projectManagerUniversal.personName" required="false" />
+                <lookupField attributeName="name" required="false" />
+                <lookupField attributeName="chartOfAccountsCode" required="false" />
+                <lookupField attributeName="organizationCode" required="false" />
+            </lookupFields>
 
-			<resultFields>
-				<field attributeName="code" />
-				<field attributeName="projectManagerUniversal.personName" forceInquiry="true"/>
-				<field attributeName="name" />
-				<field attributeName="chartOfAccountsCode" />
-				<field attributeName="organizationCode" />
-			</resultFields>
-		</lookup>
+            <resultFields>
+                <field attributeName="code" />
+                <field attributeName="projectManagerUniversal.personName" forceInquiry="true" />
+                <field attributeName="name" />
+                <field attributeName="chartOfAccountsCode" />
+                <field attributeName="organizationCode" />
+            </resultFields>
+        </lookup>
 
-	    <titleAttribute>code</titleAttribute>
-	    
-		<attributes>
-			<attributeReference name="active" 
-								sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
-								sourceAttributeName="activeIndicator">
-				<label>Active Indicator</label>
-				<shortLabel>Active</shortLabel>
-				<summary><![CDATA[&nbsp;]]></summary>
-				<description><![CDATA[&nbsp;]]></description>
-			</attributeReference>
-			
-			<attributeReference name="chartOfAccountsCode" 
-								sourceClassName="org.kuali.module.chart.bo.Chart" 
-								sourceAttributeName="chartOfAccountsCode">
-				<required>true</required>
-				<control>
-					<select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" />
-				</control> 
-			</attributeReference>
-			
+        <titleAttribute>code</titleAttribute>
 
-			<attributeReference name="organizationCode" 
-								sourceClassName="org.kuali.module.chart.bo.Org" 
-								sourceAttributeName="organizationCode">
-				<required>true</required>
-			</attributeReference>
-								
-			<attributeReference name="projectManagerUniversalId" 
-								sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
-								sourceAttributeName="genericSystemId">
-				<label>Project Manager Univ</label>
-	            <shortLabel>Proj</shortLabel>
-				<required>true</required>
-				<control><hidden /></control>
-			</attributeReference>					
+        <attributes>
+            <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator">
+                <label>Active Indicator</label>
+                <shortLabel>Active</shortLabel>
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>
+                    <![CDATA[&nbsp;]]>
+                </description>
+            </attributeReference>
 
-			<attributeReference name="projectManagerUniversal.personUserIdentifier" 
-								sourceClassName="org.kuali.core.bo.user.KualiUser" 
-								sourceAttributeName="personUserIdentifier">
-				<label>Project Manager UserID</label>
-				<shortLabel>UserID</shortLabel>
-				<required>false</required>
-				<control>
-					<kualiUser universalIdAttributeName="projectManagerUniversalId" 
-								userIdAttributeName="projectManagerUniversal.personUserIdentifier" 
-								personNameAttributeName="projectManagerUniversal.personName" />
-				</control>
-				<summary><![CDATA[&nbsp;]]></summary>
-				<description>
-					The UserID of the Project Manager.
-				</description>
-			</attributeReference>
-			
-			<attributeReference name="projectManagerUniversal.personName" 
-								sourceClassName="org.kuali.core.bo.user.KualiUser" 
-								sourceAttributeName="personName">
-				<label>Project Manager Name</label>
-				<shortLabel>Name</shortLabel>
-				<required>false</required>
-				<control><hidden /></control>
-				<summary><![CDATA[&nbsp;]]></summary>
-				<description>
-					The Name of the Project Manager.
-				</description>
-			</attributeReference>
-			
-			<attribute name="code" forceUppercase="true">
-				<label>Project Code</label>
-				<shortLabel>Project</shortLabel>
+            <attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
+                <required>true</required>
+                <control>
+                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" />
+                </control>
+            </attributeReference>
 
-				<maxLength>10</maxLength>
-				<validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
-				<required>true</required>
 
-				<control>
-					<text size="10" />
-				</control>
+            <attributeReference name="organizationCode" sourceClassName="org.kuali.module.chart.bo.Org" sourceAttributeName="organizationCode">
+                <required>true</required>
+            </attributeReference>
 
-				<summary><![CDATA[&nbsp;]]></summary>
-				<description><![CDATA[&nbsp;]]></description>
-			</attribute>
-		
-			<attribute name="projectDescription" forceUppercase="false">
-				<label>Project Description</label>
-				<shortLabel>Desc</shortLabel>
+            <attributeReference name="projectManagerUniversalId" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericSystemId">
+                <label>Project Manager Univ</label>
+                <shortLabel>Proj</shortLabel>
+                <required>true</required>
+                <control>
+                    <hidden />
+                </control>
+            </attributeReference>
 
-				<maxLength>400</maxLength>
-				<validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
-				<required>true</required>
-				
-				<control>
-					<textarea rows="3" cols="40"/>
-				</control>
+            <attributeReference name="projectManagerUniversal.personUserIdentifier" sourceClassName="org.kuali.core.bo.user.KualiUser" sourceAttributeName="personUserIdentifier">
+                <label>Project Manager UserID</label>
+                <shortLabel>UserID</shortLabel>
+                <required>false</required>
+                <control>
+                    <kualiUser universalIdAttributeName="projectManagerUniversalId" userIdAttributeName="projectManagerUniversal.personUserIdentifier" personNameAttributeName="projectManagerUniversal.personName" />
+                </control>
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>The UserID of the Project Manager.</description>
+            </attributeReference>
 
-				<summary><![CDATA[&nbsp;]]></summary>
-				<description><![CDATA[&nbsp;]]></description>
-			</attribute>
-			
-			<attribute name="name" forceUppercase="true">
-				<label>Project Name</label>
-				<shortLabel>Name</shortLabel>
+            <attributeReference name="projectManagerUniversal.personName" sourceClassName="org.kuali.core.bo.user.KualiUser" sourceAttributeName="personName">
+                <label>Project Manager Name</label>
+                <shortLabel>Name</shortLabel>
+                <required>false</required>
+                <control>
+                    <hidden />
+                </control>
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>The Name of the Project Manager.</description>
+            </attributeReference>
 
-				<maxLength>40</maxLength>
-				<validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
-				<required>true</required>
-				
-				<control>
-					<text size="40" />
-				</control>
+            <attribute name="code" forceUppercase="true">
+                <label>Project Code</label>
+                <shortLabel>Project</shortLabel>
 
-				<summary><![CDATA[&nbsp;]]></summary>
-				<description><![CDATA[&nbsp;]]></description>
-			</attribute>
-			
-		    <attributeReference name="versionNumber" 
-								sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
-								sourceAttributeName="versionNumber" />
+                <maxLength>10</maxLength>
+                <validationPattern>
+                    <anyCharacter allowWhitespace="true" />
+                </validationPattern>
+                <required>true</required>
 
-		</attributes>
-	</businessObject>
+                <control>
+                    <text size="10" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>
+                    <![CDATA[&nbsp;]]>
+                </description>
+            </attribute>
+
+            <attribute name="projectDescription" forceUppercase="false">
+                <label>Project Description</label>
+                <shortLabel>Desc</shortLabel>
+
+                <maxLength>400</maxLength>
+                <validationPattern>
+                    <anyCharacter allowWhitespace="true" />
+                </validationPattern>
+                <required>true</required>
+
+                <control>
+                    <textarea rows="3" cols="40" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>
+                    <![CDATA[&nbsp;]]>
+                </description>
+            </attribute>
+
+            <attribute name="name" forceUppercase="true">
+                <label>Project Name</label>
+                <shortLabel>Name</shortLabel>
+
+                <maxLength>40</maxLength>
+                <validationPattern>
+                    <anyCharacter allowWhitespace="true" />
+                </validationPattern>
+                <required>true</required>
+
+                <control>
+                    <text size="40" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>
+                    <![CDATA[&nbsp;]]>
+                </description>
+            </attribute>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+    </businessObject>
 </dictionaryEntry>
 

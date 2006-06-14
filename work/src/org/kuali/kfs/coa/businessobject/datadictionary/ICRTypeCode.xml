@@ -3,60 +3,64 @@
     "-//Kuali Project//DTD Data Dictionary 1.0//EN"
     "../../../core/datadictionary/dataDictionary-1_0.dtd">
 <dictionaryEntry>
-	<businessObject businessObjectClass="org.kuali.module.chart.bo.codes.ICRTypeCode">
-		<customAttributeEnabled>false</customAttributeEnabled>
+    <businessObject businessObjectClass="org.kuali.module.chart.bo.codes.ICRTypeCode">
+        <customAttributeEnabled>false</customAttributeEnabled>
 
-		<inquiry>
-			<title>Federal Funded Code Inquiry</title>
-			<inquiryFields>
-				<field attributeName="code" />
-				<field attributeName="name" />								
-			</inquiryFields>
-		</inquiry>
+        <inquiry>
+            <title>Federal Funded Code Inquiry</title>
+            <inquiryFields>
+                <field attributeName="code" />
+                <field attributeName="name" />
+            </inquiryFields>
+        </inquiry>
 
-		<lookup>
-			<title>ICR Type Code Lookup</title>
+        <lookup>
+            <title>ICR Type Code Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.chart.bo.codes.ICRTypeCode">Create New</a>]]></menubar>
+            <menubar>
+                <![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.chart.bo.codes.ICRTypeCode">Create New</a>]]>
+            </menubar>
 
-			<instructions>Lookup an ICR Type Code</instructions>
+            <instructions>Lookup an ICR Type Code</instructions>
 
-			<defaultSort attributeName="code" sortAscending="true" />
+            <defaultSort attributeName="code" sortAscending="true" />
 
-			<lookupFields>
-				<lookupField attributeName="code" required="false" />
-				<lookupField attributeName="name" required="false" />		
-			</lookupFields>
+            <lookupFields>
+                <lookupField attributeName="code" required="false" />
+                <lookupField attributeName="name" required="false" />
+            </lookupFields>
 
-			<resultFields>
-				<field attributeName="code" />
-				<field attributeName="name" />		
-			</resultFields>
-		</lookup>
+            <resultFields>
+                <field attributeName="code" />
+                <field attributeName="name" />
+            </resultFields>
+        </lookup>
 
-		<attributes>
+        <attributes>
 
-			<attribute name="code" forceUppercase="true">
-				<label>ICR Type Code</label>
-				<shortLabel>ICR Type Code</shortLabel>
+            <attribute name="code" forceUppercase="true">
+                <label>ICR Type Code</label>
+                <shortLabel>ICR Type Code</shortLabel>
 
-				<maxLength>2</maxLength>
-				<validationPattern><alphaNumeric /></validationPattern>
-				<required>true</required>
-				<control>
-					<text size="2" />
-				</control>
+                <maxLength>2</maxLength>
+                <validationPattern>
+                    <alphaNumeric />
+                </validationPattern>
+                <required>true</required>
+                <control>
+                    <text size="2" />
+                </control>
 
-				<summary>ICR Type Code</summary>
-				<description>ICR Type Code</description>
-			</attribute>
-			
-			<attribute name="name" forceUppercase="false">
+                <summary>ICR Type Code</summary>
+                <description>ICR Type Code</description>
+            </attribute>
+
+            <attribute name="name" forceUppercase="false">
                 <label>ICR Type Name</label>
                 <shortLabel>Name</shortLabel>
 
                 <maxLength>40</maxLength>
-				<required>true</required>
+                <required>true</required>
                 <control>
                     <text size="40" />
                 </control>
@@ -65,10 +69,8 @@
                 <description>ICR Type Name...</description>
             </attribute>
 
- 			<attributeReference name="versionNumber" 
- 				sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
- 				sourceAttributeName="versionNumber" />
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 
-		</attributes>
-	</businessObject>
+        </attributes>
+    </businessObject>
 </dictionaryEntry>

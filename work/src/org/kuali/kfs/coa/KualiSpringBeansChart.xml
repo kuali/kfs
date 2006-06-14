@@ -1,102 +1,102 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
-	<bean id="balanceTypService" class="org.kuali.module.chart.service.impl.BalanceTypServiceImpl">
+    <bean id="balanceTypService" class="org.kuali.module.chart.service.impl.BalanceTypServiceImpl">
         <property name="kualiCodeService">
             <ref bean="kualiCodeService" />
         </property>
-     </bean>
-     
-     <bean id="accountingPeriodService" class="org.kuali.module.chart.service.impl.AccountingPeriodServiceImpl">
+    </bean>
+
+    <bean id="accountingPeriodService" class="org.kuali.module.chart.service.impl.AccountingPeriodServiceImpl">
         <property name="businessObjectService">
             <ref bean="businessObjectService" />
         </property>
-     </bean>
-     
-     <bean id="subFundGroupService" class="org.kuali.module.chart.service.impl.SubFundGroupServiceImpl">
+    </bean>
+
+    <bean id="subFundGroupService" class="org.kuali.module.chart.service.impl.SubFundGroupServiceImpl">
         <property name="subFundGroupDao">
             <ref bean="subFundGroupDao" />
         </property>
-     </bean>
-     
-     <bean id="objectTypeService" class="org.kuali.module.chart.service.impl.ObjectTypeServiceImpl">
+    </bean>
+
+    <bean id="objectTypeService" class="org.kuali.module.chart.service.impl.ObjectTypeServiceImpl">
         <property name="objectTypeDao">
             <ref bean="objectTypeDao" />
         </property>
-     </bean>
-     
-     <bean id="a21SubAccountService" class="org.kuali.module.chart.service.impl.A21SubAccountServiceImpl">
+    </bean>
+
+    <bean id="a21SubAccountService" class="org.kuali.module.chart.service.impl.A21SubAccountServiceImpl">
         <property name="a21SubAccountDao">
             <ref bean="a21SubAccountDao" />
         </property>
-     </bean>
-     
-     <bean id="priorYearAccountService" class="org.kuali.module.chart.service.impl.PrioYearAccountServiceImpl">
+    </bean>
+
+    <bean id="priorYearAccountService" class="org.kuali.module.chart.service.impl.PrioYearAccountServiceImpl">
         <property name="priorYearAccountDao">
             <ref bean="priorYearAccountDao" />
         </property>
-     </bean>
-     
-     <bean id="organizationReversionService" class="org.kuali.module.chart.service.impl.OrganizationReversionServiceImpl">
+    </bean>
+
+    <bean id="organizationReversionService" class="org.kuali.module.chart.service.impl.OrganizationReversionServiceImpl">
         <property name="organizationReversionDao">
             <ref bean="organizationReversionDao" />
         </property>
         <property name="kualiConfigurationService">
             <ref bean="kualiConfigurationService" />
-        </property>        
-     </bean>
-     
-     <bean id="organizationReversionDao" class="org.kuali.module.chart.dao.ojb.OrganizationReversionDaoOjb">
+        </property>
+    </bean>
+
+    <bean id="organizationReversionDao" class="org.kuali.module.chart.dao.ojb.OrganizationReversionDaoOjb">
         <property name="jcdAlias">
             <value>dataSource</value>
         </property>
-     </bean>
-     
-	<bean id="priorYearAccountDao" class="org.kuali.module.chart.dao.ojb.PriorYearAccountDaoOjb">
-		<property name="jcdAlias">
-			<value>dataSource</value>
-		</property>
-	</bean>
+    </bean>
 
-	<bean id="subFundGroupDao" class="org.kuali.module.chart.dao.ojb.SubFundGroupDaoOjb">
-		<property name="jcdAlias">
-			<value>dataSource</value>
-		</property>
-	</bean>
-	
-     <bean id="objectTypeDao" class="org.kuali.module.chart.dao.ojb.ObjectTypeDaoOjb">
-		<property name="jcdAlias">
-			<value>dataSource</value>
-		</property>
-	</bean>
+    <bean id="priorYearAccountDao" class="org.kuali.module.chart.dao.ojb.PriorYearAccountDaoOjb">
+        <property name="jcdAlias">
+            <value>dataSource</value>
+        </property>
+    </bean>
 
-	<bean id="icrAutomatedEntryDao" class="org.kuali.module.chart.dao.ojb.IcrAutomatedEntryDaoOjb">
-		<property name="jcdAlias">
-			<value>dataSource</value>
-		</property>
-	</bean>
+    <bean id="subFundGroupDao" class="org.kuali.module.chart.dao.ojb.SubFundGroupDaoOjb">
+        <property name="jcdAlias">
+            <value>dataSource</value>
+        </property>
+    </bean>
 
-	<bean id="indirectCostRecoveryExclusionAccountDao" class="org.kuali.module.chart.dao.ojb.IndirectCostRecoveryExclusionAccountDaoOjb">
-		<property name="jcdAlias">
-			<value>dataSource</value>
-		</property>
-	</bean>
+    <bean id="objectTypeDao" class="org.kuali.module.chart.dao.ojb.ObjectTypeDaoOjb">
+        <property name="jcdAlias">
+            <value>dataSource</value>
+        </property>
+    </bean>
 
-	<bean id="indirectCostRecoveryExclusionTypeDao" class="org.kuali.module.chart.dao.ojb.IndirectCostRecoveryExclusionTypeDaoOjb">
-		<property name="jcdAlias">
-			<value>dataSource</value>
-		</property>
-	</bean>
+    <bean id="icrAutomatedEntryDao" class="org.kuali.module.chart.dao.ojb.IcrAutomatedEntryDaoOjb">
+        <property name="jcdAlias">
+            <value>dataSource</value>
+        </property>
+    </bean>
 
-	<bean id="indirectCostRecoveryThresholdDao" class="org.kuali.module.chart.dao.ojb.IndirectCostRecoveryThresholdDaoOjb">
-		<property name="jcdAlias">
-			<value>dataSource</value>
-		</property>
-	</bean>
+    <bean id="indirectCostRecoveryExclusionAccountDao" class="org.kuali.module.chart.dao.ojb.IndirectCostRecoveryExclusionAccountDaoOjb">
+        <property name="jcdAlias">
+            <value>dataSource</value>
+        </property>
+    </bean>
 
-	<bean id="a21SubAccountDao" class="org.kuali.module.chart.dao.ojb.A21SubAccountDaoOjb">
-		<property name="jcdAlias">
-			<value>dataSource</value>
-		</property>
-	</bean>
+    <bean id="indirectCostRecoveryExclusionTypeDao" class="org.kuali.module.chart.dao.ojb.IndirectCostRecoveryExclusionTypeDaoOjb">
+        <property name="jcdAlias">
+            <value>dataSource</value>
+        </property>
+    </bean>
+
+    <bean id="indirectCostRecoveryThresholdDao" class="org.kuali.module.chart.dao.ojb.IndirectCostRecoveryThresholdDaoOjb">
+        <property name="jcdAlias">
+            <value>dataSource</value>
+        </property>
+    </bean>
+
+    <bean id="a21SubAccountDao" class="org.kuali.module.chart.dao.ojb.A21SubAccountDaoOjb">
+        <property name="jcdAlias">
+            <value>dataSource</value>
+        </property>
+    </bean>
 </beans>

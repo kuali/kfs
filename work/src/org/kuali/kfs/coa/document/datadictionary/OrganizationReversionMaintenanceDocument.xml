@@ -4,9 +4,9 @@
     "../../../../core/datadictionary/dataDictionary-1_0.dtd">
 
 <dictionaryEntry>
-	<maintenanceDocument>
-		<businessObjectClass>org.kuali.module.chart.bo.OrganizationReversion</businessObjectClass>
-		<maintainableClass>org.kuali.core.maintenance.OrganizationReversionMaintainable</maintainableClass>	
+    <maintenanceDocument>
+        <businessObjectClass>org.kuali.module.chart.bo.OrganizationReversion</businessObjectClass>
+        <maintainableClass>org.kuali.core.maintenance.OrganizationReversionMaintainable</maintainableClass>
         <documentAuthorizerClass>org.kuali.core.document.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
         <authorizations>
             <authorization action="initiate">
@@ -16,91 +16,71 @@
             </authorization>
         </authorizations>
 
-		<documentTypeName>KualiOrganizationReversionMaintenanceDocument</documentTypeName>
-		<documentTypeCode>ORGR</documentTypeCode>
-		<label>Organization Reversion Maintenance Document</label>
-		<shortLabel>OrganizationRefersionMaintenanceDocument</shortLabel>
-		<summary>Organization Reversion Maintenance Document</summary>
-		<description>
-			Maintenance document which allows you to create new Organization Reversions, remove exsiting 
-			Organization Reversions, or modify existing Organization Reversions.
-		</description>
-		
+        <documentTypeName>KualiOrganizationReversionMaintenanceDocument</documentTypeName>
+        <documentTypeCode>ORGR</documentTypeCode>
+        <label>Organization Reversion Maintenance Document</label>
+        <shortLabel>OrganizationRefersionMaintenanceDocument</shortLabel>
+        <summary>Organization Reversion Maintenance Document</summary>
+        <description>Maintenance document which allows you to create new Organization Reversions, remove exsiting Organization Reversions, or modify existing Organization Reversions.</description>
+
         <lockingKeys>
-        	<field attributeName="universityFiscalYear" />
-			<field attributeName="chartOfAccountsCode" />			
-			<field attributeName="organizationCode"  />
- 		</lockingKeys>	  		
+            <field attributeName="universityFiscalYear" />
+            <field attributeName="chartOfAccountsCode" />
+            <field attributeName="organizationCode" />
+        </lockingKeys>
 
-		<defaultExistenceChecks>
-			<reference  attributeName="chartOfAccounts" 
-						activeIndicatorAttributeName="finChartOfAccountActiveIndicator" 
-						attributeToHighlightOnFail="chartOfAccountsCode" />
-			<reference  attributeName="universityFiscal" 
-						attributeToHighlightOnFail="universityFiscalYear" />
-			<reference  attributeName="organization" 
-						activeIndicatorAttributeName="organizationActiveIndicator" 
-						attributeToHighlightOnFail="organizationCode" />
-			<reference  attributeName="budgetReversionChartOfAccounts" 
-						activeIndicatorAttributeName="finChartOfAccountActiveIndicator" 
-						attributeToHighlightOnFail="budgetReversionChartOfAccountsCode" />
-			<reference  attributeName="budgetReversionAccount" 
-						attributeToHighlightOnFail="budgetReversionAccountNumber" 
-						activeIndicatorAttributeName="accountClosedIndicator" 
-						activeIndicatorReversed="true" />											
-			<reference  attributeName="cashReversionFinancialChartOfAccounts" 
-						activeIndicatorAttributeName="finChartOfAccountActiveIndicator" 
-						attributeToHighlightOnFail="cashReversionFinancialChartOfAccountsCode" />
-			<reference  attributeName="cashReversionAccount" 
-						attributeToHighlightOnFail="cashReversionAccountNumber" 
-						activeIndicatorAttributeName="accountClosedIndicator" 
-						activeIndicatorReversed="true" />
-			
-		</defaultExistenceChecks>
-		
-		<maintainableSections>
+        <defaultExistenceChecks>
+            <reference attributeName="chartOfAccounts" activeIndicatorAttributeName="finChartOfAccountActiveIndicator" attributeToHighlightOnFail="chartOfAccountsCode" />
+            <reference attributeName="universityFiscal" attributeToHighlightOnFail="universityFiscalYear" />
+            <reference attributeName="organization" activeIndicatorAttributeName="organizationActiveIndicator" attributeToHighlightOnFail="organizationCode" />
+            <reference attributeName="budgetReversionChartOfAccounts" activeIndicatorAttributeName="finChartOfAccountActiveIndicator" attributeToHighlightOnFail="budgetReversionChartOfAccountsCode" />
+            <reference attributeName="budgetReversionAccount" attributeToHighlightOnFail="budgetReversionAccountNumber" activeIndicatorAttributeName="accountClosedIndicator" activeIndicatorReversed="true" />
+            <reference attributeName="cashReversionFinancialChartOfAccounts" activeIndicatorAttributeName="finChartOfAccountActiveIndicator" attributeToHighlightOnFail="cashReversionFinancialChartOfAccountsCode" />
+            <reference attributeName="cashReversionAccount" attributeToHighlightOnFail="cashReversionAccountNumber" activeIndicatorAttributeName="accountClosedIndicator" activeIndicatorReversed="true" />
 
-			<maintainableSection title="Choose Organizations">
+        </defaultExistenceChecks>
+
+        <maintainableSections>
+
+            <maintainableSection title="Choose Organizations">
                 <maintainableItems>
- 	          	<maintainableCollection name="organizations" businessObjectClass="org.kuali.module.chart.bo.Org" 
-		          		  sourceClassName="org.kuali.module.chart.bo.Org" 
-						  sourceAttributeName="organizations">
-                        <maintainableField name="organizationCode" template="organizationCode"/>
-                        <maintainableField name="organizationName" template="organizationCode"/>
-	                </maintainableCollection>
+                    <maintainableCollection name="organizations" businessObjectClass="org.kuali.module.chart.bo.Org" sourceClassName="org.kuali.module.chart.bo.Org" sourceAttributeName="organizations">
+                        <maintainableField name="organizationCode" template="organizationCode" />
+                        <maintainableField name="organizationName" template="organizationCode" />
+                    </maintainableCollection>
                 </maintainableItems>
             </maintainableSection>
-	                
-		
-			<maintainableSection title="Edit Organization Reversion">
-                <maintainableItems>
-					<maintainableField name="universityFiscalYear" required="true" />
-					<maintainableField name="chartOfAccountsCode" required="true" />
-					<maintainableField name="organizationCode" required="true" />
-					<maintainableField name="budgetReversionChartOfAccountsCode" required="true" />
-					<maintainableField name="budgetReversionAccountNumber" required="true" />
-					<maintainableField name="cashReversionFinancialChartOfAccountsCode" required="true" />
-					<maintainableField name="cashReversionAccountNumber" required="true" />
-					<maintainableField name="carryForwardByObjectCodeIndicator" required="true" />
-					<maintainableField name="versionNumber" />
 
-    		          	<maintainableCollection name="organizationReversionDetail" businessObjectClass="org.kuali.module.chart.bo.OrganizationReversionDetail">
-						<maintainableField name="organizationReversionCategoryCode" required="true" />																
-						<maintainableField name="universityFiscalYear" required="true" />
-						<maintainableField name="chartOfAccountsCode" required="true" />
-						<maintainableField name="organizationCode" required="true" />
-						<maintainableField name="organizationReversionObjectCode" required="true" />
-						<maintainableField name="organizationReversionCode" required="true" />				
-						<maintainableField name="versionNumber" />
-	                </maintainableCollection>
+
+            <maintainableSection title="Edit Organization Reversion">
+                <maintainableItems>
+                    <maintainableField name="universityFiscalYear" required="true" />
+                    <maintainableField name="chartOfAccountsCode" required="true" />
+                    <maintainableField name="organizationCode" required="true" />
+                    <maintainableField name="budgetReversionChartOfAccountsCode" required="true" />
+                    <maintainableField name="budgetReversionAccountNumber" required="true" />
+                    <maintainableField name="cashReversionFinancialChartOfAccountsCode" required="true" />
+                    <maintainableField name="cashReversionAccountNumber" required="true" />
+                    <maintainableField name="carryForwardByObjectCodeIndicator" required="true" />
+                    <maintainableField name="versionNumber" />
+
+                    <maintainableCollection name="organizationReversionDetail" businessObjectClass="org.kuali.module.chart.bo.OrganizationReversionDetail">
+                        <maintainableField name="organizationReversionCategoryCode" required="true" />
+                        <maintainableField name="universityFiscalYear" required="true" />
+                        <maintainableField name="chartOfAccountsCode" required="true" />
+                        <maintainableField name="organizationCode" required="true" />
+                        <maintainableField name="organizationReversionObjectCode" required="true" />
+                        <maintainableField name="organizationReversionCode" required="true" />
+                        <maintainableField name="versionNumber" />
+                    </maintainableCollection>
 
 
                 </maintainableItems>
-                
-                
-                
-			</maintainableSection>
-		</maintainableSections>
-	</maintenanceDocument>
+
+
+
+            </maintainableSection>
+        </maintainableSections>
+    </maintenanceDocument>
 
 </dictionaryEntry>

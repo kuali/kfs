@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
-	<bean id="travelMileageRateDao" class="org.kuali.module.financial.dao.ojb.TravelMileageRateDaoOjb">
-		<property name="jcdAlias">
-			<value>dataSource</value>
-		</property>
-	</bean>
-	
+    <bean id="travelMileageRateDao" class="org.kuali.module.financial.dao.ojb.TravelMileageRateDaoOjb">
+        <property name="jcdAlias">
+            <value>dataSource</value>
+        </property>
+    </bean>
+
     <bean id="disbursementVoucherTaxService" class="org.kuali.module.financial.service.impl.DisbursementVoucherTaxServiceImpl">
         <property name="kualiConfigurationService">
             <ref bean="kualiConfigurationService" />
@@ -30,20 +30,20 @@
             <ref bean="persistenceService" />
         </property>
     </bean>
-    
+
     <bean id="disbursementVoucherTravelService" class="org.kuali.module.financial.service.impl.DisbursementVoucherTravelServiceImpl">
         <property name="travelMileageRateDao">
-           <ref bean="travelMileageRateDao"/>
+            <ref bean="travelMileageRateDao" />
         </property>
         <property name="dateTimeService">
-           <ref bean="dateTimeService"/>
+            <ref bean="dateTimeService" />
         </property>
     </bean>
-        
+
     <bean id="checkService" class="org.kuali.module.financial.service.impl.CheckServiceImpl">
-       <property name="checkDao">
-          <ref bean="checkDao"/>
-       </property>
+        <property name="checkDao">
+            <ref bean="checkDao" />
+        </property>
     </bean>
 
     <bean id="cashDrawerService" class="org.kuali.module.financial.service.impl.CashDrawerServiceImpl">
@@ -51,13 +51,13 @@
             <ref bean="businessObjectService" />
         </property>
     </bean>
-     
+
     <bean id="accountPresenceService" class="org.kuali.module.financial.service.impl.AccountPresenceServiceImpl">
-       <property name="balanceDao">
-           <ref bean="glBalanceDao" />
-       </property>
+        <property name="balanceDao">
+            <ref bean="glBalanceDao" />
+        </property>
     </bean>
-    
+
     <bean id="cashManagementService" class="org.kuali.module.financial.service.impl.CashManagementServiceImpl">
         <property name="businessObjectService">
             <ref bean="businessObjectService" />
@@ -87,13 +87,13 @@
             <ref bean="businessObjectService" />
         </property>
     </bean>
-    
+
     <bean id="fiscalYearFunctionControlService" class="org.kuali.module.financial.service.impl.FiscalYearFunctionControlServiceImpl">
         <property name="businessObjectService">
             <ref bean="businessObjectService" />
         </property>
     </bean>
-    
+
     <bean id="procurementCardCreateDocumentService" class="org.kuali.module.financial.service.impl.ProcurementCardCreateDocumentServiceImpl">
         <property name="kualiConfigurationService">
             <ref bean="kualiConfigurationService" />
@@ -110,8 +110,8 @@
         <property name="dateTimeService">
             <ref bean="dateTimeService" />
         </property>
-    </bean> 
-    
+    </bean>
+
     <bean id="procurementCardLoadTransactionsService" class="org.kuali.module.financial.service.impl.ProcurementCardLoadTransactionsServiceImpl">
         <property name="kualiConfigurationService">
             <ref bean="kualiConfigurationService" />
@@ -123,10 +123,10 @@
             <ref bean="businessObjectService" />
         </property>
         <property name="dateTimeService">
-           <ref bean="dateTimeService"/>
+            <ref bean="dateTimeService" />
         </property>
-    </bean> 
-    
+    </bean>
+
     <bean id="cashReceiptService" class="org.kuali.module.financial.service.impl.CashReceiptServiceImpl">
         <property name="businessObjectService">
             <ref bean="businessObjectService" />
@@ -135,25 +135,25 @@
             <ref bean="workflowDocumentService" />
         </property>
     </bean>
-    
+
     <bean id="loadDataFileStep" class="org.kuali.module.financial.batch.pcard.LoadDataFileStep">
         <property name="procurementCardLoadTransactionsService">
             <ref bean="procurementCardLoadTransactionsService" />
         </property>
     </bean>
-    
+
     <bean id="createDocumentsStep" class="org.kuali.module.financial.batch.pcard.CreateDocumentsStep">
         <property name="procurementCardCreateDocumentService">
             <ref bean="procurementCardCreateDocumentService" />
         </property>
     </bean>
-    
+
     <bean id="routeDocumentsStep" class="org.kuali.module.financial.batch.pcard.RouteDocumentsStep">
         <property name="procurementCardCreateDocumentService">
             <ref bean="procurementCardCreateDocumentService" />
         </property>
     </bean>
-    
+
     <bean id="autoApproveDocumentsStep" class="org.kuali.module.financial.batch.pcard.AutoApproveDocumentsStep">
         <property name="procurementCardCreateDocumentService">
             <ref bean="procurementCardCreateDocumentService" />

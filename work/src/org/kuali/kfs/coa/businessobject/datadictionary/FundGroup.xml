@@ -10,7 +10,7 @@
             <title>Fund Group Inquiry</title>
 
             <inquiryFields>
-                <field attributeName="code" noInquiry="true"/>
+                <field attributeName="code" noInquiry="true" />
                 <field attributeName="name" />
                 <field attributeName="financialReportingSortCode" />
                 <field attributeName="active" />
@@ -20,7 +20,9 @@
         <lookup>
             <title>Fund Group Lookup</title>
 
-            <menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.chart.bo.FundGroup">Create New</a>]]></menubar>
+            <menubar>
+                <![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.chart.bo.FundGroup">Create New</a>]]>
+            </menubar>
 
             <instructions>Lookup a Fund Group</instructions>
 
@@ -30,9 +32,9 @@
                 <lookupField attributeName="code" required="false" />
                 <lookupField attributeName="name" required="false" />
                 <lookupField attributeName="financialReportingSortCode" required="false" />
-                <lookupField attributeName="active" required="false" >	
-					<defaultValue>Y</defaultValue>
-				</lookupField>
+                <lookupField attributeName="active" required="false">
+                    <defaultValue>Y</defaultValue>
+                </lookupField>
             </lookupFields>
 
             <resultFields>
@@ -50,56 +52,58 @@
 
                 <maxLength>2</maxLength>
 
-				<validationPattern><alpha exactLength="2" /></validationPattern>
-				<required>true</required>
-				<control>
-					<text size="4" />
-				</control>
+                <validationPattern>
+                    <alpha exactLength="2" />
+                </validationPattern>
+                <required>true</required>
+                <control>
+                    <text size="4" />
+                </control>
 
-				<summary>Fund Group Code</summary>
-				<description>Fund Group Code</description>
+                <summary>Fund Group Code</summary>
+                <description>Fund Group Code</description>
             </attribute>
-            
-            <attributeReference name="active" 
-            					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
-            					sourceAttributeName="activeIndicator" />
+
+            <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />
 
             <attribute name="financialReportingSortCode" forceUppercase="false">
                 <label>Financial Reporting Sort Code</label>
                 <shortLabel>Fin. Rpt. Code</shortLabel>
 
                 <maxLength>2</maxLength>
-                
-                <validationPattern><numeric exactLength="2" /></validationPattern>
-				<required>true</required>
+
+                <validationPattern>
+                    <numeric exactLength="2" />
+                </validationPattern>
+                <required>true</required>
                 <control>
-                    <text size="4"/>
+                    <text size="4" />
                 </control>
 
                 <summary>Financial Reporting Sort Code</summary>
                 <description>The Financial Reporting Sort Code represents...</description>
             </attribute>
-            
+
             <attribute name="name" forceUppercase="false">
-				<label>Fund Group Name</label>
-				<shortLabel>Name</shortLabel>
+                <label>Fund Group Name</label>
+                <shortLabel>Name</shortLabel>
 
-				<maxLength>40</maxLength>
-							
-				<validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
-				<required>true</required>
-				<control>
-					<text size="42" />
-				</control>
+                <maxLength>40</maxLength>
 
-				<summary>Fund Group Name</summary>
-				<description>The name of the Fund Group.</description>
-			</attribute>
-			
- 			<attributeReference name="versionNumber" 
- 				sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
- 				sourceAttributeName="versionNumber" />
- 				
+                <validationPattern>
+                    <anyCharacter allowWhitespace="true" />
+                </validationPattern>
+                <required>true</required>
+                <control>
+                    <text size="42" />
+                </control>
+
+                <summary>Fund Group Name</summary>
+                <description>The name of the Fund Group.</description>
+            </attribute>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
         </attributes>
     </businessObject>
 </dictionaryEntry>

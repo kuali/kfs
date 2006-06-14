@@ -9,11 +9,9 @@
         <customAttributeEnabled>false</customAttributeEnabled>
 
         <attributes>
-        
-           <attributeReference name="financialDocumentTransactionLineNumber"
-					           sourceClassName="org.kuali.module.financial.bo.ProcurementCardSourceAccountingLine"
-					           sourceAttributeName="financialDocumentTransactionLineNumber"/>
-			
+
+            <attributeReference name="financialDocumentTransactionLineNumber" sourceClassName="org.kuali.module.financial.bo.ProcurementCardSourceAccountingLine" sourceAttributeName="financialDocumentTransactionLineNumber" />
+
             &accountingLineBaseAttributes;
         </attributes>
 
@@ -21,8 +19,12 @@
             <collection name="extendedAttributeValues">
                 <label>Extended Attribute Values</label>
                 <shortLabel>Values</shortLabel>
-                <summary><![CDATA[&nbsp;]]></summary>
-                <description><![CDATA[&nbsp;]]></description>
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>
+                    <![CDATA[&nbsp;]]>
+                </description>
             </collection>
         </collections>
     </businessObject>

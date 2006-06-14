@@ -4,7 +4,7 @@
     "../../../../core/datadictionary/dataDictionary-1_0.dtd">
 
 <dictionaryEntry>
-	<maintenanceDocument>
+    <maintenanceDocument>
         <businessObjectClass>org.kuali.module.chart.bo.Chart</businessObjectClass>
         <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
 
@@ -17,70 +17,57 @@
             </authorization>
         </authorizations>
 
-		<documentTypeName>KualiChartMaintenanceDocument</documentTypeName>
-		<documentTypeCode>COAT</documentTypeCode>
+        <documentTypeName>KualiChartMaintenanceDocument</documentTypeName>
+        <documentTypeCode>COAT</documentTypeCode>
 
-		<label>Chart Maintenance Document</label>
-		<shortLabel>ChMainDoc</shortLabel>
-		
-		<summary>Chart maintenance document</summary>
-		<description>Document used to create or update Chart objects</description>
+        <label>Chart Maintenance Document</label>
+        <shortLabel>ChMainDoc</shortLabel>
+
+        <summary>Chart maintenance document</summary>
+        <description>Document used to create or update Chart objects</description>
 
         <lockingKeys>
-			<field attributeName="chartOfAccountsCode" />
-		</lockingKeys>	         
+            <field attributeName="chartOfAccountsCode" />
+        </lockingKeys>
 
-		<defaultExistenceChecks>
-			<reference  attributeName="finCoaManagerUniversal" 
-						attributeToHighlightOnFail="finCoaManagerUniversal.personUserIdentifier" 
-						displayFieldName="Chart Manager" />
-			<reference  attributeName="financialCashObject" 
-						attributeToHighlightOnFail="financialCashObjectCode" />
-			<reference  attributeName="finAccountsPayableObject" 
-						attributeToHighlightOnFail="finAccountsPayableObjectCode" />
-			<reference  attributeName="finAccountsReceivableObj" 
-						attributeToHighlightOnFail="finAccountsReceivableObjCode" />
-			<reference  attributeName="incBdgtEliminationsFinObj" 
-						attributeToHighlightOnFail="incBdgtEliminationsFinObjCd" />
-			<reference  attributeName="expBdgtEliminationsFinObj" 
-						attributeToHighlightOnFail="expBdgtEliminationsFinObjCd" />
-			<reference  attributeName="reportsToChartOfAccounts" 
-						attributeToHighlightOnFail="reportsToChartOfAccountsCode" />
-			<reference  attributeName="finInternalEncumbranceObj" 
-						attributeToHighlightOnFail="finInternalEncumbranceObjCd" />
-			<reference  attributeName="finExternalEncumbranceObj" 
-						attributeToHighlightOnFail="finExternalEncumbranceObjCd" />
-			<reference  attributeName="finPreEncumbranceObject" 
-						attributeToHighlightOnFail="finPreEncumbranceObjectCode" />
-			<reference  attributeName="icrIncomeFinancialObject" 
-						attributeToHighlightOnFail="icrIncomeFinancialObjectCode" />
-			<reference  attributeName="icrExpenseFinancialObject" 
-						attributeToHighlightOnFail="icrExpenseFinancialObjectCd" />
-		</defaultExistenceChecks>
-		
-	    <maintainableSections>
-	        <maintainableSection title="Edit Chart">
+        <defaultExistenceChecks>
+            <reference attributeName="finCoaManagerUniversal" attributeToHighlightOnFail="finCoaManagerUniversal.personUserIdentifier" displayFieldName="Chart Manager" />
+            <reference attributeName="financialCashObject" attributeToHighlightOnFail="financialCashObjectCode" />
+            <reference attributeName="finAccountsPayableObject" attributeToHighlightOnFail="finAccountsPayableObjectCode" />
+            <reference attributeName="finAccountsReceivableObj" attributeToHighlightOnFail="finAccountsReceivableObjCode" />
+            <reference attributeName="incBdgtEliminationsFinObj" attributeToHighlightOnFail="incBdgtEliminationsFinObjCd" />
+            <reference attributeName="expBdgtEliminationsFinObj" attributeToHighlightOnFail="expBdgtEliminationsFinObjCd" />
+            <reference attributeName="reportsToChartOfAccounts" attributeToHighlightOnFail="reportsToChartOfAccountsCode" />
+            <reference attributeName="finInternalEncumbranceObj" attributeToHighlightOnFail="finInternalEncumbranceObjCd" />
+            <reference attributeName="finExternalEncumbranceObj" attributeToHighlightOnFail="finExternalEncumbranceObjCd" />
+            <reference attributeName="finPreEncumbranceObject" attributeToHighlightOnFail="finPreEncumbranceObjectCode" />
+            <reference attributeName="icrIncomeFinancialObject" attributeToHighlightOnFail="icrIncomeFinancialObjectCode" />
+            <reference attributeName="icrExpenseFinancialObject" attributeToHighlightOnFail="icrExpenseFinancialObjectCd" />
+        </defaultExistenceChecks>
+
+        <maintainableSections>
+            <maintainableSection title="Edit Chart">
                 <maintainableItems>
-					<maintainableField name="chartOfAccountsCode" required="true" />			   
-					<maintainableField name="finCoaManagerUniversalId" required="true" readOnly="true" />
-					<maintainableField name="finCoaManagerUniversal.personUserIdentifier" required="true" />
-					<maintainableField name="finCoaManagerUniversal.personName" required="false" readOnly="true" />
-					<maintainableField name="finChartOfAccountDescription" />
-					<maintainableField name="finChartOfAccountActiveIndicator" />
-					<maintainableField name="financialCashObjectCode" />
-					<maintainableField name="finAccountsPayableObjectCode" />
-					<maintainableField name="incBdgtEliminationsFinObjCd" />
-					<maintainableField name="expBdgtEliminationsFinObjCd" />
-					<maintainableField name="reportsToChartOfAccountsCode" required="true" />
-					<maintainableField name="finAccountsReceivableObjCode" />
-					<maintainableField name="finInternalEncumbranceObjCd" />
-					<maintainableField name="finExternalEncumbranceObjCd" />
-					<maintainableField name="finPreEncumbranceObjectCode" />
-					<maintainableField name="icrIncomeFinancialObjectCode" />
-					<maintainableField name="icrExpenseFinancialObjectCd" />
-		            <maintainableField name="versionNumber" />
+                    <maintainableField name="chartOfAccountsCode" required="true" />
+                    <maintainableField name="finCoaManagerUniversalId" required="true" readOnly="true" />
+                    <maintainableField name="finCoaManagerUniversal.personUserIdentifier" required="true" />
+                    <maintainableField name="finCoaManagerUniversal.personName" required="false" readOnly="true" />
+                    <maintainableField name="finChartOfAccountDescription" />
+                    <maintainableField name="finChartOfAccountActiveIndicator" />
+                    <maintainableField name="financialCashObjectCode" />
+                    <maintainableField name="finAccountsPayableObjectCode" />
+                    <maintainableField name="incBdgtEliminationsFinObjCd" />
+                    <maintainableField name="expBdgtEliminationsFinObjCd" />
+                    <maintainableField name="reportsToChartOfAccountsCode" required="true" />
+                    <maintainableField name="finAccountsReceivableObjCode" />
+                    <maintainableField name="finInternalEncumbranceObjCd" />
+                    <maintainableField name="finExternalEncumbranceObjCd" />
+                    <maintainableField name="finPreEncumbranceObjectCode" />
+                    <maintainableField name="icrIncomeFinancialObjectCode" />
+                    <maintainableField name="icrExpenseFinancialObjectCd" />
+                    <maintainableField name="versionNumber" />
                 </maintainableItems>
-	        </maintainableSection>
-	    </maintainableSections>
-	</maintenanceDocument>
+            </maintainableSection>
+        </maintainableSections>
+    </maintenanceDocument>
 </dictionaryEntry>

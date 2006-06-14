@@ -4,7 +4,7 @@
     "../../../../core/datadictionary/dataDictionary-1_0.dtd">
 
 <dictionaryEntry>
-	<maintenanceDocument>
+    <maintenanceDocument>
         <businessObjectClass>org.kuali.module.financial.bo.TaxIncomeClassCode</businessObjectClass>
         <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
 
@@ -17,27 +17,27 @@
             </authorization>
         </authorizations>
 
-		<documentTypeName>KualiTaxIncomeClassCodeMaintenanceDocument</documentTypeName>
-		<documentTypeCode>DVIC</documentTypeCode>
+        <documentTypeName>KualiTaxIncomeClassCodeMaintenanceDocument</documentTypeName>
+        <documentTypeCode>DVIC</documentTypeCode>
 
-		<label>Tax Income Class Code Maintenance Document</label>
-		<shortLabel>Tax Income Class Maint Doc</shortLabel>
-		
-		<summary>Tax Income Class Code Maintenance Document</summary>
-		<description>Document used to create or update Tax Income Class objects</description>
+        <label>Tax Income Class Code Maintenance Document</label>
+        <shortLabel>Tax Income Class Maint Doc</shortLabel>
+
+        <summary>Tax Income Class Code Maintenance Document</summary>
+        <description>Document used to create or update Tax Income Class objects</description>
 
         <lockingKeys>
-			<field attributeName="code" />
-		</lockingKeys>              
+            <field attributeName="code" />
+        </lockingKeys>
 
-	    <maintainableSections>
-	        <maintainableSection title="Edit Tax Income Class">
-	        	<maintainableItems>
-	            	<maintainableField name="code" required="true" />
-	            	<maintainableField name="name" required="true" />
-		            <maintainableField name="versionNumber" />
-	            </maintainableItems>          	                   
-	        </maintainableSection>
-	    </maintainableSections>
-	</maintenanceDocument>
+        <maintainableSections>
+            <maintainableSection title="Edit Tax Income Class">
+                <maintainableItems>
+                    <maintainableField name="code" required="true" />
+                    <maintainableField name="name" required="true" />
+                    <maintainableField name="versionNumber" />
+                </maintainableItems>
+            </maintainableSection>
+        </maintainableSections>
+    </maintenanceDocument>
 </dictionaryEntry>

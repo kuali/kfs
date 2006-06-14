@@ -4,7 +4,7 @@
     "../../../../core/datadictionary/dataDictionary-1_0.dtd">
 
 <dictionaryEntry>
-	<maintenanceDocument>
+    <maintenanceDocument>
         <businessObjectClass>org.kuali.module.chart.bo.FundGroup</businessObjectClass>
         <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
 
@@ -17,29 +17,29 @@
             </authorization>
         </authorizations>
 
-		<documentTypeName>KualiFundGroupMaintenanceDocument</documentTypeName>
-		<documentTypeCode>FGRP</documentTypeCode>
+        <documentTypeName>KualiFundGroupMaintenanceDocument</documentTypeName>
+        <documentTypeCode>FGRP</documentTypeCode>
 
-		<label>Fund Group Maintenance Document</label>
-		<shortLabel>FundGroupMainDoc</shortLabel>
-		
-		<summary>Fund Group maintenance document</summary>
-		<description>Document used to create or update Fund Group objects</description>
+        <label>Fund Group Maintenance Document</label>
+        <shortLabel>FundGroupMainDoc</shortLabel>
+
+        <summary>Fund Group maintenance document</summary>
+        <description>Document used to create or update Fund Group objects</description>
 
         <lockingKeys>
-			<field attributeName="code" />
-		</lockingKeys>	         
+            <field attributeName="code" />
+        </lockingKeys>
 
-	    <maintainableSections>
-	        <maintainableSection title="Edit Fund Group Code">
+        <maintainableSections>
+            <maintainableSection title="Edit Fund Group Code">
                 <maintainableItems>
-		            <maintainableField name="code" required="true" />
-		            <maintainableField name="name" required="true" />
-		            <maintainableField name="financialReportingSortCode" required="true" />
-		            <maintainableField name="active" required="false" />
-		            <maintainableField name="versionNumber" />
+                    <maintainableField name="code" required="true" />
+                    <maintainableField name="name" required="true" />
+                    <maintainableField name="financialReportingSortCode" required="true" />
+                    <maintainableField name="active" required="false" />
+                    <maintainableField name="versionNumber" />
                 </maintainableItems>
-	        </maintainableSection>
-	    </maintainableSections>
-	</maintenanceDocument>
+            </maintainableSection>
+        </maintainableSections>
+    </maintenanceDocument>
 </dictionaryEntry>

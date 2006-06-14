@@ -4,11 +4,11 @@
     "../../../../core/datadictionary/dataDictionary-1_0.dtd">
 
 <dictionaryEntry>
-	<maintenanceDocument>
-		<businessObjectClass>org.kuali.module.chart.bo.ReportingCodes</businessObjectClass>
-		<maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
-		<businessRulesClass>org.kuali.module.chart.rules.ReportingCodesRule</businessRulesClass>
-		
+    <maintenanceDocument>
+        <businessObjectClass>org.kuali.module.chart.bo.ReportingCodes</businessObjectClass>
+        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+        <businessRulesClass>org.kuali.module.chart.rules.ReportingCodesRule</businessRulesClass>
+
         <documentAuthorizerClass>org.kuali.core.document.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
         <authorizations>
             <authorization action="initiate">
@@ -18,46 +18,41 @@
             </authorization>
         </authorizations>
 
-		<documentTypeName>KualiReportingCodesMaintenanceDocument</documentTypeName>
-		<documentTypeCode>RPTC</documentTypeCode>
-		<label>Reporting Codes Maintenance Document</label>
-		<shortLabel>RptCdMaintDoc</shortLabel>
-		<summary>Reporting Codes Maintenance Document</summary>
-		<description>
-			Maintenance document which allows you to create, remove or modify Reporting Codes.
-		</description>
-		
+        <documentTypeName>KualiReportingCodesMaintenanceDocument</documentTypeName>
+        <documentTypeCode>RPTC</documentTypeCode>
+        <label>Reporting Codes Maintenance Document</label>
+        <shortLabel>RptCdMaintDoc</shortLabel>
+        <summary>Reporting Codes Maintenance Document</summary>
+        <description>Maintenance document which allows you to create, remove or modify Reporting Codes.</description>
+
         <lockingKeys>
-			<field attributeName="chartOfAccountsCode" />
-			<field attributeName="organizationCode" />
-			<field attributeName="financialReportingCode" />			
-		</lockingKeys>		
-			
-		<defaultExistenceChecks>
-		 	<reference  attributeName="chart" 
- 						attributeToHighlightOnFail="chartOfAccountsCode" />	
-			<reference  attributeName="org" 
-						attributeToHighlightOnFail="organizationCode" />
-			<reference  attributeName="universalUser" 
-						attributeToHighlightOnFail="financialReportingCodeMgrId" />
-		</defaultExistenceChecks>
-		
-		<maintainableSections>
-			<maintainableSection title="Edit Reporting Codes">
-                <maintainableItems>				
-					<maintainableField name="chartOfAccountsCode" required="true" />			
-					<maintainableField name="organizationCode" required="true" />
-					<maintainableField name="financialReportingCode" required="true" />			
-					<maintainableField name="financialReportingCodeDescription" required="true" />
-					<maintainableField name="financialReportingCodeMgrId" required="true" readOnly="true" />
-					<maintainableField name="universalUser.personUserIdentifier" required="true" />
-					<maintainableField name="universalUser.personName" required="false" readOnly="true" />
-					<maintainableField name="financialReportsToReportingCode" required="true" />
-					<maintainableField name="versionNumber" required="true" />
-					
+            <field attributeName="chartOfAccountsCode" />
+            <field attributeName="organizationCode" />
+            <field attributeName="financialReportingCode" />
+        </lockingKeys>
+
+        <defaultExistenceChecks>
+            <reference attributeName="chart" attributeToHighlightOnFail="chartOfAccountsCode" />
+            <reference attributeName="org" attributeToHighlightOnFail="organizationCode" />
+            <reference attributeName="universalUser" attributeToHighlightOnFail="financialReportingCodeMgrId" />
+        </defaultExistenceChecks>
+
+        <maintainableSections>
+            <maintainableSection title="Edit Reporting Codes">
+                <maintainableItems>
+                    <maintainableField name="chartOfAccountsCode" required="true" />
+                    <maintainableField name="organizationCode" required="true" />
+                    <maintainableField name="financialReportingCode" required="true" />
+                    <maintainableField name="financialReportingCodeDescription" required="true" />
+                    <maintainableField name="financialReportingCodeMgrId" required="true" readOnly="true" />
+                    <maintainableField name="universalUser.personUserIdentifier" required="true" />
+                    <maintainableField name="universalUser.personName" required="false" readOnly="true" />
+                    <maintainableField name="financialReportsToReportingCode" required="true" />
+                    <maintainableField name="versionNumber" required="true" />
+
                 </maintainableItems>
-			</maintainableSection>
-		</maintainableSections>
-	</maintenanceDocument>
+            </maintainableSection>
+        </maintainableSections>
+    </maintenanceDocument>
 
 </dictionaryEntry>

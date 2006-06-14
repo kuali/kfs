@@ -3,121 +3,104 @@
     "-//Kuali Project//DTD Data Dictionary 1.0//EN"
     "../../../core/datadictionary/dataDictionary-1_0.dtd">
 <dictionaryEntry>
-	<businessObject businessObjectClass="org.kuali.module.cg.bo.ProjectDirector">
-		<customAttributeEnabled>false</customAttributeEnabled>
+    <businessObject businessObjectClass="org.kuali.module.cg.bo.ProjectDirector">
+        <customAttributeEnabled>false</customAttributeEnabled>
 
-		<inquiry>
-			<title>Project Director Inquiry</title>
+        <inquiry>
+            <title>Project Director Inquiry</title>
 
-			<inquiryFields>
-				<field attributeName="universalUser.personUniversalIdentifier" />
-				<field attributeName="universalUser.personUserIdentifier" />
-				<field attributeName="universalUser.personName" />
-				<field attributeName="universalUser.deptid" /> 
-				<field attributeName="universalUser.employeeStatusCode" />
-				<field attributeName="universalUser.employeeTypeCode" />
-			</inquiryFields>
-		</inquiry>
+            <inquiryFields>
+                <field attributeName="universalUser.personUniversalIdentifier" />
+                <field attributeName="universalUser.personUserIdentifier" />
+                <field attributeName="universalUser.personName" />
+                <field attributeName="universalUser.deptid" />
+                <field attributeName="universalUser.employeeStatusCode" />
+                <field attributeName="universalUser.employeeTypeCode" />
+            </inquiryFields>
+        </inquiry>
 
-		<lookup>
-			<title>Project Director Lookup</title>
+        <lookup>
+            <title>Project Director Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.cg.bo.ProjectDirector">Create New</a>]]></menubar>
+            <menubar>
+                <![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.cg.bo.ProjectDirector">Create New</a>]]>
+            </menubar>
 
-			<instructions>Lookup a Project Director</instructions>
+            <instructions>Lookup a Project Director</instructions>
 
-			<defaultSort attributeName="universalUser.personName" sortAscending="true" />
+            <defaultSort attributeName="universalUser.personName" sortAscending="true" />
 
-			<lookupFields>
-		        <lookupField attributeName="universalUser.personUserIdentifier" required="false" />
-        		<lookupField attributeName="universalUser.personUniversalIdentifier" required="false" />
-        		<lookupField attributeName="universalUser.emplid" required="false" />
-        		<lookupField attributeName="universalUser.personName" required="false" />
-        		<lookupField attributeName="universalUser.deptid" required="false" />
-        		<lookupField attributeName="universalUser.employeeStatusCode" required="false" />
-        		<lookupField attributeName="universalUser.employeeTypeCode" required="false" />
-			</lookupFields>
+            <lookupFields>
+                <lookupField attributeName="universalUser.personUserIdentifier" required="false" />
+                <lookupField attributeName="universalUser.personUniversalIdentifier" required="false" />
+                <lookupField attributeName="universalUser.emplid" required="false" />
+                <lookupField attributeName="universalUser.personName" required="false" />
+                <lookupField attributeName="universalUser.deptid" required="false" />
+                <lookupField attributeName="universalUser.employeeStatusCode" required="false" />
+                <lookupField attributeName="universalUser.employeeTypeCode" required="false" />
+            </lookupFields>
 
-			<resultFields>
-		        <field attributeName="universalUser.personUserIdentifier"  />
-        		<field attributeName="universalUser.personUniversalIdentifier"  />
-        		<field attributeName="universalUser.emplid" />
-        		<field attributeName="universalUser.personName" />
-        		<field attributeName="universalUser.deptid" />
-        		<field attributeName="universalUser.employeeStatusCode" />
-        		<field attributeName="universalUser.employeeTypeCode" />
-			</resultFields>
-			
-		</lookup>
-		
-		<attributes>
-			<attributeReference name="universalUser.emplid" 
-								sourceClassName="org.kuali.core.bo.user.UniversalUser" 
-								sourceAttributeName="emplid">
-			</attributeReference>
+            <resultFields>
+                <field attributeName="universalUser.personUserIdentifier" />
+                <field attributeName="universalUser.personUniversalIdentifier" />
+                <field attributeName="universalUser.emplid" />
+                <field attributeName="universalUser.personName" />
+                <field attributeName="universalUser.deptid" />
+                <field attributeName="universalUser.employeeStatusCode" />
+                <field attributeName="universalUser.employeeTypeCode" />
+            </resultFields>
 
-			<attributeReference name="universalUser.personUniversalIdentifier" 
-								sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
-								sourceAttributeName="genericSystemId">
-				<label>University ID</label>
-				<shortLabel>Univ ID</shortLabel>
-				<summary>University ID</summary>
-				<description>
-					University ID
-				</description>
-			</attributeReference>
-			
-			<attributeReference name="universalUser.personUserIdentifier" 
-								sourceClassName="org.kuali.core.bo.user.UniversalUser" 
-								sourceAttributeName="personUserIdentifier">
-				<label>User ID</label>
-				<shortLabel>User ID</shortLabel>
-				<summary>User ID</summary>
-				<description>User ID</description>
-			</attributeReference>
-			
-			<attributeReference name="universalUser.personName" 
-								sourceClassName="org.kuali.core.bo.user.UniversalUser" 
-								sourceAttributeName="personName">
-				<label>Project Director Name</label>
-				<shortLabel>Project Director Name</shortLabel>
-				<summary>Project Director Name</summary>
-				<description>Project Director Name</description>
-			</attributeReference>
+        </lookup>
 
-			<attributeReference name="universalUser.deptid" 
-								sourceClassName="org.kuali.core.bo.user.UniversalUser" 
-								sourceAttributeName="deptid">
-				<label>Dept ID</label>
-				<shortLabel>Dept ID</shortLabel>
-				<summary>Dept ID</summary>
-				<description>Dept ID</description>
-			</attributeReference>
+        <attributes>
+            <attributeReference name="universalUser.emplid" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="emplid"></attributeReference>
 
-			<attributeReference name="universalUser.employeeStatusCode" 
-								sourceClassName="org.kuali.core.bo.user.UniversalUser" 
-								sourceAttributeName="employeeStatusCode">
-				<label>Employee Status</label>
-				<shortLabel>Employee Status</shortLabel>
-				<summary>Employee Status</summary>
-				<description>Employee Status</description>
-			</attributeReference>
+            <attributeReference name="universalUser.personUniversalIdentifier" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericSystemId">
+                <label>University ID</label>
+                <shortLabel>Univ ID</shortLabel>
+                <summary>University ID</summary>
+                <description>University ID</description>
+            </attributeReference>
 
-			<attributeReference name="universalUser.employeeTypeCode" 
-								sourceClassName="org.kuali.core.bo.user.UniversalUser" 
-								sourceAttributeName="employeeTypeCode">
-				<label>Employee Type</label>
-				<shortLabel>Employee Type</shortLabel>
-				<summary>Employee Type</summary>
-				<description>Employee Type</description>
-			</attributeReference>
-			
- 			  <attributeReference name="versionNumber" 
- 					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
- 					sourceAttributeName="versionNumber" />
+            <attributeReference name="universalUser.personUserIdentifier" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personUserIdentifier">
+                <label>User ID</label>
+                <shortLabel>User ID</shortLabel>
+                <summary>User ID</summary>
+                <description>User ID</description>
+            </attributeReference>
 
-		</attributes>
+            <attributeReference name="universalUser.personName" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personName">
+                <label>Project Director Name</label>
+                <shortLabel>Project Director Name</shortLabel>
+                <summary>Project Director Name</summary>
+                <description>Project Director Name</description>
+            </attributeReference>
 
-	</businessObject>
+            <attributeReference name="universalUser.deptid" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="deptid">
+                <label>Dept ID</label>
+                <shortLabel>Dept ID</shortLabel>
+                <summary>Dept ID</summary>
+                <description>Dept ID</description>
+            </attributeReference>
+
+            <attributeReference name="universalUser.employeeStatusCode" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="employeeStatusCode">
+                <label>Employee Status</label>
+                <shortLabel>Employee Status</shortLabel>
+                <summary>Employee Status</summary>
+                <description>Employee Status</description>
+            </attributeReference>
+
+            <attributeReference name="universalUser.employeeTypeCode" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="employeeTypeCode">
+                <label>Employee Type</label>
+                <shortLabel>Employee Type</shortLabel>
+                <summary>Employee Type</summary>
+                <description>Employee Type</description>
+            </attributeReference>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+
+    </businessObject>
 </dictionaryEntry>
 

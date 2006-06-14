@@ -4,9 +4,9 @@
     "../../../../core/datadictionary/dataDictionary-1_0.dtd">
 
 <dictionaryEntry>
-	<maintenanceDocument>
-		<businessObjectClass>org.kuali.module.chart.bo.codes.BalanceTyp</businessObjectClass>
-		<maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+    <maintenanceDocument>
+        <businessObjectClass>org.kuali.module.chart.bo.codes.BalanceTyp</businessObjectClass>
+        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
 
         <documentAuthorizerClass>org.kuali.core.document.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
         <authorizations>
@@ -17,29 +17,29 @@
             </authorization>
         </authorizations>
 
-		<documentTypeName>KualiBalanceTypeMaintenanceDocument</documentTypeName>
-		<documentTypeCode>BTYP</documentTypeCode>
-		<label>Balance Type Maintenance Document</label>
-		<shortLabel>BalanceTypeMaintDoc</shortLabel>
-		<summary>Balance Type Maintenance Document</summary>
-		<description>Maintenance document which allows you to create new Balance Types, or modify existing Balance Types.</description>
-		
+        <documentTypeName>KualiBalanceTypeMaintenanceDocument</documentTypeName>
+        <documentTypeCode>BTYP</documentTypeCode>
+        <label>Balance Type Maintenance Document</label>
+        <shortLabel>BalanceTypeMaintDoc</shortLabel>
+        <summary>Balance Type Maintenance Document</summary>
+        <description>Maintenance document which allows you to create new Balance Types, or modify existing Balance Types.</description>
+
         <lockingKeys>
-			<field attributeName="code" />
-		</lockingKeys>				
-		
-		<maintainableSections>
-			<maintainableSection title="Edit Balance Type">
+            <field attributeName="code" />
+        </lockingKeys>
+
+        <maintainableSections>
+            <maintainableSection title="Edit Balance Type">
                 <maintainableItems>
-					<maintainableField name="code" required="true" />
-					<maintainableField name="name" required="true" />
-					<maintainableField name="financialBalanceTypeShortNm" required="true" />
-					<maintainableField name="financialOffsetGenerationIndicator" required="true" />
-					<maintainableField name="finBalanceTypeEncumIndicator" />
-					<maintainableField name="versionNumber" />
+                    <maintainableField name="code" required="true" />
+                    <maintainableField name="name" required="true" />
+                    <maintainableField name="financialBalanceTypeShortNm" required="true" />
+                    <maintainableField name="financialOffsetGenerationIndicator" required="true" />
+                    <maintainableField name="finBalanceTypeEncumIndicator" />
+                    <maintainableField name="versionNumber" />
                 </maintainableItems>
-			</maintainableSection>
-		</maintainableSections>
-	</maintenanceDocument>
+            </maintainableSection>
+        </maintainableSections>
+    </maintenanceDocument>
 
 </dictionaryEntry>

@@ -4,7 +4,7 @@
     "../../../../core/datadictionary/dataDictionary-1_0.dtd">
 
 <dictionaryEntry>
-	<maintenanceDocument>
+    <maintenanceDocument>
         <businessObjectClass>org.kuali.module.financial.bo.TravelExpenseTypeCode</businessObjectClass>
         <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
 
@@ -17,28 +17,28 @@
             </authorization>
         </authorizations>
 
-		<documentTypeName>KualiTravelExpenseTypeCodeMaintenanceDocument</documentTypeName>
-		<documentTypeCode>DVET</documentTypeCode>
+        <documentTypeName>KualiTravelExpenseTypeCodeMaintenanceDocument</documentTypeName>
+        <documentTypeCode>DVET</documentTypeCode>
 
-		<label>Travel Expense Type Code Maintenance Document</label>
-		<shortLabel>Tr Expense Type Maint Doc</shortLabel>
-		
-		<summary>Travel Expense Type Code Maintenance Document</summary>
-		<description>Document used to create or update Travel Expense Type objects</description>
+        <label>Travel Expense Type Code Maintenance Document</label>
+        <shortLabel>Tr Expense Type Maint Doc</shortLabel>
+
+        <summary>Travel Expense Type Code Maintenance Document</summary>
+        <description>Document used to create or update Travel Expense Type objects</description>
 
         <lockingKeys>
-			<field attributeName="code" />
-		</lockingKeys>            
+            <field attributeName="code" />
+        </lockingKeys>
 
-	    <maintainableSections>
-	        <maintainableSection title="Edit Travel Expense Type">
-	        	<maintainableItems>
-	            	<maintainableField name="code" required="true" />
-	            	<maintainableField name="name" required="true" />
-	            	<maintainableField name="prepaidExpense" required="true" />
-		            <maintainableField name="versionNumber" />
-	            </maintainableItems>          	                   
-	        </maintainableSection>
-	    </maintainableSections>
-	</maintenanceDocument>
+        <maintainableSections>
+            <maintainableSection title="Edit Travel Expense Type">
+                <maintainableItems>
+                    <maintainableField name="code" required="true" />
+                    <maintainableField name="name" required="true" />
+                    <maintainableField name="prepaidExpense" required="true" />
+                    <maintainableField name="versionNumber" />
+                </maintainableItems>
+            </maintainableSection>
+        </maintainableSections>
+    </maintenanceDocument>
 </dictionaryEntry>

@@ -4,9 +4,9 @@
     "../../../../core/datadictionary/dataDictionary-1_0.dtd">
 
 <dictionaryEntry>
-	<maintenanceDocument>
-		<businessObjectClass>org.kuali.module.chart.bo.AcctType</businessObjectClass>
-		<maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+    <maintenanceDocument>
+        <businessObjectClass>org.kuali.module.chart.bo.AcctType</businessObjectClass>
+        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
 
         <documentAuthorizerClass>org.kuali.core.document.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
         <authorizations>
@@ -17,29 +17,26 @@
             </authorization>
         </authorizations>
 
-		<documentTypeName>KualiAccountTypeMaintenanceDocument</documentTypeName>
-		<documentTypeCode>ATYP</documentTypeCode>
-		<label>Account Type Maintenance Document</label>
-		<shortLabel>AccountTypeMaintDoc</shortLabel>
-		<summary>Account Type Maintenance Document</summary>
-		<description>
-			Maintenance document which allows you to create new Account Types, 
-			or modify existing Account Types.
-		</description>
-		
+        <documentTypeName>KualiAccountTypeMaintenanceDocument</documentTypeName>
+        <documentTypeCode>ATYP</documentTypeCode>
+        <label>Account Type Maintenance Document</label>
+        <shortLabel>AccountTypeMaintDoc</shortLabel>
+        <summary>Account Type Maintenance Document</summary>
+        <description>Maintenance document which allows you to create new Account Types, or modify existing Account Types.</description>
+
         <lockingKeys>
-			<field attributeName="accountTypeCode" />
-		</lockingKeys>				
-		
-		<maintainableSections>
-			<maintainableSection title="Edit Account Type">
+            <field attributeName="accountTypeCode" />
+        </lockingKeys>
+
+        <maintainableSections>
+            <maintainableSection title="Edit Account Type">
                 <maintainableItems>
-					<maintainableField name="accountTypeCode" required="true" />
-					<maintainableField name="accountTypeName" required="true" />
-               		<maintainableField name="versionNumber" />	 				
+                    <maintainableField name="accountTypeCode" required="true" />
+                    <maintainableField name="accountTypeName" required="true" />
+                    <maintainableField name="versionNumber" />
                 </maintainableItems>
-			</maintainableSection>
-		</maintainableSections>
-	</maintenanceDocument>
+            </maintainableSection>
+        </maintainableSections>
+    </maintenanceDocument>
 
 </dictionaryEntry>

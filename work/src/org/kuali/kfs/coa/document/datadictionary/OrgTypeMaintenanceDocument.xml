@@ -2,11 +2,11 @@
 <!DOCTYPE dictionaryEntry PUBLIC
     "-//Kuali Project//DTD Data Dictionary 1.0//EN"
     "../../../../core/datadictionary/dataDictionary-1_0.dtd">
-    
+
 <dictionaryEntry>
-	<maintenanceDocument>
-		<businessObjectClass>org.kuali.module.chart.bo.OrgType</businessObjectClass>
-		<maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+    <maintenanceDocument>
+        <businessObjectClass>org.kuali.module.chart.bo.OrgType</businessObjectClass>
+        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
 
         <documentAuthorizerClass>org.kuali.core.document.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
         <authorizations>
@@ -17,28 +17,26 @@
             </authorization>
         </authorizations>
 
-		<documentTypeName>KualiOrganizationTypeMaintenanceDocument</documentTypeName>
-		<documentTypeCode>ORTY</documentTypeCode>
-		<label>Org Type Maintenance Document</label>
-		<shortLabel>OrgTypeMaintDoc</shortLabel>
-		<summary>Org Type Maintenance Document</summary>
-		<description>
-			Maintenance document which allows you to create new Org Types, or modify existing Org Types.
-		</description>
-		
+        <documentTypeName>KualiOrganizationTypeMaintenanceDocument</documentTypeName>
+        <documentTypeCode>ORTY</documentTypeCode>
+        <label>Org Type Maintenance Document</label>
+        <shortLabel>OrgTypeMaintDoc</shortLabel>
+        <summary>Org Type Maintenance Document</summary>
+        <description>Maintenance document which allows you to create new Org Types, or modify existing Org Types.</description>
+
         <lockingKeys>
-			<field attributeName="organizationTypeCode" />
-		</lockingKeys>	 		
-		
-		<maintainableSections>
-			<maintainableSection title="Edit Organization Type">
+            <field attributeName="organizationTypeCode" />
+        </lockingKeys>
+
+        <maintainableSections>
+            <maintainableSection title="Edit Organization Type">
                 <maintainableItems>
-					<maintainableField name="organizationTypeCode" required="true" />
-					<maintainableField name="organizationTypeName" required="true" />
-					<maintainableField name="versionNumber" />
+                    <maintainableField name="organizationTypeCode" required="true" />
+                    <maintainableField name="organizationTypeName" required="true" />
+                    <maintainableField name="versionNumber" />
                 </maintainableItems>
-			</maintainableSection>
-		</maintainableSections>
-	</maintenanceDocument>
+            </maintainableSection>
+        </maintainableSections>
+    </maintenanceDocument>
 
 </dictionaryEntry>

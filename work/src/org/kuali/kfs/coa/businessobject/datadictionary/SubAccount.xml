@@ -3,354 +3,366 @@
     "-//Kuali Project//DTD Data Dictionary 1.0//EN"
     "../../../core/datadictionary/dataDictionary-1_0.dtd">
 <dictionaryEntry>
-	<businessObject
-		businessObjectClass="org.kuali.module.chart.bo.SubAccount">
-		<customAttributeEnabled>true</customAttributeEnabled>
+    <businessObject businessObjectClass="org.kuali.module.chart.bo.SubAccount">
+        <customAttributeEnabled>true</customAttributeEnabled>
 
-		<inquiry>
-			<title>Sub-Account Code Inquiry</title>
+        <inquiry>
+            <title>Sub-Account Code Inquiry</title>
 
-			<inquiryFields>
-			<!-- Previous version which is little different from Maintainable Fields       -->
-			<!-- <field attributeName="chartOfAccountsCode" />
-				<field attributeName="accountNumber" />			
-				<field attributeName="subAccountNumber" />
-				<field attributeName="subAccountName" />			
-				<field attributeName="financialReportChartCode" />
-				<field attributeName="finReportOrganizationCode" />
-				<field attributeName="financialReportingCode" />				
-				<field attributeName="subAccountActiveIndicator" />
-				<field attributeName="a21SubAccount.subAccountTypeCode" />		
-				<field attributeName="a21SubAccount.costShareChartOfAccountCode" />
-				<field attributeName="a21SubAccount.costShareSourceAccountNumber" />
-				<field attributeName="a21SubAccount.costShareSourceSubAccountNumber" />
-				<field attributeName="a21SubAccount.financialIcrSeriesIdentifier" />
-				<field attributeName="a21SubAccount.indirectCostRecoveryChartOfAccountsCode" />
-				<field attributeName="a21SubAccount.indirectCostRecoveryAccountNumber" />
-				<field attributeName="a21SubAccount.indirectCostRecoveryTypeCode" />
-				<field attributeName="a21SubAccount.offCampusCode" />
-			-->
-				<field attributeName="chartOfAccountsCode" />
-			    <field attributeName="accountNumber" />
-			    <field attributeName="subAccountNumber" />
-		        <field attributeName="subAccountName" />	 
-		        <field attributeName="subAccountActiveIndicator" />
-	            <field attributeName="a21SubAccount.subAccountTypeCode" />
-	            
-				<field attributeName="financialReportingCodeSectionBlank" />
-				<field attributeName="financialReportingCodeSection" />
-	            
-	            <field attributeName="financialReportChartCode" />
-	            <field attributeName="finReportOrganizationCode" />	     
-	            <field attributeName="financialReportingCode" />
+            <inquiryFields>
+                <!-- Previous version which is little different from Maintainable Fields       -->
+                <!-- <field attributeName="chartOfAccountsCode" />
+                    <field attributeName="accountNumber" />			
+                    <field attributeName="subAccountNumber" />
+                    <field attributeName="subAccountName" />			
+                    <field attributeName="financialReportChartCode" />
+                    <field attributeName="finReportOrganizationCode" />
+                    <field attributeName="financialReportingCode" />				
+                    <field attributeName="subAccountActiveIndicator" />
+                    <field attributeName="a21SubAccount.subAccountTypeCode" />		
+                    <field attributeName="a21SubAccount.costShareChartOfAccountCode" />
+                    <field attributeName="a21SubAccount.costShareSourceAccountNumber" />
+                    <field attributeName="a21SubAccount.costShareSourceSubAccountNumber" />
+                    <field attributeName="a21SubAccount.financialIcrSeriesIdentifier" />
+                    <field attributeName="a21SubAccount.indirectCostRecoveryChartOfAccountsCode" />
+                    <field attributeName="a21SubAccount.indirectCostRecoveryAccountNumber" />
+                    <field attributeName="a21SubAccount.indirectCostRecoveryTypeCode" />
+                    <field attributeName="a21SubAccount.offCampusCode" />
+                -->
+                <field attributeName="chartOfAccountsCode" />
+                <field attributeName="accountNumber" />
+                <field attributeName="subAccountNumber" />
+                <field attributeName="subAccountName" />
+                <field attributeName="subAccountActiveIndicator" />
+                <field attributeName="a21SubAccount.subAccountTypeCode" />
 
-	            <field attributeName="cgCostSharingSectionBlank" />
-				<field attributeName="cgCostSharingSection" />
-	  
-	            <field attributeName="a21SubAccount.costShareChartOfAccountCode" />
-	            <field attributeName="a21SubAccount.costShareSourceAccountNumber" />
-	            <field attributeName="a21SubAccount.costShareSourceSubAccountNumber" />
+                <field attributeName="financialReportingCodeSectionBlank" />
+                <field attributeName="financialReportingCodeSection" />
 
-	            <field attributeName="cgICRSectionBlank" />
-				<field attributeName="cgICRSection" />
-	                          
-	            <field attributeName="a21SubAccount.financialIcrSeriesIdentifier"/>
-	            <field attributeName="a21SubAccount.indirectCostRecoveryChartOfAccountsCode"/>
-	            <field attributeName="a21SubAccount.indirectCostRecoveryAccountNumber"/>
-	            <field attributeName="a21SubAccount.indirectCostRecoveryTypeCode"/>
-	            <field attributeName="a21SubAccount.offCampusCode" />
-			
-			
-			
-			</inquiryFields>
-		</inquiry>	
-		
-		<lookup>
-			<title>Sub-Account Lookup</title>
+                <field attributeName="financialReportChartCode" />
+                <field attributeName="finReportOrganizationCode" />
+                <field attributeName="financialReportingCode" />
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.chart.bo.SubAccount">Create New</a>]]></menubar>
+                <field attributeName="cgCostSharingSectionBlank" />
+                <field attributeName="cgCostSharingSection" />
 
-			<instructions>Lookup a Sub-Account</instructions>
+                <field attributeName="a21SubAccount.costShareChartOfAccountCode" />
+                <field attributeName="a21SubAccount.costShareSourceAccountNumber" />
+                <field attributeName="a21SubAccount.costShareSourceSubAccountNumber" />
 
-			<defaultSort attributeName="subAccountNumber" sortAscending="true" />
+                <field attributeName="cgICRSectionBlank" />
+                <field attributeName="cgICRSection" />
 
-			<lookupFields>
-				<lookupField attributeName="chartOfAccountsCode" required="false" />
-				<lookupField attributeName="accountNumber" required="false" />
-				<lookupField attributeName="subAccountNumber" required="false" />
-				<lookupField attributeName="subAccountName" required="false" />
-				<lookupField attributeName="financialReportChartCode" required="false" />
-				<lookupField attributeName="finReportOrganizationCode" required="false" />								
-				<lookupField attributeName="financialReportingCode" required="false" />				
-			</lookupFields>
+                <field attributeName="a21SubAccount.financialIcrSeriesIdentifier" />
+                <field attributeName="a21SubAccount.indirectCostRecoveryChartOfAccountsCode" />
+                <field attributeName="a21SubAccount.indirectCostRecoveryAccountNumber" />
+                <field attributeName="a21SubAccount.indirectCostRecoveryTypeCode" />
+                <field attributeName="a21SubAccount.offCampusCode" />
 
-			<resultFields>
-				<field attributeName="chartOfAccountsCode" />
-				<field attributeName="accountNumber" />
-				<field attributeName="subAccountNumber" />
-				<field attributeName="subAccountName" />				
-				<field attributeName="financialReportChartCode" />
-				<field attributeName="finReportOrganizationCode" />								
-				<field attributeName="financialReportingCode" />				
-				<field attributeName="subAccountActiveIndicator" />		
-				<field attributeName="a21SubAccount.subAccountTypeCode" />		
-				<field attributeName="a21SubAccount.costShareChartOfAccountCode" />
-				<field attributeName="a21SubAccount.costShareSourceAccountNumber" />
-				<field attributeName="a21SubAccount.costShareSourceSubAccountNumber" />
-				<field attributeName="a21SubAccount.financialIcrSeriesIdentifier" />
-				<field attributeName="a21SubAccount.indirectCostRecoveryChartOfAccountsCode" />
-				<field attributeName="a21SubAccount.indirectCostRecoveryAccountNumber" />
-				<field attributeName="a21SubAccount.indirectCostRecoveryTypeCode" />
-				<field attributeName="a21SubAccount.offCampusCode" />
-			</resultFields>
-		</lookup>
-		
-		<titleAttribute>subAccountNumber</titleAttribute>
-		
-		<attributes>
-			
-			<attributeReference name="chartOfAccountsCode" 
-								sourceClassName="org.kuali.module.chart.bo.Chart" 
-								sourceAttributeName="chartOfAccountsCode">
-				<required>true</required>
-				<control>
-					<select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" />
-				</control> 
-			</attributeReference>
 
-			<attributeReference name="accountNumber" 
-								sourceClassName="org.kuali.module.chart.bo.Account" 
-								sourceAttributeName="accountNumber">
-				<required>true</required>
-			</attributeReference>
-			
-			<attribute name="subAccountNumber"	forceUppercase="true">
-				<label>Sub-Account Number</label>
-				<shortLabel>
-					SubAccount
-				</shortLabel>
 
-				<maxLength>5</maxLength>
-				<validationPattern><anyCharacter maxLength="5" /></validationPattern>
-				<required>true</required>
-				
-				<control>
-					<text size="5" />
-				</control>
+            </inquiryFields>
+        </inquiry>
 
-				<summary><![CDATA[&nbsp;]]></summary>
-				<description>
-					<![CDATA[&nbsp;]]>
-				</description>
-			</attribute>
-		
-			<attribute name="subAccountName" forceUppercase="false">
-				<label>Sub-Account Name</label>
-				<shortLabel>Su-Acct Name</shortLabel>
+        <lookup>
+            <title>Sub-Account Lookup</title>
 
-				<maxLength>40</maxLength>
-				<validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
-				<required>true</required>
-				
-				<control>
-					<text size="40" />
-				</control>
+            <menubar>
+                <![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.chart.bo.SubAccount">Create New</a>]]>
+            </menubar>
 
-				<summary><![CDATA[&nbsp;]]></summary>
-				<description><![CDATA[&nbsp;]]></description>
-			</attribute>
-			
-			<attributeReference name="financialReportChartCode" 
-								sourceClassName="org.kuali.module.chart.bo.Chart" 
-								sourceAttributeName="chartOfAccountsCode">
-				<label>Financial Reporting Chart Code</label>
-				<shortLabel>Fin. Rpt. Chart</shortLabel>
-				<required>false</required>
-				<control>
-					<select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" />
-				</control>
-				<summary><![CDATA[&nbsp;]]></summary>
-				<description>
-					<![CDATA[&nbsp;]]>
-				</description>
-			</attributeReference>
+            <instructions>Lookup a Sub-Account</instructions>
 
-			<attributeReference name="finReportOrganizationCode" 
-								sourceClassName="org.kuali.module.chart.bo.Org" 
-								sourceAttributeName="organizationCode">
-				<label>Financial Reporting Org Code</label>
-				<shortLabel>Org</shortLabel>
-				<required>false</required>
-				<summary><![CDATA[&nbsp;]]></summary>
-				<description>
-					<![CDATA[&nbsp;]]>
-				</description>
-			</attributeReference>
+            <defaultSort attributeName="subAccountNumber" sortAscending="true" />
 
-			<attributeReference name="financialReportingCode"
-								sourceClassName="org.kuali.module.chart.bo.ReportingCodes" 
-								sourceAttributeName="financialReportingCode">
-				<label>Financial Reporting Code</label>
-				<shortLabel>
-					Fin. Rpt. Code
-				</shortLabel>
-				<required>false</required>
-				<summary><![CDATA[&nbsp;]]></summary>
-				<description>
-					<![CDATA[&nbsp;]]>
-				</description>
-			</attributeReference>
+            <lookupFields>
+                <lookupField attributeName="chartOfAccountsCode" required="false" />
+                <lookupField attributeName="accountNumber" required="false" />
+                <lookupField attributeName="subAccountNumber" required="false" />
+                <lookupField attributeName="subAccountName" required="false" />
+                <lookupField attributeName="financialReportChartCode" required="false" />
+                <lookupField attributeName="finReportOrganizationCode" required="false" />
+                <lookupField attributeName="financialReportingCode" required="false" />
+            </lookupFields>
 
-			<attributeReference name="subAccountActiveIndicator" 
-								sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
-								sourceAttributeName="activeIndicator" />
-		
-			<attributeReference name="a21SubAccount.subAccountTypeCode" 
-								sourceClassName="org.kuali.module.chart.bo.A21SubAccount" 
-								sourceAttributeName="subAccountTypeCode">
-				<required>false</required>
-				<control>
-				  <apcSelect
-				    group="ChartMaintenanceEDoc"
-                    parameterName="SubAccount.ValidSubAccountTypeCodes" />
-		        </control>
-			</attributeReference>
-		    
-			<attributeReference name="a21SubAccount.costShareChartOfAccountCode" 
-								sourceClassName="org.kuali.module.chart.bo.Chart" 
-								sourceAttributeName="chartOfAccountsCode">
-				<label>Cost Sharing Chart of Accounts Code</label>
-				<shortLabel>CostShareCOACode</shortLabel>
-				<required>false</required>
-				<control>
-		          <select
-		            valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" />
-		        </control>
-				<summary><![CDATA[&nbsp;]]></summary>
-				<description><![CDATA[&nbsp;]]></description>
-			</attributeReference>
-		    
-			<attributeReference name="a21SubAccount.costShareSourceAccountNumber" 
-								sourceClassName="org.kuali.module.chart.bo.Account" 
-								sourceAttributeName="accountNumber">
-				<label>Cost Sharing Account Number</label>
-				<shortLabel>CostShareAcctNbr</shortLabel>
-				<required>false</required>
-				<summary><![CDATA[&nbsp;]]></summary>
-				<description><![CDATA[&nbsp;]]></description>
-			</attributeReference>
-		    
-			<attributeReference name="a21SubAccount.costShareSourceSubAccountNumber" 
-								sourceClassName="org.kuali.module.chart.bo.SubAccount" 
-								sourceAttributeName="subAccountNumber">
-				<label>Cost Sharing Sub Account Number</label>
-				<shortLabel>CostShareSubAcctNbr</shortLabel>
-				<required>false</required>
-				<summary><![CDATA[&nbsp;]]></summary>
-				<description><![CDATA[&nbsp;]]></description>
-			</attributeReference>
-		    
-			<attributeReference name="a21SubAccount.financialIcrSeriesIdentifier" 
-								sourceClassName="org.kuali.module.chart.bo.A21SubAccount" 
-								sourceAttributeName="financialIcrSeriesIdentifier">
-				<label>Financial ICR Series Identifier</label>
-				<shortLabel>FinICRSerID</shortLabel>
-				<required>false</required>
-				<summary><![CDATA[&nbsp;]]></summary>
-				<description><![CDATA[&nbsp;]]></description>
-			</attributeReference>
-		    
-			<attributeReference name="a21SubAccount.indirectCostRecoveryChartOfAccountsCode" 
-								sourceClassName="org.kuali.module.chart.bo.Chart" 
-								sourceAttributeName="chartOfAccountsCode">
-				<label>ICR Chart of Accounts Code</label>
-				<shortLabel>IcrCoaCd</shortLabel>
-				<required>false</required>
-				<control>
-					<select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" />
-				</control>
-				<summary><![CDATA[&nbsp;]]></summary>
-				<description><![CDATA[&nbsp;]]></description>
-			</attributeReference>
-		    
-			<attributeReference name="a21SubAccount.indirectCostRecoveryAccountNumber" 
-								sourceClassName="org.kuali.module.chart.bo.Account" 
-								sourceAttributeName="accountNumber">
-				<label>ICR Account Number</label>
-				<shortLabel>ICRAcctNbr</shortLabel>
-				<required>false</required>
-				<summary><![CDATA[&nbsp;]]></summary>
-				<description><![CDATA[&nbsp;]]></description>
-			</attributeReference>
-		    
-			<attributeReference name="a21SubAccount.indirectCostRecoveryTypeCode" 
-								sourceClassName="org.kuali.module.chart.bo.codes.ICRTypeCode" 
-								sourceAttributeName="code">
-				<label>ICR Type Code</label>
-				<shortLabel>ICRTypeCd</shortLabel>
-				<required>false</required>
-				<control>
-		          <select
-		            valuesFinderClass="org.kuali.core.lookup.keyvalues.ICRTypeValuesFinder" />
-		        </control>
-				<summary><![CDATA[&nbsp;]]></summary>
-				<description><![CDATA[&nbsp;]]></description>
-			</attributeReference>
-		    
-			<attributeReference name="a21SubAccount.offCampusCode" 
-								sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
-								sourceAttributeName="activeIndicator">
-				<label>Off Campus Indicator</label>
-				<shortLabel>Off Campus</shortLabel>
-				<required>false</required>
-				<summary><![CDATA[&nbsp;]]></summary>
-				<description><![CDATA[&nbsp;]]></description>
-			</attributeReference>
-		    
-		    <attributeReference name="versionNumber" 
-								sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
-								sourceAttributeName="versionNumber" />
-								
-		    <attributeReference name="a21SubAccount.versionNumber" 
-								sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
-								sourceAttributeName="versionNumber" />
-								
-			
-			
-			
-			<attribute name="financialReportingCodeSection" forceUppercase="false">
-				<label>FINANCIAL REPORTING CODE SECTION</label>
-				<maxLength>50</maxLength>
-        		<control><checkbox /></control>
-				<summary><![CDATA[&nbsp;]]></summary>
-				<description>
-				Dummy attribute to divide sections on Inquiry page.
-				</description>
-			</attribute>
-								
-			<attribute name="cgCostSharingSection" forceUppercase="false">
-				<label>CG COST SHARING SECTION</label>
-				<maxLength>50</maxLength>
-        		<control><checkbox /></control>
-				<summary><![CDATA[&nbsp;]]></summary>
-				<description>
-				Dummy attribute to divide sections on Inquiry page.
-				</description>
-			</attribute>
-		
-			<attribute name="cgICRSection" forceUppercase="false">
-				<label>CG ICR SECTION</label>
-				<maxLength>50</maxLength>
-        		<control><checkbox /></control>
-				<summary><![CDATA[&nbsp;]]></summary>
-				<description>
-				Dummy attribute to divide sections on Inquiry page.
-				</description>
-			</attribute>					
-								
-								
-								
-		</attributes>
-	</businessObject>
+            <resultFields>
+                <field attributeName="chartOfAccountsCode" />
+                <field attributeName="accountNumber" />
+                <field attributeName="subAccountNumber" />
+                <field attributeName="subAccountName" />
+                <field attributeName="financialReportChartCode" />
+                <field attributeName="finReportOrganizationCode" />
+                <field attributeName="financialReportingCode" />
+                <field attributeName="subAccountActiveIndicator" />
+                <field attributeName="a21SubAccount.subAccountTypeCode" />
+                <field attributeName="a21SubAccount.costShareChartOfAccountCode" />
+                <field attributeName="a21SubAccount.costShareSourceAccountNumber" />
+                <field attributeName="a21SubAccount.costShareSourceSubAccountNumber" />
+                <field attributeName="a21SubAccount.financialIcrSeriesIdentifier" />
+                <field attributeName="a21SubAccount.indirectCostRecoveryChartOfAccountsCode" />
+                <field attributeName="a21SubAccount.indirectCostRecoveryAccountNumber" />
+                <field attributeName="a21SubAccount.indirectCostRecoveryTypeCode" />
+                <field attributeName="a21SubAccount.offCampusCode" />
+            </resultFields>
+        </lookup>
+
+        <titleAttribute>subAccountNumber</titleAttribute>
+
+        <attributes>
+
+            <attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
+                <required>true</required>
+                <control>
+                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" />
+                </control>
+            </attributeReference>
+
+            <attributeReference name="accountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber">
+                <required>true</required>
+            </attributeReference>
+
+            <attribute name="subAccountNumber" forceUppercase="true">
+                <label>Sub-Account Number</label>
+                <shortLabel>SubAccount</shortLabel>
+
+                <maxLength>5</maxLength>
+                <validationPattern>
+                    <anyCharacter maxLength="5" />
+                </validationPattern>
+                <required>true</required>
+
+                <control>
+                    <text size="5" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>
+                    <![CDATA[&nbsp;]]>
+                </description>
+            </attribute>
+
+            <attribute name="subAccountName" forceUppercase="false">
+                <label>Sub-Account Name</label>
+                <shortLabel>Su-Acct Name</shortLabel>
+
+                <maxLength>40</maxLength>
+                <validationPattern>
+                    <anyCharacter allowWhitespace="true" />
+                </validationPattern>
+                <required>true</required>
+
+                <control>
+                    <text size="40" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>
+                    <![CDATA[&nbsp;]]>
+                </description>
+            </attribute>
+
+            <attributeReference name="financialReportChartCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
+                <label>Financial Reporting Chart Code</label>
+                <shortLabel>Fin. Rpt. Chart</shortLabel>
+                <required>false</required>
+                <control>
+                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" />
+                </control>
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>
+                    <![CDATA[&nbsp;]]>
+                </description>
+            </attributeReference>
+
+            <attributeReference name="finReportOrganizationCode" sourceClassName="org.kuali.module.chart.bo.Org" sourceAttributeName="organizationCode">
+                <label>Financial Reporting Org Code</label>
+                <shortLabel>Org</shortLabel>
+                <required>false</required>
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>
+                    <![CDATA[&nbsp;]]>
+                </description>
+            </attributeReference>
+
+            <attributeReference name="financialReportingCode" sourceClassName="org.kuali.module.chart.bo.ReportingCodes" sourceAttributeName="financialReportingCode">
+                <label>Financial Reporting Code</label>
+                <shortLabel>Fin. Rpt. Code</shortLabel>
+                <required>false</required>
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>
+                    <![CDATA[&nbsp;]]>
+                </description>
+            </attributeReference>
+
+            <attributeReference name="subAccountActiveIndicator" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />
+
+            <attributeReference name="a21SubAccount.subAccountTypeCode" sourceClassName="org.kuali.module.chart.bo.A21SubAccount" sourceAttributeName="subAccountTypeCode">
+                <required>false</required>
+                <control>
+                    <apcSelect group="ChartMaintenanceEDoc" parameterName="SubAccount.ValidSubAccountTypeCodes" />
+                </control>
+            </attributeReference>
+
+            <attributeReference name="a21SubAccount.costShareChartOfAccountCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
+                <label>Cost Sharing Chart of Accounts Code</label>
+                <shortLabel>CostShareCOACode</shortLabel>
+                <required>false</required>
+                <control>
+                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" />
+                </control>
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>
+                    <![CDATA[&nbsp;]]>
+                </description>
+            </attributeReference>
+
+            <attributeReference name="a21SubAccount.costShareSourceAccountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber">
+                <label>Cost Sharing Account Number</label>
+                <shortLabel>CostShareAcctNbr</shortLabel>
+                <required>false</required>
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>
+                    <![CDATA[&nbsp;]]>
+                </description>
+            </attributeReference>
+
+            <attributeReference name="a21SubAccount.costShareSourceSubAccountNumber" sourceClassName="org.kuali.module.chart.bo.SubAccount" sourceAttributeName="subAccountNumber">
+                <label>Cost Sharing Sub Account Number</label>
+                <shortLabel>CostShareSubAcctNbr</shortLabel>
+                <required>false</required>
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>
+                    <![CDATA[&nbsp;]]>
+                </description>
+            </attributeReference>
+
+            <attributeReference name="a21SubAccount.financialIcrSeriesIdentifier" sourceClassName="org.kuali.module.chart.bo.A21SubAccount" sourceAttributeName="financialIcrSeriesIdentifier">
+                <label>Financial ICR Series Identifier</label>
+                <shortLabel>FinICRSerID</shortLabel>
+                <required>false</required>
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>
+                    <![CDATA[&nbsp;]]>
+                </description>
+            </attributeReference>
+
+            <attributeReference name="a21SubAccount.indirectCostRecoveryChartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
+                <label>ICR Chart of Accounts Code</label>
+                <shortLabel>IcrCoaCd</shortLabel>
+                <required>false</required>
+                <control>
+                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" />
+                </control>
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>
+                    <![CDATA[&nbsp;]]>
+                </description>
+            </attributeReference>
+
+            <attributeReference name="a21SubAccount.indirectCostRecoveryAccountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber">
+                <label>ICR Account Number</label>
+                <shortLabel>ICRAcctNbr</shortLabel>
+                <required>false</required>
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>
+                    <![CDATA[&nbsp;]]>
+                </description>
+            </attributeReference>
+
+            <attributeReference name="a21SubAccount.indirectCostRecoveryTypeCode" sourceClassName="org.kuali.module.chart.bo.codes.ICRTypeCode" sourceAttributeName="code">
+                <label>ICR Type Code</label>
+                <shortLabel>ICRTypeCd</shortLabel>
+                <required>false</required>
+                <control>
+                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.ICRTypeValuesFinder" />
+                </control>
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>
+                    <![CDATA[&nbsp;]]>
+                </description>
+            </attributeReference>
+
+            <attributeReference name="a21SubAccount.offCampusCode" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator">
+                <label>Off Campus Indicator</label>
+                <shortLabel>Off Campus</shortLabel>
+                <required>false</required>
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>
+                    <![CDATA[&nbsp;]]>
+                </description>
+            </attributeReference>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+            <attributeReference name="a21SubAccount.versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+
+
+
+            <attribute name="financialReportingCodeSection" forceUppercase="false">
+                <label>FINANCIAL REPORTING CODE SECTION</label>
+                <maxLength>50</maxLength>
+                <control>
+                    <checkbox />
+                </control>
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>Dummy attribute to divide sections on Inquiry page.</description>
+            </attribute>
+
+            <attribute name="cgCostSharingSection" forceUppercase="false">
+                <label>CG COST SHARING SECTION</label>
+                <maxLength>50</maxLength>
+                <control>
+                    <checkbox />
+                </control>
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>Dummy attribute to divide sections on Inquiry page.</description>
+            </attribute>
+
+            <attribute name="cgICRSection" forceUppercase="false">
+                <label>CG ICR SECTION</label>
+                <maxLength>50</maxLength>
+                <control>
+                    <checkbox />
+                </control>
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>Dummy attribute to divide sections on Inquiry page.</description>
+            </attribute>
+
+
+
+        </attributes>
+    </businessObject>
 </dictionaryEntry>
-			

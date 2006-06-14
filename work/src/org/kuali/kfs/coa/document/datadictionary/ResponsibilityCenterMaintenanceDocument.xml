@@ -4,7 +4,7 @@
     "../../../../core/datadictionary/dataDictionary-1_0.dtd">
 
 <dictionaryEntry>
-	<maintenanceDocument>
+    <maintenanceDocument>
         <businessObjectClass>org.kuali.module.chart.bo.ResponsibilityCenter</businessObjectClass>
         <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
 
@@ -17,29 +17,29 @@
             </authorization>
         </authorizations>
 
-		<documentTypeName>KualiResponsibilityCenterMaintenanceDocument</documentTypeName>
-		<documentTypeCode>RCEN</documentTypeCode>
+        <documentTypeName>KualiResponsibilityCenterMaintenanceDocument</documentTypeName>
+        <documentTypeCode>RCEN</documentTypeCode>
 
-		<label>Responsibility Center Maintenance Document</label>
-		<shortLabel>ResponsibilityCenterMaintDoc</shortLabel>
-		
-		<summary>Responsibility Center maintenance document</summary>
-		<description>Document used to create or update Responsibility Center objects</description>
+        <label>Responsibility Center Maintenance Document</label>
+        <shortLabel>ResponsibilityCenterMaintDoc</shortLabel>
+
+        <summary>Responsibility Center maintenance document</summary>
+        <description>Document used to create or update Responsibility Center objects</description>
 
         <lockingKeys>
-			<field attributeName="responsibilityCenterCode" />
-		</lockingKeys>	        
+            <field attributeName="responsibilityCenterCode" />
+        </lockingKeys>
 
-	    <maintainableSections>
-	        <maintainableSection title="Edit Responsibility Center">
-	        	<maintainableItems>
-	            	<maintainableField name="responsibilityCenterCode" required="true" />
-	            	<maintainableField name="responsibilityCenterName" required="true" />
-	            	<maintainableField name="responsibilityCenterShortName" required="true" />
-	            	<maintainableField name="responsibilityCenterActiveIndicator" required="true" />	     
-                 <maintainableField name="versionNumber" />	       	
-	            </maintainableItems>         	                   
-	        </maintainableSection>
-	    </maintainableSections>
-	</maintenanceDocument>
+        <maintainableSections>
+            <maintainableSection title="Edit Responsibility Center">
+                <maintainableItems>
+                    <maintainableField name="responsibilityCenterCode" required="true" />
+                    <maintainableField name="responsibilityCenterName" required="true" />
+                    <maintainableField name="responsibilityCenterShortName" required="true" />
+                    <maintainableField name="responsibilityCenterActiveIndicator" required="true" />
+                    <maintainableField name="versionNumber" />
+                </maintainableItems>
+            </maintainableSection>
+        </maintainableSections>
+    </maintenanceDocument>
 </dictionaryEntry>

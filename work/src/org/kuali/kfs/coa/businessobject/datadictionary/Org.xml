@@ -3,462 +3,517 @@
     "-//Kuali Project//DTD Data Dictionary 1.0//EN"
     "../../../core/datadictionary/dataDictionary-1_0.dtd">
 <dictionaryEntry>
-  <businessObject businessObjectClass="org.kuali.module.chart.bo.Org">
-    <customAttributeEnabled>true</customAttributeEnabled>
+    <businessObject businessObjectClass="org.kuali.module.chart.bo.Org">
+        <customAttributeEnabled>true</customAttributeEnabled>
 
-    <inquiry>
-      <title>Organization Inquiry</title>
+        <inquiry>
+            <title>Organization Inquiry</title>
 
-      <inquiryFields>
- <!-- Previous version which is little different from Maintainable Fields       -->
- <!--   <field attributeName="chartOfAccountsCode" noInquiry="true" />
-        <field attributeName="organizationCode" noInquiry="true" />
-        <field attributeName="organizationName" />
-        <field attributeName="organizationActiveIndicator" />
-        <field attributeName="organizationManagerUniversal.personUserIdentifier" />
-        <field attributeName="organizationManagerUniversal.personName" />
-        <field attributeName="responsibilityCenterCode" />
-		<field attributeName="organizationPhysicalCampusCode" />
-		<field attributeName="organizationTypeCode" />
-		<field attributeName="organizationDefaultAccountNumber" />
-		<field attributeName="organizationStreetAddress" />
-		<field attributeName="organizationCityName" />
-        <field attributeName="organizationStateCode" />
-        <field attributeName="organizationZipCode" />
-        <field attributeName="organizationBeginDate" />
-        <field attributeName="organizationEndDate" />     
-        <field attributeName="reportsToOrganizationCode" />
-        <field attributeName="reportsToChartOfAccountsCode" />
-        <field attributeName="organizationPlantChartCode" />
-        <field attributeName="campusPlantChartCode" />
-        <field attributeName="campusPlantAccountNumber" />        
- -->
- 		<field attributeName="chartOfAccountsCode" />
-        <field attributeName="organizationCode" />
-        <field attributeName="organizationName"  />
-        <field attributeName="organizationManagerUniversalId" />
-        <field attributeName="organizationManagerUniversal.personUserIdentifier" />
-        <field attributeName="organizationManagerUniversal.personName" />
-        <field attributeName="responsibilityCenterCode" />
-        <field attributeName="organizationPhysicalCampusCode" />
-        <field attributeName="organizationTypeCode" />
-        <field attributeName="organizationDefaultAccountNumber" />
-        <field attributeName="organizationZipCode" />
-        <field attributeName="organizationStreetAddress" />
-        <field attributeName="organizationCityName" />
-        <field attributeName="organizationStateCode" />
-        <field attributeName="organizationBeginDate" />
-        <field attributeName="organizationEndDate" />
-        <field attributeName="reportsToChartOfAccountsCode" />
-        <field attributeName="reportsToOrganizationCode" />
-        <field attributeName="organizationActiveIndicator" />
-        
-        <field attributeName="editPlantAccountsSectionBlank" />
-        <field attributeName="editPlantAccountsSection" />
-        
-        
-        <field attributeName="organizationPlantChartCode" />
-        <field attributeName="organizationPlantAccountNumber" />
-        <field attributeName="campusPlantChartCode" />
-        <field attributeName="campusPlantAccountNumber" />
-      </inquiryFields>
-    </inquiry>
+            <inquiryFields>
+                <!-- Previous version which is little different from Maintainable Fields       -->
+                <!--   <field attributeName="chartOfAccountsCode" noInquiry="true" />
+                    <field attributeName="organizationCode" noInquiry="true" />
+                    <field attributeName="organizationName" />
+                    <field attributeName="organizationActiveIndicator" />
+                    <field attributeName="organizationManagerUniversal.personUserIdentifier" />
+                    <field attributeName="organizationManagerUniversal.personName" />
+                    <field attributeName="responsibilityCenterCode" />
+                    <field attributeName="organizationPhysicalCampusCode" />
+                    <field attributeName="organizationTypeCode" />
+                    <field attributeName="organizationDefaultAccountNumber" />
+                    <field attributeName="organizationStreetAddress" />
+                    <field attributeName="organizationCityName" />
+                    <field attributeName="organizationStateCode" />
+                    <field attributeName="organizationZipCode" />
+                    <field attributeName="organizationBeginDate" />
+                    <field attributeName="organizationEndDate" />     
+                    <field attributeName="reportsToOrganizationCode" />
+                    <field attributeName="reportsToChartOfAccountsCode" />
+                    <field attributeName="organizationPlantChartCode" />
+                    <field attributeName="campusPlantChartCode" />
+                    <field attributeName="campusPlantAccountNumber" />        
+                -->
+                <field attributeName="chartOfAccountsCode" />
+                <field attributeName="organizationCode" />
+                <field attributeName="organizationName" />
+                <field attributeName="organizationManagerUniversalId" />
+                <field attributeName="organizationManagerUniversal.personUserIdentifier" />
+                <field attributeName="organizationManagerUniversal.personName" />
+                <field attributeName="responsibilityCenterCode" />
+                <field attributeName="organizationPhysicalCampusCode" />
+                <field attributeName="organizationTypeCode" />
+                <field attributeName="organizationDefaultAccountNumber" />
+                <field attributeName="organizationZipCode" />
+                <field attributeName="organizationStreetAddress" />
+                <field attributeName="organizationCityName" />
+                <field attributeName="organizationStateCode" />
+                <field attributeName="organizationBeginDate" />
+                <field attributeName="organizationEndDate" />
+                <field attributeName="reportsToChartOfAccountsCode" />
+                <field attributeName="reportsToOrganizationCode" />
+                <field attributeName="organizationActiveIndicator" />
 
-    <lookup>
-      <title>Organization Lookup</title>
-
-      <menubar>
-        <![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.chart.bo.Org">Create New</a>]]>
-      </menubar>
-
-      <instructions>Lookup an Organization</instructions>
-
-      <defaultSort
-        attributeName="chartOfAccountsCode"
-        sortAscending="false" />
-
-      <lookupFields>
-        <lookupField attributeName="chartOfAccountsCode" required="false" />
-        <lookupField attributeName="organizationCode" required="false" forceLookup="true" />
-        <lookupField attributeName="responsibilityCenterCode" required="false" />
-        <lookupField attributeName="organizationTypeCode" required="false" />
-        <lookupField attributeName="organizationName" required="false" />
-        <lookupField attributeName="reportsToChartOfAccountsCode" required="false" noLookup="true" />
-        <lookupField attributeName="reportsToOrganizationCode" required="false" />
-        <lookupField attributeName="organizationActiveIndicator" required="false" >	
-			<defaultValue>Y</defaultValue>
-		</lookupField>		
-
-      </lookupFields>
-
-      <resultFields>
-        <field attributeName="chartOfAccountsCode" noInquiry="true" />
-        <field attributeName="organizationCode" />
-        <field attributeName="responsibilityCenterCode" />
-        <field attributeName="organizationTypeCode" />
-        <field attributeName="organizationName" />
-        <field attributeName="organizationManagerUniversal.personName" />
-        <field attributeName="organizationActiveIndicator" />
-      </resultFields>
-    </lookup>
-
-    <titleAttribute>organizationCode</titleAttribute>
-
-    <attributes>
-
-      <attributeReference name="chartOfAccountsCode"
-				        sourceClassName="org.kuali.module.chart.bo.Chart"
-				        sourceAttributeName="chartOfAccountsCode">
-		<required>true</required>
-		<control>
-			<select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" />
-		</control> 
-      </attributeReference>
-
-      <attribute name="organizationCode" forceUppercase="true">
-        <label>Organization Code</label>
-        <shortLabel>Org</shortLabel>
-
-        <maxLength>4</maxLength>
-        <validationPattern>
-          <anyCharacter />
-        </validationPattern>
-		<required>true</required>
-		
-        <control>
-          <text size="4" />
-        </control>
-
-        <summary><![CDATA[&nbsp;]]></summary>
-        <description>The code used to represent an organization.</description>
-      </attribute>
-
-      <attribute name="organizationName" forceUppercase="false">
-        <label>Organization Name</label>
-        <shortLabel>Org Name</shortLabel>
-
-        <maxLength>40</maxLength>
-        <validationPattern>
-          <anyCharacter allowWhitespace="true" />
-        </validationPattern>
-		<required>true</required>
-		
-        <control>
-          <text size="40" />
-        </control>
-
-        <summary><![CDATA[&nbsp;]]></summary>
-        <description><![CDATA[&nbsp;]]></description>
-      </attribute>
-
-      <attributeReference name="organizationManagerUniversalId"
-				        sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
-				        sourceAttributeName="genericSystemId">
-        <label>Organization Manager UserID</label>
-        <shortLabel>Manager UserID</shortLabel>
-        <required>true</required>
-        <control><hidden /></control>
-        <summary><![CDATA[&nbsp;]]></summary>
-        <description><![CDATA[&nbsp;]]></description>
-      </attributeReference>
-
-	  <attributeReference name="organizationManagerUniversal.personUserIdentifier" 
-	  					  sourceClassName="org.kuali.core.bo.user.KualiUser" 
-	  					  sourceAttributeName="personUserIdentifier">
-			<label>Organization Manager UserID</label>
-			<shortLabel>OrgMgrUserId</shortLabel>
-			<required>false</required>
-			<control>
-				<kualiUser universalIdAttributeName="organizationManagerUniversalId" 
-							userIdAttributeName="organizationManagerUniversal.personUserIdentifier" 
-							personNameAttributeName="organizationManagerUniversal.personName" />
-			</control>
-			<summary><![CDATA[&nbsp;]]></summary>
-			<description>
-				<![CDATA[&nbsp;]]>
-			</description>
-	  </attributeReference>
-	  
-		<attributeReference name="organizationManagerUniversal.personName" 
-							sourceClassName="org.kuali.core.bo.user.UniversalUser" 
-							sourceAttributeName="personName">
-			<label>Organization Manager Name</label>
-			<shortLabel>Name</shortLabel>
-			<required>false</required>
-			<control><hidden /></control>
-			<summary><![CDATA[&nbsp;]]></summary>
-			<description>
-				<![CDATA[&nbsp;]]>
-			</description>
-		</attributeReference>
-		
-      <attribute name="responsibilityCenterCode" forceUppercase="false">
-        <label>Responsibility Center Code</label>
-        <shortLabel>RC</shortLabel>
-
-        <maxLength>2</maxLength>
-        <validationPattern>
-          <anyCharacter exactLength="2" />
-        </validationPattern>
-		<required>true</required>
-		
-        <control>
-          <text size="2" />
-        </control>
-
-        <summary><![CDATA[&nbsp;]]></summary>
-        <description><![CDATA[&nbsp;]]></description>
-      </attribute>
-
-      <attribute name="organizationPhysicalCampusCode" forceUppercase="true">
-        <label>Organization Physical Campus Code</label>
-        <shortLabel>Physical Campus</shortLabel>
-
-        <maxLength>2</maxLength>
-        <validationPattern>
-          <alpha exactLength="2" />
-        </validationPattern>
-		<required>true</required>
-		
-        <control>
-          <text size="2" />
-        </control>
-
-        <summary><![CDATA[&nbsp;]]></summary>
-        <description><![CDATA[&nbsp;]]></description>
-      </attribute>
-
-      <attribute name="organizationTypeCode" forceUppercase="false">
-        <label>Organization Type</label>
-        <shortLabel>Type</shortLabel>
-
-        <maxLength>1</maxLength>
-        <validationPattern>
-          <alpha exactLength="1" />
-        </validationPattern>
-		<required>true</required>
-		
-        <control>
-          <select valuesFinderClass="org.kuali.core.lookup.keyvalues.OrgTypeValuesFinder" />
-        </control>
-
-        <summary><![CDATA[&nbsp;]]></summary>
-        <description><![CDATA[&nbsp;]]></description>
-      </attribute>
-
-      <attributeReference name="organizationDefaultAccountNumber"
-				        sourceClassName="org.kuali.module.chart.bo.Account"
-				        sourceAttributeName="accountNumber">
-        <label>Organization Default Account Number</label>
-        <shortLabel>Default Acct</shortLabel>
-        <required>true</required>
-        <summary><![CDATA[&nbsp;]]></summary>
-        <description><![CDATA[&nbsp;]]></description>
-      </attributeReference>
-
-      <attributeReference name="organizationPlantAccountNumber"
-				        sourceClassName="org.kuali.module.chart.bo.Account"
-				        sourceAttributeName="accountNumber">
-        <label>Plant Account Number</label>
-        <shortLabel>Plant Acct</shortLabel>
-        <required>false</required>
-        <summary><![CDATA[&nbsp;]]></summary>
-        <description><![CDATA[&nbsp;]]></description>
-      </attributeReference>
-
-      <attributeReference name="organizationPlantChartCode"
-				        sourceClassName="org.kuali.module.chart.bo.Chart"
-				        sourceAttributeName="chartOfAccountsCode">
-        <label>Organization Plant Chart</label>
-        <shortLabel>Plant Chart</shortLabel>
-        <required>false</required>
-        <control>
-			<select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" />
-		</control> 
-        <summary><![CDATA[&nbsp;]]></summary>
-        <description><![CDATA[&nbsp;]]></description>
-      </attributeReference>
-
-      <attribute name="organizationZipCode" forceUppercase="false">
-        <label>Organization Zip Code</label>
-        <shortLabel>Zip</shortLabel>
-
-        <maxLength>11</maxLength>
-        <validationPattern>
-          <zipcode />
-        </validationPattern>
-		<required>true</required>
-		
-        <control>
-          <text size="11" />
-        </control>
-
-        <summary><![CDATA[&nbsp;]]></summary>
-        <description><![CDATA[&nbsp;]]></description>
-      </attribute>
-
-      <attribute name="organizationStateCode" forceUppercase="false">
-        <label>Organization State Code</label>
-        <shortLabel>St Cd</shortLabel>
-
-        <maxLength>2</maxLength>
-        <validationPattern>
-          <alpha exactLength="2" />
-        </validationPattern>
-		<required>true</required>
-		
-        <control>
-          <text size="2" />
-        </control>
-
-        <summary><![CDATA[&nbsp;]]></summary>
-        <description><![CDATA[&nbsp;]]></description>
-      </attribute>
-
-      <attribute name="organizationStreetAddress" forceUppercase="false">
-        <label>Organization Street</label>
-        <shortLabel>Street</shortLabel>
-
-        <maxLength>30</maxLength>
-        <validationPattern>
-          <anyCharacter allowWhitespace="true" />
-        </validationPattern>
-		<required>true</required>
-		
-        <control>
-          <text size="30" />
-        </control>
-
-        <summary><![CDATA[&nbsp;]]></summary>
-        <description><![CDATA[&nbsp;]]></description>
-      </attribute>
-      
-      <attribute name="organizationCityName" forceUppercase="false">
-        <label>Organization City Name</label>
-        <shortLabel>City</shortLabel>
-
-        <maxLength>25</maxLength>
-        <validationPattern>
-          <anyCharacter allowWhitespace="true" />
-        </validationPattern>
-		<required>true</required>
-		
-        <control>
-          <text size="25" />
-        </control>
-
-        <summary><![CDATA[&nbsp;]]></summary>
-        <description><![CDATA[&nbsp;]]></description>
-      </attribute>
-
-      <attributeReference name="reportsToChartOfAccountsCode"
-				        sourceClassName="org.kuali.module.chart.bo.Chart"
-				        sourceAttributeName="chartOfAccountsCode">
-        <label>Reports to Chart Code</label>
-        <shortLabel>Rpts to Chart</shortLabel>
-		<required>true</required>
-		<control>
-			<select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" />
-		</control> 
-        <summary><![CDATA[&nbsp;]]></summary>
-        <description><![CDATA[&nbsp;]]></description>
-      </attributeReference>
-
-      <attributeReference name="reportsToOrganizationCode"
-				        sourceClassName="org.kuali.module.chart.bo.Org"
-				        sourceAttributeName="organizationCode">
-        <label>Reports to Organization</label>
-        <shortLabel>Rpts to Org</shortLabel>
-		<required>true</required>
-        <summary><![CDATA[&nbsp;]]></summary>
-        <description><![CDATA[&nbsp;]]></description>
-      </attributeReference>
-
-      <attributeReference name="organizationBeginDate"
-				        sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
-				        sourceAttributeName="genericTimestamp">
-        <label>Organization Begin Date</label>
-        <shortLabel>Begin Date</shortLabel>
-        <required>true</required>
-        <summary><![CDATA[&nbsp;]]></summary>
-        <description><![CDATA[&nbsp;]]></description>
-        <formatterClass>org.kuali.core.web.format.DateFormatter</formatterClass>
-      </attributeReference>
-
-      <attributeReference name="organizationEndDate"
-				sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
-				sourceAttributeName="genericTimestamp">
-        <label>Organization End Date</label>
-        <shortLabel>End Date</shortLabel>
-        <summary><![CDATA[&nbsp;]]></summary>
-        <description><![CDATA[&nbsp;]]></description>
-      </attributeReference>
-
-      <attributeReference
-	        name="organizationActiveIndicator"
-	        sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
-	        sourceAttributeName="genericBoolean">
-        <label>Active</label>
-        <shortLabel>Act.</shortLabel>
-        <summary><![CDATA[&nbsp;]]></summary>
-        <description><![CDATA[&nbsp;]]></description>
-      </attributeReference>
-
-      <attributeReference
-	        name="campusPlantAccountNumber"
-	        sourceClassName="org.kuali.module.chart.bo.Account"
-	        sourceAttributeName="accountNumber">
-        <label>Campus Plant Account Number</label>
-        <shortLabel>Plant Acct</shortLabel>
-        <required>false</required>
-        <summary><![CDATA[&nbsp;]]></summary>
-        <description><![CDATA[&nbsp;]]></description>
-      </attributeReference>
-
-      <attributeReference
-	        name="campusPlantChartCode"
-	        sourceClassName="org.kuali.module.chart.bo.Chart"
-	        sourceAttributeName="chartOfAccountsCode">
-        <label>Campus Plant Chart Code</label>
-        <shortLabel>Chart Code</shortLabel>
-        <required>false</required>
-        <control>
-			<select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" />
-		</control> 
-        <summary><![CDATA[&nbsp;]]></summary>
-        <description><![CDATA[&nbsp;]]></description>
-      </attributeReference>
-
-      <attribute name="organizationInFinancialProcessingIndicator" forceUppercase="false">
-        <label>Organization In Financial Processing</label>
-        <shortLabel>In Fin Processing</shortLabel>
-
-        <maxLength>1</maxLength>
-
-        <control>
-          <checkbox />
-        </control>
-
-        <summary><![CDATA[&nbsp;]]></summary>
-        <description><![CDATA[&nbsp;]]></description>
-      </attribute>
-
-	  <attribute name="editPlantAccountsSection" forceUppercase="false">
-				<label>EDIT PLANT ACCOUNT SECTION</label>
-				<maxLength>50</maxLength>
-        		<control><checkbox /></control>
-				<summary><![CDATA[&nbsp;]]></summary>
-				<description>
-				Dummy attribute to divide sections on Inquiry page.
-				</description>
-	  </attribute>
+                <field attributeName="editPlantAccountsSectionBlank" />
+                <field attributeName="editPlantAccountsSection" />
 
 
- 	<attributeReference name="versionNumber" 
- 			sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
- 			sourceAttributeName="versionNumber" />
+                <field attributeName="organizationPlantChartCode" />
+                <field attributeName="organizationPlantAccountNumber" />
+                <field attributeName="campusPlantChartCode" />
+                <field attributeName="campusPlantAccountNumber" />
+            </inquiryFields>
+        </inquiry>
 
-    </attributes>
-  </businessObject>
+        <lookup>
+            <title>Organization Lookup</title>
+
+            <menubar>
+                <![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.chart.bo.Org">Create New</a>]]>
+            </menubar>
+
+            <instructions>Lookup an Organization</instructions>
+
+            <defaultSort attributeName="chartOfAccountsCode" sortAscending="false" />
+
+            <lookupFields>
+                <lookupField attributeName="chartOfAccountsCode" required="false" />
+                <lookupField attributeName="organizationCode" required="false" forceLookup="true" />
+                <lookupField attributeName="responsibilityCenterCode" required="false" />
+                <lookupField attributeName="organizationTypeCode" required="false" />
+                <lookupField attributeName="organizationName" required="false" />
+                <lookupField attributeName="reportsToChartOfAccountsCode" required="false" noLookup="true" />
+                <lookupField attributeName="reportsToOrganizationCode" required="false" />
+                <lookupField attributeName="organizationActiveIndicator" required="false">
+                    <defaultValue>Y</defaultValue>
+                </lookupField>
+
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="chartOfAccountsCode" noInquiry="true" />
+                <field attributeName="organizationCode" />
+                <field attributeName="responsibilityCenterCode" />
+                <field attributeName="organizationTypeCode" />
+                <field attributeName="organizationName" />
+                <field attributeName="organizationManagerUniversal.personName" />
+                <field attributeName="organizationActiveIndicator" />
+            </resultFields>
+        </lookup>
+
+        <titleAttribute>organizationCode</titleAttribute>
+
+        <attributes>
+
+            <attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
+                <required>true</required>
+                <control>
+                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" />
+                </control>
+            </attributeReference>
+
+            <attribute name="organizationCode" forceUppercase="true">
+                <label>Organization Code</label>
+                <shortLabel>Org</shortLabel>
+
+                <maxLength>4</maxLength>
+                <validationPattern>
+                    <anyCharacter />
+                </validationPattern>
+                <required>true</required>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>The code used to represent an organization.</description>
+            </attribute>
+
+            <attribute name="organizationName" forceUppercase="false">
+                <label>Organization Name</label>
+                <shortLabel>Org Name</shortLabel>
+
+                <maxLength>40</maxLength>
+                <validationPattern>
+                    <anyCharacter allowWhitespace="true" />
+                </validationPattern>
+                <required>true</required>
+
+                <control>
+                    <text size="40" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>
+                    <![CDATA[&nbsp;]]>
+                </description>
+            </attribute>
+
+            <attributeReference name="organizationManagerUniversalId" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericSystemId">
+                <label>Organization Manager UserID</label>
+                <shortLabel>Manager UserID</shortLabel>
+                <required>true</required>
+                <control>
+                    <hidden />
+                </control>
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>
+                    <![CDATA[&nbsp;]]>
+                </description>
+            </attributeReference>
+
+            <attributeReference name="organizationManagerUniversal.personUserIdentifier" sourceClassName="org.kuali.core.bo.user.KualiUser" sourceAttributeName="personUserIdentifier">
+                <label>Organization Manager UserID</label>
+                <shortLabel>OrgMgrUserId</shortLabel>
+                <required>false</required>
+                <control>
+                    <kualiUser universalIdAttributeName="organizationManagerUniversalId" userIdAttributeName="organizationManagerUniversal.personUserIdentifier" personNameAttributeName="organizationManagerUniversal.personName" />
+                </control>
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>
+                    <![CDATA[&nbsp;]]>
+                </description>
+            </attributeReference>
+
+            <attributeReference name="organizationManagerUniversal.personName" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personName">
+                <label>Organization Manager Name</label>
+                <shortLabel>Name</shortLabel>
+                <required>false</required>
+                <control>
+                    <hidden />
+                </control>
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>
+                    <![CDATA[&nbsp;]]>
+                </description>
+            </attributeReference>
+
+            <attribute name="responsibilityCenterCode" forceUppercase="false">
+                <label>Responsibility Center Code</label>
+                <shortLabel>RC</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern>
+                    <anyCharacter exactLength="2" />
+                </validationPattern>
+                <required>true</required>
+
+                <control>
+                    <text size="2" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>
+                    <![CDATA[&nbsp;]]>
+                </description>
+            </attribute>
+
+            <attribute name="organizationPhysicalCampusCode" forceUppercase="true">
+                <label>Organization Physical Campus Code</label>
+                <shortLabel>Physical Campus</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern>
+                    <alpha exactLength="2" />
+                </validationPattern>
+                <required>true</required>
+
+                <control>
+                    <text size="2" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>
+                    <![CDATA[&nbsp;]]>
+                </description>
+            </attribute>
+
+            <attribute name="organizationTypeCode" forceUppercase="false">
+                <label>Organization Type</label>
+                <shortLabel>Type</shortLabel>
+
+                <maxLength>1</maxLength>
+                <validationPattern>
+                    <alpha exactLength="1" />
+                </validationPattern>
+                <required>true</required>
+
+                <control>
+                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.OrgTypeValuesFinder" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>
+                    <![CDATA[&nbsp;]]>
+                </description>
+            </attribute>
+
+            <attributeReference name="organizationDefaultAccountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber">
+                <label>Organization Default Account Number</label>
+                <shortLabel>Default Acct</shortLabel>
+                <required>true</required>
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>
+                    <![CDATA[&nbsp;]]>
+                </description>
+            </attributeReference>
+
+            <attributeReference name="organizationPlantAccountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber">
+                <label>Plant Account Number</label>
+                <shortLabel>Plant Acct</shortLabel>
+                <required>false</required>
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>
+                    <![CDATA[&nbsp;]]>
+                </description>
+            </attributeReference>
+
+            <attributeReference name="organizationPlantChartCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
+                <label>Organization Plant Chart</label>
+                <shortLabel>Plant Chart</shortLabel>
+                <required>false</required>
+                <control>
+                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" />
+                </control>
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>
+                    <![CDATA[&nbsp;]]>
+                </description>
+            </attributeReference>
+
+            <attribute name="organizationZipCode" forceUppercase="false">
+                <label>Organization Zip Code</label>
+                <shortLabel>Zip</shortLabel>
+
+                <maxLength>11</maxLength>
+                <validationPattern>
+                    <zipcode />
+                </validationPattern>
+                <required>true</required>
+
+                <control>
+                    <text size="11" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>
+                    <![CDATA[&nbsp;]]>
+                </description>
+            </attribute>
+
+            <attribute name="organizationStateCode" forceUppercase="false">
+                <label>Organization State Code</label>
+                <shortLabel>St Cd</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern>
+                    <alpha exactLength="2" />
+                </validationPattern>
+                <required>true</required>
+
+                <control>
+                    <text size="2" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>
+                    <![CDATA[&nbsp;]]>
+                </description>
+            </attribute>
+
+            <attribute name="organizationStreetAddress" forceUppercase="false">
+                <label>Organization Street</label>
+                <shortLabel>Street</shortLabel>
+
+                <maxLength>30</maxLength>
+                <validationPattern>
+                    <anyCharacter allowWhitespace="true" />
+                </validationPattern>
+                <required>true</required>
+
+                <control>
+                    <text size="30" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>
+                    <![CDATA[&nbsp;]]>
+                </description>
+            </attribute>
+
+            <attribute name="organizationCityName" forceUppercase="false">
+                <label>Organization City Name</label>
+                <shortLabel>City</shortLabel>
+
+                <maxLength>25</maxLength>
+                <validationPattern>
+                    <anyCharacter allowWhitespace="true" />
+                </validationPattern>
+                <required>true</required>
+
+                <control>
+                    <text size="25" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>
+                    <![CDATA[&nbsp;]]>
+                </description>
+            </attribute>
+
+            <attributeReference name="reportsToChartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
+                <label>Reports to Chart Code</label>
+                <shortLabel>Rpts to Chart</shortLabel>
+                <required>true</required>
+                <control>
+                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" />
+                </control>
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>
+                    <![CDATA[&nbsp;]]>
+                </description>
+            </attributeReference>
+
+            <attributeReference name="reportsToOrganizationCode" sourceClassName="org.kuali.module.chart.bo.Org" sourceAttributeName="organizationCode">
+                <label>Reports to Organization</label>
+                <shortLabel>Rpts to Org</shortLabel>
+                <required>true</required>
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>
+                    <![CDATA[&nbsp;]]>
+                </description>
+            </attributeReference>
+
+            <attributeReference name="organizationBeginDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericTimestamp">
+                <label>Organization Begin Date</label>
+                <shortLabel>Begin Date</shortLabel>
+                <required>true</required>
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>
+                    <![CDATA[&nbsp;]]>
+                </description>
+                <formatterClass>org.kuali.core.web.format.DateFormatter</formatterClass>
+            </attributeReference>
+
+            <attributeReference name="organizationEndDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericTimestamp">
+                <label>Organization End Date</label>
+                <shortLabel>End Date</shortLabel>
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>
+                    <![CDATA[&nbsp;]]>
+                </description>
+            </attributeReference>
+
+            <attributeReference name="organizationActiveIndicator" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
+                <label>Active</label>
+                <shortLabel>Act.</shortLabel>
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>
+                    <![CDATA[&nbsp;]]>
+                </description>
+            </attributeReference>
+
+            <attributeReference name="campusPlantAccountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber">
+                <label>Campus Plant Account Number</label>
+                <shortLabel>Plant Acct</shortLabel>
+                <required>false</required>
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>
+                    <![CDATA[&nbsp;]]>
+                </description>
+            </attributeReference>
+
+            <attributeReference name="campusPlantChartCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
+                <label>Campus Plant Chart Code</label>
+                <shortLabel>Chart Code</shortLabel>
+                <required>false</required>
+                <control>
+                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" />
+                </control>
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>
+                    <![CDATA[&nbsp;]]>
+                </description>
+            </attributeReference>
+
+            <attribute name="organizationInFinancialProcessingIndicator" forceUppercase="false">
+                <label>Organization In Financial Processing</label>
+                <shortLabel>In Fin Processing</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>
+                    <![CDATA[&nbsp;]]>
+                </description>
+            </attribute>
+
+            <attribute name="editPlantAccountsSection" forceUppercase="false">
+                <label>EDIT PLANT ACCOUNT SECTION</label>
+                <maxLength>50</maxLength>
+                <control>
+                    <checkbox />
+                </control>
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>Dummy attribute to divide sections on Inquiry page.</description>
+            </attribute>
+
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+    </businessObject>
 </dictionaryEntry>
 

@@ -3,73 +3,67 @@
     "-//Kuali Project//DTD Data Dictionary 1.0//EN"
     "../../../core/datadictionary/dataDictionary-1_0.dtd">
 <dictionaryEntry>
-	<businessObject businessObjectClass="org.kuali.module.financial.bo.TravelMileageRate">
-		<customAttributeEnabled>false</customAttributeEnabled>
+    <businessObject businessObjectClass="org.kuali.module.financial.bo.TravelMileageRate">
+        <customAttributeEnabled>false</customAttributeEnabled>
 
-		<inquiry>
-			<title>Travel Mileage Rate Inquiry</title>
+        <inquiry>
+            <title>Travel Mileage Rate Inquiry</title>
 
-			<inquiryFields>
-				<field attributeName="disbursementVoucherMileageEffectiveDate" />			
-				<field attributeName="mileageLimitAmount" />	
-				<field attributeName="mileageRate" />							
-			</inquiryFields>
-		</inquiry>
+            <inquiryFields>
+                <field attributeName="disbursementVoucherMileageEffectiveDate" />
+                <field attributeName="mileageLimitAmount" />
+                <field attributeName="mileageRate" />
+            </inquiryFields>
+        </inquiry>
 
-		<lookup>
-			<title>Travel Milege Rate Lookup</title>
+        <lookup>
+            <title>Travel Milege Rate Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.financial.bo.TravelMileageRate">Create New</a>]]></menubar>
+            <menubar>
+                <![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.financial.bo.TravelMileageRate">Create New</a>]]>
+            </menubar>
 
-			<instructions>Lookup a Travel Mileage Rate</instructions>
+            <instructions>Lookup a Travel Mileage Rate</instructions>
 
-			<defaultSort attributeName="disbursementVoucherMileageEffectiveDate" sortAscending="true" />
+            <defaultSort attributeName="disbursementVoucherMileageEffectiveDate" sortAscending="true" />
 
-			<lookupFields>
-				<lookupField attributeName="disbursementVoucherMileageEffectiveDate" required="false" />
-			</lookupFields>
+            <lookupFields>
+                <lookupField attributeName="disbursementVoucherMileageEffectiveDate" required="false" />
+            </lookupFields>
 
-			<resultFields>
-				<field attributeName="disbursementVoucherMileageEffectiveDate" />
-				<field attributeName="mileageLimitAmount" />
-				<field attributeName="mileageRate" />
-			</resultFields>
-		</lookup>
+            <resultFields>
+                <field attributeName="disbursementVoucherMileageEffectiveDate" />
+                <field attributeName="mileageLimitAmount" />
+                <field attributeName="mileageRate" />
+            </resultFields>
+        </lookup>
 
-		<attributes>
-		
-			<attributeReference name="disbursementVoucherMileageEffectiveDate" 
-								sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
-								sourceAttributeName="genericDate" >
-								<label>Rate Effective Date</label>
-								<shortLabel>Effective Dt</shortLabel>
-								
-								<summary>Date mileage rate becomes effective.</summary>
-								<description>...</description>
-			</attributeReference>					
+        <attributes>
 
-			<attributeReference name="mileageLimitAmount" 
-            					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
-            					sourceAttributeName="genericAmount">
+            <attributeReference name="disbursementVoucherMileageEffectiveDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
+                <label>Rate Effective Date</label>
+                <shortLabel>Effective Dt</shortLabel>
+
+                <summary>Date mileage rate becomes effective.</summary>
+                <description>...</description>
+            </attributeReference>
+
+            <attributeReference name="mileageLimitAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
                 <label>Travel Mileage Limit Amount</label>
                 <shortLabel>Limit Amount</shortLabel>
                 <summary>Travel Mileage Limit Amount</summary>
                 <description>Travel Mileage Limit Amount...</description>
             </attributeReference>
 
-			<attributeReference name="mileageRate" 
-            					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
-            					sourceAttributeName="genericAmount">
+            <attributeReference name="mileageRate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
                 <label>Travel Mileage Rate</label>
                 <shortLabel>Rate</shortLabel>
                 <summary>Travel Mileage Rate</summary>
                 <description>Travel Mileage Rate...</description>
             </attributeReference>
-    		
-	    	<attributeReference name="versionNumber" 
-					            sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
-					            sourceAttributeName="versionNumber" />        
-		</attributes>
-	</businessObject>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+        </attributes>
+    </businessObject>
 </dictionaryEntry>
 

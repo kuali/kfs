@@ -19,7 +19,9 @@
         <lookup>
             <title>Function Control Code Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.financial.bo.FunctionControlCode">Create New</a>]]></menubar>
+            <menubar>
+                <![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.financial.bo.FunctionControlCode">Create New</a>]]>
+            </menubar>
 
             <instructions>Lookup an Function Control Code</instructions>
 
@@ -49,7 +51,9 @@
                 <shortLabel>Code</shortLabel>
 
                 <maxLength>6</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+                <validationPattern>
+                    <anyCharacter />
+                </validationPattern>
 
                 <control>
                     <text size="8" />
@@ -57,14 +61,16 @@
 
                 <summary>financialSystemFunctionControlCode</summary>
                 <description>financialSystemFunctionControlCode description...</description>
-			</attribute>
+            </attribute>
 
             <attribute name="financialSystemFunctionDescription" forceUppercase="true">
                 <label>Financial System Function Description</label>
                 <shortLabel>Description</shortLabel>
 
                 <maxLength>40</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+                <validationPattern>
+                    <anyCharacter />
+                </validationPattern>
 
                 <control>
                     <text size="42" />
@@ -72,7 +78,7 @@
 
                 <summary>financialSystemFunctionDescription</summary>
                 <description>financialSystemFunctionDescription description...</description>
-			</attribute>
+            </attribute>
 
             <attribute name="financialSystemFunctionDefaultIndicator" forceUppercase="true">
                 <label>Financial System Function Default Indicator</label>
@@ -86,11 +92,9 @@
 
                 <summary>financialSystemFunctionDefaultIndicator</summary>
                 <description>financialSystemFunctionDefaultIndicator description...</description>
-			</attribute>
+            </attribute>
 
-          <attributeReference name="versionNumber" 
-                            sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
-                            sourceAttributeName="versionNumber" />
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 
         </attributes>
     </businessObject>

@@ -4,7 +4,7 @@
     "../../../../core/datadictionary/dataDictionary-1_0.dtd">
 
 <dictionaryEntry>
-	<maintenanceDocument>
+    <maintenanceDocument>
         <businessObjectClass>org.kuali.module.gl.bo.UniversityDate</businessObjectClass>
         <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
 
@@ -17,29 +17,29 @@
             </authorization>
         </authorizations>
 
-		<documentTypeName>KualiUniversityDateMaintenanceDocument</documentTypeName>
-		<documentTypeCode>UDAT</documentTypeCode>
+        <documentTypeName>KualiUniversityDateMaintenanceDocument</documentTypeName>
+        <documentTypeCode>UDAT</documentTypeCode>
 
-		<label>University Date Maintenance Document</label>
-		<shortLabel>UnivDateMaintDoc</shortLabel>
-		
-		<summary>University Date maintenance document</summary>
-		<description>Document used to create or update University Date objects</description>
+        <label>University Date Maintenance Document</label>
+        <shortLabel>UnivDateMaintDoc</shortLabel>
 
-        
+        <summary>University Date maintenance document</summary>
+        <description>Document used to create or update University Date objects</description>
+
+
         <lockingKeys>
-			<field attributeName="universityDate" />
-		</lockingKeys>	          
+            <field attributeName="universityDate" />
+        </lockingKeys>
 
-	    <maintainableSections>
-	        <maintainableSection title="Edit University Date">
-	        	<maintainableItems>
-	            	<maintainableField name="universityDate" required="true" />
-	            	<maintainableField name="universityFiscalYear" required="true" />
-	            	<maintainableField name="universityFiscalAccountingPeriod" required="true" />	            	
-		            <maintainableField name="versionNumber" />
-	            </maintainableItems>          	                   
-	        </maintainableSection>
-	    </maintainableSections>
-	</maintenanceDocument>
+        <maintainableSections>
+            <maintainableSection title="Edit University Date">
+                <maintainableItems>
+                    <maintainableField name="universityDate" required="true" />
+                    <maintainableField name="universityFiscalYear" required="true" />
+                    <maintainableField name="universityFiscalAccountingPeriod" required="true" />
+                    <maintainableField name="versionNumber" />
+                </maintainableItems>
+            </maintainableSection>
+        </maintainableSections>
+    </maintenanceDocument>
 </dictionaryEntry>

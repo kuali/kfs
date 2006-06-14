@@ -2,13 +2,13 @@
 <!DOCTYPE dictionaryEntry PUBLIC
     "-//Kuali Project//DTD Data Dictionary 1.0//EN"
     "../../../../core/datadictionary/dataDictionary-1_0.dtd">
-    
-<dictionaryEntry>
-	<maintenanceDocument>
-		<businessObjectClass>org.kuali.module.chart.bo.ObjectType</businessObjectClass>
-		<maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
 
-    	<documentAuthorizerClass>org.kuali.core.document.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
+<dictionaryEntry>
+    <maintenanceDocument>
+        <businessObjectClass>org.kuali.module.chart.bo.ObjectType</businessObjectClass>
+        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+
+        <documentAuthorizerClass>org.kuali.core.document.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
 
         <authorizations>
             <authorization action="initiate">
@@ -18,29 +18,29 @@
             </authorization>
         </authorizations>
 
-		<documentTypeName>KualiObjectTypeMaintenanceDocument</documentTypeName>
-		<documentTypeCode>OTYP</documentTypeCode>
-		<label>Object Type Maintenance Document</label>
-		<shortLabel>ObjTypeMaintDoc</shortLabel>
-		<summary>Object Type Maintenance Document</summary>
-		<description>Maintenance document which allows you to create new Object Types, or modify existing Object Types.</description>
-		
+        <documentTypeName>KualiObjectTypeMaintenanceDocument</documentTypeName>
+        <documentTypeCode>OTYP</documentTypeCode>
+        <label>Object Type Maintenance Document</label>
+        <shortLabel>ObjTypeMaintDoc</shortLabel>
+        <summary>Object Type Maintenance Document</summary>
+        <description>Maintenance document which allows you to create new Object Types, or modify existing Object Types.</description>
+
         <lockingKeys>
-			<field attributeName="code" />
-		</lockingKeys>	 		
-		
-		<maintainableSections>
-			<maintainableSection title="Edit Object Type">
+            <field attributeName="code" />
+        </lockingKeys>
+
+        <maintainableSections>
+            <maintainableSection title="Edit Object Type">
                 <maintainableItems>
-					<maintainableField name="code" required="true" />
-					<maintainableField name="name" required="true" />
-					<maintainableField name="finObjectTypeDebitcreditCd" required="true"  />
-					<maintainableField name="finObjectTypeIcrSelectionIndicator" required="true" />
-					<maintainableField name="fundBalanceIndicator" required="true" />
-					<maintainableField name="financialReportingSortCode" required="true"  />
-					<maintainableField name="versionNumber" />
+                    <maintainableField name="code" required="true" />
+                    <maintainableField name="name" required="true" />
+                    <maintainableField name="finObjectTypeDebitcreditCd" required="true" />
+                    <maintainableField name="finObjectTypeIcrSelectionIndicator" required="true" />
+                    <maintainableField name="fundBalanceIndicator" required="true" />
+                    <maintainableField name="financialReportingSortCode" required="true" />
+                    <maintainableField name="versionNumber" />
                 </maintainableItems>
-			</maintainableSection>
-		</maintainableSections>
-	</maintenanceDocument>
+            </maintainableSection>
+        </maintainableSections>
+    </maintenanceDocument>
 </dictionaryEntry>

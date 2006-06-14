@@ -3,77 +3,75 @@
     "-//Kuali Project//DTD Data Dictionary 1.0//EN"
     "../../../core/datadictionary/dataDictionary-1_0.dtd">
 <dictionaryEntry>
-	<businessObject businessObjectClass="org.kuali.module.chart.bo.IndirectCostRecoveryExclusionAccount">
-		<customAttributeEnabled>false</customAttributeEnabled>
+    <businessObject businessObjectClass="org.kuali.module.chart.bo.IndirectCostRecoveryExclusionAccount">
+        <customAttributeEnabled>false</customAttributeEnabled>
 
-		<inquiry>
-			<title>Indirect Cost Recovery Exclusion by Account Inquiry</title>
+        <inquiry>
+            <title>Indirect Cost Recovery Exclusion by Account Inquiry</title>
 
-			<inquiryFields>
-				<field attributeName="chartOfAccountsCode" />
-				<field attributeName="accountNumber" />			
-				<field attributeName="financialObjectChartOfAccountCode"  />
-				<field attributeName="financialObjectCode" />			
-			</inquiryFields>
-		</inquiry>
+            <inquiryFields>
+                <field attributeName="chartOfAccountsCode" />
+                <field attributeName="accountNumber" />
+                <field attributeName="financialObjectChartOfAccountCode" />
+                <field attributeName="financialObjectCode" />
+            </inquiryFields>
+        </inquiry>
 
-		<lookup>
-			<title>Indirect Cost Recovery Exclusion by Account Lookup</title>
+        <lookup>
+            <title>Indirect Cost Recovery Exclusion by Account Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.chart.bo.IndirectCostRecoveryExclusionAccount">Create New</a>]]></menubar>
+            <menubar>
+                <![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.chart.bo.IndirectCostRecoveryExclusionAccount">Create New</a>]]>
+            </menubar>
 
-			<instructions>Lookup an Indirect Cost Recovery Exclusion by Account</instructions>
+            <instructions>Lookup an Indirect Cost Recovery Exclusion by Account</instructions>
 
-			<defaultSort attributeName="accountNumber" sortAscending="true" />
+            <defaultSort attributeName="accountNumber" sortAscending="true" />
 
-			<lookupFields>
-				<lookupField attributeName="chartOfAccountsCode" required="false" />
-				<lookupField attributeName="accountNumber" required="false" />
-				<lookupField attributeName="financialObjectChartOfAccountCode" required="false" />
-				<lookupField attributeName="financialObjectCode" required="false" />
-			</lookupFields>
+            <lookupFields>
+                <lookupField attributeName="chartOfAccountsCode" required="false" />
+                <lookupField attributeName="accountNumber" required="false" />
+                <lookupField attributeName="financialObjectChartOfAccountCode" required="false" />
+                <lookupField attributeName="financialObjectCode" required="false" />
+            </lookupFields>
 
-			<resultFields>
-				<field attributeName="chartOfAccountsCode" />
-				<field attributeName="accountNumber" />			
-				<field attributeName="financialObjectChartOfAccountCode" />
-				<field attributeName="financialObjectCode"  />			
-			</resultFields>
-		</lookup>
+            <resultFields>
+                <field attributeName="chartOfAccountsCode" />
+                <field attributeName="accountNumber" />
+                <field attributeName="financialObjectChartOfAccountCode" />
+                <field attributeName="financialObjectCode" />
+            </resultFields>
+        </lookup>
 
-		<attributes>
-			<attributeReference name="chartOfAccountsCode" 
-								sourceClassName="org.kuali.module.chart.bo.Chart" 
-								sourceAttributeName="chartOfAccountsCode" >
-					<required>true</required>
-			</attributeReference>
+        <attributes>
+            <attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
+                <required>true</required>
+            </attributeReference>
 
 
-			<attribute name="accountNumber"	forceUppercase="false">
-				<label>Account Number</label>
-				<shortLabel>
-					Acct
-				</shortLabel>
+            <attribute name="accountNumber" forceUppercase="false">
+                <label>Account Number</label>
+                <shortLabel>Acct</shortLabel>
 
-				<maxLength>7</maxLength>
-				<validationPattern><anyCharacter /></validationPattern>
-				<required>true</required>
-				<control>
-					<text size="7" />
-				</control>
+                <maxLength>7</maxLength>
+                <validationPattern>
+                    <anyCharacter />
+                </validationPattern>
+                <required>true</required>
+                <control>
+                    <text size="7" />
+                </control>
 
-				<summary>Account Number</summary>
-				<description>
-					Account Number
-				</description>
-			</attribute>
+                <summary>Account Number</summary>
+                <description>Account Number</description>
+            </attribute>
 
-			<attribute name="financialObjectCode" forceUppercase="true">
+            <attribute name="financialObjectCode" forceUppercase="true">
                 <label>Object Code</label>
                 <shortLabel>Object</shortLabel>
 
                 <maxLength>4</maxLength>
-				<required>true</required>
+                <required>true</required>
                 <control>
                     <text size="4" />
                 </control>
@@ -83,24 +81,20 @@
             </attribute>
 
 
-			<attributeReference name="financialObjectChartOfAccountCode" 
-								sourceClassName="org.kuali.module.chart.bo.Chart" 
-								sourceAttributeName="chartOfAccountsCode">
-								<label>Object Chart</label>
-				                <shortLabel>Object Chart</shortLabel>
-				                <required>true</required>
-				                <control>
-									<select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" />
-								</control> 
-				                <summary>Object Chart</summary>
-								<description>Object Chart...</description>	                
-			</attributeReference>
+            <attributeReference name="financialObjectChartOfAccountCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
+                <label>Object Chart</label>
+                <shortLabel>Object Chart</shortLabel>
+                <required>true</required>
+                <control>
+                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" />
+                </control>
+                <summary>Object Chart</summary>
+                <description>Object Chart...</description>
+            </attributeReference>
 
- 			<attributeReference name="versionNumber" 
- 				sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
- 				sourceAttributeName="versionNumber" />
-			
-		</attributes>
-	</businessObject>
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+    </businessObject>
 </dictionaryEntry>
 

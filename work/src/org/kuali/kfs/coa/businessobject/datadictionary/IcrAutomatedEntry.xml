@@ -3,224 +3,212 @@
     "-//Kuali Project//DTD Data Dictionary 1.0//EN"
     "../../../core/datadictionary/dataDictionary-1_0.dtd">
 <dictionaryEntry>
-	<businessObject businessObjectClass="org.kuali.module.chart.bo.IcrAutomatedEntry">
-		<customAttributeEnabled>false</customAttributeEnabled>
+    <businessObject businessObjectClass="org.kuali.module.chart.bo.IcrAutomatedEntry">
+        <customAttributeEnabled>false</customAttributeEnabled>
 
-		<inquiry>
-			<title>Indirect Cost Recovery Automated Entry Inquiry</title>
- 
-			<inquiryFields>
-				<field attributeName="universityFiscalYear" />
-				<field attributeName="financialIcrSeriesIdentifier" />				
-				<field attributeName="financialBalanceTyp.code" />	
-				<field attributeName="awardIndrCostRcvyEntryNbr" />
-				<field attributeName="chartOfAccountsCode" />	
-				<field attributeName="accountNumber" />	
-				<field attributeName="subAccountNumber" />	
-				<field attributeName="financialObjectCode" />	
-				<field attributeName="financialSubObjectCode" />	
-				<field attributeName="offsetBalanceSheetObjectCodeNumber" />	
-				<field attributeName="transactionDebitIndicator" />	
-				<field attributeName="awardIndrCostRcvyRatePct" />								
-			</inquiryFields>
-		</inquiry>
+        <inquiry>
+            <title>Indirect Cost Recovery Automated Entry Inquiry</title>
 
-		<lookup>
-			<title>Indirect Cost Recovery Automated Entry Lookup</title>
+            <inquiryFields>
+                <field attributeName="universityFiscalYear" />
+                <field attributeName="financialIcrSeriesIdentifier" />
+                <field attributeName="financialBalanceTyp.code" />
+                <field attributeName="awardIndrCostRcvyEntryNbr" />
+                <field attributeName="chartOfAccountsCode" />
+                <field attributeName="accountNumber" />
+                <field attributeName="subAccountNumber" />
+                <field attributeName="financialObjectCode" />
+                <field attributeName="financialSubObjectCode" />
+                <field attributeName="offsetBalanceSheetObjectCodeNumber" />
+                <field attributeName="transactionDebitIndicator" />
+                <field attributeName="awardIndrCostRcvyRatePct" />
+            </inquiryFields>
+        </inquiry>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.chart.bo.IcrAutomatedEntry">Create New</a>]]></menubar>
+        <lookup>
+            <title>Indirect Cost Recovery Automated Entry Lookup</title>
 
-			<instructions>Lookup an Indirect Cost Recovery Automated Entry</instructions>
+            <menubar>
+                <![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.chart.bo.IcrAutomatedEntry">Create New</a>]]>
+            </menubar>
 
-			<defaultSort attributeName="accountNumber" sortAscending="true" />
+            <instructions>Lookup an Indirect Cost Recovery Automated Entry</instructions>
 
-			<lookupFields>
-				<lookupField attributeName="universityFiscalYear" required="false" />
-				<lookupField attributeName="financialIcrSeriesIdentifier" required="false" />
-				<lookupField attributeName="financialBalanceTyp.code" required="false" />
-				<lookupField attributeName="chartOfAccountsCode" required="false" />
-				<lookupField attributeName="accountNumber" required="false" />
-				<lookupField attributeName="financialObjectCode" required="false" />
-				<lookupField attributeName="offsetBalanceSheetObjectCodeNumber" required="false" />
-			</lookupFields>
+            <defaultSort attributeName="accountNumber" sortAscending="true" />
 
-			<resultFields>
-				<field attributeName="universityFiscalYear" />
-				<field attributeName="financialIcrSeriesIdentifier" />				
-				<field attributeName="financialBalanceTyp.code" />	
-				<field attributeName="awardIndrCostRcvyEntryNbr" />
-				<field attributeName="chartOfAccountsCode" />	
-				<field attributeName="accountNumber" />	
-				<field attributeName="subAccountNumber" />	
-				<field attributeName="financialObjectCode" />	
-				<field attributeName="financialSubObjectCode" />	
-				<field attributeName="offsetBalanceSheetObjectCodeNumber" />	
-				<field attributeName="transactionDebitIndicator" />	
-				<!--  <field attributeName="awardIndrCostRcvyRatePct" /> -->
-			</resultFields>
-		</lookup>
+            <lookupFields>
+                <lookupField attributeName="universityFiscalYear" required="false" />
+                <lookupField attributeName="financialIcrSeriesIdentifier" required="false" />
+                <lookupField attributeName="financialBalanceTyp.code" required="false" />
+                <lookupField attributeName="chartOfAccountsCode" required="false" />
+                <lookupField attributeName="accountNumber" required="false" />
+                <lookupField attributeName="financialObjectCode" required="false" />
+                <lookupField attributeName="offsetBalanceSheetObjectCodeNumber" required="false" />
+            </lookupFields>
 
-		<attributes>
-		
-			<attributeReference name="universityFiscalYear" 
-								sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
-								sourceAttributeName="genericFiscalYear">
-			<required>true</required>					
-			</attributeReference>			
-			<attribute name="financialIcrSeriesIdentifier" forceUppercase="true">
-				<label>Series Id</label>
-				<shortLabel>Series Id</shortLabel>
-				<maxLength>4</maxLength>
-				<validationPattern><numeric /></validationPattern>
-				<required>true</required>
-				<control>
-					<text size="4" />
-				</control>
-				<summary>Series Id</summary>
-				<description>Series Id</description>
-			</attribute>
-		      
-            <attributeReference name="financialBalanceTyp.code" 
-            					sourceClassName="org.kuali.module.chart.bo.codes.BalanceTyp" 
-            					sourceAttributeName="code">
-            <required>true</required>
+            <resultFields>
+                <field attributeName="universityFiscalYear" />
+                <field attributeName="financialIcrSeriesIdentifier" />
+                <field attributeName="financialBalanceTyp.code" />
+                <field attributeName="awardIndrCostRcvyEntryNbr" />
+                <field attributeName="chartOfAccountsCode" />
+                <field attributeName="accountNumber" />
+                <field attributeName="subAccountNumber" />
+                <field attributeName="financialObjectCode" />
+                <field attributeName="financialSubObjectCode" />
+                <field attributeName="offsetBalanceSheetObjectCodeNumber" />
+                <field attributeName="transactionDebitIndicator" />
+                <!--  <field attributeName="awardIndrCostRcvyRatePct" /> -->
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attributeReference name="universityFiscalYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear">
+                <required>true</required>
             </attributeReference>
-          	
-          	<attribute name="awardIndrCostRcvyEntryNbr" forceUppercase="true">
-				<label>ICR Entry Number</label>
-				<shortLabel>Number</shortLabel>
-				<maxLength>2</maxLength>
-				<validationPattern><numeric /></validationPattern>
-				<required>true</required>
-				<control>
-					<text size="3" />
-				</control>
-				<summary>Award Indirect Cost Recovery Entry Number</summary>
-				<description>A unique number to make a record in this table unique.</description>
-			</attribute>
-	
-			<attribute
-      			 	name="chartOfAccountsCode"
-      	 			forceUppercase="true">
-       			<label>Chart Code</label>
-       			<shortLabel>Chart</shortLabel>
-       			<maxLength>2</maxLength>
-       	 		<validationPattern>
-        	  		<anyCharacter />
-				</validationPattern>
-				<required>true</required>
-				<control>
-					<text size="2" />
-				</control>
-       			<summary>Chart of Accounts Code</summary>
-        		<description>Financial Chart of Accounts Code</description>
-			</attribute>
+            <attribute name="financialIcrSeriesIdentifier" forceUppercase="true">
+                <label>Series Id</label>
+                <shortLabel>Series Id</shortLabel>
+                <maxLength>4</maxLength>
+                <validationPattern>
+                    <numeric />
+                </validationPattern>
+                <required>true</required>
+                <control>
+                    <text size="4" />
+                </control>
+                <summary>Series Id</summary>
+                <description>Series Id</description>
+            </attribute>
 
-			<attribute
-      			 	name="accountNumber"
-      	 			forceUppercase="true">
-       			<label>Account</label>
-       			<shortLabel>ACCT</shortLabel>
-       			<maxLength>7</maxLength>
-       	 		<validationPattern>
-        	  		<anyCharacter />
-				</validationPattern>
-				<required>true</required>
-				<control>
-					<text size="7" />
-				</control>
+            <attributeReference name="financialBalanceTyp.code" sourceClassName="org.kuali.module.chart.bo.codes.BalanceTyp" sourceAttributeName="code">
+                <required>true</required>
+            </attributeReference>
 
-       			<summary>Account Number</summary>
-        		<description>Account Number</description>
-			</attribute>
+            <attribute name="awardIndrCostRcvyEntryNbr" forceUppercase="true">
+                <label>ICR Entry Number</label>
+                <shortLabel>Number</shortLabel>
+                <maxLength>2</maxLength>
+                <validationPattern>
+                    <numeric />
+                </validationPattern>
+                <required>true</required>
+                <control>
+                    <text size="3" />
+                </control>
+                <summary>Award Indirect Cost Recovery Entry Number</summary>
+                <description>A unique number to make a record in this table unique.</description>
+            </attribute>
 
-			<attribute
-      			 	name="subAccountNumber"
-      	 			forceUppercase="true">
-       			<label>Sub-Account</label>
-       			<shortLabel>SubAcct</shortLabel>
+            <attribute name="chartOfAccountsCode" forceUppercase="true">
+                <label>Chart Code</label>
+                <shortLabel>Chart</shortLabel>
+                <maxLength>2</maxLength>
+                <validationPattern>
+                    <anyCharacter />
+                </validationPattern>
+                <required>true</required>
+                <control>
+                    <text size="2" />
+                </control>
+                <summary>Chart of Accounts Code</summary>
+                <description>Financial Chart of Accounts Code</description>
+            </attribute>
 
-       			<maxLength>5</maxLength>
-       	 		<validationPattern>
-        	  		<anyCharacter />
-				</validationPattern>
-				<required>true</required>
-				<control>
-					<text size="5" />
-				</control>
+            <attribute name="accountNumber" forceUppercase="true">
+                <label>Account</label>
+                <shortLabel>ACCT</shortLabel>
+                <maxLength>7</maxLength>
+                <validationPattern>
+                    <anyCharacter />
+                </validationPattern>
+                <required>true</required>
+                <control>
+                    <text size="7" />
+                </control>
 
-       			<summary>Sub-Account Number</summary>
-        		<description>Sub-Account Number</description>
-			</attribute>
-													
-            <attributeReference name="financialObjectCode" 
-            					sourceClassName="org.kuali.module.chart.bo.ObjectCode" 
-            					sourceAttributeName="financialObjectCode">
-			<required>true</required>
-			</attributeReference>
+                <summary>Account Number</summary>
+                <description>Account Number</description>
+            </attribute>
 
-			<attribute
-      			 	name="financialSubObjectCode"
-      	 			forceUppercase="true">
-       			<label>SubObject Code</label>
-       			<shortLabel>SubObject</shortLabel>
+            <attribute name="subAccountNumber" forceUppercase="true">
+                <label>Sub-Account</label>
+                <shortLabel>SubAcct</shortLabel>
 
-       			<maxLength>3</maxLength>
-       	 		<validationPattern>
-        	  		<anyCharacter />
-				</validationPattern>
-				<required>true</required>
-				<control>
-					<text size="3" />
-				</control>
+                <maxLength>5</maxLength>
+                <validationPattern>
+                    <anyCharacter />
+                </validationPattern>
+                <required>true</required>
+                <control>
+                    <text size="5" />
+                </control>
 
-       			<summary>SubObject Code</summary>
-        		<description>SubObject Code</description>
-			</attribute>
-								
-            <attributeReference name="offsetBalanceSheetObjectCodeNumber" 
-            					sourceClassName="org.kuali.module.chart.bo.ObjectCode" 
-            					sourceAttributeName="financialObjectCode">
- 				<label>Offset Object</label>
-				<shortLabel>Offset Object</shortLabel>
-				<required>true</required>
-				<summary>Offset Object</summary>
-				<description>Offset Object</description>
-				
-			</attributeReference>
-            					
-			<attribute name="transactionDebitIndicator" forceUppercase="true">
-				<label>Transaction Debit Credit Code</label>
-				<shortLabel>D/C</shortLabel>
+                <summary>Sub-Account Number</summary>
+                <description>Sub-Account Number</description>
+            </attribute>
 
-				<maxLength>1</maxLength>
-				<validationPattern><charset validChars="CD" /></validationPattern>
-				<required>true</required>
-				<control>
-					<text size="1" />
-				</control>
+            <attributeReference name="financialObjectCode" sourceClassName="org.kuali.module.chart.bo.ObjectCode" sourceAttributeName="financialObjectCode">
+                <required>true</required>
+            </attributeReference>
 
-				<summary>Object Type Debit Credit Code</summary>
-				<description>The unique code indicating that the object type is a credit or a debit.</description>
-			</attribute>
+            <attribute name="financialSubObjectCode" forceUppercase="true">
+                <label>SubObject Code</label>
+                <shortLabel>SubObject</shortLabel>
+
+                <maxLength>3</maxLength>
+                <validationPattern>
+                    <anyCharacter />
+                </validationPattern>
+                <required>true</required>
+                <control>
+                    <text size="3" />
+                </control>
+
+                <summary>SubObject Code</summary>
+                <description>SubObject Code</description>
+            </attribute>
+
+            <attributeReference name="offsetBalanceSheetObjectCodeNumber" sourceClassName="org.kuali.module.chart.bo.ObjectCode" sourceAttributeName="financialObjectCode">
+                <label>Offset Object</label>
+                <shortLabel>Offset Object</shortLabel>
+                <required>true</required>
+                <summary>Offset Object</summary>
+                <description>Offset Object</description>
+
+            </attributeReference>
+
+            <attribute name="transactionDebitIndicator" forceUppercase="true">
+                <label>Transaction Debit Credit Code</label>
+                <shortLabel>D/C</shortLabel>
+
+                <maxLength>1</maxLength>
+                <validationPattern>
+                    <charset validChars="CD" />
+                </validationPattern>
+                <required>true</required>
+                <control>
+                    <text size="1" />
+                </control>
+
+                <summary>Object Type Debit Credit Code</summary>
+                <description>The unique code indicating that the object type is a credit or a debit.</description>
+            </attribute>
 
 
- 			<attributeReference name="awardIndrCostRcvyRatePct" 
-								sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
-								sourceAttributeName="percent">
-				<label>ICR Percent</label>
-				<shortLabel>Rate%</shortLabel>
-				<required>true</required>
-				<summary>Award Indirect Cost Recovery Rate Percent</summary>
-				<description>Award Indirect Cost Recovery Rate Percent</description>
-			</attributeReference>
+            <attributeReference name="awardIndrCostRcvyRatePct" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="percent">
+                <label>ICR Percent</label>
+                <shortLabel>Rate%</shortLabel>
+                <required>true</required>
+                <summary>Award Indirect Cost Recovery Rate Percent</summary>
+                <description>Award Indirect Cost Recovery Rate Percent</description>
+            </attributeReference>
 
 
- 			<attributeReference name="versionNumber" 
- 				sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
- 				sourceAttributeName="versionNumber" />
-			
-		</attributes>
-	</businessObject>
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+    </businessObject>
 </dictionaryEntry>
 

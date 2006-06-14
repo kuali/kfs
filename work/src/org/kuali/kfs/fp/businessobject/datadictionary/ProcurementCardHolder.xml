@@ -32,20 +32,20 @@
         </inquiry>
 
         <attributes>
-        
-            <attributeReference name="accountNumber"
-					            sourceClassName="org.kuali.module.chart.bo.Account"
-					            sourceAttributeName="accountNumber">
-				<label>Default Account</label>
-				<shortLabel>Dflt Acct</shortLabel>
-		    </attributeReference>	            
+
+            <attributeReference name="accountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber">
+                <label>Default Account</label>
+                <shortLabel>Dflt Acct</shortLabel>
+            </attributeReference>
 
             <attribute name="cardCycleAmountLimit" forceUppercase="true">
                 <label>Card Cycle Amount Limit</label>
                 <shortLabel>Limit</shortLabel>
 
                 <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
+                <validationPattern>
+                    <floatingPoint />
+                </validationPattern>
 
                 <control>
                     <text size="21" />
@@ -53,14 +53,16 @@
 
                 <summary>cardCycleAmountLimit</summary>
                 <description>cardCycleAmountLimit description...</description>
-			</attribute>
+            </attribute>
 
             <attribute name="cardCycleVolumeLimit" forceUppercase="true">
                 <label>Card Cycle Volume Limit</label>
                 <shortLabel>Limit</shortLabel>
 
                 <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
+                <validationPattern>
+                    <floatingPoint />
+                </validationPattern>
 
                 <control>
                     <text size="21" />
@@ -68,7 +70,7 @@
 
                 <summary>cardCycleVolumeLimit</summary>
                 <description>cardCycleVolumeLimit description...</description>
-			</attribute>
+            </attribute>
 
             <attribute name="cardHolderAlternateName" forceUppercase="true">
                 <label>Card Holder Alternate Name</label>
@@ -82,7 +84,7 @@
 
                 <summary>cardHolderAlternateName</summary>
                 <description>cardHolderAlternateName description...</description>
-			</attribute>
+            </attribute>
 
             <attribute name="cardHolderCityName" forceUppercase="true">
                 <label>Card Holder City Name</label>
@@ -96,7 +98,7 @@
 
                 <summary>cardHolderCityName</summary>
                 <description>cardHolderCityName description...</description>
-			</attribute>
+            </attribute>
 
             <attribute name="cardHolderLine1Address" forceUppercase="true">
                 <label>Card Holder Line1 Address</label>
@@ -110,7 +112,7 @@
 
                 <summary>cardHolderLine1Address</summary>
                 <description>cardHolderLine1Address description...</description>
-			</attribute>
+            </attribute>
 
             <attribute name="cardHolderLine2Address" forceUppercase="true">
                 <label>Card Holder Line2 Address</label>
@@ -124,7 +126,7 @@
 
                 <summary>cardHolderLine2Address</summary>
                 <description>cardHolderLine2Address description...</description>
-			</attribute>
+            </attribute>
 
             <attribute name="cardHolderName" forceUppercase="true">
                 <label>Card Holder Name</label>
@@ -138,7 +140,7 @@
 
                 <summary>cardHolderName</summary>
                 <description>cardHolderName description...</description>
-			</attribute>
+            </attribute>
 
             <attribute name="cardHolderStateCode" forceUppercase="true">
                 <label>Card Holder State Code</label>
@@ -152,7 +154,7 @@
 
                 <summary>cardHolderStateCode</summary>
                 <description>cardHolderStateCode description...</description>
-			</attribute>
+            </attribute>
 
             <attribute name="cardHolderWorkPhoneNumber" forceUppercase="true">
                 <label>Card Holder Work Phone Number</label>
@@ -166,7 +168,7 @@
 
                 <summary>cardHolderWorkPhoneNumber</summary>
                 <description>cardHolderWorkPhoneNumber description...</description>
-			</attribute>
+            </attribute>
 
             <attribute name="cardHolderZipCode" forceUppercase="true">
                 <label>Card Holder Zip Code</label>
@@ -180,14 +182,16 @@
 
                 <summary>cardHolderZipCode</summary>
                 <description>cardHolderZipCode description...</description>
-			</attribute>
+            </attribute>
 
             <attribute name="cardLimit" forceUppercase="true">
                 <label>Card Limit</label>
                 <shortLabel>Limit</shortLabel>
 
                 <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
+                <validationPattern>
+                    <floatingPoint />
+                </validationPattern>
 
                 <control>
                     <text size="21" />
@@ -195,7 +199,7 @@
 
                 <summary>cardLimit</summary>
                 <description>cardLimit description...</description>
-			</attribute>
+            </attribute>
 
             <attribute name="cardNoteText" forceUppercase="true">
                 <label>Card Note Text</label>
@@ -209,7 +213,7 @@
 
                 <summary>cardNoteText</summary>
                 <description>cardNoteText description...</description>
-			</attribute>
+            </attribute>
 
             <attribute name="cardStatusCode" forceUppercase="true">
                 <label>Card Status Code</label>
@@ -223,25 +227,19 @@
 
                 <summary>cardStatusCode</summary>
                 <description>cardStatusCode description...</description>
-			</attribute>
-			
-			<attributeReference name="chartOfAccountsCode"
-					            sourceClassName="org.kuali.module.chart.bo.Chart"
-					            sourceAttributeName="chartOfAccountsCode">
-				<label>Default Chart</label>
-				<shortLabel>Dflt Chrt</shortLabel>
-		    </attributeReference>
-		    
-		    <attributeReference name="financialDocumentNumber"
-					            sourceClassName="org.kuali.core.document.DocumentHeader"
-					            sourceAttributeName="financialDocumentNumber"/>
+            </attribute>
 
-			<attributeReference name="subAccountNumber"
-					            sourceClassName="org.kuali.module.chart.bo.SubAccount"
-					            sourceAttributeName="subAccountNumber">
-				<label>Default Sub-Account</label>
-				<shortLabel>Dflt Sub-Acct</shortLabel>
-		    </attributeReference>
+            <attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
+                <label>Default Chart</label>
+                <shortLabel>Dflt Chrt</shortLabel>
+            </attributeReference>
+
+            <attributeReference name="financialDocumentNumber" sourceClassName="org.kuali.core.document.DocumentHeader" sourceAttributeName="financialDocumentNumber" />
+
+            <attributeReference name="subAccountNumber" sourceClassName="org.kuali.module.chart.bo.SubAccount" sourceAttributeName="subAccountNumber">
+                <label>Default Sub-Account</label>
+                <shortLabel>Dflt Sub-Acct</shortLabel>
+            </attributeReference>
 
             <attribute name="transactionCreditCardNumber" forceUppercase="true">
                 <label>Transaction Credit Card Number</label>
@@ -255,11 +253,9 @@
 
                 <summary>transactionCreditCardNumber</summary>
                 <description>transactionCreditCardNumber description...</description>
-			</attribute>
+            </attribute>
 
-            <attributeReference name="versionNumber"
-            					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
-            					sourceAttributeName="versionNumber"/>
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 
         </attributes>
     </businessObject>

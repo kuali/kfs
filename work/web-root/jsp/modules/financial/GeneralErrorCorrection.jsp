@@ -1,29 +1,31 @@
-<%@ include file="/jsp/core/tldHeader.jsp" %>
+<%@ include file="/jsp/core/tldHeader.jsp"%>
 
-<kul:documentPage showDocumentInfo="true" 
-	documentTypeName="KualiGeneralErrorCorrectionDocument" htmlFormAction="financialGeneralErrorCorrection"  renderMultipart="true" showTabButtons="true">
+<kul:documentPage showDocumentInfo="true"
+	documentTypeName="KualiGeneralErrorCorrectionDocument"
+	htmlFormAction="financialGeneralErrorCorrection" renderMultipart="true"
+	showTabButtons="true">
 
-		<html:hidden property="document.nextSourceLineNumber"/>
-		<html:hidden property="document.nextTargetLineNumber"/>
-		<kul:hiddenDocumentFields />
+	<html:hidden property="document.nextSourceLineNumber" />
+	<html:hidden property="document.nextTargetLineNumber" />
+	<kul:hiddenDocumentFields />
 
-		<kul:documentOverview editingMode="${KualiForm.editingMode}"/>
+	<kul:documentOverview editingMode="${KualiForm.editingMode}" />
 
-        <fin:accountingLines editingMode="${KualiForm.editingMode}" 
-                        editableAccounts="${KualiForm.editableAccounts}"
-                        extraSourceRowFields="referenceOriginCode,referenceNumber,financialDocumentLineDescription"
-                        extraTargetRowFields="referenceOriginCode,referenceNumber,financialDocumentLineDescription"/>
+	<fin:accountingLines editingMode="${KualiForm.editingMode}"
+		editableAccounts="${KualiForm.editableAccounts}"
+		extraSourceRowFields="referenceOriginCode,referenceNumber,financialDocumentLineDescription"
+		extraTargetRowFields="referenceOriginCode,referenceNumber,financialDocumentLineDescription" />
 
-		<kul:generalLedgerPendingEntries/>
+	<kul:generalLedgerPendingEntries />
 
-		<kul:notes/>
-						
-		<kul:adHocRecipients/>
-			
-		<kul:routeLog/>
+	<kul:notes />
 
-		<kul:panelFooter/>
+	<kul:adHocRecipients />
 
-		<kul:documentControls transactionalDocument="true" />
+	<kul:routeLog />
+
+	<kul:panelFooter />
+
+	<kul:documentControls transactionalDocument="true" />
 
 </kul:documentPage>

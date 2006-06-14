@@ -1,8 +1,10 @@
-<%@ include file="/jsp/core/tldHeader.jsp" %>
-<kul:documentPage showDocumentInfo="true" documentTypeName="KualiBudgetAdjustmentDocument" htmlFormAction="financialBudgetAdjustment"
-                  renderMultipart="true" showTabButtons="true">
+<%@ include file="/jsp/core/tldHeader.jsp"%>
+<kul:documentPage showDocumentInfo="true"
+	documentTypeName="KualiBudgetAdjustmentDocument"
+	htmlFormAction="financialBudgetAdjustment" renderMultipart="true"
+	showTabButtons="true">
 
-<SCRIPT type="text/javascript">
+	<SCRIPT type="text/javascript">
 <!--
     function submitForm() {
         document.forms[0].submit();
@@ -10,30 +12,28 @@
 //-->
 </SCRIPT>
 
-		<html:hidden property="document.nextSourceLineNumber"/>
-		<html:hidden property="document.nextTargetLineNumber"/>
+	<html:hidden property="document.nextSourceLineNumber" />
+	<html:hidden property="document.nextTargetLineNumber" />
 
-		<kul:hiddenDocumentFields excludePostingYear="true"/>
+	<kul:hiddenDocumentFields excludePostingYear="true" />
 
-        <kul:documentOverview editingMode="${KualiForm.editingMode}" includePostingYear="true"/>
+	<kul:documentOverview editingMode="${KualiForm.editingMode}"
+		includePostingYear="true" />
 
-        <fin:accountingLines 
-            editingMode="${KualiForm.editingMode}" 
-            editableAccounts="${KualiForm.editableAccounts}" 
-            currentBaseAmount="true"
-            displayMonthlyAmounts="true"
-            />
+	<fin:accountingLines editingMode="${KualiForm.editingMode}"
+		editableAccounts="${KualiForm.editableAccounts}"
+		currentBaseAmount="true" displayMonthlyAmounts="true" />
 
-		<kul:generalLedgerPendingEntries/>
+	<kul:generalLedgerPendingEntries />
 
-		<kul:notes/>
+	<kul:notes />
 
-		<kul:adHocRecipients/>
+	<kul:adHocRecipients />
 
-		<kul:routeLog/>
+	<kul:routeLog />
 
-		<kul:panelFooter/>
+	<kul:panelFooter />
 
-		<kul:documentControls transactionalDocument="true" />
+	<kul:documentControls transactionalDocument="true" />
 
 </kul:documentPage>

@@ -4,10 +4,10 @@
     "../../../../core/datadictionary/dataDictionary-1_0.dtd">
 
 <dictionaryEntry>
-	<maintenanceDocument>
+    <maintenanceDocument>
         <businessObjectClass>org.kuali.module.financial.bo.BankAccount</businessObjectClass>
         <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
-		<businessRulesClass>org.kuali.module.financial.rules.BankAccountRule</businessRulesClass>
+        <businessRulesClass>org.kuali.module.financial.rules.BankAccountRule</businessRulesClass>
         <documentAuthorizerClass>org.kuali.core.document.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
         <authorizations>
             <authorization action="initiate">
@@ -17,59 +17,46 @@
             </authorization>
         </authorizations>
 
-		<documentTypeName>KualiBankAccountMaintenanceDocument</documentTypeName>
-		<documentTypeCode>BACC</documentTypeCode>
+        <documentTypeName>KualiBankAccountMaintenanceDocument</documentTypeName>
+        <documentTypeCode>BACC</documentTypeCode>
 
-		<label>Bank Account Maintenance Document</label>
-		<shortLabel>BankAcctMaintDoc</shortLabel>
-		
-		<summary>Bank Account maintenance document</summary>
-		<description>Document used to create or update Bank Account objects</description>
+        <label>Bank Account Maintenance Document</label>
+        <shortLabel>BankAcctMaintDoc</shortLabel>
+
+        <summary>Bank Account maintenance document</summary>
+        <description>Document used to create or update Bank Account objects</description>
 
         <lockingKeys>
-			<field attributeName="financialDocumentBankCode" />
-			<field attributeName="finDocumentBankAccountNumber" />
-		</lockingKeys>        
+            <field attributeName="financialDocumentBankCode" />
+            <field attributeName="finDocumentBankAccountNumber" />
+        </lockingKeys>
 
-		<defaultExistenceChecks>
-			<reference  attributeName="bank" 
-						attributeToHighlightOnFail="financialDocumentBankCode" />
-			<reference  attributeName="chart" 
-						attributeToHighlightOnFail="chartOfAccountsCode" 
-						activeIndicatorAttributeName="finChartOfAccountActiveIndicator" />
-			<reference  attributeName="cashOffsetAccount" 
-						attributeToHighlightOnFail="cashOffsetAccountNumber" 
-						activeIndicatorAttributeName="accountClosedIndicator" 
-						activeIndicatorReversed="true" />
-			<reference  attributeName="organization" 
-						attributeToHighlightOnFail="organizationCode" 
-						activeIndicatorAttributeName="organizationActiveIndicator" />
-			<reference  attributeName="universityAccount" 
-						attributeToHighlightOnFail="universityAccountNumber" 
-						activeIndicatorAttributeName="accountClosedIndicator" 
-						activeIndicatorReversed="true" />
-			<reference  attributeName="cashOffsetObject" 
-						attributeToHighlightOnFail="cashOffsetObjectCode" 
-						activeIndicatorAttributeName="financialObjectActiveCode" />
-		</defaultExistenceChecks>
-		
-	    <maintainableSections>
-	        <maintainableSection title="Edit Bank Account">
-	           	 <maintainableItems>
-	            	<maintainableField name="financialDocumentBankCode" required="true" />
-	           		<maintainableField name="finDocumentBankAccountNumber" required="true" />
-	           		<maintainableField name="finDocumentBankAccountDesc" required="true" />	           		
-	           		<maintainableField name="chartOfAccountsCode" />
-	            	<maintainableField name="organizationCode" />	     
-	            	<maintainableField name="universityAcctChartOfAcctCd" />
-	            	<maintainableField name="universityAccountNumber" />	     	                   
-				    <maintainableField name="cashOffsetFinancialChartOfAccountCode" />
-				    <maintainableField name="cashOffsetAccountNumber" />				
-				    <maintainableField name="cashOffsetObjectCode" />				
-				    <maintainableField name="cashOffsetSubObjectCode" />
-				    <maintainableField name="versionNumber" />
-	         	</maintainableItems>
-	        </maintainableSection>
-	    </maintainableSections>
-	</maintenanceDocument>
+        <defaultExistenceChecks>
+            <reference attributeName="bank" attributeToHighlightOnFail="financialDocumentBankCode" />
+            <reference attributeName="chart" attributeToHighlightOnFail="chartOfAccountsCode" activeIndicatorAttributeName="finChartOfAccountActiveIndicator" />
+            <reference attributeName="cashOffsetAccount" attributeToHighlightOnFail="cashOffsetAccountNumber" activeIndicatorAttributeName="accountClosedIndicator" activeIndicatorReversed="true" />
+            <reference attributeName="organization" attributeToHighlightOnFail="organizationCode" activeIndicatorAttributeName="organizationActiveIndicator" />
+            <reference attributeName="universityAccount" attributeToHighlightOnFail="universityAccountNumber" activeIndicatorAttributeName="accountClosedIndicator" activeIndicatorReversed="true" />
+            <reference attributeName="cashOffsetObject" attributeToHighlightOnFail="cashOffsetObjectCode" activeIndicatorAttributeName="financialObjectActiveCode" />
+        </defaultExistenceChecks>
+
+        <maintainableSections>
+            <maintainableSection title="Edit Bank Account">
+                <maintainableItems>
+                    <maintainableField name="financialDocumentBankCode" required="true" />
+                    <maintainableField name="finDocumentBankAccountNumber" required="true" />
+                    <maintainableField name="finDocumentBankAccountDesc" required="true" />
+                    <maintainableField name="chartOfAccountsCode" />
+                    <maintainableField name="organizationCode" />
+                    <maintainableField name="universityAcctChartOfAcctCd" />
+                    <maintainableField name="universityAccountNumber" />
+                    <maintainableField name="cashOffsetFinancialChartOfAccountCode" />
+                    <maintainableField name="cashOffsetAccountNumber" />
+                    <maintainableField name="cashOffsetObjectCode" />
+                    <maintainableField name="cashOffsetSubObjectCode" />
+                    <maintainableField name="versionNumber" />
+                </maintainableItems>
+            </maintainableSection>
+        </maintainableSections>
+    </maintenanceDocument>
 </dictionaryEntry>

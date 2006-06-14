@@ -2,14 +2,14 @@
 <!DOCTYPE dictionaryEntry PUBLIC
     "-//Kuali Project//DTD Data Dictionary 1.0//EN"
     "../../../../core/datadictionary/dataDictionary-1_0.dtd">
-    
+
 <dictionaryEntry>
-	<maintenanceDocument>
-		<businessObjectClass>org.kuali.module.chart.bo.IcrAutomatedEntry</businessObjectClass>
-		<maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
-		<businessRulesClass>org.kuali.module.chart.rules.IcrAutomatedEntryRule</businessRulesClass>
-		<preRulesCheckClass>org.kuali.module.chart.rules.IcrAutomatedEntryPreRules</preRulesCheckClass>
-   		<documentAuthorizerClass>org.kuali.core.document.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
+    <maintenanceDocument>
+        <businessObjectClass>org.kuali.module.chart.bo.IcrAutomatedEntry</businessObjectClass>
+        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+        <businessRulesClass>org.kuali.module.chart.rules.IcrAutomatedEntryRule</businessRulesClass>
+        <preRulesCheckClass>org.kuali.module.chart.rules.IcrAutomatedEntryPreRules</preRulesCheckClass>
+        <documentAuthorizerClass>org.kuali.core.document.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
 
         <authorizations>
             <authorization action="initiate">
@@ -19,46 +19,43 @@
             </authorization>
         </authorizations>
 
-		<documentTypeName>KualiIcrAutomatedEntryMaintenanceDocument</documentTypeName>
-		<documentTypeCode>ICRE</documentTypeCode>
-		<label>Indirect Cost Recovery Automated Entry Maintenance Document</label>
-		<shortLabel>ICRAutotomatedEntryMaintenanceDoc</shortLabel>
-		<summary>Indirect Cost Recovery Automated Entry Maintenance Document</summary>
-		<description>
-			Maintenance document which allows you to create new Indirect Cost Recovery Automated Entries, or modify existing Indirect Cost Recovery Automated Entries.
-		</description>
-		
+        <documentTypeName>KualiIcrAutomatedEntryMaintenanceDocument</documentTypeName>
+        <documentTypeCode>ICRE</documentTypeCode>
+        <label>Indirect Cost Recovery Automated Entry Maintenance Document</label>
+        <shortLabel>ICRAutotomatedEntryMaintenanceDoc</shortLabel>
+        <summary>Indirect Cost Recovery Automated Entry Maintenance Document</summary>
+        <description>Maintenance document which allows you to create new Indirect Cost Recovery Automated Entries, or modify existing Indirect Cost Recovery Automated Entries.</description>
+
         <lockingKeys>
-				<field attributeName="universityFiscalYear" />
-				<field attributeName="financialIcrSeriesIdentifier" />				
-				<field attributeName="financialBalanceTyp.code" />	
-				<field attributeName="awardIndrCostRcvyEntryNbr" />
-		</lockingKeys>	
-		 		
-   		<defaultExistenceChecks>
-   			<reference  attributeName="universityFiscal" 
-   						attributeToHighlightOnFail="universityFiscalYear" />
-   		</defaultExistenceChecks>
-	
-		<maintainableSections>
-			<maintainableSection title="Edit ICR Automated Entry">
+            <field attributeName="universityFiscalYear" />
+            <field attributeName="financialIcrSeriesIdentifier" />
+            <field attributeName="financialBalanceTyp.code" />
+            <field attributeName="awardIndrCostRcvyEntryNbr" />
+        </lockingKeys>
+
+        <defaultExistenceChecks>
+            <reference attributeName="universityFiscal" attributeToHighlightOnFail="universityFiscalYear" />
+        </defaultExistenceChecks>
+
+        <maintainableSections>
+            <maintainableSection title="Edit ICR Automated Entry">
                 <maintainableItems>
-					<maintainableField name="universityFiscalYear" required="true" />
-					<maintainableField name="financialIcrSeriesIdentifier" required="true" />
-					<maintainableField name="financialBalanceTyp.code" required="true" />
-					<maintainableField name="awardIndrCostRcvyEntryNbr" required="true" />
-					<maintainableField name="chartOfAccountsCode" required="true" />
-					<maintainableField name="accountNumber" required="true" />					
-					<maintainableField name="subAccountNumber" required="true" />										
-					<maintainableField name="financialObjectCode" required="true" />					
-					<maintainableField name="financialSubObjectCode" required="true" />
-					<maintainableField name="offsetBalanceSheetObjectCodeNumber" required="true" />					
-					<maintainableField name="transactionDebitIndicator" required="true" />
-					<maintainableField name="awardIndrCostRcvyRatePct" required="true" />															
-					<maintainableField name="versionNumber" />
+                    <maintainableField name="universityFiscalYear" required="true" />
+                    <maintainableField name="financialIcrSeriesIdentifier" required="true" />
+                    <maintainableField name="financialBalanceTyp.code" required="true" />
+                    <maintainableField name="awardIndrCostRcvyEntryNbr" required="true" />
+                    <maintainableField name="chartOfAccountsCode" required="true" />
+                    <maintainableField name="accountNumber" required="true" />
+                    <maintainableField name="subAccountNumber" required="true" />
+                    <maintainableField name="financialObjectCode" required="true" />
+                    <maintainableField name="financialSubObjectCode" required="true" />
+                    <maintainableField name="offsetBalanceSheetObjectCodeNumber" required="true" />
+                    <maintainableField name="transactionDebitIndicator" required="true" />
+                    <maintainableField name="awardIndrCostRcvyRatePct" required="true" />
+                    <maintainableField name="versionNumber" />
                 </maintainableItems>
-			</maintainableSection>
-		</maintainableSections>
-	</maintenanceDocument>
+            </maintainableSection>
+        </maintainableSections>
+    </maintenanceDocument>
 
 </dictionaryEntry>

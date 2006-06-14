@@ -2,13 +2,13 @@
 <!DOCTYPE dictionaryEntry PUBLIC
     "-//Kuali Project//DTD Data Dictionary 1.0//EN"
     "../../../../core/datadictionary/dataDictionary-1_0.dtd">
-    
+
 <dictionaryEntry>
-	<maintenanceDocument>
-		<businessObjectClass>org.kuali.module.chart.bo.ObjectCons</businessObjectClass>
-		<maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
-		<businessRulesClass>org.kuali.module.chart.rules.ObjectConsRule</businessRulesClass>
-    	<documentAuthorizerClass>org.kuali.core.document.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
+    <maintenanceDocument>
+        <businessObjectClass>org.kuali.module.chart.bo.ObjectCons</businessObjectClass>
+        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+        <businessRulesClass>org.kuali.module.chart.rules.ObjectConsRule</businessRulesClass>
+        <documentAuthorizerClass>org.kuali.core.document.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
 
         <authorizations>
             <authorization action="initiate">
@@ -18,38 +18,37 @@
             </authorization>
         </authorizations>
 
-		<documentTypeName>KualiObjectConsMaintenanceDocument</documentTypeName>
-		<documentTypeCode>OBJC</documentTypeCode>
-		<label>Object Consolidation Maintenance Document</label>
-		<shortLabel>ObjConsMaintDoc</shortLabel>
-		<summary>Object Consolidation Maintenance Document</summary>
-		<description>Maintenance document which allows you to create new Object Consolidations, or modify existing Object Consolidations.</description>
-		
-        <lockingKeys>
-			<field attributeName="chartOfAccountsCode" />
-			<field attributeName="finConsolidationObjectCode" />					
-		</lockingKeys>	 		
+        <documentTypeName>KualiObjectConsMaintenanceDocument</documentTypeName>
+        <documentTypeCode>OBJC</documentTypeCode>
+        <label>Object Consolidation Maintenance Document</label>
+        <shortLabel>ObjConsMaintDoc</shortLabel>
+        <summary>Object Consolidation Maintenance Document</summary>
+        <description>Maintenance document which allows you to create new Object Consolidations, or modify existing Object Consolidations.</description>
 
-   		<defaultExistenceChecks>
-   			<reference  attributeName="chartOfAccounts" 
-   						attributeToHighlightOnFail="chartOfAccountsCode" />
-   		</defaultExistenceChecks>
-		
-		<maintainableSections>
-			<maintainableSection title="Object Consolidation">
+        <lockingKeys>
+            <field attributeName="chartOfAccountsCode" />
+            <field attributeName="finConsolidationObjectCode" />
+        </lockingKeys>
+
+        <defaultExistenceChecks>
+            <reference attributeName="chartOfAccounts" attributeToHighlightOnFail="chartOfAccountsCode" />
+        </defaultExistenceChecks>
+
+        <maintainableSections>
+            <maintainableSection title="Object Consolidation">
                 <maintainableItems>
-					<maintainableField name="chartOfAccountsCode" required="true" />
-					<maintainableField name="finConsolidationObjectCode" required="true" />
-					<maintainableField name="finConsolidationObjShortName" required="true"  />
-					<maintainableField name="finConsolidationObjectName" required="true" />
-					<maintainableField name="finConsolidationObjActiveIndicator" required="true" >
-						<defaultValue>true</defaultValue>
-					</maintainableField>
-					<maintainableField name="financialEliminationsObjectCode" required="true" />
-					<maintainableField name="financialReportingSortCode" required="true" />	
-					<maintainableField name="versionNumber" />			
+                    <maintainableField name="chartOfAccountsCode" required="true" />
+                    <maintainableField name="finConsolidationObjectCode" required="true" />
+                    <maintainableField name="finConsolidationObjShortName" required="true" />
+                    <maintainableField name="finConsolidationObjectName" required="true" />
+                    <maintainableField name="finConsolidationObjActiveIndicator" required="true">
+                        <defaultValue>true</defaultValue>
+                    </maintainableField>
+                    <maintainableField name="financialEliminationsObjectCode" required="true" />
+                    <maintainableField name="financialReportingSortCode" required="true" />
+                    <maintainableField name="versionNumber" />
                 </maintainableItems>
-			</maintainableSection>
-		</maintainableSections>
-	</maintenanceDocument>
+            </maintainableSection>
+        </maintainableSections>
+    </maintenanceDocument>
 </dictionaryEntry>

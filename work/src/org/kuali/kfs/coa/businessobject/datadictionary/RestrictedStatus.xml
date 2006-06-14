@@ -4,66 +4,70 @@
     "../../../core/datadictionary/dataDictionary-1_0.dtd">
 
 <dictionaryEntry>
-	<businessObject businessObjectClass="org.kuali.module.chart.bo.RestrictedStatus">
-	
+    <businessObject businessObjectClass="org.kuali.module.chart.bo.RestrictedStatus">
+
         <customAttributeEnabled>false</customAttributeEnabled>
 
-	    <inquiry>
-	        <title>Restricted Status inquiry</title>
-	        <inquiryFields>
-	            <field attributeName="accountRestrictedStatusCode" />
-	            <field attributeName="accountRestrictedStatusName" />
-	        </inquiryFields>
-	    </inquiry>
+        <inquiry>
+            <title>Restricted Status inquiry</title>
+            <inquiryFields>
+                <field attributeName="accountRestrictedStatusCode" />
+                <field attributeName="accountRestrictedStatusName" />
+            </inquiryFields>
+        </inquiry>
 
-	    <lookup>
-	        <title>Restricted Status lookup</title>
-	        <menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.chart.bo.RestrictedStatus">Create New</a>]]></menubar>
-	        <instructions>Lookup an Restricted Status Code</instructions>
-	        <defaultSort attributeName="accountRestrictedStatusCode" sortAscending="true" />
+        <lookup>
+            <title>Restricted Status lookup</title>
+            <menubar>
+                <![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.chart.bo.RestrictedStatus">Create New</a>]]>
+            </menubar>
+            <instructions>Lookup an Restricted Status Code</instructions>
+            <defaultSort attributeName="accountRestrictedStatusCode" sortAscending="true" />
 
-	        <lookupFields>
-	            <lookupField attributeName="accountRestrictedStatusCode" />
-	            <lookupField attributeName="accountRestrictedStatusName" />
-	        </lookupFields>
-	        <resultFields>
-	            <field attributeName="accountRestrictedStatusCode" />
-	            <field attributeName="accountRestrictedStatusName" />
-	            </resultFields>
-	    </lookup>
-	    
-	    <attributes>
-	    
-	        <attribute name="accountRestrictedStatusCode" forceUppercase="true" >
-	            <label>Restricted Status Code</label>
-	            <shortLabel>Code</shortLabel>
-	            <maxLength>1</maxLength>
-	            <validationPattern><alpha exactLength="1" /></validationPattern>
-	            <required>true</required>
+            <lookupFields>
+                <lookupField attributeName="accountRestrictedStatusCode" />
+                <lookupField attributeName="accountRestrictedStatusName" />
+            </lookupFields>
+            <resultFields>
+                <field attributeName="accountRestrictedStatusCode" />
+                <field attributeName="accountRestrictedStatusName" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attribute name="accountRestrictedStatusCode" forceUppercase="true">
+                <label>Restricted Status Code</label>
+                <shortLabel>Code</shortLabel>
+                <maxLength>1</maxLength>
+                <validationPattern>
+                    <alpha exactLength="1" />
+                </validationPattern>
+                <required>true</required>
                 <control>
                     <text size="1" />
                 </control>
-	            <summary>Restricted Status Code</summary>
-	            <description>Restricted Status Codes</description>
-	        </attribute>
-	        
-	        <attribute name="accountRestrictedStatusName" forceUppercase="false" >
-	            <label>Restricted Status Name</label>
-	            <shortLabel>Name</shortLabel>
-	            <maxLength>40</maxLength>
-	            <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
-	            <required>true</required>	 
-	            <control>
-	                <text size="40" />
-	            </control>
-	            <summary>Restricted Status Name</summary>
-	            <description>Restricted Status Names are used to give short but meaningful names to the codes that they represent</description>
-	        </attribute>
-	        
-		    <attributeReference name="versionNumber" 
-								sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
-								sourceAttributeName="versionNumber" />
+                <summary>Restricted Status Code</summary>
+                <description>Restricted Status Codes</description>
+            </attribute>
 
-	    </attributes>
-	</businessObject>
+            <attribute name="accountRestrictedStatusName" forceUppercase="false">
+                <label>Restricted Status Name</label>
+                <shortLabel>Name</shortLabel>
+                <maxLength>40</maxLength>
+                <validationPattern>
+                    <anyCharacter allowWhitespace="true" />
+                </validationPattern>
+                <required>true</required>
+                <control>
+                    <text size="40" />
+                </control>
+                <summary>Restricted Status Name</summary>
+                <description>Restricted Status Names are used to give short but meaningful names to the codes that they represent</description>
+            </attribute>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+    </businessObject>
 </dictionaryEntry>

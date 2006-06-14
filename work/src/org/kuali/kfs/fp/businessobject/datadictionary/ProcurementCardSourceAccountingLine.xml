@@ -14,16 +14,18 @@
                 <shortLabel>Line Number</shortLabel>
 
                 <maxLength>7</maxLength>
-                <validationPattern><numeric /></validationPattern>
+                <validationPattern>
+                    <numeric />
+                </validationPattern>
 
                 <control>
-                    <hidden/>
+                    <hidden />
                 </control>
 
                 <summary>financialDocumentTransactionLineNumber</summary>
                 <description>financialDocumentTransactionLineNumber description...</description>
-			</attribute>
-			
+            </attribute>
+
             &accountingLineBaseAttributes;
         </attributes>
 
@@ -31,8 +33,12 @@
             <collection name="extendedAttributeValues">
                 <label>Extended Attribute Values</label>
                 <shortLabel>Values</shortLabel>
-                <summary><![CDATA[&nbsp;]]></summary>
-                <description><![CDATA[&nbsp;]]></description>
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>
+                    <![CDATA[&nbsp;]]>
+                </description>
             </collection>
         </collections>
     </businessObject>

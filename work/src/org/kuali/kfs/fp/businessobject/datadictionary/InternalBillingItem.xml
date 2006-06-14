@@ -7,9 +7,7 @@
         <customAttributeEnabled>false</customAttributeEnabled>
 
         <attributes>
-            <attributeReference name="itemUnitAmount" 
-            					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
-            					sourceAttributeName="genericAmount">
+            <attributeReference name="itemUnitAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
                 <label>Item Unit Amount</label>
                 <shortLabel>Item Cost</shortLabel>
                 <exclusiveMin>0</exclusiveMin>
@@ -17,7 +15,7 @@
                 <summary>itemUnitAmount</summary>
                 <description>itemUnitAmount description...</description>
             </attributeReference>
-            
+
             <attribute name="itemStockDescription" forceUppercase="true">
                 <label>Item Stock Description</label>
                 <shortLabel>Description</shortLabel>
@@ -31,25 +29,21 @@
                 <summary>itemStockDescription</summary>
                 <description>itemStockDescription description...</description>
             </attribute>
-            
-            <attributeReference name="itemServiceDate" 
-            					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
-            					sourceAttributeName="genericTimestamp">
+
+            <attributeReference name="itemServiceDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericTimestamp">
                 <label>Item Service Date</label>
                 <shortLabel>Date</shortLabel>
                 <summary>itemServiceDate</summary>
                 <description>itemServiceDate description...</description>
             </attributeReference>
-            
-            <attributeReference name="total" 
-            					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
-            					sourceAttributeName="genericAmount">
+
+            <attributeReference name="total" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
                 <label>Total</label>
                 <shortLabel>Total</shortLabel>
                 <summary>total</summary>
                 <description>total description...</description>
             </attributeReference>
-            
+
             <attribute name="itemStockNumber" forceUppercase="true">
                 <label>Item Stock Number</label>
                 <shortLabel>Stock#</shortLabel>
@@ -63,15 +57,11 @@
                 <summary>itemStockNumber</summary>
                 <description>itemStockNumber description...</description>
             </attribute>
-            
-            <attributeReference name="objectId" 
-					            sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
-					            sourceAttributeName="objectId" />
-					            
-            <attributeReference name="itemSequenceId" 
-					            sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
-					            sourceAttributeName="transactionEntrySequenceId" />
-					            
+
+            <attributeReference name="objectId" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="objectId" />
+
+            <attributeReference name="itemSequenceId" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="transactionEntrySequenceId" />
+
             <attribute name="unitOfMeasureCode" forceUppercase="true">
                 <label>Unit Of Measure Code</label>
                 <shortLabel>UoM</shortLabel>
@@ -85,14 +75,16 @@
                 <summary>unitOfMeasureCode</summary>
                 <description>unitOfMeasureCode description...</description>
             </attribute>
-            
+
             <attribute name="itemQuantity" forceUppercase="true">
                 <label>Item Quantity</label>
                 <shortLabel>Quantity</shortLabel>
 
                 <maxLength>22</maxLength>
                 <exclusiveMin>0</exclusiveMin>
-                <validationPattern><numeric/></validationPattern>
+                <validationPattern>
+                    <numeric />
+                </validationPattern>
                 <required>true</required>
 
                 <control>
@@ -102,14 +94,10 @@
                 <summary>itemQuantity</summary>
                 <description>itemQuantity description...</description>
             </attribute>
-            
-            <attributeReference name="versionNumber" 
-					            sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
-					            sourceAttributeName="versionNumber" />
-					            
-            <attributeReference name="financialDocumentNumber"
-					            sourceClassName="org.kuali.core.document.DocumentHeader"
-					            sourceAttributeName="financialDocumentNumber" />
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+            <attributeReference name="financialDocumentNumber" sourceClassName="org.kuali.core.document.DocumentHeader" sourceAttributeName="financialDocumentNumber" />
         </attributes>
 
     </businessObject>

@@ -4,7 +4,7 @@
     "../../../../core/datadictionary/dataDictionary-1_0.dtd">
 
 <dictionaryEntry>
-	<maintenanceDocument>
+    <maintenanceDocument>
         <businessObjectClass>org.kuali.module.financial.bo.TravelPerDiem</businessObjectClass>
         <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
 
@@ -17,29 +17,29 @@
             </authorization>
         </authorizations>
 
-		<documentTypeName>KualiTravelPerDiemMaintenanceDocument</documentTypeName>
-		<documentTypeCode>DVPD</documentTypeCode>
+        <documentTypeName>KualiTravelPerDiemMaintenanceDocument</documentTypeName>
+        <documentTypeCode>DVPD</documentTypeCode>
 
-		<label>Travel Per Diem Maintenance Document</label>
-		<shortLabel>Per Diem Maint Doc</shortLabel>
-		
-		<summary>Travel Per Diem Maintenance Document</summary>
-		<description>Document used to create or update Travel Per Diem objects</description>
+        <label>Travel Per Diem Maintenance Document</label>
+        <shortLabel>Per Diem Maint Doc</shortLabel>
+
+        <summary>Travel Per Diem Maintenance Document</summary>
+        <description>Document used to create or update Travel Per Diem objects</description>
 
         <lockingKeys>
-			<field attributeName="fiscalYear" />
-			<field attributeName="perDiemCountryName" />
-		</lockingKeys>            
+            <field attributeName="fiscalYear" />
+            <field attributeName="perDiemCountryName" />
+        </lockingKeys>
 
-	    <maintainableSections>
-	        <maintainableSection title="Edit Travel Per Diem Category">
-	        	<maintainableItems>
-	            	<maintainableField name="fiscalYear" required="true" />
-	            	<maintainableField name="perDiemCountryName" required="true" />
-	            	<maintainableField name="perDiemCountryText" required="false" />
-		            <maintainableField name="versionNumber" />
-	            </maintainableItems>          	                   
-	        </maintainableSection>
-	    </maintainableSections>
-	</maintenanceDocument>
+        <maintainableSections>
+            <maintainableSection title="Edit Travel Per Diem Category">
+                <maintainableItems>
+                    <maintainableField name="fiscalYear" required="true" />
+                    <maintainableField name="perDiemCountryName" required="true" />
+                    <maintainableField name="perDiemCountryText" required="false" />
+                    <maintainableField name="versionNumber" />
+                </maintainableItems>
+            </maintainableSection>
+        </maintainableSections>
+    </maintenanceDocument>
 </dictionaryEntry>

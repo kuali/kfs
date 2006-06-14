@@ -3,57 +3,54 @@
     "-//Kuali Project//DTD Data Dictionary 1.0//EN"
     "../../../core/datadictionary/dataDictionary-1_0.dtd">
 <dictionaryEntry>
-	<businessObject
-		businessObjectClass="org.kuali.module.financial.bo.ServiceBillingControl">
-		<customAttributeEnabled>false</customAttributeEnabled>
+    <businessObject businessObjectClass="org.kuali.module.financial.bo.ServiceBillingControl">
+        <customAttributeEnabled>false</customAttributeEnabled>
 
-		<inquiry>
-			<title>Service Billing Control Inquiry</title>
+        <inquiry>
+            <title>Service Billing Control Inquiry</title>
 
-			<inquiryFields>
-				<field attributeName="chartOfAccountsCode" />
-				<field attributeName="accountNumber" />
+            <inquiryFields>
+                <field attributeName="chartOfAccountsCode" />
+                <field attributeName="accountNumber" />
                 <field attributeName="workgroupName" />
             </inquiryFields>
-		</inquiry>	
-		
-		<lookup>
-			<title>Service Billing Control Lookup</title>
+        </inquiry>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.financial.bo.ServiceBillingControl">Create New</a>]]></menubar>
+        <lookup>
+            <title>Service Billing Control Lookup</title>
 
-			<instructions>Lookup a Service Billing Control</instructions>
+            <menubar>
+                <![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.financial.bo.ServiceBillingControl">Create New</a>]]>
+            </menubar>
 
-			<defaultSort attributeName="chartOfAccountsCode" sortAscending="true" />
+            <instructions>Lookup a Service Billing Control</instructions>
 
-			<lookupFields>
-				<lookupField attributeName="chartOfAccountsCode" required="false" />
-				<lookupField attributeName="accountNumber" required="false" />
+            <defaultSort attributeName="chartOfAccountsCode" sortAscending="true" />
+
+            <lookupFields>
+                <lookupField attributeName="chartOfAccountsCode" required="false" />
+                <lookupField attributeName="accountNumber" required="false" />
                 <lookupField attributeName="workgroupName" required="false" />
-			</lookupFields>
+            </lookupFields>
 
-			<resultFields>
-				<field attributeName="chartOfAccountsCode" />
-				<field attributeName="accountNumber" />
+            <resultFields>
+                <field attributeName="chartOfAccountsCode" />
+                <field attributeName="accountNumber" />
                 <field attributeName="workgroupName" />
             </resultFields>
-		</lookup>
-		
-		<attributes>
-			
-			<attributeReference name="chartOfAccountsCode" 
-								sourceClassName="org.kuali.module.chart.bo.Chart" 
-								sourceAttributeName="chartOfAccountsCode" >
-				<required>true</required>	
-			</attributeReference>
+        </lookup>
+
+        <attributes>
+
+            <attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
+                <required>true</required>
+            </attributeReference>
 
 
 
-			<attributeReference name="accountNumber"
-								sourceClassName="org.kuali.module.chart.bo.Account" 
-								sourceAttributeName="accountNumber">
-				<required>true</required>	
-			</attributeReference>
+            <attributeReference name="accountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber">
+                <required>true</required>
+            </attributeReference>
 
 
             <attribute name="workgroupName" forceUppercase="true">
@@ -66,23 +63,17 @@
                     <text size="70" />
                 </control>
 
-                <summary><![CDATA[&nbsp;]]></summary>
-                <description>
-                    The name of the workgroup allowed to create Service Billing documents with income accounting lines
-                    for the associated account.
-                </description>
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>The name of the workgroup allowed to create Service Billing documents with income accounting lines for the associated account.</description>
             </attribute>
 
 
-            <attributeReference name="versionNumber"
-								sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
-								sourceAttributeName="versionNumber" />
-								
-			 <attributeReference name="objectId" 
-								sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
-								sourceAttributeName="objectId" />
-								
-		</attributes>
-	</businessObject>
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+            <attributeReference name="objectId" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="objectId" />
+
+        </attributes>
+    </businessObject>
 </dictionaryEntry>
-			

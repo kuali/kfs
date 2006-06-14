@@ -3,60 +3,64 @@
     "-//Kuali Project//DTD Data Dictionary 1.0//EN"
     "../../../core/datadictionary/dataDictionary-1_0.dtd">
 <dictionaryEntry>
-	<businessObject businessObjectClass="org.kuali.module.financial.bo.TravelPerDiem">
-		<customAttributeEnabled>false</customAttributeEnabled>
+    <businessObject businessObjectClass="org.kuali.module.financial.bo.TravelPerDiem">
+        <customAttributeEnabled>false</customAttributeEnabled>
 
-		<inquiry>
-			<title>Travel Per Diem Inquiry</title>
+        <inquiry>
+            <title>Travel Per Diem Inquiry</title>
 
-			<inquiryFields>
-				<field attributeName="fiscalYear" />
-				<field attributeName="perDiemCountryName" />
-				<field attributeName="perDiemCountryText" />				
-			</inquiryFields>
-		</inquiry>
+            <inquiryFields>
+                <field attributeName="fiscalYear" />
+                <field attributeName="perDiemCountryName" />
+                <field attributeName="perDiemCountryText" />
+            </inquiryFields>
+        </inquiry>
 
-		<lookup>
-			<title>Travel Per Diem Lookup</title>
+        <lookup>
+            <title>Travel Per Diem Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.financial.bo.TravelPerDiem">Create New</a>]]></menubar>
+            <menubar>
+                <![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.financial.bo.TravelPerDiem">Create New</a>]]>
+            </menubar>
 
-			<instructions>Lookup a Travel Per Diem Category</instructions>
+            <instructions>Lookup a Travel Per Diem Category</instructions>
 
-			<defaultSort attributeName="perDiemCountryName" sortAscending="true" />
+            <defaultSort attributeName="perDiemCountryName" sortAscending="true" />
 
-			<lookupFields>
-				<lookupField attributeName="fiscalYear" required="false">
-				  <defaultValueFinderClass>org.kuali.core.lookup.valueFinder.FiscalYearFinder</defaultValueFinderClass>
-				</lookupField>
-				<lookupField attributeName="perDiemCountryName" required="false" />
-			</lookupFields>
+            <lookupFields>
+                <lookupField attributeName="fiscalYear" required="false">
+                    <defaultValueFinderClass>org.kuali.core.lookup.valueFinder.FiscalYearFinder</defaultValueFinderClass>
+                </lookupField>
+                <lookupField attributeName="perDiemCountryName" required="false" />
+            </lookupFields>
 
-			<resultFields>
-				<field attributeName="fiscalYear" />
-				<field attributeName="perDiemCountryName" />
-				<field attributeName="perDiemCountryText" />
-			</resultFields>
-		</lookup>
+            <resultFields>
+                <field attributeName="fiscalYear" />
+                <field attributeName="perDiemCountryName" />
+                <field attributeName="perDiemCountryText" />
+            </resultFields>
+        </lookup>
 
-		<attributes>
+        <attributes>
 
-			<attribute name="fiscalYear" forceUppercase="false">
-				<label>Fiscal Year</label>
-				<shortLabel>Year</shortLabel>
+            <attribute name="fiscalYear" forceUppercase="false">
+                <label>Fiscal Year</label>
+                <shortLabel>Year</shortLabel>
 
-				<maxLength>4</maxLength>
-                <validationPattern><numeric /></validationPattern>
+                <maxLength>4</maxLength>
+                <validationPattern>
+                    <numeric />
+                </validationPattern>
 
-				<control>
-					<text size="4" />
-				</control>
+                <control>
+                    <text size="4" />
+                </control>
 
-				<summary>Fiscal Year</summary>
-				<description>...</description>
-			</attribute>
-			
-			<attribute name="perDiemCountryName" forceUppercase="false">
+                <summary>Fiscal Year</summary>
+                <description>...</description>
+            </attribute>
+
+            <attribute name="perDiemCountryName" forceUppercase="false">
                 <label>Per Diem Category/Country Name</label>
                 <shortLabel>Name</shortLabel>
 
@@ -69,7 +73,7 @@
                 <summary>Per Diem Category/Country Name</summary>
                 <description>...</description>
             </attribute>
-            
+
             <attribute name="perDiemCountryText" forceUppercase="false">
                 <label>Per Diem Category/Country URL</label>
                 <shortLabel>URL</shortLabel>
@@ -83,11 +87,9 @@
                 <summary>Per Diem Category/Country URL</summary>
                 <description>...</description>
             </attribute>
-		
-	    	<attributeReference name="versionNumber" 
-					            sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
-					            sourceAttributeName="versionNumber" />
-		</attributes>
-	</businessObject>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+        </attributes>
+    </businessObject>
 </dictionaryEntry>
 

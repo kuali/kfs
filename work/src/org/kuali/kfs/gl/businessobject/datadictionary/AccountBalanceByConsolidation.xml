@@ -2,136 +2,112 @@
 <!DOCTYPE dictionaryEntry PUBLIC
     "-//Kuali Project//DTD Data Dictionary 1.0//EN"
     "../../../core/datadictionary/dataDictionary-1_0.dtd">
-	
+
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.module.gl.bo.AccountBalanceByConsolidation">
         <customAttributeEnabled>false</customAttributeEnabled>
         <inquiry>
             <title>Available Account Balance</title>
             <inquiryFields>
-				<field attributeName="universityFiscalYear"/>
-				<field attributeName="chartOfAccountsCode"/>
-				<field attributeName="accountNumber"/>
-				<field attributeName="objectCode"/>
-				<field attributeName="subAccountNumber"/>
-				<field attributeName="subObjectCode"/>             
-				<field attributeName="currentBudgetLineBalanceAmount"/>
-				<field attributeName="accountLineActualsBalanceAmount"/>
-				<field attributeName="accountLineEncumbranceBalanceAmount"/>
-				<field attributeName="dummyBusinessObject.genericAmount"/>
+                <field attributeName="universityFiscalYear" />
+                <field attributeName="chartOfAccountsCode" />
+                <field attributeName="accountNumber" />
+                <field attributeName="objectCode" />
+                <field attributeName="subAccountNumber" />
+                <field attributeName="subObjectCode" />
+                <field attributeName="currentBudgetLineBalanceAmount" />
+                <field attributeName="accountLineActualsBalanceAmount" />
+                <field attributeName="accountLineEncumbranceBalanceAmount" />
+                <field attributeName="dummyBusinessObject.genericAmount" />
             </inquiryFields>
         </inquiry>
 
         <lookup>
-        	<lookupableID>glAccountBalanceByConsolidationLookupable</lookupableID>
-			<title>Available Account Balance By Consolidation</title>
-			
-			<instructions>Lookup Available Account Balance for the specific account.</instructions>			
-			<defaultSort attributeName="financialObject.financialObjectLevel.financialConsolidationObjectCode" />
-			
-			<lookupFields>
-				<lookupField attributeName="universityFiscalYear" required="true" noLookup="false">
-                	<defaultValueFinderClass>
-						org.kuali.core.lookup.valueFinder.FiscalYearFinder
-					</defaultValueFinderClass>
+            <lookupableID>glAccountBalanceByConsolidationLookupable</lookupableID>
+            <title>Available Account Balance By Consolidation</title>
+
+            <instructions>Lookup Available Account Balance for the specific account.</instructions>
+            <defaultSort attributeName="financialObject.financialObjectLevel.financialConsolidationObjectCode" />
+
+            <lookupFields>
+                <lookupField attributeName="universityFiscalYear" required="true" noLookup="false">
+                    <defaultValueFinderClass>org.kuali.core.lookup.valueFinder.FiscalYearFinder</defaultValueFinderClass>
                 </lookupField>
-                				
-				<lookupField attributeName="chartOfAccountsCode" required="true" noLookup="true"/>
-				<lookupField attributeName="accountNumber" required="true" noLookup="false"/>
-				<lookupField attributeName="subAccountNumber" noLookup="false"/>
-				
-				<lookupField attributeName="dummyBusinessObject.consolidationOption">
-					<defaultValueFinderClass>
-						org.kuali.module.gl.web.optionfinder.GLConsolidationOptionFinder
-					</defaultValueFinderClass>
-				</lookupField>
-				
-				<lookupField attributeName="dummyBusinessObject.costShareOption">
-					<defaultValueFinderClass>
-						org.kuali.module.gl.web.optionfinder.GLCostShareOptionFinder
-					</defaultValueFinderClass>
-				</lookupField>
 
-				<lookupField attributeName="dummyBusinessObject.pendingEntryOption">
-					<defaultValueFinderClass>
-						org.kuali.module.gl.web.optionfinder.GLPendingEntryOptionFinder
-					</defaultValueFinderClass>
-				</lookupField>
-			</lookupFields>
-			
-			<resultFields>
-				<field attributeName="universityFiscalYear"/>
-				<field attributeName="chartOfAccountsCode"/>
-				<field attributeName="accountNumber"/>
-				<field attributeName="subAccountNumber"/>                
+                <lookupField attributeName="chartOfAccountsCode" required="true" noLookup="true" />
+                <lookupField attributeName="accountNumber" required="true" noLookup="false" />
+                <lookupField attributeName="subAccountNumber" noLookup="false" />
 
-				<field attributeName="financialObject.financialObjectType.financialReportingSortCode"/>
-	            <field attributeName="financialObject.financialObjectLevel.financialConsolidationObjectCode"/>
+                <lookupField attributeName="dummyBusinessObject.consolidationOption">
+                    <defaultValueFinderClass>org.kuali.module.gl.web.optionfinder.GLConsolidationOptionFinder</defaultValueFinderClass>
+                </lookupField>
 
-				<field attributeName="currentBudgetLineBalanceAmount"/>
-				<field attributeName="accountLineActualsBalanceAmount"/>
-				<field attributeName="accountLineEncumbranceBalanceAmount"/>
-				<field attributeName="dummyBusinessObject.genericAmount"/>
-												
-				<field attributeName="dummyBusinessObject.linkButtonOption"/>
-			</resultFields>
-		</lookup>
-		
+                <lookupField attributeName="dummyBusinessObject.costShareOption">
+                    <defaultValueFinderClass>org.kuali.module.gl.web.optionfinder.GLCostShareOptionFinder</defaultValueFinderClass>
+                </lookupField>
+
+                <lookupField attributeName="dummyBusinessObject.pendingEntryOption">
+                    <defaultValueFinderClass>org.kuali.module.gl.web.optionfinder.GLPendingEntryOptionFinder</defaultValueFinderClass>
+                </lookupField>
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="universityFiscalYear" />
+                <field attributeName="chartOfAccountsCode" />
+                <field attributeName="accountNumber" />
+                <field attributeName="subAccountNumber" />
+
+                <field attributeName="financialObject.financialObjectType.financialReportingSortCode" />
+                <field attributeName="financialObject.financialObjectLevel.financialConsolidationObjectCode" />
+
+                <field attributeName="currentBudgetLineBalanceAmount" />
+                <field attributeName="accountLineActualsBalanceAmount" />
+                <field attributeName="accountLineEncumbranceBalanceAmount" />
+                <field attributeName="dummyBusinessObject.genericAmount" />
+
+                <field attributeName="dummyBusinessObject.linkButtonOption" />
+            </resultFields>
+        </lookup>
+
         <attributes>
-            <attributeReference name="universityFiscalYear" 
-            					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
-            					sourceAttributeName="genericFiscalYear">
+            <attributeReference name="universityFiscalYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear">
                 <label>Fiscal Year</label>
                 <shortLabel>Fiscal Year</shortLabel>
-                <description>Identifies the Fiscal Year to which the balances apply.  A Fiscal Year covers a 12 month period that may differ from the Calendar Year.</description>
-			</attributeReference>
-
-            <attributeReference name="chartOfAccountsCode" 
-            					sourceClassName="org.kuali.module.chart.bo.Chart" 
-            					sourceAttributeName="chartOfAccountsCode">
-				<control>
-					<select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder"/>					
-				</control>
-				<description>The Chart of Accounts for an Account Number.  Kuali accommodates more than one Chart of Accounts.  Each chart has its own set of Account Numbers, Object Codes, and Organizations.</description>
-			</attributeReference>
-			
-            <attributeReference name="accountNumber" 
-            					sourceClassName="org.kuali.module.chart.bo.Account" 
-            					sourceAttributeName="accountNumber" >
-            	<description>An identifier for a pool of funds assigned to a specific division for a stated purpose.</description>
-            </attributeReference>
-								
-            <attributeReference name="subAccountNumber" 
-            					sourceClassName="org.kuali.module.chart.bo.SubAccount" 
-            					sourceAttributeName="subAccountNumber" >
-            	<description>A code that partitions an Account Number into greater detail.  Sub-Accounts take on most of the attributes of the Account Number to which they report.</description>
-            </attributeReference>
-								
-            <attributeReference name="objectCode" 
-            					sourceClassName="org.kuali.module.chart.bo.ObjectCode" 
-            					sourceAttributeName="financialObjectCode" >
-            	<description>The list of codes (commonly known as Income, Expense, Asset, Liability, and Fund Balance) used to identify the nature of a financial transaction.</description>
-            </attributeReference>
-								
-            <attributeReference name="subObjectCode" 
-            					sourceClassName="org.kuali.module.chart.bo.SubObjCd" 
-            					sourceAttributeName="financialSubObjectCode" >
-            	<description>A code that partitions an Object Code into greater detail. Sub-Object Codes take on most of the attributes of the Object Code to which they report.</description>
+                <description>Identifies the Fiscal Year to which the balances apply. A Fiscal Year covers a 12 month period that may differ from the Calendar Year.</description>
             </attributeReference>
 
-			<attributeReference name="currentBudgetLineBalanceAmount" 
-            					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
-            					sourceAttributeName="genericAmount">
+            <attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
+                <control>
+                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" />
+                </control>
+                <description>The Chart of Accounts for an Account Number. Kuali accommodates more than one Chart of Accounts. Each chart has its own set of Account Numbers, Object Codes, and Organizations.</description>
+            </attributeReference>
+
+            <attributeReference name="accountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber">
+                <description>An identifier for a pool of funds assigned to a specific division for a stated purpose.</description>
+            </attributeReference>
+
+            <attributeReference name="subAccountNumber" sourceClassName="org.kuali.module.chart.bo.SubAccount" sourceAttributeName="subAccountNumber">
+                <description>A code that partitions an Account Number into greater detail. Sub-Accounts take on most of the attributes of the Account Number to which they report.</description>
+            </attributeReference>
+
+            <attributeReference name="objectCode" sourceClassName="org.kuali.module.chart.bo.ObjectCode" sourceAttributeName="financialObjectCode">
+                <description>The list of codes (commonly known as Income, Expense, Asset, Liability, and Fund Balance) used to identify the nature of a financial transaction.</description>
+            </attributeReference>
+
+            <attributeReference name="subObjectCode" sourceClassName="org.kuali.module.chart.bo.SubObjCd" sourceAttributeName="financialSubObjectCode">
+                <description>A code that partitions an Object Code into greater detail. Sub-Object Codes take on most of the attributes of the Object Code to which they report.</description>
+            </attributeReference>
+
+            <attributeReference name="currentBudgetLineBalanceAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
                 <label>Budget Amount</label>
                 <shortLabel>Amount</shortLabel>
                 <summary>currentBudgetLineBalanceAmount</summary>
                 <description>currentBudgetLineBalanceAmount description...</description>
                 <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
             </attributeReference>
-			
-			<attributeReference name="accountLineActualsBalanceAmount" 
-            					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
-            					sourceAttributeName="genericAmount">
+
+            <attributeReference name="accountLineActualsBalanceAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
                 <label>Actuals Amount</label>
                 <shortLabel>Actuals Balance Amount</shortLabel>
                 <summary>accountLineActualsBalanceAmount</summary>
@@ -139,9 +115,7 @@
                 <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
             </attributeReference>
 
-			<attributeReference name="accountLineEncumbranceBalanceAmount" 
-            					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
-            					sourceAttributeName="genericAmount">
+            <attributeReference name="accountLineEncumbranceBalanceAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
                 <label>Encumbrance Amount</label>
                 <shortLabel>Encumbrance Balance</shortLabel>
                 <summary>accountLineEncumbranceBalanceAmount</summary>
@@ -149,60 +123,42 @@
                 <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
             </attributeReference>
 
-            <attributeReference name="timestamp" 
-            					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
-					            sourceAttributeName="genericTimestamp" >
+            <attributeReference name="timestamp" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericTimestamp">
                 <label>Transaction Entry Processed</label>
                 <shortLabel>Entry Processed</shortLabel>
                 <summary>transactionEntryProcessed</summary>
                 <description>transactionEntryProcessed description...</description>
             </attributeReference>
 
-            <attributeReference name="dummyBusinessObject.pendingEntryOption"
-					            sourceClassName="org.kuali.module.gl.bo.DummyBusinessObject" 
-					            sourceAttributeName="pendingEntryOption" />
-                        					
-			<attributeReference name="dummyBusinessObject.consolidationOption"
-            					sourceClassName="org.kuali.module.gl.bo.DummyBusinessObject" 
-            					sourceAttributeName="consolidationOption" >
-            	<description>Radioboxes that specify either Consolidation or Detail balances.  If Detail is selected, balances are displayed by Chart, Account Number, Sub-Account Number, Object Code, and Sub-Object Code.  If Consolidation is selected, amounts are aggregated by Chart, Account Number, and Object Code.</description>
+            <attributeReference name="dummyBusinessObject.pendingEntryOption" sourceClassName="org.kuali.module.gl.bo.DummyBusinessObject" sourceAttributeName="pendingEntryOption" />
+
+            <attributeReference name="dummyBusinessObject.consolidationOption" sourceClassName="org.kuali.module.gl.bo.DummyBusinessObject" sourceAttributeName="consolidationOption">
+                <description>Radioboxes that specify either Consolidation or Detail balances. If Detail is selected, balances are displayed by Chart, Account Number, Sub-Account Number, Object Code, and Sub-Object Code. If Consolidation is selected, amounts are aggregated by Chart, Account Number, and Object Code.</description>
             </attributeReference>
 
-			<attributeReference name="dummyBusinessObject.costShareOption"
-            					sourceClassName="org.kuali.module.gl.bo.DummyBusinessObject" 
-            					sourceAttributeName="costShareOption" >
-            	<description>Radioboxes that select including or excluding Cost Share Sub Accounts.</description>
+            <attributeReference name="dummyBusinessObject.costShareOption" sourceClassName="org.kuali.module.gl.bo.DummyBusinessObject" sourceAttributeName="costShareOption">
+                <description>Radioboxes that select including or excluding Cost Share Sub Accounts.</description>
             </attributeReference>
-            						        
-			<attributeReference name="dummyBusinessObject.genericAmount"
-            					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
-            					sourceAttributeName="genericAmount"> 
-			    <label>Variance</label>
+
+            <attributeReference name="dummyBusinessObject.genericAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
+                <label>Variance</label>
                 <shortLabel>Variance</shortLabel>
                 <summary>Variance</summary>
                 <description>Variance...</description>
                 <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
             </attributeReference>
 
-            <attributeReference name="financialObject.financialObjectLevel.financialConsolidationObject.financialReportingSortCode"
-            					sourceClassName="org.kuali.module.chart.bo.ObjectCons" 
-            					sourceAttributeName="financialReportingSortCode"/> 
+            <attributeReference name="financialObject.financialObjectLevel.financialConsolidationObject.financialReportingSortCode" sourceClassName="org.kuali.module.chart.bo.ObjectCons" sourceAttributeName="financialReportingSortCode" />
 
-	        <attributeReference name="financialObject.financialObjectType.financialReportingSortCode"
-	                    		sourceClassName="org.kuali.module.chart.bo.ObjectType" 
-            					sourceAttributeName="financialReportingSortCode"/> 
-            					
-	        <attributeReference name="financialObject.financialObjectLevel.financialConsolidationObjectCode"
-            					sourceClassName="org.kuali.module.chart.bo.ObjectCons" 
-            					sourceAttributeName="finConsolidationObjectCode"/> 	
-            					
-			<attributeReference name="dummyBusinessObject.linkButtonOption"
-            					sourceClassName="org.kuali.module.gl.bo.DummyBusinessObject" 
-            					sourceAttributeName="linkButtonOption"> 
-			    <label>Lookup By Level</label>
+            <attributeReference name="financialObject.financialObjectType.financialReportingSortCode" sourceClassName="org.kuali.module.chart.bo.ObjectType" sourceAttributeName="financialReportingSortCode" />
+
+            <attributeReference name="financialObject.financialObjectLevel.financialConsolidationObjectCode" sourceClassName="org.kuali.module.chart.bo.ObjectCons" sourceAttributeName="finConsolidationObjectCode" />
+
+            <attributeReference name="dummyBusinessObject.linkButtonOption" sourceClassName="org.kuali.module.gl.bo.DummyBusinessObject" sourceAttributeName="linkButtonOption">
+                <label>Lookup By Level</label>
                 <shortLabel>Lookup By Level</shortLabel>
                 <summary>Lookup By Level</summary>
-                <description>Lookup By Level ...</description>      					
+                <description>Lookup By Level ...</description>
             </attributeReference>
         </attributes>
     </businessObject>

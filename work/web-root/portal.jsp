@@ -1,11 +1,11 @@
-<%@ taglib uri="/tlds/c.tld" prefix="c" %>
-<%@ taglib uri="/tlds/fmt.tld" prefix="fmt" %>
-<%@ taglib uri="/tlds/struts-bean.tld" prefix="bean" %>
-<%@ taglib uri="/tlds/struts-html.tld" prefix="html" %>
-<%@ taglib uri="/tlds/struts-logic.tld" prefix="logic" %>
-<%@ taglib uri="/tlds/struts-nested.tld" prefix="nested" %>
-<%@ taglib uri="/tlds/displaytag.tld" prefix="display" %>
-<%@ taglib tagdir="/WEB-INF/tags/portal" prefix="portal" %>
+<%@ taglib uri="/tlds/c.tld" prefix="c"%>
+<%@ taglib uri="/tlds/fmt.tld" prefix="fmt"%>
+<%@ taglib uri="/tlds/struts-bean.tld" prefix="bean"%>
+<%@ taglib uri="/tlds/struts-html.tld" prefix="html"%>
+<%@ taglib uri="/tlds/struts-logic.tld" prefix="logic"%>
+<%@ taglib uri="/tlds/struts-nested.tld" prefix="nested"%>
+<%@ taglib uri="/tlds/displaytag.tld" prefix="display"%>
+<%@ taglib tagdir="/WEB-INF/tags/portal" prefix="portal"%>
 
 <%
    String gotoUrl = null;
@@ -25,5 +25,6 @@
 
 <portal:portalTop />
 <portal:portalTabs selectedTab="${sessionScope.selectedTab}" />
-<portal:portalBody  selectedTab="${sessionScope.selectedTab}" channelTitle="${param.channelTitle}" channelUrl="${gotoUrl}" />
+<portal:portalBody selectedTab="${sessionScope.selectedTab}"
+	channelTitle="${param.channelTitle}" channelUrl="${gotoUrl}" />
 <portal:portalBottom />

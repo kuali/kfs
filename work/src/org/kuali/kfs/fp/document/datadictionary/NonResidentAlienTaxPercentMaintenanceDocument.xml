@@ -4,7 +4,7 @@
     "../../../../core/datadictionary/dataDictionary-1_0.dtd">
 
 <dictionaryEntry>
-	<maintenanceDocument>
+    <maintenanceDocument>
         <businessObjectClass>org.kuali.module.financial.bo.NonResidentAlienTaxPercent</businessObjectClass>
         <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
 
@@ -17,29 +17,29 @@
             </authorization>
         </authorizations>
 
-		<documentTypeName>KualiNonResidentAlienTaxPercentMaintenanceDocument</documentTypeName>
-		<documentTypeCode>DVOT</documentTypeCode>
+        <documentTypeName>KualiNonResidentAlienTaxPercentMaintenanceDocument</documentTypeName>
+        <documentTypeCode>DVOT</documentTypeCode>
 
-		<label>Non Resident Alien Tax Percent Maintenance Document</label>
-		<shortLabel>Tax percent Maint Doc</shortLabel>
-		
-		<summary>Non resident alien tax percent</summary>
-		<description>Document used to create or update Tax Percent objects</description>
+        <label>Non Resident Alien Tax Percent Maintenance Document</label>
+        <shortLabel>Tax percent Maint Doc</shortLabel>
+
+        <summary>Non resident alien tax percent</summary>
+        <description>Document used to create or update Tax Percent objects</description>
 
         <lockingKeys>
-			<field attributeName="incomeClassCode" />  
-			<field attributeName="incomeTaxTypeCode" />      
-		</lockingKeys>              
+            <field attributeName="incomeClassCode" />
+            <field attributeName="incomeTaxTypeCode" />
+        </lockingKeys>
 
-	    <maintainableSections>
-	        <maintainableSection title="Edit Ownership Tax Percent:">
-	        	<maintainableItems>
-	            	<maintainableField name="incomeClassCode" required="true" />
-	            	<maintainableField name="incomeTaxTypeCode" required="true" />
-	            	<maintainableField name="incomeTaxPercent" required="true" />
-		            <maintainableField name="versionNumber" />
-	            </maintainableItems>          	                   
-	        </maintainableSection>
-	    </maintainableSections>
-	</maintenanceDocument>
+        <maintainableSections>
+            <maintainableSection title="Edit Ownership Tax Percent:">
+                <maintainableItems>
+                    <maintainableField name="incomeClassCode" required="true" />
+                    <maintainableField name="incomeTaxTypeCode" required="true" />
+                    <maintainableField name="incomeTaxPercent" required="true" />
+                    <maintainableField name="versionNumber" />
+                </maintainableItems>
+            </maintainableSection>
+        </maintainableSections>
+    </maintenanceDocument>
 </dictionaryEntry>

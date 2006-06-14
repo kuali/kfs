@@ -4,12 +4,12 @@
     "../../../../core/datadictionary/dataDictionary-1_0.dtd">
 
 <dictionaryEntry>
-	<maintenanceDocument>
-		<businessObjectClass>org.kuali.module.chart.bo.Delegate</businessObjectClass>
-		<maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+    <maintenanceDocument>
+        <businessObjectClass>org.kuali.module.chart.bo.Delegate</businessObjectClass>
+        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
 
         <businessRulesClass>org.kuali.module.chart.rules.DelegateRule</businessRulesClass>
-		<preRulesCheckClass>org.kuali.module.chart.rules.DelegatePreRules</preRulesCheckClass>
+        <preRulesCheckClass>org.kuali.module.chart.rules.DelegatePreRules</preRulesCheckClass>
 
         <documentAuthorizerClass>org.kuali.core.document.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
         <authorizations>
@@ -20,56 +20,50 @@
             </authorization>
         </authorizations>
 
-		<documentTypeName>KualiAccountDelegateMaintenanceDocument</documentTypeName>
-		<documentTypeCode>ADEL</documentTypeCode>
-		<label>Account Delegate Maintenance Document</label>
-		<shortLabel>AcctDelMaintDoc</shortLabel>
-		<summary>Account Delegate Maintenance Document</summary>
-		<description>
-			Maintenance document which allows you to create, remove or modify Account Delegates.
-		</description>
-		
-        <lockingKeys>
-			<field attributeName="chartOfAccountsCode" />
-			<field attributeName="accountNumber" />
-			<field attributeName="accountDelegateSystemId" />
-		</lockingKeys>		
+        <documentTypeName>KualiAccountDelegateMaintenanceDocument</documentTypeName>
+        <documentTypeCode>ADEL</documentTypeCode>
+        <label>Account Delegate Maintenance Document</label>
+        <shortLabel>AcctDelMaintDoc</shortLabel>
+        <summary>Account Delegate Maintenance Document</summary>
+        <description>Maintenance document which allows you to create, remove or modify Account Delegates.</description>
 
-		<defaultExistenceChecks>
-			<reference  attributeName="account" 
-						attributeToHighlightOnFail="accountNumber" />
-			<reference  attributeName="accountDelegate" 
-						attributeToHighlightOnFail="accountDelegate.personUserIdentifier" />
-		</defaultExistenceChecks>						
-		
-		<maintainableSections>
-			<maintainableSection title="Edit Account Delegate">
+        <lockingKeys>
+            <field attributeName="chartOfAccountsCode" />
+            <field attributeName="accountNumber" />
+            <field attributeName="accountDelegateSystemId" />
+        </lockingKeys>
+
+        <defaultExistenceChecks>
+            <reference attributeName="account" attributeToHighlightOnFail="accountNumber" />
+            <reference attributeName="accountDelegate" attributeToHighlightOnFail="accountDelegate.personUserIdentifier" />
+        </defaultExistenceChecks>
+
+        <maintainableSections>
+            <maintainableSection title="Edit Account Delegate">
                 <maintainableItems>
-					<maintainableField name="chartOfAccountsCode" required="true" />			
-					<maintainableField name="accountNumber" required="true" />
-					<maintainableField name="financialDocumentTypeCode" required="true" />
-					<maintainableField name="accountDelegateSystemId" required="true" readOnly="true" />
-					<maintainableField name="accountDelegate.personUserIdentifier" required="true" />
-					<maintainableField name="accountDelegate.personName" required="false" readOnly="true" />
-					<maintainableField name="finDocApprovalFromThisAmt" required="false">
-						<defaultValue>0.00</defaultValue>
-					</maintainableField>
-					<maintainableField name="finDocApprovalToThisAmount" required="false">
-						<defaultValue>0.00</defaultValue>
-					</maintainableField>
-					<maintainableField name="accountsDelegatePrmrtIndicator" required="false" />
-					<maintainableField name="accountDelegateActiveIndicator" required="false">
-						<defaultValue>true</defaultValue>
-					</maintainableField>
-					<maintainableField name="accountDelegateStartDate" required="true">
-			          	<defaultValueFinderClass>
-			          		org.kuali.core.lookup.valueFinder.CurrentDateMMDDYYYYFinder
-			          	</defaultValueFinderClass>
-					</maintainableField>
-					<maintainableField name="versionNumber" />
+                    <maintainableField name="chartOfAccountsCode" required="true" />
+                    <maintainableField name="accountNumber" required="true" />
+                    <maintainableField name="financialDocumentTypeCode" required="true" />
+                    <maintainableField name="accountDelegateSystemId" required="true" readOnly="true" />
+                    <maintainableField name="accountDelegate.personUserIdentifier" required="true" />
+                    <maintainableField name="accountDelegate.personName" required="false" readOnly="true" />
+                    <maintainableField name="finDocApprovalFromThisAmt" required="false">
+                        <defaultValue>0.00</defaultValue>
+                    </maintainableField>
+                    <maintainableField name="finDocApprovalToThisAmount" required="false">
+                        <defaultValue>0.00</defaultValue>
+                    </maintainableField>
+                    <maintainableField name="accountsDelegatePrmrtIndicator" required="false" />
+                    <maintainableField name="accountDelegateActiveIndicator" required="false">
+                        <defaultValue>true</defaultValue>
+                    </maintainableField>
+                    <maintainableField name="accountDelegateStartDate" required="true">
+                        <defaultValueFinderClass>org.kuali.core.lookup.valueFinder.CurrentDateMMDDYYYYFinder</defaultValueFinderClass>
+                    </maintainableField>
+                    <maintainableField name="versionNumber" />
                 </maintainableItems>
-			</maintainableSection>
-		</maintainableSections>
-	</maintenanceDocument>
+            </maintainableSection>
+        </maintainableSections>
+    </maintenanceDocument>
 
 </dictionaryEntry>

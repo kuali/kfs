@@ -3,247 +3,249 @@
     "-//Kuali Project//DTD Data Dictionary 1.0//EN"
     "../../../core/datadictionary/dataDictionary-1_0.dtd">
 <dictionaryEntry>
-	<businessObject businessObjectClass="org.kuali.module.financial.bo.CreditCardVendor">
-		<customAttributeEnabled>false</customAttributeEnabled>
+    <businessObject businessObjectClass="org.kuali.module.financial.bo.CreditCardVendor">
+        <customAttributeEnabled>false</customAttributeEnabled>
 
-		<inquiry>
-			<title>Credit Card Vendor Inquiry</title>
+        <inquiry>
+            <title>Credit Card Vendor Inquiry</title>
 
-			<inquiryFields>
-				<field attributeName="financialDocumentCreditCardVendorNumber" />
-				<field attributeName="financialDocumentCreditCardVendorName" />	
-				<field attributeName="financialDocumentCreditCardTypeCode" />
-				<field attributeName="incomeFinancialChartOfAccountsCode" />
-				<field attributeName="incomeAccountNumber" />
-				<field attributeName="incomeFinancialObjectCode" />
-				<field attributeName="incomeFinancialSubObjectCode" />
-				<field attributeName="incomeSubAccountNumber" />
-				<field attributeName="expenseFinancialChartOfAccountsCode" />
-				<field attributeName="expenseAccountNumber" />
-				<field attributeName="expenseFinancialObjectCode" />
-				<field attributeName="expenseFinancialSubObjectCode" />
-				<field attributeName="expenseSubAccountNumber" />			
-			</inquiryFields>
-		</inquiry>
+            <inquiryFields>
+                <field attributeName="financialDocumentCreditCardVendorNumber" />
+                <field attributeName="financialDocumentCreditCardVendorName" />
+                <field attributeName="financialDocumentCreditCardTypeCode" />
+                <field attributeName="incomeFinancialChartOfAccountsCode" />
+                <field attributeName="incomeAccountNumber" />
+                <field attributeName="incomeFinancialObjectCode" />
+                <field attributeName="incomeFinancialSubObjectCode" />
+                <field attributeName="incomeSubAccountNumber" />
+                <field attributeName="expenseFinancialChartOfAccountsCode" />
+                <field attributeName="expenseAccountNumber" />
+                <field attributeName="expenseFinancialObjectCode" />
+                <field attributeName="expenseFinancialSubObjectCode" />
+                <field attributeName="expenseSubAccountNumber" />
+            </inquiryFields>
+        </inquiry>
 
-		<lookup>
-			<title>Credit Card Vendor Lookup</title>
+        <lookup>
+            <title>Credit Card Vendor Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.financial.bo.CreditCardVendor">Create New</a>]]></menubar>
+            <menubar>
+                <![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.financial.bo.CreditCardVendor">Create New</a>]]>
+            </menubar>
 
-			<instructions>Lookup a Credit Card Vendor</instructions>
+            <instructions>Lookup a Credit Card Vendor</instructions>
 
-			<defaultSort attributeName="financialDocumentCreditCardVendorName" sortAscending="true" />
+            <defaultSort attributeName="financialDocumentCreditCardVendorName" sortAscending="true" />
 
-			<lookupFields>
-				<lookupField attributeName="financialDocumentCreditCardVendorNumber" required="false" />
-				<lookupField attributeName="financialDocumentCreditCardVendorName" required="false" />
-				<lookupField attributeName="financialDocumentCreditCardTypeCode" required="false" />				
-			</lookupFields>
+            <lookupFields>
+                <lookupField attributeName="financialDocumentCreditCardVendorNumber" required="false" />
+                <lookupField attributeName="financialDocumentCreditCardVendorName" required="false" />
+                <lookupField attributeName="financialDocumentCreditCardTypeCode" required="false" />
+            </lookupFields>
 
-			<resultFields>
-				<field attributeName="financialDocumentCreditCardVendorNumber" />
-				<field attributeName="financialDocumentCreditCardVendorName" />	
-				<field attributeName="financialDocumentCreditCardTypeCode" />
-				<field attributeName="incomeFinancialChartOfAccountsCode" />
-				<field attributeName="incomeAccountNumber" />
-				<field attributeName="incomeFinancialObjectCode" />
-				<field attributeName="incomeFinancialSubObjectCode" />
-				<field attributeName="incomeSubAccountNumber" />
-				<field attributeName="expenseFinancialChartOfAccountsCode" />
-				<field attributeName="expenseAccountNumber" />
-				<field attributeName="expenseFinancialObjectCode" />
-				<field attributeName="expenseFinancialSubObjectCode" />
-				<field attributeName="expenseSubAccountNumber" />			
-			</resultFields>
-		</lookup>
+            <resultFields>
+                <field attributeName="financialDocumentCreditCardVendorNumber" />
+                <field attributeName="financialDocumentCreditCardVendorName" />
+                <field attributeName="financialDocumentCreditCardTypeCode" />
+                <field attributeName="incomeFinancialChartOfAccountsCode" />
+                <field attributeName="incomeAccountNumber" />
+                <field attributeName="incomeFinancialObjectCode" />
+                <field attributeName="incomeFinancialSubObjectCode" />
+                <field attributeName="incomeSubAccountNumber" />
+                <field attributeName="expenseFinancialChartOfAccountsCode" />
+                <field attributeName="expenseAccountNumber" />
+                <field attributeName="expenseFinancialObjectCode" />
+                <field attributeName="expenseFinancialSubObjectCode" />
+                <field attributeName="expenseSubAccountNumber" />
+            </resultFields>
+        </lookup>
 
-		<attributes>
+        <attributes>
 
-			<attribute name="financialDocumentCreditCardVendorNumber" forceUppercase="true">
-				<label>Vendor Credit Card Number</label>
-				<shortLabel>Number</shortLabel>
+            <attribute name="financialDocumentCreditCardVendorNumber" forceUppercase="true">
+                <label>Vendor Credit Card Number</label>
+                <shortLabel>Number</shortLabel>
 
-				<maxLength>10</maxLength>
-				<validationPattern><alphaNumeric /></validationPattern>
-				<required>true</required>
-				<control>
-					<text size="10" />
-				</control>
+                <maxLength>10</maxLength>
+                <validationPattern>
+                    <alphaNumeric />
+                </validationPattern>
+                <required>true</required>
+                <control>
+                    <text size="10" />
+                </control>
 
-				<summary><![CDATA[&nbsp;]]></summary>
-				<description>
-					<![CDATA[&nbsp;]]>
-				</description>
-			</attribute>
-			
-			<attribute name="financialDocumentCreditCardVendorName" forceUppercase="false">
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>
+                    <![CDATA[&nbsp;]]>
+                </description>
+            </attribute>
+
+            <attribute name="financialDocumentCreditCardVendorName" forceUppercase="false">
                 <label>Vendor Credit Card Name</label>
                 <shortLabel>Name</shortLabel>
 
                 <maxLength>40</maxLength>
-				<required>true</required>
+                <required>true</required>
                 <control>
                     <text size="40" />
                 </control>
 
-                <summary><![CDATA[&nbsp;]]></summary>
-                <description><![CDATA[&nbsp;]]></description>
-                
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>
+                    <![CDATA[&nbsp;]]>
+                </description>
+
             </attribute>
 
-			<attributeReference name="financialDocumentCreditCardTypeCode" 
-				sourceClassName="org.kuali.module.financial.bo.CreditCardType"
-				sourceAttributeName="financialDocumentCreditCardTypeCode">
-				<label>Credit Card Type</label>
-				<shortLabel>Type</shortLabel>
-				<required>true</required>
-	
-				<control>
-					<select valuesFinderClass="org.kuali.core.lookup.keyvalues.CreditCardTypeValuesFinder" />
-				</control> 
-	
-				<summary><![CDATA[&nbsp;]]></summary>	
-				<description><![CDATA[&nbsp;]]></description>	                
-			</attributeReference>
+            <attributeReference name="financialDocumentCreditCardTypeCode" sourceClassName="org.kuali.module.financial.bo.CreditCardType" sourceAttributeName="financialDocumentCreditCardTypeCode">
+                <label>Credit Card Type</label>
+                <shortLabel>Type</shortLabel>
+                <required>true</required>
 
-			<attributeReference name="incomeFinancialChartOfAccountsCode" 
-				sourceClassName="org.kuali.module.chart.bo.Chart" 
-				sourceAttributeName="chartOfAccountsCode">
-				<label>Income Chart</label>
-				<shortLabel>Income Chart</shortLabel>
-				<required>false</required>
-	
-				<control>
-					<select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" />
-				</control> 
-	
-				<summary><![CDATA[&nbsp;]]></summary>	
-				<description><![CDATA[&nbsp;]]></description>	                
-			</attributeReference>
+                <control>
+                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.CreditCardTypeValuesFinder" />
+                </control>
 
-			<attributeReference name="incomeAccountNumber" 
-								sourceClassName="org.kuali.module.chart.bo.Account" 
-								sourceAttributeName="accountNumber">
-				<label>Income Account Number</label>
-				<shortLabel>
-					Income Account
-				</shortLabel>
-				
-				<required>false</required>
-				<summary><![CDATA[&nbsp;]]></summary>
-				<description>
-					<![CDATA[&nbsp;]]>
-				</description>
-			</attributeReference>
-			
-            <attributeReference name="incomeSubAccountNumber"
-					            sourceClassName="org.kuali.module.chart.bo.SubAccount"
-					            sourceAttributeName="subAccountNumber">
-				<label>Income Sub-Account Number</label>
-				<shortLabel>
-					Income Sub-Account
-				</shortLabel>
-
-				<required>false</required>
-				<summary><![CDATA[&nbsp;]]></summary>
-				<description>
-					<![CDATA[&nbsp;]]>
-				</description>
-      
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>
+                    <![CDATA[&nbsp;]]>
+                </description>
             </attributeReference>
 
-		    <attributeReference name="incomeFinancialObjectCode" 
-				sourceClassName="org.kuali.module.chart.bo.ObjectCode" 
-				sourceAttributeName="financialObjectCode" >
-				<label>Income Object Code</label>
-				<shortLabel>Inc Obj Cd</shortLabel>
-				<required>false</required>
-			</attributeReference>	
-	
-            <attributeReference name="incomeFinancialSubObjectCode"
-            					sourceClassName="org.kuali.module.chart.bo.SubObjCd"
-            					sourceAttributeName="financialSubObjectCode">
-            	<label>Income Sub-Object Code</label>
-				<shortLabel>Inc Sub-Object</shortLabel>
-            	<required>false</required>
-				<summary><![CDATA[&nbsp;]]></summary>
-				<description>
-					<![CDATA[&nbsp;]]>
-				</description>
-			</attributeReference>
+            <attributeReference name="incomeFinancialChartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
+                <label>Income Chart</label>
+                <shortLabel>Income Chart</shortLabel>
+                <required>false</required>
 
-			<attributeReference name="expenseFinancialChartOfAccountsCode" 
-				sourceClassName="org.kuali.module.chart.bo.Chart" 
-				sourceAttributeName="chartOfAccountsCode">
-				<label>Expense Chart</label>
-				<shortLabel>Expense Chart</shortLabel>
-				<required>false</required>
-	
-				<control>
-					<select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" />
-				</control> 
-	
-				<summary><![CDATA[&nbsp;]]></summary>	
-				<description><![CDATA[&nbsp;]]></description>	                
-			</attributeReference>
+                <control>
+                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" />
+                </control>
 
-			<attributeReference name="expenseAccountNumber" 
-								sourceClassName="org.kuali.module.chart.bo.Account" 
-								sourceAttributeName="accountNumber">
-				<label>Expense Account Number</label>
-				<shortLabel>
-					Expense Account
-				</shortLabel>
-				
-				<required>false</required>
-				<summary><![CDATA[&nbsp;]]></summary>
-				<description>
-					<![CDATA[&nbsp;]]>
-				</description>
-			</attributeReference>
-			
-            <attributeReference name="expenseSubAccountNumber"
-					            sourceClassName="org.kuali.module.chart.bo.SubAccount"
-					            sourceAttributeName="subAccountNumber">
-				<label>Expense Sub-Account Number</label>
-				<shortLabel>
-					Expense Sub-Account
-				</shortLabel>
-
-				<required>false</required>
-				<summary><![CDATA[&nbsp;]]></summary>
-				<description>
-					<![CDATA[&nbsp;]]>
-				</description>
-      
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>
+                    <![CDATA[&nbsp;]]>
+                </description>
             </attributeReference>
 
-		    <attributeReference name="expenseFinancialObjectCode" 
-				sourceClassName="org.kuali.module.chart.bo.ObjectCode" 
-				sourceAttributeName="financialObjectCode" >
-				<label>Expense Object Code</label>
-				<shortLabel>Exp Obj Cd</shortLabel>
-				<required>false</required>
-			</attributeReference>	
-	
-            <attributeReference name="expenseFinancialSubObjectCode"
-            					sourceClassName="org.kuali.module.chart.bo.SubObjCd"
-            					sourceAttributeName="financialSubObjectCode">
-            	<label>Expense Sub-Object Code</label>
-				<shortLabel>Exp Sub-Object</shortLabel>
-            	<required>false</required>
-				<summary><![CDATA[&nbsp;]]></summary>
-				<description>
-					<![CDATA[&nbsp;]]>
-				</description>
-			</attributeReference>
-			            
- 			<attributeReference name="versionNumber" 
- 				sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
- 				sourceAttributeName="versionNumber" />
+            <attributeReference name="incomeAccountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber">
+                <label>Income Account Number</label>
+                <shortLabel>Income Account</shortLabel>
 
-		</attributes>
-	</businessObject>
+                <required>false</required>
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>
+                    <![CDATA[&nbsp;]]>
+                </description>
+            </attributeReference>
+
+            <attributeReference name="incomeSubAccountNumber" sourceClassName="org.kuali.module.chart.bo.SubAccount" sourceAttributeName="subAccountNumber">
+                <label>Income Sub-Account Number</label>
+                <shortLabel>Income Sub-Account</shortLabel>
+
+                <required>false</required>
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>
+                    <![CDATA[&nbsp;]]>
+                </description>
+
+            </attributeReference>
+
+            <attributeReference name="incomeFinancialObjectCode" sourceClassName="org.kuali.module.chart.bo.ObjectCode" sourceAttributeName="financialObjectCode">
+                <label>Income Object Code</label>
+                <shortLabel>Inc Obj Cd</shortLabel>
+                <required>false</required>
+            </attributeReference>
+
+            <attributeReference name="incomeFinancialSubObjectCode" sourceClassName="org.kuali.module.chart.bo.SubObjCd" sourceAttributeName="financialSubObjectCode">
+                <label>Income Sub-Object Code</label>
+                <shortLabel>Inc Sub-Object</shortLabel>
+                <required>false</required>
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>
+                    <![CDATA[&nbsp;]]>
+                </description>
+            </attributeReference>
+
+            <attributeReference name="expenseFinancialChartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
+                <label>Expense Chart</label>
+                <shortLabel>Expense Chart</shortLabel>
+                <required>false</required>
+
+                <control>
+                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>
+                    <![CDATA[&nbsp;]]>
+                </description>
+            </attributeReference>
+
+            <attributeReference name="expenseAccountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber">
+                <label>Expense Account Number</label>
+                <shortLabel>Expense Account</shortLabel>
+
+                <required>false</required>
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>
+                    <![CDATA[&nbsp;]]>
+                </description>
+            </attributeReference>
+
+            <attributeReference name="expenseSubAccountNumber" sourceClassName="org.kuali.module.chart.bo.SubAccount" sourceAttributeName="subAccountNumber">
+                <label>Expense Sub-Account Number</label>
+                <shortLabel>Expense Sub-Account</shortLabel>
+
+                <required>false</required>
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>
+                    <![CDATA[&nbsp;]]>
+                </description>
+
+            </attributeReference>
+
+            <attributeReference name="expenseFinancialObjectCode" sourceClassName="org.kuali.module.chart.bo.ObjectCode" sourceAttributeName="financialObjectCode">
+                <label>Expense Object Code</label>
+                <shortLabel>Exp Obj Cd</shortLabel>
+                <required>false</required>
+            </attributeReference>
+
+            <attributeReference name="expenseFinancialSubObjectCode" sourceClassName="org.kuali.module.chart.bo.SubObjCd" sourceAttributeName="financialSubObjectCode">
+                <label>Expense Sub-Object Code</label>
+                <shortLabel>Exp Sub-Object</shortLabel>
+                <required>false</required>
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>
+                    <![CDATA[&nbsp;]]>
+                </description>
+            </attributeReference>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+    </businessObject>
 </dictionaryEntry>
 

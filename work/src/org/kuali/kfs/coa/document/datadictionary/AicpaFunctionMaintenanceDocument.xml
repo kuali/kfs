@@ -4,7 +4,7 @@
     "../../../../core/datadictionary/dataDictionary-1_0.dtd">
 
 <dictionaryEntry>
-	<maintenanceDocument>
+    <maintenanceDocument>
         <businessObjectClass>org.kuali.module.chart.bo.AicpaFunction</businessObjectClass>
         <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
 
@@ -17,27 +17,27 @@
             </authorization>
         </authorizations>
 
-		<documentTypeName>KualiAicpaFunctionMaintenanceDocument</documentTypeName>
-		<documentTypeCode>AFUN</documentTypeCode>
+        <documentTypeName>KualiAicpaFunctionMaintenanceDocument</documentTypeName>
+        <documentTypeCode>AFUN</documentTypeCode>
 
-		<label>AICPA Function Maintenance Document</label>
-		<shortLabel>AICPA Function Maint Doc</shortLabel>
-		
-		<summary>AICPA Function Maintenance Document</summary>
-		<description>Document used to create or update AICPA Function Maintenance Document objects</description>
+        <label>AICPA Function Maintenance Document</label>
+        <shortLabel>AICPA Function Maint Doc</shortLabel>
+
+        <summary>AICPA Function Maintenance Document</summary>
+        <description>Document used to create or update AICPA Function Maintenance Document objects</description>
 
         <lockingKeys>
-			<field attributeName="financialAicpaFunctionCode" />
-		</lockingKeys>	        
+            <field attributeName="financialAicpaFunctionCode" />
+        </lockingKeys>
 
-	    <maintainableSections>
-	        <maintainableSection title="Edit AICPA Function">
-	        	<maintainableItems>
-	            	<maintainableField name="financialAicpaFunctionCode" required="true" />
-	            	<maintainableField name="financialAicpaFunctionName" required="true" />
-                 <maintainableField name="versionNumber" />	       	
-	            </maintainableItems>         	                   
-	        </maintainableSection>
-	    </maintainableSections>
-	</maintenanceDocument>
+        <maintainableSections>
+            <maintainableSection title="Edit AICPA Function">
+                <maintainableItems>
+                    <maintainableField name="financialAicpaFunctionCode" required="true" />
+                    <maintainableField name="financialAicpaFunctionName" required="true" />
+                    <maintainableField name="versionNumber" />
+                </maintainableItems>
+            </maintainableSection>
+        </maintainableSections>
+    </maintenanceDocument>
 </dictionaryEntry>

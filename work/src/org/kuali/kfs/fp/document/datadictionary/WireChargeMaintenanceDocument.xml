@@ -4,7 +4,7 @@
     "../../../../core/datadictionary/dataDictionary-1_0.dtd">
 
 <dictionaryEntry>
-	<maintenanceDocument>
+    <maintenanceDocument>
         <businessObjectClass>org.kuali.module.financial.bo.WireCharge</businessObjectClass>
         <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
 
@@ -17,32 +17,32 @@
             </authorization>
         </authorizations>
 
-		<documentTypeName>KualiWireChargeMaintenanceDocument</documentTypeName>
-		<documentTypeCode>DVWT</documentTypeCode>
+        <documentTypeName>KualiWireChargeMaintenanceDocument</documentTypeName>
+        <documentTypeCode>DVWT</documentTypeCode>
 
-		<label>Wire Charge Maintenance Document</label>
-		<shortLabel>Wire Charge Maint Doc</shortLabel>
-		
-		<summary>Wire Charge Maintenance Document</summary>
-		<description>Document used to create or update wire charges.</description>
+        <label>Wire Charge Maintenance Document</label>
+        <shortLabel>Wire Charge Maint Doc</shortLabel>
+
+        <summary>Wire Charge Maintenance Document</summary>
+        <description>Document used to create or update wire charges.</description>
 
         <lockingKeys>
-			<field attributeName="universityFiscalYear" />
-		</lockingKeys>            
+            <field attributeName="universityFiscalYear" />
+        </lockingKeys>
 
-	    <maintainableSections>
-	        <maintainableSection title="Edit Wire Charge">
-	        	<maintainableItems>
-	            	<maintainableField name="universityFiscalYear" required="true" />
-	            	<maintainableField name="chartOfAccountsCode" required="true" />
-	            	<maintainableField name="accountNumber" required="false" />
-	            	<maintainableField name="incomeFinancialObjectCode" required="true" />
-	            	<maintainableField name="expenseFinancialObjectCode" required="true" />
-	            	<maintainableField name="domesticChargeAmt" required="true" />
-	            	<maintainableField name="foreignChargeAmt" required="true" />
-		            <maintainableField name="versionNumber" />
-	            </maintainableItems>          	                   
-	        </maintainableSection>
-	    </maintainableSections>
-	</maintenanceDocument>
+        <maintainableSections>
+            <maintainableSection title="Edit Wire Charge">
+                <maintainableItems>
+                    <maintainableField name="universityFiscalYear" required="true" />
+                    <maintainableField name="chartOfAccountsCode" required="true" />
+                    <maintainableField name="accountNumber" required="false" />
+                    <maintainableField name="incomeFinancialObjectCode" required="true" />
+                    <maintainableField name="expenseFinancialObjectCode" required="true" />
+                    <maintainableField name="domesticChargeAmt" required="true" />
+                    <maintainableField name="foreignChargeAmt" required="true" />
+                    <maintainableField name="versionNumber" />
+                </maintainableItems>
+            </maintainableSection>
+        </maintainableSections>
+    </maintenanceDocument>
 </dictionaryEntry>

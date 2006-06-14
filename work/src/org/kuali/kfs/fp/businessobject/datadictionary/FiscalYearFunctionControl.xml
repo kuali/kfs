@@ -19,7 +19,9 @@
         <lookup>
             <title>Fiscal Year Function Control Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.financial.bo.FiscalYearFunctionControl">Create New</a>]]></menubar>
+            <menubar>
+                <![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.financial.bo.FiscalYearFunctionControl">Create New</a>]]>
+            </menubar>
 
             <instructions>Lookup an Fiscal Year Function Control</instructions>
 
@@ -44,9 +46,7 @@
 
         <attributes>
 
-			<attributeReference name="universityFiscalYear" 
-								sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
-								sourceAttributeName="genericFiscalYear">
+            <attributeReference name="universityFiscalYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear">
                 <required>true</required>
             </attributeReference>
 
@@ -55,7 +55,9 @@
                 <shortLabel>Code</shortLabel>
 
                 <maxLength>6</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+                <validationPattern>
+                    <anyCharacter />
+                </validationPattern>
 
                 <control>
                     <text size="8" />
@@ -63,7 +65,7 @@
 
                 <summary>financialSystemFunctionControlCode</summary>
                 <description>financialSystemFunctionControlCode description...</description>
-			</attribute>
+            </attribute>
 
             <attribute name="financialSystemFunctionActiveIndicator" forceUppercase="true">
                 <label>Financial System Function Active Indicator</label>
@@ -77,11 +79,9 @@
 
                 <summary>financialSystemFunctionActiveIndicator</summary>
                 <description>financialSystemFunctionActiveIndicator description...</description>
-			</attribute>
+            </attribute>
 
-          <attributeReference name="versionNumber" 
-                            sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
-                            sourceAttributeName="versionNumber" />
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 
         </attributes>
     </businessObject>

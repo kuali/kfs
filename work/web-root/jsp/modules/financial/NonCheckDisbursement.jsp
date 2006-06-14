@@ -1,27 +1,30 @@
-<%@ include file="/jsp/core/tldHeader.jsp" %>
+<%@ include file="/jsp/core/tldHeader.jsp"%>
 
-<kul:documentPage showDocumentInfo="true" documentTypeName="KualiNonCheckDisbursementDocument" htmlFormAction="financialNonCheckDisbursement" renderMultipart="true" showTabButtons="true">
+<kul:documentPage showDocumentInfo="true"
+	documentTypeName="KualiNonCheckDisbursementDocument"
+	htmlFormAction="financialNonCheckDisbursement" renderMultipart="true"
+	showTabButtons="true">
 
-		<html:hidden property="document.nextSourceLineNumber"/>
-		<html:hidden property="document.nextTargetLineNumber"/>
-		<kul:hiddenDocumentFields />
+	<html:hidden property="document.nextSourceLineNumber" />
+	<html:hidden property="document.nextTargetLineNumber" />
+	<kul:hiddenDocumentFields />
 
-        <kul:documentOverview editingMode="${KualiForm.editingMode}"/>
+	<kul:documentOverview editingMode="${KualiForm.editingMode}" />
 
-        <fin:accountingLines sourceAccountingLinesOnly="true"
-                        editingMode="${KualiForm.editingMode}" 
-                        editableAccounts="${KualiForm.editableAccounts}"
-                        extraSourceRowFields="referenceNumber,financialDocumentLineDescription"/>
-		<kul:generalLedgerPendingEntries/>
+	<fin:accountingLines sourceAccountingLinesOnly="true"
+		editingMode="${KualiForm.editingMode}"
+		editableAccounts="${KualiForm.editableAccounts}"
+		extraSourceRowFields="referenceNumber,financialDocumentLineDescription" />
+	<kul:generalLedgerPendingEntries />
 
-		<kul:notes/>
-						
-		<kul:adHocRecipients/>
-			
-		<kul:routeLog/>
+	<kul:notes />
 
-		<kul:panelFooter/>
+	<kul:adHocRecipients />
 
-		<kul:documentControls transactionalDocument="true" />
+	<kul:routeLog />
+
+	<kul:panelFooter />
+
+	<kul:documentControls transactionalDocument="true" />
 
 </kul:documentPage>

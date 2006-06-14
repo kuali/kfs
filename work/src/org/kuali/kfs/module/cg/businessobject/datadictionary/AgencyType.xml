@@ -18,7 +18,9 @@
         <lookup>
             <title>Contracts and Grants Agency Type Lookup</title>
 
-            <menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.cg.bo.AgencyType">Create New</a>]]></menubar>
+            <menubar>
+                <![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.cg.bo.AgencyType">Create New</a>]]>
+            </menubar>
 
             <instructions>Lookup a Contracts and Grants Agency Type</instructions>
 
@@ -30,7 +32,7 @@
             </lookupFields>
 
             <resultFields>
-                <field attributeName="code"  noInquiry="true" />
+                <field attributeName="code" noInquiry="true" />
                 <field attributeName="name" />
             </resultFields>
         </lookup>
@@ -42,38 +44,38 @@
 
                 <maxLength>1</maxLength>
 
-				<validationPattern><alpha exactLength="1" /></validationPattern>
+                <validationPattern>
+                    <alpha exactLength="1" />
+                </validationPattern>
 
-				<control>
-					<text size="1" />
-				</control>
+                <control>
+                    <text size="1" />
+                </control>
 
-				<summary>Contracts and Grants Agency Type Code</summary>
-				<description>Contracts and Grants Agency Type Code</description>
+                <summary>Contracts and Grants Agency Type Code</summary>
+                <description>Contracts and Grants Agency Type Code</description>
             </attribute>
-            
+
             <attribute name="name" forceUppercase="false">
-				<label>Type Description</label>
-				<shortLabel>description</shortLabel>
+                <label>Type Description</label>
+                <shortLabel>description</shortLabel>
 
-				<maxLength>30</maxLength>
-				
-				<validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
-				<control>
-					<text size="32" />
-				</control>
+                <maxLength>30</maxLength>
 
-				<summary>Contracts and Grants Agency Type Description</summary>
-				<description>The description of the Contracts and Grants Agency Type.</description>
-			</attribute>
-			
-			<attributeReference name="versionNumber" 
-								sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
-								sourceAttributeName="versionNumber" />
-			
-			<attributeReference name="objectId" 
-								sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
-								sourceAttributeName="objectId" />	
+                <validationPattern>
+                    <anyCharacter allowWhitespace="true" />
+                </validationPattern>
+                <control>
+                    <text size="32" />
+                </control>
+
+                <summary>Contracts and Grants Agency Type Description</summary>
+                <description>The description of the Contracts and Grants Agency Type.</description>
+            </attribute>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+            <attributeReference name="objectId" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="objectId" />
         </attributes>
     </businessObject>
 </dictionaryEntry>

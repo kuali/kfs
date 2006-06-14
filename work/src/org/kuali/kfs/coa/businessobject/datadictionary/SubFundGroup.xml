@@ -23,7 +23,9 @@
         <lookup>
             <title>Sub-Fund Group Lookup</title>
 
-            <menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.chart.bo.SubFundGroup">Create New</a>]]></menubar>
+            <menubar>
+                <![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.chart.bo.SubFundGroup">Create New</a>]]>
+            </menubar>
 
             <instructions>Lookup an Sub-Fund Group</instructions>
 
@@ -36,9 +38,9 @@
                 <lookupField attributeName="fundGroupCode" />
                 <lookupField attributeName="subFundGroupWagesIndicator" />
                 <lookupField attributeName="financialReportingSortCode" />
-                <lookupField attributeName="subfundgrpActivityIndicator" >	
-					<defaultValue>Y</defaultValue>
-				</lookupField>	
+                <lookupField attributeName="subfundgrpActivityIndicator">
+                    <defaultValue>Y</defaultValue>
+                </lookupField>
 
             </lookupFields>
 
@@ -60,9 +62,11 @@
 
                 <maxLength>6</maxLength>
 
-				<validationPattern><alpha maxLength="6" /></validationPattern>
-				<required>true</required>
-				
+                <validationPattern>
+                    <alpha maxLength="6" />
+                </validationPattern>
+                <required>true</required>
+
                 <control>
                     <text size="8" />
                 </control>
@@ -70,28 +74,20 @@
                 <summary>The Sub-Fund Group code.</summary>
                 <description>The code used to categorize Accounts for internal resource management, and to relate the Account to a Fund through the Sub-Fund Groups.</description>
             </attribute>
-            
-            <attributeReference name="subfundgrpActivityIndicator" 
-								sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
-								sourceAttributeName="activeIndicator" />
 
-            <attributeReference name="subFundGroupWagesIndicator" 
-								sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
-								sourceAttributeName="activeIndicator">
+            <attributeReference name="subfundgrpActivityIndicator" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />
+
+            <attributeReference name="subFundGroupWagesIndicator" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator">
                 <label>Wage Indicator</label>
                 <shortLabel>Indicator</shortLabel>
                 <summary>Indicator for whether this is a wage indicator.</summary>
                 <description>This is the indicator for whether this Sub-Fund Group is a wage indicator.</description>
             </attributeReference>
-            
-            <attributeReference name="objectId" 
-								sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
-								sourceAttributeName="objectId" />
 
-            <attributeReference name="fundGroupCode" 
-            					sourceClassName="org.kuali.module.chart.bo.FundGroup" 
-            					sourceAttributeName="code" >
-            	<required>true</required>	
+            <attributeReference name="objectId" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="objectId" />
+
+            <attributeReference name="fundGroupCode" sourceClassName="org.kuali.module.chart.bo.FundGroup" sourceAttributeName="code">
+                <required>true</required>
             </attributeReference>
 
             <attribute name="subFundGroupTypeCode" forceUppercase="true">
@@ -99,7 +95,7 @@
                 <shortLabel>Type Code</shortLabel>
 
                 <maxLength>1</maxLength>
-				<required>true</required>
+                <required>true</required>
                 <control>
                     <text size="3" />
                 </control>
@@ -107,15 +103,17 @@
                 <summary>The associated Type Code</summary>
                 <description>This is blah blah blah...</description>
             </attribute>
-            
+
             <attribute name="subFundGroupDescription" forceUppercase="true">
                 <label>Description</label>
                 <shortLabel>Desc.</shortLabel>
 
                 <maxLength>40</maxLength>
-				
-				<validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
-				<required>true</required>
+
+                <validationPattern>
+                    <anyCharacter allowWhitespace="true" />
+                </validationPattern>
+                <required>true</required>
                 <control>
                     <text size="42" />
                 </control>
@@ -123,27 +121,27 @@
                 <summary>The description.</summary>
                 <description>This is the description of this Sub-Fund Group.</description>
             </attribute>
-            
+
             <attribute name="financialReportingSortCode" forceUppercase="false">
                 <label>Financial Reporting Sort Code</label>
                 <shortLabel>Fin. Rpt. Code</shortLabel>
 
                 <maxLength>2</maxLength>
-                
-                <validationPattern><numeric exactLength="2" /></validationPattern>
-				<required>true</required>
+
+                <validationPattern>
+                    <numeric exactLength="2" />
+                </validationPattern>
+                <required>true</required>
                 <control>
-                    <text size="4"/>
+                    <text size="4" />
                 </control>
 
                 <summary>Financial Reporting Sort Code</summary>
                 <description>The Financial Reporting Sort Code represents...</description>
             </attribute>
-            
- 			<attributeReference name="versionNumber" 
- 				sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
- 				sourceAttributeName="versionNumber" />
- 			
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
         </attributes>
 
         <collections>

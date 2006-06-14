@@ -4,252 +4,282 @@
     "../../../core/datadictionary/dataDictionary-1_0.dtd">
 
 <dictionaryEntry>
-	<businessObject businessObjectClass="org.kuali.module.financial.bo.DisbursementVoucherWireTransfer">
-	
-        <customAttributeEnabled>false</customAttributeEnabled>
-	    
-	    <attributes>
-	    
-	        <attribute name="disbursementVoucherBankName">
-	            <label>Bank Name</label>
-	            <shortLabel>Bnk Nm</shortLabel>
-	            
-	            <maxLength>22</maxLength>
-	            
-	            <required>true</required>
-	            
-	            <control>
-	                <text size="40"/>
-	            </control>
-	            
-	            <summary><![CDATA[&nbsp;]]></summary>
-	            <description>The full name of the Bank handling the Wire Transfer.</description>
-	        </attribute>
-	        
-	        <attribute name="disbVchrBankRoutingNumber">
-	            <label>Bank ABA Routing #</label>
-	            <shortLabel>Bnk Rout</shortLabel>
-	            
-	            <maxLength>9</maxLength>
-	            
-	            <required>false</required>
-	            
-	            <control>
-	                <text size="9"/>
-	            </control>
-	            
-	            <summary><![CDATA[&nbsp;]]></summary>
-	            <description>The ABA Routing number of the Bank handling the Wire Transfer.</description>
-	        </attribute>
-	        
-	        <attribute name="disbVchrBankCityName">
-	            <label>Bank City</label>
-	            <shortLabel>Bnk Cty</shortLabel>
-	            
-	            <maxLength>37</maxLength>
-	            
-	            <required>true</required>
-	            
-	            <control>
-	                <text size="37"/>
-	            </control>
-	            
-	            <summary><![CDATA[&nbsp;]]></summary>
-	            <description>The city in which the Bank handling the Wire Transfer is located.</description>
-	        </attribute>
-	        
-	        <attribute name="disbVchrBankStateCode">
-	            <label>Bank State</label>
-	            <shortLabel>Bnk St</shortLabel>
-	            
-	            <maxLength>2</maxLength>
-	            
-	            <required>false</required>
-	            
-	            <control>
-	                <text size="2"/>
-	            </control>
-	            
-	            <summary><![CDATA[&nbsp;]]></summary>
-	            <description>The state in which the Bank handling the Wire Transfer is located.</description>
-	        </attribute>
-	        
-	        <attribute name="disbVchrBankCountryCode">
-	            <label>Bank Country</label>
-	            <shortLabel>Bnk Cntry</shortLabel>
-	            
-	            <maxLength>40</maxLength>
-	            
-	            <required>true</required>
-	            
-	            <control>
-	                <select valuesFinderClass="org.kuali.core.lookup.keyvalues.CountryValuesFinder"/>
-	            </control>
-	            
-	            <summary><![CDATA[&nbsp;]]></summary>
-	            <description>The country in which the Bank handling the Wire Transfer is located.  Select one from the pulldown list.</description>
-	        </attribute>
-	        
-	        <attribute name="disbVchrAttentionLineText">
-	            <label>Addenda</label>
-	            <shortLabel>Addenda</shortLabel>
-	            
-	            <maxLength>70</maxLength>
-	            
-	            <required>false</required>
-	            
-	            <control>
-	                <text size="60"/>
-	            </control>
-	            
-	            <summary><![CDATA[&nbsp;]]></summary>
-	            <description>A free-form text field for addenda on the Write Transfer.</description>
-	        </attribute>
-	        
-	        <attribute name="disbVchrAdditionalWireText">
-	            <label>Additional Wire Information</label>
-	            <shortLabel>Wire Info</shortLabel>
-	            
-	            <maxLength>120</maxLength>
-	            
-	            <required>false</required>
-	            
-	            <control>
-	                <text size="60"/>
-	            </control>
-	            
-	            <summary><![CDATA[&nbsp;]]></summary>
-	            <description>A free-form text field for additional information on the Write Transfer</description>
-	        </attribute>
-             
-	        <attribute name="disbVchrPayeeAccountNumber">
-	            <label>Bank Account #</label>
-	            <shortLabel>Bnk Cntry</shortLabel>
-	            
-	            <maxLength>40</maxLength>
-	            
-	            <required>true</required>
-	            
-	            <control>
-	                <text size="40"/>
-	            </control>
-	            
-	            <summary><![CDATA[&nbsp;]]></summary>
-	            <description>The Account Number involved in the Wire Transfer.</description>
-	        </attribute>
-	        
-	        <attribute name="disbVchrCurrencyTypeCode">
-	            <label>DV Amount Stated in</label>
-	            <shortLabel>DV State</shortLabel>
-	            
-	            <maxLength>1</maxLength>
-	            
-	            <required>true</required>
-	            
-	            <control>
-	                <select valuesFinderClass="org.kuali.core.lookup.keyvalues.CurrencyTypeValuesFinder"/>
-	            </control>
-	            
-	            <summary><![CDATA[&nbsp;]]></summary>
-	            <description>The foreign or domestic currency for the Wire Transfer.  Select one from the pulldown list.</description>
-	        </attribute>
-	        
-	        <attribute name="disbVchrForeignBankIndicator">
-	            <label>Wire To</label>
-	            <shortLabel>Wire To</shortLabel>
-	            
-	            <maxLength>40</maxLength>
-	            
-	            <required>false</required>
-	            
-	            <control>
-	                <radio valuesFinderClass="org.kuali.core.lookup.keyvalues.ForeignBankIndicatorValuesFinder"/>
-	            </control>
-	            
-	            <summary><![CDATA[&nbsp;]]></summary>
-	            <description>Radiobuttons to specify that the Wire Transfer is sent to either a domestic or foreign bank</description>
-	        </attribute>
-	        
-	        <attribute name="disbVchrCurrencyTypeName">
-	            <label>Currency Type</label>
-	            <shortLabel>Curr Typ</shortLabel>
-	            
-	            <maxLength>20</maxLength>
-	            
-	            <required>true</required>
-	            
-	            <control>
-	                <text size="20"/>
-	            </control>
-	            
-	            <summary><![CDATA[&nbsp;]]></summary>
-	            <description>The type or unit of currency, if foreign currency is involved in the Wire Transfer.</description>
-	        </attribute>
-	        
-	        <attribute name="disbursementVoucherWireTransferFeeWaiverIndicator">
-	            <label>Waive wire transfer fee?</label>
-	            <shortLabel>Waive Fee</shortLabel>
-	            
-	            <maxLength>5</maxLength>
-	            
-	            <required>false</required>
-	            
-	            <control>
-	                <checkbox/>
-	            </control>
-	            
-	            <summary><![CDATA[&nbsp;]]></summary>
-	            <description>The code to specify that the Wire Transfer fee should be waived, expressed as "Yes" or "No".</description>
-	        </attribute>
-	        
-	        <attribute name="disbursementVoucherPayeeAccountName">
-	            <label>Bank Acct in the Name of</label>
-	            <shortLabel>Acct Nm</shortLabel>
-	            
-	            <maxLength>40</maxLength>
-	            
-	            <required>true</required>
-	            
-	            <control>
-	                <text size="40"/>
-	            </control>
-	            
-	            <summary><![CDATA[&nbsp;]]></summary>
-	            <description>The full name of the individual or organization account involved in the Wire Transfer.</description>
-	        </attribute>
-	        
-	    	<attribute name="disbursementVoucherPayeeAccountTypeCode">
-	            <label>Bank Acct Type</label>
-	            <shortLabel>Acct Type</shortLabel>
-	            
-	            <maxLength>1</maxLength>
-	            
-	            <required>false</required>
-	            
-	            <control>
-	                <radio valuesFinderClass="org.kuali.core.lookup.keyvalues.BankAccountTypeValuesFinder"/>
-	            </control>
-	            
-	            <summary><![CDATA[&nbsp;]]></summary>
-	            <description>Bank Account Type.</description>
-	        </attribute>  
-	        
-	    	<attribute name="disbursementVoucherAutomatedClearingHouseProfileNumber">
-	            <label>Recurring Profile No.</label>
-	            <shortLabel>Prof. No</shortLabel>
-	            
-	            <maxLength>3</maxLength>
-	            
-	            <required>false</required>
-	            
-	            <control>
-	                <text size="3"/>
-	            </control>
-	            
-	            <summary><![CDATA[&nbsp;]]></summary>
-	            <description>PDP customer profile number ACH payment.</description>
-	        </attribute>   
+    <businessObject businessObjectClass="org.kuali.module.financial.bo.DisbursementVoucherWireTransfer">
 
-	    </attributes>
-	</businessObject>
+        <customAttributeEnabled>false</customAttributeEnabled>
+
+        <attributes>
+
+            <attribute name="disbursementVoucherBankName">
+                <label>Bank Name</label>
+                <shortLabel>Bnk Nm</shortLabel>
+
+                <maxLength>22</maxLength>
+
+                <required>true</required>
+
+                <control>
+                    <text size="40" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>The full name of the Bank handling the Wire Transfer.</description>
+            </attribute>
+
+            <attribute name="disbVchrBankRoutingNumber">
+                <label>Bank ABA Routing #</label>
+                <shortLabel>Bnk Rout</shortLabel>
+
+                <maxLength>9</maxLength>
+
+                <required>false</required>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>The ABA Routing number of the Bank handling the Wire Transfer.</description>
+            </attribute>
+
+            <attribute name="disbVchrBankCityName">
+                <label>Bank City</label>
+                <shortLabel>Bnk Cty</shortLabel>
+
+                <maxLength>37</maxLength>
+
+                <required>true</required>
+
+                <control>
+                    <text size="37" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>The city in which the Bank handling the Wire Transfer is located.</description>
+            </attribute>
+
+            <attribute name="disbVchrBankStateCode">
+                <label>Bank State</label>
+                <shortLabel>Bnk St</shortLabel>
+
+                <maxLength>2</maxLength>
+
+                <required>false</required>
+
+                <control>
+                    <text size="2" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>The state in which the Bank handling the Wire Transfer is located.</description>
+            </attribute>
+
+            <attribute name="disbVchrBankCountryCode">
+                <label>Bank Country</label>
+                <shortLabel>Bnk Cntry</shortLabel>
+
+                <maxLength>40</maxLength>
+
+                <required>true</required>
+
+                <control>
+                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.CountryValuesFinder" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>The country in which the Bank handling the Wire Transfer is located. Select one from the pulldown list.</description>
+            </attribute>
+
+            <attribute name="disbVchrAttentionLineText">
+                <label>Addenda</label>
+                <shortLabel>Addenda</shortLabel>
+
+                <maxLength>70</maxLength>
+
+                <required>false</required>
+
+                <control>
+                    <text size="60" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>A free-form text field for addenda on the Write Transfer.</description>
+            </attribute>
+
+            <attribute name="disbVchrAdditionalWireText">
+                <label>Additional Wire Information</label>
+                <shortLabel>Wire Info</shortLabel>
+
+                <maxLength>120</maxLength>
+
+                <required>false</required>
+
+                <control>
+                    <text size="60" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>A free-form text field for additional information on the Write Transfer</description>
+            </attribute>
+
+            <attribute name="disbVchrPayeeAccountNumber">
+                <label>Bank Account #</label>
+                <shortLabel>Bnk Cntry</shortLabel>
+
+                <maxLength>40</maxLength>
+
+                <required>true</required>
+
+                <control>
+                    <text size="40" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>The Account Number involved in the Wire Transfer.</description>
+            </attribute>
+
+            <attribute name="disbVchrCurrencyTypeCode">
+                <label>DV Amount Stated in</label>
+                <shortLabel>DV State</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <required>true</required>
+
+                <control>
+                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.CurrencyTypeValuesFinder" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>The foreign or domestic currency for the Wire Transfer. Select one from the pulldown list.</description>
+            </attribute>
+
+            <attribute name="disbVchrForeignBankIndicator">
+                <label>Wire To</label>
+                <shortLabel>Wire To</shortLabel>
+
+                <maxLength>40</maxLength>
+
+                <required>false</required>
+
+                <control>
+                    <radio valuesFinderClass="org.kuali.core.lookup.keyvalues.ForeignBankIndicatorValuesFinder" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>Radiobuttons to specify that the Wire Transfer is sent to either a domestic or foreign bank</description>
+            </attribute>
+
+            <attribute name="disbVchrCurrencyTypeName">
+                <label>Currency Type</label>
+                <shortLabel>Curr Typ</shortLabel>
+
+                <maxLength>20</maxLength>
+
+                <required>true</required>
+
+                <control>
+                    <text size="20" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>The type or unit of currency, if foreign currency is involved in the Wire Transfer.</description>
+            </attribute>
+
+            <attribute name="disbursementVoucherWireTransferFeeWaiverIndicator">
+                <label>Waive wire transfer fee?</label>
+                <shortLabel>Waive Fee</shortLabel>
+
+                <maxLength>5</maxLength>
+
+                <required>false</required>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>The code to specify that the Wire Transfer fee should be waived, expressed as "Yes" or "No".</description>
+            </attribute>
+
+            <attribute name="disbursementVoucherPayeeAccountName">
+                <label>Bank Acct in the Name of</label>
+                <shortLabel>Acct Nm</shortLabel>
+
+                <maxLength>40</maxLength>
+
+                <required>true</required>
+
+                <control>
+                    <text size="40" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>The full name of the individual or organization account involved in the Wire Transfer.</description>
+            </attribute>
+
+            <attribute name="disbursementVoucherPayeeAccountTypeCode">
+                <label>Bank Acct Type</label>
+                <shortLabel>Acct Type</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <required>false</required>
+
+                <control>
+                    <radio valuesFinderClass="org.kuali.core.lookup.keyvalues.BankAccountTypeValuesFinder" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>Bank Account Type.</description>
+            </attribute>
+
+            <attribute name="disbursementVoucherAutomatedClearingHouseProfileNumber">
+                <label>Recurring Profile No.</label>
+                <shortLabel>Prof. No</shortLabel>
+
+                <maxLength>3</maxLength>
+
+                <required>false</required>
+
+                <control>
+                    <text size="3" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>PDP customer profile number ACH payment.</description>
+            </attribute>
+
+        </attributes>
+    </businessObject>
 </dictionaryEntry>

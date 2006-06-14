@@ -4,12 +4,12 @@
     "../../../../core/datadictionary/dataDictionary-1_0.dtd">
 
 <dictionaryEntry>
-	<maintenanceDocument>
+    <maintenanceDocument>
         <businessObjectClass>org.kuali.module.chart.bo.ProjectCode</businessObjectClass>
         <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
 
-		<businessRulesClass>org.kuali.module.chart.rules.ProjectCodeRule</businessRulesClass>
-		
+        <businessRulesClass>org.kuali.module.chart.rules.ProjectCodeRule</businessRulesClass>
+
         <documentAuthorizerClass>org.kuali.core.document.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
         <authorizations>
             <authorization action="initiate">
@@ -19,48 +19,42 @@
             </authorization>
         </authorizations>
 
-		<documentTypeName>KualiProjectCodeMaintenanceDocument</documentTypeName>
-		<documentTypeCode>PROJ</documentTypeCode>
+        <documentTypeName>KualiProjectCodeMaintenanceDocument</documentTypeName>
+        <documentTypeCode>PROJ</documentTypeCode>
 
-		<label>Project Code Maintenance Document</label>
-		<shortLabel>ProjectMaintDoc</shortLabel>
-		
-		<summary>Project Code maintenance document</summary>
-		<description>Document used to create or update Project Code objects</description>
+        <label>Project Code Maintenance Document</label>
+        <shortLabel>ProjectMaintDoc</shortLabel>
+
+        <summary>Project Code maintenance document</summary>
+        <description>Document used to create or update Project Code objects</description>
 
         <lockingKeys>
-			<field attributeName="code" />
-		</lockingKeys>	         
+            <field attributeName="code" />
+        </lockingKeys>
 
-		<defaultExistenceChecks>
-			<reference  attributeName="chartOfAccounts" 
-						activeIndicatorAttributeName="finChartOfAccountActiveIndicator" 
-						attributeToHighlightOnFail="chartOfAccountsCode" />
-			<reference  attributeName="projectManagerUniversal" 
-						activeIndicatorAttributeName="personActiveIndicator" 
-						attributeToHighlightOnFail="projectManagerUniversal.personUserIdentifier" />
-			<reference  attributeName="organization" 
-						activeIndicatorAttributeName="organizationActiveIndicator" 
-						attributeToHighlightOnFail="organizationCode" />
-		</defaultExistenceChecks>
-		
-	    <maintainableSections>
-	        <maintainableSection title="Edit Project Code">
+        <defaultExistenceChecks>
+            <reference attributeName="chartOfAccounts" activeIndicatorAttributeName="finChartOfAccountActiveIndicator" attributeToHighlightOnFail="chartOfAccountsCode" />
+            <reference attributeName="projectManagerUniversal" activeIndicatorAttributeName="personActiveIndicator" attributeToHighlightOnFail="projectManagerUniversal.personUserIdentifier" />
+            <reference attributeName="organization" activeIndicatorAttributeName="organizationActiveIndicator" attributeToHighlightOnFail="organizationCode" />
+        </defaultExistenceChecks>
+
+        <maintainableSections>
+            <maintainableSection title="Edit Project Code">
                 <maintainableItems>
-		            <maintainableField name="code" required="true" />
-		            <maintainableField name="name" required="true" />
-		            <maintainableField name="projectManagerUniversalId" required="true" readOnly="true" />
-					<maintainableField name="projectManagerUniversal.personUserIdentifier" required="true" />
-					<maintainableField name="projectManagerUniversal.personName" required="false" readOnly="true" />
-		            <maintainableField name="chartOfAccountsCode" required="true" />
-		            <maintainableField name="organizationCode" required="true" />	     
-		            <maintainableField name="projectDescription" required="true" />
-		            <maintainableField name="active" >
-		              <defaultValue>true</defaultValue>	
-		            </maintainableField>  
-		            <maintainableField name="versionNumber" />
+                    <maintainableField name="code" required="true" />
+                    <maintainableField name="name" required="true" />
+                    <maintainableField name="projectManagerUniversalId" required="true" readOnly="true" />
+                    <maintainableField name="projectManagerUniversal.personUserIdentifier" required="true" />
+                    <maintainableField name="projectManagerUniversal.personName" required="false" readOnly="true" />
+                    <maintainableField name="chartOfAccountsCode" required="true" />
+                    <maintainableField name="organizationCode" required="true" />
+                    <maintainableField name="projectDescription" required="true" />
+                    <maintainableField name="active">
+                        <defaultValue>true</defaultValue>
+                    </maintainableField>
+                    <maintainableField name="versionNumber" />
                 </maintainableItems>
-	        </maintainableSection>
-	    </maintainableSections>
-	</maintenanceDocument>
+            </maintainableSection>
+        </maintainableSections>
+    </maintenanceDocument>
 </dictionaryEntry>

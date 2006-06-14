@@ -4,177 +4,157 @@
     "../../../core/datadictionary/dataDictionary-1_0.dtd">
 
 <dictionaryEntry>
-	<businessObject businessObjectClass="org.kuali.module.financial.bo.DisbursementVoucherPayeeDetail">
-	
+    <businessObject businessObjectClass="org.kuali.module.financial.bo.DisbursementVoucherPayeeDetail">
+
         <customAttributeEnabled>false</customAttributeEnabled>
-	    
-	    <attributes>
-	    
-	          <attributeReference name="disbVchrPaymentReasonCode"
-                                  sourceClassName="org.kuali.module.financial.bo.PaymentReasonCode"
-                                  sourceAttributeName="code">
+
+        <attributes>
+
+            <attributeReference name="disbVchrPaymentReasonCode" sourceClassName="org.kuali.module.financial.bo.PaymentReasonCode" sourceAttributeName="code">
                 <control>
-	                <select valuesFinderClass="org.kuali.core.lookup.keyvalues.PaymentReasonValuesFinder"/>
-	            </control> 
-	            <description>The description of the reason for the document Payment.  Select one from the pulldown list.</description>               
-              </attributeReference>    
-	       
-	          <attributeReference name="disbVchrPayeeIdNumber"
-                                  sourceClassName="org.kuali.module.financial.bo.Payee"
-                                  sourceAttributeName="payeeIdNumber">
-	            <description>The unique numeric identifier for the document Payee.</description>               
-              </attributeReference>    
-                                  
-              <attribute name="disbursementVoucherPayeeTypeCode">
-	            <label>Payee Type</label>
-	            <shortLabel>Pay Type</shortLabel>
-	            
-	            <maxLength>25</maxLength>
-	            
-	            <required>true</required>
-	            
-	            <control>
-	                <select valuesFinderClass="org.kuali.core.lookup.keyvalues.PayeeTypeValuesFinder"/>
-	            </control>
-	            
-	            <summary><![CDATA[&nbsp;]]></summary>
-	            <description><![CDATA[&nbsp;]]></description>
-	          </attribute>
-                                  
- 	          <attributeReference name="disbVchrPayeePersonName"
-                                  sourceClassName="org.kuali.module.financial.bo.Payee"
-                                  sourceAttributeName="payeePersonName">
-                                  <required>true</required>
-	           <description>Full name of document Payee, expressed as "Lastname, Firstname Initial"</description>
-                    
-              </attributeReference>                    
-	       
-	          <attributeReference name="disbVchrPayeeLine1Addr"
-                                  sourceClassName="org.kuali.module.financial.bo.Payee"
-                                  sourceAttributeName="payeeLine1Addr">
-                                  <required>true</required>
-	           <description>First address line of Payee.</description>
+                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.PaymentReasonValuesFinder" />
+                </control>
+                <description>The description of the reason for the document Payment. Select one from the pulldown list.</description>
+            </attributeReference>
 
-              </attributeReference>                    
-                                  
-              <attributeReference name="disbVchrPayeeLine2Addr"
-                                  sourceClassName="org.kuali.module.financial.bo.Payee"
-                                  sourceAttributeName="payeeLine2Addr">
-	           <description>Second address line of Payee, if required.</description>
+            <attributeReference name="disbVchrPayeeIdNumber" sourceClassName="org.kuali.module.financial.bo.Payee" sourceAttributeName="payeeIdNumber">
+                <description>The unique numeric identifier for the document Payee.</description>
+            </attributeReference>
 
-              </attributeReference>                    
-	       
-	          <attributeReference name="disbVchrPayeeCityName"
-                                  sourceClassName="org.kuali.module.financial.bo.Payee"
-                                  sourceAttributeName="payeeCityName">
-	           <description>City of Payee</description>
+            <attribute name="disbursementVoucherPayeeTypeCode">
+                <label>Payee Type</label>
+                <shortLabel>Pay Type</shortLabel>
 
-              </attributeReference>                    
-                                  
-              <attributeReference name="disbVchrPayeeStateCode"
-                                  sourceClassName="org.kuali.module.financial.bo.Payee"
-                                  sourceAttributeName="payeeStateCode">
-	           <description>The 2-character code for the State of the Payee.</description>
+                <maxLength>25</maxLength>
 
-              </attributeReference>                    
-	       
-	          <attributeReference name="disbVchrPayeeZipCode"
-                                  sourceClassName="org.kuali.module.financial.bo.Payee"
-                                  sourceAttributeName="payeeZipCode">              
-	           <description>The numeric Zip Code assigned by the US Postal Service for the Address of the Payee.</description>
+                <required>true</required>
 
-              </attributeReference>                    
+                <control>
+                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.PayeeTypeValuesFinder" />
+                </control>
 
-	          <attributeReference name="disbVchrPayeeCountryCode"
-                                  sourceClassName="org.kuali.module.financial.bo.Payee"
-                                  sourceAttributeName="payeeCountryCode">
-                                  <required>true</required>
-	          <description>The name of the Country of the Payee.  Select one from the pulldown list.</description>
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>
+                    <![CDATA[&nbsp;]]>
+                </description>
+            </attribute>
 
-              </attributeReference>                    
-                                  
- 	          <attributeReference name="disbVchrRemitPersonName"
-                                  sourceClassName="org.kuali.module.financial.bo.Payee"
-                                  sourceAttributeName="payeePersonName">
-                                  <label>Remit Name</label>
-                                  <shortLabel>Remit Nm</shortLabel>
-                                  
-                                  <summary><![CDATA[&nbsp;]]></summary>
-                                  <description>The full name of the individual or organization that takes initial receipt of the Payment, expressed as "Lastname, Firstname Initial".  Select one from the pulldown list.</description>
-              </attributeReference>                    
-	       
-	          <attributeReference name="disbVchrRemitLine1Addr"
-                                  sourceClassName="org.kuali.module.financial.bo.Payee"
-                                  sourceAttributeName="payeeLine1Addr">
-                                  <label>Remit Address 1</label>
-                                  <shortLabel>Remit Addr 1</shortLabel>
-                                  
-                                  <summary><![CDATA[&nbsp;]]></summary>
-                                  <description>The first address line of the individual or organization that takes initial receipt of the Payment.</description>
-              </attributeReference>         
-              
-	          <attributeReference name="disbVchrRemitLine2Addr"
-                                  sourceClassName="org.kuali.module.financial.bo.Payee"
-                                  sourceAttributeName="payeeLine2Addr">
-                                  <label>Remit Address 2</label>
-                                  <shortLabel>Remit Addr 2</shortLabel>
-                                  
-                                  <summary><![CDATA[&nbsp;]]></summary>
-                                  <description>The second address line of the individual or organization that takes initial receipt of the Payment, if required.</description>
-              </attributeReference>   
-	       
-	          <attributeReference name="disbVchrRemitCityName"
-                                  sourceClassName="org.kuali.module.financial.bo.Payee"
-                                  sourceAttributeName="payeeCityName">
-                                  <label>Remit City</label>
-                                  <shortLabel>Remit City</shortLabel>
-                                  
-                                  <summary><![CDATA[&nbsp;]]></summary>
-                                  <description>The city of the individual or organization that takes initial receipt of the Payment.</description>
-              </attributeReference>   
-              
-	          <attributeReference name="disbVchrRemitStateCode"
-                                  sourceClassName="org.kuali.module.financial.bo.Payee"
-                                  sourceAttributeName="payeeStateCode">
-                                  <label>Remit State</label>
-                                  <shortLabel>Remit State</shortLabel>
-                                  
-                                  <summary><![CDATA[&nbsp;]]></summary>
-                                  <description>The 2-characode code for the State of the individual or organization that takes initial receipt of the Payment.</description>
-              </attributeReference>
-              
-	       
-	          <attributeReference name="disbVchrRemitZipCode"
-                                  sourceClassName="org.kuali.module.financial.bo.Payee"
-                                  sourceAttributeName="payeeZipCode">
-                                  <label>Remit Zip Code</label>
-                                  <shortLabel>Remit Zip</shortLabel>
-                                  
-                                  <summary><![CDATA[&nbsp;]]></summary>
-                                  <description>The numeric Zip code assigned by the US Postal Service for the Address of the individual or organization that takes initial receipt of the Payment.</description>
-              </attributeReference>   
+            <attributeReference name="disbVchrPayeePersonName" sourceClassName="org.kuali.module.financial.bo.Payee" sourceAttributeName="payeePersonName">
+                <required>true</required>
+                <description>Full name of document Payee, expressed as "Lastname, Firstname Initial"</description>
 
-	          <attributeReference name="disbVchrRemitCountryCode"
-                                  sourceClassName="org.kuali.module.financial.bo.Payee"
-                                  sourceAttributeName="payeeCountryCode">
-                                  <label>Remit Country</label>
-                                  <shortLabel>Remit Cntry</shortLabel>
-                                  
-                                  <summary><![CDATA[&nbsp;]]></summary>
-                                  <description>The name of the Country of the individual or organization that takes initial receipt of the Payment.  Select one from the pulldown list.</description>
-              </attributeReference> 
-              
-              <attributeReference name="disbVchrPayeeEmployeeCode"
-                                  sourceClassName="org.kuali.module.financial.bo.Payee"
-                                  sourceAttributeName="payeeEmployeeCode"/> 
-                                  
-	          <attributeReference name="dvPayeeRevolvingFundCode"
-                                  sourceClassName="org.kuali.module.financial.bo.Payee"
-                                  sourceAttributeName="payeeRevolvingFundCode"/>
-                                  
-	          <attributeReference name="disbVchrAlienPaymentCode"
-                                  sourceClassName="org.kuali.module.financial.bo.Payee"
-                                  sourceAttributeName="alienPaymentCode"/>
-	    </attributes>
-	</businessObject>
+            </attributeReference>
+
+            <attributeReference name="disbVchrPayeeLine1Addr" sourceClassName="org.kuali.module.financial.bo.Payee" sourceAttributeName="payeeLine1Addr">
+                <required>true</required>
+                <description>First address line of Payee.</description>
+
+            </attributeReference>
+
+            <attributeReference name="disbVchrPayeeLine2Addr" sourceClassName="org.kuali.module.financial.bo.Payee" sourceAttributeName="payeeLine2Addr">
+                <description>Second address line of Payee, if required.</description>
+
+            </attributeReference>
+
+            <attributeReference name="disbVchrPayeeCityName" sourceClassName="org.kuali.module.financial.bo.Payee" sourceAttributeName="payeeCityName">
+                <description>City of Payee</description>
+
+            </attributeReference>
+
+            <attributeReference name="disbVchrPayeeStateCode" sourceClassName="org.kuali.module.financial.bo.Payee" sourceAttributeName="payeeStateCode">
+                <description>The 2-character code for the State of the Payee.</description>
+
+            </attributeReference>
+
+            <attributeReference name="disbVchrPayeeZipCode" sourceClassName="org.kuali.module.financial.bo.Payee" sourceAttributeName="payeeZipCode">
+                <description>The numeric Zip Code assigned by the US Postal Service for the Address of the Payee.</description>
+
+            </attributeReference>
+
+            <attributeReference name="disbVchrPayeeCountryCode" sourceClassName="org.kuali.module.financial.bo.Payee" sourceAttributeName="payeeCountryCode">
+                <required>true</required>
+                <description>The name of the Country of the Payee. Select one from the pulldown list.</description>
+
+            </attributeReference>
+
+            <attributeReference name="disbVchrRemitPersonName" sourceClassName="org.kuali.module.financial.bo.Payee" sourceAttributeName="payeePersonName">
+                <label>Remit Name</label>
+                <shortLabel>Remit Nm</shortLabel>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>The full name of the individual or organization that takes initial receipt of the Payment, expressed as "Lastname, Firstname Initial". Select one from the pulldown list.</description>
+            </attributeReference>
+
+            <attributeReference name="disbVchrRemitLine1Addr" sourceClassName="org.kuali.module.financial.bo.Payee" sourceAttributeName="payeeLine1Addr">
+                <label>Remit Address 1</label>
+                <shortLabel>Remit Addr 1</shortLabel>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>The first address line of the individual or organization that takes initial receipt of the Payment.</description>
+            </attributeReference>
+
+            <attributeReference name="disbVchrRemitLine2Addr" sourceClassName="org.kuali.module.financial.bo.Payee" sourceAttributeName="payeeLine2Addr">
+                <label>Remit Address 2</label>
+                <shortLabel>Remit Addr 2</shortLabel>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>The second address line of the individual or organization that takes initial receipt of the Payment, if required.</description>
+            </attributeReference>
+
+            <attributeReference name="disbVchrRemitCityName" sourceClassName="org.kuali.module.financial.bo.Payee" sourceAttributeName="payeeCityName">
+                <label>Remit City</label>
+                <shortLabel>Remit City</shortLabel>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>The city of the individual or organization that takes initial receipt of the Payment.</description>
+            </attributeReference>
+
+            <attributeReference name="disbVchrRemitStateCode" sourceClassName="org.kuali.module.financial.bo.Payee" sourceAttributeName="payeeStateCode">
+                <label>Remit State</label>
+                <shortLabel>Remit State</shortLabel>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>The 2-characode code for the State of the individual or organization that takes initial receipt of the Payment.</description>
+            </attributeReference>
+
+
+            <attributeReference name="disbVchrRemitZipCode" sourceClassName="org.kuali.module.financial.bo.Payee" sourceAttributeName="payeeZipCode">
+                <label>Remit Zip Code</label>
+                <shortLabel>Remit Zip</shortLabel>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>The numeric Zip code assigned by the US Postal Service for the Address of the individual or organization that takes initial receipt of the Payment.</description>
+            </attributeReference>
+
+            <attributeReference name="disbVchrRemitCountryCode" sourceClassName="org.kuali.module.financial.bo.Payee" sourceAttributeName="payeeCountryCode">
+                <label>Remit Country</label>
+                <shortLabel>Remit Cntry</shortLabel>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>The name of the Country of the individual or organization that takes initial receipt of the Payment. Select one from the pulldown list.</description>
+            </attributeReference>
+
+            <attributeReference name="disbVchrPayeeEmployeeCode" sourceClassName="org.kuali.module.financial.bo.Payee" sourceAttributeName="payeeEmployeeCode" />
+
+            <attributeReference name="dvPayeeRevolvingFundCode" sourceClassName="org.kuali.module.financial.bo.Payee" sourceAttributeName="payeeRevolvingFundCode" />
+
+            <attributeReference name="disbVchrAlienPaymentCode" sourceClassName="org.kuali.module.financial.bo.Payee" sourceAttributeName="alienPaymentCode" />
+        </attributes>
+    </businessObject>
 </dictionaryEntry>

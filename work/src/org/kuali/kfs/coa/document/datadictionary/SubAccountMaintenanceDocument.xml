@@ -3,12 +3,12 @@
     "../../../../core/datadictionary/dataDictionary-1_0.dtd">
 
 <dictionaryEntry>
-	<maintenanceDocument>
+    <maintenanceDocument>
         <businessObjectClass>org.kuali.module.chart.bo.SubAccount</businessObjectClass>
         <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
-		<businessRulesClass>org.kuali.module.chart.rules.SubAccountRule</businessRulesClass>
-		<preRulesCheckClass>org.kuali.module.chart.rules.SubAccountPreRules</preRulesCheckClass>
-		
+        <businessRulesClass>org.kuali.module.chart.rules.SubAccountRule</businessRulesClass>
+        <preRulesCheckClass>org.kuali.module.chart.rules.SubAccountPreRules</preRulesCheckClass>
+
         <documentAuthorizerClass>org.kuali.module.chart.document.SubAccountDocumentAuthorizer</documentAuthorizerClass>
         <authorizations>
             <authorization action="initiate">
@@ -18,74 +18,68 @@
             </authorization>
         </authorizations>
 
-		<documentTypeName>KualiSubAccountMaintenanceDocument</documentTypeName>
-		<documentTypeCode>SACC</documentTypeCode>
+        <documentTypeName>KualiSubAccountMaintenanceDocument</documentTypeName>
+        <documentTypeCode>SACC</documentTypeCode>
 
-		<label>Sub Account Maintenance Document</label>
-		<shortLabel>SubAccountMainDoc</shortLabel>
-		
-		<summary>Sub Account maintenance document</summary>
-		<description>Document used to create or update Sub Account objects</description>
+        <label>Sub Account Maintenance Document</label>
+        <shortLabel>SubAccountMainDoc</shortLabel>
+
+        <summary>Sub Account maintenance document</summary>
+        <description>Document used to create or update Sub Account objects</description>
 
         <lockingKeys>
-			<field attributeName="chartOfAccountsCode" />
-			<field attributeName="accountNumber" />
-			<field attributeName="subAccountNumber" />
-		</lockingKeys>	        
+            <field attributeName="chartOfAccountsCode" />
+            <field attributeName="accountNumber" />
+            <field attributeName="subAccountNumber" />
+        </lockingKeys>
 
-		<defaultExistenceChecks>
-			<reference  attributeName="account" 
-						activeIndicatorAttributeName="accountClosedIndicator" 
-						activeIndicatorReversed="true" 
-						attributeToHighlightOnFail="accountNumber" 
-						displayFieldName="Account" />
-			<reference  attributeName="reportingCode" 
-						attributeToHighlightOnFail="financialReportingCode" 
-						displayFieldName="Reporting Code" />
-		</defaultExistenceChecks>
-		
-	    <maintainableSections>
-	        <maintainableSection title="Edit Sub Account Code">
+        <defaultExistenceChecks>
+            <reference attributeName="account" activeIndicatorAttributeName="accountClosedIndicator" activeIndicatorReversed="true" attributeToHighlightOnFail="accountNumber" displayFieldName="Account" />
+            <reference attributeName="reportingCode" attributeToHighlightOnFail="financialReportingCode" displayFieldName="Reporting Code" />
+        </defaultExistenceChecks>
+
+        <maintainableSections>
+            <maintainableSection title="Edit Sub Account Code">
                 <maintainableItems>
-		            <maintainableField name="chartOfAccountsCode" required="true" />
-		            <maintainableField name="accountNumber" required="true" />
-		            <maintainableField name="subAccountNumber" required="true" />
-		            <maintainableField name="subAccountName" required="true" />	 
-		            <maintainableField name="subAccountActiveIndicator" required="false">
-		            	<defaultValue>true</defaultValue>
-		            </maintainableField>
-		            <maintainableField name="a21SubAccount.subAccountTypeCode" required="false">
-		            	<defaultValue>EX</defaultValue>
-		            </maintainableField>
-		            <maintainableField name="versionNumber" />
-		            <maintainableField name="a21SubAccount.versionNumber" />
+                    <maintainableField name="chartOfAccountsCode" required="true" />
+                    <maintainableField name="accountNumber" required="true" />
+                    <maintainableField name="subAccountNumber" required="true" />
+                    <maintainableField name="subAccountName" required="true" />
+                    <maintainableField name="subAccountActiveIndicator" required="false">
+                        <defaultValue>true</defaultValue>
+                    </maintainableField>
+                    <maintainableField name="a21SubAccount.subAccountTypeCode" required="false">
+                        <defaultValue>EX</defaultValue>
+                    </maintainableField>
+                    <maintainableField name="versionNumber" />
+                    <maintainableField name="a21SubAccount.versionNumber" />
                 </maintainableItems>
-	        </maintainableSection>
-	        <maintainableSection title="Edit Financial Reporting Code">
+            </maintainableSection>
+            <maintainableSection title="Edit Financial Reporting Code">
                 <maintainableItems>
-		            <maintainableField name="financialReportChartCode" required="false" />
-		            <maintainableField name="finReportOrganizationCode" required="false" />	     
-		            <maintainableField name="financialReportingCode" required="false" />
+                    <maintainableField name="financialReportChartCode" required="false" />
+                    <maintainableField name="finReportOrganizationCode" required="false" />
+                    <maintainableField name="financialReportingCode" required="false" />
                 </maintainableItems>
-	        </maintainableSection>
-	        <maintainableSection title="Edit CG Cost Sharing">
+            </maintainableSection>
+            <maintainableSection title="Edit CG Cost Sharing">
                 <maintainableItems>
-		            <maintainableField name="a21SubAccount.costShareChartOfAccountCode" required="false" />
-		            <maintainableField name="a21SubAccount.costShareSourceAccountNumber" required="false" />
-		            <maintainableField name="a21SubAccount.costShareSourceSubAccountNumber" required="false" />
+                    <maintainableField name="a21SubAccount.costShareChartOfAccountCode" required="false" />
+                    <maintainableField name="a21SubAccount.costShareSourceAccountNumber" required="false" />
+                    <maintainableField name="a21SubAccount.costShareSourceSubAccountNumber" required="false" />
                 </maintainableItems>
-	        </maintainableSection>
-	        <maintainableSection title="Edit CG ICR">
+            </maintainableSection>
+            <maintainableSection title="Edit CG ICR">
                 <maintainableItems>
-		            <maintainableField name="a21SubAccount.financialIcrSeriesIdentifier"/>
-		            <maintainableField name="a21SubAccount.indirectCostRecoveryChartOfAccountsCode"/>
-		            <maintainableField name="a21SubAccount.indirectCostRecoveryAccountNumber"/>
-		            <maintainableField name="a21SubAccount.indirectCostRecoveryTypeCode"/>
-		            <maintainableField name="a21SubAccount.offCampusCode" required="false">
-		            	<defaultValue>false</defaultValue>
-		            </maintainableField>
+                    <maintainableField name="a21SubAccount.financialIcrSeriesIdentifier" />
+                    <maintainableField name="a21SubAccount.indirectCostRecoveryChartOfAccountsCode" />
+                    <maintainableField name="a21SubAccount.indirectCostRecoveryAccountNumber" />
+                    <maintainableField name="a21SubAccount.indirectCostRecoveryTypeCode" />
+                    <maintainableField name="a21SubAccount.offCampusCode" required="false">
+                        <defaultValue>false</defaultValue>
+                    </maintainableField>
                 </maintainableItems>
-	        </maintainableSection>
-	    </maintainableSections>
-	</maintenanceDocument>
+            </maintainableSection>
+        </maintainableSections>
+    </maintenanceDocument>
 </dictionaryEntry>

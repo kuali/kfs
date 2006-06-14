@@ -21,8 +21,10 @@
 
         <lookup>
             <title>Accounting Period Lookup</title>
-            
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.chart.bo.AccountingPeriod">Create New</a>]]></menubar>
+
+            <menubar>
+                <![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.chart.bo.AccountingPeriod">Create New</a>]]>
+            </menubar>
 
             <instructions>Lookup an Accounting Period</instructions>
 
@@ -39,11 +41,11 @@
                 <lookupField attributeName="universityFiscalPeriodName" required="false" />
                 <lookupField attributeName="universityFiscalPeriodEndDate" required="false" />
                 <lookupField attributeName="universityFiscalPeriodStatusCode" required="false" />
-            	<lookupField attributeName="budgetRolloverIndicator" required="false" />
+                <lookupField attributeName="budgetRolloverIndicator" required="false" />
             </lookupFields>
 
             <resultFields>
-            	<field attributeName="universityFiscalYear" />
+                <field attributeName="universityFiscalYear" />
                 <field attributeName="universityFiscalPeriodCode" />
                 <field attributeName="universityFiscalPeriodName" />
                 <field attributeName="universityFiscalPeriodEndDate" />
@@ -59,8 +61,10 @@
 
                 <maxLength>$attribute.maxLength</maxLength>
 
-                <validationPattern><anyCharacter /></validationPattern>
-				<required>true</required>
+                <validationPattern>
+                    <anyCharacter />
+                </validationPattern>
+                <required>true</required>
                 <control>
                     <checkbox />
                 </control>
@@ -74,8 +78,10 @@
 
                 <maxLength>10</maxLength>
 
-                <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
-				<required>true</required>
+                <validationPattern>
+                    <anyCharacter allowWhitespace="true" />
+                </validationPattern>
+                <required>true</required>
                 <control>
                     <text size="10" />
                 </control>
@@ -89,63 +95,63 @@
 
                 <maxLength>1</maxLength>
 
-                <validationPattern><charset validChars="CO" /></validationPattern>
-				<required>true</required>
-				<control>
-					<select valuesFinderClass="org.kuali.core.lookup.keyvalues.OpenCloseValuesFinder" />
-				</control> 
+                <validationPattern>
+                    <charset validChars="CO" />
+                </validationPattern>
+                <required>true</required>
+                <control>
+                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.OpenCloseValuesFinder" />
+                </control>
 
                 <summary>universityFiscalPeriodStatusCode summary...</summary>
                 <description>universityFiscalPeriodStatusCode description...</description>
             </attribute>
-            
+
             <attribute name="universityFiscalPeriodCode" forceUppercase="true">
                 <label>University Fiscal Period Code</label>
                 <shortLabel>Fiscal Period Code</shortLabel>
 
                 <maxLength>2</maxLength>
 
-                <validationPattern><anyCharacter exactLength="2" /></validationPattern>
-				<required>true</required>
-				<control>
-					<select valuesFinderClass="org.kuali.core.lookup.keyvalues.FiscalPeriodValuesFinder" />
-				</control> 
+                <validationPattern>
+                    <anyCharacter exactLength="2" />
+                </validationPattern>
+                <required>true</required>
+                <control>
+                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.FiscalPeriodValuesFinder" />
+                </control>
 
                 <summary>universityFiscalPeriodCode summary...</summary>
                 <description>universityFiscalPeriodCode description...</description>
             </attribute>
-            
-            <attributeReference name="universityFiscalPeriodEndDate" 
-							sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
-							sourceAttributeName="genericDate">
-				<label>University Fiscal Period End Date</label>
-				<shortLabel>End Date</shortLabel>
-				<required>true</required>
-				<summary>University Fiscal Period End Date</summary>
-				<description>University Fiscal Period End Date...</description>
-			</attributeReference>           
-            
+
+            <attributeReference name="universityFiscalPeriodEndDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
+                <label>University Fiscal Period End Date</label>
+                <shortLabel>End Date</shortLabel>
+                <required>true</required>
+                <summary>University Fiscal Period End Date</summary>
+                <description>University Fiscal Period End Date...</description>
+            </attributeReference>
+
             <attribute name="universityFiscalYear" forceUppercase="true">
                 <label>University Fiscal Year</label>
                 <shortLabel>Fiscal Year</shortLabel>
 
                 <maxLength>4</maxLength>
 
-                <validationPattern><year /></validationPattern>
-				<required>true</required>
-				<control>
-					<select valuesFinderClass="org.kuali.core.lookup.keyvalues.FiscalYearValuesFinder" />
-				</control> 
+                <validationPattern>
+                    <year />
+                </validationPattern>
+                <required>true</required>
+                <control>
+                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.FiscalYearValuesFinder" />
+                </control>
 
                 <summary>universityFiscalYear summary...</summary>
                 <description>universityFiscalYear description...</description>
             </attribute>
-            <attributeReference name="versionNumber"
-        						sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
-        						sourceAttributeName="versionNumber" />
-        	<attributeReference name="objectId"
-        						sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
-        						sourceAttributeName="objectId" />
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+            <attributeReference name="objectId" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="objectId" />
         </attributes>
 
         <collections>

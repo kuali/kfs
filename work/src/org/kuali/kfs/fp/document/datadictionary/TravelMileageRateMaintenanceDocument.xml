@@ -4,7 +4,7 @@
     "../../../../core/datadictionary/dataDictionary-1_0.dtd">
 
 <dictionaryEntry>
-	<maintenanceDocument>
+    <maintenanceDocument>
         <businessObjectClass>org.kuali.module.financial.bo.TravelMileageRate</businessObjectClass>
         <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
 
@@ -17,29 +17,29 @@
             </authorization>
         </authorizations>
 
-		<documentTypeName>KualiTravelMileageRateMaintenanceDocument</documentTypeName>
-		<documentTypeCode>DVML</documentTypeCode>
+        <documentTypeName>KualiTravelMileageRateMaintenanceDocument</documentTypeName>
+        <documentTypeCode>DVML</documentTypeCode>
 
-		<label>Travel Mileage Rate Maintenance Document</label>
-		<shortLabel>Travel Mileage Rate Maint Doc</shortLabel>
-		
-		<summary>Travel Mileage Rate Maintenance Document</summary>
-		<description>Document used to create or update Travel Mileage Rate objects</description>
+        <label>Travel Mileage Rate Maintenance Document</label>
+        <shortLabel>Travel Mileage Rate Maint Doc</shortLabel>
+
+        <summary>Travel Mileage Rate Maintenance Document</summary>
+        <description>Document used to create or update Travel Mileage Rate objects</description>
 
         <lockingKeys>
-			<field attributeName="disbursementVoucherMileageEffectiveDate" />        
-			<field attributeName="mileageLimitAmount" />
-		</lockingKeys>         
+            <field attributeName="disbursementVoucherMileageEffectiveDate" />
+            <field attributeName="mileageLimitAmount" />
+        </lockingKeys>
 
-	    <maintainableSections>
-	        <maintainableSection title="Edit Travel Mileage Rate">
-	        	<maintainableItems>
-	            	<maintainableField name="disbursementVoucherMileageEffectiveDate" required="true" />	        	
-	            	<maintainableField name="mileageLimitAmount" required="true" />
-	            	<maintainableField name="mileageRate" required="true" />
-		            <maintainableField name="versionNumber" />
-	            </maintainableItems>          	                   
-	        </maintainableSection>
-	    </maintainableSections>
-	</maintenanceDocument>
+        <maintainableSections>
+            <maintainableSection title="Edit Travel Mileage Rate">
+                <maintainableItems>
+                    <maintainableField name="disbursementVoucherMileageEffectiveDate" required="true" />
+                    <maintainableField name="mileageLimitAmount" required="true" />
+                    <maintainableField name="mileageRate" required="true" />
+                    <maintainableField name="versionNumber" />
+                </maintainableItems>
+            </maintainableSection>
+        </maintainableSections>
+    </maintenanceDocument>
 </dictionaryEntry>

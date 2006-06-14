@@ -4,7 +4,7 @@
     "../../../../core/datadictionary/dataDictionary-1_0.dtd">
 
 <dictionaryEntry>
-	<maintenanceDocument>
+    <maintenanceDocument>
         <businessObjectClass>org.kuali.module.financial.bo.ServiceBillingControl</businessObjectClass>
         <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
         <businessRulesClass>org.kuali.module.financial.rules.ServiceBillingControlRule</businessRulesClass>
@@ -18,37 +18,33 @@
             </authorization>
         </authorizations>
 
-		<documentTypeName>KualiServiceBillingControlMaintenanceDocument</documentTypeName>
-		<documentTypeCode>SBC</documentTypeCode>
+        <documentTypeName>KualiServiceBillingControlMaintenanceDocument</documentTypeName>
+        <documentTypeCode>SBC</documentTypeCode>
 
-		<label>Service Billing Control Maintenance Document</label>
-		<shortLabel>ServBillConMainDoc</shortLabel>
-		
-		<summary>Service Billing Control maintenance document</summary>
-		<description>Document used to create or update Service Billing Control objects</description>
+        <label>Service Billing Control Maintenance Document</label>
+        <shortLabel>ServBillConMainDoc</shortLabel>
+
+        <summary>Service Billing Control maintenance document</summary>
+        <description>Document used to create or update Service Billing Control objects</description>
 
         <lockingKeys>
-			<field attributeName="chartOfAccountsCode" />
-			<field attributeName="accountNumber" />	
-		</lockingKeys>
-		
-		<defaultExistenceChecks>
-			<reference  attributeName="account" 
-						activeIndicatorAttributeName="accountClosedIndicator" 
-						activeIndicatorReversed="true" 
-						attributeToHighlightOnFail="accountNumber" 
-						displayFieldName="Account" />
-		</defaultExistenceChecks>	        
+            <field attributeName="chartOfAccountsCode" />
+            <field attributeName="accountNumber" />
+        </lockingKeys>
 
-	    <maintainableSections>
-	        <maintainableSection title="Edit Service Billing Control">
+        <defaultExistenceChecks>
+            <reference attributeName="account" activeIndicatorAttributeName="accountClosedIndicator" activeIndicatorReversed="true" attributeToHighlightOnFail="accountNumber" displayFieldName="Account" />
+        </defaultExistenceChecks>
+
+        <maintainableSections>
+            <maintainableSection title="Edit Service Billing Control">
                 <maintainableItems>
-                    <maintainableField name="chartOfAccountsCode" required="true"/> 
-		            <maintainableField name="accountNumber" required="true" />
+                    <maintainableField name="chartOfAccountsCode" required="true" />
+                    <maintainableField name="accountNumber" required="true" />
                     <maintainableField name="workgroupName" required="true" />
                     <maintainableField name="versionNumber" />
                 </maintainableItems>
-	        </maintainableSection>
-	    </maintainableSections>
-	</maintenanceDocument>
+            </maintainableSection>
+        </maintainableSections>
+    </maintenanceDocument>
 </dictionaryEntry>

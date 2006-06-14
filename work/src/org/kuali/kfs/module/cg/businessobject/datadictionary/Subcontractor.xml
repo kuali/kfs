@@ -3,79 +3,85 @@
     "-//Kuali Project//DTD Data Dictionary 1.0//EN"
     "../../../core/datadictionary/dataDictionary-1_0.dtd">
 <dictionaryEntry>
-	<businessObject businessObjectClass="org.kuali.module.cg.bo.Subcontractor">
-		<customAttributeEnabled>false</customAttributeEnabled>
+    <businessObject businessObjectClass="org.kuali.module.cg.bo.Subcontractor">
+        <customAttributeEnabled>false</customAttributeEnabled>
 
-		<inquiry>
-			<title>Contracts and Grants Subcontractor</title>
+        <inquiry>
+            <title>Contracts and Grants Subcontractor</title>
 
-			<inquiryFields>
-				<field attributeName="subcontractorNumber" />
-				<field attributeName="subcontractorName" />
-				<field attributeName="subcontractorAddressLine1" />
-				<field attributeName="subcontractorAddressLine2" />
-				<field attributeName="subcontractorCity" />
-				<field attributeName="subcontractorStateCode" />
-				<field attributeName="subcontractorZipCode" />
-				<field attributeName="subcontractorCountryCode" />
-			</inquiryFields>
-		</inquiry>
+            <inquiryFields>
+                <field attributeName="subcontractorNumber" />
+                <field attributeName="subcontractorName" />
+                <field attributeName="subcontractorAddressLine1" />
+                <field attributeName="subcontractorAddressLine2" />
+                <field attributeName="subcontractorCity" />
+                <field attributeName="subcontractorStateCode" />
+                <field attributeName="subcontractorZipCode" />
+                <field attributeName="subcontractorCountryCode" />
+            </inquiryFields>
+        </inquiry>
 
-		<lookup>
-			<title>Subcontractor</title>
+        <lookup>
+            <title>Subcontractor</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.cg.bo.Subcontractor">Create New</a>]]></menubar>
+            <menubar>
+                <![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.cg.bo.Subcontractor">Create New</a>]]>
+            </menubar>
 
-			<instructions>Lookup an Subcontractor</instructions>
+            <instructions>Lookup an Subcontractor</instructions>
 
-			<defaultSort attributeName="subcontractorName" sortAscending="true" />
+            <defaultSort attributeName="subcontractorName" sortAscending="true" />
 
-			<lookupFields>
-				<lookupField attributeName="subcontractorNumber"  required="false" />
-				<lookupField attributeName="subcontractorName" required="false" />
-				<lookupField attributeName="subcontractorCity" required="false"  />
-				<lookupField attributeName="subcontractorStateCode" required="false" />
-				<lookupField attributeName="subcontractorZipCode" required="false" />
-				<lookupField attributeName="subcontractorCountryCode" required="false" />
-			</lookupFields>
+            <lookupFields>
+                <lookupField attributeName="subcontractorNumber" required="false" />
+                <lookupField attributeName="subcontractorName" required="false" />
+                <lookupField attributeName="subcontractorCity" required="false" />
+                <lookupField attributeName="subcontractorStateCode" required="false" />
+                <lookupField attributeName="subcontractorZipCode" required="false" />
+                <lookupField attributeName="subcontractorCountryCode" required="false" />
+            </lookupFields>
 
-			<resultFields>
-				<field attributeName="subcontractorNumber" />
-				<field attributeName="subcontractorName" />
-				<field attributeName="subcontractorAddressLine1" />
-				<field attributeName="subcontractorAddressLine2" />
-				<field attributeName="subcontractorCity" />
-				<field attributeName="subcontractorStateCode" />
-				<field attributeName="subcontractorZipCode" />
-				<field attributeName="subcontractorCountryCode" />
-			</resultFields>
-		</lookup>
+            <resultFields>
+                <field attributeName="subcontractorNumber" />
+                <field attributeName="subcontractorName" />
+                <field attributeName="subcontractorAddressLine1" />
+                <field attributeName="subcontractorAddressLine2" />
+                <field attributeName="subcontractorCity" />
+                <field attributeName="subcontractorStateCode" />
+                <field attributeName="subcontractorZipCode" />
+                <field attributeName="subcontractorCountryCode" />
+            </resultFields>
+        </lookup>
 
-		<attributes>
+        <attributes>
 
-			<attribute name="subcontractorNumber" forceUppercase="true">
-				<label>Subcontractor Number</label>
-				<shortLabel>Nbr</shortLabel>
+            <attribute name="subcontractorNumber" forceUppercase="true">
+                <label>Subcontractor Number</label>
+                <shortLabel>Nbr</shortLabel>
 
-				<maxLength>5</maxLength>
-				<validationPattern><alphaNumeric exactLength="5" /></validationPattern>
-				<required>true</required>
-				<control>
-					<text size="5" />
-				</control>
+                <maxLength>5</maxLength>
+                <validationPattern>
+                    <alphaNumeric exactLength="5" />
+                </validationPattern>
+                <required>true</required>
+                <control>
+                    <text size="5" />
+                </control>
 
-				<summary>Subcontractor Number</summary>
-				<description>Contracts and Grants Subcontractor Number.</description>
-			</attribute>
-			
-           <attribute name="subcontractorName" forceUppercase="true">
+                <summary>Subcontractor Number</summary>
+                <description>Contracts and Grants Subcontractor Number.</description>
+            </attribute>
+
+            <attribute name="subcontractorName" forceUppercase="true">
                 <label>Subcontractor Name</label>
                 <shortLabel>Name</shortLabel>
 
                 <maxLength>50</maxLength>
 
-                <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
-				<required>true</required>
+                <validationPattern>
+                    <anyCharacter allowWhitespace="true" />
+                </validationPattern>
+                <required>true</required>
 
                 <control>
                     <text size="50" />
@@ -83,16 +89,18 @@
 
                 <summary>Subcontractor Name</summary>
                 <description>Contracts and Grants Subcontractor Name</description>
-            </attribute>				
+            </attribute>
 
-			<attribute name="subcontractorAddressLine1" forceUppercase="false">
+            <attribute name="subcontractorAddressLine1" forceUppercase="false">
                 <label>Address Line 1</label>
                 <shortLabel>Address1</shortLabel>
 
                 <maxLength>25</maxLength>
 
-                <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
-				<required>true</required>
+                <validationPattern>
+                    <anyCharacter allowWhitespace="true" />
+                </validationPattern>
+                <required>true</required>
 
                 <control>
                     <text size="25" />
@@ -102,13 +110,15 @@
                 <description>Contracts And Grants Subcontractor Address Line 1</description>
             </attribute>
 
-			<attribute name="subcontractorAddressLine2" forceUppercase="false">
+            <attribute name="subcontractorAddressLine2" forceUppercase="false">
                 <label>Address Line 2</label>
                 <shortLabel>Address2</shortLabel>
 
                 <maxLength>20</maxLength>
 
-                <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
+                <validationPattern>
+                    <anyCharacter allowWhitespace="true" />
+                </validationPattern>
 
                 <control>
                     <text size="20" />
@@ -118,14 +128,16 @@
                 <description>Contracts And Grants Subcontractor Address Line 2</description>
             </attribute>
 
-			<attribute name="subcontractorCity" forceUppercase="false">
+            <attribute name="subcontractorCity" forceUppercase="false">
                 <label>Subcontractor City</label>
                 <shortLabel>City</shortLabel>
 
                 <maxLength>20</maxLength>
 
-                <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
-				<required>true</required>
+                <validationPattern>
+                    <anyCharacter allowWhitespace="true" />
+                </validationPattern>
+                <required>true</required>
 
                 <control>
                     <text size="20" />
@@ -135,62 +147,66 @@
                 <description>Contracts And Grants Subcontractor City</description>
             </attribute>
 
-			<attribute name="subcontractorStateCode" forceUppercase="true">
-				<label>State Code</label>
-				<shortLabel>State</shortLabel>
+            <attribute name="subcontractorStateCode" forceUppercase="true">
+                <label>State Code</label>
+                <shortLabel>State</shortLabel>
 
-				<maxLength>2</maxLength>
+                <maxLength>2</maxLength>
 
-                <validationPattern><alpha /></validationPattern>
-				<required>true</required>
+                <validationPattern>
+                    <alpha />
+                </validationPattern>
+                <required>true</required>
 
                 <control>
                     <text size="2" />
                 </control>
 
-				<summary>State Code</summary>
-				<description>Subcontractor State Code</description>
-			</attribute>
-			
-	       	<attribute name="subcontractorZipCode" forceUppercase="false">
-        		<label>ZIP Code</label>
-        		<shortLabel>ZIP</shortLabel>
-        		
+                <summary>State Code</summary>
+                <description>Subcontractor State Code</description>
+            </attribute>
+
+            <attribute name="subcontractorZipCode" forceUppercase="false">
+                <label>ZIP Code</label>
+                <shortLabel>ZIP</shortLabel>
+
                 <maxLength>10</maxLength>
 
-                <validationPattern><zipcode /></validationPattern>
-				<required>true</required>
+                <validationPattern>
+                    <zipcode />
+                </validationPattern>
+                <required>true</required>
 
                 <control>
                     <text size="10" />
                 </control>
 
-        		<summary>ZIP Code</summary>
-        		<description>Subcontractor ZIP Code</description>
-        	</attribute>
+                <summary>ZIP Code</summary>
+                <description>Subcontractor ZIP Code</description>
+            </attribute>
 
-	       	<attribute name="subcontractorCountryCode" forceUppercase="false">
-        		<label>Country Code</label>
-        		<shortLabel>Country</shortLabel>
-        		
+            <attribute name="subcontractorCountryCode" forceUppercase="false">
+                <label>Country Code</label>
+                <shortLabel>Country</shortLabel>
+
                 <maxLength>15</maxLength>
 
-                <validationPattern><alphaNumeric allowWhitespace="true" /></validationPattern>
-				<required>true</required>
+                <validationPattern>
+                    <alphaNumeric allowWhitespace="true" />
+                </validationPattern>
+                <required>true</required>
 
                 <control>
                     <text size="15" />
                 </control>
 
-        		<summary>Country Code</summary>
-        		<description>Subcontractor Country Code</description>
-        	</attribute>
- 
- 			<attributeReference name="versionNumber" 
- 				sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
- 				sourceAttributeName="versionNumber" />
+                <summary>Country Code</summary>
+                <description>Subcontractor Country Code</description>
+            </attribute>
 
-		</attributes>
-	</businessObject>
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+    </businessObject>
 </dictionaryEntry>
 

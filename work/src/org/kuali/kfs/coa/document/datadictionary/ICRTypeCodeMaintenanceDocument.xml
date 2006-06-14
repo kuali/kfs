@@ -2,13 +2,13 @@
 <!DOCTYPE dictionaryEntry PUBLIC
     "-//Kuali Project//DTD Data Dictionary 1.0//EN"
     "../../../../core/datadictionary/dataDictionary-1_0.dtd">
-    
-<dictionaryEntry>
-	<maintenanceDocument>
-		<businessObjectClass>org.kuali.module.chart.bo.codes.ICRTypeCode</businessObjectClass>
-		<maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
 
-   		<documentAuthorizerClass>org.kuali.core.document.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
+<dictionaryEntry>
+    <maintenanceDocument>
+        <businessObjectClass>org.kuali.module.chart.bo.codes.ICRTypeCode</businessObjectClass>
+        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+
+        <documentAuthorizerClass>org.kuali.core.document.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
 
         <authorizations>
             <authorization action="initiate">
@@ -18,28 +18,26 @@
             </authorization>
         </authorizations>
 
-		<documentTypeName>KualiICRTypeCodeMaintenanceDocument</documentTypeName>
-		<documentTypeCode>ICRT</documentTypeCode>
-		<label>ICR Type Code Maintenance Document</label>
-		<shortLabel>ICRTypeCodeMaintDoc</shortLabel>
-		<summary>ICR Type Code Maintenance Document</summary>
-		<description>
-			Maintenance document which allows you to create new ICR Type Codes, or modify existing ICR Type Codes.
-		</description>
-		
+        <documentTypeName>KualiICRTypeCodeMaintenanceDocument</documentTypeName>
+        <documentTypeCode>ICRT</documentTypeCode>
+        <label>ICR Type Code Maintenance Document</label>
+        <shortLabel>ICRTypeCodeMaintDoc</shortLabel>
+        <summary>ICR Type Code Maintenance Document</summary>
+        <description>Maintenance document which allows you to create new ICR Type Codes, or modify existing ICR Type Codes.</description>
+
         <lockingKeys>
-			<field attributeName="code" />
-		</lockingKeys>	 		
-		
-		<maintainableSections>
-			<maintainableSection title="Edit ICR Type Code">
+            <field attributeName="code" />
+        </lockingKeys>
+
+        <maintainableSections>
+            <maintainableSection title="Edit ICR Type Code">
                 <maintainableItems>
-					<maintainableField name="code" required="true" />
-					<maintainableField name="name" required="true" />
-                 	<maintainableField name="versionNumber" />	 
+                    <maintainableField name="code" required="true" />
+                    <maintainableField name="name" required="true" />
+                    <maintainableField name="versionNumber" />
                 </maintainableItems>
-			</maintainableSection>
-		</maintainableSections>
-	</maintenanceDocument>
+            </maintainableSection>
+        </maintainableSections>
+    </maintenanceDocument>
 
 </dictionaryEntry>

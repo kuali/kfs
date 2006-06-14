@@ -26,13 +26,9 @@
         </inquiry>
 
         <attributes>
-		    <attributeReference name="financialDocumentNumber"
-					            sourceClassName="org.kuali.core.document.DocumentHeader"
-					            sourceAttributeName="financialDocumentNumber"/>
+            <attributeReference name="financialDocumentNumber" sourceClassName="org.kuali.core.document.DocumentHeader" sourceAttributeName="financialDocumentNumber" />
 
-		    <attributeReference name="financialDocumentTransactionLineNumber"
-					            sourceClassName="org.kuali.module.financial.bo.ProcurementCardTransactionDetail"
-					            sourceAttributeName="financialDocumentTransactionLineNumber"/>
+            <attributeReference name="financialDocumentTransactionLineNumber" sourceClassName="org.kuali.module.financial.bo.ProcurementCardTransactionDetail" sourceAttributeName="financialDocumentTransactionLineNumber" />
 
             <attribute name="transactionMerchantCategoryCode" forceUppercase="true">
                 <label>Transaction Merchant Category Code</label>
@@ -46,7 +42,7 @@
 
                 <summary>transactionMerchantCategoryCode</summary>
                 <description>transactionMerchantCategoryCode description...</description>
-			</attribute>
+            </attribute>
 
             <attribute name="vendorCityName" forceUppercase="true">
                 <label>Vendor City Name</label>
@@ -60,7 +56,7 @@
 
                 <summary>vendorCityName</summary>
                 <description>vendorCityName description...</description>
-			</attribute>
+            </attribute>
 
             <attribute name="vendorLine1Address" forceUppercase="true">
                 <label>Vendor Line1 Address</label>
@@ -74,7 +70,7 @@
 
                 <summary>vendorLine1Address</summary>
                 <description>vendorLine1Address description...</description>
-			</attribute>
+            </attribute>
 
             <attribute name="vendorLine2Address" forceUppercase="true">
                 <label>Vendor Line2 Address</label>
@@ -88,7 +84,7 @@
 
                 <summary>vendorLine2Address</summary>
                 <description>vendorLine2Address description...</description>
-			</attribute>
+            </attribute>
 
             <attribute name="vendorName" forceUppercase="true">
                 <label>Vendor Name</label>
@@ -102,7 +98,7 @@
 
                 <summary>vendorName</summary>
                 <description>vendorName description...</description>
-			</attribute>
+            </attribute>
 
             <attribute name="vendorOrderNumber" forceUppercase="true">
                 <label>Vendor Order Number</label>
@@ -116,7 +112,7 @@
 
                 <summary>vendorOrderNumber</summary>
                 <description>vendorOrderNumber description...</description>
-			</attribute>
+            </attribute>
 
             <attribute name="vendorStateCode" forceUppercase="true">
                 <label>Vendor State Code</label>
@@ -130,7 +126,7 @@
 
                 <summary>vendorStateCode</summary>
                 <description>vendorStateCode description...</description>
-			</attribute>
+            </attribute>
 
             <attribute name="vendorZipCode" forceUppercase="true">
                 <label>Vendor Zip Code</label>
@@ -144,11 +140,9 @@
 
                 <summary>vendorZipCode</summary>
                 <description>vendorZipCode description...</description>
-			</attribute>
+            </attribute>
 
-            <attributeReference name="versionNumber"
-            					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
-            					sourceAttributeName="versionNumber"/>
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 
             <attribute name="visaVendorIdentifier" forceUppercase="true">
                 <label>Visa Vendor Identifier</label>
@@ -162,7 +156,7 @@
 
                 <summary>visaVendorIdentifier</summary>
                 <description>visaVendorIdentifier description...</description>
-			</attribute>
+            </attribute>
 
         </attributes>
     </businessObject>

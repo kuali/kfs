@@ -4,82 +4,96 @@
     "../../../core/datadictionary/dataDictionary-1_0.dtd">
 
 <dictionaryEntry>
-	<businessObject businessObjectClass="org.kuali.module.financial.bo.PaymentReasonCode">
-	
+    <businessObject businessObjectClass="org.kuali.module.financial.bo.PaymentReasonCode">
+
         <customAttributeEnabled>false</customAttributeEnabled>
 
-	    <inquiry>
-	        <title>Payment Reason Code inquiry</title>
-	        <inquiryFields>
-	            <field attributeName="code" />
-	            <field attributeName="name" />
-	            <field attributeName="description" />
+        <inquiry>
+            <title>Payment Reason Code inquiry</title>
+            <inquiryFields>
+                <field attributeName="code" />
+                <field attributeName="name" />
+                <field attributeName="description" />
 
-	        </inquiryFields>
-	    </inquiry>
+            </inquiryFields>
+        </inquiry>
 
-	    <lookup>
-	        <title>Payment Reason Code lookup</title>
-	        <menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.financial.bo.PaymentReasonCode">Create New</a>]]></menubar>
-	        <instructions>Lookup a Payment Reason Code</instructions>
-	        <defaultSort attributeName="code" sortAscending="false" />
+        <lookup>
+            <title>Payment Reason Code lookup</title>
+            <menubar>
+                <![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.financial.bo.PaymentReasonCode">Create New</a>]]>
+            </menubar>
+            <instructions>Lookup a Payment Reason Code</instructions>
+            <defaultSort attributeName="code" sortAscending="false" />
 
-	        <lookupFields>
-	            <lookupField attributeName="code" />
-	            <lookupField attributeName="name" />
-	            <lookupField attributeName="description" />
-	        </lookupFields>
-	        <resultFields>
-	            <field attributeName="code" />
-	            <field attributeName="name" />
-	            <field attributeName="description" />
-	        </resultFields>
-	    </lookup>
-	    
-	    <attributes>
-	    
-	        <attribute name="code" forceUppercase="true" >
-	            <label>Payment Reason Code</label>
-	            <shortLabel>Code</shortLabel>
-	            <maxLength>1</maxLength>
-	            <validationPattern><alpha exactLength="1" /></validationPattern>
-	            <required>true</required>
-	            <control>
-	                <text size="1"/>
-	            </control>
-	            <summary><![CDATA[&nbsp;]]></summary>
-	            <description><![CDATA[&nbsp;]]></description>
-	        </attribute>
-	        
-	        <attribute name="name">
-	            <label>Payment Reason Name</label>
-	            <shortLabel>Name</shortLabel>
-	            <maxLength>40</maxLength>
-	            <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
-	            <control>
-	                <text size="40" />
-	            </control>
-	            <summary><![CDATA[&nbsp;]]></summary>
-	            <description>The Payment Reason Names are used to give short but meaningful names to the codes that they represent</description>
-	        </attribute>
-	        
-	        <attribute name="description">
-	            <label>Payment Reason Description</label>
-	            <shortLabel>Description</shortLabel>
-	            <maxLength>2500</maxLength>
-	            <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
-	            <control>
-	                <textarea rows="10" cols="50" />
-	            </control>
-	            <summary><![CDATA[&nbsp;]]></summary>
-	            <description>The Payment Reason Names are used to give short but meaningful names to the codes that they represent</description>
-	        </attribute>
-	        
+            <lookupFields>
+                <lookupField attributeName="code" />
+                <lookupField attributeName="name" />
+                <lookupField attributeName="description" />
+            </lookupFields>
+            <resultFields>
+                <field attributeName="code" />
+                <field attributeName="name" />
+                <field attributeName="description" />
+            </resultFields>
+        </lookup>
 
-	        <attributeReference name="versionNumber" 
-	        					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
-	        					sourceAttributeName="versionNumber" />
+        <attributes>
 
-	    </attributes>
-	</businessObject>
+            <attribute name="code" forceUppercase="true">
+                <label>Payment Reason Code</label>
+                <shortLabel>Code</shortLabel>
+                <maxLength>1</maxLength>
+                <validationPattern>
+                    <alpha exactLength="1" />
+                </validationPattern>
+                <required>true</required>
+                <control>
+                    <text size="1" />
+                </control>
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>
+                    <![CDATA[&nbsp;]]>
+                </description>
+            </attribute>
+
+            <attribute name="name">
+                <label>Payment Reason Name</label>
+                <shortLabel>Name</shortLabel>
+                <maxLength>40</maxLength>
+                <validationPattern>
+                    <anyCharacter allowWhitespace="true" />
+                </validationPattern>
+                <control>
+                    <text size="40" />
+                </control>
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>The Payment Reason Names are used to give short but meaningful names to the codes that they represent</description>
+            </attribute>
+
+            <attribute name="description">
+                <label>Payment Reason Description</label>
+                <shortLabel>Description</shortLabel>
+                <maxLength>2500</maxLength>
+                <validationPattern>
+                    <anyCharacter allowWhitespace="true" />
+                </validationPattern>
+                <control>
+                    <textarea rows="10" cols="50" />
+                </control>
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>The Payment Reason Names are used to give short but meaningful names to the codes that they represent</description>
+            </attribute>
+
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+    </businessObject>
 </dictionaryEntry>

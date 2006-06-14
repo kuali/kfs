@@ -4,459 +4,519 @@
     "../../../core/datadictionary/dataDictionary-1_0.dtd">
 
 <dictionaryEntry>
-	<businessObject businessObjectClass="org.kuali.module.financial.bo.DisbursementVoucherNonEmployeeTravel">
-	
+    <businessObject businessObjectClass="org.kuali.module.financial.bo.DisbursementVoucherNonEmployeeTravel">
+
         <customAttributeEnabled>false</customAttributeEnabled>
-	    
-	    <attributes>
-	    
-	        <attribute name="disbVchrNonEmpTravelerName">
-	            <label>Name</label>
-	            <shortLabel>Nm</shortLabel>
-	            
-	            <maxLength>40</maxLength>
-	            
-	            <required>true</required>
-	            
-	            <control>
-	                <text size="40"/>
-	            </control>
-	            
-	            <summary><![CDATA[&nbsp;]]></summary>
-	            <description>The full name of the Traveler involved, expressed as "Lastname, Firstname Initial"</description>
-	        </attribute>
-	        
-	        <attribute name="disbVchrServicePerformedDesc">
-	            <label>Service Performed</label>
-	            <shortLabel>Service</shortLabel>
-	            
-	            <maxLength>50</maxLength>
-	            
-	            <required>true</required>
-	            
-	            <control>
-	                <text size="50"/>
-	            </control>
-	            
-	            <summary><![CDATA[&nbsp;]]></summary>
-	            <description>A free-form text field that describes the Service performed in the Travel.</description>
-	        </attribute>
-	        
-	        <attribute name="dvServicePerformedLocName">
-	            <label>Place of Performance</label>
-	            <shortLabel>Place</shortLabel>
-	            
-	            <maxLength>40</maxLength>
-	            
-	            <required>true</required>
-	            
-	            <control>
-	                <text size="40"/>
-	            </control>
-	            
-	            <summary><![CDATA[&nbsp;]]></summary>
-	            <description>A free-form text field that identifies the location of the Service performed in the Travel.</description>
-	        </attribute>
-	        
-	        <attribute name="dvServiceRegularEmprName">
-	            <label>Regular Employer</label>
-	            <shortLabel>Employer</shortLabel>
-	            
-	            <maxLength>40</maxLength>
-	            
-	            <required>true</required>
-	            
-	            <control>
-	                <text size="40"/>
-	            </control>
-	            
-	            <summary><![CDATA[&nbsp;]]></summary>
-	            <description>A free-form text field that identifies the Employer of the Traveler involved.</description>
-	        </attribute>
-	        
-	        <attribute name="disbVchrTravelFromCityName">
-	            <label>City</label>
-	            <shortLabel>City</shortLabel>
-	            
-	            <maxLength>40</maxLength>
-	            
-	            <required>true</required>
-	            
-	            <control>
-	                <text size="40"/>
-	            </control>
-	            
-	            <summary><![CDATA[&nbsp;]]></summary>
-	            <description>A free-form text field that identifies the City of the Non-Employee Travel.</description>
-	        </attribute>
 
-	        <attribute name="disbVchrTravelFromStateCode">
-	            <label>State</label>
-	            <shortLabel>St</shortLabel>
-	            
-	            <maxLength>2</maxLength>
-	            
-	            <required>false</required>
-	            
-	            <control>
-	                <text size="2"/>
-	            </control>
-	            
-	            <summary><![CDATA[&nbsp;]]></summary>
-	            <description>A free-form text field that identifies the State of the Non-Employee Travel.</description>
-	        </attribute>
-	        
-	        <attribute name="dvTravelFromCountryCode">
-	            <label>Country</label>
-	            <shortLabel>Country</shortLabel>
-	            
-	            <maxLength>10</maxLength>
-	            
-	            <required>true</required>
-	            
-	            <control>
-	                <select valuesFinderClass="org.kuali.core.lookup.keyvalues.CountryValuesFinder"/>
-	            </control>
-	            
-	            <summary><![CDATA[&nbsp;]]></summary>
-	            <description>The Country of the Non-Employee Travel.  Select one from the pulldown list.</description>
-	        </attribute>
-	        
-	        <attribute name="perDiemStartDateTime">
-	            <label>Start Date/Time</label>
-	            <shortLabel>Dt</shortLabel>
-	            
-	            <maxLength>20</maxLength>
-	            
-	            <required>true</required>
-	            
-	            <control>
-	                <text size="20"/>
-	            </control>
-	            
-	            <summary><![CDATA[&nbsp;]]></summary>
-	            <description><![CDATA[&nbsp;]]></description>
-	        </attribute>
-	        
-	        <attribute name="perDiemEndDateTime">
-	            <label>Start Date/Time</label>
-	            <shortLabel>Dt</shortLabel>
-	            
-	            <maxLength>20</maxLength>
-	            
-	            <required>true</required>
-	            
-	            <control>
-	                <text size="20"/>
-	            </control>
-	            
-	            <summary><![CDATA[&nbsp;]]></summary>
-	            <description>A free-form text field that identifies the Date and Time of the Non-Employee Travel.  Use the calendar icon to select and format the date.</description>
-	        </attribute>
-	        
-	        <attribute name="disbVchrTravelToCityName">
-	            <label>City</label>
-	            <shortLabel>City</shortLabel>
-	            
-	            <maxLength>40</maxLength>
-	            
-	            <required>true</required>
-	            
-	            <control>
-	                <text size="40"/>
-	            </control>
-	            
-	            <summary><![CDATA[&nbsp;]]></summary>
-	            <description>A free-form text field that identifies the City of the Non-Employee Travel.</description>
-	        </attribute>
+        <attributes>
 
-	        <attribute name="disbVchrTravelToStateCode">
-	            <label>State</label>
-	            <shortLabel>St</shortLabel>
-	            
-	            <maxLength>2</maxLength>
-	            
-	            <required>false</required>
-	            
-	            <control>
-	                <text size="2"/>
-	            </control>
-	            
-	            <summary><![CDATA[&nbsp;]]></summary>
-	            <description>A free-form text field that identifies the State of the Non-Employee Travel.</description>
-	        </attribute>
-	        
-	        <attribute name="disbVchrTravelToCountryCode">
-	            <label>Country</label>
-	            <shortLabel>Country</shortLabel>
-	            
-	            <maxLength>10</maxLength>
-	            
-	            <required>true</required>
-	            
-	            <control>
-	                <select valuesFinderClass="org.kuali.core.lookup.keyvalues.CountryValuesFinder"/>
-	            </control>
-	            
-	            <summary><![CDATA[&nbsp;]]></summary>
-	            <description>The Country of the Non-Employee Travel.  Select one from the pulldown list.</description>
-	        </attribute>
-	        
-	        <attribute name="disbVchrPerdiemCategoryName">
-	            <label>Category</label>
-	            <shortLabel>Category</shortLabel>
-	            
-	            <maxLength>10</maxLength>
-	            
-	            <required>true</required>
-	            
-	            <control>
-	                <select valuesFinderClass="org.kuali.core.lookup.keyvalues.TravelPerDiemCategoryValuesFinder"/>
-	            </control>
-	            
-	            <summary><![CDATA[&nbsp;]]></summary>
-	            <description>The location category for the Non-Employee Travel.  Select from the pulldown list.</description>
-	        </attribute>
-	        
-	        <attribute name="disbVchrPerdiemRate">
-	            <label>Rate</label>
-	            <shortLabel>Rate</shortLabel>
-	            
-	            <maxLength>22</maxLength>
-	            
-	            <required>true</required>
-	            
-	            <control>
-	                <text size="6"/>
-	            </control>
-	            
-	            <summary><![CDATA[&nbsp;]]></summary>
-	            <description>The Per Diem rate for the Non-Employee Travel.  Use the Per Diem Links to select the appropriate rate.</description>
-	        </attribute>
-	        
-	        <attribute name="disbVchrPerdiemCalculatedAmt">
-	            <label>Calculated Amount</label>
-	            <shortLabel>Calc Amt</shortLabel>
-	            
-	            <maxLength>22</maxLength>
-	            
-	            <required>true</required>
-	            
-	            <control>
-	                <text size="9"/>
-	            </control>
-	            
-	            <summary><![CDATA[&nbsp;]]></summary>
-	            <description>The calculated Per Diem amount for the Non-Employee Travel, based the appropriate Rate.</description>
-	        </attribute>
-	        
-	        <attribute name="disbVchrPerdiemActualAmount">
-	            <label>Actual Amount</label>
-	            <shortLabel>Act Amt</shortLabel>
-	            
-	            <maxLength>22</maxLength>
-	            
-	            <required>true</required>
-	            
-	            <control>
-	                <text size="9"/>
-	            </control>
-	            
-	            <summary><![CDATA[&nbsp;]]></summary>
-	            <description>The actual Per Diem amount for the Non-Employee Travel.</description>
-	        </attribute>	        
-	        
-	        <attribute name="dvPerdiemChangeReasonText">
-	            <label>Justification for change</label>
-	            <shortLabel>Justification</shortLabel>
-	            
-	            <maxLength>200</maxLength>
-	            
-	            <required>false</required>
-	            
-	            <control>
-	                <textarea rows="3" cols="30"/>
-	            </control>
-	            
-	            <summary><![CDATA[&nbsp;]]></summary>
-	            <description>A free-form text field that describes the reason for any disparity between the Calculated and Actual Per Diem Amounts for the Non-Employee Travel.</description>
-	        </attribute>
-	        
-	        <attribute name="disbVchrAutoFromCityName">
-	            <label>From (City/State)</label>
-	            <shortLabel>From</shortLabel>
-	            
-	            <maxLength>40</maxLength>
-	            
-	            <required>false</required>
-	            
-	            <control>
-	                <text size="40"/>
-	            </control>
-	            
-	            <summary><![CDATA[&nbsp;]]></summary>
-	            <description>A free-form text field that identifies the departure City and State for the Non-Employee Travel.</description>
-	        </attribute>
-	        
-	        <attribute name="disbVchrAutoFromStateCode">
-	            <label>From (City/State)</label>
-	            <shortLabel>St</shortLabel>
-	            
-	            <maxLength>2</maxLength>
-	            
-	            <required>false</required>
-	            
-	            <control>
-	                <text size="2"/>
-	            </control>
-	            
-	            <summary><![CDATA[&nbsp;]]></summary>
-	            <description><![CDATA[&nbsp;]]></description>
-	        </attribute>
-	        
-	        <attribute name="disbVchrAutoToCityName">
-	            <label>To (City/State)</label>
-	            <shortLabel>To</shortLabel>
-	            
-	            <maxLength>40</maxLength>
-	            
-	            <required>false</required>
-	            
-	            <control>
-	                <text size="40"/>
-	            </control>
-	            
-	            <summary><![CDATA[&nbsp;]]></summary>
-	            <description>A free-form text field that identifies the destination City and State for the Non-Employee Travel.</description>
-	        </attribute>
-	        
-	        <attribute name="disbVchrAutoToStateCode">
-	            <label>To (City/State)</label>
-	            <shortLabel>St</shortLabel>
-	            
-	            <maxLength>2</maxLength>
-	            
-	            <required>false</required>
-	            
-	            <control>
-	                <text size="2"/>
-	            </control>
-	            
-	            <summary><![CDATA[&nbsp;]]></summary>
-	            <description><![CDATA[&nbsp;]]></description>
-	        </attribute>
-	        
-	        <attribute name="disbVchrAutoRoundTripCode">
-	            <label>Round Trip</label>
-	            <shortLabel>Round Trip</shortLabel>
-	            
-	            <maxLength>1</maxLength>
-	            
-	            <required>false</required>
-	            
-	            <control>
-	                <checkbox/>
-	            </control>
-	            
-	            <summary>Round trip Indicator</summary>
-	            <description>A checkbox to indicate that the Non-Employee Travel is round trip.</description>
-	        </attribute>
-	        
-	        <attribute name="dvPersonalCarMileageAmount">
-	            <label>Mileage Amount</label>
-	            <shortLabel>Mileage</shortLabel>
-	            
-	            <maxLength>7</maxLength>
-	            
-	            <required>false</required>
-	            
-	            <control>
-	                <text size="7"/>
-	            </control>
-	            
-	            <summary><![CDATA[&nbsp;]]></summary>
-	            <description>A free-form text field that specifies the mileage involved in the Non-Employee Travel.</description>
-	        </attribute>
-	        
-	        <attribute name="disbVchrMileageCalculatedAmt">
-	            <label>Calculated Amount</label>
-	            <shortLabel>Calc Amt</shortLabel>
-	            
-	            <maxLength>22</maxLength>
-	            
-	            <required>false</required>
-	            
-	            <control>
-	                <text size="9"/>
-	            </control>
-	            
-	            <summary><![CDATA[&nbsp;]]></summary>
-	            <description>Use the "calculate" button to calculate the dollar amount for mileage involved in the Non-Employee Travel.</description>
-	        </attribute>
-	        
-	        <attribute name="disbVchrPersonalCarAmount">
-	            <label>Actual Amount</label>
-	            <shortLabel>Act Amount</shortLabel>
-	            
-	            <maxLength>22</maxLength>
-	            
-	            <required>false</required>
-	            
-	            <control>
-	                <text size="9"/>
-	            </control>
-	            
-	            <summary><![CDATA[&nbsp;]]></summary>
-	            <description>A free-form text field that specifies the actual dollar amount for mileage involved in the Non-Employee Travel</description>
-	        </attribute>	        	        	        	        	        	        	        	        	        
+            <attribute name="disbVchrNonEmpTravelerName">
+                <label>Name</label>
+                <shortLabel>Nm</shortLabel>
 
-	        <attribute name="totalTravelAmount">
-	            <label>Grand Total</label>
-	            <shortLabel>Total</shortLabel>
-	            
-	            <maxLength>22</maxLength>
-	            
-	            <required>false</required>
-	            
-	            <control>
-	                <text size="9"/>
-	            </control>
-	            
-	            <summary><![CDATA[&nbsp;]]></summary>
-	            <description>The sum of Per Diem: Actual Amount, Personal Vehicle: Actual Amount, and Traveler Expenses: Expense Sub Total.</description>
-	        </attribute>
-	        
-	        <attribute name="totalPrePaidAmount">
-	            <label>Pre Paid Sub Total</label>
-	            <shortLabel>Total</shortLabel>
-	            
-	            <maxLength>22</maxLength>
-	            
-	            <required>false</required>
-	            
-	            <control>
-	                <text size="9"/>
-	            </control>
-	            
-	            <summary><![CDATA[&nbsp;]]></summary>
-	            <description>The sub total of the Amounts in all Pre Paid Expenses.</description>
-	        </attribute>
-	        
-	        <attribute name="totalExpenseAmount">
-	            <label>Expense Sub Total</label>
-	            <shortLabel>Total</shortLabel>
-	            
-	            <maxLength>22</maxLength>
-	            
-	            <required>false</required>
-	            
-	            <control>
-	                <text size="9"/>
-	            </control>
-	            
-	            <summary><![CDATA[&nbsp;]]></summary>
-	            <description>The sub total of the Amounts in all Traveler Expenses.</description>
-	        </attribute>
-	    </attributes>
-	</businessObject>
+                <maxLength>40</maxLength>
+
+                <required>true</required>
+
+                <control>
+                    <text size="40" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>The full name of the Traveler involved, expressed as "Lastname, Firstname Initial"</description>
+            </attribute>
+
+            <attribute name="disbVchrServicePerformedDesc">
+                <label>Service Performed</label>
+                <shortLabel>Service</shortLabel>
+
+                <maxLength>50</maxLength>
+
+                <required>true</required>
+
+                <control>
+                    <text size="50" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>A free-form text field that describes the Service performed in the Travel.</description>
+            </attribute>
+
+            <attribute name="dvServicePerformedLocName">
+                <label>Place of Performance</label>
+                <shortLabel>Place</shortLabel>
+
+                <maxLength>40</maxLength>
+
+                <required>true</required>
+
+                <control>
+                    <text size="40" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>A free-form text field that identifies the location of the Service performed in the Travel.</description>
+            </attribute>
+
+            <attribute name="dvServiceRegularEmprName">
+                <label>Regular Employer</label>
+                <shortLabel>Employer</shortLabel>
+
+                <maxLength>40</maxLength>
+
+                <required>true</required>
+
+                <control>
+                    <text size="40" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>A free-form text field that identifies the Employer of the Traveler involved.</description>
+            </attribute>
+
+            <attribute name="disbVchrTravelFromCityName">
+                <label>City</label>
+                <shortLabel>City</shortLabel>
+
+                <maxLength>40</maxLength>
+
+                <required>true</required>
+
+                <control>
+                    <text size="40" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>A free-form text field that identifies the City of the Non-Employee Travel.</description>
+            </attribute>
+
+            <attribute name="disbVchrTravelFromStateCode">
+                <label>State</label>
+                <shortLabel>St</shortLabel>
+
+                <maxLength>2</maxLength>
+
+                <required>false</required>
+
+                <control>
+                    <text size="2" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>A free-form text field that identifies the State of the Non-Employee Travel.</description>
+            </attribute>
+
+            <attribute name="dvTravelFromCountryCode">
+                <label>Country</label>
+                <shortLabel>Country</shortLabel>
+
+                <maxLength>10</maxLength>
+
+                <required>true</required>
+
+                <control>
+                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.CountryValuesFinder" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>The Country of the Non-Employee Travel. Select one from the pulldown list.</description>
+            </attribute>
+
+            <attribute name="perDiemStartDateTime">
+                <label>Start Date/Time</label>
+                <shortLabel>Dt</shortLabel>
+
+                <maxLength>20</maxLength>
+
+                <required>true</required>
+
+                <control>
+                    <text size="20" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>
+                    <![CDATA[&nbsp;]]>
+                </description>
+            </attribute>
+
+            <attribute name="perDiemEndDateTime">
+                <label>Start Date/Time</label>
+                <shortLabel>Dt</shortLabel>
+
+                <maxLength>20</maxLength>
+
+                <required>true</required>
+
+                <control>
+                    <text size="20" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>A free-form text field that identifies the Date and Time of the Non-Employee Travel. Use the calendar icon to select and format the date.</description>
+            </attribute>
+
+            <attribute name="disbVchrTravelToCityName">
+                <label>City</label>
+                <shortLabel>City</shortLabel>
+
+                <maxLength>40</maxLength>
+
+                <required>true</required>
+
+                <control>
+                    <text size="40" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>A free-form text field that identifies the City of the Non-Employee Travel.</description>
+            </attribute>
+
+            <attribute name="disbVchrTravelToStateCode">
+                <label>State</label>
+                <shortLabel>St</shortLabel>
+
+                <maxLength>2</maxLength>
+
+                <required>false</required>
+
+                <control>
+                    <text size="2" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>A free-form text field that identifies the State of the Non-Employee Travel.</description>
+            </attribute>
+
+            <attribute name="disbVchrTravelToCountryCode">
+                <label>Country</label>
+                <shortLabel>Country</shortLabel>
+
+                <maxLength>10</maxLength>
+
+                <required>true</required>
+
+                <control>
+                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.CountryValuesFinder" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>The Country of the Non-Employee Travel. Select one from the pulldown list.</description>
+            </attribute>
+
+            <attribute name="disbVchrPerdiemCategoryName">
+                <label>Category</label>
+                <shortLabel>Category</shortLabel>
+
+                <maxLength>10</maxLength>
+
+                <required>true</required>
+
+                <control>
+                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.TravelPerDiemCategoryValuesFinder" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>The location category for the Non-Employee Travel. Select from the pulldown list.</description>
+            </attribute>
+
+            <attribute name="disbVchrPerdiemRate">
+                <label>Rate</label>
+                <shortLabel>Rate</shortLabel>
+
+                <maxLength>22</maxLength>
+
+                <required>true</required>
+
+                <control>
+                    <text size="6" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>The Per Diem rate for the Non-Employee Travel. Use the Per Diem Links to select the appropriate rate.</description>
+            </attribute>
+
+            <attribute name="disbVchrPerdiemCalculatedAmt">
+                <label>Calculated Amount</label>
+                <shortLabel>Calc Amt</shortLabel>
+
+                <maxLength>22</maxLength>
+
+                <required>true</required>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>The calculated Per Diem amount for the Non-Employee Travel, based the appropriate Rate.</description>
+            </attribute>
+
+            <attribute name="disbVchrPerdiemActualAmount">
+                <label>Actual Amount</label>
+                <shortLabel>Act Amt</shortLabel>
+
+                <maxLength>22</maxLength>
+
+                <required>true</required>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>The actual Per Diem amount for the Non-Employee Travel.</description>
+            </attribute>
+
+            <attribute name="dvPerdiemChangeReasonText">
+                <label>Justification for change</label>
+                <shortLabel>Justification</shortLabel>
+
+                <maxLength>200</maxLength>
+
+                <required>false</required>
+
+                <control>
+                    <textarea rows="3" cols="30" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>A free-form text field that describes the reason for any disparity between the Calculated and Actual Per Diem Amounts for the Non-Employee Travel.</description>
+            </attribute>
+
+            <attribute name="disbVchrAutoFromCityName">
+                <label>From (City/State)</label>
+                <shortLabel>From</shortLabel>
+
+                <maxLength>40</maxLength>
+
+                <required>false</required>
+
+                <control>
+                    <text size="40" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>A free-form text field that identifies the departure City and State for the Non-Employee Travel.</description>
+            </attribute>
+
+            <attribute name="disbVchrAutoFromStateCode">
+                <label>From (City/State)</label>
+                <shortLabel>St</shortLabel>
+
+                <maxLength>2</maxLength>
+
+                <required>false</required>
+
+                <control>
+                    <text size="2" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>
+                    <![CDATA[&nbsp;]]>
+                </description>
+            </attribute>
+
+            <attribute name="disbVchrAutoToCityName">
+                <label>To (City/State)</label>
+                <shortLabel>To</shortLabel>
+
+                <maxLength>40</maxLength>
+
+                <required>false</required>
+
+                <control>
+                    <text size="40" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>A free-form text field that identifies the destination City and State for the Non-Employee Travel.</description>
+            </attribute>
+
+            <attribute name="disbVchrAutoToStateCode">
+                <label>To (City/State)</label>
+                <shortLabel>St</shortLabel>
+
+                <maxLength>2</maxLength>
+
+                <required>false</required>
+
+                <control>
+                    <text size="2" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>
+                    <![CDATA[&nbsp;]]>
+                </description>
+            </attribute>
+
+            <attribute name="disbVchrAutoRoundTripCode">
+                <label>Round Trip</label>
+                <shortLabel>Round Trip</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <required>false</required>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>Round trip Indicator</summary>
+                <description>A checkbox to indicate that the Non-Employee Travel is round trip.</description>
+            </attribute>
+
+            <attribute name="dvPersonalCarMileageAmount">
+                <label>Mileage Amount</label>
+                <shortLabel>Mileage</shortLabel>
+
+                <maxLength>7</maxLength>
+
+                <required>false</required>
+
+                <control>
+                    <text size="7" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>A free-form text field that specifies the mileage involved in the Non-Employee Travel.</description>
+            </attribute>
+
+            <attribute name="disbVchrMileageCalculatedAmt">
+                <label>Calculated Amount</label>
+                <shortLabel>Calc Amt</shortLabel>
+
+                <maxLength>22</maxLength>
+
+                <required>false</required>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>Use the "calculate" button to calculate the dollar amount for mileage involved in the Non-Employee Travel.</description>
+            </attribute>
+
+            <attribute name="disbVchrPersonalCarAmount">
+                <label>Actual Amount</label>
+                <shortLabel>Act Amount</shortLabel>
+
+                <maxLength>22</maxLength>
+
+                <required>false</required>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>A free-form text field that specifies the actual dollar amount for mileage involved in the Non-Employee Travel</description>
+            </attribute>
+
+            <attribute name="totalTravelAmount">
+                <label>Grand Total</label>
+                <shortLabel>Total</shortLabel>
+
+                <maxLength>22</maxLength>
+
+                <required>false</required>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>The sum of Per Diem: Actual Amount, Personal Vehicle: Actual Amount, and Traveler Expenses: Expense Sub Total.</description>
+            </attribute>
+
+            <attribute name="totalPrePaidAmount">
+                <label>Pre Paid Sub Total</label>
+                <shortLabel>Total</shortLabel>
+
+                <maxLength>22</maxLength>
+
+                <required>false</required>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>The sub total of the Amounts in all Pre Paid Expenses.</description>
+            </attribute>
+
+            <attribute name="totalExpenseAmount">
+                <label>Expense Sub Total</label>
+                <shortLabel>Total</shortLabel>
+
+                <maxLength>22</maxLength>
+
+                <required>false</required>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>The sub total of the Amounts in all Traveler Expenses.</description>
+            </attribute>
+        </attributes>
+    </businessObject>
 </dictionaryEntry>

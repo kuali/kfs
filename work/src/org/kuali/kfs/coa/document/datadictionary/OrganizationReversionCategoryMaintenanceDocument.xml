@@ -4,7 +4,7 @@
     "../../../../core/datadictionary/dataDictionary-1_0.dtd">
 
 <dictionaryEntry>
-	<maintenanceDocument>
+    <maintenanceDocument>
         <businessObjectClass>org.kuali.module.chart.bo.OrganizationReversionCategory</businessObjectClass>
         <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
 
@@ -17,28 +17,28 @@
             </authorization>
         </authorizations>
 
-		<documentTypeName>KualiOrganizationReversionCategoryMaintenanceDocument</documentTypeName>
-		<documentTypeCode>ORGC</documentTypeCode>
+        <documentTypeName>KualiOrganizationReversionCategoryMaintenanceDocument</documentTypeName>
+        <documentTypeCode>ORGC</documentTypeCode>
 
-		<label>Organization Reversion Category Maintenance Document</label>
-		<shortLabel>organizationReversionCategoryMaintDoc</shortLabel>
-		
-		<summary>organizationReversionCategory maintenance document</summary>
-		<description>Document used to create or update organizationReversionCategory objects</description>
+        <label>Organization Reversion Category Maintenance Document</label>
+        <shortLabel>organizationReversionCategoryMaintDoc</shortLabel>
+
+        <summary>organizationReversionCategory maintenance document</summary>
+        <description>Document used to create or update organizationReversionCategory objects</description>
 
         <lockingKeys>
-			<field attributeName="organizationReversionCategoryCode" />
-		</lockingKeys>	        
+            <field attributeName="organizationReversionCategoryCode" />
+        </lockingKeys>
 
-	    <maintainableSections>
-	        <maintainableSection title="Edit Organization Reversion Category">
-	        	<maintainableItems>
-	            	<maintainableField name="organizationReversionCategoryCode" required="true" />
-	            	<maintainableField name="organizationReversionCategoryName" required="true" />
-	            	<maintainableField name="organizationReversionSortCode" required="true" />	     
-                 <maintainableField name="versionNumber" />	       	
-	            </maintainableItems>         	                   
-	        </maintainableSection>
-	    </maintainableSections>
-	</maintenanceDocument>
+        <maintainableSections>
+            <maintainableSection title="Edit Organization Reversion Category">
+                <maintainableItems>
+                    <maintainableField name="organizationReversionCategoryCode" required="true" />
+                    <maintainableField name="organizationReversionCategoryName" required="true" />
+                    <maintainableField name="organizationReversionSortCode" required="true" />
+                    <maintainableField name="versionNumber" />
+                </maintainableItems>
+            </maintainableSection>
+        </maintainableSections>
+    </maintenanceDocument>
 </dictionaryEntry>

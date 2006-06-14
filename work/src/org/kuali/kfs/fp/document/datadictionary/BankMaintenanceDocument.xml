@@ -4,10 +4,10 @@
     "../../../../core/datadictionary/dataDictionary-1_0.dtd">
 
 <dictionaryEntry>
-	<maintenanceDocument>
+    <maintenanceDocument>
         <businessObjectClass>org.kuali.module.financial.bo.Bank</businessObjectClass>
         <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
-		<businessRulesClass>org.kuali.module.financial.rules.BankRule</businessRulesClass>
+        <businessRulesClass>org.kuali.module.financial.rules.BankRule</businessRulesClass>
         <documentAuthorizerClass>org.kuali.core.document.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
         <authorizations>
             <authorization action="initiate">
@@ -17,28 +17,28 @@
             </authorization>
         </authorizations>
 
-		<documentTypeName>KualiBankMaintenanceDocument</documentTypeName>
-		<documentTypeCode>BANK</documentTypeCode>
+        <documentTypeName>KualiBankMaintenanceDocument</documentTypeName>
+        <documentTypeCode>BANK</documentTypeCode>
 
-		<label>Bank Maintenance Document</label>
-		<shortLabel>BankMaintDoc</shortLabel>
-		
-		<summary>Bank maintenance document</summary>
-		<description>Document used to create or update Bank objects</description>
+        <label>Bank Maintenance Document</label>
+        <shortLabel>BankMaintDoc</shortLabel>
+
+        <summary>Bank maintenance document</summary>
+        <description>Document used to create or update Bank objects</description>
 
         <lockingKeys>
-			<field attributeName="financialDocumentBankCode" />
-		</lockingKeys>         
+            <field attributeName="financialDocumentBankCode" />
+        </lockingKeys>
 
-	    <maintainableSections>
-	        <maintainableSection title="Edit Bank">
-	        	<maintainableItems>
-	            	<maintainableField name="financialDocumentBankCode" required="true" />
-	            	<maintainableField name="financialDocumentBankName" required="true" />
-	            	<maintainableField name="financialDocumentBankShortNm" required="true"/>
-	            	<maintainableField name="versionNumber" />          	                   
-	         	</maintainableItems>
-	        </maintainableSection>
-	    </maintainableSections>
-	</maintenanceDocument>
+        <maintainableSections>
+            <maintainableSection title="Edit Bank">
+                <maintainableItems>
+                    <maintainableField name="financialDocumentBankCode" required="true" />
+                    <maintainableField name="financialDocumentBankName" required="true" />
+                    <maintainableField name="financialDocumentBankShortNm" required="true" />
+                    <maintainableField name="versionNumber" />
+                </maintainableItems>
+            </maintainableSection>
+        </maintainableSections>
+    </maintenanceDocument>
 </dictionaryEntry>

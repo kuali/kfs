@@ -4,11 +4,11 @@
     "../../../../core/datadictionary/dataDictionary-1_0.dtd">
 
 <dictionaryEntry>
-	<maintenanceDocument>
-		<businessObjectClass>org.kuali.module.chart.bo.OffsetDefinition</businessObjectClass>
-		<maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
-		<businessRulesClass>org.kuali.module.chart.rules.OffsetDefinitionRule</businessRulesClass>
-		
+    <maintenanceDocument>
+        <businessObjectClass>org.kuali.module.chart.bo.OffsetDefinition</businessObjectClass>
+        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+        <businessRulesClass>org.kuali.module.chart.rules.OffsetDefinitionRule</businessRulesClass>
+
         <documentAuthorizerClass>org.kuali.core.document.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
         <authorizations>
             <authorization action="initiate">
@@ -18,53 +18,42 @@
             </authorization>
         </authorizations>
 
-		<documentTypeName>KualiOffsetDefinitionMaintenanceDocument</documentTypeName>
-		<documentTypeCode>OFSD</documentTypeCode>
-		<label>Offset Definition Maintenance Document</label>
-		<shortLabel>OffsetDefMaintDoc</shortLabel>
-		<summary>Offset Definition Maintenance Document</summary>
-		<description>
-			Maintenance document which allows you to create new Offset Definitions, remove exsiting 
-			Offset Definitions, or modify existing Offset Definitions.
-		</description>
-		
-        <lockingKeys>
-			<field attributeName="universityFiscalYear" />
-			<field attributeName="chartOfAccountsCode" />
-			<field attributeName="financialDocumentTypeCode" />
-			<field attributeName="financialBalanceTypeCode" />				
-		</lockingKeys>	  		
+        <documentTypeName>KualiOffsetDefinitionMaintenanceDocument</documentTypeName>
+        <documentTypeCode>OFSD</documentTypeCode>
+        <label>Offset Definition Maintenance Document</label>
+        <shortLabel>OffsetDefMaintDoc</shortLabel>
+        <summary>Offset Definition Maintenance Document</summary>
+        <description>Maintenance document which allows you to create new Offset Definitions, remove exsiting Offset Definitions, or modify existing Offset Definitions.</description>
 
-		<defaultExistenceChecks>
-			<reference  attributeName="chartOfAccounts" 
-						activeIndicatorAttributeName="finChartOfAccountActiveIndicator" 
-						attributeToHighlightOnFail="chartOfAccountsCode" />
-			<reference  attributeName="universityFiscal" 
-						attributeToHighlightOnFail="universityFiscalYear" />
-			<reference  attributeName="financialObject" 
-						attributeToHighlightOnFail="financialObjectCode" />	
-			<reference  attributeName="financialBalanceType" 
-						attributeToHighlightOnFail="financialBalanceTypeCode" />						
-		</defaultExistenceChecks>
-		<applyApcRules>
-			<apcRule attributeName="financialObjectCode"
-				     apcGroup="ChartMaintenanceEDoc"
-				     apcRule="OffsetDefinition.FinancialObjectCode"
-				     errorMessage="error.document.offsetDefinitionMaintenance.invalidFinancialObjectCode" />
-		</applyApcRules> 
-		<maintainableSections>
-			<maintainableSection title="Edit Offset Definition">
+        <lockingKeys>
+            <field attributeName="universityFiscalYear" />
+            <field attributeName="chartOfAccountsCode" />
+            <field attributeName="financialDocumentTypeCode" />
+            <field attributeName="financialBalanceTypeCode" />
+        </lockingKeys>
+
+        <defaultExistenceChecks>
+            <reference attributeName="chartOfAccounts" activeIndicatorAttributeName="finChartOfAccountActiveIndicator" attributeToHighlightOnFail="chartOfAccountsCode" />
+            <reference attributeName="universityFiscal" attributeToHighlightOnFail="universityFiscalYear" />
+            <reference attributeName="financialObject" attributeToHighlightOnFail="financialObjectCode" />
+            <reference attributeName="financialBalanceType" attributeToHighlightOnFail="financialBalanceTypeCode" />
+        </defaultExistenceChecks>
+        <applyApcRules>
+            <apcRule attributeName="financialObjectCode" apcGroup="ChartMaintenanceEDoc" apcRule="OffsetDefinition.FinancialObjectCode" errorMessage="error.document.offsetDefinitionMaintenance.invalidFinancialObjectCode" />
+        </applyApcRules>
+        <maintainableSections>
+            <maintainableSection title="Edit Offset Definition">
                 <maintainableItems>
-					<maintainableField name="universityFiscalYear" required="true" />
-					<maintainableField name="chartOfAccountsCode" required="true" />
-					<maintainableField name="financialDocumentTypeCode" required="true" />
-					<maintainableField name="financialBalanceTypeCode" required="true" />
-					<maintainableField name="financialObjectCode" required="true" />
-					<maintainableField name="versionNumber" />
+                    <maintainableField name="universityFiscalYear" required="true" />
+                    <maintainableField name="chartOfAccountsCode" required="true" />
+                    <maintainableField name="financialDocumentTypeCode" required="true" />
+                    <maintainableField name="financialBalanceTypeCode" required="true" />
+                    <maintainableField name="financialObjectCode" required="true" />
+                    <maintainableField name="versionNumber" />
 
                 </maintainableItems>
-			</maintainableSection>
-		</maintainableSections>
-	</maintenanceDocument>
+            </maintainableSection>
+        </maintainableSections>
+    </maintenanceDocument>
 
 </dictionaryEntry>

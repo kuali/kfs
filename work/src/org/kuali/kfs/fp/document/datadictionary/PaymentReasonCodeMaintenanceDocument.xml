@@ -4,7 +4,7 @@
     "../../../../core/datadictionary/dataDictionary-1_0.dtd">
 
 <dictionaryEntry>
-	<maintenanceDocument>
+    <maintenanceDocument>
         <businessObjectClass>org.kuali.module.financial.bo.PaymentReasonCode</businessObjectClass>
         <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
 
@@ -17,28 +17,28 @@
             </authorization>
         </authorizations>
 
-		<documentTypeName>KualiPaymentReasonCodeMaintenanceDocument</documentTypeName>
-		<documentTypeCode>DVPR</documentTypeCode>
+        <documentTypeName>KualiPaymentReasonCodeMaintenanceDocument</documentTypeName>
+        <documentTypeCode>DVPR</documentTypeCode>
 
-		<label>Payment Reason Code Maintenance Document</label>
-		<shortLabel>PayReasonMaintDoc</shortLabel>
-		
-		<summary>Payment Reason Code Maintenance Document</summary>
-		<description>Document used to create or update Payment Reason objects</description>
+        <label>Payment Reason Code Maintenance Document</label>
+        <shortLabel>PayReasonMaintDoc</shortLabel>
+
+        <summary>Payment Reason Code Maintenance Document</summary>
+        <description>Document used to create or update Payment Reason objects</description>
 
         <lockingKeys>
-			<field attributeName="code" />        
-		</lockingKeys>            
+            <field attributeName="code" />
+        </lockingKeys>
 
-	    <maintainableSections>
-	        <maintainableSection title="Edit Payment Reason">
+        <maintainableSections>
+            <maintainableSection title="Edit Payment Reason">
                 <maintainableItems>
-		            <maintainableField name="code" required="true" />
-		            <maintainableField name="name" />
-		            <maintainableField name="description" />
-		            <maintainableField name="versionNumber" />
+                    <maintainableField name="code" required="true" />
+                    <maintainableField name="name" />
+                    <maintainableField name="description" />
+                    <maintainableField name="versionNumber" />
                 </maintainableItems>
-	        </maintainableSection>
-	    </maintainableSections>
-	</maintenanceDocument>
+            </maintainableSection>
+        </maintainableSections>
+    </maintenanceDocument>
 </dictionaryEntry>

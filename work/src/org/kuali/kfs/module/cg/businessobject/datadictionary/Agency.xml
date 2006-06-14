@@ -3,94 +3,102 @@
     "-//Kuali Project//DTD Data Dictionary 1.0//EN"
     "../../../core/datadictionary/dataDictionary-1_0.dtd">
 <dictionaryEntry>
-	<businessObject businessObjectClass="org.kuali.module.cg.bo.Agency">
-		<customAttributeEnabled>false</customAttributeEnabled>
+    <businessObject businessObjectClass="org.kuali.module.cg.bo.Agency">
+        <customAttributeEnabled>false</customAttributeEnabled>
 
-		<inquiry>
-			<title>Contracts and Grants Agency</title>
+        <inquiry>
+            <title>Contracts and Grants Agency</title>
 
-			<inquiryFields>
-				<field attributeName="agencyNumber" />
-				<field attributeName="reportingName" />
-				<field attributeName="fullName" />
-				<field attributeName="agencyType.name" />
-				<field attributeName="historicalIndicator" />
-				<field attributeName="inStateIndicator" />
-				<field attributeName="indirectAmount" />
-				<field attributeName="reportsToAgency.agencyNumber" />
-			</inquiryFields>
-		</inquiry>
+            <inquiryFields>
+                <field attributeName="agencyNumber" />
+                <field attributeName="reportingName" />
+                <field attributeName="fullName" />
+                <field attributeName="agencyType.name" />
+                <field attributeName="historicalIndicator" />
+                <field attributeName="inStateIndicator" />
+                <field attributeName="indirectAmount" />
+                <field attributeName="reportsToAgency.agencyNumber" />
+            </inquiryFields>
+        </inquiry>
 
-		<lookup>
-			<title>Agency</title>
+        <lookup>
+            <title>Agency</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.cg.bo.Agency">Create New</a>]]></menubar>
+            <menubar>
+                <![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.cg.bo.Agency">Create New</a>]]>
+            </menubar>
 
-			<instructions>Lookup an Agency</instructions>
+            <instructions>Lookup an Agency</instructions>
 
-			<defaultSort attributeName="fullName" sortAscending="true" />
+            <defaultSort attributeName="fullName" sortAscending="true" />
 
-			<lookupFields>
-				<lookupField attributeName="agencyNumber"  required="false" />
-				<lookupField attributeName="reportingName" required="false" />
-				<lookupField attributeName="fullName" required="false"  />
-				<lookupField attributeName="agencyType.name" required="false" />
-			</lookupFields>
+            <lookupFields>
+                <lookupField attributeName="agencyNumber" required="false" />
+                <lookupField attributeName="reportingName" required="false" />
+                <lookupField attributeName="fullName" required="false" />
+                <lookupField attributeName="agencyType.name" required="false" />
+            </lookupFields>
 
-			<resultFields>
-				<field attributeName="agencyNumber" />
-				<field attributeName="reportingName" />
-				<field attributeName="fullName" />
-				<field attributeName="agencyType.name" />
-				<field attributeName="historicalIndicator" />
-				<field attributeName="inStateIndicator" />
-				<field attributeName="indirectAmount" />
-				<field attributeName="reportsToAgency.agencyNumber" />
-			</resultFields>
-			
-		</lookup>
+            <resultFields>
+                <field attributeName="agencyNumber" />
+                <field attributeName="reportingName" />
+                <field attributeName="fullName" />
+                <field attributeName="agencyType.name" />
+                <field attributeName="historicalIndicator" />
+                <field attributeName="inStateIndicator" />
+                <field attributeName="indirectAmount" />
+                <field attributeName="reportsToAgency.agencyNumber" />
+            </resultFields>
 
-		<attributes>
+        </lookup>
 
-			<attribute name="agencyNumber" forceUppercase="true">
-				<label>Agency Number</label>
-				<shortLabel>AgencyNbr</shortLabel>
+        <attributes>
 
-				<maxLength>5</maxLength>
-				<validationPattern><alphaNumeric exactLength="5" /></validationPattern>
-				<required>true</required>
-				<control>
-					<text size="5" />
-				</control>
+            <attribute name="agencyNumber" forceUppercase="true">
+                <label>Agency Number</label>
+                <shortLabel>AgencyNbr</shortLabel>
 
-				<summary>Agency Number</summary>
-				<description>Contracts and Grants Agency Number.</description>
-			</attribute>
-			
-           <attribute name="reportingName" forceUppercase="true">
+                <maxLength>5</maxLength>
+                <validationPattern>
+                    <alphaNumeric exactLength="5" />
+                </validationPattern>
+                <required>true</required>
+                <control>
+                    <text size="5" />
+                </control>
+
+                <summary>Agency Number</summary>
+                <description>Contracts and Grants Agency Number.</description>
+            </attribute>
+
+            <attribute name="reportingName" forceUppercase="true">
                 <label>Agency Reporting Name</label>
                 <shortLabel>ReportingNm</shortLabel>
 
                 <maxLength>30</maxLength>
 
-                <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
-			    <required>true</required>
-			   <control>
+                <validationPattern>
+                    <anyCharacter allowWhitespace="true" />
+                </validationPattern>
+                <required>true</required>
+                <control>
                     <text size="30" />
                 </control>
 
                 <summary>Agency Reporting Name</summary>
                 <description>Contracts and Grants Agency Reporting Name</description>
-            </attribute>				
+            </attribute>
 
-			<attribute name="fullName" forceUppercase="true">
+            <attribute name="fullName" forceUppercase="true">
                 <label>Agency Full Name</label>
                 <shortLabel>Name</shortLabel>
 
                 <maxLength>50</maxLength>
 
-                <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
-				<required>true</required>
+                <validationPattern>
+                    <anyCharacter allowWhitespace="true" />
+                </validationPattern>
+                <required>true</required>
                 <control>
                     <text size="50" />
                 </control>
@@ -98,79 +106,71 @@
                 <summary>Agency Full Name</summary>
                 <description>Contracts And Grants Agency Full Name</description>
             </attribute>
-			<attributeReference name="agencyType.name"
-            					sourceClassName="org.kuali.module.cg.bo.AgencyType" 
-            					sourceAttributeName="name">
-            					
-            					<required>true</required>
-			</attributeReference>
+            <attributeReference name="agencyType.name" sourceClassName="org.kuali.module.cg.bo.AgencyType" sourceAttributeName="name">
 
-			<attributeReference name="agencyTypeCode" 
-			sourceClassName="org.kuali.module.cg.bo.AgencyType" 
-			sourceAttributeName="code">
-			<required>true</required>
-			</attributeReference>
- 
-			<attribute name="historicalIndicator" forceUppercase="false">
+                <required>true</required>
+            </attributeReference>
+
+            <attributeReference name="agencyTypeCode" sourceClassName="org.kuali.module.cg.bo.AgencyType" sourceAttributeName="code">
+                <required>true</required>
+            </attributeReference>
+
+            <attribute name="historicalIndicator" forceUppercase="false">
                 <label>Historical Indicator</label>
                 <shortLabel>Historical Indicator</shortLabel>
 
                 <maxLength>1</maxLength>
 
                 <control>
-                    <checkbox/>
+                    <checkbox />
                 </control>
 
                 <summary>Historical Indicator</summary>
                 <description>Contracts And Grants Agency Historical Indicator</description>
             </attribute>
 
-			<attribute name="inStateIndicator" forceUppercase="false">
-				<label>In State Indicator</label>
-				<shortLabel>In State</shortLabel>
+            <attribute name="inStateIndicator" forceUppercase="false">
+                <label>In State Indicator</label>
+                <shortLabel>In State</shortLabel>
 
-				<maxLength>1</maxLength>
+                <maxLength>1</maxLength>
 
-				<control>
-					<checkbox/>
-				</control>
+                <control>
+                    <checkbox />
+                </control>
 
-				<summary>State Indicator</summary>
-				<description>Agency In State Indicator</description>
-			</attribute>
-			
-	       	<attribute name="indirectAmount" forceUppercase="false">
-        		<label>Indirect Amount</label>
-        		<shortLabel>IndAmt</shortLabel>
-        		
+                <summary>State Indicator</summary>
+                <description>Agency In State Indicator</description>
+            </attribute>
+
+            <attribute name="indirectAmount" forceUppercase="false">
+                <label>Indirect Amount</label>
+                <shortLabel>IndAmt</shortLabel>
+
                 <maxLength>20</maxLength>
 
-                <validationPattern><floatingPoint /></validationPattern>
+                <validationPattern>
+                    <floatingPoint />
+                </validationPattern>
 
                 <control>
                     <text size="20" />
                 </control>
 
-        		<summary>Indirect Amount</summary>
-        		<description>Indirect Amount</description>
-        	</attribute>
+                <summary>Indirect Amount</summary>
+                <description>Indirect Amount</description>
+            </attribute>
 
-			<attributeReference name="reportsToAgency.agencyNumber" 
-								sourceClassName="org.kuali.module.cg.bo.Agency" 
-								sourceAttributeName="agencyNumber">
-				<label>Reports To Agency Number</label>
-				<shortLabel>Reports To Agency Number</shortLabel>
-				<summary>Reports To Agency Number</summary>
-				<description>
-					Reports To Agency Number
-				</description>
-			</attributeReference>
+            <attributeReference name="reportsToAgency.agencyNumber" sourceClassName="org.kuali.module.cg.bo.Agency" sourceAttributeName="agencyNumber">
+                <label>Reports To Agency Number</label>
+                <shortLabel>Reports To Agency Number</shortLabel>
+                <summary>Reports To Agency Number</summary>
+                <description>Reports To Agency Number</description>
+            </attributeReference>
 
- 			<attributeReference name="versionNumber" 
- 				sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
- 				sourceAttributeName="versionNumber" />
-				
-		</attributes>
-	</businessObject>
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+    </businessObject>
 </dictionaryEntry>
 

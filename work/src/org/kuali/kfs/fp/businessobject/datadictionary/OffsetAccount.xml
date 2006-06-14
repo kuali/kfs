@@ -3,97 +3,85 @@
     "-//Kuali Project//DTD Data Dictionary 1.0//EN"
     "../../../core/datadictionary/dataDictionary-1_0.dtd">
 <dictionaryEntry>
-	<businessObject
-		businessObjectClass="org.kuali.module.financial.bo.OffsetAccount">
-		<customAttributeEnabled>false</customAttributeEnabled>
+    <businessObject businessObjectClass="org.kuali.module.financial.bo.OffsetAccount">
+        <customAttributeEnabled>false</customAttributeEnabled>
 
-		<inquiry>
-			<title>Offset Acount Inquiry</title>
+        <inquiry>
+            <title>Offset Acount Inquiry</title>
 
-			<inquiryFields>
-				<field attributeName="chartOfAccountsCode" />
-  				<field attributeName="accountNumber" />
-  				<field attributeName="financialOffsetObjectCode" />		
-				<field attributeName="financialOffsetChartOfAccountCode" />
-				<field attributeName="financialOffsetAccountNumber" />				
-			</inquiryFields>
-		</inquiry>
+            <inquiryFields>
+                <field attributeName="chartOfAccountsCode" />
+                <field attributeName="accountNumber" />
+                <field attributeName="financialOffsetObjectCode" />
+                <field attributeName="financialOffsetChartOfAccountCode" />
+                <field attributeName="financialOffsetAccountNumber" />
+            </inquiryFields>
+        </inquiry>
 
-		<lookup>
-			<title>Offset Acount Lookup</title>
+        <lookup>
+            <title>Offset Acount Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.financial.bo.OffsetAccount">Create New</a>]]></menubar>
+            <menubar>
+                <![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.financial.bo.OffsetAccount">Create New</a>]]>
+            </menubar>
 
-			<instructions>Lookup an Offset Acount</instructions>
+            <instructions>Lookup an Offset Acount</instructions>
 
-			<defaultSort attributeName="accountNumber" sortAscending="true" />
+            <defaultSort attributeName="accountNumber" sortAscending="true" />
 
-			<lookupFields>
-				<lookupField attributeName="chartOfAccountsCode" required="false" />
-				<lookupField attributeName="accountNumber" required="false" />				
-				<lookupField attributeName="financialOffsetObjectCode" required="false" />
-				<lookupField attributeName="financialOffsetChartOfAccountCode" required="false" />
-				<lookupField attributeName="financialOffsetAccountNumber" required="false" />
-			</lookupFields>
+            <lookupFields>
+                <lookupField attributeName="chartOfAccountsCode" required="false" />
+                <lookupField attributeName="accountNumber" required="false" />
+                <lookupField attributeName="financialOffsetObjectCode" required="false" />
+                <lookupField attributeName="financialOffsetChartOfAccountCode" required="false" />
+                <lookupField attributeName="financialOffsetAccountNumber" required="false" />
+            </lookupFields>
 
-			<resultFields>
-				<field attributeName="chartOfAccountsCode" />
-  				<field attributeName="accountNumber" />
-  				<field attributeName="financialOffsetObjectCode" />		
-				<field attributeName="financialOffsetChartOfAccountCode" />
-				<field attributeName="financialOffsetAccountNumber" />							
-			</resultFields>
-		</lookup>
-	
-		<titleAttribute>OffsetAccount</titleAttribute>
-		
-		<attributes>
-			<attributeReference name="chartOfAccountsCode" 
-								sourceClassName="org.kuali.module.chart.bo.Chart" 
-								sourceAttributeName="chartOfAccountsCode" />
+            <resultFields>
+                <field attributeName="chartOfAccountsCode" />
+                <field attributeName="accountNumber" />
+                <field attributeName="financialOffsetObjectCode" />
+                <field attributeName="financialOffsetChartOfAccountCode" />
+                <field attributeName="financialOffsetAccountNumber" />
+            </resultFields>
+        </lookup>
 
-			<attributeReference name="accountNumber" 
-								sourceClassName="org.kuali.module.chart.bo.Account" 
-								sourceAttributeName="accountNumber" />
-			
+        <titleAttribute>OffsetAccount</titleAttribute>
 
-			<attributeReference name="financialOffsetChartOfAccountCode" 
-								sourceClassName="org.kuali.module.chart.bo.Chart" 
-								sourceAttributeName="chartOfAccountsCode">
-								<label>Offset Chart</label>
-				                <shortLabel>Offset Chart</shortLabel>
-				                <control>
-									<select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" />
-								</control> 
-				                <summary>Offset Chart</summary>
-								<description>Offset Chart...</description>	                
-			</attributeReference>					
+        <attributes>
+            <attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode" />
 
-			<attributeReference name="financialOffsetAccountNumber" 
-								sourceClassName="org.kuali.module.chart.bo.Account" 
-								sourceAttributeName="accountNumber" >
-								<label>Offset Account</label>
-				                <shortLabel>Offset Account</shortLabel>
-				                <summary>Offset Account</summary>
-								<description>Offset Account...</description>	                
-			</attributeReference>			
+            <attributeReference name="accountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber" />
 
-			<attributeReference name="financialOffsetObjectCode" 
-								sourceClassName="org.kuali.module.chart.bo.ObjectCode" 
-								sourceAttributeName="financialObjectCode">
+
+            <attributeReference name="financialOffsetChartOfAccountCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
+                <label>Offset Chart</label>
+                <shortLabel>Offset Chart</shortLabel>
+                <control>
+                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" />
+                </control>
+                <summary>Offset Chart</summary>
+                <description>Offset Chart...</description>
+            </attributeReference>
+
+            <attributeReference name="financialOffsetAccountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber">
+                <label>Offset Account</label>
+                <shortLabel>Offset Account</shortLabel>
+                <summary>Offset Account</summary>
+                <description>Offset Account...</description>
+            </attributeReference>
+
+            <attributeReference name="financialOffsetObjectCode" sourceClassName="org.kuali.module.chart.bo.ObjectCode" sourceAttributeName="financialObjectCode">
                 <label>Offset Object Code</label>
-                <shortLabel> Obj Cd</shortLabel>
-				<required>false</required>				
+                <shortLabel>Obj Cd</shortLabel>
+                <required>false</required>
                 <summary>Offset Object Code</summary>
                 <description>Offset Object Code</description>
             </attributeReference>
 
-		
-		    <attributeReference name="versionNumber" 
-								sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
-								sourceAttributeName="versionNumber" />
-								
-		</attributes>
-	</businessObject>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+    </businessObject>
 </dictionaryEntry>
-			

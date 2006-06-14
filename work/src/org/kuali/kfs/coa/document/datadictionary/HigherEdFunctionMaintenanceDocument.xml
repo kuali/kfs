@@ -4,7 +4,7 @@
     "../../../../core/datadictionary/dataDictionary-1_0.dtd">
 
 <dictionaryEntry>
-	<maintenanceDocument>
+    <maintenanceDocument>
         <businessObjectClass>org.kuali.module.chart.bo.HigherEdFunction</businessObjectClass>
         <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
 
@@ -17,39 +17,36 @@
             </authorization>
         </authorizations>
 
-		<documentTypeName>KualiHigherEdFunctionMaintenanceDocument</documentTypeName>
-		<documentTypeCode>HEFN</documentTypeCode>
+        <documentTypeName>KualiHigherEdFunctionMaintenanceDocument</documentTypeName>
+        <documentTypeCode>HEFN</documentTypeCode>
 
-		<label>Higher Education Function Maintenance Document</label>
-		<shortLabel>HigherEdFunctionMaintDoc</shortLabel>
-		
-		<summary>Higher Education Function maintenance document</summary>
-		<description>Document used to create or update Higher Education Function objects</description>
+        <label>Higher Education Function Maintenance Document</label>
+        <shortLabel>HigherEdFunctionMaintDoc</shortLabel>
+
+        <summary>Higher Education Function maintenance document</summary>
+        <description>Document used to create or update Higher Education Function objects</description>
 
         <lockingKeys>
-			<field attributeName="financialHigherEdFunctionCd" />
-		</lockingKeys>	        
+            <field attributeName="financialHigherEdFunctionCd" />
+        </lockingKeys>
 
-		<defaultExistenceChecks>
-		 	<reference  attributeName="universityBudgetOfficeFunction" 
- 						attributeToHighlightOnFail="finUnivBdgtOfficeFunctionCd" />	
-			<reference  attributeName="aicpaFunction" 
-						attributeToHighlightOnFail="finAicpaFunctionCode" />
-			<reference  attributeName="federalFunction" 
-						attributeToHighlightOnFail="financialFederalFunctionCode" />
-		</defaultExistenceChecks>
+        <defaultExistenceChecks>
+            <reference attributeName="universityBudgetOfficeFunction" attributeToHighlightOnFail="finUnivBdgtOfficeFunctionCd" />
+            <reference attributeName="aicpaFunction" attributeToHighlightOnFail="finAicpaFunctionCode" />
+            <reference attributeName="federalFunction" attributeToHighlightOnFail="financialFederalFunctionCode" />
+        </defaultExistenceChecks>
 
-	    <maintainableSections>
-	        <maintainableSection title="Edit Higher Education Function">
-	        	<maintainableItems>
-	            	<maintainableField name="financialHigherEdFunctionCd" required="true" />
-	            	<maintainableField name="financialHigherEdFunctionNm" required="true" />
-	            	<maintainableField name="finUnivBdgtOfficeFunctionCd" required="true" />
-	            	<maintainableField name="finAicpaFunctionCode" required="true" />	     
-	            	<maintainableField name="financialFederalFunctionCode" required="true" />	     
-                 <maintainableField name="versionNumber" />	       	
-	            </maintainableItems>         	                   
-	        </maintainableSection>
-	    </maintainableSections>
-	</maintenanceDocument>
+        <maintainableSections>
+            <maintainableSection title="Edit Higher Education Function">
+                <maintainableItems>
+                    <maintainableField name="financialHigherEdFunctionCd" required="true" />
+                    <maintainableField name="financialHigherEdFunctionNm" required="true" />
+                    <maintainableField name="finUnivBdgtOfficeFunctionCd" required="true" />
+                    <maintainableField name="finAicpaFunctionCode" required="true" />
+                    <maintainableField name="financialFederalFunctionCode" required="true" />
+                    <maintainableField name="versionNumber" />
+                </maintainableItems>
+            </maintainableSection>
+        </maintainableSections>
+    </maintenanceDocument>
 </dictionaryEntry>

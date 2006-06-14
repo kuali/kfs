@@ -4,122 +4,128 @@
     "../../../core/datadictionary/dataDictionary-1_0.dtd">
 
 <dictionaryEntry>
-	<businessObject businessObjectClass="org.kuali.module.financial.bo.DisbursementVoucherNonResidentAlienTax">
-	
+    <businessObject businessObjectClass="org.kuali.module.financial.bo.DisbursementVoucherNonResidentAlienTax">
+
         <customAttributeEnabled>false</customAttributeEnabled>
-	    
-	    <attributes>
-	    
-	        <attribute name="federalIncomeTaxPercent">
-	            <label>Federal Tax Percent</label>
-	            <shortLabel>Fed Tax</shortLabel>
-	            
-	            <maxLength>22</maxLength>
-	            
-	            <required>false</required>
-	            
-	            <control>
-	                <text size="10"/>
-	            </control>
-	            
-	            <summary><![CDATA[&nbsp;]]></summary>
-	            <description>Percentage of federal tax in the Nonresident Alien (NRA) Tax.</description>
-	        </attribute>
-	        
-	        <attribute name="stateIncomeTaxPercent">
-	            <label>State Tax Percent</label>
-	            <shortLabel>St Tax</shortLabel>
-	            
-	            <maxLength>22</maxLength>
-	            
-	            <required>false</required>
-	            
-	            <control>
-	                <text size="10"/>
-	            </control>
-	            
-	            <summary><![CDATA[&nbsp;]]></summary>
-	            <description>Percentage of state tax in the Nonresident Alien (NRA) Tax.</description>
-	        </attribute>
-	        
-            <attributeReference name="incomeClassCode" 
-            					sourceClassName="org.kuali.module.financial.bo.TaxIncomeClassCode" 
-            					sourceAttributeName="code">
-            					
+
+        <attributes>
+
+            <attribute name="federalIncomeTaxPercent">
+                <label>Federal Tax Percent</label>
+                <shortLabel>Fed Tax</shortLabel>
+
+                <maxLength>22</maxLength>
+
+                <required>false</required>
+
+                <control>
+                    <text size="10" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>Percentage of federal tax in the Nonresident Alien (NRA) Tax.</description>
+            </attribute>
+
+            <attribute name="stateIncomeTaxPercent">
+                <label>State Tax Percent</label>
+                <shortLabel>St Tax</shortLabel>
+
+                <maxLength>22</maxLength>
+
+                <required>false</required>
+
+                <control>
+                    <text size="10" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>Percentage of state tax in the Nonresident Alien (NRA) Tax.</description>
+            </attribute>
+
+            <attributeReference name="incomeClassCode" sourceClassName="org.kuali.module.financial.bo.TaxIncomeClassCode" sourceAttributeName="code">
+
                 <required>true</required>
                 <control>
-                  <select valuesFinderClass="org.kuali.core.lookup.keyvalues.TaxIncomeClassValuesFinder"/>
+                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.TaxIncomeClassValuesFinder" />
                 </control>
-	            <description>The description of the Income Class for the Nonresident Alien (NRA) Tax.  Select one from the pulldown list.</description>
-            </attributeReference>  
-            
-            <attributeReference name="postalCountryCode" 
-            					sourceClassName="org.kuali.core.bo.Country" 
-            					sourceAttributeName="postalCountryCode">
+                <description>The description of the Income Class for the Nonresident Alien (NRA) Tax. Select one from the pulldown list.</description>
+            </attributeReference>
+
+            <attributeReference name="postalCountryCode" sourceClassName="org.kuali.core.bo.Country" sourceAttributeName="postalCountryCode">
                 <control>
-                  <select valuesFinderClass="org.kuali.core.lookup.keyvalues.CountryValuesFinder"/>
+                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.CountryValuesFinder" />
                 </control>
-	            <description>The code that identifies the country of residence for the Nonresident Alien (NRA) Tax</description>
-  
-            </attributeReference>  
-	        
-	        <attribute name="incomeTaxTreatyExemptCode">
-	            <label>Treaty Exempt</label>
-	            <shortLabel>Treaty Exmt</shortLabel>
-	            
-	            <maxLength>1</maxLength>
-	            
-	            <required>false</required>
-	            
-	            <control>
-	                <checkbox/>
-	            </control>
-	            
-	            <summary><![CDATA[&nbsp;]]></summary>
-	            <description>The code to specify that the Nonresident Alien (NRA) Tax is treaty exempt, expressed as "Yes" or "No"</description>
-	        </attribute>
-	        
-	        <attribute name="foreignSourceIncomeCode">
-	            <label>Foreign Source</label>
-	            <shortLabel>Frgn Src</shortLabel>
-	            
-	            <maxLength>1</maxLength>
-	            
-	            <required>false</required>
-	            
-	            <control>
-	                <checkbox/>
-	            </control>
-	            
-	            <summary><![CDATA[&nbsp;]]></summary>
-	            <description><![CDATA[&nbsp;]]></description>
-	        </attribute>
-	        
-	        <attribute name="incomeTaxGrossUpCode">
-	            <label>Gross Up</label>
-	            <shortLabel>Grs</shortLabel>
-	            
-	            <maxLength>1</maxLength>
-	            
-	            <required>false</required>
-	            
-	            <control>
-	                <checkbox/>
-	            </control>
-	            
-	            <summary><![CDATA[&nbsp;]]></summary>
-	            <description>The code to specify that the Nonresident Alien (NRA) Tax is "grossed up" to the original Account, expressed as "Yes" or "No".</description>
-	        </attribute>
-	        
-            <attributeReference name="referenceFinancialDocumentNumber" 
-            					sourceClassName="org.kuali.core.document.DocumentHeader" 
-            					sourceAttributeName="financialDocumentNumber">
+                <description>The code that identifies the country of residence for the Nonresident Alien (NRA) Tax</description>
+
+            </attributeReference>
+
+            <attribute name="incomeTaxTreatyExemptCode">
+                <label>Treaty Exempt</label>
+                <shortLabel>Treaty Exmt</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <required>false</required>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>The code to specify that the Nonresident Alien (NRA) Tax is treaty exempt, expressed as "Yes" or "No"</description>
+            </attribute>
+
+            <attribute name="foreignSourceIncomeCode">
+                <label>Foreign Source</label>
+                <shortLabel>Frgn Src</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <required>false</required>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>
+                    <![CDATA[&nbsp;]]>
+                </description>
+            </attribute>
+
+            <attribute name="incomeTaxGrossUpCode">
+                <label>Gross Up</label>
+                <shortLabel>Grs</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <required>false</required>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>The code to specify that the Nonresident Alien (NRA) Tax is "grossed up" to the original Account, expressed as "Yes" or "No".</description>
+            </attribute>
+
+            <attributeReference name="referenceFinancialDocumentNumber" sourceClassName="org.kuali.core.document.DocumentHeader" sourceAttributeName="financialDocumentNumber">
                 <label>Reference Doc</label>
                 <shortLabel>Ref Doc</shortLabel>
-	            <description>A free-form text field that identifies a reference document for the Nonresident Alien (NRA) Tax.</description>
+                <description>A free-form text field that identifies a reference document for the Nonresident Alien (NRA) Tax.</description>
 
-            </attributeReference> 
+            </attributeReference>
 
-	    </attributes>
-	</businessObject>
+        </attributes>
+    </businessObject>
 </dictionaryEntry>

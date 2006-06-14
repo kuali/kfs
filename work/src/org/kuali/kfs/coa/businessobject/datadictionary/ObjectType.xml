@@ -3,71 +3,75 @@
     "-//Kuali Project//DTD Data Dictionary 1.0//EN"
     "../../../core/datadictionary/dataDictionary-1_0.dtd">
 <dictionaryEntry>
-	<businessObject businessObjectClass="org.kuali.module.chart.bo.ObjectType">
-		<customAttributeEnabled>false</customAttributeEnabled>
+    <businessObject businessObjectClass="org.kuali.module.chart.bo.ObjectType">
+        <customAttributeEnabled>false</customAttributeEnabled>
 
-		<inquiry>
-			<title>Object Type Code Inquiry</title>
+        <inquiry>
+            <title>Object Type Code Inquiry</title>
 
-			<inquiryFields>
-				<field attributeName="code" />
-				<field attributeName="name" />
-				<field attributeName="finObjectTypeDebitcreditCd" />				
-				<field attributeName="finObjectTypeIcrSelectionIndicator" />				
-				<field attributeName="fundBalanceIndicator" />
-				<field attributeName="financialReportingSortCode" />								
-			</inquiryFields>
-		</inquiry>
+            <inquiryFields>
+                <field attributeName="code" />
+                <field attributeName="name" />
+                <field attributeName="finObjectTypeDebitcreditCd" />
+                <field attributeName="finObjectTypeIcrSelectionIndicator" />
+                <field attributeName="fundBalanceIndicator" />
+                <field attributeName="financialReportingSortCode" />
+            </inquiryFields>
+        </inquiry>
 
-		<lookup>
-			<title>Object Type Code Lookup</title>
+        <lookup>
+            <title>Object Type Code Lookup</title>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.chart.bo.ObjectType">Create New</a>]]></menubar>
+            <menubar>
+                <![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.chart.bo.ObjectType">Create New</a>]]>
+            </menubar>
 
-			<instructions>Lookup an Object Type Code</instructions>
+            <instructions>Lookup an Object Type Code</instructions>
 
-			<defaultSort attributeName="code" sortAscending="true" />
+            <defaultSort attributeName="code" sortAscending="true" />
 
-			<lookupFields>
-				<lookupField attributeName="code" required="false" />
-				<lookupField attributeName="name" required="false" />
-			</lookupFields>
+            <lookupFields>
+                <lookupField attributeName="code" required="false" />
+                <lookupField attributeName="name" required="false" />
+            </lookupFields>
 
-			<resultFields>
-				<field attributeName="code" />
-				<field attributeName="name" />
-				<field attributeName="finObjectTypeDebitcreditCd" />				
-				<field attributeName="finObjectTypeIcrSelectionIndicator" />				
-				<field attributeName="fundBalanceIndicator" />
-				<field attributeName="financialReportingSortCode" />								
-				
-			</resultFields>
-		</lookup>
+            <resultFields>
+                <field attributeName="code" />
+                <field attributeName="name" />
+                <field attributeName="finObjectTypeDebitcreditCd" />
+                <field attributeName="finObjectTypeIcrSelectionIndicator" />
+                <field attributeName="fundBalanceIndicator" />
+                <field attributeName="financialReportingSortCode" />
 
-		<attributes>
-			<attribute name="code" forceUppercase="true">
-				<label>Object Type Code</label>
-				<shortLabel>Obj. Type</shortLabel>
+            </resultFields>
+        </lookup>
 
-				<maxLength>2</maxLength>
-				<validationPattern><alpha/></validationPattern>
-				<required>true</required>
-				
-				<control>
-					<text size="3" />
-				</control>
+        <attributes>
+            <attribute name="code" forceUppercase="true">
+                <label>Object Type Code</label>
+                <shortLabel>Obj. Type</shortLabel>
 
-				<summary>Object Type Code</summary>
-				<description>The unique code representing this object type.</description>
-			</attribute>
-			
-			<attribute name="name" forceUppercase="false">
+                <maxLength>2</maxLength>
+                <validationPattern>
+                    <alpha />
+                </validationPattern>
+                <required>true</required>
+
+                <control>
+                    <text size="3" />
+                </control>
+
+                <summary>Object Type Code</summary>
+                <description>The unique code representing this object type.</description>
+            </attribute>
+
+            <attribute name="name" forceUppercase="false">
                 <label>Object Type Name</label>
                 <shortLabel>Name</shortLabel>
 
                 <maxLength>40</maxLength>
-				<required>true</required>
-			
+                <required>true</required>
+
                 <control>
                     <text size="41" />
                 </control>
@@ -76,13 +80,13 @@
                 <description>Object Type Name...</description>
             </attribute>
 
-			<attribute name="financialReportingSortCode" forceUppercase="true">
+            <attribute name="financialReportingSortCode" forceUppercase="true">
                 <label>Reporting Sort Code</label>
                 <shortLabel>Rpt Sort Code</shortLabel>
 
                 <maxLength>2</maxLength>
-				<required>true</required>
-				
+                <required>true</required>
+
                 <control>
                     <text size="3" />
                 </control>
@@ -91,55 +95,45 @@
                 <description>Reporting Sort Code</description>
             </attribute>
 
-			<attribute name="finObjectTypeDebitcreditCd" forceUppercase="true">
-				<label>Object Type Debit Credit Code</label>
-				<shortLabel>Obj. Type Deb/Cred Code</shortLabel>
+            <attribute name="finObjectTypeDebitcreditCd" forceUppercase="true">
+                <label>Object Type Debit Credit Code</label>
+                <shortLabel>Obj. Type Deb/Cred Code</shortLabel>
 
-				<maxLength>1</maxLength>
-				<validationPattern><charset validChars="CD" /></validationPattern>
-				<required>true</required>
-				
-				<control>
-					<text size="1" />
-				</control>
+                <maxLength>1</maxLength>
+                <validationPattern>
+                    <charset validChars="CD" />
+                </validationPattern>
+                <required>true</required>
 
-				<summary>Object Type Debit Credit Code</summary>
-				<description>The unique code indicating that the object type is a credit or a debit.</description>
-			</attribute>
-			
-     		<attributeReference
-       			name="finObjectTypeIcrSelectionIndicator"
-      			sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
-       			sourceAttributeName="genericBoolean">
-       			<label>ICR Selection Indicator</label>
-        		<shortLabel>ICR Select Indicator</shortLabel>
-       			<summary>ICR Selection Indicator</summary>
-       			<description>ICR Selection Indicator</description>
-      		</attributeReference>
-      		
-     		<attributeReference
-       			name="fundBalanceIndicator"
-      			sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
-       			sourceAttributeName="genericBoolean">
-       			<label>Fund Balance Indicator</label>
-        		<shortLabel>Fund Balance Indicator</shortLabel>
-       			<summary>Fund Balance Indicator</summary>
-       			<description>Fund Balance Indicator</description>
-      		</attributeReference>
-			
+                <control>
+                    <text size="1" />
+                </control>
 
-			
-			<attributeReference name="objectId" 
-								sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
-								sourceAttributeName="objectId" />
-								
-			<attributeReference name="versionNumber" 
-								sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
-								sourceAttributeName="versionNumber" />
-								
-			<attributeReference name="active" 
-								sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
-								sourceAttributeName="activeIndicator" />
-		</attributes>
-	</businessObject>
+                <summary>Object Type Debit Credit Code</summary>
+                <description>The unique code indicating that the object type is a credit or a debit.</description>
+            </attribute>
+
+            <attributeReference name="finObjectTypeIcrSelectionIndicator" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
+                <label>ICR Selection Indicator</label>
+                <shortLabel>ICR Select Indicator</shortLabel>
+                <summary>ICR Selection Indicator</summary>
+                <description>ICR Selection Indicator</description>
+            </attributeReference>
+
+            <attributeReference name="fundBalanceIndicator" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
+                <label>Fund Balance Indicator</label>
+                <shortLabel>Fund Balance Indicator</shortLabel>
+                <summary>Fund Balance Indicator</summary>
+                <description>Fund Balance Indicator</description>
+            </attributeReference>
+
+
+
+            <attributeReference name="objectId" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="objectId" />
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+            <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />
+        </attributes>
+    </businessObject>
 </dictionaryEntry>

@@ -3,69 +3,69 @@
     "-//Kuali Project//DTD Data Dictionary 1.0//EN"
     "../../../core/datadictionary/dataDictionary-1_0.dtd">
 <dictionaryEntry>
-	<businessObject businessObjectClass="org.kuali.module.chart.bo.ObjectCons">
-		<customAttributeEnabled>false</customAttributeEnabled>
+    <businessObject businessObjectClass="org.kuali.module.chart.bo.ObjectCons">
+        <customAttributeEnabled>false</customAttributeEnabled>
 
-		<inquiry>
-			<title>Object Code Restrictions Inquiry</title>
-			<inquiryFields>
-				<field attributeName="chartOfAccountsCode" />
-				<field attributeName="finConsolidationObjectCode" />	
-				<field attributeName="finConsolidationObjectName" />
-				<field attributeName="finConsolidationObjShortName" />
-				<field attributeName="finConsolidationObjActiveIndicator" />	
-				<field attributeName="financialEliminationsObjectCode" />	
-				<field attributeName="financialReportingSortCode" />	
-																					
-			</inquiryFields>
-		</inquiry>
+        <inquiry>
+            <title>Object Code Restrictions Inquiry</title>
+            <inquiryFields>
+                <field attributeName="chartOfAccountsCode" />
+                <field attributeName="finConsolidationObjectCode" />
+                <field attributeName="finConsolidationObjectName" />
+                <field attributeName="finConsolidationObjShortName" />
+                <field attributeName="finConsolidationObjActiveIndicator" />
+                <field attributeName="financialEliminationsObjectCode" />
+                <field attributeName="financialReportingSortCode" />
 
-		<lookup>
-			<title>Object Consolidation Lookup</title>
+            </inquiryFields>
+        </inquiry>
 
-			<menubar><![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.chart.bo.ObjectCons">Create New</a>]]></menubar>
+        <lookup>
+            <title>Object Consolidation Lookup</title>
 
-			<instructions>Lookup an Object Consolidation</instructions>
+            <menubar>
+                <![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.chart.bo.ObjectCons">Create New</a>]]>
+            </menubar>
 
-			<defaultSort attributeName="finConsolidationObjectCode" sortAscending="true" />
+            <instructions>Lookup an Object Consolidation</instructions>
 
-			<lookupFields>
-				<lookupField attributeName="chartOfAccountsCode" required="false" />
-				<lookupField attributeName="finConsolidationObjectCode" required="false" />
-				<lookupField attributeName="finConsolidationObjectName" required="false" />	
-				<lookupField attributeName="finConsolidationObjShortName" required="false" />	
-				<lookupField attributeName="financialEliminationsObjectCode" required="false" />										
-			</lookupFields>
+            <defaultSort attributeName="finConsolidationObjectCode" sortAscending="true" />
 
-			<resultFields>
-				<field attributeName="chartOfAccountsCode" />
-				<field attributeName="finConsolidationObjectCode" />	
-				<field attributeName="finConsolidationObjectName" />
-				<field attributeName="finConsolidationObjShortName" />
-				<field attributeName="finConsolidationObjActiveIndicator" />	
-				<field attributeName="financialEliminationsObjectCode" />	
-				<field attributeName="financialReportingSortCode" />														
-			</resultFields>
-		</lookup>
+            <lookupFields>
+                <lookupField attributeName="chartOfAccountsCode" required="false" />
+                <lookupField attributeName="finConsolidationObjectCode" required="false" />
+                <lookupField attributeName="finConsolidationObjectName" required="false" />
+                <lookupField attributeName="finConsolidationObjShortName" required="false" />
+                <lookupField attributeName="financialEliminationsObjectCode" required="false" />
+            </lookupFields>
 
-		<attributes>
+            <resultFields>
+                <field attributeName="chartOfAccountsCode" />
+                <field attributeName="finConsolidationObjectCode" />
+                <field attributeName="finConsolidationObjectName" />
+                <field attributeName="finConsolidationObjShortName" />
+                <field attributeName="finConsolidationObjActiveIndicator" />
+                <field attributeName="financialEliminationsObjectCode" />
+                <field attributeName="financialReportingSortCode" />
+            </resultFields>
+        </lookup>
 
-			<attributeReference name="chartOfAccountsCode" 
-								sourceClassName="org.kuali.module.chart.bo.Chart" 
-								sourceAttributeName="chartOfAccountsCode">
-								
-				<required>true</required>
-				<control>
-					<select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder"/>					
-				</control>
-			</attributeReference>
-			
-			<attribute name="finConsolidationObjectCode" forceUppercase="true">
+        <attributes>
+
+            <attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
+
+                <required>true</required>
+                <control>
+                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" />
+                </control>
+            </attributeReference>
+
+            <attribute name="finConsolidationObjectCode" forceUppercase="true">
                 <label>Consolidation Object Code</label>
                 <shortLabel>Cons Code</shortLabel>
 
                 <maxLength>4</maxLength>
-				<required>true</required>
+                <required>true</required>
                 <control>
                     <text size="4" />
                 </control>
@@ -74,12 +74,12 @@
                 <description>Consolidation Object Code...</description>
             </attribute>
 
-			<attribute name="finConsolidationObjectName" forceUppercase="true">
+            <attribute name="finConsolidationObjectName" forceUppercase="true">
                 <label>Consolidation Object Name</label>
                 <shortLabel>Long Name</shortLabel>
 
                 <maxLength>40</maxLength>
-				<required>true</required>
+                <required>true</required>
                 <control>
                     <text size="40" />
                 </control>
@@ -87,13 +87,13 @@
                 <summary>Consolidation Object Name</summary>
                 <description>Consolidation Object Name...</description>
             </attribute>
-            
-			<attribute name="finConsolidationObjShortName" forceUppercase="true">
+
+            <attribute name="finConsolidationObjShortName" forceUppercase="true">
                 <label>Consolidation Object Short Name</label>
                 <shortLabel>Short Name</shortLabel>
 
                 <maxLength>12</maxLength>
-				<required>true</required>
+                <required>true</required>
                 <control>
                     <text size="12" />
                 </control>
@@ -102,50 +102,45 @@
                 <description>Consolidation Object Short Name...</description>
             </attribute>
 
-  		    <attributeReference
-				name="finConsolidationObjActiveIndicator"
-				sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
-				sourceAttributeName="activeIndicator" />
+            <attributeReference name="finConsolidationObjActiveIndicator" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />
 
-			<attribute name="financialEliminationsObjectCode" forceUppercase="true">
-				<label>Elimination Object Code</label>
-				<shortLabel>Elim Obj Code</shortLabel>
+            <attribute name="financialEliminationsObjectCode" forceUppercase="true">
+                <label>Elimination Object Code</label>
+                <shortLabel>Elim Obj Code</shortLabel>
 
-				<maxLength>4</maxLength>
-				<validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
-				<required>true</required>
-				<control>
-					<text size="4" />
-				</control>
+                <maxLength>4</maxLength>
+                <validationPattern>
+                    <anyCharacter allowWhitespace="true" />
+                </validationPattern>
+                <required>true</required>
+                <control>
+                    <text size="4" />
+                </control>
 
-				<summary>Elimination Object Code</summary>
-				<description>
-					Elimination Object Code
-				</description>
-			</attribute>
-			
-        	<attribute name="financialReportingSortCode" forceUppercase="false">
-        		<label>Reporting Sort Code</label>
-        		<shortLabel>Sort Code</shortLabel>
-        		
-        		<maxLength>2</maxLength>
-        		<validationPattern><numeric /></validationPattern>
-        		<required>true</required>
-        		<control>
-        			<text size="2" />
-        		</control>
-        		
-        		<summary>Reporting Sort Code</summary>
-        		<description>
-        			Reporting Sort Code...
-        		</description>
-        	</attribute> 	
- 			
-			<attributeReference name="versionNumber" 
- 					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
- 					sourceAttributeName="versionNumber" />
- 			
-		</attributes>
-	</businessObject>
+                <summary>Elimination Object Code</summary>
+                <description>Elimination Object Code</description>
+            </attribute>
+
+            <attribute name="financialReportingSortCode" forceUppercase="false">
+                <label>Reporting Sort Code</label>
+                <shortLabel>Sort Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern>
+                    <numeric />
+                </validationPattern>
+                <required>true</required>
+                <control>
+                    <text size="2" />
+                </control>
+
+                <summary>Reporting Sort Code</summary>
+                <description>Reporting Sort Code...</description>
+            </attribute>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+    </businessObject>
 </dictionaryEntry>
 

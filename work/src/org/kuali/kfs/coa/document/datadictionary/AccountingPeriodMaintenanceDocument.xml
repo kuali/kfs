@@ -4,7 +4,7 @@
     "../../../../core/datadictionary/dataDictionary-1_0.dtd">
 
 <dictionaryEntry>
-	<maintenanceDocument>
+    <maintenanceDocument>
         <businessObjectClass>org.kuali.module.chart.bo.AccountingPeriod</businessObjectClass>
         <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
 
@@ -17,32 +17,32 @@
             </authorization>
         </authorizations>
 
-		<documentTypeName>KualiAccountingPeriodMaintenanceDocument</documentTypeName>
-		<documentTypeCode>APRD</documentTypeCode>
+        <documentTypeName>KualiAccountingPeriodMaintenanceDocument</documentTypeName>
+        <documentTypeCode>APRD</documentTypeCode>
 
-		<label>Accounting Period Maintenance Document</label>
-		<shortLabel>AcctPeriodMaintDoc</shortLabel>
-		
-		<summary>Accounting Period maintenance document</summary>
-		<description>Document used to create or update Accounting Period objects</description>
+        <label>Accounting Period Maintenance Document</label>
+        <shortLabel>AcctPeriodMaintDoc</shortLabel>
+
+        <summary>Accounting Period maintenance document</summary>
+        <description>Document used to create or update Accounting Period objects</description>
 
         <lockingKeys>
-			<field attributeName="universityFiscalYear" />
-			<field attributeName="universityFiscalPeriodCode" />	
-		</lockingKeys>	        
+            <field attributeName="universityFiscalYear" />
+            <field attributeName="universityFiscalPeriodCode" />
+        </lockingKeys>
 
-	    <maintainableSections>
-	        <maintainableSection title="Edit Accounting Period">
-	        	<maintainableItems>
-	            	<maintainableField name="universityFiscalYear" required="true" />
-	            	<maintainableField name="universityFiscalPeriodCode" required="true" />
-	            	<maintainableField name="universityFiscalPeriodName" required="true" />
-	            	<maintainableField name="universityFiscalPeriodStatusCode" required="true" />	     	 
-	            	<maintainableField name="budgetRolloverIndicator" required="true" />	     	 
-	            	<maintainableField name="universityFiscalPeriodEndDate" required="true" />
-	            	<maintainableField name="versionNumber" />	     	 
-	            </maintainableItems>         	                   
-	        </maintainableSection>
-	    </maintainableSections>
-	</maintenanceDocument>
+        <maintainableSections>
+            <maintainableSection title="Edit Accounting Period">
+                <maintainableItems>
+                    <maintainableField name="universityFiscalYear" required="true" />
+                    <maintainableField name="universityFiscalPeriodCode" required="true" />
+                    <maintainableField name="universityFiscalPeriodName" required="true" />
+                    <maintainableField name="universityFiscalPeriodStatusCode" required="true" />
+                    <maintainableField name="budgetRolloverIndicator" required="true" />
+                    <maintainableField name="universityFiscalPeriodEndDate" required="true" />
+                    <maintainableField name="versionNumber" />
+                </maintainableItems>
+            </maintainableSection>
+        </maintainableSections>
+    </maintenanceDocument>
 </dictionaryEntry>

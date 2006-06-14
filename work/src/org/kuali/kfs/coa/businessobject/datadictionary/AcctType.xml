@@ -3,85 +3,80 @@
     "-//Kuali Project//DTD Data Dictionary 1.0//EN"
     "../../../core/datadictionary/dataDictionary-1_0.dtd">
 <dictionaryEntry>
-	<businessObject
-		businessObjectClass="org.kuali.module.chart.bo.AcctType">
-		<customAttributeEnabled>false</customAttributeEnabled>
+    <businessObject businessObjectClass="org.kuali.module.chart.bo.AcctType">
+        <customAttributeEnabled>false</customAttributeEnabled>
 
-		<inquiry>
-			<title>Account Type</title>
+        <inquiry>
+            <title>Account Type</title>
 
-			<inquiryFields>
-				<field attributeName="accountTypeCode" />
-				<field attributeName="accountTypeName" />
-			</inquiryFields>
-		</inquiry>
-		
-			<lookup>
-      <title>Account Type Lookup</title>
+            <inquiryFields>
+                <field attributeName="accountTypeCode" />
+                <field attributeName="accountTypeName" />
+            </inquiryFields>
+        </inquiry>
 
-      <menubar>
-        <![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.chart.bo.AcctType">Create New</a>]]>
-      </menubar>
+        <lookup>
+            <title>Account Type Lookup</title>
 
-      <instructions>Lookup an Account Type</instructions>
+            <menubar>
+                <![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.chart.bo.AcctType">Create New</a>]]>
+            </menubar>
 
-      <defaultSort
-        attributeName="accountTypeCode"
-        sortAscending="true" />
+            <instructions>Lookup an Account Type</instructions>
 
-		<lookupFields>
-			<lookupField attributeName="accountTypeCode" />
-			<lookupField attributeName="accountTypeName" />
-		</lookupFields>
+            <defaultSort attributeName="accountTypeCode" sortAscending="true" />
 
-      <resultFields>
-        <field attributeName="accountTypeCode" />
-        <field attributeName="accountTypeName" />
-      </resultFields>
-    </lookup>
-		
+            <lookupFields>
+                <lookupField attributeName="accountTypeCode" />
+                <lookupField attributeName="accountTypeName" />
+            </lookupFields>
 
-		<attributes>
-			<attribute name="accountTypeCode" forceUppercase="true">
-				<label>Account Type Code</label>
-				<shortLabel>AcctType</shortLabel>
+            <resultFields>
+                <field attributeName="accountTypeCode" />
+                <field attributeName="accountTypeName" />
+            </resultFields>
+        </lookup>
 
-				<maxLength>2</maxLength>
-				<validationPattern><alpha exactLength="2" /></validationPattern>
-				<required>true</required>
-				
+
+        <attributes>
+            <attribute name="accountTypeCode" forceUppercase="true">
+                <label>Account Type Code</label>
+                <shortLabel>AcctType</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern>
+                    <alpha exactLength="2" />
+                </validationPattern>
+                <required>true</required>
+
                 <control>
                     <text size="2" />
                 </control>
 
-				<summary>Account Type Code</summary>
-				<description>
-					Account Code
-				</description>
-			</attribute>
+                <summary>Account Type Code</summary>
+                <description>Account Code</description>
+            </attribute>
 
-			<attribute name="accountTypeName" forceUppercase="false">
-				<label>Account Type Name</label>
-				<shortLabel>Name</shortLabel>
+            <attribute name="accountTypeName" forceUppercase="false">
+                <label>Account Type Name</label>
+                <shortLabel>Name</shortLabel>
 
-				<maxLength>50</maxLength>
-				<validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
-				<required>true</required>
-				<control>
-					<text size="50" />
-				</control>
+                <maxLength>50</maxLength>
+                <validationPattern>
+                    <anyCharacter allowWhitespace="true" />
+                </validationPattern>
+                <required>true</required>
+                <control>
+                    <text size="50" />
+                </control>
 
-				<summary>Account Type Name</summary>
-				<description>
-					Account Type Name
-				</description>
-			</attribute>
-			
- 			<attributeReference name="versionNumber" 
- 				sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
- 				sourceAttributeName="versionNumber" />
-	        
-		</attributes>
-	</businessObject>
+                <summary>Account Type Name</summary>
+                <description>Account Type Name</description>
+            </attribute>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+    </businessObject>
 </dictionaryEntry>
 

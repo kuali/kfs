@@ -291,11 +291,11 @@ public class KualiChartAttribute implements RoleAttribute, WorkflowAttribute {
     public List getQualifiedRoleNames(String roleName, DocumentContent docContent) throws EdenUserNotFoundException {
         Set qualifiedRoleNames = new HashSet();
         if (CHART_MANAGER_ROLE_KEY.equals(roleName)) {
-        	String chartXPath = MAINTAINABLE_PREFIX+"chartOfAccountsCode";
+        	String chartXPath = "wf:xstreamsafe('" + MAINTAINABLE_PREFIX + "chartOfAccountsCode')";
         	if (docContent.getRouteContext().getDocument().getDocumentType().getName().equals(ORGANIZATION_DOC_TYPE)) {
-        		chartXPath = MAINTAINABLE_PREFIX+"finCoaCd";
+        		chartXPath = "wf:xstreamsafe('" + MAINTAINABLE_PREFIX + "finCoaCd')";
         	}
-        	XPath xpath = XPathFactory.newInstance().newXPath();
+        	XPath xpath = KualiWorkflowAttributeUtils.getXPath(docContent.getDocument());
         	String chart = null;
         	try {
         		chart = xpath.evaluate(chartXPath, docContent.getDocument());

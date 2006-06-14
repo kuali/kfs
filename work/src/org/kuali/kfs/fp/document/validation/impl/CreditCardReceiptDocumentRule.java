@@ -37,18 +37,23 @@ import org.kuali.module.financial.document.CreditCardReceiptDocument;
  */
 public class CreditCardReceiptDocumentRule extends CashReceiptDocumentRule {
     /**
-     * For Credit Card Receipt documents, the document is balanced if the sum total of credit card receipts equals the sum total of
-     * the accounting lines.
-     * 
+     * For Credit Card Receipt documents, the document is balanced if the sum total of credit card receipts
+     * equals the sum total of the accounting lines.
+     *
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#isDocumentBalanceValid(org.kuali.core.document.TransactionalDocument)
      */
     protected boolean isDocumentBalanceValid(TransactionalDocument transactionalDocument) {
         CreditCardReceiptDocument ccr = (CreditCardReceiptDocument) transactionalDocument;
 
+        boolean isValid = super.isDocumentBalanceValidConsideringDebitsAndCredits(ccr);
+        
         // make sure that the credit card total is greater than zero
-        boolean isValid = ccr.getSumTotalAmount().compareTo(Constants.ZERO) > 0;
-        if (!isValid) {
-            GlobalVariables.getErrorMap().put(PropertyConstants.NEW_CREDIT_CARD_RECEIPT, KeyConstants.CreditCardReceipt.ERROR_DOCUMENT_CREDIT_CARD_RECEIPT_TOTAL_INVALID);
+        if(isValid) {
+            isValid = ccr.getSumTotalAmount().compareTo(Constants.ZERO) > 0;
+            if (!isValid) {
+                GlobalVariables.getErrorMap().put(PropertyConstants.NEW_CREDIT_CARD_RECEIPT, 
+                        KeyConstants.CreditCardReceipt.ERROR_DOCUMENT_CREDIT_CARD_RECEIPT_TOTAL_INVALID);
+            }
         }
 
         if (isValid) {
@@ -56,44 +61,48 @@ public class CreditCardReceiptDocumentRule extends CashReceiptDocumentRule {
             isValid = ccr.getSourceTotal().compareTo(ccr.getSumTotalAmount()) == 0;
 
             if (!isValid) {
-                GlobalVariables.getErrorMap().put(PropertyConstants.NEW_CREDIT_CARD_RECEIPT, KeyConstants.CreditCardReceipt.ERROR_DOCUMENT_CREDIT_CARD_RECEIPT_OUT_OF_BALANCE);
+                GlobalVariables.getErrorMap().put(PropertyConstants.NEW_CREDIT_CARD_RECEIPT,
+                        KeyConstants.CreditCardReceipt.ERROR_DOCUMENT_CREDIT_CARD_RECEIPT_OUT_OF_BALANCE);
             }
         }
 
         return isValid;
     }
-
+    
     /**
-     * Overrides to call super and then make sure the minimum number of credit card receipt lines exist on this document.
+     * Overrides to call super and then make sure the minimum number of credit card receipt 
+     * lines exist on this document.
      * 
      * @see org.kuali.core.rule.DocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.Document)
      */
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
         boolean isValid = super.processCustomRouteDocumentBusinessRules(document);
-
-        if (isValid) {
+        
+        if(isValid) {
             isValid = isMinimumNumberOfCreditCardReceiptsMet(document);
         }
-
+        
         return isValid;
     }
 
     /**
-     * This method is a helper that checks to make sure that at least one credit card receipt line exists for the document.
+     * This method is a helper that checks to make sure that at least one credit card receipt 
+     * line exists for the document.
      * 
      * @param document
      * @return boolean
      */
     private boolean isMinimumNumberOfCreditCardReceiptsMet(Document document) {
         CreditCardReceiptDocument ccr = (CreditCardReceiptDocument) document;
-
-        if (ccr.getCreditCardReceipts().size() == 0) {
-            GlobalVariables.getErrorMap().put(DOCUMENT_ERROR_PREFIX, KeyConstants.CreditCardReceipt.ERROR_DOCUMENT_CREDIT_CARD_RECEIPT_REQ_NUMBER_RECEIPTS_NOT_MET);
+        
+        if(ccr.getCreditCardReceipts().size() == 0) {
+            GlobalVariables.getErrorMap().put(DOCUMENT_ERROR_PREFIX,
+                    KeyConstants.CreditCardReceipt.ERROR_DOCUMENT_CREDIT_CARD_RECEIPT_REQ_NUMBER_RECEIPTS_NOT_MET);
             return false;
         }
         return true;
     }
-
+    
     /**
      * Overrides to call super and then to validate all of the credit card receipts associated with this document.
      * 
@@ -101,17 +110,17 @@ public class CreditCardReceiptDocumentRule extends CashReceiptDocumentRule {
      */
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
         boolean isValid = super.processCustomSaveDocumentBusinessRules(document);
-
-        if (isValid) {
+        
+        if(isValid) {
             isValid = validateCreditCardReceipts((CreditCardReceiptDocument) document);
         }
-
+        
         return isValid;
     }
-
+    
     /**
      * Validates all the CreditCardReceipts in the given Document.
-     * 
+     *
      * @param creditCardReceiptDocument
      * @return boolean
      */

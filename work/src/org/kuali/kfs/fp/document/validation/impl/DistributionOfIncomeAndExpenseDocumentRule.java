@@ -124,29 +124,6 @@ public class DistributionOfIncomeAndExpenseDocumentRule extends TransactionalDoc
     }
 
     /**
-     * adds the following additional balance checks
-     * <ol>
-     * <li> transactions (income and expense; assets or liabilities) must balance. FIS will check and prompt the initiator if the
-     * transaction does not balance
-     * <li> the total of the revenue objects - total of the expense objects in the "from" window = the total of the revenue objects -
-     * total of the expense objects in the "to" window
-     * <ul>
-     * 
-     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#isDocumentBalanceValid(org.kuali.core.document.TransactionalDocument)
-     */
-    protected boolean isDocumentBalanceValid(TransactionalDocument transactionalDocument) {
-        boolean valid = super.isDocumentBalanceValid(transactionalDocument);
-        if (valid) {
-            valid = isDocumentBalancedConsideringObjectTypes(transactionalDocument);
-        }
-
-        if (valid) {
-            valid = isDocumenBalancedConsideringRevenueAndExpenseObjectTypes(transactionalDocument);
-        }
-        return valid;
-    }
-
-    /**
      * 
      * @see org.kuali.core.rule.AccountingLineRule#isObjectTypeAllowed(org.kuali.core.bo.AccountingLine)
      */

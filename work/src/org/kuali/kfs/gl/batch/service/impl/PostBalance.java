@@ -37,7 +37,7 @@ import org.kuali.module.gl.dao.BalanceDao;
 
 /**
  * @author jsissom
- *  
+ * 
  */
 public class PostBalance implements PostTransaction, BalanceCalculator {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PostBalance.class);
@@ -46,7 +46,7 @@ public class PostBalance implements PostTransaction, BalanceCalculator {
     private DateTimeService dateTimeService;
 
     /**
-     *  
+     * 
      */
     public PostBalance() {
         super();
@@ -93,14 +93,7 @@ public class PostBalance implements PostTransaction, BalanceCalculator {
         for (Iterator iter = balanceList.iterator(); iter.hasNext();) {
             Balance b = (Balance) iter.next();
 
-            if (b.getUniversityFiscalYear().equals(t.getUniversityFiscalYear())
-                    && b.getChartOfAccountsCode().equals(t.getChartOfAccountsCode())
-                    && b.getAccountNumber().equals(t.getAccountNumber()) 
-                    && b.getSubAccountNumber().equals(t.getSubAccountNumber())
-                    && b.getObjectCode().equals(t.getFinancialObjectCode())
-                    && b.getSubObjectCode().equals(t.getFinancialSubObjectCode())
-                    && b.getBalanceTypeCode().equals(t.getFinancialBalanceTypeCode())
-                    && b.getObjectTypeCode().equals(t.getFinancialObjectTypeCode())) {
+            if (b.getUniversityFiscalYear().equals(t.getUniversityFiscalYear()) && b.getChartOfAccountsCode().equals(t.getChartOfAccountsCode()) && b.getAccountNumber().equals(t.getAccountNumber()) && b.getSubAccountNumber().equals(t.getSubAccountNumber()) && b.getObjectCode().equals(t.getFinancialObjectCode()) && b.getSubObjectCode().equals(t.getFinancialSubObjectCode()) && b.getBalanceTypeCode().equals(t.getFinancialBalanceTypeCode()) && b.getObjectTypeCode().equals(t.getFinancialObjectTypeCode())) {
                 return b;
             }
         }
@@ -120,19 +113,19 @@ public class PostBalance implements PostTransaction, BalanceCalculator {
     public void updateBalance(Transaction t, Balance b) {
 
         // The pending entries haven't been scrubbed so there could be
-        // bad data.  This won't update a balance if the data it needs
+        // bad data. This won't update a balance if the data it needs
         // is invalid
         KualiDecimal amount = t.getTransactionLedgerEntryAmount();
-        if ( amount == null ) {
+        if (amount == null) {
             amount = KualiDecimal.ZERO;
         }
-        
-        if ( t.getObjectType() == null ) {
+
+        if (t.getObjectType() == null) {
             LOG.error("updateBalance() Invalid object type (" + t.getFinancialObjectTypeCode() + ") in pending table");
             return;
         }
 
-        if ( t.getBalanceType() == null ) {
+        if (t.getBalanceType() == null) {
             LOG.error("updateBalance() Invalid balance type (" + t.getFinancialBalanceTypeCode() + ") in pending table");
             return;
         }
@@ -147,11 +140,11 @@ public class PostBalance implements PostTransaction, BalanceCalculator {
 
         // update the balance amount of the cooresponding period
         String period = t.getUniversityFiscalPeriodCode();
-        if(period == null){
+        if (period == null) {
             UniversityDate currentUniversityDate = dateTimeService.getCurrentUniversityDate();
             period = currentUniversityDate.getUniversityFiscalAccountingPeriod();
         }
-        
+
         b.setAmount(period, b.getAmount(period).add(amount));
     }
 
@@ -162,9 +155,10 @@ public class PostBalance implements PostTransaction, BalanceCalculator {
     public void setBalanceDao(BalanceDao bd) {
         balanceDao = bd;
     }
-    
+
     /**
      * Sets the dateTimeService attribute value.
+     * 
      * @param dateTimeService The dateTimeService to set.
      */
     public void setDateTimeService(DateTimeService dateTimeService) {

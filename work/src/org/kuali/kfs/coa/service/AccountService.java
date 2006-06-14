@@ -31,28 +31,30 @@ import org.kuali.module.chart.bo.Account;
 
 /**
  * This interface defines methods that an Account Service must provide
+ * 
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public interface AccountService {
-    /** 
+    /**
      * Retrieves an Account object based on primary key.
-     * @param chartOfAccountsCode - Chart of Accounts Code 
+     * 
+     * @param chartOfAccountsCode - Chart of Accounts Code
      * @param accountNumber - Account Number
-     * @return Account  
+     * @return Account
      */
     public Account getByPrimaryId(String chartOfAccountsCode, String accountNumber);
 
     /**
-     * Fetches the accounts that the user is either the fiscal officer
-     * or fiscal officer delegate for.
+     * Fetches the accounts that the user is either the fiscal officer or fiscal officer delegate for.
+     * 
      * @param kualiUser
      * @return a list of Accounts that the user has responsibility for
      */
     public List getAccountsThatUserIsResponsibleFor(KualiUser kualiUser);
 
     /**
-     * get all accounts in the system.  This is needed
-     * by a sufficient funds rebuilder job
+     * get all accounts in the system. This is needed by a sufficient funds rebuilder job
+     * 
      * @return iterator of all accounts
      */
     public Iterator getAllAccounts();

@@ -38,7 +38,7 @@ import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 /**
  * @author jsissom
- * @version $Id: EncumbranceDaoOjb.java,v 1.7 2006-05-09 12:16:59 bgao Exp $
+ * @version $Id: EncumbranceDaoOjb.java,v 1.8 2006-06-14 12:26:34 abyrne Exp $
  */
 public class EncumbranceDaoOjb extends PersistenceBrokerDaoSupport implements EncumbranceDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EncumbranceDaoOjb.class);
@@ -73,30 +73,30 @@ public class EncumbranceDaoOjb extends PersistenceBrokerDaoSupport implements En
 
     public Iterator getEncumbrancesToClose(Integer fiscalYear) {
 
-        //        816 002750 EXEC SQL
-        //        817 002760 DECLARE GLEC_CURSOR CURSOR FOR
-        //        818 002770 SELECT UNIV_FISCAL_YR,
-        //        819 002780 FIN_COA_CD,
-        //        820 002790 ACCOUNT_NBR,
-        //        821 002800 SUB_ACCT_NBR,
-        //        822 002810 FIN_OBJECT_CD,
-        //        823 002820 FIN_SUB_OBJ_CD,
-        //        824 002830 FIN_BALANCE_TYP_CD,
-        //        825 002840 FDOC_TYP_CD,
-        //        826 002850 FS_ORIGIN_CD,
-        //        827 002860 FDOC_NBR,
-        //        828 002870 TRN_ENCUM_DESC,
-        //        829 002880 ACLN_ENCUM_AMT,
-        //        830 002890 ACLN_ENCUM_CLS_AMT
-        //        831 002900 FROM GL_ENCUMBRANCE_T
-        //        832 002910 WHERE UNIV_FISCAL_YR = RTRIM(:GLGLEC-UNIV-FISCAL-YR)
-        //        833 002920 ORDER BY FIN_COA_CD,
-        //        834 002930 ACCOUNT_NBR,
-        //        835 002940 SUB_ACCT_NBR,
-        //        836 002950 FIN_OBJECT_CD,
-        //        837 002960 FIN_SUB_OBJ_CD,
-        //        838 002970 FIN_BALANCE_TYP_CD
-        //        839 002980 END-EXEC.
+        // 816 002750 EXEC SQL
+        // 817 002760 DECLARE GLEC_CURSOR CURSOR FOR
+        // 818 002770 SELECT UNIV_FISCAL_YR,
+        // 819 002780 FIN_COA_CD,
+        // 820 002790 ACCOUNT_NBR,
+        // 821 002800 SUB_ACCT_NBR,
+        // 822 002810 FIN_OBJECT_CD,
+        // 823 002820 FIN_SUB_OBJ_CD,
+        // 824 002830 FIN_BALANCE_TYP_CD,
+        // 825 002840 FDOC_TYP_CD,
+        // 826 002850 FS_ORIGIN_CD,
+        // 827 002860 FDOC_NBR,
+        // 828 002870 TRN_ENCUM_DESC,
+        // 829 002880 ACLN_ENCUM_AMT,
+        // 830 002890 ACLN_ENCUM_CLS_AMT
+        // 831 002900 FROM GL_ENCUMBRANCE_T
+        // 832 002910 WHERE UNIV_FISCAL_YR = RTRIM(:GLGLEC-UNIV-FISCAL-YR)
+        // 833 002920 ORDER BY FIN_COA_CD,
+        // 834 002930 ACCOUNT_NBR,
+        // 835 002940 SUB_ACCT_NBR,
+        // 836 002950 FIN_OBJECT_CD,
+        // 837 002960 FIN_SUB_OBJ_CD,
+        // 838 002970 FIN_BALANCE_TYP_CD
+        // 839 002980 END-EXEC.
         Criteria criteria = new Criteria();
         criteria.addEqualTo("universityFiscalYear", fiscalYear);
 
@@ -153,14 +153,14 @@ public class EncumbranceDaoOjb extends PersistenceBrokerDaoSupport implements En
      */
     public Iterator getSummarizedEncumbrances(String documentTypeCode, boolean included) {
         Criteria criteria = new Criteria();
-        
-        if(included){
+
+        if (included) {
             criteria.addEqualTo(PropertyConstants.DOCUMENT_TYPE_CODE, documentTypeCode);
         }
-        else{
+        else {
             criteria.addNotEqualTo(PropertyConstants.DOCUMENT_TYPE_CODE, documentTypeCode);
         }
-        
+
         ReportQueryByCriteria query = QueryFactory.newReportQuery(Encumbrance.class, criteria);
 
         // set the selection attributes

@@ -34,64 +34,64 @@ import org.kuali.core.bo.BusinessObjectBase;
  */
 public class ProposalStatus extends BusinessObjectBase {
 
-	private String proposalStatusCode;
-	private String proposalStatusDescription;
+    private String proposalStatusCode;
+    private String proposalStatusDescription;
 
-	/**
-	 * Default constructor.
-	 */
-	public ProposalStatus() {
+    /**
+     * Default constructor.
+     */
+    public ProposalStatus() {
 
-	}
+    }
 
-	/**
-	 * Gets the proposalStatusCode attribute.
-	 * 
-	 * @return - Returns the proposalStatusCode
-	 * 
-	 */
-	public String getProposalStatusCode() { 
-		return proposalStatusCode;
-	}
+    /**
+     * Gets the proposalStatusCode attribute.
+     * 
+     * @return - Returns the proposalStatusCode
+     * 
+     */
+    public String getProposalStatusCode() {
+        return proposalStatusCode;
+    }
 
-	/**
-	 * Sets the proposalStatusCode attribute.
-	 * 
-	 * @param - proposalStatusCode The proposalStatusCode to set.
-	 * 
-	 */
-	public void setProposalStatusCode(String proposalStatusCode) {
-		this.proposalStatusCode = proposalStatusCode;
-	}
-
-
-	/**
-	 * Gets the proposalStatusDescription attribute.
-	 * 
-	 * @return - Returns the proposalStatusDescription
-	 * 
-	 */
-	public String getProposalStatusDescription() { 
-		return proposalStatusDescription;
-	}
-
-	/**
-	 * Sets the proposalStatusDescription attribute.
-	 * 
-	 * @param - proposalStatusDescription The proposalStatusDescription to set.
-	 * 
-	 */
-	public void setProposalStatusDescription(String proposalStatusDescription) {
-		this.proposalStatusDescription = proposalStatusDescription;
-	}
+    /**
+     * Sets the proposalStatusCode attribute.
+     * 
+     * @param - proposalStatusCode The proposalStatusCode to set.
+     * 
+     */
+    public void setProposalStatusCode(String proposalStatusCode) {
+        this.proposalStatusCode = proposalStatusCode;
+    }
 
 
-	/**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
+    /**
+     * Gets the proposalStatusDescription attribute.
+     * 
+     * @return - Returns the proposalStatusDescription
+     * 
+     */
+    public String getProposalStatusDescription() {
+        return proposalStatusDescription;
+    }
+
+    /**
+     * Sets the proposalStatusDescription attribute.
+     * 
+     * @param - proposalStatusDescription The proposalStatusDescription to set.
+     * 
+     */
+    public void setProposalStatusDescription(String proposalStatusDescription) {
+        this.proposalStatusDescription = proposalStatusDescription;
+    }
+
+
+    /**
+     * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
         m.put("proposalStatusCode", this.proposalStatusCode);
-	    return m;
+        return m;
     }
 }

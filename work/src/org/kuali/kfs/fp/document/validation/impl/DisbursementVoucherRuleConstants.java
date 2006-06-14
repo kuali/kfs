@@ -23,23 +23,23 @@
 package org.kuali.module.financial.rules;
 
 
-
 /**
  * Holds constants for disbursement voucher and payee documents.
+ * 
  * @author Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public interface DisbursementVoucherRuleConstants {
-    
+
     // payment methods
     public static String PAYMENT_METHOD_CHECK = "P";
     public static String PAYMENT_METHOD_WIRE = "W";
     public static String PAYMENT_METHOD_DRAFT = "F";
-    
+
     // payee types
     public static final String DV_PAYEE_TYPE_PAYEE = "P";
     public static final String DV_PAYEE_TYPE_EMPLOYEE = "E";
-    public static final String DV_PAYEE_TYPE_VENDOR ="V";
-    
+    public static final String DV_PAYEE_TYPE_VENDOR = "V";
+
     // ownership type
     public static String OWNERSHIP_TYPE_CORPORATION = "C";
     public static String OWNERSHIP_TYPE_GOVERNMENT = "G";
@@ -102,7 +102,7 @@ public interface DisbursementVoucherRuleConstants {
     public static String PERFORM_PREPAID_EMPL_PARM_NM = "PERFORM_PREPAID_ACTIVE_EMPLOPYEE_IND";
     public static String PERFORM_EMPL_OUTSIDE_PAYROLL_PARM_NM = "RFORM_EMPL_PAID_OUTSIDE_PAYROLL_IND";
     public static String MOVING_PAY_REASONS_PARM_NM = "MOVING_PAYMENT_REASONS";
-    
+
     public static String TAX_TYPE_SSN = "1";
     public static String TAX_TYPE_FEIN = "0";
 
@@ -113,7 +113,7 @@ public interface DisbursementVoucherRuleConstants {
 
     public static String FEDERAL_TAX_TYPE_CODE = "F";
     public static String STATE_TAX_TYPE_CODE = "S";
-    
+
     public static String DOCUMENT_TYPE_CHECKACH = "DVCA";
     public static String DOCUMENT_TYPE_WTFD = "DVWF";
 

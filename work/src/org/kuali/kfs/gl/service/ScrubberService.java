@@ -24,12 +24,12 @@ package org.kuali.module.gl.service;
 
 /**
  * @author aapotts
- *
+ * 
  */
 public interface ScrubberService {
-	
-	/**
-	 * Nightly process to scrub incoming GL transactions before posting to GL tables
-	 */
-	public void scrubEntries();
+
+    /**
+     * Nightly process to scrub incoming GL transactions before posting to GL tables
+     */
+    public void scrubEntries();
 }

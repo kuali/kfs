@@ -33,29 +33,29 @@ import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 /**
  * @author jsissom
- *
+ * 
  */
 public class IcrAutomatedEntryDaoOjb extends PersistenceBrokerDaoSupport implements IcrAutomatedEntryDao {
-  private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(IcrAutomatedEntryDaoOjb.class);
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(IcrAutomatedEntryDaoOjb.class);
 
-  /**
-   * 
-   */
-  public IcrAutomatedEntryDaoOjb() {
-    super();
-  }
+    /**
+     * 
+     */
+    public IcrAutomatedEntryDaoOjb() {
+        super();
+    }
 
-  public Collection getEntriesBySeries(Integer universityFiscalYear,String financialIcrSeriesIdentifier,String balanceTypeCode) {
-    LOG.debug("getEntriesBySeries() started");
+    public Collection getEntriesBySeries(Integer universityFiscalYear, String financialIcrSeriesIdentifier, String balanceTypeCode) {
+        LOG.debug("getEntriesBySeries() started");
 
-    Criteria crit = new Criteria();
-    crit.addEqualTo("universityFiscalYear",universityFiscalYear);
-    crit.addEqualTo("financialIcrSeriesIdentifier",financialIcrSeriesIdentifier);
-    crit.addEqualTo("balanceTypeCode",balanceTypeCode);
+        Criteria crit = new Criteria();
+        crit.addEqualTo("universityFiscalYear", universityFiscalYear);
+        crit.addEqualTo("financialIcrSeriesIdentifier", financialIcrSeriesIdentifier);
+        crit.addEqualTo("balanceTypeCode", balanceTypeCode);
 
-    QueryByCriteria qbc = QueryFactory.newQuery(IcrAutomatedEntry.class, crit);
-    qbc.addOrderByAscending("awardIndrCostRcvyEntryNbr");
+        QueryByCriteria qbc = QueryFactory.newQuery(IcrAutomatedEntry.class, crit);
+        qbc.addOrderByAscending("awardIndrCostRcvyEntryNbr");
 
-    return getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
-  }
+        return getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
+    }
 }

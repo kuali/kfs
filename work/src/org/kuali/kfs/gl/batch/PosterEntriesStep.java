@@ -27,25 +27,25 @@ import org.kuali.module.gl.service.PosterService;
 
 /**
  * @author jsissom
- *
+ * 
  */
 public class PosterEntriesStep implements Step {
-  private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PosterEntriesStep.class);
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PosterEntriesStep.class);
 
-  private PosterService posterService;
+    private PosterService posterService;
 
-  public String getName() {
-    return "Poster of GL Entries";
-  }
+    public String getName() {
+        return "Poster of GL Entries";
+    }
 
-  public boolean performStep() {
-    LOG.debug("performStep() started");
+    public boolean performStep() {
+        LOG.debug("performStep() started");
 
-    posterService.postMainEntries();
-    return true;
-  }
+        posterService.postMainEntries();
+        return true;
+    }
 
-  public void setPosterService(PosterService ps) {
-    posterService = ps;
-  }
+    public void setPosterService(PosterService ps) {
+        posterService = ps;
+    }
 }

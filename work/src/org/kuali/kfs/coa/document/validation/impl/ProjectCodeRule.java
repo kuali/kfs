@@ -29,7 +29,7 @@ import org.kuali.module.chart.bo.ProjectCode;
 public class ProjectCodeRule extends MaintenanceDocumentRuleBase {
 
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProjectCodeRule.class);
-    
+
     private ProjectCode oldProjectCode;
     private ProjectCode newProjectCode;
 
@@ -43,69 +43,68 @@ public class ProjectCodeRule extends MaintenanceDocumentRuleBase {
     protected boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
 
         LOG.info("Entering processCustomApproveDocumentBusinessRules()");
-    
-        //  check that all sub-objects whose keys are specified have matching objects in the db
+
+        // check that all sub-objects whose keys are specified have matching objects in the db
         checkExistenceAndActive();
 
         return true;
     }
-    
+
     /**
      * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
      */
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
 
         boolean success = true;
-        
+
         LOG.info("Entering processCustomRouteDocumentBusinessRules()");
 
-        //  check that all sub-objects whose keys are specified have matching objects in the db
+        // check that all sub-objects whose keys are specified have matching objects in the db
         success &= checkExistenceAndActive();
 
         return success;
     }
-    
+
     /**
      * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
      */
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
 
         boolean success = true;
-        
+
         LOG.info("Entering processCustomSaveDocumentBusinessRules()");
 
-        //  check that all sub-objects whose keys are specified have matching objects in the db
+        // check that all sub-objects whose keys are specified have matching objects in the db
         success &= checkExistenceAndActive();
 
         return success;
     }
-    
+
     /**
      * 
-     * This method sets the convenience objects like newAccount and oldAccount, so you
-     * have short and easy handles to the new and old objects contained in the 
-     * maintenance document.
+     * This method sets the convenience objects like newAccount and oldAccount, so you have short and easy handles to the new and
+     * old objects contained in the maintenance document.
      * 
-     * It also calls the BusinessObjectBase.refresh(), which will attempt to load 
-     * all sub-objects from the DB by their primary keys, if available.
+     * It also calls the BusinessObjectBase.refresh(), which will attempt to load all sub-objects from the DB by their primary keys,
+     * if available.
      * 
      * @param document - the maintenanceDocument being evaluated
      * 
      */
     public void setupConvenienceObjects() {
-        
-        //  setup oldAccount convenience objects, make sure all possible sub-objects are populated
+
+        // setup oldAccount convenience objects, make sure all possible sub-objects are populated
         oldProjectCode = (ProjectCode) super.getOldBo();
 
-        //  setup newAccount convenience objects, make sure all possible sub-objects are populated
+        // setup newAccount convenience objects, make sure all possible sub-objects are populated
         newProjectCode = (ProjectCode) super.getNewBo();
     }
-    
+
     protected boolean checkExistenceAndActive() {
-        
+
         LOG.info("Entering checkExistenceAndActive()");
         boolean success = true;
-        
+
         return success;
     }
 

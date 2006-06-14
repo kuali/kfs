@@ -95,32 +95,36 @@ public class SufficientFundBalances extends BusinessObjectBase {
         nf.setGroupingUsed(false);
 
         StringBuffer sb = new StringBuffer();
-        if ( universityFiscalYear == null ) {
+        if (universityFiscalYear == null) {
             sb.append("    ");
-          } else {
+        }
+        else {
             sb.append(universityFiscalYear);
-          }
+        }
         sb.append(getField(2, chartOfAccountsCode));
         sb.append(getField(7, accountNumber));
         sb.append(getField(4, financialObjectCode));
         sb.append(getField(1, accountSufficientFundsCode));
         if (currentBudgetBalanceAmount == null) {
             sb.append("                 ");
-        } else {
+        }
+        else {
             String a = nf.format(currentBudgetBalanceAmount.doubleValue());
             sb.append("                 ".substring(0, 17 - a.length()));
             sb.append(a);
         }
         if (accountActualExpenditureAmt == null) {
             sb.append("                 ");
-        } else {
+        }
+        else {
             String a = nf.format(accountActualExpenditureAmt.doubleValue());
             sb.append("                 ".substring(0, 17 - a.length()));
             sb.append(a);
         }
         if (accountEncumbranceAmount == null) {
             sb.append("                 ");
-        } else {
+        }
+        else {
             String a = nf.format(accountEncumbranceAmount.doubleValue());
             sb.append("                 ".substring(0, 17 - a.length()));
             sb.append(a);

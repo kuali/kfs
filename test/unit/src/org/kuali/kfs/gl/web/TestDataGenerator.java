@@ -46,9 +46,9 @@ public class TestDataGenerator {
 
     private final String propertiesFileName = "test/src/org/kuali/module/gl/web/data.properties";
     private Properties properties;
-    
+
     private final String messageFileName = "test/src/org/kuali/module/gl/web/message.properties";
-    private Properties message;    
+    private Properties message;
 
     /**
      * Constructs a TestDataGenerator.java.
@@ -120,7 +120,7 @@ public class TestDataGenerator {
             if (!isTransaction) {
                 propertyName = BusinessObjectFieldConverter.convertFromTransactionPropertyName(propertyName);
             }
-            
+
             // ignore the property fields whose values are empty
             if (StringUtils.isBlank(propertyValue)) {
                 continue;
@@ -192,27 +192,29 @@ public class TestDataGenerator {
 
     /**
      * This method obtains the value of the message with the given name
+     * 
      * @param messageName the given message name
      * @return the value of the message
      */
-    public String getMessageValue(String messageName){
-        if(getMessage().containsKey(messageName)){
+    public String getMessageValue(String messageName) {
+        if (getMessage().containsKey(messageName)) {
             return getMessage().getProperty(messageName);
         }
         return "";
-    }        
-    
+    }
+
     /**
      * This method obtains the value of the property with the given name
+     * 
      * @param propertyName the given property name
      * @return the value of the property
      */
-    public String getPropertyValue(String propertyName){
-        if(getProperties().containsKey(propertyName)){
+    public String getPropertyValue(String propertyName) {
+        if (getProperties().containsKey(propertyName)) {
             return getProperties().getProperty(propertyName);
         }
         return "";
-    }    
+    }
 
     /**
      * Gets the properties attribute.
@@ -233,14 +235,17 @@ public class TestDataGenerator {
     }
 
     /**
-     * Gets the message attribute. 
+     * Gets the message attribute.
+     * 
      * @return Returns the message.
      */
     public Properties getMessage() {
         return message;
     }
+
     /**
      * Sets the message attribute value.
+     * 
      * @param message The message to set.
      */
     public void setMessage(Properties message) {

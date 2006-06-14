@@ -34,64 +34,64 @@ import org.kuali.core.bo.BusinessObjectBase;
  */
 public class UniversityBudgetOfficeFunction extends BusinessObjectBase {
 
-	private String financialUniversityBudgetOfficeFunctionCode;
-	private String financialUniversityBudgetOfficeFunctionName;
+    private String financialUniversityBudgetOfficeFunctionCode;
+    private String financialUniversityBudgetOfficeFunctionName;
 
-	/**
-	 * Default constructor.
-	 */
-	public UniversityBudgetOfficeFunction() {
+    /**
+     * Default constructor.
+     */
+    public UniversityBudgetOfficeFunction() {
 
-	}
+    }
 
-	/**
-	 * Gets the financialUniversityBudgetOfficeFunctionCode attribute.
-	 * 
-	 * @return - Returns the financialUniversityBudgetOfficeFunctionCode
-	 * 
-	 */
-	public String getFinancialUniversityBudgetOfficeFunctionCode() { 
-		return financialUniversityBudgetOfficeFunctionCode;
-	}
+    /**
+     * Gets the financialUniversityBudgetOfficeFunctionCode attribute.
+     * 
+     * @return - Returns the financialUniversityBudgetOfficeFunctionCode
+     * 
+     */
+    public String getFinancialUniversityBudgetOfficeFunctionCode() {
+        return financialUniversityBudgetOfficeFunctionCode;
+    }
 
-	/**
-	 * Sets the financialUniversityBudgetOfficeFunctionCode attribute.
-	 * 
-	 * @param - financialUniversityBudgetOfficeFunctionCode The financialUniversityBudgetOfficeFunctionCode to set.
-	 * 
-	 */
-	public void setFinancialUniversityBudgetOfficeFunctionCode(String financialUniversityBudgetOfficeFunctionCode) {
-		this.financialUniversityBudgetOfficeFunctionCode = financialUniversityBudgetOfficeFunctionCode;
-	}
-
-
-	/**
-	 * Gets the financialUniversityBudgetOfficeFunctionName attribute.
-	 * 
-	 * @return - Returns the financialUniversityBudgetOfficeFunctionName
-	 * 
-	 */
-	public String getFinancialUniversityBudgetOfficeFunctionName() { 
-		return financialUniversityBudgetOfficeFunctionName;
-	}
-
-	/**
-	 * Sets the financialUniversityBudgetOfficeFunctionName attribute.
-	 * 
-	 * @param - financialUniversityBudgetOfficeFunctionName The financialUniversityBudgetOfficeFunctionName to set.
-	 * 
-	 */
-	public void setFinancialUniversityBudgetOfficeFunctionName(String financialUniversityBudgetOfficeFunctionName) {
-		this.financialUniversityBudgetOfficeFunctionName = financialUniversityBudgetOfficeFunctionName;
-	}
+    /**
+     * Sets the financialUniversityBudgetOfficeFunctionCode attribute.
+     * 
+     * @param - financialUniversityBudgetOfficeFunctionCode The financialUniversityBudgetOfficeFunctionCode to set.
+     * 
+     */
+    public void setFinancialUniversityBudgetOfficeFunctionCode(String financialUniversityBudgetOfficeFunctionCode) {
+        this.financialUniversityBudgetOfficeFunctionCode = financialUniversityBudgetOfficeFunctionCode;
+    }
 
 
-	/**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
+    /**
+     * Gets the financialUniversityBudgetOfficeFunctionName attribute.
+     * 
+     * @return - Returns the financialUniversityBudgetOfficeFunctionName
+     * 
+     */
+    public String getFinancialUniversityBudgetOfficeFunctionName() {
+        return financialUniversityBudgetOfficeFunctionName;
+    }
+
+    /**
+     * Sets the financialUniversityBudgetOfficeFunctionName attribute.
+     * 
+     * @param - financialUniversityBudgetOfficeFunctionName The financialUniversityBudgetOfficeFunctionName to set.
+     * 
+     */
+    public void setFinancialUniversityBudgetOfficeFunctionName(String financialUniversityBudgetOfficeFunctionName) {
+        this.financialUniversityBudgetOfficeFunctionName = financialUniversityBudgetOfficeFunctionName;
+    }
+
+
+    /**
+     * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
         m.put("financialUniversityBudgetOfficeFunctionCode", this.financialUniversityBudgetOfficeFunctionCode);
-	    return m;
+        return m;
     }
 }

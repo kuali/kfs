@@ -25,7 +25,9 @@ package org.kuali.module.financial.web.struts.action;
 
 /**
  * This class handles Actions for the Distribution Income Expense objects.
+ * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 
-public class YearEndDistributionOfIncomeAndExpenseAction extends DistributionOfIncomeAndExpenseAction {}
+public class YearEndDistributionOfIncomeAndExpenseAction extends DistributionOfIncomeAndExpenseAction {
+}

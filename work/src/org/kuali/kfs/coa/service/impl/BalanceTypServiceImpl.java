@@ -29,15 +29,16 @@ import org.kuali.module.chart.bo.codes.BalanceTyp;
 import org.kuali.module.chart.service.BalanceTypService;
 
 /**
- * This service implementation is the default implementation of the BalanceTyp service that is 
- * delivered with Kuali.  It uses the balance typs that are defined in the Kuali database.
+ * This service implementation is the default implementation of the BalanceTyp service that is delivered with Kuali. It uses the
+ * balance typs that are defined in the Kuali database.
+ * 
  * @author Kuali Financial Transactions Red Team (kualidev@oncourse.iu.edu)
  */
 public class BalanceTypServiceImpl implements BalanceTypService {
-    //balance type constants
+    // balance type constants
     private static final String ACTUAL_BALANCE_TYPE = "AC";
-    
-    //member data
+
+    // member data
     private KualiCodeService kualiCodeService;
 
     /**
@@ -49,6 +50,7 @@ public class BalanceTypServiceImpl implements BalanceTypService {
 
     /**
      * This method retrieves an instance of the generic kuali code service.
+     * 
      * @return
      */
     public KualiCodeService getKualiCodeService() {
@@ -57,22 +59,23 @@ public class BalanceTypServiceImpl implements BalanceTypService {
 
     /**
      * This method sets the instance of the generic business object service.
+     * 
      * @param businessObjectService
      */
     public void setKualiCodeService(KualiCodeService kualiCodeService) {
         this.kualiCodeService = kualiCodeService;
     }
-    
+
     /**
-     * This method retrieves a BalanceTyp instance from the Kuali database by its primary key - the 
-     * balance typ's code. 
+     * This method retrieves a BalanceTyp instance from the Kuali database by its primary key - the balance typ's code.
+     * 
      * @param code The primary key in the database for this data type.
      * @return A fully populated object instance.
      */
     public BalanceTyp getBalanceTypByCode(String code) {
         return (BalanceTyp) kualiCodeService.getByCode(BalanceTyp.class, code);
     }
-    
+
     /**
      * @see org.kuali.module.chart.service.BalanceTypService#getAllBalanceTyps()
      */

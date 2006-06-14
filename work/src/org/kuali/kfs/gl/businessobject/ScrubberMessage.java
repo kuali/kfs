@@ -29,7 +29,7 @@ public class Message {
     private String message;
     private int type;
 
-    public Message(String m,int t) {
+    public Message(String m, int t) {
         message = m;
         type = t;
     }
@@ -53,6 +53,6 @@ public class Message {
     public void setType(int type) {
         this.type = type;
     }
-    
-    
+
+
 }

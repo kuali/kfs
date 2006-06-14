@@ -41,13 +41,13 @@ import org.kuali.module.gl.util.TransactionReport;
  */
 public class ReportServiceImpl implements ReportService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ReportServiceImpl.class);
-    
+
     String reportsDirectory;
     private OriginEntryService originEntryService;
 
     public ReportServiceImpl() {
         super();
-        
+
         ResourceBundle rb = ResourceBundle.getBundle("configuration");
         reportsDirectory = rb.getString("htdocs.directory") + "/reports";
     }
@@ -56,7 +56,7 @@ public class ReportServiceImpl implements ReportService {
         LOG.debug("Entering generateIcrReports()");
         TransactionReport tr = new TransactionReport();
         String title = "ICR Generation Report";
-        tr.generateReport(reportErrors,reportSummary,runDate,title,"icr_generation",reportsDirectory);
+        tr.generateReport(reportErrors, reportSummary, runDate, title, "icr_generation", reportsDirectory);
     }
 
     public void generatePosterReports(Date runDate, List reportSummary, Map reportErrors, Map ledgerEntries, int mode) {
@@ -66,22 +66,25 @@ public class ReportServiceImpl implements ReportService {
 
         String title = "Poster Report ";
         String filename;
-        if ( mode == PosterService.MODE_ENTRIES ) {
-          title = title + "(Post pending entries)";
-          filename = "poster_main";
-        } else if ( mode == PosterService.MODE_ICR ) {
-          title = title + "(Post ICR entries)";
-          filename = "poster_icr";
-        } else {
-          title = title + "(Post reversal entries)";
-          filename = "poster_reversal";
+        if (mode == PosterService.MODE_ENTRIES) {
+            title = title + "(Post pending entries)";
+            filename = "poster_main";
+        }
+        else if (mode == PosterService.MODE_ICR) {
+            title = title + "(Post ICR entries)";
+            filename = "poster_icr";
+        }
+        else {
+            title = title + "(Post reversal entries)";
+            filename = "poster_reversal";
         }
 
-        tr.generateReport(reportErrors,reportSummary,runDate,title,filename, reportsDirectory);
+        tr.generateReport(reportErrors, reportSummary, runDate, title, filename, reportsDirectory);
     }
 
     /**
-     * @see org.kuali.module.gl.service.ReportService#generateScrubberReports(java.util.Date, java.util.List, java.util.Map, java.util.Map)
+     * @see org.kuali.module.gl.service.ReportService#generateScrubberReports(java.util.Date, java.util.List, java.util.Map,
+     *      java.util.Map)
      */
     public void generateScrubberReports(Date runDate, List reportSummary, Map reportErrors, Map ledgerEntries) {
         LOG.debug("Entering generateScrubberReports()");
@@ -94,9 +97,10 @@ public class ReportServiceImpl implements ReportService {
         LedgerReport lr = new LedgerReport();
         lr.generateReport(ledgerEntries, runDate, title, "ledger", reportsDirectory);
     }
-    
+
     /**
-     * @see org.kuali.module.gl.service.ReportService#generateScrubberReports(java.util.Date, java.util.List, java.util.Map, java.lang.Integer)
+     * @see org.kuali.module.gl.service.ReportService#generateScrubberReports(java.util.Date, java.util.List, java.util.Map,
+     *      java.lang.Integer)
      */
     public void generateScrubberReports(Date runDate, List reportSummary, Map reportErrors, Integer groupId) {
         LOG.debug("Entering generateScrubberReports()");
@@ -107,7 +111,8 @@ public class ReportServiceImpl implements ReportService {
     }
 
     /**
-     * @see org.kuali.module.gl.service.ReportService#generateScrubberReports(java.util.Date, java.util.List, java.util.Map, java.util.List)
+     * @see org.kuali.module.gl.service.ReportService#generateScrubberReports(java.util.Date, java.util.List, java.util.Map,
+     *      java.util.List)
      */
     public void generateScrubberReports(Date runDate, List reportSummary, Map reportErrors, List groupIdList) {
         LOG.debug("Entering generateScrubberReports()");
@@ -138,6 +143,7 @@ public class ReportServiceImpl implements ReportService {
 
     /**
      * Sets the originEntryService attribute value.
+     * 
      * @param originEntryService The originEntryService to set.
      */
     public void setOriginEntryService(OriginEntryService originEntryService) {

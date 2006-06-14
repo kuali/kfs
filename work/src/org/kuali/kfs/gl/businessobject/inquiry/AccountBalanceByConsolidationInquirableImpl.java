@@ -42,8 +42,7 @@ import org.kuali.module.gl.web.Constant;
  * @author Bin Gao from Michigan State University
  */
 public class AccountBalanceByConsolidationInquirableImpl extends AbstractGLInquirableImpl {
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger
-            .getLogger(AccountBalanceByConsolidationInquirableImpl.class);
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountBalanceByConsolidationInquirableImpl.class);
 
     private BusinessObjectDictionaryService dataDictionary;
     private LookupService lookupService;
@@ -104,7 +103,7 @@ public class AccountBalanceByConsolidationInquirableImpl extends AbstractGLInqui
         return keyName;
     }
 
-    /** 
+    /**
      * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#getLookupableImplAttributeName()
      */
     protected String getLookupableImplAttributeName() {
@@ -118,7 +117,7 @@ public class AccountBalanceByConsolidationInquirableImpl extends AbstractGLInqui
         return Constants.GL_MODIFIED_INQUIRY_ACTION;
     }
 
-    /** 
+    /**
      * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#getInquiryBusinessObjectClass()
      */
     protected Class getInquiryBusinessObjectClass() {

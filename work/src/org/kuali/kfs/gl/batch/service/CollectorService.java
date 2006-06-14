@@ -27,8 +27,8 @@ import java.util.List;
 
 public interface CollectorService {
     /**
-     * Given an inputStream to the collector XML, load the data into the
-     * origin entry table.  If there are errors loading the file, throw a CollectorLoadException that has a list of all the issues.
+     * Given an inputStream to the collector XML, load the data into the origin entry table. If there are errors loading the file,
+     * throw a CollectorLoadException that has a list of all the issues.
      * 
      * @param inputStream inputStream of collector XML
      * @return origin entry group ID
@@ -36,12 +36,11 @@ public interface CollectorService {
     public int loadCollectorFile(InputStream inputStream);
 
     /**
-     * Given a group ID, scrub all of the transactions.  If there are errors with
-     * the data, return a list of them.  If there are no errors, return an empty
-     * list.
+     * Given a group ID, scrub all of the transactions. If there are errors with the data, return a list of them. If there are no
+     * errors, return an empty list.
      * 
      * @param groupId
-     * @return list of errors.  Empty list if there are no errors.
+     * @return list of errors. Empty list if there are no errors.
      */
     public List scrubCollectorGroup(int groupId);
 }

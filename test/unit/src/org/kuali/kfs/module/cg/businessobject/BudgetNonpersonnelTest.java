@@ -30,6 +30,7 @@ import org.kuali.test.KualiTestBaseWithSpring;
 
 /**
  * This class tests methods in BudgetNonpersonnelCopyOverFormHelper.
+ * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
 public class BudgetNonpersonnelTest extends KualiTestBaseWithSpring {
@@ -40,41 +41,44 @@ public class BudgetNonpersonnelTest extends KualiTestBaseWithSpring {
 
     public void testBudgetNonpersonnel() {
         assertTrue(true);
-        
-        /** @todo stubbed this for creation of static method below. Probably should write some BudgetPeriod test cases at some point ...*/
+
+        /**
+         * @todo stubbed this for creation of static method below. Probably should write some BudgetPeriod test cases at some point
+         *       ...
+         */
     }
-    
-    public static List createBudgetNonpersonnel(String [] nonpersonnelCategories, String [] subCategories) {
+
+    public static List createBudgetNonpersonnel(String[] nonpersonnelCategories, String[] subCategories) {
         List budgetNonpersonnelList = new ArrayList();
-        
-        if(nonpersonnelCategories.length != subCategories.length) {
+
+        if (nonpersonnelCategories.length != subCategories.length) {
             throw new IllegalArgumentException("nonpersonnelCategories and subCategories must equal in length");
         }
-        
+
         for (int i = 0; i < nonpersonnelCategories.length; i++) {
             BudgetNonpersonnel budgetNonpersonnel = new BudgetNonpersonnel();
             budgetNonpersonnel.setBudgetNonpersonnelSequenceNumber(new Integer(i));
             budgetNonpersonnel.setBudgetPeriodSequenceNumber(new Integer(0));
             budgetNonpersonnel.setBudgetTaskSequenceNumber(new Integer(0));
-            
+
             budgetNonpersonnel.setBudgetNonpersonnelCategoryCode(nonpersonnelCategories[i]);
             budgetNonpersonnel.setBudgetNonpersonnelSubCategoryCode(subCategories[i]);
             budgetNonpersonnel.setNonpersonnelObjectCode(new NonpersonnelObjectCode(nonpersonnelCategories[i], subCategories[i]));
-            
+
             budgetNonpersonnel.setCopyToFuturePeriods(false);
             budgetNonpersonnel.setAgencyCopyIndicator(false);
             budgetNonpersonnel.setBudgetUniversityCostShareCopyIndicator(false);
             budgetNonpersonnel.setBudgetThirdPartyCostShareCopyIndicator(false);
-            
+
             budgetNonpersonnel.setAgencyRequestAmount(new KualiInteger(1000));
             budgetNonpersonnel.setBudgetUniversityCostShareAmount(new KualiInteger(2000));
             budgetNonpersonnel.setBudgetThirdPartyCostShareAmount(new KualiInteger(3000));
-            
+
             budgetNonpersonnel.setBudgetOriginSequenceNumber(null);
-            
+
             budgetNonpersonnelList.add(budgetNonpersonnel);
         }
-        
+
         return budgetNonpersonnelList;
     }
 }

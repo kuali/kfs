@@ -28,9 +28,8 @@ import org.kuali.core.document.TransactionalDocumentBase;
 /**
  * This is the business object that represents the NonCheckDisbursementDocument in Kuali.
  * 
- * The "Non-Check Disbursement" document is used to record charges or credits directly 
- * assessed to university bank accounts. It is used primarily by the Tax and Treasury 
- * Accounting office to record wire transfers, foreign drafts, etc.
+ * The "Non-Check Disbursement" document is used to record charges or credits directly assessed to university bank accounts. It is
+ * used primarily by the Tax and Treasury Accounting office to record wire transfers, foreign drafts, etc.
  * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
@@ -45,19 +44,21 @@ public class NonCheckDisbursementDocument extends TransactionalDocumentBase {
 
     /**
      * Overrides the base implementation to return "From".
-	 * @see TransactionalDocument#getSourceAccountingLinesSectionTitle();
+     * 
+     * @see TransactionalDocument#getSourceAccountingLinesSectionTitle();
      */
     @Override
-	public String getSourceAccountingLinesSectionTitle() {
+    public String getSourceAccountingLinesSectionTitle() {
         return Constants.FROM;
     }
 
     /**
      * Overrides the base implementation to return "To".
-	 * @see TransactionalDocument#getTargetAccountingLinesSectionTitle();
+     * 
+     * @see TransactionalDocument#getTargetAccountingLinesSectionTitle();
      */
-    @Override 
-	public String getTargetAccountingLinesSectionTitle() {
+    @Override
+    public String getTargetAccountingLinesSectionTitle() {
         return Constants.TO;
     }
 

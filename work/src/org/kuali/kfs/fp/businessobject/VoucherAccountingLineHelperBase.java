@@ -25,17 +25,16 @@ package org.kuali.module.financial.bo;
 import org.kuali.core.util.KualiDecimal;
 
 /**
- * This helper class works in conjunction with the SourceAccountingLine bo to help build 
- * the UI for the Voucher.  On the business object side, there is a single attribute that 
- * keeps track of this and the amount field is used to keep track of the amount.  This helper class 
- * sits alongside the typical SourceAccountingLine bo... the synchronization between the 
- * two is the guaranteed order.
+ * This helper class works in conjunction with the SourceAccountingLine bo to help build the UI for the Voucher. On the business
+ * object side, there is a single attribute that keeps track of this and the amount field is used to keep track of the amount. This
+ * helper class sits alongside the typical SourceAccountingLine bo... the synchronization between the two is the guaranteed order.
+ * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class VoucherAccountingLineHelperBase implements VoucherAccountingLineHelper {
     private KualiDecimal debit;
     private KualiDecimal credit;
-    
+
     /**
      * Constructs a <code>{@link VoucherAccountingLineHelperBase}</code> instance.
      */
@@ -43,9 +42,10 @@ public class VoucherAccountingLineHelperBase implements VoucherAccountingLineHel
         this.credit = new KualiDecimal(0);
         this.debit = new KualiDecimal(0);
     }
-    
+
     /**
      * This method retrieves the credit amount.
+     * 
      * @return
      */
     public KualiDecimal getCredit() {
@@ -54,6 +54,7 @@ public class VoucherAccountingLineHelperBase implements VoucherAccountingLineHel
 
     /**
      * This method sets the credit amount.
+     * 
      * @param credit
      */
     public void setCredit(KualiDecimal credit) {
@@ -62,6 +63,7 @@ public class VoucherAccountingLineHelperBase implements VoucherAccountingLineHel
 
     /**
      * This method retrieves the debit amount.
+     * 
      * @return
      */
     public KualiDecimal getDebit() {
@@ -70,6 +72,7 @@ public class VoucherAccountingLineHelperBase implements VoucherAccountingLineHel
 
     /**
      * This method sets the debit amount.
+     * 
      * @param debit
      */
     public void setDebit(KualiDecimal debit) {

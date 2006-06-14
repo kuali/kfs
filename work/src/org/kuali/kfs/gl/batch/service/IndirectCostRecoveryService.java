@@ -27,5 +27,5 @@ import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.bo.ObjectType;
 
 public interface IcrTransaction {
-    public boolean isIcrTransaction(ObjectType objectType,Account account,String subAccountNumber,ObjectCode objectCode,String universityFiscalPeriodCode);
+    public boolean isIcrTransaction(ObjectType objectType, Account account, String subAccountNumber, ObjectCode objectCode, String universityFiscalPeriodCode);
 }

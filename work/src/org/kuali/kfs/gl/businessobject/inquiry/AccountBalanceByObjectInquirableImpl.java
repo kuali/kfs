@@ -43,8 +43,7 @@ import org.kuali.module.gl.web.Constant;
  * @author Bin Gao from Michigan State University
  */
 public class AccountBalanceByObjectInquirableImpl extends AbstractGLInquirableImpl {
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger
-            .getLogger(AccountBalanceByObjectInquirableImpl.class);
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountBalanceByObjectInquirableImpl.class);
 
     private BusinessObjectDictionaryService dataDictionary;
     private LookupService lookupService;

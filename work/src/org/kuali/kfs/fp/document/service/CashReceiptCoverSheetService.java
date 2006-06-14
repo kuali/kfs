@@ -31,17 +31,15 @@ import org.kuali.module.financial.document.CashReceiptDocument;
 
 
 /**
- * Service for handling creation of the cover sheet of the 
- * <code>{@link CashReceiptDocument}</code>
+ * Service for handling creation of the cover sheet of the <code>{@link CashReceiptDocument}</code>
  * 
  * @author Leo Przybylski
  */
 public interface CashReceiptCoverSheetService {
-    
+
     /**
-     * Generate a cover sheet for the <code>{@link CashReceiptDocument}</code>.
-     * An <code>{@link OutputStream}</code> is written to for the
-     * coversheet.
+     * Generate a cover sheet for the <code>{@link CashReceiptDocument}</code>. An <code>{@link OutputStream}</code> is written
+     * to for the coversheet.
      * 
      * @param document
      * @param searchPath
@@ -49,7 +47,5 @@ public interface CashReceiptCoverSheetService {
      * @exception DocumentException
      * @exception IOException
      */
-    public void generateCoverSheet( CashReceiptDocument document,
-                                    String searchPath,
-                                    OutputStream outputStream) throws Exception;
+    public void generateCoverSheet(CashReceiptDocument document, String searchPath, OutputStream outputStream) throws Exception;
 }

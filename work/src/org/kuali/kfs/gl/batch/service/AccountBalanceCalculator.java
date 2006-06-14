@@ -28,7 +28,8 @@ import org.kuali.module.gl.bo.AccountBalance;
 import org.kuali.module.gl.bo.Transaction;
 
 public interface AccountBalanceCalculator {
-  public AccountBalance findAccountBalance(Collection balanceList, Transaction t);
-  public void updateAccountBalance(Transaction t, AccountBalance ab);
+    public AccountBalance findAccountBalance(Collection balanceList, Transaction t);
+
+    public void updateAccountBalance(Transaction t, AccountBalance ab);
 
 }

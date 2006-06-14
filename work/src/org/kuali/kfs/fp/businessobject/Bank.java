@@ -38,107 +38,107 @@ public class Bank extends BusinessObjectBase {
 
     private static final long serialVersionUID = 6091563911993138998L;
     private String financialDocumentBankCode;
-	private String financialDocumentBankName;
-	private String financialDocumentBankShortNm;
-	private List bankAccounts;
+    private String financialDocumentBankName;
+    private String financialDocumentBankShortNm;
+    private List bankAccounts;
 
-	/**
-	 * Default no-arg constructor.
-	 */
-	
-	public Bank() {
-	    super();
-	}	
-	
-	/**
-	 * Gets the financialDocumentBankCode attribute.
-	 *
-	 * @return - Returns the financialDocumentBankCode
-	 *
-	 */
-	public String getFinancialDocumentBankCode() {
-		return financialDocumentBankCode;
-	}
+    /**
+     * Default no-arg constructor.
+     */
 
-	/**
-	 * Sets the financialDocumentBankCode attribute.
-	 *
-	 * @param - financialDocumentBankCode The financialDocumentBankCode to set.
-	 *
-	 */
-	public void setFinancialDocumentBankCode(String financialDocumentBankCode) {
-		this.financialDocumentBankCode = financialDocumentBankCode;
-	}
+    public Bank() {
+        super();
+    }
 
-	/**
-	 * Gets the financialDocumentBankName attribute.
-	 *
-	 * @return - Returns the financialDocumentBankName
-	 *
-	 */
-	public String getFinancialDocumentBankName() {
-		return financialDocumentBankName;
-	}
+    /**
+     * Gets the financialDocumentBankCode attribute.
+     * 
+     * @return - Returns the financialDocumentBankCode
+     * 
+     */
+    public String getFinancialDocumentBankCode() {
+        return financialDocumentBankCode;
+    }
 
-	/**
-	 * Sets the financialDocumentBankName attribute.
-	 *
-	 * @param - financialDocumentBankName The financialDocumentBankName to set.
-	 *
-	 */
-	public void setFinancialDocumentBankName(String financialDocumentBankName) {
-		this.financialDocumentBankName = financialDocumentBankName;
-	}
+    /**
+     * Sets the financialDocumentBankCode attribute.
+     * 
+     * @param - financialDocumentBankCode The financialDocumentBankCode to set.
+     * 
+     */
+    public void setFinancialDocumentBankCode(String financialDocumentBankCode) {
+        this.financialDocumentBankCode = financialDocumentBankCode;
+    }
 
-	/**
-	 * Gets the financialDocumentBankShortNm attribute.
-	 *
-	 * @return - Returns the financialDocumentBankShortNm
-	 *
-	 */
-	public String getFinancialDocumentBankShortNm() {
-		return financialDocumentBankShortNm;
-	}
+    /**
+     * Gets the financialDocumentBankName attribute.
+     * 
+     * @return - Returns the financialDocumentBankName
+     * 
+     */
+    public String getFinancialDocumentBankName() {
+        return financialDocumentBankName;
+    }
 
-	/**
-	 * Sets the financialDocumentBankShortNm attribute.
-	 *
-	 * @param - financialDocumentBankShortNm The financialDocumentBankShortNm to set.
-	 *
-	 */
-	public void setFinancialDocumentBankShortNm(String financialDocumentBankShortNm) {
-		this.financialDocumentBankShortNm = financialDocumentBankShortNm;
-	}
+    /**
+     * Sets the financialDocumentBankName attribute.
+     * 
+     * @param - financialDocumentBankName The financialDocumentBankName to set.
+     * 
+     */
+    public void setFinancialDocumentBankName(String financialDocumentBankName) {
+        this.financialDocumentBankName = financialDocumentBankName;
+    }
 
-	/**
-	 * Gets the bankAccounts attribute.
-	 *
-	 * @return - Returns the bankAccounts
-	 *
-	 */
-	public List getBankAccounts() {
-		return bankAccounts;
-	}
+    /**
+     * Gets the financialDocumentBankShortNm attribute.
+     * 
+     * @return - Returns the financialDocumentBankShortNm
+     * 
+     */
+    public String getFinancialDocumentBankShortNm() {
+        return financialDocumentBankShortNm;
+    }
 
-	/**
-	 * Sets the bankAccounts attribute.
-	 *
-	 * @param - bankAccounts The bankAccounts to set.
-	 *
-	 */
-	public void setBankAccounts(List bankAccounts) {
-		this.bankAccounts = bankAccounts;
-	}	
-	
-			
-	/**
-	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-			LinkedHashMap m = new LinkedHashMap();
+    /**
+     * Sets the financialDocumentBankShortNm attribute.
+     * 
+     * @param - financialDocumentBankShortNm The financialDocumentBankShortNm to set.
+     * 
+     */
+    public void setFinancialDocumentBankShortNm(String financialDocumentBankShortNm) {
+        this.financialDocumentBankShortNm = financialDocumentBankShortNm;
+    }
 
-	        m.put( "bankCode", getFinancialDocumentBankCode() );
+    /**
+     * Gets the bankAccounts attribute.
+     * 
+     * @return - Returns the bankAccounts
+     * 
+     */
+    public List getBankAccounts() {
+        return bankAccounts;
+    }
 
-			return m;
-	}
+    /**
+     * Sets the bankAccounts attribute.
+     * 
+     * @param - bankAccounts The bankAccounts to set.
+     * 
+     */
+    public void setBankAccounts(List bankAccounts) {
+        this.bankAccounts = bankAccounts;
+    }
+
+
+    /**
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
+
+        m.put("bankCode", getFinancialDocumentBankCode());
+
+        return m;
+    }
 }

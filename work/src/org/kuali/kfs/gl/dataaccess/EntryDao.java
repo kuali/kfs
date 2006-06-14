@@ -28,29 +28,30 @@ import org.kuali.module.gl.bo.Transaction;
 
 /**
  * @author jsissom
- *
+ * 
  */
 public interface EntryDao {
-  /**
-   * Add a new transaction
-   * 
-   * @param t
-   * @param postDate
-   */
-  public void addEntry(Transaction t,Date postDate);
+    /**
+     * Add a new transaction
+     * 
+     * @param t
+     * @param postDate
+     */
+    public void addEntry(Transaction t, Date postDate);
 
-  /**
-   * Get the max sequence number currently used for a transaction
-   * @param t
-   * @return
-   */
-  public int getMaxSequenceNumber(Transaction t);
-  
-  /**
-   * Purge the entry table by chart/year
-   * 
-   * @param chart
-   * @param year
-   */
-  public void purgeYearByChart(String chart, int year);
+    /**
+     * Get the max sequence number currently used for a transaction
+     * 
+     * @param t
+     * @return
+     */
+    public int getMaxSequenceNumber(Transaction t);
+
+    /**
+     * Purge the entry table by chart/year
+     * 
+     * @param chart
+     * @param year
+     */
+    public void purgeYearByChart(String chart, int year);
 }

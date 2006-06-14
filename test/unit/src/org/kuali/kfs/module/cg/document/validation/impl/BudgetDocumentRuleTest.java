@@ -201,7 +201,7 @@ public class BudgetDocumentRuleTest extends KualiTestBaseWithFixtures {
         Map errorMap = GlobalVariables.getErrorMap();
         assertTrue("should be 4, was " + errorMap.size(), errorMap.size() == 4);
     }
-    
+
     public void testValidTaskList() throws Exception {
         budgetDocumentRule.isTaskListValid(buildTaskList(new Integer(MINIMUM_NUMBER_OF_TASKS).intValue()));
         Map errorMap1 = GlobalVariables.getErrorMap();
@@ -210,47 +210,48 @@ public class BudgetDocumentRuleTest extends KualiTestBaseWithFixtures {
         budgetDocumentRule.isTaskListValid(buildTaskList(new Integer(MINIMUM_NUMBER_OF_TASKS).intValue()));
         Map errorMap2 = GlobalVariables.getErrorMap();
         assertTrue(errorMap2.isEmpty());
-        
+
         budgetDocumentRule.isTaskListValid(buildTaskList(new Integer(MINIMUM_NUMBER_OF_TASKS).intValue()));
         Map errorMap3 = GlobalVariables.getErrorMap();
         assertTrue(errorMap3.isEmpty());
     }
-    
+
     /**
      * Test for an empty tak list.
+     * 
      * @throws Exception
      */
     public void testNotEnoughTasks() throws Exception {
-        budgetDocumentRule.isTaskListValid(buildTaskList(new Integer(MINIMUM_NUMBER_OF_TASKS).intValue()-1));
+        budgetDocumentRule.isTaskListValid(buildTaskList(new Integer(MINIMUM_NUMBER_OF_TASKS).intValue() - 1));
         Map errorMap1 = GlobalVariables.getErrorMap();
         assertTrue(errorMap1.size() == 1);
-        
-        budgetDocumentRule.isTaskListValid(buildTaskList(new Integer(MINIMUM_NUMBER_OF_TASKS).intValue()-1));
+
+        budgetDocumentRule.isTaskListValid(buildTaskList(new Integer(MINIMUM_NUMBER_OF_TASKS).intValue() - 1));
         Map errorMap2 = GlobalVariables.getErrorMap();
         assertTrue(errorMap2.size() == 1);
-        
-        budgetDocumentRule.isTaskListValid(buildTaskList(new Integer(MINIMUM_NUMBER_OF_TASKS).intValue()-1));
+
+        budgetDocumentRule.isTaskListValid(buildTaskList(new Integer(MINIMUM_NUMBER_OF_TASKS).intValue() - 1));
         Map errorMap3 = GlobalVariables.getErrorMap();
         assertTrue(errorMap3.size() == 1);
     }
-    
+
     /**
      * Test for a task list that is too big.
      */
     public void testTooManyTasks() throws Exception {
-        budgetDocumentRule.isTaskListValid(buildTaskList(KraConstants.maximumNumberOfTasks+1));
+        budgetDocumentRule.isTaskListValid(buildTaskList(KraConstants.maximumNumberOfTasks + 1));
         Map errorMap1 = GlobalVariables.getErrorMap();
         assertTrue(errorMap1.size() == 1);
-        
-        budgetDocumentRule.isTaskListValid(buildTaskList(KraConstants.maximumNumberOfTasks+1));
+
+        budgetDocumentRule.isTaskListValid(buildTaskList(KraConstants.maximumNumberOfTasks + 1));
         Map errorMap2 = GlobalVariables.getErrorMap();
         assertTrue(errorMap2.size() == 1);
-        
-        budgetDocumentRule.isTaskListValid(buildTaskList(KraConstants.maximumNumberOfTasks+1));
+
+        budgetDocumentRule.isTaskListValid(buildTaskList(KraConstants.maximumNumberOfTasks + 1));
         Map errorMap3 = GlobalVariables.getErrorMap();
         assertTrue(errorMap3.size() == 1);
     }
-    
+
     private List buildTaskList(int x) {
         List taskList = new ArrayList();
         while (x > 0) {

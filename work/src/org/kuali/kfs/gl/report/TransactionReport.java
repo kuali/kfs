@@ -49,7 +49,7 @@ import com.lowagie.text.pdf.PdfWriter;
 
 /**
  * @author Kuali General Ledger Team (kualigltech@oncourse.iu.edu)
- * @version $Id: TransactionReport.java,v 1.15 2006-06-03 21:39:08 jsissom Exp $
+ * @version $Id: TransactionReport.java,v 1.16 2006-06-14 12:27:10 abyrne Exp $
  */
 public class TransactionReport {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(TransactionReport.class);
@@ -79,9 +79,9 @@ public class TransactionReport {
                 head.addCell(cell);
 
                 head.setTotalWidth(page.width() - document.leftMargin() - document.rightMargin());
-                head.writeSelectedRows(0, -1, document.leftMargin(), page.height() - document.topMargin() + head.getTotalHeight(),
-                        writer.getDirectContent());
-            } catch (Exception e) {
+                head.writeSelectedRows(0, -1, document.leftMargin(), page.height() - document.topMargin() + head.getTotalHeight(), writer.getDirectContent());
+            }
+            catch (Exception e) {
                 throw new ExceptionConverter(e);
             }
         }
@@ -99,8 +99,7 @@ public class TransactionReport {
      * @param fileprefix
      * @param destinationDirectory
      */
-    public void generateReport(Map reportErrors, List reportSummary, Date runDate, String title, String fileprefix,
-            String destinationDirectory) {
+    public void generateReport(Map reportErrors, List reportSummary, Date runDate, String title, String fileprefix, String destinationDirectory) {
         LOG.debug("generateReport() started");
 
         Font headerFont = FontFactory.getFont(FontFactory.COURIER, 8, Font.BOLD);
@@ -146,7 +145,8 @@ public class TransactionReport {
                     cell = new PdfPCell(new Phrase("", textFont));
                     cell.setBorder(Rectangle.NO_BORDER);
                     summary.addCell(cell);
-                } else {
+                }
+                else {
                     DecimalFormat nf = new DecimalFormat("###,###,###,##0");
                     cell = new PdfPCell(new Phrase(nf.format(s.getCount()), textFont));
                     cell.setBorder(Rectangle.NO_BORDER);
@@ -215,7 +215,8 @@ public class TransactionReport {
 
                             if (tran.getUniversityFiscalYear() == null) {
                                 cell = new PdfPCell(new Phrase("NULL", textFont));
-                            } else {
+                            }
+                            else {
                                 cell = new PdfPCell(new Phrase(tran.getUniversityFiscalYear().toString(), textFont));
                             }
                             warnings.addCell(cell);
@@ -243,11 +244,13 @@ public class TransactionReport {
                             warnings.addCell(cell);
                             if (tran.getTransactionLedgerEntrySequenceNumber() == null) {
                                 cell = new PdfPCell(new Phrase("NULL", textFont));
-                            } else {
+                            }
+                            else {
                                 cell = new PdfPCell(new Phrase(tran.getTransactionLedgerEntrySequenceNumber().toString(), textFont));
                             }
                             warnings.addCell(cell);
-                        } else {
+                        }
+                        else {
                             cell = new PdfPCell(new Phrase("", textFont));
                             cell.setColspan(13);
                             warnings.addCell(cell);
@@ -258,14 +261,17 @@ public class TransactionReport {
                 }
                 document.add(warnings);
             }
-        } catch (DocumentException de) {
+        }
+        catch (DocumentException de) {
             LOG.error("generateReport() Error creating PDF report", de);
             throw new RuntimeException("Report Generation Failed: " + de.getMessage());
-        } catch (FileNotFoundException fnfe) {
+        }
+        catch (FileNotFoundException fnfe) {
             LOG.error("generateReport() Error writing PDF report", fnfe);
-            throw new RuntimeException("Report Generation Failed: Error writing to file " + fnfe.getMessage());            
-        } finally {
-            if ( (document != null) && document.isOpen() ) {
+            throw new RuntimeException("Report Generation Failed: Error writing to file " + fnfe.getMessage());
+        }
+        finally {
+            if ((document != null) && document.isOpen()) {
                 document.close();
             }
         }

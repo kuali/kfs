@@ -251,6 +251,6 @@ public interface BudgetAdjustmentAccountingLine {
      * 
      */
     public abstract void setFringeBenefitIndicator(boolean fringeBenefitIndicator);
-    
-    
+
+
 }

@@ -35,190 +35,190 @@ import org.kuali.core.util.KualiDecimal;
  */
 public class AwardSubcontractor extends BusinessObjectBase {
 
-	private String awardSubcontractorAmendmentNumber;
-	private String awardSubcontractorNumber;
-	private String subcontractorNumber;
-	private Long proposalNumber;
-	private KualiDecimal subcontractorAmount;
-	private String subcontractorContactFirstName;
-	private String subcontractorContactLastName;
-	private String subcontractorAuditHistoryText;
+    private String awardSubcontractorAmendmentNumber;
+    private String awardSubcontractorNumber;
+    private String subcontractorNumber;
+    private Long proposalNumber;
+    private KualiDecimal subcontractorAmount;
+    private String subcontractorContactFirstName;
+    private String subcontractorContactLastName;
+    private String subcontractorAuditHistoryText;
 
     private Subcontractor subcontractor;
-    
-	/**
-	 * Default constructor.
-	 */
-	public AwardSubcontractor() {
 
-	}
+    /**
+     * Default constructor.
+     */
+    public AwardSubcontractor() {
 
-	/**
-	 * Gets the awardSubcontractorAmendmentNumber attribute.
-	 * 
-	 * @return - Returns the awardSubcontractorAmendmentNumber
-	 * 
-	 */
-	public String getAwardSubcontractorAmendmentNumber() { 
-		return awardSubcontractorAmendmentNumber;
-	}
+    }
 
-	/**
-	 * Sets the awardSubcontractorAmendmentNumber attribute.
-	 * 
-	 * @param - awardSubcontractorAmendmentNumber The awardSubcontractorAmendmentNumber to set.
-	 * 
-	 */
-	public void setAwardSubcontractorAmendmentNumber(String awardSubcontractorAmendmentNumber) {
-		this.awardSubcontractorAmendmentNumber = awardSubcontractorAmendmentNumber;
-	}
+    /**
+     * Gets the awardSubcontractorAmendmentNumber attribute.
+     * 
+     * @return - Returns the awardSubcontractorAmendmentNumber
+     * 
+     */
+    public String getAwardSubcontractorAmendmentNumber() {
+        return awardSubcontractorAmendmentNumber;
+    }
 
-
-	/**
-	 * Gets the awardSubcontractorNumber attribute.
-	 * 
-	 * @return - Returns the awardSubcontractorNumber
-	 * 
-	 */
-	public String getAwardSubcontractorNumber() { 
-		return awardSubcontractorNumber;
-	}
-
-	/**
-	 * Sets the awardSubcontractorNumber attribute.
-	 * 
-	 * @param - awardSubcontractorNumber The awardSubcontractorNumber to set.
-	 * 
-	 */
-	public void setAwardSubcontractorNumber(String awardSubcontractorNumber) {
-		this.awardSubcontractorNumber = awardSubcontractorNumber;
-	}
+    /**
+     * Sets the awardSubcontractorAmendmentNumber attribute.
+     * 
+     * @param - awardSubcontractorAmendmentNumber The awardSubcontractorAmendmentNumber to set.
+     * 
+     */
+    public void setAwardSubcontractorAmendmentNumber(String awardSubcontractorAmendmentNumber) {
+        this.awardSubcontractorAmendmentNumber = awardSubcontractorAmendmentNumber;
+    }
 
 
-	/**
-	 * Gets the subcontractorNumber attribute.
-	 * 
-	 * @return - Returns the subcontractorNumber
-	 * 
-	 */
-	public String getSubcontractorNumber() { 
-		return subcontractorNumber;
-	}
+    /**
+     * Gets the awardSubcontractorNumber attribute.
+     * 
+     * @return - Returns the awardSubcontractorNumber
+     * 
+     */
+    public String getAwardSubcontractorNumber() {
+        return awardSubcontractorNumber;
+    }
 
-	/**
-	 * Sets the subcontractorNumber attribute.
-	 * 
-	 * @param - subcontractorNumber The subcontractorNumber to set.
-	 * 
-	 */
-	public void setSubcontractorNumber(String subcontractorNumber) {
-		this.subcontractorNumber = subcontractorNumber;
-	}
-
-
-	/**
-	 * Gets the proposalNumber attribute.
-	 * 
-	 * @return - Returns the proposalNumber
-	 * 
-	 */
-	public Long getProposalNumber() { 
-		return proposalNumber;
-	}
-
-	/**
-	 * Sets the proposalNumber attribute.
-	 * 
-	 * @param - proposalNumber The proposalNumber to set.
-	 * 
-	 */
-	public void setProposalNumber(Long proposalNumber) {
-		this.proposalNumber = proposalNumber;
-	}
+    /**
+     * Sets the awardSubcontractorNumber attribute.
+     * 
+     * @param - awardSubcontractorNumber The awardSubcontractorNumber to set.
+     * 
+     */
+    public void setAwardSubcontractorNumber(String awardSubcontractorNumber) {
+        this.awardSubcontractorNumber = awardSubcontractorNumber;
+    }
 
 
-	/**
-	 * Gets the subcontractorAmount attribute.
-	 * 
-	 * @return - Returns the subcontractorAmount
-	 * 
-	 */
-	public KualiDecimal getSubcontractorAmount() { 
-		return subcontractorAmount;
-	}
+    /**
+     * Gets the subcontractorNumber attribute.
+     * 
+     * @return - Returns the subcontractorNumber
+     * 
+     */
+    public String getSubcontractorNumber() {
+        return subcontractorNumber;
+    }
 
-	/**
-	 * Sets the subcontractorAmount attribute.
-	 * 
-	 * @param - subcontractorAmount The subcontractorAmount to set.
-	 * 
-	 */
-	public void setSubcontractorAmount(KualiDecimal subcontractorAmount) {
-		this.subcontractorAmount = subcontractorAmount;
-	}
-
-
-	/**
-	 * Gets the subcontractorContactFirstName attribute.
-	 * 
-	 * @return - Returns the subcontractorContactFirstName
-	 * 
-	 */
-	public String getSubcontractorContactFirstName() { 
-		return subcontractorContactFirstName;
-	}
-
-	/**
-	 * Sets the subcontractorContactFirstName attribute.
-	 * 
-	 * @param - subcontractorContactFirstName The subcontractorContactFirstName to set.
-	 * 
-	 */
-	public void setSubcontractorContactFirstName(String subcontractorContactFirstName) {
-		this.subcontractorContactFirstName = subcontractorContactFirstName;
-	}
+    /**
+     * Sets the subcontractorNumber attribute.
+     * 
+     * @param - subcontractorNumber The subcontractorNumber to set.
+     * 
+     */
+    public void setSubcontractorNumber(String subcontractorNumber) {
+        this.subcontractorNumber = subcontractorNumber;
+    }
 
 
-	/**
-	 * Gets the subcontractorContactLastName attribute.
-	 * 
-	 * @return - Returns the subcontractorContactLastName
-	 * 
-	 */
-	public String getSubcontractorContactLastName() { 
-		return subcontractorContactLastName;
-	}
+    /**
+     * Gets the proposalNumber attribute.
+     * 
+     * @return - Returns the proposalNumber
+     * 
+     */
+    public Long getProposalNumber() {
+        return proposalNumber;
+    }
 
-	/**
-	 * Sets the subcontractorContactLastName attribute.
-	 * 
-	 * @param - subcontractorContactLastName The subcontractorContactLastName to set.
-	 * 
-	 */
-	public void setSubcontractorContactLastName(String subcontractorContactLastName) {
-		this.subcontractorContactLastName = subcontractorContactLastName;
-	}
+    /**
+     * Sets the proposalNumber attribute.
+     * 
+     * @param - proposalNumber The proposalNumber to set.
+     * 
+     */
+    public void setProposalNumber(Long proposalNumber) {
+        this.proposalNumber = proposalNumber;
+    }
 
 
-	/**
-	 * Gets the subcontractorAuditHistoryText attribute.
-	 * 
-	 * @return - Returns the subcontractorAuditHistoryText
-	 * 
-	 */
-	public String getSubcontractorAuditHistoryText() { 
-		return subcontractorAuditHistoryText;
-	}
+    /**
+     * Gets the subcontractorAmount attribute.
+     * 
+     * @return - Returns the subcontractorAmount
+     * 
+     */
+    public KualiDecimal getSubcontractorAmount() {
+        return subcontractorAmount;
+    }
 
-	/**
-	 * Sets the subcontractorAuditHistoryText attribute.
-	 * 
-	 * @param - subcontractorAuditHistoryText The subcontractorAuditHistoryText to set.
-	 * 
-	 */
-	public void setSubcontractorAuditHistoryText(String subcontractorAuditHistoryText) {
-		this.subcontractorAuditHistoryText = subcontractorAuditHistoryText;
-	}
+    /**
+     * Sets the subcontractorAmount attribute.
+     * 
+     * @param - subcontractorAmount The subcontractorAmount to set.
+     * 
+     */
+    public void setSubcontractorAmount(KualiDecimal subcontractorAmount) {
+        this.subcontractorAmount = subcontractorAmount;
+    }
+
+
+    /**
+     * Gets the subcontractorContactFirstName attribute.
+     * 
+     * @return - Returns the subcontractorContactFirstName
+     * 
+     */
+    public String getSubcontractorContactFirstName() {
+        return subcontractorContactFirstName;
+    }
+
+    /**
+     * Sets the subcontractorContactFirstName attribute.
+     * 
+     * @param - subcontractorContactFirstName The subcontractorContactFirstName to set.
+     * 
+     */
+    public void setSubcontractorContactFirstName(String subcontractorContactFirstName) {
+        this.subcontractorContactFirstName = subcontractorContactFirstName;
+    }
+
+
+    /**
+     * Gets the subcontractorContactLastName attribute.
+     * 
+     * @return - Returns the subcontractorContactLastName
+     * 
+     */
+    public String getSubcontractorContactLastName() {
+        return subcontractorContactLastName;
+    }
+
+    /**
+     * Sets the subcontractorContactLastName attribute.
+     * 
+     * @param - subcontractorContactLastName The subcontractorContactLastName to set.
+     * 
+     */
+    public void setSubcontractorContactLastName(String subcontractorContactLastName) {
+        this.subcontractorContactLastName = subcontractorContactLastName;
+    }
+
+
+    /**
+     * Gets the subcontractorAuditHistoryText attribute.
+     * 
+     * @return - Returns the subcontractorAuditHistoryText
+     * 
+     */
+    public String getSubcontractorAuditHistoryText() {
+        return subcontractorAuditHistoryText;
+    }
+
+    /**
+     * Sets the subcontractorAuditHistoryText attribute.
+     * 
+     * @param - subcontractorAuditHistoryText The subcontractorAuditHistoryText to set.
+     * 
+     */
+    public void setSubcontractorAuditHistoryText(String subcontractorAuditHistoryText) {
+        this.subcontractorAuditHistoryText = subcontractorAuditHistoryText;
+    }
 
     /**
      * @return Returns the subcontractor.
@@ -234,19 +234,19 @@ public class AwardSubcontractor extends BusinessObjectBase {
     public void setSubcontractor(Subcontractor subcontractor) {
         this.subcontractor = subcontractor;
     }
-    
-	/**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
+
+    /**
+     * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
         m.put("awardSubcontractorAmendmentNumber", this.awardSubcontractorAmendmentNumber);
         m.put("awardSubcontractorNumber", this.awardSubcontractorNumber);
         m.put("subcontractorNumber", this.subcontractorNumber);
         if (this.proposalNumber != null) {
             m.put("proposalNumber", this.proposalNumber.toString());
         }
-	    return m;
+        return m;
     }
 
 }

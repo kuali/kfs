@@ -38,16 +38,13 @@ import org.kuali.test.parameters.TransactionalDocumentParameter;
 
 
 /**
- * This class tests the <code>{@link NonCheckDisbursementDocument}</code>'s rules 
- * and PE generation.  This is not currently implemented properly.  When we 
- * get to building this document, we would need to extend TransactionalDocumentRuleTestBase. 
- * For now it contains commented out old fixtures code that will need to be fitted to 
- * the new xml based fixtures framework.  
+ * This class tests the <code>{@link NonCheckDisbursementDocument}</code>'s rules and PE generation. This is not currently
+ * implemented properly. When we get to building this document, we would need to extend TransactionalDocumentRuleTestBase. For now
+ * it contains commented out old fixtures code that will need to be fitted to the new xml based fixtures framework.
  * 
  * @author Kuali Transaction Processing Team (kualidev@oncourse.iu.edu)
  */
-public class NonCheckDisbursementDocumentRuleTest 
-    extends TransactionalDocumentRuleTestBase {
+public class NonCheckDisbursementDocumentRuleTest extends TransactionalDocumentRuleTestBase {
 
     private static final String COLLECTION_NAME = "NonCheckDisbursementDocumentRuleTest.collection1";
     private static final String KNOWN_DOCUMENT_TYPENAME = "KualiNonCheckDisbursementDocument";
@@ -81,16 +78,16 @@ public class NonCheckDisbursementDocumentRuleTest
         return FIXTURE_COLLECTION_NAMES;
     }
 
-    //////////////////////////////////////////////////////////////////////////
-    // Fixture methods start here                                           //
-    //////////////////////////////////////////////////////////////////////////
+    // ////////////////////////////////////////////////////////////////////////
+    // Fixture methods start here //
+    // ////////////////////////////////////////////////////////////////////////
     protected final String getDocumentTypeName() {
         return KNOWN_DOCUMENT_TYPENAME;
     }
 
     public final TargetAccountingLine getAssetTargetLine() throws Exception {
         return (TargetAccountingLine) getAccruedIncomeTargetLineParameter().createLine();
-     }
+    }
 
     protected final TargetAccountingLine getValidObjectSubTypeTargetLine() throws Exception {
         return (TargetAccountingLine) getAccruedIncomeTargetLineParameter().createLine();
@@ -145,13 +142,11 @@ public class NonCheckDisbursementDocumentRuleTest
     }
 
     public final SourceAccountingLine getAssetSourceLine() {
-        return (SourceAccountingLine) 
-            getAccruedIncomeSourceLineParameter().createLine();
+        return (SourceAccountingLine) getAccruedIncomeSourceLineParameter().createLine();
     }
 
     protected final Document createDocument() throws Exception {
-        return getNonCheckDisbursementDocument()
-            .createDocument(getDocumentService());
+        return getNonCheckDisbursementDocument().createDocument(getDocumentService());
     }
 
     protected final TransactionalDocument createDocument5() throws Exception {
@@ -167,16 +162,14 @@ public class NonCheckDisbursementDocumentRuleTest
     }
 
     protected final TransactionalDocument createDocumentWithInvalidObjectSubType() throws Exception {
-        NonCheckDisbursementDocument retval = 
-            (NonCheckDisbursementDocument) createDocument();
+        NonCheckDisbursementDocument retval = (NonCheckDisbursementDocument) createDocument();
         retval.setSourceAccountingLines(getInvalidObjectSubTypeSourceLines());
         retval.setTargetAccountingLines(getInvalidObjectSubTypeTargetLines());
         return retval;
     }
 
     protected final TransactionalDocument createDocumentUnbalanced() throws Exception {
-        NonCheckDisbursementDocument retval = 
-            (NonCheckDisbursementDocument) createDocument();
+        NonCheckDisbursementDocument retval = (NonCheckDisbursementDocument) createDocument();
         retval.setSourceAccountingLines(getInvalidObjectSubTypeSourceLines());
         retval.addTargetAccountingLine(getValidObjectSubTypeTargetLine());
         return retval;
@@ -187,8 +180,7 @@ public class NonCheckDisbursementDocumentRuleTest
     }
 
     protected final TransactionalDocument createDocumentWithValidObjectSubType() throws Exception {
-        NonCheckDisbursementDocument retval = 
-            (NonCheckDisbursementDocument) createDocument();
+        NonCheckDisbursementDocument retval = (NonCheckDisbursementDocument) createDocument();
         retval.setSourceAccountingLines(getValidObjectSubTypeSourceLines());
         retval.setTargetAccountingLines(getValidObjectSubTypeTargetLines());
         return retval;
@@ -321,37 +313,30 @@ public class NonCheckDisbursementDocumentRuleTest
     }
 
     /**
-     * Accessor for fixture of a <code>{@link TargetAccountingLine}</code>
-     * generated from an <code>{@link AccountingLineParameter}</code> instance 
-     * with a cash object code.
+     * Accessor for fixture of a <code>{@link TargetAccountingLine}</code> generated from an
+     * <code>{@link AccountingLineParameter}</code> instance with a cash object code.
      * 
      * @return AccountingLineParameter
      */
     public final AccountingLineParameter getCashTargetLineParameter() {
         /*
-        return new AccountingLineParameter()
-            .lineClassName(TargetAccountingLine.class.getName())
-            .chartOfAccounts("BA")
-            .accountNumber("6044900")
-            .projectCode("BOB")
-            .amount(new KualiDecimal("100"))
-            .currentFiscalYear(new Integer(2004))
-            .financialObjectCode("8000");
-        */
+         * return new AccountingLineParameter() .lineClassName(TargetAccountingLine.class.getName()) .chartOfAccounts("BA")
+         * .accountNumber("6044900") .projectCode("BOB") .amount(new KualiDecimal("100")) .currentFiscalYear(new Integer(2004))
+         * .financialObjectCode("8000");
+         */
         return _targetLine1;
     }
 
     /**
-     * Accessor for fixture of a <code>{@link TargetAccountingLine}</code>
-     * generated from an <code>{@link AccountingLineParameter}</code> instance 
-     * with a cash object code.
+     * Accessor for fixture of a <code>{@link TargetAccountingLine}</code> generated from an
+     * <code>{@link AccountingLineParameter}</code> instance with a cash object code.
      * 
      * @return AccountingLineParameter
      */
     public final void getCashTargetLineParameter(AccountingLineParameter p) {
         _targetLine1 = p;
     }
-        
+
     /**
      * Accessor for fixture 'targetLine2'
      * 
@@ -423,8 +408,7 @@ public class NonCheckDisbursementDocumentRuleTest
     }
 
     /**
-     * Fixture method to get a 
-     * <code>{@link TransactionalDocumentParameter}</code> instance for
+     * Fixture method to get a <code>{@link TransactionalDocumentParameter}</code> instance for
      * <code>{@link NonCheckDisbursementDocument}</code>.
      * 
      * @return TransactionalDocumentParameter
@@ -434,8 +418,7 @@ public class NonCheckDisbursementDocumentRuleTest
     }
 
     /**
-     * Fixture method to assign to the test a 
-     * <code>{@link TransactionalDocumentParameter}</code> instance for
+     * Fixture method to assign to the test a <code>{@link TransactionalDocumentParameter}</code> instance for
      * <code>{@link NonCheckDisbursementDocument}</code>.
      * 
      * @param p
@@ -606,10 +589,9 @@ public class NonCheckDisbursementDocumentRuleTest
     }
 
     /**
-     * Accessor method for Explicit Source fixture used for
-     * <code>{@link testProcessGeneralLedgerPendingEntries}</code> test
+     * Accessor method for Explicit Source fixture used for <code>{@link testProcessGeneralLedgerPendingEntries}</code> test
      * methods.
-     *
+     * 
      * @return GeneralLedgerPendingEntry pending entry fixture
      */
     public GeneralLedgerPendingEntry getExpectedExplicitSourcePendingEntryForExpense() {
@@ -617,10 +599,9 @@ public class NonCheckDisbursementDocumentRuleTest
     }
 
     /**
-     * Accessor method for Explicit Source fixture used for
-     * <code>{@link testProcessGeneralLedgerPendingEntries}</code> test
+     * Accessor method for Explicit Source fixture used for <code>{@link testProcessGeneralLedgerPendingEntries}</code> test
      * methods.
-     *
+     * 
      * @return GeneralLedgerPendingEntry pending entry fixture
      */
     public GeneralLedgerPendingEntry getExpectedExplicitTargetPendingEntryForExpense() {
@@ -641,11 +622,11 @@ public class NonCheckDisbursementDocumentRuleTest
     protected AccountingLine getExpenseTargetLine() {
         return createLineFromFixture("expenseGECTargetLine");
     }
-    
+
     /**
-     * Fixture method that returns a <code>{@link SourceAccountingLine}</code> 
-     * for sufficient funds checking of an expense source line
-     *
+     * Fixture method that returns a <code>{@link SourceAccountingLine}</code> for sufficient funds checking of an expense source
+     * line
+     * 
      * @return AccountingLineParameter
      */
     public final AccountingLineParameter getSufficientFundsCheckingSourceExpense() {
@@ -653,9 +634,9 @@ public class NonCheckDisbursementDocumentRuleTest
     }
 
     /**
-     * Fixture method that returns a <code>{@link SourceAccountingLine}</code> 
-     * for sufficient funds checking of an asset source line
-     *
+     * Fixture method that returns a <code>{@link SourceAccountingLine}</code> for sufficient funds checking of an asset source
+     * line
+     * 
      * @return AccountingLineParameter
      */
     public final AccountingLineParameter getSufficientFundsCheckingSourceAsset() {
@@ -663,9 +644,9 @@ public class NonCheckDisbursementDocumentRuleTest
     }
 
     /**
-     * Fixture method that returns a <code>{@link SourceAccountingLine}</code> 
-     * for sufficient funds checking of a liability source line
-     *
+     * Fixture method that returns a <code>{@link SourceAccountingLine}</code> for sufficient funds checking of a liability source
+     * line
+     * 
      * @return AccountingLineParameter
      */
     public final AccountingLineParameter getSufficientFundsCheckingSourceLiability() {
@@ -673,9 +654,9 @@ public class NonCheckDisbursementDocumentRuleTest
     }
 
     /**
-     * Fixture method that returns a <code>{@link SourceAccountingLine}</code> 
-     * for sufficient funds checking of an income source line
-     *
+     * Fixture method that returns a <code>{@link SourceAccountingLine}</code> for sufficient funds checking of an income source
+     * line
+     * 
      * @return AccountingLineParameter
      */
     public final AccountingLineParameter getSufficientFundsCheckingSourceIncome() {
@@ -683,9 +664,9 @@ public class NonCheckDisbursementDocumentRuleTest
     }
 
     /**
-     * Fixture method that returns a <code>{@link TargetAccountingLine}</code> 
-     * for sufficient funds checking of an expense source line
-     *
+     * Fixture method that returns a <code>{@link TargetAccountingLine}</code> for sufficient funds checking of an expense source
+     * line
+     * 
      * @return AccountingLineParameter
      */
     public final AccountingLineParameter getSufficientFundsCheckingTargetExpense() {
@@ -693,9 +674,9 @@ public class NonCheckDisbursementDocumentRuleTest
     }
 
     /**
-     * Fixture method that returns a <code>{@link TargetAccountingLine}</code> 
-     * for sufficient funds checking of an asset source line
-     *
+     * Fixture method that returns a <code>{@link TargetAccountingLine}</code> for sufficient funds checking of an asset source
+     * line
+     * 
      * @return AccountingLineParameter
      */
     public final AccountingLineParameter getSufficientFundsCheckingTargetAsset() {
@@ -703,9 +684,9 @@ public class NonCheckDisbursementDocumentRuleTest
     }
 
     /**
-     * Fixture method that returns a <code>{@link TargetAccountingLine}</code> 
-     * for sufficient funds checking of an liability source line
-     *
+     * Fixture method that returns a <code>{@link TargetAccountingLine}</code> for sufficient funds checking of an liability
+     * source line
+     * 
      * @return AccountingLineParameter
      */
     public final AccountingLineParameter getSufficientFundsCheckingTargetLiability() {
@@ -713,32 +694,38 @@ public class NonCheckDisbursementDocumentRuleTest
     }
 
     /**
-     * Fixture method that returns a <code>{@link TargetAccountingLine}</code> 
-     * for sufficient funds checking of an income source line
-     *
+     * Fixture method that returns a <code>{@link TargetAccountingLine}</code> for sufficient funds checking of an income source
+     * line
+     * 
      * @return AccountingLineParameter
      */
     public final AccountingLineParameter getSufficientFundsCheckingTargetIncome() {
         return null;
     }
 
-    //////////////////////////////////////////////////////////////////////////
-    // Fixture methods end here                                             //
-    //////////////////////////////////////////////////////////////////////////
+    // ////////////////////////////////////////////////////////////////////////
+    // Fixture methods end here //
+    // ////////////////////////////////////////////////////////////////////////
 
-    //////////////////////////////////////////////////////////////////////////
-    // Test methods start here                                              //
-    //////////////////////////////////////////////////////////////////////////
-    
+    // ////////////////////////////////////////////////////////////////////////
+    // Test methods start here //
+    // ////////////////////////////////////////////////////////////////////////
+
     // These methods will need to be fixed in the future to yield more meaningful
     // results
-    public void testProcessGenerateGeneralLedgerPendingEntries_validSourceAsset() { }
-    public void testProcessGenerateGeneralLedgerPendingEntries_validTargetAsset() { }
-    public void testProcessGenerateGeneralLedgerPendingEntries_validSourceExpense() { }
-    public void testProcessGenerateGeneralLedgerPendingEntries_validTargetExpense() { }
-    
-    //////////////////////////////////////////////////////////////////////////
-    // Test methods end here                                                //
-    //////////////////////////////////////////////////////////////////////////
-}
+    public void testProcessGenerateGeneralLedgerPendingEntries_validSourceAsset() {
+    }
 
+    public void testProcessGenerateGeneralLedgerPendingEntries_validTargetAsset() {
+    }
+
+    public void testProcessGenerateGeneralLedgerPendingEntries_validSourceExpense() {
+    }
+
+    public void testProcessGenerateGeneralLedgerPendingEntries_validTargetExpense() {
+    }
+
+    // ////////////////////////////////////////////////////////////////////////
+    // Test methods end here //
+    // ////////////////////////////////////////////////////////////////////////
+}

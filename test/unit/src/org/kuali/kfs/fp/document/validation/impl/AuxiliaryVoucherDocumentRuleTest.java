@@ -38,13 +38,11 @@ import org.kuali.test.parameters.TransactionalDocumentParameter;
 
 
 /**
- * This class tests the <code>{@link AuxiliaryVoucherDocument}</code>'s rules 
- * and PE generation.  
+ * This class tests the <code>{@link AuxiliaryVoucherDocument}</code>'s rules and PE generation.
  * 
  * @author Kuali Transaction Processing Team (kualidev@oncourse.iu.edu)
  */
-public class AuxiliaryVoucherDocumentRuleTest 
-    extends TransactionalDocumentRuleTestBase {
+public class AuxiliaryVoucherDocumentRuleTest extends TransactionalDocumentRuleTestBase {
 
     private static final String COLLECTION_NAME = "AuxiliaryVoucherDocumentRuleTest.collection1";
     private static final String KNOWN_DOCUMENT_TYPENAME = "KualiAuxiliaryVoucherDocument";
@@ -80,16 +78,16 @@ public class AuxiliaryVoucherDocumentRuleTest
         return FIXTURE_COLLECTION_NAMES;
     }
 
-    //////////////////////////////////////////////////////////////////////////
-    // Fixture methods start here                                           //
-    //////////////////////////////////////////////////////////////////////////
+    // ////////////////////////////////////////////////////////////////////////
+    // Fixture methods start here //
+    // ////////////////////////////////////////////////////////////////////////
     protected final String getDocumentTypeName() {
         return KNOWN_DOCUMENT_TYPENAME;
     }
 
     public final TargetAccountingLine getAssetTargetLine() throws Exception {
         return (TargetAccountingLine) getAccruedIncomeTargetLineParameter().createLine();
-     }
+    }
 
     protected final TargetAccountingLine getValidObjectSubTypeTargetLine() throws Exception {
         return (TargetAccountingLine) getAccruedIncomeTargetLineParameter().createLine();
@@ -144,8 +142,7 @@ public class AuxiliaryVoucherDocumentRuleTest
     }
 
     public final SourceAccountingLine getAssetSourceLine() {
-        return (SourceAccountingLine) 
-            getAccruedIncomeSourceLineParameter().createLine();
+        return (SourceAccountingLine) getAccruedIncomeSourceLineParameter().createLine();
     }
 
     protected final Document createDocument() throws Exception {
@@ -183,8 +180,7 @@ public class AuxiliaryVoucherDocumentRuleTest
     }
 
     protected final TransactionalDocument createDocumentWithValidObjectSubType() throws Exception {
-        AuxiliaryVoucherDocument retval = 
-            (AuxiliaryVoucherDocument) createDocument();
+        AuxiliaryVoucherDocument retval = (AuxiliaryVoucherDocument) createDocument();
         retval.setSourceAccountingLines(getValidObjectSubTypeSourceLines());
         retval.setTargetAccountingLines(getValidObjectSubTypeTargetLines());
         return retval;
@@ -335,37 +331,30 @@ public class AuxiliaryVoucherDocumentRuleTest
     }
 
     /**
-     * Accessor for fixture of a <code>{@link TargetAccountingLine}</code>
-     * generated from an <code>{@link AccountingLineParameter}</code> instance 
-     * with a cash object code.
+     * Accessor for fixture of a <code>{@link TargetAccountingLine}</code> generated from an
+     * <code>{@link AccountingLineParameter}</code> instance with a cash object code.
      * 
      * @return AccountingLineParameter
      */
     public final AccountingLineParameter getCashTargetLineParameter() {
         /*
-        return new AccountingLineParameter()
-            .lineClassName(TargetAccountingLine.class.getName())
-            .chartOfAccounts("BA")
-            .accountNumber("6044900")
-            .projectCode("BOB")
-            .amount(new KualiDecimal("100"))
-            .currentFiscalYear(new Integer(2004))
-            .financialObjectCode("8000");
-        */
+         * return new AccountingLineParameter() .lineClassName(TargetAccountingLine.class.getName()) .chartOfAccounts("BA")
+         * .accountNumber("6044900") .projectCode("BOB") .amount(new KualiDecimal("100")) .currentFiscalYear(new Integer(2004))
+         * .financialObjectCode("8000");
+         */
         return _targetLine1;
     }
 
     /**
-     * Accessor for fixture of a <code>{@link TargetAccountingLine}</code>
-     * generated from an <code>{@link AccountingLineParameter}</code> instance 
-     * with a cash object code.
+     * Accessor for fixture of a <code>{@link TargetAccountingLine}</code> generated from an
+     * <code>{@link AccountingLineParameter}</code> instance with a cash object code.
      * 
      * @return AccountingLineParameter
      */
     public final void getCashTargetLineParameter(AccountingLineParameter p) {
         _targetLine1 = p;
     }
-        
+
     /**
      * Accessor for fixture 'targetLine2'
      * 
@@ -455,8 +444,7 @@ public class AuxiliaryVoucherDocumentRuleTest
     }
 
     /**
-     * Fixture method to get a 
-     * <code>{@link TransactionalDocumentParameter}</code> instance for
+     * Fixture method to get a <code>{@link TransactionalDocumentParameter}</code> instance for
      * <code>{@link AuxiliaryVoucherDocument}</code>.
      * 
      * @return TransactionalDocumentParameter
@@ -466,8 +454,7 @@ public class AuxiliaryVoucherDocumentRuleTest
     }
 
     /**
-     * Fixture method to assign to the test a 
-     * <code>{@link TransactionalDocumentParameter}</code> instance for
+     * Fixture method to assign to the test a <code>{@link TransactionalDocumentParameter}</code> instance for
      * <code>{@link AuxiliaryVoucherDocument}</code>.
      * 
      * @param p
@@ -638,10 +625,9 @@ public class AuxiliaryVoucherDocumentRuleTest
     }
 
     /**
-     * Accessor method for Explicit Source fixture used for
-     * <code>{@link testProcessGeneralLedgerPendingEntries}</code> test
+     * Accessor method for Explicit Source fixture used for <code>{@link testProcessGeneralLedgerPendingEntries}</code> test
      * methods.
-     *
+     * 
      * @return GeneralLedgerPendingEntry pending entry fixture
      */
     public GeneralLedgerPendingEntry getExpectedExplicitSourcePendingEntryForExpense() {
@@ -649,10 +635,9 @@ public class AuxiliaryVoucherDocumentRuleTest
     }
 
     /**
-     * Accessor method for Explicit Source fixture used for
-     * <code>{@link testProcessGeneralLedgerPendingEntries}</code> test
+     * Accessor method for Explicit Source fixture used for <code>{@link testProcessGeneralLedgerPendingEntries}</code> test
      * methods.
-     *
+     * 
      * @return GeneralLedgerPendingEntry pending entry fixture
      */
     public GeneralLedgerPendingEntry getExpectedExplicitTargetPendingEntryForExpense() {
@@ -673,11 +658,11 @@ public class AuxiliaryVoucherDocumentRuleTest
     protected AccountingLine getExpenseTargetLine() {
         return createLineFromFixture("expenseGECTargetLine");
     }
-    
+
     /**
-     * Fixture method that returns a <code>{@link SourceAccountingLine}</code> 
-     * for sufficient funds checking of an expense source line
-     *
+     * Fixture method that returns a <code>{@link SourceAccountingLine}</code> for sufficient funds checking of an expense source
+     * line
+     * 
      * @return AccountingLineParameter
      */
     public final AccountingLineParameter getSufficientFundsCheckingSourceExpense() {
@@ -685,9 +670,9 @@ public class AuxiliaryVoucherDocumentRuleTest
     }
 
     /**
-     * Fixture method that returns a <code>{@link SourceAccountingLine}</code> 
-     * for sufficient funds checking of an asset source line
-     *
+     * Fixture method that returns a <code>{@link SourceAccountingLine}</code> for sufficient funds checking of an asset source
+     * line
+     * 
      * @return AccountingLineParameter
      */
     public final AccountingLineParameter getSufficientFundsCheckingSourceAsset() {
@@ -695,9 +680,9 @@ public class AuxiliaryVoucherDocumentRuleTest
     }
 
     /**
-     * Fixture method that returns a <code>{@link SourceAccountingLine}</code> 
-     * for sufficient funds checking of a liability source line
-     *
+     * Fixture method that returns a <code>{@link SourceAccountingLine}</code> for sufficient funds checking of a liability source
+     * line
+     * 
      * @return AccountingLineParameter
      */
     public final AccountingLineParameter getSufficientFundsCheckingSourceLiability() {
@@ -705,9 +690,9 @@ public class AuxiliaryVoucherDocumentRuleTest
     }
 
     /**
-     * Fixture method that returns a <code>{@link SourceAccountingLine}</code> 
-     * for sufficient funds checking of an income source line
-     *
+     * Fixture method that returns a <code>{@link SourceAccountingLine}</code> for sufficient funds checking of an income source
+     * line
+     * 
      * @return AccountingLineParameter
      */
     public final AccountingLineParameter getSufficientFundsCheckingSourceIncome() {
@@ -715,9 +700,9 @@ public class AuxiliaryVoucherDocumentRuleTest
     }
 
     /**
-     * Fixture method that returns a <code>{@link TargetAccountingLine}</code> 
-     * for sufficient funds checking of an expense source line
-     *
+     * Fixture method that returns a <code>{@link TargetAccountingLine}</code> for sufficient funds checking of an expense source
+     * line
+     * 
      * @return AccountingLineParameter
      */
     public final AccountingLineParameter getSufficientFundsCheckingTargetExpense() {
@@ -725,9 +710,9 @@ public class AuxiliaryVoucherDocumentRuleTest
     }
 
     /**
-     * Fixture method that returns a <code>{@link TargetAccountingLine}</code> 
-     * for sufficient funds checking of an asset source line
-     *
+     * Fixture method that returns a <code>{@link TargetAccountingLine}</code> for sufficient funds checking of an asset source
+     * line
+     * 
      * @return AccountingLineParameter
      */
     public final AccountingLineParameter getSufficientFundsCheckingTargetAsset() {
@@ -735,9 +720,9 @@ public class AuxiliaryVoucherDocumentRuleTest
     }
 
     /**
-     * Fixture method that returns a <code>{@link TargetAccountingLine}</code> 
-     * for sufficient funds checking of an liability source line
-     *
+     * Fixture method that returns a <code>{@link TargetAccountingLine}</code> for sufficient funds checking of an liability
+     * source line
+     * 
      * @return AccountingLineParameter
      */
     public final AccountingLineParameter getSufficientFundsCheckingTargetLiability() {
@@ -745,40 +730,46 @@ public class AuxiliaryVoucherDocumentRuleTest
     }
 
     /**
-     * Fixture method that returns a <code>{@link TargetAccountingLine}</code> 
-     * for sufficient funds checking of an income source line
-     *
+     * Fixture method that returns a <code>{@link TargetAccountingLine}</code> for sufficient funds checking of an income source
+     * line
+     * 
      * @return AccountingLineParameter
      */
     public final AccountingLineParameter getSufficientFundsCheckingTargetIncome() {
         return null;
     }
 
-    //////////////////////////////////////////////////////////////////////////
-    // Fixture methods end here                                             //
-    //////////////////////////////////////////////////////////////////////////
+    // ////////////////////////////////////////////////////////////////////////
+    // Fixture methods end here //
+    // ////////////////////////////////////////////////////////////////////////
 
-    //////////////////////////////////////////////////////////////////////////
-    // Test methods start here                                              //
-    //////////////////////////////////////////////////////////////////////////
-	/**
-	 * <code>{@link AuxiliaryVoucherDocumentRule}</code> always returns 
-	 * <code>true</code> for this, so there's really no reason to test it.
-	 * 
-	 * @see AuxiliaryVoucherDocumentRule#isObjectCodeAllowed(AccountingLine)
-	 */
-	public void testIsObjectCodeAllowed_InvalidObjectCode() {
-	}
-    
+    // ////////////////////////////////////////////////////////////////////////
+    // Test methods start here //
+    // ////////////////////////////////////////////////////////////////////////
+    /**
+     * <code>{@link AuxiliaryVoucherDocumentRule}</code> always returns <code>true</code> for this, so there's really no reason
+     * to test it.
+     * 
+     * @see AuxiliaryVoucherDocumentRule#isObjectCodeAllowed(AccountingLine)
+     */
+    public void testIsObjectCodeAllowed_InvalidObjectCode() {
+    }
+
     // These methods will need to be fixed in the future to yield more meaningful
     // results
-    public void testProcessGenerateGeneralLedgerPendingEntries_validSourceAsset() { }
-    public void testProcessGenerateGeneralLedgerPendingEntries_validTargetAsset() { }
-    public void testProcessGenerateGeneralLedgerPendingEntries_validSourceExpense() { }
-    public void testProcessGenerateGeneralLedgerPendingEntries_validTargetExpense() { }
-    
-    //////////////////////////////////////////////////////////////////////////
-    // Test methods end here                                                //
-    //////////////////////////////////////////////////////////////////////////
-}
+    public void testProcessGenerateGeneralLedgerPendingEntries_validSourceAsset() {
+    }
 
+    public void testProcessGenerateGeneralLedgerPendingEntries_validTargetAsset() {
+    }
+
+    public void testProcessGenerateGeneralLedgerPendingEntries_validSourceExpense() {
+    }
+
+    public void testProcessGenerateGeneralLedgerPendingEntries_validTargetExpense() {
+    }
+
+    // ////////////////////////////////////////////////////////////////////////
+    // Test methods end here //
+    // ////////////////////////////////////////////////////////////////////////
+}

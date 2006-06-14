@@ -34,186 +34,186 @@ import org.kuali.core.bo.BusinessObjectBase;
  */
 public class ProposalProjectDirector extends BusinessObjectBase {
 
-	private String personUniversalIdentifier;
-	private Long proposalNumber;
-	private String proposalProjectDirectorNote1Text;
-	private String proposalProjectDirectorNote2Text;
-	private String proposalProjectDirectorNote3Text;
-	private boolean proposalPrimaryProjectDirectorIndicator;
-	private String proposalProjectDirectorProjectTitle;
+    private String personUniversalIdentifier;
+    private Long proposalNumber;
+    private String proposalProjectDirectorNote1Text;
+    private String proposalProjectDirectorNote2Text;
+    private String proposalProjectDirectorNote3Text;
+    private boolean proposalPrimaryProjectDirectorIndicator;
+    private String proposalProjectDirectorProjectTitle;
 
     private ContractsAndGrantsProjectDirectorView personUniversal;
-    
-	/**
-	 * Default constructor.
-	 */
-	public ProposalProjectDirector() {
 
-	}
+    /**
+     * Default constructor.
+     */
+    public ProposalProjectDirector() {
 
-	/**
-	 * Gets the personUniversalIdentifier attribute.
-	 * 
-	 * @return - Returns the personUniversalIdentifier
-	 * 
-	 */
-	public String getPersonUniversalIdentifier() { 
-		return personUniversalIdentifier;
-	}
+    }
 
-	/**
-	 * Sets the personUniversalIdentifier attribute.
-	 * 
-	 * @param - personUniversalIdentifier The personUniversalIdentifier to set.
-	 * 
-	 */
-	public void setPersonUniversalIdentifier(String personUniversalIdentifier) {
-		this.personUniversalIdentifier = personUniversalIdentifier;
-	}
+    /**
+     * Gets the personUniversalIdentifier attribute.
+     * 
+     * @return - Returns the personUniversalIdentifier
+     * 
+     */
+    public String getPersonUniversalIdentifier() {
+        return personUniversalIdentifier;
+    }
 
-
-	/**
-	 * Gets the proposalNumber attribute.
-	 * 
-	 * @return - Returns the proposalNumber
-	 * 
-	 */
-	public Long getProposalNumber() { 
-		return proposalNumber;
-	}
-
-	/**
-	 * Sets the proposalNumber attribute.
-	 * 
-	 * @param - proposalNumber The proposalNumber to set.
-	 * 
-	 */
-	public void setProposalNumber(Long proposalNumber) {
-		this.proposalNumber = proposalNumber;
-	}
+    /**
+     * Sets the personUniversalIdentifier attribute.
+     * 
+     * @param - personUniversalIdentifier The personUniversalIdentifier to set.
+     * 
+     */
+    public void setPersonUniversalIdentifier(String personUniversalIdentifier) {
+        this.personUniversalIdentifier = personUniversalIdentifier;
+    }
 
 
-	/**
-	 * Gets the proposalProjectDirectorNote1Text attribute.
-	 * 
-	 * @return - Returns the proposalProjectDirectorNote1Text
-	 * 
-	 */
-	public String getProposalProjectDirectorNote1Text() { 
-		return proposalProjectDirectorNote1Text;
-	}
+    /**
+     * Gets the proposalNumber attribute.
+     * 
+     * @return - Returns the proposalNumber
+     * 
+     */
+    public Long getProposalNumber() {
+        return proposalNumber;
+    }
 
-	/**
-	 * Sets the proposalProjectDirectorNote1Text attribute.
-	 * 
-	 * @param - proposalProjectDirectorNote1Text The proposalProjectDirectorNote1Text to set.
-	 * 
-	 */
-	public void setProposalProjectDirectorNote1Text(String proposalProjectDirectorNote1Text) {
-		this.proposalProjectDirectorNote1Text = proposalProjectDirectorNote1Text;
-	}
-
-
-	/**
-	 * Gets the proposalProjectDirectorNote2Text attribute.
-	 * 
-	 * @return - Returns the proposalProjectDirectorNote2Text
-	 * 
-	 */
-	public String getProposalProjectDirectorNote2Text() { 
-		return proposalProjectDirectorNote2Text;
-	}
-
-	/**
-	 * Sets the proposalProjectDirectorNote2Text attribute.
-	 * 
-	 * @param - proposalProjectDirectorNote2Text The proposalProjectDirectorNote2Text to set.
-	 * 
-	 */
-	public void setProposalProjectDirectorNote2Text(String proposalProjectDirectorNote2Text) {
-		this.proposalProjectDirectorNote2Text = proposalProjectDirectorNote2Text;
-	}
+    /**
+     * Sets the proposalNumber attribute.
+     * 
+     * @param - proposalNumber The proposalNumber to set.
+     * 
+     */
+    public void setProposalNumber(Long proposalNumber) {
+        this.proposalNumber = proposalNumber;
+    }
 
 
-	/**
-	 * Gets the proposalProjectDirectorNote3Text attribute.
-	 * 
-	 * @return - Returns the proposalProjectDirectorNote3Text
-	 * 
-	 */
-	public String getProposalProjectDirectorNote3Text() { 
-		return proposalProjectDirectorNote3Text;
-	}
+    /**
+     * Gets the proposalProjectDirectorNote1Text attribute.
+     * 
+     * @return - Returns the proposalProjectDirectorNote1Text
+     * 
+     */
+    public String getProposalProjectDirectorNote1Text() {
+        return proposalProjectDirectorNote1Text;
+    }
 
-	/**
-	 * Sets the proposalProjectDirectorNote3Text attribute.
-	 * 
-	 * @param - proposalProjectDirectorNote3Text The proposalProjectDirectorNote3Text to set.
-	 * 
-	 */
-	public void setProposalProjectDirectorNote3Text(String proposalProjectDirectorNote3Text) {
-		this.proposalProjectDirectorNote3Text = proposalProjectDirectorNote3Text;
-	}
-
-
-	/**
-	 * Gets the proposalPrimaryProjectDirectorIndicator attribute.
-	 * 
-	 * @return - Returns the proposalPrimaryProjectDirectorIndicator
-	 * 
-	 */
-	public boolean isProposalPrimaryProjectDirectorIndicator() { 
-		return proposalPrimaryProjectDirectorIndicator;
-	}
-	
-
-	/**
-	 * Sets the proposalPrimaryProjectDirectorIndicator attribute.
-	 * 
-	 * @param - proposalPrimaryProjectDirectorIndicator The proposalPrimaryProjectDirectorIndicator to set.
-	 * 
-	 */
-	public void setProposalPrimaryProjectDirectorIndicator(boolean proposalPrimaryProjectDirectorIndicator) {
-		this.proposalPrimaryProjectDirectorIndicator = proposalPrimaryProjectDirectorIndicator;
-	}
+    /**
+     * Sets the proposalProjectDirectorNote1Text attribute.
+     * 
+     * @param - proposalProjectDirectorNote1Text The proposalProjectDirectorNote1Text to set.
+     * 
+     */
+    public void setProposalProjectDirectorNote1Text(String proposalProjectDirectorNote1Text) {
+        this.proposalProjectDirectorNote1Text = proposalProjectDirectorNote1Text;
+    }
 
 
-	/**
-	 * Gets the proposalProjectDirectorProjectTitle attribute.
-	 * 
-	 * @return - Returns the proposalProjectDirectorProjectTitle
-	 * 
-	 */
-	public String getProposalProjectDirectorProjectTitle() { 
-		return proposalProjectDirectorProjectTitle;
-	}
+    /**
+     * Gets the proposalProjectDirectorNote2Text attribute.
+     * 
+     * @return - Returns the proposalProjectDirectorNote2Text
+     * 
+     */
+    public String getProposalProjectDirectorNote2Text() {
+        return proposalProjectDirectorNote2Text;
+    }
 
-	/**
-	 * Sets the proposalProjectDirectorProjectTitle attribute.
-	 * 
-	 * @param - proposalProjectDirectorProjectTitle The proposalProjectDirectorProjectTitle to set.
-	 * 
-	 */
-	public void setProposalProjectDirectorProjectTitle(String proposalProjectDirectorProjectTitle) {
-		this.proposalProjectDirectorProjectTitle = proposalProjectDirectorProjectTitle;
-	}
+    /**
+     * Sets the proposalProjectDirectorNote2Text attribute.
+     * 
+     * @param - proposalProjectDirectorNote2Text The proposalProjectDirectorNote2Text to set.
+     * 
+     */
+    public void setProposalProjectDirectorNote2Text(String proposalProjectDirectorNote2Text) {
+        this.proposalProjectDirectorNote2Text = proposalProjectDirectorNote2Text;
+    }
+
+
+    /**
+     * Gets the proposalProjectDirectorNote3Text attribute.
+     * 
+     * @return - Returns the proposalProjectDirectorNote3Text
+     * 
+     */
+    public String getProposalProjectDirectorNote3Text() {
+        return proposalProjectDirectorNote3Text;
+    }
+
+    /**
+     * Sets the proposalProjectDirectorNote3Text attribute.
+     * 
+     * @param - proposalProjectDirectorNote3Text The proposalProjectDirectorNote3Text to set.
+     * 
+     */
+    public void setProposalProjectDirectorNote3Text(String proposalProjectDirectorNote3Text) {
+        this.proposalProjectDirectorNote3Text = proposalProjectDirectorNote3Text;
+    }
+
+
+    /**
+     * Gets the proposalPrimaryProjectDirectorIndicator attribute.
+     * 
+     * @return - Returns the proposalPrimaryProjectDirectorIndicator
+     * 
+     */
+    public boolean isProposalPrimaryProjectDirectorIndicator() {
+        return proposalPrimaryProjectDirectorIndicator;
+    }
+
+
+    /**
+     * Sets the proposalPrimaryProjectDirectorIndicator attribute.
+     * 
+     * @param - proposalPrimaryProjectDirectorIndicator The proposalPrimaryProjectDirectorIndicator to set.
+     * 
+     */
+    public void setProposalPrimaryProjectDirectorIndicator(boolean proposalPrimaryProjectDirectorIndicator) {
+        this.proposalPrimaryProjectDirectorIndicator = proposalPrimaryProjectDirectorIndicator;
+    }
+
+
+    /**
+     * Gets the proposalProjectDirectorProjectTitle attribute.
+     * 
+     * @return - Returns the proposalProjectDirectorProjectTitle
+     * 
+     */
+    public String getProposalProjectDirectorProjectTitle() {
+        return proposalProjectDirectorProjectTitle;
+    }
+
+    /**
+     * Sets the proposalProjectDirectorProjectTitle attribute.
+     * 
+     * @param - proposalProjectDirectorProjectTitle The proposalProjectDirectorProjectTitle to set.
+     * 
+     */
+    public void setProposalProjectDirectorProjectTitle(String proposalProjectDirectorProjectTitle) {
+        this.proposalProjectDirectorProjectTitle = proposalProjectDirectorProjectTitle;
+    }
 
     /**
      * @return Returns the personUniversal.
      */
     public ContractsAndGrantsProjectDirectorView getPersonUniversal() {
         return personUniversal;
-    }    
-    
-	/**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
+    }
+
+    /**
+     * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
         m.put("personUniversalIdentifier", this.personUniversalIdentifier);
         if (this.proposalNumber != null) {
             m.put("proposalNumber", this.proposalNumber.toString());
         }
-	    return m;
+        return m;
     }
 }

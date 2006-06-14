@@ -36,156 +36,156 @@ import org.kuali.module.chart.bo.Org;
  */
 public class AwardOrganization extends BusinessObjectBase {
 
-	private String chartOfAccountsCode;
-	private String organizationCode;
-	private Long proposalNumber;
-	private boolean awardPrimaryOrganizationIndicator;
+    private String chartOfAccountsCode;
+    private String organizationCode;
+    private Long proposalNumber;
+    private boolean awardPrimaryOrganizationIndicator;
 
     private Chart chartOfAccounts;
-	private Org organization;
+    private Org organization;
 
-	/**
-	 * Default constructor.
-	 */
-	public AwardOrganization() {
+    /**
+     * Default constructor.
+     */
+    public AwardOrganization() {
 
-	}
+    }
 
-	/**
-	 * Gets the chartOfAccountsCode attribute.
-	 * 
-	 * @return - Returns the chartOfAccountsCode
-	 * 
-	 */
-	public String getChartOfAccountsCode() { 
-		return chartOfAccountsCode;
-	}
+    /**
+     * Gets the chartOfAccountsCode attribute.
+     * 
+     * @return - Returns the chartOfAccountsCode
+     * 
+     */
+    public String getChartOfAccountsCode() {
+        return chartOfAccountsCode;
+    }
 
-	/**
-	 * Sets the chartOfAccountsCode attribute.
-	 * 
-	 * @param - chartOfAccountsCode The chartOfAccountsCode to set.
-	 * 
-	 */
-	public void setChartOfAccountsCode(String chartOfAccountsCode) {
-		this.chartOfAccountsCode = chartOfAccountsCode;
-	}
-
-
-	/**
-	 * Gets the organizationCode attribute.
-	 * 
-	 * @return - Returns the organizationCode
-	 * 
-	 */
-	public String getOrganizationCode() { 
-		return organizationCode;
-	}
-
-	/**
-	 * Sets the organizationCode attribute.
-	 * 
-	 * @param - organizationCode The organizationCode to set.
-	 * 
-	 */
-	public void setOrganizationCode(String organizationCode) {
-		this.organizationCode = organizationCode;
-	}
+    /**
+     * Sets the chartOfAccountsCode attribute.
+     * 
+     * @param - chartOfAccountsCode The chartOfAccountsCode to set.
+     * 
+     */
+    public void setChartOfAccountsCode(String chartOfAccountsCode) {
+        this.chartOfAccountsCode = chartOfAccountsCode;
+    }
 
 
-	/**
-	 * Gets the proposalNumber attribute.
-	 * 
-	 * @return - Returns the proposalNumber
-	 * 
-	 */
-	public Long getProposalNumber() { 
-		return proposalNumber;
-	}
+    /**
+     * Gets the organizationCode attribute.
+     * 
+     * @return - Returns the organizationCode
+     * 
+     */
+    public String getOrganizationCode() {
+        return organizationCode;
+    }
 
-	/**
-	 * Sets the proposalNumber attribute.
-	 * 
-	 * @param - proposalNumber The proposalNumber to set.
-	 * 
-	 */
-	public void setProposalNumber(Long proposalNumber) {
-		this.proposalNumber = proposalNumber;
-	}
-
-
-	/**
-	 * Gets the awardPrimaryOrganizationIndicator attribute.
-	 * 
-	 * @return - Returns the awardPrimaryOrganizationIndicator
-	 * 
-	 */
-	public boolean isAwardPrimaryOrganizationIndicator() { 
-		return awardPrimaryOrganizationIndicator;
-	}
-	
-
-	/**
-	 * Sets the awardPrimaryOrganizationIndicator attribute.
-	 * 
-	 * @param - awardPrimaryOrganizationIndicator The awardPrimaryOrganizationIndicator to set.
-	 * 
-	 */
-	public void setAwardPrimaryOrganizationIndicator(boolean awardPrimaryOrganizationIndicator) {
-		this.awardPrimaryOrganizationIndicator = awardPrimaryOrganizationIndicator;
-	}
+    /**
+     * Sets the organizationCode attribute.
+     * 
+     * @param - organizationCode The organizationCode to set.
+     * 
+     */
+    public void setOrganizationCode(String organizationCode) {
+        this.organizationCode = organizationCode;
+    }
 
 
-	/**
-	 * Gets the chartOfAccounts attribute.
-	 * 
-	 * @return - Returns the chartOfAccounts
-	 * 
-	 */
-	public Chart getChartOfAccounts() { 
-		return chartOfAccounts;
-	}
+    /**
+     * Gets the proposalNumber attribute.
+     * 
+     * @return - Returns the proposalNumber
+     * 
+     */
+    public Long getProposalNumber() {
+        return proposalNumber;
+    }
 
-	/**
-	 * Sets the chartOfAccounts attribute.
-	 * 
-	 * @param - chartOfAccounts The chartOfAccounts to set.
-	 * @deprecated
-	 */
-	public void setChartOfAccounts(Chart chartOfAccounts) {
-		this.chartOfAccounts = chartOfAccounts;
-	}
+    /**
+     * Sets the proposalNumber attribute.
+     * 
+     * @param - proposalNumber The proposalNumber to set.
+     * 
+     */
+    public void setProposalNumber(Long proposalNumber) {
+        this.proposalNumber = proposalNumber;
+    }
 
-	/**
-	 * Gets the organization attribute.
-	 * 
-	 * @return - Returns the organization
-	 * 
-	 */
-	public Org getOrganization() { 
-		return organization;
-	}
 
-	/**
-	 * Sets the organization attribute.
-	 * 
-	 * @param - organization The organization to set.
-	 * @deprecated
-	 */
-	public void setOrganization(Org organization) {
-		this.organization = organization;
-	}
+    /**
+     * Gets the awardPrimaryOrganizationIndicator attribute.
+     * 
+     * @return - Returns the awardPrimaryOrganizationIndicator
+     * 
+     */
+    public boolean isAwardPrimaryOrganizationIndicator() {
+        return awardPrimaryOrganizationIndicator;
+    }
 
-	/**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
+
+    /**
+     * Sets the awardPrimaryOrganizationIndicator attribute.
+     * 
+     * @param - awardPrimaryOrganizationIndicator The awardPrimaryOrganizationIndicator to set.
+     * 
+     */
+    public void setAwardPrimaryOrganizationIndicator(boolean awardPrimaryOrganizationIndicator) {
+        this.awardPrimaryOrganizationIndicator = awardPrimaryOrganizationIndicator;
+    }
+
+
+    /**
+     * Gets the chartOfAccounts attribute.
+     * 
+     * @return - Returns the chartOfAccounts
+     * 
+     */
+    public Chart getChartOfAccounts() {
+        return chartOfAccounts;
+    }
+
+    /**
+     * Sets the chartOfAccounts attribute.
+     * 
+     * @param - chartOfAccounts The chartOfAccounts to set.
+     * @deprecated
+     */
+    public void setChartOfAccounts(Chart chartOfAccounts) {
+        this.chartOfAccounts = chartOfAccounts;
+    }
+
+    /**
+     * Gets the organization attribute.
+     * 
+     * @return - Returns the organization
+     * 
+     */
+    public Org getOrganization() {
+        return organization;
+    }
+
+    /**
+     * Sets the organization attribute.
+     * 
+     * @param - organization The organization to set.
+     * @deprecated
+     */
+    public void setOrganization(Org organization) {
+        this.organization = organization;
+    }
+
+    /**
+     * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
         m.put("chartOfAccountsCode", this.chartOfAccountsCode);
         m.put("organizationCode", this.organizationCode);
         if (this.proposalNumber != null) {
             m.put("proposalNumber", this.proposalNumber.toString());
         }
-	    return m;
+        return m;
     }
 }

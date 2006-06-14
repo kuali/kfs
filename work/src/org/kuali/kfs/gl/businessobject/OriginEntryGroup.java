@@ -29,76 +29,87 @@ import org.kuali.core.bo.BusinessObjectBase;
 
 /**
  * @author jsissom
- * @version $Id: OriginEntryGroup.java,v 1.2 2006-01-27 16:28:05 jsissom Exp $
- *
+ * @version $Id: OriginEntryGroup.java,v 1.3 2006-06-14 12:26:42 abyrne Exp $
+ * 
  */
 
 public class OriginEntryGroup extends BusinessObjectBase {
-	static final private long serialVersionUID = 1l;
-  private Integer id;
-  private Date date;
-  private String sourceCode;
-  private Boolean valid;
-  private Boolean process;
-  private Boolean scrub;
+    static final private long serialVersionUID = 1l;
+    private Integer id;
+    private Date date;
+    private String sourceCode;
+    private Boolean valid;
+    private Boolean process;
+    private Boolean scrub;
 
-  private OriginEntrySource source;
+    private OriginEntrySource source;
 
-  /**
-   * 
-   */
-  public OriginEntryGroup() {
-    super();
-  }
+    /**
+     * 
+     */
+    public OriginEntryGroup() {
+        super();
+    }
 
-  protected LinkedHashMap toStringMapper() {
-    LinkedHashMap map = new LinkedHashMap();
-    map.put("id",id);
-    return map;
-  }
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap map = new LinkedHashMap();
+        map.put("id", id);
+        return map;
+    }
 
-  public OriginEntrySource getSource() {
-    return source;
-  }
+    public OriginEntrySource getSource() {
+        return source;
+    }
 
-  public void setSource(OriginEntrySource oes) {
-    source = oes;
-  }
+    public void setSource(OriginEntrySource oes) {
+        source = oes;
+    }
 
-  public Date getDate() {
-    return date;
-  }
-  public void setDate(Date date) {
-    this.date = date;
-  }
-  public Integer getId() {
-    return id;
-  }
-  public void setId(Integer id) {
-    this.id = id;
-  }
-  public Boolean getProcess() {
-    return process;
-  }
-  public void setProcess(Boolean process) {
-    this.process = process;
-  }
-  public Boolean getScrub() {
-    return scrub;
-  }
-  public void setScrub(Boolean scrub) {
-    this.scrub = scrub;
-  }
-  public String getSourceCode() {
-    return sourceCode;
-  }
-  public void setSourceCode(String sourceCode) {
-    this.sourceCode = sourceCode;
-  }
-  public Boolean getValid() {
-    return valid;
-  }
-  public void setValid(Boolean valid) {
-    this.valid = valid;
-  }
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Boolean getProcess() {
+        return process;
+    }
+
+    public void setProcess(Boolean process) {
+        this.process = process;
+    }
+
+    public Boolean getScrub() {
+        return scrub;
+    }
+
+    public void setScrub(Boolean scrub) {
+        this.scrub = scrub;
+    }
+
+    public String getSourceCode() {
+        return sourceCode;
+    }
+
+    public void setSourceCode(String sourceCode) {
+        this.sourceCode = sourceCode;
+    }
+
+    public Boolean getValid() {
+        return valid;
+    }
+
+    public void setValid(Boolean valid) {
+        this.valid = valid;
+    }
 }

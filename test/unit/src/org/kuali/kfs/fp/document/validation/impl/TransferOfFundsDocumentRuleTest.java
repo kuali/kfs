@@ -86,7 +86,7 @@ public class TransferOfFundsDocumentRuleTest extends TransactionalDocumentRuleTe
     public String[] getFixtureCollectionNames() {
         return FIXTURE_COLLECTION_NAMES;
     }
-    
+
     /**
      * @see KualiTestBaseWithSpring#isMockConfigurationServiceRequired()
      */
@@ -536,37 +536,30 @@ public class TransferOfFundsDocumentRuleTest extends TransactionalDocumentRuleTe
 
     public void testProcessGenerateGeneralLedgerPendingEntries_validSourceExpenseFlexibleOffset() throws Exception {
         SpringServiceLocator.getFlexibleOffsetAccountService().setKualiConfigurationService(createMockConfigurationService(true));
-        testProcessGenerateGeneralLedgerPendingEntries(createLineFromFixture("flexibleExpenseSourceLine"),
-                "expectedFlexibleExplicitSourcePendingEntryForExpense", "expectedFlexibleOffsetSourcePendingEntry");
+        testProcessGenerateGeneralLedgerPendingEntries(createLineFromFixture("flexibleExpenseSourceLine"), "expectedFlexibleExplicitSourcePendingEntryForExpense", "expectedFlexibleOffsetSourcePendingEntry");
     }
 
     public void testProcessGenerateGeneralLedgerPendingEntries_validSourceExpenseMissingOffsetDefinition() throws Exception {
         SpringServiceLocator.getFlexibleOffsetAccountService().setKualiConfigurationService(createMockConfigurationService(true));
-        testProcessGenerateGeneralLedgerPendingEntries(createDocumentFromParameter("tof2000documentParameter"),
-                createLineFromFixture("flexibleExpenseSourceLine"), "expectedFlexibleExplicitSourcePendingEntryForExpense",
-                "expectedFlexibleOffsetSourcePendingEntryMissingOffsetDefinition", false);
+        testProcessGenerateGeneralLedgerPendingEntries(createDocumentFromParameter("tof2000documentParameter"), createLineFromFixture("flexibleExpenseSourceLine"), "expectedFlexibleExplicitSourcePendingEntryForExpense", "expectedFlexibleOffsetSourcePendingEntryMissingOffsetDefinition", false);
         assertGlobalErrorMapContains(Constants.ACCOUNTING_LINE_ERRORS, KeyConstants.ERROR_DOCUMENT_NO_OFFSET_DEFINITION);
     }
 
 
     public void testProcessSourceAccountingLineSufficientFundsCheckingPreparation_isExpense_postive_lineAmount() {
-        SourceAccountingLine line = (SourceAccountingLine) getFixtureEntryFromCollection(COLLECTION_NAME,
-                SUFF_FUNDS_CHECKING_SOURCE_EXPENSE).createObject();
+        SourceAccountingLine line = (SourceAccountingLine) getFixtureEntryFromCollection(COLLECTION_NAME, SUFF_FUNDS_CHECKING_SOURCE_EXPENSE).createObject();
         line.setAmount(new KualiDecimal("3.0"));
 
         TransferOfFundsDocumentRule rule = new TransferOfFundsDocumentRule();
         SufficientFundsItem item = rule.processSourceAccountingLineSufficientFundsCheckingPreparation(null, line);
 
-        assertEquals(SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(
-                TransferOfFundsDocumentRuleConstants.KUALI_TRANSACTION_PROCESSING_TRANSFER_OF_FUNDS_SECURITY_GROUPING,
-                TransferOfFundsDocumentRuleConstants.TRANSFER_OF_FUNDS_EXPENSE_OBJECT_TYPE_CODE), item.getFinancialObjectTypeCode());
+        assertEquals(SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(TransferOfFundsDocumentRuleConstants.KUALI_TRANSACTION_PROCESSING_TRANSFER_OF_FUNDS_SECURITY_GROUPING, TransferOfFundsDocumentRuleConstants.TRANSFER_OF_FUNDS_EXPENSE_OBJECT_TYPE_CODE), item.getFinancialObjectTypeCode());
         assertEquals(Constants.GL_CREDIT_CODE, item.getDebitCreditCode());
         assertTrue(line.getAmount().equals(item.getAmount()));
     }
 
     public void testProcessSourceAccountingLineSufficientFundsCheckingPreparation_isAsset__negative_lineAmount() {
-        SourceAccountingLine line = (SourceAccountingLine) getFixtureEntryFromCollection(COLLECTION_NAME,
-                SUFF_FUNDS_CHECKING_SOURCE_ASSET).createObject();
+        SourceAccountingLine line = (SourceAccountingLine) getFixtureEntryFromCollection(COLLECTION_NAME, SUFF_FUNDS_CHECKING_SOURCE_ASSET).createObject();
         line.setAmount(new KualiDecimal("-3.0"));
 
         TransferOfFundsDocumentRule rule = new TransferOfFundsDocumentRule();
@@ -579,23 +572,19 @@ public class TransferOfFundsDocumentRuleTest extends TransactionalDocumentRuleTe
     }
 
     public void testProcessSourceAccountingLineSufficientFundsCheckingPreparation_isIncome_postive_lineAmount() {
-        SourceAccountingLine line = (SourceAccountingLine) getFixtureEntryFromCollection(COLLECTION_NAME,
-                SUFF_FUNDS_CHECKING_SOURCE_INCOME).createObject();
+        SourceAccountingLine line = (SourceAccountingLine) getFixtureEntryFromCollection(COLLECTION_NAME, SUFF_FUNDS_CHECKING_SOURCE_INCOME).createObject();
         line.setAmount(new KualiDecimal("3.0"));
 
         TransferOfFundsDocumentRule rule = new TransferOfFundsDocumentRule();
         SufficientFundsItem item = rule.processSourceAccountingLineSufficientFundsCheckingPreparation(null, line);
 
-        assertEquals(SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(
-                TransferOfFundsDocumentRuleConstants.KUALI_TRANSACTION_PROCESSING_TRANSFER_OF_FUNDS_SECURITY_GROUPING,
-                TransferOfFundsDocumentRuleConstants.TRANSFER_OF_FUNDS_INCOME_OBJECT_TYPE_CODE), item.getFinancialObjectTypeCode());
+        assertEquals(SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(TransferOfFundsDocumentRuleConstants.KUALI_TRANSACTION_PROCESSING_TRANSFER_OF_FUNDS_SECURITY_GROUPING, TransferOfFundsDocumentRuleConstants.TRANSFER_OF_FUNDS_INCOME_OBJECT_TYPE_CODE), item.getFinancialObjectTypeCode());
         assertEquals(Constants.GL_CREDIT_CODE, item.getDebitCreditCode());
         assertTrue(line.getAmount().equals(item.getAmount()));
     }
 
     public void testProcessSourceAccountingLineSufficientFundsCheckingPreparation_isLiability__negative_lineAmount() {
-        SourceAccountingLine line = (SourceAccountingLine) getFixtureEntryFromCollection(COLLECTION_NAME,
-                SUFF_FUNDS_CHECKING_SOURCE_LIABILITY).createObject();
+        SourceAccountingLine line = (SourceAccountingLine) getFixtureEntryFromCollection(COLLECTION_NAME, SUFF_FUNDS_CHECKING_SOURCE_LIABILITY).createObject();
         line.setAmount(new KualiDecimal("-3.0"));
 
         TransferOfFundsDocumentRule rule = new TransferOfFundsDocumentRule();
@@ -608,23 +597,19 @@ public class TransferOfFundsDocumentRuleTest extends TransactionalDocumentRuleTe
     }
 
     public void testProcessTargetAccountingLineSufficientFundsCheckingPreparation_isExpense_postive_lineAmount() {
-        TargetAccountingLine line = (TargetAccountingLine) getFixtureEntryFromCollection(COLLECTION_NAME,
-                SUFF_FUNDS_CHECKING_TARGET_EXPENSE).createObject();
+        TargetAccountingLine line = (TargetAccountingLine) getFixtureEntryFromCollection(COLLECTION_NAME, SUFF_FUNDS_CHECKING_TARGET_EXPENSE).createObject();
         line.setAmount(new KualiDecimal("3.0"));
 
         TransferOfFundsDocumentRule rule = new TransferOfFundsDocumentRule();
         SufficientFundsItem item = rule.processTargetAccountingLineSufficientFundsCheckingPreparation(null, line);
 
-        assertEquals(SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(
-                TransferOfFundsDocumentRuleConstants.KUALI_TRANSACTION_PROCESSING_TRANSFER_OF_FUNDS_SECURITY_GROUPING,
-                TransferOfFundsDocumentRuleConstants.TRANSFER_OF_FUNDS_EXPENSE_OBJECT_TYPE_CODE), item.getFinancialObjectTypeCode());
+        assertEquals(SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(TransferOfFundsDocumentRuleConstants.KUALI_TRANSACTION_PROCESSING_TRANSFER_OF_FUNDS_SECURITY_GROUPING, TransferOfFundsDocumentRuleConstants.TRANSFER_OF_FUNDS_EXPENSE_OBJECT_TYPE_CODE), item.getFinancialObjectTypeCode());
         assertEquals(Constants.GL_DEBIT_CODE, item.getDebitCreditCode());
         assertTrue(line.getAmount().equals(item.getAmount()));
     }
 
     public void testProcessTargetAccountingLineSufficientFundsCheckingPreparation_isAsset__negative_lineAmount() {
-        TargetAccountingLine line = (TargetAccountingLine) getFixtureEntryFromCollection(COLLECTION_NAME,
-                SUFF_FUNDS_CHECKING_TARGET_ASSET).createObject();
+        TargetAccountingLine line = (TargetAccountingLine) getFixtureEntryFromCollection(COLLECTION_NAME, SUFF_FUNDS_CHECKING_TARGET_ASSET).createObject();
         line.setAmount(new KualiDecimal("-3.0"));
 
         TransferOfFundsDocumentRule rule = new TransferOfFundsDocumentRule();
@@ -637,23 +622,19 @@ public class TransferOfFundsDocumentRuleTest extends TransactionalDocumentRuleTe
     }
 
     public void testProcessTargetAccountingLineSufficientFundsCheckingPreparation_isIncome_postive_lineAmount() {
-        TargetAccountingLine line = (TargetAccountingLine) getFixtureEntryFromCollection(COLLECTION_NAME,
-                SUFF_FUNDS_CHECKING_TARGET_INCOME).createObject();
+        TargetAccountingLine line = (TargetAccountingLine) getFixtureEntryFromCollection(COLLECTION_NAME, SUFF_FUNDS_CHECKING_TARGET_INCOME).createObject();
         line.setAmount(new KualiDecimal("3.0"));
 
         TransferOfFundsDocumentRule rule = new TransferOfFundsDocumentRule();
         SufficientFundsItem item = rule.processTargetAccountingLineSufficientFundsCheckingPreparation(null, line);
 
-        assertEquals(SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(
-                TransferOfFundsDocumentRuleConstants.KUALI_TRANSACTION_PROCESSING_TRANSFER_OF_FUNDS_SECURITY_GROUPING,
-                TransferOfFundsDocumentRuleConstants.TRANSFER_OF_FUNDS_INCOME_OBJECT_TYPE_CODE), item.getFinancialObjectTypeCode());
+        assertEquals(SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(TransferOfFundsDocumentRuleConstants.KUALI_TRANSACTION_PROCESSING_TRANSFER_OF_FUNDS_SECURITY_GROUPING, TransferOfFundsDocumentRuleConstants.TRANSFER_OF_FUNDS_INCOME_OBJECT_TYPE_CODE), item.getFinancialObjectTypeCode());
         assertEquals(Constants.GL_DEBIT_CODE, item.getDebitCreditCode());
         assertTrue(line.getAmount().equals(item.getAmount()));
     }
 
     public void testProcessTargetAccountingLineSufficientFundsCheckingPreparation_isLiability__negative_lineAmount() {
-        TargetAccountingLine line = (TargetAccountingLine) getFixtureEntryFromCollection(COLLECTION_NAME,
-                SUFF_FUNDS_CHECKING_TARGET_LIABILITY).createObject();
+        TargetAccountingLine line = (TargetAccountingLine) getFixtureEntryFromCollection(COLLECTION_NAME, SUFF_FUNDS_CHECKING_TARGET_LIABILITY).createObject();
         line.setAmount(new KualiDecimal("-3.0"));
 
         TransferOfFundsDocumentRule rule = new TransferOfFundsDocumentRule();

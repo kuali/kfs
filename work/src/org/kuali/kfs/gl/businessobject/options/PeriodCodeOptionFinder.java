@@ -33,6 +33,7 @@ import org.kuali.module.gl.web.Constant;
 
 /**
  * This class...
+ * 
  * @author Bin Gao from Michigan State University
  */
 public class GLPeriodCodeOptionFinder extends KeyValuesBase implements ValueFinder {
@@ -54,22 +55,22 @@ public class GLPeriodCodeOptionFinder extends KeyValuesBase implements ValueFind
         labels.add(new KeyLabelPair(Constant.MONTH2, Constant.MONTH2));
         labels.add(new KeyLabelPair(Constant.MONTH3, Constant.MONTH3));
         labels.add(new KeyLabelPair(Constant.MONTH4, Constant.MONTH4));
-        
+
         labels.add(new KeyLabelPair(Constant.MONTH5, Constant.MONTH5));
         labels.add(new KeyLabelPair(Constant.MONTH6, Constant.MONTH6));
         labels.add(new KeyLabelPair(Constant.MONTH7, Constant.MONTH7));
         labels.add(new KeyLabelPair(Constant.MONTH8, Constant.MONTH8));
-        
+
         labels.add(new KeyLabelPair(Constant.MONTH9, Constant.MONTH9));
         labels.add(new KeyLabelPair(Constant.MONTH10, Constant.MONTH10));
         labels.add(new KeyLabelPair(Constant.MONTH11, Constant.MONTH11));
         labels.add(new KeyLabelPair(Constant.MONTH12, Constant.MONTH12));
-        
+
         labels.add(new KeyLabelPair(Constant.MONTH13, Constant.MONTH13));
         labels.add(new KeyLabelPair(Constant.ANNUAL_BALNCE, Constant.ANNUAL_BALNCE));
-        labels.add(new KeyLabelPair(Constant.BEGINNING_BALNCE, Constant.BEGINNING_BALNCE));        
-        labels.add(new KeyLabelPair(Constant.CG_BEGINNING_BALNCE, Constant.CG_BEGINNING_BALNCE)); 
-        
+        labels.add(new KeyLabelPair(Constant.BEGINNING_BALNCE, Constant.BEGINNING_BALNCE));
+        labels.add(new KeyLabelPair(Constant.CG_BEGINNING_BALNCE, Constant.CG_BEGINNING_BALNCE));
+
         return labels;
     }
 

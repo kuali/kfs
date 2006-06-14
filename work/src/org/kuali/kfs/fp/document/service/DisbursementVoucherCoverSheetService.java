@@ -22,6 +22,5 @@ public interface DisbursementVoucherCoverSheetService {
      * @param document
      * @param outputStream
      */
-    public void generateDisbursementVoucherCoverSheet(String templateDirectory, String templateName,
-            DisbursementVoucherDocument document, OutputStream outputStream) throws DocumentException, IOException;
+    public void generateDisbursementVoucherCoverSheet(String templateDirectory, String templateName, DisbursementVoucherDocument document, OutputStream outputStream) throws DocumentException, IOException;
 }

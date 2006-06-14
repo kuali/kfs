@@ -33,44 +33,48 @@ public class OriginEntryOffsetPair {
     private OriginEntry entry;
     private OriginEntry offset;
     private boolean fatalErrorFlag;
-    
+
     /**
      * @return Returns the fatalErrorFlag.
      */
     public boolean isFatalErrorFlag() {
         return fatalErrorFlag;
     }
+
     /**
      * @param fatalErrorFlag The fatalErrorFlag to set.
      */
     public void setFatalErrorFlag(boolean fatalErrorFlag) {
         this.fatalErrorFlag = fatalErrorFlag;
     }
+
     /**
      * @return Returns the entry.
      */
     public OriginEntry getEntry() {
         return entry;
     }
+
     /**
      * @param entry The entry to set.
      */
     public void setEntry(OriginEntry entry) {
         this.entry = entry;
     }
+
     /**
      * @return Returns the offset.
      */
     public OriginEntry getOffset() {
         return offset;
     }
+
     /**
      * @param offset The offset to set.
      */
     public void setOffset(OriginEntry offset) {
         this.offset = offset;
     }
-    
-    
+
 
 }

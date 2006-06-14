@@ -30,21 +30,38 @@ import org.kuali.module.gl.service.impl.scrubber.Message;
 
 public interface ScrubberValidator {
     public List<Message> validateTransaction(OriginEntry originEntry, OriginEntry scrubbedEntry, UniversityDate universityRunDate);
+
     public Message validateAccount(OriginEntry originEntry, OriginEntry scrubbedEntry, UniversityDate universityRunDate);
+
     public Message validateBalanceType(OriginEntry originEntry, OriginEntry scrubbedEntry);
+
     public Message validateChart(OriginEntry originEntry, OriginEntry scrubbedEntry);
+
     public Message validateDocumentNumber(OriginEntry originEntry, OriginEntry scrubbedEntry);
+
     public Message validateDocumentType(OriginEntry originEntry, OriginEntry scrubbedEntry);
-    public Message validateFiscalYear(OriginEntry originEntry, OriginEntry scrubbedEntry,UniversityDate universityRunDate);
+
+    public Message validateFiscalYear(OriginEntry originEntry, OriginEntry scrubbedEntry, UniversityDate universityRunDate);
+
     public Message validateObjectCode(OriginEntry originEntry, OriginEntry scrubbedEntry);
+
     public Message validateObjectType(OriginEntry originEntry, OriginEntry scrubbedEntry);
+
     public Message validateOrigination(OriginEntry originEntry, OriginEntry scrubbedEntry);
+
     public Message validateProjectCode(OriginEntry originEntry, OriginEntry scrubbedEntry);
+
     public Message validateReferenceDocumentFields(OriginEntry originEntry, OriginEntry scrubbedEntry);
+
     public Message validateReversalDate(OriginEntry originEntry, OriginEntry scrubbedEntry);
+
     public Message validateSubAccount(OriginEntry originEntry, OriginEntry scrubbedEntry);
+
     public Message validateSubObjectCode(OriginEntry originEntry, OriginEntry scrubbedEntry);
+
     public Message validateTransactionAmount(OriginEntry originEntry, OriginEntry scrubbedEntry);
+
     public Message validateTransactionDate(OriginEntry originEntry, OriginEntry scrubbedEntry, UniversityDate universityRunDate);
+
     public Message validateUniversityFiscalPeriodCode(OriginEntry originEntry, OriginEntry scrubbedEntry, UniversityDate universityRunDate);
 }

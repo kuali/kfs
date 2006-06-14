@@ -29,26 +29,24 @@ import org.kuali.module.gl.bo.Transaction;
 
 /**
  * @author jsissom
- *
+ * 
  */
 public interface EncumbranceCalculator {
-  /**
-   * This method is used by the balance inquiry screens.  It will take a list of
-   * selected encumbrances and a pending entry.  It will return the Encumbrance
-   * row that is affected by the transaction.
-   * 
-   * @param encumbranceList list of Encumbrance objects
-   * @param t A transaction
-   * @return the matching Encumbrance from the list or null if not applicable
-   */
-  public Encumbrance findEncumbrance(Collection encumbranceList, Transaction t);
+    /**
+     * This method is used by the balance inquiry screens. It will take a list of selected encumbrances and a pending entry. It will
+     * return the Encumbrance row that is affected by the transaction.
+     * 
+     * @param encumbranceList list of Encumbrance objects
+     * @param t A transaction
+     * @return the matching Encumbrance from the list or null if not applicable
+     */
+    public Encumbrance findEncumbrance(Collection encumbranceList, Transaction t);
 
-  /**
-   * This will update the amounts in an Encumbrance records based on the data
-   * in the transaction.
-   * 
-   * @param t the transaction to compare
-   * @param enc An encumbrance to update
-   */
-  public void updateEncumbrance(Transaction t, Encumbrance enc);
+    /**
+     * This will update the amounts in an Encumbrance records based on the data in the transaction.
+     * 
+     * @param t the transaction to compare
+     * @param enc An encumbrance to update
+     */
+    public void updateEncumbrance(Transaction t, Encumbrance enc);
 }

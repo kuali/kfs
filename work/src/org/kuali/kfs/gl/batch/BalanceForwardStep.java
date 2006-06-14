@@ -30,33 +30,37 @@ import org.kuali.module.gl.batch.closing.year.service.YearEndService;
  * @version $Id$
  */
 public class BalanceForwardStep implements Step {
-    
+
     private YearEndService yearEndService;
-    
+
     public BalanceForwardStep() {
         super();
     }
-    
-    /* (non-Javadoc)
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.kuali.core.batch.Step#getName()
      */
     public String getName() {
         return "General Ledger Balance Forward Step";
     }
-    
-    /* (non-Javadoc)
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.kuali.core.batch.Step#performStep()
      */
     public boolean performStep() {
         yearEndService.forwardBalances();
         return true;
     }
-    
+
     /**
      * @param yearEndService The yearEndService to set.
      */
     public void setYearEndService(YearEndService yearEndService) {
         this.yearEndService = yearEndService;
     }
-    
+
 }

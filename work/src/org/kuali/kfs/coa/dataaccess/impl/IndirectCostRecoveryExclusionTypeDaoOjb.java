@@ -31,27 +31,30 @@ import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 /**
  * @author jsissom
- *
+ * 
  */
 public class IndirectCostRecoveryExclusionTypeDaoOjb extends PersistenceBrokerDaoSupport implements IndirectCostRecoveryExclusionTypeDao {
-  private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(IndirectCostRecoveryExclusionTypeDaoOjb.class);
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(IndirectCostRecoveryExclusionTypeDaoOjb.class);
 
-  public IndirectCostRecoveryExclusionTypeDaoOjb() {
-    super();
-  }
+    public IndirectCostRecoveryExclusionTypeDaoOjb() {
+        super();
+    }
 
-  /* (non-Javadoc)
-   * @see org.kuali.module.gl.dao.IndirectCostRecoveryExclusionTypeDao#getByPrimaryKey(java.lang.String, java.lang.String, java.lang.String)
-   */
-  public IndirectCostRecoveryExclusionType getByPrimaryKey(String accountIndirectCostRecoveryTypeCode, String chartOfAccountsCode, String objectCode) {
-    LOG.debug("getByPrimaryKey() started");
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.kuali.module.gl.dao.IndirectCostRecoveryExclusionTypeDao#getByPrimaryKey(java.lang.String, java.lang.String,
+     *      java.lang.String)
+     */
+    public IndirectCostRecoveryExclusionType getByPrimaryKey(String accountIndirectCostRecoveryTypeCode, String chartOfAccountsCode, String objectCode) {
+        LOG.debug("getByPrimaryKey() started");
 
-    Criteria crit = new Criteria();
-    crit.addEqualTo("accountIndirectCostRecoveryTypeCode",accountIndirectCostRecoveryTypeCode);
-    crit.addEqualTo("chartOfAccountsCode",chartOfAccountsCode);
-    crit.addEqualTo("financialObjectCode",objectCode);
+        Criteria crit = new Criteria();
+        crit.addEqualTo("accountIndirectCostRecoveryTypeCode", accountIndirectCostRecoveryTypeCode);
+        crit.addEqualTo("chartOfAccountsCode", chartOfAccountsCode);
+        crit.addEqualTo("financialObjectCode", objectCode);
 
-    QueryByCriteria qbc = QueryFactory.newQuery(IndirectCostRecoveryExclusionType.class,crit);
-    return (IndirectCostRecoveryExclusionType)getPersistenceBrokerTemplate().getObjectByQuery(qbc);
-  }
+        QueryByCriteria qbc = QueryFactory.newQuery(IndirectCostRecoveryExclusionType.class, crit);
+        return (IndirectCostRecoveryExclusionType) getPersistenceBrokerTemplate().getObjectByQuery(qbc);
+    }
 }

@@ -34,64 +34,64 @@ import org.kuali.core.bo.BusinessObjectBase;
  */
 public class ProposalAwardType extends BusinessObjectBase {
 
-	private String proposalAwardTypeCode;
-	private String proposalAwardTypeDescription;
+    private String proposalAwardTypeCode;
+    private String proposalAwardTypeDescription;
 
-	/**
-	 * Default constructor.
-	 */
-	public ProposalAwardType() {
+    /**
+     * Default constructor.
+     */
+    public ProposalAwardType() {
 
-	}
+    }
 
-	/**
-	 * Gets the proposalAwardTypeCode attribute.
-	 * 
-	 * @return - Returns the proposalAwardTypeCode
-	 * 
-	 */
-	public String getProposalAwardTypeCode() { 
-		return proposalAwardTypeCode;
-	}
+    /**
+     * Gets the proposalAwardTypeCode attribute.
+     * 
+     * @return - Returns the proposalAwardTypeCode
+     * 
+     */
+    public String getProposalAwardTypeCode() {
+        return proposalAwardTypeCode;
+    }
 
-	/**
-	 * Sets the proposalAwardTypeCode attribute.
-	 * 
-	 * @param - proposalAwardTypeCode The proposalAwardTypeCode to set.
-	 * 
-	 */
-	public void setProposalAwardTypeCode(String proposalAwardTypeCode) {
-		this.proposalAwardTypeCode = proposalAwardTypeCode;
-	}
-
-
-	/**
-	 * Gets the proposalAwardTypeDescription attribute.
-	 * 
-	 * @return - Returns the proposalAwardTypeDescription
-	 * 
-	 */
-	public String getProposalAwardTypeDescription() { 
-		return proposalAwardTypeDescription;
-	}
-
-	/**
-	 * Sets the proposalAwardTypeDescription attribute.
-	 * 
-	 * @param - proposalAwardTypeDescription The proposalAwardTypeDescription to set.
-	 * 
-	 */
-	public void setProposalAwardTypeDescription(String proposalAwardTypeDescription) {
-		this.proposalAwardTypeDescription = proposalAwardTypeDescription;
-	}
+    /**
+     * Sets the proposalAwardTypeCode attribute.
+     * 
+     * @param - proposalAwardTypeCode The proposalAwardTypeCode to set.
+     * 
+     */
+    public void setProposalAwardTypeCode(String proposalAwardTypeCode) {
+        this.proposalAwardTypeCode = proposalAwardTypeCode;
+    }
 
 
-	/**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
+    /**
+     * Gets the proposalAwardTypeDescription attribute.
+     * 
+     * @return - Returns the proposalAwardTypeDescription
+     * 
+     */
+    public String getProposalAwardTypeDescription() {
+        return proposalAwardTypeDescription;
+    }
+
+    /**
+     * Sets the proposalAwardTypeDescription attribute.
+     * 
+     * @param - proposalAwardTypeDescription The proposalAwardTypeDescription to set.
+     * 
+     */
+    public void setProposalAwardTypeDescription(String proposalAwardTypeDescription) {
+        this.proposalAwardTypeDescription = proposalAwardTypeDescription;
+    }
+
+
+    /**
+     * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
         m.put("proposalAwardTypeCode", this.proposalAwardTypeCode);
-	    return m;
+        return m;
     }
 }

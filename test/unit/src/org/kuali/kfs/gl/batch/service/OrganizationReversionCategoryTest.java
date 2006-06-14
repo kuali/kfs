@@ -37,179 +37,179 @@ public class OrganizationReversionCategoryTest extends KualiTestBaseWithSpringOn
 
     private BeanFactory beanFactory;
     private OrganizationReversionService organizationReversionService;
-    private Map<String,OrganizationReversionCategoryLogic> categories;
+    private Map<String, OrganizationReversionCategoryLogic> categories;
     private ObjectCodeService objectCodeService;
 
     public void setUp() throws Exception {
         super.setUp();
 
         beanFactory = SpringServiceLocator.getBeanFactory();
-        organizationReversionService = (OrganizationReversionService)beanFactory.getBean("organizationReversionService");
+        organizationReversionService = (OrganizationReversionService) beanFactory.getBean("organizationReversionService");
         categories = organizationReversionService.getCategories();
         objectCodeService = SpringServiceLocator.getObjectCodeService();
     }
 
     public void testC01Reversion() {
         String category = "C01";
-        OrganizationReversionCategoryLogic cat = (OrganizationReversionCategoryLogic)categories.get(category);
-        assertNotNull("Category not found",cat);
+        OrganizationReversionCategoryLogic cat = (OrganizationReversionCategoryLogic) categories.get(category);
+        assertNotNull("Category not found", cat);
 
-        ObjectCode se = objectCodeService.getByPrimaryId(new Integer(2004), "BL","5000");
-        assertNotNull("S&E Object code should exist",se);
+        ObjectCode se = objectCodeService.getByPrimaryId(new Integer(2004), "BL", "5000");
+        assertNotNull("S&E Object code should exist", se);
 
-        assertFalse("S&E is not wages",cat.containsObjectCode(se));
+        assertFalse("S&E is not wages", cat.containsObjectCode(se));
 
         ObjectCode wages = objectCodeService.getByPrimaryId(new Integer(2004), "BL", "3854");
-        assertNotNull("Wages Object code should exist",wages);
+        assertNotNull("Wages Object code should exist", wages);
 
-        assertTrue("Wages object is wages",cat.containsObjectCode(wages));
+        assertTrue("Wages object is wages", cat.containsObjectCode(wages));
     }
 
     public void testC02Reversion() {
         String category = "C02";
-        OrganizationReversionCategoryLogic cat = (OrganizationReversionCategoryLogic)categories.get(category);
-        assertNotNull("Category not found",cat);
+        OrganizationReversionCategoryLogic cat = (OrganizationReversionCategoryLogic) categories.get(category);
+        assertNotNull("Category not found", cat);
 
-        ObjectCode se = objectCodeService.getByPrimaryId(new Integer(2004), "BL","5000");
-        assertNotNull("S&E Object code should exist",se);
+        ObjectCode se = objectCodeService.getByPrimaryId(new Integer(2004), "BL", "5000");
+        assertNotNull("S&E Object code should exist", se);
 
-        assertFalse("S&E is not salary/fringes",cat.containsObjectCode(se));
+        assertFalse("S&E is not salary/fringes", cat.containsObjectCode(se));
 
         ObjectCode wages = objectCodeService.getByPrimaryId(new Integer(2004), "BL", "3854");
-        assertNotNull("Wages Object code should exist",wages);
+        assertNotNull("Wages Object code should exist", wages);
 
-        assertFalse("Wages object is not salary/fringes",cat.containsObjectCode(wages));
+        assertFalse("Wages object is not salary/fringes", cat.containsObjectCode(wages));
 
         ObjectCode sal = objectCodeService.getByPrimaryId(new Integer(2004), "BL", "2000");
-        assertNotNull("Salary Object code should exist",sal);
+        assertNotNull("Salary Object code should exist", sal);
 
-        assertTrue("Wages object is salary/fringes",cat.containsObjectCode(sal));
+        assertTrue("Wages object is salary/fringes", cat.containsObjectCode(sal));
     }
 
     public void testC03Reversion() {
         String category = "C03";
-        OrganizationReversionCategoryLogic cat = (OrganizationReversionCategoryLogic)categories.get(category);
-        assertNotNull("Category not found",cat);
+        OrganizationReversionCategoryLogic cat = (OrganizationReversionCategoryLogic) categories.get(category);
+        assertNotNull("Category not found", cat);
 
-        ObjectCode se = objectCodeService.getByPrimaryId(new Integer(2004), "BL","5000");
-        assertNotNull("S&E Object code should exist",se);
+        ObjectCode se = objectCodeService.getByPrimaryId(new Integer(2004), "BL", "5000");
+        assertNotNull("S&E Object code should exist", se);
 
-        assertFalse("S&E is not financial aid",cat.containsObjectCode(se));
+        assertFalse("S&E is not financial aid", cat.containsObjectCode(se));
 
         ObjectCode fr = objectCodeService.getByPrimaryId(new Integer(2004), "BL", "5885");
-        assertNotNull("Fee Remission Object code should exist",fr);
+        assertNotNull("Fee Remission Object code should exist", fr);
 
-        assertTrue("Fee Remission object is financial aid",cat.containsObjectCode(fr));
+        assertTrue("Fee Remission object is financial aid", cat.containsObjectCode(fr));
     }
 
     public void testC04Reversion() {
         String category = "C04";
-        OrganizationReversionCategoryLogic cat = (OrganizationReversionCategoryLogic)categories.get(category);
-        assertNotNull("Category not found",cat);
+        OrganizationReversionCategoryLogic cat = (OrganizationReversionCategoryLogic) categories.get(category);
+        assertNotNull("Category not found", cat);
 
-        ObjectCode se = objectCodeService.getByPrimaryId(new Integer(2004), "BL","5000");
-        assertNotNull("S&E Object code should exist",se);
+        ObjectCode se = objectCodeService.getByPrimaryId(new Integer(2004), "BL", "5000");
+        assertNotNull("S&E Object code should exist", se);
 
-        assertFalse("S&E is not capital equipment",cat.containsObjectCode(se));
+        assertFalse("S&E is not capital equipment", cat.containsObjectCode(se));
 
         ObjectCode ce = objectCodeService.getByPrimaryId(new Integer(2004), "BL", "7677");
-        assertNotNull("Capital Equip Object code should exist",ce);
+        assertNotNull("Capital Equip Object code should exist", ce);
 
-        assertTrue("Art object is capital equipment",cat.containsObjectCode(ce));
+        assertTrue("Art object is capital equipment", cat.containsObjectCode(ce));
     }
 
     public void testC05Reversion() {
         String category = "C05";
-        OrganizationReversionCategoryLogic cat = (OrganizationReversionCategoryLogic)categories.get(category);
-        assertNotNull("Category not found",cat);
+        OrganizationReversionCategoryLogic cat = (OrganizationReversionCategoryLogic) categories.get(category);
+        assertNotNull("Category not found", cat);
 
-        ObjectCode se = objectCodeService.getByPrimaryId(new Integer(2004), "BL","5000");
-        assertNotNull("S&E Object code should exist",se);
+        ObjectCode se = objectCodeService.getByPrimaryId(new Integer(2004), "BL", "5000");
+        assertNotNull("S&E Object code should exist", se);
 
-        assertFalse("S&E is not reserve",cat.containsObjectCode(se));
+        assertFalse("S&E is not reserve", cat.containsObjectCode(se));
         // TODO True test
     }
 
     public void testC06Reversion() {
         String category = "C06";
-        OrganizationReversionCategoryLogic cat = (OrganizationReversionCategoryLogic)categories.get(category);
-        assertNotNull("Category not found",cat);
+        OrganizationReversionCategoryLogic cat = (OrganizationReversionCategoryLogic) categories.get(category);
+        assertNotNull("Category not found", cat);
 
-        ObjectCode se = objectCodeService.getByPrimaryId(new Integer(2004), "BL","5000");
-        assertNotNull("S&E Object code should exist",se);
+        ObjectCode se = objectCodeService.getByPrimaryId(new Integer(2004), "BL", "5000");
+        assertNotNull("S&E Object code should exist", se);
 
-        assertFalse("S&E is not transfer out",cat.containsObjectCode(se));
+        assertFalse("S&E is not transfer out", cat.containsObjectCode(se));
         // TODO True test
     }
 
     public void testC07Reversion() {
         String category = "C07";
-        OrganizationReversionCategoryLogic cat = (OrganizationReversionCategoryLogic)categories.get(category);
-        assertNotNull("Category not found",cat);
+        OrganizationReversionCategoryLogic cat = (OrganizationReversionCategoryLogic) categories.get(category);
+        assertNotNull("Category not found", cat);
 
-        ObjectCode se = objectCodeService.getByPrimaryId(new Integer(2004), "BL","5000");
-        assertNotNull("S&E Object code should exist",se);
+        ObjectCode se = objectCodeService.getByPrimaryId(new Integer(2004), "BL", "5000");
+        assertNotNull("S&E Object code should exist", se);
 
-        assertFalse("S&E is not transfer in",cat.containsObjectCode(se));
+        assertFalse("S&E is not transfer in", cat.containsObjectCode(se));
         // TODO True test
     }
 
     public void testC08Reversion() {
         String category = "C08";
-        OrganizationReversionCategoryLogic cat = (OrganizationReversionCategoryLogic)categories.get(category);
-        assertNotNull("Category not found",cat);
+        OrganizationReversionCategoryLogic cat = (OrganizationReversionCategoryLogic) categories.get(category);
+        assertNotNull("Category not found", cat);
 
-        ObjectCode se = objectCodeService.getByPrimaryId(new Integer(2004), "BL","5000");
-        assertNotNull("S&E Object code should exist",se);
+        ObjectCode se = objectCodeService.getByPrimaryId(new Integer(2004), "BL", "5000");
+        assertNotNull("S&E Object code should exist", se);
 
-        assertFalse("S&E is not travel",cat.containsObjectCode(se));
+        assertFalse("S&E is not travel", cat.containsObjectCode(se));
         // TODO True test
     }
 
     public void testC09Reversion() {
         String category = "C09";
-        OrganizationReversionCategoryLogic cat = (OrganizationReversionCategoryLogic)categories.get(category);
-        assertNotNull("Category not found",cat);
+        OrganizationReversionCategoryLogic cat = (OrganizationReversionCategoryLogic) categories.get(category);
+        assertNotNull("Category not found", cat);
 
-        ObjectCode se = objectCodeService.getByPrimaryId(new Integer(2004), "BL","5000");
-        assertNotNull("S&E Object code should exist",se);
+        ObjectCode se = objectCodeService.getByPrimaryId(new Integer(2004), "BL", "5000");
+        assertNotNull("S&E Object code should exist", se);
 
-        assertTrue("S&E is S&E",cat.containsObjectCode(se));
+        assertTrue("S&E is S&E", cat.containsObjectCode(se));
         // TODO False test
     }
 
     public void testC10Reversion() {
         String category = "C10";
-        OrganizationReversionCategoryLogic cat = (OrganizationReversionCategoryLogic)categories.get(category);
-        assertNotNull("Category not found",cat);
+        OrganizationReversionCategoryLogic cat = (OrganizationReversionCategoryLogic) categories.get(category);
+        assertNotNull("Category not found", cat);
 
-        ObjectCode se = objectCodeService.getByPrimaryId(new Integer(2004), "BL","5000");
-        assertNotNull("S&E Object code should exist",se);
+        ObjectCode se = objectCodeService.getByPrimaryId(new Integer(2004), "BL", "5000");
+        assertNotNull("S&E Object code should exist", se);
 
-        assertFalse("S&E is not asses expend",cat.containsObjectCode(se));
+        assertFalse("S&E is not asses expend", cat.containsObjectCode(se));
         // TODO True test
     }
 
     public void testC11Reversion() {
         String category = "C11";
-        OrganizationReversionCategoryLogic cat = (OrganizationReversionCategoryLogic)categories.get(category);
-        assertNotNull("Category not found",cat);
+        OrganizationReversionCategoryLogic cat = (OrganizationReversionCategoryLogic) categories.get(category);
+        assertNotNull("Category not found", cat);
 
-        ObjectCode se = objectCodeService.getByPrimaryId(new Integer(2004), "BL","5000");
-        assertNotNull("S&E Object code should exist",se);
+        ObjectCode se = objectCodeService.getByPrimaryId(new Integer(2004), "BL", "5000");
+        assertNotNull("S&E Object code should exist", se);
 
-        assertFalse("S&E is not revenue",cat.containsObjectCode(se));
+        assertFalse("S&E is not revenue", cat.containsObjectCode(se));
         // TODO True test
     }
 
     public void testC12Reversion() {
         String category = "C11";
-        OrganizationReversionCategoryLogic cat = (OrganizationReversionCategoryLogic)categories.get(category);
-        assertNotNull("Category not found",cat);
+        OrganizationReversionCategoryLogic cat = (OrganizationReversionCategoryLogic) categories.get(category);
+        assertNotNull("Category not found", cat);
 
-        ObjectCode se = objectCodeService.getByPrimaryId(new Integer(2004), "BL","5000");
-        assertNotNull("S&E Object code should exist",se);
+        ObjectCode se = objectCodeService.getByPrimaryId(new Integer(2004), "BL", "5000");
+        assertNotNull("S&E Object code should exist", se);
 
-        assertFalse("The C11 custom rule should match no object code",cat.containsObjectCode(se));
+        assertFalse("The C11 custom rule should match no object code", cat.containsObjectCode(se));
     }
 }

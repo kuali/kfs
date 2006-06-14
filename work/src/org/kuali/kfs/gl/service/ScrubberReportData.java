@@ -41,35 +41,45 @@ public class ScrubberReportData {
     public void incrementGroupsRead() {
         numberOfGroupsRead++;
     }
-	public void incrementErrorRecordWritten() {
-		numberOfErrorRecordsWritten++;
-	}
-	public void incrementExpiredAccountFound() {
-		numberOfExpiredAccountsFound++;
-	}
-	public void incrementScrubbedRecordWritten() {
-		numberOfScrubbedRecordsWritten++;
-	}
-	public void incrementOffsetEntryGenerated() {
-		numberOfOffsetEntriesGenerated++;
-	}
-	public void incrementCapitalizationEntryGenerated() {
-		numberOfCapitalizationEntriesGenerated++;
-	}
-	public void incrementLiabilityEntryGenerated() {
-		numberOfLiabilityEntriesGenerated++;
-	}
-	public void incrementPlantIndebtednessEntryGenerated() {
-		numberOfPlantIndebtednessEntriesGenerated++;
-	}
-	public void incrementCostShareEntryGenerated() {
-		numberOfCostShareEntriesGenerated++;
-	}
-	public void incrementCostShareEncumbranceGenerated() {
-		numberOfCostShareEncumbrancesGenerated++;
-	}
-	public void incrementUnscrubbedRecordsRead() {
-	    numberOfUnscrubbedRecordsRead++;
+
+    public void incrementErrorRecordWritten() {
+        numberOfErrorRecordsWritten++;
+    }
+
+    public void incrementExpiredAccountFound() {
+        numberOfExpiredAccountsFound++;
+    }
+
+    public void incrementScrubbedRecordWritten() {
+        numberOfScrubbedRecordsWritten++;
+    }
+
+    public void incrementOffsetEntryGenerated() {
+        numberOfOffsetEntriesGenerated++;
+    }
+
+    public void incrementCapitalizationEntryGenerated() {
+        numberOfCapitalizationEntriesGenerated++;
+    }
+
+    public void incrementLiabilityEntryGenerated() {
+        numberOfLiabilityEntriesGenerated++;
+    }
+
+    public void incrementPlantIndebtednessEntryGenerated() {
+        numberOfPlantIndebtednessEntriesGenerated++;
+    }
+
+    public void incrementCostShareEntryGenerated() {
+        numberOfCostShareEntriesGenerated++;
+    }
+
+    public void incrementCostShareEncumbranceGenerated() {
+        numberOfCostShareEncumbrancesGenerated++;
+    }
+
+    public void incrementUnscrubbedRecordsRead() {
+        numberOfUnscrubbedRecordsRead++;
     }
 
     public int getNumberOfGroupsRead() {
@@ -82,48 +92,56 @@ public class ScrubberReportData {
     public int getNumberOfUnscrubbedRecordsRead() {
         return numberOfUnscrubbedRecordsRead;
     }
+
     /**
      * @return Returns the numberOfScrubbedRecordsWritten.
      */
     public int getNumberOfScrubbedRecordsWritten() {
         return numberOfScrubbedRecordsWritten;
     }
+
     /**
      * @return Returns the numberOfErrorRecordsWritten.
      */
     public int getNumberOfErrorRecordsWritten() {
         return numberOfErrorRecordsWritten;
     }
+
     /**
      * @return Returns the numberOfOffsetEntriesGenerated.
      */
     public int getNumberOfOffsetEntriesGenerated() {
         return numberOfOffsetEntriesGenerated;
     }
+
     /**
      * @return Returns the numberOfCapitalizationEntriesGenerated.
      */
     public int getNumberOfCapitalizationEntriesGenerated() {
         return numberOfCapitalizationEntriesGenerated;
     }
+
     /**
      * @return Returns the numberOfLiabilityEntriesGenerated.
      */
     public int getNumberOfLiabilityEntriesGenerated() {
         return numberOfLiabilityEntriesGenerated;
     }
+
     /**
      * @return Returns the numberOfPlantIndebtednessEntriesGenerated.
      */
     public int getNumberOfPlantIndebtednessEntriesGenerated() {
         return numberOfPlantIndebtednessEntriesGenerated;
     }
+
     /**
      * @return Returns the numberOfCostShareEntriesGenerated.
      */
     public int getNumberOfCostShareEntriesGenerated() {
         return numberOfCostShareEntriesGenerated;
     }
+
     /**
      * @return Returns the numberOfCostShareEncumbrancesGenerated.
      */
@@ -135,8 +153,7 @@ public class ScrubberReportData {
      * @return Returns the totalNumberOfRecordsWritten.
      */
     public int getTotalNumberOfRecordsWritten() {
-        return numberOfScrubbedRecordsWritten + numberOfErrorRecordsWritten + numberOfOffsetEntriesGenerated + numberOfCapitalizationEntriesGenerated +
-            numberOfLiabilityEntriesGenerated + numberOfPlantIndebtednessEntriesGenerated + numberOfCostShareEntriesGenerated + numberOfCostShareEncumbrancesGenerated;
+        return numberOfScrubbedRecordsWritten + numberOfErrorRecordsWritten + numberOfOffsetEntriesGenerated + numberOfCapitalizationEntriesGenerated + numberOfLiabilityEntriesGenerated + numberOfPlantIndebtednessEntriesGenerated + numberOfCostShareEntriesGenerated + numberOfCostShareEncumbrancesGenerated;
     }
 
     /**

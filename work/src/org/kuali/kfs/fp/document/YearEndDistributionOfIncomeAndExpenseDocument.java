@@ -31,11 +31,11 @@ import org.kuali.Constants;
  */
 public class YearEndDistributionOfIncomeAndExpenseDocument extends DistributionOfIncomeAndExpenseDocument {
 
-	private static final long serialVersionUID = 6496533913163510651L;
+    private static final long serialVersionUID = 6496533913163510651L;
 
     public YearEndDistributionOfIncomeAndExpenseDocument() {
-		super();
-	}
+        super();
+    }
 
     /**
      * Overrides the base implementation to return "From".

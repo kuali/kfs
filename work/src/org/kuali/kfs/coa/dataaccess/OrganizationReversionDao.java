@@ -30,23 +30,24 @@ import org.kuali.module.chart.bo.OrganizationReversionCategory;
 
 /**
  * This class...
+ * 
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public interface OrganizationReversionDao {
-    
+
     /**
-     * @param universityFiscalYear - part of composite key  
-     * @param financialChartOfAccountsCode - part of composite key  
-     * @param organizationCode - part of composite key  
-     * @return  OrganizationReversion
+     * @param universityFiscalYear - part of composite key
+     * @param financialChartOfAccountsCode - part of composite key
+     * @param organizationCode - part of composite key
+     * @return OrganizationReversion
      * 
      * Retrieves an OrganizationReversion by primary key.
-     */    
-    public OrganizationReversion getByPrimaryId(Integer universityFiscalYear,String financialChartOfAccountsCode,String organizationCode);
+     */
+    public OrganizationReversion getByPrimaryId(Integer universityFiscalYear, String financialChartOfAccountsCode, String organizationCode);
 
     /**
      * Get all the categories
-     *
+     * 
      * @return list of categories
      */
     public List<OrganizationReversionCategory> getCategories();

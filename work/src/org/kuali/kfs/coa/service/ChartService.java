@@ -30,32 +30,37 @@ import org.kuali.module.chart.bo.Chart;
 
 /**
  * This interface defines methods that a Chart Service must provide
+ * 
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
-*/
+ */
 public interface ChartService {
     /**
      * Retrieves a chart object by its primary key - the chart code.
+     * 
      * @param chartOfAccountsCode
      * @return
      */
     public Chart getByPrimaryId(String chartOfAccountsCode);
-    
+
     /**
      * Retrieves all of the charts in the system and returns them in a List.
+     * 
      * @return A List of chart objects.
      */
     public List getAllChartCodes();
-    
+
     /**
      * 
      * Retrieves a map of reportsTo relationships (e.g. A reports to B, B reports to B, C reports to A)
+     * 
      * @return
      */
     public Map getReportsToHierarchy();
-    
+
     /**
      * 
      * Retrieves a list of chart objects that the User is responsible for
+     * 
      * @param kualiUser
      * @return
      */

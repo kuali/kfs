@@ -37,35 +37,20 @@ import org.kuali.module.financial.bo.InternalBillingItem;
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public class DocumentTestUtils {
-    public static SourceAccountingLine createSourceLine(String documentHeaderId, String chartOfAccounts, String accountNumber,
-            String subAccountNumber, String financialObjectCode, String financialSubObjectCode, String projectCode,
-            int linePostingYear, KualiDecimal lineAmount, int sequenceNumber, String referenceNumber, String referenceTypeCode,
-            String balanceTypeCode, String referenceOriginCode, String debitCreditCode, String encumbranceUpdateCode,
-            String objectTypeCode) {
+    public static SourceAccountingLine createSourceLine(String documentHeaderId, String chartOfAccounts, String accountNumber, String subAccountNumber, String financialObjectCode, String financialSubObjectCode, String projectCode, int linePostingYear, KualiDecimal lineAmount, int sequenceNumber, String referenceNumber, String referenceTypeCode, String balanceTypeCode, String referenceOriginCode, String debitCreditCode, String encumbranceUpdateCode, String objectTypeCode) {
 
-        return (SourceAccountingLine) createLine(SourceAccountingLine.class, documentHeaderId, chartOfAccounts, accountNumber,
-                subAccountNumber, financialObjectCode, financialSubObjectCode, projectCode, linePostingYear, lineAmount,
-                sequenceNumber, referenceNumber, referenceTypeCode, balanceTypeCode, referenceOriginCode, debitCreditCode,
-                encumbranceUpdateCode, objectTypeCode);
+        return (SourceAccountingLine) createLine(SourceAccountingLine.class, documentHeaderId, chartOfAccounts, accountNumber, subAccountNumber, financialObjectCode, financialSubObjectCode, projectCode, linePostingYear, lineAmount, sequenceNumber, referenceNumber, referenceTypeCode, balanceTypeCode, referenceOriginCode, debitCreditCode, encumbranceUpdateCode, objectTypeCode);
     }
 
-    public static TargetAccountingLine createTargetLine(String documentHeaderId, String chartOfAccounts, String accountNumber,
-            String subAccountNumber, String financialObjectCode, String financialSubObjectCode, String projectCode,
-            int linePostingYear, KualiDecimal lineAmount, int sequenceNumber, String referenceNumber, String referenceTypeCode,
-            String balanceTypeCode, String referenceOriginCode, String debitCreditCode, String encumbranceUpdateCode,
-            String objectTypeCode) {
-        return (TargetAccountingLine) createLine(TargetAccountingLine.class, documentHeaderId, chartOfAccounts, accountNumber,
-                subAccountNumber, financialObjectCode, financialSubObjectCode, projectCode, linePostingYear, lineAmount,
-                sequenceNumber, referenceNumber, referenceTypeCode, balanceTypeCode, referenceOriginCode, debitCreditCode,
-                encumbranceUpdateCode, objectTypeCode);
+    public static TargetAccountingLine createTargetLine(String documentHeaderId, String chartOfAccounts, String accountNumber, String subAccountNumber, String financialObjectCode, String financialSubObjectCode, String projectCode, int linePostingYear, KualiDecimal lineAmount, int sequenceNumber, String referenceNumber, String referenceTypeCode, String balanceTypeCode, String referenceOriginCode, String debitCreditCode, String encumbranceUpdateCode, String objectTypeCode) {
+        return (TargetAccountingLine) createLine(TargetAccountingLine.class, documentHeaderId, chartOfAccounts, accountNumber, subAccountNumber, financialObjectCode, financialSubObjectCode, projectCode, linePostingYear, lineAmount, sequenceNumber, referenceNumber, referenceTypeCode, balanceTypeCode, referenceOriginCode, debitCreditCode, encumbranceUpdateCode, objectTypeCode);
     }
 
     /**
      * Using this allows you to create an AccountingLine in one line of code for testing, rather than having to go through all the
      * object and sub-object setups by hand each time.
      * 
-     * Note that this method returns an object with all of the reference objects populated from 
-     * the parent primitives.
+     * Note that this method returns an object with all of the reference objects populated from the parent primitives.
      * 
      * @param lineClass
      * @param documentHeaderId
@@ -86,33 +71,25 @@ public class DocumentTestUtils {
      * 
      * @throws Exception
      */
-    private static AccountingLine createLine(Class lineClass, String documentHeaderId, String chartOfAccounts, String accountNumber,
-            String subAccountNumber, String financialObjectCode, String financialSubObjectCode, String projectCode,
-            int linePostingYear, KualiDecimal lineAmount, int sequenceNumber, String referenceNumber, String referenceTypeCode,
-            String balanceTypeCode, String referenceOriginCode, String debitCreditCode, String encumbranceUpdateCode,
-            String objectTypeCode) {
+    private static AccountingLine createLine(Class lineClass, String documentHeaderId, String chartOfAccounts, String accountNumber, String subAccountNumber, String financialObjectCode, String financialSubObjectCode, String projectCode, int linePostingYear, KualiDecimal lineAmount, int sequenceNumber, String referenceNumber, String referenceTypeCode, String balanceTypeCode, String referenceOriginCode, String debitCreditCode, String encumbranceUpdateCode, String objectTypeCode) {
 
         AccountingLine line;
-        
-        line = createLineHelper(lineClass, documentHeaderId, chartOfAccounts, accountNumber, subAccountNumber, 
-                				financialObjectCode, financialSubObjectCode, projectCode, linePostingYear, 
-                				lineAmount, sequenceNumber, referenceNumber, referenceTypeCode, balanceTypeCode, 
-                				referenceOriginCode, debitCreditCode, encumbranceUpdateCode, objectTypeCode); 
 
-        //	have the persistence service refresh all the reference objects from the 
+        line = createLineHelper(lineClass, documentHeaderId, chartOfAccounts, accountNumber, subAccountNumber, financialObjectCode, financialSubObjectCode, projectCode, linePostingYear, lineAmount, sequenceNumber, referenceNumber, referenceTypeCode, balanceTypeCode, referenceOriginCode, debitCreditCode, encumbranceUpdateCode, objectTypeCode);
+
+        // have the persistence service refresh all the reference objects from the
         // primitives primary key values.
         line.refresh();
 
         return line;
     }
 
-    
+
     /**
      * Using this allows you to create an AccountingLine in one line of code for testing, rather than having to go through all the
      * object and sub-object setups by hand each time.
      * 
-     * This accountingLine returned does NOT have the reference objects populated, so they will 
-     * be either null or empty objects.
+     * This accountingLine returned does NOT have the reference objects populated, so they will be either null or empty objects.
      * 
      * @param lineClass
      * @param documentHeaderId
@@ -133,12 +110,8 @@ public class DocumentTestUtils {
      * 
      * @throws Exception
      */
-    public static AccountingLine createLineHelper(Class lineClass, String documentHeaderId, String chartOfAccounts, String accountNumber,
-            String subAccountNumber, String financialObjectCode, String financialSubObjectCode, String projectCode,
-            int linePostingYear, KualiDecimal lineAmount, int sequenceNumber, String referenceNumber, String referenceTypeCode,
-            String balanceTypeCode, String referenceOriginCode, String debitCreditCode, String encumbranceUpdateCode,
-            String objectTypeCode) {
-        
+    public static AccountingLine createLineHelper(Class lineClass, String documentHeaderId, String chartOfAccounts, String accountNumber, String subAccountNumber, String financialObjectCode, String financialSubObjectCode, String projectCode, int linePostingYear, KualiDecimal lineAmount, int sequenceNumber, String referenceNumber, String referenceTypeCode, String balanceTypeCode, String referenceOriginCode, String debitCreditCode, String encumbranceUpdateCode, String objectTypeCode) {
+
         Integer postingYear = new Integer(linePostingYear);
         AccountingLine line = null;
         try {
@@ -150,8 +123,8 @@ public class DocumentTestUtils {
         catch (IllegalAccessException e) {
             throw new InfrastructureException("unable to create line instance", e);
         }
-        
-        line.setFinancialDocumentNumber(documentHeaderId);  
+
+        line.setFinancialDocumentNumber(documentHeaderId);
         line.setPostingYear(postingYear);
         line.setSequenceNumber(new Integer(sequenceNumber));
         line.setChartOfAccountsCode(chartOfAccounts);
@@ -181,8 +154,7 @@ public class DocumentTestUtils {
      * @param unitOfMeasureCode
      * @return new InternalBillingItem initialized with the given values
      */
-    public static InternalBillingItem createBillingItem(Integer quantity, String stockDescription, String stockNumber,
-            Double unitAmount, String unitOfMeasureCode) {
+    public static InternalBillingItem createBillingItem(Integer quantity, String stockDescription, String stockNumber, Double unitAmount, String unitOfMeasureCode) {
         InternalBillingItem item = new InternalBillingItem();
 
         item.setItemQuantity(quantity);

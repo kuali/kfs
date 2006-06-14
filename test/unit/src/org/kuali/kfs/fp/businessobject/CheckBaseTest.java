@@ -31,6 +31,7 @@ import org.kuali.test.KualiTestBaseWithSpring;
 
 /**
  * This class...
+ * 
  * @author Kuali Financial Transactions Red Team (kualidev@oncourse.iu.edu)
  */
 public class CheckBaseTest extends KualiTestBaseWithSpring {
@@ -43,7 +44,7 @@ public class CheckBaseTest extends KualiTestBaseWithSpring {
     public static final String DESCRIPTION = "Description 123.";
     public static final String DOC_HDR_ID = "999999";
     public static final Integer SEQ_ID = new Integer(1);
-        
+
     /*
      * @see TestCase#setUp()
      */

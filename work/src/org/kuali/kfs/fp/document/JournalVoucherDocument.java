@@ -150,7 +150,7 @@ public class JournalVoucherDocument extends TransactionalDocumentBase implements
                 debitTotal = debitTotal.add(al.getAmount());
             }
         }
-        
+
         return debitTotal;
     }
 
@@ -174,23 +174,23 @@ public class JournalVoucherDocument extends TransactionalDocumentBase implements
     }
 
     /**
-     * This method determines the "total" for the JV document.  If the selected balance type is 
-     * an offset generation, then the total is calculated by subtracting the debit accounting lines 
-     * from the credit accounting lines.  Otherwise, the total is just the sum of all accounting line 
-     * amounts. 
+     * This method determines the "total" for the JV document. If the selected balance type is an offset generation, then the total
+     * is calculated by subtracting the debit accounting lines from the credit accounting lines. Otherwise, the total is just the
+     * sum of all accounting line amounts.
      * 
      * @return KualiDecimal the total of the JV document.
      */
     public KualiDecimal getTotal() {
-        
+
         KualiDecimal total = new KualiDecimal(0);
         AccountingLineBase al = null;
-        
+
         this.refreshReferenceObject("balanceType");
-        
-        if(this.balanceType.isFinancialOffsetGenerationIndicator()) {  // credits and debits mode
+
+        if (this.balanceType.isFinancialOffsetGenerationIndicator()) { // credits and debits mode
             total = getCreditTotal().subtract(getDebitTotal());
-        } else { // single amount mode
+        }
+        else { // single amount mode
             Iterator iter = sourceAccountingLines.iterator();
             while (iter.hasNext()) {
                 al = (AccountingLineBase) iter.next();
@@ -208,54 +208,53 @@ public class JournalVoucherDocument extends TransactionalDocumentBase implements
     public AccountingLineParser getAccountingLineParser() {
         return new JournalVoucherAccountingLineParser();
     }
-    
+
     /**
-     * Overrides to call super, and then makes sure this is an error correction.  If it is an 
-     * error correction, it calls the JV specific error correction helper method.
+     * Overrides to call super, and then makes sure this is an error correction. If it is an error correction, it calls the JV
+     * specific error correction helper method.
      * 
      * @see org.kuali.core.document.TransactionalDocumentBase#performConversion(int)
      */
     protected void performConversion(int operation) throws WorkflowException {
         super.performConversion(operation);
-        
+
         // process special for error corrections
-        if(ERROR_CORRECTING == operation) {
+        if (ERROR_CORRECTING == operation) {
             processJournalVoucherErrorCorrections();
         }
     }
 
     /**
-     * This method checks to make sure that the JV that we are dealing with was one that was 
-     * created in debit/credit mode, not single amount entry mode.  If this is a debit/credit 
-     * JV, then iterate over each source line and flip the sign on the amount to nullify the 
-     * super's effect, then flip the debit/credit code b/c an error corrected JV flips the  
-     * debit/credit code.
+     * This method checks to make sure that the JV that we are dealing with was one that was created in debit/credit mode, not
+     * single amount entry mode. If this is a debit/credit JV, then iterate over each source line and flip the sign on the amount to
+     * nullify the super's effect, then flip the debit/credit code b/c an error corrected JV flips the debit/credit code.
      */
     private void processJournalVoucherErrorCorrections() {
         Iterator i = getSourceAccountingLines().iterator();
-        
+
         this.refreshReferenceObject(PropertyConstants.BALANCE_TYPE);
-        
-        if(this.getBalanceType().isFinancialOffsetGenerationIndicator()) {  // make sure this is not a single amount entered JV
+
+        if (this.getBalanceType().isFinancialOffsetGenerationIndicator()) { // make sure this is not a single amount entered JV
             int index = 0;
-            while(i.hasNext()) {
+            while (i.hasNext()) {
                 SourceAccountingLine sLine = (SourceAccountingLine) i.next();
-                
+
                 String debitCreditCode = sLine.getDebitCreditCode();
-                
-                if(StringUtils.isNotBlank(debitCreditCode)) {
+
+                if (StringUtils.isNotBlank(debitCreditCode)) {
                     // negate the amount to to nullify the effects of the super, b/c super flipped it the first time through
-                    sLine.setAmount(sLine.getAmount().negated());  // offsets the effect the super
-                
+                    sLine.setAmount(sLine.getAmount().negated()); // offsets the effect the super
+
                     // now just flip the debit/credit code
-                    if(TransactionalDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE.DEBIT.equals(debitCreditCode)) {
+                    if (TransactionalDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE.DEBIT.equals(debitCreditCode)) {
                         sLine.setDebitCreditCode(TransactionalDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE.CREDIT);
-                    } else if(TransactionalDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE.CREDIT.equals(debitCreditCode)) {
+                    }
+                    else if (TransactionalDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE.CREDIT.equals(debitCreditCode)) {
                         sLine.setDebitCreditCode(TransactionalDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE.DEBIT);
-                    } else {
-                        throw new IllegalStateException("SourceAccountingLine at index " + index + " does not have a debit/credit " +
-                                "code associated with it.  This should never have occured. Please contact your system administrator.");
-                        
+                    }
+                    else {
+                        throw new IllegalStateException("SourceAccountingLine at index " + index + " does not have a debit/credit " + "code associated with it.  This should never have occured. Please contact your system administrator.");
+
                     }
                     index++;
                 }

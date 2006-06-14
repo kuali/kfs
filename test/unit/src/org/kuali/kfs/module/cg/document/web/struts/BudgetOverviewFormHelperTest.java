@@ -27,10 +27,11 @@ import org.kuali.test.KualiTestBaseWithSpring;
 
 /**
  * This class tests methods in BudgetOverviewFormHelper.
+ * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
 public class BudgetOverviewFormHelperTest extends KualiTestBaseWithSpring {
-        
+
     protected void setUp() throws Exception {
         super.setUp();
     }
@@ -38,21 +39,24 @@ public class BudgetOverviewFormHelperTest extends KualiTestBaseWithSpring {
     public void testBudgetOverviewFormHelper() {
         BudgetOverviewFormHelper budgetOverviewFormHelper1 = new BudgetOverviewFormHelper();
         assertNotNull("Shouldn't be null.", budgetOverviewFormHelper1);
-        
-        /** @todo KULERA-428: Better to use database values instead of mock here? Mock objects is turning really ugly at this point... */
+
+        /**
+         * @todo KULERA-428: Better to use database values instead of mock here? Mock objects is turning really ugly at this
+         *       point...
+         */
     }
-    
+
     public void testGetTotalPersonnelAgencyRequest() {
         BudgetOverviewFormHelper budgetOverviewFormHelper = new BudgetOverviewFormHelper();
-        
+
         budgetOverviewFormHelper.setPersonnelSalaryAgencyRequest(new KualiInteger(0));
         budgetOverviewFormHelper.setPersonnelFringeBenefitsAgencyRequest(new KualiInteger(0));
         assertEquals("0 + 0 = 0", budgetOverviewFormHelper.getTotalPersonnelAgencyRequest(), new KualiInteger(0));
-        
+
         budgetOverviewFormHelper.setPersonnelSalaryAgencyRequest(new KualiInteger(5));
         budgetOverviewFormHelper.setPersonnelFringeBenefitsAgencyRequest(new KualiInteger(-15));
         assertEquals("5 - 15 = -10", budgetOverviewFormHelper.getTotalPersonnelAgencyRequest(), new KualiInteger(-10));
-        
+
         budgetOverviewFormHelper.setPersonnelSalaryAgencyRequest(new KualiInteger(50000));
         budgetOverviewFormHelper.setPersonnelFringeBenefitsAgencyRequest(new KualiInteger(25000));
         assertEquals("50000 + 50000 = 75000", budgetOverviewFormHelper.getTotalPersonnelAgencyRequest(), new KualiInteger(75000));
@@ -60,15 +64,15 @@ public class BudgetOverviewFormHelperTest extends KualiTestBaseWithSpring {
 
     public void testGetTotalPersonnelInstitutionCostShare() {
         BudgetOverviewFormHelper budgetOverviewFormHelper = new BudgetOverviewFormHelper();
-        
+
         budgetOverviewFormHelper.setPersonnelSalaryInstitutionCostShare(new KualiInteger(0));
         budgetOverviewFormHelper.setPersonnelFringeBenefitsInstitutionCostShare(new KualiInteger(0));
         assertEquals("0 + 0 = 0", budgetOverviewFormHelper.getTotalPersonnelInstitutionCostShare(), new KualiInteger(0));
-        
+
         budgetOverviewFormHelper.setPersonnelSalaryInstitutionCostShare(new KualiInteger(5));
         budgetOverviewFormHelper.setPersonnelFringeBenefitsInstitutionCostShare(new KualiInteger(-15));
         assertEquals("5 - 15 = -10", budgetOverviewFormHelper.getTotalPersonnelInstitutionCostShare(), new KualiInteger(-10));
-        
+
         budgetOverviewFormHelper.setPersonnelSalaryInstitutionCostShare(new KualiInteger(50000));
         budgetOverviewFormHelper.setPersonnelFringeBenefitsInstitutionCostShare(new KualiInteger(25000));
         assertEquals("50000 + 50000 = 75000", budgetOverviewFormHelper.getTotalPersonnelInstitutionCostShare(), new KualiInteger(75000));

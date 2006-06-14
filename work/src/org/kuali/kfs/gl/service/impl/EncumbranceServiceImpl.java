@@ -44,13 +44,13 @@ public class EncumbranceServiceImpl implements EncumbranceService {
 
         encumbranceDao.purgeYearByChart(chartOfAccountsCode, year);
     }
-    
+
     /**
      * @see org.kuali.module.gl.service.EncumbranceService#getAllEncumbrances()
      */
     public Iterator getAllEncumbrances() {
         return encumbranceDao.getAllEncumbrances();
-    }  
+    }
 
     public void setEncumbranceDao(EncumbranceDao ed) {
         encumbranceDao = ed;

@@ -28,6 +28,7 @@ import org.kuali.test.KualiTestBaseWithFixtures;
 
 /**
  * This class tests the OffsetDefinition service.
+ * 
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public class OffsetDefinitionServiceTest extends KualiTestBaseWithFixtures {
@@ -44,7 +45,7 @@ public class OffsetDefinitionServiceTest extends KualiTestBaseWithFixtures {
         offsetDefinition = offsetDefinitionService.getByPrimaryId(new Integer(2004), "BA", "IB", "AC");
         assertNotNull("offset object code not found", offsetDefinition.getFinancialObject());
         assertEquals("offset object code should have been 8000", "8000", offsetDefinition.getFinancialObject().getFinancialObjectCode());
-        
+
         offsetDefinition = null;
         offsetDefinition = offsetDefinitionService.getByPrimaryId(new Integer(2004), "XX", "XX", "XX");
         assertNull(offsetDefinition);

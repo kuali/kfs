@@ -31,27 +31,28 @@ import java.util.List;
  * @author KRA (kualidev@oncourse.iu.edu)
  */
 public class AuditCluster {
-    
+
     private String label;
     private List auditErrorList;
     private boolean softAudits;
-    
+
     public AuditCluster() {
         this.auditErrorList = new ArrayList();
     }
-    
+
     public AuditCluster(String label, List auditErrorList) {
         this.label = label;
         this.auditErrorList = auditErrorList;
     }
-    
+
     public AuditCluster(String label, List auditErrorList, boolean softAudits) {
         this(label, auditErrorList);
         this.softAudits = softAudits;
     }
 
     /**
-     * Gets the label attribute. 
+     * Gets the label attribute.
+     * 
      * @return Returns the label.
      */
     public String getLabel() {
@@ -60,30 +61,34 @@ public class AuditCluster {
 
     /**
      * Sets the label attribute value.
+     * 
      * @param label The label to set.
      */
     public void setLabel(String label) {
         this.label = label;
     }
-    
+
     /**
-     * Gets the auditErrorList attribute. 
+     * Gets the auditErrorList attribute.
+     * 
      * @return Returns the auditErrorList.
      */
     public List getAuditErrorList() {
-        return auditErrorList; 
+        return auditErrorList;
     }
 
     /**
      * Sets the auditErrorList attribute value.
+     * 
      * @param auditErrorList The auditErrorList to set.
      */
     public void setAuditErrorList(List auditErrorList) {
         this.auditErrorList = auditErrorList;
     }
-    
+
     /**
-     * Gets the softAudits attribute. 
+     * Gets the softAudits attribute.
+     * 
      * @return Returns the softAudits.
      */
     public boolean isSoftAudits() {
@@ -92,6 +97,7 @@ public class AuditCluster {
 
     /**
      * Sets the softAudits attribute value.
+     * 
      * @param softAudits The softAudits to set.
      */
     public void setSoftAudits(boolean softAudits) {

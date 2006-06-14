@@ -50,7 +50,7 @@ public class TravelMileageRate extends BusinessObjectBase {
      * Gets the mileageLimitAmount attribute.
      * 
      * @return - Returns the mileageLimitAmount
-     *  
+     * 
      */
     public Integer getMileageLimitAmount() {
         return mileageLimitAmount;
@@ -61,7 +61,7 @@ public class TravelMileageRate extends BusinessObjectBase {
      * Sets the mileageLimitAmount attribute.
      * 
      * @param - mileageLimitAmount The disbVchrMileageLimitAmount to set.
-     *  
+     * 
      */
     public void setMileageLimitAmount(Integer mileageLimitAmount) {
         this.mileageLimitAmount = mileageLimitAmount;
@@ -71,7 +71,7 @@ public class TravelMileageRate extends BusinessObjectBase {
      * Gets the mileageRate attribute.
      * 
      * @return - Returns the mileageRate
-     *  
+     * 
      */
     public BigDecimal getMileageRate() {
         return mileageRate;
@@ -82,7 +82,7 @@ public class TravelMileageRate extends BusinessObjectBase {
      * Sets the mileageRate attribute.
      * 
      * @param - mileageRate The mileageRate to set.
-     *  
+     * 
      */
     public void setMileageRate(BigDecimal mileageRate) {
         this.mileageRate = mileageRate;

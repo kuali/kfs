@@ -84,9 +84,9 @@ public class KualiChartAttribute implements RoleAttribute, WorkflowAttribute {
     private static final String ROLE_STRING_DELIMITER = "~!~!~";
 
     private static final String MAINTAINABLE_PREFIX = "//newMaintainableObject/businessObject/";
-    
+
     private static final String ORGANIZATION_DOC_TYPE = "KualiOrganizationMaintenanceDocument";
-    
+
     private String finCoaCd;
 
     private boolean required;
@@ -96,7 +96,7 @@ public class KualiChartAttribute implements RoleAttribute, WorkflowAttribute {
     /**
      * 
      * Constructs a KualiChartAttribute.java.
-     *
+     * 
      */
     public KualiChartAttribute() {
 
@@ -111,6 +111,7 @@ public class KualiChartAttribute implements RoleAttribute, WorkflowAttribute {
     /**
      * 
      * Constructs a KualiChartAttribute.java.
+     * 
      * @param finCoaCd - the chart code
      */
     public KualiChartAttribute(String finCoaCd) {
@@ -121,7 +122,8 @@ public class KualiChartAttribute implements RoleAttribute, WorkflowAttribute {
     }
 
     /**
-     * Gets the finCoaCd attribute. 
+     * Gets the finCoaCd attribute.
+     * 
      * @return Returns the finCoaCd.
      */
     public String getFinCoaCd() {
@@ -130,6 +132,7 @@ public class KualiChartAttribute implements RoleAttribute, WorkflowAttribute {
 
     /**
      * Sets the finCoaCd attribute value.
+     * 
      * @param finCoaCd The finCoaCd to set.
      */
     public void setFinCoaCd(String finCoaCd) {
@@ -179,6 +182,7 @@ public class KualiChartAttribute implements RoleAttribute, WorkflowAttribute {
 
     /**
      * Returns a KualiFiscalChart object from the code
+     * 
      * @param finCoaCd
      * @return
      */
@@ -196,14 +200,17 @@ public class KualiChartAttribute implements RoleAttribute, WorkflowAttribute {
             if (rs.next()) {
                 kualiFiscalChart = new KualiFiscalChart(rs.getString("FIN_COA_CD"), rs.getString("RPTS_TO_FIN_COA_CD"), rs.getString("FIN_COA_MGR_SYS_ID"));
             }
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             LOG.error("Error getting connection", e);
             throw new RuntimeException("An Error occurred during routing of this document", e);
-        } finally {
+        }
+        finally {
             if (conn != null) {
                 try {
                     conn.close();
-                } catch (SQLException e1) {
+                }
+                catch (SQLException e1) {
                     // Ignore
                 }
                 conn = null;
@@ -218,7 +225,7 @@ public class KualiChartAttribute implements RoleAttribute, WorkflowAttribute {
     public List validateRoutingData(Map paramMap) {
 
         List errors = new ArrayList();
-        this.finCoaCd = (String)paramMap.get(CHART_REVIEW_FIN_COA_CD_KEY);
+        this.finCoaCd = (String) paramMap.get(CHART_REVIEW_FIN_COA_CD_KEY);
         if (isRequired() && (this.finCoaCd == null || "".equals(finCoaCd))) {
             errors.add(new WorkflowServiceErrorImpl("Chart is required.", "routetemplate.chartorgattribute.chartorg.required"));
         }
@@ -272,9 +279,8 @@ public class KualiChartAttribute implements RoleAttribute, WorkflowAttribute {
     }
 
     /**
-     * This method will build a string representation of a qualified role
-     * a qualified role is the role, with the corresponding string values that
-     * further qualify the role to apply for a given object.
+     * This method will build a string representation of a qualified role a qualified role is the role, with the corresponding
+     * string values that further qualify the role to apply for a given object.
      * 
      * @param roleName
      * @param chart
@@ -290,28 +296,29 @@ public class KualiChartAttribute implements RoleAttribute, WorkflowAttribute {
     public List getQualifiedRoleNames(String roleName, DocumentContent docContent) throws EdenUserNotFoundException {
         Set qualifiedRoleNames = new HashSet();
         if (CHART_MANAGER_ROLE_KEY.equals(roleName)) {
-        	String chartXPath = "wf:xstreamsafe('" + MAINTAINABLE_PREFIX + "chartOfAccountsCode')";
-        	if (docContent.getRouteContext().getDocument().getDocumentType().getName().equals(ORGANIZATION_DOC_TYPE)) {
-        		chartXPath = "wf:xstreamsafe('" + MAINTAINABLE_PREFIX + "finCoaCd')";
-        	}
-        	XPath xpath = KualiWorkflowAttributeUtils.getXPath(docContent.getDocument());
-        	String chart = null;
-        	try {
-        		chart = xpath.evaluate(chartXPath, docContent.getDocument());
-        	} catch (Exception e) {
-        		throw new RuntimeException("Error evaluating xpath expression to locate chart.", e);
-        	}
-        	if (!StringUtils.isEmpty(chart)) {
-        		qualifiedRoleNames.add(getQualifiedRoleString(roleName, chart));
-        	}
-            /*Document doc = null;
-            doc = XmlHelper.buildJDocument(docContent.getDocument());
-            List chartElements = XmlHelper.findElements(doc.getRootElement(), CHART_ATTRIBUTE);
-            for (Iterator iter = chartElements.iterator(); iter.hasNext();) {
-                Element chartElement = (Element)iter.next();
-                qualifiedRoleNames.add(getQualifiedRoleString(roleName, chartElement.getChild(FIN_COA_CD_KEY).getText()));
-            }*/
-        } else if (UNIVERSITY_CHART_MANAGER_ROLE_KEY.equals(roleName)) {
+            String chartXPath = "wf:xstreamsafe('" + MAINTAINABLE_PREFIX + "chartOfAccountsCode')";
+            if (docContent.getRouteContext().getDocument().getDocumentType().getName().equals(ORGANIZATION_DOC_TYPE)) {
+                chartXPath = "wf:xstreamsafe('" + MAINTAINABLE_PREFIX + "finCoaCd')";
+            }
+            XPath xpath = KualiWorkflowAttributeUtils.getXPath(docContent.getDocument());
+            String chart = null;
+            try {
+                chart = xpath.evaluate(chartXPath, docContent.getDocument());
+            }
+            catch (Exception e) {
+                throw new RuntimeException("Error evaluating xpath expression to locate chart.", e);
+            }
+            if (!StringUtils.isEmpty(chart)) {
+                qualifiedRoleNames.add(getQualifiedRoleString(roleName, chart));
+            }
+            /*
+             * Document doc = null; doc = XmlHelper.buildJDocument(docContent.getDocument()); List chartElements =
+             * XmlHelper.findElements(doc.getRootElement(), CHART_ATTRIBUTE); for (Iterator iter = chartElements.iterator();
+             * iter.hasNext();) { Element chartElement = (Element)iter.next();
+             * qualifiedRoleNames.add(getQualifiedRoleString(roleName, chartElement.getChild(FIN_COA_CD_KEY).getText())); }
+             */
+        }
+        else if (UNIVERSITY_CHART_MANAGER_ROLE_KEY.equals(roleName)) {
             qualifiedRoleNames.add(UNIVERSITY_CHART_MANAGER_ROLE_KEY);
         }
         return new ArrayList(qualifiedRoleNames);
@@ -319,6 +326,7 @@ public class KualiChartAttribute implements RoleAttribute, WorkflowAttribute {
 
     /**
      * get the chart name from a qualified role string
+     * 
      * @param qualifiedRole
      * @return
      */
@@ -327,7 +335,8 @@ public class KualiChartAttribute implements RoleAttribute, WorkflowAttribute {
     }
 
     /**
-     * @see edu.iu.uis.eden.routetemplate.RoleAttribute#resolveQualifiedRole(edu.iu.uis.eden.routetemplate.attribute.RouteContext, java.lang.String, java.lang.String)
+     * @see edu.iu.uis.eden.routetemplate.RoleAttribute#resolveQualifiedRole(edu.iu.uis.eden.routetemplate.attribute.RouteContext,
+     *      java.lang.String, java.lang.String)
      */
     public ResolvedQualifiedRole resolveQualifiedRole(RouteContext context, String roleName, String qualifiedRole) throws EdenUserNotFoundException {
 
@@ -347,16 +356,19 @@ public class KualiChartAttribute implements RoleAttribute, WorkflowAttribute {
                 ResultSet rs = ps.executeQuery();
                 if (rs.next()) {
                     kualiSystemId = rs.getString("FIN_COA_MGRUNVL_ID");
-                } else {
+                }
+                else {
                     LOG.warn("No Chart Manaqer retrieved for chart " + chart);
                 }
                 String networkId = KualiConstants.getNetworkId(conn, kualiSystemId);
                 if (StringUtils.isEmpty(networkId)) {
-                	LOG.warn("Could not determine user id for Chart Manager with system id " + kualiSystemId);
-                } else {
-                	members.add(new AuthenticationUserId(networkId));
+                    LOG.warn("Could not determine user id for Chart Manager with system id " + kualiSystemId);
                 }
-            } else if (UNIVERSITY_CHART_MANAGER_ROLE_KEY.equals(roleName)) {
+                else {
+                    members.add(new AuthenticationUserId(networkId));
+                }
+            }
+            else if (UNIVERSITY_CHART_MANAGER_ROLE_KEY.equals(roleName)) {
                 String kualiSystemId = null;
                 String sql = "select FIN_COA_MGRUNVL_ID from CA_CHART_T where RPTS_TO_FIN_COA_CD = FIN_COA_CD";
                 PreparedStatement ps = conn.prepareStatement(sql);
@@ -364,24 +376,29 @@ public class KualiChartAttribute implements RoleAttribute, WorkflowAttribute {
                 ResultSet rs = ps.executeQuery();
                 if (rs.next()) {
                     kualiSystemId = rs.getString("FIN_COA_MGRUNVL_ID");
-                } else {
+                }
+                else {
                     LOG.warn("No University Chart Manager found.");
                 }
                 String networkId = KualiConstants.getNetworkId(conn, kualiSystemId);
                 if (StringUtils.isEmpty(networkId)) {
-                	LOG.warn("Could not determine user id for university Chart Manager with system id " + kualiSystemId);
-                } else {
-                	members.add(new AuthenticationUserId(networkId));
+                    LOG.warn("Could not determine user id for university Chart Manager with system id " + kualiSystemId);
+                }
+                else {
+                    members.add(new AuthenticationUserId(networkId));
                 }
             }
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             LOG.error("Error getting connection", e);
             throw new RuntimeException("An Error occurred during routing of this document", e);
-        } finally {
+        }
+        finally {
             if (conn != null) {
                 try {
                     conn.close();
-                } catch (SQLException e1) {
+                }
+                catch (SQLException e1) {
                     // Ignore
                 }
                 conn = null;

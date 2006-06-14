@@ -32,9 +32,10 @@ import org.kuali.module.gl.web.Constant;
 
 /**
  * This class...
+ * 
  * @author Bin Gao from Michigan State University
  */
-public class GLConsolidationOptionFinder extends KeyValuesBase implements ValueFinder{
+public class GLConsolidationOptionFinder extends KeyValuesBase implements ValueFinder {
 
     /**
      * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()

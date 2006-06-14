@@ -87,9 +87,9 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
     private static final String FISCAL_OFFICER_SECONDARY_DELEGATE_ROLE_KEY = "FISCAL-OFFICER-SECONDARY-DELEGATE";
 
     private static final String FISCAL_OFFICER_SECONDARY_DELEGATE_ROLE_LABEL = "Fiscal Officer Secondary Delegate";
-    
+
     private static final String ACCOUNT_SUPERVISOR_ROLE_KEY = "ACCOUNT-SUPERVISOR";
-    
+
     private static final String ACCOUNT_SUPERVISOR_ROLE_LABEL = "Account Supervisor";
 
     private static final String ACCOUNT_ATTRIBUTE = "KUALI_ACCOUNT_ATTRIBUTE";
@@ -98,7 +98,7 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
     // private static final String LOOKUPABLE_CLASS = "AccountLookupableImplService";
 
     private static final String ROLE_STRING_DELIMITER = "~!~!~";
-    
+
     private static final String NEW_MAINTAINABLE_PREFIX = "//newMaintainableObject/businessObject/";
     private static final String OLD_MAINTAINABLE_PREFIX = "//oldMaintainableObject/businessObject/";
 
@@ -169,7 +169,8 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
     }
 
     /**
-     * method to validate the routing data, need to determine if this should actually be implemented to throw errors or anything like that.
+     * method to validate the routing data, need to determine if this should actually be implemented to throw errors or anything
+     * like that.
      * 
      * @param paramMap
      * @return
@@ -184,7 +185,8 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
     }
 
     /**
-     * method to validate the rule data, which matches the routing data in this attributes case therefore, we should just be able to call into the other implementation validateRoutingData
+     * method to validate the rule data, which matches the routing data in this attributes case therefore, we should just be able to
+     * call into the other implementation validateRoutingData
      * 
      * @param paramMap
      * @return
@@ -210,7 +212,8 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
     }
 
     /**
-     * return true since this is a rule attribute, and if there are no routing records returned, then there was no valid mapping in the docContent for a given role.
+     * return true since this is a rule attribute, and if there are no routing records returned, then there was no valid mapping in
+     * the docContent for a given role.
      * 
      * @param docContent
      * @param ruleExtensions
@@ -221,7 +224,8 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
     }
 
     /**
-     * This method is used by the workflow report to allow the user to fill in some arbitrary values for the routable contents of an example document, and then to run the report to generate a virtual route log of who the document would route to, etc.
+     * This method is used by the workflow report to allow the user to fill in some arbitrary values for the routable contents of an
+     * example document, and then to run the report to generate a virtual route log of who the document would route to, etc.
      * 
      * @return
      */
@@ -306,53 +310,44 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
     }
 
     private static String getQualifiedRoleString(FiscalOfficerRole role) {
-    	return getNullSafeValue(role.roleName) + 
-    		ROLE_STRING_DELIMITER +
-    		getNullSafeValue(role.chart) +
-    		ROLE_STRING_DELIMITER +
-    		getNullSafeValue(role.accountNumber) +
-    		ROLE_STRING_DELIMITER +
-    		getNullSafeValue(role.totalDollarAmount) +
-    		ROLE_STRING_DELIMITER +
-    		getNullSafeValue(role.fiscalOfficerId);
+        return getNullSafeValue(role.roleName) + ROLE_STRING_DELIMITER + getNullSafeValue(role.chart) + ROLE_STRING_DELIMITER + getNullSafeValue(role.accountNumber) + ROLE_STRING_DELIMITER + getNullSafeValue(role.totalDollarAmount) + ROLE_STRING_DELIMITER + getNullSafeValue(role.fiscalOfficerId);
     }
-    
+
     private static FiscalOfficerRole getUnqualifiedFiscalOfficerRole(String qualifiedRole) {
-    	String[] values = qualifiedRole.split(ROLE_STRING_DELIMITER, -1);
-    	if (values.length != 5) {
-    		throw new RuntimeException("Invalid qualifiedRole, expected 5 encoded values: " + qualifiedRole);
-    	}    	
-    	FiscalOfficerRole role = new FiscalOfficerRole(values[0]);
-    	role.chart = getNullableString(values[1]);
-    	role.accountNumber = getNullableString(values[2]);
-    	role.totalDollarAmount = getNullableString(values[3]);
-    	role.fiscalOfficerId = getNullableString(values[4]);
-    	return role;
+        String[] values = qualifiedRole.split(ROLE_STRING_DELIMITER, -1);
+        if (values.length != 5) {
+            throw new RuntimeException("Invalid qualifiedRole, expected 5 encoded values: " + qualifiedRole);
+        }
+        FiscalOfficerRole role = new FiscalOfficerRole(values[0]);
+        role.chart = getNullableString(values[1]);
+        role.accountNumber = getNullableString(values[2]);
+        role.totalDollarAmount = getNullableString(values[3]);
+        role.fiscalOfficerId = getNullableString(values[4]);
+        return role;
     }
-    
+
     private static String getNullSafeValue(String value) {
-    	return (value == null ? "" : value);
+        return (value == null ? "" : value);
     }
-    
+
     private static String getNullableString(String value) {
-    	if (StringUtils.isEmpty(value)) {
-    		return null;
-    	}
-    	return value;
+        if (StringUtils.isEmpty(value)) {
+            return null;
+        }
+        return value;
     }
-    
+
     private static String getQualifiedAccountSupervisorRoleString(String roleName, String accountSupervisorySystemsId) {
-    	return roleName + ROLE_STRING_DELIMITER + accountSupervisorySystemsId;
+        return roleName + ROLE_STRING_DELIMITER + accountSupervisorySystemsId;
     }
 
     private static String getUnqualifiedAccountSupervisorIdFromString(String qualifiedRole) {
-    	return qualifiedRole.split(ROLE_STRING_DELIMITER)[1];
+        return qualifiedRole.split(ROLE_STRING_DELIMITER)[1];
     }
-            
+
     /**
-     * This should be a mapping between the FIS document type and the Workflow document type, 
-     * and should give back the FIS document type name so that we can lookup delegations based on the 
-     * FIS name instead of the workflow name.
+     * This should be a mapping between the FIS document type and the Workflow document type, and should give back the FIS document
+     * type name so that we can lookup delegations based on the FIS name instead of the workflow name.
      */
     private static String getFisDocumentTypeNameFromWorkflowDocumentTypeName(String documentTypeName) {
         // TODO need to look at the document type table for
@@ -364,109 +359,119 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
      */
     public List getQualifiedRoleNames(String roleName, DocumentContent docContent) throws EdenUserNotFoundException {
         try {
-        	Set qualifiedRoleNames = new HashSet();
+            Set qualifiedRoleNames = new HashSet();
             XPath xpath = KualiWorkflowAttributeUtils.getXPath(docContent.getDocument());
             String docTypeName = docContent.getRouteContext().getDocument().getDocumentType().getName();
             if (FISCAL_OFFICER_ROLE_KEY.equals(roleName) || FISCAL_OFFICER_PRIMARY_DELEGATE_ROLE_KEY.equals(roleName) || FISCAL_OFFICER_SECONDARY_DELEGATE_ROLE_KEY.equals(roleName)) {
-            	Set fiscalOfficers = new HashSet();
-                if (((Boolean)xpath.evaluate("wf:xstreamsafe('/report')", docContent.getDocument(), XPathConstants.BOOLEAN)).booleanValue()) {
-                	String chart = xpath.evaluate("wf:xstreamsafe('/report/chart')", docContent.getDocument());
-                	String accountNumber = xpath.evaluate("wf:xstreamsafe('/report/accountNumber')", docContent.getDocument());
-                	String totalDollarAmount = xpath.evaluate("wf:xstreamsafe('/report/totalDollarAmount')", docContent.getDocument());
-                	FiscalOfficerRole role = new FiscalOfficerRole(roleName);
-                	role.chart = chart;
-                	role.accountNumber = accountNumber;
-                	role.totalDollarAmount = totalDollarAmount;
-                	fiscalOfficers.add(role);
-                } else if (docTypeName.equals(KualiConstants.ACCOUNT_DOC_TYPE)) {
-                	// 1) If this is a new account, it routes to the fiscal officer specified on the new account
-                	// 2) If this is an account edit and the fiscal officer hasn't changed, route to the fiscal officer on the account
-                	// 3) If this is an account edit and the fiscal officer HAS changed, route to the old fiscal officer and the new fiscal officer
-                	String newFiscalOfficerId = xpath.evaluate("wf:xstreamsafe('" + NEW_MAINTAINABLE_PREFIX + PropertyConstants.ACCOUNT_FISCAL_OFFICER_SYSTEM_IDENTIFIER + "')", docContent.getDocument());;
-                	String oldFiscalOfficerId = xpath.evaluate("wf:xstreamsafe('" + OLD_MAINTAINABLE_PREFIX + PropertyConstants.ACCOUNT_FISCAL_OFFICER_SYSTEM_IDENTIFIER + "')", docContent.getDocument());
-                	boolean isNewAccount = oldFiscalOfficerId == null;
-                	boolean isFiscalOfficerChanged = !newFiscalOfficerId.equals(oldFiscalOfficerId);
-                	// if this is a new account or the fiscal officer has changed, route to the new fiscal officer
-                	if (isNewAccount || isFiscalOfficerChanged) {
-                		FiscalOfficerRole role = new FiscalOfficerRole(roleName);
-                		role.fiscalOfficerId = newFiscalOfficerId;
-                		fiscalOfficers.add(role);
-                	}
-                	// if this is not a new account than route to the existing account's fiscal officer
-                	if (!isNewAccount) {
-                		FiscalOfficerRole role = new FiscalOfficerRole(roleName);
-                		role.chart = xpath.evaluate("wf:xstreamsafe('" + NEW_MAINTAINABLE_PREFIX + "chartOfAccountsCode')", docContent.getDocument());
-                		role.accountNumber = xpath.evaluate("wf:xstreamsafe('" + NEW_MAINTAINABLE_PREFIX + "accountNumber')", docContent.getDocument());
-                		role.fiscalOfficerId = newFiscalOfficerId;
-                		fiscalOfficers.add(role);
-                	}
-                } else if (docTypeName.equals(KualiConstants.SUB_ACCOUNT_DOC_TYPE) || docTypeName.equals(KualiConstants.SUB_OBJECT_DOC_TYPE)) {
-                	FiscalOfficerRole role = new FiscalOfficerRole(roleName);
-                	role.chart = xpath.evaluate("wf:xstreamsafe('" + NEW_MAINTAINABLE_PREFIX + "chartOfAccountsCode')", docContent.getDocument());
-                	role.accountNumber = xpath.evaluate("wf:xstreamsafe('" + NEW_MAINTAINABLE_PREFIX + "accountNumber')", docContent.getDocument());
-                	fiscalOfficers.add(role);
-                } else if (docTypeName.equals(KualiConstants.ACCOUNT_DEL_DOC_TYPE)) {
-                	FiscalOfficerRole role = new FiscalOfficerRole(roleName);
-                	role.chart = xpath.evaluate("wf:xstreamsafe('" + NEW_MAINTAINABLE_PREFIX + "finCoaCd')", docContent.getDocument());
-                	role.accountNumber = xpath.evaluate("wf:xstreamsafe('" + NEW_MAINTAINABLE_PREFIX + "accountNbr')", docContent.getDocument());
-                	fiscalOfficers.add(role);
-                } else if (docTypeName.equals(KualiConstants.PROCUREMENT_CARD_DOC_TYPE)) {
-            		NodeList targetLineNodes = (NodeList) xpath.evaluate("wf:xstreamsafe('//org.kuali.module.financial.bo.ProcurementCardTargetAccountingLine')", docContent.getDocument(), XPathConstants.NODESET);
-            		String totalDollarAmount = String.valueOf(calculateTotalDollarAmount(xpath, targetLineNodes));
-            		fiscalOfficers.addAll(getFiscalOfficerCriteria(xpath, targetLineNodes, roleName, totalDollarAmount));
-                } else {
-                	if (!KualiConstants.isTargetLineOnly(docTypeName)) {
-                		NodeList sourceLineNodes = (NodeList) xpath.evaluate("wf:xstreamsafe('//org.kuali.core.bo.SourceAccountingLine')", docContent.getDocument(), XPathConstants.NODESET);
-                		String totalDollarAmount = String.valueOf(calculateTotalDollarAmount(xpath, sourceLineNodes));
-                		fiscalOfficers.addAll(getFiscalOfficerCriteria(xpath, sourceLineNodes, roleName, totalDollarAmount));
-                	}
-                	if (!KualiConstants.isSourceLineOnly(docTypeName)) {
-                		NodeList targetLineNodes = (NodeList) xpath.evaluate("wf:xstreamsafe('//org.kuali.core.bo.TargetAccountingLine')", docContent.getDocument(), XPathConstants.NODESET);
-                		String totalDollarAmount = String.valueOf(calculateTotalDollarAmount(xpath, targetLineNodes));
-                		fiscalOfficers.addAll(getFiscalOfficerCriteria(xpath, targetLineNodes, roleName, totalDollarAmount));
-                	}
+                Set fiscalOfficers = new HashSet();
+                if (((Boolean) xpath.evaluate("wf:xstreamsafe('/report')", docContent.getDocument(), XPathConstants.BOOLEAN)).booleanValue()) {
+                    String chart = xpath.evaluate("wf:xstreamsafe('/report/chart')", docContent.getDocument());
+                    String accountNumber = xpath.evaluate("wf:xstreamsafe('/report/accountNumber')", docContent.getDocument());
+                    String totalDollarAmount = xpath.evaluate("wf:xstreamsafe('/report/totalDollarAmount')", docContent.getDocument());
+                    FiscalOfficerRole role = new FiscalOfficerRole(roleName);
+                    role.chart = chart;
+                    role.accountNumber = accountNumber;
+                    role.totalDollarAmount = totalDollarAmount;
+                    fiscalOfficers.add(role);
                 }
-            	for (Iterator iterator = fiscalOfficers.iterator(); iterator.hasNext();) {
-					FiscalOfficerRole role = (FiscalOfficerRole) iterator.next();
-					qualifiedRoleNames.add(getQualifiedRoleString(role));
-				}
-            } else if (ACCOUNT_SUPERVISOR_ROLE_KEY.equals(roleName)) {
-            	// only route to account supervisor on KualiAccountMaintenanceDocument
-            	if (docTypeName.equals(KualiConstants.ACCOUNT_DOC_TYPE)) {
-            		String accountSupervisorId = xpath.evaluate("wf:xstreamsafe('" + NEW_MAINTAINABLE_PREFIX + "accountsSupervisorySystemsIdentifier')", docContent.getDocument());
-            		if (!StringUtils.isEmpty(accountSupervisorId)) {
-            			qualifiedRoleNames.add(getQualifiedAccountSupervisorRoleString(roleName, accountSupervisorId));
-            		}
-            	}
+                else if (docTypeName.equals(KualiConstants.ACCOUNT_DOC_TYPE)) {
+                    // 1) If this is a new account, it routes to the fiscal officer specified on the new account
+                    // 2) If this is an account edit and the fiscal officer hasn't changed, route to the fiscal officer on the
+                    // account
+                    // 3) If this is an account edit and the fiscal officer HAS changed, route to the old fiscal officer and the new
+                    // fiscal officer
+                    String newFiscalOfficerId = xpath.evaluate("wf:xstreamsafe('" + NEW_MAINTAINABLE_PREFIX + PropertyConstants.ACCOUNT_FISCAL_OFFICER_SYSTEM_IDENTIFIER + "')", docContent.getDocument());
+                    ;
+                    String oldFiscalOfficerId = xpath.evaluate("wf:xstreamsafe('" + OLD_MAINTAINABLE_PREFIX + PropertyConstants.ACCOUNT_FISCAL_OFFICER_SYSTEM_IDENTIFIER + "')", docContent.getDocument());
+                    boolean isNewAccount = oldFiscalOfficerId == null;
+                    boolean isFiscalOfficerChanged = !newFiscalOfficerId.equals(oldFiscalOfficerId);
+                    // if this is a new account or the fiscal officer has changed, route to the new fiscal officer
+                    if (isNewAccount || isFiscalOfficerChanged) {
+                        FiscalOfficerRole role = new FiscalOfficerRole(roleName);
+                        role.fiscalOfficerId = newFiscalOfficerId;
+                        fiscalOfficers.add(role);
+                    }
+                    // if this is not a new account than route to the existing account's fiscal officer
+                    if (!isNewAccount) {
+                        FiscalOfficerRole role = new FiscalOfficerRole(roleName);
+                        role.chart = xpath.evaluate("wf:xstreamsafe('" + NEW_MAINTAINABLE_PREFIX + "chartOfAccountsCode')", docContent.getDocument());
+                        role.accountNumber = xpath.evaluate("wf:xstreamsafe('" + NEW_MAINTAINABLE_PREFIX + "accountNumber')", docContent.getDocument());
+                        role.fiscalOfficerId = newFiscalOfficerId;
+                        fiscalOfficers.add(role);
+                    }
+                }
+                else if (docTypeName.equals(KualiConstants.SUB_ACCOUNT_DOC_TYPE) || docTypeName.equals(KualiConstants.SUB_OBJECT_DOC_TYPE)) {
+                    FiscalOfficerRole role = new FiscalOfficerRole(roleName);
+                    role.chart = xpath.evaluate("wf:xstreamsafe('" + NEW_MAINTAINABLE_PREFIX + "chartOfAccountsCode')", docContent.getDocument());
+                    role.accountNumber = xpath.evaluate("wf:xstreamsafe('" + NEW_MAINTAINABLE_PREFIX + "accountNumber')", docContent.getDocument());
+                    fiscalOfficers.add(role);
+                }
+                else if (docTypeName.equals(KualiConstants.ACCOUNT_DEL_DOC_TYPE)) {
+                    FiscalOfficerRole role = new FiscalOfficerRole(roleName);
+                    role.chart = xpath.evaluate("wf:xstreamsafe('" + NEW_MAINTAINABLE_PREFIX + "finCoaCd')", docContent.getDocument());
+                    role.accountNumber = xpath.evaluate("wf:xstreamsafe('" + NEW_MAINTAINABLE_PREFIX + "accountNbr')", docContent.getDocument());
+                    fiscalOfficers.add(role);
+                }
+                else if (docTypeName.equals(KualiConstants.PROCUREMENT_CARD_DOC_TYPE)) {
+                    NodeList targetLineNodes = (NodeList) xpath.evaluate("wf:xstreamsafe('//org.kuali.module.financial.bo.ProcurementCardTargetAccountingLine')", docContent.getDocument(), XPathConstants.NODESET);
+                    String totalDollarAmount = String.valueOf(calculateTotalDollarAmount(xpath, targetLineNodes));
+                    fiscalOfficers.addAll(getFiscalOfficerCriteria(xpath, targetLineNodes, roleName, totalDollarAmount));
+                }
+                else {
+                    if (!KualiConstants.isTargetLineOnly(docTypeName)) {
+                        NodeList sourceLineNodes = (NodeList) xpath.evaluate("wf:xstreamsafe('//org.kuali.core.bo.SourceAccountingLine')", docContent.getDocument(), XPathConstants.NODESET);
+                        String totalDollarAmount = String.valueOf(calculateTotalDollarAmount(xpath, sourceLineNodes));
+                        fiscalOfficers.addAll(getFiscalOfficerCriteria(xpath, sourceLineNodes, roleName, totalDollarAmount));
+                    }
+                    if (!KualiConstants.isSourceLineOnly(docTypeName)) {
+                        NodeList targetLineNodes = (NodeList) xpath.evaluate("wf:xstreamsafe('//org.kuali.core.bo.TargetAccountingLine')", docContent.getDocument(), XPathConstants.NODESET);
+                        String totalDollarAmount = String.valueOf(calculateTotalDollarAmount(xpath, targetLineNodes));
+                        fiscalOfficers.addAll(getFiscalOfficerCriteria(xpath, targetLineNodes, roleName, totalDollarAmount));
+                    }
+                }
+                for (Iterator iterator = fiscalOfficers.iterator(); iterator.hasNext();) {
+                    FiscalOfficerRole role = (FiscalOfficerRole) iterator.next();
+                    qualifiedRoleNames.add(getQualifiedRoleString(role));
+                }
+            }
+            else if (ACCOUNT_SUPERVISOR_ROLE_KEY.equals(roleName)) {
+                // only route to account supervisor on KualiAccountMaintenanceDocument
+                if (docTypeName.equals(KualiConstants.ACCOUNT_DOC_TYPE)) {
+                    String accountSupervisorId = xpath.evaluate("wf:xstreamsafe('" + NEW_MAINTAINABLE_PREFIX + "accountsSupervisorySystemsIdentifier')", docContent.getDocument());
+                    if (!StringUtils.isEmpty(accountSupervisorId)) {
+                        qualifiedRoleNames.add(getQualifiedAccountSupervisorRoleString(roleName, accountSupervisorId));
+                    }
+                }
             }
             return new ArrayList(qualifiedRoleNames);
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
     private static String calculateTotalDollarAmount(XPath xpath, NodeList targetAccountingLineNodes) throws XPathExpressionException {
-    	KualiDecimal sum = new KualiDecimal(0);
-    	for (int index = 0; index < targetAccountingLineNodes.getLength(); index++) {
+        KualiDecimal sum = new KualiDecimal(0);
+        for (int index = 0; index < targetAccountingLineNodes.getLength(); index++) {
             KualiDecimal addend = new KualiDecimal((String) xpath.evaluate("./amount/value", targetAccountingLineNodes.item(index), XPathConstants.STRING));
             sum = sum.add(addend);
-    	}
-    	return sum.toString();
+        }
+        return sum.toString();
     }
-    
+
     private static Set getFiscalOfficerCriteria(XPath xpath, NodeList accountingLineNodes, String roleName, String totalDollarAmount) throws XPathExpressionException {
-    	Set fiscalOfficers = new HashSet();
-    	for (int i = 0; i < accountingLineNodes.getLength(); i++) {
-    		Node accountingLineNode = accountingLineNodes.item(i);
-    		FiscalOfficerRole role = new FiscalOfficerRole(roleName);
+        Set fiscalOfficers = new HashSet();
+        for (int i = 0; i < accountingLineNodes.getLength(); i++) {
+            Node accountingLineNode = accountingLineNodes.item(i);
+            FiscalOfficerRole role = new FiscalOfficerRole(roleName);
             role.chart = xpath.evaluate("./chartOfAccountsCode", accountingLineNode);
             role.accountNumber = xpath.evaluate("./accountNumber", accountingLineNode);
-    		role.totalDollarAmount = totalDollarAmount;
-    		fiscalOfficers.add(role);
-    	}
-    	return fiscalOfficers;
+            role.totalDollarAmount = totalDollarAmount;
+            fiscalOfficers.add(role);
+        }
+        return fiscalOfficers;
     }
-    
+
     /**
      * Resolves the qualified roles for Fiscal Officers, their delegates, and account supervisors.
      */
@@ -476,180 +481,174 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
         String annotation = "";
         Connection conn = null;
         try {
-        	conn = KualiSpringServiceLocator.getDataSource().getConnection();
-        	if (FISCAL_OFFICER_ROLE_KEY.equals(roleName)) {
-        		FiscalOfficerRole role = getUnqualifiedFiscalOfficerRole(qualifiedRole);
-        		annotation = (role.accountNumber == null ? "" : "Routing to account number " + role.accountNumber);
-        		UserId fiscalOfficerId = getFiscalOfficerId(conn, role);
-        		if (fiscalOfficerId != null) {
-        			members.add(fiscalOfficerId);
-        		}
-        	} else if (FISCAL_OFFICER_PRIMARY_DELEGATE_ROLE_KEY.equals(roleName)) {
-        		FiscalOfficerRole role = getUnqualifiedFiscalOfficerRole(qualifiedRole);
-        		UserId primaryDelegate = getPrimaryDelegation(conn, role, fisDocumentType);
-        		if (primaryDelegate != null) {
-        			members.add(primaryDelegate);
-        		}
-        	} else if (FISCAL_OFFICER_SECONDARY_DELEGATE_ROLE_KEY.equals(roleName)) {
-        		FiscalOfficerRole role = getUnqualifiedFiscalOfficerRole(qualifiedRole);
-        		members.addAll(getSecondaryDelegations(conn, role, fisDocumentType));
-        	} else if (ACCOUNT_SUPERVISOR_ROLE_KEY.equals(roleName)) {
-        		String accountSupervisorId = getUnqualifiedAccountSupervisorIdFromString(qualifiedRole);
-        		annotation = "Routing to Account Supervisor";
-        		String supervisorNetworkId = KualiConstants.getActiveNetworkId(conn, accountSupervisorId);
-        		if (!StringUtils.isEmpty(supervisorNetworkId)) {
-            		members.add(new AuthenticationUserId(supervisorNetworkId));
-        		} else {
-        			LOG.info("No active account supervisor found.");
-        		}
-        	}
-    	} catch (Exception e) {
-    		LOG.error("Error getting connection", e);
-    		throw new RuntimeException("An Error occurred during routing of this document", e);
-    	} finally {
-    		if (conn != null) {
-    			try {
-    				conn.close();
-    			} catch (SQLException e1) {
-    				// Ignore
-    			}
-    			conn = null;
-    		}
-    	}
+            conn = KualiSpringServiceLocator.getDataSource().getConnection();
+            if (FISCAL_OFFICER_ROLE_KEY.equals(roleName)) {
+                FiscalOfficerRole role = getUnqualifiedFiscalOfficerRole(qualifiedRole);
+                annotation = (role.accountNumber == null ? "" : "Routing to account number " + role.accountNumber);
+                UserId fiscalOfficerId = getFiscalOfficerId(conn, role);
+                if (fiscalOfficerId != null) {
+                    members.add(fiscalOfficerId);
+                }
+            }
+            else if (FISCAL_OFFICER_PRIMARY_DELEGATE_ROLE_KEY.equals(roleName)) {
+                FiscalOfficerRole role = getUnqualifiedFiscalOfficerRole(qualifiedRole);
+                UserId primaryDelegate = getPrimaryDelegation(conn, role, fisDocumentType);
+                if (primaryDelegate != null) {
+                    members.add(primaryDelegate);
+                }
+            }
+            else if (FISCAL_OFFICER_SECONDARY_DELEGATE_ROLE_KEY.equals(roleName)) {
+                FiscalOfficerRole role = getUnqualifiedFiscalOfficerRole(qualifiedRole);
+                members.addAll(getSecondaryDelegations(conn, role, fisDocumentType));
+            }
+            else if (ACCOUNT_SUPERVISOR_ROLE_KEY.equals(roleName)) {
+                String accountSupervisorId = getUnqualifiedAccountSupervisorIdFromString(qualifiedRole);
+                annotation = "Routing to Account Supervisor";
+                String supervisorNetworkId = KualiConstants.getActiveNetworkId(conn, accountSupervisorId);
+                if (!StringUtils.isEmpty(supervisorNetworkId)) {
+                    members.add(new AuthenticationUserId(supervisorNetworkId));
+                }
+                else {
+                    LOG.info("No active account supervisor found.");
+                }
+            }
+        }
+        catch (Exception e) {
+            LOG.error("Error getting connection", e);
+            throw new RuntimeException("An Error occurred during routing of this document", e);
+        }
+        finally {
+            if (conn != null) {
+                try {
+                    conn.close();
+                }
+                catch (SQLException e1) {
+                    // Ignore
+                }
+                conn = null;
+            }
+        }
 
         return new ResolvedQualifiedRole(roleName, members, annotation);
     }
-    
+
     private static AuthenticationUserId getFiscalOfficerId(Connection connection, FiscalOfficerRole role) throws Exception {
-    	String kualiSystemId = null;
-    	// if the account is null, then use the fiscal officer id
-    	if (role.accountNumber == null) {
-    		kualiSystemId = role.fiscalOfficerId;
-    	} else {
-    		String sql = "select ACCT_FSC_OFC_UID from CA_ACCOUNT_T where FIN_COA_CD = ? and ACCOUNT_NBR = ?";
-    		PreparedStatement ps = connection.prepareStatement(sql);
-    		ps.setString(1, role.chart);
-    		ps.setString(2, role.accountNumber);
-    		ResultSet rs = ps.executeQuery();
-    		if (rs.next()) {
-    			kualiSystemId = rs.getString("ACCT_FSC_OFC_UID");
-    		}
-    	}
-		if (kualiSystemId == null) {
-			LOG.warn("No Fiscal Officer retrieved for " + 
-					(role.accountNumber == null ? "fiscal officer id="+role.fiscalOfficerId : "account=" + role.accountNumber));
-			return null;
-		}
-		String fiscalOfficerNetworkId = KualiConstants.getNetworkId(connection, kualiSystemId);
-		if (StringUtils.isEmpty(fiscalOfficerNetworkId)) {
-			LOG.warn("Could not locate the fiscal officer for the given id " + kualiSystemId);
-			return null;
-		}
-    	return new AuthenticationUserId(fiscalOfficerNetworkId);
+        String kualiSystemId = null;
+        // if the account is null, then use the fiscal officer id
+        if (role.accountNumber == null) {
+            kualiSystemId = role.fiscalOfficerId;
+        }
+        else {
+            String sql = "select ACCT_FSC_OFC_UID from CA_ACCOUNT_T where FIN_COA_CD = ? and ACCOUNT_NBR = ?";
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, role.chart);
+            ps.setString(2, role.accountNumber);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                kualiSystemId = rs.getString("ACCT_FSC_OFC_UID");
+            }
+        }
+        if (kualiSystemId == null) {
+            LOG.warn("No Fiscal Officer retrieved for " + (role.accountNumber == null ? "fiscal officer id=" + role.fiscalOfficerId : "account=" + role.accountNumber));
+            return null;
+        }
+        String fiscalOfficerNetworkId = KualiConstants.getNetworkId(connection, kualiSystemId);
+        if (StringUtils.isEmpty(fiscalOfficerNetworkId)) {
+            LOG.warn("Could not locate the fiscal officer for the given id " + kualiSystemId);
+            return null;
+        }
+        return new AuthenticationUserId(fiscalOfficerNetworkId);
     }
 
     /**
-     * Returns a the UserId of the primary delegation on the given FiscalOfficerRole.  If the given role
-     * doesn't have an account number or there is no primary delegate, returns null.
+     * Returns a the UserId of the primary delegation on the given FiscalOfficerRole. If the given role doesn't have an account
+     * number or there is no primary delegate, returns null.
      * 
      * @throws RuntimeException if there is more than one primary delegation on the given account
      */
     private static UserId getPrimaryDelegation(Connection connection, FiscalOfficerRole role, String fisDocumentType) throws Exception {
-    	UserId primaryDelegate = null;
-    	// if there is no account number then there are no delegations
-    	if (role.accountNumber == null) {
-    		return primaryDelegate;
-    	}
-		String sql = "select ACCT_DLGT_UNVL_ID from CA_ACCT_DELEGATE_T " + "where FIN_COA_CD = ? and ACCOUNT_NBR = ? and FDOC_TYP_CD = ? and ACCT_DLGT_ACTV_CD = 'Y' " + "and ACCT_DLGT_START_DT <= SYSDATE and ACCT_DLGT_PRMRT_CD = 'Y' " + (role.totalDollarAmount == null ? "" : "and ((FDOC_APRV_FROM_AMT <= ? and FDOC_APRV_TO_AMT >= ?) " + "		OR FDOC_APRV_TO_AMT = 0)");
-		PreparedStatement ps = connection.prepareStatement(sql);
-		ps.setString(1, role.chart);
-		ps.setString(2, role.accountNumber);
-		ps.setString(3, fisDocumentType);
-		if (role.totalDollarAmount != null) {
-			ps.setString(4, role.totalDollarAmount);
-			ps.setString(5, role.totalDollarAmount);
-		}
-		ResultSet rs = ps.executeQuery();
-		while (rs.next()) {
-			String kualiSystemId = rs.getString("ACCT_DLGT_UNVL_ID");
-			if (rs.next()) {
-				throw new RuntimeException("There was more than one primary account delegate for account " + role.accountNumber);
-			}
-			primaryDelegate = new AuthenticationUserId(KualiConstants.getNetworkId(connection, kualiSystemId));
-		}
-		return primaryDelegate;
+        UserId primaryDelegate = null;
+        // if there is no account number then there are no delegations
+        if (role.accountNumber == null) {
+            return primaryDelegate;
+        }
+        String sql = "select ACCT_DLGT_UNVL_ID from CA_ACCT_DELEGATE_T " + "where FIN_COA_CD = ? and ACCOUNT_NBR = ? and FDOC_TYP_CD = ? and ACCT_DLGT_ACTV_CD = 'Y' " + "and ACCT_DLGT_START_DT <= SYSDATE and ACCT_DLGT_PRMRT_CD = 'Y' " + (role.totalDollarAmount == null ? "" : "and ((FDOC_APRV_FROM_AMT <= ? and FDOC_APRV_TO_AMT >= ?) " + "		OR FDOC_APRV_TO_AMT = 0)");
+        PreparedStatement ps = connection.prepareStatement(sql);
+        ps.setString(1, role.chart);
+        ps.setString(2, role.accountNumber);
+        ps.setString(3, fisDocumentType);
+        if (role.totalDollarAmount != null) {
+            ps.setString(4, role.totalDollarAmount);
+            ps.setString(5, role.totalDollarAmount);
+        }
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            String kualiSystemId = rs.getString("ACCT_DLGT_UNVL_ID");
+            if (rs.next()) {
+                throw new RuntimeException("There was more than one primary account delegate for account " + role.accountNumber);
+            }
+            primaryDelegate = new AuthenticationUserId(KualiConstants.getNetworkId(connection, kualiSystemId));
+        }
+        return primaryDelegate;
     }
 
     /**
-     * Returns a list of UserIds for all secondary delegations on the given FiscalOfficerRole.  If the given role
-     * doesn't have an account number or there are no delegations, returns an empty list.
+     * Returns a list of UserIds for all secondary delegations on the given FiscalOfficerRole. If the given role doesn't have an
+     * account number or there are no delegations, returns an empty list.
      */
     private static List getSecondaryDelegations(Connection connection, FiscalOfficerRole role, String fisDocumentType) throws Exception {
-    	List members = new ArrayList();
-    	// if there is no account number then there are no delegations
-    	if (role.accountNumber == null) {
-    		return members;
-    	}
-    	String sql = "select ACCT_DLGT_UNVL_ID from CA_ACCT_DELEGATE_T " + 
-			"where FIN_COA_CD = ? and ACCOUNT_NBR = ? and FDOC_TYP_CD = ? and ACCT_DLGT_ACTV_CD = 'Y' " + 
-			"and ACCT_DLGT_START_DT <= SYSDATE and ACCT_DLGT_PRMRT_CD = 'N' " + 
-			(role.totalDollarAmount == null ? "" : "and ((FDOC_APRV_FROM_AMT <= ? and FDOC_APRV_TO_AMT >= ?) " + 
-			"		OR FDOC_APRV_TO_AMT = 0)");
-    	PreparedStatement ps = connection.prepareStatement(sql);
-    	ps.setString(1, role.chart);
-    	ps.setString(2, role.accountNumber);
-    	ps.setString(3, fisDocumentType);
-    	if (role.totalDollarAmount != null) {
-    		ps.setString(4, role.totalDollarAmount);
-    		ps.setString(5, role.totalDollarAmount);
-    	}
-    	ResultSet rs = ps.executeQuery();
-    	while (rs.next()) {
-    		members.add(new AuthenticationUserId(KualiConstants.getNetworkId(connection, rs.getString("ACCT_DLGT_UNVL_ID"))));
-    	}
-    	return members;
+        List members = new ArrayList();
+        // if there is no account number then there are no delegations
+        if (role.accountNumber == null) {
+            return members;
+        }
+        String sql = "select ACCT_DLGT_UNVL_ID from CA_ACCT_DELEGATE_T " + "where FIN_COA_CD = ? and ACCOUNT_NBR = ? and FDOC_TYP_CD = ? and ACCT_DLGT_ACTV_CD = 'Y' " + "and ACCT_DLGT_START_DT <= SYSDATE and ACCT_DLGT_PRMRT_CD = 'N' " + (role.totalDollarAmount == null ? "" : "and ((FDOC_APRV_FROM_AMT <= ? and FDOC_APRV_TO_AMT >= ?) " + "		OR FDOC_APRV_TO_AMT = 0)");
+        PreparedStatement ps = connection.prepareStatement(sql);
+        ps.setString(1, role.chart);
+        ps.setString(2, role.accountNumber);
+        ps.setString(3, fisDocumentType);
+        if (role.totalDollarAmount != null) {
+            ps.setString(4, role.totalDollarAmount);
+            ps.setString(5, role.totalDollarAmount);
+        }
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            members.add(new AuthenticationUserId(KualiConstants.getNetworkId(connection, rs.getString("ACCT_DLGT_UNVL_ID"))));
+        }
+        return members;
     }
-    
+
     /**
-     * A helper class which defines a Fiscal Officer role.  Implements an equals() and hashCode() method so that it
-     * can be used in a Set to prevent the generation of needless duplicate requests.
+     * A helper class which defines a Fiscal Officer role. Implements an equals() and hashCode() method so that it can be used in a
+     * Set to prevent the generation of needless duplicate requests.
      * 
      * @author ewestfal
      */
     private static class FiscalOfficerRole {
-    	
-    	public String roleName;
-    	public String fiscalOfficerId;
-    	public String chart;
-    	public String accountNumber;
-    	public String totalDollarAmount;
-    	
-    	public FiscalOfficerRole(String roleName) {
-    		this.roleName = roleName;
-    	}
 
-		public boolean equals(Object object) {
-			if (object instanceof FiscalOfficerRole) {
-				FiscalOfficerRole role = (FiscalOfficerRole)object;
-				return new EqualsBuilder().append(roleName, role.roleName).
-					append(fiscalOfficerId, role.fiscalOfficerId).
-					append(chart, role.chart).
-					append(accountNumber, role.accountNumber).
-					append(totalDollarAmount, role.totalDollarAmount).isEquals();
-			}
-			return false;
-		}
+        public String roleName;
+        public String fiscalOfficerId;
+        public String chart;
+        public String accountNumber;
+        public String totalDollarAmount;
 
-		public int hashCode() {
-			return new HashCodeBuilder().append(roleName).
-				append(fiscalOfficerId).
-				append(chart).
-				append(accountNumber).
-				append(totalDollarAmount).hashCode();
-		}
-    	
-    	
-    	
+        public FiscalOfficerRole(String roleName) {
+            this.roleName = roleName;
+        }
+
+        public boolean equals(Object object) {
+            if (object instanceof FiscalOfficerRole) {
+                FiscalOfficerRole role = (FiscalOfficerRole) object;
+                return new EqualsBuilder().append(roleName, role.roleName).append(fiscalOfficerId, role.fiscalOfficerId).append(chart, role.chart).append(accountNumber, role.accountNumber).append(totalDollarAmount, role.totalDollarAmount).isEquals();
+            }
+            return false;
+        }
+
+        public int hashCode() {
+            return new HashCodeBuilder().append(roleName).append(fiscalOfficerId).append(chart).append(accountNumber).append(totalDollarAmount).hashCode();
+        }
+
+
     }
-    
+
 }

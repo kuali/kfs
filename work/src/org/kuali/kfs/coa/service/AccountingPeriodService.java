@@ -40,24 +40,27 @@ public interface AccountingPeriodService {
      * @return A list of accounting periods in Kuali.
      */
     public Collection getAllAccountingPeriods();
-    
+
     /**
      * This method retrieves a list of all open accounting periods in the system.
+     * 
      * @return
      */
     public Collection getOpenAccountingPeriods();
-    
+
     /**
      * 
      * This method retrieves an individual AccountingPeriod based on the period and fiscal year
+     * 
      * @param periodCode
      * @param fiscalYear
      * @return an accounting period
      */
     public AccountingPeriod getByPeriod(String periodCode, Integer fiscalYear);
-    
+
     /**
      * This method takes a date and returns the corresponding period
+     * 
      * @param date
      * @return period that matches the date
      */

@@ -72,16 +72,18 @@ public class SufficientFundRebuild extends BusinessObjectBase {
     private static String SPACES = "          ";
 
     private String getField(int size, String value) {
-        if ( value == null ) {
-          return SPACES.substring(0,size);
-        } else {
-          if ( value.length() < size) {
-            return value + SPACES.substring(0,size - value.length());
-          } else {
-            return value;
-          }
+        if (value == null) {
+            return SPACES.substring(0, size);
         }
-      }
+        else {
+            if (value.length() < size) {
+                return value + SPACES.substring(0, size - value.length());
+            }
+            else {
+                return value;
+            }
+        }
+    }
 
     /**
      * Gets the chartOfAccountsCode attribute.

@@ -28,17 +28,19 @@ import org.kuali.module.gl.bo.SufficientFundBalances;
 
 /**
  * @author jsissom
- *
+ * 
  */
 public interface SufficientFundBalancesDao {
     public Collection getByObjectCode(Integer universityFiscalYear, String chartOfAccountsCode, String financialObjectCode);
+
     public void deleteByAccountNumber(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber);
+
     public SufficientFundBalances getByPrimaryId(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialObjectCode);
+
     public void save(SufficientFundBalances sfb);
-    
+
     /**
-     * This method should only be used in unit tests.  It loads all the 
-     * gl_sf_balances_t rows in memory into a collection.  This won't 
+     * This method should only be used in unit tests. It loads all the gl_sf_balances_t rows in memory into a collection. This won't
      * sace for production.
      * 
      * @return

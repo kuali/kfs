@@ -46,8 +46,9 @@ import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * This class represents a User Session
+ * 
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
-*/
+ */
 public class UserSession implements Serializable {
 
     private static final long serialVersionUID = 4532616762540067557L;
@@ -84,46 +85,49 @@ public class UserSession implements Serializable {
     public String getNetworkId() {
         if (backdoorUser != null) {
             return backdoorUser.getPersonUserIdentifier();
-        } else {
+        }
+        else {
             return kualiUser.getPersonUserIdentifier();
         }
     }
-    
+
     /**
-     * This returns who is logged in.  If the backdoor is in use, this will return the 
-     * network id of the person that is standing in as the backdoor user.
+     * This returns who is logged in. If the backdoor is in use, this will return the network id of the person that is standing in
+     * as the backdoor user.
      * 
      * @return String
      */
     public String getLoggedInUserNetworkId() {
         return kualiUser.getPersonUserIdentifier();
     }
-    
+
     /**
      * @return the KualiUser which is the current user in the system, backdoor if backdoor is set
      */
     public KualiUser getKualiUser() {
         if (backdoorUser != null) {
             return backdoorUser;
-        } else {
+        }
+        else {
             return kualiUser;
         }
     }
-    
+
     /**
      * @return the workflowUser which is the current user in the system, backdoor if backdoor is set
      */
     public UserVO getWorkflowUser() {
         if (backdoorUser != null) {
             return backdoorWorkflowUser;
-        } else {
+        }
+        else {
             return workflowUser;
         }
     }
 
     /**
-     * override the current user in the system by setting the backdoor networkId, which is useful
-     * when dealing with routing or other reasons why you would need to assume an identity in the system
+     * override the current user in the system by setting the backdoor networkId, which is useful when dealing with routing or other
+     * reasons why you would need to assume an identity in the system
      * 
      * @param networkId
      * @throws UserNotFoundException
@@ -139,7 +143,7 @@ public class UserSession implements Serializable {
 
     /**
      * clear the backdoor user
-     *
+     * 
      */
     public void clearBackdoorUser() {
         this.backdoorUser = null;
@@ -148,9 +152,8 @@ public class UserSession implements Serializable {
     }
 
     /**
-     * allows adding an arbitrary object to the session and returns a string key
-     * that can be used to later access this object from the session using the 
-     * retrieveObject method in this class
+     * allows adding an arbitrary object to the session and returns a string key that can be used to later access this object from
+     * the session using the retrieveObject method in this class
      * 
      * @param object
      * @return
@@ -160,11 +163,10 @@ public class UserSession implements Serializable {
         objectMap.put(objectKey, object);
         return objectKey;
     }
-    
+
     /**
-     * allows adding an arbitrary object to the session and returns a string key
-     * that can be used to later access this object from the session using the 
-     * retrieveObject method in this class
+     * allows adding an arbitrary object to the session and returns a string key that can be used to later access this object from
+     * the session using the retrieveObject method in this class
      * 
      * @param object
      * @return
@@ -176,8 +178,8 @@ public class UserSession implements Serializable {
     }
 
     /**
-     * allows for fetching an object that has been put into the userSession based
-     * on the key that would have been returned when adding the object
+     * allows for fetching an object that has been put into the userSession based on the key that would have been returned when
+     * adding the object
      * 
      * @param objectKey
      * @return
@@ -185,20 +187,20 @@ public class UserSession implements Serializable {
     public Object retrieveObject(String objectKey) {
         return this.objectMap.get(objectKey);
     }
-    
+
     /**
-     * allows for removal of an object from session that has been put into the userSession
-     * based on the key that would have been assigned
+     * allows for removal of an object from session that has been put into the userSession based on the key that would have been
+     * assigned
      * 
      * @param objectKey
      */
     public void removeObject(String objectKey) {
         this.objectMap.remove(objectKey);
     }
-    
+
     /**
-     * allows for removal of an object from session that has been put into the userSession
-     * based on a key that starts with the given prefix
+     * allows for removal of an object from session that has been put into the userSession based on a key that starts with the given
+     * prefix
      * 
      * @param objectKey
      */
@@ -236,13 +238,15 @@ public class UserSession implements Serializable {
         }
         if (workflowDocMap.containsKey(docId)) {
             return (KualiWorkflowDocument) workflowDocMap.get(docId);
-        } else {
+        }
+        else {
             return null;
         }
     }
 
     /**
      * set a flexDoc into the userSession which will be stored under the document id
+     * 
      * @param flexDoc
      */
     public void setWorkflowDocument(KualiWorkflowDocument workflowDocument) {
@@ -251,13 +255,14 @@ public class UserSession implements Serializable {
                 workflowDocMap = new HashMap();
             }
             workflowDocMap.put(workflowDocument.getRouteHeaderId().toString(), workflowDocument);
-        } catch (WorkflowException e) {
+        }
+        catch (WorkflowException e) {
             throw new IllegalStateException("could not save the document in the session msg: " + e.getMessage());
         }
     }
-    
+
     private void refreshUserGroups(KualiUser user) {
         KualiGroupService kualiGroupService = SpringServiceLocator.getKualiGroupService();
-        user.setGroups(kualiGroupService.getUsersGroups(kualiUser));  
+        user.setGroups(kualiGroupService.getUsersGroups(kualiUser));
     }
 }

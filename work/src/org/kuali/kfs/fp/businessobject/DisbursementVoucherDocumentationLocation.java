@@ -34,86 +34,86 @@ import org.kuali.core.bo.BusinessObjectBase;
  */
 public class DisbursementVoucherDocumentationLocation extends BusinessObjectBase {
 
-	private String disbursementVoucherDocumentationLocationCode;
-	private String disbursementVoucherDocumentationLocationName;
-	private String disbursementVoucherDocumentationLocationAddress;
+    private String disbursementVoucherDocumentationLocationCode;
+    private String disbursementVoucherDocumentationLocationName;
+    private String disbursementVoucherDocumentationLocationAddress;
 
-	/**
-	 * Default constructor.
-	 */
-	public DisbursementVoucherDocumentationLocation() {
+    /**
+     * Default constructor.
+     */
+    public DisbursementVoucherDocumentationLocation() {
 
-	}
+    }
 
-	/**
-	 * Gets the disbursementVoucherDocumentationLocationCode attribute.
-	 * 
-	 * @return - Returns the disbursementVoucherDocumentationLocationCode
-	 * 
-	 */
-	public String getDisbursementVoucherDocumentationLocationCode() { 
-		return disbursementVoucherDocumentationLocationCode;
-	}
+    /**
+     * Gets the disbursementVoucherDocumentationLocationCode attribute.
+     * 
+     * @return - Returns the disbursementVoucherDocumentationLocationCode
+     * 
+     */
+    public String getDisbursementVoucherDocumentationLocationCode() {
+        return disbursementVoucherDocumentationLocationCode;
+    }
 
-	/**
-	 * Sets the disbursementVoucherDocumentationLocationCode attribute.
-	 * 
-	 * @param - disbursementVoucherDocumentationLocationCode The disbursementVoucherDocumentationLocationCode to set.
-	 * 
-	 */
-	public void setDisbursementVoucherDocumentationLocationCode(String disbursementVoucherDocumentationLocationCode) {
-		this.disbursementVoucherDocumentationLocationCode = disbursementVoucherDocumentationLocationCode;
-	}
-
-
-	/**
-	 * Gets the disbursementVoucherDocumentationLocationName attribute.
-	 * 
-	 * @return - Returns the disbursementVoucherDocumentationLocationName
-	 * 
-	 */
-	public String getDisbursementVoucherDocumentationLocationName() { 
-		return disbursementVoucherDocumentationLocationName;
-	}
-
-	/**
-	 * Sets the disbursementVoucherDocumentationLocationName attribute.
-	 * 
-	 * @param - disbursementVoucherDocumentationLocationName The disbursementVoucherDocumentationLocationName to set.
-	 * 
-	 */
-	public void setDisbursementVoucherDocumentationLocationName(String disbursementVoucherDocumentationLocationName) {
-		this.disbursementVoucherDocumentationLocationName = disbursementVoucherDocumentationLocationName;
-	}
+    /**
+     * Sets the disbursementVoucherDocumentationLocationCode attribute.
+     * 
+     * @param - disbursementVoucherDocumentationLocationCode The disbursementVoucherDocumentationLocationCode to set.
+     * 
+     */
+    public void setDisbursementVoucherDocumentationLocationCode(String disbursementVoucherDocumentationLocationCode) {
+        this.disbursementVoucherDocumentationLocationCode = disbursementVoucherDocumentationLocationCode;
+    }
 
 
-	/**
-	 * Gets the disbursementVoucherDocumentationLocationAddress attribute.
-	 * 
-	 * @return - Returns the disbursementVoucherDocumentationLocationAddress
-	 * 
-	 */
-	public String getDisbursementVoucherDocumentationLocationAddress() { 
-		return disbursementVoucherDocumentationLocationAddress;
-	}
+    /**
+     * Gets the disbursementVoucherDocumentationLocationName attribute.
+     * 
+     * @return - Returns the disbursementVoucherDocumentationLocationName
+     * 
+     */
+    public String getDisbursementVoucherDocumentationLocationName() {
+        return disbursementVoucherDocumentationLocationName;
+    }
 
-	/**
-	 * Sets the disbursementVoucherDocumentationLocationAddress attribute.
-	 * 
-	 * @param - disbursementVoucherDocumentationLocationAddress The disbursementVoucherDocumentationLocationAddress to set.
-	 * 
-	 */
-	public void setDisbursementVoucherDocumentationLocationAddress(String disbursementVoucherDocumentationLocationAddress) {
-		this.disbursementVoucherDocumentationLocationAddress = disbursementVoucherDocumentationLocationAddress;
-	}
+    /**
+     * Sets the disbursementVoucherDocumentationLocationName attribute.
+     * 
+     * @param - disbursementVoucherDocumentationLocationName The disbursementVoucherDocumentationLocationName to set.
+     * 
+     */
+    public void setDisbursementVoucherDocumentationLocationName(String disbursementVoucherDocumentationLocationName) {
+        this.disbursementVoucherDocumentationLocationName = disbursementVoucherDocumentationLocationName;
+    }
 
 
-	/**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
+    /**
+     * Gets the disbursementVoucherDocumentationLocationAddress attribute.
+     * 
+     * @return - Returns the disbursementVoucherDocumentationLocationAddress
+     * 
+     */
+    public String getDisbursementVoucherDocumentationLocationAddress() {
+        return disbursementVoucherDocumentationLocationAddress;
+    }
+
+    /**
+     * Sets the disbursementVoucherDocumentationLocationAddress attribute.
+     * 
+     * @param - disbursementVoucherDocumentationLocationAddress The disbursementVoucherDocumentationLocationAddress to set.
+     * 
+     */
+    public void setDisbursementVoucherDocumentationLocationAddress(String disbursementVoucherDocumentationLocationAddress) {
+        this.disbursementVoucherDocumentationLocationAddress = disbursementVoucherDocumentationLocationAddress;
+    }
+
+
+    /**
+     * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
         m.put("disbursementVoucherDocumentationLocationCode", this.disbursementVoucherDocumentationLocationCode);
-	    return m;
+        return m;
     }
 }

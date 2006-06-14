@@ -36,37 +36,36 @@ import org.kuali.module.chart.bo.IcrAutomatedEntry;
 
 /**
  * This class...
+ * 
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public class IcrAutomatedEntryRule extends MaintenanceDocumentRuleBase {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SubAccountRule.class);
     private IcrAutomatedEntry oldIcrAutomatedEntry;
     private IcrAutomatedEntry newIcrAutomatedEntry;
-    
-    
-    
-    
+
+
     public IcrAutomatedEntryRule() {
         super();
-        
+
     }
-    
+
     protected boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
         boolean success = true;
-        
+
         LOG.info("Entering processCustomApproveDocumentBusinessRules()");
-       
+
         return success;
     }
-    
+
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
 
         boolean success = true;
-        
+
         LOG.info("Entering processCustomRouteDocumentBusinessRules()");
-        
+
         setupConvenienceObjects(document);
-        
+
         String chartOfAccountsCode = newIcrAutomatedEntry.getChartOfAccountsCode();
         String accountNumber = newIcrAutomatedEntry.getAccountNumber();
         String subAccountNumber = newIcrAutomatedEntry.getSubAccountNumber();
@@ -75,79 +74,84 @@ public class IcrAutomatedEntryRule extends MaintenanceDocumentRuleBase {
         String offsetBalanceSheetObjectCodeNumber = newIcrAutomatedEntry.getOffsetBalanceSheetObjectCodeNumber();
         String transactionDebitIndicator = newIcrAutomatedEntry.getTransactionDebitIndicator();
         KualiPercent awardIndrCostRcvyRatePct = newIcrAutomatedEntry.getAwardIndrCostRcvyRatePct();
-        
+
         // Chart Code Rule
-        if (chartOfAccountsCode !=null){
-            if (StringUtils.contains(chartOfAccountsCode, "@") || StringUtils.contains(chartOfAccountsCode, "#")){
-            
-            } else {
+        if (chartOfAccountsCode != null) {
+            if (StringUtils.contains(chartOfAccountsCode, "@") || StringUtils.contains(chartOfAccountsCode, "#")) {
+
+            }
+            else {
                 Map pkMap = new HashMap();
-        	    pkMap.put("chartOfAccountsCode", chartOfAccountsCode);
-        	    success = checkExistenceFromTable(IcrAutomatedEntry.class, pkMap, "chartOfAccountsCode", "Chart Code");
-           	}
+                pkMap.put("chartOfAccountsCode", chartOfAccountsCode);
+                success = checkExistenceFromTable(IcrAutomatedEntry.class, pkMap, "chartOfAccountsCode", "Chart Code");
+            }
         }
-        
-        
-        //Account Number Rule
-        if (accountNumber !=null){
-            if (StringUtils.contains(accountNumber, "@") || StringUtils.contains(accountNumber, "#")){
-            
-            } else {
+
+
+        // Account Number Rule
+        if (accountNumber != null) {
+            if (StringUtils.contains(accountNumber, "@") || StringUtils.contains(accountNumber, "#")) {
+
+            }
+            else {
                 Map pkMap = new HashMap();
                 pkMap.put("accountNumber", accountNumber);
                 success = checkExistenceFromTable(IcrAutomatedEntry.class, pkMap, "accountNumber", "Account");
-           	}
+            }
         }
-        
-        
-        //Sub-Account Number Rule
-        if (subAccountNumber !=null){
-            if (StringUtils.contains(subAccountNumber, "@") || StringUtils.contains(subAccountNumber, "-----")){
-            
-            } else {
+
+
+        // Sub-Account Number Rule
+        if (subAccountNumber != null) {
+            if (StringUtils.contains(subAccountNumber, "@") || StringUtils.contains(subAccountNumber, "-----")) {
+
+            }
+            else {
                 Map pkMap = new HashMap();
                 pkMap.put("subAccountNumber", subAccountNumber);
                 success = checkExistenceFromTable(IcrAutomatedEntry.class, pkMap, "subAccountNumber", "Sub-Account");
-           	}
+            }
         }
-        
-        //Financial ObjectCode Rule
-        if (financialObjectCode !=null){
-            if (StringUtils.contains(financialObjectCode, "@") || StringUtils.contains(financialObjectCode, "#")){
-            
-            } else {
+
+        // Financial ObjectCode Rule
+        if (financialObjectCode != null) {
+            if (StringUtils.contains(financialObjectCode, "@") || StringUtils.contains(financialObjectCode, "#")) {
+
+            }
+            else {
                 Map pkMap = new HashMap();
                 pkMap.put("financialObjectCode", financialObjectCode);
                 success = checkExistenceFromTable(IcrAutomatedEntry.class, pkMap, "financialObjectCode", "Object Code");
-           	}
+            }
         }
-        
-        //Financial SubObjectCode Rule
-        if (financialSubObjectCode !=null){
-            if (StringUtils.contains(financialSubObjectCode, "---")){
-            
-            } else {
+
+        // Financial SubObjectCode Rule
+        if (financialSubObjectCode != null) {
+            if (StringUtils.contains(financialSubObjectCode, "---")) {
+
+            }
+            else {
                 Map pkMap = new HashMap();
                 pkMap.put("financialObjectCode", financialSubObjectCode);
                 success = checkExistenceFromTable(IcrAutomatedEntry.class, pkMap, "financialSubObjectCode", "SubObject Code");
-           	}
+            }
         }
-        
+
         // TODO Offset Balance Sheet Object Code Rule
         // It should exist in the Object Code table.
-        // Note: There are currently records in the test database where ( Chart Code = "@" or "#") 
-        // and Offset Balance Sheet Object Code is a number like "8000". 
-        // It is not clear how we validate the Offset Balance Sheet Object Code in this case 
-        // since we don't have a real Chart Code. 
+        // Note: There are currently records in the test database where ( Chart Code = "@" or "#")
+        // and Offset Balance Sheet Object Code is a number like "8000".
+        // It is not clear how we validate the Offset Balance Sheet Object Code in this case
+        // since we don't have a real Chart Code.
 
-        // Transaction Debit Indicator Rule: It was checked in some place.  
-        if (transactionDebitIndicator != null){
-            if (StringUtils.contains(transactionDebitIndicator, "D") || StringUtils.contains(transactionDebitIndicator, "C")){
-              
+        // Transaction Debit Indicator Rule: It was checked in some place.
+        if (transactionDebitIndicator != null) {
+            if (StringUtils.contains(transactionDebitIndicator, "D") || StringUtils.contains(transactionDebitIndicator, "C")) {
+
             }
-                
+
         }
-        
+
         // Award Indirect Cost Recovey Rate Percent
         if (awardIndrCostRcvyRatePct != null) {
             if (awardIndrCostRcvyRatePct.doubleValue() < 0.00) {
@@ -155,40 +159,40 @@ public class IcrAutomatedEntryRule extends MaintenanceDocumentRuleBase {
                 success = false;
             }
         }
-        
+
         return success;
     }
-    
-    
+
+
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
 
         boolean success = true;
-        
+
         LOG.info("Entering processCustomSaveDocumentBusinessRules()");
-        
+
         return success;
     }
-    
+
     public void setupConvenienceObjects(MaintenanceDocument document) {
-        
-        //	setup oldICRAutomatedEntry convenience objects, make sure all possible sub-objects are populated
+
+        // setup oldICRAutomatedEntry convenience objects, make sure all possible sub-objects are populated
         oldIcrAutomatedEntry = (IcrAutomatedEntry) super.getOldBo();
 
-        //	setup newICRAutomatedEntry convenience objects, make sure all possible sub-objects are populated
+        // setup newICRAutomatedEntry convenience objects, make sure all possible sub-objects are populated
         newIcrAutomatedEntry = (IcrAutomatedEntry) super.getNewBo();
     }
-    
-    
-    // Check existence of each field from table. 
-    private boolean checkExistenceFromTable(Class clazz, Map map, String errorField, String errorMessage){
+
+
+    // Check existence of each field from table.
+    private boolean checkExistenceFromTable(Class clazz, Map map, String errorField, String errorMessage) {
         boolean success = true;
         BusinessObject findByChartCode = null;
-	    findByChartCode = getBoService().findByPrimaryKey(clazz, map);
-	    if (findByChartCode == null) {
-	        putFieldError(errorField, KeyConstants.ERROR_EXISTENCE, errorMessage);
-	        success = false;
-	    }
+        findByChartCode = getBoService().findByPrimaryKey(clazz, map);
+        if (findByChartCode == null) {
+            putFieldError(errorField, KeyConstants.ERROR_EXISTENCE, errorMessage);
+            success = false;
+        }
         return success;
     }
-    
+
 }

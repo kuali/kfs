@@ -26,32 +26,32 @@ import org.kuali.core.batch.Step;
 import org.kuali.module.gl.service.NightlyOutService;
 
 public class ClearPendingStep implements Step {
-  private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ClearPendingStep.class);
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ClearPendingStep.class);
 
-  private NightlyOutService nightlyOutService;
+    private NightlyOutService nightlyOutService;
 
-  public ClearPendingStep() {
-    super();
-  }
+    public ClearPendingStep() {
+        super();
+    }
 
-  public boolean performStep() {
-    LOG.debug("performStep() started");
+    public boolean performStep() {
+        LOG.debug("performStep() started");
 
-    nightlyOutService.deleteCopiedPendingLedgerEntries();
+        nightlyOutService.deleteCopiedPendingLedgerEntries();
 
-    return true;
-  }
+        return true;
+    }
 
-  public String getName() {
-    return "Delete Copied Pending Entries";
-  }
+    public String getName() {
+        return "Delete Copied Pending Entries";
+    }
 
-  /**
-   * Sets the nightlyOutService attribute value.
-   * 
-   * @param nightlyOutService The nightlyOutService to set.
-   */
-  public void setNightlyOutService(NightlyOutService nightlyOutService) {
-      this.nightlyOutService = nightlyOutService;
-  }
+    /**
+     * Sets the nightlyOutService attribute value.
+     * 
+     * @param nightlyOutService The nightlyOutService to set.
+     */
+    public void setNightlyOutService(NightlyOutService nightlyOutService) {
+        this.nightlyOutService = nightlyOutService;
+    }
 }

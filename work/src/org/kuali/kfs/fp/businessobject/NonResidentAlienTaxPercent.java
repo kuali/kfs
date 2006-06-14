@@ -35,113 +35,113 @@ import org.kuali.core.util.KualiDecimal;
  */
 public class NonResidentAlienTaxPercent extends BusinessObjectBase {
 
-	private String incomeClassCode;
-	private String incomeTaxTypeCode;
-	private KualiDecimal incomeTaxPercent;
-	
-	private TaxIncomeClassCode incomeClass;
+    private String incomeClassCode;
+    private String incomeTaxTypeCode;
+    private KualiDecimal incomeTaxPercent;
 
-	/**
-	 * Default no-arg constructor.
-	 */
-	public NonResidentAlienTaxPercent() {
+    private TaxIncomeClassCode incomeClass;
 
-	}
+    /**
+     * Default no-arg constructor.
+     */
+    public NonResidentAlienTaxPercent() {
 
-	/**
-	 * Gets the incomeClassCode attribute.
-	 * 
-	 * @return - Returns the incomeClassCode
-	 * 
-	 */
-	public String getIncomeClassCode() { 
-		return incomeClassCode;
-	}
-	
+    }
 
-	/**
-	 * Sets the incomeClassCode attribute.
-	 * 
-	 * @param - incomeClassCode The incomeClassCode to set.
-	 * 
-	 */
-	public void setIncomeClassCode(String incomeClassCode) {
-		this.incomeClassCode = incomeClassCode;
-	}
+    /**
+     * Gets the incomeClassCode attribute.
+     * 
+     * @return - Returns the incomeClassCode
+     * 
+     */
+    public String getIncomeClassCode() {
+        return incomeClassCode;
+    }
 
-	/**
-	 * Gets the incomeTaxTypeCode attribute.
-	 * 
-	 * @return - Returns the incomeTaxTypeCode
-	 * 
-	 */
-	public String getIncomeTaxTypeCode() { 
-		return incomeTaxTypeCode;
-	}
-	
 
-	/**
-	 * Sets the incomeTaxTypeCode attribute.
-	 * 
-	 * @param - incomeTaxTypeCode The incomeTaxTypeCode to set.
-	 * 
-	 */
-	public void setIncomeTaxTypeCode(String incomeTaxTypeCode) {
-		this.incomeTaxTypeCode = incomeTaxTypeCode;
-	}
+    /**
+     * Sets the incomeClassCode attribute.
+     * 
+     * @param - incomeClassCode The incomeClassCode to set.
+     * 
+     */
+    public void setIncomeClassCode(String incomeClassCode) {
+        this.incomeClassCode = incomeClassCode;
+    }
 
-	/**
-	 * Gets the incomeTaxPercent attribute.
-	 * 
-	 * @return - Returns the incomeTaxPercent
-	 * 
-	 */
-	public KualiDecimal getIncomeTaxPercent() { 
-		return incomeTaxPercent;
-	}
-	
+    /**
+     * Gets the incomeTaxTypeCode attribute.
+     * 
+     * @return - Returns the incomeTaxTypeCode
+     * 
+     */
+    public String getIncomeTaxTypeCode() {
+        return incomeTaxTypeCode;
+    }
 
-	/**
-	 * Sets the incomeTaxPercent attribute.
-	 * 
-	 * @param - incomeTaxPercent The incomeTaxPercent to set.
-	 * 
-	 */
-	public void setIncomeTaxPercent(KualiDecimal incomeTaxPercent) {
-		this.incomeTaxPercent = incomeTaxPercent;
-	}
 
-	/**
-	 * Gets the incomeClass attribute.
-	 * 
-	 * @return - Returns the incomeClass
-	 * 
-	 */
-	public TaxIncomeClassCode getIncomeClass() { 
-		return incomeClass;
-	}
-	
+    /**
+     * Sets the incomeTaxTypeCode attribute.
+     * 
+     * @param - incomeTaxTypeCode The incomeTaxTypeCode to set.
+     * 
+     */
+    public void setIncomeTaxTypeCode(String incomeTaxTypeCode) {
+        this.incomeTaxTypeCode = incomeTaxTypeCode;
+    }
 
-	/**
-	 * Sets the incomeClass attribute.
-	 * 
-	 * @param - incomeClass The incomeClass to set.
-	 * @deprecated
-	 */
-	public void setIncomeClass(TaxIncomeClassCode incomeClass) {
-		this.incomeClass = incomeClass;
-	}
+    /**
+     * Gets the incomeTaxPercent attribute.
+     * 
+     * @return - Returns the incomeTaxPercent
+     * 
+     */
+    public KualiDecimal getIncomeTaxPercent() {
+        return incomeTaxPercent;
+    }
 
-	/**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();
+
+    /**
+     * Sets the incomeTaxPercent attribute.
+     * 
+     * @param - incomeTaxPercent The incomeTaxPercent to set.
+     * 
+     */
+    public void setIncomeTaxPercent(KualiDecimal incomeTaxPercent) {
+        this.incomeTaxPercent = incomeTaxPercent;
+    }
+
+    /**
+     * Gets the incomeClass attribute.
+     * 
+     * @return - Returns the incomeClass
+     * 
+     */
+    public TaxIncomeClassCode getIncomeClass() {
+        return incomeClass;
+    }
+
+
+    /**
+     * Sets the incomeClass attribute.
+     * 
+     * @param - incomeClass The incomeClass to set.
+     * @deprecated
+     */
+    public void setIncomeClass(TaxIncomeClassCode incomeClass) {
+        this.incomeClass = incomeClass;
+    }
+
+    /**
+     * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
         m.put("incomeClassCode", this.incomeClassCode);
         m.put("incomeTaxTypeCode", this.incomeTaxTypeCode);
         if (this.incomeTaxPercent != null) {
-          m.put("incomeTaxPercent", this.incomeTaxPercent.toString());
+            m.put("incomeTaxPercent", this.incomeTaxPercent.toString());
         }
-  	    return m;
-	}
+        return m;
+    }
 }

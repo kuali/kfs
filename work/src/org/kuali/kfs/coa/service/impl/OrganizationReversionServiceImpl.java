@@ -42,7 +42,7 @@ import org.springframework.beans.factory.BeanFactoryAware;
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  * @version $Id$
  */
-public class OrganizationReversionServiceImpl implements OrganizationReversionService,BeanFactoryAware {
+public class OrganizationReversionServiceImpl implements OrganizationReversionService, BeanFactoryAware {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationReversionServiceImpl.class);
 
     private OrganizationReversionDao organizationReversionDao;
@@ -51,7 +51,8 @@ public class OrganizationReversionServiceImpl implements OrganizationReversionSe
 
     /**
      * 
-     * @see org.kuali.module.chart.service.OrganizationReversionService#getByPrimaryId(java.lang.Integer, java.lang.String, java.lang.String)
+     * @see org.kuali.module.chart.service.OrganizationReversionService#getByPrimaryId(java.lang.Integer, java.lang.String,
+     *      java.lang.String)
      */
     public OrganizationReversion getByPrimaryId(Integer fiscalYear, String chartCode, String orgCode) {
         LOG.debug("getByPrimaryId() started");
@@ -62,28 +63,29 @@ public class OrganizationReversionServiceImpl implements OrganizationReversionSe
      * 
      * @see org.kuali.module.chart.service.OrganizationReversionService#getCategories()
      */
-    public Map<String,OrganizationReversionCategoryLogic> getCategories() {
+    public Map<String, OrganizationReversionCategoryLogic> getCategories() {
         LOG.debug("getCategories() started");
 
-        Map<String,OrganizationReversionCategoryLogic> categories = new HashMap<String,OrganizationReversionCategoryLogic>();
+        Map<String, OrganizationReversionCategoryLogic> categories = new HashMap<String, OrganizationReversionCategoryLogic>();
 
         Collection cats = organizationReversionDao.getCategories();
 
         for (Iterator iter = cats.iterator(); iter.hasNext();) {
-            OrganizationReversionCategory orc = (OrganizationReversionCategory)iter.next();
+            OrganizationReversionCategory orc = (OrganizationReversionCategory) iter.next();
 
             String categoryCode = orc.getOrganizationReversionCategoryCode();
 
-            if ( beanFactory.containsBean("gl" + categoryCode + "OrganizationReversionCategory") ) {
+            if (beanFactory.containsBean("gl" + categoryCode + "OrganizationReversionCategory")) {
                 // We have a custom implementation
-                categories.put(categoryCode,(OrganizationReversionCategoryLogic)beanFactory.getBean("gl" + categoryCode + "OrganizationReversionCategory"));
-            } else {
+                categories.put(categoryCode, (OrganizationReversionCategoryLogic) beanFactory.getBean("gl" + categoryCode + "OrganizationReversionCategory"));
+            }
+            else {
                 // We'll get the generic implementation
-                GenericOrganizationReversionCategory cat = (GenericOrganizationReversionCategory)beanFactory.getBean("glGenericOrganizationReversionCategory");
+                GenericOrganizationReversionCategory cat = (GenericOrganizationReversionCategory) beanFactory.getBean("glGenericOrganizationReversionCategory");
                 cat.setCategoryCode(categoryCode);
                 cat.setCategoryName(orc.getOrganizationReversionCategoryName());
 
-                categories.put(categoryCode, (OrganizationReversionCategoryLogic)cat);
+                categories.put(categoryCode, (OrganizationReversionCategoryLogic) cat);
             }
         }
         return categories;

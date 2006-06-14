@@ -34,64 +34,64 @@ import org.kuali.core.bo.BusinessObjectBase;
  */
 public class ProposalPurpose extends BusinessObjectBase {
 
-	private String proposalPurposeCode;
-	private String proposalPurposeDescription;
+    private String proposalPurposeCode;
+    private String proposalPurposeDescription;
 
-	/**
-	 * Default constructor.
-	 */
-	public ProposalPurpose() {
+    /**
+     * Default constructor.
+     */
+    public ProposalPurpose() {
 
-	}
+    }
 
-	/**
-	 * Gets the proposalPurposeCode attribute.
-	 * 
-	 * @return - Returns the proposalPurposeCode
-	 * 
-	 */
-	public String getProposalPurposeCode() { 
-		return proposalPurposeCode;
-	}
+    /**
+     * Gets the proposalPurposeCode attribute.
+     * 
+     * @return - Returns the proposalPurposeCode
+     * 
+     */
+    public String getProposalPurposeCode() {
+        return proposalPurposeCode;
+    }
 
-	/**
-	 * Sets the proposalPurposeCode attribute.
-	 * 
-	 * @param - proposalPurposeCode The proposalPurposeCode to set.
-	 * 
-	 */
-	public void setProposalPurposeCode(String proposalPurposeCode) {
-		this.proposalPurposeCode = proposalPurposeCode;
-	}
-
-
-	/**
-	 * Gets the proposalPurposeDescription attribute.
-	 * 
-	 * @return - Returns the proposalPurposeDescription
-	 * 
-	 */
-	public String getProposalPurposeDescription() { 
-		return proposalPurposeDescription;
-	}
-
-	/**
-	 * Sets the proposalPurposeDescription attribute.
-	 * 
-	 * @param - proposalPurposeDescription The proposalPurposeDescription to set.
-	 * 
-	 */
-	public void setProposalPurposeDescription(String proposalPurposeDescription) {
-		this.proposalPurposeDescription = proposalPurposeDescription;
-	}
+    /**
+     * Sets the proposalPurposeCode attribute.
+     * 
+     * @param - proposalPurposeCode The proposalPurposeCode to set.
+     * 
+     */
+    public void setProposalPurposeCode(String proposalPurposeCode) {
+        this.proposalPurposeCode = proposalPurposeCode;
+    }
 
 
-	/**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
+    /**
+     * Gets the proposalPurposeDescription attribute.
+     * 
+     * @return - Returns the proposalPurposeDescription
+     * 
+     */
+    public String getProposalPurposeDescription() {
+        return proposalPurposeDescription;
+    }
+
+    /**
+     * Sets the proposalPurposeDescription attribute.
+     * 
+     * @param - proposalPurposeDescription The proposalPurposeDescription to set.
+     * 
+     */
+    public void setProposalPurposeDescription(String proposalPurposeDescription) {
+        this.proposalPurposeDescription = proposalPurposeDescription;
+    }
+
+
+    /**
+     * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
         m.put("proposalPurposeCode", this.proposalPurposeCode);
-	    return m;
+        return m;
     }
 }

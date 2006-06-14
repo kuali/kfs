@@ -36,7 +36,7 @@ public class DocumentStatusMonitor extends ChangeMonitor {
     final private String docHeaderId;
     final private String desiredStatus;
 
-    public DocumentStatusMonitor(DocumentService documentService, String docHeaderId, String desiredStatus ) {
+    public DocumentStatusMonitor(DocumentService documentService, String docHeaderId, String desiredStatus) {
         this.documentService = documentService;
         this.docHeaderId = docHeaderId;
         this.desiredStatus = desiredStatus;
@@ -46,6 +46,6 @@ public class DocumentStatusMonitor extends ChangeMonitor {
         Document d = documentService.getByDocumentHeaderId(docHeaderId.toString());
 
         String currentStatus = d.getDocumentHeader().getFinancialDocumentStatusCode();
-        return StringUtils.equals( desiredStatus, currentStatus );
+        return StringUtils.equals(desiredStatus, currentStatus);
     }
 }

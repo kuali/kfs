@@ -26,12 +26,13 @@ import org.kuali.module.chart.bo.SubObjCd;
 
 /**
  * This interface defines methods that a SubObjectCode Service must provide.
+ * 
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public interface SubObjectCodeService {
     /**
-     * Specifies what a method that searches based on the Primary Key of an 
-     * SubObjectCode object must look like.
+     * Specifies what a method that searches based on the Primary Key of an SubObjectCode object must look like.
+     * 
      * @param universityFiscalYear
      * @param chartOfAccountsCode
      * @param accountNumber
@@ -39,6 +40,5 @@ public interface SubObjectCodeService {
      * @param financialSubObjectCode
      * @return SubObjectCode
      */
-    public SubObjCd getByPrimaryId(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber,
-            String financialObjectCode, String financialSubObjectCode);
+    public SubObjCd getByPrimaryId(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialObjectCode, String financialSubObjectCode);
 }

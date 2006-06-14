@@ -46,35 +46,36 @@ import org.kuali.module.financial.rules.BudgetAdjustmentRuleConstants;
 public class BudgetAdjustmentDocument extends TransactionalDocumentBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetAdjustmentDocument.class);
 
-	private Integer nextPositionSourceLineNumber;
-	private Integer nextPositionTargetLineNumber;
+    private Integer nextPositionSourceLineNumber;
+    private Integer nextPositionTargetLineNumber;
 
-	/**
-	 * Default constructor.
-	 */
-	public BudgetAdjustmentDocument() {
+    /**
+     * Default constructor.
+     */
+    public BudgetAdjustmentDocument() {
         super();
-	}
+    }
 
     /**
      * generic, shared logic used to iniate a ba document
      */
     public void initiateDocument() {
 
-        //setting default posting year
+        // setting default posting year
         Integer currentYearParam = SpringServiceLocator.getDateTimeService().getCurrentFiscalYear();
         Integer defaultYearParam = null;
-        
+
         try {
-            defaultYearParam = new Integer(Integer.parseInt(SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(
-                    BudgetAdjustmentRuleConstants.GLOBAL_FIELD_RESTRICTIONS_GROUP_NM, BudgetAdjustmentRuleConstants.DEFAULT_FISCAL_YEAR_PARM_NM)));
-        } catch (ApplicationParameterException e) {
-            //DO NOTHING: we don't want to throw an error if the default value is not found, just don't set it in the list
+            defaultYearParam = new Integer(Integer.parseInt(SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(BudgetAdjustmentRuleConstants.GLOBAL_FIELD_RESTRICTIONS_GROUP_NM, BudgetAdjustmentRuleConstants.DEFAULT_FISCAL_YEAR_PARM_NM)));
+        }
+        catch (ApplicationParameterException e) {
+            // DO NOTHING: we don't want to throw an error if the default value is not found, just don't set it in the list
         }
 
         if (defaultYearParam != null) {
             setPostingYear(defaultYearParam);
-        } else {
+        }
+        else {
             setPostingYear(currentYearParam);
         }
 
@@ -95,70 +96,70 @@ public class BudgetAdjustmentDocument extends TransactionalDocumentBase {
     public void setNextPositionTargetLineNumber(Integer nextPositionTargetLineNumber) {
         this.nextPositionTargetLineNumber = nextPositionTargetLineNumber;
     }
-    
+
     /**
      * Returns the total current budget amount from the source lines.
      */
     public KualiDecimal getSourceCurrentBudgetTotal() {
         KualiDecimal currentBudgetTotal = new KualiDecimal(0);
-        
+
         for (Iterator iter = sourceAccountingLines.iterator(); iter.hasNext();) {
             BudgetAdjustmentAccountingLine line = (BudgetAdjustmentAccountingLine) iter.next();
             currentBudgetTotal = currentBudgetTotal.add(line.getCurrentBudgetAdjustmentAmount());
         }
-        
+
         return currentBudgetTotal;
     }
-    
+
     /**
      * Returns the total current budget amount from the target lines.
      */
     public KualiDecimal getTargetCurrentBudgetTotal() {
         KualiDecimal currentBudgetTotal = new KualiDecimal(0);
-        
+
         for (Iterator iter = targetAccountingLines.iterator(); iter.hasNext();) {
             BudgetAdjustmentAccountingLine line = (BudgetAdjustmentAccountingLine) iter.next();
             currentBudgetTotal = currentBudgetTotal.add(line.getCurrentBudgetAdjustmentAmount());
         }
-        
+
         return currentBudgetTotal;
     }
-    
+
     /**
      * Returns the total base budget amount from the source lines.
      */
     public KualiInteger getSourceBaseBudgetTotal() {
         KualiInteger baseBudgetTotal = new KualiInteger(0);
-        
+
         for (Iterator iter = sourceAccountingLines.iterator(); iter.hasNext();) {
             BudgetAdjustmentAccountingLine line = (BudgetAdjustmentAccountingLine) iter.next();
             baseBudgetTotal = baseBudgetTotal.add(line.getBaseBudgetAdjustmentAmount());
         }
-        
+
         return baseBudgetTotal;
     }
-    
+
     /**
      * Returns the total base budget amount from the target lines.
      */
     public KualiInteger getTargetBaseBudgetTotal() {
         KualiInteger baseBudgetTotal = new KualiInteger(0);
-        
+
         for (Iterator iter = targetAccountingLines.iterator(); iter.hasNext();) {
             BudgetAdjustmentAccountingLine line = (BudgetAdjustmentAccountingLine) iter.next();
             baseBudgetTotal = baseBudgetTotal.add(line.getBaseBudgetAdjustmentAmount());
         }
-        
+
         return baseBudgetTotal;
     }
 
     /**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
+     * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
         m.put("financialDocumentNumber", this.financialDocumentNumber);
-	    return m;
+        return m;
     }
 
     @Override

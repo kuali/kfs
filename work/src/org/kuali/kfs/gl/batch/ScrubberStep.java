@@ -27,7 +27,7 @@ import org.kuali.module.gl.service.ScrubberService;
 
 /**
  * @author aapotts
- *
+ * 
  */
 public class ScrubberStep implements Step {
     private ScrubberService scrubberService;

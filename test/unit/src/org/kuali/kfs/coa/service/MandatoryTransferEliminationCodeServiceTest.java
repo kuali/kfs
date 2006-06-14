@@ -29,98 +29,95 @@ import org.kuali.test.KualiTestBaseWithSpring;
 
 /**
  * This class tests the MandatoryTransferEliminationCode service.
+ * 
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class MandatoryTransferEliminationCodeServiceTest
-  extends KualiTestBaseWithSpring {
+public class MandatoryTransferEliminationCodeServiceTest extends KualiTestBaseWithSpring {
 
-  MandatoryTransferEliminationCode mtec;
-  KualiCodeService kualiCodeService;
-  private static final String N_CODE_DESCR = "None";
+    MandatoryTransferEliminationCode mtec;
+    KualiCodeService kualiCodeService;
+    private static final String N_CODE_DESCR = "None";
 
-  /**
-   * Performs setup operations before tests are executed.
-   */
-  protected void setUp()
-    throws Exception {
-    super.setUp();
-    kualiCodeService = SpringServiceLocator.getKualiCodeService();
-  }
+    /**
+     * Performs setup operations before tests are executed.
+     */
+    protected void setUp() throws Exception {
+        super.setUp();
+        kualiCodeService = SpringServiceLocator.getKualiCodeService();
+    }
 
-  /**
-   * Performs miscellaneous tests for this service.
-   */
-  public void testMiscellaneous() {
-    //  test known-good byCode
-    mtec = null;
-    mtec = (MandatoryTransferEliminationCode) kualiCodeService.getByCode(MandatoryTransferEliminationCode.class, "N");
-    assertEquals("Known-good code results in expected returned Name.", N_CODE_DESCR, mtec
-      .getName());
+    /**
+     * Performs miscellaneous tests for this service.
+     */
+    public void testMiscellaneous() {
+        // test known-good byCode
+        mtec = null;
+        mtec = (MandatoryTransferEliminationCode) kualiCodeService.getByCode(MandatoryTransferEliminationCode.class, "N");
+        assertEquals("Known-good code results in expected returned Name.", N_CODE_DESCR, mtec.getName());
 
-    //  test known-good byName
-    mtec = null;
-    mtec = (MandatoryTransferEliminationCode) kualiCodeService.getByName(MandatoryTransferEliminationCode.class, N_CODE_DESCR);
-    assertEquals("Known-good name results in expected returned code.", "N", mtec.getCode());
+        // test known-good byName
+        mtec = null;
+        mtec = (MandatoryTransferEliminationCode) kualiCodeService.getByName(MandatoryTransferEliminationCode.class, N_CODE_DESCR);
+        assertEquals("Known-good name results in expected returned code.", "N", mtec.getCode());
 
-    //	test known-bad byCode
-    mtec = null;
-    mtec = (MandatoryTransferEliminationCode) kualiCodeService.getByCode(MandatoryTransferEliminationCode.class, "A");
-    assertNull("Known-bad code returns null object.", mtec);
+        // test known-bad byCode
+        mtec = null;
+        mtec = (MandatoryTransferEliminationCode) kualiCodeService.getByCode(MandatoryTransferEliminationCode.class, "A");
+        assertNull("Known-bad code returns null object.", mtec);
 
-    //	test known-bad byName
-    mtec = null;
-    mtec = (MandatoryTransferEliminationCode) kualiCodeService.getByName(MandatoryTransferEliminationCode.class,
-      "This is not a valid code description in this table.");
-    assertNull("Known-bad code returns null object.", mtec);
+        // test known-bad byName
+        mtec = null;
+        mtec = (MandatoryTransferEliminationCode) kualiCodeService.getByName(MandatoryTransferEliminationCode.class, "This is not a valid code description in this table.");
+        assertNull("Known-bad code returns null object.", mtec);
 
-    //  test known-bad byCode
-    mtec = null;
-    mtec = (MandatoryTransferEliminationCode) kualiCodeService.getByCode(MandatoryTransferEliminationCode.class, "");
-    assertNull("Known-empty code returns null object.", mtec);
+        // test known-bad byCode
+        mtec = null;
+        mtec = (MandatoryTransferEliminationCode) kualiCodeService.getByCode(MandatoryTransferEliminationCode.class, "");
+        assertNull("Known-empty code returns null object.", mtec);
 
-    //  test known-bad byCode
-    mtec = null;
-    mtec = (MandatoryTransferEliminationCode) kualiCodeService.getByCode(MandatoryTransferEliminationCode.class, null);
-    assertNull("Known-null code returns null object.", mtec);
-  }
+        // test known-bad byCode
+        mtec = null;
+        mtec = (MandatoryTransferEliminationCode) kualiCodeService.getByCode(MandatoryTransferEliminationCode.class, null);
+        assertNull("Known-null code returns null object.", mtec);
+    }
 
-  public void testSave() {
-    String oldName;
-    String newName;
+    public void testSave() {
+        String oldName;
+        String newName;
 
-    //  get the existing value
-    mtec = null;
-    mtec = (MandatoryTransferEliminationCode) kualiCodeService.getByCode(MandatoryTransferEliminationCode.class, "N");
+        // get the existing value
+        mtec = null;
+        mtec = (MandatoryTransferEliminationCode) kualiCodeService.getByCode(MandatoryTransferEliminationCode.class, "N");
 
-    //  cache the old value, create a new value, and modify the object
-    oldName = mtec.getName();
-    newName = oldName + "2";
-    mtec.setName(newName);
+        // cache the old value, create a new value, and modify the object
+        oldName = mtec.getName();
+        newName = oldName + "2";
+        mtec.setName(newName);
 
-    //  attempt to save the modified object
-    kualiCodeService.save(mtec);
+        // attempt to save the modified object
+        kualiCodeService.save(mtec);
 
-    //  open the object byCode() and confirm that the changes were saved
-    mtec = null;
-    mtec = (MandatoryTransferEliminationCode) kualiCodeService.getByCode(MandatoryTransferEliminationCode.class, "N");
-    assertEquals("Changes to the document were not persisted to the database.", newName, mtec.getName());
+        // open the object byCode() and confirm that the changes were saved
+        mtec = null;
+        mtec = (MandatoryTransferEliminationCode) kualiCodeService.getByCode(MandatoryTransferEliminationCode.class, "N");
+        assertEquals("Changes to the document were not persisted to the database.", newName, mtec.getName());
 
-    // revert back to the old name if it worked
-    mtec.setName(oldName);
-    kualiCodeService.save(mtec);
+        // revert back to the old name if it worked
+        mtec.setName(oldName);
+        kualiCodeService.save(mtec);
 
 
-    mtec = null;
-    mtec = (MandatoryTransferEliminationCode) kualiCodeService.getByCode(MandatoryTransferEliminationCode.class, "N");
-    assertEquals("Changes to the document were not persisted to the database.", oldName, mtec.getName());
-  }
+        mtec = null;
+        mtec = (MandatoryTransferEliminationCode) kualiCodeService.getByCode(MandatoryTransferEliminationCode.class, "N");
+        assertEquals("Changes to the document were not persisted to the database.", oldName, mtec.getName());
+    }
 
-  public void testActive() {
+    public void testActive() {
 
-    // test known-good active code
-    mtec = null;
-    mtec = (MandatoryTransferEliminationCode) kualiCodeService.getByCode(MandatoryTransferEliminationCode.class, "N");
-    assertEquals("The active code associated with this field is incorrect", true, mtec.isActive());
+        // test known-good active code
+        mtec = null;
+        mtec = (MandatoryTransferEliminationCode) kualiCodeService.getByCode(MandatoryTransferEliminationCode.class, "N");
+        assertEquals("The active code associated with this field is incorrect", true, mtec.isActive());
 
-  }
+    }
 }

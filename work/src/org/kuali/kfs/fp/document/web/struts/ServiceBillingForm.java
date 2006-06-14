@@ -26,12 +26,12 @@ import org.kuali.module.financial.document.ServiceBillingDocument;
 
 /**
  * This class is the action form for Service Billing.
- *
+ * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class ServiceBillingForm extends InternalBillingForm {
     public ServiceBillingForm() {
-    	super();
+        super();
         setDocument(new ServiceBillingDocument());
     }
 }

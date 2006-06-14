@@ -34,64 +34,64 @@ import org.kuali.core.bo.BusinessObjectBase;
  */
 public class FederalFunction extends BusinessObjectBase {
 
-	private String financialFederalFunctionCode;
-	private String financialFederalFunctionName;
+    private String financialFederalFunctionCode;
+    private String financialFederalFunctionName;
 
-	/**
-	 * Default constructor.
-	 */
-	public FederalFunction() {
+    /**
+     * Default constructor.
+     */
+    public FederalFunction() {
 
-	}
+    }
 
-	/**
-	 * Gets the financialFederalFunctionCode attribute.
-	 * 
-	 * @return - Returns the financialFederalFunctionCode
-	 * 
-	 */
-	public String getFinancialFederalFunctionCode() { 
-		return financialFederalFunctionCode;
-	}
+    /**
+     * Gets the financialFederalFunctionCode attribute.
+     * 
+     * @return - Returns the financialFederalFunctionCode
+     * 
+     */
+    public String getFinancialFederalFunctionCode() {
+        return financialFederalFunctionCode;
+    }
 
-	/**
-	 * Sets the financialFederalFunctionCode attribute.
-	 * 
-	 * @param - financialFederalFunctionCode The financialFederalFunctionCode to set.
-	 * 
-	 */
-	public void setFinancialFederalFunctionCode(String financialFederalFunctionCode) {
-		this.financialFederalFunctionCode = financialFederalFunctionCode;
-	}
-
-
-	/**
-	 * Gets the financialFederalFunctionName attribute.
-	 * 
-	 * @return - Returns the financialFederalFunctionName
-	 * 
-	 */
-	public String getFinancialFederalFunctionName() { 
-		return financialFederalFunctionName;
-	}
-
-	/**
-	 * Sets the financialFederalFunctionName attribute.
-	 * 
-	 * @param - financialFederalFunctionName The financialFederalFunctionName to set.
-	 * 
-	 */
-	public void setFinancialFederalFunctionName(String financialFederalFunctionName) {
-		this.financialFederalFunctionName = financialFederalFunctionName;
-	}
+    /**
+     * Sets the financialFederalFunctionCode attribute.
+     * 
+     * @param - financialFederalFunctionCode The financialFederalFunctionCode to set.
+     * 
+     */
+    public void setFinancialFederalFunctionCode(String financialFederalFunctionCode) {
+        this.financialFederalFunctionCode = financialFederalFunctionCode;
+    }
 
 
-	/**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
+    /**
+     * Gets the financialFederalFunctionName attribute.
+     * 
+     * @return - Returns the financialFederalFunctionName
+     * 
+     */
+    public String getFinancialFederalFunctionName() {
+        return financialFederalFunctionName;
+    }
+
+    /**
+     * Sets the financialFederalFunctionName attribute.
+     * 
+     * @param - financialFederalFunctionName The financialFederalFunctionName to set.
+     * 
+     */
+    public void setFinancialFederalFunctionName(String financialFederalFunctionName) {
+        this.financialFederalFunctionName = financialFederalFunctionName;
+    }
+
+
+    /**
+     * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
         m.put("financialFederalFunctionCode", this.financialFederalFunctionCode);
-	    return m;
+        return m;
     }
 }

@@ -32,7 +32,7 @@ import org.kuali.core.util.KualiInteger;
  */
 public class BudgetAdjustmentSourceAccountingLine extends SourceAccountingLine implements BudgetAdjustmentAccountingLine {
 
-	private String budgetAdjustmentPeriodCode;
+    private String budgetAdjustmentPeriodCode;
     private KualiDecimal currentBudgetAdjustmentAmount;
     private KualiInteger baseBudgetAdjustmentAmount;
     private KualiDecimal financialDocumentMonth1LineAmount;
@@ -48,15 +48,14 @@ public class BudgetAdjustmentSourceAccountingLine extends SourceAccountingLine i
     private KualiDecimal financialDocumentMonth11LineAmount;
     private KualiDecimal financialDocumentMonth12LineAmount;
     private boolean fringeBenefitIndicator;
-    
+
     /**
-	 * This constructor needs to initialize the ojbConcreteClass attribute such
-	 * that it sets it to its class name. This is how OJB knows what grouping of
-	 * objects to work with.
-	 */
-	public BudgetAdjustmentSourceAccountingLine() {
-		super();
-		super.ojbConcreteClass = this.getClass().getName();
+     * This constructor needs to initialize the ojbConcreteClass attribute such that it sets it to its class name. This is how OJB
+     * knows what grouping of objects to work with.
+     */
+    public BudgetAdjustmentSourceAccountingLine() {
+        super();
+        super.ojbConcreteClass = this.getClass().getName();
         this.currentBudgetAdjustmentAmount = new KualiDecimal(0);
         this.baseBudgetAdjustmentAmount = new KualiInteger(0);
         this.financialDocumentMonth1LineAmount = new KualiDecimal(0);
@@ -70,8 +69,8 @@ public class BudgetAdjustmentSourceAccountingLine extends SourceAccountingLine i
         this.financialDocumentMonth9LineAmount = new KualiDecimal(0);
         this.financialDocumentMonth10LineAmount = new KualiDecimal(0);
         this.financialDocumentMonth11LineAmount = new KualiDecimal(0);
-        this.financialDocumentMonth12LineAmount = new KualiDecimal(0);        
-	}
+        this.financialDocumentMonth12LineAmount = new KualiDecimal(0);
+    }
 
     /**
      * @see org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine#getMonthlyLinesTotal()
@@ -117,57 +116,55 @@ public class BudgetAdjustmentSourceAccountingLine extends SourceAccountingLine i
         return total;
     }
 
-	/**
+    /**
      * @see org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine#getBaseBudgetAdjustmentAmount()
      */
-	public KualiInteger getBaseBudgetAdjustmentAmount() {
-		return baseBudgetAdjustmentAmount;
-	}
+    public KualiInteger getBaseBudgetAdjustmentAmount() {
+        return baseBudgetAdjustmentAmount;
+    }
 
-	/**
+    /**
      * @see org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine#setBaseBudgetAdjustmentAmount(org.kuali.core.util.KualiDecimal)
      */
-	public void setBaseBudgetAdjustmentAmount(
-            KualiInteger baseBudgetAdjustmentAmount) {
-		this.baseBudgetAdjustmentAmount = baseBudgetAdjustmentAmount;
-	}
+    public void setBaseBudgetAdjustmentAmount(KualiInteger baseBudgetAdjustmentAmount) {
+        this.baseBudgetAdjustmentAmount = baseBudgetAdjustmentAmount;
+    }
 
-	/**
+    /**
      * @see org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine#getBudgetAdjustmentPeriodCode()
      */
-	public String getBudgetAdjustmentPeriodCode() {
-		return budgetAdjustmentPeriodCode;
-	}
+    public String getBudgetAdjustmentPeriodCode() {
+        return budgetAdjustmentPeriodCode;
+    }
 
-	/**
+    /**
      * @see org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine#setBudgetAdjustmentPeriodCode(java.lang.String)
      */
-	public void setBudgetAdjustmentPeriodCode(String budgetAdjustmentPeriodCode) {
-		this.budgetAdjustmentPeriodCode = budgetAdjustmentPeriodCode;
-	}
+    public void setBudgetAdjustmentPeriodCode(String budgetAdjustmentPeriodCode) {
+        this.budgetAdjustmentPeriodCode = budgetAdjustmentPeriodCode;
+    }
 
-	/**
+    /**
      * @see org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine#getCurrentBudgetAdjustmentAmount()
      */
-	public KualiDecimal getCurrentBudgetAdjustmentAmount() {
-		return currentBudgetAdjustmentAmount;
-	}
+    public KualiDecimal getCurrentBudgetAdjustmentAmount() {
+        return currentBudgetAdjustmentAmount;
+    }
 
-	/**
+    /**
      * @see org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine#setCurrentBudgetAdjustmentAmount(org.kuali.core.util.KualiDecimal)
      */
-	public void setCurrentBudgetAdjustmentAmount(
-			KualiDecimal currentBudgetAdjustmentAmount) {
-		this.currentBudgetAdjustmentAmount = currentBudgetAdjustmentAmount;
-	}
+    public void setCurrentBudgetAdjustmentAmount(KualiDecimal currentBudgetAdjustmentAmount) {
+        this.currentBudgetAdjustmentAmount = currentBudgetAdjustmentAmount;
+    }
 
     /**
      * @see org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine#getFinancialDocumentMonth1LineAmount()
      */
-    public KualiDecimal getFinancialDocumentMonth1LineAmount() { 
+    public KualiDecimal getFinancialDocumentMonth1LineAmount() {
         return financialDocumentMonth1LineAmount;
-    }   
-    
+    }
+
     /**
      * @see org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine#setFinancialDocumentMonth1LineAmount(org.kuali.core.util.KualiDecimal)
      */
@@ -179,7 +176,7 @@ public class BudgetAdjustmentSourceAccountingLine extends SourceAccountingLine i
     /**
      * @see org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine#getFinancialDocumentMonth2LineAmount()
      */
-    public KualiDecimal getFinancialDocumentMonth2LineAmount() { 
+    public KualiDecimal getFinancialDocumentMonth2LineAmount() {
         return financialDocumentMonth2LineAmount;
     }
 
@@ -194,7 +191,7 @@ public class BudgetAdjustmentSourceAccountingLine extends SourceAccountingLine i
     /**
      * @see org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine#getFinancialDocumentMonth3LineAmount()
      */
-    public KualiDecimal getFinancialDocumentMonth3LineAmount() { 
+    public KualiDecimal getFinancialDocumentMonth3LineAmount() {
         return financialDocumentMonth3LineAmount;
     }
 
@@ -209,7 +206,7 @@ public class BudgetAdjustmentSourceAccountingLine extends SourceAccountingLine i
     /**
      * @see org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine#getFinancialDocumentMonth4LineAmount()
      */
-    public KualiDecimal getFinancialDocumentMonth4LineAmount() { 
+    public KualiDecimal getFinancialDocumentMonth4LineAmount() {
         return financialDocumentMonth4LineAmount;
     }
 
@@ -224,7 +221,7 @@ public class BudgetAdjustmentSourceAccountingLine extends SourceAccountingLine i
     /**
      * @see org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine#getFinancialDocumentMonth5LineAmount()
      */
-    public KualiDecimal getFinancialDocumentMonth5LineAmount() { 
+    public KualiDecimal getFinancialDocumentMonth5LineAmount() {
         return financialDocumentMonth5LineAmount;
     }
 
@@ -239,7 +236,7 @@ public class BudgetAdjustmentSourceAccountingLine extends SourceAccountingLine i
     /**
      * @see org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine#getFinancialDocumentMonth6LineAmount()
      */
-    public KualiDecimal getFinancialDocumentMonth6LineAmount() { 
+    public KualiDecimal getFinancialDocumentMonth6LineAmount() {
         return financialDocumentMonth6LineAmount;
     }
 
@@ -254,7 +251,7 @@ public class BudgetAdjustmentSourceAccountingLine extends SourceAccountingLine i
     /**
      * @see org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine#getFinancialDocumentMonth7LineAmount()
      */
-    public KualiDecimal getFinancialDocumentMonth7LineAmount() { 
+    public KualiDecimal getFinancialDocumentMonth7LineAmount() {
         return financialDocumentMonth7LineAmount;
     }
 
@@ -269,7 +266,7 @@ public class BudgetAdjustmentSourceAccountingLine extends SourceAccountingLine i
     /**
      * @see org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine#getFinancialDocumentMonth8LineAmount()
      */
-    public KualiDecimal getFinancialDocumentMonth8LineAmount() { 
+    public KualiDecimal getFinancialDocumentMonth8LineAmount() {
         return financialDocumentMonth8LineAmount;
     }
 
@@ -284,7 +281,7 @@ public class BudgetAdjustmentSourceAccountingLine extends SourceAccountingLine i
     /**
      * @see org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine#getFinancialDocumentMonth9LineAmount()
      */
-    public KualiDecimal getFinancialDocumentMonth9LineAmount() { 
+    public KualiDecimal getFinancialDocumentMonth9LineAmount() {
         return financialDocumentMonth9LineAmount;
     }
 
@@ -299,7 +296,7 @@ public class BudgetAdjustmentSourceAccountingLine extends SourceAccountingLine i
     /**
      * @see org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine#getFinancialDocumentMonth10LineAmount()
      */
-    public KualiDecimal getFinancialDocumentMonth10LineAmount() { 
+    public KualiDecimal getFinancialDocumentMonth10LineAmount() {
         return financialDocumentMonth10LineAmount;
     }
 
@@ -314,7 +311,7 @@ public class BudgetAdjustmentSourceAccountingLine extends SourceAccountingLine i
     /**
      * @see org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine#getFinancialDocumentMonth11LineAmount()
      */
-    public KualiDecimal getFinancialDocumentMonth11LineAmount() { 
+    public KualiDecimal getFinancialDocumentMonth11LineAmount() {
         return financialDocumentMonth11LineAmount;
     }
 
@@ -329,7 +326,7 @@ public class BudgetAdjustmentSourceAccountingLine extends SourceAccountingLine i
     /**
      * @see org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine#getFinancialDocumentMonth12LineAmount()
      */
-    public KualiDecimal getFinancialDocumentMonth12LineAmount() { 
+    public KualiDecimal getFinancialDocumentMonth12LineAmount() {
         return financialDocumentMonth12LineAmount;
     }
 
@@ -341,15 +338,17 @@ public class BudgetAdjustmentSourceAccountingLine extends SourceAccountingLine i
     }
 
     /**
-     * Gets the fringeBenefitIndicator attribute. 
+     * Gets the fringeBenefitIndicator attribute.
+     * 
      * @return Returns the fringeBenefitIndicator.
      */
     public boolean isFringeBenefitIndicator() {
         return fringeBenefitIndicator;
-}
+    }
 
     /**
      * Sets the fringeBenefitIndicator attribute value.
+     * 
      * @param fringeBenefitIndicator The fringeBenefitIndicator to set.
      */
     public void setFringeBenefitIndicator(boolean fringeBenefitIndicator) {

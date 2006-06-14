@@ -28,26 +28,27 @@ package org.kuali.module.kra.util;
  * @author KRA (kualidev@oncourse.iu.edu)
  */
 public class AuditError {
-    
+
     private String errorKey;
     private String messageKey;
     private String link;
     private String[] params;
-    
+
     public AuditError(String errorKey, String messageKey, String link) {
         this.setErrorKey(errorKey);
         this.setMessageKey(messageKey);
         this.setLink(link);
         this.params = new String[5]; // bean:message takes up to 5 tokenized parameters
     }
-    
+
     public AuditError(String errorKey, String messageKey, String link, String[] params) {
         this(errorKey, messageKey, link);
         this.setParams(params);
     }
-    
+
     /**
-     * Gets the errorKey attribute. 
+     * Gets the errorKey attribute.
+     * 
      * @return Returns the errorKey.
      */
     public String getErrorKey() {
@@ -56,6 +57,7 @@ public class AuditError {
 
     /**
      * Sets the errorKey attribute value.
+     * 
      * @param errorKey The errorKey to set.
      */
     public void setErrorKey(String errorKey) {
@@ -63,7 +65,8 @@ public class AuditError {
     }
 
     /**
-     * Gets the link attribute. 
+     * Gets the link attribute.
+     * 
      * @return Returns the link.
      */
     public String getLink() {
@@ -72,6 +75,7 @@ public class AuditError {
 
     /**
      * Sets the link attribute value.
+     * 
      * @param link The link to set.
      */
     public void setLink(String link) {
@@ -79,7 +83,8 @@ public class AuditError {
     }
 
     /**
-     * Gets the key attribute. 
+     * Gets the key attribute.
+     * 
      * @return Returns the key.
      */
     public String getMessageKey() {
@@ -88,6 +93,7 @@ public class AuditError {
 
     /**
      * Sets the key attribute value.
+     * 
      * @param key The key to set.
      */
     public void setMessageKey(String messageKey) {
@@ -95,7 +101,8 @@ public class AuditError {
     }
 
     /**
-     * Gets the params attribute. 
+     * Gets the params attribute.
+     * 
      * @return Returns the params.
      */
     public String[] getParams() {
@@ -104,6 +111,7 @@ public class AuditError {
 
     /**
      * Sets the params attribute value.
+     * 
      * @param params The params to set.
      */
     public void setParams(String[] params) {

@@ -35,7 +35,7 @@ public class ErrorCorrectionCopyTest extends KualiTestBase {
     private DocumentService documentService;
 
     protected void setUp() throws Exception {
-      super.setUp();
+        super.setUp();
     }
 
     /**
@@ -43,9 +43,9 @@ public class ErrorCorrectionCopyTest extends KualiTestBase {
      * <li>load doc C (5116), which is copied from B (5115)
      * <li>load doc D (5121), which is corrected by E (5121)
      * <li>load doc E (5121), which corrects D (5121)
-     *
-     * TODO: rewrite these tests to create all of the documents they refer to, so that they'll work
-     * even after the next document-number sequence reset
+     * 
+     * TODO: rewrite these tests to create all of the documents they refer to, so that they'll work even after the next
+     * document-number sequence reset
      */
     private static final String copySourceDocId = "5115";
     private static final String copyDestDocId = "5116";
@@ -53,39 +53,40 @@ public class ErrorCorrectionCopyTest extends KualiTestBase {
     private static final String errorCorrectionDocId = "5121";
 
     public void testDontFail() throws Exception {
-      assertTrue(true);
-      // This will make sure that the test succeeds
+        assertTrue(true);
+        // This will make sure that the test succeeds
     }
-/*    public final void testLoadCopySource() throws Exception {
-        Document copySourceDoc = documentService.getByDocumentHeaderId(copySourceDocId);
-
-        assertNull(copySourceDoc.getDocumentHeader().getFinancialDocumentTemplateNumber());
-        assertNull(copySourceDoc.getDocumentHeader().getCorrectedByDocumentId());
-        assertNull(copySourceDoc.getDocumentHeader().getFinancialDocumentInErrorNumber());
-    }
-*/
-/*    public final void testLoadCopyDest() throws Exception {
-        Document copyDestDoc = documentService.getByDocumentHeaderId(copyDestDocId);
-
-        assertEquals(copySourceDocId, copyDestDoc.getDocumentHeader().getFinancialDocumentTemplateNumber());
-        assertNull(copyDestDoc.getDocumentHeader().getCorrectedByDocumentId());
-        assertNull(copyDestDoc.getDocumentHeader().getFinancialDocumentInErrorNumber());
-
-    }
-*/
-/*    public final void testLoadCorrectedDocument() throws Exception {
-        Document erroneousDoc = documentService.getByDocumentHeaderId(erroneousDocId);
-
-        assertNull(erroneousDoc.getDocumentHeader().getFinancialDocumentTemplateNumber());
-        assertEquals(errorCorrectionDocId, erroneousDoc.getDocumentHeader().getCorrectedByDocumentId());
-        assertNull(erroneousDoc.getDocumentHeader().getFinancialDocumentInErrorNumber());
-    }
-*/
-/*    public final void testLoadCorrectingDocument() throws Exception {
-        Document errorCorrectionDoc = documentService.getByDocumentHeaderId(errorCorrectionDocId);
-
-        assertNull(errorCorrectionDoc.getDocumentHeader().getFinancialDocumentTemplateNumber());
-        assertNull(errorCorrectionDoc.getDocumentHeader().getCorrectedByDocumentId());
-        assertEquals(erroneousDocId, errorCorrectionDoc.getDocumentHeader().getFinancialDocumentInErrorNumber());
-    }
-*/}
+    /*
+     * public final void testLoadCopySource() throws Exception { Document copySourceDoc =
+     * documentService.getByDocumentHeaderId(copySourceDocId);
+     * 
+     * assertNull(copySourceDoc.getDocumentHeader().getFinancialDocumentTemplateNumber());
+     * assertNull(copySourceDoc.getDocumentHeader().getCorrectedByDocumentId());
+     * assertNull(copySourceDoc.getDocumentHeader().getFinancialDocumentInErrorNumber()); }
+     */
+    /*
+     * public final void testLoadCopyDest() throws Exception { Document copyDestDoc =
+     * documentService.getByDocumentHeaderId(copyDestDocId);
+     * 
+     * assertEquals(copySourceDocId, copyDestDoc.getDocumentHeader().getFinancialDocumentTemplateNumber());
+     * assertNull(copyDestDoc.getDocumentHeader().getCorrectedByDocumentId());
+     * assertNull(copyDestDoc.getDocumentHeader().getFinancialDocumentInErrorNumber());
+     *  }
+     */
+    /*
+     * public final void testLoadCorrectedDocument() throws Exception { Document erroneousDoc =
+     * documentService.getByDocumentHeaderId(erroneousDocId);
+     * 
+     * assertNull(erroneousDoc.getDocumentHeader().getFinancialDocumentTemplateNumber()); assertEquals(errorCorrectionDocId,
+     * erroneousDoc.getDocumentHeader().getCorrectedByDocumentId());
+     * assertNull(erroneousDoc.getDocumentHeader().getFinancialDocumentInErrorNumber()); }
+     */
+    /*
+     * public final void testLoadCorrectingDocument() throws Exception { Document errorCorrectionDoc =
+     * documentService.getByDocumentHeaderId(errorCorrectionDocId);
+     * 
+     * assertNull(errorCorrectionDoc.getDocumentHeader().getFinancialDocumentTemplateNumber());
+     * assertNull(errorCorrectionDoc.getDocumentHeader().getCorrectedByDocumentId()); assertEquals(erroneousDocId,
+     * errorCorrectionDoc.getDocumentHeader().getFinancialDocumentInErrorNumber()); }
+     */
+}

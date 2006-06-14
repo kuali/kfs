@@ -42,7 +42,7 @@ public class ObjectConsRule extends MaintenanceDocumentRuleBase {
         checkObjLevelCode();
         return true;
     }
-    
+
     /**
      * 
      * This method should be overridden to provide custom rules for processing document routing
@@ -55,11 +55,12 @@ public class ObjectConsRule extends MaintenanceDocumentRuleBase {
         success &= checkObjLevelCode();
         return success;
     }
-    
+
     /**
      * 
-     * This method checks to see if the Object Consolidation code matches a pre-existing Object
-     * Level code that is already entered. If it does it returns false with an error
+     * This method checks to see if the Object Consolidation code matches a pre-existing Object Level code that is already entered.
+     * If it does it returns false with an error
+     * 
      * @param document
      * @return false if Object Level Code already exists
      */
@@ -72,7 +73,7 @@ public class ObjectConsRule extends MaintenanceDocumentRuleBase {
         primaryKeys.put("chartOfAccountsCode", chartOfAccountsCode);
         primaryKeys.put("financialObjectLevelCode", financialObjectLevelCode);
         ObjLevel objLevel = (ObjLevel) getBoService().findByPrimaryKey(ObjLevel.class, primaryKeys);
-        if(objLevel != null) {
+        if (objLevel != null) {
             success = false;
             putFieldError("finConsolidationObjectCode", KeyConstants.ERROR_DOCUMENT_OBJCONSMAINT_ALREADY_EXISTS_AS_OBJLEVEL);
         }

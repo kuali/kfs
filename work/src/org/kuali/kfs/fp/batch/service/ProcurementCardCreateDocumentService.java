@@ -23,14 +23,13 @@
 package org.kuali.module.financial.service;
 
 
-
 /**
- * Service interface for implementing methods to create procurement card
- * documents.
+ * Service interface for implementing methods to create procurement card documents.
+ * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public interface ProcurementCardCreateDocumentService {
-    
+
     public static String PCARD_DOCUMENT_PARAMETERS_SEC_GROUP = "PCardDocumentParameters";
     public static String SINGLE_TRANSACTION_IND_PARM_NM = "SINGLE_TRANSACTION_INDICATOR";
     public static String ERROR_TRANS_CHART_CODE_PARM_NM = "ERROR_TRANSACTION_CHART_CODE";
@@ -41,25 +40,26 @@ public interface ProcurementCardCreateDocumentService {
     public static String DISPUTE_URL_PARM_NM = "DISPUTE_URL";
     public static String AUTO_APPROVE_DOCUMENTS_IND = "AUTO_APPROVE_DOCUMENTS_IND";
     public static String AUTO_APPROVE_NUMBER_OF_DAYS = "AUTO_APPROVE_NUMBER_OF_DAYS";
-    
+
     /**
-     * Creates procurement card documents and routes from the records loaded
-     * into the transaction table.
+     * Creates procurement card documents and routes from the records loaded into the transaction table.
+     * 
      * @return boolean indicating whether the routing was successful
      */
     public boolean createProcurementCardDocuments();
-    
+
     /**
-     * Looks for PCDO documents in 'I' status, meaning they have been created
-     * and saved to inbox, but need routed.
+     * Looks for PCDO documents in 'I' status, meaning they have been created and saved to inbox, but need routed.
+     * 
      * @param documentList list of documents to be routed
      * @return boolean indicating whether the routing was successful
      */
     public boolean routeProcurementCardDocuments();
-    
+
     /**
-     * Finds documents that have been in route status past the number of
-     * allowed days. Then calls document service to auto approve the documents.
+     * Finds documents that have been in route status past the number of allowed days. Then calls document service to auto approve
+     * the documents.
+     * 
      * @return boolean indicating whether the auto approve was successful
      */
     public boolean autoApproveProcurementCardDocuments();

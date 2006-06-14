@@ -34,64 +34,64 @@ import org.kuali.core.bo.BusinessObjectBase;
  */
 public class LetterOfCreditFundGroup extends BusinessObjectBase {
 
-	private String letterOfCreditFundGroupCode;
-	private String letterOfCreditFundGroupDescription;
+    private String letterOfCreditFundGroupCode;
+    private String letterOfCreditFundGroupDescription;
 
-	/**
-	 * Default constructor.
-	 */
-	public LetterOfCreditFundGroup() {
+    /**
+     * Default constructor.
+     */
+    public LetterOfCreditFundGroup() {
 
-	}
+    }
 
-	/**
-	 * Gets the letterOfCreditFundGroupCode attribute.
-	 * 
-	 * @return - Returns the letterOfCreditFundGroupCode
-	 * 
-	 */
-	public String getLetterOfCreditFundGroupCode() { 
-		return letterOfCreditFundGroupCode;
-	}
+    /**
+     * Gets the letterOfCreditFundGroupCode attribute.
+     * 
+     * @return - Returns the letterOfCreditFundGroupCode
+     * 
+     */
+    public String getLetterOfCreditFundGroupCode() {
+        return letterOfCreditFundGroupCode;
+    }
 
-	/**
-	 * Sets the letterOfCreditFundGroupCode attribute.
-	 * 
-	 * @param - letterOfCreditFundGroupCode The letterOfCreditFundGroupCode to set.
-	 * 
-	 */
-	public void setLetterOfCreditFundGroupCode(String letterOfCreditFundGroupCode) {
-		this.letterOfCreditFundGroupCode = letterOfCreditFundGroupCode;
-	}
-
-
-	/**
-	 * Gets the letterOfCreditFundGroupDescription attribute.
-	 * 
-	 * @return - Returns the letterOfCreditFundGroupDescription
-	 * 
-	 */
-	public String getLetterOfCreditFundGroupDescription() { 
-		return letterOfCreditFundGroupDescription;
-	}
-
-	/**
-	 * Sets the letterOfCreditFundGroupDescription attribute.
-	 * 
-	 * @param - letterOfCreditFundGroupDescription The letterOfCreditFundGroupDescription to set.
-	 * 
-	 */
-	public void setLetterOfCreditFundGroupDescription(String letterOfCreditFundGroupDescription) {
-		this.letterOfCreditFundGroupDescription = letterOfCreditFundGroupDescription;
-	}
+    /**
+     * Sets the letterOfCreditFundGroupCode attribute.
+     * 
+     * @param - letterOfCreditFundGroupCode The letterOfCreditFundGroupCode to set.
+     * 
+     */
+    public void setLetterOfCreditFundGroupCode(String letterOfCreditFundGroupCode) {
+        this.letterOfCreditFundGroupCode = letterOfCreditFundGroupCode;
+    }
 
 
-	/**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
+    /**
+     * Gets the letterOfCreditFundGroupDescription attribute.
+     * 
+     * @return - Returns the letterOfCreditFundGroupDescription
+     * 
+     */
+    public String getLetterOfCreditFundGroupDescription() {
+        return letterOfCreditFundGroupDescription;
+    }
+
+    /**
+     * Sets the letterOfCreditFundGroupDescription attribute.
+     * 
+     * @param - letterOfCreditFundGroupDescription The letterOfCreditFundGroupDescription to set.
+     * 
+     */
+    public void setLetterOfCreditFundGroupDescription(String letterOfCreditFundGroupDescription) {
+        this.letterOfCreditFundGroupDescription = letterOfCreditFundGroupDescription;
+    }
+
+
+    /**
+     * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
         m.put("letterOfCreditFundGroupCode", this.letterOfCreditFundGroupCode);
-	    return m;
+        return m;
     }
 }

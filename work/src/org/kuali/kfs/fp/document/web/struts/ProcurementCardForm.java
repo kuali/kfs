@@ -56,9 +56,7 @@ public class ProcurementCardForm extends KualiTransactionalDocumentFormBase {
      * @return The retreived APC string used for the dispute url.
      */
     public String getDisputeURL() {
-        return SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(
-                ProcurementCardCreateDocumentService.PCARD_DOCUMENT_PARAMETERS_SEC_GROUP,
-                ProcurementCardCreateDocumentService.DISPUTE_URL_PARM_NM);
+        return SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(ProcurementCardCreateDocumentService.PCARD_DOCUMENT_PARAMETERS_SEC_GROUP, ProcurementCardCreateDocumentService.DISPUTE_URL_PARM_NM);
     }
 
 
@@ -79,6 +77,7 @@ public class ProcurementCardForm extends KualiTransactionalDocumentFormBase {
 
     /**
      * Override to return ProcurementCardTargetAccountingLine
+     * 
      * @see org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase#getBaselineSourceAccountingLine(int)
      */
     public TargetAccountingLine getBaselineTargetAccountingLine(int index) {

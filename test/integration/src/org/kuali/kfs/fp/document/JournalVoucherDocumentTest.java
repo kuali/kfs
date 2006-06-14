@@ -55,9 +55,10 @@ public class JournalVoucherDocumentTest extends TransactionalDocumentTestBase {
     public static final String SOURCE_LINE5 = "sourceLine5";
     public static final String SERIALIZED_LINE_PARAMTER = "serializedLine1";
     public static final String ACTUAL_BAL_TYPE = "actualBalanceTypeCode";
-    
+
     /**
      * Override to change the current user to getUserName() which returns the user_jvdoc user.
+     * 
      * @see junit.framework.TestCase#setUp()
      */
     protected void setUp() throws Exception {
@@ -67,7 +68,7 @@ public class JournalVoucherDocumentTest extends TransactionalDocumentTestBase {
 
     /**
      * Get names of fixture collections test class is using.
-     *
+     * 
      * @return String[]
      */
     public String[] getFixtureCollectionNames() {
@@ -76,43 +77,36 @@ public class JournalVoucherDocumentTest extends TransactionalDocumentTestBase {
 
     /**
      * Override to set the balance type on the document.<br/>
-     *
-     * <p>This is probably not the best way to do this. Matt suggested
-     * that a specific <code>{@link DocumentParameter}</code> definition 
-     * be made to handle the fixtures and the <code>{@link Document}</code> 
-     * creation if more fields are added and
-     * <code>{@link JournalVoucherDocument}</code> becomes more complex 
-     * and demanding. Something like a 
-     * <code>JournalVoucherDocumentParameter</code> would probably work to
-     * remedy this. For specific details look at the
-     * <code>{@link DisbursementVoucherDocumentTest}</code> that Matt 
-     * worked on.</p>
-     *
+     * 
+     * <p>
+     * This is probably not the best way to do this. Matt suggested that a specific <code>{@link DocumentParameter}</code>
+     * definition be made to handle the fixtures and the <code>{@link Document}</code> creation if more fields are added and
+     * <code>{@link JournalVoucherDocument}</code> becomes more complex and demanding. Something like a
+     * <code>JournalVoucherDocumentParameter</code> would probably work to remedy this. For specific details look at the
+     * <code>{@link DisbursementVoucherDocumentTest}</code> that Matt worked on.
+     * </p>
+     * 
      * @see org.kuali.core.document.DocumentTestBase#buildDocument()
      * @see org.kuali.module.financial.document.DisbursementDocumentTest
      * @see org.kuali.test.parameters.DisbursementVoucherDocumentParameter
-     * @return Document used in test methods that require a specific
-     * <code>{@link Document}</code> instance.
+     * @return Document used in test methods that require a specific <code>{@link Document}</code> instance.
      */
-    protected Document buildDocument( TransactionalDocumentParameter param ) 
-        throws Exception {
-        JournalVoucherDocument jvDoc = 
-            ( JournalVoucherDocument )super.buildDocument( param );
+    protected Document buildDocument(TransactionalDocumentParameter param) throws Exception {
+        JournalVoucherDocument jvDoc = (JournalVoucherDocument) super.buildDocument(param);
         jvDoc.setBalanceTypeCode(getFixtureEntryFromCollection(COLLECTION_NAME, ACTUAL_BAL_TYPE).getValue());
         return jvDoc;
     }
-    
+
     /**
-     * Had to override b/c there are too many differences between the JV and the standard document structure 
-     * (i.e. GLPEs generate differently, routing isn't standard, etc).
+     * Had to override b/c there are too many differences between the JV and the standard document structure (i.e. GLPEs generate
+     * differently, routing isn't standard, etc).
      * 
      * @see org.kuali.core.document.TransactionalDocumentTestBase#testConvertIntoCopy()
      */
     public void testConvertIntoCopy() throws Exception {
         // save the original doc, wait for status change
         TransactionalDocument document = (TransactionalDocument) buildDocument();
-        getDocumentService()
-            .routeDocument(document, "saving copy source document", null);
+        getDocumentService().routeDocument(document, "saving copy source document", null);
         // collect some preCopy data
         String preCopyId = document.getFinancialDocumentNumber();
         String preCopyCopiedFromId = document.getDocumentHeader().getFinancialDocumentTemplateNumber();
@@ -168,18 +162,18 @@ public class JournalVoucherDocumentTest extends TransactionalDocumentTestBase {
             assertEquality(preCopyLine.getAmount(), postCopyLine.getAmount());
         }
     }
-    
+
     /**
-     * Had to override b/c there are too many differences between the JV and the standard document structure 
-     * (i.e. GLPEs generate differently, routing isn't standard, etc).
+     * Had to override b/c there are too many differences between the JV and the standard document structure (i.e. GLPEs generate
+     * differently, routing isn't standard, etc).
      * 
      * @see org.kuali.core.document.TransactionalDocumentTestBase#testConvertIntoErrorCorrection()
      */
     public void testConvertIntoErrorCorrection() throws Exception {
         TransactionalDocument document = (TransactionalDocument) buildDocument();
-        
+
         // replace the broken sourceLines with one that lets the test succeed
-        KualiDecimal balance = new KualiDecimal( "21.12" );
+        KualiDecimal balance = new KualiDecimal("21.12");
         ArrayList sourceLines = new ArrayList();
         {
             SourceAccountingLine sourceLine = new SourceAccountingLine();
@@ -192,19 +186,18 @@ public class JournalVoucherDocumentTest extends TransactionalDocumentTestBase {
             sourceLine.setObjectTypeCode("AS");
             sourceLine.setBalanceTypeCode("AC");
             sourceLine.refresh();
-            sourceLines.add( sourceLine );
+            sourceLines.add(sourceLine);
         }
-        document.setSourceAccountingLines( sourceLines );
-        
-        
+        document.setSourceAccountingLines(sourceLines);
+
+
         String documentHeaderId = document.getFinancialDocumentNumber();
         // route the original doc, wait for status change
-        getDocumentService()
-            .routeDocument(document, "saving errorCorrection source document", null);
-        //jv docs go straight to final
+        getDocumentService().routeDocument(document, "saving errorCorrection source document", null);
+        // jv docs go straight to final
         DocumentWorkflowStatusMonitor routeMonitor = new DocumentWorkflowStatusMonitor(getDocumentService(), documentHeaderId, "F");
         assertTrue(ChangeMonitor.waitUntilChange(routeMonitor, 240, 5));
-        document = (TransactionalDocument)getDocumentService().getByDocumentHeaderId(documentHeaderId);
+        document = (TransactionalDocument) getDocumentService().getByDocumentHeaderId(documentHeaderId);
         // collect some preCorrect data
         String preCorrectId = document.getFinancialDocumentNumber();
         String preCorrectCorrectsId = document.getDocumentHeader().getFinancialDocumentInErrorNumber();
@@ -260,9 +253,9 @@ public class JournalVoucherDocumentTest extends TransactionalDocumentTestBase {
             assertEquality(preCorrectLine.getAmount().negated(), postCorrectLine.getAmount());
         }
     }
-    
+
     /**
-     * Override b/c the status changing is flakey with this doc b/c routing is special (goes straight to final). 
+     * Override b/c the status changing is flakey with this doc b/c routing is special (goes straight to final).
      * 
      * @see org.kuali.core.document.DocumentTestBase#testRouteDocument()
      */
@@ -270,21 +263,14 @@ public class JournalVoucherDocumentTest extends TransactionalDocumentTestBase {
         // save the original doc, wait for status change
         Document document = buildDocument();
         assertFalse("R".equals(document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus()));
-        getDocumentService()
-            .routeDocument(document, "saving copy source document", null);
+        getDocumentService().routeDocument(document, "saving copy source document", null);
         // jv docs go straight to final
-        DocumentWorkflowStatusMonitor routeMonitor = 
-            new DocumentWorkflowStatusMonitor(getDocumentService(), 
-                document.getDocumentHeader().getFinancialDocumentNumber(), EdenConstants.ROUTE_HEADER_FINAL_CD);
+        DocumentWorkflowStatusMonitor routeMonitor = new DocumentWorkflowStatusMonitor(getDocumentService(), document.getDocumentHeader().getFinancialDocumentNumber(), EdenConstants.ROUTE_HEADER_FINAL_CD);
         assertTrue(ChangeMonitor.waitUntilChange(routeMonitor, 240, 5));
-        DocumentStatusMonitor statusMonitor = 
-            new DocumentStatusMonitor( getDocumentService(), 
-                                       document.getDocumentHeader()
-                                       .getFinancialDocumentNumber(), 
-                                       Constants.DocumentStatusCodes.PROCESSED);
+        DocumentStatusMonitor statusMonitor = new DocumentStatusMonitor(getDocumentService(), document.getDocumentHeader().getFinancialDocumentNumber(), Constants.DocumentStatusCodes.PROCESSED);
         assertTrue(ChangeMonitor.waitUntilChange(statusMonitor, 240, 5));
     }
-    
+
     /**
      * 
      * @see org.kuali.core.document.DocumentTestBase#getDocumentParameterFixture()

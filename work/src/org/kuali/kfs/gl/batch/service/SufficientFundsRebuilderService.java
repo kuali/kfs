@@ -25,12 +25,12 @@ package org.kuali.module.gl.service;
 
 /**
  * @author Anthony Potts
- *
+ * 
  */
 public interface SufficientFundsRebuilderService {
-	
-	/**
-	 * 
-	 */
-	public void rebuildSufficientFunds();
+
+    /**
+     * 
+     */
+    public void rebuildSufficientFunds();
 }

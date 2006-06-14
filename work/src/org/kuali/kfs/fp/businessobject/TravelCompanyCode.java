@@ -32,10 +32,10 @@ import org.kuali.core.bo.KualiCodeBase;
  */
 public class TravelCompanyCode extends KualiCodeBase {
 
-	/**
-	 * Default no-arg constructor.
-	 */
-	public TravelCompanyCode() {
+    /**
+     * Default no-arg constructor.
+     */
+    public TravelCompanyCode() {
 
-	}
+    }
 }

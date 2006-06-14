@@ -30,7 +30,7 @@ import org.kuali.test.KualiTestBaseWithFixtures;
 
 /**
  * This class...
- *
+ * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class FlexibleOffsetAccountServiceTest extends KualiTestBaseWithFixtures {
@@ -41,26 +41,19 @@ public class FlexibleOffsetAccountServiceTest extends KualiTestBaseWithFixtures 
         service = SpringServiceLocator.getFlexibleOffsetAccountService();
     }
 
-    public void testGetByPrimaryId_valid()
-        throws NoSuchMethodException, InvocationTargetException
-    {
+    public void testGetByPrimaryId_valid() throws NoSuchMethodException, InvocationTargetException {
         service.setKualiConfigurationService(createMockConfigurationService(true));
-        OffsetAccount offsetAccount = service.getByPrimaryIdIfEnabled(getFixtureString("blChartOfAccounts"), getFixtureString(
-            "blFlexAccountNumber"), getFixtureString("tofOffsetObjectCode"));
+        OffsetAccount offsetAccount = service.getByPrimaryIdIfEnabled(getFixtureString("blChartOfAccounts"), getFixtureString("blFlexAccountNumber"), getFixtureString("tofOffsetObjectCode"));
         assertSparselyEqualFixture("offsetAccount1", offsetAccount);
         assertEquals(getFixtureString("blChartOfAccounts"), offsetAccount.getChart().getChartOfAccountsCode());
         assertEquals(getFixtureString("blFlexAccountNumber"), offsetAccount.getAccount().getAccountNumber());
-        assertEquals(getFixtureString("uaChartOfAccounts"),
-            offsetAccount.getFinancialOffsetChartOfAccount().getChartOfAccountsCode());
+        assertEquals(getFixtureString("uaChartOfAccounts"), offsetAccount.getFinancialOffsetChartOfAccount().getChartOfAccountsCode());
         assertEquals(getFixtureString("uaAccountNumber1"), offsetAccount.getFinancialOffsetAccount().getAccountNumber());
     }
 
-    public void testGetByPrimaryId_validDisabled()
-        throws NoSuchMethodException, InvocationTargetException
-    {
+    public void testGetByPrimaryId_validDisabled() throws NoSuchMethodException, InvocationTargetException {
         service.setKualiConfigurationService(createMockConfigurationService(false));
-        assertNull(service.getByPrimaryIdIfEnabled(getFixtureString("blChartOfAccounts"), getFixtureString(
-            "blFlexAccountNumber"), getFixtureString("tofOffsetObjectCode")));
+        assertNull(service.getByPrimaryIdIfEnabled(getFixtureString("blChartOfAccounts"), getFixtureString("blFlexAccountNumber"), getFixtureString("tofOffsetObjectCode")));
     }
 
     public void testGetByPrimaryId_invalid() {

@@ -26,15 +26,16 @@ import org.kuali.module.financial.document.AuxiliaryVoucherDocument;
 
 /**
  * This class...
+ * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class AuxiliaryVoucherForm extends VoucherForm {
-    
+
     public AuxiliaryVoucherForm() {
-		super();
+        super();
         setDocument(new AuxiliaryVoucherDocument());
     }
-    
+
     /**
      * @return Returns the serviceBillingDocument.
      */
@@ -44,9 +45,8 @@ public class AuxiliaryVoucherForm extends VoucherForm {
 
     /**
      * @param serviceBillingDocument The serviceBillingDocument to set.
-     */ 
+     */
     public void setAuxiliaryVoucherDocument(AuxiliaryVoucherDocument auxiliaryVoucherDocument) {
         setDocument(auxiliaryVoucherDocument);
-    }    
+    }
 }
-

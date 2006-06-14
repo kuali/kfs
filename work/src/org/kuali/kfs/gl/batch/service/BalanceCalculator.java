@@ -29,5 +29,6 @@ import org.kuali.module.gl.bo.Transaction;
 
 public interface BalanceCalculator {
     public Balance findBalance(Collection balanceList, Transaction t);
+
     public void updateBalance(Transaction t, Balance b);
 }

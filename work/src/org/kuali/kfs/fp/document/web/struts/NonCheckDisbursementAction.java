@@ -25,8 +25,7 @@ package org.kuali.module.financial.web.struts.action;
 import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
 
 /**
- * Action class for <code>{@link NonCheckDisbursementDocument}</code> 
- * It doesn't do anything because it doesn't need to.
+ * Action class for <code>{@link NonCheckDisbursementDocument}</code> It doesn't do anything because it doesn't need to.
  * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */

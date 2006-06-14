@@ -40,7 +40,7 @@ public class UniversityDate extends BusinessObjectBase {
     private String universityFiscalAccountingPeriod;
 
     private AccountingPeriod accountingPeriod;
-   
+
     /*
      * (non-Javadoc)
      * 

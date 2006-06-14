@@ -33,34 +33,39 @@ import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 /**
  * @author Laran Evans <lc278@cs.cornell.edu>
- * @version $Id: OriginEntrySourceDaoOjb.java,v 1.1 2006-01-14 19:35:43 abyrne Exp $
+ * @version $Id: OriginEntrySourceDaoOjb.java,v 1.2 2006-06-14 12:26:35 abyrne Exp $
  * 
  */
 
 public class OriginEntrySourceDaoOjb extends PersistenceBrokerDaoSupport implements OriginEntrySourceDao {
 
-	public OriginEntrySourceDaoOjb() {
-		super();
-	}
+    public OriginEntrySourceDaoOjb() {
+        super();
+    }
 
-	/* (non-Javadoc)
-	 * @see org.kuali.module.gl.dao.OriginEntrySourceDao#findAll()
-	 */
-	public Collection findAll() {
-	    QueryByCriteria query = QueryFactory.newQuery(OriginEntrySource.class, (Criteria) null);//"SELECT * FROM GL_ORIGIN_ENTRY_SRC_T");
-	    Collection thawed = getPersistenceBrokerTemplate().getCollectionByQuery(query);
-	    //Collection frozen = Collections.unmodifiableCollection(thawed);
-	    return thawed;
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.kuali.module.gl.dao.OriginEntrySourceDao#findAll()
+     */
+    public Collection findAll() {
+        QueryByCriteria query = QueryFactory.newQuery(OriginEntrySource.class, (Criteria) null);// "SELECT * FROM
+                                                                                                // GL_ORIGIN_ENTRY_SRC_T");
+        Collection thawed = getPersistenceBrokerTemplate().getCollectionByQuery(query);
+        // Collection frozen = Collections.unmodifiableCollection(thawed);
+        return thawed;
+    }
 
-	/* (non-Javadoc)
-	 * @see org.kuali.module.gl.dao.OriginEntrySourceDao#findBySourceCode(java.lang.String)
-	 */
-	public OriginEntrySource findBySourceCode(String code) {
-		Criteria criteria = new Criteria();
-		criteria.addEqualTo("code", code);
-		QueryByCriteria query = QueryFactory.newQuery(OriginEntrySource.class, criteria);
-		return (OriginEntrySource) getPersistenceBrokerTemplate().getObjectByQuery(query);
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.kuali.module.gl.dao.OriginEntrySourceDao#findBySourceCode(java.lang.String)
+     */
+    public OriginEntrySource findBySourceCode(String code) {
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo("code", code);
+        QueryByCriteria query = QueryFactory.newQuery(OriginEntrySource.class, criteria);
+        return (OriginEntrySource) getPersistenceBrokerTemplate().getObjectByQuery(query);
+    }
 
 }

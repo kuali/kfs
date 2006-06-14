@@ -38,10 +38,10 @@ public class ReportingCodesRule extends MaintenanceDocumentRuleBase {
     private ReportingCodes newReportingCode;
 
     private BusinessObjectService businessObjectService;
-    
+
     public ReportingCodesRule() {
         super();
-        setBusinessObjectService((BusinessObjectService)SpringServiceLocator.getBusinessObjectService());
+        setBusinessObjectService((BusinessObjectService) SpringServiceLocator.getBusinessObjectService());
     }
 
     /**
@@ -63,59 +63,55 @@ public class ReportingCodesRule extends MaintenanceDocumentRuleBase {
         checkReportsToReportingCode();
         return success;
     }
-    
+
     private void setupConvenienceObjects(MaintenanceDocument document) {
-        
-        //  setup oldAccount convenience objects, make sure all possible sub-objects are populated
+
+        // setup oldAccount convenience objects, make sure all possible sub-objects are populated
         oldReportingCode = (ReportingCodes) super.getOldBo();
 
-        //  setup newAccount convenience objects, make sure all possible sub-objects are populated
+        // setup newAccount convenience objects, make sure all possible sub-objects are populated
         newReportingCode = (ReportingCodes) super.getNewBo();
     }
-    
+
     private boolean checkReportsToReportingCode() {
         boolean success = true;
         boolean oneMissing = false;
         boolean bothMissing = false;
         boolean doExistenceTest = false;
-        
-        //  if one of the codes is blank but the other isnt (ie, they are different), then 
-        // do the existence test 
-        if (StringUtils.isBlank(newReportingCode.getFinancialReportingCode()) 
-                && StringUtils.isBlank(newReportingCode.getFinancialReportsToReportingCode())) {
+
+        // if one of the codes is blank but the other isnt (ie, they are different), then
+        // do the existence test
+        if (StringUtils.isBlank(newReportingCode.getFinancialReportingCode()) && StringUtils.isBlank(newReportingCode.getFinancialReportsToReportingCode())) {
             bothMissing = true;
         }
-        else if (StringUtils.isBlank(newReportingCode.getFinancialReportingCode()) 
-                || StringUtils.isBlank(newReportingCode.getFinancialReportsToReportingCode())) {
+        else if (StringUtils.isBlank(newReportingCode.getFinancialReportingCode()) || StringUtils.isBlank(newReportingCode.getFinancialReportsToReportingCode())) {
             oneMissing = true;
         }
         if (oneMissing && !bothMissing) {
             doExistenceTest = true;
         }
-        
-        //  if both codes are there, but they are different, then do the existence test
+
+        // if both codes are there, but they are different, then do the existence test
         if (StringUtils.isNotBlank(newReportingCode.getFinancialReportingCode())) {
             if (!newReportingCode.getFinancialReportingCode().equalsIgnoreCase(newReportingCode.getFinancialReportsToReportingCode())) {
                 doExistenceTest = true;
             }
         }
-        
+
         // if these two aren't equal then we need to make sure that the object exists
         if (doExistenceTest) {
-            
+
             // attempt to retrieve the specified object from the db
             BusinessObject referenceBo;
             referenceBo = businessObjectService.getReferenceIfExists((BusinessObject) newReportingCode, "reportingCodes");
             if (!ObjectUtils.isNotNull(referenceBo)) {
-                putFieldError("financialReportsToReportingCode", 
-                        KeyConstants.ERROR_EXISTENCE, 
-                        "Reports To Reporting Code");
+                putFieldError("financialReportsToReportingCode", KeyConstants.ERROR_EXISTENCE, "Reports To Reporting Code");
                 success &= false;
             }
         }
         return success;
     }
-    
+
     private void setBusinessObjectService(BusinessObjectService boService) {
         businessObjectService = boService;
     }

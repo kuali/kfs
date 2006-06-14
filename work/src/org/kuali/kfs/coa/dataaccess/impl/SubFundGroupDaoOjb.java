@@ -35,30 +35,33 @@ import org.springframework.orm.ojb.PersistenceBrokerTemplate;
  */
 public class SubFundGroupDaoOjb extends PersistenceBrokerTemplate implements SubFundGroupDao {
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.kuali.module.chart.dao.SubFundGroupDao#getByPrimaryId(java.lang.String)
      */
     public SubFundGroup getByPrimaryId(String subFundGroupCode) {
         Criteria criteria = new Criteria();
         criteria.addEqualTo("subFundGroupCode", subFundGroupCode);
 
-        return (SubFundGroup) getObjectByQuery(QueryFactory.newQuery(SubFundGroup.class,
-                criteria));
+        return (SubFundGroup) getObjectByQuery(QueryFactory.newQuery(SubFundGroup.class, criteria));
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.kuali.module.chart.dao.SubFundGroupDao#getByChartAndAccount(java.lang.String, java.lang.String)
      */
     public SubFundGroup getByChartAndAccount(String chartCode, String accountNumber) {
         Criteria criteria = new Criteria();
         criteria.addEqualTo("chartOfAccountsCode", chartCode);
         criteria.addEqualTo("accountNumber", accountNumber);
-        
+
         Account account = (Account) getObjectByQuery(QueryFactory.newQuery(Account.class, criteria));
         criteria = new Criteria();
         criteria.addEqualTo("subFundGroupCode", account.getSubFundGroupCode());
-        
+
         return (SubFundGroup) getObjectByQuery(QueryFactory.newQuery(SubFundGroup.class, criteria));
     }
-    
+
 }

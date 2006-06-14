@@ -29,18 +29,16 @@ import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.test.KualiTestBaseWithFixtures;
 
 /**
- * This class tests the <code>{@link IndirectCostAdjustmentDocument}</code>'s rules 
- * and PE generation.  This is not currently implemented properly.  When we 
- * get to building this document, we would need to extend TransactionalDocumentRuleTestBase. 
- * For now it contains commented out old fixtures code that will need to be fitted to 
- * the new xml based fixtures framework.  
+ * This class tests the <code>{@link IndirectCostAdjustmentDocument}</code>'s rules and PE generation. This is not currently
+ * implemented properly. When we get to building this document, we would need to extend TransactionalDocumentRuleTestBase. For now
+ * it contains commented out old fixtures code that will need to be fitted to the new xml based fixtures framework.
  * 
  * @author Kuali Transaction Processing Team (kualidev@oncourse.iu.edu)
  */
 public class IndirectCostAdjustmentDocumentRuleTest extends KualiTestBaseWithFixtures {
-    //////////////////////////////////////////////////////////////////////////
-    // Test methods start here                                              //
-    //////////////////////////////////////////////////////////////////////////
+    // ////////////////////////////////////////////////////////////////////////
+    // Test methods start here //
+    // ////////////////////////////////////////////////////////////////////////
 
     public final void testSave_nullDocument() throws Exception {
         boolean failedAsExpected = false;
@@ -56,121 +54,80 @@ public class IndirectCostAdjustmentDocumentRuleTest extends KualiTestBaseWithFix
     }
 
     /*
-     * This was taken from the old fixtures class and contains valuable data that 
-     * we should use when we get around to building this document.  This should be put 
-     * into the new xml fixtures framework though.
-     *  
-     public void fixturesDefault() {
-     addFixture( KualiRuleTestCase.ACCOUNT, "1912610" );
-     addFixture( KualiRuleTestCase.BALANCE_TYPE,
-     TransactionalDocumentRuleBase.BALANCE_TYPE_CODE.ACTUAL );
-     addFixture( KualiRuleTestCase.CHART, "UA" );
-     addFixture( KualiRuleTestCase.OBJECT_TYPE_CODE, 
-     TransactionalDocumentRuleBase.OBJECT_TYPE_CODE.CASH_NOT_INCOME );
-     addFixture( KualiRuleTestCase.POSTING_YEAR, new Integer( 2005 ) );
-     addFixture( KualiRuleTestCase.PROJECT, "BOB" );
-     addFixture( KualiRuleTestCase.SUBACCOUNT, "BEER" );
-     }
-
-     public void fixturesPartiallyLoadedDoc() throws Exception {
-     List sourceLines = new ArrayList();
-     List targetLines = new ArrayList();
-
-     addFixture( KualiRuleTestCase.CHART, "UA" );
-     addFixture( KualiRuleTestCase.ACCOUNT, "1912610" );
-     addFixture( KualiRuleTestCase.SUBACCOUNT, "BEER" );
-     addFixture( KualiRuleTestCase.PROJECT, "BOB" );
-
-     addFixture( KualiRuleTestCase.DOCUMENT_DESCRIPTION, "test" );
-     addFixture( KualiRuleTestCase.EXPLANATION, "This is a test document, "
-     + "testing valid accounting line business rules." );
-
-     addFixture( KualiRuleTestCase.OBJECT_CODE, "9912" );
-     sourceLines.add( fixtureSourceAccountingLine( null, "1000" ) );
-     addFixture( KualiRuleTestCase.SOURCE_ACCOUNTING_LINES, sourceLines );
-     
-     addFixture( KualiRuleTestCase.OBJECT_CODE, "9903" );
-     targetLines.add( fixtureTargetAccountingLine( null, "1000" ) );
-     addFixture( KualiRuleTestCase.TARGET_ACCOUNTING_LINES, targetLines );
-     }
-
-     public void fixturesApplyAddAccountingLineBusinessRulesInvalidSubObjectCode() 
-     throws Exception {
-     List sourceLines = new ArrayList();
-     List targetLines = new ArrayList();
-
-     addFixture( KualiRuleTestCase.DOCUMENT_DESCRIPTION, "test" );
-     addFixture( KualiRuleTestCase.EXPLANATION, 
-     "This is a test document, testing valid "
-     + "accounting line business rules." );
-
-     sourceLines.add( fixtureSourceAccountingLine( "9897", "1000" ) );
-     sourceLines.add( fixtureSourceAccountingLine( "9889", "1000" ) );       
-     addFixture( KualiRuleTestCase.SOURCE_ACCOUNTING_LINES, sourceLines );
-     
-     targetLines.add( fixtureTargetAccountingLine( "9891", "1000" ) );
-     targetLines.add( fixtureTargetAccountingLine( "9760", "1000" ) );       
-     addFixture( KualiRuleTestCase.TARGET_ACCOUNTING_LINES, targetLines );
-     }    
-
-     public void fixturesApplyAddAccountingLineBusinessRulesValidSubObjectCode() 
-     throws Exception {
-     List sourceLines = new ArrayList();
-     List targetLines = new ArrayList();
-
-     addFixture( KualiRuleTestCase.DOCUMENT_DESCRIPTION, "testing "
-     + "IndirectCostAdjustmentDocumentServiceTest.createValidRuleDIDocument" );
-     addFixture( KualiRuleTestCase.EXPLANATION, "This is a test document, "
-     + "testing valid accounting line business rules." );
-     
-     sourceLines.add( fixtureSourceAccountingLine( "1696", "2000" ) );       
-     sourceLines.add( fixtureSourceAccountingLine( "1696", "1000" ) );
-     addFixture( KualiRuleTestCase.SOURCE_ACCOUNTING_LINES, sourceLines );
-     
-     targetLines.add( fixtureTargetAccountingLine( "1696", "2000" ) );
-     targetLines.add( fixtureTargetAccountingLine( "1696", "1000" ) );
-     addFixture( KualiRuleTestCase.TARGET_ACCOUNTING_LINES, targetLines );
-     }
-     
-     public final void fixturesApplyRouteDocumentBusinessRulesNotInBalance()
-     throws Exception {
-     List sourceLines = new ArrayList();
-     List targetLines = new ArrayList();
-
-     addFixture( KualiRuleTestCase.DOCUMENT_DESCRIPTION, "test" );
-     addFixture( KualiRuleTestCase.EXPLANATION, "This is a test document, "
-     + "testing valid accounting line business rules." );
-
-     sourceLines.add( fixtureSourceAccountingLine( "9912", "2000" ) );
-     sourceLines.add( fixtureSourceAccountingLine( "1698", "1000" ) );
-     addFixture( KualiRuleTestCase.SOURCE_ACCOUNTING_LINES, sourceLines );
-     
-     targetLines.add( fixtureTargetAccountingLine( "9912", "1000" ) );
-     targetLines.add( fixtureTargetAccountingLine( "1698", "2000" ) );
-     addFixture( KualiRuleTestCase.TARGET_ACCOUNTING_LINES, targetLines );
-     }
-
-     public final void fixturesApplyRouteDocumentBusinessRulesInvalidSubObjectCode() 
-     throws Exception {
-     fixturesApplyAddAccountingLineBusinessRulesInvalidSubObjectCode();
-     }
-
-     public final void fixturesApplyRouteDocumentBusinessRules_validDocument() 
-     throws Exception {
-     List sourceLines = new ArrayList();
-     List targetLines = new ArrayList();
-
-     addFixture( KualiRuleTestCase.DOCUMENT_DESCRIPTION, "test" );
-     addFixture( KualiRuleTestCase.EXPLANATION, "This is a test document, "
-     + "testing valid accounting line business rules." );
-
-     sourceLines.add( fixtureSourceAccountingLine( "5198", "2000" ) );
-     sourceLines.add( fixtureSourceAccountingLine( "1696", "1000" ) );
-     addFixture( KualiRuleTestCase.SOURCE_ACCOUNTING_LINES, sourceLines );
-     
-     targetLines.add( fixtureTargetAccountingLine( "5198", "2000" ) );
-     targetLines.add( fixtureTargetAccountingLine( "1696", "1000" ) );
-     addFixture( KualiRuleTestCase.TARGET_ACCOUNTING_LINES, targetLines );
-     }
+     * This was taken from the old fixtures class and contains valuable data that we should use when we get around to building this
+     * document. This should be put into the new xml fixtures framework though.
+     * 
+     * public void fixturesDefault() { addFixture( KualiRuleTestCase.ACCOUNT, "1912610" ); addFixture(
+     * KualiRuleTestCase.BALANCE_TYPE, TransactionalDocumentRuleBase.BALANCE_TYPE_CODE.ACTUAL ); addFixture(
+     * KualiRuleTestCase.CHART, "UA" ); addFixture( KualiRuleTestCase.OBJECT_TYPE_CODE,
+     * TransactionalDocumentRuleBase.OBJECT_TYPE_CODE.CASH_NOT_INCOME ); addFixture( KualiRuleTestCase.POSTING_YEAR, new Integer(
+     * 2005 ) ); addFixture( KualiRuleTestCase.PROJECT, "BOB" ); addFixture( KualiRuleTestCase.SUBACCOUNT, "BEER" ); }
+     * 
+     * public void fixturesPartiallyLoadedDoc() throws Exception { List sourceLines = new ArrayList(); List targetLines = new
+     * ArrayList();
+     * 
+     * addFixture( KualiRuleTestCase.CHART, "UA" ); addFixture( KualiRuleTestCase.ACCOUNT, "1912610" ); addFixture(
+     * KualiRuleTestCase.SUBACCOUNT, "BEER" ); addFixture( KualiRuleTestCase.PROJECT, "BOB" );
+     * 
+     * addFixture( KualiRuleTestCase.DOCUMENT_DESCRIPTION, "test" ); addFixture( KualiRuleTestCase.EXPLANATION, "This is a test
+     * document, " + "testing valid accounting line business rules." );
+     * 
+     * addFixture( KualiRuleTestCase.OBJECT_CODE, "9912" ); sourceLines.add( fixtureSourceAccountingLine( null, "1000" ) );
+     * addFixture( KualiRuleTestCase.SOURCE_ACCOUNTING_LINES, sourceLines );
+     * 
+     * addFixture( KualiRuleTestCase.OBJECT_CODE, "9903" ); targetLines.add( fixtureTargetAccountingLine( null, "1000" ) );
+     * addFixture( KualiRuleTestCase.TARGET_ACCOUNTING_LINES, targetLines ); }
+     * 
+     * public void fixturesApplyAddAccountingLineBusinessRulesInvalidSubObjectCode() throws Exception { List sourceLines = new
+     * ArrayList(); List targetLines = new ArrayList();
+     * 
+     * addFixture( KualiRuleTestCase.DOCUMENT_DESCRIPTION, "test" ); addFixture( KualiRuleTestCase.EXPLANATION, "This is a test
+     * document, testing valid " + "accounting line business rules." );
+     * 
+     * sourceLines.add( fixtureSourceAccountingLine( "9897", "1000" ) ); sourceLines.add( fixtureSourceAccountingLine( "9889",
+     * "1000" ) ); addFixture( KualiRuleTestCase.SOURCE_ACCOUNTING_LINES, sourceLines );
+     * 
+     * targetLines.add( fixtureTargetAccountingLine( "9891", "1000" ) ); targetLines.add( fixtureTargetAccountingLine( "9760",
+     * "1000" ) ); addFixture( KualiRuleTestCase.TARGET_ACCOUNTING_LINES, targetLines ); }
+     * 
+     * public void fixturesApplyAddAccountingLineBusinessRulesValidSubObjectCode() throws Exception { List sourceLines = new
+     * ArrayList(); List targetLines = new ArrayList();
+     * 
+     * addFixture( KualiRuleTestCase.DOCUMENT_DESCRIPTION, "testing " +
+     * "IndirectCostAdjustmentDocumentServiceTest.createValidRuleDIDocument" ); addFixture( KualiRuleTestCase.EXPLANATION, "This is
+     * a test document, " + "testing valid accounting line business rules." );
+     * 
+     * sourceLines.add( fixtureSourceAccountingLine( "1696", "2000" ) ); sourceLines.add( fixtureSourceAccountingLine( "1696",
+     * "1000" ) ); addFixture( KualiRuleTestCase.SOURCE_ACCOUNTING_LINES, sourceLines );
+     * 
+     * targetLines.add( fixtureTargetAccountingLine( "1696", "2000" ) ); targetLines.add( fixtureTargetAccountingLine( "1696",
+     * "1000" ) ); addFixture( KualiRuleTestCase.TARGET_ACCOUNTING_LINES, targetLines ); }
+     * 
+     * public final void fixturesApplyRouteDocumentBusinessRulesNotInBalance() throws Exception { List sourceLines = new
+     * ArrayList(); List targetLines = new ArrayList();
+     * 
+     * addFixture( KualiRuleTestCase.DOCUMENT_DESCRIPTION, "test" ); addFixture( KualiRuleTestCase.EXPLANATION, "This is a test
+     * document, " + "testing valid accounting line business rules." );
+     * 
+     * sourceLines.add( fixtureSourceAccountingLine( "9912", "2000" ) ); sourceLines.add( fixtureSourceAccountingLine( "1698",
+     * "1000" ) ); addFixture( KualiRuleTestCase.SOURCE_ACCOUNTING_LINES, sourceLines );
+     * 
+     * targetLines.add( fixtureTargetAccountingLine( "9912", "1000" ) ); targetLines.add( fixtureTargetAccountingLine( "1698",
+     * "2000" ) ); addFixture( KualiRuleTestCase.TARGET_ACCOUNTING_LINES, targetLines ); }
+     * 
+     * public final void fixturesApplyRouteDocumentBusinessRulesInvalidSubObjectCode() throws Exception {
+     * fixturesApplyAddAccountingLineBusinessRulesInvalidSubObjectCode(); }
+     * 
+     * public final void fixturesApplyRouteDocumentBusinessRules_validDocument() throws Exception { List sourceLines = new
+     * ArrayList(); List targetLines = new ArrayList();
+     * 
+     * addFixture( KualiRuleTestCase.DOCUMENT_DESCRIPTION, "test" ); addFixture( KualiRuleTestCase.EXPLANATION, "This is a test
+     * document, " + "testing valid accounting line business rules." );
+     * 
+     * sourceLines.add( fixtureSourceAccountingLine( "5198", "2000" ) ); sourceLines.add( fixtureSourceAccountingLine( "1696",
+     * "1000" ) ); addFixture( KualiRuleTestCase.SOURCE_ACCOUNTING_LINES, sourceLines );
+     * 
+     * targetLines.add( fixtureTargetAccountingLine( "5198", "2000" ) ); targetLines.add( fixtureTargetAccountingLine( "1696",
+     * "1000" ) ); addFixture( KualiRuleTestCase.TARGET_ACCOUNTING_LINES, targetLines ); }
      */
 }

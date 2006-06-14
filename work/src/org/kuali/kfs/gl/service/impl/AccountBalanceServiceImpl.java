@@ -34,6 +34,7 @@ import org.kuali.module.gl.web.Constant;
 
 /**
  * This class...
+ * 
  * @author Bin Gao from Michigan State University
  */
 public class AccountBalanceServiceImpl implements AccountBalanceService {
@@ -43,153 +44,153 @@ public class AccountBalanceServiceImpl implements AccountBalanceService {
 
     /**
      * Sets the accountBalanceDao attribute value.
+     * 
      * @param accountBalanceDao The accountBalanceDao to set.
      */
     public void setAccountBalanceDao(AccountBalanceDao accountBalanceDao) {
         this.accountBalanceDao = accountBalanceDao;
     }
-    
+
     /**
      * @see org.kuali.module.gl.service.AccountBalanceService#findAvailableAccountBalance(java.util.Map, boolean)
      */
-    public Iterator findAvailableAccountBalance(Map fieldValues, boolean isConsolidated) {       
+    public Iterator findAvailableAccountBalance(Map fieldValues, boolean isConsolidated) {
         return accountBalanceDao.findAvailableAccountBalance(fieldValues, isConsolidated);
     }
 
     /**
      * @see org.kuali.module.gl.service.AccountBalanceService#findAccountBalanceByConsolidation(java.util.Map, boolean, boolean)
      */
-    public List findAccountBalanceByConsolidation(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String subAccountNumber, 
-        boolean isCostShareExcluded, boolean isConsolidated,boolean isIncludePendingEntry) {
-      LOG.debug("findAccountBalanceByConsolidation() started");
+    public List findAccountBalanceByConsolidation(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String subAccountNumber, boolean isCostShareExcluded, boolean isConsolidated, boolean isIncludePendingEntry) {
+        LOG.debug("findAccountBalanceByConsolidation() started");
 
-      // Put the 4 total lines at the beginning of the list
-      List results = new ArrayList();
-      AccountBalance inc = new AccountBalance(Constant.TOTAL_ACCOUNT_BALANCE_INCOME);
-      AccountBalance exp = new AccountBalance(Constant.TOTAL_ACCOUNT_BALANCE_EXPENSE_GROSS);
-      AccountBalance expin = new AccountBalance(Constant.TOTAL_ACCOUNT_BALANCE_EXPENSE_IN);
-      AccountBalance total = new AccountBalance(Constant.TOTAL_ACCOUNT_BALANCE_AVAILABLE);
-      results.add(inc);
-      results.add(exp);
-      results.add(expin);
-      results.add(total);
+        // Put the 4 total lines at the beginning of the list
+        List results = new ArrayList();
+        AccountBalance inc = new AccountBalance(Constant.TOTAL_ACCOUNT_BALANCE_INCOME);
+        AccountBalance exp = new AccountBalance(Constant.TOTAL_ACCOUNT_BALANCE_EXPENSE_GROSS);
+        AccountBalance expin = new AccountBalance(Constant.TOTAL_ACCOUNT_BALANCE_EXPENSE_IN);
+        AccountBalance total = new AccountBalance(Constant.TOTAL_ACCOUNT_BALANCE_AVAILABLE);
+        results.add(inc);
+        results.add(exp);
+        results.add(expin);
+        results.add(total);
 
-      // If you want a sub account, you can't do consolidated
-      if ( (subAccountNumber != null) && (subAccountNumber.length() > 0) ) {
-        subAccountNumber = subAccountNumber.toUpperCase();
-        isConsolidated = false;
-      }
-
-      // Get the data
-      List balances = accountBalanceDao.findAccountBalanceByConsolidation(universityFiscalYear,chartOfAccountsCode,accountNumber,isCostShareExcluded, isConsolidated);
-
-      // Convert it to Account Balances
-      for (Iterator iter = balances.iterator(); iter.hasNext();) {
-        Map bal = (Map)iter.next();
-        AccountBalance bbc = new AccountBalance("Consolidation",bal,universityFiscalYear,chartOfAccountsCode,accountNumber);
-        if ( (subAccountNumber != null) && (subAccountNumber.length() > 0) ) {
-          if ( bbc.getSubAccountNumber().equals(subAccountNumber) ) {
-            addBalanceToTotals(bbc,inc,exp,expin,total);            
-            results.add(bbc);
-          }
-        } else {
-          addBalanceToTotals(bbc,inc,exp,expin,total);
-          results.add(bbc);
+        // If you want a sub account, you can't do consolidated
+        if ((subAccountNumber != null) && (subAccountNumber.length() > 0)) {
+            subAccountNumber = subAccountNumber.toUpperCase();
+            isConsolidated = false;
         }
-      }
 
-      // Calculate the transfer in total
-      inc.getDummyBusinessObject().setGenericAmount(inc.getAccountLineActualsBalanceAmount().subtract(inc.getCurrentBudgetLineBalanceAmount()));
-      exp.getDummyBusinessObject().setGenericAmount(exp.getCurrentBudgetLineBalanceAmount().subtract(exp.getAccountLineActualsBalanceAmount()).subtract(exp.getAccountLineEncumbranceBalanceAmount()));
-      expin.setCurrentBudgetLineBalanceAmount(exp.getCurrentBudgetLineBalanceAmount());
-      expin.setAccountLineActualsBalanceAmount(exp.getAccountLineActualsBalanceAmount());
-      expin.setAccountLineEncumbranceBalanceAmount(exp.getAccountLineEncumbranceBalanceAmount());
-      expin.getDummyBusinessObject().setGenericAmount(exp.getDummyBusinessObject().getGenericAmount());
-      total.getDummyBusinessObject().setGenericAmount(inc.getDummyBusinessObject().getGenericAmount().add(exp.getDummyBusinessObject().getGenericAmount()));
-      return results;
+        // Get the data
+        List balances = accountBalanceDao.findAccountBalanceByConsolidation(universityFiscalYear, chartOfAccountsCode, accountNumber, isCostShareExcluded, isConsolidated);
+
+        // Convert it to Account Balances
+        for (Iterator iter = balances.iterator(); iter.hasNext();) {
+            Map bal = (Map) iter.next();
+            AccountBalance bbc = new AccountBalance("Consolidation", bal, universityFiscalYear, chartOfAccountsCode, accountNumber);
+            if ((subAccountNumber != null) && (subAccountNumber.length() > 0)) {
+                if (bbc.getSubAccountNumber().equals(subAccountNumber)) {
+                    addBalanceToTotals(bbc, inc, exp, expin, total);
+                    results.add(bbc);
+                }
+            }
+            else {
+                addBalanceToTotals(bbc, inc, exp, expin, total);
+                results.add(bbc);
+            }
+        }
+
+        // Calculate the transfer in total
+        inc.getDummyBusinessObject().setGenericAmount(inc.getAccountLineActualsBalanceAmount().subtract(inc.getCurrentBudgetLineBalanceAmount()));
+        exp.getDummyBusinessObject().setGenericAmount(exp.getCurrentBudgetLineBalanceAmount().subtract(exp.getAccountLineActualsBalanceAmount()).subtract(exp.getAccountLineEncumbranceBalanceAmount()));
+        expin.setCurrentBudgetLineBalanceAmount(exp.getCurrentBudgetLineBalanceAmount());
+        expin.setAccountLineActualsBalanceAmount(exp.getAccountLineActualsBalanceAmount());
+        expin.setAccountLineEncumbranceBalanceAmount(exp.getAccountLineEncumbranceBalanceAmount());
+        expin.getDummyBusinessObject().setGenericAmount(exp.getDummyBusinessObject().getGenericAmount());
+        total.getDummyBusinessObject().setGenericAmount(inc.getDummyBusinessObject().getGenericAmount().add(exp.getDummyBusinessObject().getGenericAmount()));
+        return results;
     }
 
-    private void addBalanceToTotals(AccountBalance add,AccountBalance inc,AccountBalance exp,AccountBalance expin,AccountBalance total) {
-      String reportingSortCode = add.getFinancialObject().getFinancialObjectType().getFinancialReportingSortCode();
+    private void addBalanceToTotals(AccountBalance add, AccountBalance inc, AccountBalance exp, AccountBalance expin, AccountBalance total) {
+        String reportingSortCode = add.getFinancialObject().getFinancialObjectType().getFinancialReportingSortCode();
 
-      if ( reportingSortCode.startsWith(Constant.START_CHAR_OF_REPORTING_SORT_CODE_B) ) {
-        exp.add(add);
-      } else {
-        inc.add(add);
-      }
+        if (reportingSortCode.startsWith(Constant.START_CHAR_OF_REPORTING_SORT_CODE_B)) {
+            exp.add(add);
+        }
+        else {
+            inc.add(add);
+        }
     }
 
-    public List findAccountBalanceByLevel(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String subAccountNumber, 
-        String financialConsolidationObjectCode, boolean isCostShareExcluded, boolean isConsolidated,boolean isIncludePendingEntry) {
-      LOG.debug("findAccountBalanceByLevel() started");
+    public List findAccountBalanceByLevel(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String subAccountNumber, String financialConsolidationObjectCode, boolean isCostShareExcluded, boolean isConsolidated, boolean isIncludePendingEntry) {
+        LOG.debug("findAccountBalanceByLevel() started");
 
-      List results = new ArrayList();
+        List results = new ArrayList();
 
-      // If you want a sub account, you can't do consolidated
-      if ( (subAccountNumber != null) && (subAccountNumber.length() > 0) ) {
-        subAccountNumber = subAccountNumber.toUpperCase();
-        isConsolidated = false;
-      }
-
-      // Get the data
-      List balances = accountBalanceDao.findAccountBalanceByLevel(universityFiscalYear,chartOfAccountsCode,accountNumber,financialConsolidationObjectCode, 
-          isCostShareExcluded, isConsolidated);
-
-      // Convert it to Account Balances
-      for (Iterator iter = balances.iterator(); iter.hasNext();) {
-        Map bal = (Map)iter.next();
-        bal.put("FIN_CONS_OBJ_CD", financialConsolidationObjectCode);
-        AccountBalance bbc = new AccountBalance("Level",bal,universityFiscalYear,chartOfAccountsCode,accountNumber);
-        if ( (subAccountNumber != null) && (subAccountNumber.length() > 0) ) {
-          if ( bbc.getSubAccountNumber().equals(subAccountNumber) ) {            
-            results.add(bbc);
-          }
-        } else {
-          results.add(bbc);
+        // If you want a sub account, you can't do consolidated
+        if ((subAccountNumber != null) && (subAccountNumber.length() > 0)) {
+            subAccountNumber = subAccountNumber.toUpperCase();
+            isConsolidated = false;
         }
-      }
 
-      return results;      
+        // Get the data
+        List balances = accountBalanceDao.findAccountBalanceByLevel(universityFiscalYear, chartOfAccountsCode, accountNumber, financialConsolidationObjectCode, isCostShareExcluded, isConsolidated);
+
+        // Convert it to Account Balances
+        for (Iterator iter = balances.iterator(); iter.hasNext();) {
+            Map bal = (Map) iter.next();
+            bal.put("FIN_CONS_OBJ_CD", financialConsolidationObjectCode);
+            AccountBalance bbc = new AccountBalance("Level", bal, universityFiscalYear, chartOfAccountsCode, accountNumber);
+            if ((subAccountNumber != null) && (subAccountNumber.length() > 0)) {
+                if (bbc.getSubAccountNumber().equals(subAccountNumber)) {
+                    results.add(bbc);
+                }
+            }
+            else {
+                results.add(bbc);
+            }
+        }
+
+        return results;
     }
 
-    public List findAccountBalanceByObject(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String subAccountNumber, 
-        String financialObjectLevelCode,String financialReportingSortCode,boolean isCostShareExcluded,boolean isConsolidated,boolean isIncludePendingEntry) {
-      LOG.debug("findAccountBalanceByObject() started");
+    public List findAccountBalanceByObject(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String subAccountNumber, String financialObjectLevelCode, String financialReportingSortCode, boolean isCostShareExcluded, boolean isConsolidated, boolean isIncludePendingEntry) {
+        LOG.debug("findAccountBalanceByObject() started");
 
-      List results = new ArrayList();
+        List results = new ArrayList();
 
-      // If you want a sub account, you can't do consolidated
-      if ( (subAccountNumber != null) && (subAccountNumber.length() > 0) ) {
-        subAccountNumber = subAccountNumber.toUpperCase();
-        isConsolidated = false;
-      }
-
-      // Get the data
-      List balances = accountBalanceDao.findAccountBalanceByObject(universityFiscalYear,chartOfAccountsCode,accountNumber,financialObjectLevelCode,
-          financialReportingSortCode,isCostShareExcluded, isConsolidated);
-
-      // Convert it to Account Balances
-      for (Iterator iter = balances.iterator(); iter.hasNext();) {
-        Map bal = (Map)iter.next();
-        bal.put("FIN_OBJ_LVL_CD", financialObjectLevelCode);
-        AccountBalance bbc = new AccountBalance("Object",bal,universityFiscalYear,chartOfAccountsCode,accountNumber);
-        if ( (subAccountNumber != null) && (subAccountNumber.length() > 0) ) {
-          if ( bbc.getSubAccountNumber().equals(subAccountNumber) ) {            
-            results.add(bbc);
-          }
-        } else {
-          results.add(bbc);
+        // If you want a sub account, you can't do consolidated
+        if ((subAccountNumber != null) && (subAccountNumber.length() > 0)) {
+            subAccountNumber = subAccountNumber.toUpperCase();
+            isConsolidated = false;
         }
-      }
 
-      return results;
+        // Get the data
+        List balances = accountBalanceDao.findAccountBalanceByObject(universityFiscalYear, chartOfAccountsCode, accountNumber, financialObjectLevelCode, financialReportingSortCode, isCostShareExcluded, isConsolidated);
+
+        // Convert it to Account Balances
+        for (Iterator iter = balances.iterator(); iter.hasNext();) {
+            Map bal = (Map) iter.next();
+            bal.put("FIN_OBJ_LVL_CD", financialObjectLevelCode);
+            AccountBalance bbc = new AccountBalance("Object", bal, universityFiscalYear, chartOfAccountsCode, accountNumber);
+            if ((subAccountNumber != null) && (subAccountNumber.length() > 0)) {
+                if (bbc.getSubAccountNumber().equals(subAccountNumber)) {
+                    results.add(bbc);
+                }
+            }
+            else {
+                results.add(bbc);
+            }
+        }
+
+        return results;
     }
 
     /**
      * @see org.kuali.module.gl.service.AccountBalanceService#save(org.kuali.module.gl.bo.AccountBalance)
      */
     public void save(AccountBalance ab) {
-       accountBalanceDao.save(ab);
+        accountBalanceDao.save(ab);
     }
 
     /**
@@ -198,9 +199,9 @@ public class AccountBalanceServiceImpl implements AccountBalanceService {
      * @param chartOfAccountscode
      * @param year
      */
-    public void purgeYearByChart(String chartOfAccountsCode,int year) {
-      LOG.debug("purgeYearByChart() started");
+    public void purgeYearByChart(String chartOfAccountsCode, int year) {
+        LOG.debug("purgeYearByChart() started");
 
-      accountBalanceDao.purgeYearByChart(chartOfAccountsCode,year);
+        accountBalanceDao.purgeYearByChart(chartOfAccountsCode, year);
     }
 }

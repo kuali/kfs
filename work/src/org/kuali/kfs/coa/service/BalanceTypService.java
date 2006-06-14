@@ -27,29 +27,30 @@ import java.util.Collection;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
 
 /**
- * This service interface defines methods necessary for retreiving fully populated 
- * BalanceType business objects from the database that are necessary for transaction 
- * processing in the application.  This interface defines methods for each 
- * balance type that is needed by the application.
- * TODO - Continue to update this with new balance type as they are needed.
+ * This service interface defines methods necessary for retreiving fully populated BalanceType business objects from the database
+ * that are necessary for transaction processing in the application. This interface defines methods for each balance type that is
+ * needed by the application. TODO - Continue to update this with new balance type as they are needed.
+ * 
  * @author Kuali Financial Transactions Red Team (kualidev@oncourse.iu.edu)
  */
 public interface BalanceTypService {
     /**
      * This method retrieves a full instance of the appropriate BalanceType instance - Actual.
+     * 
      * @return
      */
     public BalanceTyp getActualBalanceTyp();
 
     /**
      * This method retrieves all valid balance types in the system.
+     * 
      * @return A list of active balance types in Kuali.
      */
     public Collection getAllBalanceTyps();
-    
+
     /**
-     * This method retrieves a BalanceTyp instance from the Kuali database by its primary key - the 
-     * balance typ's code. 
+     * This method retrieves a BalanceTyp instance from the Kuali database by its primary key - the balance typ's code.
+     * 
      * @param code The primary key in the database for this data type.
      * @return A fully populated object instance.
      */

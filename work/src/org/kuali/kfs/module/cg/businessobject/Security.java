@@ -35,59 +35,61 @@ import org.kuali.core.bo.user.KualiUser;
  */
 public class Security extends BusinessObjectBase {
 
-	private String personUniversalIdentifier;
+    private String personUniversalIdentifier;
 
-	private KualiUser kualiUser;
-	
-	/**
-	 * Default no-arg constructor.
-	 */
-	public Security() {
-
-	}
-
-	/**
-	 * Gets the personUniversalIdentifier attribute.
-	 * 
-	 * @return - Returns the personUniversalIdentifier
-	 */
-	public String getPersonUniversalIdentifier() { 
-		return personUniversalIdentifier;
-	}
-	
-	/**
-	 * Sets the personUniversalIdentifier attribute.
-	 * 
-	 * @param - personUniversalIdentifier The personUniversalIdentifier to set.
-	 */
-	public void setPersonUniversalIdentifier(String personUniversalIdentifier) {
-		this.personUniversalIdentifier = personUniversalIdentifier;
-	}
+    private KualiUser kualiUser;
 
     /**
-     * Gets the kualiUser attribute. 
+     * Default no-arg constructor.
+     */
+    public Security() {
+
+    }
+
+    /**
+     * Gets the personUniversalIdentifier attribute.
+     * 
+     * @return - Returns the personUniversalIdentifier
+     */
+    public String getPersonUniversalIdentifier() {
+        return personUniversalIdentifier;
+    }
+
+    /**
+     * Sets the personUniversalIdentifier attribute.
+     * 
+     * @param - personUniversalIdentifier The personUniversalIdentifier to set.
+     */
+    public void setPersonUniversalIdentifier(String personUniversalIdentifier) {
+        this.personUniversalIdentifier = personUniversalIdentifier;
+    }
+
+    /**
+     * Gets the kualiUser attribute.
+     * 
      * @return Returns the kualiUser.
      */
     public KualiUser getKualiUser() {
         return kualiUser;
     }
-    
+
     /**
      * Sets the kualiUser attribute value.
+     * 
      * @param kualiUser The kualiUser to set.
      * @deprecated
      */
     public void setKualiUser(KualiUser kualiUser) {
         this.kualiUser = kualiUser;
     }
-    
-	/**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-			LinkedHashMap m = new LinkedHashMap();
 
-			m.put("personUniversalIdentifier", getPersonUniversalIdentifier());
-			return m;
-	}
+    /**
+     * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
+
+        m.put("personUniversalIdentifier", getPersonUniversalIdentifier());
+        return m;
+    }
 }

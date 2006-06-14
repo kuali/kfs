@@ -28,14 +28,14 @@ import org.kuali.module.gl.bo.Transaction;
 
 /**
  * @author jsissom
- *
+ * 
  */
 public interface VerifyTransaction {
-  /**
-   * Verify a transaction is good for posting
-   * 
-   * @param t Transaction to verify
-   * @return List of error messages, empty list means no errors
-   */
-  public List verifyTransaction(Transaction t);
+    /**
+     * Verify a transaction is good for posting
+     * 
+     * @param t Transaction to verify
+     * @return List of error messages, empty list means no errors
+     */
+    public List verifyTransaction(Transaction t);
 }

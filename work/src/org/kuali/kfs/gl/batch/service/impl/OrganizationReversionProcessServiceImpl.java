@@ -96,9 +96,7 @@ public class OrganizationReversionProcessServiceImpl implements OrganizationReve
     public void organizationReversionProcess() {
         LOG.debug("organizationReversionProcess() started");
 
-        OrganizationReversionProcess orp = new OrganizationReversionProcess(organizationReversionService ,kualiConfigurationService,
-                beanFactory,balanceService,organizationReversionSelection,originEntryGroupService,
-                originEntryService,persistenceService,dateTimeService,cashOrganizationReversionCategoryLogic);
+        OrganizationReversionProcess orp = new OrganizationReversionProcess(organizationReversionService, kualiConfigurationService, beanFactory, balanceService, organizationReversionSelection, originEntryGroupService, originEntryService, persistenceService, dateTimeService, cashOrganizationReversionCategoryLogic);
 
         orp.organizationReversionProcess();
     }

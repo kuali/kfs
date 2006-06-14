@@ -34,64 +34,64 @@ import org.kuali.core.bo.BusinessObjectBase;
  */
 public class AwardStatus extends BusinessObjectBase {
 
-	private String awardStatusCode;
-	private String awardStatusDescription;
+    private String awardStatusCode;
+    private String awardStatusDescription;
 
-	/**
-	 * Default constructor.
-	 */
-	public AwardStatus() {
+    /**
+     * Default constructor.
+     */
+    public AwardStatus() {
 
-	}
+    }
 
-	/**
-	 * Gets the awardStatusCode attribute.
-	 * 
-	 * @return - Returns the awardStatusCode
-	 * 
-	 */
-	public String getAwardStatusCode() { 
-		return awardStatusCode;
-	}
+    /**
+     * Gets the awardStatusCode attribute.
+     * 
+     * @return - Returns the awardStatusCode
+     * 
+     */
+    public String getAwardStatusCode() {
+        return awardStatusCode;
+    }
 
-	/**
-	 * Sets the awardStatusCode attribute.
-	 * 
-	 * @param - awardStatusCode The awardStatusCode to set.
-	 * 
-	 */
-	public void setAwardStatusCode(String awardStatusCode) {
-		this.awardStatusCode = awardStatusCode;
-	}
-
-
-	/**
-	 * Gets the awardStatusDescription attribute.
-	 * 
-	 * @return - Returns the awardStatusDescription
-	 * 
-	 */
-	public String getAwardStatusDescription() { 
-		return awardStatusDescription;
-	}
-
-	/**
-	 * Sets the awardStatusDescription attribute.
-	 * 
-	 * @param - awardStatusDescription The awardStatusDescription to set.
-	 * 
-	 */
-	public void setAwardStatusDescription(String awardStatusDescription) {
-		this.awardStatusDescription = awardStatusDescription;
-	}
+    /**
+     * Sets the awardStatusCode attribute.
+     * 
+     * @param - awardStatusCode The awardStatusCode to set.
+     * 
+     */
+    public void setAwardStatusCode(String awardStatusCode) {
+        this.awardStatusCode = awardStatusCode;
+    }
 
 
-	/**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
+    /**
+     * Gets the awardStatusDescription attribute.
+     * 
+     * @return - Returns the awardStatusDescription
+     * 
+     */
+    public String getAwardStatusDescription() {
+        return awardStatusDescription;
+    }
+
+    /**
+     * Sets the awardStatusDescription attribute.
+     * 
+     * @param - awardStatusDescription The awardStatusDescription to set.
+     * 
+     */
+    public void setAwardStatusDescription(String awardStatusDescription) {
+        this.awardStatusDescription = awardStatusDescription;
+    }
+
+
+    /**
+     * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
         m.put("awardStatusCode", this.awardStatusCode);
-	    return m;
+        return m;
     }
 }

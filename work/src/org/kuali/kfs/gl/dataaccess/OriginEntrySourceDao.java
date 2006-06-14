@@ -28,11 +28,12 @@ import org.kuali.module.gl.bo.OriginEntrySource;
 
 /**
  * @author Laran Evans <lc278@cs.cornell.edu>
- * @version $Id: OriginEntrySourceDao.java,v 1.1 2006-01-14 19:35:59 abyrne Exp $
+ * @version $Id: OriginEntrySourceDao.java,v 1.2 2006-06-14 12:26:54 abyrne Exp $
  * 
  */
 
 public interface OriginEntrySourceDao {
-	public Collection findAll();
-	public OriginEntrySource findBySourceCode(String code);
+    public Collection findAll();
+
+    public OriginEntrySource findBySourceCode(String code);
 }

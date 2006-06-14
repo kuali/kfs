@@ -26,6 +26,7 @@ import org.kuali.core.bo.KualiCodeBase;
 
 /**
  * This class...
+ * 
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public class ICRTypeCode extends KualiCodeBase {

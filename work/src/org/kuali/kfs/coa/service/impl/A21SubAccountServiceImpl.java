@@ -32,15 +32,18 @@ import org.kuali.module.chart.service.A21SubAccountService;
  */
 
 public class A21SubAccountServiceImpl implements A21SubAccountService {
-    
+
     private A21SubAccountDao a21SubAccountDao;
 
     public A21SubAccountServiceImpl() {
         super();
     }
 
-    /* (non-Javadoc)
-     * @see org.kuali.module.chart.service.A21SubAccountService#getByPrimaryKey(java.lang.String, java.lang.String, java.lang.String)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.kuali.module.chart.service.A21SubAccountService#getByPrimaryKey(java.lang.String, java.lang.String,
+     *      java.lang.String)
      */
     public A21SubAccount getByPrimaryKey(String chartOfAccountsCode, String accountNumber, String subAccountNumber) {
         return a21SubAccountDao.getByPrimaryKey(chartOfAccountsCode, accountNumber, subAccountNumber);
@@ -52,5 +55,5 @@ public class A21SubAccountServiceImpl implements A21SubAccountService {
     public void setA21SubAccountDao(A21SubAccountDao subAccountDao) {
         a21SubAccountDao = subAccountDao;
     }
-    
+
 }

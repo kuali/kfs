@@ -35,174 +35,174 @@ import org.kuali.core.util.KualiDecimal;
  */
 public class PendingBalancesMove extends BusinessObjectBase {
 
-	private String personUniversalIdentifier;
-	private KualiDecimal appropriationBudget;
-	private KualiDecimal appropriationActual;
-	private KualiDecimal appropriationEncumbrance;
-	private KualiDecimal pendingBudget;
-	private KualiDecimal pendingActual;
-	private KualiDecimal pendingEncumbrance;
+    private String personUniversalIdentifier;
+    private KualiDecimal appropriationBudget;
+    private KualiDecimal appropriationActual;
+    private KualiDecimal appropriationEncumbrance;
+    private KualiDecimal pendingBudget;
+    private KualiDecimal pendingActual;
+    private KualiDecimal pendingEncumbrance;
 
-	/**
-	 * Default constructor.
-	 */
-	public PendingBalancesMove() {
+    /**
+     * Default constructor.
+     */
+    public PendingBalancesMove() {
 
-	}
+    }
 
-	/**
-	 * Gets the personUniversalIdentifier attribute.
-	 * 
-	 * @return - Returns the personUniversalIdentifier
-	 * 
-	 */
-	public String getPersonUniversalIdentifier() { 
-		return personUniversalIdentifier;
-	}
+    /**
+     * Gets the personUniversalIdentifier attribute.
+     * 
+     * @return - Returns the personUniversalIdentifier
+     * 
+     */
+    public String getPersonUniversalIdentifier() {
+        return personUniversalIdentifier;
+    }
 
-	/**
-	 * Sets the personUniversalIdentifier attribute.
-	 * 
-	 * @param - personUniversalIdentifier The personUniversalIdentifier to set.
-	 * 
-	 */
-	public void setPersonUniversalIdentifier(String personUniversalIdentifier) {
-		this.personUniversalIdentifier = personUniversalIdentifier;
-	}
-
-
-	/**
-	 * Gets the appropriationBudget attribute.
-	 * 
-	 * @return - Returns the appropriationBudget
-	 * 
-	 */
-	public KualiDecimal getAppropriationBudget() { 
-		return appropriationBudget;
-	}
-
-	/**
-	 * Sets the appropriationBudget attribute.
-	 * 
-	 * @param - appropriationBudget The appropriationBudget to set.
-	 * 
-	 */
-	public void setAppropriationBudget(KualiDecimal appropriationBudget) {
-		this.appropriationBudget = appropriationBudget;
-	}
+    /**
+     * Sets the personUniversalIdentifier attribute.
+     * 
+     * @param - personUniversalIdentifier The personUniversalIdentifier to set.
+     * 
+     */
+    public void setPersonUniversalIdentifier(String personUniversalIdentifier) {
+        this.personUniversalIdentifier = personUniversalIdentifier;
+    }
 
 
-	/**
-	 * Gets the appropriationActual attribute.
-	 * 
-	 * @return - Returns the appropriationActual
-	 * 
-	 */
-	public KualiDecimal getAppropriationActual() { 
-		return appropriationActual;
-	}
+    /**
+     * Gets the appropriationBudget attribute.
+     * 
+     * @return - Returns the appropriationBudget
+     * 
+     */
+    public KualiDecimal getAppropriationBudget() {
+        return appropriationBudget;
+    }
 
-	/**
-	 * Sets the appropriationActual attribute.
-	 * 
-	 * @param - appropriationActual The appropriationActual to set.
-	 * 
-	 */
-	public void setAppropriationActual(KualiDecimal appropriationActual) {
-		this.appropriationActual = appropriationActual;
-	}
-
-
-	/**
-	 * Gets the appropriationEncumbrance attribute.
-	 * 
-	 * @return - Returns the appropriationEncumbrance
-	 * 
-	 */
-	public KualiDecimal getAppropriationEncumbrance() { 
-		return appropriationEncumbrance;
-	}
-
-	/**
-	 * Sets the appropriationEncumbrance attribute.
-	 * 
-	 * @param - appropriationEncumbrance The appropriationEncumbrance to set.
-	 * 
-	 */
-	public void setAppropriationEncumbrance(KualiDecimal appropriationEncumbrance) {
-		this.appropriationEncumbrance = appropriationEncumbrance;
-	}
+    /**
+     * Sets the appropriationBudget attribute.
+     * 
+     * @param - appropriationBudget The appropriationBudget to set.
+     * 
+     */
+    public void setAppropriationBudget(KualiDecimal appropriationBudget) {
+        this.appropriationBudget = appropriationBudget;
+    }
 
 
-	/**
-	 * Gets the pendingBudget attribute.
-	 * 
-	 * @return - Returns the pendingBudget
-	 * 
-	 */
-	public KualiDecimal getPendingBudget() { 
-		return pendingBudget;
-	}
+    /**
+     * Gets the appropriationActual attribute.
+     * 
+     * @return - Returns the appropriationActual
+     * 
+     */
+    public KualiDecimal getAppropriationActual() {
+        return appropriationActual;
+    }
 
-	/**
-	 * Sets the pendingBudget attribute.
-	 * 
-	 * @param - pendingBudget The pendingBudget to set.
-	 * 
-	 */
-	public void setPendingBudget(KualiDecimal pendingBudget) {
-		this.pendingBudget = pendingBudget;
-	}
-
-
-	/**
-	 * Gets the pendingActual attribute.
-	 * 
-	 * @return - Returns the pendingActual
-	 * 
-	 */
-	public KualiDecimal getPendingActual() { 
-		return pendingActual;
-	}
-
-	/**
-	 * Sets the pendingActual attribute.
-	 * 
-	 * @param - pendingActual The pendingActual to set.
-	 * 
-	 */
-	public void setPendingActual(KualiDecimal pendingActual) {
-		this.pendingActual = pendingActual;
-	}
+    /**
+     * Sets the appropriationActual attribute.
+     * 
+     * @param - appropriationActual The appropriationActual to set.
+     * 
+     */
+    public void setAppropriationActual(KualiDecimal appropriationActual) {
+        this.appropriationActual = appropriationActual;
+    }
 
 
-	/**
-	 * Gets the pendingEncumbrance attribute.
-	 * 
-	 * @return - Returns the pendingEncumbrance
-	 * 
-	 */
-	public KualiDecimal getPendingEncumbrance() { 
-		return pendingEncumbrance;
-	}
+    /**
+     * Gets the appropriationEncumbrance attribute.
+     * 
+     * @return - Returns the appropriationEncumbrance
+     * 
+     */
+    public KualiDecimal getAppropriationEncumbrance() {
+        return appropriationEncumbrance;
+    }
 
-	/**
-	 * Sets the pendingEncumbrance attribute.
-	 * 
-	 * @param - pendingEncumbrance The pendingEncumbrance to set.
-	 * 
-	 */
-	public void setPendingEncumbrance(KualiDecimal pendingEncumbrance) {
-		this.pendingEncumbrance = pendingEncumbrance;
-	}
+    /**
+     * Sets the appropriationEncumbrance attribute.
+     * 
+     * @param - appropriationEncumbrance The appropriationEncumbrance to set.
+     * 
+     */
+    public void setAppropriationEncumbrance(KualiDecimal appropriationEncumbrance) {
+        this.appropriationEncumbrance = appropriationEncumbrance;
+    }
 
 
-	/**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
+    /**
+     * Gets the pendingBudget attribute.
+     * 
+     * @return - Returns the pendingBudget
+     * 
+     */
+    public KualiDecimal getPendingBudget() {
+        return pendingBudget;
+    }
+
+    /**
+     * Sets the pendingBudget attribute.
+     * 
+     * @param - pendingBudget The pendingBudget to set.
+     * 
+     */
+    public void setPendingBudget(KualiDecimal pendingBudget) {
+        this.pendingBudget = pendingBudget;
+    }
+
+
+    /**
+     * Gets the pendingActual attribute.
+     * 
+     * @return - Returns the pendingActual
+     * 
+     */
+    public KualiDecimal getPendingActual() {
+        return pendingActual;
+    }
+
+    /**
+     * Sets the pendingActual attribute.
+     * 
+     * @param - pendingActual The pendingActual to set.
+     * 
+     */
+    public void setPendingActual(KualiDecimal pendingActual) {
+        this.pendingActual = pendingActual;
+    }
+
+
+    /**
+     * Gets the pendingEncumbrance attribute.
+     * 
+     * @return - Returns the pendingEncumbrance
+     * 
+     */
+    public KualiDecimal getPendingEncumbrance() {
+        return pendingEncumbrance;
+    }
+
+    /**
+     * Sets the pendingEncumbrance attribute.
+     * 
+     * @param - pendingEncumbrance The pendingEncumbrance to set.
+     * 
+     */
+    public void setPendingEncumbrance(KualiDecimal pendingEncumbrance) {
+        this.pendingEncumbrance = pendingEncumbrance;
+    }
+
+
+    /**
+     * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
         m.put("personUniversalIdentifier", this.personUniversalIdentifier);
-	    return m;
+        return m;
     }
 }

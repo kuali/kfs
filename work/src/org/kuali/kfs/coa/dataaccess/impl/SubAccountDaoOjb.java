@@ -31,28 +31,27 @@ import org.springframework.orm.ojb.PersistenceBrokerTemplate;
 
 /**
  * This class is the OJB implementation of the SubAccountDao interface.
+ * 
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
-*/
-public class SubAccountDaoOjb extends PersistenceBrokerTemplate
-    implements SubAccountDao {
+ */
+public class SubAccountDaoOjb extends PersistenceBrokerTemplate implements SubAccountDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SubAccountDaoOjb.class);
 
     /**
      * Retrieves sub account business object by primary key
+     * 
      * @param chartOfAccountsCode - part of composite key
      * @param accountNumber - part of composite key
      * @param subAccountNumber - part of composite key
      * @return SubAccount
      * @see SubAccountDao
      */
-    public SubAccount getByPrimaryId(String chartOfAccountsCode,
-        String accountNumber, String subAccountNumber) {
+    public SubAccount getByPrimaryId(String chartOfAccountsCode, String accountNumber, String subAccountNumber) {
         Criteria criteria = new Criteria();
         criteria.addEqualTo("chartOfAccountsCode", chartOfAccountsCode);
         criteria.addEqualTo("accountNumber", accountNumber);
         criteria.addEqualTo("subAccountNumber", subAccountNumber);
 
-        return (SubAccount) getObjectByQuery(QueryFactory.newQuery(
-                SubAccount.class, criteria));
+        return (SubAccount) getObjectByQuery(QueryFactory.newQuery(SubAccount.class, criteria));
     }
 }

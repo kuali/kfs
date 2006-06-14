@@ -50,17 +50,17 @@ public class SubAccount extends BusinessObjectBase {
     private ReportingCodes reportingCode;
     private Chart chart;
     private Org org;
-    private Chart financialReportChart;    
-    
-    
-    //Several kinds of Dummy Attributes for dividing sections on Inquiry page
+    private Chart financialReportChart;
+
+
+    // Several kinds of Dummy Attributes for dividing sections on Inquiry page
     private String financialReportingCodeSectionBlank;
     private String financialReportingCodeSection;
     private String cgCostSharingSectionBlank;
     private String cgCostSharingSection;
     private String cgICRSectionBlank;
     private String cgICRSection;
-    
+
     /**
      * Default no-arg constructor.
      */
@@ -69,6 +69,7 @@ public class SubAccount extends BusinessObjectBase {
 
     /**
      * Gets the accountNumber attribute.
+     * 
      * @return Returns the accountNumber.
      */
     public String getAccountNumber() {
@@ -84,6 +85,7 @@ public class SubAccount extends BusinessObjectBase {
 
     /**
      * Gets the chartOfAccountsCode attribute.
+     * 
      * @return Returns the chartOfAccountsCode.
      */
     public String getChartOfAccountsCode() {
@@ -92,6 +94,7 @@ public class SubAccount extends BusinessObjectBase {
 
     /**
      * Sets the chartOfAccountsCode attribute value.
+     * 
      * @param chartOfAccountsCode The chartOfAccountsCode to set.
      */
     public void setChartOfAccountsCode(String chartOfAccountsCode) {
@@ -100,6 +103,7 @@ public class SubAccount extends BusinessObjectBase {
 
     /**
      * Sets the financialReporting attribute value.
+     * 
      * @param financialReporting The financialReporting to set.
      * @deprecated
      */
@@ -111,7 +115,7 @@ public class SubAccount extends BusinessObjectBase {
      * Gets the subAccountName attribute.
      * 
      * @return - Returns the subAccountName
-     *  
+     * 
      */
     public String getSubAccountName() {
         return subAccountName;
@@ -121,7 +125,7 @@ public class SubAccount extends BusinessObjectBase {
      * Sets the subAccountName attribute.
      * 
      * @param - subAccountName The subAccountName to set.
-     *  
+     * 
      */
     public void setSubAccountName(String subAccountName) {
         this.subAccountName = subAccountName;
@@ -131,7 +135,7 @@ public class SubAccount extends BusinessObjectBase {
      * Gets the subAccountActiveIndicator attribute.
      * 
      * @return - Returns the subAccountActiveIndicator
-     *  
+     * 
      */
     public boolean isSubAccountActiveIndicator() {
         return subAccountActiveIndicator;
@@ -141,7 +145,7 @@ public class SubAccount extends BusinessObjectBase {
      * Sets the subAccountActiveIndicator attribute.
      * 
      * @param - subAccountActiveIndicator The subAccountActiveIndicator to set.
-     *  
+     * 
      */
     public void setSubAccountActiveIndicator(boolean subAccountActiveIndicator) {
         this.subAccountActiveIndicator = subAccountActiveIndicator;
@@ -151,7 +155,7 @@ public class SubAccount extends BusinessObjectBase {
      * Gets the account attribute.
      * 
      * @return - Returns the account
-     *  
+     * 
      */
     public Account getAccount() {
         return account;
@@ -161,7 +165,7 @@ public class SubAccount extends BusinessObjectBase {
      * Sets the account attribute.
      * 
      * @param - account The account to set.
-     *  
+     * 
      */
     public void setAccount(Account account) {
         this.account = account;
@@ -171,7 +175,7 @@ public class SubAccount extends BusinessObjectBase {
      * Gets the subAccount attribute.
      * 
      * @return - Returns the subAccount
-     *  
+     * 
      */
     public String getSubAccountNumber() {
         return subAccountNumber;
@@ -190,7 +194,7 @@ public class SubAccount extends BusinessObjectBase {
      * Gets the financialReporting attribute.
      * 
      * @return - Returns the financialReporting
-     *  
+     * 
      */
     public ReportingCodes getReportingCode() {
         return reportingCode;
@@ -240,7 +244,8 @@ public class SubAccount extends BusinessObjectBase {
     }
 
     /**
-     * Gets the a21SubAccount attribute. 
+     * Gets the a21SubAccount attribute.
+     * 
      * @return Returns the a21SubAccount.
      */
     public A21SubAccount getA21SubAccount() {
@@ -249,6 +254,7 @@ public class SubAccount extends BusinessObjectBase {
 
     /**
      * Sets the a21SubAccount attribute value.
+     * 
      * @param subAccount The a21SubAccount to set.
      */
     public void setA21SubAccount(A21SubAccount subAccount) {
@@ -298,8 +304,8 @@ public class SubAccount extends BusinessObjectBase {
      */
     public void setOrg(Org org) {
         this.org = org;
-    }    
-    
+    }
+
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
@@ -312,42 +318,53 @@ public class SubAccount extends BusinessObjectBase {
     }
 
     /**
-     * Gets the cGCostSharingSectionBlank attribute. 
+     * Gets the cGCostSharingSectionBlank attribute.
+     * 
      * @return Returns the cGCostSharingSectionBlank.
      */
     public String getCgCostSharingSectionBlank() {
         return cgCostSharingSectionBlank;
     }
+
     /**
-     * Gets the cGICRSectionBlank attribute. 
+     * Gets the cGICRSectionBlank attribute.
+     * 
      * @return Returns the cGICRSectionBlank.
      */
     public String getCgICRSectionBlank() {
         return cgICRSectionBlank;
     }
+
     /**
-     * Gets the financialReportingCodeSectionBlank attribute. 
+     * Gets the financialReportingCodeSectionBlank attribute.
+     * 
      * @return Returns the financialReportingCodeSectionBlank.
      */
     public String getFinancialReportingCodeSectionBlank() {
         return financialReportingCodeSectionBlank;
     }
+
     /**
-     * Gets the cGCostSharingSection attribute. 
+     * Gets the cGCostSharingSection attribute.
+     * 
      * @return Returns the cGCostSharingSection.
      */
     public String getCgCostSharingSection() {
         return cgCostSharingSection;
     }
+
     /**
-     * Gets the cGICRSection attribute. 
+     * Gets the cGICRSection attribute.
+     * 
      * @return Returns the cGICRSection.
      */
     public String getCgICRSection() {
         return cgICRSection;
     }
+
     /**
-     * Gets the financialReportingCodeSection attribute. 
+     * Gets the financialReportingCodeSection attribute.
+     * 
      * @return Returns the financialReportingCodeSection.
      */
     public String getFinancialReportingCodeSection() {

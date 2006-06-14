@@ -25,32 +25,34 @@ package org.kuali.module.chart.service;
 import java.util.List;
 
 import org.kuali.module.chart.bo.ObjectCode;
+
 /**
  * This interface defines methods that an ObjectCode Service must provide.
+ * 
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
-*/
+ */
 public interface ObjectCodeService {
-    
-    /** 
+
+    /**
      * @param universityFiscalYear - University Fiscal Year
-     * @param chartOfAccountsCode - Chart of Accounts Code 
-     * @param financialObjectCode - Financial Object Code   
-     * @return ObjectCode 
+     * @param chartOfAccountsCode - Chart of Accounts Code
+     * @param financialObjectCode - Financial Object Code
+     * @return ObjectCode
      * 
      * Retrieves an ObjectCode object based on primary key.
      */
-    public ObjectCode getByPrimaryId(Integer universityFiscalYear,
-        String chartOfAccountsCode, String financialObjectCode);
-    /** 
+    public ObjectCode getByPrimaryId(Integer universityFiscalYear, String chartOfAccountsCode, String financialObjectCode);
+
+    /**
      * 
      * 
-     * @param chartOfAccountsCode - Chart of Accounts Code 
-     * @param financialObjectCode - Financial Object Code   
+     * @param chartOfAccountsCode - Chart of Accounts Code
+     * @param financialObjectCode - Financial Object Code
      * @return a list containing integer years, given object code. The list maybe empty, but will not be null.
      */
-    
-    
+
+
     public List getYearList(String chartOfAccountsCode, String financialObjectCode);
-    
-    
+
+
 }

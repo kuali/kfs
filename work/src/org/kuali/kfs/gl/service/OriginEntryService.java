@@ -32,7 +32,7 @@ import org.kuali.module.gl.util.LedgerEntryHolder;
 
 /**
  * @author jsissom
- *
+ * 
  */
 public interface OriginEntryService {
     /**
@@ -67,7 +67,7 @@ public interface OriginEntryService {
      * @param originCode Origin Code selection
      * @return iterator to all the entries
      */
-    public Iterator<OriginEntry> getEntriesByDocument(OriginEntryGroup oeg, String documentNumber,String documentTypeCode, String originCode);
+    public Iterator<OriginEntry> getEntriesByDocument(OriginEntryGroup oeg, String documentNumber, String documentTypeCode, String originCode);
 
     /**
      * Take a generic transaction and save it as an origin entry in a specific group
@@ -108,7 +108,7 @@ public interface OriginEntryService {
      * 
      * @param groupIdList the id of a origin entry group
      * @param calculateTotals indicate if the subtotals and grand total need to be calculated
-     * @return a set of summarized information of the entries within the specified group 
+     * @return a set of summarized information of the entries within the specified group
      */
     public LedgerEntryHolder getSummaryByGroupId(List groupIdList, boolean calculateTotals);
 }

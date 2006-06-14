@@ -34,7 +34,7 @@ import org.kuali.module.financial.service.FiscalYearFunctionControlService;
 
 /**
  * This class implements FiscalYearFunctionControlService.
- *
+ * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class FiscalYearFunctionControlServiceImpl implements FiscalYearFunctionControlService {
@@ -45,12 +45,12 @@ public class FiscalYearFunctionControlServiceImpl implements FiscalYearFunctionC
     private BusinessObjectService businessObjectService;
 
     /**
-     * Retrieves the FiscalYearFunctionControl by its composite primary key (all passed in as parameters)
-     * and returns the active indicator.
-     *
+     * Retrieves the FiscalYearFunctionControl by its composite primary key (all passed in as parameters) and returns the active
+     * indicator.
+     * 
      * @param postingYear
      * @param financialSystemFunctionControlCode
-     * @return boolean.  Returns the value of the active indicator; returns null if PK is not found
+     * @return boolean. Returns the value of the active indicator; returns null if PK is not found
      */
     private boolean getActiveIndByPrimaryId(Integer postingYear, String financialSystemFunctionControlCode) {
         HashMap keys = new HashMap();
@@ -62,9 +62,9 @@ public class FiscalYearFunctionControlServiceImpl implements FiscalYearFunctionC
 
     /**
      * Retrieves list of FiscalYearFunctionControls by its function control code.
-     *
+     * 
      * @param financialSystemFunctionControlCode
-     * @return List.  Returns the list of FiscalYearFunctionControls
+     * @return List. Returns the list of FiscalYearFunctionControls
      */
     private List getByFunctionControlCodeAndActiveInd(String financialSystemFunctionControlCode, String financialSystemFunctionActiveIndicator) {
         HashMap values = new HashMap();

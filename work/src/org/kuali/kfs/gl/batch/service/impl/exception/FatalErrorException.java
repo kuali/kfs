@@ -44,5 +44,5 @@ public class FatalErrorException extends Exception {
     public FatalErrorException(Throwable cause) {
         super(cause);
     }
-    
+
 }

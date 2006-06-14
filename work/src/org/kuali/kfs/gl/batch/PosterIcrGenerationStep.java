@@ -27,36 +27,40 @@ import org.kuali.module.gl.service.PosterService;
 
 /**
  * @author jsissom
- *
+ * 
  */
 public class PosterIcrGenerationStep implements Step {
-  private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PosterIcrGenerationStep.class);
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PosterIcrGenerationStep.class);
 
-  private PosterService posterService;
+    private PosterService posterService;
 
-  public PosterIcrGenerationStep() {
-    super();
-  }
+    public PosterIcrGenerationStep() {
+        super();
+    }
 
-  /* (non-Javadoc)
-   * @see org.kuali.core.batch.Step#performStep()
-   */
-  public boolean performStep() {
-    LOG.debug("performStep() started");
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.kuali.core.batch.Step#performStep()
+     */
+    public boolean performStep() {
+        LOG.debug("performStep() started");
 
-    posterService.generateIcrTransactions();
+        posterService.generateIcrTransactions();
 
-    return true;
-  }
+        return true;
+    }
 
-  /* (non-Javadoc)
-   * @see org.kuali.core.batch.Step#getName()
-   */
-  public String getName() {
-    return "Generate ICR Entries";
-  }
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.kuali.core.batch.Step#getName()
+     */
+    public String getName() {
+        return "Generate ICR Entries";
+    }
 
-  public void setPosterService(PosterService ps) {
-    posterService = ps;
-  }
+    public void setPosterService(PosterService ps) {
+        posterService = ps;
+    }
 }

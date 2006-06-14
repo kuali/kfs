@@ -24,10 +24,11 @@ package org.kuali.module.gl.bo;
 
 /**
  * This class...
+ * 
  * @author Bin Gao from Michigan State University
  */
 public class AccountBalanceByLevel extends AccountBalance {
-    
+
     /**
      * Constructs a AccountBalanceByLevel.java.
      * 
@@ -35,9 +36,10 @@ public class AccountBalanceByLevel extends AccountBalance {
     public AccountBalanceByLevel() {
         super();
     }
-    
+
     /**
      * Constructs a AccountBalanceByLevel.java.
+     * 
      * @param t
      */
     public AccountBalanceByLevel(Transaction t) {

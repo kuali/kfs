@@ -26,8 +26,8 @@ import org.kuali.module.chart.bo.IndirectCostRecoveryExclusionType;
 
 /**
  * @author jsissom
- *
+ * 
  */
 public interface IndirectCostRecoveryExclusionTypeDao {
-  public IndirectCostRecoveryExclusionType getByPrimaryKey(String accountIndirectCostRecoveryTypeCode,String chartOfAccountsCode,String objectCode);
+    public IndirectCostRecoveryExclusionType getByPrimaryKey(String accountIndirectCostRecoveryTypeCode, String chartOfAccountsCode, String objectCode);
 }

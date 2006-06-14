@@ -30,21 +30,25 @@ import org.kuali.module.gl.batch.closing.year.service.YearEndService;
  * @version $Id$
  */
 public class EncumbranceForwardStep implements Step {
-    
+
     private YearEndService yearEndService;
 
     public EncumbranceForwardStep() {
         super();
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.kuali.core.batch.Step#getName()
      */
     public String getName() {
         return "General Ledger Encumbrance Forward Step";
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.kuali.core.batch.Step#performStep()
      */
     public boolean performStep() {
@@ -58,5 +62,5 @@ public class EncumbranceForwardStep implements Step {
     public void setYearEndService(YearEndService yearEndService) {
         this.yearEndService = yearEndService;
     }
-    
+
 }

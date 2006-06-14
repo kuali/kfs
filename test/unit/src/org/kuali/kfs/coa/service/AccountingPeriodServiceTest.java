@@ -34,14 +34,14 @@ import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.test.KualiTestBaseWithFixtures;
 
 /**
- * This class tests the AccountingPeriod business object from a 
- * persistence standpoint using the BusinessObjectService.
+ * This class tests the AccountingPeriod business object from a persistence standpoint using the BusinessObjectService.
+ * 
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public class AccountingPeriodServiceTest extends KualiTestBaseWithFixtures {
 
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountingPeriodServiceTest.class);
-    
+
     private BusinessObjectService bos = null;
     private AccountingPeriodService aps = null;
     public static final boolean BUDGET_ROLLOVER_IND = true;
@@ -52,7 +52,7 @@ public class AccountingPeriodServiceTest extends KualiTestBaseWithFixtures {
     public static final String UNIV_FISC_PRD_NAME = "JUL. 1776";
     public static final String UNIV_FISC_PRD_STATUS_CODE = "C";
     public static final Long VER_NBR = new Long(1);
-    
+
     /*
      * @see TestCase#setUp()
      */
@@ -68,7 +68,7 @@ public class AccountingPeriodServiceTest extends KualiTestBaseWithFixtures {
     protected void tearDown() throws Exception {
         super.tearDown();
     }
-    
+
     public void testPersistence() {
         AccountingPeriod ap = new AccountingPeriod();
         ap.setBudgetRolloverIndicator(BUDGET_ROLLOVER_IND);
@@ -80,18 +80,18 @@ public class AccountingPeriodServiceTest extends KualiTestBaseWithFixtures {
         ap.setUniversityFiscalPeriodStatusCode(UNIV_FISC_PRD_STATUS_CODE);
         ap.setUniversityFiscalYear(UNIV_FISC_YEAR);
         ap.setVersionNumber(VER_NBR);
-        
+
         bos.save(ap);
         assertNotNull(getAccountingPeriodByPrimaryKeys());
-        
+
         AccountingPeriod ap2 = getAccountingPeriodByPrimaryKeys();
         assertEquals(ap2.getUniversityFiscalPeriodName(), UNIV_FISC_PRD_NAME);
-        
+
         AccountingPeriod ap3 = getAccountingPeriodByPrimaryKeys();
         bos.delete(ap3);
         assertNull(getAccountingPeriodByPrimaryKeys());
     }
-    
+
     private AccountingPeriod getAccountingPeriodByPrimaryKeys() {
         HashMap h = new HashMap();
         h.put("universityFiscalYear", UNIV_FISC_YEAR);
@@ -99,22 +99,22 @@ public class AccountingPeriodServiceTest extends KualiTestBaseWithFixtures {
         AccountingPeriod ap2 = (AccountingPeriod) bos.findByPrimaryKey(AccountingPeriod.class, h);
         return ap2;
     }
-    
+
     public void testGetAllAccountingPeriods() {
         ArrayList acctPers = new ArrayList(aps.getAllAccountingPeriods());
         assertNotNull(acctPers);
-        assertTrue(acctPers.size()>0);
+        assertTrue(acctPers.size() > 0);
     }
-    
+
     public void testGetOpenAccountingPeriods() {
         ArrayList acctPers = new ArrayList(aps.getOpenAccountingPeriods());
         LOG.info("Number of OpenAccountingPeriods found: " + acctPers.size());
-        
-        //  all returned AccountingPeriod instances should be marked as OPEN
+
+        // all returned AccountingPeriod instances should be marked as OPEN
         for (Iterator iter = acctPers.iterator(); iter.hasNext();) {
             AccountingPeriod ap = (AccountingPeriod) iter.next();
             String statusCode = ap.getUniversityFiscalPeriodStatusCode();
-            assertTrue(statusCode.equals(Constants.ACCOUNTING_PERIOD_STATUS_OPEN));        
+            assertTrue(statusCode.equals(Constants.ACCOUNTING_PERIOD_STATUS_OPEN));
         }
     }
 }

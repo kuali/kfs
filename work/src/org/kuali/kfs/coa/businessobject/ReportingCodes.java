@@ -34,7 +34,7 @@ import org.kuali.core.bo.user.UniversalUser;
  */
 public class ReportingCodes extends BusinessObjectBase {
 
-	private static final long serialVersionUID = -1585612121519839488L;
+    private static final long serialVersionUID = -1585612121519839488L;
     private String chartOfAccountsCode;
     private String organizationCode;
     private String financialReportingCode;
@@ -46,94 +46,90 @@ public class ReportingCodes extends BusinessObjectBase {
     private Org org;
     private UniversalUser universalUser;
     private ReportingCodes reportingCodes;
-    
-	/**
-	 * @return Returns the chartOfAccountsCode.
-	 */
-	public String getChartOfAccountsCode() {
-		return chartOfAccountsCode;
-	}
-	
-	/**
-	 * @param chartOfAccountsCode The chartOfAccountsCode to set.
-	 */
-	public void setChartOfAccountsCode(
-			String chartOfAccountsCode) {
-		this.chartOfAccountsCode = chartOfAccountsCode;
-	}
-	
-	/**
-	 * @return Returns the financialReportingCode.
-	 */
-	public String getFinancialReportingCode() {
-		return financialReportingCode;
-	}
-	
-	/**
-	 * @param financialReportingCode The financialReportingCode to set.
-	 */
-	public void setFinancialReportingCode(String financialReportingCode) {
-		this.financialReportingCode = financialReportingCode;
-	}
-	
-	/**
-	 * @return Returns the financialReportingCodeDescription.
-	 */
-	public String getFinancialReportingCodeDescription() {
-		return financialReportingCodeDescription;
-	}
-	
-	/**
-	 * @param financialReportingCodeDescription The financialReportingCodeDescription to set.
-	 */
-	public void setFinancialReportingCodeDescription(
-			String financialReportingCodeDescription) {
-		this.financialReportingCodeDescription = financialReportingCodeDescription;
-	}
-	
-	/**
-	 * @return Returns the financialReportingCodeMgrId.
-	 */
-	public String getFinancialReportingCodeMgrId() {
-		return financialReportingCodeMgrId;
-	}
-	
-	/**
-	 * @param financialReportingCodeMgrId The financialReportingCodeMgrId to set.
-	 */
-	public void setFinancialReportingCodeMgrId(
-			String financialReportingCodeMgrId) {
-		this.financialReportingCodeMgrId = financialReportingCodeMgrId;
-	}
-	
-	/**
-	 * @return Returns the organizationCode.
-	 */
-	public String getOrganizationCode() {
-		return organizationCode;
-	}
-	
-	/**
-	 * @param organizationCode The organizationCode to set.
-	 */
-	public void setOrganizationCode(String organizationCode) {
-		this.organizationCode = organizationCode;
-	}
-	
-	/**
-	 * @return Returns the financialReportsToReportingCode.
-	 */
-	public String getFinancialReportsToReportingCode() {
-		return financialReportsToReportingCode;
-	}
-	
-	/**
-	 * @param financialReportsToReportingCode The financialReportsToReportingCode to set.
-	 */
-	public void setFinancialReportsToReportingCode(
-			String financialReportsToReportingCode) {
-		this.financialReportsToReportingCode = financialReportsToReportingCode;
-	}
+
+    /**
+     * @return Returns the chartOfAccountsCode.
+     */
+    public String getChartOfAccountsCode() {
+        return chartOfAccountsCode;
+    }
+
+    /**
+     * @param chartOfAccountsCode The chartOfAccountsCode to set.
+     */
+    public void setChartOfAccountsCode(String chartOfAccountsCode) {
+        this.chartOfAccountsCode = chartOfAccountsCode;
+    }
+
+    /**
+     * @return Returns the financialReportingCode.
+     */
+    public String getFinancialReportingCode() {
+        return financialReportingCode;
+    }
+
+    /**
+     * @param financialReportingCode The financialReportingCode to set.
+     */
+    public void setFinancialReportingCode(String financialReportingCode) {
+        this.financialReportingCode = financialReportingCode;
+    }
+
+    /**
+     * @return Returns the financialReportingCodeDescription.
+     */
+    public String getFinancialReportingCodeDescription() {
+        return financialReportingCodeDescription;
+    }
+
+    /**
+     * @param financialReportingCodeDescription The financialReportingCodeDescription to set.
+     */
+    public void setFinancialReportingCodeDescription(String financialReportingCodeDescription) {
+        this.financialReportingCodeDescription = financialReportingCodeDescription;
+    }
+
+    /**
+     * @return Returns the financialReportingCodeMgrId.
+     */
+    public String getFinancialReportingCodeMgrId() {
+        return financialReportingCodeMgrId;
+    }
+
+    /**
+     * @param financialReportingCodeMgrId The financialReportingCodeMgrId to set.
+     */
+    public void setFinancialReportingCodeMgrId(String financialReportingCodeMgrId) {
+        this.financialReportingCodeMgrId = financialReportingCodeMgrId;
+    }
+
+    /**
+     * @return Returns the organizationCode.
+     */
+    public String getOrganizationCode() {
+        return organizationCode;
+    }
+
+    /**
+     * @param organizationCode The organizationCode to set.
+     */
+    public void setOrganizationCode(String organizationCode) {
+        this.organizationCode = organizationCode;
+    }
+
+    /**
+     * @return Returns the financialReportsToReportingCode.
+     */
+    public String getFinancialReportsToReportingCode() {
+        return financialReportsToReportingCode;
+    }
+
+    /**
+     * @param financialReportsToReportingCode The financialReportsToReportingCode to set.
+     */
+    public void setFinancialReportsToReportingCode(String financialReportsToReportingCode) {
+        this.financialReportsToReportingCode = financialReportsToReportingCode;
+    }
 
     /**
      * @return Returns the chart.
@@ -178,7 +174,7 @@ public class ReportingCodes extends BusinessObjectBase {
      */
     public void setUniversalUser(UniversalUser universalUser) {
         this.universalUser = universalUser;
-    }    
+    }
 
     /**
      * @return Returns the reportingCodes.
@@ -193,9 +189,9 @@ public class ReportingCodes extends BusinessObjectBase {
      */
     public void setReportingCodes(ReportingCodes reportingCodes) {
         this.reportingCodes = reportingCodes;
-    }    
-    
-	/**
+    }
+
+    /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {

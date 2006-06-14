@@ -53,8 +53,7 @@ public class AdvanceDepositAction extends KualiTransactionalDocumentActionBase {
      * @return ActionForward
      * @throws Exception
      */
-    public ActionForward addAdvanceDeposit(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
+    public ActionForward addAdvanceDeposit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         AdvanceDepositForm adForm = (AdvanceDepositForm) form;
         AdvanceDepositDocument adDoc = adForm.getAdvanceDepositDocument();
 
@@ -84,8 +83,7 @@ public class AdvanceDepositAction extends KualiTransactionalDocumentActionBase {
      * @return ActionForward
      * @throws Exception
      */
-    public ActionForward deleteAdvanceDeposit(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
+    public ActionForward deleteAdvanceDeposit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         AdvanceDepositForm adForm = (AdvanceDepositForm) form;
         AdvanceDepositDocument adDoc = adForm.getAdvanceDepositDocument();
 

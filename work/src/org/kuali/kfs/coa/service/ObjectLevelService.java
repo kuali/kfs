@@ -26,11 +26,13 @@ import org.kuali.module.chart.bo.ObjLevel;
 
 /**
  * This interface defines methods that an ObjLevel Service must provide.
+ * 
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
-*/
+ */
 public interface ObjectLevelService {
     /**
      * Retrieves an object level object instance by its composite primary id.
+     * 
      * @param chartOfAccountsCode
      * @param ObjectLevelCode
      * @return An ObjLevel object instance.

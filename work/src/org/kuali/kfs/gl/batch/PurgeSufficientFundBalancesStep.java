@@ -32,48 +32,47 @@ import org.kuali.module.chart.service.ChartService;
 import org.kuali.module.gl.service.SufficientFundsService;
 
 public class PurgeSufficientFundBalancesStep implements Step {
-  private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurgeSufficientFundBalancesStep.class);
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurgeSufficientFundBalancesStep.class);
 
-  private ChartService chartService;
-  private SufficientFundsService sufficientFundsService;
-  private KualiConfigurationService kualiConfigurationService;
+    private ChartService chartService;
+    private SufficientFundsService sufficientFundsService;
+    private KualiConfigurationService kualiConfigurationService;
 
-  /**
-   * This step will purge data from the gl_sf_balances_t table older than a specified year.  It purges the
-   * data one chart at a time each within their own transaction so database transaction logs don't get completely
-   * filled up when doing this.  This step class should NOT be transactional.
-   * 
-   */
-  public boolean performStep() {
-    LOG.debug("performStep() started");
+    /**
+     * This step will purge data from the gl_sf_balances_t table older than a specified year. It purges the data one chart at a time
+     * each within their own transaction so database transaction logs don't get completely filled up when doing this. This step
+     * class should NOT be transactional.
+     * 
+     */
+    public boolean performStep() {
+        LOG.debug("performStep() started");
 
-    String yearStr = kualiConfigurationService.getApplicationParameterValue(Constants.ParameterGroups.SYSTEM,
-        Constants.SystemGroupParameterNames.PURGE_GL_SF_BALANCES_T_BEFORE_YEAR);
+        String yearStr = kualiConfigurationService.getApplicationParameterValue(Constants.ParameterGroups.SYSTEM, Constants.SystemGroupParameterNames.PURGE_GL_SF_BALANCES_T_BEFORE_YEAR);
 
-    int year = Integer.parseInt(yearStr);
+        int year = Integer.parseInt(yearStr);
 
-    List charts = chartService.getAllChartCodes();
-    for (Iterator iter = charts.iterator(); iter.hasNext();) {
-      String chart = (String)iter.next();
-      sufficientFundsService.purgeYearByChart(chart,year);
+        List charts = chartService.getAllChartCodes();
+        for (Iterator iter = charts.iterator(); iter.hasNext();) {
+            String chart = (String) iter.next();
+            sufficientFundsService.purgeYearByChart(chart, year);
+        }
+
+        return true;
     }
 
-    return true;
-  }
+    public String getName() {
+        return "Purge gl_sf_balances_t";
+    }
 
-  public String getName() {
-    return "Purge gl_sf_balances_t";
-  }
+    public void setSufficientFundsService(SufficientFundsService sufficientFundsService) {
+        this.sufficientFundsService = sufficientFundsService;
+    }
 
-  public void setSufficientFundsService(SufficientFundsService sufficientFundsService) {
-    this.sufficientFundsService = sufficientFundsService;
-  }
+    public void setChartService(ChartService chartService) {
+        this.chartService = chartService;
+    }
 
-  public void setChartService(ChartService chartService) {
-    this.chartService = chartService;
-  }
-
-  public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
-    this.kualiConfigurationService = kualiConfigurationService;
-  }
+    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
+        this.kualiConfigurationService = kualiConfigurationService;
+    }
 }

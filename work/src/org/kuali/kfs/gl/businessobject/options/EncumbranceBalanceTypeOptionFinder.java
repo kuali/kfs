@@ -35,6 +35,7 @@ import org.kuali.module.gl.web.Constant;
 
 /**
  * This class...
+ * 
  * @author Bin Gao from Michigan State University
  */
 public class GLEncumbranceBalanceTypeOptionFinder extends KeyValuesBase implements ValueFinder {
@@ -43,26 +44,26 @@ public class GLEncumbranceBalanceTypeOptionFinder extends KeyValuesBase implemen
      * @see org.kuali.core.lookup.valueFinder.ValueFinder#getValue()
      */
     public String getValue() {
-      OptionsService os = SpringServiceLocator.getOptionsService();
-      Options o = os.getCurrentYearOptions();
+        OptionsService os = SpringServiceLocator.getOptionsService();
+        Options o = os.getCurrentYearOptions();
 
-      return o.getExtrnlEncumFinBalanceTypCd(); 
+        return o.getExtrnlEncumFinBalanceTypCd();
     }
 
     /**
      * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {
-      List labels = new ArrayList();
+        List labels = new ArrayList();
 
-      OptionsService os = SpringServiceLocator.getOptionsService();
-      Options o = os.getCurrentYearOptions();
+        OptionsService os = SpringServiceLocator.getOptionsService();
+        Options o = os.getCurrentYearOptions();
 
-      labels.add(new KeyLabelPair(o.getExtrnlEncumFinBalanceTypCd(), o.getExtrnlEncumFinBalanceTypCd() + " - " + o.getExtrnlEncumFinBalanceTyp().getFinancialBalanceTypeName()));
-      labels.add(new KeyLabelPair(o.getIntrnlEncumFinBalanceTypCd(),o.getIntrnlEncumFinBalanceTypCd() + " - " + o.getIntrnlEncumFinBalanceTyp().getFinancialBalanceTypeName()));
-      // TODO The options table needs to be extended to add pre-encumbrances
-      labels.add(new KeyLabelPair(Constant.BALANCE_TYPE_PE, Constant.BALANCE_TYPE_PE + " - PRE-ENCUMBRANCE"));
+        labels.add(new KeyLabelPair(o.getExtrnlEncumFinBalanceTypCd(), o.getExtrnlEncumFinBalanceTypCd() + " - " + o.getExtrnlEncumFinBalanceTyp().getFinancialBalanceTypeName()));
+        labels.add(new KeyLabelPair(o.getIntrnlEncumFinBalanceTypCd(), o.getIntrnlEncumFinBalanceTypCd() + " - " + o.getIntrnlEncumFinBalanceTyp().getFinancialBalanceTypeName()));
+        // TODO The options table needs to be extended to add pre-encumbrances
+        labels.add(new KeyLabelPair(Constant.BALANCE_TYPE_PE, Constant.BALANCE_TYPE_PE + " - PRE-ENCUMBRANCE"));
 
-      return labels;
+        return labels;
     }
 }

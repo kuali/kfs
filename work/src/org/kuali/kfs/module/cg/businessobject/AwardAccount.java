@@ -36,166 +36,166 @@ import org.kuali.module.chart.bo.Chart;
  */
 public class AwardAccount extends BusinessObjectBase {
 
-	private Long proposalNumber;
-	private String chartOfAccountsCode;
-	private String accountNumber;
-	private String personUniversalIdentifier;
+    private Long proposalNumber;
+    private String chartOfAccountsCode;
+    private String accountNumber;
+    private String personUniversalIdentifier;
 
     private Account account;
-	private Chart chartOfAccounts;
-	private ContractsAndGrantsProjectDirectorView personUniversal;
+    private Chart chartOfAccounts;
+    private ContractsAndGrantsProjectDirectorView personUniversal;
 
-	/**
-	 * Default constructor.
-	 */
-	public AwardAccount() {
+    /**
+     * Default constructor.
+     */
+    public AwardAccount() {
 
-	}
+    }
 
-	/**
-	 * Gets the proposalNumber attribute.
-	 * 
-	 * @return - Returns the proposalNumber
-	 * 
-	 */
-	public Long getProposalNumber() { 
-		return proposalNumber;
-	}
+    /**
+     * Gets the proposalNumber attribute.
+     * 
+     * @return - Returns the proposalNumber
+     * 
+     */
+    public Long getProposalNumber() {
+        return proposalNumber;
+    }
 
-	/**
-	 * Sets the proposalNumber attribute.
-	 * 
-	 * @param - proposalNumber The proposalNumber to set.
-	 * 
-	 */
-	public void setProposalNumber(Long proposalNumber) {
-		this.proposalNumber = proposalNumber;
-	}
-
-
-	/**
-	 * Gets the chartOfAccountsCode attribute.
-	 * 
-	 * @return - Returns the chartOfAccountsCode
-	 * 
-	 */
-	public String getChartOfAccountsCode() { 
-		return chartOfAccountsCode;
-	}
-
-	/**
-	 * Sets the chartOfAccountsCode attribute.
-	 * 
-	 * @param - chartOfAccountsCode The chartOfAccountsCode to set.
-	 * 
-	 */
-	public void setChartOfAccountsCode(String chartOfAccountsCode) {
-		this.chartOfAccountsCode = chartOfAccountsCode;
-	}
+    /**
+     * Sets the proposalNumber attribute.
+     * 
+     * @param - proposalNumber The proposalNumber to set.
+     * 
+     */
+    public void setProposalNumber(Long proposalNumber) {
+        this.proposalNumber = proposalNumber;
+    }
 
 
-	/**
-	 * Gets the accountNumber attribute.
-	 * 
-	 * @return - Returns the accountNumber
-	 * 
-	 */
-	public String getAccountNumber() { 
-		return accountNumber;
-	}
+    /**
+     * Gets the chartOfAccountsCode attribute.
+     * 
+     * @return - Returns the chartOfAccountsCode
+     * 
+     */
+    public String getChartOfAccountsCode() {
+        return chartOfAccountsCode;
+    }
 
-	/**
-	 * Sets the accountNumber attribute.
-	 * 
-	 * @param - accountNumber The accountNumber to set.
-	 * 
-	 */
-	public void setAccountNumber(String accountNumber) {
-		this.accountNumber = accountNumber;
-	}
-
-
-	/**
-	 * Gets the personUniversalIdentifier attribute.
-	 * 
-	 * @return - Returns the personUniversalIdentifier
-	 * 
-	 */
-	public String getPersonUniversalIdentifier() { 
-		return personUniversalIdentifier;
-	}
-
-	/**
-	 * Sets the personUniversalIdentifier attribute.
-	 * 
-	 * @param - personUniversalIdentifier The personUniversalIdentifier to set.
-	 * 
-	 */
-	public void setPersonUniversalIdentifier(String personUniversalIdentifier) {
-		this.personUniversalIdentifier = personUniversalIdentifier;
-	}
+    /**
+     * Sets the chartOfAccountsCode attribute.
+     * 
+     * @param - chartOfAccountsCode The chartOfAccountsCode to set.
+     * 
+     */
+    public void setChartOfAccountsCode(String chartOfAccountsCode) {
+        this.chartOfAccountsCode = chartOfAccountsCode;
+    }
 
 
-	/**
-	 * Gets the account attribute.
-	 * 
-	 * @return - Returns the account
-	 * 
-	 */
-	public Account getAccount() { 
-		return account;
-	}
+    /**
+     * Gets the accountNumber attribute.
+     * 
+     * @return - Returns the accountNumber
+     * 
+     */
+    public String getAccountNumber() {
+        return accountNumber;
+    }
 
-	/**
-	 * Sets the account attribute.
-	 * 
-	 * @param - account The account to set.
-	 * @deprecated
-	 */
-	public void setAccount(Account account) {
-		this.account = account;
-	}
+    /**
+     * Sets the accountNumber attribute.
+     * 
+     * @param - accountNumber The accountNumber to set.
+     * 
+     */
+    public void setAccountNumber(String accountNumber) {
+        this.accountNumber = accountNumber;
+    }
 
-	/**
-	 * Gets the chartOfAccounts attribute.
-	 * 
-	 * @return - Returns the chartOfAccounts
-	 * 
-	 */
-	public Chart getChartOfAccounts() { 
-		return chartOfAccounts;
-	}
 
-	/**
-	 * Sets the chartOfAccounts attribute.
-	 * 
-	 * @param - chartOfAccounts The chartOfAccounts to set.
-	 * @deprecated
-	 */
-	public void setChartOfAccounts(Chart chartOfAccounts) {
-		this.chartOfAccounts = chartOfAccounts;
-	}
+    /**
+     * Gets the personUniversalIdentifier attribute.
+     * 
+     * @return - Returns the personUniversalIdentifier
+     * 
+     */
+    public String getPersonUniversalIdentifier() {
+        return personUniversalIdentifier;
+    }
 
-	/**
-	 * Gets the personUniversal attribute.
-	 * 
-	 * @return - Returns the personUniversal
-	 * 
-	 */
-	public ContractsAndGrantsProjectDirectorView getPersonUniversal() { 
-		return personUniversal;
-	}
+    /**
+     * Sets the personUniversalIdentifier attribute.
+     * 
+     * @param - personUniversalIdentifier The personUniversalIdentifier to set.
+     * 
+     */
+    public void setPersonUniversalIdentifier(String personUniversalIdentifier) {
+        this.personUniversalIdentifier = personUniversalIdentifier;
+    }
 
-	/**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
+
+    /**
+     * Gets the account attribute.
+     * 
+     * @return - Returns the account
+     * 
+     */
+    public Account getAccount() {
+        return account;
+    }
+
+    /**
+     * Sets the account attribute.
+     * 
+     * @param - account The account to set.
+     * @deprecated
+     */
+    public void setAccount(Account account) {
+        this.account = account;
+    }
+
+    /**
+     * Gets the chartOfAccounts attribute.
+     * 
+     * @return - Returns the chartOfAccounts
+     * 
+     */
+    public Chart getChartOfAccounts() {
+        return chartOfAccounts;
+    }
+
+    /**
+     * Sets the chartOfAccounts attribute.
+     * 
+     * @param - chartOfAccounts The chartOfAccounts to set.
+     * @deprecated
+     */
+    public void setChartOfAccounts(Chart chartOfAccounts) {
+        this.chartOfAccounts = chartOfAccounts;
+    }
+
+    /**
+     * Gets the personUniversal attribute.
+     * 
+     * @return - Returns the personUniversal
+     * 
+     */
+    public ContractsAndGrantsProjectDirectorView getPersonUniversal() {
+        return personUniversal;
+    }
+
+    /**
+     * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
         if (this.proposalNumber != null) {
             m.put("proposalNumber", this.proposalNumber.toString());
         }
         m.put("chartOfAccountsCode", this.chartOfAccountsCode);
         m.put("accountNumber", this.accountNumber);
-	    return m;
+        return m;
     }
 }

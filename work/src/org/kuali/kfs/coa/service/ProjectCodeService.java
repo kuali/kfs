@@ -26,11 +26,13 @@ import org.kuali.module.chart.bo.ProjectCode;
 
 /**
  * This interface defines methods that a ProjectCode Service must provide.
+ * 
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public interface ProjectCodeService {
     /**
      * Retrieves a ProjectCode object based on primary key.
+     * 
      * @param projectCode - Project Code
      * @return ProjectCode
      */
@@ -38,6 +40,7 @@ public interface ProjectCodeService {
 
     /**
      * Retrieves an ProjectCode object based on the project name.
+     * 
      * @param name - Project name
      * @return ProjectCode
      */

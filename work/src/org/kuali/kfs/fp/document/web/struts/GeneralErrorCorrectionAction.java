@@ -26,6 +26,8 @@ import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
 
 /**
  * This class piggy backs on all of the functionality in the KualiTransactionalDocumentActionBase.
+ * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
-public class GeneralErrorCorrectionAction extends KualiTransactionalDocumentActionBase {}
+public class GeneralErrorCorrectionAction extends KualiTransactionalDocumentActionBase {
+}

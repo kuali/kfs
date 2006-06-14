@@ -26,14 +26,14 @@ import org.kuali.core.bo.KualiCodeBase;
 
 /**
  * @author jsissom
- * @version $Id: OriginEntrySource.java,v 1.6 2006-06-13 18:02:08 jsissom Exp $
+ * @version $Id: OriginEntrySource.java,v 1.7 2006-06-14 12:26:42 abyrne Exp $
  * 
  */
 
 public class OriginEntrySource extends KualiCodeBase {
-    
+
     static final private long serialVersionUID = 1l;
-    
+
     public static final String SCRUBBER_VALID = "SCV";
     public static final String SCRUBBER_ERROR = "SCE";
     public static final String SCRUBBER_EXPIRED = "SCX";

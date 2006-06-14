@@ -30,45 +30,44 @@ import org.kuali.module.chart.bo.Org;
 
 /**
  * This class...
+ * 
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public class OrgPreRules extends MaintenancePreRulesBase {
     private Org newAccount;
     private Org copyAccount;
-    
-    
+
+
     public OrgPreRules() {
-        
+
     }
+
     protected boolean doCustomPreRules(MaintenanceDocument document) {
         setupConvenienceObjects(document);
         checkForContinuationAccounts(); // run this first to avoid side effects
 
         LOG.debug("done with continuation account, proceeeding with remaining pre rules");
 
-        
-        
+
         return true;
     }
-    
+
     private void checkForContinuationAccounts() {
         LOG.debug("entering checkForContinuationAccounts()");
-        
-        if (StringUtils.isNotBlank(newAccount.getOrganizationDefaultAccountNumber())){
-            Account account = checkForContinuationAccount("Account Number", 
-                    newAccount.getChartOfAccountsCode(),
-                    newAccount.getOrganizationDefaultAccountNumber(), "");
-            if (ObjectUtils.isNotNull(account)) { //override old user inputs
+
+        if (StringUtils.isNotBlank(newAccount.getOrganizationDefaultAccountNumber())) {
+            Account account = checkForContinuationAccount("Account Number", newAccount.getChartOfAccountsCode(), newAccount.getOrganizationDefaultAccountNumber(), "");
+            if (ObjectUtils.isNotNull(account)) { // override old user inputs
                 newAccount.setOrganizationDefaultAccountNumber(account.getAccountNumber());
                 newAccount.setChartOfAccountsCode(account.getChartOfAccountsCode());
             }
         }
     }
-    
+
     private void setupConvenienceObjects(MaintenanceDocument document) {
-        
-        //	setup newAccount convenience objects, make sure all possible sub-objects are populated
-        newAccount =  (Org) document.getNewMaintainableObject().getBusinessObject();
+
+        // setup newAccount convenience objects, make sure all possible sub-objects are populated
+        newAccount = (Org) document.getNewMaintainableObject().getBusinessObject();
         copyAccount = (Org) ObjectUtils.deepCopy(newAccount);
         copyAccount.refresh();
     }

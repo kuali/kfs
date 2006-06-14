@@ -42,35 +42,34 @@ import org.springframework.orm.ojb.PersistenceBrokerTemplate;
 
 /**
  * This class is the OJB implementation of the AccountDao interface.
+ * 
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
-*/
+ */
 
-public class AccountDaoOjb extends PersistenceBrokerTemplate
-    implements AccountDao {
+public class AccountDaoOjb extends PersistenceBrokerTemplate implements AccountDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountDaoOjb.class);
 
     /**
      * Retrieves account business object by primary key
+     * 
      * @param chartOfAccountsCode - the FIN_COA_CD of the Chart Code that is part of the composite key of Account
      * @param accountNumber - the ACCOUNT_NBR part of the composite key of Accont
      * @return Account
      * @see AccountDao
      */
-    public Account getByPrimaryId(String chartOfAccountsCode,
-        String accountNumber) {
+    public Account getByPrimaryId(String chartOfAccountsCode, String accountNumber) {
         LOG.debug("getByPrimaryId() started");
 
         Criteria criteria = new Criteria();
         criteria.addEqualTo("chartOfAccountsCode", chartOfAccountsCode);
         criteria.addEqualTo("accountNumber", accountNumber);
 
-        return (Account) getObjectByQuery(QueryFactory.newQuery(Account.class,
-                criteria));
+        return (Account) getObjectByQuery(QueryFactory.newQuery(Account.class, criteria));
     }
 
     /**
-     * fetch the accounts that the user is either the fiscal officer
-     * or a delegate of the fiscal officer
+     * fetch the accounts that the user is either the fiscal officer or a delegate of the fiscal officer
+     * 
      * @param kualiUser
      * @return a list of Accounts that the user has responsibility for
      */
@@ -93,7 +92,7 @@ public class AccountDaoOjb extends PersistenceBrokerTemplate
         Collection accounts = getCollectionByQuery(QueryFactory.newQuery(Account.class, criteria));
         for (Iterator iter = accounts.iterator(); iter.hasNext();) {
             Account account = (Account) iter.next();
-            AccountResponsibility accountResponsibility = new AccountResponsibility(AccountResponsibility.FISCAL_OFFICER_RESPONSIBILITY, new KualiDecimal("0"), new KualiDecimal("0"),"", account);
+            AccountResponsibility accountResponsibility = new AccountResponsibility(AccountResponsibility.FISCAL_OFFICER_RESPONSIBILITY, new KualiDecimal("0"), new KualiDecimal("0"), "", account);
             fiscalOfficerResponsibilities.add(accountResponsibility);
         }
         return fiscalOfficerResponsibilities;
@@ -110,13 +109,13 @@ public class AccountDaoOjb extends PersistenceBrokerTemplate
         for (Iterator iter = accountDelegates.iterator(); iter.hasNext();) {
             Delegate accountDelegate = (Delegate) iter.next();
             if (accountDelegate.isAccountDelegateActiveIndicator()) {
-                //	the start_date should never be null in the real world, but there is some test data that 
+                // the start_date should never be null in the real world, but there is some test data that
                 // contains null startDates, therefore this check.
                 if (ObjectUtils.isNotNull(accountDelegate.getAccountDelegateStartDate())) {
                     if (!accountDelegate.getAccountDelegateStartDate().after(new Date())) {
-    	                Account account = getByPrimaryId(accountDelegate.getChartOfAccountsCode(), accountDelegate.getAccount().getAccountNumber());
-    	                AccountResponsibility accountResponsibility = new AccountResponsibility(AccountResponsibility.DELEGATED_RESPONSIBILITY, accountDelegate.getFinDocApprovalFromThisAmt(), accountDelegate.getFinDocApprovalToThisAmount(), accountDelegate.getFinancialDocumentTypeCode(), account );
-    	                delegatedResponsibilities.add(accountResponsibility);
+                        Account account = getByPrimaryId(accountDelegate.getChartOfAccountsCode(), accountDelegate.getAccount().getAccountNumber());
+                        AccountResponsibility accountResponsibility = new AccountResponsibility(AccountResponsibility.DELEGATED_RESPONSIBILITY, accountDelegate.getFinDocApprovalFromThisAmt(), accountDelegate.getFinDocApprovalToThisAmount(), accountDelegate.getFinancialDocumentTypeCode(), account);
+                        delegatedResponsibilities.add(accountResponsibility);
                     }
                 }
             }

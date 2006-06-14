@@ -50,15 +50,15 @@ public class NightlyOutServiceImpl implements NightlyOutService {
 
     /**
      * Constructs a NightlyOutServiceImpl.java.
-     *  
+     * 
      */
     public NightlyOutServiceImpl() {
     }
 
     public void deleteCopiedPendingLedgerEntries() {
-      LOG.debug("deleteCopiedPendingLedgerEntries() started");
+        LOG.debug("deleteCopiedPendingLedgerEntries() started");
 
-      generalLedgerPendingEntryService.deleteByFinancialDocumentApprovedCode("X");
+        generalLedgerPendingEntryService.deleteByFinancialDocumentApprovedCode("X");
     }
 
     /**
@@ -67,28 +67,26 @@ public class NightlyOutServiceImpl implements NightlyOutService {
     public int copyApprovedPendingLedgerEntries() {
         LOG.debug("copyApprovedPendingLedgerEntries() started");
 
-        Iterator pendingEntries = generalLedgerPendingEntryService
-                .findApprovedPendingLedgerEntries();
+        Iterator pendingEntries = generalLedgerPendingEntryService.findApprovedPendingLedgerEntries();
 
         // create a new group for the entries fetch above
         OriginEntryGroup group = createGroupForCurrentProcessing();
 
-        int counter = 0;      
+        int counter = 0;
         while (pendingEntries.hasNext()) {
             // get one pending entry
-            GeneralLedgerPendingEntry pendingEntry = (GeneralLedgerPendingEntry) pendingEntries
-                    .next();
+            GeneralLedgerPendingEntry pendingEntry = (GeneralLedgerPendingEntry) pendingEntries.next();
 
             // copy the pending entry to origin entry table
             saveAsOriginEntry(pendingEntry, group);
 
             // update the pending entry to indicate it has been copied
             updatePendingEntryAfterCopy(pendingEntry);
-            
+
             // count the number of ledger entries that have been processed
             counter++;
         }
-        
+
         return counter;
     }
 
@@ -98,17 +96,15 @@ public class NightlyOutServiceImpl implements NightlyOutService {
     private OriginEntryGroup createGroupForCurrentProcessing() {
         Date today = new Date(dateTimeService.getCurrentTimestamp().getTime());
         String groupSourceCode = OriginEntrySource.GENERATE_BY_EDOC;
-        
-        OriginEntryGroup group = originEntryGroupService.createGroup(today, groupSourceCode, true,
-                true, true);
+
+        OriginEntryGroup group = originEntryGroupService.createGroup(today, groupSourceCode, true, true, true);
         return group;
     }
 
     /*
      * save pending ledger entry as origin entry
      */
-    private void saveAsOriginEntry(GeneralLedgerPendingEntry pendingEntry,
-            OriginEntryGroup group) {
+    private void saveAsOriginEntry(GeneralLedgerPendingEntry pendingEntry, OriginEntryGroup group) {
         OriginEntry originEntry = new OriginEntry(pendingEntry);
         originEntry.setGroup(group);
 
@@ -116,8 +112,7 @@ public class NightlyOutServiceImpl implements NightlyOutService {
     }
 
     /**
-     * After it is copied to origin entry table, this method updates the pending entry in
-     * order to indicate it has been proceesed.
+     * After it is copied to origin entry table, this method updates the pending entry in order to indicate it has been proceesed.
      * 
      * @param pendingEntry the given pending entry
      */
@@ -130,11 +125,9 @@ public class NightlyOutServiceImpl implements NightlyOutService {
     /**
      * Sets the generalLedgerPendingEntryService attribute value.
      * 
-     * @param generalLedgerPendingEntryService The generalLedgerPendingEntryService to
-     *        set.
+     * @param generalLedgerPendingEntryService The generalLedgerPendingEntryService to set.
      */
-    public void setGeneralLedgerPendingEntryService(
-            GeneralLedgerPendingEntryService generalLedgerPendingEntryService) {
+    public void setGeneralLedgerPendingEntryService(GeneralLedgerPendingEntryService generalLedgerPendingEntryService) {
         this.generalLedgerPendingEntryService = generalLedgerPendingEntryService;
     }
 

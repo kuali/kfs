@@ -32,101 +32,101 @@ import org.kuali.core.bo.KualiCodeBase;
  */
 public class ObjectType extends KualiCodeBase {
 
-	/**
-	 * Default no-arg constructor.
-	 */
-	public ObjectType() {
-	    super.setActive(true);  // always active
-	}
-    
-	public ObjectType(String string) { //FIXME eliminate this constructor
+    /**
+     * Default no-arg constructor.
+     */
+    public ObjectType() {
+        super.setActive(true); // always active
+    }
+
+    public ObjectType(String string) { // FIXME eliminate this constructor
         throw new RuntimeException();
     }
 
-	private String finObjectTypeDebitcreditCd;
-	private boolean finObjectTypeIcrSelectionIndicator;
-	private boolean fundBalanceIndicator;
-	private String financialReportingSortCode;
+    private String finObjectTypeDebitcreditCd;
+    private boolean finObjectTypeIcrSelectionIndicator;
+    private boolean fundBalanceIndicator;
+    private String financialReportingSortCode;
 
 
-	/**
-	 * Gets the finObjectTypeDebitcreditCd attribute.
-	 * 
-	 * @return - Returns the finObjectTypeDebitcreditCd
-	 * 
-	 */
-	public String getFinObjectTypeDebitcreditCd() { 
-		return finObjectTypeDebitcreditCd;
-	}
-	
-	/**
-	 * Sets the finObjectTypeDebitcreditCd attribute.
-	 * 
-	 * @param - finObjectTypeDebitcreditCd The finObjectTypeDebitcreditCd to set.
-	 * 
-	 */
-	public void setFinObjectTypeDebitcreditCd(String finObjectTypeDebitcreditCd) {
-		this.finObjectTypeDebitcreditCd = finObjectTypeDebitcreditCd;
-	}
+    /**
+     * Gets the finObjectTypeDebitcreditCd attribute.
+     * 
+     * @return - Returns the finObjectTypeDebitcreditCd
+     * 
+     */
+    public String getFinObjectTypeDebitcreditCd() {
+        return finObjectTypeDebitcreditCd;
+    }
 
-	/**
-	 * Gets the finObjectTypeIcrSelectionIndicator attribute.
-	 * 
-	 * @return - Returns the finObjectTypeIcrSelectionIndicator
-	 * 
-	 */
-	public boolean isFinObjectTypeIcrSelectionIndicator() { 
-		return finObjectTypeIcrSelectionIndicator;
-	}
-	
-	/**
-	 * Sets the finObjectTypeIcrSelectionIndicator attribute.
-	 * 
-	 * @param - finObjectTypeIcrSelectionIndicator The finObjectTypeIcrSelectionIndicator to set.
-	 * 
-	 */
-	public void setFinObjectTypeIcrSelectionIndicator(boolean finObjectTypeIcrSelectionIndicator) {
-		this.finObjectTypeIcrSelectionIndicator = finObjectTypeIcrSelectionIndicator;
-	}
+    /**
+     * Sets the finObjectTypeDebitcreditCd attribute.
+     * 
+     * @param - finObjectTypeDebitcreditCd The finObjectTypeDebitcreditCd to set.
+     * 
+     */
+    public void setFinObjectTypeDebitcreditCd(String finObjectTypeDebitcreditCd) {
+        this.finObjectTypeDebitcreditCd = finObjectTypeDebitcreditCd;
+    }
 
-	/**
-	 * Gets the fundBalanceIndicator attribute.
-	 * 
-	 * @return - Returns the fundBalanceIndicator
-	 * 
-	 */
-	public boolean isFundBalanceIndicator() { 
-		return fundBalanceIndicator;
-	}
-	
-	/**
-	 * Sets the fundBalanceIndicator attribute.
-	 * 
-	 * @param - fundBalanceIndicator The fundBalanceIndicator to set.
-	 * 
-	 */
-	public void setFundBalanceIndicator(boolean fundBalanceIndicator) {
-		this.fundBalanceIndicator = fundBalanceIndicator;
-	}
+    /**
+     * Gets the finObjectTypeIcrSelectionIndicator attribute.
+     * 
+     * @return - Returns the finObjectTypeIcrSelectionIndicator
+     * 
+     */
+    public boolean isFinObjectTypeIcrSelectionIndicator() {
+        return finObjectTypeIcrSelectionIndicator;
+    }
 
-	/**
-	 * Gets the financialReportingSortCode attribute.
-	 * 
-	 * @return - Returns the financialReportingSortCode
-	 * 
-	 */
-	public String getFinancialReportingSortCode() { 
-		return financialReportingSortCode;
-	}
-	
-	/**
-	 * Sets the financialReportingSortCode attribute.
-	 * 
-	 * @param - financialReportingSortCode The financialReportingSortCode to set.
-	 * 
-	 */
-	public void setFinancialReportingSortCode(String financialReportingSortCode) {
-		this.financialReportingSortCode = financialReportingSortCode;
-	}
+    /**
+     * Sets the finObjectTypeIcrSelectionIndicator attribute.
+     * 
+     * @param - finObjectTypeIcrSelectionIndicator The finObjectTypeIcrSelectionIndicator to set.
+     * 
+     */
+    public void setFinObjectTypeIcrSelectionIndicator(boolean finObjectTypeIcrSelectionIndicator) {
+        this.finObjectTypeIcrSelectionIndicator = finObjectTypeIcrSelectionIndicator;
+    }
+
+    /**
+     * Gets the fundBalanceIndicator attribute.
+     * 
+     * @return - Returns the fundBalanceIndicator
+     * 
+     */
+    public boolean isFundBalanceIndicator() {
+        return fundBalanceIndicator;
+    }
+
+    /**
+     * Sets the fundBalanceIndicator attribute.
+     * 
+     * @param - fundBalanceIndicator The fundBalanceIndicator to set.
+     * 
+     */
+    public void setFundBalanceIndicator(boolean fundBalanceIndicator) {
+        this.fundBalanceIndicator = fundBalanceIndicator;
+    }
+
+    /**
+     * Gets the financialReportingSortCode attribute.
+     * 
+     * @return - Returns the financialReportingSortCode
+     * 
+     */
+    public String getFinancialReportingSortCode() {
+        return financialReportingSortCode;
+    }
+
+    /**
+     * Sets the financialReportingSortCode attribute.
+     * 
+     * @param - financialReportingSortCode The financialReportingSortCode to set.
+     * 
+     */
+    public void setFinancialReportingSortCode(String financialReportingSortCode) {
+        this.financialReportingSortCode = financialReportingSortCode;
+    }
 
 }

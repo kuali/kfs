@@ -34,85 +34,85 @@ import org.kuali.core.bo.BusinessObjectBase;
  */
 public class OrganizationReversionCategory extends BusinessObjectBase {
 
-	private String organizationReversionCategoryCode;
-	private String organizationReversionCategoryName;
-	private String organizationReversionSortCode;
+    private String organizationReversionCategoryCode;
+    private String organizationReversionCategoryName;
+    private String organizationReversionSortCode;
 
-	/**
-	 * Default constructor.
-	 */
-	public OrganizationReversionCategory() {
+    /**
+     * Default constructor.
+     */
+    public OrganizationReversionCategory() {
 
-	}
+    }
 
-	/**
-	 * Gets the organizationReversionCategoryCode attribute.
-	 * 
-	 * @return - Returns the organizationReversionCategoryCode
-	 * 
-	 */
-	public String getOrganizationReversionCategoryCode() { 
-		return organizationReversionCategoryCode;
-	}
+    /**
+     * Gets the organizationReversionCategoryCode attribute.
+     * 
+     * @return - Returns the organizationReversionCategoryCode
+     * 
+     */
+    public String getOrganizationReversionCategoryCode() {
+        return organizationReversionCategoryCode;
+    }
 
-	/**
-	 * Sets the organizationReversionCategoryCode attribute.
-	 * 
-	 * @param - organizationReversionCategoryCode The organizationReversionCategoryCode to set.
-	 * 
-	 */
-	public void setOrganizationReversionCategoryCode(String organizationReversionCategoryCode) {
-		this.organizationReversionCategoryCode = organizationReversionCategoryCode;
-	}
-
-
-	/**
-	 * Gets the organizationReversionCategoryName attribute.
-	 * 
-	 * @return - Returns the organizationReversionCategoryName
-	 * 
-	 */
-	public String getOrganizationReversionCategoryName() { 
-		return organizationReversionCategoryName;
-	}
-
-	/**
-	 * Sets the organizationReversionCategoryName attribute.
-	 * 
-	 * @param - organizationReversionCategoryName The organizationReversionCategoryName to set.
-	 * 
-	 */
-	public void setOrganizationReversionCategoryName(String organizationReversionCategoryName) {
-		this.organizationReversionCategoryName = organizationReversionCategoryName;
-	}
+    /**
+     * Sets the organizationReversionCategoryCode attribute.
+     * 
+     * @param - organizationReversionCategoryCode The organizationReversionCategoryCode to set.
+     * 
+     */
+    public void setOrganizationReversionCategoryCode(String organizationReversionCategoryCode) {
+        this.organizationReversionCategoryCode = organizationReversionCategoryCode;
+    }
 
 
-	/**
-	 * Gets the organizationReversionSortCode attribute.
-	 * 
-	 * @return - Returns the organizationReversionSortCode
-	 * 
-	 */
-	public String getOrganizationReversionSortCode() { 
-		return organizationReversionSortCode;
-	}
+    /**
+     * Gets the organizationReversionCategoryName attribute.
+     * 
+     * @return - Returns the organizationReversionCategoryName
+     * 
+     */
+    public String getOrganizationReversionCategoryName() {
+        return organizationReversionCategoryName;
+    }
 
-	/**
-	 * Sets the organizationReversionSortCode attribute.
-	 * 
-	 * @param - organizationReversionSortCode The organizationReversionSortCode to set.
-	 * 
-	 */
-	public void setOrganizationReversionSortCode(String organizationReversionSortCode) {
-		this.organizationReversionSortCode = organizationReversionSortCode;
-	}
+    /**
+     * Sets the organizationReversionCategoryName attribute.
+     * 
+     * @param - organizationReversionCategoryName The organizationReversionCategoryName to set.
+     * 
+     */
+    public void setOrganizationReversionCategoryName(String organizationReversionCategoryName) {
+        this.organizationReversionCategoryName = organizationReversionCategoryName;
+    }
 
 
-	/**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
-	    return m;
+    /**
+     * Gets the organizationReversionSortCode attribute.
+     * 
+     * @return - Returns the organizationReversionSortCode
+     * 
+     */
+    public String getOrganizationReversionSortCode() {
+        return organizationReversionSortCode;
+    }
+
+    /**
+     * Sets the organizationReversionSortCode attribute.
+     * 
+     * @param - organizationReversionSortCode The organizationReversionSortCode to set.
+     * 
+     */
+    public void setOrganizationReversionSortCode(String organizationReversionSortCode) {
+        this.organizationReversionSortCode = organizationReversionSortCode;
+    }
+
+
+    /**
+     * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
+        return m;
     }
 }

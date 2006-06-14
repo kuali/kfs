@@ -34,11 +34,11 @@ public class TravelExpenseTypeCode extends KualiCodeBase {
     boolean prepaidExpense;
 
     /**
-	 * Default no-arg constructor.
-	 */
-	public TravelExpenseTypeCode() {
+     * Default no-arg constructor.
+     */
+    public TravelExpenseTypeCode() {
 
-	}
+    }
 
     /**
      * @return Returns the prepaidExpense.
@@ -46,7 +46,7 @@ public class TravelExpenseTypeCode extends KualiCodeBase {
     public boolean isPrepaidExpense() {
         return prepaidExpense;
     }
-    
+
     /**
      * @param prepaidExpense The prepaidExpense to set.
      */

@@ -34,64 +34,64 @@ import org.kuali.core.bo.BusinessObjectBase;
  */
 public class CreditCardType extends BusinessObjectBase {
 
-	private String financialDocumentCreditCardTypeCode;
-	private String financialDocumentCreditCardCompanyName;
+    private String financialDocumentCreditCardTypeCode;
+    private String financialDocumentCreditCardCompanyName;
 
-	/**
-	 * Default constructor.
-	 */
-	public CreditCardType() {
+    /**
+     * Default constructor.
+     */
+    public CreditCardType() {
 
-	}
+    }
 
-	/**
-	 * Gets the financialDocumentCreditCardTypeCode attribute.
-	 * 
-	 * @return - Returns the financialDocumentCreditCardTypeCode
-	 * 
-	 */
-	public String getFinancialDocumentCreditCardTypeCode() { 
-		return financialDocumentCreditCardTypeCode;
-	}
+    /**
+     * Gets the financialDocumentCreditCardTypeCode attribute.
+     * 
+     * @return - Returns the financialDocumentCreditCardTypeCode
+     * 
+     */
+    public String getFinancialDocumentCreditCardTypeCode() {
+        return financialDocumentCreditCardTypeCode;
+    }
 
-	/**
-	 * Sets the financialDocumentCreditCardTypeCode attribute.
-	 * 
-	 * @param - financialDocumentCreditCardTypeCode The financialDocumentCreditCardTypeCode to set.
-	 * 
-	 */
-	public void setFinancialDocumentCreditCardTypeCode(String financialDocumentCreditCardTypeCode) {
-		this.financialDocumentCreditCardTypeCode = financialDocumentCreditCardTypeCode;
-	}
-
-
-	/**
-	 * Gets the financialDocumentCreditCardCompanyName attribute.
-	 * 
-	 * @return - Returns the financialDocumentCreditCardCompanyName
-	 * 
-	 */
-	public String getFinancialDocumentCreditCardCompanyName() { 
-		return financialDocumentCreditCardCompanyName;
-	}
-
-	/**
-	 * Sets the financialDocumentCreditCardCompanyName attribute.
-	 * 
-	 * @param - financialDocumentCreditCardCompanyName The financialDocumentCreditCardCompanyName to set.
-	 * 
-	 */
-	public void setFinancialDocumentCreditCardCompanyName(String financialDocumentCreditCardCompanyName) {
-		this.financialDocumentCreditCardCompanyName = financialDocumentCreditCardCompanyName;
-	}
+    /**
+     * Sets the financialDocumentCreditCardTypeCode attribute.
+     * 
+     * @param - financialDocumentCreditCardTypeCode The financialDocumentCreditCardTypeCode to set.
+     * 
+     */
+    public void setFinancialDocumentCreditCardTypeCode(String financialDocumentCreditCardTypeCode) {
+        this.financialDocumentCreditCardTypeCode = financialDocumentCreditCardTypeCode;
+    }
 
 
-	/**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
+    /**
+     * Gets the financialDocumentCreditCardCompanyName attribute.
+     * 
+     * @return - Returns the financialDocumentCreditCardCompanyName
+     * 
+     */
+    public String getFinancialDocumentCreditCardCompanyName() {
+        return financialDocumentCreditCardCompanyName;
+    }
+
+    /**
+     * Sets the financialDocumentCreditCardCompanyName attribute.
+     * 
+     * @param - financialDocumentCreditCardCompanyName The financialDocumentCreditCardCompanyName to set.
+     * 
+     */
+    public void setFinancialDocumentCreditCardCompanyName(String financialDocumentCreditCardCompanyName) {
+        this.financialDocumentCreditCardCompanyName = financialDocumentCreditCardCompanyName;
+    }
+
+
+    /**
+     * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
         m.put("financialDocumentCreditCardTypeCode", this.financialDocumentCreditCardTypeCode);
-	    return m;
+        return m;
     }
 }

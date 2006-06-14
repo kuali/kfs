@@ -32,7 +32,7 @@ import org.kuali.module.financial.service.FlexibleOffsetAccountService;
 
 /**
  * This class implements FlexibleOffsetAccountService.
- *
+ * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class FlexibleOffsetAccountServiceImpl implements FlexibleOffsetAccountService {
@@ -58,8 +58,7 @@ public class FlexibleOffsetAccountServiceImpl implements FlexibleOffsetAccountSe
      * @see FlexibleOffsetAccountService#getEnabled
      */
     public boolean getEnabled() {
-      return kualiConfigurationService.getApplicationParameterIndicator(Constants.ParameterGroups.SYSTEM,
-            Constants.SystemGroupParameterNames.FLEXIBLE_OFFSET_ENABLED_FLAG);
+        return kualiConfigurationService.getApplicationParameterIndicator(Constants.ParameterGroups.SYSTEM, Constants.SystemGroupParameterNames.FLEXIBLE_OFFSET_ENABLED_FLAG);
     }
 
     public BusinessObjectService getBusinessObjectService() {

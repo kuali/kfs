@@ -31,14 +31,15 @@ import org.springframework.orm.ojb.PersistenceBrokerTemplate;
 
 /**
  * This class is the OJB implementation of the ProjectCodeDao interface.
+ * 
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
-*/
-public class ProjectCodeDaoOjb extends PersistenceBrokerTemplate
-    implements ProjectCodeDao {
+ */
+public class ProjectCodeDaoOjb extends PersistenceBrokerTemplate implements ProjectCodeDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProjectCodeDaoOjb.class);
 
     /**
      * Retrieves project code business object by primary key
+     * 
      * @param projectCode - part of composite key
      * @return Project
      * @see ProjectCodeDao
@@ -47,12 +48,12 @@ public class ProjectCodeDaoOjb extends PersistenceBrokerTemplate
         Criteria criteria = new Criteria();
         criteria.addEqualTo("code", projectCode);
 
-        return (ProjectCode) getObjectByQuery(QueryFactory.newQuery(
-                ProjectCode.class, criteria));
+        return (ProjectCode) getObjectByQuery(QueryFactory.newQuery(ProjectCode.class, criteria));
     }
 
     /**
      * Retrieves project code business object by project name
+     * 
      * @param name - part of composite key
      * @return Project
      * @see ProjectCodeDao
@@ -61,8 +62,7 @@ public class ProjectCodeDaoOjb extends PersistenceBrokerTemplate
         Criteria criteria = new Criteria();
         criteria.addEqualTo("name", name);
 
-        return (ProjectCode) getObjectByQuery(QueryFactory.newQuery(
-                ProjectCode.class, criteria));
+        return (ProjectCode) getObjectByQuery(QueryFactory.newQuery(ProjectCode.class, criteria));
     }
 
     /**
@@ -71,7 +71,7 @@ public class ProjectCodeDaoOjb extends PersistenceBrokerTemplate
      * @throws IllegalObjectStateException
      * @throws ValidationErrorList
      */
-    public void save(ProjectCode projectCode){
+    public void save(ProjectCode projectCode) {
         this.store(projectCode);
     }
 

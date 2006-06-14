@@ -32,16 +32,16 @@ public class KraConstants extends JstlConstants {
 
     public static final int maximumPeriodLengthUnits = Calendar.YEAR;
     public static final int maximumNumberOfPeriods = 20; // used on budgetPeriods.tag
-    
+
     public static final int maximumNumberOfTasks = 20; // used on budgetTasks.tag
-    
+
     public static final String SUBCONTRACTOR_CATEGORY_CODE = "SC"; // used on budgetCostShare*.tag and budgetNonpersonnel.tag
-    
-    public static final Integer TASK_SUMMATION = new Integer(0);   // budgetDetailSelection.tag defines 0 as a task summation
+
+    public static final Integer TASK_SUMMATION = new Integer(0); // budgetDetailSelection.tag defines 0 as a task summation
     public static final Integer PERIOD_SUMMATION = new Integer(0); // budgetDetailSelection.tag defines 0 as a period summation
-    
+
     public static final KualiInteger PERSONNEL_MAX_PERCENTAGE = new KualiInteger(100);
-    
+
     public static final String INSTITUTION_COST_SHARE_CODE = "I";
     public static final String THIRD_PARTY_COST_SHARE_CODE = "T";
 }

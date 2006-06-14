@@ -56,7 +56,7 @@ public class SubFundGroup extends BusinessObjectBase {
      * Gets the subFundGroupCode attribute.
      * 
      * @return - Returns the subFundGroupCode
-     *  
+     * 
      */
     public String getSubFundGroupCode() {
         return subFundGroupCode;
@@ -75,7 +75,7 @@ public class SubFundGroup extends BusinessObjectBase {
      * Gets the subFundGroupDescription attribute.
      * 
      * @return - Returns the subFundGroupDescription
-     *  
+     * 
      */
     public String getSubFundGroupDescription() {
         return subFundGroupDescription;
@@ -85,7 +85,7 @@ public class SubFundGroup extends BusinessObjectBase {
      * Sets the subFundGroupDescription attribute.
      * 
      * @param - subFundGroupDescription The subFundGroupDescription to set.
-     *  
+     * 
      */
     public void setSubFundGroupDescription(String subFundGroupDescription) {
         this.subFundGroupDescription = subFundGroupDescription;
@@ -95,7 +95,7 @@ public class SubFundGroup extends BusinessObjectBase {
      * Gets the _SubfundgrpActivityIndicator_ attribute.
      * 
      * @return - Returns the _SubfundgrpActivityIndicator_
-     *  
+     * 
      */
     public boolean getSubfundgrpActivityIndicator() {
         return subfundgrpActivityIndicator;
@@ -105,7 +105,7 @@ public class SubFundGroup extends BusinessObjectBase {
      * Sets the _SubfundgrpActivityIndicator_ attribute.
      * 
      * @param - _SubfundgrpActivityIndicator_ The _SubfundgrpActivityIndicator_ to set.
-     *  
+     * 
      */
     public void setSubfundgrpActivityIndicator(boolean _SubfundgrpActivityIndicator_) {
         this.subfundgrpActivityIndicator = _SubfundgrpActivityIndicator_;
@@ -115,7 +115,7 @@ public class SubFundGroup extends BusinessObjectBase {
      * Gets the subFundGroupTypeCode attribute.
      * 
      * @return - Returns the subFundGroupTypeCode
-     *  
+     * 
      */
     public String getSubFundGroupTypeCode() {
         return subFundGroupTypeCode;
@@ -125,7 +125,7 @@ public class SubFundGroup extends BusinessObjectBase {
      * Sets the subFundGroupTypeCode attribute.
      * 
      * @param - subFundGroupTypeCode The subFundGroupTypeCode to set.
-     *  
+     * 
      */
     public void setSubFundGroupTypeCode(String subFundGroupTypeCode) {
         this.subFundGroupTypeCode = subFundGroupTypeCode;
@@ -135,7 +135,7 @@ public class SubFundGroup extends BusinessObjectBase {
      * Gets the financialReportingSortCode attribute.
      * 
      * @return - Returns the financialReportingSortCode
-     *  
+     * 
      */
     public String getFinancialReportingSortCode() {
         return financialReportingSortCode;
@@ -145,7 +145,7 @@ public class SubFundGroup extends BusinessObjectBase {
      * Sets the financialReportingSortCode attribute.
      * 
      * @param - financialReportingSortCode The financialReportingSortCode to set.
-     *  
+     * 
      */
     public void setFinancialReportingSortCode(String financialReportingSortCode) {
         this.financialReportingSortCode = financialReportingSortCode;
@@ -155,7 +155,7 @@ public class SubFundGroup extends BusinessObjectBase {
      * Gets the subFundGroupWagesIndicator attribute.
      * 
      * @return - Returns the subFundGroupWagesIndicator
-     *  
+     * 
      */
     public boolean isSubFundGroupWagesIndicator() {
         return subFundGroupWagesIndicator;
@@ -165,7 +165,7 @@ public class SubFundGroup extends BusinessObjectBase {
      * Sets the subFundGroupWagesIndicator attribute.
      * 
      * @param - subFundGroupWagesIndicator The subFundGroupWagesIndicator to set.
-     *  
+     * 
      */
     public void setSubFundGroupWagesIndicator(boolean subFundGroupWagesIndicator) {
         this.subFundGroupWagesIndicator = subFundGroupWagesIndicator;

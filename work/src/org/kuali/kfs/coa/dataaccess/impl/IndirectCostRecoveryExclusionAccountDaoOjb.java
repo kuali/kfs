@@ -34,44 +34,47 @@ import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 /**
  * @author jsissom
- *
+ * 
  */
 public class IndirectCostRecoveryExclusionAccountDaoOjb extends PersistenceBrokerDaoSupport implements IndirectCostRecoveryExclusionAccountDao {
-  private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(IndirectCostRecoveryExclusionAccountDaoOjb.class);
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(IndirectCostRecoveryExclusionAccountDaoOjb.class);
 
-  public IndirectCostRecoveryExclusionAccountDaoOjb() {
-    super();
-  }
+    public IndirectCostRecoveryExclusionAccountDaoOjb() {
+        super();
+    }
 
-  /* (non-Javadoc)
-   * @see org.kuali.module.gl.dao.IndirectCostRecoveryExclusionAccountDao#getByPrimaryKey(java.lang.String, java.lang.String, java.lang.String, java.lang.String)
-   */
-  public IndirectCostRecoveryExclusionAccount getByPrimaryKey(String chartOfAccountsCode, String accountNumber, String objectChartOfAccountsCode, String objectCode) {
-    LOG.debug("getByPrimaryKey() started");
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.kuali.module.gl.dao.IndirectCostRecoveryExclusionAccountDao#getByPrimaryKey(java.lang.String, java.lang.String,
+     *      java.lang.String, java.lang.String)
+     */
+    public IndirectCostRecoveryExclusionAccount getByPrimaryKey(String chartOfAccountsCode, String accountNumber, String objectChartOfAccountsCode, String objectCode) {
+        LOG.debug("getByPrimaryKey() started");
 
-    Criteria crit = new Criteria();
-    crit.addEqualTo("chartOfAccountsCode",chartOfAccountsCode);
-    crit.addEqualTo("accountNumber",accountNumber);
-    crit.addEqualTo("financialObjectChartOfAccountCode",objectChartOfAccountsCode);
-    crit.addEqualTo("financialObjectCode",objectCode);
+        Criteria crit = new Criteria();
+        crit.addEqualTo("chartOfAccountsCode", chartOfAccountsCode);
+        crit.addEqualTo("accountNumber", accountNumber);
+        crit.addEqualTo("financialObjectChartOfAccountCode", objectChartOfAccountsCode);
+        crit.addEqualTo("financialObjectCode", objectCode);
 
-    QueryByCriteria qbc = QueryFactory.newQuery(IndirectCostRecoveryExclusionAccount.class,crit);
-    return (IndirectCostRecoveryExclusionAccount)getPersistenceBrokerTemplate().getObjectByQuery(qbc);
-  }
+        QueryByCriteria qbc = QueryFactory.newQuery(IndirectCostRecoveryExclusionAccount.class, crit);
+        return (IndirectCostRecoveryExclusionAccount) getPersistenceBrokerTemplate().getObjectByQuery(qbc);
+    }
 
-  public boolean existByAccount(String chartOfAccountsCode,String accountNumber) {
-    LOG.debug("existByAccount() started");
+    public boolean existByAccount(String chartOfAccountsCode, String accountNumber) {
+        LOG.debug("existByAccount() started");
 
-    Criteria crit = new Criteria();
-    crit.addEqualTo("chartOfAccountsCode",chartOfAccountsCode);
-    crit.addEqualTo("accountNumber",accountNumber);
+        Criteria crit = new Criteria();
+        crit.addEqualTo("chartOfAccountsCode", chartOfAccountsCode);
+        crit.addEqualTo("accountNumber", accountNumber);
 
-    ReportQueryByCriteria q = QueryFactory.newReportQuery(IndirectCostRecoveryExclusionAccount.class, crit);
-    q.setAttributes(new String[] { "chartOfAccountsCode" });
-    q.setDistinct(true);
+        ReportQueryByCriteria q = QueryFactory.newReportQuery(IndirectCostRecoveryExclusionAccount.class, crit);
+        q.setAttributes(new String[] { "chartOfAccountsCode" });
+        q.setDistinct(true);
 
-    Iterator iter = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(q);
-    return iter.hasNext();
-  }
+        Iterator iter = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(q);
+        return iter.hasNext();
+    }
 
 }

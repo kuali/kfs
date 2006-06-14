@@ -32,15 +32,16 @@ import org.kuali.module.gl.web.Constant;
 
 /**
  * This class...
+ * 
  * @author Bin Gao from Michigan State University
  */
-public class GLPendingEntryOptionFinder extends KeyValuesBase implements ValueFinder{
+public class GLPendingEntryOptionFinder extends KeyValuesBase implements ValueFinder {
 
     /**
      * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {
-        
+
         List labels = new ArrayList();
         labels.add(new KeyLabelPair(Constant.NO_PENDING_ENTRY, Constant.NO_PENDING_ENTRY));
         labels.add(new KeyLabelPair(Constant.APPROVED_PENDING_ENTRY, Constant.APPROVED_PENDING_ENTRY));

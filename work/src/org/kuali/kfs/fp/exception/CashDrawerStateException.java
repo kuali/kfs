@@ -30,8 +30,7 @@ public class CashDrawerStateException extends RuntimeException {
     private final String desiredDrawerStatus;
 
 
-    public CashDrawerStateException(String verificationUnit, String controllingDocumentId, String currentDrawerStatus,
-            String desiredDrawerStatus) {
+    public CashDrawerStateException(String verificationUnit, String controllingDocumentId, String currentDrawerStatus, String desiredDrawerStatus) {
         this.verificationUnit = verificationUnit;
         this.controllingDocumentId = controllingDocumentId;
         this.currentDrawerStatus = currentDrawerStatus;

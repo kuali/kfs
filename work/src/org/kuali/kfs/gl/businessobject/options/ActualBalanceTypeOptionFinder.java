@@ -36,33 +36,33 @@ import org.kuali.core.web.uidraw.KeyLabelPair;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
 import org.kuali.module.chart.service.BalanceTypService;
 
-public class GLActualBalanceTypeOptionFinder  extends KeyValuesBase implements ValueFinder {
+public class GLActualBalanceTypeOptionFinder extends KeyValuesBase implements ValueFinder {
 
-  /**
-   * @see org.kuali.core.lookup.valueFinder.ValueFinder#getValue()
-   */
-  public String getValue() {
-    OptionsService os = SpringServiceLocator.getOptionsService();
-    Options o = os.getCurrentYearOptions();
+    /**
+     * @see org.kuali.core.lookup.valueFinder.ValueFinder#getValue()
+     */
+    public String getValue() {
+        OptionsService os = SpringServiceLocator.getOptionsService();
+        Options o = os.getCurrentYearOptions();
 
-    return o.getActualFinancialBalanceTypeCd();
-  }
-
-  /**
-   * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
-   */
-  public List getKeyValues() {
-    List labels = new ArrayList();
-
-    BalanceTypService bts = SpringServiceLocator.getBalanceTypService();
-    Collection c = bts.getAllBalanceTyps();
-
-    for (Iterator iter = c.iterator(); iter.hasNext();) {
-      BalanceTyp bt = (BalanceTyp)iter.next();
-      labels.add(new KeyLabelPair(bt.getCode(), bt.getCode() + " - " + bt.getName()));
+        return o.getActualFinancialBalanceTypeCd();
     }
 
-    return labels;
-  }
+    /**
+     * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
+     */
+    public List getKeyValues() {
+        List labels = new ArrayList();
+
+        BalanceTypService bts = SpringServiceLocator.getBalanceTypService();
+        Collection c = bts.getAllBalanceTyps();
+
+        for (Iterator iter = c.iterator(); iter.hasNext();) {
+            BalanceTyp bt = (BalanceTyp) iter.next();
+            labels.add(new KeyLabelPair(bt.getCode(), bt.getCode() + " - " + bt.getName()));
+        }
+
+        return labels;
+    }
 
 }

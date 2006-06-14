@@ -25,10 +25,11 @@ package org.kuali.module.gl.bo;
 
 /**
  * This class is an empty derived class of Balance for solving the conflict in lookup framework.
+ * 
  * @author Bin Gao from Michigan State University
  */
 public class CashBalance extends Balance {
-    
+
     /**
      * Constructs a CashBalance.java.
      * 
@@ -36,9 +37,10 @@ public class CashBalance extends Balance {
     public CashBalance() {
         super();
     }
-    
+
     /**
      * Constructs a CashBalance.java.
+     * 
      * @param transaction
      */
     public CashBalance(Transaction transaction) {

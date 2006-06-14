@@ -55,8 +55,7 @@ public class TransferOfFundsDocumentRule extends TransactionalDocumentRuleBase i
      *      org.kuali.core.bo.AccountingLine, org.kuali.module.gl.bo.GeneralLedgerPendingEntry,
      *      org.kuali.module.gl.bo.GeneralLedgerPendingEntry)
      */
-    protected boolean customizeOffsetGeneralLedgerPendingEntry(TransactionalDocument transactionalDocument,
-            AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry, GeneralLedgerPendingEntry offsetEntry) {
+    protected boolean customizeOffsetGeneralLedgerPendingEntry(TransactionalDocument transactionalDocument, AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry, GeneralLedgerPendingEntry offsetEntry) {
         offsetEntry.setFinancialBalanceTypeCode(BALANCE_TYPE_CODE.ACTUAL);
         return true;
     }
@@ -67,8 +66,7 @@ public class TransferOfFundsDocumentRule extends TransactionalDocumentRuleBase i
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#customizeExplicitGeneralLedgerPendingEntry(org.kuali.core.document.TransactionalDocument,
      *      org.kuali.core.bo.AccountingLine, org.kuali.module.gl.bo.GeneralLedgerPendingEntry)
      */
-    protected void customizeExplicitGeneralLedgerPendingEntry(TransactionalDocument transactionalDocument,
-            AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry) {
+    protected void customizeExplicitGeneralLedgerPendingEntry(TransactionalDocument transactionalDocument, AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry) {
         explicitEntry.setFinancialBalanceTypeCode(BALANCE_TYPE_CODE.ACTUAL);
         if (isExpense(accountingLine)) {
             explicitEntry.setFinancialObjectTypeCode(OBJECT_TYPE_CODE.TRANSFER_EXPENSE);
@@ -94,9 +92,8 @@ public class TransferOfFundsDocumentRule extends TransactionalDocumentRuleBase i
     }
 
     /**
-     * Overrides to check balances across mandator transfers and non-mandatory transfers.  Also
-     * checks balances across fund groups.
-     *
+     * Overrides to check balances across mandator transfers and non-mandatory transfers. Also checks balances across fund groups.
+     * 
      * @see TransactionalDocumentRuleBase#isDocumentBalanceValid(TransactionalDocument)
      */
     protected boolean isDocumentBalanceValid(TransactionalDocument transactionalDocument) {
@@ -104,12 +101,12 @@ public class TransferOfFundsDocumentRule extends TransactionalDocumentRuleBase i
 
         TransferOfFundsDocument tofDoc = (TransferOfFundsDocument) transactionalDocument;
         // make sure accounting lines balance across mandatory and non-mandatory transfers
-        if(isValid) {
+        if (isValid) {
             isValid = isMandatoryTransferTotalAndNonMandatoryTransferTotalBalanceValid(tofDoc);
         }
 
         // make sure accounting lines for a TOF balance across agency and clearing fund groups - IU specific
-        if(isValid) {
+        if (isValid) {
             isValid = isFundGroupsBalanceValid(tofDoc);
         }
 
@@ -117,9 +114,9 @@ public class TransferOfFundsDocumentRule extends TransactionalDocumentRuleBase i
     }
 
     /**
-     * This document specific routing business rule check calls the check that makes sure that the
-     * budget year is consistent for all accounting lines.
-     *
+     * This document specific routing business rule check calls the check that makes sure that the budget year is consistent for all
+     * accounting lines.
+     * 
      * @see org.kuali.core.rule.DocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.Document)
      */
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
@@ -127,7 +124,7 @@ public class TransferOfFundsDocumentRule extends TransactionalDocumentRuleBase i
 
         TransferOfFundsDocument tofDoc = (TransferOfFundsDocument) document;
 
-        if(isValid) {
+        if (isValid) {
             isValid = isAllAccountingLinesMatchingBudgetYear(tofDoc);
         }
 
@@ -135,16 +132,14 @@ public class TransferOfFundsDocumentRule extends TransactionalDocumentRuleBase i
     }
 
     /**
-     * This is a helper method that wraps the fund group balancing check.  This check can be configured by updating
-     * the APC that is associated with this check.  See the document's specification for details.
-     *
+     * This is a helper method that wraps the fund group balancing check. This check can be configured by updating the APC that is
+     * associated with this check. See the document's specification for details.
+     * 
      * @param tofDoc
      * @return boolean
      */
     private boolean isFundGroupsBalanceValid(TransferOfFundsDocument tofDoc) {
-        String[] fundGroupCodes = SpringServiceLocator.getKualiConfigurationService().
-            getApplicationParameterValues(KUALI_TRANSACTION_PROCESSING_TRANSFER_OF_FUNDS_SECURITY_GROUPING,
-                    APPLICATION_PARAMETER.FUND_GROUP_BALANCING_SET);
+        String[] fundGroupCodes = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValues(KUALI_TRANSACTION_PROCESSING_TRANSFER_OF_FUNDS_SECURITY_GROUPING, APPLICATION_PARAMETER.FUND_GROUP_BALANCING_SET);
         return isFundGroupSetBalanceValid(tofDoc, fundGroupCodes);
     }
 
@@ -153,7 +148,7 @@ public class TransferOfFundsDocumentRule extends TransactionalDocumentRuleBase i
      * of the "To" accounting lines with mandatory transfer object codes. In addition, it does the same, but for accounting lines
      * with non-mandatory transfer object code. This is to enforce the rule that the document must balance within the object code
      * object sub-type codes of mandatory transfers and non-mandatory transfers.
-     *
+     * 
      * @param tofDoc
      * @return True if they balance; false otherwise.
      */
@@ -197,14 +192,12 @@ public class TransferOfFundsDocumentRule extends TransactionalDocumentRuleBase i
 
         if (mandatoryTransferFromAmount.compareTo(mandatoryTransferToAmount) != 0) {
             isValid = false;
-            GlobalVariables.getErrorMap().put("document.sourceAccountingLines",
-                    KeyConstants.ERROR_DOCUMENT_TOF_MANDATORY_TRANSFERS_DO_NOT_BALANCE);
+            GlobalVariables.getErrorMap().put("document.sourceAccountingLines", KeyConstants.ERROR_DOCUMENT_TOF_MANDATORY_TRANSFERS_DO_NOT_BALANCE);
         }
 
         if (nonMandatoryTransferFromAmount.compareTo(nonMandatoryTransferToAmount) != 0) {
             isValid = false;
-            GlobalVariables.getErrorMap().put("document.sourceAccountingLines",
-                    KeyConstants.ERROR_DOCUMENT_TOF_NON_MANDATORY_TRANSFERS_DO_NOT_BALANCE);
+            GlobalVariables.getErrorMap().put("document.sourceAccountingLines", KeyConstants.ERROR_DOCUMENT_TOF_NON_MANDATORY_TRANSFERS_DO_NOT_BALANCE);
         }
 
         return isValid;
@@ -213,10 +206,10 @@ public class TransferOfFundsDocumentRule extends TransactionalDocumentRuleBase i
     /**
      * Overrides the parent to make sure that the chosen object code's object sub-type code is either Mandatory Transfer or
      * Non-Mandatory Transfer. This is called by the parent's processAddAccountingLine() method.
-     *
+     * 
      * @param accountingLine
      * @return True if the object code's object sub-type code is a mandatory or non-mandatory transfer; false otherwise.
-     *
+     * 
      * @see org.kuali.core.rule.AccountingLineRule#isObjectSubTypeAllowed(org.kuali.core.bo.AccountingLine)
      */
     public boolean isObjectSubTypeAllowed(AccountingLine accountingLine) {
@@ -225,17 +218,12 @@ public class TransferOfFundsDocumentRule extends TransactionalDocumentRuleBase i
 
         // make sure a object sub type code exists for this object code
         if (StringUtils.isBlank(objectSubTypeCode)) {
-            GlobalVariables.getErrorMap().put("financialObjectCode", KeyConstants.ERROR_DOCUMENT_TOF_OBJECT_SUB_TYPE_IS_NULL,
-                    accountingLine.getFinancialObjectCode());
+            GlobalVariables.getErrorMap().put("financialObjectCode", KeyConstants.ERROR_DOCUMENT_TOF_OBJECT_SUB_TYPE_IS_NULL, accountingLine.getFinancialObjectCode());
             return false;
         }
 
         if (!isMandatoryTransfersSubType(objectSubTypeCode) && !isNonMandatoryTransfersSubType(objectSubTypeCode)) {
-            GlobalVariables.getErrorMap().put(
-                    "financialObjectCode",
-                    KeyConstants.ERROR_DOCUMENT_TOF_OBJECT_SUB_TYPE_NOT_MANDATORY_OR_NON_MANDATORY_TRANSFER,
-                    new String[] { accountingLine.getObjectCode().getFinancialObjectSubType().getFinancialObjectSubTypeName(),
-                            accountingLine.getFinancialObjectCode() });
+            GlobalVariables.getErrorMap().put("financialObjectCode", KeyConstants.ERROR_DOCUMENT_TOF_OBJECT_SUB_TYPE_NOT_MANDATORY_OR_NON_MANDATORY_TRANSFER, new String[] { accountingLine.getObjectCode().getFinancialObjectSubType().getFinancialObjectSubTypeName(), accountingLine.getFinancialObjectCode() });
             return false;
         }
 
@@ -243,28 +231,26 @@ public class TransferOfFundsDocumentRule extends TransactionalDocumentRuleBase i
     }
 
     /**
-     *
+     * 
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processSourceAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument,
      *      org.kuali.core.bo.SourceAccountingLine)
      */
-    protected SufficientFundsItem processSourceAccountingLineSufficientFundsCheckingPreparation(
-            TransactionalDocument transactionalDocument, SourceAccountingLine sourceAccountingLine) {
+    protected SufficientFundsItem processSourceAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument transactionalDocument, SourceAccountingLine sourceAccountingLine) {
         return processAccountingLineSufficientFundsCheckingPreparation(sourceAccountingLine);
     }
 
     /**
-     *
+     * 
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processTargetAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument,
      *      org.kuali.core.bo.TargetAccountingLine)
      */
-    protected SufficientFundsItem processTargetAccountingLineSufficientFundsCheckingPreparation(
-            TransactionalDocument transactionalDocument, TargetAccountingLine targetAccountingLine) {
+    protected SufficientFundsItem processTargetAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument transactionalDocument, TargetAccountingLine targetAccountingLine) {
         return processAccountingLineSufficientFundsCheckingPreparation(targetAccountingLine);
     }
 
     /**
      * Prepares the input item that will be used for sufficient funds checking.
-     *
+     * 
      * fi_dtf:lp_proc_frm_ln,lp_proc_to_ln conslidated
      * 
      * @param accountingLine
@@ -301,15 +287,11 @@ public class TransferOfFundsDocumentRule extends TransactionalDocumentRuleBase i
 
             // fi_dtf:lp_proc_frm_ln.46-03...48-3,lp_proc_to_ln.46-03...48-3
             if (isExpense(accountingLine)) {
-                objectType = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(
-                        KUALI_TRANSACTION_PROCESSING_TRANSFER_OF_FUNDS_SECURITY_GROUPING,
-                        TRANSFER_OF_FUNDS_EXPENSE_OBJECT_TYPE_CODE);
+                objectType = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(KUALI_TRANSACTION_PROCESSING_TRANSFER_OF_FUNDS_SECURITY_GROUPING, TRANSFER_OF_FUNDS_EXPENSE_OBJECT_TYPE_CODE);
             }
             // fi_dtf:lp_proc_frm_ln.60-4...62-4,lp_proc_to_ln.60-4...62-4
             else if (isIncome(accountingLine)) {
-                objectType = SpringServiceLocator.getKualiConfigurationService()
-                        .getApplicationParameterValue(KUALI_TRANSACTION_PROCESSING_TRANSFER_OF_FUNDS_SECURITY_GROUPING,
-                                TRANSFER_OF_FUNDS_INCOME_OBJECT_TYPE_CODE);
+                objectType = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(KUALI_TRANSACTION_PROCESSING_TRANSFER_OF_FUNDS_SECURITY_GROUPING, TRANSFER_OF_FUNDS_INCOME_OBJECT_TYPE_CODE);
             }
             if (StringUtils.isBlank(objectType)) {
                 throw new IllegalArgumentException("Invalid (null) object type");
@@ -319,12 +301,9 @@ public class TransferOfFundsDocumentRule extends TransactionalDocumentRuleBase i
             String accountSufficientFundsCode = accountingLine.getAccount().getAccountSufficientFundsCode();
             String financialObjectCode = accountingLine.getFinancialObjectCode();
             String financialObjectLevelCode = accountingLine.getObjectCode().getFinancialObjectLevelCode();
-            String sufficientFundsObjectCode = SpringServiceLocator.getSufficientFundsService().getSufficientFundsObjectCode(
-                    chartOfAccountsCode, financialObjectCode, accountSufficientFundsCode, financialObjectLevelCode);
+            String sufficientFundsObjectCode = SpringServiceLocator.getSufficientFundsService().getSufficientFundsObjectCode(chartOfAccountsCode, financialObjectCode, accountSufficientFundsCode, financialObjectLevelCode);
 
-            item = buildSufficentFundsItem(acocuntNumber, accountSufficientFundsCode, lineAmount, chartOfAccountsCode,
-                    sufficientFundsObjectCode, offsetDebitCreditCode, financialObjectCode, financialObjectLevelCode, accountingLine
-                            .getPostingYear(), objectType);
+            item = buildSufficentFundsItem(acocuntNumber, accountSufficientFundsCode, lineAmount, chartOfAccountsCode, sufficientFundsObjectCode, offsetDebitCreditCode, financialObjectCode, financialObjectLevelCode, accountingLine.getPostingYear(), objectType);
         }
         return item;
     }

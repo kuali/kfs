@@ -35,59 +35,55 @@ import org.kuali.test.KualiTestBaseWithFixtures;
 import org.kuali.test.fixtures.FixtureEntryException;
 
 /**
- * Class for unit testing the functionality of 
- * <code>{@link TransactionalDocumentRuleUtil}</code>
- *
+ * Class for unit testing the functionality of <code>{@link TransactionalDocumentRuleUtil}</code>
+ * 
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class TransactionalDocumentRuleUtilTest
-    extends KualiTestBaseWithFixtures  {
+public class TransactionalDocumentRuleUtilTest extends KualiTestBaseWithFixtures {
 
     private static final String DOES_NOT_MATTER = "doesNotMatter";
-    private static final String COLLECTION_NAME =
-        "TransactionalDocumentRuleUtilTest.collection1";
+    private static final String COLLECTION_NAME = "TransactionalDocumentRuleUtilTest.collection1";
 
-    private static final String[] FIXTURE_COLLECTION_NAMES =
-        { COLLECTION_NAME };
+    private static final String[] FIXTURE_COLLECTION_NAMES = { COLLECTION_NAME };
 
     public String[] getFixtureCollectionNames() {
         return FIXTURE_COLLECTION_NAMES;
     }
+
     private static long ONE_DAY_MILLIS = 86400000;
-    
+
     private String _balanceTypeActual;
     private String _btcAttrName;
 
     private String _annualBalancePeriodCode;
     private String _apcAttrName;
     private Integer _currentFiscalYear;
-    
+
 
     public void runTest() throws Throwable {
         try {
             super.runTest();
         }
-        catch( AssertionFailedError afe ) {
-            throw new FixtureEntryException( this, afe );
+        catch (AssertionFailedError afe) {
+            throw new FixtureEntryException(this, afe);
         }
     }
 
-    ///////////////////////////////////////////////////////////////////////////
-    // Fixture Methods Start Here                                            //
-    ///////////////////////////////////////////////////////////////////////////
+    // /////////////////////////////////////////////////////////////////////////
+    // Fixture Methods Start Here //
+    // /////////////////////////////////////////////////////////////////////////
     /**
      * Accessor method to </code>errorPropertyName</code>
-     *
+     * 
      * @return String
      */
     protected String getErrorPropertyName() {
         return Constants.GLOBAL_ERRORS;
     }
-    
+
     /**
-     * Fixture accessor method to get <code>{@link String}</code> serialization
-     * instance of an active balance type.
-     *
+     * Fixture accessor method to get <code>{@link String}</code> serialization instance of an active balance type.
+     * 
      * @return String
      */
     protected String getActiveBalanceType() {
@@ -95,19 +91,17 @@ public class TransactionalDocumentRuleUtilTest
     }
 
     /**
-     * Fixture accessor method to get <code>{@link String}</code> serialization
-     * instance of an inactive balance type.
-     *
+     * Fixture accessor method to get <code>{@link String}</code> serialization instance of an inactive balance type.
+     * 
      * @return String
      */
     protected String getInactiveBalanceType() {
         return getActualBalanceTypeCode();
     }
-    
+
     /**
-     * Fixture accessor method for the ACTUAL balance type. This is defined
-     * in the fixture XML.
-     *
+     * Fixture accessor method for the ACTUAL balance type. This is defined in the fixture XML.
+     * 
      * @return String
      */
     public String getActualBalanceTypeCode() {
@@ -115,40 +109,35 @@ public class TransactionalDocumentRuleUtilTest
     }
 
     /**
-     * Fixture accessor method for the ACTUAL balance type. This is defined
-     * in the fixture XML.
-     *
+     * Fixture accessor method for the ACTUAL balance type. This is defined in the fixture XML.
+     * 
      * @param bt <code>{@link String} instance serialization of an ACTUAL
      * <code>{@link BalanceTyp}</code>
      */
-    public void setActualBalanceTypeCode( String bt ) {
+    public void setActualBalanceTypeCode(String bt) {
         _balanceTypeActual = bt;
     }
-    
+
     /**
-     * Fixture accessor method for the Annual Balance 
-     * <code>{@link AccountingPeriod}</code>
-     *
+     * Fixture accessor method for the Annual Balance <code>{@link AccountingPeriod}</code>
+     * 
      * @return AccountingPeriod
      */
     public AccountingPeriod getAnnualBalanceAccountingPeriod() {
-        return getAccountingPeriodService()
-            .getByPeriod( getAnnualBalancePeriodCode(),
-                          getCurrentFiscalYear() );
+        return getAccountingPeriodService().getByPeriod(getAnnualBalancePeriodCode(), getCurrentFiscalYear());
     }
-    
+
     public Integer getCurrentFiscalYear() {
         return _currentFiscalYear;
     }
-    
-    public void setCurrentFiscalYear( Integer year ) {
+
+    public void setCurrentFiscalYear(Integer year) {
         _currentFiscalYear = year;
     }
 
     /**
-     * Fixture accessor method for the Annual Balance 
-     * <code>{@link AccountingPeriod}</code>
-     *
+     * Fixture accessor method for the Annual Balance <code>{@link AccountingPeriod}</code>
+     * 
      * @return String
      */
     public String getAnnualBalancePeriodCode() {
@@ -156,19 +145,17 @@ public class TransactionalDocumentRuleUtilTest
     }
 
     /**
-     * Fixture accessor method for the Annual Balance 
-     * <code>{@link AccountingPeriod}</code>
-     *
+     * Fixture accessor method for the Annual Balance <code>{@link AccountingPeriod}</code>
+     * 
      * @param periodCode
      */
-    public void setAnnualBalancePeriodCode( String periodCode ) {
+    public void setAnnualBalancePeriodCode(String periodCode) {
         _annualBalancePeriodCode = periodCode;
     }
-    
+
     /**
-     * Fixture method for getting the property name of a 
-     * <code>{@link BalanceTyp}</code> for displaying errors.
-     *
+     * Fixture method for getting the property name of a <code>{@link BalanceTyp}</code> for displaying errors.
+     * 
      * @return String
      */
     public String getBalanceTypeCodeAttributeName() {
@@ -176,19 +163,17 @@ public class TransactionalDocumentRuleUtilTest
     }
 
     /**
-     * Fixture method for getting the property name of a 
-     * <code>{@link BalanceTyp}</code> for displaying errors.
-     *
-     * @param n 
+     * Fixture method for getting the property name of a <code>{@link BalanceTyp}</code> for displaying errors.
+     * 
+     * @param n
      */
-    public void setBalanceTypeCodeAttributeName( String n ) {
+    public void setBalanceTypeCodeAttributeName(String n) {
         _btcAttrName = n;
     }
 
     /**
-     * Fixture accessor method for an open 
-     * <code>{@link AccountingPeriod}</code> instance.
-     *
+     * Fixture accessor method for an open <code>{@link AccountingPeriod}</code> instance.
+     * 
      * @return AccountingPeriod
      */
     protected AccountingPeriod getOpenAccountingPeriod() {
@@ -196,86 +181,80 @@ public class TransactionalDocumentRuleUtilTest
     }
 
     /**
-     * Fixture accessor method for a closed  
-     * <code>{@link AccountingPeriod}</code> instance.
-     *
+     * Fixture accessor method for a closed <code>{@link AccountingPeriod}</code> instance.
+     * 
      * @return AccountingPeriod
      */
     protected AccountingPeriod getClosedAccountingPeriod() {
         return null;
     }
-    
+
     /**
-     * Fixture accessor method for getting a <code>{@link Timestamp}</code> 
-     * instance that is in the past.
-     *
+     * Fixture accessor method for getting a <code>{@link Timestamp}</code> instance that is in the past.
+     * 
      * @return Timestamp
      */
     protected Timestamp getPastTimestamp() {
-        return new Timestamp( System.currentTimeMillis() - ONE_DAY_MILLIS );
+        return new Timestamp(System.currentTimeMillis() - ONE_DAY_MILLIS);
     }
-    
+
     /**
-     * Fixture accessor method for getting a <code>{@link Timestamp}</code> 
-     * instance that is in the future.
+     * Fixture accessor method for getting a <code>{@link Timestamp}</code> instance that is in the future.
      */
     protected Timestamp getFutureTimestamp() {
-        return new Timestamp( System.currentTimeMillis() + ONE_DAY_MILLIS );
-    }    
-    ///////////////////////////////////////////////////////////////////////////
-    // Fixture Methods End Here                                              //
-    ///////////////////////////////////////////////////////////////////////////
+        return new Timestamp(System.currentTimeMillis() + ONE_DAY_MILLIS);
+    }
+
+    // /////////////////////////////////////////////////////////////////////////
+    // Fixture Methods End Here //
+    // /////////////////////////////////////////////////////////////////////////
 
 
-    ///////////////////////////////////////////////////////////////////////////
-    // Test Methods Start Here                                               //
-    ///////////////////////////////////////////////////////////////////////////
+    // /////////////////////////////////////////////////////////////////////////
+    // Test Methods Start Here //
+    // /////////////////////////////////////////////////////////////////////////
     /**
-     * test the <code>isValidBalanceType()</code> method of 
-     * <code>{@link TransactionalDocumentRuleUtil}</code>
-     *
+     * test the <code>isValidBalanceType()</code> method of <code>{@link TransactionalDocumentRuleUtil}</code>
+     * 
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleUtil#isValidBalanceType
      */
     public void testIsValidBalanceType_Active() {
-        testIsValidBalanceType( getActiveBalanceType(), true );
+        testIsValidBalanceType(getActiveBalanceType(), true);
     }
 
     /**
-     * test the <code>isValidBalanceType()</code> method of 
-     * <code>{@link TransactionalDocumentRuleUtil}</code>
-     *
+     * test the <code>isValidBalanceType()</code> method of <code>{@link TransactionalDocumentRuleUtil}</code>
+     * 
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleUtil#isValidBalanceType
      */
     public void testIsValidBalanceType_Inactive() {
-        testIsValidBalanceType( getInactiveBalanceType(), true );
+        testIsValidBalanceType(getInactiveBalanceType(), true);
     }
 
     /**
-     * test the <code>isValidBalanceType()</code> method of 
-     * <code>{@link TransactionalDocumentRuleUtil}</code>
-     *
+     * test the <code>isValidBalanceType()</code> method of <code>{@link TransactionalDocumentRuleUtil}</code>
+     * 
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleUtil#isValidBalanceType
      */
     public void testIsValidBalanceType_Null() {
-        testIsValidBalanceType( null, false );
+        testIsValidBalanceType(null, false);
     }
-    
+
     /**
-     * test the <code>isValidBalanceType()</code> method of 
-     * <code>{@link TransactionalDocumentRuleUtil}</code>
-     *
+     * test the <code>isValidBalanceType()</code> method of <code>{@link TransactionalDocumentRuleUtil}</code>
+     * 
      * @param btStr
      * @param expected
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleUtil#isValidBalanceType
      */
-    protected void testIsValidBalanceType( String btStr, boolean expected ) {
+    protected void testIsValidBalanceType(String btStr, boolean expected) {
         BalanceTyp balanceType = null;
 
-        if( btStr != null ) {
-            balanceType = getBalanceTypService().getBalanceTypByCode( btStr );
+        if (btStr != null) {
+            balanceType = getBalanceTypService().getBalanceTypByCode(btStr);
         }
         assertGlobalErrorMapEmpty();
-        boolean result = TransactionalDocumentRuleUtil.isValidBalanceType( balanceType, getBalanceTypeCodeAttributeName() );
+        boolean result = TransactionalDocumentRuleUtil.isValidBalanceType(balanceType, getBalanceTypeCodeAttributeName());
         if (expected) {
             assertGlobalErrorMapEmpty();
         }
@@ -283,47 +262,42 @@ public class TransactionalDocumentRuleUtilTest
     }
 
     /**
-     * test the <code>isValidOpenAccountingPeriod()</code> method of 
-     * <code>{@link TransactionalDocumentRuleUtil}</code>
-     *
+     * test the <code>isValidOpenAccountingPeriod()</code> method of <code>{@link TransactionalDocumentRuleUtil}</code>
+     * 
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleUtil#isValidOpenAccountingPeriod
      */
     public void testIsValidOpenAccountingPeriod_Open() {
-        testIsValidOpenAccountingPeriod( getOpenAccountingPeriod(), true );
+        testIsValidOpenAccountingPeriod(getOpenAccountingPeriod(), true);
     }
 
     /**
-     * test the <code>isValidOpenAccountingPeriod()</code> method of 
-     * <code>{@link TransactionalDocumentRuleUtil}</code>
-     *
+     * test the <code>isValidOpenAccountingPeriod()</code> method of <code>{@link TransactionalDocumentRuleUtil}</code>
+     * 
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleUtil#isValidOpenAccountingPeriod
      */
     public void pendingTestIsValidOpenAccountingPeriod_Closed() {
-        testIsValidOpenAccountingPeriod( getClosedAccountingPeriod(), false );
+        testIsValidOpenAccountingPeriod(getClosedAccountingPeriod(), false);
     }
 
     /**
-     * test the <code>isValidOpenAccountingPeriod()</code> method of 
-     * <code>{@link TransactionalDocumentRuleUtil}</code>
-     *
+     * test the <code>isValidOpenAccountingPeriod()</code> method of <code>{@link TransactionalDocumentRuleUtil}</code>
+     * 
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleUtil#isValidOpenAccountingPeriod
      */
     public void testIsValidOpenAccountingPeriod_Null() {
-        testIsValidOpenAccountingPeriod( null, false );
+        testIsValidOpenAccountingPeriod(null, false);
     }
 
     /**
-     * test the <code>isValidOpenAccountingPeriod()</code> method of 
-     * <code>{@link TransactionalDocumentRuleUtil}</code>
-     *
+     * test the <code>isValidOpenAccountingPeriod()</code> method of <code>{@link TransactionalDocumentRuleUtil}</code>
+     * 
      * @param period
      * @param expected
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleUtil#isValidOpenAccountingPeriod
      */
-    protected void testIsValidOpenAccountingPeriod( AccountingPeriod period,
-                                                    boolean expected ) {
+    protected void testIsValidOpenAccountingPeriod(AccountingPeriod period, boolean expected) {
         assertGlobalErrorMapEmpty();
-        boolean result = TransactionalDocumentRuleUtil.isValidOpenAccountingPeriod( period, JournalVoucherDocument.class, PropertyConstants.ACCOUNTING_PERIOD, DOES_NOT_MATTER);
+        boolean result = TransactionalDocumentRuleUtil.isValidOpenAccountingPeriod(period, JournalVoucherDocument.class, PropertyConstants.ACCOUNTING_PERIOD, DOES_NOT_MATTER);
         if (expected) {
             assertGlobalErrorMapEmpty();
         }
@@ -331,54 +305,49 @@ public class TransactionalDocumentRuleUtilTest
     }
 
     /**
-     * test the <code>isValidReversalDate()</code> method of 
-     * <code>{@link TransactionalDocumentRuleUtil}</code>
-     *
+     * test the <code>isValidReversalDate()</code> method of <code>{@link TransactionalDocumentRuleUtil}</code>
+     * 
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleUtil#isValidReversalDate
      */
     public void testIsValidReversalDate_Null() {
-        testIsValidReversalDate( null, true );
+        testIsValidReversalDate(null, true);
     }
 
     /**
-     * test the <code>isValidReversalDate()</code> method of 
-     * <code>{@link TransactionalDocumentRuleUtil}</code>
-     *
+     * test the <code>isValidReversalDate()</code> method of <code>{@link TransactionalDocumentRuleUtil}</code>
+     * 
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleUtil#isValidReversalDate
      */
     public void testIsValidReversalDate_Past() {
-        testIsValidReversalDate( getPastTimestamp(), false );
+        testIsValidReversalDate(getPastTimestamp(), false);
     }
 
     /**
-     * test the <code>isValidReversalDate()</code> method of 
-     * <code>{@link TransactionalDocumentRuleUtil}</code>
-     *
+     * test the <code>isValidReversalDate()</code> method of <code>{@link TransactionalDocumentRuleUtil}</code>
+     * 
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleUtil#isValidReversalDate
      */
     public void testIsValidReversalDate_Future() {
-        testIsValidReversalDate( getFutureTimestamp(), true );
+        testIsValidReversalDate(getFutureTimestamp(), true);
     }
 
     /**
-     * test the <code>isValidReversalDate()</code> method of 
-     * <code>{@link TransactionalDocumentRuleUtil}</code>
-     *
+     * test the <code>isValidReversalDate()</code> method of <code>{@link TransactionalDocumentRuleUtil}</code>
+     * 
      * @param reversalDate
      * @param expected
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleUtil#isValidReversalDate
      */
-    protected void testIsValidReversalDate( Timestamp reversalDate,
-                                            boolean expected ) {
+    protected void testIsValidReversalDate(Timestamp reversalDate, boolean expected) {
         assertGlobalErrorMapEmpty();
-        boolean result = TransactionalDocumentRuleUtil.isValidReversalDate( reversalDate, getErrorPropertyName() );
+        boolean result = TransactionalDocumentRuleUtil.isValidReversalDate(reversalDate, getErrorPropertyName());
         if (expected) {
             assertGlobalErrorMapEmpty();
         }
         assertEquals("result", expected, result);
     }
 
-    ///////////////////////////////////////////////////////////////////////////
-    // Test Methods End Here                                                 //
-    ///////////////////////////////////////////////////////////////////////////
+    // /////////////////////////////////////////////////////////////////////////
+    // Test Methods End Here //
+    // /////////////////////////////////////////////////////////////////////////
 }

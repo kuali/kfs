@@ -46,7 +46,7 @@ import org.kuali.module.gl.util.LedgerEntryHolder;
 /**
  * @author jsissom
  * @author Laran Evans <lc278@cornell.edu>
- * @version $Id: OriginEntryServiceImpl.java,v 1.15 2006-06-10 20:45:17 jsissom Exp $
+ * @version $Id: OriginEntryServiceImpl.java,v 1.16 2006-06-14 12:26:36 abyrne Exp $
  */
 public class OriginEntryServiceImpl implements OriginEntryService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OriginEntryServiceImpl.class);
@@ -109,10 +109,10 @@ public class OriginEntryServiceImpl implements OriginEntryService {
 
     /**
      * 
-     * @see org.kuali.module.gl.service.OriginEntryService#getEntriesByDocument(org.kuali.module.gl.bo.OriginEntryGroup, java.lang.String, java.lang.String, java.lang.String)
+     * @see org.kuali.module.gl.service.OriginEntryService#getEntriesByDocument(org.kuali.module.gl.bo.OriginEntryGroup,
+     *      java.lang.String, java.lang.String, java.lang.String)
      */
-    public Iterator<OriginEntry> getEntriesByDocument(OriginEntryGroup originEntryGroup, String documentNumber, String documentTypeCode,
-            String originCode) {
+    public Iterator<OriginEntry> getEntriesByDocument(OriginEntryGroup originEntryGroup, String documentNumber, String documentTypeCode, String originCode) {
         LOG.debug("getEntriesByGroup() started");
 
         Map criteria = new HashMap();
@@ -126,7 +126,8 @@ public class OriginEntryServiceImpl implements OriginEntryService {
 
     /**
      * 
-     * @see org.kuali.module.gl.service.OriginEntryService#createEntry(org.kuali.module.gl.bo.Transaction, org.kuali.module.gl.bo.OriginEntryGroup)
+     * @see org.kuali.module.gl.service.OriginEntryService#createEntry(org.kuali.module.gl.bo.Transaction,
+     *      org.kuali.module.gl.bo.OriginEntryGroup)
      */
     public void createEntry(Transaction transaction, OriginEntryGroup originEntryGroup) {
         LOG.debug("createEntry() started");
@@ -183,7 +184,8 @@ public class OriginEntryServiceImpl implements OriginEntryService {
 
     /**
      * 
-     * @see org.kuali.module.gl.service.OriginEntryService#loadFlatFile(java.lang.String, java.lang.String, boolean, boolean, boolean)
+     * @see org.kuali.module.gl.service.OriginEntryService#loadFlatFile(java.lang.String, java.lang.String, boolean, boolean,
+     *      boolean)
      */
     public void loadFlatFile(String filename, String groupSourceCode, boolean isValid, boolean isProcessed, boolean isScrub) {
         LOG.debug("loadFlatFile() started");
@@ -215,7 +217,7 @@ public class OriginEntryServiceImpl implements OriginEntryService {
             }
         }
     }
-    
+
     /**
      * 
      * @see org.kuali.module.gl.service.OriginEntryService#getSummaryByGroupId(java.util.List)
@@ -225,13 +227,13 @@ public class OriginEntryServiceImpl implements OriginEntryService {
 
         Iterator entrySummaryIterator = originEntryDao.getSummaryByGroupId(groupIdList);
         while (entrySummaryIterator.hasNext()) {
-            Object[] entrySummary = (Object[]) entrySummaryIterator.next();            
+            Object[] entrySummary = (Object[]) entrySummaryIterator.next();
             LedgerEntry ledgerEntry = this.buildLedgerEntry(entrySummary);
             ledgerEntryHolder.insertLedgerEntry(ledgerEntry, true);
-        }       
+        }
         return ledgerEntryHolder;
     }
-    
+
     // create or update a ledger entry with the array of information from the given entry summary object
     private LedgerEntry buildLedgerEntry(Object[] entrySummary) {
 
@@ -241,18 +243,18 @@ public class OriginEntryServiceImpl implements OriginEntryService {
         Integer fiscalYear = thisElement != null ? new Integer(thisElement.toString()) : null;
         thisElement = entrySummary[i++];
         String periodCode = thisElement != null ? thisElement.toString() : "";
-        
+
         thisElement = entrySummary[i++];
         String balanceType = thisElement != null ? thisElement.toString() : "";
         thisElement = entrySummary[i++];
-        String originCode = thisElement != null ? thisElement.toString() : "";        
-        
+        String originCode = thisElement != null ? thisElement.toString() : "";
+
         thisElement = entrySummary[i++];
         String debitCreditCode = thisElement != null ? thisElement.toString() : "";
-        
+
         KualiDecimal amount = new KualiDecimal(entrySummary[i++].toString());
         int count = Integer.parseInt(entrySummary[i].toString());
-        
+
         // construct a ledger entry with the information fetched from the given array
         LedgerEntry ledgerEntry = new LedgerEntry(fiscalYear, periodCode, balanceType, originCode);
         if (Constants.GL_CREDIT_CODE.equals(debitCreditCode)) {
@@ -267,8 +269,8 @@ public class OriginEntryServiceImpl implements OriginEntryService {
             ledgerEntry.setNoDCAmount(amount);
             ledgerEntry.setNoDCCount(count);
         }
-        ledgerEntry.setRecordCount(count); 
-        
+        ledgerEntry.setRecordCount(count);
+
         return ledgerEntry;
     }
 }

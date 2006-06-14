@@ -33,38 +33,45 @@ import org.springframework.orm.ojb.PersistenceBrokerTemplate;
 
 public class CorrectionChangeDaoOjb extends PersistenceBrokerTemplate implements CorrectionChangeDao {
 
-	public CorrectionChangeDaoOjb() {
-		super();
-	}
+    public CorrectionChangeDaoOjb() {
+        super();
+    }
 
-	/* (non-Javadoc)
-	 * @see org.kuali.module.gl.dao.CorrectionReplacementSpecificationDao#delete(org.kuali.module.gl.bo.CorrectionReplacementSpecification)
-	 */
-	public void delete(CorrectionChange spec) {
-		super.delete(spec);
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.kuali.module.gl.dao.CorrectionReplacementSpecificationDao#delete(org.kuali.module.gl.bo.CorrectionReplacementSpecification)
+     */
+    public void delete(CorrectionChange spec) {
+        super.delete(spec);
+    }
 
-	/* (non-Javadoc)
-	 * @see org.kuali.module.gl.dao.CorrectionChangeDao#findByDocumentHeaderIdAndCorrectionGroupNumber(java.lang.Integer, java.lang.Integer)
-	 */
-	public Collection findByDocumentHeaderIdAndCorrectionGroupNumber(Integer documentNumber, Integer correctionGroupNumber) {
-		Criteria criteria = new Criteria();
-		criteria.addEqualTo("DOC_HDR_ID", documentNumber);
-		criteria.addEqualTo("GL_COR_CHG_GRP_LN_NBR", correctionGroupNumber);
-		
-		Class clazz = CorrectionChange.class;
-		QueryByCriteria query = QueryFactory.newQuery(clazz, criteria);
-		
-		Collection specifications = getCollectionByQuery(query);
-		
-		return specifications;
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.kuali.module.gl.dao.CorrectionChangeDao#findByDocumentHeaderIdAndCorrectionGroupNumber(java.lang.Integer,
+     *      java.lang.Integer)
+     */
+    public Collection findByDocumentHeaderIdAndCorrectionGroupNumber(Integer documentNumber, Integer correctionGroupNumber) {
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo("DOC_HDR_ID", documentNumber);
+        criteria.addEqualTo("GL_COR_CHG_GRP_LN_NBR", correctionGroupNumber);
 
-	/* (non-Javadoc)
-	 * @see org.kuali.module.gl.dao.CorrectionChangeDao#save(org.kuali.module.gl.bo.CorrectionChange)
-	 */
-	public void save(CorrectionChange spec) {
-		super.store(spec);
-	}
+        Class clazz = CorrectionChange.class;
+        QueryByCriteria query = QueryFactory.newQuery(clazz, criteria);
+
+        Collection specifications = getCollectionByQuery(query);
+
+        return specifications;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.kuali.module.gl.dao.CorrectionChangeDao#save(org.kuali.module.gl.bo.CorrectionChange)
+     */
+    public void save(CorrectionChange spec) {
+        super.store(spec);
+    }
 
 }

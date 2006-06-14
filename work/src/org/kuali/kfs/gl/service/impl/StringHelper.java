@@ -25,15 +25,15 @@ package org.kuali.module.gl.util;
 
 /**
  * @author Evans
- *
+ * 
  */
 public class StringHelper extends ObjectHelper {
 
-	static public boolean isEmpty(String s) {
-		return (s != null) && "".equals(s);
-	}
-	
-	static public boolean isNullOrEmpty(String s) {
-		return (s == null) || isEmpty(s);
-	}
+    static public boolean isEmpty(String s) {
+        return (s != null) && "".equals(s);
+    }
+
+    static public boolean isNullOrEmpty(String s) {
+        return (s == null) || isEmpty(s);
+    }
 }

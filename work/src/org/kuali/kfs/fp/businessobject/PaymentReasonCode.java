@@ -31,24 +31,24 @@ import org.kuali.core.bo.KualiCodeBase;
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class PaymentReasonCode extends KualiCodeBase {
-    
+
     private String description;
 
-	/**
-	 * Default no-arg constructor.
-	 */
-	public PaymentReasonCode() {
+    /**
+     * Default no-arg constructor.
+     */
+    public PaymentReasonCode() {
 
-	}
-	
+    }
+
     /**
      * @return Returns the description.
      */
     public String getDescription() {
         return description;
     }
-    
-    
+
+
     /**
      * @param description The description to set.
      */

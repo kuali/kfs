@@ -28,6 +28,7 @@ import org.kuali.test.KualiTestBaseWithFixtures;
 
 /**
  * This class tests the Chart service.
+ * 
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public class ChartServiceTest extends KualiTestBaseWithFixtures {

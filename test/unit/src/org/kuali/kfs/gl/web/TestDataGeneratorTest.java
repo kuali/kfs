@@ -39,7 +39,7 @@ import org.kuali.test.KualiTestBase;
  * @author Bin Gao from Michigan State University
  */
 public class TestDataGeneratorTest extends KualiTestBase {
-    
+
     private TestDataGenerator testDataGenerator;
     private GeneralLedgerPendingEntry pendingEntry;
     private AccountBalance accountBalance;
@@ -78,37 +78,34 @@ public class TestDataGeneratorTest extends KualiTestBase {
         // test business object not implementing transaction
         fieldValues = testDataGenerator.generateLookupFieldValues(accountBalance);
         assertEquals(testDataGenerator.getProperties().getProperty("accountNumber"), fieldValues.get("accountNumber"));
-        assertEquals(testDataGenerator.getProperties().getProperty("dummyBusinessObject.consolidationOption"), fieldValues
-                .get("dummyBusinessObject.consolidationOption"));
+        assertEquals(testDataGenerator.getProperties().getProperty("dummyBusinessObject.consolidationOption"), fieldValues.get("dummyBusinessObject.consolidationOption"));
 
         assertNull(fieldValues.get("timestamp"));
         assertNull(fieldValues.get("finacialObjectCode"));
     }
-    
+
     // test case for generateTransactionDate method of TestDataGenerator class
     public void testGenerateFieldValues(String test) throws Exception {
         Map fieldValues = new HashMap();
-        
-        List lookupFields = getLookupFields(true); 
+
+        List lookupFields = getLookupFields(true);
 
         // test business object implementing transaction
         fieldValues = testDataGenerator.generateLookupFieldValues(pendingEntry, lookupFields);
         assertEquals(testDataGenerator.getProperties().getProperty("accountNumber"), fieldValues.get("accountNumber"));
-        assertEquals(testDataGenerator.getProperties().getProperty("dummyBusinessObject.consolidationOption"), fieldValues
-                .get("dummyBusinessObject.consolidationOption"));
+        assertEquals(testDataGenerator.getProperties().getProperty("dummyBusinessObject.consolidationOption"), fieldValues.get("dummyBusinessObject.consolidationOption"));
         assertNull(fieldValues.get("transactionDate"));
         assertNull(fieldValues.get("objectCode"));
 
         // test business object not implementing transaction
         fieldValues = testDataGenerator.generateLookupFieldValues(accountBalance, lookupFields);
         assertEquals(testDataGenerator.getProperties().getProperty("accountNumber"), fieldValues.get("accountNumber"));
-        assertEquals(testDataGenerator.getProperties().getProperty("dummyBusinessObject.consolidationOption"), fieldValues
-                .get("dummyBusinessObject.consolidationOption"));
+        assertEquals(testDataGenerator.getProperties().getProperty("dummyBusinessObject.consolidationOption"), fieldValues.get("dummyBusinessObject.consolidationOption"));
 
         assertNull(fieldValues.get("timestamp"));
         assertNull(fieldValues.get("finacialObjectCode"));
-    } 
-    
+    }
+
     protected List getLookupFields(boolean isExtended) {
         List lookupFields = new ArrayList();
 
@@ -133,5 +130,5 @@ public class TestDataGeneratorTest extends KualiTestBase {
             lookupFields.add(PropertyConstants.ORGANIZATION_DOCUMENT_NUMBER);
         }
         return lookupFields;
-    }    
+    }
 }

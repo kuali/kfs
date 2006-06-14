@@ -34,64 +34,64 @@ import org.kuali.core.bo.BusinessObjectBase;
  */
 public class RestrictedStatus extends BusinessObjectBase {
 
-	/**
-	 * Default no-arg constructor.
-	 */
-	public RestrictedStatus() {
+    /**
+     * Default no-arg constructor.
+     */
+    public RestrictedStatus() {
 
-	}
+    }
 
-	private String accountRestrictedStatusCode;
-	private String accountRestrictedStatusName;
+    private String accountRestrictedStatusCode;
+    private String accountRestrictedStatusName;
 
-	/**
-	 * Gets the accountRestrictedStatusCode attribute.
-	 * 
-	 * @return - Returns the accountRestrictedStatusCode
-	 * 
-	 */
-	public String getAccountRestrictedStatusCode() { 
-		return accountRestrictedStatusCode;
-	}
-	
-	/**
-	 * Sets the accountRestrictedStatusCode attribute.
-	 * 
-	 * @param - accountRestrictedStatusCode The accountRestrictedStatusCode to set.
-	 * 
-	 */
-	public void setAccountRestrictedStatusCode(String accountRestrictedStatusCode) {
-		this.accountRestrictedStatusCode = accountRestrictedStatusCode;
-	}
+    /**
+     * Gets the accountRestrictedStatusCode attribute.
+     * 
+     * @return - Returns the accountRestrictedStatusCode
+     * 
+     */
+    public String getAccountRestrictedStatusCode() {
+        return accountRestrictedStatusCode;
+    }
 
-	/**
-	 * Gets the accountRestrictedStatusName attribute.
-	 * 
-	 * @return - Returns the accountRestrictedStatusName
-	 * 
-	 */
-	public String getAccountRestrictedStatusName() { 
-		return accountRestrictedStatusName;
-	}
-	
-	/**
-	 * Sets the accountRestrictedStatusName attribute.
-	 * 
-	 * @param - accountRestrictedStatusName The accountRestrictedStatusName to set.
-	 * 
-	 */
-	public void setAccountRestrictedStatusName(String accountRestrictedStatusName) {
-		this.accountRestrictedStatusName = accountRestrictedStatusName;
-	}
+    /**
+     * Sets the accountRestrictedStatusCode attribute.
+     * 
+     * @param - accountRestrictedStatusCode The accountRestrictedStatusCode to set.
+     * 
+     */
+    public void setAccountRestrictedStatusCode(String accountRestrictedStatusCode) {
+        this.accountRestrictedStatusCode = accountRestrictedStatusCode;
+    }
 
-	/**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-			LinkedHashMap m = new LinkedHashMap();
+    /**
+     * Gets the accountRestrictedStatusName attribute.
+     * 
+     * @return - Returns the accountRestrictedStatusName
+     * 
+     */
+    public String getAccountRestrictedStatusName() {
+        return accountRestrictedStatusName;
+    }
 
-			m.put("accountRestrictedStatusCode", this.accountRestrictedStatusCode);
+    /**
+     * Sets the accountRestrictedStatusName attribute.
+     * 
+     * @param - accountRestrictedStatusName The accountRestrictedStatusName to set.
+     * 
+     */
+    public void setAccountRestrictedStatusName(String accountRestrictedStatusName) {
+        this.accountRestrictedStatusName = accountRestrictedStatusName;
+    }
 
-			return m;
-	}
+    /**
+     * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
+
+        m.put("accountRestrictedStatusCode", this.accountRestrictedStatusCode);
+
+        return m;
+    }
 }

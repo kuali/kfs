@@ -118,8 +118,7 @@ public class AdvanceDepositDocument extends CashReceiptDocument {
         this.nextAdvanceDepositLineNumber = new Integer(this.nextAdvanceDepositLineNumber.intValue() + 1);
 
         // update the overall amount
-        this.totalAdvanceDepositAmount = this.totalAdvanceDepositAmount.add(advanceDepositDetail
-                .getFinancialDocumentAdvanceDepositAmount());
+        this.totalAdvanceDepositAmount = this.totalAdvanceDepositAmount.add(advanceDepositDetail.getFinancialDocumentAdvanceDepositAmount());
     }
 
     /**
@@ -132,8 +131,7 @@ public class AdvanceDepositDocument extends CashReceiptDocument {
         advanceDepositDetail.setFinancialDocumentLineNumber(this.nextAdvanceDepositLineNumber);
         advanceDepositDetail.setFinancialDocumentColumnTypeCode(CASH_RECEIPT_ADVANCE_DEPOSIT_COLUMN_TYPE_CODE);
         advanceDepositDetail.setFinancialDocumentNumber(this.getFinancialDocumentNumber());
-        advanceDepositDetail.setFinancialDocumentTypeCode(SpringServiceLocator.getDocumentTypeService().getDocumentTypeCodeByClass(
-                this.getClass()));
+        advanceDepositDetail.setFinancialDocumentTypeCode(SpringServiceLocator.getDocumentTypeService().getDocumentTypeCodeByClass(this.getClass()));
     }
 
     /**
@@ -158,8 +156,7 @@ public class AdvanceDepositDocument extends CashReceiptDocument {
         AdvanceDepositDetail advanceDepositDetail = (AdvanceDepositDetail) advanceDeposits.remove(index);
 
         // if the totalAdvanceDepositAmount goes negative, bring back to zero.
-        this.totalAdvanceDepositAmount = this.totalAdvanceDepositAmount.subtract(advanceDepositDetail
-                .getFinancialDocumentAdvanceDepositAmount());
+        this.totalAdvanceDepositAmount = this.totalAdvanceDepositAmount.subtract(advanceDepositDetail.getFinancialDocumentAdvanceDepositAmount());
         if (this.totalAdvanceDepositAmount.isNegative()) {
             this.totalAdvanceDepositAmount = KualiDecimal.ZERO;
         }

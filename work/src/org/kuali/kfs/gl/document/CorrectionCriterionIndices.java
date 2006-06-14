@@ -23,7 +23,7 @@
 package org.kuali.module.gl.document;
 
 public interface CorrectionCriterionIndices {
-	static final public int CRITERION_INDEX_FIELD_NAME = 0;
-	static final public int CRITERION_INDEX_MATCH_OPERATOR = 1;
-	static final public int CRITERION_INDEX_FIELD_VALUE = 2;
+    static final public int CRITERION_INDEX_FIELD_NAME = 0;
+    static final public int CRITERION_INDEX_MATCH_OPERATOR = 1;
+    static final public int CRITERION_INDEX_FIELD_VALUE = 2;
 }

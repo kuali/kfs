@@ -30,6 +30,7 @@ import org.kuali.module.gl.dao.BalanceDao;
 
 /**
  * Imlementation of AccountPresenceService
+ * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class AccountPresenceServiceImpl implements AccountPresenceService {
@@ -51,19 +52,15 @@ public class AccountPresenceServiceImpl implements AccountPresenceService {
              */
 
             // try to find budget record for object code
-            Balance foundBalance = (Balance) balanceDao.getCurrentBudgetForObjectCode(objectCode.getUniversityFiscalYear(), account
-                    .getChartOfAccountsCode(), account.getAccountNumber(), objectCode.getFinancialObjectCode());
+            Balance foundBalance = (Balance) balanceDao.getCurrentBudgetForObjectCode(objectCode.getUniversityFiscalYear(), account.getChartOfAccountsCode(), account.getAccountNumber(), objectCode.getFinancialObjectCode());
 
             // if object code budget not found, try consolidation object code
             if (foundBalance == null) {
-                foundBalance = (Balance) balanceDao.getCurrentBudgetForObjectCode(objectCode.getUniversityFiscalYear(), account
-                        .getChartOfAccountsCode(), account.getAccountNumber(), objectCode.getFinancialObjectLevel()
-                        .getConsolidatedObjectCode());
+                foundBalance = (Balance) balanceDao.getCurrentBudgetForObjectCode(objectCode.getUniversityFiscalYear(), account.getChartOfAccountsCode(), account.getAccountNumber(), objectCode.getFinancialObjectLevel().getConsolidatedObjectCode());
 
                 // if consolidation object code budget not found, try object level
                 if (foundBalance == null) {
-                    foundBalance = (Balance) balanceDao.getCurrentBudgetForObjectCode(objectCode.getUniversityFiscalYear(), account
-                            .getChartOfAccountsCode(), account.getAccountNumber(), objectCode.getFinancialObjectLevelCode());
+                    foundBalance = (Balance) balanceDao.getCurrentBudgetForObjectCode(objectCode.getUniversityFiscalYear(), account.getChartOfAccountsCode(), account.getAccountNumber(), objectCode.getFinancialObjectLevelCode());
 
                     // object not budgeted
                     if (foundBalance == null) {

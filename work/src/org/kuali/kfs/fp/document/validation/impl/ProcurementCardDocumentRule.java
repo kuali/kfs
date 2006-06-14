@@ -64,11 +64,11 @@ public class ProcurementCardDocumentRule extends TransactionalDocumentRuleBase {
 
     /**
      * Only target lines can be changed, so we need to only validate them
+     * 
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processCustomAddAccountingLineBusinessRules(org.kuali.core.document.TransactionalDocument,
      *      org.kuali.core.bo.AccountingLine)
      */
-    protected boolean processCustomAddAccountingLineBusinessRules(TransactionalDocument transactionalDocument,
-            AccountingLine accountingLine) {
+    protected boolean processCustomAddAccountingLineBusinessRules(TransactionalDocument transactionalDocument, AccountingLine accountingLine) {
         boolean allow = true;
 
         if (accountingLine instanceof ProcurementCardTargetAccountingLine) {
@@ -108,28 +108,16 @@ public class ProcurementCardDocumentRule extends TransactionalDocumentRuleBase {
         }
 
         /* check object type global restrictions */
-        objectCodeAllowed = objectCodeAllowed
-                && executeApplicationParameterRestriction(GLOBAL_FIELD_RESTRICTIONS_GROUP_NM,
-                        OBJECT_TYPE_GLOBAL_RESTRICTION_PARM_NM, accountingLine.getObjectCode().getFinancialObjectTypeCode(),
-                        errorKey, "Object type");
+        objectCodeAllowed = objectCodeAllowed && executeApplicationParameterRestriction(GLOBAL_FIELD_RESTRICTIONS_GROUP_NM, OBJECT_TYPE_GLOBAL_RESTRICTION_PARM_NM, accountingLine.getObjectCode().getFinancialObjectTypeCode(), errorKey, "Object type");
 
         /* check object sub type global restrictions */
-        objectCodeAllowed = objectCodeAllowed
-                && executeApplicationParameterRestriction(GLOBAL_FIELD_RESTRICTIONS_GROUP_NM,
-                        OBJECT_SUB_TYPE_GLOBAL_RESTRICTION_PARM_NM, accountingLine.getObjectCode().getFinancialObjectSubTypeCode(),
-                        errorKey, "Object sub type");
+        objectCodeAllowed = objectCodeAllowed && executeApplicationParameterRestriction(GLOBAL_FIELD_RESTRICTIONS_GROUP_NM, OBJECT_SUB_TYPE_GLOBAL_RESTRICTION_PARM_NM, accountingLine.getObjectCode().getFinancialObjectSubTypeCode(), errorKey, "Object sub type");
 
         /* check object level global restrictions */
-        objectCodeAllowed = objectCodeAllowed
-                && executeApplicationParameterRestriction(GLOBAL_FIELD_RESTRICTIONS_GROUP_NM,
-                        OBJECT_LEVEL_GLOBAL_RESTRICTION_PARM_NM, accountingLine.getObjectCode().getFinancialObjectLevelCode(),
-                        errorKey, "Object level");
+        objectCodeAllowed = objectCodeAllowed && executeApplicationParameterRestriction(GLOBAL_FIELD_RESTRICTIONS_GROUP_NM, OBJECT_LEVEL_GLOBAL_RESTRICTION_PARM_NM, accountingLine.getObjectCode().getFinancialObjectLevelCode(), errorKey, "Object level");
 
         /* check object consolidation global restrictions */
-        objectCodeAllowed = objectCodeAllowed
-                && executeApplicationParameterRestriction(GLOBAL_FIELD_RESTRICTIONS_GROUP_NM,
-                        OBJECT_CONSOLIDATION_GLOBAL_RESTRICTION_PARM_NM, accountingLine.getObjectCode().getFinancialObjectLevel()
-                                .getFinancialConsolidationObjectCode(), errorKey, "Object consolidation code");
+        objectCodeAllowed = objectCodeAllowed && executeApplicationParameterRestriction(GLOBAL_FIELD_RESTRICTIONS_GROUP_NM, OBJECT_CONSOLIDATION_GLOBAL_RESTRICTION_PARM_NM, accountingLine.getObjectCode().getFinancialObjectLevel().getFinancialConsolidationObjectCode(), errorKey, "Object consolidation code");
 
         /* get mcc restriction from transaction */
         String mccRestriction = "";
@@ -137,8 +125,7 @@ public class ProcurementCardDocumentRule extends TransactionalDocumentRuleBase {
         List pcTransactions = pcDocument.getTransactionEntries();
         for (Iterator iter = pcTransactions.iterator(); iter.hasNext();) {
             ProcurementCardTransactionDetail transactionEntry = (ProcurementCardTransactionDetail) iter.next();
-            if (transactionEntry.getFinancialDocumentTransactionLineNumber().equals(
-                    line.getFinancialDocumentTransactionLineNumber())) {
+            if (transactionEntry.getFinancialDocumentTransactionLineNumber().equals(line.getFinancialDocumentTransactionLineNumber())) {
                 mccRestriction = transactionEntry.getProcurementCardVendor().getTransactionMerchantCategoryCode();
             }
         }
@@ -148,14 +135,10 @@ public class ProcurementCardDocumentRule extends TransactionalDocumentRuleBase {
         }
 
         /* check object code is in permitted list for mcc */
-        objectCodeAllowed = objectCodeAllowed
-                && executeApplicationParameterRestriction(MCC_OBJECT_CODE_GROUP_NM, MCC_PARM_PREFIX + mccRestriction,
-                        accountingLine.getFinancialObjectCode(), errorKey, "Object code");
+        objectCodeAllowed = objectCodeAllowed && executeApplicationParameterRestriction(MCC_OBJECT_CODE_GROUP_NM, MCC_PARM_PREFIX + mccRestriction, accountingLine.getFinancialObjectCode(), errorKey, "Object code");
 
         /* check object sub type is in permitted list for mcc */
-        objectCodeAllowed = objectCodeAllowed
-                && executeApplicationParameterRestriction(MCC_OBJECT_SUB_TYPE_GROUP_NM, MCC_PARM_PREFIX + mccRestriction,
-                        accountingLine.getObjectCode().getFinancialObjectSubTypeCode(), errorKey, "Object sub type code");
+        objectCodeAllowed = objectCodeAllowed && executeApplicationParameterRestriction(MCC_OBJECT_SUB_TYPE_GROUP_NM, MCC_PARM_PREFIX + mccRestriction, accountingLine.getObjectCode().getFinancialObjectSubTypeCode(), errorKey, "Object sub type code");
 
         return objectCodeAllowed;
     }
@@ -176,26 +159,20 @@ public class ProcurementCardDocumentRule extends TransactionalDocumentRuleBase {
         }
 
         /* global account number restrictions */
-        accountNumberAllowed = accountNumberAllowed
-                && executeApplicationParameterRestriction(GLOBAL_FIELD_RESTRICTIONS_GROUP_NM,
-                        ACCOUNT_NUMBER_GLOBAL_RESTRICTION_PARM_NM, accountingLine.getAccountNumber(), errorKey, "Account number");
+        accountNumberAllowed = accountNumberAllowed && executeApplicationParameterRestriction(GLOBAL_FIELD_RESTRICTIONS_GROUP_NM, ACCOUNT_NUMBER_GLOBAL_RESTRICTION_PARM_NM, accountingLine.getAccountNumber(), errorKey, "Account number");
 
         /* global sub fund restrictions */
-        accountNumberAllowed = accountNumberAllowed
-                && executeApplicationParameterRestriction(GLOBAL_FIELD_RESTRICTIONS_GROUP_NM, SUB_FUND_GLOBAL_RESTRICTION_PARM_NM,
-                        accountingLine.getAccount().getSubFundGroupCode(), errorKey, "Sub fund code");
+        accountNumberAllowed = accountNumberAllowed && executeApplicationParameterRestriction(GLOBAL_FIELD_RESTRICTIONS_GROUP_NM, SUB_FUND_GLOBAL_RESTRICTION_PARM_NM, accountingLine.getAccount().getSubFundGroupCode(), errorKey, "Sub fund code");
 
         /* global function code restrictions */
-        accountNumberAllowed = accountNumberAllowed
-                && executeApplicationParameterRestriction(GLOBAL_FIELD_RESTRICTIONS_GROUP_NM,
-                        FUNCTION_CODE_GLOBAL_RESTRICTION_PARM_NM, accountingLine.getAccount().getFinancialHigherEdFunctionCd(),
-                        errorKey, "Function code");
+        accountNumberAllowed = accountNumberAllowed && executeApplicationParameterRestriction(GLOBAL_FIELD_RESTRICTIONS_GROUP_NM, FUNCTION_CODE_GLOBAL_RESTRICTION_PARM_NM, accountingLine.getAccount().getFinancialHigherEdFunctionCd(), errorKey, "Function code");
 
         return accountNumberAllowed;
     }
 
     /**
      * On procurement card, positive source amounts are credits, negative source amounts are debits
+     * 
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#isDebit(org.kuali.core.bo.AccountingLine)
      */
     public boolean isDebit(AccountingLine accountingLine) throws IllegalStateException {
@@ -204,6 +181,7 @@ public class ProcurementCardDocumentRule extends TransactionalDocumentRuleBase {
 
     /**
      * Override for fiscal officer full approve, in which case any account can be used.
+     * 
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#accountIsAccessible(org.kuali.core.document.TransactionalDocument,
      *      org.kuali.core.bo.AccountingLine)
      */
@@ -227,12 +205,14 @@ public class ProcurementCardDocumentRule extends TransactionalDocumentRuleBase {
 
     /**
      * For transactions that are credits back from the bank, accounting lines can be negative.
-     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#isAmountValid(org.kuali.core.document.TransactionalDocument, org.kuali.core.bo.AccountingLine)
+     * 
+     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#isAmountValid(org.kuali.core.document.TransactionalDocument,
+     *      org.kuali.core.bo.AccountingLine)
      */
     @Override
     public boolean isAmountValid(TransactionalDocument document, AccountingLine accountingLine) {
         return true;
     }
-    
-    
+
+
 }

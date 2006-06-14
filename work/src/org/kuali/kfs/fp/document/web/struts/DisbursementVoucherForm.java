@@ -126,6 +126,7 @@ public class DisbursementVoucherForm extends KualiTransactionalDocumentFormBase 
 
     /**
      * Returns list of available travel expense type codes for rendering per diem link page.
+     * 
      * @return
      */
     public List getTravelPerDiemCategoryCodes() {
@@ -137,12 +138,11 @@ public class DisbursementVoucherForm extends KualiTransactionalDocumentFormBase 
 
     /**
      * Returns the per diem link message from the parameters table.
+     * 
      * @return
      */
     public String getTravelPerDiemLinkPageMessage() {
-        return SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(
-                DisbursementVoucherRuleConstants.DV_DOCUMENT_PARAMETERS_GROUP_NM,
-                DisbursementVoucherRuleConstants.TRAVEL_PER_DIEM_MESSAGE_PARM_NM);
+        return SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(DisbursementVoucherRuleConstants.DV_DOCUMENT_PARAMETERS_GROUP_NM, DisbursementVoucherRuleConstants.TRAVEL_PER_DIEM_MESSAGE_PARM_NM);
     }
 
 }

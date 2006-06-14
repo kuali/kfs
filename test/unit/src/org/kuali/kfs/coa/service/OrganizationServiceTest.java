@@ -32,70 +32,71 @@ import org.kuali.test.KualiTestBase;
 
 /**
  * This class tests the Organization service.
+ * 
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public class OrganizationServiceTest extends KualiTestBase {
-  private OrganizationServiceImpl organizationService;
-  private FakeOrganizationDao organizationDao;
+    private OrganizationServiceImpl organizationService;
+    private FakeOrganizationDao organizationDao;
 
-  protected void setUp() throws Exception {
-    super.setUp();
+    protected void setUp() throws Exception {
+        super.setUp();
 
-    organizationDao = new FakeOrganizationDao();
-    organizationService = new OrganizationServiceImpl();
-    organizationService.setOrganizationDao(organizationDao);
-  }
-
-  public void testSave() throws Exception {
-    Org o = new Org();
-    o.setChartOfAccountsCode("XX");
-    o.setOrganizationCode("ZZZZ");
-    o.setOrganizationName("Sleep Org");
-
-    organizationService.save(o);
-    assertNotNull("Didn't save",organizationDao.saved);
-    assertEquals("Wrong chart","XX",organizationDao.saved.getChartOfAccountsCode());
-    assertEquals("Wrong code","ZZZZ",organizationDao.saved.getOrganizationCode());
-    assertEquals("Wrong name","Sleep Org",organizationDao.saved.getOrganizationName());
-  }
-
-  public void testGetByPrimaryId() throws Exception {
-    Org o = new Org();
-    o.setChartOfAccountsCode("XX");
-    o.setOrganizationCode("ZZZZ");
-    o.setOrganizationName("Sleep Org");
-
-    organizationDao.retrieved = o;
-    Org retrieved = organizationService.getByPrimaryId("X","Y");
-    assertNotNull("Didn't save",retrieved);
-    assertEquals("Wrong chart","XX",retrieved.getChartOfAccountsCode());
-    assertEquals("Wrong code","ZZZZ",retrieved.getOrganizationCode());
-    assertEquals("Wrong name","Sleep Org",retrieved.getOrganizationName());
-
-    organizationDao.retrieved = null;
-    retrieved = organizationService.getByPrimaryId("X","Y");
-    assertNull("Retrieved org that shouldn't have existed",retrieved);
-  }
-
-  class FakeOrganizationDao implements OrganizationDao {
-    public Org saved;
-    public Org retrieved;
-
-    public Org getByPrimaryId(String chartOfAccountsCode, String organizationCode) {
-      return retrieved;
+        organizationDao = new FakeOrganizationDao();
+        organizationService = new OrganizationServiceImpl();
+        organizationService.setOrganizationDao(organizationDao);
     }
 
-    public void save(Org organization) {
-      saved = organization;
+    public void testSave() throws Exception {
+        Org o = new Org();
+        o.setChartOfAccountsCode("XX");
+        o.setOrganizationCode("ZZZZ");
+        o.setOrganizationName("Sleep Org");
+
+        organizationService.save(o);
+        assertNotNull("Didn't save", organizationDao.saved);
+        assertEquals("Wrong chart", "XX", organizationDao.saved.getChartOfAccountsCode());
+        assertEquals("Wrong code", "ZZZZ", organizationDao.saved.getOrganizationCode());
+        assertEquals("Wrong name", "Sleep Org", organizationDao.saved.getOrganizationName());
     }
-    
-    public List getActiveAccountsByOrg(String chartOfAccountsCode, String organizationCode) {
-        return Collections.EMPTY_LIST;
+
+    public void testGetByPrimaryId() throws Exception {
+        Org o = new Org();
+        o.setChartOfAccountsCode("XX");
+        o.setOrganizationCode("ZZZZ");
+        o.setOrganizationName("Sleep Org");
+
+        organizationDao.retrieved = o;
+        Org retrieved = organizationService.getByPrimaryId("X", "Y");
+        assertNotNull("Didn't save", retrieved);
+        assertEquals("Wrong chart", "XX", retrieved.getChartOfAccountsCode());
+        assertEquals("Wrong code", "ZZZZ", retrieved.getOrganizationCode());
+        assertEquals("Wrong name", "Sleep Org", retrieved.getOrganizationName());
+
+        organizationDao.retrieved = null;
+        retrieved = organizationService.getByPrimaryId("X", "Y");
+        assertNull("Retrieved org that shouldn't have existed", retrieved);
     }
-    
-    public List getActiveChildOrgs(String chartOfAccountsCode, String organizationCode) {
-        return Collections.EMPTY_LIST;
+
+    class FakeOrganizationDao implements OrganizationDao {
+        public Org saved;
+        public Org retrieved;
+
+        public Org getByPrimaryId(String chartOfAccountsCode, String organizationCode) {
+            return retrieved;
+        }
+
+        public void save(Org organization) {
+            saved = organization;
+        }
+
+        public List getActiveAccountsByOrg(String chartOfAccountsCode, String organizationCode) {
+            return Collections.EMPTY_LIST;
+        }
+
+        public List getActiveChildOrgs(String chartOfAccountsCode, String organizationCode) {
+            return Collections.EMPTY_LIST;
+        }
+
     }
-    
-  }
 }

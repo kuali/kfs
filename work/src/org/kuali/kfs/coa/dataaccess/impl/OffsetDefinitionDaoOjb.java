@@ -31,13 +31,15 @@ import org.springframework.orm.ojb.PersistenceBrokerTemplate;
 
 /**
  * This class is the OJB implementation of the OffsetDefinitionDao interface.
+ * 
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
-*/
-public class OffsetDefinitionDaoOjb extends PersistenceBrokerTemplate
-    implements OffsetDefinitionDao {
+ */
+public class OffsetDefinitionDaoOjb extends PersistenceBrokerTemplate implements OffsetDefinitionDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OffsetDefinitionDaoOjb.class);
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.kuali.dao.OffsetDefinitionDao#getByPrimaryId(java.lang.Long, java.lang.String, java.lang.String, java.lang.String)
      */
     public OffsetDefinition getByPrimaryId(Integer universityFiscalYear, String chartOfAccountsCode, String financialDocumentTypeCode, String financialBalanceTypeCode) {
@@ -47,7 +49,6 @@ public class OffsetDefinitionDaoOjb extends PersistenceBrokerTemplate
         criteria.addEqualTo("financialDocumentTypeCode", financialDocumentTypeCode);
         criteria.addEqualTo("financialBalanceTypeCode", financialBalanceTypeCode);
 
-        return (OffsetDefinition) getObjectByQuery(QueryFactory.newQuery(OffsetDefinition.class,
-                criteria));
+        return (OffsetDefinition) getObjectByQuery(QueryFactory.newQuery(OffsetDefinition.class, criteria));
     }
 }

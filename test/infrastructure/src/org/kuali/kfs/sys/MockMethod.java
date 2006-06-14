@@ -31,7 +31,7 @@ import junit.framework.AssertionFailedError;
 
 /**
  * This class implements a method for a {@link MockService}.
- *
+ * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class MockMethod {
@@ -42,10 +42,10 @@ public class MockMethod {
 
     /**
      * Constructs a new instance.
-     *
+     * 
      * @param name the name of the method to mock
-     * @param noResultFallback the Object on which to actually invoke this method if no mock results are associated,
-     * or null if an AssertionFailedError should be thrown in this case instead.
+     * @param noResultFallback the Object on which to actually invoke this method if no mock results are associated, or null if an
+     *        AssertionFailedError should be thrown in this case instead.
      */
     public MockMethod(String name, Object noResultFallback) {
         this.name = name;
@@ -58,21 +58,20 @@ public class MockMethod {
 
     /**
      * Sets a result from this method for the given list of arguments.
-     *
+     * 
      * @param result the result to return for invoking with the given args
-     * @param args the arguments to associate with the given result.
-     * The given array is copied, but if the hashCode or equality of Objects in this array change,
-     * then the invoke method may fail to find the associated result.
+     * @param args the arguments to associate with the given result. The given array is copied, but if the hashCode or equality of
+     *        Objects in this array change, then the invoke method may fail to find the associated result.
      */
     public void setResult(Object result, Object[] args) {
         argListToResultMap.put(Arrays.asList((Object[]) args.clone()), result);
     }
 
     /**
-     * Returns the result associated with the given list of arguments (regardless of the given method).
-     * If there are no associated results, invokes the given method on the noResultFallback Object.
-     * If the noResultFallback Object is null, throws an AssertionFailedError.
-     *
+     * Returns the result associated with the given list of arguments (regardless of the given method). If there are no associated
+     * results, invokes the given method on the noResultFallback Object. If the noResultFallback Object is null, throws an
+     * AssertionFailedError.
+     * 
      * @see java.lang.reflect.InvocationHandler#invoke
      */
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {

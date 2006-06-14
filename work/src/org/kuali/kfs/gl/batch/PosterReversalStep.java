@@ -27,29 +27,29 @@ import org.kuali.module.gl.service.PosterService;
 
 /**
  * @author jsissom
- *
+ * 
  */
 public class PosterReversalStep implements Step {
-  private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PosterReversalStep.class);
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PosterReversalStep.class);
 
-  private PosterService posterService;
+    private PosterService posterService;
 
-  public PosterReversalStep() {
-    super();
-  }
+    public PosterReversalStep() {
+        super();
+    }
 
-  public String getName() {
-    return "Poster of Reversed Entries";
-  }
+    public String getName() {
+        return "Poster of Reversed Entries";
+    }
 
-  public boolean performStep() {
-    LOG.debug("performStep() started");
+    public boolean performStep() {
+        LOG.debug("performStep() started");
 
-    posterService.postReversalEntries();
-    return true;
-  }
+        posterService.postReversalEntries();
+        return true;
+    }
 
-  public void setPosterService(PosterService ps) {
-    posterService = ps;
-  }
+    public void setPosterService(PosterService ps) {
+        posterService = ps;
+    }
 }

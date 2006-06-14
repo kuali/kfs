@@ -36,14 +36,16 @@ import org.kuali.test.KualiTestBaseWithFixtures;
  */
 public class CashDetailTypeCodeServiceTest extends KualiTestBaseWithFixtures {
     private ArrayList validCashDetailTypeCodes;
-    
+
     private CashDetailTypeCodeService cashDetailTypeCodeService;
 
     protected void setUp() throws Exception {
         super.setUp();
         this.cashDetailTypeCodeService = SpringServiceLocator.getCashDetailTypeCodeService();
-        //this.validCashDetailTypeCodes = (ArrayList) SpringServiceLocator.getBusinessObjectService().findAll(CashDetailTypeCodeService.class);
-        //TODO - uncomment the above line of code when the database table for cash detail type codes is put in place and populated; remove the line below
+        // this.validCashDetailTypeCodes = (ArrayList)
+        // SpringServiceLocator.getBusinessObjectService().findAll(CashDetailTypeCodeService.class);
+        // TODO - uncomment the above line of code when the database table for cash detail type codes is put in place and populated;
+        // remove the line below
         populateValidCashDetailTypeCodes();
     }
 
@@ -57,13 +59,13 @@ public class CashDetailTypeCodeServiceTest extends KualiTestBaseWithFixtures {
     public void testGetCashReceiptTypeCode() {
         assertEquals(true, validCashDetailTypeCodes.contains(cashDetailTypeCodeService.getCashReceiptCheckTypeCode()));
     }
-    
+
     private CashDetailTypeCode getDummyInstance(String cashDetailTypeCodeCode) {
         CashDetailTypeCode cashDetailTypeCode = new CashDetailTypeCode();
         cashDetailTypeCode.setCode(cashDetailTypeCodeCode);
         return cashDetailTypeCode;
     }
-    
+
     /**
      * TODO Remove this once the database table is in place.
      */

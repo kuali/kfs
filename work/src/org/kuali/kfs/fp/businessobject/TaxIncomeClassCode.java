@@ -33,10 +33,10 @@ import org.kuali.core.bo.KualiCodeBase;
 public class TaxIncomeClassCode extends KualiCodeBase {
 
     /**
-	 * Default no-arg constructor.
-	 */
-	public TaxIncomeClassCode() {
+     * Default no-arg constructor.
+     */
+    public TaxIncomeClassCode() {
 
-	}
+    }
 
 }

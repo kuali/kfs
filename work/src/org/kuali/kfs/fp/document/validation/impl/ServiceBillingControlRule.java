@@ -36,7 +36,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * This class validates the ServiceBillingControl maintenance document.
- *
+ * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class ServiceBillingControlRule extends MaintenanceDocumentRuleBase {
@@ -54,7 +54,7 @@ public class ServiceBillingControlRule extends MaintenanceDocumentRuleBase {
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
         isValidWorkgroup();
-        //	Save always succeeds, even if there are business rule failures
+        // Save always succeeds, even if there are business rule failures
         return true;
     }
 
@@ -70,12 +70,12 @@ public class ServiceBillingControlRule extends MaintenanceDocumentRuleBase {
 
     /**
      * Adds a global error for the workgroupName field if it doesn't exist or is inactive.
-     *
+     * 
      * @return whether it exists and is active
      */
     private boolean isValidWorkgroup() {
         String name = getNewServiceBillingControl().getWorkgroupName();
-        if(StringUtils.isNotBlank(name)) {
+        if (StringUtils.isNotBlank(name)) {
             if (!workgroupExistsAndIsActive(name)) {
                 putFieldErrorWithShortLabel(PropertyConstants.WORKGROUP_NAME, KeyConstants.ERROR_EXISTENCE);
                 return false;
@@ -86,7 +86,7 @@ public class ServiceBillingControlRule extends MaintenanceDocumentRuleBase {
 
     /**
      * Checks whether the given workgroup exists and is active.
-     *
+     * 
      * @param name the workgroup to check
      * @return whether the given workgroup exists and is active.
      */

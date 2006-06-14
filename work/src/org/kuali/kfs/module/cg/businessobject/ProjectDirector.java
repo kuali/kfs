@@ -50,7 +50,7 @@ public class ProjectDirector extends BusinessObjectBase {
      * Gets the personUniversal attribute.
      * 
      * @return - Returns the personUniversal
-     *  
+     * 
      */
     public UniversalUser getUniversalUser() {
         return universalUser;

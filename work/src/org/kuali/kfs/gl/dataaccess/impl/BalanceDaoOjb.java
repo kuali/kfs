@@ -45,7 +45,7 @@ import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 /**
  * @author jsissom
  * @author Laran Evans <lc278@cornell.edu>
- * @version $Id: BalanceDaoOjb.java,v 1.30 2006-06-05 19:45:23 jkneal Exp $
+ * @version $Id: BalanceDaoOjb.java,v 1.31 2006-06-14 12:26:35 abyrne Exp $
  */
 public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements BalanceDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BalanceDaoOjb.class);
@@ -53,53 +53,55 @@ public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements Balanc
     public BalanceDaoOjb() {
         super();
     }
-    
-    /* (non-Javadoc)
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.kuali.module.gl.dao.BalanceDao#findBalancesForFiscalYear(java.lang.Integer)
      */
     public Iterator<Balance> findBalancesForFiscalYear(Integer year) {
-        
+
         // from gleacbfb (balance forward) cobol program
-        
-//        744  002750        DECLARE GLBL_CURSOR CURSOR FOR
-//        745  002760          SELECT UNIV_FISCAL_YR,
-//        746  002770                 FIN_COA_CD,
-//        747  002780                 ACCOUNT_NBR,
-//        748  002790                 SUB_ACCT_NBR,
-//        749  002800                 FIN_OBJECT_CD,
-//        750  002810                 FIN_SUB_OBJ_CD,
-//        751  002820                 FIN_BALANCE_TYP_CD,
-//        752  002830                 FIN_OBJ_TYP_CD,
-//        753  002840                 ACLN_ANNL_BAL_AMT,
-//        754  002850                 FIN_BEG_BAL_LN_AMT,
-//        755  002860                 CONTR_GR_BB_AC_AMT,
-//        756  002870                 MO1_ACCT_LN_AMT,
-//        757  002880                 MO2_ACCT_LN_AMT,
-//        758  002890                 MO3_ACCT_LN_AMT,
-//        759  002900                 MO4_ACCT_LN_AMT,
-//        760  002910                 MO5_ACCT_LN_AMT,
-//        761  002920                 MO6_ACCT_LN_AMT,
-//        762  002930                 MO7_ACCT_LN_AMT,
-//        763  002940                 MO8_ACCT_LN_AMT,
-//        764  002950                 MO9_ACCT_LN_AMT,
-//        765  002960                 MO10_ACCT_LN_AMT,
-//        766  002970                 MO11_ACCT_LN_AMT,
-//        767  002980                 MO12_ACCT_LN_AMT,
-//        768  002990                 MO13_ACCT_LN_AMT
-//        769  003000           FROM  GL_BALANCE_T
-//        770  003010           WHERE UNIV_FISCAL_YR = RTRIM(:GLGLBL-UNIV-FISCAL-YR)
-//        771  003020           ORDER BY FIN_COA_CD,
-//        772  003030                    ACCOUNT_NBR,
-//        773  003040                    SUB_ACCT_NBR,
-//        774  003050                    FIN_OBJECT_CD,
-//        775  003060                    FIN_SUB_OBJ_CD,
-//        776  003070                    FIN_BALANCE_TYP_CD,
-//        777  003080                    FIN_OBJ_TYP_CD
-//        778  003090           END-EXEC.        
-        
+
+        // 744 002750 DECLARE GLBL_CURSOR CURSOR FOR
+        // 745 002760 SELECT UNIV_FISCAL_YR,
+        // 746 002770 FIN_COA_CD,
+        // 747 002780 ACCOUNT_NBR,
+        // 748 002790 SUB_ACCT_NBR,
+        // 749 002800 FIN_OBJECT_CD,
+        // 750 002810 FIN_SUB_OBJ_CD,
+        // 751 002820 FIN_BALANCE_TYP_CD,
+        // 752 002830 FIN_OBJ_TYP_CD,
+        // 753 002840 ACLN_ANNL_BAL_AMT,
+        // 754 002850 FIN_BEG_BAL_LN_AMT,
+        // 755 002860 CONTR_GR_BB_AC_AMT,
+        // 756 002870 MO1_ACCT_LN_AMT,
+        // 757 002880 MO2_ACCT_LN_AMT,
+        // 758 002890 MO3_ACCT_LN_AMT,
+        // 759 002900 MO4_ACCT_LN_AMT,
+        // 760 002910 MO5_ACCT_LN_AMT,
+        // 761 002920 MO6_ACCT_LN_AMT,
+        // 762 002930 MO7_ACCT_LN_AMT,
+        // 763 002940 MO8_ACCT_LN_AMT,
+        // 764 002950 MO9_ACCT_LN_AMT,
+        // 765 002960 MO10_ACCT_LN_AMT,
+        // 766 002970 MO11_ACCT_LN_AMT,
+        // 767 002980 MO12_ACCT_LN_AMT,
+        // 768 002990 MO13_ACCT_LN_AMT
+        // 769 003000 FROM GL_BALANCE_T
+        // 770 003010 WHERE UNIV_FISCAL_YR = RTRIM(:GLGLBL-UNIV-FISCAL-YR)
+        // 771 003020 ORDER BY FIN_COA_CD,
+        // 772 003030 ACCOUNT_NBR,
+        // 773 003040 SUB_ACCT_NBR,
+        // 774 003050 FIN_OBJECT_CD,
+        // 775 003060 FIN_SUB_OBJ_CD,
+        // 776 003070 FIN_BALANCE_TYP_CD,
+        // 777 003080 FIN_OBJ_TYP_CD
+        // 778 003090 END-EXEC.
+
         Criteria c = new Criteria();
         c.addEqualTo("universityFiscalYear", year);
-        
+
         QueryByCriteria query = QueryFactory.newQuery(Balance.class, c);
         query.addOrderByAscending("chartOfAccountsCode");
         query.addOrderByAscending("accountNumber");
@@ -108,7 +110,7 @@ public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements Balanc
         query.addOrderByAscending("subObjectCode");
         query.addOrderByAscending("balanceTypeCode");
         query.addOrderByAscending("objectTypeCode");
-        
+
         return getPersistenceBrokerTemplate().getIteratorByQuery(query);
     }
 
@@ -152,7 +154,7 @@ public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements Balanc
      * @param criteria - the criteria that might have a criterion appended
      * @param name - name of the attribute
      * @param collection - the collection to inspect
-     *  
+     * 
      */
     private void criteriaBuilder(Criteria criteria, String name, Collection collection) {
         criteriaBuilderHelper(criteria, name, collection, false);
@@ -160,7 +162,7 @@ public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements Balanc
 
     /**
      * Similar to criteriaBuilder, this adds a negative criterion (NOT EQUALS, NOT IN)
-     *  
+     * 
      */
     private void negatedCriteriaBuilder(Criteria criteria, String name, Collection collection) {
         criteriaBuilderHelper(criteria, name, collection, true);
@@ -171,7 +173,7 @@ public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements Balanc
      * This method provides the implementation for the conveniences methods criteriaBuilder & negatedCriteriaBuilder
      * 
      * @param negate - the criterion will be negated (NOT EQUALS, NOT IN) when this is true
-     *  
+     * 
      */
     private void criteriaBuilderHelper(Criteria criteria, String name, Collection collection, boolean negate) {
         if (collection != null) {
@@ -197,8 +199,7 @@ public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements Balanc
 
     }
 
-    public Iterator<Balance> findBalances(Account account, Integer fiscalYear, Collection includedObjectCodes,
-            Collection excludedObjectCodes, Collection objectTypeCodes, Collection balanceTypeCodes) {
+    public Iterator<Balance> findBalances(Account account, Integer fiscalYear, Collection includedObjectCodes, Collection excludedObjectCodes, Collection objectTypeCodes, Collection balanceTypeCodes) {
 
         Criteria criteria = new Criteria();
 
@@ -319,7 +320,7 @@ public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements Balanc
         }
         return criteria;
     }
-    
+
     /**
      * This method builds an balance type code list
      * 
@@ -344,7 +345,7 @@ public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements Balanc
      */
     private List<String> buildAttributeList(boolean isExtended) {
         List attributeList = this.buildGroupByList();
-        
+
         attributeList.add("sum(accountLineAnnualBalanceAmount)");
         attributeList.add("sum(beginningBalanceLineAmount)");
         attributeList.add("sum(contractsGrantsBeginningBalanceAmount)");
@@ -399,21 +400,20 @@ public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements Balanc
         QueryByCriteria qbc = QueryFactory.newQuery(SufficientFundBalances.class, crit);
         return (Balance) getPersistenceBrokerTemplate().getObjectByQuery(qbc);
     }
-    
-    
-    
+
+
     /**
-     * @see org.kuali.module.gl.dao.BalanceDao#getCurrentBudgetForObjectCode(java.lang.Integer, java.lang.String, java.lang.String, java.lang.String)
+     * @see org.kuali.module.gl.dao.BalanceDao#getCurrentBudgetForObjectCode(java.lang.Integer, java.lang.String, java.lang.String,
+     *      java.lang.String)
      */
-    public Balance getCurrentBudgetForObjectCode(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber,
-            String objectCode) {
+    public Balance getCurrentBudgetForObjectCode(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String objectCode) {
         Criteria crit = new Criteria();
         crit.addEqualTo("universityFiscalYear", universityFiscalYear);
         crit.addEqualTo("chartOfAccountsCode", chartOfAccountsCode);
         crit.addEqualTo("accountNumber", accountNumber);
         crit.addEqualTo("objectCode", objectCode);
         crit.addEqualTo("balanceTypeCode", Constants.BALANCE_TYPE_CURRENT_BUDGET);
-        
+
         QueryByCriteria qbc = QueryFactory.newQuery(Balance.class, crit);
         return (Balance) getPersistenceBrokerTemplate().getObjectByQuery(qbc);
     }
@@ -427,13 +427,12 @@ public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements Balanc
      * @return balances sorted by object code
      */
     public Iterator<Balance> findAccountBalances(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber) {
-      LOG.debug("findAccountBalances() started");
-      return this.findAccountBalances(universityFiscalYear, chartOfAccountsCode, accountNumber, Constants.SF_TYPE_OBJECT);
+        LOG.debug("findAccountBalances() started");
+        return this.findAccountBalances(universityFiscalYear, chartOfAccountsCode, accountNumber, Constants.SF_TYPE_OBJECT);
     }
 
     /**
-     * Find all matching account balances.  The Sufficient funds code is used to determine the sort of the
-     * results.
+     * Find all matching account balances. The Sufficient funds code is used to determine the sort of the results.
      * 
      * @param universityFiscalYear
      * @param chartOfAccountsCode
@@ -441,7 +440,7 @@ public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements Balanc
      * @param sfCode
      * @return
      */
-    public Iterator<Balance> findAccountBalances(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber,String sfCode) {
+    public Iterator<Balance> findAccountBalances(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String sfCode) {
         LOG.debug("findAccountBalances() started");
 
         Criteria crit = new Criteria();
@@ -450,12 +449,14 @@ public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements Balanc
         crit.addEqualTo("accountNumber", accountNumber);
 
         QueryByCriteria qbc = QueryFactory.newQuery(Balance.class, crit);
-        if ( Constants.SF_TYPE_OBJECT.equals(sfCode) ) {
-          qbc.addOrderByAscending("objectCode");
-        } else if ( Constants.SF_TYPE_LEVEL.equals(sfCode) ) {
-          qbc.addOrderByAscending("financialObject.financialObjectLevelCode");
-        } else if ( Constants.SF_TYPE_CONSOLIDATION.equals(sfCode) ) {
-          qbc.addOrderByAscending("financialObject.financialObjectLevel.financialConsolidationObjectCode");
+        if (Constants.SF_TYPE_OBJECT.equals(sfCode)) {
+            qbc.addOrderByAscending("objectCode");
+        }
+        else if (Constants.SF_TYPE_LEVEL.equals(sfCode)) {
+            qbc.addOrderByAscending("financialObject.financialObjectLevelCode");
+        }
+        else if (Constants.SF_TYPE_CONSOLIDATION.equals(sfCode)) {
+            qbc.addOrderByAscending("financialObject.financialObjectLevel.financialConsolidationObjectCode");
         }
         return getPersistenceBrokerTemplate().getIteratorByQuery(qbc);
     }
@@ -467,18 +468,18 @@ public class BalanceDaoOjb extends PersistenceBrokerDaoSupport implements Balanc
      * @param chart
      * @param year
      */
-    public void purgeYearByChart(String chartOfAccountsCode,int year) {
+    public void purgeYearByChart(String chartOfAccountsCode, int year) {
         LOG.debug("purgeYearByChart() started");
 
         Criteria criteria = new Criteria();
         criteria.addEqualTo("chartOfAccountsCode", chartOfAccountsCode);
         criteria.addLessThan("universityFiscalYear", new Integer(year));
 
-        getPersistenceBrokerTemplate().deleteByQuery(new QueryByCriteria(Balance.class,criteria));
+        getPersistenceBrokerTemplate().deleteByQuery(new QueryByCriteria(Balance.class, criteria));
 
         // This is required because if any deleted account balances are in the cache, deleteByQuery doesn't
         // remove them from the cache so a future select will retrieve these deleted account balances from
-        // the cache and return them.  Clearing the cache forces OJB to go to the database again.
+        // the cache and return them. Clearing the cache forces OJB to go to the database again.
         getPersistenceBrokerTemplate().clearCache();
     }
 }

@@ -107,7 +107,7 @@ public class Entry extends BusinessObjectBase implements Transaction {
     public Entry(Transaction t, java.util.Date postDate) {
         super();
         this.dummyBusinessObject = new DummyBusinessObject();
-        
+
         setUniversityFiscalYear(t.getUniversityFiscalYear());
         setChartOfAccountsCode(t.getChartOfAccountsCode());
         setAccountNumber(t.getAccountNumber());
@@ -793,7 +793,8 @@ public class Entry extends BusinessObjectBase implements Transaction {
     }
 
     /**
-     * Gets the budgetYear attribute. 
+     * Gets the budgetYear attribute.
+     * 
      * @return Returns the budgetYear.
      */
     public Integer getBudgetYear() {
@@ -802,6 +803,7 @@ public class Entry extends BusinessObjectBase implements Transaction {
 
     /**
      * Sets the budgetYear attribute value.
+     * 
      * @param budgetYear The budgetYear to set.
      */
     public void setBudgetYear(Integer budgetYear) {
@@ -809,7 +811,8 @@ public class Entry extends BusinessObjectBase implements Transaction {
     }
 
     /**
-     * Gets the budgetYearFundingSourceCode attribute. 
+     * Gets the budgetYearFundingSourceCode attribute.
+     * 
      * @return Returns the budgetYearFundingSourceCode.
      */
     public String getBudgetYearFundingSourceCode() {
@@ -818,6 +821,7 @@ public class Entry extends BusinessObjectBase implements Transaction {
 
     /**
      * Sets the budgetYearFundingSourceCode attribute value.
+     * 
      * @param budgetYearFundingSourceCode The budgetYearFundingSourceCode to set.
      */
     public void setBudgetYearFundingSourceCode(String budgetYearFundingSourceCode) {

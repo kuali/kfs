@@ -26,6 +26,7 @@ import org.kuali.core.bo.KualiSystemCode;
 
 /**
  * This class...
+ * 
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public class SufficientFundsCode extends KualiSystemCode {

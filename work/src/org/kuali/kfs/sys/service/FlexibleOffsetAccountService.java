@@ -27,43 +27,41 @@ import org.kuali.module.financial.bo.OffsetAccount;
 
 /**
  * This interface defines methods that a FlexibleOffsetAccount Service must provide.
- *
+ * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public interface FlexibleOffsetAccountService {
 
     /**
-     * Retrieves the OffsetAccount by its composite primary key (all passed in as parameters)
-     * if the SYSTEM parameter FLEXIBLE_OFFSET_ENABLED_FLAG is true.
-     *
+     * Retrieves the OffsetAccount by its composite primary key (all passed in as parameters) if the SYSTEM parameter
+     * FLEXIBLE_OFFSET_ENABLED_FLAG is true.
+     * 
      * @param chartOfAccountsCode
      * @param accountNumber
      * @param financialOffsetObjectCode
-     * @return An OffsetAccount object instance.  Returns null if there is none with the given key,
-     * or if the SYSTEM parameter FLEXIBLE_OFFSET_ENABLED_FLAG is false.
+     * @return An OffsetAccount object instance. Returns null if there is none with the given key, or if the SYSTEM parameter
+     *         FLEXIBLE_OFFSET_ENABLED_FLAG is false.
      */
     public OffsetAccount getByPrimaryIdIfEnabled(String chartOfAccountsCode, String accountNumber, String financialOffsetObjectCode);
 
     /**
      * Retrieves whether the SYSTEM parameter FLEXIBLE_OFFSET_ENABLED_FLAG is true.
-     *
+     * 
      * @return whether the SYSTEM parameter FLEXIBLE_OFFSET_ENABLED_FLAG is true.
      */
     public boolean getEnabled();
 
     /**
-     * Sets the configuration service that this service will use.
-     * This method is in the interface for tests to use mock objects.
-     * Callers should keep in mind that Spring services are singletons,
-     * so changes to one are global.
-     *
+     * Sets the configuration service that this service will use. This method is in the interface for tests to use mock objects.
+     * Callers should keep in mind that Spring services are singletons, so changes to one are global.
+     * 
      * @param kualiConfigurationService
      */
     public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService);
 
     /**
-     * Gets the configuration service that this service uses.
-     * This method is in the interface for tests to restore after using mock objects.
+     * Gets the configuration service that this service uses. This method is in the interface for tests to restore after using mock
+     * objects.
      */
     public KualiConfigurationService getKualiConfigurationService();
 }

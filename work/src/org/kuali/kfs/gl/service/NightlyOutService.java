@@ -23,9 +23,8 @@
 package org.kuali.module.gl.service;
 
 /**
- * This interface defines the batch jobs that would be run nightly against the pending
- * general ledger entries. These jobs are performed to ensure the correctness of the
- * entries. As to date, the jobs involve two functions: finding unbalanced approved
+ * This interface defines the batch jobs that would be run nightly against the pending general ledger entries. These jobs are
+ * performed to ensure the correctness of the entries. As to date, the jobs involve two functions: finding unbalanced approved
  * documents and finding bad approved documents.
  * 
  * @author Bin Gao from Michigan State University
@@ -34,15 +33,16 @@ public interface NightlyOutService {
 
     /**
      * Delete all the records that were copied to the GL.
-     *
+     * 
      */
     public void deleteCopiedPendingLedgerEntries();
 
     /**
      * 
      * This method copies the approved pending ledger entries to orign entry table
+     * 
      * @return the number of ledger entries that have been copied
-     *  
+     * 
      */
     public int copyApprovedPendingLedgerEntries();
 }

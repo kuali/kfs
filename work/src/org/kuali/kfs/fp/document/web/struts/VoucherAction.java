@@ -55,8 +55,8 @@ import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * This class piggy backs on all of the functionality in the KualiTransactionalDocumentActionBase but is necessary for this document
- * type. Vouchers are unique in that they define several fields that aren't typically used by the other financial
- * transaction processing eDocs (i.e. external system fields, object type override, credit and debit amounts).
+ * type. Vouchers are unique in that they define several fields that aren't typically used by the other financial transaction
+ * processing eDocs (i.e. external system fields, object type override, credit and debit amounts).
  * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
@@ -64,19 +64,19 @@ public class VoucherAction extends KualiTransactionalDocumentActionBase {
     // used to determine which way the change balance type action is switching
     // these are local constants only used within this action class
     // these should not be used outside of this class
-	protected static final KualiDecimal ZERO = new KualiDecimal("0.00");
+    protected static final KualiDecimal ZERO = new KualiDecimal("0.00");
 
     /**
      * We want to keep the bad data for the voucher.
      * 
-     * @see org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase#revertAccountingLine(org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase, int, org.kuali.core.bo.AccountingLine, org.kuali.core.bo.AccountingLine)
+     * @see org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase#revertAccountingLine(org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase,
+     *      int, org.kuali.core.bo.AccountingLine, org.kuali.core.bo.AccountingLine)
      */
-    protected boolean revertAccountingLine(KualiTransactionalDocumentFormBase transForm, int revertIndex,
-            AccountingLine originalLine, AccountingLine brokenLine) {
+    protected boolean revertAccountingLine(KualiTransactionalDocumentFormBase transForm, int revertIndex, AccountingLine originalLine, AccountingLine brokenLine) {
         boolean reverted = super.revertAccountingLine(transForm, revertIndex, originalLine, brokenLine);
 
         if (reverted) {
-			VoucherForm vForm = (VoucherForm) transForm;
+            VoucherForm vForm = (VoucherForm) transForm;
             VoucherAccountingLineHelper helper = vForm.getVoucherLineHelper(revertIndex);
 
             String debitCreditCode = originalLine.getDebitCreditCode();
@@ -93,22 +93,22 @@ public class VoucherAction extends KualiTransactionalDocumentActionBase {
 
         return reverted;
     }
-    
+
     /**
-     * Overrides to call super, and then to repopulate the credit/debit amounts b/c the credit/debit 
-     * code might change during a voucher error correction.
+     * Overrides to call super, and then to repopulate the credit/debit amounts b/c the credit/debit code might change during a
+     * voucher error correction.
      * 
-     * @see org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase#correct(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * @see org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase#correct(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
-    public ActionForward correct(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
-        throws Exception {
+    public ActionForward correct(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward actionForward = super.correct(mapping, form, request, response);
-        
+
         VoucherForm vForm = (VoucherForm) form;
-        
-		// now make sure to repopulate credit/debit amounts
-		populateAllVoucherAccountingLineHelpers(vForm);
-        
+
+        // now make sure to repopulate credit/debit amounts
+        populateAllVoucherAccountingLineHelpers(vForm);
+
         return actionForward;
     }
 
@@ -119,8 +119,7 @@ public class VoucherAction extends KualiTransactionalDocumentActionBase {
      * @see org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase#insertSourceLine(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
-    public ActionForward insertSourceLine(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
+    public ActionForward insertSourceLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         // cast the form to the right pojo
         VoucherForm voucherForm = (VoucherForm) form;
 
@@ -131,7 +130,7 @@ public class VoucherAction extends KualiTransactionalDocumentActionBase {
             // since no exceptions were thrown, the add succeeded, so we have to re-init the new credit and debit
             // attributes, and add a new instance of a helperLine to the helperLines list
             VoucherAccountingLineHelper helperLine = populateNewVoucherAccountingLineHelper(voucherForm);
-			voucherForm.getVoucherLineHelpers().add(helperLine);
+            voucherForm.getVoucherLineHelpers().add(helperLine);
 
             // now reset the debit and credit fields for adds
             voucherForm.setNewSourceLineDebit(new KualiDecimal(0));
@@ -147,8 +146,7 @@ public class VoucherAction extends KualiTransactionalDocumentActionBase {
      * @see org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase#deleteSourceLine(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
-    public ActionForward deleteSourceLine(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
+    public ActionForward deleteSourceLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         // cast the form to the right pojo
         VoucherForm voucherForm = (VoucherForm) form;
 
@@ -171,8 +169,7 @@ public class VoucherAction extends KualiTransactionalDocumentActionBase {
      * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#route(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
-    public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
-            throws Exception {
+    public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         // process the question but we need to make sure there are lines and then check to see if it's not balanced
         VoucherDocument vDoc = ((VoucherForm) form).getVoucherDocument();
         if (vDoc.getSourceAccountingLines().size() > 0 && vDoc.getTotal().compareTo(Constants.ZERO) != 0) {
@@ -200,9 +197,9 @@ public class VoucherAction extends KualiTransactionalDocumentActionBase {
         super.loadDocument(kualiDocumentFormBase);
         VoucherForm voucherForm = (VoucherForm) kualiDocumentFormBase;
 
-		populateAllVoucherAccountingLineHelpers(voucherForm);
-		voucherForm.setNewSourceLineCredit(ZERO);
-		voucherForm.setNewSourceLineDebit(ZERO);
+        populateAllVoucherAccountingLineHelpers(voucherForm);
+        voucherForm.setNewSourceLineCredit(ZERO);
+        voucherForm.setNewSourceLineDebit(ZERO);
 
         // always wipe out the new source line
         voucherForm.setNewSourceLine(new SourceAccountingLine());
@@ -218,8 +215,7 @@ public class VoucherAction extends KualiTransactionalDocumentActionBase {
      * @param voucherDocument
      * @param voucherForm
      */
-    protected void populateSelectedAccountingPeriod(VoucherDocument voucherDocument,
-													VoucherForm voucherForm) {
+    protected void populateSelectedAccountingPeriod(VoucherDocument voucherDocument, VoucherForm voucherForm) {
         if (StringUtils.isNotBlank(voucherDocument.getPostingPeriodCode())) {
             String selectedAccountingPeriod = voucherDocument.getPostingPeriodCode();
             if (null != voucherDocument.getPostingYear()) {
@@ -256,10 +252,10 @@ public class VoucherAction extends KualiTransactionalDocumentActionBase {
     }
 
     /**
-     * This method builds the corresponding list of voucher acounting line helper objects so that a user can differentiate between credit
-     * and debit fields. It does this by iterating over each source accounting line (what the voucher uses) looking at the debit/credit
-     * code and then populateingLineHelpers a corresponding helper form instance with the amount in the appropriate amount field -
-     * credit or debit.
+     * This method builds the corresponding list of voucher acounting line helper objects so that a user can differentiate between
+     * credit and debit fields. It does this by iterating over each source accounting line (what the voucher uses) looking at the
+     * debit/credit code and then populateingLineHelpers a corresponding helper form instance with the amount in the appropriate
+     * amount field - credit or debit.
      * 
      * @param voucherForm
      */
@@ -311,8 +307,7 @@ public class VoucherAction extends KualiTransactionalDocumentActionBase {
      * @return ActionForward
      * @throws Exception
      */
-    protected ActionForward processRouteOutOfBalanceDocumentConfirmationQuestion(ActionMapping mapping, ActionForm form,
-            HttpServletRequest request, HttpServletResponse response) throws Exception {
+    protected ActionForward processRouteOutOfBalanceDocumentConfirmationQuestion(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         VoucherForm vForm = (VoucherForm) form;
         VoucherDocument avDoc = vForm.getVoucherDocument();
 
@@ -324,21 +319,15 @@ public class VoucherAction extends KualiTransactionalDocumentActionBase {
             String currencyFormattedCreditTotal = (String) new CurrencyFormatter().format(avDoc.getCreditTotal());
             String currencyFormattedTotal = (String) new CurrencyFormatter().format(avDoc.getTotal());
             String message = "";
-			message = StringUtils
-				.replace(kualiConfiguration
-						 .getPropertyString(KeyConstants.QUESTION_ROUTE_OUT_OF_BALANCE_JV_DOC), 
-						 "{0}", currencyFormattedDebitTotal);
-			message = StringUtils.replace(message, "{1}", currencyFormattedCreditTotal);
+            message = StringUtils.replace(kualiConfiguration.getPropertyString(KeyConstants.QUESTION_ROUTE_OUT_OF_BALANCE_JV_DOC), "{0}", currencyFormattedDebitTotal);
+            message = StringUtils.replace(message, "{1}", currencyFormattedCreditTotal);
 
             // now transfer control over to the question component
-            return this.performQuestionWithoutInput(mapping, form, request, response,
-                    Constants.JOURNAL_VOUCHER_ROUTE_OUT_OF_BALANCE_DOCUMENT_QUESTION, message, Constants.CONFIRMATION_QUESTION,
-                    Constants.ROUTE_METHOD, "");
+            return this.performQuestionWithoutInput(mapping, form, request, response, Constants.JOURNAL_VOUCHER_ROUTE_OUT_OF_BALANCE_DOCUMENT_QUESTION, message, Constants.CONFIRMATION_QUESTION, Constants.ROUTE_METHOD, "");
         }
         else {
             String buttonClicked = request.getParameter(Constants.QUESTION_CLICKED_BUTTON);
-            if ((Constants.JOURNAL_VOUCHER_ROUTE_OUT_OF_BALANCE_DOCUMENT_QUESTION.equals(question))
-                    && ConfirmationQuestion.NO.equals(buttonClicked)) {
+            if ((Constants.JOURNAL_VOUCHER_ROUTE_OUT_OF_BALANCE_DOCUMENT_QUESTION.equals(question)) && ConfirmationQuestion.NO.equals(buttonClicked)) {
                 GlobalVariables.getMessageList().add(KeyConstants.MESSAGE_JV_CANCELLED_ROUTE);
                 return mapping.findForward(Constants.MAPPING_BASIC);
             }
@@ -381,8 +370,7 @@ public class VoucherAction extends KualiTransactionalDocumentActionBase {
      * @throws FileNotFoundException
      * @throws IOException
      */
-    public ActionForward uploadSourceLines(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws FileNotFoundException, IOException {
+    public ActionForward uploadSourceLines(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws FileNotFoundException, IOException {
         // call method that sourceform and destination list
         uploadAccountingLines(true, form);
 

@@ -23,16 +23,15 @@
 package org.kuali.module.financial.rules;
 
 
-
 /**
  * Holds constants for cash receipts document.
  * 
  * @author Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public interface CashReceiptDocumentRuleConstants extends TransactionalDocumentRuleBaseConstants {
-    //  Security grouping constants used to do application parameter lookups
+    // Security grouping constants used to do application parameter lookups
     public static final String KUALI_TRANSACTION_PROCESSING_CASH_RECEIPT_SECURITY_GROUPING = "Kuali.FinancialTransactionProcessing.CashReceiptDocument";
-    
+
     // Application parameter lookup constants to be used in conjunction with the grouping constants above
     public static final String RESTRICTED_OBJECT_TYPE_CODES = "RestrictedObjectTypeCodes";
     public static final String RESTRICTED_OBJECT_SUB_TYPE_CODES = "RestrictedObjectSubTypeCodes";

@@ -31,92 +31,96 @@ import org.kuali.module.gl.bo.Transaction;
 
 /**
  * @author jsissom
- *
+ * 
  */
 public class VerifyTransactionImpl implements VerifyTransaction {
-  private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(VerifyTransactionImpl.class);
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(VerifyTransactionImpl.class);
 
-  public VerifyTransactionImpl() {
-    super();
-  }
-
-  /* (non-Javadoc)
-   * @see org.kuali.module.gl.batch.poster.VerifyTransaction#verifyTransaction(org.kuali.module.gl.bo.Transaction)
-   */
-  public List verifyTransaction(Transaction t) {
-    LOG.debug("verifyTransaction() started");
-
-    // List of error messages for the current transaction
-    List errors = new ArrayList();
-
-    // Check the chart of accounts code
-    if ( t.getChart() == null ) {
-      errors.add("fin_coa_cd not found in ca_chart_t");
+    public VerifyTransactionImpl() {
+        super();
     }
 
-    // Check the account
-    if ( t.getAccount() == null ) {
-      errors.add("account_nbr not found in ca_account_t");
-    }
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.kuali.module.gl.batch.poster.VerifyTransaction#verifyTransaction(org.kuali.module.gl.bo.Transaction)
+     */
+    public List verifyTransaction(Transaction t) {
+        LOG.debug("verifyTransaction() started");
 
-    // Check the object type
-    if ( t.getObjectType() == null ) {
-      errors.add("fin_obj_typ_cd not found in ca_obj_type_t");
-    }
+        // List of error messages for the current transaction
+        List errors = new ArrayList();
 
-    // Check the balance type
-    if ( t.getBalanceType() == null ) {
-      errors.add("fin_balance_typ_cd not found in ca_balance_type_t");
-    }
-
-    // Check the fiscal year
-    if ( t.getOption() == null ) {
-      errors.add("univ_fiscal_yr not found in fs_option_t");
-    }
-
-    // Check the debit/credit code (only if we have a valid balance type code)
-    if ( t.getTransactionDebitCreditCode() == null ) {
-      errors.add("trn_debit_crdt_cd cannot be null");
-    } else {
-      if ( t.getBalanceType() != null ) {
-        if ( t.getBalanceType().isFinancialOffsetGenerationIndicator() ) {
-          if ( (! Constants.GL_DEBIT_CODE.equals(t.getTransactionDebitCreditCode())) && (! Constants.GL_CREDIT_CODE.equals(t.getTransactionDebitCreditCode())) ) {
-            errors.add("trn_debit_crdt_cd must be " + Constants.GL_DEBIT_CODE + " or " + Constants.GL_CREDIT_CODE + " for this fin_balance_typ_cd");
-          }
-        } else {
-          if ( ! Constants.GL_BUDGET_CODE.equals(t.getTransactionDebitCreditCode()) ) {
-            errors.add("trn_debit_crdt_cd must be '" + Constants.GL_BUDGET_CODE + "' for this fin_balance_typ_cd");
-          }
+        // Check the chart of accounts code
+        if (t.getChart() == null) {
+            errors.add("fin_coa_cd not found in ca_chart_t");
         }
-      }
-    }
 
-    // KULGL-58 Make sure all GL entry primary key fields are not null
-    if ( (t.getSubAccountNumber() == null) || (t.getSubAccountNumber().trim().length() == 0) ) {
-      errors.add("sub_acct_nbr must not be null");
-    }
-    if ( (t.getFinancialObjectCode() == null) || (t.getFinancialObjectCode().trim().length() == 0) ) {
-      errors.add("fin_object_cd must not be null");
-    }
-    if ( (t.getFinancialSubObjectCode() == null) || (t.getFinancialSubObjectCode().trim().length() == 0) ) {
-      errors.add("fin_sub_obj_cd must not be null");
-    }
-    if ( (t.getUniversityFiscalPeriodCode() == null) || (t.getUniversityFiscalPeriodCode().trim().length() == 0) ) {
-      errors.add("univ_fiscal_prd_cd must not be null");
-    }
-    if ( (t.getFinancialDocumentTypeCode() == null) || (t.getFinancialDocumentTypeCode().trim().length() == 0) ) {
-      errors.add("fdoc_typ_cd must not be null");
-    }
-    if ( (t.getFinancialSystemOriginationCode() == null) || (t.getFinancialSystemOriginationCode().trim().length() == 0) ) {
-      errors.add("fs_origin_cd must not be null");
-    }
-    if ( (t.getFinancialDocumentNumber() == null) || (t.getFinancialDocumentNumber().trim().length() == 0) ) {
-      errors.add("fdoc_nbr must not be null");
-    }
-    if ( t.getTransactionLedgerEntrySequenceNumber() == null ) {
-      errors.add("trn_entr_seq_nbr must not be null");
-    }
+        // Check the account
+        if (t.getAccount() == null) {
+            errors.add("account_nbr not found in ca_account_t");
+        }
 
-    return errors;
-  }
+        // Check the object type
+        if (t.getObjectType() == null) {
+            errors.add("fin_obj_typ_cd not found in ca_obj_type_t");
+        }
+
+        // Check the balance type
+        if (t.getBalanceType() == null) {
+            errors.add("fin_balance_typ_cd not found in ca_balance_type_t");
+        }
+
+        // Check the fiscal year
+        if (t.getOption() == null) {
+            errors.add("univ_fiscal_yr not found in fs_option_t");
+        }
+
+        // Check the debit/credit code (only if we have a valid balance type code)
+        if (t.getTransactionDebitCreditCode() == null) {
+            errors.add("trn_debit_crdt_cd cannot be null");
+        }
+        else {
+            if (t.getBalanceType() != null) {
+                if (t.getBalanceType().isFinancialOffsetGenerationIndicator()) {
+                    if ((!Constants.GL_DEBIT_CODE.equals(t.getTransactionDebitCreditCode())) && (!Constants.GL_CREDIT_CODE.equals(t.getTransactionDebitCreditCode()))) {
+                        errors.add("trn_debit_crdt_cd must be " + Constants.GL_DEBIT_CODE + " or " + Constants.GL_CREDIT_CODE + " for this fin_balance_typ_cd");
+                    }
+                }
+                else {
+                    if (!Constants.GL_BUDGET_CODE.equals(t.getTransactionDebitCreditCode())) {
+                        errors.add("trn_debit_crdt_cd must be '" + Constants.GL_BUDGET_CODE + "' for this fin_balance_typ_cd");
+                    }
+                }
+            }
+        }
+
+        // KULGL-58 Make sure all GL entry primary key fields are not null
+        if ((t.getSubAccountNumber() == null) || (t.getSubAccountNumber().trim().length() == 0)) {
+            errors.add("sub_acct_nbr must not be null");
+        }
+        if ((t.getFinancialObjectCode() == null) || (t.getFinancialObjectCode().trim().length() == 0)) {
+            errors.add("fin_object_cd must not be null");
+        }
+        if ((t.getFinancialSubObjectCode() == null) || (t.getFinancialSubObjectCode().trim().length() == 0)) {
+            errors.add("fin_sub_obj_cd must not be null");
+        }
+        if ((t.getUniversityFiscalPeriodCode() == null) || (t.getUniversityFiscalPeriodCode().trim().length() == 0)) {
+            errors.add("univ_fiscal_prd_cd must not be null");
+        }
+        if ((t.getFinancialDocumentTypeCode() == null) || (t.getFinancialDocumentTypeCode().trim().length() == 0)) {
+            errors.add("fdoc_typ_cd must not be null");
+        }
+        if ((t.getFinancialSystemOriginationCode() == null) || (t.getFinancialSystemOriginationCode().trim().length() == 0)) {
+            errors.add("fs_origin_cd must not be null");
+        }
+        if ((t.getFinancialDocumentNumber() == null) || (t.getFinancialDocumentNumber().trim().length() == 0)) {
+            errors.add("fdoc_nbr must not be null");
+        }
+        if (t.getTransactionLedgerEntrySequenceNumber() == null) {
+            errors.add("trn_entr_seq_nbr must not be null");
+        }
+
+        return errors;
+    }
 }

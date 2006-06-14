@@ -31,6 +31,7 @@ import org.kuali.test.KualiTestBaseWithFixtures;
 
 /**
  * This class tests the BalanceType service.
+ * 
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public class BalanceTypServiceTest extends KualiTestBaseWithFixtures {
@@ -45,7 +46,7 @@ public class BalanceTypServiceTest extends KualiTestBaseWithFixtures {
     private static final boolean OFFSET_GEN = false;
     private static final String SHORT_NAME = "Z SHORT";
 
-    private static final String ACTUAL_BAL_TYPE_CODE = "AC"; 
+    private static final String ACTUAL_BAL_TYPE_CODE = "AC";
 
     /**
      * Performs setup operations before tests are executed.
@@ -54,14 +55,14 @@ public class BalanceTypServiceTest extends KualiTestBaseWithFixtures {
         super.setUp();
         businessObjectService = SpringServiceLocator.getBusinessObjectService();
     }
-    
+
     protected void tearDown() throws Exception {
         super.tearDown();
         businessObjectService = null;
     }
-    
+
     public void testCreateLookupDelete1() {
-        //create
+        // create
         BalanceTyp bal = new BalanceTyp();
         bal.setActive(true);
         bal.setFinBalanceTypeEncumIndicator(true);
@@ -71,33 +72,31 @@ public class BalanceTypServiceTest extends KualiTestBaseWithFixtures {
         bal.setFinancialOffsetGenerationIndicator(OFFSET_GEN);
         bal.setFinancialBalanceTypeShortNm(SHORT_NAME);
         bal.setVersionNumber(VER_NBR);
-                
+
         businessObjectService.save(bal);
-        
-        //lookup
+
+        // lookup
         HashMap map = new HashMap();
         map.put("code", BAL_TYPE_CODE);
         BalanceTyp bal2 = (BalanceTyp) businessObjectService.findByPrimaryKey(BalanceTyp.class, map);
         assertNotNull("Should be a valid object.", bal2);
         assertEquals("Known-good code results in expected returned Name.", BAL_TYPE_NAME, bal2.getName());
-        
-        //delete
+
+        // delete
         businessObjectService.delete(bal2);
-        
-        //try to lookup again
+
+        // try to lookup again
         map = new HashMap();
         map.put("code", BAL_TYPE_CODE);
         BalanceTyp bal3 = (BalanceTyp) businessObjectService.findByPrimaryKey(BalanceTyp.class, map);
         assertNull("Shouldn't be a valid object.", bal3);
     }
 
- /*   Disable this test because no data in database yet RO 9-22-05
-  
-  	public void testActualBalanceTypeLookup() {
-        //test known-good byCode
-        BalanceTyp bal = SpringServiceLocator.getBalanceTypService().getActualBalanceTyp();
-        assertNotNull("Should be a valid object.", bal);
-        assertEquals(ACTUAL_BAL_TYPE_CODE, bal.getCode());
-    }
-  */
+    /*
+     * Disable this test because no data in database yet RO 9-22-05
+     * 
+     * public void testActualBalanceTypeLookup() { //test known-good byCode BalanceTyp bal =
+     * SpringServiceLocator.getBalanceTypService().getActualBalanceTyp(); assertNotNull("Should be a valid object.", bal);
+     * assertEquals(ACTUAL_BAL_TYPE_CODE, bal.getCode()); }
+     */
 }

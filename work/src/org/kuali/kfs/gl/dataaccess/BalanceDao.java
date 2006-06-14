@@ -32,7 +32,7 @@ import org.kuali.module.gl.bo.Transaction;
 
 /**
  * @author jsissom
- *  
+ * 
  */
 public interface BalanceDao {
 
@@ -40,8 +40,7 @@ public interface BalanceDao {
 
     public Balance getBalanceByPrimaryId(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber);
 
-    public Iterator findBalances(Account account, Integer fiscalYear, Collection includedObjectCodes,
-            Collection excludedObjectCodes, Collection objectTypeCodes, Collection balanceTypeCodes);
+    public Iterator findBalances(Account account, Integer fiscalYear, Collection includedObjectCodes, Collection excludedObjectCodes, Collection objectTypeCodes, Collection balanceTypeCodes);
 
     public void save(Balance b);
 
@@ -56,16 +55,18 @@ public interface BalanceDao {
 
     /**
      * Returns the balance entries for the given year, chart, and account.
+     * 
      * @param universityFiscalYear
      * @param chartOfAccountsCode
      * @param accountNumber
      * @param sfCode Sufficient Funds Code (used to determine sorting)
      * @return balance entries matching above
      */
-    public Iterator<Balance> findAccountBalances(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber,String sfCode);
+    public Iterator<Balance> findAccountBalances(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String sfCode);
 
     /**
      * Returns the balance entries for the given year, chart, and account.
+     * 
      * @param universityFiscalYear
      * @param chartOfAccountsCode
      * @param accountNumber
@@ -84,16 +85,15 @@ public interface BalanceDao {
 
 
     /**
-     * Returns the CB (current budget) record for the given year, chart, account, and
-     * object code if one is found.
+     * Returns the CB (current budget) record for the given year, chart, account, and object code if one is found.
+     * 
      * @param universityFiscalYear
      * @param chartOfAccountsCode
      * @param accountNumber
      * @param objectCode
      * @return the CB Balance record
      */
-    public Balance getCurrentBudgetForObjectCode(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber,
-            String objectCode);
+    public Balance getCurrentBudgetForObjectCode(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String objectCode);
 
     /**
      * Purge the sufficient funds balance table by year/chart
@@ -101,8 +101,8 @@ public interface BalanceDao {
      * @param chart
      * @param year
      */
-    public void purgeYearByChart(String chart,int year);
-    
+    public void purgeYearByChart(String chart, int year);
+
     /**
      * @param year
      * @return an iterator over all balances for a given fiscal year

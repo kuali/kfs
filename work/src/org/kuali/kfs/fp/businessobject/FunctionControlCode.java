@@ -34,87 +34,87 @@ import org.kuali.core.bo.BusinessObjectBase;
  */
 public class FunctionControlCode extends BusinessObjectBase {
 
-	private String financialSystemFunctionControlCode;
-	private boolean financialSystemFunctionDefaultIndicator;
-	private String financialSystemFunctionDescription;
+    private String financialSystemFunctionControlCode;
+    private boolean financialSystemFunctionDefaultIndicator;
+    private String financialSystemFunctionDescription;
 
-	/**
-	 * Default constructor.
-	 */
-	public FunctionControlCode() {
+    /**
+     * Default constructor.
+     */
+    public FunctionControlCode() {
 
-	}
+    }
 
-	/**
-	 * Gets the financialSystemFunctionControlCode attribute.
-	 * 
-	 * @return - Returns the financialSystemFunctionControlCode
-	 * 
-	 */
-	public String getFinancialSystemFunctionControlCode() { 
-		return financialSystemFunctionControlCode;
-	}
+    /**
+     * Gets the financialSystemFunctionControlCode attribute.
+     * 
+     * @return - Returns the financialSystemFunctionControlCode
+     * 
+     */
+    public String getFinancialSystemFunctionControlCode() {
+        return financialSystemFunctionControlCode;
+    }
 
-	/**
-	 * Sets the financialSystemFunctionControlCode attribute.
-	 * 
-	 * @param - financialSystemFunctionControlCode The financialSystemFunctionControlCode to set.
-	 * 
-	 */
-	public void setFinancialSystemFunctionControlCode(String financialSystemFunctionControlCode) {
-		this.financialSystemFunctionControlCode = financialSystemFunctionControlCode;
-	}
-
-
-	/**
-	 * Gets the financialSystemFunctionDefaultIndicator attribute.
-	 * 
-	 * @return - Returns the financialSystemFunctionDefaultIndicator
-	 * 
-	 */
-	public boolean isFinancialSystemFunctionDefaultIndicator() { 
-		return financialSystemFunctionDefaultIndicator;
-	}
-	
-
-	/**
-	 * Sets the financialSystemFunctionDefaultIndicator attribute.
-	 * 
-	 * @param - financialSystemFunctionDefaultIndicator The financialSystemFunctionDefaultIndicator to set.
-	 * 
-	 */
-	public void setFinancialSystemFunctionDefaultIndicator(boolean financialSystemFunctionDefaultIndicator) {
-		this.financialSystemFunctionDefaultIndicator = financialSystemFunctionDefaultIndicator;
-	}
+    /**
+     * Sets the financialSystemFunctionControlCode attribute.
+     * 
+     * @param - financialSystemFunctionControlCode The financialSystemFunctionControlCode to set.
+     * 
+     */
+    public void setFinancialSystemFunctionControlCode(String financialSystemFunctionControlCode) {
+        this.financialSystemFunctionControlCode = financialSystemFunctionControlCode;
+    }
 
 
-	/**
-	 * Gets the financialSystemFunctionDescription attribute.
-	 * 
-	 * @return - Returns the financialSystemFunctionDescription
-	 * 
-	 */
-	public String getFinancialSystemFunctionDescription() { 
-		return financialSystemFunctionDescription;
-	}
-
-	/**
-	 * Sets the financialSystemFunctionDescription attribute.
-	 * 
-	 * @param - financialSystemFunctionDescription The financialSystemFunctionDescription to set.
-	 * 
-	 */
-	public void setFinancialSystemFunctionDescription(String financialSystemFunctionDescription) {
-		this.financialSystemFunctionDescription = financialSystemFunctionDescription;
-	}
+    /**
+     * Gets the financialSystemFunctionDefaultIndicator attribute.
+     * 
+     * @return - Returns the financialSystemFunctionDefaultIndicator
+     * 
+     */
+    public boolean isFinancialSystemFunctionDefaultIndicator() {
+        return financialSystemFunctionDefaultIndicator;
+    }
 
 
-	/**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
+    /**
+     * Sets the financialSystemFunctionDefaultIndicator attribute.
+     * 
+     * @param - financialSystemFunctionDefaultIndicator The financialSystemFunctionDefaultIndicator to set.
+     * 
+     */
+    public void setFinancialSystemFunctionDefaultIndicator(boolean financialSystemFunctionDefaultIndicator) {
+        this.financialSystemFunctionDefaultIndicator = financialSystemFunctionDefaultIndicator;
+    }
+
+
+    /**
+     * Gets the financialSystemFunctionDescription attribute.
+     * 
+     * @return - Returns the financialSystemFunctionDescription
+     * 
+     */
+    public String getFinancialSystemFunctionDescription() {
+        return financialSystemFunctionDescription;
+    }
+
+    /**
+     * Sets the financialSystemFunctionDescription attribute.
+     * 
+     * @param - financialSystemFunctionDescription The financialSystemFunctionDescription to set.
+     * 
+     */
+    public void setFinancialSystemFunctionDescription(String financialSystemFunctionDescription) {
+        this.financialSystemFunctionDescription = financialSystemFunctionDescription;
+    }
+
+
+    /**
+     * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
         m.put("financialSystemFunctionControlCode", this.financialSystemFunctionControlCode);
-	    return m;
+        return m;
     }
 }

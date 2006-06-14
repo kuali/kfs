@@ -26,8 +26,8 @@ import java.util.Collection;
 
 /**
  * @author jsissom
- *
+ * 
  */
 public interface IcrAutomatedEntryDao {
-  public Collection getEntriesBySeries(Integer universityFiscalYear,String financialSeriesId,String balanceTypeCode);
+    public Collection getEntriesBySeries(Integer universityFiscalYear, String financialSeriesId, String balanceTypeCode);
 }

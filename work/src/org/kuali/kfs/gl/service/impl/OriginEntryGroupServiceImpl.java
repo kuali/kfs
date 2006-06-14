@@ -36,101 +36,101 @@ import org.kuali.module.gl.service.OriginEntryGroupService;
 
 /**
  * @author Laran Evans <lc278@cornell.edu>
- * @version $Id: OriginEntryGroupServiceImpl.java,v 1.16 2006-06-05 18:48:01 wesprice Exp $
+ * @version $Id: OriginEntryGroupServiceImpl.java,v 1.17 2006-06-14 12:26:36 abyrne Exp $
  */
 public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
-	private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger
-			.getLogger(OriginEntryGroupServiceImpl.class);
-																														  	
-	private OriginEntryGroupDao originEntryGroupDao;
-	
-	public OriginEntryGroupServiceImpl() {
-		super();
-	}
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OriginEntryGroupServiceImpl.class);
 
-	public void setOriginEntryGroupDao(OriginEntryGroupDao oegd) {
-		originEntryGroupDao = oegd;
-	}
+    private OriginEntryGroupDao originEntryGroupDao;
 
-	/**
-	 * 
-	 * @return the List of all origin entry groups that have a process indicator of false.
-	 *         collection is returned read-only.
-	 */
-	public Collection getOriginEntryGroupsPendingProcessing() {
-		Map criteria = new HashMap();
-		criteria.put("process", Boolean.FALSE);
-		Collection returnCollection = new ArrayList();
-		returnCollection = originEntryGroupDao.getMatchingGroups(criteria);
-		return //Collections.unmodifiableCollection(returnCollection);
+    public OriginEntryGroupServiceImpl() {
+        super();
+    }
+
+    public void setOriginEntryGroupDao(OriginEntryGroupDao oegd) {
+        originEntryGroupDao = oegd;
+    }
+
+    /**
+     * 
+     * @return the List of all origin entry groups that have a process indicator of false. collection is returned read-only.
+     */
+    public Collection getOriginEntryGroupsPendingProcessing() {
+        Map criteria = new HashMap();
+        criteria.put("process", Boolean.FALSE);
+        Collection returnCollection = new ArrayList();
+        returnCollection = originEntryGroupDao.getMatchingGroups(criteria);
+        return // Collections.unmodifiableCollection(returnCollection);
         returnCollection;
-	}
+    }
 
-	/**
-	 * Find an OriginEntryGroup by id.
-	 * 
-	 * @param groupId
-	 * @return the OriginEntryGroup with the given id.
-	 */
-	public OriginEntryGroup getOriginEntryGroup(String groupId) {
-		Map criteria = new HashMap();
-		//shawn
-		criteria.put("id", groupId);
-		Collection matches = originEntryGroupDao.getMatchingGroups(criteria);
-		Iterator i = matches.iterator();
-		if (i.hasNext()) {
-			return (OriginEntryGroup) i.next();
-		}
-		return null;
-	}
+    /**
+     * Find an OriginEntryGroup by id.
+     * 
+     * @param groupId
+     * @return the OriginEntryGroup with the given id.
+     */
+    public OriginEntryGroup getOriginEntryGroup(String groupId) {
+        Map criteria = new HashMap();
+        // shawn
+        criteria.put("id", groupId);
+        Collection matches = originEntryGroupDao.getMatchingGroups(criteria);
+        Iterator i = matches.iterator();
+        if (i.hasNext()) {
+            return (OriginEntryGroup) i.next();
+        }
+        return null;
+    }
 
-	/**
-	 * Create a new OriginEntryGroup and persist it to the database.
-	 */
-	public OriginEntryGroup createGroup(Date date, String sourceCode,
-			boolean valid, boolean process, boolean scrub) {
-		LOG.debug("createGroup() started");
+    /**
+     * Create a new OriginEntryGroup and persist it to the database.
+     */
+    public OriginEntryGroup createGroup(Date date, String sourceCode, boolean valid, boolean process, boolean scrub) {
+        LOG.debug("createGroup() started");
 
-		OriginEntryGroup oeg = new OriginEntryGroup();
-		oeg.setDate(date);
-		oeg.setProcess(Boolean.valueOf(process));
-		oeg.setScrub(Boolean.valueOf(scrub));
-		oeg.setSourceCode(sourceCode);
-		oeg.setValid(Boolean.valueOf(valid));
+        OriginEntryGroup oeg = new OriginEntryGroup();
+        oeg.setDate(date);
+        oeg.setProcess(Boolean.valueOf(process));
+        oeg.setScrub(Boolean.valueOf(scrub));
+        oeg.setSourceCode(sourceCode);
+        oeg.setValid(Boolean.valueOf(valid));
 
-		originEntryGroupDao.save(oeg);
+        originEntryGroupDao.save(oeg);
 
-		return oeg;
-	}
+        return oeg;
+    }
 
-	/**
-	 * Get all non-ICR-related OriginEntryGroups waiting to be posted as of postDate.
-	 */
-	public Collection getGroupsToPost() {
-		LOG.debug("getGroupsToPost() started");
+    /**
+     * Get all non-ICR-related OriginEntryGroups waiting to be posted as of postDate.
+     */
+    public Collection getGroupsToPost() {
+        LOG.debug("getGroupsToPost() started");
 
-		return originEntryGroupDao.getPosterGroups(OriginEntrySource.SCRUBBER_VALID);
-	}
+        return originEntryGroupDao.getPosterGroups(OriginEntrySource.SCRUBBER_VALID);
+    }
 
-	/**
-	 * Get all ICR-related OriginEntryGroups waiting to be posted as of postDate.
-	 */
-	public Collection getIcrGroupsToPost() {
-		LOG.debug("getIcrGroupsToPost() started");
+    /**
+     * Get all ICR-related OriginEntryGroups waiting to be posted as of postDate.
+     */
+    public Collection getIcrGroupsToPost() {
+        LOG.debug("getIcrGroupsToPost() started");
 
-		return originEntryGroupDao.getPosterGroups(OriginEntrySource.ICR_POSTER_VALID);
-	}
+        return originEntryGroupDao.getPosterGroups(OriginEntrySource.ICR_POSTER_VALID);
+    }
 
-	/**
-	 * An alias for OriginEntryGroupDao.getScrubberGroups().
+    /**
+     * An alias for OriginEntryGroupDao.getScrubberGroups().
+     * 
      * @param scrubDate
-	 */
-	public Collection getGroupsToScrub(Date scrubDate) {
-		LOG.debug("getGroupsToScrub() started");
-		return originEntryGroupDao.getScrubberGroups(scrubDate);
-	}
-    
-	/* (non-Javadoc)
+     */
+    public Collection getGroupsToScrub(Date scrubDate) {
+        LOG.debug("getGroupsToScrub() started");
+        return originEntryGroupDao.getScrubberGroups(scrubDate);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.kuali.module.gl.service.OriginEntryGroupService#getMatchingGroups(java.util.Map)
      */
     public Collection getMatchingGroups(Map criteria) {
@@ -138,12 +138,13 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
     }
 
     /**
-	 * Persist an OriginEntryGroup to the database.
+     * Persist an OriginEntryGroup to the database.
+     * 
      * @param originEntryGroup
-	 */
-	public void save(OriginEntryGroup originEntryGroup) {
-		LOG.debug("save() started");
-		originEntryGroupDao.save(originEntryGroup);
-	}
-    
+     */
+    public void save(OriginEntryGroup originEntryGroup) {
+        LOG.debug("save() started");
+        originEntryGroupDao.save(originEntryGroup);
+    }
+
 }

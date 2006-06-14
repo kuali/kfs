@@ -31,6 +31,7 @@ import org.kuali.test.parameters.TransactionalDocumentParameter;
 
 /**
  * This class is used to test GeneralErrorCorrectionDocument.
+ * 
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public class GeneralErrorCorrectionDocumentTest extends TransactionalDocumentTestBase {
@@ -43,7 +44,7 @@ public class GeneralErrorCorrectionDocumentTest extends TransactionalDocumentTes
 
     /**
      * Get names of fixture collections test class is using.
-     *
+     * 
      * @return String[]
      */
     public String[] getFixtureCollectionNames() {
@@ -87,76 +88,61 @@ public class GeneralErrorCorrectionDocumentTest extends TransactionalDocumentTes
     }
 
     /*
-     * OLD CODE FOR FUTURE CONSIDERATION WHEN WE GET TO THIS DOCUMENT
-     * This should probably go in the rule test class
-     *
-     public void testFailBusinessRules() throws WorkflowException, IllegalObjectStateException, Exception {
-     GeneralErrorCorrectionDocument documentOne = getBasicDocument();
-     SourceAccountingLine sourceAccountingLineOne = 
-     (SourceAccountingLine) DocumentServiceTestUtil.createLine(SourceAccountingLine.class, "UA", "1912610", 
-     "BEER", "1175", null, "BOB", new Integer(2005), new KualiDecimal("2.50"), null, "", "", "", "");
-     sourceAccountingLineOne.getObjectCode().setFinancialObjectType(new ObjectType("IC"));
-     
-     assertFalse(SpringServiceLocator.getKualiRuleService().applyRules(
-     new AddAccountingLineEvent(documentOne, sourceAccountingLineOne)));
-     
-     GeneralErrorCorrectionDocument documentTwo = getBasicDocument();
-     SourceAccountingLine sourceAccountingLineTwo = 
-     (SourceAccountingLine) DocumentServiceTestUtil.createLine(SourceAccountingLine.class, "UA", "1912610", 
-     "BEER", "5120", null, "BOB", new Integer(2005), new KualiDecimal("2.50"), null, "", "", "", "");
-     sourceAccountingLineTwo.setObjectType(new ObjectType("ES"));
-     sourceAccountingLineTwo.getObjectCode().setFinancialObjectSubType(new ObjSubTyp("DR"));
-     assertFalse(SpringServiceLocator.getKualiRuleService().applyRules(
-     new AddAccountingLineEvent(documentTwo, sourceAccountingLineTwo)));
-     
-     GeneralErrorCorrectionDocument documentThree = getBasicDocument();
-     SourceAccountingLine sourceAccountingLineThree = 
-     (SourceAccountingLine) DocumentServiceTestUtil.createLine(SourceAccountingLine.class, "UA", "1912610", 
-     "BEER", "5102", null, "BOB", new Integer(2005), new KualiDecimal("2.50"), null, "", "", "", "");            
-     sourceAccountingLineThree.setObjectType(new ObjectType("ES"));
-     sourceAccountingLineThree.getObjectCode().setFinancialObjectSubType(new ObjSubTyp("VA"));
-     
-     assertFalse(SpringServiceLocator.getKualiRuleService().applyRules(
-     new AddAccountingLineEvent(documentThree, sourceAccountingLineThree)));
-     
-     GeneralErrorCorrectionDocument documentFour = getBasicDocument();
-     SourceAccountingLine sourceAccountingLineFour = 
-     (SourceAccountingLine) DocumentServiceTestUtil.createLine(SourceAccountingLine.class, "UA", "1912610",
-     "BEER", "3050", null, "BOB", new Integer(2005), new KualiDecimal("2.50"), null, "", "", "", "");
-     sourceAccountingLineFour.setObjectType(new ObjectType("EX"));
-     sourceAccountingLineFour.getObjectCode().setFinancialObjectSubType(new ObjSubTyp("HW"));
-     assertFalse(SpringServiceLocator.getKualiRuleService().applyRules(
-     new AddAccountingLineEvent(documentFour, sourceAccountingLineFour)));       
-     
-     GeneralErrorCorrectionDocument documentFive = getBasicDocument();
-     SourceAccountingLine sourceAccountingLineFive = 
-     (SourceAccountingLine) DocumentServiceTestUtil.createLine(SourceAccountingLine.class, "UA", "1912610",
-     "BEER", "8000", null, "BOB", new Integer(2005), new KualiDecimal("2.50"), null, "", "", "", "");
-     sourceAccountingLineFive.setObjectType(new ObjectType("AS"));
-     sourceAccountingLineFive.getObjectCode().setFinancialObjectSubType(new ObjSubTyp("CA"));
-     assertFalse(SpringServiceLocator.getKualiRuleService().applyRules(
-     new AddAccountingLineEvent(documentFive, sourceAccountingLineFive)));       
-     
-     GeneralErrorCorrectionDocument documentSix = getBasicDocument();
-     SourceAccountingLine sourceAccountingLineSix = 
-     (SourceAccountingLine) DocumentServiceTestUtil.createLine(SourceAccountingLine.class, "UA", "1912610",
-     "BEER", "5166", null, "BOB", new Integer(2005), new KualiDecimal("2.50"), null, "", "", "", "");
-     sourceAccountingLineSix.setObjectType(new ObjectType("ES"));
-     sourceAccountingLineSix.getObjectCode().setFinancialObjectSubType(new ObjSubTyp("NA"));
-     assertFalse(SpringServiceLocator.getKualiRuleService().applyRules(
-     new AddAccountingLineEvent(documentSix, sourceAccountingLineSix)));     
-     }
-     
-     public void testPassBusinessRules() throws WorkflowException, IllegalObjectStateException, Exception {
-     GeneralErrorCorrectionDocument documentOne = getBasicDocument();
-     SourceAccountingLine sourceAccountingLineOne = 
-     (SourceAccountingLine) DocumentServiceTestUtil.createLine(SourceAccountingLine.class, "UA", "1912610", 
-     "BEER", "2000", null, "BOB", new Integer(2005), new KualiDecimal("2.50"), null, "", "", "", "");
-     sourceAccountingLineOne.getObjectCode().setFinancialObjectType(new ObjectType("ES"));
-     sourceAccountingLineOne.getObjectCode().setFinancialObjectSubType(new ObjSubTyp("SA"));
-     
-     assertFalse(SpringServiceLocator.getKualiRuleService().applyRules(
-     new AddAccountingLineEvent(documentOne, sourceAccountingLineOne)));
-     }
+     * OLD CODE FOR FUTURE CONSIDERATION WHEN WE GET TO THIS DOCUMENT This should probably go in the rule test class
+     * 
+     * public void testFailBusinessRules() throws WorkflowException, IllegalObjectStateException, Exception {
+     * GeneralErrorCorrectionDocument documentOne = getBasicDocument(); SourceAccountingLine sourceAccountingLineOne =
+     * (SourceAccountingLine) DocumentServiceTestUtil.createLine(SourceAccountingLine.class, "UA", "1912610", "BEER", "1175", null,
+     * "BOB", new Integer(2005), new KualiDecimal("2.50"), null, "", "", "", "");
+     * sourceAccountingLineOne.getObjectCode().setFinancialObjectType(new ObjectType("IC"));
+     * 
+     * assertFalse(SpringServiceLocator.getKualiRuleService().applyRules( new AddAccountingLineEvent(documentOne,
+     * sourceAccountingLineOne)));
+     * 
+     * GeneralErrorCorrectionDocument documentTwo = getBasicDocument(); SourceAccountingLine sourceAccountingLineTwo =
+     * (SourceAccountingLine) DocumentServiceTestUtil.createLine(SourceAccountingLine.class, "UA", "1912610", "BEER", "5120", null,
+     * "BOB", new Integer(2005), new KualiDecimal("2.50"), null, "", "", "", ""); sourceAccountingLineTwo.setObjectType(new
+     * ObjectType("ES")); sourceAccountingLineTwo.getObjectCode().setFinancialObjectSubType(new ObjSubTyp("DR"));
+     * assertFalse(SpringServiceLocator.getKualiRuleService().applyRules( new AddAccountingLineEvent(documentTwo,
+     * sourceAccountingLineTwo)));
+     * 
+     * GeneralErrorCorrectionDocument documentThree = getBasicDocument(); SourceAccountingLine sourceAccountingLineThree =
+     * (SourceAccountingLine) DocumentServiceTestUtil.createLine(SourceAccountingLine.class, "UA", "1912610", "BEER", "5102", null,
+     * "BOB", new Integer(2005), new KualiDecimal("2.50"), null, "", "", "", ""); sourceAccountingLineThree.setObjectType(new
+     * ObjectType("ES")); sourceAccountingLineThree.getObjectCode().setFinancialObjectSubType(new ObjSubTyp("VA"));
+     * 
+     * assertFalse(SpringServiceLocator.getKualiRuleService().applyRules( new AddAccountingLineEvent(documentThree,
+     * sourceAccountingLineThree)));
+     * 
+     * GeneralErrorCorrectionDocument documentFour = getBasicDocument(); SourceAccountingLine sourceAccountingLineFour =
+     * (SourceAccountingLine) DocumentServiceTestUtil.createLine(SourceAccountingLine.class, "UA", "1912610", "BEER", "3050", null,
+     * "BOB", new Integer(2005), new KualiDecimal("2.50"), null, "", "", "", ""); sourceAccountingLineFour.setObjectType(new
+     * ObjectType("EX")); sourceAccountingLineFour.getObjectCode().setFinancialObjectSubType(new ObjSubTyp("HW"));
+     * assertFalse(SpringServiceLocator.getKualiRuleService().applyRules( new AddAccountingLineEvent(documentFour,
+     * sourceAccountingLineFour)));
+     * 
+     * GeneralErrorCorrectionDocument documentFive = getBasicDocument(); SourceAccountingLine sourceAccountingLineFive =
+     * (SourceAccountingLine) DocumentServiceTestUtil.createLine(SourceAccountingLine.class, "UA", "1912610", "BEER", "8000", null,
+     * "BOB", new Integer(2005), new KualiDecimal("2.50"), null, "", "", "", ""); sourceAccountingLineFive.setObjectType(new
+     * ObjectType("AS")); sourceAccountingLineFive.getObjectCode().setFinancialObjectSubType(new ObjSubTyp("CA"));
+     * assertFalse(SpringServiceLocator.getKualiRuleService().applyRules( new AddAccountingLineEvent(documentFive,
+     * sourceAccountingLineFive)));
+     * 
+     * GeneralErrorCorrectionDocument documentSix = getBasicDocument(); SourceAccountingLine sourceAccountingLineSix =
+     * (SourceAccountingLine) DocumentServiceTestUtil.createLine(SourceAccountingLine.class, "UA", "1912610", "BEER", "5166", null,
+     * "BOB", new Integer(2005), new KualiDecimal("2.50"), null, "", "", "", ""); sourceAccountingLineSix.setObjectType(new
+     * ObjectType("ES")); sourceAccountingLineSix.getObjectCode().setFinancialObjectSubType(new ObjSubTyp("NA"));
+     * assertFalse(SpringServiceLocator.getKualiRuleService().applyRules( new AddAccountingLineEvent(documentSix,
+     * sourceAccountingLineSix))); }
+     * 
+     * public void testPassBusinessRules() throws WorkflowException, IllegalObjectStateException, Exception {
+     * GeneralErrorCorrectionDocument documentOne = getBasicDocument(); SourceAccountingLine sourceAccountingLineOne =
+     * (SourceAccountingLine) DocumentServiceTestUtil.createLine(SourceAccountingLine.class, "UA", "1912610", "BEER", "2000", null,
+     * "BOB", new Integer(2005), new KualiDecimal("2.50"), null, "", "", "", "");
+     * sourceAccountingLineOne.getObjectCode().setFinancialObjectType(new ObjectType("ES"));
+     * sourceAccountingLineOne.getObjectCode().setFinancialObjectSubType(new ObjSubTyp("SA"));
+     * 
+     * assertFalse(SpringServiceLocator.getKualiRuleService().applyRules( new AddAccountingLineEvent(documentOne,
+     * sourceAccountingLineOne))); }
      */
 }

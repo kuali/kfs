@@ -32,11 +32,11 @@ import org.kuali.module.gl.batch.closing.year.service.YearEndService;
 public class NominalActivityClosingStep implements Step {
 
     public YearEndService yearEndService;
-    
+
     public NominalActivityClosingStep() {
         super();
     }
-    
+
     /**
      * @see org.kuali.core.batch.Step#getName()
      */

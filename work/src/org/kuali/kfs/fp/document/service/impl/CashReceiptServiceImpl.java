@@ -162,8 +162,7 @@ public class CashReceiptServiceImpl implements CashReceiptService {
     public List getPopulatedCashReceipts(String verificationUnit, String[] statii) {
         Map queryCriteria = buildCashReceiptCriteriaMap(verificationUnit, statii);
 
-        List documents = new ArrayList(getBusinessObjectService().findMatchingOrderBy(CashReceiptDocument.class, queryCriteria,
-                PropertyConstants.FINANCIAL_DOCUMENT_NUMBER, true));
+        List documents = new ArrayList(getBusinessObjectService().findMatchingOrderBy(CashReceiptDocument.class, queryCriteria, PropertyConstants.FINANCIAL_DOCUMENT_NUMBER, true));
 
         populateWorkflowFields(documents);
 
@@ -211,12 +210,10 @@ public class CashReceiptServiceImpl implements CashReceiptService {
                 workflowDocument = getWorkflowDocumentService().createWorkflowDocument(documentHeaderId, user);
             }
             catch (DocumentNotFoundException e) {
-                throw new UnknownDocumentIdException("no document found for documentHeaderId '"
-                        + docHeader.getFinancialDocumentNumber() + "'", e);
+                throw new UnknownDocumentIdException("no document found for documentHeaderId '" + docHeader.getFinancialDocumentNumber() + "'", e);
             }
             catch (WorkflowException e) {
-                throw new InfrastructureException("unable to retrieve workflow document for documentHeaderId '"
-                        + docHeader.getFinancialDocumentNumber() + "'", e);
+                throw new InfrastructureException("unable to retrieve workflow document for documentHeaderId '" + docHeader.getFinancialDocumentNumber() + "'", e);
             }
 
             docHeader.setWorkflowDocument(workflowDocument);

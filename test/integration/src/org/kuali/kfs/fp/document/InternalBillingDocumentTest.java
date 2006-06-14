@@ -54,7 +54,7 @@ public class InternalBillingDocumentTest extends TransactionalDocumentTestBase {
 
     /**
      * Get names of fixture collections test class is using.
-     *
+     * 
      * @return String[]
      */
     public String[] getFixtureCollectionNames() {
@@ -103,150 +103,143 @@ public class InternalBillingDocumentTest extends TransactionalDocumentTestBase {
 
     /**
      * provides default count for Pending entry count.
-     *
+     * 
      * @see org.kuali.core.document.TransactionalDocumentTestBase#getExpectedPrePeCount()
      * @return int
      */
     protected int getExpectedPrePeCount() {
         return 12;
     }
-    ///////////////////////////////////////////////////////////////////////////
-    // Start of Test Methods                                                 //
-    ///////////////////////////////////////////////////////////////////////////
+
+    // /////////////////////////////////////////////////////////////////////////
+    // Start of Test Methods //
+    // /////////////////////////////////////////////////////////////////////////
 
     /**
-     * Overrides the parent to do nothing since the IB doesn't set the posting period in 
-     * the record it stores.  This test doesn't apply to this type of document.
+     * Overrides the parent to do nothing since the IB doesn't set the posting period in the record it stores. This test doesn't
+     * apply to this type of document.
      */
     public final void testConvertIntoCopy_invalidYear() throws Exception {
-        //do nothing to pass
+        // do nothing to pass
     }
-    
+
     /**
-     * Overrides the parent to do nothing since the IB doesn't set the posting period in 
-     * the record it stores.  This test doesn't apply to this type of document.
+     * Overrides the parent to do nothing since the IB doesn't set the posting period in the record it stores. This test doesn't
+     * apply to this type of document.
      */
     public final void testConvertIntoErrorCorrection_invalidYear() throws Exception {
-        //do nothing to pass
+        // do nothing to pass
     }
-    
+
     /**
-     * Tests authoriation by trying to approve a
-     * <code>{@link Document}</code>
-     *
+     * Tests authoriation by trying to approve a <code>{@link Document}</code>
+     * 
      * @exception Exception
      */
-    public final void testApprove_addAccessibleAccount_ChangingTotals() 
-        throws Exception {
+    public final void testApprove_addAccessibleAccount_ChangingTotals() throws Exception {
         TransactionalDocument retrieved;
         TransactionalDocument original;
         String docId;
-        
-        // switch user to WESPRICE, build and route document with 
+
+        // switch user to WESPRICE, build and route document with
         // accountingLines
-        changeCurrentUser( getInitialUserName() );
-        original = ( TransactionalDocument )buildDocument();
-        routeDocument( original );
+        changeCurrentUser(getInitialUserName());
+        original = (TransactionalDocument) buildDocument();
+        routeDocument(original);
         docId = original.getFinancialDocumentNumber();
 
-        // switch user to another user, add accountingLines for accounts not 
+        // switch user to another user, add accountingLines for accounts not
         // controlled by this user
-        changeCurrentUser( getTestUserName() );
-        retrieved = ( TransactionalDocument )
-            getDocumentService().getByDocumentHeaderId( docId );
-        retrieved.addSourceAccountingLine( getSourceAccountingLineAccessibleAccount() );
-        retrieved.addTargetAccountingLine( getTargetAccountingLineAccessibleAccount() );
-        
+        changeCurrentUser(getTestUserName());
+        retrieved = (TransactionalDocument) getDocumentService().getByDocumentHeaderId(docId);
+        retrieved.addSourceAccountingLine(getSourceAccountingLineAccessibleAccount());
+        retrieved.addTargetAccountingLine(getTargetAccountingLineAccessibleAccount());
+
         boolean failedAsExpected = false;
         try {
-            approveDocument( retrieved );
+            approveDocument(retrieved);
         }
-        catch( ValidationException e ) {
+        catch (ValidationException e) {
             failedAsExpected = true;
         }
-        catch( DocumentAuthorizationException dae) {
+        catch (DocumentAuthorizationException dae) {
             // this means that the workflow status didn't change in time for the check, so this is
             // an expected exception
             failedAsExpected = true;
         }
-        assertTrue( failedAsExpected );
+        assertTrue(failedAsExpected);
     }
 
     /**
-     * Tests adding a <code>{@link SourceAccountingLine}</code> instance with
-     * inaccessible account characteristics after approving the 
-     * <code>{@link TransactionalDocument}</code>
-     *
+     * Tests adding a <code>{@link SourceAccountingLine}</code> instance with inaccessible account characteristics after approving
+     * the <code>{@link TransactionalDocument}</code>
+     * 
      * @exception Exception
      */
-    public final void testApprove_addInaccessibleAccount_sourceLine()
-        throws Exception {
-        // switch user to WESPRICE, build and route document with 
+    public final void testApprove_addInaccessibleAccount_sourceLine() throws Exception {
+        // switch user to WESPRICE, build and route document with
         // accountingLines
         TransactionalDocument original;
         TransactionalDocument retrieved;
         String docId;
 
-        changeCurrentUser( getInitialUserName() );
-        original = ( TransactionalDocument )buildDocument();
-        routeDocument( original );
+        changeCurrentUser(getInitialUserName());
+        original = (TransactionalDocument) buildDocument();
+        routeDocument(original);
         docId = original.getFinancialDocumentNumber();
-        
+
         // switch user to AHORNICK, add sourceAccountingLine for account not controlled by this user
         // (and add a balancing targetAccountingLine for an accessible account)
-        changeCurrentUser( getTestUserName() );
-        retrieved = ( TransactionalDocument )
-            getDocumentService().getByDocumentHeaderId( docId );
-        retrieved.addSourceAccountingLine( getSourceAccountingLineInaccessibleAccount() );
-        retrieved.addTargetAccountingLine( getTargetAccountingLineAccessibleAccount() );
-        
+        changeCurrentUser(getTestUserName());
+        retrieved = (TransactionalDocument) getDocumentService().getByDocumentHeaderId(docId);
+        retrieved.addSourceAccountingLine(getSourceAccountingLineInaccessibleAccount());
+        retrieved.addTargetAccountingLine(getTargetAccountingLineAccessibleAccount());
+
         // approve document, wait for failure b/c totals have changed
         boolean failedAsExpected = false;
         try {
-            approveDocument( retrieved );
+            approveDocument(retrieved);
         }
-        catch( ValidationException e ) {
+        catch (ValidationException e) {
             failedAsExpected = true;
         }
-        catch( DocumentAuthorizationException dae) {
+        catch (DocumentAuthorizationException dae) {
             // this means that the workflow status didn't change in time for the check, so this is
             // an expected exception
             failedAsExpected = true;
         }
-        assertTrue( failedAsExpected );
+        assertTrue(failedAsExpected);
     }
 
-    public final void testApprove_addInaccessibleAccount_targetLine() 
-        throws Exception {
+    public final void testApprove_addInaccessibleAccount_targetLine() throws Exception {
         TransactionalDocument retrieved;
         TransactionalDocument original;
         String docId;
 
-        // switch user to WESPRICE, build and route document with 
+        // switch user to WESPRICE, build and route document with
         // accountingLines
-        changeCurrentUser( getInitialUserName() );
-        original = ( TransactionalDocument )buildDocument();
-        routeDocument( original );
+        changeCurrentUser(getInitialUserName());
+        original = (TransactionalDocument) buildDocument();
+        routeDocument(original);
         docId = original.getFinancialDocumentNumber();
 
-        // switch user to AHORNICK, add targetAccountingLine for accounts not 
+        // switch user to AHORNICK, add targetAccountingLine for accounts not
         // controlled by this user
         // (and add a balancing sourceAccountingLine for an accessible account)
-        changeCurrentUser( getTestUserName() );
-        retrieved = ( TransactionalDocument )
-            getDocumentService().getByDocumentHeaderId( docId );
-        retrieved.addTargetAccountingLine( getTargetAccountingLineInaccessibleAccount() );
-        retrieved.addSourceAccountingLine( getSourceAccountingLineAccessibleAccount() );
+        changeCurrentUser(getTestUserName());
+        retrieved = (TransactionalDocument) getDocumentService().getByDocumentHeaderId(docId);
+        retrieved.addTargetAccountingLine(getTargetAccountingLineInaccessibleAccount());
+        retrieved.addSourceAccountingLine(getSourceAccountingLineAccessibleAccount());
 
         // approve document, wait for failure
         boolean failedAsExpected = false;
         try {
-            approveDocument( retrieved );
+            approveDocument(retrieved);
         }
         catch (ValidationException e) {
             failedAsExpected = true;
-        } 
-        catch( DocumentAuthorizationException dae) {
+        }
+        catch (DocumentAuthorizationException dae) {
             // this means that the workflow status didn't change in time for the check, so this is
             // an expected exception
             failedAsExpected = true;
@@ -255,35 +248,34 @@ public class InternalBillingDocumentTest extends TransactionalDocumentTestBase {
     }
 
     public final void testApprove_deleteAccessibleAccount() throws Exception {
-        // switch user to WESPRICE, build and route document with 
+        // switch user to WESPRICE, build and route document with
         // accountingLines
         TransactionalDocument retrieved;
         TransactionalDocument original;
         String docId;
-        
-        changeCurrentUser( getInitialUserName() );
-        original = ( TransactionalDocument )buildDocument();
-        routeDocument( original );
+
+        changeCurrentUser(getInitialUserName());
+        original = (TransactionalDocument) buildDocument();
+        routeDocument(original);
         docId = original.getFinancialDocumentNumber();
 
-        // switch user to AHORNICK, delete sourceAccountingLine for accounts 
+        // switch user to AHORNICK, delete sourceAccountingLine for accounts
         // controlled by this user
         // (and delete matching targetAccountingLine, for balance)
-        changeCurrentUser( getTestUserName() );
-        retrieved = ( TransactionalDocument )
-            getDocumentService().getByDocumentHeaderId( docId );
+        changeCurrentUser(getTestUserName());
+        retrieved = (TransactionalDocument) getDocumentService().getByDocumentHeaderId(docId);
         deleteSourceAccountingLine(retrieved, 0);
         deleteTargetAccountingLine(retrieved, 0);
-        
+
         // approve document, wait for failure b/c totals have changed
         boolean failedAsExpected = false;
         try {
-            approveDocument( retrieved );
+            approveDocument(retrieved);
         }
         catch (ValidationException e) {
             failedAsExpected = true;
         }
-        catch( DocumentAuthorizationException dae) {
+        catch (DocumentAuthorizationException dae) {
             // this means that the workflow status didn't change in time for the check, so this is
             // an expected exception
             failedAsExpected = true;
@@ -291,38 +283,35 @@ public class InternalBillingDocumentTest extends TransactionalDocumentTestBase {
         assertTrue(failedAsExpected);
     }
 
-    public final void testApprove_deleteInaccessibleAccount_sourceLine() 
-        throws Exception {
-        // switch user to WESPRICE, build and route document with 
+    public final void testApprove_deleteInaccessibleAccount_sourceLine() throws Exception {
+        // switch user to WESPRICE, build and route document with
         // accountingLines
         TransactionalDocument retrieved;
         TransactionalDocument original;
         String docId;
-        
-        changeCurrentUser( getInitialUserName() );
-        original = ( TransactionalDocument )buildDocument();
-        routeDocument( original );
+
+        changeCurrentUser(getInitialUserName());
+        original = (TransactionalDocument) buildDocument();
+        routeDocument(original);
         docId = original.getFinancialDocumentNumber();
 
-        // switch user to AHORNICK, delete sourceAccountingLines for accounts 
+        // switch user to AHORNICK, delete sourceAccountingLines for accounts
         // not controlled by this user
         // (and delete matching accessible targetLine, for balance)
-        changeCurrentUser( getTestUserName() );
-        retrieved = ( TransactionalDocument )
-            getDocumentService().getByDocumentHeaderId( docId );
+        changeCurrentUser(getTestUserName());
+        retrieved = (TransactionalDocument) getDocumentService().getByDocumentHeaderId(docId);
         deleteSourceAccountingLine(retrieved, 1);
         deleteTargetAccountingLine(retrieved, 0);
 
         // approve document, wait for failure
         boolean failedAsExpected = false;
         try {
-            approveDocument( retrieved );
+            approveDocument(retrieved);
         }
         catch (ValidationException e) {
-            failedAsExpected = GlobalVariables.getErrorMap().containsMessageKey(
-                    KeyConstants.ERROR_ACCOUNTINGLINE_INACCESSIBLE_DELETE);
+            failedAsExpected = GlobalVariables.getErrorMap().containsMessageKey(KeyConstants.ERROR_ACCOUNTINGLINE_INACCESSIBLE_DELETE);
         }
-        catch( DocumentAuthorizationException dae) {
+        catch (DocumentAuthorizationException dae) {
             // this means that the workflow status didn't change in time for the check, so this is
             // an expected exception
             failedAsExpected = true;
@@ -330,37 +319,34 @@ public class InternalBillingDocumentTest extends TransactionalDocumentTestBase {
         assertTrue(failedAsExpected);
     }
 
-    public final void testApprove_deleteInaccessibleAccount_targetLine() 
-        throws Exception {
+    public final void testApprove_deleteInaccessibleAccount_targetLine() throws Exception {
         TransactionalDocument retrieved;
         TransactionalDocument original;
         String docId;
-        
-        // switch user to WESPRICE, build and route document with 
+
+        // switch user to WESPRICE, build and route document with
         // accountingLines
-        changeCurrentUser( getInitialUserName() );
-        original = ( TransactionalDocument )buildDocument();
-        routeDocument( original );
+        changeCurrentUser(getInitialUserName());
+        original = (TransactionalDocument) buildDocument();
+        routeDocument(original);
         docId = original.getFinancialDocumentNumber();
 
         // switch user to AHORNICK, delete targetAccountingLine for accounts not controlled by this user
         // (and delete matching accessible sourceLine, for balance)
-        changeCurrentUser( getTestUserName() );
-        retrieved = ( TransactionalDocument )
-            getDocumentService().getByDocumentHeaderId( docId );
+        changeCurrentUser(getTestUserName());
+        retrieved = (TransactionalDocument) getDocumentService().getByDocumentHeaderId(docId);
         deleteTargetAccountingLine(retrieved, 1);
         deleteSourceAccountingLine(retrieved, 0);
 
         // approve document, wait for failure
         boolean failedAsExpected = false;
         try {
-            approveDocument( retrieved );
+            approveDocument(retrieved);
         }
         catch (ValidationException e) {
-            failedAsExpected = GlobalVariables.getErrorMap().containsMessageKey(
-                    KeyConstants.ERROR_ACCOUNTINGLINE_INACCESSIBLE_DELETE);
+            failedAsExpected = GlobalVariables.getErrorMap().containsMessageKey(KeyConstants.ERROR_ACCOUNTINGLINE_INACCESSIBLE_DELETE);
         }
-        catch( DocumentAuthorizationException dae) {
+        catch (DocumentAuthorizationException dae) {
             // this means that the workflow status didn't change in time for the check, so this is
             // an expected exception
             failedAsExpected = true;
@@ -368,23 +354,21 @@ public class InternalBillingDocumentTest extends TransactionalDocumentTestBase {
         assertTrue(failedAsExpected);
     }
 
-    public final void testApprove_deleteLastAccessibleAccount() 
-        throws Exception {
-        // switch user to WESPRICE, build and route document with 
+    public final void testApprove_deleteLastAccessibleAccount() throws Exception {
+        // switch user to WESPRICE, build and route document with
         // accountingLines
         TransactionalDocument retrieved;
         TransactionalDocument original;
         String docId;
-        
-        changeCurrentUser( getInitialUserName() );
-        original = ( TransactionalDocument )buildDocument();
-        routeDocument( original );
+
+        changeCurrentUser(getInitialUserName());
+        original = (TransactionalDocument) buildDocument();
+        routeDocument(original);
         docId = original.getFinancialDocumentNumber();
 
         // switch user to AHORNICK, delete all accountingLines for that user
-        changeCurrentUser( getTestUserName() );
-        retrieved = ( TransactionalDocument )
-            getDocumentService().getByDocumentHeaderId( docId );
+        changeCurrentUser(getTestUserName());
+        retrieved = (TransactionalDocument) getDocumentService().getByDocumentHeaderId(docId);
         deleteSourceAccountingLine(retrieved, 2);
         deleteSourceAccountingLine(retrieved, 0);
 
@@ -394,13 +378,12 @@ public class InternalBillingDocumentTest extends TransactionalDocumentTestBase {
         // approve document, wait for failure
         boolean failedAsExpected = false;
         try {
-            approveDocument( retrieved );
+            approveDocument(retrieved);
         }
         catch (ValidationException e) {
-            failedAsExpected = GlobalVariables.getErrorMap().containsMessageKey(
-                    KeyConstants.ERROR_ACCOUNTINGLINE_LASTACCESSIBLE_DELETE);
+            failedAsExpected = GlobalVariables.getErrorMap().containsMessageKey(KeyConstants.ERROR_ACCOUNTINGLINE_LASTACCESSIBLE_DELETE);
         }
-        catch( DocumentAuthorizationException dae) {
+        catch (DocumentAuthorizationException dae) {
             // this means that the workflow status didn't change in time for the check, so this is
             // an expected exception
             failedAsExpected = true;
@@ -410,35 +393,34 @@ public class InternalBillingDocumentTest extends TransactionalDocumentTestBase {
 
 
     public final void testApprove_updateAccessibleAccount() throws Exception {
-        // switch user to WESPRICE, build and route document with 
+        // switch user to WESPRICE, build and route document with
         // accountingLines
         TransactionalDocument retrieved;
         TransactionalDocument original;
         String docId;
 
-        changeCurrentUser( getInitialUserName() );
-        original = ( TransactionalDocument )buildDocument();
-        routeDocument( original );
+        changeCurrentUser(getInitialUserName());
+        original = (TransactionalDocument) buildDocument();
+        routeDocument(original);
         docId = original.getFinancialDocumentNumber();
 
-        // switch user to AHORNICK, update sourceAccountingLine for accounts 
+        // switch user to AHORNICK, update sourceAccountingLine for accounts
         // controlled by this user
         // (and delete update targetAccountingLine, for balance)
-        changeCurrentUser( getTestUserName() );
-        retrieved = ( TransactionalDocument )
-            getDocumentService().getByDocumentHeaderId( docId );
-        
-        //make sure totals don't change
+        changeCurrentUser(getTestUserName());
+        retrieved = (TransactionalDocument) getDocumentService().getByDocumentHeaderId(docId);
+
+        // make sure totals don't change
         KualiDecimal originalSourceLineAmt = retrieved.getSourceAccountingLine(0).getAmount();
         KualiDecimal originalTargetLineAmt = retrieved.getTargetAccountingLine(0).getAmount();
         KualiDecimal newSourceLineAmt = originalSourceLineAmt.divide(new KualiDecimal(2));
         KualiDecimal newTargetLineAmt = originalTargetLineAmt.divide(new KualiDecimal(2));
-        
-        //update existing lines with new amount which equals orig divided by 2 
+
+        // update existing lines with new amount which equals orig divided by 2
         updateSourceAccountingLine(retrieved, 0, newSourceLineAmt.toString());
         updateTargetAccountingLine(retrieved, 0, newTargetLineAmt.toString());
-        
-        //add in new lines and change amounts
+
+        // add in new lines and change amounts
         TargetAccountingLine newTargetLine = getTargetAccountingLineAccessibleAccount();
         newTargetLine.setAmount(newTargetLineAmt);
         SourceAccountingLine newSourceLine = getSourceAccountingLineAccessibleAccount();
@@ -447,45 +429,43 @@ public class InternalBillingDocumentTest extends TransactionalDocumentTestBase {
         retrieved.addSourceAccountingLine(newSourceLine);
 
         try {
-            approveDocument( retrieved );
-        } catch(DocumentAuthorizationException dae) {
+            approveDocument(retrieved);
+        }
+        catch (DocumentAuthorizationException dae) {
             // this means that the workflow status didn't change in time for the check, so this is
             // an expected exception
         }
     }
 
-    public final void testApprove_updateInaccessibleAccount_sourceLine() 
-        throws Exception {
+    public final void testApprove_updateInaccessibleAccount_sourceLine() throws Exception {
         TransactionalDocument retrieved;
         TransactionalDocument original;
         String docId;
 
-        // switch user to WESPRICE, build and route document with 
+        // switch user to WESPRICE, build and route document with
         // accountingLines
-        changeCurrentUser( getInitialUserName() );
-        original = ( TransactionalDocument )buildDocument();
-        routeDocument( original );
+        changeCurrentUser(getInitialUserName());
+        original = (TransactionalDocument) buildDocument();
+        routeDocument(original);
         docId = original.getFinancialDocumentNumber();
 
-        // switch user to AHORNICK, update sourceAccountingLines for accounts 
+        // switch user to AHORNICK, update sourceAccountingLines for accounts
         // not controlled by this user
         // (and update matching accessible targetLine, for balance)
-        changeCurrentUser( getTestUserName() );
-        retrieved = ( TransactionalDocument )
-            getDocumentService().getByDocumentHeaderId( docId );
+        changeCurrentUser(getTestUserName());
+        retrieved = (TransactionalDocument) getDocumentService().getByDocumentHeaderId(docId);
         updateSourceAccountingLine(retrieved, 1, "3.14");
         updateTargetAccountingLine(retrieved, 0, "3.14");
 
         // approve document, wait for failure
         boolean failedAsExpected = false;
         try {
-            approveDocument( retrieved );
+            approveDocument(retrieved);
         }
         catch (ValidationException e) {
-            failedAsExpected = GlobalVariables.getErrorMap().containsMessageKey(
-                    KeyConstants.ERROR_ACCOUNTINGLINE_INACCESSIBLE_UPDATE);
+            failedAsExpected = GlobalVariables.getErrorMap().containsMessageKey(KeyConstants.ERROR_ACCOUNTINGLINE_INACCESSIBLE_UPDATE);
         }
-        catch( DocumentAuthorizationException dae) {
+        catch (DocumentAuthorizationException dae) {
             // this means that the workflow status didn't change in time for the check, so this is
             // an expected exception
             failedAsExpected = true;
@@ -493,45 +473,42 @@ public class InternalBillingDocumentTest extends TransactionalDocumentTestBase {
         assertTrue(failedAsExpected);
     }
 
-    public final void testApprove_updateInaccessibleAccount_targetLine() 
-        throws Exception {
-        // switch user to WESPRICE, build and route document with 
+    public final void testApprove_updateInaccessibleAccount_targetLine() throws Exception {
+        // switch user to WESPRICE, build and route document with
         // accountingLines
         TransactionalDocument retrieved;
         TransactionalDocument original;
         String docId;
 
-        changeCurrentUser( getInitialUserName() );
-        original = ( TransactionalDocument )buildDocument();
-        routeDocument(  original );
+        changeCurrentUser(getInitialUserName());
+        original = (TransactionalDocument) buildDocument();
+        routeDocument(original);
         docId = original.getFinancialDocumentNumber();
 
-        // switch user to AHORNICK, update targetAccountingLine for accounts 
+        // switch user to AHORNICK, update targetAccountingLine for accounts
         // not controlled by this user
         // (and update matching accessible sourceLine, for balance)
-        changeCurrentUser( getTestUserName() );
-        retrieved = ( TransactionalDocument )
-            getDocumentService().getByDocumentHeaderId( docId );
+        changeCurrentUser(getTestUserName());
+        retrieved = (TransactionalDocument) getDocumentService().getByDocumentHeaderId(docId);
         updateTargetAccountingLine(retrieved, 1, "2.81");
         updateSourceAccountingLine(retrieved, 0, "2.81");
 
         // approve document, wait for failure
         boolean failedAsExpected = false;
         try {
-            approveDocument( retrieved );
+            approveDocument(retrieved);
         }
         catch (ValidationException e) {
-            failedAsExpected = GlobalVariables.getErrorMap().containsMessageKey(
-                    KeyConstants.ERROR_ACCOUNTINGLINE_INACCESSIBLE_UPDATE);
+            failedAsExpected = GlobalVariables.getErrorMap().containsMessageKey(KeyConstants.ERROR_ACCOUNTINGLINE_INACCESSIBLE_UPDATE);
         }
-        catch( DocumentAuthorizationException dae) {
+        catch (DocumentAuthorizationException dae) {
             // this means that the workflow status didn't change in time for the check, so this is
             // an expected exception
             failedAsExpected = true;
         }
         assertTrue(failedAsExpected);
     }
-    ///////////////////////////////////////////////////////////////////////////
-    // End of Test Methods                                                   //
-    ///////////////////////////////////////////////////////////////////////////
+    // /////////////////////////////////////////////////////////////////////////
+    // End of Test Methods //
+    // /////////////////////////////////////////////////////////////////////////
 }

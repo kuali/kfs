@@ -47,9 +47,9 @@ public class LedgerEntryHolder {
     }
 
     /**
-     * add a given ledger entry into the holder. If there exists a ledger entry with the same key, then update the 
-     * amount and count fields of the ledger entry; otherwise, insert it into the holder.
-     *  
+     * add a given ledger entry into the holder. If there exists a ledger entry with the same key, then update the amount and count
+     * fields of the ledger entry; otherwise, insert it into the holder.
+     * 
      * @param newLedgerEntry the given ledger entry
      * @param calculateTotals indicate if the subtotals and grand total need to be calculated
      */
@@ -61,45 +61,45 @@ public class LedgerEntryHolder {
         String originCode = newLedgerEntry.getOriginCode();
 
         String keyOfLedgerEntry = balanceType + "-" + originCode + "-" + fiscalYear + "-" + periodCode;
-        
+
         if (!ledgerEntries.containsKey(keyOfLedgerEntry)) {
             ledgerEntries.put(keyOfLedgerEntry, newLedgerEntry);
         }
         else {
-            LedgerEntry ledgerEntry = (LedgerEntry) ledgerEntries.get(keyOfLedgerEntry);            
+            LedgerEntry ledgerEntry = (LedgerEntry) ledgerEntries.get(keyOfLedgerEntry);
             ledgerEntry.add(newLedgerEntry);
         }
-        
+
         // calculate the subtotals and grand total
-        if(calculateTotal){
+        if (calculateTotal) {
             updateSubtotal(newLedgerEntry);
             updateGrandTotal(newLedgerEntry);
         }
     }
-    
+
     // update the subtotal using the given ledger entry
-    private void updateSubtotal(LedgerEntry newLedgerEntry){
+    private void updateSubtotal(LedgerEntry newLedgerEntry) {
         String groupingKey = newLedgerEntry.getBalanceType();
-        
-        if(StringUtils.isBlank(groupingKey)){
+
+        if (StringUtils.isBlank(groupingKey)) {
             return;
         }
-        
+
         LedgerEntry ledgerEntry = null;
         if (!subtotals.containsKey(groupingKey)) {
             ledgerEntry = new LedgerEntry(null, "", newLedgerEntry.getBalanceType(), "Subtotal");
             subtotals.put(groupingKey, ledgerEntry);
         }
         else {
-            ledgerEntry = (LedgerEntry) subtotals.get(groupingKey);            
+            ledgerEntry = (LedgerEntry) subtotals.get(groupingKey);
         }
         ledgerEntry.add(newLedgerEntry);
     }
-    
+
     // update the grand total with the given ledger entry
-    private void updateGrandTotal(LedgerEntry newLedgerEntry){
+    private void updateGrandTotal(LedgerEntry newLedgerEntry) {
         this.grandTotal.add(newLedgerEntry);
-    }    
+    }
 
     /**
      * Gets the grandTotal attribute.

@@ -39,13 +39,13 @@ public class ServiceBillingControl extends BusinessObjectBase {
     private String chartOfAccountsCode;
     private String accountNumber;
     private String workgroupName;
-    
+
     private Chart chartOfAccounts;
     private Account account;
-    
+
     /**
      * This constructor sets up empty instances for the dependent objects...
-     *  
+     * 
      */
     public ServiceBillingControl() {
         account = new Account();
@@ -67,8 +67,8 @@ public class ServiceBillingControl extends BusinessObjectBase {
      */
     public void setChartOfAccountsCode(String chartOfAccountsCode) {
         this.chartOfAccountsCode = chartOfAccountsCode;
-    }    
-    
+    }
+
     /**
      * Gets the accountNumber attribute.
      * 
@@ -100,7 +100,7 @@ public class ServiceBillingControl extends BusinessObjectBase {
     public void setWorkgroupName(String workgroupName) {
         this.workgroupName = workgroupName;
     }
-    
+
     /**
      * @return Returns the chartOfAccounts.
      */
@@ -114,8 +114,8 @@ public class ServiceBillingControl extends BusinessObjectBase {
      */
     public void setChartOfAccounts(Chart chartOfAccounts) {
         this.chartOfAccounts = chartOfAccounts;
-    }    
-    
+    }
+
     /**
      * Gets the account attribute.
      * 
@@ -134,7 +134,7 @@ public class ServiceBillingControl extends BusinessObjectBase {
     public void setAccount(Account account) {
         this.account = account;
     }
-    
+
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */

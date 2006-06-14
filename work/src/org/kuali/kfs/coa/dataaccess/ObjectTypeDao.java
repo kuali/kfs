@@ -26,8 +26,8 @@ import org.kuali.module.chart.bo.ObjectType;
 
 /**
  * @author jsissom
- *
+ * 
  */
 public interface ObjectTypeDao {
-  public ObjectType getByPrimaryKey(String code);
+    public ObjectType getByPrimaryKey(String code);
 }

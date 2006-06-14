@@ -42,11 +42,11 @@ public class GeneralLedgerTestHelper {
     static public List loadOutputOriginEntriesFromClasspath(String nameOfOutputOriginEntryFileFromFis) throws IOException {
         return loadOutputOriginEntriesFromClasspath(nameOfOutputOriginEntryFileFromFis, null);
     }
-    
+
     /**
-     * This method differs from OriginEntryServiceImpl.loadFlatFile in that it loads a file using a classloader
-     * instead of loading a file from an absolute file path. This allows and in fact requires that the file
-     * from which the entries will be loaded be checked into the source repository along with this test.
+     * This method differs from OriginEntryServiceImpl.loadFlatFile in that it loads a file using a classloader instead of loading a
+     * file from an absolute file path. This allows and in fact requires that the file from which the entries will be loaded be
+     * checked into the source repository along with this test.
      * 
      * @param nameOfOutputOriginEntryFileFromFis
      * @return
@@ -54,18 +54,16 @@ public class GeneralLedgerTestHelper {
      */
     static public List loadOutputOriginEntriesFromClasspath(String nameOfOutputOriginEntryFileFromFis, Date date) throws IOException {
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-        InputStream inputStream = 
-            classLoader.getResourceAsStream(nameOfOutputOriginEntryFileFromFis);
-        
+        InputStream inputStream = classLoader.getResourceAsStream(nameOfOutputOriginEntryFileFromFis);
+
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-        
-        List expectedOutputOriginEntries = new ArrayList();        
+
+        List expectedOutputOriginEntries = new ArrayList();
         String line = null;
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        char[] dateChars = 
-            null == date ? null : dateFormat.format(date).toCharArray();
-        
-        while(null != (line = reader.readLine())) {
+        char[] dateChars = null == date ? null : dateFormat.format(date).toCharArray();
+
+        while (null != (line = reader.readLine())) {
             // correct for differences in line format
             char[] lineChars = new char[173];
             Arrays.fill(lineChars, ' ');
@@ -76,24 +74,25 @@ public class GeneralLedgerTestHelper {
             do {
                 if ('0' != lineChars[idx]) {
                     break;
-                } else {
+                }
+                else {
                     lineChars[idx] = ' ';
                 }
-            } while(103 > idx++);
-            
-            if(null != date) { // splice in the date
-                
-                for(int i = 0; i < dateChars.length; i++) {
+            } while (103 > idx++);
+
+            if (null != date) { // splice in the date
+
+                for (int i = 0; i < dateChars.length; i++) {
                     lineChars[109 + i] = dateChars[i];
                 }
-                
+
             }
-            
+
             String lin2 = new String(lineChars);
             expectedOutputOriginEntries.add(lin2);
         }
-        
+
         return expectedOutputOriginEntries;
     }
-        
+
 }

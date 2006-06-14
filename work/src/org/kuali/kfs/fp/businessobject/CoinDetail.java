@@ -35,242 +35,242 @@ import org.kuali.core.util.KualiDecimal;
  */
 public class CoinDetail extends BusinessObjectBase {
 
-	private String financialDocumentNumber;
-	private String financialDocumentTypeCode;
-	private String financialDocumentColumnTypeCode;
-	private KualiDecimal financialDocumentFiftyCentAmount;
-	private KualiDecimal financialDocumentTwentyFiveCentAmount;
-	private KualiDecimal financialDocumentTenCentAmount;
-	private KualiDecimal financialDocumentFiveCentAmount;
-	private KualiDecimal financialDocumentOneCentAmount;
-	private KualiDecimal financialDocumentOtherCentAmount;
-	private KualiDecimal financialDocumentHundredCentAmount;
+    private String financialDocumentNumber;
+    private String financialDocumentTypeCode;
+    private String financialDocumentColumnTypeCode;
+    private KualiDecimal financialDocumentFiftyCentAmount;
+    private KualiDecimal financialDocumentTwentyFiveCentAmount;
+    private KualiDecimal financialDocumentTenCentAmount;
+    private KualiDecimal financialDocumentFiveCentAmount;
+    private KualiDecimal financialDocumentOneCentAmount;
+    private KualiDecimal financialDocumentOtherCentAmount;
+    private KualiDecimal financialDocumentHundredCentAmount;
 
-	/**
-	 * Default constructor.
-	 */
-	public CoinDetail() {
+    /**
+     * Default constructor.
+     */
+    public CoinDetail() {
 
-	}
+    }
 
-	/**
-	 * Gets the financialDocumentNumber attribute.
-	 * 
-	 * @return - Returns the financialDocumentNumber
-	 * 
-	 */
-	public String getFinancialDocumentNumber() { 
-		return financialDocumentNumber;
-	}
+    /**
+     * Gets the financialDocumentNumber attribute.
+     * 
+     * @return - Returns the financialDocumentNumber
+     * 
+     */
+    public String getFinancialDocumentNumber() {
+        return financialDocumentNumber;
+    }
 
-	/**
-	 * Sets the financialDocumentNumber attribute.
-	 * 
-	 * @param - financialDocumentNumber The financialDocumentNumber to set.
-	 * 
-	 */
-	public void setFinancialDocumentNumber(String financialDocumentNumber) {
-		this.financialDocumentNumber = financialDocumentNumber;
-	}
-
-
-	/**
-	 * Gets the financialDocumentTypeCode attribute.
-	 * 
-	 * @return - Returns the financialDocumentTypeCode
-	 * 
-	 */
-	public String getFinancialDocumentTypeCode() { 
-		return financialDocumentTypeCode;
-	}
-
-	/**
-	 * Sets the financialDocumentTypeCode attribute.
-	 * 
-	 * @param - financialDocumentTypeCode The financialDocumentTypeCode to set.
-	 * 
-	 */
-	public void setFinancialDocumentTypeCode(String financialDocumentTypeCode) {
-		this.financialDocumentTypeCode = financialDocumentTypeCode;
-	}
+    /**
+     * Sets the financialDocumentNumber attribute.
+     * 
+     * @param - financialDocumentNumber The financialDocumentNumber to set.
+     * 
+     */
+    public void setFinancialDocumentNumber(String financialDocumentNumber) {
+        this.financialDocumentNumber = financialDocumentNumber;
+    }
 
 
-	/**
-	 * Gets the financialDocumentColumnTypeCode attribute.
-	 * 
-	 * @return - Returns the financialDocumentColumnTypeCode
-	 * 
-	 */
-	public String getFinancialDocumentColumnTypeCode() { 
-		return financialDocumentColumnTypeCode;
-	}
+    /**
+     * Gets the financialDocumentTypeCode attribute.
+     * 
+     * @return - Returns the financialDocumentTypeCode
+     * 
+     */
+    public String getFinancialDocumentTypeCode() {
+        return financialDocumentTypeCode;
+    }
 
-	/**
-	 * Sets the financialDocumentColumnTypeCode attribute.
-	 * 
-	 * @param - financialDocumentColumnTypeCode The financialDocumentColumnTypeCode to set.
-	 * 
-	 */
-	public void setFinancialDocumentColumnTypeCode(String financialDocumentColumnTypeCode) {
-		this.financialDocumentColumnTypeCode = financialDocumentColumnTypeCode;
-	}
-
-
-	/**
-	 * Gets the financialDocumentFiftyCentAmount attribute.
-	 * 
-	 * @return - Returns the financialDocumentFiftyCentAmount
-	 * 
-	 */
-	public KualiDecimal getFinancialDocumentFiftyCentAmount() { 
-		return financialDocumentFiftyCentAmount;
-	}
-
-	/**
-	 * Sets the financialDocumentFiftyCentAmount attribute.
-	 * 
-	 * @param - financialDocumentFiftyCentAmount The financialDocumentFiftyCentAmount to set.
-	 * 
-	 */
-	public void setFinancialDocumentFiftyCentAmount(KualiDecimal financialDocumentFiftyCentAmount) {
-		this.financialDocumentFiftyCentAmount = financialDocumentFiftyCentAmount;
-	}
+    /**
+     * Sets the financialDocumentTypeCode attribute.
+     * 
+     * @param - financialDocumentTypeCode The financialDocumentTypeCode to set.
+     * 
+     */
+    public void setFinancialDocumentTypeCode(String financialDocumentTypeCode) {
+        this.financialDocumentTypeCode = financialDocumentTypeCode;
+    }
 
 
-	/**
-	 * Gets the financialDocumentTwentyFiveCentAmount attribute.
-	 * 
-	 * @return - Returns the financialDocumentTwentyFiveCentAmount
-	 * 
-	 */
-	public KualiDecimal getFinancialDocumentTwentyFiveCentAmount() { 
-		return financialDocumentTwentyFiveCentAmount;
-	}
+    /**
+     * Gets the financialDocumentColumnTypeCode attribute.
+     * 
+     * @return - Returns the financialDocumentColumnTypeCode
+     * 
+     */
+    public String getFinancialDocumentColumnTypeCode() {
+        return financialDocumentColumnTypeCode;
+    }
 
-	/**
-	 * Sets the financialDocumentTwentyFiveCentAmount attribute.
-	 * 
-	 * @param - financialDocumentTwentyFiveCentAmount The financialDocumentTwentyFiveCentAmount to set.
-	 * 
-	 */
-	public void setFinancialDocumentTwentyFiveCentAmount(KualiDecimal financialDocumentTwentyFiveCentAmount) {
-		this.financialDocumentTwentyFiveCentAmount = financialDocumentTwentyFiveCentAmount;
-	}
-
-
-	/**
-	 * Gets the financialDocumentTenCentAmount attribute.
-	 * 
-	 * @return - Returns the financialDocumentTenCentAmount
-	 * 
-	 */
-	public KualiDecimal getFinancialDocumentTenCentAmount() { 
-		return financialDocumentTenCentAmount;
-	}
-
-	/**
-	 * Sets the financialDocumentTenCentAmount attribute.
-	 * 
-	 * @param - financialDocumentTenCentAmount The financialDocumentTenCentAmount to set.
-	 * 
-	 */
-	public void setFinancialDocumentTenCentAmount(KualiDecimal financialDocumentTenCentAmount) {
-		this.financialDocumentTenCentAmount = financialDocumentTenCentAmount;
-	}
+    /**
+     * Sets the financialDocumentColumnTypeCode attribute.
+     * 
+     * @param - financialDocumentColumnTypeCode The financialDocumentColumnTypeCode to set.
+     * 
+     */
+    public void setFinancialDocumentColumnTypeCode(String financialDocumentColumnTypeCode) {
+        this.financialDocumentColumnTypeCode = financialDocumentColumnTypeCode;
+    }
 
 
-	/**
-	 * Gets the financialDocumentFiveCentAmount attribute.
-	 * 
-	 * @return - Returns the financialDocumentFiveCentAmount
-	 * 
-	 */
-	public KualiDecimal getFinancialDocumentFiveCentAmount() { 
-		return financialDocumentFiveCentAmount;
-	}
+    /**
+     * Gets the financialDocumentFiftyCentAmount attribute.
+     * 
+     * @return - Returns the financialDocumentFiftyCentAmount
+     * 
+     */
+    public KualiDecimal getFinancialDocumentFiftyCentAmount() {
+        return financialDocumentFiftyCentAmount;
+    }
 
-	/**
-	 * Sets the financialDocumentFiveCentAmount attribute.
-	 * 
-	 * @param - financialDocumentFiveCentAmount The financialDocumentFiveCentAmount to set.
-	 * 
-	 */
-	public void setFinancialDocumentFiveCentAmount(KualiDecimal financialDocumentFiveCentAmount) {
-		this.financialDocumentFiveCentAmount = financialDocumentFiveCentAmount;
-	}
-
-
-	/**
-	 * Gets the financialDocumentOneCentAmount attribute.
-	 * 
-	 * @return - Returns the financialDocumentOneCentAmount
-	 * 
-	 */
-	public KualiDecimal getFinancialDocumentOneCentAmount() { 
-		return financialDocumentOneCentAmount;
-	}
-
-	/**
-	 * Sets the financialDocumentOneCentAmount attribute.
-	 * 
-	 * @param - financialDocumentOneCentAmount The financialDocumentOneCentAmount to set.
-	 * 
-	 */
-	public void setFinancialDocumentOneCentAmount(KualiDecimal financialDocumentOneCentAmount) {
-		this.financialDocumentOneCentAmount = financialDocumentOneCentAmount;
-	}
+    /**
+     * Sets the financialDocumentFiftyCentAmount attribute.
+     * 
+     * @param - financialDocumentFiftyCentAmount The financialDocumentFiftyCentAmount to set.
+     * 
+     */
+    public void setFinancialDocumentFiftyCentAmount(KualiDecimal financialDocumentFiftyCentAmount) {
+        this.financialDocumentFiftyCentAmount = financialDocumentFiftyCentAmount;
+    }
 
 
-	/**
-	 * Gets the financialDocumentOtherCentAmount attribute.
-	 * 
-	 * @return - Returns the financialDocumentOtherCentAmount
-	 * 
-	 */
-	public KualiDecimal getFinancialDocumentOtherCentAmount() { 
-		return financialDocumentOtherCentAmount;
-	}
+    /**
+     * Gets the financialDocumentTwentyFiveCentAmount attribute.
+     * 
+     * @return - Returns the financialDocumentTwentyFiveCentAmount
+     * 
+     */
+    public KualiDecimal getFinancialDocumentTwentyFiveCentAmount() {
+        return financialDocumentTwentyFiveCentAmount;
+    }
 
-	/**
-	 * Sets the financialDocumentOtherCentAmount attribute.
-	 * 
-	 * @param - financialDocumentOtherCentAmount The financialDocumentOtherCentAmount to set.
-	 * 
-	 */
-	public void setFinancialDocumentOtherCentAmount(KualiDecimal financialDocumentOtherCentAmount) {
-		this.financialDocumentOtherCentAmount = financialDocumentOtherCentAmount;
-	}
-
-
-	/**
-	 * Gets the financialDocumentHundredCentAmount attribute.
-	 * 
-	 * @return - Returns the financialDocumentHundredCentAmount
-	 * 
-	 */
-	public KualiDecimal getFinancialDocumentHundredCentAmount() { 
-		return financialDocumentHundredCentAmount;
-	}
-
-	/**
-	 * Sets the financialDocumentHundredCentAmount attribute.
-	 * 
-	 * @param - financialDocumentHundredCentAmount The financialDocumentHundredCentAmount to set.
-	 * 
-	 */
-	public void setFinancialDocumentHundredCentAmount(KualiDecimal financialDocumentHundredCentAmount) {
-		this.financialDocumentHundredCentAmount = financialDocumentHundredCentAmount;
-	}
+    /**
+     * Sets the financialDocumentTwentyFiveCentAmount attribute.
+     * 
+     * @param - financialDocumentTwentyFiveCentAmount The financialDocumentTwentyFiveCentAmount to set.
+     * 
+     */
+    public void setFinancialDocumentTwentyFiveCentAmount(KualiDecimal financialDocumentTwentyFiveCentAmount) {
+        this.financialDocumentTwentyFiveCentAmount = financialDocumentTwentyFiveCentAmount;
+    }
 
 
-	/**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
+    /**
+     * Gets the financialDocumentTenCentAmount attribute.
+     * 
+     * @return - Returns the financialDocumentTenCentAmount
+     * 
+     */
+    public KualiDecimal getFinancialDocumentTenCentAmount() {
+        return financialDocumentTenCentAmount;
+    }
+
+    /**
+     * Sets the financialDocumentTenCentAmount attribute.
+     * 
+     * @param - financialDocumentTenCentAmount The financialDocumentTenCentAmount to set.
+     * 
+     */
+    public void setFinancialDocumentTenCentAmount(KualiDecimal financialDocumentTenCentAmount) {
+        this.financialDocumentTenCentAmount = financialDocumentTenCentAmount;
+    }
+
+
+    /**
+     * Gets the financialDocumentFiveCentAmount attribute.
+     * 
+     * @return - Returns the financialDocumentFiveCentAmount
+     * 
+     */
+    public KualiDecimal getFinancialDocumentFiveCentAmount() {
+        return financialDocumentFiveCentAmount;
+    }
+
+    /**
+     * Sets the financialDocumentFiveCentAmount attribute.
+     * 
+     * @param - financialDocumentFiveCentAmount The financialDocumentFiveCentAmount to set.
+     * 
+     */
+    public void setFinancialDocumentFiveCentAmount(KualiDecimal financialDocumentFiveCentAmount) {
+        this.financialDocumentFiveCentAmount = financialDocumentFiveCentAmount;
+    }
+
+
+    /**
+     * Gets the financialDocumentOneCentAmount attribute.
+     * 
+     * @return - Returns the financialDocumentOneCentAmount
+     * 
+     */
+    public KualiDecimal getFinancialDocumentOneCentAmount() {
+        return financialDocumentOneCentAmount;
+    }
+
+    /**
+     * Sets the financialDocumentOneCentAmount attribute.
+     * 
+     * @param - financialDocumentOneCentAmount The financialDocumentOneCentAmount to set.
+     * 
+     */
+    public void setFinancialDocumentOneCentAmount(KualiDecimal financialDocumentOneCentAmount) {
+        this.financialDocumentOneCentAmount = financialDocumentOneCentAmount;
+    }
+
+
+    /**
+     * Gets the financialDocumentOtherCentAmount attribute.
+     * 
+     * @return - Returns the financialDocumentOtherCentAmount
+     * 
+     */
+    public KualiDecimal getFinancialDocumentOtherCentAmount() {
+        return financialDocumentOtherCentAmount;
+    }
+
+    /**
+     * Sets the financialDocumentOtherCentAmount attribute.
+     * 
+     * @param - financialDocumentOtherCentAmount The financialDocumentOtherCentAmount to set.
+     * 
+     */
+    public void setFinancialDocumentOtherCentAmount(KualiDecimal financialDocumentOtherCentAmount) {
+        this.financialDocumentOtherCentAmount = financialDocumentOtherCentAmount;
+    }
+
+
+    /**
+     * Gets the financialDocumentHundredCentAmount attribute.
+     * 
+     * @return - Returns the financialDocumentHundredCentAmount
+     * 
+     */
+    public KualiDecimal getFinancialDocumentHundredCentAmount() {
+        return financialDocumentHundredCentAmount;
+    }
+
+    /**
+     * Sets the financialDocumentHundredCentAmount attribute.
+     * 
+     * @param - financialDocumentHundredCentAmount The financialDocumentHundredCentAmount to set.
+     * 
+     */
+    public void setFinancialDocumentHundredCentAmount(KualiDecimal financialDocumentHundredCentAmount) {
+        this.financialDocumentHundredCentAmount = financialDocumentHundredCentAmount;
+    }
+
+
+    /**
+     * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
         m.put("financialDocumentNumber", this.financialDocumentNumber);
         m.put("financialDocumentTypeCode", this.financialDocumentTypeCode);
         m.put("financialDocumentColumnTypeCode", this.financialDocumentColumnTypeCode);
-	    return m;
+        return m;
     }
 }

@@ -66,8 +66,7 @@ public class DisbursementVoucherDocumentRuleTest extends KualiTestBaseWithFixtur
     }
 
     public void testProcessSourceAccountingLineSufficientFundsCheckingPreparation() throws Exception {
-        SourceAccountingLine line = (SourceAccountingLine)((AccountingLineParameter) getFixtureEntryFromCollection(COLLECTION_NAME, SOURCE_LINE_1)
-                .createObject()).createLine();
+        SourceAccountingLine line = (SourceAccountingLine) ((AccountingLineParameter) getFixtureEntryFromCollection(COLLECTION_NAME, SOURCE_LINE_1).createObject()).createLine();
 
         DisbursementVoucherDocumentRule rule = new DisbursementVoucherDocumentRule();
 

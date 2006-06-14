@@ -73,8 +73,8 @@ public class CashReceiptDocument extends TransactionalDocumentBase {
      */
     public CashReceiptDocument() {
         super();
-        
-        setCampusLocationCode( Constants.CashReceiptConstants.DEFAULT_CASH_RECEIPT_CAMPUS_LOCATION_CODE );
+
+        setCampusLocationCode(Constants.CashReceiptConstants.DEFAULT_CASH_RECEIPT_CAMPUS_LOCATION_CODE);
     }
 
     /**
@@ -214,29 +214,28 @@ public class CashReceiptDocument extends TransactionalDocumentBase {
         }
         return (Check) checks.get(index);
     }
-    
+
     /**
-     * Total for a Cash Receipt according to the spec should be the sum of the 
-     * amounts on accounting lines belonging to object codes having the 'income' object type, 
-     * less the sum of the amounts on accounting lines belonging to object codes 
-     * having the 'expense' object type.
+     * Total for a Cash Receipt according to the spec should be the sum of the amounts on accounting lines belonging to object codes
+     * having the 'income' object type, less the sum of the amounts on accounting lines belonging to object codes having the
+     * 'expense' object type.
      * 
      * @see org.kuali.core.document.TransactionalDocument#getSourceTotal()
      */
     public KualiDecimal getSourceTotal() {
-        CashReceiptDocumentRule crDocRule = (CashReceiptDocumentRule) SpringServiceLocator.getKualiRuleService().
-            getBusinessRulesInstance(this, AccountingLineRule.class);
+        CashReceiptDocumentRule crDocRule = (CashReceiptDocumentRule) SpringServiceLocator.getKualiRuleService().getBusinessRulesInstance(this, AccountingLineRule.class);
         KualiDecimal total = new KualiDecimal(0);
         AccountingLineBase al = null;
         Iterator iter = sourceAccountingLines.iterator();
         while (iter.hasNext()) {
             al = (AccountingLineBase) iter.next();
-            
+
             KualiDecimal amount = al.getAmount();
             if (amount != null) {
-                if(crDocRule.isDebit(al)) {
+                if (crDocRule.isDebit(al)) {
                     total = total.subtract(amount);
-                } else if(crDocRule.isCredit(al)) {
+                }
+                else if (crDocRule.isCredit(al)) {
                     total = total.add(amount);
                 }
             }
@@ -328,9 +327,10 @@ public class CashReceiptDocument extends TransactionalDocumentBase {
      * @param totalCheckAmount The totalCheckAmount to set.
      */
     public void setTotalCheckAmount(KualiDecimal totalCheckAmount) {
-        if(totalCheckAmount == null) {
+        if (totalCheckAmount == null) {
             this.totalCheckAmount = new KualiDecimal(0);
-        } else {
+        }
+        else {
             this.totalCheckAmount = totalCheckAmount;
         }
     }
@@ -422,8 +422,7 @@ public class CashReceiptDocument extends TransactionalDocumentBase {
     public void handleRouteStatusChange() {
         // Workflow Status of Final --> Kuali Doc Status of Verified
         if (getDocumentHeader().getWorkflowDocument().stateIsApproved() || getDocumentHeader().getWorkflowDocument().stateIsProcessed() || getDocumentHeader().getWorkflowDocument().stateIsFinal()) {
-            this.getDocumentHeader().setFinancialDocumentStatusCode(
-                    Constants.DocumentStatusCodes.CashReceipt.VERIFIED);
+            this.getDocumentHeader().setFinancialDocumentStatusCode(Constants.DocumentStatusCodes.CashReceipt.VERIFIED);
         }
     }
 

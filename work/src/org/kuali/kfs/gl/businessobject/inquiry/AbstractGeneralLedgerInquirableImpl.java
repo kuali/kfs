@@ -100,9 +100,7 @@ public abstract class AbstractGLInquirableImpl extends KualiInquirableImpl {
 
         // process the business object class if the attribute name is not user-defined
         if (!isUserDefinedAttribute) {
-            if (inquiryBusinessObjectClass == null || businessDictionary.isInquirable(inquiryBusinessObjectClass) == null
-                    || !businessDictionary.isInquirable(inquiryBusinessObjectClass).booleanValue()
-                    || isExclusiveField(attributeName, attributeValue)) {
+            if (inquiryBusinessObjectClass == null || businessDictionary.isInquirable(inquiryBusinessObjectClass) == null || !businessDictionary.isInquirable(inquiryBusinessObjectClass).booleanValue() || isExclusiveField(attributeName, attributeValue)) {
                 return Constants.EMPTY_STRING;
             }
 
@@ -149,8 +147,7 @@ public abstract class AbstractGLInquirableImpl extends KualiInquirableImpl {
                     keyConversion = keyName;
                 }
                 else {
-                    keyConversion = persistenceStructureService.getForeignKeyFieldName(businessObject.getClass(), attributeRefName,
-                            keyName);
+                    keyConversion = persistenceStructureService.getForeignKeyFieldName(businessObject.getClass(), attributeRefName, keyName);
                 }
             }
             Object keyValue = ObjectUtils.getPropertyValue(businessObject, keyConversion);
@@ -247,28 +244,22 @@ public abstract class AbstractGLInquirableImpl extends KualiInquirableImpl {
         if (keyName != null && keyValue != null) {
             String convertedKeyName = BusinessObjectFieldConverter.convertFromTransactionPropertyName(keyName.toString());
 
-            if (convertedKeyName.equals(PropertyConstants.SUB_ACCOUNT_NUMBER)
-                    && keyValue.equals(Constant.CONSOLIDATED_SUB_ACCOUNT_NUMBER)) {
+            if (convertedKeyName.equals(PropertyConstants.SUB_ACCOUNT_NUMBER) && keyValue.equals(Constant.CONSOLIDATED_SUB_ACCOUNT_NUMBER)) {
                 return true;
             }
-            else if (convertedKeyName.equals(PropertyConstants.SUB_OBJECT_CODE)
-                    && keyValue.equals(Constant.CONSOLIDATED_SUB_OBJECT_CODE)) {
+            else if (convertedKeyName.equals(PropertyConstants.SUB_OBJECT_CODE) && keyValue.equals(Constant.CONSOLIDATED_SUB_OBJECT_CODE)) {
                 return true;
             }
-            else if (convertedKeyName.equals(PropertyConstants.OBJECT_TYPE_CODE)
-                    && keyValue.equals(Constant.CONSOLIDATED_OBJECT_TYPE_CODE)) {
+            else if (convertedKeyName.equals(PropertyConstants.OBJECT_TYPE_CODE) && keyValue.equals(Constant.CONSOLIDATED_OBJECT_TYPE_CODE)) {
                 return true;
             }
-            if (convertedKeyName.equals(PropertyConstants.SUB_ACCOUNT_NUMBER)
-                    && keyValue.equals(Constants.DASHES_SUB_ACCOUNT_NUMBER)) {
+            if (convertedKeyName.equals(PropertyConstants.SUB_ACCOUNT_NUMBER) && keyValue.equals(Constants.DASHES_SUB_ACCOUNT_NUMBER)) {
                 return true;
             }
-            else if (convertedKeyName.equals(PropertyConstants.SUB_OBJECT_CODE)
-                    && keyValue.equals(Constants.DASHES_SUB_OBJECT_CODE)) {
+            else if (convertedKeyName.equals(PropertyConstants.SUB_OBJECT_CODE) && keyValue.equals(Constants.DASHES_SUB_OBJECT_CODE)) {
                 return true;
             }
-            else if (convertedKeyName.equals(PropertyConstants.PROJECT_CODE) 
-                    && keyValue.equals(Constants.DASHES_PROJECT_CODE)) {
+            else if (convertedKeyName.equals(PropertyConstants.PROJECT_CODE) && keyValue.equals(Constants.DASHES_PROJECT_CODE)) {
                 return true;
             }
         }

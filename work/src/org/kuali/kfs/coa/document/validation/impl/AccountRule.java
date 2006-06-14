@@ -51,9 +51,9 @@ import org.kuali.module.gl.service.GeneralLedgerPendingEntryService;
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public class AccountRule extends MaintenanceDocumentRuleBase {
-    
+
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountRule.class);
-    
+
     private static final String ACCT_PREFIX_RESTRICTION = "Account.PrefixRestriction";
     private static final String ACCT_CAPITAL_SUBFUNDGROUP = "Account.CapitalSubFundGroup";
 
@@ -62,64 +62,63 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
     private static final String RESTRICTED_FUND_CD = "RF";
     private static final String ENDOWMENT_FUND_CD = "EN";
     private static final String PLANT_FUND_CD = "PF";
-    
+
     private static final String RESTRICTED_CD_RESTRICTED = "R";
     private static final String RESTRICTED_CD_UNRESTRICTED = "U";
     private static final String RESTRICTED_CD_TEMPORARILY_RESTRICTED = "T";
-    
-    
+
+
     private static final String SUB_FUND_GROUP_MEDICAL_PRACTICE_FUNDS = "MPRACT";
-    
+
     private static final String BUDGET_RECORDING_LEVEL_MIXED = "M";
-    
+
     private GeneralLedgerPendingEntryService generalLedgerPendingEntryService;
     private BalanceService balanceService;
-    
+
     private Account oldAccount;
     private Account newAccount;
-    
+
     public AccountRule() {
-        
+
         // Pseudo-inject some services.
         //
-        // This approach is being used to make it simpler to convert the Rule classes 
-        // to spring-managed with these services injected by Spring at some later date.  
-        // When this happens, just remove these calls to the setters with 
+        // This approach is being used to make it simpler to convert the Rule classes
+        // to spring-managed with these services injected by Spring at some later date.
+        // When this happens, just remove these calls to the setters with
         // SpringServiceLocator, and configure the bean defs for spring.
         this.setGeneralLedgerPendingEntryService(SpringServiceLocator.getGeneralLedgerPendingEntryService());
         this.setBalanceService(SpringServiceLocator.getBalanceService());
     }
-    
+
     /**
      * 
-     * This method sets the convenience objects like newAccount and oldAccount, so you
-     * have short and easy handles to the new and old objects contained in the 
-     * maintenance document.
+     * This method sets the convenience objects like newAccount and oldAccount, so you have short and easy handles to the new and
+     * old objects contained in the maintenance document.
      * 
-     * It also calls the BusinessObjectBase.refresh(), which will attempt to load 
-     * all sub-objects from the DB by their primary keys, if available.
+     * It also calls the BusinessObjectBase.refresh(), which will attempt to load all sub-objects from the DB by their primary keys,
+     * if available.
      * 
      * @param document - the maintenanceDocument being evaluated
      * 
      */
     public void setupConvenienceObjects() {
-        
-        //	setup oldAccount convenience objects, make sure all possible sub-objects are populated
+
+        // setup oldAccount convenience objects, make sure all possible sub-objects are populated
         oldAccount = (Account) super.getOldBo();
 
-        //	setup newAccount convenience objects, make sure all possible sub-objects are populated
+        // setup newAccount convenience objects, make sure all possible sub-objects are populated
         newAccount = (Account) super.getNewBo();
     }
-    
+
     /**
      * 
      * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
      */
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
-        
+
         LOG.info("processCustomSaveDocumentBusinessRules called");
         setupConvenienceObjects();
-        
+
         checkEmptyValues(document);
         checkGeneralRules(document);
         checkCloseAccount(document);
@@ -127,19 +126,19 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         checkExpirationDate(document);
         checkFundGroup(document);
         checkSubFundGroup(document);
-        
-        //	Save always succeeds, even if there are business rule failures
+
+        // Save always succeeds, even if there are business rule failures
         return true;
     }
-    
+
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
 
         LOG.info("processCustomRouteDocumentBusinessRules called");
         setupConvenienceObjects();
-        
-        //	default to success
+
+        // default to success
         boolean success = true;
-        
+
         success &= checkEmptyValues(document);
         success &= checkGeneralRules(document);
         success &= checkCloseAccount(document);
@@ -147,35 +146,35 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         success &= checkExpirationDate(document);
         success &= checkFundGroup(document);
         success &= checkSubFundGroup(document);
-        
+
         return success;
     }
 
     /**
      * 
-     * This method checks the basic rules for empty values in an account and associated
-     * objects with this account
+     * This method checks the basic rules for empty values in an account and associated objects with this account
+     * 
      * @param maintenanceDocument
      * @return
      */
     protected boolean checkEmptyValues(MaintenanceDocument maintenanceDocument) {
-        
+
         LOG.info("checkEmptyValues called");
 
         boolean success = true;
-        
-        //	guidelines are always required, except when the expirationDate is set, and its 
+
+        // guidelines are always required, except when the expirationDate is set, and its
         // earlier than today
         boolean guidelinesRequired = areGuidelinesRequired((Account) maintenanceDocument.getNewMaintainableObject().getBusinessObject());
 
-        //  confirm that required guidelines are entered, if required
+        // confirm that required guidelines are entered, if required
         if (guidelinesRequired) {
             success &= checkEmptyBOField("accountGuideline.accountExpenseGuidelineText", newAccount.getAccountGuideline().getAccountExpenseGuidelineText(), "Expense Guideline");
             success &= checkEmptyBOField("accountGuideline.accountIncomeGuidelineText", newAccount.getAccountGuideline().getAccountIncomeGuidelineText(), "Income Guideline");
             success &= checkEmptyBOField("accountGuideline.accountPurposeText", newAccount.getAccountGuideline().getAccountPurposeText(), "Account Purpose");
         }
 
-        //  this set confirms that all fields which are grouped (ie, foreign keys of a referenc 
+        // this set confirms that all fields which are grouped (ie, foreign keys of a referenc
         // object), must either be none filled out, or all filled out.
         success &= checkForPartiallyFilledOutReferenceForeignKeys("continuationAccount");
         success &= checkForPartiallyFilledOutReferenceForeignKeys("incomeStreamAccount");
@@ -183,23 +182,22 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         success &= checkForPartiallyFilledOutReferenceForeignKeys("reportsToAccount");
         success &= checkForPartiallyFilledOutReferenceForeignKeys("contractControlAccount");
         success &= checkForPartiallyFilledOutReferenceForeignKeys("indirectCostRecoveryAcct");
-        
+
         return success;
     }
-    
+
     /**
      * 
-     * This method determines whether the guidelines are required, based on 
-     * business rules.
+     * This method determines whether the guidelines are required, based on business rules.
      * 
      * @param account - the populated Account bo to be evaluated
      * @return - true if guidelines are required, false otherwise
      * 
      */
     protected boolean areGuidelinesRequired(Account account) {
-        
+
         boolean result = true;
-        
+
         if (account.getAccountExpirationDate() != null) {
             Timestamp today = getDateTimeService().getCurrentTimestamp();
             today.setTime(DateUtils.truncate(today, Calendar.DAY_OF_MONTH).getTime());
@@ -209,11 +207,10 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         }
         return result;
     }
-    
+
     /**
      * 
-     * This method tests whether the accountNumber passed in is prefixed with an 
-     * allowed prefix, or an illegal one. 
+     * This method tests whether the accountNumber passed in is prefixed with an allowed prefix, or an illegal one.
      * 
      * The illegal prefixes are passed in as an array of strings.
      * 
@@ -223,44 +220,42 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
      * 
      */
     protected boolean accountNumberStartsWithAllowedPrefix(String accountNumber, String[] illegalValues) {
-        
+
         boolean result = true;
-        
-        //  for each disallowed value, make sure the account doesnt start with it
+
+        // for each disallowed value, make sure the account doesnt start with it
         for (int i = 0; i < illegalValues.length; i++) {
             if (accountNumber.startsWith(illegalValues[i])) {
                 result = false;
-                putFieldError("accountNumber", 
-                        KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_NMBR_NOT_ALLOWED, 
-                        new String[] {accountNumber, illegalValues[i]});
+                putFieldError("accountNumber", KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_NMBR_NOT_ALLOWED, new String[] { accountNumber, illegalValues[i] });
             }
         }
-        
+
         return result;
     }
-    
+
     /**
      * 
-     * This method tests whether an account is being ReOpened by anyone except a system 
-     * supervisor.  Only system supervisors may reopen closed accounts.
+     * This method tests whether an account is being ReOpened by anyone except a system supervisor. Only system supervisors may
+     * reopen closed accounts.
      * 
      * @param document - populated document containing the old and new accounts
-     * @param user - the user who is trying to possibly reopen the account 
-     * @return - true if:  document is an edit document, old was closed and new is open, and the 
-     *           user is not one of the System Supervisors
-     *           
+     * @param user - the user who is trying to possibly reopen the account
+     * @return - true if: document is an edit document, old was closed and new is open, and the user is not one of the System
+     *         Supervisors
+     * 
      */
     protected boolean isNonSystemSupervisorReopeningAClosedAccount(MaintenanceDocument document, KualiUser user) {
-        
+
         boolean result = false;
-        
+
         if (document.isEdit()) {
-            
-            //  get local references
+
+            // get local references
             Account oldAccount = (Account) document.getOldMaintainableObject().getBusinessObject();
             Account newAccount = (Account) document.getNewMaintainableObject().getBusinessObject();
-            
-            //  do the test
+
+            // do the test
             if (oldAccount.isAccountClosedIndicator()) {
                 if (!newAccount.isAccountClosedIndicator()) {
                     if (!user.isSupervisorUser()) {
@@ -271,20 +266,19 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         }
         return result;
     }
-    
+
     /**
      * 
-     * This method tests whether a given account has the T - Temporary value for 
-     * Restricted Status Code, but does not have a Restricted Status Date, which is 
-     * required when the code is T.
+     * This method tests whether a given account has the T - Temporary value for Restricted Status Code, but does not have a
+     * Restricted Status Date, which is required when the code is T.
      * 
      * @param account
      * @return
      */
     protected boolean hasTemporaryRestrictedStatusCodeButNoRestrictedStatusDate(Account account) {
-        
+
         boolean result = false;
-        
+
         if (StringUtils.isNotBlank(account.getAccountRestrictedStatusCode())) {
             if (RESTRICTED_CD_TEMPORARILY_RESTRICTED.equalsIgnoreCase(account.getAccountRestrictedStatusCode().trim())) {
                 if (account.getAccountRestrictedStatusDate() == null) {
@@ -294,10 +288,11 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         }
         return result;
     }
-    
+
     /**
      * 
      * This method checks some of the general business rules associated with this document
+     * 
      * @param maintenanceDocument
      * @return false on rules violation
      */
@@ -307,42 +302,41 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         UniversalUser fiscalOfficer = newAccount.getAccountFiscalOfficerUser();
         UniversalUser accountManager = newAccount.getAccountManagerUser();
         UniversalUser accountSupervisor = newAccount.getAccountSupervisoryUser();
-        
+
         boolean success = true;
 
         // Enforce institutionally specified restrictions on account number prefixes
         // (e.g. the account number cannot begin with a 3 or with 00.)
         // Only bother trying if there is an account string to test
         if (!StringUtils.isBlank(newAccount.getAccountNumber())) {
-            String[] illegalValues = getConfigService().getApplicationParameterValues(
-                Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, ACCT_PREFIX_RESTRICTION);
-            //  test the number
+            String[] illegalValues = getConfigService().getApplicationParameterValues(Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, ACCT_PREFIX_RESTRICTION);
+            // test the number
             success &= accountNumberStartsWithAllowedPrefix(newAccount.getAccountNumber(), illegalValues);
         }
-        
-        //only a FIS supervisor can reopen a closed account. (This is the central super user, not an account supervisor).
-        //we need to get the old maintanable doc here
+
+        // only a FIS supervisor can reopen a closed account. (This is the central super user, not an account supervisor).
+        // we need to get the old maintanable doc here
         if (isNonSystemSupervisorReopeningAClosedAccount(maintenanceDocument, GlobalVariables.getUserSession().getKualiUser())) {
             success &= false;
             putFieldError("accountClosedIndicator", KeyConstants.ERROR_DOCUMENT_ACCMAINT_ONLY_SUPERVISORS_CAN_REOPEN);
         }
-        
-        //  when a restricted status code of 'T' (temporarily restricted) is selected, a restricted status 
+
+        // when a restricted status code of 'T' (temporarily restricted) is selected, a restricted status
         // date must be supplied.
         if (hasTemporaryRestrictedStatusCodeButNoRestrictedStatusDate(newAccount)) {
             success &= false;
             putFieldError("accountRestrictedStatusDate", KeyConstants.ERROR_DOCUMENT_ACCMAINT_RESTRICTED_STATUS_DT_REQ, newAccount.getAccountNumber());
         }
-        
-        //  check FringeBenefit account rules
+
+        // check FringeBenefit account rules
         success &= checkFringeBenefitAccountRule(newAccount);
-        
-        //the employee type for fiscal officer, account manager, and account supervisor must be 'P' – professional.
+
+        // the employee type for fiscal officer, account manager, and account supervisor must be 'P' – professional.
         success &= checkUserStatusAndType("accountFiscalOfficerUser.personUserIdentifier", fiscalOfficer);
         success &= checkUserStatusAndType("accountSupervisoryUser.personUserIdentifier", accountSupervisor);
         success &= checkUserStatusAndType("accountManagerUser.personUserIdentifier", accountManager);
-        
-        //the supervisor cannot be the same as the fiscal officer or account manager.
+
+        // the supervisor cannot be the same as the fiscal officer or account manager.
         if (isSupervisorSameAsFiscalOfficer(newAccount)) {
             success &= false;
             putFieldError("accountsSupervisorySystemsIdentifier", KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_SUPER_CANNOT_BE_FISCAL_OFFICER);
@@ -351,114 +345,108 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
             success &= false;
             putFieldError("accountManagerSystemIdentifier", KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_SUPER_CANNOT_BE_ACCT_MGR);
         }
-        
-        //  disallow continuation account being expired
+
+        // disallow continuation account being expired
         if (isContinuationAccountExpired(newAccount)) {
             success &= false;
-            putFieldError("continuationAccountNumber", 
-                    KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCOUNT_EXPIRED_CONTINUATION);
+            putFieldError("continuationAccountNumber", KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCOUNT_EXPIRED_CONTINUATION);
         }
-        
+
         return success;
     }
 
     /**
      * 
-     * This method tests whether the continuation account entered (if any) 
-     * has expired or not.
+     * This method tests whether the continuation account entered (if any) has expired or not.
      * 
      * @param newAccount
      * @return
      * 
      */
     protected boolean isContinuationAccountExpired(Account newAccount) {
-        
+
         boolean result = false;
-        
+
         String chartCode = newAccount.getContinuationFinChrtOfAcctCd();
         String accountNumber = newAccount.getContinuationAccountNumber();
-        
-        //  if either chartCode or accountNumber is not entered, then we 
+
+        // if either chartCode or accountNumber is not entered, then we
         // cant continue, so exit
         if (StringUtils.isBlank(chartCode) || StringUtils.isBlank(accountNumber)) {
             return result;
         }
-        
-        //  attempt to retrieve the continuation account from the DB
+
+        // attempt to retrieve the continuation account from the DB
         Account continuation = null;
         Map pkMap = new HashMap();
         pkMap.put("chartOfAccountsCode", chartCode);
         pkMap.put("accountNumber", accountNumber);
         continuation = (Account) super.getBoService().findByPrimaryKey(Account.class, pkMap);
-        
-        //  if the object doesnt exist, then we cant continue, so exit
+
+        // if the object doesnt exist, then we cant continue, so exit
         if (ObjectUtils.isNull(continuation)) {
             return result;
         }
-        
-        //  at this point, we have a valid continuation account, so we just need to 
+
+        // at this point, we have a valid continuation account, so we just need to
         // know whether its expired or not
         result = continuation.isExpired();
-        
+
         return result;
     }
-    
-    // the fringe benefit account (otherwise known as the reportsToAccount) is required if 
-    // the fringe benefit code is set to N. 
+
+    // the fringe benefit account (otherwise known as the reportsToAccount) is required if
+    // the fringe benefit code is set to N.
     // The fringe benefit code of the account designated to accept the fringes must be Y.
     protected boolean checkFringeBenefitAccountRule(Account newAccount) {
-        
+
         boolean result = true;
-        
-        //  if this account is selected as a Fringe Benefit Account, then we have nothing
+
+        // if this account is selected as a Fringe Benefit Account, then we have nothing
         // to test, so exit
         if (newAccount.isAccountsFringesBnftIndicator()) {
             return true;
         }
-        
-        //  if fringe benefit is not selected ... continue processing
-        
-        //  fringe benefit account number is required
+
+        // if fringe benefit is not selected ... continue processing
+
+        // fringe benefit account number is required
         if (StringUtils.isBlank(newAccount.getReportsToAccountNumber())) {
             putFieldError("reportsToAccountNumber", KeyConstants.ERROR_DOCUMENT_ACCMAINT_RPTS_TO_ACCT_REQUIRED_IF_FRINGEBENEFIT_FALSE);
             return false;
         }
-        
-        //  fringe benefit chart of accounts code is required
+
+        // fringe benefit chart of accounts code is required
         if (StringUtils.isBlank(newAccount.getReportsToChartOfAccountsCode())) {
             putFieldError("reportsToChartOfAccountsCode", KeyConstants.ERROR_DOCUMENT_ACCMAINT_RPTS_TO_ACCT_REQUIRED_IF_FRINGEBENEFIT_FALSE);
             return false;
         }
-        
-        //  if the reportsToAccount doesnt exist by the accountNumber and chartOfAccountsCode
+
+        // if the reportsToAccount doesnt exist by the accountNumber and chartOfAccountsCode
         DictionaryValidationService dvService = super.getDictionaryValidationService();
         boolean referenceExists = dvService.validateReferenceExists(newAccount, "reportsToAccount");
         if (!referenceExists) {
-            putFieldError("reportsToAccountNumber", KeyConstants.ERROR_EXISTENCE, 
-                            "Fringe Benefit Account: " + newAccount.getReportsToChartOfAccountsCode() + "-" + 
-                            newAccount.getReportsToAccountNumber());
+            putFieldError("reportsToAccountNumber", KeyConstants.ERROR_EXISTENCE, "Fringe Benefit Account: " + newAccount.getReportsToChartOfAccountsCode() + "-" + newAccount.getReportsToAccountNumber());
             return false;
         }
 
-        //  check active
+        // check active
         boolean active = dvService.validateReferenceIsActive(newAccount, "reportsToAccount", "accountClosedIndicator", true);
         if (!active) {
-            putFieldError("reportsToAccountNumber", 
-                    KeyConstants.ERROR_DOCUMENT_ACCMAINT_RPTS_TO_ACCT_MUST_BE_FLAGGED_FRINGEBENEFIT, 
-                    newAccount.getReportsToAccountNumber());
+            putFieldError("reportsToAccountNumber", KeyConstants.ERROR_DOCUMENT_ACCMAINT_RPTS_TO_ACCT_MUST_BE_FLAGGED_FRINGEBENEFIT, newAccount.getReportsToAccountNumber());
             return false;
         }
         return result;
     }
-    
+
     protected boolean isSupervisorSameAsFiscalOfficer(Account account) {
         return areTwoUsersTheSame(account.getAccountSupervisoryUser(), account.getAccountFiscalOfficerUser());
     }
-    
+
     protected boolean isSupervisorSameAsManager(Account account) {
         return areTwoUsersTheSame(account.getAccountSupervisoryUser(), account.getAccountManagerUser());
     }
-    
+
     protected boolean areTwoUsersTheSame(UniversalUser user1, UniversalUser user2) {
         if (ObjectUtils.isNull(user1)) {
             return false;
@@ -473,58 +461,49 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
             return false;
         }
     }
-    
+
     /**
      * 
-     * This method checks to see if the user passed in is of the type requested.  
+     * This method checks to see if the user passed in is of the type requested.
      * 
-     * If so, it returns true.  If not, it returns false, and adds an error to 
-     * the GlobalErrors.
+     * If so, it returns true. If not, it returns false, and adds an error to the GlobalErrors.
+     * 
      * @param user - UniversalUser to be tested
-     * @param employeeType - String value expected for Employee Type 
+     * @param employeeType - String value expected for Employee Type
      * @param userRoleDescription - User Role being tested, to be passed into an error message
      * 
-     * @return - true if user is of the requested employee type, false if not, true if the 
-     *           user object is null
+     * @return - true if user is of the requested employee type, false if not, true if the user object is null
      * 
      */
     protected boolean checkUserStatusAndType(String propertyName, UniversalUser user) {
-        
+
         boolean success = true;
-        
-        //	if the user isnt populated, exit with success
+
+        // if the user isnt populated, exit with success
         // the actual existence check is performed in the general rules so not testing here
         if (ObjectUtils.isNull(user)) {
             return success;
         }
-        
-        //  user must be of the allowable statuses (A - Active)
-        if (apcRuleFails(Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, 
-                Constants.ChartApcParms.ACCOUNT_USER_EMP_STATUSES, 
-                user.getEmployeeStatusCode())) {
+
+        // user must be of the allowable statuses (A - Active)
+        if (apcRuleFails(Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, Constants.ChartApcParms.ACCOUNT_USER_EMP_STATUSES, user.getEmployeeStatusCode())) {
             success &= false;
-            putFieldError(propertyName, 
-                    KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACTIVE_REQD_FOR_EMPLOYEE, 
-                    getDdService().getAttributeLabel(Account.class, propertyName));
+            putFieldError(propertyName, KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACTIVE_REQD_FOR_EMPLOYEE, getDdService().getAttributeLabel(Account.class, propertyName));
         }
-        
-        //  user must be of the allowable types (P - Professional)
-        if (apcRuleFails(Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, 
-                Constants.ChartApcParms.ACCOUNT_USER_EMP_TYPES, 
-                user.getEmployeeTypeCode())) {
+
+        // user must be of the allowable types (P - Professional)
+        if (apcRuleFails(Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, Constants.ChartApcParms.ACCOUNT_USER_EMP_TYPES, user.getEmployeeTypeCode())) {
             success &= false;
-            putFieldError(propertyName, 
-                    KeyConstants.ERROR_DOCUMENT_ACCMAINT_PRO_TYPE_REQD_FOR_EMPLOYEE, 
-                    getDdService().getAttributeLabel(Account.class, propertyName));
+            putFieldError(propertyName, KeyConstants.ERROR_DOCUMENT_ACCMAINT_PRO_TYPE_REQD_FOR_EMPLOYEE, getDdService().getAttributeLabel(Account.class, propertyName));
         }
-        
+
         return success;
     }
-    
+
     /**
      * 
-     * This method checks to see if the user is trying to close the account and if so if any 
-     * rules are being violated
+     * This method checks to see if the user is trying to close the account and if so if any rules are being violated
+     * 
      * @param maintenanceDocument
      * @return false on rules violation
      */
@@ -535,20 +514,20 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         boolean success = true;
         boolean isBeingClosed = false;
 
-        //	if the account isnt being closed, then dont bother processing the rest of 
+        // if the account isnt being closed, then dont bother processing the rest of
         // the method
-        if(!oldAccount.isAccountClosedIndicator() && newAccount.isAccountClosedIndicator()) {
+        if (!oldAccount.isAccountClosedIndicator() && newAccount.isAccountClosedIndicator()) {
             isBeingClosed = true;
-        } 
+        }
 
         if (!isBeingClosed) {
             return true;
         }
-        
-        //  on an account being closed, the expiration date must be 
+
+        // on an account being closed, the expiration date must be
         success &= checkAccountExpirationDateValidTodayOrEarlier(newAccount);
-        
-        // when closing an account, a continuation account is required 
+
+        // when closing an account, a continuation account is required
         if (StringUtils.isBlank(newAccount.getContinuationAccountNumber())) {
             putFieldError("continuationAccountNumber", KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_CLOSE_CONTINUATION_ACCT_REQD);
             success &= false;
@@ -557,7 +536,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
             putFieldError("continuationFinChrtOfAcctCd", KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_CLOSE_CONTINUATION_ACCT_REQD);
             success &= false;
         }
-        
+
         // must have no pending ledger entries
         if (generalLedgerPendingEntryService.hasPendingGeneralLedgerEntry(newAccount)) {
             putGlobalError(KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCOUNT_CLOSED_PENDING_LEDGER_ENTRIES);
@@ -569,154 +548,143 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
             putGlobalError(KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCOUNT_CLOSED_NO_LOADED_BEGINNING_BALANCE);
             success &= false;
         }
-        
-        // must have no base budget,  must have no open encumbrances, must have no asset, liability or fund balance balances other than object code 9899 
-        //      (9899 is fund balance for us), and the process of closing income and expense into 9899 must take the 9899 balance to zero.
+
+        // must have no base budget, must have no open encumbrances, must have no asset, liability or fund balance balances other
+        // than object code 9899
+        // (9899 is fund balance for us), and the process of closing income and expense into 9899 must take the 9899 balance to
+        // zero.
         if (balanceService.hasAssetLiabilityFundBalanceBalances(newAccount)) {
             putGlobalError(KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCOUNT_CLOSED_NO_FUND_BALANCES);
             success &= false;
         }
 
-        // TODO:  must have no pending labor ledger entries (depends on labor: KULLAB-1) 
+        // TODO: must have no pending labor ledger entries (depends on labor: KULLAB-1)
 
         return success;
     }
-    
+
     protected boolean checkAccountExpirationDateValidTodayOrEarlier(Account newAccount) {
-        
-        //  get today's date, with no time component
+
+        // get today's date, with no time component
         Timestamp todaysDate = getDateTimeService().getCurrentTimestamp();
         todaysDate.setTime(DateUtils.truncate(todaysDate, Calendar.DAY_OF_MONTH).getTime());
-        //TODO: convert this to using Wes' kuali DateUtils once we're using Date's instead of Timestamp
-        
-        //  get the expiration date, if any
+        // TODO: convert this to using Wes' kuali DateUtils once we're using Date's instead of Timestamp
+
+        // get the expiration date, if any
         Timestamp expirationDate = newAccount.getAccountExpirationDate();
         if (ObjectUtils.isNull(expirationDate)) {
-            putFieldError("accountExpirationDate", 
-                    KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_CANNOT_BE_CLOSED_EXP_DATE_INVALID);
+            putFieldError("accountExpirationDate", KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_CANNOT_BE_CLOSED_EXP_DATE_INVALID);
             return false;
         }
 
-        //when closing an account, the account expiration date must be the current date or earlier
+        // when closing an account, the account expiration date must be the current date or earlier
         expirationDate.setTime(DateUtils.truncate(expirationDate, Calendar.DAY_OF_MONTH).getTime());
         if (expirationDate.after(todaysDate)) {
-            putFieldError("accountExpirationDate", 
-                    KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_CANNOT_BE_CLOSED_EXP_DATE_INVALID);
+            putFieldError("accountExpirationDate", KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_CANNOT_BE_CLOSED_EXP_DATE_INVALID);
             return false;
         }
-        
+
         return true;
     }
-    
+
     /**
      * 
      * This method checks to see if any Contracts and Grants business rules were violated
+     * 
      * @param maintenanceDocument
      * @return false on rules violation
      */
     protected boolean checkContractsAndGrants(MaintenanceDocument maintenanceDocument) {
-        
+
         LOG.info("checkContractsAndGrants called");
 
         boolean success = true;
-        
-        //  Certain C&G fields are required if the Account belongs to the CG Fund Group 
+
+        // Certain C&G fields are required if the Account belongs to the CG Fund Group
         success &= checkCgRequiredFields(newAccount);
-        
-        //  Income Stream account is required if this account is CG fund group, 
+
+        // Income Stream account is required if this account is CG fund group,
         // or GF (general fund) fund group (with some exceptions)
         success &= checkCgIncomeStreamRequired(newAccount);
-        
+
         return success;
     }
-    
+
     protected boolean checkCgIncomeStreamRequired(Account newAccount) {
-        
+
         boolean result = true;
         boolean required = false;
-        
-        //  if the subFundGroup object is null, we cant test, so exit
+
+        // if the subFundGroup object is null, we cant test, so exit
         if (ObjectUtils.isNull(newAccount.getSubFundGroup())) {
             return result;
         }
-        
-        //  retrieve the subfundcode and fundgroupcode
+
+        // retrieve the subfundcode and fundgroupcode
         String subFundGroupCode = newAccount.getSubFundGroupCode().trim();
         String fundGroupCode = newAccount.getSubFundGroup().getFundGroupCode().trim();
-        
-        //  if this is a CG fund group, then its required
+
+        // if this is a CG fund group, then its required
         if (CONTRACTS_GRANTS_CD.equalsIgnoreCase(fundGroupCode)) {
             required = true;
         }
-        
-        //  if this is a general fund group, then its required
+
+        // if this is a general fund group, then its required
         else if (GENERAL_FUND_CD.equalsIgnoreCase(fundGroupCode)) {
-            //  unless its part of the MPRACT subfundgroup
+            // unless its part of the MPRACT subfundgroup
             if (!SUB_FUND_GROUP_MEDICAL_PRACTICE_FUNDS.equalsIgnoreCase(subFundGroupCode)) {
                 required = true;
             }
         }
-        
-        //  if the income stream account is not required, then we're done
+
+        // if the income stream account is not required, then we're done
         if (!required) {
             return result;
         }
 
-        //  make sure both coaCode and accountNumber are filled out
-        result &= checkEmptyBOField("incomeStreamAccountNumber", 
-                        newAccount.getIncomeStreamAccountNumber(), 
-                        "When Fund Group is CG or GF, Income Stream Account Number");
-        result &= checkEmptyBOField("incomeStreamFinancialCoaCode", 
-                        newAccount.getIncomeStreamFinancialCoaCode(), 
-                        "When Fund Group is CG or GF, Income Stream Chart Of Accounts Code");
-        
-        //  if both fields arent present, then we're done
+        // make sure both coaCode and accountNumber are filled out
+        result &= checkEmptyBOField("incomeStreamAccountNumber", newAccount.getIncomeStreamAccountNumber(), "When Fund Group is CG or GF, Income Stream Account Number");
+        result &= checkEmptyBOField("incomeStreamFinancialCoaCode", newAccount.getIncomeStreamFinancialCoaCode(), "When Fund Group is CG or GF, Income Stream Chart Of Accounts Code");
+
+        // if both fields arent present, then we're done
         if (result == false) {
             return result;
         }
-        
-        //  do an existence/active test
+
+        // do an existence/active test
         DictionaryValidationService dvService = super.getDictionaryValidationService();
         boolean referenceExists = dvService.validateReferenceExists(newAccount, "incomeStreamAccount");
         if (!referenceExists) {
-            putFieldError("incomeStreamAccount", KeyConstants.ERROR_EXISTENCE, 
-                            "Income Stream Account: " + newAccount.getIncomeStreamFinancialCoaCode() + "-" + 
-                            newAccount.getIncomeStreamAccountNumber());
+            putFieldError("incomeStreamAccount", KeyConstants.ERROR_EXISTENCE, "Income Stream Account: " + newAccount.getIncomeStreamFinancialCoaCode() + "-" + newAccount.getIncomeStreamAccountNumber());
             result &= false;
         }
 
         return result;
     }
-    
+
     protected boolean checkCgRequiredFields(Account newAccount) {
-        
+
         boolean result = true;
-        
-        //Certain C&G fields are required if the Account belongs to the CG Fund Group 
+
+        // Certain C&G fields are required if the Account belongs to the CG Fund Group
         if (ObjectUtils.isNotNull(newAccount.getSubFundGroup())) {
             if (newAccount.getSubFundGroup().getFundGroupCode().equalsIgnoreCase(CONTRACTS_GRANTS_CD)) {
-                result &= checkEmptyBOField("contractControlFinCoaCode", newAccount.getContractControlFinCoaCode(), 
-                        "When Fund Group is CG, Contract Control Chart of Accounts Code");
-                result &= checkEmptyBOField("contractControlAccountNumber", newAccount.getContractControlAccountNumber(), 
-                        "When Fund Group is CG, Contract Control Account Number");
-                result &= checkEmptyBOField("acctIndirectCostRcvyTypeCd", newAccount.getAcctIndirectCostRcvyTypeCd(), 
-                        "When Fund Group is CG, ICR Type Code");
-                result &= checkEmptyBOField("financialIcrSeriesIdentifier", newAccount.getFinancialIcrSeriesIdentifier(), 
-                        "When Fund Group is CG, ICR Series Identifier");
-                result &= checkEmptyBOField("indirectCostRcvyFinCoaCode", newAccount.getIndirectCostRcvyFinCoaCode(), 
-                        "When Fund Group is CG, ICR Cost Recovery Chart of Accounts Code");
-                result &= checkEmptyBOField("indirectCostRecoveryAcctNbr", newAccount.getIndirectCostRecoveryAcctNbr(), 
-                        "When Fund Group is CG, ICR Cost Recovery Account");
-                result &= checkEmptyBOField("cgCatlfFedDomestcAssistNbr", newAccount.getCgCatlfFedDomestcAssistNbr(), 
-                        "When Fund Group is CG, C&G Domestic Assistance Number");
+                result &= checkEmptyBOField("contractControlFinCoaCode", newAccount.getContractControlFinCoaCode(), "When Fund Group is CG, Contract Control Chart of Accounts Code");
+                result &= checkEmptyBOField("contractControlAccountNumber", newAccount.getContractControlAccountNumber(), "When Fund Group is CG, Contract Control Account Number");
+                result &= checkEmptyBOField("acctIndirectCostRcvyTypeCd", newAccount.getAcctIndirectCostRcvyTypeCd(), "When Fund Group is CG, ICR Type Code");
+                result &= checkEmptyBOField("financialIcrSeriesIdentifier", newAccount.getFinancialIcrSeriesIdentifier(), "When Fund Group is CG, ICR Series Identifier");
+                result &= checkEmptyBOField("indirectCostRcvyFinCoaCode", newAccount.getIndirectCostRcvyFinCoaCode(), "When Fund Group is CG, ICR Cost Recovery Chart of Accounts Code");
+                result &= checkEmptyBOField("indirectCostRecoveryAcctNbr", newAccount.getIndirectCostRecoveryAcctNbr(), "When Fund Group is CG, ICR Cost Recovery Account");
+                result &= checkEmptyBOField("cgCatlfFedDomestcAssistNbr", newAccount.getCgCatlfFedDomestcAssistNbr(), "When Fund Group is CG, C&G Domestic Assistance Number");
             }
         }
         return result;
     }
-    
+
     /**
      * 
      * This method checks to see if any expiration date field rules were violated
+     * 
      * @param maintenanceDocument
      * @return false on rules violation
      */
@@ -730,42 +698,41 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         Timestamp newExpDate = newAccount.getAccountExpirationDate();
         Timestamp today = getDateTimeService().getCurrentTimestamp();
         today.setTime(DateUtils.truncate(today, Calendar.DAY_OF_MONTH).getTime()); // remove any time components
-        
-        //  When updating an account expiration date, the date must be today or later 
-        // (except for C&G accounts).  Only run this test if this maint doc 
+
+        // When updating an account expiration date, the date must be today or later
+        // (except for C&G accounts). Only run this test if this maint doc
         // is an edit doc
         if (isUpdatedExpirationDateInvalid(maintenanceDocument)) {
-            putFieldError("accountExpirationDate", 
-                    KeyConstants.ERROR_DOCUMENT_ACCMAINT_EXP_DATE_TODAY_LATER_EXCEPT_CANDG_ACCT);
+            putFieldError("accountExpirationDate", KeyConstants.ERROR_DOCUMENT_ACCMAINT_EXP_DATE_TODAY_LATER_EXCEPT_CANDG_ACCT);
             success &= false;
         }
-        
-        //	a continuation account is required if the expiration date is completed.
+
+        // a continuation account is required if the expiration date is completed.
         if (ObjectUtils.isNotNull(newExpDate)) {
-            if (StringUtils.isBlank(newAccount.getContinuationAccountNumber())){
-                putFieldError("continuationAccountNumber", KeyConstants.ERROR_DOCUMENT_ACCMAINT_CONTINUATION_ACCT_REQD_IF_EXP_DATE_COMPLETED); 
+            if (StringUtils.isBlank(newAccount.getContinuationAccountNumber())) {
+                putFieldError("continuationAccountNumber", KeyConstants.ERROR_DOCUMENT_ACCMAINT_CONTINUATION_ACCT_REQD_IF_EXP_DATE_COMPLETED);
             }
-            if (StringUtils.isBlank(newAccount.getContinuationFinChrtOfAcctCd())){
-                putFieldError("continuationFinChrtOfAcctCd", KeyConstants.ERROR_DOCUMENT_ACCMAINT_CONTINUATION_FINCODE_REQD_IF_EXP_DATE_COMPLETED); 
-                //putGlobalError(KeyConstants.ERROR_DOCUMENT_ACCMAINT_CONTINUATION_ACCT_REQD_IF_EXP_DATE_COMPLETED);
+            if (StringUtils.isBlank(newAccount.getContinuationFinChrtOfAcctCd())) {
+                putFieldError("continuationFinChrtOfAcctCd", KeyConstants.ERROR_DOCUMENT_ACCMAINT_CONTINUATION_FINCODE_REQD_IF_EXP_DATE_COMPLETED);
+                // putGlobalError(KeyConstants.ERROR_DOCUMENT_ACCMAINT_CONTINUATION_ACCT_REQD_IF_EXP_DATE_COMPLETED);
                 success &= false;
             }
         }
-        
-        //	If creating a new account if acct_expiration_dt is set and the fund_group is not "CG" then 
+
+        // If creating a new account if acct_expiration_dt is set and the fund_group is not "CG" then
         // the acct_expiration_dt must be changed to a date that is today or later
-        if(maintenanceDocument.isNew() && ObjectUtils.isNotNull(newExpDate) ) {
-            if(ObjectUtils.isNotNull(newAccount.getSubFundGroup())) {
-                if(!newAccount.getSubFundGroup().getFundGroupCode().equalsIgnoreCase(CONTRACTS_GRANTS_CD)) {
-                    if(!newExpDate.after(today) && !newExpDate.equals(today) ) {
+        if (maintenanceDocument.isNew() && ObjectUtils.isNotNull(newExpDate)) {
+            if (ObjectUtils.isNotNull(newAccount.getSubFundGroup())) {
+                if (!newAccount.getSubFundGroup().getFundGroupCode().equalsIgnoreCase(CONTRACTS_GRANTS_CD)) {
+                    if (!newExpDate.after(today) && !newExpDate.equals(today)) {
                         putGlobalError(KeyConstants.ERROR_DOCUMENT_ACCMAINT_EXP_DATE_TODAY_LATER_EXCEPT_CANDG_ACCT);
                         success &= false;
                     }
                 }
             }
         }
-        
-        //	acct_expiration_dt can not be before acct_effect_dt
+
+        // acct_expiration_dt can not be before acct_effect_dt
         Timestamp effectiveDate = newAccount.getAccountEffectiveDate();
         if (ObjectUtils.isNotNull(effectiveDate) && ObjectUtils.isNotNull(newExpDate)) {
             if (newExpDate.before(effectiveDate)) {
@@ -776,97 +743,99 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
 
         return success;
     }
-    
+
     protected boolean isUpdatedExpirationDateInvalid(MaintenanceDocument maintDoc) {
-        
-        //  if this isnt an Edit document, we're not interested
+
+        // if this isnt an Edit document, we're not interested
         if (!maintDoc.isEdit()) {
             return false;
         }
-        
+
         Timestamp oldExpDate = oldAccount.getAccountExpirationDate();
         Timestamp newExpDate = newAccount.getAccountExpirationDate();
         Timestamp today = getDateTimeService().getCurrentTimestamp();
         today.setTime(DateUtils.truncate(today, Calendar.DAY_OF_MONTH).getTime()); // remove any time components
-        
-        //  When updating an account expiration date, the date must be today or later 
-        // (except for C&G accounts).  Only run this test if this maint doc 
+
+        // When updating an account expiration date, the date must be today or later
+        // (except for C&G accounts). Only run this test if this maint doc
         // is an edit doc
         boolean expDateHasChanged = false;
-        
-        //  if the old version of the account had no expiration date, and the new 
+
+        // if the old version of the account had no expiration date, and the new
         // one has a date
         if (ObjectUtils.isNull(oldExpDate) && ObjectUtils.isNotNull(newExpDate)) {
             expDateHasChanged = true;
         }
-        
-        //   if there was an old and a new expDate, but they're different
+
+        // if there was an old and a new expDate, but they're different
         else if (ObjectUtils.isNotNull(oldExpDate) && ObjectUtils.isNotNull(newExpDate)) {
             if (!oldExpDate.equals(newExpDate)) {
                 expDateHasChanged = true;
             }
         }
 
-        //  if the expiration date hasnt changed, we're not interested
+        // if the expiration date hasnt changed, we're not interested
         if (!expDateHasChanged) {
             return false;
         }
-        
-        //  make a shortcut to the newAccount
+
+        // make a shortcut to the newAccount
         Account newAccount = (Account) maintDoc.getNewMaintainableObject().getBusinessObject();
-        
-        //  if a subFundGroup isnt present, we cannot continue the testing
+
+        // if a subFundGroup isnt present, we cannot continue the testing
         SubFundGroup subFundGroup = newAccount.getSubFundGroup();
         if (ObjectUtils.isNull(subFundGroup)) {
             return false;
         }
-        
-        //  get the fundGroup code
+
+        // get the fundGroup code
         String fundGroupCode = newAccount.getSubFundGroup().getFundGroupCode().trim();
-        
-        //  if the account is part of the CG fund group, then this rule doenst 
+
+        // if the account is part of the CG fund group, then this rule doenst
         // apply, so we're done
         if (CONTRACTS_GRANTS_CD.equalsIgnoreCase(fundGroupCode)) {
             return false;
         }
-        
-        //  at this point, we know its not a CG fund group, so we must apply the rule
-        
-        //  expirationDate must be today or later than today (cannot be before today)
+
+        // at this point, we know its not a CG fund group, so we must apply the rule
+
+        // expirationDate must be today or later than today (cannot be before today)
         if (newExpDate.equals(today) || newExpDate.after(today)) {
             return false;
         }
-        else return true;
+        else
+            return true;
     }
-    
+
     /**
      * 
      * This method checks to see if any Fund Group rules were violated
+     * 
      * @param maintenanceDocument
      * @return false on rules violation
      * 
      */
     protected boolean checkFundGroup(MaintenanceDocument maintenanceDocument) {
-        
+
         LOG.info("checkFundGroup called");
 
         boolean success = true;
         SubFundGroup subFundGroup = newAccount.getSubFundGroup();
-        
+
         if (ObjectUtils.isNotNull(subFundGroup)) {
-            
-            //  get values for fundGroupCode and restrictedStatusCode
+
+            // get values for fundGroupCode and restrictedStatusCode
             String fundGroupCode = "";
             String restrictedStatusCode = "";
-            if(StringUtils.isNotBlank(subFundGroup.getFundGroupCode())) {
+            if (StringUtils.isNotBlank(subFundGroup.getFundGroupCode())) {
                 fundGroupCode = subFundGroup.getFundGroupCode().trim();
             }
-            if(StringUtils.isNotBlank(newAccount.getAccountRestrictedStatusCode())) {
+            if (StringUtils.isNotBlank(newAccount.getAccountRestrictedStatusCode())) {
                 restrictedStatusCode = newAccount.getAccountRestrictedStatusCode().trim();
             }
 
             if (ObjectUtils.isNotNull(restrictedStatusCode)) {
-                //	on the account screen, if the fund group of the account is CG (contracts & grants) or 
+                // on the account screen, if the fund group of the account is CG (contracts & grants) or
                 // RF (restricted funds), the restricted status code must be 'R'.
                 if (fundGroupCode.equalsIgnoreCase(CONTRACTS_GRANTS_CD) || fundGroupCode.equalsIgnoreCase(RESTRICTED_FUND_CD)) {
                     if (!restrictedStatusCode.equalsIgnoreCase(RESTRICTED_CD_RESTRICTED)) {
@@ -875,27 +844,26 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
                     }
                 }
 
-                //	If the fund group is EN (endowment) or PF (plant fund) the value is not set by the system and 
-                // must be set by the user 
+                // If the fund group is EN (endowment) or PF (plant fund) the value is not set by the system and
+                // must be set by the user
                 else if (fundGroupCode.equalsIgnoreCase(ENDOWMENT_FUND_CD) || fundGroupCode.equalsIgnoreCase(PLANT_FUND_CD)) {
-                    if (StringUtils.isBlank(restrictedStatusCode) || 
-                       (!restrictedStatusCode.equalsIgnoreCase(RESTRICTED_CD_RESTRICTED) && !restrictedStatusCode.equalsIgnoreCase(RESTRICTED_CD_UNRESTRICTED))) {
-                       
+                    if (StringUtils.isBlank(restrictedStatusCode) || (!restrictedStatusCode.equalsIgnoreCase(RESTRICTED_CD_RESTRICTED) && !restrictedStatusCode.equalsIgnoreCase(RESTRICTED_CD_UNRESTRICTED))) {
+
                         putFieldError("accountRestrictedStatusCode", KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_RESTRICTED_STATUS_CD_MUST_BE_U_OR_R);
                         success &= false;
                     }
                 }
-                
-                //	for all other fund groups the value is set to 'U'. R being restricted,U being unrestricted.
+
+                // for all other fund groups the value is set to 'U'. R being restricted,U being unrestricted.
                 else {
                     if (!restrictedStatusCode.equalsIgnoreCase(RESTRICTED_CD_UNRESTRICTED)) {
                         putFieldError("accountRestrictedStatusCode", KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_RESTRICTED_STATUS_CD_MUST_BE_U);
-        				success &= false;
+                        success &= false;
                     }
                 }
             }
-            
-            //	an account in the general fund fund group cannot have a budget recording level of mixed.
+
+            // an account in the general fund fund group cannot have a budget recording level of mixed.
             if (fundGroupCode.equalsIgnoreCase(GENERAL_FUND_CD)) {
                 String budgetRecordingLevelCode = newAccount.getBudgetRecordingLevelCode();
                 if (StringUtils.isNotEmpty(budgetRecordingLevelCode)) {
@@ -909,62 +877,63 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
 
         return success;
     }
-    
+
     /**
      * 
      * This method checks to see if any SubFund Group rules were violated
+     * 
      * @param maintenanceDocument
      * @return false on rules violation
      * 
      */
     protected boolean checkSubFundGroup(MaintenanceDocument maintenanceDocument) {
-        
+
         LOG.info("checkSubFundGroup called");
 
         boolean success = true;
-        
-        //  if we dont have a valid subFundGroupCode and subFundGroup object, we cannot proceed
+
+        // if we dont have a valid subFundGroupCode and subFundGroup object, we cannot proceed
         if (StringUtils.isBlank(newAccount.getSubFundGroupCode()) || ObjectUtils.isNull(newAccount.getSubFundGroup())) {
             return success;
         }
-        
-        //	PFCMD (Plant Fund, Construction and Major Remodeling) SubFundCode checks
 
-        //	Attempt to get the right SubFundGroup code to check the following logic with.  If the value isn't available, go ahead 
+        // PFCMD (Plant Fund, Construction and Major Remodeling) SubFundCode checks
+
+        // Attempt to get the right SubFundGroup code to check the following logic with. If the value isn't available, go ahead
         // and die, as this indicates a misconfigured app, and important business rules wont be implemented without it.
         String capitalSubFundGroup = "";
         capitalSubFundGroup = getConfigService().getApplicationParameterValue(Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, ACCT_CAPITAL_SUBFUNDGROUP);
 
         if (capitalSubFundGroup.equalsIgnoreCase(newAccount.getSubFundGroupCode().trim())) {
-            
+
             String campusCode = newAccount.getAccountDescription().getCampusCode();
             String buildingCode = newAccount.getAccountDescription().getBuildingCode();
-            
-            //	if sub_fund_grp_cd is 'PFCMR' then campus_cd must be entered
+
+            // if sub_fund_grp_cd is 'PFCMR' then campus_cd must be entered
             if (StringUtils.isBlank(campusCode)) {
-    	        putFieldError("accountDescription.campusCode", KeyConstants.ERROR_DOCUMENT_ACCMAINT_CAMS_SUBFUNDGROUP_WITH_MISSING_CAMPUS_CD_FOR_BLDG);
+                putFieldError("accountDescription.campusCode", KeyConstants.ERROR_DOCUMENT_ACCMAINT_CAMS_SUBFUNDGROUP_WITH_MISSING_CAMPUS_CD_FOR_BLDG);
                 success &= false;
             }
-        
-        	//	if sub_fund_grp_cd is 'PFCMR' then bldg_cd must be entered
-        	if (StringUtils.isBlank(buildingCode)) {
-    	        putFieldError("accountDescription.campusCode", KeyConstants.ERROR_DOCUMENT_ACCMAINT_CAMS_SUBFUNDGROUP_WITH_MISSING_BUILDING_CD);
-                success &= false;
-        	} 
-        	
-        	//	the building object (campusCode & buildingCode) must exist in the DB
-        	if (!StringUtils.isBlank(campusCode) && !StringUtils.isBlank(buildingCode)) {
-        	    Map pkMap = new HashMap();
-        	    pkMap.put("campusCode", campusCode);
-        	    pkMap.put("buildingCode", buildingCode);
 
-        	    Building building = (Building) getBoService().findByPrimaryKey(Building.class, pkMap);
-        	    if (building == null) {
-        	        putFieldError("accountDescription.campusCode", KeyConstants.ERROR_EXISTENCE, campusCode);
-        	        putFieldError("accountDescription.buildingCode", KeyConstants.ERROR_EXISTENCE, buildingCode);
-        	        success &= false;
-        	    }
-        	}
+            // if sub_fund_grp_cd is 'PFCMR' then bldg_cd must be entered
+            if (StringUtils.isBlank(buildingCode)) {
+                putFieldError("accountDescription.campusCode", KeyConstants.ERROR_DOCUMENT_ACCMAINT_CAMS_SUBFUNDGROUP_WITH_MISSING_BUILDING_CD);
+                success &= false;
+            }
+
+            // the building object (campusCode & buildingCode) must exist in the DB
+            if (!StringUtils.isBlank(campusCode) && !StringUtils.isBlank(buildingCode)) {
+                Map pkMap = new HashMap();
+                pkMap.put("campusCode", campusCode);
+                pkMap.put("buildingCode", buildingCode);
+
+                Building building = (Building) getBoService().findByPrimaryKey(Building.class, pkMap);
+                if (building == null) {
+                    putFieldError("accountDescription.campusCode", KeyConstants.ERROR_EXISTENCE, campusCode);
+                    putFieldError("accountDescription.buildingCode", KeyConstants.ERROR_EXISTENCE, buildingCode);
+                    success &= false;
+                }
+            }
         }
 
         return success;
@@ -977,5 +946,5 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
     public void setBalanceService(BalanceService balanceService) {
         this.balanceService = balanceService;
     }
-    
+
 }

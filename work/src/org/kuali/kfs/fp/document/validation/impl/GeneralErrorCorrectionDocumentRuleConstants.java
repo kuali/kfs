@@ -24,22 +24,19 @@ package org.kuali.module.financial.rules;
 
 
 /**
- * Holds constants for <code>{@link GeneralErrorCorrectionDocument}</code>
- * business rules.
- *
+ * Holds constants for <code>{@link GeneralErrorCorrectionDocument}</code> business rules.
+ * 
  * @author Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public interface GeneralErrorCorrectionDocumentRuleConstants 
-    extends TransactionalDocumentRuleBaseConstants {
-    //  Security grouping constants used to do application parameter lookups
-    public static final String GENERAL_ERROR_CORRECTION_SECURITY_GROUPING = 
-        "Kuali.FinancialTransactionProcessing.GeneralErrorCorrectionDocument";
+public interface GeneralErrorCorrectionDocumentRuleConstants extends TransactionalDocumentRuleBaseConstants {
+    // Security grouping constants used to do application parameter lookups
+    public static final String GENERAL_ERROR_CORRECTION_SECURITY_GROUPING = "Kuali.FinancialTransactionProcessing.GeneralErrorCorrectionDocument";
 
     // Application parameter lookup constants to be used in conjunction with the grouping constants above
     public static final String RESTRICTED_OBJECT_TYPE_CODES = "RestrictedObjectTypeCodes";
     public static final String RESTRICTED_OBJECT_SUB_TYPE_CODES = "RestrictedObjectSubTypeCodes";
     public static final String COMBINED_RESTRICTED_OBJECT_TYPE_CODES = "CombinedRestrictedObjectTypeCodes";
-    public static final String COMBINED_RESTRICTED_OBJECT_SUB_TYPE_CODES = "CombinedRestrictedObjectSubTypeCodes";    
+    public static final String COMBINED_RESTRICTED_OBJECT_SUB_TYPE_CODES = "CombinedRestrictedObjectSubTypeCodes";
 
-	public static final String TRANSACTION_LEDGER_ENTRY_DESCRIPTION_DELIMITER = "+";
+    public static final String TRANSACTION_LEDGER_ENTRY_DESCRIPTION_DELIMITER = "+";
 }

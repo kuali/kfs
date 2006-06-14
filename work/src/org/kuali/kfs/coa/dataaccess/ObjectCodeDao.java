@@ -29,25 +29,22 @@ import org.kuali.module.chart.bo.ObjectCode;
 
 /**
  * This interface defines basic methods that ObjectCode Dao's must provide
+ * 
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
-*/
+ */
 public interface ObjectCodeDao {
-    
+
     /**
      * @param universityFiscalYear - part of composite key
      * @param chartOfAccountsCode - part of composite key
-     * @param financialObjectCode - part of composite key   
+     * @param financialObjectCode - part of composite key
      * @return ObjectCode
      * 
      * Retrieves an ObjectCode object by primary key.
      */
-    public ObjectCode getByPrimaryId(Integer universityFiscalYear,
-        String chartOfAccountsCode, String financialObjectCode);
-    
-   
-    
-    
-    
-    public List getYearList(String chartOfAccountsCode, String financialObjectCode);  
-    
+    public ObjectCode getByPrimaryId(Integer universityFiscalYear, String chartOfAccountsCode, String financialObjectCode);
+
+
+    public List getYearList(String chartOfAccountsCode, String financialObjectCode);
+
 }

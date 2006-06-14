@@ -23,36 +23,37 @@
 package org.kuali.module.gl.util;
 
 public class ObjectHelper {
-	protected ObjectHelper() {}
-	
-	/**
-	 * 
-	 * @param lhs
-	 * @param rhs
-	 * @return true if both lhs and rhs are null or if lhs.equals(rhs)
-	 */
-	static public boolean isEqual(Object lhs, Object rhs) {
-		return (null == lhs && null == rhs) || (null != lhs && lhs.equals(rhs));
-	}
-	
-	/**
-	 * 
-	 * @param lhs
-	 * @param rhs
-	 * @return false if rhs is null. true if isEqual(lhs, rhs[i]) for any 
-	 *               ith element of rhs.
-	 */
-	static public boolean isOneOf(Object lhs, Object[] rhs) {
-		if (rhs == null) return false;
-		
-		// simple linear search. Arrays.binarySearch isn't appropriate
-		// because the elements of rhs aren't in natural order.
-		for (int i = 0; i < rhs.length; i++) {
-			if (isEqual(lhs, rhs[i])) {
-				return true;
-			}
-		}
-		
-		return false;
-	}
+    protected ObjectHelper() {
+    }
+
+    /**
+     * 
+     * @param lhs
+     * @param rhs
+     * @return true if both lhs and rhs are null or if lhs.equals(rhs)
+     */
+    static public boolean isEqual(Object lhs, Object rhs) {
+        return (null == lhs && null == rhs) || (null != lhs && lhs.equals(rhs));
+    }
+
+    /**
+     * 
+     * @param lhs
+     * @param rhs
+     * @return false if rhs is null. true if isEqual(lhs, rhs[i]) for any ith element of rhs.
+     */
+    static public boolean isOneOf(Object lhs, Object[] rhs) {
+        if (rhs == null)
+            return false;
+
+        // simple linear search. Arrays.binarySearch isn't appropriate
+        // because the elements of rhs aren't in natural order.
+        for (int i = 0; i < rhs.length; i++) {
+            if (isEqual(lhs, rhs[i])) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

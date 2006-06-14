@@ -34,31 +34,30 @@ import org.kuali.module.chart.bo.OffsetDefinition;
 public class OffsetDefinitionRule extends MaintenanceDocumentRuleBase {
     private OffsetDefinition oldDefinition;
     private OffsetDefinition newDefinition;
-    
+
     public static final String DOCTYPE_AND_OBJ_CODE_VAL = "OffsetDefinition.ARDocTypes";
     public static final String DOCTYPE_AND_OBJ_CODE_ACTIVE = "OffsetDefinition.DocTypeActiveObjectCode";
-    
+
     /**
      * 
-     * This method sets the convenience objects like newAccount and oldAccount, so you
-     * have short and easy handles to the new and old objects contained in the 
-     * maintenance document.
+     * This method sets the convenience objects like newAccount and oldAccount, so you have short and easy handles to the new and
+     * old objects contained in the maintenance document.
      * 
-     * It also calls the BusinessObjectBase.refresh(), which will attempt to load 
-     * all sub-objects from the DB by their primary keys, if available.
+     * It also calls the BusinessObjectBase.refresh(), which will attempt to load all sub-objects from the DB by their primary keys,
+     * if available.
      * 
      * @param document - the maintenanceDocument being evaluated
      * 
      */
     public void setupConvenienceObjects() {
-        
-        //  setup oldAccount convenience objects, make sure all possible sub-objects are populated
+
+        // setup oldAccount convenience objects, make sure all possible sub-objects are populated
         oldDefinition = (OffsetDefinition) super.getOldBo();
 
-        //  setup newAccount convenience objects, make sure all possible sub-objects are populated
+        // setup newAccount convenience objects, make sure all possible sub-objects are populated
         newDefinition = (OffsetDefinition) super.getNewBo();
     }
-    
+
     /**
      * This method should be overridden to provide custom rules for processing document saving
      * 
@@ -84,52 +83,35 @@ public class OffsetDefinitionRule extends MaintenanceDocumentRuleBase {
         success &= checkDocTypeActiveFinancialObjCode(document);
         return true;
     }
-    
+
     private boolean checkDocTypeAndFinancialObjCode(MaintenanceDocument document) {
         boolean success = true;
-        KualiParameterRule parmRule = getConfigService().getApplicationParameterRule(
-                Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, 
-                DOCTYPE_AND_OBJ_CODE_VAL);
+        KualiParameterRule parmRule = getConfigService().getApplicationParameterRule(Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, DOCTYPE_AND_OBJ_CODE_VAL);
         // we need to check to see if the values are in the right range and then
         // see if the ObjectCode is the right value
         if (parmRule.succeedsRule(newDefinition.getFinancialDocumentTypeCode())) {
-            if((ObjectUtils.isNotNull(newDefinition.getFinancialObject())
-                && StringUtils.isNotEmpty(newDefinition.getFinancialObject().getFinancialObjectSubTypeCode())
-                && !newDefinition.getFinancialObject().getFinancialObjectSubTypeCode().equalsIgnoreCase("AR"))
-                || StringUtils.isEmpty(newDefinition.getFinancialObjectCode())) {
-                
-                putFieldError("financialObjectCode", 
-                        KeyConstants.ERROR_DOCUMENT_OFFSETDEFMAINT_INVALID_OBJ_CODE_FOR_DOCTYPE, 
-                        new String[] {
-                            newDefinition.getFinancialObjectCode(),
-                            parmRule.getParameterText()});
-                
+            if ((ObjectUtils.isNotNull(newDefinition.getFinancialObject()) && StringUtils.isNotEmpty(newDefinition.getFinancialObject().getFinancialObjectSubTypeCode()) && !newDefinition.getFinancialObject().getFinancialObjectSubTypeCode().equalsIgnoreCase("AR")) || StringUtils.isEmpty(newDefinition.getFinancialObjectCode())) {
+
+                putFieldError("financialObjectCode", KeyConstants.ERROR_DOCUMENT_OFFSETDEFMAINT_INVALID_OBJ_CODE_FOR_DOCTYPE, new String[] { newDefinition.getFinancialObjectCode(), parmRule.getParameterText() });
+
             }
-            
+
             success &= false;
         }
-        
+
         return success;
     }
-    
+
     private boolean checkDocTypeActiveFinancialObjCode(MaintenanceDocument document) {
         boolean success = true;
-        KualiParameterRule parmRule = getConfigService().getApplicationParameterRule(
-                Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, 
-                DOCTYPE_AND_OBJ_CODE_ACTIVE);
-        if(parmRule.succeedsRule(newDefinition.getFinancialDocumentTypeCode())) {
-            if((ObjectUtils.isNotNull(newDefinition.getFinancialObject())
-                && !newDefinition.getFinancialObject().isFinancialObjectActiveCode())
-                || ObjectUtils.isNull(newDefinition.getFinancialObject())) {
-                
-                putFieldError("financialObjectCode", 
-                                KeyConstants.ERROR_DOCUMENT_OFFSETDEFMAINT_INACTIVE_OBJ_CODE_FOR_DOCTYPE, 
-                                new String[] {
-                                    newDefinition.getFinancialObjectCode(),
-                                    parmRule.getParameterText()});
+        KualiParameterRule parmRule = getConfigService().getApplicationParameterRule(Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, DOCTYPE_AND_OBJ_CODE_ACTIVE);
+        if (parmRule.succeedsRule(newDefinition.getFinancialDocumentTypeCode())) {
+            if ((ObjectUtils.isNotNull(newDefinition.getFinancialObject()) && !newDefinition.getFinancialObject().isFinancialObjectActiveCode()) || ObjectUtils.isNull(newDefinition.getFinancialObject())) {
+
+                putFieldError("financialObjectCode", KeyConstants.ERROR_DOCUMENT_OFFSETDEFMAINT_INACTIVE_OBJ_CODE_FOR_DOCTYPE, new String[] { newDefinition.getFinancialObjectCode(), parmRule.getParameterText() });
                 success &= false;
             }
-            
+
         }
         return success;
     }

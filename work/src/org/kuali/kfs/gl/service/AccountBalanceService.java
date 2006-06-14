@@ -30,6 +30,7 @@ import org.kuali.module.gl.bo.AccountBalance;
 
 /**
  * This class...
+ * 
  * @author Bin Gao from Michigan State University
  */
 public interface AccountBalanceService {
@@ -44,22 +45,19 @@ public interface AccountBalanceService {
     public Iterator findAvailableAccountBalance(Map fieldValues, boolean isConsolidated);
 
     /**
-     * This method finds the available account balances according to input fields and values 
+     * This method finds the available account balances according to input fields and values
      */
-    public List findAccountBalanceByConsolidation(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String subAccountNumber, 
-        boolean isCostShareExcluded, boolean isConsolidated,boolean isIncludePendingEntry);
+    public List findAccountBalanceByConsolidation(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String subAccountNumber, boolean isCostShareExcluded, boolean isConsolidated, boolean isIncludePendingEntry);
 
     /**
      * This method finds the available account balances according to input fields and values
      */
-    public List findAccountBalanceByLevel(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String subAccountNumber, 
-        String financialConsolidationObjectCode, boolean isCostShareExcluded, boolean isConsolidated,boolean isIncludePendingEntry);
+    public List findAccountBalanceByLevel(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String subAccountNumber, String financialConsolidationObjectCode, boolean isCostShareExcluded, boolean isConsolidated, boolean isIncludePendingEntry);
 
     /**
      * This method finds the available account balances according to input fields and values
      */
-    public List findAccountBalanceByObject(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String subAccountNumber, 
-        String financialObjectLevelCode,String financialReportingSortCode,boolean isCostShareExcluded,boolean isConsolidated,boolean isIncludePendingEntry);
+    public List findAccountBalanceByObject(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String subAccountNumber, String financialObjectLevelCode, String financialReportingSortCode, boolean isCostShareExcluded, boolean isConsolidated, boolean isIncludePendingEntry);
 
     public void save(AccountBalance ab);
 
@@ -69,5 +67,5 @@ public interface AccountBalanceService {
      * @param chartOfAccountscode
      * @param year
      */
-    public void purgeYearByChart(String chartOfAccountsCode,int year);
+    public void purgeYearByChart(String chartOfAccountsCode, int year);
 }

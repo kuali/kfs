@@ -34,9 +34,10 @@ import org.kuali.module.chart.bo.Account;
 
 public class ChartRuleBase implements RouteDocumentRule, SaveDocumentRule {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ChartRuleBase.class);
-    
+
     /**
      * This routes the document
+     * 
      * @see org.kuali.core.rule.RouteDocumentRule#processRouteDocument(org.kuali.core.document.Document)
      */
     public boolean processRouteDocument(Document document) {
@@ -52,6 +53,7 @@ public class ChartRuleBase implements RouteDocumentRule, SaveDocumentRule {
 
     /**
      * This saves the document
+     * 
      * @see org.kuali.core.rule.SaveDocumentRule#processSaveDocument(org.kuali.core.document.Document)
      */
     public boolean processSaveDocument(Document document) {
@@ -64,31 +66,31 @@ public class ChartRuleBase implements RouteDocumentRule, SaveDocumentRule {
             return false;
         }
     }
-    
+
     /**
-     * This method should be overridden to provide custom rules for processing document 
-     * saving
+     * This method should be overridden to provide custom rules for processing document saving
+     * 
      * @param document
      * @return
      */
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
         return true;
     }
-    
+
     /**
      * 
-     * This method should be overridden to provide custom rules for processing document
-     * routing
+     * This method should be overridden to provide custom rules for processing document routing
+     * 
      * @param document
      * @return
      */
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
         return true;
     }
-    
-    //Document Validation Helper Methods
+
+    // Document Validation Helper Methods
     /**
-     * Performs common validation for Maintenance Document saves. 
+     * Performs common validation for Maintenance Document saves.
      * 
      * @param maintenanceDocument
      * @return boolean True if the document is valid for saving, false otherwise.
@@ -100,13 +102,13 @@ public class ChartRuleBase implements RouteDocumentRule, SaveDocumentRule {
 
         boolean valid = true;
 
-        //do common checks here
+        // do common checks here
 
         return valid;
     }
-    
+
     /**
-     * This method performs common validation for Maintenance Document routes. 
+     * This method performs common validation for Maintenance Document routes.
      * 
      * @param maintenanceDocument
      * @return boolean True if the document is valid for routing, false otherwise.
@@ -114,12 +116,12 @@ public class ChartRuleBase implements RouteDocumentRule, SaveDocumentRule {
     protected boolean isDocumentValidForRouting(MaintenanceDocument maintenanceDocument) {
         boolean success = true;
 
-        success &= validateDocument((Document)maintenanceDocument);
+        success &= validateDocument((Document) maintenanceDocument);
         success &= validateMaintenanceDocument(maintenanceDocument);
 
         return success;
     }
-    
+
     private boolean validateDocument(Document document) {
         boolean success = true;
 

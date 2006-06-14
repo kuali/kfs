@@ -28,6 +28,7 @@ import org.kuali.test.KualiTestBaseWithFixtures;
 
 /**
  * This class tests the ObjLevel service.
+ * 
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public class ObjectLevelServiceTest extends KualiTestBaseWithFixtures {
@@ -41,6 +42,6 @@ public class ObjectLevelServiceTest extends KualiTestBaseWithFixtures {
 
     public void testFindById() {
         ObjLevel objectLevel = objectLevelService.getByPrimaryId("UA", "BASE");
-        assertEquals("Object Level Code should be BASE",objectLevel.getFinancialObjectLevelCode(),"BASE");
+        assertEquals("Object Level Code should be BASE", objectLevel.getFinancialObjectLevelCode(), "BASE");
     }
 }

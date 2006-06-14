@@ -31,7 +31,7 @@ public class CashOrganizationReversionCategoryLogic implements OrganizationRever
     public boolean containsObjectCode(ObjectCode oc) {
         LOG.debug("containsObjectCode() started");
 
-        if ( oc.getChartOfAccounts().getFinancialCashObject().equals(oc.getObjectCode()) ) {
+        if (oc.getChartOfAccounts().getFinancialCashObject().equals(oc.getObjectCode())) {
             return true;
         }
         return false;

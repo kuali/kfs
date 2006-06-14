@@ -37,8 +37,9 @@ public class BudgetAdjustmentForm extends KualiTransactionalDocumentFormBase {
     private static final long serialVersionUID = 1L;
 
     /**
-     * Constructs a BudgetAdjustmentForm instance and sets up the appropriately casted document. Also, the newSourceLine/newTargetLine 
-     * need to be the extended BudgetAdjustmentSourceAccountingLine/BudgetAdjustmentTargetAccountingLine.
+     * Constructs a BudgetAdjustmentForm instance and sets up the appropriately casted document. Also, the
+     * newSourceLine/newTargetLine need to be the extended
+     * BudgetAdjustmentSourceAccountingLine/BudgetAdjustmentTargetAccountingLine.
      */
     public BudgetAdjustmentForm() {
         super();

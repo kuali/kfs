@@ -53,7 +53,7 @@ public class DisbursementVoucherPreConferenceRegistrant extends BusinessObjectBa
      * Gets the financialDocumentNumber attribute.
      * 
      * @return - Returns the financialDocumentNumber
-     *  
+     * 
      */
     public String getFinancialDocumentNumber() {
         return financialDocumentNumber;
@@ -64,7 +64,7 @@ public class DisbursementVoucherPreConferenceRegistrant extends BusinessObjectBa
      * Sets the financialDocumentNumber attribute.
      * 
      * @param - financialDocumentNumber The financialDocumentNumber to set.
-     *  
+     * 
      */
     public void setFinancialDocumentNumber(String financialDocumentNumber) {
         this.financialDocumentNumber = financialDocumentNumber;
@@ -74,7 +74,7 @@ public class DisbursementVoucherPreConferenceRegistrant extends BusinessObjectBa
      * Gets the financialDocumentLineNumber attribute.
      * 
      * @return - Returns the financialDocumentLineNumber
-     *  
+     * 
      */
     public Integer getFinancialDocumentLineNumber() {
         return financialDocumentLineNumber;
@@ -85,7 +85,7 @@ public class DisbursementVoucherPreConferenceRegistrant extends BusinessObjectBa
      * Sets the financialDocumentLineNumber attribute.
      * 
      * @param - financialDocumentLineNumber The financialDocumentLineNumber to set.
-     *  
+     * 
      */
     public void setFinancialDocumentLineNumber(Integer financialDocumentLineNumber) {
         this.financialDocumentLineNumber = financialDocumentLineNumber;
@@ -95,7 +95,7 @@ public class DisbursementVoucherPreConferenceRegistrant extends BusinessObjectBa
      * Gets the disbVchrPreConfDepartmentCd attribute.
      * 
      * @return - Returns the disbVchrPreConfDepartmentCd
-     *  
+     * 
      */
     public String getDisbVchrPreConfDepartmentCd() {
         return disbVchrPreConfDepartmentCd;
@@ -106,7 +106,7 @@ public class DisbursementVoucherPreConferenceRegistrant extends BusinessObjectBa
      * Sets the disbVchrPreConfDepartmentCd attribute.
      * 
      * @param - disbVchrPreConfDepartmentCd The disbVchrPreConfDepartmentCd to set.
-     *  
+     * 
      */
     public void setDisbVchrPreConfDepartmentCd(String disbVchrPreConfDepartmentCd) {
         this.disbVchrPreConfDepartmentCd = disbVchrPreConfDepartmentCd;
@@ -116,7 +116,7 @@ public class DisbursementVoucherPreConferenceRegistrant extends BusinessObjectBa
      * Gets the dvConferenceRegistrantName attribute.
      * 
      * @return - Returns the dvConferenceRegistrantName
-     *  
+     * 
      */
     public String getDvConferenceRegistrantName() {
         return dvConferenceRegistrantName;
@@ -127,7 +127,7 @@ public class DisbursementVoucherPreConferenceRegistrant extends BusinessObjectBa
      * Sets the dvConferenceRegistrantName attribute.
      * 
      * @param - dvConferenceRegistrantName The dvConferenceRegistrantName to set.
-     *  
+     * 
      */
     public void setDvConferenceRegistrantName(String dvConferenceRegistrantName) {
         this.dvConferenceRegistrantName = dvConferenceRegistrantName;
@@ -137,7 +137,7 @@ public class DisbursementVoucherPreConferenceRegistrant extends BusinessObjectBa
      * Gets the dvPreConferenceRequestNumber attribute.
      * 
      * @return - Returns the dvPreConferenceRequestNumber
-     *  
+     * 
      */
     public String getDvPreConferenceRequestNumber() {
         return dvPreConferenceRequestNumber;
@@ -148,7 +148,7 @@ public class DisbursementVoucherPreConferenceRegistrant extends BusinessObjectBa
      * Sets the dvPreConferenceRequestNumber attribute.
      * 
      * @param - dvPreConferenceRequestNumber The dvPreConferenceRequestNumber to set.
-     *  
+     * 
      */
     public void setDvPreConferenceRequestNumber(String dvPreConferenceRequestNumber) {
         this.dvPreConferenceRequestNumber = dvPreConferenceRequestNumber;
@@ -158,7 +158,7 @@ public class DisbursementVoucherPreConferenceRegistrant extends BusinessObjectBa
      * Gets the disbVchrExpenseAmount attribute.
      * 
      * @return - Returns the disbVchrExpenseAmount
-     *  
+     * 
      */
     public KualiDecimal getDisbVchrExpenseAmount() {
         return disbVchrExpenseAmount;
@@ -169,7 +169,7 @@ public class DisbursementVoucherPreConferenceRegistrant extends BusinessObjectBa
      * Sets the disbVchrExpenseAmount attribute.
      * 
      * @param - disbVchrExpenseAmount The disbVchrExpenseAmount to set.
-     *  
+     * 
      */
     public void setDisbVchrExpenseAmount(KualiDecimal disbVchrExpenseAmount) {
         this.disbVchrExpenseAmount = disbVchrExpenseAmount;

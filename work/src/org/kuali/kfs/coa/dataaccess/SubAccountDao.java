@@ -27,18 +27,18 @@ import org.kuali.module.chart.bo.SubAccount;
 
 /**
  * This interface defines basic methods that SubAccount Dao's must provide
+ * 
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
-*/
+ */
 public interface SubAccountDao {
-    
+
     /**
-     * @param chartOfAccountsCode - part of composite key  
-     * @param accountNumber - part of composite key  
+     * @param chartOfAccountsCode - part of composite key
+     * @param accountNumber - part of composite key
      * @param subAccountNumber - part of composite key
      * @return SubAccount
      * 
      * Retrieves a SubAccount object by primary key.
      */
-    public SubAccount getByPrimaryId(String chartOfAccountsCode,
-        String accountNumber, String subAccountNumber);
+    public SubAccount getByPrimaryId(String chartOfAccountsCode, String accountNumber, String subAccountNumber);
 }

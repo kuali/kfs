@@ -31,17 +31,21 @@ import org.kuali.module.chart.service.SubFundGroupService;
  * @version $Id$
  */
 public class SubFundGroupServiceImpl implements SubFundGroupService {
-    
+
     private SubFundGroupDao subFundGroupDao;
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.kuali.module.chart.service.SubFundGroupService#getByPrimaryId(java.lang.String)
      */
     public SubFundGroup getByPrimaryId(String subFundGroupCode) {
         return subFundGroupDao.getByPrimaryId(subFundGroupCode);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.kuali.module.chart.service.SubFundGroupService#getByChartAndAccount(java.lang.String, java.lang.String)
      */
     public SubFundGroup getByChartAndAccount(String chartCode, String accountNumber) {

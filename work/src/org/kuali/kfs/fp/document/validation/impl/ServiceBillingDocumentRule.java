@@ -72,8 +72,7 @@ public class ServiceBillingDocumentRule extends InternalBillingDocumentRule {
         // Handle empty key because hasAccessibleAccountingLines() may not validate beforehand.
         if (!StringUtils.isEmpty(chartOfAccountsCode) && !StringUtils.isEmpty(accountNumber)) {
             KualiUser currentUser = GlobalVariables.getUserSession().getKualiUser();
-            ServiceBillingControl control = SpringServiceLocator.getServiceBillingControlService().getByPrimaryId(
-                    chartOfAccountsCode, accountNumber);
+            ServiceBillingControl control = SpringServiceLocator.getServiceBillingControlService().getByPrimaryId(chartOfAccountsCode, accountNumber);
             if (control != null) {
                 try {
                     // todo: isMember(String) instead of going through KualiGroupService?
@@ -97,10 +96,9 @@ public class ServiceBillingDocumentRule extends InternalBillingDocumentRule {
      * @see TransactionalDocumentRuleBase#customizeExplicitGeneralLedgerPendingEntry(TransactionalDocument, AccountingLine,
      *      GeneralLedgerPendingEntry)
      */
-    protected void customizeExplicitGeneralLedgerPendingEntry(TransactionalDocument transactionalDocument,
-            AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry) {
+    protected void customizeExplicitGeneralLedgerPendingEntry(TransactionalDocument transactionalDocument, AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry) {
         String description = accountingLine.getFinancialDocumentLineDescription();
-        if(StringUtils.isNotBlank(description)) {
+        if (StringUtils.isNotBlank(description)) {
             explicitEntry.setTransactionLedgerEntryDescription(description);
         }
     }

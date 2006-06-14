@@ -30,16 +30,23 @@ import org.kuali.module.gl.bo.OriginEntryGroup;
 
 /**
  * @author Laran Evans <lc278@cornell.edu>
- * @version $Id: OriginEntryGroupService.java,v 1.6 2006-05-04 16:08:59 larevans Exp $
+ * @version $Id: OriginEntryGroupService.java,v 1.7 2006-06-14 12:26:40 abyrne Exp $
  */
 
 public interface OriginEntryGroupService {
-	public OriginEntryGroup getOriginEntryGroup(String groupId);
+    public OriginEntryGroup getOriginEntryGroup(String groupId);
+
     public Collection getMatchingGroups(Map criteria);
-	public Collection getOriginEntryGroupsPendingProcessing();
-	public Collection getGroupsToPost();
-	public Collection getIcrGroupsToPost();
-	public Collection getGroupsToScrub(Date scrubDate);
-	public OriginEntryGroup createGroup(Date date,String sourceCode,boolean valid,boolean process,boolean scrub);
+
+    public Collection getOriginEntryGroupsPendingProcessing();
+
+    public Collection getGroupsToPost();
+
+    public Collection getIcrGroupsToPost();
+
+    public Collection getGroupsToScrub(Date scrubDate);
+
+    public OriginEntryGroup createGroup(Date date, String sourceCode, boolean valid, boolean process, boolean scrub);
+
     public void save(OriginEntryGroup group);
 }

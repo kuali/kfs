@@ -34,154 +34,154 @@ import org.kuali.core.bo.BusinessObjectBase;
  */
 public class AccountManagerRouteOption extends BusinessObjectBase {
 
-	private String chartOfAccountsCode;
-	private String accountNumber;
-	private String personUniversalIdentifier;
-	private boolean accountManagerRouteOptionIndicator;
+    private String chartOfAccountsCode;
+    private String accountNumber;
+    private String personUniversalIdentifier;
+    private boolean accountManagerRouteOptionIndicator;
 
     private Account account;
-	private Chart chartOfAccounts;
+    private Chart chartOfAccounts;
 
-	/**
-	 * Default constructor.
-	 */
-	public AccountManagerRouteOption() {
+    /**
+     * Default constructor.
+     */
+    public AccountManagerRouteOption() {
 
-	}
+    }
 
-	/**
-	 * Gets the chartOfAccountsCode attribute.
-	 * 
-	 * @return - Returns the chartOfAccountsCode
-	 * 
-	 */
-	public String getChartOfAccountsCode() { 
-		return chartOfAccountsCode;
-	}
+    /**
+     * Gets the chartOfAccountsCode attribute.
+     * 
+     * @return - Returns the chartOfAccountsCode
+     * 
+     */
+    public String getChartOfAccountsCode() {
+        return chartOfAccountsCode;
+    }
 
-	/**
-	 * Sets the chartOfAccountsCode attribute.
-	 * 
-	 * @param - chartOfAccountsCode The chartOfAccountsCode to set.
-	 * 
-	 */
-	public void setChartOfAccountsCode(String chartOfAccountsCode) {
-		this.chartOfAccountsCode = chartOfAccountsCode;
-	}
-
-
-	/**
-	 * Gets the accountNumber attribute.
-	 * 
-	 * @return - Returns the accountNumber
-	 * 
-	 */
-	public String getAccountNumber() { 
-		return accountNumber;
-	}
-
-	/**
-	 * Sets the accountNumber attribute.
-	 * 
-	 * @param - accountNumber The accountNumber to set.
-	 * 
-	 */
-	public void setAccountNumber(String accountNumber) {
-		this.accountNumber = accountNumber;
-	}
+    /**
+     * Sets the chartOfAccountsCode attribute.
+     * 
+     * @param - chartOfAccountsCode The chartOfAccountsCode to set.
+     * 
+     */
+    public void setChartOfAccountsCode(String chartOfAccountsCode) {
+        this.chartOfAccountsCode = chartOfAccountsCode;
+    }
 
 
-	/**
-	 * Gets the personUniversalIdentifier attribute.
-	 * 
-	 * @return - Returns the personUniversalIdentifier
-	 * 
-	 */
-	public String getPersonUniversalIdentifier() { 
-		return personUniversalIdentifier;
-	}
+    /**
+     * Gets the accountNumber attribute.
+     * 
+     * @return - Returns the accountNumber
+     * 
+     */
+    public String getAccountNumber() {
+        return accountNumber;
+    }
 
-	/**
-	 * Sets the personUniversalIdentifier attribute.
-	 * 
-	 * @param - personUniversalIdentifier The personUniversalIdentifier to set.
-	 * 
-	 */
-	public void setPersonUniversalIdentifier(String personUniversalIdentifier) {
-		this.personUniversalIdentifier = personUniversalIdentifier;
-	}
-
-
-	/**
-	 * Gets the accountManagerRouteOptionIndicator attribute.
-	 * 
-	 * @return - Returns the accountManagerRouteOptionIndicator
-	 * 
-	 */
-	public boolean isAccountManagerRouteOptionIndicator() { 
-		return accountManagerRouteOptionIndicator;
-	}
-	
-
-	/**
-	 * Sets the accountManagerRouteOptionIndicator attribute.
-	 * 
-	 * @param - accountManagerRouteOptionIndicator The accountManagerRouteOptionIndicator to set.
-	 * 
-	 */
-	public void setAccountManagerRouteOptionIndicator(boolean accountManagerRouteOptionIndicator) {
-		this.accountManagerRouteOptionIndicator = accountManagerRouteOptionIndicator;
-	}
+    /**
+     * Sets the accountNumber attribute.
+     * 
+     * @param - accountNumber The accountNumber to set.
+     * 
+     */
+    public void setAccountNumber(String accountNumber) {
+        this.accountNumber = accountNumber;
+    }
 
 
-	/**
-	 * Gets the account attribute.
-	 * 
-	 * @return - Returns the account
-	 * 
-	 */
-	public Account getAccount() { 
-		return account;
-	}
+    /**
+     * Gets the personUniversalIdentifier attribute.
+     * 
+     * @return - Returns the personUniversalIdentifier
+     * 
+     */
+    public String getPersonUniversalIdentifier() {
+        return personUniversalIdentifier;
+    }
 
-	/**
-	 * Sets the account attribute.
-	 * 
-	 * @param - account The account to set.
-	 * @deprecated
-	 */
-	public void setAccount(Account account) {
-		this.account = account;
-	}
+    /**
+     * Sets the personUniversalIdentifier attribute.
+     * 
+     * @param - personUniversalIdentifier The personUniversalIdentifier to set.
+     * 
+     */
+    public void setPersonUniversalIdentifier(String personUniversalIdentifier) {
+        this.personUniversalIdentifier = personUniversalIdentifier;
+    }
 
-	/**
-	 * Gets the chartOfAccounts attribute.
-	 * 
-	 * @return - Returns the chartOfAccounts
-	 * 
-	 */
-	public Chart getChartOfAccounts() { 
-		return chartOfAccounts;
-	}
 
-	/**
-	 * Sets the chartOfAccounts attribute.
-	 * 
-	 * @param - chartOfAccounts The chartOfAccounts to set.
-	 * @deprecated
-	 */
-	public void setChartOfAccounts(Chart chartOfAccounts) {
-		this.chartOfAccounts = chartOfAccounts;
-	}
+    /**
+     * Gets the accountManagerRouteOptionIndicator attribute.
+     * 
+     * @return - Returns the accountManagerRouteOptionIndicator
+     * 
+     */
+    public boolean isAccountManagerRouteOptionIndicator() {
+        return accountManagerRouteOptionIndicator;
+    }
 
-	/**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
+
+    /**
+     * Sets the accountManagerRouteOptionIndicator attribute.
+     * 
+     * @param - accountManagerRouteOptionIndicator The accountManagerRouteOptionIndicator to set.
+     * 
+     */
+    public void setAccountManagerRouteOptionIndicator(boolean accountManagerRouteOptionIndicator) {
+        this.accountManagerRouteOptionIndicator = accountManagerRouteOptionIndicator;
+    }
+
+
+    /**
+     * Gets the account attribute.
+     * 
+     * @return - Returns the account
+     * 
+     */
+    public Account getAccount() {
+        return account;
+    }
+
+    /**
+     * Sets the account attribute.
+     * 
+     * @param - account The account to set.
+     * @deprecated
+     */
+    public void setAccount(Account account) {
+        this.account = account;
+    }
+
+    /**
+     * Gets the chartOfAccounts attribute.
+     * 
+     * @return - Returns the chartOfAccounts
+     * 
+     */
+    public Chart getChartOfAccounts() {
+        return chartOfAccounts;
+    }
+
+    /**
+     * Sets the chartOfAccounts attribute.
+     * 
+     * @param - chartOfAccounts The chartOfAccounts to set.
+     * @deprecated
+     */
+    public void setChartOfAccounts(Chart chartOfAccounts) {
+        this.chartOfAccounts = chartOfAccounts;
+    }
+
+    /**
+     * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
         m.put("chartOfAccountsCode", this.chartOfAccountsCode);
         m.put("accountNumber", this.accountNumber);
         m.put("personUniversalIdentifier", this.personUniversalIdentifier);
-	    return m;
+        return m;
     }
 }

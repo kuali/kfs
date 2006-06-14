@@ -27,8 +27,11 @@ import java.util.Collection;
 import org.kuali.module.gl.bo.CorrectionChangeGroup;
 
 public interface CorrectionChangeGroupDao {
-	void save(CorrectionChangeGroup group);
-	void delete(CorrectionChangeGroup group);
-	Collection findByDocumentNumber(String documentNumber);
-	CorrectionChangeGroup findByDocumentNumberAndCorrectionChangeGroupNumber(String documentNumber, Integer CorrectionChangeGroupNumber);
+    void save(CorrectionChangeGroup group);
+
+    void delete(CorrectionChangeGroup group);
+
+    Collection findByDocumentNumber(String documentNumber);
+
+    CorrectionChangeGroup findByDocumentNumberAndCorrectionChangeGroupNumber(String documentNumber, Integer CorrectionChangeGroupNumber);
 }

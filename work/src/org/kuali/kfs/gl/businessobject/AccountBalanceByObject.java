@@ -25,6 +25,7 @@ package org.kuali.module.gl.bo;
 
 /**
  * This class...
+ * 
  * @author Bin Gao from Michigan State University
  */
 public class AccountBalanceByObject extends AccountBalance {
@@ -36,9 +37,10 @@ public class AccountBalanceByObject extends AccountBalance {
     public AccountBalanceByObject() {
         super();
     }
-    
+
     /**
      * Constructs a AccountBalanceByObject.java.
+     * 
      * @param t
      */
     public AccountBalanceByObject(Transaction t) {

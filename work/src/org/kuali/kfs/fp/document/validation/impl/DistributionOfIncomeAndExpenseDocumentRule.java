@@ -43,8 +43,7 @@ import org.kuali.module.gl.util.SufficientFundsItemHelper.SufficientFundsItem;
  * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
-public class DistributionOfIncomeAndExpenseDocumentRule extends TransactionalDocumentRuleBase implements
-        DistributionOfIncomeAndExpenseDocumentRuleConstants {
+public class DistributionOfIncomeAndExpenseDocumentRule extends TransactionalDocumentRuleBase implements DistributionOfIncomeAndExpenseDocumentRuleConstants {
 
     /**
      * Overrrides default implementation to do the following: a line is considered debit if
@@ -107,8 +106,7 @@ public class DistributionOfIncomeAndExpenseDocumentRule extends TransactionalDoc
     public boolean isObjectSubTypeAllowed(AccountingLine accountingLine) {
         boolean valid = super.isObjectSubTypeAllowed(accountingLine);
         if (valid) {
-            KualiParameterRule rule = getParameterRule(DISTRIBUTION_OF_INCOME_AND_EXPENSE_DOCUMENT_SECURITY_GROUPING,
-                    RESTRICTED_SUB_TYPE_GROUP_CODES);
+            KualiParameterRule rule = getParameterRule(DISTRIBUTION_OF_INCOME_AND_EXPENSE_DOCUMENT_SECURITY_GROUPING, RESTRICTED_SUB_TYPE_GROUP_CODES);
             String objectSubTypeCode = accountingLine.getObjectCode().getFinancialObjectSubTypeCode();
 
             ObjectCode objectCode = accountingLine.getObjectCode();
@@ -119,9 +117,7 @@ public class DistributionOfIncomeAndExpenseDocumentRule extends TransactionalDoc
             valid = !rule.failsRule(objectSubTypeCode);
 
             if (!valid) {
-                reportError(PropertyConstants.FINANCIAL_OBJECT_CODE,
-                        KeyConstants.DistributionOfIncomeAndExpense.ERROR_DOCUMENT_DI_INVALID_OBJ_SUB_TYPE, new String[] {
-                                objectCode.getFinancialObjectCode(), objectSubTypeCode });
+                reportError(PropertyConstants.FINANCIAL_OBJECT_CODE, KeyConstants.DistributionOfIncomeAndExpense.ERROR_DOCUMENT_DI_INVALID_OBJ_SUB_TYPE, new String[] { objectCode.getFinancialObjectCode(), objectSubTypeCode });
             }
         }
         return valid;
@@ -158,8 +154,7 @@ public class DistributionOfIncomeAndExpenseDocumentRule extends TransactionalDoc
         boolean valid = super.isObjectTypeAllowed(accountingLine);
 
         if (valid) {
-            KualiParameterRule rule = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterRule(
-                    DISTRIBUTION_OF_INCOME_AND_EXPENSE_DOCUMENT_SECURITY_GROUPING, RESTRICTED_OBJECT_TYPE_CODES);
+            KualiParameterRule rule = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterRule(DISTRIBUTION_OF_INCOME_AND_EXPENSE_DOCUMENT_SECURITY_GROUPING, RESTRICTED_OBJECT_TYPE_CODES);
 
             ObjectCode objectCode = accountingLine.getObjectCode();
 
@@ -168,9 +163,7 @@ public class DistributionOfIncomeAndExpenseDocumentRule extends TransactionalDoc
             valid = !rule.failsRule(objectTypeCode);
             if (!valid) {
                 // add message
-                GlobalVariables.getErrorMap().put(PropertyConstants.FINANCIAL_OBJECT_CODE,
-                        KeyConstants.DistributionOfIncomeAndExpense.ERROR_DOCUMENT_DI_INVALID_OBJECT_TYPE_CODE,
-                        new String[] { objectCode.getFinancialObjectCode(), objectTypeCode });
+                GlobalVariables.getErrorMap().put(PropertyConstants.FINANCIAL_OBJECT_CODE, KeyConstants.DistributionOfIncomeAndExpense.ERROR_DOCUMENT_DI_INVALID_OBJECT_TYPE_CODE, new String[] { objectCode.getFinancialObjectCode(), objectTypeCode });
             }
         }
 
@@ -182,8 +175,7 @@ public class DistributionOfIncomeAndExpenseDocumentRule extends TransactionalDoc
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processSourceAccountingLineSufficientFundsCheckingPreparation(org.kuali.core.document.TransactionalDocument,
      *      org.kuali.core.bo.SourceAccountingLine)
      */
-    protected SufficientFundsItem processSourceAccountingLineSufficientFundsCheckingPreparation(
-            TransactionalDocument transactionalDocument, SourceAccountingLine sourceAccountingLine) {
+    protected SufficientFundsItem processSourceAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument transactionalDocument, SourceAccountingLine sourceAccountingLine) {
         return processAccountingLineSufficientFundsCheckingPreparation(sourceAccountingLine);
     }
 
@@ -193,8 +185,7 @@ public class DistributionOfIncomeAndExpenseDocumentRule extends TransactionalDoc
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processTargetAccountingLineSufficientFundsCheckingPreparation(org.kuali.core.document.TransactionalDocument,
      *      org.kuali.core.bo.TargetAccountingLine)
      */
-    protected SufficientFundsItem processTargetAccountingLineSufficientFundsCheckingPreparation(
-            TransactionalDocument transactionalDocument, TargetAccountingLine targetAccountingLine) {
+    protected SufficientFundsItem processTargetAccountingLineSufficientFundsCheckingPreparation(TransactionalDocument transactionalDocument, TargetAccountingLine targetAccountingLine) {
         return processAccountingLineSufficientFundsCheckingPreparation(targetAccountingLine);
     }
 
@@ -226,11 +217,8 @@ public class DistributionOfIncomeAndExpenseDocumentRule extends TransactionalDoc
         }
         lineAmount = lineAmount.abs();
 
-        String sufficientFundsObjectCode = SpringServiceLocator.getSufficientFundsService().getSufficientFundsObjectCode(
-                chartOfAccountsCode, financialObjectCode, accountSufficientFundsCode, financialObjectLevelCode);
-        SufficientFundsItem item = buildSufficentFundsItem(accountNumber, accountSufficientFundsCode, lineAmount,
-                chartOfAccountsCode, sufficientFundsObjectCode, offsetDebitCreditCode, financialObjectCode,
-                financialObjectLevelCode, fiscalYear, financialObjectTypeCode);
+        String sufficientFundsObjectCode = SpringServiceLocator.getSufficientFundsService().getSufficientFundsObjectCode(chartOfAccountsCode, financialObjectCode, accountSufficientFundsCode, financialObjectLevelCode);
+        SufficientFundsItem item = buildSufficentFundsItem(accountNumber, accountSufficientFundsCode, lineAmount, chartOfAccountsCode, sufficientFundsObjectCode, offsetDebitCreditCode, financialObjectCode, financialObjectLevelCode, fiscalYear, financialObjectTypeCode);
         return item;
     }
 }

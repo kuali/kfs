@@ -100,21 +100,21 @@ public class ScrubberFlexibleOffsetTest extends OriginEntryTestBase {
      * @see junit.framework.TestCase#tearDown()
      */
     protected void tearDown() throws Exception {
-        //flexibleOffsetAccountService.setKualiConfigurationService(originalConfigService);
+        // flexibleOffsetAccountService.setKualiConfigurationService(originalConfigService);
         super.tearDown();
     }
-    
+
     /**
-     * test the primary scenario of flexible offset generation, that is, the given origin entry must have a flexible 
-     * offset entry generated.
+     * test the primary scenario of flexible offset generation, that is, the given origin entry must have a flexible offset entry
+     * generated.
      * 
      * @throws Exception
      */
     public void testFlexibleOffsetGeneration() throws Exception {
         this.clearOriginEntryTables();
         OriginEntryGroup group = originEntryGroupService.createGroup(new Date(new java.util.Date().getTime()), OriginEntrySource.EXTERNAL, true, true, true);
-        
-        // reset the preconditions of flexible offset generation so that they have the vaild values 
+
+        // reset the preconditions of flexible offset generation so that they have the vaild values
         // flexibleOffsetAccountService.setKualiConfigurationService(createMockConfigurationService(true));
         resetFlexibleOffsetEnableFlag(true);
         resetScrubberGenerationIndicator(true, DOCUMENT_TYPE_CODE);
@@ -122,111 +122,104 @@ public class ScrubberFlexibleOffsetTest extends OriginEntryTestBase {
         resetAnOffsetDefinition(FISCAL_YEAR, COA_CODE, DOCUMENT_TYPE_CODE, BALANCE_TYPE_CODE);
 
         // mock origin entry that is eligible for flexible offset generation
-        OriginEntry entryEligibleForFlexibleOffset = this.getOriginEntryFromTemplate(group, OBJECT_CODE, BALANCE_TYPE_CODE,
-                ENTRY_AMOUNT, DOCUMENT_TYPE_CODE, Constants.GL_DEBIT_CODE);
+        OriginEntry entryEligibleForFlexibleOffset = this.getOriginEntryFromTemplate(group, OBJECT_CODE, BALANCE_TYPE_CODE, ENTRY_AMOUNT, DOCUMENT_TYPE_CODE, Constants.GL_DEBIT_CODE);
         originEntryDao.saveOriginEntry(entryEligibleForFlexibleOffset);
 
         // mock origin entry that is NOT eligible for flexible offset generation
-        OriginEntry entryIneligibleForFlexibleOffset = this.getOriginEntryFromTemplate(group, "4021", BALANCE_TYPE_CODE,
-                ENTRY_AMOUNT, "GEC", Constants.GL_DEBIT_CODE);
+        OriginEntry entryIneligibleForFlexibleOffset = this.getOriginEntryFromTemplate(group, "4021", BALANCE_TYPE_CODE, ENTRY_AMOUNT, "GEC", Constants.GL_DEBIT_CODE);
         originEntryDao.saveOriginEntry(entryIneligibleForFlexibleOffset);
 
         scrubberService.scrubEntries();
 
-        // fetch the origin entry that is generated through flexible offset logic 
-        OriginEntry expectedOriginEntry = this.getExpectedOriginEntryFromTemplate(group, OFFSET_COA_CODE, OFFSET_ACCOUNT_NUMBER,
-                OFFSET_OBJECT_CODE, BALANCE_TYPE_CODE, ENTRY_AMOUNT, DOCUMENT_TYPE_CODE, Constants.GL_CREDIT_CODE);
+        // fetch the origin entry that is generated through flexible offset logic
+        OriginEntry expectedOriginEntry = this.getExpectedOriginEntryFromTemplate(group, OFFSET_COA_CODE, OFFSET_ACCOUNT_NUMBER, OFFSET_OBJECT_CODE, BALANCE_TYPE_CODE, ENTRY_AMOUNT, DOCUMENT_TYPE_CODE, Constants.GL_CREDIT_CODE);
         Map primaryKeyMap = this.populateOriginEntryPrimaryKey(expectedOriginEntry, false);
-        
+
         // One and only one flexible offset record should be generated
         int numOfMatching = businessObjectService.countMatching(OriginEntry.class, primaryKeyMap);
         assertTrue("One and only one flexible offset record should be generated.", numOfMatching == 1);
     }
-    
+
     /**
-     * test the case when the global felxible offset enable flag is set to false. In this case, the offset generation
-     * must not be executed, that is, there is no flexible offset entry generated. 
+     * test the case when the global felxible offset enable flag is set to false. In this case, the offset generation must not be
+     * executed, that is, there is no flexible offset entry generated.
      * 
      * @throws Exception
      */
     public void testFlexibleOffsetEnableFlag() throws Exception {
         this.clearOriginEntryTables();
         OriginEntryGroup group = originEntryGroupService.createGroup(new Date(new java.util.Date().getTime()), OriginEntrySource.EXTERNAL, true, true, true);
-        
+
         // disable the global flexible offset enable flag
         // flexibleOffsetAccountService.setKualiConfigurationService(createMockConfigurationService(false));
         resetFlexibleOffsetEnableFlag(false);
-        
-        // reset the preconditions of flexible offset generation so that they have the vaild values 
+
+        // reset the preconditions of flexible offset generation so that they have the vaild values
         resetScrubberGenerationIndicator(true, DOCUMENT_TYPE_CODE);
         resetAnOffsetAccount(COA_CODE, ACCOUNT_NUMBER, OFFSET_OBJECT_CODE);
         resetAnOffsetDefinition(FISCAL_YEAR, COA_CODE, DOCUMENT_TYPE_CODE, BALANCE_TYPE_CODE);
 
         // mock origin entry that is eligible for flexible offset generation
-        OriginEntry entryEligibleForFlexibleOffset = this.getOriginEntryFromTemplate(group, OBJECT_CODE, BALANCE_TYPE_CODE,
-                ENTRY_AMOUNT, DOCUMENT_TYPE_CODE, Constants.GL_DEBIT_CODE);
+        OriginEntry entryEligibleForFlexibleOffset = this.getOriginEntryFromTemplate(group, OBJECT_CODE, BALANCE_TYPE_CODE, ENTRY_AMOUNT, DOCUMENT_TYPE_CODE, Constants.GL_DEBIT_CODE);
         originEntryDao.saveOriginEntry(entryEligibleForFlexibleOffset);
 
         scrubberService.scrubEntries();
 
-        // fetch the origin entry that is generated through flexible offset logic 
-        OriginEntry expectedOriginEntry = this.getExpectedOriginEntryFromTemplate(group, OFFSET_COA_CODE, OFFSET_ACCOUNT_NUMBER,
-                OFFSET_OBJECT_CODE, BALANCE_TYPE_CODE, ENTRY_AMOUNT, DOCUMENT_TYPE_CODE, Constants.GL_CREDIT_CODE);
+        // fetch the origin entry that is generated through flexible offset logic
+        OriginEntry expectedOriginEntry = this.getExpectedOriginEntryFromTemplate(group, OFFSET_COA_CODE, OFFSET_ACCOUNT_NUMBER, OFFSET_OBJECT_CODE, BALANCE_TYPE_CODE, ENTRY_AMOUNT, DOCUMENT_TYPE_CODE, Constants.GL_CREDIT_CODE);
         Map primaryKeyMap = this.populateOriginEntryPrimaryKey(expectedOriginEntry, false);
-               
-        // No flexible offset record can be generated        
+
+        // No flexible offset record can be generated
         int numOfMatching = businessObjectService.countMatching(OriginEntry.class, primaryKeyMap);
         assertTrue("No flexible offset record can be generated.", numOfMatching == 0);
-    } 
+    }
 
     /**
-     * test the case when the scrubber generation indicator is set to false. In this case, the offset generation
-     * must not be executed, that is, there is no flexible offset entry generated. 
+     * test the case when the scrubber generation indicator is set to false. In this case, the offset generation must not be
+     * executed, that is, there is no flexible offset entry generated.
      * 
      * @throws Exception
      */
     public void testScrubberGenerationIndicator() throws Exception {
         this.clearOriginEntryTables();
         OriginEntryGroup group = originEntryGroupService.createGroup(new Date(new java.util.Date().getTime()), OriginEntrySource.EXTERNAL, true, true, true);
-        
+
         // disable the scrubber generation indicator
         resetScrubberGenerationIndicator(false, DOCUMENT_TYPE_CODE);
-        
-        // reset the preconditions of flexible offset generation so that they have the vaild values 
+
+        // reset the preconditions of flexible offset generation so that they have the vaild values
         // flexibleOffsetAccountService.setKualiConfigurationService(createMockConfigurationService(true));
         resetFlexibleOffsetEnableFlag(true);
-        
+
         resetAnOffsetAccount(COA_CODE, ACCOUNT_NUMBER, OFFSET_OBJECT_CODE);
         resetAnOffsetDefinition(FISCAL_YEAR, COA_CODE, DOCUMENT_TYPE_CODE, BALANCE_TYPE_CODE);
 
         // mock origin entry that is eligible for flexible offset generation
-        OriginEntry entryEligibleForFlexibleOffset = this.getOriginEntryFromTemplate(group, OBJECT_CODE, BALANCE_TYPE_CODE,
-                ENTRY_AMOUNT, DOCUMENT_TYPE_CODE, Constants.GL_DEBIT_CODE);
+        OriginEntry entryEligibleForFlexibleOffset = this.getOriginEntryFromTemplate(group, OBJECT_CODE, BALANCE_TYPE_CODE, ENTRY_AMOUNT, DOCUMENT_TYPE_CODE, Constants.GL_DEBIT_CODE);
         originEntryDao.saveOriginEntry(entryEligibleForFlexibleOffset);
 
         scrubberService.scrubEntries();
 
-        // fetch the origin entry that is generated through flexible offset logic 
-        OriginEntry expectedOriginEntry = this.getExpectedOriginEntryFromTemplate(group, OFFSET_COA_CODE, OFFSET_ACCOUNT_NUMBER,
-                OFFSET_OBJECT_CODE, BALANCE_TYPE_CODE, ENTRY_AMOUNT, DOCUMENT_TYPE_CODE, Constants.GL_CREDIT_CODE);
+        // fetch the origin entry that is generated through flexible offset logic
+        OriginEntry expectedOriginEntry = this.getExpectedOriginEntryFromTemplate(group, OFFSET_COA_CODE, OFFSET_ACCOUNT_NUMBER, OFFSET_OBJECT_CODE, BALANCE_TYPE_CODE, ENTRY_AMOUNT, DOCUMENT_TYPE_CODE, Constants.GL_CREDIT_CODE);
         Map primaryKeyMap = this.populateOriginEntryPrimaryKey(expectedOriginEntry, false);
-               
-        // No flexible offset record can be generated        
+
+        // No flexible offset record can be generated
         int numOfMatching = businessObjectService.countMatching(OriginEntry.class, primaryKeyMap);
         assertTrue("No flexible offset record can be generated.", numOfMatching == 0);
     }
-    
+
     /**
-     * test the case when there is no corresponding offset account for the given origin entry. In this case, the 
-     * offset generation must not be executed, that is, there is no flexible offset entry generated. 
+     * test the case when there is no corresponding offset account for the given origin entry. In this case, the offset generation
+     * must not be executed, that is, there is no flexible offset entry generated.
      * 
      * @throws Exception
      */
     public void testOffsetAccount() throws Exception {
         this.clearOriginEntryTables();
         OriginEntryGroup group = originEntryGroupService.createGroup(new Date(new java.util.Date().getTime()), OriginEntrySource.EXTERNAL, true, true, true);
-        
-        // reset the preconditions of flexible offset generation so that they have the vaild values 
+
+        // reset the preconditions of flexible offset generation so that they have the vaild values
         // flexibleOffsetAccountService.setKualiConfigurationService(createMockConfigurationService(true));
         resetFlexibleOffsetEnableFlag(true);
         resetScrubberGenerationIndicator(true, DOCUMENT_TYPE_CODE);
@@ -234,35 +227,33 @@ public class ScrubberFlexibleOffsetTest extends OriginEntryTestBase {
         resetAnOffsetDefinition(FISCAL_YEAR, COA_CODE, DOCUMENT_TYPE_CODE, BALANCE_TYPE_CODE);
 
         // mock origin entry that is eligible for flexible offset generation
-        OriginEntry entryEligibleForFlexibleOffset = this.getOriginEntryFromTemplate(group, OBJECT_CODE, BALANCE_TYPE_CODE,
-                ENTRY_AMOUNT, DOCUMENT_TYPE_CODE, Constants.GL_DEBIT_CODE);
+        OriginEntry entryEligibleForFlexibleOffset = this.getOriginEntryFromTemplate(group, OBJECT_CODE, BALANCE_TYPE_CODE, ENTRY_AMOUNT, DOCUMENT_TYPE_CODE, Constants.GL_DEBIT_CODE);
         entryEligibleForFlexibleOffset.setAccountNumber("6044913");
         entryEligibleForFlexibleOffset.setChartOfAccountsCode("BA");
         originEntryDao.saveOriginEntry(entryEligibleForFlexibleOffset);
 
         scrubberService.scrubEntries();
 
-        // fetch the origin entry that is generated through flexible offset logic 
-        OriginEntry expectedOriginEntry = this.getExpectedOriginEntryFromTemplate(group, OFFSET_COA_CODE, OFFSET_ACCOUNT_NUMBER,
-                OFFSET_OBJECT_CODE, BALANCE_TYPE_CODE, ENTRY_AMOUNT, DOCUMENT_TYPE_CODE, Constants.GL_CREDIT_CODE);
+        // fetch the origin entry that is generated through flexible offset logic
+        OriginEntry expectedOriginEntry = this.getExpectedOriginEntryFromTemplate(group, OFFSET_COA_CODE, OFFSET_ACCOUNT_NUMBER, OFFSET_OBJECT_CODE, BALANCE_TYPE_CODE, ENTRY_AMOUNT, DOCUMENT_TYPE_CODE, Constants.GL_CREDIT_CODE);
         Map primaryKeyMap = this.populateOriginEntryPrimaryKey(expectedOriginEntry, false);
 
-        // No flexible offset record can be generated        
+        // No flexible offset record can be generated
         int numOfMatching = businessObjectService.countMatching(OriginEntry.class, primaryKeyMap);
         assertTrue("No flexible offset record can be generated.", numOfMatching == 0);
-    }        
+    }
 
     /**
-     * test the case when there is no offset object available. In this case, the offset generation
-     * must not be executed, that is, there is no flexible offset entry generated. 
+     * test the case when there is no offset object available. In this case, the offset generation must not be executed, that is,
+     * there is no flexible offset entry generated.
      * 
      * @throws Exception
      */
     public void testOffsetDefinition() throws Exception {
         this.clearOriginEntryTables();
         OriginEntryGroup group = originEntryGroupService.createGroup(new Date(new java.util.Date().getTime()), OriginEntrySource.EXTERNAL, true, true, true);
-        
-        // reset the preconditions of flexible offset generation so that they have the vaild values 
+
+        // reset the preconditions of flexible offset generation so that they have the vaild values
         // flexibleOffsetAccountService.setKualiConfigurationService(createMockConfigurationService(true));
         resetFlexibleOffsetEnableFlag(true);
         resetScrubberGenerationIndicator(true, DOCUMENT_TYPE_CODE);
@@ -270,22 +261,20 @@ public class ScrubberFlexibleOffsetTest extends OriginEntryTestBase {
         resetAnOffsetDefinition(FISCAL_YEAR, COA_CODE, DOCUMENT_TYPE_CODE, BALANCE_TYPE_CODE);
 
         // mock origin entry that is eligible for flexible offset generation
-        OriginEntry entryEligibleForFlexibleOffset = this.getOriginEntryFromTemplate(group, OBJECT_CODE, BALANCE_TYPE_CODE,
-                ENTRY_AMOUNT, "GEC", Constants.GL_DEBIT_CODE);
+        OriginEntry entryEligibleForFlexibleOffset = this.getOriginEntryFromTemplate(group, OBJECT_CODE, BALANCE_TYPE_CODE, ENTRY_AMOUNT, "GEC", Constants.GL_DEBIT_CODE);
         originEntryDao.saveOriginEntry(entryEligibleForFlexibleOffset);
 
         scrubberService.scrubEntries();
 
-        // fetch the origin entry that is generated through flexible offset logic 
-        OriginEntry expectedOriginEntry = this.getExpectedOriginEntryFromTemplate(group, OFFSET_COA_CODE, OFFSET_ACCOUNT_NUMBER,
-                OFFSET_OBJECT_CODE, BALANCE_TYPE_CODE, ENTRY_AMOUNT, DOCUMENT_TYPE_CODE, Constants.GL_CREDIT_CODE);
+        // fetch the origin entry that is generated through flexible offset logic
+        OriginEntry expectedOriginEntry = this.getExpectedOriginEntryFromTemplate(group, OFFSET_COA_CODE, OFFSET_ACCOUNT_NUMBER, OFFSET_OBJECT_CODE, BALANCE_TYPE_CODE, ENTRY_AMOUNT, DOCUMENT_TYPE_CODE, Constants.GL_CREDIT_CODE);
         Map primaryKeyMap = this.populateOriginEntryPrimaryKey(expectedOriginEntry, false);
-               
-        // No flexible offset record can be generated        
+
+        // No flexible offset record can be generated
         int numOfMatching = businessObjectService.countMatching(OriginEntry.class, primaryKeyMap);
         assertTrue("No flexible offset record can be generated.", numOfMatching == 0);
-    } 
-    
+    }
+
     /**
      * reset the flexible offset enable flag to the given value of the flag
      * 
@@ -309,7 +298,7 @@ public class ScrubberFlexibleOffsetTest extends OriginEntryTestBase {
         financialSystemParameter.setFinancialSystemMultipleValueIndicator(false);
 
         this.resetBusinessObject(financialSystemParameter, keys);
-        //System.out.println("Enabled: " + flexibleOffsetAccountService.getEnabled());
+        // System.out.println("Enabled: " + flexibleOffsetAccountService.getEnabled());
     }
 
     /**
@@ -364,8 +353,7 @@ public class ScrubberFlexibleOffsetTest extends OriginEntryTestBase {
      * @param documentTypeCode the given document type code
      * @param balanceTypeCode the given balance type code
      */
-    private void resetAnOffsetDefinition(Integer fiscalYear, String chartOfAccountsCode, String documentTypeCode,
-            String balanceTypeCode) {
+    private void resetAnOffsetDefinition(Integer fiscalYear, String chartOfAccountsCode, String documentTypeCode, String balanceTypeCode) {
         HashMap keys = new HashMap();
         keys.put(PropertyConstants.UNIVERSITY_FISCAL_YEAR, fiscalYear);
         keys.put(PropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
@@ -395,8 +383,7 @@ public class ScrubberFlexibleOffsetTest extends OriginEntryTestBase {
     }
 
     // put the given entry information into the origin entry template and generate the origin entry
-    private OriginEntry getOriginEntryFromTemplate(OriginEntryGroup group, String objectCode, String balanceTypeCode,
-            KualiDecimal entryAmount, String documentTypeCode, String debitCreditCode) {
+    private OriginEntry getOriginEntryFromTemplate(OriginEntryGroup group, String objectCode, String balanceTypeCode, KualiDecimal entryAmount, String documentTypeCode, String debitCreditCode) {
 
         OriginEntry entry = this.buildOriginEntryTemplate(group);
 
@@ -410,12 +397,9 @@ public class ScrubberFlexibleOffsetTest extends OriginEntryTestBase {
     }
 
     // put the given entry information into the origin entry template and generate the origin entry
-    private OriginEntry getExpectedOriginEntryFromTemplate(OriginEntryGroup group, String chartOfAccountsCode,
-            String accountNumber, String objectCode, String balanceTypeCode, KualiDecimal entryAmount, String documentTypeCode,
-            String debitCreditCode) {
+    private OriginEntry getExpectedOriginEntryFromTemplate(OriginEntryGroup group, String chartOfAccountsCode, String accountNumber, String objectCode, String balanceTypeCode, KualiDecimal entryAmount, String documentTypeCode, String debitCreditCode) {
 
-        OriginEntry entry = this.getOriginEntryFromTemplate(group, objectCode, balanceTypeCode, entryAmount, documentTypeCode,
-                debitCreditCode);
+        OriginEntry entry = this.getOriginEntryFromTemplate(group, objectCode, balanceTypeCode, entryAmount, documentTypeCode, debitCreditCode);
 
         entry.setChartOfAccountsCode(chartOfAccountsCode);
         entry.setAccountNumber(accountNumber);
@@ -456,8 +440,8 @@ public class ScrubberFlexibleOffsetTest extends OriginEntryTestBase {
 
 
     /**
-     * This method offer a template of origin entry that is an instance of transaction. The template can be used to 
-     * construct other origin entries with an approperiate modification.
+     * This method offer a template of origin entry that is an instance of transaction. The template can be used to construct other
+     * origin entries with an approperiate modification.
      * 
      * @return an origin entry with prepopulated data
      */
@@ -501,12 +485,9 @@ public class ScrubberFlexibleOffsetTest extends OriginEntryTestBase {
 
         return entry;
     }
-    
+
     // create a mock ConfigurationService
     private KualiConfigurationService createMockConfigurationService(boolean flexibleOffsetEnabled) {
-        return (KualiConfigurationService) MockService.createProxy(KualiConfigurationService.class,
-                "getRequiredApplicationParameterValue", new Object[] { Constants.ParameterGroups.SYSTEM,
-                        Constants.SystemGroupParameterNames.FLEXIBLE_OFFSET_ENABLED_FLAG },
-                flexibleOffsetEnabled ? Constants.ParameterValues.YES : Constants.ParameterValues.NO);
+        return (KualiConfigurationService) MockService.createProxy(KualiConfigurationService.class, "getRequiredApplicationParameterValue", new Object[] { Constants.ParameterGroups.SYSTEM, Constants.SystemGroupParameterNames.FLEXIBLE_OFFSET_ENABLED_FLAG }, flexibleOffsetEnabled ? Constants.ParameterValues.YES : Constants.ParameterValues.NO);
     }
 }

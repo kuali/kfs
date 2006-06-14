@@ -37,8 +37,7 @@ public class CashReceiptDepositTypeFormatter extends Formatter {
 
     public CashReceiptDepositTypeFormatter() {
         INTERIM_CD = Constants.DepositConstants.DEPOSIT_TYPE_INTERIM;
-        INTERIM_MSG = SpringServiceLocator.getKualiConfigurationService().getPropertyString(
-                KeyConstants.Deposit.DEPOSIT_TYPE_INTERIM);
+        INTERIM_MSG = SpringServiceLocator.getKualiConfigurationService().getPropertyString(KeyConstants.Deposit.DEPOSIT_TYPE_INTERIM);
 
         FINAL_CD = Constants.DepositConstants.DEPOSIT_TYPE_FINAL;
         FINAL_MSG = SpringServiceLocator.getKualiConfigurationService().getPropertyString(KeyConstants.Deposit.DEPOSIT_TYPE_FINAL);

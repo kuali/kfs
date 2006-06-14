@@ -27,15 +27,15 @@ import org.kuali.module.financial.bo.CashDetailTypeCode;
 import org.kuali.module.financial.service.CashDetailTypeCodeService;
 
 /**
- * This is the default implementation for the CashDetailTypeCodeService interface.
- * This implementation used the KualiCodeService, which in turn uses the KualiCodeDao 
- * for retrieving values from the database.
+ * This is the default implementation for the CashDetailTypeCodeService interface. This implementation used the KualiCodeService,
+ * which in turn uses the KualiCodeDao for retrieving values from the database.
+ * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class CashDetailTypeCodeServiceImpl implements CashDetailTypeCodeService {
     private KualiCodeService kualiCodeService;
 
-    //Constants for doing the actual lookups
+    // Constants for doing the actual lookups
     public final static String CASH_RECEIPT_CHECK = "CRCHK";
     public final static String CASH_RECEIPT_COIN = "CRCOIN";
 
@@ -47,6 +47,7 @@ public class CashDetailTypeCodeServiceImpl implements CashDetailTypeCodeService 
 
     /**
      * Gets the kualiCodeService attribute.
+     * 
      * @return Returns the kualiCodeService.
      */
     public KualiCodeService getKualiCodeService() {
@@ -55,42 +56,41 @@ public class CashDetailTypeCodeServiceImpl implements CashDetailTypeCodeService 
 
     /**
      * Sets the kualiCodeService attribute value.
+     * 
      * @param kualiCodeService The kualiCodeService to set.
      */
     public void setKualiCodeService(KualiCodeService kualiCodeService) {
         this.kualiCodeService = kualiCodeService;
     }
-    
+
     /**
-     * @see org.kuali.core.service.CashDetailTypeCode#getCashReceiptCheckTypeCode() 
+     * @see org.kuali.core.service.CashDetailTypeCode#getCashReceiptCheckTypeCode()
      */
     public CashDetailTypeCode getCashReceiptCheckTypeCode() {
         return getCashDetailTypeCodeByCode(CASH_RECEIPT_CHECK);
     }
-    
+
     /**
-     * @see org.kuali.core.service.CashDetailTypeCode#getCashReceiptCoinTypeCode() 
+     * @see org.kuali.core.service.CashDetailTypeCode#getCashReceiptCoinTypeCode()
      */
     public CashDetailTypeCode getCashReceiptCoinTypeCode() {
         return getCashDetailTypeCodeByCode(CASH_RECEIPT_CHECK);
     }
 
     /**
-     * Retrieves a populated instance corresponding to the code passed 
-     * into this method.  This is retrieved via the KualiCodeService and in 
-     * turn from the database.
-     * TODO - uncomment the commented out line and remove the others when the table is in place
+     * Retrieves a populated instance corresponding to the code passed into this method. This is retrieved via the KualiCodeService
+     * and in turn from the database. TODO - uncomment the commented out line and remove the others when the table is in place
      */
     private CashDetailTypeCode getCashDetailTypeCodeByCode(String cashDetailTypeCode) {
-        //return (CashDetailTypeCode) kualiCodeService.getByCode(CashDetailTypeCode.class, cashDetailTypeCode);
+        // return (CashDetailTypeCode) kualiCodeService.getByCode(CashDetailTypeCode.class, cashDetailTypeCode);
         return getDummyInstance(cashDetailTypeCode);
     }
-    
+
     /**
-     * This method is a temporary helper method.  This should be removed when 
-     * the lookup table for CashDetailTypeCode business objects is put in place.  Then 
-     * we'll be retrieving the stuff from the database.
-     * TODO - remove this method after the table is in place; this is a temp helper method
+     * This method is a temporary helper method. This should be removed when the lookup table for CashDetailTypeCode business
+     * objects is put in place. Then we'll be retrieving the stuff from the database. TODO - remove this method after the table is
+     * in place; this is a temp helper method
+     * 
      * @param cashDetailTypeCodeCode The code to popluate the dummy instance with.
      * @return
      */

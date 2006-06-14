@@ -26,8 +26,8 @@ import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
 import org.kuali.module.financial.document.GeneralErrorCorrectionDocument;
 
 /**
- * This class is the Struts specific form object that works in conjunction with the pojo 
- * utilities to build the UI.
+ * This class is the Struts specific form object that works in conjunction with the pojo utilities to build the UI.
+ * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class GeneralErrorCorrectionForm extends KualiTransactionalDocumentFormBase {
@@ -37,21 +37,21 @@ public class GeneralErrorCorrectionForm extends KualiTransactionalDocumentFormBa
      * Constructs a GeneralErrorCorrectionForm.java.
      */
     public GeneralErrorCorrectionForm() {
-    	super();
+        super();
         setDocument(new GeneralErrorCorrectionDocument());
     }
-    
+
     /**
      * @return Returns the generalErrorCorrectionDocument.
      */
     public GeneralErrorCorrectionDocument getGeneralErrorCorrectionDocument() {
         return (GeneralErrorCorrectionDocument) getDocument();
     }
-    
+
     /**
      * @param generalErrorCorrectionDocument The generalErrorCorrectionDocument to set.
-     */ 
+     */
     public void setGeneralErrorCorrectionDocument(GeneralErrorCorrectionDocument generalErrorCorrectionDocument) {
         setDocument(generalErrorCorrectionDocument);
-    }    
+    }
 }

@@ -26,8 +26,7 @@ import org.kuali.module.chart.bo.ObjectCode;
 
 public interface OrganizationReversionCategoryLogic {
     /**
-     * Determine if this object code is contained in
-     * this category
+     * Determine if this object code is contained in this category
      * 
      * @param oc Object Code
      * @return true if object code is in this category, false if not

@@ -31,19 +31,19 @@ import org.kuali.Constants;
 public class YearEndTransferOfFundsDocument extends TransferOfFundsDocument {
 
     private static final long serialVersionUID = 3867610866436175808L;
-    
-    public YearEndTransferOfFundsDocument () {
+
+    public YearEndTransferOfFundsDocument() {
         super();
     }
 
-    //workflow related methods
+    // workflow related methods
     /**
      * Overrides the base implementation to return "From".
      */
     public String getSourceAccountingLinesSectionTitle() {
         return Constants.FROM;
     }
-    
+
     /**
      * Overrides the base implementation to return "To".
      */

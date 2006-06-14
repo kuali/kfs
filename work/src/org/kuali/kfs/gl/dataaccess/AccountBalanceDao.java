@@ -31,7 +31,7 @@ import org.kuali.module.gl.bo.Transaction;
 
 /**
  * @author jsissom
- *  
+ * 
  */
 public interface AccountBalanceDao {
     public AccountBalance getByTransaction(Transaction t);
@@ -57,8 +57,7 @@ public interface AccountBalanceDao {
      * @param isConsolidated
      * @return a List of Maps
      */
-    public List findAccountBalanceByConsolidation(Integer universityFiscalYear,String chartOfAccountsCode,String accountNumber,
-        boolean isExcludeCostShare,boolean isConsolidated);
+    public List findAccountBalanceByConsolidation(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, boolean isExcludeCostShare, boolean isConsolidated);
 
 
     /**
@@ -72,8 +71,7 @@ public interface AccountBalanceDao {
      * @param isConsolidated
      * @return a List of Maps
      */
-    public List findAccountBalanceByLevel(Integer universityFiscalYear,String chartOfAccountsCode,String accountNumber,
-        String financialConsolidationObjectCode, boolean isCostShareExcluded, boolean isConsolidated);
+    public List findAccountBalanceByLevel(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialConsolidationObjectCode, boolean isCostShareExcluded, boolean isConsolidated);
 
     /**
      * Get available balances by object
@@ -87,8 +85,7 @@ public interface AccountBalanceDao {
      * @param isConsolidated
      * @return a List of Maps
      */
-    public List findAccountBalanceByObject(Integer universityFiscalYear,String chartOfAccountsCode,String accountNumber,String financialObjectLevelCode,
-        String financialReportingSortCode,boolean isCostShareExcluded,boolean isConsolidated);
+    public List findAccountBalanceByObject(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialObjectLevelCode, String financialReportingSortCode, boolean isCostShareExcluded, boolean isConsolidated);
 
     /**
      * Purge an entire fiscal year for a single chart.
@@ -96,5 +93,5 @@ public interface AccountBalanceDao {
      * @param chartOfAccountscode
      * @param year
      */
-    public void purgeYearByChart(String chartOfAccountscode,int year);
+    public void purgeYearByChart(String chartOfAccountscode, int year);
 }

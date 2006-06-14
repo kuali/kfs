@@ -119,10 +119,8 @@ public class CashManagementServiceImpl implements CashManagementService {
 
         // check user authorization
         KualiUser user = GlobalVariables.getUserSession().getKualiUser();
-        String documentTypeName = SpringServiceLocator.getDataDictionaryService().getDocumentTypeNameByClass(
-                CashManagementDocument.class);
-        DocumentAuthorizer documentAuthorizer = SpringServiceLocator.getDocumentAuthorizationService().getDocumentAuthorizer(
-                documentTypeName);
+        String documentTypeName = SpringServiceLocator.getDataDictionaryService().getDocumentTypeNameByClass(CashManagementDocument.class);
+        DocumentAuthorizer documentAuthorizer = SpringServiceLocator.getDocumentAuthorizationService().getDocumentAuthorizer(documentTypeName);
         if (!documentAuthorizer.canInitiate(documentTypeName, user)) {
             throw new DocumentTypeAuthorizationException(user.getPersonUserIdentifier(), "initiate", documentTypeName);
         }
@@ -158,8 +156,7 @@ public class CashManagementServiceImpl implements CashManagementService {
         else {
             CashDrawerStatusCodeFormatter f = new CashDrawerStatusCodeFormatter();
             String controllingDocId = cd.getReferenceFinancialDocumentNumber();
-            throw new CashDrawerStateException(unitName, controllingDocId, (String) f.format(CashDrawerConstants.STATUS_CLOSED),
-                (String) f.format(cd.getStatusCode()));
+            throw new CashDrawerStateException(unitName, controllingDocId, (String) f.format(CashDrawerConstants.STATUS_CLOSED), (String) f.format(cd.getStatusCode()));
         }
 
         return cmDoc;
@@ -171,8 +168,7 @@ public class CashManagementServiceImpl implements CashManagementService {
      *      int, java.lang.String, java.lang.String, java.lang.String, java.util.List)
      */
     @SuppressWarnings("deprecation")
-    public void addInterimDeposit(CashManagementDocument cashManagementDoc, String depositTicketNumber, BankAccount bankAccount,
-            List selectedCashReceipts) {
+    public void addInterimDeposit(CashManagementDocument cashManagementDoc, String depositTicketNumber, BankAccount bankAccount, List selectedCashReceipts) {
         //
         // validate parameters
 
@@ -180,12 +176,10 @@ public class CashManagementServiceImpl implements CashManagementService {
             throw new IllegalArgumentException("invalid (null) cashManagementDoc");
         }
         else if (!cashManagementDoc.getDocumentHeader().getWorkflowDocument().stateIsSaved()) {
-            throw new IllegalStateException("cashManagementDoc '" + cashManagementDoc.getFinancialDocumentNumber()
-                    + "' is not in 'saved' state");
+            throw new IllegalStateException("cashManagementDoc '" + cashManagementDoc.getFinancialDocumentNumber() + "' is not in 'saved' state");
         }
         else if (cashManagementDoc.hasFinalDeposit()) {
-            throw new IllegalStateException("cashManagementDoc '" + cashManagementDoc.getFinancialDocumentNumber()
-                    + "' hasFinalDeposit");
+            throw new IllegalStateException("cashManagementDoc '" + cashManagementDoc.getFinancialDocumentNumber() + "' hasFinalDeposit");
         }
         if (bankAccount == null) {
             throw new IllegalArgumentException("invalid (null) bankAccount");
@@ -280,8 +274,7 @@ public class CashManagementServiceImpl implements CashManagementService {
 
                 String statusCode = cashReceipt.getDocumentHeader().getFinancialDocumentStatusCode();
                 if (!StringUtils.equals(statusCode, Constants.DocumentStatusCodes.CashReceipt.VERIFIED)) {
-                    throw new InvalidCashReceiptState("cash receipt document " + cashReceipt.getFinancialDocumentNumber()
-                            + " has a status other than 'verified' ");
+                    throw new InvalidCashReceiptState("cash receipt document " + cashReceipt.getFinancialDocumentNumber() + " has a status other than 'verified' ");
                 }
             }
         }
@@ -388,8 +381,7 @@ public class CashManagementServiceImpl implements CashManagementService {
         // retrieve CashReceiptHeaders
         Map criteriaMap = new HashMap();
         criteriaMap.put("depositCashReceiptControl.financialDocumentDepositNumber", deposit.getFinancialDocumentNumber());
-        criteriaMap.put("depositCashReceiptControl.financialDocumentDepositLineNumber", deposit
-                .getFinancialDocumentDepositLineNumber());
+        criteriaMap.put("depositCashReceiptControl.financialDocumentDepositLineNumber", deposit.getFinancialDocumentDepositLineNumber());
 
         List crHeaders = new ArrayList(businessObjectService.findMatching(CashReceiptHeader.class, criteriaMap));
         if (!crHeaders.isEmpty()) {

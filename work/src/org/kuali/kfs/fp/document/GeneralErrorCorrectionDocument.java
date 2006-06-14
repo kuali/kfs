@@ -28,14 +28,14 @@ import static org.kuali.Constants.TO;
 import org.kuali.core.document.TransactionalDocumentBase;
 
 
-
 /**
  * This is the business object that represents the GeneralErrorCorrectionDocument in Kuali. This is a transactional document that
  * will eventually post transactions to the G/L. It integrates with workflow and also contains two groupings of accounting lines:
  * from and to. From lines are the source lines, to lines are the target lines.
+ * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
-public class GeneralErrorCorrectionDocument extends TransactionalDocumentBase  {
+public class GeneralErrorCorrectionDocument extends TransactionalDocumentBase {
     /**
      * Initializes the array lists and some basic info.
      */
@@ -45,20 +45,20 @@ public class GeneralErrorCorrectionDocument extends TransactionalDocumentBase  {
 
     /**
      * Overrides the base implementation to return "From".
-     *
+     * 
      * @see org.kuali.core.document.TransactionalDocument#getSourceAccountingLineSectionTitle()
      */
-	@Override
+    @Override
     public String getSourceAccountingLinesSectionTitle() {
         return FROM;
     }
 
     /**
      * Overrides the base implementation to return "To".
-     *
+     * 
      * @see org.kuali.core.document.TransactionalDocument#getTargetAccountingLineSectionTitle()
      */
-	@Override
+    @Override
     public String getTargetAccountingLinesSectionTitle() {
         return TO;
     }

@@ -36,6 +36,7 @@ public abstract class ResearchDocumentBase extends DocumentBase implements Resea
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ResearchDocumentBase.class);
 
     protected Integer postingYear;
+
     /**
      * Sets up the collection instances and common document attributes.
      */
@@ -76,4 +77,3 @@ public abstract class ResearchDocumentBase extends DocumentBase implements Resea
         return m;
     }
 }
-

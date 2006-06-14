@@ -34,8 +34,10 @@ import org.kuali.module.chart.service.ObjectTypeService;
 public class ObjectTypeServiceImpl implements ObjectTypeService {
 
     private ObjectTypeDao objectTypeDao;
-    
-    /* (non-Javadoc)
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.kuali.module.chart.service.ObjectTypeService#getByPrimaryKey(java.lang.String)
      */
     public ObjectType getByPrimaryKey(String objectTypeCode) {

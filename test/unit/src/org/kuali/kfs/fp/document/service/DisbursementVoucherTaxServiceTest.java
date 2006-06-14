@@ -64,6 +64,7 @@ public class DisbursementVoucherTaxServiceTest extends KualiTestBaseWithFixtures
 
     /**
      * Test validation of nra information before generation of lines
+     * 
      * @throws Exception
      */
     public void testValidateNRA() throws Exception {
@@ -126,7 +127,7 @@ public class DisbursementVoucherTaxServiceTest extends KualiTestBaseWithFixtures
 
     /**
      * Test generation and clearing of nra tax lines.
-     *  
+     * 
      */
     public void testGenerateNRATaxLines() {
         KualiDecimal orginalCheckAmount = new KualiDecimal(100);
@@ -149,25 +150,25 @@ public class DisbursementVoucherTaxServiceTest extends KualiTestBaseWithFixtures
 
         // test clearning
         disbursementVoucherTaxService.clearNRATaxLines(dvDocument);
-        assertEquals(1,dvDocument.getSourceAccountingLines().size());
-        assertEquals("Check total credited correctly",new KualiDecimal(100),dvDocument.getDisbVchrCheckTotalAmount());
-        assertEquals("Source total does not match check total", new KualiDecimal(100), dvDocument.getSourceTotal());     
-        
-        
+        assertEquals(1, dvDocument.getSourceAccountingLines().size());
+        assertEquals("Check total credited correctly", new KualiDecimal(100), dvDocument.getDisbVchrCheckTotalAmount());
+        assertEquals("Source total does not match check total", new KualiDecimal(100), dvDocument.getSourceTotal());
+
+
         disbursementVoucherTaxService.processNonResidentAlienTax(dvDocument);
         newTaxNumbers = disbursementVoucherTaxService.getNRATaxLineNumbers(dvDocument.getDvNonResidentAlienTax().getFinancialDocumentAccountingLineText());
         assertTrue(newTaxNumbers.size() == 2);
         assertTrue(newTaxNumbers.get(0).equals(new Integer(4)));
         assertTrue(newTaxNumbers.get(1).equals(new Integer(5)));
         assertTrue(dvDocument.getNextSourceLineNumber().equals(new Integer(6)));
-        assertEquals(3,dvDocument.getSourceAccountingLines().size());
+        assertEquals(3, dvDocument.getSourceAccountingLines().size());
 
         // validate debit of check total amount and accounting lines
-        assertEquals("Check total not debited correctly",new KualiDecimal(82.6),dvDocument.getDisbVchrCheckTotalAmount());
+        assertEquals("Check total not debited correctly", new KualiDecimal(82.6), dvDocument.getDisbVchrCheckTotalAmount());
         assertEquals("Source total does not match check total", new KualiDecimal(82.6), dvDocument.getSourceTotal());
         disbursementVoucherTaxService.clearNRATaxLines(dvDocument);
     }
-    
+
     /**
      * Tests correct calculation of gross up amounts
      */
@@ -178,29 +179,29 @@ public class DisbursementVoucherTaxServiceTest extends KualiTestBaseWithFixtures
         dvDocument.getDvNonResidentAlienTax().setReferenceFinancialDocumentNumber("");
         dvDocument.getDvNonResidentAlienTax().setPostalCountryCode("USA");
         dvDocument.getDvNonResidentAlienTax().setIncomeTaxGrossUpCode(true);
-        
-        runGrossUpTest(new KualiDecimal(100), new KualiDecimal(14), new KualiDecimal(3.4));   
-        runGrossUpTest(new KualiDecimal(50.55), new KualiDecimal(14), new KualiDecimal(3.4));   
-        runGrossUpTest(new KualiDecimal(10), new KualiDecimal(14), new KualiDecimal(3.4));   
-        runGrossUpTest(new KualiDecimal(12.82), new KualiDecimal(14), new KualiDecimal(3.4)); 
-        runGrossUpTest(new KualiDecimal(12.83), new KualiDecimal(14), new KualiDecimal(3.4)); 
-        runGrossUpTest(new KualiDecimal(12.84), new KualiDecimal(14), new KualiDecimal(3.4)); 
-        runGrossUpTest(new KualiDecimal(8456234.23), new KualiDecimal(14), new KualiDecimal(3.4)); 
+
+        runGrossUpTest(new KualiDecimal(100), new KualiDecimal(14), new KualiDecimal(3.4));
+        runGrossUpTest(new KualiDecimal(50.55), new KualiDecimal(14), new KualiDecimal(3.4));
+        runGrossUpTest(new KualiDecimal(10), new KualiDecimal(14), new KualiDecimal(3.4));
+        runGrossUpTest(new KualiDecimal(12.82), new KualiDecimal(14), new KualiDecimal(3.4));
+        runGrossUpTest(new KualiDecimal(12.83), new KualiDecimal(14), new KualiDecimal(3.4));
+        runGrossUpTest(new KualiDecimal(12.84), new KualiDecimal(14), new KualiDecimal(3.4));
+        runGrossUpTest(new KualiDecimal(8456234.23), new KualiDecimal(14), new KualiDecimal(3.4));
     }
-    
-    
+
+
     private void runGrossUpTest(KualiDecimal checkAmount, KualiDecimal federalTax, KualiDecimal stateTax) {
         dvDocument.setDisbVchrCheckTotalAmount(checkAmount);
         dvDocument.getSourceAccountingLine(0).setAmount(checkAmount);
         dvDocument.getDvNonResidentAlienTax().setFederalIncomeTaxPercent(federalTax);
         dvDocument.getDvNonResidentAlienTax().setStateIncomeTaxPercent(stateTax);
-        
+
         disbursementVoucherTaxService.processNonResidentAlienTax(dvDocument);
         disbursementVoucherTaxService.getNRATaxLineNumbers(dvDocument.getDvNonResidentAlienTax().getFinancialDocumentAccountingLineText());
         List newTaxNumbers = disbursementVoucherTaxService.getNRATaxLineNumbers(dvDocument.getDvNonResidentAlienTax().getFinancialDocumentAccountingLineText());
         assertTrue(newTaxNumbers.size() == 3);
-        assertEquals("Check total does not match original amount",checkAmount,dvDocument.getDisbVchrCheckTotalAmount());
-        assertEquals("Source total does not match original amount", checkAmount, dvDocument.getSourceTotal()); 
+        assertEquals("Check total does not match original amount", checkAmount, dvDocument.getDisbVchrCheckTotalAmount());
+        assertEquals("Source total does not match original amount", checkAmount, dvDocument.getSourceTotal());
         disbursementVoucherTaxService.clearNRATaxLines(dvDocument);
     }
 }

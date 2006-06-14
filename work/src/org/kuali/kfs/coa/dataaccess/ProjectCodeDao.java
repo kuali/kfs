@@ -27,13 +27,14 @@ import org.kuali.module.chart.bo.ProjectCode;
 
 /**
  * This interface defines basic methods that ProjectCode Dao's must provide
+ * 
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
-*/
+ */
 public interface ProjectCodeDao {
-    
+
     /**
      * @param projectCode - primary key
-     * @return   ProjectCode
+     * @return ProjectCode
      * 
      * Retrieves a ProjectCode object by primary key.
      */
@@ -41,7 +42,7 @@ public interface ProjectCodeDao {
 
     /**
      * @param name
-     * @return   ProjectCode
+     * @return ProjectCode
      * 
      * Retrieves a ProjectCode object by primary name.
      */

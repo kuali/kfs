@@ -49,26 +49,14 @@ public class AccountingLineServiceTest extends KualiTestBaseWithFixtures {
         accountingLineService = SpringServiceLocator.getAccountingLineService();
 
         // setup line
-        sline = DocumentTestUtils.createSourceLine(TestConstants.Data4.DOC_HDR_ID, TestConstants.Data4.CHART_CODE,
-                TestConstants.Data4.ACCOUNT, TestConstants.Data4.SUBACCOUNT, TestConstants.Data4.OBJECT_CODE,
-                TestConstants.Data4.SUBOBJECT_CODE, TestConstants.Data4.PROJECT_CODE, TestConstants.Data4.POSTING_YEAR.intValue(),
-                TestConstants.Data4.AMOUNT, TestConstants.Data4.SEQUENCE_NUMBER.intValue(),
-                TestConstants.Data4.REF_NUMBER, TestConstants.Data4.REF_TYPE_CODE, TestConstants.Data4.BALANCE_TYPE_CODE,
-                TestConstants.Data4.REF_ORIGIN_CODE, TestConstants.Data4.DEBIT_CREDIT_CODE,
-                TestConstants.Data4.ENCUMBRANCE_UPDATE_CODE, TestConstants.Data4.OBJECT_TYPE_CODE);
+        sline = DocumentTestUtils.createSourceLine(TestConstants.Data4.DOC_HDR_ID, TestConstants.Data4.CHART_CODE, TestConstants.Data4.ACCOUNT, TestConstants.Data4.SUBACCOUNT, TestConstants.Data4.OBJECT_CODE, TestConstants.Data4.SUBOBJECT_CODE, TestConstants.Data4.PROJECT_CODE, TestConstants.Data4.POSTING_YEAR.intValue(), TestConstants.Data4.AMOUNT, TestConstants.Data4.SEQUENCE_NUMBER.intValue(), TestConstants.Data4.REF_NUMBER, TestConstants.Data4.REF_TYPE_CODE, TestConstants.Data4.BALANCE_TYPE_CODE, TestConstants.Data4.REF_ORIGIN_CODE, TestConstants.Data4.DEBIT_CREDIT_CODE, TestConstants.Data4.ENCUMBRANCE_UPDATE_CODE, TestConstants.Data4.OBJECT_TYPE_CODE);
 
-        tline = DocumentTestUtils.createTargetLine(TestConstants.Data4.DOC_HDR_ID, TestConstants.Data4.CHART_CODE,
-                TestConstants.Data4.ACCOUNT, TestConstants.Data4.SUBACCOUNT, TestConstants.Data4.OBJECT_CODE,
-                TestConstants.Data4.SUBOBJECT_CODE, TestConstants.Data4.PROJECT_CODE, TestConstants.Data4.POSTING_YEAR.intValue(),
-                TestConstants.Data4.AMOUNT, TestConstants.Data4.SEQUENCE_NUMBER.intValue(),
-                TestConstants.Data4.REF_NUMBER, TestConstants.Data4.REF_TYPE_CODE, TestConstants.Data4.BALANCE_TYPE_CODE,
-                TestConstants.Data4.REF_ORIGIN_CODE, TestConstants.Data4.DEBIT_CREDIT_CODE,
-                TestConstants.Data4.ENCUMBRANCE_UPDATE_CODE, TestConstants.Data4.OBJECT_TYPE_CODE);
+        tline = DocumentTestUtils.createTargetLine(TestConstants.Data4.DOC_HDR_ID, TestConstants.Data4.CHART_CODE, TestConstants.Data4.ACCOUNT, TestConstants.Data4.SUBACCOUNT, TestConstants.Data4.OBJECT_CODE, TestConstants.Data4.SUBOBJECT_CODE, TestConstants.Data4.PROJECT_CODE, TestConstants.Data4.POSTING_YEAR.intValue(), TestConstants.Data4.AMOUNT, TestConstants.Data4.SEQUENCE_NUMBER.intValue(), TestConstants.Data4.REF_NUMBER, TestConstants.Data4.REF_TYPE_CODE, TestConstants.Data4.BALANCE_TYPE_CODE, TestConstants.Data4.REF_ORIGIN_CODE, TestConstants.Data4.DEBIT_CREDIT_CODE, TestConstants.Data4.ENCUMBRANCE_UPDATE_CODE, TestConstants.Data4.OBJECT_TYPE_CODE);
     }
 
     /**
-     * Tests an accounting line is correctly persisted when the primitives
-     * of the line are set.
+     * Tests an accounting line is correctly persisted when the primitives of the line are set.
+     * 
      * @throws Exception
      */
     public void testPersistence() throws Exception {
@@ -76,8 +64,7 @@ public class AccountingLineServiceTest extends KualiTestBaseWithFixtures {
         try {
             accountingLineService.save(sline);
 
-            List sourceLines = accountingLineService.getByDocumentHeaderId(SourceAccountingLine.class,
-                    TestConstants.Data4.DOC_HDR_ID);
+            List sourceLines = accountingLineService.getByDocumentHeaderId(SourceAccountingLine.class, TestConstants.Data4.DOC_HDR_ID);
             assertTrue(sourceLines.size() > 0);
 
             line = (AccountingLine) sourceLines.get(0);
@@ -92,32 +79,31 @@ public class AccountingLineServiceTest extends KualiTestBaseWithFixtures {
             accountingLineService.deleteAccountingLine((AccountingLineBase) line);
         }
     }
-    
-    
+
+
     /**
-     * Tests reference objects are being corrected refreshed
-     * from changed pritive values.
+     * Tests reference objects are being corrected refreshed from changed pritive values.
      */
     public void testRefresh() {
         assertEquals(TestConstants.Data4.CHART_CODE, sline.getAccount().getChartOfAccountsCode());
         assertEquals(TestConstants.Data4.ACCOUNT, sline.getAccount().getAccountNumber());
-        
+
         sline.setAccountNumber(TestConstants.Data4.ACCOUNT2);
         sline.refresh();
-        
+
         assertEquals(TestConstants.Data4.CHART_CODE, sline.getAccount().getChartOfAccountsCode());
         assertEquals(TestConstants.Data4.ACCOUNT2, sline.getAccount().getAccountNumber());
-        
+
         sline.setChartOfAccountsCode(TestConstants.Data4.CHART_CODE_BA);
         sline.setFinancialObjectCode(TestConstants.Data4.OBJECT_CODE2);
         sline.refresh();
-        
+
         assertEquals(TestConstants.Data4.CHART_CODE_BA, sline.getObjectCode().getChartOfAccounts().getChartOfAccountsCode());
         assertEquals(TestConstants.Data4.OBJECT_CODE2, sline.getObjectCode().getFinancialObjectCode());
-        
+
     }
 
-    
+
     // no obvious way to test these separately, since we need to create to test save, need to save to (really) test get, and need
     // to delete so future test-runs can recreate
     public void testLifecycle() throws Exception {
@@ -152,10 +138,8 @@ public class AccountingLineServiceTest extends KualiTestBaseWithFixtures {
             }
 
             // make sure they got deleted
-            assertTrue(accountingLineService.getByDocumentHeaderId(SourceAccountingLine.class, TestConstants.Data4.DOC_HDR_ID)
-                    .size() == 0);
-            assertTrue(accountingLineService.getByDocumentHeaderId(TargetAccountingLine.class, TestConstants.Data4.DOC_HDR_ID)
-                    .size() == 0);
+            assertTrue(accountingLineService.getByDocumentHeaderId(SourceAccountingLine.class, TestConstants.Data4.DOC_HDR_ID).size() == 0);
+            assertTrue(accountingLineService.getByDocumentHeaderId(TargetAccountingLine.class, TestConstants.Data4.DOC_HDR_ID).size() == 0);
         }
     }
 }

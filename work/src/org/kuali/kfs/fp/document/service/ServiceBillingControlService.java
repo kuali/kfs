@@ -26,23 +26,23 @@ import org.kuali.module.financial.bo.ServiceBillingControl;
 
 /**
  * This interface defines methods that a ServiceBillingControl Service must provide.
- *
+ * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public interface ServiceBillingControlService {
 
     /**
      * Retrieves the ServiceBillingControl by its composite primary key (all passed in as parameters).
-     *
+     * 
      * @param chartOfAccountsCode
      * @param accountNumber
-     * @return A ServiceBillingControl object instance.  Returns null if there is none with the given key.
+     * @return A ServiceBillingControl object instance. Returns null if there is none with the given key.
      */
     public ServiceBillingControl getByPrimaryId(String chartOfAccountsCode, String accountNumber);
 
     /**
      * Retrieves all the ServiceBillingControls in the database.
-     *
+     * 
      * @return All the ServiceBillingControls in the database, or an empty array (not null) if there are none.
      */
     public ServiceBillingControl[] getAll();

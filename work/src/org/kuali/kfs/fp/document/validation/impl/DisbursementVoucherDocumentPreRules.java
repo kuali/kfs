@@ -30,6 +30,7 @@ import org.kuali.module.financial.document.DisbursementVoucherDocument;
 
 /**
  * Checks warnings and prompt conditions for dv document.
+ * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class DisbursementVoucherDocumentPreRules extends PreRulesContinuationBase implements DisbursementVoucherRuleConstants {
@@ -41,22 +42,21 @@ public class DisbursementVoucherDocumentPreRules extends PreRulesContinuationBas
      */
     public boolean doRules(Document document) {
         boolean preRulesOK = true;
- 
+
         DisbursementVoucherDocument dvDocument = (DisbursementVoucherDocument) document;
         checkSpecialHandlingIndicator(dvDocument);
-        
+
         return preRulesOK;
     }
-    
+
     /**
-     * If the special handling name and address 1 fields have value, this will mark the special
-     * handling indicator for the user.
+     * If the special handling name and address 1 fields have value, this will mark the special handling indicator for the user.
+     * 
      * @param dvDocument
      */
     private void checkSpecialHandlingIndicator(DisbursementVoucherDocument dvDocument) {
-        if (StringUtils.isNotBlank(dvDocument.getDvPayeeDetail().getDisbVchrRemitPersonName()) &&
-            StringUtils.isNotBlank(dvDocument.getDvPayeeDetail().getDisbVchrRemitLine1Addr())) {
-                dvDocument.setDisbVchrSpecialHandlingCode(true);
+        if (StringUtils.isNotBlank(dvDocument.getDvPayeeDetail().getDisbVchrRemitPersonName()) && StringUtils.isNotBlank(dvDocument.getDvPayeeDetail().getDisbVchrRemitLine1Addr())) {
+            dvDocument.setDisbVchrSpecialHandlingCode(true);
         }
     }
 

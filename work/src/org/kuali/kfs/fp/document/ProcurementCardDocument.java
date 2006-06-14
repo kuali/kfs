@@ -103,8 +103,7 @@ public class ProcurementCardDocument extends TransactionalDocumentBase {
 
         for (Iterator iter = transactionEntries.iterator(); iter.hasNext();) {
             ProcurementCardTransactionDetail transactionEntry = (ProcurementCardTransactionDetail) iter.next();
-            if (transactionEntry.getFinancialDocumentTransactionLineNumber().equals(
-                    line.getFinancialDocumentTransactionLineNumber())) {
+            if (transactionEntry.getFinancialDocumentTransactionLineNumber().equals(line.getFinancialDocumentTransactionLineNumber())) {
                 transactionEntry.getTargetAccountingLines().remove(line);
             }
         }
@@ -122,8 +121,7 @@ public class ProcurementCardDocument extends TransactionalDocumentBase {
 
         for (Iterator iter = transactionEntries.iterator(); iter.hasNext();) {
             ProcurementCardTransactionDetail transactionEntry = (ProcurementCardTransactionDetail) iter.next();
-            if (transactionEntry.getFinancialDocumentTransactionLineNumber().equals(
-                    line.getFinancialDocumentTransactionLineNumber())) {
+            if (transactionEntry.getFinancialDocumentTransactionLineNumber().equals(line.getFinancialDocumentTransactionLineNumber())) {
                 transactionEntry.getSourceAccountingLines().add(line);
             }
         }
@@ -143,8 +141,7 @@ public class ProcurementCardDocument extends TransactionalDocumentBase {
 
         for (Iterator iter = transactionEntries.iterator(); iter.hasNext();) {
             ProcurementCardTransactionDetail transactionEntry = (ProcurementCardTransactionDetail) iter.next();
-            if (transactionEntry.getFinancialDocumentTransactionLineNumber().equals(
-                    line.getFinancialDocumentTransactionLineNumber())) {
+            if (transactionEntry.getFinancialDocumentTransactionLineNumber().equals(line.getFinancialDocumentTransactionLineNumber())) {
                 transactionEntry.getTargetAccountingLines().add(line);
             }
         }

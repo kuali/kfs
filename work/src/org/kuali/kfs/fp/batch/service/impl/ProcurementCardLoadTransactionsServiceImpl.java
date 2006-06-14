@@ -55,8 +55,7 @@ import org.kuali.module.financial.service.ProcurementCardLoadTransactionsService
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class ProcurementCardLoadTransactionsServiceImpl implements ProcurementCardLoadTransactionsService {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger
-            .getLogger(ProcurementCardLoadTransactionsServiceImpl.class);
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProcurementCardLoadTransactionsServiceImpl.class);
 
     private final static String PCARD_DOCUMENT_PARAMETERS_SEC_GROUP = "PCardDocumentParameters";
     private final static String PCDO_FILE_DIRECTORY_PARM_NM = "pcdo.staging.directory";
@@ -80,10 +79,9 @@ public class ProcurementCardLoadTransactionsServiceImpl implements ProcurementCa
             LOG.warn("No PCard input files found.");
             throw new NoTransactionsException("No PCard input files found.");
         }
-        
+
         // retrieve backup indicator parm value
-        boolean backupIndicator = kualiConfigurationService.getApplicationParameterIndicator(PCARD_DOCUMENT_PARAMETERS_SEC_GROUP,
-                BACK_UP_INCOMING_FILES_IND_PARM_NM);
+        boolean backupIndicator = kualiConfigurationService.getApplicationParameterIndicator(PCARD_DOCUMENT_PARAMETERS_SEC_GROUP, BACK_UP_INCOMING_FILES_IND_PARM_NM);
 
         // clean transaction table from any previous loads
         LOG.info("Cleaning transaction temp table ...");
@@ -117,8 +115,7 @@ public class ProcurementCardLoadTransactionsServiceImpl implements ProcurementCa
             boolean validationSuccessful = validateTransactionsDataFormat(pcardTransactions);
             if (!validationSuccessful) {
                 LOG.error("Error validating transaction against dd file. " + GlobalVariables.getErrorMap().toString());
-                throw new ValidationException("Error validating transaction against dd file. "
-                        + GlobalVariables.getErrorMap().toString());
+                throw new ValidationException("Error validating transaction against dd file. " + GlobalVariables.getErrorMap().toString());
             }
 
             // load new transactions into temp table
@@ -134,7 +131,7 @@ public class ProcurementCardLoadTransactionsServiceImpl implements ProcurementCa
                 pcardLoadFile.renameTo(backupPCardFile);
             }
             else {
-               LOG.info("Not backing up input file ...");
+                LOG.info("Not backing up input file ...");
             }
         }
 

@@ -49,39 +49,35 @@ public class BalanceServiceImpl implements BalanceService {
 
     // must have no asset, liability or fund balance balances other than object code 9899
 
-    String[] fundBalanceObjectCodes = new String[] { "9899" }; //TODO Bill suggested
-                                                               // adding this to CHART
+    String[] fundBalanceObjectCodes = new String[] { "9899" }; // TODO Bill suggested
+    // adding this to CHART
 
     // TODO extract these from APC
     String[] assetLiabilityFundBalanceBalanceTypeCodes = new String[] { "AS", "LI", "FB" };
-    String[] encumbranceBaseBudgetBalanceTypeCodes = new String[] { "EX", "IE", "PE",
-            "BB" };
+    String[] encumbranceBaseBudgetBalanceTypeCodes = new String[] { "EX", "IE", "PE", "BB" };
     String[] actualBalanceCodes = new String[] { "AC" };
     String[] incomeObjectTypeCodes = new String[] { "CH", "IC", "IN", "TI" };
     String[] expenseObjectTypeCodes = new String[] { "EE", "ES", "EX", "TE" };
 
-    private Collection wrap(String[] s) { 
+    private Collection wrap(String[] s) {
         return Arrays.asList(s);
     }
 
-    
-    
+
     /**
      * 
      * This method...
      * 
      * 
-     * Here is an excerpt from the original Oracle trigger: SELECT fin_object_cd FROM
-     * gl_balance_t WHERE univ_fiscal_yr = p_univ_fiscal_yr AND fin_coa_cd = p_fin_coa_cd
-     * AND account_nbr = p_account_nbr AND fin_object_cd != '9899' AND fin_obj_typ_cd IN
-     * ('AS', 'LI', 'FB') AND fin_balance_typ_cd = 'AC' GROUP BY fin_object_cd HAVING
-     * ABS(SUM(fin_beg_bal_ln_amt + acln_annl_bal_amt)) > 0);
+     * Here is an excerpt from the original Oracle trigger: SELECT fin_object_cd FROM gl_balance_t WHERE univ_fiscal_yr =
+     * p_univ_fiscal_yr AND fin_coa_cd = p_fin_coa_cd AND account_nbr = p_account_nbr AND fin_object_cd != '9899' AND fin_obj_typ_cd
+     * IN ('AS', 'LI', 'FB') AND fin_balance_typ_cd = 'AC' GROUP BY fin_object_cd HAVING ABS(SUM(fin_beg_bal_ln_amt +
+     * acln_annl_bal_amt)) > 0);
      * 
      * 
      * 
-     * added absolute value function to sum--prevents the case of 2 entries (1 pos and 1
-     * neg) from canceling each other out and allowing the acct to be closed when it
-     * shouldn't be.
+     * added absolute value function to sum--prevents the case of 2 entries (1 pos and 1 neg) from canceling each other out and
+     * allowing the acct to be closed when it shouldn't be.
      * 
      * 
      * 
@@ -89,7 +85,9 @@ public class BalanceServiceImpl implements BalanceService {
      * @return
      */
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.kuali.module.gl.service.BalanceService#findBalancesForFiscalYear(java.lang.Integer)
      */
     public Iterator<Balance> findBalancesForFiscalYear(Integer fiscalYear) {
@@ -103,15 +101,12 @@ public class BalanceServiceImpl implements BalanceService {
     public boolean hasAssetLiabilityFundBalanceBalances(Account account) {
 
         Integer fiscalYear = dateTimeService.getCurrentFiscalYear();
-        Iterator balances = balanceDao
-                .findBalances(account, fiscalYear, null, wrap(fundBalanceObjectCodes),
-                        wrap(assetLiabilityFundBalanceBalanceTypeCodes),
-                        wrap(actualBalanceCodes));
+        Iterator balances = balanceDao.findBalances(account, fiscalYear, null, wrap(fundBalanceObjectCodes), wrap(assetLiabilityFundBalanceBalanceTypeCodes), wrap(actualBalanceCodes));
 
         KualiDecimal begin;
         KualiDecimal annual;
 
-        //TODO KULCOA-335 - is absolute value necessary to prevent obscure sets of values
+        // TODO KULCOA-335 - is absolute value necessary to prevent obscure sets of values
         // from masking accounts that should remain open?
 
         Map groups = new HashMap();
@@ -129,8 +124,8 @@ public class BalanceServiceImpl implements BalanceService {
                 runningTotal = new KualiDecimal(0);
             }
 
-            runningTotal=runningTotal.add(begin);
-            runningTotal=runningTotal.add(annual);
+            runningTotal = runningTotal.add(begin);
+            runningTotal = runningTotal.add(annual);
 
             groups.put(objectCode, runningTotal);
 
@@ -160,8 +155,8 @@ public class BalanceServiceImpl implements BalanceService {
             begin = balance.getBeginningBalanceLineAmount();
             annual = balance.getAccountLineAnnualBalanceAmount();
 
-            runningTotal=runningTotal.add(begin);
-            runningTotal=runningTotal.add(annual);
+            runningTotal = runningTotal.add(begin);
+            runningTotal = runningTotal.add(annual);
         }
 
         return runningTotal;
@@ -170,9 +165,8 @@ public class BalanceServiceImpl implements BalanceService {
 
     /**
      * 
-     * SELECT SUM(fin_beg_bal_ln_amt + acln_annl_bal_amt) INTO v_y FROM gl_balance_t WHERE
-     * univ_fiscal_yr = p_univ_fiscal_yr AND fin_coa_cd = p_fin_coa_cd AND account_nbr =
-     * p_account_nbr AND (fin_object_cd = '9899' OR fin_obj_typ_cd IN ('CH', 'IC', 'IN',
+     * SELECT SUM(fin_beg_bal_ln_amt + acln_annl_bal_amt) INTO v_y FROM gl_balance_t WHERE univ_fiscal_yr = p_univ_fiscal_yr AND
+     * fin_coa_cd = p_fin_coa_cd AND account_nbr = p_account_nbr AND (fin_object_cd = '9899' OR fin_obj_typ_cd IN ('CH', 'IC', 'IN',
      * 'TI')) AND fin_balance_typ_cd = 'AC';
      * 
      * @return
@@ -180,14 +174,12 @@ public class BalanceServiceImpl implements BalanceService {
 
     /**
      * 
-     *  
+     * 
      */
     protected KualiDecimal incomeBalances(Account account) {
 
         Integer fiscalYear = dateTimeService.getCurrentFiscalYear();
-        Iterator balances = balanceDao.findBalances(account, fiscalYear,
-                wrap(fundBalanceObjectCodes), null, wrap(incomeObjectTypeCodes),
-                wrap(actualBalanceCodes));
+        Iterator balances = balanceDao.findBalances(account, fiscalYear, wrap(fundBalanceObjectCodes), null, wrap(incomeObjectTypeCodes), wrap(actualBalanceCodes));
 
         return sumBalances(balances);
 
@@ -195,9 +187,8 @@ public class BalanceServiceImpl implements BalanceService {
 
 
     /**
-     * Here is an excerpt from the original Oracle Trigger: SELECT SUM(fin_beg_bal_ln_amt ||
-     * acln_annl_bal_amt) INTO v_x FROM gl_balance_t WHERE univ_fiscal_yr =
-     * p_univ_fiscal_yr AND fin_coa_cd = p_fin_coa_cd AND account_nbr = p_account_nbr AND
+     * Here is an excerpt from the original Oracle Trigger: SELECT SUM(fin_beg_bal_ln_amt || acln_annl_bal_amt) INTO v_x FROM
+     * gl_balance_t WHERE univ_fiscal_yr = p_univ_fiscal_yr AND fin_coa_cd = p_fin_coa_cd AND account_nbr = p_account_nbr AND
      * fin_obj_typ_cd IN ('EE', 'ES', 'EX', 'TE') AND fin_balance_typ_cd = 'AC';
      * 
      * This method...
@@ -209,8 +200,7 @@ public class BalanceServiceImpl implements BalanceService {
     protected KualiDecimal expenseBalances(Account account) {
 
         Integer fiscalYear = dateTimeService.getCurrentFiscalYear();
-        Iterator balances = balanceDao.findBalances(account, fiscalYear, null, null,
-                wrap(expenseObjectTypeCodes), wrap(actualBalanceCodes));
+        Iterator balances = balanceDao.findBalances(account, fiscalYear, null, null, wrap(expenseObjectTypeCodes), wrap(actualBalanceCodes));
 
         return sumBalances(balances);
 
@@ -230,12 +220,11 @@ public class BalanceServiceImpl implements BalanceService {
     /*
      * check for Encumbrances and base budgets
      * 
-     * Here is an excerpt from the original Oracle Trigger: SELECT SUM(fin_beg_bal_ln_amt +
-     * acln_annl_bal_amt) INTO v_y FROM gl_balance_t WHERE univ_fiscal_yr =
-     * p_univ_fiscal_yr AND fin_coa_cd = p_fin_coa_cd AND account_nbr = p_account_nbr AND
+     * Here is an excerpt from the original Oracle Trigger: SELECT SUM(fin_beg_bal_ln_amt + acln_annl_bal_amt) INTO v_y FROM
+     * gl_balance_t WHERE univ_fiscal_yr = p_univ_fiscal_yr AND fin_coa_cd = p_fin_coa_cd AND account_nbr = p_account_nbr AND
      * fin_balance_typ_cd IN ('EX', 'IE', 'PE', 'BB'); v_rowcnt := SQL%ROWCOUNT;
      * 
-     *  
+     * 
      */
 
     /**
@@ -244,8 +233,7 @@ public class BalanceServiceImpl implements BalanceService {
     public boolean hasEncumbrancesOrBaseBudgets(Account account) {
 
         Integer fiscalYear = dateTimeService.getCurrentFiscalYear();
-        Iterator balances = balanceDao.findBalances(account, fiscalYear, null, null,
-                null, wrap(encumbranceBaseBudgetBalanceTypeCodes));
+        Iterator balances = balanceDao.findBalances(account, fiscalYear, null, null, null, wrap(encumbranceBaseBudgetBalanceTypeCodes));
 
         return sumBalances(balances).isNonZero();
 
@@ -255,24 +243,22 @@ public class BalanceServiceImpl implements BalanceService {
      * @see org.kuali.module.gl.service.BalanceService#beginningBalanceLoaded(org.kuali.module.chart.bo.Account)
      */
     public boolean beginningBalanceLoaded(Account account) {
-        return true; //TODO: KULCOA-748 retrieve this from SystemOptions per Bill Overman 
+        return true; // TODO: KULCOA-748 retrieve this from SystemOptions per Bill Overman
     }
 
     /**
      * @see org.kuali.module.gl.service.BalanceService#hasAssetLiabilityOrFundBalance(org.kuali.module.chart.bo.Account)
      */
     public boolean hasAssetLiabilityOrFundBalance(Account account) {
-        return hasAssetLiabilityFundBalanceBalances(account)
-                || !fundBalanceWillNetToZero(account)
-                || hasEncumbrancesOrBaseBudgets(account);
+        return hasAssetLiabilityFundBalanceBalances(account) || !fundBalanceWillNetToZero(account) || hasEncumbrancesOrBaseBudgets(account);
     }
-    
+
     /**
      * @see org.kuali.module.gl.service.BalanceService#save(org.kuali.module.gl.bo.Balance)
      */
     public void save(Balance b) {
         balanceDao.save(b);
-    }    
+    }
 
 
     public void setBalanceDao(BalanceDao balanceDao) {
@@ -303,9 +289,9 @@ public class BalanceServiceImpl implements BalanceService {
      * @param chart
      * @param year
      */
-    public void purgeYearByChart(String chart,int year) {
+    public void purgeYearByChart(String chart, int year) {
         LOG.debug("purgeYearByChart() started");
 
-        balanceDao.purgeYearByChart(chart,year);
+        balanceDao.purgeYearByChart(chart, year);
     }
 }

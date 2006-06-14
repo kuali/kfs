@@ -35,102 +35,102 @@ import org.kuali.core.util.KualiDecimal;
  */
 public class ProposalSubcontractor extends BusinessObjectBase {
 
-	private String proposalSubcontractorNumber;
-	private Long proposalNumber;
-	private String subcontractorNumber;
-	private KualiDecimal proposalSubcontractorAmount;
+    private String proposalSubcontractorNumber;
+    private Long proposalNumber;
+    private String subcontractorNumber;
+    private KualiDecimal proposalSubcontractorAmount;
 
     private Subcontractor subcontractor;
-    
-	/**
-	 * Default constructor.
-	 */
-	public ProposalSubcontractor() {
 
-	}
+    /**
+     * Default constructor.
+     */
+    public ProposalSubcontractor() {
 
-	/**
-	 * Gets the proposalSubcontractorNumber attribute.
-	 * 
-	 * @return - Returns the proposalSubcontractorNumber
-	 * 
-	 */
-	public String getProposalSubcontractorNumber() { 
-		return proposalSubcontractorNumber;
-	}
+    }
 
-	/**
-	 * Sets the proposalSubcontractorNumber attribute.
-	 * 
-	 * @param - proposalSubcontractorNumber The proposalSubcontractorNumber to set.
-	 * 
-	 */
-	public void setProposalSubcontractorNumber(String proposalSubcontractorNumber) {
-		this.proposalSubcontractorNumber = proposalSubcontractorNumber;
-	}
+    /**
+     * Gets the proposalSubcontractorNumber attribute.
+     * 
+     * @return - Returns the proposalSubcontractorNumber
+     * 
+     */
+    public String getProposalSubcontractorNumber() {
+        return proposalSubcontractorNumber;
+    }
 
-
-	/**
-	 * Gets the proposalNumber attribute.
-	 * 
-	 * @return - Returns the proposalNumber
-	 * 
-	 */
-	public Long getProposalNumber() { 
-		return proposalNumber;
-	}
-
-	/**
-	 * Sets the proposalNumber attribute.
-	 * 
-	 * @param - proposalNumber The proposalNumber to set.
-	 * 
-	 */
-	public void setProposalNumber(Long proposalNumber) {
-		this.proposalNumber = proposalNumber;
-	}
+    /**
+     * Sets the proposalSubcontractorNumber attribute.
+     * 
+     * @param - proposalSubcontractorNumber The proposalSubcontractorNumber to set.
+     * 
+     */
+    public void setProposalSubcontractorNumber(String proposalSubcontractorNumber) {
+        this.proposalSubcontractorNumber = proposalSubcontractorNumber;
+    }
 
 
-	/**
-	 * Gets the subcontractorNumber attribute.
-	 * 
-	 * @return - Returns the subcontractorNumber
-	 * 
-	 */
-	public String getSubcontractorNumber() { 
-		return subcontractorNumber;
-	}
+    /**
+     * Gets the proposalNumber attribute.
+     * 
+     * @return - Returns the proposalNumber
+     * 
+     */
+    public Long getProposalNumber() {
+        return proposalNumber;
+    }
 
-	/**
-	 * Sets the subcontractorNumber attribute.
-	 * 
-	 * @param - subcontractorNumber The subcontractorNumber to set.
-	 * 
-	 */
-	public void setSubcontractorNumber(String subcontractorNumber) {
-		this.subcontractorNumber = subcontractorNumber;
-	}
+    /**
+     * Sets the proposalNumber attribute.
+     * 
+     * @param - proposalNumber The proposalNumber to set.
+     * 
+     */
+    public void setProposalNumber(Long proposalNumber) {
+        this.proposalNumber = proposalNumber;
+    }
 
 
-	/**
-	 * Gets the proposalSubcontractorAmount attribute.
-	 * 
-	 * @return - Returns the proposalSubcontractorAmount
-	 * 
-	 */
-	public KualiDecimal getProposalSubcontractorAmount() { 
-		return proposalSubcontractorAmount;
-	}
+    /**
+     * Gets the subcontractorNumber attribute.
+     * 
+     * @return - Returns the subcontractorNumber
+     * 
+     */
+    public String getSubcontractorNumber() {
+        return subcontractorNumber;
+    }
 
-	/**
-	 * Sets the proposalSubcontractorAmount attribute.
-	 * 
-	 * @param - proposalSubcontractorAmount The proposalSubcontractorAmount to set.
-	 * 
-	 */
-	public void setProposalSubcontractorAmount(KualiDecimal proposalSubcontractorAmount) {
-		this.proposalSubcontractorAmount = proposalSubcontractorAmount;
-	}
+    /**
+     * Sets the subcontractorNumber attribute.
+     * 
+     * @param - subcontractorNumber The subcontractorNumber to set.
+     * 
+     */
+    public void setSubcontractorNumber(String subcontractorNumber) {
+        this.subcontractorNumber = subcontractorNumber;
+    }
+
+
+    /**
+     * Gets the proposalSubcontractorAmount attribute.
+     * 
+     * @return - Returns the proposalSubcontractorAmount
+     * 
+     */
+    public KualiDecimal getProposalSubcontractorAmount() {
+        return proposalSubcontractorAmount;
+    }
+
+    /**
+     * Sets the proposalSubcontractorAmount attribute.
+     * 
+     * @param - proposalSubcontractorAmount The proposalSubcontractorAmount to set.
+     * 
+     */
+    public void setProposalSubcontractorAmount(KualiDecimal proposalSubcontractorAmount) {
+        this.proposalSubcontractorAmount = proposalSubcontractorAmount;
+    }
 
     /**
      * @return Returns the subcontractor.
@@ -146,18 +146,18 @@ public class ProposalSubcontractor extends BusinessObjectBase {
     public void setSubcontractor(Subcontractor subcontractor) {
         this.subcontractor = subcontractor;
     }
-    
-	/**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
+
+    /**
+     * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
         m.put("proposalSubcontractorNumber", this.proposalSubcontractorNumber);
         if (this.proposalNumber != null) {
             m.put("proposalNumber", this.proposalNumber.toString());
         }
         m.put("subcontractorNumber", this.subcontractorNumber);
-	    return m;
+        return m;
     }
 
 

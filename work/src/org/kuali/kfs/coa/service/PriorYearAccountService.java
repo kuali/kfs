@@ -30,7 +30,7 @@ import org.kuali.module.chart.bo.PriorYearAccount;
  */
 
 public interface PriorYearAccountService {
-    
+
     /**
      * 
      * @param chartCode

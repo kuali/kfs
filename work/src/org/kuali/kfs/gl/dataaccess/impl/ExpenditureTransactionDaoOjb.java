@@ -34,65 +34,70 @@ import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 /**
  * @author jsissom
- *
+ * 
  */
 public class ExpenditureTransactionDaoOjb extends PersistenceBrokerDaoSupport implements ExpenditureTransactionDao {
-  private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ExpenditureTransactionDaoOjb.class);
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ExpenditureTransactionDaoOjb.class);
 
-  public ExpenditureTransactionDaoOjb() {
-    super();
-  }
-
-  /* (non-Javadoc)
-   * @see org.kuali.module.gl.dao.ExpenditureTransactionDao#getByTransaction(org.kuali.module.gl.bo.Transaction)
-   */
-  public ExpenditureTransaction getByTransaction(Transaction t) {
-    LOG.debug("getByTransaction() started");
-
-    Criteria crit = new Criteria();
-    crit.addEqualTo("universityFiscalYear",t.getUniversityFiscalYear());
-    crit.addEqualTo("chartOfAccountsCode",t.getChartOfAccountsCode());
-    crit.addEqualTo("accountNumber",t.getAccountNumber());
-    crit.addEqualTo("subAccountNumber",t.getSubAccountNumber());
-    crit.addEqualTo("objectCode",t.getFinancialObjectCode());
-    crit.addEqualTo("subObjectCode",t.getFinancialSubObjectCode());
-    crit.addEqualTo("balanceTypeCode",t.getFinancialBalanceTypeCode());
-    crit.addEqualTo("objectTypeCode",t.getFinancialObjectTypeCode());
-    crit.addEqualTo("universityFiscalAccountingPeriod",t.getUniversityFiscalPeriodCode());
-    crit.addEqualTo("projectCode",t.getProjectCode());
-
-    if ( t.getOrganizationReferenceId() == null ) {
-      crit.addEqualTo("organizationReferenceId","--------");
-    } else {
-      crit.addEqualTo("organizationReferenceId",t.getOrganizationReferenceId());
+    public ExpenditureTransactionDaoOjb() {
+        super();
     }
 
-    QueryByCriteria qbc = QueryFactory.newQuery(ExpenditureTransaction.class,crit);
-    return (ExpenditureTransaction)getPersistenceBrokerTemplate().getObjectByQuery(qbc);
-  }
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.kuali.module.gl.dao.ExpenditureTransactionDao#getByTransaction(org.kuali.module.gl.bo.Transaction)
+     */
+    public ExpenditureTransaction getByTransaction(Transaction t) {
+        LOG.debug("getByTransaction() started");
 
-  public Iterator getAllExpenditureTransactions() {
-    LOG.debug("getAllExpenditureTransactions() started");
+        Criteria crit = new Criteria();
+        crit.addEqualTo("universityFiscalYear", t.getUniversityFiscalYear());
+        crit.addEqualTo("chartOfAccountsCode", t.getChartOfAccountsCode());
+        crit.addEqualTo("accountNumber", t.getAccountNumber());
+        crit.addEqualTo("subAccountNumber", t.getSubAccountNumber());
+        crit.addEqualTo("objectCode", t.getFinancialObjectCode());
+        crit.addEqualTo("subObjectCode", t.getFinancialSubObjectCode());
+        crit.addEqualTo("balanceTypeCode", t.getFinancialBalanceTypeCode());
+        crit.addEqualTo("objectTypeCode", t.getFinancialObjectTypeCode());
+        crit.addEqualTo("universityFiscalAccountingPeriod", t.getUniversityFiscalPeriodCode());
+        crit.addEqualTo("projectCode", t.getProjectCode());
 
-    Criteria crit = new Criteria();
-    // We want them all so no criteria is added
+        if (t.getOrganizationReferenceId() == null) {
+            crit.addEqualTo("organizationReferenceId", "--------");
+        }
+        else {
+            crit.addEqualTo("organizationReferenceId", t.getOrganizationReferenceId());
+        }
 
-    QueryByCriteria qbc = QueryFactory.newQuery(ExpenditureTransaction.class,crit);
-    return getPersistenceBrokerTemplate().getIteratorByQuery(qbc);
-  }
+        QueryByCriteria qbc = QueryFactory.newQuery(ExpenditureTransaction.class, crit);
+        return (ExpenditureTransaction) getPersistenceBrokerTemplate().getObjectByQuery(qbc);
+    }
 
-  public void delete(ExpenditureTransaction et) {
-    LOG.debug("delete() started");
+    public Iterator getAllExpenditureTransactions() {
+        LOG.debug("getAllExpenditureTransactions() started");
 
-    getPersistenceBrokerTemplate().delete(et);
-  }
+        Criteria crit = new Criteria();
+        // We want them all so no criteria is added
 
-  /* (non-Javadoc)
-   * @see org.kuali.module.gl.dao.ExpenditureTransactionDao#save(org.kuali.module.gl.bo.ExpenditureTransaction)
-   */
-  public void save(ExpenditureTransaction et) {
-    LOG.debug("save() started");
+        QueryByCriteria qbc = QueryFactory.newQuery(ExpenditureTransaction.class, crit);
+        return getPersistenceBrokerTemplate().getIteratorByQuery(qbc);
+    }
 
-    getPersistenceBrokerTemplate().store(et);
-  }
+    public void delete(ExpenditureTransaction et) {
+        LOG.debug("delete() started");
+
+        getPersistenceBrokerTemplate().delete(et);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.kuali.module.gl.dao.ExpenditureTransactionDao#save(org.kuali.module.gl.bo.ExpenditureTransaction)
+     */
+    public void save(ExpenditureTransaction et) {
+        LOG.debug("save() started");
+
+        getPersistenceBrokerTemplate().store(et);
+    }
 }

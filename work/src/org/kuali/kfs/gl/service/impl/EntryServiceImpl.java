@@ -26,17 +26,17 @@ import org.kuali.module.gl.dao.EntryDao;
 import org.kuali.module.gl.service.EntryService;
 
 public class EntryServiceImpl implements EntryService {
-  private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EntryServiceImpl.class);
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EntryServiceImpl.class);
 
-  private EntryDao entryDao;
+    private EntryDao entryDao;
 
-  public void purgeYearByChart(String chart, int year) {
-    LOG.debug("purgeYearByChart() started");
+    public void purgeYearByChart(String chart, int year) {
+        LOG.debug("purgeYearByChart() started");
 
-    entryDao.purgeYearByChart(chart,year);
-  }
+        entryDao.purgeYearByChart(chart, year);
+    }
 
-  public void setEntryDao(EntryDao entryDao) {
-    this.entryDao = entryDao;
-  }
+    public void setEntryDao(EntryDao entryDao) {
+        this.entryDao = entryDao;
+    }
 }

@@ -31,14 +31,15 @@ import org.springframework.orm.ojb.PersistenceBrokerTemplate;
 
 /**
  * This class is the OJB implementation of the SubObjectCodeDao interface.
+ * 
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
-*/
-public class SubObjectCodeDaoOjb extends PersistenceBrokerTemplate
-    implements SubObjectCodeDao {
+ */
+public class SubObjectCodeDaoOjb extends PersistenceBrokerTemplate implements SubObjectCodeDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SubObjectCodeDaoOjb.class);
 
     /**
      * Retrieves sub object code business object by primary key
+     * 
      * @param universityFiscalYear - part of composite key
      * @param chartOfAccountsCode - part of composite key
      * @param accountNumber - part of composite key
@@ -47,9 +48,7 @@ public class SubObjectCodeDaoOjb extends PersistenceBrokerTemplate
      * @return SubObjectCode
      * @see SubObjectCodeDao
      */
-    public SubObjCd getByPrimaryId(Integer universityFiscalYear,
-        String chartOfAccountsCode, String accountNumber,
-        String financialObjectCode, String financialSubObjectCode) {
+    public SubObjCd getByPrimaryId(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialObjectCode, String financialSubObjectCode) {
 
         Criteria criteria = new Criteria();
         criteria.addEqualTo("universityFiscalYear", universityFiscalYear);
@@ -58,7 +57,6 @@ public class SubObjectCodeDaoOjb extends PersistenceBrokerTemplate
         criteria.addEqualTo("financialObjectCode", financialObjectCode);
         criteria.addEqualTo("financialSubObjectCode", financialSubObjectCode);
 
-        return (SubObjCd) getObjectByQuery(QueryFactory.newQuery(
-                SubObjCd.class, criteria));
+        return (SubObjCd) getObjectByQuery(QueryFactory.newQuery(SubObjCd.class, criteria));
     }
 }

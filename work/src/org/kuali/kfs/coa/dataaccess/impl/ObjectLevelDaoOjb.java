@@ -30,18 +30,18 @@ import org.springframework.orm.ojb.PersistenceBrokerTemplate;
 
 /**
  * This class is the OJB implementation of the ObjectLevelDao interface.
+ * 
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
-*/
-public class ObjectLevelDaoOjb extends PersistenceBrokerTemplate implements
-        ObjectLevelDao {
+ */
+public class ObjectLevelDaoOjb extends PersistenceBrokerTemplate implements ObjectLevelDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ObjectLevelDaoOjb.class);
-    
+
     public ObjLevel getByPrimaryId(String chartOfAccountsCode, String objectLevelCode) {
         Criteria criteria = new Criteria();
         criteria.addEqualTo("chartOfAccountsCode", chartOfAccountsCode);
-        criteria.addEqualTo("financialObjectLevelCode",objectLevelCode);
+        criteria.addEqualTo("financialObjectLevelCode", objectLevelCode);
 
-        return (ObjLevel) getObjectByQuery(QueryFactory.newQuery(ObjLevel.class,criteria));
+        return (ObjLevel) getObjectByQuery(QueryFactory.newQuery(ObjLevel.class, criteria));
     }
 
 }

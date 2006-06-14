@@ -42,7 +42,7 @@ public class IcrAutomatedEntry extends BusinessObjectBase {
      * Default no-arg constructor.
      */
     public IcrAutomatedEntry() {
-        //	initialize the object fiscal year to the current fiscal year
+        // initialize the object fiscal year to the current fiscal year
         universityFiscalYear = SpringServiceLocator.getDateTimeService().getCurrentFiscalYear();
     }
 
@@ -61,217 +61,192 @@ public class IcrAutomatedEntry extends BusinessObjectBase {
 
     private Options universityFiscal;
     private BalanceTyp financialBalanceTyp;
-  
-/*  Don't use reference objects because Chart, Account, Sub-Account, etc. contain special characters.
- *  RO 2/8/06
- * 
-    private Chart chartOfAccounts;
-    private Account account;
-    private SubAccount subAccount;
-    private ObjectCode financialObject;
-    private SubObjCd financialSubObject;
-    private ObjectCode offsetBalanceSheetObjectCode;
-    
-*/    
 
-/*   
-    public Account getAccount() {
-      return account;
-    }
+    /*
+     * Don't use reference objects because Chart, Account, Sub-Account, etc. contain special characters. RO 2/8/06
+     * 
+     * private Chart chartOfAccounts; private Account account; private SubAccount subAccount; private ObjectCode financialObject;
+     * private SubObjCd financialSubObject; private ObjectCode offsetBalanceSheetObjectCode;
+     * 
+     */
 
-
-    public void setAccount(Account account) {
-      this.account = account;
-    }
-
-*/
+    /*
+     * public Account getAccount() { return account; }
+     * 
+     * 
+     * public void setAccount(Account account) { this.account = account; }
+     * 
+     */
     public String getAccountNumber() {
-      return accountNumber;
+        return accountNumber;
     }
 
 
     public void setAccountNumber(String accountNumber) {
-      this.accountNumber = accountNumber;
+        this.accountNumber = accountNumber;
     }
 
 
     public Integer getAwardIndrCostRcvyEntryNbr() {
-      return awardIndrCostRcvyEntryNbr;
+        return awardIndrCostRcvyEntryNbr;
     }
 
 
     public void setAwardIndrCostRcvyEntryNbr(Integer awardIndrCostRcvyEntryNbr) {
-      this.awardIndrCostRcvyEntryNbr = awardIndrCostRcvyEntryNbr;
+        this.awardIndrCostRcvyEntryNbr = awardIndrCostRcvyEntryNbr;
     }
 
 
     public KualiPercent getAwardIndrCostRcvyRatePct() {
-      return awardIndrCostRcvyRatePct;
+        return awardIndrCostRcvyRatePct;
     }
 
 
     public void setAwardIndrCostRcvyRatePct(KualiPercent awardIndrCostRcvyRatePct) {
-      this.awardIndrCostRcvyRatePct = awardIndrCostRcvyRatePct;
+        this.awardIndrCostRcvyRatePct = awardIndrCostRcvyRatePct;
     }
 
 
     public String getBalanceTypeCode() {
-      return balanceTypeCode;
+        return balanceTypeCode;
     }
 
 
     public void setBalanceTypeCode(String balanceTypeCode) {
-      this.balanceTypeCode = balanceTypeCode;
+        this.balanceTypeCode = balanceTypeCode;
     }
 
-/*
-    public Chart getChartOfAccounts() {
-      return chartOfAccounts;
-    }
-
-
-    public void setChartOfAccounts(Chart chartOfAccounts) {
-      this.chartOfAccounts = chartOfAccounts;
-    }
-
-*/
+    /*
+     * public Chart getChartOfAccounts() { return chartOfAccounts; }
+     * 
+     * 
+     * public void setChartOfAccounts(Chart chartOfAccounts) { this.chartOfAccounts = chartOfAccounts; }
+     * 
+     */
     public String getChartOfAccountsCode() {
-      return chartOfAccountsCode;
+        return chartOfAccountsCode;
     }
 
 
     public void setChartOfAccountsCode(String chartOfAccountsCode) {
-      this.chartOfAccountsCode = chartOfAccountsCode;
+        this.chartOfAccountsCode = chartOfAccountsCode;
     }
 
 
     public BalanceTyp getFinancialBalanceTyp() {
-      return financialBalanceTyp;
+        return financialBalanceTyp;
     }
 
 
     public void setFinancialBalanceTyp(BalanceTyp financialBalanceTyp) {
-      this.financialBalanceTyp = financialBalanceTyp;
+        this.financialBalanceTyp = financialBalanceTyp;
     }
 
 
     public String getFinancialIcrSeriesIdentifier() {
-      return financialIcrSeriesIdentifier;
+        return financialIcrSeriesIdentifier;
     }
 
 
     public void setFinancialIcrSeriesIdentifier(String financialIcrSeriesIdentifier) {
-      this.financialIcrSeriesIdentifier = financialIcrSeriesIdentifier;
+        this.financialIcrSeriesIdentifier = financialIcrSeriesIdentifier;
     }
 
 
-/*    public ObjectCode getFinancialObject() {
-      return financialObject;
-    }
-
-
-    public void setFinancialObject(ObjectCode financialObject) {
-      this.financialObject = financialObject;
-    }
-
-*/
+    /*
+     * public ObjectCode getFinancialObject() { return financialObject; }
+     * 
+     * 
+     * public void setFinancialObject(ObjectCode financialObject) { this.financialObject = financialObject; }
+     * 
+     */
     public String getFinancialObjectCode() {
-      return financialObjectCode;
+        return financialObjectCode;
     }
 
 
     public void setFinancialObjectCode(String financialObjectCode) {
-      this.financialObjectCode = financialObjectCode;
+        this.financialObjectCode = financialObjectCode;
     }
 
-/*
-    public SubObjCd getFinancialSubObject() {
-      return financialSubObject;
-    }
-
-
-    public void setFinancialSubObject(SubObjCd financialSubObject) {
-      this.financialSubObject = financialSubObject;
-    }
-*/
+    /*
+     * public SubObjCd getFinancialSubObject() { return financialSubObject; }
+     * 
+     * 
+     * public void setFinancialSubObject(SubObjCd financialSubObject) { this.financialSubObject = financialSubObject; }
+     */
 
     public String getFinancialSubObjectCode() {
-      return financialSubObjectCode;
+        return financialSubObjectCode;
     }
 
 
     public void setFinancialSubObjectCode(String financialSubObjectCode) {
-      this.financialSubObjectCode = financialSubObjectCode;
+        this.financialSubObjectCode = financialSubObjectCode;
     }
 
-/*
-    public ObjectCode getOffsetBalanceSheetObjectCode() {
-      return offsetBalanceSheetObjectCode;
-    }
-
-
-    public void setOffsetBalanceSheetObjectCode(ObjectCode offsetBalanceSheetObjectCode) {
-      this.offsetBalanceSheetObjectCode = offsetBalanceSheetObjectCode;
-    }
-
-*/
+    /*
+     * public ObjectCode getOffsetBalanceSheetObjectCode() { return offsetBalanceSheetObjectCode; }
+     * 
+     * 
+     * public void setOffsetBalanceSheetObjectCode(ObjectCode offsetBalanceSheetObjectCode) { this.offsetBalanceSheetObjectCode =
+     * offsetBalanceSheetObjectCode; }
+     * 
+     */
     public String getOffsetBalanceSheetObjectCodeNumber() {
-      return offsetBalanceSheetObjectCodeNumber;
+        return offsetBalanceSheetObjectCodeNumber;
     }
 
 
     public void setOffsetBalanceSheetObjectCodeNumber(String offsetBalanceSheetObjectCodeNumber) {
-      this.offsetBalanceSheetObjectCodeNumber = offsetBalanceSheetObjectCodeNumber;
+        this.offsetBalanceSheetObjectCodeNumber = offsetBalanceSheetObjectCodeNumber;
     }
 
 
-/*    public SubAccount getSubAccount() {
-      return subAccount;
-    }
-
-
-    public void setSubAccount(SubAccount subAccount) {
-      this.subAccount = subAccount;
-    }
-*/
+    /*
+     * public SubAccount getSubAccount() { return subAccount; }
+     * 
+     * 
+     * public void setSubAccount(SubAccount subAccount) { this.subAccount = subAccount; }
+     */
 
     public String getSubAccountNumber() {
-      return subAccountNumber;
+        return subAccountNumber;
     }
 
 
     public void setSubAccountNumber(String subAccountNumber) {
-      this.subAccountNumber = subAccountNumber;
+        this.subAccountNumber = subAccountNumber;
     }
 
 
     public String getTransactionDebitIndicator() {
-      return transactionDebitIndicator;
+        return transactionDebitIndicator;
     }
 
 
     public void setTransactionDebitIndicator(String transactionDebitIndicator) {
-      this.transactionDebitIndicator = transactionDebitIndicator;
+        this.transactionDebitIndicator = transactionDebitIndicator;
     }
 
 
     public Options getUniversityFiscal() {
-      return universityFiscal;
+        return universityFiscal;
     }
 
 
     public void setUniversityFiscal(Options universityFiscal) {
-      this.universityFiscal = universityFiscal;
+        this.universityFiscal = universityFiscal;
     }
 
 
     public Integer getUniversityFiscalYear() {
-      return universityFiscalYear;
+        return universityFiscalYear;
     }
 
 
     public void setUniversityFiscalYear(Integer universityFiscalYear) {
-      this.universityFiscalYear = universityFiscalYear;
+        this.universityFiscalYear = universityFiscalYear;
     }
 
 

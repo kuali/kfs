@@ -27,15 +27,17 @@ import org.kuali.module.chart.dao.OffsetDefinitionDao;
 import org.kuali.module.chart.service.OffsetDefinitionService;
 
 /**
- * This class is the service implementation for the OffsetDefinition structure.
- * This is the default implementation, that is delivered with Kuali.
+ * This class is the service implementation for the OffsetDefinition structure. This is the default implementation, that is
+ * delivered with Kuali.
+ * 
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public class OffsetDefinitionServiceImpl implements OffsetDefinitionService {
     private OffsetDefinitionDao offsetDefinitionDao;
 
     /**
-     * @see org.kuali.module.chart.service.OffsetDefinitionService#getByPrimaryId(java.lang.Integer, java.lang.String, java.lang.String, java.lang.String)
+     * @see org.kuali.module.chart.service.OffsetDefinitionService#getByPrimaryId(java.lang.Integer, java.lang.String,
+     *      java.lang.String, java.lang.String)
      */
     public OffsetDefinition getByPrimaryId(Integer universityFiscalYear, String chartOfAccountsCode, String financialDocumentTypeCode, String financialBalanceTypeCode) {
         return offsetDefinitionDao.getByPrimaryId(universityFiscalYear, chartOfAccountsCode, financialDocumentTypeCode, financialBalanceTypeCode);

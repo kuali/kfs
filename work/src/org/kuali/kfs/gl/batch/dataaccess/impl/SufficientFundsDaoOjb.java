@@ -86,18 +86,12 @@ public class SufficientFundsDaoOjb extends PersistenceBrokerDaoSupport implement
      * @see org.kuali.module.gl.dao.SufficientFundsDao#calculateM113PendActual(boolean, java.lang.Integer, java.lang.String,
      *      java.lang.String, List, String)
      */
-    public KualiDecimal calculateM113PendActual(boolean financialBeginBalanceLoadInd, Integer universityFiscalYear,
-            String chartOfAccountsCode, String accountNumber, List specialFinancialObjectCodes,
-            String financialObjectCodeForCashInBank) {
+    public KualiDecimal calculateM113PendActual(boolean financialBeginBalanceLoadInd, Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, List specialFinancialObjectCodes, String financialObjectCodeForCashInBank) {
         // fp_sasfc:61-2...78-3 m113 calculate pendActual
-        KualiDecimal pendActual = calculateM113PendActual1(financialBeginBalanceLoadInd, universityFiscalYear, chartOfAccountsCode,
-                accountNumber, true, financialObjectCodeForCashInBank);
-        pendActual = pendActual.subtract(calculateM113PendActual1(financialBeginBalanceLoadInd, universityFiscalYear,
-                chartOfAccountsCode, accountNumber, false, financialObjectCodeForCashInBank));
-        pendActual = pendActual.add(calculateM113PendActual2(financialBeginBalanceLoadInd, universityFiscalYear,
-                chartOfAccountsCode, accountNumber, false, specialFinancialObjectCodes));
-        pendActual = pendActual.subtract(calculateM113PendActual2(financialBeginBalanceLoadInd, universityFiscalYear,
-                chartOfAccountsCode, accountNumber, true, specialFinancialObjectCodes));
+        KualiDecimal pendActual = calculateM113PendActual1(financialBeginBalanceLoadInd, universityFiscalYear, chartOfAccountsCode, accountNumber, true, financialObjectCodeForCashInBank);
+        pendActual = pendActual.subtract(calculateM113PendActual1(financialBeginBalanceLoadInd, universityFiscalYear, chartOfAccountsCode, accountNumber, false, financialObjectCodeForCashInBank));
+        pendActual = pendActual.add(calculateM113PendActual2(financialBeginBalanceLoadInd, universityFiscalYear, chartOfAccountsCode, accountNumber, false, specialFinancialObjectCodes));
+        pendActual = pendActual.subtract(calculateM113PendActual2(financialBeginBalanceLoadInd, universityFiscalYear, chartOfAccountsCode, accountNumber, true, specialFinancialObjectCodes));
 
         return pendActual;
 
@@ -108,13 +102,9 @@ public class SufficientFundsDaoOjb extends PersistenceBrokerDaoSupport implement
      * @see org.kuali.module.gl.dao.SufficientFundsDao#calculatePendActual(boolean, java.lang.String, java.lang.Integer,
      *      java.lang.String, java.lang.String, java.lang.String, List)
      */
-    public KualiDecimal calculatePendActual(boolean isYearEndDocument, String actualFinancialBalanceTypeCd,
-            Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String acctSufficientFundsFinObjCd,
-            List expenditureCodes) {
-        KualiDecimal pendActual = calculatePendActual1(isYearEndDocument, actualFinancialBalanceTypeCd, universityFiscalYear,
-                chartOfAccountsCode, accountNumber, acctSufficientFundsFinObjCd, true, expenditureCodes);
-        pendActual = pendActual.subtract(calculatePendActual1(isYearEndDocument, actualFinancialBalanceTypeCd,
-                universityFiscalYear, chartOfAccountsCode, accountNumber, acctSufficientFundsFinObjCd, false, expenditureCodes));
+    public KualiDecimal calculatePendActual(boolean isYearEndDocument, String actualFinancialBalanceTypeCd, Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String acctSufficientFundsFinObjCd, List expenditureCodes) {
+        KualiDecimal pendActual = calculatePendActual1(isYearEndDocument, actualFinancialBalanceTypeCd, universityFiscalYear, chartOfAccountsCode, accountNumber, acctSufficientFundsFinObjCd, true, expenditureCodes);
+        pendActual = pendActual.subtract(calculatePendActual1(isYearEndDocument, actualFinancialBalanceTypeCd, universityFiscalYear, chartOfAccountsCode, accountNumber, acctSufficientFundsFinObjCd, false, expenditureCodes));
         return pendActual;
     }
 
@@ -123,17 +113,14 @@ public class SufficientFundsDaoOjb extends PersistenceBrokerDaoSupport implement
      * @see org.kuali.module.gl.dao.SufficientFundsDao#calculatePendBudget(boolean, java.lang.String, java.lang.Integer,
      *      java.lang.String, java.lang.String, java.lang.String, List)
      */
-    public KualiDecimal calculatePendBudget(boolean isYearEndDocument, String budgetCheckingBalanceTypeCd,
-            Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String acctSufficientFundsFinObjCd,
-            List expenditureCodes) {
+    public KualiDecimal calculatePendBudget(boolean isYearEndDocument, String budgetCheckingBalanceTypeCd, Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String acctSufficientFundsFinObjCd, List expenditureCodes) {
         Criteria criteria = new Criteria();
         criteria.addEqualTo(Constants.FINANCIAL_BALANCE_TYPE_CODE_PROPERTY_NAME, budgetCheckingBalanceTypeCd);
         criteria.addEqualTo(Constants.UNIVERSITY_FISCAL_YEAR_PROPERTY_NAME, universityFiscalYear);
         criteria.addEqualTo(Constants.ACCOUNT_NUMBER_PROPERTY_NAME, accountNumber);
         criteria.addIn(Constants.FINANCIAL_OBJECT_TYPE_CODE, expenditureCodes);
         criteria.addEqualTo(Constants.ACCOUNT_SUFFICIENT_FUNDS_FINANCIAL_OBJECT_CODE_PROPERTY_NAME, acctSufficientFundsFinObjCd);
-        criteria.addNotEqualTo(Constants.DOCUMENT_HEADER_PROPERTY_NAME + "."
-                + Constants.DOCUMENT_HEADER_DOCUMENT_STATUS_CODE_PROPERTY_NAME, Constants.DocumentStatusCodes.CANCELLED);
+        criteria.addNotEqualTo(Constants.DOCUMENT_HEADER_PROPERTY_NAME + "." + Constants.DOCUMENT_HEADER_DOCUMENT_STATUS_CODE_PROPERTY_NAME, Constants.DocumentStatusCodes.CANCELLED);
 
         if (isYearEndDocument) {
             criteria.addLike(Constants.FINANCIAL_DOCUMENT_TYPE_CODE, YEAR_END_DOC_PREFIX);
@@ -154,15 +141,9 @@ public class SufficientFundsDaoOjb extends PersistenceBrokerDaoSupport implement
      * @see org.kuali.module.gl.dao.SufficientFundsDao#calculatePendEncum(boolean, java.lang.String, java.lang.String,
      *      java.lang.String, java.lang.Integer, java.lang.String, java.lang.String, java.lang.String, List)
      */
-    public KualiDecimal calculatePendEncum(boolean isYearEndDocument, String extrnlEncumFinBalanceTypCd,
-            String intrnlEncumFinBalanceTypCd, String preencumbranceFinBalTypeCd, Integer universityFiscalYear,
-            String chartOfAccountsCode, String accountNumber, String acctSufficientFundsFinObjCd, List expenditureCodes) {
-        KualiDecimal pendEncum = calculatePendEncum1(isYearEndDocument, extrnlEncumFinBalanceTypCd, intrnlEncumFinBalanceTypCd,
-                preencumbranceFinBalTypeCd, universityFiscalYear, chartOfAccountsCode, accountNumber, acctSufficientFundsFinObjCd,
-                true, expenditureCodes);
-        pendEncum = pendEncum.subtract(calculatePendEncum1(isYearEndDocument, extrnlEncumFinBalanceTypCd,
-                intrnlEncumFinBalanceTypCd, preencumbranceFinBalTypeCd, universityFiscalYear, chartOfAccountsCode, accountNumber,
-                acctSufficientFundsFinObjCd, false, expenditureCodes));
+    public KualiDecimal calculatePendEncum(boolean isYearEndDocument, String extrnlEncumFinBalanceTypCd, String intrnlEncumFinBalanceTypCd, String preencumbranceFinBalTypeCd, Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String acctSufficientFundsFinObjCd, List expenditureCodes) {
+        KualiDecimal pendEncum = calculatePendEncum1(isYearEndDocument, extrnlEncumFinBalanceTypCd, intrnlEncumFinBalanceTypCd, preencumbranceFinBalTypeCd, universityFiscalYear, chartOfAccountsCode, accountNumber, acctSufficientFundsFinObjCd, true, expenditureCodes);
+        pendEncum = pendEncum.subtract(calculatePendEncum1(isYearEndDocument, extrnlEncumFinBalanceTypCd, intrnlEncumFinBalanceTypCd, preencumbranceFinBalTypeCd, universityFiscalYear, chartOfAccountsCode, accountNumber, acctSufficientFundsFinObjCd, false, expenditureCodes));
         return pendEncum;
     }
 
@@ -180,10 +161,7 @@ public class SufficientFundsDaoOjb extends PersistenceBrokerDaoSupport implement
      * @param isEqualDebitCode
      * @return
      */
-    KualiDecimal calculatePendEncum1(boolean isYearEndDocument, String extrnlEncumFinBalanceTypCd,
-            String intrnlEncumFinBalanceTypCd, String preencumbranceFinBalTypeCd, Integer universityFiscalYear,
-            String chartOfAccountsCode, String accountNumber, String acctSufficientFundsFinObjCd, boolean isEqualDebitCode,
-            List expenditureCodes) {
+    KualiDecimal calculatePendEncum1(boolean isYearEndDocument, String extrnlEncumFinBalanceTypCd, String intrnlEncumFinBalanceTypCd, String preencumbranceFinBalTypeCd, Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String acctSufficientFundsFinObjCd, boolean isEqualDebitCode, List expenditureCodes) {
         Criteria criteria = new Criteria();
 
         Criteria sub1 = new Criteria();
@@ -210,8 +188,7 @@ public class SufficientFundsDaoOjb extends PersistenceBrokerDaoSupport implement
             criteria.addNotEqualTo(Constants.TRANSACTION_DEBIT_CREDIT_CODE, Constants.GL_DEBIT_CODE);
         }
 
-        criteria.addNotEqualTo(Constants.DOCUMENT_HEADER_PROPERTY_NAME + "."
-                + Constants.DOCUMENT_HEADER_DOCUMENT_STATUS_CODE_PROPERTY_NAME, Constants.DocumentStatusCodes.CANCELLED);
+        criteria.addNotEqualTo(Constants.DOCUMENT_HEADER_PROPERTY_NAME + "." + Constants.DOCUMENT_HEADER_DOCUMENT_STATUS_CODE_PROPERTY_NAME, Constants.DocumentStatusCodes.CANCELLED);
 
         if (isYearEndDocument) {
             criteria.addLike(Constants.FINANCIAL_DOCUMENT_TYPE_CODE, YEAR_END_DOC_PREFIX);
@@ -239,9 +216,7 @@ public class SufficientFundsDaoOjb extends PersistenceBrokerDaoSupport implement
      * @param acctSufficientFundsFinObjCd
      * @return
      */
-    KualiDecimal calculatePendActual1(boolean isYearEndDocument, String actualFinancialBalanceTypeCd, Integer universityFiscalYear,
-            String chartOfAccountsCode, String accountNumber, String acctSufficientFundsFinObjCd, boolean isEqualDebitCode,
-            List expenditureCodes) {
+    KualiDecimal calculatePendActual1(boolean isYearEndDocument, String actualFinancialBalanceTypeCd, Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String acctSufficientFundsFinObjCd, boolean isEqualDebitCode, List expenditureCodes) {
         Criteria criteria = new Criteria();
         criteria.addEqualTo(Constants.FINANCIAL_BALANCE_TYPE_CODE_PROPERTY_NAME, actualFinancialBalanceTypeCd);
         criteria.addEqualTo(Constants.UNIVERSITY_FISCAL_YEAR_PROPERTY_NAME, universityFiscalYear);
@@ -256,8 +231,7 @@ public class SufficientFundsDaoOjb extends PersistenceBrokerDaoSupport implement
             criteria.addNotEqualTo(Constants.TRANSACTION_DEBIT_CREDIT_CODE, Constants.GL_DEBIT_CODE);
         }
 
-        criteria.addNotEqualTo(Constants.DOCUMENT_HEADER_PROPERTY_NAME + "."
-                + Constants.DOCUMENT_HEADER_DOCUMENT_STATUS_CODE_PROPERTY_NAME, Constants.DocumentStatusCodes.CANCELLED);
+        criteria.addNotEqualTo(Constants.DOCUMENT_HEADER_PROPERTY_NAME + "." + Constants.DOCUMENT_HEADER_DOCUMENT_STATUS_CODE_PROPERTY_NAME, Constants.DocumentStatusCodes.CANCELLED);
 
         if (isYearEndDocument) {
             criteria.addLike(Constants.FINANCIAL_DOCUMENT_TYPE_CODE, YEAR_END_DOC_PREFIX);
@@ -279,8 +253,7 @@ public class SufficientFundsDaoOjb extends PersistenceBrokerDaoSupport implement
      * @param accountNumber
      * @return
      */
-    KualiDecimal calculateM113PendActual1(boolean financialBeginBalanceLoadInd, Integer universityFiscalYear,
-            String chartOfAccountsCode, String accountNumber, boolean isEqualDebitCode, String financialObjectCodeForCashInBank) {
+    KualiDecimal calculateM113PendActual1(boolean financialBeginBalanceLoadInd, Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, boolean isEqualDebitCode, String financialObjectCodeForCashInBank) {
         Criteria criteria = new Criteria();
         criteria.addEqualTo(Constants.FINANCIAL_BALANCE_TYPE_CODE_PROPERTY_NAME, Constants.BALANCE_TYPE_ACTUAL);
 
@@ -307,8 +280,7 @@ public class SufficientFundsDaoOjb extends PersistenceBrokerDaoSupport implement
             criteria.addNotEqualTo(Constants.TRANSACTION_DEBIT_CREDIT_CODE, Constants.GL_DEBIT_CODE);
         }
 
-        criteria.addNotEqualTo(Constants.DOCUMENT_HEADER_PROPERTY_NAME + "."
-                + Constants.DOCUMENT_HEADER_DOCUMENT_STATUS_CODE_PROPERTY_NAME, Constants.DocumentStatusCodes.CANCELLED);
+        criteria.addNotEqualTo(Constants.DOCUMENT_HEADER_PROPERTY_NAME + "." + Constants.DOCUMENT_HEADER_DOCUMENT_STATUS_CODE_PROPERTY_NAME, Constants.DocumentStatusCodes.CANCELLED);
 
         ReportQueryByCriteria reportQuery = QueryFactory.newReportQuery(GeneralLedgerPendingEntry.class, criteria);
         reportQuery.setAttributes(new String[] { "sum(" + Constants.TRANSACTION_LEDGER_ENTRY_AMOUNT + ")" });
@@ -324,8 +296,7 @@ public class SufficientFundsDaoOjb extends PersistenceBrokerDaoSupport implement
      * @param accountNumber
      * @return
      */
-    KualiDecimal calculateM113PendActual2(boolean financialBeginBalanceLoadInd, Integer universityFiscalYear,
-            String chartOfAccountsCode, String accountNumber, boolean isEqualDebitCode, List specialFinancialObjectCodes) {
+    KualiDecimal calculateM113PendActual2(boolean financialBeginBalanceLoadInd, Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, boolean isEqualDebitCode, List specialFinancialObjectCodes) {
         Criteria criteria = new Criteria();
         criteria.addEqualTo(Constants.FINANCIAL_BALANCE_TYPE_CODE_PROPERTY_NAME, Constants.BALANCE_TYPE_ACTUAL);
 
@@ -352,8 +323,7 @@ public class SufficientFundsDaoOjb extends PersistenceBrokerDaoSupport implement
             criteria.addNotEqualTo(Constants.TRANSACTION_DEBIT_CREDIT_CODE, Constants.GL_DEBIT_CODE);
         }
 
-        criteria.addNotEqualTo(Constants.DOCUMENT_HEADER_PROPERTY_NAME + "."
-                + Constants.DOCUMENT_HEADER_DOCUMENT_STATUS_CODE_PROPERTY_NAME, Constants.DocumentStatusCodes.CANCELLED);
+        criteria.addNotEqualTo(Constants.DOCUMENT_HEADER_PROPERTY_NAME + "." + Constants.DOCUMENT_HEADER_DOCUMENT_STATUS_CODE_PROPERTY_NAME, Constants.DocumentStatusCodes.CANCELLED);
 
         ReportQueryByCriteria reportQuery = QueryFactory.newReportQuery(GeneralLedgerPendingEntry.class, criteria);
         reportQuery.setAttributes(new String[] { "sum(" + Constants.TRANSACTION_LEDGER_ENTRY_AMOUNT + ")" });
@@ -367,18 +337,18 @@ public class SufficientFundsDaoOjb extends PersistenceBrokerDaoSupport implement
      * @param chart
      * @param year
      */
-    public void purgeYearByChart(String chartOfAccountsCode,int year) {
+    public void purgeYearByChart(String chartOfAccountsCode, int year) {
         LOG.debug("purgeYearByChart() started");
 
         Criteria criteria = new Criteria();
         criteria.addEqualTo("chartOfAccountsCode", chartOfAccountsCode);
         criteria.addLessThan("universityFiscalYear", new Integer(year));
 
-        getPersistenceBrokerTemplate().deleteByQuery(new QueryByCriteria(SufficientFundBalances.class,criteria));
+        getPersistenceBrokerTemplate().deleteByQuery(new QueryByCriteria(SufficientFundBalances.class, criteria));
 
         // This is required because if any deleted account balances are in the cache, deleteByQuery doesn't
         // remove them from the cache so a future select will retrieve these deleted account balances from
-        // the cache and return them.  Clearing the cache forces OJB to go to the database again.
+        // the cache and return them. Clearing the cache forces OJB to go to the database again.
         getPersistenceBrokerTemplate().clearCache();
     }
 

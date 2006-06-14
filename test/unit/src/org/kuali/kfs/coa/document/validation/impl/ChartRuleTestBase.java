@@ -54,9 +54,8 @@ public abstract class ChartRuleTestBase extends KualiTestBaseWithFixtures {
 
     /**
      * 
-     * This method creates a minimal MaintenanceDocument instance, and populates it with 
-     * the provided businessObject for the newMaintainable, and null for the 
-     * oldMaintainable.
+     * This method creates a minimal MaintenanceDocument instance, and populates it with the provided businessObject for the
+     * newMaintainable, and null for the oldMaintainable.
      * 
      * @param newSubAccount - populated subAccount for the newMaintainable
      * @return - a populated MaintenanceDocument instance
@@ -68,8 +67,8 @@ public abstract class ChartRuleTestBase extends KualiTestBaseWithFixtures {
 
     /**
      * 
-     * This method creates a minimal MaintenanceDocument instance, and populates it with 
-     * the provided businessObjects for the newMaintainable and oldMaintainable.
+     * This method creates a minimal MaintenanceDocument instance, and populates it with the provided businessObjects for the
+     * newMaintainable and oldMaintainable.
      * 
      * @param oldSubAccount - populated subAccount for the oldMaintainable
      * @param newSubAccount - populated subAccount for the newMaintainable
@@ -77,14 +76,13 @@ public abstract class ChartRuleTestBase extends KualiTestBaseWithFixtures {
      * 
      */
     protected MaintenanceDocument newMaintDoc(BusinessObject oldBo, BusinessObject newBo) {
-        
-        //  disallow null value for newBo
+
+        // disallow null value for newBo
         if (null == newBo) {
-            throw new IllegalArgumentException("Invalid value (null) for newBo.  " + 
-                    "This must always be a valid, populated BusinessObject instance.");
+            throw new IllegalArgumentException("Invalid value (null) for newBo.  " + "This must always be a valid, populated BusinessObject instance.");
         }
-        
-        //  get a new MaintenanceDocument from Spring
+
+        // get a new MaintenanceDocument from Spring
         MaintenanceDocument document = null;
         try {
             document = (MaintenanceDocument) SpringServiceLocator.getDocumentService().getNewDocument(MaintenanceDocumentBase.class);
@@ -92,8 +90,8 @@ public abstract class ChartRuleTestBase extends KualiTestBaseWithFixtures {
         catch (WorkflowException e) {
             throw new RuntimeException(e);
         }
-        
-        //  add all the pieces
+
+        // add all the pieces
         document.getDocumentHeader().setFinancialDocumentDescription("test");
         if (null == oldBo) {
             document.setOldMaintainableObject(new KualiMaintainableImpl());
@@ -109,10 +107,9 @@ public abstract class ChartRuleTestBase extends KualiTestBaseWithFixtures {
 
     /**
      * 
-     * This method creates a new instance of the specified ruleClass, injects the 
-     * businessObject(s).
+     * This method creates a new instance of the specified ruleClass, injects the businessObject(s).
      * 
-     * With this method, the oldMaintainable will be set to null. 
+     * With this method, the oldMaintainable will be set to null.
      * 
      * @param newBo - the populated businessObject for the newMaintainble
      * @param ruleClass - the class of rule to instantiate
@@ -123,15 +120,13 @@ public abstract class ChartRuleTestBase extends KualiTestBaseWithFixtures {
         MaintenanceDocument maintDoc = newMaintDoc(newBo);
         return setupMaintDocRule(maintDoc, ruleClass);
     }
-    
+
     /**
      * 
-     * This method first creates a new MaintenanceDocument with the BusinessObject(s) 
-     * passed in.  Note that the maintDoc is created and destroyed internally, and is 
-     * never returned.
+     * This method first creates a new MaintenanceDocument with the BusinessObject(s) passed in. Note that the maintDoc is created
+     * and destroyed internally, and is never returned.
      * 
-     * This method then creates a new instance of the specified ruleClass, injects the 
-     * businessObject(s).
+     * This method then creates a new instance of the specified ruleClass, injects the businessObject(s).
      * 
      * @param oldBo - the populated businessObject for the oldMaintainable
      * @param newBo - the populated businessObject for the newMaintainable
@@ -140,23 +135,23 @@ public abstract class ChartRuleTestBase extends KualiTestBaseWithFixtures {
      * 
      */
     protected MaintenanceDocumentRule setupMaintDocRule(BusinessObject oldBo, BusinessObject newBo, Class ruleClass) {
-        
+
         MaintenanceDocument maintDoc = newMaintDoc(oldBo, newBo);
 
         return setupMaintDocRule(maintDoc, ruleClass);
     }
-    
+
     /**
      * 
-     * This method creates a new instance of the specified ruleClass, and then 
-     * injects the maintenanceDocument and associated business objects.
+     * This method creates a new instance of the specified ruleClass, and then injects the maintenanceDocument and associated
+     * business objects.
      * 
      * @param maintDoc - the populated MaintenanceDocument instance
      * @param ruleClass - the class of rule to instantiate
      * @return - a populated and ready-to-test rule, of the specified class
      */
     protected MaintenanceDocumentRule setupMaintDocRule(MaintenanceDocument maintDoc, Class ruleClass) {
-        
+
         MaintenanceDocumentRule rule;
         try {
             rule = (MaintenanceDocumentRule) ruleClass.newInstance();
@@ -167,31 +162,31 @@ public abstract class ChartRuleTestBase extends KualiTestBaseWithFixtures {
         catch (IllegalAccessException e) {
             throw new RuntimeException(e);
         }
-        
+
         rule.setupBaseConvenienceObjects(maintDoc);
-        
-        //  confirm that we're starting with no errors
+
+        // confirm that we're starting with no errors
         assertEquals(0, GlobalVariables.getErrorMap().size());
-        
+
         return rule;
     }
-    
+
     protected void testDefaultExistenceCheck(BusinessObject bo, String fieldName, boolean shouldFail) {
-        
-        //  init the error path
+
+        // init the error path
         GlobalVariables.getErrorMap().addToErrorPath("document.newMaintainableObject");
 
-        //  run the dataDictionary validation
+        // run the dataDictionary validation
         dictionaryValidationService.validateDefaultExistenceChecks(bo);
-        
-        //  clear the error path
+
+        // clear the error path
         GlobalVariables.getErrorMap().removeFromErrorPath("document.newMaintainableObject");
 
-        //  assert that the existence of the error is what is expected
+        // assert that the existence of the error is what is expected
         assertFieldErrorExistence(fieldName, KeyConstants.ERROR_EXISTENCE, shouldFail);
-        
+
     }
-    
+
     /**
      * 
      * This method tests whether the expected number of errors exists in the errorMap.
@@ -204,11 +199,10 @@ public abstract class ChartRuleTestBase extends KualiTestBaseWithFixtures {
     protected void assertErrorCount(int expectedErrorCount) {
         assertEquals(expectedErrorCount, GlobalVariables.getErrorMap().getErrorCount());
     }
-    
+
     /**
      * 
-     * This method tests whether the field error exists and returns the result of this 
-     * test.
+     * This method tests whether the field error exists and returns the result of this test.
      * 
      * @param fieldName
      * @param errorKey
@@ -218,14 +212,12 @@ public abstract class ChartRuleTestBase extends KualiTestBaseWithFixtures {
     protected boolean doesFieldErrorExist(String fieldName, String errorKey) {
         return GlobalVariables.getErrorMap().fieldHasMessage(MaintenanceDocumentRuleBase.MAINTAINABLE_ERROR_PREFIX + fieldName, errorKey);
     }
-    
+
     /**
      * 
-     * This method tests whether the existence check on the error matches what is expected 
-     * by what is passed into expectedResult.
+     * This method tests whether the existence check on the error matches what is expected by what is passed into expectedResult.
      * 
-     * This method will fail the assertion if the presence of the error is not what is 
-     * expected.
+     * This method will fail the assertion if the presence of the error is not what is expected.
      * 
      * @param fieldName
      * @param errorKey
@@ -239,8 +231,7 @@ public abstract class ChartRuleTestBase extends KualiTestBaseWithFixtures {
 
     /**
      * 
-     * This method tests whether a given combination of fieldName and errorKey does 
-     * NOT exist in the GlobalVariables.getErrorMap().
+     * This method tests whether a given combination of fieldName and errorKey does NOT exist in the GlobalVariables.getErrorMap().
      * 
      * The assert will fail if the fieldName & errorKey combination DOES exist.
      * 
@@ -254,11 +245,10 @@ public abstract class ChartRuleTestBase extends KualiTestBaseWithFixtures {
         boolean result = doesFieldErrorExist(fieldName, errorKey);
         assertTrue("FieldName (" + fieldName + ") should NOT contain errorKey: " + errorKey, result);
     }
-    
+
     /**
      * 
-     * This method tests whether a given combination of fieldName and errorKey exists 
-     * in the GlobalVariables.getErrorMap().
+     * This method tests whether a given combination of fieldName and errorKey exists in the GlobalVariables.getErrorMap().
      * 
      * The assert will fail if the fieldName & errorKey combination doesnt exist.
      * 
@@ -275,8 +265,7 @@ public abstract class ChartRuleTestBase extends KualiTestBaseWithFixtures {
 
     /**
      * 
-     * This method tests whether a given errorKey exists on the document itself (ie, not 
-     * tied to a specific field).
+     * This method tests whether a given errorKey exists on the document itself (ie, not tied to a specific field).
      * 
      * The assert will fail if the errorKey already exists on the document.
      * 
@@ -291,13 +280,12 @@ public abstract class ChartRuleTestBase extends KualiTestBaseWithFixtures {
 
     /**
      * 
-     * This method is used during debugging to dump the contents of the error 
-     * map, including the key names.  It is not used by the application 
-     * in normal circumstances at all.
-     *
+     * This method is used during debugging to dump the contents of the error map, including the key names. It is not used by the
+     * application in normal circumstances at all.
+     * 
      */
     protected void showErrorMap() {
-        
+
         if (GlobalVariables.getErrorMap().isEmpty()) {
             return;
         }
@@ -321,7 +309,7 @@ public abstract class ChartRuleTestBase extends KualiTestBaseWithFixtures {
                             delim = ", ";
                         }
                     }
-                    System.err.println(e.getKey().toString() + " = " + em.getErrorKey() +  " : " + messageParams.toString());
+                    System.err.println(e.getKey().toString() + " = " + em.getErrorKey() + " : " + messageParams.toString());
                 }
             }
         }
@@ -336,5 +324,5 @@ public abstract class ChartRuleTestBase extends KualiTestBaseWithFixtures {
     protected void clearErrors() {
         GlobalVariables.getErrorMap().clear();
     }
-    
+
 }

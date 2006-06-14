@@ -36,7 +36,7 @@ import org.kuali.module.chart.bo.codes.BalanceTyp;
 
 /**
  * @author jsissom
- *  
+ * 
  */
 public class Encumbrance extends BusinessObjectBase {
     static final long serialVersionUID = -7494473472438516396L;

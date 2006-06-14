@@ -28,6 +28,7 @@ import org.kuali.test.KualiTestBaseWithFixtures;
 
 /**
  * This class tests the Account service.
+ * 
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public class AccountServiceTest extends KualiTestBaseWithFixtures {
@@ -42,29 +43,29 @@ public class AccountServiceTest extends KualiTestBaseWithFixtures {
         Account account = null;
         account = accountService.getByPrimaryId("BA", "6044900");
         assertNotNull(account);
-//        assertNotNull(account.getSubAccounts());
-//        assertEquals("sub account list should contain 27 subaccounts", 27, account.getSubAccounts().size());
-        
+        // assertNotNull(account.getSubAccounts());
+        // assertEquals("sub account list should contain 27 subaccounts", 27, account.getSubAccounts().size());
+
         account = null;
         account = accountService.getByPrimaryId("XX", "0000000");
         assertNull(account);
-        
+
         account = null;
         account = accountService.getByPrimaryId("KO", "");
         assertNull(account);
-        
+
         account = null;
-        account = accountService.getByPrimaryId("UA",null);
-        assertNull(account);
-        
-        account = null;
-        account = accountService.getByPrimaryId(null,"1912610");
+        account = accountService.getByPrimaryId("UA", null);
         assertNull(account);
 
         account = null;
-        account = accountService.getByPrimaryId(null,null);
+        account = accountService.getByPrimaryId(null, "1912610");
+        assertNull(account);
+
+        account = null;
+        account = accountService.getByPrimaryId(null, null);
         assertNull(account);
     }
-    
-   
+
+
 }

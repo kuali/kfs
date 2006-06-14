@@ -41,8 +41,8 @@ public class BankAccount extends BusinessObjectBase {
 
     private static final long serialVersionUID = -1056266362255635896L;
     private String finDocumentBankAccountDesc;
-	private String finDocumentBankAccountNumber;
-	private String financialDocumentBankCode ;
+    private String finDocumentBankAccountNumber;
+    private String financialDocumentBankCode;
     private String chartOfAccountsCode;
     private String universityAcctChartOfAcctCd;
     private String universityAccountNumber;
@@ -51,18 +51,19 @@ public class BankAccount extends BusinessObjectBase {
     private String cashOffsetAccountNumber;
     private String cashOffsetObjectCode;
     private String cashOffsetSubObjectCode;
-    
+
     private Chart chart;
     private Chart universityAcctChartOfAcct;
     private Bank bank;
-	private Org organization;
-	private Account universityAccount;
+    private Org organization;
+    private Account universityAccount;
     private Chart cashOffsetFinancialChartOfAccount;
     private Account cashOffsetAccount;
-	private ObjectCode cashOffsetObject;
-    
-	/**
-     * Gets the organizationCode attribute. 
+    private ObjectCode cashOffsetObject;
+
+    /**
+     * Gets the organizationCode attribute.
+     * 
      * @return Returns the organizationCode.
      */
     public String getOrganizationCode() {
@@ -71,6 +72,7 @@ public class BankAccount extends BusinessObjectBase {
 
     /**
      * Sets the organizationCode attribute value.
+     * 
      * @param organizationCode The organizationCode to set.
      */
     public void setOrganizationCode(String organizationCode) {
@@ -78,7 +80,8 @@ public class BankAccount extends BusinessObjectBase {
     }
 
     /**
-     * Gets the chartOfAccountsCode attribute. 
+     * Gets the chartOfAccountsCode attribute.
+     * 
      * @return Returns the chartOfAccountsCode.
      */
     public String getChartOfAccountsCode() {
@@ -87,6 +90,7 @@ public class BankAccount extends BusinessObjectBase {
 
     /**
      * Sets the chartOfAccountsCode attribute value.
+     * 
      * @param chartOfAccountsCode The chartOfAccountsCode to set.
      */
     public void setChartOfAccountsCode(String chartOfAccountsCode) {
@@ -94,7 +98,8 @@ public class BankAccount extends BusinessObjectBase {
     }
 
     /**
-     * Gets the universityAccountNumber attribute. 
+     * Gets the universityAccountNumber attribute.
+     * 
      * @return Returns the universityAccountNumber.
      */
     public String getUniversityAccountNumber() {
@@ -103,6 +108,7 @@ public class BankAccount extends BusinessObjectBase {
 
     /**
      * Sets the universityAccountNumber attribute value.
+     * 
      * @param universityAccountNumber The universityAccountNumber to set.
      */
     public void setUniversityAccountNumber(String universityAccountNumber) {
@@ -110,7 +116,8 @@ public class BankAccount extends BusinessObjectBase {
     }
 
     /**
-     * Gets the universityAcctChartOfAcctCd attribute. 
+     * Gets the universityAcctChartOfAcctCd attribute.
+     * 
      * @return Returns the universityAcctChartOfAcctCd.
      */
     public String getUniversityAcctChartOfAcctCd() {
@@ -119,6 +126,7 @@ public class BankAccount extends BusinessObjectBase {
 
     /**
      * Sets the universityAcctChartOfAcctCd attribute value.
+     * 
      * @param universityAcctChartOfAcctCd The universityAcctChartOfAcctCd to set.
      */
     public void setUniversityAcctChartOfAcctCd(String universityAcctChartOfAcctCd) {
@@ -126,111 +134,111 @@ public class BankAccount extends BusinessObjectBase {
     }
 
     /**
-	 * Default no-arg constructor.
-	 */
-	public BankAccount() {
+     * Default no-arg constructor.
+     */
+    public BankAccount() {
 
-	}
+    }
 
-	/**
-	 * Gets the bank attribute.
-	 *
-	 * @return - Returns the financialDocumentBankCode
-	 *
-	 */
-	public Bank getBank() {
-		return bank;
-	}
+    /**
+     * Gets the bank attribute.
+     * 
+     * @return - Returns the financialDocumentBankCode
+     * 
+     */
+    public Bank getBank() {
+        return bank;
+    }
 
-	/**
-	 * Sets the bank attribute.
-	 *
-	 * @param - bank The bank to set.
-	 * @deprecated
-	 */
-	public void setBank(Bank bank) {
-		this.bank = bank;
-	}
+    /**
+     * Sets the bank attribute.
+     * 
+     * @param - bank The bank to set.
+     * @deprecated
+     */
+    public void setBank(Bank bank) {
+        this.bank = bank;
+    }
 
-	/**
-	 * Gets the financialDocumentBankCode attribute.
-	 *
-	 * @return - Returns the financialDocumentBankCode
-	 *
-	 */
-	public String getFinancialDocumentBankCode() {
-		return financialDocumentBankCode;
-	}
+    /**
+     * Gets the financialDocumentBankCode attribute.
+     * 
+     * @return - Returns the financialDocumentBankCode
+     * 
+     */
+    public String getFinancialDocumentBankCode() {
+        return financialDocumentBankCode;
+    }
 
-	/**
-	 * Sets the financialDocumentBankCode attribute.
-	 *
-	 * @param - financialDocumentBankCode The financialDocumentBankCode to set.
-	 * 
-	 */
-	public void setFinancialDocumentBankCode(String financialDocumentBankCode) {
-		this.financialDocumentBankCode = financialDocumentBankCode;
-	}
-	
-	/**
-	 * Gets the finDocumentBankAccountDesc attribute.
-	 *
-	 * @return - Returns the finDocumentBankAccountDesc
-	 *
-	 */
-	public String getFinDocumentBankAccountDesc() {
-		return finDocumentBankAccountDesc;
-	}
+    /**
+     * Sets the financialDocumentBankCode attribute.
+     * 
+     * @param - financialDocumentBankCode The financialDocumentBankCode to set.
+     * 
+     */
+    public void setFinancialDocumentBankCode(String financialDocumentBankCode) {
+        this.financialDocumentBankCode = financialDocumentBankCode;
+    }
 
-	/**
-	 * Sets the finDocumentBankAccountDesc attribute.
-	 *
-	 * @param - finDocumentBankAccountDesc The finDocumentBankAccountDesc to set.
-	 *
-	 */
-	public void setFinDocumentBankAccountDesc(String finDocumentBankAccountDesc) {
-		this.finDocumentBankAccountDesc = finDocumentBankAccountDesc;
-	}
+    /**
+     * Gets the finDocumentBankAccountDesc attribute.
+     * 
+     * @return - Returns the finDocumentBankAccountDesc
+     * 
+     */
+    public String getFinDocumentBankAccountDesc() {
+        return finDocumentBankAccountDesc;
+    }
 
-	/**
-	 * Gets the organization attribute.
-	 *
-	 * @return - Returns the organization
-	 *
-	 */
-	public Org getOrganization() {
-		return organization;
-	}
+    /**
+     * Sets the finDocumentBankAccountDesc attribute.
+     * 
+     * @param - finDocumentBankAccountDesc The finDocumentBankAccountDesc to set.
+     * 
+     */
+    public void setFinDocumentBankAccountDesc(String finDocumentBankAccountDesc) {
+        this.finDocumentBankAccountDesc = finDocumentBankAccountDesc;
+    }
 
-	/**
-	 * Sets the organization attribute.
-	 *
-	 * @param - organization The organization to set.
-	 * @deprecated
-	 */
-	public void setOrganization(Org organization) {
-		this.organization = organization;
-	}
+    /**
+     * Gets the organization attribute.
+     * 
+     * @return - Returns the organization
+     * 
+     */
+    public Org getOrganization() {
+        return organization;
+    }
 
-	/**
-	 * Gets the finDocumentBankAccount attribute.
-	 *
-	 * @return - Returns the finDocumentBankAccountNumber
-	 *
-	 */
-	public String getFinDocumentBankAccountNumber() {
-		return finDocumentBankAccountNumber;
-	}
+    /**
+     * Sets the organization attribute.
+     * 
+     * @param - organization The organization to set.
+     * @deprecated
+     */
+    public void setOrganization(Org organization) {
+        this.organization = organization;
+    }
 
-	/**
-	 * Sets the finDocumentBankAccountNumber attribute.
-	 *
-	 * @param - finDocumentBankAccountNumber The finDocumentBankAccountNumber to set.
-	 *
-	 */
-	public void setFinDocumentBankAccountNumber(String finDocumentBankAccountNumber) {
-		this.finDocumentBankAccountNumber = finDocumentBankAccountNumber;
-	}
+    /**
+     * Gets the finDocumentBankAccount attribute.
+     * 
+     * @return - Returns the finDocumentBankAccountNumber
+     * 
+     */
+    public String getFinDocumentBankAccountNumber() {
+        return finDocumentBankAccountNumber;
+    }
+
+    /**
+     * Sets the finDocumentBankAccountNumber attribute.
+     * 
+     * @param - finDocumentBankAccountNumber The finDocumentBankAccountNumber to set.
+     * 
+     */
+    public void setFinDocumentBankAccountNumber(String finDocumentBankAccountNumber) {
+        this.finDocumentBankAccountNumber = finDocumentBankAccountNumber;
+    }
 
     /**
      * @return Returns the cashOffsetAccountNumber.
@@ -288,25 +296,25 @@ public class BankAccount extends BusinessObjectBase {
         this.cashOffsetSubObjectCode = cashOffsetSubObjectCode;
     }
 
-	/**
-	 * Gets the universityAccount attribute.
-	 *
-	 * @return - Returns the universityAccount
-	 *
-	 */
-	public Account getUniversityAccount() {
-		return universityAccount;
-	}
+    /**
+     * Gets the universityAccount attribute.
+     * 
+     * @return - Returns the universityAccount
+     * 
+     */
+    public Account getUniversityAccount() {
+        return universityAccount;
+    }
 
-	/**
-	 * Sets the universityAccount attribute.
-	 *
-	 * @param - universityAccount The universityAccount to set.
-	 * @deprecated
-	 */
-	public void setUniversityAccount(Account universityAccount) {
-		this.universityAccount = universityAccount;
-	}
+    /**
+     * Sets the universityAccount attribute.
+     * 
+     * @param - universityAccount The universityAccount to set.
+     * @deprecated
+     */
+    public void setUniversityAccount(Account universityAccount) {
+        this.universityAccount = universityAccount;
+    }
 
     /**
      * Gets the chart attribute.
@@ -314,7 +322,7 @@ public class BankAccount extends BusinessObjectBase {
      * @return - Returns the chart
      * 
      */
-    public Chart getChart() { 
+    public Chart getChart() {
         return chart;
     }
 
@@ -334,7 +342,7 @@ public class BankAccount extends BusinessObjectBase {
      * @return - Returns the universityAcctChartOfAcct
      * 
      */
-    public Chart getUniversityAcctChartOfAcct() { 
+    public Chart getUniversityAcctChartOfAcct() {
         return universityAcctChartOfAcct;
     }
 
@@ -354,7 +362,7 @@ public class BankAccount extends BusinessObjectBase {
      * @return - Returns the cashOffsetAccount
      * 
      */
-    public Account getCashOffsetAccount() { 
+    public Account getCashOffsetAccount() {
         return cashOffsetAccount;
     }
 
@@ -374,7 +382,7 @@ public class BankAccount extends BusinessObjectBase {
      * @return - Returns the cashOffsetFinancialChartOfAccount
      * 
      */
-    public Chart getCashOffsetFinancialChartOfAccount() { 
+    public Chart getCashOffsetFinancialChartOfAccount() {
         return cashOffsetFinancialChartOfAccount;
     }
 
@@ -386,10 +394,11 @@ public class BankAccount extends BusinessObjectBase {
      */
     public void setCashOffsetFinancialChartOfAccount(Chart cashOffsetFinancialChartOfAccount) {
         this.cashOffsetFinancialChartOfAccount = cashOffsetFinancialChartOfAccount;
-    }    
-    
-	/**
-     * Gets the cashOffsetObject attribute. 
+    }
+
+    /**
+     * Gets the cashOffsetObject attribute.
+     * 
      * @return Returns the cashOffsetObject.
      */
     public ObjectCode getCashOffsetObject() {
@@ -398,6 +407,7 @@ public class BankAccount extends BusinessObjectBase {
 
     /**
      * Sets the cashOffsetObject attribute value.
+     * 
      * @param cashOffsetObject The cashOffsetObject to set.
      * @deprecated
      */
@@ -406,15 +416,14 @@ public class BankAccount extends BusinessObjectBase {
     }
 
     /**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();
-	    m.put( "bankCode", getFinancialDocumentBankCode() );
-	    m.put( "bankAccountNumber", getFinDocumentBankAccountNumber() );
-	    return m;
-	}
+     * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
+        m.put("bankCode", getFinancialDocumentBankCode());
+        m.put("bankAccountNumber", getFinDocumentBankAccountNumber());
+        return m;
+    }
 
 
 }
-

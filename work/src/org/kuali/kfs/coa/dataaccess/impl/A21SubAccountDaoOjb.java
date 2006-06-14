@@ -31,27 +31,29 @@ import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 /**
  * @author jsissom
- *
+ * 
  */
 public class A21SubAccountDaoOjb extends PersistenceBrokerDaoSupport implements A21SubAccountDao {
-  private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(A21SubAccountDaoOjb.class);
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(A21SubAccountDaoOjb.class);
 
-  public A21SubAccountDaoOjb() {
-    super();
-  }
+    public A21SubAccountDaoOjb() {
+        super();
+    }
 
-  /* (non-Javadoc)
-   * @see org.kuali.module.gl.dao.A21SubAccountDao#getByPrimaryKey(java.lang.String, java.lang.String, java.lang.String)
-   */
-  public A21SubAccount getByPrimaryKey(String chartOfAccountsCode, String accountNumber, String subAccountNumber) {
-    LOG.debug("getByPrimaryKey() started");
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.kuali.module.gl.dao.A21SubAccountDao#getByPrimaryKey(java.lang.String, java.lang.String, java.lang.String)
+     */
+    public A21SubAccount getByPrimaryKey(String chartOfAccountsCode, String accountNumber, String subAccountNumber) {
+        LOG.debug("getByPrimaryKey() started");
 
-    Criteria crit = new Criteria();
-    crit.addEqualTo("chartOfAccountsCode",chartOfAccountsCode);
-    crit.addEqualTo("accountNumber",accountNumber);
-    crit.addEqualTo("subAccountNumber",subAccountNumber);
+        Criteria crit = new Criteria();
+        crit.addEqualTo("chartOfAccountsCode", chartOfAccountsCode);
+        crit.addEqualTo("accountNumber", accountNumber);
+        crit.addEqualTo("subAccountNumber", subAccountNumber);
 
-    QueryByCriteria qbc = QueryFactory.newQuery(A21SubAccount.class,crit);
-    return (A21SubAccount)getPersistenceBrokerTemplate().getObjectByQuery(qbc);
-  }
+        QueryByCriteria qbc = QueryFactory.newQuery(A21SubAccount.class, crit);
+        return (A21SubAccount) getPersistenceBrokerTemplate().getObjectByQuery(qbc);
+    }
 }

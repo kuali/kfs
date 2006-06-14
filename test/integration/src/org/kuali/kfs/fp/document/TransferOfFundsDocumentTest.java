@@ -44,8 +44,7 @@ import edu.iu.uis.eden.clientapp.vo.NetworkIdVO;
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public class TransferOfFundsDocumentTest extends TransactionalDocumentTestBase {
-    public static final String COLLECTION_NAME = 
-        "TransferOfFundsDocumentTest.collection1";
+    public static final String COLLECTION_NAME = "TransferOfFundsDocumentTest.collection1";
     public static final String USER_NAME = "user1";
     public static final String DOCUMENT_PARAMETER = "documentParameter5";
 
@@ -54,16 +53,15 @@ public class TransferOfFundsDocumentTest extends TransactionalDocumentTestBase {
     private static final String USER_APPROVE2 = "user_accountSet2";
 
     // The set of Route Nodes that the test document will progress through
-    
-	private static final String ADHOC = "Adhoc Routing";
-	private static final String ACCOUNT_REVIEW = "Account Review";
-	private static final String ORG_REVIEW = "Org Review";
-	private static final String SUB_FUND = "Sub Fund";
 
-    
-    private static final String[] FIXTURE_COLLECTION_NAMES =
-        { COLLECTION_NAME };
-    
+    private static final String ADHOC = "Adhoc Routing";
+    private static final String ACCOUNT_REVIEW = "Account Review";
+    private static final String ORG_REVIEW = "Org Review";
+    private static final String SUB_FUND = "Sub Fund";
+
+
+    private static final String[] FIXTURE_COLLECTION_NAMES = { COLLECTION_NAME };
+
     // AccountingLineParameter fixture members
     private AccountingLineParameter _sourceLine1;
     private AccountingLineParameter _sourceLine2;
@@ -72,58 +70,51 @@ public class TransferOfFundsDocumentTest extends TransactionalDocumentTestBase {
     private AccountingLineParameter _targetLine2;
     private AccountingLineParameter _targetLine3;
 
-    ///////////////////////////////////////////////////////////////////////////
-    // Fixture Methods Start Here                                            //
-    ///////////////////////////////////////////////////////////////////////////
+    // /////////////////////////////////////////////////////////////////////////
+    // Fixture Methods Start Here //
+    // /////////////////////////////////////////////////////////////////////////
     public String[] getFixtureCollectionNames() {
         return FIXTURE_COLLECTION_NAMES;
     }
-    
+
     /**
-     * Fixture method to obtain a <code>@{link SourceAccountingLine}</code> 
-     * instance that is for a different account than the current user belongs 
-     * to.
+     * Fixture method to obtain a <code>@{link SourceAccountingLine}</code> instance that is for a different account than the current user belongs to.
      * 
      * @return SourceAccountingLine
      */
     protected SourceAccountingLine getSourceAccountingLineDifferentAccount() {
-        return ( SourceAccountingLine )getSourceLine1().createLine();
+        return (SourceAccountingLine) getSourceLine1().createLine();
     }
 
     /**
-     * Fixture method to obtain a <code>@{link TargetAccountingLine}</code> 
-     * instance that is for a different account than the current user belongs 
-     * to.
+     * Fixture method to obtain a <code>@{link TargetAccountingLine}</code> instance that is for a different account than the current user belongs to.
      * 
      * @return TargetAccountingLine
      */
     protected TargetAccountingLine getTargetAccountingLineDifferentAccount() {
-        return ( TargetAccountingLine )getTargetLine1().createLine();
+        return (TargetAccountingLine) getTargetLine1().createLine();
     }
 
     /**
-     * Accessor method for sourceLine1 
-     * <code>{@link AccountingLineParameter}</code> fixture.
+     * Accessor method for sourceLine1 <code>{@link AccountingLineParameter}</code> fixture.
      * 
      * @return AccountingLineParameter fixture to get
      */
     public AccountingLineParameter getSourceLine1() {
         return _sourceLine1;
     }
-    
+
     /**
-     * Accessor method for sourceLine1 
-     * <code>{@link AccountingLineParameter}</code> fixture.
+     * Accessor method for sourceLine1 <code>{@link AccountingLineParameter}</code> fixture.
      * 
      * @param AccountingLineParameter fixture to set
      */
-    public void setSourceLine1( AccountingLineParameter p ) {
+    public void setSourceLine1(AccountingLineParameter p) {
         _sourceLine1 = p;
     }
 
     /**
-     * Accessor method for sourceLine2 
-     * <code>{@link AccountingLineParameter}</code> fixture.
+     * Accessor method for sourceLine2 <code>{@link AccountingLineParameter}</code> fixture.
      * 
      * @return AccountingLineParameter fixture to get
      */
@@ -132,18 +123,16 @@ public class TransferOfFundsDocumentTest extends TransactionalDocumentTestBase {
     }
 
     /**
-     * Accessor method for sourceLine2 
-     * <code>{@link AccountingLineParameter}</code> fixture.
+     * Accessor method for sourceLine2 <code>{@link AccountingLineParameter}</code> fixture.
      * 
      * @param AccountingLineParameter fixture to set
      */
-    public void setSourceLine2( AccountingLineParameter p ) {
+    public void setSourceLine2(AccountingLineParameter p) {
         _sourceLine2 = p;
     }
 
     /**
-     * Accessor method for sourceLine3 
-     * <code>{@link AccountingLineParameter}</code> fixture.
+     * Accessor method for sourceLine3 <code>{@link AccountingLineParameter}</code> fixture.
      * 
      * @return AccountingLineParameter fixture to get
      */
@@ -152,18 +141,16 @@ public class TransferOfFundsDocumentTest extends TransactionalDocumentTestBase {
     }
 
     /**
-     * Accessor method for sourceLine3
-     * <code>{@link AccountingLineParameter}</code> fixture.
+     * Accessor method for sourceLine3 <code>{@link AccountingLineParameter}</code> fixture.
      * 
      * @param AccountingLineParameter fixture to set
      */
-    public void setSourceLine3( AccountingLineParameter p ) {
+    public void setSourceLine3(AccountingLineParameter p) {
         _sourceLine3 = p;
     }
 
     /**
-     * Accessor method for targetLine1 
-     * <code>{@link AccountingLineParameter}</code> fixture.
+     * Accessor method for targetLine1 <code>{@link AccountingLineParameter}</code> fixture.
      * 
      * @return AccountingLineParameter fixture to get
      */
@@ -172,18 +159,16 @@ public class TransferOfFundsDocumentTest extends TransactionalDocumentTestBase {
     }
 
     /**
-     * Accessor method for targetLine1 
-     * <code>{@link AccountingLineParameter}</code> fixture.
+     * Accessor method for targetLine1 <code>{@link AccountingLineParameter}</code> fixture.
      * 
      * @param AccountingLineParameter fixture to set
      */
-    public void setTargetLine1( AccountingLineParameter p ) {
+    public void setTargetLine1(AccountingLineParameter p) {
         _targetLine1 = p;
     }
 
     /**
-     * Accessor method for targetLine2 
-     * <code>{@link AccountingLineParameter}</code> fixture.
+     * Accessor method for targetLine2 <code>{@link AccountingLineParameter}</code> fixture.
      * 
      * @return AccountingLineParameter fixture to get
      */
@@ -192,18 +177,16 @@ public class TransferOfFundsDocumentTest extends TransactionalDocumentTestBase {
     }
 
     /**
-     * Accessor method for targetLine2 
-     * <code>{@link AccountingLineParameter}</code> fixture.
+     * Accessor method for targetLine2 <code>{@link AccountingLineParameter}</code> fixture.
      * 
      * @param AccountingLineParameter fixture to set
      */
-    public void setTargetLine2( AccountingLineParameter p ) {
+    public void setTargetLine2(AccountingLineParameter p) {
         _targetLine2 = p;
     }
 
     /**
-     * Accessor method for targetLine3 
-     * <code>{@link AccountingLineParameter}</code> fixture.
+     * Accessor method for targetLine3 <code>{@link AccountingLineParameter}</code> fixture.
      * 
      * @return AccountingLineParameter fixture to get
      */
@@ -212,12 +195,11 @@ public class TransferOfFundsDocumentTest extends TransactionalDocumentTestBase {
     }
 
     /**
-     * Accessor method for targetLine3 
-     * <code>{@link AccountingLineParameter}</code> fixture.
+     * Accessor method for targetLine3 <code>{@link AccountingLineParameter}</code> fixture.
      * 
      * @param AccountingLineParameter fixture to set
      */
-    public void setTargetLine3( AccountingLineParameter p ) {
+    public void setTargetLine3(AccountingLineParameter p) {
         _targetLine3 = p;
     }
 
@@ -226,9 +208,7 @@ public class TransferOfFundsDocumentTest extends TransactionalDocumentTestBase {
      * @see org.kuali.core.document.DocumentTestBase#getDocumentParameterFixture()
      */
     public DocumentParameter getDocumentParameterFixture() {
-        return ( TransactionalDocumentParameter )
-            getFixtureEntryFromCollection(COLLECTION_NAME,
-                                          DOCUMENT_PARAMETER).createObject();
+        return (TransactionalDocumentParameter) getFixtureEntryFromCollection(COLLECTION_NAME, DOCUMENT_PARAMETER).createObject();
     }
 
     /**
@@ -237,7 +217,7 @@ public class TransferOfFundsDocumentTest extends TransactionalDocumentTestBase {
      */
     public List getTargetAccountingLineParametersFromFixtures() {
         ArrayList list = new ArrayList();
-        list.add( getTargetLine1() );
+        list.add(getTargetLine1());
         // list.add( getTargetLine2() );
         // list.add( getTargetLine3() );
         return list;
@@ -249,15 +229,15 @@ public class TransferOfFundsDocumentTest extends TransactionalDocumentTestBase {
      */
     public List getSourceAccountingLineParametersFromFixtures() {
         ArrayList list = new ArrayList();
-        list.add( getSourceLine1() );
+        list.add(getSourceLine1());
         // list.add( getSourceLine2() );
         // list.add( getSourceLine3() );
         return list;
     }
-    
+
     /**
      * User name fixture to be used for this test.
-     *
+     * 
      * @param String name of user to use.
      */
     protected String getTestUserName() {
@@ -269,47 +249,46 @@ public class TransferOfFundsDocumentTest extends TransactionalDocumentTestBase {
      * @see org.kuali.core.document.TransactionalDocumentTestBase#getUserName()
      */
     public String getUserName() {
-        return ( String ) 
-            getFixtureEntryFromCollection( COLLECTION_NAME, 
-                                           USER_NAME ).createObject();
+        return (String) getFixtureEntryFromCollection(COLLECTION_NAME, USER_NAME).createObject();
     }
-    ///////////////////////////////////////////////////////////////////////////
-    // Fixture Methods End Here                                              //
-    ///////////////////////////////////////////////////////////////////////////
+
+    // /////////////////////////////////////////////////////////////////////////
+    // Fixture Methods End Here //
+    // /////////////////////////////////////////////////////////////////////////
 
     public void testWorkflowRouting() throws Exception {
-    	NetworkIdVO VPUTMAN = new NetworkIdVO("VPUTMAN");
-    	NetworkIdVO RORENFRO = new NetworkIdVO("RORENFRO");
-    	NetworkIdVO CSWINSON = new NetworkIdVO("CSWINSON");
-    	NetworkIdVO RRUFFNER = new NetworkIdVO("RRUFFNER");
-    	NetworkIdVO SEASON = new NetworkIdVO("SEASON");
-    	
-    	// save and route the document
+        NetworkIdVO VPUTMAN = new NetworkIdVO("VPUTMAN");
+        NetworkIdVO RORENFRO = new NetworkIdVO("RORENFRO");
+        NetworkIdVO CSWINSON = new NetworkIdVO("CSWINSON");
+        NetworkIdVO RRUFFNER = new NetworkIdVO("RRUFFNER");
+        NetworkIdVO SEASON = new NetworkIdVO("SEASON");
+
+        // save and route the document
         Document document = buildDocument();
         routeDocument(document);
 
         WorkflowTestUtils.waitForNodeChange(document.getDocumentHeader().getWorkflowDocument(), ACCOUNT_REVIEW);
-        
+
         // the document should now be routed to VPUTMAN and RORENFRO as Fiscal Officers
         KualiWorkflowDocument wfDoc = WorkflowTestUtils.refreshDocument(document, VPUTMAN);
         assertTrue("At incorrect node.", WorkflowTestUtils.isAtNode(document, ACCOUNT_REVIEW));
         assertTrue("Document should be enroute.", wfDoc.stateIsEnroute());
         assertTrue("VPUTMAN should have an approve request.", wfDoc.isApprovalRequested());
         getDocumentService().approveDocument(document, "Test approving as VPUTMAN", null);
-        
+
         WorkflowTestUtils.waitForApproveRequest(wfDoc, RORENFRO.getNetworkId());
         wfDoc = WorkflowTestUtils.refreshDocument(document, RORENFRO);
         assertTrue("RORENFRO should have an approve request.", wfDoc.isApprovalRequested());
         getDocumentService().approveDocument(document, "Test approving as RORENFRO", null);
-        
+
         WorkflowTestUtils.waitForNodeChange(document.getDocumentHeader().getWorkflowDocument(), ORG_REVIEW);
-        
+
         // now doc should be in Org Review routing to CSWINSON, RRUFFNER, and SEASON
         wfDoc = WorkflowTestUtils.refreshDocument(document, CSWINSON);
         assertTrue("At incorrect node.", WorkflowTestUtils.isAtNode(document, ORG_REVIEW));
         assertTrue("CSWINSON should have an approve request.", wfDoc.isApprovalRequested());
         getDocumentService().approveDocument(document, "Test approving as CSWINSON", null);
-        
+
         WorkflowTestUtils.waitForApproveRequest(wfDoc, RRUFFNER.getNetworkId());
         wfDoc = WorkflowTestUtils.refreshDocument(document, RRUFFNER);
         assertTrue("RRUFFNER should have an approve request.", wfDoc.isApprovalRequested());
@@ -320,11 +299,11 @@ public class TransferOfFundsDocumentTest extends TransactionalDocumentTestBase {
         assertTrue("SEASON should have an approve request.", wfDoc.isApprovalRequested());
         getDocumentService().approveDocument(document, "Test approving as SEASON", null);
 
-        
-        // TODO once the sub fund node has been added, add code here to test it... 
-                
+
+        // TODO once the sub fund node has been added, add code here to test it...
+
         WorkflowTestUtils.waitForStatusChange(wfDoc, EdenConstants.ROUTE_HEADER_FINAL_CD);
-        
+
         wfDoc = WorkflowTestUtils.refreshDocument(document, VPUTMAN);
         assertTrue("Document should now be final.", wfDoc.stateIsFinal());
     }

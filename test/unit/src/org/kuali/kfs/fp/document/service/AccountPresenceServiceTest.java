@@ -30,6 +30,7 @@ import org.kuali.test.KualiTestBaseWithFixtures;
 
 /**
  * This class tests the AccountPresenceService.
+ * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class AccountPresenceServiceTest extends KualiTestBaseWithFixtures {
@@ -46,41 +47,42 @@ public class AccountPresenceServiceTest extends KualiTestBaseWithFixtures {
 
     /**
      * Tests non budgeted object code for account with presence control fails service method.
+     * 
      * @throws Exception
      */
     public void testAccountPresenceNonBudgetedObject() throws Exception {
-        assertFalse("Non budgeded object code passed ", accountPresenceService.isObjectCodeBudgetedForAccountPresence(getAccountWithPresenceControl(),
-                getNonBudgetedObjectCode()));
+        assertFalse("Non budgeded object code passed ", accountPresenceService.isObjectCodeBudgetedForAccountPresence(getAccountWithPresenceControl(), getNonBudgetedObjectCode()));
 
     }
-    
-    /**
-     * Tests budgeted object code for account with presence control passes service method.
-     * @throws Exception
-     */
-//    public void testAccountPresenceBudgetedObject() throws Exception {
-//        assertTrue("Budgeted object code failed ", accountPresenceService.isObjectCodeBudgetedForAccountPresence(getAccountWithPresenceControl(),
-//                getBudgetedObjectCode()));
-//
-//    }
 
     /**
+     * Tests budgeted object code for account with presence control passes service method.
+     * 
+     * @throws Exception
+     */
+    // public void testAccountPresenceBudgetedObject() throws Exception {
+    // assertTrue("Budgeted object code failed ",
+    // accountPresenceService.isObjectCodeBudgetedForAccountPresence(getAccountWithPresenceControl(),
+    // getBudgetedObjectCode()));
+    //
+    // }
+    /**
      * Tests non budgeted object code passes for account without presence control.
+     * 
      * @throws Exception
      */
     public void testAccountNonPresenceNonBudgetedObject() throws Exception {
-        assertTrue("non budgeted object code failed on account without presence control ", accountPresenceService.isObjectCodeBudgetedForAccountPresence(getAccountWithoutPresenceControl(),
-                getNonBudgetedObjectCode()));
+        assertTrue("non budgeted object code failed on account without presence control ", accountPresenceService.isObjectCodeBudgetedForAccountPresence(getAccountWithoutPresenceControl(), getNonBudgetedObjectCode()));
 
     }
-    
+
     /**
      * Tests budgeted object code passes for account without presence control.
+     * 
      * @throws Exception
      */
     public void testAccountNonPresenceBudgetedObject() throws Exception {
-        assertTrue("budgeted object code failed on account without presence control ", accountPresenceService.isObjectCodeBudgetedForAccountPresence(getAccountWithoutPresenceControl(),
-                getBudgetedObjectCode()));
+        assertTrue("budgeted object code failed on account without presence control ", accountPresenceService.isObjectCodeBudgetedForAccountPresence(getAccountWithoutPresenceControl(), getBudgetedObjectCode()));
 
     }
 

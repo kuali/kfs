@@ -17,57 +17,57 @@ import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 /**
  * @author jsissom
- *
+ * 
  */
 public class ReversalDaoOjb extends PersistenceBrokerDaoSupport implements ReversalDao {
-  private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ReversalDaoOjb.class);
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ReversalDaoOjb.class);
 
-  public ReversalDaoOjb() {
-    super();
-  }
+    public ReversalDaoOjb() {
+        super();
+    }
 
-  public Reversal getByTransaction(Transaction t) {
-    LOG.debug("getByTransaction() started");
+    public Reversal getByTransaction(Transaction t) {
+        LOG.debug("getByTransaction() started");
 
-    Criteria crit = new Criteria();
-    crit.addEqualTo("financialDocumentReversalDate",t.getFinancialDocumentReversalDate());
-    crit.addEqualTo("universityFiscalYear",t.getUniversityFiscalYear());
-    crit.addEqualTo("chartOfAccountsCode",t.getChartOfAccountsCode());
-    crit.addEqualTo("accountNumber",t.getAccountNumber());
-    crit.addEqualTo("subAccountNumber",t.getSubAccountNumber());
-    crit.addEqualTo("financialObjectCode",t.getFinancialObjectCode());
-    crit.addEqualTo("financialSubObjectCode",t.getFinancialSubObjectCode());
-    crit.addEqualTo("financialBalanceTypeCode",t.getFinancialBalanceTypeCode());
-    crit.addEqualTo("financialObjectTypeCode",t.getFinancialObjectTypeCode());
-    crit.addEqualTo("universityFiscalPeriodCode",t.getUniversityFiscalPeriodCode());
-    crit.addEqualTo("financialDocumentTypeCode",t.getFinancialDocumentTypeCode());
-    crit.addEqualTo("financialSystemOriginationCode",t.getFinancialSystemOriginationCode());
-    crit.addEqualTo("financialDocumentNumber",t.getFinancialDocumentNumber());
-    crit.addEqualTo("transactionLedgerEntrySequenceNumber",t.getTransactionLedgerEntrySequenceNumber());
+        Criteria crit = new Criteria();
+        crit.addEqualTo("financialDocumentReversalDate", t.getFinancialDocumentReversalDate());
+        crit.addEqualTo("universityFiscalYear", t.getUniversityFiscalYear());
+        crit.addEqualTo("chartOfAccountsCode", t.getChartOfAccountsCode());
+        crit.addEqualTo("accountNumber", t.getAccountNumber());
+        crit.addEqualTo("subAccountNumber", t.getSubAccountNumber());
+        crit.addEqualTo("financialObjectCode", t.getFinancialObjectCode());
+        crit.addEqualTo("financialSubObjectCode", t.getFinancialSubObjectCode());
+        crit.addEqualTo("financialBalanceTypeCode", t.getFinancialBalanceTypeCode());
+        crit.addEqualTo("financialObjectTypeCode", t.getFinancialObjectTypeCode());
+        crit.addEqualTo("universityFiscalPeriodCode", t.getUniversityFiscalPeriodCode());
+        crit.addEqualTo("financialDocumentTypeCode", t.getFinancialDocumentTypeCode());
+        crit.addEqualTo("financialSystemOriginationCode", t.getFinancialSystemOriginationCode());
+        crit.addEqualTo("financialDocumentNumber", t.getFinancialDocumentNumber());
+        crit.addEqualTo("transactionLedgerEntrySequenceNumber", t.getTransactionLedgerEntrySequenceNumber());
 
-    QueryByCriteria qbc = QueryFactory.newQuery(Reversal.class,crit);
-    return (Reversal)getPersistenceBrokerTemplate().getObjectByQuery(qbc);
-  }
+        QueryByCriteria qbc = QueryFactory.newQuery(Reversal.class, crit);
+        return (Reversal) getPersistenceBrokerTemplate().getObjectByQuery(qbc);
+    }
 
-  public void save(Reversal re) {
-    LOG.debug("save() started");
+    public void save(Reversal re) {
+        LOG.debug("save() started");
 
-    getPersistenceBrokerTemplate().store(re);
-  }
+        getPersistenceBrokerTemplate().store(re);
+    }
 
-  public Iterator getByDate(Date before) {
-    LOG.debug("getByDate() started");
+    public Iterator getByDate(Date before) {
+        LOG.debug("getByDate() started");
 
-    Criteria crit = new Criteria();
-    crit.addLessOrEqualThan("financialDocumentReversalDate",new java.sql.Date(before.getTime()));
+        Criteria crit = new Criteria();
+        crit.addLessOrEqualThan("financialDocumentReversalDate", new java.sql.Date(before.getTime()));
 
-    QueryByCriteria qbc = QueryFactory.newQuery(Reversal.class,crit);
-    return getPersistenceBrokerTemplate().getIteratorByQuery(qbc);    
-  }
+        QueryByCriteria qbc = QueryFactory.newQuery(Reversal.class, crit);
+        return getPersistenceBrokerTemplate().getIteratorByQuery(qbc);
+    }
 
-  public void delete(Reversal re) {
-    LOG.debug("delete() started");
+    public void delete(Reversal re) {
+        LOG.debug("delete() started");
 
-    getPersistenceBrokerTemplate().delete(re);
-  }
+        getPersistenceBrokerTemplate().delete(re);
+    }
 }

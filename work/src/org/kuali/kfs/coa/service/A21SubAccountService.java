@@ -30,5 +30,5 @@ import org.kuali.module.chart.bo.A21SubAccount;
  */
 
 public interface A21SubAccountService {
-    public A21SubAccount getByPrimaryKey(String chartOfAccountsCode,String accountNumber,String subAccountNumber);
+    public A21SubAccount getByPrimaryKey(String chartOfAccountsCode, String accountNumber, String subAccountNumber);
 }

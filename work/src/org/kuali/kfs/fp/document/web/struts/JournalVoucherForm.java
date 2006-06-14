@@ -66,7 +66,7 @@ public class JournalVoucherForm extends VoucherForm {
 
     /**
      * Overrides the parent to call super.populate and then to call the two methods that are specific to loading the two select
-     * lists on the page.  In addition, this also makes sure that the credit and debit amounts are filled in for situations where 
+     * lists on the page. In addition, this also makes sure that the credit and debit amounts are filled in for situations where
      * validation errors occur and the page reposts.
      * 
      * @see org.kuali.core.web.struts.pojo.PojoForm#populate(javax.servlet.http.HttpServletRequest)
@@ -93,13 +93,13 @@ public class JournalVoucherForm extends VoucherForm {
         if (StringUtils.isNotBlank(selectedAccountingPeriod)) {
             Integer postingYear = new Integer(StringUtils.right(selectedAccountingPeriod, 4));
             sourceLine.setPostingYear(postingYear);
-            
-            if(ObjectUtils.isNull(sourceLine.getObjectCode())) {
+
+            if (ObjectUtils.isNull(sourceLine.getObjectCode())) {
                 sourceLine.setObjectCode(new ObjectCode());
             }
             sourceLine.getObjectCode().setUniversityFiscalYear(postingYear);
-            
-            if(ObjectUtils.isNull(sourceLine.getSubObjectCode())) {
+
+            if (ObjectUtils.isNull(sourceLine.getSubObjectCode())) {
                 sourceLine.setSubObjectCode(new SubObjCd());
             }
             sourceLine.getSubObjectCode().setUniversityFiscalYear(postingYear);
@@ -114,8 +114,7 @@ public class JournalVoucherForm extends VoucherForm {
 
             // set the encumbrance update code appropriately
             if (Constants.BALANCE_TYPE_EXTERNAL_ENCUMBRANCE.equals(selectedBalanceType.getCode())) {
-                sourceLine
-                        .setEncumbranceUpdateCode(Constants.JOURNAL_VOUCHER_ENCUMBRANCE_UPDATE_CODE_BALANCE_TYPE_EXTERNAL_ENCUMBRANCE);
+                sourceLine.setEncumbranceUpdateCode(Constants.JOURNAL_VOUCHER_ENCUMBRANCE_UPDATE_CODE_BALANCE_TYPE_EXTERNAL_ENCUMBRANCE);
             }
             else {
                 sourceLine.setEncumbranceUpdateCode(null);
@@ -246,19 +245,18 @@ public class JournalVoucherForm extends VoucherForm {
         BalanceTypService bts = SpringServiceLocator.getBalanceTypService();
         return bts.getBalanceTypByCode(balanceTypeCode);
     }
-    
+
     /**
-     * If the balance type is an offset generation balance type, then the user is able to enter the amount
-     * as either a debit or a credit, otherwise, they only need to deal with the amount field
-     * in this case we always need to update the underlying bo so that the debit/credit code along with 
-     * the amount, is properly set.
+     * If the balance type is an offset generation balance type, then the user is able to enter the amount as either a debit or a
+     * credit, otherwise, they only need to deal with the amount field in this case we always need to update the underlying bo so
+     * that the debit/credit code along with the amount, is properly set.
      */
     protected void populateCreditAndDebitAmounts() {
         if (isSelectedBalanceTypeFinancialOffsetGenerationIndicator()) {
             super.populateCreditAndDebitAmounts();
         }
     }
-    
+
     /**
      * This is a convenience helper method that is used several times throughout this action class to determine if the selected
      * balance type contained within the form instance is a financial offset generation balance type or not.
@@ -267,5 +265,5 @@ public class JournalVoucherForm extends VoucherForm {
      */
     private boolean isSelectedBalanceTypeFinancialOffsetGenerationIndicator() {
         return getPopulatedBalanceTypeInstance(getSelectedBalanceType().getCode()).isFinancialOffsetGenerationIndicator();
-    }    
+    }
 }

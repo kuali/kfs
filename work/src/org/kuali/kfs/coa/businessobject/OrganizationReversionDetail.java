@@ -35,214 +35,215 @@ import org.kuali.core.bo.user.Options;
  */
 public class OrganizationReversionDetail extends BusinessObjectBase {
 
-	private Integer universityFiscalYear;
-	private String chartOfAccountsCode;
-	private String organizationCode;
-	private String organizationReversionCategoryCode;
-	private String organizationReversionCode;
-	private String organizationReversionObjectCode;
-    
-	private ObjectCode organizationReversionObject;
-	private Org organization;
-	private Chart chartOfAccounts;
-	private OrganizationReversionCategory organizationReversionCategory;
+    private Integer universityFiscalYear;
+    private String chartOfAccountsCode;
+    private String organizationCode;
+    private String organizationReversionCategoryCode;
+    private String organizationReversionCode;
+    private String organizationReversionObjectCode;
+
+    private ObjectCode organizationReversionObject;
+    private Org organization;
+    private Chart chartOfAccounts;
+    private OrganizationReversionCategory organizationReversionCategory;
     private Options universityFiscal;
 
-	/**
-	 * Default constructor.
-	 */
-	public OrganizationReversionDetail() {
+    /**
+     * Default constructor.
+     */
+    public OrganizationReversionDetail() {
 
-	}
+    }
 
-	/**
-	 * Gets the universityFiscalYear attribute.
-	 * 
-	 * @return - Returns the universityFiscalYear
-	 * 
-	 */
-	public Integer getUniversityFiscalYear() { 
-		return universityFiscalYear;
-	}
+    /**
+     * Gets the universityFiscalYear attribute.
+     * 
+     * @return - Returns the universityFiscalYear
+     * 
+     */
+    public Integer getUniversityFiscalYear() {
+        return universityFiscalYear;
+    }
 
-	/**
-	 * Sets the universityFiscalYear attribute.
-	 * 
-	 * @param - universityFiscalYear The universityFiscalYear to set.
-	 * 
-	 */
-	public void setUniversityFiscalYear(Integer universityFiscalYear) {
-		this.universityFiscalYear = universityFiscalYear;
-	}
-
-
-	/**
-	 * Gets the chartOfAccountsCode attribute.
-	 * 
-	 * @return - Returns the chartOfAccountsCode
-	 * 
-	 */
-	public String getChartOfAccountsCode() { 
-		return chartOfAccountsCode;
-	}
-
-	/**
-	 * Sets the chartOfAccountsCode attribute.
-	 * 
-	 * @param - chartOfAccountsCode The chartOfAccountsCode to set.
-	 * 
-	 */
-	public void setChartOfAccountsCode(String chartOfAccountsCode) {
-		this.chartOfAccountsCode = chartOfAccountsCode;
-	}
+    /**
+     * Sets the universityFiscalYear attribute.
+     * 
+     * @param - universityFiscalYear The universityFiscalYear to set.
+     * 
+     */
+    public void setUniversityFiscalYear(Integer universityFiscalYear) {
+        this.universityFiscalYear = universityFiscalYear;
+    }
 
 
-	/**
-	 * Gets the organizationCode attribute.
-	 * 
-	 * @return - Returns the organizationCode
-	 * 
-	 */
-	public String getOrganizationCode() { 
-		return organizationCode;
-	}
+    /**
+     * Gets the chartOfAccountsCode attribute.
+     * 
+     * @return - Returns the chartOfAccountsCode
+     * 
+     */
+    public String getChartOfAccountsCode() {
+        return chartOfAccountsCode;
+    }
 
-	/**
-	 * Sets the organizationCode attribute.
-	 * 
-	 * @param - organizationCode The organizationCode to set.
-	 * 
-	 */
-	public void setOrganizationCode(String organizationCode) {
-		this.organizationCode = organizationCode;
-	}
-
-
-	/**
-	 * Gets the organizationReversionCategoryCode attribute.
-	 * 
-	 * @return - Returns the organizationReversionCategoryCode
-	 * 
-	 */
-	public String getOrganizationReversionCategoryCode() { 
-		return organizationReversionCategoryCode;
-	}
-
-	/**
-	 * Sets the organizationReversionCategoryCode attribute.
-	 * 
-	 * @param - organizationReversionCategoryCode The organizationReversionCategoryCode to set.
-	 * 
-	 */
-	public void setOrganizationReversionCategoryCode(String organizationReversionCategoryCode) {
-		this.organizationReversionCategoryCode = organizationReversionCategoryCode;
-	}
+    /**
+     * Sets the chartOfAccountsCode attribute.
+     * 
+     * @param - chartOfAccountsCode The chartOfAccountsCode to set.
+     * 
+     */
+    public void setChartOfAccountsCode(String chartOfAccountsCode) {
+        this.chartOfAccountsCode = chartOfAccountsCode;
+    }
 
 
-	/**
-	 * Gets the organizationReversionCode attribute.
-	 * 
-	 * @return - Returns the organizationReversionCode
-	 * 
-	 */
-	public String getOrganizationReversionCode() { 
-		return organizationReversionCode;
-	}
+    /**
+     * Gets the organizationCode attribute.
+     * 
+     * @return - Returns the organizationCode
+     * 
+     */
+    public String getOrganizationCode() {
+        return organizationCode;
+    }
 
-	/**
-	 * Sets the organizationReversionCode attribute.
-	 * 
-	 * @param - organizationReversionCode The organizationReversionCode to set.
-	 * 
-	 */
-	public void setOrganizationReversionCode(String organizationReversionCode) {
-		this.organizationReversionCode = organizationReversionCode;
-	}
-
-
-	/**
-	 * Gets the organizationReversionObjectCode attribute.
-	 * 
-	 * @return - Returns the organizationReversionObjectCode
-	 * 
-	 */
-	public String getOrganizationReversionObjectCode() { 
-		return organizationReversionObjectCode;
-	}
-
-	/**
-	 * Sets the organizationReversionObjectCode attribute.
-	 * 
-	 * @param - organizationReversionObjectCode The organizationReversionObjectCode to set.
-	 * 
-	 */
-	public void setOrganizationReversionObjectCode(String organizationReversionObjectCode) {
-		this.organizationReversionObjectCode = organizationReversionObjectCode;
-	}
+    /**
+     * Sets the organizationCode attribute.
+     * 
+     * @param - organizationCode The organizationCode to set.
+     * 
+     */
+    public void setOrganizationCode(String organizationCode) {
+        this.organizationCode = organizationCode;
+    }
 
 
-	/**
-	 * Gets the organizationReversionObject attribute.
-	 * 
-	 * @return - Returns the organizationReversionObject
-	 * 
-	 */
-	public ObjectCode getOrganizationReversionObject() { 
-		return organizationReversionObject;
-	}
+    /**
+     * Gets the organizationReversionCategoryCode attribute.
+     * 
+     * @return - Returns the organizationReversionCategoryCode
+     * 
+     */
+    public String getOrganizationReversionCategoryCode() {
+        return organizationReversionCategoryCode;
+    }
 
-	/**
-	 * Sets the organizationReversionObject attribute.
-	 * 
-	 * @param - organizationReversionObject The organizationReversionObject to set.
-	 * @deprecated
-	 */
-	public void setOrganizationReversionObject(ObjectCode organizationReversionObject) {
-		this.organizationReversionObject = organizationReversionObject;
-	}
+    /**
+     * Sets the organizationReversionCategoryCode attribute.
+     * 
+     * @param - organizationReversionCategoryCode The organizationReversionCategoryCode to set.
+     * 
+     */
+    public void setOrganizationReversionCategoryCode(String organizationReversionCategoryCode) {
+        this.organizationReversionCategoryCode = organizationReversionCategoryCode;
+    }
 
-	/**
-	 * Gets the organization attribute.
-	 * 
-	 * @return - Returns the organization
-	 * 
-	 */
-	public Org getOrganization() { 
-		return organization;
-	}
 
-	/**
-	 * Sets the organization attribute.
-	 * 
-	 * @param - organization The organization to set.
-	 * @deprecated
-	 */
-	public void setOrganization(Org organization) {
-		this.organization = organization;
-	}
+    /**
+     * Gets the organizationReversionCode attribute.
+     * 
+     * @return - Returns the organizationReversionCode
+     * 
+     */
+    public String getOrganizationReversionCode() {
+        return organizationReversionCode;
+    }
 
-	/**
-	 * Gets the chartOfAccounts attribute.
-	 * 
-	 * @return - Returns the chartOfAccounts
-	 * 
-	 */
-	public Chart getChartOfAccounts() { 
-		return chartOfAccounts;
-	}
+    /**
+     * Sets the organizationReversionCode attribute.
+     * 
+     * @param - organizationReversionCode The organizationReversionCode to set.
+     * 
+     */
+    public void setOrganizationReversionCode(String organizationReversionCode) {
+        this.organizationReversionCode = organizationReversionCode;
+    }
 
-	/**
-	 * Sets the chartOfAccounts attribute.
-	 * 
-	 * @param - chartOfAccounts The chartOfAccounts to set.
-	 * @deprecated
-	 */
-	public void setChartOfAccounts(Chart chartOfAccounts) {
-		this.chartOfAccounts = chartOfAccounts;
-	}
 
-	/**
-     * Gets the organizationReversionCategory attribute. 
+    /**
+     * Gets the organizationReversionObjectCode attribute.
+     * 
+     * @return - Returns the organizationReversionObjectCode
+     * 
+     */
+    public String getOrganizationReversionObjectCode() {
+        return organizationReversionObjectCode;
+    }
+
+    /**
+     * Sets the organizationReversionObjectCode attribute.
+     * 
+     * @param - organizationReversionObjectCode The organizationReversionObjectCode to set.
+     * 
+     */
+    public void setOrganizationReversionObjectCode(String organizationReversionObjectCode) {
+        this.organizationReversionObjectCode = organizationReversionObjectCode;
+    }
+
+
+    /**
+     * Gets the organizationReversionObject attribute.
+     * 
+     * @return - Returns the organizationReversionObject
+     * 
+     */
+    public ObjectCode getOrganizationReversionObject() {
+        return organizationReversionObject;
+    }
+
+    /**
+     * Sets the organizationReversionObject attribute.
+     * 
+     * @param - organizationReversionObject The organizationReversionObject to set.
+     * @deprecated
+     */
+    public void setOrganizationReversionObject(ObjectCode organizationReversionObject) {
+        this.organizationReversionObject = organizationReversionObject;
+    }
+
+    /**
+     * Gets the organization attribute.
+     * 
+     * @return - Returns the organization
+     * 
+     */
+    public Org getOrganization() {
+        return organization;
+    }
+
+    /**
+     * Sets the organization attribute.
+     * 
+     * @param - organization The organization to set.
+     * @deprecated
+     */
+    public void setOrganization(Org organization) {
+        this.organization = organization;
+    }
+
+    /**
+     * Gets the chartOfAccounts attribute.
+     * 
+     * @return - Returns the chartOfAccounts
+     * 
+     */
+    public Chart getChartOfAccounts() {
+        return chartOfAccounts;
+    }
+
+    /**
+     * Sets the chartOfAccounts attribute.
+     * 
+     * @param - chartOfAccounts The chartOfAccounts to set.
+     * @deprecated
+     */
+    public void setChartOfAccounts(Chart chartOfAccounts) {
+        this.chartOfAccounts = chartOfAccounts;
+    }
+
+    /**
+     * Gets the organizationReversionCategory attribute.
+     * 
      * @return Returns the organizationReversionCategory.
      */
     public OrganizationReversionCategory getOrganizationReversionCategory() {
@@ -251,6 +252,7 @@ public class OrganizationReversionDetail extends BusinessObjectBase {
 
     /**
      * Sets the organizationReversionCategory attribute value.
+     * 
      * @param organizationReversionCategory The organizationReversionCategory to set.
      */
     public void setOrganizationReversionCategory(OrganizationReversionCategory organizationReversionCategory) {
@@ -258,7 +260,8 @@ public class OrganizationReversionDetail extends BusinessObjectBase {
     }
 
     /**
-     * Gets the universityFiscal attribute. 
+     * Gets the universityFiscal attribute.
+     * 
      * @return Returns the universityFiscal.
      */
     public Options getUniversityFiscal() {
@@ -267,6 +270,7 @@ public class OrganizationReversionDetail extends BusinessObjectBase {
 
     /**
      * Sets the universityFiscal attribute value.
+     * 
      * @param universityFiscal The universityFiscal to set.
      */
     public void setUniversityFiscal(Options universityFiscal) {
@@ -274,10 +278,10 @@ public class OrganizationReversionDetail extends BusinessObjectBase {
     }
 
     /**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
-	    return m;
+     * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
+        return m;
     }
 }

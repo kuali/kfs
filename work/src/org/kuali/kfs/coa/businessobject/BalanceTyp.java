@@ -40,17 +40,18 @@ public class BalanceTyp extends KualiCodeBase {
      * Constructs a BalanceTyp.java.
      */
     public BalanceTyp() {
-        super.setActive(true);  //always active, plus no column in the table
+        super.setActive(true); // always active, plus no column in the table
     }
-    
+
     /**
      * 
      * @param typeCode
      */
     public BalanceTyp(String typeCode) {
-    	this();
-    	setCode(typeCode);
+        this();
+        setCode(typeCode);
     }
+
     /**
      * @return Returns the financialBalanceTypeName.
      */
@@ -63,9 +64,9 @@ public class BalanceTyp extends KualiCodeBase {
      * @param financialBalanceTypeName The financialBalanceTypeName to set.
      */
     public void setFinancialBalanceTypeName(String financialBalanceTypeName) {
-        this.setName(financialBalanceTypeName );
+        this.setName(financialBalanceTypeName);
     }
-    
+
     /**
      * @return Returns the financialBalanceTypeCode.
      */
@@ -78,7 +79,7 @@ public class BalanceTyp extends KualiCodeBase {
      * @param financialBalanceTypeCode The financialBalanceTypeCode to set.
      */
     public void setFinancialBalanceTypeCode(String financialBalanceTypeCode) {
-        this.setCode(financialBalanceTypeCode );
+        this.setCode(financialBalanceTypeCode);
     }
 
     /**

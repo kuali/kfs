@@ -24,31 +24,31 @@ package org.kuali.module.gl.service;
 
 /**
  * @author jsissom
- *
+ * 
  */
 public interface PosterService {
-  public static int MODE_ENTRIES = 1;
-  public static int MODE_REVERSAL = 2;
-  public static int MODE_ICR = 3;
+    public static int MODE_ENTRIES = 1;
+    public static int MODE_REVERSAL = 2;
+    public static int MODE_ICR = 3;
 
-  /**
-   * Post scrubbed GL entries to GL tables.
-   */
-  public void postMainEntries();
-  
-  /**
-   * Post reversal GL entries to GL tables.
-   */
-  public void postReversalEntries();
-  
-  /**
-   * Post ICR GL entries to GL tables.
-   */
-  public void postIcrEntries();
+    /**
+     * Post scrubbed GL entries to GL tables.
+     */
+    public void postMainEntries();
 
-  /**
-   * Generate ICR GL entries.
-   *
-   */
-  public void generateIcrTransactions();
+    /**
+     * Post reversal GL entries to GL tables.
+     */
+    public void postReversalEntries();
+
+    /**
+     * Post ICR GL entries to GL tables.
+     */
+    public void postIcrEntries();
+
+    /**
+     * Generate ICR GL entries.
+     * 
+     */
+    public void generateIcrTransactions();
 }

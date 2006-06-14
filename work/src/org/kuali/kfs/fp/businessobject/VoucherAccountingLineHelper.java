@@ -26,30 +26,34 @@ import org.kuali.core.util.KualiDecimal;
 
 /**
  * Interface to aid voucher documents for handling debit/credit amounts.
- *
+ * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public interface VoucherAccountingLineHelper {
     /**
      * This method retrieves the credit amount.
+     * 
      * @return
      */
     public KualiDecimal getCredit();
 
     /**
      * This method sets the credit amount.
+     * 
      * @param credit
      */
     public void setCredit(KualiDecimal credit);
 
     /**
      * This method retrieves the debit amount.
+     * 
      * @return
      */
     public KualiDecimal getDebit();
 
     /**
      * This method sets the debit amount.
+     * 
      * @param debit
      */
     public void setDebit(KualiDecimal debit);

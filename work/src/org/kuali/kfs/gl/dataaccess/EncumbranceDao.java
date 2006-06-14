@@ -29,7 +29,7 @@ import org.kuali.module.gl.bo.Transaction;
 
 /**
  * @author jsissom
- * @version $Id: EncumbranceDao.java,v 1.5 2006-05-09 12:16:59 bgao Exp $
+ * @version $Id: EncumbranceDao.java,v 1.6 2006-06-14 12:26:54 abyrne Exp $
  */
 public interface EncumbranceDao {
     public Encumbrance getEncumbranceByTransaction(Transaction t);
@@ -46,12 +46,11 @@ public interface EncumbranceDao {
     public Iterator getAllEncumbrances();
 
     /**
-     * group all encumbrances with/without the given document type code by fiscal year, chart,
-     * account, sub-account, object code, sub object code, and balance type code, and summarize the
-     * encumbrance amount and the encumbrance close amount.
+     * group all encumbrances with/without the given document type code by fiscal year, chart, account, sub-account, object code,
+     * sub object code, and balance type code, and summarize the encumbrance amount and the encumbrance close amount.
      * 
      * @param documentTypeCode the given document type code
-     * @param included indicate if all encumbrances with the given document type are included in the results or not 
+     * @param included indicate if all encumbrances with the given document type are included in the results or not
      */
     public Iterator getSummarizedEncumbrances(String documentTypeCode, boolean included);
 }

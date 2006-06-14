@@ -37,49 +37,53 @@ import org.springframework.orm.ojb.PersistenceBrokerTemplate;
 
 /**
  * This class is the OJB implementation of the ChartDao interface.
+ * 
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
-*/
+ */
 
 
 public class ChartDaoOjb extends PersistenceBrokerTemplate implements ChartDao {
-  private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ChartDaoOjb.class);
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ChartDaoOjb.class);
 
-  public ChartDaoOjb() {
-    super();
-  }
+    public ChartDaoOjb() {
+        super();
+    }
 
-  /* (non-Javadoc)
-   * @see edu.iu.uis.kuali.dao.ChartDao#getAll()
-   */
-  public Collection getAll() {
-    QueryByCriteria qbc = QueryFactory.newQuery(Chart.class, (Criteria)null);
-    qbc.addOrderByAscending("chartOfAccountsCode");
-    
-    return getCollectionByQuery(qbc);
-  }
-  
-   
-  public Chart getByPrimaryId(String chartOfAccountsCode) {
-      Criteria criteria = new Criteria();
-      criteria.addEqualTo("chartOfAccountsCode",chartOfAccountsCode);
+    /*
+     * (non-Javadoc)
+     * 
+     * @see edu.iu.uis.kuali.dao.ChartDao#getAll()
+     */
+    public Collection getAll() {
+        QueryByCriteria qbc = QueryFactory.newQuery(Chart.class, (Criteria) null);
+        qbc.addOrderByAscending("chartOfAccountsCode");
 
-      return (Chart) getObjectByQuery(QueryFactory.newQuery(Chart.class,criteria));
-  }
-  
-  /**
-   * fetch the charts that the user is manager for
-   * @param kualiUser
-   * @return a list of Charts that the user has responsibility for
-   */
-  public List getChartsThatUserIsResponsibleFor(KualiUser kualiUser) {
-      List chartResponsibilities = new ArrayList();
-      Criteria criteria = new Criteria();
-      criteria.addEqualTo("finCoaManagerUniversalId", kualiUser.getPersonUniversalIdentifier());
-      Collection charts = getCollectionByQuery(QueryFactory.newQuery(Chart.class, criteria));
-      for (Iterator iter = charts.iterator(); iter.hasNext();) {
-          Chart chart = (Chart)iter.next();
-          chartResponsibilities.add(chart);
-      }
-      return chartResponsibilities;
-  }
+        return getCollectionByQuery(qbc);
+    }
+
+
+    public Chart getByPrimaryId(String chartOfAccountsCode) {
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo("chartOfAccountsCode", chartOfAccountsCode);
+
+        return (Chart) getObjectByQuery(QueryFactory.newQuery(Chart.class, criteria));
+    }
+
+    /**
+     * fetch the charts that the user is manager for
+     * 
+     * @param kualiUser
+     * @return a list of Charts that the user has responsibility for
+     */
+    public List getChartsThatUserIsResponsibleFor(KualiUser kualiUser) {
+        List chartResponsibilities = new ArrayList();
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo("finCoaManagerUniversalId", kualiUser.getPersonUniversalIdentifier());
+        Collection charts = getCollectionByQuery(QueryFactory.newQuery(Chart.class, criteria));
+        for (Iterator iter = charts.iterator(); iter.hasNext();) {
+            Chart chart = (Chart) iter.next();
+            chartResponsibilities.add(chart);
+        }
+        return chartResponsibilities;
+    }
 }

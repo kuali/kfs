@@ -30,47 +30,46 @@ import org.kuali.module.chart.bo.IcrAutomatedEntry;
 
 /**
  * This class...
+ * 
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public class IcrAutomatedEntryPreRules extends MaintenancePreRulesBase {
-    
-    
+
+
     private IcrAutomatedEntry newAccount;
     private IcrAutomatedEntry copyAccount;
-    
-    
+
+
     public IcrAutomatedEntryPreRules() {
-        
+
     }
+
     protected boolean doCustomPreRules(MaintenanceDocument document) {
         setupConvenienceObjects(document);
         checkForContinuationAccounts(); // run this first to avoid side effects
 
         LOG.debug("done with continuation account, proceeeding with remaining pre rules");
 
-        
-        
+
         return true;
     }
-    
+
     private void checkForContinuationAccounts() {
         LOG.debug("entering checkForContinuationAccounts()");
-        
-        if (StringUtils.isNotBlank(newAccount.getAccountNumber())){
-            Account account = checkForContinuationAccount("Account Number", 
-                    newAccount.getChartOfAccountsCode(),
-                    newAccount.getAccountNumber(), "");
-            if (ObjectUtils.isNotNull(account)) { //override old user inputs
+
+        if (StringUtils.isNotBlank(newAccount.getAccountNumber())) {
+            Account account = checkForContinuationAccount("Account Number", newAccount.getChartOfAccountsCode(), newAccount.getAccountNumber(), "");
+            if (ObjectUtils.isNotNull(account)) { // override old user inputs
                 newAccount.setAccountNumber(account.getAccountNumber());
                 newAccount.setChartOfAccountsCode(account.getChartOfAccountsCode());
             }
         }
     }
-    
+
     private void setupConvenienceObjects(MaintenanceDocument document) {
-        
-        //	setup newAccount convenience objects, make sure all possible sub-objects are populated
-        newAccount =  (IcrAutomatedEntry) document.getNewMaintainableObject().getBusinessObject();
+
+        // setup newAccount convenience objects, make sure all possible sub-objects are populated
+        newAccount = (IcrAutomatedEntry) document.getNewMaintainableObject().getBusinessObject();
         copyAccount = (IcrAutomatedEntry) ObjectUtils.deepCopy(newAccount);
         copyAccount.refresh();
     }

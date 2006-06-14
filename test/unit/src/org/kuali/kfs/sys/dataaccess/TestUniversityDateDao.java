@@ -33,39 +33,39 @@ import org.springframework.beans.factory.BeanFactory;
 
 /**
  * @author jsissom
- *
+ * 
  */
 public class TestUniversityDateDao extends KualiTestBaseWithSpringOnly {
 
-  private SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
-    
-  public void testGetByPrimaryKey() throws Exception {
-    BeanFactory factory = SpringServiceLocator.getBeanFactory();
-    assertNotNull("Factory shouldn't be null",factory);
+    private SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
 
-    UniversityDateDao dao = (UniversityDateDao)factory.getBean("universityDateDao");
-    assertNotNull("Dao shouldn't be null",dao);
+    public void testGetByPrimaryKey() throws Exception {
+        BeanFactory factory = SpringServiceLocator.getBeanFactory();
+        assertNotNull("Factory shouldn't be null", factory);
 
-    Date missing = sdf.parse("01/01/1901");
-    UniversityDate notexist = dao.getByPrimaryKey(new java.sql.Date(missing.getTime()));
-    assertNull("01/01/1901 shouldn't exist in table",notexist);
+        UniversityDateDao dao = (UniversityDateDao) factory.getBean("universityDateDao");
+        assertNotNull("Dao shouldn't be null", dao);
 
-    Date notMissing = sdf.parse("08/14/1993");
-    UniversityDate exist = dao.getByPrimaryKey(new java.sql.Date(notMissing.getTime()));
-    assertNotNull("08/14/1993 should exist in table",exist);
-  }
-  
-  public void testGetFirstLastFiscalYearDates() throws Exception {
-      BeanFactory factory = SpringServiceLocator.getBeanFactory();
-      assertNotNull("Factory shouldn't be null",factory);
+        Date missing = sdf.parse("01/01/1901");
+        UniversityDate notexist = dao.getByPrimaryKey(new java.sql.Date(missing.getTime()));
+        assertNull("01/01/1901 shouldn't exist in table", notexist);
 
-      UniversityDateDao dao = (UniversityDateDao)factory.getBean("universityDateDao");
-      assertNotNull("Dao shouldn't be null",dao);
+        Date notMissing = sdf.parse("08/14/1993");
+        UniversityDate exist = dao.getByPrimaryKey(new java.sql.Date(notMissing.getTime()));
+        assertNotNull("08/14/1993 should exist in table", exist);
+    }
 
-      UniversityDate firstFiscalYearDate = dao.getFirstFiscalYearDate(new Integer(2007));
-      assertEquals("07/01/2006", sdf.format(firstFiscalYearDate.getUniversityDate()));
-      
-      UniversityDate lastFiscalYearDate = dao.getLastFiscalYearDate(new Integer(2007));
-      assertEquals("06/30/2007", sdf.format(lastFiscalYearDate.getUniversityDate()));
-  }
+    public void testGetFirstLastFiscalYearDates() throws Exception {
+        BeanFactory factory = SpringServiceLocator.getBeanFactory();
+        assertNotNull("Factory shouldn't be null", factory);
+
+        UniversityDateDao dao = (UniversityDateDao) factory.getBean("universityDateDao");
+        assertNotNull("Dao shouldn't be null", dao);
+
+        UniversityDate firstFiscalYearDate = dao.getFirstFiscalYearDate(new Integer(2007));
+        assertEquals("07/01/2006", sdf.format(firstFiscalYearDate.getUniversityDate()));
+
+        UniversityDate lastFiscalYearDate = dao.getLastFiscalYearDate(new Integer(2007));
+        assertEquals("06/30/2007", sdf.format(lastFiscalYearDate.getUniversityDate()));
+    }
 }

@@ -49,6 +49,7 @@ import org.kuali.module.gl.web.struts.form.BalanceInquiryForm;
 
 /**
  * This class handles Actions for lookup flow
+ * 
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 
@@ -58,17 +59,14 @@ public class BalanceInquiryAction extends KualiAction {
     /**
      * Entry point to lookups, forwards to jsp for search render.
      */
-    public ActionForward start(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
-            throws Exception {
+    public ActionForward start(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
-    
+
     /**
-     * search - sets the values of the data entered on the form on the jsp into
-     * a map and then searches for the results.
+     * search - sets the values of the data entered on the form on the jsp into a map and then searches for the results.
      */
-    public ActionForward search(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
-            throws Exception {
+    public ActionForward search(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BalanceInquiryForm lookupForm = (BalanceInquiryForm) form;
         Lookupable kualiLookupable = lookupForm.getLookupable();
         if (kualiLookupable == null) {
@@ -78,12 +76,12 @@ public class BalanceInquiryAction extends KualiAction {
 
         Collection displayList = new ArrayList();
         Collection resultTable = new ArrayList();
-        
+
         // validate search parameters
         kualiLookupable.validateSearchParameters(lookupForm.getFields());
-        displayList =  SpringServiceLocator.getPersistenceService().performLookup(lookupForm, kualiLookupable, resultTable, true);
-        
-        request.setAttribute("reqSearchResultsActualSize", ((CollectionIncomplete)displayList).getActualSizeIfTruncated());       
+        displayList = SpringServiceLocator.getPersistenceService().performLookup(lookupForm, kualiLookupable, resultTable, true);
+
+        request.setAttribute("reqSearchResultsActualSize", ((CollectionIncomplete) displayList).getActualSizeIfTruncated());
         request.setAttribute("reqSearchResults", resultTable);
         if (request.getParameter(Constants.SEARCH_LIST_REQUEST_KEY) != null) {
             GlobalVariables.getUserSession().removeObject(request.getParameter(Constants.SEARCH_LIST_REQUEST_KEY));
@@ -91,13 +89,11 @@ public class BalanceInquiryAction extends KualiAction {
         request.setAttribute(Constants.SEARCH_LIST_REQUEST_KEY, GlobalVariables.getUserSession().addObject(resultTable));
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
-    
+
     /**
-     * refresh - is called when one quickFinder returns to the previous one.
-     * Sets all the values and performs the new search.
+     * refresh - is called when one quickFinder returns to the previous one. Sets all the values and performs the new search.
      */
-    public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
-            throws Exception {
+    public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         LookupForm lookupForm = (LookupForm) form;
         Lookupable kualiLookupable = lookupForm.getLookupable();
         if (kualiLookupable == null) {
@@ -148,16 +144,14 @@ public class BalanceInquiryAction extends KualiAction {
 
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
-    
+
     /**
      * Just returns as if return with no value was selected.
      */
-    public ActionForward cancel(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
+    public ActionForward cancel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         LookupForm lookupForm = (LookupForm) form;
-        
-        String backUrl = lookupForm.getBackLocation() + "?methodToCall=refresh&docFormKey=" +
-                         lookupForm.getFormKey();
+
+        String backUrl = lookupForm.getBackLocation() + "?methodToCall=refresh&docFormKey=" + lookupForm.getFormKey();
         return new ActionForward(backUrl, true);
     }
 
@@ -165,8 +159,7 @@ public class BalanceInquiryAction extends KualiAction {
     /**
      * clearValues - clears the values of all the fields on the jsp.
      */
-    public ActionForward clearValues(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws IOException, ServletException {
+    public ActionForward clearValues(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         LookupForm lookupForm = (LookupForm) form;
         Lookupable kualiLookupable = lookupForm.getLookupable();
         if (kualiLookupable == null) {
@@ -187,11 +180,10 @@ public class BalanceInquiryAction extends KualiAction {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
-    public ActionForward viewResults(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
+    public ActionForward viewResults(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         request.setAttribute(Constants.SEARCH_LIST_REQUEST_KEY, request.getParameter(Constants.SEARCH_LIST_REQUEST_KEY));
         request.setAttribute("reqSearchResults", GlobalVariables.getUserSession().retrieveObject(request.getParameter(Constants.SEARCH_LIST_REQUEST_KEY)));
         request.setAttribute("reqSearchResultsActualSize", request.getParameter("reqSearchResultsActualSize"));
         return mapping.findForward(Constants.MAPPING_BASIC);
-    }     
+    }
 }

@@ -40,16 +40,13 @@ public class CashDrawerStatusCodeFormatter extends Formatter {
 
     public CashDrawerStatusCodeFormatter() {
         CLOSED_CD = Constants.CashDrawerConstants.STATUS_CLOSED;
-        CLOSED_MSG = SpringServiceLocator.getKualiConfigurationService().getPropertyString(
-                KeyConstants.CashDrawer.CASH_DRAWER_STATUS_CLOSED);
+        CLOSED_MSG = SpringServiceLocator.getKualiConfigurationService().getPropertyString(KeyConstants.CashDrawer.CASH_DRAWER_STATUS_CLOSED);
 
         OPEN_CD = Constants.CashDrawerConstants.STATUS_OPEN;
-        OPEN_MSG = SpringServiceLocator.getKualiConfigurationService().getPropertyString(
-                KeyConstants.CashDrawer.CASH_DRAWER_STATUS_OPEN);
+        OPEN_MSG = SpringServiceLocator.getKualiConfigurationService().getPropertyString(KeyConstants.CashDrawer.CASH_DRAWER_STATUS_OPEN);
 
         LOCKED_CD = Constants.CashDrawerConstants.STATUS_LOCKED;
-        LOCKED_MSG = SpringServiceLocator.getKualiConfigurationService().getPropertyString(
-                KeyConstants.CashDrawer.CASH_DRAWER_STATUS_LOCKED);
+        LOCKED_MSG = SpringServiceLocator.getKualiConfigurationService().getPropertyString(KeyConstants.CashDrawer.CASH_DRAWER_STATUS_LOCKED);
     }
 
 

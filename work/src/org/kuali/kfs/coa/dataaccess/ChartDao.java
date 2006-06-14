@@ -30,10 +30,13 @@ import org.kuali.module.chart.bo.Chart;
 
 /**
  * This is the data access interface for Chart objects.
+ * 
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
-*/
+ */
 public interface ChartDao {
-  public Collection getAll();
-  public Chart getByPrimaryId(String chartOfAccountsCode);
-  public List getChartsThatUserIsResponsibleFor(KualiUser kualiUser);
+    public Collection getAll();
+
+    public Chart getByPrimaryId(String chartOfAccountsCode);
+
+    public List getChartsThatUserIsResponsibleFor(KualiUser kualiUser);
 }

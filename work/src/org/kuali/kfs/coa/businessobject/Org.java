@@ -81,19 +81,20 @@ public class Org extends BusinessObjectBase {
     private Chart organizationPlantChart;
     private Chart campusPlantChart;
     private PostalZipCode postalZip;
-    
+
     // fields for mixed anonymous keys
     private String organizationDefaultAccountNumber;
     private String chartOfAccountsCode;
 
-    //Several kinds of Dummy Attributes for dividing sections on Inquiry page
+    // Several kinds of Dummy Attributes for dividing sections on Inquiry page
     private String editPlantAccountsSectionBlank;
     private String editPlantAccountsSection;
+
     /**
      * Gets the organizationCode attribute.
      * 
      * @return - Returns the organizationCode
-     *  
+     * 
      */
     public String getOrganizationCode() {
         return organizationCode;
@@ -103,7 +104,7 @@ public class Org extends BusinessObjectBase {
      * Sets the organizationCode attribute.
      * 
      * @param - organizationCode The organizationCode to set.
-     *  
+     * 
      */
     public void setOrganizationCode(String organizationCode) {
         this.organizationCode = organizationCode;
@@ -113,7 +114,7 @@ public class Org extends BusinessObjectBase {
      * Gets the organizationName attribute.
      * 
      * @return - Returns the organizationName
-     *  
+     * 
      */
     public String getOrganizationName() {
         return organizationName;
@@ -123,7 +124,7 @@ public class Org extends BusinessObjectBase {
      * Sets the organizationName attribute.
      * 
      * @param - organizationName The organizationName to set.
-     *  
+     * 
      */
     public void setOrganizationName(String organizationName) {
         this.organizationName = organizationName;
@@ -133,7 +134,7 @@ public class Org extends BusinessObjectBase {
      * Gets the organizationStreetAddress attribute.
      * 
      * @return - Returns the organizationStreetAddress
-     *  
+     * 
      */
     public String getOrganizationStreetAddress() {
         return organizationStreetAddress;
@@ -143,7 +144,7 @@ public class Org extends BusinessObjectBase {
      * Sets the organizationStreetAddress attribute.
      * 
      * @param - organizationStreetAddress The organizationStreetAddress to set.
-     *  
+     * 
      */
     public void setOrganizationStreetAddress(String organizationStreetAddress) {
         this.organizationStreetAddress = organizationStreetAddress;
@@ -153,7 +154,7 @@ public class Org extends BusinessObjectBase {
      * Gets the organizationCityName attribute.
      * 
      * @return - Returns the organizationCityName
-     *  
+     * 
      */
     public String getOrganizationCityName() {
         return organizationCityName;
@@ -163,7 +164,7 @@ public class Org extends BusinessObjectBase {
      * Sets the organizationCityName attribute.
      * 
      * @param - organizationCityName The organizationCityName to set.
-     *  
+     * 
      */
     public void setOrganizationCityName(String organizationCityName) {
         this.organizationCityName = organizationCityName;
@@ -173,7 +174,7 @@ public class Org extends BusinessObjectBase {
      * Gets the organizationStateCode attribute.
      * 
      * @return - Returns the organizationStateCode
-     *  
+     * 
      */
     public String getOrganizationStateCode() {
         return organizationStateCode;
@@ -183,7 +184,7 @@ public class Org extends BusinessObjectBase {
      * Sets the organizationStateCode attribute.
      * 
      * @param - organizationStateCode The organizationStateCode to set.
-     *  
+     * 
      */
     public void setOrganizationStateCode(String organizationStateCode) {
         this.organizationStateCode = organizationStateCode;
@@ -193,7 +194,7 @@ public class Org extends BusinessObjectBase {
      * Gets the organizationZipCode attribute.
      * 
      * @return - Returns the organizationZipCode
-     *  
+     * 
      */
     public String getOrganizationZipCode() {
         return organizationZipCode;
@@ -203,7 +204,7 @@ public class Org extends BusinessObjectBase {
      * Sets the organizationZipCode attribute.
      * 
      * @param - organizationZipCode The organizationZipCode to set.
-     *  
+     * 
      */
     public void setOrganizationZipCode(String organizationZipCode) {
         this.organizationZipCode = organizationZipCode;
@@ -213,7 +214,7 @@ public class Org extends BusinessObjectBase {
      * Gets the organizationBeginDate attribute.
      * 
      * @return - Returns the organizationBeginDate
-     *  
+     * 
      */
     public Date getOrganizationBeginDate() {
         return organizationBeginDate;
@@ -223,7 +224,7 @@ public class Org extends BusinessObjectBase {
      * Sets the organizationBeginDate attribute.
      * 
      * @param - organizationBeginDate The organizationBeginDate to set.
-     *  
+     * 
      */
     public void setOrganizationBeginDate(Date organizationBeginDate) {
         this.organizationBeginDate = organizationBeginDate;
@@ -233,7 +234,7 @@ public class Org extends BusinessObjectBase {
      * Gets the organizationEndDate attribute.
      * 
      * @return - Returns the organizationEndDate
-     *  
+     * 
      */
     public Date getOrganizationEndDate() {
         return organizationEndDate;
@@ -243,7 +244,7 @@ public class Org extends BusinessObjectBase {
      * Sets the organizationEndDate attribute.
      * 
      * @param - organizationEndDate The organizationEndDate to set.
-     *  
+     * 
      */
     public void setOrganizationEndDate(Date organizationEndDate) {
         this.organizationEndDate = organizationEndDate;
@@ -253,7 +254,7 @@ public class Org extends BusinessObjectBase {
      * Gets the organizationActiveIndicator attribute.
      * 
      * @return - Returns the organizationActiveIndicator
-     *  
+     * 
      */
     public boolean isOrganizationActiveIndicator() {
         return organizationActiveIndicator;
@@ -263,7 +264,7 @@ public class Org extends BusinessObjectBase {
      * Sets the organizationActiveIndicator attribute.
      * 
      * @param - organizationActiveIndicator The organizationActiveIndicator to set.
-     *  
+     * 
      */
     public void setOrganizationActiveIndicator(boolean organizationActiveIndicator) {
         this.organizationActiveIndicator = organizationActiveIndicator;
@@ -273,7 +274,7 @@ public class Org extends BusinessObjectBase {
      * Gets the organizationInFinancialProcessingIndicator attribute.
      * 
      * @return - Returns the organizationInFinancialProcessingIndicator
-     *  
+     * 
      */
     public boolean isOrganizationInFinancialProcessingIndicator() {
         return organizationInFinancialProcessingIndicator;
@@ -283,7 +284,7 @@ public class Org extends BusinessObjectBase {
      * Sets the organizationInFinancialProcessingIndicator attribute.
      * 
      * @param - organizationInFinancialProcessingIndicator The organizationInFinancialProcessingIndicator to set.
-     *  
+     * 
      */
     public void setOrganizationInFinancialProcessingIndicator(boolean organizationInFinancialProcessingIndicator) {
         this.organizationInFinancialProcessingIndicator = organizationInFinancialProcessingIndicator;
@@ -293,7 +294,7 @@ public class Org extends BusinessObjectBase {
      * Gets the chartOfAccounts attribute.
      * 
      * @return - Returns the chartOfAccounts
-     *  
+     * 
      */
     public Chart getChartOfAccounts() {
         return chartOfAccounts;
@@ -309,11 +310,11 @@ public class Org extends BusinessObjectBase {
         this.chartOfAccounts = chartOfAccounts;
     }
 
-     /**
+    /**
      * Gets the organizationDefaultAccount attribute.
      * 
      * @return - Returns the organizationDefaultAccount
-     *  
+     * 
      */
     public Account getOrganizationDefaultAccount() {
         return organizationDefaultAccount;
@@ -333,7 +334,7 @@ public class Org extends BusinessObjectBase {
      * Gets the organizationManagerUniversal attribute.
      * 
      * @return - Returns the organizationManagerUniversal
-     *  
+     * 
      */
     public UniversalUser getOrganizationManagerUniversal() {
         return organizationManagerUniversal;
@@ -353,7 +354,7 @@ public class Org extends BusinessObjectBase {
      * Gets the responsibilityCenter attribute.
      * 
      * @return - Returns the responsibilityCenter
-     *  
+     * 
      */
     public ResponsibilityCenter getResponsibilityCenter() {
         return responsibilityCenter;
@@ -373,7 +374,7 @@ public class Org extends BusinessObjectBase {
      * Gets the organizationPhysicalCampus attribute.
      * 
      * @return - Returns the organizationPhysicalCampus
-     *  
+     * 
      */
     public Campus getOrganizationPhysicalCampus() {
         return organizationPhysicalCampus;
@@ -393,7 +394,7 @@ public class Org extends BusinessObjectBase {
      * Gets the organizationType attribute.
      * 
      * @return - Returns the organizationType
-     *  
+     * 
      */
     public OrgType getOrganizationType() {
         return organizationType;
@@ -413,7 +414,7 @@ public class Org extends BusinessObjectBase {
      * Gets the reportsToOrganization attribute.
      * 
      * @return - Returns the reportsToOrganization
-     *  
+     * 
      */
     public Org getReportsToOrganization() {
         return reportsToOrganization;
@@ -433,7 +434,7 @@ public class Org extends BusinessObjectBase {
      * Gets the reportsToChartOfAccounts attribute.
      * 
      * @return - Returns the reportsToChartOfAccounts
-     *  
+     * 
      */
     public Chart getReportsToChartOfAccounts() {
         return reportsToChartOfAccounts;
@@ -453,7 +454,7 @@ public class Org extends BusinessObjectBase {
      * Gets the organizationPlantAccount attribute.
      * 
      * @return - Returns the organizationPlantAccount
-     *  
+     * 
      */
     public Account getOrganizationPlantAccount() {
         return organizationPlantAccount;
@@ -473,7 +474,7 @@ public class Org extends BusinessObjectBase {
      * Gets the campusPlantAccount attribute.
      * 
      * @return - Returns the campusPlantAccount
-     *  
+     * 
      */
     public Account getCampusPlantAccount() {
         return campusPlantAccount;
@@ -493,7 +494,7 @@ public class Org extends BusinessObjectBase {
      * Gets the organizationPlantChart attribute.
      * 
      * @return - Returns the organizationPlantChart
-     *  
+     * 
      */
     public Chart getOrganizationPlantChart() {
         return organizationPlantChart;
@@ -513,7 +514,7 @@ public class Org extends BusinessObjectBase {
      * Gets the campusPlantChart attribute.
      * 
      * @return - Returns the campusPlantChart
-     *  
+     * 
      */
     public Chart getCampusPlantChart() {
         return campusPlantChart;
@@ -706,7 +707,8 @@ public class Org extends BusinessObjectBase {
     }
 
     /**
-     * Gets the postalZip attribute. 
+     * Gets the postalZip attribute.
+     * 
      * @return Returns the postalZip.
      */
     public PostalZipCode getPostalZip() {
@@ -715,6 +717,7 @@ public class Org extends BusinessObjectBase {
 
     /**
      * Sets the postalZip attribute value.
+     * 
      * @param postalZip The postalZip to set.
      */
     public void setPostalZip(PostalZipCode postalZip) {
@@ -732,8 +735,10 @@ public class Org extends BusinessObjectBase {
 
         return m;
     }
+
     /**
-     * Gets the editPlantAccountsSection attribute. 
+     * Gets the editPlantAccountsSection attribute.
+     * 
      * @return Returns the editPlantAccountsSection.
      */
     public String getEditPlantAccountsSection() {
@@ -741,7 +746,8 @@ public class Org extends BusinessObjectBase {
     }
 
     /**
-     * Gets the editPlantAccountsSectionBlank attribute. 
+     * Gets the editPlantAccountsSectionBlank attribute.
+     * 
      * @return Returns the editPlantAccountsSectionBlank.
      */
     public String getEditPlantAccountsSectionBlank() {

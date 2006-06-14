@@ -34,62 +34,62 @@ import org.kuali.core.bo.BusinessObjectBase;
  */
 public class AcctType extends BusinessObjectBase {
 
-	/**
-	 * Default no-arg constructor.
-	 */
-	public AcctType() {
+    /**
+     * Default no-arg constructor.
+     */
+    public AcctType() {
 
-	}
+    }
 
-	private String accountTypeCode;
-	private String accountTypeName;
+    private String accountTypeCode;
+    private String accountTypeName;
 
-	/**
-	 * Gets the accountTypeCode attribute.
-	 * 
-	 * @return - Returns the accountTypeCode
-	 * 
-	 */
-	public String getAccountTypeCode() { 
-		return accountTypeCode;
-	}
-	
-	/**
-	 * Sets the accountTypeCode attribute.
-	 * 
-	 * @param - accountTypeCode The accountTypeCode to set.
-	 * 
-	 */
-	public void setAccountTypeCode(String accountTypeCode) {
-		this.accountTypeCode = accountTypeCode;
-	}
+    /**
+     * Gets the accountTypeCode attribute.
+     * 
+     * @return - Returns the accountTypeCode
+     * 
+     */
+    public String getAccountTypeCode() {
+        return accountTypeCode;
+    }
 
-	/**
-	 * Gets the accountTypeName attribute.
-	 * 
-	 * @return - Returns the accountTypeName
-	 * 
-	 */
-	public String getAccountTypeName() { 
-		return accountTypeName;
-	}
-	
-	/**
-	 * Sets the accountTypeName attribute.
-	 * 
-	 * @param - accountTypeName The accountTypeName to set.
-	 * 
-	 */
-	public void setAccountTypeName(String accountTypeName) {
-		this.accountTypeName = accountTypeName;
-	}
+    /**
+     * Sets the accountTypeCode attribute.
+     * 
+     * @param - accountTypeCode The accountTypeCode to set.
+     * 
+     */
+    public void setAccountTypeCode(String accountTypeCode) {
+        this.accountTypeCode = accountTypeCode;
+    }
 
-	/**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-			LinkedHashMap m = new LinkedHashMap();
-			m.put("accountTypeCode", this.accountTypeCode);
-			return m;
-	}
+    /**
+     * Gets the accountTypeName attribute.
+     * 
+     * @return - Returns the accountTypeName
+     * 
+     */
+    public String getAccountTypeName() {
+        return accountTypeName;
+    }
+
+    /**
+     * Sets the accountTypeName attribute.
+     * 
+     * @param - accountTypeName The accountTypeName to set.
+     * 
+     */
+    public void setAccountTypeName(String accountTypeName) {
+        this.accountTypeName = accountTypeName;
+    }
+
+    /**
+     * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
+        m.put("accountTypeCode", this.accountTypeCode);
+        return m;
+    }
 }

@@ -26,17 +26,18 @@ import org.kuali.module.chart.bo.SubAccount;
 
 /**
  * This interface defines methods that a SubAccount Service must provide.
+ * 
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
-*/
+ */
 public interface SubAccountService {
     /**
      * Retrieves a SubAccount object based on primary key.
+     * 
      * @param chartOfAccountsCode - Chart of Accounts Code
      * @param accountNumber - Account Number
      * @param subAccountNumber - Sub Account Number
      * @return SubAccount
      * @see SubAccountService
      */
-    public SubAccount getByPrimaryId(String chartOfAccountsCode,
-        String accountNumber, String subAccountNumber);
+    public SubAccount getByPrimaryId(String chartOfAccountsCode, String accountNumber, String subAccountNumber);
 }

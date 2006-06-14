@@ -28,10 +28,16 @@ import org.kuali.module.gl.bo.SufficientFundRebuild;
 
 public interface SufficientFundRebuildService {
     public Collection getAll();
+
     public Collection getAllAccountEntries();
+
     public Collection getAllObjectEntries();
+
     public SufficientFundRebuild getByAccount(String chartOfAccountsCode, String accountNumberFinancialObjectCode);
+
     public SufficientFundRebuild get(String chartOfAccountsCode, String accountFinancialObjectTypeCode, String accountNumberFinancialObjectCode);
+
     public void save(SufficientFundRebuild sfrb);
+
     public void delete(SufficientFundRebuild sfrb);
 }

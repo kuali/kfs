@@ -30,6 +30,7 @@ import org.kuali.test.KualiTestBase;
 
 /**
  * This class tests the AccountingPeriod business object.
+ * 
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public class AccountingPeriodTest extends KualiTestBase {
@@ -37,12 +38,12 @@ public class AccountingPeriodTest extends KualiTestBase {
     public static final boolean BUDGET_ROLLOVER_IND = true;
     public static final String GUID = "123456789012345678901234567890123456";
     public static final String UNIV_FISC_PERD_CODE = "BB";
-    public static final Date UNIV_FISC_PERD_END_DATE = new java.sql.Date(System.currentTimeMillis()); 
+    public static final Date UNIV_FISC_PERD_END_DATE = new java.sql.Date(System.currentTimeMillis());
     public static final Integer UNIV_FISC_YEAR = new Integer(2005);
     public static final String UNIV_FISC_PRD_NAME = "JAN. 1776";
     public static final String UNIV_FISC_PRD_STATUS_CODE = "C";
     public static final Long VER_NBR = new Long(1);
-    
+
     /*
      * @see TestCase#setUp()
      */

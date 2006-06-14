@@ -24,10 +24,11 @@ package org.kuali.module.kra;
 
 /**
  * Holds error key constants for KRA.
+ * 
  * @author KRA Development Team (kualidev@oncourse.iu.edu)
  */
 public class KraKeyConstants {
-    
+
     // KRA Audit Errors
     public static final String AUDIT_COST_SHARE_INSTITUTION_DISTRIBUTED = "audit.costShare.institution.distributed";
     public static final String AUDIT_COST_SHARE_3P_DISTRIBUTED = "audit.costShare.3p.distributed";

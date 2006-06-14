@@ -37,31 +37,32 @@ import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * This class...
+ * 
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public class ResearchDocumentServiceImpl extends PersistenceBrokerTemplate implements ResearchDocumentService {
 
     private BudgetService budgetService;
-    
+
     /**
      * @see org.kuali.module.kra.service.ResearchDocumentService#prepareResearchDocumentForSave(org.kuali.module.kra.document.ResearchDocument)
      */
     public void prepareResearchDocumentForSave(ResearchDocument researchDocument) throws WorkflowException {
         if (researchDocument instanceof BudgetDocument) {
-            BudgetDocument budgetDocument = (BudgetDocument)researchDocument;
+            BudgetDocument budgetDocument = (BudgetDocument) researchDocument;
             budgetService.prepareBudgetForSave(budgetDocument);
             budgetDocument.setForceRefreshOfBOSubListsForSave(false);
         }
-        SpringServiceLocator.getOjbCollectionHelper().processCollections(this,researchDocument.getFinancialDocumentNumber(),researchDocument);
+        SpringServiceLocator.getOjbCollectionHelper().processCollections(this, researchDocument.getFinancialDocumentNumber(), researchDocument);
     }
 
     /**
      * @see org.kuali.core.util.OjbCollectionAware#getListOfCollectionsToProcess(java.lang.Object)
      */
     public List getListOfCollectionsToProcess(Object object) {
-        List list = list=new ArrayList();
+        List list = list = new ArrayList();
         if (object instanceof BudgetDocument) {
-            BudgetDocument budgetDocument = ((BudgetDocument)object);
+            BudgetDocument budgetDocument = ((BudgetDocument) object);
             Budget budget = budgetDocument.getBudget();
             list.add(budget.getTasks());
             list.add(budget.getPeriods());
@@ -69,30 +70,32 @@ public class ResearchDocumentServiceImpl extends PersistenceBrokerTemplate imple
             list.add(budget.getAllUserAppointmentTaskPeriods(budgetDocument.isForceRefreshOfBOSubListsForSave()));
             list.add(budget.getAllUserAppointmentTasks(budgetDocument.isForceRefreshOfBOSubListsForSave()));
             list.add(budget.getPersonnel());
-            
+
             list.add(budget.getAllThirdPartyCostSharePeriods(budgetDocument.isForceRefreshOfBOSubListsForSave()));
             list.add(budget.getThirdPartyCostShareItems());
-            
+
             list.add(budget.getAllUniversityCostSharePeriods(budgetDocument.isForceRefreshOfBOSubListsForSave()));
             list.add(budget.getUniversityCostShareItems());
 
             list.add(budget.getUniversityCostSharePersonnelItems());
             list.add(budget.getAdHocPermissions());
-            
+
             if (budget.getIndirectCost() != null && budget.getIndirectCost().getBudgetTaskPeriodIndirectCostItems() != null) {
                 list.add(budget.getIndirectCost().getBudgetTaskPeriodIndirectCostItems());
-            } else {
+            }
+            else {
                 list.add(new ArrayList());
             }
             if (budget.getModularBudget() != null) {
                 list.add(budget.getModularBudget().getBudgetModularPeriods());
-            } else {
+            }
+            else {
                 list.add(new ArrayList());
             }
         }
         return list;
     }
-    
+
     public void setBudgetService(BudgetService budgetService) {
         this.budgetService = budgetService;
     }

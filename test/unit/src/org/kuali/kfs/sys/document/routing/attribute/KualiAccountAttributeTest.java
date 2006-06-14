@@ -43,6 +43,7 @@ import edu.iu.uis.eden.routeheader.StandardDocumentContent;
 
 /**
  * This class...
+ * 
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public class KualiAccountAttributeTest extends KualiTestBaseWithFixtures {
@@ -51,7 +52,7 @@ public class KualiAccountAttributeTest extends KualiTestBaseWithFixtures {
     private static final String TOF_FEMP_SUBCODE_ONELINER = "TransferOfFunds_FEMPSubcode_OneLiner.xml";
 
     KualiAccountAttribute attribute;
-    
+
     /**
      * Constructs a KualiAccountAttributeTest.java.
      */
@@ -63,26 +64,25 @@ public class KualiAccountAttributeTest extends KualiTestBaseWithFixtures {
         super.setUp();
         attribute = new KualiAccountAttribute();
     }
-    
-    public void testGetFiscalOfficerCriteria_TOFOneLiner() 
-                throws IOException, InvalidXmlException, XPathExpressionException {
-        
+
+    public void testGetFiscalOfficerCriteria_TOFOneLiner() throws IOException, InvalidXmlException, XPathExpressionException {
+
         BufferedReader reader;
         reader = new BufferedReader(new FileReader(BASE_PATH + TOF_FEMP_SUBCODE_ONELINER));
         DocumentContent docContent = new StandardDocumentContent(readerToString(reader));
-        
+
         Set qualifiedRoleNames = new HashSet();
         XPath xpath = KualiWorkflowAttributeUtils.getXPath(docContent.getDocument());
         String docTypeName = "KualiTransferOfFundsDocument";
-        
+
         NodeList sourceLineNodes = (NodeList) xpath.evaluate("wf:xstreamsafe('//org.kuali.core.bo.SourceAccountingLine')", docContent.getDocument(), XPathConstants.NODESET);
 
         String chart = "";
         String accountNumber = "";
-        
+
         for (int i = 0; i < sourceLineNodes.getLength(); i++) {
             Node node = sourceLineNodes.item(i);
-            
+
             chart = xpath.evaluate("./chartOfAccountsCode", node);
             assertEquals("BL", chart);
             accountNumber = xpath.evaluate("./accountNumber", node);
@@ -91,17 +91,17 @@ public class KualiAccountAttributeTest extends KualiTestBaseWithFixtures {
     }
 
     private static String readerToString(Reader is) throws IOException {
-        
+
         StringBuffer sb = new StringBuffer();
         char[] charBytes = new char[8192];
         int charsRead;
-        
-        //  read a block, if it gets any chars, append them
+
+        // read a block, if it gets any chars, append them
         while ((charsRead = is.read(charBytes)) > 0) {
             sb.append(charBytes, 0, charsRead);
         }
-        
-        //  only construct the string once, here
+
+        // only construct the string once, here
         return sb.toString();
     }
 }

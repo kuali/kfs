@@ -35,218 +35,218 @@ import org.kuali.core.bo.BusinessObjectBase;
  */
 public class CustomerCreditCardInformation extends BusinessObjectBase {
 
-	private String customerCreditCardNumber;
-	private String customerCreditCardHolderName;
-	private String customerCreditCardIssuerName;
-	private String financialDocumentCreditCardTypeCode;
-	private Date customerCreditCardExpenditureDate;
-	private String customerNumber;
-	private String financialDocumentCreditCardVendorNumber;
-	private String customerCreditCardInformationNoteText;
+    private String customerCreditCardNumber;
+    private String customerCreditCardHolderName;
+    private String customerCreditCardIssuerName;
+    private String financialDocumentCreditCardTypeCode;
+    private Date customerCreditCardExpenditureDate;
+    private String customerNumber;
+    private String financialDocumentCreditCardVendorNumber;
+    private String customerCreditCardInformationNoteText;
 
     private CreditCardVendor financialDocumentCreditCardVendor;
 
-	/**
-	 * Default constructor.
-	 */
-	public CustomerCreditCardInformation() {
+    /**
+     * Default constructor.
+     */
+    public CustomerCreditCardInformation() {
 
-	}
+    }
 
-	/**
-	 * Gets the customerCreditCardNumber attribute.
-	 * 
-	 * @return - Returns the customerCreditCardNumber
-	 * 
-	 */
-	public String getCustomerCreditCardNumber() { 
-		return customerCreditCardNumber;
-	}
+    /**
+     * Gets the customerCreditCardNumber attribute.
+     * 
+     * @return - Returns the customerCreditCardNumber
+     * 
+     */
+    public String getCustomerCreditCardNumber() {
+        return customerCreditCardNumber;
+    }
 
-	/**
-	 * Sets the customerCreditCardNumber attribute.
-	 * 
-	 * @param - customerCreditCardNumber The customerCreditCardNumber to set.
-	 * 
-	 */
-	public void setCustomerCreditCardNumber(String customerCreditCardNumber) {
-		this.customerCreditCardNumber = customerCreditCardNumber;
-	}
-
-
-	/**
-	 * Gets the customerCreditCardHolderName attribute.
-	 * 
-	 * @return - Returns the customerCreditCardHolderName
-	 * 
-	 */
-	public String getCustomerCreditCardHolderName() { 
-		return customerCreditCardHolderName;
-	}
-
-	/**
-	 * Sets the customerCreditCardHolderName attribute.
-	 * 
-	 * @param - customerCreditCardHolderName The customerCreditCardHolderName to set.
-	 * 
-	 */
-	public void setCustomerCreditCardHolderName(String customerCreditCardHolderName) {
-		this.customerCreditCardHolderName = customerCreditCardHolderName;
-	}
+    /**
+     * Sets the customerCreditCardNumber attribute.
+     * 
+     * @param - customerCreditCardNumber The customerCreditCardNumber to set.
+     * 
+     */
+    public void setCustomerCreditCardNumber(String customerCreditCardNumber) {
+        this.customerCreditCardNumber = customerCreditCardNumber;
+    }
 
 
-	/**
-	 * Gets the customerCreditCardIssuerName attribute.
-	 * 
-	 * @return - Returns the customerCreditCardIssuerName
-	 * 
-	 */
-	public String getCustomerCreditCardIssuerName() { 
-		return customerCreditCardIssuerName;
-	}
+    /**
+     * Gets the customerCreditCardHolderName attribute.
+     * 
+     * @return - Returns the customerCreditCardHolderName
+     * 
+     */
+    public String getCustomerCreditCardHolderName() {
+        return customerCreditCardHolderName;
+    }
 
-	/**
-	 * Sets the customerCreditCardIssuerName attribute.
-	 * 
-	 * @param - customerCreditCardIssuerName The customerCreditCardIssuerName to set.
-	 * 
-	 */
-	public void setCustomerCreditCardIssuerName(String customerCreditCardIssuerName) {
-		this.customerCreditCardIssuerName = customerCreditCardIssuerName;
-	}
-
-
-	/**
-	 * Gets the financialDocumentCreditCardTypeCode attribute.
-	 * 
-	 * @return - Returns the financialDocumentCreditCardTypeCode
-	 * 
-	 */
-	public String getFinancialDocumentCreditCardTypeCode() { 
-		return financialDocumentCreditCardTypeCode;
-	}
-
-	/**
-	 * Sets the financialDocumentCreditCardTypeCode attribute.
-	 * 
-	 * @param - financialDocumentCreditCardTypeCode The financialDocumentCreditCardTypeCode to set.
-	 * 
-	 */
-	public void setFinancialDocumentCreditCardTypeCode(String financialDocumentCreditCardTypeCode) {
-		this.financialDocumentCreditCardTypeCode = financialDocumentCreditCardTypeCode;
-	}
+    /**
+     * Sets the customerCreditCardHolderName attribute.
+     * 
+     * @param - customerCreditCardHolderName The customerCreditCardHolderName to set.
+     * 
+     */
+    public void setCustomerCreditCardHolderName(String customerCreditCardHolderName) {
+        this.customerCreditCardHolderName = customerCreditCardHolderName;
+    }
 
 
-	/**
-	 * Gets the customerCreditCardExpenditureDate attribute.
-	 * 
-	 * @return - Returns the customerCreditCardExpenditureDate
-	 * 
-	 */
-	public Date getCustomerCreditCardExpenditureDate() { 
-		return customerCreditCardExpenditureDate;
-	}
+    /**
+     * Gets the customerCreditCardIssuerName attribute.
+     * 
+     * @return - Returns the customerCreditCardIssuerName
+     * 
+     */
+    public String getCustomerCreditCardIssuerName() {
+        return customerCreditCardIssuerName;
+    }
 
-	/**
-	 * Sets the customerCreditCardExpenditureDate attribute.
-	 * 
-	 * @param - customerCreditCardExpenditureDate The customerCreditCardExpenditureDate to set.
-	 * 
-	 */
-	public void setCustomerCreditCardExpenditureDate(Date customerCreditCardExpenditureDate) {
-		this.customerCreditCardExpenditureDate = customerCreditCardExpenditureDate;
-	}
-
-
-	/**
-	 * Gets the customerNumber attribute.
-	 * 
-	 * @return - Returns the customerNumber
-	 * 
-	 */
-	public String getCustomerNumber() { 
-		return customerNumber;
-	}
-
-	/**
-	 * Sets the customerNumber attribute.
-	 * 
-	 * @param - customerNumber The customerNumber to set.
-	 * 
-	 */
-	public void setCustomerNumber(String customerNumber) {
-		this.customerNumber = customerNumber;
-	}
+    /**
+     * Sets the customerCreditCardIssuerName attribute.
+     * 
+     * @param - customerCreditCardIssuerName The customerCreditCardIssuerName to set.
+     * 
+     */
+    public void setCustomerCreditCardIssuerName(String customerCreditCardIssuerName) {
+        this.customerCreditCardIssuerName = customerCreditCardIssuerName;
+    }
 
 
-	/**
-	 * Gets the financialDocumentCreditCardVendorNumber attribute.
-	 * 
-	 * @return - Returns the financialDocumentCreditCardVendorNumber
-	 * 
-	 */
-	public String getFinancialDocumentCreditCardVendorNumber() { 
-		return financialDocumentCreditCardVendorNumber;
-	}
+    /**
+     * Gets the financialDocumentCreditCardTypeCode attribute.
+     * 
+     * @return - Returns the financialDocumentCreditCardTypeCode
+     * 
+     */
+    public String getFinancialDocumentCreditCardTypeCode() {
+        return financialDocumentCreditCardTypeCode;
+    }
 
-	/**
-	 * Sets the financialDocumentCreditCardVendorNumber attribute.
-	 * 
-	 * @param - financialDocumentCreditCardVendorNumber The financialDocumentCreditCardVendorNumber to set.
-	 * 
-	 */
-	public void setFinancialDocumentCreditCardVendorNumber(String financialDocumentCreditCardVendorNumber) {
-		this.financialDocumentCreditCardVendorNumber = financialDocumentCreditCardVendorNumber;
-	}
-
-
-	/**
-	 * Gets the customerCreditCardInformationNoteText attribute.
-	 * 
-	 * @return - Returns the customerCreditCardInformationNoteText
-	 * 
-	 */
-	public String getCustomerCreditCardInformationNoteText() { 
-		return customerCreditCardInformationNoteText;
-	}
-
-	/**
-	 * Sets the customerCreditCardInformationNoteText attribute.
-	 * 
-	 * @param - customerCreditCardInformationNoteText The customerCreditCardInformationNoteText to set.
-	 * 
-	 */
-	public void setCustomerCreditCardInformationNoteText(String customerCreditCardInformationNoteText) {
-		this.customerCreditCardInformationNoteText = customerCreditCardInformationNoteText;
-	}
+    /**
+     * Sets the financialDocumentCreditCardTypeCode attribute.
+     * 
+     * @param - financialDocumentCreditCardTypeCode The financialDocumentCreditCardTypeCode to set.
+     * 
+     */
+    public void setFinancialDocumentCreditCardTypeCode(String financialDocumentCreditCardTypeCode) {
+        this.financialDocumentCreditCardTypeCode = financialDocumentCreditCardTypeCode;
+    }
 
 
-	/**
-	 * Gets the financialDocumentCreditCardVendor attribute.
-	 * 
-	 * @return - Returns the financialDocumentCreditCardVendor
-	 * 
-	 */
-	public CreditCardVendor getFinancialDocumentCreditCardVendor() { 
-		return financialDocumentCreditCardVendor;
-	}
+    /**
+     * Gets the customerCreditCardExpenditureDate attribute.
+     * 
+     * @return - Returns the customerCreditCardExpenditureDate
+     * 
+     */
+    public Date getCustomerCreditCardExpenditureDate() {
+        return customerCreditCardExpenditureDate;
+    }
 
-	/**
-	 * Sets the financialDocumentCreditCardVendor attribute.
-	 * 
-	 * @param - financialDocumentCreditCardVendor The financialDocumentCreditCardVendor to set.
-	 * @deprecated
-	 */
-	public void setFinancialDocumentCreditCardVendor(CreditCardVendor financialDocumentCreditCardVendor) {
-		this.financialDocumentCreditCardVendor = financialDocumentCreditCardVendor;
-	}
+    /**
+     * Sets the customerCreditCardExpenditureDate attribute.
+     * 
+     * @param - customerCreditCardExpenditureDate The customerCreditCardExpenditureDate to set.
+     * 
+     */
+    public void setCustomerCreditCardExpenditureDate(Date customerCreditCardExpenditureDate) {
+        this.customerCreditCardExpenditureDate = customerCreditCardExpenditureDate;
+    }
 
-	/**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
+
+    /**
+     * Gets the customerNumber attribute.
+     * 
+     * @return - Returns the customerNumber
+     * 
+     */
+    public String getCustomerNumber() {
+        return customerNumber;
+    }
+
+    /**
+     * Sets the customerNumber attribute.
+     * 
+     * @param - customerNumber The customerNumber to set.
+     * 
+     */
+    public void setCustomerNumber(String customerNumber) {
+        this.customerNumber = customerNumber;
+    }
+
+
+    /**
+     * Gets the financialDocumentCreditCardVendorNumber attribute.
+     * 
+     * @return - Returns the financialDocumentCreditCardVendorNumber
+     * 
+     */
+    public String getFinancialDocumentCreditCardVendorNumber() {
+        return financialDocumentCreditCardVendorNumber;
+    }
+
+    /**
+     * Sets the financialDocumentCreditCardVendorNumber attribute.
+     * 
+     * @param - financialDocumentCreditCardVendorNumber The financialDocumentCreditCardVendorNumber to set.
+     * 
+     */
+    public void setFinancialDocumentCreditCardVendorNumber(String financialDocumentCreditCardVendorNumber) {
+        this.financialDocumentCreditCardVendorNumber = financialDocumentCreditCardVendorNumber;
+    }
+
+
+    /**
+     * Gets the customerCreditCardInformationNoteText attribute.
+     * 
+     * @return - Returns the customerCreditCardInformationNoteText
+     * 
+     */
+    public String getCustomerCreditCardInformationNoteText() {
+        return customerCreditCardInformationNoteText;
+    }
+
+    /**
+     * Sets the customerCreditCardInformationNoteText attribute.
+     * 
+     * @param - customerCreditCardInformationNoteText The customerCreditCardInformationNoteText to set.
+     * 
+     */
+    public void setCustomerCreditCardInformationNoteText(String customerCreditCardInformationNoteText) {
+        this.customerCreditCardInformationNoteText = customerCreditCardInformationNoteText;
+    }
+
+
+    /**
+     * Gets the financialDocumentCreditCardVendor attribute.
+     * 
+     * @return - Returns the financialDocumentCreditCardVendor
+     * 
+     */
+    public CreditCardVendor getFinancialDocumentCreditCardVendor() {
+        return financialDocumentCreditCardVendor;
+    }
+
+    /**
+     * Sets the financialDocumentCreditCardVendor attribute.
+     * 
+     * @param - financialDocumentCreditCardVendor The financialDocumentCreditCardVendor to set.
+     * @deprecated
+     */
+    public void setFinancialDocumentCreditCardVendor(CreditCardVendor financialDocumentCreditCardVendor) {
+        this.financialDocumentCreditCardVendor = financialDocumentCreditCardVendor;
+    }
+
+    /**
+     * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
         m.put("customerCreditCardNumber", this.customerCreditCardNumber);
-	    return m;
+        return m;
     }
 }

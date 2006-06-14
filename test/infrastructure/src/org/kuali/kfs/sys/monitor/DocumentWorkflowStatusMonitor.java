@@ -36,13 +36,13 @@ public class DocumentWorkflowStatusMonitor extends ChangeMonitor {
     final private String docHeaderId;
     final private String[] desiredWorkflowStates;
 
-    public DocumentWorkflowStatusMonitor(DocumentService documentService, String docHeaderId, String desiredWorkflowStatus ) {
+    public DocumentWorkflowStatusMonitor(DocumentService documentService, String docHeaderId, String desiredWorkflowStatus) {
         this.documentService = documentService;
         this.docHeaderId = docHeaderId;
-        this.desiredWorkflowStates = new String[] {desiredWorkflowStatus};
+        this.desiredWorkflowStates = new String[] { desiredWorkflowStatus };
     }
-    
-    public DocumentWorkflowStatusMonitor(DocumentService documentService, String docHeaderId, String[] desiredWorkflowStates ) {
+
+    public DocumentWorkflowStatusMonitor(DocumentService documentService, String docHeaderId, String[] desiredWorkflowStates) {
         this.documentService = documentService;
         this.docHeaderId = docHeaderId;
         this.desiredWorkflowStates = desiredWorkflowStates;
@@ -52,9 +52,9 @@ public class DocumentWorkflowStatusMonitor extends ChangeMonitor {
         Document d = documentService.getByDocumentHeaderId(docHeaderId.toString());
 
         String currentStatus = d.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus();
-        
-        for(int i=0;i < desiredWorkflowStates.length;i++) {
-            if(StringUtils.equals(desiredWorkflowStates[i], currentStatus)) {
+
+        for (int i = 0; i < desiredWorkflowStates.length; i++) {
+            if (StringUtils.equals(desiredWorkflowStates[i], currentStatus)) {
                 return true;
             }
         }

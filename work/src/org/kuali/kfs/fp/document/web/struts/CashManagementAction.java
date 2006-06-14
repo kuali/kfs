@@ -73,8 +73,7 @@ public class CashManagementAction extends KualiDocumentActionBase {
      * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#execute(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
-    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
-            throws Exception {
+    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward dest = super.execute(mapping, form, request, response);
 
         CashManagementForm cmf = (CashManagementForm) form;
@@ -97,14 +96,12 @@ public class CashManagementAction extends KualiDocumentActionBase {
         KualiUser user = GlobalVariables.getUserSession().getKualiUser();
         String workgroupName = SpringServiceLocator.getCashReceiptService().getCashReceiptVerificationUnitForUser(user);
 
-        String defaultDescription = SpringServiceLocator.getKualiConfigurationService().getPropertyString(
-                CashManagement.DEFAULT_DOCUMENT_DESCRIPTION);
+        String defaultDescription = SpringServiceLocator.getKualiConfigurationService().getPropertyString(CashManagement.DEFAULT_DOCUMENT_DESCRIPTION);
         defaultDescription = StringUtils.replace(defaultDescription, "{0}", workgroupName);
         defaultDescription = StringUtils.substring(defaultDescription, 0, 39);
 
         // create doc
-        CashManagementDocument cmDoc = SpringServiceLocator.getCashManagementService().createCashManagementDocument(workgroupName,
-                defaultDescription, null);
+        CashManagementDocument cmDoc = SpringServiceLocator.getCashManagementService().createCashManagementDocument(workgroupName, defaultDescription, null);
 
         // update form
         kualiDocumentFormBase.setDocument(cmDoc);
@@ -112,10 +109,8 @@ public class CashManagementAction extends KualiDocumentActionBase {
     }
 
     private CashManagementDocumentAuthorizer getDocumentAuthorizer() {
-        String documentTypeName = SpringServiceLocator.getDataDictionaryService().getDocumentTypeNameByClass(
-                CashManagementDocument.class);
-        DocumentAuthorizer documentAuthorizer = SpringServiceLocator.getDocumentAuthorizationService().getDocumentAuthorizer(
-                documentTypeName);
+        String documentTypeName = SpringServiceLocator.getDataDictionaryService().getDocumentTypeNameByClass(CashManagementDocument.class);
+        DocumentAuthorizer documentAuthorizer = SpringServiceLocator.getDocumentAuthorizationService().getDocumentAuthorizer(documentTypeName);
 
         return (CashManagementDocumentAuthorizer) documentAuthorizer;
     }
@@ -130,8 +125,7 @@ public class CashManagementAction extends KualiDocumentActionBase {
      * @return ActionForward
      * @throws Exception
      */
-    public ActionForward addInterimDeposit(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
+    public ActionForward addInterimDeposit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         CashManagementForm cmForm = (CashManagementForm) form;
         CashManagementDocument cmDoc = cmForm.getCashManagementDocument();
 
@@ -150,8 +144,7 @@ public class CashManagementAction extends KualiDocumentActionBase {
      * @return ActionForward
      * @throws Exception
      */
-    public ActionForward addFinalDeposit(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
+    public ActionForward addFinalDeposit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         CashManagementForm cmForm = (CashManagementForm) form;
         CashManagementDocument cmDoc = cmForm.getCashManagementDocument();
 
@@ -202,8 +195,7 @@ public class CashManagementAction extends KualiDocumentActionBase {
      * @return ActionForward
      * @throws Exception
      */
-    public ActionForward cancelDeposit(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
+    public ActionForward cancelDeposit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         CashManagementForm cmForm = (CashManagementForm) form;
         CashManagementDocument cmDoc = cmForm.getCashManagementDocument();
 

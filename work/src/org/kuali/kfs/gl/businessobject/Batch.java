@@ -30,135 +30,166 @@ import org.kuali.core.util.KualiDecimal;
 
 /**
  * @author jsissom
- *
+ * 
  */
 public class Batch extends BusinessObjectBase {
-  static final long serialVersionUID = -4573386698844451328L;
+    static final long serialVersionUID = -4573386698844451328L;
 
-  private Integer batchId;
-  private Date batchDate;
-  private String batchStatus;
-  private Integer totalRecords;
-  private KualiDecimal totalAmount;
-  private String chartOfAccountsCode;
-  private String organizationCode;
-  private Date transmissionDate;
-  private Date processDate;
-  private Integer sequenceNumber;
-  private String emailAddress;
-  private String contactPerson;
-  private String campusAddress;
-  private String campusCode;
-  private String campusPhone;
-  private String organizationName;
+    private Integer batchId;
+    private Date batchDate;
+    private String batchStatus;
+    private Integer totalRecords;
+    private KualiDecimal totalAmount;
+    private String chartOfAccountsCode;
+    private String organizationCode;
+    private Date transmissionDate;
+    private Date processDate;
+    private Integer sequenceNumber;
+    private String emailAddress;
+    private String contactPerson;
+    private String campusAddress;
+    private String campusCode;
+    private String campusPhone;
+    private String organizationName;
 
-  /**
-   * 
-   */
-  public Batch() {
-    super();
-  }
+    /**
+     * 
+     */
+    public Batch() {
+        super();
+    }
 
-  protected LinkedHashMap toStringMapper() {
-    LinkedHashMap map = new LinkedHashMap();
-    map.put("batchId",getBatchId());
-    return map;
-  }
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap map = new LinkedHashMap();
+        map.put("batchId", getBatchId());
+        return map;
+    }
 
-  public Date getBatchDate() {
-    return batchDate;
-  }
-  public void setBatchDate(Date batchDate) {
-    this.batchDate = batchDate;
-  }
-  public Integer getBatchId() {
-    return batchId;
-  }
-  public void setBatchId(Integer batchId) {
-    this.batchId = batchId;
-  }
-  public Integer getSequenceNumber() {
-    return sequenceNumber;
-  }
-  public void setSequenceNumber(Integer sequenceNumber) {
-    this.sequenceNumber = sequenceNumber;
-  }
-  public String getBatchStatus() {
-    return batchStatus;
-  }
-  public void setBatchStatus(String batchStatus) {
-    this.batchStatus = batchStatus;
-  }
-  public String getCampusAddress() {
-    return campusAddress;
-  }
-  public void setCampusAddress(String campusAddress) {
-    this.campusAddress = campusAddress;
-  }
-  public String getCampusCode() {
-    return campusCode;
-  }
-  public void setCampusCode(String campusCode) {
-    this.campusCode = campusCode;
-  }
-  public String getCampusPhone() {
-    return campusPhone;
-  }
-  public void setCampusPhone(String campusPhone) {
-    this.campusPhone = campusPhone;
-  }
-  public String getChartOfAccountsCode() {
-    return chartOfAccountsCode;
-  }
-  public void setChartOfAccountsCode(String chartOfAccountsCode) {
-    this.chartOfAccountsCode = chartOfAccountsCode;
-  }
-  public String getContactPerson() {
-    return contactPerson;
-  }
-  public void setContactPerson(String contactPerson) {
-    this.contactPerson = contactPerson;
-  }
-  public String getEmailAddress() {
-    return emailAddress;
-  }
-  public void setEmailAddress(String emailAddress) {
-    this.emailAddress = emailAddress;
-  }
-  public String getOrganizationCode() {
-    return organizationCode;
-  }
-  public void setOrganizationCode(String organizationCode) {
-    this.organizationCode = organizationCode;
-  }
-  public String getOrganizationName() {
-    return organizationName;
-  }
-  public void setOrganizationName(String organizationName) {
-    this.organizationName = organizationName;
-  }
-  public Date getProcessDate() {
-    return processDate;
-  }
-  public void setProcessDate(Date processDate) {
-    this.processDate = processDate;
-  }
-  public KualiDecimal getTotalAmount() {
-    return totalAmount;
-  }
-  public void setTotalAmount(KualiDecimal totalAmount) {
-    this.totalAmount = totalAmount;
-  }
-  public Integer getTotalRecords() {
-    return totalRecords;
-  }
-  public void setTotalRecords(Integer totalRecords) {
-    this.totalRecords = totalRecords;
-  }
-  public Date getTransmissionDate() {
-    return transmissionDate;
-  }
-  public void setTransmissionDate(Date transmissionDate) {
-    this.transmissionDate = transmissionDate;
-  }
+    public Date getBatchDate() {
+        return batchDate;
+    }
+
+    public void setBatchDate(Date batchDate) {
+        this.batchDate = batchDate;
+    }
+
+    public Integer getBatchId() {
+        return batchId;
+    }
+
+    public void setBatchId(Integer batchId) {
+        this.batchId = batchId;
+    }
+
+    public Integer getSequenceNumber() {
+        return sequenceNumber;
+    }
+
+    public void setSequenceNumber(Integer sequenceNumber) {
+        this.sequenceNumber = sequenceNumber;
+    }
+
+    public String getBatchStatus() {
+        return batchStatus;
+    }
+
+    public void setBatchStatus(String batchStatus) {
+        this.batchStatus = batchStatus;
+    }
+
+    public String getCampusAddress() {
+        return campusAddress;
+    }
+
+    public void setCampusAddress(String campusAddress) {
+        this.campusAddress = campusAddress;
+    }
+
+    public String getCampusCode() {
+        return campusCode;
+    }
+
+    public void setCampusCode(String campusCode) {
+        this.campusCode = campusCode;
+    }
+
+    public String getCampusPhone() {
+        return campusPhone;
+    }
+
+    public void setCampusPhone(String campusPhone) {
+        this.campusPhone = campusPhone;
+    }
+
+    public String getChartOfAccountsCode() {
+        return chartOfAccountsCode;
+    }
+
+    public void setChartOfAccountsCode(String chartOfAccountsCode) {
+        this.chartOfAccountsCode = chartOfAccountsCode;
+    }
+
+    public String getContactPerson() {
+        return contactPerson;
+    }
+
+    public void setContactPerson(String contactPerson) {
+        this.contactPerson = contactPerson;
+    }
+
+    public String getEmailAddress() {
+        return emailAddress;
+    }
+
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
+    }
+
+    public String getOrganizationCode() {
+        return organizationCode;
+    }
+
+    public void setOrganizationCode(String organizationCode) {
+        this.organizationCode = organizationCode;
+    }
+
+    public String getOrganizationName() {
+        return organizationName;
+    }
+
+    public void setOrganizationName(String organizationName) {
+        this.organizationName = organizationName;
+    }
+
+    public Date getProcessDate() {
+        return processDate;
+    }
+
+    public void setProcessDate(Date processDate) {
+        this.processDate = processDate;
+    }
+
+    public KualiDecimal getTotalAmount() {
+        return totalAmount;
+    }
+
+    public void setTotalAmount(KualiDecimal totalAmount) {
+        this.totalAmount = totalAmount;
+    }
+
+    public Integer getTotalRecords() {
+        return totalRecords;
+    }
+
+    public void setTotalRecords(Integer totalRecords) {
+        this.totalRecords = totalRecords;
+    }
+
+    public Date getTransmissionDate() {
+        return transmissionDate;
+    }
+
+    public void setTransmissionDate(Date transmissionDate) {
+        this.transmissionDate = transmissionDate;
+    }
 }

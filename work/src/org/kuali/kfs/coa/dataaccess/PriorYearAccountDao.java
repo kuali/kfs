@@ -26,16 +26,16 @@ import org.kuali.module.chart.bo.PriorYearAccount;
 
 /**
  * This class...
+ * 
  * @author Bin Gao from Michigan State University
  */
 public interface PriorYearAccountDao {
     /**
-     * @param chartOfAccountsCode - part of composite key  
-     * @param accountNumber - part of composite key    
+     * @param chartOfAccountsCode - part of composite key
+     * @param accountNumber - part of composite key
      * @return PriorYearAccount
      * 
      * Retrieves an Account object based on primary key.
      */
-    public PriorYearAccount getByPrimaryId(String chartOfAccountsCode,
-        String accountNumber);
+    public PriorYearAccount getByPrimaryId(String chartOfAccountsCode, String accountNumber);
 }

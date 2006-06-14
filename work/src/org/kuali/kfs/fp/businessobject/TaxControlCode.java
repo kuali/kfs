@@ -32,10 +32,10 @@ import org.kuali.core.bo.KualiCodeBase;
  */
 public class TaxControlCode extends KualiCodeBase {
 
-	/**
-	 * Default no-arg constructor.
-	 */
-	public TaxControlCode() {
+    /**
+     * Default no-arg constructor.
+     */
+    public TaxControlCode() {
 
-	}
+    }
 }

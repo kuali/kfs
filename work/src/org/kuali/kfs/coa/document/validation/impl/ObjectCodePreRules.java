@@ -34,45 +34,45 @@ import org.kuali.module.chart.service.ChartService;
 
 public class ObjectCodePreRules extends PreRulesContinuationBase {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ObjectCodePreRules.class);
-    
+
     private ChartService chartService;
     private Map reportsTo;
-   
+
     public ObjectCodePreRules() {
         this.setChartService(SpringServiceLocator.getChartService());
-        reportsTo=chartService.getReportsToHierarchy();
+        reportsTo = chartService.getReportsToHierarchy();
     }
-    
-    
+
+
     public boolean doRules(Document document) {
         MaintenanceDocument maintenanceDocument = (MaintenanceDocument) document;
-        
+
         LOG.debug("doRules");
-        
+
         if (LOG.isDebugEnabled()) {
-            LOG.debug("new maintainable is: "+maintenanceDocument.getNewMaintainableObject().getClass());
+            LOG.debug("new maintainable is: " + maintenanceDocument.getNewMaintainableObject().getClass());
         }
         ObjectCode newObjectCode = (ObjectCode) maintenanceDocument.getNewMaintainableObject().getBusinessObject();
 
-        String chart=newObjectCode.getChartOfAccountsCode();
-        String reportsToChart=(String) reportsTo.get(chart);
-        
+        String chart = newObjectCode.getChartOfAccountsCode();
+        String reportsToChart = (String) reportsTo.get(chart);
+
         if (LOG.isDebugEnabled()) {
-            LOG.debug("Chart: "+chart);
-            LOG.debug("reportsTo: "+reportsToChart);
-            LOG.debug("User supplied reportsToChart: "+newObjectCode.getReportsToChartOfAccountsCode());
+            LOG.debug("Chart: " + chart);
+            LOG.debug("reportsTo: " + reportsToChart);
+            LOG.debug("User supplied reportsToChart: " + newObjectCode.getReportsToChartOfAccountsCode());
         }
-        
+
         // force reportsTo to the right value regardless of user input
         newObjectCode.setReportsToChartOfAccountsCode(reportsToChart);
-        
-        //Default Mandatory Transfer Or Eliminations Code should be N when it left blank
-        if (newObjectCode.getFinObjMandatoryTrnfrelimCd() == null){
+
+        // Default Mandatory Transfer Or Eliminations Code should be N when it left blank
+        if (newObjectCode.getFinObjMandatoryTrnfrelimCd() == null) {
             newObjectCode.setFinObjMandatoryTrnfrelimCd("N");
         }
-        
+
         return true;
-        
+
     }
 
     public void setChartService(ChartService chartService) {

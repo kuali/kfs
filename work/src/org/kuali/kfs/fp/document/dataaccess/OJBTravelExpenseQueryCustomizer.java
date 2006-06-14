@@ -34,8 +34,8 @@ import org.kuali.Constants;
 import org.kuali.PropertyConstants;
 
 /**
- * Query customizer for to seperate out the pre-paid and non prepaid collections
- * from the dv expense table.
+ * Query customizer for to seperate out the pre-paid and non prepaid collections from the dv expense table.
+ * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class OJBTravelExpenseQueryCustomizer implements QueryCustomizer {
@@ -44,14 +44,16 @@ public class OJBTravelExpenseQueryCustomizer implements QueryCustomizer {
     private Map attributes = new HashMap();
 
     /**
-     * @see org.apache.ojb.broker.accesslayer.QueryCustomizer#customizeQuery(java.lang.Object, org.apache.ojb.broker.PersistenceBroker, org.apache.ojb.broker.metadata.CollectionDescriptor, org.apache.ojb.broker.query.QueryByCriteria)
+     * @see org.apache.ojb.broker.accesslayer.QueryCustomizer#customizeQuery(java.lang.Object,
+     *      org.apache.ojb.broker.PersistenceBroker, org.apache.ojb.broker.metadata.CollectionDescriptor,
+     *      org.apache.ojb.broker.query.QueryByCriteria)
      */
     public Query customizeQuery(Object arg0, PersistenceBroker arg1, CollectionDescriptor arg2, QueryByCriteria arg3) {
         if ("TRUE".equals(getAttribute(prepaidAttributeName))) {
-          arg3.getCriteria().addEqualTo(prepaidIndicatorField, Constants.ACTIVE_INDICATOR);
+            arg3.getCriteria().addEqualTo(prepaidIndicatorField, Constants.ACTIVE_INDICATOR);
         }
         else {
-          arg3.getCriteria().addEqualTo(prepaidIndicatorField, Constants.NON_ACTIVE_INDICATOR);
+            arg3.getCriteria().addEqualTo(prepaidIndicatorField, Constants.NON_ACTIVE_INDICATOR);
         }
         return arg3;
     }

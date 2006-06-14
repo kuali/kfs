@@ -28,8 +28,8 @@ import java.util.Map;
 
 /**
  * @author aapotts
- *
+ * 
  */
 public interface SufficientFundsReport {
-  public void generateReport(Map reportErrors, List reportSummary, Date runDate, int mode);
+    public void generateReport(Map reportErrors, List reportSummary, Date runDate, int mode);
 }

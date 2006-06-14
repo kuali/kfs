@@ -27,10 +27,11 @@ import org.kuali.module.chart.dao.ObjectLevelDao;
 import org.kuali.module.chart.service.ObjectLevelService;
 
 /**
- * This class is the service implementation for the ObjLevel structure.
- * This is the default implementation, that is delivered with Kuali.
+ * This class is the service implementation for the ObjLevel structure. This is the default implementation, that is delivered with
+ * Kuali.
+ * 
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
-*/
+ */
 public class ObjectLevelServiceImpl implements ObjectLevelService {
     private ObjectLevelDao objectLevelDao;
 
@@ -40,14 +41,14 @@ public class ObjectLevelServiceImpl implements ObjectLevelService {
     public ObjLevel getByPrimaryId(String chartOfAccountsCode, String objectLevelCode) {
         return objectLevelDao.getByPrimaryId(chartOfAccountsCode, objectLevelCode);
     }
-    
+
     /**
      * @return Returns the objectLevelDao.
      */
     public ObjectLevelDao getObjectLevelDao() {
         return objectLevelDao;
     }
-    
+
     /**
      * @param objectLevelDao The objectLevelDao to set.
      */

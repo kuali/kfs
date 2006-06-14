@@ -27,7 +27,9 @@ import java.util.Collection;
 import org.kuali.module.gl.bo.CorrectionCriteria;
 
 public interface CorrectionCriteriaDao {
-	void save(CorrectionCriteria criterion);
-	void delete(CorrectionCriteria criterion);
-	Collection findByDocumentNumberAndCorrectionGroupNumber(String documentNumber, Integer correctionGroupNumber);
+    void save(CorrectionCriteria criterion);
+
+    void delete(CorrectionCriteria criterion);
+
+    Collection findByDocumentNumberAndCorrectionGroupNumber(String documentNumber, Integer correctionGroupNumber);
 }

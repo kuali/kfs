@@ -26,9 +26,10 @@ import org.kuali.module.chart.bo.IndirectCostRecoveryExclusionAccount;
 
 /**
  * @author jsissom
- *
+ * 
  */
 public interface IndirectCostRecoveryExclusionAccountDao {
-  public IndirectCostRecoveryExclusionAccount getByPrimaryKey(String chartOfAccountsCode,String accountNumber,String objectChartOfAccountsCode,String objectCode);
-  public boolean existByAccount(String chartOfAccountsCode,String accountNumber);
+    public IndirectCostRecoveryExclusionAccount getByPrimaryKey(String chartOfAccountsCode, String accountNumber, String objectChartOfAccountsCode, String objectCode);
+
+    public boolean existByAccount(String chartOfAccountsCode, String accountNumber);
 }

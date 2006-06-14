@@ -57,7 +57,7 @@ import com.lowagie.text.pdf.PdfStamper;
  * Service used for manipulating disbursement voucher cover sheets.
  * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
- * @version $Id: DisbursementVoucherCoverSheetServiceImpl.java,v 1.4 2006-03-06 00:46:59 jkneal Exp $
+ * @version $Id: DisbursementVoucherCoverSheetServiceImpl.java,v 1.5 2006-06-14 12:26:45 abyrne Exp $
  */
 public class DisbursementVoucherCoverSheetServiceImpl implements DisbursementVoucherCoverSheetService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherCoverSheetServiceImpl.class);
@@ -82,8 +82,7 @@ public class DisbursementVoucherCoverSheetServiceImpl implements DisbursementVou
      * @see org.kuali.module.financial.service.DisbursementVoucherCoverSheetService#generateDisbursementVoucherCoverSheet(java.lang.String,
      *      java.lang.String, org.kuali.module.financial.document.DisbursementVoucherDocument, java.io.OutputStream)
      */
-    public void generateDisbursementVoucherCoverSheet(String templateDirectory, String templateName,
-            DisbursementVoucherDocument document, OutputStream outputStream) throws DocumentException, IOException {
+    public void generateDisbursementVoucherCoverSheet(String templateDirectory, String templateName, DisbursementVoucherDocument document, OutputStream outputStream) throws DocumentException, IOException {
         DisbursementVoucherDocumentRule documentRule = new DisbursementVoucherDocumentRule();
         if (documentRule.isCoverSheetPrintable(document)) {
             String attachment = "";
@@ -97,8 +96,7 @@ public class DisbursementVoucherCoverSheetServiceImpl implements DisbursementVou
             String initiator = document.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId();
             String payee = document.getDvPayeeDetail().getDisbVchrPayeePersonName();
 
-            String reason = ((PaymentReasonCode) retrieveObjectByKey(PaymentReasonCode.class, document.getDvPayeeDetail()
-                    .getDisbVchrPaymentReasonCode())).getName();
+            String reason = ((PaymentReasonCode) retrieveObjectByKey(PaymentReasonCode.class, document.getDvPayeeDetail().getDisbVchrPaymentReasonCode())).getName();
             String check_total = document.getDisbVchrCheckTotalAmount().toString();
 
             String currency = getValueForKey(new PaymentMethodValuesFinder(), document.getDisbVchrPaymentMethodCode());
@@ -107,36 +105,25 @@ public class DisbursementVoucherCoverSheetServiceImpl implements DisbursementVou
 
             // retrieve attachment label
             if (document.isDisbVchrAttachmentCode()) {
-                attachment = kualiConfigurationService.getApplicationParameterValue(DV_DOCUMENT_PARAMETERS_NM,
-                        DV_COVER_SHEET_TEMPLATE_ATTACHMENT_PARM_NM);
+                attachment = kualiConfigurationService.getApplicationParameterValue(DV_DOCUMENT_PARAMETERS_NM, DV_COVER_SHEET_TEMPLATE_ATTACHMENT_PARM_NM);
             }
             // retrieve handling label
             if (document.isDisbVchrSpecialHandlingCode()) {
-                handling = kualiConfigurationService.getApplicationParameterValue(DV_DOCUMENT_PARAMETERS_NM,
-                        DV_COVER_SHEET_TEMPLATE_HANDLING_PARM_NM);
+                handling = kualiConfigurationService.getApplicationParameterValue(DV_DOCUMENT_PARAMETERS_NM, DV_COVER_SHEET_TEMPLATE_HANDLING_PARM_NM);
             }
             // retrieve data for alien payment code
             if (document.getDvPayeeDetail().isDisbVchrAlienPaymentCode()) {
-                String taxDocumentationLocationCode = SpringServiceLocator.getKualiConfigurationService()
-                        .getApplicationParameterValue(DisbursementVoucherRuleConstants.DV_DOCUMENT_PARAMETERS_GROUP_NM,
-                                DisbursementVoucherRuleConstants.TAX_DOCUMENTATION_LOCATION_CODE_PARM_NM);
+                String taxDocumentationLocationCode = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(DisbursementVoucherRuleConstants.DV_DOCUMENT_PARAMETERS_GROUP_NM, DisbursementVoucherRuleConstants.TAX_DOCUMENTATION_LOCATION_CODE_PARM_NM);
 
                 address = retrieveAddress(taxDocumentationLocationCode);
-                alien = kualiConfigurationService.getApplicationParameterValue(DV_DOCUMENT_PARAMETERS_NM,
-                        DV_COVER_SHEET_TEMPLATE_ALIEN_PARM_NM);
-                lines = kualiConfigurationService.getApplicationParameterValue(DV_DOCUMENT_PARAMETERS_NM,
-                        DV_COVER_SHEET_TEMPLATE_LINES_PARM_NM);
+                alien = kualiConfigurationService.getApplicationParameterValue(DV_DOCUMENT_PARAMETERS_NM, DV_COVER_SHEET_TEMPLATE_ALIEN_PARM_NM);
+                lines = kualiConfigurationService.getApplicationParameterValue(DV_DOCUMENT_PARAMETERS_NM, DV_COVER_SHEET_TEMPLATE_LINES_PARM_NM);
             }
             // retrieve data for travel payment reasons
-            String[] travelNonEmplPaymentReasonCodes = SpringServiceLocator.getKualiConfigurationService()
-                    .getApplicationParameterValues(DisbursementVoucherRuleConstants.DV_DOCUMENT_PARAMETERS_GROUP_NM,
-                            DisbursementVoucherRuleConstants.NONEMPLOYEE_TRAVEL_PAY_REASONS_PARM_NM);
-            if (RulesUtils.makeSet(travelNonEmplPaymentReasonCodes).contains(
-                    document.getDvPayeeDetail().getDisbVchrPaymentReasonCode())) {
-                bar = kualiConfigurationService.getApplicationParameterValue(DV_DOCUMENT_PARAMETERS_NM,
-                        DV_COVER_SHEET_TEMPLATE_BAR_PARM_NM);
-                rlines = kualiConfigurationService.getApplicationParameterValue(DV_DOCUMENT_PARAMETERS_NM,
-                        DV_COVER_SHEET_TEMPLATE_RLINES_PARM_NM);
+            String[] travelNonEmplPaymentReasonCodes = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValues(DisbursementVoucherRuleConstants.DV_DOCUMENT_PARAMETERS_GROUP_NM, DisbursementVoucherRuleConstants.NONEMPLOYEE_TRAVEL_PAY_REASONS_PARM_NM);
+            if (RulesUtils.makeSet(travelNonEmplPaymentReasonCodes).contains(document.getDvPayeeDetail().getDisbVchrPaymentReasonCode())) {
+                bar = kualiConfigurationService.getApplicationParameterValue(DV_DOCUMENT_PARAMETERS_NM, DV_COVER_SHEET_TEMPLATE_BAR_PARM_NM);
+                rlines = kualiConfigurationService.getApplicationParameterValue(DV_DOCUMENT_PARAMETERS_NM, DV_COVER_SHEET_TEMPLATE_RLINES_PARM_NM);
             }
 
             try {
@@ -220,8 +207,7 @@ public class DisbursementVoucherCoverSheetServiceImpl implements DisbursementVou
     private String retrieveAddress(String docLocCd) {
         String address = "";
         try {
-            address = ((DisbursementVoucherDocumentationLocation) retrieveObjectByKey(
-                    DisbursementVoucherDocumentationLocation.class, docLocCd)).getDisbursementVoucherDocumentationLocationAddress();
+            address = ((DisbursementVoucherDocumentationLocation) retrieveObjectByKey(DisbursementVoucherDocumentationLocation.class, docLocCd)).getDisbursementVoucherDocumentationLocationAddress();
         }
         catch (NullPointerException e) {
             // ignored

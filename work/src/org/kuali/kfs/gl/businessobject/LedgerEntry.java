@@ -26,11 +26,11 @@ import org.kuali.core.util.KualiDecimal;
 
 /**
  * @author Anthony Potts
- *
+ * 
  */
 public class LedgerEntry {
-    
-    // FIXME: public data members?  
+
+    // FIXME: public data members?
     public String balanceType;
     public String originCode;
     public Integer fiscalYear;
@@ -42,7 +42,7 @@ public class LedgerEntry {
     public int creditCount;
     public KualiDecimal noDCAmount;
     public int noDCCount;
-    
+
     /**
      * Constructs a LedgerEntry.java.
      */
@@ -52,43 +52,44 @@ public class LedgerEntry {
 
     /**
      * Constructs a LedgerEntry.java.
+     * 
      * @param fiscalYear
      * @param period
      * @param balanceType
      * @param originCode
      */
-    public LedgerEntry(Integer fiscalYear,String period, String balanceType,String originCode) {
+    public LedgerEntry(Integer fiscalYear, String period, String balanceType, String originCode) {
         this.fiscalYear = fiscalYear;
         this.period = period;
         this.balanceType = balanceType;
         this.originCode = originCode;
-        
+
         this.creditAmount = KualiDecimal.ZERO;
         this.debitAmount = KualiDecimal.ZERO;
         this.noDCAmount = KualiDecimal.ZERO;
-    }    
-    
+    }
+
     /**
-     * Add the amounts of the given ledger entry into those of current ledger entry, and update the counts of 
-     * corresponding fields
+     * Add the amounts of the given ledger entry into those of current ledger entry, and update the counts of corresponding fields
      * 
      * @param addend the given ledger entry to be added into current one
      */
-    public void add(LedgerEntry addend){
+    public void add(LedgerEntry addend) {
         this.creditAmount = this.creditAmount.add(addend.getCreditAmount());
         this.creditCount += addend.getCreditCount();
-        
-        this.debitAmount  = this.debitAmount.add(addend.getDebitAmount());
+
+        this.debitAmount = this.debitAmount.add(addend.getDebitAmount());
         this.debitCount += addend.getDebitCount();
-        
-        this.noDCAmount   = this.noDCAmount.add(addend.getNoDCAmount());
+
+        this.noDCAmount = this.noDCAmount.add(addend.getNoDCAmount());
         this.noDCCount += addend.getNoDCCount();
-        
+
         this.recordCount = this.creditCount + this.debitCount + this.noDCCount;
     }
 
     /**
-     * Gets the balanceType attribute. 
+     * Gets the balanceType attribute.
+     * 
      * @return Returns the balanceType.
      */
     public String getBalanceType() {
@@ -97,6 +98,7 @@ public class LedgerEntry {
 
     /**
      * Sets the balanceType attribute value.
+     * 
      * @param balanceType The balanceType to set.
      */
     public void setBalanceType(String balanceType) {
@@ -104,7 +106,8 @@ public class LedgerEntry {
     }
 
     /**
-     * Gets the creditAmount attribute. 
+     * Gets the creditAmount attribute.
+     * 
      * @return Returns the creditAmount.
      */
     public KualiDecimal getCreditAmount() {
@@ -113,6 +116,7 @@ public class LedgerEntry {
 
     /**
      * Sets the creditAmount attribute value.
+     * 
      * @param creditAmount The creditAmount to set.
      */
     public void setCreditAmount(KualiDecimal creditAmount) {
@@ -120,7 +124,8 @@ public class LedgerEntry {
     }
 
     /**
-     * Gets the creditCount attribute. 
+     * Gets the creditCount attribute.
+     * 
      * @return Returns the creditCount.
      */
     public int getCreditCount() {
@@ -129,6 +134,7 @@ public class LedgerEntry {
 
     /**
      * Sets the creditCount attribute value.
+     * 
      * @param creditCount The creditCount to set.
      */
     public void setCreditCount(int creditCount) {
@@ -136,7 +142,8 @@ public class LedgerEntry {
     }
 
     /**
-     * Gets the debitAmount attribute. 
+     * Gets the debitAmount attribute.
+     * 
      * @return Returns the debitAmount.
      */
     public KualiDecimal getDebitAmount() {
@@ -145,6 +152,7 @@ public class LedgerEntry {
 
     /**
      * Sets the debitAmount attribute value.
+     * 
      * @param debitAmount The debitAmount to set.
      */
     public void setDebitAmount(KualiDecimal debitAmount) {
@@ -152,7 +160,8 @@ public class LedgerEntry {
     }
 
     /**
-     * Gets the debitCount attribute. 
+     * Gets the debitCount attribute.
+     * 
      * @return Returns the debitCount.
      */
     public int getDebitCount() {
@@ -161,6 +170,7 @@ public class LedgerEntry {
 
     /**
      * Sets the debitCount attribute value.
+     * 
      * @param debitCount The debitCount to set.
      */
     public void setDebitCount(int debitCount) {
@@ -168,7 +178,8 @@ public class LedgerEntry {
     }
 
     /**
-     * Gets the fiscalYear attribute. 
+     * Gets the fiscalYear attribute.
+     * 
      * @return Returns the fiscalYear.
      */
     public Integer getFiscalYear() {
@@ -177,6 +188,7 @@ public class LedgerEntry {
 
     /**
      * Sets the fiscalYear attribute value.
+     * 
      * @param fiscalYear The fiscalYear to set.
      */
     public void setFiscalYear(Integer fiscalYear) {
@@ -184,7 +196,8 @@ public class LedgerEntry {
     }
 
     /**
-     * Gets the noDCAmount attribute. 
+     * Gets the noDCAmount attribute.
+     * 
      * @return Returns the noDCAmount.
      */
     public KualiDecimal getNoDCAmount() {
@@ -193,6 +206,7 @@ public class LedgerEntry {
 
     /**
      * Sets the noDCAmount attribute value.
+     * 
      * @param noDCAmount The noDCAmount to set.
      */
     public void setNoDCAmount(KualiDecimal noDCAmount) {
@@ -200,7 +214,8 @@ public class LedgerEntry {
     }
 
     /**
-     * Gets the noDCCount attribute. 
+     * Gets the noDCCount attribute.
+     * 
      * @return Returns the noDCCount.
      */
     public int getNoDCCount() {
@@ -209,6 +224,7 @@ public class LedgerEntry {
 
     /**
      * Sets the noDCCount attribute value.
+     * 
      * @param noDCCount The noDCCount to set.
      */
     public void setNoDCCount(int noDCCount) {
@@ -216,7 +232,8 @@ public class LedgerEntry {
     }
 
     /**
-     * Gets the originCode attribute. 
+     * Gets the originCode attribute.
+     * 
      * @return Returns the originCode.
      */
     public String getOriginCode() {
@@ -225,6 +242,7 @@ public class LedgerEntry {
 
     /**
      * Sets the originCode attribute value.
+     * 
      * @param originCode The originCode to set.
      */
     public void setOriginCode(String originCode) {
@@ -232,7 +250,8 @@ public class LedgerEntry {
     }
 
     /**
-     * Gets the period attribute. 
+     * Gets the period attribute.
+     * 
      * @return Returns the period.
      */
     public String getPeriod() {
@@ -241,6 +260,7 @@ public class LedgerEntry {
 
     /**
      * Sets the period attribute value.
+     * 
      * @param period The period to set.
      */
     public void setPeriod(String period) {
@@ -248,7 +268,8 @@ public class LedgerEntry {
     }
 
     /**
-     * Gets the recordCount attribute. 
+     * Gets the recordCount attribute.
+     * 
      * @return Returns the recordCount.
      */
     public int getRecordCount() {
@@ -257,33 +278,34 @@ public class LedgerEntry {
 
     /**
      * Sets the recordCount attribute value.
+     * 
      * @param recordCount The recordCount to set.
      */
     public void setRecordCount(int recordCount) {
         this.recordCount = recordCount;
     }
-    
+
     /**
      * @see java.lang.Object#toString()
      */
-    public String toString(){
+    public String toString() {
         StringBuffer ledgerEntryDescription = new StringBuffer();
-        
+
         ledgerEntryDescription.append(fiscalYear + "\t");
-        ledgerEntryDescription.append(period + "\t");   
+        ledgerEntryDescription.append(period + "\t");
         ledgerEntryDescription.append(balanceType + "\t");
-        ledgerEntryDescription.append(originCode + "\t");       
+        ledgerEntryDescription.append(originCode + "\t");
         ledgerEntryDescription.append(recordCount + "\t");
-        
+
         ledgerEntryDescription.append(debitAmount + "\t\t");
         ledgerEntryDescription.append(debitCount + "\t");
-        
+
         ledgerEntryDescription.append(creditAmount + "\t\t");
         ledgerEntryDescription.append(creditCount + "\t");
-        
+
         ledgerEntryDescription.append(noDCAmount + "\t\t");
         ledgerEntryDescription.append(noDCCount + "\t");
-        
+
         return ledgerEntryDescription.toString();
     }
 }

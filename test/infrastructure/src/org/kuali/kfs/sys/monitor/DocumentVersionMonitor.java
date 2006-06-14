@@ -58,4 +58,3 @@ public class DocumentVersionMonitor extends ChangeMonitor {
 
     }
 }
-

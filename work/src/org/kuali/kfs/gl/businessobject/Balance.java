@@ -38,7 +38,7 @@ import org.kuali.module.chart.bo.codes.BalanceTyp;
 
 /**
  * @author jsissom
- *  
+ * 
  */
 public class Balance extends BusinessObjectBase {
     static final long serialVersionUID = 6581797610149985575L;

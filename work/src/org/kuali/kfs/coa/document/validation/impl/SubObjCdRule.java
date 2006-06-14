@@ -32,10 +32,10 @@ import org.kuali.module.chart.bo.SubObjCd;
 public class SubObjCdRule extends MaintenanceDocumentRuleBase {
 
     private static final String ACCOUNT_ORG_RULE_KEY = "SubObjectCode.AccountOrgsAllowingClosedAccounts";
-    
+
     private SubObjCd oldSubObjectCode;
     private SubObjCd newSubObjectCode;
-    
+
     public SubObjCdRule() {
         super();
     }
@@ -46,77 +46,76 @@ public class SubObjCdRule extends MaintenanceDocumentRuleBase {
     protected boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
 
         LOG.info("Entering processCustomApproveDocumentBusinessRules()");
-    
-        //  check that all sub-objects whose keys are specified have matching objects in the db
+
+        // check that all sub-objects whose keys are specified have matching objects in the db
         checkExistenceAndActive();
 
         return true;
     }
-    
+
     /**
      * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
      */
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
 
         boolean success = true;
-        
+
         LOG.info("Entering processCustomRouteDocumentBusinessRules()");
 
-        //  check that all sub-objects whose keys are specified have matching objects in the db
+        // check that all sub-objects whose keys are specified have matching objects in the db
         success &= checkExistenceAndActive();
 
         return success;
     }
-    
+
     /**
      * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
      */
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
 
         boolean success = true;
-        
+
         LOG.info("Entering processCustomSaveDocumentBusinessRules()");
 
-        //  check that all sub-objects whose keys are specified have matching objects in the db
+        // check that all sub-objects whose keys are specified have matching objects in the db
         success &= checkExistenceAndActive();
 
         return success;
     }
-    
+
     /**
      * 
-     * This method sets the convenience objects like newAccount and oldAccount, so you
-     * have short and easy handles to the new and old objects contained in the 
-     * maintenance document.
+     * This method sets the convenience objects like newAccount and oldAccount, so you have short and easy handles to the new and
+     * old objects contained in the maintenance document.
      * 
-     * It also calls the BusinessObjectBase.refresh(), which will attempt to load 
-     * all sub-objects from the DB by their primary keys, if available.
+     * It also calls the BusinessObjectBase.refresh(), which will attempt to load all sub-objects from the DB by their primary keys,
+     * if available.
      * 
      * @param document - the maintenanceDocument being evaluated
      * 
      */
     public void setupConvenienceObjects() {
-        
-        //  setup oldAccount convenience objects, make sure all possible sub-objects are populated
+
+        // setup oldAccount convenience objects, make sure all possible sub-objects are populated
         oldSubObjectCode = (SubObjCd) super.getOldBo();
 
-        //  setup newAccount convenience objects, make sure all possible sub-objects are populated
+        // setup newAccount convenience objects, make sure all possible sub-objects are populated
         newSubObjectCode = (SubObjCd) super.getNewBo();
     }
-    
+
     protected boolean checkExistenceAndActive() {
-        
+
         LOG.info("Entering checkExistenceAndActive()");
         boolean success = true;
-        
-        //  disallow closed accounts unless in certain orgs
+
+        // disallow closed accounts unless in certain orgs
         if (ObjectUtils.isNotNull(newSubObjectCode.getAccount())) {
             Account account = newSubObjectCode.getAccount();
-            
-            //  if the account is closed
+
+            // if the account is closed
             if (account.isAccountClosedIndicator()) {
-                    putFieldError("accountNumber", KeyConstants.ERROR_DOCUMENT_SUBOBJECTMAINT_ACCOUNT_MAY_NOT_BE_CLOSED);
-                    success &= false;
+                putFieldError("accountNumber", KeyConstants.ERROR_DOCUMENT_SUBOBJECTMAINT_ACCOUNT_MAY_NOT_BE_CLOSED);
+                success &= false;
             }
         }
         return success;

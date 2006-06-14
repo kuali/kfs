@@ -41,11 +41,10 @@ public class OrgDocumentAuthorizer extends MaintenanceDocumentAuthorizerBase {
     public OrgDocumentAuthorizer() {
         super();
     }
-    
+
     /**
      * 
-     * This method returns the set of authorization restrictions (if any) that 
-     * apply to this Org in this context.
+     * This method returns the set of authorization restrictions (if any) that apply to this Org in this context.
      * 
      * @param document
      * @param user
@@ -53,20 +52,20 @@ public class OrgDocumentAuthorizer extends MaintenanceDocumentAuthorizerBase {
      * 
      */
     public MaintenanceDocumentAuthorizations getFieldAuthorizations(MaintenanceDocument document, KualiUser user) {
-        
+
         MaintenanceDocumentAuthorizations auths = new MaintenanceDocumentAuthorizations();
-        
-        //  if the user is the system supervisor, then do nothing, dont apply 
+
+        // if the user is the system supervisor, then do nothing, dont apply
         // any restrictions
         if (user.isSupervisorUser()) {
             return auths;
         }
-        
-        //  get the chartCode for the Org being touched
+
+        // get the chartCode for the Org being touched
         Org org = (Org) document.getNewMaintainableObject().getBusinessObject();
         String chartCode = org.getChartOfAccountsCode();
-        
-        //  if the user is NOT the chart manager for this Org's chart, then 
+
+        // if the user is NOT the chart manager for this Org's chart, then
         // do not allow them to modify the 4 plant account fields
         if (!user.isManagerForChart(chartCode)) {
             auths.addReadonlyAuthField("organizationPlantChartCode");

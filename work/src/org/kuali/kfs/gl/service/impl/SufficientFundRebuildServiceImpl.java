@@ -31,48 +31,48 @@ import org.kuali.module.gl.service.SufficientFundRebuildService;
 public class SufficientFundRebuildServiceImpl implements SufficientFundRebuildService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SufficientFundRebuildServiceImpl.class);
 
-    SufficientFundRebuildDao sufficientFundRebuildDao;   
+    SufficientFundRebuildDao sufficientFundRebuildDao;
 
     public Collection getAll() {
-      LOG.debug("getAll() started");
+        LOG.debug("getAll() started");
 
-      return sufficientFundRebuildDao.getAll();
+        return sufficientFundRebuildDao.getAll();
     }
 
     public Collection getAllAccountEntries() {
-      LOG.debug("getAllAccountEntries() started");
+        LOG.debug("getAllAccountEntries() started");
 
-      return sufficientFundRebuildDao.getByType("A");
+        return sufficientFundRebuildDao.getByType("A");
     }
 
     public Collection getAllObjectEntries() {
-      LOG.debug("getAllObjectEntries() started");
+        LOG.debug("getAllObjectEntries() started");
 
-      return sufficientFundRebuildDao.getByType("O");
+        return sufficientFundRebuildDao.getByType("O");
     }
 
     public SufficientFundRebuild getByAccount(String chartOfAccountsCode, String accountNumberFinancialObjectCode) {
-      LOG.debug("getByAccount() started");
+        LOG.debug("getByAccount() started");
 
-      return sufficientFundRebuildDao.getByAccount(chartOfAccountsCode, accountNumberFinancialObjectCode);
+        return sufficientFundRebuildDao.getByAccount(chartOfAccountsCode, accountNumberFinancialObjectCode);
     }
 
     public SufficientFundRebuild get(String chartOfAccountsCode, String accountFinancialObjectTypeCode, String accountNumberFinancialObjectCode) {
-      LOG.debug("get() started");
+        LOG.debug("get() started");
 
-      return sufficientFundRebuildDao.get(chartOfAccountsCode, accountFinancialObjectTypeCode, accountNumberFinancialObjectCode);
+        return sufficientFundRebuildDao.get(chartOfAccountsCode, accountFinancialObjectTypeCode, accountNumberFinancialObjectCode);
     }
 
     public void save(SufficientFundRebuild sfrb) {
-      LOG.debug("save() started");
+        LOG.debug("save() started");
 
-      sufficientFundRebuildDao.save(sfrb);
+        sufficientFundRebuildDao.save(sfrb);
     }
 
     public void delete(SufficientFundRebuild sfrb) {
-      LOG.debug("delete() started");
+        LOG.debug("delete() started");
 
-      sufficientFundRebuildDao.delete(sfrb);
+        sufficientFundRebuildDao.delete(sfrb);
     }
 
     public void setSufficientFundRebuildDao(SufficientFundRebuildDao sufficientFundRebuildDao) {

@@ -44,7 +44,7 @@ public class AuxiliaryVoucherDocumentTest extends TransactionalDocumentTestBase 
 
     /**
      * Get names of fixture collections test class is using.
-     *
+     * 
      * @return String[]
      */
     public String[] getFixtureCollectionNames() {
@@ -86,15 +86,15 @@ public class AuxiliaryVoucherDocumentTest extends TransactionalDocumentTestBase 
     public String getUserName() {
         return (String) getFixtureEntryFromCollection(COLLECTION_NAME, USER_NAME).createObject();
     }
-    
+
     /**
      * 
      * @see org.kuali.core.document.TransactionalDocumentTestBase#testConvertIntoErrorCorrection()
      */
     public void testConvertIntoErrorCorrection() throws Exception {
-        // for now we just want this to run without problems, so we are overriding the parent's 
-        // and leaving blank to run successfully 
-        // when we get to this document, we'll fix the problem with blanket approving non check 
+        // for now we just want this to run without problems, so we are overriding the parent's
+        // and leaving blank to run successfully
+        // when we get to this document, we'll fix the problem with blanket approving non check
         // disbursement document test
     }
 }

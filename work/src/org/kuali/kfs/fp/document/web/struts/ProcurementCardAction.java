@@ -51,23 +51,20 @@ public class ProcurementCardAction extends KualiTransactionalDocumentActionBase 
 
     /**
      * Override to add the new accounting line to the correct transaction
+     * 
      * @see org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase#insertSourceLine(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
-    public ActionForward insertTargetLine(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
+    public ActionForward insertTargetLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProcurementCardForm procurementCardForm = (ProcurementCardForm) form;
 
         // get index of new target line
         int newTargetIndex = super.getSelectedLine(request);
 
-        ProcurementCardTargetAccountingLine line = (ProcurementCardTargetAccountingLine) procurementCardForm.getNewTargetLines()
-                .get(newTargetIndex);
+        ProcurementCardTargetAccountingLine line = (ProcurementCardTargetAccountingLine) procurementCardForm.getNewTargetLines().get(newTargetIndex);
 
         // check any business rules
-        boolean rulePassed = SpringServiceLocator.getKualiRuleService().applyRules(
-                new AddAccountingLineEvent(Constants.NEW_TARGET_ACCT_LINES_PROPERTY_NAME + "[" + Integer.toString(newTargetIndex)
-                        + "]", procurementCardForm.getDocument(), (AccountingLine) line));
+        boolean rulePassed = SpringServiceLocator.getKualiRuleService().applyRules(new AddAccountingLineEvent(Constants.NEW_TARGET_ACCT_LINES_PROPERTY_NAME + "[" + Integer.toString(newTargetIndex) + "]", procurementCardForm.getDocument(), (AccountingLine) line));
 
         if (rulePassed) {
             // add accountingLine
@@ -81,23 +78,24 @@ public class ProcurementCardAction extends KualiTransactionalDocumentActionBase 
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
-    
+
     /**
-     * Override to resync base accounting lines. New lines on the PCDO document can
-     * be inserted anywhere in the list, not necessary at the end.
-     * @see org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase#insertAccountingLine(boolean, org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase, org.kuali.core.bo.AccountingLine)
+     * Override to resync base accounting lines. New lines on the PCDO document can be inserted anywhere in the list, not necessary
+     * at the end.
+     * 
+     * @see org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase#insertAccountingLine(boolean,
+     *      org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase, org.kuali.core.bo.AccountingLine)
      */
-    protected void insertAccountingLine(boolean isSource, KualiTransactionalDocumentFormBase transactionalDocumentForm,
-            AccountingLine line) {
+    protected void insertAccountingLine(boolean isSource, KualiTransactionalDocumentFormBase transactionalDocumentForm, AccountingLine line) {
         TransactionalDocument tdoc = transactionalDocumentForm.getTransactionalDocument();
-        
+
         // create and init a decorator
         AccountingLineDecorator decorator = new AccountingLineDecorator();
         decorator.setRevertible(false);
-       
+
         // add it to the document
         tdoc.addTargetAccountingLine((TargetAccountingLine) line);
-        
+
         // get the index of the inserted line
         int newLineIndex = tdoc.getTargetAccountingLines().indexOf(line);
 
@@ -107,16 +105,17 @@ public class ProcurementCardAction extends KualiTransactionalDocumentActionBase 
         // add the decorator
         transactionalDocumentForm.getTargetLineDecorators().add(newLineIndex, decorator);
     }
-    
+
     /**
      * Override to remove the accounting line from the correct transaction
-     * @see org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase#deleteAccountingLine(boolean, org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase, int)
+     * 
+     * @see org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase#deleteAccountingLine(boolean,
+     *      org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase, int)
      */
-    protected void deleteAccountingLine(boolean isSource, KualiTransactionalDocumentFormBase transactionalDocumentForm,
-            int deleteIndex) {
+    protected void deleteAccountingLine(boolean isSource, KualiTransactionalDocumentFormBase transactionalDocumentForm, int deleteIndex) {
         ProcurementCardDocument procurementCardDocument = (ProcurementCardDocument) transactionalDocumentForm.getDocument();
         procurementCardDocument.removeTargetAccountingLine(deleteIndex);
-        
+
         // remove baseline duplicate and decorator
         transactionalDocumentForm.getBaselineTargetAccountingLines().remove(deleteIndex);
         transactionalDocumentForm.getTargetLineDecorators().remove(deleteIndex);

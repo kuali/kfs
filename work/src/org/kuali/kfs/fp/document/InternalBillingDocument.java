@@ -33,11 +33,10 @@ import org.kuali.module.financial.bo.InternalBillingItem;
 
 
 /**
- * This is the business object that represents the InternalBillingDocument in Kuali. This
- * is a transactional document that will eventually post transactions to the G/L.  It
- * integrates with workflow and also contains two groupings of accounting lines:
- * Expense and Income.
- *
+ * This is the business object that represents the InternalBillingDocument in Kuali. This is a transactional document that will
+ * eventually post transactions to the G/L. It integrates with workflow and also contains two groupings of accounting lines: Expense
+ * and Income.
+ * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class InternalBillingDocument extends TransactionalDocumentBase {
@@ -56,7 +55,7 @@ public class InternalBillingDocument extends TransactionalDocumentBase {
 
     /**
      * Adds a new item to the item list.
-     *
+     * 
      * @param item
      */
     public void addItem(InternalBillingItem item) {
@@ -66,11 +65,11 @@ public class InternalBillingDocument extends TransactionalDocumentBase {
     }
 
     /**
-     * Retrieve a particular item at a given index in the list of items.
-     * For Struts, the requested item and any intervening ones are initialized if necessary.
-     *
+     * Retrieve a particular item at a given index in the list of items. For Struts, the requested item and any intervening ones are
+     * initialized if necessary.
+     * 
      * @param index
-     *
+     * 
      * @return the item
      */
     public InternalBillingItem getItem(int index) {
@@ -89,7 +88,7 @@ public class InternalBillingDocument extends TransactionalDocumentBase {
 
     /**
      * Allows items (in addition to accounting lines) to be deleted from the database after being saved there.
-     *
+     * 
      * @see org.kuali.core.document.TransactionalDocumentBase#buildListOfDeletionAwareLists()
      */
     public List buildListOfDeletionAwareLists() {
@@ -100,12 +99,12 @@ public class InternalBillingDocument extends TransactionalDocumentBase {
 
     /**
      * Iterates through the list of items and sums up their totals.
-     *
+     * 
      * @return the total
      */
     public KualiDecimal getItemTotal() {
         KualiDecimal total = new KualiDecimal(0);
-        for (Iterator iterator = items.iterator(); iterator.hasNext(); ) {
+        for (Iterator iterator = items.iterator(); iterator.hasNext();) {
             total = total.add(((InternalBillingItem) iterator.next()).getTotal());
         }
         return total;
@@ -113,7 +112,7 @@ public class InternalBillingDocument extends TransactionalDocumentBase {
 
     /**
      * Retrieves the next item line number.
-     *
+     * 
      * @return The next available item line number
      */
     public Integer getNextItemLineNumber() {
@@ -128,9 +127,9 @@ public class InternalBillingDocument extends TransactionalDocumentBase {
     }
 
     /**
-     * Setter for OJB to get from database and JSP to maintain state in hidden fields.
-     * This property is also incremented by the <code>addItem</code> method.
-     *
+     * Setter for OJB to get from database and JSP to maintain state in hidden fields. This property is also incremented by the
+     * <code>addItem</code> method.
+     * 
      * @param nextItemLineNumber
      */
     public void setNextItemLineNumber(Integer nextItemLineNumber) {

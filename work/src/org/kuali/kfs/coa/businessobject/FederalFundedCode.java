@@ -26,6 +26,7 @@ import org.kuali.core.bo.KualiCodeBase;
 
 /**
  * Federal Funded Code Business Object
+ * 
  * @author Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public class FederalFundedCode extends KualiCodeBase {

@@ -34,63 +34,63 @@ import org.kuali.core.bo.BusinessObjectBase;
  */
 public class MessageOfTheDay extends BusinessObjectBase {
 
-	private String financialSystemOriginationCode;
-	private String financialSystemMessageOfTheDayText;
+    private String financialSystemOriginationCode;
+    private String financialSystemMessageOfTheDayText;
 
-	/**
-	 * Default constructor.
-	 */
-	public MessageOfTheDay() {
+    /**
+     * Default constructor.
+     */
+    public MessageOfTheDay() {
 
-	}
+    }
 
-	/**
-	 * Gets the financialSystemOriginationCode attribute.
-	 * 
-	 * @return - Returns the financialSystemOriginationCode
-	 * 
-	 */
-	public String getFinancialSystemOriginationCode() { 
-		return financialSystemOriginationCode;
-	}
+    /**
+     * Gets the financialSystemOriginationCode attribute.
+     * 
+     * @return - Returns the financialSystemOriginationCode
+     * 
+     */
+    public String getFinancialSystemOriginationCode() {
+        return financialSystemOriginationCode;
+    }
 
-	/**
-	 * Sets the financialSystemOriginationCode attribute.
-	 * 
-	 * @param - financialSystemOriginationCode The financialSystemOriginationCode to set.
-	 * 
-	 */
-	public void setFinancialSystemOriginationCode(String financialSystemOriginationCode) {
-		this.financialSystemOriginationCode = financialSystemOriginationCode;
-	}
-
-
-	/**
-	 * Gets the financialSystemMessageOfTheDayText attribute.
-	 * 
-	 * @return - Returns the financialSystemMessageOfTheDayText
-	 * 
-	 */
-	public String getFinancialSystemMessageOfTheDayText() { 
-		return financialSystemMessageOfTheDayText;
-	}
-
-	/**
-	 * Sets the financialSystemMessageOfTheDayText attribute.
-	 * 
-	 * @param - financialSystemMessageOfTheDayText The financialSystemMessageOfTheDayText to set.
-	 * 
-	 */
-	public void setFinancialSystemMessageOfTheDayText(String financialSystemMessageOfTheDayText) {
-		this.financialSystemMessageOfTheDayText = financialSystemMessageOfTheDayText;
-	}
+    /**
+     * Sets the financialSystemOriginationCode attribute.
+     * 
+     * @param - financialSystemOriginationCode The financialSystemOriginationCode to set.
+     * 
+     */
+    public void setFinancialSystemOriginationCode(String financialSystemOriginationCode) {
+        this.financialSystemOriginationCode = financialSystemOriginationCode;
+    }
 
 
-	/**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
+    /**
+     * Gets the financialSystemMessageOfTheDayText attribute.
+     * 
+     * @return - Returns the financialSystemMessageOfTheDayText
+     * 
+     */
+    public String getFinancialSystemMessageOfTheDayText() {
+        return financialSystemMessageOfTheDayText;
+    }
+
+    /**
+     * Sets the financialSystemMessageOfTheDayText attribute.
+     * 
+     * @param - financialSystemMessageOfTheDayText The financialSystemMessageOfTheDayText to set.
+     * 
+     */
+    public void setFinancialSystemMessageOfTheDayText(String financialSystemMessageOfTheDayText) {
+        this.financialSystemMessageOfTheDayText = financialSystemMessageOfTheDayText;
+    }
+
+
+    /**
+     * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
         m.put("financialSystemOriginationCode", this.financialSystemOriginationCode);
         return m;
     }

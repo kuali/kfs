@@ -80,8 +80,7 @@ public class CashDrawerServiceImpl implements CashDrawerService {
             throw new IllegalStateException("CashDrawer '" + workgroupName + "' cannot be locked because it is not open");
         }
         if (!StringUtils.equals(documentId, drawer.getReferenceFinancialDocumentNumber())) {
-            throw new IllegalStateException("CashDrawer '" + workgroupName
-                    + "' cannot be locked because it was opened by document " + drawer.getReferenceFinancialDocumentNumber());
+            throw new IllegalStateException("CashDrawer '" + workgroupName + "' cannot be locked because it was opened by document " + drawer.getReferenceFinancialDocumentNumber());
         }
 
         drawer.setStatusCode(Constants.CashDrawerConstants.STATUS_LOCKED);
@@ -103,8 +102,7 @@ public class CashDrawerServiceImpl implements CashDrawerService {
             throw new IllegalStateException("CashDrawer '" + workgroupName + "' cannot be unlocked because it is not locked");
         }
         if (!StringUtils.equals(documentId, drawer.getReferenceFinancialDocumentNumber())) {
-            throw new IllegalStateException("CashDrawer '" + workgroupName
-                    + "' cannot be unlocked because it was locked by document " + drawer.getReferenceFinancialDocumentNumber());
+            throw new IllegalStateException("CashDrawer '" + workgroupName + "' cannot be unlocked because it was locked by document " + drawer.getReferenceFinancialDocumentNumber());
         }
 
         drawer.setStatusCode(Constants.CashDrawerConstants.STATUS_OPEN);

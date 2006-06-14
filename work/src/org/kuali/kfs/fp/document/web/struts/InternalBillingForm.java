@@ -28,6 +28,7 @@ import org.kuali.module.financial.document.InternalBillingDocument;
 
 /**
  * This class is the action form for Internal Billing.
+ * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 
@@ -36,30 +37,32 @@ public class InternalBillingForm extends KualiTransactionalDocumentFormBase {
     private InternalBillingItem newItem;
 
     public InternalBillingForm() {
-    	super();
+        super();
         setDocument(new InternalBillingDocument());
-    	this.newItem = new InternalBillingItem();
+        this.newItem = new InternalBillingItem();
     }
-    
+
     /**
      * @return Returns the internalBillingDocument.
      */
     public InternalBillingDocument getInternalBillingDocument() {
         return (InternalBillingDocument) getDocument();
     }
+
     /**
      * @param internalBillingDocument The internalBillingDocument to set.
-     */ 
+     */
     public void setInternalBillingDocument(InternalBillingDocument internalBillingDocument) {
         setDocument(internalBillingDocument);
-    }    
-    
-        /**
+    }
+
+    /**
      * @return Returns the newItem.
      */
     public InternalBillingItem getNewItem() {
         return newItem;
     }
+
     /**
      * @param newItem The newItem to set.
      */
@@ -67,4 +70,3 @@ public class InternalBillingForm extends KualiTransactionalDocumentFormBase {
         this.newItem = newItem;
     }
 }
-

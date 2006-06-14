@@ -27,89 +27,91 @@ package org.kuali.module.gl.util;
  * @version $Id :$
  */
 public class Summary implements Comparable {
-	/**
-	 * This number is used by TransactionReport when sorting the list of Summary objects passed to
-	 * TransactionReport.generateReport(). Lowest number prints first.
-	 */
-	private int sortOrder;
-	
-	/**
-	 * This is the description that prints for the summary line.
-	 */
-	private String description;
-	
-	/**
-	 * This is the count that displays.
-	 * FIXME: Make this documentation a bit more clear.
-	 */
-	private long count;
+    /**
+     * This number is used by TransactionReport when sorting the list of Summary objects passed to
+     * TransactionReport.generateReport(). Lowest number prints first.
+     */
+    private int sortOrder;
 
-	/**
-	 * 
-	 */
-	public Summary() {
-		super();
-	}
+    /**
+     * This is the description that prints for the summary line.
+     */
+    private String description;
 
-	/**
-	 * 
-	 * @param sortOrder
-	 * @param description
-	 * @param count
-	 */
-	public Summary(int sortOrder,String description,long count) {
-		this.sortOrder = sortOrder;
-		this.description = description;
-		this.count = count;
-	}
+    /**
+     * This is the count that displays. FIXME: Make this documentation a bit more clear.
+     */
+    private long count;
 
-	public Summary(int sortOrder,String description,Integer count) {
-	    this.sortOrder = sortOrder;
+    /**
+     * 
+     */
+    public Summary() {
+        super();
+    }
+
+    /**
+     * 
+     * @param sortOrder
+     * @param description
+     * @param count
+     */
+    public Summary(int sortOrder, String description, long count) {
+        this.sortOrder = sortOrder;
         this.description = description;
-        if ( count == null ) {
-          this.count = 0;
-        } else {
-          this.count = count.longValue();
+        this.count = count;
+    }
+
+    public Summary(int sortOrder, String description, Integer count) {
+        this.sortOrder = sortOrder;
+        this.description = description;
+        if (count == null) {
+            this.count = 0;
+        }
+        else {
+            this.count = count.longValue();
         }
     }
 
-	/**
-	 * (non-Javadoc)
-	 * @see java.lang.Comparable#compareTo(java.lang.Object)
-	 */
-	public int compareTo(Object arg0) {
-		if ( arg0 instanceof Summary ) {
-			Summary otherObject = (Summary)arg0;
-			Integer otherSort = new Integer(otherObject.getSortOrder());
-			Integer thisSort = new Integer(sortOrder);
-			return thisSort.compareTo(otherSort);
-		} else {
-			return 0;
-	    }
-	}
+    /**
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Comparable#compareTo(java.lang.Object)
+     */
+    public int compareTo(Object arg0) {
+        if (arg0 instanceof Summary) {
+            Summary otherObject = (Summary) arg0;
+            Integer otherSort = new Integer(otherObject.getSortOrder());
+            Integer thisSort = new Integer(sortOrder);
+            return thisSort.compareTo(otherSort);
+        }
+        else {
+            return 0;
+        }
+    }
 
-  public long getCount() {
-    return count;
-  }
+    public long getCount() {
+        return count;
+    }
 
-  public void setCount(long count) {
-    this.count = count;
-  }
+    public void setCount(long count) {
+        this.count = count;
+    }
 
-  public String getDescription() {
-    return description;
-  }
+    public String getDescription() {
+        return description;
+    }
 
-  public void setDescription(String description) {
-    this.description = description;
-  }
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-  public int getSortOrder() {
-    return sortOrder;
-  }
+    public int getSortOrder() {
+        return sortOrder;
+    }
 
-  public void setSortOrder(int sortOrder) {
-    this.sortOrder = sortOrder;
-  }
-  
+    public void setSortOrder(int sortOrder) {
+        this.sortOrder = sortOrder;
+    }
+
 }

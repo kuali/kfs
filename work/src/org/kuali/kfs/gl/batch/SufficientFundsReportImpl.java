@@ -51,170 +51,174 @@ import com.lowagie.text.pdf.PdfWriter;
 
 /**
  * @author Anthony Potts
- *
+ * 
  */
 public class SufficientFundsReportImpl extends PdfPageEventHelper implements SufficientFundsReport {
-  private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SufficientFundsReportImpl.class);
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SufficientFundsReportImpl.class);
 
-  public SufficientFundsReportImpl() {
-    super();
-  }
+    public SufficientFundsReportImpl() {
+        super();
+    }
 
-  public void generateReport(Map reportErrors, List reportSummary, Date runDate, int mode) {
-    LOG.debug("generateReport() started");
+    public void generateReport(Map reportErrors, List reportSummary, Date runDate, int mode) {
+        LOG.debug("generateReport() started");
 
-    ResourceBundle rb = ResourceBundle.getBundle("configuration");
-    String destinationDirectory = rb.getString("htdocs.directory") + "/reports";
+        ResourceBundle rb = ResourceBundle.getBundle("configuration");
+        String destinationDirectory = rb.getString("htdocs.directory") + "/reports";
 
-    String title = "Sufficient Funds Report ";
-    String fileprefix = "sufficientFunds";
-    
-    Font headerFont = FontFactory.getFont(FontFactory.COURIER,8,Font.BOLD);
-    Font textFont = FontFactory.getFont(FontFactory.COURIER,8,Font.NORMAL);
+        String title = "Sufficient Funds Report ";
+        String fileprefix = "sufficientFunds";
 
-    Document document = new Document(PageSize.A4.rotate());
+        Font headerFont = FontFactory.getFont(FontFactory.COURIER, 8, Font.BOLD);
+        Font textFont = FontFactory.getFont(FontFactory.COURIER, 8, Font.NORMAL);
 
-    PageHelper helper = new PageHelper();
-    helper.runDate = runDate;
-    helper.headerFont = headerFont;
-    helper.title = title;
+        Document document = new Document(PageSize.A4.rotate());
 
-    try {
-      String filename = destinationDirectory + "/" + fileprefix + "_";
-      SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
-      filename = filename + sdf.format(runDate);
-      filename = filename + ".pdf";
-      PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(filename));
-      writer.setPageEvent(helper);
+        PageHelper helper = new PageHelper();
+        helper.runDate = runDate;
+        helper.headerFont = headerFont;
+        helper.title = title;
 
-      document.open();
+        try {
+            String filename = destinationDirectory + "/" + fileprefix + "_";
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
+            filename = filename + sdf.format(runDate);
+            filename = filename + ".pdf";
+            PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(filename));
+            writer.setPageEvent(helper);
 
-      // Sort what we get
-      Collections.sort(reportSummary);
+            document.open();
 
-      float[] summaryWidths = {90,10};
-      PdfPTable summary = new PdfPTable(summaryWidths);
-      summary.setWidthPercentage(40);
-      PdfPCell cell = new PdfPCell(new Phrase("S T A T I S T I C S",headerFont));
-      cell.setColspan(2);
-      cell.setBorder(Rectangle.NO_BORDER);
-      cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-      summary.addCell(cell);
+            // Sort what we get
+            Collections.sort(reportSummary);
 
-      for (Iterator iter = reportSummary.iterator(); iter.hasNext();) {
-        Summary s = (Summary)iter.next();
+            float[] summaryWidths = { 90, 10 };
+            PdfPTable summary = new PdfPTable(summaryWidths);
+            summary.setWidthPercentage(40);
+            PdfPCell cell = new PdfPCell(new Phrase("S T A T I S T I C S", headerFont));
+            cell.setColspan(2);
+            cell.setBorder(Rectangle.NO_BORDER);
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+            summary.addCell(cell);
 
-        cell = new PdfPCell(new Phrase(s.getDescription(),textFont));
-        cell.setBorder(Rectangle.NO_BORDER);
-        summary.addCell(cell);
+            for (Iterator iter = reportSummary.iterator(); iter.hasNext();) {
+                Summary s = (Summary) iter.next();
 
-        if ( "".equals(s.getDescription()) ) {
-          cell = new PdfPCell(new Phrase("",textFont));
-          cell.setBorder(Rectangle.NO_BORDER);
-          summary.addCell(cell);          
-        } else {
-          DecimalFormat nf = new DecimalFormat("###,###,##0");
-          cell = new PdfPCell(new Phrase(nf.format(s.getCount()),textFont));
-          cell.setBorder(Rectangle.NO_BORDER);
-          cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
-          summary.addCell(cell);
-        }
-      }
-      cell = new PdfPCell(new Phrase(""));
-      cell.setColspan(2);
-      cell.setBorder(Rectangle.NO_BORDER);
-      summary.addCell(cell);
-      
-      document.add(summary);
+                cell = new PdfPCell(new Phrase(s.getDescription(), textFont));
+                cell.setBorder(Rectangle.NO_BORDER);
+                summary.addCell(cell);
 
-      if ( reportErrors != null && reportErrors.size() > 0 ) {
-        float[] warningWidths = {5,12,12,53};
-        PdfPTable warnings = new PdfPTable(warningWidths);
-        warnings.setHeaderRows(2);
-        warnings.setWidthPercentage(100);
-        cell = new PdfPCell(new Phrase("W A R N I N G S",headerFont));
-        cell.setColspan(4);
-        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-        warnings.addCell(cell);
-
-        // Add headers
-        cell = new PdfPCell(new Phrase("COA",headerFont));
-        warnings.addCell(cell);
-        cell = new PdfPCell(new Phrase("Account/Object Code",headerFont));
-        warnings.addCell(cell);
-        cell = new PdfPCell(new Phrase("Account/Object Type",headerFont));
-        warnings.addCell(cell);
-        cell = new PdfPCell(new Phrase("Warning",headerFont));
-        warnings.addCell(cell);
-
-        for (Iterator errorIter = reportErrors.keySet().iterator(); errorIter.hasNext();) {
-            SufficientFundRebuild sfrb = (SufficientFundRebuild) errorIter.next();
-          boolean first = true;
-          
-          List errors = (List)reportErrors.get(sfrb);
-          for (Iterator listIter = errors.iterator(); listIter.hasNext();) {
-            String msg = (String)listIter.next();
-
-            if ( first ) {
-              first = false;
-              cell = new PdfPCell(new Phrase(sfrb.getChartOfAccountsCode(),textFont));
-              warnings.addCell(cell);
-              cell = new PdfPCell(new Phrase(sfrb.getAccountNumberFinancialObjectCode(),textFont));
-              warnings.addCell(cell);
-              cell = new PdfPCell(new Phrase(sfrb.getAccountFinancialObjectTypeCode(),textFont));
-              warnings.addCell(cell);
-            } else {
-              cell = new PdfPCell(new Phrase("",textFont));
-              cell.setColspan(3);
-              warnings.addCell(cell);
+                if ("".equals(s.getDescription())) {
+                    cell = new PdfPCell(new Phrase("", textFont));
+                    cell.setBorder(Rectangle.NO_BORDER);
+                    summary.addCell(cell);
+                }
+                else {
+                    DecimalFormat nf = new DecimalFormat("###,###,##0");
+                    cell = new PdfPCell(new Phrase(nf.format(s.getCount()), textFont));
+                    cell.setBorder(Rectangle.NO_BORDER);
+                    cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+                    summary.addCell(cell);
+                }
             }
-            cell = new PdfPCell(new Phrase(msg,textFont));
-            warnings.addCell(cell);
-          }
+            cell = new PdfPCell(new Phrase(""));
+            cell.setColspan(2);
+            cell.setBorder(Rectangle.NO_BORDER);
+            summary.addCell(cell);
+
+            document.add(summary);
+
+            if (reportErrors != null && reportErrors.size() > 0) {
+                float[] warningWidths = { 5, 12, 12, 53 };
+                PdfPTable warnings = new PdfPTable(warningWidths);
+                warnings.setHeaderRows(2);
+                warnings.setWidthPercentage(100);
+                cell = new PdfPCell(new Phrase("W A R N I N G S", headerFont));
+                cell.setColspan(4);
+                cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+                warnings.addCell(cell);
+
+                // Add headers
+                cell = new PdfPCell(new Phrase("COA", headerFont));
+                warnings.addCell(cell);
+                cell = new PdfPCell(new Phrase("Account/Object Code", headerFont));
+                warnings.addCell(cell);
+                cell = new PdfPCell(new Phrase("Account/Object Type", headerFont));
+                warnings.addCell(cell);
+                cell = new PdfPCell(new Phrase("Warning", headerFont));
+                warnings.addCell(cell);
+
+                for (Iterator errorIter = reportErrors.keySet().iterator(); errorIter.hasNext();) {
+                    SufficientFundRebuild sfrb = (SufficientFundRebuild) errorIter.next();
+                    boolean first = true;
+
+                    List errors = (List) reportErrors.get(sfrb);
+                    for (Iterator listIter = errors.iterator(); listIter.hasNext();) {
+                        String msg = (String) listIter.next();
+
+                        if (first) {
+                            first = false;
+                            cell = new PdfPCell(new Phrase(sfrb.getChartOfAccountsCode(), textFont));
+                            warnings.addCell(cell);
+                            cell = new PdfPCell(new Phrase(sfrb.getAccountNumberFinancialObjectCode(), textFont));
+                            warnings.addCell(cell);
+                            cell = new PdfPCell(new Phrase(sfrb.getAccountFinancialObjectTypeCode(), textFont));
+                            warnings.addCell(cell);
+                        }
+                        else {
+                            cell = new PdfPCell(new Phrase("", textFont));
+                            cell.setColspan(3);
+                            warnings.addCell(cell);
+                        }
+                        cell = new PdfPCell(new Phrase(msg, textFont));
+                        warnings.addCell(cell);
+                    }
+                }
+                document.add(warnings);
+            }
         }
-        document.add(warnings);
-      }
-    } catch(Exception de) {
-      LOG.error("generateReport() Error creating PDF report", de);
-      throw new RuntimeException("Report Generation Failed");
+        catch (Exception de) {
+            LOG.error("generateReport() Error creating PDF report", de);
+            throw new RuntimeException("Report Generation Failed");
+        }
+
+        document.close();
     }
 
-    document.close();
-  }
-
-  public void setKualiConfigurationService(KualiConfigurationService kcs) {
-    // kualiConfigurationService = kcs;
-  }
-
-  class PageHelper extends PdfPageEventHelper {
-    public Date runDate;
-    public Font headerFont;
-    public String title;
-
-    public void onEndPage(PdfWriter writer, Document document) {
-      try {
-        Rectangle page = document.getPageSize();
-        PdfPTable head = new PdfPTable(3);
-        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-        PdfPCell cell = new PdfPCell(new Phrase(sdf.format(runDate),headerFont));
-        cell.setBorder(Rectangle.NO_BORDER);
-        head.addCell(cell);
-
-        cell = new PdfPCell(new Phrase(title,headerFont));
-        cell.setBorder(Rectangle.NO_BORDER);
-        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-        head.addCell(cell);
-
-        cell = new PdfPCell(new Phrase("Page: " + new Integer(writer.getPageNumber()),headerFont));
-        cell.setBorder(Rectangle.NO_BORDER);
-        cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
-        head.addCell(cell);
-
-        head.setTotalWidth(page.width() - document.leftMargin() - document.rightMargin());
-        head.writeSelectedRows(0, -1, document.leftMargin(), page.height() - document.topMargin() + head.getTotalHeight(), writer.getDirectContent());
-      } catch (Exception e) {
-        throw new ExceptionConverter(e);
-      }
+    public void setKualiConfigurationService(KualiConfigurationService kcs) {
+        // kualiConfigurationService = kcs;
     }
-  }
+
+    class PageHelper extends PdfPageEventHelper {
+        public Date runDate;
+        public Font headerFont;
+        public String title;
+
+        public void onEndPage(PdfWriter writer, Document document) {
+            try {
+                Rectangle page = document.getPageSize();
+                PdfPTable head = new PdfPTable(3);
+                SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+                PdfPCell cell = new PdfPCell(new Phrase(sdf.format(runDate), headerFont));
+                cell.setBorder(Rectangle.NO_BORDER);
+                head.addCell(cell);
+
+                cell = new PdfPCell(new Phrase(title, headerFont));
+                cell.setBorder(Rectangle.NO_BORDER);
+                cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+                head.addCell(cell);
+
+                cell = new PdfPCell(new Phrase("Page: " + new Integer(writer.getPageNumber()), headerFont));
+                cell.setBorder(Rectangle.NO_BORDER);
+                cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+                head.addCell(cell);
+
+                head.setTotalWidth(page.width() - document.leftMargin() - document.rightMargin());
+                head.writeSelectedRows(0, -1, document.leftMargin(), page.height() - document.topMargin() + head.getTotalHeight(), writer.getDirectContent());
+            }
+            catch (Exception e) {
+                throw new ExceptionConverter(e);
+            }
+        }
+    }
 }

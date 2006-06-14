@@ -41,14 +41,14 @@ import org.springframework.beans.factory.BeanFactoryAware;
 
 /**
  * @author Kuali General Ledger Team <kualigltech@oncourse.iu.edu>
- * @version $Id: ScrubberServiceImpl.java,v 1.94 2006-06-04 20:52:29 jsissom Exp $
+ * @version $Id: ScrubberServiceImpl.java,v 1.95 2006-06-14 12:26:36 abyrne Exp $
  */
 
-public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
+public class ScrubberServiceImpl implements ScrubberService, BeanFactoryAware {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ScrubberServiceImpl.class);
 
     private FlexibleOffsetAccountService flexibleOffsetAccountService;
-    private DocumentTypeService documentTypeService;    
+    private DocumentTypeService documentTypeService;
     private BeanFactory beanFactory;
     private OriginEntryService originEntryService;
     private OriginEntryGroupService originEntryGroupService;
@@ -62,14 +62,13 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
     private ScrubberValidator scrubberValidator;
 
     public ScrubberServiceImpl() {
-      super();
+        super();
     }
 
     /**
-     * This method is called by Spring after it has initialized all dependencies.  It will determine
-     * if we are in a test or not.  If we are in a test, replace the date time service & report
-     * service with a test version.
-     *
+     * This method is called by Spring after it has initialized all dependencies. It will determine if we are in a test or not. If
+     * we are in a test, replace the date time service & report service with a test version.
+     * 
      */
     public void init() {
         LOG.debug("init() started");
@@ -82,9 +81,8 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
     }
 
     /**
-     * Scrub all entries that need it in origin entry.  Put valid scrubbed entries in
-     * a scrubber valid group, put errors in a scrubber error group, and transactions
-     * with an expired account in the scrubber expired account group.
+     * Scrub all entries that need it in origin entry. Put valid scrubbed entries in a scrubber valid group, put errors in a
+     * scrubber error group, and transactions with an expired account in the scrubber expired account group.
      */
     public void scrubEntries() {
         LOG.debug("scrubEntries() started");
@@ -92,10 +90,7 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
         // The logic for this was moved into another object because the process was written using
         // many instance variables which shouldn't be used for Spring services
 
-        ScrubberProcess sp = new ScrubberProcess(flexibleOffsetAccountService,documentTypeService,    
-            beanFactory,originEntryService,originEntryGroupService,dateTimeService,offsetDefinitionService,
-            objectCodeService,kualiConfigurationService,universityDateDao,persistenceService,reportService,
-            scrubberValidator);
+        ScrubberProcess sp = new ScrubberProcess(flexibleOffsetAccountService, documentTypeService, beanFactory, originEntryService, originEntryGroupService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, reportService, scrubberValidator);
 
         sp.scrubEntries();
     }
@@ -109,7 +104,7 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
     }
 
     public void setScrubberValidator(ScrubberValidator sv) {
-      scrubberValidator = sv;
+        scrubberValidator = sv;
     }
 
     public void setOriginEntryService(OriginEntryService oes) {
@@ -149,6 +144,6 @@ public class ScrubberServiceImpl implements ScrubberService,BeanFactoryAware {
     }
 
     public void setBeanFactory(BeanFactory bf) throws BeansException {
-      beanFactory = bf;
+        beanFactory = bf;
     }
 }

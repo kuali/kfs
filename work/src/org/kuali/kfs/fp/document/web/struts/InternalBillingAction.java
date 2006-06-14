@@ -56,8 +56,7 @@ public class InternalBillingAction extends KualiTransactionalDocumentActionBase 
      * @return ActionForward
      * @throws Exception
      */
-    public ActionForward insertItem(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
-            throws Exception {
+    public ActionForward insertItem(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         InternalBillingForm internalBillingForm = (InternalBillingForm) form;
         if (validateNewItem(internalBillingForm)) {
             internalBillingForm.getInternalBillingDocument().addItem(internalBillingForm.getNewItem());
@@ -93,8 +92,7 @@ public class InternalBillingAction extends KualiTransactionalDocumentActionBase 
      * @return ActionForward
      * @throws Exception
      */
-    public ActionForward deleteItem(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
-            throws Exception {
+    public ActionForward deleteItem(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         InternalBillingForm internalBillingForm = (InternalBillingForm) form;
         internalBillingForm.getInternalBillingDocument().getItems().remove(getLineToDelete(request));
         return mapping.findForward(Constants.MAPPING_BASIC);

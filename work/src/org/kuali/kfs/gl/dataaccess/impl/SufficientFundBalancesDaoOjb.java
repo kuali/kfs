@@ -42,8 +42,7 @@ public class SufficientFundBalancesDaoOjb extends PersistenceBrokerDaoSupport im
         super();
     }
 
-    public SufficientFundBalances getByPrimaryId(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber,
-            String financialObjectCode) {
+    public SufficientFundBalances getByPrimaryId(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialObjectCode) {
         LOG.debug("getByPrimaryId() started");
 
         Criteria crit = new Criteria();
@@ -84,31 +83,30 @@ public class SufficientFundBalancesDaoOjb extends PersistenceBrokerDaoSupport im
 
         QueryByCriteria qbc = QueryFactory.newQuery(SufficientFundBalances.class, crit);
         getPersistenceBrokerTemplate().deleteByQuery(qbc);
-        
+
         // This has to be done because deleteByQuery deletes the rows from the table,
-        // but it doesn't delete them from the cache.  If the cache isn't cleared, 
+        // but it doesn't delete them from the cache. If the cache isn't cleared,
         // later on, you could get an Optimistic Lock Exception because OJB thinks rows
         // exist when they really don't.
         getPersistenceBrokerTemplate().clearCache();
     }
 
     /**
-     * This method should only be used in unit tests.  It loads all the 
-     * gl_sf_balances_t rows in memory into a collection.  This won't 
+     * This method should only be used in unit tests. It loads all the gl_sf_balances_t rows in memory into a collection. This won't
      * sace for production.
      * 
      * @return
      */
     public Collection testingGetAllEntries() {
-      LOG.debug("testingGetAllEntries() started");
+        LOG.debug("testingGetAllEntries() started");
 
-      Criteria criteria = new Criteria();
-      QueryByCriteria qbc = QueryFactory.newQuery(SufficientFundBalances.class, criteria);
-      qbc.addOrderBy("universityFiscalYear", true);
-      qbc.addOrderBy("chartOfAccountsCode", true);
-      qbc.addOrderBy("accountNumber", true);
-      qbc.addOrderBy("financialObjectCode", true);
-      
-      return getPersistenceBrokerTemplate().getCollectionByQuery(qbc);    
+        Criteria criteria = new Criteria();
+        QueryByCriteria qbc = QueryFactory.newQuery(SufficientFundBalances.class, criteria);
+        qbc.addOrderBy("universityFiscalYear", true);
+        qbc.addOrderBy("chartOfAccountsCode", true);
+        qbc.addOrderBy("accountNumber", true);
+        qbc.addOrderBy("financialObjectCode", true);
+
+        return getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
     }
 }

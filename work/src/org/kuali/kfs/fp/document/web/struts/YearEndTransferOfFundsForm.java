@@ -31,10 +31,10 @@ public class YearEndTransferOfFundsForm extends TransferOfFundsForm {
     private static final long serialVersionUID = 1L;
 
     public YearEndTransferOfFundsForm() {
-    	super();
+        super();
         setDocument(new YearEndTransferOfFundsDocument());
     }
-    
+
     /**
      * @return Returns the serviceBillingDocument.
      */

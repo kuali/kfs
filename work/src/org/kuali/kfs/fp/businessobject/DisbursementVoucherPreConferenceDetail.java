@@ -46,14 +46,14 @@ public class DisbursementVoucherPreConferenceDetail extends BusinessObjectBase {
     private KualiDecimal disbVchrConferenceTotalAmt;
     private String disbVchrExpenseCode;
 
-    
+
     private List dvPreConferenceRegistrants;
 
     /**
      * Default no-arg constructor.
      */
     public DisbursementVoucherPreConferenceDetail() {
-       dvPreConferenceRegistrants = new TypedArrayList(DisbursementVoucherPreConferenceRegistrant.class);
+        dvPreConferenceRegistrants = new TypedArrayList(DisbursementVoucherPreConferenceRegistrant.class);
     }
 
     /**
@@ -166,14 +166,14 @@ public class DisbursementVoucherPreConferenceDetail extends BusinessObjectBase {
      */
     public KualiDecimal getDisbVchrConferenceTotalAmt() {
         KualiDecimal totalConferenceAmount = new KualiDecimal(0);
-        
+
         if (dvPreConferenceRegistrants != null) {
             for (Iterator iter = dvPreConferenceRegistrants.iterator(); iter.hasNext();) {
                 DisbursementVoucherPreConferenceRegistrant registrantLine = (DisbursementVoucherPreConferenceRegistrant) iter.next();
                 totalConferenceAmount = totalConferenceAmount.add(registrantLine.getDisbVchrExpenseAmount());
             }
         }
-        
+
         return totalConferenceAmount;
     }
 

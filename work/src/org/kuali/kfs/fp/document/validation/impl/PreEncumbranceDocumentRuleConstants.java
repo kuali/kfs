@@ -24,11 +24,10 @@ package org.kuali.module.financial.rules;
 
 /**
  * This class...
- *
+ * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class PreEncumbranceDocumentRuleConstants {
-    public static final String PRE_ENCUMBRANCE_DOCUMENT_SECURITY_GROUPING
-        = "Kuali.FinancialTransactionProcessing.PreEncumbranceDocument";
+    public static final String PRE_ENCUMBRANCE_DOCUMENT_SECURITY_GROUPING = "Kuali.FinancialTransactionProcessing.PreEncumbranceDocument";
     public static final String RESTRICTED_OBJECT_TYPE_CODES = "RestrictedObjectTypeCodes";
 }

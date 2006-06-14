@@ -35,6 +35,7 @@ import org.springframework.beans.factory.BeanFactory;
 
 /**
  * This class...
+ * 
  * @author Bin Gao
  */
 public class ReportServiceTest extends KualiTestBaseWithSpringOnly {
@@ -47,41 +48,41 @@ public class ReportServiceTest extends KualiTestBaseWithSpringOnly {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        BeanFactory beanFactory = SpringServiceLocator.getBeanFactory();       
+        BeanFactory beanFactory = SpringServiceLocator.getBeanFactory();
         reportService = (ReportService) beanFactory.getBean(GLSpringBeansRegistry.glReportService);
     }
-    
-    public void testGenerateScrubberReportsByGroupIdList() throws Exception{
-        List reportSummary = new ArrayList(); 
-        Map reportErrors = new HashMap(); 
-        
+
+    public void testGenerateScrubberReportsByGroupIdList() throws Exception {
+        List reportSummary = new ArrayList();
+        Map reportErrors = new HashMap();
+
         List groupIdList = new ArrayList();
         groupIdList.add(new Integer(46794));
         groupIdList.add(new Integer(46795));
         groupIdList.add(new Integer(46796));
-        groupIdList.add(new Integer(46813));        
+        groupIdList.add(new Integer(46813));
         groupIdList.add(new Integer(46794));
         groupIdList.add(new Integer(46795));
-        
+
         runDate = new Date(System.currentTimeMillis());
         reportService.generateScrubberReports(runDate, reportSummary, reportErrors, groupIdList);
     }
-    
-    public void testGenerateScrubberReportingPerformance() throws Exception{
-        List reportSummary = new ArrayList(); 
-        Map reportErrors = new HashMap();        
+
+    public void testGenerateScrubberReportingPerformance() throws Exception {
+        List reportSummary = new ArrayList();
+        Map reportErrors = new HashMap();
         List groupIdList = this.getGroupIdList();
-        
+
         runDate = new Date(System.currentTimeMillis());
         long startTime = System.currentTimeMillis();
         reportService.generateScrubberReports(runDate, reportSummary, reportErrors, groupIdList);
         long endTime = System.currentTimeMillis();
-        
+
         long duration = endTime - startTime;
         System.out.println(duration);
     }
-    
-    private List getGroupIdList(){
+
+    private List getGroupIdList() {
         List groupIdList = new ArrayList();
         groupIdList.add(new Integer(46709));
         groupIdList.add(new Integer(46710));
@@ -120,7 +121,7 @@ public class ReportServiceTest extends KualiTestBaseWithSpringOnly {
         groupIdList.add(new Integer(48154));
         groupIdList.add(new Integer(48155));
         groupIdList.add(new Integer(48158));
-        
+
         return groupIdList;
     }
 }

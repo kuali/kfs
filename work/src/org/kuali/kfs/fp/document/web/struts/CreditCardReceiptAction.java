@@ -55,13 +55,14 @@ public class CreditCardReceiptAction extends KualiTransactionalDocumentActionBas
         if (ccrForm.hasDocumentId()) {
             CreditCardReceiptDocument ccrDoc = ccrForm.getCreditCardReceiptDocument();
 
-            ccrDoc.setTotalCreditCardAmount(ccrDoc.calculateCreditCardReceiptTotal()); // recalc b/c changes to the amounts could have happened
+            ccrDoc.setTotalCreditCardAmount(ccrDoc.calculateCreditCardReceiptTotal()); // recalc b/c changes to the amounts could
+                                                                                        // have happened
         }
 
         // proceed as usual
         return super.execute(mapping, form, request, response);
     }
-    
+
     /**
      * Adds a CreditCardDetail instance created from the current "new creditCardReceipt" line to the document
      * 
@@ -72,8 +73,7 @@ public class CreditCardReceiptAction extends KualiTransactionalDocumentActionBas
      * @return ActionForward
      * @throws Exception
      */
-    public ActionForward addCreditCardReceipt(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
+    public ActionForward addCreditCardReceipt(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         CreditCardReceiptForm ccrForm = (CreditCardReceiptForm) form;
         CreditCardReceiptDocument ccrDoc = ccrForm.getCreditCardReceiptDocument();
 
@@ -103,8 +103,7 @@ public class CreditCardReceiptAction extends KualiTransactionalDocumentActionBas
      * @return ActionForward
      * @throws Exception
      */
-    public ActionForward deleteCreditCardReceipt(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
+    public ActionForward deleteCreditCardReceipt(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         CreditCardReceiptForm ccrForm = (CreditCardReceiptForm) form;
         CreditCardReceiptDocument ccrDoc = ccrForm.getCreditCardReceiptDocument();
 

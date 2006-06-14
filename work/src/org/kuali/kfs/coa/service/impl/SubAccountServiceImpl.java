@@ -27,20 +27,19 @@ import org.kuali.module.chart.dao.SubAccountDao;
 import org.kuali.module.chart.service.SubAccountService;
 
 /**
- * This class is the service implementation for the SubAccount structure.
- * This is the default implementation that gets delivered with Kuali.
+ * This class is the service implementation for the SubAccount structure. This is the default implementation that gets delivered
+ * with Kuali.
+ * 
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
-*/
+ */
 public class SubAccountServiceImpl implements SubAccountService {
     private SubAccountDao subAccountDao;
 
     /**
      * @see org.kuali.module.chart.service.SubAccountService#getByPrimaryId(java.lang.String, java.lang.String, java.lang.String)
      */
-    public SubAccount getByPrimaryId(String chartOfAccountsCode,
-        String accountNumber, String subAccountNumber) {
-        return subAccountDao.getByPrimaryId(chartOfAccountsCode, accountNumber,
-            subAccountNumber);
+    public SubAccount getByPrimaryId(String chartOfAccountsCode, String accountNumber, String subAccountNumber) {
+        return subAccountDao.getByPrimaryId(chartOfAccountsCode, accountNumber, subAccountNumber);
     }
 
     /**

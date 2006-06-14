@@ -39,6 +39,7 @@ import org.kuali.module.financial.service.DisbursementVoucherTravelService;
 
 /**
  * Performs calculations of travel per diem and mileage amounts.
+ * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class DisbursementVoucherTravelServiceImpl implements DisbursementVoucherTravelService {
@@ -53,7 +54,7 @@ public class DisbursementVoucherTravelServiceImpl implements DisbursementVoucher
     public KualiDecimal calculatePerDiemAmount(Timestamp startDateTime, Timestamp endDateTime, KualiDecimal rate) {
         KualiDecimal perDiemAmount = new KualiDecimal(0);
         KualiDecimal perDiemRate = new KualiDecimal(rate.doubleValue());
-        
+
         // make sure we have the fields neede
         if (perDiemAmount == null || startDateTime == null || endDateTime == null) {
             LOG.error("Per diem amount, Start date/time, and End date/time must all be given.");
@@ -65,13 +66,13 @@ public class DisbursementVoucherTravelServiceImpl implements DisbursementVoucher
             LOG.error("End date/time must be after start date/time.");
             throw new RuntimeException("End date/time must be after start date/time.");
         }
-        
+
         Calendar startCalendar = Calendar.getInstance();
         startCalendar.setTime(startDateTime);
 
         Calendar endCalendar = Calendar.getInstance();
         endCalendar.setTime(endDateTime);
-        
+
         double diffDays = DateUtils.getDifferenceInDays(startDateTime, endDateTime);
         double diffHours = DateUtils.getDifferenceInHours(startDateTime, endDateTime);
 
@@ -125,11 +126,11 @@ public class DisbursementVoucherTravelServiceImpl implements DisbursementVoucher
 
     /**
      * Checks whether the date is in a per diem period given by the start hour and end hour and minutes.
+     * 
      * @param cal
      * @return
      */
-    private boolean timeInPerDiemPeriod(Calendar cal, int periodStartHour, int periodStartMinute, int periodEndHour,
-            int periodEndMinute) {
+    private boolean timeInPerDiemPeriod(Calendar cal, int periodStartHour, int periodStartMinute, int periodEndHour, int periodEndMinute) {
         int hour = cal.get(Calendar.HOUR_OF_DAY);
         int minute = cal.get(Calendar.MINUTE);
 

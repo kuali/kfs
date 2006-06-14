@@ -33,7 +33,7 @@ public interface SubFundGroupService {
      * @return
      */
     public SubFundGroup getByPrimaryId(String subFundGroupCode);
-    
+
     /**
      * Retrieves the SubFundGroupCode for the Account with the given chart and account codes.
      * 

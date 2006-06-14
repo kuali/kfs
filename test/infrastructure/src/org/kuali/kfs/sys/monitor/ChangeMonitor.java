@@ -53,13 +53,13 @@ abstract public class ChangeMonitor {
         long startTimeMs = System.currentTimeMillis();
         long endTimeMs = startTimeMs + maxWaitMs;
 
-        Thread.sleep(pauseMs/10); // the first time through, sleep a fraction of the specified time
+        Thread.sleep(pauseMs / 10); // the first time through, sleep a fraction of the specified time
         valueChanged = monitor.valueChanged();
         LOG.debug("starting wait loop");
         while (!interrupted && !valueChanged && (System.currentTimeMillis() < endTimeMs)) {
             try {
-                if (LOG.isDebugEnabled()) { 
-                    LOG.debug("sleeping for "+pauseMs+" ms");
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("sleeping for " + pauseMs + " ms");
                 }
                 Thread.sleep(pauseMs);
             }

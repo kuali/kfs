@@ -28,6 +28,7 @@ import org.kuali.test.KualiTestBase;
 
 /**
  * This class...
+ * 
  * @author Kuali Financial Transactions Red Team (kualidev@oncourse.iu.edu)
  */
 public class CashDetailTypeCodeTest extends KualiTestBase {
@@ -37,15 +38,15 @@ public class CashDetailTypeCodeTest extends KualiTestBase {
     public static final String NAME = "NAME";
     public static final String CODE = "CODE";
     public static final Long VER_NBR = new Long(1);
-    public static final String DESCRIPTION = "Description"; 
-    
+    public static final String DESCRIPTION = "Description";
+
     /**
      * Constructs a CashDetailTypeCodeTest.java.
      */
     public CashDetailTypeCodeTest() {
         super();
     }
-    
+
     /*
      * @see TestCase#setUp()
      */

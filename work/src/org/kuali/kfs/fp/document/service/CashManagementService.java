@@ -55,8 +55,7 @@ public interface CashManagementService {
      * @param bankAccount
      * @param selectedCashReceipts
      */
-    public void addInterimDeposit(CashManagementDocument cashManagementDoc, String depositTicketNumber, BankAccount bankAccount,
-            List selectedCashReceipts);
+    public void addInterimDeposit(CashManagementDocument cashManagementDoc, String depositTicketNumber, BankAccount bankAccount, List selectedCashReceipts);
 
     /**
      * Cancels the given Deposit, updating the related CashManagementDocument and CashReceipts as needed

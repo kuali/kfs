@@ -44,7 +44,7 @@ public class IndirectCostAdjustmentDocumentTest extends TransactionalDocumentTes
 
     /**
      * Retrieve names of fixture collections test class is using.
-     *
+     * 
      * @return String[]
      */
     public String[] getFixtureCollectionNames() {
@@ -86,21 +86,21 @@ public class IndirectCostAdjustmentDocumentTest extends TransactionalDocumentTes
     public String getUserName() {
         return (String) getFixtureEntryFromCollection(COLLECTION_NAME, USER_NAME).createObject();
     }
-    
-    //  START TEST METHODS
+
+    // START TEST METHODS
     /**
-     * Overrides the parent to do nothing since the ICA doesn't set the posting period in 
-     * the record it stores.  This test doesn't apply to this type of document.
+     * Overrides the parent to do nothing since the ICA doesn't set the posting period in the record it stores. This test doesn't
+     * apply to this type of document.
      */
     public final void testConvertIntoCopy_invalidYear() throws Exception {
-        //do nothing to pass
+        // do nothing to pass
     }
-    
+
     /**
-     * Overrides the parent to do nothing since the ICA doesn't set the posting period in 
-     * the record it stores.  This test doesn't apply to this type of document.
+     * Overrides the parent to do nothing since the ICA doesn't set the posting period in the record it stores. This test doesn't
+     * apply to this type of document.
      */
     public final void testConvertIntoErrorCorrection_invalidYear() throws Exception {
-        //do nothing to pass
+        // do nothing to pass
     }
 }

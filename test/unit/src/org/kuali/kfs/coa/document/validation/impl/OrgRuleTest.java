@@ -29,7 +29,7 @@ public class OrgRuleTest extends ChartRuleTestBase {
 
     private static final String GOOD_CHART = "UA";
     private static final String BAD_CHART = "ZZ";
-    
+
     private OrgRule rule;
     private Org org;
     private MaintenanceDocument maintDoc;

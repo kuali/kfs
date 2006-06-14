@@ -27,7 +27,7 @@ import org.kuali.module.gl.service.SufficientFundsRebuilderService;
 
 /**
  * @author aapotts
- *
+ * 
  */
 public class SufficientFundsRebuilderStep implements Step {
     private SufficientFundsRebuilderService sufficientFundsRebuilderService;

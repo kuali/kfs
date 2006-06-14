@@ -34,9 +34,9 @@ import org.kuali.module.financial.bo.CreditCardDetail;
 
 /**
  * This is the business object that represents the CreditCardReceipt document in Kuali. This is a transactional document that will
- * eventually post transactions to the G/L. It integrates with workflow. Since a Credit Card Receipt is a one sided transactional document,
- * only accepting funds into the university, the accounting line data will be held in the source accounting line data structure
- * only.
+ * eventually post transactions to the G/L. It integrates with workflow. Since a Credit Card Receipt is a one sided transactional
+ * document, only accepting funds into the university, the accounting line data will be held in the source accounting line data
+ * structure only.
  * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
@@ -49,14 +49,14 @@ public class CreditCardReceiptDocument extends CashReceiptDocument {
 
     // monetary attributes
     private KualiDecimal totalCreditCardAmount = new KualiDecimal(0);
-    
+
     /**
      * Default constructor that calls super.
      */
     public CreditCardReceiptDocument() {
         super();
     }
-    
+
     /**
      * Gets the total credit card amount.
      * 
@@ -76,8 +76,7 @@ public class CreditCardReceiptDocument extends CashReceiptDocument {
     }
 
     /**
-     * Sets the total credit card amount which is the sum of all credit 
-     * card receipts on this document.
+     * Sets the total credit card amount which is the sum of all credit card receipts on this document.
      * 
      * @param creditCardAmount
      */
@@ -86,8 +85,7 @@ public class CreditCardReceiptDocument extends CashReceiptDocument {
     }
 
     /**
-     * Gets the list of credit card receipts which is a list 
-     * of CreditCardDetail business objects.
+     * Gets the list of credit card receipts which is a list of CreditCardDetail business objects.
      * 
      * @return List
      */
@@ -109,7 +107,7 @@ public class CreditCardReceiptDocument extends CashReceiptDocument {
      * 
      * @param creditCardReceiptDetail
      */
-    public void addCreditCardReceipt(CreditCardDetail  creditCardReceiptDetail) {
+    public void addCreditCardReceipt(CreditCardDetail creditCardReceiptDetail) {
         // these three make up the primary key for a credit card detail record
         prepareNewCreditCardReceipt(creditCardReceiptDetail);
 
@@ -124,9 +122,9 @@ public class CreditCardReceiptDocument extends CashReceiptDocument {
     }
 
     /**
-     * This is a helper method that automatically populates document specfic information into the credit 
-     * card receipt (CreditCardDetail) instance.
-     *  
+     * This is a helper method that automatically populates document specfic information into the credit card receipt
+     * (CreditCardDetail) instance.
+     * 
      * @param creditCardReceiptDetail
      */
     public final void prepareNewCreditCardReceipt(CreditCardDetail creditCardReceiptDetail) {
@@ -148,7 +146,7 @@ public class CreditCardReceiptDocument extends CashReceiptDocument {
         }
         return (CreditCardDetail) creditCardReceipts.get(index);
     }
-    
+
     /**
      * This method removes a credit card receipt from the list and updates the total appropriately.
      * 
@@ -186,7 +184,7 @@ public class CreditCardReceiptDocument extends CashReceiptDocument {
     public KualiDecimal getSumTotalAmount() {
         return this.totalCreditCardAmount;
     }
-    
+
     /**
      * This method returns the sum of all of the credit card receipts for this document.
      * 
@@ -204,8 +202,7 @@ public class CreditCardReceiptDocument extends CashReceiptDocument {
     }
 
     /**
-     * Overrides super to call super and then also add in the new list of credit card 
-     * receipts that have to be managed.
+     * Overrides super to call super and then also add in the new list of credit card receipts that have to be managed.
      * 
      * @see org.kuali.core.document.TransactionalDocumentBase#buildListOfDeletionAwareLists()
      */

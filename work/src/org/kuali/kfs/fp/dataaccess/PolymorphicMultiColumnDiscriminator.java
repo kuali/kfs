@@ -34,8 +34,8 @@ import org.apache.ojb.broker.metadata.ClassDescriptor;
  * (Inspired by example posted at http://nagoya.apache.org/eyebrowse/ReadMsg?listName=ojb-user@db.apache.org&msgId=749837)
  * 
  * This class enables mapping multiple (presumably similar) classes to a single database table. Subclasses must implement the
- * getDiscriminatorColumns method, returning a String array of columns to consider when determining which class to return, 
- * as well as implement the corresponding chooseClass method that acts on received values for those columns.
+ * getDiscriminatorColumns method, returning a String array of columns to consider when determining which class to return, as well
+ * as implement the corresponding chooseClass method that acts on received values for those columns.
  * 
  * Sample OBJ config:
  * 

@@ -32,6 +32,7 @@ import org.kuali.test.KualiTestBaseWithSpring;
 
 /**
  * This class tests methods in BudgetNonpersonnelCopyOverFormHelper.
+ * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
 public class BudgetPeriodTest extends KualiTestBaseWithSpring {
@@ -42,15 +43,18 @@ public class BudgetPeriodTest extends KualiTestBaseWithSpring {
 
     public void testBudgetPeriod() {
         assertTrue(true);
-        
-        /** @todo stubbed this for creation of static method below. Probably should write some BudgetPeriod test cases at some point ...*/
+
+        /**
+         * @todo stubbed this for creation of static method below. Probably should write some BudgetPeriod test cases at some point
+         *       ...
+         */
     }
-    
+
     public static List createBudgetPeriods(int numberOfPeriods) {
         List budgetPeriods = new ArrayList();
-        
+
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
-        
+
         for (int i = 0; i < numberOfPeriods; i++) {
             BudgetPeriod budgetPeriod = new BudgetPeriod();
             budgetPeriod.setBudgetPeriodSequenceNumber(new Integer(i));
@@ -63,7 +67,7 @@ public class BudgetPeriodTest extends KualiTestBaseWithSpring {
             }
             budgetPeriods.add(budgetPeriod);
         }
-        
+
         return budgetPeriods;
     }
 }

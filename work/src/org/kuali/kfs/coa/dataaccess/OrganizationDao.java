@@ -28,11 +28,15 @@ import org.kuali.module.chart.bo.Org;
 
 /**
  * This interface defines basic methods that Org Dao's must provide
+ * 
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
-*/
+ */
 public interface OrganizationDao {
     public Org getByPrimaryId(String chartOfAccountsCode, String organizationCode);
+
     public void save(Org organization);
+
     public List getActiveAccountsByOrg(String chartOfAccountsCode, String organizationCode);
+
     public List getActiveChildOrgs(String chartOfAccountsCode, String organizationCode);
 }

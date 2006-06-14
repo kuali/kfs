@@ -32,13 +32,13 @@ import java.util.Collection;
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public interface TravelMileageRateDao {
-    
-   /**
-    * Retrieves a list of TravelMileageRate objects whose effective dates
-    * are before or equal to the given effectiveDate and the greatest of
-    * effective dates before the date.
-    * @param effectiveDate
-    * @return
-    */
-   public Collection retrieveMostEffectiveMileageRates(Date effectiveDate);
+
+    /**
+     * Retrieves a list of TravelMileageRate objects whose effective dates are before or equal to the given effectiveDate and the
+     * greatest of effective dates before the date.
+     * 
+     * @param effectiveDate
+     * @return
+     */
+    public Collection retrieveMostEffectiveMileageRates(Date effectiveDate);
 }

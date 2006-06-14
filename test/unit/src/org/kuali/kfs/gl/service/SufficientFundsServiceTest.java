@@ -60,8 +60,7 @@ public class SufficientFundsServiceTest extends KualiTestBaseWithFixtures {
     private static final String VALID_OBJECT_LEVEL = "validObjectLevel1";
     private static final String TRASACTIONAL_DOCUMENT = "documentParameter5";
     private static final String YEAR_END_DOCUMENT = "yearEndTransferOfFundsDocumentParameter1";
-    private static final String[] SOURCE_LINES = { "sufficientFundsServiceTestSourceLine1",
-            "sufficientFundsServiceTestSourceLine2", "sourceLine3" };
+    private static final String[] SOURCE_LINES = { "sufficientFundsServiceTestSourceLine1", "sufficientFundsServiceTestSourceLine2", "sourceLine3" };
     private static final String[] TARGET_LINES = { "targetLine1", "targetLine2", "targetLine3" };
 
     /**
@@ -73,20 +72,21 @@ public class SufficientFundsServiceTest extends KualiTestBaseWithFixtures {
         businessObjectService = SpringServiceLocator.getBusinessObjectService();
     }
 
-    public void testGetExpenditureCodes(){
+    public void testGetExpenditureCodes() {
         List list = sufficientFundsService.getExpenditureCodes();
         assertFalse(list.isEmpty());
     }
-    
-    public void testGetSpecialFinancialObjectCodes(){
+
+    public void testGetSpecialFinancialObjectCodes() {
         List list = sufficientFundsService.getSpecialFinancialObjectCodes();
         assertFalse(list.isEmpty());
     }
-    
-    public void testGetFinancialObjectCodeForCashInBank(){
-        String value= sufficientFundsService.getFinancialObjectCodeForCashInBank();
+
+    public void testGetFinancialObjectCodeForCashInBank() {
+        String value = sufficientFundsService.getFinancialObjectCodeForCashInBank();
         assertFalse(StringUtils.isBlank(value));
     }
+
     public void testGetSufficientFundsObjectCode_level_checking_object() {
         String rv = sufficientFundsService.getSufficientFundsObjectCode(null, ARBITRARY_VALUE, Constants.SF_TYPE_OBJECT, null);
         assertEquals(ARBITRARY_VALUE, rv);
@@ -128,8 +128,7 @@ public class SufficientFundsServiceTest extends KualiTestBaseWithFixtures {
 
     public void testGetSufficientFundsObjectCode_level_checking_consolidation() {
         ObjLevel objectLevel = getObjectLevelFixture();
-        String rvObjectCode = sufficientFundsService.getSufficientFundsObjectCode(objectLevel.getChartOfAccountsCode(), null,
-                Constants.SF_TYPE_CONSOLIDATION, objectLevel.getFinancialObjectLevelCode());
+        String rvObjectCode = sufficientFundsService.getSufficientFundsObjectCode(objectLevel.getChartOfAccountsCode(), null, Constants.SF_TYPE_CONSOLIDATION, objectLevel.getFinancialObjectLevelCode());
 
         assertEquals(objectLevel.getFinancialConsolidationObjectCode(), rvObjectCode);
     }
@@ -263,7 +262,7 @@ public class SufficientFundsServiceTest extends KualiTestBaseWithFixtures {
      */
     protected void tearDown() throws Exception {
         super.tearDown();
-        //removePreparedOptions();
+        // removePreparedOptions();
     }
 
     // fixture accessor methods
@@ -271,10 +270,8 @@ public class SufficientFundsServiceTest extends KualiTestBaseWithFixtures {
         return (ObjLevel) getFixtureEntryFromCollection(COLLECTION_NAME, VALID_OBJECT_LEVEL).createObject();
     }
 
-    private TransactionalDocument getTransactionalDocumentFromFixture(String documentFixture, String debitCreditCode)
-            throws Exception {
-        TransactionalDocumentParameter parameter = (TransactionalDocumentParameter) getFixtureEntryFromCollection(COLLECTION_NAME,
-                documentFixture).createObject();
+    private TransactionalDocument getTransactionalDocumentFromFixture(String documentFixture, String debitCreditCode) throws Exception {
+        TransactionalDocumentParameter parameter = (TransactionalDocumentParameter) getFixtureEntryFromCollection(COLLECTION_NAME, documentFixture).createObject();
         TransactionalDocument document = (TransactionalDocument) parameter.createDocument(getDocumentService());
         AccountingLine line = null;
         for (Iterator i = getAccountingLineFromFixtures(SOURCE_LINES).iterator(); i.hasNext();) {

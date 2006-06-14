@@ -26,12 +26,13 @@ import org.kuali.module.chart.bo.OffsetDefinition;
 
 /**
  * This interface defines methods that an OffsetDefinition Service must provide.
+ * 
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
-*/
+ */
 public interface OffsetDefinitionService {
     /**
-     * Retrieves the OffsetDefinition by its composite primary key (all passed in 
-     * as parameters). 
+     * Retrieves the OffsetDefinition by its composite primary key (all passed in as parameters).
+     * 
      * @param universityFiscalYear
      * @param chartOfAccountsCode
      * @param financialDocumentTypeCode

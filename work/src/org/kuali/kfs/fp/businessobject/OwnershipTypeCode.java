@@ -32,10 +32,10 @@ import org.kuali.core.bo.KualiCodeBase;
  */
 public class OwnershipTypeCode extends KualiCodeBase {
 
-	/**
-	 * Default no-arg constructor.
-	 */
-	public OwnershipTypeCode() {
+    /**
+     * Default no-arg constructor.
+     */
+    public OwnershipTypeCode() {
 
-	}
+    }
 }

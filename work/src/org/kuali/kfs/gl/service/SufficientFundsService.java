@@ -30,8 +30,7 @@ public interface SufficientFundsService {
      * @param financialObjectLevelCode
      * @return
      */
-    public String getSufficientFundsObjectCode(String chartOfAccountsCode, String financialObjectCode,
-            String accountSufficientFundsCode, String financialObjectLevelCode);
+    public String getSufficientFundsObjectCode(String chartOfAccountsCode, String financialObjectCode, String accountSufficientFundsCode, String financialObjectLevelCode);
 
     /**
      * returns a list of special financial object codes for use with various sufficient funds related classes
@@ -60,5 +59,5 @@ public interface SufficientFundsService {
      * @param chart
      * @param year
      */
-    public void purgeYearByChart(String chart,int year);
+    public void purgeYearByChart(String chart, int year);
 }

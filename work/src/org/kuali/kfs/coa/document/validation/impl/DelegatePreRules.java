@@ -34,12 +34,13 @@ import org.kuali.module.chart.bo.Delegate;
 
 /**
  * This class...
+ * 
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public class DelegatePreRules implements PreRulesCheck {
 
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DelegatePreRules.class);
-    
+
     /**
      * 
      * Default no-args constructor.
@@ -49,32 +50,33 @@ public class DelegatePreRules implements PreRulesCheck {
     }
 
     /**
-     * @see org.kuali.core.rule.PreRulesCheck#processPreRuleChecks(org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, org.kuali.core.rule.event.PreRulesCheckEvent)
+     * @see org.kuali.core.rule.PreRulesCheck#processPreRuleChecks(org.apache.struts.action.ActionForm,
+     *      javax.servlet.http.HttpServletRequest, org.kuali.core.rule.event.PreRulesCheckEvent)
      */
     public boolean processPreRuleChecks(ActionForm form, HttpServletRequest request, PreRulesCheckEvent event) {
         LOG.info("Entering processPreRuleChecks");
-        
-        //	create some references to the relevant objects being looked at
+
+        // create some references to the relevant objects being looked at
         MaintenanceDocument document = (MaintenanceDocument) event.getDocument();
         Delegate delegate = (Delegate) document.getNewMaintainableObject().getBusinessObject();
-        
-        //	set the defaults on the document
+
+        // set the defaults on the document
         setUnconditionalDefaults(delegate);
-        
+
         return true;
     }
 
     private void setUnconditionalDefaults(Delegate delegate) {
-        
-        //	FROM amount defaults to zero
+
+        // FROM amount defaults to zero
         if (ObjectUtils.isNull(delegate.getFinDocApprovalFromThisAmt())) {
             delegate.setFinDocApprovalFromThisAmt(new KualiDecimal(0));
         }
 
-        //	TO amount defaults to zero
+        // TO amount defaults to zero
         if (ObjectUtils.isNull(delegate.getFinDocApprovalToThisAmount())) {
             delegate.setFinDocApprovalToThisAmount(new KualiDecimal(0));
         }
     }
-    
+
 }

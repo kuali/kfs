@@ -35,174 +35,174 @@ import org.kuali.core.document.DocumentHeader;
  */
 public class DistributionDoc extends BusinessObjectBase {
 
-	private String financialDocumentNumber;
-	private Integer finDocumentNextFromLineNbr;
-	private Integer finDocumentNextToLineNumber;
-	private Integer financialDocumentPostingYear;
-	private String finDocumentPostingPeriodCode;
-	private String finDocumentExplanationText;
-	private DocumentHeader financialDocument;
+    private String financialDocumentNumber;
+    private Integer finDocumentNextFromLineNbr;
+    private Integer finDocumentNextToLineNumber;
+    private Integer financialDocumentPostingYear;
+    private String finDocumentPostingPeriodCode;
+    private String finDocumentExplanationText;
+    private DocumentHeader financialDocument;
 
-	/**
-	 * Default no-arg constructor.
-	 */
-	public DistributionDoc() {
+    /**
+     * Default no-arg constructor.
+     */
+    public DistributionDoc() {
 
-	}
+    }
 
-	/**
-	 * Gets the financialDocumentNumber attribute.
-	 * 
-	 * @return - Returns the financialDocumentNumber
-	 * 
-	 */
-	public String getFinancialDocumentNumber() { 
-		return financialDocumentNumber;
-	}
-	
+    /**
+     * Gets the financialDocumentNumber attribute.
+     * 
+     * @return - Returns the financialDocumentNumber
+     * 
+     */
+    public String getFinancialDocumentNumber() {
+        return financialDocumentNumber;
+    }
 
-	/**
-	 * Sets the financialDocumentNumber attribute.
-	 * 
-	 * @param - financialDocumentNumber The financialDocumentNumber to set.
-	 * 
-	 */
-	public void setFinancialDocumentNumber(String financialDocumentNumber) {
-		this.financialDocumentNumber = financialDocumentNumber;
-	}
 
-	/**
-	 * Gets the finDocumentNextFromLineNbr attribute.
-	 * 
-	 * @return - Returns the finDocumentNextFromLineNbr
-	 * 
-	 */
-	public Integer getFinDocumentNextFromLineNbr() { 
-		return finDocumentNextFromLineNbr;
-	}
-	
+    /**
+     * Sets the financialDocumentNumber attribute.
+     * 
+     * @param - financialDocumentNumber The financialDocumentNumber to set.
+     * 
+     */
+    public void setFinancialDocumentNumber(String financialDocumentNumber) {
+        this.financialDocumentNumber = financialDocumentNumber;
+    }
 
-	/**
-	 * Sets the finDocumentNextFromLineNbr attribute.
-	 * 
-	 * @param - finDocumentNextFromLineNbr The finDocumentNextFromLineNbr to set.
-	 * 
-	 */
-	public void setFinDocumentNextFromLineNbr(Integer finDocumentNextFromLineNbr) {
-		this.finDocumentNextFromLineNbr = finDocumentNextFromLineNbr;
-	}
+    /**
+     * Gets the finDocumentNextFromLineNbr attribute.
+     * 
+     * @return - Returns the finDocumentNextFromLineNbr
+     * 
+     */
+    public Integer getFinDocumentNextFromLineNbr() {
+        return finDocumentNextFromLineNbr;
+    }
 
-	/**
-	 * Gets the finDocumentNextToLineNumber attribute.
-	 * 
-	 * @return - Returns the finDocumentNextToLineNumber
-	 * 
-	 */
-	public Integer getFinDocumentNextToLineNumber() { 
-		return finDocumentNextToLineNumber;
-	}
-	
 
-	/**
-	 * Sets the finDocumentNextToLineNumber attribute.
-	 * 
-	 * @param - finDocumentNextToLineNumber The finDocumentNextToLineNumber to set.
-	 * 
-	 */
-	public void setFinDocumentNextToLineNumber(Integer finDocumentNextToLineNumber) {
-		this.finDocumentNextToLineNumber = finDocumentNextToLineNumber;
-	}
+    /**
+     * Sets the finDocumentNextFromLineNbr attribute.
+     * 
+     * @param - finDocumentNextFromLineNbr The finDocumentNextFromLineNbr to set.
+     * 
+     */
+    public void setFinDocumentNextFromLineNbr(Integer finDocumentNextFromLineNbr) {
+        this.finDocumentNextFromLineNbr = finDocumentNextFromLineNbr;
+    }
 
-	/**
-	 * Gets the financialDocumentPostingYear attribute.
-	 * 
-	 * @return - Returns the financialDocumentPostingYear
-	 * 
-	 */
-	public Integer getFinancialDocumentPostingYear() { 
-		return financialDocumentPostingYear;
-	}
-	
+    /**
+     * Gets the finDocumentNextToLineNumber attribute.
+     * 
+     * @return - Returns the finDocumentNextToLineNumber
+     * 
+     */
+    public Integer getFinDocumentNextToLineNumber() {
+        return finDocumentNextToLineNumber;
+    }
 
-	/**
-	 * Sets the financialDocumentPostingYear attribute.
-	 * 
-	 * @param - financialDocumentPostingYear The financialDocumentPostingYear to set.
-	 * 
-	 */
-	public void setFinancialDocumentPostingYear(Integer financialDocumentPostingYear) {
-		this.financialDocumentPostingYear = financialDocumentPostingYear;
-	}
 
-	/**
-	 * Gets the finDocumentPostingPeriodCode attribute.
-	 * 
-	 * @return - Returns the finDocumentPostingPeriodCode
-	 * 
-	 */
-	public String getFinDocumentPostingPeriodCode() { 
-		return finDocumentPostingPeriodCode;
-	}
-	
+    /**
+     * Sets the finDocumentNextToLineNumber attribute.
+     * 
+     * @param - finDocumentNextToLineNumber The finDocumentNextToLineNumber to set.
+     * 
+     */
+    public void setFinDocumentNextToLineNumber(Integer finDocumentNextToLineNumber) {
+        this.finDocumentNextToLineNumber = finDocumentNextToLineNumber;
+    }
 
-	/**
-	 * Sets the finDocumentPostingPeriodCode attribute.
-	 * 
-	 * @param - finDocumentPostingPeriodCode The finDocumentPostingPeriodCode to set.
-	 * 
-	 */
-	public void setFinDocumentPostingPeriodCode(String finDocumentPostingPeriodCode) {
-		this.finDocumentPostingPeriodCode = finDocumentPostingPeriodCode;
-	}
+    /**
+     * Gets the financialDocumentPostingYear attribute.
+     * 
+     * @return - Returns the financialDocumentPostingYear
+     * 
+     */
+    public Integer getFinancialDocumentPostingYear() {
+        return financialDocumentPostingYear;
+    }
 
-	/**
-	 * Gets the finDocumentExplanationText attribute.
-	 * 
-	 * @return - Returns the finDocumentExplanationText
-	 * 
-	 */
-	public String getFinDocumentExplanationText() { 
-		return finDocumentExplanationText;
-	}
-	
 
-	/**
-	 * Sets the finDocumentExplanationText attribute.
-	 * 
-	 * @param - finDocumentExplanationText The finDocumentExplanationText to set.
-	 * 
-	 */
-	public void setFinDocumentExplanationText(String finDocumentExplanationText) {
-		this.finDocumentExplanationText = finDocumentExplanationText;
-	}
+    /**
+     * Sets the financialDocumentPostingYear attribute.
+     * 
+     * @param - financialDocumentPostingYear The financialDocumentPostingYear to set.
+     * 
+     */
+    public void setFinancialDocumentPostingYear(Integer financialDocumentPostingYear) {
+        this.financialDocumentPostingYear = financialDocumentPostingYear;
+    }
 
-	/**
-	 * Gets the financialDocument attribute.
-	 * 
-	 * @return - Returns the financialDocument
-	 * 
-	 */
-	public DocumentHeader getFinancialDocument() { 
-		return financialDocument;
-	}
-	
+    /**
+     * Gets the finDocumentPostingPeriodCode attribute.
+     * 
+     * @return - Returns the finDocumentPostingPeriodCode
+     * 
+     */
+    public String getFinDocumentPostingPeriodCode() {
+        return finDocumentPostingPeriodCode;
+    }
 
-	/**
-	 * Sets the financialDocument attribute.
-	 * 
-	 * @param - financialDocument The financialDocument to set.
-	 * @deprecated
-	 */
-	public void setFinancialDocument(DocumentHeader financialDocument) {
-		this.financialDocument = financialDocument;
-	}
 
-	/**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();
-          m.put("financialDocumentNumber", this.financialDocumentNumber);
-  	    return m;
-	}
+    /**
+     * Sets the finDocumentPostingPeriodCode attribute.
+     * 
+     * @param - finDocumentPostingPeriodCode The finDocumentPostingPeriodCode to set.
+     * 
+     */
+    public void setFinDocumentPostingPeriodCode(String finDocumentPostingPeriodCode) {
+        this.finDocumentPostingPeriodCode = finDocumentPostingPeriodCode;
+    }
+
+    /**
+     * Gets the finDocumentExplanationText attribute.
+     * 
+     * @return - Returns the finDocumentExplanationText
+     * 
+     */
+    public String getFinDocumentExplanationText() {
+        return finDocumentExplanationText;
+    }
+
+
+    /**
+     * Sets the finDocumentExplanationText attribute.
+     * 
+     * @param - finDocumentExplanationText The finDocumentExplanationText to set.
+     * 
+     */
+    public void setFinDocumentExplanationText(String finDocumentExplanationText) {
+        this.finDocumentExplanationText = finDocumentExplanationText;
+    }
+
+    /**
+     * Gets the financialDocument attribute.
+     * 
+     * @return - Returns the financialDocument
+     * 
+     */
+    public DocumentHeader getFinancialDocument() {
+        return financialDocument;
+    }
+
+
+    /**
+     * Sets the financialDocument attribute.
+     * 
+     * @param - financialDocument The financialDocument to set.
+     * @deprecated
+     */
+    public void setFinancialDocument(DocumentHeader financialDocument) {
+        this.financialDocument = financialDocument;
+    }
+
+    /**
+     * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
+        m.put("financialDocumentNumber", this.financialDocumentNumber);
+        return m;
+    }
 }

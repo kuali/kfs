@@ -23,11 +23,11 @@
 package org.kuali.module.gl.service;
 
 public interface EntryService {
-  /**
-   * Purge the entry table by year/chart
-   * 
-   * @param chart
-   * @param year
-   */
-  public void purgeYearByChart(String chart,int year);
+    /**
+     * Purge the entry table by year/chart
+     * 
+     * @param chart
+     * @param year
+     */
+    public void purgeYearByChart(String chart, int year);
 }

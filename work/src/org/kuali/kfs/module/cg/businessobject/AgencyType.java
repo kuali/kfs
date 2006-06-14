@@ -35,11 +35,11 @@ import org.kuali.core.bo.KualiCodeBase;
  */
 public class AgencyType extends KualiCodeBase {
 
-	/**
-	 * Default no-arg constructor.
-	 */
-	public AgencyType() {
-	    super(); // KualiCodeBase does some setup in constructor
-	}
+    /**
+     * Default no-arg constructor.
+     */
+    public AgencyType() {
+        super(); // KualiCodeBase does some setup in constructor
+    }
 
 }

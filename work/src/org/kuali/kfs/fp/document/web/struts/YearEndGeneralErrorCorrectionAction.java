@@ -24,6 +24,7 @@ package org.kuali.module.financial.web.struts.action;
 
 /**
  * This class piggy backs on all of the functionality in the KualiTransactionalDocumentActionBase.
+ * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class YearEndGeneralErrorCorrectionAction extends GeneralErrorCorrectionAction {

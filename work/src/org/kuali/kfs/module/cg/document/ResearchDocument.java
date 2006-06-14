@@ -30,4 +30,5 @@ import org.kuali.core.document.Document;
  * 
  * @author KRA (era_team@indiana.edu)
  */
-public interface ResearchDocument extends Document {}
+public interface ResearchDocument extends Document {
+}

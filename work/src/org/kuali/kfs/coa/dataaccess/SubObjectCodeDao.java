@@ -27,21 +27,20 @@ import org.kuali.module.chart.bo.SubObjCd;
 
 /**
  * This interface defines basic methods that SubObjectCode Dao's must provide
+ * 
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
-*/
+ */
 public interface SubObjectCodeDao {
-  
+
     /**
-     * @param universityFiscalYear - part of composite key  
-     * @param chartOfAccountsCode - part of composite key  
-     * @param accountNumber - part of composite key  
-     * @param financialObjectCode - part of composite key  
+     * @param universityFiscalYear - part of composite key
+     * @param chartOfAccountsCode - part of composite key
+     * @param accountNumber - part of composite key
+     * @param financialObjectCode - part of composite key
      * @param financialSubObjectCode - part of composite key
-     * @return   SubObjectCode
+     * @return SubObjectCode
      * 
      * Retrieves a SubObjectCode by primary key.
      */
-    public SubObjCd getByPrimaryId(Integer universityFiscalYear,
-        String chartOfAccountsCode, String accountNumber,
-        String financialObjectCode, String financialSubObjectCode);
+    public SubObjCd getByPrimaryId(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialObjectCode, String financialSubObjectCode);
 }

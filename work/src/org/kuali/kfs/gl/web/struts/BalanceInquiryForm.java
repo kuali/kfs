@@ -66,8 +66,7 @@ public class BalanceInquiryForm extends LookupForm {
 
         try {
             Lookupable localLookupable = null;
-            if (StringUtils.isBlank(request.getParameter(Constants.LOOKUPABLE_IMPL_ATTRIBUTE_NAME))
-                    && StringUtils.isBlank(getLookupableImplServiceName())) {
+            if (StringUtils.isBlank(request.getParameter(Constants.LOOKUPABLE_IMPL_ATTRIBUTE_NAME)) && StringUtils.isBlank(getLookupableImplServiceName())) {
                 // get the business object class for the lookup
                 String localBusinessObjectClassName = request.getParameter(Constants.BUSINESS_OBJECT_CLASS_ATTRIBUTE);
                 setBusinessObjectClassName(localBusinessObjectClassName);
@@ -77,8 +76,7 @@ public class BalanceInquiryForm extends LookupForm {
                 }
 
                 // call data dictionary service to get lookup impl for bo class
-                String lookupImplID = SpringServiceLocator.getBusinessObjectDictionaryService().getLookupableID(
-                        Class.forName(localBusinessObjectClassName));
+                String lookupImplID = SpringServiceLocator.getBusinessObjectDictionaryService().getLookupableID(Class.forName(localBusinessObjectClassName));
                 if (lookupImplID == null) {
                     lookupImplID = "kualiLookupable";
                 }
@@ -96,7 +94,7 @@ public class BalanceInquiryForm extends LookupForm {
             if (request.getParameter(Constants.LOOKUPABLE_IMPL_ATTRIBUTE_NAME) != null) {
                 setLookupableImplServiceName(request.getParameter(Constants.LOOKUPABLE_IMPL_ATTRIBUTE_NAME));
             }
-             
+
             // check the doc form key is empty before setting so we don't override a restored lookup form
             if (request.getAttribute(Constants.DOC_FORM_KEY) != null && StringUtils.isBlank(this.getFormKey())) {
                 setFormKey((String) request.getAttribute(Constants.DOC_FORM_KEY));
@@ -122,12 +120,12 @@ public class BalanceInquiryForm extends LookupForm {
 
                 for (Iterator iterator = row.getFields().iterator(); iterator.hasNext();) {
                     Field field = (Field) iterator.next();
-                    
+
                     // check whether form already has value for field
-                    if (formFields != null && formFields.containsKey(field.getPropertyName())){
+                    if (formFields != null && formFields.containsKey(field.getPropertyName())) {
                         field.setPropertyValue(formFields.get(field.getPropertyName()));
                     }
-                    
+
                     // override values with request
                     if (request.getParameter(field.getPropertyName()) != null) {
                         field.setPropertyValue(request.getParameter(field.getPropertyName()));
@@ -141,12 +139,12 @@ public class BalanceInquiryForm extends LookupForm {
 
                     for (Iterator iterator = row.getFields().iterator(); iterator.hasNext();) {
                         Field field = (Field) iterator.next();
-                        
+
                         // check whether form already has value for field
-                        if (formFields != null && formFields.containsKey(field.getPropertyName())){
+                        if (formFields != null && formFields.containsKey(field.getPropertyName())) {
                             field.setPropertyValue(formFields.get(field.getPropertyName()));
                         }
-                        
+
                         // override values with request
                         if (request.getParameter(field.getPropertyName()) != null) {
                             field.setPropertyValue(request.getParameter(field.getPropertyName()));
@@ -166,13 +164,11 @@ public class BalanceInquiryForm extends LookupForm {
                     StringTokenizer token = new StringTokenizer(this.getConversionFields(), ",");
                     while (token.hasMoreTokens()) {
                         String element = token.nextToken();
-                        fieldConversionMap.put(element.substring(0, element.indexOf(":")), element
-                                .substring(element.indexOf(":") + 1));
+                        fieldConversionMap.put(element.substring(0, element.indexOf(":")), element.substring(element.indexOf(":") + 1));
                     }
                 }
                 else {
-                    fieldConversionMap.put(this.getConversionFields().substring(0, this.getConversionFields().indexOf(":")), this
-                            .getConversionFields().substring(this.getConversionFields().indexOf(":") + 1));
+                    fieldConversionMap.put(this.getConversionFields().substring(0, this.getConversionFields().indexOf(":")), this.getConversionFields().substring(this.getConversionFields().indexOf(":") + 1));
                 }
             }
             setFieldConversions(fieldConversionMap);
@@ -300,16 +296,16 @@ public class BalanceInquiryForm extends LookupForm {
     public void setLookupable(Lookupable lookupable) {
         this.lookupable = lookupable;
     }
-    
-    
+
+
     /**
      * @return Returns the hideReturnLink.
      */
     public boolean isHideReturnLink() {
         return hideReturnLink;
     }
-    
-    
+
+
     /**
      * @param hideReturnLink The hideReturnLink to set.
      */

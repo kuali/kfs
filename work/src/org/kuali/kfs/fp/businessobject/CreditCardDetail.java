@@ -32,222 +32,221 @@ import org.kuali.core.bo.BusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 
 /**
- * This class represents the CreditCardDetail business object, which is a single 
- * record on the Credit Card Receipts Document representing a single credit card 
- * receipt.  This is a type of advance deposit.
+ * This class represents the CreditCardDetail business object, which is a single record on the Credit Card Receipts Document
+ * representing a single credit card receipt. This is a type of advance deposit.
  * 
  * @author Kuali Transaction Processing eDocs Team (kualidev@oncourse.iu.edu)
  */
 public class CreditCardDetail extends BusinessObjectBase {
-	private String financialDocumentNumber;
-	private String financialDocumentTypeCode;
-	private String financialDocumentColumnTypeCode;
-	private Integer financialDocumentLineNumber;
-	private String financialDocumentCreditCardTypeCode;
-	private String financialDocumentCreditCardVendorNumber;
-	private Date creditCardDepositDate;
-	private String creditCardDepositReferenceNumber;
-	private KualiDecimal creditCardAdvanceDepositAmount;
+    private String financialDocumentNumber;
+    private String financialDocumentTypeCode;
+    private String financialDocumentColumnTypeCode;
+    private Integer financialDocumentLineNumber;
+    private String financialDocumentCreditCardTypeCode;
+    private String financialDocumentCreditCardVendorNumber;
+    private Date creditCardDepositDate;
+    private String creditCardDepositReferenceNumber;
+    private KualiDecimal creditCardAdvanceDepositAmount;
 
     private CreditCardType financialDocumentCreditCardType;
     private CreditCardVendor financialDocumentCreditCardVendor;
-    
-	/**
-	 * Default constructor.
-	 */
-	public CreditCardDetail() {
+
+    /**
+     * Default constructor.
+     */
+    public CreditCardDetail() {
         super();
-	    this.financialDocumentLineNumber = new Integer(1);
+        this.financialDocumentLineNumber = new Integer(1);
         this.creditCardAdvanceDepositAmount = new KualiDecimal(0);
-	}
+    }
 
-	/**
-	 * Gets the financialDocumentNumber attribute.
-	 * 
-	 * @return Returns the financialDocumentNumber
-	 * 
-	 */
-	public String getFinancialDocumentNumber() { 
-		return financialDocumentNumber;
-	}
+    /**
+     * Gets the financialDocumentNumber attribute.
+     * 
+     * @return Returns the financialDocumentNumber
+     * 
+     */
+    public String getFinancialDocumentNumber() {
+        return financialDocumentNumber;
+    }
 
-	/**
-	 * Sets the financialDocumentNumber attribute.
-	 * 
-	 * @param financialDocumentNumber The financialDocumentNumber to set.
-	 * 
-	 */
-	public void setFinancialDocumentNumber(String financialDocumentNumber) {
-		this.financialDocumentNumber = financialDocumentNumber;
-	}
-
-
-	/**
-	 * Gets the financialDocumentTypeCode attribute.
-	 * 
-	 * @return Returns the financialDocumentTypeCode
-	 * 
-	 */
-	public String getFinancialDocumentTypeCode() { 
-		return financialDocumentTypeCode;
-	}
-
-	/**
-	 * Sets the financialDocumentTypeCode attribute.
-	 * 
-	 * @param financialDocumentTypeCode The financialDocumentTypeCode to set.
-	 * 
-	 */
-	public void setFinancialDocumentTypeCode(String financialDocumentTypeCode) {
-		this.financialDocumentTypeCode = financialDocumentTypeCode;
-	}
+    /**
+     * Sets the financialDocumentNumber attribute.
+     * 
+     * @param financialDocumentNumber The financialDocumentNumber to set.
+     * 
+     */
+    public void setFinancialDocumentNumber(String financialDocumentNumber) {
+        this.financialDocumentNumber = financialDocumentNumber;
+    }
 
 
-	/**
-	 * Gets the financialDocumentColumnTypeCode attribute.
-	 * 
-	 * @return Returns the financialDocumentColumnTypeCode
-	 * 
-	 */
-	public String getFinancialDocumentColumnTypeCode() { 
-		return financialDocumentColumnTypeCode;
-	}
+    /**
+     * Gets the financialDocumentTypeCode attribute.
+     * 
+     * @return Returns the financialDocumentTypeCode
+     * 
+     */
+    public String getFinancialDocumentTypeCode() {
+        return financialDocumentTypeCode;
+    }
 
-	/**
-	 * Sets the financialDocumentColumnTypeCode attribute.
-	 * 
-	 * @param financialDocumentColumnTypeCode The financialDocumentColumnTypeCode to set.
-	 * 
-	 */
-	public void setFinancialDocumentColumnTypeCode(String financialDocumentColumnTypeCode) {
-		this.financialDocumentColumnTypeCode = financialDocumentColumnTypeCode;
-	}
-
-
-	/**
-	 * Gets the financialDocumentLineNumber attribute.
-	 * 
-	 * @return Returns the financialDocumentLineNumber
-	 * 
-	 */
-	public Integer getFinancialDocumentLineNumber() { 
-		return financialDocumentLineNumber;
-	}
-
-	/**
-	 * Sets the financialDocumentLineNumber attribute.
-	 * 
-	 * @param financialDocumentLineNumber The financialDocumentLineNumber to set.
-	 * 
-	 */
-	public void setFinancialDocumentLineNumber(Integer financialDocumentLineNumber) {
-		this.financialDocumentLineNumber = financialDocumentLineNumber;
-	}
+    /**
+     * Sets the financialDocumentTypeCode attribute.
+     * 
+     * @param financialDocumentTypeCode The financialDocumentTypeCode to set.
+     * 
+     */
+    public void setFinancialDocumentTypeCode(String financialDocumentTypeCode) {
+        this.financialDocumentTypeCode = financialDocumentTypeCode;
+    }
 
 
-	/**
-	 * Gets the financialDocumentCreditCardTypeCode attribute.
-	 * 
-	 * @return Returns the financialDocumentCreditCardTypeCode
-	 * 
-	 */
-	public String getFinancialDocumentCreditCardTypeCode() { 
-		return financialDocumentCreditCardTypeCode;
-	}
+    /**
+     * Gets the financialDocumentColumnTypeCode attribute.
+     * 
+     * @return Returns the financialDocumentColumnTypeCode
+     * 
+     */
+    public String getFinancialDocumentColumnTypeCode() {
+        return financialDocumentColumnTypeCode;
+    }
 
-	/**
-	 * Sets the financialDocumentCreditCardTypeCode attribute.
-	 * 
-	 * @param financialDocumentCreditCardTypeCode The financialDocumentCreditCardTypeCode to set.
-	 * 
-	 */
-	public void setFinancialDocumentCreditCardTypeCode(String financialDocumentCreditCardTypeCode) {
-		this.financialDocumentCreditCardTypeCode = financialDocumentCreditCardTypeCode;
-	}
-
-
-	/**
-	 * Gets the financialDocumentCreditCardVendorNumber attribute.
-	 * 
-	 * @return Returns the financialDocumentCreditCardVendorNumber
-	 * 
-	 */
-	public String getFinancialDocumentCreditCardVendorNumber() { 
-		return financialDocumentCreditCardVendorNumber;
-	}
-
-	/**
-	 * Sets the financialDocumentCreditCardVendorNumber attribute.
-	 * 
-	 * @param financialDocumentCreditCardVendorNumber The financialDocumentCreditCardVendorNumber to set.
-	 * 
-	 */
-	public void setFinancialDocumentCreditCardVendorNumber(String financialDocumentCreditCardVendorNumber) {
-		this.financialDocumentCreditCardVendorNumber = financialDocumentCreditCardVendorNumber;
-	}
+    /**
+     * Sets the financialDocumentColumnTypeCode attribute.
+     * 
+     * @param financialDocumentColumnTypeCode The financialDocumentColumnTypeCode to set.
+     * 
+     */
+    public void setFinancialDocumentColumnTypeCode(String financialDocumentColumnTypeCode) {
+        this.financialDocumentColumnTypeCode = financialDocumentColumnTypeCode;
+    }
 
 
-	/**
-	 * Gets the creditCardDepositDate attribute.
-	 * 
-	 * @return Returns the creditCardDepositDate
-	 * 
-	 */
-	public Date getCreditCardDepositDate() { 
-		return creditCardDepositDate;
-	}
+    /**
+     * Gets the financialDocumentLineNumber attribute.
+     * 
+     * @return Returns the financialDocumentLineNumber
+     * 
+     */
+    public Integer getFinancialDocumentLineNumber() {
+        return financialDocumentLineNumber;
+    }
 
-	/**
-	 * Sets the creditCardDepositDate attribute.
-	 * 
-	 * @param creditCardDepositDate The creditCardDepositDate to set.
-	 * 
-	 */
-	public void setCreditCardDepositDate(Date creditCardDepositDate) {
-		this.creditCardDepositDate = creditCardDepositDate;
-	}
-
-
-	/**
-	 * Gets the creditCardDepositReferenceNumber attribute.
-	 * 
-	 * @return Returns the creditCardDepositReferenceNumber
-	 * 
-	 */
-	public String getCreditCardDepositReferenceNumber() { 
-		return creditCardDepositReferenceNumber;
-	}
-
-	/**
-	 * Sets the creditCardDepositReferenceNumber attribute.
-	 * 
-	 * @param creditCardDepositReferenceNumber The creditCardDepositReferenceNumber to set.
-	 * 
-	 */
-	public void setCreditCardDepositReferenceNumber(String creditCardDepositReferenceNumber) {
-		this.creditCardDepositReferenceNumber = creditCardDepositReferenceNumber;
-	}
+    /**
+     * Sets the financialDocumentLineNumber attribute.
+     * 
+     * @param financialDocumentLineNumber The financialDocumentLineNumber to set.
+     * 
+     */
+    public void setFinancialDocumentLineNumber(Integer financialDocumentLineNumber) {
+        this.financialDocumentLineNumber = financialDocumentLineNumber;
+    }
 
 
-	/**
-	 * Gets the creditCardAdvanceDepositAmount attribute.
-	 * 
-	 * @return - Returns the creditCardAdvanceDepositAmount
-	 * 
-	 */
-	public KualiDecimal getCreditCardAdvanceDepositAmount() { 
-		return creditCardAdvanceDepositAmount;
-	}
+    /**
+     * Gets the financialDocumentCreditCardTypeCode attribute.
+     * 
+     * @return Returns the financialDocumentCreditCardTypeCode
+     * 
+     */
+    public String getFinancialDocumentCreditCardTypeCode() {
+        return financialDocumentCreditCardTypeCode;
+    }
 
-	/**
-	 * Sets the creditCardAdvanceDepositAmount attribute.
-	 * 
-	 * @param creditCardAdvanceDepositAmount The creditCardAdvanceDepositAmount to set.
-	 * 
-	 */
-	public void setCreditCardAdvanceDepositAmount(KualiDecimal creditCardAdvanceDepositAmount) {
-		this.creditCardAdvanceDepositAmount = creditCardAdvanceDepositAmount;
-	}
+    /**
+     * Sets the financialDocumentCreditCardTypeCode attribute.
+     * 
+     * @param financialDocumentCreditCardTypeCode The financialDocumentCreditCardTypeCode to set.
+     * 
+     */
+    public void setFinancialDocumentCreditCardTypeCode(String financialDocumentCreditCardTypeCode) {
+        this.financialDocumentCreditCardTypeCode = financialDocumentCreditCardTypeCode;
+    }
+
+
+    /**
+     * Gets the financialDocumentCreditCardVendorNumber attribute.
+     * 
+     * @return Returns the financialDocumentCreditCardVendorNumber
+     * 
+     */
+    public String getFinancialDocumentCreditCardVendorNumber() {
+        return financialDocumentCreditCardVendorNumber;
+    }
+
+    /**
+     * Sets the financialDocumentCreditCardVendorNumber attribute.
+     * 
+     * @param financialDocumentCreditCardVendorNumber The financialDocumentCreditCardVendorNumber to set.
+     * 
+     */
+    public void setFinancialDocumentCreditCardVendorNumber(String financialDocumentCreditCardVendorNumber) {
+        this.financialDocumentCreditCardVendorNumber = financialDocumentCreditCardVendorNumber;
+    }
+
+
+    /**
+     * Gets the creditCardDepositDate attribute.
+     * 
+     * @return Returns the creditCardDepositDate
+     * 
+     */
+    public Date getCreditCardDepositDate() {
+        return creditCardDepositDate;
+    }
+
+    /**
+     * Sets the creditCardDepositDate attribute.
+     * 
+     * @param creditCardDepositDate The creditCardDepositDate to set.
+     * 
+     */
+    public void setCreditCardDepositDate(Date creditCardDepositDate) {
+        this.creditCardDepositDate = creditCardDepositDate;
+    }
+
+
+    /**
+     * Gets the creditCardDepositReferenceNumber attribute.
+     * 
+     * @return Returns the creditCardDepositReferenceNumber
+     * 
+     */
+    public String getCreditCardDepositReferenceNumber() {
+        return creditCardDepositReferenceNumber;
+    }
+
+    /**
+     * Sets the creditCardDepositReferenceNumber attribute.
+     * 
+     * @param creditCardDepositReferenceNumber The creditCardDepositReferenceNumber to set.
+     * 
+     */
+    public void setCreditCardDepositReferenceNumber(String creditCardDepositReferenceNumber) {
+        this.creditCardDepositReferenceNumber = creditCardDepositReferenceNumber;
+    }
+
+
+    /**
+     * Gets the creditCardAdvanceDepositAmount attribute.
+     * 
+     * @return - Returns the creditCardAdvanceDepositAmount
+     * 
+     */
+    public KualiDecimal getCreditCardAdvanceDepositAmount() {
+        return creditCardAdvanceDepositAmount;
+    }
+
+    /**
+     * Sets the creditCardAdvanceDepositAmount attribute.
+     * 
+     * @param creditCardAdvanceDepositAmount The creditCardAdvanceDepositAmount to set.
+     * 
+     */
+    public void setCreditCardAdvanceDepositAmount(KualiDecimal creditCardAdvanceDepositAmount) {
+        this.creditCardAdvanceDepositAmount = creditCardAdvanceDepositAmount;
+    }
 
     /**
      * @return Returns the financialDocumentCreditCardType.
@@ -263,7 +262,7 @@ public class CreditCardDetail extends BusinessObjectBase {
     public void setFinancialDocumentCreditCardType(CreditCardType financialDocumentCreditCardType) {
         this.financialDocumentCreditCardType = financialDocumentCreditCardType;
     }
-    
+
     /**
      * @return Returns the financialDocumentCreditCardVendor.
      */
@@ -281,14 +280,14 @@ public class CreditCardDetail extends BusinessObjectBase {
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
         m.put("financialDocumentNumber", this.financialDocumentNumber);
         m.put("financialDocumentTypeCode", this.financialDocumentTypeCode);
         m.put("financialDocumentColumnTypeCode", this.financialDocumentColumnTypeCode);
         if (this.financialDocumentLineNumber != null) {
             m.put("financialDocumentLineNumber", this.financialDocumentLineNumber.toString());
         }
-	    return m;
+        return m;
     }
 }

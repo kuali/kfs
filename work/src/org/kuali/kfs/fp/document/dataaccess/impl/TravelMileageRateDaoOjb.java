@@ -53,7 +53,7 @@ public class TravelMileageRateDaoOjb extends PersistenceBrokerTemplate implement
         QueryByCriteria queryByCriteria = new QueryByCriteria(TravelMileageRate.class, criteria);
         queryByCriteria.addOrderByDescending("disbursementVoucherMileageEffectiveDate");
         queryByCriteria.addOrderByDescending("mileageLimitAmount");
-        
+
         Collection mostEffectiveRates = new ArrayList();
         Collection rates = getCollectionByQuery(queryByCriteria);
         Date mostEffectiveDate = ((TravelMileageRate) rates.iterator().next()).getDisbursementVoucherMileageEffectiveDate();

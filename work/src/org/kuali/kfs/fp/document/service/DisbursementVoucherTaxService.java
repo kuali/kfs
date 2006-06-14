@@ -29,6 +29,7 @@ import org.kuali.module.financial.document.DisbursementVoucherDocument;
 
 /**
  * Handles queries and validation on tax id numbers.
+ * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public interface DisbursementVoucherTaxService {
@@ -43,6 +44,7 @@ public interface DisbursementVoucherTaxService {
      * Checks the existence of a tax id number as one of the following, returning the constant representing the match: 1) No Match
      * 2) Institution special tax number 3) Vendor ID Number 4) Tax ID of existing payee 5) Tax ID of pending payee 6) Employee tax
      * number
+     * 
      * @param taxIDNumber
      * @return
      */
@@ -50,6 +52,7 @@ public interface DisbursementVoucherTaxService {
 
     /**
      * Returns the vendor id number whose tax number matches the number passed in, or null if no vendor is found.
+     * 
      * @param taxIDNumber
      * @param taxpayerTypeCode
      * @return
@@ -58,6 +61,7 @@ public interface DisbursementVoucherTaxService {
 
     /**
      * Returns the pending payee id number whose tax number matches the number passed in, or null if no payee is found.
+     * 
      * @param taxIDNumber
      * @param taxpayerTypeCode
      * @return
@@ -66,6 +70,7 @@ public interface DisbursementVoucherTaxService {
 
     /**
      * Returns the payee id number whose tax number matches the number passed in, or null if no payee is found.
+     * 
      * @param taxIDNumber
      * @param taxpayerTypeCode
      * @return
@@ -74,34 +79,38 @@ public interface DisbursementVoucherTaxService {
 
     /**
      * Returns the employee id number whose tax number matches the number passed in, or null if no employee is found.
+     * 
      * @param taxIDNumber
      * @param taxpayerTypeCode
      * @return
      */
     public String getEmployeeNumber(String taxIDNumber, String taxpayerTypeCode);
-    
+
     /**
      * Removes tax lines from the document's accounting lines and updates the check total.
+     * 
      * @param document
      */
     public void clearNRATaxLines(DisbursementVoucherDocument document);
 
     /**
-     * generates new tax lines based on nra tab infor, and
-     * debits the check total
+     * generates new tax lines based on nra tab infor, and debits the check total
+     * 
      * @param document
      */
     public void processNonResidentAlienTax(DisbursementVoucherDocument document);
-    
+
     /**
      * Returns the accounting line tax amount (if any)
+     * 
      * @param document
      * @return
      */
     public KualiDecimal getNonResidentAlienTaxAmount(DisbursementVoucherDocument document);
-    
+
     /**
      * Returns a List of Integer line numbers parsed from the line string.
+     * 
      * @param taxLineString
      * @return
      */

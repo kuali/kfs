@@ -14,7 +14,7 @@ import org.kuali.module.gl.service.PosterService;
 
 /**
  * @author jsissom
- *  
+ * 
  */
 public class PostGlEntry implements PostTransaction {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PostGlEntry.class);
@@ -22,7 +22,7 @@ public class PostGlEntry implements PostTransaction {
     private EntryDao entryDao;
 
     /**
-     *  
+     * 
      */
     public PostGlEntry() {
         super();

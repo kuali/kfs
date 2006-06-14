@@ -17,41 +17,41 @@ public class SufficientFundRebuildDaoOjb extends PersistenceBrokerDaoSupport imp
     }
 
     public Collection getAll() {
-        QueryByCriteria qbc = QueryFactory.newQuery(SufficientFundRebuild.class, (Criteria)null);
+        QueryByCriteria qbc = QueryFactory.newQuery(SufficientFundRebuild.class, (Criteria) null);
         qbc.addOrderByAscending("chartOfAccountsCode");
-        qbc.addOrderByAscending("accountFinancialObjectTypeCode");       
+        qbc.addOrderByAscending("accountFinancialObjectTypeCode");
         qbc.addOrderByAscending("accountNumberFinancialObjectCode");
 
         return getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
     }
 
     public Collection getByType(String accountFinancialObjectTypeCode) {
-      Criteria criteria = new Criteria();
-      criteria.addEqualTo("accountFinancialObjectTypeCode",accountFinancialObjectTypeCode);
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo("accountFinancialObjectTypeCode", accountFinancialObjectTypeCode);
 
-      QueryByCriteria qbc = QueryFactory.newQuery(SufficientFundRebuild.class, criteria);
-      return getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
+        QueryByCriteria qbc = QueryFactory.newQuery(SufficientFundRebuild.class, criteria);
+        return getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
     }
 
     public SufficientFundRebuild getByAccount(String chartOfAccountsCode, String accountNumberFinancialObjectCode) {
-      Criteria criteria = new Criteria();
-      criteria.addEqualTo("chartOfAccountsCode",chartOfAccountsCode);
-      criteria.addEqualTo("accountNumberFinancialObjectCode",accountNumberFinancialObjectCode);        
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo("chartOfAccountsCode", chartOfAccountsCode);
+        criteria.addEqualTo("accountNumberFinancialObjectCode", accountNumberFinancialObjectCode);
 
-      QueryByCriteria qbc = QueryFactory.newQuery(SufficientFundRebuild.class, criteria);
-      return (SufficientFundRebuild) getPersistenceBrokerTemplate().getObjectByQuery(qbc);      
+        QueryByCriteria qbc = QueryFactory.newQuery(SufficientFundRebuild.class, criteria);
+        return (SufficientFundRebuild) getPersistenceBrokerTemplate().getObjectByQuery(qbc);
     }
 
     public SufficientFundRebuild get(String chartOfAccountsCode, String accountFinancialObjectTypeCode, String accountNumberFinancialObjectCode) {
         Criteria criteria = new Criteria();
-        criteria.addEqualTo("chartOfAccountsCode",chartOfAccountsCode);
-        criteria.addEqualTo("accountFinancialObjectTypeCode",accountFinancialObjectTypeCode);
-        criteria.addEqualTo("accountNumberFinancialObjectCode",accountNumberFinancialObjectCode);        
+        criteria.addEqualTo("chartOfAccountsCode", chartOfAccountsCode);
+        criteria.addEqualTo("accountFinancialObjectTypeCode", accountFinancialObjectTypeCode);
+        criteria.addEqualTo("accountNumberFinancialObjectCode", accountNumberFinancialObjectCode);
 
         QueryByCriteria qbc = QueryFactory.newQuery(SufficientFundRebuild.class, criteria);
         return (SufficientFundRebuild) getPersistenceBrokerTemplate().getObjectByQuery(qbc);
-    }    
-    
+    }
+
     public void save(SufficientFundRebuild sfrb) {
         LOG.debug("save() started");
         getPersistenceBrokerTemplate().store(sfrb);
@@ -62,21 +62,20 @@ public class SufficientFundRebuildDaoOjb extends PersistenceBrokerDaoSupport imp
     }
 
     /**
-     * This method should only be used in unit tests.  It loads all the 
-     * gl_sf_rebuild_t rows in memory into a collection.  This won't 
+     * This method should only be used in unit tests. It loads all the gl_sf_rebuild_t rows in memory into a collection. This won't
      * sace for production.
      * 
      * @return
      */
     public Collection testingGetAllEntries() {
-      LOG.debug("testingGetAllEntries() started");
+        LOG.debug("testingGetAllEntries() started");
 
-      Criteria criteria = new Criteria();
-      QueryByCriteria qbc = QueryFactory.newQuery(SufficientFundRebuild.class, criteria);
-      qbc.addOrderByAscending("chartOfAccountsCode");
-      qbc.addOrderByAscending("accountFinancialObjectTypeCode");       
-      qbc.addOrderByAscending("accountNumberFinancialObjectCode");        
-      return getPersistenceBrokerTemplate().getCollectionByQuery(qbc);    
+        Criteria criteria = new Criteria();
+        QueryByCriteria qbc = QueryFactory.newQuery(SufficientFundRebuild.class, criteria);
+        qbc.addOrderByAscending("chartOfAccountsCode");
+        qbc.addOrderByAscending("accountFinancialObjectTypeCode");
+        qbc.addOrderByAscending("accountNumberFinancialObjectCode");
+        return getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
     }
 
 }

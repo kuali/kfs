@@ -146,7 +146,7 @@ public class LedgerReport {
 
     // draw a PDF table from a collection
     private PdfPTable buildPdfTable(Collection entryCollection) {
-        
+
         if (entryCollection == null || entryCollection.size() <= 0) {
             return this.buildEmptyTable();
         }

@@ -27,44 +27,47 @@ import org.kuali.module.chart.dao.ProjectCodeDao;
 import org.kuali.module.chart.service.ProjectCodeService;
 
 /**
- * This class is the service implementation for the ProjectCode structure.
- * This is the default implementation, that is delivered with Kuali.
+ * This class is the service implementation for the ProjectCode structure. This is the default implementation, that is delivered
+ * with Kuali.
+ * 
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
-*/
+ */
 public class ProjectCodeServiceImpl implements ProjectCodeService {
-  private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProjectCodeServiceImpl.class);
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProjectCodeServiceImpl.class);
 
-  private ProjectCodeDao projectCodeDao;
+    private ProjectCodeDao projectCodeDao;
 
-  /**
-   * Retrieves an ProjectCode object based on primary key.
-   * @param projectCode - Project Code 
-   * @return ProjectCode
-   */
-  public ProjectCode getByPrimaryId(String projectCode) {
-    return projectCodeDao.getByPrimaryId(projectCode);
-  }
+    /**
+     * Retrieves an ProjectCode object based on primary key.
+     * 
+     * @param projectCode - Project Code
+     * @return ProjectCode
+     */
+    public ProjectCode getByPrimaryId(String projectCode) {
+        return projectCodeDao.getByPrimaryId(projectCode);
+    }
 
-  /**
-   * Retrieves an ProjectCode object based on primary key
-   * @param projectCode - Project Code 
-   * @return ProjectCode
-   */
-  public ProjectCode getByName(String name) {
-    return projectCodeDao.getByName(name);
-  }
+    /**
+     * Retrieves an ProjectCode object based on primary key
+     * 
+     * @param projectCode - Project Code
+     * @return ProjectCode
+     */
+    public ProjectCode getByName(String name) {
+        return projectCodeDao.getByName(name);
+    }
 
-  /**
-   * @see org.kuali.module.chart.service.ProjectCodeService#save(org.kuali.bo.ProjectCode)
-   */
-  public void save(ProjectCode projectCode) {
-    projectCodeDao.save(projectCode);
-  }
+    /**
+     * @see org.kuali.module.chart.service.ProjectCodeService#save(org.kuali.bo.ProjectCode)
+     */
+    public void save(ProjectCode projectCode) {
+        projectCodeDao.save(projectCode);
+    }
 
-  /**
-   * @param projectDao The projectDao to set.
-   */
-  public void setProjectCodeDao(ProjectCodeDao projectCodeDao) {
-    this.projectCodeDao = projectCodeDao;
-  }
+    /**
+     * @param projectDao The projectDao to set.
+     */
+    public void setProjectCodeDao(ProjectCodeDao projectCodeDao) {
+        this.projectCodeDao = projectCodeDao;
+    }
 }

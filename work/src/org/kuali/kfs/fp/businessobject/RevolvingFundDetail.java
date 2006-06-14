@@ -36,244 +36,244 @@ import org.kuali.core.util.KualiDecimal;
  */
 public class RevolvingFundDetail extends BusinessObjectBase {
 
-	private String financialDocumentNumber;
-	private String financialDocumentTypeCode;
-	private String financialDocumentColumnTypeCode;
-	private Integer financialDocumentLineNumber;
-	private Date financialDocumentRevolvingFundDate;
-	private String financialDocumentRevolvingFundReferenceNumber;
-	private String financialDocumentRevolvingFundDescription;
-	private KualiDecimal financialDocumentRevolvingFundAmount;
-	private String financialDocumentBankCode;
-	private String financialDocumentBankAccountNumber;
+    private String financialDocumentNumber;
+    private String financialDocumentTypeCode;
+    private String financialDocumentColumnTypeCode;
+    private Integer financialDocumentLineNumber;
+    private Date financialDocumentRevolvingFundDate;
+    private String financialDocumentRevolvingFundReferenceNumber;
+    private String financialDocumentRevolvingFundDescription;
+    private KualiDecimal financialDocumentRevolvingFundAmount;
+    private String financialDocumentBankCode;
+    private String financialDocumentBankAccountNumber;
 
-	/**
-	 * Default constructor.
-	 */
-	public RevolvingFundDetail() {
+    /**
+     * Default constructor.
+     */
+    public RevolvingFundDetail() {
 
-	}
+    }
 
-	/**
-	 * Gets the financialDocumentNumber attribute.
-	 * 
-	 * @return - Returns the financialDocumentNumber
-	 * 
-	 */
-	public String getFinancialDocumentNumber() { 
-		return financialDocumentNumber;
-	}
+    /**
+     * Gets the financialDocumentNumber attribute.
+     * 
+     * @return - Returns the financialDocumentNumber
+     * 
+     */
+    public String getFinancialDocumentNumber() {
+        return financialDocumentNumber;
+    }
 
-	/**
-	 * Sets the financialDocumentNumber attribute.
-	 * 
-	 * @param - financialDocumentNumber The financialDocumentNumber to set.
-	 * 
-	 */
-	public void setFinancialDocumentNumber(String financialDocumentNumber) {
-		this.financialDocumentNumber = financialDocumentNumber;
-	}
-
-
-	/**
-	 * Gets the financialDocumentTypeCode attribute.
-	 * 
-	 * @return - Returns the financialDocumentTypeCode
-	 * 
-	 */
-	public String getFinancialDocumentTypeCode() { 
-		return financialDocumentTypeCode;
-	}
-
-	/**
-	 * Sets the financialDocumentTypeCode attribute.
-	 * 
-	 * @param - financialDocumentTypeCode The financialDocumentTypeCode to set.
-	 * 
-	 */
-	public void setFinancialDocumentTypeCode(String financialDocumentTypeCode) {
-		this.financialDocumentTypeCode = financialDocumentTypeCode;
-	}
+    /**
+     * Sets the financialDocumentNumber attribute.
+     * 
+     * @param - financialDocumentNumber The financialDocumentNumber to set.
+     * 
+     */
+    public void setFinancialDocumentNumber(String financialDocumentNumber) {
+        this.financialDocumentNumber = financialDocumentNumber;
+    }
 
 
-	/**
-	 * Gets the financialDocumentColumnTypeCode attribute.
-	 * 
-	 * @return - Returns the financialDocumentColumnTypeCode
-	 * 
-	 */
-	public String getFinancialDocumentColumnTypeCode() { 
-		return financialDocumentColumnTypeCode;
-	}
+    /**
+     * Gets the financialDocumentTypeCode attribute.
+     * 
+     * @return - Returns the financialDocumentTypeCode
+     * 
+     */
+    public String getFinancialDocumentTypeCode() {
+        return financialDocumentTypeCode;
+    }
 
-	/**
-	 * Sets the financialDocumentColumnTypeCode attribute.
-	 * 
-	 * @param - financialDocumentColumnTypeCode The financialDocumentColumnTypeCode to set.
-	 * 
-	 */
-	public void setFinancialDocumentColumnTypeCode(String financialDocumentColumnTypeCode) {
-		this.financialDocumentColumnTypeCode = financialDocumentColumnTypeCode;
-	}
-
-
-	/**
-	 * Gets the financialDocumentLineNumber attribute.
-	 * 
-	 * @return - Returns the financialDocumentLineNumber
-	 * 
-	 */
-	public Integer getFinancialDocumentLineNumber() { 
-		return financialDocumentLineNumber;
-	}
-
-	/**
-	 * Sets the financialDocumentLineNumber attribute.
-	 * 
-	 * @param - financialDocumentLineNumber The financialDocumentLineNumber to set.
-	 * 
-	 */
-	public void setFinancialDocumentLineNumber(Integer financialDocumentLineNumber) {
-		this.financialDocumentLineNumber = financialDocumentLineNumber;
-	}
+    /**
+     * Sets the financialDocumentTypeCode attribute.
+     * 
+     * @param - financialDocumentTypeCode The financialDocumentTypeCode to set.
+     * 
+     */
+    public void setFinancialDocumentTypeCode(String financialDocumentTypeCode) {
+        this.financialDocumentTypeCode = financialDocumentTypeCode;
+    }
 
 
-	/**
-	 * Gets the financialDocumentRevolvingFundDate attribute.
-	 * 
-	 * @return - Returns the financialDocumentRevolvingFundDate
-	 * 
-	 */
-	public Date getFinancialDocumentRevolvingFundDate() { 
-		return financialDocumentRevolvingFundDate;
-	}
+    /**
+     * Gets the financialDocumentColumnTypeCode attribute.
+     * 
+     * @return - Returns the financialDocumentColumnTypeCode
+     * 
+     */
+    public String getFinancialDocumentColumnTypeCode() {
+        return financialDocumentColumnTypeCode;
+    }
 
-	/**
-	 * Sets the financialDocumentRevolvingFundDate attribute.
-	 * 
-	 * @param - financialDocumentRevolvingFundDate The financialDocumentRevolvingFundDate to set.
-	 * 
-	 */
-	public void setFinancialDocumentRevolvingFundDate(Date financialDocumentRevolvingFundDate) {
-		this.financialDocumentRevolvingFundDate = financialDocumentRevolvingFundDate;
-	}
-
-
-	/**
-	 * Gets the financialDocumentRevolvingFundReferenceNumber attribute.
-	 * 
-	 * @return - Returns the financialDocumentRevolvingFundReferenceNumber
-	 * 
-	 */
-	public String getFinancialDocumentRevolvingFundReferenceNumber() { 
-		return financialDocumentRevolvingFundReferenceNumber;
-	}
-
-	/**
-	 * Sets the financialDocumentRevolvingFundReferenceNumber attribute.
-	 * 
-	 * @param - financialDocumentRevolvingFundReferenceNumber The financialDocumentRevolvingFundReferenceNumber to set.
-	 * 
-	 */
-	public void setFinancialDocumentRevolvingFundReferenceNumber(String financialDocumentRevolvingFundReferenceNumber) {
-		this.financialDocumentRevolvingFundReferenceNumber = financialDocumentRevolvingFundReferenceNumber;
-	}
+    /**
+     * Sets the financialDocumentColumnTypeCode attribute.
+     * 
+     * @param - financialDocumentColumnTypeCode The financialDocumentColumnTypeCode to set.
+     * 
+     */
+    public void setFinancialDocumentColumnTypeCode(String financialDocumentColumnTypeCode) {
+        this.financialDocumentColumnTypeCode = financialDocumentColumnTypeCode;
+    }
 
 
-	/**
-	 * Gets the financialDocumentRevolvingFundDescription attribute.
-	 * 
-	 * @return - Returns the financialDocumentRevolvingFundDescription
-	 * 
-	 */
-	public String getFinancialDocumentRevolvingFundDescription() { 
-		return financialDocumentRevolvingFundDescription;
-	}
+    /**
+     * Gets the financialDocumentLineNumber attribute.
+     * 
+     * @return - Returns the financialDocumentLineNumber
+     * 
+     */
+    public Integer getFinancialDocumentLineNumber() {
+        return financialDocumentLineNumber;
+    }
 
-	/**
-	 * Sets the financialDocumentRevolvingFundDescription attribute.
-	 * 
-	 * @param - financialDocumentRevolvingFundDescription The financialDocumentRevolvingFundDescription to set.
-	 * 
-	 */
-	public void setFinancialDocumentRevolvingFundDescription(String financialDocumentRevolvingFundDescription) {
-		this.financialDocumentRevolvingFundDescription = financialDocumentRevolvingFundDescription;
-	}
-
-
-	/**
-	 * Gets the financialDocumentRevolvingFundAmount attribute.
-	 * 
-	 * @return - Returns the financialDocumentRevolvingFundAmount
-	 * 
-	 */
-	public KualiDecimal getFinancialDocumentRevolvingFundAmount() { 
-		return financialDocumentRevolvingFundAmount;
-	}
-
-	/**
-	 * Sets the financialDocumentRevolvingFundAmount attribute.
-	 * 
-	 * @param - financialDocumentRevolvingFundAmount The financialDocumentRevolvingFundAmount to set.
-	 * 
-	 */
-	public void setFinancialDocumentRevolvingFundAmount(KualiDecimal financialDocumentRevolvingFundAmount) {
-		this.financialDocumentRevolvingFundAmount = financialDocumentRevolvingFundAmount;
-	}
+    /**
+     * Sets the financialDocumentLineNumber attribute.
+     * 
+     * @param - financialDocumentLineNumber The financialDocumentLineNumber to set.
+     * 
+     */
+    public void setFinancialDocumentLineNumber(Integer financialDocumentLineNumber) {
+        this.financialDocumentLineNumber = financialDocumentLineNumber;
+    }
 
 
-	/**
-	 * Gets the financialDocumentBankCode attribute.
-	 * 
-	 * @return - Returns the financialDocumentBankCode
-	 * 
-	 */
-	public String getFinancialDocumentBankCode() { 
-		return financialDocumentBankCode;
-	}
+    /**
+     * Gets the financialDocumentRevolvingFundDate attribute.
+     * 
+     * @return - Returns the financialDocumentRevolvingFundDate
+     * 
+     */
+    public Date getFinancialDocumentRevolvingFundDate() {
+        return financialDocumentRevolvingFundDate;
+    }
 
-	/**
-	 * Sets the financialDocumentBankCode attribute.
-	 * 
-	 * @param - financialDocumentBankCode The financialDocumentBankCode to set.
-	 * 
-	 */
-	public void setFinancialDocumentBankCode(String financialDocumentBankCode) {
-		this.financialDocumentBankCode = financialDocumentBankCode;
-	}
+    /**
+     * Sets the financialDocumentRevolvingFundDate attribute.
+     * 
+     * @param - financialDocumentRevolvingFundDate The financialDocumentRevolvingFundDate to set.
+     * 
+     */
+    public void setFinancialDocumentRevolvingFundDate(Date financialDocumentRevolvingFundDate) {
+        this.financialDocumentRevolvingFundDate = financialDocumentRevolvingFundDate;
+    }
 
 
-	/**
-	 * Gets the financialDocumentBankAccountNumber attribute.
-	 * 
-	 * @return - Returns the financialDocumentBankAccountNumber
-	 * 
-	 */
-	public String getFinancialDocumentBankAccountNumber() { 
-		return financialDocumentBankAccountNumber;
-	}
+    /**
+     * Gets the financialDocumentRevolvingFundReferenceNumber attribute.
+     * 
+     * @return - Returns the financialDocumentRevolvingFundReferenceNumber
+     * 
+     */
+    public String getFinancialDocumentRevolvingFundReferenceNumber() {
+        return financialDocumentRevolvingFundReferenceNumber;
+    }
 
-	/**
-	 * Sets the financialDocumentBankAccountNumber attribute.
-	 * 
-	 * @param - financialDocumentBankAccountNumber The financialDocumentBankAccountNumber to set.
-	 * 
-	 */
-	public void setFinancialDocumentBankAccountNumber(String financialDocumentBankAccountNumber) {
-		this.financialDocumentBankAccountNumber = financialDocumentBankAccountNumber;
-	}
+    /**
+     * Sets the financialDocumentRevolvingFundReferenceNumber attribute.
+     * 
+     * @param - financialDocumentRevolvingFundReferenceNumber The financialDocumentRevolvingFundReferenceNumber to set.
+     * 
+     */
+    public void setFinancialDocumentRevolvingFundReferenceNumber(String financialDocumentRevolvingFundReferenceNumber) {
+        this.financialDocumentRevolvingFundReferenceNumber = financialDocumentRevolvingFundReferenceNumber;
+    }
 
-	/**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
+
+    /**
+     * Gets the financialDocumentRevolvingFundDescription attribute.
+     * 
+     * @return - Returns the financialDocumentRevolvingFundDescription
+     * 
+     */
+    public String getFinancialDocumentRevolvingFundDescription() {
+        return financialDocumentRevolvingFundDescription;
+    }
+
+    /**
+     * Sets the financialDocumentRevolvingFundDescription attribute.
+     * 
+     * @param - financialDocumentRevolvingFundDescription The financialDocumentRevolvingFundDescription to set.
+     * 
+     */
+    public void setFinancialDocumentRevolvingFundDescription(String financialDocumentRevolvingFundDescription) {
+        this.financialDocumentRevolvingFundDescription = financialDocumentRevolvingFundDescription;
+    }
+
+
+    /**
+     * Gets the financialDocumentRevolvingFundAmount attribute.
+     * 
+     * @return - Returns the financialDocumentRevolvingFundAmount
+     * 
+     */
+    public KualiDecimal getFinancialDocumentRevolvingFundAmount() {
+        return financialDocumentRevolvingFundAmount;
+    }
+
+    /**
+     * Sets the financialDocumentRevolvingFundAmount attribute.
+     * 
+     * @param - financialDocumentRevolvingFundAmount The financialDocumentRevolvingFundAmount to set.
+     * 
+     */
+    public void setFinancialDocumentRevolvingFundAmount(KualiDecimal financialDocumentRevolvingFundAmount) {
+        this.financialDocumentRevolvingFundAmount = financialDocumentRevolvingFundAmount;
+    }
+
+
+    /**
+     * Gets the financialDocumentBankCode attribute.
+     * 
+     * @return - Returns the financialDocumentBankCode
+     * 
+     */
+    public String getFinancialDocumentBankCode() {
+        return financialDocumentBankCode;
+    }
+
+    /**
+     * Sets the financialDocumentBankCode attribute.
+     * 
+     * @param - financialDocumentBankCode The financialDocumentBankCode to set.
+     * 
+     */
+    public void setFinancialDocumentBankCode(String financialDocumentBankCode) {
+        this.financialDocumentBankCode = financialDocumentBankCode;
+    }
+
+
+    /**
+     * Gets the financialDocumentBankAccountNumber attribute.
+     * 
+     * @return - Returns the financialDocumentBankAccountNumber
+     * 
+     */
+    public String getFinancialDocumentBankAccountNumber() {
+        return financialDocumentBankAccountNumber;
+    }
+
+    /**
+     * Sets the financialDocumentBankAccountNumber attribute.
+     * 
+     * @param - financialDocumentBankAccountNumber The financialDocumentBankAccountNumber to set.
+     * 
+     */
+    public void setFinancialDocumentBankAccountNumber(String financialDocumentBankAccountNumber) {
+        this.financialDocumentBankAccountNumber = financialDocumentBankAccountNumber;
+    }
+
+    /**
+     * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
         m.put("financialDocumentNumber", this.financialDocumentNumber);
         m.put("financialDocumentTypeCode", this.financialDocumentTypeCode);
         m.put("financialDocumentColumnTypeCode", this.financialDocumentColumnTypeCode);
         if (this.financialDocumentLineNumber != null) {
             m.put("financialDocumentLineNumber", this.financialDocumentLineNumber.toString());
         }
-	    return m;
+        return m;
     }
 }

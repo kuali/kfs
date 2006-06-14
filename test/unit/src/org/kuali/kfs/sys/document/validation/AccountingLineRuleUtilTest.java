@@ -45,7 +45,7 @@ public class AccountingLineRuleUtilTest extends KualiTestBaseWithFixtures {
         super.setUp();
         businessObjectService = SpringServiceLocator.getBusinessObjectService();
     }
-    
+
     public void testIsValidAccount_valid() {
         testIsValidAccount(getAccountFromFixture("activeAccount"), null);
     }
@@ -83,27 +83,19 @@ public class AccountingLineRuleUtilTest extends KualiTestBaseWithFixtures {
     }
 
     public void testHasRequiredOverrides_expired() {
-        testHasRequiredOverrides(getAccountFromFixture("expiredAccount"), AccountingLineOverride.CODE.NONE,
-            KeyConstants.ERROR_DOCUMENT_ACCOUNT_EXPIRED,
-            new String[]{getStringFromFixture("blExpiredAccountNumber"), "BL", getStringFromFixture(
-                "blUnexpiredContinuationAccountNumber")});
+        testHasRequiredOverrides(getAccountFromFixture("expiredAccount"), AccountingLineOverride.CODE.NONE, KeyConstants.ERROR_DOCUMENT_ACCOUNT_EXPIRED, new String[] { getStringFromFixture("blExpiredAccountNumber"), "BL", getStringFromFixture("blUnexpiredContinuationAccountNumber") });
     }
 
     public void testHasRequiredOverrides_expiredContinuationsClosedAndExpired() {
-        testHasRequiredOverrides(getAccountFromFixture("expiredAccountExpiredAndClosedContinuation"), AccountingLineOverride.CODE.NONE,
-            KeyConstants.ERROR_DOCUMENT_ACCOUNT_EXPIRED,
-            new String[]{"fixture1", "BL", getStringFromFixture("blUnexpiredContinuationAccountNumber")});
+        testHasRequiredOverrides(getAccountFromFixture("expiredAccountExpiredAndClosedContinuation"), AccountingLineOverride.CODE.NONE, KeyConstants.ERROR_DOCUMENT_ACCOUNT_EXPIRED, new String[] { "fixture1", "BL", getStringFromFixture("blUnexpiredContinuationAccountNumber") });
     }
 
     public void testHasRequiredOverrides_expiredContinuationExpired() {
-        testHasRequiredOverrides(getAccountFromFixture("expiredAccountExpiredAndOpenContinuation"), AccountingLineOverride.CODE.NONE,
-            KeyConstants.ERROR_DOCUMENT_ACCOUNT_EXPIRED,
-            new String[]{"fixture1", "BL", getStringFromFixture("blUnexpiredContinuationAccountNumber")});
+        testHasRequiredOverrides(getAccountFromFixture("expiredAccountExpiredAndOpenContinuation"), AccountingLineOverride.CODE.NONE, KeyConstants.ERROR_DOCUMENT_ACCOUNT_EXPIRED, new String[] { "fixture1", "BL", getStringFromFixture("blUnexpiredContinuationAccountNumber") });
     }
 
     public void testHasRequiredOverrides_expiredNoContinuation() {
-        testHasRequiredOverrides(getAccountFromFixture("expiredAccountNoContinuation"), AccountingLineOverride.CODE.NONE,
-                KeyConstants.ERROR_DOCUMENT_ACCOUNT_EXPIRED_NO_CONTINUATION, null);
+        testHasRequiredOverrides(getAccountFromFixture("expiredAccountNoContinuation"), AccountingLineOverride.CODE.NONE, KeyConstants.ERROR_DOCUMENT_ACCOUNT_EXPIRED_NO_CONTINUATION, null);
     }
 
     public void testHasRequiredOverrides_expiredButOverridden() {
@@ -111,13 +103,11 @@ public class AccountingLineRuleUtilTest extends KualiTestBaseWithFixtures {
     }
 
     public void testHasRequiredOverrides_expiredNoContinuationButOverridden() {
-        testHasRequiredOverrides(getAccountFromFixture("expiredAccountNoContinuation"),
-                AccountingLineOverride.CODE.EXPIRED_ACCOUNT, null, null);
+        testHasRequiredOverrides(getAccountFromFixture("expiredAccountNoContinuation"), AccountingLineOverride.CODE.EXPIRED_ACCOUNT, null, null);
     }
 
     public void testHasRequiredOverrides_expiredButMultipleOverridden() {
-        testHasRequiredOverrides(getAccountFromFixture("expiredAccount"),
-                AccountingLineOverride.CODE.EXPIRED_ACCOUNT_AND_NON_FRINGE_ACCOUNT_USED, null, null);
+        testHasRequiredOverrides(getAccountFromFixture("expiredAccount"), AccountingLineOverride.CODE.EXPIRED_ACCOUNT_AND_NON_FRINGE_ACCOUNT_USED, null, null);
     }
 
     private String getStringFromFixture(String fixtureName) {
@@ -132,43 +122,36 @@ public class AccountingLineRuleUtilTest extends KualiTestBaseWithFixtures {
         return (ObjectCode) getFixtureEntry(fixtureName).createObject();
     }
 
-//    public void testHasRequiredOverrides_AccountPresenceBudgetedObject() {
-//        testHasRequiredOverrides(getAccountWithPresenceControl(), getBudgetedObjectCode(),
-//                AccountingLineOverride.CODE.NONE, null);
-//    }
-//
-//    public void testHasRequiredOverrides_AccountPresenceNonBudgetObject() {
-//        testHasRequiredOverrides(getAccountWithPresenceControl(), getNonBudgetedObjectCode(),
-//                AccountingLineOverride.CODE.NON_BUDGETED_OBJECT,
-//                KeyConstants.ERROR_DOCUMENT_ACCOUNT_PRESENCE_NON_BUDGETED_OBJECT_CODE);
-//    }
-    
+    // public void testHasRequiredOverrides_AccountPresenceBudgetedObject() {
+    // testHasRequiredOverrides(getAccountWithPresenceControl(), getBudgetedObjectCode(),
+    // AccountingLineOverride.CODE.NONE, null);
+    // }
+    //
+    // public void testHasRequiredOverrides_AccountPresenceNonBudgetObject() {
+    // testHasRequiredOverrides(getAccountWithPresenceControl(), getNonBudgetedObjectCode(),
+    // AccountingLineOverride.CODE.NON_BUDGETED_OBJECT,
+    // KeyConstants.ERROR_DOCUMENT_ACCOUNT_PRESENCE_NON_BUDGETED_OBJECT_CODE);
+    // }
+
     public void testHasRequiredOverrides_NoAccountPresenceBudgetedObject() {
-        testHasRequiredOverrides(getAccountWithoutPresenceControl(), getBudgetedObjectCode(),
-                AccountingLineOverride.CODE.NONE, null);
+        testHasRequiredOverrides(getAccountWithoutPresenceControl(), getBudgetedObjectCode(), AccountingLineOverride.CODE.NONE, null);
     }
-    
+
     public void testHasRequiredOverrides_NoAccountPresenceNonBudgetedObject() {
-        testHasRequiredOverrides(getAccountWithoutPresenceControl(), getNonBudgetedObjectCode(),
-                AccountingLineOverride.CODE.NONE, null);
+        testHasRequiredOverrides(getAccountWithoutPresenceControl(), getNonBudgetedObjectCode(), AccountingLineOverride.CODE.NONE, null);
     }
-    
+
     public void testHasRequiredOverrides_NoAccountPresenceNonBudgetedObjectAccountExpired() {
-        testHasRequiredOverrides(getAccountWithPresenceControlWithExpired(), getNonBudgetedObjectCode(),
-                AccountingLineOverride.CODE.EXPIRED_ACCOUNT_AND_NON_BUDGETED_OBJECT, null);
+        testHasRequiredOverrides(getAccountWithPresenceControlWithExpired(), getNonBudgetedObjectCode(), AccountingLineOverride.CODE.EXPIRED_ACCOUNT_AND_NON_BUDGETED_OBJECT, null);
     }
 
     public void testHasRequiredOverrides_closedAccountNonBudgetedObject() {
-        // This account would require a non-budgeted override if it were not closed.  But, the closed validation takes precedence.
-        testHasRequiredOverrides(getAccountWithPresenceControlButClosed(), getNonBudgetedObjectCode(),
-            AccountingLineOverride.CODE.NONE, null);
+        // This account would require a non-budgeted override if it were not closed. But, the closed validation takes precedence.
+        testHasRequiredOverrides(getAccountWithPresenceControlButClosed(), getNonBudgetedObjectCode(), AccountingLineOverride.CODE.NONE, null);
     }
 
     @SuppressWarnings("deprecation")
-    private void testHasRequiredOverrides(Account account,
-                                          String overrideCode,
-                                          String expectedErrorKey,
-                                          String[] expectedErrorParameters) {
+    private void testHasRequiredOverrides(Account account, String overrideCode, String expectedErrorKey, String[] expectedErrorParameters) {
         AccountingLine line = new SourceAccountingLine();
         line.setAccount(account);
 
@@ -199,7 +182,7 @@ public class AccountingLineRuleUtilTest extends KualiTestBaseWithFixtures {
             assertGlobalErrorMapContains(Constants.FINANCIAL_OBJECT_CODE_PROPERTY_NAME, expectedErrorKey);
         }
     }
-    
+
     private Account getAccountWithPresenceControl() {
         Account account = getAccountFromFixture("accountPresenceAccount");
         return (Account) businessObjectService.retrieve(account);

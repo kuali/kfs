@@ -33,74 +33,76 @@ import org.kuali.test.KualiTestBase;
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public class ProjectCodeServiceTest extends KualiTestBase {
-  private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProjectCodeServiceTest.class);
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProjectCodeServiceTest.class);
 
-  private FakeProjectCodeDao projectCodeDao;
-  private ProjectCodeServiceImpl projectCodeService;
+    private FakeProjectCodeDao projectCodeDao;
+    private ProjectCodeServiceImpl projectCodeService;
 
-  protected void setUp() throws Exception {
-    super.setUp();
+    protected void setUp() throws Exception {
+        super.setUp();
 
-    projectCodeDao = new FakeProjectCodeDao();
-    projectCodeService = new ProjectCodeServiceImpl();
-    projectCodeService.setProjectCodeDao(projectCodeDao);
-  }
-
-  public void testGetByPrimaryId() throws Exception {
-    ProjectCode pc = new ProjectCode();
-    pc.setCode("PROJ");
-    pc.setName("PROJ Name");
-
-    projectCodeDao.retrieved = pc;
-    ProjectCode retrieved = projectCodeService.getByPrimaryId("XXX");
-    assertNotNull("Didn't retrieve",retrieved);
-    assertEquals("Code is wrong","PROJ",retrieved.getCode());
-    assertEquals("Name is wrong","PROJ Name",retrieved.getName());
-
-    projectCodeDao.retrieved = null;
-    retrieved = projectCodeService.getByPrimaryId("XXX");
-    assertNull("Didn't retrieve",retrieved);
-  }
-
-  public void testGetByName() throws Exception {
-    ProjectCode pc = new ProjectCode();
-    pc.setCode("PROJ");
-    pc.setName("PROJ Name");
-
-    projectCodeDao.retrieved = pc;
-    ProjectCode retrieved = projectCodeService.getByPrimaryId("XXX");
-    assertNotNull("Didn't retrieve",retrieved);
-    assertEquals("Code is wrong","PROJ",retrieved.getCode());
-    assertEquals("Name is wrong","PROJ Name",retrieved.getName());
-    
-    projectCodeDao.retrieved = null;
-    retrieved = projectCodeService.getByPrimaryId("XXX");
-    assertNull("Didn't retrieve",retrieved);
-  }
-
-  public void testSave() throws Exception {
-    ProjectCode pc = new ProjectCode();
-    pc.setCode("PROJ");
-    pc.setName("PROJ Name");
-
-    projectCodeService.save(pc);
-    assertNotNull("Didn't save",projectCodeDao.saved);
-    assertEquals("Code is wrong","PROJ",projectCodeDao.saved.getCode());
-    assertEquals("Name is wrong","PROJ Name",projectCodeDao.saved.getName());
-  }
-
-  class FakeProjectCodeDao implements ProjectCodeDao {
-    public ProjectCode retrieved = null;
-    public ProjectCode saved = null;
-
-    public ProjectCode getByName(String name) {
-      return retrieved;
+        projectCodeDao = new FakeProjectCodeDao();
+        projectCodeService = new ProjectCodeServiceImpl();
+        projectCodeService.setProjectCodeDao(projectCodeDao);
     }
-    public ProjectCode getByPrimaryId(String projectCode) {
-      return retrieved;
+
+    public void testGetByPrimaryId() throws Exception {
+        ProjectCode pc = new ProjectCode();
+        pc.setCode("PROJ");
+        pc.setName("PROJ Name");
+
+        projectCodeDao.retrieved = pc;
+        ProjectCode retrieved = projectCodeService.getByPrimaryId("XXX");
+        assertNotNull("Didn't retrieve", retrieved);
+        assertEquals("Code is wrong", "PROJ", retrieved.getCode());
+        assertEquals("Name is wrong", "PROJ Name", retrieved.getName());
+
+        projectCodeDao.retrieved = null;
+        retrieved = projectCodeService.getByPrimaryId("XXX");
+        assertNull("Didn't retrieve", retrieved);
     }
-    public void save(ProjectCode projectCode) {
-      saved = projectCode;
+
+    public void testGetByName() throws Exception {
+        ProjectCode pc = new ProjectCode();
+        pc.setCode("PROJ");
+        pc.setName("PROJ Name");
+
+        projectCodeDao.retrieved = pc;
+        ProjectCode retrieved = projectCodeService.getByPrimaryId("XXX");
+        assertNotNull("Didn't retrieve", retrieved);
+        assertEquals("Code is wrong", "PROJ", retrieved.getCode());
+        assertEquals("Name is wrong", "PROJ Name", retrieved.getName());
+
+        projectCodeDao.retrieved = null;
+        retrieved = projectCodeService.getByPrimaryId("XXX");
+        assertNull("Didn't retrieve", retrieved);
     }
-  }
+
+    public void testSave() throws Exception {
+        ProjectCode pc = new ProjectCode();
+        pc.setCode("PROJ");
+        pc.setName("PROJ Name");
+
+        projectCodeService.save(pc);
+        assertNotNull("Didn't save", projectCodeDao.saved);
+        assertEquals("Code is wrong", "PROJ", projectCodeDao.saved.getCode());
+        assertEquals("Name is wrong", "PROJ Name", projectCodeDao.saved.getName());
+    }
+
+    class FakeProjectCodeDao implements ProjectCodeDao {
+        public ProjectCode retrieved = null;
+        public ProjectCode saved = null;
+
+        public ProjectCode getByName(String name) {
+            return retrieved;
+        }
+
+        public ProjectCode getByPrimaryId(String projectCode) {
+            return retrieved;
+        }
+
+        public void save(ProjectCode projectCode) {
+            saved = projectCode;
+        }
+    }
 }

@@ -35,6 +35,7 @@ import org.kuali.core.util.SpringServiceLocator;
 
 /**
  * This class...
+ * 
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public class SubAccountDocumentAuthorizer extends MaintenanceDocumentAuthorizerBase {
@@ -47,8 +48,7 @@ public class SubAccountDocumentAuthorizer extends MaintenanceDocumentAuthorizerB
 
     /**
      * 
-     * This method returns the set of authorization restrictions (if any) that 
-     * apply to this SubAccount in this context.
+     * This method returns the set of authorization restrictions (if any) that apply to this SubAccount in this context.
      * 
      * @param document
      * @param user
@@ -56,21 +56,19 @@ public class SubAccountDocumentAuthorizer extends MaintenanceDocumentAuthorizerB
      * 
      */
     public MaintenanceDocumentAuthorizations getFieldAuthorizations(MaintenanceDocument document, KualiUser user) {
-        
-        //  if the user is the system supervisor, then do nothing, dont apply 
+
+        // if the user is the system supervisor, then do nothing, dont apply
         // any restrictions
         if (user.isSupervisorUser()) {
             return new MaintenanceDocumentAuthorizations();
         }
-        
-        //  get the group name that we need here - CGSACCT
+
+        // get the group name that we need here - CGSACCT
         KualiConfigurationService configService;
         configService = SpringServiceLocator.getKualiConfigurationService();
-        String groupName = configService.getApplicationParameterValue(
-                Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, 
-                Constants.ChartApcParms.SUBACCOUNT_CG_WORKGROUP_PARM_NAME);
-        
-        //  create a new KualiGroup instance with that name
+        String groupName = configService.getApplicationParameterValue(Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, Constants.ChartApcParms.SUBACCOUNT_CG_WORKGROUP_PARM_NAME);
+
+        // create a new KualiGroup instance with that name
         KualiGroupService groupService = SpringServiceLocator.getKualiGroupService();
         KualiGroup group = null;
         try {
@@ -78,12 +76,10 @@ public class SubAccountDocumentAuthorizer extends MaintenanceDocumentAuthorizerB
         }
         catch (GroupNotFoundException e) {
             e.printStackTrace();
-            throw new RuntimeException("The group by name '" + groupName + "' was not " + 
-                    "found in the KualiGroupService.  This is a configuration error, and " + 
-                    "authorization/business-rules cannot be processed without this.", e);
+            throw new RuntimeException("The group by name '" + groupName + "' was not " + "found in the KualiGroupService.  This is a configuration error, and " + "authorization/business-rules cannot be processed without this.", e);
         }
-        
-        //  if the user is NOT a member of the special group, then mark all the 
+
+        // if the user is NOT a member of the special group, then mark all the
         // ICR & CS fields read-only.
         MaintenanceDocumentAuthorizations auths = new MaintenanceDocumentAuthorizations();
         if (!user.isMember(group)) {
@@ -97,7 +93,7 @@ public class SubAccountDocumentAuthorizer extends MaintenanceDocumentAuthorizerB
             auths.addReadonlyAuthField("a21SubAccount.indirectCostRecoveryTypeCode");
             auths.addReadonlyAuthField("a21SubAccount.offCampusCode");
         }
-        
+
         return auths;
     }
 }

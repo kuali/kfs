@@ -49,7 +49,7 @@ public interface OrganizationReversionService {
      * 
      * @return map of org reversion categories
      */
-    public Map<String,OrganizationReversionCategoryLogic> getCategories();
+    public Map<String, OrganizationReversionCategoryLogic> getCategories();
 
     /**
      * List of reversion categories in order of the sort code

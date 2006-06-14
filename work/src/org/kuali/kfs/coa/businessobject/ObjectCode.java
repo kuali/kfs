@@ -54,7 +54,7 @@ public class ObjectCode extends BusinessObjectBase {
     private String nextYearFinancialObjectCode;
     private String finObjMandatoryTrnfrelimCd;
     private String financialFederalFundedCode;
-    
+
 
     private transient BudgetAggregationCode financialBudgetAggregation;
     private transient MandatoryTransferEliminationCode finObjMandatoryTrnfrelim;
@@ -68,17 +68,17 @@ public class ObjectCode extends BusinessObjectBase {
     private transient ObjectType financialObjectType;
     private transient ObjSubTyp financialObjectSubType;
     private transient ObjectCode objectCode;
-    
+
     /**
      * Default no-arg constructor.
      */
     public ObjectCode() {
-        //	initialize the object fiscal year to the current fiscal year
+        // initialize the object fiscal year to the current fiscal year
         // universityFiscalYear = SpringServiceLocator.getDateTimeService().getCurrentFiscalYear();
-        
+
         // construct the referenced objects for the calling of the referencing object
         this.financialObjectLevel = new ObjLevel();
-        this.financialObjectType = new ObjectType();        
+        this.financialObjectType = new ObjectType();
     }
 
     /**
@@ -90,6 +90,7 @@ public class ObjectCode extends BusinessObjectBase {
 
     /**
      * Gets the financialFederalFunded attribute.
+     * 
      * @return Returns the financialFederalFunded.
      */
     public FederalFundedCode getFinancialFederalFunded() {
@@ -98,6 +99,7 @@ public class ObjectCode extends BusinessObjectBase {
 
     /**
      * Sets the financialFederalFunded attribute value.
+     * 
      * @param financialFederalFunded The financialFederalFunded to set.
      * @deprecated
      */
@@ -107,15 +109,17 @@ public class ObjectCode extends BusinessObjectBase {
 
     /**
      * Gets the finObjMandatoryTrnfrelim attribute.
+     * 
      * @return Returns the finObjMandatoryTrnfrelimCd.
      */
     public MandatoryTransferEliminationCode getFinObjMandatoryTrnfrelim() {
         return finObjMandatoryTrnfrelim;
     }
-    
-  
+
+
     /**
      * Sets the finObjMandatoryTrnfrelim attribute value.
+     * 
      * @param finObjMandatoryTrnfrelim The finObjMandatoryTrnfrelim to set.
      * @deprecated
      */
@@ -127,7 +131,7 @@ public class ObjectCode extends BusinessObjectBase {
      * Gets the financialObjectCode attribute.
      * 
      * @return - Returns the financialObjectCode
-     *  
+     * 
      */
     public String getFinancialObjectCode() {
         return financialObjectCode;
@@ -137,7 +141,7 @@ public class ObjectCode extends BusinessObjectBase {
      * Sets the financialObjectCode attribute.
      * 
      * @param - financialObjectCode The financialObjectCode to set.
-     *  
+     * 
      */
     public void setFinancialObjectCode(String financialObjectCode) {
         this.financialObjectCode = financialObjectCode;
@@ -147,7 +151,7 @@ public class ObjectCode extends BusinessObjectBase {
      * Gets the financialObjectCodeName attribute.
      * 
      * @return - Returns the financialObjectCodeName
-     *  
+     * 
      */
     public String getFinancialObjectCodeName() {
         return financialObjectCodeName;
@@ -157,7 +161,7 @@ public class ObjectCode extends BusinessObjectBase {
      * Sets the financialObjectCodeName attribute.
      * 
      * @param - financialObjectCodeName The financialObjectCodeName to set.
-     *  
+     * 
      */
     public void setFinancialObjectCodeName(String financialObjectCodeName) {
         this.financialObjectCodeName = financialObjectCodeName;
@@ -167,7 +171,7 @@ public class ObjectCode extends BusinessObjectBase {
      * Gets the financialObjectCodeShortName attribute.
      * 
      * @return - Returns the financialObjectCodeShortName
-     *  
+     * 
      */
     public String getFinancialObjectCodeShortName() {
         return financialObjectCodeShortName;
@@ -177,7 +181,7 @@ public class ObjectCode extends BusinessObjectBase {
      * Sets the financialObjectCodeShortName attribute.
      * 
      * @param - financialObjectCodeShortName The financialObjectCodeShortName to set.
-     *  
+     * 
      */
     public void setFinancialObjectCodeShortName(String financialObjectCodeShortName) {
         this.financialObjectCodeShortName = financialObjectCodeShortName;
@@ -187,7 +191,7 @@ public class ObjectCode extends BusinessObjectBase {
      * Gets the historicalFinancialObjectCode attribute.
      * 
      * @return - Returns the historicalFinancialObjectCode
-     *  
+     * 
      */
     public String getHistoricalFinancialObjectCode() {
         return historicalFinancialObjectCode;
@@ -197,7 +201,7 @@ public class ObjectCode extends BusinessObjectBase {
      * Sets the historicalFinancialObjectCode attribute.
      * 
      * @param - historicalFinancialObjectCode The historicalFinancialObjectCode to set.
-     *  
+     * 
      */
     public void setHistoricalFinancialObjectCode(String historicalFinancialObjectCode) {
         this.historicalFinancialObjectCode = historicalFinancialObjectCode;
@@ -207,7 +211,7 @@ public class ObjectCode extends BusinessObjectBase {
      * Gets the financialObjectActiveCode attribute.
      * 
      * @return - Returns the financialObjectActiveCode
-     *  
+     * 
      */
     public boolean isFinancialObjectActiveCode() {
         return financialObjectActiveCode;
@@ -217,7 +221,7 @@ public class ObjectCode extends BusinessObjectBase {
      * Sets the financialObjectActiveCode attribute.
      * 
      * @param - financialObjectActiveCode The financialObjectActiveCode to set.
-     *  
+     * 
      */
     public void setFinancialObjectActiveCode(boolean financialObjectActiveCode) {
         this.financialObjectActiveCode = financialObjectActiveCode;
@@ -227,7 +231,7 @@ public class ObjectCode extends BusinessObjectBase {
      * Gets the financialBudgetAggregationCd attribute.
      * 
      * @return - Returns the financialBudgetAggregationCd
-     *  
+     * 
      */
     public BudgetAggregationCode getFinancialBudgetAggregation() {
         return financialBudgetAggregation;
@@ -247,7 +251,7 @@ public class ObjectCode extends BusinessObjectBase {
      * Gets the universityFiscal attribute.
      * 
      * @return - Returns the universityFiscal
-     *  
+     * 
      */
     public Options getUniversityFiscal() {
         return universityFiscal;
@@ -267,7 +271,7 @@ public class ObjectCode extends BusinessObjectBase {
      * Gets the nextYearFinancialObject attribute.
      * 
      * @return - Returns the nextYearFinancialObject
-     *  
+     * 
      */
     public ObjectCode getNextYearFinancialObject() {
         return nextYearFinancialObject;
@@ -287,7 +291,7 @@ public class ObjectCode extends BusinessObjectBase {
      * Gets the financialObjectLevel attribute.
      * 
      * @return - Returns the financialObjectLevel
-     *  
+     * 
      */
     public ObjLevel getFinancialObjectLevel() {
         return financialObjectLevel;
@@ -307,7 +311,7 @@ public class ObjectCode extends BusinessObjectBase {
      * Gets the chartOfAccounts attribute.
      * 
      * @return - Returns the chartOfAccounts
-     *  
+     * 
      */
     public Chart getChartOfAccounts() {
         return chartOfAccounts;
@@ -327,7 +331,7 @@ public class ObjectCode extends BusinessObjectBase {
      * Gets the reportsToChartOfAccounts attribute.
      * 
      * @return - Returns the reportsToChartOfAccounts
-     *  
+     * 
      */
     public Chart getReportsToChartOfAccounts() {
         return reportsToChartOfAccounts;
@@ -347,7 +351,7 @@ public class ObjectCode extends BusinessObjectBase {
      * Gets the reportsToFinancialObject attribute.
      * 
      * @return - Returns the reportsToFinancialObject
-     *  
+     * 
      */
     public ObjectCode getReportsToFinancialObject() {
         return reportsToFinancialObject;
@@ -367,7 +371,7 @@ public class ObjectCode extends BusinessObjectBase {
      * Gets the financialObjectType attribute.
      * 
      * @return - Returns the financialObjectType
-     *  
+     * 
      */
     public ObjectType getFinancialObjectType() {
         return financialObjectType;
@@ -387,7 +391,7 @@ public class ObjectCode extends BusinessObjectBase {
      * Gets the financialObjectSubType attribute.
      * 
      * @return - Returns the financialObjectSubType
-     *  
+     * 
      */
     public ObjSubTyp getFinancialObjectSubType() {
         return financialObjectSubType;
@@ -563,7 +567,7 @@ public class ObjectCode extends BusinessObjectBase {
     public void setObjectCode(ObjectCode objectCode) {
         this.objectCode = objectCode;
     }
-    
+
     /**
      * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
      */

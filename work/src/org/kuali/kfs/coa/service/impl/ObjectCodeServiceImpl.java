@@ -29,23 +29,23 @@ import org.kuali.module.chart.dao.ObjectCodeDao;
 import org.kuali.module.chart.service.ObjectCodeService;
 
 /**
- * This class is the service implementation for the ObjectCode structure.
- * This is the default implementation, that is delivered with Kuali.
+ * This class is the service implementation for the ObjectCode structure. This is the default implementation, that is delivered with
+ * Kuali.
+ * 
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public class ObjectCodeServiceImpl implements ObjectCodeService {
     private ObjectCodeDao objectCodeDao;
 
-    /** 
+    /**
      * Retrieves an Account object based on primary key.
+     * 
      * @param universityFiscalYear - University Fiscal Year
-     * @param chartOfAccountsCode - Chart of Accounts Code 
-     * @param financialObjectCode - Financial Object Code   
+     * @param chartOfAccountsCode - Chart of Accounts Code
+     * @param financialObjectCode - Financial Object Code
      */
-    public ObjectCode getByPrimaryId(Integer universityFiscalYear,
-        String chartOfAccountsCode, String financialObjectCode) {
-        return objectCodeDao.getByPrimaryId(universityFiscalYear,
-            chartOfAccountsCode, financialObjectCode);
+    public ObjectCode getByPrimaryId(Integer universityFiscalYear, String chartOfAccountsCode, String financialObjectCode) {
+        return objectCodeDao.getByPrimaryId(universityFiscalYear, chartOfAccountsCode, financialObjectCode);
     }
 
     /**
@@ -56,15 +56,14 @@ public class ObjectCodeServiceImpl implements ObjectCodeService {
     }
 
     /**
-     * @param objectCodeDao  
+     * @param objectCodeDao
      */
     public void setObjectCodeDao(ObjectCodeDao objectCodeDao) {
         this.objectCodeDao = objectCodeDao;
     }
-    public List getYearList(String chartOfAccountsCode, String financialObjectCode){
-    return objectCodeDao.getYearList(chartOfAccountsCode, financialObjectCode);
-    } 
- 
+
+    public List getYearList(String chartOfAccountsCode, String financialObjectCode) {
+        return objectCodeDao.getYearList(chartOfAccountsCode, financialObjectCode);
+    }
+
 }
-    
-    

@@ -41,13 +41,11 @@ public interface EncumbranceService {
     public Iterator getAllEncumbrances();
 
     /**
-     * group all encumbrances with/without the given document type code by fiscal year, chart,
-     * account, sub-account, object code, sub object code, and balance type code, and summarize the
-     * encumbrance amount and the encumbrance close amount.
+     * group all encumbrances with/without the given document type code by fiscal year, chart, account, sub-account, object code,
+     * sub object code, and balance type code, and summarize the encumbrance amount and the encumbrance close amount.
      * 
      * @param documentTypeCode the given document type code
-     * @param included indicate if all encumbrances with the given document type are included in the
-     *        results or not
+     * @param included indicate if all encumbrances with the given document type are included in the results or not
      */
     public Iterator getSummarizedEncumbrances(String documentTypeCode, boolean included);
 }

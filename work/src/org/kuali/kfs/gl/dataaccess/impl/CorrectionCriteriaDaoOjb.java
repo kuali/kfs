@@ -33,37 +33,44 @@ import org.springframework.orm.ojb.PersistenceBrokerTemplate;
 
 public class CorrectionCriteriaDaoOjb extends PersistenceBrokerTemplate implements CorrectionCriteriaDao {
 
-	public CorrectionCriteriaDaoOjb() {
-		super();
-	}
+    public CorrectionCriteriaDaoOjb() {
+        super();
+    }
 
-	/* (non-Javadoc)
-	 * @see org.kuali.module.gl.dao.CorrectionSearchCriterionDao#delete(org.kuali.module.gl.bo.CorrectionSearchCriterion)
-	 */
-	public void delete(CorrectionCriteria criterion) {
-		super.delete(criterion);
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.kuali.module.gl.dao.CorrectionSearchCriterionDao#delete(org.kuali.module.gl.bo.CorrectionSearchCriterion)
+     */
+    public void delete(CorrectionCriteria criterion) {
+        super.delete(criterion);
+    }
 
-	/* (non-Javadoc)
-	 * @see org.kuali.module.gl.dao.CorrectionCriteriaDao#findByDocumentNumberAndCorrectionGroupId(java.lang.String, java.lang.Integer)
-	 */
-	public Collection findByDocumentNumberAndCorrectionGroupNumber(String documentNumber, Integer correctionGroupNumber) {
-		Criteria criteria = new Criteria();
-		criteria.addEqualTo("DOC_HDR_ID", documentNumber);
-		criteria.addEqualTo("GL_COR_CHG_GRP_LN_NBR", correctionGroupNumber);
-		
-		Class clazz = CorrectionCriteria.class;
-		QueryByCriteria query = QueryFactory.newQuery(clazz, criteria);
-		
-		Collection criteria_ = getCollectionByQuery(query);
-		return criteria_;
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.kuali.module.gl.dao.CorrectionCriteriaDao#findByDocumentNumberAndCorrectionGroupId(java.lang.String,
+     *      java.lang.Integer)
+     */
+    public Collection findByDocumentNumberAndCorrectionGroupNumber(String documentNumber, Integer correctionGroupNumber) {
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo("DOC_HDR_ID", documentNumber);
+        criteria.addEqualTo("GL_COR_CHG_GRP_LN_NBR", correctionGroupNumber);
 
-	/* (non-Javadoc)
-	 * @see org.kuali.module.gl.dao.CorrectionCriteriaDao#save(org.kuali.module.gl.bo.CorrectionCriteria)
-	 */
-	public void save(CorrectionCriteria criterion) {
-		super.store(criterion);
-	}
-	
+        Class clazz = CorrectionCriteria.class;
+        QueryByCriteria query = QueryFactory.newQuery(clazz, criteria);
+
+        Collection criteria_ = getCollectionByQuery(query);
+        return criteria_;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.kuali.module.gl.dao.CorrectionCriteriaDao#save(org.kuali.module.gl.bo.CorrectionCriteria)
+     */
+    public void save(CorrectionCriteria criterion) {
+        super.store(criterion);
+    }
+
 }

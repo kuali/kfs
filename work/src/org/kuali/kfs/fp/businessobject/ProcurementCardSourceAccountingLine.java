@@ -29,26 +29,25 @@ import org.kuali.core.bo.SourceAccountingLine;
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class ProcurementCardSourceAccountingLine extends SourceAccountingLine {
-	private Integer financialDocumentTransactionLineNumber;
-	
+    private Integer financialDocumentTransactionLineNumber;
+
     /**
-	 * This constructor needs to initialize the ojbConcreteClass attribute such
-	 * that it sets it to its class name. This is how OJB knows what grouping of
-	 * objects to work with.
-	 */
-	public ProcurementCardSourceAccountingLine() {
-		super();
-		super.ojbConcreteClass = this.getClass().getName();
-	}
-	
-	
+     * This constructor needs to initialize the ojbConcreteClass attribute such that it sets it to its class name. This is how OJB
+     * knows what grouping of objects to work with.
+     */
+    public ProcurementCardSourceAccountingLine() {
+        super();
+        super.ojbConcreteClass = this.getClass().getName();
+    }
+
+
     /**
      * @return Returns the financialDocumentTransactionLineNumber.
      */
     public Integer getFinancialDocumentTransactionLineNumber() {
         return financialDocumentTransactionLineNumber;
     }
-    
+
     /**
      * @param financialDocumentTransactionLineNumber The financialDocumentTransactionLineNumber to set.
      */

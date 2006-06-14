@@ -26,10 +26,12 @@ import org.kuali.module.chart.bo.SubFundGroup;
 
 /**
  * This class...
+ * 
  * @author Bin Gao from Michigan State University
  * @author Laran Evans <lc278@cornell.edu>
  */
 public interface SubFundGroupDao {
     public SubFundGroup getByPrimaryId(String subFundGroupCode);
+
     public SubFundGroup getByChartAndAccount(String chartCode, String accountNumber);
 }

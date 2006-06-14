@@ -29,19 +29,22 @@ import org.kuali.core.util.KualiDecimal;
 
 /**
  * Performs calculations of travel per diem and mileage amounts.
+ * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public interface DisbursementVoucherTravelService {
-    
+
     /**
      * Calculates the per diem travel amount.
+     * 
      * @param travel
      * @return
      */
     public KualiDecimal calculatePerDiemAmount(Timestamp startDateTime, Timestamp endDateTime, KualiDecimal perDiemRate);
-    
+
     /**
      * Calculates the mileage travel amount.
+     * 
      * @param travel
      * @return
      */

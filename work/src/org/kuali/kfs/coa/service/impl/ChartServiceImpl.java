@@ -35,8 +35,8 @@ import org.kuali.module.chart.dao.ChartDao;
 import org.kuali.module.chart.service.ChartService;
 
 /**
- * This class is the service implementation for the Chart structure.
- * This is the default, Kuali delivered implementation.
+ * This class is the service implementation for the Chart structure. This is the default, Kuali delivered implementation.
+ * 
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public class ChartServiceImpl implements ChartService {
@@ -70,23 +70,23 @@ public class ChartServiceImpl implements ChartService {
      * @see org.kuali.module.chart.service.getReportsToHierarchy()
      */
     public Map getReportsToHierarchy() {
-     
+
         LOG.debug("getReportsToHierarchy");
-        Map reportsToHierarchy=new HashMap();
-        
+        Map reportsToHierarchy = new HashMap();
+
         Iterator iter = getAllChartCodes().iterator();
         while (iter.hasNext()) {
-            Chart chart = (Chart)getByPrimaryId((String)iter.next());
+            Chart chart = (Chart) getByPrimaryId((String) iter.next());
 
             if (LOG.isDebugEnabled()) {
-                LOG.debug("adding "+chart.getChartOfAccountsCode()+"-->"+chart.getReportsToChartOfAccountsCode());
+                LOG.debug("adding " + chart.getChartOfAccountsCode() + "-->" + chart.getReportsToChartOfAccountsCode());
             }
-            reportsToHierarchy.put(chart.getChartOfAccountsCode(),chart.getReportsToChartOfAccountsCode());
+            reportsToHierarchy.put(chart.getChartOfAccountsCode(), chart.getReportsToChartOfAccountsCode());
         }
-        
+
         return reportsToHierarchy;
     }
-    
+
     /**
      * 
      * @see org.kuali.module.chart.service.ChartService#getChartsThatUserIsResponsibleFor(org.kuali.core.bo.user.KualiUser)
@@ -104,7 +104,7 @@ public class ChartServiceImpl implements ChartService {
         }
         return chartList;
     }
-    
+
     /**
      * @return Returns the chartDao.
      */
@@ -118,8 +118,6 @@ public class ChartServiceImpl implements ChartService {
     public void setChartDao(ChartDao chartDao) {
         this.chartDao = chartDao;
     }
-    
-    
 
 
 }

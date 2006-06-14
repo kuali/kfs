@@ -38,63 +38,63 @@ import org.kuali.core.bo.BusinessObjectBase;
 public class AicpaFunction extends BusinessObjectBase {
 
     private String financialAicpaFunctionCode;
-	private String financialAicpaFunctionName;
+    private String financialAicpaFunctionName;
 
-	/**
-	 * Default constructor.
-	 */
-	public AicpaFunction() {
+    /**
+     * Default constructor.
+     */
+    public AicpaFunction() {
 
-	}
+    }
 
-	/**
-	 * Gets the financialAicpaFunctionCode attribute.
-	 * 
-	 * @return - Returns the financialAicpaFunctionCode
-	 * 
-	 */
-	public String getFinancialAicpaFunctionCode() { 
-		return financialAicpaFunctionCode;
-	}
+    /**
+     * Gets the financialAicpaFunctionCode attribute.
+     * 
+     * @return - Returns the financialAicpaFunctionCode
+     * 
+     */
+    public String getFinancialAicpaFunctionCode() {
+        return financialAicpaFunctionCode;
+    }
 
-	/**
-	 * Sets the financialAicpaFunctionCode attribute.
-	 * 
-	 * @param - financialAicpaFunctionCode The financialAicpaFunctionCode to set.
-	 * 
-	 */
-	public void setFinancialAicpaFunctionCode(String financialAicpaFunctionCode) {
-		this.financialAicpaFunctionCode = financialAicpaFunctionCode;
-	}
-
-
-	/**
-	 * Gets the financialAicpaFunctionName attribute.
-	 * 
-	 * @return - Returns the financialAicpaFunctionName
-	 * 
-	 */
-	public String getFinancialAicpaFunctionName() { 
-		return financialAicpaFunctionName;
-	}
-
-	/**
-	 * Sets the financialAicpaFunctionName attribute.
-	 * 
-	 * @param - financialAicpaFunctionName The financialAicpaFunctionName to set.
-	 * 
-	 */
-	public void setFinancialAicpaFunctionName(String financialAicpaFunctionName) {
-		this.financialAicpaFunctionName = financialAicpaFunctionName;
-	}
+    /**
+     * Sets the financialAicpaFunctionCode attribute.
+     * 
+     * @param - financialAicpaFunctionCode The financialAicpaFunctionCode to set.
+     * 
+     */
+    public void setFinancialAicpaFunctionCode(String financialAicpaFunctionCode) {
+        this.financialAicpaFunctionCode = financialAicpaFunctionCode;
+    }
 
 
-	/**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
+    /**
+     * Gets the financialAicpaFunctionName attribute.
+     * 
+     * @return - Returns the financialAicpaFunctionName
+     * 
+     */
+    public String getFinancialAicpaFunctionName() {
+        return financialAicpaFunctionName;
+    }
+
+    /**
+     * Sets the financialAicpaFunctionName attribute.
+     * 
+     * @param - financialAicpaFunctionName The financialAicpaFunctionName to set.
+     * 
+     */
+    public void setFinancialAicpaFunctionName(String financialAicpaFunctionName) {
+        this.financialAicpaFunctionName = financialAicpaFunctionName;
+    }
+
+
+    /**
+     * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
         m.put("financialAicpaFunctionCode", this.financialAicpaFunctionCode);
-	    return m;
+        return m;
     }
 }

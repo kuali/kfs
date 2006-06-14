@@ -63,8 +63,7 @@ public class CashManagementStatusAction extends KualiAction {
      * @see org.kuali.core.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
-    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
-            throws Exception {
+    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         // populate with exception values, if any
         CashManagementStatusForm cform = (CashManagementStatusForm) form;
         CashDrawerStateException e = (CashDrawerStateException) request.getAttribute(Globals.EXCEPTION_KEY);
@@ -78,8 +77,7 @@ public class CashManagementStatusAction extends KualiAction {
         }
 
         // generate the status message
-        String[] msgParams = { cform.getVerificationUnit(), cform.getControllingDocumentId(), cform.getCurrentDrawerStatus(),
-                cform.getDesiredDrawerStatus() };
+        String[] msgParams = { cform.getVerificationUnit(), cform.getControllingDocumentId(), cform.getCurrentDrawerStatus(), cform.getDesiredDrawerStatus() };
 
         ActionMessage message = new ActionMessage(KeyConstants.CashDrawer.MSG_CASH_DRAWER_ALREADY_OPEN, msgParams);
 
@@ -100,8 +98,7 @@ public class CashManagementStatusAction extends KualiAction {
      * @param response
      * @throws Exception
      */
-    public ActionForward displayPage(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
+    public ActionForward displayPage(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
@@ -114,8 +111,7 @@ public class CashManagementStatusAction extends KualiAction {
      * @param response
      * @throws Exception
      */
-    public ActionForward returnToIndex(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
+    public ActionForward returnToIndex(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         return mapping.findForward(Constants.MAPPING_CLOSE);
     }
 
@@ -129,12 +125,10 @@ public class CashManagementStatusAction extends KualiAction {
      * @param response
      * @throws Exception
      */
-    public ActionForward openExisting(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
+    public ActionForward openExisting(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         CashManagementStatusForm cform = (CashManagementStatusForm) form;
 
-        String cmDocTypeName = SpringServiceLocator.getDocumentTypeService().getDocumentTypeNameByClass(
-                CashManagementDocument.class);
+        String cmDocTypeName = SpringServiceLocator.getDocumentTypeService().getDocumentTypeNameByClass(CashManagementDocument.class);
 
         Properties params = new Properties();
         params.setProperty("methodToCall", "docHandler");

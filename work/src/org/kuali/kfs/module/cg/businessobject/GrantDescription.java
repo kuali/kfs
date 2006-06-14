@@ -34,86 +34,86 @@ import org.kuali.core.bo.BusinessObjectBase;
  */
 public class GrantDescription extends BusinessObjectBase {
 
-	private String grantDescriptionCode;
-	private String grantDescription;
-	private String grantDescriptionActiveCode;
+    private String grantDescriptionCode;
+    private String grantDescription;
+    private String grantDescriptionActiveCode;
 
-	/**
-	 * Default constructor.
-	 */
-	public GrantDescription() {
+    /**
+     * Default constructor.
+     */
+    public GrantDescription() {
 
-	}
+    }
 
-	/**
-	 * Gets the grantDescriptionCode attribute.
-	 * 
-	 * @return - Returns the grantDescriptionCode
-	 * 
-	 */
-	public String getGrantDescriptionCode() { 
-		return grantDescriptionCode;
-	}
+    /**
+     * Gets the grantDescriptionCode attribute.
+     * 
+     * @return - Returns the grantDescriptionCode
+     * 
+     */
+    public String getGrantDescriptionCode() {
+        return grantDescriptionCode;
+    }
 
-	/**
-	 * Sets the grantDescriptionCode attribute.
-	 * 
-	 * @param - grantDescriptionCode The grantDescriptionCode to set.
-	 * 
-	 */
-	public void setGrantDescriptionCode(String grantDescriptionCode) {
-		this.grantDescriptionCode = grantDescriptionCode;
-	}
-
-
-	/**
-	 * Gets the grantDescription attribute.
-	 * 
-	 * @return - Returns the grantDescription
-	 * 
-	 */
-	public String getGrantDescription() { 
-		return grantDescription;
-	}
-
-	/**
-	 * Sets the grantDescription attribute.
-	 * 
-	 * @param - grantDescription The grantDescription to set.
-	 * 
-	 */
-	public void setGrantDescription(String grantDescription) {
-		this.grantDescription = grantDescription;
-	}
+    /**
+     * Sets the grantDescriptionCode attribute.
+     * 
+     * @param - grantDescriptionCode The grantDescriptionCode to set.
+     * 
+     */
+    public void setGrantDescriptionCode(String grantDescriptionCode) {
+        this.grantDescriptionCode = grantDescriptionCode;
+    }
 
 
-	/**
-	 * Gets the grantDescriptionActiveCode attribute.
-	 * 
-	 * @return - Returns the grantDescriptionActiveCode
-	 * 
-	 */
-	public String getGrantDescriptionActiveCode() { 
-		return grantDescriptionActiveCode;
-	}
+    /**
+     * Gets the grantDescription attribute.
+     * 
+     * @return - Returns the grantDescription
+     * 
+     */
+    public String getGrantDescription() {
+        return grantDescription;
+    }
 
-	/**
-	 * Sets the grantDescriptionActiveCode attribute.
-	 * 
-	 * @param - grantDescriptionActiveCode The grantDescriptionActiveCode to set.
-	 * 
-	 */
-	public void setGrantDescriptionActiveCode(String grantDescriptionActiveCode) {
-		this.grantDescriptionActiveCode = grantDescriptionActiveCode;
-	}
+    /**
+     * Sets the grantDescription attribute.
+     * 
+     * @param - grantDescription The grantDescription to set.
+     * 
+     */
+    public void setGrantDescription(String grantDescription) {
+        this.grantDescription = grantDescription;
+    }
 
 
-	/**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
+    /**
+     * Gets the grantDescriptionActiveCode attribute.
+     * 
+     * @return - Returns the grantDescriptionActiveCode
+     * 
+     */
+    public String getGrantDescriptionActiveCode() {
+        return grantDescriptionActiveCode;
+    }
+
+    /**
+     * Sets the grantDescriptionActiveCode attribute.
+     * 
+     * @param - grantDescriptionActiveCode The grantDescriptionActiveCode to set.
+     * 
+     */
+    public void setGrantDescriptionActiveCode(String grantDescriptionActiveCode) {
+        this.grantDescriptionActiveCode = grantDescriptionActiveCode;
+    }
+
+
+    /**
+     * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
         m.put("grantDescriptionCode", this.grantDescriptionCode);
-	    return m;
+        return m;
     }
 }

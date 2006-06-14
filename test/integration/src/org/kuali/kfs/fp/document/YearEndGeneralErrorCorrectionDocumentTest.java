@@ -31,6 +31,7 @@ import org.kuali.test.parameters.TransactionalDocumentParameter;
 
 /**
  * This class is used to test GeneralErrorCorrectionDocument.
+ * 
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public class YearEndGeneralErrorCorrectionDocumentTest extends TransactionalDocumentTestBase {
@@ -40,10 +41,10 @@ public class YearEndGeneralErrorCorrectionDocumentTest extends TransactionalDocu
     public static final String SOURCE_LINE1 = "sourceLine2";
     public static final String TARGET_LINE1 = "targetLine2";
     public static final String SERIALIZED_LINE_PARAMTER = "serializedLine1";
-    
+
     /**
      * Get names of fixture collections test class is using.
-     *
+     * 
      * @return String[]
      */
     public String[] getFixtureCollectionNames() {
@@ -55,8 +56,7 @@ public class YearEndGeneralErrorCorrectionDocumentTest extends TransactionalDocu
      * @see org.kuali.core.document.DocumentTestBase#getDocumentParameterFixture()
      */
     public DocumentParameter getDocumentParameterFixture() {
-        return (TransactionalDocumentParameter) getFixtureEntryFromCollection(COLLECTION_NAME,
-                DOCUMENT_PARAMETER).createObject();
+        return (TransactionalDocumentParameter) getFixtureEntryFromCollection(COLLECTION_NAME, DOCUMENT_PARAMETER).createObject();
     }
 
     /**

@@ -95,7 +95,7 @@ public class Agency extends BusinessObjectBase {
      * Gets the agencyNumber attribute.
      * 
      * @return - Returns the agencyNumber
-     *  
+     * 
      */
     public String getAgencyNumber() {
         return agencyNumber;
@@ -105,7 +105,7 @@ public class Agency extends BusinessObjectBase {
      * Sets the agencyNumber attribute.
      * 
      * @param - agencyNumber The agencyNumber to set.
-     *  
+     * 
      */
     public void setAgencyNumber(String agencyNumber) {
         this.agencyNumber = agencyNumber;
@@ -115,7 +115,7 @@ public class Agency extends BusinessObjectBase {
      * Gets the reportingName attribute.
      * 
      * @return - Returns the reportingName
-     *  
+     * 
      */
     public String getReportingName() {
         return reportingName;
@@ -125,7 +125,7 @@ public class Agency extends BusinessObjectBase {
      * Sets the reportingName attribute.
      * 
      * @param - reportingName The reportingName to set.
-     *  
+     * 
      */
     public void setReportingName(String reportingName) {
         this.reportingName = reportingName;
@@ -135,7 +135,7 @@ public class Agency extends BusinessObjectBase {
      * Gets the fullName attribute.
      * 
      * @return - Returns the fullName
-     *  
+     * 
      */
     public String getFullName() {
         return fullName;
@@ -145,7 +145,7 @@ public class Agency extends BusinessObjectBase {
      * Sets the fullName attribute.
      * 
      * @param - fullName The fullName to set.
-     *  
+     * 
      */
     public void setFullName(String fullName) {
         this.fullName = fullName;
@@ -155,7 +155,7 @@ public class Agency extends BusinessObjectBase {
      * Gets the indirectAmount attribute.
      * 
      * @return - Returns the indirectAmount
-     *  
+     * 
      */
     public KualiDecimal getIndirectAmount() {
         return indirectAmount;
@@ -165,7 +165,7 @@ public class Agency extends BusinessObjectBase {
      * Sets the indirectAmount attribute.
      * 
      * @param - indirectAmount The indirectAmount to set.
-     *  
+     * 
      */
     public void setIndirectAmount(KualiDecimal indirectAmount) {
         this.indirectAmount = indirectAmount;
@@ -175,7 +175,7 @@ public class Agency extends BusinessObjectBase {
      * Gets the historicalIndicator attribute.
      * 
      * @return - Returns the historicalIndicator
-     *  
+     * 
      */
     public boolean isHistoricalIndicator() {
         return historicalIndicator;
@@ -185,7 +185,7 @@ public class Agency extends BusinessObjectBase {
      * Sets the historicalIndicator attribute.
      * 
      * @param - historicalIndicator The historicalIndicator to set.
-     *  
+     * 
      */
     public void setHistoricalIndicator(boolean historicalIndicator) {
         this.historicalIndicator = historicalIndicator;
@@ -195,7 +195,7 @@ public class Agency extends BusinessObjectBase {
      * Gets the inStateIndicator attribute.
      * 
      * @return - Returns the inStateIndicator
-     *  
+     * 
      */
     public boolean isInStateIndicator() {
         return inStateIndicator;
@@ -205,7 +205,7 @@ public class Agency extends BusinessObjectBase {
      * Sets the inStateIndicator attribute.
      * 
      * @param - inStateIndicator The inStateIndicator to set.
-     *  
+     * 
      */
     public void setInStateIndicator(boolean inStateIndicator) {
         this.inStateIndicator = inStateIndicator;
@@ -215,7 +215,7 @@ public class Agency extends BusinessObjectBase {
      * Gets the reportsToAgency attribute.
      * 
      * @return - Returns the reportsToAgency
-     *  
+     * 
      */
     public Agency getReportsToAgency() {
         return reportsToAgency;
@@ -235,7 +235,7 @@ public class Agency extends BusinessObjectBase {
      * Gets the agencyType attribute.
      * 
      * @return - Returns the agencyType
-     *  
+     * 
      */
     public AgencyType getAgencyType() {
         return agencyType;
@@ -260,15 +260,19 @@ public class Agency extends BusinessObjectBase {
         m.put("agencyNumber", getAgencyNumber());
         return m;
     }
+
     /**
-     * Gets the agencyExtension attribute. 
+     * Gets the agencyExtension attribute.
+     * 
      * @return Returns the agencyExtension.
      */
     public AgencyExtension getAgencyExtension() {
         return agencyExtension;
     }
+
     /**
      * Sets the agencyExtension attribute value.
+     * 
      * @param agencyExtension The agencyExtension to set.
      */
     public void setAgencyExtension(AgencyExtension agencyExtension) {

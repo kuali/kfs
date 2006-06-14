@@ -36,9 +36,9 @@ import org.kuali.module.financial.bo.CreditCardDetail;
  */
 public class CreditCardReceiptDocumentRuleUtil {
     /**
-     * This method method will invoke the data dictionary validation for a CreditCardDetail bo instance, 
-     * in addition to checking existence of the CreditCardType and CreditCardVendor attributes that hang off of it.  
-     * This method assumes that the document hierarchy for the error map path is managed outside of this call.
+     * This method method will invoke the data dictionary validation for a CreditCardDetail bo instance, in addition to checking
+     * existence of the CreditCardType and CreditCardVendor attributes that hang off of it. This method assumes that the document
+     * hierarchy for the error map path is managed outside of this call.
      * 
      * @param creditCardReceipt
      * @return boolean
@@ -46,25 +46,25 @@ public class CreditCardReceiptDocumentRuleUtil {
     public static boolean validateCreditCardReceipt(CreditCardDetail creditCardReceipt) {
         ErrorMap errorMap = GlobalVariables.getErrorMap();
         int originalErrorCount = errorMap.getErrorCount();
-        
+
         // call the DD validation which checks basic data integrity
         SpringServiceLocator.getDictionaryValidationService().validateBusinessObject(creditCardReceipt);
         boolean isValid = (errorMap.getErrorCount() == originalErrorCount);
-        if(isValid) {
+        if (isValid) {
             isValid = SpringServiceLocator.getDictionaryValidationService().validateReferenceExists(creditCardReceipt, PropertyConstants.CREDIT_CARD_TYPE);
-            if(!isValid) {
+            if (!isValid) {
                 String label = SpringServiceLocator.getDataDictionaryService().getAttributeLabel(CreditCardDetail.class, PropertyConstants.FINANCIAL_DOCUMENT_CREDIT_CARD_TYPE_CODE);
                 errorMap.put(PropertyConstants.FINANCIAL_DOCUMENT_CREDIT_CARD_TYPE_CODE, KeyConstants.ERROR_EXISTENCE, label);
             }
         }
-        if(isValid) {
+        if (isValid) {
             isValid = SpringServiceLocator.getDictionaryValidationService().validateReferenceExists(creditCardReceipt, PropertyConstants.CREDIT_CARD_VENDOR);
-            if(!isValid) {
+            if (!isValid) {
                 String label = SpringServiceLocator.getDataDictionaryService().getAttributeLabel(CreditCardDetail.class, PropertyConstants.FINANCIAL_DOCUMENT_CREDIT_CARD_VENDOR_NUMBER);
                 errorMap.put(PropertyConstants.FINANCIAL_DOCUMENT_CREDIT_CARD_VENDOR_NUMBER, KeyConstants.ERROR_EXISTENCE, label);
             }
         }
-        
+
         return isValid;
     }
 }

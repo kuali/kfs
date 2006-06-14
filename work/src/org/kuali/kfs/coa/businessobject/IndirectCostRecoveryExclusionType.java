@@ -35,99 +35,99 @@ import org.kuali.module.chart.bo.codes.ICRTypeCode;
  */
 public class IndirectCostRecoveryExclusionType extends BusinessObjectBase {
 
-	private String accountIndirectCostRecoveryTypeCode;
-	private String chartOfAccountsCode;
-	private String financialObjectCode;
-	private Chart chart;
+    private String accountIndirectCostRecoveryTypeCode;
+    private String chartOfAccountsCode;
+    private String financialObjectCode;
+    private Chart chart;
     private ICRTypeCode indirectCostRecoveryType;
     private ObjectCode objectCodeCurrent;
-    
-	public IndirectCostRecoveryExclusionType() {
+
+    public IndirectCostRecoveryExclusionType() {
         super();
-	}
+    }
 
-	/**
-	 * Gets the accountIndirectCostRecoveryTypeCode attribute.
-	 * 
-	 * @return - Returns the accountIndirectCostRecoveryTypeCode
-	 * 
-	 */
-	public String getAccountIndirectCostRecoveryTypeCode() { 
-		return accountIndirectCostRecoveryTypeCode;
-	}
+    /**
+     * Gets the accountIndirectCostRecoveryTypeCode attribute.
+     * 
+     * @return - Returns the accountIndirectCostRecoveryTypeCode
+     * 
+     */
+    public String getAccountIndirectCostRecoveryTypeCode() {
+        return accountIndirectCostRecoveryTypeCode;
+    }
 
-	/**
-	 * Sets the accountIndirectCostRecoveryTypeCode attribute.
-	 * 
-	 * @param - accountIndirectCostRecoveryTypeCode The accountIndirectCostRecoveryTypeCode to set.
-	 * 
-	 */
-	public void setAccountIndirectCostRecoveryTypeCode(String accountIndirectCostRecoveryTypeCode) {
-		this.accountIndirectCostRecoveryTypeCode = accountIndirectCostRecoveryTypeCode;
-	}
-
-
-	/**
-	 * Gets the chartOfAccountsCode attribute.
-	 * 
-	 * @return - Returns the chartOfAccountsCode
-	 * 
-	 */
-	public String getChartOfAccountsCode() { 
-		return chartOfAccountsCode;
-	}
-
-	/**
-	 * Sets the chartOfAccountsCode attribute.
-	 * 
-	 * @param - chartOfAccountsCode The chartOfAccountsCode to set.
-	 * 
-	 */
-	public void setChartOfAccountsCode(String chartOfAccountsCode) {
-		this.chartOfAccountsCode = chartOfAccountsCode;
-	}
+    /**
+     * Sets the accountIndirectCostRecoveryTypeCode attribute.
+     * 
+     * @param - accountIndirectCostRecoveryTypeCode The accountIndirectCostRecoveryTypeCode to set.
+     * 
+     */
+    public void setAccountIndirectCostRecoveryTypeCode(String accountIndirectCostRecoveryTypeCode) {
+        this.accountIndirectCostRecoveryTypeCode = accountIndirectCostRecoveryTypeCode;
+    }
 
 
-	/**
-	 * Gets the financialObjectCode attribute.
-	 * 
-	 * @return - Returns the financialObjectCode
-	 * 
-	 */
-	public String getFinancialObjectCode() { 
-		return financialObjectCode;
-	}
+    /**
+     * Gets the chartOfAccountsCode attribute.
+     * 
+     * @return - Returns the chartOfAccountsCode
+     * 
+     */
+    public String getChartOfAccountsCode() {
+        return chartOfAccountsCode;
+    }
 
-	/**
-	 * Sets the financialObjectCode attribute.
-	 * 
-	 * @param - financialObjectCode The financialObjectCode to set.
-	 * 
-	 */
-	public void setFinancialObjectCode(String financialObjectCode) {
-		this.financialObjectCode = financialObjectCode;
-	}
+    /**
+     * Sets the chartOfAccountsCode attribute.
+     * 
+     * @param - chartOfAccountsCode The chartOfAccountsCode to set.
+     * 
+     */
+    public void setChartOfAccountsCode(String chartOfAccountsCode) {
+        this.chartOfAccountsCode = chartOfAccountsCode;
+    }
 
 
-	/**
-	 * Gets the chart attribute.
-	 * 
-	 * @return - Returns the chart
-	 * 
-	 */
-	public Chart getChart() { 
-		return chart;
-	}
+    /**
+     * Gets the financialObjectCode attribute.
+     * 
+     * @return - Returns the financialObjectCode
+     * 
+     */
+    public String getFinancialObjectCode() {
+        return financialObjectCode;
+    }
 
-	/**
-	 * Sets the chart attribute.
-	 * 
-	 * @param - chart The chart to set.
-	 * @deprecated
-	 */
-	public void setChart(Chart chart) {
-		this.chart = chart;
-	}
+    /**
+     * Sets the financialObjectCode attribute.
+     * 
+     * @param - financialObjectCode The financialObjectCode to set.
+     * 
+     */
+    public void setFinancialObjectCode(String financialObjectCode) {
+        this.financialObjectCode = financialObjectCode;
+    }
+
+
+    /**
+     * Gets the chart attribute.
+     * 
+     * @return - Returns the chart
+     * 
+     */
+    public Chart getChart() {
+        return chart;
+    }
+
+    /**
+     * Sets the chart attribute.
+     * 
+     * @param - chart The chart to set.
+     * @deprecated
+     */
+    public void setChart(Chart chart) {
+        this.chart = chart;
+    }
 
     /**
      * @return Returns the indirectCostRecoveryType.
@@ -157,17 +157,17 @@ public class IndirectCostRecoveryExclusionType extends BusinessObjectBase {
      */
     public void setObjectCodeCurrent(ObjectCode objectCodeCurrent) {
         this.objectCodeCurrent = objectCodeCurrent;
-    } 
-    
-	/**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
+    }
+
+    /**
+     * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
         m.put("accountIndirectCostRecoveryTypeCode", this.accountIndirectCostRecoveryTypeCode);
         m.put("chartOfAccountsCode", this.chartOfAccountsCode);
         m.put("financialObjectCode", this.financialObjectCode);
-	    return m;
+        return m;
     }
 
 

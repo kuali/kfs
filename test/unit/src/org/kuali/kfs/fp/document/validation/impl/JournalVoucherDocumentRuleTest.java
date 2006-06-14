@@ -681,20 +681,17 @@ public class JournalVoucherDocumentRuleTest extends TransactionalDocumentRuleTes
      * 
      * @see org.kuali.core.rule.TransactionalDocumentRuleTestBase#testProcessGenerateGeneralLedgerPendingEntries()
      */
-    protected void testProcessGenerateGeneralLedgerPendingEntries(AccountingLine line,
-            GeneralLedgerPendingEntry expectedExplicitEntry, GeneralLedgerPendingEntry expectedOffsetEntry) throws Exception {
+    protected void testProcessGenerateGeneralLedgerPendingEntries(AccountingLine line, GeneralLedgerPendingEntry expectedExplicitEntry, GeneralLedgerPendingEntry expectedOffsetEntry) throws Exception {
         TransactionalDocument document = createDocument5();
         assertEquals(0, document.getGeneralLedgerPendingEntries().size());
-        getGenerateGeneralLedgerPendingEntriesRule().processGenerateGeneralLedgerPendingEntries(document, line,
-                new GeneralLedgerPendingEntrySequenceHelper());
+        getGenerateGeneralLedgerPendingEntriesRule().processGenerateGeneralLedgerPendingEntries(document, line, new GeneralLedgerPendingEntrySequenceHelper());
         assertEquals(1, document.getGeneralLedgerPendingEntries().size());
         assertSparselyEqualBean(expectedExplicitEntry, document.getGeneralLedgerPendingEntry(0));
 
     }
 
     public void testProcessGenerateGeneralLedgerPendingEntries_validSourceExpense() throws Exception {
-        testProcessGenerateGeneralLedgerPendingEntries(createLineFromFixture("expenseSourceLine"),
-                getExpectedExplicitSourcePendingEntryForExpense(), getExpectedOffsetSourcePendingEntry());
+        testProcessGenerateGeneralLedgerPendingEntries(createLineFromFixture("expenseSourceLine"), getExpectedExplicitSourcePendingEntryForExpense(), getExpectedOffsetSourcePendingEntry());
     }
 
 
@@ -756,13 +753,11 @@ public class JournalVoucherDocumentRuleTest extends TransactionalDocumentRuleTes
         assertGlobalErrorMapSize(line.toString(), 1);
     }
 
-    private void testProcessAddAccountingLineBusinessRules(String fixtureName, String expectedErrorFieldName,
-            String expectedErrorKey) throws Exception {
+    private void testProcessAddAccountingLineBusinessRules(String fixtureName, String expectedErrorFieldName, String expectedErrorKey) throws Exception {
         testProcessAddAccountingLineBusinessRules(createLineFromFixture(fixtureName), expectedErrorFieldName, expectedErrorKey);
     }
 
-    private void testProcessAddAccountingLineBusinessRules(AccountingLine line, String expectedErrorFieldName,
-            String expectedErrorKey) throws Exception {
+    private void testProcessAddAccountingLineBusinessRules(AccountingLine line, String expectedErrorFieldName, String expectedErrorKey) throws Exception {
         line.refresh();
         assertGlobalErrorMapEmpty();
         boolean wasValid = getAddAccountingLineRule().processAddAccountingLineBusinessRules(createDocumentUnbalanced(), line);
@@ -811,8 +806,7 @@ public class JournalVoucherDocumentRuleTest extends TransactionalDocumentRuleTes
         assertNull(item);
     }
 
-    public void testProcessSourceAccountingLineSufficientFundsCheckingPreparation_balanceTypeCode_Actual_accountSufficientFundsCode_cashAtAccount_financialObjectCode_not_CashInBankCode()
-            throws Exception {
+    public void testProcessSourceAccountingLineSufficientFundsCheckingPreparation_balanceTypeCode_Actual_accountSufficientFundsCode_cashAtAccount_financialObjectCode_not_CashInBankCode() throws Exception {
         JournalVoucherDocument document = (JournalVoucherDocument) createDocument();
         document.setBalanceTypeCode(Constants.BALANCE_TYPE_ACTUAL);
 
@@ -827,8 +821,7 @@ public class JournalVoucherDocumentRuleTest extends TransactionalDocumentRuleTes
         assertNull(item);
     }
 
-    public void testProcessSourceAccountingLineSufficientFundsCheckingPreparation_balanceTypeCode_Actual_accountSufficientFundsCode_cashAtAccount_financialObjectCode_cashInBank()
-            throws Exception {
+    public void testProcessSourceAccountingLineSufficientFundsCheckingPreparation_balanceTypeCode_Actual_accountSufficientFundsCode_cashAtAccount_financialObjectCode_cashInBank() throws Exception {
         JournalVoucherDocument document = (JournalVoucherDocument) createDocument();
         document.setBalanceTypeCode(Constants.BALANCE_TYPE_ACTUAL);
 
@@ -848,8 +841,7 @@ public class JournalVoucherDocumentRuleTest extends TransactionalDocumentRuleTes
         assertEquals(debitCreditCode, item.getDebitCreditCode());
     }
 
-    public void testProcessSourceAccountingLineSufficientFundsCheckingPreparation_balanceTypeCode_Actual_accountSufficientFundsCode_not_cashAtAccount_debitCreditCode_D()
-            throws Exception {
+    public void testProcessSourceAccountingLineSufficientFundsCheckingPreparation_balanceTypeCode_Actual_accountSufficientFundsCode_not_cashAtAccount_debitCreditCode_D() throws Exception {
         JournalVoucherDocument document = (JournalVoucherDocument) createDocument();
         document.setBalanceTypeCode(Constants.BALANCE_TYPE_ACTUAL);
 
@@ -865,8 +857,7 @@ public class JournalVoucherDocumentRuleTest extends TransactionalDocumentRuleTes
         assertEquals(Constants.GL_CREDIT_CODE, item.getDebitCreditCode());
     }
 
-    public void testProcessSourceAccountingLineSufficientFundsCheckingPreparation_balanceTypeCode_Actual_accountSufficientFundsCode_not_cashAtAccount_debitCreditCode_C()
-            throws Exception {
+    public void testProcessSourceAccountingLineSufficientFundsCheckingPreparation_balanceTypeCode_Actual_accountSufficientFundsCode_not_cashAtAccount_debitCreditCode_C() throws Exception {
         JournalVoucherDocument document = (JournalVoucherDocument) createDocument();
         document.setBalanceTypeCode(Constants.BALANCE_TYPE_ACTUAL);
 

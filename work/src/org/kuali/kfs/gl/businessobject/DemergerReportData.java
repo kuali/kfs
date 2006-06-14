@@ -80,33 +80,42 @@ public class DemergerReportData {
     public int getCapitalizationTransactionsBypassed() {
         return capitalizationTransactionsBypassed;
     }
+
     public int getCostShareEncumbranceTransactionsBypassed() {
         return costShareEncumbranceTransactionsBypassed;
     }
+
     public int getCostShareTransactionsBypassed() {
         return costShareTransactionsBypassed;
     }
+
     public int getErrorTransactionsRead() {
         return errorTransactionsRead;
     }
+
     public int getErrorTransactionsSaved() {
         return errorTransactionsSaved;
     }
+
     public int getLiabilityTransactionsBypassed() {
         return liabilityTransactionsBypassed;
     }
+
     public int getOffsetTransactionsBypassed() {
         return offsetTransactionsBypassed;
     }
+
     public int getTransferTransactionsBypassed() {
         return transferTransactionsBypassed;
     }
+
     public int getValidTransactionsRead() {
         return validTransactionsRead;
     }
+
     public int getValidTransactionsSaved() {
         return validTransactionsSaved;
     }
 
-    
+
 }

@@ -34,81 +34,81 @@ import org.kuali.core.bo.BusinessObjectBase;
  */
 public class FiscalYearFunctionControl extends BusinessObjectBase {
 
-	private Integer universityFiscalYear;
-	private String financialSystemFunctionControlCode;
-	private boolean financialSystemFunctionActiveIndicator;
+    private Integer universityFiscalYear;
+    private String financialSystemFunctionControlCode;
+    private boolean financialSystemFunctionActiveIndicator;
 
     private FunctionControlCode functionControl;
-    
-	/**
-	 * Default constructor.
-	 */
-	public FiscalYearFunctionControl() {
 
-	}
+    /**
+     * Default constructor.
+     */
+    public FiscalYearFunctionControl() {
 
-	/**
-	 * Gets the universityFiscalYear attribute.
-	 * 
-	 * @return - Returns the universityFiscalYear
-	 * 
-	 */
-	public Integer getUniversityFiscalYear() { 
-		return universityFiscalYear;
-	}
+    }
 
-	/**
-	 * Sets the universityFiscalYear attribute.
-	 * 
-	 * @param - universityFiscalYear The universityFiscalYear to set.
-	 * 
-	 */
-	public void setUniversityFiscalYear(Integer universityFiscalYear) {
-		this.universityFiscalYear = universityFiscalYear;
-	}
+    /**
+     * Gets the universityFiscalYear attribute.
+     * 
+     * @return - Returns the universityFiscalYear
+     * 
+     */
+    public Integer getUniversityFiscalYear() {
+        return universityFiscalYear;
+    }
 
-
-	/**
-	 * Gets the financialSystemFunctionControlCode attribute.
-	 * 
-	 * @return - Returns the financialSystemFunctionControlCode
-	 * 
-	 */
-	public String getFinancialSystemFunctionControlCode() { 
-		return financialSystemFunctionControlCode;
-	}
-
-	/**
-	 * Sets the financialSystemFunctionControlCode attribute.
-	 * 
-	 * @param - financialSystemFunctionControlCode The financialSystemFunctionControlCode to set.
-	 * 
-	 */
-	public void setFinancialSystemFunctionControlCode(String financialSystemFunctionControlCode) {
-		this.financialSystemFunctionControlCode = financialSystemFunctionControlCode;
-	}
+    /**
+     * Sets the universityFiscalYear attribute.
+     * 
+     * @param - universityFiscalYear The universityFiscalYear to set.
+     * 
+     */
+    public void setUniversityFiscalYear(Integer universityFiscalYear) {
+        this.universityFiscalYear = universityFiscalYear;
+    }
 
 
-	/**
-	 * Gets the financialSystemFunctionActiveIndicator attribute.
-	 * 
-	 * @return - Returns the financialSystemFunctionActiveIndicator
-	 * 
-	 */
-	public boolean isFinancialSystemFunctionActiveIndicator() { 
-		return financialSystemFunctionActiveIndicator;
-	}
-	
+    /**
+     * Gets the financialSystemFunctionControlCode attribute.
+     * 
+     * @return - Returns the financialSystemFunctionControlCode
+     * 
+     */
+    public String getFinancialSystemFunctionControlCode() {
+        return financialSystemFunctionControlCode;
+    }
 
-	/**
-	 * Sets the financialSystemFunctionActiveIndicator attribute.
-	 * 
-	 * @param - financialSystemFunctionActiveIndicator The financialSystemFunctionActiveIndicator to set.
-	 * 
-	 */
-	public void setFinancialSystemFunctionActiveIndicator(boolean financialSystemFunctionActiveIndicator) {
-		this.financialSystemFunctionActiveIndicator = financialSystemFunctionActiveIndicator;
-	}
+    /**
+     * Sets the financialSystemFunctionControlCode attribute.
+     * 
+     * @param - financialSystemFunctionControlCode The financialSystemFunctionControlCode to set.
+     * 
+     */
+    public void setFinancialSystemFunctionControlCode(String financialSystemFunctionControlCode) {
+        this.financialSystemFunctionControlCode = financialSystemFunctionControlCode;
+    }
+
+
+    /**
+     * Gets the financialSystemFunctionActiveIndicator attribute.
+     * 
+     * @return - Returns the financialSystemFunctionActiveIndicator
+     * 
+     */
+    public boolean isFinancialSystemFunctionActiveIndicator() {
+        return financialSystemFunctionActiveIndicator;
+    }
+
+
+    /**
+     * Sets the financialSystemFunctionActiveIndicator attribute.
+     * 
+     * @param - financialSystemFunctionActiveIndicator The financialSystemFunctionActiveIndicator to set.
+     * 
+     */
+    public void setFinancialSystemFunctionActiveIndicator(boolean financialSystemFunctionActiveIndicator) {
+        this.financialSystemFunctionActiveIndicator = financialSystemFunctionActiveIndicator;
+    }
 
 
     /**
@@ -125,17 +125,17 @@ public class FiscalYearFunctionControl extends BusinessObjectBase {
     public void setFunctionControl(FunctionControlCode functionControl) {
         this.functionControl = functionControl;
     }
-    
+
     /**
      * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
-        LinkedHashMap m = new LinkedHashMap();      
+        LinkedHashMap m = new LinkedHashMap();
         if (this.universityFiscalYear != null) {
             m.put("universityFiscalYear", this.universityFiscalYear.toString());
         }
         m.put("financialSystemFunctionControlCode", this.financialSystemFunctionControlCode);
         return m;
     }
-    
+
 }

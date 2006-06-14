@@ -32,6 +32,7 @@ import org.kuali.module.gl.web.Constant;
 
 /**
  * This class...
+ * 
  * @author Bin Gao from Michigan State University
  */
 public class GLAmountViewOptionFinder extends KeyValuesBase implements ValueFinder {
@@ -46,10 +47,10 @@ public class GLAmountViewOptionFinder extends KeyValuesBase implements ValueFind
     /**
      * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
-    public List getKeyValues() {       
+    public List getKeyValues() {
         List labels = new ArrayList();
         labels.add(new KeyLabelPair(Constant.MONTHLY, Constant.MONTHLY));
-        labels.add(new KeyLabelPair( Constant.ACCUMULATE, Constant.ACCUMULATE));
+        labels.add(new KeyLabelPair(Constant.ACCUMULATE, Constant.ACCUMULATE));
         return labels;
     }
 }

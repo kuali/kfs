@@ -36,32 +36,32 @@ import org.springframework.orm.ojb.PersistenceBrokerTemplate;
 
 /**
  * This class is the OJB implementation of the ObjectCodeDao interface.
+ * 
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
-*/
+ */
 public class ObjectCodeDaoOjb extends PersistenceBrokerTemplate implements ObjectCodeDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ObjectCodeDaoOjb.class);
 
     /**
      * Retrieves object code business object by primary key
+     * 
      * @param universityFiscalYear - part of composite key
      * @param chartOfAccountsCode - part of composite key
      * @param financialObjectCode - part of composite key
      * @return ObjectCode
      * @see ObjectCodeDao
      */
-    public ObjectCode getByPrimaryId(Integer universityFiscalYear,
-        String chartOfAccountsCode, String financialObjectCode) {
+    public ObjectCode getByPrimaryId(Integer universityFiscalYear, String chartOfAccountsCode, String financialObjectCode) {
         Criteria criteria = new Criteria();
         criteria.addEqualTo("universityFiscalYear", universityFiscalYear);
         criteria.addEqualTo("chartOfAccountsCode", chartOfAccountsCode);
         criteria.addEqualTo("financialObjectCode", financialObjectCode);
 
-        return (ObjectCode) getObjectByQuery(QueryFactory.newQuery(
-                ObjectCode.class, criteria));
+        return (ObjectCode) getObjectByQuery(QueryFactory.newQuery(ObjectCode.class, criteria));
     }
-    
-    public List getYearList(String chartOfAccountsCode, String financialObjectCode){
-        
+
+    public List getYearList(String chartOfAccountsCode, String financialObjectCode) {
+
         List returnList = new ArrayList();
         Criteria criteria = new Criteria();
         criteria.addEqualTo("chartOfAccountsCode", chartOfAccountsCode);
@@ -70,12 +70,11 @@ public class ObjectCodeDaoOjb extends PersistenceBrokerTemplate implements Objec
         for (Iterator iter = years.iterator(); iter.hasNext();) {
             ObjectCode o = (ObjectCode) iter.next();
             if (o != null) {
-            returnList.add(o.getUniversityFiscalYear());
-        }     
+                returnList.add(o.getUniversityFiscalYear());
+            }
         }
         return returnList;
-    
-    
+
+
     }
 }
-

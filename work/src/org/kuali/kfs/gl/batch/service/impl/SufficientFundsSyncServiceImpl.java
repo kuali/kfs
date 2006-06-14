@@ -31,33 +31,33 @@ import org.kuali.module.gl.dao.SufficientFundRebuildDao;
 import org.kuali.module.gl.service.SufficientFundsSyncService;
 
 public class SufficientFundsSyncServiceImpl implements SufficientFundsSyncService {
-  private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SufficientFundsSyncServiceImpl.class);
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SufficientFundsSyncServiceImpl.class);
 
-  private AccountService accountService;
-  private SufficientFundRebuildDao sufficientFundRebuildDao;
+    private AccountService accountService;
+    private SufficientFundRebuildDao sufficientFundRebuildDao;
 
-  public void syncSufficientFunds() {
-    LOG.debug("syncSufficientFunds() started");
+    public void syncSufficientFunds() {
+        LOG.debug("syncSufficientFunds() started");
 
-    Iterator i = accountService.getAllAccounts();
-    while ( i.hasNext() ) {
-      Account a = (Account)i.next();
-      SufficientFundRebuild sfr = sufficientFundRebuildDao.getByAccount(a.getChartOfAccountsCode(), a.getAccountNumber());
-      if ( sfr == null ) {
-        sfr = new SufficientFundRebuild();
-        sfr.setAccountFinancialObjectTypeCode("A");
-        sfr.setAccountNumberFinancialObjectCode(a.getAccountNumber());
-        sfr.setChartOfAccountsCode(a.getChartOfAccountsCode());
-        sufficientFundRebuildDao.save(sfr);
-      }
+        Iterator i = accountService.getAllAccounts();
+        while (i.hasNext()) {
+            Account a = (Account) i.next();
+            SufficientFundRebuild sfr = sufficientFundRebuildDao.getByAccount(a.getChartOfAccountsCode(), a.getAccountNumber());
+            if (sfr == null) {
+                sfr = new SufficientFundRebuild();
+                sfr.setAccountFinancialObjectTypeCode("A");
+                sfr.setAccountNumberFinancialObjectCode(a.getAccountNumber());
+                sfr.setChartOfAccountsCode(a.getChartOfAccountsCode());
+                sufficientFundRebuildDao.save(sfr);
+            }
+        }
     }
-  }
 
-  public void setSufficientFundRebuildDao(SufficientFundRebuildDao sfd) {
-    sufficientFundRebuildDao = sfd;
-  }
+    public void setSufficientFundRebuildDao(SufficientFundRebuildDao sfd) {
+        sufficientFundRebuildDao = sfd;
+    }
 
-  public void setAccountService(AccountService as) {
-    accountService = as;
-  }
+    public void setAccountService(AccountService as) {
+        accountService = as;
+    }
 }

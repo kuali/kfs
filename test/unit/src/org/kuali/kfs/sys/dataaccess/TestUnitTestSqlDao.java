@@ -32,69 +32,69 @@ import org.kuali.module.gl.dao.UnitTestSqlDao;
 import org.kuali.test.KualiTestBaseWithSpringOnly;
 
 public class TestUnitTestSqlDao extends KualiTestBaseWithSpringOnly {
-  private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(TestUnitTestSqlDao.class);
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(TestUnitTestSqlDao.class);
 
-  private UnitTestSqlDao unitTestSqlDao;
+    private UnitTestSqlDao unitTestSqlDao;
 
-  public TestUnitTestSqlDao() {
-    super();
-  }
-
-  protected void setUp() throws Exception {
-    super.setUp();
-
-    unitTestSqlDao = (UnitTestSqlDao)SpringServiceLocator.getBeanFactory().getBean("glUnitTestSqlDao");
-  }
-
-  public void testSelect() throws Exception {
-    LOG.debug("testSelect() started");
-
-    List results = unitTestSqlDao.sqlSelect("select 1 from dual");
-
-    assertNotNull("List shouldn't be null",results);
-    assertEquals("Should return 1 result",1,results.size());
-    
-    Iterator i = results.iterator();
-    if ( i.hasNext() ) {
-      Map m = (Map)i.next();
-      assertEquals("Map should have 1 field",1,m.size());
-      BigDecimal value = (BigDecimal)m.get("1");
-      assertEquals("Field should equal 1",1.00,value.doubleValue(),0.01);
+    public TestUnitTestSqlDao() {
+        super();
     }
-  }
 
-  public void testAllSql() throws Exception {
-    LOG.debug("testAllSql() started");
+    protected void setUp() throws Exception {
+        super.setUp();
 
-    // Delete from a table (just in case the code is already there)
-    unitTestSqlDao.sqlCommand("delete from SH_STATE_T where POSTAL_STATE_CD = 'JJ'");
+        unitTestSqlDao = (UnitTestSqlDao) SpringServiceLocator.getBeanFactory().getBean("glUnitTestSqlDao");
+    }
 
-    // Insert into the table
-    int rows = unitTestSqlDao.sqlCommand("insert into SH_STATE_T (POSTAL_STATE_CD,POSTAL_STATE_NM) values ('JJ','JJSTATE')");
-    assertEquals("Should have inserted 1 row",1,rows);
+    public void testSelect() throws Exception {
+        LOG.debug("testSelect() started");
 
-    List results = unitTestSqlDao.sqlSelect("select POSTAL_STATE_CD,POSTAL_STATE_NM from SH_STATE_T where POSTAL_STATE_CD = 'JJ'");
-    assertNotNull("List shouldn't be null",results);
-    assertEquals("Should return 1 result",1,results.size());
-    Iterator i = results.iterator();
-    Map row = (Map)i.next();
+        List results = unitTestSqlDao.sqlSelect("select 1 from dual");
 
-    assertEquals("State code should be JJ","JJ",(String)row.get("POSTAL_STATE_CD"));
-    assertEquals("State name should be JJSTATE","JJSTATE",(String)row.get("POSTAL_STATE_NM"));
+        assertNotNull("List shouldn't be null", results);
+        assertEquals("Should return 1 result", 1, results.size());
 
-    rows = unitTestSqlDao.sqlCommand("update SH_STATE_T set POSTAL_STATE_NM = 'JJXX' where POSTAL_STATE_CD = 'JJ'");
-    assertEquals("Should have updated 1 row",1,rows);
+        Iterator i = results.iterator();
+        if (i.hasNext()) {
+            Map m = (Map) i.next();
+            assertEquals("Map should have 1 field", 1, m.size());
+            BigDecimal value = (BigDecimal) m.get("1");
+            assertEquals("Field should equal 1", 1.00, value.doubleValue(), 0.01);
+        }
+    }
 
-    results = unitTestSqlDao.sqlSelect("select POSTAL_STATE_CD,POSTAL_STATE_NM from SH_STATE_T where POSTAL_STATE_CD = 'JJ'");
-    assertNotNull("List shouldn't be null",results);
-    assertEquals("Should return 1 result",1,results.size());
-    i = results.iterator();
-    row = (Map)i.next();
+    public void testAllSql() throws Exception {
+        LOG.debug("testAllSql() started");
 
-    assertEquals("State code should be JJ","JJ",(String)row.get("POSTAL_STATE_CD"));
-    assertEquals("State name should be JJXX","JJXX",(String)row.get("POSTAL_STATE_NM"));
+        // Delete from a table (just in case the code is already there)
+        unitTestSqlDao.sqlCommand("delete from SH_STATE_T where POSTAL_STATE_CD = 'JJ'");
 
-    rows = unitTestSqlDao.sqlCommand("delete from SH_STATE_T where POSTAL_STATE_CD = 'JJ'");
-    assertEquals("Should have deleted 1 row",1,rows);
-  }
+        // Insert into the table
+        int rows = unitTestSqlDao.sqlCommand("insert into SH_STATE_T (POSTAL_STATE_CD,POSTAL_STATE_NM) values ('JJ','JJSTATE')");
+        assertEquals("Should have inserted 1 row", 1, rows);
+
+        List results = unitTestSqlDao.sqlSelect("select POSTAL_STATE_CD,POSTAL_STATE_NM from SH_STATE_T where POSTAL_STATE_CD = 'JJ'");
+        assertNotNull("List shouldn't be null", results);
+        assertEquals("Should return 1 result", 1, results.size());
+        Iterator i = results.iterator();
+        Map row = (Map) i.next();
+
+        assertEquals("State code should be JJ", "JJ", (String) row.get("POSTAL_STATE_CD"));
+        assertEquals("State name should be JJSTATE", "JJSTATE", (String) row.get("POSTAL_STATE_NM"));
+
+        rows = unitTestSqlDao.sqlCommand("update SH_STATE_T set POSTAL_STATE_NM = 'JJXX' where POSTAL_STATE_CD = 'JJ'");
+        assertEquals("Should have updated 1 row", 1, rows);
+
+        results = unitTestSqlDao.sqlSelect("select POSTAL_STATE_CD,POSTAL_STATE_NM from SH_STATE_T where POSTAL_STATE_CD = 'JJ'");
+        assertNotNull("List shouldn't be null", results);
+        assertEquals("Should return 1 result", 1, results.size());
+        i = results.iterator();
+        row = (Map) i.next();
+
+        assertEquals("State code should be JJ", "JJ", (String) row.get("POSTAL_STATE_CD"));
+        assertEquals("State name should be JJXX", "JJXX", (String) row.get("POSTAL_STATE_NM"));
+
+        rows = unitTestSqlDao.sqlCommand("delete from SH_STATE_T where POSTAL_STATE_CD = 'JJ'");
+        assertEquals("Should have deleted 1 row", 1, rows);
+    }
 }

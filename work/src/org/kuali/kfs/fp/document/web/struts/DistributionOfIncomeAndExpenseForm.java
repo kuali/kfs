@@ -50,8 +50,7 @@ public class DistributionOfIncomeAndExpenseForm extends KualiTransactionalDocume
     /**
      * @param distributionOfIncomeAndExpenseDocument
      */
-    public void setDistributionOfIncomeAndExpenseDocument(
-            DistributionOfIncomeAndExpenseDocument distributionOfIncomeAndExpenseDocument) {
+    public void setDistributionOfIncomeAndExpenseDocument(DistributionOfIncomeAndExpenseDocument distributionOfIncomeAndExpenseDocument) {
         setDocument(distributionOfIncomeAndExpenseDocument);
     }
 }

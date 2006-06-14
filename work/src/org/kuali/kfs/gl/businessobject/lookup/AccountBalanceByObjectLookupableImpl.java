@@ -48,7 +48,7 @@ public class AccountBalanceByObjectLookupableImpl extends KualiLookupableImpl {
     private AccountBalanceService accountBalanceService;
 
     public void setAccountBalanceService(AccountBalanceService abs) {
-      accountBalanceService = abs;
+        accountBalanceService = abs;
     }
 
     /**
@@ -77,44 +77,43 @@ public class AccountBalanceByObjectLookupableImpl extends KualiLookupableImpl {
         setBackLocation((String) fieldValues.get(Constants.BACK_LOCATION));
         setDocFormKey((String) fieldValues.get(Constants.DOC_FORM_KEY));
 
-        String costShareOption = (String)fieldValues.get("dummyBusinessObject.costShareOption");
-        String pendingEntryOption = (String)fieldValues.get("dummyBusinessObject.pendingEntryOption");
-        String consolidationOption = (String)fieldValues.get("dummyBusinessObject.consolidationOption");
+        String costShareOption = (String) fieldValues.get("dummyBusinessObject.costShareOption");
+        String pendingEntryOption = (String) fieldValues.get("dummyBusinessObject.pendingEntryOption");
+        String consolidationOption = (String) fieldValues.get("dummyBusinessObject.consolidationOption");
         boolean isCostShareExcluded = Constant.COST_SHARE_EXCLUDE.equals(costShareOption);
         boolean isIncludePendingEntry = "No".equals(pendingEntryOption);
         boolean isConsolidated = Constant.CONSOLIDATION.equals(consolidationOption);
 
-        String chartOfAccountsCode = (String)fieldValues.get("chartOfAccountsCode");
-        String accountNumber = (String)fieldValues.get("accountNumber");
-        String subAccountNumber = (String)fieldValues.get("subAccountNumber");
-        String financialObjectLevelCode = (String)fieldValues.get("financialObject.financialObjectLevelCode");
-        String financialReportingSortCode = (String)fieldValues.get("financialObject.financialObjectLevel.financialReportingSortCode");
+        String chartOfAccountsCode = (String) fieldValues.get("chartOfAccountsCode");
+        String accountNumber = (String) fieldValues.get("accountNumber");
+        String subAccountNumber = (String) fieldValues.get("subAccountNumber");
+        String financialObjectLevelCode = (String) fieldValues.get("financialObject.financialObjectLevelCode");
+        String financialReportingSortCode = (String) fieldValues.get("financialObject.financialObjectLevel.financialReportingSortCode");
 
         // Dashes means no sub account number
-        if ( Constants.DASHES_SUB_ACCOUNT_NUMBER.equals(subAccountNumber) ) {
-          subAccountNumber = "";
+        if (Constants.DASHES_SUB_ACCOUNT_NUMBER.equals(subAccountNumber)) {
+            subAccountNumber = "";
         }
 
-        String ufy = (String)fieldValues.get("universityFiscalYear");
+        String ufy = (String) fieldValues.get("universityFiscalYear");
 
         // TODO Deal with invalid numbers
         Integer universityFiscalYear = new Integer(Integer.parseInt(ufy));
 
-        // TODO Include Pending 
+        // TODO Include Pending
 
-        List results = accountBalanceService.findAccountBalanceByObject(universityFiscalYear, chartOfAccountsCode, accountNumber, subAccountNumber, 
-            financialObjectLevelCode, financialReportingSortCode, isCostShareExcluded, isConsolidated, isIncludePendingEntry);
+        List results = accountBalanceService.findAccountBalanceByObject(universityFiscalYear, chartOfAccountsCode, accountNumber, subAccountNumber, financialObjectLevelCode, financialReportingSortCode, isCostShareExcluded, isConsolidated, isIncludePendingEntry);
 
         // Put the search related stuff in the objects
         for (Iterator iter = results.iterator(); iter.hasNext();) {
-          AccountBalance ab = (AccountBalance)iter.next();
+            AccountBalance ab = (AccountBalance) iter.next();
 
-          DummyBusinessObject dbo = ab.getDummyBusinessObject();
-          dbo.setConsolidationOption(consolidationOption);
-          dbo.setCostShareOption(costShareOption);
-          dbo.setPendingEntryOption(pendingEntryOption);
-          dbo.setLinkButtonOption(Constant.LOOKUP_BUTTON_VALUE);
+            DummyBusinessObject dbo = ab.getDummyBusinessObject();
+            dbo.setConsolidationOption(consolidationOption);
+            dbo.setCostShareOption(costShareOption);
+            dbo.setPendingEntryOption(pendingEntryOption);
+            dbo.setLinkButtonOption(Constant.LOOKUP_BUTTON_VALUE);
         }
-        return new CollectionIncomplete(results,new Long(results.size()));
-   }
+        return new CollectionIncomplete(results, new Long(results.size()));
+    }
 }

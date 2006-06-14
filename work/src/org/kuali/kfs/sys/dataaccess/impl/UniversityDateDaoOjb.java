@@ -35,12 +35,10 @@ import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 /**
  * @author jsissom
- *  
+ * 
  */
-public class UniversityDateDaoOjb extends PersistenceBrokerDaoSupport implements
-        UniversityDateDao {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger
-            .getLogger(UniversityDateDaoOjb.class);
+public class UniversityDateDaoOjb extends PersistenceBrokerDaoSupport implements UniversityDateDao {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(UniversityDateDaoOjb.class);
 
     public UniversityDateDaoOjb() {
         super();

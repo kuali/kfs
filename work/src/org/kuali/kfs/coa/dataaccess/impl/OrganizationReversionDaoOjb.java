@@ -39,17 +39,18 @@ public class OrganizationReversionDaoOjb extends PersistenceBrokerTemplate imple
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationReversionDaoOjb.class);
 
     /**
-     * @see org.kuali.module.chart.dao.OrganizationReversionDao#getByPrimaryId(java.lang.Integer, java.lang.String, java.lang.String)
+     * @see org.kuali.module.chart.dao.OrganizationReversionDao#getByPrimaryId(java.lang.Integer, java.lang.String,
+     *      java.lang.String)
      */
     public OrganizationReversion getByPrimaryId(Integer universityFiscalYear, String financialChartOfAccountsCode, String organizationCode) {
         LOG.debug("getByPrimaryId() started");
 
         Criteria criteria = new Criteria();
-        criteria.addEqualTo("universityFiscalYear", universityFiscalYear);        
+        criteria.addEqualTo("universityFiscalYear", universityFiscalYear);
         criteria.addEqualTo("chartOfAccountsCode", financialChartOfAccountsCode);
         criteria.addEqualTo("organizationCode", organizationCode);
 
-        return (OrganizationReversion)getObjectByQuery(QueryFactory.newQuery(OrganizationReversion.class,criteria));
+        return (OrganizationReversion) getObjectByQuery(QueryFactory.newQuery(OrganizationReversion.class, criteria));
     }
 
     public List<OrganizationReversionCategory> getCategories() {
@@ -59,6 +60,6 @@ public class OrganizationReversionDaoOjb extends PersistenceBrokerTemplate imple
         QueryByCriteria q = QueryFactory.newQuery(OrganizationReversionCategory.class, criteria);
         q.addOrderByAscending("organizationReversionSortCode");
 
-        return (List)getCollectionByQuery(q);
+        return (List) getCollectionByQuery(q);
     }
 }

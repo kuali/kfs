@@ -26,16 +26,13 @@ import org.kuali.core.bo.KualiCodeBase;
 
 
 /**
- * This class represents a CashDetailTypeCode, which is used to differentiate 
- * records of the same general data structure from one another.  For example, 
- * a CashReceiptDocument has checks and so does a BursarDepositDocument.  To 
- * be able to re-use the same table and data structure, we need a field 
- * that can act as a flag.  Another example involves the fact that a 
- * CashReceipt contains a coin record, a currency record, and a change out 
- * record (aggregated coin and currency together).  Since we use the same 
- * tables to represent this, we need an attribute to help differentiate 
- * between the bunch especially when they all three must co-exist within 
- * the same parent CashReceiptDocument instance. 
+ * This class represents a CashDetailTypeCode, which is used to differentiate records of the same general data structure from one
+ * another. For example, a CashReceiptDocument has checks and so does a BursarDepositDocument. To be able to re-use the same table
+ * and data structure, we need a field that can act as a flag. Another example involves the fact that a CashReceipt contains a coin
+ * record, a currency record, and a change out record (aggregated coin and currency together). Since we use the same tables to
+ * represent this, we need an attribute to help differentiate between the bunch especially when they all three must co-exist within
+ * the same parent CashReceiptDocument instance.
+ * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class CashDetailTypeCode extends KualiCodeBase {
@@ -48,9 +45,10 @@ public class CashDetailTypeCode extends KualiCodeBase {
     public CashDetailTypeCode() {
         super();
     }
-    
+
     /**
-     * Gets the description attribute. 
+     * Gets the description attribute.
+     * 
      * @return Returns the description.
      */
     public String getDescription() {
@@ -59,6 +57,7 @@ public class CashDetailTypeCode extends KualiCodeBase {
 
     /**
      * Sets the description attribute value.
+     * 
      * @param description The description to set.
      */
     public void setDescription(String description) {

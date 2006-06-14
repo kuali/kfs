@@ -27,9 +27,10 @@ import org.kuali.module.chart.bo.OffsetDefinition;
 
 /**
  * This interface defines basic methods that OffsetDefinition Dao's must provide
+ * 
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
-*/
+ */
 public interface OffsetDefinitionDao {
-   
+
     public OffsetDefinition getByPrimaryId(Integer universityFiscalYear, String chartOfAccountsCode, String financialDocumentTypeCode, String financialBalanceTypeCode);
 }

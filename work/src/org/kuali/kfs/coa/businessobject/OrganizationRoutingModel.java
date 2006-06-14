@@ -36,244 +36,244 @@ import org.kuali.core.util.KualiDecimal;
  */
 public class OrganizationRoutingModel extends BusinessObjectBase {
 
-	private String chartOfAccountsCode;
-	private String organizationCode;
-	private String organizationRoutingModelName;
-	private String accountDelegateUniversalId;
-	private String financialDocumentTypeCode;
-	private KualiDecimal approvalFromThisAmount;
-	private KualiDecimal approvalToThisAmount;
-	private String accountDelegatePrimaryRoutingCode;
-	private Date accountDelegateStartDate;
+    private String chartOfAccountsCode;
+    private String organizationCode;
+    private String organizationRoutingModelName;
+    private String accountDelegateUniversalId;
+    private String financialDocumentTypeCode;
+    private KualiDecimal approvalFromThisAmount;
+    private KualiDecimal approvalToThisAmount;
+    private String accountDelegatePrimaryRoutingCode;
+    private Date accountDelegateStartDate;
 
     private Chart chartOfAccounts;
 
-	/**
-	 * Default constructor.
-	 */
-	public OrganizationRoutingModel() {
+    /**
+     * Default constructor.
+     */
+    public OrganizationRoutingModel() {
 
-	}
+    }
 
-	/**
-	 * Gets the chartOfAccountsCode attribute.
-	 * 
-	 * @return - Returns the chartOfAccountsCode
-	 * 
-	 */
-	public String getChartOfAccountsCode() { 
-		return chartOfAccountsCode;
-	}
+    /**
+     * Gets the chartOfAccountsCode attribute.
+     * 
+     * @return - Returns the chartOfAccountsCode
+     * 
+     */
+    public String getChartOfAccountsCode() {
+        return chartOfAccountsCode;
+    }
 
-	/**
-	 * Sets the chartOfAccountsCode attribute.
-	 * 
-	 * @param - chartOfAccountsCode The chartOfAccountsCode to set.
-	 * 
-	 */
-	public void setChartOfAccountsCode(String chartOfAccountsCode) {
-		this.chartOfAccountsCode = chartOfAccountsCode;
-	}
-
-
-	/**
-	 * Gets the organizationCode attribute.
-	 * 
-	 * @return - Returns the organizationCode
-	 * 
-	 */
-	public String getOrganizationCode() { 
-		return organizationCode;
-	}
-
-	/**
-	 * Sets the organizationCode attribute.
-	 * 
-	 * @param - organizationCode The organizationCode to set.
-	 * 
-	 */
-	public void setOrganizationCode(String organizationCode) {
-		this.organizationCode = organizationCode;
-	}
+    /**
+     * Sets the chartOfAccountsCode attribute.
+     * 
+     * @param - chartOfAccountsCode The chartOfAccountsCode to set.
+     * 
+     */
+    public void setChartOfAccountsCode(String chartOfAccountsCode) {
+        this.chartOfAccountsCode = chartOfAccountsCode;
+    }
 
 
-	/**
-	 * Gets the organizationRoutingModelName attribute.
-	 * 
-	 * @return - Returns the organizationRoutingModelName
-	 * 
-	 */
-	public String getOrganizationRoutingModelName() { 
-		return organizationRoutingModelName;
-	}
+    /**
+     * Gets the organizationCode attribute.
+     * 
+     * @return - Returns the organizationCode
+     * 
+     */
+    public String getOrganizationCode() {
+        return organizationCode;
+    }
 
-	/**
-	 * Sets the organizationRoutingModelName attribute.
-	 * 
-	 * @param - organizationRoutingModelName The organizationRoutingModelName to set.
-	 * 
-	 */
-	public void setOrganizationRoutingModelName(String organizationRoutingModelName) {
-		this.organizationRoutingModelName = organizationRoutingModelName;
-	}
-
-
-	/**
-	 * Gets the accountDelegateUniversalId attribute.
-	 * 
-	 * @return - Returns the accountDelegateUniversalId
-	 * 
-	 */
-	public String getAccountDelegateUniversalId() { 
-		return accountDelegateUniversalId;
-	}
-
-	/**
-	 * Sets the accountDelegateUniversalId attribute.
-	 * 
-	 * @param - accountDelegateUniversalId The accountDelegateUniversalId to set.
-	 * 
-	 */
-	public void setAccountDelegateUniversalId(String accountDelegateUniversalId) {
-		this.accountDelegateUniversalId = accountDelegateUniversalId;
-	}
+    /**
+     * Sets the organizationCode attribute.
+     * 
+     * @param - organizationCode The organizationCode to set.
+     * 
+     */
+    public void setOrganizationCode(String organizationCode) {
+        this.organizationCode = organizationCode;
+    }
 
 
-	/**
-	 * Gets the financialDocumentTypeCode attribute.
-	 * 
-	 * @return - Returns the financialDocumentTypeCode
-	 * 
-	 */
-	public String getFinancialDocumentTypeCode() { 
-		return financialDocumentTypeCode;
-	}
+    /**
+     * Gets the organizationRoutingModelName attribute.
+     * 
+     * @return - Returns the organizationRoutingModelName
+     * 
+     */
+    public String getOrganizationRoutingModelName() {
+        return organizationRoutingModelName;
+    }
 
-	/**
-	 * Sets the financialDocumentTypeCode attribute.
-	 * 
-	 * @param - financialDocumentTypeCode The financialDocumentTypeCode to set.
-	 * 
-	 */
-	public void setFinancialDocumentTypeCode(String financialDocumentTypeCode) {
-		this.financialDocumentTypeCode = financialDocumentTypeCode;
-	}
-
-
-	/**
-	 * Gets the approvalFromThisAmount attribute.
-	 * 
-	 * @return - Returns the approvalFromThisAmount
-	 * 
-	 */
-	public KualiDecimal getApprovalFromThisAmount() { 
-		return approvalFromThisAmount;
-	}
-
-	/**
-	 * Sets the approvalFromThisAmount attribute.
-	 * 
-	 * @param - approvalFromThisAmount The approvalFromThisAmount to set.
-	 * 
-	 */
-	public void setApprovalFromThisAmount(KualiDecimal approvalFromThisAmount) {
-		this.approvalFromThisAmount = approvalFromThisAmount;
-	}
+    /**
+     * Sets the organizationRoutingModelName attribute.
+     * 
+     * @param - organizationRoutingModelName The organizationRoutingModelName to set.
+     * 
+     */
+    public void setOrganizationRoutingModelName(String organizationRoutingModelName) {
+        this.organizationRoutingModelName = organizationRoutingModelName;
+    }
 
 
-	/**
-	 * Gets the approvalToThisAmount attribute.
-	 * 
-	 * @return - Returns the approvalToThisAmount
-	 * 
-	 */
-	public KualiDecimal getApprovalToThisAmount() { 
-		return approvalToThisAmount;
-	}
+    /**
+     * Gets the accountDelegateUniversalId attribute.
+     * 
+     * @return - Returns the accountDelegateUniversalId
+     * 
+     */
+    public String getAccountDelegateUniversalId() {
+        return accountDelegateUniversalId;
+    }
 
-	/**
-	 * Sets the approvalToThisAmount attribute.
-	 * 
-	 * @param - approvalToThisAmount The approvalToThisAmount to set.
-	 * 
-	 */
-	public void setApprovalToThisAmount(KualiDecimal approvalToThisAmount) {
-		this.approvalToThisAmount = approvalToThisAmount;
-	}
-
-
-	/**
-	 * Gets the accountDelegatePrimaryRoutingCode attribute.
-	 * 
-	 * @return - Returns the accountDelegatePrimaryRoutingCode
-	 * 
-	 */
-	public String getAccountDelegatePrimaryRoutingCode() { 
-		return accountDelegatePrimaryRoutingCode;
-	}
-
-	/**
-	 * Sets the accountDelegatePrimaryRoutingCode attribute.
-	 * 
-	 * @param - accountDelegatePrimaryRoutingCode The accountDelegatePrimaryRoutingCode to set.
-	 * 
-	 */
-	public void setAccountDelegatePrimaryRoutingCode(String accountDelegatePrimaryRoutingCode) {
-		this.accountDelegatePrimaryRoutingCode = accountDelegatePrimaryRoutingCode;
-	}
+    /**
+     * Sets the accountDelegateUniversalId attribute.
+     * 
+     * @param - accountDelegateUniversalId The accountDelegateUniversalId to set.
+     * 
+     */
+    public void setAccountDelegateUniversalId(String accountDelegateUniversalId) {
+        this.accountDelegateUniversalId = accountDelegateUniversalId;
+    }
 
 
-	/**
-	 * Gets the accountDelegateStartDate attribute.
-	 * 
-	 * @return - Returns the accountDelegateStartDate
-	 * 
-	 */
-	public Date getAccountDelegateStartDate() { 
-		return accountDelegateStartDate;
-	}
+    /**
+     * Gets the financialDocumentTypeCode attribute.
+     * 
+     * @return - Returns the financialDocumentTypeCode
+     * 
+     */
+    public String getFinancialDocumentTypeCode() {
+        return financialDocumentTypeCode;
+    }
 
-	/**
-	 * Sets the accountDelegateStartDate attribute.
-	 * 
-	 * @param - accountDelegateStartDate The accountDelegateStartDate to set.
-	 * 
-	 */
-	public void setAccountDelegateStartDate(Date accountDelegateStartDate) {
-		this.accountDelegateStartDate = accountDelegateStartDate;
-	}
+    /**
+     * Sets the financialDocumentTypeCode attribute.
+     * 
+     * @param - financialDocumentTypeCode The financialDocumentTypeCode to set.
+     * 
+     */
+    public void setFinancialDocumentTypeCode(String financialDocumentTypeCode) {
+        this.financialDocumentTypeCode = financialDocumentTypeCode;
+    }
 
 
-	/**
-	 * Gets the chartOfAccounts attribute.
-	 * 
-	 * @return - Returns the chartOfAccounts
-	 * 
-	 */
-	public Chart getChartOfAccounts() { 
-		return chartOfAccounts;
-	}
+    /**
+     * Gets the approvalFromThisAmount attribute.
+     * 
+     * @return - Returns the approvalFromThisAmount
+     * 
+     */
+    public KualiDecimal getApprovalFromThisAmount() {
+        return approvalFromThisAmount;
+    }
 
-	/**
-	 * Sets the chartOfAccounts attribute.
-	 * 
-	 * @param - chartOfAccounts The chartOfAccounts to set.
-	 * @deprecated
-	 */
-	public void setChartOfAccounts(Chart chartOfAccounts) {
-		this.chartOfAccounts = chartOfAccounts;
-	}
+    /**
+     * Sets the approvalFromThisAmount attribute.
+     * 
+     * @param - approvalFromThisAmount The approvalFromThisAmount to set.
+     * 
+     */
+    public void setApprovalFromThisAmount(KualiDecimal approvalFromThisAmount) {
+        this.approvalFromThisAmount = approvalFromThisAmount;
+    }
 
-	/**
-	 * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
+
+    /**
+     * Gets the approvalToThisAmount attribute.
+     * 
+     * @return - Returns the approvalToThisAmount
+     * 
+     */
+    public KualiDecimal getApprovalToThisAmount() {
+        return approvalToThisAmount;
+    }
+
+    /**
+     * Sets the approvalToThisAmount attribute.
+     * 
+     * @param - approvalToThisAmount The approvalToThisAmount to set.
+     * 
+     */
+    public void setApprovalToThisAmount(KualiDecimal approvalToThisAmount) {
+        this.approvalToThisAmount = approvalToThisAmount;
+    }
+
+
+    /**
+     * Gets the accountDelegatePrimaryRoutingCode attribute.
+     * 
+     * @return - Returns the accountDelegatePrimaryRoutingCode
+     * 
+     */
+    public String getAccountDelegatePrimaryRoutingCode() {
+        return accountDelegatePrimaryRoutingCode;
+    }
+
+    /**
+     * Sets the accountDelegatePrimaryRoutingCode attribute.
+     * 
+     * @param - accountDelegatePrimaryRoutingCode The accountDelegatePrimaryRoutingCode to set.
+     * 
+     */
+    public void setAccountDelegatePrimaryRoutingCode(String accountDelegatePrimaryRoutingCode) {
+        this.accountDelegatePrimaryRoutingCode = accountDelegatePrimaryRoutingCode;
+    }
+
+
+    /**
+     * Gets the accountDelegateStartDate attribute.
+     * 
+     * @return - Returns the accountDelegateStartDate
+     * 
+     */
+    public Date getAccountDelegateStartDate() {
+        return accountDelegateStartDate;
+    }
+
+    /**
+     * Sets the accountDelegateStartDate attribute.
+     * 
+     * @param - accountDelegateStartDate The accountDelegateStartDate to set.
+     * 
+     */
+    public void setAccountDelegateStartDate(Date accountDelegateStartDate) {
+        this.accountDelegateStartDate = accountDelegateStartDate;
+    }
+
+
+    /**
+     * Gets the chartOfAccounts attribute.
+     * 
+     * @return - Returns the chartOfAccounts
+     * 
+     */
+    public Chart getChartOfAccounts() {
+        return chartOfAccounts;
+    }
+
+    /**
+     * Sets the chartOfAccounts attribute.
+     * 
+     * @param - chartOfAccounts The chartOfAccounts to set.
+     * @deprecated
+     */
+    public void setChartOfAccounts(Chart chartOfAccounts) {
+        this.chartOfAccounts = chartOfAccounts;
+    }
+
+    /**
+     * @see org.kuali.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
         m.put("chartOfAccountsCode", this.chartOfAccountsCode);
         m.put("organizationCode", this.organizationCode);
         m.put("organizationRoutingModelName", this.organizationRoutingModelName);
         m.put("accountDelegateUniversalId", this.accountDelegateUniversalId);
         m.put("financialDocumentTypeCode", this.financialDocumentTypeCode);
-	    return m;
+        return m;
     }
 }

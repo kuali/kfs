@@ -56,8 +56,7 @@ public class SufficientFundsRebuilderServiceTest extends KualiTestBaseWithSpring
 
         beanFactory = SpringServiceLocator.getBeanFactory();
 
-        sufficientFundsRebuilderService = (SufficientFundsRebuilderService) beanFactory
-                .getBean("glSufficientFundsRebuilderService");
+        sufficientFundsRebuilderService = (SufficientFundsRebuilderService) beanFactory.getBean("glSufficientFundsRebuilderService");
         sufficientFundRebuildDao = (SufficientFundRebuildDao) beanFactory.getBean("glSufficientFundRebuildDao");
         sufficientFundBalancesDao = (SufficientFundBalancesDao) beanFactory.getBean("glSufficientFundBalancesDao");
         persistenceService = (PersistenceService) beanFactory.getBean("persistenceService");
@@ -70,15 +69,7 @@ public class SufficientFundsRebuilderServiceTest extends KualiTestBaseWithSpring
 
     // testAddedSFBLRecords
     public void testConversion() throws Exception {
-        String[] expectedOutput = new String[] {
-            "2004BL2220090    H                1                1                1",
-            "2004BL2231406PRINL                0           180.35                0",
-            "2004BL2231406S&E L            12000             9.55                0",
-            "2004BL2231406TRAVL                0           2558.9                0",
-            "2004BL2231407GENXC                1                1                1",
-            "2004BL22314084938O                0           348.27                0",
-            "2004BL22314085215O                0              100                0"
-          };
+        String[] expectedOutput = new String[] { "2004BL2220090    H                1                1                1", "2004BL2231406PRINL                0           180.35                0", "2004BL2231406S&E L            12000             9.55                0", "2004BL2231406TRAVL                0           2558.9                0", "2004BL2231407GENXC                1                1                1", "2004BL22314084938O                0           348.27                0", "2004BL22314085215O                0              100                0" };
 
         clearSufficientFundBalanceTable();
         clearSufficientFundRebuildTable();
@@ -92,16 +83,7 @@ public class SufficientFundsRebuilderServiceTest extends KualiTestBaseWithSpring
 
     // testAddedSFBLRecords
     public void testAddedSFBLRecords() throws Exception {
-        String[] expectedOutput = new String[] {
-            "2004BL2220090    H         10756.57                0            503.5",
-            "2004BL2231406PRINL                0           180.35                0",
-            "2004BL2231406S&E L            12000             9.55                0",
-            "2004BL2231406TRAVL                0           2558.9                0",
-            "2004BL2231407GENXC                0          -984.12                0",
-            "2004BL22314084938O                0           348.27                0",
-            "2004BL22314085215O                0              100                0",
-            "2004BL2231415    A            12000           2748.8                0"
-          };
+        String[] expectedOutput = new String[] { "2004BL2220090    H         10756.57                0            503.5", "2004BL2231406PRINL                0           180.35                0", "2004BL2231406S&E L            12000             9.55                0", "2004BL2231406TRAVL                0           2558.9                0", "2004BL2231407GENXC                0          -984.12                0", "2004BL22314084938O                0           348.27                0", "2004BL22314085215O                0              100                0", "2004BL2231415    A            12000           2748.8                0" };
 
         clearSufficientFundBalanceTable();
         clearSufficientFundRebuildTable();
@@ -155,28 +137,27 @@ public class SufficientFundsRebuilderServiceTest extends KualiTestBaseWithSpring
      */
     protected void assertSFRBEmpty() {
         List l = unitTestSqlDao.sqlSelect("select * from GL_SF_REBUILD_T");
-        assertEquals("GL_SF_REBUILD_T should be empty",0,l.size());
+        assertEquals("GL_SF_REBUILD_T should be empty", 0, l.size());
     }
-    
+
     /**
-     * Check all the entries in gl_sf_balances_t against the data passed in.  If any of them
-     * are different, assert an error.
+     * Check all the entries in gl_sf_balances_t against the data passed in. If any of them are different, assert an error.
      * 
      * @param requiredSFBLs
      */
     protected void assertSFBLEntries(String[] requiredSFBLs) {
-        
+
         Collection c = sufficientFundBalancesDao.testingGetAllEntries();
         assertEquals("Wrong number of SFBL", requiredSFBLs.length, c.size());
 
         if (requiredSFBLs.length == c.size()) {
             int count = 0;
             for (Iterator iter = c.iterator(); iter.hasNext();) {
-                SufficientFundBalances foundSFBL = (SufficientFundBalances)iter.next();
-                if ( ! requiredSFBLs[count].equals(foundSFBL.getLine()) ) {
-                  System.err.println("Found:     " + foundSFBL.getLine());
-                  System.err.println("Should be: " + requiredSFBLs[count]);
-                  fail("SF balance doesn't match");
+                SufficientFundBalances foundSFBL = (SufficientFundBalances) iter.next();
+                if (!requiredSFBLs[count].equals(foundSFBL.getLine())) {
+                    System.err.println("Found:     " + foundSFBL.getLine());
+                    System.err.println("Should be: " + requiredSFBLs[count]);
+                    fail("SF balance doesn't match");
                 }
                 ++count;
             }
@@ -194,13 +175,13 @@ public class SufficientFundsRebuilderServiceTest extends KualiTestBaseWithSpring
         unitTestSqlDao.sqlCommand("insert into GL_SF_REBUILD_T (fin_coa_cd,acct_fobj_typ_cd,acct_nbr_fobj_cd,obj_id,ver_nbr) values ('BL','A','2231415',sys_guid(),1)");
     }
 
-    private void populateGLSFRebuildTableForConversion() {    
+    private void populateGLSFRebuildTableForConversion() {
         unitTestSqlDao.sqlCommand("delete from GL_SF_REBUILD_T");
         unitTestSqlDao.sqlCommand("insert into GL_SF_REBUILD_T (fin_coa_cd,acct_fobj_typ_cd,acct_nbr_fobj_cd,obj_id,ver_nbr) values ('BL','O','PRIN',sys_guid(),1)");
         unitTestSqlDao.sqlCommand("insert into GL_SF_REBUILD_T (fin_coa_cd,acct_fobj_typ_cd,acct_nbr_fobj_cd,obj_id,ver_nbr) values ('BL','O','4938',sys_guid(),1)");
     }
 
-    private void populateGLSFBalanceTableForConversion() {    
+    private void populateGLSFBalanceTableForConversion() {
         unitTestSqlDao.sqlCommand("delete from GL_SF_BALANCES_T");
         unitTestSqlDao.sqlCommand("insert into GL_SF_BALANCES_T (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, FIN_OBJECT_CD, OBJ_ID, VER_NBR, ACCT_SF_CD, CURR_BDGT_BAL_AMT, ACCT_ACTL_XPND_AMT, ACCT_ENCUM_AMT) values ('2004','BL','2220090','    ',sys_guid(),1,'H',1,1,1)");
         unitTestSqlDao.sqlCommand("insert into GL_SF_BALANCES_T (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, FIN_OBJECT_CD, OBJ_ID, VER_NBR, ACCT_SF_CD, CURR_BDGT_BAL_AMT, ACCT_ACTL_XPND_AMT, ACCT_ENCUM_AMT) values ('2004','BL','2231406','PRIN',sys_guid(),1,'L',1,1,1)");

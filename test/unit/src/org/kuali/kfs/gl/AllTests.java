@@ -43,46 +43,46 @@ import org.kuali.module.gl.util.GLFlexibleAccountServiceTest;
 
 /**
  * @author jsissom
- *
+ * 
  */
 public class AllTests {
 
-  public AllTests() {
-    super();
-  }
+    public AllTests() {
+        super();
+    }
 
-  public static Test suite() {
-    TestSuite suite = new TestSuite();
+    public static Test suite() {
+        TestSuite suite = new TestSuite();
 
-    // org.kuali.module.gl.batch
-    suite.addTestSuite(PurgeTest.class);
+        // org.kuali.module.gl.batch
+        suite.addTestSuite(PurgeTest.class);
 
-    // org.kuali.module.gl.bo
-    suite.addTestSuite(OriginEntryTest.class);
+        // org.kuali.module.gl.bo
+        suite.addTestSuite(OriginEntryTest.class);
 
-    // org.kuali.module.gl.dao.ojb
-    suite.addTestSuite(SufficientFundsDaoTest.class);
-    suite.addTestSuite(TestUniversityDateDao.class);
-    suite.addTestSuite(TestUnitTestSqlDao.class);
+        // org.kuali.module.gl.dao.ojb
+        suite.addTestSuite(SufficientFundsDaoTest.class);
+        suite.addTestSuite(TestUniversityDateDao.class);
+        suite.addTestSuite(TestUnitTestSqlDao.class);
 
-    // org.kuali.module.gl.service
-    suite.addTestSuite(GeneralLedgerPendingEntryServiceTest.class);
-    suite.addTestSuite(NightlyOutServiceTest.class);
-    suite.addTestSuite(PosterServiceTest.class);
-    suite.addTestSuite(ScrubberFlexibleOffsetTest.class);
-    suite.addTestSuite(ScrubberServiceTest.class);
-    suite.addTestSuite(SufficientFundRebuildServiceTest.class);
-    suite.addTestSuite(SufficientFundsRebuilderServiceTest.class);
-    suite.addTestSuite(SufficientFundsServiceTest.class);
+        // org.kuali.module.gl.service
+        suite.addTestSuite(GeneralLedgerPendingEntryServiceTest.class);
+        suite.addTestSuite(NightlyOutServiceTest.class);
+        suite.addTestSuite(PosterServiceTest.class);
+        suite.addTestSuite(ScrubberFlexibleOffsetTest.class);
+        suite.addTestSuite(ScrubberServiceTest.class);
+        suite.addTestSuite(SufficientFundRebuildServiceTest.class);
+        suite.addTestSuite(SufficientFundsRebuilderServiceTest.class);
+        suite.addTestSuite(SufficientFundsServiceTest.class);
 
-    // org.kuali.module.gl.util
-    suite.addTestSuite(BusinessObjectHandlerTest.class);
-    suite.addTestSuite(GLFlexibleAccountServiceTest.class);
- 
-    return suite;
-  }
+        // org.kuali.module.gl.util
+        suite.addTestSuite(BusinessObjectHandlerTest.class);
+        suite.addTestSuite(GLFlexibleAccountServiceTest.class);
 
-  public static void main(String[] args) {
-    junit.textui.TestRunner.run(suite());
-  }
+        return suite;
+    }
+
+    public static void main(String[] args) {
+        junit.textui.TestRunner.run(suite());
+    }
 }

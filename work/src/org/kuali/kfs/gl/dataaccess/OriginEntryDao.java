@@ -32,7 +32,7 @@ import org.kuali.module.gl.bo.OriginEntryGroup;
 
 /**
  * @author jsissom
- * @version $Id: OriginEntryDao.java,v 1.10 2006-06-14 01:40:29 schoo Exp $
+ * @version $Id: OriginEntryDao.java,v 1.11 2006-06-14 12:26:54 abyrne Exp $
  */
 public interface OriginEntryDao {
     /**
@@ -86,32 +86,32 @@ public interface OriginEntryDao {
      * 
      * @param entry entry to save
      */
-	public void saveOriginEntry(OriginEntry entry);
-    
-    
-    
+    public void saveOriginEntry(OriginEntry entry);
+
+
     public OriginEntry getExactMatchingEntry(Integer entryId);
-   
+
     /**
-     * This method should only be used in unit tests.  It loads all the 
-     * gl_origin_entry_t rows in memory into a collection.  This won't 
-     * scale for production.
+     * This method should only be used in unit tests. It loads all the gl_origin_entry_t rows in memory into a collection. This
+     * won't scale for production.
      * 
      * @return
      */
     public Collection testingGetAllEntries();
-    
+
     /**
      * get the summarized information of the entries that belong to an entry group with the given group id
+     * 
      * @param groupId the id of a origin entry group
-     * @return a set of summarized information of the entries within the specified group 
+     * @return a set of summarized information of the entries within the specified group
      */
     public Iterator getSummaryByGroupId(Integer groupId);
-    
+
     /**
      * get the summarized information of the entries that belong to the entry groups with the given group ids
+     * 
      * @param groupIdList the ids of origin entry groups
-     * @return a set of summarized information of the entries within the specified groups 
+     * @return a set of summarized information of the entries within the specified groups
      */
     public Iterator getSummaryByGroupId(List groupIdList);
 }

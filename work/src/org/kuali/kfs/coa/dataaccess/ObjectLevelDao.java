@@ -26,8 +26,9 @@ import org.kuali.module.chart.bo.ObjLevel;
 
 /**
  * This interface defines basic methods that ObjLevel Dao's must provide
+ * 
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
-*/
+ */
 public interface ObjectLevelDao {
-    public ObjLevel  getByPrimaryId(String chartOfAccountsCode, String objectLevelCode);
+    public ObjLevel getByPrimaryId(String chartOfAccountsCode, String objectLevelCode);
 }

@@ -80,8 +80,8 @@ public class AccountServiceImpl implements AccountService {
     }
 
     /**
-     * get all accounts in the system.  This is needed
-     * by a sufficient funds rebuilder job
+     * get all accounts in the system. This is needed by a sufficient funds rebuilder job
+     * 
      * @return iterator of all accounts
      */
     public Iterator getAllAccounts() {

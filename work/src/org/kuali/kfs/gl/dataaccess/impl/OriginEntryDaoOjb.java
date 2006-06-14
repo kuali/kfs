@@ -41,7 +41,7 @@ import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 /**
  * @author jsissom
  * @author Laran Evans <lc278@cornell.edu>
- * @version $Id: OriginEntryDaoOjb.java,v 1.21 2006-06-14 01:53:46 schoo Exp $
+ * @version $Id: OriginEntryDaoOjb.java,v 1.22 2006-06-14 12:26:34 abyrne Exp $
  */
 
 public class OriginEntryDaoOjb extends PersistenceBrokerDaoSupport implements OriginEntryDao {
@@ -98,8 +98,7 @@ public class OriginEntryDaoOjb extends PersistenceBrokerDaoSupport implements Or
     }
 
     /**
-     * This method is special because of the order by.  It is used in
-     * the scrubber.  The getMatchingEntries wouldn't work because of 
+     * This method is special because of the order by. It is used in the scrubber. The getMatchingEntries wouldn't work because of
      * the required order by.
      * 
      */
@@ -121,7 +120,7 @@ public class OriginEntryDaoOjb extends PersistenceBrokerDaoSupport implements Or
         qbc.addOrderByAscending("universityFiscalPeriodCode");
         qbc.addOrderByAscending("universityFiscalYear");
 
-        // The above order by fields are required by the scrubber process.  Adding this
+        // The above order by fields are required by the scrubber process. Adding this
         // field makes the data in the exact same order as the COBOL scrubber.
         qbc.addOrderByAscending("financialObjectCode");
         return getPersistenceBrokerTemplate().getIteratorByQuery(qbc);
@@ -148,8 +147,7 @@ public class OriginEntryDaoOjb extends PersistenceBrokerDaoSupport implements Or
     public void saveOriginEntry(OriginEntry entry) {
         LOG.debug("saveOriginEntry() started");
 
-        if ( (entry != null) && (entry.getTransactionLedgerEntryDescription() != null)
-                && (entry.getTransactionLedgerEntryDescription().length() > 40) ) {
+        if ((entry != null) && (entry.getTransactionLedgerEntryDescription() != null) && (entry.getTransactionLedgerEntryDescription().length() > 40)) {
             entry.setTransactionLedgerEntryDescription(entry.getTransactionLedgerEntryDescription().substring(0, 40));
         }
         getPersistenceBrokerTemplate().store(entry);
@@ -173,7 +171,7 @@ public class OriginEntryDaoOjb extends PersistenceBrokerDaoSupport implements Or
         getPersistenceBrokerTemplate().deleteByQuery(qbc);
 
         // This is required because deleteByQuery leaves the cache alone so future queries
-        // could return origin entries that don't exist.  Clearing the cache makes OJB
+        // could return origin entries that don't exist. Clearing the cache makes OJB
         // go back to the database for everything to make sure valid data is returned.
         getPersistenceBrokerTemplate().clearCache();
     }
@@ -196,7 +194,7 @@ public class OriginEntryDaoOjb extends PersistenceBrokerDaoSupport implements Or
      * @see org.kuali.module.gl.dao.OriginEntryDao#getSummaryByGroupId(java.lang.Integer)
      */
     public Iterator getSummaryByGroupId(Integer groupId) {
-        
+
         Criteria criteria = new Criteria();
         criteria.addEqualTo(PropertyConstants.ENTRY_GROUP_ID, groupId);
 
@@ -204,7 +202,7 @@ public class OriginEntryDaoOjb extends PersistenceBrokerDaoSupport implements Or
 
         List attributeList = buildAttributeList();
         List groupList = buildGroupList();
-        
+
         // set the selection attributes
         String[] attributes = (String[]) attributeList.toArray(new String[attributeList.size()]);
         query.setAttributes(attributes);
@@ -212,15 +210,15 @@ public class OriginEntryDaoOjb extends PersistenceBrokerDaoSupport implements Or
         // add the group criteria into the selection statement
         String[] groupBy = (String[]) groupList.toArray(new String[groupList.size()]);
         query.addGroupBy(groupBy);
-        
+
         // add the sorting criteria
-        for(int i = 0; i<groupBy.length; i++){
+        for (int i = 0; i < groupBy.length; i++) {
             query.addOrderByAscending(groupBy[i]);
         }
 
         return getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
-    } 
-    
+    }
+
     /**
      * @see org.kuali.module.gl.dao.OriginEntryDao#getSummaryByGroupId(java.util.List)
      */
@@ -232,7 +230,7 @@ public class OriginEntryDaoOjb extends PersistenceBrokerDaoSupport implements Or
 
         List attributeList = buildAttributeList();
         List groupList = buildGroupList();
-        
+
         // set the selection attributes
         String[] attributes = (String[]) attributeList.toArray(new String[attributeList.size()]);
         query.setAttributes(attributes);
@@ -240,24 +238,24 @@ public class OriginEntryDaoOjb extends PersistenceBrokerDaoSupport implements Or
         // add the group criteria into the selection statement
         String[] groupBy = (String[]) groupList.toArray(new String[groupList.size()]);
         query.addGroupBy(groupBy);
-        
+
         // add the sorting criteria
-        for(int i = 0; i<groupBy.length; i++){
+        for (int i = 0; i < groupBy.length; i++) {
             query.addOrderByAscending(groupBy[i]);
         }
 
         return getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
     }
-    
-    private List buildAttributeList(){
+
+    private List buildAttributeList() {
         List attributeList = this.buildGroupList();
-        
+
         attributeList.add("sum(" + PropertyConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT + ")");
         attributeList.add("count(" + PropertyConstants.TRANSACTION_DEBIT_CREDIT_CODE + ")");
         return attributeList;
     }
-    
-    private List buildGroupList(){
+
+    private List buildGroupList() {
         List attributeList = new ArrayList();
 
         attributeList.add(PropertyConstants.UNIVERSITY_FISCAL_YEAR);
@@ -268,7 +266,7 @@ public class OriginEntryDaoOjb extends PersistenceBrokerDaoSupport implements Or
 
         return attributeList;
     }
-    
+
     public OriginEntry getExactMatchingEntry(Integer entryId) {
         LOG.debug("getMatchingEntries() started");
         return (OriginEntry) getPersistenceBrokerTemplate().getObjectById(OriginEntry.class, entryId);

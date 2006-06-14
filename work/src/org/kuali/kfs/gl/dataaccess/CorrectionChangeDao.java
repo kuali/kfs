@@ -27,7 +27,9 @@ import java.util.Collection;
 import org.kuali.module.gl.bo.CorrectionChange;
 
 public interface CorrectionChangeDao {
-	void save(CorrectionChange spec);
-	void delete(CorrectionChange spec);
-	Collection findByDocumentHeaderIdAndCorrectionGroupNumber(Integer documentHeaderId, Integer correctionGroupNumber);
+    void save(CorrectionChange spec);
+
+    void delete(CorrectionChange spec);
+
+    Collection findByDocumentHeaderIdAndCorrectionGroupNumber(Integer documentHeaderId, Integer correctionGroupNumber);
 }

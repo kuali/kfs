@@ -29,11 +29,14 @@ import org.kuali.module.gl.bo.Transaction;
 
 /**
  * @author jsissom
- *
+ * 
  */
 public interface ExpenditureTransactionDao {
-  public ExpenditureTransaction getByTransaction(Transaction t);
-  public Iterator getAllExpenditureTransactions();
-  public void delete(ExpenditureTransaction et);
-  public void save(ExpenditureTransaction et);
+    public ExpenditureTransaction getByTransaction(Transaction t);
+
+    public Iterator getAllExpenditureTransactions();
+
+    public void delete(ExpenditureTransaction et);
+
+    public void save(ExpenditureTransaction et);
 }

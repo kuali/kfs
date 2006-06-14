@@ -37,14 +37,14 @@ public class BankAccountRule extends MaintenanceDocumentRuleBase {
 
     BankAccount oldBankAccount;
     BankAccount newBankAccount;
-    
+
     /**
      * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
      */
     protected boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
-        //default to success
+        // default to success
         boolean success = true;
-        
+
         success &= checkPartiallyFilledOutReferences();
         success &= checkSubObjectCodeExistence();
         return success;
@@ -55,9 +55,9 @@ public class BankAccountRule extends MaintenanceDocumentRuleBase {
      * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
      */
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
-        //default to success
+        // default to success
         boolean success = true;
-        
+
         success &= checkPartiallyFilledOutReferences();
         success &= checkSubObjectCodeExistence();
         return success;
@@ -72,28 +72,27 @@ public class BankAccountRule extends MaintenanceDocumentRuleBase {
         checkSubObjectCodeExistence();
         return true;
     }
-    
+
     /**
      * 
-     * This method sets the convenience objects like newAccount and oldAccount, so you
-     * have short and easy handles to the new and old objects contained in the 
-     * maintenance document.
+     * This method sets the convenience objects like newAccount and oldAccount, so you have short and easy handles to the new and
+     * old objects contained in the maintenance document.
      * 
-     * It also calls the BusinessObjectBase.refresh(), which will attempt to load 
-     * all sub-objects from the DB by their primary keys, if available.
+     * It also calls the BusinessObjectBase.refresh(), which will attempt to load all sub-objects from the DB by their primary keys,
+     * if available.
      * 
      * @param document - the maintenanceDocument being evaluated
      * 
      */
     public void setupConvenienceObjects() {
-        
-        //  setup oldAccount convenience objects, make sure all possible sub-objects are populated
+
+        // setup oldAccount convenience objects, make sure all possible sub-objects are populated
         oldBankAccount = (BankAccount) super.getOldBo();
 
-        //  setup newAccount convenience objects, make sure all possible sub-objects are populated
+        // setup newAccount convenience objects, make sure all possible sub-objects are populated
         newBankAccount = (BankAccount) super.getNewBo();
     }
-    
+
     /**
      * 
      * This method checks for partially filled out objects.
@@ -102,25 +101,26 @@ public class BankAccountRule extends MaintenanceDocumentRuleBase {
      * @return
      */
     private boolean checkPartiallyFilledOutReferences() {
-        
+
         boolean success = true;
-        
+
         success &= checkForPartiallyFilledOutReferenceForeignKeys("universityAccount");
         success &= checkForPartiallyFilledOutReferenceForeignKeys("cashOffsetAccount");
         return success;
     }
-    
+
     /**
      * 
      * This method validates that the Cash Offset subObjectCode exists, if it is entered
+     * 
      * @param document
      * @return
      */
     private boolean checkSubObjectCodeExistence() {
-        
+
         boolean success = true;
-        
-        //  if all of the relevant values arent entered, dont bother
+
+        // if all of the relevant values arent entered, dont bother
         if (StringUtils.isBlank(newBankAccount.getCashOffsetFinancialChartOfAccountCode())) {
             return success;
         }
@@ -133,71 +133,69 @@ public class BankAccountRule extends MaintenanceDocumentRuleBase {
         if (StringUtils.isBlank(newBankAccount.getCashOffsetSubObjectCode())) {
             return success;
         }
-        
-        //  setup the map to search on
+
+        // setup the map to search on
         Map pkMap = new HashMap();
         pkMap.put("universityFiscalYear", getDateTimeService().getCurrentFiscalYear());
         pkMap.put("chartOfAccountsCode", newBankAccount.getCashOffsetFinancialChartOfAccountCode());
         pkMap.put("accountNumber", newBankAccount.getCashOffsetAccountNumber());
         pkMap.put("financialObjectCode", newBankAccount.getCashOffsetObjectCode());
         pkMap.put("financialSubObjectCode", newBankAccount.getCashOffsetSubObjectCode());
-        
-        //  do the search
+
+        // do the search
         SubObjCd testSubObjCd = (SubObjCd) getBoService().findByPrimaryKey(SubObjCd.class, pkMap);
-        
-        //  fail if the subObjectCode isnt found
+
+        // fail if the subObjectCode isnt found
         if (testSubObjCd == null) {
-            putFieldError("cashOffsetSubObjectCode", 
-                    KeyConstants.ERROR_EXISTENCE, 
-                    getDdService().getAttributeLabel(BankAccount.class, "cashOffsetSubObjectCode"));
+            putFieldError("cashOffsetSubObjectCode", KeyConstants.ERROR_EXISTENCE, getDdService().getAttributeLabel(BankAccount.class, "cashOffsetSubObjectCode"));
             success &= false;
         }
-        
+
         return success;
     }
-    
-    //  this method has been taken out of service to be replaced by the 
+
+    // this method has been taken out of service to be replaced by the
     // defaultExistenceChecks happening through the BankAccountMaintenanceDocument.xml
     private boolean checkSubObjectExistence(MaintenanceDocument document) {
-        //default to success
-        boolean success = true; 
-        BankAccount newBankAcct = (BankAccount)document.getNewMaintainableObject().getBusinessObject();
+        // default to success
+        boolean success = true;
+        BankAccount newBankAcct = (BankAccount) document.getNewMaintainableObject().getBusinessObject();
         newBankAcct.refresh();
-        //existence check on bank code
-        
-        
+        // existence check on bank code
+
+
         if (StringUtils.isNotEmpty(newBankAcct.getFinancialDocumentBankCode())) {
             if (ObjectUtils.isNull(newBankAcct.getBank())) {
                 success &= false;
                 putFieldError("financialDocumentBankCode", KeyConstants.ERROR_DOCUMENT_BANKACCMAINT_INVALID_BANK);
-            } 
+            }
         }
-        
-        
-        //existence check on organization if data was entered
-        if(StringUtils.isNotEmpty(newBankAcct.getChartOfAccountsCode()) &&
-                StringUtils.isNotEmpty(newBankAcct.getOrganizationCode())) {
+
+
+        // existence check on organization if data was entered
+        if (StringUtils.isNotEmpty(newBankAcct.getChartOfAccountsCode()) && StringUtils.isNotEmpty(newBankAcct.getOrganizationCode())) {
             if (ObjectUtils.isNull(newBankAcct.getOrganization())) {
                 success &= false;
                 putFieldError("organizationCode", KeyConstants.ERROR_DOCUMENT_BANKACCMAINT_INVALID_ORG);
-            } else if(!newBankAcct.getOrganization().isOrganizationActiveIndicator()){
+            }
+            else if (!newBankAcct.getOrganization().isOrganizationActiveIndicator()) {
                 success &= false;
                 putFieldError("organizationCode", KeyConstants.ERROR_DOCUMENT_BANKACCMAINT_INACTIVE_ORG);
             }
         }
-        
-        //existence check on university account if data was entered
-        if(StringUtils.isNotEmpty(newBankAcct.getUniversityAcctChartOfAcctCd()) &&
-                StringUtils.isNotEmpty(newBankAcct.getUniversityAccountNumber())) {
+
+        // existence check on university account if data was entered
+        if (StringUtils.isNotEmpty(newBankAcct.getUniversityAcctChartOfAcctCd()) && StringUtils.isNotEmpty(newBankAcct.getUniversityAccountNumber())) {
             if (ObjectUtils.isNull(newBankAcct.getUniversityAccount())) {
                 success &= false;
                 putFieldError("universityAccountNumber", KeyConstants.ERROR_DOCUMENT_BANKACCMAINT_INVALID_UNIV_ACCT);
-            } else if(newBankAcct.getUniversityAccount().isAccountClosedIndicator()){
+            }
+            else if (newBankAcct.getUniversityAccount().isAccountClosedIndicator()) {
                 success &= false;
                 putFieldError("universityAccountNumber", KeyConstants.ERROR_DOCUMENT_BANKACCMAINT_INACTIVE_UNIV_ACCT);
             }
         }
-        
+
         return success;
     }
 

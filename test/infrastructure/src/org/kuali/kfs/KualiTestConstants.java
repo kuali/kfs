@@ -41,7 +41,7 @@ public interface KualiTestConstants {
         private static final String HOST = "localhost";
         private static final String PORT = "8080";
         public static final String BASE_PATH = "http://" + HOST + ":" + PORT + "/";
-public static final String MESSAGE="JUNIT test entry. If this exist after the tests are not cleaning up correctly. Created by class";
+        public static final String MESSAGE = "JUNIT test entry. If this exist after the tests are not cleaning up correctly. Created by class";
 
         /**
          * group of data values that should work if used togther
@@ -87,8 +87,8 @@ public static final String MESSAGE="JUNIT test entry. If this exist after the te
             public static final String BILLIING_ITEM_STOCK_NUMBER = "M000";
             public static final Double BILLING_ITEM_UNIT_AMOUNT = new Double("2.0");
             public static final String BILLING_ITEM_UNIT_OF_MEASUREMENT_CODE = "hd";
-            public static final Integer POSTING_YEAR=new Integer(2004);
-            public static final Integer SEQUENCE_NUMBER=new Integer(1);
+            public static final Integer POSTING_YEAR = new Integer(2004);
+            public static final Integer SEQUENCE_NUMBER = new Integer(1);
         }
 
         public static class Data4 {
@@ -119,16 +119,17 @@ public static final String MESSAGE="JUNIT test entry. If this exist after the te
             public static final String USER_ID1 = "VPUTMAN";
             public static final String USER_ID2 = "KHUNTLEY";
         }
-        public static class Data5{
-            public static final String BUDGET_AGGREGATION_CODE1="O";
+
+        public static class Data5 {
+            public static final String BUDGET_AGGREGATION_CODE1 = "O";
             public static final String BUDGET_AGGREGATION_NAME1 = "Object";
-            public static final String BUDGET_AGGREGATION_CODE2="L";
-            public static final String BUDGET_AGGREGATION_NAME2= "Object Level";
-            
-            public static final String FEDERAL_FUNDED_CODE1="F";
-            public static final String FEDERAL_FUNDED_NAME1="Federally funded and owned";
-            public static final String FEDERAL_FUNDED_CODE_BAD="A";
-            public static final String FEDERAL_FUNDED_NAME_BAD="This is a bad code name";
+            public static final String BUDGET_AGGREGATION_CODE2 = "L";
+            public static final String BUDGET_AGGREGATION_NAME2 = "Object Level";
+
+            public static final String FEDERAL_FUNDED_CODE1 = "F";
+            public static final String FEDERAL_FUNDED_NAME1 = "Federally funded and owned";
+            public static final String FEDERAL_FUNDED_CODE_BAD = "A";
+            public static final String FEDERAL_FUNDED_NAME_BAD = "This is a bad code name";
         }
     }
 }

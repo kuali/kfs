@@ -37,81 +37,82 @@ import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 /**
  * @author jsissom
- *
+ * 
  */
 public class EntryDaoOjb extends PersistenceBrokerDaoSupport implements EntryDao {
-  private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EntryDaoOjb.class);
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EntryDaoOjb.class);
 
-  public EntryDaoOjb() {
-    super();
-  }
-
-  public void addEntry(Transaction t, Date postDate) {
-    LOG.debug("addEntry() started");
-
-    Entry e = new Entry(t,postDate);
-    LOG.debug("addEntry() Entry: " + e);
-
-    getPersistenceBrokerTemplate().store(e);
-  }
-
-  /**
-   * Find the maximum transactionLedgerEntrySequenceNumber in the entry table
-   * for a specific transaction.  This is used to make sure that rows
-   * added have a unique primary key.
-   */
-  public int getMaxSequenceNumber(Transaction t) {
-    LOG.debug("getSequenceNumber() ");
-
-    Criteria crit = new Criteria();
-    crit.addEqualTo("universityFiscalYear",t.getUniversityFiscalYear());
-    crit.addEqualTo("chartOfAccountsCode",t.getChartOfAccountsCode());
-    crit.addEqualTo("accountNumber",t.getAccountNumber());
-    crit.addEqualTo("subAccountNumber",t.getSubAccountNumber());
-    crit.addEqualTo("financialObjectCode",t.getFinancialObjectCode());
-    crit.addEqualTo("financialSubObjectCode",t.getFinancialSubObjectCode());
-    crit.addEqualTo("financialBalanceTypeCode",t.getFinancialBalanceTypeCode());
-    crit.addEqualTo("financialObjectTypeCode",t.getFinancialObjectTypeCode());
-    crit.addEqualTo("universityFiscalPeriodCode",t.getUniversityFiscalPeriodCode());
-    crit.addEqualTo("financialDocumentTypeCode",t.getFinancialDocumentTypeCode());
-    crit.addEqualTo("financialSystemOriginationCode",t.getFinancialSystemOriginationCode());
-    crit.addEqualTo("financialDocumentNumber",t.getFinancialDocumentNumber());
-
-    ReportQueryByCriteria q = QueryFactory.newReportQuery(Entry.class, crit);
-    q.setAttributes(new String[] { "max(transactionLedgerEntrySequenceNumber)" });
-
-    Iterator iter = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(q);
-    if ( iter.hasNext() ) {
-      Object[] data = (Object[])iter.next();
-      BigDecimal max = (BigDecimal)data[0]; // Don't know why OJB returns a BigDecimal, but it does
-      if ( max == null ) {
-        return 0;
-      } else {
-        return max.intValue();
-      }
-    } else {
-      return 0;
+    public EntryDaoOjb() {
+        super();
     }
-  }
 
-  /**
-   * Purge the entry table by chart/year
-   * 
-   * @param chart
-   * @param year
-   */
-  public void purgeYearByChart(String chartOfAccountsCode, int year) {
-    LOG.debug("purgeYearByChart() started");
+    public void addEntry(Transaction t, Date postDate) {
+        LOG.debug("addEntry() started");
 
-    Criteria criteria = new Criteria();
-    criteria.addEqualTo("chartOfAccountsCode", chartOfAccountsCode);
-    criteria.addLessThan("universityFiscalYear", new Integer(year));
+        Entry e = new Entry(t, postDate);
+        LOG.debug("addEntry() Entry: " + e);
 
-    getPersistenceBrokerTemplate().deleteByQuery(new QueryByCriteria(Entry.class,criteria));
+        getPersistenceBrokerTemplate().store(e);
+    }
 
-    // This is required because if any deleted rows are in the cache, deleteByQuery doesn't
-    // remove them from the cache so a future select will retrieve these deleted account balances from
-    // the cache and return them.  Clearing the cache forces OJB to go to the database again.
-    getPersistenceBrokerTemplate().clearCache();
-  }
+    /**
+     * Find the maximum transactionLedgerEntrySequenceNumber in the entry table for a specific transaction. This is used to make
+     * sure that rows added have a unique primary key.
+     */
+    public int getMaxSequenceNumber(Transaction t) {
+        LOG.debug("getSequenceNumber() ");
+
+        Criteria crit = new Criteria();
+        crit.addEqualTo("universityFiscalYear", t.getUniversityFiscalYear());
+        crit.addEqualTo("chartOfAccountsCode", t.getChartOfAccountsCode());
+        crit.addEqualTo("accountNumber", t.getAccountNumber());
+        crit.addEqualTo("subAccountNumber", t.getSubAccountNumber());
+        crit.addEqualTo("financialObjectCode", t.getFinancialObjectCode());
+        crit.addEqualTo("financialSubObjectCode", t.getFinancialSubObjectCode());
+        crit.addEqualTo("financialBalanceTypeCode", t.getFinancialBalanceTypeCode());
+        crit.addEqualTo("financialObjectTypeCode", t.getFinancialObjectTypeCode());
+        crit.addEqualTo("universityFiscalPeriodCode", t.getUniversityFiscalPeriodCode());
+        crit.addEqualTo("financialDocumentTypeCode", t.getFinancialDocumentTypeCode());
+        crit.addEqualTo("financialSystemOriginationCode", t.getFinancialSystemOriginationCode());
+        crit.addEqualTo("financialDocumentNumber", t.getFinancialDocumentNumber());
+
+        ReportQueryByCriteria q = QueryFactory.newReportQuery(Entry.class, crit);
+        q.setAttributes(new String[] { "max(transactionLedgerEntrySequenceNumber)" });
+
+        Iterator iter = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(q);
+        if (iter.hasNext()) {
+            Object[] data = (Object[]) iter.next();
+            BigDecimal max = (BigDecimal) data[0]; // Don't know why OJB returns a BigDecimal, but it does
+            if (max == null) {
+                return 0;
+            }
+            else {
+                return max.intValue();
+            }
+        }
+        else {
+            return 0;
+        }
+    }
+
+    /**
+     * Purge the entry table by chart/year
+     * 
+     * @param chart
+     * @param year
+     */
+    public void purgeYearByChart(String chartOfAccountsCode, int year) {
+        LOG.debug("purgeYearByChart() started");
+
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo("chartOfAccountsCode", chartOfAccountsCode);
+        criteria.addLessThan("universityFiscalYear", new Integer(year));
+
+        getPersistenceBrokerTemplate().deleteByQuery(new QueryByCriteria(Entry.class, criteria));
+
+        // This is required because if any deleted rows are in the cache, deleteByQuery doesn't
+        // remove them from the cache so a future select will retrieve these deleted account balances from
+        // the cache and return them. Clearing the cache forces OJB to go to the database again.
+        getPersistenceBrokerTemplate().clearCache();
+    }
 }

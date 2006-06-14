@@ -24,12 +24,11 @@ package org.kuali.module.financial.rules;
 
 /**
  * This class...
- *
+ * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public interface InternalBillingDocumentRuleConstants {
-    public static final String INTERNAL_BILLING_DOCUMENT_SECURITY_GROUPING
-        = "Kuali.FinancialTransactionProcessing.InternalBillingDocument";
+    public static final String INTERNAL_BILLING_DOCUMENT_SECURITY_GROUPING = "Kuali.FinancialTransactionProcessing.InternalBillingDocument";
     public static final String RESTRICTED_SUB_FUND_GROUP_CODES = "RestrictedSubFundGroupCodes";
     public static final String RESTRICTED_FUND_GROUP_CODES = "RestrictedFundGroupCodes";
     public static final String RESTRICTED_OBJECT_TYPE_CODES = "RestrictedObjectTypeCodes";

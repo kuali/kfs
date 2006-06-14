@@ -26,23 +26,23 @@ import org.kuali.core.batch.Step;
 import org.kuali.module.gl.service.SufficientFundsSyncService;
 
 public class SufficientFundsSyncStep implements Step {
-  private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SufficientFundsSyncStep.class);
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SufficientFundsSyncStep.class);
 
-  private SufficientFundsSyncService sufficientFundsSyncService;
+    private SufficientFundsSyncService sufficientFundsSyncService;
 
-  public boolean performStep() {
-    LOG.debug("performStep() started");
+    public boolean performStep() {
+        LOG.debug("performStep() started");
 
-    sufficientFundsSyncService.syncSufficientFunds();
+        sufficientFundsSyncService.syncSufficientFunds();
 
-    return true;
-  }
+        return true;
+    }
 
-  public String getName() {
-    return "Sufficient Funds Synchronization";
-  }
+    public String getName() {
+        return "Sufficient Funds Synchronization";
+    }
 
-  public void setSufficientFundsSyncService(SufficientFundsSyncService sfss) {
-    sufficientFundsSyncService = sfss;
-  }
+    public void setSufficientFundsSyncService(SufficientFundsSyncService sfss) {
+        sufficientFundsSyncService = sfss;
+    }
 }

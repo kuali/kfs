@@ -34,30 +34,30 @@ import org.kuali.test.KualiTestBaseWithFixtures;
 public class SubFundGroupServiceTest extends KualiTestBaseWithFixtures {
 
     SubFundGroupService subFundGroupService;
-    
+
     protected void setUp() throws Exception {
         super.setUp();
         subFundGroupService = SpringServiceLocator.getSubFundGroupService();
     }
 
     public final void testGetByCode_knownCode() {
-        //  known-good code
+        // known-good code
         SubFundGroup subFundGroup = subFundGroupService.getByPrimaryId("LOANFD");
         assertEquals("Known code does not produce expected name.", "LOAN FUNDS", subFundGroup.getSubFundGroupDescription());
     }
 
     public final void testGetByCode_knownCode2() {
-        //  known-good code
+        // known-good code
         SubFundGroup subFundGroup = subFundGroupService.getByPrimaryId("CLEAR");
         assertEquals("Known code does not produce expected name.", "CLEARING AND ROTATING FUNDS", subFundGroup.getSubFundGroupDescription());
     }
 
     public final void testGetByCode_unknownCode() {
-        //  known-bad code
+        // known-bad code
         SubFundGroup subFundGroup = subFundGroupService.getByPrimaryId("SMELL");
         assertNull("Known-bad code does not produce expected null object.", subFundGroup);
     }
-    
+
     public final void testGetByChartAndAccount() {
         String chartCode = "BL";
         String accountNumber = "1031420";
@@ -67,28 +67,28 @@ public class SubFundGroupServiceTest extends KualiTestBaseWithFixtures {
     }
 
     public final void testGetByName_knownName() {
-        //TODO: commented out, because there is no equivalent to getByName on regular business objects
-        //  known-good name
-        //subFundGroup = null;
-        //subFundGroup = (subFundGroup) kualiCodeService.getByName(subFundGroup.class, "LOAN FUNDS");
-        //assertEquals("Known code does not produce expected name.", "LOANFD", subFundGroup.getCode());
+        // TODO: commented out, because there is no equivalent to getByName on regular business objects
+        // known-good name
+        // subFundGroup = null;
+        // subFundGroup = (subFundGroup) kualiCodeService.getByName(subFundGroup.class, "LOAN FUNDS");
+        // assertEquals("Known code does not produce expected name.", "LOANFD", subFundGroup.getCode());
     }
 
     public final void testGetByName_knownName2() {
-        //TODO: commented out, because there is no equivalent to getByName on regular business objects
-        //  known-good name
-        //subFundGroup = null;
-        //subFundGroup = (subFundGroup) kualiCodeService.getByName(subFundGroup.class, "CLEARING AND ROTATING FUNDS");
-        //assertEquals("Known code does not produce expected name.", "CLEAR", subFundGroup.getCode());
-        //assertEquals("Known code's active indicator conversion failed.", true, subFundGroup.isActive());
-        //assertEquals("Known code's wage indicator conversion failed.", false, subFundGroup.isWageIndicator());
+        // TODO: commented out, because there is no equivalent to getByName on regular business objects
+        // known-good name
+        // subFundGroup = null;
+        // subFundGroup = (subFundGroup) kualiCodeService.getByName(subFundGroup.class, "CLEARING AND ROTATING FUNDS");
+        // assertEquals("Known code does not produce expected name.", "CLEAR", subFundGroup.getCode());
+        // assertEquals("Known code's active indicator conversion failed.", true, subFundGroup.isActive());
+        // assertEquals("Known code's wage indicator conversion failed.", false, subFundGroup.isWageIndicator());
     }
 
     public final void testGetByName_unknownName() {
-        //TODO: commented out, because there is no equivalent to getByName on regular business objects
-        //  known-bad name
-        //subFundGroup = null;
-        //subFundGroup = (subFundGroup) kualiCodeService.getByName(subFundGroup.class, "Smelly Cat");
-        //assertNull("Known-bad name does not produce expected null object.", subFundGroup);
+        // TODO: commented out, because there is no equivalent to getByName on regular business objects
+        // known-bad name
+        // subFundGroup = null;
+        // subFundGroup = (subFundGroup) kualiCodeService.getByName(subFundGroup.class, "Smelly Cat");
+        // assertNull("Known-bad name does not produce expected null object.", subFundGroup);
     }
 }

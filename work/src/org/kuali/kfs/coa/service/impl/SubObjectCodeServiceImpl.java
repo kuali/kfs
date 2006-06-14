@@ -27,20 +27,20 @@ import org.kuali.module.chart.dao.SubObjectCodeDao;
 import org.kuali.module.chart.service.SubObjectCodeService;
 
 /**
- * This class is the service implementation for the SubObjectCode structure.
- * This is the default implementation that gets delivered with Kuali.
+ * This class is the service implementation for the SubObjectCode structure. This is the default implementation that gets delivered
+ * with Kuali.
+ * 
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public class SubObjectCodeServiceImpl implements SubObjectCodeService {
     private SubObjectCodeDao subObjectCodeDao;
-    
+
     /**
-     * @see org.kuali.module.chart.service.SubObjectCodeService#getByPrimaryId(java.lang.Integer, java.lang.String, java.lang.String, java.lang.String, java.lang.String)
+     * @see org.kuali.module.chart.service.SubObjectCodeService#getByPrimaryId(java.lang.Integer, java.lang.String,
+     *      java.lang.String, java.lang.String, java.lang.String)
      */
-    public SubObjCd getByPrimaryId(Integer universityFiscalYear,
-            String chartOfAccountsCode, String accountNumber,
-            String financialObjectCode, String financialSubObjectCode) {
-        return subObjectCodeDao.getByPrimaryId(universityFiscalYear, chartOfAccountsCode,accountNumber, financialObjectCode, financialSubObjectCode);
+    public SubObjCd getByPrimaryId(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialObjectCode, String financialSubObjectCode) {
+        return subObjectCodeDao.getByPrimaryId(universityFiscalYear, chartOfAccountsCode, accountNumber, financialObjectCode, financialSubObjectCode);
     }
 
     /**
@@ -49,7 +49,7 @@ public class SubObjectCodeServiceImpl implements SubObjectCodeService {
     public SubObjectCodeDao getSubObjectCodeDao() {
         return subObjectCodeDao;
     }
-    
+
     /**
      * @param subObjectCodeDao The SubObjectCode object to set
      */

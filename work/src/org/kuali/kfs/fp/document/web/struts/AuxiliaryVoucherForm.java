@@ -22,18 +22,42 @@
  */
 package org.kuali.module.financial.web.struts.form;
 
+import java.sql.Timestamp;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.kuali.module.financial.document.AuxiliaryVoucherDocument;
+
+import static org.kuali.Constants.AuxiliaryVoucher.ACCRUAL_DOC_TYPE;
+import static org.kuali.Constants.AuxiliaryVoucher.ADJUSTMENT_DOC_TYPE;
+import static org.kuali.Constants.AuxiliaryVoucher.RECODE_DOC_TYPE;
 
 /**
  * This class...
- * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class AuxiliaryVoucherForm extends VoucherForm {
-
+	private static final Calendar calendar = new GregorianCalendar();
+    
     public AuxiliaryVoucherForm() {
         super();
         setDocument(new AuxiliaryVoucherDocument());
+    }
+    
+    /**
+     * Overrides the parent to call super.populate and then to call the two methods that are specific to loading the two select
+     * lists on the page.  In addition, this also makes sure that the credit and debit amounts are filled in for situations where 
+     * validation errors occur and the page reposts.
+     * 
+     * @see org.kuali.core.web.struts.pojo.PojoForm#populate(javax.servlet.http.HttpServletRequest)
+     */
+    public void populate(HttpServletRequest request) {
+        // populate the drop downs
+        super.populate(request);
+		calendar.setTime(new Timestamp(System.currentTimeMillis()));
+        populateReversalDateForRendering();
     }
 
     /**
@@ -45,8 +69,40 @@ public class AuxiliaryVoucherForm extends VoucherForm {
 
     /**
      * @param serviceBillingDocument The serviceBillingDocument to set.
-     */
+     */ 
     public void setAuxiliaryVoucherDocument(AuxiliaryVoucherDocument auxiliaryVoucherDocument) {
         setDocument(auxiliaryVoucherDocument);
+    }    
+
+	/**
+	 * Handles special case display rules for displaying Reversal Date at UI layer
+	 */
+	public void populateReversalDateForRendering() {
+		System.out.println("Doc type = " + getAuxiliaryVoucherDocument().getTypeCode());
+		Long now = System.currentTimeMillis();
+		calendar.setTimeInMillis(now);
+		if (getAuxiliaryVoucherDocument().getTypeCode().equals(ACCRUAL_DOC_TYPE) &&
+			(getAuxiliaryVoucherDocument().getReversalDate() == null || 
+			 calendar.after(getAuxiliaryVoucherDocument().getReversalDate()))) {
+			getAuxiliaryVoucherDocument().setReversalDate(new Timestamp(now));
+		}
+		else if (getAuxiliaryVoucherDocument().getTypeCode().equals(ADJUSTMENT_DOC_TYPE)) {
+			getAuxiliaryVoucherDocument().setReversalDate(null);
+		}
+		else if (getAuxiliaryVoucherDocument().getTypeCode().equals(RECODE_DOC_TYPE)) {
+			getAuxiliaryVoucherDocument()
+				.setReversalDate(getDocument().getDocumentHeader().getWorkflowDocument().getCreateDate());
+		}
+		System.out.println("Reversal Date is now: " + getAuxiliaryVoucherDocument().getReversalDate());
+	}
+	
+    /**
+     * This method returns the reversal date in the format MMM d, yyyy.
+     *
+     * @return String
+     */
+    public String getFormattedReversalDate() {
+        return formatReversalDate(getAuxiliaryVoucherDocument().getReversalDate());
     }
 }
+

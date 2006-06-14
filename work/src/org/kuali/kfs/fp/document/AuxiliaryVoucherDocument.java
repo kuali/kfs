@@ -33,46 +33,47 @@ import org.kuali.core.util.KualiDecimal;
 
 
 /**
- * This is the business object that represents the AuxiliaryVoucherDocument in Kuali. This is a transactional document that will
- * eventually post transactions to the G/L. It integrates with workflow and also contains two groupings of accounting lines: Expense
- * and target. Expense is the expense and target is the income lines. *
- * 
+ * This is the business object that represents the AuxiliaryVoucherDocument in Kuali. This 
+ * is a transactional document that will eventually post transactions to the G/L.  It 
+ * integrates with workflow and also contains two groupings of accounting lines: 
+ * Expense and target.  Expense is the expense and target is the income lines. * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class AuxiliaryVoucherDocument extends TransactionalDocumentBase implements VoucherDocument {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AuxiliaryVoucherDocument.class);
-
+	
     private String typeCode = "AVAD";
     private Timestamp reversalDate;
-
-    /**
-     * Initializes the array lists and some basic info.
-     */
-    public AuxiliaryVoucherDocument() {
-        super();
-    }
-
+	
+	/**
+	 * Initializes the array lists and some basic info.
+	 */
+	public AuxiliaryVoucherDocument() {
+		super();
+	}
+	    
     public Timestamp getReversalDate() {
         return reversalDate;
     }
-
+    
     public void setReversalDate(Timestamp reversalDate) {
         this.reversalDate = reversalDate;
     }
-
+    
     public String getTypeCode() {
         return typeCode;
     }
-
+    
     public void setTypeCode(String typeCode) {
         this.typeCode = typeCode;
     }
-
-    // workflow related methods
+    
+    //	workflow related methods
     /**
-     * This method calculates the debit total for a JV document keying off of the debit/debit code, only summing the accounting
-     * lines with a debitDebitCode that matched the debit constant, and returns the results.
-     * 
+     * This method calculates the debit total for a JV document keying off of the 
+     * debit/debit code, only summing the accounting lines with a debitDebitCode 
+     * that matched the debit constant, and returns the results.
+	 * 
      * @return KualiDecimal
      */
     public KualiDecimal getDebitTotal() {
@@ -81,17 +82,18 @@ public class AuxiliaryVoucherDocument extends TransactionalDocumentBase implemen
         Iterator iter = sourceAccountingLines.iterator();
         while (iter.hasNext()) {
             al = (AccountingLineBase) iter.next();
-            if (StringUtils.isNotBlank(al.getDebitCreditCode()) && al.getDebitCreditCode().equals(Constants.GL_DEBIT_CODE)) {
+            if(StringUtils.isNotBlank(al.getDebitCreditCode()) && al.getDebitCreditCode().equals(Constants.GL_DEBIT_CODE)) {
                 debitTotal = debitTotal.add(al.getAmount());
             }
         }
         return debitTotal;
     }
-
+    
     /**
-     * This method calculates the credit total for a JV document keying off of the debit/credit code, only summing the accounting
-     * lines with a debitCreditCode that matched the debit constant, and returns the results.
-     * 
+     * This method calculates the credit total for a JV document keying off of the 
+     * debit/credit code, only summing the accounting lines with a debitCreditCode 
+     * that matched the debit constant, and returns the results.
+	 *
      * @return KualiDecimal
      */
     public KualiDecimal getCreditTotal() {
@@ -100,23 +102,25 @@ public class AuxiliaryVoucherDocument extends TransactionalDocumentBase implemen
         Iterator iter = sourceAccountingLines.iterator();
         while (iter.hasNext()) {
             al = (AccountingLineBase) iter.next();
-            if (StringUtils.isNotBlank(al.getDebitCreditCode()) && al.getDebitCreditCode().equals(Constants.GL_CREDIT_CODE)) {
+            if(StringUtils.isNotBlank(al.getDebitCreditCode()) && al.getDebitCreditCode().equals(Constants.GL_CREDIT_CODE)) {
                 creditTotal = creditTotal.add(al.getAmount());
             }
         }
         return creditTotal;
     }
-
+    
     /**
-     * This method sums the amounts of all of the accounting lines in the <code>{@link AuxiliaryVoucherDocument}</code>. This
-     * method should be used to represent the total of the document when the balance type of External Encubmrance is selected.
-     * 
+     * This method sums the amounts of all of the accounting lines in 
+     * the <code>{@link AuxiliaryVoucherDocument}</code>.  This method should be used to represent 
+	 * the total of the document when the balance type of External Encubmrance 
+     * is selected.
+	 *
      * @return KualiDecimal
      */
-    public KualiDecimal getTotal() {
+    public KualiDecimal getTotal() {        
         KualiDecimal total = new KualiDecimal(0);
-
-        total = getCreditTotal().subtract(getDebitTotal());
+        
+		total = getCreditTotal().subtract(getDebitTotal());
 
         return total;
     }

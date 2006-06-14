@@ -3,15 +3,15 @@
  * Cornell University, Trustees of Indiana University, Michigan State University Board of Trustees,
  * Trustees of San Joaquin Delta College, University of Hawai'i, The Arizona Board of Regents on
  * behalf of the University of Arizona, and the r*smart group.
- *
+ * 
  * Licensed under the Educational Community License Version 1.0 (the "License"); By obtaining,
  * using and/or copying this Original Work, you agree that you have read, understand, and will
  * comply with the terms and conditions of the Educational Community License.
- *
+ * 
  * You may obtain a copy of the License at:
- *
+ * 
  * http://kualiproject.org/license.html
- *
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
  * BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE
  * AND NONINFRINGEMENT.
@@ -20,25 +20,34 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-package org.kuali.module.financial.rules;
+package org.kuali.module.financial.lookup.keyvalues;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.kuali.core.lookup.keyvalues.KeyValuesBase;
+import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.core.web.uidraw.KeyLabelPair;
+
+import static org.kuali.Constants.AuxiliaryVoucher.ACCRUAL_DOC_TYPE;
+import static org.kuali.Constants.AuxiliaryVoucher.ADJUSTMENT_DOC_TYPE;
+import static org.kuali.Constants.AuxiliaryVoucher.RECODE_DOC_TYPE;
 
 /**
- * Holds constants for <code>{@link AuxiliaryVoucherDocument}</code>
- * business rules.
+ * <code>{@link KeyValues}</code> class that handles <code>{@link AuxiliaryVoucherDocument}</code> types.
  *
- * @author Nervous System Team (kualidev@oncourse.iu.edu)
+ * @author Bin Gao from Michigan State University
  */
-public interface AuxiliaryVoucherDocumentRuleConstants 
-    extends TransactionalDocumentRuleBaseConstants {
-    //  Security grouping constants used to do application parameter lookups
-    public static final String AUXILIARY_VOUCHER_SECURITY_GROUPING = 
-        "Kuali.FinancialTransactionProcessing.AuxiliaryVoucherDocument";
+public class AuxiliaryVoucherTypeCodeValuesFinder extends KeyValuesBase {
 
-    // Application parameter lookup constants to be used in conjunction with the grouping constants above
-    public static final String RESTRICTED_COMBINED_CODES = "RestrictedCombinationOfCodes";
-    public static final String RESTRICTED_OBJECT_SUB_TYPE_CODES = "RestrictedObjectSubTypeCodes";
-    public static final String RESTRICTED_EXPENSE_OBJECT_TYPE_CODES = "RestrictedExpenseObjectTypeCodes";
-    public static final String RESTRICTED_INCOME_OBJECT_TYPE_CODES = "RestrictedIncomeObjectTypeCodes";
-    public static final String RESTRICTED_PERIOD_CODES = "RestrictedPeriodCodes";
+    /**
+     * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
+     */
+    public List getKeyValues() {
+		List retval = new ArrayList();
+		retval.add(new KeyLabelPair(ACCRUAL_DOC_TYPE, "Accrual"));
+		retval.add(new KeyLabelPair(ADJUSTMENT_DOC_TYPE, "Adjustment"));
+		retval.add(new KeyLabelPair(RECODE_DOC_TYPE, "Recode"));
+		return retval;
+    }
 }

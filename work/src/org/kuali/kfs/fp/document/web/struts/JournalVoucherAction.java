@@ -412,7 +412,8 @@ public class JournalVoucherAction extends VoucherAction {
      * 
      * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#loadDocument(org.kuali.core.web.struts.form.KualiDocumentFormBase)
      */
-    protected void loadDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
+    @Override
+    protected void loadDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException{
         super.loadDocument(kualiDocumentFormBase);
         JournalVoucherForm journalVoucherForm = (JournalVoucherForm) kualiDocumentFormBase;
 
@@ -427,7 +428,7 @@ public class JournalVoucherAction extends VoucherAction {
         }
 
         // always wipe out the new source line
-        journalVoucherForm.setNewSourceLine(new SourceAccountingLine());
+        journalVoucherForm.setNewSourceLine(null);
 
         // reload the balance type and accounting period selections since now we have data in the document bo
         populateSelectedJournalBalanceType(journalVoucherDocument, journalVoucherForm);

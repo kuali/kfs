@@ -22,8 +22,17 @@
  */
 package org.kuali.module.financial.web.struts.form;
 
+import java.util.Map;
+
+import org.kuali.PropertyConstants;
+import org.kuali.core.bo.AccountingLine;
+import org.kuali.core.bo.SourceAccountingLine;
+import org.kuali.core.bo.TargetAccountingLine;
+import org.kuali.core.document.TransactionalDocument;
+import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
 import org.kuali.module.financial.document.IndirectCostAdjustmentDocument;
+import org.kuali.module.financial.rules.IndirectCostAdjustmentDocumentRuleConstants;
 
 /**
  * This class is the action form for Indirect Cost Adjustment Document
@@ -32,6 +41,7 @@ import org.kuali.module.financial.document.IndirectCostAdjustmentDocument;
  */
 
 public class IndirectCostAdjustmentForm extends KualiTransactionalDocumentFormBase {
+
     /**
      * Constructs a IndirectCostAdjustmentForm.java.
      */
@@ -52,5 +62,49 @@ public class IndirectCostAdjustmentForm extends KualiTransactionalDocumentFormBa
      */
     public void setIndirectCostAdjustmentDocument(IndirectCostAdjustmentDocument indirectCostAdjustmentDocument) {
         setDocument(indirectCostAdjustmentDocument);
+    }
+
+    /**
+     * 
+     * @see org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase#createNewSourceAccountingLine(org.kuali.core.document.TransactionalDocument)
+     */
+    @Override
+    public SourceAccountingLine createNewSourceAccountingLine(TransactionalDocument transactionalDocument) {
+        SourceAccountingLine sourceAccountingLine = super.createNewSourceAccountingLine(transactionalDocument);
+        String objectCode = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(IndirectCostAdjustmentDocumentRuleConstants.INDIRECT_COST_ADJUSTMENT_DOCUMENT_SECURITY_GROUPING, IndirectCostAdjustmentDocumentRuleConstants.GRANT_OBJECT_CODE);
+
+        return (SourceAccountingLine) populateAccountingLineObjectCode(sourceAccountingLine, objectCode);
+    }
+
+    /**
+     * 
+     * @see org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase#createNewTargetAccountingLine(org.kuali.core.document.TransactionalDocument)
+     */
+    @Override
+    public TargetAccountingLine createNewTargetAccountingLine(TransactionalDocument transactionalDocument) {
+        TargetAccountingLine targetAccountingLine = super.createNewTargetAccountingLine(transactionalDocument);
+        String objectCode = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(IndirectCostAdjustmentDocumentRuleConstants.INDIRECT_COST_ADJUSTMENT_DOCUMENT_SECURITY_GROUPING, IndirectCostAdjustmentDocumentRuleConstants.RECEIPT_OBJECT_CODE);
+
+        return (TargetAccountingLine) populateAccountingLineObjectCode(targetAccountingLine, objectCode);
+    }
+
+    /**
+     * @see org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase#getForcedReadOnlyFields()
+     */
+    @Override
+    public Map getForcedReadOnlyFields() {
+        Map map = super.getForcedReadOnlyFields();
+        map.put(PropertyConstants.FINANCIAL_OBJECT_CODE, Boolean.TRUE);
+        return map;
+    }
+
+    /**
+     * @param accountingLine
+     * @param objectCode
+     * @return an <code>AccountingLine</code> populated with a <code>ObjectCode</code>
+     */
+    private AccountingLine populateAccountingLineObjectCode(AccountingLine accountingLine, String objectCode) {
+        accountingLine.setFinancialObjectCode(objectCode);
+        return accountingLine;
     }
 }

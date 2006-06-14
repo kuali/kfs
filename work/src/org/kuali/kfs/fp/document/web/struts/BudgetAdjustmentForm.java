@@ -23,8 +23,6 @@
 package org.kuali.module.financial.web.struts.form;
 
 import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
-import org.kuali.module.financial.bo.BudgetAdjustmentSourceAccountingLine;
-import org.kuali.module.financial.bo.BudgetAdjustmentTargetAccountingLine;
 import org.kuali.module.financial.document.BudgetAdjustmentDocument;
 
 /**
@@ -34,7 +32,6 @@ import org.kuali.module.financial.document.BudgetAdjustmentDocument;
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class BudgetAdjustmentForm extends KualiTransactionalDocumentFormBase {
-    private static final long serialVersionUID = 1L;
 
     /**
      * Constructs a BudgetAdjustmentForm instance and sets up the appropriately casted document. Also, the
@@ -44,7 +41,5 @@ public class BudgetAdjustmentForm extends KualiTransactionalDocumentFormBase {
     public BudgetAdjustmentForm() {
         super();
         setDocument(new BudgetAdjustmentDocument());
-        this.newSourceLine = new BudgetAdjustmentSourceAccountingLine();
-        this.newTargetLine = new BudgetAdjustmentTargetAccountingLine();
     }
 }

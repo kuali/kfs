@@ -78,6 +78,7 @@ public class VoucherForm extends KualiTransactionalDocumentFormBase {
      * 
      * @see org.kuali.core.web.struts.pojo.PojoForm#populate(javax.servlet.http.HttpServletRequest)
      */
+    @Override
     public void populate(HttpServletRequest request) {
         super.populate(request);
 
@@ -93,6 +94,8 @@ public class VoucherForm extends KualiTransactionalDocumentFormBase {
 
     /**
      * Helper method to make casting easier
+     * 
+     * @return
      */
     public VoucherDocument getVoucherDocument() {
         return (VoucherDocument) getDocument();
@@ -105,6 +108,7 @@ public class VoucherForm extends KualiTransactionalDocumentFormBase {
      * 
      * @see org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase#populateSourceAccountingLine(org.kuali.core.bo.SourceAccountingLine)
      */
+    @Override
     public void populateSourceAccountingLine(SourceAccountingLine sourceLine) {
         super.populateSourceAccountingLine(sourceLine);
 
@@ -190,8 +194,8 @@ public class VoucherForm extends KualiTransactionalDocumentFormBase {
     }
 
     /**
-     * Accessor to the list of <code>{@link VoucherLineHelper}</code> instances. This method retrieves the list of helper line
-     * objects for the form.
+     * Accessor to the list of <code>{@link VoucherAccountingLineHelper}</code> instances. This method retrieves the list of
+     * helper line objects for the form.
      * 
      * @return List
      */
@@ -330,7 +334,7 @@ public class VoucherForm extends KualiTransactionalDocumentFormBase {
      */
     protected boolean processDebitAndCreditForNewSourceLine() {
         // using debits and credits supplied, populate the new source accounting line's amount and debit/credit code appropriately
-        if (!processDebitAndCreditForSourceLine(newSourceLine, newSourceLineDebit, newSourceLineCredit, Constants.NEGATIVE_ONE)) {
+        if (!processDebitAndCreditForSourceLine(getNewSourceLine(), newSourceLineDebit, newSourceLineCredit, Constants.NEGATIVE_ONE)) {
             return false;
         }
         else {

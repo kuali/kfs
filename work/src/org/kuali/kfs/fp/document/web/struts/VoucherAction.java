@@ -193,6 +193,7 @@ public class VoucherAction extends KualiTransactionalDocumentActionBase {
      * 
      * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#loadDocument(org.kuali.core.web.struts.form.KualiDocumentFormBase)
      */
+    @Override
     protected void loadDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
         super.loadDocument(kualiDocumentFormBase);
         VoucherForm voucherForm = (VoucherForm) kualiDocumentFormBase;
@@ -202,7 +203,7 @@ public class VoucherAction extends KualiTransactionalDocumentActionBase {
         voucherForm.setNewSourceLineDebit(ZERO);
 
         // always wipe out the new source line
-        voucherForm.setNewSourceLine(new SourceAccountingLine());
+        voucherForm.setNewSourceLine(null);
 
         // reload the accounting period selections since now we have data in the document bo
         populateSelectedAccountingPeriod(voucherForm.getVoucherDocument(), voucherForm);

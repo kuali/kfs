@@ -66,7 +66,7 @@ import org.kuali.module.gl.web.struts.form.CorrectionForm;
 
 /**
  * @author Laran Evans <lc278@cornell.edu> Shawn Choo <schoo@indiana.edu>
- * @version $Id: CorrectionAction.java,v 1.12 2006-06-14 12:26:39 abyrne Exp $
+ * @version $Id: CorrectionAction.java,v 1.13 2006-06-14 14:24:17 schoo Exp $
  * 
  */
 
@@ -770,6 +770,12 @@ public class CorrectionAction extends KualiDocumentActionBase {
                 int convertInt = Integer.parseInt(replaceValue);
                 BeanUtils.setProperty(eachReplaceEntries, replaceField, new Integer(convertInt));
             }
+            
+            if (replaceField.equals("budgetYear")) {
+                // convert String to Integer
+                int convertInt = Integer.parseInt(replaceValue);
+                BeanUtils.setProperty(eachReplaceEntries, replaceField, new Integer(convertInt));
+            }
 
             BeanUtils.setProperty(eachReplaceEntries, replaceField, replaceValue);
 
@@ -1003,8 +1009,10 @@ public class CorrectionAction extends KualiDocumentActionBase {
             oe.setUniversityFiscalYear(new Integer(convertInt));
         }
 
-        // TODO: fix the following line
-        // oe.setBudgetYear(editBudgetYear);
+        if (!(editBudgetYear == null | editBudgetYear.equals(""))) {
+            convertInt = Integer.parseInt(editBudgetYear);
+            oe.setBudgetYear(new Integer(convertInt));
+        }
 
         // set entryId
         // null id means user added a new entry.

@@ -246,220 +246,130 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
         assertOriginEntries(4,output);
     }
 
-//    public void testNoCostShareEncumbrancesForBudget() throws Exception {
-//
-//        // Inputs.
-//        String[] stringInput = new String[] {
-//                "2004BL4631618CS0014190---BBEX07GEC 01NOCSENBB      THOMAS BUSEY/NEWEGG COMPUTERS                       40.72 2006-01-05          ----------                                 D                                ",
-//                "2004BL4631618CS0018000---BBAS07GEC 01NOCSENBB      TP Generated Offset                                 40.72 2006-01-05          ----------                                 D                                "
-//        };
-//
-//        String[] convertedStringInput = new String[] {
-//                "2004BL4631618CS0014190---BBEX07GEC 01NOCSENBB 00000THOMAS BUSEY/NEWEGG COMPUTERS                       40.72 2006-01-05          ----------                                 D                                ",
-//                "2004BL4631618CS0018000---BBAS07GEC 01NOCSENBB 00000TP Generated Offset                                 40.72 2006-01-05          ----------                                 D                                "
-//        };
-//
-//        // Add inputs to expected output ...
-//        Vector expectedOutput = new Vector();
-//        for(int i = 0; i < stringInput.length; i++) {
-//            expectedOutput.add(new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
-//        }
-//
-//        // ... add expected output ...
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
-//                "2004BL4631618CS0014190---BBEX07GEC 01NOCSENBB 00000THOMAS BUSEY/NEWEGG COMPUTERS                       40.72 2006-01-05          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
-//                "2004BL4631618CS0018000---BBAS07GEC 01NOCSENBB 00000TP Generated Offset                                 40.72 2006-01-05          ----------                                                                  "));
-//
-//        // ... and run the test.
-//        scrub(stringInput);
-//        assertOriginEntries(4,(EntryHolder[]) expectedOutput.toArray(new EntryHolder[0]));
-//
-//    }
-//
-//    public void testNoCostShareForEncumbrancesNonExpenses() throws Exception {
-//
-//        // Inputs.
-//        String[] stringInput = new String[] {
-//                "2004BL4631601CS0011800---EXIN07TOPSLGNOCSENIN      225050007 WILLIAMS DOTSON ASSOCIATES IN           1200.00D2006-01-05          ----------                                 D                                ",
-//                "2004BL4631601CS0019041---EXLI07TOPSLGNOCSENIN      225050007 WILLIAMS DOTSON ASSOCIATES IN           1200.00C2006-01-05          ----------                                 D                                ",
-//        };
-//
-//        String[] convertedStringInput = new String[] {
-//                "2004BL4631601CS0011800---EXIN07TOPSLGNOCSENIN 00000225050007 WILLIAMS DOTSON ASSOCIATES IN           1200.00D2006-01-05          ----------                                 D                                ",
-//                "2004BL4631601CS0019041---EXLI07TOPSLGNOCSENIN 00000225050007 WILLIAMS DOTSON ASSOCIATES IN           1200.00C2006-01-05          ----------                                 D                                ",
-//        };
-//
-//        // Add inputs to expected output ...
-//        Vector expectedOutput = new Vector();
-//        for(int i = 0; i < stringInput.length; i++) {
-//            expectedOutput.add(new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
-//        }
-//
-//        // ... add expected output ...
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
-//                "2004BL4631601CS0011800---EXIN07TOPSLGNOCSENIN 00000225050007 WILLIAMS DOTSON ASSOCIATES IN           1200.00D2006-01-05          ----------                                 D                                "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
-//                "2004BL4631601CS0019041---EXLI07TOPSLGNOCSENIN 00000225050007 WILLIAMS DOTSON ASSOCIATES IN           1200.00C2006-01-05          ----------                                 D                                "));
-//
-//        // ... and run the test.
-//        scrub(stringInput);
-//        assertOriginEntries(4,(EntryHolder[]) expectedOutput.toArray(new EntryHolder[0]));
-//
-//    }
-//
-//    public void testCostShareOther() throws Exception {
-//
-//        // Inputs.
-//        String[] stringInput = new String[] {
-//                "2004BL4631625CS0014000---ACEX07ID33EUCSHROTHER     NOV-05 IMU Business Office          2224           241.75D2005-11-30          ----------                                                                  ",
-//                "2004BL4631625CS0018000---ACAS07ID33EUCSHROTHER     NOV-05 IMU Business Office          2237           241.75C2005-11-30          ----------                                                                  "
-//        };
-//
-//        String[] convertedStringInput = new String[] {
-//                "2004BL4631625CS0014000---ACEX07ID33EUCSHROTHER00000NOV-05 IMU Business Office          2224           241.75D2005-11-30          ----------                                                                  ",
-//                "2004BL4631625CS0018000---ACAS07ID33EUCSHROTHER00000NOV-05 IMU Business Office          2237           241.75C2005-11-30          ----------                                                                  "
-//        };
-//
-//        // Add inputs to expected output ...
-//        Vector expectedOutput = new Vector();
-//        for(int i = 0; i < stringInput.length; i++) {
-//            expectedOutput.add(new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
-//        }
-//
-//        // ... add expected output ...
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
-//                "2004BL4631625CS0019915---ACTE07TF  CSCSHR03/1300000GENERATED COST SHARE FROM 4631625                  241.75C2006-03-13          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
-//                "2004BL4631625CS0018000---ACAS07TF  CSCSHR03/1300000GENERATED OFFSET                                   241.75D2006-03-13          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
-//                "2004BL1031400-----9940---ACTE07TF  CSCSHR03/1300000GENERATED COST SHARE FROM 4631625                  241.75D2006-03-13          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
-//                "2004BL1031400-----8000---ACAS07TF  CSCSHR03/1300000GENERATED OFFSET                                   241.75C2006-03-13          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
-//                "2004BL4631625CS0014000---ACEX07ID33EUCSHROTHER00000NOV-05 IMU Business Office          2224           241.75D2005-11-30          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
-//                "2004BL4631625CS0018000---ACAS07ID33EUCSHROTHER00000NOV-05 IMU Business Office          2237           241.75C2005-11-30          ----------                                                                  "));
-//
-//        // ... and run the test.
-//        scrub(stringInput);
-//        assertOriginEntries(4,(EntryHolder[]) expectedOutput.toArray(new EntryHolder[0]));
-//    }
-//
-//    public void testCostShareForLevelTrin() throws Exception {
-//
-//        // Inputs.
-//        String[] stringInput = new String[] {
-//                "2004BL4631618CS0019915---ACEX07DI  01CSHRTRIN      Rite Quality Office Supplies Inc.                   94.35D2006-01-05          ----------                                                                  ",
-//                "2004BL4631618CS0019041---ACLI07DI  01CSHRTRIN      Rite Quality Office Supplies Inc.                   94.35C2006-01-05          ----------                                                                  "
-//        };
-//
-//        String[] convertedStringInput = new String[] {
-//                "2004BL4631618CS0019915---ACEX07DI  01CSHRTRIN 00000Rite Quality Office Supplies Inc.                   94.35D2006-01-05          ----------                                                                  ",
-//                "2004BL4631618CS0019041---ACLI07DI  01CSHRTRIN 00000Rite Quality Office Supplies Inc.                   94.35C2006-01-05          ----------                                                                  "
-//        };
-//
-//        // Add inputs to expected output ...
-//        Vector expectedOutput = new Vector();
-//        for(int i = 0; i < stringInput.length; i++) {
-//            expectedOutput.add(new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
-//        }
-//
-//        // ... add expected output ...
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
-//                "2004BL4631618CS0019915---ACTE07TF  CSCSHR03/1300000GENERATED COST SHARE FROM 4631618                   94.35C2006-03-13          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
-//                "2004BL4631618CS0018000---ACAS07TF  CSCSHR03/1300000GENERATED OFFSET                                    94.35D2006-03-13          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
-//                "2004BL1031400-----9915---ACTE07TF  CSCSHR03/1300000GENERATED COST SHARE FROM 4631618                   94.35D2006-03-13          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
-//                "2004BL1031400-----8000---ACAS07TF  CSCSHR03/1300000GENERATED OFFSET                                    94.35C2006-03-13          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
-//                "2004BL4631618CS0019915---ACEX07DI  01CSHRTRIN 00000Rite Quality Office Supplies Inc.                   94.35D2006-01-05          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
-//                "2004BL4631618CS0019041---ACLI07DI  01CSHRTRIN 00000Rite Quality Office Supplies Inc.                   94.35C2006-01-05          ----------                                                                  "));
-//
-//        // ... and run the test.
-//        scrub(stringInput);
-//        assertOriginEntries(4,(EntryHolder[]) expectedOutput.toArray(new EntryHolder[0]));
-//    }
-//
-//    public void testCostShareForLevelTrex() throws Exception {
-//
-//        // Inputs.
-//        String[] stringInput = new String[] {
-//                "2004BL4631601CS0019900---ACEX07CR  01CSHRTREX      Poplars Garage Fees                                 20.00C2006-01-05          ----------                                                                  ",
-//                "2004BL4631601CS0018000---ACAS07CR  01CSHRTREX      TP Generated Offset                                 20.00D2006-01-05          ----------                                                                  "
-//        };
-//
-//        String[] convertedStringInput = new String[] {
-//                "2004BL4631601CS0019900---ACEX07CR  01CSHRTREX 00000Poplars Garage Fees                                 20.00C2006-01-05          ----------                                                                  ",
-//                "2004BL4631601CS0018000---ACAS07CR  01CSHRTREX 00000TP Generated Offset                                 20.00D2006-01-05          ----------                                                                  "
-//        };
-//
-//        // Add inputs to expected output ...
-//        Vector expectedOutput = new Vector();
-//        for(int i = 0; i < stringInput.length; i++) {
-//            expectedOutput.add(new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
-//        }
-//
-//        // ... add expected output ...
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
-//                "2004BL4631601CS0019915---ACTE07TF  CSCSHR03/2100000GENERATED COST SHARE FROM 4631601                   20.00D2006-03-21          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
-//                "2004BL4631601CS0018000---ACAS07TF  CSCSHR03/2100000GENERATED OFFSET                                    20.00C2006-03-21          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
-//                "2004BL1031400-----9959---ACTE07TF  CSCSHR03/2100000GENERATED COST SHARE FROM 4631601                   20.00C2006-03-21          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
-//                "2004BL1031400-----8000---ACAS07TF  CSCSHR03/2100000GENERATED OFFSET                                    20.00D2006-03-21          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
-//                "2004BL4631601CS0019900---ACEX07CR  01CSHRTREX 00000Poplars Garage Fees                                 20.00C2006-01-05          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
-//                "2004BL4631601CS0018000---ACAS07CR  01CSHRTREX 00000TP Generated Offset                                 20.00D2006-01-05          ----------                                                                  "));
-//
-//        // ... and run the test.
-//        scrub(stringInput);
-//        assertOriginEntries(4,(EntryHolder[]) expectedOutput.toArray(new EntryHolder[0]));
-//    }
-//
-//    public void testCostShareForLevelTrav() throws Exception {
-//
-//        // Inputs.
-//        String[] stringInput = new String[] {
-//                "2004BL4631625CS0016000---ACEX07ID33EUCSHRTRAV      NOV-05 IMU Business Office          2224           241.75D2005-11-30          ----------                                                                  ",
-//                "2004BL4631625CS0018000---ACAS07ID33EUCSHRTRAV      NOV-05 IMU Business Office          2237           241.75C2005-11-30          ----------                                                                  "
-//        };
-//
-//        String[] convertedStringInput = new String[] {
-//                "2004BL4631625CS0016000---ACEX07ID33EUCSHRTRAV 00000NOV-05 IMU Business Office          2224           241.75D2005-11-30          ----------                                                                  ",
-//                "2004BL4631625CS0018000---ACAS07ID33EUCSHRTRAV 00000NOV-05 IMU Business Office          2237           241.75C2005-11-30          ----------                                                                  "
-//        };
-//
-//        // Add inputs to expected output ...
-//        Vector expectedOutput = new Vector();
-//        for(int i = 0; i < stringInput.length; i++) {
-//            expectedOutput.add(new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
-//        }
-//
-//        // ... add expected output ...
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
-//                "2004BL4631625CS0019915---ACTE07TF  CSCSHR03/1300000GENERATED COST SHARE FROM 4631625                  241.75C2006-03-13          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
-//                "2004BL4631625CS0018000---ACAS07TF  CSCSHR03/1300000GENERATED OFFSET                                   241.75D2006-03-13          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
-//                "2004BL1031400-----9960---ACTE07TF  CSCSHR03/1300000GENERATED COST SHARE FROM 4631625                  241.75D2006-03-13          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
-//                "2004BL1031400-----8000---ACAS07TF  CSCSHR03/1300000GENERATED OFFSET                                   241.75C2006-03-13          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
-//                "2004BL4631625CS0016000---ACEX07ID33EUCSHRTRAV 00000NOV-05 IMU Business Office          2224           241.75D2005-11-30          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
-//                "2004BL4631625CS0018000---ACAS07ID33EUCSHRTRAV 00000NOV-05 IMU Business Office          2237           241.75C2005-11-30          ----------                                                                  "));
-//
-//        // ... and run the test.
-//        scrub(stringInput);
-//        assertOriginEntries(4,(EntryHolder[]) expectedOutput.toArray(new EntryHolder[0]));
-//    }
-//
+    public void testNoCostShareEncumbrancesForBudget() throws Exception {
+
+        String[] input = new String[] {
+                "2004BL4631618CS0014190---BBEX07GEC 01NOCSENBB 00000THOMAS BUSEY/NEWEGG COMPUTERS                       40.72 2006-01-05          ----------                                 D                                ",
+                "2004BL4631618CS0018000---BBAS07GEC 01NOCSENBB 00000TP Generated Offset                                 40.72 2006-01-05          ----------                                 D                                "
+        };
+
+        EntryHolder[] output = new EntryHolder[] {
+                new EntryHolder(OriginEntrySource.EXTERNAL,"2004BL4631618CS0014190---BBEX07GEC 01NOCSENBB 00000THOMAS BUSEY/NEWEGG COMPUTERS                       40.72 2006-01-05          ----------                                 D                                "),
+                new EntryHolder(OriginEntrySource.EXTERNAL,"2004BL4631618CS0018000---BBAS07GEC 01NOCSENBB 00000TP Generated Offset                                 40.72 2006-01-05          ----------                                 D                                "),
+                new EntryHolder(OriginEntrySource.SCRUBBER_VALID,"2004BL4631618CS0014190---BBEX07GEC 01NOCSENBB 00000THOMAS BUSEY/NEWEGG COMPUTERS                       40.72 2006-01-05          ----------                                                                  "),
+                new EntryHolder(OriginEntrySource.SCRUBBER_VALID,"2004BL4631618CS0018000---BBAS07GEC 01NOCSENBB 00000TP Generated Offset                                 40.72 2006-01-05          ----------                                                                  ")
+        };
+
+        scrub(input);
+        assertOriginEntries(4,output);
+    }
+
+    public void testNoCostShareForEncumbrancesNonExpenses() throws Exception {
+
+        String[] input = new String[] {
+                "2004BL4631601CS0011800---EXIN07TOPSLGNOCSENIN 00000225050007 WILLIAMS DOTSON ASSOCIATES IN           1200.00D2006-01-05          ----------                                 D                                ",
+                "2004BL4631601CS0019041---EXLI07TOPSLGNOCSENIN 00000225050007 WILLIAMS DOTSON ASSOCIATES IN           1200.00C2006-01-05          ----------                                 D                                ",
+        };
+
+        EntryHolder[] output = new EntryHolder[] {
+                new EntryHolder(OriginEntrySource.EXTERNAL,"2004BL4631601CS0011800---EXIN07TOPSLGNOCSENIN 00000225050007 WILLIAMS DOTSON ASSOCIATES IN           1200.00D2006-01-05          ----------                                 D                                "),
+                new EntryHolder(OriginEntrySource.EXTERNAL,"2004BL4631601CS0019041---EXLI07TOPSLGNOCSENIN 00000225050007 WILLIAMS DOTSON ASSOCIATES IN           1200.00C2006-01-05          ----------                                 D                                "),
+                new EntryHolder(OriginEntrySource.SCRUBBER_VALID,"2004BL4631601CS0011800---EXIN07TOPSLGNOCSENIN 00000225050007 WILLIAMS DOTSON ASSOCIATES IN           1200.00D2006-01-05          ----------                                 D                                "),
+                new EntryHolder(OriginEntrySource.SCRUBBER_VALID,"2004BL4631601CS0019041---EXLI07TOPSLGNOCSENIN 00000225050007 WILLIAMS DOTSON ASSOCIATES IN           1200.00C2006-01-05          ----------                                 D                                ")
+        };
+
+        scrub(input);
+        assertOriginEntries(4,output);
+    }
+
+    public void testCostShareOther() throws Exception {
+
+        String[] input = new String[] {
+                "2004BL4631625CS0014000---ACEX07ID33EUCSHROTHER00000NOV-05 IMU Business Office          2224           241.75D2005-11-30          ----------                                                                  ",
+                "2004BL4631625CS0018000---ACAS07ID33EUCSHROTHER00000NOV-05 IMU Business Office          2237           241.75C2005-11-30          ----------                                                                  "
+        };
+
+        EntryHolder[] output = new EntryHolder[] {
+                new EntryHolder(OriginEntrySource.EXTERNAL,"2004BL4631625CS0014000---ACEX07ID33EUCSHROTHER00000NOV-05 IMU Business Office          2224           241.75D2005-11-30          ----------                                                                  "),
+                new EntryHolder(OriginEntrySource.EXTERNAL,"2004BL4631625CS0018000---ACAS07ID33EUCSHROTHER00000NOV-05 IMU Business Office          2237           241.75C2005-11-30          ----------                                                                  "),
+                new EntryHolder(OriginEntrySource.SCRUBBER_VALID,"2004BL4631625CS0019915---ACTE07TF  CSCSHR01/0100000GENERATED COST SHARE FROM 4631625                  241.75C2006-01-01          ----------                                                                  "),
+                new EntryHolder(OriginEntrySource.SCRUBBER_VALID,"2004BL4631625CS0018000---ACAS07TF  CSCSHR01/0100000GENERATED OFFSET                                   241.75D2006-01-01          ----------                                                                  "),
+                new EntryHolder(OriginEntrySource.SCRUBBER_VALID,"2004BL1031400-----9940---ACTE07TF  CSCSHR01/0100000GENERATED COST SHARE FROM 4631625                  241.75D2006-01-01          ----------                                                                  "),
+                new EntryHolder(OriginEntrySource.SCRUBBER_VALID,"2004BL1031400-----8000---ACAS07TF  CSCSHR01/0100000GENERATED OFFSET                                   241.75C2006-01-01          ----------                                                                  "),
+                new EntryHolder(OriginEntrySource.SCRUBBER_VALID,"2004BL4631625CS0014000---ACEX07ID33EUCSHROTHER00000NOV-05 IMU Business Office          2224           241.75D2005-11-30          ----------                                                                  "),
+                new EntryHolder(OriginEntrySource.SCRUBBER_VALID,"2004BL4631625CS0018000---ACAS07ID33EUCSHROTHER00000NOV-05 IMU Business Office          2237           241.75C2005-11-30          ----------                                                                  ")
+        };
+
+        scrub(input);
+        assertOriginEntries(4,output);
+    }
+
+    public void testCostShareForLevelTrin() throws Exception {
+
+        String[] input = new String[] {
+                "2004BL4631618CS0019915---ACEX07DI  01CSHRTRIN 00000Rite Quality Office Supplies Inc.                   94.35D2006-01-05          ----------                                                                  ",
+                "2004BL4631618CS0019041---ACLI07DI  01CSHRTRIN 00000Rite Quality Office Supplies Inc.                   94.35C2006-01-05          ----------                                                                  "
+        };
+
+        EntryHolder[] output = new EntryHolder[] {
+                new EntryHolder(OriginEntrySource.EXTERNAL,"2004BL4631618CS0019915---ACEX07DI  01CSHRTRIN 00000Rite Quality Office Supplies Inc.                   94.35D2006-01-05          ----------                                                                  "),
+                new EntryHolder(OriginEntrySource.EXTERNAL,"2004BL4631618CS0019041---ACLI07DI  01CSHRTRIN 00000Rite Quality Office Supplies Inc.                   94.35C2006-01-05          ----------                                                                  "),
+                new EntryHolder(OriginEntrySource.SCRUBBER_VALID,"2004BL4631618CS0019041---ACLI07DI  01CSHRTRIN 00000Rite Quality Office Supplies Inc.                   94.35C2006-01-05          ----------                                                                  "),
+                new EntryHolder(OriginEntrySource.SCRUBBER_VALID,"2004BL4631618CS0019915---ACTE07TF  CSCSHR01/0100000GENERATED COST SHARE FROM 4631618                   94.35C2006-01-01          ----------                                                                  "),
+                new EntryHolder(OriginEntrySource.SCRUBBER_VALID,"2004BL4631618CS0018000---ACAS07TF  CSCSHR01/0100000GENERATED OFFSET                                    94.35D2006-01-01          ----------                                                                  "),
+                new EntryHolder(OriginEntrySource.SCRUBBER_VALID,"2004BL1031400-----9915---ACTE07TF  CSCSHR01/0100000GENERATED COST SHARE FROM 4631618                   94.35D2006-01-01          ----------                                                                  "),
+                new EntryHolder(OriginEntrySource.SCRUBBER_VALID,"2004BL1031400-----8000---ACAS07TF  CSCSHR01/0100000GENERATED OFFSET                                    94.35C2006-01-01          ----------                                                                  "),
+                new EntryHolder(OriginEntrySource.SCRUBBER_VALID,"2004BL4631618CS0019915---ACEX07DI  01CSHRTRIN 00000Rite Quality Office Supplies Inc.                   94.35D2006-01-05          ----------                                                                  "),
+        };
+
+        scrub(input);
+        assertOriginEntries(4,output);
+    }
+
+    public void testCostShareForLevelTrex() throws Exception {
+
+        String[] input = new String[] {
+                "2004BL4631601CS0019900---ACEX07CR  01CSHRTREX 00000Poplars Garage Fees                                 20.00C2006-01-05          ----------                                                                  ",
+                "2004BL4631601CS0018000---ACAS07CR  01CSHRTREX 00000TP Generated Offset                                 20.00D2006-01-05          ----------                                                                  "
+        };
+
+        EntryHolder[] output = new EntryHolder[] {
+                new EntryHolder(OriginEntrySource.EXTERNAL,"2004BL4631601CS0019900---ACEX07CR  01CSHRTREX 00000Poplars Garage Fees                                 20.00C2006-01-05          ----------                                                                  "),
+                new EntryHolder(OriginEntrySource.EXTERNAL,"2004BL4631601CS0018000---ACAS07CR  01CSHRTREX 00000TP Generated Offset                                 20.00D2006-01-05          ----------                                                                  "),
+                new EntryHolder(OriginEntrySource.SCRUBBER_VALID,"2004BL4631601CS0018000---ACAS07CR  01CSHRTREX 00000TP Generated Offset                                 20.00D2006-01-05          ----------                                                                  "),
+                new EntryHolder(OriginEntrySource.SCRUBBER_VALID,"2004BL4631601CS0019915---ACTE07TF  CSCSHR01/0100000GENERATED COST SHARE FROM 4631601                   20.00D2006-01-01          ----------                                                                  "),
+                new EntryHolder(OriginEntrySource.SCRUBBER_VALID,"2004BL4631601CS0018000---ACAS07TF  CSCSHR01/0100000GENERATED OFFSET                                    20.00C2006-01-01          ----------                                                                  "),
+                new EntryHolder(OriginEntrySource.SCRUBBER_VALID,"2004BL1031400-----9959---ACTE07TF  CSCSHR01/0100000GENERATED COST SHARE FROM 4631601                   20.00C2006-01-01          ----------                                                                  "),
+                new EntryHolder(OriginEntrySource.SCRUBBER_VALID,"2004BL1031400-----8000---ACAS07TF  CSCSHR01/0100000GENERATED OFFSET                                    20.00D2006-01-01          ----------                                                                  "),
+                new EntryHolder(OriginEntrySource.SCRUBBER_VALID,"2004BL4631601CS0019900---ACEX07CR  01CSHRTREX 00000Poplars Garage Fees                                 20.00C2006-01-05          ----------                                                                  "),
+        };
+
+        scrub(input);
+        assertOriginEntries(4,output);
+    }
+
+    public void testCostShareForLevelTrav() throws Exception {
+
+        String[] input = new String[] {
+                "2004BL4631625CS0016000---ACEX07ID33EUCSHRTRAV 00000NOV-05 IMU Business Office          2224           241.75D2005-11-30          ----------                                                                  ",
+                "2004BL4631625CS0018000---ACAS07ID33EUCSHRTRAV 00000NOV-05 IMU Business Office          2237           241.75C2005-11-30          ----------                                                                  "
+        };
+
+        EntryHolder[] output = new EntryHolder[] {
+                new EntryHolder(OriginEntrySource.EXTERNAL,"2004BL4631625CS0016000---ACEX07ID33EUCSHRTRAV 00000NOV-05 IMU Business Office          2224           241.75D2005-11-30          ----------                                                                  "),
+                new EntryHolder(OriginEntrySource.EXTERNAL,"2004BL4631625CS0018000---ACAS07ID33EUCSHRTRAV 00000NOV-05 IMU Business Office          2237           241.75C2005-11-30          ----------                                                                  "),
+                new EntryHolder(OriginEntrySource.SCRUBBER_VALID,"2004BL4631625CS0019915---ACTE07TF  CSCSHR01/0100000GENERATED COST SHARE FROM 4631625                  241.75C2006-01-01          ----------                                                                  "),
+                new EntryHolder(OriginEntrySource.SCRUBBER_VALID,"2004BL4631625CS0018000---ACAS07TF  CSCSHR01/0100000GENERATED OFFSET                                   241.75D2006-01-01          ----------                                                                  "),
+                new EntryHolder(OriginEntrySource.SCRUBBER_VALID,"2004BL1031400-----9960---ACTE07TF  CSCSHR01/0100000GENERATED COST SHARE FROM 4631625                  241.75D2006-01-01          ----------                                                                  "),
+                new EntryHolder(OriginEntrySource.SCRUBBER_VALID,"2004BL1031400-----8000---ACAS07TF  CSCSHR01/0100000GENERATED OFFSET                                   241.75C2006-01-01          ----------                                                                  "),
+                new EntryHolder(OriginEntrySource.SCRUBBER_VALID,"2004BL4631625CS0016000---ACEX07ID33EUCSHRTRAV 00000NOV-05 IMU Business Office          2224           241.75D2005-11-30          ----------                                                                  "),
+                new EntryHolder(OriginEntrySource.SCRUBBER_VALID,"2004BL4631625CS0018000---ACAS07ID33EUCSHRTRAV 00000NOV-05 IMU Business Office          2237           241.75C2005-11-30          ----------                                                                  ")
+        };
+
+        scrub(input);
+        assertOriginEntries(4,output);
+    }
+
 //    public void testCostShareForLevelTran() throws Exception {
 //
 //        // Inputs.
@@ -476,21 +386,21 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //        // Add inputs to expected output ...
 //        Vector expectedOutput = new Vector();
 //        for(int i = 0; i < stringInput.length; i++) {
-//            expectedOutput.add(new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
+//            new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
 //        }
 //
 //        // ... add expected output ...
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL4631618CS0019915---ACTE07TF  CSCSHR03/1300000GENERATED COST SHARE FROM 4631618                   94.35C2006-03-13          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL4631618CS0018000---ACAS07TF  CSCSHR03/1300000GENERATED OFFSET                                    94.35D2006-03-13          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL1031400-----9959---ACTE07TF  CSCSHR03/1300000GENERATED COST SHARE FROM 4631618                   94.35D2006-03-13          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL1031400-----8000---ACAS07TF  CSCSHR03/1300000GENERATED OFFSET                                    94.35C2006-03-13          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL4631618CS0015199---ACEX07DI  01CSHRTRAN 00000Rite Quality Office Supplies Inc.                   94.35D2006-01-05          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL4631618CS0019041---ACLI07DI  01CSHRTRAN 00000Rite Quality Office Supplies Inc.                   94.35C2006-01-05          ----------                                                                  "));
 //
 //        // ... and run the test.
@@ -514,21 +424,21 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //        // Add inputs to expected output ...
 //        Vector expectedOutput = new Vector();
 //        for(int i = 0; i < stringInput.length; i++) {
-//            expectedOutput.add(new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
+//            new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
 //        }
 //
 //        // ... add expected output ...
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL4631601CS0019915---ACTE07TF  CSCSHR03/1300000GENERATED COST SHARE FROM 4631601                   20.00D2006-03-13          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL4631601CS0018000---ACAS07TF  CSCSHR03/1300000GENERATED OFFSET                                    20.00C2006-03-13          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL1031400-----9923---ACTE07TF  CSCSHR03/1300000GENERATED COST SHARE FROM 4631601                   20.00C2006-03-13          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL1031400-----8000---ACAS07TF  CSCSHR03/1300000GENERATED OFFSET                                    20.00D2006-03-13          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL4631601CS0012350---ACEX07CR  01CSHRSAAP 00000Poplars Garage Fees                                 20.00C2006-01-05          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL4631601CS0018000---ACAS07CR  01CSHRSAAP 00000TP Generated Offset                                 20.00D2006-01-05          ----------                                                                  "));
 //
 //        // ... and run the test.
@@ -552,21 +462,21 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //        // Add inputs to expected output ...
 //        Vector expectedOutput = new Vector();
 //        for(int i = 0; i < stringInput.length; i++) {
-//            expectedOutput.add(new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
+//            new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
 //        }
 //
 //        // ... add expected output ...
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL4631625CS0019915---ACTE07TF  CSCSHR03/1300000GENERATED COST SHARE FROM 4631625                  241.75C2006-03-13          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL4631625CS0018000---ACAS07TF  CSCSHR03/1300000GENERATED OFFSET                                   241.75D2006-03-13          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL1031400-----9979---ACTE07TF  CSCSHR03/1300000GENERATED COST SHARE FROM 4631625                  241.75D2006-03-13          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL1031400-----8000---ACAS07TF  CSCSHR03/1300000GENERATED OFFSET                                   241.75C2006-03-13          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL4631625CS0017900---ACEX07ID33EUCSHRRESV 00000NOV-05 IMU Business Office          2224           241.75D2005-11-30          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL4631625CS0018000---ACAS07ID33EUCSHRRESV 00000NOV-05 IMU Business Office          2237           241.75C2005-11-30          ----------                                                                  "));
 //
 //        // ... and run the test.
@@ -591,21 +501,21 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //        // Add inputs to expected output ...
 //        Vector expectedOutput = new Vector();
 //        for(int i = 0; i < stringInput.length; i++) {
-//            expectedOutput.add(new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
+//            new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
 //        }
 //
 //        // ... add expected output ...
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL4631618CS0019915---ACTE07TF  CSCSHR03/1300000GENERATED COST SHARE FROM 4631618                   94.35C2006-03-13          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL4631618CS0018000---ACAS07TF  CSCSHR03/1300000GENERATED OFFSET                                    94.35D2006-03-13          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL1031400-----9924---ACTE07TF  CSCSHR03/1300000GENERATED COST SHARE FROM 4631618                   94.35D2006-03-13          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL1031400-----8000---ACAS07TF  CSCSHR03/1300000GENERATED OFFSET                                    94.35C2006-03-13          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL4631618CS0012400---ACEX07DI  01CSHRPRSA 00000Rite Quality Office Supplies Inc.                   94.35D2006-01-05          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL4631618CS0019041---ACLI07DI  01CSHRPRSA 00000Rite Quality Office Supplies Inc.                   94.35C2006-01-05          ----------                                                                  "));
 //
 //        // ... and run the test.
@@ -630,21 +540,21 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //        // Add inputs to expected output ...
 //        Vector expectedOutput = new Vector();
 //        for(int i = 0; i < stringInput.length; i++) {
-//            expectedOutput.add(new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
+//            new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
 //        }
 //
 //        // ... add expected output ...
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL4631601CS0019915---ACTE07TF  CSCSHR03/1300000GENERATED COST SHARE FROM 4631601                   20.00D2006-03-13          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL4631601CS0018000---ACAS07TF  CSCSHR03/1300000GENERATED OFFSET                                    20.00C2006-03-13          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL1031400-----9923---ACTE07TF  CSCSHR03/1300000GENERATED COST SHARE FROM 4631601                   20.00C2006-03-13          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL1031400-----8000---ACAS07TF  CSCSHR03/1300000GENERATED OFFSET                                    20.00D2006-03-13          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL4631601CS0012300---ACEX07CR  01CSHRPART 00000Poplars Garage Fees                                 20.00C2006-01-05          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL4631601CS0018000---ACAS07CR  01CSHRPART 00000TP Generated Offset                                 20.00D2006-01-05          ----------                                                                  "));
 //
 //        // ... and run the test.
@@ -669,21 +579,21 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //        // Add inputs to expected output ...
 //        Vector expectedOutput = new Vector();
 //        for(int i = 0; i < stringInput.length; i++) {
-//            expectedOutput.add(new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
+//            new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
 //        }
 //
 //        // ... add expected output ...
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL4631625CS0019915---ACTE07TF  CSCSHR03/1300000GENERATED COST SHARE FROM 4631625                  241.75C2006-03-13          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL4631625CS0018000---ACAS07TF  CSCSHR03/1300000GENERATED OFFSET                                   241.75D2006-03-13          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL1031400-----9955---ACTE07TF  CSCSHR03/1300000GENERATED COST SHARE FROM 4631625                  241.75D2006-03-13          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL1031400-----8000---ACAS07TF  CSCSHR03/1300000GENERATED OFFSET                                   241.75C2006-03-13          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL4631625CS0015500---ACEX07ID33EUCSHRICOE 00000NOV-05 IMU Business Office          2224           241.75D2005-11-30          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL4631625CS0018000---ACAS07ID33EUCSHRICOE 00000NOV-05 IMU Business Office          2237           241.75C2005-11-30          ----------                                                                  "));
 //
 //        // ... and run the test.
@@ -708,21 +618,21 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //        // Add inputs to expected output ...
 //        Vector expectedOutput = new Vector();
 //        for(int i = 0; i < stringInput.length; i++) {
-//            expectedOutput.add(new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
+//            new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
 //        }
 //
 //        // ... add expected output ...
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL4631618CS0019915---ACTE07TF  CSCSHR03/1300000GENERATED COST SHARE FROM 4631618                   94.35C2006-03-13          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL4631618CS0018000---ACAS07TF  CSCSHR03/1300000GENERATED OFFSET                                    94.35D2006-03-13          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL1031400-----9930---ACTE07TF  CSCSHR03/1300000GENERATED COST SHARE FROM 4631618                   94.35D2006-03-13          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL1031400-----8000---ACAS07TF  CSCSHR03/1300000GENERATED OFFSET                                    94.35C2006-03-13          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL4631618CS0013000---ACEX07DI  01CSHRHRCO 00000Rite Quality Office Supplies Inc.                   94.35D2006-01-05          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL4631618CS0019041---ACLI07DI  01CSHRHRCO 00000Rite Quality Office Supplies Inc.                   94.35C2006-01-05          ----------                                                                  "));
 //
 //        // ... and run the test.
@@ -747,21 +657,21 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //        // Add inputs to expected output ...
 //        Vector expectedOutput = new Vector();
 //        for(int i = 0; i < stringInput.length; i++) {
-//            expectedOutput.add(new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
+//            new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
 //        }
 //
 //        // ... add expected output ...
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL4631601CS0019915---ACTE07TF  CSCSHR03/1300000GENERATED COST SHARE FROM 4631601                   20.00D2006-03-13          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL4631601CS0018000---ACAS07TF  CSCSHR03/1300000GENERATED OFFSET                                    20.00C2006-03-13          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL1031400-----9958---ACTE07TF  CSCSHR03/1300000GENERATED COST SHARE FROM 4631601                   20.00C2006-03-13          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL1031400-----8000---ACAS07TF  CSCSHR03/1300000GENERATED OFFSET                                    20.00D2006-03-13          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL4631601CS0015800---ACEX07CR  01CSHRFINA200000Poplars Garage Fees                                 20.00C2006-01-05          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL4631601CS0018000---ACAS07CR  01CSHRFINA200000TP Generated Offset                                 20.00D2006-01-05          ----------                                                                  "));
 //
 //        // ... and run the test.
@@ -786,21 +696,21 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //        // Add inputs to expected output ...
 //        Vector expectedOutput = new Vector();
 //        for(int i = 0; i < stringInput.length; i++) {
-//            expectedOutput.add(new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
+//            new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
 //        }
 //
 //        // ... add expected output ...
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL4631625CS0019915---ACTE07TF  CSCSHR03/1300000GENERATED COST SHARE FROM 4631625                  241.75C2006-03-13          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL4631625CS0018000---ACAS07TF  CSCSHR03/1300000GENERATED OFFSET                                   241.75D2006-03-13          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL1031400-----9954---ACTE07TF  CSCSHR03/1300000GENERATED COST SHARE FROM 4631625                  241.75D2006-03-13          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL1031400-----8000---ACAS07TF  CSCSHR03/1300000GENERATED OFFSET                                   241.75C2006-03-13          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL4631625CS0015400---ACEX07ID33EUCSHRFINA100000NOV-05 IMU Business Office          2224           241.75D2005-11-30          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL4631625CS0018000---ACAS07ID33EUCSHRFINA100000NOV-05 IMU Business Office          2237           241.75C2005-11-30          ----------                                                                  "));
 //
 //        // ... and run the test.
@@ -825,21 +735,21 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //        // Add inputs to expected output ...
 //        Vector expectedOutput = new Vector();
 //        for(int i = 0; i < stringInput.length; i++) {
-//            expectedOutput.add(new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
+//            new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
 //        }
 //
 //        // ... add expected output ...
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL4631618CS0019915---ACTE07TF  CSCSHR03/1300000GENERATED COST SHARE FROM 4631618                   94.35C2006-03-13          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL4631618CS0018000---ACAS07TF  CSCSHR03/1300000GENERATED OFFSET                                    94.35D2006-03-13          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL1031400-----9912---ACTE07TF  CSCSHR03/1300000GENERATED COST SHARE FROM 4631618                   94.35D2006-03-13          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL1031400-----8000---ACAS07TF  CSCSHR03/1300000GENERATED OFFSET                                    94.35C2006-03-13          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL4631618CS0019912---ACEX07DI  01CSHRCORI 00000Rite Quality Office Supplies Inc.                   94.35D2006-01-05          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL4631618CS0019041---ACLI07DI  01CSHRCORI 00000Rite Quality Office Supplies Inc.                   94.35C2006-01-05          ----------                                                                  "));
 //
 //        // ... and run the test.
@@ -864,21 +774,21 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //        // Add inputs to expected output ...
 //        Vector expectedOutput = new Vector();
 //        for(int i = 0; i < stringInput.length; i++) {
-//            expectedOutput.add(new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
+//            new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
 //        }
 //
 //        // ... add expected output ...
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL4631601CS0019915---ACTE07TF  CSCSHR03/1300000GENERATED COST SHARE FROM 4631601                   20.00D2006-03-13          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL4631601CS0018000---ACAS07TF  CSCSHR03/1300000GENERATED OFFSET                                    20.00C2006-03-13          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL1031400-----9951---ACTE07TF  CSCSHR03/1300000GENERATED COST SHARE FROM 4631601                   20.00C2006-03-13          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL1031400-----8000---ACAS07TF  CSCSHR03/1300000GENERATED OFFSET                                    20.00D2006-03-13          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL4631601CS0019951---ACEX07CR  01CSHRCORE 00000Poplars Garage Fees                                 20.00C2006-01-05          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL4631601CS0018000---ACAS07CR  01CSHRCORE 00000TP Generated Offset                                 20.00D2006-01-05          ----------                                                                  "));
 //
 //        // ... and run the test.
@@ -903,25 +813,25 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //        // Add inputs to expected output ...
 //        Vector expectedOutput = new Vector();
 //        for(int i = 0; i < stringInput.length; i++) {
-//            expectedOutput.add(new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
+//            new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
 //        }
 //
 //        // ... add expected output ...
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL9520004-----8610---ACAS07ID33EUCSHRCAP  00000GENERATED CAPITALIZATION                           241.75D2005-11-30          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL9520004-----9899---ACFB07ID33EUCSHRCAP  00000GENERATED CAPITALIZATION                           241.75C2005-11-30          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL4631625CS0019915---ACTE07TF  CSCSHR03/1300000GENERATED COST SHARE FROM 4631625                  241.75C2006-03-13          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL4631625CS0018000---ACAS07TF  CSCSHR03/1300000GENERATED OFFSET                                   241.75D2006-03-13          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL1031400-----9970---ACTE07TF  CSCSHR03/1300000GENERATED COST SHARE FROM 4631625                  241.75D2006-03-13          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL1031400-----8000---ACAS07TF  CSCSHR03/1300000GENERATED OFFSET                                   241.75C2006-03-13          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL4631625CS0017000---ACEX07ID33EUCSHRCAP  00000NOV-05 IMU Business Office          2224           241.75D2005-11-30          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL4631625CS0018000---ACAS07ID33EUCSHRCAP  00000NOV-05 IMU Business Office          2237           241.75C2005-11-30          ----------                                                                  "));
 //
 //        // ... and run the test.
@@ -946,21 +856,21 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //        // Add inputs to expected output ...
 //        Vector expectedOutput = new Vector();
 //        for(int i = 0; i < stringInput.length; i++) {
-//            expectedOutput.add(new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
+//            new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
 //        }
 //
 //        // ... add expected output ...
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL4631618CS0019915---ACTE07TF  CSCSHR03/1300000GENERATED COST SHARE FROM 4631618                   94.35C2006-03-13          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL4631618CS0018000---ACAS07TF  CSCSHR03/1300000GENERATED OFFSET                                    94.35D2006-03-13          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL1031400-----9925---ACTE07TF  CSCSHR03/1300000GENERATED COST SHARE FROM 4631618                   94.35D2006-03-13          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL1031400-----8000---ACAS07TF  CSCSHR03/1300000GENERATED OFFSET                                    94.35C2006-03-13          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL4631618CS0012500---ACEX07DI  01CSHRBISA 00000Rite Quality Office Supplies Inc.                   94.35D2006-01-05          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL4631618CS0019041---ACLI07DI  01CSHRBISA 00000Rite Quality Office Supplies Inc.                   94.35C2006-01-05          ----------                                                                  "));
 //
 //        // ... and run the test.
@@ -985,21 +895,21 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //        // Add inputs to expected output ...
 //        Vector expectedOutput = new Vector();
 //        for(int i = 0; i < stringInput.length; i++) {
-//            expectedOutput.add(new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
+//            new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
 //        }
 //
 //        // ... add expected output ...
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL4631601CS0019915---ACTE07TF  CSCSHR03/1300000GENERATED COST SHARE FROM 4631601                   20.00D2006-03-13          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL4631601CS0018000---ACAS07TF  CSCSHR03/1300000GENERATED OFFSET                                    20.00C2006-03-13          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL1031400-----9957---ACTE07TF  CSCSHR03/1300000GENERATED COST SHARE FROM 4631601                   20.00C2006-03-13          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL1031400-----8000---ACAS07TF  CSCSHR03/1300000GENERATED OFFSET                                    20.00D2006-03-13          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL4631601CS0015760---ACEX07CR  01CSHRBENF700000Poplars Garage Fees                                 20.00C2006-01-05          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL4631601CS0018000---ACAS07CR  01CSHRBENF700000TP Generated Offset                                 20.00D2006-01-05          ----------                                                                  "));
 //
 //        // ... and run the test.
@@ -1024,21 +934,21 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //        // Add inputs to expected output ...
 //        Vector expectedOutput = new Vector();
 //        for(int i = 0; i < stringInput.length; i++) {
-//            expectedOutput.add(new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
+//            new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
 //        }
 //
 //        // ... add expected output ...
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL4631625CS0019915---ACTE07TF  CSCSHR03/1300000GENERATED COST SHARE FROM 4631625                  241.75C2006-03-13          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL4631625CS0018000---ACAS07TF  CSCSHR03/1300000GENERATED OFFSET                                   241.75D2006-03-13          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL1031400-----9956---ACTE07TF  CSCSHR03/1300000GENERATED COST SHARE FROM 4631625                  241.75D2006-03-13          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL1031400-----8000---ACAS07TF  CSCSHR03/1300000GENERATED OFFSET                                   241.75C2006-03-13          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL4631625CS0015625---ACEX07ID33EUCSHRBENF600000NOV-05 IMU Business Office          2224           241.75D2005-11-30          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL4631625CS0018000---ACAS07ID33EUCSHRBENF600000NOV-05 IMU Business Office          2237           241.75C2005-11-30          ----------                                                                  "));
 //
 //        // ... and run the test.
@@ -1063,21 +973,21 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //        // Add inputs to expected output ...
 //        Vector expectedOutput = new Vector();
 //        for(int i = 0; i < stringInput.length; i++) {
-//            expectedOutput.add(new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
+//            new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
 //        }
 //
 //        // ... add expected output ...
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL4631618CS0019915---ACTE07TF  CSCSHR03/1300000GENERATED COST SHARE FROM 4631618                   94.35C2006-03-13          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL4631618CS0018000---ACAS07TF  CSCSHR03/1300000GENERATED OFFSET                                    94.35D2006-03-13          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL1031400-----9959---ACTE07TF  CSCSHR03/1300000GENERATED COST SHARE FROM 4631618                   94.35D2006-03-13          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL1031400-----8000---ACAS07TF  CSCSHR03/1300000GENERATED OFFSET                                    94.35C2006-03-13          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL4631618CS0015509---ACEX07DI  01CSHRBASE 00000Rite Quality Office Supplies Inc.                   94.35D2006-01-05          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL4631618CS0019041---ACLI07DI  01CSHRBASE 00000Rite Quality Office Supplies Inc.                   94.35C2006-01-05          ----------                                                                  "));
 //
 //        // ... and run the test.
@@ -1102,21 +1012,21 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //        // Add inputs to expected output ...
 //        Vector expectedOutput = new Vector();
 //        for(int i = 0; i < stringInput.length; i++) {
-//            expectedOutput.add(new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
+//            new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
 //        }
 //
 //        // ... add expected output ...
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL4631601CS0019915---ACTE07TF  CSCSHR02/2100000GENERATED COST SHARE FROM 4631601                   20.00D2006-02-21          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL4631601CS0018000---ACAS07TF  CSCSHR02/2100000GENERATED OFFSET                                    20.00C2006-02-21          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL1031400-----9920---ACTE07TF  CSCSHR02/2100000GENERATED COST SHARE FROM 4631601                   20.00C2006-02-21          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL1031400-----8000---ACAS07TF  CSCSHR02/2100000GENERATED OFFSET                                    20.00D2006-02-21          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL4631601CS0012000---ACEX07CR  01CSHRACSA 00000Poplars Garage Fees                                 20.00C2006-01-05          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL4631601CS0018000---ACAS07CR  01CSHRACSA 00000TP Generated Offset                                 20.00D2006-01-05          ----------                                                                  "));
 //
 //        // ... and run the test.
@@ -1141,13 +1051,13 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //        // Add inputs to expected output ...
 //        Vector expectedOutput = new Vector();
 //        for(int i = 0; i < stringInput.length; i++) {
-//            expectedOutput.add(new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
+//            new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
 //        }
 //
 //        // ... add expected output ...
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL4631618CS0015000---ACEX07JV  01NOCSHRJV 00000Rite Quality Office Supplies Inc.                   94.35D2006-01-05          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL4631618CS0019041---ACLI07JV  01NOCSHRJV 00000Rite Quality Office Supplies Inc.                   94.35C2006-01-05          ----------                                                                  "));
 //
 //        // ... and run the test.
@@ -1172,13 +1082,13 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //        // Add inputs to expected output ...
 //        Vector expectedOutput = new Vector();
 //        for(int i = 0; i < stringInput.length; i++) {
-//            expectedOutput.add(new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
+//            new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
 //        }
 //
 //        // ... add expected output ...
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL4631601CS0015000---ACEXCBCR  01NOCSHRCB 00000Poplars Garage Fees                                 20.00C2006-01-05          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL4631601CS0018000---ACASCBCR  01NOCSHRCB 00000TP Generated Offset                                 20.00D2006-01-05          ----------                                                                  "));
 //
 //        // ... and run the test.
@@ -1203,17 +1113,17 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //        // Add inputs to expected output ...
 //        Vector expectedOutput = new Vector();
 //        for(int i = 0; i < stringInput.length; i++) {
-//            expectedOutput.add(new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
+//            new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
 //        }
 //
 //        // ... add expected output ...
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL1031400-----9940---CEEX07EXENEUNOCSHREX 00000NOV-05 IMU Business Office  FR-BL4631625           241.75D2006-03-22          ----------                                 D                                "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL1031400-----9893---CEFB07EXENEUNOCSHREX 00000GENERATED OFFSET                                   241.75C2006-03-22          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL4631625CS0014110---EXEX07EXENEUNOCSHREX 00000NOV-05 IMU Business Office          2224           241.75D2005-11-30          ----------                                 D                                "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL4631625CS0018000---EXAS07EXENEUNOCSHREX 00000NOV-05 IMU Business Office          2237           241.75C2005-11-30          ----------                                 D                                "));
 //
 //        // ... and run the test.
@@ -1238,13 +1148,13 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //        // Add inputs to expected output ...
 //        Vector expectedOutput = new Vector();
 //        for(int i = 0; i < stringInput.length; i++) {
-//            expectedOutput.add(new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
+//            new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
 //        }
 //
 //        // ... add expected output ...
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL4631618CS0015000---BBEX07DI  01NOCSHRBB 00000Rite Quality Office Supplies Inc.                   94.35 2006-01-05          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL4631618CS0019041---BBLI07DI  01NOCSHRBB 00000Rite Quality Office Supplies Inc.                   94.35 2006-01-05          ----------                                                                  "));
 //
 //        // ... and run the test.
@@ -1269,13 +1179,13 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //        // Add inputs to expected output ...
 //        Vector expectedOutput = new Vector();
 //        for(int i = 0; i < stringInput.length; i++) {
-//            expectedOutput.add(new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
+//            new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
 //        }
 //
 //        // ... add expected output ...
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL4631601CS0011800---ACIN07CR  01NOCSHRIN 00000Poplars Garage Fees                                 20.00C2006-01-05          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL4631601CS0018000---ACAS07CR  01NOCSHRIN 00000TP Generated Offset                                 20.00D2006-01-05          ----------                                                                  "));
 //
 //        // ... and run the test.
@@ -1304,33 +1214,33 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //        // Add inputs to expected output ...
 //        Vector expectedOutput = new Vector();
 //        for(int i = 0; i < stringInput.length; i++) {
-//            expectedOutput.add(new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
+//            new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
 //        }
 //
 //        // ... add expected output ...
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BA9020204-----9100---ACLI07SB  01DEBTEDNES00000GENERATED TRANSFER TO NET PLANT                     13.77C2006-01-05          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BA9020204-----9899---ACFB07SB  01DEBTEDNES00000GENERATED TRANSFER TO NET PLANT                     13.77D2006-01-05          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BA9544900-----9100---ACLI07SB  01DEBTEDNES00000GENERATED TRANSFER FROM BA 9020204                  13.77D2006-01-05          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BA9544900-----9899---ACFB07SB  01DEBTEDNES00000GENERATED TRANSFER FROM BA 9020204                  13.77C2006-01-05          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BA9020204-----9100---ACLI07SB  01DEBTEDNES00000Biology Stockroom                                   13.77D2006-01-05          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BA9020204-----8000---ACAS07SB  01DEBTEDNES00000TP Generated Offset                                 13.77C2006-01-05          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BA9120657-----9120---ACLI07ST  EUDEBTEDNES00000GENERATED TRANSFER TO NET PLANT                    620.00D2006-01-05          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BA9120657-----9899---ACFB07ST  EUDEBTEDNES00000GENERATED TRANSFER TO NET PLANT                    620.00C2006-01-05          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BA9544900-----9120---ACLI07ST  EUDEBTEDNES00000GENERATED TRANSFER FROM BA 9120657                 620.00C2006-01-05          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BA9544900-----9899---ACFB07ST  EUDEBTEDNES00000GENERATED TRANSFER FROM BA 9120657                 620.00D2006-01-05          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BA9120657-----9120---ACLI07ST  EUDEBTEDNES00000PAYROLL EXPENSE TRANSFERS                          620.00C2006-01-05          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BA9120657-----8000---ACAS07ST  EUDEBTEDNES00000PAYROLL EXPENSE TRANSFERS                          620.00D2006-01-05          ----------                                                                  "));
 //
 //        // ... and run the test.
@@ -1355,21 +1265,21 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //        // Add inputs to expected output ...
 //        Vector expectedOutput = new Vector();
 //        for(int i = 0; i < stringInput.length; i++) {
-//            expectedOutput.add(new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
+//            new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
 //        }
 //
 //        // ... add expected output ...
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BA9120657-----9100---ACLI07INV EUNODEBTP2 00000GENERATED TRANSFER TO NET PLANT                   3375.00D2006-01-05          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BA9120657-----9899---ACFB07INV EUNODEBTP2 00000GENERATED TRANSFER TO NET PLANT                   3375.00C2006-01-05          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BA9544900-----9100---ACLI07INV EUNODEBTP2 00000GENERATED TRANSFER FROM BA 9120657                3375.00C2006-01-05          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BA9544900-----9899---ACFB07INV EUNODEBTP2 00000GENERATED TRANSFER FROM BA 9120657                3375.00D2006-01-05          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BA9120657-----9100---ACLI07INV EUNODEBTP2 00000BALDWIN WALLACE COLLEGE                           3375.00C2006-01-05          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BA9120657-----8000---ACAS07INV EUNODEBTP2 00000TP Generated Offset                               3375.00D2006-01-05          ----------                                                                  "));
 //
 //        // ... and run the test.
@@ -1394,13 +1304,13 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //        // Add inputs to expected output ...
 //        Vector expectedOutput = new Vector();
 //        for(int i = 0; i < stringInput.length; i++) {
-//            expectedOutput.add(new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
+//            new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
 //        }
 //
 //        // ... add expected output ...
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL2231423-----9100---ACIN07CR  PLNODEBTP1 00000FRICKA FRACKA                                    45995.84C2006-01-05          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL2231423-----8000---ACAS07CR  PLNODEBTP1 00000TP Generated Offset                              45995.84D2006-01-05          ----------                                                                  "));
 //
 //        // ... and run the test.
@@ -1425,13 +1335,13 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //        // Add inputs to expected output ...
 //        Vector expectedOutput = new Vector();
 //        for(int i = 0; i < stringInput.length; i++) {
-//            expectedOutput.add(new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
+//            new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
 //        }
 //
 //        // ... add expected output ...
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BA9021004-----9120---EXLI07TOPSEUNODEBTEX 00000PAYROLL EXPENSE TRANSFERS                          620.00C2006-01-05          ----------                                 D                                "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BA9021004-----8000---EXAS07TOPSEUNODEBTEX 00000PAYROLL EXPENSE TRANSFERS                          620.00D2006-01-05          ----------                                 D                                "));
 //
 //        // ... and run the test.
@@ -1456,13 +1366,13 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //        // Add inputs to expected output ...
 //        Vector expectedOutput = new Vector();
 //        for(int i = 0; i < stringInput.length; i++) {
-//            expectedOutput.add(new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
+//            new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
 //        }
 //
 //        // ... add expected output ...
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BA9020204-----9100---BBLI07SB  01NODEBTBB 00000Biology Stockroom                                   13.77 2006-01-05          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BA9020204-----8000---BBAS07SB  01NODEBTBB 00000TP Generated Offset                                 13.77 2006-01-05          ----------                                                                  "));
 //
 //        // ... and run the test.
@@ -1487,17 +1397,17 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //        // Add inputs to expected output ...
 //        Vector expectedOutput = new Vector();
 //        for(int i = 0; i < stringInput.length; i++) {
-//            expectedOutput.add(new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
+//            new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
 //        }
 //
 //        // ... add expected output ...
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BA9544900-----9603---ACLI07CD  PDCAPITALCL00000GENERATED LIABILITY                               1445.00D2006-01-05          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BA9544900-----9899---ACFB07CD  PDCAPITALCL00000GENERATED LIABILITY                               1445.00C2006-01-05          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BA6044900-----7099---ACEE07CD  PDCAPITALCL00000214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BA6044900-----8000---ACAS07CD  PDCAPITALCL00000214090047 EVERETT J PRESCOTT INC.                 1445.00C2006-01-05          ----------                                                                  "));
 //
 //        // ... and run the test.
@@ -1522,17 +1432,17 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //        // Add inputs to expected output ...
 //        Vector expectedOutput = new Vector();
 //        for(int i = 0; i < stringInput.length; i++) {
-//            expectedOutput.add(new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
+//            new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
 //        }
 //
 //        // ... add expected output ...
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BA9544900-----8665---ACAS07GEC 01CAPITALLR00000GENERATED CAPITALIZATION                            48.53C2006-01-05          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BA9544900-----9899---ACFB07GEC 01CAPITALLR00000GENERATED CAPITALIZATION                            48.53D2006-01-05          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BA6044913-----7465---ACEE07GEC 01CAPITALLR00000CONCERTO OFFICE PRODUCTS                            48.53C2006-01-05          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BA6044913-----9041---ACLI07GEC 01CAPITALLR00000CONCERTO OFFICE PRODUCTS                            48.53D2006-01-05          ----------                                                                  "));
 //
 //        // ... and run the test.
@@ -1557,17 +1467,17 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //        // Add inputs to expected output ...
 //        Vector expectedOutput = new Vector();
 //        for(int i = 0; i < stringInput.length; i++) {
-//            expectedOutput.add(new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
+//            new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
 //        }
 //
 //        // ... add expected output ...
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BA9544900-----8613---ACAS07TOPS01CAPITALLI00000GENERATED CAPITALIZATION                            48.53C2006-01-05          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BA9544900-----9899---ACFB07TOPS01CAPITALLI00000GENERATED CAPITALIZATION                            48.53D2006-01-05          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BA6044906-----7100---ACEE07TOPS01CAPITALLI00000CONCERTO OFFICE PRODUCTS                            48.53C2006-01-05          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BA6044906-----9041---ACLI07TOPS01CAPITALLI00000CONCERTO OFFICE PRODUCTS                            48.53D2006-01-05          ----------                                                                  "));
 //
 //        // ... and run the test.
@@ -1592,17 +1502,17 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //        // Add inputs to expected output ...
 //        Vector expectedOutput = new Vector();
 //        for(int i = 0; i < stringInput.length; i++) {
-//            expectedOutput.add(new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
+//            new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
 //        }
 //
 //        // ... add expected output ...
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BA9544900-----8608---ACAS07CD  PDCAPITALLE00000GENERATED CAPITALIZATION                          1445.00D2006-01-05          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BA9544900-----9899---ACFB07CD  PDCAPITALLE00000GENERATED CAPITALIZATION                          1445.00C2006-01-05          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BA6044900-----7800---ACEE07CD  PDCAPITALLE00000214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BA6044900-----8000---ACAS07CD  PDCAPITALLE00000214090047 EVERETT J PRESCOTT INC.                 1445.00C2006-01-05          ----------                                                                  "));
 //
 //        // ... and run the test.
@@ -1627,17 +1537,17 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //        // Add inputs to expected output ...
 //        Vector expectedOutput = new Vector();
 //        for(int i = 0; i < stringInput.length; i++) {
-//            expectedOutput.add(new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
+//            new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
 //        }
 //
 //        // ... add expected output ...
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BA9544900-----8603---ACAS07GEC 01CAPITALLA00000GENERATED CAPITALIZATION                            48.53C2006-01-05          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BA9544900-----9899---ACFB07GEC 01CAPITALLA00000GENERATED CAPITALIZATION                            48.53D2006-01-05          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BA6044913-----7200---ACEE07GEC 01CAPITALLA00000CONCERTO OFFICE PRODUCTS                            48.53C2006-01-05          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BA6044913-----9041---ACLI07GEC 01CAPITALLA00000CONCERTO OFFICE PRODUCTS                            48.53D2006-01-05          ----------                                                                  "));
 //
 //        // ... and run the test.
@@ -1662,17 +1572,17 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //        // Add inputs to expected output ...
 //        Vector expectedOutput = new Vector();
 //        for(int i = 0; i < stringInput.length; i++) {
-//            expectedOutput.add(new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
+//            new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
 //        }
 //
 //        // ... add expected output ...
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BA9544900-----8604---ACAS07TOPS01CAPITALIF00000GENERATED CAPITALIZATION                            48.53C2006-01-05          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BA9544900-----9899---ACFB07TOPS01CAPITALIF00000GENERATED CAPITALIZATION                            48.53D2006-01-05          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BA6044906-----7400---ACEE07TOPS01CAPITALIF00000CONCERTO OFFICE PRODUCTS                            48.53C2006-01-05          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BA6044906-----9041---ACLI07TOPS01CAPITALIF00000CONCERTO OFFICE PRODUCTS                            48.53D2006-01-05          ----------                                                                  "));
 //
 //        // ... and run the test.
@@ -1697,17 +1607,17 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //        // Add inputs to expected output ...
 //        Vector expectedOutput = new Vector();
 //        for(int i = 0; i < stringInput.length; i++) {
-//            expectedOutput.add(new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
+//            new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
 //        }
 //
 //        // ... add expected output ...
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BA9544900-----8630---ACAS07CD  PDCAPITALES00000GENERATED CAPITALIZATION                          1445.00D2006-01-05          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BA9544900-----9899---ACFB07CD  PDCAPITALES00000GENERATED CAPITALIZATION                          1445.00C2006-01-05          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BA6044900-----7098---ACEE07CD  PDCAPITALES00000214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BA6044900-----8000---ACAS07CD  PDCAPITALES00000214090047 EVERETT J PRESCOTT INC.                 1445.00C2006-01-05          ----------                                                                  "));
 //
 //        // ... and run the test.
@@ -1732,17 +1642,17 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //        // Add inputs to expected output ...
 //        Vector expectedOutput = new Vector();
 //        for(int i = 0; i < stringInput.length; i++) {
-//            expectedOutput.add(new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
+//            new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
 //        }
 //
 //        // ... add expected output ...
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BA9544900-----8611---ACAS07GEC 01CAPITALCF00000GENERATED CAPITALIZATION                            48.53C2006-01-05          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BA9544900-----9899---ACFB07GEC 01CAPITALCF00000GENERATED CAPITALIZATION                            48.53D2006-01-05          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BA6044913-----7030---ACEE07GEC 01CAPITALCF00000CONCERTO OFFICE PRODUCTS                            48.53C2006-01-05          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BA6044913-----9041---ACLI07GEC 01CAPITALCF00000CONCERTO OFFICE PRODUCTS                            48.53D2006-01-05          ----------                                                                  "));
 //
 //        // ... and run the test.
@@ -1767,17 +1677,17 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //        // Add inputs to expected output ...
 //        Vector expectedOutput = new Vector();
 //        for(int i = 0; i < stringInput.length; i++) {
-//            expectedOutput.add(new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
+//            new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
 //        }
 //
 //        // ... add expected output ...
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BA9544900-----8610---ACAS07TOPS01CAPITALCM00000GENERATED CAPITALIZATION                            48.53C2006-01-05          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BA9544900-----9899---ACFB07TOPS01CAPITALCM00000GENERATED CAPITALIZATION                            48.53D2006-01-05          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BA6044906-----7000---ACEE07TOPS01CAPITALCM00000CONCERTO OFFICE PRODUCTS                            48.53C2006-01-05          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BA6044906-----9041---ACLI07TOPS01CAPITALCM00000CONCERTO OFFICE PRODUCTS                            48.53D2006-01-05          ----------                                                                  "));
 //
 //        // ... and run the test.
@@ -1802,17 +1712,17 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //        // Add inputs to expected output ...
 //        Vector expectedOutput = new Vector();
 //        for(int i = 0; i < stringInput.length; i++) {
-//            expectedOutput.add(new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
+//            new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
 //        }
 //
 //        // ... add expected output ...
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BA9544900-----8605---ACAS07GEC 01CAPITALBF00000GENERATED CAPITALIZATION                            48.53C2006-01-05          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BA9544900-----9899---ACFB07GEC 01CAPITALBF00000GENERATED CAPITALIZATION                            48.53D2006-01-05          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BA6044913-----7305---ACEE07GEC 01CAPITALBF00000CONCERTO OFFICE PRODUCTS                            48.53C2006-01-05          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BA6044913-----9041---ACLI07GEC 01CAPITALBF00000CONCERTO OFFICE PRODUCTS                            48.53D2006-01-05          ----------                                                                  "));
 //
 //        // ... and run the test.
@@ -1837,17 +1747,17 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //        // Add inputs to expected output ...
 //        Vector expectedOutput = new Vector();
 //        for(int i = 0; i < stringInput.length; i++) {
-//            expectedOutput.add(new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
+//            new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
 //        }
 //
 //        // ... add expected output ...
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BA9544900-----8601---ACAS07TOPS01CAPITALBD00000GENERATED CAPITALIZATION                            48.53C2006-01-05          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BA9544900-----9899---ACFB07TOPS01CAPITALBD00000GENERATED CAPITALIZATION                            48.53D2006-01-05          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BA6044906-----7300---ACEE07TOPS01CAPITALBD00000CONCERTO OFFICE PRODUCTS                            48.53C2006-01-05          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BA6044906-----9041---ACLI07TOPS01CAPITALBD00000CONCERTO OFFICE PRODUCTS                            48.53D2006-01-05          ----------                                                                  "));
 //
 //        // ... and run the test.
@@ -1872,17 +1782,17 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //        // Add inputs to expected output ...
 //        Vector expectedOutput = new Vector();
 //        for(int i = 0; i < stringInput.length; i++) {
-//            expectedOutput.add(new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
+//            new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
 //        }
 //
 //        // ... add expected output ...
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BA9544900-----8615---ACAS07CD  PDCAPITALAM00000GENERATED CAPITALIZATION                          1445.00D2006-01-05          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BA9544900-----9899---ACFB07CD  PDCAPITALAM00000GENERATED CAPITALIZATION                          1445.00C2006-01-05          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BA6044900-----7677---ACEE07CD  PDCAPITALAM00000214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BA6044900-----8000---ACAS07CD  PDCAPITALAM00000214090047 EVERETT J PRESCOTT INC.                 1445.00C2006-01-05          ----------                                                                  "));
 //
 //        // ... and run the test.
@@ -1907,13 +1817,13 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //        // Add inputs to expected output ...
 //        Vector expectedOutput = new Vector();
 //        for(int i = 0; i < stringInput.length; i++) {
-//            expectedOutput.add(new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
+//            new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
 //        }
 //
 //        // ... add expected output ...
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BA6044900-----7000---ACEECBCD  PDNOCAPCB  00000214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ACCDEFGHIJ----------12345678                                                          "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BA6044900-----8000---ACASCBCD  PDNOCAPCB  00000214090047 EVERETT J PRESCOTT INC.                 1445.00C2006-01-05ABCDEFGHIG----------12345679                                                          "));
 //
 //        // ... and run the test.
@@ -1938,13 +1848,13 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //        // Add inputs to expected output ...
 //        Vector expectedOutput = new Vector();
 //        for(int i = 0; i < stringInput.length; i++) {
-//            expectedOutput.add(new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
+//            new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
 //        }
 //
 //        // ... add expected output ...
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BA6044913-----7300---ACEE07TF  LGNOCAPTF  00000CONCERTO OFFICE PRODUCTS                            48.53C2006-01-05          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BA6044913-----9041---ACLI07TF  LGNOCAPTF  00000CONCERTO OFFICE PRODUCTS                            48.53D2006-01-05          ----------                                                                  "));
 //
 //        // ... and run the test.
@@ -1969,13 +1879,13 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //        // Add inputs to expected output ...
 //        Vector expectedOutput = new Vector();
 //        for(int i = 0; i < stringInput.length; i++) {
-//            expectedOutput.add(new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
+//            new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
 //        }
 //
 //        // ... add expected output ...
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BA6044906-----7300---EXEE07TOPSLGNOCAPEX  00000CONCERTO OFFICE PRODUCTS                            48.53C2006-01-05          ----------                                 D                                "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BA6044906-----9041---EXLI07TOPSLGNOCAPEX  00000CONCERTO OFFICE PRODUCTS                            48.53D2006-01-05          ----------                                 D                                "));
 //
 //        // ... and run the test.
@@ -2000,13 +1910,13 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //        // Add inputs to expected output ...
 //        Vector expectedOutput = new Vector();
 //        for(int i = 0; i < stringInput.length; i++) {
-//            expectedOutput.add(new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
+//            new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
 //        }
 //
 //        // ... add expected output ...
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BA6044900-----7000---BBEE07CD  PDNOCAPBB  00000214090047 EVERETT J PRESCOTT INC.                 1445.00 2006-01-05ACCDEFGHIJ----------12345678                                                          "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BA6044900-----8000---BBAS07CD  PDNOCAPBB  00000214090047 EVERETT J PRESCOTT INC.                 1445.00 2006-01-05ABCDEFGHIG----------12345679                                                          "));
 //
 //        // ... and run the test.
@@ -2030,17 +1940,17 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //        // Add inputs to expected output ...
 //        Vector expectedOutput = new Vector();
 //        for(int i = 0; i < stringInput.length; i++) {
-//            expectedOutput.add(new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
+//            new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
 //        }
 //
 //        // ... add expected output ...
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL1031497-----4190---ACEX07GEC 01OFFSETPER00000THOMAS BUSEY/NEWEGG COMPUTERS                       40.72C2006-01-05          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL1031497-----8000---ACAS07GEC 01OFFSETPER00000GENERATED OFFSET                                    40.72D2006-02-21          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL1031497-----8000---ACAS08GEC 01OFFSETPER00000TP Generated Offset                                 40.72D2006-01-05          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL1031497-----8000---ACAS08GEC 01OFFSETPER00000GENERATED OFFSET                                    40.72C2006-02-21          ----------                                                                  "));
 //
 //        // ... and run the test.
@@ -2065,17 +1975,17 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //        // Add inputs to expected output ...
 //        Vector expectedOutput = new Vector();
 //        for(int i = 0; i < stringInput.length; i++) {
-//            expectedOutput.add(new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
+//            new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
 //        }
 //
 //        // ... add expected output ...
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BA6044913-----1800---ACIN07CR  01OFFSETREV00000Poplars Garage Fees                                 20.00D2006-01-05          ----------                       2005-01-31                                 "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BA6044913-----8000---ACAS07CR  01OFFSETREV00000GENERATED OFFSET                                    20.00C2006-02-21          ----------                       2005-01-31                                 "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BA6044913-----8000---ACAS07CR  01OFFSETREV00000TP Generated Offset                                 20.00C2006-01-05          ----------                       2005-02-01                                 "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BA6044913-----8000---ACAS07CR  01OFFSETREV00000GENERATED OFFSET                                    20.00D2006-02-21          ----------                       2005-02-01                                 "));
 //
 //        // ... and run the test.
@@ -2100,17 +2010,17 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //        // Add inputs to expected output ...
 //        Vector expectedOutput = new Vector();
 //        for(int i = 0; i < stringInput.length; i++) {
-//            expectedOutput.add(new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
+//            new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
 //        }
 //
 //        // ... add expected output ...
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BA9120656-----4035---EXEX07EXEN01OFFSETBAL00000pymts recd 12/28/05                                 25.15C2006-01-05          ----------                                 D                                "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BA9120656-----9892---EXFB07EXEN01OFFSETBAL00000GENERATED OFFSET                                    25.15D2006-02-21          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BA9120656-----8000---ACAS07TOPS01OFFSETBAL00000TP Generated Offset                                 25.15D2006-01-05          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BA9120656-----8000---ACAS07TOPS01OFFSETBAL00000GENERATED OFFSET                                    25.15C2006-02-21          ----------                                                                  "));
 //
 //        // ... and run the test.
@@ -2135,17 +2045,17 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //        // Add inputs to expected output ...
 //        Vector expectedOutput = new Vector();
 //        for(int i = 0; i < stringInput.length; i++) {
-//            expectedOutput.add(new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
+//            new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
 //        }
 //
 //        // ... add expected output ...
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL1031400ADV  5000---ACEX07TOPSLGOFFSETSAC00000225050007 WILLIAMS DOTSON ASSOCIATES IN           1200.00D2006-01-05          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL1031400ADV  8000---ACAS07TOPSLGOFFSETSAC00000GENERATED OFFSET                                  1200.00C2006-02-21          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL1031400AHD  9041---ACLI07TOPSLGOFFSETSAC00000225050007 WILLIAMS DOTSON ASSOCIATES IN           1200.00C2006-01-05          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL1031400AHD  8000---ACAS07TOPSLGOFFSETSAC00000GENERATED OFFSET                                  1200.00D2006-02-21          ----------                                                                  "));
 //
 //        // ... and run the test.
@@ -2170,17 +2080,17 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //        // Add inputs to expected output ...
 //        Vector expectedOutput = new Vector();
 //        for(int i = 0; i < stringInput.length; i++) {
-//            expectedOutput.add(new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
+//            new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
 //        }
 //
 //        // ... add expected output ...
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL1031420-----4190---ACEX07GEC 01OFFSETACT00000THOMAS BUSEY/NEWEGG COMPUTERS                       40.72C2006-01-05          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL1031420-----8000---ACAS07GEC 01OFFSETACT00000GENERATED OFFSET                                    40.72D2006-02-21          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL1031497-----8000---ACAS07GEC 01OFFSETACT00000TP Generated Offset                                 40.72D2006-01-05          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BL1031497-----8000---ACAS07GEC 01OFFSETACT00000GENERATED OFFSET                                    40.72C2006-02-21          ----------                                                                  "));
 //
 //        // ... and run the test.
@@ -2209,21 +2119,21 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //        // Add inputs to expected output ...
 //        Vector expectedOutput = new Vector();
 //        for(int i = 0; i < stringInput.length; i++) {
-//            expectedOutput.add(new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
+//            new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
 //        }
 //
 //        // ... add expected output ...
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BA6044913-----1466---ACIC07AVAD01OFFSETDC100000online permit sales for 01/03/06                   240.00D2006-01-05          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BA6044913-----5000---ACEX07AVAD01OFFSETDC100000online permit sales for 01/03/06                  3880.00C2006-01-05          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BA6044913-----9897---ACFB07AVAD01OFFSETDC100000GENERATED OFFSET                                  3640.00D2006-02-21          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BA6044913-----4100---ACEX07AVAD01OFFSETDC200000online permit sales for 01/03/06                   725.00C2006-01-05          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BA6044913-----1800---ACIC07AVAD01OFFSETDC200000online permit sales for 01/03/06                  3395.00D2006-01-05          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BA6044913-----9897---ACFB07AVAD01OFFSETDC200000GENERATED OFFSET                                  2670.00C2006-02-21          ----------                                                                  "));
 //
 //        // ... and run the test.
@@ -2248,17 +2158,17 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //        // Add inputs to expected output ...
 //        Vector expectedOutput = new Vector();
 //        for(int i = 0; i < stringInput.length; i++) {
-//            expectedOutput.add(new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
+//            new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
 //        }
 //
 //        // ... add expected output ...
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BA6044906-----4010---ACEX07DI  01OFFSETORG00000OFFICE SUPPLY CHARGEBACKS                          294.64D2006-01-05          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BA6044906-----8000---ACAS07DI  01OFFSETORG00000GENERATED OFFSET                                   294.64C2006-02-21          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BA6044906-----5000---ACEX07DI  EUOFFSETORG00000OFFICE SUPPLY CHARGEBACKS                          294.64D2006-01-05          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //                "2004BA6044906-----8000---ACAS07DI  EUOFFSETORG00000GENERATED OFFSET                                   294.64C2006-02-21          ----------                                                                  "));
 //
 //        // ... and run the test.
@@ -2287,21 +2197,21 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //        // Add inputs to expected output ...
 //        Vector expectedOutput = new Vector();
 //        for(int i = 0; i < stringInput.length; i++) {
-//            expectedOutput.add(new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
+//            new EntryHolder(OriginEntrySource.EXTERNAL, convertedStringInput[i]));
 //        }
 //
 //        // ... add expected output ...
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //            "2004BL1031400-----4190---ACEX07PCDO01OFFSETDTP00000SOM/MUSIC GENERAL/INSIGHT CABLE                     44.95C2006-01-05          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //            "2004BL1031400-----4190---ACEX07PCDO01OFFSETDTP00000SOM/MUSIC GENERAL/SULLIVAN S FASHIONS FO           540.00C2006-01-05          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //            "2004BL1031400-----8000---ACAS07PCDO01OFFSETDTP00000GENERATED OFFSET                                   584.95D2006-02-21          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //            "2004BL1031400-----4021---ACEX07GEC 01OFFSETDTP00000SOM/MUSIC GENERAL/INSIGHT CABLE                     44.95C2006-01-05          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //            "2004BL1031400-----1800---ACIN07GEC 01OFFSETDTP00000SOM/MUSIC GENERAL/SULLIVAN S FASHIONS FO           547.00D2006-01-05          ----------                                                                  "));
-//        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
 //            "2004BL1031400-----8000---ACAS07GEC 01OFFSETDTP00000GENERATED OFFSET                                   502.05C2006-02-21          ----------                                                                  "));
 //
 //        // ... and run the test.
@@ -2309,188 +2219,188 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 //        assertOriginEntries(4,(EntryHolder[]) expectedOutput.toArray(new EntryHolder[0]), dateTimeService.currentDate);
 //
 //    }
-
-    public void testClosedAccount01() throws Exception {
-
-        // Inputs.
-        String[] input = new String[] {
-                "2004BL2131401-----4100---ACEX07DI  01CLOSACT0100000Rite Quality Office Supplies Inc.                   94.35D2006-01-05          ----------                                                                  ",
-                "2004BL2131401-----9041---ACLI07DI  01CLOSACT0100000Rite Quality Office Supplies Inc.                   94.35C2006-01-05          ----------                                                                  "
-        };
-
-        EntryHolder[] output = new EntryHolder[] {
-                new EntryHolder(OriginEntrySource.EXTERNAL,"2004BL2131401-----4100---ACEX07DI  01CLOSACT0100000Rite Quality Office Supplies Inc.                   94.35D2006-01-05          ----------                                                                  "),
-                new EntryHolder(OriginEntrySource.EXTERNAL,"2004BL2131401-----9041---ACLI07DI  01CLOSACT0100000Rite Quality Office Supplies Inc.                   94.35C2006-01-05          ----------                                                                  "),
-                new EntryHolder(OriginEntrySource.SCRUBBER_EXPIRED,"2004BL2131401-----4100---ACEX07DI  01CLOSACT0100000Rite Quality Office Supplies Inc.                   94.35D2006-01-05          ----------                                                                  "),
-                new EntryHolder(OriginEntrySource.SCRUBBER_ERROR,"2004BL2131401-----9041---ACLI07DI  01CLOSACT0100000Rite Quality Office Supplies Inc.                   94.35C2006-01-05          ----------                                                                  "),
-                new EntryHolder(OriginEntrySource.SCRUBBER_EXPIRED,"2004BL2131401-----4100---ACEX07DI  01CLOSACT0100000Rite Quality Office Supplies Inc.                   94.35D2006-01-05          ----------                                                                  "),
-                new EntryHolder(OriginEntrySource.SCRUBBER_ERROR,"2004BL2131401-----9041---ACLI07DI  01CLOSACT0100000Rite Quality Office Supplies Inc.                   94.35C2006-01-05          ----------                                                                  ")
-        };
-
-        scrub(input);
-        assertOriginEntries(4,output);
-    }
-
-    public void testClosedAccount() throws Exception {
-
-        // Inputs.
-        String[] stringInput = new String[] {
-                "2004BA6044909-----1800---ACIN07CR  UBCLOSACCT 00000Poplars Garage Fees                                 20.00C2006-01-05          ----------                                                                          ",
-                "2004BA6044909-----8000---ACAS07CR  UBCLOSACCT 00000TP Generated Offset                                 20.00D2006-01-05          ----------                                                                          "
-        };
-
-        // Add inputs to expected output ...
-        Vector expectedOutput = new Vector();
-        for(int i = 0; i < stringInput.length; i++) {
-            expectedOutput.add(new EntryHolder(OriginEntrySource.EXTERNAL, stringInput[i]));
-        }
-
-        // ... add expected output ...
-        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_EXPIRED,
-                "2004BA6044900-----1800---ACIN07CR  UBCLOSACCT 00000AUTO FR BA6044909Poplars Garage Fees                20.00C2006-01-05          ----------                                                                          "));
-        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_EXPIRED,
-                "2004BA6044900-----8000---ACAS07CR  UBCLOSACCT 00000AUTO FR BA6044909TP Generated Offset                20.00D2006-01-05          ----------                                                                          "));
-
-        // ... and run the test.
-        scrub(stringInput);
-        assertOriginEntries(4,(EntryHolder[]) expectedOutput.toArray(new EntryHolder[0]));
-    }
-
-    public void testExpiredAccountByDocumentType() throws Exception {
-
-        // Inputs.
-        String[] stringInput = new String[] {
-                "2004BL4631557-----4100---ACEX07LOCRLGEXPRACTLC00000CONCERTO OFFICE PRODUCTS                            48.53C2006-01-05          ----------                                                                          ",
-                "2004BL4631557-----9041---ACLI07LOCRLGEXPRACTLC00000CONCERTO OFFICE PRODUCTS                            48.53D2006-01-05          ----------                                                                          "
-        };
-
-        // Add inputs to expected output ...
-        Vector expectedOutput = new Vector();
-        for(int i = 0; i < stringInput.length; i++) {
-            expectedOutput.add(new EntryHolder(OriginEntrySource.EXTERNAL, stringInput[i]));
-        }
-
-        // ... add expected output ...
-        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
-                "2004BL4631557-----4100---ACEX07LOCRLGEXPRACTLC00000CONCERTO OFFICE PRODUCTS                            48.53C2006-01-05          ----------                                                                          "));
-        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
-                "2004BL4631557-----9041---ACLI07LOCRLGEXPRACTLC00000CONCERTO OFFICE PRODUCTS                            48.53D2006-01-05          ----------                                                                          "));
-
-        // ... and run the test.
-        scrub(stringInput);
-        assertOriginEntries(4,(EntryHolder[]) expectedOutput.toArray(new EntryHolder[0]));
-
-    }
-
-    public void failingTestExpiredAccountByBalanceType() throws Exception {
-
-        // Inputs.
-        String[] stringInput = new String[] {
-                "2004BL4131407-----4100---EXEX07TOPSLGEXPRACTEX     CONCERTO OFFICE PRODUCTS                            48.53C2006-01-05          ----------                                 D                                        ",
-                "2004BL4131407-----9041---EXLI07TOPSLGEXPRACTEX     CONCERTO OFFICE PRODUCTS                            48.53D2006-01-05          ----------                                 D                                        "
-        };
-
-        // Add inputs to expected output ...
-        Vector expectedOutput = new Vector();
-        for(int i = 0; i < stringInput.length; i++) {
-            expectedOutput.add(new EntryHolder(OriginEntrySource.EXTERNAL, stringInput[i]));
-        }
-
-        // ... add expected output ...
-        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
-                "2004BL4131407-----4100---EXEX07TOPSLGEXPRACTEX00000CONCERTO OFFICE PRODUCTS                            48.53C2006-01-05          ----------                                 D                                        "));
-        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
-                "2004BL4131407-----9041---EXLI07TOPSLGEXPRACTEX00000CONCERTO OFFICE PRODUCTS                            48.53D2006-01-05          ----------                                 D                                        "));
-
-        // ... and run the test.
-        scrub(stringInput);
-        assertOriginEntries(4,(EntryHolder[]) expectedOutput.toArray(new EntryHolder[0]));
-
-    }
-
-    public void testExpiredAccountByOriginCode() throws Exception {
-
-        // Inputs.
-        String[] stringInput = new String[] {
-                "2004BL1031467-----5300---ACEE07DD  01EXPRACT0112345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
-                "2004BL1031467-----8000---ACAS07DD  01EXPRACT0112345214090047 EVERETT J PRESCOTT INC.                 1445.00C2006-01-05ABCDEFGHIG----------12345679                                                                  ",
-        };
-
-        // Add inputs to expected output ...
-        Vector expectedOutput = new Vector();
-        for(int i = 0; i < stringInput.length; i++) {
-            expectedOutput.add(new EntryHolder(OriginEntrySource.EXTERNAL, stringInput[i]));
-        }
-
-        // ... add expected output ...
-        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
-                "2004BL1031467-----5300---ACEE07DD  01EXPRACT0112345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                  "));
-        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
-                "2004BL1031467-----8000---ACAS07DD  01EXPRACT0112345214090047 EVERETT J PRESCOTT INC.                 1445.00C2006-01-05ABCDEFGHIG----------12345679                                                                  "));
-
-        // ... and run the test.
-        scrub(stringInput);
-        assertOriginEntries(4,(EntryHolder[]) expectedOutput.toArray(new EntryHolder[0]));
-
-    }
-
-    public void FIXMEtestExpiredContractAndGrantAccountWithinThirtyDayGracePeriod() throws Exception {
-
-        // FIXME apparently didn't find data for this in the Kuali dev environment. So, can't test this now
-        // Need to test at some point however.
-
-    }
-
-    public void testExpiredContractAndGrantAccount() throws Exception {
-
-        // Inputs.
-        String[] stringInput = new String[] {
-            "2004BL4131407-----4100---ACEX07TOPSLGEXPIRCGAC00000CONCERTO OFFICE PRODUCTS                            48.53C2006-01-05          ----------                                                                          ",
-            "2004BL4131407-----9041---ACLI07TOPSLGEXPIRCGAC00000CONCERTO OFFICE PRODUCTS                            48.53D2006-01-05          ----------                                                                          "
-        };
-
-        // Add inputs to expected output ...
-        Vector expectedOutput = new Vector();
-        for(int i = 0; i < stringInput.length; i++) {
-            expectedOutput.add(new EntryHolder(OriginEntrySource.EXTERNAL, stringInput[i]));
-        }
-
-        // ... add expected output ...
-        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
-                "2004BL4131407-----4100---ACEX07TOPSLGEXPIRCGAC00000CONCERTO OFFICE PRODUCTS                            48.53C2006-01-05          ----------                                                                          "));
-        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
-                "2004BL4131407-----9041---ACLI07TOPSLGEXPIRCGAC00000CONCERTO OFFICE PRODUCTS                            48.53D2006-01-05          ----------                                                                          "));
-
-        // ... and run the test.
-        scrub(stringInput);
-        assertOriginEntries(4,(EntryHolder[]) expectedOutput.toArray(new EntryHolder[0]));
-
-    }
-
-    public void testExpiredAccount() throws Exception {
-
-        // Inputs.
-        String[] stringInput = new String[] {
-            "2004BL1031467-----5300---ACEE07CD  PDEXPIRACCT12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
-            "2004BL1031467-----8000---ACAS07CD  PDEXPIRACCT12345214090047 EVERETT J PRESCOTT INC.                 1445.00C2006-01-05ABCDEFGHIG----------12345679                                                                  "
-        };
-
-        // Add inputs to expected output ...
-        Vector expectedOutput = new Vector();
-        for(int i = 0; i < stringInput.length; i++) {
-            expectedOutput.add(new EntryHolder(OriginEntrySource.EXTERNAL, stringInput[i]));
-        }
-
-        // ... add expected output ...
-        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
-            "2004BL1031467-----5300---ACEE07CD  PDEXPIRACCT12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                  "));
-        expectedOutput.add(new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
-            "2004BL1031467-----8000---ACAS07CD  PDEXPIRACCT12345214090047 EVERETT J PRESCOTT INC.                 1445.00C2006-01-05ABCDEFGHIG----------12345679                                                                  "));
-
-        // ... and run the test.
-        scrub(stringInput);
-        assertOriginEntries(4,(EntryHolder[]) expectedOutput.toArray(new EntryHolder[0]));
-    }
+//
+//    public void testClosedAccount01() throws Exception {
+//
+//        // Inputs.
+//        String[] input = new String[] {
+//                "2004BL2131401-----4100---ACEX07DI  01CLOSACT0100000Rite Quality Office Supplies Inc.                   94.35D2006-01-05          ----------                                                                  ",
+//                "2004BL2131401-----9041---ACLI07DI  01CLOSACT0100000Rite Quality Office Supplies Inc.                   94.35C2006-01-05          ----------                                                                  "
+//        };
+//
+//        EntryHolder[] output = new EntryHolder[] {
+//                new EntryHolder(OriginEntrySource.EXTERNAL,"2004BL2131401-----4100---ACEX07DI  01CLOSACT0100000Rite Quality Office Supplies Inc.                   94.35D2006-01-05          ----------                                                                  "),
+//                new EntryHolder(OriginEntrySource.EXTERNAL,"2004BL2131401-----9041---ACLI07DI  01CLOSACT0100000Rite Quality Office Supplies Inc.                   94.35C2006-01-05          ----------                                                                  "),
+//                new EntryHolder(OriginEntrySource.SCRUBBER_EXPIRED,"2004BL2131401-----4100---ACEX07DI  01CLOSACT0100000Rite Quality Office Supplies Inc.                   94.35D2006-01-05          ----------                                                                  "),
+//                new EntryHolder(OriginEntrySource.SCRUBBER_ERROR,"2004BL2131401-----9041---ACLI07DI  01CLOSACT0100000Rite Quality Office Supplies Inc.                   94.35C2006-01-05          ----------                                                                  "),
+//                new EntryHolder(OriginEntrySource.SCRUBBER_EXPIRED,"2004BL2131401-----4100---ACEX07DI  01CLOSACT0100000Rite Quality Office Supplies Inc.                   94.35D2006-01-05          ----------                                                                  "),
+//                new EntryHolder(OriginEntrySource.SCRUBBER_ERROR,"2004BL2131401-----9041---ACLI07DI  01CLOSACT0100000Rite Quality Office Supplies Inc.                   94.35C2006-01-05          ----------                                                                  ")
+//        };
+//
+//        scrub(input);
+//        assertOriginEntries(4,output);
+//    }
+//
+//    public void testClosedAccount() throws Exception {
+//
+//        // Inputs.
+//        String[] stringInput = new String[] {
+//                "2004BA6044909-----1800---ACIN07CR  UBCLOSACCT 00000Poplars Garage Fees                                 20.00C2006-01-05          ----------                                                                          ",
+//                "2004BA6044909-----8000---ACAS07CR  UBCLOSACCT 00000TP Generated Offset                                 20.00D2006-01-05          ----------                                                                          "
+//        };
+//
+//        // Add inputs to expected output ...
+//        Vector expectedOutput = new Vector();
+//        for(int i = 0; i < stringInput.length; i++) {
+//            new EntryHolder(OriginEntrySource.EXTERNAL, stringInput[i]));
+//        }
+//
+//        // ... add expected output ...
+//        new EntryHolder(OriginEntrySource.SCRUBBER_EXPIRED,
+//                "2004BA6044900-----1800---ACIN07CR  UBCLOSACCT 00000AUTO FR BA6044909Poplars Garage Fees                20.00C2006-01-05          ----------                                                                          "));
+//        new EntryHolder(OriginEntrySource.SCRUBBER_EXPIRED,
+//                "2004BA6044900-----8000---ACAS07CR  UBCLOSACCT 00000AUTO FR BA6044909TP Generated Offset                20.00D2006-01-05          ----------                                                                          "));
+//
+//        // ... and run the test.
+//        scrub(stringInput);
+//        assertOriginEntries(4,(EntryHolder[]) expectedOutput.toArray(new EntryHolder[0]));
+//    }
+//
+//    public void testExpiredAccountByDocumentType() throws Exception {
+//
+//        // Inputs.
+//        String[] stringInput = new String[] {
+//                "2004BL4631557-----4100---ACEX07LOCRLGEXPRACTLC00000CONCERTO OFFICE PRODUCTS                            48.53C2006-01-05          ----------                                                                          ",
+//                "2004BL4631557-----9041---ACLI07LOCRLGEXPRACTLC00000CONCERTO OFFICE PRODUCTS                            48.53D2006-01-05          ----------                                                                          "
+//        };
+//
+//        // Add inputs to expected output ...
+//        Vector expectedOutput = new Vector();
+//        for(int i = 0; i < stringInput.length; i++) {
+//            new EntryHolder(OriginEntrySource.EXTERNAL, stringInput[i]));
+//        }
+//
+//        // ... add expected output ...
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//                "2004BL4631557-----4100---ACEX07LOCRLGEXPRACTLC00000CONCERTO OFFICE PRODUCTS                            48.53C2006-01-05          ----------                                                                          "));
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//                "2004BL4631557-----9041---ACLI07LOCRLGEXPRACTLC00000CONCERTO OFFICE PRODUCTS                            48.53D2006-01-05          ----------                                                                          "));
+//
+//        // ... and run the test.
+//        scrub(stringInput);
+//        assertOriginEntries(4,(EntryHolder[]) expectedOutput.toArray(new EntryHolder[0]));
+//
+//    }
+//
+//    public void failingTestExpiredAccountByBalanceType() throws Exception {
+//
+//        // Inputs.
+//        String[] stringInput = new String[] {
+//                "2004BL4131407-----4100---EXEX07TOPSLGEXPRACTEX     CONCERTO OFFICE PRODUCTS                            48.53C2006-01-05          ----------                                 D                                        ",
+//                "2004BL4131407-----9041---EXLI07TOPSLGEXPRACTEX     CONCERTO OFFICE PRODUCTS                            48.53D2006-01-05          ----------                                 D                                        "
+//        };
+//
+//        // Add inputs to expected output ...
+//        Vector expectedOutput = new Vector();
+//        for(int i = 0; i < stringInput.length; i++) {
+//            new EntryHolder(OriginEntrySource.EXTERNAL, stringInput[i]));
+//        }
+//
+//        // ... add expected output ...
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//                "2004BL4131407-----4100---EXEX07TOPSLGEXPRACTEX00000CONCERTO OFFICE PRODUCTS                            48.53C2006-01-05          ----------                                 D                                        "));
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//                "2004BL4131407-----9041---EXLI07TOPSLGEXPRACTEX00000CONCERTO OFFICE PRODUCTS                            48.53D2006-01-05          ----------                                 D                                        "));
+//
+//        // ... and run the test.
+//        scrub(stringInput);
+//        assertOriginEntries(4,(EntryHolder[]) expectedOutput.toArray(new EntryHolder[0]));
+//
+//    }
+//
+//    public void testExpiredAccountByOriginCode() throws Exception {
+//
+//        // Inputs.
+//        String[] stringInput = new String[] {
+//                "2004BL1031467-----5300---ACEE07DD  01EXPRACT0112345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
+//                "2004BL1031467-----8000---ACAS07DD  01EXPRACT0112345214090047 EVERETT J PRESCOTT INC.                 1445.00C2006-01-05ABCDEFGHIG----------12345679                                                                  ",
+//        };
+//
+//        // Add inputs to expected output ...
+//        Vector expectedOutput = new Vector();
+//        for(int i = 0; i < stringInput.length; i++) {
+//            new EntryHolder(OriginEntrySource.EXTERNAL, stringInput[i]));
+//        }
+//
+//        // ... add expected output ...
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//                "2004BL1031467-----5300---ACEE07DD  01EXPRACT0112345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                  "));
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//                "2004BL1031467-----8000---ACAS07DD  01EXPRACT0112345214090047 EVERETT J PRESCOTT INC.                 1445.00C2006-01-05ABCDEFGHIG----------12345679                                                                  "));
+//
+//        // ... and run the test.
+//        scrub(stringInput);
+//        assertOriginEntries(4,(EntryHolder[]) expectedOutput.toArray(new EntryHolder[0]));
+//
+//    }
+//
+//    public void FIXMEtestExpiredContractAndGrantAccountWithinThirtyDayGracePeriod() throws Exception {
+//
+//        // FIXME apparently didn't find data for this in the Kuali dev environment. So, can't test this now
+//        // Need to test at some point however.
+//
+//    }
+//
+//    public void testExpiredContractAndGrantAccount() throws Exception {
+//
+//        // Inputs.
+//        String[] stringInput = new String[] {
+//            "2004BL4131407-----4100---ACEX07TOPSLGEXPIRCGAC00000CONCERTO OFFICE PRODUCTS                            48.53C2006-01-05          ----------                                                                          ",
+//            "2004BL4131407-----9041---ACLI07TOPSLGEXPIRCGAC00000CONCERTO OFFICE PRODUCTS                            48.53D2006-01-05          ----------                                                                          "
+//        };
+//
+//        // Add inputs to expected output ...
+//        Vector expectedOutput = new Vector();
+//        for(int i = 0; i < stringInput.length; i++) {
+//            new EntryHolder(OriginEntrySource.EXTERNAL, stringInput[i]));
+//        }
+//
+//        // ... add expected output ...
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//                "2004BL4131407-----4100---ACEX07TOPSLGEXPIRCGAC00000CONCERTO OFFICE PRODUCTS                            48.53C2006-01-05          ----------                                                                          "));
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//                "2004BL4131407-----9041---ACLI07TOPSLGEXPIRCGAC00000CONCERTO OFFICE PRODUCTS                            48.53D2006-01-05          ----------                                                                          "));
+//
+//        // ... and run the test.
+//        scrub(stringInput);
+//        assertOriginEntries(4,(EntryHolder[]) expectedOutput.toArray(new EntryHolder[0]));
+//
+//    }
+//
+//    public void testExpiredAccount() throws Exception {
+//
+//        // Inputs.
+//        String[] stringInput = new String[] {
+//            "2004BL1031467-----5300---ACEE07CD  PDEXPIRACCT12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                  ",
+//            "2004BL1031467-----8000---ACAS07CD  PDEXPIRACCT12345214090047 EVERETT J PRESCOTT INC.                 1445.00C2006-01-05ABCDEFGHIG----------12345679                                                                  "
+//        };
+//
+//        // Add inputs to expected output ...
+//        Vector expectedOutput = new Vector();
+//        for(int i = 0; i < stringInput.length; i++) {
+//            new EntryHolder(OriginEntrySource.EXTERNAL, stringInput[i]));
+//        }
+//
+//        // ... add expected output ...
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//            "2004BL1031467-----5300---ACEE07CD  PDEXPIRACCT12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                  "));
+//        new EntryHolder(OriginEntrySource.SCRUBBER_VALID,
+//            "2004BL1031467-----8000---ACAS07CD  PDEXPIRACCT12345214090047 EVERETT J PRESCOTT INC.                 1445.00C2006-01-05ABCDEFGHIG----------12345679                                                                  "));
+//
+//        // ... and run the test.
+//        scrub(stringInput);
+//        assertOriginEntries(4,(EntryHolder[]) expectedOutput.toArray(new EntryHolder[0]));
+//    }
 
     // ************************************************************** Tests for error conditions below.
 

@@ -69,7 +69,6 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
     public ScrubberValidatorImpl() {
     }
 
-    // TODO Get rid of this
     private static int count = 0;
 
     public List<Message> validateTransaction(OriginEntry originEntry, OriginEntry scrubbedEntry, UniversityDate universityRunDate) {
@@ -77,10 +76,11 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
 
         List errors = new ArrayList();
 
-        // TODO Get rid of this
-        count++;
-        if (count % 100 == 0) {
-            System.out.println(count + " " + originEntry.getLine());
+        if ( LOG.isDebugEnabled() ) {
+            count++;
+            if (count % 100 == 0) {
+                System.out.println(count + " " + originEntry.getLine());
+            }
         }
 
         // The cobol checks fdoc_nbr, trn_ldgr_entr_desc, org_doc_nbr, org_reference_id, and fdoc_ref_nbr for characters less than
@@ -228,7 +228,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
     public Message validateAccount(OriginEntry originEntry, OriginEntry workingEntry, UniversityDate universityRunDate) {
         LOG.debug("validateAccount() started");
 
-        boolean debug = "2323290".equals(originEntry.getAccountNumber());
+        setAccount(workingEntry, originEntry.getChartOfAccountsCode(), originEntry.getAccountNumber());
 
         if (originEntry.getAccount() == null) {
             return new Message(kualiConfigurationService.getPropertyString(KeyConstants.ERROR_ACCOUNT_NOT_FOUND) + "(" + originEntry.getChartOfAccountsCode() + "-" + originEntry.getAccountNumber() + ")", Message.TYPE_FATAL);
@@ -241,10 +241,6 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
 
         Account account = originEntry.getAccount();
 
-        if (debug) {
-            LOG.debug("validateAccount() exp: " + account.getAccountExpirationDate() + " eff: " + account.getAccountEffectiveDate() + " clsd: " + account.isAccountClosedIndicator());
-        }
-
         if ((account.getAccountExpirationDate() == null) && !account.isAccountClosedIndicator()) {
             // account is neither closed nor expired
             setAccount(workingEntry, originEntry.getChartOfAccountsCode(), originEntry.getAccountNumber());
@@ -253,7 +249,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
 
         // Has an expiration date or is closed
         if ((org.apache.commons.lang.StringUtils.isNumeric(originEntry.getFinancialSystemOriginationCode()) || ObjectHelper.isOneOf(originEntry.getFinancialSystemOriginationCode(), continuationAccountBypassOriginationCodes)) && account.isAccountClosedIndicator()) {
-            return new Message(kualiConfigurationService.getPropertyString(KeyConstants.ERROR_ORIGIN_CODE_CANNOT_HAVE_CLOSED_ACCOUNT) + "(" + account.getChartOfAccountsCode() + "-" + account.getAccountNumber() + ")", Message.TYPE_FATAL);
+            return new Message(kualiConfigurationService.getPropertyString(KeyConstants.ERROR_ORIGIN_CODE_CANNOT_HAVE_CLOSED_ACCOUNT) + " (" + account.getChartOfAccountsCode() + "-" + account.getAccountNumber() + ")", Message.TYPE_FATAL);
         }
 
         if ((org.apache.commons.lang.StringUtils.isNumeric(originEntry.getFinancialSystemOriginationCode()) || ObjectHelper.isOneOf(originEntry.getFinancialSystemOriginationCode(), continuationAccountBypassOriginationCodes) || ObjectHelper.isOneOf(originEntry.getFinancialBalanceTypeCode(), continuationAccountBypassBalanceTypeCodes) || ObjectHelper.isOneOf(originEntry.getFinancialDocumentTypeCode().trim(), continuationAccountBypassDocumentTypeCodes)) && !account.isAccountClosedIndicator()) {

@@ -366,6 +366,7 @@ public class ScrubberProcess {
                 }
                 else {
                     transaction.setGroup(errorGroup);
+                    originEntryService.save(transaction);
                 }
             }
         }
@@ -527,7 +528,6 @@ public class ScrubberProcess {
                 // group. It needs to make a new one in the expired group
                 OriginEntry expiredEntry = new OriginEntry(scrubbedEntry);
 
-                expiredEntry.setTransactionScrubberOffsetGenerationIndicator(false);
                 createOutputEntry(expiredEntry, expiredGroup);
                 scrubberReport.incrementExpiredAccountFound();
             }

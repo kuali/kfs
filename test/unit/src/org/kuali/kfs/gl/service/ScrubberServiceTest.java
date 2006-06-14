@@ -28,13 +28,6 @@ import org.kuali.core.service.PersistenceService;
 import org.kuali.module.gl.OriginEntryTestBase;
 import org.kuali.module.gl.bo.OriginEntrySource;
 
-// testNoCostShareEncumbracesForBudget
-// testNoCostShareTransfersForBudgetTransactions
-// testNoIndeptednessForBudgetransacions
-// testNoCapitalizationForBugetTransactions
-// testClosedAccount
-// testInvalidBalanceType
-
 public class ScrubberServiceTest extends OriginEntryTestBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ScrubberServiceTest.class);
 
@@ -1296,7 +1289,6 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
         assertOriginEntries(4,output);
     }
 
-    // FAIL
     public void testOffsetGenerationAcrossMultipleDocumentNumbers() throws Exception {
 
         String[] input = new String[] {
@@ -1314,8 +1306,8 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
                 new EntryHolder(OriginEntrySource.SCRUBBER_VALID,"2004BA6044913-----1466---ACIC07AVAD01OFFSETDC100000online permit sales for 01/03/06                   240.00D2006-01-05          ----------                                                                  "),
                 new EntryHolder(OriginEntrySource.SCRUBBER_VALID,"2004BA6044913-----5000---ACEX07AVAD01OFFSETDC100000online permit sales for 01/03/06                  3880.00C2006-01-05          ----------                                                                  "),
                 new EntryHolder(OriginEntrySource.SCRUBBER_VALID,"2004BA6044913-----9897---ACFB07AVAD01OFFSETDC100000GENERATED OFFSET                                  3640.00D2006-01-01          ----------                                                                  "),
-                new EntryHolder(OriginEntrySource.SCRUBBER_VALID,"2004BA6044913-----4100---ACEX07AVAD01OFFSETDC200000online permit sales for 01/03/06                   725.00C2006-01-05          ----------                                                                  "),
                 new EntryHolder(OriginEntrySource.SCRUBBER_VALID,"2004BA6044913-----1800---ACIC07AVAD01OFFSETDC200000online permit sales for 01/03/06                  3395.00D2006-01-05          ----------                                                                  "),
+                new EntryHolder(OriginEntrySource.SCRUBBER_VALID,"2004BA6044913-----4100---ACEX07AVAD01OFFSETDC200000online permit sales for 01/03/06                   725.00C2006-01-05          ----------                                                                  "),
                 new EntryHolder(OriginEntrySource.SCRUBBER_VALID,"2004BA6044913-----9897---ACFB07AVAD01OFFSETDC200000GENERATED OFFSET                                  2670.00C2006-01-01          ----------                                                                  "),
         };
 
@@ -1343,7 +1335,6 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
         assertOriginEntries(4,output);
     }
 
-    // FAIL
     public void testOffsetGenerationAcrossMultipleDocumentTypes() throws Exception {
 
         String[] input = new String[] {
@@ -1358,19 +1349,18 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
                 new EntryHolder(OriginEntrySource.EXTERNAL,"2004BL1031400-----4190---ACEX07PCDO01OFFSETDTP00000SOM/MUSIC GENERAL/SULLIVAN S FASHIONS FO           540.00C2006-01-05          ----------                                                                  "),
                 new EntryHolder(OriginEntrySource.EXTERNAL,"2004BL1031400-----4021---ACEX07GEC 01OFFSETDTP00000SOM/MUSIC GENERAL/INSIGHT CABLE                     44.95C2006-01-05          ----------                                                                  "),
                 new EntryHolder(OriginEntrySource.EXTERNAL,"2004BL1031400-----1800---ACIN07GEC 01OFFSETDTP00000SOM/MUSIC GENERAL/SULLIVAN S FASHIONS FO           547.00D2006-01-05          ----------                                                                  "),
+                new EntryHolder(OriginEntrySource.SCRUBBER_VALID,"2004BL1031400-----1800---ACIN07GEC 01OFFSETDTP00000SOM/MUSIC GENERAL/SULLIVAN S FASHIONS FO           547.00D2006-01-05          ----------                                                                  "),
+                new EntryHolder(OriginEntrySource.SCRUBBER_VALID,"2004BL1031400-----4021---ACEX07GEC 01OFFSETDTP00000SOM/MUSIC GENERAL/INSIGHT CABLE                     44.95C2006-01-05          ----------                                                                  "),
+                new EntryHolder(OriginEntrySource.SCRUBBER_VALID,"2004BL1031400-----8000---ACAS07GEC 01OFFSETDTP00000GENERATED OFFSET                                   502.05C2006-01-01          ----------                                                                  "),
                 new EntryHolder(OriginEntrySource.SCRUBBER_VALID,"2004BL1031400-----4190---ACEX07PCDO01OFFSETDTP00000SOM/MUSIC GENERAL/INSIGHT CABLE                     44.95C2006-01-05          ----------                                                                  "),
                 new EntryHolder(OriginEntrySource.SCRUBBER_VALID,"2004BL1031400-----4190---ACEX07PCDO01OFFSETDTP00000SOM/MUSIC GENERAL/SULLIVAN S FASHIONS FO           540.00C2006-01-05          ----------                                                                  "),
                 new EntryHolder(OriginEntrySource.SCRUBBER_VALID,"2004BL1031400-----8000---ACAS07PCDO01OFFSETDTP00000GENERATED OFFSET                                   584.95D2006-01-01          ----------                                                                  "),
-                new EntryHolder(OriginEntrySource.SCRUBBER_VALID,"2004BL1031400-----4021---ACEX07GEC 01OFFSETDTP00000SOM/MUSIC GENERAL/INSIGHT CABLE                     44.95C2006-01-05          ----------                                                                  "),
-                new EntryHolder(OriginEntrySource.SCRUBBER_VALID,"2004BL1031400-----1800---ACIN07GEC 01OFFSETDTP00000SOM/MUSIC GENERAL/SULLIVAN S FASHIONS FO           547.00D2006-01-05          ----------                                                                  "),
-                new EntryHolder(OriginEntrySource.SCRUBBER_VALID,"2004BL1031400-----8000---ACAS07GEC 01OFFSETDTP00000GENERATED OFFSET                                   502.05C2006-01-01          ----------                                                                  "),
         };
 
         scrub(input);
         assertOriginEntries(4,output);
     }
 
-    // FAIL
     public void testClosedAccount01() throws Exception {
 
         // Inputs.
@@ -1383,8 +1373,8 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
                 new EntryHolder(OriginEntrySource.EXTERNAL,"2004BL2131401-----4100---ACEX07DI  01CLOSACT0100000Rite Quality Office Supplies Inc.                   94.35D2006-01-05          ----------                                                                  "),
                 new EntryHolder(OriginEntrySource.EXTERNAL,"2004BL2131401-----9041---ACLI07DI  01CLOSACT0100000Rite Quality Office Supplies Inc.                   94.35C2006-01-05          ----------                                                                  "),
                 new EntryHolder(OriginEntrySource.SCRUBBER_EXPIRED,"2004BL2131401-----4100---ACEX07DI  01CLOSACT0100000Rite Quality Office Supplies Inc.                   94.35D2006-01-05          ----------                                                                  "),
-                new EntryHolder(OriginEntrySource.SCRUBBER_ERROR,"2004BL2131401-----9041---ACLI07DI  01CLOSACT0100000Rite Quality Office Supplies Inc.                   94.35C2006-01-05          ----------                                                                  "),
-                new EntryHolder(OriginEntrySource.SCRUBBER_EXPIRED,"2004BL2131401-----4100---ACEX07DI  01CLOSACT0100000Rite Quality Office Supplies Inc.                   94.35D2006-01-05          ----------                                                                  "),
+                new EntryHolder(OriginEntrySource.SCRUBBER_ERROR,"2004BL2131401-----4100---ACEX07DI  01CLOSACT0100000Rite Quality Office Supplies Inc.                   94.35D2006-01-05          ----------                                                                  "),
+                new EntryHolder(OriginEntrySource.SCRUBBER_EXPIRED,"2004BL2131401-----9041---ACLI07DI  01CLOSACT0100000Rite Quality Office Supplies Inc.                   94.35C2006-01-05          ----------                                                                  "),
                 new EntryHolder(OriginEntrySource.SCRUBBER_ERROR,"2004BL2131401-----9041---ACLI07DI  01CLOSACT0100000Rite Quality Office Supplies Inc.                   94.35C2006-01-05          ----------                                                                  ")
         };
 
@@ -1392,7 +1382,6 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
         assertOriginEntries(4,output);
     }
 
-    // FAIL
     public void testClosedAccount() throws Exception {
 
         String[] input = new String[] {
@@ -1404,7 +1393,9 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
                 new EntryHolder(OriginEntrySource.EXTERNAL,"2004BA6044909-----1800---ACIN07CR  UBCLOSACCT 00000Poplars Garage Fees                                 20.00C2006-01-05          ----------                                                                          "),
                 new EntryHolder(OriginEntrySource.EXTERNAL,"2004BA6044909-----8000---ACAS07CR  UBCLOSACCT 00000TP Generated Offset                                 20.00D2006-01-05          ----------                                                                          "),
                 new EntryHolder(OriginEntrySource.SCRUBBER_EXPIRED,"2004BA6044900-----1800---ACIN07CR  UBCLOSACCT 00000AUTO FR BA6044909Poplars Garage Fees                20.00C2006-01-05          ----------                                                                          "),
+                new EntryHolder(OriginEntrySource.SCRUBBER_VALID,"2004BA6044900-----1800---ACIN07CR  UBCLOSACCT 00000AUTO FR BA6044909Poplars Garage Fees                20.00C2006-01-05          ----------                                                                          "),
                 new EntryHolder(OriginEntrySource.SCRUBBER_EXPIRED,"2004BA6044900-----8000---ACAS07CR  UBCLOSACCT 00000AUTO FR BA6044909TP Generated Offset                20.00D2006-01-05          ----------                                                                          "),
+                new EntryHolder(OriginEntrySource.SCRUBBER_VALID,"2004BA6044900-----8000---ACAS07CR  UBCLOSACCT 00000AUTO FR BA6044909TP Generated Offset                20.00D2006-01-05          ----------                                                                          "),
         };
 
         scrub(input);

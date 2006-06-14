@@ -1,30 +1,25 @@
-<%@ include file="/jsp/core/tldHeader.jsp"%>
+<%@ include file="/jsp/core/tldHeader.jsp" %>
 
-<kul:documentPage showDocumentInfo="true"
-	documentTypeName="KualiIndirectCostAdjustmentDocument"
-	htmlFormAction="financialIndirectCostAdjustment" renderMultipart="true"
-	showTabButtons="true">
+<kul:documentPage showDocumentInfo="true" documentTypeName="KualiIndirectCostAdjustmentDocument" htmlFormAction="financialIndirectCostAdjustment" renderMultipart="true" showTabButtons="true">
 
-	<html:hidden property="document.nextSourceLineNumber" />
-	<html:hidden property="document.nextTargetLineNumber" />
-	<kul:hiddenDocumentFields />
+		<html:hidden property="document.nextSourceLineNumber"/>
+		<html:hidden property="document.nextTargetLineNumber"/>
+		<kul:hiddenDocumentFields />
 
-	<kul:documentOverview editingMode="${KualiForm.editingMode}" />
+        <kul:documentOverview editingMode="${KualiForm.editingMode}"/>
 
-	<fin:accountingLines editingMode="${KualiForm.editingMode}"
-		editableAccounts="${KualiForm.editableAccounts}" />
+        <fin:accountingLines editingMode="${KualiForm.editingMode}" editableAccounts="${KualiForm.editableAccounts}" forcedReadOnlyFields="${KualiForm.forcedReadOnlyFields}"/>
 
-	<kul:generalLedgerPendingEntries />
+		<kul:generalLedgerPendingEntries/>
 
-	<kul:notes />
+		<kul:notes/>
+			
+		<kul:adHocRecipients/>
+			
+		<kul:routeLog/>
 
-	<kul:adHocRecipients />
+		<kul:panelFooter/>
 
-	<kul:routeLog />
-
-	<kul:panelFooter />
-
-	<kul:documentControls
-		transactionalDocument="${documentEntry.transactionalDocument}" />
+		<kul:documentControls transactionalDocument="${documentEntry.transactionalDocument}" />
 
 </kul:documentPage>

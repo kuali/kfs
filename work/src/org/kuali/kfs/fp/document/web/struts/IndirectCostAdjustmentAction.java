@@ -31,6 +31,4 @@ import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
  */
 public class IndirectCostAdjustmentAction extends KualiTransactionalDocumentActionBase {
 
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(IndirectCostAdjustmentAction.class);
-
 }

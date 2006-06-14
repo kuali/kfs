@@ -22,7 +22,6 @@
  */
 package org.kuali.module.financial.rules;
 
-import org.apache.commons.lang.StringUtils;
 import static org.kuali.Constants.ACCOUNTING_LINE_ERRORS;
 import static org.kuali.Constants.GL_CREDIT_CODE;
 import static org.kuali.Constants.GL_DEBIT_CODE;
@@ -34,6 +33,14 @@ import static org.kuali.KeyConstants.GeneralErrorCorrection.ERROR_DOCUMENT_GENER
 import static org.kuali.PropertyConstants.FINANCIAL_OBJECT_CODE;
 import static org.kuali.PropertyConstants.REFERENCE_NUMBER;
 import static org.kuali.PropertyConstants.REFERENCE_ORIGIN_CODE;
+import static org.kuali.module.financial.rules.GeneralErrorCorrectionDocumentRuleConstants.COMBINED_RESTRICTED_OBJECT_SUB_TYPE_CODES;
+import static org.kuali.module.financial.rules.GeneralErrorCorrectionDocumentRuleConstants.COMBINED_RESTRICTED_OBJECT_TYPE_CODES;
+import static org.kuali.module.financial.rules.GeneralErrorCorrectionDocumentRuleConstants.GENERAL_ERROR_CORRECTION_SECURITY_GROUPING;
+import static org.kuali.module.financial.rules.GeneralErrorCorrectionDocumentRuleConstants.RESTRICTED_OBJECT_SUB_TYPE_CODES;
+import static org.kuali.module.financial.rules.GeneralErrorCorrectionDocumentRuleConstants.RESTRICTED_OBJECT_TYPE_CODES;
+import static org.kuali.module.financial.rules.GeneralErrorCorrectionDocumentRuleConstants.TRANSACTION_LEDGER_ENTRY_DESCRIPTION_DELIMITER;
+
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.AccountingLine;
 import org.kuali.core.bo.SourceAccountingLine;
 import org.kuali.core.bo.TargetAccountingLine;
@@ -43,12 +50,6 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.ObjectCode;
-import static org.kuali.module.financial.rules.GeneralErrorCorrectionDocumentRuleConstants.COMBINED_RESTRICTED_OBJECT_SUB_TYPE_CODES;
-import static org.kuali.module.financial.rules.GeneralErrorCorrectionDocumentRuleConstants.COMBINED_RESTRICTED_OBJECT_TYPE_CODES;
-import static org.kuali.module.financial.rules.GeneralErrorCorrectionDocumentRuleConstants.GENERAL_ERROR_CORRECTION_SECURITY_GROUPING;
-import static org.kuali.module.financial.rules.GeneralErrorCorrectionDocumentRuleConstants.RESTRICTED_OBJECT_SUB_TYPE_CODES;
-import static org.kuali.module.financial.rules.GeneralErrorCorrectionDocumentRuleConstants.RESTRICTED_OBJECT_TYPE_CODES;
-import static org.kuali.module.financial.rules.GeneralErrorCorrectionDocumentRuleConstants.TRANSACTION_LEDGER_ENTRY_DESCRIPTION_DELIMITER;
 import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 import org.kuali.module.gl.util.SufficientFundsItemHelper.SufficientFundsItem;
 

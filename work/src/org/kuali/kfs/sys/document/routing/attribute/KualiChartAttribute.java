@@ -35,7 +35,6 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathFactory;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;

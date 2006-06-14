@@ -38,7 +38,6 @@ import org.kuali.module.financial.document.CashReceiptDocument;
 import org.kuali.module.financial.rules.CashReceiptDocumentRule;
 import org.kuali.module.financial.service.CashReceiptCoverSheetService;
 
-
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.Rectangle;

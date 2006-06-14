@@ -28,19 +28,19 @@ import org.kuali.PropertyConstants;
 import org.kuali.core.bo.AccountingLine;
 import org.kuali.core.bo.SourceAccountingLine;
 import org.kuali.core.bo.TargetAccountingLine;
-import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.document.Document;
+import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.rule.KualiParameterRule;
+import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.ExceptionUtils;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
-import org.kuali.core.util.ErrorMap;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.bo.SubFundGroup;
-import org.kuali.module.gl.util.SufficientFundsItemHelper;
 import org.kuali.module.financial.document.InternalBillingDocument;
+import org.kuali.module.gl.util.SufficientFundsItemHelper;
 
 /**
  * Business rule(s) applicable to InternalBilling document.

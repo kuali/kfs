@@ -22,7 +22,6 @@
  */
 package org.kuali.module.financial.rules;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
 import org.kuali.PropertyConstants;

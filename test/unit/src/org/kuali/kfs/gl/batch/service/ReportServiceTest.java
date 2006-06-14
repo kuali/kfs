@@ -28,10 +28,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.gl.GLSpringBeansRegistry;
-
 import org.kuali.test.KualiTestBaseWithSpringOnly;
 import org.springframework.beans.factory.BeanFactory;
 

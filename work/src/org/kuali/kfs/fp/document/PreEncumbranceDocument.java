@@ -25,14 +25,14 @@
  */
 package org.kuali.module.financial.document;
 
+import java.sql.Timestamp;
+
 import org.kuali.Constants;
 import org.kuali.core.document.TransactionalDocumentBase;
 
-import java.sql.Timestamp;
-
 /**
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
- * @version $Id: PreEncumbranceDocument.java,v 1.1 2006-01-14 19:36:13 abyrne Exp $
+ * @version $Id: PreEncumbranceDocument.java,v 1.2 2006-06-14 11:59:11 abyrne Exp $
  */
 public class PreEncumbranceDocument extends TransactionalDocumentBase {
     private static final long serialVersionUID = -290621195196838536L;

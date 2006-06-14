@@ -24,7 +24,6 @@ package org.kuali.module.gl;
 
 import java.io.PrintStream;
 import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
@@ -45,7 +44,7 @@ import org.springframework.beans.factory.BeanFactory;
 
 /**
  * @author Kuali General Ledger Team (kualigltech@oncourse.iu.edu)
- * @version $Id: OriginEntryTestBase.java,v 1.19 2006-06-13 21:31:54 jsissom Exp $
+ * @version $Id: OriginEntryTestBase.java,v 1.20 2006-06-14 11:59:12 abyrne Exp $
  */
 public class OriginEntryTestBase extends KualiTestBaseWithSpringOnly {
   private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OriginEntryTestBase.class);

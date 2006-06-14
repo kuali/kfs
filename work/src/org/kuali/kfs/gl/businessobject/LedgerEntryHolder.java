@@ -22,8 +22,8 @@
  */
 package org.kuali.module.gl.util;
 
-import java.util.Map;
 import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 

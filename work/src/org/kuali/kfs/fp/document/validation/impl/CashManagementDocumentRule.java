@@ -30,7 +30,6 @@ import org.apache.log4j.Logger;
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
 import org.kuali.PropertyConstants;
-import org.kuali.Constants.CashReceiptConstants;
 import org.kuali.core.bo.user.KualiUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.DocumentRuleBase;

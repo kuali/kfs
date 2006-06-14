@@ -22,11 +22,11 @@
  */
 package org.kuali.module.gl.service.impl;
 
+import java.sql.Date;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.sql.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -66,7 +66,7 @@ import org.springframework.beans.factory.BeanFactoryAware;
 
 /**
  * @author jsissom
- * @version $Id: PosterServiceImpl.java,v 1.29 2006-05-11 20:26:10 schoo Exp $
+ * @version $Id: PosterServiceImpl.java,v 1.30 2006-06-14 11:59:12 abyrne Exp $
  */
 public class PosterServiceImpl implements PosterService,BeanFactoryAware {
   private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PosterServiceImpl.class);

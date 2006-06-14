@@ -28,8 +28,8 @@ import org.kuali.core.bo.AccountingLineParserBase;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.bo.SourceAccountingLine;
 import org.kuali.core.document.TransactionalDocument;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.exceptions.TooFewFieldsException;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
 import org.kuali.module.financial.document.JournalVoucherDocument;
 

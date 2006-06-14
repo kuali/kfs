@@ -24,7 +24,6 @@ package org.kuali.module.kra.web.struts.form;
 
 import java.util.List;
 
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.module.kra.bo.BudgetNonpersonnel;
 import org.kuali.module.kra.bo.BudgetNonpersonnelTest;

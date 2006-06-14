@@ -26,7 +26,6 @@ import java.sql.Timestamp;
 import java.util.HashMap;
 
 import org.apache.commons.lang.StringUtils;
-
 import org.kuali.core.bo.PostalZipCode;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.service.KualiConfigurationService;

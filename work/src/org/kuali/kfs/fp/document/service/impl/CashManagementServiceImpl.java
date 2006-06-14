@@ -38,7 +38,6 @@ import org.kuali.core.bo.user.KualiUser;
 import org.kuali.core.document.DocumentHeader;
 import org.kuali.core.exceptions.DocumentTypeAuthorizationException;
 import org.kuali.core.exceptions.InfrastructureException;
-import org.kuali.core.rule.event.SaveDocumentEvent;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DocumentService;

@@ -24,11 +24,11 @@ package org.kuali.module.financial.rules;
 
 import java.util.Collections;
 
-import org.kuali.core.util.SpringServiceLocator;
-import org.kuali.core.bo.AccountingLine;
-import org.kuali.test.KualiTestBaseWithFixtures;
-import org.kuali.PropertyConstants;
 import org.kuali.KeyConstants;
+import org.kuali.PropertyConstants;
+import org.kuali.core.bo.AccountingLine;
+import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.test.KualiTestBaseWithFixtures;
 
 /**
  * This class tests the business rules of the internal billing document.  This is not implemented 

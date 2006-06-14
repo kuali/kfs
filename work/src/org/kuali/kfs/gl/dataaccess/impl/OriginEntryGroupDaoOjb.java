@@ -22,22 +22,21 @@
  */
 package org.kuali.module.gl.dao.ojb;
 
-import java.util.Collection;
 import java.sql.Date;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
-import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.dao.OriginEntryGroupDao;
 import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 /**
  * @author Laran Evans <lc278@cornell.edu>
- * @version $Id: OriginEntryGroupDaoOjb.java,v 1.8 2006-06-14 01:53:46 schoo Exp $
+ * @version $Id: OriginEntryGroupDaoOjb.java,v 1.9 2006-06-14 11:59:13 abyrne Exp $
  */
 
 public class OriginEntryGroupDaoOjb extends PersistenceBrokerDaoSupport implements OriginEntryGroupDao {

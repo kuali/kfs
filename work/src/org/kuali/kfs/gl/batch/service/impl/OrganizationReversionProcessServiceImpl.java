@@ -25,7 +25,6 @@ package org.kuali.module.gl.service.impl;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.PersistenceService;
-import org.kuali.module.chart.dao.OrganizationReversionDao;
 import org.kuali.module.chart.service.OrganizationReversionService;
 import org.kuali.module.gl.service.BalanceService;
 import org.kuali.module.gl.service.OrganizationReversionCategoryLogic;

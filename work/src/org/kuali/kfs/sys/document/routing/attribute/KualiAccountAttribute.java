@@ -305,7 +305,7 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
         this.totalDollarAmount = totalDollarAmount;
     }
 
-    private String getQualifiedRoleString(FiscalOfficerRole role) {
+    private static String getQualifiedRoleString(FiscalOfficerRole role) {
     	return getNullSafeValue(role.roleName) + 
     		ROLE_STRING_DELIMITER +
     		getNullSafeValue(role.chart) +
@@ -317,7 +317,7 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
     		getNullSafeValue(role.fiscalOfficerId);
     }
     
-    private FiscalOfficerRole getUnqualifiedFiscalOfficerRole(String qualifiedRole) {
+    private static FiscalOfficerRole getUnqualifiedFiscalOfficerRole(String qualifiedRole) {
     	String[] values = qualifiedRole.split(ROLE_STRING_DELIMITER, -1);
     	if (values.length != 5) {
     		throw new RuntimeException("Invalid qualifiedRole, expected 5 encoded values: " + qualifiedRole);
@@ -330,22 +330,22 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
     	return role;
     }
     
-    private String getNullSafeValue(String value) {
+    private static String getNullSafeValue(String value) {
     	return (value == null ? "" : value);
     }
     
-    private String getNullableString(String value) {
+    private static String getNullableString(String value) {
     	if (StringUtils.isEmpty(value)) {
     		return null;
     	}
     	return value;
     }
     
-    private String getQualifiedAccountSupervisorRoleString(String roleName, String accountSupervisorySystemsId) {
+    private static String getQualifiedAccountSupervisorRoleString(String roleName, String accountSupervisorySystemsId) {
     	return roleName + ROLE_STRING_DELIMITER + accountSupervisorySystemsId;
     }
 
-    private String getUnqualifiedAccountSupervisorIdFromString(String qualifiedRole) {
+    private static String getUnqualifiedAccountSupervisorIdFromString(String qualifiedRole) {
     	return qualifiedRole.split(ROLE_STRING_DELIMITER)[1];
     }
             
@@ -354,7 +354,7 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
      * and should give back the FIS document type name so that we can lookup delegations based on the 
      * FIS name instead of the workflow name.
      */
-    private String getFisDocumentTypeNameFromWorkflowDocumentTypeName(String documentTypeName) {
+    private static String getFisDocumentTypeNameFromWorkflowDocumentTypeName(String documentTypeName) {
         // TODO need to look at the document type table for
         return "ALL";
     }
@@ -445,7 +445,7 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
         }
     }
 
-    protected String calculateTotalDollarAmount(XPath xpath, NodeList targetAccountingLineNodes) throws XPathExpressionException {
+    private static String calculateTotalDollarAmount(XPath xpath, NodeList targetAccountingLineNodes) throws XPathExpressionException {
     	KualiDecimal sum = new KualiDecimal(0);
     	for (int index = 0; index < targetAccountingLineNodes.getLength(); index++) {
             KualiDecimal addend = new KualiDecimal((String) xpath.evaluate("./amount/value", targetAccountingLineNodes.item(index), XPathConstants.STRING));
@@ -454,17 +454,17 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
     	return sum.toString();
     }
     
-    protected Set getFiscalOfficerCriteria(XPath xpath, NodeList accountingLineNodes, String roleName, String totalDollarAmount) throws XPathExpressionException {
-        Set fiscalOfficers = new HashSet();
-        for (int i = 0; i < accountingLineNodes.getLength(); i++) {
-            Node accountingLineNode = accountingLineNodes.item(i);
-            FiscalOfficerRole role = new FiscalOfficerRole(roleName);
+    private static Set getFiscalOfficerCriteria(XPath xpath, NodeList accountingLineNodes, String roleName, String totalDollarAmount) throws XPathExpressionException {
+    	Set fiscalOfficers = new HashSet();
+    	for (int i = 0; i < accountingLineNodes.getLength(); i++) {
+    		Node accountingLineNode = accountingLineNodes.item(i);
+    		FiscalOfficerRole role = new FiscalOfficerRole(roleName);
             role.chart = xpath.evaluate("./chartOfAccountsCode", accountingLineNode);
             role.accountNumber = xpath.evaluate("./accountNumber", accountingLineNode);
-            role.totalDollarAmount = totalDollarAmount;
-            fiscalOfficers.add(role);
-        }
-        return fiscalOfficers;
+    		role.totalDollarAmount = totalDollarAmount;
+    		fiscalOfficers.add(role);
+    	}
+    	return fiscalOfficers;
     }
     
     /**
@@ -520,7 +520,7 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
         return new ResolvedQualifiedRole(roleName, members, annotation);
     }
     
-    private AuthenticationUserId getFiscalOfficerId(Connection connection, FiscalOfficerRole role) throws Exception {
+    private static AuthenticationUserId getFiscalOfficerId(Connection connection, FiscalOfficerRole role) throws Exception {
     	String kualiSystemId = null;
     	// if the account is null, then use the fiscal officer id
     	if (role.accountNumber == null) {
@@ -554,7 +554,7 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
      * 
      * @throws RuntimeException if there is more than one primary delegation on the given account
      */
-    private UserId getPrimaryDelegation(Connection connection, FiscalOfficerRole role, String fisDocumentType) throws Exception {
+    private static UserId getPrimaryDelegation(Connection connection, FiscalOfficerRole role, String fisDocumentType) throws Exception {
     	UserId primaryDelegate = null;
     	// if there is no account number then there are no delegations
     	if (role.accountNumber == null) {
@@ -584,7 +584,7 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
      * Returns a list of UserIds for all secondary delegations on the given FiscalOfficerRole.  If the given role
      * doesn't have an account number or there are no delegations, returns an empty list.
      */
-    private List getSecondaryDelegations(Connection connection, FiscalOfficerRole role, String fisDocumentType) throws Exception {
+    private static List getSecondaryDelegations(Connection connection, FiscalOfficerRole role, String fisDocumentType) throws Exception {
     	List members = new ArrayList();
     	// if there is no account number then there are no delegations
     	if (role.accountNumber == null) {
@@ -600,8 +600,8 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
     	ps.setString(2, role.accountNumber);
     	ps.setString(3, fisDocumentType);
     	if (role.totalDollarAmount != null) {
-    		ps.setString(4, totalDollarAmount);
-    		ps.setString(5, totalDollarAmount);
+    		ps.setString(4, role.totalDollarAmount);
+    		ps.setString(5, role.totalDollarAmount);
     	}
     	ResultSet rs = ps.executeQuery();
     	while (rs.next()) {

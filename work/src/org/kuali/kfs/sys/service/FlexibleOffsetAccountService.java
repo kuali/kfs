@@ -22,8 +22,8 @@
  */
 package org.kuali.module.financial.service;
 
-import org.kuali.module.financial.bo.OffsetAccount;
 import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.module.financial.bo.OffsetAccount;
 
 /**
  * This interface defines methods that a FlexibleOffsetAccount Service must provide.

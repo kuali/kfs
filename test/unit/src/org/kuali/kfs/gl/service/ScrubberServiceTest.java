@@ -23,7 +23,6 @@
 package org.kuali.module.gl.service;
 
 import java.util.Calendar;
-import java.util.Vector;
 
 import org.kuali.core.service.PersistenceService;
 import org.kuali.module.gl.OriginEntryTestBase;

@@ -34,7 +34,6 @@ import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.rule.TransactionalDocumentRuleTestBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.financial.document.GeneralErrorCorrectionDocument;
-import org.kuali.module.financial.rules.GeneralErrorCorrectionDocumentRule;
 import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 import org.kuali.module.gl.util.SufficientFundsItemHelper.SufficientFundsItem;
 import org.kuali.test.parameters.AccountingLineParameter;

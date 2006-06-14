@@ -22,6 +22,34 @@
  */
 package org.kuali.module.financial.rules;
 
+import static org.kuali.Constants.AMOUNT_PROPERTY_NAME;
+import static org.kuali.Constants.BALANCE_TYPE_ACTUAL;
+import static org.kuali.Constants.BALANCE_TYPE_CURRENT_BUDGET;
+import static org.kuali.Constants.CREDIT_AMOUNT_PROPERTY_NAME;
+import static org.kuali.Constants.DEBIT_AMOUNT_PROPERTY_NAME;
+import static org.kuali.Constants.GENERIC_CODE_PROPERTY_NAME;
+import static org.kuali.Constants.GL_CREDIT_CODE;
+import static org.kuali.Constants.GL_DEBIT_CODE;
+import static org.kuali.Constants.JOURNAL_LINE_HELPER_CREDIT_PROPERTY_NAME;
+import static org.kuali.Constants.JOURNAL_LINE_HELPER_DEBIT_PROPERTY_NAME;
+import static org.kuali.Constants.JOURNAL_LINE_HELPER_PROPERTY_NAME;
+import static org.kuali.Constants.NEW_SOURCE_ACCT_LINE_PROPERTY_NAME;
+import static org.kuali.Constants.OBJECT_TYPE_CODE_PROPERTY_NAME;
+import static org.kuali.Constants.SF_TYPE_CASH_AT_ACCOUNT;
+import static org.kuali.Constants.SQUARE_BRACKET_LEFT;
+import static org.kuali.Constants.SQUARE_BRACKET_RIGHT;
+import static org.kuali.KeyConstants.ERROR_DOCUMENT_SINGLE_SECTION_NO_ACCOUNTING_LINES;
+import static org.kuali.KeyConstants.ERROR_REQUIRED;
+import static org.kuali.KeyConstants.ERROR_ZERO_AMOUNT;
+import static org.kuali.KeyConstants.ERROR_ZERO_OR_NEGATIVE_AMOUNT;
+import static org.kuali.PropertyConstants.ACCOUNTING_PERIOD;
+import static org.kuali.PropertyConstants.BALANCE_TYPE;
+import static org.kuali.PropertyConstants.REFERENCE_NUMBER;
+import static org.kuali.PropertyConstants.REFERENCE_ORIGIN_CODE;
+import static org.kuali.PropertyConstants.REFERENCE_TYPE_CODE;
+import static org.kuali.PropertyConstants.REVERSAL_DATE;
+import static org.kuali.PropertyConstants.SELECTED_ACCOUNTING_PERIOD;
+
 import java.sql.Timestamp;
 
 import org.apache.commons.lang.StringUtils;
@@ -42,34 +70,6 @@ import org.kuali.module.chart.bo.codes.BalanceTyp;
 import org.kuali.module.financial.document.JournalVoucherDocument;
 import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 import org.kuali.module.gl.util.SufficientFundsItemHelper.SufficientFundsItem;
-
-import static org.kuali.Constants.AMOUNT_PROPERTY_NAME;
-import static org.kuali.Constants.BALANCE_TYPE_ACTUAL;
-import static org.kuali.Constants.BALANCE_TYPE_CURRENT_BUDGET;
-import static org.kuali.Constants.CREDIT_AMOUNT_PROPERTY_NAME;
-import static org.kuali.Constants.DEBIT_AMOUNT_PROPERTY_NAME;
-import static org.kuali.Constants.GENERIC_CODE_PROPERTY_NAME;
-import static org.kuali.Constants.GL_CREDIT_CODE;
-import static org.kuali.Constants.GL_DEBIT_CODE;
-import static org.kuali.Constants.JOURNAL_LINE_HELPER_PROPERTY_NAME;
-import static org.kuali.Constants.JOURNAL_LINE_HELPER_CREDIT_PROPERTY_NAME;
-import static org.kuali.Constants.JOURNAL_LINE_HELPER_DEBIT_PROPERTY_NAME;
-import static org.kuali.Constants.NEW_SOURCE_ACCT_LINE_PROPERTY_NAME;
-import static org.kuali.Constants.OBJECT_TYPE_CODE_PROPERTY_NAME;
-import static org.kuali.Constants.SF_TYPE_CASH_AT_ACCOUNT;
-import static org.kuali.Constants.SQUARE_BRACKET_LEFT;
-import static org.kuali.Constants.SQUARE_BRACKET_RIGHT;
-import static org.kuali.KeyConstants.ERROR_REQUIRED;
-import static org.kuali.KeyConstants.ERROR_ZERO_AMOUNT;
-import static org.kuali.KeyConstants.ERROR_ZERO_OR_NEGATIVE_AMOUNT;
-import static org.kuali.KeyConstants.ERROR_DOCUMENT_SINGLE_SECTION_NO_ACCOUNTING_LINES;
-import static org.kuali.PropertyConstants.ACCOUNTING_PERIOD;
-import static org.kuali.PropertyConstants.BALANCE_TYPE;
-import static org.kuali.PropertyConstants.REFERENCE_ORIGIN_CODE;
-import static org.kuali.PropertyConstants.REFERENCE_NUMBER;
-import static org.kuali.PropertyConstants.REFERENCE_TYPE_CODE;
-import static org.kuali.PropertyConstants.REVERSAL_DATE;
-import static org.kuali.PropertyConstants.SELECTED_ACCOUNTING_PERIOD;
 
 /**
  * This class holds document specific business rules for the Journal Voucher. It overrides methods in the base rule class to apply

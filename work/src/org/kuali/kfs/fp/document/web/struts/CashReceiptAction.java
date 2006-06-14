@@ -47,11 +47,11 @@ import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.module.financial.bo.Check;
 import org.kuali.module.financial.bo.CheckBase;
 import org.kuali.module.financial.document.CashReceiptDocument;
+import org.kuali.module.financial.rules.CashReceiptDocumentRuleUtil;
 import org.kuali.module.financial.service.CashReceiptCoverSheetService;
 import org.kuali.module.financial.service.CashReceiptService;
 import org.kuali.module.financial.service.impl.CashReceiptCoverSheetServiceImpl;
 import org.kuali.module.financial.web.struts.form.CashReceiptForm;
-import org.kuali.module.financial.rules.CashReceiptDocumentRuleUtil;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 

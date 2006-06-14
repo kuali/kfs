@@ -24,6 +24,7 @@ package org.kuali.module.financial.document;
 
 import static org.kuali.Constants.FROM;
 import static org.kuali.Constants.TO;
+
 import org.kuali.core.document.TransactionalDocumentBase;
 
 

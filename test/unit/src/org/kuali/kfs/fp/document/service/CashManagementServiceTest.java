@@ -29,7 +29,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.Constants;
-import org.kuali.Constants.CashReceiptConstants;
 import org.kuali.core.document.Document;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DocumentService;

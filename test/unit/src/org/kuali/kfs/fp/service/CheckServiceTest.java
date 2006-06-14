@@ -29,7 +29,6 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.Check;
 import org.kuali.module.financial.bo.CheckBase;
-import org.kuali.module.financial.service.CheckService;
 import org.kuali.test.KualiTestBaseWithFixtures;
 
 /**

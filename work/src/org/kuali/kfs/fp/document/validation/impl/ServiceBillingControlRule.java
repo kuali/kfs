@@ -22,17 +22,17 @@
  */
 package org.kuali.module.financial.rules;
 
-import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.apache.commons.lang.StringUtils;
+import org.kuali.KeyConstants;
+import org.kuali.PropertyConstants;
 import org.kuali.core.document.MaintenanceDocument;
+import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.ServiceBillingControl;
-import org.kuali.PropertyConstants;
-import org.kuali.KeyConstants;
-import org.apache.commons.lang.StringUtils;
 
-import edu.iu.uis.eden.exception.WorkflowException;
 import edu.iu.uis.eden.clientapp.vo.WorkgroupNameIdVO;
 import edu.iu.uis.eden.clientapp.vo.WorkgroupVO;
+import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * This class validates the ServiceBillingControl maintenance document.

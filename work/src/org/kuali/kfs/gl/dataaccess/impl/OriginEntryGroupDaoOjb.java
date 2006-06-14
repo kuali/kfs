@@ -30,13 +30,14 @@ import java.util.Map;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
+import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.dao.OriginEntryGroupDao;
 import org.springframework.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 /**
  * @author Laran Evans <lc278@cornell.edu>
- * @version $Id: OriginEntryGroupDaoOjb.java,v 1.7 2006-05-04 16:08:59 larevans Exp $
+ * @version $Id: OriginEntryGroupDaoOjb.java,v 1.8 2006-06-14 01:53:46 schoo Exp $
  */
 
 public class OriginEntryGroupDaoOjb extends PersistenceBrokerDaoSupport implements OriginEntryGroupDao {
@@ -100,6 +101,11 @@ public class OriginEntryGroupDaoOjb extends PersistenceBrokerDaoSupport implemen
         LOG.debug("save() started");
 
         getPersistenceBrokerTemplate().store(group);
+    }
+    
+    public OriginEntryGroup getExactMatchingEntryGroup(Integer id) {
+        LOG.debug("getMatchingEntries() started");
+        return (OriginEntryGroup) getPersistenceBrokerTemplate().getObjectById(OriginEntryGroup.class, id);
     }
 
 }

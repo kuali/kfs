@@ -28,6 +28,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -56,7 +57,11 @@ public class CorrectionForm extends KualiDocumentFormBase {
     private String chooseSystem;
     private String editMethod;
     protected FormFile sourceFile;
-    
+    private String[] groupIdList;
+    private String deleteOutput;
+    private String matchCriteriaOnly;
+    private String editableFlag;
+    private String manualEditFlag;
     /**
      * This is a Map of operators that can be used in searches from the GL
      * Error Correction Document. Each value in this Map corresponds to a
@@ -110,11 +115,10 @@ public class CorrectionForm extends KualiDocumentFormBase {
      * Correction Document are stored in this Set. This Set is then
      * referenced from the JSP for display on screen.
      */
-    private Collection allEntriesForManualEdit;
+    private Collection allEntries;
     private OriginEntry eachEntryForManualEdit;
     private Map allEntriesForManualEditHashMap;
-    private Collection updatedEntriesFromManualEdit;
-    private Map allEntriesCollection;
+   
     
     
 
@@ -127,11 +131,11 @@ public class CorrectionForm extends KualiDocumentFormBase {
         super();
 		setDocument(new CorrectionDocument());
         
-        allEntriesForManualEdit = new ArrayList();
+        /*allEntriesForManualEdit = new ArrayList();
         eachEntryForManualEdit = null;
         allEntriesForManualEditHashMap = new HashMap();
         updatedEntriesFromManualEdit = new ArrayList();
-        updatedEntriesFromManualEdit.clear();
+        updatedEntriesFromManualEdit.clear();*/
         
         
         // create a blank TransactionalDocumentActionFlags instance, since form-recreation needs it
@@ -203,16 +207,16 @@ public class CorrectionForm extends KualiDocumentFormBase {
     /**
      * @return Returns the entriesThatMatchSearchCriteria.
      */
-    public Collection getAllEntriesForManualEdit() {
-        return allEntriesForManualEdit;
+    public Collection getAllEntries() {
+        return allEntries;
     }
 
     /**
      * @param entriesThatMatchSearchCriteria The entriesThatMatchSearchCriteria to set.
      */
-    public void setAllEntriesForManualEdit(
+    public void setAllEntries(
             Collection allEntriesForManualEdit) {
-        this.allEntriesForManualEdit = allEntriesForManualEdit;
+        this.allEntries = allEntriesForManualEdit;
     }
     
     /**
@@ -220,23 +224,22 @@ public class CorrectionForm extends KualiDocumentFormBase {
      * 
      * @return
      */
-    public Collection getOriginEntryGroupsPendingProcessing() {
+/*    public Collection getOriginEntryGroupsPendingProcessing() {
         
-        OriginEntryGroupService temp = (OriginEntryGroupService) SpringServiceLocator.getBeanFactory().getBean("glOriginEntryGroupService");
+        OriginEntryGroupService originEntryGroupService= (OriginEntryGroupService) SpringServiceLocator.getBeanFactory().getBean("glOriginEntryGroupService");
         
-        /*OriginEntryGroup test = new OriginEntryGroup();
-        test.getSource().getName();
-        */
+        Collection<OriginEntryGroup> groupPendingList = originEntryGroupService.getOriginEntryGroupsPendingProcessing();
+        Collection returnCollection = new ArrayList();
         
+        Iterator iter = groupPendingList.iterator();
+        for(OriginEntryGroup oeg: groupPendingList){
+            oeg = (OriginEntryGroup) iter.next();
         
-       /* List sortList = (List) temp.getOriginEntryGroupsPendingProcessing();
-        
-        StringCellComparator stringComparator = new StringCellComparator();
-        Collections.sort(sortList, stringComparator);
-        Collection returnCollection = (Collection) sortList;*/
-        Collection returnCollection = temp.getOriginEntryGroupsPendingProcessing();
+            if (oeg.getSourceCode().equals("GLCP") & !oeg.getValid()){
+            } else {returnCollection.add(oeg);}
+        }
         return returnCollection;
-    }
+    }*/
 
     public String getChooseSystem() {
         return chooseSystem;
@@ -270,20 +273,52 @@ public class CorrectionForm extends KualiDocumentFormBase {
         this.eachEntryForManualEdit = eachEntryForManualEdit;
     }
 
-    public Collection getUpdatedEntriesFromManualEdit() {
-        return updatedEntriesFromManualEdit;
-    }
-
-    public void setUpdatedEntriesFromManualEdit(Collection updatedEntriesFromManualEdit) {
-        this.updatedEntriesFromManualEdit = updatedEntriesFromManualEdit;
-    }
-
-    public FormFile getSourceFile() {
+        public FormFile getSourceFile() {
         return sourceFile;
     }
 
     public void setSourceFile(FormFile sourceFile) {
         this.sourceFile = sourceFile;
+    }
+
+    public String[] getGroupIdList() {
+        return groupIdList;
+    }
+
+    public void setGroupIdList(String[] groupIdList) {
+        this.groupIdList = groupIdList;
+    }
+
+    public String getDeleteOutput() {
+        return deleteOutput;
+    }
+
+    public void setDeleteOutput(String deleteOutput) {
+        this.deleteOutput = deleteOutput;
+    }
+
+    public String getMatchCriteriaOnly() {
+        return matchCriteriaOnly;
+    }
+
+    public void setMatchCriteriaOnly(String matchCriteriaOnly) {
+        this.matchCriteriaOnly = matchCriteriaOnly;
+    }
+
+    public String getEditableFlag() {
+        return editableFlag;
+    }
+
+    public void setEditableFlag(String editableFlag) {
+        this.editableFlag = editableFlag;
+    }
+
+    public String getManualEditFlag() {
+        return manualEditFlag;
+    }
+
+    public void setManualEditFlag(String manualEditFlag) {
+        this.manualEditFlag = manualEditFlag;
     }
 
     

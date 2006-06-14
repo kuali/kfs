@@ -33,4 +33,5 @@ public interface OriginEntryGroupDao {
 	public Collection getPosterGroups(String groupSourceCode);
 	public Collection getScrubberGroups(Date groupDate);
 	public void save(OriginEntryGroup group);
+    public OriginEntryGroup getExactMatchingEntryGroup(Integer id);
 }

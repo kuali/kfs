@@ -67,7 +67,7 @@ import org.kuali.module.gl.web.struts.form.CorrectionForm;
 /**
  * @author Laran Evans <lc278@cornell.edu>
  *         Shawn Choo  <schoo@indiana.edu>
- * @version $Id: CorrectionAction.java,v 1.10 2006-06-14 01:50:26 schoo Exp $
+ * @version $Id: CorrectionAction.java,v 1.11 2006-06-14 04:17:10 ahollamo Exp $
  * 
  */
 
@@ -1032,7 +1032,8 @@ public class CorrectionAction extends KualiDocumentActionBase {
             oe.setUniversityFiscalYear(new Integer(convertInt));
         }
         
-        oe.setBudgetYear(editBudgetYear);
+        //TODO: fix the following line
+        //oe.setBudgetYear(editBudgetYear);
         
         //set entryId
         //null id means user added a new entry. 

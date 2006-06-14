@@ -58,6 +58,7 @@ public class CashManagementDocumentRule extends DocumentRuleBase {
      * 
      * @see org.kuali.core.rule.DocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.Document)
      */
+    @Override
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
         boolean isValid = super.processCustomSaveDocumentBusinessRules(document);
 
@@ -125,8 +126,8 @@ public class CashManagementDocumentRule extends DocumentRuleBase {
         for (Iterator deposits = cmd.getDeposits().iterator(); deposits.hasNext(); index++) {
             Deposit deposit = (Deposit) deposits.next();
 
-            isValid &= validateDeposit(deposit, isInitiated);
             GlobalVariables.getErrorMap().addToErrorPath(PropertyConstants.DEPOSIT + "[" + index + "]");
+            isValid &= validateDeposit(deposit, isInitiated);
             GlobalVariables.getErrorMap().removeFromErrorPath(PropertyConstants.DEPOSIT + "[" + index + "]");
         }
 

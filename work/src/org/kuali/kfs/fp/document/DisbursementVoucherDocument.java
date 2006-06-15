@@ -105,7 +105,7 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
     /**
      * Gets the finDocNextRegistrantLineNbr attribute.
      * 
-     * @return - Returns the finDocNextRegistrantLineNbr
+     * @return Returns the finDocNextRegistrantLineNbr
      * 
      */
     public Integer getFinDocNextRegistrantLineNbr() {
@@ -116,7 +116,7 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
     /**
      * Sets the finDocNextRegistrantLineNbr attribute.
      * 
-     * @param - finDocNextRegistrantLineNbr The finDocNextRegistrantLineNbr to set.
+     * @param finDocNextRegistrantLineNbr The finDocNextRegistrantLineNbr to set.
      * 
      */
     public void setFinDocNextRegistrantLineNbr(Integer finDocNextRegistrantLineNbr) {
@@ -126,7 +126,7 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
     /**
      * Gets the disbVchrContactPersonName attribute.
      * 
-     * @return - Returns the disbVchrContactPersonName
+     * @return Returns the disbVchrContactPersonName
      * 
      */
     public String getDisbVchrContactPersonName() {
@@ -137,7 +137,7 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
     /**
      * Sets the disbVchrContactPersonName attribute.
      * 
-     * @param - disbVchrContactPersonName The disbVchrContactPersonName to set.
+     * @param disbVchrContactPersonName The disbVchrContactPersonName to set.
      * 
      */
     public void setDisbVchrContactPersonName(String disbVchrContactPersonName) {
@@ -147,7 +147,7 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
     /**
      * Gets the disbVchrContactPhoneNumber attribute.
      * 
-     * @return - Returns the disbVchrContactPhoneNumber
+     * @return Returns the disbVchrContactPhoneNumber
      * 
      */
     public String getDisbVchrContactPhoneNumber() {
@@ -158,7 +158,7 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
     /**
      * Sets the disbVchrContactPhoneNumber attribute.
      * 
-     * @param - disbVchrContactPhoneNumber The disbVchrContactPhoneNumber to set.
+     * @param disbVchrContactPhoneNumber The disbVchrContactPhoneNumber to set.
      * 
      */
     public void setDisbVchrContactPhoneNumber(String disbVchrContactPhoneNumber) {
@@ -168,7 +168,7 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
     /**
      * Gets the disbVchrContactEmailId attribute.
      * 
-     * @return - Returns the disbVchrContactEmailId
+     * @return Returns the disbVchrContactEmailId
      * 
      */
     public String getDisbVchrContactEmailId() {
@@ -179,7 +179,7 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
     /**
      * Sets the disbVchrContactEmailId attribute.
      * 
-     * @param - disbVchrContactEmailId The disbVchrContactEmailId to set.
+     * @param disbVchrContactEmailId The disbVchrContactEmailId to set.
      * 
      */
     public void setDisbVchrContactEmailId(String disbVchrContactEmailId) {
@@ -189,7 +189,7 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
     /**
      * Gets the disbursementVoucherDueDate attribute.
      * 
-     * @return - Returns the disbursementVoucherDueDate
+     * @return Returns the disbursementVoucherDueDate
      * 
      */
     public Date getDisbursementVoucherDueDate() {
@@ -200,7 +200,7 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
     /**
      * Sets the disbursementVoucherDueDate attribute.
      * 
-     * @param - disbursementVoucherDueDate The disbursementVoucherDueDate to set.
+     * @param disbursementVoucherDueDate The disbursementVoucherDueDate to set.
      * 
      */
     public void setDisbursementVoucherDueDate(Date disbursementVoucherDueDate) {
@@ -210,7 +210,7 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
     /**
      * Gets the disbVchrAttachmentCode attribute.
      * 
-     * @return - Returns the disbVchrAttachmentCode
+     * @return Returns the disbVchrAttachmentCode
      * 
      */
     public boolean isDisbVchrAttachmentCode() {
@@ -221,7 +221,7 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
     /**
      * Sets the disbVchrAttachmentCode attribute.
      * 
-     * @param - disbVchrAttachmentCode The disbVchrAttachmentCode to set.
+     * @param disbVchrAttachmentCode The disbVchrAttachmentCode to set.
      * 
      */
     public void setDisbVchrAttachmentCode(boolean disbVchrAttachmentCode) {
@@ -231,7 +231,7 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
     /**
      * Gets the disbVchrSpecialHandlingCode attribute.
      * 
-     * @return - Returns the disbVchrSpecialHandlingCode
+     * @return Returns the disbVchrSpecialHandlingCode
      * 
      */
     public boolean isDisbVchrSpecialHandlingCode() {
@@ -242,7 +242,7 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
     /**
      * Sets the disbVchrSpecialHandlingCode attribute.
      * 
-     * @param - disbVchrSpecialHandlingCode The disbVchrSpecialHandlingCode to set.
+     * @param disbVchrSpecialHandlingCode The disbVchrSpecialHandlingCode to set.
      * 
      */
     public void setDisbVchrSpecialHandlingCode(boolean disbVchrSpecialHandlingCode) {
@@ -252,7 +252,7 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
     /**
      * Gets the disbVchrCheckTotalAmount attribute.
      * 
-     * @return - Returns the disbVchrCheckTotalAmount
+     * @return Returns the disbVchrCheckTotalAmount
      * 
      */
     public KualiDecimal getDisbVchrCheckTotalAmount() {
@@ -263,7 +263,7 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
     /**
      * Sets the disbVchrCheckTotalAmount attribute.
      * 
-     * @param - disbVchrCheckTotalAmount The disbVchrCheckTotalAmount to set.
+     * @param disbVchrCheckTotalAmount The disbVchrCheckTotalAmount to set.
      * 
      */
     public void setDisbVchrCheckTotalAmount(KualiDecimal disbVchrCheckTotalAmount) {
@@ -273,7 +273,7 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
     /**
      * Gets the disbVchrForeignCurrencyInd attribute.
      * 
-     * @return - Returns the disbVchrForeignCurrencyInd
+     * @return Returns the disbVchrForeignCurrencyInd
      * 
      */
     public boolean isDisbVchrForeignCurrencyInd() {
@@ -284,7 +284,7 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
     /**
      * Sets the disbVchrForeignCurrencyInd attribute.
      * 
-     * @param - disbVchrForeignCurrencyInd The disbVchrForeignCurrencyInd to set.
+     * @param disbVchrForeignCurrencyInd The disbVchrForeignCurrencyInd to set.
      * 
      */
     public void setDisbVchrForeignCurrencyInd(boolean disbVchrForeignCurrencyInd) {
@@ -294,7 +294,7 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
     /**
      * Gets the disbursementVoucherDocumentationLocationCode attribute.
      * 
-     * @return - Returns the disbursementVoucherDocumentationLocationCode
+     * @return Returns the disbursementVoucherDocumentationLocationCode
      * 
      */
     public String getDisbursementVoucherDocumentationLocationCode() {
@@ -305,7 +305,7 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
     /**
      * Sets the disbursementVoucherDocumentationLocationCode attribute.
      * 
-     * @param - disbursementVoucherDocumentationLocationCode The disbursementVoucherDocumentationLocationCode to set.
+     * @param disbursementVoucherDocumentationLocationCode The disbursementVoucherDocumentationLocationCode to set.
      * 
      */
     public void setDisbursementVoucherDocumentationLocationCode(String disbursementVoucherDocumentationLocationCode) {
@@ -315,7 +315,7 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
     /**
      * Gets the disbVchrCheckStubText attribute.
      * 
-     * @return - Returns the disbVchrCheckStubText
+     * @return Returns the disbVchrCheckStubText
      * 
      */
     public String getDisbVchrCheckStubText() {
@@ -326,7 +326,7 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
     /**
      * Sets the disbVchrCheckStubText attribute.
      * 
-     * @param - disbVchrCheckStubText The disbVchrCheckStubText to set.
+     * @param disbVchrCheckStubText The disbVchrCheckStubText to set.
      * 
      */
     public void setDisbVchrCheckStubText(String disbVchrCheckStubText) {
@@ -336,7 +336,7 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
     /**
      * Gets the dvCheckStubOverflowCode attribute.
      * 
-     * @return - Returns the dvCheckStubOverflowCode
+     * @return Returns the dvCheckStubOverflowCode
      * 
      */
     public boolean getDvCheckStubOverflowCode() {
@@ -347,7 +347,7 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
     /**
      * Sets the dvCheckStubOverflowCode attribute.
      * 
-     * @param - dvCheckStubOverflowCode The dvCheckStubOverflowCode to set.
+     * @param dvCheckStubOverflowCode The dvCheckStubOverflowCode to set.
      * 
      */
     public void setDvCheckStubOverflowCode(boolean dvCheckStubOverflowCode) {
@@ -357,7 +357,7 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
     /**
      * Gets the campusCode attribute.
      * 
-     * @return - Returns the campusCode
+     * @return Returns the campusCode
      * 
      */
     public String getCampusCode() {
@@ -368,7 +368,7 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
     /**
      * Sets the campusCode attribute.
      * 
-     * @param - campusCode The campusCode to set.
+     * @param campusCode The campusCode to set.
      * 
      */
     public void setCampusCode(String campusCode) {
@@ -378,7 +378,7 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
     /**
      * Gets the disbVchrPayeeTaxControlCode attribute.
      * 
-     * @return - Returns the disbVchrPayeeTaxControlCode
+     * @return Returns the disbVchrPayeeTaxControlCode
      * 
      */
     public String getDisbVchrPayeeTaxControlCode() {
@@ -389,7 +389,7 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
     /**
      * Sets the disbVchrPayeeTaxControlCode attribute.
      * 
-     * @param - disbVchrPayeeTaxControlCode The disbVchrPayeeTaxControlCode to set.
+     * @param disbVchrPayeeTaxControlCode The disbVchrPayeeTaxControlCode to set.
      * 
      */
     public void setDisbVchrPayeeTaxControlCode(String disbVchrPayeeTaxControlCode) {
@@ -399,7 +399,7 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
     /**
      * Gets the disbVchrPayeeChangedInd attribute.
      * 
-     * @return - Returns the disbVchrPayeeChangedInd
+     * @return Returns the disbVchrPayeeChangedInd
      * 
      */
     public boolean isDisbVchrPayeeChangedInd() {
@@ -410,7 +410,7 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
     /**
      * Sets the disbVchrPayeeChangedInd attribute.
      * 
-     * @param - disbVchrPayeeChangedInd The disbVchrPayeeChangedInd to set.
+     * @param disbVchrPayeeChangedInd The disbVchrPayeeChangedInd to set.
      * 
      */
     public void setDisbVchrPayeeChangedInd(boolean disbVchrPayeeChangedInd) {
@@ -420,7 +420,7 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
     /**
      * Gets the disbursementVoucherCheckNbr attribute.
      * 
-     * @return - Returns the disbursementVoucherCheckNbr
+     * @return Returns the disbursementVoucherCheckNbr
      * 
      */
     public String getDisbursementVoucherCheckNbr() {
@@ -431,7 +431,7 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
     /**
      * Sets the disbursementVoucherCheckNbr attribute.
      * 
-     * @param - disbursementVoucherCheckNbr The disbursementVoucherCheckNbr to set.
+     * @param disbursementVoucherCheckNbr The disbursementVoucherCheckNbr to set.
      * 
      */
     public void setDisbursementVoucherCheckNbr(String disbursementVoucherCheckNbr) {
@@ -441,7 +441,7 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
     /**
      * Gets the disbursementVoucherCheckDate attribute.
      * 
-     * @return - Returns the disbursementVoucherCheckDate
+     * @return Returns the disbursementVoucherCheckDate
      * 
      */
     public Timestamp getDisbursementVoucherCheckDate() {
@@ -452,7 +452,7 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
     /**
      * Sets the disbursementVoucherCheckDate attribute.
      * 
-     * @param - disbursementVoucherCheckDate The disbursementVoucherCheckDate to set.
+     * @param disbursementVoucherCheckDate The disbursementVoucherCheckDate to set.
      * 
      */
     public void setDisbursementVoucherCheckDate(Timestamp disbursementVoucherCheckDate) {
@@ -462,7 +462,7 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
     /**
      * Gets the disbVchrPayeeW9CompleteCode attribute.
      * 
-     * @return - Returns the disbVchrPayeeW9CompleteCode
+     * @return Returns the disbVchrPayeeW9CompleteCode
      * 
      */
     public boolean getDisbVchrPayeeW9CompleteCode() {
@@ -473,7 +473,7 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
     /**
      * Sets the disbVchrPayeeW9CompleteCode attribute.
      * 
-     * @param - disbVchrPayeeW9CompleteCode The disbVchrPayeeW9CompleteCode to set.
+     * @param disbVchrPayeeW9CompleteCode The disbVchrPayeeW9CompleteCode to set.
      * 
      */
     public void setDisbVchrPayeeW9CompleteCode(boolean disbVchrPayeeW9CompleteCode) {
@@ -483,7 +483,7 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
     /**
      * Gets the disbVchrPaymentMethodCode attribute.
      * 
-     * @return - Returns the disbVchrPaymentMethodCode
+     * @return Returns the disbVchrPaymentMethodCode
      * 
      */
     public String getDisbVchrPaymentMethodCode() {
@@ -494,7 +494,7 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
     /**
      * Sets the disbVchrPaymentMethodCode attribute.
      * 
-     * @param - disbVchrPaymentMethodCode The disbVchrPaymentMethodCode to set.
+     * @param disbVchrPaymentMethodCode The disbVchrPaymentMethodCode to set.
      * 
      */
     public void setDisbVchrPaymentMethodCode(String disbVchrPaymentMethodCode) {
@@ -504,7 +504,7 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
     /**
      * Gets the financialDocument attribute.
      * 
-     * @return - Returns the financialDocument
+     * @return Returns the financialDocument
      * 
      */
     public DocumentHeader getFinancialDocument() {
@@ -515,7 +515,7 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
     /**
      * Sets the financialDocument attribute.
      * 
-     * @param - financialDocument The financialDocument to set.
+     * @param financialDocument The financialDocument to set.
      * @deprecated
      */
     public void setFinancialDocument(DocumentHeader financialDocument) {
@@ -525,7 +525,7 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
     /**
      * Gets the disbVchrDocumentationLoc attribute.
      * 
-     * @return - Returns the disbVchrDocumentationLoc
+     * @return Returns the disbVchrDocumentationLoc
      * 
      */
     public DisbursementVoucherDocumentationLocation getDisbVchrDocumentationLoc() {
@@ -536,7 +536,7 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
     /**
      * Sets the disbVchrDocumentationLoc attribute.
      * 
-     * @param - disbVchrDocumentationLoc The disbVchrDocumentationLoc to set.
+     * @param disbVchrDocumentationLoc The disbVchrDocumentationLoc to set.
      * @deprecated
      */
     public void setDisbVchrDocumentationLoc(DisbursementVoucherDocumentationLocation disbVchrDocumentationLoc) {
@@ -642,7 +642,7 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
     /**
      * Returns the name associated with the payment method code
      * 
-     * @return
+     * @return String
      */
     public String getDisbVchrPaymentMethodName() {
         return new PaymentMethodValuesFinder().getKeyLabel(disbVchrPaymentMethodCode);
@@ -654,7 +654,7 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
     /**
      * Returns the name associated with the documentation location name
      * 
-     * @return
+     * @return String
      */
     public String getDisbursementVoucherDocumentationLocationName() {
         return new DisbursementVoucherDocumentationLocationValuesFinder().getKeyLabel(disbursementVoucherDocumentationLocationCode);

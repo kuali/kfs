@@ -53,7 +53,7 @@ public class PendingBalancesMove extends BusinessObjectBase {
     /**
      * Gets the personUniversalIdentifier attribute.
      * 
-     * @return - Returns the personUniversalIdentifier
+     * @return Returns the personUniversalIdentifier
      * 
      */
     public String getPersonUniversalIdentifier() {
@@ -63,7 +63,7 @@ public class PendingBalancesMove extends BusinessObjectBase {
     /**
      * Sets the personUniversalIdentifier attribute.
      * 
-     * @param - personUniversalIdentifier The personUniversalIdentifier to set.
+     * @param personUniversalIdentifier The personUniversalIdentifier to set.
      * 
      */
     public void setPersonUniversalIdentifier(String personUniversalIdentifier) {
@@ -74,7 +74,7 @@ public class PendingBalancesMove extends BusinessObjectBase {
     /**
      * Gets the appropriationBudget attribute.
      * 
-     * @return - Returns the appropriationBudget
+     * @return Returns the appropriationBudget
      * 
      */
     public KualiDecimal getAppropriationBudget() {
@@ -84,7 +84,7 @@ public class PendingBalancesMove extends BusinessObjectBase {
     /**
      * Sets the appropriationBudget attribute.
      * 
-     * @param - appropriationBudget The appropriationBudget to set.
+     * @param appropriationBudget The appropriationBudget to set.
      * 
      */
     public void setAppropriationBudget(KualiDecimal appropriationBudget) {
@@ -95,7 +95,7 @@ public class PendingBalancesMove extends BusinessObjectBase {
     /**
      * Gets the appropriationActual attribute.
      * 
-     * @return - Returns the appropriationActual
+     * @return Returns the appropriationActual
      * 
      */
     public KualiDecimal getAppropriationActual() {
@@ -105,7 +105,7 @@ public class PendingBalancesMove extends BusinessObjectBase {
     /**
      * Sets the appropriationActual attribute.
      * 
-     * @param - appropriationActual The appropriationActual to set.
+     * @param appropriationActual The appropriationActual to set.
      * 
      */
     public void setAppropriationActual(KualiDecimal appropriationActual) {
@@ -116,7 +116,7 @@ public class PendingBalancesMove extends BusinessObjectBase {
     /**
      * Gets the appropriationEncumbrance attribute.
      * 
-     * @return - Returns the appropriationEncumbrance
+     * @return Returns the appropriationEncumbrance
      * 
      */
     public KualiDecimal getAppropriationEncumbrance() {
@@ -126,7 +126,7 @@ public class PendingBalancesMove extends BusinessObjectBase {
     /**
      * Sets the appropriationEncumbrance attribute.
      * 
-     * @param - appropriationEncumbrance The appropriationEncumbrance to set.
+     * @param appropriationEncumbrance The appropriationEncumbrance to set.
      * 
      */
     public void setAppropriationEncumbrance(KualiDecimal appropriationEncumbrance) {
@@ -137,7 +137,7 @@ public class PendingBalancesMove extends BusinessObjectBase {
     /**
      * Gets the pendingBudget attribute.
      * 
-     * @return - Returns the pendingBudget
+     * @return Returns the pendingBudget
      * 
      */
     public KualiDecimal getPendingBudget() {
@@ -147,7 +147,7 @@ public class PendingBalancesMove extends BusinessObjectBase {
     /**
      * Sets the pendingBudget attribute.
      * 
-     * @param - pendingBudget The pendingBudget to set.
+     * @param pendingBudget The pendingBudget to set.
      * 
      */
     public void setPendingBudget(KualiDecimal pendingBudget) {
@@ -158,7 +158,7 @@ public class PendingBalancesMove extends BusinessObjectBase {
     /**
      * Gets the pendingActual attribute.
      * 
-     * @return - Returns the pendingActual
+     * @return Returns the pendingActual
      * 
      */
     public KualiDecimal getPendingActual() {
@@ -168,7 +168,7 @@ public class PendingBalancesMove extends BusinessObjectBase {
     /**
      * Sets the pendingActual attribute.
      * 
-     * @param - pendingActual The pendingActual to set.
+     * @param pendingActual The pendingActual to set.
      * 
      */
     public void setPendingActual(KualiDecimal pendingActual) {
@@ -179,7 +179,7 @@ public class PendingBalancesMove extends BusinessObjectBase {
     /**
      * Gets the pendingEncumbrance attribute.
      * 
-     * @return - Returns the pendingEncumbrance
+     * @return Returns the pendingEncumbrance
      * 
      */
     public KualiDecimal getPendingEncumbrance() {
@@ -189,7 +189,7 @@ public class PendingBalancesMove extends BusinessObjectBase {
     /**
      * Sets the pendingEncumbrance attribute.
      * 
-     * @param - pendingEncumbrance The pendingEncumbrance to set.
+     * @param pendingEncumbrance The pendingEncumbrance to set.
      * 
      */
     public void setPendingEncumbrance(KualiDecimal pendingEncumbrance) {

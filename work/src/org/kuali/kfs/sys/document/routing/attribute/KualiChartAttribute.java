@@ -184,7 +184,7 @@ public class KualiChartAttribute implements RoleAttribute, WorkflowAttribute {
      * Returns a KualiFiscalChart object from the code
      * 
      * @param finCoaCd
-     * @return
+     * @return KualiFiscalChart
      */
     private KualiFiscalChart getKualiFiscalChart(String finCoaCd) {
         KualiFiscalChart kualiFiscalChart = null;
@@ -284,7 +284,7 @@ public class KualiChartAttribute implements RoleAttribute, WorkflowAttribute {
      * 
      * @param roleName
      * @param chart
-     * @return
+     * @return String 
      */
     private String getQualifiedRoleString(String roleName, String chart) {
         return roleName + ROLE_STRING_DELIMITER + chart;
@@ -328,7 +328,7 @@ public class KualiChartAttribute implements RoleAttribute, WorkflowAttribute {
      * get the chart name from a qualified role string
      * 
      * @param qualifiedRole
-     * @return
+     * @return String
      */
     private String getUnqualifiedChartFromString(String qualifiedRole) {
         return qualifiedRole.split(ROLE_STRING_DELIMITER)[1];

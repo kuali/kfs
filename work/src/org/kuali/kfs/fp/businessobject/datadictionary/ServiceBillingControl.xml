@@ -59,6 +59,8 @@
 
                 <maxLength>70</maxLength>
 
+                <required>true</required>
+
                 <control>
                     <text size="70" />
                 </control>

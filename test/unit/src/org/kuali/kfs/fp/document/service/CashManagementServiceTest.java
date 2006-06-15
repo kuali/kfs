@@ -58,6 +58,7 @@ public class CashManagementServiceTest extends KualiTestBaseWithSession {
     BusinessObjectService businessObjectService;
 
 
+    @Override
     protected void setUp() throws Exception {
         super.setUp();
 
@@ -211,7 +212,7 @@ public class CashManagementServiceTest extends KualiTestBaseWithSession {
     }
 
 
-    final public void testCancelCashManagementDocument_validFull() throws Exception {
+    final public void testCancelCashManagementDocument_valid_interimOnly() throws Exception {
         String testDocumentId = null;
 
         try {
@@ -242,7 +243,7 @@ public class CashManagementServiceTest extends KualiTestBaseWithSession {
             // add interim deposit
             changeCurrentUser("KHUNTLEY");
             CashManagementDocument interimDoc = (CashManagementDocument) documentService.getByDocumentHeaderId(testDocumentId);
-            cashManagementService.addInterimDeposit(interimDoc, VALID_DEPOSIT_TICKET, lookupBankAccount(), crList);
+            cashManagementService.addDeposit(interimDoc, VALID_DEPOSIT_TICKET, lookupBankAccount(), crList, false);
 
 
             //
@@ -326,7 +327,7 @@ public class CashManagementServiceTest extends KualiTestBaseWithSession {
         boolean failedAsExpected = false;
 
         try {
-            cashManagementService.addInterimDeposit(null, VALID_DEPOSIT_TICKET, lookupBankAccount(), null);
+            cashManagementService.addDeposit(null, VALID_DEPOSIT_TICKET, lookupBankAccount(), null, false);
         }
         catch (IllegalArgumentException e) {
             failedAsExpected = true;
@@ -343,7 +344,7 @@ public class CashManagementServiceTest extends KualiTestBaseWithSession {
             CashManagementDocument createdDoc = cashManagementService.createCashManagementDocument(CMST_WORKGROUP, "CMST_testAddID_nCRL", null);
             docId = createdDoc.getFinancialDocumentNumber();
 
-            cashManagementService.addInterimDeposit(createdDoc, VALID_DEPOSIT_TICKET, lookupBankAccount(), null);
+            cashManagementService.addDeposit(createdDoc, VALID_DEPOSIT_TICKET, lookupBankAccount(), null, false);
         }
         catch (IllegalArgumentException e) {
             failedAsExpected = true;
@@ -369,7 +370,7 @@ public class CashManagementServiceTest extends KualiTestBaseWithSession {
             CashManagementDocument createdDoc = cashManagementService.createCashManagementDocument(CMST_WORKGROUP, "CMST_testAddID_eCRL", null);
             docId = createdDoc.getFinancialDocumentNumber();
 
-            cashManagementService.addInterimDeposit(createdDoc, VALID_DEPOSIT_TICKET, lookupBankAccount(), new ArrayList());
+            cashManagementService.addDeposit(createdDoc, VALID_DEPOSIT_TICKET, lookupBankAccount(), new ArrayList(), false);
         }
         catch (IllegalArgumentException e) {
             failedAsExpected = true;
@@ -395,7 +396,7 @@ public class CashManagementServiceTest extends KualiTestBaseWithSession {
             CashManagementDocument createdDoc = cashManagementService.createCashManagementDocument(CMST_WORKGROUP, "CMST_testAddID_eCRL", null);
             docId = createdDoc.getFinancialDocumentNumber();
 
-            cashManagementService.addInterimDeposit(createdDoc, VALID_DEPOSIT_TICKET, null, new ArrayList());
+            cashManagementService.addDeposit(createdDoc, VALID_DEPOSIT_TICKET, null, new ArrayList(), false);
         }
         catch (IllegalArgumentException e) {
             failedAsExpected = true;
@@ -443,7 +444,7 @@ public class CashManagementServiceTest extends KualiTestBaseWithSession {
             crList.add(cr);
 
             // add invalid interim deposit
-            cashManagementService.addInterimDeposit(retrievedDoc, VALID_DEPOSIT_TICKET, lookupBankAccount(), crList);
+            cashManagementService.addDeposit(retrievedDoc, VALID_DEPOSIT_TICKET, lookupBankAccount(), crList, false);
         }
         catch (InvalidCashReceiptState e) {
             failedAsExpected = true;
@@ -498,7 +499,7 @@ public class CashManagementServiceTest extends KualiTestBaseWithSession {
             crList.add(cr);
 
             // add interim deposit
-            cashManagementService.addInterimDeposit(retrievedDoc, VALID_DEPOSIT_TICKET, lookupBankAccount(), crList);
+            cashManagementService.addDeposit(retrievedDoc, VALID_DEPOSIT_TICKET, lookupBankAccount(), crList, false);
         }
         catch (IllegalStateException e) {
             failedAsExpected = true;
@@ -551,7 +552,7 @@ public class CashManagementServiceTest extends KualiTestBaseWithSession {
 
             // add interim deposit
             changeCurrentUser("KHUNTLEY");
-            cashManagementService.addInterimDeposit(retrievedDoc, VALID_DEPOSIT_TICKET, lookupBankAccount(), crList);
+            cashManagementService.addDeposit(retrievedDoc, VALID_DEPOSIT_TICKET, lookupBankAccount(), crList, false);
 
 
             //
@@ -612,7 +613,7 @@ public class CashManagementServiceTest extends KualiTestBaseWithSession {
     }
 
 
-    public void testCancelDeposit_cancelSingle() throws Exception {
+    public void testCancelDeposit_cancelSingleInterim() throws Exception {
         String testDocumentId = null;
 
         try {
@@ -642,7 +643,7 @@ public class CashManagementServiceTest extends KualiTestBaseWithSession {
             // add interim deposit
             changeCurrentUser("KHUNTLEY");
             CashManagementDocument interimDoc = (CashManagementDocument) documentService.getByDocumentHeaderId(testDocumentId);
-            cashManagementService.addInterimDeposit(interimDoc, VALID_DEPOSIT_TICKET, lookupBankAccount(), crList);
+            cashManagementService.addDeposit(interimDoc, VALID_DEPOSIT_TICKET, lookupBankAccount(), crList, false);
 
 
             //

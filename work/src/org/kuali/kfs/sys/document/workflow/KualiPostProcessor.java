@@ -35,11 +35,11 @@ import edu.iu.uis.eden.clientapp.vo.DeleteEventVO;
 import edu.iu.uis.eden.clientapp.vo.DocumentRouteLevelChangeVO;
 import edu.iu.uis.eden.clientapp.vo.DocumentRouteStatusChangeVO;
 
-
 /**
- * This class is the postProcessor for the Kuali application, and it is responsible for plumbing events up to documents using the
- * built into the document methods for handling route status and other routing changes that take place asyncronously and potentially
- * on a different server.
+ * This class is the postProcessor for the Kuali application, and it is
+ * responsible for plumbing events up to documents using the built into the
+ * document methods for handling route status and other routing changes that
+ * take place asyncronously and potentially on a different server.
  * 
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
@@ -57,17 +57,17 @@ public class KualiPostProcessor implements PostProcessorRemote {
                 if (!EdenConstants.ROUTE_HEADER_CANCEL_CD.equals(statusChangeEvent.getNewRouteStatus())) {
                     throw new RuntimeException("unable to load document " + statusChangeEvent.getRouteHeaderId());
                 }
-            }
-            else {
-                document.handleRouteStatusChange();
-                if (document.getDocumentHeader().getWorkflowDocument().stateIsCanceled() || document.getDocumentHeader().getWorkflowDocument().stateIsDisapproved() || document.getDocumentHeader().getWorkflowDocument().stateIsFinal()) {
-                    document.getDocumentHeader().setDocumentFinalDate(new java.sql.Date(SpringServiceLocator.getDateTimeService().getCurrentDate().getTime()));
+            } else {
+                if (!document.getDocumentHeader().getWorkflowDocument().stateIsSaved()) {
+                    document.handleRouteStatusChange();
+                    if (document.getDocumentHeader().getWorkflowDocument().stateIsCanceled() || document.getDocumentHeader().getWorkflowDocument().stateIsDisapproved() || document.getDocumentHeader().getWorkflowDocument().stateIsFinal()) {
+                        document.getDocumentHeader().setDocumentFinalDate(new java.sql.Date(SpringServiceLocator.getDateTimeService().getCurrentDate().getTime()));
+                    }
+                    SpringServiceLocator.getDocumentService().updateDocument(document);
                 }
-                SpringServiceLocator.getDocumentService().updateDocument(document);
             }
             LOG.debug(new StringBuffer("finished handling route status change from ").append(statusChangeEvent.getOldRouteStatus()).append(" to ").append(statusChangeEvent.getNewRouteStatus()).append(" for document ").append(statusChangeEvent.getRouteHeaderId()));
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             logAndRethrow("route status", e);
         }
         return true;
@@ -82,7 +82,8 @@ public class KualiPostProcessor implements PostProcessorRemote {
     }
 
     public boolean doRouteLevelChange(DocumentRouteLevelChangeVO levelChangeEvent) throws RemoteException {
-        // on route level change we'll serialize the XML for the document. we are doing this here cause it's a heavy hitter, and we
+        // on route level change we'll serialize the XML for the document. we
+        // are doing this here cause it's a heavy hitter, and we
         // want to avoid the user waiting for this during sync processing
         try {
             LOG.debug(new StringBuffer("started handling route level change from ").append(levelChangeEvent.getOldRouteLevel()).append(" to ").append(levelChangeEvent.getNewRouteLevel()).append(" for document ").append(levelChangeEvent.getRouteHeaderId()));
@@ -94,8 +95,7 @@ public class KualiPostProcessor implements PostProcessorRemote {
             document.populateDocumentForRouting();
             document.getDocumentHeader().getWorkflowDocument().saveRoutingData();
             LOG.debug(new StringBuffer("finished handling route level change from ").append(levelChangeEvent.getOldRouteLevel()).append(" to ").append(levelChangeEvent.getNewRouteLevel()).append(" for document ").append(levelChangeEvent.getRouteHeaderId()));
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             logAndRethrow("route level", e);
         }
         return true;

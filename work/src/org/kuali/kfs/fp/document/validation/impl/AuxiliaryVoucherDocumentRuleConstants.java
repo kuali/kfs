@@ -24,7 +24,7 @@ package org.kuali.module.financial.rules;
 
 
 /**
- * Holds constants for <code>{@link AuxiliaryVoucherDocument}</code>
+ * Holds constants for <code>{@link org.kuali.module.financial.document.AuxiliaryVoucherDocument}</code>
  * business rules.
  *
  * @author Nervous System Team (kualidev@oncourse.iu.edu)

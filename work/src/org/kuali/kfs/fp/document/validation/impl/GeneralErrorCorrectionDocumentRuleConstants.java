@@ -24,7 +24,7 @@ package org.kuali.module.financial.rules;
 
 
 /**
- * Holds constants for <code>{@link GeneralErrorCorrectionDocument}</code> business rules.
+ * Holds constants for <code>{@link org.kuali.module.financial.document.GeneralErrorCorrectionDocument}</code> business rules.
  * 
  * @author Nervous System Team (kualidev@oncourse.iu.edu)
  */

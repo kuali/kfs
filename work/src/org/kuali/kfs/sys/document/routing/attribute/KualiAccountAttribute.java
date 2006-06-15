@@ -144,7 +144,7 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
     /**
      * return whether or not this attribute is required
      * 
-     * @return
+     * @return boolean
      */
     public boolean isRequired() {
         return required;
@@ -162,7 +162,7 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
     /**
      * simple getter for the rule extension values
      * 
-     * @return
+     * @return List
      */
     public List getRuleExtensionValues() {
         return Collections.EMPTY_LIST;
@@ -173,7 +173,7 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
      * like that.
      * 
      * @param paramMap
-     * @return
+     * @return List
      */
     public List validateRoutingData(Map paramMap) {
         // TODO should this actually validate
@@ -189,7 +189,7 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
      * call into the other implementation validateRoutingData
      * 
      * @param paramMap
-     * @return
+     * @return List
      */
     public List validateRuleData(Map paramMap) {
         return validateRoutingData(paramMap);
@@ -198,7 +198,7 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
     /**
      * method to actually construct the docContent that will be appended to this documents contents
      * 
-     * @return
+     * @return String
      */
     public String getDocContent() {
         if (Utilities.isEmpty(getFinCoaCd()) || Utilities.isEmpty(getAccountNbr())) {
@@ -217,7 +217,7 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
      * 
      * @param docContent
      * @param ruleExtensions
-     * @return
+     * @return boolean
      */
     public boolean isMatch(DocumentContent docContent, List ruleExtensions) {
         return true;
@@ -227,7 +227,7 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
      * This method is used by the workflow report to allow the user to fill in some arbitrary values for the routable contents of an
      * example document, and then to run the report to generate a virtual route log of who the document would route to, etc.
      * 
-     * @return
+     * @return List
      */
     public List getRoutingDataRows() {
         List rows = new ArrayList();
@@ -249,7 +249,7 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
     /**
      * simple getter which returns empty
      * 
-     * @return
+     * @return List
      */
     public List getRuleRows() {
         return Collections.EMPTY_LIST;
@@ -258,7 +258,7 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
     /**
      * simple getter which returns the account number
      * 
-     * @return
+     * @return String
      */
     public String getAccountNbr() {
         return accountNbr;
@@ -276,7 +276,7 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
     /**
      * simple getter which returns the chart
      * 
-     * @return
+     * @return String
      */
     public String getFinCoaCd() {
         return finCoaCd;
@@ -294,7 +294,7 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
     /**
      * simple getter which returns the total dollar amount
      * 
-     * @return
+     * @return String
      */
     public String getTotalDollarAmount() {
         return totalDollarAmount;

@@ -34,7 +34,7 @@ import static org.kuali.Constants.AuxiliaryVoucher.ADJUSTMENT_DOC_TYPE;
 import static org.kuali.Constants.AuxiliaryVoucher.RECODE_DOC_TYPE;
 
 /**
- * <code>{@link KeyValues}</code> class that handles <code>{@link AuxiliaryVoucherDocument}</code> types.
+ * <code>{@link KeyValuesBase}</code> class that handles <code>{@link org.kuali.module.financial.document.AuxiliaryVoucherDocument}</code> types.
  *
  * @author Bin Gao from Michigan State University
  */

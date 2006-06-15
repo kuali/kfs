@@ -409,7 +409,7 @@ public class AuxiliaryVoucherDocumentRule extends TransactionalDocumentRuleBase 
     }
     
     /**
-     * Special override method to handle <code>{@link TransactionalDcoument}</code> custom routing rules.
+     * Special override method to handle <code>{@link TransactionalDocument}</code> custom routing rules.
      *
      * @see TransactionalDocumentRuleBase#processCustomRouteDocumentBusinessRules(Document)
      */
@@ -482,7 +482,7 @@ public class AuxiliaryVoucherDocumentRule extends TransactionalDocumentRuleBase 
      * This method checks to see if there is a valid combination of sub type and object level
      * @param document
      * @param accountingLine
-     * @return
+     * @return boolean
      */
     private boolean isValidDocWithSubAndLevel(TransactionalDocument document, 
                                               AccountingLine accountingLine) {

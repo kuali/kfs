@@ -33,7 +33,8 @@ import static org.kuali.Constants.AuxiliaryVoucher.ADJUSTMENT_DOC_TYPE;
 import static org.kuali.Constants.AuxiliaryVoucher.RECODE_DOC_TYPE;
 
 /**
- * This class...
+ * Struts form so <code>{@link AuxiliaryVoucherDocument}</code> can be accessed and modified through UI.
+ * 
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class AuxiliaryVoucherForm extends VoucherForm {

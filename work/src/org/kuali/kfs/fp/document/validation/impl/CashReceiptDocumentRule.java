@@ -325,7 +325,7 @@ public class CashReceiptDocumentRule extends TransactionalDocumentRuleBase imple
     }
 
     /**
-     * Method used by <code>{@link CashReceiptCoverPageService}</code> to determine of the
+     * Method used by <code>{@link org.kuali.module.financial.service.CashReceiptCoverSheetService}</code> to determine of the
      * <code>{@link CashReceiptDocument}</code> validates business rules for generating a cover page. <br/> <br/> Rule is the
      * <code>{@link Document}</code> must be ENROUTE.
      * 

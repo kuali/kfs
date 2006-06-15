@@ -56,7 +56,7 @@ import org.kuali.module.gl.util.SufficientFundsItemHelper.SufficientFundsItem;
 
 /**
  * Business rule(s) applicable to
- * <code>{@link GeneralErrorCorrectionDocument}</code> instances.
+ * <code>{@link org.kuali.module.financial.document.GeneralErrorCorrectionDocument}</code> instances.
  *
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */

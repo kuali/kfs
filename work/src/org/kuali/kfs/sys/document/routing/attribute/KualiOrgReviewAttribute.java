@@ -258,8 +258,7 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
     /**
      * @param finCoaCd
      * @param orgCd
-     * @param isValidOrg
-     * @return
+     * @return KualiFiscalOrganization
      */
     private KualiFiscalOrganization getKualiFiscalOrganization(String finCoaCd, String orgCd) {
         KualiFiscalOrganization kualiFiscalOrganization = null;
@@ -368,7 +367,7 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
     /**
      * This method is a recursive method that will retrive reports to orgs to build up the hierarchy of organizations
      * 
-     * @param chartOrgList
+     * @param chartOrgSet
      * @param chartOrg
      */
     private void buildOrgReviewHierarchy(Set chartOrgSet, KualiFiscalOrganization chartOrg) {
@@ -623,7 +622,7 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
     /**
      * simple getter for fincoacd
      * 
-     * @return
+     * @return String
      */
     public String getFinCoaCd() {
         return this.finCoaCd;
@@ -641,7 +640,7 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
     /**
      * simple getter for org code
      * 
-     * @return
+     * @return String
      */
     public String getOrgCd() {
         return this.orgCd;

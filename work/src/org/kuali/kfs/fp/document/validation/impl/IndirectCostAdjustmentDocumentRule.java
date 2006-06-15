@@ -160,14 +160,6 @@ public class IndirectCostAdjustmentDocumentRule extends TransactionalDocumentRul
         return processCommonCustomAccountingLineBusinessRules(accountingLine);
     }
 
-    /**
-     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processCustomReviewAccountingLineBusinessRules(TransactionalDocument,
-     *      AccountingLine)
-     */
-    @Override
-    public boolean processCustomReviewAccountingLineBusinessRules(TransactionalDocument document, AccountingLine accountingLine) {
-        return processCommonCustomAccountingLineBusinessRules(accountingLine);
-    }
 
     /**
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processCustomUpdateAccountingLineBusinessRules(TransactionalDocument,
@@ -187,6 +179,27 @@ public class IndirectCostAdjustmentDocumentRule extends TransactionalDocumentRul
 
     protected boolean processCommonCustomAccountingLineBusinessRules(AccountingLine accountingLine) {
         boolean isValid = isChartOfAccountsAllowed(accountingLine);
+        if (isValid) {
+            isValid = isAccountAllowed(accountingLine);
+        }
+        return isValid;
+    }
+
+    /**
+     * checks to see if source (grant) account references an ICR account
+     * 
+     * @param accountingLine
+     * @return
+     */
+    private boolean isAccountAllowed(AccountingLine accountingLine) {
+        boolean isValid = true;
+        if (isValid && isSourceAccountingLine(accountingLine)) {
+            String icrAccount = accountingLine.getAccount().getIndirectCostRecoveryAcctNbr();
+            isValid &= StringUtils.isNotBlank(icrAccount);
+            if (!isValid) {
+                reportError(PropertyConstants.ACCOUNT, KeyConstants.IndirectCostAdjustment.ERROR_DOCUMENT_ICA_GRANT_INVALID_ACCOUNT, new String[] { accountingLine.getAccountNumber() });
+            }
+        }
         return isValid;
     }
 

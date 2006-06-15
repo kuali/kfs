@@ -336,11 +336,14 @@ public class CashManagementServiceImpl implements CashManagementService {
 
             cancelDeposit(deposit);
         }
-        cmDoc.setDeposits(new ArrayList());
 
         // reclose the cashDrawer
         String unitName = cmDoc.getWorkgroupName();
         cashDrawerService.closeCashDrawer(cmDoc.getWorkgroupName());
+
+        // cleanup the CMDoc, but let the postprocessor itself save it
+        cmDoc.setDeposits(new ArrayList());
+        cmDoc.getDocumentHeader().setFinancialDocumentStatusCode(Constants.DocumentStatusCodes.CANCELLED);
     }
 
 
@@ -390,13 +393,34 @@ public class CashManagementServiceImpl implements CashManagementService {
         if (cmDoc == null) {
             throw new IllegalArgumentException("invalid (null) CashManagementDocument");
         }
+        if (!cmDoc.hasFinalDeposit()) {
+            throw new IllegalStateException("cmDoc " + cmDoc.getFinancialDocumentNumber() + " is missing a FinalDeposit");
+        }
+
+        String workgroupName = cmDoc.getWorkgroupName();
+        CashDrawer cd = cashDrawerService.getByWorkgroupName(workgroupName, false);
+        if (!cd.isLocked()) {
+            throw new IllegalStateException("cashDrawer for workgroup '" + workgroupName + "' should be locked before CashManagementDocument finalizes");
+        }
 
 
-        // UNF: finalize the Deposits? and their CashReceipts?
+        // finalize the CashReceipts
+        List<Deposit> deposits = cmDoc.getDeposits();
+        for (Deposit deposit : deposits) {
+            List<CashReceiptDocument> receipts = retrieveCashReceipts(deposit);
+            for (CashReceiptDocument receipt : receipts) {
+                // mark CRs as PROCESSED so that the next GL batch job will do unto them
+                receipt.getDocumentHeader().setFinancialDocumentStatusCode(Constants.DocumentStatusCodes.PROCESSED);
+                documentService.updateDocument(receipt);
+            }
+        }
 
-        throw new UnsupportedOperationException();
+        // open the CashDrawer
+        cashDrawerService.closeCashDrawer(workgroupName);
+
+        // finalize the CMDoc, but let the postprocessor save it
+        cmDoc.getDocumentHeader().setFinancialDocumentStatusCode(Constants.DocumentStatusCodes.PROCESSED);
     }
-
 
     /**
      * @see org.kuali.module.financial.service.CashManagementService#retrieveCashReceipts(org.kuali.module.financial.bo.Deposit)

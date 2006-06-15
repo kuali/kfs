@@ -23,8 +23,6 @@
 package org.kuali.module.financial.web.struts.form;
 
 import java.sql.Timestamp;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -39,8 +37,6 @@ import static org.kuali.Constants.AuxiliaryVoucher.RECODE_DOC_TYPE;
  * @author Kuali Financial Transactions Team (kualidev@oncourse.iu.edu)
  */
 public class AuxiliaryVoucherForm extends VoucherForm {
-	private static final Calendar calendar = new GregorianCalendar();
-    
     public AuxiliaryVoucherForm() {
         super();
         setDocument(new AuxiliaryVoucherDocument());
@@ -56,7 +52,6 @@ public class AuxiliaryVoucherForm extends VoucherForm {
     public void populate(HttpServletRequest request) {
         // populate the drop downs
         super.populate(request);
-		calendar.setTime(new Timestamp(System.currentTimeMillis()));
         populateReversalDateForRendering();
     }
 
@@ -78,13 +73,12 @@ public class AuxiliaryVoucherForm extends VoucherForm {
 	 * Handles special case display rules for displaying Reversal Date at UI layer
 	 */
 	public void populateReversalDateForRendering() {
-		System.out.println("Doc type = " + getAuxiliaryVoucherDocument().getTypeCode());
-		Long now = System.currentTimeMillis();
-		calendar.setTimeInMillis(now);
+		Long NOW = System.currentTimeMillis();
+
 		if (getAuxiliaryVoucherDocument().getTypeCode().equals(ACCRUAL_DOC_TYPE) &&
 			(getAuxiliaryVoucherDocument().getReversalDate() == null || 
-			 calendar.after(getAuxiliaryVoucherDocument().getReversalDate()))) {
-			getAuxiliaryVoucherDocument().setReversalDate(new Timestamp(now));
+			 NOW > getAuxiliaryVoucherDocument().getReversalDate().getTime())) {
+			getAuxiliaryVoucherDocument().setReversalDate(new Timestamp(NOW));
 		}
 		else if (getAuxiliaryVoucherDocument().getTypeCode().equals(ADJUSTMENT_DOC_TYPE)) {
 			getAuxiliaryVoucherDocument().setReversalDate(null);
@@ -93,7 +87,6 @@ public class AuxiliaryVoucherForm extends VoucherForm {
 			getAuxiliaryVoucherDocument()
 				.setReversalDate(getDocument().getDocumentHeader().getWorkflowDocument().getCreateDate());
 		}
-		System.out.println("Reversal Date is now: " + getAuxiliaryVoucherDocument().getReversalDate());
 	}
 	
     /**

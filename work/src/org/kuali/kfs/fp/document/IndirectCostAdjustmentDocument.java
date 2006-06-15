@@ -98,6 +98,8 @@ public class IndirectCostAdjustmentDocument extends TransactionalDocumentBase {
         targetAccountingLine.setAccountNumber(line.getAccountNumber());
         targetAccountingLine.setChartOfAccountsCode(line.getChartOfAccountsCode());
         targetAccountingLine.setAmount(line.getAmount());
+        targetAccountingLine.setPostingYear(line.getPostingYear());
+        targetAccountingLine.setFinancialDocumentNumber(line.getFinancialDocumentNumber());
         // refresh reference objects
         targetAccountingLine.refreshReferenceObject(PropertyConstants.OBJECT_CODE);
         targetAccountingLine.refreshReferenceObject(PropertyConstants.ACCOUNT);

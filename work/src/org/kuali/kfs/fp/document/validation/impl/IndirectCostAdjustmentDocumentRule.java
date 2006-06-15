@@ -63,10 +63,8 @@ public class IndirectCostAdjustmentDocumentRule extends TransactionalDocumentRul
     /**
      * Overrrides default implementation to do the following: a line is considered debit if
      * <ol>
-     * <li> is a source line && isExpenseOrAsset && is positive amount
-     * <li> is a source line && IncomeOrLiability && is positive amount
-     * <li> is a target line && isExpenseOrAsset && is positive amount
-     * <li> is a target line && IncomeOrLiability && is a negative amount
+     * <li> is a source line && isExpense && is positive amount
+     * <li> is a target line && isIncome && is a negative amount
      * </ol>
      * 
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#isDebit(org.kuali.core.bo.AccountingLine)
@@ -81,19 +79,13 @@ public class IndirectCostAdjustmentDocumentRule extends TransactionalDocumentRul
             if (isExpenseOrAsset(accountingLine)) {
                 isDebit = isPositive;
             }
-            else if (isIncomeOrLiability(accountingLine)) {
-                isDebit = isPositive;
-            }
             else {
                 throw new IllegalStateException(objectTypeCodeIllegalStateExceptionMessage);
             }
         }
         // target line
         else {
-            if (isExpenseOrAsset(accountingLine)) {
-                isDebit = isPositive;
-            }
-            else if (isIncomeOrLiability(accountingLine)) {
+           if (isIncomeOrLiability(accountingLine)) {
                 isDebit = !isPositive;
             }
             else {
@@ -189,7 +181,7 @@ public class IndirectCostAdjustmentDocumentRule extends TransactionalDocumentRul
      * checks to see if source (grant) account references an ICR account
      * 
      * @param accountingLine
-     * @return
+     * @return true if the grant account references an ICR account
      */
     private boolean isAccountAllowed(AccountingLine accountingLine) {
         boolean isValid = true;
@@ -211,7 +203,7 @@ public class IndirectCostAdjustmentDocumentRule extends TransactionalDocumentRul
      * </ol>
      * 
      * @param accountingLine
-     * @return
+     * @return true if the chart of account code is allowed on the ICA
      */
     private boolean isChartOfAccountsAllowed(AccountingLine accountingLine) {
         boolean isValid = true;
